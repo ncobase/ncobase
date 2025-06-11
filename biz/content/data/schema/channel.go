@@ -39,7 +39,7 @@ func (CMSChannel) Mixin() []ent.Mixin {
 		mixin.Icon,
 		mixin.Status,
 		mixin.ExtraProps,
-		mixin.TenantID,
+		mixin.SpaceID,
 		mixin.OperatorBy{},
 		mixin.TimeAt{},
 	}

@@ -33,8 +33,8 @@ const (
 	FieldReleased = "released"
 	// FieldTaxonomyID holds the string denoting the taxonomy_id field in the database.
 	FieldTaxonomyID = "taxonomy_id"
-	// FieldTenantID holds the string denoting the tenant_id field in the database.
-	FieldTenantID = "tenant_id"
+	// FieldSpaceID holds the string denoting the space_id field in the database.
+	FieldSpaceID = "space_id"
 	// FieldExtras holds the string denoting the extras field in the database.
 	FieldExtras = "extras"
 	// FieldCreatedBy holds the string denoting the created_by field in the database.
@@ -81,7 +81,7 @@ var Columns = []string{
 	FieldStatus,
 	FieldReleased,
 	FieldTaxonomyID,
-	FieldTenantID,
+	FieldSpaceID,
 	FieldExtras,
 	FieldCreatedBy,
 	FieldUpdatedBy,
@@ -200,9 +200,9 @@ func ByTaxonomyID(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldTaxonomyID, opts...).ToFunc()
 }
 
-// ByTenantID orders the results by the tenant_id field.
-func ByTenantID(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldTenantID, opts...).ToFunc()
+// BySpaceID orders the results by the space_id field.
+func BySpaceID(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldSpaceID, opts...).ToFunc()
 }
 
 // ByCreatedBy orders the results by the created_by field.

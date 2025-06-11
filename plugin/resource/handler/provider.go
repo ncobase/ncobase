@@ -4,14 +4,14 @@ import (
 	"ncobase/resource/service"
 )
 
-// Handler represents the resource handler.
+// Handler represents resource handler (HTTP handlers only)
 type Handler struct {
 	File  FileHandlerInterface
 	Batch BatchHandlerInterface
 	Quota QuotaHandlerInterface
 }
 
-// New creates new resource handler.
+// New creates new resource handler
 func New(svc *service.Service) *Handler {
 	return &Handler{
 		File:  NewFileHandler(svc),

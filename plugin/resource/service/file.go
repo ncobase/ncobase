@@ -11,14 +11,11 @@ import (
 	"ncobase/resource/data/repository"
 	"ncobase/resource/event"
 	"ncobase/resource/structs"
-	"net/http"
 	"path/filepath"
-	"strings"
 	"time"
 
 	"github.com/ncobase/ncore/ctxutil"
 	"github.com/ncobase/ncore/data/paging"
-	"github.com/ncobase/ncore/data/search/meili"
 	"github.com/ncobase/ncore/data/storage"
 	"github.com/ncobase/ncore/ecode"
 	"github.com/ncobase/ncore/logging/logger"
@@ -26,7 +23,7 @@ import (
 	"github.com/ncobase/ncore/validation/validator"
 )
 
-// FileServiceInterface represents the file service interface.
+// FileServiceInterface defines file service methods
 type FileServiceInterface interface {
 	Create(ctx context.Context, body *structs.CreateFileBody) (*structs.ReadFile, error)
 	Update(ctx context.Context, slug string, updates map[string]any) (*structs.ReadFile, error)
@@ -34,7 +31,7 @@ type FileServiceInterface interface {
 	Delete(ctx context.Context, slug string) error
 	List(ctx context.Context, params *structs.ListFileParams) (paging.Result[*structs.ReadFile], error)
 	GetFileStream(ctx context.Context, slug string) (io.ReadCloser, *structs.ReadFile, error)
-	SearchByTags(ctx context.Context, tenantID string, tags []string, limit int) ([]*structs.ReadFile, error)
+	SearchByTags(ctx context.Context, spaceID string, tags []string, limit int) ([]*structs.ReadFile, error)
 	GeneratePublicURL(ctx context.Context, slug string, expirationHours int) (string, error)
 	CreateVersion(ctx context.Context, slug string, file io.Reader, filename string) (*structs.ReadFile, error)
 	GetVersions(ctx context.Context, slug string) ([]*structs.ReadFile, error)
@@ -42,16 +39,14 @@ type FileServiceInterface interface {
 	CreateThumbnail(ctx context.Context, slug string, options *structs.ProcessingOptions) (*structs.ReadFile, error)
 }
 
-// fileService is the struct for the file service.
 type fileService struct {
 	fileRepo       repository.FileRepositoryInterface
 	imageProcessor ImageProcessorInterface
 	quotaService   QuotaServiceInterface
 	publisher      event.PublisherInterface
-	meili          *meili.Client
 }
 
-// NewFileService creates a new file service.
+// NewFileService creates new file service
 func NewFileService(
 	d *data.Data,
 	imageProcessor ImageProcessorInterface,
@@ -63,61 +58,53 @@ func NewFileService(
 		imageProcessor: imageProcessor,
 		quotaService:   quotaService,
 		publisher:      publisher,
-		meili:          d.GetMeilisearch(),
 	}
 }
 
-// Create creates a new file.
+// Create creates a new file
 func (s *fileService) Create(ctx context.Context, body *structs.CreateFileBody) (*structs.ReadFile, error) {
-	if validator.IsEmpty(body.ObjectID) {
-		return nil, errors.New(ecode.FieldIsRequired("belongsTo object"))
+	if validator.IsEmpty(body.OwnerID) {
+		return nil, errors.New(ecode.FieldIsRequired("owner_id"))
 	}
 
-	if validator.IsEmpty(body.TenantID) {
-		body.TenantID = ctxutil.GetTenantID(ctx)
-		if body.TenantID == "" {
-			return nil, errors.New(ecode.FieldIsRequired("belongsTo tenant"))
+	if validator.IsEmpty(body.SpaceID) {
+		body.SpaceID = ctxutil.GetTenantID(ctx)
+		if body.SpaceID == "" {
+			return nil, errors.New(ecode.FieldIsRequired("space_id"))
 		}
 	}
 
-	// Check quota before proceeding
+	// Check quota
 	if s.quotaService != nil && body.Size != nil {
-		canProceed, err := s.quotaService.CheckAndUpdateQuota(ctx, body.TenantID, *body.Size)
+		canProceed, err := s.quotaService.CheckAndUpdateQuota(ctx, body.SpaceID, *body.Size)
 		if err != nil {
 			logger.Warnf(ctx, "Error checking quota: %v", err)
-			// Continue despite error, but log it
 		} else if !canProceed {
-			return nil, errors.New("storage quota exceeded for tenant")
+			return nil, errors.New("storage quota exceeded")
 		}
 	}
 
-	// Get storage interface
+	// Get storage
 	storage, storageConfig := ctxutil.GetStorage(ctx)
 
-	// Create a copy of the file content for processing
+	// Read file content
 	var fileBytes []byte
 	var err error
-
 	if body.File != nil {
-		// Read the file once for multiple operations
 		fileBytes, err = io.ReadAll(body.File)
 		if err != nil {
 			logger.Errorf(ctx, "Error reading file: %v", err)
 			return nil, errors.New("failed to read file")
 		}
-
-		// Close the original reader if it implements Closer
 		if closer, ok := body.File.(io.Closer); ok {
 			defer closer.Close()
 		}
-
-		// Create a new reader for storage
 		body.File = &readCloser{bytes.NewReader(fileBytes)}
 	} else {
 		return nil, errors.New("file content is required")
 	}
 
-	// Handle file storage
+	// Store file
 	_, err = storage.Put(body.Path, bytes.NewReader(fileBytes))
 	if err != nil {
 		logger.Errorf(ctx, "Error storing file: %v", err)
@@ -129,26 +116,12 @@ func (s *fileService) Create(ctx context.Context, body *structs.CreateFileBody) 
 		}
 	}()
 
-	// Set default values if not provided
+	// Set defaults
 	if body.AccessLevel == "" {
 		body.AccessLevel = structs.AccessLevelPrivate
 	}
 
-	// Set file category based on extension if not provided
-	if body.Metadata == nil {
-		body.Metadata = &structs.FileMetadata{
-			Category:     structs.GetFileCategory(filepath.Ext(body.Path)),
-			CustomFields: make(map[string]any),
-		}
-	} else if body.Metadata.Category == "" {
-		body.Metadata.Category = structs.GetFileCategory(filepath.Ext(body.Path))
-	}
-
-	if body.Metadata.CustomFields == nil {
-		body.Metadata.CustomFields = make(map[string]any)
-	}
-
-	// Assign storage provider info
+	// Set storage info
 	body.Storage = storageConfig.Provider
 	body.Bucket = storageConfig.Bucket
 	body.Endpoint = storageConfig.Endpoint
@@ -157,26 +130,17 @@ func (s *fileService) Create(ctx context.Context, body *structs.CreateFileBody) 
 	userID := ctxutil.GetUserID(ctx)
 	body.CreatedBy = &userID
 
-	// Process image if needed and it's an image file
+	// Process image if needed
 	thumbnailPath := ""
-	if len(fileBytes) > 0 && validator.IsImageFile(body.Path) && s.imageProcessor != nil {
-		// Create default processing options if not provided
+	category := structs.GetFileCategory(filepath.Ext(body.Path))
+
+	if category == structs.FileCategoryImage && s.imageProcessor != nil {
 		if body.ProcessingOptions == nil {
 			body.ProcessingOptions = &structs.ProcessingOptions{
 				CreateThumbnail: true,
 				MaxWidth:        300,
 				MaxHeight:       300,
 			}
-		}
-
-		// Always create thumbnail for images
-		body.ProcessingOptions.CreateThumbnail = true
-
-		// Get image dimensions
-		width, height, err := s.imageProcessor.GetImageDimensions(ctx, bytes.NewReader(fileBytes), body.Name)
-		if err == nil && body.Metadata != nil {
-			body.Metadata.Width = &width
-			body.Metadata.Height = &height
 		}
 
 		// Create thumbnail
@@ -188,27 +152,18 @@ func (s *fileService) Create(ctx context.Context, body *structs.CreateFileBody) 
 			body.ProcessingOptions.MaxHeight,
 		)
 
-		if err != nil {
-			logger.Warnf(ctx, "Error creating thumbnail: %v", err)
-		} else {
-			// Store the thumbnail
+		if err == nil {
 			thumbnailPath = fmt.Sprintf("thumbnails/%s", body.Path)
 			_, err = storage.Put(thumbnailPath, bytes.NewReader(thumbnailBytes))
 			if err != nil {
 				logger.Warnf(ctx, "Error storing thumbnail: %v", err)
 				thumbnailPath = ""
-			} else {
-				// Update metadata
-				body.Metadata.CustomFields["has_thumbnail"] = true
-				body.Metadata.CustomFields["thumbnail_path"] = thumbnailPath
 			}
 		}
 	}
 
-	// Prepare extras with ALL extended data - this is the key fix
+	// Prepare extras
 	extendedData := make(types.JSON)
-
-	// Always store these fields in extras
 	if body.FolderPath != "" {
 		extendedData["folder_path"] = body.FolderPath
 	}
@@ -217,9 +172,6 @@ func (s *fileService) Create(ctx context.Context, body *structs.CreateFileBody) 
 	}
 	if len(body.Tags) > 0 {
 		extendedData["tags"] = body.Tags
-	}
-	if body.Metadata != nil {
-		extendedData["metadata"] = body.Metadata
 	}
 	if body.IsPublic {
 		extendedData["is_public"] = body.IsPublic
@@ -230,28 +182,20 @@ func (s *fileService) Create(ctx context.Context, body *structs.CreateFileBody) 
 	if body.ExpiresAt != nil {
 		extendedData["expires_at"] = *body.ExpiresAt
 	}
-	if len(body.Versions) > 0 {
-		extendedData["versions"] = body.Versions
-	}
-	if body.ProcessingOptions != nil {
-		extendedData["processing_options"] = body.ProcessingOptions
-	}
+	extendedData["category"] = string(category)
 
-	// Merge with existing extras if provided
+	// Merge with existing extras
 	if body.Extras != nil {
 		for k, v := range *body.Extras {
 			extendedData[k] = v
 		}
 	}
-
-	// Always set the extras
 	body.Extras = &extendedData
 
-	// Create the file using the repository
+	// Create file record
 	row, err := s.fileRepo.Create(ctx, body)
 	if err != nil {
 		logger.Errorf(ctx, "Error creating file: %v", err)
-		// Clean up thumbnail if creation failed
 		if thumbnailPath != "" {
 			_ = storage.Delete(thumbnailPath)
 		}
@@ -261,250 +205,90 @@ func (s *fileService) Create(ctx context.Context, body *structs.CreateFileBody) 
 	// Publish event
 	if s.publisher != nil {
 		eventData := &event.FileEventData{
-			ID:       row.ID,
-			Name:     row.Name,
-			Path:     row.Path,
-			Type:     row.Type,
-			Size:     row.Size,
-			Storage:  row.Storage,
-			Bucket:   row.Bucket,
-			ObjectID: row.ObjectID,
-			TenantID: row.TenantID,
-			UserID:   userID,
-			Extras:   &row.Extras,
+			ID:      row.ID,
+			Name:    row.Name,
+			Path:    row.Path,
+			Type:    row.Type,
+			Size:    row.Size,
+			Storage: row.Storage,
+			Bucket:  row.Bucket,
+			OwnerID: row.OwnerID,
+			SpaceID: row.SpaceID,
+			UserID:  userID,
+			Extras:  &row.Extras,
 		}
 		s.publisher.PublishFileCreated(ctx, eventData)
 	}
 
-	// Extract extended properties for response
-	folderPath, accessLevel, expiresAt, fileMetadata, tags, isPublic, _ := extractExtendedProperties(row)
-
-	// Return file with extended properties
-	return s.Serialize(row, folderPath, accessLevel, expiresAt, fileMetadata, tags, isPublic, thumbnailPath), nil
+	return s.serialize(row), nil
 }
 
-// Update updates an existing file.
+// Update updates an existing file
 func (s *fileService) Update(ctx context.Context, slug string, updates map[string]any) (*structs.ReadFile, error) {
-	// Check if ID is empty
 	if validator.IsEmpty(slug) {
 		return nil, errors.New(ecode.FieldIsRequired("slug"))
 	}
 
-	// Check if updates map is empty
 	if len(updates) == 0 {
 		return nil, errors.New(ecode.FieldIsEmpty("updates fields"))
 	}
 
-	// Get existing file to merge changes
+	// Get existing file
 	existing, err := s.fileRepo.GetByID(ctx, slug)
 	if err != nil {
 		return nil, handleEntError(ctx, "File", err)
 	}
 
-	// Get storage interface
-	storage, storageConfig := ctxutil.GetStorage(ctx)
+	// Handle file update
+	if fileReader, ok := updates["file"].(io.Reader); ok {
+		storage, storageConfig := ctxutil.GetStorage(ctx)
 
-	// Handle file update if path is included in updates
-	fileBytes := []byte{}
-	thumbnailPath := ""
-	if path, ok := updates["path"].(string); ok {
-		// Check if the file content is included in the updates
-		if fileReader, ok := updates["file"].(io.Reader); ok {
-			// Read the entire file content
-			fileBytes, err = io.ReadAll(fileReader)
-			if err != nil {
-				logger.Errorf(ctx, "Error reading file: %v", err)
-				return nil, errors.New("error reading uploaded file")
-			}
+		fileBytes, err := io.ReadAll(fileReader)
+		if err != nil {
+			return nil, errors.New("error reading uploaded file")
+		}
 
-			// Close the original reader if it implements Closer
-			if closer, ok := fileReader.(io.Closer); ok {
-				closer.Close()
-			}
+		if closer, ok := fileReader.(io.Closer); ok {
+			closer.Close()
+		}
 
-			// Check quota before proceeding with file update
-			if s.quotaService != nil && existing.Size > 0 {
-				newSize := 0
-				if sizeVal, ok := updates["size"].(int); ok {
-					newSize = sizeVal
-				} else {
-					newSize = len(fileBytes) // Use actual size of read content
-				}
-
-				// Only check quota if new file is larger
-				if newSize > existing.Size {
-					sizeDiff := newSize - existing.Size
-					canProceed, err := s.quotaService.CheckAndUpdateQuota(ctx, existing.TenantID, sizeDiff)
-					if err != nil {
-						logger.Warnf(ctx, "Error checking quota: %v", err)
-						// Continue despite error, but log it
-					} else if !canProceed {
-						return nil, errors.New("storage quota exceeded for tenant")
-					}
-				}
-			}
-
-			// Store the file
+		// Store new file
+		if path, ok := updates["path"].(string); ok {
 			if _, err := storage.Put(path, bytes.NewReader(fileBytes)); err != nil {
-				logger.Errorf(ctx, "Error updating file: %v", err)
 				return nil, errors.New("error updating file")
 			}
 
-			// Update storage details
 			updates["storage"] = storageConfig.Provider
 			updates["bucket"] = storageConfig.Bucket
 			updates["endpoint"] = storageConfig.Endpoint
-
-			// Process image if it's an image file
-			if validator.IsImageFile(path) && s.imageProcessor != nil {
-				// Get processing options if provided
-				var options *structs.ProcessingOptions
-				if optionsVal, ok := updates["processing_options"].(*structs.ProcessingOptions); ok {
-					options = optionsVal
-				} else {
-					// Default options
-					options = &structs.ProcessingOptions{
-						CreateThumbnail: true,
-						MaxWidth:        300,
-						MaxHeight:       300,
-					}
-				}
-
-				// Always create thumbnail for images
-				options.CreateThumbnail = true
-
-				// Get image dimensions
-				width, height, err := s.imageProcessor.GetImageDimensions(
-					ctx,
-					bytes.NewReader(fileBytes),
-					path,
-				)
-
-				// Update metadata with dimensions
-				extras := getExtrasFromFile(existing)
-				var metadata *structs.FileMetadata
-
-				if meta, ok := extras["metadata"].(*structs.FileMetadata); ok {
-					metadata = meta
-				} else if metaMap, ok := extras["metadata"].(map[string]any); ok {
-					metadata = &structs.FileMetadata{
-						Category:     structs.FileCategoryOther,
-						CustomFields: make(map[string]any),
-					}
-
-					if cat, ok := metaMap["category"].(string); ok {
-						metadata.Category = structs.FileCategory(cat)
-					}
-
-					if custom, ok := metaMap["custom_fields"].(map[string]any); ok {
-						metadata.CustomFields = custom
-					}
-				} else {
-					metadata = &structs.FileMetadata{
-						Category:     structs.GetFileCategory(filepath.Ext(path)),
-						CustomFields: make(map[string]any),
-					}
-				}
-
-				if err == nil {
-					metadata.Width = &width
-					metadata.Height = &height
-				}
-
-				extras["metadata"] = metadata
-
-				// Create and store thumbnail
-				thumbnailBytes, err := s.imageProcessor.CreateThumbnail(
-					ctx,
-					bytes.NewReader(fileBytes),
-					path,
-					options.MaxWidth,
-					options.MaxHeight,
-				)
-
-				if err != nil {
-					logger.Warnf(ctx, "Error creating thumbnail: %v", err)
-				} else {
-					// Store the thumbnail
-					thumbnailPath = fmt.Sprintf("thumbnails/%s", path)
-					_, err = storage.Put(thumbnailPath, bytes.NewReader(thumbnailBytes))
-					if err != nil {
-						logger.Warnf(ctx, "Error storing thumbnail: %v", err)
-					} else {
-						// Update metadata with thumbnail path
-						metadata.CustomFields["has_thumbnail"] = true
-						metadata.CustomFields["thumbnail_path"] = thumbnailPath
-						extras["thumbnail_path"] = thumbnailPath
-					}
-				}
-
-				// Add updated extras
-				updates["extras"] = extras
-			}
-
-			// Remove file from updates after storing to avoid saving the file object itself in DB
-			delete(updates, "file")
-
-			// Update size if not explicitly provided
-			if _, ok := updates["size"]; !ok {
-				updates["size"] = len(fileBytes)
-			}
+			updates["size"] = len(fileBytes)
 		}
-	} else {
-		// If no new file, check if we need to extract the current thumbnail path
-		extras := getExtrasFromFile(existing)
-		if tp, ok := extras["thumbnail_path"].(string); ok {
-			thumbnailPath = tp
-		} else if metadata, ok := extras["metadata"].(*structs.FileMetadata); ok && metadata.CustomFields != nil {
-			if tp, ok := metadata.CustomFields["thumbnail_path"].(string); ok {
-				thumbnailPath = tp
-			}
-		}
+
+		delete(updates, "file")
 	}
 
-	// Update extended properties if no file update is happening
-	if len(fileBytes) == 0 {
-		extras := getExtrasFromFile(existing)
-
-		// Update folder path if provided
-		if folderPath, ok := updates["folder_path"].(string); ok {
-			extras["folder_path"] = folderPath
-			delete(updates, "folder_path")
+	// Update extras
+	extras := getExtrasFromFile(existing)
+	for field, value := range updates {
+		switch field {
+		case "folder_path":
+			extras["folder_path"] = value
+			delete(updates, field)
+		case "access_level":
+			extras["access_level"] = value
+			delete(updates, field)
+		case "tags":
+			extras["tags"] = value
+			delete(updates, field)
+		case "is_public":
+			extras["is_public"] = value
+			delete(updates, field)
+		case "expires_at":
+			extras["expires_at"] = value
+			delete(updates, field)
 		}
-
-		// Update access level if provided
-		if accessLevel, ok := updates["access_level"].(structs.AccessLevel); ok {
-			extras["access_level"] = string(accessLevel)
-			delete(updates, "access_level")
-		}
-
-		// Update expires_at if provided
-		if expiresAt, ok := updates["expires_at"].(*int64); ok {
-			extras["expires_at"] = *expiresAt
-			delete(updates, "expires_at")
-		}
-
-		// Update metadata if provided
-		if metadata, ok := updates["metadata"].(*structs.FileMetadata); ok {
-			extras["metadata"] = metadata
-			delete(updates, "metadata")
-		}
-
-		// Update tags if provided
-		if tags, ok := updates["tags"].([]string); ok {
-			extras["tags"] = tags
-			delete(updates, "tags")
-		}
-
-		// Update isPublic if provided
-		if isPublic, ok := updates["is_public"].(bool); ok {
-			extras["is_public"] = isPublic
-			delete(updates, "is_public")
-		}
-
-		// Add extras back to updates
-		updates["extras"] = extras
 	}
+	updates["extras"] = extras
 
 	// Set updated by
 	userID := ctxutil.GetUserID(ctx)
@@ -519,178 +303,102 @@ func (s *fileService) Update(ctx context.Context, slug string, updates map[strin
 	// Publish event
 	if s.publisher != nil {
 		eventData := &event.FileEventData{
-			ID:       row.ID,
-			Name:     row.Name,
-			Path:     row.Path,
-			Type:     row.Type,
-			Size:     row.Size,
-			Storage:  row.Storage,
-			Bucket:   row.Bucket,
-			ObjectID: row.ObjectID,
-			TenantID: row.TenantID,
-			UserID:   userID,
-			Extras:   &row.Extras,
+			ID:      row.ID,
+			Name:    row.Name,
+			Path:    row.Path,
+			Type:    row.Type,
+			Size:    row.Size,
+			Storage: row.Storage,
+			Bucket:  row.Bucket,
+			OwnerID: row.OwnerID,
+			SpaceID: row.SpaceID,
+			UserID:  userID,
+			Extras:  &row.Extras,
 		}
 		s.publisher.PublishFileUpdated(ctx, eventData)
 	}
 
-	// Extract extended properties
-	folderPath, accessLevel, expiresAt, fileMetadata, tags, isPublic, extractedThumbnailPath := extractExtendedProperties(row)
-
-	// Use the thumbnail path from the operation if available, otherwise use the extracted one
-	if thumbnailPath == "" {
-		thumbnailPath = extractedThumbnailPath
-	}
-
-	// Return extended file
-	return s.Serialize(row, folderPath, accessLevel, expiresAt, fileMetadata, tags, isPublic, thumbnailPath), nil
+	return s.serialize(row), nil
 }
 
-// Get retrieves an file by ID.
+// Get retrieves a file by ID
 func (s *fileService) Get(ctx context.Context, slug string) (*structs.ReadFile, error) {
-	// Check if ID is empty
 	if validator.IsEmpty(slug) {
 		return nil, errors.New(ecode.FieldIsRequired("slug"))
 	}
 
-	// Get file from repository
 	row, err := s.fileRepo.GetByID(ctx, slug)
 	if err != nil {
 		if ent.IsNotFound(err) {
 			return nil, errors.New(ecode.NotExist(fmt.Sprintf("File %s", slug)))
 		}
-		logger.Errorf(ctx, "Error retrieving file: %v", err)
 		return nil, errors.New("error retrieving file")
 	}
 
-	// Extract extended properties from extras
-	folderPath, accessLevel, expiresAt, fileMetadata, tags, isPublic, thumbnailPath := extractExtendedProperties(row)
-
-	// Generate URLs if public
-	downloadURL := ""
-	thumbnailURL := ""
-	if isPublic {
-		// Generate URLs based on storage provider and configuration
-		downloadURL = fmt.Sprintf("/res/files/%s?type=download", row.ID)
-		if thumbnailPath != "" {
-			thumbnailURL = fmt.Sprintf("/res/files/%s?type=thumbnail", row.ID)
-		}
-	}
-
-	// Publish access event
-	if s.publisher != nil {
-		userID := ctxutil.GetUserID(ctx)
-		eventData := &event.FileEventData{
-			ID:       row.ID,
-			Name:     row.Name,
-			Path:     row.Path,
-			Type:     row.Type,
-			Size:     row.Size,
-			Storage:  row.Storage,
-			Bucket:   row.Bucket,
-			ObjectID: row.ObjectID,
-			TenantID: row.TenantID,
-			UserID:   userID,
-			Extras:   &row.Extras,
-		}
-		s.publisher.PublishFileAccessed(ctx, eventData)
-	}
-
-	// Create extended file
-	result := s.Serialize(row, folderPath, accessLevel, expiresAt, fileMetadata, tags, isPublic, thumbnailPath)
-
-	// Add URLs if public
-	if isPublic {
-		result.DownloadURL = downloadURL
-		result.ThumbnailURL = thumbnailURL
-	}
-
-	// Check if expired
-	if expiresAt != nil && *expiresAt > 0 {
-		now := time.Now().Unix()
-		if now > *expiresAt {
-			result.IsExpired = true
-		}
-	}
-
-	return result, nil
+	return s.serialize(row), nil
 }
 
-// Delete deletes an file by ID.
+// Delete deletes a file by ID
 func (s *fileService) Delete(ctx context.Context, slug string) error {
-	// Check if ID is empty
 	if validator.IsEmpty(slug) {
 		return errors.New(ecode.FieldIsRequired("slug"))
 	}
 
-	// Get storage interface
 	storage, _ := ctxutil.GetStorage(ctx)
 
-	// Get file details before deletion
+	// Get file details
 	row, err := s.fileRepo.GetByID(ctx, slug)
 	if err != nil {
-		logger.Errorf(ctx, "Error retrieving file: %v", err)
 		return errors.New("error retrieving file")
 	}
 
-	// Get thumbnail path if exists
+	// Get thumbnail path
 	thumbnailPath := ""
 	extras := getExtrasFromFile(row)
 	if tp, ok := extras["thumbnail_path"].(string); ok {
 		thumbnailPath = tp
 	}
 
-	// Delete the file from database
+	// Delete from database
 	err = s.fileRepo.Delete(ctx, slug)
 	if err != nil {
-		logger.Errorf(ctx, "Error deleting file: %v", err)
 		return errors.New("error deleting file")
 	}
 
-	// Delete the file from storage
+	// Delete from storage
 	if err := storage.Delete(row.Path); err != nil {
 		logger.Errorf(ctx, "Error deleting file: %v", err)
-		// Continue with deletion process even if file deletion fails
 	}
 
-	// Delete thumbnail if exists
+	// Delete thumbnail
 	if thumbnailPath != "" {
 		if err := storage.Delete(thumbnailPath); err != nil {
 			logger.Warnf(ctx, "Error deleting thumbnail: %v", err)
-			// Continue even if thumbnail deletion fails
 		}
 	}
 
-	// Publish delete event
+	// Publish event
 	if s.publisher != nil {
 		userID := ctxutil.GetUserID(ctx)
 		eventData := &event.FileEventData{
-			ID:       row.ID,
-			Name:     row.Name,
-			Path:     row.Path,
-			Type:     row.Type,
-			Size:     row.Size,
-			Storage:  row.Storage,
-			Bucket:   row.Bucket,
-			ObjectID: row.ObjectID,
-			TenantID: row.TenantID,
-			UserID:   userID,
+			ID:      row.ID,
+			Name:    row.Name,
+			Path:    row.Path,
+			Type:    row.Type,
+			Size:    row.Size,
+			Storage: row.Storage,
+			Bucket:  row.Bucket,
+			OwnerID: row.OwnerID,
+			SpaceID: row.SpaceID,
+			UserID:  userID,
 		}
 		s.publisher.PublishFileDeleted(ctx, eventData)
-	}
-
-	// Remove from Meilisearch if available
-	if s.meili != nil {
-		if err := s.meili.DeleteDocuments("files", row.ID); err != nil {
-			logger.Warnf(ctx, "Error removing file from Meilisearch: %v", err)
-			// Continue even if index deletion fails
-		}
 	}
 
 	return nil
 }
 
-// List lists files.
+// List lists files with pagination
 func (s *fileService) List(ctx context.Context, params *structs.ListFileParams) (paging.Result[*structs.ReadFile], error) {
 	pp := paging.Params{
 		Cursor:    params.Cursor,
@@ -705,171 +413,88 @@ func (s *fileService) List(ctx context.Context, params *structs.ListFileParams) 
 		lp.Direction = direction
 
 		rows, err := s.fileRepo.List(ctx, &lp)
-		if ent.IsNotFound(err) {
-			return nil, 0, errors.New(ecode.FieldIsInvalid("cursor"))
-		}
 		if err != nil {
-			logger.Errorf(ctx, "Error listing files: %v", err)
 			return nil, 0, err
 		}
 
-		// Filter results based on extended params
-		filteredRows := filterFiles(rows, &lp)
-
 		total := s.fileRepo.CountX(ctx, &lp)
 
-		// Convert to enhanced files
-		results := make([]*structs.ReadFile, 0, len(filteredRows))
-		for _, row := range filteredRows {
-			folderPath, accessLevel, expiresAt, fileMetadata, tags, isPublic, thumbnailPath := extractExtendedProperties(row)
-			file := s.Serialize(row, folderPath, accessLevel, expiresAt, fileMetadata, tags, isPublic, thumbnailPath)
-			results = append(results, file)
+		results := make([]*structs.ReadFile, 0, len(rows))
+		for _, row := range rows {
+			results = append(results, s.serialize(row))
 		}
 
 		return results, total, nil
 	})
 }
 
-// GetFileStream retrieves an file's file stream.
+// GetFileStream retrieves file stream
 func (s *fileService) GetFileStream(ctx context.Context, slug string) (io.ReadCloser, *structs.ReadFile, error) {
-	// Check if ID is empty
 	if validator.IsEmpty(slug) {
 		return nil, nil, errors.New(ecode.FieldIsRequired("slug"))
 	}
 
-	// Get storage interface
 	storage, _ := ctxutil.GetStorage(ctx)
 
-	// Retrieve file by ID
 	row, err := s.fileRepo.GetByID(ctx, slug)
 	if err != nil {
 		if ent.IsNotFound(err) {
 			return nil, nil, errors.New(ecode.NotExist(fmt.Sprintf("File %s", slug)))
 		}
-		logger.Errorf(ctx, "Error retrieving file: %v", err)
 		return nil, nil, errors.New("error retrieving file")
 	}
 
-	// Check if file is expired
+	// Check expiration
 	extras := getExtrasFromFile(row)
-	isExpired := false
-	if exp, ok := extras["expires_at"].(float64); ok {
-		if time.Now().Unix() > int64(exp) {
-			isExpired = true
-		}
-	} else if exp, ok := extras["expires_at"].(int64); ok {
+	if exp, ok := extras["expires_at"].(int64); ok {
 		if time.Now().Unix() > exp {
-			isExpired = true
+			return nil, nil, errors.New("file access has expired")
 		}
 	}
 
-	// Don't allow access to expired files
-	if isExpired {
-		return nil, nil, errors.New("file access has expired")
-	}
-
-	// Fetch file stream from storage
 	fileStream, err := storage.GetStream(row.Path)
 	if err != nil {
-		logger.Errorf(ctx, "Error retrieving file stream: %v", err)
 		return nil, nil, errors.New("error retrieving file stream")
 	}
 
-	// Extract extended properties
-	folderPath, accessLevel, expiresAt, fileMetadata, tags, isPublic, thumbnailPath := extractExtendedProperties(row)
-
-	// Return file stream along with file information
-	file := s.Serialize(row, folderPath, accessLevel, expiresAt, fileMetadata, tags, isPublic, thumbnailPath)
-
-	return fileStream, file, nil
+	return fileStream, s.serialize(row), nil
 }
 
-// SearchByTags searches for files by tags
-func (s *fileService) SearchByTags(
-	ctx context.Context,
-	tenantID string,
-	tags []string,
-	limit int,
-) ([]*structs.ReadFile, error) {
+// SearchByTags searches files by tags
+func (s *fileService) SearchByTags(ctx context.Context, spaceID string, tags []string, limit int) ([]*structs.ReadFile, error) {
 	if len(tags) == 0 {
 		return nil, errors.New("at least one tag is required")
 	}
 
-	// If Meilisearch is available, use it for tag search
-	if s.meili != nil {
-		query := strings.Join(tags, " ")
-		searchParams := &meili.SearchParams{
-			Query:  query,
-			Limit:  int64(limit),
-			Filter: fmt.Sprintf("tenant_id = %s", tenantID),
-			Sort:   []string{"created_at:desc"},
-			Facets: []string{"tags"},
-		}
-
-		results, err := s.meili.Search("files", query, searchParams)
-		if err != nil {
-			logger.Errorf(ctx, "Error searching Meilisearch: %v", err)
-			// Fall back to database search
-		} else {
-			// Convert search results to files
-			files := make([]*structs.ReadFile, 0, len(results.Hits))
-			for _, hit := range results.Hits {
-				if hitMap, ok := hit.(map[string]any); ok {
-					id, _ := hitMap["id"].(string)
-					if id != "" {
-						file, err := s.Get(ctx, id)
-						if err == nil {
-							files = append(files, file)
-						}
-					}
-				}
-			}
-			return files, nil
-		}
-	}
-
-	// Fall back to database search
-	// This is simplified; real implementation would query the database directly
-	files, err := s.fileRepo.SearchByTags(ctx, tenantID, tags, limit)
+	files, err := s.fileRepo.SearchByTags(ctx, spaceID, tags, limit)
 	if err != nil {
 		return nil, err
 	}
 
-	// Convert to enhanced files
 	results := make([]*structs.ReadFile, 0, len(files))
 	for _, row := range files {
-		folderPath, accessLevel, expiresAt, fileMetadata, tags, isPublic, thumbnailPath := extractExtendedProperties(row)
-		file := s.Serialize(row, folderPath, accessLevel, expiresAt, fileMetadata, tags, isPublic, thumbnailPath)
-		results = append(results, file)
+		results = append(results, s.serialize(row))
 	}
 
 	return results, nil
 }
 
-// GeneratePublicURL generates a temporary public URL for an file
-func (s *fileService) GeneratePublicURL(
-	ctx context.Context,
-	slug string,
-	expirationHours int,
-) (string, error) {
-	// Get file
+// GeneratePublicURL generates a temporary public URL
+func (s *fileService) GeneratePublicURL(ctx context.Context, slug string, expirationHours int) (string, error) {
 	row, err := s.fileRepo.GetByID(ctx, slug)
 	if err != nil {
 		return "", handleEntError(ctx, "File", err)
 	}
 
-	// Set expiration time
 	if expirationHours <= 0 {
-		expirationHours = 24 // Default 24 hours
+		expirationHours = 24
 	}
 	expiresAt := time.Now().Add(time.Duration(expirationHours) * time.Hour).Unix()
 
-	// Update file to be public with expiration
 	extras := getExtrasFromFile(row)
 	extras["is_public"] = true
 	extras["expires_at"] = expiresAt
 
-	// Update in database
 	_, err = s.fileRepo.Update(ctx, slug, map[string]any{
 		"extras": extras,
 	})
@@ -877,232 +502,164 @@ func (s *fileService) GeneratePublicURL(
 		return "", handleEntError(ctx, "File", err)
 	}
 
-	// Generate URL
-	// In a real implementation, this might include a signed token
 	downloadURL := fmt.Sprintf("/res/files/%s?type=download&token=%d", row.ID, expiresAt)
-
 	return downloadURL, nil
 }
 
-// CreateVersion creates a new version of an existing file
-func (s *fileService) CreateVersion(
-	ctx context.Context,
-	slug string,
-	file io.Reader,
-	filename string,
-) (*structs.ReadFile, error) {
-	// Get existing file
+// CreateVersion creates a new version of existing file
+func (s *fileService) CreateVersion(ctx context.Context, slug string, file io.Reader, filename string) (*structs.ReadFile, error) {
 	existing, err := s.fileRepo.GetByID(ctx, slug)
 	if err != nil {
 		return nil, handleEntError(ctx, "File", err)
 	}
 
-	// Create file header for the new version
-	fileHeader := &storage.FileHeader{
-		Name: filename,
-		Size: 0, // Will be determined after reading the file
-		Path: fmt.Sprintf("versions/%s/%s", slug, filename),
-		Type: "", // Will be determined by content
-	}
+	so, storageConfig := ctxutil.GetStorage(ctx)
 
-	// Get storage interface
-	storage, storageConfig := ctxutil.GetStorage(ctx)
-
-	// Read file content to determine size and type
 	fileBytes, err := io.ReadAll(file)
 	if err != nil {
 		return nil, fmt.Errorf("failed to read file: %w", err)
 	}
 
-	// Close the original reader if it implements Closer
 	if closer, ok := file.(io.Closer); ok {
 		closer.Close()
 	}
 
-	fileHeader.Size = len(fileBytes)
-	fileHeader.Type = http.DetectContentType(fileBytes)
+	fileHeader := &storage.FileHeader{
+		Name: filename,
+		Size: len(fileBytes),
+		Path: fmt.Sprintf("versions/%s/%s", slug, filename),
+		Type: "", // Will be determined by content
+	}
 
-	// Create new version of the file
-	_, err = storage.Put(fileHeader.Path, bytes.NewReader(fileBytes))
+	_, err = so.Put(fileHeader.Path, bytes.NewReader(fileBytes))
 	if err != nil {
 		return nil, fmt.Errorf("failed to store file version: %w", err)
 	}
 
-	// Extract current versions from extras
+	// Extract current extras
 	extras := getExtrasFromFile(existing)
 	var versions []string
 	if v, ok := extras["versions"].([]string); ok {
 		versions = v
-	} else if v, ok := extras["versions"].([]any); ok {
-		versions = make([]string, 0, len(v))
-		for _, ver := range v {
-			if verStr, ok := ver.(string); ok {
-				versions = append(versions, verStr)
-			}
-		}
 	}
-
-	// Add current file ID to versions
 	versions = append(versions, existing.ID)
 
-	// Create new file with same properties but new file
 	createBody := &structs.CreateFileBody{
-		FileBody: structs.FileBody{
-			Name:     fileHeader.Name,
-			Path:     fileHeader.Path,
-			Type:     fileHeader.Type,
-			Size:     &fileHeader.Size,
-			Storage:  storageConfig.Provider,
-			Bucket:   storageConfig.Bucket,
-			Endpoint: storageConfig.Endpoint,
-			ObjectID: existing.ObjectID,
-			TenantID: existing.TenantID,
-		},
+		Name:     fileHeader.Name,
+		Path:     fileHeader.Path,
+		Type:     fileHeader.Type,
+		Size:     &fileHeader.Size,
+		Storage:  storageConfig.Provider,
+		Bucket:   storageConfig.Bucket,
+		Endpoint: storageConfig.Endpoint,
+		OwnerID:  existing.OwnerID,
+		SpaceID:  existing.SpaceID,
 	}
 
-	// Extract extended properties
-	folderPath, accessLevel, expiresAt, fileMetadata, tags, isPublic, _ := extractExtendedProperties(existing)
-
 	// Copy extended properties
-	createBody.FolderPath = folderPath
-	createBody.AccessLevel = accessLevel
-	createBody.ExpiresAt = expiresAt
-	createBody.Metadata = fileMetadata
-	createBody.Tags = tags
-	createBody.IsPublic = isPublic
-	createBody.Versions = versions
+	if folderPath, ok := extras["folder_path"].(string); ok {
+		createBody.FolderPath = folderPath
+	}
+	if accessLevel, ok := extras["access_level"].(string); ok {
+		createBody.AccessLevel = structs.AccessLevel(accessLevel)
+	}
+	if tags, ok := extras["tags"].([]string); ok {
+		createBody.Tags = tags
+	}
+	if isPublic, ok := extras["is_public"].(bool); ok {
+		createBody.IsPublic = isPublic
+	}
 
-	// Create new file
 	return s.Create(ctx, createBody)
 }
 
-// GetVersions retrieves all versions of an file
-func (s *fileService) GetVersions(
-	ctx context.Context,
-	slug string,
-) ([]*structs.ReadFile, error) {
-	// Get current file
+// GetVersions retrieves all versions of a file
+func (s *fileService) GetVersions(ctx context.Context, slug string) ([]*structs.ReadFile, error) {
 	current, err := s.Get(ctx, slug)
 	if err != nil {
 		return nil, err
 	}
 
-	// Extract versions
-	if current.Versions == nil || len(current.Versions) == 0 {
-		// No versions, return only current
+	extras := getExtrasFromFile(&ent.File{Extras: *current.Extras})
+	versions, ok := extras["versions"].([]string)
+	if !ok || len(versions) == 0 {
 		return []*structs.ReadFile{current}, nil
 	}
 
-	// Get all versions
-	versions := make([]*structs.ReadFile, 0, len(current.Versions)+1)
+	result := make([]*structs.ReadFile, 0, len(versions)+1)
+	result = append(result, current)
 
-	// Add current version
-	versions = append(versions, current)
-
-	// Get previous versions
-	for _, versionID := range current.Versions {
+	for _, versionID := range versions {
 		version, err := s.Get(ctx, versionID)
 		if err != nil {
 			logger.Warnf(ctx, "Error retrieving version %s: %v", versionID, err)
 			continue
 		}
-
-		versions = append(versions, version)
+		result = append(result, version)
 	}
 
-	return versions, nil
+	return result, nil
 }
 
-// SetAccessLevel sets the access level for an file
-func (s *fileService) SetAccessLevel(
-	ctx context.Context,
-	slug string,
-	accessLevel structs.AccessLevel,
-) (*structs.ReadFile, error) {
-	// Validate access level
+// SetAccessLevel sets file access level
+func (s *fileService) SetAccessLevel(ctx context.Context, slug string, accessLevel structs.AccessLevel) (*structs.ReadFile, error) {
 	if accessLevel != structs.AccessLevelPublic &&
 		accessLevel != structs.AccessLevelPrivate &&
 		accessLevel != structs.AccessLevelShared {
 		return nil, fmt.Errorf("invalid access level: %s", accessLevel)
 	}
 
-	// Get existing file
 	row, err := s.fileRepo.GetByID(ctx, slug)
 	if err != nil {
 		return nil, handleEntError(ctx, "File", err)
 	}
 
-	// Update extras
 	extras := getExtrasFromFile(row)
 	extras["access_level"] = string(accessLevel)
+	extras["is_public"] = accessLevel == structs.AccessLevelPublic
 
-	// Set is_public based on access level
-	isPublic := accessLevel == structs.AccessLevelPublic
-	extras["is_public"] = isPublic
-
-	// Update file
-	updates := map[string]any{
+	updated, err := s.fileRepo.Update(ctx, slug, map[string]any{
 		"extras": extras,
-	}
-
-	updated, err := s.fileRepo.Update(ctx, slug, updates)
+	})
 	if err != nil {
 		return nil, handleEntError(ctx, "File", err)
 	}
 
-	// Extract extended properties
-	folderPath, accessLevel, expiresAt, fileMetadata, tags, isPublic, thumbnailPath := extractExtendedProperties(updated)
-
-	// Return extended file
-	return s.Serialize(updated, folderPath, accessLevel, expiresAt, fileMetadata, tags, isPublic, thumbnailPath), nil
+	return s.serialize(updated), nil
 }
 
-// CreateThumbnail creates a thumbnail for an image file
-func (s *fileService) CreateThumbnail(
-	ctx context.Context,
-	slug string,
-	options *structs.ProcessingOptions,
-) (*structs.ReadFile, error) {
-	// Get existing file
+// CreateThumbnail creates thumbnail for image file
+func (s *fileService) CreateThumbnail(ctx context.Context, slug string, options *structs.ProcessingOptions) (*structs.ReadFile, error) {
 	row, err := s.fileRepo.GetByID(ctx, slug)
 	if err != nil {
 		return nil, handleEntError(ctx, "File", err)
 	}
 
-	// Check if it's an image
 	if !validator.IsImageFile(row.Path) {
 		return nil, fmt.Errorf("file is not an image")
 	}
 
-	// Validate options
 	if options == nil {
 		options = &structs.ProcessingOptions{
 			CreateThumbnail: true,
 			MaxWidth:        300,
 			MaxHeight:       300,
 		}
-	} else {
-		// Ensure thumbnail creation is enabled
-		options.CreateThumbnail = true
 	}
 
-	// Get storage interface
 	storage, _ := ctxutil.GetStorage(ctx)
 
-	// Get the file
 	file, err := storage.Get(row.Path)
 	if err != nil {
 		return nil, fmt.Errorf("error retrieving file: %w", err)
 	}
 	defer file.Close()
 
-	// Read file content for processing
 	fileBytes, err := io.ReadAll(file)
 	if err != nil {
 		return nil, fmt.Errorf("error reading file: %w", err)
 	}
 
-	// Create thumbnail
 	thumbnailBytes, err := s.imageProcessor.CreateThumbnail(
 		ctx,
 		bytes.NewReader(fileBytes),
@@ -1114,363 +671,88 @@ func (s *fileService) CreateThumbnail(
 		return nil, fmt.Errorf("error creating thumbnail: %w", err)
 	}
 
-	// Store the thumbnail
 	thumbnailPath := fmt.Sprintf("thumbnails/%s", row.Path)
 	_, err = storage.Put(thumbnailPath, bytes.NewReader(thumbnailBytes))
 	if err != nil {
 		return nil, fmt.Errorf("error storing thumbnail: %w", err)
 	}
 
-	// Update extras
 	extras := getExtrasFromFile(row)
-
-	// Store thumbnail path in both locations for backward compatibility
 	extras["thumbnail_path"] = thumbnailPath
 
-	// Get and update metadata
-	var metadata *structs.FileMetadata
-	if meta, ok := extras["metadata"].(*structs.FileMetadata); ok {
-		metadata = meta
-	} else if metaMap, ok := extras["metadata"].(map[string]any); ok {
-		// Convert map to FileMetadata
-		metadata = &structs.FileMetadata{
-			Category: structs.FileCategoryOther,
-		}
-
-		if cat, ok := metaMap["category"].(string); ok {
-			metadata.Category = structs.FileCategory(cat)
-		}
-
-		if width, ok := metaMap["width"].(int); ok {
-			metadata.Width = &width
-		} else if width, ok := metaMap["width"].(float64); ok {
-			widthInt := int(width)
-			metadata.Width = &widthInt
-		}
-
-		if height, ok := metaMap["height"].(int); ok {
-			metadata.Height = &height
-		} else if height, ok := metaMap["height"].(float64); ok {
-			heightInt := int(height)
-			metadata.Height = &heightInt
-		}
-
-		if custom, ok := metaMap["custom_fields"].(map[string]any); ok {
-			metadata.CustomFields = custom
-		} else {
-			metadata.CustomFields = make(map[string]any)
-		}
-	} else {
-		// Create new metadata
-		metadata = &structs.FileMetadata{
-			Category:     structs.GetFileCategory(filepath.Ext(row.Path)),
-			CustomFields: make(map[string]any),
-		}
-
-		// Try to get dimensions
-		width, height, err := s.imageProcessor.GetImageDimensions(
-			ctx,
-			bytes.NewReader(fileBytes),
-			row.Name,
-		)
-		if err == nil {
-			metadata.Width = &width
-			metadata.Height = &height
-		}
-	}
-
-	// Ensure custom fields exist
-	if metadata.CustomFields == nil {
-		metadata.CustomFields = make(map[string]any)
-	}
-
-	metadata.CustomFields["has_thumbnail"] = true
-	metadata.CustomFields["thumbnail_path"] = thumbnailPath
-	extras["metadata"] = metadata
-
-	// Update file
-	updates := map[string]any{
+	updated, err := s.fileRepo.Update(ctx, slug, map[string]any{
 		"extras": extras,
-	}
-
-	updated, err := s.fileRepo.Update(ctx, slug, updates)
+	})
 	if err != nil {
 		return nil, handleEntError(ctx, "File", err)
 	}
 
-	// Extract extended properties
-	folderPath, accessLevel, expiresAt, fileMetadata, tags, isPublic, _ := extractExtendedProperties(updated)
-
-	// Return extended file
-	return s.Serialize(updated, folderPath, accessLevel, expiresAt, fileMetadata, tags, isPublic, thumbnailPath), nil
+	return s.serialize(updated), nil
 }
 
-// Serialize serializes an file with all properties
-func (s *fileService) Serialize(
-	row *ent.File,
-	folderPath string,
-	accessLevel structs.AccessLevel,
-	expiresAt *int64,
-	metadata *structs.FileMetadata,
-	tags []string,
-	isPublic bool,
-	thumbnailPath string,
-) *structs.ReadFile {
+// serialize converts ent.File to structs.ReadFile
+func (s *fileService) serialize(row *ent.File) *structs.ReadFile {
+	extras := getExtrasFromFile(row)
+
 	file := &structs.ReadFile{
-		ID:          row.ID,
-		Name:        row.Name,
-		Path:        row.Path,
-		Type:        row.Type,
-		Size:        &row.Size,
-		Storage:     row.Storage,
-		Bucket:      row.Bucket,
-		Endpoint:    row.Endpoint,
-		FolderPath:  folderPath,
-		AccessLevel: accessLevel,
-		ExpiresAt:   expiresAt,
-		Metadata:    metadata,
-		Tags:        tags,
-		IsPublic:    isPublic,
-		ObjectID:    row.ObjectID,
-		TenantID:    row.TenantID,
-		Extras:      &row.Extras,
-		CreatedBy:   &row.CreatedBy,
-		CreatedAt:   &row.CreatedAt,
-		UpdatedBy:   &row.UpdatedBy,
-		UpdatedAt:   &row.UpdatedAt,
+		ID:        row.ID,
+		Name:      row.Name,
+		Path:      row.Path,
+		Type:      row.Type,
+		Size:      &row.Size,
+		Storage:   row.Storage,
+		Bucket:    row.Bucket,
+		Endpoint:  row.Endpoint,
+		OwnerID:   row.OwnerID,
+		SpaceID:   row.SpaceID,
+		Extras:    &row.Extras,
+		CreatedBy: &row.CreatedBy,
+		CreatedAt: &row.CreatedAt,
+		UpdatedBy: &row.UpdatedBy,
+		UpdatedAt: &row.UpdatedAt,
 	}
 
-	// Add URLs if public
-	if isPublic {
+	// Extract from extras
+	if folderPath, ok := extras["folder_path"].(string); ok {
+		file.FolderPath = folderPath
+	}
+	if accessLevel, ok := extras["access_level"].(string); ok {
+		file.AccessLevel = structs.AccessLevel(accessLevel)
+	}
+	if tags, ok := extras["tags"].([]string); ok {
+		file.Tags = tags
+	}
+	if isPublic, ok := extras["is_public"].(bool); ok {
+		file.IsPublic = isPublic
+	}
+	if category, ok := extras["category"].(string); ok {
+		file.Category = structs.FileCategory(category)
+	}
+	if exp, ok := extras["expires_at"].(int64); ok {
+		file.ExpiresAt = &exp
+		file.IsExpired = time.Now().Unix() > exp
+	}
+
+	// Set URLs if public
+	if file.IsPublic {
 		file.DownloadURL = fmt.Sprintf("/res/files/%s?type=download", row.ID)
-		if thumbnailPath != "" {
+		if thumbnailPath, ok := extras["thumbnail_path"].(string); ok && thumbnailPath != "" {
 			file.ThumbnailURL = fmt.Sprintf("/res/files/%s?type=thumbnail", row.ID)
 		}
-	}
-
-	// Check if expired
-	if expiresAt != nil && *expiresAt > 0 {
-		now := time.Now().Unix()
-		if now > *expiresAt {
-			file.IsExpired = true
-		}
-	}
-
-	// Extract versions from extras if available
-	extras := getExtrasFromFile(row)
-	if versions, ok := extras["versions"].([]string); ok {
-		file.Versions = versions
-	} else if versions, ok := extras["versions"].([]any); ok {
-		stringVersions := make([]string, 0, len(versions))
-		for _, v := range versions {
-			if vs, ok := v.(string); ok {
-				stringVersions = append(stringVersions, vs)
-			}
-		}
-		file.Versions = stringVersions
 	}
 
 	return file
 }
 
-// getExtrasFromFile extracts extras from an file as a map
+// Helper functions
 func getExtrasFromFile(file *ent.File) map[string]any {
 	if file == nil || file.Extras == nil {
 		return make(map[string]any)
 	}
 
-	// Create new map and copy values
 	extras := make(map[string]any)
 	for k, v := range file.Extras {
 		extras[k] = v
 	}
-
 	return extras
-}
-
-// extractExtendedProperties extracts extended properties from an file
-func extractExtendedProperties(file *ent.File) (
-	folderPath string,
-	accessLevel structs.AccessLevel,
-	expiresAt *int64,
-	metadata *structs.FileMetadata,
-	tags []string,
-	isPublic bool,
-	thumbnailPath string,
-) {
-	// Default values
-	accessLevel = structs.AccessLevelPrivate
-
-	// Extract from extras
-	extras := getExtrasFromFile(file)
-
-	// Get folder path
-	if fp, ok := extras["folder_path"].(string); ok {
-		folderPath = fp
-	}
-
-	// Get access level
-	if al, ok := extras["access_level"].(string); ok {
-		accessLevel = structs.AccessLevel(al)
-	}
-
-	// Get expires_at
-	if exp, ok := extras["expires_at"].(int64); ok {
-		expiresAt = &exp
-	} else if exp, ok := extras["expires_at"].(float64); ok {
-		expInt := int64(exp)
-		expiresAt = &expInt
-	}
-
-	// Get metadata
-	if meta, ok := extras["metadata"].(*structs.FileMetadata); ok {
-		metadata = meta
-	} else if metaMap, ok := extras["metadata"].(map[string]any); ok {
-		// Convert map to FileMetadata
-		metadata = &structs.FileMetadata{
-			Category:     structs.FileCategoryOther,
-			CustomFields: make(map[string]any),
-		}
-
-		if cat, ok := metaMap["category"].(string); ok {
-			metadata.Category = structs.FileCategory(cat)
-		}
-
-		if width, ok := metaMap["width"].(int); ok {
-			metadata.Width = &width
-		} else if width, ok := metaMap["width"].(float64); ok {
-			widthInt := int(width)
-			metadata.Width = &widthInt
-		}
-
-		if height, ok := metaMap["height"].(int); ok {
-			metadata.Height = &height
-		} else if height, ok := metaMap["height"].(float64); ok {
-			heightInt := int(height)
-			metadata.Height = &heightInt
-		}
-
-		if duration, ok := metaMap["duration"].(float64); ok {
-			metadata.Duration = &duration
-		}
-
-		if custom, ok := metaMap["custom_fields"].(map[string]any); ok {
-			metadata.CustomFields = custom
-		} else {
-			metadata.CustomFields = make(map[string]any)
-		}
-	}
-
-	// Default metadata if not present
-	if metadata == nil {
-		metadata = &structs.FileMetadata{
-			Category:     structs.GetFileCategory(filepath.Ext(file.Path)),
-			CustomFields: make(map[string]any),
-		}
-	}
-
-	// Get tags
-	if t, ok := extras["tags"].([]string); ok {
-		tags = t
-	} else if tArray, ok := extras["tags"].([]any); ok {
-		tags = make([]string, len(tArray))
-		for i, tag := range tArray {
-			if tagStr, ok := tag.(string); ok {
-				tags[i] = tagStr
-			}
-		}
-	}
-
-	// Get is_public
-	if ip, ok := extras["is_public"].(bool); ok {
-		isPublic = ip
-	}
-
-	// Get thumbnail path - check both locations
-	if tp, ok := extras["thumbnail_path"].(string); ok {
-		thumbnailPath = tp
-	} else if metadata != nil && metadata.CustomFields != nil {
-		if tp, ok := metadata.CustomFields["thumbnail_path"].(string); ok {
-			thumbnailPath = tp
-		}
-	}
-
-	return
-}
-
-// filterFiles filters files based on extended parameters
-func filterFiles(
-	files []*ent.File,
-	params *structs.ListFileParams,
-) []*ent.File {
-	if params == nil {
-		return files
-	}
-
-	filtered := make([]*ent.File, 0, len(files))
-
-	for _, file := range files {
-		// Extract extended properties
-		folderPath, _, _, metadata, tags, isPublic, _ := extractExtendedProperties(file)
-
-		// Filter by folder path
-		if params.FolderPath != "" && folderPath != params.FolderPath {
-			continue
-		}
-
-		// Filter by category
-		if params.Category != "" && (metadata == nil || metadata.Category != params.Category) {
-			continue
-		}
-
-		// Filter by tags
-		if params.Tags != "" {
-			requestedTags := strings.Split(params.Tags, ",")
-			tagMatch := false
-
-			for _, reqTag := range requestedTags {
-				for _, tag := range tags {
-					if strings.TrimSpace(reqTag) == tag {
-						tagMatch = true
-						break
-					}
-				}
-				if tagMatch {
-					break
-				}
-			}
-
-			if !tagMatch {
-				continue
-			}
-		}
-
-		// Filter by is_public
-		if params.IsPublic != nil && isPublic != *params.IsPublic {
-			continue
-		}
-
-		// Filter by created_after
-		if params.CreatedAfter > 0 && file.CreatedAt != 0 && file.CreatedAt < params.CreatedAfter {
-			continue
-		}
-
-		// Filter by created_before
-		if params.CreatedBefore > 0 && file.CreatedAt != 0 && file.CreatedAt > params.CreatedBefore {
-			continue
-		}
-
-		// Filter by size range
-		if params.SizeMin > 0 && file.Size < int(params.SizeMin) {
-			continue
-		}
-		if params.SizeMax > 0 && file.Size > int(params.SizeMax) {
-			continue
-		}
-
-		// Add to filtered results
-		filtered = append(filtered, file)
-	}
-
-	return filtered
 }

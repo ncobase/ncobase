@@ -13,7 +13,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// MediaHandlerInterface is the interface for the handler.
+// MediaHandlerInterface for media handler operations
 type MediaHandlerInterface interface {
 	Create(c *gin.Context)
 	Update(c *gin.Context)
@@ -22,22 +22,21 @@ type MediaHandlerInterface interface {
 	Delete(c *gin.Context)
 }
 
-// mediaHandler represents the handler.
 type mediaHandler struct {
 	s *service.Service
 }
 
-// NewMediaHandler creates a new handler.
+// NewMediaHandler creates new media handler
 func NewMediaHandler(s *service.Service) MediaHandlerInterface {
 	return &mediaHandler{
 		s: s,
 	}
 }
 
-// Create handles the creation of a media.
+// Create handles media creation
 //
 // @Summary Create media
-// @Description Create a new media resource.
+// @Description Create a new media resource with resource file reference or external URL
 // @Tags cms
 // @Accept json
 // @Produce json
@@ -65,10 +64,10 @@ func (h *mediaHandler) Create(c *gin.Context) {
 	resp.Success(c.Writer, result)
 }
 
-// Update handles updating a media.
+// Update handles media updates
 //
 // @Summary Update media
-// @Description Update an existing media resource.
+// @Description Update an existing media resource
 // @Tags cms
 // @Accept json
 // @Produce json
@@ -103,10 +102,10 @@ func (h *mediaHandler) Update(c *gin.Context) {
 	resp.Success(c.Writer, result)
 }
 
-// Get handles getting a media.
+// Get handles media retrieval
 //
 // @Summary Get media
-// @Description Retrieve details of a media resource.
+// @Description Retrieve details of a media resource with resource file reference
 // @Tags cms
 // @Produce json
 // @Param id path string true "Media ID"
@@ -129,10 +128,10 @@ func (h *mediaHandler) Get(c *gin.Context) {
 	resp.Success(c.Writer, result)
 }
 
-// Delete handles deleting a media.
+// Delete handles media deletion
 //
 // @Summary Delete media
-// @Description Delete an existing media resource.
+// @Description Delete an existing media resource (note: does not delete the referenced resource file)
 // @Tags cms
 // @Produce json
 // @Param id path string true "Media ID"
@@ -155,10 +154,10 @@ func (h *mediaHandler) Delete(c *gin.Context) {
 	resp.Success(c.Writer)
 }
 
-// List handles listing media resources.
+// List handles media listing
 //
 // @Summary List media
-// @Description Retrieve a list of media resources.
+// @Description Retrieve a list of media resources with optional filtering
 // @Tags cms
 // @Produce json
 // @Param params query structs.ListMediaParams true "List media parameters"

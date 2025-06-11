@@ -124,22 +124,10 @@ func init() {
 	media.DefaultUpdatedAt = mediaDescUpdatedAt.Default.(func() int64)
 	// media.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
 	media.UpdateDefaultUpdatedAt = mediaDescUpdatedAt.UpdateDefault.(func() int64)
-	// mediaDescSize is the schema descriptor for size field.
-	mediaDescSize := mediaFields[2].Descriptor()
-	// media.DefaultSize holds the default value on creation for the size field.
-	media.DefaultSize = mediaDescSize.Default.(int64)
-	// mediaDescWidth is the schema descriptor for width field.
-	mediaDescWidth := mediaFields[3].Descriptor()
-	// media.DefaultWidth holds the default value on creation for the width field.
-	media.DefaultWidth = mediaDescWidth.Default.(int)
-	// mediaDescHeight is the schema descriptor for height field.
-	mediaDescHeight := mediaFields[4].Descriptor()
-	// media.DefaultHeight holds the default value on creation for the height field.
-	media.DefaultHeight = mediaDescHeight.Default.(int)
-	// mediaDescDuration is the schema descriptor for duration field.
-	mediaDescDuration := mediaFields[5].Descriptor()
-	// media.DefaultDuration holds the default value on creation for the duration field.
-	media.DefaultDuration = mediaDescDuration.Default.(float64)
+	// mediaDescOwnerID is the schema descriptor for owner_id field.
+	mediaDescOwnerID := mediaFields[0].Descriptor()
+	// media.OwnerIDValidator is a validator for the "owner_id" field. It is called by the builders before save.
+	media.OwnerIDValidator = mediaDescOwnerID.Validators[0].(func(string) error)
 	// mediaDescID is the schema descriptor for id field.
 	mediaDescID := mediaMixinFields0[0].Descriptor()
 	// media.DefaultID holds the default value on creation for the id field.

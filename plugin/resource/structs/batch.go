@@ -2,10 +2,10 @@ package structs
 
 import "github.com/ncobase/ncore/types"
 
-// BatchUploadParams represents parameters for batch upload operations
+// BatchUploadParams for batch uploads
 type BatchUploadParams struct {
-	TenantID          string             `json:"tenant_id" binding:"required"`
-	ObjectID          string             `json:"object_id" binding:"required"`
+	SpaceID           string             `json:"space_id" binding:"required"`
+	OwnerID           string             `json:"owner_id" binding:"required"`
 	FolderPath        string             `json:"folder_path,omitempty"`
 	AccessLevel       AccessLevel        `json:"access_level,omitempty"`
 	Tags              []string           `json:"tags,omitempty"`
@@ -13,7 +13,7 @@ type BatchUploadParams struct {
 	Extras            *types.JSON        `json:"extras,omitempty"`
 }
 
-// BatchUploadResult represents the result of a batch upload operation
+// BatchUploadResult for batch upload results
 type BatchUploadResult struct {
 	OperationID  string      `json:"operation_id"`
 	TotalFiles   int         `json:"total_files"`

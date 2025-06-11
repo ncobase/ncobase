@@ -7,14 +7,14 @@ import (
 	"github.com/ncobase/ncore/utils/convert"
 )
 
-// FindTopic represents the parameters for finding a topic.
+// FindTopic for finding topic
 type FindTopic struct {
 	Topic    string `json:"topic,omitempty"`
 	Taxonomy string `json:"taxonomy,omitempty"`
-	Tenant   string `json:"tenant,omitempty"`
+	SpaceID  string `json:"space_id,omitempty"`
 }
 
-// TopicBody represents the common fields for creating and updating topics.
+// TopicBody represents common fields for creating and updating topics
 type TopicBody struct {
 	Name           string      `json:"name,omitempty"`
 	Title          string      `json:"title,omitempty"`
@@ -37,23 +37,23 @@ type TopicBody struct {
 	Metadata       *types.JSON `json:"metadata,omitempty"`
 	Released       int64       `json:"released,omitempty"`
 	TaxonomyID     string      `json:"taxonomy_id,omitempty"`
-	TenantID       string      `json:"tenant_id,omitempty"`
+	SpaceID        string      `json:"space_id,omitempty"`
 	CreatedBy      *string     `json:"created_by,omitempty"`
 	UpdatedBy      *string     `json:"updated_by,omitempty"`
 }
 
-// CreateTopicBody represents the body for creating a topic.
+// CreateTopicBody for creating topic
 type CreateTopicBody struct {
 	TopicBody
 }
 
-// UpdateTopicBody represents the body for updating a topic.
+// UpdateTopicBody for updating topic
 type UpdateTopicBody struct {
 	ID string `json:"id"`
 	TopicBody
 }
 
-// ReadTopic represents the output schema for retrieving a topic.
+// ReadTopic represents output schema for retrieving topic
 type ReadTopic struct {
 	ID             string        `json:"id"`
 	Name           string        `json:"name"`
@@ -77,7 +77,7 @@ type ReadTopic struct {
 	Metadata       *types.JSON   `json:"metadata,omitempty"`
 	Released       int64         `json:"released"`
 	TaxonomyID     string        `json:"taxonomy_id"`
-	TenantID       string        `json:"tenant_id"`
+	SpaceID        string        `json:"space_id"`
 	Media          []*ReadMedia  `json:"media,omitempty"`
 	Taxonomy       *ReadTaxonomy `json:"taxonomy,omitempty"`
 	CreatedBy      *string       `json:"created_by,omitempty"`
@@ -86,16 +86,16 @@ type ReadTopic struct {
 	UpdatedAt      *int64        `json:"updated_at,omitempty"`
 }
 
-// GetCursorValue returns the cursor value.
+// GetCursorValue returns cursor value
 func (r *ReadTopic) GetCursorValue() string {
 	return fmt.Sprintf("%s:%d", r.ID, convert.ToValue(r.CreatedAt))
 }
 
-// ListTopicParams represents the parameters for listing topics.
+// ListTopicParams for listing topics
 type ListTopicParams struct {
 	Cursor    string `form:"cursor,omitempty" json:"cursor,omitempty"`
 	Limit     int    `form:"limit,omitempty" json:"limit,omitempty"`
 	Direction string `form:"direction,omitempty" json:"direction,omitempty"`
 	Taxonomy  string `form:"taxonomy,omitempty" json:"taxonomy,omitempty"`
-	Tenant    string `form:"tenant,omitempty" json:"tenant,omitempty"`
+	SpaceID   string `form:"space_id,omitempty" json:"space_id,omitempty"`
 }

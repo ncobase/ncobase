@@ -42,7 +42,7 @@ type ChannelBody struct {
 	WebhookURL    string      `json:"webhook_url,omitempty"`
 	AutoPublish   bool        `json:"auto_publish,omitempty"`
 	RequireReview bool        `json:"require_review,omitempty"`
-	TenantID      string      `json:"tenant_id,omitempty"`
+	SpaceID       string      `json:"space_id,omitempty"`
 	CreatedBy     *string     `json:"created_by,omitempty"`
 	UpdatedBy     *string     `json:"updated_by,omitempty"`
 }
@@ -73,7 +73,7 @@ type ReadChannel struct {
 	WebhookURL    string      `json:"webhook_url"`
 	AutoPublish   bool        `json:"auto_publish"`
 	RequireReview bool        `json:"require_review"`
-	TenantID      string      `json:"tenant_id"`
+	SpaceID       string      `json:"space_id"`
 	CreatedBy     *string     `json:"created_by,omitempty"`
 	CreatedAt     *int64      `json:"created_at,omitempty"`
 	UpdatedBy     *string     `json:"updated_by,omitempty"`
@@ -92,12 +92,12 @@ type ListChannelParams struct {
 	Direction string `form:"direction,omitempty" json:"direction,omitempty"`
 	Type      string `form:"type,omitempty" json:"type,omitempty"`
 	Status    int    `form:"status,omitempty" json:"status,omitempty"`
-	Tenant    string `form:"tenant,omitempty" json:"tenant,omitempty"`
+	SpaceID   string `form:"space_id,omitempty" json:"space_id,omitempty"`
 }
 
 // FindChannel represents the parameters for finding a channel.
 type FindChannel struct {
 	Channel string `json:"channel,omitempty"`
 	Type    string `json:"type,omitempty"`
-	Tenant  string `json:"tenant,omitempty"`
+	SpaceID string `json:"space_id,omitempty"`
 }

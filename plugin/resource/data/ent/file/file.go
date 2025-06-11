@@ -25,10 +25,10 @@ const (
 	FieldBucket = "bucket"
 	// FieldEndpoint holds the string denoting the endpoint field in the database.
 	FieldEndpoint = "endpoint"
-	// FieldObjectID holds the string denoting the object_id field in the database.
-	FieldObjectID = "object_id"
-	// FieldTenantID holds the string denoting the tenant_id field in the database.
-	FieldTenantID = "tenant_id"
+	// FieldOwnerID holds the string denoting the owner_id field in the database.
+	FieldOwnerID = "owner_id"
+	// FieldSpaceID holds the string denoting the space_id field in the database.
+	FieldSpaceID = "space_id"
 	// FieldExtras holds the string denoting the extras field in the database.
 	FieldExtras = "extras"
 	// FieldCreatedBy holds the string denoting the created_by field in the database.
@@ -45,22 +45,10 @@ const (
 	FieldAccessLevel = "access_level"
 	// FieldExpiresAt holds the string denoting the expires_at field in the database.
 	FieldExpiresAt = "expires_at"
-	// FieldMetadata holds the string denoting the metadata field in the database.
-	FieldMetadata = "metadata"
 	// FieldTags holds the string denoting the tags field in the database.
 	FieldTags = "tags"
 	// FieldIsPublic holds the string denoting the is_public field in the database.
 	FieldIsPublic = "is_public"
-	// FieldVersions holds the string denoting the versions field in the database.
-	FieldVersions = "versions"
-	// FieldThumbnailPath holds the string denoting the thumbnail_path field in the database.
-	FieldThumbnailPath = "thumbnail_path"
-	// FieldWidth holds the string denoting the width field in the database.
-	FieldWidth = "width"
-	// FieldHeight holds the string denoting the height field in the database.
-	FieldHeight = "height"
-	// FieldDuration holds the string denoting the duration field in the database.
-	FieldDuration = "duration"
 	// FieldCategory holds the string denoting the category field in the database.
 	FieldCategory = "category"
 	// FieldProcessingResult holds the string denoting the processing_result field in the database.
@@ -79,8 +67,8 @@ var Columns = []string{
 	FieldStorage,
 	FieldBucket,
 	FieldEndpoint,
-	FieldObjectID,
-	FieldTenantID,
+	FieldOwnerID,
+	FieldSpaceID,
 	FieldExtras,
 	FieldCreatedBy,
 	FieldUpdatedBy,
@@ -89,14 +77,8 @@ var Columns = []string{
 	FieldFolderPath,
 	FieldAccessLevel,
 	FieldExpiresAt,
-	FieldMetadata,
 	FieldTags,
 	FieldIsPublic,
-	FieldVersions,
-	FieldThumbnailPath,
-	FieldWidth,
-	FieldHeight,
-	FieldDuration,
 	FieldCategory,
 	FieldProcessingResult,
 }
@@ -179,14 +161,14 @@ func ByEndpoint(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldEndpoint, opts...).ToFunc()
 }
 
-// ByObjectID orders the results by the object_id field.
-func ByObjectID(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldObjectID, opts...).ToFunc()
+// ByOwnerID orders the results by the owner_id field.
+func ByOwnerID(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldOwnerID, opts...).ToFunc()
 }
 
-// ByTenantID orders the results by the tenant_id field.
-func ByTenantID(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldTenantID, opts...).ToFunc()
+// BySpaceID orders the results by the space_id field.
+func BySpaceID(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldSpaceID, opts...).ToFunc()
 }
 
 // ByCreatedBy orders the results by the created_by field.
@@ -227,26 +209,6 @@ func ByExpiresAt(opts ...sql.OrderTermOption) OrderOption {
 // ByIsPublic orders the results by the is_public field.
 func ByIsPublic(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldIsPublic, opts...).ToFunc()
-}
-
-// ByThumbnailPath orders the results by the thumbnail_path field.
-func ByThumbnailPath(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldThumbnailPath, opts...).ToFunc()
-}
-
-// ByWidth orders the results by the width field.
-func ByWidth(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldWidth, opts...).ToFunc()
-}
-
-// ByHeight orders the results by the height field.
-func ByHeight(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldHeight, opts...).ToFunc()
-}
-
-// ByDuration orders the results by the duration field.
-func ByDuration(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldDuration, opts...).ToFunc()
 }
 
 // ByCategory orders the results by the category field.

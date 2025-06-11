@@ -81,7 +81,7 @@ func (r *channelRepository) Create(ctx context.Context, body *structs.CreateChan
 		builder.SetAllowedTypes(body.AllowedTypes)
 	}
 
-	builder.SetNillableTenantID(&body.TenantID)
+	builder.SetNillableSpaceID(&body.SpaceID)
 	builder.SetNillableCreatedBy(body.CreatedBy)
 
 	// execute the builder
@@ -180,7 +180,7 @@ func (r *channelRepository) Update(ctx context.Context, slug string, updates typ
 		case "require_review":
 			builder.SetRequireReview(value.(bool))
 		case "tenant_id":
-			builder.SetNillableTenantID(convert.ToPointer(value.(string)))
+			builder.SetNillableSpaceID(convert.ToPointer(value.(string)))
 		case "updated_by":
 			builder.SetNillableUpdatedBy(convert.ToPointer(value.(string)))
 		}
@@ -218,8 +218,8 @@ func (r *channelRepository) List(ctx context.Context, params *structs.ListChanne
 		builder.Where(channelEnt.StatusEQ(params.Status))
 	}
 
-	if validator.IsNotEmpty(params.Tenant) {
-		builder.Where(channelEnt.TenantIDEQ(params.Tenant))
+	if validator.IsNotEmpty(params.SpaceID) {
+		builder.Where(channelEnt.SpaceIDEQ(params.SpaceID))
 	}
 
 	// apply cursor-based pagination
@@ -294,8 +294,8 @@ func (r *channelRepository) Count(ctx context.Context, params *structs.ListChann
 		builder.Where(channelEnt.StatusEQ(params.Status))
 	}
 
-	if validator.IsNotEmpty(params.Tenant) {
-		builder.Where(channelEnt.TenantIDEQ(params.Tenant))
+	if validator.IsNotEmpty(params.SpaceID) {
+		builder.Where(channelEnt.SpaceIDEQ(params.SpaceID))
 	}
 
 	// execute count query
@@ -365,9 +365,9 @@ func (r *channelRepository) FindChannel(ctx context.Context, params *structs.Fin
 		builder = builder.Where(channelEnt.TypeEQ(params.Type))
 	}
 
-	// if tenant provided
-	if validator.IsNotEmpty(params.Tenant) {
-		builder = builder.Where(channelEnt.TenantIDEQ(params.Tenant))
+	// if space / tenant provided
+	if validator.IsNotEmpty(params.SpaceID) {
+		builder = builder.Where(channelEnt.SpaceIDEQ(params.SpaceID))
 	}
 
 	// execute the builder

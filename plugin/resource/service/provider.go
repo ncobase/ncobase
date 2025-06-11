@@ -7,19 +7,19 @@ import (
 	ext "github.com/ncobase/ncore/extension/types"
 )
 
-// Service is the struct for the resource service.
+// Service contains all resource services
 type Service struct {
 	File  FileServiceInterface
 	Batch BatchServiceInterface
 	Quota QuotaServiceInterface
 }
 
-// New creates a new resource service with tenant service integration
+// New creates new resource service
 func New(em ext.ManagerInterface, d *data.Data, publisher event.PublisherInterface) *Service {
 	// Create image processor
 	imageProcessor := NewImageProcessor()
 
-	// Create quota service with extension manager for tenant service access
+	// Create quota service
 	quotaConfig := &QuotaConfig{
 		DefaultQuota:      10 * 1024 * 1024 * 1024, // 10GB default
 		WarningThreshold:  0.8,                     // 80% warning
@@ -43,7 +43,6 @@ func New(em ext.ManagerInterface, d *data.Data, publisher event.PublisherInterfa
 
 // RefreshDependencies refreshes external service dependencies
 func (s *Service) RefreshDependencies() {
-	// Refresh tenant service references using the interface method
 	if s.Quota != nil {
 		s.Quota.RefreshTenantServices()
 	}

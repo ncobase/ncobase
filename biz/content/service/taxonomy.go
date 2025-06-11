@@ -104,7 +104,7 @@ func (s *taxonomyService) List(ctx context.Context, params *structs.ListTaxonomy
 	if params.Children {
 		return s.GetTree(ctx, &structs.FindTaxonomy{
 			Children: true,
-			Tenant:   params.Tenant,
+			SpaceID:  params.SpaceID,
 			Taxonomy: params.Parent,
 			SortBy:   params.SortBy,
 		})
@@ -160,7 +160,7 @@ func (s *taxonomyService) Serialize(row *ent.Taxonomy) *structs.ReadTaxonomy {
 		Status:      row.Status,
 		Extras:      &row.Extras,
 		ParentID:    &row.ParentID,
-		TenantID:    &row.ParentID,
+		SpaceID:     row.ParentID,
 		CreatedBy:   &row.CreatedBy,
 		CreatedAt:   &row.CreatedAt,
 		UpdatedBy:   &row.UpdatedBy,

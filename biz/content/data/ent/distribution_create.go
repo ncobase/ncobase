@@ -27,16 +27,16 @@ func (dc *DistributionCreate) SetExtras(m map[string]interface{}) *DistributionC
 	return dc
 }
 
-// SetTenantID sets the "tenant_id" field.
-func (dc *DistributionCreate) SetTenantID(s string) *DistributionCreate {
-	dc.mutation.SetTenantID(s)
+// SetSpaceID sets the "space_id" field.
+func (dc *DistributionCreate) SetSpaceID(s string) *DistributionCreate {
+	dc.mutation.SetSpaceID(s)
 	return dc
 }
 
-// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
-func (dc *DistributionCreate) SetNillableTenantID(s *string) *DistributionCreate {
+// SetNillableSpaceID sets the "space_id" field if the given value is not nil.
+func (dc *DistributionCreate) SetNillableSpaceID(s *string) *DistributionCreate {
 	if s != nil {
-		dc.SetTenantID(*s)
+		dc.SetSpaceID(*s)
 	}
 	return dc
 }
@@ -345,9 +345,9 @@ func (dc *DistributionCreate) createSpec() (*Distribution, *sqlgraph.CreateSpec)
 		_spec.SetField(distribution.FieldExtras, field.TypeJSON, value)
 		_node.Extras = value
 	}
-	if value, ok := dc.mutation.TenantID(); ok {
-		_spec.SetField(distribution.FieldTenantID, field.TypeString, value)
-		_node.TenantID = value
+	if value, ok := dc.mutation.SpaceID(); ok {
+		_spec.SetField(distribution.FieldSpaceID, field.TypeString, value)
+		_node.SpaceID = value
 	}
 	if value, ok := dc.mutation.CreatedBy(); ok {
 		_spec.SetField(distribution.FieldCreatedBy, field.TypeString, value)

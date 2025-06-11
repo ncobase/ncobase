@@ -6,7 +6,7 @@ import (
 	"github.com/ncobase/ncore/types"
 )
 
-// FileEventData represents data included in file events
+// FileEventData represents file event data
 type FileEventData struct {
 	Timestamp time.Time   `json:"timestamp"`
 	ID        string      `json:"id"`
@@ -16,17 +16,17 @@ type FileEventData struct {
 	Size      int         `json:"size"`
 	Storage   string      `json:"storage"`
 	Bucket    string      `json:"bucket"`
-	ObjectID  string      `json:"object_id"`
-	TenantID  string      `json:"tenant_id"`
+	OwnerID   string      `json:"owner_id"`
+	SpaceID   string      `json:"space_id"`
 	UserID    string      `json:"user_id,omitempty"`
 	Extras    *types.JSON `json:"extras,omitempty"`
 }
 
-// NewFileEventData creates a new file event data instance
+// NewFileEventData creates new file event data
 func NewFileEventData(
 	id, name, path, fileType string,
 	size int,
-	storage, bucket, objectID, tenantID, userID string,
+	storage, bucket, ownerID, spaceID, userID string,
 	extras *types.JSON,
 ) *FileEventData {
 	return &FileEventData{
@@ -38,37 +38,37 @@ func NewFileEventData(
 		Size:      size,
 		Storage:   storage,
 		Bucket:    bucket,
-		ObjectID:  objectID,
-		TenantID:  tenantID,
+		OwnerID:   ownerID,
+		SpaceID:   spaceID,
 		UserID:    userID,
 		Extras:    extras,
 	}
 }
 
-// BatchOperationEventData represents data for batch operations
+// BatchOperationEventData represents batch operation event data
 type BatchOperationEventData struct {
 	Timestamp   time.Time   `json:"timestamp"`
 	OperationID string      `json:"operation_id"`
 	ItemCount   int         `json:"item_count"`
-	TenantID    string      `json:"tenant_id"`
+	SpaceID     string      `json:"space_id"`
 	UserID      string      `json:"user_id,omitempty"`
 	Status      string      `json:"status"`
 	Message     string      `json:"message,omitempty"`
 	Extras      *types.JSON `json:"extras,omitempty"`
 }
 
-// NewBatchOperationEventData creates a new batch operation event data instance
+// NewBatchOperationEventData creates new batch operation event data
 func NewBatchOperationEventData(
 	operationID string,
 	itemCount int,
-	tenantID, userID, status, message string,
+	spaceID, userID, status, message string,
 	extras *types.JSON,
 ) *BatchOperationEventData {
 	return &BatchOperationEventData{
 		Timestamp:   time.Now(),
 		OperationID: operationID,
 		ItemCount:   itemCount,
-		TenantID:    tenantID,
+		SpaceID:     spaceID,
 		UserID:      userID,
 		Status:      status,
 		Message:     message,
@@ -76,26 +76,26 @@ func NewBatchOperationEventData(
 	}
 }
 
-// StorageQuotaEventData represents data for storage quota events
+// StorageQuotaEventData represents storage quota event data
 type StorageQuotaEventData struct {
 	Timestamp    time.Time `json:"timestamp"`
-	TenantID     string    `json:"tenant_id"`
+	SpaceID      string    `json:"space_id"`
 	CurrentUsage int64     `json:"current_usage"` // in bytes
 	Quota        int64     `json:"quota"`         // in bytes
 	UsagePercent float64   `json:"usage_percent"`
 	StorageType  string    `json:"storage_type"`
 }
 
-// NewStorageQuotaEventData creates a new storage quota event data instance
+// NewStorageQuotaEventData creates new storage quota event data
 func NewStorageQuotaEventData(
-	tenantID string,
+	spaceID string,
 	currentUsage, quota int64,
 	usagePercent float64,
 	storageType string,
 ) *StorageQuotaEventData {
 	return &StorageQuotaEventData{
 		Timestamp:    time.Now(),
-		TenantID:     tenantID,
+		SpaceID:      spaceID,
 		CurrentUsage: currentUsage,
 		Quota:        quota,
 		UsagePercent: usagePercent,

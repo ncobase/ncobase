@@ -41,23 +41,23 @@ func (du *DistributionUpdate) ClearExtras() *DistributionUpdate {
 	return du
 }
 
-// SetTenantID sets the "tenant_id" field.
-func (du *DistributionUpdate) SetTenantID(s string) *DistributionUpdate {
-	du.mutation.SetTenantID(s)
+// SetSpaceID sets the "space_id" field.
+func (du *DistributionUpdate) SetSpaceID(s string) *DistributionUpdate {
+	du.mutation.SetSpaceID(s)
 	return du
 }
 
-// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
-func (du *DistributionUpdate) SetNillableTenantID(s *string) *DistributionUpdate {
+// SetNillableSpaceID sets the "space_id" field if the given value is not nil.
+func (du *DistributionUpdate) SetNillableSpaceID(s *string) *DistributionUpdate {
 	if s != nil {
-		du.SetTenantID(*s)
+		du.SetSpaceID(*s)
 	}
 	return du
 }
 
-// ClearTenantID clears the value of the "tenant_id" field.
-func (du *DistributionUpdate) ClearTenantID() *DistributionUpdate {
-	du.mutation.ClearTenantID()
+// ClearSpaceID clears the value of the "space_id" field.
+func (du *DistributionUpdate) ClearSpaceID() *DistributionUpdate {
+	du.mutation.ClearSpaceID()
 	return du
 }
 
@@ -385,11 +385,11 @@ func (du *DistributionUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if du.mutation.ExtrasCleared() {
 		_spec.ClearField(distribution.FieldExtras, field.TypeJSON)
 	}
-	if value, ok := du.mutation.TenantID(); ok {
-		_spec.SetField(distribution.FieldTenantID, field.TypeString, value)
+	if value, ok := du.mutation.SpaceID(); ok {
+		_spec.SetField(distribution.FieldSpaceID, field.TypeString, value)
 	}
-	if du.mutation.TenantIDCleared() {
-		_spec.ClearField(distribution.FieldTenantID, field.TypeString)
+	if du.mutation.SpaceIDCleared() {
+		_spec.ClearField(distribution.FieldSpaceID, field.TypeString)
 	}
 	if value, ok := du.mutation.CreatedBy(); ok {
 		_spec.SetField(distribution.FieldCreatedBy, field.TypeString, value)
@@ -547,23 +547,23 @@ func (duo *DistributionUpdateOne) ClearExtras() *DistributionUpdateOne {
 	return duo
 }
 
-// SetTenantID sets the "tenant_id" field.
-func (duo *DistributionUpdateOne) SetTenantID(s string) *DistributionUpdateOne {
-	duo.mutation.SetTenantID(s)
+// SetSpaceID sets the "space_id" field.
+func (duo *DistributionUpdateOne) SetSpaceID(s string) *DistributionUpdateOne {
+	duo.mutation.SetSpaceID(s)
 	return duo
 }
 
-// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
-func (duo *DistributionUpdateOne) SetNillableTenantID(s *string) *DistributionUpdateOne {
+// SetNillableSpaceID sets the "space_id" field if the given value is not nil.
+func (duo *DistributionUpdateOne) SetNillableSpaceID(s *string) *DistributionUpdateOne {
 	if s != nil {
-		duo.SetTenantID(*s)
+		duo.SetSpaceID(*s)
 	}
 	return duo
 }
 
-// ClearTenantID clears the value of the "tenant_id" field.
-func (duo *DistributionUpdateOne) ClearTenantID() *DistributionUpdateOne {
-	duo.mutation.ClearTenantID()
+// ClearSpaceID clears the value of the "space_id" field.
+func (duo *DistributionUpdateOne) ClearSpaceID() *DistributionUpdateOne {
+	duo.mutation.ClearSpaceID()
 	return duo
 }
 
@@ -921,11 +921,11 @@ func (duo *DistributionUpdateOne) sqlSave(ctx context.Context) (_node *Distribut
 	if duo.mutation.ExtrasCleared() {
 		_spec.ClearField(distribution.FieldExtras, field.TypeJSON)
 	}
-	if value, ok := duo.mutation.TenantID(); ok {
-		_spec.SetField(distribution.FieldTenantID, field.TypeString, value)
+	if value, ok := duo.mutation.SpaceID(); ok {
+		_spec.SetField(distribution.FieldSpaceID, field.TypeString, value)
 	}
-	if duo.mutation.TenantIDCleared() {
-		_spec.ClearField(distribution.FieldTenantID, field.TypeString)
+	if duo.mutation.SpaceIDCleared() {
+		_spec.ClearField(distribution.FieldSpaceID, field.TypeString)
 	}
 	if value, ok := duo.mutation.CreatedBy(); ok {
 		_spec.SetField(distribution.FieldCreatedBy, field.TypeString, value)

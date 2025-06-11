@@ -159,8 +159,8 @@ func (r *taxonomyRepository) GetTree(ctx context.Context, params *structs.FindTa
 	builder := r.ecr.Taxonomy.Query()
 
 	// set where conditions
-	if validator.IsNotEmpty(params.Tenant) {
-		builder.Where(taxonomyEnt.TenantIDEQ(params.Tenant))
+	if validator.IsNotEmpty(params.SpaceID) {
+		builder.Where(taxonomyEnt.SpaceIDEQ(params.SpaceID))
 	}
 
 	// handle sub taxonomies
@@ -308,9 +308,9 @@ func (r *taxonomyRepository) Update(ctx context.Context, slug string, updates ty
 //
 // 	builder.Limit(params.Limit)
 //
-// 	// belong tenant
-// 	if params.Tenant != "" {
-// 		builder.Where(taxonomyEnt.TenantIDEQ(params.Tenant))
+// 	// belong space / tenant
+// 	if params.SpaceID != "" {
+// 		builder.Where(taxonomyEnt.SpaceIDEQ(params.SpaceID))
 // 	}
 //
 // 	// type
@@ -385,8 +385,8 @@ func (r *taxonomyRepository) FindTaxonomy(ctx context.Context, params *structs.F
 			taxonomyEnt.SlugEQ(params.Taxonomy),
 		))
 	}
-	if validator.IsNotEmpty(params.Tenant) {
-		builder = builder.Where(taxonomyEnt.TenantIDEQ(params.Tenant))
+	if validator.IsNotEmpty(params.SpaceID) {
+		builder = builder.Where(taxonomyEnt.SpaceIDEQ(params.SpaceID))
 	}
 
 	// execute the builder.

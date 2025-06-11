@@ -10,7 +10,7 @@ import (
 // FindTaxonomy represents the parameters for finding a taxonomy.
 type FindTaxonomy struct {
 	Taxonomy string `json:"taxonomy,omitempty"`
-	Tenant   string `json:"tenant,omitempty"`
+	SpaceID  string `json:"space_id,omitempty"`
 	Children bool   `json:"children,omitempty"`
 	Type     string `json:"type,omitempty"`
 	SortBy   string `form:"sort_by,omitempty" json:"sort_by,omitempty"`
@@ -31,7 +31,7 @@ type TaxonomyBody struct {
 	Status      int         `json:"status,omitempty"`
 	Extras      *types.JSON `json:"extras,omitempty"`
 	ParentID    *string     `json:"parent_id,omitempty"`
-	TenantID    *string     `json:"tenant_id,omitempty"`
+	SpaceID     string      `json:"space_id,omitempty"`
 	CreatedBy   *string     `json:"created_by,omitempty"`
 	UpdatedBy   *string     `json:"updated_by,omitempty"`
 }
@@ -63,7 +63,7 @@ type ReadTaxonomy struct {
 	Status      int              `json:"status"`
 	Extras      *types.JSON      `json:"extras,omitempty"`
 	ParentID    *string          `json:"parent_id,omitempty"`
-	TenantID    *string          `json:"tenant_id,omitempty"`
+	SpaceID     string           `json:"space_id,omitempty"`
 	Children    []types.TreeNode `json:"children,omitempty"`
 	CreatedBy   *string          `json:"created_by,omitempty"`
 	CreatedAt   *int64           `json:"created_at,omitempty"`
@@ -113,7 +113,7 @@ type ListTaxonomyParams struct {
 	Direction string `form:"direction,omitempty" json:"direction,omitempty"`
 	Children  bool   `form:"children,omitempty" json:"children,omitempty"`
 	Parent    string `form:"parent,omitempty" json:"parent,omitempty"`
-	Tenant    string `form:"tenant,omitempty" json:"tenant,omitempty"`
+	SpaceID   string `form:"space_id,omitempty" json:"space_id,omitempty"`
 	Type      string `form:"type,omitempty" json:"type,omitempty"`
 	SortBy    string `form:"sort_by,omitempty" json:"sort_by,omitempty"`
 }

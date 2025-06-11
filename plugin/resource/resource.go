@@ -28,23 +28,24 @@ var (
 	group        = "res"
 )
 
-// Plugin represents the resource plugin
+// Plugin represents resource plugin
 type Plugin struct {
 	ext.OptionalImpl
 
-	initialized bool
-	mu          sync.RWMutex
-	em          ext.ManagerInterface
-	s           *service.Service
-	h           *handler.Handler
-	d           *data.Data
-	cleanup     func(name ...string)
-	config      *Config
+	initialized     bool
+	mu              sync.RWMutex
+	em              ext.ManagerInterface
+	s               *service.Service
+	h               *handler.Handler
+	d               *data.Data
+	cleanup         func(name ...string)
+	config          *Config
+	eventSubscriber event.SubscriberInterface
 
 	discovery
 }
 
-// discovery represents the service discovery
+// discovery represents service discovery
 type discovery struct {
 	address string
 	tags    []string
@@ -63,17 +64,17 @@ func init() {
 	})
 }
 
-// New returns a new instance of the plugin
+// New returns new plugin instance
 func New() *Plugin {
 	return &Plugin{}
 }
 
-// Name returns the name of the plugin
+// Name returns plugin name
 func (p *Plugin) Name() string {
 	return name
 }
 
-// PreInit performs any necessary setup before initialization
+// PreInit performs setup before initialization
 func (p *Plugin) PreInit() error {
 	p.config = p.GetDefaultConfig()
 	return nil
@@ -93,14 +94,14 @@ func (p *Plugin) Init(conf *config.Config, em ext.ManagerInterface) (err error) 
 		return err
 	}
 
-	// service discovery
+	// Service discovery
 	if conf.Consul != nil {
 		p.discovery.address = conf.Consul.Address
 		p.discovery.tags = conf.Consul.Discovery.DefaultTags
 		p.discovery.meta = conf.Consul.Discovery.DefaultMeta
 	}
 
-	// Load config from configuration file if available
+	// Load config from file
 	if conf.Viper != nil {
 		p.GetConfigFromFile(conf.Viper)
 	}
@@ -111,7 +112,7 @@ func (p *Plugin) Init(conf *config.Config, em ext.ManagerInterface) (err error) 
 	return nil
 }
 
-// PostInit performs any necessary setup after initialization
+// PostInit performs setup after initialization
 func (p *Plugin) PostInit() error {
 	// Create event publisher
 	publisher := event.NewPublisher(p.em)
@@ -122,6 +123,12 @@ func (p *Plugin) PostInit() error {
 	// Create handlers
 	p.h = handler.New(p.s)
 
+	// Create event subscriber
+	p.eventSubscriber = event.NewSubscriber()
+
+	// Set quota updater for event handler
+	p.eventSubscriber.SetQuotaUpdater(p.s.Quota)
+
 	// Start quota monitor if enabled
 	if p.config.QuotaManagement.EnableQuotas {
 		go p.startQuotaMonitor(p.s.Quota, p.config.QuotaManagement.QuotaCheckInterval)
@@ -130,14 +137,16 @@ func (p *Plugin) PostInit() error {
 	// Subscribe to events
 	p.subscribeEvents()
 
+	// Subscribe to dependency refresh events
+	p.subscribeDependencyEvents()
+
 	return nil
 }
 
-// startQuotaMonitor starts a background goroutine to monitor storage quotas
+// startQuotaMonitor starts background quota monitoring
 func (p *Plugin) startQuotaMonitor(quotaService service.QuotaServiceInterface, intervalStr string) {
 	ctx := context.Background()
 
-	// Parse check interval
 	interval, err := time.ParseDuration(intervalStr)
 	if err != nil {
 		logger.Warnf(ctx, "Invalid quota check interval, using default 24h: %v", err)
@@ -147,6 +156,7 @@ func (p *Plugin) startQuotaMonitor(quotaService service.QuotaServiceInterface, i
 	ticker := time.NewTicker(interval)
 
 	go func() {
+		defer ticker.Stop()
 		for {
 			select {
 			case <-ticker.C:
@@ -158,9 +168,8 @@ func (p *Plugin) startQuotaMonitor(quotaService service.QuotaServiceInterface, i
 	}()
 }
 
-// RegisterRoutes registers routes for the plugin
+// RegisterRoutes registers plugin routes
 func (p *Plugin) RegisterRoutes(r *gin.RouterGroup) {
-	// Base domain group
 	resGroup := r.Group("/"+p.Group(), middleware.AuthenticatedUser)
 
 	resGroup.GET("", p.h.File.List)
@@ -198,25 +207,30 @@ func (p *Plugin) RegisterRoutes(r *gin.RouterGroup) {
 	}
 }
 
-// GetHandlers returns the handlers for the plugin
+// GetHandlers returns plugin handlers
 func (p *Plugin) GetHandlers() ext.Handler {
 	return p.h
 }
 
-// GetServices returns the services for the plugin
+// GetServices returns plugin services
 func (p *Plugin) GetServices() ext.Service {
 	return p.s
 }
 
-// Cleanup cleans up the plugin
+// Cleanup cleans up plugin resources
 func (p *Plugin) Cleanup() error {
+	// Unsubscribe from events
+	if p.eventSubscriber != nil && p.em != nil {
+		p.eventSubscriber.Unsubscribe(p.em)
+	}
+
 	if p.cleanup != nil {
 		p.cleanup(p.Name())
 	}
 	return nil
 }
 
-// GetMetadata returns the metadata of the plugin
+// GetMetadata returns plugin metadata
 func (p *Plugin) GetMetadata() ext.Metadata {
 	return ext.Metadata{
 		Name:         p.Name(),
@@ -228,117 +242,66 @@ func (p *Plugin) GetMetadata() ext.Metadata {
 	}
 }
 
-// Version returns the version of the plugin
+// Version returns plugin version
 func (p *Plugin) Version() string {
 	return version
 }
 
-// Dependencies returns the dependencies of the plugin
+// Dependencies returns plugin dependencies
 func (p *Plugin) Dependencies() []string {
 	return dependencies
 }
 
-// GetAllDependencies returns all dependencies with their types
+// GetAllDependencies returns all dependencies with types
 func (p *Plugin) GetAllDependencies() []ext.DependencyEntry {
 	return []ext.DependencyEntry{
 		{Name: "tenant", Type: ext.WeakDependency},
 	}
 }
 
-// Description returns the description of the plugin
+// Description returns plugin description
 func (p *Plugin) Description() string {
 	return desc
 }
 
-// Type returns the type of the plugin
+// Type returns plugin type
 func (p *Plugin) Type() string {
 	return typeStr
 }
 
-// Group returns the domain group of the plugin belongs
+// Group returns plugin domain group
 func (p *Plugin) Group() string {
 	return group
 }
 
-// SubscribeEvents subscribes to events for the plugin
+// subscribeEvents subscribes to resource-specific events
 func (p *Plugin) subscribeEvents() {
+	if p.eventSubscriber != nil && p.em != nil {
+		p.eventSubscriber.Subscribe(p.em)
+	}
+}
+
+// subscribeDependencyEvents subscribes to dependency-related events
+func (p *Plugin) subscribeDependencyEvents() {
 	if p.em == nil {
 		return
 	}
 
-	// Subscribe to relevant events
-	p.em.SubscribeEvent(event.FileCreated, p.handleFileCreated)
-	p.em.SubscribeEvent(event.FileDeleted, p.handleFileDeleted)
-	p.em.SubscribeEvent(event.StorageQuotaWarning, p.handleQuotaWarning)
-	p.em.SubscribeEvent(event.StorageQuotaExceeded, p.handleQuotaExceeded)
-
-	// Subscribe to tenant module events for dependency refresh
+	// Subscribe to dependency refresh events
 	p.em.SubscribeEvent("exts.tenant.ready", func(data any) {
-		p.s.RefreshDependencies()
-	})
-
-	// Subscribe to all extensions registration event
-	p.em.SubscribeEvent("exts.all.registered", func(data any) {
-		p.s.RefreshDependencies()
-	})
-}
-
-// Event handlers
-func (p *Plugin) handleFileCreated(data any) {
-	eventData, ok := data.(*event.FileEventData)
-	if !ok {
-		return
-	}
-
-	logger.Infof(context.Background(), "File created: %s, size: %d bytes, tenant: %s",
-		eventData.Name, eventData.Size, eventData.TenantID)
-}
-
-func (p *Plugin) handleFileDeleted(data any) {
-	eventData, ok := data.(*event.FileEventData)
-	if !ok {
-		return
-	}
-
-	logger.Infof(context.Background(), "File deleted: %s, tenant: %s",
-		eventData.Name, eventData.TenantID)
-
-	// Update usage in quota service when file is deleted
-	if p.s != nil && p.s.Quota != nil && eventData.Size > 0 {
-		ctx := context.Background()
-		// Use the interface method to update usage (negative delta for deletion)
-		err := p.s.Quota.UpdateUsage(ctx, eventData.TenantID, "storage", -int64(eventData.Size))
-		if err != nil {
-			logger.Warnf(ctx, "Failed to update quota usage after file deletion: %v", err)
+		if p.s != nil {
+			p.s.RefreshDependencies()
 		}
-	}
+	})
+
+	p.em.SubscribeEvent("exts.all.registered", func(data any) {
+		if p.s != nil {
+			p.s.RefreshDependencies()
+		}
+	})
 }
 
-func (p *Plugin) handleQuotaWarning(data any) {
-	eventData, ok := data.(*event.StorageQuotaEventData)
-	if !ok {
-		return
-	}
-
-	logger.Warnf(context.Background(), "Storage quota warning: tenant %s at %.2f%% (%d/%d bytes)",
-		eventData.TenantID, eventData.UsagePercent, eventData.CurrentUsage, eventData.Quota)
-
-	// In a real implementation, you might send notifications to admins or users
-}
-
-func (p *Plugin) handleQuotaExceeded(data any) {
-	eventData, ok := data.(*event.StorageQuotaEventData)
-	if !ok {
-		return
-	}
-
-	logger.Errorf(context.Background(), "Storage quota exceeded: tenant %s at %.2f%% (%d/%d bytes)",
-		eventData.TenantID, eventData.UsagePercent, eventData.CurrentUsage, eventData.Quota)
-
-	// In a real implementation, you might send urgent notifications or implement cleanup procedures
-}
-
-// GetServiceInfo returns service registration info if NeedServiceDiscovery returns true
+// GetServiceInfo returns service registration info
 func (p *Plugin) GetServiceInfo() *ext.ServiceInfo {
 	if !p.NeedServiceDiscovery() {
 		return nil

@@ -9,13 +9,11 @@ import (
 	"ncobase/internal/middleware"
 	"sync"
 
+	"github.com/gin-gonic/gin"
 	"github.com/ncobase/ncore/config"
 	exr "github.com/ncobase/ncore/extension/registry"
 	ext "github.com/ncobase/ncore/extension/types"
 	"github.com/ncobase/ncore/logging/logger"
-	"github.com/ncobase/ncore/logging/observes"
-
-	"github.com/gin-gonic/gin"
 	"go.opentelemetry.io/otel/trace"
 )
 
@@ -87,23 +85,18 @@ func (m *Module) Init(conf *config.Config, em ext.ManagerInterface) (err error) 
 
 // PostInit performs any necessary setup after initialization
 func (m *Module) PostInit() error {
-	serviceOpt := observes.TracingDecoratorOption{
-		Layer:                    observes.LayerService,
-		CreateSpanForEachMethod:  true,
-		RecordMethodParams:       true,
-		RecordMethodReturnValues: true,
-	}
-	m.s = observes.DecorateStruct(service.New(m.d), serviceOpt)
-
-	handlerOpt := observes.TracingDecoratorOption{
-		Layer:                    observes.LayerHandler,
-		CreateSpanForEachMethod:  true,
-		RecordMethodParams:       true,
-		RecordMethodReturnValues: false,
-	}
-	m.h = observes.DecorateStruct(handler.New(m.s), handlerOpt)
+	m.s = service.New(m.em, m.d)
+	m.h = handler.New(m.s)
 
 	m.subscribeEvents(m.em)
+	// Subscribe to extension events for dependency refresh
+	m.em.SubscribeEvent("exts.resource.ready", func(data any) {
+		m.s.RefreshDependencies()
+	})
+
+	m.em.SubscribeEvent("exts.all.registered", func(data any) {
+		m.s.RefreshDependencies()
+	})
 
 	return nil
 }

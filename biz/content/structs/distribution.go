@@ -16,7 +16,7 @@ const (
 	DistributionStatusCancelled int = 4
 )
 
-// DistributionBody represents the common fields for creating and updating a distribution.
+// DistributionBody represents common fields for creating and updating distribution
 type DistributionBody struct {
 	TopicID      string      `json:"topic_id,omitempty"`
 	ChannelID    string      `json:"channel_id,omitempty"`
@@ -28,23 +28,23 @@ type DistributionBody struct {
 	ExternalURL  string      `json:"external_url,omitempty"`  // URL on the external platform
 	CustomData   *types.JSON `json:"custom_data,omitempty"`   // Custom data for the distribution
 	ErrorDetails string      `json:"error_details,omitempty"` // Error details if distribution failed
-	TenantID     string      `json:"tenant_id,omitempty"`
+	SpaceID      string      `json:"space_id,omitempty"`
 	CreatedBy    *string     `json:"created_by,omitempty"`
 	UpdatedBy    *string     `json:"updated_by,omitempty"`
 }
 
-// CreateDistributionBody represents the body for creating a distribution.
+// CreateDistributionBody for creating distribution
 type CreateDistributionBody struct {
 	DistributionBody
 }
 
-// UpdateDistributionBody represents the body for updating a distribution.
+// UpdateDistributionBody for updating distribution
 type UpdateDistributionBody struct {
 	ID string `json:"id"`
 	DistributionBody
 }
 
-// ReadDistribution represents the output schema for retrieving a distribution.
+// ReadDistribution represents output schema for retrieving distribution
 type ReadDistribution struct {
 	ID           string       `json:"id"`
 	TopicID      string       `json:"topic_id"`
@@ -57,7 +57,7 @@ type ReadDistribution struct {
 	ExternalURL  string       `json:"external_url"`
 	CustomData   *types.JSON  `json:"custom_data,omitempty"`
 	ErrorDetails string       `json:"error_details"`
-	TenantID     string       `json:"tenant_id"`
+	SpaceID      string       `json:"space_id"`
 	Topic        *ReadTopic   `json:"topic,omitempty"`
 	Channel      *ReadChannel `json:"channel,omitempty"`
 	CreatedBy    *string      `json:"created_by,omitempty"`
@@ -66,12 +66,12 @@ type ReadDistribution struct {
 	UpdatedAt    *int64       `json:"updated_at,omitempty"`
 }
 
-// GetCursorValue returns the cursor value.
+// GetCursorValue returns cursor value
 func (r *ReadDistribution) GetCursorValue() string {
 	return fmt.Sprintf("%s:%d", r.ID, convert.ToValue(r.CreatedAt))
 }
 
-// ListDistributionParams represents the parameters for listing distributions.
+// ListDistributionParams for listing distributions
 type ListDistributionParams struct {
 	Cursor      string `form:"cursor,omitempty" json:"cursor,omitempty"`
 	Limit       int    `form:"limit,omitempty" json:"limit,omitempty"`
@@ -81,13 +81,13 @@ type ListDistributionParams struct {
 	Status      int    `form:"status,omitempty" json:"status,omitempty"`
 	WithTopic   bool   `form:"with_topic,omitempty" json:"with_topic,omitempty"`
 	WithChannel bool   `form:"with_channel,omitempty" json:"with_channel,omitempty"`
-	Tenant      string `form:"tenant,omitempty" json:"tenant,omitempty"`
+	SpaceID     string `form:"space_id,omitempty" json:"space_id,omitempty"`
 }
 
-// FindDistribution represents the parameters for finding a distribution.
+// FindDistribution for finding distribution
 type FindDistribution struct {
 	Distribution string `json:"distribution,omitempty"`
 	TopicID      string `json:"topic_id,omitempty"`
 	ChannelID    string `json:"channel_id,omitempty"`
-	Tenant       string `json:"tenant,omitempty"`
+	SpaceID      string `json:"space_id,omitempty"`
 }

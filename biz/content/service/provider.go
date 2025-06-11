@@ -1,27 +1,48 @@
 package service
 
-import "ncobase/content/data"
+import (
+	"ncobase/content/data"
+	"ncobase/content/wrapper"
 
-// Service represents the content service.
+	ext "github.com/ncobase/ncore/extension/types"
+)
+
+// Service represents content service
 type Service struct {
-	Taxonomy         TaxonomyServiceInterface
-	TaxonomyRelation TaxonomyRelationServiceInterface
-	Topic            TopicServiceInterface
-	Channel          ChannelServiceInterface
-	Distribution     DistributionServiceInterface
-	Media            MediaServiceInterface
-	TopicMedia       TopicMediaServiceInterface
+	Taxonomy     TaxonomyServiceInterface
+	Topic        TopicServiceInterface
+	Channel      ChannelServiceInterface
+	Distribution DistributionServiceInterface
+	Media        MediaServiceInterface
+	TopicMedia   TopicMediaServiceInterface
+	rsw          *wrapper.ResourceServiceWrapper
 }
 
-// New creates a new service.
-func New(d *data.Data) *Service {
+// New creates new service
+func New(em ext.ManagerInterface, d *data.Data) *Service {
+	// Create resource service wrapper
+	rsw := wrapper.NewResourceServiceWrapper(em)
+
+	// Create services
+	ts := NewTaxonomyService(d)
+	tops := NewTopicService(d, ts)
+	cs := NewChannelService(d)
+	ds := NewDistributionService(d, tops, cs)
+	ms := NewMediaService(d, rsw)
+	tms := NewTopicMediaService(d)
+
 	return &Service{
-		Taxonomy:         NewTaxonomyService(d),
-		TaxonomyRelation: NewTaxonomyRelationService(d),
-		Topic:            NewTopicService(d),
-		Channel:          NewChannelService(d),
-		Distribution:     NewDistributionService(d),
-		Media:            NewMediaService(d),
-		TopicMedia:       NewTopicMediaService(d),
+		Taxonomy:     ts,
+		Topic:        tops,
+		Channel:      cs,
+		Distribution: ds,
+		Media:        ms,
+		TopicMedia:   tms,
+		rsw:          rsw,
 	}
+}
+
+// RefreshDependencies refreshes external service dependencies
+func (s *Service) RefreshDependencies() {
+	s.rsw.RefreshServices()
 }

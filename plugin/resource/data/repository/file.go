@@ -7,7 +7,6 @@ import (
 	"ncobase/resource/data/ent"
 	fileEnt "ncobase/resource/data/ent/file"
 	"ncobase/resource/structs"
-	"time"
 
 	"github.com/ncobase/ncore/data/databases/cache"
 	"github.com/ncobase/ncore/data/paging"
@@ -21,7 +20,7 @@ import (
 	"github.com/redis/go-redis/v9"
 )
 
-// FileRepositoryInterface represents the file repository interface.
+// FileRepositoryInterface defines file repository methods
 type FileRepositoryInterface interface {
 	Create(ctx context.Context, body *structs.CreateFileBody) (*ent.File, error)
 	GetByID(ctx context.Context, slug string) (*ent.File, error)
@@ -29,16 +28,12 @@ type FileRepositoryInterface interface {
 	Delete(ctx context.Context, slug string) error
 	List(ctx context.Context, params *structs.ListFileParams) ([]*ent.File, error)
 	CountX(ctx context.Context, params *structs.ListFileParams) int
-	SumSizeByTenant(ctx context.Context, tenantID string) (int64, error)
-	GetAllTenants(ctx context.Context) ([]string, error)
-	SearchByTags(ctx context.Context, tenantID string, tags []string, limit int) ([]*ent.File, error)
-	GetByFolderPath(ctx context.Context, tenantID string, folderPath string) ([]*ent.File, error)
-	GetByCategory(ctx context.Context, tenantID string, category string) ([]*ent.File, error)
-	GetExpiredFiles(ctx context.Context) ([]*ent.File, error)
+	SumSizeBySpace(ctx context.Context, spaceID string) (int64, error)
+	GetAllSpaces(ctx context.Context) ([]string, error)
+	SearchByTags(ctx context.Context, spaceID string, tags []string, limit int) ([]*ent.File, error)
 }
 
-// fileRepostory implements the FileRepositoryInterface.
-type fileRepostory struct {
+type fileRepository struct {
 	ec  *ent.Client
 	ecr *ent.Client
 	rc  *redis.Client
@@ -46,21 +41,18 @@ type fileRepostory struct {
 	c   *cache.Cache[ent.File]
 }
 
-// NewFileRepository creates a new file repository.
+// NewFileRepository creates new file repository
 func NewFileRepository(d *data.Data) FileRepositoryInterface {
 	ec := d.GetMasterEntClient()
 	ecr := d.GetSlaveEntClient()
 	rc := d.GetRedis()
 	ms := d.GetMeilisearch()
-	return &fileRepostory{ec, ecr, rc, ms, cache.NewCache[ent.File](rc, "ncse_file")}
+	return &fileRepository{ec, ecr, rc, ms, cache.NewCache[ent.File](rc, "ncse_file")}
 }
 
-// Create creates an file.
-func (r *fileRepostory) Create(ctx context.Context, body *structs.CreateFileBody) (*ent.File, error) {
-
-	// create builder.
+// Create creates a file
+func (r *fileRepository) Create(ctx context.Context, body *structs.CreateFileBody) (*ent.File, error) {
 	builder := r.ec.File.Create()
-	// set values.
 
 	builder.SetNillableName(&body.Name)
 	builder.SetNillablePath(&body.Path)
@@ -69,46 +61,41 @@ func (r *fileRepostory) Create(ctx context.Context, body *structs.CreateFileBody
 	builder.SetNillableStorage(&body.Storage)
 	builder.SetNillableBucket(&body.Bucket)
 	builder.SetNillableEndpoint(&body.Endpoint)
-	builder.SetNillableObjectID(&body.ObjectID)
-	builder.SetNillableTenantID(&body.TenantID)
+	builder.SetNillableOwnerID(&body.OwnerID)
+	builder.SetNillableSpaceID(&body.SpaceID)
 	builder.SetNillableCreatedBy(body.CreatedBy)
 
 	if !validator.IsNil(body.Extras) && !validator.IsEmpty(body.Extras) {
 		builder.SetExtras(*body.Extras)
 	}
 
-	// execute the builder.
 	row, err := builder.Save(ctx)
 	if err != nil {
 		logger.Errorf(ctx, "fileRepo.Create error: %v", err)
 		return nil, err
 	}
 
-	// create the file in Meilisearch index
+	// Index in Meilisearch
 	if err = r.ms.IndexDocuments("files", row); err != nil {
 		logger.Errorf(ctx, "fileRepo.Create index error: %v", err)
-		// return nil, err
 	}
 
 	return row, nil
 }
 
-// GetByID gets an file by ID.
-func (r *fileRepostory) GetByID(ctx context.Context, slug string) (*ent.File, error) {
-	// check cache
+// GetByID gets file by ID
+func (r *fileRepository) GetByID(ctx context.Context, slug string) (*ent.File, error) {
 	cacheKey := fmt.Sprintf("%s", slug)
 	if cached, err := r.c.Get(ctx, cacheKey); err == nil && cached != nil {
 		return cached, nil
 	}
 
-	// If not found in cache, query the database
 	row, err := r.FindFile(ctx, &structs.FindFile{File: slug})
 	if err != nil {
 		logger.Errorf(ctx, "fileRepo.GetByID error: %v", err)
 		return nil, err
 	}
 
-	// cache the result
 	err = r.c.Set(ctx, cacheKey, row)
 	if err != nil {
 		logger.Errorf(ctx, "fileRepo.GetByID cache error: %v", err)
@@ -117,17 +104,15 @@ func (r *fileRepostory) GetByID(ctx context.Context, slug string) (*ent.File, er
 	return row, nil
 }
 
-// Update updates an file by ID.
-func (r *fileRepostory) Update(ctx context.Context, slug string, updates types.JSON) (*ent.File, error) {
+// Update updates file by ID
+func (r *fileRepository) Update(ctx context.Context, slug string, updates types.JSON) (*ent.File, error) {
 	file, err := r.FindFile(ctx, &structs.FindFile{File: slug})
 	if err != nil {
 		return nil, err
 	}
 
-	// create builder.
 	builder := r.ec.File.UpdateOne(file)
 
-	// set values
 	for field, value := range updates {
 		switch field {
 		case "name":
@@ -142,10 +127,10 @@ func (r *fileRepostory) Update(ctx context.Context, slug string, updates types.J
 			builder.SetNillableStorage(convert.ToPointer(value.(string)))
 		case "endpoint":
 			builder.SetNillableEndpoint(convert.ToPointer(value.(string)))
-		case "object_id":
-			builder.SetNillableObjectID(convert.ToPointer(value.(string)))
-		case "tenant_id":
-			builder.SetNillableTenantID(convert.ToPointer(value.(string)))
+		case "owner_id":
+			builder.SetNillableOwnerID(convert.ToPointer(value.(string)))
+		case "space_id":
+			builder.SetNillableSpaceID(convert.ToPointer(value.(string)))
 		case "extras":
 			builder.SetExtras(value.(types.JSON))
 		case "updated_by":
@@ -153,62 +138,56 @@ func (r *fileRepostory) Update(ctx context.Context, slug string, updates types.J
 		}
 	}
 
-	// execute the builder.
 	row, err := builder.Save(ctx)
 	if err != nil {
 		logger.Errorf(ctx, "fileRepo.Update error: %v", err)
 		return nil, err
 	}
 
-	// remove from cache
+	// Remove from cache
 	cacheKey := fmt.Sprintf("%s", file.ID)
 	if err = r.c.Delete(ctx, cacheKey); err != nil {
 		logger.Errorf(ctx, "fileRepo.Update cache error: %v", err)
 	}
 
-	// delete from Meilisearch index
-	if err = r.ms.DeleteDocuments("files", file.ID); err != nil {
+	// Update in Meilisearch
+	if err = r.ms.UpdateDocuments("files", row, row.ID); err != nil {
 		logger.Errorf(ctx, "fileRepo.Update index error: %v", err)
-		// return nil, err
 	}
 
 	return row, nil
 }
 
-// Delete deletes an file by ID.
-func (r *fileRepostory) Delete(ctx context.Context, slug string) error {
+// Delete deletes file by ID
+func (r *fileRepository) Delete(ctx context.Context, slug string) error {
 	file, err := r.FindFile(ctx, &structs.FindFile{File: slug})
 	if err != nil {
 		return err
 	}
 
-	// create builder.
 	builder := r.ec.File.Delete()
 
-	// execute the builder and verify the result.
 	if _, err = builder.Where(fileEnt.IDEQ(slug)).Exec(ctx); err != nil {
 		logger.Errorf(ctx, "fileRepo.Delete error: %v", err)
 		return err
 	}
 
-	// remove from cache
+	// Remove from cache
 	cacheKey := fmt.Sprintf("%s", file.ID)
 	if err = r.c.Delete(ctx, cacheKey); err != nil {
 		logger.Errorf(ctx, "fileRepo.Delete cache error: %v", err)
 	}
 
-	// delete from Meilisearch index
+	// Delete from Meilisearch
 	if err = r.ms.DeleteDocuments("files", file.ID); err != nil {
 		logger.Errorf(ctx, "fileRepo.Delete index error: %v", err)
-		// return nil, err
 	}
 
 	return nil
 }
 
-// FindFile finds an file.
-func (r *fileRepostory) FindFile(ctx context.Context, params *structs.FindFile) (*ent.File, error) {
-	// create builder.
+// FindFile finds a file
+func (r *fileRepository) FindFile(ctx context.Context, params *structs.FindFile) (*ent.File, error) {
 	builder := r.ecr.File.Query()
 
 	if validator.IsNotEmpty(params.File) {
@@ -218,7 +197,6 @@ func (r *fileRepostory) FindFile(ctx context.Context, params *structs.FindFile) 
 		))
 	}
 
-	// execute the builder.
 	row, err := builder.Only(ctx)
 	if validator.IsNotNil(err) {
 		return nil, err
@@ -227,9 +205,8 @@ func (r *fileRepostory) FindFile(ctx context.Context, params *structs.FindFile) 
 	return row, nil
 }
 
-// List gets a list of files.
-func (r *fileRepostory) List(ctx context.Context, params *structs.ListFileParams) ([]*ent.File, error) {
-	// create list builder
+// List gets list of files
+func (r *fileRepository) List(ctx context.Context, params *structs.ListFileParams) ([]*ent.File, error) {
 	builder, err := r.ListBuilder(ctx, params)
 	if validator.IsNotNil(err) {
 		return nil, err
@@ -276,7 +253,6 @@ func (r *fileRepostory) List(ctx context.Context, params *structs.ListFileParams
 
 	builder.Limit(params.Limit)
 
-	// execute the builder.
 	rows, err := builder.All(ctx)
 	if validator.IsNotNil(err) {
 		logger.Errorf(ctx, "fileRepo.List error: %v", err)
@@ -286,32 +262,31 @@ func (r *fileRepostory) List(ctx context.Context, params *structs.ListFileParams
 	return rows, nil
 }
 
-// ListBuilder creates list builder.
-func (r *fileRepostory) ListBuilder(ctx context.Context, params *structs.ListFileParams) (*ent.FileQuery, error) {
-	// create builder.
+// ListBuilder creates list builder
+func (r *fileRepository) ListBuilder(ctx context.Context, params *structs.ListFileParams) (*ent.FileQuery, error) {
 	builder := r.ecr.File.Query()
 
-	// belong tenant
-	if params.Tenant != "" {
-		builder = builder.Where(fileEnt.TenantIDEQ(params.Tenant))
+	// Filter by space
+	if params.SpaceID != "" {
+		builder = builder.Where(fileEnt.SpaceIDEQ(params.SpaceID))
 	}
 
-	// belong user
+	// Filter by user
 	if params.User != "" {
 		builder = builder.Where(fileEnt.CreatedByEQ(params.User))
 	}
 
-	// object id
-	if params.Object != "" {
-		builder = builder.Where(fileEnt.ObjectIDEQ(params.Object))
+	// Filter by owner
+	if params.OwnerID != "" {
+		builder = builder.Where(fileEnt.OwnerIDEQ(params.OwnerID))
 	}
 
-	// file type
+	// Filter by type
 	if params.Type != "" {
 		builder = builder.Where(fileEnt.TypeContains(params.Type))
 	}
 
-	// storage provider
+	// Filter by storage
 	if params.Storage != "" {
 		builder = builder.Where(fileEnt.StorageEQ(params.Storage))
 	}
@@ -319,9 +294,8 @@ func (r *fileRepostory) ListBuilder(ctx context.Context, params *structs.ListFil
 	return builder, nil
 }
 
-// CountX counts files based on given parameters.
-func (r *fileRepostory) CountX(ctx context.Context, params *structs.ListFileParams) int {
-	// create list builder
+// CountX counts files
+func (r *fileRepository) CountX(ctx context.Context, params *structs.ListFileParams) int {
 	builder, err := r.ListBuilder(ctx, params)
 	if validator.IsNotNil(err) {
 		return 0
@@ -329,50 +303,41 @@ func (r *fileRepostory) CountX(ctx context.Context, params *structs.ListFilePara
 	return builder.CountX(ctx)
 }
 
-// SumSizeByTenant calculates the total storage used by a tenant
-func (r *fileRepostory) SumSizeByTenant(ctx context.Context, tenantID string) (int64, error) {
-	// Create query
+// SumSizeBySpace calculates total storage used by a space
+func (r *fileRepository) SumSizeBySpace(ctx context.Context, spaceID string) (int64, error) {
 	sum, err := r.ecr.File.Query().
-		Where(fileEnt.TenantIDEQ(tenantID)).
+		Where(fileEnt.SpaceIDEQ(spaceID)).
 		Aggregate(
 			ent.Sum(fileEnt.FieldSize),
 		).Int(ctx)
 
 	if err != nil {
-		logger.Errorf(ctx, "Error calculating storage usage for tenant %s: %v", tenantID, err)
+		logger.Errorf(ctx, "Error calculating storage usage for space %s: %v", spaceID, err)
 		return 0, err
 	}
 
 	return int64(sum), nil
 }
 
-// GetAllTenants returns a list of all tenant IDs with files
-func (r *fileRepostory) GetAllTenants(ctx context.Context) ([]string, error) {
-	tenants, err := r.ecr.File.Query().
-		GroupBy(fileEnt.FieldTenantID).
+// GetAllSpaces returns list of all space IDs with files
+func (r *fileRepository) GetAllSpaces(ctx context.Context) ([]string, error) {
+	spaces, err := r.ecr.File.Query().
+		GroupBy(fileEnt.FieldSpaceID).
 		Strings(ctx)
 
 	if err != nil {
-		logger.Errorf(ctx, "Error getting tenants: %v", err)
+		logger.Errorf(ctx, "Error getting spaces: %v", err)
 		return nil, err
 	}
 
-	return tenants, nil
+	return spaces, nil
 }
 
-// SearchByTags searches for files by tags in extras
-func (r *fileRepostory) SearchByTags(
-	ctx context.Context,
-	tenantID string,
-	tags []string,
-	limit int,
-) ([]*ent.File, error) {
-	// Since tags are stored in extras JSON field, we can't do a direct query
-	// In a real implementation, this would use a more efficient approach or a dedicated tags table
-
-	// Get all files for tenant
+// SearchByTags searches files by tags
+func (r *fileRepository) SearchByTags(ctx context.Context, spaceID string, tags []string, limit int) ([]*ent.File, error) {
+	// Get all files for space
 	files, err := r.ecr.File.Query().
-		Where(fileEnt.TenantIDEQ(tenantID)).
+		Where(fileEnt.SpaceIDEQ(spaceID)).
 		Order(ent.Desc(fileEnt.FieldCreatedAt)).
 		Limit(limit * 10). // Get more than needed to filter
 		All(ctx)
@@ -385,7 +350,6 @@ func (r *fileRepostory) SearchByTags(
 	// Filter by tags
 	filtered := make([]*ent.File, 0)
 	for _, file := range files {
-		// Check if tags exist
 		fileTags, ok := file.Extras["tags"].([]any)
 		if !ok {
 			continue
@@ -399,7 +363,7 @@ func (r *fileRepostory) SearchByTags(
 			}
 		}
 
-		// Check if file has any of the requested tags
+		// Check if file has any requested tags
 		for _, searchTag := range tags {
 			for _, fileTag := range tagStrings {
 				if searchTag == fileTag {
@@ -418,100 +382,4 @@ func (r *fileRepostory) SearchByTags(
 	}
 
 	return filtered, nil
-}
-
-// GetByFolderPath gets files by folder path
-func (r *fileRepostory) GetByFolderPath(
-	ctx context.Context,
-	tenantID string,
-	folderPath string,
-) ([]*ent.File, error) {
-	// Similar to tags, this requires filtering on JSON field
-	// In a real implementation, consider adding a dedicated folder_path column
-
-	// Get all files for tenant
-	files, err := r.ecr.File.Query().
-		Where(fileEnt.TenantIDEQ(tenantID)).
-		Order(ent.Desc(fileEnt.FieldCreatedAt)).
-		All(ctx)
-
-	if err != nil {
-		logger.Errorf(ctx, "Error getting files by folder path: %v", err)
-		return nil, err
-	}
-
-	// Filter by folder path
-	filtered := make([]*ent.File, 0)
-	for _, file := range files {
-		// Check if folder path matches
-		if path, ok := file.Extras["folder_path"].(string); ok && path == folderPath {
-			filtered = append(filtered, file)
-		}
-	}
-
-	return filtered, nil
-}
-
-// GetByCategory gets files by category
-func (r *fileRepostory) GetByCategory(
-	ctx context.Context,
-	tenantID string,
-	category string,
-) ([]*ent.File, error) {
-	// Get all files for tenant
-	files, err := r.ecr.File.Query().
-		Where(fileEnt.TenantIDEQ(tenantID)).
-		Order(ent.Desc(fileEnt.FieldCreatedAt)).
-		All(ctx)
-
-	if err != nil {
-		logger.Errorf(ctx, "Error getting files by category: %v", err)
-		return nil, err
-	}
-
-	// Filter by category
-	filtered := make([]*ent.File, 0)
-	for _, file := range files {
-		// Check if metadata exists
-		metadata, ok := file.Extras["metadata"].(map[string]any)
-		if !ok {
-			continue
-		}
-
-		// Check if category matches
-		if cat, ok := metadata["category"].(string); ok && cat == category {
-			filtered = append(filtered, file)
-		}
-	}
-
-	return filtered, nil
-}
-
-// GetExpiredFiles gets files that have expired
-func (r *fileRepostory) GetExpiredFiles(ctx context.Context) ([]*ent.File, error) {
-	// Get all files with extras
-	files, err := r.ecr.File.Query().
-		Order(ent.Desc(fileEnt.FieldCreatedAt)).
-		All(ctx)
-
-	if err != nil {
-		logger.Errorf(ctx, "Error getting expired files: %v", err)
-		return nil, err
-	}
-
-	// Current timestamp
-	now := time.Now().Unix()
-
-	// Filter expired files
-	expired := make([]*ent.File, 0)
-	for _, file := range files {
-		// Check if expires_at exists and is in the past
-		if exp, ok := file.Extras["expires_at"].(float64); ok && int64(exp) < now {
-			expired = append(expired, file)
-		} else if exp, ok := file.Extras["expires_at"].(int64); ok && exp < now {
-			expired = append(expired, file)
-		}
-	}
-
-	return expired, nil
 }

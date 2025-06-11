@@ -30,8 +30,8 @@ type CMSChannel struct {
 	Status int `json:"status,omitempty"`
 	// Extend properties
 	Extras map[string]interface{} `json:"extras,omitempty"`
-	// tenant id
-	TenantID string `json:"tenant_id,omitempty"`
+	// space id, e.g. tenant id, organization id, store id
+	SpaceID string `json:"space_id,omitempty"`
 	// id of the creator
 	CreatedBy string `json:"created_by,omitempty"`
 	// id of the last updater
@@ -66,7 +66,7 @@ func (*CMSChannel) scanValues(columns []string) ([]any, error) {
 			values[i] = new(sql.NullBool)
 		case cmschannel.FieldStatus, cmschannel.FieldCreatedAt, cmschannel.FieldUpdatedAt:
 			values[i] = new(sql.NullInt64)
-		case cmschannel.FieldID, cmschannel.FieldName, cmschannel.FieldType, cmschannel.FieldSlug, cmschannel.FieldIcon, cmschannel.FieldTenantID, cmschannel.FieldCreatedBy, cmschannel.FieldUpdatedBy, cmschannel.FieldDescription, cmschannel.FieldLogo, cmschannel.FieldWebhookURL:
+		case cmschannel.FieldID, cmschannel.FieldName, cmschannel.FieldType, cmschannel.FieldSlug, cmschannel.FieldIcon, cmschannel.FieldSpaceID, cmschannel.FieldCreatedBy, cmschannel.FieldUpdatedBy, cmschannel.FieldDescription, cmschannel.FieldLogo, cmschannel.FieldWebhookURL:
 			values[i] = new(sql.NullString)
 		default:
 			values[i] = new(sql.UnknownType)
@@ -127,11 +127,11 @@ func (cc *CMSChannel) assignValues(columns []string, values []any) error {
 					return fmt.Errorf("unmarshal field extras: %w", err)
 				}
 			}
-		case cmschannel.FieldTenantID:
+		case cmschannel.FieldSpaceID:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field tenant_id", values[i])
+				return fmt.Errorf("unexpected type %T for field space_id", values[i])
 			} else if value.Valid {
-				cc.TenantID = value.String
+				cc.SpaceID = value.String
 			}
 		case cmschannel.FieldCreatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -249,8 +249,8 @@ func (cc *CMSChannel) String() string {
 	builder.WriteString("extras=")
 	builder.WriteString(fmt.Sprintf("%v", cc.Extras))
 	builder.WriteString(", ")
-	builder.WriteString("tenant_id=")
-	builder.WriteString(cc.TenantID)
+	builder.WriteString("space_id=")
+	builder.WriteString(cc.SpaceID)
 	builder.WriteString(", ")
 	builder.WriteString("created_by=")
 	builder.WriteString(cc.CreatedBy)

@@ -117,30 +117,30 @@ func (fc *FileCreate) SetNillableEndpoint(s *string) *FileCreate {
 	return fc
 }
 
-// SetObjectID sets the "object_id" field.
-func (fc *FileCreate) SetObjectID(s string) *FileCreate {
-	fc.mutation.SetObjectID(s)
+// SetOwnerID sets the "owner_id" field.
+func (fc *FileCreate) SetOwnerID(s string) *FileCreate {
+	fc.mutation.SetOwnerID(s)
 	return fc
 }
 
-// SetNillableObjectID sets the "object_id" field if the given value is not nil.
-func (fc *FileCreate) SetNillableObjectID(s *string) *FileCreate {
+// SetNillableOwnerID sets the "owner_id" field if the given value is not nil.
+func (fc *FileCreate) SetNillableOwnerID(s *string) *FileCreate {
 	if s != nil {
-		fc.SetObjectID(*s)
+		fc.SetOwnerID(*s)
 	}
 	return fc
 }
 
-// SetTenantID sets the "tenant_id" field.
-func (fc *FileCreate) SetTenantID(s string) *FileCreate {
-	fc.mutation.SetTenantID(s)
+// SetSpaceID sets the "space_id" field.
+func (fc *FileCreate) SetSpaceID(s string) *FileCreate {
+	fc.mutation.SetSpaceID(s)
 	return fc
 }
 
-// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
-func (fc *FileCreate) SetNillableTenantID(s *string) *FileCreate {
+// SetNillableSpaceID sets the "space_id" field if the given value is not nil.
+func (fc *FileCreate) SetNillableSpaceID(s *string) *FileCreate {
 	if s != nil {
-		fc.SetTenantID(*s)
+		fc.SetSpaceID(*s)
 	}
 	return fc
 }
@@ -249,12 +249,6 @@ func (fc *FileCreate) SetNillableExpiresAt(i *int64) *FileCreate {
 	return fc
 }
 
-// SetMetadata sets the "metadata" field.
-func (fc *FileCreate) SetMetadata(m map[string]interface{}) *FileCreate {
-	fc.mutation.SetMetadata(m)
-	return fc
-}
-
 // SetTags sets the "tags" field.
 func (fc *FileCreate) SetTags(s []string) *FileCreate {
 	fc.mutation.SetTags(s)
@@ -271,68 +265,6 @@ func (fc *FileCreate) SetIsPublic(b bool) *FileCreate {
 func (fc *FileCreate) SetNillableIsPublic(b *bool) *FileCreate {
 	if b != nil {
 		fc.SetIsPublic(*b)
-	}
-	return fc
-}
-
-// SetVersions sets the "versions" field.
-func (fc *FileCreate) SetVersions(s []string) *FileCreate {
-	fc.mutation.SetVersions(s)
-	return fc
-}
-
-// SetThumbnailPath sets the "thumbnail_path" field.
-func (fc *FileCreate) SetThumbnailPath(s string) *FileCreate {
-	fc.mutation.SetThumbnailPath(s)
-	return fc
-}
-
-// SetNillableThumbnailPath sets the "thumbnail_path" field if the given value is not nil.
-func (fc *FileCreate) SetNillableThumbnailPath(s *string) *FileCreate {
-	if s != nil {
-		fc.SetThumbnailPath(*s)
-	}
-	return fc
-}
-
-// SetWidth sets the "width" field.
-func (fc *FileCreate) SetWidth(i int) *FileCreate {
-	fc.mutation.SetWidth(i)
-	return fc
-}
-
-// SetNillableWidth sets the "width" field if the given value is not nil.
-func (fc *FileCreate) SetNillableWidth(i *int) *FileCreate {
-	if i != nil {
-		fc.SetWidth(*i)
-	}
-	return fc
-}
-
-// SetHeight sets the "height" field.
-func (fc *FileCreate) SetHeight(i int) *FileCreate {
-	fc.mutation.SetHeight(i)
-	return fc
-}
-
-// SetNillableHeight sets the "height" field if the given value is not nil.
-func (fc *FileCreate) SetNillableHeight(i *int) *FileCreate {
-	if i != nil {
-		fc.SetHeight(*i)
-	}
-	return fc
-}
-
-// SetDuration sets the "duration" field.
-func (fc *FileCreate) SetDuration(f float64) *FileCreate {
-	fc.mutation.SetDuration(f)
-	return fc
-}
-
-// SetNillableDuration sets the "duration" field if the given value is not nil.
-func (fc *FileCreate) SetNillableDuration(f *float64) *FileCreate {
-	if f != nil {
-		fc.SetDuration(*f)
 	}
 	return fc
 }
@@ -527,13 +459,13 @@ func (fc *FileCreate) createSpec() (*File, *sqlgraph.CreateSpec) {
 		_spec.SetField(file.FieldEndpoint, field.TypeString, value)
 		_node.Endpoint = value
 	}
-	if value, ok := fc.mutation.ObjectID(); ok {
-		_spec.SetField(file.FieldObjectID, field.TypeString, value)
-		_node.ObjectID = value
+	if value, ok := fc.mutation.OwnerID(); ok {
+		_spec.SetField(file.FieldOwnerID, field.TypeString, value)
+		_node.OwnerID = value
 	}
-	if value, ok := fc.mutation.TenantID(); ok {
-		_spec.SetField(file.FieldTenantID, field.TypeString, value)
-		_node.TenantID = value
+	if value, ok := fc.mutation.SpaceID(); ok {
+		_spec.SetField(file.FieldSpaceID, field.TypeString, value)
+		_node.SpaceID = value
 	}
 	if value, ok := fc.mutation.Extras(); ok {
 		_spec.SetField(file.FieldExtras, field.TypeJSON, value)
@@ -567,10 +499,6 @@ func (fc *FileCreate) createSpec() (*File, *sqlgraph.CreateSpec) {
 		_spec.SetField(file.FieldExpiresAt, field.TypeInt64, value)
 		_node.ExpiresAt = &value
 	}
-	if value, ok := fc.mutation.Metadata(); ok {
-		_spec.SetField(file.FieldMetadata, field.TypeJSON, value)
-		_node.Metadata = value
-	}
 	if value, ok := fc.mutation.Tags(); ok {
 		_spec.SetField(file.FieldTags, field.TypeJSON, value)
 		_node.Tags = value
@@ -578,26 +506,6 @@ func (fc *FileCreate) createSpec() (*File, *sqlgraph.CreateSpec) {
 	if value, ok := fc.mutation.IsPublic(); ok {
 		_spec.SetField(file.FieldIsPublic, field.TypeBool, value)
 		_node.IsPublic = value
-	}
-	if value, ok := fc.mutation.Versions(); ok {
-		_spec.SetField(file.FieldVersions, field.TypeJSON, value)
-		_node.Versions = value
-	}
-	if value, ok := fc.mutation.ThumbnailPath(); ok {
-		_spec.SetField(file.FieldThumbnailPath, field.TypeString, value)
-		_node.ThumbnailPath = value
-	}
-	if value, ok := fc.mutation.Width(); ok {
-		_spec.SetField(file.FieldWidth, field.TypeInt, value)
-		_node.Width = &value
-	}
-	if value, ok := fc.mutation.Height(); ok {
-		_spec.SetField(file.FieldHeight, field.TypeInt, value)
-		_node.Height = &value
-	}
-	if value, ok := fc.mutation.Duration(); ok {
-		_spec.SetField(file.FieldDuration, field.TypeFloat64, value)
-		_node.Duration = &value
 	}
 	if value, ok := fc.mutation.Category(); ok {
 		_spec.SetField(file.FieldCategory, field.TypeString, value)

@@ -7,6 +7,7 @@ import (
 	"ncobase/content/data/ent"
 	"ncobase/content/data/repository"
 	"ncobase/content/structs"
+	"ncobase/content/wrapper"
 
 	"github.com/ncobase/ncore/data/paging"
 	"github.com/ncobase/ncore/ecode"
@@ -15,7 +16,7 @@ import (
 	"github.com/ncobase/ncore/validation/validator"
 )
 
-// MediaServiceInterface is the interface for the service.
+// MediaServiceInterface for media service operations
 type MediaServiceInterface interface {
 	Create(ctx context.Context, body *structs.CreateMediaBody) (*structs.ReadMedia, error)
 	Update(ctx context.Context, id string, updates types.JSON) (*structs.ReadMedia, error)
@@ -24,34 +25,44 @@ type MediaServiceInterface interface {
 	Delete(ctx context.Context, id string) error
 }
 
-// mediaService is the struct for the service.
 type mediaService struct {
-	r repository.MediaRepositoryInterface
+	r   repository.MediaRepositoryInterface
+	rsw *wrapper.ResourceServiceWrapper
 }
 
-// NewMediaService creates a new service.
-func NewMediaService(d *data.Data) MediaServiceInterface {
+// NewMediaService creates new media service
+func NewMediaService(d *data.Data, rsw *wrapper.ResourceServiceWrapper) MediaServiceInterface {
 	return &mediaService{
-		r: repository.NewMediaRepository(d),
+		r:   repository.NewMediaRepository(d),
+		rsw: rsw,
 	}
 }
 
-// Create creates a new media.
+// Create creates new media
 func (s *mediaService) Create(ctx context.Context, body *structs.CreateMediaBody) (*structs.ReadMedia, error) {
 	if validator.IsEmpty(body.Type) {
 		return nil, errors.New(ecode.FieldIsRequired("type"))
 	}
 
-	// Validate media type
-	validTypes := map[string]bool{
-		structs.MediaTypeImage: true,
-		structs.MediaTypeVideo: true,
-		structs.MediaTypeAudio: true,
-		structs.MediaTypeFile:  true,
+	if validator.IsEmpty(body.SpaceID) {
+		return nil, errors.New(ecode.FieldIsRequired("space_id"))
 	}
 
-	if !validTypes[body.Type] {
-		return nil, errors.New(ecode.FieldIsInvalid("type"))
+	if validator.IsEmpty(body.OwnerID) {
+		return nil, errors.New(ecode.FieldIsRequired("owner_id"))
+	}
+
+	// Validate that either resource_id or url is provided
+	if validator.IsEmpty(body.ResourceID) && validator.IsEmpty(body.URL) {
+		return nil, errors.New("either resource_id or url must be provided")
+	}
+
+	// Validate resource_id if provided
+	if validator.IsNotEmpty(body.ResourceID) && s.rsw.HasFileService() {
+		_, err := s.rsw.GetFile(ctx, body.ResourceID)
+		if err != nil {
+			return nil, errors.New("invalid resource_id: resource not found")
+		}
 	}
 
 	row, err := s.r.Create(ctx, body)
@@ -59,31 +70,26 @@ func (s *mediaService) Create(ctx context.Context, body *structs.CreateMediaBody
 		return nil, err
 	}
 
-	return s.Serialize(row), nil
+	return s.serialize(ctx, row), nil
 }
 
-// Update updates an existing media.
+// Update updates existing media
 func (s *mediaService) Update(ctx context.Context, id string, updates types.JSON) (*structs.ReadMedia, error) {
 	if validator.IsEmpty(id) {
 		return nil, errors.New(ecode.FieldIsRequired("id"))
 	}
 
-	// Validate the updates map
 	if len(updates) == 0 {
 		return nil, errors.New(ecode.FieldIsEmpty("updates fields"))
 	}
 
-	// Validate media type if updating
-	if mediaType, ok := updates["type"].(string); ok {
-		validTypes := map[string]bool{
-			structs.MediaTypeImage: true,
-			structs.MediaTypeVideo: true,
-			structs.MediaTypeAudio: true,
-			structs.MediaTypeFile:  true,
-		}
-
-		if !validTypes[mediaType] {
-			return nil, errors.New(ecode.FieldIsInvalid("type"))
+	// Validate resource_id if being updated
+	if resourceID, ok := updates["resource_id"].(string); ok && validator.IsNotEmpty(resourceID) {
+		if s.rsw.HasFileService() {
+			_, err := s.rsw.GetFile(ctx, resourceID)
+			if err != nil {
+				return nil, errors.New("invalid resource_id: resource not found")
+			}
 		}
 	}
 
@@ -92,20 +98,20 @@ func (s *mediaService) Update(ctx context.Context, id string, updates types.JSON
 		return nil, err
 	}
 
-	return s.Serialize(row), nil
+	return s.serialize(ctx, row), nil
 }
 
-// Get retrieves a media by ID.
+// Get retrieves media by ID
 func (s *mediaService) Get(ctx context.Context, id string) (*structs.ReadMedia, error) {
 	row, err := s.r.GetByID(ctx, id)
 	if err := handleEntError(ctx, "Media", err); err != nil {
 		return nil, err
 	}
 
-	return s.Serialize(row), nil
+	return s.serialize(ctx, row), nil
 }
 
-// Delete deletes a media by ID.
+// Delete deletes media by ID
 func (s *mediaService) Delete(ctx context.Context, id string) error {
 	err := s.r.Delete(ctx, id)
 	if err := handleEntError(ctx, "Media", err); err != nil {
@@ -115,7 +121,7 @@ func (s *mediaService) Delete(ctx context.Context, id string) error {
 	return nil
 }
 
-// List lists all media.
+// List lists all media
 func (s *mediaService) List(ctx context.Context, params *structs.ListMediaParams) (paging.Result[*structs.ReadMedia], error) {
 	pp := paging.Params{
 		Cursor:    params.Cursor,
@@ -138,39 +144,68 @@ func (s *mediaService) List(ctx context.Context, params *structs.ListMediaParams
 			return nil, 0, err
 		}
 
-		return s.Serializes(rows), count, nil
+		return s.serializes(ctx, rows), count, nil
 	})
 }
 
-// Serializes converts multiple ent.Media to []*structs.ReadMedia.
-func (s *mediaService) Serializes(rows []*ent.Media) []*structs.ReadMedia {
+// serializes converts multiple ent.Media to []*structs.ReadMedia
+func (s *mediaService) serializes(ctx context.Context, rows []*ent.Media) []*structs.ReadMedia {
 	rs := make([]*structs.ReadMedia, 0, len(rows))
 	for _, row := range rows {
-		rs = append(rs, s.Serialize(row))
+		rs = append(rs, s.serialize(ctx, row))
 	}
 	return rs
 }
 
-// Serialize converts an ent.Media to a structs.ReadMedia.
-func (s *mediaService) Serialize(row *ent.Media) *structs.ReadMedia {
-	return &structs.ReadMedia{
-		ID:          row.ID,
-		Title:       row.Title,
-		Type:        row.Type,
-		URL:         row.URL,
-		Path:        row.Path,
-		MimeType:    row.MimeType,
-		Size:        row.Size,
-		Width:       row.Width,
-		Height:      row.Height,
-		Duration:    row.Duration,
-		Description: row.Description,
-		Alt:         row.Alt,
-		Metadata:    &row.Extras,
-		TenantID:    row.TenantID,
-		CreatedBy:   &row.CreatedBy,
-		CreatedAt:   &row.CreatedAt,
-		UpdatedBy:   &row.UpdatedBy,
-		UpdatedAt:   &row.UpdatedAt,
+// serialize converts ent.Media to structs.ReadMedia
+func (s *mediaService) serialize(ctx context.Context, row *ent.Media) *structs.ReadMedia {
+	result := &structs.ReadMedia{
+		ID:        row.ID,
+		Title:     row.Title,
+		Type:      row.Type,
+		URL:       row.URL,
+		SpaceID:   row.SpaceID,
+		CreatedBy: &row.CreatedBy,
+		CreatedAt: &row.CreatedAt,
+		UpdatedBy: &row.UpdatedBy,
+		UpdatedAt: &row.UpdatedAt,
 	}
+
+	// Extract from extras
+	if row.Extras != nil {
+		if resourceID, ok := row.Extras["resource_id"].(string); ok {
+			result.ResourceID = resourceID
+		}
+		if description, ok := row.Extras["description"].(string); ok {
+			result.Description = description
+		}
+		if alt, ok := row.Extras["alt"].(string); ok {
+			result.Alt = alt
+		}
+		if ownerID, ok := row.Extras["owner_id"].(string); ok {
+			result.OwnerID = ownerID
+		}
+		result.Metadata = &row.Extras
+	}
+
+	// Load resource details if resource_id exists
+	if result.ResourceID != "" && s.rsw.HasFileService() {
+		if resource, err := s.rsw.GetFile(ctx, result.ResourceID); err == nil {
+			result.Resource = &structs.ResourceFileReference{
+				ID:           resource.ID,
+				Name:         resource.Name,
+				Path:         resource.Path,
+				Type:         resource.Type,
+				Size:         resource.Size,
+				Storage:      resource.Storage,
+				DownloadURL:  resource.DownloadURL,
+				ThumbnailURL: resource.ThumbnailURL,
+				IsExpired:    resource.IsExpired,
+			}
+		} else {
+			logger.Warnf(ctx, "Failed to load resource %s: %v", result.ResourceID, err)
+		}
+	}
+
+	return result
 }

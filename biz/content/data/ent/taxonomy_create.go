@@ -193,16 +193,16 @@ func (tc *TaxonomyCreate) SetNillableParentID(s *string) *TaxonomyCreate {
 	return tc
 }
 
-// SetTenantID sets the "tenant_id" field.
-func (tc *TaxonomyCreate) SetTenantID(s string) *TaxonomyCreate {
-	tc.mutation.SetTenantID(s)
+// SetSpaceID sets the "space_id" field.
+func (tc *TaxonomyCreate) SetSpaceID(s string) *TaxonomyCreate {
+	tc.mutation.SetSpaceID(s)
 	return tc
 }
 
-// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
-func (tc *TaxonomyCreate) SetNillableTenantID(s *string) *TaxonomyCreate {
+// SetNillableSpaceID sets the "space_id" field if the given value is not nil.
+func (tc *TaxonomyCreate) SetNillableSpaceID(s *string) *TaxonomyCreate {
 	if s != nil {
-		tc.SetTenantID(*s)
+		tc.SetSpaceID(*s)
 	}
 	return tc
 }
@@ -431,9 +431,9 @@ func (tc *TaxonomyCreate) createSpec() (*Taxonomy, *sqlgraph.CreateSpec) {
 		_spec.SetField(taxonomy.FieldParentID, field.TypeString, value)
 		_node.ParentID = value
 	}
-	if value, ok := tc.mutation.TenantID(); ok {
-		_spec.SetField(taxonomy.FieldTenantID, field.TypeString, value)
-		_node.TenantID = value
+	if value, ok := tc.mutation.SpaceID(); ok {
+		_spec.SetField(taxonomy.FieldSpaceID, field.TypeString, value)
+		_node.SpaceID = value
 	}
 	if value, ok := tc.mutation.CreatedBy(); ok {
 		_spec.SetField(taxonomy.FieldCreatedBy, field.TypeString, value)

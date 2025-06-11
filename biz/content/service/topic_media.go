@@ -14,7 +14,7 @@ import (
 	"github.com/ncobase/ncore/validation/validator"
 )
 
-// TopicMediaServiceInterface is the interface for the service.
+// TopicMediaServiceInterface for topic media service operations
 type TopicMediaServiceInterface interface {
 	Create(ctx context.Context, body *structs.CreateTopicMediaBody) (*structs.ReadTopicMedia, error)
 	Update(ctx context.Context, id string, topicID string, mediaID string, mediaType string, order int) (*structs.ReadTopicMedia, error)
@@ -24,14 +24,13 @@ type TopicMediaServiceInterface interface {
 	GetByTopicAndMedia(ctx context.Context, topicID string, mediaID string) (*structs.ReadTopicMedia, error)
 }
 
-// topicMediaService is the struct for the service.
 type topicMediaService struct {
 	r  repository.TopicMediaRepositoryInterface
 	m  repository.MediaRepositoryInterface
 	tr repository.TopicRepositoryInterface
 }
 
-// NewTopicMediaService creates a new service.
+// NewTopicMediaService creates new topic media service
 func NewTopicMediaService(d *data.Data) TopicMediaServiceInterface {
 	return &topicMediaService{
 		r:  repository.NewTopicMediaRepository(d),
@@ -40,7 +39,7 @@ func NewTopicMediaService(d *data.Data) TopicMediaServiceInterface {
 	}
 }
 
-// Create creates a new topic media relation.
+// Create creates new topic media relation
 func (s *topicMediaService) Create(ctx context.Context, body *structs.CreateTopicMediaBody) (*structs.ReadTopicMedia, error) {
 	if validator.IsEmpty(body.TopicID) {
 		return nil, errors.New(ecode.FieldIsRequired("topic_id"))
@@ -79,17 +78,16 @@ func (s *topicMediaService) Create(ctx context.Context, body *structs.CreateTopi
 		return nil, err
 	}
 
-	// Load the associated media to return a complete response
 	return s.loadMediaForTopicMedia(ctx, row)
 }
 
-// Update updates an existing topic media relation.
+// Update updates existing topic media relation
 func (s *topicMediaService) Update(ctx context.Context, id string, topicID string, mediaID string, mediaType string, order int) (*structs.ReadTopicMedia, error) {
 	if validator.IsEmpty(id) {
 		return nil, errors.New(ecode.FieldIsRequired("id"))
 	}
 
-	// Validate if the topic and media exist if they're being updated
+	// Validate if topic and media exist if they're being updated
 	if validator.IsNotEmpty(topicID) {
 		_, err := s.tr.GetByID(ctx, topicID)
 		if err != nil {
@@ -111,22 +109,20 @@ func (s *topicMediaService) Update(ctx context.Context, id string, topicID strin
 		return nil, err
 	}
 
-	// Load the associated media to return a complete response
 	return s.loadMediaForTopicMedia(ctx, row)
 }
 
-// Get retrieves a topic media relation by ID.
+// Get retrieves topic media relation by ID
 func (s *topicMediaService) Get(ctx context.Context, id string) (*structs.ReadTopicMedia, error) {
 	row, err := s.r.GetByID(ctx, id)
 	if err := handleEntError(ctx, "TopicMedia", err); err != nil {
 		return nil, err
 	}
 
-	// Load the associated media to return a complete response
 	return s.loadMediaForTopicMedia(ctx, row)
 }
 
-// Delete deletes a topic media relation by ID.
+// Delete deletes topic media relation by ID
 func (s *topicMediaService) Delete(ctx context.Context, id string) error {
 	err := s.r.Delete(ctx, id)
 	if err := handleEntError(ctx, "TopicMedia", err); err != nil {
@@ -136,7 +132,7 @@ func (s *topicMediaService) Delete(ctx context.Context, id string) error {
 	return nil
 }
 
-// List lists all topic media relations.
+// List lists all topic media relations
 func (s *topicMediaService) List(ctx context.Context, params *structs.ListTopicMediaParams) (paging.Result[*structs.ReadTopicMedia], error) {
 	pp := paging.Params{
 		Cursor:    params.Cursor,
@@ -172,7 +168,7 @@ func (s *topicMediaService) List(ctx context.Context, params *structs.ListTopicM
 			if err != nil {
 				logger.Warnf(ctx, "Error loading media for topic media relation %s: %v", row.ID, err)
 				// Continue with next item even if one fails
-				result = append(result, s.Serialize(row))
+				result = append(result, s.serialize(row))
 				continue
 			}
 			result = append(result, topicMedia)
@@ -182,47 +178,38 @@ func (s *topicMediaService) List(ctx context.Context, params *structs.ListTopicM
 	})
 }
 
-// GetByTopicAndMedia gets a topic media relation by topic ID and media ID.
+// GetByTopicAndMedia gets topic media relation by topic ID and media ID
 func (s *topicMediaService) GetByTopicAndMedia(ctx context.Context, topicID string, mediaID string) (*structs.ReadTopicMedia, error) {
 	row, err := s.r.GetByTopicAndMedia(ctx, topicID, mediaID)
 	if err := handleEntError(ctx, "TopicMedia", err); err != nil {
 		return nil, err
 	}
 
-	// Load the associated media to return a complete response
 	return s.loadMediaForTopicMedia(ctx, row)
 }
 
-// loadMediaForTopicMedia loads the related media for a topic media relation.
+// loadMediaForTopicMedia loads related media for topic media relation
 func (s *topicMediaService) loadMediaForTopicMedia(ctx context.Context, row *ent.TopicMedia) (*structs.ReadTopicMedia, error) {
-	result := s.Serialize(row)
+	result := s.serialize(row)
 
-	// Load the associated media if withMedia is true
+	// Load associated media if mediaID exists
 	if row.MediaID != "" {
 		media, err := s.m.GetByID(ctx, row.MediaID)
 		if err != nil {
 			logger.Warnf(ctx, "Failed to load media for topic media relation: %v", err)
 			// Continue with no media loaded
 		} else {
-			mediaService := &mediaService{}
-			result.Media = mediaService.Serialize(media)
+			// Create media service to serialize media properly
+			mediaService := &mediaService{r: s.m}
+			result.Media = mediaService.serialize(ctx, media)
 		}
 	}
 
 	return result, nil
 }
 
-// Serializes converts multiple ent.TopicMedia to []*structs.ReadTopicMedia.
-func (s *topicMediaService) Serializes(rows []*ent.TopicMedia) []*structs.ReadTopicMedia {
-	rs := make([]*structs.ReadTopicMedia, 0, len(rows))
-	for _, row := range rows {
-		rs = append(rs, s.Serialize(row))
-	}
-	return rs
-}
-
-// Serialize converts an ent.TopicMedia to a structs.ReadTopicMedia.
-func (s *topicMediaService) Serialize(row *ent.TopicMedia) *structs.ReadTopicMedia {
+// serialize converts ent.TopicMedia to structs.ReadTopicMedia
+func (s *topicMediaService) serialize(row *ent.TopicMedia) *structs.ReadTopicMedia {
 	return &structs.ReadTopicMedia{
 		ID:        row.ID,
 		TopicID:   row.TopicID,

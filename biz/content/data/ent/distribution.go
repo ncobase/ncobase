@@ -22,8 +22,8 @@ type Distribution struct {
 	ID string `json:"id,omitempty"`
 	// Extend properties
 	Extras map[string]interface{} `json:"extras,omitempty"`
-	// tenant id
-	TenantID string `json:"tenant_id,omitempty"`
+	// space id, e.g. tenant id, organization id, store id
+	SpaceID string `json:"space_id,omitempty"`
 	// id of the creator
 	CreatedBy string `json:"created_by,omitempty"`
 	// id of the last updater
@@ -96,7 +96,7 @@ func (*Distribution) scanValues(columns []string) ([]any, error) {
 			values[i] = new([]byte)
 		case distribution.FieldCreatedAt, distribution.FieldUpdatedAt, distribution.FieldStatus, distribution.FieldScheduledAt, distribution.FieldPublishedAt:
 			values[i] = new(sql.NullInt64)
-		case distribution.FieldID, distribution.FieldTenantID, distribution.FieldCreatedBy, distribution.FieldUpdatedBy, distribution.FieldTopicID, distribution.FieldChannelID, distribution.FieldExternalID, distribution.FieldExternalURL, distribution.FieldErrorDetails:
+		case distribution.FieldID, distribution.FieldSpaceID, distribution.FieldCreatedBy, distribution.FieldUpdatedBy, distribution.FieldTopicID, distribution.FieldChannelID, distribution.FieldExternalID, distribution.FieldExternalURL, distribution.FieldErrorDetails:
 			values[i] = new(sql.NullString)
 		default:
 			values[i] = new(sql.UnknownType)
@@ -127,11 +127,11 @@ func (d *Distribution) assignValues(columns []string, values []any) error {
 					return fmt.Errorf("unmarshal field extras: %w", err)
 				}
 			}
-		case distribution.FieldTenantID:
+		case distribution.FieldSpaceID:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field tenant_id", values[i])
+				return fmt.Errorf("unexpected type %T for field space_id", values[i])
 			} else if value.Valid {
-				d.TenantID = value.String
+				d.SpaceID = value.String
 			}
 		case distribution.FieldCreatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -256,8 +256,8 @@ func (d *Distribution) String() string {
 	builder.WriteString("extras=")
 	builder.WriteString(fmt.Sprintf("%v", d.Extras))
 	builder.WriteString(", ")
-	builder.WriteString("tenant_id=")
-	builder.WriteString(d.TenantID)
+	builder.WriteString("space_id=")
+	builder.WriteString(d.SpaceID)
 	builder.WriteString(", ")
 	builder.WriteString("created_by=")
 	builder.WriteString(d.CreatedBy)

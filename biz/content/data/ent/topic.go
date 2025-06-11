@@ -40,8 +40,8 @@ type Topic struct {
 	Released int64 `json:"released,omitempty"`
 	// taxonomy id
 	TaxonomyID string `json:"taxonomy_id,omitempty"`
-	// tenant id
-	TenantID string `json:"tenant_id,omitempty"`
+	// space id, e.g. tenant id, organization id, store id
+	SpaceID string `json:"space_id,omitempty"`
 	// Extend properties
 	Extras map[string]interface{} `json:"extras,omitempty"`
 	// id of the creator
@@ -84,7 +84,7 @@ func (*Topic) scanValues(columns []string) ([]any, error) {
 			values[i] = new(sql.NullBool)
 		case topic.FieldStatus, topic.FieldReleased, topic.FieldCreatedAt, topic.FieldUpdatedAt, topic.FieldVersion:
 			values[i] = new(sql.NullInt64)
-		case topic.FieldID, topic.FieldName, topic.FieldTitle, topic.FieldSlug, topic.FieldContent, topic.FieldThumbnail, topic.FieldTaxonomyID, topic.FieldTenantID, topic.FieldCreatedBy, topic.FieldUpdatedBy, topic.FieldContentType, topic.FieldSeoTitle, topic.FieldSeoDescription, topic.FieldSeoKeywords, topic.FieldExcerpt, topic.FieldFeaturedMedia:
+		case topic.FieldID, topic.FieldName, topic.FieldTitle, topic.FieldSlug, topic.FieldContent, topic.FieldThumbnail, topic.FieldTaxonomyID, topic.FieldSpaceID, topic.FieldCreatedBy, topic.FieldUpdatedBy, topic.FieldContentType, topic.FieldSeoTitle, topic.FieldSeoDescription, topic.FieldSeoKeywords, topic.FieldExcerpt, topic.FieldFeaturedMedia:
 			values[i] = new(sql.NullString)
 		default:
 			values[i] = new(sql.UnknownType)
@@ -173,11 +173,11 @@ func (t *Topic) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				t.TaxonomyID = value.String
 			}
-		case topic.FieldTenantID:
+		case topic.FieldSpaceID:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field tenant_id", values[i])
+				return fmt.Errorf("unexpected type %T for field space_id", values[i])
 			} else if value.Valid {
-				t.TenantID = value.String
+				t.SpaceID = value.String
 			}
 		case topic.FieldExtras:
 			if value, ok := values[i].(*[]byte); !ok {
@@ -336,8 +336,8 @@ func (t *Topic) String() string {
 	builder.WriteString("taxonomy_id=")
 	builder.WriteString(t.TaxonomyID)
 	builder.WriteString(", ")
-	builder.WriteString("tenant_id=")
-	builder.WriteString(t.TenantID)
+	builder.WriteString("space_id=")
+	builder.WriteString(t.SpaceID)
 	builder.WriteString(", ")
 	builder.WriteString("extras=")
 	builder.WriteString(fmt.Sprintf("%v", t.Extras))

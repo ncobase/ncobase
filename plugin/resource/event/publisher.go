@@ -31,7 +31,7 @@ func (p *publisher) publish(ctx context.Context, eventType string, data any) {
 			eventType, d.OperationID, d.Status)
 	case *StorageQuotaEventData:
 		logger.Infof(ctx, "Publishing storage quota event: %s, tenant: %s, usage: %.2f%%",
-			eventType, d.TenantID, d.UsagePercent)
+			eventType, d.SpaceID, d.UsagePercent)
 	}
 
 	// Publish the event through the extension manager

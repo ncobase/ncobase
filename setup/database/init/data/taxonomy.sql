@@ -8,7 +8,7 @@ WITH tenant AS
        INSERT
          INTO ncse_cms_taxonomy (id, name, type, slug, cover, thumbnail, color, icon, url, keywords, description,
                                  status,
-                                 extras, parent_id, tenant_id, created_by, updated_by, created_at, updated_at)
+                                 extras, parent_id, space_id, created_by, updated_by, created_at, updated_at)
            VALUES
              -- 技术
              (nanoid(), '技术', 'node', 'jishu', 'cover_tech.jpg', 'thumb_tech.jpg', '#0000FF', 'icon_tech.png',
@@ -47,7 +47,7 @@ WITH tenant AS
        INSERT
          INTO ncse_cms_taxonomy (id, name, type, slug, cover, thumbnail, color, icon, url, keywords, description,
                                  status,
-                                 extras, parent_id, tenant_id, created_by, updated_by, created_at, updated_at)
+                                 extras, parent_id, space_id, created_by, updated_by, created_at, updated_at)
            VALUES
              -- 编程 (技术的子类别)
              (nanoid(), '编程', 'node', 'biancheng', 'cover_prog.jpg', 'thumb_prog.jpg', '#FF0000', 'icon_prog.png',
@@ -103,7 +103,7 @@ WITH tenant AS
        INSERT
          INTO ncse_cms_taxonomy (id, name, type, slug, cover, thumbnail, color, icon, url, keywords, description,
                                  status,
-                                 extras, parent_id, tenant_id, created_by, updated_by, created_at, updated_at)
+                                 extras, parent_id, space_id, created_by, updated_by, created_at, updated_at)
            VALUES
              -- 机器学习 (人工智能的子类别)
              (nanoid(), '机器学习', 'node', 'jishixuexi', 'cover_ml.jpg', 'thumb_ml.jpg', '#FF00FF', 'icon_ml.png',

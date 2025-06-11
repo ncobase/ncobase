@@ -149,7 +149,7 @@ func (s *channelService) Serialize(row *ent.CMSChannel) *structs.ReadChannel {
 		WebhookURL:    row.WebhookURL,
 		AutoPublish:   row.AutoPublish,
 		RequireReview: row.RequireReview,
-		TenantID:      row.TenantID,
+		SpaceID:       row.SpaceID,
 		CreatedBy:     &row.CreatedBy,
 		CreatedAt:     &row.CreatedAt,
 		UpdatedBy:     &row.UpdatedBy,

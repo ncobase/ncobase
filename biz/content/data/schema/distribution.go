@@ -35,7 +35,7 @@ func (Distribution) Mixin() []ent.Mixin {
 	return []ent.Mixin{
 		mixin.PrimaryKey,
 		mixin.ExtraProps,
-		mixin.TenantID,
+		mixin.SpaceID,
 		mixin.OperatorBy{},
 		mixin.TimeAt{},
 	}

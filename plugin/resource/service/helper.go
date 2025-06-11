@@ -1,6 +1,7 @@
 package service
 
 import (
+	"bytes"
 	"context"
 	"errors"
 	"ncobase/resource/data/ent"
@@ -10,7 +11,16 @@ import (
 	"github.com/ncobase/ncore/validation/validator"
 )
 
-// handleEntError is a helper function to handle errors in a consistent manner.
+// readCloser wrapper for bytes.Reader
+type readCloser struct {
+	*bytes.Reader
+}
+
+func (r *readCloser) Close() error {
+	return nil
+}
+
+// handleEntError handles ent errors consistently
 func handleEntError(ctx context.Context, k string, err error) error {
 	if ent.IsNotFound(err) {
 		logger.Errorf(ctx, "Error not found in %s: %v", k, err)

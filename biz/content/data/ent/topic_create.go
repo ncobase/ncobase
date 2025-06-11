@@ -173,16 +173,16 @@ func (tc *TopicCreate) SetNillableTaxonomyID(s *string) *TopicCreate {
 	return tc
 }
 
-// SetTenantID sets the "tenant_id" field.
-func (tc *TopicCreate) SetTenantID(s string) *TopicCreate {
-	tc.mutation.SetTenantID(s)
+// SetSpaceID sets the "space_id" field.
+func (tc *TopicCreate) SetSpaceID(s string) *TopicCreate {
+	tc.mutation.SetSpaceID(s)
 	return tc
 }
 
-// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
-func (tc *TopicCreate) SetNillableTenantID(s *string) *TopicCreate {
+// SetNillableSpaceID sets the "space_id" field if the given value is not nil.
+func (tc *TopicCreate) SetNillableSpaceID(s *string) *TopicCreate {
 	if s != nil {
-		tc.SetTenantID(*s)
+		tc.SetSpaceID(*s)
 	}
 	return tc
 }
@@ -560,9 +560,9 @@ func (tc *TopicCreate) createSpec() (*Topic, *sqlgraph.CreateSpec) {
 		_spec.SetField(topic.FieldTaxonomyID, field.TypeString, value)
 		_node.TaxonomyID = value
 	}
-	if value, ok := tc.mutation.TenantID(); ok {
-		_spec.SetField(topic.FieldTenantID, field.TypeString, value)
-		_node.TenantID = value
+	if value, ok := tc.mutation.SpaceID(); ok {
+		_spec.SetField(topic.FieldSpaceID, field.TypeString, value)
+		_node.SpaceID = value
 	}
 	if value, ok := tc.mutation.Extras(); ok {
 		_spec.SetField(topic.FieldExtras, field.TypeJSON, value)

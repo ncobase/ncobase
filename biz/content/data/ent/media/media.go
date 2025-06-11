@@ -19,8 +19,8 @@ const (
 	FieldURL = "url"
 	// FieldExtras holds the string denoting the extras field in the database.
 	FieldExtras = "extras"
-	// FieldTenantID holds the string denoting the tenant_id field in the database.
-	FieldTenantID = "tenant_id"
+	// FieldSpaceID holds the string denoting the space_id field in the database.
+	FieldSpaceID = "space_id"
 	// FieldCreatedBy holds the string denoting the created_by field in the database.
 	FieldCreatedBy = "created_by"
 	// FieldUpdatedBy holds the string denoting the updated_by field in the database.
@@ -29,18 +29,10 @@ const (
 	FieldCreatedAt = "created_at"
 	// FieldUpdatedAt holds the string denoting the updated_at field in the database.
 	FieldUpdatedAt = "updated_at"
-	// FieldPath holds the string denoting the path field in the database.
-	FieldPath = "path"
-	// FieldMimeType holds the string denoting the mime_type field in the database.
-	FieldMimeType = "mime_type"
-	// FieldSize holds the string denoting the size field in the database.
-	FieldSize = "size"
-	// FieldWidth holds the string denoting the width field in the database.
-	FieldWidth = "width"
-	// FieldHeight holds the string denoting the height field in the database.
-	FieldHeight = "height"
-	// FieldDuration holds the string denoting the duration field in the database.
-	FieldDuration = "duration"
+	// FieldOwnerID holds the string denoting the owner_id field in the database.
+	FieldOwnerID = "owner_id"
+	// FieldResourceID holds the string denoting the resource_id field in the database.
+	FieldResourceID = "resource_id"
 	// FieldDescription holds the string denoting the description field in the database.
 	FieldDescription = "description"
 	// FieldAlt holds the string denoting the alt field in the database.
@@ -56,17 +48,13 @@ var Columns = []string{
 	FieldType,
 	FieldURL,
 	FieldExtras,
-	FieldTenantID,
+	FieldSpaceID,
 	FieldCreatedBy,
 	FieldUpdatedBy,
 	FieldCreatedAt,
 	FieldUpdatedAt,
-	FieldPath,
-	FieldMimeType,
-	FieldSize,
-	FieldWidth,
-	FieldHeight,
-	FieldDuration,
+	FieldOwnerID,
+	FieldResourceID,
 	FieldDescription,
 	FieldAlt,
 }
@@ -90,14 +78,8 @@ var (
 	DefaultUpdatedAt func() int64
 	// UpdateDefaultUpdatedAt holds the default value on update for the "updated_at" field.
 	UpdateDefaultUpdatedAt func() int64
-	// DefaultSize holds the default value on creation for the "size" field.
-	DefaultSize int64
-	// DefaultWidth holds the default value on creation for the "width" field.
-	DefaultWidth int
-	// DefaultHeight holds the default value on creation for the "height" field.
-	DefaultHeight int
-	// DefaultDuration holds the default value on creation for the "duration" field.
-	DefaultDuration float64
+	// OwnerIDValidator is a validator for the "owner_id" field. It is called by the builders before save.
+	OwnerIDValidator func(string) error
 	// DefaultID holds the default value on creation for the "id" field.
 	DefaultID func() string
 	// IDValidator is a validator for the "id" field. It is called by the builders before save.
@@ -127,9 +109,9 @@ func ByURL(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldURL, opts...).ToFunc()
 }
 
-// ByTenantID orders the results by the tenant_id field.
-func ByTenantID(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldTenantID, opts...).ToFunc()
+// BySpaceID orders the results by the space_id field.
+func BySpaceID(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldSpaceID, opts...).ToFunc()
 }
 
 // ByCreatedBy orders the results by the created_by field.
@@ -152,34 +134,14 @@ func ByUpdatedAt(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldUpdatedAt, opts...).ToFunc()
 }
 
-// ByPath orders the results by the path field.
-func ByPath(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldPath, opts...).ToFunc()
+// ByOwnerID orders the results by the owner_id field.
+func ByOwnerID(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldOwnerID, opts...).ToFunc()
 }
 
-// ByMimeType orders the results by the mime_type field.
-func ByMimeType(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldMimeType, opts...).ToFunc()
-}
-
-// BySize orders the results by the size field.
-func BySize(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldSize, opts...).ToFunc()
-}
-
-// ByWidth orders the results by the width field.
-func ByWidth(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldWidth, opts...).ToFunc()
-}
-
-// ByHeight orders the results by the height field.
-func ByHeight(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldHeight, opts...).ToFunc()
-}
-
-// ByDuration orders the results by the duration field.
-func ByDuration(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldDuration, opts...).ToFunc()
+// ByResourceID orders the results by the resource_id field.
+func ByResourceID(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldResourceID, opts...).ToFunc()
 }
 
 // ByDescription orders the results by the description field.

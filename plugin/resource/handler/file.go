@@ -25,7 +25,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// FileHandlerInterface represents the file handler interface.
+// FileHandlerInterface defines file handler methods
 type FileHandlerInterface interface {
 	Create(c *gin.Context)
 	Update(c *gin.Context)
@@ -43,32 +43,28 @@ type FileHandlerInterface interface {
 	GenerateShareURL(c *gin.Context)
 }
 
-// fileHandler represents the file handler.
 type fileHandler struct {
 	s *service.Service
 }
 
-// NewFileHandler creates a new file handler.
+// NewFileHandler creates new file handler
 func NewFileHandler(s *service.Service) FileHandlerInterface {
-	return &fileHandler{
-		s: s,
-	}
+	return &fileHandler{s: s}
 }
 
-// maxFileSize is the maximum allowed size of an file.
 var maxFileSize int64 = 2048 << 20 // 2048 MB
 
-// Create handles the creation of files, both single and multiple.
+// Create handles file creation
 //
 // @Summary Create files
-// @Description Create one or multiple files.
+// @Description Create one or multiple files
 // @Tags res
 // @Accept multipart/form-data
 // @Produce json
 // @Param file formData file true "File to upload"
-// @Param object_id formData string false "Object ID associated with the file"
-// @Param tenant_id formData string false "Tenant ID associated with the file"
-// @Param extras formData string false "Additional properties associated with the file (JSON format)"
+// @Param owner_id formData string false "Owner ID"
+// @Param space_id formData string false "Space ID"
+// @Param extras formData string false "Additional properties (JSON)"
 // @Success 200 {object} structs.ReadFile "success"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /res [post]
@@ -78,19 +74,17 @@ func (h *fileHandler) Create(c *gin.Context) {
 		resp.Fail(c.Writer, resp.NotAllowed("Method not allowed"))
 		return
 	}
+
 	contentType := c.ContentType()
-	switch {
-	case strings.HasPrefix(contentType, "multipart/"):
+	if strings.HasPrefix(contentType, "multipart/") {
 		h.handleFormDataUpload(c)
-	default:
+	} else {
 		resp.Fail(c.Writer, resp.BadRequest("Unsupported content type"))
-		return
 	}
 }
 
-// handleFormDataUpload handles file upload using multipart form data
+// handleFormDataUpload handles multipart form data upload
 func (h *fileHandler) handleFormDataUpload(c *gin.Context) {
-	// Parse multipart form with increased memory limit
 	if err := c.Request.ParseMultipartForm(maxFileSize); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest("Failed to parse multipart form"))
 		return
@@ -99,13 +93,9 @@ func (h *fileHandler) handleFormDataUpload(c *gin.Context) {
 	// Handle single file upload
 	file, header, err := c.Request.FormFile("file")
 	if err == nil {
-		defer func(file multipart.File) {
-			if err := file.Close(); err != nil {
-				logger.Errorf(c, "Error closing file: %v", err)
-			}
-		}(file)
+		defer file.Close()
 
-		body, err := processFile(c, header, file)
+		body, err := h.processFile(c, header, file)
 		if err != nil {
 			resp.Fail(c.Writer, resp.BadRequest(fmt.Sprintf("Error processing file: %v", err)))
 			return
@@ -126,7 +116,7 @@ func (h *fileHandler) handleFormDataUpload(c *gin.Context) {
 		return
 	}
 
-	// Handle multiple file upload
+	// Handle multiple files
 	files := c.Request.MultipartForm.File["files"]
 	if len(files) == 0 {
 		resp.Fail(c.Writer, resp.BadRequest("No files provided"))
@@ -142,13 +132,9 @@ func (h *fileHandler) handleFormDataUpload(c *gin.Context) {
 		}
 
 		func(file multipart.File) {
-			defer func() {
-				if err := file.Close(); err != nil {
-					logger.Errorf(c, "Error closing file: %v", err)
-				}
-			}()
+			defer file.Close()
 
-			body, err := processFile(c, fileHeader, file)
+			body, err := h.processFile(c, fileHeader, file)
 			if err != nil {
 				resp.Fail(c.Writer, resp.BadRequest(fmt.Sprintf("Error processing file %s: %v", fileHeader.Filename, err)))
 				return
@@ -172,27 +158,27 @@ func (h *fileHandler) handleFormDataUpload(c *gin.Context) {
 	resp.Success(c.Writer, results)
 }
 
-// validateFileBody validates the file body
+// validateFileBody validates file body
 func (h *fileHandler) validateFileBody(body *structs.CreateFileBody) error {
-	if validator.IsEmpty(body.ObjectID) {
-		return errors.New("object_id is required")
+	if validator.IsEmpty(body.OwnerID) {
+		return errors.New("owner_id is required")
 	}
 
-	if validator.IsEmpty(body.TenantID) {
-		return errors.New("tenant_id is required")
+	if validator.IsEmpty(body.SpaceID) {
+		return errors.New("space_id is required")
 	}
 
-	// Validate access level if provided
+	// Validate access level
 	if body.AccessLevel != "" {
 		switch body.AccessLevel {
 		case structs.AccessLevelPublic, structs.AccessLevelPrivate, structs.AccessLevelShared:
-			// Valid access level
+			// Valid
 		default:
 			return fmt.Errorf("invalid access_level: %s", body.AccessLevel)
 		}
 	}
 
-	// Validate processing options if provided
+	// Validate processing options
 	if body.ProcessingOptions != nil {
 		if body.ProcessingOptions.CompressionQuality < 1 || body.ProcessingOptions.CompressionQuality > 100 {
 			return errors.New("compression_quality must be between 1 and 100")
@@ -205,50 +191,41 @@ func (h *fileHandler) validateFileBody(body *structs.CreateFileBody) error {
 	return nil
 }
 
-// processFile processes file details and binds other fields from the form to the file body
-func processFile(c *gin.Context, header *multipart.FileHeader, file multipart.File) (*structs.CreateFileBody, error) {
+// processFile processes file and binds form fields
+func (h *fileHandler) processFile(c *gin.Context, header *multipart.FileHeader, file multipart.File) (*structs.CreateFileBody, error) {
 	body := &structs.CreateFileBody{}
 
 	folderPath := c.PostForm("folder_path")
-
-	// Generate file header with folder path as prefix
 	fileHeader := storage.GetFileHeader(header, folderPath)
+
 	body.Path = fileHeader.Path
 	body.File = file
 	body.Type = fileHeader.Type
 	body.Name = fileHeader.Name
 	body.Size = &fileHeader.Size
 
-	// Bind other fields from the form
-	if err := bindFileFields(c, body); err != nil {
-		return nil, err
-	}
-
-	return body, nil
+	return h.bindFileFields(c, body)
 }
 
-// bindFileFields binds other fields from the form to the file body
-func bindFileFields(c *gin.Context, body *structs.CreateFileBody) error {
-	// Manually bind other fields from the form
+// bindFileFields binds form fields to file body
+func (h *fileHandler) bindFileFields(c *gin.Context, body *structs.CreateFileBody) (*structs.CreateFileBody, error) {
 	for key, values := range c.Request.Form {
 		if len(values) == 0 || (key != "file" && values[0] == "") {
 			continue
 		}
 
 		switch key {
-		case "object_id":
-			body.ObjectID = values[0]
-		case "tenant_id":
-			body.TenantID = values[0]
+		case "owner_id":
+			body.OwnerID = values[0]
+		case "space_id":
+			body.SpaceID = values[0]
 		case "folder_path":
 			body.FolderPath = values[0]
 		case "access_level":
 			body.AccessLevel = structs.AccessLevel(values[0])
 		case "is_public":
-			isPublic := values[0] == "true" || values[0] == "1"
-			body.IsPublic = isPublic
+			body.IsPublic = values[0] == "true" || values[0] == "1"
 		case "tags":
-			// Split comma-separated tags and trim whitespace
 			tagList := strings.Split(values[0], ",")
 			cleanTags := make([]string, 0, len(tagList))
 			for _, tag := range tagList {
@@ -261,10 +238,10 @@ func bindFileFields(c *gin.Context, body *structs.CreateFileBody) error {
 		case "processing_options":
 			var options structs.ProcessingOptions
 			if err := json.Unmarshal([]byte(values[0]), &options); err != nil {
-				return fmt.Errorf("invalid processing options format: %w", err)
+				return nil, fmt.Errorf("invalid processing options format: %w", err)
 			}
 			if options.CompressionQuality <= 0 || options.CompressionQuality > 100 {
-				options.CompressionQuality = 80 // Default to 80% quality
+				options.CompressionQuality = 80
 			}
 			body.ProcessingOptions = &options
 		case "expires_at":
@@ -274,23 +251,23 @@ func bindFileFields(c *gin.Context, body *structs.CreateFileBody) error {
 		case "extras":
 			var extras types.JSON
 			if err := json.Unmarshal([]byte(values[0]), &extras); err != nil {
-				return fmt.Errorf("invalid extras format: %w", err)
+				return nil, fmt.Errorf("invalid extras format: %w", err)
 			}
 			body.Extras = &extras
 		}
 	}
 
-	return nil
+	return body, nil
 }
 
-// Update handles updating a file.
+// Update handles file updates
 //
 // @Summary Update file
-// @Description Update an existing file.
+// @Description Update an existing file
 // @Tags res
 // @Accept multipart/form-data
 // @Produce json
-// @Param slug path string true "Slug of the file to update"
+// @Param slug path string true "File slug"
 // @Param file body structs.UpdateFileBody true "File details"
 // @Success 200 {object} structs.ReadFile "success"
 // @Failure 400 {object} resp.Exception "bad request"
@@ -303,16 +280,14 @@ func (h *fileHandler) Update(c *gin.Context) {
 		return
 	}
 
-	// Create a map to hold the updates
 	updates := make(types.JSON)
 
-	// Parse multipart form
 	if err := c.Request.ParseMultipartForm(maxFileSize); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest("Failed to parse form"))
 		return
 	}
 
-	// Bind form values to updates
+	// Bind form values
 	for key, values := range c.Request.Form {
 		if len(values) > 0 && values[0] != "" {
 			switch key {
@@ -330,44 +305,34 @@ func (h *fileHandler) Update(c *gin.Context) {
 			case "tags":
 				updates["tags"] = strings.Split(values[0], ",")
 			case "is_public":
-				isPublic := values[0] == "true" || values[0] == "1"
-				updates["is_public"] = isPublic
+				updates["is_public"] = values[0] == "true" || values[0] == "1"
 			default:
 				updates[key] = values[0]
 			}
 		}
 	}
 
-	// Check if the file is included in the request
+	// Handle file upload
 	if fileHeaders, ok := c.Request.MultipartForm.File["file"]; ok && len(fileHeaders) > 0 {
-		// Fetch file header from request
 		header := fileHeaders[0]
-
 		folderPath := c.PostForm("folder_path")
-
-		// Get file data
 		fileHeader := storage.GetFileHeader(header, folderPath)
-		// Add file header data to updates
+
 		updates["name"] = fileHeader.Name
 		updates["size"] = fileHeader.Size
 		updates["type"] = fileHeader.Type
 		updates["path"] = fileHeader.Path
 
-		// Open the file
 		file, err := header.Open()
 		if err != nil {
 			resp.Fail(c.Writer, resp.BadRequest("Failed to open uploaded file"))
 			return
 		}
-		defer func(file multipart.File) {
-			err := file.Close()
-			if err != nil {
-				resp.Fail(c.Writer, resp.InternalServer(err.Error()))
-			}
-		}(file)
+		defer file.Close()
+
 		updates["file"] = file
 
-		// Handle processing options if provided
+		// Handle processing options
 		if processingOptionsStr := c.PostForm("processing_options"); processingOptionsStr != "" {
 			var options structs.ProcessingOptions
 			if err := json.Unmarshal([]byte(processingOptionsStr), &options); err != nil {
@@ -387,13 +352,13 @@ func (h *fileHandler) Update(c *gin.Context) {
 	resp.Success(c.Writer, result)
 }
 
-// Get handles getting a file.
+// Get handles file retrieval
 //
 // @Summary Get file
-// @Description Get details of a specific file.
+// @Description Get details of a specific file
 // @Tags res
 // @Produce json
-// @Param slug path string true "Slug of the file to retrieve"
+// @Param slug path string true "File slug"
 // @Param type query string false "Type of retrieval ('download' or 'stream')"
 // @Success 200 {object} structs.ReadFile "success"
 // @Failure 400 {object} resp.Exception "bad request"
@@ -424,12 +389,12 @@ func (h *fileHandler) Get(c *gin.Context) {
 	resp.Success(c.Writer, result)
 }
 
-// Delete handles deleting a file.
+// Delete handles file deletion
 //
 // @Summary Delete file
-// @Description Delete a specific file.
+// @Description Delete a specific file
 // @Tags res
-// @Param slug path string true "Slug of the file to delete"
+// @Param slug path string true "File slug"
 // @Success 200 {object} structs.ReadFile "success"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /res/{slug} [delete]
@@ -449,10 +414,10 @@ func (h *fileHandler) Delete(c *gin.Context) {
 	resp.Success(c.Writer)
 }
 
-// List handles listing files.
+// List handles file listing
 //
 // @Summary List files
-// @Description List files based on specified parameters.
+// @Description List files based on specified parameters
 // @Tags res
 // @Produce json
 // @Param params query structs.ListFileParams true "List files parameters"
@@ -478,17 +443,17 @@ func (h *fileHandler) List(c *gin.Context) {
 	resp.Success(c.Writer, files)
 }
 
-// downloadFileHandler handles the direct download of a file.
+// download handles file download
 func (h *fileHandler) download(c *gin.Context) {
 	h.downloadFile(c, "file")
 }
 
-// fileStreamHandler handles the streaming of a file.
+// fileStream handles file streaming
 func (h *fileHandler) fileStream(c *gin.Context) {
 	h.downloadFile(c, "inline")
 }
 
-// downloadFile handles the download or streaming of a file
+// downloadFile handles file download/streaming
 func (h *fileHandler) downloadFile(c *gin.Context, dispositionType string) {
 	slug := c.Param("slug")
 	if slug == "" {
@@ -505,7 +470,6 @@ func (h *fileHandler) downloadFile(c *gin.Context, dispositionType string) {
 	filename := storage.RestoreOriginalFileName(row.Path, true)
 	c.Header("Content-Disposition", fmt.Sprintf("%s; filename=%s", dispositionType, filename))
 
-	// Set the Content-Type header based on the original content type
 	if row.Type == "" {
 		c.Header("Content-Type", "application/octet-stream")
 	} else {
@@ -518,25 +482,21 @@ func (h *fileHandler) downloadFile(c *gin.Context, dispositionType string) {
 		return
 	}
 
-	// close file stream
 	defer func(file io.ReadCloser) {
 		if file != nil {
-			err := file.Close()
-			if err != nil {
-				resp.Fail(c.Writer, resp.InternalServer(err.Error()))
-			}
+			file.Close()
 		}
 	}(fileStream)
 }
 
-// Search handles searching for files
+// Search handles file searching
 //
 // @Summary Search files
 // @Description Search files by various criteria
 // @Tags res
 // @Accept json
 // @Produce json
-// @Param tenant query string true "Tenant ID"
+// @Param space_id query string true "Space ID"
 // @Param q query string false "Search query"
 // @Param category query string false "File category"
 // @Param tags query string false "Comma-separated tags"
@@ -556,20 +516,20 @@ func (h *fileHandler) Search(c *gin.Context) {
 		return
 	}
 
-	if params.Tenant == "" {
-		resp.Fail(c.Writer, resp.BadRequest(ecode.FieldIsRequired("tenant")))
+	if params.SpaceID == "" {
+		resp.Fail(c.Writer, resp.BadRequest(ecode.FieldIsRequired("space_id")))
 		return
 	}
 
-	// For tag-based search
+	// Tag-based search
 	if params.Tags != "" {
 		tags := strings.Split(params.Tags, ",")
-		limit := 100 // Default limit
+		limit := 100
 		if params.Limit > 0 {
 			limit = params.Limit
 		}
 
-		results, err := h.s.File.SearchByTags(c.Request.Context(), params.Tenant, tags, limit)
+		results, err := h.s.File.SearchByTags(c.Request.Context(), params.SpaceID, tags, limit)
 		if err != nil {
 			logger.Errorf(c.Request.Context(), "Error searching files by tags: %v", err)
 			resp.Fail(c.Writer, resp.InternalServer("Failed to search files"))
@@ -591,7 +551,7 @@ func (h *fileHandler) Search(c *gin.Context) {
 	resp.Success(c.Writer, results)
 }
 
-// ListCategories handles listing all available file categories
+// ListCategories handles listing file categories
 //
 // @Summary List file categories
 // @Description List all available file categories
@@ -601,7 +561,6 @@ func (h *fileHandler) Search(c *gin.Context) {
 // @Router /res/categories [get]
 // @Security Bearer
 func (h *fileHandler) ListCategories(c *gin.Context) {
-	// Return all available categories
 	categories := []string{
 		string(structs.FileCategoryImage),
 		string(structs.FileCategoryDocument),
@@ -614,26 +573,25 @@ func (h *fileHandler) ListCategories(c *gin.Context) {
 	resp.Success(c.Writer, categories)
 }
 
-// ListTags handles listing all tags used in files
+// ListTags handles listing file tags
 //
 // @Summary List file tags
-// @Description List all tags used in files for a tenant
+// @Description List all tags used in files for a space
 // @Tags res
 // @Produce json
-// @Param tenant_id query string true "Tenant ID"
+// @Param space_id query string true "Space ID"
 // @Success 200 {array} string "success"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /res/tags [get]
 // @Security Bearer
 func (h *fileHandler) ListTags(c *gin.Context) {
-	tenantID := c.Query("tenant_id")
-	if tenantID == "" {
-		resp.Fail(c.Writer, resp.BadRequest(ecode.FieldIsRequired("tenant_id")))
+	spaceID := c.Query("space_id")
+	if spaceID == "" {
+		resp.Fail(c.Writer, resp.BadRequest(ecode.FieldIsRequired("space_id")))
 		return
 	}
 
-	// For simplicity, we're just returning a sample list
-	// In a real implementation, you'd query the database for all unique tags
+	// Sample tags - in real implementation, query database
 	tags := []string{
 		"document", "image", "important", "archive", "shared", "draft", "final",
 	}
@@ -641,47 +599,43 @@ func (h *fileHandler) ListTags(c *gin.Context) {
 	resp.Success(c.Writer, tags)
 }
 
-// GetStorageStats handles retrieving storage statistics
+// GetStorageStats handles storage statistics retrieval
 //
 // @Summary Get storage statistics
-// @Description Get storage usage statistics for a tenant
+// @Description Get storage usage statistics for a space
 // @Tags res
 // @Produce json
-// @Param tenant_id query string true "Tenant ID"
+// @Param space_id query string true "Space ID"
 // @Success 200 {object} map[string]interface{} "success"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /res/stats [get]
 // @Security Bearer
 func (h *fileHandler) GetStorageStats(c *gin.Context) {
-	tenantID := c.Query("tenant_id")
-	if tenantID == "" {
-		resp.Fail(c.Writer, resp.BadRequest(ecode.FieldIsRequired("tenant_id")))
+	spaceID := c.Query("space_id")
+	if spaceID == "" {
+		resp.Fail(c.Writer, resp.BadRequest(ecode.FieldIsRequired("space_id")))
 		return
 	}
 
-	// Get usage from quota service
-	usage, err := h.s.Quota.GetUsage(c.Request.Context(), tenantID)
+	usage, err := h.s.Quota.GetUsage(c.Request.Context(), spaceID)
 	if err != nil {
 		logger.Errorf(c.Request.Context(), "Error getting storage usage: %v", err)
 		resp.Fail(c.Writer, resp.InternalServer("Failed to get storage statistics"))
 		return
 	}
 
-	// Get quota
-	quota, err := h.s.Quota.GetQuota(c.Request.Context(), tenantID)
+	quota, err := h.s.Quota.GetQuota(c.Request.Context(), spaceID)
 	if err != nil {
 		logger.Errorf(c.Request.Context(), "Error getting storage quota: %v", err)
 		resp.Fail(c.Writer, resp.InternalServer("Failed to get storage statistics"))
 		return
 	}
 
-	// Calculate usage percentage
 	usagePercent := 0.0
 	if quota > 0 {
 		usagePercent = float64(usage) / float64(quota) * 100
 	}
 
-	// Build response with storage statistics
 	stats := map[string]any{
 		"total_bytes":     usage,
 		"quota_bytes":     quota,
@@ -693,16 +647,15 @@ func (h *fileHandler) GetStorageStats(c *gin.Context) {
 	resp.Success(c.Writer, stats)
 }
 
-// GetVersions handles retrieving all versions of an file
+// GetVersions handles file version retrieval
 //
 // @Summary Get file versions
-// @Description Get all versions of an file
+// @Description Get all versions of a file
 // @Tags res
 // @Produce json
 // @Param slug path string true "File slug"
 // @Success 200 {array} structs.ReadFile "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Failure 404 {object} resp.Exception "not found"
 // @Router /res/{slug}/versions [get]
 // @Security Bearer
 func (h *fileHandler) GetVersions(c *gin.Context) {
@@ -722,7 +675,7 @@ func (h *fileHandler) GetVersions(c *gin.Context) {
 	resp.Success(c.Writer, versions)
 }
 
-// CreateVersion handles creating a new version of an file
+// CreateVersion handles file version creation
 //
 // @Summary Create file version
 // @Description Create a new version of an existing file
@@ -733,7 +686,6 @@ func (h *fileHandler) GetVersions(c *gin.Context) {
 // @Param file formData file true "New version file"
 // @Success 200 {object} structs.ReadFile "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Failure 404 {object} resp.Exception "not found"
 // @Router /res/{slug}/versions [post]
 // @Security Bearer
 func (h *fileHandler) CreateVersion(c *gin.Context) {
@@ -743,7 +695,6 @@ func (h *fileHandler) CreateVersion(c *gin.Context) {
 		return
 	}
 
-	// Get file from form
 	file, header, err := c.Request.FormFile("file")
 	if err != nil {
 		resp.Fail(c.Writer, resp.BadRequest("File is required"))
@@ -751,7 +702,6 @@ func (h *fileHandler) CreateVersion(c *gin.Context) {
 	}
 	defer file.Close()
 
-	// Create new version
 	version, err := h.s.File.CreateVersion(c.Request.Context(), slug, file, header.Filename)
 	if err != nil {
 		logger.Errorf(c.Request.Context(), "Error creating version: %v", err)
@@ -762,7 +712,7 @@ func (h *fileHandler) CreateVersion(c *gin.Context) {
 	resp.Success(c.Writer, version)
 }
 
-// CreateThumbnail handles creating a thumbnail for an image file
+// CreateThumbnail handles thumbnail creation
 //
 // @Summary Create thumbnail
 // @Description Create a thumbnail for an image file
@@ -773,7 +723,6 @@ func (h *fileHandler) CreateVersion(c *gin.Context) {
 // @Param options body structs.ProcessingOptions true "Processing options"
 // @Success 200 {object} structs.ReadFile "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Failure 404 {object} resp.Exception "not found"
 // @Router /res/{slug}/thumbnail [post]
 // @Security Bearer
 func (h *fileHandler) CreateThumbnail(c *gin.Context) {
@@ -789,10 +738,8 @@ func (h *fileHandler) CreateThumbnail(c *gin.Context) {
 		return
 	}
 
-	// Ensure thumbnail creation is enabled
 	options.CreateThumbnail = true
 
-	// Create thumbnail
 	file, err := h.s.File.CreateThumbnail(c.Request.Context(), slug, &options)
 	if err != nil {
 		logger.Errorf(c.Request.Context(), "Error creating thumbnail: %v", err)
@@ -803,10 +750,10 @@ func (h *fileHandler) CreateThumbnail(c *gin.Context) {
 	resp.Success(c.Writer, file)
 }
 
-// SetAccessLevel handles setting the access level for an file
+// SetAccessLevel handles access level setting
 //
 // @Summary Set access level
-// @Description Set the access level for an file
+// @Description Set the access level for a file
 // @Tags res
 // @Accept json
 // @Produce json
@@ -814,7 +761,6 @@ func (h *fileHandler) CreateThumbnail(c *gin.Context) {
 // @Param body body map[string]string true "Access level"
 // @Success 200 {object} structs.ReadFile "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Failure 404 {object} resp.Exception "not found"
 // @Router /res/{slug}/access [put]
 // @Security Bearer
 func (h *fileHandler) SetAccessLevel(c *gin.Context) {
@@ -832,7 +778,6 @@ func (h *fileHandler) SetAccessLevel(c *gin.Context) {
 		return
 	}
 
-	// Validate access level
 	accessLevel := structs.AccessLevel(body.AccessLevel)
 	if accessLevel != structs.AccessLevelPublic &&
 		accessLevel != structs.AccessLevelPrivate &&
@@ -841,7 +786,6 @@ func (h *fileHandler) SetAccessLevel(c *gin.Context) {
 		return
 	}
 
-	// Set access level
 	file, err := h.s.File.SetAccessLevel(c.Request.Context(), slug, accessLevel)
 	if err != nil {
 		logger.Errorf(c.Request.Context(), "Error setting access level: %v", err)
@@ -852,10 +796,10 @@ func (h *fileHandler) SetAccessLevel(c *gin.Context) {
 	resp.Success(c.Writer, file)
 }
 
-// GenerateShareURL handles generating a shareable URL for an file
+// GenerateShareURL handles share URL generation
 //
 // @Summary Generate share URL
-// @Description Generate a shareable URL for an file
+// @Description Generate a shareable URL for a file
 // @Tags res
 // @Accept json
 // @Produce json
@@ -863,7 +807,6 @@ func (h *fileHandler) SetAccessLevel(c *gin.Context) {
 // @Param body body map[string]int true "Expiration time in hours"
 // @Success 200 {object} map[string]string "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Failure 404 {object} resp.Exception "not found"
 // @Router /res/{slug}/share [post]
 // @Security Bearer
 func (h *fileHandler) GenerateShareURL(c *gin.Context) {
@@ -877,11 +820,9 @@ func (h *fileHandler) GenerateShareURL(c *gin.Context) {
 		ExpirationHours int `json:"expiration_hours"`
 	}
 	if err := c.ShouldBindJSON(&body); err != nil {
-		// Default to 24 hours if not specified
-		body.ExpirationHours = 24
+		body.ExpirationHours = 24 // Default to 24 hours
 	}
 
-	// Generate share URL
 	shareURL, err := h.s.File.GeneratePublicURL(c.Request.Context(), slug, body.ExpirationHours)
 	if err != nil {
 		logger.Errorf(c.Request.Context(), "Error generating share URL: %v", err)
@@ -894,30 +835,4 @@ func (h *fileHandler) GenerateShareURL(c *gin.Context) {
 		"expires_in": fmt.Sprintf("%d hours", body.ExpirationHours),
 		"expires_at": time.Now().Add(time.Duration(body.ExpirationHours) * time.Hour).Format(time.RFC3339),
 	})
-}
-
-// formatSize formats a size in bytes to a human-readable format
-func formatSize(sizeInBytes int64) string {
-	const (
-		_          = iota
-		KB float64 = 1 << (10 * iota)
-		MB
-		GB
-		TB
-	)
-
-	size := float64(sizeInBytes)
-
-	switch {
-	case size >= TB:
-		return fmt.Sprintf("%.2f TB", size/TB)
-	case size >= GB:
-		return fmt.Sprintf("%.2f GB", size/GB)
-	case size >= MB:
-		return fmt.Sprintf("%.2f MB", size/MB)
-	case size >= KB:
-		return fmt.Sprintf("%.2f KB", size/KB)
-	default:
-		return fmt.Sprintf("%d bytes", sizeInBytes)
-	}
 }

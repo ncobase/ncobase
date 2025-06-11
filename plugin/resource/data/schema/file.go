@@ -14,12 +14,12 @@ import (
 	"entgo.io/ent/schema/index"
 )
 
-// File holds the schema definition for the File entity.
+// File schema definition
 type File struct {
 	ent.Schema
 }
 
-// Annotations of the File.
+// Annotations for File
 func (File) Annotations() []schema.Annotation {
 	table := strings.Join([]string{"ncse", "res", "file"}, "_")
 	return []schema.Annotation{
@@ -29,7 +29,7 @@ func (File) Annotations() []schema.Annotation {
 	}
 }
 
-// Mixin of the File.
+// Mixin for File
 func (File) Mixin() []ent.Mixin {
 	return []ent.Mixin{
 		mixin.PrimaryKey,
@@ -40,20 +40,20 @@ func (File) Mixin() []ent.Mixin {
 		mixin.Storage,
 		mixin.Bucket,
 		mixin.Endpoint,
-		mixin.ObjectID,
-		mixin.TenantID,
+		mixin.OwnerID,
+		mixin.SpaceID,
 		mixin.ExtraProps,
 		mixin.OperatorBy{},
 		mixin.TimeAt{},
 	}
 }
 
-// Fields of the File.
+// Fields for File
 func (File) Fields() []ent.Field {
 	return []ent.Field{
 		field.String("folder_path").
 			Optional().
-			Comment("Virtual folder path for organization"),
+			Comment("Virtual folder path"),
 
 		field.String("access_level").
 			Default("private").
@@ -64,63 +64,37 @@ func (File) Fields() []ent.Field {
 			Nillable().
 			Comment("Expiration timestamp"),
 
-		field.JSON("metadata", map[string]any{}).
-			Optional().
-			Comment("Extended file metadata"),
-
 		field.Strings("tags").
 			Optional().
-			Comment("Tags for categorization"),
+			Comment("File tags"),
 
 		field.Bool("is_public").
 			Default(false).
-			Comment("Publicly accessible flag"),
-
-		field.JSON("versions", []string{}).
-			Optional().
-			Comment("IDs of previous versions"),
-
-		field.String("thumbnail_path").
-			Optional().
-			Comment("Path to thumbnail if available"),
-
-		field.Int("width").
-			Optional().
-			Nillable().
-			Comment("Width for image files"),
-
-		field.Int("height").
-			Optional().
-			Nillable().
-			Comment("Height for image files"),
-
-		field.Float("duration").
-			Optional().
-			Nillable().
-			Comment("Duration for audio/video files in seconds"),
+			Comment("Public access flag"),
 
 		field.String("category").
 			Default("other").
-			Comment("File category: image, document, video, audio, archive, other"),
+			Comment("File category"),
 
 		field.JSON("processing_result", types.JSON{}).
 			Optional().
-			Comment("Results from any processing operations"),
+			Comment("Processing operation results"),
 	}
 }
 
-// Edges of the File.
+// Edges for File
 func (File) Edges() []ent.Edge {
 	return []ent.Edge{}
 }
 
-// Indexes of the File.
+// Indexes for File
 func (File) Indexes() []ent.Index {
 	return []ent.Index{
 		index.Fields("id", "created_at").Unique(),
+		index.Fields("space_id", "owner_id"),
 		index.Fields("folder_path"),
-		index.Fields("is_public"),
 		index.Fields("category"),
-		index.Fields("tags"),
+		index.Fields("is_public"),
+		index.Fields("access_level"),
 	}
 }

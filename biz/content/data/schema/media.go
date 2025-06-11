@@ -13,12 +13,12 @@ import (
 	"entgo.io/ent/schema/index"
 )
 
-// Media holds the schema definition for the Media entity.
+// Media schema definition
 type Media struct {
 	ent.Schema
 }
 
-// Annotations of the Media.
+// Annotations for Media
 func (Media) Annotations() []schema.Annotation {
 	table := strings.Join([]string{"ncse", "cms", "media"}, "_")
 	return []schema.Annotation{
@@ -29,7 +29,7 @@ func (Media) Annotations() []schema.Annotation {
 	}
 }
 
-// Mixin of the Media.
+// Mixin for Media
 func (Media) Mixin() []ent.Mixin {
 	return []ent.Mixin{
 		mixin.PrimaryKey,
@@ -37,50 +37,44 @@ func (Media) Mixin() []ent.Mixin {
 		mixin.Type,
 		mixin.URL,
 		mixin.ExtraProps,
-		mixin.TenantID,
+		mixin.SpaceID,
 		mixin.OperatorBy{},
 		mixin.TimeAt{},
 	}
 }
 
-// Fields of the Media.
+// Fields for Media
 func (Media) Fields() []ent.Field {
 	return []ent.Field{
-		field.String("path").
+		field.String("owner_id").
+			NotEmpty().
+			Comment("Media owner identifier"),
+
+		field.String("resource_id").
 			Optional().
-			Comment("File path"),
-		field.String("mime_type").
-			Optional().
-			Comment("MIME type"),
-		field.Int64("size").
-			Default(0).
-			Comment("File size in bytes"),
-		field.Int("width").
-			Default(0).
-			Comment("Image/video width"),
-		field.Int("height").
-			Default(0).
-			Comment("Image/video height"),
-		field.Float("duration").
-			Default(0).
-			Comment("Audio/video duration in seconds"),
+			Comment("Reference to resource plugin file ID"),
+
 		field.String("description").
 			Optional().
 			Comment("Media description"),
+
 		field.String("alt").
 			Optional().
 			Comment("Alternative text for accessibility"),
 	}
 }
 
-// Edges of the Media.
+// Edges for Media
 func (Media) Edges() []ent.Edge {
 	return []ent.Edge{}
 }
 
-// Indexes of the Media.
+// Indexes for Media
 func (Media) Indexes() []ent.Index {
 	return []ent.Index{
 		index.Fields("id", "created_at").Unique(),
+		index.Fields("space_id", "owner_id"),
+		index.Fields("resource_id"),
+		index.Fields("type"),
 	}
 }

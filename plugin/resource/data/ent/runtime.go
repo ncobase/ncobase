@@ -51,11 +51,11 @@ func init() {
 	// file.DefaultAccessLevel holds the default value on creation for the access_level field.
 	file.DefaultAccessLevel = fileDescAccessLevel.Default.(string)
 	// fileDescIsPublic is the schema descriptor for is_public field.
-	fileDescIsPublic := fileFields[5].Descriptor()
+	fileDescIsPublic := fileFields[4].Descriptor()
 	// file.DefaultIsPublic holds the default value on creation for the is_public field.
 	file.DefaultIsPublic = fileDescIsPublic.Default.(bool)
 	// fileDescCategory is the schema descriptor for category field.
-	fileDescCategory := fileFields[11].Descriptor()
+	fileDescCategory := fileFields[5].Descriptor()
 	// file.DefaultCategory holds the default value on creation for the category field.
 	file.DefaultCategory = fileDescCategory.Default.(string)
 	// fileDescID is the schema descriptor for id field.

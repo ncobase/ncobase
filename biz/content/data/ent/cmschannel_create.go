@@ -95,16 +95,16 @@ func (ccc *CMSChannelCreate) SetExtras(m map[string]interface{}) *CMSChannelCrea
 	return ccc
 }
 
-// SetTenantID sets the "tenant_id" field.
-func (ccc *CMSChannelCreate) SetTenantID(s string) *CMSChannelCreate {
-	ccc.mutation.SetTenantID(s)
+// SetSpaceID sets the "space_id" field.
+func (ccc *CMSChannelCreate) SetSpaceID(s string) *CMSChannelCreate {
+	ccc.mutation.SetSpaceID(s)
 	return ccc
 }
 
-// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
-func (ccc *CMSChannelCreate) SetNillableTenantID(s *string) *CMSChannelCreate {
+// SetNillableSpaceID sets the "space_id" field if the given value is not nil.
+func (ccc *CMSChannelCreate) SetNillableSpaceID(s *string) *CMSChannelCreate {
 	if s != nil {
-		ccc.SetTenantID(*s)
+		ccc.SetSpaceID(*s)
 	}
 	return ccc
 }
@@ -395,9 +395,9 @@ func (ccc *CMSChannelCreate) createSpec() (*CMSChannel, *sqlgraph.CreateSpec) {
 		_spec.SetField(cmschannel.FieldExtras, field.TypeJSON, value)
 		_node.Extras = value
 	}
-	if value, ok := ccc.mutation.TenantID(); ok {
-		_spec.SetField(cmschannel.FieldTenantID, field.TypeString, value)
-		_node.TenantID = value
+	if value, ok := ccc.mutation.SpaceID(); ok {
+		_spec.SetField(cmschannel.FieldSpaceID, field.TypeString, value)
+		_node.SpaceID = value
 	}
 	if value, ok := ccc.mutation.CreatedBy(); ok {
 		_spec.SetField(cmschannel.FieldCreatedBy, field.TypeString, value)

@@ -26,8 +26,8 @@ type Media struct {
 	URL string `json:"url,omitempty"`
 	// Extend properties
 	Extras map[string]interface{} `json:"extras,omitempty"`
-	// tenant id
-	TenantID string `json:"tenant_id,omitempty"`
+	// space id, e.g. tenant id, organization id, store id
+	SpaceID string `json:"space_id,omitempty"`
 	// id of the creator
 	CreatedBy string `json:"created_by,omitempty"`
 	// id of the last updater
@@ -36,18 +36,10 @@ type Media struct {
 	CreatedAt int64 `json:"created_at,omitempty"`
 	// updated at
 	UpdatedAt int64 `json:"updated_at,omitempty"`
-	// File path
-	Path string `json:"path,omitempty"`
-	// MIME type
-	MimeType string `json:"mime_type,omitempty"`
-	// File size in bytes
-	Size int64 `json:"size,omitempty"`
-	// Image/video width
-	Width int `json:"width,omitempty"`
-	// Image/video height
-	Height int `json:"height,omitempty"`
-	// Audio/video duration in seconds
-	Duration float64 `json:"duration,omitempty"`
+	// Media owner identifier
+	OwnerID string `json:"owner_id,omitempty"`
+	// Reference to resource plugin file ID
+	ResourceID string `json:"resource_id,omitempty"`
 	// Media description
 	Description string `json:"description,omitempty"`
 	// Alternative text for accessibility
@@ -62,11 +54,9 @@ func (*Media) scanValues(columns []string) ([]any, error) {
 		switch columns[i] {
 		case media.FieldExtras:
 			values[i] = new([]byte)
-		case media.FieldDuration:
-			values[i] = new(sql.NullFloat64)
-		case media.FieldCreatedAt, media.FieldUpdatedAt, media.FieldSize, media.FieldWidth, media.FieldHeight:
+		case media.FieldCreatedAt, media.FieldUpdatedAt:
 			values[i] = new(sql.NullInt64)
-		case media.FieldID, media.FieldTitle, media.FieldType, media.FieldURL, media.FieldTenantID, media.FieldCreatedBy, media.FieldUpdatedBy, media.FieldPath, media.FieldMimeType, media.FieldDescription, media.FieldAlt:
+		case media.FieldID, media.FieldTitle, media.FieldType, media.FieldURL, media.FieldSpaceID, media.FieldCreatedBy, media.FieldUpdatedBy, media.FieldOwnerID, media.FieldResourceID, media.FieldDescription, media.FieldAlt:
 			values[i] = new(sql.NullString)
 		default:
 			values[i] = new(sql.UnknownType)
@@ -115,11 +105,11 @@ func (m *Media) assignValues(columns []string, values []any) error {
 					return fmt.Errorf("unmarshal field extras: %w", err)
 				}
 			}
-		case media.FieldTenantID:
+		case media.FieldSpaceID:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field tenant_id", values[i])
+				return fmt.Errorf("unexpected type %T for field space_id", values[i])
 			} else if value.Valid {
-				m.TenantID = value.String
+				m.SpaceID = value.String
 			}
 		case media.FieldCreatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -145,41 +135,17 @@ func (m *Media) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				m.UpdatedAt = value.Int64
 			}
-		case media.FieldPath:
+		case media.FieldOwnerID:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field path", values[i])
+				return fmt.Errorf("unexpected type %T for field owner_id", values[i])
 			} else if value.Valid {
-				m.Path = value.String
+				m.OwnerID = value.String
 			}
-		case media.FieldMimeType:
+		case media.FieldResourceID:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field mime_type", values[i])
+				return fmt.Errorf("unexpected type %T for field resource_id", values[i])
 			} else if value.Valid {
-				m.MimeType = value.String
-			}
-		case media.FieldSize:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field size", values[i])
-			} else if value.Valid {
-				m.Size = value.Int64
-			}
-		case media.FieldWidth:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field width", values[i])
-			} else if value.Valid {
-				m.Width = int(value.Int64)
-			}
-		case media.FieldHeight:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field height", values[i])
-			} else if value.Valid {
-				m.Height = int(value.Int64)
-			}
-		case media.FieldDuration:
-			if value, ok := values[i].(*sql.NullFloat64); !ok {
-				return fmt.Errorf("unexpected type %T for field duration", values[i])
-			} else if value.Valid {
-				m.Duration = value.Float64
+				m.ResourceID = value.String
 			}
 		case media.FieldDescription:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -241,8 +207,8 @@ func (m *Media) String() string {
 	builder.WriteString("extras=")
 	builder.WriteString(fmt.Sprintf("%v", m.Extras))
 	builder.WriteString(", ")
-	builder.WriteString("tenant_id=")
-	builder.WriteString(m.TenantID)
+	builder.WriteString("space_id=")
+	builder.WriteString(m.SpaceID)
 	builder.WriteString(", ")
 	builder.WriteString("created_by=")
 	builder.WriteString(m.CreatedBy)
@@ -256,23 +222,11 @@ func (m *Media) String() string {
 	builder.WriteString("updated_at=")
 	builder.WriteString(fmt.Sprintf("%v", m.UpdatedAt))
 	builder.WriteString(", ")
-	builder.WriteString("path=")
-	builder.WriteString(m.Path)
+	builder.WriteString("owner_id=")
+	builder.WriteString(m.OwnerID)
 	builder.WriteString(", ")
-	builder.WriteString("mime_type=")
-	builder.WriteString(m.MimeType)
-	builder.WriteString(", ")
-	builder.WriteString("size=")
-	builder.WriteString(fmt.Sprintf("%v", m.Size))
-	builder.WriteString(", ")
-	builder.WriteString("width=")
-	builder.WriteString(fmt.Sprintf("%v", m.Width))
-	builder.WriteString(", ")
-	builder.WriteString("height=")
-	builder.WriteString(fmt.Sprintf("%v", m.Height))
-	builder.WriteString(", ")
-	builder.WriteString("duration=")
-	builder.WriteString(fmt.Sprintf("%v", m.Duration))
+	builder.WriteString("resource_id=")
+	builder.WriteString(m.ResourceID)
 	builder.WriteString(", ")
 	builder.WriteString("description=")
 	builder.WriteString(m.Description)

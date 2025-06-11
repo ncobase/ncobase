@@ -2,7 +2,7 @@ package resource
 
 import "github.com/spf13/viper"
 
-// Config holds configuration for the resource module
+// Config holds resource module configuration
 type Config struct {
 	MaxUploadSize   int64        `json:"max_upload_size"`
 	AllowedTypes    []string     `json:"allowed_types"`
@@ -11,7 +11,7 @@ type Config struct {
 	QuotaManagement *QuotaConfig `json:"quota_management"`
 }
 
-// ImageConfig holds configuration for image processing
+// ImageConfig holds image processing configuration
 type ImageConfig struct {
 	EnableThumbnails       bool `json:"enable_thumbnails"`
 	DefaultThumbnailWidth  int  `json:"default_thumbnail_width"`
@@ -21,7 +21,7 @@ type ImageConfig struct {
 	MaxImageHeight         int  `json:"max_image_height"`
 }
 
-// QuotaConfig holds configuration for storage quota management
+// QuotaConfig holds quota management configuration
 type QuotaConfig struct {
 	EnableQuotas       bool    `json:"enable_quotas"`
 	DefaultQuota       int64   `json:"default_quota"`
@@ -29,7 +29,7 @@ type QuotaConfig struct {
 	QuotaCheckInterval string  `json:"quota_check_interval"`
 }
 
-// GetDefaultConfig returns the default configuration for the resource module
+// GetDefaultConfig returns default configuration
 func (p *Plugin) GetDefaultConfig() *Config {
 	return &Config{
 		MaxUploadSize:  5 * 1024 * 1024 * 1024, // 5GB default
@@ -52,7 +52,7 @@ func (p *Plugin) GetDefaultConfig() *Config {
 	}
 }
 
-// GetConfigFromFile loads configuration from Viper into the resource configuration
+// GetConfigFromFile loads configuration from Viper
 func (p *Plugin) GetConfigFromFile(viper *viper.Viper) {
 	if viper == nil {
 		return

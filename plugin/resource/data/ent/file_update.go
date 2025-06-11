@@ -169,43 +169,43 @@ func (fu *FileUpdate) ClearEndpoint() *FileUpdate {
 	return fu
 }
 
-// SetObjectID sets the "object_id" field.
-func (fu *FileUpdate) SetObjectID(s string) *FileUpdate {
-	fu.mutation.SetObjectID(s)
+// SetOwnerID sets the "owner_id" field.
+func (fu *FileUpdate) SetOwnerID(s string) *FileUpdate {
+	fu.mutation.SetOwnerID(s)
 	return fu
 }
 
-// SetNillableObjectID sets the "object_id" field if the given value is not nil.
-func (fu *FileUpdate) SetNillableObjectID(s *string) *FileUpdate {
+// SetNillableOwnerID sets the "owner_id" field if the given value is not nil.
+func (fu *FileUpdate) SetNillableOwnerID(s *string) *FileUpdate {
 	if s != nil {
-		fu.SetObjectID(*s)
+		fu.SetOwnerID(*s)
 	}
 	return fu
 }
 
-// ClearObjectID clears the value of the "object_id" field.
-func (fu *FileUpdate) ClearObjectID() *FileUpdate {
-	fu.mutation.ClearObjectID()
+// ClearOwnerID clears the value of the "owner_id" field.
+func (fu *FileUpdate) ClearOwnerID() *FileUpdate {
+	fu.mutation.ClearOwnerID()
 	return fu
 }
 
-// SetTenantID sets the "tenant_id" field.
-func (fu *FileUpdate) SetTenantID(s string) *FileUpdate {
-	fu.mutation.SetTenantID(s)
+// SetSpaceID sets the "space_id" field.
+func (fu *FileUpdate) SetSpaceID(s string) *FileUpdate {
+	fu.mutation.SetSpaceID(s)
 	return fu
 }
 
-// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
-func (fu *FileUpdate) SetNillableTenantID(s *string) *FileUpdate {
+// SetNillableSpaceID sets the "space_id" field if the given value is not nil.
+func (fu *FileUpdate) SetNillableSpaceID(s *string) *FileUpdate {
 	if s != nil {
-		fu.SetTenantID(*s)
+		fu.SetSpaceID(*s)
 	}
 	return fu
 }
 
-// ClearTenantID clears the value of the "tenant_id" field.
-func (fu *FileUpdate) ClearTenantID() *FileUpdate {
-	fu.mutation.ClearTenantID()
+// ClearSpaceID clears the value of the "space_id" field.
+func (fu *FileUpdate) ClearSpaceID() *FileUpdate {
+	fu.mutation.ClearSpaceID()
 	return fu
 }
 
@@ -341,18 +341,6 @@ func (fu *FileUpdate) ClearExpiresAt() *FileUpdate {
 	return fu
 }
 
-// SetMetadata sets the "metadata" field.
-func (fu *FileUpdate) SetMetadata(m map[string]interface{}) *FileUpdate {
-	fu.mutation.SetMetadata(m)
-	return fu
-}
-
-// ClearMetadata clears the value of the "metadata" field.
-func (fu *FileUpdate) ClearMetadata() *FileUpdate {
-	fu.mutation.ClearMetadata()
-	return fu
-}
-
 // SetTags sets the "tags" field.
 func (fu *FileUpdate) SetTags(s []string) *FileUpdate {
 	fu.mutation.SetTags(s)
@@ -382,125 +370,6 @@ func (fu *FileUpdate) SetNillableIsPublic(b *bool) *FileUpdate {
 	if b != nil {
 		fu.SetIsPublic(*b)
 	}
-	return fu
-}
-
-// SetVersions sets the "versions" field.
-func (fu *FileUpdate) SetVersions(s []string) *FileUpdate {
-	fu.mutation.SetVersions(s)
-	return fu
-}
-
-// AppendVersions appends s to the "versions" field.
-func (fu *FileUpdate) AppendVersions(s []string) *FileUpdate {
-	fu.mutation.AppendVersions(s)
-	return fu
-}
-
-// ClearVersions clears the value of the "versions" field.
-func (fu *FileUpdate) ClearVersions() *FileUpdate {
-	fu.mutation.ClearVersions()
-	return fu
-}
-
-// SetThumbnailPath sets the "thumbnail_path" field.
-func (fu *FileUpdate) SetThumbnailPath(s string) *FileUpdate {
-	fu.mutation.SetThumbnailPath(s)
-	return fu
-}
-
-// SetNillableThumbnailPath sets the "thumbnail_path" field if the given value is not nil.
-func (fu *FileUpdate) SetNillableThumbnailPath(s *string) *FileUpdate {
-	if s != nil {
-		fu.SetThumbnailPath(*s)
-	}
-	return fu
-}
-
-// ClearThumbnailPath clears the value of the "thumbnail_path" field.
-func (fu *FileUpdate) ClearThumbnailPath() *FileUpdate {
-	fu.mutation.ClearThumbnailPath()
-	return fu
-}
-
-// SetWidth sets the "width" field.
-func (fu *FileUpdate) SetWidth(i int) *FileUpdate {
-	fu.mutation.ResetWidth()
-	fu.mutation.SetWidth(i)
-	return fu
-}
-
-// SetNillableWidth sets the "width" field if the given value is not nil.
-func (fu *FileUpdate) SetNillableWidth(i *int) *FileUpdate {
-	if i != nil {
-		fu.SetWidth(*i)
-	}
-	return fu
-}
-
-// AddWidth adds i to the "width" field.
-func (fu *FileUpdate) AddWidth(i int) *FileUpdate {
-	fu.mutation.AddWidth(i)
-	return fu
-}
-
-// ClearWidth clears the value of the "width" field.
-func (fu *FileUpdate) ClearWidth() *FileUpdate {
-	fu.mutation.ClearWidth()
-	return fu
-}
-
-// SetHeight sets the "height" field.
-func (fu *FileUpdate) SetHeight(i int) *FileUpdate {
-	fu.mutation.ResetHeight()
-	fu.mutation.SetHeight(i)
-	return fu
-}
-
-// SetNillableHeight sets the "height" field if the given value is not nil.
-func (fu *FileUpdate) SetNillableHeight(i *int) *FileUpdate {
-	if i != nil {
-		fu.SetHeight(*i)
-	}
-	return fu
-}
-
-// AddHeight adds i to the "height" field.
-func (fu *FileUpdate) AddHeight(i int) *FileUpdate {
-	fu.mutation.AddHeight(i)
-	return fu
-}
-
-// ClearHeight clears the value of the "height" field.
-func (fu *FileUpdate) ClearHeight() *FileUpdate {
-	fu.mutation.ClearHeight()
-	return fu
-}
-
-// SetDuration sets the "duration" field.
-func (fu *FileUpdate) SetDuration(f float64) *FileUpdate {
-	fu.mutation.ResetDuration()
-	fu.mutation.SetDuration(f)
-	return fu
-}
-
-// SetNillableDuration sets the "duration" field if the given value is not nil.
-func (fu *FileUpdate) SetNillableDuration(f *float64) *FileUpdate {
-	if f != nil {
-		fu.SetDuration(*f)
-	}
-	return fu
-}
-
-// AddDuration adds f to the "duration" field.
-func (fu *FileUpdate) AddDuration(f float64) *FileUpdate {
-	fu.mutation.AddDuration(f)
-	return fu
-}
-
-// ClearDuration clears the value of the "duration" field.
-func (fu *FileUpdate) ClearDuration() *FileUpdate {
-	fu.mutation.ClearDuration()
 	return fu
 }
 
@@ -635,17 +504,17 @@ func (fu *FileUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if fu.mutation.EndpointCleared() {
 		_spec.ClearField(file.FieldEndpoint, field.TypeString)
 	}
-	if value, ok := fu.mutation.ObjectID(); ok {
-		_spec.SetField(file.FieldObjectID, field.TypeString, value)
+	if value, ok := fu.mutation.OwnerID(); ok {
+		_spec.SetField(file.FieldOwnerID, field.TypeString, value)
 	}
-	if fu.mutation.ObjectIDCleared() {
-		_spec.ClearField(file.FieldObjectID, field.TypeString)
+	if fu.mutation.OwnerIDCleared() {
+		_spec.ClearField(file.FieldOwnerID, field.TypeString)
 	}
-	if value, ok := fu.mutation.TenantID(); ok {
-		_spec.SetField(file.FieldTenantID, field.TypeString, value)
+	if value, ok := fu.mutation.SpaceID(); ok {
+		_spec.SetField(file.FieldSpaceID, field.TypeString, value)
 	}
-	if fu.mutation.TenantIDCleared() {
-		_spec.ClearField(file.FieldTenantID, field.TypeString)
+	if fu.mutation.SpaceIDCleared() {
+		_spec.ClearField(file.FieldSpaceID, field.TypeString)
 	}
 	if value, ok := fu.mutation.Extras(); ok {
 		_spec.SetField(file.FieldExtras, field.TypeJSON, value)
@@ -695,12 +564,6 @@ func (fu *FileUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if fu.mutation.ExpiresAtCleared() {
 		_spec.ClearField(file.FieldExpiresAt, field.TypeInt64)
 	}
-	if value, ok := fu.mutation.Metadata(); ok {
-		_spec.SetField(file.FieldMetadata, field.TypeJSON, value)
-	}
-	if fu.mutation.MetadataCleared() {
-		_spec.ClearField(file.FieldMetadata, field.TypeJSON)
-	}
 	if value, ok := fu.mutation.Tags(); ok {
 		_spec.SetField(file.FieldTags, field.TypeJSON, value)
 	}
@@ -714,50 +577,6 @@ func (fu *FileUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	}
 	if value, ok := fu.mutation.IsPublic(); ok {
 		_spec.SetField(file.FieldIsPublic, field.TypeBool, value)
-	}
-	if value, ok := fu.mutation.Versions(); ok {
-		_spec.SetField(file.FieldVersions, field.TypeJSON, value)
-	}
-	if value, ok := fu.mutation.AppendedVersions(); ok {
-		_spec.AddModifier(func(u *sql.UpdateBuilder) {
-			sqljson.Append(u, file.FieldVersions, value)
-		})
-	}
-	if fu.mutation.VersionsCleared() {
-		_spec.ClearField(file.FieldVersions, field.TypeJSON)
-	}
-	if value, ok := fu.mutation.ThumbnailPath(); ok {
-		_spec.SetField(file.FieldThumbnailPath, field.TypeString, value)
-	}
-	if fu.mutation.ThumbnailPathCleared() {
-		_spec.ClearField(file.FieldThumbnailPath, field.TypeString)
-	}
-	if value, ok := fu.mutation.Width(); ok {
-		_spec.SetField(file.FieldWidth, field.TypeInt, value)
-	}
-	if value, ok := fu.mutation.AddedWidth(); ok {
-		_spec.AddField(file.FieldWidth, field.TypeInt, value)
-	}
-	if fu.mutation.WidthCleared() {
-		_spec.ClearField(file.FieldWidth, field.TypeInt)
-	}
-	if value, ok := fu.mutation.Height(); ok {
-		_spec.SetField(file.FieldHeight, field.TypeInt, value)
-	}
-	if value, ok := fu.mutation.AddedHeight(); ok {
-		_spec.AddField(file.FieldHeight, field.TypeInt, value)
-	}
-	if fu.mutation.HeightCleared() {
-		_spec.ClearField(file.FieldHeight, field.TypeInt)
-	}
-	if value, ok := fu.mutation.Duration(); ok {
-		_spec.SetField(file.FieldDuration, field.TypeFloat64, value)
-	}
-	if value, ok := fu.mutation.AddedDuration(); ok {
-		_spec.AddField(file.FieldDuration, field.TypeFloat64, value)
-	}
-	if fu.mutation.DurationCleared() {
-		_spec.ClearField(file.FieldDuration, field.TypeFloat64)
 	}
 	if value, ok := fu.mutation.Category(); ok {
 		_spec.SetField(file.FieldCategory, field.TypeString, value)
@@ -929,43 +748,43 @@ func (fuo *FileUpdateOne) ClearEndpoint() *FileUpdateOne {
 	return fuo
 }
 
-// SetObjectID sets the "object_id" field.
-func (fuo *FileUpdateOne) SetObjectID(s string) *FileUpdateOne {
-	fuo.mutation.SetObjectID(s)
+// SetOwnerID sets the "owner_id" field.
+func (fuo *FileUpdateOne) SetOwnerID(s string) *FileUpdateOne {
+	fuo.mutation.SetOwnerID(s)
 	return fuo
 }
 
-// SetNillableObjectID sets the "object_id" field if the given value is not nil.
-func (fuo *FileUpdateOne) SetNillableObjectID(s *string) *FileUpdateOne {
+// SetNillableOwnerID sets the "owner_id" field if the given value is not nil.
+func (fuo *FileUpdateOne) SetNillableOwnerID(s *string) *FileUpdateOne {
 	if s != nil {
-		fuo.SetObjectID(*s)
+		fuo.SetOwnerID(*s)
 	}
 	return fuo
 }
 
-// ClearObjectID clears the value of the "object_id" field.
-func (fuo *FileUpdateOne) ClearObjectID() *FileUpdateOne {
-	fuo.mutation.ClearObjectID()
+// ClearOwnerID clears the value of the "owner_id" field.
+func (fuo *FileUpdateOne) ClearOwnerID() *FileUpdateOne {
+	fuo.mutation.ClearOwnerID()
 	return fuo
 }
 
-// SetTenantID sets the "tenant_id" field.
-func (fuo *FileUpdateOne) SetTenantID(s string) *FileUpdateOne {
-	fuo.mutation.SetTenantID(s)
+// SetSpaceID sets the "space_id" field.
+func (fuo *FileUpdateOne) SetSpaceID(s string) *FileUpdateOne {
+	fuo.mutation.SetSpaceID(s)
 	return fuo
 }
 
-// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
-func (fuo *FileUpdateOne) SetNillableTenantID(s *string) *FileUpdateOne {
+// SetNillableSpaceID sets the "space_id" field if the given value is not nil.
+func (fuo *FileUpdateOne) SetNillableSpaceID(s *string) *FileUpdateOne {
 	if s != nil {
-		fuo.SetTenantID(*s)
+		fuo.SetSpaceID(*s)
 	}
 	return fuo
 }
 
-// ClearTenantID clears the value of the "tenant_id" field.
-func (fuo *FileUpdateOne) ClearTenantID() *FileUpdateOne {
-	fuo.mutation.ClearTenantID()
+// ClearSpaceID clears the value of the "space_id" field.
+func (fuo *FileUpdateOne) ClearSpaceID() *FileUpdateOne {
+	fuo.mutation.ClearSpaceID()
 	return fuo
 }
 
@@ -1101,18 +920,6 @@ func (fuo *FileUpdateOne) ClearExpiresAt() *FileUpdateOne {
 	return fuo
 }
 
-// SetMetadata sets the "metadata" field.
-func (fuo *FileUpdateOne) SetMetadata(m map[string]interface{}) *FileUpdateOne {
-	fuo.mutation.SetMetadata(m)
-	return fuo
-}
-
-// ClearMetadata clears the value of the "metadata" field.
-func (fuo *FileUpdateOne) ClearMetadata() *FileUpdateOne {
-	fuo.mutation.ClearMetadata()
-	return fuo
-}
-
 // SetTags sets the "tags" field.
 func (fuo *FileUpdateOne) SetTags(s []string) *FileUpdateOne {
 	fuo.mutation.SetTags(s)
@@ -1142,125 +949,6 @@ func (fuo *FileUpdateOne) SetNillableIsPublic(b *bool) *FileUpdateOne {
 	if b != nil {
 		fuo.SetIsPublic(*b)
 	}
-	return fuo
-}
-
-// SetVersions sets the "versions" field.
-func (fuo *FileUpdateOne) SetVersions(s []string) *FileUpdateOne {
-	fuo.mutation.SetVersions(s)
-	return fuo
-}
-
-// AppendVersions appends s to the "versions" field.
-func (fuo *FileUpdateOne) AppendVersions(s []string) *FileUpdateOne {
-	fuo.mutation.AppendVersions(s)
-	return fuo
-}
-
-// ClearVersions clears the value of the "versions" field.
-func (fuo *FileUpdateOne) ClearVersions() *FileUpdateOne {
-	fuo.mutation.ClearVersions()
-	return fuo
-}
-
-// SetThumbnailPath sets the "thumbnail_path" field.
-func (fuo *FileUpdateOne) SetThumbnailPath(s string) *FileUpdateOne {
-	fuo.mutation.SetThumbnailPath(s)
-	return fuo
-}
-
-// SetNillableThumbnailPath sets the "thumbnail_path" field if the given value is not nil.
-func (fuo *FileUpdateOne) SetNillableThumbnailPath(s *string) *FileUpdateOne {
-	if s != nil {
-		fuo.SetThumbnailPath(*s)
-	}
-	return fuo
-}
-
-// ClearThumbnailPath clears the value of the "thumbnail_path" field.
-func (fuo *FileUpdateOne) ClearThumbnailPath() *FileUpdateOne {
-	fuo.mutation.ClearThumbnailPath()
-	return fuo
-}
-
-// SetWidth sets the "width" field.
-func (fuo *FileUpdateOne) SetWidth(i int) *FileUpdateOne {
-	fuo.mutation.ResetWidth()
-	fuo.mutation.SetWidth(i)
-	return fuo
-}
-
-// SetNillableWidth sets the "width" field if the given value is not nil.
-func (fuo *FileUpdateOne) SetNillableWidth(i *int) *FileUpdateOne {
-	if i != nil {
-		fuo.SetWidth(*i)
-	}
-	return fuo
-}
-
-// AddWidth adds i to the "width" field.
-func (fuo *FileUpdateOne) AddWidth(i int) *FileUpdateOne {
-	fuo.mutation.AddWidth(i)
-	return fuo
-}
-
-// ClearWidth clears the value of the "width" field.
-func (fuo *FileUpdateOne) ClearWidth() *FileUpdateOne {
-	fuo.mutation.ClearWidth()
-	return fuo
-}
-
-// SetHeight sets the "height" field.
-func (fuo *FileUpdateOne) SetHeight(i int) *FileUpdateOne {
-	fuo.mutation.ResetHeight()
-	fuo.mutation.SetHeight(i)
-	return fuo
-}
-
-// SetNillableHeight sets the "height" field if the given value is not nil.
-func (fuo *FileUpdateOne) SetNillableHeight(i *int) *FileUpdateOne {
-	if i != nil {
-		fuo.SetHeight(*i)
-	}
-	return fuo
-}
-
-// AddHeight adds i to the "height" field.
-func (fuo *FileUpdateOne) AddHeight(i int) *FileUpdateOne {
-	fuo.mutation.AddHeight(i)
-	return fuo
-}
-
-// ClearHeight clears the value of the "height" field.
-func (fuo *FileUpdateOne) ClearHeight() *FileUpdateOne {
-	fuo.mutation.ClearHeight()
-	return fuo
-}
-
-// SetDuration sets the "duration" field.
-func (fuo *FileUpdateOne) SetDuration(f float64) *FileUpdateOne {
-	fuo.mutation.ResetDuration()
-	fuo.mutation.SetDuration(f)
-	return fuo
-}
-
-// SetNillableDuration sets the "duration" field if the given value is not nil.
-func (fuo *FileUpdateOne) SetNillableDuration(f *float64) *FileUpdateOne {
-	if f != nil {
-		fuo.SetDuration(*f)
-	}
-	return fuo
-}
-
-// AddDuration adds f to the "duration" field.
-func (fuo *FileUpdateOne) AddDuration(f float64) *FileUpdateOne {
-	fuo.mutation.AddDuration(f)
-	return fuo
-}
-
-// ClearDuration clears the value of the "duration" field.
-func (fuo *FileUpdateOne) ClearDuration() *FileUpdateOne {
-	fuo.mutation.ClearDuration()
 	return fuo
 }
 
@@ -1425,17 +1113,17 @@ func (fuo *FileUpdateOne) sqlSave(ctx context.Context) (_node *File, err error) 
 	if fuo.mutation.EndpointCleared() {
 		_spec.ClearField(file.FieldEndpoint, field.TypeString)
 	}
-	if value, ok := fuo.mutation.ObjectID(); ok {
-		_spec.SetField(file.FieldObjectID, field.TypeString, value)
+	if value, ok := fuo.mutation.OwnerID(); ok {
+		_spec.SetField(file.FieldOwnerID, field.TypeString, value)
 	}
-	if fuo.mutation.ObjectIDCleared() {
-		_spec.ClearField(file.FieldObjectID, field.TypeString)
+	if fuo.mutation.OwnerIDCleared() {
+		_spec.ClearField(file.FieldOwnerID, field.TypeString)
 	}
-	if value, ok := fuo.mutation.TenantID(); ok {
-		_spec.SetField(file.FieldTenantID, field.TypeString, value)
+	if value, ok := fuo.mutation.SpaceID(); ok {
+		_spec.SetField(file.FieldSpaceID, field.TypeString, value)
 	}
-	if fuo.mutation.TenantIDCleared() {
-		_spec.ClearField(file.FieldTenantID, field.TypeString)
+	if fuo.mutation.SpaceIDCleared() {
+		_spec.ClearField(file.FieldSpaceID, field.TypeString)
 	}
 	if value, ok := fuo.mutation.Extras(); ok {
 		_spec.SetField(file.FieldExtras, field.TypeJSON, value)
@@ -1485,12 +1173,6 @@ func (fuo *FileUpdateOne) sqlSave(ctx context.Context) (_node *File, err error) 
 	if fuo.mutation.ExpiresAtCleared() {
 		_spec.ClearField(file.FieldExpiresAt, field.TypeInt64)
 	}
-	if value, ok := fuo.mutation.Metadata(); ok {
-		_spec.SetField(file.FieldMetadata, field.TypeJSON, value)
-	}
-	if fuo.mutation.MetadataCleared() {
-		_spec.ClearField(file.FieldMetadata, field.TypeJSON)
-	}
 	if value, ok := fuo.mutation.Tags(); ok {
 		_spec.SetField(file.FieldTags, field.TypeJSON, value)
 	}
@@ -1504,50 +1186,6 @@ func (fuo *FileUpdateOne) sqlSave(ctx context.Context) (_node *File, err error) 
 	}
 	if value, ok := fuo.mutation.IsPublic(); ok {
 		_spec.SetField(file.FieldIsPublic, field.TypeBool, value)
-	}
-	if value, ok := fuo.mutation.Versions(); ok {
-		_spec.SetField(file.FieldVersions, field.TypeJSON, value)
-	}
-	if value, ok := fuo.mutation.AppendedVersions(); ok {
-		_spec.AddModifier(func(u *sql.UpdateBuilder) {
-			sqljson.Append(u, file.FieldVersions, value)
-		})
-	}
-	if fuo.mutation.VersionsCleared() {
-		_spec.ClearField(file.FieldVersions, field.TypeJSON)
-	}
-	if value, ok := fuo.mutation.ThumbnailPath(); ok {
-		_spec.SetField(file.FieldThumbnailPath, field.TypeString, value)
-	}
-	if fuo.mutation.ThumbnailPathCleared() {
-		_spec.ClearField(file.FieldThumbnailPath, field.TypeString)
-	}
-	if value, ok := fuo.mutation.Width(); ok {
-		_spec.SetField(file.FieldWidth, field.TypeInt, value)
-	}
-	if value, ok := fuo.mutation.AddedWidth(); ok {
-		_spec.AddField(file.FieldWidth, field.TypeInt, value)
-	}
-	if fuo.mutation.WidthCleared() {
-		_spec.ClearField(file.FieldWidth, field.TypeInt)
-	}
-	if value, ok := fuo.mutation.Height(); ok {
-		_spec.SetField(file.FieldHeight, field.TypeInt, value)
-	}
-	if value, ok := fuo.mutation.AddedHeight(); ok {
-		_spec.AddField(file.FieldHeight, field.TypeInt, value)
-	}
-	if fuo.mutation.HeightCleared() {
-		_spec.ClearField(file.FieldHeight, field.TypeInt)
-	}
-	if value, ok := fuo.mutation.Duration(); ok {
-		_spec.SetField(file.FieldDuration, field.TypeFloat64, value)
-	}
-	if value, ok := fuo.mutation.AddedDuration(); ok {
-		_spec.AddField(file.FieldDuration, field.TypeFloat64, value)
-	}
-	if fuo.mutation.DurationCleared() {
-		_spec.ClearField(file.FieldDuration, field.TypeFloat64)
 	}
 	if value, ok := fuo.mutation.Category(); ok {
 		_spec.SetField(file.FieldCategory, field.TypeString, value)

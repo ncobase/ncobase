@@ -16,7 +16,7 @@ import (
 	"github.com/ncobase/ncore/validation/validator"
 )
 
-// DistributionServiceInterface is the interface for the service.
+// DistributionServiceInterface for distribution service operations
 type DistributionServiceInterface interface {
 	Create(ctx context.Context, body *structs.CreateDistributionBody) (*structs.ReadDistribution, error)
 	Update(ctx context.Context, id string, updates types.JSON) (*structs.ReadDistribution, error)
@@ -30,19 +30,22 @@ type DistributionServiceInterface interface {
 	Cancel(ctx context.Context, id string, reason string) (*structs.ReadDistribution, error)
 }
 
-// distributionService is the struct for the service.
 type distributionService struct {
-	r repository.DistributionRepositoryInterface
+	r  repository.DistributionRepositoryInterface
+	ts TopicServiceInterface   // Topic service dependency
+	cs ChannelServiceInterface // Channel service dependency
 }
 
-// NewDistributionService creates a new service.
-func NewDistributionService(d *data.Data) DistributionServiceInterface {
+// NewDistributionService creates new distribution service
+func NewDistributionService(d *data.Data, ts TopicServiceInterface, cs ChannelServiceInterface) DistributionServiceInterface {
 	return &distributionService{
-		r: repository.NewDistributionRepository(d),
+		r:  repository.NewDistributionRepository(d),
+		ts: ts,
+		cs: cs,
 	}
 }
 
-// Create creates a new distribution.
+// Create creates new distribution
 func (s *distributionService) Create(ctx context.Context, body *structs.CreateDistributionBody) (*structs.ReadDistribution, error) {
 	if validator.IsEmpty(body.TopicID) {
 		return nil, errors.New(ecode.FieldIsRequired("topic_id"))
@@ -51,15 +54,31 @@ func (s *distributionService) Create(ctx context.Context, body *structs.CreateDi
 		return nil, errors.New(ecode.FieldIsRequired("channel_id"))
 	}
 
+	// Validate topic exists
+	if s.ts != nil {
+		_, err := s.ts.GetByID(ctx, body.TopicID)
+		if err != nil {
+			return nil, errors.New("invalid topic_id: topic not found")
+		}
+	}
+
+	// Validate channel exists
+	if s.cs != nil {
+		_, err := s.cs.Get(ctx, body.ChannelID)
+		if err != nil {
+			return nil, errors.New("invalid channel_id: channel not found")
+		}
+	}
+
 	// Check if distribution already exists for this topic and channel
 	existing, err := s.r.GetByTopicAndChannel(ctx, body.TopicID, body.ChannelID)
 	if err == nil && existing != nil {
 		return nil, errors.New(ecode.AlreadyExist("distribution for this topic and channel"))
 	}
 
-	// convert status
-	if validator.IsEmpty(body.Status) {
-		body.Status = structs.DistributionStatusScheduled
+	// Set default status
+	if body.Status == 0 {
+		body.Status = structs.DistributionStatusDraft
 	}
 
 	row, err := s.r.Create(ctx, body)
@@ -67,18 +86,42 @@ func (s *distributionService) Create(ctx context.Context, body *structs.CreateDi
 		return nil, err
 	}
 
-	return s.Serialize(row), nil
+	return s.serialize(ctx, row), nil
 }
 
-// Update updates an existing distribution.
+// Update updates existing distribution
 func (s *distributionService) Update(ctx context.Context, id string, updates types.JSON) (*structs.ReadDistribution, error) {
 	if validator.IsEmpty(id) {
 		return nil, errors.New(ecode.FieldIsRequired("id"))
 	}
 
-	// Validate the updates map
 	if len(updates) == 0 {
 		return nil, errors.New(ecode.FieldIsEmpty("updates fields"))
+	}
+
+	// Validate topic if being updated
+	if topicID, ok := updates["topic_id"].(string); ok && validator.IsNotEmpty(topicID) {
+		if s.ts != nil {
+			_, err := s.ts.GetByID(ctx, topicID)
+			if err != nil {
+				return nil, errors.New("invalid topic_id: topic not found")
+			}
+		}
+	}
+
+	// Validate channel if being updated
+	if channelID, ok := updates["channel_id"].(string); ok && validator.IsNotEmpty(channelID) {
+		if s.cs != nil {
+			_, err := s.cs.Get(ctx, channelID)
+			if err != nil {
+				return nil, errors.New("invalid channel_id: channel not found")
+			}
+		}
+	}
+
+	// Handle space_id/tenant_id compatibility
+	if spaceID, ok := updates["space_id"].(string); ok {
+		updates["tenant_id"] = spaceID
 	}
 
 	row, err := s.r.Update(ctx, id, updates)
@@ -86,20 +129,20 @@ func (s *distributionService) Update(ctx context.Context, id string, updates typ
 		return nil, err
 	}
 
-	return s.Serialize(row), nil
+	return s.serialize(ctx, row), nil
 }
 
-// Get retrieves a distribution by ID.
+// Get retrieves distribution by ID
 func (s *distributionService) Get(ctx context.Context, id string) (*structs.ReadDistribution, error) {
 	row, err := s.r.GetByID(ctx, id)
 	if err := handleEntError(ctx, "Distribution", err); err != nil {
 		return nil, err
 	}
 
-	return s.Serialize(row), nil
+	return s.serialize(ctx, row), nil
 }
 
-// Delete deletes a distribution by ID.
+// Delete deletes distribution by ID
 func (s *distributionService) Delete(ctx context.Context, id string) error {
 	err := s.r.Delete(ctx, id)
 	if err := handleEntError(ctx, "Distribution", err); err != nil {
@@ -109,7 +152,7 @@ func (s *distributionService) Delete(ctx context.Context, id string) error {
 	return nil
 }
 
-// List lists all distributions.
+// List lists all distributions
 func (s *distributionService) List(ctx context.Context, params *structs.ListDistributionParams) (paging.Result[*structs.ReadDistribution], error) {
 	pp := paging.Params{
 		Cursor:    params.Cursor,
@@ -132,21 +175,21 @@ func (s *distributionService) List(ctx context.Context, params *structs.ListDist
 			return nil, 0, err
 		}
 
-		return s.Serializes(rows), count, nil
+		return s.serializes(ctx, rows), count, nil
 	})
 }
 
-// GetByTopicAndChannel gets a distribution by topic ID and channel ID.
+// GetByTopicAndChannel gets distribution by topic and channel IDs
 func (s *distributionService) GetByTopicAndChannel(ctx context.Context, topicID string, channelID string) (*structs.ReadDistribution, error) {
 	row, err := s.r.GetByTopicAndChannel(ctx, topicID, channelID)
 	if err := handleEntError(ctx, "Distribution", err); err != nil {
 		return nil, err
 	}
 
-	return s.Serialize(row), nil
+	return s.serialize(ctx, row), nil
 }
 
-// GetPendingDistributions gets a list of pending distributions.
+// GetPendingDistributions gets list of pending distributions
 func (s *distributionService) GetPendingDistributions(ctx context.Context, limit int) ([]*structs.ReadDistribution, error) {
 	rows, err := s.r.GetPendingDistributions(ctx, limit)
 	if err != nil {
@@ -154,10 +197,10 @@ func (s *distributionService) GetPendingDistributions(ctx context.Context, limit
 		return nil, err
 	}
 
-	return s.Serializes(rows), nil
+	return s.serializes(ctx, rows), nil
 }
 
-// GetScheduledDistributions gets a list of scheduled distributions.
+// GetScheduledDistributions gets list of scheduled distributions
 func (s *distributionService) GetScheduledDistributions(ctx context.Context, before int64, limit int) ([]*structs.ReadDistribution, error) {
 	rows, err := s.r.GetScheduledDistributions(ctx, before, limit)
 	if err != nil {
@@ -165,10 +208,10 @@ func (s *distributionService) GetScheduledDistributions(ctx context.Context, bef
 		return nil, err
 	}
 
-	return s.Serializes(rows), nil
+	return s.serializes(ctx, rows), nil
 }
 
-// Publish publishes a distribution.
+// Publish publishes distribution
 func (s *distributionService) Publish(ctx context.Context, id string) (*structs.ReadDistribution, error) {
 	dist, err := s.r.GetByID(ctx, id)
 	if err := handleEntError(ctx, "Distribution", err); err != nil {
@@ -176,7 +219,7 @@ func (s *distributionService) Publish(ctx context.Context, id string) (*structs.
 	}
 
 	if dist.Status == structs.DistributionStatusPublished {
-		return s.Serialize(dist), nil
+		return s.serialize(ctx, dist), nil
 	}
 
 	updates := types.JSON{
@@ -189,10 +232,10 @@ func (s *distributionService) Publish(ctx context.Context, id string) (*structs.
 		return nil, err
 	}
 
-	return s.Serialize(row), nil
+	return s.serialize(ctx, row), nil
 }
 
-// Cancel cancels a distribution.
+// Cancel cancels distribution
 func (s *distributionService) Cancel(ctx context.Context, id string, reason string) (*structs.ReadDistribution, error) {
 	dist, err := s.r.GetByID(ctx, id)
 	if err := handleEntError(ctx, "Distribution", err); err != nil {
@@ -200,7 +243,7 @@ func (s *distributionService) Cancel(ctx context.Context, id string, reason stri
 	}
 
 	if dist.Status == structs.DistributionStatusCancelled {
-		return s.Serialize(dist), nil
+		return s.serialize(ctx, dist), nil
 	}
 
 	updates := types.JSON{
@@ -213,20 +256,20 @@ func (s *distributionService) Cancel(ctx context.Context, id string, reason stri
 		return nil, err
 	}
 
-	return s.Serialize(row), nil
+	return s.serialize(ctx, row), nil
 }
 
-// Serializes converts multiple ent.Distribution to []*structs.ReadDistribution.
-func (s *distributionService) Serializes(rows []*ent.Distribution) []*structs.ReadDistribution {
+// serializes converts multiple ent.Distribution to []*structs.ReadDistribution
+func (s *distributionService) serializes(ctx context.Context, rows []*ent.Distribution) []*structs.ReadDistribution {
 	rs := make([]*structs.ReadDistribution, 0, len(rows))
 	for _, row := range rows {
-		rs = append(rs, s.Serialize(row))
+		rs = append(rs, s.serialize(ctx, row))
 	}
 	return rs
 }
 
-// Serialize converts an ent.Distribution to a structs.ReadDistribution.
-func (s *distributionService) Serialize(row *ent.Distribution) *structs.ReadDistribution {
+// serialize converts ent.Distribution to structs.ReadDistribution
+func (s *distributionService) serialize(ctx context.Context, row *ent.Distribution) *structs.ReadDistribution {
 	result := &structs.ReadDistribution{
 		ID:           row.ID,
 		TopicID:      row.TopicID,
@@ -239,22 +282,28 @@ func (s *distributionService) Serialize(row *ent.Distribution) *structs.ReadDist
 		ExternalURL:  row.ExternalURL,
 		CustomData:   &row.Extras,
 		ErrorDetails: row.ErrorDetails,
-		TenantID:     row.TenantID,
+		SpaceID:      row.SpaceID,
 		CreatedBy:    &row.CreatedBy,
 		CreatedAt:    &row.CreatedAt,
 		UpdatedBy:    &row.UpdatedBy,
 		UpdatedAt:    &row.UpdatedAt,
 	}
 
-	// Load related entities if available
-	if row.Edges.Topic != nil {
-		topicService := &topicService{}
-		result.Topic = topicService.Serialize(row.Edges.Topic)
+	// Load related entities if services are available and eager loading is not done
+	if validator.IsNotEmpty(row.TopicID) && s.ts != nil {
+		if topic, err := s.ts.GetByID(ctx, row.TopicID); err == nil {
+			result.Topic = topic
+		} else {
+			logger.Warnf(ctx, "Failed to load topic %s: %v", row.TopicID, err)
+		}
 	}
 
-	if row.Edges.Channel != nil {
-		channelService := &channelService{}
-		result.Channel = channelService.Serialize(row.Edges.Channel)
+	if validator.IsNotEmpty(row.ChannelID) && s.cs != nil {
+		if channel, err := s.cs.Get(ctx, row.ChannelID); err == nil {
+			result.Channel = channel
+		} else {
+			logger.Warnf(ctx, "Failed to load channel %s: %v", row.ChannelID, err)
+		}
 	}
 
 	return result

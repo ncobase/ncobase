@@ -141,23 +141,23 @@ func (ccu *CMSChannelUpdate) ClearExtras() *CMSChannelUpdate {
 	return ccu
 }
 
-// SetTenantID sets the "tenant_id" field.
-func (ccu *CMSChannelUpdate) SetTenantID(s string) *CMSChannelUpdate {
-	ccu.mutation.SetTenantID(s)
+// SetSpaceID sets the "space_id" field.
+func (ccu *CMSChannelUpdate) SetSpaceID(s string) *CMSChannelUpdate {
+	ccu.mutation.SetSpaceID(s)
 	return ccu
 }
 
-// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
-func (ccu *CMSChannelUpdate) SetNillableTenantID(s *string) *CMSChannelUpdate {
+// SetNillableSpaceID sets the "space_id" field if the given value is not nil.
+func (ccu *CMSChannelUpdate) SetNillableSpaceID(s *string) *CMSChannelUpdate {
 	if s != nil {
-		ccu.SetTenantID(*s)
+		ccu.SetSpaceID(*s)
 	}
 	return ccu
 }
 
-// ClearTenantID clears the value of the "tenant_id" field.
-func (ccu *CMSChannelUpdate) ClearTenantID() *CMSChannelUpdate {
-	ccu.mutation.ClearTenantID()
+// ClearSpaceID clears the value of the "space_id" field.
+func (ccu *CMSChannelUpdate) ClearSpaceID() *CMSChannelUpdate {
+	ccu.mutation.ClearSpaceID()
 	return ccu
 }
 
@@ -412,11 +412,11 @@ func (ccu *CMSChannelUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if ccu.mutation.ExtrasCleared() {
 		_spec.ClearField(cmschannel.FieldExtras, field.TypeJSON)
 	}
-	if value, ok := ccu.mutation.TenantID(); ok {
-		_spec.SetField(cmschannel.FieldTenantID, field.TypeString, value)
+	if value, ok := ccu.mutation.SpaceID(); ok {
+		_spec.SetField(cmschannel.FieldSpaceID, field.TypeString, value)
 	}
-	if ccu.mutation.TenantIDCleared() {
-		_spec.ClearField(cmschannel.FieldTenantID, field.TypeString)
+	if ccu.mutation.SpaceIDCleared() {
+		_spec.ClearField(cmschannel.FieldSpaceID, field.TypeString)
 	}
 	if value, ok := ccu.mutation.CreatedBy(); ok {
 		_spec.SetField(cmschannel.FieldCreatedBy, field.TypeString, value)
@@ -610,23 +610,23 @@ func (ccuo *CMSChannelUpdateOne) ClearExtras() *CMSChannelUpdateOne {
 	return ccuo
 }
 
-// SetTenantID sets the "tenant_id" field.
-func (ccuo *CMSChannelUpdateOne) SetTenantID(s string) *CMSChannelUpdateOne {
-	ccuo.mutation.SetTenantID(s)
+// SetSpaceID sets the "space_id" field.
+func (ccuo *CMSChannelUpdateOne) SetSpaceID(s string) *CMSChannelUpdateOne {
+	ccuo.mutation.SetSpaceID(s)
 	return ccuo
 }
 
-// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
-func (ccuo *CMSChannelUpdateOne) SetNillableTenantID(s *string) *CMSChannelUpdateOne {
+// SetNillableSpaceID sets the "space_id" field if the given value is not nil.
+func (ccuo *CMSChannelUpdateOne) SetNillableSpaceID(s *string) *CMSChannelUpdateOne {
 	if s != nil {
-		ccuo.SetTenantID(*s)
+		ccuo.SetSpaceID(*s)
 	}
 	return ccuo
 }
 
-// ClearTenantID clears the value of the "tenant_id" field.
-func (ccuo *CMSChannelUpdateOne) ClearTenantID() *CMSChannelUpdateOne {
-	ccuo.mutation.ClearTenantID()
+// ClearSpaceID clears the value of the "space_id" field.
+func (ccuo *CMSChannelUpdateOne) ClearSpaceID() *CMSChannelUpdateOne {
+	ccuo.mutation.ClearSpaceID()
 	return ccuo
 }
 
@@ -911,11 +911,11 @@ func (ccuo *CMSChannelUpdateOne) sqlSave(ctx context.Context) (_node *CMSChannel
 	if ccuo.mutation.ExtrasCleared() {
 		_spec.ClearField(cmschannel.FieldExtras, field.TypeJSON)
 	}
-	if value, ok := ccuo.mutation.TenantID(); ok {
-		_spec.SetField(cmschannel.FieldTenantID, field.TypeString, value)
+	if value, ok := ccuo.mutation.SpaceID(); ok {
+		_spec.SetField(cmschannel.FieldSpaceID, field.TypeString, value)
 	}
-	if ccuo.mutation.TenantIDCleared() {
-		_spec.ClearField(cmschannel.FieldTenantID, field.TypeString)
+	if ccuo.mutation.SpaceIDCleared() {
+		_spec.ClearField(cmschannel.FieldSpaceID, field.TypeString)
 	}
 	if value, ok := ccuo.mutation.CreatedBy(); ok {
 		_spec.SetField(cmschannel.FieldCreatedBy, field.TypeString, value)

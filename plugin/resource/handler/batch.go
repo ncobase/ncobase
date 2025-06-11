@@ -13,19 +13,18 @@ import (
 	"github.com/ncobase/ncore/types"
 )
 
-// BatchHandlerInterface defines the interface for batch handler operations
+// BatchHandlerInterface defines batch handler methods
 type BatchHandlerInterface interface {
 	BatchUpload(c *gin.Context)
 	BatchProcess(c *gin.Context)
 }
 
-// batchHandler handles batch operations
 type batchHandler struct {
 	fileService  service.FileServiceInterface
 	batchService service.BatchServiceInterface
 }
 
-// NewBatchHandler creates a new batch handler
+// NewBatchHandler creates new batch handler
 func NewBatchHandler(fileService service.FileServiceInterface, batchService service.BatchServiceInterface) BatchHandlerInterface {
 	return &batchHandler{
 		fileService:  fileService,
@@ -41,8 +40,8 @@ func NewBatchHandler(fileService service.FileServiceInterface, batchService serv
 // @Accept multipart/form-data
 // @Produce json
 // @Param files formData file true "Files to upload"
-// @Param tenant_id formData string true "Tenant ID"
-// @Param object_id formData string true "Object ID"
+// @Param space_id formData string true "Space ID"
+// @Param owner_id formData string true "Owner ID"
 // @Param folder_path formData string false "Virtual folder path"
 // @Param access_level formData string false "Access level"
 // @Param tags formData string false "Comma-separated tags"
@@ -52,50 +51,43 @@ func NewBatchHandler(fileService service.FileServiceInterface, batchService serv
 // @Router /res/batch/upload [post]
 // @Security Bearer
 func (h *batchHandler) BatchUpload(c *gin.Context) {
-	// Parse form
 	if err := c.Request.ParseMultipartForm(32 << 20); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest("Failed to parse multipart form"))
 		return
 	}
 
-	// Get files
 	files := c.Request.MultipartForm.File["files"]
 	if len(files) == 0 {
 		resp.Fail(c.Writer, resp.BadRequest("No files provided"))
 		return
 	}
 
-	// Get form parameters
-	tenantID := c.PostForm("tenant_id")
-	if tenantID == "" {
-		resp.Fail(c.Writer, resp.BadRequest(ecode.FieldIsRequired("tenant_id")))
+	spaceID := c.PostForm("space_id")
+	if spaceID == "" {
+		resp.Fail(c.Writer, resp.BadRequest(ecode.FieldIsRequired("space_id")))
 		return
 	}
 
-	objectID := c.PostForm("object_id")
-	if objectID == "" {
-		resp.Fail(c.Writer, resp.BadRequest(ecode.FieldIsRequired("object_id")))
+	ownerID := c.PostForm("owner_id")
+	if ownerID == "" {
+		resp.Fail(c.Writer, resp.BadRequest(ecode.FieldIsRequired("owner_id")))
 		return
 	}
 
-	// Create batch upload params
 	params := &structs.BatchUploadParams{
-		TenantID:   tenantID,
-		ObjectID:   objectID,
+		SpaceID:    spaceID,
+		OwnerID:    ownerID,
 		FolderPath: c.PostForm("folder_path"),
 	}
 
-	// Set access level if provided
 	if accessLevel := c.PostForm("access_level"); accessLevel != "" {
 		params.AccessLevel = structs.AccessLevel(accessLevel)
 	}
 
-	// Set tags if provided
 	if tags := c.PostForm("tags"); tags != "" {
 		params.Tags = strings.Split(tags, ",")
 	}
 
-	// Set extras if provided
 	if extrasStr := c.PostForm("extras"); extrasStr != "" {
 		var extras types.JSON
 		if err := json.Unmarshal([]byte(extrasStr), &extras); err != nil {
@@ -105,14 +97,12 @@ func (h *batchHandler) BatchUpload(c *gin.Context) {
 		params.Extras = &extras
 	}
 
-	// Set processing options
 	params.ProcessingOptions = &structs.ProcessingOptions{
 		CreateThumbnail: true,
 		MaxWidth:        300,
 		MaxHeight:       300,
 	}
 
-	// Perform batch upload
 	result, err := h.batchService.BatchUpload(c.Request.Context(), files, params)
 	if err != nil {
 		logger.Errorf(c.Request.Context(), "Error in batch upload: %v", err)
@@ -137,9 +127,9 @@ func (h *batchHandler) BatchUpload(c *gin.Context) {
 // @Security Bearer
 func (h *batchHandler) BatchProcess(c *gin.Context) {
 	var body struct {
-		IDs      []string                   `json:"ids" binding:"required"`
-		TenantID string                     `json:"tenant_id" binding:"required"`
-		Options  *structs.ProcessingOptions `json:"options"`
+		IDs     []string                   `json:"ids" binding:"required"`
+		SpaceID string                     `json:"space_id" binding:"required"`
+		Options *structs.ProcessingOptions `json:"options"`
 	}
 
 	if err := c.ShouldBindJSON(&body); err != nil {
@@ -160,7 +150,6 @@ func (h *batchHandler) BatchProcess(c *gin.Context) {
 			logger.Warnf(c.Request.Context(), "Error retrieving file %s: %v", id, err)
 			continue
 		}
-
 		files = append(files, file)
 	}
 
@@ -169,7 +158,6 @@ func (h *batchHandler) BatchProcess(c *gin.Context) {
 		return
 	}
 
-	// Process files
 	processed, err := h.batchService.ProcessImages(c.Request.Context(), files, body.Options)
 	if err != nil {
 		logger.Errorf(c.Request.Context(), "Error processing files: %v", err)

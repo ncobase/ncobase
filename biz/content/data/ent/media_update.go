@@ -99,23 +99,23 @@ func (mu *MediaUpdate) ClearExtras() *MediaUpdate {
 	return mu
 }
 
-// SetTenantID sets the "tenant_id" field.
-func (mu *MediaUpdate) SetTenantID(s string) *MediaUpdate {
-	mu.mutation.SetTenantID(s)
+// SetSpaceID sets the "space_id" field.
+func (mu *MediaUpdate) SetSpaceID(s string) *MediaUpdate {
+	mu.mutation.SetSpaceID(s)
 	return mu
 }
 
-// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
-func (mu *MediaUpdate) SetNillableTenantID(s *string) *MediaUpdate {
+// SetNillableSpaceID sets the "space_id" field if the given value is not nil.
+func (mu *MediaUpdate) SetNillableSpaceID(s *string) *MediaUpdate {
 	if s != nil {
-		mu.SetTenantID(*s)
+		mu.SetSpaceID(*s)
 	}
 	return mu
 }
 
-// ClearTenantID clears the value of the "tenant_id" field.
-func (mu *MediaUpdate) ClearTenantID() *MediaUpdate {
-	mu.mutation.ClearTenantID()
+// ClearSpaceID clears the value of the "space_id" field.
+func (mu *MediaUpdate) ClearSpaceID() *MediaUpdate {
+	mu.mutation.ClearSpaceID()
 	return mu
 }
 
@@ -178,127 +178,37 @@ func (mu *MediaUpdate) ClearUpdatedAt() *MediaUpdate {
 	return mu
 }
 
-// SetPath sets the "path" field.
-func (mu *MediaUpdate) SetPath(s string) *MediaUpdate {
-	mu.mutation.SetPath(s)
+// SetOwnerID sets the "owner_id" field.
+func (mu *MediaUpdate) SetOwnerID(s string) *MediaUpdate {
+	mu.mutation.SetOwnerID(s)
 	return mu
 }
 
-// SetNillablePath sets the "path" field if the given value is not nil.
-func (mu *MediaUpdate) SetNillablePath(s *string) *MediaUpdate {
+// SetNillableOwnerID sets the "owner_id" field if the given value is not nil.
+func (mu *MediaUpdate) SetNillableOwnerID(s *string) *MediaUpdate {
 	if s != nil {
-		mu.SetPath(*s)
+		mu.SetOwnerID(*s)
 	}
 	return mu
 }
 
-// ClearPath clears the value of the "path" field.
-func (mu *MediaUpdate) ClearPath() *MediaUpdate {
-	mu.mutation.ClearPath()
+// SetResourceID sets the "resource_id" field.
+func (mu *MediaUpdate) SetResourceID(s string) *MediaUpdate {
+	mu.mutation.SetResourceID(s)
 	return mu
 }
 
-// SetMimeType sets the "mime_type" field.
-func (mu *MediaUpdate) SetMimeType(s string) *MediaUpdate {
-	mu.mutation.SetMimeType(s)
-	return mu
-}
-
-// SetNillableMimeType sets the "mime_type" field if the given value is not nil.
-func (mu *MediaUpdate) SetNillableMimeType(s *string) *MediaUpdate {
+// SetNillableResourceID sets the "resource_id" field if the given value is not nil.
+func (mu *MediaUpdate) SetNillableResourceID(s *string) *MediaUpdate {
 	if s != nil {
-		mu.SetMimeType(*s)
+		mu.SetResourceID(*s)
 	}
 	return mu
 }
 
-// ClearMimeType clears the value of the "mime_type" field.
-func (mu *MediaUpdate) ClearMimeType() *MediaUpdate {
-	mu.mutation.ClearMimeType()
-	return mu
-}
-
-// SetSize sets the "size" field.
-func (mu *MediaUpdate) SetSize(i int64) *MediaUpdate {
-	mu.mutation.ResetSize()
-	mu.mutation.SetSize(i)
-	return mu
-}
-
-// SetNillableSize sets the "size" field if the given value is not nil.
-func (mu *MediaUpdate) SetNillableSize(i *int64) *MediaUpdate {
-	if i != nil {
-		mu.SetSize(*i)
-	}
-	return mu
-}
-
-// AddSize adds i to the "size" field.
-func (mu *MediaUpdate) AddSize(i int64) *MediaUpdate {
-	mu.mutation.AddSize(i)
-	return mu
-}
-
-// SetWidth sets the "width" field.
-func (mu *MediaUpdate) SetWidth(i int) *MediaUpdate {
-	mu.mutation.ResetWidth()
-	mu.mutation.SetWidth(i)
-	return mu
-}
-
-// SetNillableWidth sets the "width" field if the given value is not nil.
-func (mu *MediaUpdate) SetNillableWidth(i *int) *MediaUpdate {
-	if i != nil {
-		mu.SetWidth(*i)
-	}
-	return mu
-}
-
-// AddWidth adds i to the "width" field.
-func (mu *MediaUpdate) AddWidth(i int) *MediaUpdate {
-	mu.mutation.AddWidth(i)
-	return mu
-}
-
-// SetHeight sets the "height" field.
-func (mu *MediaUpdate) SetHeight(i int) *MediaUpdate {
-	mu.mutation.ResetHeight()
-	mu.mutation.SetHeight(i)
-	return mu
-}
-
-// SetNillableHeight sets the "height" field if the given value is not nil.
-func (mu *MediaUpdate) SetNillableHeight(i *int) *MediaUpdate {
-	if i != nil {
-		mu.SetHeight(*i)
-	}
-	return mu
-}
-
-// AddHeight adds i to the "height" field.
-func (mu *MediaUpdate) AddHeight(i int) *MediaUpdate {
-	mu.mutation.AddHeight(i)
-	return mu
-}
-
-// SetDuration sets the "duration" field.
-func (mu *MediaUpdate) SetDuration(f float64) *MediaUpdate {
-	mu.mutation.ResetDuration()
-	mu.mutation.SetDuration(f)
-	return mu
-}
-
-// SetNillableDuration sets the "duration" field if the given value is not nil.
-func (mu *MediaUpdate) SetNillableDuration(f *float64) *MediaUpdate {
-	if f != nil {
-		mu.SetDuration(*f)
-	}
-	return mu
-}
-
-// AddDuration adds f to the "duration" field.
-func (mu *MediaUpdate) AddDuration(f float64) *MediaUpdate {
-	mu.mutation.AddDuration(f)
+// ClearResourceID clears the value of the "resource_id" field.
+func (mu *MediaUpdate) ClearResourceID() *MediaUpdate {
+	mu.mutation.ClearResourceID()
 	return mu
 }
 
@@ -383,7 +293,20 @@ func (mu *MediaUpdate) defaults() {
 	}
 }
 
+// check runs all checks and user-defined validators on the builder.
+func (mu *MediaUpdate) check() error {
+	if v, ok := mu.mutation.OwnerID(); ok {
+		if err := media.OwnerIDValidator(v); err != nil {
+			return &ValidationError{Name: "owner_id", err: fmt.Errorf(`ent: validator failed for field "Media.owner_id": %w`, err)}
+		}
+	}
+	return nil
+}
+
 func (mu *MediaUpdate) sqlSave(ctx context.Context) (n int, err error) {
+	if err := mu.check(); err != nil {
+		return n, err
+	}
 	_spec := sqlgraph.NewUpdateSpec(media.Table, media.Columns, sqlgraph.NewFieldSpec(media.FieldID, field.TypeString))
 	if ps := mu.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
@@ -416,11 +339,11 @@ func (mu *MediaUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if mu.mutation.ExtrasCleared() {
 		_spec.ClearField(media.FieldExtras, field.TypeJSON)
 	}
-	if value, ok := mu.mutation.TenantID(); ok {
-		_spec.SetField(media.FieldTenantID, field.TypeString, value)
+	if value, ok := mu.mutation.SpaceID(); ok {
+		_spec.SetField(media.FieldSpaceID, field.TypeString, value)
 	}
-	if mu.mutation.TenantIDCleared() {
-		_spec.ClearField(media.FieldTenantID, field.TypeString)
+	if mu.mutation.SpaceIDCleared() {
+		_spec.ClearField(media.FieldSpaceID, field.TypeString)
 	}
 	if value, ok := mu.mutation.CreatedBy(); ok {
 		_spec.SetField(media.FieldCreatedBy, field.TypeString, value)
@@ -446,41 +369,14 @@ func (mu *MediaUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if mu.mutation.UpdatedAtCleared() {
 		_spec.ClearField(media.FieldUpdatedAt, field.TypeInt64)
 	}
-	if value, ok := mu.mutation.Path(); ok {
-		_spec.SetField(media.FieldPath, field.TypeString, value)
+	if value, ok := mu.mutation.OwnerID(); ok {
+		_spec.SetField(media.FieldOwnerID, field.TypeString, value)
 	}
-	if mu.mutation.PathCleared() {
-		_spec.ClearField(media.FieldPath, field.TypeString)
+	if value, ok := mu.mutation.ResourceID(); ok {
+		_spec.SetField(media.FieldResourceID, field.TypeString, value)
 	}
-	if value, ok := mu.mutation.MimeType(); ok {
-		_spec.SetField(media.FieldMimeType, field.TypeString, value)
-	}
-	if mu.mutation.MimeTypeCleared() {
-		_spec.ClearField(media.FieldMimeType, field.TypeString)
-	}
-	if value, ok := mu.mutation.Size(); ok {
-		_spec.SetField(media.FieldSize, field.TypeInt64, value)
-	}
-	if value, ok := mu.mutation.AddedSize(); ok {
-		_spec.AddField(media.FieldSize, field.TypeInt64, value)
-	}
-	if value, ok := mu.mutation.Width(); ok {
-		_spec.SetField(media.FieldWidth, field.TypeInt, value)
-	}
-	if value, ok := mu.mutation.AddedWidth(); ok {
-		_spec.AddField(media.FieldWidth, field.TypeInt, value)
-	}
-	if value, ok := mu.mutation.Height(); ok {
-		_spec.SetField(media.FieldHeight, field.TypeInt, value)
-	}
-	if value, ok := mu.mutation.AddedHeight(); ok {
-		_spec.AddField(media.FieldHeight, field.TypeInt, value)
-	}
-	if value, ok := mu.mutation.Duration(); ok {
-		_spec.SetField(media.FieldDuration, field.TypeFloat64, value)
-	}
-	if value, ok := mu.mutation.AddedDuration(); ok {
-		_spec.AddField(media.FieldDuration, field.TypeFloat64, value)
+	if mu.mutation.ResourceIDCleared() {
+		_spec.ClearField(media.FieldResourceID, field.TypeString)
 	}
 	if value, ok := mu.mutation.Description(); ok {
 		_spec.SetField(media.FieldDescription, field.TypeString, value)
@@ -586,23 +482,23 @@ func (muo *MediaUpdateOne) ClearExtras() *MediaUpdateOne {
 	return muo
 }
 
-// SetTenantID sets the "tenant_id" field.
-func (muo *MediaUpdateOne) SetTenantID(s string) *MediaUpdateOne {
-	muo.mutation.SetTenantID(s)
+// SetSpaceID sets the "space_id" field.
+func (muo *MediaUpdateOne) SetSpaceID(s string) *MediaUpdateOne {
+	muo.mutation.SetSpaceID(s)
 	return muo
 }
 
-// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
-func (muo *MediaUpdateOne) SetNillableTenantID(s *string) *MediaUpdateOne {
+// SetNillableSpaceID sets the "space_id" field if the given value is not nil.
+func (muo *MediaUpdateOne) SetNillableSpaceID(s *string) *MediaUpdateOne {
 	if s != nil {
-		muo.SetTenantID(*s)
+		muo.SetSpaceID(*s)
 	}
 	return muo
 }
 
-// ClearTenantID clears the value of the "tenant_id" field.
-func (muo *MediaUpdateOne) ClearTenantID() *MediaUpdateOne {
-	muo.mutation.ClearTenantID()
+// ClearSpaceID clears the value of the "space_id" field.
+func (muo *MediaUpdateOne) ClearSpaceID() *MediaUpdateOne {
+	muo.mutation.ClearSpaceID()
 	return muo
 }
 
@@ -665,127 +561,37 @@ func (muo *MediaUpdateOne) ClearUpdatedAt() *MediaUpdateOne {
 	return muo
 }
 
-// SetPath sets the "path" field.
-func (muo *MediaUpdateOne) SetPath(s string) *MediaUpdateOne {
-	muo.mutation.SetPath(s)
+// SetOwnerID sets the "owner_id" field.
+func (muo *MediaUpdateOne) SetOwnerID(s string) *MediaUpdateOne {
+	muo.mutation.SetOwnerID(s)
 	return muo
 }
 
-// SetNillablePath sets the "path" field if the given value is not nil.
-func (muo *MediaUpdateOne) SetNillablePath(s *string) *MediaUpdateOne {
+// SetNillableOwnerID sets the "owner_id" field if the given value is not nil.
+func (muo *MediaUpdateOne) SetNillableOwnerID(s *string) *MediaUpdateOne {
 	if s != nil {
-		muo.SetPath(*s)
+		muo.SetOwnerID(*s)
 	}
 	return muo
 }
 
-// ClearPath clears the value of the "path" field.
-func (muo *MediaUpdateOne) ClearPath() *MediaUpdateOne {
-	muo.mutation.ClearPath()
+// SetResourceID sets the "resource_id" field.
+func (muo *MediaUpdateOne) SetResourceID(s string) *MediaUpdateOne {
+	muo.mutation.SetResourceID(s)
 	return muo
 }
 
-// SetMimeType sets the "mime_type" field.
-func (muo *MediaUpdateOne) SetMimeType(s string) *MediaUpdateOne {
-	muo.mutation.SetMimeType(s)
-	return muo
-}
-
-// SetNillableMimeType sets the "mime_type" field if the given value is not nil.
-func (muo *MediaUpdateOne) SetNillableMimeType(s *string) *MediaUpdateOne {
+// SetNillableResourceID sets the "resource_id" field if the given value is not nil.
+func (muo *MediaUpdateOne) SetNillableResourceID(s *string) *MediaUpdateOne {
 	if s != nil {
-		muo.SetMimeType(*s)
+		muo.SetResourceID(*s)
 	}
 	return muo
 }
 
-// ClearMimeType clears the value of the "mime_type" field.
-func (muo *MediaUpdateOne) ClearMimeType() *MediaUpdateOne {
-	muo.mutation.ClearMimeType()
-	return muo
-}
-
-// SetSize sets the "size" field.
-func (muo *MediaUpdateOne) SetSize(i int64) *MediaUpdateOne {
-	muo.mutation.ResetSize()
-	muo.mutation.SetSize(i)
-	return muo
-}
-
-// SetNillableSize sets the "size" field if the given value is not nil.
-func (muo *MediaUpdateOne) SetNillableSize(i *int64) *MediaUpdateOne {
-	if i != nil {
-		muo.SetSize(*i)
-	}
-	return muo
-}
-
-// AddSize adds i to the "size" field.
-func (muo *MediaUpdateOne) AddSize(i int64) *MediaUpdateOne {
-	muo.mutation.AddSize(i)
-	return muo
-}
-
-// SetWidth sets the "width" field.
-func (muo *MediaUpdateOne) SetWidth(i int) *MediaUpdateOne {
-	muo.mutation.ResetWidth()
-	muo.mutation.SetWidth(i)
-	return muo
-}
-
-// SetNillableWidth sets the "width" field if the given value is not nil.
-func (muo *MediaUpdateOne) SetNillableWidth(i *int) *MediaUpdateOne {
-	if i != nil {
-		muo.SetWidth(*i)
-	}
-	return muo
-}
-
-// AddWidth adds i to the "width" field.
-func (muo *MediaUpdateOne) AddWidth(i int) *MediaUpdateOne {
-	muo.mutation.AddWidth(i)
-	return muo
-}
-
-// SetHeight sets the "height" field.
-func (muo *MediaUpdateOne) SetHeight(i int) *MediaUpdateOne {
-	muo.mutation.ResetHeight()
-	muo.mutation.SetHeight(i)
-	return muo
-}
-
-// SetNillableHeight sets the "height" field if the given value is not nil.
-func (muo *MediaUpdateOne) SetNillableHeight(i *int) *MediaUpdateOne {
-	if i != nil {
-		muo.SetHeight(*i)
-	}
-	return muo
-}
-
-// AddHeight adds i to the "height" field.
-func (muo *MediaUpdateOne) AddHeight(i int) *MediaUpdateOne {
-	muo.mutation.AddHeight(i)
-	return muo
-}
-
-// SetDuration sets the "duration" field.
-func (muo *MediaUpdateOne) SetDuration(f float64) *MediaUpdateOne {
-	muo.mutation.ResetDuration()
-	muo.mutation.SetDuration(f)
-	return muo
-}
-
-// SetNillableDuration sets the "duration" field if the given value is not nil.
-func (muo *MediaUpdateOne) SetNillableDuration(f *float64) *MediaUpdateOne {
-	if f != nil {
-		muo.SetDuration(*f)
-	}
-	return muo
-}
-
-// AddDuration adds f to the "duration" field.
-func (muo *MediaUpdateOne) AddDuration(f float64) *MediaUpdateOne {
-	muo.mutation.AddDuration(f)
+// ClearResourceID clears the value of the "resource_id" field.
+func (muo *MediaUpdateOne) ClearResourceID() *MediaUpdateOne {
+	muo.mutation.ClearResourceID()
 	return muo
 }
 
@@ -883,7 +689,20 @@ func (muo *MediaUpdateOne) defaults() {
 	}
 }
 
+// check runs all checks and user-defined validators on the builder.
+func (muo *MediaUpdateOne) check() error {
+	if v, ok := muo.mutation.OwnerID(); ok {
+		if err := media.OwnerIDValidator(v); err != nil {
+			return &ValidationError{Name: "owner_id", err: fmt.Errorf(`ent: validator failed for field "Media.owner_id": %w`, err)}
+		}
+	}
+	return nil
+}
+
 func (muo *MediaUpdateOne) sqlSave(ctx context.Context) (_node *Media, err error) {
+	if err := muo.check(); err != nil {
+		return _node, err
+	}
 	_spec := sqlgraph.NewUpdateSpec(media.Table, media.Columns, sqlgraph.NewFieldSpec(media.FieldID, field.TypeString))
 	id, ok := muo.mutation.ID()
 	if !ok {
@@ -933,11 +752,11 @@ func (muo *MediaUpdateOne) sqlSave(ctx context.Context) (_node *Media, err error
 	if muo.mutation.ExtrasCleared() {
 		_spec.ClearField(media.FieldExtras, field.TypeJSON)
 	}
-	if value, ok := muo.mutation.TenantID(); ok {
-		_spec.SetField(media.FieldTenantID, field.TypeString, value)
+	if value, ok := muo.mutation.SpaceID(); ok {
+		_spec.SetField(media.FieldSpaceID, field.TypeString, value)
 	}
-	if muo.mutation.TenantIDCleared() {
-		_spec.ClearField(media.FieldTenantID, field.TypeString)
+	if muo.mutation.SpaceIDCleared() {
+		_spec.ClearField(media.FieldSpaceID, field.TypeString)
 	}
 	if value, ok := muo.mutation.CreatedBy(); ok {
 		_spec.SetField(media.FieldCreatedBy, field.TypeString, value)
@@ -963,41 +782,14 @@ func (muo *MediaUpdateOne) sqlSave(ctx context.Context) (_node *Media, err error
 	if muo.mutation.UpdatedAtCleared() {
 		_spec.ClearField(media.FieldUpdatedAt, field.TypeInt64)
 	}
-	if value, ok := muo.mutation.Path(); ok {
-		_spec.SetField(media.FieldPath, field.TypeString, value)
+	if value, ok := muo.mutation.OwnerID(); ok {
+		_spec.SetField(media.FieldOwnerID, field.TypeString, value)
 	}
-	if muo.mutation.PathCleared() {
-		_spec.ClearField(media.FieldPath, field.TypeString)
+	if value, ok := muo.mutation.ResourceID(); ok {
+		_spec.SetField(media.FieldResourceID, field.TypeString, value)
 	}
-	if value, ok := muo.mutation.MimeType(); ok {
-		_spec.SetField(media.FieldMimeType, field.TypeString, value)
-	}
-	if muo.mutation.MimeTypeCleared() {
-		_spec.ClearField(media.FieldMimeType, field.TypeString)
-	}
-	if value, ok := muo.mutation.Size(); ok {
-		_spec.SetField(media.FieldSize, field.TypeInt64, value)
-	}
-	if value, ok := muo.mutation.AddedSize(); ok {
-		_spec.AddField(media.FieldSize, field.TypeInt64, value)
-	}
-	if value, ok := muo.mutation.Width(); ok {
-		_spec.SetField(media.FieldWidth, field.TypeInt, value)
-	}
-	if value, ok := muo.mutation.AddedWidth(); ok {
-		_spec.AddField(media.FieldWidth, field.TypeInt, value)
-	}
-	if value, ok := muo.mutation.Height(); ok {
-		_spec.SetField(media.FieldHeight, field.TypeInt, value)
-	}
-	if value, ok := muo.mutation.AddedHeight(); ok {
-		_spec.AddField(media.FieldHeight, field.TypeInt, value)
-	}
-	if value, ok := muo.mutation.Duration(); ok {
-		_spec.SetField(media.FieldDuration, field.TypeFloat64, value)
-	}
-	if value, ok := muo.mutation.AddedDuration(); ok {
-		_spec.AddField(media.FieldDuration, field.TypeFloat64, value)
+	if muo.mutation.ResourceIDCleared() {
+		_spec.ClearField(media.FieldResourceID, field.TypeString)
 	}
 	if value, ok := muo.mutation.Description(); ok {
 		_spec.SetField(media.FieldDescription, field.TypeString, value)

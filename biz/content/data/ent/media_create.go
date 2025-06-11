@@ -67,16 +67,16 @@ func (mc *MediaCreate) SetExtras(m map[string]interface{}) *MediaCreate {
 	return mc
 }
 
-// SetTenantID sets the "tenant_id" field.
-func (mc *MediaCreate) SetTenantID(s string) *MediaCreate {
-	mc.mutation.SetTenantID(s)
+// SetSpaceID sets the "space_id" field.
+func (mc *MediaCreate) SetSpaceID(s string) *MediaCreate {
+	mc.mutation.SetSpaceID(s)
 	return mc
 }
 
-// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
-func (mc *MediaCreate) SetNillableTenantID(s *string) *MediaCreate {
+// SetNillableSpaceID sets the "space_id" field if the given value is not nil.
+func (mc *MediaCreate) SetNillableSpaceID(s *string) *MediaCreate {
 	if s != nil {
-		mc.SetTenantID(*s)
+		mc.SetSpaceID(*s)
 	}
 	return mc
 }
@@ -137,86 +137,22 @@ func (mc *MediaCreate) SetNillableUpdatedAt(i *int64) *MediaCreate {
 	return mc
 }
 
-// SetPath sets the "path" field.
-func (mc *MediaCreate) SetPath(s string) *MediaCreate {
-	mc.mutation.SetPath(s)
+// SetOwnerID sets the "owner_id" field.
+func (mc *MediaCreate) SetOwnerID(s string) *MediaCreate {
+	mc.mutation.SetOwnerID(s)
 	return mc
 }
 
-// SetNillablePath sets the "path" field if the given value is not nil.
-func (mc *MediaCreate) SetNillablePath(s *string) *MediaCreate {
+// SetResourceID sets the "resource_id" field.
+func (mc *MediaCreate) SetResourceID(s string) *MediaCreate {
+	mc.mutation.SetResourceID(s)
+	return mc
+}
+
+// SetNillableResourceID sets the "resource_id" field if the given value is not nil.
+func (mc *MediaCreate) SetNillableResourceID(s *string) *MediaCreate {
 	if s != nil {
-		mc.SetPath(*s)
-	}
-	return mc
-}
-
-// SetMimeType sets the "mime_type" field.
-func (mc *MediaCreate) SetMimeType(s string) *MediaCreate {
-	mc.mutation.SetMimeType(s)
-	return mc
-}
-
-// SetNillableMimeType sets the "mime_type" field if the given value is not nil.
-func (mc *MediaCreate) SetNillableMimeType(s *string) *MediaCreate {
-	if s != nil {
-		mc.SetMimeType(*s)
-	}
-	return mc
-}
-
-// SetSize sets the "size" field.
-func (mc *MediaCreate) SetSize(i int64) *MediaCreate {
-	mc.mutation.SetSize(i)
-	return mc
-}
-
-// SetNillableSize sets the "size" field if the given value is not nil.
-func (mc *MediaCreate) SetNillableSize(i *int64) *MediaCreate {
-	if i != nil {
-		mc.SetSize(*i)
-	}
-	return mc
-}
-
-// SetWidth sets the "width" field.
-func (mc *MediaCreate) SetWidth(i int) *MediaCreate {
-	mc.mutation.SetWidth(i)
-	return mc
-}
-
-// SetNillableWidth sets the "width" field if the given value is not nil.
-func (mc *MediaCreate) SetNillableWidth(i *int) *MediaCreate {
-	if i != nil {
-		mc.SetWidth(*i)
-	}
-	return mc
-}
-
-// SetHeight sets the "height" field.
-func (mc *MediaCreate) SetHeight(i int) *MediaCreate {
-	mc.mutation.SetHeight(i)
-	return mc
-}
-
-// SetNillableHeight sets the "height" field if the given value is not nil.
-func (mc *MediaCreate) SetNillableHeight(i *int) *MediaCreate {
-	if i != nil {
-		mc.SetHeight(*i)
-	}
-	return mc
-}
-
-// SetDuration sets the "duration" field.
-func (mc *MediaCreate) SetDuration(f float64) *MediaCreate {
-	mc.mutation.SetDuration(f)
-	return mc
-}
-
-// SetNillableDuration sets the "duration" field if the given value is not nil.
-func (mc *MediaCreate) SetNillableDuration(f *float64) *MediaCreate {
-	if f != nil {
-		mc.SetDuration(*f)
+		mc.SetResourceID(*s)
 	}
 	return mc
 }
@@ -310,22 +246,6 @@ func (mc *MediaCreate) defaults() {
 		v := media.DefaultUpdatedAt()
 		mc.mutation.SetUpdatedAt(v)
 	}
-	if _, ok := mc.mutation.Size(); !ok {
-		v := media.DefaultSize
-		mc.mutation.SetSize(v)
-	}
-	if _, ok := mc.mutation.Width(); !ok {
-		v := media.DefaultWidth
-		mc.mutation.SetWidth(v)
-	}
-	if _, ok := mc.mutation.Height(); !ok {
-		v := media.DefaultHeight
-		mc.mutation.SetHeight(v)
-	}
-	if _, ok := mc.mutation.Duration(); !ok {
-		v := media.DefaultDuration
-		mc.mutation.SetDuration(v)
-	}
 	if _, ok := mc.mutation.ID(); !ok {
 		v := media.DefaultID()
 		mc.mutation.SetID(v)
@@ -334,17 +254,13 @@ func (mc *MediaCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (mc *MediaCreate) check() error {
-	if _, ok := mc.mutation.Size(); !ok {
-		return &ValidationError{Name: "size", err: errors.New(`ent: missing required field "Media.size"`)}
+	if _, ok := mc.mutation.OwnerID(); !ok {
+		return &ValidationError{Name: "owner_id", err: errors.New(`ent: missing required field "Media.owner_id"`)}
 	}
-	if _, ok := mc.mutation.Width(); !ok {
-		return &ValidationError{Name: "width", err: errors.New(`ent: missing required field "Media.width"`)}
-	}
-	if _, ok := mc.mutation.Height(); !ok {
-		return &ValidationError{Name: "height", err: errors.New(`ent: missing required field "Media.height"`)}
-	}
-	if _, ok := mc.mutation.Duration(); !ok {
-		return &ValidationError{Name: "duration", err: errors.New(`ent: missing required field "Media.duration"`)}
+	if v, ok := mc.mutation.OwnerID(); ok {
+		if err := media.OwnerIDValidator(v); err != nil {
+			return &ValidationError{Name: "owner_id", err: fmt.Errorf(`ent: validator failed for field "Media.owner_id": %w`, err)}
+		}
 	}
 	if v, ok := mc.mutation.ID(); ok {
 		if err := media.IDValidator(v); err != nil {
@@ -402,9 +318,9 @@ func (mc *MediaCreate) createSpec() (*Media, *sqlgraph.CreateSpec) {
 		_spec.SetField(media.FieldExtras, field.TypeJSON, value)
 		_node.Extras = value
 	}
-	if value, ok := mc.mutation.TenantID(); ok {
-		_spec.SetField(media.FieldTenantID, field.TypeString, value)
-		_node.TenantID = value
+	if value, ok := mc.mutation.SpaceID(); ok {
+		_spec.SetField(media.FieldSpaceID, field.TypeString, value)
+		_node.SpaceID = value
 	}
 	if value, ok := mc.mutation.CreatedBy(); ok {
 		_spec.SetField(media.FieldCreatedBy, field.TypeString, value)
@@ -422,29 +338,13 @@ func (mc *MediaCreate) createSpec() (*Media, *sqlgraph.CreateSpec) {
 		_spec.SetField(media.FieldUpdatedAt, field.TypeInt64, value)
 		_node.UpdatedAt = value
 	}
-	if value, ok := mc.mutation.Path(); ok {
-		_spec.SetField(media.FieldPath, field.TypeString, value)
-		_node.Path = value
+	if value, ok := mc.mutation.OwnerID(); ok {
+		_spec.SetField(media.FieldOwnerID, field.TypeString, value)
+		_node.OwnerID = value
 	}
-	if value, ok := mc.mutation.MimeType(); ok {
-		_spec.SetField(media.FieldMimeType, field.TypeString, value)
-		_node.MimeType = value
-	}
-	if value, ok := mc.mutation.Size(); ok {
-		_spec.SetField(media.FieldSize, field.TypeInt64, value)
-		_node.Size = value
-	}
-	if value, ok := mc.mutation.Width(); ok {
-		_spec.SetField(media.FieldWidth, field.TypeInt, value)
-		_node.Width = value
-	}
-	if value, ok := mc.mutation.Height(); ok {
-		_spec.SetField(media.FieldHeight, field.TypeInt, value)
-		_node.Height = value
-	}
-	if value, ok := mc.mutation.Duration(); ok {
-		_spec.SetField(media.FieldDuration, field.TypeFloat64, value)
-		_node.Duration = value
+	if value, ok := mc.mutation.ResourceID(); ok {
+		_spec.SetField(media.FieldResourceID, field.TypeString, value)
+		_node.ResourceID = value
 	}
 	if value, ok := mc.mutation.Description(); ok {
 		_spec.SetField(media.FieldDescription, field.TypeString, value)

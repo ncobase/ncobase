@@ -44,8 +44,8 @@ type Taxonomy struct {
 	Extras map[string]interface{} `json:"extras,omitempty"`
 	// parent id
 	ParentID string `json:"parent_id,omitempty"`
-	// tenant id
-	TenantID string `json:"tenant_id,omitempty"`
+	// space id, e.g. tenant id, organization id, store id
+	SpaceID string `json:"space_id,omitempty"`
 	// id of the creator
 	CreatedBy string `json:"created_by,omitempty"`
 	// id of the last updater
@@ -66,7 +66,7 @@ func (*Taxonomy) scanValues(columns []string) ([]any, error) {
 			values[i] = new([]byte)
 		case taxonomy.FieldStatus, taxonomy.FieldCreatedAt, taxonomy.FieldUpdatedAt:
 			values[i] = new(sql.NullInt64)
-		case taxonomy.FieldID, taxonomy.FieldName, taxonomy.FieldType, taxonomy.FieldSlug, taxonomy.FieldCover, taxonomy.FieldThumbnail, taxonomy.FieldColor, taxonomy.FieldIcon, taxonomy.FieldURL, taxonomy.FieldKeywords, taxonomy.FieldDescription, taxonomy.FieldParentID, taxonomy.FieldTenantID, taxonomy.FieldCreatedBy, taxonomy.FieldUpdatedBy:
+		case taxonomy.FieldID, taxonomy.FieldName, taxonomy.FieldType, taxonomy.FieldSlug, taxonomy.FieldCover, taxonomy.FieldThumbnail, taxonomy.FieldColor, taxonomy.FieldIcon, taxonomy.FieldURL, taxonomy.FieldKeywords, taxonomy.FieldDescription, taxonomy.FieldParentID, taxonomy.FieldSpaceID, taxonomy.FieldCreatedBy, taxonomy.FieldUpdatedBy:
 			values[i] = new(sql.NullString)
 		default:
 			values[i] = new(sql.UnknownType)
@@ -169,11 +169,11 @@ func (t *Taxonomy) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				t.ParentID = value.String
 			}
-		case taxonomy.FieldTenantID:
+		case taxonomy.FieldSpaceID:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field tenant_id", values[i])
+				return fmt.Errorf("unexpected type %T for field space_id", values[i])
 			} else if value.Valid {
-				t.TenantID = value.String
+				t.SpaceID = value.String
 			}
 		case taxonomy.FieldCreatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -274,8 +274,8 @@ func (t *Taxonomy) String() string {
 	builder.WriteString("parent_id=")
 	builder.WriteString(t.ParentID)
 	builder.WriteString(", ")
-	builder.WriteString("tenant_id=")
-	builder.WriteString(t.TenantID)
+	builder.WriteString("space_id=")
+	builder.WriteString(t.SpaceID)
 	builder.WriteString(", ")
 	builder.WriteString("created_by=")
 	builder.WriteString(t.CreatedBy)

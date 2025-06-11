@@ -98,14 +98,14 @@ func Endpoint(v string) predicate.File {
 	return predicate.File(sql.FieldEQ(FieldEndpoint, v))
 }
 
-// ObjectID applies equality check predicate on the "object_id" field. It's identical to ObjectIDEQ.
-func ObjectID(v string) predicate.File {
-	return predicate.File(sql.FieldEQ(FieldObjectID, v))
+// OwnerID applies equality check predicate on the "owner_id" field. It's identical to OwnerIDEQ.
+func OwnerID(v string) predicate.File {
+	return predicate.File(sql.FieldEQ(FieldOwnerID, v))
 }
 
-// TenantID applies equality check predicate on the "tenant_id" field. It's identical to TenantIDEQ.
-func TenantID(v string) predicate.File {
-	return predicate.File(sql.FieldEQ(FieldTenantID, v))
+// SpaceID applies equality check predicate on the "space_id" field. It's identical to SpaceIDEQ.
+func SpaceID(v string) predicate.File {
+	return predicate.File(sql.FieldEQ(FieldSpaceID, v))
 }
 
 // CreatedBy applies equality check predicate on the "created_by" field. It's identical to CreatedByEQ.
@@ -146,26 +146,6 @@ func ExpiresAt(v int64) predicate.File {
 // IsPublic applies equality check predicate on the "is_public" field. It's identical to IsPublicEQ.
 func IsPublic(v bool) predicate.File {
 	return predicate.File(sql.FieldEQ(FieldIsPublic, v))
-}
-
-// ThumbnailPath applies equality check predicate on the "thumbnail_path" field. It's identical to ThumbnailPathEQ.
-func ThumbnailPath(v string) predicate.File {
-	return predicate.File(sql.FieldEQ(FieldThumbnailPath, v))
-}
-
-// Width applies equality check predicate on the "width" field. It's identical to WidthEQ.
-func Width(v int) predicate.File {
-	return predicate.File(sql.FieldEQ(FieldWidth, v))
-}
-
-// Height applies equality check predicate on the "height" field. It's identical to HeightEQ.
-func Height(v int) predicate.File {
-	return predicate.File(sql.FieldEQ(FieldHeight, v))
-}
-
-// Duration applies equality check predicate on the "duration" field. It's identical to DurationEQ.
-func Duration(v float64) predicate.File {
-	return predicate.File(sql.FieldEQ(FieldDuration, v))
 }
 
 // Category applies equality check predicate on the "category" field. It's identical to CategoryEQ.
@@ -663,154 +643,154 @@ func EndpointContainsFold(v string) predicate.File {
 	return predicate.File(sql.FieldContainsFold(FieldEndpoint, v))
 }
 
-// ObjectIDEQ applies the EQ predicate on the "object_id" field.
-func ObjectIDEQ(v string) predicate.File {
-	return predicate.File(sql.FieldEQ(FieldObjectID, v))
+// OwnerIDEQ applies the EQ predicate on the "owner_id" field.
+func OwnerIDEQ(v string) predicate.File {
+	return predicate.File(sql.FieldEQ(FieldOwnerID, v))
 }
 
-// ObjectIDNEQ applies the NEQ predicate on the "object_id" field.
-func ObjectIDNEQ(v string) predicate.File {
-	return predicate.File(sql.FieldNEQ(FieldObjectID, v))
+// OwnerIDNEQ applies the NEQ predicate on the "owner_id" field.
+func OwnerIDNEQ(v string) predicate.File {
+	return predicate.File(sql.FieldNEQ(FieldOwnerID, v))
 }
 
-// ObjectIDIn applies the In predicate on the "object_id" field.
-func ObjectIDIn(vs ...string) predicate.File {
-	return predicate.File(sql.FieldIn(FieldObjectID, vs...))
+// OwnerIDIn applies the In predicate on the "owner_id" field.
+func OwnerIDIn(vs ...string) predicate.File {
+	return predicate.File(sql.FieldIn(FieldOwnerID, vs...))
 }
 
-// ObjectIDNotIn applies the NotIn predicate on the "object_id" field.
-func ObjectIDNotIn(vs ...string) predicate.File {
-	return predicate.File(sql.FieldNotIn(FieldObjectID, vs...))
+// OwnerIDNotIn applies the NotIn predicate on the "owner_id" field.
+func OwnerIDNotIn(vs ...string) predicate.File {
+	return predicate.File(sql.FieldNotIn(FieldOwnerID, vs...))
 }
 
-// ObjectIDGT applies the GT predicate on the "object_id" field.
-func ObjectIDGT(v string) predicate.File {
-	return predicate.File(sql.FieldGT(FieldObjectID, v))
+// OwnerIDGT applies the GT predicate on the "owner_id" field.
+func OwnerIDGT(v string) predicate.File {
+	return predicate.File(sql.FieldGT(FieldOwnerID, v))
 }
 
-// ObjectIDGTE applies the GTE predicate on the "object_id" field.
-func ObjectIDGTE(v string) predicate.File {
-	return predicate.File(sql.FieldGTE(FieldObjectID, v))
+// OwnerIDGTE applies the GTE predicate on the "owner_id" field.
+func OwnerIDGTE(v string) predicate.File {
+	return predicate.File(sql.FieldGTE(FieldOwnerID, v))
 }
 
-// ObjectIDLT applies the LT predicate on the "object_id" field.
-func ObjectIDLT(v string) predicate.File {
-	return predicate.File(sql.FieldLT(FieldObjectID, v))
+// OwnerIDLT applies the LT predicate on the "owner_id" field.
+func OwnerIDLT(v string) predicate.File {
+	return predicate.File(sql.FieldLT(FieldOwnerID, v))
 }
 
-// ObjectIDLTE applies the LTE predicate on the "object_id" field.
-func ObjectIDLTE(v string) predicate.File {
-	return predicate.File(sql.FieldLTE(FieldObjectID, v))
+// OwnerIDLTE applies the LTE predicate on the "owner_id" field.
+func OwnerIDLTE(v string) predicate.File {
+	return predicate.File(sql.FieldLTE(FieldOwnerID, v))
 }
 
-// ObjectIDContains applies the Contains predicate on the "object_id" field.
-func ObjectIDContains(v string) predicate.File {
-	return predicate.File(sql.FieldContains(FieldObjectID, v))
+// OwnerIDContains applies the Contains predicate on the "owner_id" field.
+func OwnerIDContains(v string) predicate.File {
+	return predicate.File(sql.FieldContains(FieldOwnerID, v))
 }
 
-// ObjectIDHasPrefix applies the HasPrefix predicate on the "object_id" field.
-func ObjectIDHasPrefix(v string) predicate.File {
-	return predicate.File(sql.FieldHasPrefix(FieldObjectID, v))
+// OwnerIDHasPrefix applies the HasPrefix predicate on the "owner_id" field.
+func OwnerIDHasPrefix(v string) predicate.File {
+	return predicate.File(sql.FieldHasPrefix(FieldOwnerID, v))
 }
 
-// ObjectIDHasSuffix applies the HasSuffix predicate on the "object_id" field.
-func ObjectIDHasSuffix(v string) predicate.File {
-	return predicate.File(sql.FieldHasSuffix(FieldObjectID, v))
+// OwnerIDHasSuffix applies the HasSuffix predicate on the "owner_id" field.
+func OwnerIDHasSuffix(v string) predicate.File {
+	return predicate.File(sql.FieldHasSuffix(FieldOwnerID, v))
 }
 
-// ObjectIDIsNil applies the IsNil predicate on the "object_id" field.
-func ObjectIDIsNil() predicate.File {
-	return predicate.File(sql.FieldIsNull(FieldObjectID))
+// OwnerIDIsNil applies the IsNil predicate on the "owner_id" field.
+func OwnerIDIsNil() predicate.File {
+	return predicate.File(sql.FieldIsNull(FieldOwnerID))
 }
 
-// ObjectIDNotNil applies the NotNil predicate on the "object_id" field.
-func ObjectIDNotNil() predicate.File {
-	return predicate.File(sql.FieldNotNull(FieldObjectID))
+// OwnerIDNotNil applies the NotNil predicate on the "owner_id" field.
+func OwnerIDNotNil() predicate.File {
+	return predicate.File(sql.FieldNotNull(FieldOwnerID))
 }
 
-// ObjectIDEqualFold applies the EqualFold predicate on the "object_id" field.
-func ObjectIDEqualFold(v string) predicate.File {
-	return predicate.File(sql.FieldEqualFold(FieldObjectID, v))
+// OwnerIDEqualFold applies the EqualFold predicate on the "owner_id" field.
+func OwnerIDEqualFold(v string) predicate.File {
+	return predicate.File(sql.FieldEqualFold(FieldOwnerID, v))
 }
 
-// ObjectIDContainsFold applies the ContainsFold predicate on the "object_id" field.
-func ObjectIDContainsFold(v string) predicate.File {
-	return predicate.File(sql.FieldContainsFold(FieldObjectID, v))
+// OwnerIDContainsFold applies the ContainsFold predicate on the "owner_id" field.
+func OwnerIDContainsFold(v string) predicate.File {
+	return predicate.File(sql.FieldContainsFold(FieldOwnerID, v))
 }
 
-// TenantIDEQ applies the EQ predicate on the "tenant_id" field.
-func TenantIDEQ(v string) predicate.File {
-	return predicate.File(sql.FieldEQ(FieldTenantID, v))
+// SpaceIDEQ applies the EQ predicate on the "space_id" field.
+func SpaceIDEQ(v string) predicate.File {
+	return predicate.File(sql.FieldEQ(FieldSpaceID, v))
 }
 
-// TenantIDNEQ applies the NEQ predicate on the "tenant_id" field.
-func TenantIDNEQ(v string) predicate.File {
-	return predicate.File(sql.FieldNEQ(FieldTenantID, v))
+// SpaceIDNEQ applies the NEQ predicate on the "space_id" field.
+func SpaceIDNEQ(v string) predicate.File {
+	return predicate.File(sql.FieldNEQ(FieldSpaceID, v))
 }
 
-// TenantIDIn applies the In predicate on the "tenant_id" field.
-func TenantIDIn(vs ...string) predicate.File {
-	return predicate.File(sql.FieldIn(FieldTenantID, vs...))
+// SpaceIDIn applies the In predicate on the "space_id" field.
+func SpaceIDIn(vs ...string) predicate.File {
+	return predicate.File(sql.FieldIn(FieldSpaceID, vs...))
 }
 
-// TenantIDNotIn applies the NotIn predicate on the "tenant_id" field.
-func TenantIDNotIn(vs ...string) predicate.File {
-	return predicate.File(sql.FieldNotIn(FieldTenantID, vs...))
+// SpaceIDNotIn applies the NotIn predicate on the "space_id" field.
+func SpaceIDNotIn(vs ...string) predicate.File {
+	return predicate.File(sql.FieldNotIn(FieldSpaceID, vs...))
 }
 
-// TenantIDGT applies the GT predicate on the "tenant_id" field.
-func TenantIDGT(v string) predicate.File {
-	return predicate.File(sql.FieldGT(FieldTenantID, v))
+// SpaceIDGT applies the GT predicate on the "space_id" field.
+func SpaceIDGT(v string) predicate.File {
+	return predicate.File(sql.FieldGT(FieldSpaceID, v))
 }
 
-// TenantIDGTE applies the GTE predicate on the "tenant_id" field.
-func TenantIDGTE(v string) predicate.File {
-	return predicate.File(sql.FieldGTE(FieldTenantID, v))
+// SpaceIDGTE applies the GTE predicate on the "space_id" field.
+func SpaceIDGTE(v string) predicate.File {
+	return predicate.File(sql.FieldGTE(FieldSpaceID, v))
 }
 
-// TenantIDLT applies the LT predicate on the "tenant_id" field.
-func TenantIDLT(v string) predicate.File {
-	return predicate.File(sql.FieldLT(FieldTenantID, v))
+// SpaceIDLT applies the LT predicate on the "space_id" field.
+func SpaceIDLT(v string) predicate.File {
+	return predicate.File(sql.FieldLT(FieldSpaceID, v))
 }
 
-// TenantIDLTE applies the LTE predicate on the "tenant_id" field.
-func TenantIDLTE(v string) predicate.File {
-	return predicate.File(sql.FieldLTE(FieldTenantID, v))
+// SpaceIDLTE applies the LTE predicate on the "space_id" field.
+func SpaceIDLTE(v string) predicate.File {
+	return predicate.File(sql.FieldLTE(FieldSpaceID, v))
 }
 
-// TenantIDContains applies the Contains predicate on the "tenant_id" field.
-func TenantIDContains(v string) predicate.File {
-	return predicate.File(sql.FieldContains(FieldTenantID, v))
+// SpaceIDContains applies the Contains predicate on the "space_id" field.
+func SpaceIDContains(v string) predicate.File {
+	return predicate.File(sql.FieldContains(FieldSpaceID, v))
 }
 
-// TenantIDHasPrefix applies the HasPrefix predicate on the "tenant_id" field.
-func TenantIDHasPrefix(v string) predicate.File {
-	return predicate.File(sql.FieldHasPrefix(FieldTenantID, v))
+// SpaceIDHasPrefix applies the HasPrefix predicate on the "space_id" field.
+func SpaceIDHasPrefix(v string) predicate.File {
+	return predicate.File(sql.FieldHasPrefix(FieldSpaceID, v))
 }
 
-// TenantIDHasSuffix applies the HasSuffix predicate on the "tenant_id" field.
-func TenantIDHasSuffix(v string) predicate.File {
-	return predicate.File(sql.FieldHasSuffix(FieldTenantID, v))
+// SpaceIDHasSuffix applies the HasSuffix predicate on the "space_id" field.
+func SpaceIDHasSuffix(v string) predicate.File {
+	return predicate.File(sql.FieldHasSuffix(FieldSpaceID, v))
 }
 
-// TenantIDIsNil applies the IsNil predicate on the "tenant_id" field.
-func TenantIDIsNil() predicate.File {
-	return predicate.File(sql.FieldIsNull(FieldTenantID))
+// SpaceIDIsNil applies the IsNil predicate on the "space_id" field.
+func SpaceIDIsNil() predicate.File {
+	return predicate.File(sql.FieldIsNull(FieldSpaceID))
 }
 
-// TenantIDNotNil applies the NotNil predicate on the "tenant_id" field.
-func TenantIDNotNil() predicate.File {
-	return predicate.File(sql.FieldNotNull(FieldTenantID))
+// SpaceIDNotNil applies the NotNil predicate on the "space_id" field.
+func SpaceIDNotNil() predicate.File {
+	return predicate.File(sql.FieldNotNull(FieldSpaceID))
 }
 
-// TenantIDEqualFold applies the EqualFold predicate on the "tenant_id" field.
-func TenantIDEqualFold(v string) predicate.File {
-	return predicate.File(sql.FieldEqualFold(FieldTenantID, v))
+// SpaceIDEqualFold applies the EqualFold predicate on the "space_id" field.
+func SpaceIDEqualFold(v string) predicate.File {
+	return predicate.File(sql.FieldEqualFold(FieldSpaceID, v))
 }
 
-// TenantIDContainsFold applies the ContainsFold predicate on the "tenant_id" field.
-func TenantIDContainsFold(v string) predicate.File {
-	return predicate.File(sql.FieldContainsFold(FieldTenantID, v))
+// SpaceIDContainsFold applies the ContainsFold predicate on the "space_id" field.
+func SpaceIDContainsFold(v string) predicate.File {
+	return predicate.File(sql.FieldContainsFold(FieldSpaceID, v))
 }
 
 // ExtrasIsNil applies the IsNil predicate on the "extras" field.
@@ -1263,16 +1243,6 @@ func ExpiresAtNotNil() predicate.File {
 	return predicate.File(sql.FieldNotNull(FieldExpiresAt))
 }
 
-// MetadataIsNil applies the IsNil predicate on the "metadata" field.
-func MetadataIsNil() predicate.File {
-	return predicate.File(sql.FieldIsNull(FieldMetadata))
-}
-
-// MetadataNotNil applies the NotNil predicate on the "metadata" field.
-func MetadataNotNil() predicate.File {
-	return predicate.File(sql.FieldNotNull(FieldMetadata))
-}
-
 // TagsIsNil applies the IsNil predicate on the "tags" field.
 func TagsIsNil() predicate.File {
 	return predicate.File(sql.FieldIsNull(FieldTags))
@@ -1291,241 +1261,6 @@ func IsPublicEQ(v bool) predicate.File {
 // IsPublicNEQ applies the NEQ predicate on the "is_public" field.
 func IsPublicNEQ(v bool) predicate.File {
 	return predicate.File(sql.FieldNEQ(FieldIsPublic, v))
-}
-
-// VersionsIsNil applies the IsNil predicate on the "versions" field.
-func VersionsIsNil() predicate.File {
-	return predicate.File(sql.FieldIsNull(FieldVersions))
-}
-
-// VersionsNotNil applies the NotNil predicate on the "versions" field.
-func VersionsNotNil() predicate.File {
-	return predicate.File(sql.FieldNotNull(FieldVersions))
-}
-
-// ThumbnailPathEQ applies the EQ predicate on the "thumbnail_path" field.
-func ThumbnailPathEQ(v string) predicate.File {
-	return predicate.File(sql.FieldEQ(FieldThumbnailPath, v))
-}
-
-// ThumbnailPathNEQ applies the NEQ predicate on the "thumbnail_path" field.
-func ThumbnailPathNEQ(v string) predicate.File {
-	return predicate.File(sql.FieldNEQ(FieldThumbnailPath, v))
-}
-
-// ThumbnailPathIn applies the In predicate on the "thumbnail_path" field.
-func ThumbnailPathIn(vs ...string) predicate.File {
-	return predicate.File(sql.FieldIn(FieldThumbnailPath, vs...))
-}
-
-// ThumbnailPathNotIn applies the NotIn predicate on the "thumbnail_path" field.
-func ThumbnailPathNotIn(vs ...string) predicate.File {
-	return predicate.File(sql.FieldNotIn(FieldThumbnailPath, vs...))
-}
-
-// ThumbnailPathGT applies the GT predicate on the "thumbnail_path" field.
-func ThumbnailPathGT(v string) predicate.File {
-	return predicate.File(sql.FieldGT(FieldThumbnailPath, v))
-}
-
-// ThumbnailPathGTE applies the GTE predicate on the "thumbnail_path" field.
-func ThumbnailPathGTE(v string) predicate.File {
-	return predicate.File(sql.FieldGTE(FieldThumbnailPath, v))
-}
-
-// ThumbnailPathLT applies the LT predicate on the "thumbnail_path" field.
-func ThumbnailPathLT(v string) predicate.File {
-	return predicate.File(sql.FieldLT(FieldThumbnailPath, v))
-}
-
-// ThumbnailPathLTE applies the LTE predicate on the "thumbnail_path" field.
-func ThumbnailPathLTE(v string) predicate.File {
-	return predicate.File(sql.FieldLTE(FieldThumbnailPath, v))
-}
-
-// ThumbnailPathContains applies the Contains predicate on the "thumbnail_path" field.
-func ThumbnailPathContains(v string) predicate.File {
-	return predicate.File(sql.FieldContains(FieldThumbnailPath, v))
-}
-
-// ThumbnailPathHasPrefix applies the HasPrefix predicate on the "thumbnail_path" field.
-func ThumbnailPathHasPrefix(v string) predicate.File {
-	return predicate.File(sql.FieldHasPrefix(FieldThumbnailPath, v))
-}
-
-// ThumbnailPathHasSuffix applies the HasSuffix predicate on the "thumbnail_path" field.
-func ThumbnailPathHasSuffix(v string) predicate.File {
-	return predicate.File(sql.FieldHasSuffix(FieldThumbnailPath, v))
-}
-
-// ThumbnailPathIsNil applies the IsNil predicate on the "thumbnail_path" field.
-func ThumbnailPathIsNil() predicate.File {
-	return predicate.File(sql.FieldIsNull(FieldThumbnailPath))
-}
-
-// ThumbnailPathNotNil applies the NotNil predicate on the "thumbnail_path" field.
-func ThumbnailPathNotNil() predicate.File {
-	return predicate.File(sql.FieldNotNull(FieldThumbnailPath))
-}
-
-// ThumbnailPathEqualFold applies the EqualFold predicate on the "thumbnail_path" field.
-func ThumbnailPathEqualFold(v string) predicate.File {
-	return predicate.File(sql.FieldEqualFold(FieldThumbnailPath, v))
-}
-
-// ThumbnailPathContainsFold applies the ContainsFold predicate on the "thumbnail_path" field.
-func ThumbnailPathContainsFold(v string) predicate.File {
-	return predicate.File(sql.FieldContainsFold(FieldThumbnailPath, v))
-}
-
-// WidthEQ applies the EQ predicate on the "width" field.
-func WidthEQ(v int) predicate.File {
-	return predicate.File(sql.FieldEQ(FieldWidth, v))
-}
-
-// WidthNEQ applies the NEQ predicate on the "width" field.
-func WidthNEQ(v int) predicate.File {
-	return predicate.File(sql.FieldNEQ(FieldWidth, v))
-}
-
-// WidthIn applies the In predicate on the "width" field.
-func WidthIn(vs ...int) predicate.File {
-	return predicate.File(sql.FieldIn(FieldWidth, vs...))
-}
-
-// WidthNotIn applies the NotIn predicate on the "width" field.
-func WidthNotIn(vs ...int) predicate.File {
-	return predicate.File(sql.FieldNotIn(FieldWidth, vs...))
-}
-
-// WidthGT applies the GT predicate on the "width" field.
-func WidthGT(v int) predicate.File {
-	return predicate.File(sql.FieldGT(FieldWidth, v))
-}
-
-// WidthGTE applies the GTE predicate on the "width" field.
-func WidthGTE(v int) predicate.File {
-	return predicate.File(sql.FieldGTE(FieldWidth, v))
-}
-
-// WidthLT applies the LT predicate on the "width" field.
-func WidthLT(v int) predicate.File {
-	return predicate.File(sql.FieldLT(FieldWidth, v))
-}
-
-// WidthLTE applies the LTE predicate on the "width" field.
-func WidthLTE(v int) predicate.File {
-	return predicate.File(sql.FieldLTE(FieldWidth, v))
-}
-
-// WidthIsNil applies the IsNil predicate on the "width" field.
-func WidthIsNil() predicate.File {
-	return predicate.File(sql.FieldIsNull(FieldWidth))
-}
-
-// WidthNotNil applies the NotNil predicate on the "width" field.
-func WidthNotNil() predicate.File {
-	return predicate.File(sql.FieldNotNull(FieldWidth))
-}
-
-// HeightEQ applies the EQ predicate on the "height" field.
-func HeightEQ(v int) predicate.File {
-	return predicate.File(sql.FieldEQ(FieldHeight, v))
-}
-
-// HeightNEQ applies the NEQ predicate on the "height" field.
-func HeightNEQ(v int) predicate.File {
-	return predicate.File(sql.FieldNEQ(FieldHeight, v))
-}
-
-// HeightIn applies the In predicate on the "height" field.
-func HeightIn(vs ...int) predicate.File {
-	return predicate.File(sql.FieldIn(FieldHeight, vs...))
-}
-
-// HeightNotIn applies the NotIn predicate on the "height" field.
-func HeightNotIn(vs ...int) predicate.File {
-	return predicate.File(sql.FieldNotIn(FieldHeight, vs...))
-}
-
-// HeightGT applies the GT predicate on the "height" field.
-func HeightGT(v int) predicate.File {
-	return predicate.File(sql.FieldGT(FieldHeight, v))
-}
-
-// HeightGTE applies the GTE predicate on the "height" field.
-func HeightGTE(v int) predicate.File {
-	return predicate.File(sql.FieldGTE(FieldHeight, v))
-}
-
-// HeightLT applies the LT predicate on the "height" field.
-func HeightLT(v int) predicate.File {
-	return predicate.File(sql.FieldLT(FieldHeight, v))
-}
-
-// HeightLTE applies the LTE predicate on the "height" field.
-func HeightLTE(v int) predicate.File {
-	return predicate.File(sql.FieldLTE(FieldHeight, v))
-}
-
-// HeightIsNil applies the IsNil predicate on the "height" field.
-func HeightIsNil() predicate.File {
-	return predicate.File(sql.FieldIsNull(FieldHeight))
-}
-
-// HeightNotNil applies the NotNil predicate on the "height" field.
-func HeightNotNil() predicate.File {
-	return predicate.File(sql.FieldNotNull(FieldHeight))
-}
-
-// DurationEQ applies the EQ predicate on the "duration" field.
-func DurationEQ(v float64) predicate.File {
-	return predicate.File(sql.FieldEQ(FieldDuration, v))
-}
-
-// DurationNEQ applies the NEQ predicate on the "duration" field.
-func DurationNEQ(v float64) predicate.File {
-	return predicate.File(sql.FieldNEQ(FieldDuration, v))
-}
-
-// DurationIn applies the In predicate on the "duration" field.
-func DurationIn(vs ...float64) predicate.File {
-	return predicate.File(sql.FieldIn(FieldDuration, vs...))
-}
-
-// DurationNotIn applies the NotIn predicate on the "duration" field.
-func DurationNotIn(vs ...float64) predicate.File {
-	return predicate.File(sql.FieldNotIn(FieldDuration, vs...))
-}
-
-// DurationGT applies the GT predicate on the "duration" field.
-func DurationGT(v float64) predicate.File {
-	return predicate.File(sql.FieldGT(FieldDuration, v))
-}
-
-// DurationGTE applies the GTE predicate on the "duration" field.
-func DurationGTE(v float64) predicate.File {
-	return predicate.File(sql.FieldGTE(FieldDuration, v))
-}
-
-// DurationLT applies the LT predicate on the "duration" field.
-func DurationLT(v float64) predicate.File {
-	return predicate.File(sql.FieldLT(FieldDuration, v))
-}
-
-// DurationLTE applies the LTE predicate on the "duration" field.
-func DurationLTE(v float64) predicate.File {
-	return predicate.File(sql.FieldLTE(FieldDuration, v))
-}
-
-// DurationIsNil applies the IsNil predicate on the "duration" field.
-func DurationIsNil() predicate.File {
-	return predicate.File(sql.FieldIsNull(FieldDuration))
-}
-
-// DurationNotNil applies the NotNil predicate on the "duration" field.
-func DurationNotNil() predicate.File {
-	return predicate.File(sql.FieldNotNull(FieldDuration))
 }
 
 // CategoryEQ applies the EQ predicate on the "category" field.

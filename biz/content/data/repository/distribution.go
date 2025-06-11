@@ -74,7 +74,7 @@ func (r *distributionRepository) Create(ctx context.Context, body *structs.Creat
 	}
 
 	builder.SetNillableErrorDetails(&body.ErrorDetails)
-	builder.SetNillableTenantID(&body.TenantID)
+	builder.SetNillableSpaceID(&body.SpaceID)
 	builder.SetNillableCreatedBy(body.CreatedBy)
 
 	// execute the builder
@@ -145,7 +145,7 @@ func (r *distributionRepository) Update(ctx context.Context, id string, updates 
 		case "error_details":
 			builder.SetNillableErrorDetails(convert.ToPointer(value.(string)))
 		case "tenant_id":
-			builder.SetNillableTenantID(convert.ToPointer(value.(string)))
+			builder.SetNillableSpaceID(convert.ToPointer(value.(string)))
 		case "updated_by":
 			builder.SetNillableUpdatedBy(convert.ToPointer(value.(string)))
 		}
@@ -186,8 +186,8 @@ func (r *distributionRepository) List(ctx context.Context, params *structs.ListD
 		builder.Where(distributionEnt.StatusEQ(params.Status))
 	}
 
-	if validator.IsNotEmpty(params.Tenant) {
-		builder.Where(distributionEnt.TenantIDEQ(params.Tenant))
+	if validator.IsNotEmpty(params.SpaceID) {
+		builder.Where(distributionEnt.SpaceIDEQ(params.SpaceID))
 	}
 
 	// load relations if requested
@@ -275,8 +275,8 @@ func (r *distributionRepository) Count(ctx context.Context, params *structs.List
 		builder.Where(distributionEnt.StatusEQ(params.Status))
 	}
 
-	if validator.IsNotEmpty(params.Tenant) {
-		builder.Where(distributionEnt.TenantIDEQ(params.Tenant))
+	if validator.IsNotEmpty(params.SpaceID) {
+		builder.Where(distributionEnt.SpaceIDEQ(params.SpaceID))
 	}
 
 	// execute count query
@@ -342,9 +342,9 @@ func (r *distributionRepository) FindDistribution(ctx context.Context, params *s
 		builder = builder.Where(distributionEnt.ChannelIDEQ(params.ChannelID))
 	}
 
-	// if tenant provided
-	if validator.IsNotEmpty(params.Tenant) {
-		builder = builder.Where(distributionEnt.TenantIDEQ(params.Tenant))
+	// if space / tenant provided
+	if validator.IsNotEmpty(params.SpaceID) {
+		builder = builder.Where(distributionEnt.SpaceIDEQ(params.SpaceID))
 	}
 
 	// execute the builder

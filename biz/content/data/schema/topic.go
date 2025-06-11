@@ -44,7 +44,7 @@ func (Topic) Mixin() []ent.Mixin {
 		mixin.Status,
 		mixin.Released,
 		mixin.TaxonomyID,
-		mixin.TenantID,
+		mixin.SpaceID,
 		mixin.ExtraProps,
 		mixin.OperatorBy{},
 		mixin.TimeAt{},

@@ -32,10 +32,10 @@ type File struct {
 	Bucket string `json:"bucket,omitempty"`
 	// endpoint
 	Endpoint string `json:"endpoint,omitempty"`
-	// object id
-	ObjectID string `json:"object_id,omitempty"`
-	// tenant id
-	TenantID string `json:"tenant_id,omitempty"`
+	// owner id
+	OwnerID string `json:"owner_id,omitempty"`
+	// space id, e.g. tenant id, organization id, store id
+	SpaceID string `json:"space_id,omitempty"`
 	// Extend properties
 	Extras map[string]interface{} `json:"extras,omitempty"`
 	// id of the creator
@@ -46,31 +46,19 @@ type File struct {
 	CreatedAt int64 `json:"created_at,omitempty"`
 	// updated at
 	UpdatedAt int64 `json:"updated_at,omitempty"`
-	// Virtual folder path for organization
+	// Virtual folder path
 	FolderPath string `json:"folder_path,omitempty"`
 	// Access level: public, private, shared
 	AccessLevel string `json:"access_level,omitempty"`
 	// Expiration timestamp
 	ExpiresAt *int64 `json:"expires_at,omitempty"`
-	// Extended file metadata
-	Metadata map[string]interface{} `json:"metadata,omitempty"`
-	// Tags for categorization
+	// File tags
 	Tags []string `json:"tags,omitempty"`
-	// Publicly accessible flag
+	// Public access flag
 	IsPublic bool `json:"is_public,omitempty"`
-	// IDs of previous versions
-	Versions []string `json:"versions,omitempty"`
-	// Path to thumbnail if available
-	ThumbnailPath string `json:"thumbnail_path,omitempty"`
-	// Width for image files
-	Width *int `json:"width,omitempty"`
-	// Height for image files
-	Height *int `json:"height,omitempty"`
-	// Duration for audio/video files in seconds
-	Duration *float64 `json:"duration,omitempty"`
-	// File category: image, document, video, audio, archive, other
+	// File category
 	Category string `json:"category,omitempty"`
-	// Results from any processing operations
+	// Processing operation results
 	ProcessingResult map[string]interface{} `json:"processing_result,omitempty"`
 	selectValues     sql.SelectValues
 }
@@ -80,15 +68,13 @@ func (*File) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case file.FieldExtras, file.FieldMetadata, file.FieldTags, file.FieldVersions, file.FieldProcessingResult:
+		case file.FieldExtras, file.FieldTags, file.FieldProcessingResult:
 			values[i] = new([]byte)
 		case file.FieldIsPublic:
 			values[i] = new(sql.NullBool)
-		case file.FieldDuration:
-			values[i] = new(sql.NullFloat64)
-		case file.FieldSize, file.FieldCreatedAt, file.FieldUpdatedAt, file.FieldExpiresAt, file.FieldWidth, file.FieldHeight:
+		case file.FieldSize, file.FieldCreatedAt, file.FieldUpdatedAt, file.FieldExpiresAt:
 			values[i] = new(sql.NullInt64)
-		case file.FieldID, file.FieldName, file.FieldPath, file.FieldType, file.FieldStorage, file.FieldBucket, file.FieldEndpoint, file.FieldObjectID, file.FieldTenantID, file.FieldCreatedBy, file.FieldUpdatedBy, file.FieldFolderPath, file.FieldAccessLevel, file.FieldThumbnailPath, file.FieldCategory:
+		case file.FieldID, file.FieldName, file.FieldPath, file.FieldType, file.FieldStorage, file.FieldBucket, file.FieldEndpoint, file.FieldOwnerID, file.FieldSpaceID, file.FieldCreatedBy, file.FieldUpdatedBy, file.FieldFolderPath, file.FieldAccessLevel, file.FieldCategory:
 			values[i] = new(sql.NullString)
 		default:
 			values[i] = new(sql.UnknownType)
@@ -153,17 +139,17 @@ func (f *File) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				f.Endpoint = value.String
 			}
-		case file.FieldObjectID:
+		case file.FieldOwnerID:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field object_id", values[i])
+				return fmt.Errorf("unexpected type %T for field owner_id", values[i])
 			} else if value.Valid {
-				f.ObjectID = value.String
+				f.OwnerID = value.String
 			}
-		case file.FieldTenantID:
+		case file.FieldSpaceID:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field tenant_id", values[i])
+				return fmt.Errorf("unexpected type %T for field space_id", values[i])
 			} else if value.Valid {
-				f.TenantID = value.String
+				f.SpaceID = value.String
 			}
 		case file.FieldExtras:
 			if value, ok := values[i].(*[]byte); !ok {
@@ -216,14 +202,6 @@ func (f *File) assignValues(columns []string, values []any) error {
 				f.ExpiresAt = new(int64)
 				*f.ExpiresAt = value.Int64
 			}
-		case file.FieldMetadata:
-			if value, ok := values[i].(*[]byte); !ok {
-				return fmt.Errorf("unexpected type %T for field metadata", values[i])
-			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &f.Metadata); err != nil {
-					return fmt.Errorf("unmarshal field metadata: %w", err)
-				}
-			}
 		case file.FieldTags:
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field tags", values[i])
@@ -237,41 +215,6 @@ func (f *File) assignValues(columns []string, values []any) error {
 				return fmt.Errorf("unexpected type %T for field is_public", values[i])
 			} else if value.Valid {
 				f.IsPublic = value.Bool
-			}
-		case file.FieldVersions:
-			if value, ok := values[i].(*[]byte); !ok {
-				return fmt.Errorf("unexpected type %T for field versions", values[i])
-			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &f.Versions); err != nil {
-					return fmt.Errorf("unmarshal field versions: %w", err)
-				}
-			}
-		case file.FieldThumbnailPath:
-			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field thumbnail_path", values[i])
-			} else if value.Valid {
-				f.ThumbnailPath = value.String
-			}
-		case file.FieldWidth:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field width", values[i])
-			} else if value.Valid {
-				f.Width = new(int)
-				*f.Width = int(value.Int64)
-			}
-		case file.FieldHeight:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field height", values[i])
-			} else if value.Valid {
-				f.Height = new(int)
-				*f.Height = int(value.Int64)
-			}
-		case file.FieldDuration:
-			if value, ok := values[i].(*sql.NullFloat64); !ok {
-				return fmt.Errorf("unexpected type %T for field duration", values[i])
-			} else if value.Valid {
-				f.Duration = new(float64)
-				*f.Duration = value.Float64
 			}
 		case file.FieldCategory:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -344,11 +287,11 @@ func (f *File) String() string {
 	builder.WriteString("endpoint=")
 	builder.WriteString(f.Endpoint)
 	builder.WriteString(", ")
-	builder.WriteString("object_id=")
-	builder.WriteString(f.ObjectID)
+	builder.WriteString("owner_id=")
+	builder.WriteString(f.OwnerID)
 	builder.WriteString(", ")
-	builder.WriteString("tenant_id=")
-	builder.WriteString(f.TenantID)
+	builder.WriteString("space_id=")
+	builder.WriteString(f.SpaceID)
 	builder.WriteString(", ")
 	builder.WriteString("extras=")
 	builder.WriteString(fmt.Sprintf("%v", f.Extras))
@@ -376,35 +319,11 @@ func (f *File) String() string {
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
-	builder.WriteString("metadata=")
-	builder.WriteString(fmt.Sprintf("%v", f.Metadata))
-	builder.WriteString(", ")
 	builder.WriteString("tags=")
 	builder.WriteString(fmt.Sprintf("%v", f.Tags))
 	builder.WriteString(", ")
 	builder.WriteString("is_public=")
 	builder.WriteString(fmt.Sprintf("%v", f.IsPublic))
-	builder.WriteString(", ")
-	builder.WriteString("versions=")
-	builder.WriteString(fmt.Sprintf("%v", f.Versions))
-	builder.WriteString(", ")
-	builder.WriteString("thumbnail_path=")
-	builder.WriteString(f.ThumbnailPath)
-	builder.WriteString(", ")
-	if v := f.Width; v != nil {
-		builder.WriteString("width=")
-		builder.WriteString(fmt.Sprintf("%v", *v))
-	}
-	builder.WriteString(", ")
-	if v := f.Height; v != nil {
-		builder.WriteString("height=")
-		builder.WriteString(fmt.Sprintf("%v", *v))
-	}
-	builder.WriteString(", ")
-	if v := f.Duration; v != nil {
-		builder.WriteString("duration=")
-		builder.WriteString(fmt.Sprintf("%v", *v))
-	}
 	builder.WriteString(", ")
 	builder.WriteString("category=")
 	builder.WriteString(f.Category)

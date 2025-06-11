@@ -40,8 +40,8 @@ type FileMutation struct {
 	storage           *string
 	bucket            *string
 	endpoint          *string
-	object_id         *string
-	tenant_id         *string
+	owner_id          *string
+	space_id          *string
 	extras            *map[string]interface{}
 	created_by        *string
 	updated_by        *string
@@ -53,19 +53,9 @@ type FileMutation struct {
 	access_level      *string
 	expires_at        *int64
 	addexpires_at     *int64
-	metadata          *map[string]interface{}
 	tags              *[]string
 	appendtags        []string
 	is_public         *bool
-	versions          *[]string
-	appendversions    []string
-	thumbnail_path    *string
-	width             *int
-	addwidth          *int
-	height            *int
-	addheight         *int
-	duration          *float64
-	addduration       *float64
 	category          *string
 	processing_result *map[string]interface{}
 	clearedFields     map[string]struct{}
@@ -528,102 +518,102 @@ func (m *FileMutation) ResetEndpoint() {
 	delete(m.clearedFields, file.FieldEndpoint)
 }
 
-// SetObjectID sets the "object_id" field.
-func (m *FileMutation) SetObjectID(s string) {
-	m.object_id = &s
+// SetOwnerID sets the "owner_id" field.
+func (m *FileMutation) SetOwnerID(s string) {
+	m.owner_id = &s
 }
 
-// ObjectID returns the value of the "object_id" field in the mutation.
-func (m *FileMutation) ObjectID() (r string, exists bool) {
-	v := m.object_id
+// OwnerID returns the value of the "owner_id" field in the mutation.
+func (m *FileMutation) OwnerID() (r string, exists bool) {
+	v := m.owner_id
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldObjectID returns the old "object_id" field's value of the File entity.
+// OldOwnerID returns the old "owner_id" field's value of the File entity.
 // If the File object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *FileMutation) OldObjectID(ctx context.Context) (v string, err error) {
+func (m *FileMutation) OldOwnerID(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldObjectID is only allowed on UpdateOne operations")
+		return v, errors.New("OldOwnerID is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldObjectID requires an ID field in the mutation")
+		return v, errors.New("OldOwnerID requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldObjectID: %w", err)
+		return v, fmt.Errorf("querying old value for OldOwnerID: %w", err)
 	}
-	return oldValue.ObjectID, nil
+	return oldValue.OwnerID, nil
 }
 
-// ClearObjectID clears the value of the "object_id" field.
-func (m *FileMutation) ClearObjectID() {
-	m.object_id = nil
-	m.clearedFields[file.FieldObjectID] = struct{}{}
+// ClearOwnerID clears the value of the "owner_id" field.
+func (m *FileMutation) ClearOwnerID() {
+	m.owner_id = nil
+	m.clearedFields[file.FieldOwnerID] = struct{}{}
 }
 
-// ObjectIDCleared returns if the "object_id" field was cleared in this mutation.
-func (m *FileMutation) ObjectIDCleared() bool {
-	_, ok := m.clearedFields[file.FieldObjectID]
+// OwnerIDCleared returns if the "owner_id" field was cleared in this mutation.
+func (m *FileMutation) OwnerIDCleared() bool {
+	_, ok := m.clearedFields[file.FieldOwnerID]
 	return ok
 }
 
-// ResetObjectID resets all changes to the "object_id" field.
-func (m *FileMutation) ResetObjectID() {
-	m.object_id = nil
-	delete(m.clearedFields, file.FieldObjectID)
+// ResetOwnerID resets all changes to the "owner_id" field.
+func (m *FileMutation) ResetOwnerID() {
+	m.owner_id = nil
+	delete(m.clearedFields, file.FieldOwnerID)
 }
 
-// SetTenantID sets the "tenant_id" field.
-func (m *FileMutation) SetTenantID(s string) {
-	m.tenant_id = &s
+// SetSpaceID sets the "space_id" field.
+func (m *FileMutation) SetSpaceID(s string) {
+	m.space_id = &s
 }
 
-// TenantID returns the value of the "tenant_id" field in the mutation.
-func (m *FileMutation) TenantID() (r string, exists bool) {
-	v := m.tenant_id
+// SpaceID returns the value of the "space_id" field in the mutation.
+func (m *FileMutation) SpaceID() (r string, exists bool) {
+	v := m.space_id
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldTenantID returns the old "tenant_id" field's value of the File entity.
+// OldSpaceID returns the old "space_id" field's value of the File entity.
 // If the File object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *FileMutation) OldTenantID(ctx context.Context) (v string, err error) {
+func (m *FileMutation) OldSpaceID(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldTenantID is only allowed on UpdateOne operations")
+		return v, errors.New("OldSpaceID is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldTenantID requires an ID field in the mutation")
+		return v, errors.New("OldSpaceID requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldTenantID: %w", err)
+		return v, fmt.Errorf("querying old value for OldSpaceID: %w", err)
 	}
-	return oldValue.TenantID, nil
+	return oldValue.SpaceID, nil
 }
 
-// ClearTenantID clears the value of the "tenant_id" field.
-func (m *FileMutation) ClearTenantID() {
-	m.tenant_id = nil
-	m.clearedFields[file.FieldTenantID] = struct{}{}
+// ClearSpaceID clears the value of the "space_id" field.
+func (m *FileMutation) ClearSpaceID() {
+	m.space_id = nil
+	m.clearedFields[file.FieldSpaceID] = struct{}{}
 }
 
-// TenantIDCleared returns if the "tenant_id" field was cleared in this mutation.
-func (m *FileMutation) TenantIDCleared() bool {
-	_, ok := m.clearedFields[file.FieldTenantID]
+// SpaceIDCleared returns if the "space_id" field was cleared in this mutation.
+func (m *FileMutation) SpaceIDCleared() bool {
+	_, ok := m.clearedFields[file.FieldSpaceID]
 	return ok
 }
 
-// ResetTenantID resets all changes to the "tenant_id" field.
-func (m *FileMutation) ResetTenantID() {
-	m.tenant_id = nil
-	delete(m.clearedFields, file.FieldTenantID)
+// ResetSpaceID resets all changes to the "space_id" field.
+func (m *FileMutation) ResetSpaceID() {
+	m.space_id = nil
+	delete(m.clearedFields, file.FieldSpaceID)
 }
 
 // SetExtras sets the "extras" field.
@@ -1068,55 +1058,6 @@ func (m *FileMutation) ResetExpiresAt() {
 	delete(m.clearedFields, file.FieldExpiresAt)
 }
 
-// SetMetadata sets the "metadata" field.
-func (m *FileMutation) SetMetadata(value map[string]interface{}) {
-	m.metadata = &value
-}
-
-// Metadata returns the value of the "metadata" field in the mutation.
-func (m *FileMutation) Metadata() (r map[string]interface{}, exists bool) {
-	v := m.metadata
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldMetadata returns the old "metadata" field's value of the File entity.
-// If the File object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *FileMutation) OldMetadata(ctx context.Context) (v map[string]interface{}, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldMetadata is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldMetadata requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldMetadata: %w", err)
-	}
-	return oldValue.Metadata, nil
-}
-
-// ClearMetadata clears the value of the "metadata" field.
-func (m *FileMutation) ClearMetadata() {
-	m.metadata = nil
-	m.clearedFields[file.FieldMetadata] = struct{}{}
-}
-
-// MetadataCleared returns if the "metadata" field was cleared in this mutation.
-func (m *FileMutation) MetadataCleared() bool {
-	_, ok := m.clearedFields[file.FieldMetadata]
-	return ok
-}
-
-// ResetMetadata resets all changes to the "metadata" field.
-func (m *FileMutation) ResetMetadata() {
-	m.metadata = nil
-	delete(m.clearedFields, file.FieldMetadata)
-}
-
 // SetTags sets the "tags" field.
 func (m *FileMutation) SetTags(s []string) {
 	m.tags = &s
@@ -1216,330 +1157,6 @@ func (m *FileMutation) OldIsPublic(ctx context.Context) (v bool, err error) {
 // ResetIsPublic resets all changes to the "is_public" field.
 func (m *FileMutation) ResetIsPublic() {
 	m.is_public = nil
-}
-
-// SetVersions sets the "versions" field.
-func (m *FileMutation) SetVersions(s []string) {
-	m.versions = &s
-	m.appendversions = nil
-}
-
-// Versions returns the value of the "versions" field in the mutation.
-func (m *FileMutation) Versions() (r []string, exists bool) {
-	v := m.versions
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldVersions returns the old "versions" field's value of the File entity.
-// If the File object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *FileMutation) OldVersions(ctx context.Context) (v []string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldVersions is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldVersions requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldVersions: %w", err)
-	}
-	return oldValue.Versions, nil
-}
-
-// AppendVersions adds s to the "versions" field.
-func (m *FileMutation) AppendVersions(s []string) {
-	m.appendversions = append(m.appendversions, s...)
-}
-
-// AppendedVersions returns the list of values that were appended to the "versions" field in this mutation.
-func (m *FileMutation) AppendedVersions() ([]string, bool) {
-	if len(m.appendversions) == 0 {
-		return nil, false
-	}
-	return m.appendversions, true
-}
-
-// ClearVersions clears the value of the "versions" field.
-func (m *FileMutation) ClearVersions() {
-	m.versions = nil
-	m.appendversions = nil
-	m.clearedFields[file.FieldVersions] = struct{}{}
-}
-
-// VersionsCleared returns if the "versions" field was cleared in this mutation.
-func (m *FileMutation) VersionsCleared() bool {
-	_, ok := m.clearedFields[file.FieldVersions]
-	return ok
-}
-
-// ResetVersions resets all changes to the "versions" field.
-func (m *FileMutation) ResetVersions() {
-	m.versions = nil
-	m.appendversions = nil
-	delete(m.clearedFields, file.FieldVersions)
-}
-
-// SetThumbnailPath sets the "thumbnail_path" field.
-func (m *FileMutation) SetThumbnailPath(s string) {
-	m.thumbnail_path = &s
-}
-
-// ThumbnailPath returns the value of the "thumbnail_path" field in the mutation.
-func (m *FileMutation) ThumbnailPath() (r string, exists bool) {
-	v := m.thumbnail_path
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldThumbnailPath returns the old "thumbnail_path" field's value of the File entity.
-// If the File object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *FileMutation) OldThumbnailPath(ctx context.Context) (v string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldThumbnailPath is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldThumbnailPath requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldThumbnailPath: %w", err)
-	}
-	return oldValue.ThumbnailPath, nil
-}
-
-// ClearThumbnailPath clears the value of the "thumbnail_path" field.
-func (m *FileMutation) ClearThumbnailPath() {
-	m.thumbnail_path = nil
-	m.clearedFields[file.FieldThumbnailPath] = struct{}{}
-}
-
-// ThumbnailPathCleared returns if the "thumbnail_path" field was cleared in this mutation.
-func (m *FileMutation) ThumbnailPathCleared() bool {
-	_, ok := m.clearedFields[file.FieldThumbnailPath]
-	return ok
-}
-
-// ResetThumbnailPath resets all changes to the "thumbnail_path" field.
-func (m *FileMutation) ResetThumbnailPath() {
-	m.thumbnail_path = nil
-	delete(m.clearedFields, file.FieldThumbnailPath)
-}
-
-// SetWidth sets the "width" field.
-func (m *FileMutation) SetWidth(i int) {
-	m.width = &i
-	m.addwidth = nil
-}
-
-// Width returns the value of the "width" field in the mutation.
-func (m *FileMutation) Width() (r int, exists bool) {
-	v := m.width
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldWidth returns the old "width" field's value of the File entity.
-// If the File object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *FileMutation) OldWidth(ctx context.Context) (v *int, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldWidth is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldWidth requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldWidth: %w", err)
-	}
-	return oldValue.Width, nil
-}
-
-// AddWidth adds i to the "width" field.
-func (m *FileMutation) AddWidth(i int) {
-	if m.addwidth != nil {
-		*m.addwidth += i
-	} else {
-		m.addwidth = &i
-	}
-}
-
-// AddedWidth returns the value that was added to the "width" field in this mutation.
-func (m *FileMutation) AddedWidth() (r int, exists bool) {
-	v := m.addwidth
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// ClearWidth clears the value of the "width" field.
-func (m *FileMutation) ClearWidth() {
-	m.width = nil
-	m.addwidth = nil
-	m.clearedFields[file.FieldWidth] = struct{}{}
-}
-
-// WidthCleared returns if the "width" field was cleared in this mutation.
-func (m *FileMutation) WidthCleared() bool {
-	_, ok := m.clearedFields[file.FieldWidth]
-	return ok
-}
-
-// ResetWidth resets all changes to the "width" field.
-func (m *FileMutation) ResetWidth() {
-	m.width = nil
-	m.addwidth = nil
-	delete(m.clearedFields, file.FieldWidth)
-}
-
-// SetHeight sets the "height" field.
-func (m *FileMutation) SetHeight(i int) {
-	m.height = &i
-	m.addheight = nil
-}
-
-// Height returns the value of the "height" field in the mutation.
-func (m *FileMutation) Height() (r int, exists bool) {
-	v := m.height
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldHeight returns the old "height" field's value of the File entity.
-// If the File object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *FileMutation) OldHeight(ctx context.Context) (v *int, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldHeight is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldHeight requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldHeight: %w", err)
-	}
-	return oldValue.Height, nil
-}
-
-// AddHeight adds i to the "height" field.
-func (m *FileMutation) AddHeight(i int) {
-	if m.addheight != nil {
-		*m.addheight += i
-	} else {
-		m.addheight = &i
-	}
-}
-
-// AddedHeight returns the value that was added to the "height" field in this mutation.
-func (m *FileMutation) AddedHeight() (r int, exists bool) {
-	v := m.addheight
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// ClearHeight clears the value of the "height" field.
-func (m *FileMutation) ClearHeight() {
-	m.height = nil
-	m.addheight = nil
-	m.clearedFields[file.FieldHeight] = struct{}{}
-}
-
-// HeightCleared returns if the "height" field was cleared in this mutation.
-func (m *FileMutation) HeightCleared() bool {
-	_, ok := m.clearedFields[file.FieldHeight]
-	return ok
-}
-
-// ResetHeight resets all changes to the "height" field.
-func (m *FileMutation) ResetHeight() {
-	m.height = nil
-	m.addheight = nil
-	delete(m.clearedFields, file.FieldHeight)
-}
-
-// SetDuration sets the "duration" field.
-func (m *FileMutation) SetDuration(f float64) {
-	m.duration = &f
-	m.addduration = nil
-}
-
-// Duration returns the value of the "duration" field in the mutation.
-func (m *FileMutation) Duration() (r float64, exists bool) {
-	v := m.duration
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldDuration returns the old "duration" field's value of the File entity.
-// If the File object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *FileMutation) OldDuration(ctx context.Context) (v *float64, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldDuration is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldDuration requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldDuration: %w", err)
-	}
-	return oldValue.Duration, nil
-}
-
-// AddDuration adds f to the "duration" field.
-func (m *FileMutation) AddDuration(f float64) {
-	if m.addduration != nil {
-		*m.addduration += f
-	} else {
-		m.addduration = &f
-	}
-}
-
-// AddedDuration returns the value that was added to the "duration" field in this mutation.
-func (m *FileMutation) AddedDuration() (r float64, exists bool) {
-	v := m.addduration
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// ClearDuration clears the value of the "duration" field.
-func (m *FileMutation) ClearDuration() {
-	m.duration = nil
-	m.addduration = nil
-	m.clearedFields[file.FieldDuration] = struct{}{}
-}
-
-// DurationCleared returns if the "duration" field was cleared in this mutation.
-func (m *FileMutation) DurationCleared() bool {
-	_, ok := m.clearedFields[file.FieldDuration]
-	return ok
-}
-
-// ResetDuration resets all changes to the "duration" field.
-func (m *FileMutation) ResetDuration() {
-	m.duration = nil
-	m.addduration = nil
-	delete(m.clearedFields, file.FieldDuration)
 }
 
 // SetCategory sets the "category" field.
@@ -1661,7 +1278,7 @@ func (m *FileMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *FileMutation) Fields() []string {
-	fields := make([]string, 0, 27)
+	fields := make([]string, 0, 21)
 	if m.name != nil {
 		fields = append(fields, file.FieldName)
 	}
@@ -1683,11 +1300,11 @@ func (m *FileMutation) Fields() []string {
 	if m.endpoint != nil {
 		fields = append(fields, file.FieldEndpoint)
 	}
-	if m.object_id != nil {
-		fields = append(fields, file.FieldObjectID)
+	if m.owner_id != nil {
+		fields = append(fields, file.FieldOwnerID)
 	}
-	if m.tenant_id != nil {
-		fields = append(fields, file.FieldTenantID)
+	if m.space_id != nil {
+		fields = append(fields, file.FieldSpaceID)
 	}
 	if m.extras != nil {
 		fields = append(fields, file.FieldExtras)
@@ -1713,29 +1330,11 @@ func (m *FileMutation) Fields() []string {
 	if m.expires_at != nil {
 		fields = append(fields, file.FieldExpiresAt)
 	}
-	if m.metadata != nil {
-		fields = append(fields, file.FieldMetadata)
-	}
 	if m.tags != nil {
 		fields = append(fields, file.FieldTags)
 	}
 	if m.is_public != nil {
 		fields = append(fields, file.FieldIsPublic)
-	}
-	if m.versions != nil {
-		fields = append(fields, file.FieldVersions)
-	}
-	if m.thumbnail_path != nil {
-		fields = append(fields, file.FieldThumbnailPath)
-	}
-	if m.width != nil {
-		fields = append(fields, file.FieldWidth)
-	}
-	if m.height != nil {
-		fields = append(fields, file.FieldHeight)
-	}
-	if m.duration != nil {
-		fields = append(fields, file.FieldDuration)
 	}
 	if m.category != nil {
 		fields = append(fields, file.FieldCategory)
@@ -1765,10 +1364,10 @@ func (m *FileMutation) Field(name string) (ent.Value, bool) {
 		return m.Bucket()
 	case file.FieldEndpoint:
 		return m.Endpoint()
-	case file.FieldObjectID:
-		return m.ObjectID()
-	case file.FieldTenantID:
-		return m.TenantID()
+	case file.FieldOwnerID:
+		return m.OwnerID()
+	case file.FieldSpaceID:
+		return m.SpaceID()
 	case file.FieldExtras:
 		return m.Extras()
 	case file.FieldCreatedBy:
@@ -1785,22 +1384,10 @@ func (m *FileMutation) Field(name string) (ent.Value, bool) {
 		return m.AccessLevel()
 	case file.FieldExpiresAt:
 		return m.ExpiresAt()
-	case file.FieldMetadata:
-		return m.Metadata()
 	case file.FieldTags:
 		return m.Tags()
 	case file.FieldIsPublic:
 		return m.IsPublic()
-	case file.FieldVersions:
-		return m.Versions()
-	case file.FieldThumbnailPath:
-		return m.ThumbnailPath()
-	case file.FieldWidth:
-		return m.Width()
-	case file.FieldHeight:
-		return m.Height()
-	case file.FieldDuration:
-		return m.Duration()
 	case file.FieldCategory:
 		return m.Category()
 	case file.FieldProcessingResult:
@@ -1828,10 +1415,10 @@ func (m *FileMutation) OldField(ctx context.Context, name string) (ent.Value, er
 		return m.OldBucket(ctx)
 	case file.FieldEndpoint:
 		return m.OldEndpoint(ctx)
-	case file.FieldObjectID:
-		return m.OldObjectID(ctx)
-	case file.FieldTenantID:
-		return m.OldTenantID(ctx)
+	case file.FieldOwnerID:
+		return m.OldOwnerID(ctx)
+	case file.FieldSpaceID:
+		return m.OldSpaceID(ctx)
 	case file.FieldExtras:
 		return m.OldExtras(ctx)
 	case file.FieldCreatedBy:
@@ -1848,22 +1435,10 @@ func (m *FileMutation) OldField(ctx context.Context, name string) (ent.Value, er
 		return m.OldAccessLevel(ctx)
 	case file.FieldExpiresAt:
 		return m.OldExpiresAt(ctx)
-	case file.FieldMetadata:
-		return m.OldMetadata(ctx)
 	case file.FieldTags:
 		return m.OldTags(ctx)
 	case file.FieldIsPublic:
 		return m.OldIsPublic(ctx)
-	case file.FieldVersions:
-		return m.OldVersions(ctx)
-	case file.FieldThumbnailPath:
-		return m.OldThumbnailPath(ctx)
-	case file.FieldWidth:
-		return m.OldWidth(ctx)
-	case file.FieldHeight:
-		return m.OldHeight(ctx)
-	case file.FieldDuration:
-		return m.OldDuration(ctx)
 	case file.FieldCategory:
 		return m.OldCategory(ctx)
 	case file.FieldProcessingResult:
@@ -1926,19 +1501,19 @@ func (m *FileMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetEndpoint(v)
 		return nil
-	case file.FieldObjectID:
+	case file.FieldOwnerID:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetObjectID(v)
+		m.SetOwnerID(v)
 		return nil
-	case file.FieldTenantID:
+	case file.FieldSpaceID:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetTenantID(v)
+		m.SetSpaceID(v)
 		return nil
 	case file.FieldExtras:
 		v, ok := value.(map[string]interface{})
@@ -1996,13 +1571,6 @@ func (m *FileMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetExpiresAt(v)
 		return nil
-	case file.FieldMetadata:
-		v, ok := value.(map[string]interface{})
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetMetadata(v)
-		return nil
 	case file.FieldTags:
 		v, ok := value.([]string)
 		if !ok {
@@ -2016,41 +1584,6 @@ func (m *FileMutation) SetField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetIsPublic(v)
-		return nil
-	case file.FieldVersions:
-		v, ok := value.([]string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetVersions(v)
-		return nil
-	case file.FieldThumbnailPath:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetThumbnailPath(v)
-		return nil
-	case file.FieldWidth:
-		v, ok := value.(int)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetWidth(v)
-		return nil
-	case file.FieldHeight:
-		v, ok := value.(int)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetHeight(v)
-		return nil
-	case file.FieldDuration:
-		v, ok := value.(float64)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetDuration(v)
 		return nil
 	case file.FieldCategory:
 		v, ok := value.(string)
@@ -2086,15 +1619,6 @@ func (m *FileMutation) AddedFields() []string {
 	if m.addexpires_at != nil {
 		fields = append(fields, file.FieldExpiresAt)
 	}
-	if m.addwidth != nil {
-		fields = append(fields, file.FieldWidth)
-	}
-	if m.addheight != nil {
-		fields = append(fields, file.FieldHeight)
-	}
-	if m.addduration != nil {
-		fields = append(fields, file.FieldDuration)
-	}
 	return fields
 }
 
@@ -2111,12 +1635,6 @@ func (m *FileMutation) AddedField(name string) (ent.Value, bool) {
 		return m.AddedUpdatedAt()
 	case file.FieldExpiresAt:
 		return m.AddedExpiresAt()
-	case file.FieldWidth:
-		return m.AddedWidth()
-	case file.FieldHeight:
-		return m.AddedHeight()
-	case file.FieldDuration:
-		return m.AddedDuration()
 	}
 	return nil, false
 }
@@ -2154,27 +1672,6 @@ func (m *FileMutation) AddField(name string, value ent.Value) error {
 		}
 		m.AddExpiresAt(v)
 		return nil
-	case file.FieldWidth:
-		v, ok := value.(int)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.AddWidth(v)
-		return nil
-	case file.FieldHeight:
-		v, ok := value.(int)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.AddHeight(v)
-		return nil
-	case file.FieldDuration:
-		v, ok := value.(float64)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.AddDuration(v)
-		return nil
 	}
 	return fmt.Errorf("unknown File numeric field %s", name)
 }
@@ -2201,11 +1698,11 @@ func (m *FileMutation) ClearedFields() []string {
 	if m.FieldCleared(file.FieldEndpoint) {
 		fields = append(fields, file.FieldEndpoint)
 	}
-	if m.FieldCleared(file.FieldObjectID) {
-		fields = append(fields, file.FieldObjectID)
+	if m.FieldCleared(file.FieldOwnerID) {
+		fields = append(fields, file.FieldOwnerID)
 	}
-	if m.FieldCleared(file.FieldTenantID) {
-		fields = append(fields, file.FieldTenantID)
+	if m.FieldCleared(file.FieldSpaceID) {
+		fields = append(fields, file.FieldSpaceID)
 	}
 	if m.FieldCleared(file.FieldExtras) {
 		fields = append(fields, file.FieldExtras)
@@ -2228,26 +1725,8 @@ func (m *FileMutation) ClearedFields() []string {
 	if m.FieldCleared(file.FieldExpiresAt) {
 		fields = append(fields, file.FieldExpiresAt)
 	}
-	if m.FieldCleared(file.FieldMetadata) {
-		fields = append(fields, file.FieldMetadata)
-	}
 	if m.FieldCleared(file.FieldTags) {
 		fields = append(fields, file.FieldTags)
-	}
-	if m.FieldCleared(file.FieldVersions) {
-		fields = append(fields, file.FieldVersions)
-	}
-	if m.FieldCleared(file.FieldThumbnailPath) {
-		fields = append(fields, file.FieldThumbnailPath)
-	}
-	if m.FieldCleared(file.FieldWidth) {
-		fields = append(fields, file.FieldWidth)
-	}
-	if m.FieldCleared(file.FieldHeight) {
-		fields = append(fields, file.FieldHeight)
-	}
-	if m.FieldCleared(file.FieldDuration) {
-		fields = append(fields, file.FieldDuration)
 	}
 	if m.FieldCleared(file.FieldProcessingResult) {
 		fields = append(fields, file.FieldProcessingResult)
@@ -2284,11 +1763,11 @@ func (m *FileMutation) ClearField(name string) error {
 	case file.FieldEndpoint:
 		m.ClearEndpoint()
 		return nil
-	case file.FieldObjectID:
-		m.ClearObjectID()
+	case file.FieldOwnerID:
+		m.ClearOwnerID()
 		return nil
-	case file.FieldTenantID:
-		m.ClearTenantID()
+	case file.FieldSpaceID:
+		m.ClearSpaceID()
 		return nil
 	case file.FieldExtras:
 		m.ClearExtras()
@@ -2311,26 +1790,8 @@ func (m *FileMutation) ClearField(name string) error {
 	case file.FieldExpiresAt:
 		m.ClearExpiresAt()
 		return nil
-	case file.FieldMetadata:
-		m.ClearMetadata()
-		return nil
 	case file.FieldTags:
 		m.ClearTags()
-		return nil
-	case file.FieldVersions:
-		m.ClearVersions()
-		return nil
-	case file.FieldThumbnailPath:
-		m.ClearThumbnailPath()
-		return nil
-	case file.FieldWidth:
-		m.ClearWidth()
-		return nil
-	case file.FieldHeight:
-		m.ClearHeight()
-		return nil
-	case file.FieldDuration:
-		m.ClearDuration()
 		return nil
 	case file.FieldProcessingResult:
 		m.ClearProcessingResult()
@@ -2364,11 +1825,11 @@ func (m *FileMutation) ResetField(name string) error {
 	case file.FieldEndpoint:
 		m.ResetEndpoint()
 		return nil
-	case file.FieldObjectID:
-		m.ResetObjectID()
+	case file.FieldOwnerID:
+		m.ResetOwnerID()
 		return nil
-	case file.FieldTenantID:
-		m.ResetTenantID()
+	case file.FieldSpaceID:
+		m.ResetSpaceID()
 		return nil
 	case file.FieldExtras:
 		m.ResetExtras()
@@ -2394,29 +1855,11 @@ func (m *FileMutation) ResetField(name string) error {
 	case file.FieldExpiresAt:
 		m.ResetExpiresAt()
 		return nil
-	case file.FieldMetadata:
-		m.ResetMetadata()
-		return nil
 	case file.FieldTags:
 		m.ResetTags()
 		return nil
 	case file.FieldIsPublic:
 		m.ResetIsPublic()
-		return nil
-	case file.FieldVersions:
-		m.ResetVersions()
-		return nil
-	case file.FieldThumbnailPath:
-		m.ResetThumbnailPath()
-		return nil
-	case file.FieldWidth:
-		m.ResetWidth()
-		return nil
-	case file.FieldHeight:
-		m.ResetHeight()
-		return nil
-	case file.FieldDuration:
-		m.ResetDuration()
 		return nil
 	case file.FieldCategory:
 		m.ResetCategory()

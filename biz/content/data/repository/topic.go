@@ -67,8 +67,8 @@ func (r *topicRepository) Create(ctx context.Context, body *structs.CreateTopicB
 	builder.SetPrivate(body.Private)
 	builder.SetStatus(body.Status)
 	builder.SetNillableReleased(&body.Released)
-	builder.SetTaxonomyID(body.TaxonomyID)
-	builder.SetTenantID(body.TenantID)
+	builder.SetNillableTaxonomyID(&body.TaxonomyID)
+	builder.SetNillableSpaceID(&body.SpaceID)
 	builder.SetNillableCreatedBy(body.CreatedBy)
 
 	// execute the builder.
@@ -181,7 +181,7 @@ func (r *topicRepository) Update(ctx context.Context, slug string, updates types
 		case "taxonomy_id":
 			builder.SetNillableTaxonomyID(convert.ToPointer(value.(string)))
 		case "tenant_id":
-			builder.SetNillableTenantID(convert.ToPointer(value.(string)))
+			builder.SetNillableSpaceID(convert.ToPointer(value.(string)))
 		case "updated_by":
 			builder.SetNillableUpdatedBy(convert.ToPointer(value.(string)))
 		}
@@ -223,9 +223,9 @@ func (r *topicRepository) List(ctx context.Context, params *structs.ListTopicPar
 		return nil, err
 	}
 
-	// belong tenant
-	if params.Tenant != "" {
-		builder.Where(topicEnt.TenantIDEQ(params.Tenant))
+	// belong space / tenant
+	if params.SpaceID != "" {
+		builder.Where(topicEnt.SpaceIDEQ(params.SpaceID))
 	}
 
 	if params.Cursor != "" {
@@ -323,8 +323,8 @@ func (r *topicRepository) FindTopic(ctx context.Context, params *structs.FindTop
 			topicEnt.SlugEQ(params.Topic),
 		))
 	}
-	if validator.IsNotEmpty(params.Tenant) {
-		builder = builder.Where(topicEnt.TenantIDEQ(params.Tenant))
+	if validator.IsNotEmpty(params.SpaceID) {
+		builder = builder.Where(topicEnt.SpaceIDEQ(params.SpaceID))
 	}
 
 	// execute the builder.
