@@ -147,10 +147,10 @@ func (h *userSpaceRoleHandler) RemoveUserFromSpaceRole(c *gin.Context) {
 // @Tags sys
 // @Produce json
 // @Param spaceId path string true "Space ID"
-// @Param username path string true "User ID or username"
+// @Param userId path string true "User ID or username"
 // @Success 200 {object} structs.UserSpaceRolesResponse "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /sys/spaces/{spaceId}/users/{username}/roles [get]
+// @Router /sys/spaces/{spaceId}/users/{userId}/roles [get]
 // @Security Bearer
 func (h *userSpaceRoleHandler) GetUserSpaceRoles(c *gin.Context) {
 	spaceID := c.Param("spaceId")
@@ -159,7 +159,7 @@ func (h *userSpaceRoleHandler) GetUserSpaceRoles(c *gin.Context) {
 		return
 	}
 
-	userID := c.Param("username")
+	userID := c.Param("userId")
 	if userID == "" {
 		resp.Fail(c.Writer, resp.BadRequest("User ID is required"))
 		return
@@ -229,11 +229,11 @@ func (h *userSpaceRoleHandler) GetSpaceUsersByRole(c *gin.Context) {
 // @Tags sys
 // @Produce json
 // @Param spaceId path string true "Space ID"
-// @Param username path string true "User ID or username"
+// @Param userId path string true "User ID or username"
 // @Param roleId path string true "Role ID"
 // @Success 200 {object} map[string]bool "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /sys/spaces/{spaceId}/users/{username}/roles/{roleId}/check [get]
+// @Router /sys/spaces/{spaceId}/users/{userId}/roles/{roleId}/check [get]
 // @Security Bearer
 func (h *userSpaceRoleHandler) CheckUserSpaceRole(c *gin.Context) {
 	spaceID := c.Param("spaceId")
@@ -242,7 +242,7 @@ func (h *userSpaceRoleHandler) CheckUserSpaceRole(c *gin.Context) {
 		return
 	}
 
-	userID := c.Param("username")
+	userID := c.Param("userId")
 	if userID == "" {
 		resp.Fail(c.Writer, resp.BadRequest("User ID is required"))
 		return
