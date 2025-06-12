@@ -93,9 +93,9 @@ func NodeType(v string) predicate.History {
 	return predicate.History(sql.FieldEQ(FieldNodeType, v))
 }
 
-// TenantID applies equality check predicate on the "tenant_id" field. It's identical to TenantIDEQ.
-func TenantID(v string) predicate.History {
-	return predicate.History(sql.FieldEQ(FieldTenantID, v))
+// SpaceID applies equality check predicate on the "space_id" field. It's identical to SpaceIDEQ.
+func SpaceID(v string) predicate.History {
+	return predicate.History(sql.FieldEQ(FieldSpaceID, v))
 }
 
 // CreatedBy applies equality check predicate on the "created_by" field. It's identical to CreatedByEQ.
@@ -578,79 +578,79 @@ func NodeEventsNotNil() predicate.History {
 	return predicate.History(sql.FieldNotNull(FieldNodeEvents))
 }
 
-// TenantIDEQ applies the EQ predicate on the "tenant_id" field.
-func TenantIDEQ(v string) predicate.History {
-	return predicate.History(sql.FieldEQ(FieldTenantID, v))
+// SpaceIDEQ applies the EQ predicate on the "space_id" field.
+func SpaceIDEQ(v string) predicate.History {
+	return predicate.History(sql.FieldEQ(FieldSpaceID, v))
 }
 
-// TenantIDNEQ applies the NEQ predicate on the "tenant_id" field.
-func TenantIDNEQ(v string) predicate.History {
-	return predicate.History(sql.FieldNEQ(FieldTenantID, v))
+// SpaceIDNEQ applies the NEQ predicate on the "space_id" field.
+func SpaceIDNEQ(v string) predicate.History {
+	return predicate.History(sql.FieldNEQ(FieldSpaceID, v))
 }
 
-// TenantIDIn applies the In predicate on the "tenant_id" field.
-func TenantIDIn(vs ...string) predicate.History {
-	return predicate.History(sql.FieldIn(FieldTenantID, vs...))
+// SpaceIDIn applies the In predicate on the "space_id" field.
+func SpaceIDIn(vs ...string) predicate.History {
+	return predicate.History(sql.FieldIn(FieldSpaceID, vs...))
 }
 
-// TenantIDNotIn applies the NotIn predicate on the "tenant_id" field.
-func TenantIDNotIn(vs ...string) predicate.History {
-	return predicate.History(sql.FieldNotIn(FieldTenantID, vs...))
+// SpaceIDNotIn applies the NotIn predicate on the "space_id" field.
+func SpaceIDNotIn(vs ...string) predicate.History {
+	return predicate.History(sql.FieldNotIn(FieldSpaceID, vs...))
 }
 
-// TenantIDGT applies the GT predicate on the "tenant_id" field.
-func TenantIDGT(v string) predicate.History {
-	return predicate.History(sql.FieldGT(FieldTenantID, v))
+// SpaceIDGT applies the GT predicate on the "space_id" field.
+func SpaceIDGT(v string) predicate.History {
+	return predicate.History(sql.FieldGT(FieldSpaceID, v))
 }
 
-// TenantIDGTE applies the GTE predicate on the "tenant_id" field.
-func TenantIDGTE(v string) predicate.History {
-	return predicate.History(sql.FieldGTE(FieldTenantID, v))
+// SpaceIDGTE applies the GTE predicate on the "space_id" field.
+func SpaceIDGTE(v string) predicate.History {
+	return predicate.History(sql.FieldGTE(FieldSpaceID, v))
 }
 
-// TenantIDLT applies the LT predicate on the "tenant_id" field.
-func TenantIDLT(v string) predicate.History {
-	return predicate.History(sql.FieldLT(FieldTenantID, v))
+// SpaceIDLT applies the LT predicate on the "space_id" field.
+func SpaceIDLT(v string) predicate.History {
+	return predicate.History(sql.FieldLT(FieldSpaceID, v))
 }
 
-// TenantIDLTE applies the LTE predicate on the "tenant_id" field.
-func TenantIDLTE(v string) predicate.History {
-	return predicate.History(sql.FieldLTE(FieldTenantID, v))
+// SpaceIDLTE applies the LTE predicate on the "space_id" field.
+func SpaceIDLTE(v string) predicate.History {
+	return predicate.History(sql.FieldLTE(FieldSpaceID, v))
 }
 
-// TenantIDContains applies the Contains predicate on the "tenant_id" field.
-func TenantIDContains(v string) predicate.History {
-	return predicate.History(sql.FieldContains(FieldTenantID, v))
+// SpaceIDContains applies the Contains predicate on the "space_id" field.
+func SpaceIDContains(v string) predicate.History {
+	return predicate.History(sql.FieldContains(FieldSpaceID, v))
 }
 
-// TenantIDHasPrefix applies the HasPrefix predicate on the "tenant_id" field.
-func TenantIDHasPrefix(v string) predicate.History {
-	return predicate.History(sql.FieldHasPrefix(FieldTenantID, v))
+// SpaceIDHasPrefix applies the HasPrefix predicate on the "space_id" field.
+func SpaceIDHasPrefix(v string) predicate.History {
+	return predicate.History(sql.FieldHasPrefix(FieldSpaceID, v))
 }
 
-// TenantIDHasSuffix applies the HasSuffix predicate on the "tenant_id" field.
-func TenantIDHasSuffix(v string) predicate.History {
-	return predicate.History(sql.FieldHasSuffix(FieldTenantID, v))
+// SpaceIDHasSuffix applies the HasSuffix predicate on the "space_id" field.
+func SpaceIDHasSuffix(v string) predicate.History {
+	return predicate.History(sql.FieldHasSuffix(FieldSpaceID, v))
 }
 
-// TenantIDIsNil applies the IsNil predicate on the "tenant_id" field.
-func TenantIDIsNil() predicate.History {
-	return predicate.History(sql.FieldIsNull(FieldTenantID))
+// SpaceIDIsNil applies the IsNil predicate on the "space_id" field.
+func SpaceIDIsNil() predicate.History {
+	return predicate.History(sql.FieldIsNull(FieldSpaceID))
 }
 
-// TenantIDNotNil applies the NotNil predicate on the "tenant_id" field.
-func TenantIDNotNil() predicate.History {
-	return predicate.History(sql.FieldNotNull(FieldTenantID))
+// SpaceIDNotNil applies the NotNil predicate on the "space_id" field.
+func SpaceIDNotNil() predicate.History {
+	return predicate.History(sql.FieldNotNull(FieldSpaceID))
 }
 
-// TenantIDEqualFold applies the EqualFold predicate on the "tenant_id" field.
-func TenantIDEqualFold(v string) predicate.History {
-	return predicate.History(sql.FieldEqualFold(FieldTenantID, v))
+// SpaceIDEqualFold applies the EqualFold predicate on the "space_id" field.
+func SpaceIDEqualFold(v string) predicate.History {
+	return predicate.History(sql.FieldEqualFold(FieldSpaceID, v))
 }
 
-// TenantIDContainsFold applies the ContainsFold predicate on the "tenant_id" field.
-func TenantIDContainsFold(v string) predicate.History {
-	return predicate.History(sql.FieldContainsFold(FieldTenantID, v))
+// SpaceIDContainsFold applies the ContainsFold predicate on the "space_id" field.
+func SpaceIDContainsFold(v string) predicate.History {
+	return predicate.History(sql.FieldContainsFold(FieldSpaceID, v))
 }
 
 // CreatedByEQ applies the EQ predicate on the "created_by" field.

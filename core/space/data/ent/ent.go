@@ -6,9 +6,16 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"ncobase/space/data/ent/group"
-	"ncobase/space/data/ent/grouprole"
-	"ncobase/space/data/ent/usergroup"
+	"ncobase/space/data/ent/space"
+	"ncobase/space/data/ent/spacebilling"
+	"ncobase/space/data/ent/spacedictionary"
+	"ncobase/space/data/ent/spacemenu"
+	"ncobase/space/data/ent/spaceoption"
+	"ncobase/space/data/ent/spaceorganization"
+	"ncobase/space/data/ent/spacequota"
+	"ncobase/space/data/ent/spacesetting"
+	"ncobase/space/data/ent/userspace"
+	"ncobase/space/data/ent/userspacerole"
 	"reflect"
 	"sync"
 
@@ -75,9 +82,16 @@ var (
 func checkColumn(table, column string) error {
 	initCheck.Do(func() {
 		columnCheck = sql.NewColumnCheck(map[string]func(string) bool{
-			group.Table:     group.ValidColumn,
-			grouprole.Table: grouprole.ValidColumn,
-			usergroup.Table: usergroup.ValidColumn,
+			space.Table:             space.ValidColumn,
+			spacebilling.Table:      spacebilling.ValidColumn,
+			spacedictionary.Table:   spacedictionary.ValidColumn,
+			spacemenu.Table:         spacemenu.ValidColumn,
+			spaceoption.Table:       spaceoption.ValidColumn,
+			spaceorganization.Table: spaceorganization.ValidColumn,
+			spacequota.Table:        spacequota.ValidColumn,
+			spacesetting.Table:      spacesetting.ValidColumn,
+			userspace.Table:         userspace.ValidColumn,
+			userspacerole.Table:     userspacerole.ValidColumn,
 		})
 	})
 	return columnCheck(table, column)

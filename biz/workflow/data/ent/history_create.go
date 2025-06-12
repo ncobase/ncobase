@@ -81,16 +81,16 @@ func (hc *HistoryCreate) SetNodeEvents(m map[string]interface{}) *HistoryCreate 
 	return hc
 }
 
-// SetTenantID sets the "tenant_id" field.
-func (hc *HistoryCreate) SetTenantID(s string) *HistoryCreate {
-	hc.mutation.SetTenantID(s)
+// SetSpaceID sets the "space_id" field.
+func (hc *HistoryCreate) SetSpaceID(s string) *HistoryCreate {
+	hc.mutation.SetSpaceID(s)
 	return hc
 }
 
-// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
-func (hc *HistoryCreate) SetNillableTenantID(s *string) *HistoryCreate {
+// SetNillableSpaceID sets the "space_id" field if the given value is not nil.
+func (hc *HistoryCreate) SetNillableSpaceID(s *string) *HistoryCreate {
 	if s != nil {
-		hc.SetTenantID(*s)
+		hc.SetSpaceID(*s)
 	}
 	return hc
 }
@@ -397,9 +397,9 @@ func (hc *HistoryCreate) createSpec() (*History, *sqlgraph.CreateSpec) {
 		_spec.SetField(history.FieldNodeEvents, field.TypeJSON, value)
 		_node.NodeEvents = value
 	}
-	if value, ok := hc.mutation.TenantID(); ok {
-		_spec.SetField(history.FieldTenantID, field.TypeString, value)
-		_node.TenantID = value
+	if value, ok := hc.mutation.SpaceID(); ok {
+		_spec.SetField(history.FieldSpaceID, field.TypeString, value)
+		_node.SpaceID = value
 	}
 	if value, ok := hc.mutation.CreatedBy(); ok {
 		_spec.SetField(history.FieldCreatedBy, field.TypeString, value)

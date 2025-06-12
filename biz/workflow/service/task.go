@@ -460,7 +460,7 @@ func (s *taskService) serialize(task *ent.Task) *structs.ReadTask {
 		UrgeCount:   task.UrgeCount,
 		IsTimeout:   task.IsTimeout,
 		Extras:      task.Extras,
-		TenantID:    task.TenantID,
+		SpaceID:     task.SpaceID,
 		StartTime:   &task.StartTime,
 		ClaimTime:   task.ClaimTime,
 		EndTime:     task.EndTime,

@@ -46,11 +46,11 @@ type menuService struct {
 	menu repository.MenuRepositoryInterface
 	em   ext.ManagerInterface
 
-	tsw *wrapper.TenantServiceWrapper
+	tsw *wrapper.SpaceServiceWrapper
 }
 
 // NewMenuService creates a new menu service.
-func NewMenuService(d *data.Data, em ext.ManagerInterface, tsw *wrapper.TenantServiceWrapper) MenuServiceInterface {
+func NewMenuService(d *data.Data, em ext.ManagerInterface, tsw *wrapper.SpaceServiceWrapper) MenuServiceInterface {
 	return &menuService{
 		menu: repository.NewMenuRepository(d),
 		em:   em,
@@ -208,22 +208,22 @@ func (s *menuService) GetNavigationMenus(ctx context.Context, sortBy string) (*s
 	nav := &structs.NavigationMenus{}
 	userPermissions := ctxutil.GetUserPermissions(ctx)
 	isAdmin := ctxutil.GetUserIsAdmin(ctx)
-	tenantID := ctxutil.GetTenantID(ctx)
+	spaceID := ctxutil.GetSpaceID(ctx)
 
-	// Get tenant-specific menus if tenant context exists
-	var tenantMenuIDs []string
-	if tenantID != "" {
-		if s.tsw != nil && s.tsw.HasTenantMenuService() {
+	// Get space-specific menus if space context exists
+	var spaceMenuIDs []string
+	if spaceID != "" {
+		if s.tsw != nil && s.tsw.HasSpaceMenuService() {
 			var err error
-			tenantMenuIDs, err = s.tsw.GetTenantMenus(ctx, tenantID)
+			spaceMenuIDs, err = s.tsw.GetSpaceMenus(ctx, spaceID)
 			if err != nil {
-				logger.Warnf(ctx, "Failed to get tenant menus: %v", err)
+				logger.Warnf(ctx, "Failed to get space menus: %v", err)
 			}
 		}
 	}
 
 	// Get headers
-	if headers, err := s.getMenusWithTenantAndPermissionFilter(ctx, "header", params, tenantMenuIDs, userPermissions, isAdmin); err != nil {
+	if headers, err := s.getMenusWithSpaceAndPermissionFilter(ctx, "header", params, spaceMenuIDs, userPermissions, isAdmin); err != nil {
 		logger.Warnf(ctx, "Failed to get header menus: %v", err)
 		nav.Headers = []*structs.ReadMenu{}
 	} else {
@@ -231,39 +231,39 @@ func (s *menuService) GetNavigationMenus(ctx context.Context, sortBy string) (*s
 	}
 
 	// Get sidebars and submenus with tree structure
-	if sidebars, err := s.GetMenusByTypesWithTenantAndPermissionCheck(ctx, []string{"sidebar", "submenu"}, structs.MenuQueryParams{
+	if sidebars, err := s.GetMenusByTypesWithSpaceAndPermissionCheck(ctx, []string{"sidebar", "submenu"}, structs.MenuQueryParams{
 		SortBy:     params.SortBy,
 		ActiveOnly: params.ActiveOnly,
 		Children:   true,
 		Limit:      params.Limit,
-	}, tenantMenuIDs, userPermissions, isAdmin); err != nil {
+	}, spaceMenuIDs, userPermissions, isAdmin); err != nil {
 		logger.Warnf(ctx, "Failed to get sidebar/submenu menus: %v", err)
 		nav.Sidebars = []*structs.ReadMenu{}
 	} else {
 		nav.Sidebars = sidebars
 	}
 
-	// Get accounts - special handling for tenant context
-	if accounts, err := s.getAccountMenusWithTenantContext(ctx, params, tenantID, userPermissions, isAdmin); err != nil {
+	// Get accounts - special handling for space context
+	if accounts, err := s.getAccountMenusWithSpaceContext(ctx, params, spaceID, userPermissions, isAdmin); err != nil {
 		logger.Warnf(ctx, "Failed to get account menus: %v", err)
 		nav.Accounts = []*structs.ReadMenu{}
 	} else {
 		nav.Accounts = accounts
 	}
 
-	// Get tenants - show tenant switching menus only if user has multiple tenants
-	if tenants, err := s.getTenantMenusWithContext(ctx, params, userPermissions, isAdmin); err != nil {
-		logger.Warnf(ctx, "Failed to get tenant menus: %v", err)
-		nav.Tenants = []*structs.ReadMenu{}
+	// Get spaces - show space switching menus only if user has multiple spaces
+	if spaces, err := s.getSpaceMenusWithContext(ctx, params, userPermissions, isAdmin); err != nil {
+		logger.Warnf(ctx, "Failed to get space menus: %v", err)
+		nav.Spaces = []*structs.ReadMenu{}
 	} else {
-		nav.Tenants = tenants
+		nav.Spaces = spaces
 	}
 
 	return nav, nil
 }
 
-// getMenusWithTenantAndPermissionFilter filters menus by tenant and permissions
-func (s *menuService) getMenusWithTenantAndPermissionFilter(ctx context.Context, menuType string, params structs.MenuQueryParams, tenantMenuIDs []string, userPermissions []string, isAdmin bool) ([]*structs.ReadMenu, error) {
+// getMenusWithSpaceAndPermissionFilter filters menus by space and permissions
+func (s *menuService) getMenusWithSpaceAndPermissionFilter(ctx context.Context, menuType string, params structs.MenuQueryParams, spaceMenuIDs []string, userPermissions []string, isAdmin bool) ([]*structs.ReadMenu, error) {
 	typeParams := params
 	typeParams.Type = menuType
 
@@ -272,25 +272,25 @@ func (s *menuService) getMenusWithTenantAndPermissionFilter(ctx context.Context,
 		return nil, err
 	}
 
-	// Filter by tenant if tenant context exists
-	if len(tenantMenuIDs) > 0 {
-		menus = s.filterMenusByTenant(menus, tenantMenuIDs)
+	// Filter by space if space context exists
+	if len(spaceMenuIDs) > 0 {
+		menus = s.filterMenusBySpace(menus, spaceMenuIDs)
 	}
 
 	// Filter by permissions
 	return s.filterMenusByPermission(ctx, menus, userPermissions, isAdmin), nil
 }
 
-// GetMenusByTypesWithTenantAndPermissionCheck retrieves menus with tenant and permission filtering
-func (s *menuService) GetMenusByTypesWithTenantAndPermissionCheck(ctx context.Context, types []string, opts structs.MenuQueryParams, tenantMenuIDs []string, userPermissions []string, isAdmin bool) ([]*structs.ReadMenu, error) {
+// GetMenusByTypesWithSpaceAndPermissionCheck retrieves menus with space and permission filtering
+func (s *menuService) GetMenusByTypesWithSpaceAndPermissionCheck(ctx context.Context, types []string, opts structs.MenuQueryParams, spaceMenuIDs []string, userPermissions []string, isAdmin bool) ([]*structs.ReadMenu, error) {
 	allMenus, err := s.getMenusByTypesWithParents(ctx, types, opts)
 	if err != nil {
 		return nil, err
 	}
 
-	// Filter by tenant if tenant context exists
-	if len(tenantMenuIDs) > 0 {
-		allMenus = s.filterMenusByTenant(allMenus, tenantMenuIDs)
+	// Filter by space if space context exists
+	if len(spaceMenuIDs) > 0 {
+		allMenus = s.filterMenusBySpace(allMenus, spaceMenuIDs)
 	}
 
 	// Filter by permissions
@@ -304,8 +304,8 @@ func (s *menuService) GetMenusByTypesWithTenantAndPermissionCheck(ctx context.Co
 	return filteredMenus, nil
 }
 
-// getAccountMenusWithTenantContext handles account menus with special tenant considerations
-func (s *menuService) getAccountMenusWithTenantContext(ctx context.Context, params structs.MenuQueryParams, tenantID string, userPermissions []string, isAdmin bool) ([]*structs.ReadMenu, error) {
+// getAccountMenusWithSpaceContext handles account menus with special space considerations
+func (s *menuService) getAccountMenusWithSpaceContext(ctx context.Context, params structs.MenuQueryParams, spaceID string, userPermissions []string, isAdmin bool) ([]*structs.ReadMenu, error) {
 	typeParams := params
 	typeParams.Type = "account"
 
@@ -317,47 +317,47 @@ func (s *menuService) getAccountMenusWithTenantContext(ctx context.Context, para
 	// Apply permission filtering
 	filteredMenus := s.filterMenusByPermission(ctx, menus, userPermissions, isAdmin)
 
-	// Add dynamic account menus based on tenant context
-	if tenantID != "" {
-		dynamicMenus := s.generateTenantAccountMenus(ctx, tenantID)
+	// Add dynamic account menus based on space context
+	if spaceID != "" {
+		dynamicMenus := s.generateSpaceAccountMenus(ctx, spaceID)
 		filteredMenus = append(filteredMenus, dynamicMenus...)
 	}
 
 	return filteredMenus, nil
 }
 
-// getTenantMenusWithContext handles tenant switching and management menus
-func (s *menuService) getTenantMenusWithContext(ctx context.Context, params structs.MenuQueryParams, userPermissions []string, isAdmin bool) ([]*structs.ReadMenu, error) {
+// getSpaceMenusWithContext handles space switching and management menus
+func (s *menuService) getSpaceMenusWithContext(ctx context.Context, params structs.MenuQueryParams, userPermissions []string, isAdmin bool) ([]*structs.ReadMenu, error) {
 	typeParams := params
-	typeParams.Type = "tenant"
+	typeParams.Type = "space"
 
 	menus, err := s.GetMenus(ctx, typeParams)
 	if err != nil {
 		return nil, err
 	}
 
-	// Check if user has access to multiple tenants
-	userTenantIDs := ctxutil.GetUserTenantIDs(ctx)
+	// Check if user has access to multiple spaces
+	userSpaceIDs := ctxutil.GetUserSpaceIDs(ctx)
 
-	// Only show tenant switching menus if user has multiple tenants or is admin
-	if len(userTenantIDs) <= 1 && !isAdmin {
+	// Only show space switching menus if user has multiple spaces or is admin
+	if len(userSpaceIDs) <= 1 && !isAdmin {
 		return []*structs.ReadMenu{}, nil
 	}
 
 	return s.filterMenusByPermission(ctx, menus, userPermissions, isAdmin), nil
 }
 
-// generateTenantAccountMenus creates dynamic account menus based on tenant context
-func (s *menuService) generateTenantAccountMenus(ctx context.Context, tenantID string) []*structs.ReadMenu {
+// generateSpaceAccountMenus creates dynamic account menus based on space context
+func (s *menuService) generateSpaceAccountMenus(ctx context.Context, spaceID string) []*structs.ReadMenu {
 	var dynamicMenus []*structs.ReadMenu
 
-	// // Add tenant-specific token management menu
+	// // Add space-specific token management menu
 	// dynamicMenus = append(dynamicMenus, &structs.ReadMenu{
-	// 	ID:       "tenant-tokens-" + tenantID,
-	// 	Name:     "Tenant API Keys",
+	// 	ID:       "space-tokens-" + spaceID,
+	// 	Name:     "Space API Keys",
 	// 	Label:    "API Keys",
 	// 	Type:     "account",
-	// 	Path:     "/account/api-keys?tenant=" + tenantID,
+	// 	Path:     "/account/api-keys?space=" + spaceID,
 	// 	Icon:     "key",
 	// 	Perms:    "read:tokens",
 	// 	Order:    100,
@@ -365,13 +365,13 @@ func (s *menuService) generateTenantAccountMenus(ctx context.Context, tenantID s
 	// 	Disabled: false,
 	// })
 	//
-	// // Add tenant-specific session management menu
+	// // Add space-specific session management menu
 	// dynamicMenus = append(dynamicMenus, &structs.ReadMenu{
-	// 	ID:       "tenant-sessions-" + tenantID,
+	// 	ID:       "space-sessions-" + spaceID,
 	// 	Name:     "Active Sessions",
 	// 	Label:    "Sessions",
 	// 	Type:     "account",
-	// 	Path:     "/account/sessions?tenant=" + tenantID,
+	// 	Path:     "/account/sessions?space=" + spaceID,
 	// 	Icon:     "monitor",
 	// 	Perms:    "read:sessions",
 	// 	Order:    101,
@@ -382,21 +382,21 @@ func (s *menuService) generateTenantAccountMenus(ctx context.Context, tenantID s
 	return dynamicMenus
 }
 
-// filterMenusByTenant filters menus based on tenant access
-func (s *menuService) filterMenusByTenant(menus []*structs.ReadMenu, tenantMenuIDs []string) []*structs.ReadMenu {
-	if len(tenantMenuIDs) == 0 {
+// filterMenusBySpace filters menus based on space access
+func (s *menuService) filterMenusBySpace(menus []*structs.ReadMenu, spaceMenuIDs []string) []*structs.ReadMenu {
+	if len(spaceMenuIDs) == 0 {
 		return menus
 	}
 
-	tenantMenuMap := make(map[string]bool)
-	for _, id := range tenantMenuIDs {
-		tenantMenuMap[id] = true
+	spaceMenuMap := make(map[string]bool)
+	for _, id := range spaceMenuIDs {
+		spaceMenuMap[id] = true
 	}
 
 	var filteredMenus []*structs.ReadMenu
 	for _, menu := range menus {
-		// Include menu if it's in tenant's allowed menus or if it's a system menu
-		if tenantMenuMap[menu.ID] || menu.Type == "system" {
+		// Include menu if it's in space's allowed menus or if it's a system menu
+		if spaceMenuMap[menu.ID] || menu.Type == "system" {
 			filteredMenus = append(filteredMenus, menu)
 		}
 	}

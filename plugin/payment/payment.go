@@ -118,7 +118,7 @@ func (p *Plugin) PostInit() error {
 	p.em.SubscribeEvent("exts.user.ready", func(data any) {
 		p.h.Event.RefreshDependencies()
 	})
-	p.em.SubscribeEvent("exts.tenant.ready", func(data any) {
+	p.em.SubscribeEvent("exts.space.ready", func(data any) {
 		p.h.Event.RefreshDependencies()
 	})
 
@@ -230,7 +230,7 @@ func (p *Plugin) Dependencies() []string {
 func (p *Plugin) GetAllDependencies() []ext.DependencyEntry {
 	return []ext.DependencyEntry{
 		{Name: "user", Type: ext.WeakDependency},
-		{Name: "tenant", Type: ext.WeakDependency},
+		{Name: "space", Type: ext.WeakDependency},
 	}
 }
 

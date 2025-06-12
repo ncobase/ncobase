@@ -44,6 +44,6 @@ func New(em ext.ManagerInterface, d *data.Data, publisher event.PublisherInterfa
 // RefreshDependencies refreshes external service dependencies
 func (s *Service) RefreshDependencies() {
 	if s.Quota != nil {
-		s.Quota.RefreshTenantServices()
+		s.Quota.RefreshSpaceServices()
 	}
 }

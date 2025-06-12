@@ -180,7 +180,7 @@ func (r *topicRepository) Update(ctx context.Context, slug string, updates types
 			builder.SetNillableReleased(convert.ToPointer(value.(int64)))
 		case "taxonomy_id":
 			builder.SetNillableTaxonomyID(convert.ToPointer(value.(string)))
-		case "tenant_id":
+		case "space_id":
 			builder.SetNillableSpaceID(convert.ToPointer(value.(string)))
 		case "updated_by":
 			builder.SetNillableUpdatedBy(convert.ToPointer(value.(string)))
@@ -223,7 +223,7 @@ func (r *topicRepository) List(ctx context.Context, params *structs.ListTopicPar
 		return nil, err
 	}
 
-	// belong space / tenant
+	// belong space / space
 	if params.SpaceID != "" {
 		builder.Where(topicEnt.SpaceIDEQ(params.SpaceID))
 	}

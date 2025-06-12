@@ -7,10 +7,10 @@ import (
 	accessService "ncobase/access/service"
 	authService "ncobase/auth/service"
 	initConfig "ncobase/initialize/config"
+	orgService "ncobase/organization/service"
 	spaceService "ncobase/space/service"
 	systemService "ncobase/system/service"
 	systemStructs "ncobase/system/structs"
-	tenantService "ncobase/tenant/service"
 	userService "ncobase/user/service"
 	userStructs "ncobase/user/structs"
 	"time"
@@ -46,8 +46,8 @@ type Service struct {
 	sys *systemService.Service
 	as  *authService.Service
 	us  *userService.Service
-	ts  *tenantService.Service
-	ss  *spaceService.Service
+	ts  *spaceService.Service
+	ss  *orgService.Service
 	acs *accessService.Service
 
 	c *initConfig.Config
@@ -79,7 +79,7 @@ func New(
 }
 
 // SetDependencies sets the dependencies
-func (s *Service) SetDependencies(c *initConfig.Config, sys *systemService.Service, as *authService.Service, us *userService.Service, ts *tenantService.Service, ss *spaceService.Service, acs *accessService.Service) {
+func (s *Service) SetDependencies(c *initConfig.Config, sys *systemService.Service, as *authService.Service, us *userService.Service, ts *spaceService.Service, ss *orgService.Service, acs *accessService.Service) {
 	s.c = c
 	s.sys = sys
 	s.as = as
@@ -235,7 +235,7 @@ func (s *Service) Execute(ctx context.Context, allowReinitialization bool) (*Ini
 	}{
 		{"roles", s.checkRolesInitialized},
 		{"permissions", s.checkPermissionsInitialized},
-		{"tenants", s.checkTenantsInitialized},
+		{"spaces", s.checkSpacesInitialized},
 		{"users", s.checkUsersInitialized}, // This now handles employees too
 		{"casbin_policies", s.checkCasbinPoliciesInitialized},
 		{"menus", s.checkMenusInitialized},

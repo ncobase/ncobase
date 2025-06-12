@@ -179,7 +179,7 @@ func (r *channelRepository) Update(ctx context.Context, slug string, updates typ
 			builder.SetAutoPublish(value.(bool))
 		case "require_review":
 			builder.SetRequireReview(value.(bool))
-		case "tenant_id":
+		case "space_id":
 			builder.SetNillableSpaceID(convert.ToPointer(value.(string)))
 		case "updated_by":
 			builder.SetNillableUpdatedBy(convert.ToPointer(value.(string)))
@@ -365,7 +365,7 @@ func (r *channelRepository) FindChannel(ctx context.Context, params *structs.Fin
 		builder = builder.Where(channelEnt.TypeEQ(params.Type))
 	}
 
-	// if space / tenant provided
+	// if space / space provided
 	if validator.IsNotEmpty(params.SpaceID) {
 		builder = builder.Where(channelEnt.SpaceIDEQ(params.SpaceID))
 	}

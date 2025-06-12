@@ -29,23 +29,23 @@ func (eu *EmployeeUpdate) Where(ps ...predicate.Employee) *EmployeeUpdate {
 	return eu
 }
 
-// SetTenantID sets the "tenant_id" field.
-func (eu *EmployeeUpdate) SetTenantID(s string) *EmployeeUpdate {
-	eu.mutation.SetTenantID(s)
+// SetSpaceID sets the "space_id" field.
+func (eu *EmployeeUpdate) SetSpaceID(s string) *EmployeeUpdate {
+	eu.mutation.SetSpaceID(s)
 	return eu
 }
 
-// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
-func (eu *EmployeeUpdate) SetNillableTenantID(s *string) *EmployeeUpdate {
+// SetNillableSpaceID sets the "space_id" field if the given value is not nil.
+func (eu *EmployeeUpdate) SetNillableSpaceID(s *string) *EmployeeUpdate {
 	if s != nil {
-		eu.SetTenantID(*s)
+		eu.SetSpaceID(*s)
 	}
 	return eu
 }
 
-// ClearTenantID clears the value of the "tenant_id" field.
-func (eu *EmployeeUpdate) ClearTenantID() *EmployeeUpdate {
-	eu.mutation.ClearTenantID()
+// ClearSpaceID clears the value of the "space_id" field.
+func (eu *EmployeeUpdate) ClearSpaceID() *EmployeeUpdate {
+	eu.mutation.ClearSpaceID()
 	return eu
 }
 
@@ -391,11 +391,11 @@ func (eu *EmployeeUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			}
 		}
 	}
-	if value, ok := eu.mutation.TenantID(); ok {
-		_spec.SetField(employee.FieldTenantID, field.TypeString, value)
+	if value, ok := eu.mutation.SpaceID(); ok {
+		_spec.SetField(employee.FieldSpaceID, field.TypeString, value)
 	}
-	if eu.mutation.TenantIDCleared() {
-		_spec.ClearField(employee.FieldTenantID, field.TypeString)
+	if eu.mutation.SpaceIDCleared() {
+		_spec.ClearField(employee.FieldSpaceID, field.TypeString)
 	}
 	if eu.mutation.CreatedAtCleared() {
 		_spec.ClearField(employee.FieldCreatedAt, field.TypeInt64)
@@ -520,23 +520,23 @@ type EmployeeUpdateOne struct {
 	mutation *EmployeeMutation
 }
 
-// SetTenantID sets the "tenant_id" field.
-func (euo *EmployeeUpdateOne) SetTenantID(s string) *EmployeeUpdateOne {
-	euo.mutation.SetTenantID(s)
+// SetSpaceID sets the "space_id" field.
+func (euo *EmployeeUpdateOne) SetSpaceID(s string) *EmployeeUpdateOne {
+	euo.mutation.SetSpaceID(s)
 	return euo
 }
 
-// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
-func (euo *EmployeeUpdateOne) SetNillableTenantID(s *string) *EmployeeUpdateOne {
+// SetNillableSpaceID sets the "space_id" field if the given value is not nil.
+func (euo *EmployeeUpdateOne) SetNillableSpaceID(s *string) *EmployeeUpdateOne {
 	if s != nil {
-		euo.SetTenantID(*s)
+		euo.SetSpaceID(*s)
 	}
 	return euo
 }
 
-// ClearTenantID clears the value of the "tenant_id" field.
-func (euo *EmployeeUpdateOne) ClearTenantID() *EmployeeUpdateOne {
-	euo.mutation.ClearTenantID()
+// ClearSpaceID clears the value of the "space_id" field.
+func (euo *EmployeeUpdateOne) ClearSpaceID() *EmployeeUpdateOne {
+	euo.mutation.ClearSpaceID()
 	return euo
 }
 
@@ -912,11 +912,11 @@ func (euo *EmployeeUpdateOne) sqlSave(ctx context.Context) (_node *Employee, err
 			}
 		}
 	}
-	if value, ok := euo.mutation.TenantID(); ok {
-		_spec.SetField(employee.FieldTenantID, field.TypeString, value)
+	if value, ok := euo.mutation.SpaceID(); ok {
+		_spec.SetField(employee.FieldSpaceID, field.TypeString, value)
 	}
-	if euo.mutation.TenantIDCleared() {
-		_spec.ClearField(employee.FieldTenantID, field.TypeString)
+	if euo.mutation.SpaceIDCleared() {
+		_spec.ClearField(employee.FieldSpaceID, field.TypeString)
 	}
 	if euo.mutation.CreatedAtCleared() {
 		_spec.ClearField(employee.FieldCreatedAt, field.TypeInt64)

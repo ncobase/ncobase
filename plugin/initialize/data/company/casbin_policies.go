@@ -26,10 +26,10 @@ var CasbinPolicyRules = [][]string{
 	{"company-admin", "*", "/", "read", "", ""},
 	{"company-admin", "*", "/account", "GET", "", ""},
 	{"company-admin", "*", "/account", "read", "", ""},
-	{"company-admin", "*", "/account/tenant", "GET", "", ""},
-	{"company-admin", "*", "/account/tenant", "read", "", ""},
-	{"company-admin", "*", "/account/tenants", "GET", "", ""},
-	{"company-admin", "*", "/account/tenants", "read", "", ""},
+	{"company-admin", "*", "/account/space", "GET", "", ""},
+	{"company-admin", "*", "/account/space", "read", "", ""},
+	{"company-admin", "*", "/account/spaces", "GET", "", ""},
+	{"company-admin", "*", "/account/spaces", "read", "", ""},
 
 	// User management - semantic actions preferred
 	{"company-admin", "*", "/sys/users", "read", "", ""},
@@ -58,13 +58,13 @@ var CasbinPolicyRules = [][]string{
 	{"company-admin", "*", "/sys/options", "read", "", ""},
 
 	// Organization management
-	{"company-admin", "*", "/org/groups", "read", "", ""},
-	{"company-admin", "*", "/org/groups", "create", "", ""},
-	{"company-admin", "*", "/org/groups", "update", "", ""},
-	{"company-admin", "*", "/org/groups", "delete", "", ""},
-	{"company-admin", "*", "/org/groups/*", "read", "", ""},
-	{"company-admin", "*", "/org/groups/*", "update", "", ""},
-	{"company-admin", "*", "/org/groups/*", "delete", "", ""},
+	{"company-admin", "*", "/org/orgs", "read", "", ""},
+	{"company-admin", "*", "/org/orgs", "create", "", ""},
+	{"company-admin", "*", "/org/orgs", "update", "", ""},
+	{"company-admin", "*", "/org/orgs", "delete", "", ""},
+	{"company-admin", "*", "/org/orgs/*", "read", "", ""},
+	{"company-admin", "*", "/org/orgs/*", "update", "", ""},
+	{"company-admin", "*", "/org/orgs/*", "delete", "", ""},
 
 	// Content management
 	{"company-admin", "*", "/cms/topics", "read", "", ""},
@@ -103,10 +103,10 @@ var CasbinPolicyRules = [][]string{
 	{"manager", "*", "/", "read", "", ""},
 	{"manager", "*", "/account", "GET", "", ""},
 	{"manager", "*", "/account", "read", "", ""},
-	{"manager", "*", "/account/tenant", "GET", "", ""},
-	{"manager", "*", "/account/tenant", "read", "", ""},
-	{"manager", "*", "/account/tenants", "GET", "", ""},
-	{"manager", "*", "/account/tenants", "read", "", ""},
+	{"manager", "*", "/account/space", "GET", "", ""},
+	{"manager", "*", "/account/space", "read", "", ""},
+	{"manager", "*", "/account/spaces", "GET", "", ""},
+	{"manager", "*", "/account/spaces", "read", "", ""},
 
 	// User and employee access (read + limited update)
 	{"manager", "*", "/sys/users", "GET", "", ""},
@@ -127,8 +127,8 @@ var CasbinPolicyRules = [][]string{
 	{"manager", "*", "/sys/options", "read", "", ""},
 
 	// Organization and content
-	{"manager", "*", "/org/groups", "GET", "", ""},
-	{"manager", "*", "/org/groups", "read", "", ""},
+	{"manager", "*", "/org/orgs", "GET", "", ""},
+	{"manager", "*", "/org/orgs", "read", "", ""},
 	{"manager", "*", "/cms/topics", "GET", "", ""},
 	{"manager", "*", "/cms/topics", "read", "", ""},
 
@@ -148,10 +148,10 @@ var CasbinPolicyRules = [][]string{
 	{"employee", "*", "/", "read", "", ""},
 	{"employee", "*", "/account", "GET", "", ""},
 	{"employee", "*", "/account", "read", "", ""},
-	{"employee", "*", "/account/tenant", "GET", "", ""},
-	{"employee", "*", "/account/tenant", "read", "", ""},
-	{"employee", "*", "/account/tenants", "GET", "", ""},
-	{"employee", "*", "/account/tenants", "read", "", ""},
+	{"employee", "*", "/account/space", "GET", "", ""},
+	{"employee", "*", "/account/space", "read", "", ""},
+	{"employee", "*", "/account/spaces", "GET", "", ""},
+	{"employee", "*", "/account/spaces", "read", "", ""},
 
 	// Basic system info (read-only)
 	{"employee", "*", "/sys/menus", "GET", "", ""},
@@ -166,8 +166,8 @@ var CasbinPolicyRules = [][]string{
 	{"employee", "*", "/sys/employees", "read", "", ""},
 
 	// Organization and content (read-only)
-	{"employee", "*", "/org/groups", "GET", "", ""},
-	{"employee", "*", "/org/groups", "read", "", ""},
+	{"employee", "*", "/org/orgs", "GET", "", ""},
+	{"employee", "*", "/org/orgs", "read", "", ""},
 	{"employee", "*", "/cms/topics", "GET", "", ""},
 	{"employee", "*", "/cms/topics", "read", "", ""},
 

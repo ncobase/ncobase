@@ -68,7 +68,7 @@ func (s *fileService) Create(ctx context.Context, body *structs.CreateFileBody) 
 	}
 
 	if validator.IsEmpty(body.SpaceID) {
-		body.SpaceID = ctxutil.GetTenantID(ctx)
+		body.SpaceID = ctxutil.GetSpaceID(ctx)
 		if body.SpaceID == "" {
 			return nil, errors.New(ecode.FieldIsRequired("space_id"))
 		}

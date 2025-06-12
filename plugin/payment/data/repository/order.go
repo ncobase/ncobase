@@ -50,8 +50,8 @@ func (r *orderRepository) Create(ctx context.Context, order *structs.CreateOrder
 		SetExpiresAt(order.ExpiresAt)
 
 	// Set optional fields
-	if order.TenantID != "" {
-		builder.SetTenantID(order.TenantID)
+	if order.SpaceID != "" {
+		builder.SetSpaceID(order.SpaceID)
 	}
 
 	if order.ProductID != "" {
@@ -173,8 +173,8 @@ func (r *orderRepository) List(ctx context.Context, query *structs.OrderQuery) (
 		q = q.Where(paymentOrderEnt.UserID(query.UserID))
 	}
 
-	if query.TenantID != "" {
-		q = q.Where(paymentOrderEnt.TenantID(query.TenantID))
+	if query.SpaceID != "" {
+		q = q.Where(paymentOrderEnt.SpaceID(query.SpaceID))
 	}
 
 	if query.ProductID != "" {
@@ -267,8 +267,8 @@ func (r *orderRepository) Count(ctx context.Context, query *structs.OrderQuery) 
 		q = q.Where(paymentOrderEnt.UserID(query.UserID))
 	}
 
-	if query.TenantID != "" {
-		q = q.Where(paymentOrderEnt.TenantID(query.TenantID))
+	if query.SpaceID != "" {
+		q = q.Where(paymentOrderEnt.SpaceID(query.SpaceID))
 	}
 
 	if query.ProductID != "" {
@@ -394,7 +394,7 @@ func (r *orderRepository) entToStruct(order *ent.PaymentOrder) (*structs.Order, 
 		Type:           structs.PaymentType(order.Type),
 		ChannelID:      order.ChannelID,
 		UserID:         order.UserID,
-		TenantID:       order.TenantID,
+		SpaceID:        order.SpaceID,
 		ProductID:      order.ProductID,
 		SubscriptionID: order.SubscriptionID,
 		ExpiresAt:      order.ExpiresAt,

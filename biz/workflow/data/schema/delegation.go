@@ -33,7 +33,7 @@ func (Delegation) Mixin() []ent.Mixin {
 		mixin.PrimaryKey,
 		mixin.TextStatus,
 		mixin.ExtraProps,
-		mixin.TenantID,
+		mixin.SpaceID,
 		mixin.Operator,
 		mixin.TimeAt{},
 	}

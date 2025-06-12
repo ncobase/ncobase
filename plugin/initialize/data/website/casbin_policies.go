@@ -13,7 +13,7 @@ var CasbinPolicyRules = [][]string{
 	{"admin", "*", "/res/*", "*"},
 	{"admin", "*", "/rt/notifications", "*"},
 	{"admin", "*", "/account", "GET"},
-	{"admin", "*", "/account/tenant", "GET"},
+	{"admin", "*", "/account/space", "GET"},
 
 	// Manager - content management
 	{"manager", "*", "/", "GET"},

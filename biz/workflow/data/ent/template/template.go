@@ -77,8 +77,8 @@ const (
 	FieldVisibleRange = "visible_range"
 	// FieldExtras holds the string denoting the extras field in the database.
 	FieldExtras = "extras"
-	// FieldTenantID holds the string denoting the tenant_id field in the database.
-	FieldTenantID = "tenant_id"
+	// FieldSpaceID holds the string denoting the space_id field in the database.
+	FieldSpaceID = "space_id"
 	// FieldCreatedBy holds the string denoting the created_by field in the database.
 	FieldCreatedBy = "created_by"
 	// FieldUpdatedBy holds the string denoting the updated_by field in the database.
@@ -145,7 +145,7 @@ var Columns = []string{
 	FieldRoleConfigs,
 	FieldVisibleRange,
 	FieldExtras,
-	FieldTenantID,
+	FieldSpaceID,
 	FieldCreatedBy,
 	FieldUpdatedBy,
 	FieldCreatedAt,
@@ -312,9 +312,9 @@ func ByStrictMode(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldStrictMode, opts...).ToFunc()
 }
 
-// ByTenantID orders the results by the tenant_id field.
-func ByTenantID(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldTenantID, opts...).ToFunc()
+// BySpaceID orders the results by the space_id field.
+func BySpaceID(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldSpaceID, opts...).ToFunc()
 }
 
 // ByCreatedBy orders the results by the created_by field.

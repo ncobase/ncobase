@@ -3,8 +3,8 @@ package proxy
 import (
 	"fmt"
 	accessService "ncobase/access/service"
+	orgService "ncobase/organization/service"
 	spaceService "ncobase/space/service"
-	tenantService "ncobase/tenant/service"
 	userService "ncobase/user/service"
 )
 
@@ -23,28 +23,28 @@ func (p *Plugin) getUserService() (*userService.Service, error) {
 	return us, nil
 }
 
-// GetTenantService returns the tenant service
-func (p *Plugin) getTenantService() (*tenantService.Service, error) {
-	f, err := p.em.GetServiceByName("tenant")
-	if err != nil {
-		return nil, fmt.Errorf("failed to get tenant service: %v", err)
-	}
-	ts, ok := f.(*tenantService.Service)
-	if !ok {
-		return nil, fmt.Errorf("tenant service does not implement")
-	}
-	return ts, nil
-}
-
 // GetSpaceService returns the space service
 func (p *Plugin) getSpaceService() (*spaceService.Service, error) {
 	f, err := p.em.GetServiceByName("space")
 	if err != nil {
 		return nil, fmt.Errorf("failed to get space service: %v", err)
 	}
-	ss, ok := f.(*spaceService.Service)
+	ts, ok := f.(*spaceService.Service)
 	if !ok {
 		return nil, fmt.Errorf("space service does not implement")
+	}
+	return ts, nil
+}
+
+// GetOrganizationService returns the organization service
+func (p *Plugin) getOrganizationService() (*orgService.Service, error) {
+	f, err := p.em.GetServiceByName("organization")
+	if err != nil {
+		return nil, fmt.Errorf("failed to get organization service: %v", err)
+	}
+	ss, ok := f.(*orgService.Service)
+	if !ok {
+		return nil, fmt.Errorf("organization service does not implement")
 	}
 	return ss, nil
 }

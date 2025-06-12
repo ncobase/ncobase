@@ -22,7 +22,7 @@ var (
 		{Name: "current_value", Type: field.TypeInt, Comment: "Current value", Default: 0},
 		{Name: "disabled", Type: field.TypeBool, Nullable: true, Comment: "is disabled", Default: false},
 		{Name: "description", Type: field.TypeString, Nullable: true, Size: 2147483647, Comment: "description"},
-		{Name: "tenant_id", Type: field.TypeString, Nullable: true, Comment: "tenant id"},
+		{Name: "space_id", Type: field.TypeString, Nullable: true, Comment: "space id, e.g. space id, organization id, store id"},
 		{Name: "created_by", Type: field.TypeString, Nullable: true, Comment: "id of the creator"},
 		{Name: "updated_by", Type: field.TypeString, Nullable: true, Comment: "id of the last updater"},
 		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
@@ -40,7 +40,7 @@ var (
 				Columns: []*schema.Column{NcseCounterColumns[0]},
 			},
 			{
-				Name:    "counter_tenant_id",
+				Name:    "counter_space_id",
 				Unique:  false,
 				Columns: []*schema.Column{NcseCounterColumns[11]},
 			},

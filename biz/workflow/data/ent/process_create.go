@@ -393,16 +393,16 @@ func (pc *ProcessCreate) SetExtras(m map[string]interface{}) *ProcessCreate {
 	return pc
 }
 
-// SetTenantID sets the "tenant_id" field.
-func (pc *ProcessCreate) SetTenantID(s string) *ProcessCreate {
-	pc.mutation.SetTenantID(s)
+// SetSpaceID sets the "space_id" field.
+func (pc *ProcessCreate) SetSpaceID(s string) *ProcessCreate {
+	pc.mutation.SetSpaceID(s)
 	return pc
 }
 
-// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
-func (pc *ProcessCreate) SetNillableTenantID(s *string) *ProcessCreate {
+// SetNillableSpaceID sets the "space_id" field if the given value is not nil.
+func (pc *ProcessCreate) SetNillableSpaceID(s *string) *ProcessCreate {
 	if s != nil {
-		pc.SetTenantID(*s)
+		pc.SetSpaceID(*s)
 	}
 	return pc
 }
@@ -920,9 +920,9 @@ func (pc *ProcessCreate) createSpec() (*Process, *sqlgraph.CreateSpec) {
 		_spec.SetField(process.FieldExtras, field.TypeJSON, value)
 		_node.Extras = value
 	}
-	if value, ok := pc.mutation.TenantID(); ok {
-		_spec.SetField(process.FieldTenantID, field.TypeString, value)
-		_node.TenantID = value
+	if value, ok := pc.mutation.SpaceID(); ok {
+		_spec.SetField(process.FieldSpaceID, field.TypeString, value)
+		_node.SpaceID = value
 	}
 	if value, ok := pc.mutation.CreatedBy(); ok {
 		_spec.SetField(process.FieldCreatedBy, field.TypeString, value)

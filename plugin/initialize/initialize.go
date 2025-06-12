@@ -87,11 +87,11 @@ func (p *Plugin) PostInit() error {
 	if err != nil {
 		return err
 	}
-	ts, err := p.getTenantService()
+	ts, err := p.getSpaceService()
 	if err != nil {
 		return err
 	}
-	ss, err := p.getSpaceService()
+	ss, err := p.getOrganizationService()
 	if err != nil {
 		return err
 	}
@@ -177,8 +177,8 @@ func (p *Plugin) GetAllDependencies() []ext.DependencyEntry {
 		{Name: "system", Type: ext.WeakDependency},
 		{Name: "auth", Type: ext.WeakDependency},
 		{Name: "user", Type: ext.WeakDependency},
-		{Name: "tenant", Type: ext.WeakDependency},
 		{Name: "space", Type: ext.WeakDependency},
+		{Name: "organization", Type: ext.WeakDependency},
 		{Name: "access", Type: ext.WeakDependency},
 	}
 }

@@ -68,7 +68,7 @@ func (s *productService) Create(ctx context.Context, input *structs.CreateProduc
 		BillingInterval: input.BillingInterval,
 		TrialDays:       input.TrialDays,
 		Features:        input.Features,
-		TenantID:        input.TenantID,
+		SpaceID:         input.SpaceID,
 		Metadata:        input.Metadata,
 	}
 
@@ -88,7 +88,7 @@ func (s *productService) Create(ctx context.Context, input *structs.CreateProduc
 			Price:           created.Price,
 			Currency:        created.Currency,
 			BillingInterval: created.BillingInterval,
-			TenantID:        created.TenantID,
+			SpaceID:         created.SpaceID,
 			Metadata:        created.Metadata,
 		}
 
@@ -129,7 +129,7 @@ func (s *productService) Update(ctx context.Context, id string, input *structs.U
 			Price:           updated.Price,
 			Currency:        updated.Currency,
 			BillingInterval: updated.BillingInterval,
-			TenantID:        updated.TenantID,
+			SpaceID:         updated.SpaceID,
 			Metadata:        updated.Metadata,
 		}
 
@@ -176,7 +176,7 @@ func (s *productService) Delete(ctx context.Context, id string) error {
 			Price:           existing.Price,
 			Currency:        existing.Currency,
 			BillingInterval: existing.BillingInterval,
-			TenantID:        existing.TenantID,
+			SpaceID:         existing.SpaceID,
 			Metadata:        existing.Metadata,
 		}
 
@@ -232,7 +232,7 @@ func (s *productService) Serialize(product *structs.Product) *structs.Product {
 		BillingInterval: product.BillingInterval,
 		TrialDays:       product.TrialDays,
 		Features:        product.Features,
-		TenantID:        product.TenantID,
+		SpaceID:         product.SpaceID,
 		Metadata:        product.Metadata,
 		CreatedAt:       product.CreatedAt,
 		UpdatedAt:       product.UpdatedAt,

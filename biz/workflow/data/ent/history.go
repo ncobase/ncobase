@@ -36,8 +36,8 @@ type History struct {
 	NodeRules map[string]interface{} `json:"node_rules,omitempty"`
 	// Node events
 	NodeEvents map[string]interface{} `json:"node_events,omitempty"`
-	// tenant id
-	TenantID string `json:"tenant_id,omitempty"`
+	// space id, e.g. space id, organization id, store id
+	SpaceID string `json:"space_id,omitempty"`
 	// id of the creator
 	CreatedBy string `json:"created_by,omitempty"`
 	// id of the last updater
@@ -76,7 +76,7 @@ func (*History) scanValues(columns []string) ([]any, error) {
 			values[i] = new([]byte)
 		case history.FieldCreatedAt, history.FieldUpdatedAt:
 			values[i] = new(sql.NullInt64)
-		case history.FieldID, history.FieldType, history.FieldProcessID, history.FieldTemplateID, history.FieldBusinessKey, history.FieldNodeKey, history.FieldNodeType, history.FieldTenantID, history.FieldCreatedBy, history.FieldUpdatedBy, history.FieldNodeName, history.FieldOperator, history.FieldOperatorDept, history.FieldTaskID, history.FieldAction, history.FieldComment:
+		case history.FieldID, history.FieldType, history.FieldProcessID, history.FieldTemplateID, history.FieldBusinessKey, history.FieldNodeKey, history.FieldNodeType, history.FieldSpaceID, history.FieldCreatedBy, history.FieldUpdatedBy, history.FieldNodeName, history.FieldOperator, history.FieldOperatorDept, history.FieldTaskID, history.FieldAction, history.FieldComment:
 			values[i] = new(sql.NullString)
 		default:
 			values[i] = new(sql.UnknownType)
@@ -159,11 +159,11 @@ func (h *History) assignValues(columns []string, values []any) error {
 					return fmt.Errorf("unmarshal field node_events: %w", err)
 				}
 			}
-		case history.FieldTenantID:
+		case history.FieldSpaceID:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field tenant_id", values[i])
+				return fmt.Errorf("unexpected type %T for field space_id", values[i])
 			} else if value.Valid {
-				h.TenantID = value.String
+				h.SpaceID = value.String
 			}
 		case history.FieldCreatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -312,8 +312,8 @@ func (h *History) String() string {
 	builder.WriteString("node_events=")
 	builder.WriteString(fmt.Sprintf("%v", h.NodeEvents))
 	builder.WriteString(", ")
-	builder.WriteString("tenant_id=")
-	builder.WriteString(h.TenantID)
+	builder.WriteString("space_id=")
+	builder.WriteString(h.SpaceID)
 	builder.WriteString(", ")
 	builder.WriteString("created_by=")
 	builder.WriteString(h.CreatedBy)

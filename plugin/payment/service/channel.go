@@ -21,7 +21,7 @@ type ChannelServiceInterface interface {
 	Delete(ctx context.Context, id string) error
 	ChangeStatus(ctx context.Context, id string, status structs.ChannelStatus) (*structs.Channel, error)
 	List(ctx context.Context, query *structs.ChannelQuery) (paging.Result[*structs.Channel], error)
-	GetDefault(ctx context.Context, provider structs.PaymentProvider, tenantID string) (*structs.Channel, error)
+	GetDefault(ctx context.Context, provider structs.PaymentProvider, spaceID string) (*structs.Channel, error)
 	Serialize(channel *structs.Channel) *structs.Channel
 	Serializes(channels []*structs.Channel) []*structs.Channel
 }
@@ -68,12 +68,12 @@ func (s *channelService) Create(ctx context.Context, input *structs.CreateChanne
 		SupportedType: input.SupportedType,
 		Config:        input.Config,
 		Metadata:      input.Metadata,
-		TenantID:      input.TenantID,
+		SpaceID:       input.SpaceID,
 	}
 
 	// If this channel is set as default, unset any existing default for this provider
 	if channel.IsDefault {
-		if err := s.repo.UnsetDefault(ctx, string(channel.Provider), channel.TenantID); err != nil {
+		if err := s.repo.UnsetDefault(ctx, string(channel.Provider), channel.SpaceID); err != nil {
 			return nil, fmt.Errorf("failed to unset existing default channel: %w", err)
 		}
 	}
@@ -92,7 +92,7 @@ func (s *channelService) Create(ctx context.Context, input *structs.CreateChanne
 			Provider:  created.Provider,
 			Status:    created.Status,
 			IsDefault: created.IsDefault,
-			TenantID:  created.TenantID,
+			SpaceID:   created.SpaceID,
 			Metadata:  created.Metadata,
 		}
 
@@ -140,7 +140,7 @@ func (s *channelService) Update(ctx context.Context, id string, updates *structs
 	if updates.IsDefault != nil {
 		// If setting as default, unset any existing default
 		if *updates.IsDefault && !existing.IsDefault {
-			if err := s.repo.UnsetDefault(ctx, string(existing.Provider), existing.TenantID); err != nil {
+			if err := s.repo.UnsetDefault(ctx, string(existing.Provider), existing.SpaceID); err != nil {
 				return nil, fmt.Errorf("failed to unset existing default channel: %w", err)
 			}
 		}
@@ -183,7 +183,7 @@ func (s *channelService) Update(ctx context.Context, id string, updates *structs
 			Provider:  updated.Provider,
 			Status:    updated.Status,
 			IsDefault: updated.IsDefault,
-			TenantID:  updated.TenantID,
+			SpaceID:   updated.SpaceID,
 			Metadata:  updated.Metadata,
 		}
 
@@ -228,7 +228,7 @@ func (s *channelService) Delete(ctx context.Context, id string) error {
 			Provider:  existing.Provider,
 			Status:    existing.Status,
 			IsDefault: existing.IsDefault,
-			TenantID:  existing.TenantID,
+			SpaceID:   existing.SpaceID,
 			Metadata:  existing.Metadata,
 		}
 
@@ -269,7 +269,7 @@ func (s *channelService) ChangeStatus(ctx context.Context, id string, status str
 			Provider:  updated.Provider,
 			Status:    updated.Status,
 			IsDefault: updated.IsDefault,
-			TenantID:  updated.TenantID,
+			SpaceID:   updated.SpaceID,
 			Metadata:  updated.Metadata,
 		}
 
@@ -315,12 +315,12 @@ func (s *channelService) List(ctx context.Context, query *structs.ChannelQuery) 
 }
 
 // GetDefault gets the default payment channel for a provider
-func (s *channelService) GetDefault(ctx context.Context, provider structs.PaymentProvider, tenantID string) (*structs.Channel, error) {
+func (s *channelService) GetDefault(ctx context.Context, provider structs.PaymentProvider, spaceID string) (*structs.Channel, error) {
 	if provider == "" {
 		return nil, fmt.Errorf("provider is required")
 	}
 
-	return s.repo.GetDefault(ctx, string(provider), tenantID)
+	return s.repo.GetDefault(ctx, string(provider), spaceID)
 }
 
 // Serialize serializes a channel entity to a response format
@@ -338,7 +338,7 @@ func (s *channelService) Serialize(channel *structs.Channel) *structs.Channel {
 		SupportedType: channel.SupportedType,
 		Config:        channel.Config,
 		Metadata:      channel.Metadata,
-		TenantID:      channel.TenantID,
+		SpaceID:       channel.SpaceID,
 		CreatedAt:     channel.CreatedAt,
 		UpdatedAt:     channel.UpdatedAt,
 	}

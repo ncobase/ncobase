@@ -18,7 +18,7 @@ var SystemDefaultOptions = []systemStructs.OptionBody{
 	{
 		Name:     "system.description",
 		Type:     "string",
-		Value:    "Multi-tenant digital company management platform",
+		Value:    "Multi-space digital company management platform",
 		Autoload: true,
 	},
 	{
@@ -60,11 +60,11 @@ var SystemDefaultOptions = []systemStructs.OptionBody{
 		Autoload: true,
 	},
 
-	// Multi-tenant settings
+	// Multi-space settings
 	{
-		Name:     "system.multi_tenant",
+		Name:     "system.multi_space",
 		Type:     "object",
-		Value:    `{"enabled":true,"isolation_level":"strict","tenant_creation":"admin_only"}`,
+		Value:    `{"enabled":true,"isolation_level":"strict","space_creation":"admin_only"}`,
 		Autoload: true,
 	},
 

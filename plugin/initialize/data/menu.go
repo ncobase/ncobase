@@ -13,7 +13,7 @@ var SystemDefaultMenus = struct {
 	Sidebars []structs.MenuBody
 	Submenus []structs.MenuBody
 	Accounts []structs.MenuBody
-	Tenants  []structs.MenuBody
+	Spaces   []structs.MenuBody
 }{
 	Headers: []structs.MenuBody{
 		{
@@ -33,7 +33,7 @@ var SystemDefaultMenus = struct {
 			Label:    "system.navigation",
 			Slug:     "system",
 			Type:     "header",
-			Path:     "/system/groups",
+			Path:     "/system/orgs",
 			Perms:    "read:system",
 			Order:    convert.ToPointer(10),
 			Hidden:   convert.ToPointer(false),
@@ -76,13 +76,13 @@ var SystemDefaultMenus = struct {
 	Sidebars: []structs.MenuBody{
 		// System module sidebars
 		{
-			Name:     "Tenant",
-			Label:    "system.tenants.navigation",
-			Slug:     "system-tenants",
+			Name:     "Space",
+			Label:    "system.spaces.navigation",
+			Slug:     "system-spaces",
 			Type:     "sidebar",
-			Path:     "/system/tenants",
+			Path:     "/system/spaces",
 			Icon:     "IconBuildingCommunity",
-			Perms:    "manage:tenants",
+			Perms:    "manage:spaces",
 			Order:    convert.ToPointer(999),
 			Hidden:   convert.ToPointer(false),
 			Disabled: convert.ToPointer(false),
@@ -90,12 +90,12 @@ var SystemDefaultMenus = struct {
 		},
 		{
 			Name:     "Group",
-			Label:    "system.groups.navigation",
-			Slug:     "system-groups",
+			Label:    "system.orgs.navigation",
+			Slug:     "system-orgs",
 			Type:     "sidebar",
-			Path:     "/system/groups",
+			Path:     "/system/orgs",
 			Icon:     "IconBinaryTree2",
-			Perms:    "read:groups",
+			Perms:    "read:orgs",
 			Order:    convert.ToPointer(990),
 			Hidden:   convert.ToPointer(false),
 			Disabled: convert.ToPointer(false),
@@ -495,11 +495,11 @@ var SystemDefaultMenus = struct {
 
 		// Account module sidebars
 		{
-			Name:     "Tenants",
-			Label:    "account.tenants.navigation",
-			Slug:     "account-tenants",
+			Name:     "Spaces",
+			Label:    "account.spaces.navigation",
+			Slug:     "account-spaces",
 			Type:     "sidebar",
-			Path:     "/account/tenants",
+			Path:     "/account/spaces",
 			Icon:     "IconBuildingCommunity",
 			Perms:    "manage:system",
 			Order:    convert.ToPointer(99),
@@ -563,10 +563,10 @@ var SystemDefaultMenus = struct {
 		// Organization module sidebars
 		{
 			Name:     "Groups",
-			Label:    "organization.groups.navigation",
-			Slug:     "org-groups",
+			Label:    "organization.orgs.navigation",
+			Slug:     "org-orgs",
 			Type:     "sidebar",
-			Path:     "/org/groups",
+			Path:     "/org/orgs",
 			Icon:     "IconBuilding",
 			Perms:    "read:organization",
 			Order:    convert.ToPointer(99),
@@ -1074,33 +1074,33 @@ var SystemDefaultMenus = struct {
 			Disabled: convert.ToPointer(false),
 		},
 	},
-	Tenants: []structs.MenuBody{
+	Spaces: []structs.MenuBody{
 		{
-			Name:   "Tenant",
-			Slug:   "tenant-dropdown-menu-label",
-			Type:   "tenant",
+			Name:   "Space",
+			Slug:   "space-dropdown-menu-label",
+			Type:   "space",
 			Path:   "-",
 			Order:  convert.ToPointer(100),
 			Hidden: convert.ToPointer(false),
 		},
 		{
-			Name:     "Switch Tenant",
-			Label:    "dropdowns.tenant.switch.label",
-			Slug:     "tenant-switch",
-			Type:     "tenant",
+			Name:     "Switch Space",
+			Label:    "dropdowns.space.switch.label",
+			Slug:     "space-switch",
+			Type:     "space",
 			Icon:     "IconSwitch",
 			Order:    convert.ToPointer(99),
 			Hidden:   convert.ToPointer(false),
 			Disabled: convert.ToPointer(false),
 		},
 		{
-			Name:     "Manage Tenant",
-			Label:    "dropdowns.tenant.manage.label",
-			Slug:     "tenant-manage",
-			Type:     "tenant",
-			Path:     "/system/tenants",
+			Name:     "Manage Space",
+			Label:    "dropdowns.space.manage.label",
+			Slug:     "space-manage",
+			Type:     "space",
+			Path:     "/system/spaces",
 			Icon:     "IconBuildingCommunity",
-			Perms:    "manage:tenants",
+			Perms:    "manage:spaces",
 			Order:    convert.ToPointer(90),
 			Hidden:   convert.ToPointer(false),
 			Disabled: convert.ToPointer(false),
@@ -1127,8 +1127,8 @@ var MenuPermissionMapping = map[string]string{
 	// example has no permission requirement
 
 	// System module sidebars
-	"system-tenants":     "manage:tenants",
-	"system-groups":      "read:groups",
+	"system-spaces":      "manage:spaces",
+	"system-orgs":        "read:orgs",
 	"system-users":       "read:users",
 	"system-roles":       "manage:roles",
 	"system-permissions": "manage:permissions",
@@ -1169,14 +1169,14 @@ var MenuPermissionMapping = map[string]string{
 	"flow-histories":   "read:workflow",
 
 	// Account module sidebars
-	"account-tenants":     "manage:system",
+	"account-spaces":      "manage:system",
 	"account-roles":       "manage:system",
 	"account-permissions": "manage:system",
 	"account-policies":    "manage:system",
 	"account-activities":  "read:system",
 
 	// Organization module sidebars
-	"org-groups": "read:organization",
+	"org-orgs": "read:organization",
 
 	// CMS module sidebars
 	"cms-topics":        "read:cms",
@@ -1202,9 +1202,9 @@ var MenuPermissionMapping = map[string]string{
 	"account-settings": "manage:account",
 	// account-profile and account-logout have no permission requirement
 
-	// Tenant menus
-	"tenant-manage": "manage:tenants",
-	// tenant-switch has no permission requirement
+	// Space menus
+	"space-manage": "manage:spaces",
+	// space-switch has no permission requirement
 
 	// Submenus
 	"submenu-system-setting": "manage:system",

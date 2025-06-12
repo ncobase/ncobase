@@ -42,7 +42,7 @@ func (Counter) Mixin() []ent.Mixin {
 		mixin.CurrentValue,
 		mixin.Disabled,
 		mixin.Description,
-		mixin.TenantID,
+		mixin.SpaceID,
 		mixin.OperatorBy{},
 		mixin.TimeAt{},
 	}

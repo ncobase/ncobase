@@ -80,8 +80,8 @@ type Business struct {
 	VisibleRange map[string]interface{} `json:"visible_range,omitempty"`
 	// Extend properties
 	Extras map[string]interface{} `json:"extras,omitempty"`
-	// tenant id
-	TenantID string `json:"tenant_id,omitempty"`
+	// space id, e.g. space id, organization id, store id
+	SpaceID string `json:"space_id,omitempty"`
 	// id of the creator
 	CreatedBy string `json:"created_by,omitempty"`
 	// id of the last updater
@@ -104,7 +104,7 @@ func (*Business) scanValues(columns []string) ([]any, error) {
 			values[i] = new(sql.NullBool)
 		case business.FieldLastModified, business.FieldCreatedAt, business.FieldUpdatedAt:
 			values[i] = new(sql.NullInt64)
-		case business.FieldID, business.FieldCode, business.FieldStatus, business.FieldFormCode, business.FieldFormVersion, business.FieldProcessID, business.FieldTemplateID, business.FieldBusinessKey, business.FieldLastModifier, business.FieldFlowStatus, business.FieldSuspendReason, business.FieldModuleCode, business.FieldCategory, business.FieldTenantID, business.FieldCreatedBy, business.FieldUpdatedBy:
+		case business.FieldID, business.FieldCode, business.FieldStatus, business.FieldFormCode, business.FieldFormVersion, business.FieldProcessID, business.FieldTemplateID, business.FieldBusinessKey, business.FieldLastModifier, business.FieldFlowStatus, business.FieldSuspendReason, business.FieldModuleCode, business.FieldCategory, business.FieldSpaceID, business.FieldCreatedBy, business.FieldUpdatedBy:
 			values[i] = new(sql.NullString)
 		default:
 			values[i] = new(sql.UnknownType)
@@ -343,11 +343,11 @@ func (b *Business) assignValues(columns []string, values []any) error {
 					return fmt.Errorf("unmarshal field extras: %w", err)
 				}
 			}
-		case business.FieldTenantID:
+		case business.FieldSpaceID:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field tenant_id", values[i])
+				return fmt.Errorf("unexpected type %T for field space_id", values[i])
 			} else if value.Valid {
-				b.TenantID = value.String
+				b.SpaceID = value.String
 			}
 		case business.FieldCreatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -502,8 +502,8 @@ func (b *Business) String() string {
 	builder.WriteString("extras=")
 	builder.WriteString(fmt.Sprintf("%v", b.Extras))
 	builder.WriteString(", ")
-	builder.WriteString("tenant_id=")
-	builder.WriteString(b.TenantID)
+	builder.WriteString("space_id=")
+	builder.WriteString(b.SpaceID)
 	builder.WriteString(", ")
 	builder.WriteString("created_by=")
 	builder.WriteString(b.CreatedBy)

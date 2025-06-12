@@ -256,23 +256,23 @@ func (ppu *PaymentProductUpdate) AppendFeatures(s []string) *PaymentProductUpdat
 	return ppu
 }
 
-// SetTenantID sets the "tenant_id" field.
-func (ppu *PaymentProductUpdate) SetTenantID(s string) *PaymentProductUpdate {
-	ppu.mutation.SetTenantID(s)
+// SetSpaceID sets the "space_id" field.
+func (ppu *PaymentProductUpdate) SetSpaceID(s string) *PaymentProductUpdate {
+	ppu.mutation.SetSpaceID(s)
 	return ppu
 }
 
-// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
-func (ppu *PaymentProductUpdate) SetNillableTenantID(s *string) *PaymentProductUpdate {
+// SetNillableSpaceID sets the "space_id" field if the given value is not nil.
+func (ppu *PaymentProductUpdate) SetNillableSpaceID(s *string) *PaymentProductUpdate {
 	if s != nil {
-		ppu.SetTenantID(*s)
+		ppu.SetSpaceID(*s)
 	}
 	return ppu
 }
 
-// ClearTenantID clears the value of the "tenant_id" field.
-func (ppu *PaymentProductUpdate) ClearTenantID() *PaymentProductUpdate {
-	ppu.mutation.ClearTenantID()
+// ClearSpaceID clears the value of the "space_id" field.
+func (ppu *PaymentProductUpdate) ClearSpaceID() *PaymentProductUpdate {
+	ppu.mutation.ClearSpaceID()
 	return ppu
 }
 
@@ -452,11 +452,11 @@ func (ppu *PaymentProductUpdate) sqlSave(ctx context.Context) (n int, err error)
 			sqljson.Append(u, paymentproduct.FieldFeatures, value)
 		})
 	}
-	if value, ok := ppu.mutation.TenantID(); ok {
-		_spec.SetField(paymentproduct.FieldTenantID, field.TypeString, value)
+	if value, ok := ppu.mutation.SpaceID(); ok {
+		_spec.SetField(paymentproduct.FieldSpaceID, field.TypeString, value)
 	}
-	if ppu.mutation.TenantIDCleared() {
-		_spec.ClearField(paymentproduct.FieldTenantID, field.TypeString)
+	if ppu.mutation.SpaceIDCleared() {
+		_spec.ClearField(paymentproduct.FieldSpaceID, field.TypeString)
 	}
 	if ppu.mutation.SubscriptionsCleared() {
 		edge := &sqlgraph.EdgeSpec{
@@ -750,23 +750,23 @@ func (ppuo *PaymentProductUpdateOne) AppendFeatures(s []string) *PaymentProductU
 	return ppuo
 }
 
-// SetTenantID sets the "tenant_id" field.
-func (ppuo *PaymentProductUpdateOne) SetTenantID(s string) *PaymentProductUpdateOne {
-	ppuo.mutation.SetTenantID(s)
+// SetSpaceID sets the "space_id" field.
+func (ppuo *PaymentProductUpdateOne) SetSpaceID(s string) *PaymentProductUpdateOne {
+	ppuo.mutation.SetSpaceID(s)
 	return ppuo
 }
 
-// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
-func (ppuo *PaymentProductUpdateOne) SetNillableTenantID(s *string) *PaymentProductUpdateOne {
+// SetNillableSpaceID sets the "space_id" field if the given value is not nil.
+func (ppuo *PaymentProductUpdateOne) SetNillableSpaceID(s *string) *PaymentProductUpdateOne {
 	if s != nil {
-		ppuo.SetTenantID(*s)
+		ppuo.SetSpaceID(*s)
 	}
 	return ppuo
 }
 
-// ClearTenantID clears the value of the "tenant_id" field.
-func (ppuo *PaymentProductUpdateOne) ClearTenantID() *PaymentProductUpdateOne {
-	ppuo.mutation.ClearTenantID()
+// ClearSpaceID clears the value of the "space_id" field.
+func (ppuo *PaymentProductUpdateOne) ClearSpaceID() *PaymentProductUpdateOne {
+	ppuo.mutation.ClearSpaceID()
 	return ppuo
 }
 
@@ -976,11 +976,11 @@ func (ppuo *PaymentProductUpdateOne) sqlSave(ctx context.Context) (_node *Paymen
 			sqljson.Append(u, paymentproduct.FieldFeatures, value)
 		})
 	}
-	if value, ok := ppuo.mutation.TenantID(); ok {
-		_spec.SetField(paymentproduct.FieldTenantID, field.TypeString, value)
+	if value, ok := ppuo.mutation.SpaceID(); ok {
+		_spec.SetField(paymentproduct.FieldSpaceID, field.TypeString, value)
 	}
-	if ppuo.mutation.TenantIDCleared() {
-		_spec.ClearField(paymentproduct.FieldTenantID, field.TypeString)
+	if ppuo.mutation.SpaceIDCleared() {
+		_spec.ClearField(paymentproduct.FieldSpaceID, field.TypeString)
 	}
 	if ppuo.mutation.SubscriptionsCleared() {
 		edge := &sqlgraph.EdgeSpec{

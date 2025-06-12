@@ -25,7 +25,7 @@ type NavigationMenus struct {
 	Headers  []*ReadMenu `json:"headers"`
 	Sidebars []*ReadMenu `json:"sidebars"`
 	Accounts []*ReadMenu `json:"accounts"`
-	Tenants  []*ReadMenu `json:"tenants"`
+	Spaces   []*ReadMenu `json:"spaces"`
 }
 
 // MenuBody represents a menu entity.

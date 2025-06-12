@@ -44,7 +44,7 @@ type Taxonomy struct {
 	Extras map[string]interface{} `json:"extras,omitempty"`
 	// parent id
 	ParentID string `json:"parent_id,omitempty"`
-	// space id, e.g. tenant id, organization id, store id
+	// space id, e.g. space id, organization id, store id
 	SpaceID string `json:"space_id,omitempty"`
 	// id of the creator
 	CreatedBy string `json:"created_by,omitempty"`

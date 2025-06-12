@@ -48,7 +48,7 @@ func (r *employeeRepository) Create(ctx context.Context, body *structs.CreateEmp
 
 	// Set required fields
 	builder.SetID(body.UserID)
-	builder.SetTenantID(body.TenantID)
+	builder.SetSpaceID(body.SpaceID)
 
 	// Set optional fields
 	if body.EmployeeID != "" {
@@ -274,8 +274,8 @@ func (r *employeeRepository) List(ctx context.Context, params *structs.ListEmplo
 	}
 
 	// Apply filters
-	if params.TenantID != "" {
-		builder.Where(employeeEnt.TenantIDEQ(params.TenantID))
+	if params.SpaceID != "" {
+		builder.Where(employeeEnt.SpaceIDEQ(params.SpaceID))
 	}
 	if params.Department != "" {
 		builder.Where(employeeEnt.DepartmentEQ(params.Department))
@@ -334,8 +334,8 @@ func (r *employeeRepository) CountX(ctx context.Context, params *structs.ListEmp
 	builder := r.ec.Employee.Query()
 
 	// Apply same filters as List
-	if params.TenantID != "" {
-		builder.Where(employeeEnt.TenantIDEQ(params.TenantID))
+	if params.SpaceID != "" {
+		builder.Where(employeeEnt.SpaceIDEQ(params.SpaceID))
 	}
 	if params.Department != "" {
 		builder.Where(employeeEnt.DepartmentEQ(params.Department))

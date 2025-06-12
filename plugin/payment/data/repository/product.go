@@ -56,8 +56,8 @@ func (r *productRepository) Create(ctx context.Context, product *structs.CreateP
 		builder.SetFeatures(product.Features)
 	}
 
-	if product.TenantID != "" {
-		builder.SetTenantID(product.TenantID)
+	if product.SpaceID != "" {
+		builder.SetSpaceID(product.SpaceID)
 	}
 
 	if validator.IsNotEmpty(product.Metadata) {
@@ -147,8 +147,8 @@ func (r *productRepository) List(ctx context.Context, query *structs.ProductQuer
 		q = q.Where(paymentProductEnt.PricingType(string(query.PricingType)))
 	}
 
-	if query.TenantID != "" {
-		q = q.Where(paymentProductEnt.TenantID(query.TenantID))
+	if query.SpaceID != "" {
+		q = q.Where(paymentProductEnt.SpaceID(query.SpaceID))
 	}
 
 	// Apply cursor pagination
@@ -217,8 +217,8 @@ func (r *productRepository) Count(ctx context.Context, query *structs.ProductQue
 		q = q.Where(paymentProductEnt.PricingType(string(query.PricingType)))
 	}
 
-	if query.TenantID != "" {
-		q = q.Where(paymentProductEnt.TenantID(query.TenantID))
+	if query.SpaceID != "" {
+		q = q.Where(paymentProductEnt.SpaceID(query.SpaceID))
 	}
 
 	// Execute count
@@ -264,7 +264,7 @@ func (r *productRepository) entToStruct(product *ent.PaymentProduct) (*structs.P
 		BillingInterval: structs.BillingInterval(product.BillingInterval),
 		TrialDays:       product.TrialDays,
 		Features:        product.Features,
-		TenantID:        product.TenantID,
+		SpaceID:         product.SpaceID,
 		Metadata:        product.Extras,
 		CreatedAt:       product.CreatedAt,
 		UpdatedAt:       product.UpdatedAt,

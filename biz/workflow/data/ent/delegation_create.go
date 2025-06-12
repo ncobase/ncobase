@@ -39,16 +39,16 @@ func (dc *DelegationCreate) SetExtras(m map[string]interface{}) *DelegationCreat
 	return dc
 }
 
-// SetTenantID sets the "tenant_id" field.
-func (dc *DelegationCreate) SetTenantID(s string) *DelegationCreate {
-	dc.mutation.SetTenantID(s)
+// SetSpaceID sets the "space_id" field.
+func (dc *DelegationCreate) SetSpaceID(s string) *DelegationCreate {
+	dc.mutation.SetSpaceID(s)
 	return dc
 }
 
-// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
-func (dc *DelegationCreate) SetNillableTenantID(s *string) *DelegationCreate {
+// SetNillableSpaceID sets the "space_id" field if the given value is not nil.
+func (dc *DelegationCreate) SetNillableSpaceID(s *string) *DelegationCreate {
 	if s != nil {
-		dc.SetTenantID(*s)
+		dc.SetSpaceID(*s)
 	}
 	return dc
 }
@@ -317,9 +317,9 @@ func (dc *DelegationCreate) createSpec() (*Delegation, *sqlgraph.CreateSpec) {
 		_spec.SetField(delegation.FieldExtras, field.TypeJSON, value)
 		_node.Extras = value
 	}
-	if value, ok := dc.mutation.TenantID(); ok {
-		_spec.SetField(delegation.FieldTenantID, field.TypeString, value)
-		_node.TenantID = value
+	if value, ok := dc.mutation.SpaceID(); ok {
+		_spec.SetField(delegation.FieldSpaceID, field.TypeString, value)
+		_node.SpaceID = value
 	}
 	if value, ok := dc.mutation.CreatedBy(); ok {
 		_spec.SetField(delegation.FieldCreatedBy, field.TypeString, value)

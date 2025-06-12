@@ -58,7 +58,7 @@ func (s *Service) initStaticPolicies(ctx context.Context) (int, error) {
 		policy := &accessStructs.CasbinRuleBody{
 			PType: "p",
 			V0:    rule[0],                    // subject (role)
-			V1:    rule[1],                    // domain (tenant)
+			V1:    rule[1],                    // domain (space)
 			V2:    rule[2],                    // object (resource)
 			V3:    convert.ToPointer(rule[3]), // action
 		}
@@ -105,21 +105,21 @@ func (s *Service) initRoleInheritance(ctx context.Context) (int, error) {
 			continue
 		}
 
-		groupingPolicy := &accessStructs.CasbinRuleBody{
+		organizationingPolicy := &accessStructs.CasbinRuleBody{
 			PType: "g",
 			V0:    rule[0], // child role
 			V1:    rule[1], // parent role
 			V2:    rule[2], // domain
 		}
 
-		if exists, err := s.casbinGroupingPolicyExists(ctx, groupingPolicy); err != nil {
-			logger.Warnf(ctx, "Failed to check if grouping policy exists: %v", err)
+		if exists, err := s.casbinGroupingPolicyExists(ctx, organizationingPolicy); err != nil {
+			logger.Warnf(ctx, "Failed to check if organizationing policy exists: %v", err)
 		} else if exists {
 			logger.Debugf(ctx, "Role inheritance already exists: %v", rule)
 			continue
 		}
 
-		if _, err := s.acs.Casbin.Create(ctx, groupingPolicy); err != nil {
+		if _, err := s.acs.Casbin.Create(ctx, organizationingPolicy); err != nil {
 			logger.Errorf(ctx, "Failed to create role inheritance %v: %v", rule, err)
 			continue
 		}
@@ -157,7 +157,7 @@ func (s *Service) casbinPolicyExists(ctx context.Context, policy *accessStructs.
 	return len(existing.Items) > 0, nil
 }
 
-// casbinGroupingPolicyExists checks if a Casbin grouping policy already exists
+// casbinGroupingPolicyExists checks if a Casbin organizationing policy already exists
 func (s *Service) casbinGroupingPolicyExists(ctx context.Context, policy *accessStructs.CasbinRuleBody) (bool, error) {
 	params := &accessStructs.ListCasbinRuleParams{
 		PType: &policy.PType,

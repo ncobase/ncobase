@@ -216,7 +216,7 @@ func (s *processDesignService) serialize(design *ent.ProcessDesign) *structs.Rea
 		IsDraft:         design.IsDraft,
 		Version:         design.Version,
 		SourceVersion:   design.SourceVersion,
-		TenantID:        design.TenantID,
+		SpaceID:         design.SpaceID,
 		Extras:          design.Extras,
 		CreatedBy:       &design.CreatedBy,
 		CreatedAt:       &design.CreatedAt,

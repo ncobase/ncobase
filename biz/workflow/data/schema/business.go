@@ -38,7 +38,7 @@ func (Business) Mixin() []ent.Mixin {
 		mixin.BusinessTagMixin{},
 		mixin.PermissionMixin{},
 		mixin.ExtraProps,
-		mixin.TenantID,
+		mixin.SpaceID,
 		mixin.Operator,
 		mixin.TimeAt{},
 	}

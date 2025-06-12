@@ -505,23 +505,23 @@ func (bu *BusinessUpdate) ClearExtras() *BusinessUpdate {
 	return bu
 }
 
-// SetTenantID sets the "tenant_id" field.
-func (bu *BusinessUpdate) SetTenantID(s string) *BusinessUpdate {
-	bu.mutation.SetTenantID(s)
+// SetSpaceID sets the "space_id" field.
+func (bu *BusinessUpdate) SetSpaceID(s string) *BusinessUpdate {
+	bu.mutation.SetSpaceID(s)
 	return bu
 }
 
-// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
-func (bu *BusinessUpdate) SetNillableTenantID(s *string) *BusinessUpdate {
+// SetNillableSpaceID sets the "space_id" field if the given value is not nil.
+func (bu *BusinessUpdate) SetNillableSpaceID(s *string) *BusinessUpdate {
 	if s != nil {
-		bu.SetTenantID(*s)
+		bu.SetSpaceID(*s)
 	}
 	return bu
 }
 
-// ClearTenantID clears the value of the "tenant_id" field.
-func (bu *BusinessUpdate) ClearTenantID() *BusinessUpdate {
-	bu.mutation.ClearTenantID()
+// ClearSpaceID clears the value of the "space_id" field.
+func (bu *BusinessUpdate) ClearSpaceID() *BusinessUpdate {
+	bu.mutation.ClearSpaceID()
 	return bu
 }
 
@@ -818,11 +818,11 @@ func (bu *BusinessUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if bu.mutation.ExtrasCleared() {
 		_spec.ClearField(business.FieldExtras, field.TypeJSON)
 	}
-	if value, ok := bu.mutation.TenantID(); ok {
-		_spec.SetField(business.FieldTenantID, field.TypeString, value)
+	if value, ok := bu.mutation.SpaceID(); ok {
+		_spec.SetField(business.FieldSpaceID, field.TypeString, value)
 	}
-	if bu.mutation.TenantIDCleared() {
-		_spec.ClearField(business.FieldTenantID, field.TypeString)
+	if bu.mutation.SpaceIDCleared() {
+		_spec.ClearField(business.FieldSpaceID, field.TypeString)
 	}
 	if value, ok := bu.mutation.CreatedBy(); ok {
 		_spec.SetField(business.FieldCreatedBy, field.TypeString, value)
@@ -1345,23 +1345,23 @@ func (buo *BusinessUpdateOne) ClearExtras() *BusinessUpdateOne {
 	return buo
 }
 
-// SetTenantID sets the "tenant_id" field.
-func (buo *BusinessUpdateOne) SetTenantID(s string) *BusinessUpdateOne {
-	buo.mutation.SetTenantID(s)
+// SetSpaceID sets the "space_id" field.
+func (buo *BusinessUpdateOne) SetSpaceID(s string) *BusinessUpdateOne {
+	buo.mutation.SetSpaceID(s)
 	return buo
 }
 
-// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
-func (buo *BusinessUpdateOne) SetNillableTenantID(s *string) *BusinessUpdateOne {
+// SetNillableSpaceID sets the "space_id" field if the given value is not nil.
+func (buo *BusinessUpdateOne) SetNillableSpaceID(s *string) *BusinessUpdateOne {
 	if s != nil {
-		buo.SetTenantID(*s)
+		buo.SetSpaceID(*s)
 	}
 	return buo
 }
 
-// ClearTenantID clears the value of the "tenant_id" field.
-func (buo *BusinessUpdateOne) ClearTenantID() *BusinessUpdateOne {
-	buo.mutation.ClearTenantID()
+// ClearSpaceID clears the value of the "space_id" field.
+func (buo *BusinessUpdateOne) ClearSpaceID() *BusinessUpdateOne {
+	buo.mutation.ClearSpaceID()
 	return buo
 }
 
@@ -1688,11 +1688,11 @@ func (buo *BusinessUpdateOne) sqlSave(ctx context.Context) (_node *Business, err
 	if buo.mutation.ExtrasCleared() {
 		_spec.ClearField(business.FieldExtras, field.TypeJSON)
 	}
-	if value, ok := buo.mutation.TenantID(); ok {
-		_spec.SetField(business.FieldTenantID, field.TypeString, value)
+	if value, ok := buo.mutation.SpaceID(); ok {
+		_spec.SetField(business.FieldSpaceID, field.TypeString, value)
 	}
-	if buo.mutation.TenantIDCleared() {
-		_spec.ClearField(business.FieldTenantID, field.TypeString)
+	if buo.mutation.SpaceIDCleared() {
+		_spec.ClearField(business.FieldSpaceID, field.TypeString)
 	}
 	if value, ok := buo.mutation.CreatedBy(); ok {
 		_spec.SetField(business.FieldCreatedBy, field.TypeString, value)

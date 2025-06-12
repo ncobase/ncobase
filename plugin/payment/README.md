@@ -1,12 +1,12 @@
 # Payment
 
-A flexible payment processing module that supports multiple payment providers, subscriptions, and multi-tenancy.
+A flexible payment processing module that supports multiple payment providers, subscriptions, and multi-space.
 
 ## Features
 
 - **Multiple Payment Providers**: Stripe, PayPal, Alipay, and WeChat Pay support out of the box
 - **Subscription Management**: Create and manage recurring subscriptions with trial periods
-- **Multi-tenancy Support**: Isolate payment configurations per tenant
+- **Multi-space Support**: Isolate payment configurations per space
 - **Event System**: Rich event system for integrating with other modules
 - **RESTful API**: Well-documented API endpoints with Swagger annotations
 - **Extensible Architecture**: Easily add new payment providers

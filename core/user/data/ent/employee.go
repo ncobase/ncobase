@@ -19,8 +19,8 @@ type Employee struct {
 	// ID of the ent.
 	// user primary key alias
 	ID string `json:"id,omitempty"`
-	// tenant id
-	TenantID string `json:"tenant_id,omitempty"`
+	// space id, e.g. space id, organization id, store id
+	SpaceID string `json:"space_id,omitempty"`
 	// created at
 	CreatedAt int64 `json:"created_at,omitempty"`
 	// updated at
@@ -67,7 +67,7 @@ func (*Employee) scanValues(columns []string) ([]any, error) {
 			values[i] = new(sql.NullFloat64)
 		case employee.FieldCreatedAt, employee.FieldUpdatedAt:
 			values[i] = new(sql.NullInt64)
-		case employee.FieldID, employee.FieldTenantID, employee.FieldEmployeeID, employee.FieldDepartment, employee.FieldPosition, employee.FieldManagerID, employee.FieldEmploymentType, employee.FieldStatus, employee.FieldWorkLocation:
+		case employee.FieldID, employee.FieldSpaceID, employee.FieldEmployeeID, employee.FieldDepartment, employee.FieldPosition, employee.FieldManagerID, employee.FieldEmploymentType, employee.FieldStatus, employee.FieldWorkLocation:
 			values[i] = new(sql.NullString)
 		case employee.FieldHireDate, employee.FieldTerminationDate:
 			values[i] = new(sql.NullTime)
@@ -92,11 +92,11 @@ func (e *Employee) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				e.ID = value.String
 			}
-		case employee.FieldTenantID:
+		case employee.FieldSpaceID:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field tenant_id", values[i])
+				return fmt.Errorf("unexpected type %T for field space_id", values[i])
 			} else if value.Valid {
-				e.TenantID = value.String
+				e.SpaceID = value.String
 			}
 		case employee.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
@@ -239,8 +239,8 @@ func (e *Employee) String() string {
 	var builder strings.Builder
 	builder.WriteString("Employee(")
 	builder.WriteString(fmt.Sprintf("id=%v, ", e.ID))
-	builder.WriteString("tenant_id=")
-	builder.WriteString(e.TenantID)
+	builder.WriteString("space_id=")
+	builder.WriteString(e.SpaceID)
 	builder.WriteString(", ")
 	builder.WriteString("created_at=")
 	builder.WriteString(fmt.Sprintf("%v", e.CreatedAt))

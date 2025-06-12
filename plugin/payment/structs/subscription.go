@@ -22,7 +22,7 @@ type Subscription struct {
 	ID                 string             `json:"id,omitempty"`
 	Status             SubscriptionStatus `json:"status"`
 	UserID             string             `json:"user_id"`
-	TenantID           string             `json:"tenant_id,omitempty"`
+	SpaceID            string             `json:"space_id,omitempty"`
 	ProductID          string             `json:"product_id"`
 	ChannelID          string             `json:"channel_id"`
 	CurrentPeriodStart time.Time          `json:"current_period_start"`
@@ -45,7 +45,7 @@ func (s *Subscription) GetCursorValue() string {
 // CreateSubscriptionInput represents input for creating a subscription
 type CreateSubscriptionInput struct {
 	UserID    string         `json:"user_id" binding:"required"`
-	TenantID  string         `json:"tenant_id,omitempty"`
+	SpaceID   string         `json:"space_id,omitempty"`
 	ProductID string         `json:"product_id" binding:"required"`
 	ChannelID string         `json:"channel_id" binding:"required"`
 	TrialDays int            `json:"trial_days,omitempty"`
@@ -67,7 +67,7 @@ type CancelSubscriptionInput struct {
 type SubscriptionQuery struct {
 	Status    SubscriptionStatus `form:"status" json:"status,omitempty"`
 	UserID    string             `form:"user_id" json:"user_id,omitempty"`
-	TenantID  string             `form:"tenant_id" json:"tenant_id,omitempty"`
+	SpaceID   string             `form:"space_id" json:"space_id,omitempty"`
 	ProductID string             `form:"product_id" json:"product_id,omitempty"`
 	ChannelID string             `form:"channel_id" json:"channel_id,omitempty"`
 	Active    *bool              `form:"active" json:"active,omitempty"`

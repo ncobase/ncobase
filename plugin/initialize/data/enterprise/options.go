@@ -18,7 +18,7 @@ var SystemDefaultOptions = []structs.OptionBody{
 	{
 		Name:     "system.description",
 		Type:     "string",
-		Value:    "Multi-tenant digital enterprise management and collaboration platform",
+		Value:    "Multi-space digital enterprise management and collaboration platform",
 		Autoload: true,
 	},
 	{
@@ -108,11 +108,11 @@ var SystemDefaultOptions = []structs.OptionBody{
 		Autoload: true,
 	},
 
-	// Multi-tenant settings
+	// Multi-space settings
 	{
-		Name:     "system.multi_tenant",
+		Name:     "system.multi_space",
 		Type:     "object",
-		Value:    `{"enabled":true,"isolation_level":"strict","shared_resources":["system","menu","dictionary"],"tenant_creation":"admin_only"}`,
+		Value:    `{"enabled":true,"isolation_level":"strict","shared_resources":["system","menu","dictionary"],"space_creation":"admin_only"}`,
 		Autoload: true,
 	},
 

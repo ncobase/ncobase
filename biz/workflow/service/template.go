@@ -294,7 +294,7 @@ func (s *templateService) serialize(template *ent.Template) *structs.ReadTemplat
 		IsLatest:       template.IsLatest,
 		Disabled:       template.Disabled,
 		Extras:         template.Extras,
-		TenantID:       template.TenantID,
+		SpaceID:        template.SpaceID,
 		EffectiveTime:  &template.EffectiveTime,
 		ExpireTime:     &template.ExpireTime,
 		CreatedBy:      &template.CreatedBy,

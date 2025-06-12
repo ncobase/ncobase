@@ -31,7 +31,7 @@ func (Employee) Annotations() []schema.Annotation {
 func (Employee) Mixin() []ent.Mixin {
 	return []ent.Mixin{
 		mixin.NewPrimaryKeyAlias("user", "user_id"),
-		mixin.TenantID,
+		mixin.SpaceID,
 		mixin.TimeAt{},
 	}
 }
@@ -64,7 +64,7 @@ func (Employee) Edges() []ent.Edge {
 // Indexes of the Employee.
 func (Employee) Indexes() []ent.Index {
 	return []ent.Index{
-		index.Fields("id", "tenant_id").Unique(),
+		index.Fields("id", "space_id").Unique(),
 		index.Fields("employee_id"),
 		index.Fields("department"),
 		index.Fields("manager_id"),

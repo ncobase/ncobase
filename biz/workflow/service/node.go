@@ -204,7 +204,7 @@ func (s *nodeService) serialize(node *ent.Node) *structs.ReadNode {
 		RetryTimes:    node.RetryTimes,
 		RetryInterval: node.RetryInterval,
 		IsWorkingDay:  node.IsWorkingDay,
-		TenantID:      node.TenantID,
+		SpaceID:       node.SpaceID,
 		Extras:        node.Extras,
 		CreatedBy:     &node.CreatedBy,
 		CreatedAt:     &node.CreatedAt,

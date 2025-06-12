@@ -146,7 +146,7 @@ func (s *counterService) Serialize(row *ent.Counter) *structs.ReadCounter {
 		CurrentValue:  row.CurrentValue,
 		Disabled:      row.Disabled,
 		Description:   row.Description,
-		TenantID:      &row.TenantID,
+		SpaceID:       &row.SpaceID,
 		CreatedBy:     &row.CreatedBy,
 		CreatedAt:     &row.CreatedAt,
 		UpdatedBy:     &row.UpdatedBy,

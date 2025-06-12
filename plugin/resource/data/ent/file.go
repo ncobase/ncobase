@@ -34,7 +34,7 @@ type File struct {
 	Endpoint string `json:"endpoint,omitempty"`
 	// owner id
 	OwnerID string `json:"owner_id,omitempty"`
-	// space id, e.g. tenant id, organization id, store id
+	// space id, e.g. space id, organization id, store id
 	SpaceID string `json:"space_id,omitempty"`
 	// Extend properties
 	Extras map[string]interface{} `json:"extras,omitempty"`

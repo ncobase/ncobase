@@ -36,7 +36,7 @@ type TaskBody struct {
 	IsDelegated    bool              `json:"is_delegated,omitempty"`
 	DelegatedFrom  types.JSON        `json:"delegated_from,omitempty"`
 	IsTimeout      bool              `json:"is_timeout,omitempty"`
-	TenantID       string            `json:"tenant_id,omitempty"`
+	SpaceID        string            `json:"space_id,omitempty"`
 	StartTime      *int64            `json:"start_time,omitempty"`
 	ClaimTime      *int64            `json:"claim_time,omitempty"`
 	AssignStrategy string            `json:"assign_strategy,omitempty"`
@@ -49,7 +49,7 @@ type TaskBody struct {
 // CreateTaskBody represents the body for creating task
 type CreateTaskBody struct {
 	TaskBody
-	TenantID string `json:"tenant_id,omitempty"`
+	SpaceID string `json:"space_id,omitempty"`
 }
 
 // UpdateTaskBody represents the body for updating task
@@ -88,7 +88,7 @@ type ReadTask struct {
 	IsDelegated    bool              `json:"is_delegated,omitempty"`
 	DelegatedFrom  types.JSON        `json:"delegated_from,omitempty"`
 	IsTimeout      bool              `json:"is_timeout,omitempty"`
-	TenantID       string            `json:"tenant_id,omitempty"`
+	SpaceID        string            `json:"space_id,omitempty"`
 	StartTime      *int64            `json:"start_time,omitempty"`
 	ClaimTime      *int64            `json:"claim_time,omitempty"`
 	AssignStrategy string            `json:"assign_strategy,omitempty"`
@@ -139,7 +139,7 @@ type FindTaskParams struct {
 	Priority    *int              `form:"priority,omitempty" json:"priority,omitempty"`
 	DueTimeFrom *int64            `form:"due_time_from,omitempty" json:"due_time_from,omitempty"`
 	DueTimeTo   *int64            `form:"due_time_to,omitempty" json:"due_time_to,omitempty"`
-	Tenant      string            `form:"tenant,omitempty" json:"tenant,omitempty"`
+	Space       string            `form:"space,omitempty" json:"space,omitempty"`
 	SortBy      string            `form:"sort_by,omitempty" json:"sort_by,omitempty"`
 }
 
@@ -172,6 +172,6 @@ type ListTaskParams struct {
 	Assignees types.StringArray `form:"assignees,omitempty" json:"assignees,omitempty"`
 	IsTimeout *bool             `form:"is_timeout,omitempty" json:"is_timeout,omitempty"`
 	Priority  *int              `form:"priority,omitempty" json:"priority,omitempty"`
-	Tenant    string            `form:"tenant,omitempty" json:"tenant,omitempty"`
+	Space     string            `form:"space,omitempty" json:"space,omitempty"`
 	SortBy    string            `form:"sort_by,omitempty" json:"sort_by,omitempty"`
 }

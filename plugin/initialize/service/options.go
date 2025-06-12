@@ -18,11 +18,11 @@ func (s *Service) checkOptionsInitialized(ctx context.Context) error {
 	return s.initOptions(ctx)
 }
 
-// initOptions initializes the default system options and creates tenant relationships
+// initOptions initializes the default system options and creates space relationships
 func (s *Service) initOptions(ctx context.Context) error {
 	logger.Infof(ctx, "Initializing system options in %s mode...", s.state.DataMode)
 
-	tenant, err := s.getDefaultTenant(ctx)
+	space, err := s.getDefaultSpace(ctx)
 	if err != nil {
 		return err
 	}
@@ -48,13 +48,13 @@ func (s *Service) initOptions(ctx context.Context) error {
 		logger.Debugf(ctx, "Created option: %s", option.Name)
 		createdCount++
 
-		// Create tenant-options relationship
-		_, err = s.ts.TenantOption.AddOptionsToTenant(ctx, tenant.ID, created.ID)
+		// Create space-options relationship
+		_, err = s.ts.SpaceOption.AddOptionsToSpace(ctx, space.ID, created.ID)
 		if err != nil {
-			logger.Errorf(ctx, "Error linking options %s to tenant %s: %v", created.ID, tenant.ID, err)
+			logger.Errorf(ctx, "Error linking options %s to space %s: %v", created.ID, space.ID, err)
 			return err
 		}
-		logger.Debugf(ctx, "Linked options %s to tenant %s", created.ID, tenant.ID)
+		logger.Debugf(ctx, "Linked options %s to space %s", created.ID, space.ID)
 		relationshipCount++
 	}
 

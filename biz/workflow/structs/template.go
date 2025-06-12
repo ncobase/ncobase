@@ -41,7 +41,7 @@ type TemplateBody struct {
 	SourceVersion  string     `json:"source_version,omitempty"`
 	IsLatest       bool       `json:"is_latest,omitempty"`
 	Disabled       bool       `json:"disabled,omitempty"`
-	TenantID       string     `json:"tenant_id,omitempty"`
+	SpaceID        string     `json:"space_id,omitempty"`
 	EffectiveTime  *int64     `json:"effective_time,omitempty"`
 	ExpireTime     *int64     `json:"expire_time,omitempty"`
 	Extras         types.JSON `json:"extras,omitempty"`
@@ -50,7 +50,7 @@ type TemplateBody struct {
 // CreateTemplateBody represents the body for creating template
 type CreateTemplateBody struct {
 	TemplateBody
-	TenantID string `json:"tenant_id,omitempty"`
+	SpaceID string `json:"space_id,omitempty"`
 }
 
 // UpdateTemplateBody represents the body for updating template
@@ -94,7 +94,7 @@ type ReadTemplate struct {
 	SourceVersion  string     `json:"source_version,omitempty"`
 	IsLatest       bool       `json:"is_latest,omitempty"`
 	Disabled       bool       `json:"disabled,omitempty"`
-	TenantID       string     `json:"tenant_id,omitempty"`
+	SpaceID        string     `json:"space_id,omitempty"`
 	EffectiveTime  *int64     `json:"effective_time,omitempty"`
 	ExpireTime     *int64     `json:"expire_time,omitempty"`
 	Extras         types.JSON `json:"extras,omitempty"`
@@ -138,7 +138,7 @@ type FindTemplateParams struct {
 	Category   string `form:"category,omitempty" json:"category,omitempty"`
 	IsLatest   *bool  `form:"is_latest,omitempty" json:"is_latest,omitempty"`
 	Disabled   *bool  `form:"disabled,omitempty" json:"disabled,omitempty"`
-	Tenant     string `form:"tenant,omitempty" json:"tenant,omitempty"`
+	Space      string `form:"space,omitempty" json:"space,omitempty"`
 	SortBy     string `form:"sort_by,omitempty" json:"sort_by,omitempty"`
 }
 
@@ -154,6 +154,6 @@ type ListTemplateParams struct {
 	Type       string `form:"type,omitempty" json:"type,omitempty"`
 	Category   string `form:"category,omitempty" json:"category,omitempty"`
 	IsLatest   *bool  `form:"is_latest,omitempty" json:"is_latest,omitempty"`
-	Tenant     string `form:"tenant,omitempty" json:"tenant,omitempty"`
+	Space      string `form:"space,omitempty" json:"space,omitempty"`
 	SortBy     string `form:"sort_by,omitempty" json:"sort_by,omitempty"`
 }

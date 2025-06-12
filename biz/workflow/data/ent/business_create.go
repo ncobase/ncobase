@@ -293,16 +293,16 @@ func (bc *BusinessCreate) SetExtras(m map[string]interface{}) *BusinessCreate {
 	return bc
 }
 
-// SetTenantID sets the "tenant_id" field.
-func (bc *BusinessCreate) SetTenantID(s string) *BusinessCreate {
-	bc.mutation.SetTenantID(s)
+// SetSpaceID sets the "space_id" field.
+func (bc *BusinessCreate) SetSpaceID(s string) *BusinessCreate {
+	bc.mutation.SetSpaceID(s)
 	return bc
 }
 
-// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
-func (bc *BusinessCreate) SetNillableTenantID(s *string) *BusinessCreate {
+// SetNillableSpaceID sets the "space_id" field if the given value is not nil.
+func (bc *BusinessCreate) SetNillableSpaceID(s *string) *BusinessCreate {
 	if s != nil {
-		bc.SetTenantID(*s)
+		bc.SetSpaceID(*s)
 	}
 	return bc
 }
@@ -638,9 +638,9 @@ func (bc *BusinessCreate) createSpec() (*Business, *sqlgraph.CreateSpec) {
 		_spec.SetField(business.FieldExtras, field.TypeJSON, value)
 		_node.Extras = value
 	}
-	if value, ok := bc.mutation.TenantID(); ok {
-		_spec.SetField(business.FieldTenantID, field.TypeString, value)
-		_node.TenantID = value
+	if value, ok := bc.mutation.SpaceID(); ok {
+		_spec.SetField(business.FieldSpaceID, field.TypeString, value)
+		_node.SpaceID = value
 	}
 	if value, ok := bc.mutation.CreatedBy(); ok {
 		_spec.SetField(business.FieldCreatedBy, field.TypeString, value)

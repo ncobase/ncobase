@@ -26,10 +26,10 @@ var CasbinPolicyRules = [][]string{
 	{"enterprise-admin", "*", "/", "read", "", ""},
 	{"enterprise-admin", "*", "/account", "GET", "", ""},
 	{"enterprise-admin", "*", "/account", "read", "", ""},
-	{"enterprise-admin", "*", "/account/tenant", "GET", "", ""},
-	{"enterprise-admin", "*", "/account/tenant", "read", "", ""},
-	{"enterprise-admin", "*", "/account/tenants", "GET", "", ""},
-	{"enterprise-admin", "*", "/account/tenants", "read", "", ""},
+	{"enterprise-admin", "*", "/account/space", "GET", "", ""},
+	{"enterprise-admin", "*", "/account/space", "read", "", ""},
+	{"enterprise-admin", "*", "/account/spaces", "GET", "", ""},
+	{"enterprise-admin", "*", "/account/spaces", "read", "", ""},
 
 	// User and employee management
 	{"enterprise-admin", "*", "/sys/users", "read", "", ""},
@@ -56,13 +56,13 @@ var CasbinPolicyRules = [][]string{
 	{"enterprise-admin", "*", "/sys/options", "read", "", ""},
 
 	// Organization management
-	{"enterprise-admin", "*", "/org/groups", "read", "", ""},
-	{"enterprise-admin", "*", "/org/groups", "create", "", ""},
-	{"enterprise-admin", "*", "/org/groups", "update", "", ""},
-	{"enterprise-admin", "*", "/org/groups", "delete", "", ""},
-	{"enterprise-admin", "*", "/org/groups/*", "read", "", ""},
-	{"enterprise-admin", "*", "/org/groups/*", "update", "", ""},
-	{"enterprise-admin", "*", "/org/groups/*", "delete", "", ""},
+	{"enterprise-admin", "*", "/org/orgs", "read", "", ""},
+	{"enterprise-admin", "*", "/org/orgs", "create", "", ""},
+	{"enterprise-admin", "*", "/org/orgs", "update", "", ""},
+	{"enterprise-admin", "*", "/org/orgs", "delete", "", ""},
+	{"enterprise-admin", "*", "/org/orgs/*", "read", "", ""},
+	{"enterprise-admin", "*", "/org/orgs/*", "update", "", ""},
+	{"enterprise-admin", "*", "/org/orgs/*", "delete", "", ""},
 
 	// Content and workflow management
 	{"enterprise-admin", "*", "/cms/*", "read", "", ""},
@@ -94,8 +94,8 @@ var CasbinPolicyRules = [][]string{
 	{"department-manager", "*", "/", "read", "", ""},
 	{"department-manager", "*", "/account", "GET", "", ""},
 	{"department-manager", "*", "/account", "read", "", ""},
-	{"department-manager", "*", "/account/tenant", "GET", "", ""},
-	{"department-manager", "*", "/account/tenant", "read", "", ""},
+	{"department-manager", "*", "/account/space", "GET", "", ""},
+	{"department-manager", "*", "/account/space", "read", "", ""},
 
 	// Employee management within department
 	{"department-manager", "*", "/sys/users", "GET", "", ""},
@@ -112,8 +112,8 @@ var CasbinPolicyRules = [][]string{
 	{"department-manager", "*", "/sys/menus", "read", "", ""},
 	{"department-manager", "*", "/sys/dictionaries", "GET", "", ""},
 	{"department-manager", "*", "/sys/dictionaries", "read", "", ""},
-	{"department-manager", "*", "/org/groups", "GET", "", ""},
-	{"department-manager", "*", "/org/groups", "read", "", ""},
+	{"department-manager", "*", "/org/orgs", "GET", "", ""},
+	{"department-manager", "*", "/org/orgs", "read", "", ""},
 	{"department-manager", "*", "/cms/topics", "GET", "", ""},
 	{"department-manager", "*", "/cms/topics", "read", "", ""},
 
@@ -131,8 +131,8 @@ var CasbinPolicyRules = [][]string{
 	{"team-leader", "*", "/", "read", "", ""},
 	{"team-leader", "*", "/account", "GET", "", ""},
 	{"team-leader", "*", "/account", "read", "", ""},
-	{"team-leader", "*", "/account/tenant", "GET", "", ""},
-	{"team-leader", "*", "/account/tenant", "read", "", ""},
+	{"team-leader", "*", "/account/space", "GET", "", ""},
+	{"team-leader", "*", "/account/space", "read", "", ""},
 
 	// Basic user and employee info
 	{"team-leader", "*", "/sys/users", "GET", "", ""},
@@ -145,8 +145,8 @@ var CasbinPolicyRules = [][]string{
 	{"team-leader", "*", "/sys/dictionaries", "read", "", ""},
 
 	// Organization and content access
-	{"team-leader", "*", "/org/groups", "GET", "", ""},
-	{"team-leader", "*", "/org/groups", "read", "", ""},
+	{"team-leader", "*", "/org/orgs", "GET", "", ""},
+	{"team-leader", "*", "/org/orgs", "read", "", ""},
 	{"team-leader", "*", "/cms/topics", "GET", "", ""},
 	{"team-leader", "*", "/cms/topics", "read", "", ""},
 	{"team-leader", "*", "/flow/tasks", "GET", "", ""},
@@ -161,10 +161,10 @@ var CasbinPolicyRules = [][]string{
 	{"employee", "*", "/", "read", "", ""},
 	{"employee", "*", "/account", "GET", "", ""},
 	{"employee", "*", "/account", "read", "", ""},
-	{"employee", "*", "/account/tenant", "GET", "", ""},
-	{"employee", "*", "/account/tenant", "read", "", ""},
-	{"employee", "*", "/account/tenants", "GET", "", ""},
-	{"employee", "*", "/account/tenants", "read", "", ""},
+	{"employee", "*", "/account/space", "GET", "", ""},
+	{"employee", "*", "/account/space", "read", "", ""},
+	{"employee", "*", "/account/spaces", "GET", "", ""},
+	{"employee", "*", "/account/spaces", "read", "", ""},
 
 	// Basic system info (read-only)
 	{"employee", "*", "/sys/menus", "GET", "", ""},
@@ -179,8 +179,8 @@ var CasbinPolicyRules = [][]string{
 	{"employee", "*", "/sys/employees", "read", "", ""},
 
 	// Organization and content (read-only)
-	{"employee", "*", "/org/groups", "GET", "", ""},
-	{"employee", "*", "/org/groups", "read", "", ""},
+	{"employee", "*", "/org/orgs", "GET", "", ""},
+	{"employee", "*", "/org/orgs", "read", "", ""},
 	{"employee", "*", "/cms/topics", "GET", "", ""},
 	{"employee", "*", "/cms/topics", "read", "", ""},
 	{"employee", "*", "/flow/tasks", "GET", "", ""},

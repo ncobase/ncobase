@@ -14,14 +14,14 @@ type Service struct {
 	Account  AccountServiceInterface
 	CodeAuth CodeAuthServiceInterface
 	// OAuth    OAuthServiceInterface
-	Captcha    CaptchaServiceInterface
-	AuthTenant AuthTenantServiceInterface
-	Session    SessionServiceInterface
+	Captcha   CaptchaServiceInterface
+	AuthSpace AuthSpaceServiceInterface
+	Session   SessionServiceInterface
 
 	usw  *wrapper.UserServiceWrapper
-	tsw  *wrapper.TenantServiceWrapper
+	tsw  *wrapper.SpaceServiceWrapper
 	asw  *wrapper.AccessServiceWrapper
-	ugsw *wrapper.SpaceServiceWrapper
+	ugsw *wrapper.OrganizationServiceWrapper
 }
 
 // New creates a new service.
@@ -29,19 +29,19 @@ func New(d *data.Data, jtm *jwt.TokenManager, em ext.ManagerInterface) *Service 
 	ep := event.NewPublisher(em)
 
 	usw := wrapper.NewUserServiceWrapper(em)
-	tsw := wrapper.NewTenantServiceWrapper(em)
+	tsw := wrapper.NewSpaceServiceWrapper(em)
 	asw := wrapper.NewAccessServiceWrapper(em)
-	ugsw := wrapper.NewSpaceServiceWrapper(em)
+	ugsw := wrapper.NewOrganizationServiceWrapper(em)
 
 	cas := NewCodeAuthService(d, jtm, ep, usw, tsw, asw)
-	ats := NewAuthTenantService(d, usw, tsw, asw)
+	ats := NewAuthSpaceService(d, usw, tsw, asw)
 	ss := NewSessionService(d)
 	return &Service{
-		Account:    NewAccountService(d, jtm, ep, cas, ats, ss, usw, tsw, asw, ugsw),
-		AuthTenant: ats,
-		CodeAuth:   cas,
-		Captcha:    NewCaptchaService(d),
-		Session:    ss,
+		Account:   NewAccountService(d, jtm, ep, cas, ats, ss, usw, tsw, asw, ugsw),
+		AuthSpace: ats,
+		CodeAuth:  cas,
+		Captcha:   NewCaptchaService(d),
+		Session:   ss,
 		// OAuth:    NewOAuthService(d),
 		usw:  usw,
 		tsw:  tsw,

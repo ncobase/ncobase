@@ -152,8 +152,8 @@ func setUserContextFromToken(c *gin.Context, claims map[string]any) context.Cont
 		ctx = ctxutil.SetUserID(ctx, userID)
 	}
 
-	if tenantID := jwt.GetTenantIDFromToken(claims); tenantID != "" {
-		ctx = ctxutil.SetTenantID(ctx, tenantID)
+	if spaceID := jwt.GetSpaceIDFromToken(claims); spaceID != "" {
+		ctx = ctxutil.SetSpaceID(ctx, spaceID)
 	}
 
 	// Set user attributes
@@ -173,8 +173,8 @@ func setUserContextFromToken(c *gin.Context, claims map[string]any) context.Cont
 	ctx = ctxutil.SetUserPermissions(ctx, permissions)
 	ctx = ctxutil.SetUserIsAdmin(ctx, isAdmin)
 
-	if tenantIDs := jwt.GetTenantIDsFromToken(claims); len(tenantIDs) > 0 {
-		ctx = ctxutil.SetUserTenantIDs(ctx, tenantIDs)
+	if spaceIDs := jwt.GetSpaceIDsFromToken(claims); len(spaceIDs) > 0 {
+		ctx = ctxutil.SetUserSpaceIDs(ctx, spaceIDs)
 	}
 
 	// Set in Gin context for compatibility
@@ -204,7 +204,7 @@ func setCompleteUserContextFromSession(c *gin.Context, session *authStructs.Read
 	// Get service wrappers
 	usw := sm.UserServiceWrapper()
 	asw := sm.AccessServiceWrapper()
-	tsw := sm.TenantServiceWrapper()
+	tsw := sm.SpaceServiceWrapper()
 
 	// Get user details
 	if user, err := usw.GetUserByID(ctx, userID); err == nil && user != nil {
@@ -220,18 +220,18 @@ func setCompleteUserContextFromSession(c *gin.Context, session *authStructs.Read
 		c.Set("is_certified", user.IsCertified)
 	}
 
-	// Get user tenants
-	var tenantIDs []string
-	if tenants, err := tsw.GetUserTenants(ctx, userID); err == nil && len(tenants) > 0 {
-		for _, t := range tenants {
-			tenantIDs = append(tenantIDs, t.ID)
+	// Get user spaces
+	var spaceIDs []string
+	if spaces, err := tsw.GetUserSpaces(ctx, userID); err == nil && len(spaces) > 0 {
+		for _, t := range spaces {
+			spaceIDs = append(spaceIDs, t.ID)
 		}
-		ctx = ctxutil.SetUserTenantIDs(ctx, tenantIDs)
+		ctx = ctxutil.SetUserSpaceIDs(ctx, spaceIDs)
 
-		// Set default tenant if not already set
-		if ctxutil.GetTenantID(ctx) == "" {
-			if defaultTenant, err := tsw.GetUserDefaultTenant(ctx, userID); err == nil && defaultTenant != nil {
-				ctx = ctxutil.SetTenantID(ctx, defaultTenant.ID)
+		// Set default space if not already set
+		if ctxutil.GetSpaceID(ctx) == "" {
+			if defaultSpace, err := tsw.GetUserDefaultSpace(ctx, userID); err == nil && defaultSpace != nil {
+				ctx = ctxutil.SetSpaceID(ctx, defaultSpace.ID)
 			}
 		}
 	}
@@ -241,7 +241,7 @@ func setCompleteUserContextFromSession(c *gin.Context, session *authStructs.Read
 	var permissions []string
 	var isAdmin bool
 
-	tenantID := ctxutil.GetTenantID(ctx)
+	spaceID := ctxutil.GetSpaceID(ctx)
 
 	// Get global roles
 	if globalRoles, err := asw.GetUserRoles(ctx, userID); err == nil {
@@ -250,11 +250,11 @@ func setCompleteUserContextFromSession(c *gin.Context, session *authStructs.Read
 		}
 	}
 
-	// Get tenant-specific roles if tenant context exists
-	if tenantID != "" {
-		if roleIDs, err := asw.GetUserRolesInTenant(ctx, userID, tenantID); err == nil && len(roleIDs) > 0 {
-			if tenantRoles, err := asw.GetRolesByIDs(ctx, roleIDs); err == nil {
-				for _, role := range tenantRoles {
+	// Get space-specific roles if space context exists
+	if spaceID != "" {
+		if roleIDs, err := asw.GetUserRolesInSpace(ctx, userID, spaceID); err == nil && len(roleIDs) > 0 {
+			if spaceRoles, err := asw.GetRolesByIDs(ctx, roleIDs); err == nil {
+				for _, role := range spaceRoles {
 					if !utils.Contains(roles, role.Slug) {
 						roles = append(roles, role.Slug)
 					}

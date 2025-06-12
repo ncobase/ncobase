@@ -8,8 +8,8 @@ replace (
 	ncobase => ./../..
 	ncobase/access => ./../access
 	ncobase/auth => ./../auth
+	ncobase/organization => ./../organization
 	ncobase/space => ./../space
-	ncobase/tenant => ./../tenant
 )
 
 require (
@@ -162,6 +162,6 @@ require (
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	ncobase/access v0.0.0-00010101000000-000000000000 // indirect
 	ncobase/auth v0.0.0-00010101000000-000000000000 // indirect
+	ncobase/organization v0.0.0-00010101000000-000000000000 // indirect
 	ncobase/space v0.0.0-00010101000000-000000000000 // indirect
-	ncobase/tenant v0.0.0-00010101000000-000000000000 // indirect
 )

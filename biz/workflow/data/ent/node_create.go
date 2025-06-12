@@ -413,16 +413,16 @@ func (nc *NodeCreate) SetExtras(m map[string]interface{}) *NodeCreate {
 	return nc
 }
 
-// SetTenantID sets the "tenant_id" field.
-func (nc *NodeCreate) SetTenantID(s string) *NodeCreate {
-	nc.mutation.SetTenantID(s)
+// SetSpaceID sets the "space_id" field.
+func (nc *NodeCreate) SetSpaceID(s string) *NodeCreate {
+	nc.mutation.SetSpaceID(s)
 	return nc
 }
 
-// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
-func (nc *NodeCreate) SetNillableTenantID(s *string) *NodeCreate {
+// SetNillableSpaceID sets the "space_id" field if the given value is not nil.
+func (nc *NodeCreate) SetNillableSpaceID(s *string) *NodeCreate {
 	if s != nil {
-		nc.SetTenantID(*s)
+		nc.SetSpaceID(*s)
 	}
 	return nc
 }
@@ -1008,9 +1008,9 @@ func (nc *NodeCreate) createSpec() (*Node, *sqlgraph.CreateSpec) {
 		_spec.SetField(node.FieldExtras, field.TypeJSON, value)
 		_node.Extras = value
 	}
-	if value, ok := nc.mutation.TenantID(); ok {
-		_spec.SetField(node.FieldTenantID, field.TypeString, value)
-		_node.TenantID = value
+	if value, ok := nc.mutation.SpaceID(); ok {
+		_spec.SetField(node.FieldSpaceID, field.TypeString, value)
+		_node.SpaceID = value
 	}
 	if value, ok := nc.mutation.CreatedBy(); ok {
 		_spec.SetField(node.FieldCreatedBy, field.TypeString, value)

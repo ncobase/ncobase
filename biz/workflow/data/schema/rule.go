@@ -37,7 +37,7 @@ func (Rule) Mixin() []ent.Mixin {
 		mixin.Type,
 		mixin.TextStatus,
 		mixin.ExtraProps,
-		mixin.TenantID,
+		mixin.SpaceID,
 		mixin.Operator,
 		mixin.TimeAt{},
 	}

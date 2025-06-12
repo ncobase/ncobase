@@ -86,8 +86,8 @@ func (r *counterRepository) Create(ctx context.Context, body *structs.CreateCoun
 	if body.Description != "" {
 		builder.SetNillableDescription(&body.Description)
 	}
-	if body.TenantID != nil {
-		builder.SetNillableTenantID(body.TenantID)
+	if body.SpaceID != nil {
+		builder.SetNillableSpaceID(body.SpaceID)
 	}
 	if body.CreatedBy != nil {
 		builder.SetNillableCreatedBy(body.CreatedBy)
@@ -187,8 +187,8 @@ func (r *counterRepository) Update(ctx context.Context, slug string, updates typ
 			builder.SetNillableDisabled(convert.ToPointer(value.(bool)))
 		case "description":
 			builder.SetNillableDescription(convert.ToPointer(value.(string)))
-		case "tenant_id":
-			builder.SetNillableTenantID(convert.ToPointer(value.(string)))
+		case "space_id":
+			builder.SetNillableSpaceID(convert.ToPointer(value.(string)))
 		case "updated_by":
 			builder.SetNillableUpdatedBy(convert.ToPointer(value.(string)))
 		}
@@ -230,9 +230,9 @@ func (r *counterRepository) List(ctx context.Context, params *structs.ListCounte
 		return nil, err
 	}
 
-	// belong tenant
-	if params.Tenant != "" {
-		builder.Where(counterEnt.TenantIDEQ(params.Tenant))
+	// belong space
+	if params.Space != "" {
+		builder.Where(counterEnt.SpaceIDEQ(params.Space))
 	}
 
 	if params.Cursor != "" {
@@ -329,8 +329,8 @@ func (r *counterRepository) FindCounter(ctx context.Context, params *structs.Fin
 			counterEnt.ID(params.Counter),
 		))
 	}
-	if validator.IsNotEmpty(params.Tenant) {
-		builder = builder.Where(counterEnt.TenantIDEQ(params.Tenant))
+	if validator.IsNotEmpty(params.Space) {
+		builder = builder.Where(counterEnt.SpaceIDEQ(params.Space))
 	}
 
 	// execute the builder.

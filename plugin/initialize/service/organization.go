@@ -3,7 +3,7 @@ package service
 import (
 	"context"
 	"fmt"
-	spaceStructs "ncobase/space/structs"
+	orgStructs "ncobase/organization/structs"
 	"time"
 
 	"github.com/ncobase/ncore/logging/logger"
@@ -11,8 +11,8 @@ import (
 
 // checkOrganizationsInitialized checks if organizations exist
 func (s *Service) checkOrganizationsInitialized(ctx context.Context) error {
-	params := &spaceStructs.ListGroupParams{}
-	count := s.ss.Group.CountX(ctx, params)
+	params := &orgStructs.ListOrganizationParams{}
+	count := s.ss.Organization.CountX(ctx, params)
 	if count > 0 {
 		logger.Infof(ctx, "Organizations already exist, skipping initialization")
 		return nil
@@ -25,9 +25,9 @@ func (s *Service) checkOrganizationsInitialized(ctx context.Context) error {
 func (s *Service) initOrganizations(ctx context.Context) error {
 	logger.Infof(ctx, "Initializing organizational structure in %s mode...", s.state.DataMode)
 
-	tenant, err := s.getDefaultTenant(ctx)
+	space, err := s.getDefaultSpace(ctx)
 	if err != nil {
-		return fmt.Errorf("failed to get default tenant: %v", err)
+		return fmt.Errorf("failed to get default space: %v", err)
 	}
 
 	adminUser, err := s.getAdminUser(ctx, "creating organizational structure")
@@ -35,34 +35,34 @@ func (s *Service) initOrganizations(ctx context.Context) error {
 		return fmt.Errorf("failed to get admin user: %v", err)
 	}
 
-	var groupCount int
+	var organizationCount int
 
 	switch s.state.DataMode {
 	case "website":
-		groupCount, err = s.initWebsiteOrganization(ctx, tenant.ID, adminUser.ID)
+		organizationCount, err = s.initWebsiteOrganization(ctx, space.ID, adminUser.ID)
 	case "company":
-		groupCount, err = s.initCompanyOrganization(ctx, tenant.ID, adminUser.ID)
+		organizationCount, err = s.initCompanyOrganization(ctx, space.ID, adminUser.ID)
 	case "enterprise":
-		groupCount, err = s.initEnterpriseOrganization(ctx, tenant.ID, adminUser.ID)
+		organizationCount, err = s.initEnterpriseOrganization(ctx, space.ID, adminUser.ID)
 	default:
-		groupCount, err = s.initWebsiteOrganization(ctx, tenant.ID, adminUser.ID)
+		organizationCount, err = s.initWebsiteOrganization(ctx, space.ID, adminUser.ID)
 	}
 
 	if err != nil {
 		return fmt.Errorf("failed to initialize organization structure: %v", err)
 	}
 
-	logger.Infof(ctx, "Organization structure initialization completed in %s mode, created %d groups",
-		s.state.DataMode, groupCount)
+	logger.Infof(ctx, "Organization structure initialization completed in %s mode, created %d organizations",
+		s.state.DataMode, organizationCount)
 
 	return nil
 }
 
 // initWebsiteOrganization initializes simple website organization
-func (s *Service) initWebsiteOrganization(ctx context.Context, tenantID, adminID string) (int, error) {
+func (s *Service) initWebsiteOrganization(ctx context.Context, spaceID, adminID string) (int, error) {
 	logger.Infof(ctx, "Initializing website organizational structure...")
 
-	mainGroup := spaceStructs.GroupBody{
+	mainGroup := orgStructs.OrganizationBody{
 		Name:        "Website",
 		Slug:        "website-platform",
 		Type:        "website",
@@ -71,25 +71,25 @@ func (s *Service) initWebsiteOrganization(ctx context.Context, tenantID, adminID
 		UpdatedBy:   &adminID,
 	}
 
-	group, err := s.ss.Group.Create(ctx, &spaceStructs.CreateGroupBody{
-		GroupBody: mainGroup,
+	organization, err := s.ss.Organization.Create(ctx, &orgStructs.CreateOrganizationBody{
+		OrganizationBody: mainGroup,
 	})
 	if err != nil {
-		return 0, fmt.Errorf("failed to create main website group: %v", err)
+		return 0, fmt.Errorf("failed to create main website organization: %v", err)
 	}
 
-	if err := s.addGroupToTenant(ctx, tenantID, group.ID); err != nil {
-		return 0, fmt.Errorf("failed to add group to tenant: %v", err)
+	if err := s.addGroupToSpace(ctx, spaceID, organization.ID); err != nil {
+		return 0, fmt.Errorf("failed to add organization to space: %v", err)
 	}
 
 	return 1, nil
 }
 
 // initCompanyOrganization initializes company organizational structure
-func (s *Service) initCompanyOrganization(ctx context.Context, tenantID, adminID string) (int, error) {
+func (s *Service) initCompanyOrganization(ctx context.Context, spaceID, adminID string) (int, error) {
 	logger.Infof(ctx, "Initializing company organizational structure...")
 
-	groups := []spaceStructs.GroupBody{
+	organizations := []orgStructs.OrganizationBody{
 		{
 			Name:        "Digital Company",
 			Slug:        "digital-company",
@@ -117,30 +117,30 @@ func (s *Service) initCompanyOrganization(ctx context.Context, tenantID, adminID
 	}
 
 	var createdCount int
-	var companyGroupID string
+	var companyOrgID string
 
-	for i, groupBody := range groups {
-		group, err := s.ss.Group.Create(ctx, &spaceStructs.CreateGroupBody{
-			GroupBody: groupBody,
+	for i, organizationBody := range organizations {
+		organization, err := s.ss.Organization.Create(ctx, &orgStructs.CreateOrganizationBody{
+			OrganizationBody: organizationBody,
 		})
 		if err != nil {
-			return createdCount, fmt.Errorf("failed to create group %s: %v", groupBody.Name, err)
+			return createdCount, fmt.Errorf("failed to create organization %s: %v", organizationBody.Name, err)
 		}
 
-		if err := s.addGroupToTenant(ctx, tenantID, group.ID); err != nil {
-			return createdCount, fmt.Errorf("failed to add group %s to tenant: %v", groupBody.Name, err)
+		if err := s.addGroupToSpace(ctx, spaceID, organization.ID); err != nil {
+			return createdCount, fmt.Errorf("failed to add organization %s to space: %v", organizationBody.Name, err)
 		}
 
 		// Set parent relationships for hierarchical structure
 		if i == 0 {
-			companyGroupID = group.ID
-		} else if companyGroupID != "" {
-			if err := s.updateGroupParent(ctx, group.ID, companyGroupID); err != nil {
-				logger.Warnf(ctx, "Failed to set parent for group %s: %v", groupBody.Name, err)
+			companyOrgID = organization.ID
+		} else if companyOrgID != "" {
+			if err := s.updateGroupParent(ctx, organization.ID, companyOrgID); err != nil {
+				logger.Warnf(ctx, "Failed to set parent for organization %s: %v", organizationBody.Name, err)
 			}
 		}
 
-		logger.Debugf(ctx, "Created group: %s", groupBody.Name)
+		logger.Debugf(ctx, "Created organization: %s", organizationBody.Name)
 		createdCount++
 	}
 
@@ -148,10 +148,10 @@ func (s *Service) initCompanyOrganization(ctx context.Context, tenantID, adminID
 }
 
 // initEnterpriseOrganization initializes enterprise organizational structure
-func (s *Service) initEnterpriseOrganization(ctx context.Context, tenantID, adminID string) (int, error) {
+func (s *Service) initEnterpriseOrganization(ctx context.Context, spaceID, adminID string) (int, error) {
 	logger.Infof(ctx, "Initializing enterprise organizational structure...")
 
-	groups := []spaceStructs.GroupBody{
+	organizations := []orgStructs.OrganizationBody{
 		{
 			Name:        "Digital Enterprise Group",
 			Slug:        "digital-enterprise",
@@ -179,64 +179,64 @@ func (s *Service) initEnterpriseOrganization(ctx context.Context, tenantID, admi
 	}
 
 	var createdCount int
-	var enterpriseGroupID string
+	var enterpriseOrgID string
 
-	for i, groupBody := range groups {
-		group, err := s.ss.Group.Create(ctx, &spaceStructs.CreateGroupBody{
-			GroupBody: groupBody,
+	for i, organizationBody := range organizations {
+		organization, err := s.ss.Organization.Create(ctx, &orgStructs.CreateOrganizationBody{
+			OrganizationBody: organizationBody,
 		})
 		if err != nil {
-			return createdCount, fmt.Errorf("failed to create group %s: %v", groupBody.Name, err)
+			return createdCount, fmt.Errorf("failed to create organization %s: %v", organizationBody.Name, err)
 		}
 
-		if err := s.addGroupToTenant(ctx, tenantID, group.ID); err != nil {
-			return createdCount, fmt.Errorf("failed to add group %s to tenant: %v", groupBody.Name, err)
+		if err := s.addGroupToSpace(ctx, spaceID, organization.ID); err != nil {
+			return createdCount, fmt.Errorf("failed to add organization %s to space: %v", organizationBody.Name, err)
 		}
 
 		// Set parent relationships for hierarchical structure
 		if i == 0 {
-			enterpriseGroupID = group.ID
-		} else if enterpriseGroupID != "" {
-			if err := s.updateGroupParent(ctx, group.ID, enterpriseGroupID); err != nil {
-				logger.Warnf(ctx, "Failed to set parent for group %s: %v", groupBody.Name, err)
+			enterpriseOrgID = organization.ID
+		} else if enterpriseOrgID != "" {
+			if err := s.updateGroupParent(ctx, organization.ID, enterpriseOrgID); err != nil {
+				logger.Warnf(ctx, "Failed to set parent for organization %s: %v", organizationBody.Name, err)
 			}
 		}
 
-		logger.Debugf(ctx, "Created group: %s", groupBody.Name)
+		logger.Debugf(ctx, "Created organization: %s", organizationBody.Name)
 		createdCount++
 	}
 
 	return createdCount, nil
 }
 
-// addGroupToTenant adds a group to a tenant using the TenantGroup service
-func (s *Service) addGroupToTenant(ctx context.Context, tenantID, groupID string) error {
-	if s.ts.TenantGroup == nil {
-		logger.Warnf(ctx, "TenantGroup service not available, skipping tenant-group relationship")
+// addGroupToSpace adds a organization to a space using the SpaceOrganization service
+func (s *Service) addGroupToSpace(ctx context.Context, spaceID, organizationID string) error {
+	if s.ts.SpaceOrganization == nil {
+		logger.Warnf(ctx, "SpaceOrganization service not available, skipping space-organization relationship")
 		return nil
 	}
 
-	_, err := s.ts.TenantGroup.AddGroupToTenant(ctx, tenantID, groupID)
+	_, err := s.ts.SpaceOrganization.AddGroupToSpace(ctx, spaceID, organizationID)
 	if err != nil {
-		return fmt.Errorf("failed to add group %s to tenant %s: %v", groupID, tenantID, err)
+		return fmt.Errorf("failed to add organization %s to space %s: %v", organizationID, spaceID, err)
 	}
 
-	logger.Debugf(ctx, "Added group %s to tenant %s", groupID, tenantID)
+	logger.Debugf(ctx, "Added organization %s to space %s", organizationID, spaceID)
 	return nil
 }
 
-// updateGroupParent updates the parent of a group
-func (s *Service) updateGroupParent(ctx context.Context, groupID, parentID string) error {
+// updateGroupParent updates the parent of a organization
+func (s *Service) updateGroupParent(ctx context.Context, organizationID, parentID string) error {
 	updates := map[string]any{
 		"parent_id": parentID,
 	}
 
-	_, err := s.ss.Group.Update(ctx, groupID, updates)
+	_, err := s.ss.Organization.Update(ctx, organizationID, updates)
 	if err != nil {
-		return fmt.Errorf("failed to update parent for group %s: %v", groupID, err)
+		return fmt.Errorf("failed to update parent for organization %s: %v", organizationID, err)
 	}
 
-	logger.Debugf(ctx, "Set parent %s for group %s", parentID, groupID)
+	logger.Debugf(ctx, "Set parent %s for organization %s", parentID, organizationID)
 	return nil
 }
 

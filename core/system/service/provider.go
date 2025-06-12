@@ -17,7 +17,7 @@ type Service struct {
 
 // New creates a new service.
 func New(d *data.Data, em ext.ManagerInterface) *Service {
-	tsw := wrapper.NewTenantServiceWrapper(em)
+	tsw := wrapper.NewSpaceServiceWrapper(em)
 
 	return &Service{
 		Menu:       NewMenuService(d, em, tsw),

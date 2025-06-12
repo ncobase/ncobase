@@ -574,23 +574,23 @@ func (pu *ProcessUpdate) ClearExtras() *ProcessUpdate {
 	return pu
 }
 
-// SetTenantID sets the "tenant_id" field.
-func (pu *ProcessUpdate) SetTenantID(s string) *ProcessUpdate {
-	pu.mutation.SetTenantID(s)
+// SetSpaceID sets the "space_id" field.
+func (pu *ProcessUpdate) SetSpaceID(s string) *ProcessUpdate {
+	pu.mutation.SetSpaceID(s)
 	return pu
 }
 
-// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
-func (pu *ProcessUpdate) SetNillableTenantID(s *string) *ProcessUpdate {
+// SetNillableSpaceID sets the "space_id" field if the given value is not nil.
+func (pu *ProcessUpdate) SetNillableSpaceID(s *string) *ProcessUpdate {
 	if s != nil {
-		pu.SetTenantID(*s)
+		pu.SetSpaceID(*s)
 	}
 	return pu
 }
 
-// ClearTenantID clears the value of the "tenant_id" field.
-func (pu *ProcessUpdate) ClearTenantID() *ProcessUpdate {
-	pu.mutation.ClearTenantID()
+// ClearSpaceID clears the value of the "space_id" field.
+func (pu *ProcessUpdate) ClearSpaceID() *ProcessUpdate {
+	pu.mutation.ClearSpaceID()
 	return pu
 }
 
@@ -1018,11 +1018,11 @@ func (pu *ProcessUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if pu.mutation.ExtrasCleared() {
 		_spec.ClearField(process.FieldExtras, field.TypeJSON)
 	}
-	if value, ok := pu.mutation.TenantID(); ok {
-		_spec.SetField(process.FieldTenantID, field.TypeString, value)
+	if value, ok := pu.mutation.SpaceID(); ok {
+		_spec.SetField(process.FieldSpaceID, field.TypeString, value)
 	}
-	if pu.mutation.TenantIDCleared() {
-		_spec.ClearField(process.FieldTenantID, field.TypeString)
+	if pu.mutation.SpaceIDCleared() {
+		_spec.ClearField(process.FieldSpaceID, field.TypeString)
 	}
 	if value, ok := pu.mutation.CreatedBy(); ok {
 		_spec.SetField(process.FieldCreatedBy, field.TypeString, value)
@@ -1667,23 +1667,23 @@ func (puo *ProcessUpdateOne) ClearExtras() *ProcessUpdateOne {
 	return puo
 }
 
-// SetTenantID sets the "tenant_id" field.
-func (puo *ProcessUpdateOne) SetTenantID(s string) *ProcessUpdateOne {
-	puo.mutation.SetTenantID(s)
+// SetSpaceID sets the "space_id" field.
+func (puo *ProcessUpdateOne) SetSpaceID(s string) *ProcessUpdateOne {
+	puo.mutation.SetSpaceID(s)
 	return puo
 }
 
-// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
-func (puo *ProcessUpdateOne) SetNillableTenantID(s *string) *ProcessUpdateOne {
+// SetNillableSpaceID sets the "space_id" field if the given value is not nil.
+func (puo *ProcessUpdateOne) SetNillableSpaceID(s *string) *ProcessUpdateOne {
 	if s != nil {
-		puo.SetTenantID(*s)
+		puo.SetSpaceID(*s)
 	}
 	return puo
 }
 
-// ClearTenantID clears the value of the "tenant_id" field.
-func (puo *ProcessUpdateOne) ClearTenantID() *ProcessUpdateOne {
-	puo.mutation.ClearTenantID()
+// ClearSpaceID clears the value of the "space_id" field.
+func (puo *ProcessUpdateOne) ClearSpaceID() *ProcessUpdateOne {
+	puo.mutation.ClearSpaceID()
 	return puo
 }
 
@@ -2141,11 +2141,11 @@ func (puo *ProcessUpdateOne) sqlSave(ctx context.Context) (_node *Process, err e
 	if puo.mutation.ExtrasCleared() {
 		_spec.ClearField(process.FieldExtras, field.TypeJSON)
 	}
-	if value, ok := puo.mutation.TenantID(); ok {
-		_spec.SetField(process.FieldTenantID, field.TypeString, value)
+	if value, ok := puo.mutation.SpaceID(); ok {
+		_spec.SetField(process.FieldSpaceID, field.TypeString, value)
 	}
-	if puo.mutation.TenantIDCleared() {
-		_spec.ClearField(process.FieldTenantID, field.TypeString)
+	if puo.mutation.SpaceIDCleared() {
+		_spec.ClearField(process.FieldSpaceID, field.TypeString)
 	}
 	if value, ok := puo.mutation.CreatedBy(); ok {
 		_spec.SetField(process.FieldCreatedBy, field.TypeString, value)

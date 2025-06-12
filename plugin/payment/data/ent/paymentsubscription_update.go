@@ -128,23 +128,23 @@ func (psu *PaymentSubscriptionUpdate) SetNillableUserID(s *string) *PaymentSubsc
 	return psu
 }
 
-// SetTenantID sets the "tenant_id" field.
-func (psu *PaymentSubscriptionUpdate) SetTenantID(s string) *PaymentSubscriptionUpdate {
-	psu.mutation.SetTenantID(s)
+// SetSpaceID sets the "space_id" field.
+func (psu *PaymentSubscriptionUpdate) SetSpaceID(s string) *PaymentSubscriptionUpdate {
+	psu.mutation.SetSpaceID(s)
 	return psu
 }
 
-// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
-func (psu *PaymentSubscriptionUpdate) SetNillableTenantID(s *string) *PaymentSubscriptionUpdate {
+// SetNillableSpaceID sets the "space_id" field if the given value is not nil.
+func (psu *PaymentSubscriptionUpdate) SetNillableSpaceID(s *string) *PaymentSubscriptionUpdate {
 	if s != nil {
-		psu.SetTenantID(*s)
+		psu.SetSpaceID(*s)
 	}
 	return psu
 }
 
-// ClearTenantID clears the value of the "tenant_id" field.
-func (psu *PaymentSubscriptionUpdate) ClearTenantID() *PaymentSubscriptionUpdate {
-	psu.mutation.ClearTenantID()
+// ClearSpaceID clears the value of the "space_id" field.
+func (psu *PaymentSubscriptionUpdate) ClearSpaceID() *PaymentSubscriptionUpdate {
+	psu.mutation.ClearSpaceID()
 	return psu
 }
 
@@ -427,11 +427,11 @@ func (psu *PaymentSubscriptionUpdate) sqlSave(ctx context.Context) (n int, err e
 	if value, ok := psu.mutation.UserID(); ok {
 		_spec.SetField(paymentsubscription.FieldUserID, field.TypeString, value)
 	}
-	if value, ok := psu.mutation.TenantID(); ok {
-		_spec.SetField(paymentsubscription.FieldTenantID, field.TypeString, value)
+	if value, ok := psu.mutation.SpaceID(); ok {
+		_spec.SetField(paymentsubscription.FieldSpaceID, field.TypeString, value)
 	}
-	if psu.mutation.TenantIDCleared() {
-		_spec.ClearField(paymentsubscription.FieldTenantID, field.TypeString)
+	if psu.mutation.SpaceIDCleared() {
+		_spec.ClearField(paymentsubscription.FieldSpaceID, field.TypeString)
 	}
 	if value, ok := psu.mutation.ChannelID(); ok {
 		_spec.SetField(paymentsubscription.FieldChannelID, field.TypeString, value)
@@ -620,23 +620,23 @@ func (psuo *PaymentSubscriptionUpdateOne) SetNillableUserID(s *string) *PaymentS
 	return psuo
 }
 
-// SetTenantID sets the "tenant_id" field.
-func (psuo *PaymentSubscriptionUpdateOne) SetTenantID(s string) *PaymentSubscriptionUpdateOne {
-	psuo.mutation.SetTenantID(s)
+// SetSpaceID sets the "space_id" field.
+func (psuo *PaymentSubscriptionUpdateOne) SetSpaceID(s string) *PaymentSubscriptionUpdateOne {
+	psuo.mutation.SetSpaceID(s)
 	return psuo
 }
 
-// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
-func (psuo *PaymentSubscriptionUpdateOne) SetNillableTenantID(s *string) *PaymentSubscriptionUpdateOne {
+// SetNillableSpaceID sets the "space_id" field if the given value is not nil.
+func (psuo *PaymentSubscriptionUpdateOne) SetNillableSpaceID(s *string) *PaymentSubscriptionUpdateOne {
 	if s != nil {
-		psuo.SetTenantID(*s)
+		psuo.SetSpaceID(*s)
 	}
 	return psuo
 }
 
-// ClearTenantID clears the value of the "tenant_id" field.
-func (psuo *PaymentSubscriptionUpdateOne) ClearTenantID() *PaymentSubscriptionUpdateOne {
-	psuo.mutation.ClearTenantID()
+// ClearSpaceID clears the value of the "space_id" field.
+func (psuo *PaymentSubscriptionUpdateOne) ClearSpaceID() *PaymentSubscriptionUpdateOne {
+	psuo.mutation.ClearSpaceID()
 	return psuo
 }
 
@@ -949,11 +949,11 @@ func (psuo *PaymentSubscriptionUpdateOne) sqlSave(ctx context.Context) (_node *P
 	if value, ok := psuo.mutation.UserID(); ok {
 		_spec.SetField(paymentsubscription.FieldUserID, field.TypeString, value)
 	}
-	if value, ok := psuo.mutation.TenantID(); ok {
-		_spec.SetField(paymentsubscription.FieldTenantID, field.TypeString, value)
+	if value, ok := psuo.mutation.SpaceID(); ok {
+		_spec.SetField(paymentsubscription.FieldSpaceID, field.TypeString, value)
 	}
-	if psuo.mutation.TenantIDCleared() {
-		_spec.ClearField(paymentsubscription.FieldTenantID, field.TypeString)
+	if psuo.mutation.SpaceIDCleared() {
+		_spec.ClearField(paymentsubscription.FieldSpaceID, field.TypeString)
 	}
 	if value, ok := psuo.mutation.ChannelID(); ok {
 		_spec.SetField(paymentsubscription.FieldChannelID, field.TypeString, value)

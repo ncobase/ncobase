@@ -85,7 +85,7 @@ type BusinessMutation struct {
 	role_configs         *map[string]interface{}
 	visible_range        *map[string]interface{}
 	extras               *map[string]interface{}
-	tenant_id            *string
+	space_id             *string
 	created_by           *string
 	updated_by           *string
 	created_at           *int64
@@ -1692,53 +1692,53 @@ func (m *BusinessMutation) ResetExtras() {
 	delete(m.clearedFields, business.FieldExtras)
 }
 
-// SetTenantID sets the "tenant_id" field.
-func (m *BusinessMutation) SetTenantID(s string) {
-	m.tenant_id = &s
+// SetSpaceID sets the "space_id" field.
+func (m *BusinessMutation) SetSpaceID(s string) {
+	m.space_id = &s
 }
 
-// TenantID returns the value of the "tenant_id" field in the mutation.
-func (m *BusinessMutation) TenantID() (r string, exists bool) {
-	v := m.tenant_id
+// SpaceID returns the value of the "space_id" field in the mutation.
+func (m *BusinessMutation) SpaceID() (r string, exists bool) {
+	v := m.space_id
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldTenantID returns the old "tenant_id" field's value of the Business entity.
+// OldSpaceID returns the old "space_id" field's value of the Business entity.
 // If the Business object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *BusinessMutation) OldTenantID(ctx context.Context) (v string, err error) {
+func (m *BusinessMutation) OldSpaceID(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldTenantID is only allowed on UpdateOne operations")
+		return v, errors.New("OldSpaceID is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldTenantID requires an ID field in the mutation")
+		return v, errors.New("OldSpaceID requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldTenantID: %w", err)
+		return v, fmt.Errorf("querying old value for OldSpaceID: %w", err)
 	}
-	return oldValue.TenantID, nil
+	return oldValue.SpaceID, nil
 }
 
-// ClearTenantID clears the value of the "tenant_id" field.
-func (m *BusinessMutation) ClearTenantID() {
-	m.tenant_id = nil
-	m.clearedFields[business.FieldTenantID] = struct{}{}
+// ClearSpaceID clears the value of the "space_id" field.
+func (m *BusinessMutation) ClearSpaceID() {
+	m.space_id = nil
+	m.clearedFields[business.FieldSpaceID] = struct{}{}
 }
 
-// TenantIDCleared returns if the "tenant_id" field was cleared in this mutation.
-func (m *BusinessMutation) TenantIDCleared() bool {
-	_, ok := m.clearedFields[business.FieldTenantID]
+// SpaceIDCleared returns if the "space_id" field was cleared in this mutation.
+func (m *BusinessMutation) SpaceIDCleared() bool {
+	_, ok := m.clearedFields[business.FieldSpaceID]
 	return ok
 }
 
-// ResetTenantID resets all changes to the "tenant_id" field.
-func (m *BusinessMutation) ResetTenantID() {
-	m.tenant_id = nil
-	delete(m.clearedFields, business.FieldTenantID)
+// ResetSpaceID resets all changes to the "space_id" field.
+func (m *BusinessMutation) ResetSpaceID() {
+	m.space_id = nil
+	delete(m.clearedFields, business.FieldSpaceID)
 }
 
 // SetCreatedBy sets the "created_by" field.
@@ -2107,8 +2107,8 @@ func (m *BusinessMutation) Fields() []string {
 	if m.extras != nil {
 		fields = append(fields, business.FieldExtras)
 	}
-	if m.tenant_id != nil {
-		fields = append(fields, business.FieldTenantID)
+	if m.space_id != nil {
+		fields = append(fields, business.FieldSpaceID)
 	}
 	if m.created_by != nil {
 		fields = append(fields, business.FieldCreatedBy)
@@ -2192,8 +2192,8 @@ func (m *BusinessMutation) Field(name string) (ent.Value, bool) {
 		return m.VisibleRange()
 	case business.FieldExtras:
 		return m.Extras()
-	case business.FieldTenantID:
-		return m.TenantID()
+	case business.FieldSpaceID:
+		return m.SpaceID()
 	case business.FieldCreatedBy:
 		return m.CreatedBy()
 	case business.FieldUpdatedBy:
@@ -2273,8 +2273,8 @@ func (m *BusinessMutation) OldField(ctx context.Context, name string) (ent.Value
 		return m.OldVisibleRange(ctx)
 	case business.FieldExtras:
 		return m.OldExtras(ctx)
-	case business.FieldTenantID:
-		return m.OldTenantID(ctx)
+	case business.FieldSpaceID:
+		return m.OldSpaceID(ctx)
 	case business.FieldCreatedBy:
 		return m.OldCreatedBy(ctx)
 	case business.FieldUpdatedBy:
@@ -2509,12 +2509,12 @@ func (m *BusinessMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetExtras(v)
 		return nil
-	case business.FieldTenantID:
+	case business.FieldSpaceID:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetTenantID(v)
+		m.SetSpaceID(v)
 		return nil
 	case business.FieldCreatedBy:
 		v, ok := value.(string)
@@ -2676,8 +2676,8 @@ func (m *BusinessMutation) ClearedFields() []string {
 	if m.FieldCleared(business.FieldExtras) {
 		fields = append(fields, business.FieldExtras)
 	}
-	if m.FieldCleared(business.FieldTenantID) {
-		fields = append(fields, business.FieldTenantID)
+	if m.FieldCleared(business.FieldSpaceID) {
+		fields = append(fields, business.FieldSpaceID)
 	}
 	if m.FieldCleared(business.FieldCreatedBy) {
 		fields = append(fields, business.FieldCreatedBy)
@@ -2768,8 +2768,8 @@ func (m *BusinessMutation) ClearField(name string) error {
 	case business.FieldExtras:
 		m.ClearExtras()
 		return nil
-	case business.FieldTenantID:
-		m.ClearTenantID()
+	case business.FieldSpaceID:
+		m.ClearSpaceID()
 		return nil
 	case business.FieldCreatedBy:
 		m.ClearCreatedBy()
@@ -2884,8 +2884,8 @@ func (m *BusinessMutation) ResetField(name string) error {
 	case business.FieldExtras:
 		m.ResetExtras()
 		return nil
-	case business.FieldTenantID:
-		m.ResetTenantID()
+	case business.FieldSpaceID:
+		m.ResetSpaceID()
 		return nil
 	case business.FieldCreatedBy:
 		m.ResetCreatedBy()
@@ -2959,7 +2959,7 @@ type DelegationMutation struct {
 	id               *string
 	status           *string
 	extras           *map[string]interface{}
-	tenant_id        *string
+	space_id         *string
 	created_by       *string
 	updated_by       *string
 	created_at       *int64
@@ -3185,53 +3185,53 @@ func (m *DelegationMutation) ResetExtras() {
 	delete(m.clearedFields, delegation.FieldExtras)
 }
 
-// SetTenantID sets the "tenant_id" field.
-func (m *DelegationMutation) SetTenantID(s string) {
-	m.tenant_id = &s
+// SetSpaceID sets the "space_id" field.
+func (m *DelegationMutation) SetSpaceID(s string) {
+	m.space_id = &s
 }
 
-// TenantID returns the value of the "tenant_id" field in the mutation.
-func (m *DelegationMutation) TenantID() (r string, exists bool) {
-	v := m.tenant_id
+// SpaceID returns the value of the "space_id" field in the mutation.
+func (m *DelegationMutation) SpaceID() (r string, exists bool) {
+	v := m.space_id
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldTenantID returns the old "tenant_id" field's value of the Delegation entity.
+// OldSpaceID returns the old "space_id" field's value of the Delegation entity.
 // If the Delegation object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *DelegationMutation) OldTenantID(ctx context.Context) (v string, err error) {
+func (m *DelegationMutation) OldSpaceID(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldTenantID is only allowed on UpdateOne operations")
+		return v, errors.New("OldSpaceID is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldTenantID requires an ID field in the mutation")
+		return v, errors.New("OldSpaceID requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldTenantID: %w", err)
+		return v, fmt.Errorf("querying old value for OldSpaceID: %w", err)
 	}
-	return oldValue.TenantID, nil
+	return oldValue.SpaceID, nil
 }
 
-// ClearTenantID clears the value of the "tenant_id" field.
-func (m *DelegationMutation) ClearTenantID() {
-	m.tenant_id = nil
-	m.clearedFields[delegation.FieldTenantID] = struct{}{}
+// ClearSpaceID clears the value of the "space_id" field.
+func (m *DelegationMutation) ClearSpaceID() {
+	m.space_id = nil
+	m.clearedFields[delegation.FieldSpaceID] = struct{}{}
 }
 
-// TenantIDCleared returns if the "tenant_id" field was cleared in this mutation.
-func (m *DelegationMutation) TenantIDCleared() bool {
-	_, ok := m.clearedFields[delegation.FieldTenantID]
+// SpaceIDCleared returns if the "space_id" field was cleared in this mutation.
+func (m *DelegationMutation) SpaceIDCleared() bool {
+	_, ok := m.clearedFields[delegation.FieldSpaceID]
 	return ok
 }
 
-// ResetTenantID resets all changes to the "tenant_id" field.
-func (m *DelegationMutation) ResetTenantID() {
-	m.tenant_id = nil
-	delete(m.clearedFields, delegation.FieldTenantID)
+// ResetSpaceID resets all changes to the "space_id" field.
+func (m *DelegationMutation) ResetSpaceID() {
+	m.space_id = nil
+	delete(m.clearedFields, delegation.FieldSpaceID)
 }
 
 // SetCreatedBy sets the "created_by" field.
@@ -3896,8 +3896,8 @@ func (m *DelegationMutation) Fields() []string {
 	if m.extras != nil {
 		fields = append(fields, delegation.FieldExtras)
 	}
-	if m.tenant_id != nil {
-		fields = append(fields, delegation.FieldTenantID)
+	if m.space_id != nil {
+		fields = append(fields, delegation.FieldSpaceID)
 	}
 	if m.created_by != nil {
 		fields = append(fields, delegation.FieldCreatedBy)
@@ -3947,8 +3947,8 @@ func (m *DelegationMutation) Field(name string) (ent.Value, bool) {
 		return m.Status()
 	case delegation.FieldExtras:
 		return m.Extras()
-	case delegation.FieldTenantID:
-		return m.TenantID()
+	case delegation.FieldSpaceID:
+		return m.SpaceID()
 	case delegation.FieldCreatedBy:
 		return m.CreatedBy()
 	case delegation.FieldUpdatedBy:
@@ -3986,8 +3986,8 @@ func (m *DelegationMutation) OldField(ctx context.Context, name string) (ent.Val
 		return m.OldStatus(ctx)
 	case delegation.FieldExtras:
 		return m.OldExtras(ctx)
-	case delegation.FieldTenantID:
-		return m.OldTenantID(ctx)
+	case delegation.FieldSpaceID:
+		return m.OldSpaceID(ctx)
 	case delegation.FieldCreatedBy:
 		return m.OldCreatedBy(ctx)
 	case delegation.FieldUpdatedBy:
@@ -4035,12 +4035,12 @@ func (m *DelegationMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetExtras(v)
 		return nil
-	case delegation.FieldTenantID:
+	case delegation.FieldSpaceID:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetTenantID(v)
+		m.SetSpaceID(v)
 		return nil
 	case delegation.FieldCreatedBy:
 		v, ok := value.(string)
@@ -4213,8 +4213,8 @@ func (m *DelegationMutation) ClearedFields() []string {
 	if m.FieldCleared(delegation.FieldExtras) {
 		fields = append(fields, delegation.FieldExtras)
 	}
-	if m.FieldCleared(delegation.FieldTenantID) {
-		fields = append(fields, delegation.FieldTenantID)
+	if m.FieldCleared(delegation.FieldSpaceID) {
+		fields = append(fields, delegation.FieldSpaceID)
 	}
 	if m.FieldCleared(delegation.FieldCreatedBy) {
 		fields = append(fields, delegation.FieldCreatedBy)
@@ -4257,8 +4257,8 @@ func (m *DelegationMutation) ClearField(name string) error {
 	case delegation.FieldExtras:
 		m.ClearExtras()
 		return nil
-	case delegation.FieldTenantID:
-		m.ClearTenantID()
+	case delegation.FieldSpaceID:
+		m.ClearSpaceID()
 		return nil
 	case delegation.FieldCreatedBy:
 		m.ClearCreatedBy()
@@ -4295,8 +4295,8 @@ func (m *DelegationMutation) ResetField(name string) error {
 	case delegation.FieldExtras:
 		m.ResetExtras()
 		return nil
-	case delegation.FieldTenantID:
-		m.ResetTenantID()
+	case delegation.FieldSpaceID:
+		m.ResetSpaceID()
 		return nil
 	case delegation.FieldCreatedBy:
 		m.ResetCreatedBy()
@@ -4401,7 +4401,7 @@ type HistoryMutation struct {
 	node_config   *map[string]interface{}
 	node_rules    *map[string]interface{}
 	node_events   *map[string]interface{}
-	tenant_id     *string
+	space_id      *string
 	created_by    *string
 	updated_by    *string
 	created_at    *int64
@@ -4903,53 +4903,53 @@ func (m *HistoryMutation) ResetNodeEvents() {
 	delete(m.clearedFields, history.FieldNodeEvents)
 }
 
-// SetTenantID sets the "tenant_id" field.
-func (m *HistoryMutation) SetTenantID(s string) {
-	m.tenant_id = &s
+// SetSpaceID sets the "space_id" field.
+func (m *HistoryMutation) SetSpaceID(s string) {
+	m.space_id = &s
 }
 
-// TenantID returns the value of the "tenant_id" field in the mutation.
-func (m *HistoryMutation) TenantID() (r string, exists bool) {
-	v := m.tenant_id
+// SpaceID returns the value of the "space_id" field in the mutation.
+func (m *HistoryMutation) SpaceID() (r string, exists bool) {
+	v := m.space_id
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldTenantID returns the old "tenant_id" field's value of the History entity.
+// OldSpaceID returns the old "space_id" field's value of the History entity.
 // If the History object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *HistoryMutation) OldTenantID(ctx context.Context) (v string, err error) {
+func (m *HistoryMutation) OldSpaceID(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldTenantID is only allowed on UpdateOne operations")
+		return v, errors.New("OldSpaceID is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldTenantID requires an ID field in the mutation")
+		return v, errors.New("OldSpaceID requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldTenantID: %w", err)
+		return v, fmt.Errorf("querying old value for OldSpaceID: %w", err)
 	}
-	return oldValue.TenantID, nil
+	return oldValue.SpaceID, nil
 }
 
-// ClearTenantID clears the value of the "tenant_id" field.
-func (m *HistoryMutation) ClearTenantID() {
-	m.tenant_id = nil
-	m.clearedFields[history.FieldTenantID] = struct{}{}
+// ClearSpaceID clears the value of the "space_id" field.
+func (m *HistoryMutation) ClearSpaceID() {
+	m.space_id = nil
+	m.clearedFields[history.FieldSpaceID] = struct{}{}
 }
 
-// TenantIDCleared returns if the "tenant_id" field was cleared in this mutation.
-func (m *HistoryMutation) TenantIDCleared() bool {
-	_, ok := m.clearedFields[history.FieldTenantID]
+// SpaceIDCleared returns if the "space_id" field was cleared in this mutation.
+func (m *HistoryMutation) SpaceIDCleared() bool {
+	_, ok := m.clearedFields[history.FieldSpaceID]
 	return ok
 }
 
-// ResetTenantID resets all changes to the "tenant_id" field.
-func (m *HistoryMutation) ResetTenantID() {
-	m.tenant_id = nil
-	delete(m.clearedFields, history.FieldTenantID)
+// ResetSpaceID resets all changes to the "space_id" field.
+func (m *HistoryMutation) ResetSpaceID() {
+	m.space_id = nil
+	delete(m.clearedFields, history.FieldSpaceID)
 }
 
 // SetCreatedBy sets the "created_by" field.
@@ -5641,8 +5641,8 @@ func (m *HistoryMutation) Fields() []string {
 	if m.node_events != nil {
 		fields = append(fields, history.FieldNodeEvents)
 	}
-	if m.tenant_id != nil {
-		fields = append(fields, history.FieldTenantID)
+	if m.space_id != nil {
+		fields = append(fields, history.FieldSpaceID)
 	}
 	if m.created_by != nil {
 		fields = append(fields, history.FieldCreatedBy)
@@ -5709,8 +5709,8 @@ func (m *HistoryMutation) Field(name string) (ent.Value, bool) {
 		return m.NodeRules()
 	case history.FieldNodeEvents:
 		return m.NodeEvents()
-	case history.FieldTenantID:
-		return m.TenantID()
+	case history.FieldSpaceID:
+		return m.SpaceID()
 	case history.FieldCreatedBy:
 		return m.CreatedBy()
 	case history.FieldUpdatedBy:
@@ -5764,8 +5764,8 @@ func (m *HistoryMutation) OldField(ctx context.Context, name string) (ent.Value,
 		return m.OldNodeRules(ctx)
 	case history.FieldNodeEvents:
 		return m.OldNodeEvents(ctx)
-	case history.FieldTenantID:
-		return m.OldTenantID(ctx)
+	case history.FieldSpaceID:
+		return m.OldSpaceID(ctx)
 	case history.FieldCreatedBy:
 		return m.OldCreatedBy(ctx)
 	case history.FieldUpdatedBy:
@@ -5864,12 +5864,12 @@ func (m *HistoryMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetNodeEvents(v)
 		return nil
-	case history.FieldTenantID:
+	case history.FieldSpaceID:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetTenantID(v)
+		m.SetSpaceID(v)
 		return nil
 	case history.FieldCreatedBy:
 		v, ok := value.(string)
@@ -6031,8 +6031,8 @@ func (m *HistoryMutation) ClearedFields() []string {
 	if m.FieldCleared(history.FieldNodeEvents) {
 		fields = append(fields, history.FieldNodeEvents)
 	}
-	if m.FieldCleared(history.FieldTenantID) {
-		fields = append(fields, history.FieldTenantID)
+	if m.FieldCleared(history.FieldSpaceID) {
+		fields = append(fields, history.FieldSpaceID)
 	}
 	if m.FieldCleared(history.FieldCreatedBy) {
 		fields = append(fields, history.FieldCreatedBy)
@@ -6087,8 +6087,8 @@ func (m *HistoryMutation) ClearField(name string) error {
 	case history.FieldNodeEvents:
 		m.ClearNodeEvents()
 		return nil
-	case history.FieldTenantID:
-		m.ClearTenantID()
+	case history.FieldSpaceID:
+		m.ClearSpaceID()
 		return nil
 	case history.FieldCreatedBy:
 		m.ClearCreatedBy()
@@ -6152,8 +6152,8 @@ func (m *HistoryMutation) ResetField(name string) error {
 	case history.FieldNodeEvents:
 		m.ResetNodeEvents()
 		return nil
-	case history.FieldTenantID:
-		m.ResetTenantID()
+	case history.FieldSpaceID:
+		m.ResetSpaceID()
 		return nil
 	case history.FieldCreatedBy:
 		m.ResetCreatedBy()
@@ -6295,7 +6295,7 @@ type NodeMutation struct {
 	reminder_count       *int
 	addreminder_count    *int
 	extras               *map[string]interface{}
-	tenant_id            *string
+	space_id             *string
 	created_by           *string
 	updated_by           *string
 	created_at           *int64
@@ -8070,53 +8070,53 @@ func (m *NodeMutation) ResetExtras() {
 	delete(m.clearedFields, node.FieldExtras)
 }
 
-// SetTenantID sets the "tenant_id" field.
-func (m *NodeMutation) SetTenantID(s string) {
-	m.tenant_id = &s
+// SetSpaceID sets the "space_id" field.
+func (m *NodeMutation) SetSpaceID(s string) {
+	m.space_id = &s
 }
 
-// TenantID returns the value of the "tenant_id" field in the mutation.
-func (m *NodeMutation) TenantID() (r string, exists bool) {
-	v := m.tenant_id
+// SpaceID returns the value of the "space_id" field in the mutation.
+func (m *NodeMutation) SpaceID() (r string, exists bool) {
+	v := m.space_id
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldTenantID returns the old "tenant_id" field's value of the Node entity.
+// OldSpaceID returns the old "space_id" field's value of the Node entity.
 // If the Node object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *NodeMutation) OldTenantID(ctx context.Context) (v string, err error) {
+func (m *NodeMutation) OldSpaceID(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldTenantID is only allowed on UpdateOne operations")
+		return v, errors.New("OldSpaceID is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldTenantID requires an ID field in the mutation")
+		return v, errors.New("OldSpaceID requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldTenantID: %w", err)
+		return v, fmt.Errorf("querying old value for OldSpaceID: %w", err)
 	}
-	return oldValue.TenantID, nil
+	return oldValue.SpaceID, nil
 }
 
-// ClearTenantID clears the value of the "tenant_id" field.
-func (m *NodeMutation) ClearTenantID() {
-	m.tenant_id = nil
-	m.clearedFields[node.FieldTenantID] = struct{}{}
+// ClearSpaceID clears the value of the "space_id" field.
+func (m *NodeMutation) ClearSpaceID() {
+	m.space_id = nil
+	m.clearedFields[node.FieldSpaceID] = struct{}{}
 }
 
-// TenantIDCleared returns if the "tenant_id" field was cleared in this mutation.
-func (m *NodeMutation) TenantIDCleared() bool {
-	_, ok := m.clearedFields[node.FieldTenantID]
+// SpaceIDCleared returns if the "space_id" field was cleared in this mutation.
+func (m *NodeMutation) SpaceIDCleared() bool {
+	_, ok := m.clearedFields[node.FieldSpaceID]
 	return ok
 }
 
-// ResetTenantID resets all changes to the "tenant_id" field.
-func (m *NodeMutation) ResetTenantID() {
-	m.tenant_id = nil
-	delete(m.clearedFields, node.FieldTenantID)
+// ResetSpaceID resets all changes to the "space_id" field.
+func (m *NodeMutation) ResetSpaceID() {
+	m.space_id = nil
+	delete(m.clearedFields, node.FieldSpaceID)
 }
 
 // SetCreatedBy sets the "created_by" field.
@@ -9400,8 +9400,8 @@ func (m *NodeMutation) Fields() []string {
 	if m.extras != nil {
 		fields = append(fields, node.FieldExtras)
 	}
-	if m.tenant_id != nil {
-		fields = append(fields, node.FieldTenantID)
+	if m.space_id != nil {
+		fields = append(fields, node.FieldSpaceID)
 	}
 	if m.created_by != nil {
 		fields = append(fields, node.FieldCreatedBy)
@@ -9544,8 +9544,8 @@ func (m *NodeMutation) Field(name string) (ent.Value, bool) {
 		return m.ReminderCount()
 	case node.FieldExtras:
 		return m.Extras()
-	case node.FieldTenantID:
-		return m.TenantID()
+	case node.FieldSpaceID:
+		return m.SpaceID()
 	case node.FieldCreatedBy:
 		return m.CreatedBy()
 	case node.FieldUpdatedBy:
@@ -9667,8 +9667,8 @@ func (m *NodeMutation) OldField(ctx context.Context, name string) (ent.Value, er
 		return m.OldReminderCount(ctx)
 	case node.FieldExtras:
 		return m.OldExtras(ctx)
-	case node.FieldTenantID:
-		return m.OldTenantID(ctx)
+	case node.FieldSpaceID:
+		return m.OldSpaceID(ctx)
 	case node.FieldCreatedBy:
 		return m.OldCreatedBy(ctx)
 	case node.FieldUpdatedBy:
@@ -9965,12 +9965,12 @@ func (m *NodeMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetExtras(v)
 		return nil
-	case node.FieldTenantID:
+	case node.FieldSpaceID:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetTenantID(v)
+		m.SetSpaceID(v)
 		return nil
 	case node.FieldCreatedBy:
 		v, ok := value.(string)
@@ -10323,8 +10323,8 @@ func (m *NodeMutation) ClearedFields() []string {
 	if m.FieldCleared(node.FieldExtras) {
 		fields = append(fields, node.FieldExtras)
 	}
-	if m.FieldCleared(node.FieldTenantID) {
-		fields = append(fields, node.FieldTenantID)
+	if m.FieldCleared(node.FieldSpaceID) {
+		fields = append(fields, node.FieldSpaceID)
 	}
 	if m.FieldCleared(node.FieldCreatedBy) {
 		fields = append(fields, node.FieldCreatedBy)
@@ -10442,8 +10442,8 @@ func (m *NodeMutation) ClearField(name string) error {
 	case node.FieldExtras:
 		m.ClearExtras()
 		return nil
-	case node.FieldTenantID:
-		m.ClearTenantID()
+	case node.FieldSpaceID:
+		m.ClearSpaceID()
 		return nil
 	case node.FieldCreatedBy:
 		m.ClearCreatedBy()
@@ -10609,8 +10609,8 @@ func (m *NodeMutation) ResetField(name string) error {
 	case node.FieldExtras:
 		m.ResetExtras()
 		return nil
-	case node.FieldTenantID:
-		m.ResetTenantID()
+	case node.FieldSpaceID:
+		m.ResetSpaceID()
 		return nil
 	case node.FieldCreatedBy:
 		m.ResetCreatedBy()
@@ -10773,7 +10773,7 @@ type ProcessMutation struct {
 	is_auto_start       *bool
 	strict_mode         *bool
 	extras              *map[string]interface{}
-	tenant_id           *string
+	space_id            *string
 	created_by          *string
 	updated_by          *string
 	created_at          *int64
@@ -12411,53 +12411,53 @@ func (m *ProcessMutation) ResetExtras() {
 	delete(m.clearedFields, process.FieldExtras)
 }
 
-// SetTenantID sets the "tenant_id" field.
-func (m *ProcessMutation) SetTenantID(s string) {
-	m.tenant_id = &s
+// SetSpaceID sets the "space_id" field.
+func (m *ProcessMutation) SetSpaceID(s string) {
+	m.space_id = &s
 }
 
-// TenantID returns the value of the "tenant_id" field in the mutation.
-func (m *ProcessMutation) TenantID() (r string, exists bool) {
-	v := m.tenant_id
+// SpaceID returns the value of the "space_id" field in the mutation.
+func (m *ProcessMutation) SpaceID() (r string, exists bool) {
+	v := m.space_id
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldTenantID returns the old "tenant_id" field's value of the Process entity.
+// OldSpaceID returns the old "space_id" field's value of the Process entity.
 // If the Process object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *ProcessMutation) OldTenantID(ctx context.Context) (v string, err error) {
+func (m *ProcessMutation) OldSpaceID(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldTenantID is only allowed on UpdateOne operations")
+		return v, errors.New("OldSpaceID is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldTenantID requires an ID field in the mutation")
+		return v, errors.New("OldSpaceID requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldTenantID: %w", err)
+		return v, fmt.Errorf("querying old value for OldSpaceID: %w", err)
 	}
-	return oldValue.TenantID, nil
+	return oldValue.SpaceID, nil
 }
 
-// ClearTenantID clears the value of the "tenant_id" field.
-func (m *ProcessMutation) ClearTenantID() {
-	m.tenant_id = nil
-	m.clearedFields[process.FieldTenantID] = struct{}{}
+// ClearSpaceID clears the value of the "space_id" field.
+func (m *ProcessMutation) ClearSpaceID() {
+	m.space_id = nil
+	m.clearedFields[process.FieldSpaceID] = struct{}{}
 }
 
-// TenantIDCleared returns if the "tenant_id" field was cleared in this mutation.
-func (m *ProcessMutation) TenantIDCleared() bool {
-	_, ok := m.clearedFields[process.FieldTenantID]
+// SpaceIDCleared returns if the "space_id" field was cleared in this mutation.
+func (m *ProcessMutation) SpaceIDCleared() bool {
+	_, ok := m.clearedFields[process.FieldSpaceID]
 	return ok
 }
 
-// ResetTenantID resets all changes to the "tenant_id" field.
-func (m *ProcessMutation) ResetTenantID() {
-	m.tenant_id = nil
-	delete(m.clearedFields, process.FieldTenantID)
+// ResetSpaceID resets all changes to the "space_id" field.
+func (m *ProcessMutation) ResetSpaceID() {
+	m.space_id = nil
+	delete(m.clearedFields, process.FieldSpaceID)
 }
 
 // SetCreatedBy sets the "created_by" field.
@@ -13293,8 +13293,8 @@ func (m *ProcessMutation) Fields() []string {
 	if m.extras != nil {
 		fields = append(fields, process.FieldExtras)
 	}
-	if m.tenant_id != nil {
-		fields = append(fields, process.FieldTenantID)
+	if m.space_id != nil {
+		fields = append(fields, process.FieldSpaceID)
 	}
 	if m.created_by != nil {
 		fields = append(fields, process.FieldCreatedBy)
@@ -13412,8 +13412,8 @@ func (m *ProcessMutation) Field(name string) (ent.Value, bool) {
 		return m.StrictMode()
 	case process.FieldExtras:
 		return m.Extras()
-	case process.FieldTenantID:
-		return m.TenantID()
+	case process.FieldSpaceID:
+		return m.SpaceID()
 	case process.FieldCreatedBy:
 		return m.CreatedBy()
 	case process.FieldUpdatedBy:
@@ -13517,8 +13517,8 @@ func (m *ProcessMutation) OldField(ctx context.Context, name string) (ent.Value,
 		return m.OldStrictMode(ctx)
 	case process.FieldExtras:
 		return m.OldExtras(ctx)
-	case process.FieldTenantID:
-		return m.OldTenantID(ctx)
+	case process.FieldSpaceID:
+		return m.OldSpaceID(ctx)
 	case process.FieldCreatedBy:
 		return m.OldCreatedBy(ctx)
 	case process.FieldUpdatedBy:
@@ -13787,12 +13787,12 @@ func (m *ProcessMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetExtras(v)
 		return nil
-	case process.FieldTenantID:
+	case process.FieldSpaceID:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetTenantID(v)
+		m.SetSpaceID(v)
 		return nil
 	case process.FieldCreatedBy:
 		v, ok := value.(string)
@@ -14075,8 +14075,8 @@ func (m *ProcessMutation) ClearedFields() []string {
 	if m.FieldCleared(process.FieldExtras) {
 		fields = append(fields, process.FieldExtras)
 	}
-	if m.FieldCleared(process.FieldTenantID) {
-		fields = append(fields, process.FieldTenantID)
+	if m.FieldCleared(process.FieldSpaceID) {
+		fields = append(fields, process.FieldSpaceID)
 	}
 	if m.FieldCleared(process.FieldCreatedBy) {
 		fields = append(fields, process.FieldCreatedBy)
@@ -14161,8 +14161,8 @@ func (m *ProcessMutation) ClearField(name string) error {
 	case process.FieldExtras:
 		m.ClearExtras()
 		return nil
-	case process.FieldTenantID:
-		m.ClearTenantID()
+	case process.FieldSpaceID:
+		m.ClearSpaceID()
 		return nil
 	case process.FieldCreatedBy:
 		m.ClearCreatedBy()
@@ -14298,8 +14298,8 @@ func (m *ProcessMutation) ResetField(name string) error {
 	case process.FieldExtras:
 		m.ResetExtras()
 		return nil
-	case process.FieldTenantID:
-		m.ResetTenantID()
+	case process.FieldSpaceID:
+		m.ResetSpaceID()
 		return nil
 	case process.FieldCreatedBy:
 		m.ResetCreatedBy()
@@ -14404,7 +14404,7 @@ type ProcessDesignMutation struct {
 	version          *string
 	disabled         *bool
 	extras           *map[string]interface{}
-	tenant_id        *string
+	space_id         *string
 	created_by       *string
 	updated_by       *string
 	created_at       *int64
@@ -14675,53 +14675,53 @@ func (m *ProcessDesignMutation) ResetExtras() {
 	delete(m.clearedFields, processdesign.FieldExtras)
 }
 
-// SetTenantID sets the "tenant_id" field.
-func (m *ProcessDesignMutation) SetTenantID(s string) {
-	m.tenant_id = &s
+// SetSpaceID sets the "space_id" field.
+func (m *ProcessDesignMutation) SetSpaceID(s string) {
+	m.space_id = &s
 }
 
-// TenantID returns the value of the "tenant_id" field in the mutation.
-func (m *ProcessDesignMutation) TenantID() (r string, exists bool) {
-	v := m.tenant_id
+// SpaceID returns the value of the "space_id" field in the mutation.
+func (m *ProcessDesignMutation) SpaceID() (r string, exists bool) {
+	v := m.space_id
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldTenantID returns the old "tenant_id" field's value of the ProcessDesign entity.
+// OldSpaceID returns the old "space_id" field's value of the ProcessDesign entity.
 // If the ProcessDesign object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *ProcessDesignMutation) OldTenantID(ctx context.Context) (v string, err error) {
+func (m *ProcessDesignMutation) OldSpaceID(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldTenantID is only allowed on UpdateOne operations")
+		return v, errors.New("OldSpaceID is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldTenantID requires an ID field in the mutation")
+		return v, errors.New("OldSpaceID requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldTenantID: %w", err)
+		return v, fmt.Errorf("querying old value for OldSpaceID: %w", err)
 	}
-	return oldValue.TenantID, nil
+	return oldValue.SpaceID, nil
 }
 
-// ClearTenantID clears the value of the "tenant_id" field.
-func (m *ProcessDesignMutation) ClearTenantID() {
-	m.tenant_id = nil
-	m.clearedFields[processdesign.FieldTenantID] = struct{}{}
+// ClearSpaceID clears the value of the "space_id" field.
+func (m *ProcessDesignMutation) ClearSpaceID() {
+	m.space_id = nil
+	m.clearedFields[processdesign.FieldSpaceID] = struct{}{}
 }
 
-// TenantIDCleared returns if the "tenant_id" field was cleared in this mutation.
-func (m *ProcessDesignMutation) TenantIDCleared() bool {
-	_, ok := m.clearedFields[processdesign.FieldTenantID]
+// SpaceIDCleared returns if the "space_id" field was cleared in this mutation.
+func (m *ProcessDesignMutation) SpaceIDCleared() bool {
+	_, ok := m.clearedFields[processdesign.FieldSpaceID]
 	return ok
 }
 
-// ResetTenantID resets all changes to the "tenant_id" field.
-func (m *ProcessDesignMutation) ResetTenantID() {
-	m.tenant_id = nil
-	delete(m.clearedFields, processdesign.FieldTenantID)
+// ResetSpaceID resets all changes to the "space_id" field.
+func (m *ProcessDesignMutation) ResetSpaceID() {
+	m.space_id = nil
+	delete(m.clearedFields, processdesign.FieldSpaceID)
 }
 
 // SetCreatedBy sets the "created_by" field.
@@ -15323,8 +15323,8 @@ func (m *ProcessDesignMutation) Fields() []string {
 	if m.extras != nil {
 		fields = append(fields, processdesign.FieldExtras)
 	}
-	if m.tenant_id != nil {
-		fields = append(fields, processdesign.FieldTenantID)
+	if m.space_id != nil {
+		fields = append(fields, processdesign.FieldSpaceID)
 	}
 	if m.created_by != nil {
 		fields = append(fields, processdesign.FieldCreatedBy)
@@ -15373,8 +15373,8 @@ func (m *ProcessDesignMutation) Field(name string) (ent.Value, bool) {
 		return m.Disabled()
 	case processdesign.FieldExtras:
 		return m.Extras()
-	case processdesign.FieldTenantID:
-		return m.TenantID()
+	case processdesign.FieldSpaceID:
+		return m.SpaceID()
 	case processdesign.FieldCreatedBy:
 		return m.CreatedBy()
 	case processdesign.FieldUpdatedBy:
@@ -15412,8 +15412,8 @@ func (m *ProcessDesignMutation) OldField(ctx context.Context, name string) (ent.
 		return m.OldDisabled(ctx)
 	case processdesign.FieldExtras:
 		return m.OldExtras(ctx)
-	case processdesign.FieldTenantID:
-		return m.OldTenantID(ctx)
+	case processdesign.FieldSpaceID:
+		return m.OldSpaceID(ctx)
 	case processdesign.FieldCreatedBy:
 		return m.OldCreatedBy(ctx)
 	case processdesign.FieldUpdatedBy:
@@ -15466,12 +15466,12 @@ func (m *ProcessDesignMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetExtras(v)
 		return nil
-	case processdesign.FieldTenantID:
+	case processdesign.FieldSpaceID:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetTenantID(v)
+		m.SetSpaceID(v)
 		return nil
 	case processdesign.FieldCreatedBy:
 		v, ok := value.(string)
@@ -15616,8 +15616,8 @@ func (m *ProcessDesignMutation) ClearedFields() []string {
 	if m.FieldCleared(processdesign.FieldExtras) {
 		fields = append(fields, processdesign.FieldExtras)
 	}
-	if m.FieldCleared(processdesign.FieldTenantID) {
-		fields = append(fields, processdesign.FieldTenantID)
+	if m.FieldCleared(processdesign.FieldSpaceID) {
+		fields = append(fields, processdesign.FieldSpaceID)
 	}
 	if m.FieldCleared(processdesign.FieldCreatedBy) {
 		fields = append(fields, processdesign.FieldCreatedBy)
@@ -15669,8 +15669,8 @@ func (m *ProcessDesignMutation) ClearField(name string) error {
 	case processdesign.FieldExtras:
 		m.ClearExtras()
 		return nil
-	case processdesign.FieldTenantID:
-		m.ClearTenantID()
+	case processdesign.FieldSpaceID:
+		m.ClearSpaceID()
 		return nil
 	case processdesign.FieldCreatedBy:
 		m.ClearCreatedBy()
@@ -15716,8 +15716,8 @@ func (m *ProcessDesignMutation) ResetField(name string) error {
 	case processdesign.FieldExtras:
 		m.ResetExtras()
 		return nil
-	case processdesign.FieldTenantID:
-		m.ResetTenantID()
+	case processdesign.FieldSpaceID:
+		m.ResetSpaceID()
 		return nil
 	case processdesign.FieldCreatedBy:
 		m.ResetCreatedBy()
@@ -15816,7 +15816,7 @@ type RuleMutation struct {
 	_type             *string
 	status            *string
 	extras            *map[string]interface{}
-	tenant_id         *string
+	space_id          *string
 	created_by        *string
 	updated_by        *string
 	created_at        *int64
@@ -16240,53 +16240,53 @@ func (m *RuleMutation) ResetExtras() {
 	delete(m.clearedFields, rule.FieldExtras)
 }
 
-// SetTenantID sets the "tenant_id" field.
-func (m *RuleMutation) SetTenantID(s string) {
-	m.tenant_id = &s
+// SetSpaceID sets the "space_id" field.
+func (m *RuleMutation) SetSpaceID(s string) {
+	m.space_id = &s
 }
 
-// TenantID returns the value of the "tenant_id" field in the mutation.
-func (m *RuleMutation) TenantID() (r string, exists bool) {
-	v := m.tenant_id
+// SpaceID returns the value of the "space_id" field in the mutation.
+func (m *RuleMutation) SpaceID() (r string, exists bool) {
+	v := m.space_id
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldTenantID returns the old "tenant_id" field's value of the Rule entity.
+// OldSpaceID returns the old "space_id" field's value of the Rule entity.
 // If the Rule object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *RuleMutation) OldTenantID(ctx context.Context) (v string, err error) {
+func (m *RuleMutation) OldSpaceID(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldTenantID is only allowed on UpdateOne operations")
+		return v, errors.New("OldSpaceID is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldTenantID requires an ID field in the mutation")
+		return v, errors.New("OldSpaceID requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldTenantID: %w", err)
+		return v, fmt.Errorf("querying old value for OldSpaceID: %w", err)
 	}
-	return oldValue.TenantID, nil
+	return oldValue.SpaceID, nil
 }
 
-// ClearTenantID clears the value of the "tenant_id" field.
-func (m *RuleMutation) ClearTenantID() {
-	m.tenant_id = nil
-	m.clearedFields[rule.FieldTenantID] = struct{}{}
+// ClearSpaceID clears the value of the "space_id" field.
+func (m *RuleMutation) ClearSpaceID() {
+	m.space_id = nil
+	m.clearedFields[rule.FieldSpaceID] = struct{}{}
 }
 
-// TenantIDCleared returns if the "tenant_id" field was cleared in this mutation.
-func (m *RuleMutation) TenantIDCleared() bool {
-	_, ok := m.clearedFields[rule.FieldTenantID]
+// SpaceIDCleared returns if the "space_id" field was cleared in this mutation.
+func (m *RuleMutation) SpaceIDCleared() bool {
+	_, ok := m.clearedFields[rule.FieldSpaceID]
 	return ok
 }
 
-// ResetTenantID resets all changes to the "tenant_id" field.
-func (m *RuleMutation) ResetTenantID() {
-	m.tenant_id = nil
-	delete(m.clearedFields, rule.FieldTenantID)
+// ResetSpaceID resets all changes to the "space_id" field.
+func (m *RuleMutation) ResetSpaceID() {
+	m.space_id = nil
+	delete(m.clearedFields, rule.FieldSpaceID)
 }
 
 // SetCreatedBy sets the "created_by" field.
@@ -17033,8 +17033,8 @@ func (m *RuleMutation) Fields() []string {
 	if m.extras != nil {
 		fields = append(fields, rule.FieldExtras)
 	}
-	if m.tenant_id != nil {
-		fields = append(fields, rule.FieldTenantID)
+	if m.space_id != nil {
+		fields = append(fields, rule.FieldSpaceID)
 	}
 	if m.created_by != nil {
 		fields = append(fields, rule.FieldCreatedBy)
@@ -17095,8 +17095,8 @@ func (m *RuleMutation) Field(name string) (ent.Value, bool) {
 		return m.Status()
 	case rule.FieldExtras:
 		return m.Extras()
-	case rule.FieldTenantID:
-		return m.TenantID()
+	case rule.FieldSpaceID:
+		return m.SpaceID()
 	case rule.FieldCreatedBy:
 		return m.CreatedBy()
 	case rule.FieldUpdatedBy:
@@ -17144,8 +17144,8 @@ func (m *RuleMutation) OldField(ctx context.Context, name string) (ent.Value, er
 		return m.OldStatus(ctx)
 	case rule.FieldExtras:
 		return m.OldExtras(ctx)
-	case rule.FieldTenantID:
-		return m.OldTenantID(ctx)
+	case rule.FieldSpaceID:
+		return m.OldSpaceID(ctx)
 	case rule.FieldCreatedBy:
 		return m.OldCreatedBy(ctx)
 	case rule.FieldUpdatedBy:
@@ -17223,12 +17223,12 @@ func (m *RuleMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetExtras(v)
 		return nil
-	case rule.FieldTenantID:
+	case rule.FieldSpaceID:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetTenantID(v)
+		m.SetSpaceID(v)
 		return nil
 	case rule.FieldCreatedBy:
 		v, ok := value.(string)
@@ -17432,8 +17432,8 @@ func (m *RuleMutation) ClearedFields() []string {
 	if m.FieldCleared(rule.FieldExtras) {
 		fields = append(fields, rule.FieldExtras)
 	}
-	if m.FieldCleared(rule.FieldTenantID) {
-		fields = append(fields, rule.FieldTenantID)
+	if m.FieldCleared(rule.FieldSpaceID) {
+		fields = append(fields, rule.FieldSpaceID)
 	}
 	if m.FieldCleared(rule.FieldCreatedBy) {
 		fields = append(fields, rule.FieldCreatedBy)
@@ -17491,8 +17491,8 @@ func (m *RuleMutation) ClearField(name string) error {
 	case rule.FieldExtras:
 		m.ClearExtras()
 		return nil
-	case rule.FieldTenantID:
-		m.ClearTenantID()
+	case rule.FieldSpaceID:
+		m.ClearSpaceID()
 		return nil
 	case rule.FieldCreatedBy:
 		m.ClearCreatedBy()
@@ -17544,8 +17544,8 @@ func (m *RuleMutation) ResetField(name string) error {
 	case rule.FieldExtras:
 		m.ResetExtras()
 		return nil
-	case rule.FieldTenantID:
-		m.ResetTenantID()
+	case rule.FieldSpaceID:
+		m.ResetSpaceID()
 		return nil
 	case rule.FieldCreatedBy:
 		m.ResetCreatedBy()
@@ -17684,7 +17684,7 @@ type TaskMutation struct {
 	is_auto_start     *bool
 	strict_mode       *bool
 	extras            *map[string]interface{}
-	tenant_id         *string
+	space_id          *string
 	created_by        *string
 	updated_by        *string
 	created_at        *int64
@@ -19277,53 +19277,53 @@ func (m *TaskMutation) ResetExtras() {
 	delete(m.clearedFields, task.FieldExtras)
 }
 
-// SetTenantID sets the "tenant_id" field.
-func (m *TaskMutation) SetTenantID(s string) {
-	m.tenant_id = &s
+// SetSpaceID sets the "space_id" field.
+func (m *TaskMutation) SetSpaceID(s string) {
+	m.space_id = &s
 }
 
-// TenantID returns the value of the "tenant_id" field in the mutation.
-func (m *TaskMutation) TenantID() (r string, exists bool) {
-	v := m.tenant_id
+// SpaceID returns the value of the "space_id" field in the mutation.
+func (m *TaskMutation) SpaceID() (r string, exists bool) {
+	v := m.space_id
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldTenantID returns the old "tenant_id" field's value of the Task entity.
+// OldSpaceID returns the old "space_id" field's value of the Task entity.
 // If the Task object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *TaskMutation) OldTenantID(ctx context.Context) (v string, err error) {
+func (m *TaskMutation) OldSpaceID(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldTenantID is only allowed on UpdateOne operations")
+		return v, errors.New("OldSpaceID is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldTenantID requires an ID field in the mutation")
+		return v, errors.New("OldSpaceID requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldTenantID: %w", err)
+		return v, fmt.Errorf("querying old value for OldSpaceID: %w", err)
 	}
-	return oldValue.TenantID, nil
+	return oldValue.SpaceID, nil
 }
 
-// ClearTenantID clears the value of the "tenant_id" field.
-func (m *TaskMutation) ClearTenantID() {
-	m.tenant_id = nil
-	m.clearedFields[task.FieldTenantID] = struct{}{}
+// ClearSpaceID clears the value of the "space_id" field.
+func (m *TaskMutation) ClearSpaceID() {
+	m.space_id = nil
+	m.clearedFields[task.FieldSpaceID] = struct{}{}
 }
 
-// TenantIDCleared returns if the "tenant_id" field was cleared in this mutation.
-func (m *TaskMutation) TenantIDCleared() bool {
-	_, ok := m.clearedFields[task.FieldTenantID]
+// SpaceIDCleared returns if the "space_id" field was cleared in this mutation.
+func (m *TaskMutation) SpaceIDCleared() bool {
+	_, ok := m.clearedFields[task.FieldSpaceID]
 	return ok
 }
 
-// ResetTenantID resets all changes to the "tenant_id" field.
-func (m *TaskMutation) ResetTenantID() {
-	m.tenant_id = nil
-	delete(m.clearedFields, task.FieldTenantID)
+// ResetSpaceID resets all changes to the "space_id" field.
+func (m *TaskMutation) ResetSpaceID() {
+	m.space_id = nil
+	delete(m.clearedFields, task.FieldSpaceID)
 }
 
 // SetCreatedBy sets the "created_by" field.
@@ -20274,8 +20274,8 @@ func (m *TaskMutation) Fields() []string {
 	if m.extras != nil {
 		fields = append(fields, task.FieldExtras)
 	}
-	if m.tenant_id != nil {
-		fields = append(fields, task.FieldTenantID)
+	if m.space_id != nil {
+		fields = append(fields, task.FieldSpaceID)
 	}
 	if m.created_by != nil {
 		fields = append(fields, task.FieldCreatedBy)
@@ -20397,8 +20397,8 @@ func (m *TaskMutation) Field(name string) (ent.Value, bool) {
 		return m.StrictMode()
 	case task.FieldExtras:
 		return m.Extras()
-	case task.FieldTenantID:
-		return m.TenantID()
+	case task.FieldSpaceID:
+		return m.SpaceID()
 	case task.FieldCreatedBy:
 		return m.CreatedBy()
 	case task.FieldUpdatedBy:
@@ -20504,8 +20504,8 @@ func (m *TaskMutation) OldField(ctx context.Context, name string) (ent.Value, er
 		return m.OldStrictMode(ctx)
 	case task.FieldExtras:
 		return m.OldExtras(ctx)
-	case task.FieldTenantID:
-		return m.OldTenantID(ctx)
+	case task.FieldSpaceID:
+		return m.OldSpaceID(ctx)
 	case task.FieldCreatedBy:
 		return m.OldCreatedBy(ctx)
 	case task.FieldUpdatedBy:
@@ -20771,12 +20771,12 @@ func (m *TaskMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetExtras(v)
 		return nil
-	case task.FieldTenantID:
+	case task.FieldSpaceID:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetTenantID(v)
+		m.SetSpaceID(v)
 		return nil
 	case task.FieldCreatedBy:
 		v, ok := value.(string)
@@ -21079,8 +21079,8 @@ func (m *TaskMutation) ClearedFields() []string {
 	if m.FieldCleared(task.FieldExtras) {
 		fields = append(fields, task.FieldExtras)
 	}
-	if m.FieldCleared(task.FieldTenantID) {
-		fields = append(fields, task.FieldTenantID)
+	if m.FieldCleared(task.FieldSpaceID) {
+		fields = append(fields, task.FieldSpaceID)
 	}
 	if m.FieldCleared(task.FieldCreatedBy) {
 		fields = append(fields, task.FieldCreatedBy)
@@ -21165,8 +21165,8 @@ func (m *TaskMutation) ClearField(name string) error {
 	case task.FieldExtras:
 		m.ClearExtras()
 		return nil
-	case task.FieldTenantID:
-		m.ClearTenantID()
+	case task.FieldSpaceID:
+		m.ClearSpaceID()
 		return nil
 	case task.FieldCreatedBy:
 		m.ClearCreatedBy()
@@ -21305,8 +21305,8 @@ func (m *TaskMutation) ResetField(name string) error {
 	case task.FieldExtras:
 		m.ResetExtras()
 		return nil
-	case task.FieldTenantID:
-		m.ResetTenantID()
+	case task.FieldSpaceID:
+		m.ResetSpaceID()
 		return nil
 	case task.FieldCreatedBy:
 		m.ResetCreatedBy()
@@ -21450,7 +21450,7 @@ type TemplateMutation struct {
 	role_configs        *map[string]interface{}
 	visible_range       *map[string]interface{}
 	extras              *map[string]interface{}
-	tenant_id           *string
+	space_id            *string
 	created_by          *string
 	updated_by          *string
 	created_at          *int64
@@ -23100,53 +23100,53 @@ func (m *TemplateMutation) ResetExtras() {
 	delete(m.clearedFields, template.FieldExtras)
 }
 
-// SetTenantID sets the "tenant_id" field.
-func (m *TemplateMutation) SetTenantID(s string) {
-	m.tenant_id = &s
+// SetSpaceID sets the "space_id" field.
+func (m *TemplateMutation) SetSpaceID(s string) {
+	m.space_id = &s
 }
 
-// TenantID returns the value of the "tenant_id" field in the mutation.
-func (m *TemplateMutation) TenantID() (r string, exists bool) {
-	v := m.tenant_id
+// SpaceID returns the value of the "space_id" field in the mutation.
+func (m *TemplateMutation) SpaceID() (r string, exists bool) {
+	v := m.space_id
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldTenantID returns the old "tenant_id" field's value of the Template entity.
+// OldSpaceID returns the old "space_id" field's value of the Template entity.
 // If the Template object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *TemplateMutation) OldTenantID(ctx context.Context) (v string, err error) {
+func (m *TemplateMutation) OldSpaceID(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldTenantID is only allowed on UpdateOne operations")
+		return v, errors.New("OldSpaceID is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldTenantID requires an ID field in the mutation")
+		return v, errors.New("OldSpaceID requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldTenantID: %w", err)
+		return v, fmt.Errorf("querying old value for OldSpaceID: %w", err)
 	}
-	return oldValue.TenantID, nil
+	return oldValue.SpaceID, nil
 }
 
-// ClearTenantID clears the value of the "tenant_id" field.
-func (m *TemplateMutation) ClearTenantID() {
-	m.tenant_id = nil
-	m.clearedFields[template.FieldTenantID] = struct{}{}
+// ClearSpaceID clears the value of the "space_id" field.
+func (m *TemplateMutation) ClearSpaceID() {
+	m.space_id = nil
+	m.clearedFields[template.FieldSpaceID] = struct{}{}
 }
 
-// TenantIDCleared returns if the "tenant_id" field was cleared in this mutation.
-func (m *TemplateMutation) TenantIDCleared() bool {
-	_, ok := m.clearedFields[template.FieldTenantID]
+// SpaceIDCleared returns if the "space_id" field was cleared in this mutation.
+func (m *TemplateMutation) SpaceIDCleared() bool {
+	_, ok := m.clearedFields[template.FieldSpaceID]
 	return ok
 }
 
-// ResetTenantID resets all changes to the "tenant_id" field.
-func (m *TemplateMutation) ResetTenantID() {
-	m.tenant_id = nil
-	delete(m.clearedFields, template.FieldTenantID)
+// ResetSpaceID resets all changes to the "space_id" field.
+func (m *TemplateMutation) ResetSpaceID() {
+	m.space_id = nil
+	delete(m.clearedFields, template.FieldSpaceID)
 }
 
 // SetCreatedBy sets the "created_by" field.
@@ -23978,8 +23978,8 @@ func (m *TemplateMutation) Fields() []string {
 	if m.extras != nil {
 		fields = append(fields, template.FieldExtras)
 	}
-	if m.tenant_id != nil {
-		fields = append(fields, template.FieldTenantID)
+	if m.space_id != nil {
+		fields = append(fields, template.FieldSpaceID)
 	}
 	if m.created_by != nil {
 		fields = append(fields, template.FieldCreatedBy)
@@ -24094,8 +24094,8 @@ func (m *TemplateMutation) Field(name string) (ent.Value, bool) {
 		return m.VisibleRange()
 	case template.FieldExtras:
 		return m.Extras()
-	case template.FieldTenantID:
-		return m.TenantID()
+	case template.FieldSpaceID:
+		return m.SpaceID()
 	case template.FieldCreatedBy:
 		return m.CreatedBy()
 	case template.FieldUpdatedBy:
@@ -24197,8 +24197,8 @@ func (m *TemplateMutation) OldField(ctx context.Context, name string) (ent.Value
 		return m.OldVisibleRange(ctx)
 	case template.FieldExtras:
 		return m.OldExtras(ctx)
-	case template.FieldTenantID:
-		return m.OldTenantID(ctx)
+	case template.FieldSpaceID:
+		return m.OldSpaceID(ctx)
 	case template.FieldCreatedBy:
 		return m.OldCreatedBy(ctx)
 	case template.FieldUpdatedBy:
@@ -24465,12 +24465,12 @@ func (m *TemplateMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetExtras(v)
 		return nil
-	case template.FieldTenantID:
+	case template.FieldSpaceID:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetTenantID(v)
+		m.SetSpaceID(v)
 		return nil
 	case template.FieldCreatedBy:
 		v, ok := value.(string)
@@ -24710,8 +24710,8 @@ func (m *TemplateMutation) ClearedFields() []string {
 	if m.FieldCleared(template.FieldExtras) {
 		fields = append(fields, template.FieldExtras)
 	}
-	if m.FieldCleared(template.FieldTenantID) {
-		fields = append(fields, template.FieldTenantID)
+	if m.FieldCleared(template.FieldSpaceID) {
+		fields = append(fields, template.FieldSpaceID)
 	}
 	if m.FieldCleared(template.FieldCreatedBy) {
 		fields = append(fields, template.FieldCreatedBy)
@@ -24826,8 +24826,8 @@ func (m *TemplateMutation) ClearField(name string) error {
 	case template.FieldExtras:
 		m.ClearExtras()
 		return nil
-	case template.FieldTenantID:
-		m.ClearTenantID()
+	case template.FieldSpaceID:
+		m.ClearSpaceID()
 		return nil
 	case template.FieldCreatedBy:
 		m.ClearCreatedBy()
@@ -24969,8 +24969,8 @@ func (m *TemplateMutation) ResetField(name string) error {
 	case template.FieldExtras:
 		m.ResetExtras()
 		return nil
-	case template.FieldTenantID:
-		m.ResetTenantID()
+	case template.FieldSpaceID:
+		m.ResetSpaceID()
 		return nil
 	case template.FieldCreatedBy:
 		m.ResetCreatedBy()

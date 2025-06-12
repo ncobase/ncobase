@@ -30,8 +30,8 @@ type Rule struct {
 	Status string `json:"status,omitempty"`
 	// Extend properties
 	Extras map[string]interface{} `json:"extras,omitempty"`
-	// tenant id
-	TenantID string `json:"tenant_id,omitempty"`
+	// space id, e.g. space id, organization id, store id
+	SpaceID string `json:"space_id,omitempty"`
 	// id of the creator
 	CreatedBy string `json:"created_by,omitempty"`
 	// id of the last updater
@@ -72,7 +72,7 @@ func (*Rule) scanValues(columns []string) ([]any, error) {
 			values[i] = new(sql.NullBool)
 		case rule.FieldCreatedAt, rule.FieldUpdatedAt, rule.FieldPriority, rule.FieldEffectiveTime, rule.FieldExpireTime:
 			values[i] = new(sql.NullInt64)
-		case rule.FieldID, rule.FieldName, rule.FieldCode, rule.FieldDescription, rule.FieldType, rule.FieldStatus, rule.FieldTenantID, rule.FieldCreatedBy, rule.FieldUpdatedBy, rule.FieldRuleKey, rule.FieldTemplateID, rule.FieldNodeKey:
+		case rule.FieldID, rule.FieldName, rule.FieldCode, rule.FieldDescription, rule.FieldType, rule.FieldStatus, rule.FieldSpaceID, rule.FieldCreatedBy, rule.FieldUpdatedBy, rule.FieldRuleKey, rule.FieldTemplateID, rule.FieldNodeKey:
 			values[i] = new(sql.NullString)
 		default:
 			values[i] = new(sql.UnknownType)
@@ -133,11 +133,11 @@ func (r *Rule) assignValues(columns []string, values []any) error {
 					return fmt.Errorf("unmarshal field extras: %w", err)
 				}
 			}
-		case rule.FieldTenantID:
+		case rule.FieldSpaceID:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field tenant_id", values[i])
+				return fmt.Errorf("unexpected type %T for field space_id", values[i])
 			} else if value.Valid {
-				r.TenantID = value.String
+				r.SpaceID = value.String
 			}
 		case rule.FieldCreatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -275,8 +275,8 @@ func (r *Rule) String() string {
 	builder.WriteString("extras=")
 	builder.WriteString(fmt.Sprintf("%v", r.Extras))
 	builder.WriteString(", ")
-	builder.WriteString("tenant_id=")
-	builder.WriteString(r.TenantID)
+	builder.WriteString("space_id=")
+	builder.WriteString(r.SpaceID)
 	builder.WriteString(", ")
 	builder.WriteString("created_by=")
 	builder.WriteString(r.CreatedBy)

@@ -22,7 +22,7 @@ type Distribution struct {
 	ID string `json:"id,omitempty"`
 	// Extend properties
 	Extras map[string]interface{} `json:"extras,omitempty"`
-	// space id, e.g. tenant id, organization id, store id
+	// space id, e.g. space id, organization id, store id
 	SpaceID string `json:"space_id,omitempty"`
 	// id of the creator
 	CreatedBy string `json:"created_by,omitempty"`

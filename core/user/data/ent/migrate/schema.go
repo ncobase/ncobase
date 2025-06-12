@@ -55,7 +55,7 @@ var (
 	// NcseSysEmployeeColumns holds the columns for the "ncse_sys_employee" table.
 	NcseSysEmployeeColumns = []*schema.Column{
 		{Name: "user_id", Type: field.TypeString, Unique: true, Comment: "user primary key alias"},
-		{Name: "tenant_id", Type: field.TypeString, Nullable: true, Comment: "tenant id"},
+		{Name: "space_id", Type: field.TypeString, Nullable: true, Comment: "space id, e.g. space id, organization id, store id"},
 		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
 		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
 		{Name: "employee_id", Type: field.TypeString, Nullable: true, Comment: "Employee ID/Number"},
@@ -85,12 +85,12 @@ var (
 				Columns: []*schema.Column{NcseSysEmployeeColumns[0]},
 			},
 			{
-				Name:    "employee_tenant_id",
+				Name:    "employee_space_id",
 				Unique:  false,
 				Columns: []*schema.Column{NcseSysEmployeeColumns[1]},
 			},
 			{
-				Name:    "employee_user_id_tenant_id",
+				Name:    "employee_user_id_space_id",
 				Unique:  true,
 				Columns: []*schema.Column{NcseSysEmployeeColumns[0], NcseSysEmployeeColumns[1]},
 			},

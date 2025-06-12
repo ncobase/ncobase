@@ -379,16 +379,16 @@ func (tc *TaskCreate) SetExtras(m map[string]interface{}) *TaskCreate {
 	return tc
 }
 
-// SetTenantID sets the "tenant_id" field.
-func (tc *TaskCreate) SetTenantID(s string) *TaskCreate {
-	tc.mutation.SetTenantID(s)
+// SetSpaceID sets the "space_id" field.
+func (tc *TaskCreate) SetSpaceID(s string) *TaskCreate {
+	tc.mutation.SetSpaceID(s)
 	return tc
 }
 
-// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
-func (tc *TaskCreate) SetNillableTenantID(s *string) *TaskCreate {
+// SetNillableSpaceID sets the "space_id" field if the given value is not nil.
+func (tc *TaskCreate) SetNillableSpaceID(s *string) *TaskCreate {
 	if s != nil {
-		tc.SetTenantID(*s)
+		tc.SetSpaceID(*s)
 	}
 	return tc
 }
@@ -957,9 +957,9 @@ func (tc *TaskCreate) createSpec() (*Task, *sqlgraph.CreateSpec) {
 		_spec.SetField(task.FieldExtras, field.TypeJSON, value)
 		_node.Extras = value
 	}
-	if value, ok := tc.mutation.TenantID(); ok {
-		_spec.SetField(task.FieldTenantID, field.TypeString, value)
-		_node.TenantID = value
+	if value, ok := tc.mutation.SpaceID(); ok {
+		_spec.SetField(task.FieldSpaceID, field.TypeString, value)
+		_node.SpaceID = value
 	}
 	if value, ok := tc.mutation.CreatedBy(); ok {
 		_spec.SetField(task.FieldCreatedBy, field.TypeString, value)

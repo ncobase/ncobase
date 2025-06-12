@@ -152,10 +152,10 @@ func (h *menuHandler) GetBySlug(c *gin.Context) {
 	resp.Success(c.Writer, result)
 }
 
-// GetNavigationMenus handles retrieving the system navigation menu groups.
+// GetNavigationMenus handles retrieving the system navigation menu orgs.
 //
 // @Summary Get navigation menus
-// @Description Retrieve the system navigation menu groups organized by type.
+// @Description Retrieve the system navigation menu orgs organized by type.
 // @Tags sys
 // @Produce json
 // @Param sort_by query string false "Sort by field (order, created_at, name)" default(order)

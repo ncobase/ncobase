@@ -153,23 +153,23 @@ func (hu *HistoryUpdate) ClearNodeEvents() *HistoryUpdate {
 	return hu
 }
 
-// SetTenantID sets the "tenant_id" field.
-func (hu *HistoryUpdate) SetTenantID(s string) *HistoryUpdate {
-	hu.mutation.SetTenantID(s)
+// SetSpaceID sets the "space_id" field.
+func (hu *HistoryUpdate) SetSpaceID(s string) *HistoryUpdate {
+	hu.mutation.SetSpaceID(s)
 	return hu
 }
 
-// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
-func (hu *HistoryUpdate) SetNillableTenantID(s *string) *HistoryUpdate {
+// SetNillableSpaceID sets the "space_id" field if the given value is not nil.
+func (hu *HistoryUpdate) SetNillableSpaceID(s *string) *HistoryUpdate {
 	if s != nil {
-		hu.SetTenantID(*s)
+		hu.SetSpaceID(*s)
 	}
 	return hu
 }
 
-// ClearTenantID clears the value of the "tenant_id" field.
-func (hu *HistoryUpdate) ClearTenantID() *HistoryUpdate {
-	hu.mutation.ClearTenantID()
+// ClearSpaceID clears the value of the "space_id" field.
+func (hu *HistoryUpdate) ClearSpaceID() *HistoryUpdate {
+	hu.mutation.ClearSpaceID()
 	return hu
 }
 
@@ -453,11 +453,11 @@ func (hu *HistoryUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if hu.mutation.NodeEventsCleared() {
 		_spec.ClearField(history.FieldNodeEvents, field.TypeJSON)
 	}
-	if value, ok := hu.mutation.TenantID(); ok {
-		_spec.SetField(history.FieldTenantID, field.TypeString, value)
+	if value, ok := hu.mutation.SpaceID(); ok {
+		_spec.SetField(history.FieldSpaceID, field.TypeString, value)
 	}
-	if hu.mutation.TenantIDCleared() {
-		_spec.ClearField(history.FieldTenantID, field.TypeString)
+	if hu.mutation.SpaceIDCleared() {
+		_spec.ClearField(history.FieldSpaceID, field.TypeString)
 	}
 	if value, ok := hu.mutation.CreatedBy(); ok {
 		_spec.SetField(history.FieldCreatedBy, field.TypeString, value)
@@ -671,23 +671,23 @@ func (huo *HistoryUpdateOne) ClearNodeEvents() *HistoryUpdateOne {
 	return huo
 }
 
-// SetTenantID sets the "tenant_id" field.
-func (huo *HistoryUpdateOne) SetTenantID(s string) *HistoryUpdateOne {
-	huo.mutation.SetTenantID(s)
+// SetSpaceID sets the "space_id" field.
+func (huo *HistoryUpdateOne) SetSpaceID(s string) *HistoryUpdateOne {
+	huo.mutation.SetSpaceID(s)
 	return huo
 }
 
-// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
-func (huo *HistoryUpdateOne) SetNillableTenantID(s *string) *HistoryUpdateOne {
+// SetNillableSpaceID sets the "space_id" field if the given value is not nil.
+func (huo *HistoryUpdateOne) SetNillableSpaceID(s *string) *HistoryUpdateOne {
 	if s != nil {
-		huo.SetTenantID(*s)
+		huo.SetSpaceID(*s)
 	}
 	return huo
 }
 
-// ClearTenantID clears the value of the "tenant_id" field.
-func (huo *HistoryUpdateOne) ClearTenantID() *HistoryUpdateOne {
-	huo.mutation.ClearTenantID()
+// ClearSpaceID clears the value of the "space_id" field.
+func (huo *HistoryUpdateOne) ClearSpaceID() *HistoryUpdateOne {
+	huo.mutation.ClearSpaceID()
 	return huo
 }
 
@@ -1001,11 +1001,11 @@ func (huo *HistoryUpdateOne) sqlSave(ctx context.Context) (_node *History, err e
 	if huo.mutation.NodeEventsCleared() {
 		_spec.ClearField(history.FieldNodeEvents, field.TypeJSON)
 	}
-	if value, ok := huo.mutation.TenantID(); ok {
-		_spec.SetField(history.FieldTenantID, field.TypeString, value)
+	if value, ok := huo.mutation.SpaceID(); ok {
+		_spec.SetField(history.FieldSpaceID, field.TypeString, value)
 	}
-	if huo.mutation.TenantIDCleared() {
-		_spec.ClearField(history.FieldTenantID, field.TypeString)
+	if huo.mutation.SpaceIDCleared() {
+		_spec.ClearField(history.FieldSpaceID, field.TypeString)
 	}
 	if value, ok := huo.mutation.CreatedBy(); ok {
 		_spec.SetField(history.FieldCreatedBy, field.TypeString, value)

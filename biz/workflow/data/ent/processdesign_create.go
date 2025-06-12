@@ -53,16 +53,16 @@ func (pdc *ProcessDesignCreate) SetExtras(m map[string]interface{}) *ProcessDesi
 	return pdc
 }
 
-// SetTenantID sets the "tenant_id" field.
-func (pdc *ProcessDesignCreate) SetTenantID(s string) *ProcessDesignCreate {
-	pdc.mutation.SetTenantID(s)
+// SetSpaceID sets the "space_id" field.
+func (pdc *ProcessDesignCreate) SetSpaceID(s string) *ProcessDesignCreate {
+	pdc.mutation.SetSpaceID(s)
 	return pdc
 }
 
-// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
-func (pdc *ProcessDesignCreate) SetNillableTenantID(s *string) *ProcessDesignCreate {
+// SetNillableSpaceID sets the "space_id" field if the given value is not nil.
+func (pdc *ProcessDesignCreate) SetNillableSpaceID(s *string) *ProcessDesignCreate {
 	if s != nil {
-		pdc.SetTenantID(*s)
+		pdc.SetSpaceID(*s)
 	}
 	return pdc
 }
@@ -316,9 +316,9 @@ func (pdc *ProcessDesignCreate) createSpec() (*ProcessDesign, *sqlgraph.CreateSp
 		_spec.SetField(processdesign.FieldExtras, field.TypeJSON, value)
 		_node.Extras = value
 	}
-	if value, ok := pdc.mutation.TenantID(); ok {
-		_spec.SetField(processdesign.FieldTenantID, field.TypeString, value)
-		_node.TenantID = value
+	if value, ok := pdc.mutation.SpaceID(); ok {
+		_spec.SetField(processdesign.FieldSpaceID, field.TypeString, value)
+		_node.SpaceID = value
 	}
 	if value, ok := pdc.mutation.CreatedBy(); ok {
 		_spec.SetField(processdesign.FieldCreatedBy, field.TypeString, value)

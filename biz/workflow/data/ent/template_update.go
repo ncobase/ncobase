@@ -536,23 +536,23 @@ func (tu *TemplateUpdate) ClearExtras() *TemplateUpdate {
 	return tu
 }
 
-// SetTenantID sets the "tenant_id" field.
-func (tu *TemplateUpdate) SetTenantID(s string) *TemplateUpdate {
-	tu.mutation.SetTenantID(s)
+// SetSpaceID sets the "space_id" field.
+func (tu *TemplateUpdate) SetSpaceID(s string) *TemplateUpdate {
+	tu.mutation.SetSpaceID(s)
 	return tu
 }
 
-// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
-func (tu *TemplateUpdate) SetNillableTenantID(s *string) *TemplateUpdate {
+// SetNillableSpaceID sets the "space_id" field if the given value is not nil.
+func (tu *TemplateUpdate) SetNillableSpaceID(s *string) *TemplateUpdate {
 	if s != nil {
-		tu.SetTenantID(*s)
+		tu.SetSpaceID(*s)
 	}
 	return tu
 }
 
-// ClearTenantID clears the value of the "tenant_id" field.
-func (tu *TemplateUpdate) ClearTenantID() *TemplateUpdate {
-	tu.mutation.ClearTenantID()
+// ClearSpaceID clears the value of the "space_id" field.
+func (tu *TemplateUpdate) ClearSpaceID() *TemplateUpdate {
+	tu.mutation.ClearSpaceID()
 	return tu
 }
 
@@ -995,11 +995,11 @@ func (tu *TemplateUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if tu.mutation.ExtrasCleared() {
 		_spec.ClearField(template.FieldExtras, field.TypeJSON)
 	}
-	if value, ok := tu.mutation.TenantID(); ok {
-		_spec.SetField(template.FieldTenantID, field.TypeString, value)
+	if value, ok := tu.mutation.SpaceID(); ok {
+		_spec.SetField(template.FieldSpaceID, field.TypeString, value)
 	}
-	if tu.mutation.TenantIDCleared() {
-		_spec.ClearField(template.FieldTenantID, field.TypeString)
+	if tu.mutation.SpaceIDCleared() {
+		_spec.ClearField(template.FieldSpaceID, field.TypeString)
 	}
 	if value, ok := tu.mutation.CreatedBy(); ok {
 		_spec.SetField(template.FieldCreatedBy, field.TypeString, value)
@@ -1607,23 +1607,23 @@ func (tuo *TemplateUpdateOne) ClearExtras() *TemplateUpdateOne {
 	return tuo
 }
 
-// SetTenantID sets the "tenant_id" field.
-func (tuo *TemplateUpdateOne) SetTenantID(s string) *TemplateUpdateOne {
-	tuo.mutation.SetTenantID(s)
+// SetSpaceID sets the "space_id" field.
+func (tuo *TemplateUpdateOne) SetSpaceID(s string) *TemplateUpdateOne {
+	tuo.mutation.SetSpaceID(s)
 	return tuo
 }
 
-// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
-func (tuo *TemplateUpdateOne) SetNillableTenantID(s *string) *TemplateUpdateOne {
+// SetNillableSpaceID sets the "space_id" field if the given value is not nil.
+func (tuo *TemplateUpdateOne) SetNillableSpaceID(s *string) *TemplateUpdateOne {
 	if s != nil {
-		tuo.SetTenantID(*s)
+		tuo.SetSpaceID(*s)
 	}
 	return tuo
 }
 
-// ClearTenantID clears the value of the "tenant_id" field.
-func (tuo *TemplateUpdateOne) ClearTenantID() *TemplateUpdateOne {
-	tuo.mutation.ClearTenantID()
+// ClearSpaceID clears the value of the "space_id" field.
+func (tuo *TemplateUpdateOne) ClearSpaceID() *TemplateUpdateOne {
+	tuo.mutation.ClearSpaceID()
 	return tuo
 }
 
@@ -2096,11 +2096,11 @@ func (tuo *TemplateUpdateOne) sqlSave(ctx context.Context) (_node *Template, err
 	if tuo.mutation.ExtrasCleared() {
 		_spec.ClearField(template.FieldExtras, field.TypeJSON)
 	}
-	if value, ok := tuo.mutation.TenantID(); ok {
-		_spec.SetField(template.FieldTenantID, field.TypeString, value)
+	if value, ok := tuo.mutation.SpaceID(); ok {
+		_spec.SetField(template.FieldSpaceID, field.TypeString, value)
 	}
-	if tuo.mutation.TenantIDCleared() {
-		_spec.ClearField(template.FieldTenantID, field.TypeString)
+	if tuo.mutation.SpaceIDCleared() {
+		_spec.ClearField(template.FieldSpaceID, field.TypeString)
 	}
 	if value, ok := tuo.mutation.CreatedBy(); ok {
 		_spec.SetField(template.FieldCreatedBy, field.TypeString, value)

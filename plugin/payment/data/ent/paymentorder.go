@@ -43,8 +43,8 @@ type PaymentOrder struct {
 	ChannelID string `json:"channel_id,omitempty"`
 	// User ID
 	UserID string `json:"user_id,omitempty"`
-	// Tenant ID
-	TenantID string `json:"tenant_id,omitempty"`
+	// Space ID
+	SpaceID string `json:"space_id,omitempty"`
 	// PaymentProduct ID if associated with a product
 	ProductID string `json:"product_id,omitempty"`
 	// PaymentSubscription ID if associated with a subscription
@@ -92,7 +92,7 @@ func (*PaymentOrder) scanValues(columns []string) ([]any, error) {
 			values[i] = new(sql.NullFloat64)
 		case paymentorder.FieldCreatedAt, paymentorder.FieldUpdatedAt:
 			values[i] = new(sql.NullInt64)
-		case paymentorder.FieldID, paymentorder.FieldCreatedBy, paymentorder.FieldUpdatedBy, paymentorder.FieldOrderNumber, paymentorder.FieldCurrency, paymentorder.FieldStatus, paymentorder.FieldType, paymentorder.FieldChannelID, paymentorder.FieldUserID, paymentorder.FieldTenantID, paymentorder.FieldProductID, paymentorder.FieldSubscriptionID, paymentorder.FieldProviderRef, paymentorder.FieldDescription:
+		case paymentorder.FieldID, paymentorder.FieldCreatedBy, paymentorder.FieldUpdatedBy, paymentorder.FieldOrderNumber, paymentorder.FieldCurrency, paymentorder.FieldStatus, paymentorder.FieldType, paymentorder.FieldChannelID, paymentorder.FieldUserID, paymentorder.FieldSpaceID, paymentorder.FieldProductID, paymentorder.FieldSubscriptionID, paymentorder.FieldProviderRef, paymentorder.FieldDescription:
 			values[i] = new(sql.NullString)
 		case paymentorder.FieldExpiresAt, paymentorder.FieldPaidAt:
 			values[i] = new(sql.NullTime)
@@ -191,11 +191,11 @@ func (po *PaymentOrder) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				po.UserID = value.String
 			}
-		case paymentorder.FieldTenantID:
+		case paymentorder.FieldSpaceID:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field tenant_id", values[i])
+				return fmt.Errorf("unexpected type %T for field space_id", values[i])
 			} else if value.Valid {
-				po.TenantID = value.String
+				po.SpaceID = value.String
 			}
 		case paymentorder.FieldProductID:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -311,8 +311,8 @@ func (po *PaymentOrder) String() string {
 	builder.WriteString("user_id=")
 	builder.WriteString(po.UserID)
 	builder.WriteString(", ")
-	builder.WriteString("tenant_id=")
-	builder.WriteString(po.TenantID)
+	builder.WriteString("space_id=")
+	builder.WriteString(po.SpaceID)
 	builder.WriteString(", ")
 	builder.WriteString("product_id=")
 	builder.WriteString(po.ProductID)

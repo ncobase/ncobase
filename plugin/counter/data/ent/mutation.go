@@ -45,7 +45,7 @@ type CounterMutation struct {
 	addcurrent_value  *int
 	disabled          *bool
 	description       *string
-	tenant_id         *string
+	space_id          *string
 	created_by        *string
 	updated_by        *string
 	created_at        *int64
@@ -673,53 +673,53 @@ func (m *CounterMutation) ResetDescription() {
 	delete(m.clearedFields, counter.FieldDescription)
 }
 
-// SetTenantID sets the "tenant_id" field.
-func (m *CounterMutation) SetTenantID(s string) {
-	m.tenant_id = &s
+// SetSpaceID sets the "space_id" field.
+func (m *CounterMutation) SetSpaceID(s string) {
+	m.space_id = &s
 }
 
-// TenantID returns the value of the "tenant_id" field in the mutation.
-func (m *CounterMutation) TenantID() (r string, exists bool) {
-	v := m.tenant_id
+// SpaceID returns the value of the "space_id" field in the mutation.
+func (m *CounterMutation) SpaceID() (r string, exists bool) {
+	v := m.space_id
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldTenantID returns the old "tenant_id" field's value of the Counter entity.
+// OldSpaceID returns the old "space_id" field's value of the Counter entity.
 // If the Counter object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *CounterMutation) OldTenantID(ctx context.Context) (v string, err error) {
+func (m *CounterMutation) OldSpaceID(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldTenantID is only allowed on UpdateOne operations")
+		return v, errors.New("OldSpaceID is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldTenantID requires an ID field in the mutation")
+		return v, errors.New("OldSpaceID requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldTenantID: %w", err)
+		return v, fmt.Errorf("querying old value for OldSpaceID: %w", err)
 	}
-	return oldValue.TenantID, nil
+	return oldValue.SpaceID, nil
 }
 
-// ClearTenantID clears the value of the "tenant_id" field.
-func (m *CounterMutation) ClearTenantID() {
-	m.tenant_id = nil
-	m.clearedFields[counter.FieldTenantID] = struct{}{}
+// ClearSpaceID clears the value of the "space_id" field.
+func (m *CounterMutation) ClearSpaceID() {
+	m.space_id = nil
+	m.clearedFields[counter.FieldSpaceID] = struct{}{}
 }
 
-// TenantIDCleared returns if the "tenant_id" field was cleared in this mutation.
-func (m *CounterMutation) TenantIDCleared() bool {
-	_, ok := m.clearedFields[counter.FieldTenantID]
+// SpaceIDCleared returns if the "space_id" field was cleared in this mutation.
+func (m *CounterMutation) SpaceIDCleared() bool {
+	_, ok := m.clearedFields[counter.FieldSpaceID]
 	return ok
 }
 
-// ResetTenantID resets all changes to the "tenant_id" field.
-func (m *CounterMutation) ResetTenantID() {
-	m.tenant_id = nil
-	delete(m.clearedFields, counter.FieldTenantID)
+// ResetSpaceID resets all changes to the "space_id" field.
+func (m *CounterMutation) ResetSpaceID() {
+	m.space_id = nil
+	delete(m.clearedFields, counter.FieldSpaceID)
 }
 
 // SetCreatedBy sets the "created_by" field.
@@ -1025,8 +1025,8 @@ func (m *CounterMutation) Fields() []string {
 	if m.description != nil {
 		fields = append(fields, counter.FieldDescription)
 	}
-	if m.tenant_id != nil {
-		fields = append(fields, counter.FieldTenantID)
+	if m.space_id != nil {
+		fields = append(fields, counter.FieldSpaceID)
 	}
 	if m.created_by != nil {
 		fields = append(fields, counter.FieldCreatedBy)
@@ -1068,8 +1068,8 @@ func (m *CounterMutation) Field(name string) (ent.Value, bool) {
 		return m.Disabled()
 	case counter.FieldDescription:
 		return m.Description()
-	case counter.FieldTenantID:
-		return m.TenantID()
+	case counter.FieldSpaceID:
+		return m.SpaceID()
 	case counter.FieldCreatedBy:
 		return m.CreatedBy()
 	case counter.FieldUpdatedBy:
@@ -1107,8 +1107,8 @@ func (m *CounterMutation) OldField(ctx context.Context, name string) (ent.Value,
 		return m.OldDisabled(ctx)
 	case counter.FieldDescription:
 		return m.OldDescription(ctx)
-	case counter.FieldTenantID:
-		return m.OldTenantID(ctx)
+	case counter.FieldSpaceID:
+		return m.OldSpaceID(ctx)
 	case counter.FieldCreatedBy:
 		return m.OldCreatedBy(ctx)
 	case counter.FieldUpdatedBy:
@@ -1196,12 +1196,12 @@ func (m *CounterMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetDescription(v)
 		return nil
-	case counter.FieldTenantID:
+	case counter.FieldSpaceID:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetTenantID(v)
+		m.SetSpaceID(v)
 		return nil
 	case counter.FieldCreatedBy:
 		v, ok := value.(string)
@@ -1345,8 +1345,8 @@ func (m *CounterMutation) ClearedFields() []string {
 	if m.FieldCleared(counter.FieldDescription) {
 		fields = append(fields, counter.FieldDescription)
 	}
-	if m.FieldCleared(counter.FieldTenantID) {
-		fields = append(fields, counter.FieldTenantID)
+	if m.FieldCleared(counter.FieldSpaceID) {
+		fields = append(fields, counter.FieldSpaceID)
 	}
 	if m.FieldCleared(counter.FieldCreatedBy) {
 		fields = append(fields, counter.FieldCreatedBy)
@@ -1395,8 +1395,8 @@ func (m *CounterMutation) ClearField(name string) error {
 	case counter.FieldDescription:
 		m.ClearDescription()
 		return nil
-	case counter.FieldTenantID:
-		m.ClearTenantID()
+	case counter.FieldSpaceID:
+		m.ClearSpaceID()
 		return nil
 	case counter.FieldCreatedBy:
 		m.ClearCreatedBy()
@@ -1448,8 +1448,8 @@ func (m *CounterMutation) ResetField(name string) error {
 	case counter.FieldDescription:
 		m.ResetDescription()
 		return nil
-	case counter.FieldTenantID:
-		m.ResetTenantID()
+	case counter.FieldSpaceID:
+		m.ResetSpaceID()
 		return nil
 	case counter.FieldCreatedBy:
 		m.ResetCreatedBy()

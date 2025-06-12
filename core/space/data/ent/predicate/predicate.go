@@ -6,11 +6,32 @@ import (
 	"entgo.io/ent/dialect/sql"
 )
 
-// Group is the predicate function for group builders.
-type Group func(*sql.Selector)
+// Space is the predicate function for space builders.
+type Space func(*sql.Selector)
 
-// GroupRole is the predicate function for grouprole builders.
-type GroupRole func(*sql.Selector)
+// SpaceBilling is the predicate function for spacebilling builders.
+type SpaceBilling func(*sql.Selector)
 
-// UserGroup is the predicate function for usergroup builders.
-type UserGroup func(*sql.Selector)
+// SpaceDictionary is the predicate function for spacedictionary builders.
+type SpaceDictionary func(*sql.Selector)
+
+// SpaceMenu is the predicate function for spacemenu builders.
+type SpaceMenu func(*sql.Selector)
+
+// SpaceOption is the predicate function for spaceoption builders.
+type SpaceOption func(*sql.Selector)
+
+// SpaceOrganization is the predicate function for spaceorganization builders.
+type SpaceOrganization func(*sql.Selector)
+
+// SpaceQuota is the predicate function for spacequota builders.
+type SpaceQuota func(*sql.Selector)
+
+// SpaceSetting is the predicate function for spacesetting builders.
+type SpaceSetting func(*sql.Selector)
+
+// UserSpace is the predicate function for userspace builders.
+type UserSpace func(*sql.Selector)
+
+// UserSpaceRole is the predicate function for userspacerole builders.
+type UserSpaceRole func(*sql.Selector)

@@ -3,9 +3,16 @@
 package ent
 
 import (
-	"ncobase/space/data/ent/group"
-	"ncobase/space/data/ent/grouprole"
-	"ncobase/space/data/ent/usergroup"
+	"ncobase/space/data/ent/space"
+	"ncobase/space/data/ent/spacebilling"
+	"ncobase/space/data/ent/spacedictionary"
+	"ncobase/space/data/ent/spacemenu"
+	"ncobase/space/data/ent/spaceoption"
+	"ncobase/space/data/ent/spaceorganization"
+	"ncobase/space/data/ent/spacequota"
+	"ncobase/space/data/ent/spacesetting"
+	"ncobase/space/data/ent/userspace"
+	"ncobase/space/data/ent/userspacerole"
 	"ncobase/space/data/schema"
 )
 
@@ -13,97 +20,350 @@ import (
 // (default values, validators, hooks and policies) and stitches it
 // to their package variables.
 func init() {
-	groupMixin := schema.Group{}.Mixin()
-	groupMixinFields0 := groupMixin[0].Fields()
-	_ = groupMixinFields0
-	groupMixinFields4 := groupMixin[4].Fields()
-	_ = groupMixinFields4
-	groupMixinFields6 := groupMixin[6].Fields()
-	_ = groupMixinFields6
-	groupMixinFields7 := groupMixin[7].Fields()
-	_ = groupMixinFields7
-	groupMixinFields10 := groupMixin[10].Fields()
-	_ = groupMixinFields10
-	groupFields := schema.Group{}.Fields()
-	_ = groupFields
-	// groupDescDisabled is the schema descriptor for disabled field.
-	groupDescDisabled := groupMixinFields4[0].Descriptor()
-	// group.DefaultDisabled holds the default value on creation for the disabled field.
-	group.DefaultDisabled = groupDescDisabled.Default.(bool)
-	// groupDescLeader is the schema descriptor for leader field.
-	groupDescLeader := groupMixinFields6[0].Descriptor()
-	// group.DefaultLeader holds the default value on creation for the leader field.
-	group.DefaultLeader = groupDescLeader.Default.(map[string]interface{})
-	// groupDescExtras is the schema descriptor for extras field.
-	groupDescExtras := groupMixinFields7[0].Descriptor()
-	// group.DefaultExtras holds the default value on creation for the extras field.
-	group.DefaultExtras = groupDescExtras.Default.(map[string]interface{})
-	// groupDescCreatedAt is the schema descriptor for created_at field.
-	groupDescCreatedAt := groupMixinFields10[0].Descriptor()
-	// group.DefaultCreatedAt holds the default value on creation for the created_at field.
-	group.DefaultCreatedAt = groupDescCreatedAt.Default.(func() int64)
-	// groupDescUpdatedAt is the schema descriptor for updated_at field.
-	groupDescUpdatedAt := groupMixinFields10[1].Descriptor()
-	// group.DefaultUpdatedAt holds the default value on creation for the updated_at field.
-	group.DefaultUpdatedAt = groupDescUpdatedAt.Default.(func() int64)
-	// group.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
-	group.UpdateDefaultUpdatedAt = groupDescUpdatedAt.UpdateDefault.(func() int64)
-	// groupDescID is the schema descriptor for id field.
-	groupDescID := groupMixinFields0[0].Descriptor()
-	// group.DefaultID holds the default value on creation for the id field.
-	group.DefaultID = groupDescID.Default.(func() string)
-	// group.IDValidator is a validator for the "id" field. It is called by the builders before save.
-	group.IDValidator = groupDescID.Validators[0].(func(string) error)
-	grouproleMixin := schema.GroupRole{}.Mixin()
-	grouproleMixinFields0 := grouproleMixin[0].Fields()
-	_ = grouproleMixinFields0
-	grouproleMixinFields4 := grouproleMixin[4].Fields()
-	_ = grouproleMixinFields4
-	grouproleFields := schema.GroupRole{}.Fields()
-	_ = grouproleFields
-	// grouproleDescCreatedAt is the schema descriptor for created_at field.
-	grouproleDescCreatedAt := grouproleMixinFields4[0].Descriptor()
-	// grouprole.DefaultCreatedAt holds the default value on creation for the created_at field.
-	grouprole.DefaultCreatedAt = grouproleDescCreatedAt.Default.(func() int64)
-	// grouproleDescUpdatedAt is the schema descriptor for updated_at field.
-	grouproleDescUpdatedAt := grouproleMixinFields4[1].Descriptor()
-	// grouprole.DefaultUpdatedAt holds the default value on creation for the updated_at field.
-	grouprole.DefaultUpdatedAt = grouproleDescUpdatedAt.Default.(func() int64)
-	// grouprole.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
-	grouprole.UpdateDefaultUpdatedAt = grouproleDescUpdatedAt.UpdateDefault.(func() int64)
-	// grouproleDescID is the schema descriptor for id field.
-	grouproleDescID := grouproleMixinFields0[0].Descriptor()
-	// grouprole.DefaultID holds the default value on creation for the id field.
-	grouprole.DefaultID = grouproleDescID.Default.(func() string)
-	// grouprole.IDValidator is a validator for the "id" field. It is called by the builders before save.
-	grouprole.IDValidator = grouproleDescID.Validators[0].(func(string) error)
-	usergroupMixin := schema.UserGroup{}.Mixin()
-	usergroupMixinFields0 := usergroupMixin[0].Fields()
-	_ = usergroupMixinFields0
-	usergroupMixinFields4 := usergroupMixin[4].Fields()
-	_ = usergroupMixinFields4
-	usergroupFields := schema.UserGroup{}.Fields()
-	_ = usergroupFields
-	// usergroupDescCreatedAt is the schema descriptor for created_at field.
-	usergroupDescCreatedAt := usergroupMixinFields4[0].Descriptor()
-	// usergroup.DefaultCreatedAt holds the default value on creation for the created_at field.
-	usergroup.DefaultCreatedAt = usergroupDescCreatedAt.Default.(func() int64)
-	// usergroupDescUpdatedAt is the schema descriptor for updated_at field.
-	usergroupDescUpdatedAt := usergroupMixinFields4[1].Descriptor()
-	// usergroup.DefaultUpdatedAt holds the default value on creation for the updated_at field.
-	usergroup.DefaultUpdatedAt = usergroupDescUpdatedAt.Default.(func() int64)
-	// usergroup.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
-	usergroup.UpdateDefaultUpdatedAt = usergroupDescUpdatedAt.UpdateDefault.(func() int64)
-	// usergroupDescRole is the schema descriptor for role field.
-	usergroupDescRole := usergroupFields[0].Descriptor()
-	// usergroup.DefaultRole holds the default value on creation for the role field.
-	usergroup.DefaultRole = usergroupDescRole.Default.(string)
-	// usergroup.RoleValidator is a validator for the "role" field. It is called by the builders before save.
-	usergroup.RoleValidator = usergroupDescRole.Validators[0].(func(string) error)
-	// usergroupDescID is the schema descriptor for id field.
-	usergroupDescID := usergroupMixinFields0[0].Descriptor()
-	// usergroup.DefaultID holds the default value on creation for the id field.
-	usergroup.DefaultID = usergroupDescID.Default.(func() string)
-	// usergroup.IDValidator is a validator for the "id" field. It is called by the builders before save.
-	usergroup.IDValidator = usergroupDescID.Validators[0].(func(string) error)
+	spaceMixin := schema.Space{}.Mixin()
+	spaceMixinFields0 := spaceMixin[0].Fields()
+	_ = spaceMixinFields0
+	spaceMixinFields11 := spaceMixin[11].Fields()
+	_ = spaceMixinFields11
+	spaceMixinFields12 := spaceMixin[12].Fields()
+	_ = spaceMixinFields12
+	spaceMixinFields13 := spaceMixin[13].Fields()
+	_ = spaceMixinFields13
+	spaceMixinFields16 := spaceMixin[16].Fields()
+	_ = spaceMixinFields16
+	spaceFields := schema.Space{}.Fields()
+	_ = spaceFields
+	// spaceDescOrder is the schema descriptor for order field.
+	spaceDescOrder := spaceMixinFields11[0].Descriptor()
+	// space.DefaultOrder holds the default value on creation for the order field.
+	space.DefaultOrder = spaceDescOrder.Default.(int)
+	// spaceDescDisabled is the schema descriptor for disabled field.
+	spaceDescDisabled := spaceMixinFields12[0].Descriptor()
+	// space.DefaultDisabled holds the default value on creation for the disabled field.
+	space.DefaultDisabled = spaceDescDisabled.Default.(bool)
+	// spaceDescExtras is the schema descriptor for extras field.
+	spaceDescExtras := spaceMixinFields13[0].Descriptor()
+	// space.DefaultExtras holds the default value on creation for the extras field.
+	space.DefaultExtras = spaceDescExtras.Default.(map[string]interface{})
+	// spaceDescCreatedAt is the schema descriptor for created_at field.
+	spaceDescCreatedAt := spaceMixinFields16[0].Descriptor()
+	// space.DefaultCreatedAt holds the default value on creation for the created_at field.
+	space.DefaultCreatedAt = spaceDescCreatedAt.Default.(func() int64)
+	// spaceDescUpdatedAt is the schema descriptor for updated_at field.
+	spaceDescUpdatedAt := spaceMixinFields16[1].Descriptor()
+	// space.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	space.DefaultUpdatedAt = spaceDescUpdatedAt.Default.(func() int64)
+	// space.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	space.UpdateDefaultUpdatedAt = spaceDescUpdatedAt.UpdateDefault.(func() int64)
+	// spaceDescID is the schema descriptor for id field.
+	spaceDescID := spaceMixinFields0[0].Descriptor()
+	// space.DefaultID holds the default value on creation for the id field.
+	space.DefaultID = spaceDescID.Default.(func() string)
+	// space.IDValidator is a validator for the "id" field. It is called by the builders before save.
+	space.IDValidator = spaceDescID.Validators[0].(func(string) error)
+	spacebillingMixin := schema.SpaceBilling{}.Mixin()
+	spacebillingMixinFields0 := spacebillingMixin[0].Fields()
+	_ = spacebillingMixinFields0
+	spacebillingMixinFields3 := spacebillingMixin[3].Fields()
+	_ = spacebillingMixinFields3
+	spacebillingMixinFields5 := spacebillingMixin[5].Fields()
+	_ = spacebillingMixinFields5
+	spacebillingFields := schema.SpaceBilling{}.Fields()
+	_ = spacebillingFields
+	// spacebillingDescExtras is the schema descriptor for extras field.
+	spacebillingDescExtras := spacebillingMixinFields3[0].Descriptor()
+	// spacebilling.DefaultExtras holds the default value on creation for the extras field.
+	spacebilling.DefaultExtras = spacebillingDescExtras.Default.(map[string]interface{})
+	// spacebillingDescCreatedAt is the schema descriptor for created_at field.
+	spacebillingDescCreatedAt := spacebillingMixinFields5[0].Descriptor()
+	// spacebilling.DefaultCreatedAt holds the default value on creation for the created_at field.
+	spacebilling.DefaultCreatedAt = spacebillingDescCreatedAt.Default.(func() int64)
+	// spacebillingDescUpdatedAt is the schema descriptor for updated_at field.
+	spacebillingDescUpdatedAt := spacebillingMixinFields5[1].Descriptor()
+	// spacebilling.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	spacebilling.DefaultUpdatedAt = spacebillingDescUpdatedAt.Default.(func() int64)
+	// spacebilling.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	spacebilling.UpdateDefaultUpdatedAt = spacebillingDescUpdatedAt.UpdateDefault.(func() int64)
+	// spacebillingDescBillingPeriod is the schema descriptor for billing_period field.
+	spacebillingDescBillingPeriod := spacebillingFields[0].Descriptor()
+	// spacebilling.DefaultBillingPeriod holds the default value on creation for the billing_period field.
+	spacebilling.DefaultBillingPeriod = spacebillingDescBillingPeriod.Default.(string)
+	// spacebillingDescAmount is the schema descriptor for amount field.
+	spacebillingDescAmount := spacebillingFields[3].Descriptor()
+	// spacebilling.AmountValidator is a validator for the "amount" field. It is called by the builders before save.
+	spacebilling.AmountValidator = spacebillingDescAmount.Validators[0].(func(float64) error)
+	// spacebillingDescCurrency is the schema descriptor for currency field.
+	spacebillingDescCurrency := spacebillingFields[4].Descriptor()
+	// spacebilling.DefaultCurrency holds the default value on creation for the currency field.
+	spacebilling.DefaultCurrency = spacebillingDescCurrency.Default.(string)
+	// spacebillingDescStatus is the schema descriptor for status field.
+	spacebillingDescStatus := spacebillingFields[5].Descriptor()
+	// spacebilling.DefaultStatus holds the default value on creation for the status field.
+	spacebilling.DefaultStatus = spacebillingDescStatus.Default.(string)
+	// spacebillingDescID is the schema descriptor for id field.
+	spacebillingDescID := spacebillingMixinFields0[0].Descriptor()
+	// spacebilling.DefaultID holds the default value on creation for the id field.
+	spacebilling.DefaultID = spacebillingDescID.Default.(func() string)
+	// spacebilling.IDValidator is a validator for the "id" field. It is called by the builders before save.
+	spacebilling.IDValidator = spacebillingDescID.Validators[0].(func(string) error)
+	spacedictionaryMixin := schema.SpaceDictionary{}.Mixin()
+	spacedictionaryMixinFields0 := spacedictionaryMixin[0].Fields()
+	_ = spacedictionaryMixinFields0
+	spacedictionaryMixinFields4 := spacedictionaryMixin[4].Fields()
+	_ = spacedictionaryMixinFields4
+	spacedictionaryFields := schema.SpaceDictionary{}.Fields()
+	_ = spacedictionaryFields
+	// spacedictionaryDescCreatedAt is the schema descriptor for created_at field.
+	spacedictionaryDescCreatedAt := spacedictionaryMixinFields4[0].Descriptor()
+	// spacedictionary.DefaultCreatedAt holds the default value on creation for the created_at field.
+	spacedictionary.DefaultCreatedAt = spacedictionaryDescCreatedAt.Default.(func() int64)
+	// spacedictionaryDescUpdatedAt is the schema descriptor for updated_at field.
+	spacedictionaryDescUpdatedAt := spacedictionaryMixinFields4[1].Descriptor()
+	// spacedictionary.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	spacedictionary.DefaultUpdatedAt = spacedictionaryDescUpdatedAt.Default.(func() int64)
+	// spacedictionary.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	spacedictionary.UpdateDefaultUpdatedAt = spacedictionaryDescUpdatedAt.UpdateDefault.(func() int64)
+	// spacedictionaryDescID is the schema descriptor for id field.
+	spacedictionaryDescID := spacedictionaryMixinFields0[0].Descriptor()
+	// spacedictionary.DefaultID holds the default value on creation for the id field.
+	spacedictionary.DefaultID = spacedictionaryDescID.Default.(func() string)
+	// spacedictionary.IDValidator is a validator for the "id" field. It is called by the builders before save.
+	spacedictionary.IDValidator = spacedictionaryDescID.Validators[0].(func(string) error)
+	spacemenuMixin := schema.SpaceMenu{}.Mixin()
+	spacemenuMixinFields0 := spacemenuMixin[0].Fields()
+	_ = spacemenuMixinFields0
+	spacemenuMixinFields4 := spacemenuMixin[4].Fields()
+	_ = spacemenuMixinFields4
+	spacemenuFields := schema.SpaceMenu{}.Fields()
+	_ = spacemenuFields
+	// spacemenuDescCreatedAt is the schema descriptor for created_at field.
+	spacemenuDescCreatedAt := spacemenuMixinFields4[0].Descriptor()
+	// spacemenu.DefaultCreatedAt holds the default value on creation for the created_at field.
+	spacemenu.DefaultCreatedAt = spacemenuDescCreatedAt.Default.(func() int64)
+	// spacemenuDescUpdatedAt is the schema descriptor for updated_at field.
+	spacemenuDescUpdatedAt := spacemenuMixinFields4[1].Descriptor()
+	// spacemenu.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	spacemenu.DefaultUpdatedAt = spacemenuDescUpdatedAt.Default.(func() int64)
+	// spacemenu.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	spacemenu.UpdateDefaultUpdatedAt = spacemenuDescUpdatedAt.UpdateDefault.(func() int64)
+	// spacemenuDescID is the schema descriptor for id field.
+	spacemenuDescID := spacemenuMixinFields0[0].Descriptor()
+	// spacemenu.DefaultID holds the default value on creation for the id field.
+	spacemenu.DefaultID = spacemenuDescID.Default.(func() string)
+	// spacemenu.IDValidator is a validator for the "id" field. It is called by the builders before save.
+	spacemenu.IDValidator = spacemenuDescID.Validators[0].(func(string) error)
+	spaceoptionMixin := schema.SpaceOption{}.Mixin()
+	spaceoptionMixinFields0 := spaceoptionMixin[0].Fields()
+	_ = spaceoptionMixinFields0
+	spaceoptionMixinFields4 := spaceoptionMixin[4].Fields()
+	_ = spaceoptionMixinFields4
+	spaceoptionFields := schema.SpaceOption{}.Fields()
+	_ = spaceoptionFields
+	// spaceoptionDescCreatedAt is the schema descriptor for created_at field.
+	spaceoptionDescCreatedAt := spaceoptionMixinFields4[0].Descriptor()
+	// spaceoption.DefaultCreatedAt holds the default value on creation for the created_at field.
+	spaceoption.DefaultCreatedAt = spaceoptionDescCreatedAt.Default.(func() int64)
+	// spaceoptionDescUpdatedAt is the schema descriptor for updated_at field.
+	spaceoptionDescUpdatedAt := spaceoptionMixinFields4[1].Descriptor()
+	// spaceoption.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	spaceoption.DefaultUpdatedAt = spaceoptionDescUpdatedAt.Default.(func() int64)
+	// spaceoption.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	spaceoption.UpdateDefaultUpdatedAt = spaceoptionDescUpdatedAt.UpdateDefault.(func() int64)
+	// spaceoptionDescID is the schema descriptor for id field.
+	spaceoptionDescID := spaceoptionMixinFields0[0].Descriptor()
+	// spaceoption.DefaultID holds the default value on creation for the id field.
+	spaceoption.DefaultID = spaceoptionDescID.Default.(func() string)
+	// spaceoption.IDValidator is a validator for the "id" field. It is called by the builders before save.
+	spaceoption.IDValidator = spaceoptionDescID.Validators[0].(func(string) error)
+	spaceorganizationMixin := schema.SpaceOrganization{}.Mixin()
+	spaceorganizationMixinFields0 := spaceorganizationMixin[0].Fields()
+	_ = spaceorganizationMixinFields0
+	spaceorganizationMixinFields4 := spaceorganizationMixin[4].Fields()
+	_ = spaceorganizationMixinFields4
+	spaceorganizationFields := schema.SpaceOrganization{}.Fields()
+	_ = spaceorganizationFields
+	// spaceorganizationDescCreatedAt is the schema descriptor for created_at field.
+	spaceorganizationDescCreatedAt := spaceorganizationMixinFields4[0].Descriptor()
+	// spaceorganization.DefaultCreatedAt holds the default value on creation for the created_at field.
+	spaceorganization.DefaultCreatedAt = spaceorganizationDescCreatedAt.Default.(func() int64)
+	// spaceorganizationDescUpdatedAt is the schema descriptor for updated_at field.
+	spaceorganizationDescUpdatedAt := spaceorganizationMixinFields4[1].Descriptor()
+	// spaceorganization.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	spaceorganization.DefaultUpdatedAt = spaceorganizationDescUpdatedAt.Default.(func() int64)
+	// spaceorganization.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	spaceorganization.UpdateDefaultUpdatedAt = spaceorganizationDescUpdatedAt.UpdateDefault.(func() int64)
+	// spaceorganizationDescRelationType is the schema descriptor for relation_type field.
+	spaceorganizationDescRelationType := spaceorganizationFields[0].Descriptor()
+	// spaceorganization.DefaultRelationType holds the default value on creation for the relation_type field.
+	spaceorganization.DefaultRelationType = spaceorganizationDescRelationType.Default.(string)
+	// spaceorganization.RelationTypeValidator is a validator for the "relation_type" field. It is called by the builders before save.
+	spaceorganization.RelationTypeValidator = spaceorganizationDescRelationType.Validators[0].(func(string) error)
+	// spaceorganizationDescID is the schema descriptor for id field.
+	spaceorganizationDescID := spaceorganizationMixinFields0[0].Descriptor()
+	// spaceorganization.DefaultID holds the default value on creation for the id field.
+	spaceorganization.DefaultID = spaceorganizationDescID.Default.(func() string)
+	// spaceorganization.IDValidator is a validator for the "id" field. It is called by the builders before save.
+	spaceorganization.IDValidator = spaceorganizationDescID.Validators[0].(func(string) error)
+	spacequotaMixin := schema.SpaceQuota{}.Mixin()
+	spacequotaMixinFields0 := spacequotaMixin[0].Fields()
+	_ = spacequotaMixinFields0
+	spacequotaMixinFields3 := spacequotaMixin[3].Fields()
+	_ = spacequotaMixinFields3
+	spacequotaMixinFields5 := spacequotaMixin[5].Fields()
+	_ = spacequotaMixinFields5
+	spacequotaFields := schema.SpaceQuota{}.Fields()
+	_ = spacequotaFields
+	// spacequotaDescExtras is the schema descriptor for extras field.
+	spacequotaDescExtras := spacequotaMixinFields3[0].Descriptor()
+	// spacequota.DefaultExtras holds the default value on creation for the extras field.
+	spacequota.DefaultExtras = spacequotaDescExtras.Default.(map[string]interface{})
+	// spacequotaDescCreatedAt is the schema descriptor for created_at field.
+	spacequotaDescCreatedAt := spacequotaMixinFields5[0].Descriptor()
+	// spacequota.DefaultCreatedAt holds the default value on creation for the created_at field.
+	spacequota.DefaultCreatedAt = spacequotaDescCreatedAt.Default.(func() int64)
+	// spacequotaDescUpdatedAt is the schema descriptor for updated_at field.
+	spacequotaDescUpdatedAt := spacequotaMixinFields5[1].Descriptor()
+	// spacequota.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	spacequota.DefaultUpdatedAt = spacequotaDescUpdatedAt.Default.(func() int64)
+	// spacequota.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	spacequota.UpdateDefaultUpdatedAt = spacequotaDescUpdatedAt.UpdateDefault.(func() int64)
+	// spacequotaDescQuotaType is the schema descriptor for quota_type field.
+	spacequotaDescQuotaType := spacequotaFields[0].Descriptor()
+	// spacequota.QuotaTypeValidator is a validator for the "quota_type" field. It is called by the builders before save.
+	spacequota.QuotaTypeValidator = spacequotaDescQuotaType.Validators[0].(func(string) error)
+	// spacequotaDescQuotaName is the schema descriptor for quota_name field.
+	spacequotaDescQuotaName := spacequotaFields[1].Descriptor()
+	// spacequota.QuotaNameValidator is a validator for the "quota_name" field. It is called by the builders before save.
+	spacequota.QuotaNameValidator = spacequotaDescQuotaName.Validators[0].(func(string) error)
+	// spacequotaDescMaxValue is the schema descriptor for max_value field.
+	spacequotaDescMaxValue := spacequotaFields[2].Descriptor()
+	// spacequota.MaxValueValidator is a validator for the "max_value" field. It is called by the builders before save.
+	spacequota.MaxValueValidator = spacequotaDescMaxValue.Validators[0].(func(int64) error)
+	// spacequotaDescCurrentUsed is the schema descriptor for current_used field.
+	spacequotaDescCurrentUsed := spacequotaFields[3].Descriptor()
+	// spacequota.DefaultCurrentUsed holds the default value on creation for the current_used field.
+	spacequota.DefaultCurrentUsed = spacequotaDescCurrentUsed.Default.(int64)
+	// spacequota.CurrentUsedValidator is a validator for the "current_used" field. It is called by the builders before save.
+	spacequota.CurrentUsedValidator = spacequotaDescCurrentUsed.Validators[0].(func(int64) error)
+	// spacequotaDescUnit is the schema descriptor for unit field.
+	spacequotaDescUnit := spacequotaFields[4].Descriptor()
+	// spacequota.DefaultUnit holds the default value on creation for the unit field.
+	spacequota.DefaultUnit = spacequotaDescUnit.Default.(string)
+	// spacequotaDescEnabled is the schema descriptor for enabled field.
+	spacequotaDescEnabled := spacequotaFields[5].Descriptor()
+	// spacequota.DefaultEnabled holds the default value on creation for the enabled field.
+	spacequota.DefaultEnabled = spacequotaDescEnabled.Default.(bool)
+	// spacequotaDescID is the schema descriptor for id field.
+	spacequotaDescID := spacequotaMixinFields0[0].Descriptor()
+	// spacequota.DefaultID holds the default value on creation for the id field.
+	spacequota.DefaultID = spacequotaDescID.Default.(func() string)
+	// spacequota.IDValidator is a validator for the "id" field. It is called by the builders before save.
+	spacequota.IDValidator = spacequotaDescID.Validators[0].(func(string) error)
+	spacesettingMixin := schema.SpaceSetting{}.Mixin()
+	spacesettingMixinFields0 := spacesettingMixin[0].Fields()
+	_ = spacesettingMixinFields0
+	spacesettingMixinFields3 := spacesettingMixin[3].Fields()
+	_ = spacesettingMixinFields3
+	spacesettingMixinFields5 := spacesettingMixin[5].Fields()
+	_ = spacesettingMixinFields5
+	spacesettingFields := schema.SpaceSetting{}.Fields()
+	_ = spacesettingFields
+	// spacesettingDescExtras is the schema descriptor for extras field.
+	spacesettingDescExtras := spacesettingMixinFields3[0].Descriptor()
+	// spacesetting.DefaultExtras holds the default value on creation for the extras field.
+	spacesetting.DefaultExtras = spacesettingDescExtras.Default.(map[string]interface{})
+	// spacesettingDescCreatedAt is the schema descriptor for created_at field.
+	spacesettingDescCreatedAt := spacesettingMixinFields5[0].Descriptor()
+	// spacesetting.DefaultCreatedAt holds the default value on creation for the created_at field.
+	spacesetting.DefaultCreatedAt = spacesettingDescCreatedAt.Default.(func() int64)
+	// spacesettingDescUpdatedAt is the schema descriptor for updated_at field.
+	spacesettingDescUpdatedAt := spacesettingMixinFields5[1].Descriptor()
+	// spacesetting.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	spacesetting.DefaultUpdatedAt = spacesettingDescUpdatedAt.Default.(func() int64)
+	// spacesetting.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	spacesetting.UpdateDefaultUpdatedAt = spacesettingDescUpdatedAt.UpdateDefault.(func() int64)
+	// spacesettingDescSettingKey is the schema descriptor for setting_key field.
+	spacesettingDescSettingKey := spacesettingFields[0].Descriptor()
+	// spacesetting.SettingKeyValidator is a validator for the "setting_key" field. It is called by the builders before save.
+	spacesetting.SettingKeyValidator = spacesettingDescSettingKey.Validators[0].(func(string) error)
+	// spacesettingDescSettingName is the schema descriptor for setting_name field.
+	spacesettingDescSettingName := spacesettingFields[1].Descriptor()
+	// spacesetting.SettingNameValidator is a validator for the "setting_name" field. It is called by the builders before save.
+	spacesetting.SettingNameValidator = spacesettingDescSettingName.Validators[0].(func(string) error)
+	// spacesettingDescSettingType is the schema descriptor for setting_type field.
+	spacesettingDescSettingType := spacesettingFields[4].Descriptor()
+	// spacesetting.DefaultSettingType holds the default value on creation for the setting_type field.
+	spacesetting.DefaultSettingType = spacesettingDescSettingType.Default.(string)
+	// spacesettingDescScope is the schema descriptor for scope field.
+	spacesettingDescScope := spacesettingFields[5].Descriptor()
+	// spacesetting.DefaultScope holds the default value on creation for the scope field.
+	spacesetting.DefaultScope = spacesettingDescScope.Default.(string)
+	// spacesettingDescCategory is the schema descriptor for category field.
+	spacesettingDescCategory := spacesettingFields[6].Descriptor()
+	// spacesetting.DefaultCategory holds the default value on creation for the category field.
+	spacesetting.DefaultCategory = spacesettingDescCategory.Default.(string)
+	// spacesettingDescIsPublic is the schema descriptor for is_public field.
+	spacesettingDescIsPublic := spacesettingFields[7].Descriptor()
+	// spacesetting.DefaultIsPublic holds the default value on creation for the is_public field.
+	spacesetting.DefaultIsPublic = spacesettingDescIsPublic.Default.(bool)
+	// spacesettingDescIsRequired is the schema descriptor for is_required field.
+	spacesettingDescIsRequired := spacesettingFields[8].Descriptor()
+	// spacesetting.DefaultIsRequired holds the default value on creation for the is_required field.
+	spacesetting.DefaultIsRequired = spacesettingDescIsRequired.Default.(bool)
+	// spacesettingDescIsReadonly is the schema descriptor for is_readonly field.
+	spacesettingDescIsReadonly := spacesettingFields[9].Descriptor()
+	// spacesetting.DefaultIsReadonly holds the default value on creation for the is_readonly field.
+	spacesetting.DefaultIsReadonly = spacesettingDescIsReadonly.Default.(bool)
+	// spacesettingDescID is the schema descriptor for id field.
+	spacesettingDescID := spacesettingMixinFields0[0].Descriptor()
+	// spacesetting.DefaultID holds the default value on creation for the id field.
+	spacesetting.DefaultID = spacesettingDescID.Default.(func() string)
+	// spacesetting.IDValidator is a validator for the "id" field. It is called by the builders before save.
+	spacesetting.IDValidator = spacesettingDescID.Validators[0].(func(string) error)
+	userspaceMixin := schema.UserSpace{}.Mixin()
+	userspaceMixinFields0 := userspaceMixin[0].Fields()
+	_ = userspaceMixinFields0
+	userspaceMixinFields4 := userspaceMixin[4].Fields()
+	_ = userspaceMixinFields4
+	userspaceFields := schema.UserSpace{}.Fields()
+	_ = userspaceFields
+	// userspaceDescCreatedAt is the schema descriptor for created_at field.
+	userspaceDescCreatedAt := userspaceMixinFields4[0].Descriptor()
+	// userspace.DefaultCreatedAt holds the default value on creation for the created_at field.
+	userspace.DefaultCreatedAt = userspaceDescCreatedAt.Default.(func() int64)
+	// userspaceDescUpdatedAt is the schema descriptor for updated_at field.
+	userspaceDescUpdatedAt := userspaceMixinFields4[1].Descriptor()
+	// userspace.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	userspace.DefaultUpdatedAt = userspaceDescUpdatedAt.Default.(func() int64)
+	// userspace.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	userspace.UpdateDefaultUpdatedAt = userspaceDescUpdatedAt.UpdateDefault.(func() int64)
+	// userspaceDescID is the schema descriptor for id field.
+	userspaceDescID := userspaceMixinFields0[0].Descriptor()
+	// userspace.DefaultID holds the default value on creation for the id field.
+	userspace.DefaultID = userspaceDescID.Default.(func() string)
+	// userspace.IDValidator is a validator for the "id" field. It is called by the builders before save.
+	userspace.IDValidator = userspaceDescID.Validators[0].(func(string) error)
+	userspaceroleMixin := schema.UserSpaceRole{}.Mixin()
+	userspaceroleMixinFields0 := userspaceroleMixin[0].Fields()
+	_ = userspaceroleMixinFields0
+	userspaceroleMixinFields5 := userspaceroleMixin[5].Fields()
+	_ = userspaceroleMixinFields5
+	userspaceroleFields := schema.UserSpaceRole{}.Fields()
+	_ = userspaceroleFields
+	// userspaceroleDescCreatedAt is the schema descriptor for created_at field.
+	userspaceroleDescCreatedAt := userspaceroleMixinFields5[0].Descriptor()
+	// userspacerole.DefaultCreatedAt holds the default value on creation for the created_at field.
+	userspacerole.DefaultCreatedAt = userspaceroleDescCreatedAt.Default.(func() int64)
+	// userspaceroleDescUpdatedAt is the schema descriptor for updated_at field.
+	userspaceroleDescUpdatedAt := userspaceroleMixinFields5[1].Descriptor()
+	// userspacerole.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	userspacerole.DefaultUpdatedAt = userspaceroleDescUpdatedAt.Default.(func() int64)
+	// userspacerole.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	userspacerole.UpdateDefaultUpdatedAt = userspaceroleDescUpdatedAt.UpdateDefault.(func() int64)
+	// userspaceroleDescID is the schema descriptor for id field.
+	userspaceroleDescID := userspaceroleMixinFields0[0].Descriptor()
+	// userspacerole.DefaultID holds the default value on creation for the id field.
+	userspacerole.DefaultID = userspaceroleDescID.Default.(func() string)
+	// userspacerole.IDValidator is a validator for the "id" field. It is called by the builders before save.
+	userspacerole.IDValidator = userspaceroleDescID.Validators[0].(func(string) error)
 }

@@ -17,14 +17,14 @@ type ProcessDesignBody struct {
 	IsDraft         bool       `json:"is_draft,omitempty"`
 	Version         string     `json:"version,omitempty"`
 	SourceVersion   string     `json:"source_version,omitempty"`
-	TenantID        string     `json:"tenant_id,omitempty"`
+	SpaceID         string     `json:"space_id,omitempty"`
 	Extras          types.JSON `json:"extras,omitempty"`
 }
 
 // CreateProcessDesignBody represents body for creating process design
 type CreateProcessDesignBody struct {
 	ProcessDesignBody
-	TenantID string `json:"tenant_id,omitempty"`
+	SpaceID string `json:"space_id,omitempty"`
 }
 
 // UpdateProcessDesignBody represents body for updating process design
@@ -44,7 +44,7 @@ type ReadProcessDesign struct {
 	IsDraft         bool       `json:"is_draft,omitempty"`
 	Version         string     `json:"version,omitempty"`
 	SourceVersion   string     `json:"source_version,omitempty"`
-	TenantID        string     `json:"tenant_id,omitempty"`
+	SpaceID         string     `json:"space_id,omitempty"`
 	Extras          types.JSON `json:"extras,omitempty"`
 	CreatedBy       *string    `json:"created_by,omitempty"`
 	CreatedAt       *int64     `json:"created_at,omitempty"`
@@ -67,7 +67,7 @@ type FindProcessDesignParams struct {
 	TemplateID string `form:"template_id,omitempty" json:"template_id,omitempty"`
 	Version    string `form:"version,omitempty" json:"version,omitempty"`
 	IsDraft    *bool  `form:"is_draft,omitempty" json:"is_draft,omitempty"`
-	Tenant     string `form:"tenant,omitempty" json:"tenant,omitempty"`
+	Space      string `form:"space,omitempty" json:"space,omitempty"`
 }
 
 // ListProcessDesignParams represents list parameters for process designs
@@ -77,5 +77,5 @@ type ListProcessDesignParams struct {
 	Direction  string `form:"direction,omitempty" json:"direction,omitempty"`
 	TemplateID string `form:"template_id,omitempty" json:"template_id,omitempty"`
 	IsDraft    *bool  `form:"is_draft,omitempty" json:"is_draft,omitempty"`
-	Tenant     string `form:"tenant,omitempty" json:"tenant,omitempty"`
+	Space      string `form:"space,omitempty" json:"space,omitempty"`
 }

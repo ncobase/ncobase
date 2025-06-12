@@ -15,7 +15,7 @@ type StartProcessRequest struct {
 	Priority      int        `json:"priority,omitempty"`
 	Initiator     string     `json:"initiator" binding:"required"`
 	InitiatorDept string     `json:"initiator_dept,omitempty"`
-	TenantID      string     `json:"tenant_id,omitempty"`
+	SpaceID       string     `json:"space_id,omitempty"`
 }
 
 // StartProcessResponse represents process start response

@@ -1,14 +1,14 @@
 package website
 
 import (
-	"ncobase/space/structs"
+	"ncobase/organization/structs"
 )
 
 // OrganizationStructure for simple websites
 var OrganizationStructure = struct {
-	MainGroup structs.GroupBody `json:"main_group"`
+	MainOrganization structs.OrganizationBody `json:"main_organization"`
 }{
-	MainGroup: structs.GroupBody{
+	MainOrganization: structs.OrganizationBody{
 		Name:        "Website",
 		Slug:        "website-platform",
 		Type:        "website",

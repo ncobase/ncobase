@@ -88,8 +88,8 @@ type Node struct {
 	ReminderCount int `json:"reminder_count,omitempty"`
 	// Extend properties
 	Extras map[string]interface{} `json:"extras,omitempty"`
-	// tenant id
-	TenantID string `json:"tenant_id,omitempty"`
+	// space id, e.g. space id, organization id, store id
+	SpaceID string `json:"space_id,omitempty"`
 	// id of the creator
 	CreatedBy string `json:"created_by,omitempty"`
 	// id of the last updater
@@ -146,7 +146,7 @@ func (*Node) scanValues(columns []string) ([]any, error) {
 			values[i] = new(sql.NullBool)
 		case node.FieldStartTime, node.FieldEndTime, node.FieldDueTime, node.FieldDuration, node.FieldPriority, node.FieldReminderCount, node.FieldCreatedAt, node.FieldUpdatedAt, node.FieldRetryTimes, node.FieldRetryInterval:
 			values[i] = new(sql.NullInt64)
-		case node.FieldID, node.FieldName, node.FieldDescription, node.FieldType, node.FieldStatus, node.FieldNodeKey, node.FieldNodeType, node.FieldFormCode, node.FieldFormVersion, node.FieldDelegatedFrom, node.FieldDelegatedReason, node.FieldTenantID, node.FieldCreatedBy, node.FieldUpdatedBy, node.FieldProcessID, node.FieldCountersignRule:
+		case node.FieldID, node.FieldName, node.FieldDescription, node.FieldType, node.FieldStatus, node.FieldNodeKey, node.FieldNodeType, node.FieldFormCode, node.FieldFormVersion, node.FieldDelegatedFrom, node.FieldDelegatedReason, node.FieldSpaceID, node.FieldCreatedBy, node.FieldUpdatedBy, node.FieldProcessID, node.FieldCountersignRule:
 			values[i] = new(sql.NullString)
 		default:
 			values[i] = new(sql.UnknownType)
@@ -399,11 +399,11 @@ func (n *Node) assignValues(columns []string, values []any) error {
 					return fmt.Errorf("unmarshal field extras: %w", err)
 				}
 			}
-		case node.FieldTenantID:
+		case node.FieldSpaceID:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field tenant_id", values[i])
+				return fmt.Errorf("unexpected type %T for field space_id", values[i])
 			} else if value.Valid {
-				n.TenantID = value.String
+				n.SpaceID = value.String
 			}
 		case node.FieldCreatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -698,8 +698,8 @@ func (n *Node) String() string {
 	builder.WriteString("extras=")
 	builder.WriteString(fmt.Sprintf("%v", n.Extras))
 	builder.WriteString(", ")
-	builder.WriteString("tenant_id=")
-	builder.WriteString(n.TenantID)
+	builder.WriteString("space_id=")
+	builder.WriteString(n.SpaceID)
 	builder.WriteString(", ")
 	builder.WriteString("created_by=")
 	builder.WriteString(n.CreatedBy)

@@ -24,7 +24,7 @@ var (
 		{Name: "is_default", Type: field.TypeBool, Comment: "Whether this is the default channel for the provider", Default: false},
 		{Name: "supported_types", Type: field.TypeJSON, Comment: "Supported payment types (one_time, subscription, recurring)"},
 		{Name: "config", Type: field.TypeJSON, Comment: "Provider-specific configuration"},
-		{Name: "tenant_id", Type: field.TypeString, Nullable: true, Comment: "Tenant ID if multi-tenant support is enabled"},
+		{Name: "space_id", Type: field.TypeString, Nullable: true, Comment: "Space ID if multi-space support is enabled"},
 	}
 	// NcsePayChannelTable holds the schema information for the "ncse_pay_channel" table.
 	NcsePayChannelTable = &schema.Table{
@@ -48,7 +48,7 @@ var (
 				Columns: []*schema.Column{NcsePayChannelColumns[9]},
 			},
 			{
-				Name:    "paymentchannel_tenant_id",
+				Name:    "paymentchannel_space_id",
 				Unique:  false,
 				Columns: []*schema.Column{NcsePayChannelColumns[13]},
 			},
@@ -133,7 +133,7 @@ var (
 		{Name: "type", Type: field.TypeString, Comment: "Payment type (one_time, subscription, recurring)", Default: "one_time"},
 		{Name: "channel_id", Type: field.TypeString, Comment: "Payment channel ID"},
 		{Name: "user_id", Type: field.TypeString, Comment: "User ID"},
-		{Name: "tenant_id", Type: field.TypeString, Nullable: true, Comment: "Tenant ID"},
+		{Name: "space_id", Type: field.TypeString, Nullable: true, Comment: "Space ID"},
 		{Name: "product_id", Type: field.TypeString, Nullable: true, Comment: "PaymentProduct ID if associated with a product"},
 		{Name: "subscription_id", Type: field.TypeString, Nullable: true, Comment: "PaymentSubscription ID if associated with a subscription"},
 		{Name: "expires_at", Type: field.TypeTime, Comment: "Expiration time for the payment"},
@@ -168,7 +168,7 @@ var (
 				Columns: []*schema.Column{NcsePayOrderColumns[12]},
 			},
 			{
-				Name:    "paymentorder_tenant_id",
+				Name:    "paymentorder_space_id",
 				Unique:  false,
 				Columns: []*schema.Column{NcsePayOrderColumns[13]},
 			},
@@ -206,7 +206,7 @@ var (
 		{Name: "billing_interval", Type: field.TypeString, Nullable: true, Comment: "Billing interval for recurring payments (daily, weekly, monthly, yearly)"},
 		{Name: "trial_days", Type: field.TypeInt, Comment: "Number of trial days for recurring subscriptions", Default: 0},
 		{Name: "features", Type: field.TypeJSON, Comment: "List of features included in the product"},
-		{Name: "tenant_id", Type: field.TypeString, Nullable: true, Comment: "Tenant ID"},
+		{Name: "space_id", Type: field.TypeString, Nullable: true, Comment: "Space ID"},
 	}
 	// NcsePayProductTable holds the schema information for the "ncse_pay_product" table.
 	NcsePayProductTable = &schema.Table{
@@ -230,7 +230,7 @@ var (
 				Columns: []*schema.Column{NcsePayProductColumns[9]},
 			},
 			{
-				Name:    "paymentproduct_tenant_id",
+				Name:    "paymentproduct_space_id",
 				Unique:  false,
 				Columns: []*schema.Column{NcsePayProductColumns[15]},
 			},
@@ -246,7 +246,7 @@ var (
 		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
 		{Name: "status", Type: field.TypeString, Comment: "PaymentSubscription status (active, trialing, cancelled, expired, past_due)", Default: "active"},
 		{Name: "user_id", Type: field.TypeString, Comment: "User ID"},
-		{Name: "tenant_id", Type: field.TypeString, Nullable: true, Comment: "Tenant ID"},
+		{Name: "space_id", Type: field.TypeString, Nullable: true, Comment: "Space ID"},
 		{Name: "channel_id", Type: field.TypeString, Comment: "Payment channel ID"},
 		{Name: "current_period_start", Type: field.TypeTime, Comment: "Start of the current billing period"},
 		{Name: "current_period_end", Type: field.TypeTime, Comment: "End of the current billing period"},
@@ -287,7 +287,7 @@ var (
 				Columns: []*schema.Column{NcsePaySubscriptionColumns[7]},
 			},
 			{
-				Name:    "paymentsubscription_tenant_id",
+				Name:    "paymentsubscription_space_id",
 				Unique:  false,
 				Columns: []*schema.Column{NcsePaySubscriptionColumns[8]},
 			},

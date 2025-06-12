@@ -23,15 +23,15 @@ func (e *eventHandler) GetHandlers() map[string]event.Handler {
 		"user.updated": e.handleUserUpdated,
 		"user.deleted": e.handleUserDeleted,
 
-		// Subscribe to tenant-related events that might affect proxy operations
-		"tenant.created": e.handleTenantCreated,
-		"tenant.updated": e.handleTenantUpdated,
-		"tenant.deleted": e.handleTenantDeleted,
-
-		// Subscribe to space-related events
+		// Subscribe to space-related events that might affect proxy operations
 		"space.created": e.handleSpaceCreated,
 		"space.updated": e.handleSpaceUpdated,
 		"space.deleted": e.handleSpaceDeleted,
+
+		// Subscribe to organazation-related events
+		"orgs.created": e.handleOrganazationCreated,
+		"orgs.updated": e.handleOrganazationUpdated,
+		"orgs.deleted": e.handleOrganazationDeleted,
 	}
 }
 
@@ -90,60 +90,6 @@ func (e *eventHandler) handleUserDeleted(data any) {
 	// For example, this might deactivate matching users in a CRM system
 }
 
-// handleTenantCreated processes tenant creation events
-func (e *eventHandler) handleTenantCreated(data any) {
-	// eventData, ok := data.(ext.EventData)
-	// if !ok {
-	// 	logger.Error(context.Background(), "Invalid event data format")
-	// 	return
-	// }
-
-	// logger.Debugf(context.Background(), "Processing tenant.created event for proxy module")
-
-	// Example: Accessing Event Data
-	// tenantID, _ := eventData.Payload["tenantID"].(string)
-	// logger.Debugf(context.Background(), "Tenant created with ID: %s", tenantID)
-
-	// Handle integration with external systems
-	// For example, this might create an organization in a payment gateway
-}
-
-// handleTenantUpdated processes tenant update events
-func (e *eventHandler) handleTenantUpdated(data any) {
-	// eventData, ok := data.(ext.EventData)
-	// if !ok {
-	// 	logger.Error(context.Background(), "Invalid event data format")
-	// 	return
-	// }
-
-	// logger.Debugf(context.Background(), "Processing tenant.updated event for proxy module")
-
-	// Example: Accessing Event Data
-	// tenantID, _ := eventData.Payload["tenantID"].(string)
-	// logger.Debugf(context.Background(), "Tenant updated with ID: %s", tenantID)
-
-	// Handle integration with external systems
-	// For example, this might update billing details in a payment gateway
-}
-
-// handleTenantDeleted processes tenant deletion events
-func (e *eventHandler) handleTenantDeleted(data any) {
-	// eventData, ok := data.(ext.EventData)
-	// if !ok {
-	// 	logger.Error(context.Background(), "Invalid event data format")
-	// 	return
-	// }
-
-	// logger.Debugf(context.Background(), "Processing tenant.deleted event for proxy module")
-
-	// Example: Accessing Event Data
-	// tenantID, _ := eventData.Payload["tenantID"].(string)
-	// logger.Debugf(context.Background(), "Tenant deleted with ID: %s", tenantID)
-
-	// Handle integration with external systems
-	// For example, this might cancel subscriptions in a payment gateway
-}
-
 // handleSpaceCreated processes space creation events
 func (e *eventHandler) handleSpaceCreated(data any) {
 	// eventData, ok := data.(ext.EventData)
@@ -156,11 +102,10 @@ func (e *eventHandler) handleSpaceCreated(data any) {
 
 	// Example: Accessing Event Data
 	// spaceID, _ := eventData.Payload["spaceID"].(string)
-	// tenantID, _ := eventData.Payload["tenantID"].(string) // 可能需要租户信息
-	// logger.Debugf(context.Background(), "Space created: ID=%s in Tenant=%s", spaceID, tenantID)
+	// logger.Debugf(context.Background(), "Space created with ID: %s", spaceID)
 
 	// Handle integration with external systems
-	// For example, this might create a channel in a collaboration tool
+	// For example, this might create an organization in a payment gateway
 }
 
 // handleSpaceUpdated processes space update events
@@ -178,11 +123,66 @@ func (e *eventHandler) handleSpaceUpdated(data any) {
 	// logger.Debugf(context.Background(), "Space updated with ID: %s", spaceID)
 
 	// Handle integration with external systems
-	// For example, this might update a channel name in a collaboration tool
+	// For example, this might update billing details in a payment gateway
 }
 
 // handleSpaceDeleted processes space deletion events
 func (e *eventHandler) handleSpaceDeleted(data any) {
+	// eventData, ok := data.(ext.EventData)
+	// if !ok {
+	// 	logger.Error(context.Background(), "Invalid event data format")
+	// 	return
+	// }
+
+	// logger.Debugf(context.Background(), "Processing space.deleted event for proxy module")
+
+	// Example: Accessing Event Data
+	// spaceID, _ := eventData.Payload["spaceID"].(string)
+	// logger.Debugf(context.Background(), "Space deleted with ID: %s", spaceID)
+
+	// Handle integration with external systems
+	// For example, this might cancel subscriptions in a payment gateway
+}
+
+// handleSpaceCreated processes organazation creation events
+func (e *eventHandler) handleOrganazationCreated(data any) {
+	// eventData, ok := data.(ext.EventData)
+	// if !ok {
+	// 	logger.Error(context.Background(), "Invalid event data format")
+	// 	return
+	// }
+
+	// logger.Debugf(context.Background(), "Processing space.created event for proxy module")
+
+	// Example: Accessing Event Data
+	// spaceID, _ := eventData.Payload["spaceID"].(string)
+	// spaceID, _ := eventData.Payload["spaceID"].(string) // 可能需要租户信息
+	// logger.Debugf(context.Background(), "Space created: ID=%s in Space=%s", spaceID, spaceID)
+
+	// Handle integration with external systems
+	// For example, this might create a channel in a collaboration tool
+}
+
+// handleSpaceUpdated processes organazation update events
+func (e *eventHandler) handleOrganazationUpdated(data any) {
+	// eventData, ok := data.(ext.EventData)
+	// if !ok {
+	// 	logger.Error(context.Background(), "Invalid event data format")
+	// 	return
+	// }
+
+	// logger.Debugf(context.Background(), "Processing space.updated event for proxy module")
+
+	// Example: Accessing Event Data
+	// spaceID, _ := eventData.Payload["spaceID"].(string)
+	// logger.Debugf(context.Background(), "Space updated with ID: %s", spaceID)
+
+	// Handle integration with external systems
+	// For example, this might update a channel name in a collaboration tool
+}
+
+// handleSpaceDeleted processes organazation deletion events
+func (e *eventHandler) handleOrganazationDeleted(data any) {
 	// eventData, ok := data.(ext.EventData)
 	// if !ok {
 	// 	logger.Error(context.Background(), "Invalid event data format")

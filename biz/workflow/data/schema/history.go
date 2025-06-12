@@ -33,7 +33,7 @@ func (History) Mixin() []ent.Mixin {
 		mixin.Type,
 		mixin.ProcessRefMixin{},
 		mixin.NodeBaseMixin{},
-		mixin.TenantID,
+		mixin.SpaceID,
 		mixin.Operator,
 		mixin.TimeAt{},
 	}

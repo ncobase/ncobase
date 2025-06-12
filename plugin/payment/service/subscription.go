@@ -141,7 +141,7 @@ func (s *subscriptionService) Create(ctx context.Context, input *structs.CreateS
 	subscription := &structs.Subscription{
 		Status:             structs.SubscriptionStatusActive,
 		UserID:             input.UserID,
-		TenantID:           input.TenantID,
+		SpaceID:            input.SpaceID,
 		ProductID:          input.ProductID,
 		ChannelID:          input.ChannelID,
 		CurrentPeriodStart: currentPeriodStart,
@@ -178,7 +178,7 @@ func (s *subscriptionService) Create(ctx context.Context, input *structs.CreateS
 			Type:           structs.PaymentTypeSubscription,
 			ChannelID:      input.ChannelID,
 			UserID:         input.UserID,
-			TenantID:       input.TenantID,
+			SpaceID:        input.SpaceID,
 			ProductID:      input.ProductID,
 			SubscriptionID: created.ID,
 			ExpiresAt:      now.Add(24 * time.Hour), // 24 hours to pay
@@ -203,7 +203,7 @@ func (s *subscriptionService) Create(ctx context.Context, input *structs.CreateS
 		eventData := event.NewSubscriptionEventData(
 			created.ID,
 			created.UserID,
-			created.TenantID,
+			created.SpaceID,
 			created.ProductID,
 			created.ChannelID,
 			channel.Provider,
@@ -316,7 +316,7 @@ func (s *subscriptionService) Update(ctx context.Context, id string, updates map
 			eventData := &event.SubscriptionEventData{
 				SubscriptionID:     updated.ID,
 				UserID:             updated.UserID,
-				TenantID:           updated.TenantID,
+				SpaceID:            updated.SpaceID,
 				ProductID:          updated.ProductID,
 				ChannelID:          updated.ChannelID,
 				Provider:           channel.Provider,
@@ -403,7 +403,7 @@ func (s *subscriptionService) Cancel(ctx context.Context, id string, immediate b
 		eventData := event.NewSubscriptionEventData(
 			updated.ID,
 			updated.UserID,
-			updated.TenantID,
+			updated.SpaceID,
 			updated.ProductID,
 			updated.ChannelID,
 			channel.Provider,
@@ -490,7 +490,7 @@ func (s *subscriptionService) ProcessRenewals(ctx context.Context) error {
 			Type:           structs.PaymentTypeSubscription,
 			ChannelID:      subscription.ChannelID,
 			UserID:         subscription.UserID,
-			TenantID:       subscription.TenantID,
+			SpaceID:        subscription.SpaceID,
 			ProductID:      subscription.ProductID,
 			SubscriptionID: subscription.ID,
 			ExpiresAt:      subscription.CurrentPeriodEnd.Add(24 * time.Hour), // 24 hours after current period ends
@@ -529,7 +529,7 @@ func (s *subscriptionService) ProcessRenewals(ctx context.Context) error {
 				eventData := &event.SubscriptionEventData{
 					SubscriptionID:     subscription.ID,
 					UserID:             subscription.UserID,
-					TenantID:           subscription.TenantID,
+					SpaceID:            subscription.SpaceID,
 					ProductID:          subscription.ProductID,
 					ChannelID:          subscription.ChannelID,
 					Provider:           channel.Provider,
@@ -623,7 +623,7 @@ func (s *subscriptionService) ProcessExpiredSubscriptions(ctx context.Context) e
 				eventData := &event.SubscriptionEventData{
 					SubscriptionID:     sub.ID,
 					UserID:             sub.UserID,
-					TenantID:           sub.TenantID,
+					SpaceID:            sub.SpaceID,
 					ProductID:          sub.ProductID,
 					ChannelID:          sub.ChannelID,
 					Provider:           channel.Provider,
@@ -677,7 +677,7 @@ func (s *subscriptionService) Serialize(subscription *structs.Subscription) *str
 		ID:                 subscription.ID,
 		Status:             subscription.Status,
 		UserID:             subscription.UserID,
-		TenantID:           subscription.TenantID,
+		SpaceID:            subscription.SpaceID,
 		ProductID:          subscription.ProductID,
 		ChannelID:          subscription.ChannelID,
 		CurrentPeriodStart: subscription.CurrentPeriodStart,

@@ -4,7 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	spaceStructs "ncobase/space/structs"
+	orgStructs "ncobase/organization/structs"
 	userStructs "ncobase/user/structs"
 
 	"github.com/ncobase/ncore/logging/logger"
@@ -24,7 +24,7 @@ func (p *Plugin) RegisterDefaultHooks() error {
 
 	// 2. Example: Create a payment processing hook set
 	// This assumes you have a "stripe" endpoint and a "payments" route
-	// This would process payment data with your internal tenant service
+	// This would process payment data with your internal space service
 	if err := p.registerPaymentProcessingHooks(ctx); err != nil {
 		logger.Errorf(ctx, "Failed to register payment processing hooks: %v", err)
 		return err
@@ -32,7 +32,7 @@ func (p *Plugin) RegisterDefaultHooks() error {
 
 	// 3. Example: Create a collaboration tool hook set
 	// This assumes you have a "slack" endpoint and a "messages" route
-	// This would process message data with your internal space service
+	// This would process message data with your internal organization service
 	if err := p.registerCollaborationHooks(ctx); err != nil {
 		logger.Errorf(ctx, "Failed to register collaboration hooks: %v", err)
 		return err
@@ -65,11 +65,11 @@ func (p *Plugin) registerCRMSyncHooks(ctx context.Context) error {
 			return nil, fmt.Errorf("failed to parse input data: %w", err)
 		}
 
-		// Enrich with organization data from tenant service
-		if orgID, ok := inputData["organization_id"].(string); ok {
-			tenant, err := p.tenantService.Tenant.Get(ctx, orgID)
+		// Enrich with organization data from space service
+		if orgID, ok := inputData["org_id"].(string); ok {
+			space, err := p.spaceService.Space.Get(ctx, orgID)
 			if err == nil {
-				inputData["organization"] = tenant
+				inputData["organization"] = space
 			}
 		}
 
@@ -153,13 +153,13 @@ func (p *Plugin) registerPaymentProcessingHooks(ctx context.Context) error {
 			return nil, fmt.Errorf("failed to parse input data: %w", err)
 		}
 
-		// Add tenant billing information
-		if tenantID, ok := inputData["tenant_id"].(string); ok {
-			tenant, err := p.tenantService.Tenant.Get(ctx, tenantID)
-			if err == nil && tenant != nil {
+		// Add space billing information
+		if spaceID, ok := inputData["space_id"].(string); ok {
+			space, err := p.spaceService.Space.Get(ctx, spaceID)
+			if err == nil && space != nil {
 				// Add billing information
-				inputData["account_name"] = tenant.Name
-				// You might get more billing details from tenant extras or a separate service
+				inputData["account_name"] = space.Name
+				// You might get more billing details from space extras or a separate service
 			}
 		}
 
@@ -183,10 +183,10 @@ func (p *Plugin) registerPaymentProcessingHooks(ctx context.Context) error {
 		// Process payment response
 		if status, ok := responseData["status"].(string); ok {
 			if status == "succeeded" {
-				// Update tenant billing status
-				if tenantID, ok := responseData["tenant_id"].(string); ok {
-					logger.Infof(ctx, "Payment succeeded for tenant %s", tenantID)
-					// Update tenant billing status in your internal service
+				// Update space billing status
+				if spaceID, ok := responseData["space_id"].(string); ok {
+					logger.Infof(ctx, "Payment succeeded for space %s", spaceID)
+					// Update space billing status in your internal service
 				}
 			} else if status == "failed" {
 				// Handle failed payment
@@ -237,11 +237,11 @@ func (p *Plugin) registerCollaborationHooks(ctx context.Context) error {
 			return nil, fmt.Errorf("failed to parse input message data: %w", err)
 		}
 
-		// Add group and user information
-		if groupID, ok := inputData["group_id"].(string); ok {
-			group, err := p.spaceService.Group.Get(ctx, &spaceStructs.FindGroup{Group: groupID})
-			if err == nil && group != nil {
-				inputData["group_name"] = group.Name
+		// Add organization and user information
+		if orgID, ok := inputData["org_id"].(string); ok {
+			org, err := p.orgService.Organization.Get(ctx, &orgStructs.FindOrganization{Organization: orgID})
+			if err == nil && org != nil {
+				inputData["org_name"] = org.Name
 			}
 		}
 

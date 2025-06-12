@@ -21,7 +21,7 @@ type eventHandler struct {
 	service *service.Service
 
 	usw *wrapper.UserServiceWrapper
-	tsw *wrapper.TenantServiceWrapper
+	tsw *wrapper.SpaceServiceWrapper
 }
 
 // NewEventProvider creates a new event handler provider
@@ -30,7 +30,7 @@ func NewEventProvider(
 	service *service.Service,
 ) EventHandlerInterface {
 	usw := wrapper.NewUserServiceWrapper(em)
-	tsw := wrapper.NewTenantServiceWrapper(em)
+	tsw := wrapper.NewSpaceServiceWrapper(em)
 	return &eventHandler{
 		service: service,
 		usw:     usw,
@@ -268,7 +268,7 @@ func (e *eventHandler) processSubscriptionCreated(ctx context.Context, data *eve
 	// Business logic specific to subscription created
 	// Send welcome email to subscriber
 	// Grant access to subscription benefits
-	// Add user to relevant groups/roles
+	// Add user to relevant orgs/roles
 	// Initialize usage metrics
 
 	// If user service is available, update user's subscriptions

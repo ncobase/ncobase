@@ -3,7 +3,7 @@ package service
 import (
 	"context"
 	"fmt"
-	spaceStructs "ncobase/space/structs"
+	orgStructs "ncobase/organization/structs"
 	userStructs "ncobase/user/structs"
 	"strings"
 	"time"
@@ -42,10 +42,10 @@ func (s *Service) checkUsersInitialized(ctx context.Context) error {
 func (s *Service) initUsers(ctx context.Context) error {
 	logger.Infof(ctx, "Initializing users in %s mode...", s.state.DataMode)
 
-	// Get default tenant
-	tenant, err := s.getDefaultTenant(ctx)
+	// Get default space
+	space, err := s.getDefaultSpace(ctx)
 	if err != nil {
-		logger.Errorf(ctx, "Error getting default tenant: %v", err)
+		logger.Errorf(ctx, "Error getting default space: %v", err)
 		return err
 	}
 
@@ -95,7 +95,7 @@ func (s *Service) initUsers(ctx context.Context) error {
 
 		// Create employee record only for company/enterprise modes
 		if userInfo.Employee != nil && (s.state.DataMode == "company" || s.state.DataMode == "enterprise") {
-			if err := s.createEmployeeRecord(ctx, createdUser, userInfo.Employee, tenant.ID, false); err != nil {
+			if err := s.createEmployeeRecord(ctx, createdUser, userInfo.Employee, space.ID, false); err != nil {
 				logger.Errorf(ctx, "Error creating employee record for user %s: %v", createdUser.Username, err)
 				return fmt.Errorf("failed to create employee record for user '%s': %w", createdUser.Username, err)
 			}
@@ -103,7 +103,7 @@ func (s *Service) initUsers(ctx context.Context) error {
 		}
 
 		// Assign user role
-		if err := s.assignUserRole(ctx, createdUser, userInfo.Role, tenant.ID); err != nil {
+		if err := s.assignUserRole(ctx, createdUser, userInfo.Role, space.ID); err != nil {
 			logger.Errorf(ctx, "Error assigning role to user %s: %v", createdUser.Username, err)
 			return fmt.Errorf("failed to assign role to user '%s': %w", createdUser.Username, err)
 		}
@@ -116,10 +116,10 @@ func (s *Service) initUsers(ctx context.Context) error {
 		}
 	}
 
-	// Phase 3: Initialize user-group assignments
-	if err := s.initializeUserGroupAssignments(ctx); err != nil {
-		logger.Errorf(ctx, "Failed to initialize user-group assignments: %v", err)
-		return fmt.Errorf("user-group assignment failed: %w", err)
+	// Phase 3: Initialize user-organization assignments
+	if err := s.initializeUserOrganizationAssignments(ctx); err != nil {
+		logger.Errorf(ctx, "Failed to initialize user-organization assignments: %v", err)
+		return fmt.Errorf("user-organization assignment failed: %w", err)
 	}
 
 	// Phase 4: Assign employees to departments (only for company/enterprise)
@@ -151,10 +151,10 @@ func (s *Service) initUsers(ctx context.Context) error {
 }
 
 // createEmployeeRecord creates employee record with optional manager resolution
-func (s *Service) createEmployeeRecord(ctx context.Context, user *userStructs.ReadUser, employeeData *userStructs.EmployeeBody, tenantID string, resolveManager bool) error {
+func (s *Service) createEmployeeRecord(ctx context.Context, user *userStructs.ReadUser, employeeData *userStructs.EmployeeBody, spaceID string, resolveManager bool) error {
 	employeeBody := *employeeData
 	employeeBody.UserID = user.ID
-	employeeBody.TenantID = tenantID
+	employeeBody.SpaceID = spaceID
 
 	// Resolve manager username to ID if requested and manager is specified
 	if resolveManager && employeeBody.ManagerID != "" {
@@ -220,7 +220,7 @@ func (s *Service) resolveManagerReferences(ctx context.Context) error {
 		updateBody := &userStructs.UpdateEmployeeBody{
 			EmployeeBody: userStructs.EmployeeBody{
 				UserID:         employee.UserID,
-				TenantID:       employee.TenantID,
+				SpaceID:        employee.SpaceID,
 				EmployeeID:     employee.EmployeeID,
 				Department:     employee.Department,
 				Position:       employee.Position,
@@ -245,9 +245,9 @@ func (s *Service) resolveManagerReferences(ctx context.Context) error {
 	return nil
 }
 
-// assignEmployeesToDepartments assigns employees to their department groups
+// assignEmployeesToDepartments assigns employees to their department organizations
 func (s *Service) assignEmployeesToDepartments(ctx context.Context) error {
-	logger.Infof(ctx, "Assigning employees to department groups...")
+	logger.Infof(ctx, "Assigning employees to department organizations...")
 
 	employees, err := s.us.Employee.List(ctx, &userStructs.ListEmployeeParams{})
 	if err != nil {
@@ -267,23 +267,23 @@ func (s *Service) assignEmployeesToDepartments(ctx context.Context) error {
 			continue
 		}
 
-		// Find department group
-		group, err := s.findGroupBySlug(ctx, employee.Department)
+		// Find department organization
+		organization, err := s.findGroupBySlug(ctx, employee.Department)
 		if err != nil {
-			logger.Warnf(ctx, "Department group '%s' not found for employee %s", employee.Department, user.Username)
+			logger.Warnf(ctx, "Department organization '%s' not found for employee %s", employee.Department, user.Username)
 			continue
 		}
 
-		// Check if user is already in the group
-		isMember, err := s.ss.UserGroup.IsUserMember(ctx, user.ID, group.ID)
+		// Check if user is already in the organization
+		isMember, err := s.ss.UserOrganization.IsUserMember(ctx, user.ID, organization.ID)
 		if err != nil {
-			logger.Warnf(ctx, "Failed to check group membership for user %s: %v", user.Username, err)
+			logger.Warnf(ctx, "Failed to check organization membership for user %s: %v", user.Username, err)
 			continue
 		}
 
 		if !isMember {
-			// Add user to department group
-			if _, err := s.ss.UserGroup.AddUserToGroup(ctx, user.ID, group.ID, spaceStructs.RoleMember); err != nil {
+			// Add user to department organization
+			if _, err := s.ss.UserOrganization.AddUserToOrganization(ctx, user.ID, organization.ID, orgStructs.RoleMember); err != nil {
 				logger.Warnf(ctx, "Failed to add user %s to department %s: %v", user.Username, employee.Department, err)
 				continue
 			}
@@ -349,17 +349,17 @@ func (s *Service) validatePassword(ctx context.Context, username, password strin
 	return nil
 }
 
-// assignUserRole assigns both global and tenant roles to user
-func (s *Service) assignUserRole(ctx context.Context, user *userStructs.ReadUser, roleSlug string, tenantID string) error {
+// assignUserRole assigns both global and space roles to user
+func (s *Service) assignUserRole(ctx context.Context, user *userStructs.ReadUser, roleSlug string, spaceID string) error {
 	role, err := s.acs.Role.GetBySlug(ctx, roleSlug)
 	if err != nil {
 		logger.Errorf(ctx, "Role '%s' not found: %v", roleSlug, err)
 		return fmt.Errorf("role '%s' not found: %w", roleSlug, err)
 	}
 
-	if _, err := s.ts.UserTenant.AddUserToTenant(ctx, user.ID, tenantID); err != nil {
-		logger.Errorf(ctx, "Failed to add user to tenant: %v", err)
-		return fmt.Errorf("failed to add user '%s' to tenant: %w", user.Username, err)
+	if _, err := s.ts.UserSpace.AddUserToSpace(ctx, user.ID, spaceID); err != nil {
+		logger.Errorf(ctx, "Failed to add user to space: %v", err)
+		return fmt.Errorf("failed to add user '%s' to space: %w", user.Username, err)
 	}
 
 	if err := s.acs.UserRole.AddRoleToUser(ctx, user.ID, role.ID); err != nil {
@@ -367,17 +367,17 @@ func (s *Service) assignUserRole(ctx context.Context, user *userStructs.ReadUser
 		return fmt.Errorf("failed to assign global role '%s' to user '%s': %w", roleSlug, user.Username, err)
 	}
 
-	if _, err := s.ts.UserTenantRole.AddRoleToUserInTenant(ctx, user.ID, tenantID, role.ID); err != nil {
-		logger.Warnf(ctx, "Failed to assign tenant role to user '%s': %v", user.Username, err)
+	if _, err := s.ts.UserSpaceRole.AddRoleToUserInSpace(ctx, user.ID, spaceID, role.ID); err != nil {
+		logger.Warnf(ctx, "Failed to assign space role to user '%s': %v", user.Username, err)
 	}
 
 	logger.Infof(ctx, "Successfully assigned role '%s' to user '%s'", roleSlug, user.Username)
 	return nil
 }
 
-// initializeUserGroupAssignments assigns users to groups based on mode
-func (s *Service) initializeUserGroupAssignments(ctx context.Context) error {
-	logger.Infof(ctx, "Initializing user-group assignments...")
+// initializeUserOrganizationAssignments assigns users to organizations based on mode
+func (s *Service) initializeUserOrganizationAssignments(ctx context.Context) error {
+	logger.Infof(ctx, "Initializing user-organization assignments...")
 
 	var assignments map[string][]string
 
@@ -408,48 +408,48 @@ func (s *Service) initializeUserGroupAssignments(ctx context.Context) error {
 	}
 
 	var assignmentCount int
-	for username, groupSlugs := range assignments {
+	for username, organizationSlugs := range assignments {
 		user, err := s.us.User.Get(ctx, username)
 		if err != nil {
-			logger.Warnf(ctx, "User '%s' not found, skipping group assignments", username)
+			logger.Warnf(ctx, "User '%s' not found, skipping organization assignments", username)
 			continue
 		}
 
-		for _, groupSlug := range groupSlugs {
-			group, err := s.findGroupBySlug(ctx, groupSlug)
+		for _, organizationSlug := range organizationSlugs {
+			organization, err := s.findGroupBySlug(ctx, organizationSlug)
 			if err != nil {
-				logger.Warnf(ctx, "Group '%s' not found for user '%s'", groupSlug, username)
+				logger.Warnf(ctx, "Group '%s' not found for user '%s'", organizationSlug, username)
 				continue
 			}
 
-			if _, err := s.ss.UserGroup.AddUserToGroup(ctx, user.ID, group.ID, spaceStructs.RoleMember); err != nil {
-				logger.Warnf(ctx, "Failed to assign user '%s' to group '%s': %v", username, groupSlug, err)
+			if _, err := s.ss.UserOrganization.AddUserToOrganization(ctx, user.ID, organization.ID, orgStructs.RoleMember); err != nil {
+				logger.Warnf(ctx, "Failed to assign user '%s' to organization '%s': %v", username, organizationSlug, err)
 				continue
 			}
 
-			logger.Debugf(ctx, "Assigned user '%s' to group '%s'", username, groupSlug)
+			logger.Debugf(ctx, "Assigned user '%s' to organization '%s'", username, organizationSlug)
 			assignmentCount++
 		}
 	}
 
-	logger.Infof(ctx, "User-group assignment completed, created %d assignments", assignmentCount)
+	logger.Infof(ctx, "User-organization assignment completed, created %d assignments", assignmentCount)
 	return nil
 }
 
-// findGroupBySlug finds group by slug
-func (s *Service) findGroupBySlug(ctx context.Context, slug string) (*spaceStructs.ReadGroup, error) {
-	groups, err := s.ss.Group.List(ctx, &spaceStructs.ListGroupParams{})
+// findGroupBySlug finds organization by slug
+func (s *Service) findGroupBySlug(ctx context.Context, slug string) (*orgStructs.ReadOrganization, error) {
+	organizations, err := s.ss.Organization.List(ctx, &orgStructs.ListOrganizationParams{})
 	if err != nil {
 		return nil, err
 	}
 
-	for _, group := range groups.Items {
-		if group.Slug == slug {
-			return group, nil
+	for _, organization := range organizations.Items {
+		if organization.Slug == slug {
+			return organization, nil
 		}
 	}
 
-	return nil, fmt.Errorf("group with slug '%s' not found", slug)
+	return nil, fmt.Errorf("organization with slug '%s' not found", slug)
 }
 
 // InitializeUsers initializes only the users if the system is already initialized
@@ -465,7 +465,7 @@ func (s *Service) InitializeUsers(ctx context.Context) (*InitState, error) {
 		}{
 			{"roles", s.checkRolesInitialized},
 			{"permissions", s.checkPermissionsInitialized},
-			{"tenants", s.checkTenantsInitialized},
+			{"spaces", s.checkSpacesInitialized},
 		}
 
 		for _, step := range steps {
@@ -552,23 +552,23 @@ func (s *Service) VerifyUserRoleAssignment(ctx context.Context, username string)
 		}
 	}
 
-	userTenants, err := s.ts.UserTenant.UserBelongTenants(ctx, user.ID)
+	userSpaces, err := s.ts.UserSpace.UserBelongSpaces(ctx, user.ID)
 	if err != nil {
-		logger.Warnf(ctx, "Failed to get tenants for user '%s': %v", username, err)
+		logger.Warnf(ctx, "Failed to get spaces for user '%s': %v", username, err)
 		return nil
 	}
 
-	logger.Infof(ctx, "User '%s' belongs to %d tenants:", username, len(userTenants))
-	for _, tenant := range userTenants {
-		logger.Infof(ctx, "  - Tenant: %s (%s)", tenant.Name, tenant.Slug)
+	logger.Infof(ctx, "User '%s' belongs to %d spaces:", username, len(userSpaces))
+	for _, space := range userSpaces {
+		logger.Infof(ctx, "  - Space: %s (%s)", space.Name, space.Slug)
 
-		ctx = ctxutil.SetTenantID(ctx, tenant.ID)
-		roleIDs, roleErr := s.ts.UserTenantRole.GetUserRolesInTenant(ctx, user.ID, tenant.ID)
+		ctx = ctxutil.SetSpaceID(ctx, space.ID)
+		roleIDs, roleErr := s.ts.UserSpaceRole.GetUserRolesInSpace(ctx, user.ID, space.ID)
 		if roleErr == nil && len(roleIDs) > 0 {
-			tenantRoles, _ := s.acs.Role.GetByIDs(ctx, roleIDs)
-			logger.Infof(ctx, "    User has %d roles in tenant '%s':", len(tenantRoles), tenant.Name)
-			for _, role := range tenantRoles {
-				logger.Infof(ctx, "      - Tenant role: %s (%s)", role.Name, role.Slug)
+			spaceRoles, _ := s.acs.Role.GetByIDs(ctx, roleIDs)
+			logger.Infof(ctx, "    User has %d roles in space '%s':", len(spaceRoles), space.Name)
+			for _, role := range spaceRoles {
+				logger.Infof(ctx, "      - Space role: %s (%s)", role.Name, role.Slug)
 			}
 		}
 	}

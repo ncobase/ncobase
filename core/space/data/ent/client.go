@@ -11,9 +11,16 @@ import (
 
 	"ncobase/space/data/ent/migrate"
 
-	"ncobase/space/data/ent/group"
-	"ncobase/space/data/ent/grouprole"
-	"ncobase/space/data/ent/usergroup"
+	"ncobase/space/data/ent/space"
+	"ncobase/space/data/ent/spacebilling"
+	"ncobase/space/data/ent/spacedictionary"
+	"ncobase/space/data/ent/spacemenu"
+	"ncobase/space/data/ent/spaceoption"
+	"ncobase/space/data/ent/spaceorganization"
+	"ncobase/space/data/ent/spacequota"
+	"ncobase/space/data/ent/spacesetting"
+	"ncobase/space/data/ent/userspace"
+	"ncobase/space/data/ent/userspacerole"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect"
@@ -25,12 +32,26 @@ type Client struct {
 	config
 	// Schema is the client for creating, migrating and dropping schema.
 	Schema *migrate.Schema
-	// Group is the client for interacting with the Group builders.
-	Group *GroupClient
-	// GroupRole is the client for interacting with the GroupRole builders.
-	GroupRole *GroupRoleClient
-	// UserGroup is the client for interacting with the UserGroup builders.
-	UserGroup *UserGroupClient
+	// Space is the client for interacting with the Space builders.
+	Space *SpaceClient
+	// SpaceBilling is the client for interacting with the SpaceBilling builders.
+	SpaceBilling *SpaceBillingClient
+	// SpaceDictionary is the client for interacting with the SpaceDictionary builders.
+	SpaceDictionary *SpaceDictionaryClient
+	// SpaceMenu is the client for interacting with the SpaceMenu builders.
+	SpaceMenu *SpaceMenuClient
+	// SpaceOption is the client for interacting with the SpaceOption builders.
+	SpaceOption *SpaceOptionClient
+	// SpaceOrganization is the client for interacting with the SpaceOrganization builders.
+	SpaceOrganization *SpaceOrganizationClient
+	// SpaceQuota is the client for interacting with the SpaceQuota builders.
+	SpaceQuota *SpaceQuotaClient
+	// SpaceSetting is the client for interacting with the SpaceSetting builders.
+	SpaceSetting *SpaceSettingClient
+	// UserSpace is the client for interacting with the UserSpace builders.
+	UserSpace *UserSpaceClient
+	// UserSpaceRole is the client for interacting with the UserSpaceRole builders.
+	UserSpaceRole *UserSpaceRoleClient
 }
 
 // NewClient creates a new client configured with the given options.
@@ -42,9 +63,16 @@ func NewClient(opts ...Option) *Client {
 
 func (c *Client) init() {
 	c.Schema = migrate.NewSchema(c.driver)
-	c.Group = NewGroupClient(c.config)
-	c.GroupRole = NewGroupRoleClient(c.config)
-	c.UserGroup = NewUserGroupClient(c.config)
+	c.Space = NewSpaceClient(c.config)
+	c.SpaceBilling = NewSpaceBillingClient(c.config)
+	c.SpaceDictionary = NewSpaceDictionaryClient(c.config)
+	c.SpaceMenu = NewSpaceMenuClient(c.config)
+	c.SpaceOption = NewSpaceOptionClient(c.config)
+	c.SpaceOrganization = NewSpaceOrganizationClient(c.config)
+	c.SpaceQuota = NewSpaceQuotaClient(c.config)
+	c.SpaceSetting = NewSpaceSettingClient(c.config)
+	c.UserSpace = NewUserSpaceClient(c.config)
+	c.UserSpaceRole = NewUserSpaceRoleClient(c.config)
 }
 
 type (
@@ -135,11 +163,18 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 	cfg := c.config
 	cfg.driver = tx
 	return &Tx{
-		ctx:       ctx,
-		config:    cfg,
-		Group:     NewGroupClient(cfg),
-		GroupRole: NewGroupRoleClient(cfg),
-		UserGroup: NewUserGroupClient(cfg),
+		ctx:               ctx,
+		config:            cfg,
+		Space:             NewSpaceClient(cfg),
+		SpaceBilling:      NewSpaceBillingClient(cfg),
+		SpaceDictionary:   NewSpaceDictionaryClient(cfg),
+		SpaceMenu:         NewSpaceMenuClient(cfg),
+		SpaceOption:       NewSpaceOptionClient(cfg),
+		SpaceOrganization: NewSpaceOrganizationClient(cfg),
+		SpaceQuota:        NewSpaceQuotaClient(cfg),
+		SpaceSetting:      NewSpaceSettingClient(cfg),
+		UserSpace:         NewUserSpaceClient(cfg),
+		UserSpaceRole:     NewUserSpaceRoleClient(cfg),
 	}, nil
 }
 
@@ -157,18 +192,25 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 	cfg := c.config
 	cfg.driver = &txDriver{tx: tx, drv: c.driver}
 	return &Tx{
-		ctx:       ctx,
-		config:    cfg,
-		Group:     NewGroupClient(cfg),
-		GroupRole: NewGroupRoleClient(cfg),
-		UserGroup: NewUserGroupClient(cfg),
+		ctx:               ctx,
+		config:            cfg,
+		Space:             NewSpaceClient(cfg),
+		SpaceBilling:      NewSpaceBillingClient(cfg),
+		SpaceDictionary:   NewSpaceDictionaryClient(cfg),
+		SpaceMenu:         NewSpaceMenuClient(cfg),
+		SpaceOption:       NewSpaceOptionClient(cfg),
+		SpaceOrganization: NewSpaceOrganizationClient(cfg),
+		SpaceQuota:        NewSpaceQuotaClient(cfg),
+		SpaceSetting:      NewSpaceSettingClient(cfg),
+		UserSpace:         NewUserSpaceClient(cfg),
+		UserSpaceRole:     NewUserSpaceRoleClient(cfg),
 	}, nil
 }
 
 // Debug returns a new debug-client. It's used to get verbose logging on specific operations.
 //
 //	client.Debug().
-//		Group.
+//		Space.
 //		Query().
 //		Count(ctx)
 func (c *Client) Debug() *Client {
@@ -190,134 +232,156 @@ func (c *Client) Close() error {
 // Use adds the mutation hooks to all the entity clients.
 // In order to add hooks to a specific client, call: `client.Node.Use(...)`.
 func (c *Client) Use(hooks ...Hook) {
-	c.Group.Use(hooks...)
-	c.GroupRole.Use(hooks...)
-	c.UserGroup.Use(hooks...)
+	for _, n := range []interface{ Use(...Hook) }{
+		c.Space, c.SpaceBilling, c.SpaceDictionary, c.SpaceMenu, c.SpaceOption,
+		c.SpaceOrganization, c.SpaceQuota, c.SpaceSetting, c.UserSpace,
+		c.UserSpaceRole,
+	} {
+		n.Use(hooks...)
+	}
 }
 
 // Intercept adds the query interceptors to all the entity clients.
 // In order to add interceptors to a specific client, call: `client.Node.Intercept(...)`.
 func (c *Client) Intercept(interceptors ...Interceptor) {
-	c.Group.Intercept(interceptors...)
-	c.GroupRole.Intercept(interceptors...)
-	c.UserGroup.Intercept(interceptors...)
+	for _, n := range []interface{ Intercept(...Interceptor) }{
+		c.Space, c.SpaceBilling, c.SpaceDictionary, c.SpaceMenu, c.SpaceOption,
+		c.SpaceOrganization, c.SpaceQuota, c.SpaceSetting, c.UserSpace,
+		c.UserSpaceRole,
+	} {
+		n.Intercept(interceptors...)
+	}
 }
 
 // Mutate implements the ent.Mutator interface.
 func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 	switch m := m.(type) {
-	case *GroupMutation:
-		return c.Group.mutate(ctx, m)
-	case *GroupRoleMutation:
-		return c.GroupRole.mutate(ctx, m)
-	case *UserGroupMutation:
-		return c.UserGroup.mutate(ctx, m)
+	case *SpaceMutation:
+		return c.Space.mutate(ctx, m)
+	case *SpaceBillingMutation:
+		return c.SpaceBilling.mutate(ctx, m)
+	case *SpaceDictionaryMutation:
+		return c.SpaceDictionary.mutate(ctx, m)
+	case *SpaceMenuMutation:
+		return c.SpaceMenu.mutate(ctx, m)
+	case *SpaceOptionMutation:
+		return c.SpaceOption.mutate(ctx, m)
+	case *SpaceOrganizationMutation:
+		return c.SpaceOrganization.mutate(ctx, m)
+	case *SpaceQuotaMutation:
+		return c.SpaceQuota.mutate(ctx, m)
+	case *SpaceSettingMutation:
+		return c.SpaceSetting.mutate(ctx, m)
+	case *UserSpaceMutation:
+		return c.UserSpace.mutate(ctx, m)
+	case *UserSpaceRoleMutation:
+		return c.UserSpaceRole.mutate(ctx, m)
 	default:
 		return nil, fmt.Errorf("ent: unknown mutation type %T", m)
 	}
 }
 
-// GroupClient is a client for the Group schema.
-type GroupClient struct {
+// SpaceClient is a client for the Space schema.
+type SpaceClient struct {
 	config
 }
 
-// NewGroupClient returns a client for the Group from the given config.
-func NewGroupClient(c config) *GroupClient {
-	return &GroupClient{config: c}
+// NewSpaceClient returns a client for the Space from the given config.
+func NewSpaceClient(c config) *SpaceClient {
+	return &SpaceClient{config: c}
 }
 
 // Use adds a list of mutation hooks to the hooks stack.
-// A call to `Use(f, g, h)` equals to `group.Hooks(f(g(h())))`.
-func (c *GroupClient) Use(hooks ...Hook) {
-	c.hooks.Group = append(c.hooks.Group, hooks...)
+// A call to `Use(f, g, h)` equals to `space.Hooks(f(g(h())))`.
+func (c *SpaceClient) Use(hooks ...Hook) {
+	c.hooks.Space = append(c.hooks.Space, hooks...)
 }
 
 // Intercept adds a list of query interceptors to the interceptors stack.
-// A call to `Intercept(f, g, h)` equals to `group.Intercept(f(g(h())))`.
-func (c *GroupClient) Intercept(interceptors ...Interceptor) {
-	c.inters.Group = append(c.inters.Group, interceptors...)
+// A call to `Intercept(f, g, h)` equals to `space.Intercept(f(g(h())))`.
+func (c *SpaceClient) Intercept(interceptors ...Interceptor) {
+	c.inters.Space = append(c.inters.Space, interceptors...)
 }
 
-// Create returns a builder for creating a Group entity.
-func (c *GroupClient) Create() *GroupCreate {
-	mutation := newGroupMutation(c.config, OpCreate)
-	return &GroupCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+// Create returns a builder for creating a Space entity.
+func (c *SpaceClient) Create() *SpaceCreate {
+	mutation := newSpaceMutation(c.config, OpCreate)
+	return &SpaceCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
-// CreateBulk returns a builder for creating a bulk of Group entities.
-func (c *GroupClient) CreateBulk(builders ...*GroupCreate) *GroupCreateBulk {
-	return &GroupCreateBulk{config: c.config, builders: builders}
+// CreateBulk returns a builder for creating a bulk of Space entities.
+func (c *SpaceClient) CreateBulk(builders ...*SpaceCreate) *SpaceCreateBulk {
+	return &SpaceCreateBulk{config: c.config, builders: builders}
 }
 
 // MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
 // a builder and applies setFunc on it.
-func (c *GroupClient) MapCreateBulk(slice any, setFunc func(*GroupCreate, int)) *GroupCreateBulk {
+func (c *SpaceClient) MapCreateBulk(slice any, setFunc func(*SpaceCreate, int)) *SpaceCreateBulk {
 	rv := reflect.ValueOf(slice)
 	if rv.Kind() != reflect.Slice {
-		return &GroupCreateBulk{err: fmt.Errorf("calling to GroupClient.MapCreateBulk with wrong type %T, need slice", slice)}
+		return &SpaceCreateBulk{err: fmt.Errorf("calling to SpaceClient.MapCreateBulk with wrong type %T, need slice", slice)}
 	}
-	builders := make([]*GroupCreate, rv.Len())
+	builders := make([]*SpaceCreate, rv.Len())
 	for i := 0; i < rv.Len(); i++ {
 		builders[i] = c.Create()
 		setFunc(builders[i], i)
 	}
-	return &GroupCreateBulk{config: c.config, builders: builders}
+	return &SpaceCreateBulk{config: c.config, builders: builders}
 }
 
-// Update returns an update builder for Group.
-func (c *GroupClient) Update() *GroupUpdate {
-	mutation := newGroupMutation(c.config, OpUpdate)
-	return &GroupUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+// Update returns an update builder for Space.
+func (c *SpaceClient) Update() *SpaceUpdate {
+	mutation := newSpaceMutation(c.config, OpUpdate)
+	return &SpaceUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *GroupClient) UpdateOne(gr *Group) *GroupUpdateOne {
-	mutation := newGroupMutation(c.config, OpUpdateOne, withGroup(gr))
-	return &GroupUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+func (c *SpaceClient) UpdateOne(s *Space) *SpaceUpdateOne {
+	mutation := newSpaceMutation(c.config, OpUpdateOne, withSpace(s))
+	return &SpaceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *GroupClient) UpdateOneID(id string) *GroupUpdateOne {
-	mutation := newGroupMutation(c.config, OpUpdateOne, withGroupID(id))
-	return &GroupUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+func (c *SpaceClient) UpdateOneID(id string) *SpaceUpdateOne {
+	mutation := newSpaceMutation(c.config, OpUpdateOne, withSpaceID(id))
+	return &SpaceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
-// Delete returns a delete builder for Group.
-func (c *GroupClient) Delete() *GroupDelete {
-	mutation := newGroupMutation(c.config, OpDelete)
-	return &GroupDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+// Delete returns a delete builder for Space.
+func (c *SpaceClient) Delete() *SpaceDelete {
+	mutation := newSpaceMutation(c.config, OpDelete)
+	return &SpaceDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *GroupClient) DeleteOne(gr *Group) *GroupDeleteOne {
-	return c.DeleteOneID(gr.ID)
+func (c *SpaceClient) DeleteOne(s *Space) *SpaceDeleteOne {
+	return c.DeleteOneID(s.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *GroupClient) DeleteOneID(id string) *GroupDeleteOne {
-	builder := c.Delete().Where(group.ID(id))
+func (c *SpaceClient) DeleteOneID(id string) *SpaceDeleteOne {
+	builder := c.Delete().Where(space.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
-	return &GroupDeleteOne{builder}
+	return &SpaceDeleteOne{builder}
 }
 
-// Query returns a query builder for Group.
-func (c *GroupClient) Query() *GroupQuery {
-	return &GroupQuery{
+// Query returns a query builder for Space.
+func (c *SpaceClient) Query() *SpaceQuery {
+	return &SpaceQuery{
 		config: c.config,
-		ctx:    &QueryContext{Type: TypeGroup},
+		ctx:    &QueryContext{Type: TypeSpace},
 		inters: c.Interceptors(),
 	}
 }
 
-// Get returns a Group entity by its id.
-func (c *GroupClient) Get(ctx context.Context, id string) (*Group, error) {
-	return c.Query().Where(group.ID(id)).Only(ctx)
+// Get returns a Space entity by its id.
+func (c *SpaceClient) Get(ctx context.Context, id string) (*Space, error) {
+	return c.Query().Where(space.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *GroupClient) GetX(ctx context.Context, id string) *Group {
+func (c *SpaceClient) GetX(ctx context.Context, id string) *Space {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -326,131 +390,131 @@ func (c *GroupClient) GetX(ctx context.Context, id string) *Group {
 }
 
 // Hooks returns the client hooks.
-func (c *GroupClient) Hooks() []Hook {
-	return c.hooks.Group
+func (c *SpaceClient) Hooks() []Hook {
+	return c.hooks.Space
 }
 
 // Interceptors returns the client interceptors.
-func (c *GroupClient) Interceptors() []Interceptor {
-	return c.inters.Group
+func (c *SpaceClient) Interceptors() []Interceptor {
+	return c.inters.Space
 }
 
-func (c *GroupClient) mutate(ctx context.Context, m *GroupMutation) (Value, error) {
+func (c *SpaceClient) mutate(ctx context.Context, m *SpaceMutation) (Value, error) {
 	switch m.Op() {
 	case OpCreate:
-		return (&GroupCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+		return (&SpaceCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
 	case OpUpdate:
-		return (&GroupUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+		return (&SpaceUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
 	case OpUpdateOne:
-		return (&GroupUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+		return (&SpaceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
 	case OpDelete, OpDeleteOne:
-		return (&GroupDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+		return (&SpaceDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
 	default:
-		return nil, fmt.Errorf("ent: unknown Group mutation op: %q", m.Op())
+		return nil, fmt.Errorf("ent: unknown Space mutation op: %q", m.Op())
 	}
 }
 
-// GroupRoleClient is a client for the GroupRole schema.
-type GroupRoleClient struct {
+// SpaceBillingClient is a client for the SpaceBilling schema.
+type SpaceBillingClient struct {
 	config
 }
 
-// NewGroupRoleClient returns a client for the GroupRole from the given config.
-func NewGroupRoleClient(c config) *GroupRoleClient {
-	return &GroupRoleClient{config: c}
+// NewSpaceBillingClient returns a client for the SpaceBilling from the given config.
+func NewSpaceBillingClient(c config) *SpaceBillingClient {
+	return &SpaceBillingClient{config: c}
 }
 
 // Use adds a list of mutation hooks to the hooks stack.
-// A call to `Use(f, g, h)` equals to `grouprole.Hooks(f(g(h())))`.
-func (c *GroupRoleClient) Use(hooks ...Hook) {
-	c.hooks.GroupRole = append(c.hooks.GroupRole, hooks...)
+// A call to `Use(f, g, h)` equals to `spacebilling.Hooks(f(g(h())))`.
+func (c *SpaceBillingClient) Use(hooks ...Hook) {
+	c.hooks.SpaceBilling = append(c.hooks.SpaceBilling, hooks...)
 }
 
 // Intercept adds a list of query interceptors to the interceptors stack.
-// A call to `Intercept(f, g, h)` equals to `grouprole.Intercept(f(g(h())))`.
-func (c *GroupRoleClient) Intercept(interceptors ...Interceptor) {
-	c.inters.GroupRole = append(c.inters.GroupRole, interceptors...)
+// A call to `Intercept(f, g, h)` equals to `spacebilling.Intercept(f(g(h())))`.
+func (c *SpaceBillingClient) Intercept(interceptors ...Interceptor) {
+	c.inters.SpaceBilling = append(c.inters.SpaceBilling, interceptors...)
 }
 
-// Create returns a builder for creating a GroupRole entity.
-func (c *GroupRoleClient) Create() *GroupRoleCreate {
-	mutation := newGroupRoleMutation(c.config, OpCreate)
-	return &GroupRoleCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+// Create returns a builder for creating a SpaceBilling entity.
+func (c *SpaceBillingClient) Create() *SpaceBillingCreate {
+	mutation := newSpaceBillingMutation(c.config, OpCreate)
+	return &SpaceBillingCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
-// CreateBulk returns a builder for creating a bulk of GroupRole entities.
-func (c *GroupRoleClient) CreateBulk(builders ...*GroupRoleCreate) *GroupRoleCreateBulk {
-	return &GroupRoleCreateBulk{config: c.config, builders: builders}
+// CreateBulk returns a builder for creating a bulk of SpaceBilling entities.
+func (c *SpaceBillingClient) CreateBulk(builders ...*SpaceBillingCreate) *SpaceBillingCreateBulk {
+	return &SpaceBillingCreateBulk{config: c.config, builders: builders}
 }
 
 // MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
 // a builder and applies setFunc on it.
-func (c *GroupRoleClient) MapCreateBulk(slice any, setFunc func(*GroupRoleCreate, int)) *GroupRoleCreateBulk {
+func (c *SpaceBillingClient) MapCreateBulk(slice any, setFunc func(*SpaceBillingCreate, int)) *SpaceBillingCreateBulk {
 	rv := reflect.ValueOf(slice)
 	if rv.Kind() != reflect.Slice {
-		return &GroupRoleCreateBulk{err: fmt.Errorf("calling to GroupRoleClient.MapCreateBulk with wrong type %T, need slice", slice)}
+		return &SpaceBillingCreateBulk{err: fmt.Errorf("calling to SpaceBillingClient.MapCreateBulk with wrong type %T, need slice", slice)}
 	}
-	builders := make([]*GroupRoleCreate, rv.Len())
+	builders := make([]*SpaceBillingCreate, rv.Len())
 	for i := 0; i < rv.Len(); i++ {
 		builders[i] = c.Create()
 		setFunc(builders[i], i)
 	}
-	return &GroupRoleCreateBulk{config: c.config, builders: builders}
+	return &SpaceBillingCreateBulk{config: c.config, builders: builders}
 }
 
-// Update returns an update builder for GroupRole.
-func (c *GroupRoleClient) Update() *GroupRoleUpdate {
-	mutation := newGroupRoleMutation(c.config, OpUpdate)
-	return &GroupRoleUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+// Update returns an update builder for SpaceBilling.
+func (c *SpaceBillingClient) Update() *SpaceBillingUpdate {
+	mutation := newSpaceBillingMutation(c.config, OpUpdate)
+	return &SpaceBillingUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *GroupRoleClient) UpdateOne(gr *GroupRole) *GroupRoleUpdateOne {
-	mutation := newGroupRoleMutation(c.config, OpUpdateOne, withGroupRole(gr))
-	return &GroupRoleUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+func (c *SpaceBillingClient) UpdateOne(sb *SpaceBilling) *SpaceBillingUpdateOne {
+	mutation := newSpaceBillingMutation(c.config, OpUpdateOne, withSpaceBilling(sb))
+	return &SpaceBillingUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *GroupRoleClient) UpdateOneID(id string) *GroupRoleUpdateOne {
-	mutation := newGroupRoleMutation(c.config, OpUpdateOne, withGroupRoleID(id))
-	return &GroupRoleUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+func (c *SpaceBillingClient) UpdateOneID(id string) *SpaceBillingUpdateOne {
+	mutation := newSpaceBillingMutation(c.config, OpUpdateOne, withSpaceBillingID(id))
+	return &SpaceBillingUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
-// Delete returns a delete builder for GroupRole.
-func (c *GroupRoleClient) Delete() *GroupRoleDelete {
-	mutation := newGroupRoleMutation(c.config, OpDelete)
-	return &GroupRoleDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+// Delete returns a delete builder for SpaceBilling.
+func (c *SpaceBillingClient) Delete() *SpaceBillingDelete {
+	mutation := newSpaceBillingMutation(c.config, OpDelete)
+	return &SpaceBillingDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *GroupRoleClient) DeleteOne(gr *GroupRole) *GroupRoleDeleteOne {
-	return c.DeleteOneID(gr.ID)
+func (c *SpaceBillingClient) DeleteOne(sb *SpaceBilling) *SpaceBillingDeleteOne {
+	return c.DeleteOneID(sb.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *GroupRoleClient) DeleteOneID(id string) *GroupRoleDeleteOne {
-	builder := c.Delete().Where(grouprole.ID(id))
+func (c *SpaceBillingClient) DeleteOneID(id string) *SpaceBillingDeleteOne {
+	builder := c.Delete().Where(spacebilling.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
-	return &GroupRoleDeleteOne{builder}
+	return &SpaceBillingDeleteOne{builder}
 }
 
-// Query returns a query builder for GroupRole.
-func (c *GroupRoleClient) Query() *GroupRoleQuery {
-	return &GroupRoleQuery{
+// Query returns a query builder for SpaceBilling.
+func (c *SpaceBillingClient) Query() *SpaceBillingQuery {
+	return &SpaceBillingQuery{
 		config: c.config,
-		ctx:    &QueryContext{Type: TypeGroupRole},
+		ctx:    &QueryContext{Type: TypeSpaceBilling},
 		inters: c.Interceptors(),
 	}
 }
 
-// Get returns a GroupRole entity by its id.
-func (c *GroupRoleClient) Get(ctx context.Context, id string) (*GroupRole, error) {
-	return c.Query().Where(grouprole.ID(id)).Only(ctx)
+// Get returns a SpaceBilling entity by its id.
+func (c *SpaceBillingClient) Get(ctx context.Context, id string) (*SpaceBilling, error) {
+	return c.Query().Where(spacebilling.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *GroupRoleClient) GetX(ctx context.Context, id string) *GroupRole {
+func (c *SpaceBillingClient) GetX(ctx context.Context, id string) *SpaceBilling {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -459,131 +523,131 @@ func (c *GroupRoleClient) GetX(ctx context.Context, id string) *GroupRole {
 }
 
 // Hooks returns the client hooks.
-func (c *GroupRoleClient) Hooks() []Hook {
-	return c.hooks.GroupRole
+func (c *SpaceBillingClient) Hooks() []Hook {
+	return c.hooks.SpaceBilling
 }
 
 // Interceptors returns the client interceptors.
-func (c *GroupRoleClient) Interceptors() []Interceptor {
-	return c.inters.GroupRole
+func (c *SpaceBillingClient) Interceptors() []Interceptor {
+	return c.inters.SpaceBilling
 }
 
-func (c *GroupRoleClient) mutate(ctx context.Context, m *GroupRoleMutation) (Value, error) {
+func (c *SpaceBillingClient) mutate(ctx context.Context, m *SpaceBillingMutation) (Value, error) {
 	switch m.Op() {
 	case OpCreate:
-		return (&GroupRoleCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+		return (&SpaceBillingCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
 	case OpUpdate:
-		return (&GroupRoleUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+		return (&SpaceBillingUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
 	case OpUpdateOne:
-		return (&GroupRoleUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+		return (&SpaceBillingUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
 	case OpDelete, OpDeleteOne:
-		return (&GroupRoleDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+		return (&SpaceBillingDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
 	default:
-		return nil, fmt.Errorf("ent: unknown GroupRole mutation op: %q", m.Op())
+		return nil, fmt.Errorf("ent: unknown SpaceBilling mutation op: %q", m.Op())
 	}
 }
 
-// UserGroupClient is a client for the UserGroup schema.
-type UserGroupClient struct {
+// SpaceDictionaryClient is a client for the SpaceDictionary schema.
+type SpaceDictionaryClient struct {
 	config
 }
 
-// NewUserGroupClient returns a client for the UserGroup from the given config.
-func NewUserGroupClient(c config) *UserGroupClient {
-	return &UserGroupClient{config: c}
+// NewSpaceDictionaryClient returns a client for the SpaceDictionary from the given config.
+func NewSpaceDictionaryClient(c config) *SpaceDictionaryClient {
+	return &SpaceDictionaryClient{config: c}
 }
 
 // Use adds a list of mutation hooks to the hooks stack.
-// A call to `Use(f, g, h)` equals to `usergroup.Hooks(f(g(h())))`.
-func (c *UserGroupClient) Use(hooks ...Hook) {
-	c.hooks.UserGroup = append(c.hooks.UserGroup, hooks...)
+// A call to `Use(f, g, h)` equals to `spacedictionary.Hooks(f(g(h())))`.
+func (c *SpaceDictionaryClient) Use(hooks ...Hook) {
+	c.hooks.SpaceDictionary = append(c.hooks.SpaceDictionary, hooks...)
 }
 
 // Intercept adds a list of query interceptors to the interceptors stack.
-// A call to `Intercept(f, g, h)` equals to `usergroup.Intercept(f(g(h())))`.
-func (c *UserGroupClient) Intercept(interceptors ...Interceptor) {
-	c.inters.UserGroup = append(c.inters.UserGroup, interceptors...)
+// A call to `Intercept(f, g, h)` equals to `spacedictionary.Intercept(f(g(h())))`.
+func (c *SpaceDictionaryClient) Intercept(interceptors ...Interceptor) {
+	c.inters.SpaceDictionary = append(c.inters.SpaceDictionary, interceptors...)
 }
 
-// Create returns a builder for creating a UserGroup entity.
-func (c *UserGroupClient) Create() *UserGroupCreate {
-	mutation := newUserGroupMutation(c.config, OpCreate)
-	return &UserGroupCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+// Create returns a builder for creating a SpaceDictionary entity.
+func (c *SpaceDictionaryClient) Create() *SpaceDictionaryCreate {
+	mutation := newSpaceDictionaryMutation(c.config, OpCreate)
+	return &SpaceDictionaryCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
-// CreateBulk returns a builder for creating a bulk of UserGroup entities.
-func (c *UserGroupClient) CreateBulk(builders ...*UserGroupCreate) *UserGroupCreateBulk {
-	return &UserGroupCreateBulk{config: c.config, builders: builders}
+// CreateBulk returns a builder for creating a bulk of SpaceDictionary entities.
+func (c *SpaceDictionaryClient) CreateBulk(builders ...*SpaceDictionaryCreate) *SpaceDictionaryCreateBulk {
+	return &SpaceDictionaryCreateBulk{config: c.config, builders: builders}
 }
 
 // MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
 // a builder and applies setFunc on it.
-func (c *UserGroupClient) MapCreateBulk(slice any, setFunc func(*UserGroupCreate, int)) *UserGroupCreateBulk {
+func (c *SpaceDictionaryClient) MapCreateBulk(slice any, setFunc func(*SpaceDictionaryCreate, int)) *SpaceDictionaryCreateBulk {
 	rv := reflect.ValueOf(slice)
 	if rv.Kind() != reflect.Slice {
-		return &UserGroupCreateBulk{err: fmt.Errorf("calling to UserGroupClient.MapCreateBulk with wrong type %T, need slice", slice)}
+		return &SpaceDictionaryCreateBulk{err: fmt.Errorf("calling to SpaceDictionaryClient.MapCreateBulk with wrong type %T, need slice", slice)}
 	}
-	builders := make([]*UserGroupCreate, rv.Len())
+	builders := make([]*SpaceDictionaryCreate, rv.Len())
 	for i := 0; i < rv.Len(); i++ {
 		builders[i] = c.Create()
 		setFunc(builders[i], i)
 	}
-	return &UserGroupCreateBulk{config: c.config, builders: builders}
+	return &SpaceDictionaryCreateBulk{config: c.config, builders: builders}
 }
 
-// Update returns an update builder for UserGroup.
-func (c *UserGroupClient) Update() *UserGroupUpdate {
-	mutation := newUserGroupMutation(c.config, OpUpdate)
-	return &UserGroupUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+// Update returns an update builder for SpaceDictionary.
+func (c *SpaceDictionaryClient) Update() *SpaceDictionaryUpdate {
+	mutation := newSpaceDictionaryMutation(c.config, OpUpdate)
+	return &SpaceDictionaryUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *UserGroupClient) UpdateOne(ug *UserGroup) *UserGroupUpdateOne {
-	mutation := newUserGroupMutation(c.config, OpUpdateOne, withUserGroup(ug))
-	return &UserGroupUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+func (c *SpaceDictionaryClient) UpdateOne(sd *SpaceDictionary) *SpaceDictionaryUpdateOne {
+	mutation := newSpaceDictionaryMutation(c.config, OpUpdateOne, withSpaceDictionary(sd))
+	return &SpaceDictionaryUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *UserGroupClient) UpdateOneID(id string) *UserGroupUpdateOne {
-	mutation := newUserGroupMutation(c.config, OpUpdateOne, withUserGroupID(id))
-	return &UserGroupUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+func (c *SpaceDictionaryClient) UpdateOneID(id string) *SpaceDictionaryUpdateOne {
+	mutation := newSpaceDictionaryMutation(c.config, OpUpdateOne, withSpaceDictionaryID(id))
+	return &SpaceDictionaryUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
-// Delete returns a delete builder for UserGroup.
-func (c *UserGroupClient) Delete() *UserGroupDelete {
-	mutation := newUserGroupMutation(c.config, OpDelete)
-	return &UserGroupDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+// Delete returns a delete builder for SpaceDictionary.
+func (c *SpaceDictionaryClient) Delete() *SpaceDictionaryDelete {
+	mutation := newSpaceDictionaryMutation(c.config, OpDelete)
+	return &SpaceDictionaryDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *UserGroupClient) DeleteOne(ug *UserGroup) *UserGroupDeleteOne {
-	return c.DeleteOneID(ug.ID)
+func (c *SpaceDictionaryClient) DeleteOne(sd *SpaceDictionary) *SpaceDictionaryDeleteOne {
+	return c.DeleteOneID(sd.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *UserGroupClient) DeleteOneID(id string) *UserGroupDeleteOne {
-	builder := c.Delete().Where(usergroup.ID(id))
+func (c *SpaceDictionaryClient) DeleteOneID(id string) *SpaceDictionaryDeleteOne {
+	builder := c.Delete().Where(spacedictionary.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
-	return &UserGroupDeleteOne{builder}
+	return &SpaceDictionaryDeleteOne{builder}
 }
 
-// Query returns a query builder for UserGroup.
-func (c *UserGroupClient) Query() *UserGroupQuery {
-	return &UserGroupQuery{
+// Query returns a query builder for SpaceDictionary.
+func (c *SpaceDictionaryClient) Query() *SpaceDictionaryQuery {
+	return &SpaceDictionaryQuery{
 		config: c.config,
-		ctx:    &QueryContext{Type: TypeUserGroup},
+		ctx:    &QueryContext{Type: TypeSpaceDictionary},
 		inters: c.Interceptors(),
 	}
 }
 
-// Get returns a UserGroup entity by its id.
-func (c *UserGroupClient) Get(ctx context.Context, id string) (*UserGroup, error) {
-	return c.Query().Where(usergroup.ID(id)).Only(ctx)
+// Get returns a SpaceDictionary entity by its id.
+func (c *SpaceDictionaryClient) Get(ctx context.Context, id string) (*SpaceDictionary, error) {
+	return c.Query().Where(spacedictionary.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *UserGroupClient) GetX(ctx context.Context, id string) *UserGroup {
+func (c *SpaceDictionaryClient) GetX(ctx context.Context, id string) *SpaceDictionary {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -592,36 +656,969 @@ func (c *UserGroupClient) GetX(ctx context.Context, id string) *UserGroup {
 }
 
 // Hooks returns the client hooks.
-func (c *UserGroupClient) Hooks() []Hook {
-	return c.hooks.UserGroup
+func (c *SpaceDictionaryClient) Hooks() []Hook {
+	return c.hooks.SpaceDictionary
 }
 
 // Interceptors returns the client interceptors.
-func (c *UserGroupClient) Interceptors() []Interceptor {
-	return c.inters.UserGroup
+func (c *SpaceDictionaryClient) Interceptors() []Interceptor {
+	return c.inters.SpaceDictionary
 }
 
-func (c *UserGroupClient) mutate(ctx context.Context, m *UserGroupMutation) (Value, error) {
+func (c *SpaceDictionaryClient) mutate(ctx context.Context, m *SpaceDictionaryMutation) (Value, error) {
 	switch m.Op() {
 	case OpCreate:
-		return (&UserGroupCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+		return (&SpaceDictionaryCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
 	case OpUpdate:
-		return (&UserGroupUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+		return (&SpaceDictionaryUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
 	case OpUpdateOne:
-		return (&UserGroupUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+		return (&SpaceDictionaryUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
 	case OpDelete, OpDeleteOne:
-		return (&UserGroupDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+		return (&SpaceDictionaryDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
 	default:
-		return nil, fmt.Errorf("ent: unknown UserGroup mutation op: %q", m.Op())
+		return nil, fmt.Errorf("ent: unknown SpaceDictionary mutation op: %q", m.Op())
+	}
+}
+
+// SpaceMenuClient is a client for the SpaceMenu schema.
+type SpaceMenuClient struct {
+	config
+}
+
+// NewSpaceMenuClient returns a client for the SpaceMenu from the given config.
+func NewSpaceMenuClient(c config) *SpaceMenuClient {
+	return &SpaceMenuClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `spacemenu.Hooks(f(g(h())))`.
+func (c *SpaceMenuClient) Use(hooks ...Hook) {
+	c.hooks.SpaceMenu = append(c.hooks.SpaceMenu, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `spacemenu.Intercept(f(g(h())))`.
+func (c *SpaceMenuClient) Intercept(interceptors ...Interceptor) {
+	c.inters.SpaceMenu = append(c.inters.SpaceMenu, interceptors...)
+}
+
+// Create returns a builder for creating a SpaceMenu entity.
+func (c *SpaceMenuClient) Create() *SpaceMenuCreate {
+	mutation := newSpaceMenuMutation(c.config, OpCreate)
+	return &SpaceMenuCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of SpaceMenu entities.
+func (c *SpaceMenuClient) CreateBulk(builders ...*SpaceMenuCreate) *SpaceMenuCreateBulk {
+	return &SpaceMenuCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *SpaceMenuClient) MapCreateBulk(slice any, setFunc func(*SpaceMenuCreate, int)) *SpaceMenuCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &SpaceMenuCreateBulk{err: fmt.Errorf("calling to SpaceMenuClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*SpaceMenuCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &SpaceMenuCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for SpaceMenu.
+func (c *SpaceMenuClient) Update() *SpaceMenuUpdate {
+	mutation := newSpaceMenuMutation(c.config, OpUpdate)
+	return &SpaceMenuUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *SpaceMenuClient) UpdateOne(sm *SpaceMenu) *SpaceMenuUpdateOne {
+	mutation := newSpaceMenuMutation(c.config, OpUpdateOne, withSpaceMenu(sm))
+	return &SpaceMenuUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *SpaceMenuClient) UpdateOneID(id string) *SpaceMenuUpdateOne {
+	mutation := newSpaceMenuMutation(c.config, OpUpdateOne, withSpaceMenuID(id))
+	return &SpaceMenuUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for SpaceMenu.
+func (c *SpaceMenuClient) Delete() *SpaceMenuDelete {
+	mutation := newSpaceMenuMutation(c.config, OpDelete)
+	return &SpaceMenuDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *SpaceMenuClient) DeleteOne(sm *SpaceMenu) *SpaceMenuDeleteOne {
+	return c.DeleteOneID(sm.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *SpaceMenuClient) DeleteOneID(id string) *SpaceMenuDeleteOne {
+	builder := c.Delete().Where(spacemenu.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &SpaceMenuDeleteOne{builder}
+}
+
+// Query returns a query builder for SpaceMenu.
+func (c *SpaceMenuClient) Query() *SpaceMenuQuery {
+	return &SpaceMenuQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeSpaceMenu},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a SpaceMenu entity by its id.
+func (c *SpaceMenuClient) Get(ctx context.Context, id string) (*SpaceMenu, error) {
+	return c.Query().Where(spacemenu.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *SpaceMenuClient) GetX(ctx context.Context, id string) *SpaceMenu {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *SpaceMenuClient) Hooks() []Hook {
+	return c.hooks.SpaceMenu
+}
+
+// Interceptors returns the client interceptors.
+func (c *SpaceMenuClient) Interceptors() []Interceptor {
+	return c.inters.SpaceMenu
+}
+
+func (c *SpaceMenuClient) mutate(ctx context.Context, m *SpaceMenuMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&SpaceMenuCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&SpaceMenuUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&SpaceMenuUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&SpaceMenuDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown SpaceMenu mutation op: %q", m.Op())
+	}
+}
+
+// SpaceOptionClient is a client for the SpaceOption schema.
+type SpaceOptionClient struct {
+	config
+}
+
+// NewSpaceOptionClient returns a client for the SpaceOption from the given config.
+func NewSpaceOptionClient(c config) *SpaceOptionClient {
+	return &SpaceOptionClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `spaceoption.Hooks(f(g(h())))`.
+func (c *SpaceOptionClient) Use(hooks ...Hook) {
+	c.hooks.SpaceOption = append(c.hooks.SpaceOption, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `spaceoption.Intercept(f(g(h())))`.
+func (c *SpaceOptionClient) Intercept(interceptors ...Interceptor) {
+	c.inters.SpaceOption = append(c.inters.SpaceOption, interceptors...)
+}
+
+// Create returns a builder for creating a SpaceOption entity.
+func (c *SpaceOptionClient) Create() *SpaceOptionCreate {
+	mutation := newSpaceOptionMutation(c.config, OpCreate)
+	return &SpaceOptionCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of SpaceOption entities.
+func (c *SpaceOptionClient) CreateBulk(builders ...*SpaceOptionCreate) *SpaceOptionCreateBulk {
+	return &SpaceOptionCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *SpaceOptionClient) MapCreateBulk(slice any, setFunc func(*SpaceOptionCreate, int)) *SpaceOptionCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &SpaceOptionCreateBulk{err: fmt.Errorf("calling to SpaceOptionClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*SpaceOptionCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &SpaceOptionCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for SpaceOption.
+func (c *SpaceOptionClient) Update() *SpaceOptionUpdate {
+	mutation := newSpaceOptionMutation(c.config, OpUpdate)
+	return &SpaceOptionUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *SpaceOptionClient) UpdateOne(so *SpaceOption) *SpaceOptionUpdateOne {
+	mutation := newSpaceOptionMutation(c.config, OpUpdateOne, withSpaceOption(so))
+	return &SpaceOptionUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *SpaceOptionClient) UpdateOneID(id string) *SpaceOptionUpdateOne {
+	mutation := newSpaceOptionMutation(c.config, OpUpdateOne, withSpaceOptionID(id))
+	return &SpaceOptionUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for SpaceOption.
+func (c *SpaceOptionClient) Delete() *SpaceOptionDelete {
+	mutation := newSpaceOptionMutation(c.config, OpDelete)
+	return &SpaceOptionDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *SpaceOptionClient) DeleteOne(so *SpaceOption) *SpaceOptionDeleteOne {
+	return c.DeleteOneID(so.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *SpaceOptionClient) DeleteOneID(id string) *SpaceOptionDeleteOne {
+	builder := c.Delete().Where(spaceoption.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &SpaceOptionDeleteOne{builder}
+}
+
+// Query returns a query builder for SpaceOption.
+func (c *SpaceOptionClient) Query() *SpaceOptionQuery {
+	return &SpaceOptionQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeSpaceOption},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a SpaceOption entity by its id.
+func (c *SpaceOptionClient) Get(ctx context.Context, id string) (*SpaceOption, error) {
+	return c.Query().Where(spaceoption.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *SpaceOptionClient) GetX(ctx context.Context, id string) *SpaceOption {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *SpaceOptionClient) Hooks() []Hook {
+	return c.hooks.SpaceOption
+}
+
+// Interceptors returns the client interceptors.
+func (c *SpaceOptionClient) Interceptors() []Interceptor {
+	return c.inters.SpaceOption
+}
+
+func (c *SpaceOptionClient) mutate(ctx context.Context, m *SpaceOptionMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&SpaceOptionCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&SpaceOptionUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&SpaceOptionUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&SpaceOptionDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown SpaceOption mutation op: %q", m.Op())
+	}
+}
+
+// SpaceOrganizationClient is a client for the SpaceOrganization schema.
+type SpaceOrganizationClient struct {
+	config
+}
+
+// NewSpaceOrganizationClient returns a client for the SpaceOrganization from the given config.
+func NewSpaceOrganizationClient(c config) *SpaceOrganizationClient {
+	return &SpaceOrganizationClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `spaceorganization.Hooks(f(g(h())))`.
+func (c *SpaceOrganizationClient) Use(hooks ...Hook) {
+	c.hooks.SpaceOrganization = append(c.hooks.SpaceOrganization, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `spaceorganization.Intercept(f(g(h())))`.
+func (c *SpaceOrganizationClient) Intercept(interceptors ...Interceptor) {
+	c.inters.SpaceOrganization = append(c.inters.SpaceOrganization, interceptors...)
+}
+
+// Create returns a builder for creating a SpaceOrganization entity.
+func (c *SpaceOrganizationClient) Create() *SpaceOrganizationCreate {
+	mutation := newSpaceOrganizationMutation(c.config, OpCreate)
+	return &SpaceOrganizationCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of SpaceOrganization entities.
+func (c *SpaceOrganizationClient) CreateBulk(builders ...*SpaceOrganizationCreate) *SpaceOrganizationCreateBulk {
+	return &SpaceOrganizationCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *SpaceOrganizationClient) MapCreateBulk(slice any, setFunc func(*SpaceOrganizationCreate, int)) *SpaceOrganizationCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &SpaceOrganizationCreateBulk{err: fmt.Errorf("calling to SpaceOrganizationClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*SpaceOrganizationCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &SpaceOrganizationCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for SpaceOrganization.
+func (c *SpaceOrganizationClient) Update() *SpaceOrganizationUpdate {
+	mutation := newSpaceOrganizationMutation(c.config, OpUpdate)
+	return &SpaceOrganizationUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *SpaceOrganizationClient) UpdateOne(so *SpaceOrganization) *SpaceOrganizationUpdateOne {
+	mutation := newSpaceOrganizationMutation(c.config, OpUpdateOne, withSpaceOrganization(so))
+	return &SpaceOrganizationUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *SpaceOrganizationClient) UpdateOneID(id string) *SpaceOrganizationUpdateOne {
+	mutation := newSpaceOrganizationMutation(c.config, OpUpdateOne, withSpaceOrganizationID(id))
+	return &SpaceOrganizationUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for SpaceOrganization.
+func (c *SpaceOrganizationClient) Delete() *SpaceOrganizationDelete {
+	mutation := newSpaceOrganizationMutation(c.config, OpDelete)
+	return &SpaceOrganizationDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *SpaceOrganizationClient) DeleteOne(so *SpaceOrganization) *SpaceOrganizationDeleteOne {
+	return c.DeleteOneID(so.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *SpaceOrganizationClient) DeleteOneID(id string) *SpaceOrganizationDeleteOne {
+	builder := c.Delete().Where(spaceorganization.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &SpaceOrganizationDeleteOne{builder}
+}
+
+// Query returns a query builder for SpaceOrganization.
+func (c *SpaceOrganizationClient) Query() *SpaceOrganizationQuery {
+	return &SpaceOrganizationQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeSpaceOrganization},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a SpaceOrganization entity by its id.
+func (c *SpaceOrganizationClient) Get(ctx context.Context, id string) (*SpaceOrganization, error) {
+	return c.Query().Where(spaceorganization.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *SpaceOrganizationClient) GetX(ctx context.Context, id string) *SpaceOrganization {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *SpaceOrganizationClient) Hooks() []Hook {
+	return c.hooks.SpaceOrganization
+}
+
+// Interceptors returns the client interceptors.
+func (c *SpaceOrganizationClient) Interceptors() []Interceptor {
+	return c.inters.SpaceOrganization
+}
+
+func (c *SpaceOrganizationClient) mutate(ctx context.Context, m *SpaceOrganizationMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&SpaceOrganizationCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&SpaceOrganizationUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&SpaceOrganizationUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&SpaceOrganizationDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown SpaceOrganization mutation op: %q", m.Op())
+	}
+}
+
+// SpaceQuotaClient is a client for the SpaceQuota schema.
+type SpaceQuotaClient struct {
+	config
+}
+
+// NewSpaceQuotaClient returns a client for the SpaceQuota from the given config.
+func NewSpaceQuotaClient(c config) *SpaceQuotaClient {
+	return &SpaceQuotaClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `spacequota.Hooks(f(g(h())))`.
+func (c *SpaceQuotaClient) Use(hooks ...Hook) {
+	c.hooks.SpaceQuota = append(c.hooks.SpaceQuota, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `spacequota.Intercept(f(g(h())))`.
+func (c *SpaceQuotaClient) Intercept(interceptors ...Interceptor) {
+	c.inters.SpaceQuota = append(c.inters.SpaceQuota, interceptors...)
+}
+
+// Create returns a builder for creating a SpaceQuota entity.
+func (c *SpaceQuotaClient) Create() *SpaceQuotaCreate {
+	mutation := newSpaceQuotaMutation(c.config, OpCreate)
+	return &SpaceQuotaCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of SpaceQuota entities.
+func (c *SpaceQuotaClient) CreateBulk(builders ...*SpaceQuotaCreate) *SpaceQuotaCreateBulk {
+	return &SpaceQuotaCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *SpaceQuotaClient) MapCreateBulk(slice any, setFunc func(*SpaceQuotaCreate, int)) *SpaceQuotaCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &SpaceQuotaCreateBulk{err: fmt.Errorf("calling to SpaceQuotaClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*SpaceQuotaCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &SpaceQuotaCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for SpaceQuota.
+func (c *SpaceQuotaClient) Update() *SpaceQuotaUpdate {
+	mutation := newSpaceQuotaMutation(c.config, OpUpdate)
+	return &SpaceQuotaUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *SpaceQuotaClient) UpdateOne(sq *SpaceQuota) *SpaceQuotaUpdateOne {
+	mutation := newSpaceQuotaMutation(c.config, OpUpdateOne, withSpaceQuota(sq))
+	return &SpaceQuotaUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *SpaceQuotaClient) UpdateOneID(id string) *SpaceQuotaUpdateOne {
+	mutation := newSpaceQuotaMutation(c.config, OpUpdateOne, withSpaceQuotaID(id))
+	return &SpaceQuotaUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for SpaceQuota.
+func (c *SpaceQuotaClient) Delete() *SpaceQuotaDelete {
+	mutation := newSpaceQuotaMutation(c.config, OpDelete)
+	return &SpaceQuotaDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *SpaceQuotaClient) DeleteOne(sq *SpaceQuota) *SpaceQuotaDeleteOne {
+	return c.DeleteOneID(sq.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *SpaceQuotaClient) DeleteOneID(id string) *SpaceQuotaDeleteOne {
+	builder := c.Delete().Where(spacequota.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &SpaceQuotaDeleteOne{builder}
+}
+
+// Query returns a query builder for SpaceQuota.
+func (c *SpaceQuotaClient) Query() *SpaceQuotaQuery {
+	return &SpaceQuotaQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeSpaceQuota},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a SpaceQuota entity by its id.
+func (c *SpaceQuotaClient) Get(ctx context.Context, id string) (*SpaceQuota, error) {
+	return c.Query().Where(spacequota.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *SpaceQuotaClient) GetX(ctx context.Context, id string) *SpaceQuota {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *SpaceQuotaClient) Hooks() []Hook {
+	return c.hooks.SpaceQuota
+}
+
+// Interceptors returns the client interceptors.
+func (c *SpaceQuotaClient) Interceptors() []Interceptor {
+	return c.inters.SpaceQuota
+}
+
+func (c *SpaceQuotaClient) mutate(ctx context.Context, m *SpaceQuotaMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&SpaceQuotaCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&SpaceQuotaUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&SpaceQuotaUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&SpaceQuotaDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown SpaceQuota mutation op: %q", m.Op())
+	}
+}
+
+// SpaceSettingClient is a client for the SpaceSetting schema.
+type SpaceSettingClient struct {
+	config
+}
+
+// NewSpaceSettingClient returns a client for the SpaceSetting from the given config.
+func NewSpaceSettingClient(c config) *SpaceSettingClient {
+	return &SpaceSettingClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `spacesetting.Hooks(f(g(h())))`.
+func (c *SpaceSettingClient) Use(hooks ...Hook) {
+	c.hooks.SpaceSetting = append(c.hooks.SpaceSetting, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `spacesetting.Intercept(f(g(h())))`.
+func (c *SpaceSettingClient) Intercept(interceptors ...Interceptor) {
+	c.inters.SpaceSetting = append(c.inters.SpaceSetting, interceptors...)
+}
+
+// Create returns a builder for creating a SpaceSetting entity.
+func (c *SpaceSettingClient) Create() *SpaceSettingCreate {
+	mutation := newSpaceSettingMutation(c.config, OpCreate)
+	return &SpaceSettingCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of SpaceSetting entities.
+func (c *SpaceSettingClient) CreateBulk(builders ...*SpaceSettingCreate) *SpaceSettingCreateBulk {
+	return &SpaceSettingCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *SpaceSettingClient) MapCreateBulk(slice any, setFunc func(*SpaceSettingCreate, int)) *SpaceSettingCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &SpaceSettingCreateBulk{err: fmt.Errorf("calling to SpaceSettingClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*SpaceSettingCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &SpaceSettingCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for SpaceSetting.
+func (c *SpaceSettingClient) Update() *SpaceSettingUpdate {
+	mutation := newSpaceSettingMutation(c.config, OpUpdate)
+	return &SpaceSettingUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *SpaceSettingClient) UpdateOne(ss *SpaceSetting) *SpaceSettingUpdateOne {
+	mutation := newSpaceSettingMutation(c.config, OpUpdateOne, withSpaceSetting(ss))
+	return &SpaceSettingUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *SpaceSettingClient) UpdateOneID(id string) *SpaceSettingUpdateOne {
+	mutation := newSpaceSettingMutation(c.config, OpUpdateOne, withSpaceSettingID(id))
+	return &SpaceSettingUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for SpaceSetting.
+func (c *SpaceSettingClient) Delete() *SpaceSettingDelete {
+	mutation := newSpaceSettingMutation(c.config, OpDelete)
+	return &SpaceSettingDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *SpaceSettingClient) DeleteOne(ss *SpaceSetting) *SpaceSettingDeleteOne {
+	return c.DeleteOneID(ss.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *SpaceSettingClient) DeleteOneID(id string) *SpaceSettingDeleteOne {
+	builder := c.Delete().Where(spacesetting.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &SpaceSettingDeleteOne{builder}
+}
+
+// Query returns a query builder for SpaceSetting.
+func (c *SpaceSettingClient) Query() *SpaceSettingQuery {
+	return &SpaceSettingQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeSpaceSetting},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a SpaceSetting entity by its id.
+func (c *SpaceSettingClient) Get(ctx context.Context, id string) (*SpaceSetting, error) {
+	return c.Query().Where(spacesetting.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *SpaceSettingClient) GetX(ctx context.Context, id string) *SpaceSetting {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *SpaceSettingClient) Hooks() []Hook {
+	return c.hooks.SpaceSetting
+}
+
+// Interceptors returns the client interceptors.
+func (c *SpaceSettingClient) Interceptors() []Interceptor {
+	return c.inters.SpaceSetting
+}
+
+func (c *SpaceSettingClient) mutate(ctx context.Context, m *SpaceSettingMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&SpaceSettingCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&SpaceSettingUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&SpaceSettingUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&SpaceSettingDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown SpaceSetting mutation op: %q", m.Op())
+	}
+}
+
+// UserSpaceClient is a client for the UserSpace schema.
+type UserSpaceClient struct {
+	config
+}
+
+// NewUserSpaceClient returns a client for the UserSpace from the given config.
+func NewUserSpaceClient(c config) *UserSpaceClient {
+	return &UserSpaceClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `userspace.Hooks(f(g(h())))`.
+func (c *UserSpaceClient) Use(hooks ...Hook) {
+	c.hooks.UserSpace = append(c.hooks.UserSpace, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `userspace.Intercept(f(g(h())))`.
+func (c *UserSpaceClient) Intercept(interceptors ...Interceptor) {
+	c.inters.UserSpace = append(c.inters.UserSpace, interceptors...)
+}
+
+// Create returns a builder for creating a UserSpace entity.
+func (c *UserSpaceClient) Create() *UserSpaceCreate {
+	mutation := newUserSpaceMutation(c.config, OpCreate)
+	return &UserSpaceCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of UserSpace entities.
+func (c *UserSpaceClient) CreateBulk(builders ...*UserSpaceCreate) *UserSpaceCreateBulk {
+	return &UserSpaceCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *UserSpaceClient) MapCreateBulk(slice any, setFunc func(*UserSpaceCreate, int)) *UserSpaceCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &UserSpaceCreateBulk{err: fmt.Errorf("calling to UserSpaceClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*UserSpaceCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &UserSpaceCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for UserSpace.
+func (c *UserSpaceClient) Update() *UserSpaceUpdate {
+	mutation := newUserSpaceMutation(c.config, OpUpdate)
+	return &UserSpaceUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *UserSpaceClient) UpdateOne(us *UserSpace) *UserSpaceUpdateOne {
+	mutation := newUserSpaceMutation(c.config, OpUpdateOne, withUserSpace(us))
+	return &UserSpaceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *UserSpaceClient) UpdateOneID(id string) *UserSpaceUpdateOne {
+	mutation := newUserSpaceMutation(c.config, OpUpdateOne, withUserSpaceID(id))
+	return &UserSpaceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for UserSpace.
+func (c *UserSpaceClient) Delete() *UserSpaceDelete {
+	mutation := newUserSpaceMutation(c.config, OpDelete)
+	return &UserSpaceDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *UserSpaceClient) DeleteOne(us *UserSpace) *UserSpaceDeleteOne {
+	return c.DeleteOneID(us.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *UserSpaceClient) DeleteOneID(id string) *UserSpaceDeleteOne {
+	builder := c.Delete().Where(userspace.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &UserSpaceDeleteOne{builder}
+}
+
+// Query returns a query builder for UserSpace.
+func (c *UserSpaceClient) Query() *UserSpaceQuery {
+	return &UserSpaceQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeUserSpace},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a UserSpace entity by its id.
+func (c *UserSpaceClient) Get(ctx context.Context, id string) (*UserSpace, error) {
+	return c.Query().Where(userspace.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *UserSpaceClient) GetX(ctx context.Context, id string) *UserSpace {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *UserSpaceClient) Hooks() []Hook {
+	return c.hooks.UserSpace
+}
+
+// Interceptors returns the client interceptors.
+func (c *UserSpaceClient) Interceptors() []Interceptor {
+	return c.inters.UserSpace
+}
+
+func (c *UserSpaceClient) mutate(ctx context.Context, m *UserSpaceMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&UserSpaceCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&UserSpaceUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&UserSpaceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&UserSpaceDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown UserSpace mutation op: %q", m.Op())
+	}
+}
+
+// UserSpaceRoleClient is a client for the UserSpaceRole schema.
+type UserSpaceRoleClient struct {
+	config
+}
+
+// NewUserSpaceRoleClient returns a client for the UserSpaceRole from the given config.
+func NewUserSpaceRoleClient(c config) *UserSpaceRoleClient {
+	return &UserSpaceRoleClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `userspacerole.Hooks(f(g(h())))`.
+func (c *UserSpaceRoleClient) Use(hooks ...Hook) {
+	c.hooks.UserSpaceRole = append(c.hooks.UserSpaceRole, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `userspacerole.Intercept(f(g(h())))`.
+func (c *UserSpaceRoleClient) Intercept(interceptors ...Interceptor) {
+	c.inters.UserSpaceRole = append(c.inters.UserSpaceRole, interceptors...)
+}
+
+// Create returns a builder for creating a UserSpaceRole entity.
+func (c *UserSpaceRoleClient) Create() *UserSpaceRoleCreate {
+	mutation := newUserSpaceRoleMutation(c.config, OpCreate)
+	return &UserSpaceRoleCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of UserSpaceRole entities.
+func (c *UserSpaceRoleClient) CreateBulk(builders ...*UserSpaceRoleCreate) *UserSpaceRoleCreateBulk {
+	return &UserSpaceRoleCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *UserSpaceRoleClient) MapCreateBulk(slice any, setFunc func(*UserSpaceRoleCreate, int)) *UserSpaceRoleCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &UserSpaceRoleCreateBulk{err: fmt.Errorf("calling to UserSpaceRoleClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*UserSpaceRoleCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &UserSpaceRoleCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for UserSpaceRole.
+func (c *UserSpaceRoleClient) Update() *UserSpaceRoleUpdate {
+	mutation := newUserSpaceRoleMutation(c.config, OpUpdate)
+	return &UserSpaceRoleUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *UserSpaceRoleClient) UpdateOne(usr *UserSpaceRole) *UserSpaceRoleUpdateOne {
+	mutation := newUserSpaceRoleMutation(c.config, OpUpdateOne, withUserSpaceRole(usr))
+	return &UserSpaceRoleUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *UserSpaceRoleClient) UpdateOneID(id string) *UserSpaceRoleUpdateOne {
+	mutation := newUserSpaceRoleMutation(c.config, OpUpdateOne, withUserSpaceRoleID(id))
+	return &UserSpaceRoleUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for UserSpaceRole.
+func (c *UserSpaceRoleClient) Delete() *UserSpaceRoleDelete {
+	mutation := newUserSpaceRoleMutation(c.config, OpDelete)
+	return &UserSpaceRoleDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *UserSpaceRoleClient) DeleteOne(usr *UserSpaceRole) *UserSpaceRoleDeleteOne {
+	return c.DeleteOneID(usr.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *UserSpaceRoleClient) DeleteOneID(id string) *UserSpaceRoleDeleteOne {
+	builder := c.Delete().Where(userspacerole.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &UserSpaceRoleDeleteOne{builder}
+}
+
+// Query returns a query builder for UserSpaceRole.
+func (c *UserSpaceRoleClient) Query() *UserSpaceRoleQuery {
+	return &UserSpaceRoleQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeUserSpaceRole},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a UserSpaceRole entity by its id.
+func (c *UserSpaceRoleClient) Get(ctx context.Context, id string) (*UserSpaceRole, error) {
+	return c.Query().Where(userspacerole.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *UserSpaceRoleClient) GetX(ctx context.Context, id string) *UserSpaceRole {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *UserSpaceRoleClient) Hooks() []Hook {
+	return c.hooks.UserSpaceRole
+}
+
+// Interceptors returns the client interceptors.
+func (c *UserSpaceRoleClient) Interceptors() []Interceptor {
+	return c.inters.UserSpaceRole
+}
+
+func (c *UserSpaceRoleClient) mutate(ctx context.Context, m *UserSpaceRoleMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&UserSpaceRoleCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&UserSpaceRoleUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&UserSpaceRoleUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&UserSpaceRoleDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown UserSpaceRole mutation op: %q", m.Op())
 	}
 }
 
 // hooks and interceptors per client, for fast access.
 type (
 	hooks struct {
-		Group, GroupRole, UserGroup []ent.Hook
+		Space, SpaceBilling, SpaceDictionary, SpaceMenu, SpaceOption, SpaceOrganization,
+		SpaceQuota, SpaceSetting, UserSpace, UserSpaceRole []ent.Hook
 	}
 	inters struct {
-		Group, GroupRole, UserGroup []ent.Interceptor
+		Space, SpaceBilling, SpaceDictionary, SpaceMenu, SpaceOption, SpaceOrganization,
+		SpaceQuota, SpaceSetting, UserSpace, UserSpaceRole []ent.Interceptor
 	}
 )

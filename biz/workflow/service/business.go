@@ -162,7 +162,7 @@ func (s *businessService) serialize(business *ent.Business) *structs.ReadBusines
 		BusinessTags: business.BusinessTags,
 		Viewers:      business.Viewers,
 		Editors:      business.Editors,
-		TenantID:     business.TenantID,
+		SpaceID:      business.SpaceID,
 		Extras:       business.Extras,
 		CreatedBy:    &business.CreatedBy,
 		CreatedAt:    &business.CreatedAt,

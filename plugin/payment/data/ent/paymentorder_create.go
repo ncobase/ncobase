@@ -149,16 +149,16 @@ func (poc *PaymentOrderCreate) SetUserID(s string) *PaymentOrderCreate {
 	return poc
 }
 
-// SetTenantID sets the "tenant_id" field.
-func (poc *PaymentOrderCreate) SetTenantID(s string) *PaymentOrderCreate {
-	poc.mutation.SetTenantID(s)
+// SetSpaceID sets the "space_id" field.
+func (poc *PaymentOrderCreate) SetSpaceID(s string) *PaymentOrderCreate {
+	poc.mutation.SetSpaceID(s)
 	return poc
 }
 
-// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
-func (poc *PaymentOrderCreate) SetNillableTenantID(s *string) *PaymentOrderCreate {
+// SetNillableSpaceID sets the "space_id" field if the given value is not nil.
+func (poc *PaymentOrderCreate) SetNillableSpaceID(s *string) *PaymentOrderCreate {
 	if s != nil {
-		poc.SetTenantID(*s)
+		poc.SetSpaceID(*s)
 	}
 	return poc
 }
@@ -467,9 +467,9 @@ func (poc *PaymentOrderCreate) createSpec() (*PaymentOrder, *sqlgraph.CreateSpec
 		_spec.SetField(paymentorder.FieldUserID, field.TypeString, value)
 		_node.UserID = value
 	}
-	if value, ok := poc.mutation.TenantID(); ok {
-		_spec.SetField(paymentorder.FieldTenantID, field.TypeString, value)
-		_node.TenantID = value
+	if value, ok := poc.mutation.SpaceID(); ok {
+		_spec.SetField(paymentorder.FieldSpaceID, field.TypeString, value)
+		_node.SpaceID = value
 	}
 	if value, ok := poc.mutation.ProductID(); ok {
 		_spec.SetField(paymentorder.FieldProductID, field.TypeString, value)

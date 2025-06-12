@@ -192,16 +192,16 @@ func (ppc *PaymentProductCreate) SetFeatures(s []string) *PaymentProductCreate {
 	return ppc
 }
 
-// SetTenantID sets the "tenant_id" field.
-func (ppc *PaymentProductCreate) SetTenantID(s string) *PaymentProductCreate {
-	ppc.mutation.SetTenantID(s)
+// SetSpaceID sets the "space_id" field.
+func (ppc *PaymentProductCreate) SetSpaceID(s string) *PaymentProductCreate {
+	ppc.mutation.SetSpaceID(s)
 	return ppc
 }
 
-// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
-func (ppc *PaymentProductCreate) SetNillableTenantID(s *string) *PaymentProductCreate {
+// SetNillableSpaceID sets the "space_id" field if the given value is not nil.
+func (ppc *PaymentProductCreate) SetNillableSpaceID(s *string) *PaymentProductCreate {
 	if s != nil {
-		ppc.SetTenantID(*s)
+		ppc.SetSpaceID(*s)
 	}
 	return ppc
 }
@@ -425,9 +425,9 @@ func (ppc *PaymentProductCreate) createSpec() (*PaymentProduct, *sqlgraph.Create
 		_spec.SetField(paymentproduct.FieldFeatures, field.TypeJSON, value)
 		_node.Features = value
 	}
-	if value, ok := ppc.mutation.TenantID(); ok {
-		_spec.SetField(paymentproduct.FieldTenantID, field.TypeString, value)
-		_node.TenantID = value
+	if value, ok := ppc.mutation.SpaceID(); ok {
+		_spec.SetField(paymentproduct.FieldSpaceID, field.TypeString, value)
+		_node.SpaceID = value
 	}
 	if nodes := ppc.mutation.SubscriptionsIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{

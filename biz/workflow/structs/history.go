@@ -24,13 +24,13 @@ type HistoryBody struct {
 	FormData     types.JSON `json:"form_data,omitempty"`
 	NodeConfig   types.JSON `json:"node_config,omitempty"`
 	Details      types.JSON `json:"details,omitempty"`
-	TenantID     string     `json:"tenant_id,omitempty"`
+	SpaceID      string     `json:"space_id,omitempty"`
 }
 
 // CreateHistoryBody represents the body for creating history
 type CreateHistoryBody struct {
 	HistoryBody
-	TenantID string `json:"tenant_id,omitempty"`
+	SpaceID string `json:"space_id,omitempty"`
 }
 
 // ReadHistory represents the output schema for retrieving history
@@ -51,7 +51,7 @@ type ReadHistory struct {
 	FormData     types.JSON `json:"form_data,omitempty"`
 	NodeConfig   types.JSON `json:"node_config,omitempty"`
 	Details      types.JSON `json:"details,omitempty"`
-	TenantID     string     `json:"tenant_id,omitempty"`
+	SpaceID      string     `json:"space_id,omitempty"`
 	CreatedBy    *string    `json:"created_by,omitempty"`
 	CreatedAt    *int64     `json:"created_at,omitempty"`
 	UpdatedBy    *string    `json:"updated_by,omitempty"`
@@ -87,7 +87,7 @@ type FindHistoryParams struct {
 	Operator   string `form:"operator,omitempty" json:"operator,omitempty"`
 	Action     string `form:"action,omitempty" json:"action,omitempty"`
 	Type       string `form:"type,omitempty" json:"type,omitempty"`
-	Tenant     string `form:"tenant,omitempty" json:"tenant,omitempty"`
+	Space      string `form:"space,omitempty" json:"space,omitempty"`
 	SortBy     string `form:"sort_by,omitempty" json:"sort_by,omitempty"`
 }
 
@@ -101,6 +101,6 @@ type ListHistoryParams struct {
 	TaskID    string `form:"task_id,omitempty" json:"task_id,omitempty"`
 	Operator  string `form:"operator,omitempty" json:"operator,omitempty"`
 	Type      string `form:"type,omitempty" json:"type,omitempty"`
-	Tenant    string `form:"tenant,omitempty" json:"tenant,omitempty"`
+	Space     string `form:"space,omitempty" json:"space,omitempty"`
 	SortBy    string `form:"sort_by,omitempty" json:"sort_by,omitempty"`
 }

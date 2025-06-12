@@ -10,15 +10,15 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// AuthenticatedTenant checks if user is related to tenant and authenticated
-func AuthenticatedTenant(c *gin.Context) {
+// AuthenticatedSpace checks if user is related to space and authenticated
+func AuthenticatedSpace(c *gin.Context) {
 	// Get context
 	ctx := c.Request.Context()
-	// Retrieve tenant ID from context
-	tenantID := ctxutil.GetTenantID(ctx)
+	// Retrieve space ID from context
+	spaceID := ctxutil.GetSpaceID(ctx)
 
-	if validator.IsEmpty(tenantID) {
-		logger.Warn(ctx, "Tenant authentication failed")
+	if validator.IsEmpty(spaceID) {
+		logger.Warn(ctx, "Space authentication failed")
 		resp.Fail(c.Writer, resp.UnAuthorized(ecode.Text(ecode.Unauthorized)))
 		c.Abort()
 		return

@@ -91,26 +91,26 @@ const docTemplate = `{
                 }
             }
         },
-        "/account/tenant": {
+        "/account/space": {
             "get": {
                 "security": [
                     {
                         "Bearer": []
                     }
                 ],
-                "description": "Retrieve the tenant associated with the current user.",
+                "description": "Retrieve the space associated with the current user.",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "auth"
                 ],
-                "summary": "Get current user tenant",
+                "summary": "Get current user space",
                 "responses": {
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_auth_structs.ReadTenant"
+                            "$ref": "#/definitions/ncobase_auth_structs.ReadSpace"
                         }
                     },
                     "400": {
@@ -122,26 +122,26 @@ const docTemplate = `{
                 }
             }
         },
-        "/account/tenants": {
+        "/account/spaces": {
             "get": {
                 "security": [
                     {
                         "Bearer": []
                     }
                 ],
-                "description": "Retrieve the tenant associated with the current user.",
+                "description": "Retrieve the space associated with the current user.",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "auth"
                 ],
-                "summary": "Get current user tenants",
+                "summary": "Get current user spaces",
                 "responses": {
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_auth_structs.ReadTenant"
+                            "$ref": "#/definitions/ncobase_auth_structs.ReadSpace"
                         }
                     },
                     "400": {
@@ -441,7 +441,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "name": "tenant",
+                        "name": "space",
                         "in": "query"
                     },
                     {
@@ -673,7 +673,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "name": "tenant",
+                        "name": "space",
                         "in": "query"
                     },
                     {
@@ -1002,7 +1002,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "name": "tenant",
+                        "name": "space",
                         "in": "query"
                     },
                     {
@@ -1239,7 +1239,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "name": "tenant",
+                        "name": "space",
                         "in": "query"
                     },
                     {
@@ -1790,7 +1790,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "name": "tenant",
+                        "name": "space",
                         "in": "query"
                     }
                 ],
@@ -2037,7 +2037,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "name": "tenant",
+                        "name": "space",
                         "in": "query"
                     }
                 ],
@@ -2369,7 +2369,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "name": "tenant",
+                        "name": "space",
                         "in": "query"
                     },
                     {
@@ -2528,7 +2528,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "name": "tenant",
+                        "name": "space",
                         "in": "query"
                     },
                     {
@@ -2989,7 +2989,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "name": "tenant",
+                        "name": "space",
                         "in": "query"
                     }
                 ],
@@ -3419,7 +3419,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "name": "tenant",
+                        "name": "space",
                         "in": "query"
                     }
                 ],
@@ -4028,7 +4028,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "name": "tenant",
+                        "name": "space",
                         "in": "query"
                     },
                     {
@@ -4472,7 +4472,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "name": "tenant",
+                        "name": "space",
                         "in": "query"
                     }
                 ],
@@ -5139,7 +5139,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "name": "tenant",
+                        "name": "space",
                         "in": "query"
                     },
                     {
@@ -5808,21 +5808,21 @@ const docTemplate = `{
                 }
             }
         },
-        "/org/groups": {
+        "/org/orgs": {
             "get": {
                 "security": [
                     {
                         "Bearer": []
                     }
                 ],
-                "description": "Retrieve a list or tree structure of groups.",
+                "description": "Retrieve a list or tree structure of orgs.",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "org"
                 ],
-                "summary": "List groups",
+                "summary": "List orgs",
                 "parameters": [
                     {
                         "type": "boolean",
@@ -5861,7 +5861,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/ncobase_space_structs.ReadGroup"
+                                "$ref": "#/definitions/ncobase_space_structs.ReadOrganization"
                             }
                         }
                     },
@@ -5905,7 +5905,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_space_structs.ReadGroup"
+                            "$ref": "#/definitions/ncobase_space_structs.ReadOrganization"
                         }
                     },
                     "400": {
@@ -5948,7 +5948,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_space_structs.ReadGroup"
+                            "$ref": "#/definitions/ncobase_space_structs.ReadOrganization"
                         }
                     },
                     "400": {
@@ -5960,14 +5960,14 @@ const docTemplate = `{
                 }
             }
         },
-        "/org/groups/{groupId}": {
+        "/org/orgs/{orgId}": {
             "get": {
                 "security": [
                     {
                         "Bearer": []
                     }
                 ],
-                "description": "Retrieve a group by ID or slug.",
+                "description": "Retrieve a organization by ID or slug.",
                 "produces": [
                     "application/json"
                 ],
@@ -5978,8 +5978,8 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Group ID or slug",
-                        "name": "groupId",
+                        "description": "Organization ID or slug",
+                        "name": "orgId",
                         "in": "path",
                         "required": true
                     },
@@ -6008,7 +6008,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_space_structs.ReadGroup"
+                            "$ref": "#/definitions/ncobase_space_structs.ReadOrganization"
                         }
                     },
                     "400": {
@@ -6025,7 +6025,7 @@ const docTemplate = `{
                         "Bearer": []
                     }
                 ],
-                "description": "Delete a group by ID or slug.",
+                "description": "Delete a organization by ID or slug.",
                 "produces": [
                     "application/json"
                 ],
@@ -6036,8 +6036,8 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Group ID or slug",
-                        "name": "groupId",
+                        "description": "Organization ID or slug",
+                        "name": "orgId",
                         "in": "path",
                         "required": true
                     }
@@ -6058,7 +6058,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/org/groups/{groupId}/members": {
+        "/org/orgs/{orgId}/members": {
             "get": {
                 "security": [
                     {
@@ -6076,8 +6076,8 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Group ID or Slug",
-                        "name": "groupId",
+                        "description": "Organization ID or Slug",
+                        "name": "orgId",
                         "in": "path",
                         "required": true
                     }
@@ -6106,7 +6106,7 @@ const docTemplate = `{
                         "Bearer": []
                     }
                 ],
-                "description": "Add a user to a group with a specified role",
+                "description": "Add a user to a organization with a specified role",
                 "consumes": [
                     "application/json"
                 ],
@@ -6120,8 +6120,8 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Group ID or Slug",
-                        "name": "groupId",
+                        "description": "Organization ID or Slug",
+                        "name": "orgId",
                         "in": "path",
                         "required": true
                     },
@@ -6151,14 +6151,14 @@ const docTemplate = `{
                 }
             }
         },
-        "/org/groups/{groupId}/members/{userId}": {
+        "/org/orgs/{orgId}/members/{userId}": {
             "put": {
                 "security": [
                     {
                         "Bearer": []
                     }
                 ],
-                "description": "Update a member's role in a group",
+                "description": "Update a member's role in a organization",
                 "consumes": [
                     "application/json"
                 ],
@@ -6172,8 +6172,8 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Group ID or Slug",
-                        "name": "groupId",
+                        "description": "Organization ID or Slug",
+                        "name": "orgId",
                         "in": "path",
                         "required": true
                     },
@@ -6215,7 +6215,7 @@ const docTemplate = `{
                         "Bearer": []
                     }
                 ],
-                "description": "Remove a user from a group",
+                "description": "Remove a user from a organization",
                 "produces": [
                     "application/json"
                 ],
@@ -6226,8 +6226,8 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Group ID or Slug",
-                        "name": "groupId",
+                        "description": "Organization ID or Slug",
+                        "name": "orgId",
                         "in": "path",
                         "required": true
                     },
@@ -6255,14 +6255,14 @@ const docTemplate = `{
                 }
             }
         },
-        "/org/groups/{groupId}/members/{userId}/check": {
+        "/org/orgs/{orgId}/members/{userId}/check": {
             "get": {
                 "security": [
                     {
                         "Bearer": []
                     }
                 ],
-                "description": "Check if a user is a member of a group",
+                "description": "Check if a user is a member of a organization",
                 "produces": [
                     "application/json"
                 ],
@@ -6273,8 +6273,8 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Group ID or Slug",
-                        "name": "groupId",
+                        "description": "Organization ID or Slug",
+                        "name": "orgId",
                         "in": "path",
                         "required": true
                     },
@@ -6305,14 +6305,14 @@ const docTemplate = `{
                 }
             }
         },
-        "/org/groups/{groupId}/members/{userId}/is-owner": {
+        "/org/orgs/{orgId}/members/{userId}/is-owner": {
             "get": {
                 "security": [
                     {
                         "Bearer": []
                     }
                 ],
-                "description": "Check if a user has owner role in a group",
+                "description": "Check if a user has owner role in a organization",
                 "produces": [
                     "application/json"
                 ],
@@ -6323,8 +6323,8 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Group ID or Slug",
-                        "name": "groupId",
+                        "description": "Organization ID or Slug",
+                        "name": "orgId",
                         "in": "path",
                         "required": true
                     },
@@ -6355,14 +6355,14 @@ const docTemplate = `{
                 }
             }
         },
-        "/org/groups/{groupId}/members/{userId}/role": {
+        "/org/orgs/{orgId}/members/{userId}/role": {
             "get": {
                 "security": [
                     {
                         "Bearer": []
                     }
                 ],
-                "description": "Get a user's role in a group",
+                "description": "Get a user's role in a organization",
                 "produces": [
                     "application/json"
                 ],
@@ -6373,8 +6373,8 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Group ID or Slug",
-                        "name": "groupId",
+                        "description": "Organization ID or Slug",
+                        "name": "orgId",
                         "in": "path",
                         "required": true
                     },
@@ -6436,8 +6436,8 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "Filter by tenant ID",
-                        "name": "tenant_id",
+                        "description": "Filter by space ID",
+                        "name": "space_id",
                         "in": "query"
                     },
                     {
@@ -7073,8 +7073,8 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "Filter by tenant ID",
-                        "name": "tenant_id",
+                        "description": "Filter by space ID",
+                        "name": "space_id",
                         "in": "query"
                     },
                     {
@@ -7566,8 +7566,8 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "Filter by tenant ID",
-                        "name": "tenant_id",
+                        "description": "Filter by space ID",
+                        "name": "space_id",
                         "in": "query"
                     },
                     {
@@ -7984,8 +7984,8 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "Filter by tenant ID",
-                        "name": "tenant_id",
+                        "description": "Filter by space ID",
+                        "name": "space_id",
                         "in": "query"
                     },
                     {
@@ -8471,7 +8471,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "name": "tenant",
+                        "name": "space",
                         "in": "query"
                     }
                 ],
@@ -8794,7 +8794,7 @@ const docTemplate = `{
                         "x-enum-comments": {
                             "AccessLevelPrivate": "Only accessible to owner",
                             "AccessLevelPublic": "Accessible to anyone",
-                            "AccessLevelShared": "Shared with specific users/groups"
+                            "AccessLevelShared": "Shared with specific users/orgs"
                         },
                         "x-enum-varnames": [
                             "AccessLevelPublic",
@@ -8895,7 +8895,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "name": "tenant",
+                        "name": "space",
                         "in": "query",
                         "required": true
                     },
@@ -8961,8 +8961,8 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "Tenant ID associated with the file",
-                        "name": "tenant_id",
+                        "description": "Space ID associated with the file",
+                        "name": "space_id",
                         "in": "formData"
                     },
                     {
@@ -9065,8 +9065,8 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "Tenant ID",
-                        "name": "tenant_id",
+                        "description": "Space ID",
+                        "name": "space_id",
                         "in": "formData",
                         "required": true
                     },
@@ -9153,7 +9153,7 @@ const docTemplate = `{
                         "Bearer": []
                     }
                 ],
-                "description": "Get the storage quota for a tenant",
+                "description": "Get the storage quota for a space",
                 "produces": [
                     "application/json"
                 ],
@@ -9164,8 +9164,8 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Tenant ID",
-                        "name": "tenant_id",
+                        "description": "Space ID",
+                        "name": "space_id",
                         "in": "query",
                         "required": true
                     }
@@ -9194,7 +9194,7 @@ const docTemplate = `{
                         "Bearer": []
                     }
                 ],
-                "description": "Set the storage quota for a tenant",
+                "description": "Set the storage quota for a space",
                 "consumes": [
                     "application/json"
                 ],
@@ -9243,7 +9243,7 @@ const docTemplate = `{
                         "Bearer": []
                     }
                 ],
-                "description": "Get the current storage usage for a tenant",
+                "description": "Get the current storage usage for a space",
                 "produces": [
                     "application/json"
                 ],
@@ -9254,8 +9254,8 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Tenant ID",
-                        "name": "tenant_id",
+                        "description": "Space ID",
+                        "name": "space_id",
                         "in": "query",
                         "required": true
                     }
@@ -9298,8 +9298,8 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Tenant ID",
-                        "name": "tenant",
+                        "description": "Space ID",
+                        "name": "space",
                         "in": "query",
                         "required": true
                     },
@@ -9360,7 +9360,7 @@ const docTemplate = `{
                         "Bearer": []
                     }
                 ],
-                "description": "Get storage usage statistics for a tenant",
+                "description": "Get storage usage statistics for a space",
                 "produces": [
                     "application/json"
                 ],
@@ -9371,8 +9371,8 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Tenant ID",
-                        "name": "tenant_id",
+                        "description": "Space ID",
+                        "name": "space_id",
                         "in": "query",
                         "required": true
                     }
@@ -9401,7 +9401,7 @@ const docTemplate = `{
                         "Bearer": []
                     }
                 ],
-                "description": "List all tags used in files for a tenant",
+                "description": "List all tags used in files for a space",
                 "produces": [
                     "application/json"
                 ],
@@ -9412,8 +9412,8 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Tenant ID",
-                        "name": "tenant_id",
+                        "description": "Space ID",
+                        "name": "space_id",
                         "in": "query",
                         "required": true
                     }
@@ -11833,8 +11833,8 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Tenant ID",
-                        "name": "tenant_id",
+                        "description": "Space ID",
+                        "name": "space_id",
                         "in": "query"
                     },
                     {
@@ -12126,26 +12126,26 @@ const docTemplate = `{
                 }
             }
         },
-        "/sys/groups/{groupId}/tenants": {
+        "/sys/orgs/{orgId}/spaces": {
             "get": {
                 "security": [
                     {
                         "Bearer": []
                     }
                 ],
-                "description": "Get all tenants that have a specific group",
+                "description": "Get all spaces that have a specific group",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "sys"
                 ],
-                "summary": "Get group tenants",
+                "summary": "Get group spaces",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Group ID",
-                        "name": "groupId",
+                        "description": "Organization ID",
+                        "name": "orgId",
                         "in": "path",
                         "required": true
                     }
@@ -12381,7 +12381,7 @@ const docTemplate = `{
                         "Bearer": []
                     }
                 ],
-                "description": "Retrieve the system navigation menu groups organized by type.",
+                "description": "Retrieve the system navigation menu orgs organized by type.",
                 "produces": [
                     "application/json"
                 ],
@@ -13936,21 +13936,21 @@ const docTemplate = `{
                 }
             }
         },
-        "/sys/tenants": {
+        "/sys/spaces": {
             "get": {
                 "security": [
                     {
                         "Bearer": []
                     }
                 ],
-                "description": "Retrieve a list of tenants.",
+                "description": "Retrieve a list of spaces.",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "sys"
                 ],
-                "summary": "List tenants",
+                "summary": "List spaces",
                 "parameters": [
                     {
                         "type": "string",
@@ -13979,7 +13979,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/ncobase_tenant_structs.ReadTenant"
+                                "$ref": "#/definitions/ncobase_space_structs.ReadSpace"
                             }
                         }
                     },
@@ -13997,7 +13997,7 @@ const docTemplate = `{
                         "Bearer": []
                     }
                 ],
-                "description": "Update the tenant information.",
+                "description": "Update the space information.",
                 "consumes": [
                     "application/json"
                 ],
@@ -14007,22 +14007,22 @@ const docTemplate = `{
                 "tags": [
                     "sys"
                 ],
-                "summary": "Update tenant",
+                "summary": "Update space",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Tenant ID",
+                        "description": "Space ID",
                         "name": "slug",
                         "in": "path",
                         "required": true
                     },
                     {
-                        "description": "UpdateTenantBody object",
+                        "description": "UpdateSpaceBody object",
                         "name": "body",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/ncobase_tenant_structs.UpdateTenantBody"
+                            "$ref": "#/definitions/ncobase_space_structs.UpdateSpaceBody"
                         }
                     }
                 ],
@@ -14030,7 +14030,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_tenant_structs.ReadTenant"
+                            "$ref": "#/definitions/ncobase_space_structs.ReadSpace"
                         }
                     },
                     "400": {
@@ -14047,7 +14047,7 @@ const docTemplate = `{
                         "Bearer": []
                     }
                 ],
-                "description": "Create a new tenant.",
+                "description": "Create a new space.",
                 "consumes": [
                     "application/json"
                 ],
@@ -14057,15 +14057,15 @@ const docTemplate = `{
                 "tags": [
                     "sys"
                 ],
-                "summary": "Create tenant",
+                "summary": "Create space",
                 "parameters": [
                     {
-                        "description": "CreateTenantBody object",
+                        "description": "CreateSpaceBody object",
                         "name": "body",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/ncobase_tenant_structs.CreateTenantBody"
+                            "$ref": "#/definitions/ncobase_space_structs.CreateSpaceBody"
                         }
                     }
                 ],
@@ -14073,7 +14073,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_tenant_structs.ReadTenant"
+                            "$ref": "#/definitions/ncobase_space_structs.ReadSpace"
                         }
                     },
                     "400": {
@@ -14085,21 +14085,21 @@ const docTemplate = `{
                 }
             }
         },
-        "/sys/tenants/billing": {
+        "/sys/spaces/billing": {
             "get": {
                 "security": [
                     {
                         "Bearer": []
                     }
                 ],
-                "description": "Retrieve a list of tenant billing records",
+                "description": "Retrieve a list of space billing records",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "sys"
                 ],
-                "summary": "List tenant billing",
+                "summary": "List space billing",
                 "parameters": [
                     {
                         "enum": [
@@ -14164,7 +14164,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "name": "tenant_id",
+                        "name": "space_id",
                         "in": "query"
                     },
                     {
@@ -14179,7 +14179,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/ncobase_tenant_structs.ReadTenantBilling"
+                                "$ref": "#/definitions/ncobase_space_structs.ReadSpaceBilling"
                             }
                         }
                     },
@@ -14197,7 +14197,7 @@ const docTemplate = `{
                         "Bearer": []
                     }
                 ],
-                "description": "Create a new tenant billing record",
+                "description": "Create a new space billing record",
                 "consumes": [
                     "application/json"
                 ],
@@ -14207,7 +14207,7 @@ const docTemplate = `{
                 "tags": [
                     "sys"
                 ],
-                "summary": "Create tenant billing",
+                "summary": "Create space billing",
                 "parameters": [
                     {
                         "description": "Billing record",
@@ -14215,7 +14215,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/ncobase_tenant_structs.CreateTenantBillingBody"
+                            "$ref": "#/definitions/ncobase_space_structs.CreateSpaceBillingBody"
                         }
                     }
                 ],
@@ -14223,7 +14223,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_tenant_structs.ReadTenantBilling"
+                            "$ref": "#/definitions/ncobase_space_structs.ReadSpaceBilling"
                         }
                     },
                     "400": {
@@ -14235,7 +14235,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/sys/tenants/billing/payment": {
+        "/sys/spaces/billing/payment": {
             "post": {
                 "security": [
                     {
@@ -14260,7 +14260,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/ncobase_tenant_structs.PaymentRequest"
+                            "$ref": "#/definitions/ncobase_space_structs.PaymentRequest"
                         }
                     }
                 ],
@@ -14280,21 +14280,21 @@ const docTemplate = `{
                 }
             }
         },
-        "/sys/tenants/billing/{id}": {
+        "/sys/spaces/billing/{id}": {
             "get": {
                 "security": [
                     {
                         "Bearer": []
                     }
                 ],
-                "description": "Retrieve a tenant billing record by ID",
+                "description": "Retrieve a space billing record by ID",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "sys"
                 ],
-                "summary": "Get tenant billing",
+                "summary": "Get space billing",
                 "parameters": [
                     {
                         "type": "string",
@@ -14308,7 +14308,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_tenant_structs.ReadTenantBilling"
+                            "$ref": "#/definitions/ncobase_space_structs.ReadSpaceBilling"
                         }
                     },
                     "400": {
@@ -14325,7 +14325,7 @@ const docTemplate = `{
                         "Bearer": []
                     }
                 ],
-                "description": "Update an existing tenant billing record",
+                "description": "Update an existing space billing record",
                 "consumes": [
                     "application/json"
                 ],
@@ -14335,7 +14335,7 @@ const docTemplate = `{
                 "tags": [
                     "sys"
                 ],
-                "summary": "Update tenant billing",
+                "summary": "Update space billing",
                 "parameters": [
                     {
                         "type": "string",
@@ -14358,7 +14358,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_tenant_structs.ReadTenantBilling"
+                            "$ref": "#/definitions/ncobase_space_structs.ReadSpaceBilling"
                         }
                     },
                     "400": {
@@ -14375,14 +14375,14 @@ const docTemplate = `{
                         "Bearer": []
                     }
                 ],
-                "description": "Delete a tenant billing record",
+                "description": "Delete a space billing record",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "sys"
                 ],
-                "summary": "Delete tenant billing",
+                "summary": "Delete space billing",
                 "parameters": [
                     {
                         "type": "string",
@@ -14408,21 +14408,21 @@ const docTemplate = `{
                 }
             }
         },
-        "/sys/tenants/quotas": {
+        "/sys/spaces/quotas": {
             "get": {
                 "security": [
                     {
                         "Bearer": []
                     }
                 ],
-                "description": "Retrieve a list of tenant quotas",
+                "description": "Retrieve a list of space quotas",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "sys"
                 ],
-                "summary": "List tenant quotas",
+                "summary": "List space quotas",
                 "parameters": [
                     {
                         "type": "string",
@@ -14465,7 +14465,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "name": "tenant_id",
+                        "name": "space_id",
                         "in": "query"
                     }
                 ],
@@ -14475,7 +14475,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/ncobase_tenant_structs.ReadTenantQuota"
+                                "$ref": "#/definitions/ncobase_space_structs.ReadSpaceQuota"
                             }
                         }
                     },
@@ -14493,7 +14493,7 @@ const docTemplate = `{
                         "Bearer": []
                     }
                 ],
-                "description": "Create a new tenant quota configuration",
+                "description": "Create a new space quota configuration",
                 "consumes": [
                     "application/json"
                 ],
@@ -14503,7 +14503,7 @@ const docTemplate = `{
                 "tags": [
                     "sys"
                 ],
-                "summary": "Create tenant quota",
+                "summary": "Create space quota",
                 "parameters": [
                     {
                         "description": "Quota configuration",
@@ -14511,7 +14511,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/ncobase_tenant_structs.CreateTenantQuotaBody"
+                            "$ref": "#/definitions/ncobase_space_structs.CreateSpaceQuotaBody"
                         }
                     }
                 ],
@@ -14519,7 +14519,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_tenant_structs.ReadTenantQuota"
+                            "$ref": "#/definitions/ncobase_space_structs.ReadSpaceQuota"
                         }
                     },
                     "400": {
@@ -14531,14 +14531,14 @@ const docTemplate = `{
                 }
             }
         },
-        "/sys/tenants/quotas/check": {
+        "/sys/spaces/quotas/check": {
             "get": {
                 "security": [
                     {
                         "Bearer": []
                     }
                 ],
-                "description": "Check if tenant can use additional quota",
+                "description": "Check if space can use additional quota",
                 "produces": [
                     "application/json"
                 ],
@@ -14549,8 +14549,8 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Tenant ID",
-                        "name": "tenantId",
+                        "description": "Space ID",
+                        "name": "spaceId",
                         "in": "query",
                         "required": true
                     },
@@ -14588,7 +14588,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/sys/tenants/quotas/usage": {
+        "/sys/spaces/quotas/usage": {
             "post": {
                 "security": [
                     {
@@ -14613,7 +14613,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/ncobase_tenant_structs.QuotaUsageRequest"
+                            "$ref": "#/definitions/ncobase_space_structs.QuotaUsageRequest"
                         }
                     }
                 ],
@@ -14633,21 +14633,21 @@ const docTemplate = `{
                 }
             }
         },
-        "/sys/tenants/quotas/{id}": {
+        "/sys/spaces/quotas/{id}": {
             "get": {
                 "security": [
                     {
                         "Bearer": []
                     }
                 ],
-                "description": "Retrieve a tenant quota by ID",
+                "description": "Retrieve a space quota by ID",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "sys"
                 ],
-                "summary": "Get tenant quota",
+                "summary": "Get space quota",
                 "parameters": [
                     {
                         "type": "string",
@@ -14661,7 +14661,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_tenant_structs.ReadTenantQuota"
+                            "$ref": "#/definitions/ncobase_space_structs.ReadSpaceQuota"
                         }
                     },
                     "400": {
@@ -14678,7 +14678,7 @@ const docTemplate = `{
                         "Bearer": []
                     }
                 ],
-                "description": "Update an existing tenant quota configuration",
+                "description": "Update an existing space quota configuration",
                 "consumes": [
                     "application/json"
                 ],
@@ -14688,7 +14688,7 @@ const docTemplate = `{
                 "tags": [
                     "sys"
                 ],
-                "summary": "Update tenant quota",
+                "summary": "Update space quota",
                 "parameters": [
                     {
                         "type": "string",
@@ -14711,7 +14711,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_tenant_structs.ReadTenantQuota"
+                            "$ref": "#/definitions/ncobase_space_structs.ReadSpaceQuota"
                         }
                     },
                     "400": {
@@ -14728,14 +14728,14 @@ const docTemplate = `{
                         "Bearer": []
                     }
                 ],
-                "description": "Delete a tenant quota configuration",
+                "description": "Delete a space quota configuration",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "sys"
                 ],
-                "summary": "Delete tenant quota",
+                "summary": "Delete space quota",
                 "parameters": [
                     {
                         "type": "string",
@@ -14761,21 +14761,21 @@ const docTemplate = `{
                 }
             }
         },
-        "/sys/tenants/settings": {
+        "/sys/spaces/settings": {
             "get": {
                 "security": [
                     {
                         "Bearer": []
                     }
                 ],
-                "description": "Retrieve a list of tenant settings",
+                "description": "Retrieve a list of space settings",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "sys"
                 ],
-                "summary": "List tenant settings",
+                "summary": "List space settings",
                 "parameters": [
                     {
                         "type": "string",
@@ -14810,14 +14810,14 @@ const docTemplate = `{
                     {
                         "enum": [
                             "system",
-                            "tenant",
+                            "space",
                             "user",
                             "feature"
                         ],
                         "type": "string",
                         "x-enum-varnames": [
                             "ScopeSystem",
-                            "ScopeTenant",
+                            "Scope",
                             "ScopeUser",
                             "ScopeFeature"
                         ],
@@ -14826,7 +14826,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "name": "tenant_id",
+                        "name": "space_id",
                         "in": "query"
                     }
                 ],
@@ -14836,7 +14836,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/ncobase_tenant_structs.ReadTenantSetting"
+                                "$ref": "#/definitions/ncobase_space_structs.ReadSpaceSetting"
                             }
                         }
                     },
@@ -14854,7 +14854,7 @@ const docTemplate = `{
                         "Bearer": []
                     }
                 ],
-                "description": "Create a new tenant setting configuration",
+                "description": "Create a new space setting configuration",
                 "consumes": [
                     "application/json"
                 ],
@@ -14864,7 +14864,7 @@ const docTemplate = `{
                 "tags": [
                     "sys"
                 ],
-                "summary": "Create tenant setting",
+                "summary": "Create space setting",
                 "parameters": [
                     {
                         "description": "Setting configuration",
@@ -14872,7 +14872,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/ncobase_tenant_structs.CreateTenantSettingBody"
+                            "$ref": "#/definitions/ncobase_space_structs.CreateSpaceSettingBody"
                         }
                     }
                 ],
@@ -14880,7 +14880,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_tenant_structs.ReadTenantSetting"
+                            "$ref": "#/definitions/ncobase_space_structs.ReadSpaceSetting"
                         }
                     },
                     "400": {
@@ -14892,14 +14892,14 @@ const docTemplate = `{
                 }
             }
         },
-        "/sys/tenants/settings/bulk": {
+        "/sys/spaces/settings/bulk": {
             "post": {
                 "security": [
                     {
                         "Bearer": []
                     }
                 ],
-                "description": "Update multiple tenant settings at once",
+                "description": "Update multiple space settings at once",
                 "consumes": [
                     "application/json"
                 ],
@@ -14909,7 +14909,7 @@ const docTemplate = `{
                 "tags": [
                     "sys"
                 ],
-                "summary": "Bulk update tenant settings",
+                "summary": "Bulk update space settings",
                 "parameters": [
                     {
                         "description": "Bulk update request",
@@ -14917,7 +14917,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/ncobase_tenant_structs.BulkUpdateSettingsRequest"
+                            "$ref": "#/definitions/ncobase_space_structs.BulkUpdateSettingsRequest"
                         }
                     }
                 ],
@@ -14937,21 +14937,21 @@ const docTemplate = `{
                 }
             }
         },
-        "/sys/tenants/settings/{id}": {
+        "/sys/spaces/settings/{id}": {
             "get": {
                 "security": [
                     {
                         "Bearer": []
                     }
                 ],
-                "description": "Retrieve a tenant setting by ID",
+                "description": "Retrieve a space setting by ID",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "sys"
                 ],
-                "summary": "Get tenant setting",
+                "summary": "Get space setting",
                 "parameters": [
                     {
                         "type": "string",
@@ -14965,7 +14965,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_tenant_structs.ReadTenantSetting"
+                            "$ref": "#/definitions/ncobase_space_structs.ReadSpaceSetting"
                         }
                     },
                     "400": {
@@ -14982,7 +14982,7 @@ const docTemplate = `{
                         "Bearer": []
                     }
                 ],
-                "description": "Update an existing tenant setting configuration",
+                "description": "Update an existing space setting configuration",
                 "consumes": [
                     "application/json"
                 ],
@@ -14992,7 +14992,7 @@ const docTemplate = `{
                 "tags": [
                     "sys"
                 ],
-                "summary": "Update tenant setting",
+                "summary": "Update space setting",
                 "parameters": [
                     {
                         "type": "string",
@@ -15015,7 +15015,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_tenant_structs.ReadTenantSetting"
+                            "$ref": "#/definitions/ncobase_space_structs.ReadSpaceSetting"
                         }
                     },
                     "400": {
@@ -15032,14 +15032,14 @@ const docTemplate = `{
                         "Bearer": []
                     }
                 ],
-                "description": "Delete a tenant setting configuration",
+                "description": "Delete a space setting configuration",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "sys"
                 ],
-                "summary": "Delete tenant setting",
+                "summary": "Delete space setting",
                 "parameters": [
                     {
                         "type": "string",
@@ -15065,26 +15065,26 @@ const docTemplate = `{
                 }
             }
         },
-        "/sys/tenants/{tenantId}": {
+        "/sys/spaces/{spaceId}": {
             "get": {
                 "security": [
                     {
                         "Bearer": []
                     }
                 ],
-                "description": "Retrieve information about a specific tenant.",
+                "description": "Retrieve information about a specific space.",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "sys"
                 ],
-                "summary": "Get tenant",
+                "summary": "Get space",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Tenant ID",
-                        "name": "tenantId",
+                        "description": "Space ID",
+                        "name": "spaceId",
                         "in": "path",
                         "required": true
                     }
@@ -15093,7 +15093,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_tenant_structs.ReadTenant"
+                            "$ref": "#/definitions/ncobase_space_structs.ReadSpace"
                         }
                     },
                     "400": {
@@ -15110,19 +15110,19 @@ const docTemplate = `{
                         "Bearer": []
                     }
                 ],
-                "description": "Delete a specific tenant.",
+                "description": "Delete a specific space.",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "sys"
                 ],
-                "summary": "Delete tenant",
+                "summary": "Delete space",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Tenant ID",
-                        "name": "tenantId",
+                        "description": "Space ID",
+                        "name": "spaceId",
                         "in": "path",
                         "required": true
                     }
@@ -15143,7 +15143,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/sys/tenants/{tenantId}/attachments": {
+        "/sys/spaces/{spaceId}/attachments": {
             "get": {
                 "security": [
                     {
@@ -15157,12 +15157,12 @@ const docTemplate = `{
                 "tags": [
                     "sys"
                 ],
-                "summary": "List tenant attachments",
+                "summary": "List space attachments",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Tenant ID",
-                        "name": "tenantId",
+                        "description": "Space ID",
+                        "name": "spaceId",
                         "in": "path",
                         "required": true
                     }
@@ -15183,14 +15183,14 @@ const docTemplate = `{
                 }
             }
         },
-        "/sys/tenants/{tenantId}/billing/invoice": {
+        "/sys/spaces/{spaceId}/billing/invoice": {
             "post": {
                 "security": [
                     {
                         "Bearer": []
                     }
                 ],
-                "description": "Generate a new invoice for a tenant",
+                "description": "Generate a new invoice for a space",
                 "consumes": [
                     "application/json"
                 ],
@@ -15204,8 +15204,8 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Tenant ID",
-                        "name": "tenantId",
+                        "description": "Space ID",
+                        "name": "spaceId",
                         "in": "path",
                         "required": true
                     },
@@ -15226,7 +15226,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_tenant_structs.ReadTenantBilling"
+                            "$ref": "#/definitions/ncobase_space_structs.ReadSpaceBilling"
                         }
                     },
                     "400": {
@@ -15238,14 +15238,14 @@ const docTemplate = `{
                 }
             }
         },
-        "/sys/tenants/{tenantId}/billing/overdue": {
+        "/sys/spaces/{spaceId}/billing/overdue": {
             "get": {
                 "security": [
                     {
                         "Bearer": []
                     }
                 ],
-                "description": "Retrieve overdue billing records for a tenant",
+                "description": "Retrieve overdue billing records for a space",
                 "produces": [
                     "application/json"
                 ],
@@ -15256,8 +15256,8 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Tenant ID",
-                        "name": "tenantId",
+                        "description": "Space ID",
+                        "name": "spaceId",
                         "in": "path",
                         "required": true
                     }
@@ -15268,7 +15268,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/ncobase_tenant_structs.ReadTenantBilling"
+                                "$ref": "#/definitions/ncobase_space_structs.ReadSpaceBilling"
                             }
                         }
                     },
@@ -15281,14 +15281,14 @@ const docTemplate = `{
                 }
             }
         },
-        "/sys/tenants/{tenantId}/billing/summary": {
+        "/sys/spaces/{spaceId}/billing/summary": {
             "get": {
                 "security": [
                     {
                         "Bearer": []
                     }
                 ],
-                "description": "Retrieve billing summary for a tenant",
+                "description": "Retrieve billing summary for a space",
                 "produces": [
                     "application/json"
                 ],
@@ -15299,8 +15299,8 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Tenant ID",
-                        "name": "tenantId",
+                        "description": "Space ID",
+                        "name": "spaceId",
                         "in": "path",
                         "required": true
                     }
@@ -15309,7 +15309,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_tenant_structs.BillingSummary"
+                            "$ref": "#/definitions/ncobase_space_structs.BillingSummary"
                         }
                     },
                     "400": {
@@ -15321,26 +15321,26 @@ const docTemplate = `{
                 }
             }
         },
-        "/sys/tenants/{tenantId}/dictionaries": {
+        "/sys/spaces/{spaceId}/dictionaries": {
             "get": {
                 "security": [
                     {
                         "Bearer": []
                     }
                 ],
-                "description": "Get all dictionaries for a tenant",
+                "description": "Get all dictionaries for a space",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "sys"
                 ],
-                "summary": "Get tenant dictionaries",
+                "summary": "Get space dictionaries",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Tenant ID",
-                        "name": "tenantId",
+                        "description": "Space ID",
+                        "name": "spaceId",
                         "in": "path",
                         "required": true
                     }
@@ -15367,7 +15367,7 @@ const docTemplate = `{
                         "Bearer": []
                     }
                 ],
-                "description": "Add a dictionary to a tenant",
+                "description": "Add a dictionary to a space",
                 "consumes": [
                     "application/json"
                 ],
@@ -15377,22 +15377,22 @@ const docTemplate = `{
                 "tags": [
                     "sys"
                 ],
-                "summary": "Add dictionary to tenant",
+                "summary": "Add dictionary to space",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Tenant ID",
-                        "name": "tenantId",
+                        "description": "Space ID",
+                        "name": "spaceId",
                         "in": "path",
                         "required": true
                     },
                     {
-                        "description": "AddDictionaryToTenantRequest object",
+                        "description": "AddDictionaryToSpaceRequest object",
                         "name": "body",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/ncobase_tenant_structs.AddDictionaryToTenantRequest"
+                            "$ref": "#/definitions/ncobase_space_structs.AddDictionaryToSpaceRequest"
                         }
                     }
                 ],
@@ -15400,7 +15400,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_tenant_structs.TenantDictionary"
+                            "$ref": "#/definitions/ncobase_space_structs.SpaceDictionary"
                         }
                     },
                     "400": {
@@ -15412,26 +15412,26 @@ const docTemplate = `{
                 }
             }
         },
-        "/sys/tenants/{tenantId}/dictionaries/{dictionaryId}": {
+        "/sys/spaces/{spaceId}/dictionaries/{dictionaryId}": {
             "delete": {
                 "security": [
                     {
                         "Bearer": []
                     }
                 ],
-                "description": "Remove a dictionary from a tenant",
+                "description": "Remove a dictionary from a space",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "sys"
                 ],
-                "summary": "Remove dictionary from tenant",
+                "summary": "Remove dictionary from space",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Tenant ID",
-                        "name": "tenantId",
+                        "description": "Space ID",
+                        "name": "spaceId",
                         "in": "path",
                         "required": true
                     },
@@ -15459,26 +15459,26 @@ const docTemplate = `{
                 }
             }
         },
-        "/sys/tenants/{tenantId}/dictionaries/{dictionaryId}/check": {
+        "/sys/spaces/{spaceId}/dictionaries/{dictionaryId}/check": {
             "get": {
                 "security": [
                     {
                         "Bearer": []
                     }
                 ],
-                "description": "Check if a dictionary belongs to a tenant",
+                "description": "Check if a dictionary belongs to a space",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "sys"
                 ],
-                "summary": "Check dictionary in tenant",
+                "summary": "Check dictionary in space",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Tenant ID",
-                        "name": "tenantId",
+                        "description": "Space ID",
+                        "name": "spaceId",
                         "in": "path",
                         "required": true
                     },
@@ -15509,26 +15509,26 @@ const docTemplate = `{
                 }
             }
         },
-        "/sys/tenants/{tenantId}/groups": {
+        "/sys/spaces/{spaceId}/orgs": {
             "get": {
                 "security": [
                     {
                         "Bearer": []
                     }
                 ],
-                "description": "Get all groups belonging to a specific tenant",
+                "description": "Get all orgs belonging to a specific space",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "sys"
                 ],
-                "summary": "Get tenant groups",
+                "summary": "Get space orgs",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Tenant ID",
-                        "name": "tenantId",
+                        "description": "Space ID",
+                        "name": "spaceId",
                         "in": "path",
                         "required": true
                     },
@@ -15569,7 +15569,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/ncobase_tenant_structs.ReadGroup"
+                                "$ref": "#/definitions/ncobase_space_structs.ReadOrganization"
                             }
                         }
                     },
@@ -15587,7 +15587,7 @@ const docTemplate = `{
                         "Bearer": []
                     }
                 ],
-                "description": "Add a group to a specific tenant",
+                "description": "Add a organization to a specific space",
                 "consumes": [
                     "application/json"
                 ],
@@ -15597,22 +15597,22 @@ const docTemplate = `{
                 "tags": [
                     "sys"
                 ],
-                "summary": "Add group to tenant",
+                "summary": "Add group to space",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Tenant ID",
-                        "name": "tenantId",
+                        "description": "Space ID",
+                        "name": "spaceId",
                         "in": "path",
                         "required": true
                     },
                     {
-                        "description": "AddTenantGroupRequest object",
+                        "description": "AddSpaceOrganizationRequest object",
                         "name": "body",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/ncobase_tenant_structs.AddTenantGroupRequest"
+                            "$ref": "#/definitions/ncobase_space_structs.AddSpaceOrganizationRequest"
                         }
                     }
                 ],
@@ -15620,7 +15620,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_tenant_structs.TenantGroupRelation"
+                            "$ref": "#/definitions/ncobase_space_structs.SpaceOrganizationRelation"
                         }
                     },
                     "400": {
@@ -15632,33 +15632,33 @@ const docTemplate = `{
                 }
             }
         },
-        "/sys/tenants/{tenantId}/groups/{groupId}": {
+        "/sys/spaces/{spaceId}/orgs/{orgId}": {
             "delete": {
                 "security": [
                     {
                         "Bearer": []
                     }
                 ],
-                "description": "Remove a group from a specific tenant",
+                "description": "Remove a organization from a specific space",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "sys"
                 ],
-                "summary": "Remove group from tenant",
+                "summary": "Remove group from space",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Tenant ID",
-                        "name": "tenantId",
+                        "description": "Space ID",
+                        "name": "spaceId",
                         "in": "path",
                         "required": true
                     },
                     {
                         "type": "string",
-                        "description": "Group ID",
-                        "name": "groupId",
+                        "description": "Organization ID",
+                        "name": "orgId",
                         "in": "path",
                         "required": true
                     }
@@ -15679,33 +15679,33 @@ const docTemplate = `{
                 }
             }
         },
-        "/sys/tenants/{tenantId}/groups/{groupId}/check": {
+        "/sys/spaces/{spaceId}/orgs/{orgId}/check": {
             "get": {
                 "security": [
                     {
                         "Bearer": []
                     }
                 ],
-                "description": "Check if a group belongs to a specific tenant",
+                "description": "Check if a organization belongs to a specific space",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "sys"
                 ],
-                "summary": "Check if group is in tenant",
+                "summary": "Check if group is in space",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Tenant ID",
-                        "name": "tenantId",
+                        "description": "Space ID",
+                        "name": "spaceId",
                         "in": "path",
                         "required": true
                     },
                     {
                         "type": "string",
-                        "description": "Group ID",
-                        "name": "groupId",
+                        "description": "Organization ID",
+                        "name": "orgId",
                         "in": "path",
                         "required": true
                     }
@@ -15729,7 +15729,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/sys/tenants/{tenantId}/menu": {
+        "/sys/spaces/{spaceId}/menu": {
             "get": {
                 "security": [
                     {
@@ -15743,12 +15743,12 @@ const docTemplate = `{
                 "tags": [
                     "sys"
                 ],
-                "summary": "Get tenant menu",
+                "summary": "Get space menu",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Tenant ID",
-                        "name": "tenantId",
+                        "description": "Space ID",
+                        "name": "spaceId",
                         "in": "path",
                         "required": true
                     }
@@ -15769,26 +15769,26 @@ const docTemplate = `{
                 }
             }
         },
-        "/sys/tenants/{tenantId}/menus": {
+        "/sys/spaces/{spaceId}/menus": {
             "get": {
                 "security": [
                     {
                         "Bearer": []
                     }
                 ],
-                "description": "Get all menus for a tenant",
+                "description": "Get all menus for a space",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "sys"
                 ],
-                "summary": "Get tenant menus",
+                "summary": "Get space menus",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Tenant ID",
-                        "name": "tenantId",
+                        "description": "Space ID",
+                        "name": "spaceId",
                         "in": "path",
                         "required": true
                     }
@@ -15817,7 +15817,7 @@ const docTemplate = `{
                         "Bearer": []
                     }
                 ],
-                "description": "Add a menu to a tenant",
+                "description": "Add a menu to a space",
                 "consumes": [
                     "application/json"
                 ],
@@ -15827,22 +15827,22 @@ const docTemplate = `{
                 "tags": [
                     "sys"
                 ],
-                "summary": "Add menu to tenant",
+                "summary": "Add menu to space",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Tenant ID",
-                        "name": "tenantId",
+                        "description": "Space ID",
+                        "name": "spaceId",
                         "in": "path",
                         "required": true
                     },
                     {
-                        "description": "AddMenuToTenantRequest object",
+                        "description": "AddMenuToSpaceRequest object",
                         "name": "body",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/ncobase_tenant_structs.AddMenuToTenantRequest"
+                            "$ref": "#/definitions/ncobase_space_structs.AddMenuToSpaceRequest"
                         }
                     }
                 ],
@@ -15850,7 +15850,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_tenant_structs.TenantMenu"
+                            "$ref": "#/definitions/ncobase_space_structs.SpaceMenu"
                         }
                     },
                     "400": {
@@ -15862,26 +15862,26 @@ const docTemplate = `{
                 }
             }
         },
-        "/sys/tenants/{tenantId}/menus/{menuId}": {
+        "/sys/spaces/{spaceId}/menus/{menuId}": {
             "delete": {
                 "security": [
                     {
                         "Bearer": []
                     }
                 ],
-                "description": "Remove a menu from a tenant",
+                "description": "Remove a menu from a space",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "sys"
                 ],
-                "summary": "Remove menu from tenant",
+                "summary": "Remove menu from space",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Tenant ID",
-                        "name": "tenantId",
+                        "description": "Space ID",
+                        "name": "spaceId",
                         "in": "path",
                         "required": true
                     },
@@ -15909,26 +15909,26 @@ const docTemplate = `{
                 }
             }
         },
-        "/sys/tenants/{tenantId}/menus/{menuId}/check": {
+        "/sys/spaces/{spaceId}/menus/{menuId}/check": {
             "get": {
                 "security": [
                     {
                         "Bearer": []
                     }
                 ],
-                "description": "Check if a menu belongs to a tenant",
+                "description": "Check if a menu belongs to a space",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "sys"
                 ],
-                "summary": "Check menu in tenant",
+                "summary": "Check menu in space",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Tenant ID",
-                        "name": "tenantId",
+                        "description": "Space ID",
+                        "name": "spaceId",
                         "in": "path",
                         "required": true
                     },
@@ -15959,26 +15959,26 @@ const docTemplate = `{
                 }
             }
         },
-        "/sys/tenants/{tenantId}/options": {
+        "/sys/spaces/{spaceId}/options": {
             "get": {
                 "security": [
                     {
                         "Bearer": []
                     }
                 ],
-                "description": "Get all options for a tenant",
+                "description": "Get all options for a space",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "sys"
                 ],
-                "summary": "Get tenant option",
+                "summary": "Get space option",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Tenant ID",
-                        "name": "tenantId",
+                        "description": "Space ID",
+                        "name": "spaceId",
                         "in": "path",
                         "required": true
                     }
@@ -16007,7 +16007,7 @@ const docTemplate = `{
                         "Bearer": []
                     }
                 ],
-                "description": "Add options to a tenant",
+                "description": "Add options to a space",
                 "consumes": [
                     "application/json"
                 ],
@@ -16017,22 +16017,22 @@ const docTemplate = `{
                 "tags": [
                     "sys"
                 ],
-                "summary": "Add options to tenant",
+                "summary": "Add options to space",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Tenant ID",
-                        "name": "tenantId",
+                        "description": "Space ID",
+                        "name": "spaceId",
                         "in": "path",
                         "required": true
                     },
                     {
-                        "description": "AddOptionsToTenantRequest object",
+                        "description": "AddOptionsToSpaceRequest object",
                         "name": "body",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/ncobase_tenant_structs.AddOptionsToTenantRequest"
+                            "$ref": "#/definitions/ncobase_space_structs.AddOptionsToSpaceRequest"
                         }
                     }
                 ],
@@ -16040,7 +16040,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_tenant_structs.TenantOption"
+                            "$ref": "#/definitions/ncobase_space_structs.SpaceOption"
                         }
                     },
                     "400": {
@@ -16052,26 +16052,26 @@ const docTemplate = `{
                 }
             }
         },
-        "/sys/tenants/{tenantId}/options/{optionsId}": {
+        "/sys/spaces/{spaceId}/options/{optionsId}": {
             "delete": {
                 "security": [
                     {
                         "Bearer": []
                     }
                 ],
-                "description": "Remove options from a tenant",
+                "description": "Remove options from a space",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "sys"
                 ],
-                "summary": "Remove options from tenant",
+                "summary": "Remove options from space",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Tenant ID",
-                        "name": "tenantId",
+                        "description": "Space ID",
+                        "name": "spaceId",
                         "in": "path",
                         "required": true
                     },
@@ -16099,26 +16099,26 @@ const docTemplate = `{
                 }
             }
         },
-        "/sys/tenants/{tenantId}/options/{optionsId}/check": {
+        "/sys/spaces/{spaceId}/options/{optionsId}/check": {
             "get": {
                 "security": [
                     {
                         "Bearer": []
                     }
                 ],
-                "description": "Check if options belong to a tenant",
+                "description": "Check if options belong to a space",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "sys"
                 ],
-                "summary": "Check options in tenant",
+                "summary": "Check options in space",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Tenant ID",
-                        "name": "tenantId",
+                        "description": "Space ID",
+                        "name": "spaceId",
                         "in": "path",
                         "required": true
                     },
@@ -16149,26 +16149,26 @@ const docTemplate = `{
                 }
             }
         },
-        "/sys/tenants/{tenantId}/quotas": {
+        "/sys/spaces/{spaceId}/quotas": {
             "get": {
                 "security": [
                     {
                         "Bearer": []
                     }
                 ],
-                "description": "Retrieve all quotas for a tenant",
+                "description": "Retrieve all quotas for a space",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "sys"
                 ],
-                "summary": "Get tenant quota summary",
+                "summary": "Get space quota summary",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Tenant ID",
-                        "name": "tenantId",
+                        "description": "Space ID",
+                        "name": "spaceId",
                         "in": "path",
                         "required": true
                     }
@@ -16179,7 +16179,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/ncobase_tenant_structs.ReadTenantQuota"
+                                "$ref": "#/definitions/ncobase_space_structs.ReadSpaceQuota"
                             }
                         }
                     },
@@ -16192,7 +16192,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/sys/tenants/{tenantId}/roles": {
+        "/sys/spaces/{spaceId}/roles": {
             "get": {
                 "security": [
                     {
@@ -16206,12 +16206,12 @@ const docTemplate = `{
                 "tags": [
                     "sys"
                 ],
-                "summary": "List tenant roles",
+                "summary": "List space roles",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Tenant ID",
-                        "name": "tenantId",
+                        "description": "Space ID",
+                        "name": "spaceId",
                         "in": "path",
                         "required": true
                     }
@@ -16232,26 +16232,26 @@ const docTemplate = `{
                 }
             }
         },
-        "/sys/tenants/{tenantId}/roles/{roleId}/users": {
+        "/sys/spaces/{spaceId}/roles/{roleId}/users": {
             "get": {
                 "security": [
                     {
                         "Bearer": []
                     }
                 ],
-                "description": "Get all users that have a specific role in a tenant",
+                "description": "Get all users that have a specific role in a space",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "sys"
                 ],
-                "summary": "Get tenant users by role",
+                "summary": "Get space users by role",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Tenant ID",
-                        "name": "tenantId",
+                        "description": "Space ID",
+                        "name": "spaceId",
                         "in": "path",
                         "required": true
                     },
@@ -16267,7 +16267,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_tenant_structs.TenantRoleUsersResponse"
+                            "$ref": "#/definitions/ncobase_space_structs.SpaceRoleUsersResponse"
                         }
                     },
                     "400": {
@@ -16279,7 +16279,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/sys/tenants/{tenantId}/setting": {
+        "/sys/spaces/{spaceId}/setting": {
             "get": {
                 "security": [
                     {
@@ -16293,12 +16293,12 @@ const docTemplate = `{
                 "tags": [
                     "sys"
                 ],
-                "summary": "Get tenant setting",
+                "summary": "Get space setting",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Tenant ID",
-                        "name": "tenantId",
+                        "description": "Space ID",
+                        "name": "spaceId",
                         "in": "path",
                         "required": true
                     }
@@ -16319,26 +16319,26 @@ const docTemplate = `{
                 }
             }
         },
-        "/sys/tenants/{tenantId}/settings": {
+        "/sys/spaces/{spaceId}/settings": {
             "get": {
                 "security": [
                     {
                         "Bearer": []
                     }
                 ],
-                "description": "Retrieve all settings for a specific tenant",
+                "description": "Retrieve all settings for a specific space",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "sys"
                 ],
-                "summary": "Get all tenant settings",
+                "summary": "Get all space settings",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Tenant ID",
-                        "name": "tenantId",
+                        "description": "Space ID",
+                        "name": "spaceId",
                         "in": "path",
                         "required": true
                     }
@@ -16360,21 +16360,21 @@ const docTemplate = `{
                 }
             }
         },
-        "/sys/tenants/{tenantId}/settings/public": {
+        "/sys/spaces/{spaceId}/settings/public": {
             "get": {
-                "description": "Retrieve public settings for a specific tenant",
+                "description": "Retrieve public settings for a specific space",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "sys"
                 ],
-                "summary": "Get public tenant settings",
+                "summary": "Get public space settings",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Tenant ID",
-                        "name": "tenantId",
+                        "description": "Space ID",
+                        "name": "spaceId",
                         "in": "path",
                         "required": true
                     }
@@ -16396,26 +16396,26 @@ const docTemplate = `{
                 }
             }
         },
-        "/sys/tenants/{tenantId}/settings/{key}": {
+        "/sys/spaces/{spaceId}/settings/{key}": {
             "get": {
                 "security": [
                     {
                         "Bearer": []
                     }
                 ],
-                "description": "Retrieve a specific setting for a tenant",
+                "description": "Retrieve a specific setting for a space",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "sys"
                 ],
-                "summary": "Get specific tenant setting",
+                "summary": "Get specific space setting",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Tenant ID",
-                        "name": "tenantId",
+                        "description": "Space ID",
+                        "name": "spaceId",
                         "in": "path",
                         "required": true
                     },
@@ -16449,7 +16449,7 @@ const docTemplate = `{
                         "Bearer": []
                     }
                 ],
-                "description": "Set a specific setting for a tenant",
+                "description": "Set a specific setting for a space",
                 "consumes": [
                     "application/json"
                 ],
@@ -16459,12 +16459,12 @@ const docTemplate = `{
                 "tags": [
                     "sys"
                 ],
-                "summary": "Set tenant setting",
+                "summary": "Set space setting",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Tenant ID",
-                        "name": "tenantId",
+                        "description": "Space ID",
+                        "name": "spaceId",
                         "in": "path",
                         "required": true
                     },
@@ -16504,26 +16504,26 @@ const docTemplate = `{
                 }
             }
         },
-        "/sys/tenants/{tenantId}/users": {
+        "/sys/spaces/{spaceId}/users": {
             "get": {
                 "security": [
                     {
                         "Bearer": []
                     }
                 ],
-                "description": "List all users in a tenant with their roles",
+                "description": "List all users in a space with their roles",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "sys"
                 ],
-                "summary": "List tenant users",
+                "summary": "List space users",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Tenant ID",
-                        "name": "tenantId",
+                        "description": "Space ID",
+                        "name": "spaceId",
                         "in": "path",
                         "required": true
                     },
@@ -16557,7 +16557,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_tenant_structs.TenantUsersListResponse"
+                            "$ref": "#/definitions/ncobase_space_structs.SpaceUsersListResponse"
                         }
                     },
                     "400": {
@@ -16569,14 +16569,14 @@ const docTemplate = `{
                 }
             }
         },
-        "/sys/tenants/{tenantId}/users/roles": {
+        "/sys/spaces/{spaceId}/users/roles": {
             "post": {
                 "security": [
                     {
                         "Bearer": []
                     }
                 ],
-                "description": "Add a user to a tenant",
+                "description": "Add a user to a space",
                 "consumes": [
                     "application/json"
                 ],
@@ -16586,22 +16586,22 @@ const docTemplate = `{
                 "tags": [
                     "sys"
                 ],
-                "summary": "Add user to tenant role",
+                "summary": "Add user to space role",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Tenant ID",
-                        "name": "tenantId",
+                        "description": "Space ID",
+                        "name": "spaceId",
                         "in": "path",
                         "required": true
                     },
                     {
-                        "description": "AddUserToTenantRoleRequest object",
+                        "description": "AddUserToSpaceRoleRequest object",
                         "name": "body",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/ncobase_tenant_structs.AddUserToTenantRoleRequest"
+                            "$ref": "#/definitions/ncobase_space_structs.AddUserToSpaceRoleRequest"
                         }
                     }
                 ],
@@ -16609,7 +16609,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_tenant_structs.UserTenantRoleResponse"
+                            "$ref": "#/definitions/ncobase_space_structs.UserSpaceRoleResponse"
                         }
                     },
                     "400": {
@@ -16621,14 +16621,14 @@ const docTemplate = `{
                 }
             }
         },
-        "/sys/tenants/{tenantId}/users/roles/bulk": {
+        "/sys/spaces/{spaceId}/users/roles/bulk": {
             "put": {
                 "security": [
                     {
                         "Bearer": []
                     }
                 ],
-                "description": "Bulk update multiple user tenant roles",
+                "description": "Bulk update multiple user space roles",
                 "consumes": [
                     "application/json"
                 ],
@@ -16638,22 +16638,22 @@ const docTemplate = `{
                 "tags": [
                     "sys"
                 ],
-                "summary": "Bulk update user tenant roles",
+                "summary": "Bulk update user space roles",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Tenant ID",
-                        "name": "tenantId",
+                        "description": "Space ID",
+                        "name": "spaceId",
                         "in": "path",
                         "required": true
                     },
                     {
-                        "description": "BulkUpdateUserTenantRolesRequest object",
+                        "description": "BulkUpdateUserSpaceRolesRequest object",
                         "name": "body",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/ncobase_tenant_structs.BulkUpdateUserTenantRolesRequest"
+                            "$ref": "#/definitions/ncobase_space_structs.BulkUpdateUserSpaceRolesRequest"
                         }
                     }
                 ],
@@ -16661,7 +16661,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_tenant_structs.BulkUpdateResponse"
+                            "$ref": "#/definitions/ncobase_space_structs.BulkUpdateResponse"
                         }
                     },
                     "400": {
@@ -16673,14 +16673,14 @@ const docTemplate = `{
                 }
             }
         },
-        "/sys/tenants/{tenantId}/users/{userId}/roles": {
+        "/sys/spaces/{spaceId}/users/{userId}/roles": {
             "put": {
                 "security": [
                     {
                         "Bearer": []
                     }
                 ],
-                "description": "Update a user's role in a tenant",
+                "description": "Update a user's role in a space",
                 "consumes": [
                     "application/json"
                 ],
@@ -16690,12 +16690,12 @@ const docTemplate = `{
                 "tags": [
                     "sys"
                 ],
-                "summary": "Update user tenant role",
+                "summary": "Update user space role",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Tenant ID",
-                        "name": "tenantId",
+                        "description": "Space ID",
+                        "name": "spaceId",
                         "in": "path",
                         "required": true
                     },
@@ -16707,12 +16707,12 @@ const docTemplate = `{
                         "required": true
                     },
                     {
-                        "description": "UpdateUserTenantRoleRequest object",
+                        "description": "UpdateUserSpaceRoleRequest object",
                         "name": "body",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/ncobase_tenant_structs.UpdateUserTenantRoleRequest"
+                            "$ref": "#/definitions/ncobase_space_structs.UpdateUserSpaceRoleRequest"
                         }
                     }
                 ],
@@ -16720,7 +16720,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_tenant_structs.UserTenantRoleResponse"
+                            "$ref": "#/definitions/ncobase_space_structs.UserSpaceRoleResponse"
                         }
                     },
                     "400": {
@@ -16732,26 +16732,26 @@ const docTemplate = `{
                 }
             }
         },
-        "/sys/tenants/{tenantId}/users/{userId}/roles/{roleId}": {
+        "/sys/spaces/{spaceId}/users/{userId}/roles/{roleId}": {
             "delete": {
                 "security": [
                     {
                         "Bearer": []
                     }
                 ],
-                "description": "Remove a user from a specific role in a tenant",
+                "description": "Remove a user from a specific role in a space",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "sys"
                 ],
-                "summary": "Remove user from tenant role",
+                "summary": "Remove user from space role",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Tenant ID",
-                        "name": "tenantId",
+                        "description": "Space ID",
+                        "name": "spaceId",
                         "in": "path",
                         "required": true
                     },
@@ -16786,26 +16786,26 @@ const docTemplate = `{
                 }
             }
         },
-        "/sys/tenants/{tenantId}/users/{username}/roles": {
+        "/sys/spaces/{spaceId}/users/{username}/roles": {
             "get": {
                 "security": [
                     {
                         "Bearer": []
                     }
                 ],
-                "description": "Get all roles a user has in a specific tenant",
+                "description": "Get all roles a user has in a specific space",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "sys"
                 ],
-                "summary": "Get user tenant roles",
+                "summary": "Get user space roles",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Tenant ID",
-                        "name": "tenantId",
+                        "description": "Space ID",
+                        "name": "spaceId",
                         "in": "path",
                         "required": true
                     },
@@ -16821,7 +16821,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_tenant_structs.UserTenantRolesResponse"
+                            "$ref": "#/definitions/ncobase_space_structs.UserSpaceRolesResponse"
                         }
                     },
                     "400": {
@@ -16833,26 +16833,26 @@ const docTemplate = `{
                 }
             }
         },
-        "/sys/tenants/{tenantId}/users/{username}/roles/{roleId}/check": {
+        "/sys/spaces/{spaceId}/users/{username}/roles/{roleId}/check": {
             "get": {
                 "security": [
                     {
                         "Bearer": []
                     }
                 ],
-                "description": "Check if a user has a specific role in a tenant",
+                "description": "Check if a user has a specific role in a space",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "sys"
                 ],
-                "summary": "Check user tenant role",
+                "summary": "Check user space role",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Tenant ID",
-                        "name": "tenantId",
+                        "description": "Space ID",
+                        "name": "spaceId",
                         "in": "path",
                         "required": true
                     },
@@ -17754,21 +17754,21 @@ const docTemplate = `{
                 }
             }
         },
-        "/sys/users/{username}/tenant": {
+        "/sys/users/{username}/space": {
             "get": {
                 "security": [
                     {
                         "Bearer": []
                     }
                 ],
-                "description": "Retrieve the tenant associated with the specified user.",
+                "description": "Retrieve the space associated with the specified user.",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "sys"
                 ],
-                "summary": "Get user owned tenant",
+                "summary": "Get user owned space",
                 "parameters": [
                     {
                         "type": "string",
@@ -17782,7 +17782,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_tenant_structs.ReadTenant"
+                            "$ref": "#/definitions/ncobase_space_structs.ReadSpace"
                         }
                     },
                     "400": {
@@ -18876,10 +18876,10 @@ const docTemplate = `{
         "ncobase_auth_structs.AccountMeshes": {
             "type": "object",
             "properties": {
-                "groups": {
+                "orgs": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/ncobase_space_structs.ReadGroup"
+                        "$ref": "#/definitions/ncobase_space_structs.ReadOrganization"
                     }
                 },
                 "is_admin": {
@@ -18900,13 +18900,13 @@ const docTemplate = `{
                         "type": "string"
                     }
                 },
-                "tenant_id": {
+                "space_id": {
                     "type": "string"
                 },
-                "tenants": {
+                "spaces": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/ncobase_tenant_structs.ReadTenant"
+                        "$ref": "#/definitions/ncobase_space_structs.ReadSpace"
                     }
                 },
                 "user": {
@@ -18991,7 +18991,7 @@ const docTemplate = `{
                 }
             }
         },
-        "ncobase_auth_structs.ReadTenant": {
+        "ncobase_auth_structs.ReadSpace": {
             "type": "object",
             "properties": {
                 "copyright": {
@@ -19084,7 +19084,7 @@ const docTemplate = `{
                 "short_bio": {
                     "type": "string"
                 },
-                "tenant": {
+                "space": {
                     "type": "string"
                 },
                 "username": {
@@ -19171,7 +19171,7 @@ const docTemplate = `{
                     "description": "0: active, 1: inactive",
                     "type": "integer"
                 },
-                "tenant_id": {
+                "space_id": {
                     "type": "string"
                 },
                 "type": {
@@ -19233,7 +19233,7 @@ const docTemplate = `{
                     "description": "0: draft, 1: scheduled, 2: published, 3: failed, 4: cancelled",
                     "type": "integer"
                 },
-                "tenant_id": {
+                "space_id": {
                     "type": "string"
                 },
                 "topic_id": {
@@ -19274,7 +19274,7 @@ const docTemplate = `{
                 "size": {
                     "type": "integer"
                 },
-                "tenant_id": {
+                "space_id": {
                     "type": "string"
                 },
                 "title": {
@@ -19331,7 +19331,7 @@ const docTemplate = `{
                 "status": {
                     "type": "integer"
                 },
-                "tenant_id": {
+                "space_id": {
                     "type": "string"
                 },
                 "thumbnail": {
@@ -19412,7 +19412,7 @@ const docTemplate = `{
                 "temp": {
                     "type": "boolean"
                 },
-                "tenant_id": {
+                "space_id": {
                     "type": "string"
                 },
                 "thumbnail": {
@@ -19495,7 +19495,7 @@ const docTemplate = `{
                 "status": {
                     "type": "integer"
                 },
-                "tenant_id": {
+                "space_id": {
                     "type": "string"
                 },
                 "type": {
@@ -19554,7 +19554,7 @@ const docTemplate = `{
                 "status": {
                     "type": "integer"
                 },
-                "tenant_id": {
+                "space_id": {
                     "type": "string"
                 },
                 "topic": {
@@ -19607,7 +19607,7 @@ const docTemplate = `{
                 "size": {
                     "type": "integer"
                 },
-                "tenant_id": {
+                "space_id": {
                     "type": "string"
                 },
                 "title": {
@@ -19676,7 +19676,7 @@ const docTemplate = `{
                 "status": {
                     "type": "integer"
                 },
-                "tenant_id": {
+                "space_id": {
                     "type": "string"
                 },
                 "thumbnail": {
@@ -19774,7 +19774,7 @@ const docTemplate = `{
                 "temp": {
                     "type": "boolean"
                 },
-                "tenant_id": {
+                "space_id": {
                     "type": "string"
                 },
                 "thumbnail": {
@@ -19878,7 +19878,7 @@ const docTemplate = `{
                     "description": "0: active, 1: inactive",
                     "type": "integer"
                 },
-                "tenant_id": {
+                "space_id": {
                     "type": "string"
                 },
                 "type": {
@@ -19943,7 +19943,7 @@ const docTemplate = `{
                     "description": "0: draft, 1: scheduled, 2: published, 3: failed, 4: cancelled",
                     "type": "integer"
                 },
-                "tenant_id": {
+                "space_id": {
                     "type": "string"
                 },
                 "topic_id": {
@@ -19987,7 +19987,7 @@ const docTemplate = `{
                 "size": {
                     "type": "integer"
                 },
-                "tenant_id": {
+                "space_id": {
                     "type": "string"
                 },
                 "title": {
@@ -20047,7 +20047,7 @@ const docTemplate = `{
                 "status": {
                     "type": "integer"
                 },
-                "tenant_id": {
+                "space_id": {
                     "type": "string"
                 },
                 "thumbnail": {
@@ -20131,7 +20131,7 @@ const docTemplate = `{
                 "temp": {
                     "type": "boolean"
                 },
-                "tenant_id": {
+                "space_id": {
                     "type": "string"
                 },
                 "thumbnail": {
@@ -20184,7 +20184,7 @@ const docTemplate = `{
                 "suffix": {
                     "type": "string"
                 },
-                "tenant_id": {
+                "space_id": {
                     "type": "string"
                 },
                 "updated_by": {
@@ -20234,7 +20234,7 @@ const docTemplate = `{
                 "suffix": {
                     "type": "string"
                 },
-                "tenant_id": {
+                "space_id": {
                     "type": "string"
                 },
                 "updated_at": {
@@ -20284,7 +20284,7 @@ const docTemplate = `{
                 "suffix": {
                     "type": "string"
                 },
-                "tenant_id": {
+                "space_id": {
                     "type": "string"
                 },
                 "updated_by": {
@@ -20352,7 +20352,7 @@ const docTemplate = `{
                         "$ref": "#/definitions/ncobase_payment_structs.PaymentType"
                     }
                 },
-                "tenant_id": {
+                "space_id": {
                     "type": "string"
                 },
                 "updated_at": {
@@ -20408,7 +20408,7 @@ const docTemplate = `{
                         "$ref": "#/definitions/ncobase_payment_structs.PaymentType"
                     }
                 },
-                "tenant_id": {
+                "space_id": {
                     "type": "string"
                 }
             }
@@ -20453,7 +20453,7 @@ const docTemplate = `{
                 "subscription_id": {
                     "type": "string"
                 },
-                "tenant_id": {
+                "space_id": {
                     "type": "string"
                 },
                 "type": {
@@ -20506,7 +20506,7 @@ const docTemplate = `{
                 "status": {
                     "$ref": "#/definitions/ncobase_payment_structs.ProductStatus"
                 },
-                "tenant_id": {
+                "space_id": {
                     "type": "string"
                 },
                 "trial_days": {
@@ -20532,7 +20532,7 @@ const docTemplate = `{
                 "product_id": {
                     "type": "string"
                 },
-                "tenant_id": {
+                "space_id": {
                     "type": "string"
                 },
                 "trial_days": {
@@ -20678,7 +20678,7 @@ const docTemplate = `{
                 "subscription_id": {
                     "type": "string"
                 },
-                "tenant_id": {
+                "space_id": {
                     "type": "string"
                 },
                 "type": {
@@ -20792,7 +20792,7 @@ const docTemplate = `{
                 "status": {
                     "$ref": "#/definitions/ncobase_payment_structs.ProductStatus"
                 },
-                "tenant_id": {
+                "space_id": {
                     "type": "string"
                 },
                 "trial_days": {
@@ -20869,7 +20869,7 @@ const docTemplate = `{
                 "status": {
                     "$ref": "#/definitions/ncobase_payment_structs.SubscriptionStatus"
                 },
-                "tenant_id": {
+                "space_id": {
                     "type": "string"
                 },
                 "trial_end": {
@@ -20934,7 +20934,7 @@ const docTemplate = `{
                         "$ref": "#/definitions/ncobase_payment_structs.PaymentType"
                     }
                 },
-                "tenant_id": {
+                "space_id": {
                     "type": "string"
                 }
             }
@@ -21610,7 +21610,7 @@ const docTemplate = `{
             "x-enum-comments": {
                 "AccessLevelPrivate": "Only accessible to owner",
                 "AccessLevelPublic": "Accessible to anyone",
-                "AccessLevelShared": "Shared with specific users/groups"
+                "AccessLevelShared": "Shared with specific users/orgs"
             },
             "x-enum-varnames": [
                 "AccessLevelPublic",
@@ -21820,7 +21820,7 @@ const docTemplate = `{
                         "type": "string"
                     }
                 },
-                "tenant_id": {
+                "space_id": {
                     "type": "string"
                 },
                 "thumbnail_url": {
@@ -21919,7 +21919,7 @@ const docTemplate = `{
                         "type": "string"
                     }
                 },
-                "tenant_id": {
+                "space_id": {
                     "type": "string"
                 },
                 "type": {
@@ -22013,7 +22013,7 @@ const docTemplate = `{
                 }
             }
         },
-        "ncobase_space_structs.ReadGroup": {
+        "ncobase_space_structs.ReadOrganization": {
             "type": "object",
             "properties": {
                 "children": {
@@ -22218,7 +22218,7 @@ const docTemplate = `{
                         "$ref": "#/definitions/ncobase_system_structs.ReadMenu"
                     }
                 },
-                "tenants": {
+                "spaces": {
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/ncobase_system_structs.ReadMenu"
@@ -22487,7 +22487,7 @@ const docTemplate = `{
                 }
             }
         },
-        "ncobase_tenant_structs.AddDictionaryToTenantRequest": {
+        "ncobase_space_structs.AddDictionaryToSpaceRequest": {
             "type": "object",
             "required": [
                 "dictionary_id"
@@ -22498,7 +22498,7 @@ const docTemplate = `{
                 }
             }
         },
-        "ncobase_tenant_structs.AddMenuToTenantRequest": {
+        "ncobase_space_structs.AddMenuToSpaceRequest": {
             "type": "object",
             "required": [
                 "menu_id"
@@ -22509,7 +22509,7 @@ const docTemplate = `{
                 }
             }
         },
-        "ncobase_tenant_structs.AddOptionsToTenantRequest": {
+        "ncobase_space_structs.AddOptionsToSpaceRequest": {
             "type": "object",
             "required": [
                 "option_id"
@@ -22520,18 +22520,18 @@ const docTemplate = `{
                 }
             }
         },
-        "ncobase_tenant_structs.AddTenantGroupRequest": {
+        "ncobase_space_structs.AddSpaceOrganizationRequest": {
             "type": "object",
             "required": [
-                "group_id"
+                "org_id"
             ],
             "properties": {
-                "group_id": {
+                "org_id": {
                     "type": "string"
                 }
             }
         },
-        "ncobase_tenant_structs.AddUserToTenantRoleRequest": {
+        "ncobase_space_structs.AddUserToSpaceRoleRequest": {
             "type": "object",
             "required": [
                 "role_id",
@@ -22546,7 +22546,7 @@ const docTemplate = `{
                 }
             }
         },
-        "ncobase_tenant_structs.BillingPeriod": {
+        "ncobase_space_structs.BillingPeriod": {
             "type": "string",
             "enum": [
                 "monthly",
@@ -22561,7 +22561,7 @@ const docTemplate = `{
                 "PeriodUsage"
             ]
         },
-        "ncobase_tenant_structs.BillingStatus": {
+        "ncobase_space_structs.BillingStatus": {
             "type": "string",
             "enum": [
                 "pending",
@@ -22578,7 +22578,7 @@ const docTemplate = `{
                 "StatusRefunded"
             ]
         },
-        "ncobase_tenant_structs.BillingSummary": {
+        "ncobase_space_structs.BillingSummary": {
             "type": "object",
             "properties": {
                 "currency": {
@@ -22599,7 +22599,7 @@ const docTemplate = `{
                 "pending_amount": {
                     "type": "number"
                 },
-                "tenant_id": {
+                "space_id": {
                     "type": "string"
                 },
                 "total_amount": {
@@ -22610,7 +22610,7 @@ const docTemplate = `{
                 }
             }
         },
-        "ncobase_tenant_structs.BulkUpdateError": {
+        "ncobase_space_structs.BulkUpdateError": {
             "type": "object",
             "properties": {
                 "error": {
@@ -22624,13 +22624,13 @@ const docTemplate = `{
                 }
             }
         },
-        "ncobase_tenant_structs.BulkUpdateResponse": {
+        "ncobase_space_structs.BulkUpdateResponse": {
             "type": "object",
             "properties": {
                 "errors": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/ncobase_tenant_structs.BulkUpdateError"
+                        "$ref": "#/definitions/ncobase_space_structs.BulkUpdateError"
                     }
                 },
                 "failed": {
@@ -22639,7 +22639,7 @@ const docTemplate = `{
                 "results": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/ncobase_tenant_structs.UserTenantRoleResponse"
+                        "$ref": "#/definitions/ncobase_space_structs.UserSpaceRoleResponse"
                     }
                 },
                 "success": {
@@ -22650,11 +22650,11 @@ const docTemplate = `{
                 }
             }
         },
-        "ncobase_tenant_structs.BulkUpdateSettingsRequest": {
+        "ncobase_space_structs.BulkUpdateSettingsRequest": {
             "type": "object",
             "required": [
                 "settings",
-                "tenant_id"
+                "space_id"
             ],
             "properties": {
                 "settings": {
@@ -22663,12 +22663,12 @@ const docTemplate = `{
                         "type": "string"
                     }
                 },
-                "tenant_id": {
+                "space_id": {
                     "type": "string"
                 }
             }
         },
-        "ncobase_tenant_structs.BulkUpdateUserTenantRolesRequest": {
+        "ncobase_space_structs.BulkUpdateUserSpaceRolesRequest": {
             "type": "object",
             "required": [
                 "updates"
@@ -22677,19 +22677,19 @@ const docTemplate = `{
                 "updates": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/ncobase_tenant_structs.UserTenantRoleUpdate"
+                        "$ref": "#/definitions/ncobase_space_structs.UserSpaceRoleUpdate"
                     }
                 }
             }
         },
-        "ncobase_tenant_structs.CreateTenantBillingBody": {
+        "ncobase_space_structs.CreateSpaceBillingBody": {
             "type": "object",
             "properties": {
                 "amount": {
                     "type": "number"
                 },
                 "billing_period": {
-                    "$ref": "#/definitions/ncobase_tenant_structs.BillingPeriod"
+                    "$ref": "#/definitions/ncobase_space_structs.BillingPeriod"
                 },
                 "created_by": {
                     "type": "string"
@@ -22722,9 +22722,9 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "status": {
-                    "$ref": "#/definitions/ncobase_tenant_structs.BillingStatus"
+                    "$ref": "#/definitions/ncobase_space_structs.BillingStatus"
                 },
-                "tenant_id": {
+                "space_id": {
                     "type": "string"
                 },
                 "updated_by": {
@@ -22735,7 +22735,7 @@ const docTemplate = `{
                 }
             }
         },
-        "ncobase_tenant_structs.CreateTenantBody": {
+        "ncobase_space_structs.CreateSpaceBody": {
             "type": "object",
             "properties": {
                 "copyright": {
@@ -22788,7 +22788,7 @@ const docTemplate = `{
                 }
             }
         },
-        "ncobase_tenant_structs.CreateTenantQuotaBody": {
+        "ncobase_space_structs.CreateSpaceQuotaBody": {
             "type": "object",
             "properties": {
                 "created_by": {
@@ -22813,20 +22813,20 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "quota_type": {
-                    "$ref": "#/definitions/ncobase_tenant_structs.QuotaType"
+                    "$ref": "#/definitions/ncobase_space_structs.QuotaType"
                 },
-                "tenant_id": {
+                "space_id": {
                     "type": "string"
                 },
                 "unit": {
-                    "$ref": "#/definitions/ncobase_tenant_structs.QuotaUnit"
+                    "$ref": "#/definitions/ncobase_space_structs.QuotaUnit"
                 },
                 "updated_by": {
                     "type": "string"
                 }
             }
         },
-        "ncobase_tenant_structs.CreateTenantSettingBody": {
+        "ncobase_space_structs.CreateSpaceSettingBody": {
             "type": "object",
             "properties": {
                 "category": {
@@ -22854,7 +22854,7 @@ const docTemplate = `{
                     "type": "boolean"
                 },
                 "scope": {
-                    "$ref": "#/definitions/ncobase_tenant_structs.SettingScope"
+                    "$ref": "#/definitions/ncobase_space_structs.SettingScope"
                 },
                 "setting_key": {
                     "type": "string"
@@ -22863,12 +22863,12 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "setting_type": {
-                    "$ref": "#/definitions/ncobase_tenant_structs.SettingType"
+                    "$ref": "#/definitions/ncobase_space_structs.SettingType"
                 },
                 "setting_value": {
                     "type": "string"
                 },
-                "tenant_id": {
+                "space_id": {
                     "type": "string"
                 },
                 "updated_by": {
@@ -22879,7 +22879,7 @@ const docTemplate = `{
                 }
             }
         },
-        "ncobase_tenant_structs.PaymentRequest": {
+        "ncobase_space_structs.PaymentRequest": {
             "type": "object",
             "required": [
                 "amount",
@@ -22901,7 +22901,7 @@ const docTemplate = `{
                 }
             }
         },
-        "ncobase_tenant_structs.QuotaType": {
+        "ncobase_space_structs.QuotaType": {
             "type": "string",
             "enum": [
                 "users",
@@ -22918,7 +22918,7 @@ const docTemplate = `{
                 "QuotaTypeCustom"
             ]
         },
-        "ncobase_tenant_structs.QuotaUnit": {
+        "ncobase_space_structs.QuotaUnit": {
             "type": "string",
             "enum": [
                 "count",
@@ -22935,26 +22935,26 @@ const docTemplate = `{
                 "UnitTB"
             ]
         },
-        "ncobase_tenant_structs.QuotaUsageRequest": {
+        "ncobase_space_structs.QuotaUsageRequest": {
             "type": "object",
             "required": [
                 "delta",
                 "quota_type",
-                "tenant_id"
+                "space_id"
             ],
             "properties": {
                 "delta": {
                     "type": "integer"
                 },
                 "quota_type": {
-                    "$ref": "#/definitions/ncobase_tenant_structs.QuotaType"
+                    "$ref": "#/definitions/ncobase_space_structs.QuotaType"
                 },
-                "tenant_id": {
+                "space_id": {
                     "type": "string"
                 }
             }
         },
-        "ncobase_tenant_structs.ReadGroup": {
+        "ncobase_space_structs.ReadOrganization": {
             "type": "object",
             "properties": {
                 "children": {
@@ -22999,7 +22999,7 @@ const docTemplate = `{
                 }
             }
         },
-        "ncobase_tenant_structs.ReadTenant": {
+        "ncobase_space_structs.ReadSpace": {
             "type": "object",
             "properties": {
                 "copyright": {
@@ -23061,14 +23061,14 @@ const docTemplate = `{
                 }
             }
         },
-        "ncobase_tenant_structs.ReadTenantBilling": {
+        "ncobase_space_structs.ReadSpaceBilling": {
             "type": "object",
             "properties": {
                 "amount": {
                     "type": "number"
                 },
                 "billing_period": {
-                    "$ref": "#/definitions/ncobase_tenant_structs.BillingPeriod"
+                    "$ref": "#/definitions/ncobase_space_structs.BillingPeriod"
                 },
                 "created_at": {
                     "type": "integer"
@@ -23113,9 +23113,9 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "status": {
-                    "$ref": "#/definitions/ncobase_tenant_structs.BillingStatus"
+                    "$ref": "#/definitions/ncobase_space_structs.BillingStatus"
                 },
-                "tenant_id": {
+                "space_id": {
                     "type": "string"
                 },
                 "updated_at": {
@@ -23129,7 +23129,7 @@ const docTemplate = `{
                 }
             }
         },
-        "ncobase_tenant_structs.ReadTenantQuota": {
+        "ncobase_space_structs.ReadSpaceQuota": {
             "type": "object",
             "properties": {
                 "created_at": {
@@ -23163,13 +23163,13 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "quota_type": {
-                    "$ref": "#/definitions/ncobase_tenant_structs.QuotaType"
+                    "$ref": "#/definitions/ncobase_space_structs.QuotaType"
                 },
-                "tenant_id": {
+                "space_id": {
                     "type": "string"
                 },
                 "unit": {
-                    "$ref": "#/definitions/ncobase_tenant_structs.QuotaUnit"
+                    "$ref": "#/definitions/ncobase_space_structs.QuotaUnit"
                 },
                 "updated_at": {
                     "type": "integer"
@@ -23182,7 +23182,7 @@ const docTemplate = `{
                 }
             }
         },
-        "ncobase_tenant_structs.ReadTenantSetting": {
+        "ncobase_space_structs.ReadSpaceSetting": {
             "type": "object",
             "properties": {
                 "category": {
@@ -23216,7 +23216,7 @@ const docTemplate = `{
                     "type": "boolean"
                 },
                 "scope": {
-                    "$ref": "#/definitions/ncobase_tenant_structs.SettingScope"
+                    "$ref": "#/definitions/ncobase_space_structs.SettingScope"
                 },
                 "setting_key": {
                     "type": "string"
@@ -23225,12 +23225,12 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "setting_type": {
-                    "$ref": "#/definitions/ncobase_tenant_structs.SettingType"
+                    "$ref": "#/definitions/ncobase_space_structs.SettingType"
                 },
                 "setting_value": {
                     "type": "string"
                 },
-                "tenant_id": {
+                "space_id": {
                     "type": "string"
                 },
                 "updated_at": {
@@ -23244,22 +23244,22 @@ const docTemplate = `{
                 }
             }
         },
-        "ncobase_tenant_structs.SettingScope": {
+        "ncobase_space_structs.SettingScope": {
             "type": "string",
             "enum": [
                 "system",
-                "tenant",
+                "space",
                 "user",
                 "feature"
             ],
             "x-enum-varnames": [
                 "ScopeSystem",
-                "ScopeTenant",
+                "Scope",
                 "ScopeUser",
                 "ScopeFeature"
             ]
         },
-        "ncobase_tenant_structs.SettingType": {
+        "ncobase_space_structs.SettingType": {
             "type": "string",
             "enum": [
                 "string",
@@ -23276,57 +23276,57 @@ const docTemplate = `{
                 "TypeArray"
             ]
         },
-        "ncobase_tenant_structs.TenantDictionary": {
+        "ncobase_space_structs.SpaceDictionary": {
             "type": "object",
             "properties": {
                 "dictionary_id": {
                     "type": "string"
                 },
-                "tenant_id": {
+                "space_id": {
                     "type": "string"
                 }
             }
         },
-        "ncobase_tenant_structs.TenantGroupRelation": {
+        "ncobase_space_structs.SpaceOrganizationRelation": {
             "type": "object",
             "properties": {
                 "added_at": {
                     "type": "integer"
                 },
-                "group_id": {
+                "org_id": {
                     "type": "string"
                 },
                 "id": {
                     "type": "string"
                 },
-                "tenant_id": {
+                "space_id": {
                     "type": "string"
                 }
             }
         },
-        "ncobase_tenant_structs.TenantMenu": {
+        "ncobase_space_structs.SpaceMenu": {
             "type": "object",
             "properties": {
                 "menu_id": {
                     "type": "string"
                 },
-                "tenant_id": {
+                "space_id": {
                     "type": "string"
                 }
             }
         },
-        "ncobase_tenant_structs.TenantOption": {
+        "ncobase_space_structs.SpaceOption": {
             "type": "object",
             "properties": {
                 "option_id": {
                     "type": "string"
                 },
-                "tenant_id": {
+                "space_id": {
                     "type": "string"
                 }
             }
         },
-        "ncobase_tenant_structs.TenantRoleUsersResponse": {
+        "ncobase_space_structs.SpaceRoleUsersResponse": {
             "type": "object",
             "properties": {
                 "count": {
@@ -23335,7 +23335,7 @@ const docTemplate = `{
                 "role_id": {
                     "type": "string"
                 },
-                "tenant_id": {
+                "space_id": {
                     "type": "string"
                 },
                 "user_ids": {
@@ -23346,7 +23346,7 @@ const docTemplate = `{
                 }
             }
         },
-        "ncobase_tenant_structs.TenantUserInfo": {
+        "ncobase_space_structs.SpaceUserInfo": {
             "type": "object",
             "properties": {
                 "email": {
@@ -23369,7 +23369,7 @@ const docTemplate = `{
                 }
             }
         },
-        "ncobase_tenant_structs.TenantUsersListResponse": {
+        "ncobase_space_structs.SpaceUsersListResponse": {
             "type": "object",
             "properties": {
                 "cursor": {
@@ -23381,12 +23381,12 @@ const docTemplate = `{
                 "users": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/ncobase_tenant_structs.TenantUserInfo"
+                        "$ref": "#/definitions/ncobase_space_structs.SpaceUserInfo"
                     }
                 }
             }
         },
-        "ncobase_tenant_structs.UpdateTenantBody": {
+        "ncobase_space_structs.UpdateSpaceBody": {
             "type": "object",
             "properties": {
                 "copyright": {
@@ -23442,7 +23442,7 @@ const docTemplate = `{
                 }
             }
         },
-        "ncobase_tenant_structs.UpdateUserTenantRoleRequest": {
+        "ncobase_space_structs.UpdateUserSpaceRoleRequest": {
             "type": "object",
             "required": [
                 "new_role_id",
@@ -23457,7 +23457,7 @@ const docTemplate = `{
                 }
             }
         },
-        "ncobase_tenant_structs.UserTenantRoleResponse": {
+        "ncobase_space_structs.UserSpaceRoleResponse": {
             "type": "object",
             "properties": {
                 "role_id": {
@@ -23466,7 +23466,7 @@ const docTemplate = `{
                 "status": {
                     "type": "string"
                 },
-                "tenant_id": {
+                "space_id": {
                     "type": "string"
                 },
                 "user_id": {
@@ -23474,7 +23474,7 @@ const docTemplate = `{
                 }
             }
         },
-        "ncobase_tenant_structs.UserTenantRoleUpdate": {
+        "ncobase_space_structs.UserSpaceRoleUpdate": {
             "type": "object",
             "required": [
                 "operation",
@@ -23498,7 +23498,7 @@ const docTemplate = `{
                 }
             }
         },
-        "ncobase_tenant_structs.UserTenantRolesResponse": {
+        "ncobase_space_structs.UserSpaceRolesResponse": {
             "type": "object",
             "properties": {
                 "count": {
@@ -23510,7 +23510,7 @@ const docTemplate = `{
                         "type": "string"
                     }
                 },
-                "tenant_id": {
+                "space_id": {
                     "type": "string"
                 },
                 "user_id": {
@@ -23597,7 +23597,7 @@ const docTemplate = `{
                 "status": {
                     "type": "string"
                 },
-                "tenant_id": {
+                "space_id": {
                     "type": "string"
                 },
                 "termination_date": {
@@ -23674,7 +23674,7 @@ const docTemplate = `{
                 "status": {
                     "type": "string"
                 },
-                "tenant_id": {
+                "space_id": {
                     "type": "string"
                 },
                 "termination_date": {
@@ -23809,7 +23809,7 @@ const docTemplate = `{
                 "status": {
                     "type": "string"
                 },
-                "tenant_id": {
+                "space_id": {
                     "type": "string"
                 },
                 "termination_date": {
@@ -24107,7 +24107,7 @@ const docTemplate = `{
                 "template_id": {
                     "type": "string"
                 },
-                "tenant_id": {
+                "space_id": {
                     "type": "string"
                 }
             }
@@ -24154,7 +24154,7 @@ const docTemplate = `{
                 "template_id": {
                     "type": "string"
                 },
-                "tenant_id": {
+                "space_id": {
                     "type": "string"
                 },
                 "type": {
@@ -24258,7 +24258,7 @@ const docTemplate = `{
                 "template_id": {
                     "type": "string"
                 },
-                "tenant_id": {
+                "space_id": {
                     "type": "string"
                 },
                 "timeout_config": {
@@ -24383,7 +24383,7 @@ const docTemplate = `{
                 "template_id": {
                     "type": "string"
                 },
-                "tenant_id": {
+                "space_id": {
                     "type": "string"
                 },
                 "title": {
@@ -24421,7 +24421,7 @@ const docTemplate = `{
                 "template_id": {
                     "type": "string"
                 },
-                "tenant_id": {
+                "space_id": {
                     "type": "string"
                 },
                 "validation_rules": {
@@ -24477,7 +24477,7 @@ const docTemplate = `{
                 "template_id": {
                     "type": "string"
                 },
-                "tenant_id": {
+                "space_id": {
                     "type": "string"
                 },
                 "updated_at": {
@@ -24539,7 +24539,7 @@ const docTemplate = `{
                 "template_id": {
                     "type": "string"
                 },
-                "tenant_id": {
+                "space_id": {
                     "type": "string"
                 },
                 "type": {
@@ -24661,7 +24661,7 @@ const docTemplate = `{
                 "template_id": {
                     "type": "string"
                 },
-                "tenant_id": {
+                "space_id": {
                     "type": "string"
                 },
                 "timeout_config": {
@@ -24786,7 +24786,7 @@ const docTemplate = `{
                 "template_id": {
                     "type": "string"
                 },
-                "tenant_id": {
+                "space_id": {
                     "type": "string"
                 },
                 "title": {
@@ -24839,7 +24839,7 @@ const docTemplate = `{
                 "template_id": {
                     "type": "string"
                 },
-                "tenant_id": {
+                "space_id": {
                     "type": "string"
                 },
                 "updated_at": {
@@ -24913,7 +24913,7 @@ const docTemplate = `{
                 "template_id": {
                     "type": "string"
                 },
-                "tenant_id": {
+                "space_id": {
                     "type": "string"
                 },
                 "type": {
@@ -25044,7 +25044,7 @@ const docTemplate = `{
                 "task_key": {
                     "type": "string"
                 },
-                "tenant_id": {
+                "space_id": {
                     "type": "string"
                 },
                 "updated_at": {
@@ -25169,7 +25169,7 @@ const docTemplate = `{
                 "template_key": {
                     "type": "string"
                 },
-                "tenant_id": {
+                "space_id": {
                     "type": "string"
                 },
                 "timeout_config": {
@@ -25240,7 +25240,7 @@ const docTemplate = `{
                 "template_id": {
                     "type": "string"
                 },
-                "tenant_id": {
+                "space_id": {
                     "type": "string"
                 },
                 "type": {
@@ -25280,7 +25280,7 @@ const docTemplate = `{
                 "template_id": {
                     "type": "string"
                 },
-                "tenant_id": {
+                "space_id": {
                     "type": "string"
                 },
                 "variables": {
@@ -25464,7 +25464,7 @@ const docTemplate = `{
                 "task_key": {
                     "type": "string"
                 },
-                "tenant_id": {
+                "space_id": {
                     "type": "string"
                 },
                 "urge_count": {
@@ -25574,7 +25574,7 @@ const docTemplate = `{
                 "template_key": {
                     "type": "string"
                 },
-                "tenant_id": {
+                "space_id": {
                     "type": "string"
                 },
                 "timeout_config": {
@@ -25676,7 +25676,7 @@ const docTemplate = `{
                 "template_id": {
                     "type": "string"
                 },
-                "tenant_id": {
+                "space_id": {
                     "type": "string"
                 }
             }
@@ -25777,7 +25777,7 @@ const docTemplate = `{
                 "template_id": {
                     "type": "string"
                 },
-                "tenant_id": {
+                "space_id": {
                     "type": "string"
                 },
                 "timeout_config": {
@@ -25890,7 +25890,7 @@ const docTemplate = `{
                 "template_id": {
                     "type": "string"
                 },
-                "tenant_id": {
+                "space_id": {
                     "type": "string"
                 },
                 "title": {
@@ -25931,7 +25931,7 @@ const docTemplate = `{
                 "template_id": {
                     "type": "string"
                 },
-                "tenant_id": {
+                "space_id": {
                     "type": "string"
                 },
                 "validation_rules": {
@@ -25993,7 +25993,7 @@ const docTemplate = `{
                 "template_id": {
                     "type": "string"
                 },
-                "tenant_id": {
+                "space_id": {
                     "type": "string"
                 },
                 "type": {
@@ -26112,7 +26112,7 @@ const docTemplate = `{
                 "task_key": {
                     "type": "string"
                 },
-                "tenant_id": {
+                "space_id": {
                     "type": "string"
                 },
                 "urge_count": {
@@ -26225,7 +26225,7 @@ const docTemplate = `{
                 "template_key": {
                     "type": "string"
                 },
-                "tenant_id": {
+                "space_id": {
                     "type": "string"
                 },
                 "timeout_config": {

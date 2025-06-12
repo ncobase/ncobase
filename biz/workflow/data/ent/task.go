@@ -82,8 +82,8 @@ type Task struct {
 	StrictMode bool `json:"strict_mode,omitempty"`
 	// Extend properties
 	Extras map[string]interface{} `json:"extras,omitempty"`
-	// tenant id
-	TenantID string `json:"tenant_id,omitempty"`
+	// space id, e.g. space id, organization id, store id
+	SpaceID string `json:"space_id,omitempty"`
 	// id of the creator
 	CreatedBy string `json:"created_by,omitempty"`
 	// id of the last updater
@@ -130,7 +130,7 @@ func (*Task) scanValues(columns []string) ([]any, error) {
 			values[i] = new(sql.NullBool)
 		case task.FieldStartTime, task.FieldEndTime, task.FieldDueTime, task.FieldDuration, task.FieldPriority, task.FieldReminderCount, task.FieldCreatedAt, task.FieldUpdatedAt, task.FieldClaimTime, task.FieldUrgeCount:
 			values[i] = new(sql.NullInt64)
-		case task.FieldID, task.FieldName, task.FieldDescription, task.FieldStatus, task.FieldProcessID, task.FieldTemplateID, task.FieldBusinessKey, task.FieldNodeKey, task.FieldNodeType, task.FieldDelegatedFrom, task.FieldDelegatedReason, task.FieldTenantID, task.FieldCreatedBy, task.FieldUpdatedBy, task.FieldTaskKey, task.FieldParentID, task.FieldAction, task.FieldComment:
+		case task.FieldID, task.FieldName, task.FieldDescription, task.FieldStatus, task.FieldProcessID, task.FieldTemplateID, task.FieldBusinessKey, task.FieldNodeKey, task.FieldNodeType, task.FieldDelegatedFrom, task.FieldDelegatedReason, task.FieldSpaceID, task.FieldCreatedBy, task.FieldUpdatedBy, task.FieldTaskKey, task.FieldParentID, task.FieldAction, task.FieldComment:
 			values[i] = new(sql.NullString)
 		default:
 			values[i] = new(sql.UnknownType)
@@ -359,11 +359,11 @@ func (t *Task) assignValues(columns []string, values []any) error {
 					return fmt.Errorf("unmarshal field extras: %w", err)
 				}
 			}
-		case task.FieldTenantID:
+		case task.FieldSpaceID:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field tenant_id", values[i])
+				return fmt.Errorf("unexpected type %T for field space_id", values[i])
 			} else if value.Valid {
-				t.TenantID = value.String
+				t.SpaceID = value.String
 			}
 		case task.FieldCreatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -606,8 +606,8 @@ func (t *Task) String() string {
 	builder.WriteString("extras=")
 	builder.WriteString(fmt.Sprintf("%v", t.Extras))
 	builder.WriteString(", ")
-	builder.WriteString("tenant_id=")
-	builder.WriteString(t.TenantID)
+	builder.WriteString("space_id=")
+	builder.WriteString(t.SpaceID)
 	builder.WriteString(", ")
 	builder.WriteString("created_by=")
 	builder.WriteString(t.CreatedBy)

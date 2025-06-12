@@ -2,25 +2,25 @@ package enterprise
 
 import (
 	accessStructs "ncobase/access/structs"
-	"ncobase/space/structs"
+	"ncobase/organization/structs"
 )
 
 // OrganizationStructure defines the enterprise organizational hierarchy
 var OrganizationStructure = struct {
-	Enterprise        structs.GroupBody           `json:"enterprise"`
-	Headquarters      []structs.GroupBody         `json:"headquarters"`
-	Companies         []structs.GroupBody         `json:"companies"`
+	Enterprise        structs.OrganizationBody    `json:"enterprise"`
+	Headquarters      []structs.OrganizationBody  `json:"headquarters"`
+	Companies         []structs.OrganizationBody  `json:"companies"`
 	CompanyStructures map[string]CompanyStructure `json:"company_structures"`
 	SharedDepartments []Department                `json:"shared_departments"`
 	OrganizationRoles []OrganizationRole          `json:"organization_roles"`
 }{
-	Enterprise: structs.GroupBody{
+	Enterprise: structs.OrganizationBody{
 		Name:        "Digital Enterprise Group",
 		Slug:        "digital-enterprise",
 		Type:        "enterprise",
-		Description: "Multi-tenant digital enterprise management platform",
+		Description: "Multi-space digital enterprise management platform",
 	},
-	Headquarters: []structs.GroupBody{
+	Headquarters: []structs.OrganizationBody{
 		{
 			Name:        "Executive Office",
 			Slug:        "executive-office",
@@ -45,7 +45,7 @@ var OrganizationStructure = struct {
 			Description: "Enterprise IT infrastructure and services",
 		},
 	},
-	Companies: []structs.GroupBody{
+	Companies: []structs.OrganizationBody{
 		{
 			Name:        "TechCorp Solutions",
 			Slug:        "techcorp",
@@ -69,13 +69,13 @@ var OrganizationStructure = struct {
 		"techcorp": {
 			Departments: []Department{
 				{
-					Info: structs.GroupBody{
+					Info: structs.OrganizationBody{
 						Name:        "Technology Department",
 						Slug:        "technology",
 						Type:        "department",
 						Description: "Software development and technical operations",
 					},
-					Teams: []structs.GroupBody{
+					Teams: []structs.OrganizationBody{
 						{Name: "Backend Development", Slug: "backend-dev", Type: "team", Description: "Server-side development team"},
 						{Name: "Frontend Development", Slug: "frontend-dev", Type: "team", Description: "Client-side development team"},
 						{Name: "DevOps", Slug: "devops", Type: "team", Description: "Development operations and infrastructure"},
@@ -83,13 +83,13 @@ var OrganizationStructure = struct {
 					},
 				},
 				{
-					Info: structs.GroupBody{
+					Info: structs.OrganizationBody{
 						Name:        "Product Management",
 						Slug:        "product-management",
 						Type:        "department",
 						Description: "Product strategy and management",
 					},
-					Teams: []structs.GroupBody{
+					Teams: []structs.OrganizationBody{
 						{Name: "Product Strategy", Slug: "product-strategy", Type: "team", Description: "Product planning and roadmap"},
 						{Name: "UX/UI Design", Slug: "ux-ui-design", Type: "team", Description: "User experience and interface design"},
 					},
@@ -99,26 +99,26 @@ var OrganizationStructure = struct {
 		"mediacorp": {
 			Departments: []Department{
 				{
-					Info: structs.GroupBody{
+					Info: structs.OrganizationBody{
 						Name:        "Content Production",
 						Slug:        "content-production",
 						Type:        "department",
 						Description: "Digital content creation and production",
 					},
-					Teams: []structs.GroupBody{
+					Teams: []structs.OrganizationBody{
 						{Name: "Video Production", Slug: "video-production", Type: "team", Description: "Video content creation"},
 						{Name: "Editorial", Slug: "editorial", Type: "team", Description: "Content writing and editing"},
 						{Name: "Graphic Design", Slug: "graphic-design", Type: "team", Description: "Visual design and graphics"},
 					},
 				},
 				{
-					Info: structs.GroupBody{
+					Info: structs.OrganizationBody{
 						Name:        "Digital Marketing",
 						Slug:        "digital-marketing",
 						Type:        "department",
 						Description: "Digital marketing and promotion",
 					},
-					Teams: []structs.GroupBody{
+					Teams: []structs.OrganizationBody{
 						{Name: "Social Media", Slug: "social-media", Type: "team", Description: "Social media management"},
 						{Name: "SEO/SEM", Slug: "seo-sem", Type: "team", Description: "Search engine optimization and marketing"},
 					},
@@ -128,13 +128,13 @@ var OrganizationStructure = struct {
 		"consultcorp": {
 			Departments: []Department{
 				{
-					Info: structs.GroupBody{
+					Info: structs.OrganizationBody{
 						Name:        "Business Consulting",
 						Slug:        "business-consulting",
 						Type:        "department",
 						Description: "Strategic business consulting services",
 					},
-					Teams: []structs.GroupBody{
+					Teams: []structs.OrganizationBody{
 						{Name: "Strategy Consulting", Slug: "strategy-consulting", Type: "team", Description: "Strategic planning and advisory"},
 						{Name: "Process Optimization", Slug: "process-optimization", Type: "team", Description: "Business process improvement"},
 					},
@@ -144,37 +144,37 @@ var OrganizationStructure = struct {
 	},
 	SharedDepartments: []Department{
 		{
-			Info: structs.GroupBody{
+			Info: structs.OrganizationBody{
 				Name:        "Human Resources",
 				Slug:        "%s-hr", // Format with company slug
 				Type:        "department",
 				Description: "Human resources management",
 			},
-			Teams: []structs.GroupBody{
+			Teams: []structs.OrganizationBody{
 				{Name: "Recruitment", Slug: "%s-recruitment", Type: "team", Description: "Talent acquisition"},
 				{Name: "Employee Relations", Slug: "%s-employee-relations", Type: "team", Description: "Employee support and relations"},
 			},
 		},
 		{
-			Info: structs.GroupBody{
+			Info: structs.OrganizationBody{
 				Name:        "Finance & Accounting",
 				Slug:        "%s-finance",
 				Type:        "department",
 				Description: "Financial management and accounting",
 			},
-			Teams: []structs.GroupBody{
+			Teams: []structs.OrganizationBody{
 				{Name: "Accounting", Slug: "%s-accounting", Type: "team", Description: "Financial accounting"},
 				{Name: "Financial Planning", Slug: "%s-financial-planning", Type: "team", Description: "Budget and planning"},
 			},
 		},
 		{
-			Info: structs.GroupBody{
+			Info: structs.OrganizationBody{
 				Name:        "Operations",
 				Slug:        "%s-operations",
 				Type:        "department",
 				Description: "Operational management and support",
 			},
-			Teams: []structs.GroupBody{
+			Teams: []structs.OrganizationBody{
 				{Name: "Administration", Slug: "%s-administration", Type: "team", Description: "Administrative support"},
 				{Name: "Facilities", Slug: "%s-facilities", Type: "team", Description: "Facilities management"},
 			},
@@ -239,8 +239,8 @@ type CompanyStructure struct {
 
 // Department represents a department and its teams
 type Department struct {
-	Info  structs.GroupBody   `json:"info"`
-	Teams []structs.GroupBody `json:"teams"`
+	Info  structs.OrganizationBody   `json:"info"`
+	Teams []structs.OrganizationBody `json:"teams"`
 }
 
 // OrganizationRole represents organizational roles and permissions

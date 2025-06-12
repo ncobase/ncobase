@@ -84,8 +84,8 @@ type Process struct {
 	StrictMode bool `json:"strict_mode,omitempty"`
 	// Extend properties
 	Extras map[string]interface{} `json:"extras,omitempty"`
-	// tenant id
-	TenantID string `json:"tenant_id,omitempty"`
+	// space id, e.g. space id, organization id, store id
+	SpaceID string `json:"space_id,omitempty"`
 	// id of the creator
 	CreatedBy string `json:"created_by,omitempty"`
 	// id of the last updater
@@ -128,7 +128,7 @@ func (*Process) scanValues(columns []string) ([]any, error) {
 			values[i] = new(sql.NullBool)
 		case process.FieldStartTime, process.FieldEndTime, process.FieldDueTime, process.FieldDuration, process.FieldPriority, process.FieldReminderCount, process.FieldCreatedAt, process.FieldUpdatedAt, process.FieldUrgeCount:
 			values[i] = new(sql.NullInt64)
-		case process.FieldID, process.FieldStatus, process.FieldProcessID, process.FieldTemplateID, process.FieldBusinessKey, process.FieldFormCode, process.FieldFormVersion, process.FieldModuleCode, process.FieldCategory, process.FieldFlowStatus, process.FieldSuspendReason, process.FieldTenantID, process.FieldCreatedBy, process.FieldUpdatedBy, process.FieldProcessKey, process.FieldInitiator, process.FieldInitiatorDept, process.FieldProcessCode, process.FieldCurrentNode:
+		case process.FieldID, process.FieldStatus, process.FieldProcessID, process.FieldTemplateID, process.FieldBusinessKey, process.FieldFormCode, process.FieldFormVersion, process.FieldModuleCode, process.FieldCategory, process.FieldFlowStatus, process.FieldSuspendReason, process.FieldSpaceID, process.FieldCreatedBy, process.FieldUpdatedBy, process.FieldProcessKey, process.FieldInitiator, process.FieldInitiatorDept, process.FieldProcessCode, process.FieldCurrentNode:
 			values[i] = new(sql.NullString)
 		default:
 			values[i] = new(sql.UnknownType)
@@ -363,11 +363,11 @@ func (pr *Process) assignValues(columns []string, values []any) error {
 					return fmt.Errorf("unmarshal field extras: %w", err)
 				}
 			}
-		case process.FieldTenantID:
+		case process.FieldSpaceID:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field tenant_id", values[i])
+				return fmt.Errorf("unexpected type %T for field space_id", values[i])
 			} else if value.Valid {
-				pr.TenantID = value.String
+				pr.SpaceID = value.String
 			}
 		case process.FieldCreatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -600,8 +600,8 @@ func (pr *Process) String() string {
 	builder.WriteString("extras=")
 	builder.WriteString(fmt.Sprintf("%v", pr.Extras))
 	builder.WriteString(", ")
-	builder.WriteString("tenant_id=")
-	builder.WriteString(pr.TenantID)
+	builder.WriteString("space_id=")
+	builder.WriteString(pr.SpaceID)
 	builder.WriteString(", ")
 	builder.WriteString("created_by=")
 	builder.WriteString(pr.CreatedBy)

@@ -43,8 +43,8 @@ func ginServer(conf *config.Config, em ext.ManagerInterface) (*gin.Engine, error
 		logger.Warnf(context.Background(), "Failed to setup session middleware: %v", err)
 	}
 
-	// 4. Tenant context
-	engine.Use(middleware.ConsumeTenant(em, conf.Auth.Whitelist))
+	// 4. Space context
+	engine.Use(middleware.ConsumeSpace(em, conf.Auth.Whitelist))
 
 	// 5. Authorization
 	engine.Use(middleware.CasbinAuthorized(em, conf.Auth.Whitelist))

@@ -298,7 +298,7 @@ func (s *processService) serialize(process *ent.Process) *structs.ReadProcess {
 		AllowUrge:     process.AllowUrge,
 		UrgeCount:     process.UrgeCount,
 		Extras:        process.Extras,
-		TenantID:      process.TenantID,
+		SpaceID:       process.SpaceID,
 		StartTime:     &process.StartTime,
 		EndTime:       process.EndTime,
 		DueDate:       process.DueTime,

@@ -34,7 +34,7 @@ func (ProcessDesign) Mixin() []ent.Mixin {
 		mixin.Version,
 		mixin.Disabled,
 		mixin.ExtraProps,
-		mixin.TenantID,
+		mixin.SpaceID,
 		mixin.Operator,
 		mixin.TimeAt{},
 	}

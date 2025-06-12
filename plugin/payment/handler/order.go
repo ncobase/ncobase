@@ -62,10 +62,10 @@ func (h *orderHandler) Create(c *gin.Context) {
 		}
 	}
 
-	// Set tenant ID from context if not provided
-	if input.TenantID == "" {
-		if tenantID, exists := c.Get("tenant_id"); exists {
-			input.TenantID = tenantID.(string)
+	// Set space ID from context if not provided
+	if input.SpaceID == "" {
+		if spaceID, exists := c.Get("space_id"); exists {
+			input.SpaceID = spaceID.(string)
 		}
 	}
 
@@ -280,7 +280,7 @@ func (h *orderHandler) RefundPayment(c *gin.Context) {
 // @Param type query string false "Filter by type"
 // @Param channel_id query string false "Filter by channel ID"
 // @Param user_id query string false "Filter by user ID"
-// @Param tenant_id query string false "Filter by tenant ID"
+// @Param space_id query string false "Filter by space ID"
 // @Param product_id query string false "Filter by product ID"
 // @Param subscription_id query string false "Filter by subscription ID"
 // @Param start_date query int64 false "Filter by start date (Unix timestamp)"

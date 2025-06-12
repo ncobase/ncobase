@@ -37,8 +37,8 @@ type Counter struct {
 	Disabled bool `json:"disabled,omitempty"`
 	// description
 	Description string `json:"description,omitempty"`
-	// tenant id
-	TenantID string `json:"tenant_id,omitempty"`
+	// space id, e.g. space id, organization id, store id
+	SpaceID string `json:"space_id,omitempty"`
 	// id of the creator
 	CreatedBy string `json:"created_by,omitempty"`
 	// id of the last updater
@@ -59,7 +59,7 @@ func (*Counter) scanValues(columns []string) ([]any, error) {
 			values[i] = new(sql.NullBool)
 		case counter.FieldStartValue, counter.FieldIncrementStep, counter.FieldCurrentValue, counter.FieldCreatedAt, counter.FieldUpdatedAt:
 			values[i] = new(sql.NullInt64)
-		case counter.FieldID, counter.FieldIdentifier, counter.FieldName, counter.FieldPrefix, counter.FieldSuffix, counter.FieldDateFormat, counter.FieldDescription, counter.FieldTenantID, counter.FieldCreatedBy, counter.FieldUpdatedBy:
+		case counter.FieldID, counter.FieldIdentifier, counter.FieldName, counter.FieldPrefix, counter.FieldSuffix, counter.FieldDateFormat, counter.FieldDescription, counter.FieldSpaceID, counter.FieldCreatedBy, counter.FieldUpdatedBy:
 			values[i] = new(sql.NullString)
 		default:
 			values[i] = new(sql.UnknownType)
@@ -142,11 +142,11 @@ func (c *Counter) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				c.Description = value.String
 			}
-		case counter.FieldTenantID:
+		case counter.FieldSpaceID:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field tenant_id", values[i])
+				return fmt.Errorf("unexpected type %T for field space_id", values[i])
 			} else if value.Valid {
-				c.TenantID = value.String
+				c.SpaceID = value.String
 			}
 		case counter.FieldCreatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -238,8 +238,8 @@ func (c *Counter) String() string {
 	builder.WriteString("description=")
 	builder.WriteString(c.Description)
 	builder.WriteString(", ")
-	builder.WriteString("tenant_id=")
-	builder.WriteString(c.TenantID)
+	builder.WriteString("space_id=")
+	builder.WriteString(c.SpaceID)
 	builder.WriteString(", ")
 	builder.WriteString("created_by=")
 	builder.WriteString(c.CreatedBy)

@@ -5,8 +5,8 @@ import (
 	companyData "ncobase/initialize/data/company"
 	enterpriseData "ncobase/initialize/data/enterprise"
 	websiteData "ncobase/initialize/data/website"
+	spaceStructs "ncobase/space/structs"
 	systemStructs "ncobase/system/structs"
-	tenantStructs "ncobase/tenant/structs"
 	userStructs "ncobase/user/structs"
 )
 
@@ -18,9 +18,9 @@ type DataLoader interface {
 	GetCasbinPolicyRules() [][]string
 	GetRoleInheritanceRules() [][]string
 	GetUsers() []UserCreationInfo
-	GetTenants() []tenantStructs.CreateTenantBody
-	GetTenantQuotas() []tenantStructs.CreateTenantQuotaBody
-	GetTenantSettings() []tenantStructs.CreateTenantSettingBody
+	GetSpaces() []spaceStructs.CreateSpaceBody
+	GetSpaceQuotas() []spaceStructs.CreateSpaceQuotaBody
+	GetSpaceSettings() []spaceStructs.CreateSpaceSettingBody
 	GetOptions() []systemStructs.OptionBody
 	GetDictionaries() []systemStructs.DictionaryBody
 	GetOrganizationStructure() any
@@ -72,16 +72,16 @@ func (w *WebsiteDataLoader) GetUsers() []UserCreationInfo {
 	return users
 }
 
-func (w *WebsiteDataLoader) GetTenants() []tenantStructs.CreateTenantBody {
-	return websiteData.SystemDefaultTenants
+func (w *WebsiteDataLoader) GetSpaces() []spaceStructs.CreateSpaceBody {
+	return websiteData.SystemDefaultSpaces
 }
 
-func (w *WebsiteDataLoader) GetTenantQuotas() []tenantStructs.CreateTenantQuotaBody {
-	return websiteData.SystemDefaultTenantQuotas
+func (w *WebsiteDataLoader) GetSpaceQuotas() []spaceStructs.CreateSpaceQuotaBody {
+	return websiteData.SystemDefaultSpaceQuotas
 }
 
-func (w *WebsiteDataLoader) GetTenantSettings() []tenantStructs.CreateTenantSettingBody {
-	return websiteData.SystemDefaultTenantSettings
+func (w *WebsiteDataLoader) GetSpaceSettings() []spaceStructs.CreateSpaceSettingBody {
+	return websiteData.SystemDefaultSpaceSettings
 }
 
 func (w *WebsiteDataLoader) GetOptions() []systemStructs.OptionBody {
@@ -133,16 +133,16 @@ func (c *CompanyDataLoader) GetUsers() []UserCreationInfo {
 	return users
 }
 
-func (c *CompanyDataLoader) GetTenants() []tenantStructs.CreateTenantBody {
-	return companyData.SystemDefaultTenants
+func (c *CompanyDataLoader) GetSpaces() []spaceStructs.CreateSpaceBody {
+	return companyData.SystemDefaultSpaces
 }
 
-func (c *CompanyDataLoader) GetTenantQuotas() []tenantStructs.CreateTenantQuotaBody {
-	return companyData.SystemDefaultTenantQuotas
+func (c *CompanyDataLoader) GetSpaceQuotas() []spaceStructs.CreateSpaceQuotaBody {
+	return companyData.SystemDefaultSpaceQuotas
 }
 
-func (c *CompanyDataLoader) GetTenantSettings() []tenantStructs.CreateTenantSettingBody {
-	return companyData.SystemDefaultTenantSettings
+func (c *CompanyDataLoader) GetSpaceSettings() []spaceStructs.CreateSpaceSettingBody {
+	return companyData.SystemDefaultSpaceSettings
 }
 
 func (c *CompanyDataLoader) GetOptions() []systemStructs.OptionBody {
@@ -194,16 +194,16 @@ func (e *EnterpriseDataLoader) GetUsers() []UserCreationInfo {
 	return users
 }
 
-func (e *EnterpriseDataLoader) GetTenants() []tenantStructs.CreateTenantBody {
-	return enterpriseData.SystemDefaultTenants
+func (e *EnterpriseDataLoader) GetSpaces() []spaceStructs.CreateSpaceBody {
+	return enterpriseData.SystemDefaultSpaces
 }
 
-func (e *EnterpriseDataLoader) GetTenantQuotas() []tenantStructs.CreateTenantQuotaBody {
-	return enterpriseData.SystemDefaultTenantQuotas
+func (e *EnterpriseDataLoader) GetSpaceQuotas() []spaceStructs.CreateSpaceQuotaBody {
+	return enterpriseData.SystemDefaultSpaceQuotas
 }
 
-func (e *EnterpriseDataLoader) GetTenantSettings() []tenantStructs.CreateTenantSettingBody {
-	return enterpriseData.SystemDefaultTenantSettings
+func (e *EnterpriseDataLoader) GetSpaceSettings() []spaceStructs.CreateSpaceSettingBody {
+	return enterpriseData.SystemDefaultSpaceSettings
 }
 
 func (e *EnterpriseDataLoader) GetOptions() []systemStructs.OptionBody {

@@ -46,8 +46,8 @@ type PaymentProduct struct {
 	TrialDays int `json:"trial_days,omitempty"`
 	// List of features included in the product
 	Features []string `json:"features,omitempty"`
-	// Tenant ID
-	TenantID string `json:"tenant_id,omitempty"`
+	// Space ID
+	SpaceID string `json:"space_id,omitempty"`
 	// Edges holds the relations/edges for other nodes in the graph.
 	// The values are being populated by the PaymentProductQuery when eager-loading is set.
 	Edges        PaymentProductEdges `json:"edges"`
@@ -83,7 +83,7 @@ func (*PaymentProduct) scanValues(columns []string) ([]any, error) {
 			values[i] = new(sql.NullFloat64)
 		case paymentproduct.FieldCreatedAt, paymentproduct.FieldUpdatedAt, paymentproduct.FieldTrialDays:
 			values[i] = new(sql.NullInt64)
-		case paymentproduct.FieldID, paymentproduct.FieldName, paymentproduct.FieldDescription, paymentproduct.FieldCreatedBy, paymentproduct.FieldUpdatedBy, paymentproduct.FieldStatus, paymentproduct.FieldPricingType, paymentproduct.FieldCurrency, paymentproduct.FieldBillingInterval, paymentproduct.FieldTenantID:
+		case paymentproduct.FieldID, paymentproduct.FieldName, paymentproduct.FieldDescription, paymentproduct.FieldCreatedBy, paymentproduct.FieldUpdatedBy, paymentproduct.FieldStatus, paymentproduct.FieldPricingType, paymentproduct.FieldCurrency, paymentproduct.FieldBillingInterval, paymentproduct.FieldSpaceID:
 			values[i] = new(sql.NullString)
 		default:
 			values[i] = new(sql.UnknownType)
@@ -194,11 +194,11 @@ func (pp *PaymentProduct) assignValues(columns []string, values []any) error {
 					return fmt.Errorf("unmarshal field features: %w", err)
 				}
 			}
-		case paymentproduct.FieldTenantID:
+		case paymentproduct.FieldSpaceID:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field tenant_id", values[i])
+				return fmt.Errorf("unexpected type %T for field space_id", values[i])
 			} else if value.Valid {
-				pp.TenantID = value.String
+				pp.SpaceID = value.String
 			}
 		default:
 			pp.selectValues.Set(columns[i], values[i])
@@ -283,8 +283,8 @@ func (pp *PaymentProduct) String() string {
 	builder.WriteString("features=")
 	builder.WriteString(fmt.Sprintf("%v", pp.Features))
 	builder.WriteString(", ")
-	builder.WriteString("tenant_id=")
-	builder.WriteString(pp.TenantID)
+	builder.WriteString("space_id=")
+	builder.WriteString(pp.SpaceID)
 	builder.WriteByte(')')
 	return builder.String()
 }

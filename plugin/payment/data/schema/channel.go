@@ -55,8 +55,8 @@ func (PaymentChannel) Fields() []ent.Field {
 			Comment("Supported payment types (one_time, subscription, recurring)"),
 		field.JSON("config", map[string]any{}).
 			Comment("Provider-specific configuration"),
-		field.String("tenant_id").
-			Comment("Tenant ID if multi-tenant support is enabled").
+		field.String("space_id").
+			Comment("Space ID if multi-space support is enabled").
 			Optional(),
 	}
 }
@@ -71,7 +71,7 @@ func (PaymentChannel) Indexes() []ent.Index {
 	return []ent.Index{
 		index.Fields("provider"),
 		index.Fields("status"),
-		index.Fields("tenant_id"),
+		index.Fields("space_id"),
 		index.Fields("provider", "is_default"),
 	}
 }

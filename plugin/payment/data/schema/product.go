@@ -63,8 +63,8 @@ func (PaymentProduct) Fields() []ent.Field {
 			Default(0),
 		field.JSON("features", []string{}).
 			Comment("List of features included in the product"),
-		field.String("tenant_id").
-			Comment("Tenant ID").
+		field.String("space_id").
+			Comment("Space ID").
 			Optional(),
 	}
 }
@@ -81,6 +81,6 @@ func (PaymentProduct) Indexes() []ent.Index {
 	return []ent.Index{
 		index.Fields("status"),
 		index.Fields("pricing_type"),
-		index.Fields("tenant_id"),
+		index.Fields("space_id"),
 	}
 }

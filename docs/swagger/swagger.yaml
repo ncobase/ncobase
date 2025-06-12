@@ -212,9 +212,9 @@ definitions:
     type: object
   ncobase_auth_structs.AccountMeshes:
     properties:
-      groups:
+      orgs:
         items:
-          $ref: '#/definitions/ncobase_space_structs.ReadGroup'
+          $ref: '#/definitions/ncobase_space_structs.ReadOrganization'
         type: array
       is_admin:
         type: boolean
@@ -228,11 +228,11 @@ definitions:
         items:
           type: string
         type: array
-      tenant_id:
+      space_id:
         type: string
-      tenants:
+      spaces:
         items:
-          $ref: '#/definitions/ncobase_tenant_structs.ReadTenant'
+          $ref: '#/definitions/ncobase_space_structs.ReadSpace'
         type: array
       user:
         $ref: '#/definitions/ncobase_user_structs.ReadUser'
@@ -288,7 +288,7 @@ definitions:
       user_id:
         type: string
     type: object
-  ncobase_auth_structs.ReadTenant:
+  ncobase_auth_structs.ReadSpace:
     properties:
       copyright:
         type: string
@@ -346,7 +346,7 @@ definitions:
         type: string
       short_bio:
         type: string
-      tenant:
+      space:
         type: string
       username:
         type: string
@@ -407,7 +407,7 @@ definitions:
       status:
         description: '0: active, 1: inactive'
         type: integer
-      tenant_id:
+      space_id:
         type: string
       type:
         description: website, wechat, douyin, tiktok, xiaohongshu, twitter, facebook,
@@ -448,7 +448,7 @@ definitions:
       status:
         description: '0: draft, 1: scheduled, 2: published, 3: failed, 4: cancelled'
         type: integer
-      tenant_id:
+      space_id:
         type: string
       topic_id:
         type: string
@@ -475,7 +475,7 @@ definitions:
         type: string
       size:
         type: integer
-      tenant_id:
+      space_id:
         type: string
       title:
         type: string
@@ -513,7 +513,7 @@ definitions:
         type: string
       status:
         type: integer
-      tenant_id:
+      space_id:
         type: string
       thumbnail:
         type: string
@@ -567,7 +567,7 @@ definitions:
         type: string
       temp:
         type: boolean
-      tenant_id:
+      space_id:
         type: string
       thumbnail:
         type: string
@@ -622,7 +622,7 @@ definitions:
         type: string
       status:
         type: integer
-      tenant_id:
+      space_id:
         type: string
       type:
         type: string
@@ -661,7 +661,7 @@ definitions:
         type: integer
       status:
         type: integer
-      tenant_id:
+      space_id:
         type: string
       topic:
         $ref: '#/definitions/ncobase_content_structs.ReadTopic'
@@ -696,7 +696,7 @@ definitions:
         type: string
       size:
         type: integer
-      tenant_id:
+      space_id:
         type: string
       title:
         type: string
@@ -742,7 +742,7 @@ definitions:
         type: string
       status:
         type: integer
-      tenant_id:
+      space_id:
         type: string
       thumbnail:
         type: string
@@ -807,7 +807,7 @@ definitions:
         type: string
       temp:
         type: boolean
-      tenant_id:
+      space_id:
         type: string
       thumbnail:
         type: string
@@ -875,7 +875,7 @@ definitions:
       status:
         description: '0: active, 1: inactive'
         type: integer
-      tenant_id:
+      space_id:
         type: string
       type:
         description: website, wechat, douyin, tiktok, xiaohongshu, twitter, facebook,
@@ -918,7 +918,7 @@ definitions:
       status:
         description: '0: draft, 1: scheduled, 2: published, 3: failed, 4: cancelled'
         type: integer
-      tenant_id:
+      space_id:
         type: string
       topic_id:
         type: string
@@ -947,7 +947,7 @@ definitions:
         type: string
       size:
         type: integer
-      tenant_id:
+      space_id:
         type: string
       title:
         type: string
@@ -987,7 +987,7 @@ definitions:
         type: string
       status:
         type: integer
-      tenant_id:
+      space_id:
         type: string
       thumbnail:
         type: string
@@ -1043,7 +1043,7 @@ definitions:
         type: string
       temp:
         type: boolean
-      tenant_id:
+      space_id:
         type: string
       thumbnail:
         type: string
@@ -1078,7 +1078,7 @@ definitions:
         type: integer
       suffix:
         type: string
-      tenant_id:
+      space_id:
         type: string
       updated_by:
         type: string
@@ -1111,7 +1111,7 @@ definitions:
         type: integer
       suffix:
         type: string
-      tenant_id:
+      space_id:
         type: string
       updated_at:
         type: integer
@@ -1144,7 +1144,7 @@ definitions:
         type: integer
       suffix:
         type: string
-      tenant_id:
+      space_id:
         type: string
       updated_by:
         type: string
@@ -1191,7 +1191,7 @@ definitions:
         items:
           $ref: '#/definitions/ncobase_payment_structs.PaymentType'
         type: array
-      tenant_id:
+      space_id:
         type: string
       updated_at:
         type: integer
@@ -1225,7 +1225,7 @@ definitions:
         items:
           $ref: '#/definitions/ncobase_payment_structs.PaymentType'
         type: array
-      tenant_id:
+      space_id:
         type: string
     required:
       - config
@@ -1261,7 +1261,7 @@ definitions:
         $ref: '#/definitions/ncobase_payment_structs.PaymentStatus'
       subscription_id:
         type: string
-      tenant_id:
+      space_id:
         type: string
       type:
         $ref: '#/definitions/ncobase_payment_structs.PaymentType'
@@ -1291,7 +1291,7 @@ definitions:
         $ref: '#/definitions/ncobase_payment_structs.PricingType'
       status:
         $ref: '#/definitions/ncobase_payment_structs.ProductStatus'
-      tenant_id:
+      space_id:
         type: string
       trial_days:
         type: integer
@@ -1312,7 +1312,7 @@ definitions:
         type: object
       product_id:
         type: string
-      tenant_id:
+      space_id:
         type: string
       trial_days:
         type: integer
@@ -1420,7 +1420,7 @@ definitions:
         $ref: '#/definitions/ncobase_payment_structs.PaymentStatus'
       subscription_id:
         type: string
-      tenant_id:
+      space_id:
         type: string
       type:
         $ref: '#/definitions/ncobase_payment_structs.PaymentType'
@@ -1504,7 +1504,7 @@ definitions:
         $ref: '#/definitions/ncobase_payment_structs.PricingType'
       status:
         $ref: '#/definitions/ncobase_payment_structs.ProductStatus'
-      tenant_id:
+      space_id:
         type: string
       trial_days:
         type: integer
@@ -1557,7 +1557,7 @@ definitions:
         type: string
       status:
         $ref: '#/definitions/ncobase_payment_structs.SubscriptionStatus'
-      tenant_id:
+      space_id:
         type: string
       trial_end:
         type: string
@@ -1603,7 +1603,7 @@ definitions:
         items:
           $ref: '#/definitions/ncobase_payment_structs.PaymentType'
         type: array
-      tenant_id:
+      space_id:
         type: string
     type: object
   ncobase_payment_structs.UpdateProductInput:
@@ -2056,7 +2056,7 @@ definitions:
     x-enum-comments:
       AccessLevelPrivate: Only accessible to owner
       AccessLevelPublic: Accessible to anyone
-      AccessLevelShared: Shared with specific users/groups
+      AccessLevelShared: Shared with specific users/orgs
     x-enum-varnames:
       - AccessLevelPublic
       - AccessLevelPrivate
@@ -2201,7 +2201,7 @@ definitions:
         items:
           type: string
         type: array
-      tenant_id:
+      space_id:
         type: string
       thumbnail_url:
         type: string
@@ -2264,7 +2264,7 @@ definitions:
         items:
           type: string
         type: array
-      tenant_id:
+      space_id:
         type: string
       type:
         type: string
@@ -2326,7 +2326,7 @@ definitions:
       user_id:
         type: string
     type: object
-  ncobase_space_structs.ReadGroup:
+  ncobase_space_structs.ReadOrganization:
     properties:
       children:
         items: { }
@@ -2464,7 +2464,7 @@ definitions:
         items:
           $ref: '#/definitions/ncobase_system_structs.ReadMenu'
         type: array
-      tenants:
+      spaces:
         items:
           $ref: '#/definitions/ncobase_system_structs.ReadMenu'
         type: array
@@ -2641,35 +2641,35 @@ definitions:
       value:
         type: string
     type: object
-  ncobase_tenant_structs.AddDictionaryToTenantRequest:
+  ncobase_space_structs.AddDictionaryToSpaceRequest:
     properties:
       dictionary_id:
         type: string
     required:
       - dictionary_id
     type: object
-  ncobase_tenant_structs.AddMenuToTenantRequest:
+  ncobase_space_structs.AddMenuToSpaceRequest:
     properties:
       menu_id:
         type: string
     required:
       - menu_id
     type: object
-  ncobase_tenant_structs.AddOptionsToTenantRequest:
+  ncobase_space_structs.AddOptionsToSpaceRequest:
     properties:
       option_id:
         type: string
     required:
       - option_id
     type: object
-  ncobase_tenant_structs.AddTenantGroupRequest:
+  ncobase_space_structs.AddSpaceOrganizationRequest:
     properties:
       group_id:
         type: string
     required:
       - group_id
     type: object
-  ncobase_tenant_structs.AddUserToTenantRoleRequest:
+  ncobase_space_structs.AddUserToSpaceRoleRequest:
     properties:
       role_id:
         type: string
@@ -2679,7 +2679,7 @@ definitions:
       - role_id
       - user_id
     type: object
-  ncobase_tenant_structs.BillingPeriod:
+  ncobase_space_structs.BillingPeriod:
     enum:
       - monthly
       - yearly
@@ -2691,7 +2691,7 @@ definitions:
       - PeriodYearly
       - PeriodOneTime
       - PeriodUsage
-  ncobase_tenant_structs.BillingStatus:
+  ncobase_space_structs.BillingStatus:
     enum:
       - pending
       - paid
@@ -2705,7 +2705,7 @@ definitions:
       - StatusOverdue
       - StatusCancelled
       - StatusRefunded
-  ncobase_tenant_structs.BillingSummary:
+  ncobase_space_structs.BillingSummary:
     properties:
       currency:
         type: string
@@ -2719,14 +2719,14 @@ definitions:
         type: integer
       pending_amount:
         type: number
-      tenant_id:
+      space_id:
         type: string
       total_amount:
         type: number
       total_invoices:
         type: integer
     type: object
-  ncobase_tenant_structs.BulkUpdateError:
+  ncobase_space_structs.BulkUpdateError:
     properties:
       error:
         type: string
@@ -2735,50 +2735,50 @@ definitions:
       user_id:
         type: string
     type: object
-  ncobase_tenant_structs.BulkUpdateResponse:
+  ncobase_space_structs.BulkUpdateResponse:
     properties:
       errors:
         items:
-          $ref: '#/definitions/ncobase_tenant_structs.BulkUpdateError'
+          $ref: '#/definitions/ncobase_space_structs.BulkUpdateError'
         type: array
       failed:
         type: integer
       results:
         items:
-          $ref: '#/definitions/ncobase_tenant_structs.UserTenantRoleResponse'
+          $ref: '#/definitions/ncobase_space_structs.UserSpaceRoleResponse'
         type: array
       success:
         type: integer
       total:
         type: integer
     type: object
-  ncobase_tenant_structs.BulkUpdateSettingsRequest:
+  ncobase_space_structs.BulkUpdateSettingsRequest:
     properties:
       settings:
         additionalProperties:
           type: string
         type: object
-      tenant_id:
+      space_id:
         type: string
     required:
       - settings
-      - tenant_id
+      - space_id
     type: object
-  ncobase_tenant_structs.BulkUpdateUserTenantRolesRequest:
+  ncobase_space_structs.BulkUpdateUserSpaceRolesRequest:
     properties:
       updates:
         items:
-          $ref: '#/definitions/ncobase_tenant_structs.UserTenantRoleUpdate'
+          $ref: '#/definitions/ncobase_space_structs.UserSpaceRoleUpdate'
         type: array
     required:
       - updates
     type: object
-  ncobase_tenant_structs.CreateTenantBillingBody:
+  ncobase_space_structs.CreateSpaceBillingBody:
     properties:
       amount:
         type: number
       billing_period:
-        $ref: '#/definitions/ncobase_tenant_structs.BillingPeriod'
+        $ref: '#/definitions/ncobase_space_structs.BillingPeriod'
       created_by:
         type: string
       currency:
@@ -2800,15 +2800,15 @@ definitions:
       period_start:
         type: integer
       status:
-        $ref: '#/definitions/ncobase_tenant_structs.BillingStatus'
-      tenant_id:
+        $ref: '#/definitions/ncobase_space_structs.BillingStatus'
+      space_id:
         type: string
       updated_by:
         type: string
       usage_details:
         $ref: '#/definitions/github_com_ncobase_ncore_types.JSON'
     type: object
-  ncobase_tenant_structs.CreateTenantBody:
+  ncobase_space_structs.CreateSpaceBody:
     properties:
       copyright:
         type: string
@@ -2843,7 +2843,7 @@ definitions:
       url:
         type: string
     type: object
-  ncobase_tenant_structs.CreateTenantQuotaBody:
+  ncobase_space_structs.CreateSpaceQuotaBody:
     properties:
       created_by:
         type: string
@@ -2860,15 +2860,15 @@ definitions:
       quota_name:
         type: string
       quota_type:
-        $ref: '#/definitions/ncobase_tenant_structs.QuotaType'
-      tenant_id:
+        $ref: '#/definitions/ncobase_space_structs.QuotaType'
+      space_id:
         type: string
       unit:
-        $ref: '#/definitions/ncobase_tenant_structs.QuotaUnit'
+        $ref: '#/definitions/ncobase_space_structs.QuotaUnit'
       updated_by:
         type: string
     type: object
-  ncobase_tenant_structs.CreateTenantSettingBody:
+  ncobase_space_structs.CreateSpaceSettingBody:
     properties:
       category:
         type: string
@@ -2887,23 +2887,23 @@ definitions:
       is_required:
         type: boolean
       scope:
-        $ref: '#/definitions/ncobase_tenant_structs.SettingScope'
+        $ref: '#/definitions/ncobase_space_structs.SettingScope'
       setting_key:
         type: string
       setting_name:
         type: string
       setting_type:
-        $ref: '#/definitions/ncobase_tenant_structs.SettingType'
+        $ref: '#/definitions/ncobase_space_structs.SettingType'
       setting_value:
         type: string
-      tenant_id:
+      space_id:
         type: string
       updated_by:
         type: string
       validation:
         $ref: '#/definitions/github_com_ncobase_ncore_types.JSON'
     type: object
-  ncobase_tenant_structs.PaymentRequest:
+  ncobase_space_structs.PaymentRequest:
     properties:
       amount:
         type: number
@@ -2918,7 +2918,7 @@ definitions:
       - billing_id
       - payment_method
     type: object
-  ncobase_tenant_structs.QuotaType:
+  ncobase_space_structs.QuotaType:
     enum:
       - users
       - storage
@@ -2932,7 +2932,7 @@ definitions:
       - QuotaTypeAPI
       - QuotaTypeProject
       - QuotaTypeCustom
-  ncobase_tenant_structs.QuotaUnit:
+  ncobase_space_structs.QuotaUnit:
     enum:
       - count
       - bytes
@@ -2946,20 +2946,20 @@ definitions:
       - UnitMB
       - UnitGB
       - UnitTB
-  ncobase_tenant_structs.QuotaUsageRequest:
+  ncobase_space_structs.QuotaUsageRequest:
     properties:
       delta:
         type: integer
       quota_type:
-        $ref: '#/definitions/ncobase_tenant_structs.QuotaType'
-      tenant_id:
+        $ref: '#/definitions/ncobase_space_structs.QuotaType'
+      space_id:
         type: string
     required:
       - delta
       - quota_type
-      - tenant_id
+      - space_id
     type: object
-  ncobase_tenant_structs.ReadGroup:
+  ncobase_space_structs.ReadOrganization:
     properties:
       children:
         items: { }
@@ -2989,7 +2989,7 @@ definitions:
       updated_by:
         type: string
     type: object
-  ncobase_tenant_structs.ReadTenant:
+  ncobase_space_structs.ReadSpace:
     properties:
       copyright:
         type: string
@@ -3030,12 +3030,12 @@ definitions:
       url:
         type: string
     type: object
-  ncobase_tenant_structs.ReadTenantBilling:
+  ncobase_space_structs.ReadSpaceBilling:
     properties:
       amount:
         type: number
       billing_period:
-        $ref: '#/definitions/ncobase_tenant_structs.BillingPeriod'
+        $ref: '#/definitions/ncobase_space_structs.BillingPeriod'
       created_at:
         type: integer
       created_by:
@@ -3065,8 +3065,8 @@ definitions:
       period_start:
         type: integer
       status:
-        $ref: '#/definitions/ncobase_tenant_structs.BillingStatus'
-      tenant_id:
+        $ref: '#/definitions/ncobase_space_structs.BillingStatus'
+      space_id:
         type: string
       updated_at:
         type: integer
@@ -3075,7 +3075,7 @@ definitions:
       usage_details:
         $ref: '#/definitions/github_com_ncobase_ncore_types.JSON'
     type: object
-  ncobase_tenant_structs.ReadTenantQuota:
+  ncobase_space_structs.ReadSpaceQuota:
     properties:
       created_at:
         type: integer
@@ -3098,11 +3098,11 @@ definitions:
       quota_name:
         type: string
       quota_type:
-        $ref: '#/definitions/ncobase_tenant_structs.QuotaType'
-      tenant_id:
+        $ref: '#/definitions/ncobase_space_structs.QuotaType'
+      space_id:
         type: string
       unit:
-        $ref: '#/definitions/ncobase_tenant_structs.QuotaUnit'
+        $ref: '#/definitions/ncobase_space_structs.QuotaUnit'
       updated_at:
         type: integer
       updated_by:
@@ -3110,7 +3110,7 @@ definitions:
       utilization_percent:
         type: number
     type: object
-  ncobase_tenant_structs.ReadTenantSetting:
+  ncobase_space_structs.ReadSpaceSetting:
     properties:
       category:
         type: string
@@ -3133,16 +3133,16 @@ definitions:
       is_required:
         type: boolean
       scope:
-        $ref: '#/definitions/ncobase_tenant_structs.SettingScope'
+        $ref: '#/definitions/ncobase_space_structs.SettingScope'
       setting_key:
         type: string
       setting_name:
         type: string
       setting_type:
-        $ref: '#/definitions/ncobase_tenant_structs.SettingType'
+        $ref: '#/definitions/ncobase_space_structs.SettingType'
       setting_value:
         type: string
-      tenant_id:
+      space_id:
         type: string
       updated_at:
         type: integer
@@ -3151,19 +3151,19 @@ definitions:
       validation:
         $ref: '#/definitions/github_com_ncobase_ncore_types.JSON'
     type: object
-  ncobase_tenant_structs.SettingScope:
+  ncobase_space_structs.SettingScope:
     enum:
       - system
-      - tenant
+      - space
       - user
       - feature
     type: string
     x-enum-varnames:
       - ScopeSystem
-      - ScopeTenant
+      - Scope
       - ScopeUser
       - ScopeFeature
-  ncobase_tenant_structs.SettingType:
+  ncobase_space_structs.SettingType:
     enum:
       - string
       - number
@@ -3177,14 +3177,14 @@ definitions:
       - TypeBoolean
       - TypeJSON
       - TypeArray
-  ncobase_tenant_structs.TenantDictionary:
+  ncobase_space_structs.SpaceDictionary:
     properties:
       dictionary_id:
         type: string
-      tenant_id:
+      space_id:
         type: string
     type: object
-  ncobase_tenant_structs.TenantGroupRelation:
+  ncobase_space_structs.SpaceOrganizationRelation:
     properties:
       added_at:
         type: integer
@@ -3192,37 +3192,37 @@ definitions:
         type: string
       id:
         type: string
-      tenant_id:
+      space_id:
         type: string
     type: object
-  ncobase_tenant_structs.TenantMenu:
+  ncobase_space_structs.SpaceMenu:
     properties:
       menu_id:
         type: string
-      tenant_id:
+      space_id:
         type: string
     type: object
-  ncobase_tenant_structs.TenantOption:
+  ncobase_space_structs.SpaceOption:
     properties:
       option_id:
         type: string
-      tenant_id:
+      space_id:
         type: string
     type: object
-  ncobase_tenant_structs.TenantRoleUsersResponse:
+  ncobase_space_structs.SpaceRoleUsersResponse:
     properties:
       count:
         type: integer
       role_id:
         type: string
-      tenant_id:
+      space_id:
         type: string
       user_ids:
         items:
           type: string
         type: array
     type: object
-  ncobase_tenant_structs.TenantUserInfo:
+  ncobase_space_structs.SpaceUserInfo:
     properties:
       email:
         type: string
@@ -3237,7 +3237,7 @@ definitions:
       username:
         type: string
     type: object
-  ncobase_tenant_structs.TenantUsersListResponse:
+  ncobase_space_structs.SpaceUsersListResponse:
     properties:
       cursor:
         type: string
@@ -3245,10 +3245,10 @@ definitions:
         type: integer
       users:
         items:
-          $ref: '#/definitions/ncobase_tenant_structs.TenantUserInfo'
+          $ref: '#/definitions/ncobase_space_structs.SpaceUserInfo'
         type: array
     type: object
-  ncobase_tenant_structs.UpdateTenantBody:
+  ncobase_space_structs.UpdateSpaceBody:
     properties:
       copyright:
         type: string
@@ -3285,7 +3285,7 @@ definitions:
       url:
         type: string
     type: object
-  ncobase_tenant_structs.UpdateUserTenantRoleRequest:
+  ncobase_space_structs.UpdateUserSpaceRoleRequest:
     properties:
       new_role_id:
         type: string
@@ -3295,18 +3295,18 @@ definitions:
       - new_role_id
       - old_role_id
     type: object
-  ncobase_tenant_structs.UserTenantRoleResponse:
+  ncobase_space_structs.UserSpaceRoleResponse:
     properties:
       role_id:
         type: string
       status:
         type: string
-      tenant_id:
+      space_id:
         type: string
       user_id:
         type: string
     type: object
-  ncobase_tenant_structs.UserTenantRoleUpdate:
+  ncobase_space_structs.UserSpaceRoleUpdate:
     properties:
       old_role_id:
         description: Required for "update" operation
@@ -3323,7 +3323,7 @@ definitions:
       - role_id
       - user_id
     type: object
-  ncobase_tenant_structs.UserTenantRolesResponse:
+  ncobase_space_structs.UserSpaceRolesResponse:
     properties:
       count:
         type: integer
@@ -3331,7 +3331,7 @@ definitions:
         items:
           type: string
         type: array
-      tenant_id:
+      space_id:
         type: string
       user_id:
         type: string
@@ -3388,7 +3388,7 @@ definitions:
         type: array
       status:
         type: string
-      tenant_id:
+      space_id:
         type: string
       termination_date:
         type: string
@@ -3439,7 +3439,7 @@ definitions:
         type: array
       status:
         type: string
-      tenant_id:
+      space_id:
         type: string
       termination_date:
         type: string
@@ -3528,7 +3528,7 @@ definitions:
         type: array
       status:
         type: string
-      tenant_id:
+      space_id:
         type: string
       termination_date:
         type: string
@@ -3740,7 +3740,7 @@ definitions:
         type: string
       template_id:
         type: string
-      tenant_id:
+      space_id:
         type: string
     type: object
   ncobase_workflow_structs.HistoryBody:
@@ -3771,7 +3771,7 @@ definitions:
         type: string
       template_id:
         type: string
-      tenant_id:
+      space_id:
         type: string
       type:
         type: string
@@ -3840,7 +3840,7 @@ definitions:
         type: string
       template_id:
         type: string
-      tenant_id:
+      space_id:
         type: string
       timeout_config:
         $ref: '#/definitions/github_com_ncobase_ncore_types.JSON'
@@ -3925,7 +3925,7 @@ definitions:
         type: string
       template_id:
         type: string
-      tenant_id:
+      space_id:
         type: string
       title:
         type: string
@@ -3950,7 +3950,7 @@ definitions:
         type: string
       template_id:
         type: string
-      tenant_id:
+      space_id:
         type: string
       validation_rules:
         $ref: '#/definitions/github_com_ncobase_ncore_types.JSON'
@@ -3987,7 +3987,7 @@ definitions:
         type: string
       template_id:
         type: string
-      tenant_id:
+      space_id:
         type: string
       updated_at:
         type: integer
@@ -4028,7 +4028,7 @@ definitions:
         type: string
       template_id:
         type: string
-      tenant_id:
+      space_id:
         type: string
       type:
         type: string
@@ -4109,7 +4109,7 @@ definitions:
         type: string
       template_id:
         type: string
-      tenant_id:
+      space_id:
         type: string
       timeout_config:
         $ref: '#/definitions/github_com_ncobase_ncore_types.JSON'
@@ -4192,7 +4192,7 @@ definitions:
         type: string
       template_id:
         type: string
-      tenant_id:
+      space_id:
         type: string
       title:
         type: string
@@ -4227,7 +4227,7 @@ definitions:
         type: string
       template_id:
         type: string
-      tenant_id:
+      space_id:
         type: string
       updated_at:
         type: integer
@@ -4276,7 +4276,7 @@ definitions:
         type: string
       template_id:
         type: string
-      tenant_id:
+      space_id:
         type: string
       type:
         type: string
@@ -4363,7 +4363,7 @@ definitions:
         type: array
       task_key:
         type: string
-      tenant_id:
+      space_id:
         type: string
       updated_at:
         type: integer
@@ -4446,7 +4446,7 @@ definitions:
         type: boolean
       template_key:
         type: string
-      tenant_id:
+      space_id:
         type: string
       timeout_config:
         $ref: '#/definitions/github_com_ncobase_ncore_types.JSON'
@@ -4493,7 +4493,7 @@ definitions:
         type: string
       template_id:
         type: string
-      tenant_id:
+      space_id:
         type: string
       type:
         type: string
@@ -4516,7 +4516,7 @@ definitions:
         type: integer
       template_id:
         type: string
-      tenant_id:
+      space_id:
         type: string
       variables:
         $ref: '#/definitions/github_com_ncobase_ncore_types.JSON'
@@ -4655,7 +4655,7 @@ definitions:
         type: array
       task_key:
         type: string
-      tenant_id:
+      space_id:
         type: string
       urge_count:
         type: integer
@@ -4728,7 +4728,7 @@ definitions:
         type: boolean
       template_key:
         type: string
-      tenant_id:
+      space_id:
         type: string
       timeout_config:
         $ref: '#/definitions/github_com_ncobase_ncore_types.JSON'
@@ -4796,7 +4796,7 @@ definitions:
         type: string
       template_id:
         type: string
-      tenant_id:
+      space_id:
         type: string
     type: object
   ncobase_workflow_structs.UpdateNodeBody:
@@ -4863,7 +4863,7 @@ definitions:
         type: string
       template_id:
         type: string
-      tenant_id:
+      space_id:
         type: string
       timeout_config:
         $ref: '#/definitions/github_com_ncobase_ncore_types.JSON'
@@ -4938,7 +4938,7 @@ definitions:
         type: string
       template_id:
         type: string
-      tenant_id:
+      space_id:
         type: string
       title:
         type: string
@@ -4965,7 +4965,7 @@ definitions:
         type: string
       template_id:
         type: string
-      tenant_id:
+      space_id:
         type: string
       validation_rules:
         $ref: '#/definitions/github_com_ncobase_ncore_types.JSON'
@@ -5006,7 +5006,7 @@ definitions:
         type: string
       template_id:
         type: string
-      tenant_id:
+      space_id:
         type: string
       type:
         type: string
@@ -5085,7 +5085,7 @@ definitions:
         type: array
       task_key:
         type: string
-      tenant_id:
+      space_id:
         type: string
       urge_count:
         type: integer
@@ -5160,7 +5160,7 @@ definitions:
         type: boolean
       template_key:
         type: string
-      tenant_id:
+      space_id:
         type: string
       timeout_config:
         $ref: '#/definitions/github_com_ncobase_ncore_types.JSON'
@@ -5252,42 +5252,42 @@ paths:
       summary: Update user password
       tags:
         - auth
-  /account/tenant:
+  /account/space:
     get:
-      description: Retrieve the tenant associated with the current user.
+      description: Retrieve the space associated with the current user.
       produces:
         - application/json
       responses:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/ncobase_auth_structs.ReadTenant'
+            $ref: '#/definitions/ncobase_auth_structs.ReadSpace'
         "400":
           description: bad request
           schema:
             $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
       security:
         - Bearer: [ ]
-      summary: Get current user tenant
+      summary: Get current user space
       tags:
         - auth
-  /account/tenants:
+  /account/spaces:
     get:
-      description: Retrieve the tenant associated with the current user.
+      description: Retrieve the space associated with the current user.
       produces:
         - application/json
       responses:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/ncobase_auth_structs.ReadTenant'
+            $ref: '#/definitions/ncobase_auth_structs.ReadSpace'
         "400":
           description: bad request
           schema:
             $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
       security:
         - Bearer: [ ]
-      summary: Get current user tenants
+      summary: Get current user spaces
       tags:
         - auth
   /authorize/{code}:
@@ -5468,7 +5468,7 @@ paths:
           name: status
           type: integer
         - in: query
-          name: tenant
+          name: space
           type: string
         - in: query
           name: type
@@ -5615,7 +5615,7 @@ paths:
           name: status
           type: integer
         - in: query
-          name: tenant
+          name: space
           type: string
         - in: query
           name: topic_id
@@ -5823,7 +5823,7 @@ paths:
           name: search
           type: string
         - in: query
-          name: tenant
+          name: space
           type: string
         - in: query
           name: type
@@ -5973,7 +5973,7 @@ paths:
           name: sort_by
           type: string
         - in: query
-          name: tenant
+          name: space
           type: string
         - in: query
           name: type
@@ -6326,7 +6326,7 @@ paths:
           name: taxonomy
           type: string
         - in: query
-          name: tenant
+          name: space
           type: string
       produces:
         - application/json
@@ -6479,7 +6479,7 @@ paths:
           name: template_id
           type: string
         - in: query
-          name: tenant
+          name: space
           type: string
       produces:
         - application/json
@@ -6686,7 +6686,7 @@ paths:
           name: task_id
           type: string
         - in: query
-          name: tenant
+          name: space
           type: string
         - in: query
           name: type
@@ -6784,7 +6784,7 @@ paths:
           name: status
           type: string
         - in: query
-          name: tenant
+          name: space
           type: string
         - in: query
           name: type
@@ -7073,7 +7073,7 @@ paths:
           name: template_id
           type: string
         - in: query
-          name: tenant
+          name: space
           type: string
       produces:
         - application/json
@@ -7342,7 +7342,7 @@ paths:
           name: status
           type: string
         - in: query
-          name: tenant
+          name: space
           type: string
       produces:
         - application/json
@@ -7724,7 +7724,7 @@ paths:
           name: template_id
           type: string
         - in: query
-          name: tenant
+          name: space
           type: string
         - in: query
           name: type
@@ -8001,7 +8001,7 @@ paths:
           name: status
           type: string
         - in: query
-          name: tenant
+          name: space
           type: string
       produces:
         - application/json
@@ -8421,7 +8421,7 @@ paths:
           name: status
           type: string
         - in: query
-          name: tenant
+          name: space
           type: string
         - in: query
           name: type
@@ -8847,9 +8847,9 @@ paths:
       summary: Logout
       tags:
         - auth
-  /org/groups:
+  /org/orgs:
     get:
-      description: Retrieve a list or tree structure of groups.
+      description: Retrieve a list or tree structure of orgs.
       parameters:
         - in: query
           name: children
@@ -8876,7 +8876,7 @@ paths:
           description: success
           schema:
             items:
-              $ref: '#/definitions/ncobase_space_structs.ReadGroup'
+              $ref: '#/definitions/ncobase_space_structs.ReadOrganization'
             type: array
         "400":
           description: bad request
@@ -8884,7 +8884,7 @@ paths:
             $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
       security:
         - Bearer: [ ]
-      summary: List groups
+      summary: List orgs
       tags:
         - org
     post:
@@ -8904,7 +8904,7 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/ncobase_space_structs.ReadGroup'
+            $ref: '#/definitions/ncobase_space_structs.ReadOrganization'
         "400":
           description: bad request
           schema:
@@ -8931,7 +8931,7 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/ncobase_space_structs.ReadGroup'
+            $ref: '#/definitions/ncobase_space_structs.ReadOrganization'
         "400":
           description: bad request
           schema:
@@ -8941,13 +8941,13 @@ paths:
       summary: Update group
       tags:
         - org
-  /org/groups/{groupId}:
+  /org/orgs/{orgId}:
     delete:
-      description: Delete a group by ID or slug.
+      description: Delete a organization by ID or slug.
       parameters:
-        - description: Group ID or slug
+        - description: Organization ID or slug
           in: path
-          name: groupId
+          name: orgId
           required: true
           type: string
       produces:
@@ -8967,11 +8967,11 @@ paths:
       tags:
         - org
     get:
-      description: Retrieve a group by ID or slug.
+      description: Retrieve a organization by ID or slug.
       parameters:
-        - description: Group ID or slug
+        - description: Organization ID or slug
           in: path
-          name: groupId
+          name: orgId
           required: true
           type: string
         - in: query
@@ -8992,7 +8992,7 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/ncobase_space_structs.ReadGroup'
+            $ref: '#/definitions/ncobase_space_structs.ReadOrganization'
         "400":
           description: bad request
           schema:
@@ -9002,13 +9002,13 @@ paths:
       summary: Get group
       tags:
         - org
-  /org/groups/{groupId}/members:
+  /org/orgs/{orgId}/members:
     get:
       description: Get all members of a specific group
       parameters:
-        - description: Group ID or Slug
+        - description: Organization ID or Slug
           in: path
-          name: groupId
+          name: orgId
           required: true
           type: string
       produces:
@@ -9032,11 +9032,11 @@ paths:
     post:
       consumes:
         - application/json
-      description: Add a user to a group with a specified role
+      description: Add a user to a organization with a specified role
       parameters:
-        - description: Group ID or Slug
+        - description: Organization ID or Slug
           in: path
-          name: groupId
+          name: orgId
           required: true
           type: string
         - description: User details to add
@@ -9061,13 +9061,13 @@ paths:
       summary: Add member to group
       tags:
         - org
-  /org/groups/{groupId}/members/{userId}:
+  /org/orgs/{orgId}/members/{userId}:
     delete:
-      description: Remove a user from a group
+      description: Remove a user from a organization
       parameters:
-        - description: Group ID or Slug
+        - description: Organization ID or Slug
           in: path
-          name: groupId
+          name: orgId
           required: true
           type: string
         - description: User ID
@@ -9094,11 +9094,11 @@ paths:
     put:
       consumes:
         - application/json
-      description: Update a member's role in a group
+      description: Update a member's role in a organization
       parameters:
-        - description: Group ID or Slug
+        - description: Organization ID or Slug
           in: path
-          name: groupId
+          name: orgId
           required: true
           type: string
         - description: User ID
@@ -9128,13 +9128,13 @@ paths:
       summary: Update group member
       tags:
         - org
-  /org/groups/{groupId}/members/{userId}/check:
+  /org/orgs/{orgId}/members/{userId}/check:
     get:
-      description: Check if a user is a member of a group
+      description: Check if a user is a member of a organization
       parameters:
-        - description: Group ID or Slug
+        - description: Organization ID or Slug
           in: path
-          name: groupId
+          name: orgId
           required: true
           type: string
         - description: User ID
@@ -9160,13 +9160,13 @@ paths:
       summary: Check if user is a member
       tags:
         - org
-  /org/groups/{groupId}/members/{userId}/is-owner:
+  /org/orgs/{orgId}/members/{userId}/is-owner:
     get:
-      description: Check if a user has owner role in a group
+      description: Check if a user has owner role in a organization
       parameters:
-        - description: Group ID or Slug
+        - description: Organization ID or Slug
           in: path
-          name: groupId
+          name: orgId
           required: true
           type: string
         - description: User ID
@@ -9192,13 +9192,13 @@ paths:
       summary: Check if user is an owner
       tags:
         - org
-  /org/groups/{groupId}/members/{userId}/role:
+  /org/orgs/{orgId}/members/{userId}/role:
     get:
-      description: Get a user's role in a group
+      description: Get a user's role in a organization
       parameters:
-        - description: Group ID or Slug
+        - description: Organization ID or Slug
           in: path
-          name: groupId
+          name: orgId
           required: true
           type: string
         - description: User ID
@@ -9236,9 +9236,9 @@ paths:
           in: query
           name: status
           type: string
-        - description: Filter by tenant ID
+        - description: Filter by space ID
           in: query
-          name: tenant_id
+          name: space_id
           type: string
         - description: Cursor for pagination
           in: query
@@ -9632,9 +9632,9 @@ paths:
           in: query
           name: user_id
           type: string
-        - description: Filter by tenant ID
+        - description: Filter by space ID
           in: query
-          name: tenant_id
+          name: space_id
           type: string
         - description: Filter by product ID
           in: query
@@ -9934,9 +9934,9 @@ paths:
           in: query
           name: pricing_type
           type: string
-        - description: Filter by tenant ID
+        - description: Filter by space ID
           in: query
-          name: tenant_id
+          name: space_id
           type: string
         - description: Cursor for pagination
           in: query
@@ -10186,9 +10186,9 @@ paths:
           in: query
           name: user_id
           type: string
-        - description: Filter by tenant ID
+        - description: Filter by space ID
           in: query
-          name: tenant_id
+          name: space_id
           type: string
         - description: Filter by product ID
           in: query
@@ -10492,7 +10492,7 @@ paths:
           name: limit
           type: integer
         - in: query
-          name: tenant
+          name: space
           type: string
       produces:
         - application/json
@@ -10701,7 +10701,7 @@ paths:
           x-enum-comments:
             AccessLevelPrivate: Only accessible to owner
             AccessLevelPublic: Accessible to anyone
-            AccessLevelShared: Shared with specific users/groups
+            AccessLevelShared: Shared with specific users/orgs
           x-enum-varnames:
             - AccessLevelPublic
             - AccessLevelPrivate
@@ -10766,7 +10766,7 @@ paths:
           name: tags
           type: string
         - in: query
-          name: tenant
+          name: space
           required: true
           type: string
         - in: query
@@ -10805,9 +10805,9 @@ paths:
           in: formData
           name: object_id
           type: string
-        - description: Tenant ID associated with the file
+        - description: Space ID associated with the file
           in: formData
-          name: tenant_id
+          name: space_id
           type: string
         - description: Additional properties associated with the file (JSON format)
           in: formData
@@ -11135,9 +11135,9 @@ paths:
           name: files
           required: true
           type: file
-        - description: Tenant ID
+        - description: Space ID
           in: formData
-          name: tenant_id
+          name: space_id
           required: true
           type: string
         - description: Object ID
@@ -11196,11 +11196,11 @@ paths:
         - res
   /res/quotas:
     get:
-      description: Get the storage quota for a tenant
+      description: Get the storage quota for a space
       parameters:
-        - description: Tenant ID
+        - description: Space ID
           in: query
-          name: tenant_id
+          name: space_id
           required: true
           type: string
       produces:
@@ -11224,7 +11224,7 @@ paths:
     put:
       consumes:
         - application/json
-      description: Set the storage quota for a tenant
+      description: Set the storage quota for a space
       parameters:
         - description: Quota information
           in: body
@@ -11253,11 +11253,11 @@ paths:
         - res
   /res/quotas/usage:
     get:
-      description: Get the current storage usage for a tenant
+      description: Get the current storage usage for a space
       parameters:
-        - description: Tenant ID
+        - description: Space ID
           in: query
-          name: tenant_id
+          name: space_id
           required: true
           type: string
       produces:
@@ -11283,9 +11283,9 @@ paths:
         - application/json
       description: Search files by various criteria
       parameters:
-        - description: Tenant ID
+        - description: Space ID
           in: query
-          name: tenant
+          name: space
           required: true
           type: string
         - description: Search query
@@ -11328,11 +11328,11 @@ paths:
         - res
   /res/stats:
     get:
-      description: Get storage usage statistics for a tenant
+      description: Get storage usage statistics for a space
       parameters:
-        - description: Tenant ID
+        - description: Space ID
           in: query
-          name: tenant_id
+          name: space_id
           required: true
           type: string
       produces:
@@ -11354,11 +11354,11 @@ paths:
         - res
   /res/tags:
     get:
-      description: List all tags used in files for a tenant
+      description: List all tags used in files for a space
       parameters:
-        - description: Tenant ID
+        - description: Space ID
           in: query
-          name: tenant_id
+          name: space_id
           required: true
           type: string
       produces:
@@ -12627,9 +12627,9 @@ paths:
     get:
       description: List employees with filtering and pagination
       parameters:
-        - description: Tenant ID
+        - description: Space ID
           in: query
-          name: tenant_id
+          name: space_id
           type: string
         - description: Department
           in: query
@@ -12825,13 +12825,13 @@ paths:
       summary: Get employees by manager
       tags:
         - sys
-  /sys/groups/{groupId}/tenants:
+  /sys/orgs/{orgId}/spaces:
     get:
-      description: Get all tenants that have a specific group
+      description: Get all spaces that have a specific group
       parameters:
-        - description: Group ID
+        - description: Organization ID
           in: path
-          name: groupId
+          name: orgId
           required: true
           type: string
       produces:
@@ -12849,7 +12849,7 @@ paths:
             $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
       security:
         - Bearer: [ ]
-      summary: Get group tenants
+      summary: Get group spaces
       tags:
         - sys
   /sys/menus:
@@ -13108,7 +13108,7 @@ paths:
         - sys
   /sys/menus/navigation:
     get:
-      description: Retrieve the system navigation menu groups organized by type.
+      description: Retrieve the system navigation menu orgs organized by type.
       parameters:
         - default: order
           description: Sort by field (order, created_at, name)
@@ -13954,9 +13954,9 @@ paths:
       summary: List permissions for a role
       tags:
         - sys
-  /sys/tenants:
+  /sys/spaces:
     get:
-      description: Retrieve a list of tenants.
+      description: Retrieve a list of spaces.
       parameters:
         - in: query
           name: cursor
@@ -13977,7 +13977,7 @@ paths:
           description: success
           schema:
             items:
-              $ref: '#/definitions/ncobase_tenant_structs.ReadTenant'
+              $ref: '#/definitions/ncobase_space_structs.ReadSpace'
             type: array
         "400":
           description: bad request
@@ -13985,75 +13985,75 @@ paths:
             $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
       security:
         - Bearer: [ ]
-      summary: List tenants
+      summary: List spaces
       tags:
         - sys
     post:
       consumes:
         - application/json
-      description: Create a new tenant.
+      description: Create a new space.
       parameters:
-        - description: CreateTenantBody object
+        - description: CreateSpaceBody object
           in: body
           name: body
           required: true
           schema:
-            $ref: '#/definitions/ncobase_tenant_structs.CreateTenantBody'
+            $ref: '#/definitions/ncobase_space_structs.CreateSpaceBody'
       produces:
         - application/json
       responses:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/ncobase_tenant_structs.ReadTenant'
+            $ref: '#/definitions/ncobase_space_structs.ReadSpace'
         "400":
           description: bad request
           schema:
             $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
       security:
         - Bearer: [ ]
-      summary: Create tenant
+      summary: Create space
       tags:
         - sys
     put:
       consumes:
         - application/json
-      description: Update the tenant information.
+      description: Update the space information.
       parameters:
-        - description: Tenant ID
+        - description: Space ID
           in: path
           name: slug
           required: true
           type: string
-        - description: UpdateTenantBody object
+        - description: UpdateSpaceBody object
           in: body
           name: body
           required: true
           schema:
-            $ref: '#/definitions/ncobase_tenant_structs.UpdateTenantBody'
+            $ref: '#/definitions/ncobase_space_structs.UpdateSpaceBody'
       produces:
         - application/json
       responses:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/ncobase_tenant_structs.ReadTenant'
+            $ref: '#/definitions/ncobase_space_structs.ReadSpace'
         "400":
           description: bad request
           schema:
             $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
       security:
         - Bearer: [ ]
-      summary: Update tenant
+      summary: Update space
       tags:
         - sys
-  /sys/tenants/{tenantId}:
+  /sys/spaces/{spaceId}:
     delete:
-      description: Delete a specific tenant.
+      description: Delete a specific space.
       parameters:
-        - description: Tenant ID
+        - description: Space ID
           in: path
-          name: tenantId
+          name: spaceId
           required: true
           type: string
       produces:
@@ -14069,15 +14069,15 @@ paths:
             $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
       security:
         - Bearer: [ ]
-      summary: Delete tenant
+      summary: Delete space
       tags:
         - sys
     get:
-      description: Retrieve information about a specific tenant.
+      description: Retrieve information about a specific space.
       parameters:
-        - description: Tenant ID
+        - description: Space ID
           in: path
-          name: tenantId
+          name: spaceId
           required: true
           type: string
       produces:
@@ -14086,23 +14086,23 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/ncobase_tenant_structs.ReadTenant'
+            $ref: '#/definitions/ncobase_space_structs.ReadSpace'
         "400":
           description: bad request
           schema:
             $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
       security:
         - Bearer: [ ]
-      summary: Get tenant
+      summary: Get space
       tags:
         - sys
-  /sys/tenants/{tenantId}/attachments:
+  /sys/spaces/{spaceId}/attachments:
     get:
       description: Retrieve a list of attachments associated
       parameters:
-        - description: Tenant ID
+        - description: Space ID
           in: path
-          name: tenantId
+          name: spaceId
           required: true
           type: string
       produces:
@@ -14118,18 +14118,18 @@ paths:
             $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
       security:
         - Bearer: [ ]
-      summary: List tenant attachments
+      summary: List space attachments
       tags:
         - sys
-  /sys/tenants/{tenantId}/billing/invoice:
+  /sys/spaces/{spaceId}/billing/invoice:
     post:
       consumes:
         - application/json
-      description: Generate a new invoice for a tenant
+      description: Generate a new invoice for a space
       parameters:
-        - description: Tenant ID
+        - description: Space ID
           in: path
-          name: tenantId
+          name: spaceId
           required: true
           type: string
         - description: Invoice generation request
@@ -14146,7 +14146,7 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/ncobase_tenant_structs.ReadTenantBilling'
+            $ref: '#/definitions/ncobase_space_structs.ReadSpaceBilling'
         "400":
           description: bad request
           schema:
@@ -14156,13 +14156,13 @@ paths:
       summary: Generate invoice
       tags:
         - sys
-  /sys/tenants/{tenantId}/billing/overdue:
+  /sys/spaces/{spaceId}/billing/overdue:
     get:
-      description: Retrieve overdue billing records for a tenant
+      description: Retrieve overdue billing records for a space
       parameters:
-        - description: Tenant ID
+        - description: Space ID
           in: path
-          name: tenantId
+          name: spaceId
           required: true
           type: string
       produces:
@@ -14172,7 +14172,7 @@ paths:
           description: success
           schema:
             items:
-              $ref: '#/definitions/ncobase_tenant_structs.ReadTenantBilling'
+              $ref: '#/definitions/ncobase_space_structs.ReadSpaceBilling'
             type: array
         "400":
           description: bad request
@@ -14183,13 +14183,13 @@ paths:
       summary: Get overdue billing
       tags:
         - sys
-  /sys/tenants/{tenantId}/billing/summary:
+  /sys/spaces/{spaceId}/billing/summary:
     get:
-      description: Retrieve billing summary for a tenant
+      description: Retrieve billing summary for a space
       parameters:
-        - description: Tenant ID
+        - description: Space ID
           in: path
-          name: tenantId
+          name: spaceId
           required: true
           type: string
       produces:
@@ -14198,7 +14198,7 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/ncobase_tenant_structs.BillingSummary'
+            $ref: '#/definitions/ncobase_space_structs.BillingSummary'
         "400":
           description: bad request
           schema:
@@ -14208,13 +14208,13 @@ paths:
       summary: Get billing summary
       tags:
         - sys
-  /sys/tenants/{tenantId}/dictionaries:
+  /sys/spaces/{spaceId}/dictionaries:
     get:
-      description: Get all dictionaries for a tenant
+      description: Get all dictionaries for a space
       parameters:
-        - description: Tenant ID
+        - description: Space ID
           in: path
-          name: tenantId
+          name: spaceId
           required: true
           type: string
       produces:
@@ -14231,48 +14231,48 @@ paths:
             $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
       security:
         - Bearer: [ ]
-      summary: Get tenant dictionaries
+      summary: Get space dictionaries
       tags:
         - sys
     post:
       consumes:
         - application/json
-      description: Add a dictionary to a tenant
+      description: Add a dictionary to a space
       parameters:
-        - description: Tenant ID
+        - description: Space ID
           in: path
-          name: tenantId
+          name: spaceId
           required: true
           type: string
-        - description: AddDictionaryToTenantRequest object
+        - description: AddDictionaryToSpaceRequest object
           in: body
           name: body
           required: true
           schema:
-            $ref: '#/definitions/ncobase_tenant_structs.AddDictionaryToTenantRequest'
+            $ref: '#/definitions/ncobase_space_structs.AddDictionaryToSpaceRequest'
       produces:
         - application/json
       responses:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/ncobase_tenant_structs.TenantDictionary'
+            $ref: '#/definitions/ncobase_space_structs.SpaceDictionary'
         "400":
           description: bad request
           schema:
             $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
       security:
         - Bearer: [ ]
-      summary: Add dictionary to tenant
+      summary: Add dictionary to space
       tags:
         - sys
-  /sys/tenants/{tenantId}/dictionaries/{dictionaryId}:
+  /sys/spaces/{spaceId}/dictionaries/{dictionaryId}:
     delete:
-      description: Remove a dictionary from a tenant
+      description: Remove a dictionary from a space
       parameters:
-        - description: Tenant ID
+        - description: Space ID
           in: path
-          name: tenantId
+          name: spaceId
           required: true
           type: string
         - description: Dictionary ID
@@ -14293,16 +14293,16 @@ paths:
             $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
       security:
         - Bearer: [ ]
-      summary: Remove dictionary from tenant
+      summary: Remove dictionary from space
       tags:
         - sys
-  /sys/tenants/{tenantId}/dictionaries/{dictionaryId}/check:
+  /sys/spaces/{spaceId}/dictionaries/{dictionaryId}/check:
     get:
-      description: Check if a dictionary belongs to a tenant
+      description: Check if a dictionary belongs to a space
       parameters:
-        - description: Tenant ID
+        - description: Space ID
           in: path
-          name: tenantId
+          name: spaceId
           required: true
           type: string
         - description: Dictionary ID
@@ -14325,16 +14325,16 @@ paths:
             $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
       security:
         - Bearer: [ ]
-      summary: Check dictionary in tenant
+      summary: Check dictionary in space
       tags:
         - sys
-  /sys/tenants/{tenantId}/groups:
+  /sys/spaces/{spaceId}/orgs:
     get:
-      description: Get all groups belonging to a specific tenant
+      description: Get all orgs belonging to a specific space
       parameters:
-        - description: Tenant ID
+        - description: Space ID
           in: path
-          name: tenantId
+          name: spaceId
           required: true
           type: string
         - in: query
@@ -14362,7 +14362,7 @@ paths:
           description: success
           schema:
             items:
-              $ref: '#/definitions/ncobase_tenant_structs.ReadGroup'
+              $ref: '#/definitions/ncobase_space_structs.ReadOrganization'
             type: array
         "400":
           description: bad request
@@ -14370,53 +14370,53 @@ paths:
             $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
       security:
         - Bearer: [ ]
-      summary: Get tenant groups
+      summary: Get space orgs
       tags:
         - sys
     post:
       consumes:
         - application/json
-      description: Add a group to a specific tenant
+      description: Add a organization to a specific space
       parameters:
-        - description: Tenant ID
+        - description: Space ID
           in: path
-          name: tenantId
+          name: spaceId
           required: true
           type: string
-        - description: AddTenantGroupRequest object
+        - description: AddSpaceOrganizationRequest object
           in: body
           name: body
           required: true
           schema:
-            $ref: '#/definitions/ncobase_tenant_structs.AddTenantGroupRequest'
+            $ref: '#/definitions/ncobase_space_structs.AddSpaceOrganizationRequest'
       produces:
         - application/json
       responses:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/ncobase_tenant_structs.TenantGroupRelation'
+            $ref: '#/definitions/ncobase_space_structs.SpaceOrganizationRelation'
         "400":
           description: bad request
           schema:
             $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
       security:
         - Bearer: [ ]
-      summary: Add group to tenant
+      summary: Add group to space
       tags:
         - sys
-  /sys/tenants/{tenantId}/groups/{groupId}:
+  /sys/spaces/{spaceId}/orgs/{orgId}:
     delete:
-      description: Remove a group from a specific tenant
+      description: Remove a organization from a specific space
       parameters:
-        - description: Tenant ID
+        - description: Space ID
           in: path
-          name: tenantId
+          name: spaceId
           required: true
           type: string
-        - description: Group ID
+        - description: Organization ID
           in: path
-          name: groupId
+          name: orgId
           required: true
           type: string
       produces:
@@ -14432,21 +14432,21 @@ paths:
             $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
       security:
         - Bearer: [ ]
-      summary: Remove group from tenant
+      summary: Remove group from space
       tags:
         - sys
-  /sys/tenants/{tenantId}/groups/{groupId}/check:
+  /sys/spaces/{spaceId}/orgs/{orgId}/check:
     get:
-      description: Check if a group belongs to a specific tenant
+      description: Check if a organization belongs to a specific space
       parameters:
-        - description: Tenant ID
+        - description: Space ID
           in: path
-          name: tenantId
+          name: spaceId
           required: true
           type: string
-        - description: Group ID
+        - description: Organization ID
           in: path
-          name: groupId
+          name: orgId
           required: true
           type: string
       produces:
@@ -14464,16 +14464,16 @@ paths:
             $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
       security:
         - Bearer: [ ]
-      summary: Check if group is in tenant
+      summary: Check if group is in space
       tags:
         - sys
-  /sys/tenants/{tenantId}/menu:
+  /sys/spaces/{spaceId}/menu:
     get:
       description: Retrieve the menu associated
       parameters:
-        - description: Tenant ID
+        - description: Space ID
           in: path
-          name: tenantId
+          name: spaceId
           required: true
           type: string
       produces:
@@ -14489,16 +14489,16 @@ paths:
             $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
       security:
         - Bearer: [ ]
-      summary: Get tenant menu
+      summary: Get space menu
       tags:
         - sys
-  /sys/tenants/{tenantId}/menus:
+  /sys/spaces/{spaceId}/menus:
     get:
-      description: Get all menus for a tenant
+      description: Get all menus for a space
       parameters:
-        - description: Tenant ID
+        - description: Space ID
           in: path
-          name: tenantId
+          name: spaceId
           required: true
           type: string
       produces:
@@ -14516,48 +14516,48 @@ paths:
             $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
       security:
         - Bearer: [ ]
-      summary: Get tenant menus
+      summary: Get space menus
       tags:
         - sys
     post:
       consumes:
         - application/json
-      description: Add a menu to a tenant
+      description: Add a menu to a space
       parameters:
-        - description: Tenant ID
+        - description: Space ID
           in: path
-          name: tenantId
+          name: spaceId
           required: true
           type: string
-        - description: AddMenuToTenantRequest object
+        - description: AddMenuToSpaceRequest object
           in: body
           name: body
           required: true
           schema:
-            $ref: '#/definitions/ncobase_tenant_structs.AddMenuToTenantRequest'
+            $ref: '#/definitions/ncobase_space_structs.AddMenuToSpaceRequest'
       produces:
         - application/json
       responses:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/ncobase_tenant_structs.TenantMenu'
+            $ref: '#/definitions/ncobase_space_structs.SpaceMenu'
         "400":
           description: bad request
           schema:
             $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
       security:
         - Bearer: [ ]
-      summary: Add menu to tenant
+      summary: Add menu to space
       tags:
         - sys
-  /sys/tenants/{tenantId}/menus/{menuId}:
+  /sys/spaces/{spaceId}/menus/{menuId}:
     delete:
-      description: Remove a menu from a tenant
+      description: Remove a menu from a space
       parameters:
-        - description: Tenant ID
+        - description: Space ID
           in: path
-          name: tenantId
+          name: spaceId
           required: true
           type: string
         - description: Menu ID
@@ -14578,16 +14578,16 @@ paths:
             $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
       security:
         - Bearer: [ ]
-      summary: Remove menu from tenant
+      summary: Remove menu from space
       tags:
         - sys
-  /sys/tenants/{tenantId}/menus/{menuId}/check:
+  /sys/spaces/{spaceId}/menus/{menuId}/check:
     get:
-      description: Check if a menu belongs to a tenant
+      description: Check if a menu belongs to a space
       parameters:
-        - description: Tenant ID
+        - description: Space ID
           in: path
-          name: tenantId
+          name: spaceId
           required: true
           type: string
         - description: Menu ID
@@ -14610,16 +14610,16 @@ paths:
             $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
       security:
         - Bearer: [ ]
-      summary: Check menu in tenant
+      summary: Check menu in space
       tags:
         - sys
-  /sys/tenants/{tenantId}/options:
+  /sys/spaces/{spaceId}/options:
     get:
-      description: Get all options for a tenant
+      description: Get all options for a space
       parameters:
-        - description: Tenant ID
+        - description: Space ID
           in: path
-          name: tenantId
+          name: spaceId
           required: true
           type: string
       produces:
@@ -14637,48 +14637,48 @@ paths:
             $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
       security:
         - Bearer: [ ]
-      summary: Get tenant option
+      summary: Get space option
       tags:
         - sys
     post:
       consumes:
         - application/json
-      description: Add options to a tenant
+      description: Add options to a space
       parameters:
-        - description: Tenant ID
+        - description: Space ID
           in: path
-          name: tenantId
+          name: spaceId
           required: true
           type: string
-        - description: AddOptionsToTenantRequest object
+        - description: AddOptionsToSpaceRequest object
           in: body
           name: body
           required: true
           schema:
-            $ref: '#/definitions/ncobase_tenant_structs.AddOptionsToTenantRequest'
+            $ref: '#/definitions/ncobase_space_structs.AddOptionsToSpaceRequest'
       produces:
         - application/json
       responses:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/ncobase_tenant_structs.TenantOption'
+            $ref: '#/definitions/ncobase_space_structs.SpaceOption'
         "400":
           description: bad request
           schema:
             $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
       security:
         - Bearer: [ ]
-      summary: Add options to tenant
+      summary: Add options to space
       tags:
         - sys
-  /sys/tenants/{tenantId}/options/{optionsId}:
+  /sys/spaces/{spaceId}/options/{optionsId}:
     delete:
-      description: Remove options from a tenant
+      description: Remove options from a space
       parameters:
-        - description: Tenant ID
+        - description: Space ID
           in: path
-          name: tenantId
+          name: spaceId
           required: true
           type: string
         - description: Options ID
@@ -14699,16 +14699,16 @@ paths:
             $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
       security:
         - Bearer: [ ]
-      summary: Remove options from tenant
+      summary: Remove options from space
       tags:
         - sys
-  /sys/tenants/{tenantId}/options/{optionsId}/check:
+  /sys/spaces/{spaceId}/options/{optionsId}/check:
     get:
-      description: Check if options belong to a tenant
+      description: Check if options belong to a space
       parameters:
-        - description: Tenant ID
+        - description: Space ID
           in: path
-          name: tenantId
+          name: spaceId
           required: true
           type: string
         - description: Options ID
@@ -14731,16 +14731,16 @@ paths:
             $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
       security:
         - Bearer: [ ]
-      summary: Check options in tenant
+      summary: Check options in space
       tags:
         - sys
-  /sys/tenants/{tenantId}/quotas:
+  /sys/spaces/{spaceId}/quotas:
     get:
-      description: Retrieve all quotas for a tenant
+      description: Retrieve all quotas for a space
       parameters:
-        - description: Tenant ID
+        - description: Space ID
           in: path
-          name: tenantId
+          name: spaceId
           required: true
           type: string
       produces:
@@ -14750,7 +14750,7 @@ paths:
           description: success
           schema:
             items:
-              $ref: '#/definitions/ncobase_tenant_structs.ReadTenantQuota'
+              $ref: '#/definitions/ncobase_space_structs.ReadSpaceQuota'
             type: array
         "400":
           description: bad request
@@ -14758,16 +14758,16 @@ paths:
             $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
       security:
         - Bearer: [ ]
-      summary: Get tenant quota summary
+      summary: Get space quota summary
       tags:
         - sys
-  /sys/tenants/{tenantId}/roles:
+  /sys/spaces/{spaceId}/roles:
     get:
       description: Retrieve a list of roles associated
       parameters:
-        - description: Tenant ID
+        - description: Space ID
           in: path
-          name: tenantId
+          name: spaceId
           required: true
           type: string
       produces:
@@ -14783,16 +14783,16 @@ paths:
             $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
       security:
         - Bearer: [ ]
-      summary: List tenant roles
+      summary: List space roles
       tags:
         - sys
-  /sys/tenants/{tenantId}/roles/{roleId}/users:
+  /sys/spaces/{spaceId}/roles/{roleId}/users:
     get:
-      description: Get all users that have a specific role in a tenant
+      description: Get all users that have a specific role in a space
       parameters:
-        - description: Tenant ID
+        - description: Space ID
           in: path
-          name: tenantId
+          name: spaceId
           required: true
           type: string
         - description: Role ID
@@ -14806,23 +14806,23 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/ncobase_tenant_structs.TenantRoleUsersResponse'
+            $ref: '#/definitions/ncobase_space_structs.SpaceRoleUsersResponse'
         "400":
           description: bad request
           schema:
             $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
       security:
         - Bearer: [ ]
-      summary: Get tenant users by role
+      summary: Get space users by role
       tags:
         - sys
-  /sys/tenants/{tenantId}/setting:
+  /sys/spaces/{spaceId}/setting:
     get:
       description: Retrieve the settings associated
       parameters:
-        - description: Tenant ID
+        - description: Space ID
           in: path
-          name: tenantId
+          name: spaceId
           required: true
           type: string
       produces:
@@ -14838,16 +14838,16 @@ paths:
             $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
       security:
         - Bearer: [ ]
-      summary: Get tenant setting
+      summary: Get space setting
       tags:
         - sys
-  /sys/tenants/{tenantId}/settings:
+  /sys/spaces/{spaceId}/settings:
     get:
-      description: Retrieve all settings for a specific tenant
+      description: Retrieve all settings for a specific space
       parameters:
-        - description: Tenant ID
+        - description: Space ID
           in: path
-          name: tenantId
+          name: spaceId
           required: true
           type: string
       produces:
@@ -14864,16 +14864,16 @@ paths:
             $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
       security:
         - Bearer: [ ]
-      summary: Get all tenant settings
+      summary: Get all space settings
       tags:
         - sys
-  /sys/tenants/{tenantId}/settings/{key}:
+  /sys/spaces/{spaceId}/settings/{key}:
     get:
-      description: Retrieve a specific setting for a tenant
+      description: Retrieve a specific setting for a space
       parameters:
-        - description: Tenant ID
+        - description: Space ID
           in: path
-          name: tenantId
+          name: spaceId
           required: true
           type: string
         - description: Setting Key
@@ -14895,17 +14895,17 @@ paths:
             $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
       security:
         - Bearer: [ ]
-      summary: Get specific tenant setting
+      summary: Get specific space setting
       tags:
         - sys
     put:
       consumes:
         - application/json
-      description: Set a specific setting for a tenant
+      description: Set a specific setting for a space
       parameters:
-        - description: Tenant ID
+        - description: Space ID
           in: path
-          name: tenantId
+          name: spaceId
           required: true
           type: string
         - description: Setting Key
@@ -14934,16 +14934,16 @@ paths:
             $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
       security:
         - Bearer: [ ]
-      summary: Set tenant setting
+      summary: Set space setting
       tags:
         - sys
-  /sys/tenants/{tenantId}/settings/public:
+  /sys/spaces/{spaceId}/settings/public:
     get:
-      description: Retrieve public settings for a specific tenant
+      description: Retrieve public settings for a specific space
       parameters:
-        - description: Tenant ID
+        - description: Space ID
           in: path
-          name: tenantId
+          name: spaceId
           required: true
           type: string
       produces:
@@ -14958,16 +14958,16 @@ paths:
           description: bad request
           schema:
             $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
-      summary: Get public tenant settings
+      summary: Get public space settings
       tags:
         - sys
-  /sys/tenants/{tenantId}/users:
+  /sys/spaces/{spaceId}/users:
     get:
-      description: List all users in a tenant with their roles
+      description: List all users in a space with their roles
       parameters:
-        - description: Tenant ID
+        - description: Space ID
           in: path
-          name: tenantId
+          name: spaceId
           required: true
           type: string
         - in: query
@@ -14991,25 +14991,25 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/ncobase_tenant_structs.TenantUsersListResponse'
+            $ref: '#/definitions/ncobase_space_structs.SpaceUsersListResponse'
         "400":
           description: bad request
           schema:
             $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
       security:
         - Bearer: [ ]
-      summary: List tenant users
+      summary: List space users
       tags:
         - sys
-  /sys/tenants/{tenantId}/users/{userId}/roles:
+  /sys/spaces/{spaceId}/users/{userId}/roles:
     put:
       consumes:
         - application/json
-      description: Update a user's role in a tenant
+      description: Update a user's role in a space
       parameters:
-        - description: Tenant ID
+        - description: Space ID
           in: path
-          name: tenantId
+          name: spaceId
           required: true
           type: string
         - description: User ID
@@ -15017,35 +15017,35 @@ paths:
           name: userId
           required: true
           type: string
-        - description: UpdateUserTenantRoleRequest object
+        - description: UpdateUserSpaceRoleRequest object
           in: body
           name: body
           required: true
           schema:
-            $ref: '#/definitions/ncobase_tenant_structs.UpdateUserTenantRoleRequest'
+            $ref: '#/definitions/ncobase_space_structs.UpdateUserSpaceRoleRequest'
       produces:
         - application/json
       responses:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/ncobase_tenant_structs.UserTenantRoleResponse'
+            $ref: '#/definitions/ncobase_space_structs.UserSpaceRoleResponse'
         "400":
           description: bad request
           schema:
             $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
       security:
         - Bearer: [ ]
-      summary: Update user tenant role
+      summary: Update user space role
       tags:
         - sys
-  /sys/tenants/{tenantId}/users/{userId}/roles/{roleId}:
+  /sys/spaces/{spaceId}/users/{userId}/roles/{roleId}:
     delete:
-      description: Remove a user from a specific role in a tenant
+      description: Remove a user from a specific role in a space
       parameters:
-        - description: Tenant ID
+        - description: Space ID
           in: path
-          name: tenantId
+          name: spaceId
           required: true
           type: string
         - description: User ID
@@ -15071,16 +15071,16 @@ paths:
             $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
       security:
         - Bearer: [ ]
-      summary: Remove user from tenant role
+      summary: Remove user from space role
       tags:
         - sys
-  /sys/tenants/{tenantId}/users/{username}/roles:
+  /sys/spaces/{spaceId}/users/{username}/roles:
     get:
-      description: Get all roles a user has in a specific tenant
+      description: Get all roles a user has in a specific space
       parameters:
-        - description: Tenant ID
+        - description: Space ID
           in: path
-          name: tenantId
+          name: spaceId
           required: true
           type: string
         - description: User ID or username
@@ -15094,23 +15094,23 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/ncobase_tenant_structs.UserTenantRolesResponse'
+            $ref: '#/definitions/ncobase_space_structs.UserSpaceRolesResponse'
         "400":
           description: bad request
           schema:
             $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
       security:
         - Bearer: [ ]
-      summary: Get user tenant roles
+      summary: Get user space roles
       tags:
         - sys
-  /sys/tenants/{tenantId}/users/{username}/roles/{roleId}/check:
+  /sys/spaces/{spaceId}/users/{username}/roles/{roleId}/check:
     get:
-      description: Check if a user has a specific role in a tenant
+      description: Check if a user has a specific role in a space
       parameters:
-        - description: Tenant ID
+        - description: Space ID
           in: path
-          name: tenantId
+          name: spaceId
           required: true
           type: string
         - description: User ID or username
@@ -15138,78 +15138,78 @@ paths:
             $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
       security:
         - Bearer: [ ]
-      summary: Check user tenant role
+      summary: Check user space role
       tags:
         - sys
-  /sys/tenants/{tenantId}/users/roles:
+  /sys/spaces/{spaceId}/users/roles:
     post:
       consumes:
         - application/json
-      description: Add a user to a tenant
+      description: Add a user to a space
       parameters:
-        - description: Tenant ID
+        - description: Space ID
           in: path
-          name: tenantId
+          name: spaceId
           required: true
           type: string
-        - description: AddUserToTenantRoleRequest object
+        - description: AddUserToSpaceRoleRequest object
           in: body
           name: body
           required: true
           schema:
-            $ref: '#/definitions/ncobase_tenant_structs.AddUserToTenantRoleRequest'
+            $ref: '#/definitions/ncobase_space_structs.AddUserToSpaceRoleRequest'
       produces:
         - application/json
       responses:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/ncobase_tenant_structs.UserTenantRoleResponse'
+            $ref: '#/definitions/ncobase_space_structs.UserSpaceRoleResponse'
         "400":
           description: bad request
           schema:
             $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
       security:
         - Bearer: [ ]
-      summary: Add user to tenant role
+      summary: Add user to space role
       tags:
         - sys
-  /sys/tenants/{tenantId}/users/roles/bulk:
+  /sys/spaces/{spaceId}/users/roles/bulk:
     put:
       consumes:
         - application/json
-      description: Bulk update multiple user tenant roles
+      description: Bulk update multiple user space roles
       parameters:
-        - description: Tenant ID
+        - description: Space ID
           in: path
-          name: tenantId
+          name: spaceId
           required: true
           type: string
-        - description: BulkUpdateUserTenantRolesRequest object
+        - description: BulkUpdateUserSpaceRolesRequest object
           in: body
           name: body
           required: true
           schema:
-            $ref: '#/definitions/ncobase_tenant_structs.BulkUpdateUserTenantRolesRequest'
+            $ref: '#/definitions/ncobase_space_structs.BulkUpdateUserSpaceRolesRequest'
       produces:
         - application/json
       responses:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/ncobase_tenant_structs.BulkUpdateResponse'
+            $ref: '#/definitions/ncobase_space_structs.BulkUpdateResponse'
         "400":
           description: bad request
           schema:
             $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
       security:
         - Bearer: [ ]
-      summary: Bulk update user tenant roles
+      summary: Bulk update user space roles
       tags:
         - sys
-  /sys/tenants/billing:
+  /sys/spaces/billing:
     get:
-      description: Retrieve a list of tenant billing records
+      description: Retrieve a list of space billing records
       parameters:
         - enum:
             - monthly
@@ -15255,7 +15255,7 @@ paths:
             - StatusCancelled
             - StatusRefunded
         - in: query
-          name: tenant_id
+          name: space_id
           type: string
         - in: query
           name: to_date
@@ -15267,7 +15267,7 @@ paths:
           description: success
           schema:
             items:
-              $ref: '#/definitions/ncobase_tenant_structs.ReadTenantBilling'
+              $ref: '#/definitions/ncobase_space_structs.ReadSpaceBilling'
             type: array
         "400":
           description: bad request
@@ -15275,39 +15275,39 @@ paths:
             $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
       security:
         - Bearer: [ ]
-      summary: List tenant billing
+      summary: List space billing
       tags:
         - sys
     post:
       consumes:
         - application/json
-      description: Create a new tenant billing record
+      description: Create a new space billing record
       parameters:
         - description: Billing record
           in: body
           name: body
           required: true
           schema:
-            $ref: '#/definitions/ncobase_tenant_structs.CreateTenantBillingBody'
+            $ref: '#/definitions/ncobase_space_structs.CreateSpaceBillingBody'
       produces:
         - application/json
       responses:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/ncobase_tenant_structs.ReadTenantBilling'
+            $ref: '#/definitions/ncobase_space_structs.ReadSpaceBilling'
         "400":
           description: bad request
           schema:
             $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
       security:
         - Bearer: [ ]
-      summary: Create tenant billing
+      summary: Create space billing
       tags:
         - sys
-  /sys/tenants/billing/{id}:
+  /sys/spaces/billing/{id}:
     delete:
-      description: Delete a tenant billing record
+      description: Delete a space billing record
       parameters:
         - description: Billing ID
           in: path
@@ -15327,11 +15327,11 @@ paths:
             $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
       security:
         - Bearer: [ ]
-      summary: Delete tenant billing
+      summary: Delete space billing
       tags:
         - sys
     get:
-      description: Retrieve a tenant billing record by ID
+      description: Retrieve a space billing record by ID
       parameters:
         - description: Billing ID
           in: path
@@ -15344,20 +15344,20 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/ncobase_tenant_structs.ReadTenantBilling'
+            $ref: '#/definitions/ncobase_space_structs.ReadSpaceBilling'
         "400":
           description: bad request
           schema:
             $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
       security:
         - Bearer: [ ]
-      summary: Get tenant billing
+      summary: Get space billing
       tags:
         - sys
     put:
       consumes:
         - application/json
-      description: Update an existing tenant billing record
+      description: Update an existing space billing record
       parameters:
         - description: Billing ID
           in: path
@@ -15376,17 +15376,17 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/ncobase_tenant_structs.ReadTenantBilling'
+            $ref: '#/definitions/ncobase_space_structs.ReadSpaceBilling'
         "400":
           description: bad request
           schema:
             $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
       security:
         - Bearer: [ ]
-      summary: Update tenant billing
+      summary: Update space billing
       tags:
         - sys
-  /sys/tenants/billing/payment:
+  /sys/spaces/billing/payment:
     post:
       consumes:
         - application/json
@@ -15397,7 +15397,7 @@ paths:
           name: body
           required: true
           schema:
-            $ref: '#/definitions/ncobase_tenant_structs.PaymentRequest'
+            $ref: '#/definitions/ncobase_space_structs.PaymentRequest'
       produces:
         - application/json
       responses:
@@ -15414,9 +15414,9 @@ paths:
       summary: Process payment
       tags:
         - sys
-  /sys/tenants/quotas:
+  /sys/spaces/quotas:
     get:
-      description: Retrieve a list of tenant quotas
+      description: Retrieve a list of space quotas
       parameters:
         - in: query
           name: cursor
@@ -15446,7 +15446,7 @@ paths:
             - QuotaTypeProject
             - QuotaTypeCustom
         - in: query
-          name: tenant_id
+          name: space_id
           type: string
       produces:
         - application/json
@@ -15455,7 +15455,7 @@ paths:
           description: success
           schema:
             items:
-              $ref: '#/definitions/ncobase_tenant_structs.ReadTenantQuota'
+              $ref: '#/definitions/ncobase_space_structs.ReadSpaceQuota'
             type: array
         "400":
           description: bad request
@@ -15463,39 +15463,39 @@ paths:
             $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
       security:
         - Bearer: [ ]
-      summary: List tenant quotas
+      summary: List space quotas
       tags:
         - sys
     post:
       consumes:
         - application/json
-      description: Create a new tenant quota configuration
+      description: Create a new space quota configuration
       parameters:
         - description: Quota configuration
           in: body
           name: body
           required: true
           schema:
-            $ref: '#/definitions/ncobase_tenant_structs.CreateTenantQuotaBody'
+            $ref: '#/definitions/ncobase_space_structs.CreateSpaceQuotaBody'
       produces:
         - application/json
       responses:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/ncobase_tenant_structs.ReadTenantQuota'
+            $ref: '#/definitions/ncobase_space_structs.ReadSpaceQuota'
         "400":
           description: bad request
           schema:
             $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
       security:
         - Bearer: [ ]
-      summary: Create tenant quota
+      summary: Create space quota
       tags:
         - sys
-  /sys/tenants/quotas/{id}:
+  /sys/spaces/quotas/{id}:
     delete:
-      description: Delete a tenant quota configuration
+      description: Delete a space quota configuration
       parameters:
         - description: Quota ID
           in: path
@@ -15515,11 +15515,11 @@ paths:
             $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
       security:
         - Bearer: [ ]
-      summary: Delete tenant quota
+      summary: Delete space quota
       tags:
         - sys
     get:
-      description: Retrieve a tenant quota by ID
+      description: Retrieve a space quota by ID
       parameters:
         - description: Quota ID
           in: path
@@ -15532,20 +15532,20 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/ncobase_tenant_structs.ReadTenantQuota'
+            $ref: '#/definitions/ncobase_space_structs.ReadSpaceQuota'
         "400":
           description: bad request
           schema:
             $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
       security:
         - Bearer: [ ]
-      summary: Get tenant quota
+      summary: Get space quota
       tags:
         - sys
     put:
       consumes:
         - application/json
-      description: Update an existing tenant quota configuration
+      description: Update an existing space quota configuration
       parameters:
         - description: Quota ID
           in: path
@@ -15564,23 +15564,23 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/ncobase_tenant_structs.ReadTenantQuota'
+            $ref: '#/definitions/ncobase_space_structs.ReadSpaceQuota'
         "400":
           description: bad request
           schema:
             $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
       security:
         - Bearer: [ ]
-      summary: Update tenant quota
+      summary: Update space quota
       tags:
         - sys
-  /sys/tenants/quotas/check:
+  /sys/spaces/quotas/check:
     get:
-      description: Check if tenant can use additional quota
+      description: Check if space can use additional quota
       parameters:
-        - description: Tenant ID
+        - description: Space ID
           in: query
-          name: tenantId
+          name: spaceId
           required: true
           type: string
         - description: Quota Type
@@ -15611,7 +15611,7 @@ paths:
       summary: Check quota limit
       tags:
         - sys
-  /sys/tenants/quotas/usage:
+  /sys/spaces/quotas/usage:
     post:
       consumes:
         - application/json
@@ -15622,7 +15622,7 @@ paths:
           name: body
           required: true
           schema:
-            $ref: '#/definitions/ncobase_tenant_structs.QuotaUsageRequest'
+            $ref: '#/definitions/ncobase_space_structs.QuotaUsageRequest'
       produces:
         - application/json
       responses:
@@ -15639,9 +15639,9 @@ paths:
       summary: Update quota usage
       tags:
         - sys
-  /sys/tenants/settings:
+  /sys/spaces/settings:
     get:
-      description: Retrieve a list of tenant settings
+      description: Retrieve a list of space settings
       parameters:
         - in: query
           name: category
@@ -15663,7 +15663,7 @@ paths:
           type: integer
         - enum:
             - system
-            - tenant
+            - space
             - user
             - feature
           in: query
@@ -15671,11 +15671,11 @@ paths:
           type: string
           x-enum-varnames:
             - ScopeSystem
-            - ScopeTenant
+            - Scope
             - ScopeUser
             - ScopeFeature
         - in: query
-          name: tenant_id
+          name: space_id
           type: string
       produces:
         - application/json
@@ -15684,7 +15684,7 @@ paths:
           description: success
           schema:
             items:
-              $ref: '#/definitions/ncobase_tenant_structs.ReadTenantSetting'
+              $ref: '#/definitions/ncobase_space_structs.ReadSpaceSetting'
             type: array
         "400":
           description: bad request
@@ -15692,39 +15692,39 @@ paths:
             $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
       security:
         - Bearer: [ ]
-      summary: List tenant settings
+      summary: List space settings
       tags:
         - sys
     post:
       consumes:
         - application/json
-      description: Create a new tenant setting configuration
+      description: Create a new space setting configuration
       parameters:
         - description: Setting configuration
           in: body
           name: body
           required: true
           schema:
-            $ref: '#/definitions/ncobase_tenant_structs.CreateTenantSettingBody'
+            $ref: '#/definitions/ncobase_space_structs.CreateSpaceSettingBody'
       produces:
         - application/json
       responses:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/ncobase_tenant_structs.ReadTenantSetting'
+            $ref: '#/definitions/ncobase_space_structs.ReadSpaceSetting'
         "400":
           description: bad request
           schema:
             $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
       security:
         - Bearer: [ ]
-      summary: Create tenant setting
+      summary: Create space setting
       tags:
         - sys
-  /sys/tenants/settings/{id}:
+  /sys/spaces/settings/{id}:
     delete:
-      description: Delete a tenant setting configuration
+      description: Delete a space setting configuration
       parameters:
         - description: Setting ID
           in: path
@@ -15744,11 +15744,11 @@ paths:
             $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
       security:
         - Bearer: [ ]
-      summary: Delete tenant setting
+      summary: Delete space setting
       tags:
         - sys
     get:
-      description: Retrieve a tenant setting by ID
+      description: Retrieve a space setting by ID
       parameters:
         - description: Setting ID
           in: path
@@ -15761,20 +15761,20 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/ncobase_tenant_structs.ReadTenantSetting'
+            $ref: '#/definitions/ncobase_space_structs.ReadSpaceSetting'
         "400":
           description: bad request
           schema:
             $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
       security:
         - Bearer: [ ]
-      summary: Get tenant setting
+      summary: Get space setting
       tags:
         - sys
     put:
       consumes:
         - application/json
-      description: Update an existing tenant setting configuration
+      description: Update an existing space setting configuration
       parameters:
         - description: Setting ID
           in: path
@@ -15793,28 +15793,28 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/ncobase_tenant_structs.ReadTenantSetting'
+            $ref: '#/definitions/ncobase_space_structs.ReadSpaceSetting'
         "400":
           description: bad request
           schema:
             $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
       security:
         - Bearer: [ ]
-      summary: Update tenant setting
+      summary: Update space setting
       tags:
         - sys
-  /sys/tenants/settings/bulk:
+  /sys/spaces/settings/bulk:
     post:
       consumes:
         - application/json
-      description: Update multiple tenant settings at once
+      description: Update multiple space settings at once
       parameters:
         - description: Bulk update request
           in: body
           name: body
           required: true
           schema:
-            $ref: '#/definitions/ncobase_tenant_structs.BulkUpdateSettingsRequest'
+            $ref: '#/definitions/ncobase_space_structs.BulkUpdateSettingsRequest'
       produces:
         - application/json
       responses:
@@ -15828,7 +15828,7 @@ paths:
             $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
       security:
         - Bearer: [ ]
-      summary: Bulk update tenant settings
+      summary: Bulk update space settings
       tags:
         - sys
   /sys/users:
@@ -16168,9 +16168,9 @@ paths:
       summary: Update user status
       tags:
         - sys
-  /sys/users/{username}/tenant:
+  /sys/users/{username}/space:
     get:
-      description: Retrieve the tenant associated with the specified user.
+      description: Retrieve the space associated with the specified user.
       parameters:
         - description: Username
           in: path
@@ -16183,14 +16183,14 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/ncobase_tenant_structs.ReadTenant'
+            $ref: '#/definitions/ncobase_space_structs.ReadSpace'
         "400":
           description: bad request
           schema:
             $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
       security:
         - Bearer: [ ]
-      summary: Get user owned tenant
+      summary: Get user owned space
       tags:
         - sys
   /sys/users/api-keys:

@@ -18,11 +18,11 @@ func (s *Service) checkDictionariesInitialized(ctx context.Context) error {
 	return s.initDictionaries(ctx)
 }
 
-// initDictionaries initializes the default dictionaries and creates tenant relationships
+// initDictionaries initializes the default dictionaries and creates space relationships
 func (s *Service) initDictionaries(ctx context.Context) error {
 	logger.Infof(ctx, "Initializing system dictionaries in %s mode...", s.state.DataMode)
 
-	tenant, err := s.getDefaultTenant(ctx)
+	space, err := s.getDefaultSpace(ctx)
 	if err != nil {
 		return err
 	}
@@ -48,13 +48,13 @@ func (s *Service) initDictionaries(ctx context.Context) error {
 		logger.Debugf(ctx, "Created dictionary: %s", dict.Name)
 		createdCount++
 
-		// Create tenant-dictionary relationship
-		_, err = s.ts.TenantDictionary.AddDictionaryToTenant(ctx, tenant.ID, created.ID)
+		// Create space-dictionary relationship
+		_, err = s.ts.SpaceDictionary.AddDictionaryToSpace(ctx, space.ID, created.ID)
 		if err != nil {
-			logger.Errorf(ctx, "Error linking dictionary %s to tenant %s: %v", created.ID, tenant.ID, err)
+			logger.Errorf(ctx, "Error linking dictionary %s to space %s: %v", created.ID, space.ID, err)
 			return err
 		}
-		logger.Debugf(ctx, "Linked dictionary %s to tenant %s", created.ID, tenant.ID)
+		logger.Debugf(ctx, "Linked dictionary %s to space %s", created.ID, space.ID)
 		relationshipCount++
 	}
 

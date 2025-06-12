@@ -1,8 +1,8 @@
 package structs
 
 import (
+	orgStructs "ncobase/organization/structs"
 	spaceStructs "ncobase/space/structs"
-	tenantStructs "ncobase/tenant/structs"
 	userStructs "ncobase/user/structs"
 
 	"github.com/ncobase/ncore/security/oauth"
@@ -25,7 +25,7 @@ type CommonRegisterBody struct {
 	Username    string `json:"username" validate:"required"`
 	Phone       string `json:"phone,omitempty"`
 	ShortBio    string `json:"short_bio,omitempty"`
-	Tenant      string `json:"tenant,omitempty"`
+	Space       string `json:"space,omitempty"`
 }
 
 // RegisterBody Register body
@@ -67,18 +67,18 @@ type RefreshTokenBody struct {
 
 // AccountMeshes represents the account meshes.
 type AccountMeshes struct {
-	User        *userStructs.ReadUser        `json:"user,omitempty"`
-	Profile     *userStructs.ReadUserProfile `json:"profile,omitempty"`
-	Tenants     []*tenantStructs.ReadTenant  `json:"tenants,omitempty"`
-	Groups      []*spaceStructs.ReadGroup    `json:"groups,omitempty"`
-	Roles       []string                     `json:"roles,omitempty"`
-	Permissions []string                     `json:"permissions,omitempty"`
-	IsAdmin     bool                         `json:"is_admin,omitempty"`
-	TenantID    string                       `json:"tenant_id,omitempty"`
+	User        *userStructs.ReadUser          `json:"user,omitempty"`
+	Profile     *userStructs.ReadUserProfile   `json:"profile,omitempty"`
+	Spaces      []*spaceStructs.ReadSpace      `json:"spaces,omitempty"`
+	Groups      []*orgStructs.ReadOrganization `json:"orgs,omitempty"`
+	Roles       []string                       `json:"roles,omitempty"`
+	Permissions []string                       `json:"permissions,omitempty"`
+	IsAdmin     bool                           `json:"is_admin,omitempty"`
+	SpaceID     string                         `json:"space_id,omitempty"`
 }
 
 // UserPassword represents the user password schema
 type UserPassword = userStructs.UserPassword
 
-// ReadTenant represents the tenant schema
-type ReadTenant = tenantStructs.ReadTenant
+// ReadSpace represents the space schema
+type ReadSpace = spaceStructs.ReadSpace

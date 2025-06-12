@@ -143,7 +143,7 @@ func (s *employeeService) CountX(ctx context.Context, params *structs.ListEmploy
 func (s *employeeService) Serialize(row *ent.Employee) *structs.ReadEmployee {
 	return &structs.ReadEmployee{
 		UserID:          row.ID,
-		TenantID:        row.TenantID,
+		SpaceID:         row.SpaceID,
 		EmployeeID:      row.EmployeeID,
 		Department:      row.Department,
 		Position:        row.Position,

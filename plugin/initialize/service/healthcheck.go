@@ -37,21 +37,21 @@ func (s *Service) PerformHealthcheck(ctx context.Context) (*HealthcheckResult, e
 		Items:  make([]HealthcheckItem, 0),
 	}
 
-	// Check tenants
-	tenant, err := s.ts.Tenant.GetBySlug(ctx, "digital-enterprise")
-	if err != nil || tenant == nil {
+	// Check spaces
+	space, err := s.ts.Space.GetBySlug(ctx, "digital-enterprise")
+	if err != nil || space == nil {
 		result.Items = append(result.Items, HealthcheckItem{
-			Component:   "tenants",
+			Component:   "spaces",
 			Status:      "error",
-			Description: "Default tenant check",
-			Error:       fmt.Sprintf("Default tenant not found: %v", err),
+			Description: "Default space check",
+			Error:       fmt.Sprintf("Default space not found: %v", err),
 		})
 		result.Status = "error"
 	} else {
 		result.Items = append(result.Items, HealthcheckItem{
-			Component:   "tenants",
+			Component:   "spaces",
 			Status:      "healthy",
-			Description: "Default tenant exists",
+			Description: "Default space exists",
 		})
 	}
 

@@ -158,13 +158,13 @@ var SystemDefaultPermissions = []accessStructs.CreatePermissionBody{
 		},
 	},
 
-	// Tenant management
+	// Space management
 	{
 		PermissionBody: accessStructs.PermissionBody{
-			Name:        "Tenant Management",
+			Name:        "Space Management",
 			Action:      "manage",
-			Subject:     "tenant",
-			Description: "Tenant management",
+			Subject:     "space",
+			Description: "Space management",
 		},
 	},
 
@@ -311,7 +311,7 @@ var RolePermissionMapping = map[string][]string{
 		"Role Management",
 		"Permission Management",
 		"Permission Read",
-		"Tenant Management",
+		"Space Management",
 		"Organization Read",
 		"Group Management",
 		"Group Read",

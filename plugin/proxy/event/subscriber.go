@@ -2,9 +2,9 @@ package event
 
 import (
 	"context"
+	orgStructs "ncobase/organization/structs"
 	"ncobase/proxy/wrapper"
 	spaceStructs "ncobase/space/structs"
-	tenantStructs "ncobase/tenant/structs"
 	userStructs "ncobase/user/structs"
 
 	ext "github.com/ncobase/ncore/extension/types"
@@ -16,8 +16,8 @@ type Subscriber struct {
 	publisher *Publisher
 
 	usw *wrapper.UserServiceWrapper
-	tsw *wrapper.TenantServiceWrapper
-	ssw *wrapper.SpaceServiceWrapper
+	tsw *wrapper.SpaceServiceWrapper
+	ssw *wrapper.OrganizationServiceWrapper
 	asw *wrapper.AccessServiceWrapper
 }
 
@@ -27,8 +27,8 @@ func NewSubscriber(
 	publisher *Publisher,
 ) *Subscriber {
 	usw := wrapper.NewUserServiceWrapper(em)
-	tsw := wrapper.NewTenantServiceWrapper(em)
-	ssw := wrapper.NewSpaceServiceWrapper(em)
+	tsw := wrapper.NewSpaceServiceWrapper(em)
+	ssw := wrapper.NewOrganizationServiceWrapper(em)
 	asw := wrapper.NewAccessServiceWrapper(em)
 	return &Subscriber{
 		publisher: publisher,
@@ -247,10 +247,10 @@ func (s *Subscriber) processPaymentUpdate(ctx context.Context, data *ProxyEventD
 		return
 	}
 
-	// Extract tenant ID to find matching tenant
-	tenantID, ok := paymentData["tenant_id"].(string)
-	if !ok || tenantID == "" {
-		logger.Warnf(ctx, "Missing tenant ID in payment data")
+	// Extract space ID to find matching space
+	spaceID, ok := paymentData["space_id"].(string)
+	if !ok || spaceID == "" {
+		logger.Warnf(ctx, "Missing space ID in payment data")
 		return
 	}
 
@@ -261,7 +261,7 @@ func (s *Subscriber) processPaymentUpdate(ctx context.Context, data *ProxyEventD
 		return
 	}
 
-	// Update tenant billing status based on payment result
+	// Update space billing status based on payment result
 	var billingStatus string
 	switch status {
 	case "succeeded":
@@ -274,7 +274,7 @@ func (s *Subscriber) processPaymentUpdate(ctx context.Context, data *ProxyEventD
 		billingStatus = "unknown"
 	}
 
-	// Update tenant
+	// Update space
 	extras := &map[string]any{
 		"billing_status": billingStatus,
 	}
@@ -287,13 +287,13 @@ func (s *Subscriber) processPaymentUpdate(ctx context.Context, data *ProxyEventD
 		(*extras)["last_payment_id"] = paymentID
 	}
 
-	_, err := s.tsw.UpdateTenant(ctx, &tenantStructs.UpdateTenantBody{ID: tenantID, TenantBody: tenantStructs.TenantBody{Extras: extras}})
+	_, err := s.tsw.UpdateSpace(ctx, &spaceStructs.UpdateSpaceBody{ID: spaceID, SpaceBody: spaceStructs.SpaceBody{Extras: extras}})
 	if err != nil {
-		logger.Errorf(ctx, "Failed to update tenant billing status: %v", err)
+		logger.Errorf(ctx, "Failed to update space billing status: %v", err)
 		return
 	}
 
-	logger.Infof(ctx, "Tenant %s billing status updated to %s", tenantID, billingStatus)
+	logger.Infof(ctx, "Space %s billing status updated to %s", spaceID, billingStatus)
 }
 
 // notifyMessageRecipients notifies message recipients
@@ -309,16 +309,16 @@ func (s *Subscriber) notifyMessageRecipients(ctx context.Context, data *ProxyEve
 	}
 
 	// Extract group ID
-	groupID, ok := messageData["group_id"].(string)
-	if !ok || groupID == "" {
+	orgID, ok := messageData["org_id"].(string)
+	if !ok || orgID == "" {
 		logger.Warnf(ctx, "Missing group ID in message data")
 		return
 	}
 
 	// Get the group to find members
-	_, err := s.ssw.GetGroup(ctx, &spaceStructs.FindGroup{Group: groupID})
+	_, err := s.ssw.GetOrganization(ctx, &orgStructs.FindOrganization{Organization: orgID})
 	if err != nil {
-		logger.Errorf(ctx, "Failed to find group %s: %v", groupID, err)
+		logger.Errorf(ctx, "Failed to find group %s: %v", orgID, err)
 		return
 	}
 
@@ -339,5 +339,5 @@ func (s *Subscriber) notifyMessageRecipients(ctx context.Context, data *ProxyEve
 	// Notify group members about the new message
 	// In a real implementation, this would use a notification service
 	logger.Infof(ctx, "New message in group %s from user %s: %s",
-		groupID, senderID, content[:min(len(content), 30)])
+		orgID, senderID, content[:min(len(content), 30)])
 }

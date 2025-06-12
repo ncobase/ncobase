@@ -602,23 +602,23 @@ func (nu *NodeUpdate) ClearExtras() *NodeUpdate {
 	return nu
 }
 
-// SetTenantID sets the "tenant_id" field.
-func (nu *NodeUpdate) SetTenantID(s string) *NodeUpdate {
-	nu.mutation.SetTenantID(s)
+// SetSpaceID sets the "space_id" field.
+func (nu *NodeUpdate) SetSpaceID(s string) *NodeUpdate {
+	nu.mutation.SetSpaceID(s)
 	return nu
 }
 
-// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
-func (nu *NodeUpdate) SetNillableTenantID(s *string) *NodeUpdate {
+// SetNillableSpaceID sets the "space_id" field if the given value is not nil.
+func (nu *NodeUpdate) SetNillableSpaceID(s *string) *NodeUpdate {
 	if s != nil {
-		nu.SetTenantID(*s)
+		nu.SetSpaceID(*s)
 	}
 	return nu
 }
 
-// ClearTenantID clears the value of the "tenant_id" field.
-func (nu *NodeUpdate) ClearTenantID() *NodeUpdate {
-	nu.mutation.ClearTenantID()
+// ClearSpaceID clears the value of the "space_id" field.
+func (nu *NodeUpdate) ClearSpaceID() *NodeUpdate {
+	nu.mutation.ClearSpaceID()
 	return nu
 }
 
@@ -1187,11 +1187,11 @@ func (nu *NodeUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if nu.mutation.ExtrasCleared() {
 		_spec.ClearField(node.FieldExtras, field.TypeJSON)
 	}
-	if value, ok := nu.mutation.TenantID(); ok {
-		_spec.SetField(node.FieldTenantID, field.TypeString, value)
+	if value, ok := nu.mutation.SpaceID(); ok {
+		_spec.SetField(node.FieldSpaceID, field.TypeString, value)
 	}
-	if nu.mutation.TenantIDCleared() {
-		_spec.ClearField(node.FieldTenantID, field.TypeString)
+	if nu.mutation.SpaceIDCleared() {
+		_spec.ClearField(node.FieldSpaceID, field.TypeString)
 	}
 	if value, ok := nu.mutation.CreatedBy(); ok {
 		_spec.SetField(node.FieldCreatedBy, field.TypeString, value)
@@ -1932,23 +1932,23 @@ func (nuo *NodeUpdateOne) ClearExtras() *NodeUpdateOne {
 	return nuo
 }
 
-// SetTenantID sets the "tenant_id" field.
-func (nuo *NodeUpdateOne) SetTenantID(s string) *NodeUpdateOne {
-	nuo.mutation.SetTenantID(s)
+// SetSpaceID sets the "space_id" field.
+func (nuo *NodeUpdateOne) SetSpaceID(s string) *NodeUpdateOne {
+	nuo.mutation.SetSpaceID(s)
 	return nuo
 }
 
-// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
-func (nuo *NodeUpdateOne) SetNillableTenantID(s *string) *NodeUpdateOne {
+// SetNillableSpaceID sets the "space_id" field if the given value is not nil.
+func (nuo *NodeUpdateOne) SetNillableSpaceID(s *string) *NodeUpdateOne {
 	if s != nil {
-		nuo.SetTenantID(*s)
+		nuo.SetSpaceID(*s)
 	}
 	return nuo
 }
 
-// ClearTenantID clears the value of the "tenant_id" field.
-func (nuo *NodeUpdateOne) ClearTenantID() *NodeUpdateOne {
-	nuo.mutation.ClearTenantID()
+// ClearSpaceID clears the value of the "space_id" field.
+func (nuo *NodeUpdateOne) ClearSpaceID() *NodeUpdateOne {
+	nuo.mutation.ClearSpaceID()
 	return nuo
 }
 
@@ -2547,11 +2547,11 @@ func (nuo *NodeUpdateOne) sqlSave(ctx context.Context) (_node *Node, err error) 
 	if nuo.mutation.ExtrasCleared() {
 		_spec.ClearField(node.FieldExtras, field.TypeJSON)
 	}
-	if value, ok := nuo.mutation.TenantID(); ok {
-		_spec.SetField(node.FieldTenantID, field.TypeString, value)
+	if value, ok := nuo.mutation.SpaceID(); ok {
+		_spec.SetField(node.FieldSpaceID, field.TypeString, value)
 	}
-	if nuo.mutation.TenantIDCleared() {
-		_spec.ClearField(node.FieldTenantID, field.TypeString)
+	if nuo.mutation.SpaceIDCleared() {
+		_spec.ClearField(node.FieldSpaceID, field.TypeString)
 	}
 	if value, ok := nuo.mutation.CreatedBy(); ok {
 		_spec.SetField(node.FieldCreatedBy, field.TypeString, value)

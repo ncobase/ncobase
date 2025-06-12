@@ -3,14 +3,14 @@ package service
 import (
 	"context"
 	"fmt"
-	tenantStructs "ncobase/tenant/structs"
+	spaceStructs "ncobase/space/structs"
 	userStructs "ncobase/user/structs"
 
 	"github.com/ncobase/ncore/logging/logger"
 )
 
-// getDefaultTenantSlug returns default tenant slug based on mode
-func (s *Service) getDefaultTenantSlug() string {
+// getDefaultSpaceSlug returns default space slug based on mode
+func (s *Service) getDefaultSpaceSlug() string {
 	switch s.state.DataMode {
 	case "website":
 		return "website-platform"
@@ -23,16 +23,16 @@ func (s *Service) getDefaultTenantSlug() string {
 	}
 }
 
-// getDefaultTenant retrieves default tenant based on mode
-func (s *Service) getDefaultTenant(ctx context.Context) (*tenantStructs.ReadTenant, error) {
-	tenantSlug := s.getDefaultTenantSlug()
+// getDefaultSpace retrieves default space based on mode
+func (s *Service) getDefaultSpace(ctx context.Context) (*spaceStructs.ReadSpace, error) {
+	spaceSlug := s.getDefaultSpaceSlug()
 
-	tenant, err := s.ts.Tenant.GetBySlug(ctx, tenantSlug)
+	space, err := s.ts.Space.GetBySlug(ctx, spaceSlug)
 	if err != nil {
-		return nil, fmt.Errorf("failed to get default tenant '%s': %v", tenantSlug, err)
+		return nil, fmt.Errorf("failed to get default space '%s': %v", spaceSlug, err)
 	}
 
-	return tenant, nil
+	return space, nil
 }
 
 // getAdminUser retrieves admin user based on mode

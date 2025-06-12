@@ -581,7 +581,7 @@ func (e *RetryExecutor) getBackoffDuration(attempt int, opts *RetryOptions) time
 
 // Advanced retry features
 
-// RetryGroup represents a group of retryable operations
+// RetryGroup represents a organization of retryable operations
 type RetryGroup struct {
 	executor *RetryExecutor
 	ctx      context.Context

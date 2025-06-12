@@ -199,23 +199,23 @@ func (pcu *PaymentChannelUpdate) SetConfig(m map[string]interface{}) *PaymentCha
 	return pcu
 }
 
-// SetTenantID sets the "tenant_id" field.
-func (pcu *PaymentChannelUpdate) SetTenantID(s string) *PaymentChannelUpdate {
-	pcu.mutation.SetTenantID(s)
+// SetSpaceID sets the "space_id" field.
+func (pcu *PaymentChannelUpdate) SetSpaceID(s string) *PaymentChannelUpdate {
+	pcu.mutation.SetSpaceID(s)
 	return pcu
 }
 
-// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
-func (pcu *PaymentChannelUpdate) SetNillableTenantID(s *string) *PaymentChannelUpdate {
+// SetNillableSpaceID sets the "space_id" field if the given value is not nil.
+func (pcu *PaymentChannelUpdate) SetNillableSpaceID(s *string) *PaymentChannelUpdate {
 	if s != nil {
-		pcu.SetTenantID(*s)
+		pcu.SetSpaceID(*s)
 	}
 	return pcu
 }
 
-// ClearTenantID clears the value of the "tenant_id" field.
-func (pcu *PaymentChannelUpdate) ClearTenantID() *PaymentChannelUpdate {
-	pcu.mutation.ClearTenantID()
+// ClearSpaceID clears the value of the "space_id" field.
+func (pcu *PaymentChannelUpdate) ClearSpaceID() *PaymentChannelUpdate {
+	pcu.mutation.ClearSpaceID()
 	return pcu
 }
 
@@ -344,11 +344,11 @@ func (pcu *PaymentChannelUpdate) sqlSave(ctx context.Context) (n int, err error)
 	if value, ok := pcu.mutation.Config(); ok {
 		_spec.SetField(paymentchannel.FieldConfig, field.TypeJSON, value)
 	}
-	if value, ok := pcu.mutation.TenantID(); ok {
-		_spec.SetField(paymentchannel.FieldTenantID, field.TypeString, value)
+	if value, ok := pcu.mutation.SpaceID(); ok {
+		_spec.SetField(paymentchannel.FieldSpaceID, field.TypeString, value)
 	}
-	if pcu.mutation.TenantIDCleared() {
-		_spec.ClearField(paymentchannel.FieldTenantID, field.TypeString)
+	if pcu.mutation.SpaceIDCleared() {
+		_spec.ClearField(paymentchannel.FieldSpaceID, field.TypeString)
 	}
 	if n, err = sqlgraph.UpdateNodes(ctx, pcu.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
@@ -541,23 +541,23 @@ func (pcuo *PaymentChannelUpdateOne) SetConfig(m map[string]interface{}) *Paymen
 	return pcuo
 }
 
-// SetTenantID sets the "tenant_id" field.
-func (pcuo *PaymentChannelUpdateOne) SetTenantID(s string) *PaymentChannelUpdateOne {
-	pcuo.mutation.SetTenantID(s)
+// SetSpaceID sets the "space_id" field.
+func (pcuo *PaymentChannelUpdateOne) SetSpaceID(s string) *PaymentChannelUpdateOne {
+	pcuo.mutation.SetSpaceID(s)
 	return pcuo
 }
 
-// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
-func (pcuo *PaymentChannelUpdateOne) SetNillableTenantID(s *string) *PaymentChannelUpdateOne {
+// SetNillableSpaceID sets the "space_id" field if the given value is not nil.
+func (pcuo *PaymentChannelUpdateOne) SetNillableSpaceID(s *string) *PaymentChannelUpdateOne {
 	if s != nil {
-		pcuo.SetTenantID(*s)
+		pcuo.SetSpaceID(*s)
 	}
 	return pcuo
 }
 
-// ClearTenantID clears the value of the "tenant_id" field.
-func (pcuo *PaymentChannelUpdateOne) ClearTenantID() *PaymentChannelUpdateOne {
-	pcuo.mutation.ClearTenantID()
+// ClearSpaceID clears the value of the "space_id" field.
+func (pcuo *PaymentChannelUpdateOne) ClearSpaceID() *PaymentChannelUpdateOne {
+	pcuo.mutation.ClearSpaceID()
 	return pcuo
 }
 
@@ -716,11 +716,11 @@ func (pcuo *PaymentChannelUpdateOne) sqlSave(ctx context.Context) (_node *Paymen
 	if value, ok := pcuo.mutation.Config(); ok {
 		_spec.SetField(paymentchannel.FieldConfig, field.TypeJSON, value)
 	}
-	if value, ok := pcuo.mutation.TenantID(); ok {
-		_spec.SetField(paymentchannel.FieldTenantID, field.TypeString, value)
+	if value, ok := pcuo.mutation.SpaceID(); ok {
+		_spec.SetField(paymentchannel.FieldSpaceID, field.TypeString, value)
 	}
-	if pcuo.mutation.TenantIDCleared() {
-		_spec.ClearField(paymentchannel.FieldTenantID, field.TypeString)
+	if pcuo.mutation.SpaceIDCleared() {
+		_spec.ClearField(paymentchannel.FieldSpaceID, field.TypeString)
 	}
 	_node = &PaymentChannel{config: pcuo.config}
 	_spec.Assign = _node.assignValues

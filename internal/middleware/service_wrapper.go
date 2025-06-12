@@ -5,7 +5,7 @@ import (
 	"fmt"
 	accessStructs "ncobase/access/structs"
 	authStructs "ncobase/auth/structs"
-	tenantStructs "ncobase/tenant/structs"
+	spaceStructs "ncobase/space/structs"
 	userStructs "ncobase/user/structs"
 	"sync"
 
@@ -21,7 +21,7 @@ type ServiceManager struct {
 	authSvc   *AuthServiceWrapper
 	userSvc   *UserServiceWrapper
 	accessSvc *AccessServiceWrapper
-	tenantSvc *TenantServiceWrapper
+	spaceSvc  *SpaceServiceWrapper
 	once      sync.Once
 }
 
@@ -56,10 +56,10 @@ func (sm *ServiceManager) AccessServiceWrapper() *AccessServiceWrapper {
 	return sm.accessSvc
 }
 
-// TenantServiceWrapper returns tenant service wrapper
-func (sm *ServiceManager) TenantServiceWrapper() *TenantServiceWrapper {
+// SpaceServiceWrapper returns space service wrapper
+func (sm *ServiceManager) SpaceServiceWrapper() *SpaceServiceWrapper {
 	sm.once.Do(sm.initServices)
-	return sm.tenantSvc
+	return sm.spaceSvc
 }
 
 // initServices initializes all service wrappers
@@ -67,7 +67,7 @@ func (sm *ServiceManager) initServices() {
 	sm.authSvc = &AuthServiceWrapper{em: sm.em}
 	sm.userSvc = &UserServiceWrapper{em: sm.em}
 	sm.accessSvc = &AccessServiceWrapper{em: sm.em}
-	sm.tenantSvc = &TenantServiceWrapper{em: sm.em}
+	sm.spaceSvc = &SpaceServiceWrapper{em: sm.em}
 }
 
 // AuthServiceWrapper wraps auth service calls
@@ -217,16 +217,16 @@ func (w *AccessServiceWrapper) GetUserRoles(ctx context.Context, userID string) 
 	return nil, fmt.Errorf("user role service not available")
 }
 
-// GetUserRolesInTenant gets user roles in tenant
-func (w *AccessServiceWrapper) GetUserRolesInTenant(ctx context.Context, userID, tenantID string) ([]string, error) {
-	if svc, err := w.em.GetCrossService("access", "UserTenantRole"); err == nil {
+// GetUserRolesInSpace gets user roles in space
+func (w *AccessServiceWrapper) GetUserRolesInSpace(ctx context.Context, userID, spaceID string) ([]string, error) {
+	if svc, err := w.em.GetCrossService("access", "UserSpaceRole"); err == nil {
 		if service, ok := svc.(interface {
-			GetUserRolesInTenant(context.Context, string, string) ([]string, error)
+			GetUserRolesInSpace(context.Context, string, string) ([]string, error)
 		}); ok {
-			return service.GetUserRolesInTenant(ctx, userID, tenantID)
+			return service.GetUserRolesInSpace(ctx, userID, spaceID)
 		}
 	}
-	return nil, fmt.Errorf("user tenant role service not available")
+	return nil, fmt.Errorf("user space role service not available")
 }
 
 // GetRolesByIDs gets roles by IDs
@@ -265,55 +265,55 @@ func (w *AccessServiceWrapper) GetEnforcer() *casbin.Enforcer {
 	return nil
 }
 
-// TenantServiceWrapper wraps tenant service calls
-type TenantServiceWrapper struct {
+// SpaceServiceWrapper wraps space service calls
+type SpaceServiceWrapper struct {
 	em ext.ManagerInterface
 }
 
-// GetUserTenants gets user tenants
-func (w *TenantServiceWrapper) GetUserTenants(ctx context.Context, userID string) ([]*tenantStructs.ReadTenant, error) {
-	if svc, err := w.em.GetCrossService("tenant", "UserTenant"); err == nil {
+// GetUserSpaces gets user spaces
+func (w *SpaceServiceWrapper) GetUserSpaces(ctx context.Context, userID string) ([]*spaceStructs.ReadSpace, error) {
+	if svc, err := w.em.GetCrossService("space", "UserSpace"); err == nil {
 		if service, ok := svc.(interface {
-			UserBelongTenants(context.Context, string) ([]*tenantStructs.ReadTenant, error)
+			UserBelongSpaces(context.Context, string) ([]*spaceStructs.ReadSpace, error)
 		}); ok {
-			return service.UserBelongTenants(ctx, userID)
+			return service.UserBelongSpaces(ctx, userID)
 		}
 	}
-	return nil, fmt.Errorf("user tenant service not available")
+	return nil, fmt.Errorf("user space service not available")
 }
 
-// GetUserDefaultTenant gets user default tenant
-func (w *TenantServiceWrapper) GetUserDefaultTenant(ctx context.Context, userID string) (*tenantStructs.ReadTenant, error) {
-	if svc, err := w.em.GetCrossService("tenant", "UserTenant"); err == nil {
+// GetUserDefaultSpace gets user default space
+func (w *SpaceServiceWrapper) GetUserDefaultSpace(ctx context.Context, userID string) (*spaceStructs.ReadSpace, error) {
+	if svc, err := w.em.GetCrossService("space", "UserSpace"); err == nil {
 		if service, ok := svc.(interface {
-			UserBelongTenant(context.Context, string) (*tenantStructs.ReadTenant, error)
+			UserBelongSpace(context.Context, string) (*spaceStructs.ReadSpace, error)
 		}); ok {
-			return service.UserBelongTenant(ctx, userID)
+			return service.UserBelongSpace(ctx, userID)
 		}
 	}
-	return nil, fmt.Errorf("user tenant service not available")
+	return nil, fmt.Errorf("user space service not available")
 }
 
-// IsTenantInUser checks if tenant belongs to user
-func (w *TenantServiceWrapper) IsTenantInUser(ctx context.Context, tenantID, userID string) (bool, error) {
-	if svc, err := w.em.GetCrossService("tenant", "UserTenant"); err == nil {
+// IsSpaceInUser checks if space belongs to user
+func (w *SpaceServiceWrapper) IsSpaceInUser(ctx context.Context, spaceID, userID string) (bool, error) {
+	if svc, err := w.em.GetCrossService("space", "UserSpace"); err == nil {
 		if service, ok := svc.(interface {
-			IsTenantInUser(context.Context, string, string) (bool, error)
+			IsSpaceInUser(context.Context, string, string) (bool, error)
 		}); ok {
-			return service.IsTenantInUser(ctx, tenantID, userID)
+			return service.IsSpaceInUser(ctx, spaceID, userID)
 		}
 	}
-	return false, fmt.Errorf("user tenant service not available")
+	return false, fmt.Errorf("user space service not available")
 }
 
-// ListTenants lists tenants
-func (w *TenantServiceWrapper) ListTenants(ctx context.Context, params *tenantStructs.ListTenantParams) (paging.Result[*tenantStructs.ReadTenant], error) {
-	if svc, err := w.em.GetCrossService("tenant", "Tenant"); err == nil {
+// ListSpaces lists spaces
+func (w *SpaceServiceWrapper) ListSpaces(ctx context.Context, params *spaceStructs.ListSpaceParams) (paging.Result[*spaceStructs.ReadSpace], error) {
+	if svc, err := w.em.GetCrossService("space", "Space"); err == nil {
 		if service, ok := svc.(interface {
-			List(context.Context, *tenantStructs.ListTenantParams) (paging.Result[*tenantStructs.ReadTenant], error)
+			List(context.Context, *spaceStructs.ListSpaceParams) (paging.Result[*spaceStructs.ReadSpace], error)
 		}); ok {
 			return service.List(ctx, params)
 		}
 	}
-	return paging.Result[*tenantStructs.ReadTenant]{}, fmt.Errorf("tenant service not available")
+	return paging.Result[*spaceStructs.ReadSpace]{}, fmt.Errorf("space service not available")
 }

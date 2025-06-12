@@ -246,7 +246,7 @@ func (r *taxonomyRepository) Update(ctx context.Context, slug string, updates ty
 // // List get taxonomy list
 // func (r *taxonomyRepository) List(ctx context.Context, params *structs.ListTaxonomyParams) ([]*ent.Taxonomy, error) {
 // 	// Generate cache key based on query parameters
-// 	// cacheKey := fmt.Sprintf("list_taxonomy_%s_%d_%s_%s", params.Cursor, params.Limit, params.TenantID, params.Type)
+// 	// cacheKey := fmt.Sprintf("list_taxonomy_%s_%d_%s_%s", params.Cursor, params.Limit, params.SpaceID, params.Type)
 //
 // 	// // check cache first
 // 	// cachedResult, err := r.c.Get(ctx, cacheKey)
@@ -308,7 +308,7 @@ func (r *taxonomyRepository) Update(ctx context.Context, slug string, updates ty
 //
 // 	builder.Limit(params.Limit)
 //
-// 	// belong space / tenant
+// 	// belong space / space
 // 	if params.SpaceID != "" {
 // 		builder.Where(taxonomyEnt.SpaceIDEQ(params.SpaceID))
 // 	}

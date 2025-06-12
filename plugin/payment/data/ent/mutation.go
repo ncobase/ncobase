@@ -56,7 +56,7 @@ type PaymentChannelMutation struct {
 	supported_types       *[]string
 	appendsupported_types []string
 	_config               *map[string]interface{}
-	tenant_id             *string
+	space_id              *string
 	clearedFields         map[string]struct{}
 	done                  bool
 	oldValue              func(context.Context) (*PaymentChannel, error)
@@ -747,53 +747,53 @@ func (m *PaymentChannelMutation) ResetConfig() {
 	m._config = nil
 }
 
-// SetTenantID sets the "tenant_id" field.
-func (m *PaymentChannelMutation) SetTenantID(s string) {
-	m.tenant_id = &s
+// SetSpaceID sets the "space_id" field.
+func (m *PaymentChannelMutation) SetSpaceID(s string) {
+	m.space_id = &s
 }
 
-// TenantID returns the value of the "tenant_id" field in the mutation.
-func (m *PaymentChannelMutation) TenantID() (r string, exists bool) {
-	v := m.tenant_id
+// SpaceID returns the value of the "space_id" field in the mutation.
+func (m *PaymentChannelMutation) SpaceID() (r string, exists bool) {
+	v := m.space_id
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldTenantID returns the old "tenant_id" field's value of the PaymentChannel entity.
+// OldSpaceID returns the old "space_id" field's value of the PaymentChannel entity.
 // If the PaymentChannel object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *PaymentChannelMutation) OldTenantID(ctx context.Context) (v string, err error) {
+func (m *PaymentChannelMutation) OldSpaceID(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldTenantID is only allowed on UpdateOne operations")
+		return v, errors.New("OldSpaceID is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldTenantID requires an ID field in the mutation")
+		return v, errors.New("OldSpaceID requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldTenantID: %w", err)
+		return v, fmt.Errorf("querying old value for OldSpaceID: %w", err)
 	}
-	return oldValue.TenantID, nil
+	return oldValue.SpaceID, nil
 }
 
-// ClearTenantID clears the value of the "tenant_id" field.
-func (m *PaymentChannelMutation) ClearTenantID() {
-	m.tenant_id = nil
-	m.clearedFields[paymentchannel.FieldTenantID] = struct{}{}
+// ClearSpaceID clears the value of the "space_id" field.
+func (m *PaymentChannelMutation) ClearSpaceID() {
+	m.space_id = nil
+	m.clearedFields[paymentchannel.FieldSpaceID] = struct{}{}
 }
 
-// TenantIDCleared returns if the "tenant_id" field was cleared in this mutation.
-func (m *PaymentChannelMutation) TenantIDCleared() bool {
-	_, ok := m.clearedFields[paymentchannel.FieldTenantID]
+// SpaceIDCleared returns if the "space_id" field was cleared in this mutation.
+func (m *PaymentChannelMutation) SpaceIDCleared() bool {
+	_, ok := m.clearedFields[paymentchannel.FieldSpaceID]
 	return ok
 }
 
-// ResetTenantID resets all changes to the "tenant_id" field.
-func (m *PaymentChannelMutation) ResetTenantID() {
-	m.tenant_id = nil
-	delete(m.clearedFields, paymentchannel.FieldTenantID)
+// ResetSpaceID resets all changes to the "space_id" field.
+func (m *PaymentChannelMutation) ResetSpaceID() {
+	m.space_id = nil
+	delete(m.clearedFields, paymentchannel.FieldSpaceID)
 }
 
 // Where appends a list predicates to the PaymentChannelMutation builder.
@@ -867,8 +867,8 @@ func (m *PaymentChannelMutation) Fields() []string {
 	if m._config != nil {
 		fields = append(fields, paymentchannel.FieldConfig)
 	}
-	if m.tenant_id != nil {
-		fields = append(fields, paymentchannel.FieldTenantID)
+	if m.space_id != nil {
+		fields = append(fields, paymentchannel.FieldSpaceID)
 	}
 	return fields
 }
@@ -902,8 +902,8 @@ func (m *PaymentChannelMutation) Field(name string) (ent.Value, bool) {
 		return m.SupportedTypes()
 	case paymentchannel.FieldConfig:
 		return m.Config()
-	case paymentchannel.FieldTenantID:
-		return m.TenantID()
+	case paymentchannel.FieldSpaceID:
+		return m.SpaceID()
 	}
 	return nil, false
 }
@@ -937,8 +937,8 @@ func (m *PaymentChannelMutation) OldField(ctx context.Context, name string) (ent
 		return m.OldSupportedTypes(ctx)
 	case paymentchannel.FieldConfig:
 		return m.OldConfig(ctx)
-	case paymentchannel.FieldTenantID:
-		return m.OldTenantID(ctx)
+	case paymentchannel.FieldSpaceID:
+		return m.OldSpaceID(ctx)
 	}
 	return nil, fmt.Errorf("unknown PaymentChannel field %s", name)
 }
@@ -1032,12 +1032,12 @@ func (m *PaymentChannelMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetConfig(v)
 		return nil
-	case paymentchannel.FieldTenantID:
+	case paymentchannel.FieldSpaceID:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetTenantID(v)
+		m.SetSpaceID(v)
 		return nil
 	}
 	return fmt.Errorf("unknown PaymentChannel field %s", name)
@@ -1117,8 +1117,8 @@ func (m *PaymentChannelMutation) ClearedFields() []string {
 	if m.FieldCleared(paymentchannel.FieldUpdatedAt) {
 		fields = append(fields, paymentchannel.FieldUpdatedAt)
 	}
-	if m.FieldCleared(paymentchannel.FieldTenantID) {
-		fields = append(fields, paymentchannel.FieldTenantID)
+	if m.FieldCleared(paymentchannel.FieldSpaceID) {
+		fields = append(fields, paymentchannel.FieldSpaceID)
 	}
 	return fields
 }
@@ -1155,8 +1155,8 @@ func (m *PaymentChannelMutation) ClearField(name string) error {
 	case paymentchannel.FieldUpdatedAt:
 		m.ClearUpdatedAt()
 		return nil
-	case paymentchannel.FieldTenantID:
-		m.ClearTenantID()
+	case paymentchannel.FieldSpaceID:
+		m.ClearSpaceID()
 		return nil
 	}
 	return fmt.Errorf("unknown PaymentChannel nullable field %s", name)
@@ -1202,8 +1202,8 @@ func (m *PaymentChannelMutation) ResetField(name string) error {
 	case paymentchannel.FieldConfig:
 		m.ResetConfig()
 		return nil
-	case paymentchannel.FieldTenantID:
-		m.ResetTenantID()
+	case paymentchannel.FieldSpaceID:
+		m.ResetSpaceID()
 		return nil
 	}
 	return fmt.Errorf("unknown PaymentChannel field %s", name)
@@ -2649,7 +2649,7 @@ type PaymentOrderMutation struct {
 	_type           *string
 	channel_id      *string
 	user_id         *string
-	tenant_id       *string
+	space_id        *string
 	product_id      *string
 	subscription_id *string
 	expires_at      *time.Time
@@ -3328,53 +3328,53 @@ func (m *PaymentOrderMutation) ResetUserID() {
 	m.user_id = nil
 }
 
-// SetTenantID sets the "tenant_id" field.
-func (m *PaymentOrderMutation) SetTenantID(s string) {
-	m.tenant_id = &s
+// SetSpaceID sets the "space_id" field.
+func (m *PaymentOrderMutation) SetSpaceID(s string) {
+	m.space_id = &s
 }
 
-// TenantID returns the value of the "tenant_id" field in the mutation.
-func (m *PaymentOrderMutation) TenantID() (r string, exists bool) {
-	v := m.tenant_id
+// SpaceID returns the value of the "space_id" field in the mutation.
+func (m *PaymentOrderMutation) SpaceID() (r string, exists bool) {
+	v := m.space_id
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldTenantID returns the old "tenant_id" field's value of the PaymentOrder entity.
+// OldSpaceID returns the old "space_id" field's value of the PaymentOrder entity.
 // If the PaymentOrder object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *PaymentOrderMutation) OldTenantID(ctx context.Context) (v string, err error) {
+func (m *PaymentOrderMutation) OldSpaceID(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldTenantID is only allowed on UpdateOne operations")
+		return v, errors.New("OldSpaceID is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldTenantID requires an ID field in the mutation")
+		return v, errors.New("OldSpaceID requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldTenantID: %w", err)
+		return v, fmt.Errorf("querying old value for OldSpaceID: %w", err)
 	}
-	return oldValue.TenantID, nil
+	return oldValue.SpaceID, nil
 }
 
-// ClearTenantID clears the value of the "tenant_id" field.
-func (m *PaymentOrderMutation) ClearTenantID() {
-	m.tenant_id = nil
-	m.clearedFields[paymentorder.FieldTenantID] = struct{}{}
+// ClearSpaceID clears the value of the "space_id" field.
+func (m *PaymentOrderMutation) ClearSpaceID() {
+	m.space_id = nil
+	m.clearedFields[paymentorder.FieldSpaceID] = struct{}{}
 }
 
-// TenantIDCleared returns if the "tenant_id" field was cleared in this mutation.
-func (m *PaymentOrderMutation) TenantIDCleared() bool {
-	_, ok := m.clearedFields[paymentorder.FieldTenantID]
+// SpaceIDCleared returns if the "space_id" field was cleared in this mutation.
+func (m *PaymentOrderMutation) SpaceIDCleared() bool {
+	_, ok := m.clearedFields[paymentorder.FieldSpaceID]
 	return ok
 }
 
-// ResetTenantID resets all changes to the "tenant_id" field.
-func (m *PaymentOrderMutation) ResetTenantID() {
-	m.tenant_id = nil
-	delete(m.clearedFields, paymentorder.FieldTenantID)
+// ResetSpaceID resets all changes to the "space_id" field.
+func (m *PaymentOrderMutation) ResetSpaceID() {
+	m.space_id = nil
+	delete(m.clearedFields, paymentorder.FieldSpaceID)
 }
 
 // SetProductID sets the "product_id" field.
@@ -3783,8 +3783,8 @@ func (m *PaymentOrderMutation) Fields() []string {
 	if m.user_id != nil {
 		fields = append(fields, paymentorder.FieldUserID)
 	}
-	if m.tenant_id != nil {
-		fields = append(fields, paymentorder.FieldTenantID)
+	if m.space_id != nil {
+		fields = append(fields, paymentorder.FieldSpaceID)
 	}
 	if m.product_id != nil {
 		fields = append(fields, paymentorder.FieldProductID)
@@ -3836,8 +3836,8 @@ func (m *PaymentOrderMutation) Field(name string) (ent.Value, bool) {
 		return m.ChannelID()
 	case paymentorder.FieldUserID:
 		return m.UserID()
-	case paymentorder.FieldTenantID:
-		return m.TenantID()
+	case paymentorder.FieldSpaceID:
+		return m.SpaceID()
 	case paymentorder.FieldProductID:
 		return m.ProductID()
 	case paymentorder.FieldSubscriptionID:
@@ -3883,8 +3883,8 @@ func (m *PaymentOrderMutation) OldField(ctx context.Context, name string) (ent.V
 		return m.OldChannelID(ctx)
 	case paymentorder.FieldUserID:
 		return m.OldUserID(ctx)
-	case paymentorder.FieldTenantID:
-		return m.OldTenantID(ctx)
+	case paymentorder.FieldSpaceID:
+		return m.OldSpaceID(ctx)
 	case paymentorder.FieldProductID:
 		return m.OldProductID(ctx)
 	case paymentorder.FieldSubscriptionID:
@@ -3990,12 +3990,12 @@ func (m *PaymentOrderMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetUserID(v)
 		return nil
-	case paymentorder.FieldTenantID:
+	case paymentorder.FieldSpaceID:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetTenantID(v)
+		m.SetSpaceID(v)
 		return nil
 	case paymentorder.FieldProductID:
 		v, ok := value.(string)
@@ -4123,8 +4123,8 @@ func (m *PaymentOrderMutation) ClearedFields() []string {
 	if m.FieldCleared(paymentorder.FieldUpdatedAt) {
 		fields = append(fields, paymentorder.FieldUpdatedAt)
 	}
-	if m.FieldCleared(paymentorder.FieldTenantID) {
-		fields = append(fields, paymentorder.FieldTenantID)
+	if m.FieldCleared(paymentorder.FieldSpaceID) {
+		fields = append(fields, paymentorder.FieldSpaceID)
 	}
 	if m.FieldCleared(paymentorder.FieldProductID) {
 		fields = append(fields, paymentorder.FieldProductID)
@@ -4170,8 +4170,8 @@ func (m *PaymentOrderMutation) ClearField(name string) error {
 	case paymentorder.FieldUpdatedAt:
 		m.ClearUpdatedAt()
 		return nil
-	case paymentorder.FieldTenantID:
-		m.ClearTenantID()
+	case paymentorder.FieldSpaceID:
+		m.ClearSpaceID()
 		return nil
 	case paymentorder.FieldProductID:
 		m.ClearProductID()
@@ -4232,8 +4232,8 @@ func (m *PaymentOrderMutation) ResetField(name string) error {
 	case paymentorder.FieldUserID:
 		m.ResetUserID()
 		return nil
-	case paymentorder.FieldTenantID:
-		m.ResetTenantID()
+	case paymentorder.FieldSpaceID:
+		m.ResetSpaceID()
 		return nil
 	case paymentorder.FieldProductID:
 		m.ResetProductID()
@@ -4366,7 +4366,7 @@ type PaymentProductMutation struct {
 	addtrial_days        *int
 	features             *[]string
 	appendfeatures       []string
-	tenant_id            *string
+	space_id             *string
 	clearedFields        map[string]struct{}
 	subscriptions        map[string]struct{}
 	removedsubscriptions map[string]struct{}
@@ -5185,53 +5185,53 @@ func (m *PaymentProductMutation) ResetFeatures() {
 	m.appendfeatures = nil
 }
 
-// SetTenantID sets the "tenant_id" field.
-func (m *PaymentProductMutation) SetTenantID(s string) {
-	m.tenant_id = &s
+// SetSpaceID sets the "space_id" field.
+func (m *PaymentProductMutation) SetSpaceID(s string) {
+	m.space_id = &s
 }
 
-// TenantID returns the value of the "tenant_id" field in the mutation.
-func (m *PaymentProductMutation) TenantID() (r string, exists bool) {
-	v := m.tenant_id
+// SpaceID returns the value of the "space_id" field in the mutation.
+func (m *PaymentProductMutation) SpaceID() (r string, exists bool) {
+	v := m.space_id
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldTenantID returns the old "tenant_id" field's value of the PaymentProduct entity.
+// OldSpaceID returns the old "space_id" field's value of the PaymentProduct entity.
 // If the PaymentProduct object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *PaymentProductMutation) OldTenantID(ctx context.Context) (v string, err error) {
+func (m *PaymentProductMutation) OldSpaceID(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldTenantID is only allowed on UpdateOne operations")
+		return v, errors.New("OldSpaceID is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldTenantID requires an ID field in the mutation")
+		return v, errors.New("OldSpaceID requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldTenantID: %w", err)
+		return v, fmt.Errorf("querying old value for OldSpaceID: %w", err)
 	}
-	return oldValue.TenantID, nil
+	return oldValue.SpaceID, nil
 }
 
-// ClearTenantID clears the value of the "tenant_id" field.
-func (m *PaymentProductMutation) ClearTenantID() {
-	m.tenant_id = nil
-	m.clearedFields[paymentproduct.FieldTenantID] = struct{}{}
+// ClearSpaceID clears the value of the "space_id" field.
+func (m *PaymentProductMutation) ClearSpaceID() {
+	m.space_id = nil
+	m.clearedFields[paymentproduct.FieldSpaceID] = struct{}{}
 }
 
-// TenantIDCleared returns if the "tenant_id" field was cleared in this mutation.
-func (m *PaymentProductMutation) TenantIDCleared() bool {
-	_, ok := m.clearedFields[paymentproduct.FieldTenantID]
+// SpaceIDCleared returns if the "space_id" field was cleared in this mutation.
+func (m *PaymentProductMutation) SpaceIDCleared() bool {
+	_, ok := m.clearedFields[paymentproduct.FieldSpaceID]
 	return ok
 }
 
-// ResetTenantID resets all changes to the "tenant_id" field.
-func (m *PaymentProductMutation) ResetTenantID() {
-	m.tenant_id = nil
-	delete(m.clearedFields, paymentproduct.FieldTenantID)
+// ResetSpaceID resets all changes to the "space_id" field.
+func (m *PaymentProductMutation) ResetSpaceID() {
+	m.space_id = nil
+	delete(m.clearedFields, paymentproduct.FieldSpaceID)
 }
 
 // AddSubscriptionIDs adds the "subscriptions" edge to the PaymentSubscription entity by ids.
@@ -5365,8 +5365,8 @@ func (m *PaymentProductMutation) Fields() []string {
 	if m.features != nil {
 		fields = append(fields, paymentproduct.FieldFeatures)
 	}
-	if m.tenant_id != nil {
-		fields = append(fields, paymentproduct.FieldTenantID)
+	if m.space_id != nil {
+		fields = append(fields, paymentproduct.FieldSpaceID)
 	}
 	return fields
 }
@@ -5404,8 +5404,8 @@ func (m *PaymentProductMutation) Field(name string) (ent.Value, bool) {
 		return m.TrialDays()
 	case paymentproduct.FieldFeatures:
 		return m.Features()
-	case paymentproduct.FieldTenantID:
-		return m.TenantID()
+	case paymentproduct.FieldSpaceID:
+		return m.SpaceID()
 	}
 	return nil, false
 }
@@ -5443,8 +5443,8 @@ func (m *PaymentProductMutation) OldField(ctx context.Context, name string) (ent
 		return m.OldTrialDays(ctx)
 	case paymentproduct.FieldFeatures:
 		return m.OldFeatures(ctx)
-	case paymentproduct.FieldTenantID:
-		return m.OldTenantID(ctx)
+	case paymentproduct.FieldSpaceID:
+		return m.OldSpaceID(ctx)
 	}
 	return nil, fmt.Errorf("unknown PaymentProduct field %s", name)
 }
@@ -5552,12 +5552,12 @@ func (m *PaymentProductMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetFeatures(v)
 		return nil
-	case paymentproduct.FieldTenantID:
+	case paymentproduct.FieldSpaceID:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetTenantID(v)
+		m.SetSpaceID(v)
 		return nil
 	}
 	return fmt.Errorf("unknown PaymentProduct field %s", name)
@@ -5664,8 +5664,8 @@ func (m *PaymentProductMutation) ClearedFields() []string {
 	if m.FieldCleared(paymentproduct.FieldBillingInterval) {
 		fields = append(fields, paymentproduct.FieldBillingInterval)
 	}
-	if m.FieldCleared(paymentproduct.FieldTenantID) {
-		fields = append(fields, paymentproduct.FieldTenantID)
+	if m.FieldCleared(paymentproduct.FieldSpaceID) {
+		fields = append(fields, paymentproduct.FieldSpaceID)
 	}
 	return fields
 }
@@ -5705,8 +5705,8 @@ func (m *PaymentProductMutation) ClearField(name string) error {
 	case paymentproduct.FieldBillingInterval:
 		m.ClearBillingInterval()
 		return nil
-	case paymentproduct.FieldTenantID:
-		m.ClearTenantID()
+	case paymentproduct.FieldSpaceID:
+		m.ClearSpaceID()
 		return nil
 	}
 	return fmt.Errorf("unknown PaymentProduct nullable field %s", name)
@@ -5758,8 +5758,8 @@ func (m *PaymentProductMutation) ResetField(name string) error {
 	case paymentproduct.FieldFeatures:
 		m.ResetFeatures()
 		return nil
-	case paymentproduct.FieldTenantID:
-		m.ResetTenantID()
+	case paymentproduct.FieldSpaceID:
+		m.ResetSpaceID()
 		return nil
 	}
 	return fmt.Errorf("unknown PaymentProduct field %s", name)
@@ -5864,7 +5864,7 @@ type PaymentSubscriptionMutation struct {
 	addupdated_at        *int64
 	status               *string
 	user_id              *string
-	tenant_id            *string
+	space_id             *string
 	channel_id           *string
 	current_period_start *time.Time
 	current_period_end   *time.Time
@@ -6344,53 +6344,53 @@ func (m *PaymentSubscriptionMutation) ResetUserID() {
 	m.user_id = nil
 }
 
-// SetTenantID sets the "tenant_id" field.
-func (m *PaymentSubscriptionMutation) SetTenantID(s string) {
-	m.tenant_id = &s
+// SetSpaceID sets the "space_id" field.
+func (m *PaymentSubscriptionMutation) SetSpaceID(s string) {
+	m.space_id = &s
 }
 
-// TenantID returns the value of the "tenant_id" field in the mutation.
-func (m *PaymentSubscriptionMutation) TenantID() (r string, exists bool) {
-	v := m.tenant_id
+// SpaceID returns the value of the "space_id" field in the mutation.
+func (m *PaymentSubscriptionMutation) SpaceID() (r string, exists bool) {
+	v := m.space_id
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldTenantID returns the old "tenant_id" field's value of the PaymentSubscription entity.
+// OldSpaceID returns the old "space_id" field's value of the PaymentSubscription entity.
 // If the PaymentSubscription object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *PaymentSubscriptionMutation) OldTenantID(ctx context.Context) (v string, err error) {
+func (m *PaymentSubscriptionMutation) OldSpaceID(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldTenantID is only allowed on UpdateOne operations")
+		return v, errors.New("OldSpaceID is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldTenantID requires an ID field in the mutation")
+		return v, errors.New("OldSpaceID requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldTenantID: %w", err)
+		return v, fmt.Errorf("querying old value for OldSpaceID: %w", err)
 	}
-	return oldValue.TenantID, nil
+	return oldValue.SpaceID, nil
 }
 
-// ClearTenantID clears the value of the "tenant_id" field.
-func (m *PaymentSubscriptionMutation) ClearTenantID() {
-	m.tenant_id = nil
-	m.clearedFields[paymentsubscription.FieldTenantID] = struct{}{}
+// ClearSpaceID clears the value of the "space_id" field.
+func (m *PaymentSubscriptionMutation) ClearSpaceID() {
+	m.space_id = nil
+	m.clearedFields[paymentsubscription.FieldSpaceID] = struct{}{}
 }
 
-// TenantIDCleared returns if the "tenant_id" field was cleared in this mutation.
-func (m *PaymentSubscriptionMutation) TenantIDCleared() bool {
-	_, ok := m.clearedFields[paymentsubscription.FieldTenantID]
+// SpaceIDCleared returns if the "space_id" field was cleared in this mutation.
+func (m *PaymentSubscriptionMutation) SpaceIDCleared() bool {
+	_, ok := m.clearedFields[paymentsubscription.FieldSpaceID]
 	return ok
 }
 
-// ResetTenantID resets all changes to the "tenant_id" field.
-func (m *PaymentSubscriptionMutation) ResetTenantID() {
-	m.tenant_id = nil
-	delete(m.clearedFields, paymentsubscription.FieldTenantID)
+// ResetSpaceID resets all changes to the "space_id" field.
+func (m *PaymentSubscriptionMutation) ResetSpaceID() {
+	m.space_id = nil
+	delete(m.clearedFields, paymentsubscription.FieldSpaceID)
 }
 
 // SetProductID sets the "product_id" field.
@@ -6865,8 +6865,8 @@ func (m *PaymentSubscriptionMutation) Fields() []string {
 	if m.user_id != nil {
 		fields = append(fields, paymentsubscription.FieldUserID)
 	}
-	if m.tenant_id != nil {
-		fields = append(fields, paymentsubscription.FieldTenantID)
+	if m.space_id != nil {
+		fields = append(fields, paymentsubscription.FieldSpaceID)
 	}
 	if m.product != nil {
 		fields = append(fields, paymentsubscription.FieldProductID)
@@ -6917,8 +6917,8 @@ func (m *PaymentSubscriptionMutation) Field(name string) (ent.Value, bool) {
 		return m.Status()
 	case paymentsubscription.FieldUserID:
 		return m.UserID()
-	case paymentsubscription.FieldTenantID:
-		return m.TenantID()
+	case paymentsubscription.FieldSpaceID:
+		return m.SpaceID()
 	case paymentsubscription.FieldProductID:
 		return m.ProductID()
 	case paymentsubscription.FieldChannelID:
@@ -6960,8 +6960,8 @@ func (m *PaymentSubscriptionMutation) OldField(ctx context.Context, name string)
 		return m.OldStatus(ctx)
 	case paymentsubscription.FieldUserID:
 		return m.OldUserID(ctx)
-	case paymentsubscription.FieldTenantID:
-		return m.OldTenantID(ctx)
+	case paymentsubscription.FieldSpaceID:
+		return m.OldSpaceID(ctx)
 	case paymentsubscription.FieldProductID:
 		return m.OldProductID(ctx)
 	case paymentsubscription.FieldChannelID:
@@ -7038,12 +7038,12 @@ func (m *PaymentSubscriptionMutation) SetField(name string, value ent.Value) err
 		}
 		m.SetUserID(v)
 		return nil
-	case paymentsubscription.FieldTenantID:
+	case paymentsubscription.FieldSpaceID:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetTenantID(v)
+		m.SetSpaceID(v)
 		return nil
 	case paymentsubscription.FieldProductID:
 		v, ok := value.(string)
@@ -7180,8 +7180,8 @@ func (m *PaymentSubscriptionMutation) ClearedFields() []string {
 	if m.FieldCleared(paymentsubscription.FieldUpdatedAt) {
 		fields = append(fields, paymentsubscription.FieldUpdatedAt)
 	}
-	if m.FieldCleared(paymentsubscription.FieldTenantID) {
-		fields = append(fields, paymentsubscription.FieldTenantID)
+	if m.FieldCleared(paymentsubscription.FieldSpaceID) {
+		fields = append(fields, paymentsubscription.FieldSpaceID)
 	}
 	if m.FieldCleared(paymentsubscription.FieldCancelAt) {
 		fields = append(fields, paymentsubscription.FieldCancelAt)
@@ -7227,8 +7227,8 @@ func (m *PaymentSubscriptionMutation) ClearField(name string) error {
 	case paymentsubscription.FieldUpdatedAt:
 		m.ClearUpdatedAt()
 		return nil
-	case paymentsubscription.FieldTenantID:
-		m.ClearTenantID()
+	case paymentsubscription.FieldSpaceID:
+		m.ClearSpaceID()
 		return nil
 	case paymentsubscription.FieldCancelAt:
 		m.ClearCancelAt()
@@ -7274,8 +7274,8 @@ func (m *PaymentSubscriptionMutation) ResetField(name string) error {
 	case paymentsubscription.FieldUserID:
 		m.ResetUserID()
 		return nil
-	case paymentsubscription.FieldTenantID:
-		m.ResetTenantID()
+	case paymentsubscription.FieldSpaceID:
+		m.ResetSpaceID()
 		return nil
 	case paymentsubscription.FieldProductID:
 		m.ResetProductID()

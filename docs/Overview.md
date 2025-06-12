@@ -14,9 +14,9 @@
 ├── core/               # Core system modules
 │   ├── access/         # Access control and permissions
 │   ├── auth/           # Authentication and authorization
-│   ├── space/          # Workspace management
+│   ├── organization/   # Organization(Workspace) management
 │   ├── system/         # System-wide functionalities
-│   ├── tenant/         # Multi-tenancy support
+│   ├── space/          # Multi-space support
 │   └── user/           # User management
 │
 ├── docs/               # Documentation files

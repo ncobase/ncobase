@@ -205,23 +205,23 @@ func (pou *PaymentOrderUpdate) SetNillableUserID(s *string) *PaymentOrderUpdate 
 	return pou
 }
 
-// SetTenantID sets the "tenant_id" field.
-func (pou *PaymentOrderUpdate) SetTenantID(s string) *PaymentOrderUpdate {
-	pou.mutation.SetTenantID(s)
+// SetSpaceID sets the "space_id" field.
+func (pou *PaymentOrderUpdate) SetSpaceID(s string) *PaymentOrderUpdate {
+	pou.mutation.SetSpaceID(s)
 	return pou
 }
 
-// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
-func (pou *PaymentOrderUpdate) SetNillableTenantID(s *string) *PaymentOrderUpdate {
+// SetNillableSpaceID sets the "space_id" field if the given value is not nil.
+func (pou *PaymentOrderUpdate) SetNillableSpaceID(s *string) *PaymentOrderUpdate {
 	if s != nil {
-		pou.SetTenantID(*s)
+		pou.SetSpaceID(*s)
 	}
 	return pou
 }
 
-// ClearTenantID clears the value of the "tenant_id" field.
-func (pou *PaymentOrderUpdate) ClearTenantID() *PaymentOrderUpdate {
-	pou.mutation.ClearTenantID()
+// ClearSpaceID clears the value of the "space_id" field.
+func (pou *PaymentOrderUpdate) ClearSpaceID() *PaymentOrderUpdate {
+	pou.mutation.ClearSpaceID()
 	return pou
 }
 
@@ -507,11 +507,11 @@ func (pou *PaymentOrderUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if value, ok := pou.mutation.UserID(); ok {
 		_spec.SetField(paymentorder.FieldUserID, field.TypeString, value)
 	}
-	if value, ok := pou.mutation.TenantID(); ok {
-		_spec.SetField(paymentorder.FieldTenantID, field.TypeString, value)
+	if value, ok := pou.mutation.SpaceID(); ok {
+		_spec.SetField(paymentorder.FieldSpaceID, field.TypeString, value)
 	}
-	if pou.mutation.TenantIDCleared() {
-		_spec.ClearField(paymentorder.FieldTenantID, field.TypeString)
+	if pou.mutation.SpaceIDCleared() {
+		_spec.ClearField(paymentorder.FieldSpaceID, field.TypeString)
 	}
 	if value, ok := pou.mutation.ProductID(); ok {
 		_spec.SetField(paymentorder.FieldProductID, field.TypeString, value)
@@ -787,23 +787,23 @@ func (pouo *PaymentOrderUpdateOne) SetNillableUserID(s *string) *PaymentOrderUpd
 	return pouo
 }
 
-// SetTenantID sets the "tenant_id" field.
-func (pouo *PaymentOrderUpdateOne) SetTenantID(s string) *PaymentOrderUpdateOne {
-	pouo.mutation.SetTenantID(s)
+// SetSpaceID sets the "space_id" field.
+func (pouo *PaymentOrderUpdateOne) SetSpaceID(s string) *PaymentOrderUpdateOne {
+	pouo.mutation.SetSpaceID(s)
 	return pouo
 }
 
-// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
-func (pouo *PaymentOrderUpdateOne) SetNillableTenantID(s *string) *PaymentOrderUpdateOne {
+// SetNillableSpaceID sets the "space_id" field if the given value is not nil.
+func (pouo *PaymentOrderUpdateOne) SetNillableSpaceID(s *string) *PaymentOrderUpdateOne {
 	if s != nil {
-		pouo.SetTenantID(*s)
+		pouo.SetSpaceID(*s)
 	}
 	return pouo
 }
 
-// ClearTenantID clears the value of the "tenant_id" field.
-func (pouo *PaymentOrderUpdateOne) ClearTenantID() *PaymentOrderUpdateOne {
-	pouo.mutation.ClearTenantID()
+// ClearSpaceID clears the value of the "space_id" field.
+func (pouo *PaymentOrderUpdateOne) ClearSpaceID() *PaymentOrderUpdateOne {
+	pouo.mutation.ClearSpaceID()
 	return pouo
 }
 
@@ -1119,11 +1119,11 @@ func (pouo *PaymentOrderUpdateOne) sqlSave(ctx context.Context) (_node *PaymentO
 	if value, ok := pouo.mutation.UserID(); ok {
 		_spec.SetField(paymentorder.FieldUserID, field.TypeString, value)
 	}
-	if value, ok := pouo.mutation.TenantID(); ok {
-		_spec.SetField(paymentorder.FieldTenantID, field.TypeString, value)
+	if value, ok := pouo.mutation.SpaceID(); ok {
+		_spec.SetField(paymentorder.FieldSpaceID, field.TypeString, value)
 	}
-	if pouo.mutation.TenantIDCleared() {
-		_spec.ClearField(paymentorder.FieldTenantID, field.TypeString)
+	if pouo.mutation.SpaceIDCleared() {
+		_spec.ClearField(paymentorder.FieldSpaceID, field.TypeString)
 	}
 	if value, ok := pouo.mutation.ProductID(); ok {
 		_spec.SetField(paymentorder.FieldProductID, field.TypeString, value)

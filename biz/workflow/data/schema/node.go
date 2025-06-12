@@ -40,7 +40,7 @@ func (Node) Mixin() []ent.Mixin {
 		mixin.WorkflowControlMixin{},
 		mixin.TimeTrackingMixin{},
 		mixin.ExtraProps,
-		mixin.TenantID,
+		mixin.SpaceID,
 		mixin.Operator,
 		mixin.TimeAt{},
 	}

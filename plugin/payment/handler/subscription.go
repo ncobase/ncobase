@@ -61,10 +61,10 @@ func (h *subscriptionHandler) Create(c *gin.Context) {
 		}
 	}
 
-	// Set tenant ID from context if not provided
-	if input.TenantID == "" {
-		if tenantID, exists := c.Get("tenant_id"); exists {
-			input.TenantID = tenantID.(string)
+	// Set space ID from context if not provided
+	if input.SpaceID == "" {
+		if spaceID, exists := c.Get("space_id"); exists {
+			input.SpaceID = spaceID.(string)
 		}
 	}
 
@@ -259,7 +259,7 @@ func (h *subscriptionHandler) GetByUser(c *gin.Context) {
 // @Produce json
 // @Param status query string false "Filter by status"
 // @Param user_id query string false "Filter by user ID"
-// @Param tenant_id query string false "Filter by tenant ID"
+// @Param space_id query string false "Filter by space ID"
 // @Param product_id query string false "Filter by product ID"
 // @Param channel_id query string false "Filter by channel ID"
 // @Param active query bool false "Filter by active status"

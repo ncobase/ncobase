@@ -4,9 +4,9 @@ import (
 	"fmt"
 	accessService "ncobase/access/service"
 	authService "ncobase/auth/service"
+	orgService "ncobase/organization/service"
 	spaceService "ncobase/space/service"
 	systemService "ncobase/system/service"
-	tenantService "ncobase/tenant/service"
 	userService "ncobase/user/service"
 )
 
@@ -25,19 +25,6 @@ func (p *Plugin) getUserService() (*userService.Service, error) {
 	return svc, nil
 }
 
-// GetTenantService returns the tenant service
-func (p *Plugin) getTenantService() (*tenantService.Service, error) {
-	f, err := p.em.GetServiceByName("tenant")
-	if err != nil {
-		return nil, fmt.Errorf("failed to get tenant service: %v", err)
-	}
-	svc, ok := f.(*tenantService.Service)
-	if !ok {
-		return nil, fmt.Errorf("tenant service does not implement")
-	}
-	return svc, nil
-}
-
 // GetSpaceService returns the space service
 func (p *Plugin) getSpaceService() (*spaceService.Service, error) {
 	f, err := p.em.GetServiceByName("space")
@@ -47,6 +34,19 @@ func (p *Plugin) getSpaceService() (*spaceService.Service, error) {
 	svc, ok := f.(*spaceService.Service)
 	if !ok {
 		return nil, fmt.Errorf("space service does not implement")
+	}
+	return svc, nil
+}
+
+// GetOrganizationService returns the organization service
+func (p *Plugin) getOrganizationService() (*orgService.Service, error) {
+	f, err := p.em.GetServiceByName("organization")
+	if err != nil {
+		return nil, fmt.Errorf("failed to get organization service: %v", err)
+	}
+	svc, ok := f.(*orgService.Service)
+	if !ok {
+		return nil, fmt.Errorf("organization service does not implement")
 	}
 	return svc, nil
 }

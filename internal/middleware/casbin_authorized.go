@@ -55,7 +55,7 @@ func CasbinAuthorized(em ext.ManagerInterface, whiteList []string) gin.HandlerFu
 		// Get request info
 		resource := c.Request.URL.Path
 		httpMethod := c.Request.Method
-		tenantID := ctxutil.GetTenantID(ctx)
+		spaceID := ctxutil.GetSpaceID(ctx)
 
 		// Get user authorization info
 		username := ctxutil.GetUsername(ctx)
@@ -67,7 +67,7 @@ func CasbinAuthorized(em ext.ManagerInterface, whiteList []string) gin.HandlerFu
 
 		var hasPermission bool
 		if enforcer != nil {
-			hasPermission = checkPermission(ctx, enforcer, userID, username, tenantID,
+			hasPermission = checkPermission(ctx, enforcer, userID, username, spaceID,
 				resource, httpMethod, action, roles, permissions, isAdmin)
 		} else {
 			// Fallback to basic permission check if Casbin not available
@@ -75,7 +75,7 @@ func CasbinAuthorized(em ext.ManagerInterface, whiteList []string) gin.HandlerFu
 		}
 
 		eventMetadata := types.JSON{
-			"username": username, "tenant_id": tenantID, "resource": resource,
+			"username": username, "space_id": spaceID, "resource": resource,
 			"method": httpMethod, "action": action, "roles": roles, "is_admin": isAdmin,
 			"request_id": ctxutil.GetTraceID(ctx), "client_ip": c.ClientIP(),
 			"user_agent": ctxutil.GetUserAgent(ctx),
@@ -108,7 +108,7 @@ func mapHTTPMethodToAction(method string) string {
 
 // checkPermission checks user authorization using multiple strategies
 func checkPermission(ctx context.Context, enforcer *casbin.Enforcer,
-	userID, username, tenantID, resource, httpMethod, action string,
+	userID, username, spaceID, resource, httpMethod, action string,
 	roles, permissions []string, isAdmin bool) bool {
 
 	// Check wildcard permissions first
@@ -118,7 +118,7 @@ func checkPermission(ctx context.Context, enforcer *casbin.Enforcer,
 
 	// Check roles using Casbin
 	if enforcer != nil {
-		domain := tenantID
+		domain := spaceID
 		if domain == "" {
 			domain = "*"
 		}

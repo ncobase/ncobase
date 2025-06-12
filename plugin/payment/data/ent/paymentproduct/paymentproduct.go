@@ -40,8 +40,8 @@ const (
 	FieldTrialDays = "trial_days"
 	// FieldFeatures holds the string denoting the features field in the database.
 	FieldFeatures = "features"
-	// FieldTenantID holds the string denoting the tenant_id field in the database.
-	FieldTenantID = "tenant_id"
+	// FieldSpaceID holds the string denoting the space_id field in the database.
+	FieldSpaceID = "space_id"
 	// EdgeSubscriptions holds the string denoting the subscriptions edge name in mutations.
 	EdgeSubscriptions = "subscriptions"
 	// Table holds the table name of the paymentproduct in the database.
@@ -72,7 +72,7 @@ var Columns = []string{
 	FieldBillingInterval,
 	FieldTrialDays,
 	FieldFeatures,
-	FieldTenantID,
+	FieldSpaceID,
 }
 
 // ValidColumn reports if the column name is valid (part of the table columns).
@@ -178,9 +178,9 @@ func ByTrialDays(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldTrialDays, opts...).ToFunc()
 }
 
-// ByTenantID orders the results by the tenant_id field.
-func ByTenantID(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldTenantID, opts...).ToFunc()
+// BySpaceID orders the results by the space_id field.
+func BySpaceID(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldSpaceID, opts...).ToFunc()
 }
 
 // BySubscriptionsCount orders the results by subscriptions count.

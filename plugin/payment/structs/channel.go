@@ -22,7 +22,7 @@ type Channel struct {
 	SupportedType []PaymentType   `json:"supported_types"`
 	Config        ProviderConfig  `json:"config"`
 	Metadata      map[string]any  `json:"metadata,omitempty"`
-	TenantID      string          `json:"tenant_id,omitempty"`
+	SpaceID       string          `json:"space_id,omitempty"`
 	CreatedAt     int64           `json:"created_at,omitempty"`
 	UpdatedAt     int64           `json:"updated_at,omitempty"`
 }
@@ -41,7 +41,7 @@ type CreateChannelInput struct {
 	SupportedType []PaymentType   `json:"supported_types" binding:"required"`
 	Config        ProviderConfig  `json:"config" binding:"required"`
 	Metadata      map[string]any  `json:"metadata,omitempty"`
-	TenantID      string          `json:"tenant_id,omitempty"`
+	SpaceID       string          `json:"space_id,omitempty"`
 }
 
 // UpdateChannelInput represents input for updating a payment channel
@@ -54,13 +54,13 @@ type UpdateChannelInput struct {
 	SupportedType []PaymentType   `json:"supported_types,omitempty"`
 	Config        ProviderConfig  `json:"config,omitempty"`
 	Metadata      map[string]any  `json:"metadata,omitempty"`
-	TenantID      string          `json:"tenant_id,omitempty"`
+	SpaceID       string          `json:"space_id,omitempty"`
 }
 
 // ChannelQuery represents query parameters for listing channels
 type ChannelQuery struct {
 	Provider PaymentProvider `form:"provider" json:"provider,omitempty"`
 	Status   ChannelStatus   `form:"status" json:"status,omitempty"`
-	TenantID string          `form:"tenant_id" json:"tenant_id,omitempty"`
+	SpaceID  string          `form:"space_id" json:"space_id,omitempty"`
 	PaginationQuery
 }

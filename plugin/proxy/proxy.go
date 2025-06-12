@@ -9,8 +9,8 @@ import (
 	"sync"
 
 	accessService "ncobase/access/service"
+	orgService "ncobase/organization/service"
 	spaceService "ncobase/space/service"
-	tenantService "ncobase/tenant/service"
 	userService "ncobase/user/service"
 
 	"github.com/gin-gonic/gin"
@@ -43,8 +43,8 @@ type Plugin struct {
 
 	// Internal services
 	userService   *userService.Service
-	tenantService *tenantService.Service
 	spaceService  *spaceService.Service
+	orgService    *orgService.Service
 	accessService *accessService.Service
 
 	// Event components
@@ -119,14 +119,14 @@ func (p *Plugin) PostInit() error {
 		return err
 	}
 
-	// Get tenant service
-	p.tenantService, err = p.getTenantService()
+	// Get space service
+	p.spaceService, err = p.getSpaceService()
 	if err != nil {
 		return err
 	}
 
-	// Get space service
-	p.spaceService, err = p.getSpaceService()
+	// Get organization service
+	p.orgService, err = p.getOrganizationService()
 	if err != nil {
 		return err
 	}
@@ -263,8 +263,8 @@ func (p *Plugin) Dependencies() []string {
 func (p *Plugin) GetAllDependencies() []ext.DependencyEntry {
 	return []ext.DependencyEntry{
 		{Name: "user", Type: ext.WeakDependency},
-		{Name: "tenant", Type: ext.WeakDependency},
 		{Name: "space", Type: ext.WeakDependency},
+		{Name: "organization", Type: ext.WeakDependency},
 		{Name: "access", Type: ext.WeakDependency},
 	}
 }

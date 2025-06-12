@@ -9,163 +9,550 @@ import (
 )
 
 var (
-	// NcseSysGroupColumns holds the columns for the "ncse_sys_group" table.
-	NcseSysGroupColumns = []*schema.Column{
+	// NcseSysSpaceColumns holds the columns for the "ncse_sys_space" table.
+	NcseSysSpaceColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
 		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "name"},
 		{Name: "slug", Type: field.TypeString, Unique: true, Nullable: true, Comment: "slug / alias"},
 		{Name: "type", Type: field.TypeString, Nullable: true, Comment: "type"},
-		{Name: "disabled", Type: field.TypeBool, Nullable: true, Comment: "is disabled", Default: false},
+		{Name: "title", Type: field.TypeString, Nullable: true, Comment: "title"},
+		{Name: "url", Type: field.TypeString, Nullable: true, Comment: "url, website / link..."},
+		{Name: "logo", Type: field.TypeString, Nullable: true, Comment: "logo"},
+		{Name: "logo_alt", Type: field.TypeString, Nullable: true, Comment: "logo alt"},
+		{Name: "keywords", Type: field.TypeString, Nullable: true, Comment: "keywords"},
+		{Name: "copyright", Type: field.TypeString, Nullable: true, Comment: "copyright"},
 		{Name: "description", Type: field.TypeString, Nullable: true, Size: 2147483647, Comment: "description"},
-		{Name: "leader", Type: field.TypeJSON, Nullable: true, Comment: "Leader information, e.g., {id: '', name: '', avatar: '', url: '', email: '', ip: ''}"},
+		{Name: "order", Type: field.TypeInt, Comment: "display order", Default: 0},
+		{Name: "disabled", Type: field.TypeBool, Nullable: true, Comment: "is disabled", Default: false},
 		{Name: "extras", Type: field.TypeJSON, Nullable: true, Comment: "Extend properties"},
-		{Name: "parent_id", Type: field.TypeString, Nullable: true, Comment: "parent id"},
+		{Name: "created_by", Type: field.TypeString, Nullable: true, Comment: "id of the creator"},
+		{Name: "updated_by", Type: field.TypeString, Nullable: true, Comment: "id of the last updater"},
+		{Name: "expired_at", Type: field.TypeInt64, Nullable: true, Comment: "expired at"},
+		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
+		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
+	}
+	// NcseSysSpaceTable holds the schema information for the "ncse_sys_space" table.
+	NcseSysSpaceTable = &schema.Table{
+		Name:       "ncse_sys_space",
+		Columns:    NcseSysSpaceColumns,
+		PrimaryKey: []*schema.Column{NcseSysSpaceColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "space_id",
+				Unique:  true,
+				Columns: []*schema.Column{NcseSysSpaceColumns[0]},
+			},
+			{
+				Name:    "space_slug",
+				Unique:  true,
+				Columns: []*schema.Column{NcseSysSpaceColumns[2]},
+			},
+			{
+				Name:    "space_id_created_at",
+				Unique:  true,
+				Columns: []*schema.Column{NcseSysSpaceColumns[0], NcseSysSpaceColumns[17]},
+			},
+		},
+	}
+	// NcseSysSpaceBillingColumns holds the columns for the "ncse_sys_space_billing" table.
+	NcseSysSpaceBillingColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
+		{Name: "space_id", Type: field.TypeString, Nullable: true, Comment: "space id, e.g. space id, organization id, store id"},
+		{Name: "description", Type: field.TypeString, Nullable: true, Size: 2147483647, Comment: "description"},
+		{Name: "extras", Type: field.TypeJSON, Nullable: true, Comment: "Extend properties"},
+		{Name: "created_by", Type: field.TypeString, Nullable: true, Comment: "id of the creator"},
+		{Name: "updated_by", Type: field.TypeString, Nullable: true, Comment: "id of the last updater"},
+		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
+		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
+		{Name: "billing_period", Type: field.TypeString, Comment: "Billing period type (monthly, yearly, one_time, usage_based)", Default: "monthly"},
+		{Name: "period_start", Type: field.TypeInt64, Nullable: true, Comment: "Start timestamp of billing period"},
+		{Name: "period_end", Type: field.TypeInt64, Nullable: true, Comment: "End timestamp of billing period"},
+		{Name: "amount", Type: field.TypeFloat64, Comment: "Billing amount"},
+		{Name: "currency", Type: field.TypeString, Comment: "Currency code (USD, EUR, etc.)", Default: "USD"},
+		{Name: "status", Type: field.TypeString, Comment: "Billing status (pending, paid, overdue, cancelled, refunded)", Default: "pending"},
+		{Name: "invoice_number", Type: field.TypeString, Nullable: true, Comment: "Invoice or reference number"},
+		{Name: "payment_method", Type: field.TypeString, Nullable: true, Comment: "Payment method used"},
+		{Name: "paid_at", Type: field.TypeInt64, Nullable: true, Comment: "Payment timestamp"},
+		{Name: "due_date", Type: field.TypeInt64, Nullable: true, Comment: "Payment due date timestamp"},
+		{Name: "usage_details", Type: field.TypeJSON, Nullable: true, Comment: "Detailed usage information for billing period"},
+	}
+	// NcseSysSpaceBillingTable holds the schema information for the "ncse_sys_space_billing" table.
+	NcseSysSpaceBillingTable = &schema.Table{
+		Name:       "ncse_sys_space_billing",
+		Columns:    NcseSysSpaceBillingColumns,
+		PrimaryKey: []*schema.Column{NcseSysSpaceBillingColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "spacebilling_id",
+				Unique:  true,
+				Columns: []*schema.Column{NcseSysSpaceBillingColumns[0]},
+			},
+			{
+				Name:    "spacebilling_space_id",
+				Unique:  false,
+				Columns: []*schema.Column{NcseSysSpaceBillingColumns[1]},
+			},
+			{
+				Name:    "spacebilling_id_created_at",
+				Unique:  true,
+				Columns: []*schema.Column{NcseSysSpaceBillingColumns[0], NcseSysSpaceBillingColumns[6]},
+			},
+			{
+				Name:    "spacebilling_space_id_billing_period",
+				Unique:  false,
+				Columns: []*schema.Column{NcseSysSpaceBillingColumns[1], NcseSysSpaceBillingColumns[8]},
+			},
+			{
+				Name:    "spacebilling_space_id_status",
+				Unique:  false,
+				Columns: []*schema.Column{NcseSysSpaceBillingColumns[1], NcseSysSpaceBillingColumns[13]},
+			},
+			{
+				Name:    "spacebilling_status_due_date",
+				Unique:  false,
+				Columns: []*schema.Column{NcseSysSpaceBillingColumns[13], NcseSysSpaceBillingColumns[17]},
+			},
+			{
+				Name:    "spacebilling_invoice_number",
+				Unique:  true,
+				Columns: []*schema.Column{NcseSysSpaceBillingColumns[14]},
+			},
+		},
+	}
+	// NcseSysSpaceDictionaryColumns holds the columns for the "ncse_sys_space_dictionary" table.
+	NcseSysSpaceDictionaryColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
+		{Name: "space_id", Type: field.TypeString, Nullable: true, Comment: "space id, e.g. space id, organization id, store id"},
+		{Name: "dictionary_id", Type: field.TypeString, Nullable: true, Comment: "dictionary id"},
 		{Name: "created_by", Type: field.TypeString, Nullable: true, Comment: "id of the creator"},
 		{Name: "updated_by", Type: field.TypeString, Nullable: true, Comment: "id of the last updater"},
 		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
 		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
 	}
-	// NcseSysGroupTable holds the schema information for the "ncse_sys_group" table.
-	NcseSysGroupTable = &schema.Table{
-		Name:       "ncse_sys_group",
-		Columns:    NcseSysGroupColumns,
-		PrimaryKey: []*schema.Column{NcseSysGroupColumns[0]},
+	// NcseSysSpaceDictionaryTable holds the schema information for the "ncse_sys_space_dictionary" table.
+	NcseSysSpaceDictionaryTable = &schema.Table{
+		Name:       "ncse_sys_space_dictionary",
+		Columns:    NcseSysSpaceDictionaryColumns,
+		PrimaryKey: []*schema.Column{NcseSysSpaceDictionaryColumns[0]},
 		Indexes: []*schema.Index{
 			{
-				Name:    "group_id",
+				Name:    "spacedictionary_id",
 				Unique:  true,
-				Columns: []*schema.Column{NcseSysGroupColumns[0]},
+				Columns: []*schema.Column{NcseSysSpaceDictionaryColumns[0]},
 			},
 			{
-				Name:    "group_slug",
-				Unique:  true,
-				Columns: []*schema.Column{NcseSysGroupColumns[2]},
-			},
-			{
-				Name:    "group_parent_id",
+				Name:    "spacedictionary_space_id",
 				Unique:  false,
-				Columns: []*schema.Column{NcseSysGroupColumns[8]},
+				Columns: []*schema.Column{NcseSysSpaceDictionaryColumns[1]},
 			},
 			{
-				Name:    "group_id_created_at",
+				Name:    "spacedictionary_dictionary_id",
+				Unique:  false,
+				Columns: []*schema.Column{NcseSysSpaceDictionaryColumns[2]},
+			},
+			{
+				Name:    "spacedictionary_id_created_at",
 				Unique:  true,
-				Columns: []*schema.Column{NcseSysGroupColumns[0], NcseSysGroupColumns[11]},
+				Columns: []*schema.Column{NcseSysSpaceDictionaryColumns[0], NcseSysSpaceDictionaryColumns[5]},
+			},
+			{
+				Name:    "spacedictionary_space_id_dictionary_id",
+				Unique:  false,
+				Columns: []*schema.Column{NcseSysSpaceDictionaryColumns[1], NcseSysSpaceDictionaryColumns[2]},
 			},
 		},
 	}
-	// NcseSysGroupRoleColumns holds the columns for the "ncse_sys_group_role" table.
-	NcseSysGroupRoleColumns = []*schema.Column{
+	// NcseSysSpaceMenuColumns holds the columns for the "ncse_sys_space_menu" table.
+	NcseSysSpaceMenuColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
-		{Name: "group_id", Type: field.TypeString, Nullable: true, Comment: "group id"},
+		{Name: "space_id", Type: field.TypeString, Nullable: true, Comment: "space id, e.g. space id, organization id, store id"},
+		{Name: "menu_id", Type: field.TypeString, Nullable: true, Comment: "menu id"},
+		{Name: "created_by", Type: field.TypeString, Nullable: true, Comment: "id of the creator"},
+		{Name: "updated_by", Type: field.TypeString, Nullable: true, Comment: "id of the last updater"},
+		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
+		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
+	}
+	// NcseSysSpaceMenuTable holds the schema information for the "ncse_sys_space_menu" table.
+	NcseSysSpaceMenuTable = &schema.Table{
+		Name:       "ncse_sys_space_menu",
+		Columns:    NcseSysSpaceMenuColumns,
+		PrimaryKey: []*schema.Column{NcseSysSpaceMenuColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "spacemenu_id",
+				Unique:  true,
+				Columns: []*schema.Column{NcseSysSpaceMenuColumns[0]},
+			},
+			{
+				Name:    "spacemenu_space_id",
+				Unique:  false,
+				Columns: []*schema.Column{NcseSysSpaceMenuColumns[1]},
+			},
+			{
+				Name:    "spacemenu_menu_id",
+				Unique:  false,
+				Columns: []*schema.Column{NcseSysSpaceMenuColumns[2]},
+			},
+			{
+				Name:    "spacemenu_id_created_at",
+				Unique:  true,
+				Columns: []*schema.Column{NcseSysSpaceMenuColumns[0], NcseSysSpaceMenuColumns[5]},
+			},
+			{
+				Name:    "spacemenu_space_id_menu_id",
+				Unique:  false,
+				Columns: []*schema.Column{NcseSysSpaceMenuColumns[1], NcseSysSpaceMenuColumns[2]},
+			},
+		},
+	}
+	// NcseSysSpaceOptionColumns holds the columns for the "ncse_sys_space_option" table.
+	NcseSysSpaceOptionColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
+		{Name: "space_id", Type: field.TypeString, Nullable: true, Comment: "space id, e.g. space id, organization id, store id"},
+		{Name: "option_id", Type: field.TypeString, Nullable: true, Comment: "option id"},
+		{Name: "created_by", Type: field.TypeString, Nullable: true, Comment: "id of the creator"},
+		{Name: "updated_by", Type: field.TypeString, Nullable: true, Comment: "id of the last updater"},
+		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
+		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
+	}
+	// NcseSysSpaceOptionTable holds the schema information for the "ncse_sys_space_option" table.
+	NcseSysSpaceOptionTable = &schema.Table{
+		Name:       "ncse_sys_space_option",
+		Columns:    NcseSysSpaceOptionColumns,
+		PrimaryKey: []*schema.Column{NcseSysSpaceOptionColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "spaceoption_id",
+				Unique:  true,
+				Columns: []*schema.Column{NcseSysSpaceOptionColumns[0]},
+			},
+			{
+				Name:    "spaceoption_space_id",
+				Unique:  false,
+				Columns: []*schema.Column{NcseSysSpaceOptionColumns[1]},
+			},
+			{
+				Name:    "spaceoption_option_id",
+				Unique:  false,
+				Columns: []*schema.Column{NcseSysSpaceOptionColumns[2]},
+			},
+			{
+				Name:    "spaceoption_id_created_at",
+				Unique:  true,
+				Columns: []*schema.Column{NcseSysSpaceOptionColumns[0], NcseSysSpaceOptionColumns[5]},
+			},
+			{
+				Name:    "spaceoption_space_id_option_id",
+				Unique:  false,
+				Columns: []*schema.Column{NcseSysSpaceOptionColumns[1], NcseSysSpaceOptionColumns[2]},
+			},
+		},
+	}
+	// NcseSysSpaceOrganizationColumns holds the columns for the "ncse_sys_space_organization" table.
+	NcseSysSpaceOrganizationColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
+		{Name: "space_id", Type: field.TypeString, Nullable: true, Comment: "space id, e.g. space id, organization id, store id"},
+		{Name: "org_id", Type: field.TypeString, Nullable: true, Comment: "organization id"},
+		{Name: "created_by", Type: field.TypeString, Nullable: true, Comment: "id of the creator"},
+		{Name: "updated_by", Type: field.TypeString, Nullable: true, Comment: "id of the last updater"},
+		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
+		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
+		{Name: "relation_type", Type: field.TypeString, Comment: "Type of relationship between space and group", Default: "member"},
+	}
+	// NcseSysSpaceOrganizationTable holds the schema information for the "ncse_sys_space_organization" table.
+	NcseSysSpaceOrganizationTable = &schema.Table{
+		Name:       "ncse_sys_space_organization",
+		Columns:    NcseSysSpaceOrganizationColumns,
+		PrimaryKey: []*schema.Column{NcseSysSpaceOrganizationColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "spaceorganization_id",
+				Unique:  true,
+				Columns: []*schema.Column{NcseSysSpaceOrganizationColumns[0]},
+			},
+			{
+				Name:    "spaceorganization_space_id",
+				Unique:  false,
+				Columns: []*schema.Column{NcseSysSpaceOrganizationColumns[1]},
+			},
+			{
+				Name:    "spaceorganization_org_id",
+				Unique:  false,
+				Columns: []*schema.Column{NcseSysSpaceOrganizationColumns[2]},
+			},
+			{
+				Name:    "spaceorganization_id_created_at",
+				Unique:  true,
+				Columns: []*schema.Column{NcseSysSpaceOrganizationColumns[0], NcseSysSpaceOrganizationColumns[5]},
+			},
+			{
+				Name:    "spaceorganization_space_id_org_id",
+				Unique:  true,
+				Columns: []*schema.Column{NcseSysSpaceOrganizationColumns[1], NcseSysSpaceOrganizationColumns[2]},
+			},
+			{
+				Name:    "spaceorganization_space_id_relation_type",
+				Unique:  false,
+				Columns: []*schema.Column{NcseSysSpaceOrganizationColumns[1], NcseSysSpaceOrganizationColumns[7]},
+			},
+			{
+				Name:    "spaceorganization_org_id_relation_type",
+				Unique:  false,
+				Columns: []*schema.Column{NcseSysSpaceOrganizationColumns[2], NcseSysSpaceOrganizationColumns[7]},
+			},
+		},
+	}
+	// NcseSysSpaceQuotaColumns holds the columns for the "ncse_sys_space_quota" table.
+	NcseSysSpaceQuotaColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
+		{Name: "space_id", Type: field.TypeString, Nullable: true, Comment: "space id, e.g. space id, organization id, store id"},
+		{Name: "description", Type: field.TypeString, Nullable: true, Size: 2147483647, Comment: "description"},
+		{Name: "extras", Type: field.TypeJSON, Nullable: true, Comment: "Extend properties"},
+		{Name: "created_by", Type: field.TypeString, Nullable: true, Comment: "id of the creator"},
+		{Name: "updated_by", Type: field.TypeString, Nullable: true, Comment: "id of the last updater"},
+		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
+		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
+		{Name: "quota_type", Type: field.TypeString, Comment: "Type of quota (users, storage, api_calls, etc.)"},
+		{Name: "quota_name", Type: field.TypeString, Comment: "Human readable name of the quota"},
+		{Name: "max_value", Type: field.TypeInt64, Comment: "Maximum allowed value for this quota"},
+		{Name: "current_used", Type: field.TypeInt64, Comment: "Current usage of this quota", Default: 0},
+		{Name: "unit", Type: field.TypeString, Comment: "Unit of measurement (count, bytes, mb, gb, tb)", Default: "count"},
+		{Name: "enabled", Type: field.TypeBool, Comment: "Whether this quota is actively enforced", Default: true},
+	}
+	// NcseSysSpaceQuotaTable holds the schema information for the "ncse_sys_space_quota" table.
+	NcseSysSpaceQuotaTable = &schema.Table{
+		Name:       "ncse_sys_space_quota",
+		Columns:    NcseSysSpaceQuotaColumns,
+		PrimaryKey: []*schema.Column{NcseSysSpaceQuotaColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "spacequota_id",
+				Unique:  true,
+				Columns: []*schema.Column{NcseSysSpaceQuotaColumns[0]},
+			},
+			{
+				Name:    "spacequota_space_id",
+				Unique:  false,
+				Columns: []*schema.Column{NcseSysSpaceQuotaColumns[1]},
+			},
+			{
+				Name:    "spacequota_id_created_at",
+				Unique:  true,
+				Columns: []*schema.Column{NcseSysSpaceQuotaColumns[0], NcseSysSpaceQuotaColumns[6]},
+			},
+			{
+				Name:    "spacequota_space_id_quota_type",
+				Unique:  true,
+				Columns: []*schema.Column{NcseSysSpaceQuotaColumns[1], NcseSysSpaceQuotaColumns[8]},
+			},
+			{
+				Name:    "spacequota_space_id_enabled",
+				Unique:  false,
+				Columns: []*schema.Column{NcseSysSpaceQuotaColumns[1], NcseSysSpaceQuotaColumns[13]},
+			},
+		},
+	}
+	// NcseSysSpaceSettingColumns holds the columns for the "ncse_sys_space_setting" table.
+	NcseSysSpaceSettingColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
+		{Name: "space_id", Type: field.TypeString, Nullable: true, Comment: "space id, e.g. space id, organization id, store id"},
+		{Name: "description", Type: field.TypeString, Nullable: true, Size: 2147483647, Comment: "description"},
+		{Name: "extras", Type: field.TypeJSON, Nullable: true, Comment: "Extend properties"},
+		{Name: "created_by", Type: field.TypeString, Nullable: true, Comment: "id of the creator"},
+		{Name: "updated_by", Type: field.TypeString, Nullable: true, Comment: "id of the last updater"},
+		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
+		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
+		{Name: "setting_key", Type: field.TypeString, Comment: "Unique key for the setting"},
+		{Name: "setting_name", Type: field.TypeString, Comment: "Human readable name of the setting"},
+		{Name: "setting_value", Type: field.TypeString, Nullable: true, Size: 2147483647, Comment: "Current value of the setting"},
+		{Name: "default_value", Type: field.TypeString, Nullable: true, Size: 2147483647, Comment: "Default value of the setting"},
+		{Name: "setting_type", Type: field.TypeString, Comment: "Data type of the setting value", Default: "string"},
+		{Name: "scope", Type: field.TypeString, Comment: "Scope of the setting (system, space, user, feature)", Default: "space"},
+		{Name: "category", Type: field.TypeString, Comment: "Category grouping for settings", Default: "general"},
+		{Name: "is_public", Type: field.TypeBool, Comment: "Whether setting is publicly readable", Default: false},
+		{Name: "is_required", Type: field.TypeBool, Comment: "Whether setting is required", Default: false},
+		{Name: "is_readonly", Type: field.TypeBool, Comment: "Whether setting is read-only", Default: false},
+		{Name: "validation", Type: field.TypeJSON, Nullable: true, Comment: "Validation rules for the setting value"},
+	}
+	// NcseSysSpaceSettingTable holds the schema information for the "ncse_sys_space_setting" table.
+	NcseSysSpaceSettingTable = &schema.Table{
+		Name:       "ncse_sys_space_setting",
+		Columns:    NcseSysSpaceSettingColumns,
+		PrimaryKey: []*schema.Column{NcseSysSpaceSettingColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "spacesetting_id",
+				Unique:  true,
+				Columns: []*schema.Column{NcseSysSpaceSettingColumns[0]},
+			},
+			{
+				Name:    "spacesetting_space_id",
+				Unique:  false,
+				Columns: []*schema.Column{NcseSysSpaceSettingColumns[1]},
+			},
+			{
+				Name:    "spacesetting_id_created_at",
+				Unique:  true,
+				Columns: []*schema.Column{NcseSysSpaceSettingColumns[0], NcseSysSpaceSettingColumns[6]},
+			},
+			{
+				Name:    "spacesetting_space_id_setting_key",
+				Unique:  true,
+				Columns: []*schema.Column{NcseSysSpaceSettingColumns[1], NcseSysSpaceSettingColumns[8]},
+			},
+			{
+				Name:    "spacesetting_space_id_category",
+				Unique:  false,
+				Columns: []*schema.Column{NcseSysSpaceSettingColumns[1], NcseSysSpaceSettingColumns[14]},
+			},
+			{
+				Name:    "spacesetting_space_id_scope",
+				Unique:  false,
+				Columns: []*schema.Column{NcseSysSpaceSettingColumns[1], NcseSysSpaceSettingColumns[13]},
+			},
+			{
+				Name:    "spacesetting_is_public",
+				Unique:  false,
+				Columns: []*schema.Column{NcseSysSpaceSettingColumns[15]},
+			},
+		},
+	}
+	// NcseSysUserSpaceColumns holds the columns for the "ncse_sys_user_space" table.
+	NcseSysUserSpaceColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
+		{Name: "user_id", Type: field.TypeString, Nullable: true, Comment: "user id"},
+		{Name: "space_id", Type: field.TypeString, Nullable: true, Comment: "space id, e.g. space id, organization id, store id"},
+		{Name: "created_by", Type: field.TypeString, Nullable: true, Comment: "id of the creator"},
+		{Name: "updated_by", Type: field.TypeString, Nullable: true, Comment: "id of the last updater"},
+		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
+		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
+	}
+	// NcseSysUserSpaceTable holds the schema information for the "ncse_sys_user_space" table.
+	NcseSysUserSpaceTable = &schema.Table{
+		Name:       "ncse_sys_user_space",
+		Columns:    NcseSysUserSpaceColumns,
+		PrimaryKey: []*schema.Column{NcseSysUserSpaceColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "userspace_id",
+				Unique:  true,
+				Columns: []*schema.Column{NcseSysUserSpaceColumns[0]},
+			},
+			{
+				Name:    "userspace_user_id",
+				Unique:  false,
+				Columns: []*schema.Column{NcseSysUserSpaceColumns[1]},
+			},
+			{
+				Name:    "userspace_space_id",
+				Unique:  false,
+				Columns: []*schema.Column{NcseSysUserSpaceColumns[2]},
+			},
+			{
+				Name:    "userspace_id_created_at",
+				Unique:  true,
+				Columns: []*schema.Column{NcseSysUserSpaceColumns[0], NcseSysUserSpaceColumns[5]},
+			},
+			{
+				Name:    "userspace_user_id_space_id",
+				Unique:  false,
+				Columns: []*schema.Column{NcseSysUserSpaceColumns[1], NcseSysUserSpaceColumns[2]},
+			},
+		},
+	}
+	// NcseSysUserSpaceRoleColumns holds the columns for the "ncse_sys_user_space_role" table.
+	NcseSysUserSpaceRoleColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
+		{Name: "user_id", Type: field.TypeString, Nullable: true, Comment: "user id"},
+		{Name: "space_id", Type: field.TypeString, Nullable: true, Comment: "space id, e.g. space id, organization id, store id"},
 		{Name: "role_id", Type: field.TypeString, Nullable: true, Comment: "role id"},
 		{Name: "created_by", Type: field.TypeString, Nullable: true, Comment: "id of the creator"},
 		{Name: "updated_by", Type: field.TypeString, Nullable: true, Comment: "id of the last updater"},
 		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
 		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
 	}
-	// NcseSysGroupRoleTable holds the schema information for the "ncse_sys_group_role" table.
-	NcseSysGroupRoleTable = &schema.Table{
-		Name:       "ncse_sys_group_role",
-		Columns:    NcseSysGroupRoleColumns,
-		PrimaryKey: []*schema.Column{NcseSysGroupRoleColumns[0]},
+	// NcseSysUserSpaceRoleTable holds the schema information for the "ncse_sys_user_space_role" table.
+	NcseSysUserSpaceRoleTable = &schema.Table{
+		Name:       "ncse_sys_user_space_role",
+		Columns:    NcseSysUserSpaceRoleColumns,
+		PrimaryKey: []*schema.Column{NcseSysUserSpaceRoleColumns[0]},
 		Indexes: []*schema.Index{
 			{
-				Name:    "grouprole_id",
+				Name:    "userspacerole_id",
 				Unique:  true,
-				Columns: []*schema.Column{NcseSysGroupRoleColumns[0]},
+				Columns: []*schema.Column{NcseSysUserSpaceRoleColumns[0]},
 			},
 			{
-				Name:    "grouprole_group_id",
+				Name:    "userspacerole_user_id",
 				Unique:  false,
-				Columns: []*schema.Column{NcseSysGroupRoleColumns[1]},
+				Columns: []*schema.Column{NcseSysUserSpaceRoleColumns[1]},
 			},
 			{
-				Name:    "grouprole_role_id",
+				Name:    "userspacerole_space_id",
 				Unique:  false,
-				Columns: []*schema.Column{NcseSysGroupRoleColumns[2]},
+				Columns: []*schema.Column{NcseSysUserSpaceRoleColumns[2]},
 			},
 			{
-				Name:    "grouprole_id_created_at",
+				Name:    "userspacerole_role_id",
+				Unique:  false,
+				Columns: []*schema.Column{NcseSysUserSpaceRoleColumns[3]},
+			},
+			{
+				Name:    "userspacerole_id_created_at",
 				Unique:  true,
-				Columns: []*schema.Column{NcseSysGroupRoleColumns[0], NcseSysGroupRoleColumns[5]},
+				Columns: []*schema.Column{NcseSysUserSpaceRoleColumns[0], NcseSysUserSpaceRoleColumns[6]},
 			},
 			{
-				Name:    "grouprole_group_id_role_id",
+				Name:    "userspacerole_user_id_space_id_role_id",
 				Unique:  false,
-				Columns: []*schema.Column{NcseSysGroupRoleColumns[1], NcseSysGroupRoleColumns[2]},
-			},
-		},
-	}
-	// NcseSysUserGroupColumns holds the columns for the "ncse_sys_user_group" table.
-	NcseSysUserGroupColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
-		{Name: "user_id", Type: field.TypeString, Nullable: true, Comment: "user id"},
-		{Name: "group_id", Type: field.TypeString, Nullable: true, Comment: "group id"},
-		{Name: "created_by", Type: field.TypeString, Nullable: true, Comment: "id of the creator"},
-		{Name: "updated_by", Type: field.TypeString, Nullable: true, Comment: "id of the last updater"},
-		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
-		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
-		{Name: "role", Type: field.TypeString, Comment: "Role of the user in the group", Default: "member"},
-	}
-	// NcseSysUserGroupTable holds the schema information for the "ncse_sys_user_group" table.
-	NcseSysUserGroupTable = &schema.Table{
-		Name:       "ncse_sys_user_group",
-		Columns:    NcseSysUserGroupColumns,
-		PrimaryKey: []*schema.Column{NcseSysUserGroupColumns[0]},
-		Indexes: []*schema.Index{
-			{
-				Name:    "usergroup_id",
-				Unique:  true,
-				Columns: []*schema.Column{NcseSysUserGroupColumns[0]},
-			},
-			{
-				Name:    "usergroup_user_id",
-				Unique:  false,
-				Columns: []*schema.Column{NcseSysUserGroupColumns[1]},
-			},
-			{
-				Name:    "usergroup_group_id",
-				Unique:  false,
-				Columns: []*schema.Column{NcseSysUserGroupColumns[2]},
-			},
-			{
-				Name:    "usergroup_id_created_at",
-				Unique:  true,
-				Columns: []*schema.Column{NcseSysUserGroupColumns[0], NcseSysUserGroupColumns[5]},
-			},
-			{
-				Name:    "usergroup_user_id_group_id",
-				Unique:  true,
-				Columns: []*schema.Column{NcseSysUserGroupColumns[1], NcseSysUserGroupColumns[2]},
-			},
-			{
-				Name:    "usergroup_user_id_role",
-				Unique:  false,
-				Columns: []*schema.Column{NcseSysUserGroupColumns[1], NcseSysUserGroupColumns[7]},
-			},
-			{
-				Name:    "usergroup_group_id_role",
-				Unique:  false,
-				Columns: []*schema.Column{NcseSysUserGroupColumns[2], NcseSysUserGroupColumns[7]},
+				Columns: []*schema.Column{NcseSysUserSpaceRoleColumns[1], NcseSysUserSpaceRoleColumns[2], NcseSysUserSpaceRoleColumns[3]},
 			},
 		},
 	}
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
-		NcseSysGroupTable,
-		NcseSysGroupRoleTable,
-		NcseSysUserGroupTable,
+		NcseSysSpaceTable,
+		NcseSysSpaceBillingTable,
+		NcseSysSpaceDictionaryTable,
+		NcseSysSpaceMenuTable,
+		NcseSysSpaceOptionTable,
+		NcseSysSpaceOrganizationTable,
+		NcseSysSpaceQuotaTable,
+		NcseSysSpaceSettingTable,
+		NcseSysUserSpaceTable,
+		NcseSysUserSpaceRoleTable,
 	}
 )
 
 func init() {
-	NcseSysGroupTable.Annotation = &entsql.Annotation{
-		Table: "ncse_sys_group",
+	NcseSysSpaceTable.Annotation = &entsql.Annotation{
+		Table: "ncse_sys_space",
 	}
-	NcseSysGroupRoleTable.Annotation = &entsql.Annotation{
-		Table: "ncse_sys_group_role",
+	NcseSysSpaceBillingTable.Annotation = &entsql.Annotation{
+		Table: "ncse_sys_space_billing",
 	}
-	NcseSysUserGroupTable.Annotation = &entsql.Annotation{
-		Table: "ncse_sys_user_group",
+	NcseSysSpaceDictionaryTable.Annotation = &entsql.Annotation{
+		Table: "ncse_sys_space_dictionary",
+	}
+	NcseSysSpaceMenuTable.Annotation = &entsql.Annotation{
+		Table: "ncse_sys_space_menu",
+	}
+	NcseSysSpaceOptionTable.Annotation = &entsql.Annotation{
+		Table: "ncse_sys_space_option",
+	}
+	NcseSysSpaceOrganizationTable.Annotation = &entsql.Annotation{
+		Table: "ncse_sys_space_organization",
+	}
+	NcseSysSpaceQuotaTable.Annotation = &entsql.Annotation{
+		Table: "ncse_sys_space_quota",
+	}
+	NcseSysSpaceSettingTable.Annotation = &entsql.Annotation{
+		Table: "ncse_sys_space_setting",
+	}
+	NcseSysUserSpaceTable.Annotation = &entsql.Annotation{
+		Table: "ncse_sys_user_space",
+	}
+	NcseSysUserSpaceRoleTable.Annotation = &entsql.Annotation{
+		Table: "ncse_sys_user_space_role",
 	}
 }

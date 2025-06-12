@@ -255,7 +255,7 @@ func (p *Plugin) Dependencies() []string {
 // GetAllDependencies returns all dependencies with types
 func (p *Plugin) GetAllDependencies() []ext.DependencyEntry {
 	return []ext.DependencyEntry{
-		{Name: "tenant", Type: ext.WeakDependency},
+		{Name: "space", Type: ext.WeakDependency},
 	}
 }
 
@@ -288,7 +288,7 @@ func (p *Plugin) subscribeDependencyEvents() {
 	}
 
 	// Subscribe to dependency refresh events
-	p.em.SubscribeEvent("exts.tenant.ready", func(data any) {
+	p.em.SubscribeEvent("exts.space.ready", func(data any) {
 		if p.s != nil {
 			p.s.RefreshDependencies()
 		}

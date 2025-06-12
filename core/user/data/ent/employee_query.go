@@ -262,12 +262,12 @@ func (eq *EmployeeQuery) Clone() *EmployeeQuery {
 // Example:
 //
 //	var v []struct {
-//		TenantID string `json:"tenant_id,omitempty"`
+//		SpaceID string `json:"space_id,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
 //	client.Employee.Query().
-//		GroupBy(employee.FieldTenantID).
+//		GroupBy(employee.FieldSpaceID).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
 func (eq *EmployeeQuery) GroupBy(field string, fields ...string) *EmployeeGroupBy {
@@ -285,11 +285,11 @@ func (eq *EmployeeQuery) GroupBy(field string, fields ...string) *EmployeeGroupB
 // Example:
 //
 //	var v []struct {
-//		TenantID string `json:"tenant_id,omitempty"`
+//		SpaceID string `json:"space_id,omitempty"`
 //	}
 //
 //	client.Employee.Query().
-//		Select(employee.FieldTenantID).
+//		Select(employee.FieldSpaceID).
 //		Scan(ctx, &v)
 func (eq *EmployeeQuery) Select(fields ...string) *EmployeeSelect {
 	eq.ctx.Fields = append(eq.ctx.Fields, fields...)

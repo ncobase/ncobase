@@ -5,8 +5,8 @@ go 1.24
 replace (
 	ncobase => ./../..
 	ncobase/auth => ./../auth
+	ncobase/organization => ./../organization
 	ncobase/space => ./../space
-	ncobase/tenant => ./../tenant
 	ncobase/user => ./../user
 )
 
@@ -160,7 +160,7 @@ require (
 	google.golang.org/protobuf v1.36.6 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	ncobase/auth v0.0.0-00010101000000-000000000000 // indirect
+	ncobase/organization v0.0.0-00010101000000-000000000000 // indirect
 	ncobase/space v0.0.0-00010101000000-000000000000 // indirect
-	ncobase/tenant v0.0.0-00010101000000-000000000000 // indirect
 	ncobase/user v0.0.0-00010101000000-000000000000 // indirect
 )

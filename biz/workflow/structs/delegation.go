@@ -18,14 +18,14 @@ type DelegationBody struct {
 	EndTime     int64             `json:"end_time,omitempty"`
 	IsEnabled   bool              `json:"is_enabled,omitempty"`
 	Status      string            `json:"status,omitempty"`
-	TenantID    string            `json:"tenant_id,omitempty"`
+	SpaceID     string            `json:"space_id,omitempty"`
 	Extras      types.JSON        `json:"extras,omitempty"`
 }
 
 // CreateDelegationBody represents body for creating delegation
 type CreateDelegationBody struct {
 	DelegationBody
-	TenantID string `json:"tenant_id,omitempty"`
+	SpaceID string `json:"space_id,omitempty"`
 }
 
 // UpdateDelegationBody represents body for updating delegation
@@ -46,7 +46,7 @@ type ReadDelegation struct {
 	EndTime     int64             `json:"end_time,omitempty"`
 	IsEnabled   bool              `json:"is_enabled,omitempty"`
 	Status      string            `json:"status,omitempty"`
-	TenantID    string            `json:"tenant_id,omitempty"`
+	SpaceID     string            `json:"space_id,omitempty"`
 	Extras      types.JSON        `json:"extras,omitempty"`
 	CreatedBy   *string           `json:"created_by,omitempty"`
 	CreatedAt   *int64            `json:"created_at,omitempty"`
@@ -74,7 +74,7 @@ type FindDelegationParams struct {
 	Status      string `form:"status,omitempty" json:"status,omitempty"`
 	StartTime   *int64 `form:"start_time,omitempty" json:"start_time,omitempty"`
 	EndTime     *int64 `form:"end_time,omitempty" json:"end_time,omitempty"`
-	Tenant      string `form:"tenant,omitempty" json:"tenant,omitempty"`
+	Space       string `form:"space,omitempty" json:"space,omitempty"`
 }
 
 // ListDelegationParams represents list parameters for delegations
@@ -87,5 +87,5 @@ type ListDelegationParams struct {
 	NodeType    string `form:"node_type,omitempty" json:"node_type,omitempty"`
 	IsEnabled   *bool  `form:"is_enabled,omitempty" json:"is_enabled,omitempty"`
 	Status      string `form:"status,omitempty" json:"status,omitempty"`
-	Tenant      string `form:"tenant,omitempty" json:"tenant,omitempty"`
+	Space       string `form:"space,omitempty" json:"space,omitempty"`
 }

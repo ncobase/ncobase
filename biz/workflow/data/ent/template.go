@@ -84,8 +84,8 @@ type Template struct {
 	VisibleRange map[string]interface{} `json:"visible_range,omitempty"`
 	// Extend properties
 	Extras map[string]interface{} `json:"extras,omitempty"`
-	// tenant id
-	TenantID string `json:"tenant_id,omitempty"`
+	// space id, e.g. space id, organization id, store id
+	SpaceID string `json:"space_id,omitempty"`
 	// id of the creator
 	CreatedBy string `json:"created_by,omitempty"`
 	// id of the last updater
@@ -126,7 +126,7 @@ func (*Template) scanValues(columns []string) ([]any, error) {
 			values[i] = new(sql.NullBool)
 		case template.FieldCreatedAt, template.FieldUpdatedAt, template.FieldEffectiveTime, template.FieldExpireTime:
 			values[i] = new(sql.NullInt64)
-		case template.FieldID, template.FieldName, template.FieldCode, template.FieldDescription, template.FieldType, template.FieldVersion, template.FieldStatus, template.FieldFormCode, template.FieldFormVersion, template.FieldNodeKey, template.FieldNodeType, template.FieldModuleCode, template.FieldCategory, template.FieldTenantID, template.FieldCreatedBy, template.FieldUpdatedBy, template.FieldTemplateKey, template.FieldSourceVersion:
+		case template.FieldID, template.FieldName, template.FieldCode, template.FieldDescription, template.FieldType, template.FieldVersion, template.FieldStatus, template.FieldFormCode, template.FieldFormVersion, template.FieldNodeKey, template.FieldNodeType, template.FieldModuleCode, template.FieldCategory, template.FieldSpaceID, template.FieldCreatedBy, template.FieldUpdatedBy, template.FieldTemplateKey, template.FieldSourceVersion:
 			values[i] = new(sql.NullString)
 		default:
 			values[i] = new(sql.UnknownType)
@@ -373,11 +373,11 @@ func (t *Template) assignValues(columns []string, values []any) error {
 					return fmt.Errorf("unmarshal field extras: %w", err)
 				}
 			}
-		case template.FieldTenantID:
+		case template.FieldSpaceID:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field tenant_id", values[i])
+				return fmt.Errorf("unexpected type %T for field space_id", values[i])
 			} else if value.Valid {
-				t.TenantID = value.String
+				t.SpaceID = value.String
 			}
 		case template.FieldCreatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -600,8 +600,8 @@ func (t *Template) String() string {
 	builder.WriteString("extras=")
 	builder.WriteString(fmt.Sprintf("%v", t.Extras))
 	builder.WriteString(", ")
-	builder.WriteString("tenant_id=")
-	builder.WriteString(t.TenantID)
+	builder.WriteString("space_id=")
+	builder.WriteString(t.SpaceID)
 	builder.WriteString(", ")
 	builder.WriteString("created_by=")
 	builder.WriteString(t.CreatedBy)

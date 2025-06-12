@@ -13,7 +13,7 @@ type PaymentEventData struct {
 	ChannelID      string                  `json:"channel_id"`
 	Provider       structs.PaymentProvider `json:"provider"`
 	UserID         string                  `json:"user_id"`
-	TenantID       string                  `json:"tenant_id,omitempty"`
+	SpaceID        string                  `json:"space_id,omitempty"`
 	Amount         float64                 `json:"amount"`
 	Currency       structs.CurrencyCode    `json:"currency"`
 	Status         structs.PaymentStatus   `json:"status"`
@@ -27,7 +27,7 @@ type PaymentEventData struct {
 func NewPaymentEventData(
 	orderID, orderNumber, channelID string,
 	provider structs.PaymentProvider,
-	userID, tenantID string,
+	userID, spaceID string,
 	amount float64,
 	currency structs.CurrencyCode,
 	status structs.PaymentStatus,
@@ -42,7 +42,7 @@ func NewPaymentEventData(
 		ChannelID:      channelID,
 		Provider:       provider,
 		UserID:         userID,
-		TenantID:       tenantID,
+		SpaceID:        spaceID,
 		Amount:         amount,
 		Currency:       currency,
 		Status:         status,
@@ -58,7 +58,7 @@ type SubscriptionEventData struct {
 	Timestamp          time.Time                  `json:"timestamp"`
 	SubscriptionID     string                     `json:"subscription_id"`
 	UserID             string                     `json:"user_id"`
-	TenantID           string                     `json:"tenant_id,omitempty"`
+	SpaceID            string                     `json:"space_id,omitempty"`
 	ProductID          string                     `json:"product_id"`
 	ChannelID          string                     `json:"channel_id"`
 	Provider           structs.PaymentProvider    `json:"provider"`
@@ -70,7 +70,7 @@ type SubscriptionEventData struct {
 
 // NewSubscriptionEventData creates a new subscription event data instance
 func NewSubscriptionEventData(
-	subscriptionID, userID, tenantID, productID, channelID string,
+	subscriptionID, userID, spaceID, productID, channelID string,
 	provider structs.PaymentProvider,
 	status structs.SubscriptionStatus,
 	currentPeriodStart, currentPeriodEnd time.Time,
@@ -80,7 +80,7 @@ func NewSubscriptionEventData(
 		Timestamp:          time.Now(),
 		SubscriptionID:     subscriptionID,
 		UserID:             userID,
-		TenantID:           tenantID,
+		SpaceID:            spaceID,
 		ProductID:          productID,
 		ChannelID:          channelID,
 		Provider:           provider,
@@ -99,7 +99,7 @@ type ChannelEventData struct {
 	Provider  structs.PaymentProvider `json:"provider"`
 	Status    structs.ChannelStatus   `json:"status"`
 	IsDefault bool                    `json:"is_default"`
-	TenantID  string                  `json:"tenant_id,omitempty"`
+	SpaceID   string                  `json:"space_id,omitempty"`
 	Metadata  map[string]any          `json:"metadata,omitempty"`
 }
 
@@ -109,7 +109,7 @@ func NewChannelEventData(
 	provider structs.PaymentProvider,
 	status structs.ChannelStatus,
 	isDefault bool,
-	tenantID string,
+	spaceID string,
 	metadata map[string]any,
 ) *ChannelEventData {
 	return &ChannelEventData{
@@ -119,7 +119,7 @@ func NewChannelEventData(
 		Provider:  provider,
 		Status:    status,
 		IsDefault: isDefault,
-		TenantID:  tenantID,
+		SpaceID:   spaceID,
 		Metadata:  metadata,
 	}
 }
@@ -134,7 +134,7 @@ type ProductEventData struct {
 	Price           float64                 `json:"price"`
 	Currency        structs.CurrencyCode    `json:"currency"`
 	BillingInterval structs.BillingInterval `json:"billing_interval,omitempty"`
-	TenantID        string                  `json:"tenant_id,omitempty"`
+	SpaceID         string                  `json:"space_id,omitempty"`
 	Metadata        map[string]any          `json:"metadata,omitempty"`
 }
 
@@ -146,7 +146,7 @@ func NewProductEventData(
 	price float64,
 	currency structs.CurrencyCode,
 	billingInterval structs.BillingInterval,
-	tenantID string,
+	spaceID string,
 	metadata map[string]any,
 ) *ProductEventData {
 	return &ProductEventData{
@@ -158,7 +158,7 @@ func NewProductEventData(
 		Price:           price,
 		Currency:        currency,
 		BillingInterval: billingInterval,
-		TenantID:        tenantID,
+		SpaceID:         spaceID,
 		Metadata:        metadata,
 	}
 }

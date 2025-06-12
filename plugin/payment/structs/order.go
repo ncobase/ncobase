@@ -15,7 +15,7 @@ type Order struct {
 	Type           PaymentType    `json:"type"`
 	ChannelID      string         `json:"channel_id"`
 	UserID         string         `json:"user_id"`
-	TenantID       string         `json:"tenant_id,omitempty"`
+	SpaceID        string         `json:"space_id,omitempty"`
 	ProductID      string         `json:"product_id,omitempty"`
 	SubscriptionID string         `json:"subscription_id,omitempty"`
 	ExpiresAt      time.Time      `json:"expires_at"`
@@ -41,7 +41,7 @@ type CreateOrderInput struct {
 	Type           PaymentType    `json:"type"`
 	ChannelID      string         `json:"channel_id"`
 	UserID         string         `json:"user_id"`
-	TenantID       string         `json:"tenant_id,omitempty"`
+	SpaceID        string         `json:"space_id,omitempty"`
 	ProductID      string         `json:"product_id,omitempty"`
 	SubscriptionID string         `json:"subscription_id,omitempty"`
 	ExpiresAt      time.Time      `json:"expires_at"`
@@ -61,7 +61,7 @@ type UpdateOrderInput struct {
 	Type           PaymentType    `json:"type,omitempty"`
 	ChannelID      string         `json:"channel_id,omitempty"`
 	UserID         string         `json:"user_id,omitempty"`
-	TenantID       string         `json:"tenant_id,omitempty"`
+	SpaceID        string         `json:"space_id,omitempty"`
 	ProductID      string         `json:"product_id,omitempty"`
 	SubscriptionID string         `json:"subscription_id,omitempty"`
 	ExpiresAt      *time.Time     `json:"expires_at,omitempty"`
@@ -83,7 +83,7 @@ type OrderQuery struct {
 	Type           PaymentType   `form:"type" json:"type,omitempty"`
 	ChannelID      string        `form:"channel_id" json:"channel_id,omitempty"`
 	UserID         string        `form:"user_id" json:"user_id,omitempty"`
-	TenantID       string        `form:"tenant_id" json:"tenant_id,omitempty"`
+	SpaceID        string        `form:"space_id" json:"space_id,omitempty"`
 	ProductID      string        `form:"product_id" json:"product_id,omitempty"`
 	SubscriptionID string        `form:"subscription_id" json:"subscription_id,omitempty"`
 	StartDate      int64         `form:"start_date" json:"start_date,omitempty"`

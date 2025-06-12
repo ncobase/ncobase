@@ -48,8 +48,8 @@ func (r *subscriptionRepository) Create(ctx context.Context, sub *structs.Subscr
 		SetCurrentPeriodEnd(sub.CurrentPeriodEnd)
 
 	// Set optional fields
-	if sub.TenantID != "" {
-		builder.SetTenantID(sub.TenantID)
+	if sub.SpaceID != "" {
+		builder.SetSpaceID(sub.SpaceID)
 	}
 
 	if sub.CancelAt != nil {
@@ -173,8 +173,8 @@ func (r *subscriptionRepository) List(ctx context.Context, query *structs.Subscr
 		q = q.Where(paymentSubscriptionEnt.UserID(query.UserID))
 	}
 
-	if query.TenantID != "" {
-		q = q.Where(paymentSubscriptionEnt.TenantID(query.TenantID))
+	if query.SpaceID != "" {
+		q = q.Where(paymentSubscriptionEnt.SpaceID(query.SpaceID))
 	}
 
 	if query.ProductID != "" {
@@ -271,8 +271,8 @@ func (r *subscriptionRepository) Count(ctx context.Context, query *structs.Subsc
 		q = q.Where(paymentSubscriptionEnt.UserID(query.UserID))
 	}
 
-	if query.TenantID != "" {
-		q = q.Where(paymentSubscriptionEnt.TenantID(query.TenantID))
+	if query.SpaceID != "" {
+		q = q.Where(paymentSubscriptionEnt.SpaceID(query.SpaceID))
 	}
 
 	if query.ProductID != "" {
@@ -411,7 +411,7 @@ func (r *subscriptionRepository) entToStruct(sub *ent.PaymentSubscription) (*str
 	return &structs.Subscription{
 		Status:             structs.SubscriptionStatus(sub.Status),
 		UserID:             sub.UserID,
-		TenantID:           sub.TenantID,
+		SpaceID:            sub.SpaceID,
 		ProductID:          sub.ProductID,
 		ChannelID:          sub.ChannelID,
 		CurrentPeriodStart: sub.CurrentPeriodStart,

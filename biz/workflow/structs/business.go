@@ -24,14 +24,14 @@ type BusinessBody struct {
 	BusinessTags types.StringArray `json:"business_tags,omitempty"`
 	Viewers      types.StringArray `json:"viewers,omitempty"`
 	Editors      types.StringArray `json:"editors,omitempty"`
-	TenantID     string            `json:"tenant_id,omitempty"`
+	SpaceID      string            `json:"space_id,omitempty"`
 	Extras       types.JSON        `json:"extras,omitempty"`
 }
 
 // CreateBusinessBody represents the body for creating business
 type CreateBusinessBody struct {
 	BusinessBody
-	TenantID string `json:"tenant_id,omitempty"`
+	SpaceID string `json:"space_id,omitempty"`
 }
 
 // UpdateBusinessBody represents the body for updating business
@@ -58,7 +58,7 @@ type ReadBusiness struct {
 	BusinessTags types.StringArray `json:"business_tags,omitempty"`
 	Viewers      types.StringArray `json:"viewers,omitempty"`
 	Editors      types.StringArray `json:"editors,omitempty"`
-	TenantID     string            `json:"tenant_id,omitempty"`
+	SpaceID      string            `json:"space_id,omitempty"`
 	Extras       types.JSON        `json:"extras,omitempty"`
 	CreatedBy    *string           `json:"created_by,omitempty"`
 	CreatedAt    *int64            `json:"created_at,omitempty"`
@@ -97,7 +97,7 @@ type FindBusinessParams struct {
 	Status     string `form:"status,omitempty" json:"status,omitempty"`
 	FlowStatus string `form:"flow_status,omitempty" json:"flow_status,omitempty"`
 	IsDraft    *bool  `form:"is_draft,omitempty" json:"is_draft,omitempty"`
-	Tenant     string `form:"tenant,omitempty" json:"tenant,omitempty"`
+	Space      string `form:"space,omitempty" json:"space,omitempty"`
 	SortBy     string `form:"sort_by,omitempty" json:"sort_by,omitempty"`
 }
 
@@ -110,6 +110,6 @@ type ListBusinessParams struct {
 	FormCode   string `form:"form_code,omitempty" json:"form_code,omitempty"`
 	Status     string `form:"status,omitempty" json:"status,omitempty"`
 	IsDraft    *bool  `form:"is_draft,omitempty" json:"is_draft,omitempty"`
-	Tenant     string `form:"tenant,omitempty" json:"tenant,omitempty"`
+	Space      string `form:"space,omitempty" json:"space,omitempty"`
 	SortBy     string `form:"sort_by,omitempty" json:"sort_by,omitempty"`
 }

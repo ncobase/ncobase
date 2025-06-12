@@ -159,16 +159,16 @@ func (cc *CounterCreate) SetNillableDescription(s *string) *CounterCreate {
 	return cc
 }
 
-// SetTenantID sets the "tenant_id" field.
-func (cc *CounterCreate) SetTenantID(s string) *CounterCreate {
-	cc.mutation.SetTenantID(s)
+// SetSpaceID sets the "space_id" field.
+func (cc *CounterCreate) SetSpaceID(s string) *CounterCreate {
+	cc.mutation.SetSpaceID(s)
 	return cc
 }
 
-// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
-func (cc *CounterCreate) SetNillableTenantID(s *string) *CounterCreate {
+// SetNillableSpaceID sets the "space_id" field if the given value is not nil.
+func (cc *CounterCreate) SetNillableSpaceID(s *string) *CounterCreate {
 	if s != nil {
-		cc.SetTenantID(*s)
+		cc.SetSpaceID(*s)
 	}
 	return cc
 }
@@ -408,9 +408,9 @@ func (cc *CounterCreate) createSpec() (*Counter, *sqlgraph.CreateSpec) {
 		_spec.SetField(counter.FieldDescription, field.TypeString, value)
 		_node.Description = value
 	}
-	if value, ok := cc.mutation.TenantID(); ok {
-		_spec.SetField(counter.FieldTenantID, field.TypeString, value)
-		_node.TenantID = value
+	if value, ok := cc.mutation.SpaceID(); ok {
+		_spec.SetField(counter.FieldSpaceID, field.TypeString, value)
+		_node.SpaceID = value
 	}
 	if value, ok := cc.mutation.CreatedBy(); ok {
 		_spec.SetField(counter.FieldCreatedBy, field.TypeString, value)

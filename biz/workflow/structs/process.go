@@ -36,7 +36,7 @@ type ProcessBody struct {
 	AllowCancel   bool              `json:"allow_cancel,omitempty"`
 	AllowUrge     bool              `json:"allow_urge,omitempty"`
 	UrgeCount     int               `json:"urge_count,omitempty"`
-	TenantID      string            `json:"tenant_id,omitempty"`
+	SpaceID       string            `json:"space_id,omitempty"`
 	StartTime     *int64            `json:"start_time,omitempty"`
 	EndTime       *int64            `json:"end_time,omitempty"`
 	DueDate       *int64            `json:"due_date,omitempty"`
@@ -48,7 +48,7 @@ type ProcessBody struct {
 // CreateProcessBody represents the body for creating process
 type CreateProcessBody struct {
 	ProcessBody
-	TenantID string `json:"tenant_id,omitempty"`
+	SpaceID string `json:"space_id,omitempty"`
 }
 
 // UpdateProcessBody represents the body for updating process
@@ -86,7 +86,7 @@ type ReadProcess struct {
 	AllowCancel   bool              `json:"allow_cancel,omitempty"`
 	AllowUrge     bool              `json:"allow_urge,omitempty"`
 	UrgeCount     int               `json:"urge_count,omitempty"`
-	TenantID      string            `json:"tenant_id,omitempty"`
+	SpaceID       string            `json:"space_id,omitempty"`
 	StartTime     *int64            `json:"start_time,omitempty"`
 	EndTime       *int64            `json:"end_time,omitempty"`
 	DueDate       *int64            `json:"due_date,omitempty"`
@@ -148,7 +148,7 @@ type FindProcessParams struct {
 	IsSuspended *bool  `form:"is_suspended,omitempty" json:"is_suspended,omitempty"`
 	StartFrom   *int64 `form:"start_from,omitempty" json:"start_from,omitempty"`
 	StartTo     *int64 `form:"start_to,omitempty" json:"start_to,omitempty"`
-	Tenant      string `form:"tenant,omitempty" json:"tenant,omitempty"`
+	Space       string `form:"space,omitempty" json:"space,omitempty"`
 	SortBy      string `form:"sort_by,omitempty" json:"sort_by,omitempty"`
 }
 
@@ -160,6 +160,6 @@ type ListProcessParams struct {
 	Status    string `form:"status,omitempty" json:"status,omitempty"`
 	Initiator string `form:"initiator,omitempty" json:"initiator,omitempty"`
 	Priority  *int   `form:"priority,omitempty" json:"priority,omitempty"`
-	Tenant    string `form:"tenant,omitempty" json:"tenant,omitempty"`
+	Space     string `form:"space,omitempty" json:"space,omitempty"`
 	SortBy    string `form:"sort_by,omitempty" json:"sort_by,omitempty"`
 }

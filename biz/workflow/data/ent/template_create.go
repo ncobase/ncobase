@@ -345,16 +345,16 @@ func (tc *TemplateCreate) SetExtras(m map[string]interface{}) *TemplateCreate {
 	return tc
 }
 
-// SetTenantID sets the "tenant_id" field.
-func (tc *TemplateCreate) SetTenantID(s string) *TemplateCreate {
-	tc.mutation.SetTenantID(s)
+// SetSpaceID sets the "space_id" field.
+func (tc *TemplateCreate) SetSpaceID(s string) *TemplateCreate {
+	tc.mutation.SetSpaceID(s)
 	return tc
 }
 
-// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
-func (tc *TemplateCreate) SetNillableTenantID(s *string) *TemplateCreate {
+// SetNillableSpaceID sets the "space_id" field if the given value is not nil.
+func (tc *TemplateCreate) SetNillableSpaceID(s *string) *TemplateCreate {
 	if s != nil {
-		tc.SetTenantID(*s)
+		tc.SetSpaceID(*s)
 	}
 	return tc
 }
@@ -817,9 +817,9 @@ func (tc *TemplateCreate) createSpec() (*Template, *sqlgraph.CreateSpec) {
 		_spec.SetField(template.FieldExtras, field.TypeJSON, value)
 		_node.Extras = value
 	}
-	if value, ok := tc.mutation.TenantID(); ok {
-		_spec.SetField(template.FieldTenantID, field.TypeString, value)
-		_node.TenantID = value
+	if value, ok := tc.mutation.SpaceID(); ok {
+		_spec.SetField(template.FieldSpaceID, field.TypeString, value)
+		_node.SpaceID = value
 	}
 	if value, ok := tc.mutation.CreatedBy(); ok {
 		_spec.SetField(template.FieldCreatedBy, field.TypeString, value)

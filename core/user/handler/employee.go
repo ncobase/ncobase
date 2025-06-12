@@ -133,7 +133,7 @@ func (h *employeeHandler) Delete(c *gin.Context) {
 // @Description List employees with filtering and pagination
 // @Tags sys
 // @Produce json
-// @Param tenant_id query string false "Tenant ID"
+// @Param space_id query string false "Space ID"
 // @Param department query string false "Department"
 // @Param status query string false "Employee status"
 // @Param employment_type query string false "Employment type"

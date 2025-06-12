@@ -119,9 +119,9 @@ func (s *distributionService) Update(ctx context.Context, id string, updates typ
 		}
 	}
 
-	// Handle space_id/tenant_id compatibility
+	// Handle space_id/space_id compatibility
 	if spaceID, ok := updates["space_id"].(string); ok {
-		updates["tenant_id"] = spaceID
+		updates["space_id"] = spaceID
 	}
 
 	row, err := s.r.Update(ctx, id, updates)

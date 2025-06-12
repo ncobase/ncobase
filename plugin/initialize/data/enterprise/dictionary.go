@@ -180,7 +180,7 @@ var SystemDefaultDictionaries = []structs.DictionaryBody{
 		Name:        "Menu Type",
 		Slug:        "menu_type",
 		Type:        "object",
-		Value:       `{"header":"Header Menu","sidebar":"Sidebar Menu","submenu":"Submenu","divider":"Divider","account":"Account Menu","tenant":"Tenant Menu"}`,
+		Value:       `{"header":"Header Menu","sidebar":"Sidebar Menu","submenu":"Submenu","divider":"Divider","account":"Account Menu","space":"Space Menu"}`,
 		Description: "System menu types",
 	},
 

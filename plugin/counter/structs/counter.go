@@ -18,7 +18,7 @@ type CounterBody struct {
 	CurrentValue  int     `json:"current_value,omitempty"`
 	Disabled      bool    `json:"disabled,omitempty"`
 	Description   string  `json:"description,omitempty"`
-	TenantID      *string `json:"tenant_id,omitempty"`
+	SpaceID       *string `json:"space_id,omitempty"`
 	CreatedBy     *string `json:"created_by,omitempty"`
 	UpdatedBy     *string `json:"updated_by,omitempty"`
 }
@@ -47,7 +47,7 @@ type ReadCounter struct {
 	CurrentValue  int     `json:"current_value"`
 	Disabled      bool    `json:"disabled"`
 	Description   string  `json:"description"`
-	TenantID      *string `json:"tenant_id,omitempty"`
+	SpaceID       *string `json:"space_id,omitempty"`
 	CreatedBy     *string `json:"created_by,omitempty"`
 	CreatedAt     *int64  `json:"created_at,omitempty"`
 	UpdatedBy     *string `json:"updated_by,omitempty"`
@@ -62,7 +62,7 @@ func (r *ReadCounter) GetCursorValue() string {
 // FindCounter represents the parameters for finding a counter.
 type FindCounter struct {
 	Counter  string `form:"counter,omitempty" json:"counter,omitempty"`
-	Tenant   string `form:"tenant,omitempty" json:"tenant,omitempty"`
+	Space    string `form:"space,omitempty" json:"space,omitempty"`
 	Disabled bool   `form:"disabled,omitempty" json:"disabled,omitempty"`
 }
 
@@ -71,6 +71,6 @@ type ListCounterParams struct {
 	Cursor    string `form:"cursor,omitempty" json:"cursor,omitempty"`
 	Limit     int    `form:"limit,omitempty" json:"limit,omitempty"`
 	Direction string `form:"direction,omitempty" json:"direction,omitempty"`
-	Tenant    string `form:"tenant,omitempty" json:"tenant,omitempty"`
+	Space     string `form:"space,omitempty" json:"space,omitempty"`
 	Disabled  bool   `form:"disabled,omitempty" json:"disabled,omitempty"`
 }

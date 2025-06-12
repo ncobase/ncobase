@@ -28,7 +28,7 @@ func (s *Service) getMenuData() *struct {
 	Sidebars []structs.MenuBody
 	Submenus []structs.MenuBody
 	Accounts []structs.MenuBody
-	Tenants  []structs.MenuBody
+	Spaces   []structs.MenuBody
 } {
 	return &menuData.SystemDefaultMenus
 }
@@ -61,7 +61,7 @@ func (s *Service) verifyMenuData(ctx context.Context) error {
 	return nil
 }
 
-// initMenus initializes default menu structure and creates tenant relationships
+// initMenus initializes default menu structure and creates space relationships
 func (s *Service) initMenus(ctx context.Context) error {
 	logger.Infof(ctx, "Initializing default menus...")
 
@@ -69,11 +69,11 @@ func (s *Service) initMenus(ctx context.Context) error {
 		return fmt.Errorf("menu data verification failed: %w", err)
 	}
 
-	// Get default tenant
-	tenant, err := s.getDefaultTenant(ctx)
+	// Get default space
+	space, err := s.getDefaultSpace(ctx)
 	if err != nil {
-		logger.Errorf(ctx, "initMenus error on get default tenant: %v", err)
-		return fmt.Errorf("failed to get default tenant: %w", err)
+		logger.Errorf(ctx, "initMenus error on get default space: %v", err)
+		return fmt.Errorf("failed to get default space: %w", err)
 	}
 
 	adminUser, err := s.getAdminUser(ctx, "menu creation")
@@ -103,10 +103,10 @@ func (s *Service) initMenus(ctx context.Context) error {
 		headerIDMap[menuBody.Slug] = createdMenu.ID
 		createdMenus++
 
-		// Create tenant-menu relationship
-		_, err = s.ts.TenantMenu.AddMenuToTenant(ctx, tenant.ID, createdMenu.ID)
+		// Create space-menu relationship
+		_, err = s.ts.SpaceMenu.AddMenuToSpace(ctx, space.ID, createdMenu.ID)
 		if err != nil {
-			logger.Errorf(ctx, "Error linking menu %s to tenant %s: %v", createdMenu.ID, tenant.ID, err)
+			logger.Errorf(ctx, "Error linking menu %s to space %s: %v", createdMenu.ID, space.ID, err)
 			return err
 		}
 		relationshipCount++
@@ -143,10 +143,10 @@ func (s *Service) initMenus(ctx context.Context) error {
 		}
 		createdMenus++
 
-		// Create tenant-menu relationship
-		_, err = s.ts.TenantMenu.AddMenuToTenant(ctx, tenant.ID, createdMenu.ID)
+		// Create space-menu relationship
+		_, err = s.ts.SpaceMenu.AddMenuToSpace(ctx, space.ID, createdMenu.ID)
 		if err != nil {
-			logger.Errorf(ctx, "Error linking menu %s to tenant %s: %v", createdMenu.ID, tenant.ID, err)
+			logger.Errorf(ctx, "Error linking menu %s to space %s: %v", createdMenu.ID, space.ID, err)
 			return err
 		}
 		relationshipCount++
@@ -178,10 +178,10 @@ func (s *Service) initMenus(ctx context.Context) error {
 		}
 		createdMenus++
 
-		// Create tenant-menu relationship
-		_, err = s.ts.TenantMenu.AddMenuToTenant(ctx, tenant.ID, createdMenu.ID)
+		// Create space-menu relationship
+		_, err = s.ts.SpaceMenu.AddMenuToSpace(ctx, space.ID, createdMenu.ID)
 		if err != nil {
-			logger.Errorf(ctx, "Error linking menu %s to tenant %s: %v", createdMenu.ID, tenant.ID, err)
+			logger.Errorf(ctx, "Error linking menu %s to space %s: %v", createdMenu.ID, space.ID, err)
 			return err
 		}
 		relationshipCount++
@@ -202,34 +202,34 @@ func (s *Service) initMenus(ctx context.Context) error {
 		}
 		createdMenus++
 
-		// Create tenant-menu relationship
-		_, err = s.ts.TenantMenu.AddMenuToTenant(ctx, tenant.ID, createdMenu.ID)
+		// Create space-menu relationship
+		_, err = s.ts.SpaceMenu.AddMenuToSpace(ctx, space.ID, createdMenu.ID)
 		if err != nil {
-			logger.Errorf(ctx, "Error linking menu %s to tenant %s: %v", createdMenu.ID, tenant.ID, err)
+			logger.Errorf(ctx, "Error linking menu %s to space %s: %v", createdMenu.ID, space.ID, err)
 			return err
 		}
 		relationshipCount++
 	}
 
-	// Create tenant menus
-	for _, menu := range menuData.Tenants {
+	// Create space menus
+	for _, menu := range menuData.Spaces {
 		menuBody := menu
 		menuBody.CreatedBy = &adminUser.ID
 		menuBody.UpdatedBy = &adminUser.ID
 		menuBody.Extras = &defaultExtras
 
-		logger.Debugf(ctx, "Creating tenant menu: %s", menuBody.Name)
+		logger.Debugf(ctx, "Creating space menu: %s", menuBody.Name)
 		createdMenu, err := s.sys.Menu.Create(ctx, &menuBody)
 		if err != nil {
-			logger.Errorf(ctx, "Error creating tenant menu %s: %v", menuBody.Name, err)
-			return fmt.Errorf("failed to create tenant menu '%s': %w", menuBody.Name, err)
+			logger.Errorf(ctx, "Error creating space menu %s: %v", menuBody.Name, err)
+			return fmt.Errorf("failed to create space menu '%s': %w", menuBody.Name, err)
 		}
 		createdMenus++
 
-		// Create tenant-menu relationship
-		_, err = s.ts.TenantMenu.AddMenuToTenant(ctx, tenant.ID, createdMenu.ID)
+		// Create space-menu relationship
+		_, err = s.ts.SpaceMenu.AddMenuToSpace(ctx, space.ID, createdMenu.ID)
 		if err != nil {
-			logger.Errorf(ctx, "Error linking menu %s to tenant %s: %v", createdMenu.ID, tenant.ID, err)
+			logger.Errorf(ctx, "Error linking menu %s to space %s: %v", createdMenu.ID, space.ID, err)
 			return err
 		}
 		relationshipCount++

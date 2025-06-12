@@ -11,7 +11,7 @@ import (
 // EmployeeBody represents employee information
 type EmployeeBody struct {
 	UserID          string      `json:"user_id,omitempty"`
-	TenantID        string      `json:"tenant_id,omitempty"`
+	SpaceID         string      `json:"space_id,omitempty"`
 	EmployeeID      string      `json:"employee_id,omitempty"`
 	Department      string      `json:"department,omitempty"`
 	Position        string      `json:"position,omitempty"`
@@ -41,7 +41,7 @@ type UpdateEmployeeBody struct {
 // ReadEmployee represents the output schema for retrieving employee
 type ReadEmployee struct {
 	UserID          string      `json:"user_id"`
-	TenantID        string      `json:"tenant_id"`
+	SpaceID         string      `json:"space_id"`
 	EmployeeID      string      `json:"employee_id,omitempty"`
 	Department      string      `json:"department,omitempty"`
 	Position        string      `json:"position,omitempty"`
@@ -70,7 +70,7 @@ type ListEmployeeParams struct {
 	Cursor         string `json:"cursor,omitempty" query:"cursor"`
 	Limit          int    `json:"limit,omitempty" query:"limit"`
 	Direction      string `json:"direction,omitempty" query:"direction"`
-	TenantID       string `form:"tenant_id,omitempty" json:"tenant_id,omitempty"`
+	SpaceID        string `form:"space_id,omitempty" json:"space_id,omitempty"`
 	Department     string `form:"department,omitempty" json:"department,omitempty"`
 	Status         string `form:"status,omitempty" json:"status,omitempty"`
 	EmploymentType string `form:"employment_type,omitempty" json:"employment_type,omitempty"`

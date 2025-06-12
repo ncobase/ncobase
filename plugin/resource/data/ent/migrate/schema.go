@@ -20,7 +20,7 @@ var (
 		{Name: "bucket", Type: field.TypeString, Nullable: true, Comment: "bucket"},
 		{Name: "endpoint", Type: field.TypeString, Nullable: true, Comment: "endpoint"},
 		{Name: "owner_id", Type: field.TypeString, Nullable: true, Comment: "owner id"},
-		{Name: "space_id", Type: field.TypeString, Nullable: true, Comment: "space id, e.g. tenant id, organization id, store id"},
+		{Name: "space_id", Type: field.TypeString, Nullable: true, Comment: "space id, e.g. space id, organization id, store id"},
 		{Name: "extras", Type: field.TypeJSON, Nullable: true, Comment: "Extend properties"},
 		{Name: "created_by", Type: field.TypeString, Nullable: true, Comment: "id of the creator"},
 		{Name: "updated_by", Type: field.TypeString, Nullable: true, Comment: "id of the last updater"},

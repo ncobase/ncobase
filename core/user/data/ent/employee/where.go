@@ -64,9 +64,9 @@ func IDContainsFold(id string) predicate.Employee {
 	return predicate.Employee(sql.FieldContainsFold(FieldID, id))
 }
 
-// TenantID applies equality check predicate on the "tenant_id" field. It's identical to TenantIDEQ.
-func TenantID(v string) predicate.Employee {
-	return predicate.Employee(sql.FieldEQ(FieldTenantID, v))
+// SpaceID applies equality check predicate on the "space_id" field. It's identical to SpaceIDEQ.
+func SpaceID(v string) predicate.Employee {
+	return predicate.Employee(sql.FieldEQ(FieldSpaceID, v))
 }
 
 // CreatedAt applies equality check predicate on the "created_at" field. It's identical to CreatedAtEQ.
@@ -119,79 +119,79 @@ func WorkLocation(v string) predicate.Employee {
 	return predicate.Employee(sql.FieldEQ(FieldWorkLocation, v))
 }
 
-// TenantIDEQ applies the EQ predicate on the "tenant_id" field.
-func TenantIDEQ(v string) predicate.Employee {
-	return predicate.Employee(sql.FieldEQ(FieldTenantID, v))
+// SpaceIDEQ applies the EQ predicate on the "space_id" field.
+func SpaceIDEQ(v string) predicate.Employee {
+	return predicate.Employee(sql.FieldEQ(FieldSpaceID, v))
 }
 
-// TenantIDNEQ applies the NEQ predicate on the "tenant_id" field.
-func TenantIDNEQ(v string) predicate.Employee {
-	return predicate.Employee(sql.FieldNEQ(FieldTenantID, v))
+// SpaceIDNEQ applies the NEQ predicate on the "space_id" field.
+func SpaceIDNEQ(v string) predicate.Employee {
+	return predicate.Employee(sql.FieldNEQ(FieldSpaceID, v))
 }
 
-// TenantIDIn applies the In predicate on the "tenant_id" field.
-func TenantIDIn(vs ...string) predicate.Employee {
-	return predicate.Employee(sql.FieldIn(FieldTenantID, vs...))
+// SpaceIDIn applies the In predicate on the "space_id" field.
+func SpaceIDIn(vs ...string) predicate.Employee {
+	return predicate.Employee(sql.FieldIn(FieldSpaceID, vs...))
 }
 
-// TenantIDNotIn applies the NotIn predicate on the "tenant_id" field.
-func TenantIDNotIn(vs ...string) predicate.Employee {
-	return predicate.Employee(sql.FieldNotIn(FieldTenantID, vs...))
+// SpaceIDNotIn applies the NotIn predicate on the "space_id" field.
+func SpaceIDNotIn(vs ...string) predicate.Employee {
+	return predicate.Employee(sql.FieldNotIn(FieldSpaceID, vs...))
 }
 
-// TenantIDGT applies the GT predicate on the "tenant_id" field.
-func TenantIDGT(v string) predicate.Employee {
-	return predicate.Employee(sql.FieldGT(FieldTenantID, v))
+// SpaceIDGT applies the GT predicate on the "space_id" field.
+func SpaceIDGT(v string) predicate.Employee {
+	return predicate.Employee(sql.FieldGT(FieldSpaceID, v))
 }
 
-// TenantIDGTE applies the GTE predicate on the "tenant_id" field.
-func TenantIDGTE(v string) predicate.Employee {
-	return predicate.Employee(sql.FieldGTE(FieldTenantID, v))
+// SpaceIDGTE applies the GTE predicate on the "space_id" field.
+func SpaceIDGTE(v string) predicate.Employee {
+	return predicate.Employee(sql.FieldGTE(FieldSpaceID, v))
 }
 
-// TenantIDLT applies the LT predicate on the "tenant_id" field.
-func TenantIDLT(v string) predicate.Employee {
-	return predicate.Employee(sql.FieldLT(FieldTenantID, v))
+// SpaceIDLT applies the LT predicate on the "space_id" field.
+func SpaceIDLT(v string) predicate.Employee {
+	return predicate.Employee(sql.FieldLT(FieldSpaceID, v))
 }
 
-// TenantIDLTE applies the LTE predicate on the "tenant_id" field.
-func TenantIDLTE(v string) predicate.Employee {
-	return predicate.Employee(sql.FieldLTE(FieldTenantID, v))
+// SpaceIDLTE applies the LTE predicate on the "space_id" field.
+func SpaceIDLTE(v string) predicate.Employee {
+	return predicate.Employee(sql.FieldLTE(FieldSpaceID, v))
 }
 
-// TenantIDContains applies the Contains predicate on the "tenant_id" field.
-func TenantIDContains(v string) predicate.Employee {
-	return predicate.Employee(sql.FieldContains(FieldTenantID, v))
+// SpaceIDContains applies the Contains predicate on the "space_id" field.
+func SpaceIDContains(v string) predicate.Employee {
+	return predicate.Employee(sql.FieldContains(FieldSpaceID, v))
 }
 
-// TenantIDHasPrefix applies the HasPrefix predicate on the "tenant_id" field.
-func TenantIDHasPrefix(v string) predicate.Employee {
-	return predicate.Employee(sql.FieldHasPrefix(FieldTenantID, v))
+// SpaceIDHasPrefix applies the HasPrefix predicate on the "space_id" field.
+func SpaceIDHasPrefix(v string) predicate.Employee {
+	return predicate.Employee(sql.FieldHasPrefix(FieldSpaceID, v))
 }
 
-// TenantIDHasSuffix applies the HasSuffix predicate on the "tenant_id" field.
-func TenantIDHasSuffix(v string) predicate.Employee {
-	return predicate.Employee(sql.FieldHasSuffix(FieldTenantID, v))
+// SpaceIDHasSuffix applies the HasSuffix predicate on the "space_id" field.
+func SpaceIDHasSuffix(v string) predicate.Employee {
+	return predicate.Employee(sql.FieldHasSuffix(FieldSpaceID, v))
 }
 
-// TenantIDIsNil applies the IsNil predicate on the "tenant_id" field.
-func TenantIDIsNil() predicate.Employee {
-	return predicate.Employee(sql.FieldIsNull(FieldTenantID))
+// SpaceIDIsNil applies the IsNil predicate on the "space_id" field.
+func SpaceIDIsNil() predicate.Employee {
+	return predicate.Employee(sql.FieldIsNull(FieldSpaceID))
 }
 
-// TenantIDNotNil applies the NotNil predicate on the "tenant_id" field.
-func TenantIDNotNil() predicate.Employee {
-	return predicate.Employee(sql.FieldNotNull(FieldTenantID))
+// SpaceIDNotNil applies the NotNil predicate on the "space_id" field.
+func SpaceIDNotNil() predicate.Employee {
+	return predicate.Employee(sql.FieldNotNull(FieldSpaceID))
 }
 
-// TenantIDEqualFold applies the EqualFold predicate on the "tenant_id" field.
-func TenantIDEqualFold(v string) predicate.Employee {
-	return predicate.Employee(sql.FieldEqualFold(FieldTenantID, v))
+// SpaceIDEqualFold applies the EqualFold predicate on the "space_id" field.
+func SpaceIDEqualFold(v string) predicate.Employee {
+	return predicate.Employee(sql.FieldEqualFold(FieldSpaceID, v))
 }
 
-// TenantIDContainsFold applies the ContainsFold predicate on the "tenant_id" field.
-func TenantIDContainsFold(v string) predicate.Employee {
-	return predicate.Employee(sql.FieldContainsFold(FieldTenantID, v))
+// SpaceIDContainsFold applies the ContainsFold predicate on the "space_id" field.
+func SpaceIDContainsFold(v string) predicate.Employee {
+	return predicate.Employee(sql.FieldContainsFold(FieldSpaceID, v))
 }
 
 // CreatedAtEQ applies the EQ predicate on the "created_at" field.

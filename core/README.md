@@ -7,9 +7,9 @@
 ```plantext
 ├── access/               # Access control and permission management, including role, permission, casbin, role permission
 ├── auth/                 # Authentication and authorization
-├── space/                # organization structure, and team management, including group, department, member, role
+├── organization/         # organization structure, and team management, including organization, department, member, role
 ├── system/               # Core system functionalities
-├── tenant/               # Multi-tenancy support
+├── space/               # Multi-space support, including space(tenant) management
 ├── user/                 # User management and profiles
 └── README.md             # This file
 ```

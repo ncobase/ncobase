@@ -6,7 +6,7 @@ replace (
 	ncobase => ./../..
 	ncobase/access => ./../access
 	ncobase/auth => ./../auth
-	ncobase/tenant => ./../tenant
+	ncobase/organization => ./../organization
 	ncobase/user => ./../user
 )
 
@@ -16,7 +16,7 @@ require (
 	github.com/gin-gonic/gin v1.10.1
 	github.com/ncobase/ncore v0.1.4
 	ncobase v0.0.0-00010101000000-000000000000
-	ncobase/user v0.0.0-00010101000000-000000000000
+	ncobase/organization v0.0.0-00010101000000-000000000000
 )
 
 require (
@@ -161,5 +161,5 @@ require (
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	ncobase/access v0.0.0-00010101000000-000000000000 // indirect
 	ncobase/auth v0.0.0-00010101000000-000000000000 // indirect
-	ncobase/tenant v0.0.0-00010101000000-000000000000 // indirect
+	ncobase/user v0.0.0-00010101000000-000000000000 // indirect
 )

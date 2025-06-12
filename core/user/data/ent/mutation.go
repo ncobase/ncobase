@@ -844,7 +844,7 @@ type EmployeeMutation struct {
 	op                   Op
 	typ                  string
 	id                   *string
-	tenant_id            *string
+	space_id             *string
 	created_at           *int64
 	addcreated_at        *int64
 	updated_at           *int64
@@ -976,53 +976,53 @@ func (m *EmployeeMutation) IDs(ctx context.Context) ([]string, error) {
 	}
 }
 
-// SetTenantID sets the "tenant_id" field.
-func (m *EmployeeMutation) SetTenantID(s string) {
-	m.tenant_id = &s
+// SetSpaceID sets the "space_id" field.
+func (m *EmployeeMutation) SetSpaceID(s string) {
+	m.space_id = &s
 }
 
-// TenantID returns the value of the "tenant_id" field in the mutation.
-func (m *EmployeeMutation) TenantID() (r string, exists bool) {
-	v := m.tenant_id
+// SpaceID returns the value of the "space_id" field in the mutation.
+func (m *EmployeeMutation) SpaceID() (r string, exists bool) {
+	v := m.space_id
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldTenantID returns the old "tenant_id" field's value of the Employee entity.
+// OldSpaceID returns the old "space_id" field's value of the Employee entity.
 // If the Employee object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *EmployeeMutation) OldTenantID(ctx context.Context) (v string, err error) {
+func (m *EmployeeMutation) OldSpaceID(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldTenantID is only allowed on UpdateOne operations")
+		return v, errors.New("OldSpaceID is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldTenantID requires an ID field in the mutation")
+		return v, errors.New("OldSpaceID requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldTenantID: %w", err)
+		return v, fmt.Errorf("querying old value for OldSpaceID: %w", err)
 	}
-	return oldValue.TenantID, nil
+	return oldValue.SpaceID, nil
 }
 
-// ClearTenantID clears the value of the "tenant_id" field.
-func (m *EmployeeMutation) ClearTenantID() {
-	m.tenant_id = nil
-	m.clearedFields[employee.FieldTenantID] = struct{}{}
+// ClearSpaceID clears the value of the "space_id" field.
+func (m *EmployeeMutation) ClearSpaceID() {
+	m.space_id = nil
+	m.clearedFields[employee.FieldSpaceID] = struct{}{}
 }
 
-// TenantIDCleared returns if the "tenant_id" field was cleared in this mutation.
-func (m *EmployeeMutation) TenantIDCleared() bool {
-	_, ok := m.clearedFields[employee.FieldTenantID]
+// SpaceIDCleared returns if the "space_id" field was cleared in this mutation.
+func (m *EmployeeMutation) SpaceIDCleared() bool {
+	_, ok := m.clearedFields[employee.FieldSpaceID]
 	return ok
 }
 
-// ResetTenantID resets all changes to the "tenant_id" field.
-func (m *EmployeeMutation) ResetTenantID() {
-	m.tenant_id = nil
-	delete(m.clearedFields, employee.FieldTenantID)
+// ResetSpaceID resets all changes to the "space_id" field.
+func (m *EmployeeMutation) ResetSpaceID() {
+	m.space_id = nil
+	delete(m.clearedFields, employee.FieldSpaceID)
 }
 
 // SetCreatedAt sets the "created_at" field.
@@ -1913,8 +1913,8 @@ func (m *EmployeeMutation) Type() string {
 // AddedFields().
 func (m *EmployeeMutation) Fields() []string {
 	fields := make([]string, 0, 17)
-	if m.tenant_id != nil {
-		fields = append(fields, employee.FieldTenantID)
+	if m.space_id != nil {
+		fields = append(fields, employee.FieldSpaceID)
 	}
 	if m.created_at != nil {
 		fields = append(fields, employee.FieldCreatedAt)
@@ -1972,8 +1972,8 @@ func (m *EmployeeMutation) Fields() []string {
 // schema.
 func (m *EmployeeMutation) Field(name string) (ent.Value, bool) {
 	switch name {
-	case employee.FieldTenantID:
-		return m.TenantID()
+	case employee.FieldSpaceID:
+		return m.SpaceID()
 	case employee.FieldCreatedAt:
 		return m.CreatedAt()
 	case employee.FieldUpdatedAt:
@@ -2015,8 +2015,8 @@ func (m *EmployeeMutation) Field(name string) (ent.Value, bool) {
 // database failed.
 func (m *EmployeeMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
 	switch name {
-	case employee.FieldTenantID:
-		return m.OldTenantID(ctx)
+	case employee.FieldSpaceID:
+		return m.OldSpaceID(ctx)
 	case employee.FieldCreatedAt:
 		return m.OldCreatedAt(ctx)
 	case employee.FieldUpdatedAt:
@@ -2058,12 +2058,12 @@ func (m *EmployeeMutation) OldField(ctx context.Context, name string) (ent.Value
 // type.
 func (m *EmployeeMutation) SetField(name string, value ent.Value) error {
 	switch name {
-	case employee.FieldTenantID:
+	case employee.FieldSpaceID:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetTenantID(v)
+		m.SetSpaceID(v)
 		return nil
 	case employee.FieldCreatedAt:
 		v, ok := value.(int64)
@@ -2246,8 +2246,8 @@ func (m *EmployeeMutation) AddField(name string, value ent.Value) error {
 // mutation.
 func (m *EmployeeMutation) ClearedFields() []string {
 	var fields []string
-	if m.FieldCleared(employee.FieldTenantID) {
-		fields = append(fields, employee.FieldTenantID)
+	if m.FieldCleared(employee.FieldSpaceID) {
+		fields = append(fields, employee.FieldSpaceID)
 	}
 	if m.FieldCleared(employee.FieldCreatedAt) {
 		fields = append(fields, employee.FieldCreatedAt)
@@ -2305,8 +2305,8 @@ func (m *EmployeeMutation) FieldCleared(name string) bool {
 // error if the field is not defined in the schema.
 func (m *EmployeeMutation) ClearField(name string) error {
 	switch name {
-	case employee.FieldTenantID:
-		m.ClearTenantID()
+	case employee.FieldSpaceID:
+		m.ClearSpaceID()
 		return nil
 	case employee.FieldCreatedAt:
 		m.ClearCreatedAt()
@@ -2358,8 +2358,8 @@ func (m *EmployeeMutation) ClearField(name string) error {
 // It returns an error if the field is not defined in the schema.
 func (m *EmployeeMutation) ResetField(name string) error {
 	switch name {
-	case employee.FieldTenantID:
-		m.ResetTenantID()
+	case employee.FieldSpaceID:
+		m.ResetSpaceID()
 		return nil
 	case employee.FieldCreatedAt:
 		m.ResetCreatedAt()

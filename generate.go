@@ -6,9 +6,9 @@ package ncobase
 // Generate core components
 //go:generate go generate ./core/access
 //go:generate go generate ./core/auth
-//go:generate go generate ./core/space
+//go:generate go generate ./core/organization
 //go:generate go generate ./core/system
-//go:generate go generate ./core/tenant
+//go:generate go generate ./core/space
 //go:generate go generate ./core/user
 
 // Generate business components

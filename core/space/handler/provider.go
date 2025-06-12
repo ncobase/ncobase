@@ -2,14 +2,30 @@ package handler
 
 import "ncobase/space/service"
 
-// Handler represents the group handler.
+// Handler represents the space handler
 type Handler struct {
-	Group GroupHandlerInterface
+	Space             SpaceHandlerInterface
+	SpaceQuota        SpaceQuotaHandlerInterface
+	SpaceSetting      SpaceSettingHandlerInterface
+	SpaceBilling      SpaceBillingHandlerInterface
+	UserSpaceRole     UserSpaceRoleHandlerInterface
+	SpaceOrganization SpaceOrganizationHandlerInterface
+	SpaceMenu         SpaceMenuHandlerInterface
+	SpaceDictionary   SpaceDictionaryHandlerInterface
+	SpaceOption       SpaceOptionHandlerInterface
 }
 
-// New creates new group handler.
+// New creates a new handler
 func New(svc *service.Service) *Handler {
 	return &Handler{
-		Group: NewGroupHandler(svc),
+		Space:             NewSpaceHandler(svc),
+		SpaceQuota:        NewSpaceQuotaHandler(svc),
+		SpaceSetting:      NewSpaceSettingHandler(svc),
+		SpaceBilling:      NewSpaceBillingHandler(svc),
+		UserSpaceRole:     NewUserSpaceRoleHandler(svc),
+		SpaceOrganization: NewSpaceOrganizationHandler(svc),
+		SpaceMenu:         NewSpaceMenuHandler(svc),
+		SpaceDictionary:   NewSpaceDictionaryHandler(svc),
+		SpaceOption:       NewSpaceOptionHandler(svc),
 	}
 }

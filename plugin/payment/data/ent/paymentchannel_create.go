@@ -155,16 +155,16 @@ func (pcc *PaymentChannelCreate) SetConfig(m map[string]interface{}) *PaymentCha
 	return pcc
 }
 
-// SetTenantID sets the "tenant_id" field.
-func (pcc *PaymentChannelCreate) SetTenantID(s string) *PaymentChannelCreate {
-	pcc.mutation.SetTenantID(s)
+// SetSpaceID sets the "space_id" field.
+func (pcc *PaymentChannelCreate) SetSpaceID(s string) *PaymentChannelCreate {
+	pcc.mutation.SetSpaceID(s)
 	return pcc
 }
 
-// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
-func (pcc *PaymentChannelCreate) SetNillableTenantID(s *string) *PaymentChannelCreate {
+// SetNillableSpaceID sets the "space_id" field if the given value is not nil.
+func (pcc *PaymentChannelCreate) SetNillableSpaceID(s *string) *PaymentChannelCreate {
 	if s != nil {
-		pcc.SetTenantID(*s)
+		pcc.SetSpaceID(*s)
 	}
 	return pcc
 }
@@ -354,9 +354,9 @@ func (pcc *PaymentChannelCreate) createSpec() (*PaymentChannel, *sqlgraph.Create
 		_spec.SetField(paymentchannel.FieldConfig, field.TypeJSON, value)
 		_node.Config = value
 	}
-	if value, ok := pcc.mutation.TenantID(); ok {
-		_spec.SetField(paymentchannel.FieldTenantID, field.TypeString, value)
-		_node.TenantID = value
+	if value, ok := pcc.mutation.SpaceID(); ok {
+		_spec.SetField(paymentchannel.FieldSpaceID, field.TypeString, value)
+		_node.SpaceID = value
 	}
 	return _node, _spec
 }

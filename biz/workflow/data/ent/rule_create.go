@@ -95,16 +95,16 @@ func (rc *RuleCreate) SetExtras(m map[string]interface{}) *RuleCreate {
 	return rc
 }
 
-// SetTenantID sets the "tenant_id" field.
-func (rc *RuleCreate) SetTenantID(s string) *RuleCreate {
-	rc.mutation.SetTenantID(s)
+// SetSpaceID sets the "space_id" field.
+func (rc *RuleCreate) SetSpaceID(s string) *RuleCreate {
+	rc.mutation.SetSpaceID(s)
 	return rc
 }
 
-// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
-func (rc *RuleCreate) SetNillableTenantID(s *string) *RuleCreate {
+// SetNillableSpaceID sets the "space_id" field if the given value is not nil.
+func (rc *RuleCreate) SetNillableSpaceID(s *string) *RuleCreate {
 	if s != nil {
-		rc.SetTenantID(*s)
+		rc.SetSpaceID(*s)
 	}
 	return rc
 }
@@ -423,9 +423,9 @@ func (rc *RuleCreate) createSpec() (*Rule, *sqlgraph.CreateSpec) {
 		_spec.SetField(rule.FieldExtras, field.TypeJSON, value)
 		_node.Extras = value
 	}
-	if value, ok := rc.mutation.TenantID(); ok {
-		_spec.SetField(rule.FieldTenantID, field.TypeString, value)
-		_node.TenantID = value
+	if value, ok := rc.mutation.SpaceID(); ok {
+		_spec.SetField(rule.FieldSpaceID, field.TypeString, value)
+		_node.SpaceID = value
 	}
 	if value, ok := rc.mutation.CreatedBy(); ok {
 		_spec.SetField(rule.FieldCreatedBy, field.TypeString, value)

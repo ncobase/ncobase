@@ -302,7 +302,7 @@ func (s *ruleService) serialize(rule *ent.Rule) *structs.ReadRule {
 		IsEnabled:     rule.IsEnabled,
 		EffectiveTime: &rule.EffectiveTime,
 		ExpireTime:    &rule.ExpireTime,
-		TenantID:      rule.TenantID,
+		SpaceID:       rule.SpaceID,
 		Extras:        rule.Extras,
 		CreatedBy:     &rule.CreatedBy,
 		CreatedAt:     &rule.CreatedAt,

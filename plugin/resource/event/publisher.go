@@ -30,7 +30,7 @@ func (p *publisher) publish(ctx context.Context, eventType string, data any) {
 		logger.Infof(ctx, "Publishing batch operation event: %s, id: %s, status: %s",
 			eventType, d.OperationID, d.Status)
 	case *StorageQuotaEventData:
-		logger.Infof(ctx, "Publishing storage quota event: %s, tenant: %s, usage: %.2f%%",
+		logger.Infof(ctx, "Publishing storage quota event: %s, space: %s, usage: %.2f%%",
 			eventType, d.SpaceID, d.UsagePercent)
 	}
 

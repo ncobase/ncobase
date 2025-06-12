@@ -20,16 +20,16 @@ type EmployeeCreate struct {
 	hooks    []Hook
 }
 
-// SetTenantID sets the "tenant_id" field.
-func (ec *EmployeeCreate) SetTenantID(s string) *EmployeeCreate {
-	ec.mutation.SetTenantID(s)
+// SetSpaceID sets the "space_id" field.
+func (ec *EmployeeCreate) SetSpaceID(s string) *EmployeeCreate {
+	ec.mutation.SetSpaceID(s)
 	return ec
 }
 
-// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
-func (ec *EmployeeCreate) SetNillableTenantID(s *string) *EmployeeCreate {
+// SetNillableSpaceID sets the "space_id" field if the given value is not nil.
+func (ec *EmployeeCreate) SetNillableSpaceID(s *string) *EmployeeCreate {
 	if s != nil {
-		ec.SetTenantID(*s)
+		ec.SetSpaceID(*s)
 	}
 	return ec
 }
@@ -350,9 +350,9 @@ func (ec *EmployeeCreate) createSpec() (*Employee, *sqlgraph.CreateSpec) {
 		_node.ID = id
 		_spec.ID.Value = id
 	}
-	if value, ok := ec.mutation.TenantID(); ok {
-		_spec.SetField(employee.FieldTenantID, field.TypeString, value)
-		_node.TenantID = value
+	if value, ok := ec.mutation.SpaceID(); ok {
+		_spec.SetField(employee.FieldSpaceID, field.TypeString, value)
+		_node.SpaceID = value
 	}
 	if value, ok := ec.mutation.CreatedAt(); ok {
 		_spec.SetField(employee.FieldCreatedAt, field.TypeInt64, value)

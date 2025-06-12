@@ -25,25 +25,25 @@ import (
 
 // AuthResponse represents authentication response
 type AuthResponse struct {
-	Registered    bool        `json:"registered,omitempty"`
-	AccessToken   string      `json:"access_token,omitempty"`
-	RefreshToken  string      `json:"refresh_token,omitempty"`
-	SessionID     string      `json:"session_id,omitempty"`
-	TokenType     string      `json:"token_type,omitempty"`
-	ExpiresIn     int64       `json:"expires_in,omitempty"`
-	TenantIDs     []string    `json:"tenant_ids,omitempty"`
-	DefaultTenant *types.JSON `json:"default_tenant,omitempty"`
+	Registered   bool        `json:"registered,omitempty"`
+	AccessToken  string      `json:"access_token,omitempty"`
+	RefreshToken string      `json:"refresh_token,omitempty"`
+	SessionID    string      `json:"session_id,omitempty"`
+	TokenType    string      `json:"token_type,omitempty"`
+	ExpiresIn    int64       `json:"expires_in,omitempty"`
+	SpaceIDs     []string    `json:"space_ids,omitempty"`
+	DefaultSpace *types.JSON `json:"default_space,omitempty"`
 }
 
-// GetUserTenantsRolesPermissions retrieves user roles and permissions
-func GetUserTenantsRolesPermissions(
+// GetUserSpacesRolesPermissions retrieves user roles and permissions
+func GetUserSpacesRolesPermissions(
 	ctx context.Context,
 	userID string,
 	asw *wrapper.AccessServiceWrapper,
-	tsw *wrapper.TenantServiceWrapper,
-) (tenantID string, roleSlugs []string, permissionCodes []string, isAdmin bool, err error) {
-	tenantID = ctxutil.GetTenantID(ctx)
-	logger.Debugf(ctx, "Getting permissions for user %s, tenant %s", userID, tenantID)
+	tsw *wrapper.SpaceServiceWrapper,
+) (spaceID string, roleSlugs []string, permissionCodes []string, isAdmin bool, err error) {
+	spaceID = ctxutil.GetSpaceID(ctx)
+	logger.Debugf(ctx, "Getting permissions for user %s, space %s", userID, spaceID)
 
 	// Get global roles first
 	globalRoles, err := asw.GetUserRoles(ctx, userID)
@@ -56,17 +56,17 @@ func GetUserTenantsRolesPermissions(
 		logger.Debugf(ctx, "Found %d global roles for user", len(globalRoles))
 	}
 
-	// Get tenant-specific roles if tenant context exists
-	if tenantID != "" {
-		roleIDs, roleErr := tsw.GetUserRolesInTenant(ctx, userID, tenantID)
+	// Get space-specific roles if space context exists
+	if spaceID != "" {
+		roleIDs, roleErr := tsw.GetUserRolesInSpace(ctx, userID, spaceID)
 		if roleErr == nil && len(roleIDs) > 0 {
-			tenantRoles, _ := asw.GetByIDs(ctx, roleIDs)
-			for _, role := range tenantRoles {
+			spaceRoles, _ := asw.GetByIDs(ctx, roleIDs)
+			for _, role := range spaceRoles {
 				if !utils.Contains(roleSlugs, role.Slug) {
 					roleSlugs = append(roleSlugs, role.Slug)
 				}
 			}
-			logger.Debugf(ctx, "Found %d tenant roles for user", len(tenantRoles))
+			logger.Debugf(ctx, "Found %d space roles for user", len(spaceRoles))
 		}
 	}
 
@@ -90,7 +90,7 @@ func GetUserTenantsRolesPermissions(
 
 // isAdminRole checks if any role has admin privileges
 func isAdminRole(roleSlugs []string) bool {
-	adminRoles := []string{"super-admin", "system-admin", "enterprise-admin", "tenant-admin"}
+	adminRoles := []string{"super-admin", "system-admin", "enterprise-admin", "space-admin"}
 	for _, roleSlug := range roleSlugs {
 		for _, adminRole := range adminRoles {
 			if roleSlug == adminRole {
@@ -137,15 +137,15 @@ func getPermissionsForRoles(ctx context.Context, asw *wrapper.AccessServiceWrapp
 func CreateUserTokenPayload(
 	ctx context.Context,
 	user *userStructs.ReadUser,
-	tenantIDs []string,
+	spaceIDs []string,
 	asw *wrapper.AccessServiceWrapper,
-	tsw *wrapper.TenantServiceWrapper,
+	tsw *wrapper.SpaceServiceWrapper,
 ) (types.JSON, error) {
 	if user.ID == "" {
 		return nil, errors.New("userID is required")
 	}
 
-	tenantID, roleSlugs, permissionCodes, isAdmin, err := GetUserTenantsRolesPermissions(ctx, user.ID, asw, tsw)
+	spaceID, roleSlugs, permissionCodes, isAdmin, err := GetUserSpacesRolesPermissions(ctx, user.ID, asw, tsw)
 	if err != nil {
 		logger.Errorf(ctx, "Failed to get user roles and permissions: %v", err)
 		roleSlugs = []string{}
@@ -158,8 +158,8 @@ func CreateUserTokenPayload(
 		"username":     user.Username,
 		"email":        user.Email,
 		"is_admin":     isAdmin,
-		"tenant_id":    tenantID,
-		"tenant_ids":   tenantIDs,
+		"space_id":     spaceID,
+		"space_ids":    spaceIDs,
 		"roles":        roleSlugs,
 		"permissions":  permissionCodes,
 		"user_status":  user.Status,

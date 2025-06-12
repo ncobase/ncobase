@@ -82,11 +82,6 @@ func (s *topicService) Update(ctx context.Context, slug string, updates types.JS
 		}
 	}
 
-	// Handle space_id/tenant_id compatibility
-	if spaceID, ok := updates["space_id"].(string); ok {
-		updates["tenant_id"] = spaceID // Keep backward compatibility
-	}
-
 	row, err := s.r.Update(ctx, slug, updates)
 	if err := handleEntError(ctx, "Topic", err); err != nil {
 		return nil, err

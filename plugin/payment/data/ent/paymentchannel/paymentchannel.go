@@ -35,8 +35,8 @@ const (
 	FieldSupportedTypes = "supported_types"
 	// FieldConfig holds the string denoting the config field in the database.
 	FieldConfig = "config"
-	// FieldTenantID holds the string denoting the tenant_id field in the database.
-	FieldTenantID = "tenant_id"
+	// FieldSpaceID holds the string denoting the space_id field in the database.
+	FieldSpaceID = "space_id"
 	// Table holds the table name of the paymentchannel in the database.
 	Table = "ncse_pay_channel"
 )
@@ -56,7 +56,7 @@ var Columns = []string{
 	FieldIsDefault,
 	FieldSupportedTypes,
 	FieldConfig,
-	FieldTenantID,
+	FieldSpaceID,
 }
 
 // ValidColumn reports if the column name is valid (part of the table columns).
@@ -143,7 +143,7 @@ func ByIsDefault(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldIsDefault, opts...).ToFunc()
 }
 
-// ByTenantID orders the results by the tenant_id field.
-func ByTenantID(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldTenantID, opts...).ToFunc()
+// BySpaceID orders the results by the space_id field.
+func BySpaceID(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldSpaceID, opts...).ToFunc()
 }

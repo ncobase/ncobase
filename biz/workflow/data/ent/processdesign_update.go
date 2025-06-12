@@ -79,23 +79,23 @@ func (pdu *ProcessDesignUpdate) ClearExtras() *ProcessDesignUpdate {
 	return pdu
 }
 
-// SetTenantID sets the "tenant_id" field.
-func (pdu *ProcessDesignUpdate) SetTenantID(s string) *ProcessDesignUpdate {
-	pdu.mutation.SetTenantID(s)
+// SetSpaceID sets the "space_id" field.
+func (pdu *ProcessDesignUpdate) SetSpaceID(s string) *ProcessDesignUpdate {
+	pdu.mutation.SetSpaceID(s)
 	return pdu
 }
 
-// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
-func (pdu *ProcessDesignUpdate) SetNillableTenantID(s *string) *ProcessDesignUpdate {
+// SetNillableSpaceID sets the "space_id" field if the given value is not nil.
+func (pdu *ProcessDesignUpdate) SetNillableSpaceID(s *string) *ProcessDesignUpdate {
 	if s != nil {
-		pdu.SetTenantID(*s)
+		pdu.SetSpaceID(*s)
 	}
 	return pdu
 }
 
-// ClearTenantID clears the value of the "tenant_id" field.
-func (pdu *ProcessDesignUpdate) ClearTenantID() *ProcessDesignUpdate {
-	pdu.mutation.ClearTenantID()
+// ClearSpaceID clears the value of the "space_id" field.
+func (pdu *ProcessDesignUpdate) ClearSpaceID() *ProcessDesignUpdate {
+	pdu.mutation.ClearSpaceID()
 	return pdu
 }
 
@@ -322,11 +322,11 @@ func (pdu *ProcessDesignUpdate) sqlSave(ctx context.Context) (n int, err error) 
 	if pdu.mutation.ExtrasCleared() {
 		_spec.ClearField(processdesign.FieldExtras, field.TypeJSON)
 	}
-	if value, ok := pdu.mutation.TenantID(); ok {
-		_spec.SetField(processdesign.FieldTenantID, field.TypeString, value)
+	if value, ok := pdu.mutation.SpaceID(); ok {
+		_spec.SetField(processdesign.FieldSpaceID, field.TypeString, value)
 	}
-	if pdu.mutation.TenantIDCleared() {
-		_spec.ClearField(processdesign.FieldTenantID, field.TypeString)
+	if pdu.mutation.SpaceIDCleared() {
+		_spec.ClearField(processdesign.FieldSpaceID, field.TypeString)
 	}
 	if value, ok := pdu.mutation.CreatedBy(); ok {
 		_spec.SetField(processdesign.FieldCreatedBy, field.TypeString, value)
@@ -460,23 +460,23 @@ func (pduo *ProcessDesignUpdateOne) ClearExtras() *ProcessDesignUpdateOne {
 	return pduo
 }
 
-// SetTenantID sets the "tenant_id" field.
-func (pduo *ProcessDesignUpdateOne) SetTenantID(s string) *ProcessDesignUpdateOne {
-	pduo.mutation.SetTenantID(s)
+// SetSpaceID sets the "space_id" field.
+func (pduo *ProcessDesignUpdateOne) SetSpaceID(s string) *ProcessDesignUpdateOne {
+	pduo.mutation.SetSpaceID(s)
 	return pduo
 }
 
-// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
-func (pduo *ProcessDesignUpdateOne) SetNillableTenantID(s *string) *ProcessDesignUpdateOne {
+// SetNillableSpaceID sets the "space_id" field if the given value is not nil.
+func (pduo *ProcessDesignUpdateOne) SetNillableSpaceID(s *string) *ProcessDesignUpdateOne {
 	if s != nil {
-		pduo.SetTenantID(*s)
+		pduo.SetSpaceID(*s)
 	}
 	return pduo
 }
 
-// ClearTenantID clears the value of the "tenant_id" field.
-func (pduo *ProcessDesignUpdateOne) ClearTenantID() *ProcessDesignUpdateOne {
-	pduo.mutation.ClearTenantID()
+// ClearSpaceID clears the value of the "space_id" field.
+func (pduo *ProcessDesignUpdateOne) ClearSpaceID() *ProcessDesignUpdateOne {
+	pduo.mutation.ClearSpaceID()
 	return pduo
 }
 
@@ -733,11 +733,11 @@ func (pduo *ProcessDesignUpdateOne) sqlSave(ctx context.Context) (_node *Process
 	if pduo.mutation.ExtrasCleared() {
 		_spec.ClearField(processdesign.FieldExtras, field.TypeJSON)
 	}
-	if value, ok := pduo.mutation.TenantID(); ok {
-		_spec.SetField(processdesign.FieldTenantID, field.TypeString, value)
+	if value, ok := pduo.mutation.SpaceID(); ok {
+		_spec.SetField(processdesign.FieldSpaceID, field.TypeString, value)
 	}
-	if pduo.mutation.TenantIDCleared() {
-		_spec.ClearField(processdesign.FieldTenantID, field.TypeString)
+	if pduo.mutation.SpaceIDCleared() {
+		_spec.ClearField(processdesign.FieldSpaceID, field.TypeString)
 	}
 	if value, ok := pduo.mutation.CreatedBy(); ok {
 		_spec.SetField(processdesign.FieldCreatedBy, field.TypeString, value)

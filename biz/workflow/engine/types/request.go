@@ -7,7 +7,7 @@ type StartProcessRequest struct {
 	Variables   map[string]any // Initial variables
 	Priority    int            // Process priority
 	Initiator   string         // Process initiator
-	TenantID    string         // Tenant ID
+	SpaceID     string         // Space ID
 }
 
 // StartProcessResponse represents process start response

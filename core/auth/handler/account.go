@@ -20,8 +20,8 @@ type AccountHandlerInterface interface {
 	Logout(c *gin.Context)
 	GetMe(c *gin.Context)
 	UpdatePassword(c *gin.Context)
-	Tenant(c *gin.Context)
-	Tenants(c *gin.Context)
+	Space(c *gin.Context)
+	Spaces(c *gin.Context)
 	RefreshToken(c *gin.Context)
 	TokenStatus(c *gin.Context)
 }
@@ -250,18 +250,18 @@ func (h *accountHandler) UpdatePassword(c *gin.Context) {
 	resp.Success(c.Writer, nil)
 }
 
-// Tenant handles reading the current user's tenant.
+// Space handles reading the current user's space.
 //
-// @Summary Get current user tenant
-// @Description Retrieve the tenant associated with the current user.
+// @Summary Get current user space
+// @Description Retrieve the space associated with the current user.
 // @Tags auth
 // @Produce json
-// @Success 200 {object} structs.ReadTenant "success"
+// @Success 200 {object} structs.ReadSpace "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /account/tenant [get]
+// @Router /account/space [get]
 // @Security Bearer
-func (h *accountHandler) Tenant(c *gin.Context) {
-	result, err := h.s.Account.Tenant(c.Request.Context())
+func (h *accountHandler) Space(c *gin.Context) {
+	result, err := h.s.Account.Space(c.Request.Context())
 	if err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
@@ -269,18 +269,18 @@ func (h *accountHandler) Tenant(c *gin.Context) {
 	resp.Success(c.Writer, result)
 }
 
-// Tenants handles reading the current user's tenants.
+// Spaces handles reading the current user's spaces.
 //
-// @Summary Get current user tenants
-// @Description Retrieve the tenant associated with the current user.
+// @Summary Get current user spaces
+// @Description Retrieve the space associated with the current user.
 // @Tags auth
 // @Produce json
-// @Success 200 {object} structs.ReadTenant "success"
+// @Success 200 {object} structs.ReadSpace "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /account/tenants [get]
+// @Router /account/spaces [get]
 // @Security Bearer
-func (h *accountHandler) Tenants(c *gin.Context) {
-	result, err := h.s.Account.Tenants(c.Request.Context())
+func (h *accountHandler) Spaces(c *gin.Context) {
+	result, err := h.s.Account.Spaces(c.Request.Context())
 	if err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return

@@ -42,8 +42,8 @@ type PaymentChannel struct {
 	SupportedTypes []string `json:"supported_types,omitempty"`
 	// Provider-specific configuration
 	Config map[string]interface{} `json:"config,omitempty"`
-	// Tenant ID if multi-tenant support is enabled
-	TenantID     string `json:"tenant_id,omitempty"`
+	// Space ID if multi-space support is enabled
+	SpaceID      string `json:"space_id,omitempty"`
 	selectValues sql.SelectValues
 }
 
@@ -58,7 +58,7 @@ func (*PaymentChannel) scanValues(columns []string) ([]any, error) {
 			values[i] = new(sql.NullBool)
 		case paymentchannel.FieldCreatedAt, paymentchannel.FieldUpdatedAt:
 			values[i] = new(sql.NullInt64)
-		case paymentchannel.FieldID, paymentchannel.FieldName, paymentchannel.FieldDescription, paymentchannel.FieldCreatedBy, paymentchannel.FieldUpdatedBy, paymentchannel.FieldProvider, paymentchannel.FieldStatus, paymentchannel.FieldTenantID:
+		case paymentchannel.FieldID, paymentchannel.FieldName, paymentchannel.FieldDescription, paymentchannel.FieldCreatedBy, paymentchannel.FieldUpdatedBy, paymentchannel.FieldProvider, paymentchannel.FieldStatus, paymentchannel.FieldSpaceID:
 			values[i] = new(sql.NullString)
 		default:
 			values[i] = new(sql.UnknownType)
@@ -159,11 +159,11 @@ func (pc *PaymentChannel) assignValues(columns []string, values []any) error {
 					return fmt.Errorf("unmarshal field config: %w", err)
 				}
 			}
-		case paymentchannel.FieldTenantID:
+		case paymentchannel.FieldSpaceID:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field tenant_id", values[i])
+				return fmt.Errorf("unexpected type %T for field space_id", values[i])
 			} else if value.Valid {
-				pc.TenantID = value.String
+				pc.SpaceID = value.String
 			}
 		default:
 			pc.selectValues.Set(columns[i], values[i])
@@ -237,8 +237,8 @@ func (pc *PaymentChannel) String() string {
 	builder.WriteString("config=")
 	builder.WriteString(fmt.Sprintf("%v", pc.Config))
 	builder.WriteString(", ")
-	builder.WriteString("tenant_id=")
-	builder.WriteString(pc.TenantID)
+	builder.WriteString("space_id=")
+	builder.WriteString(pc.SpaceID)
 	builder.WriteByte(')')
 	return builder.String()
 }

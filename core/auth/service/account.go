@@ -10,7 +10,7 @@ import (
 	"ncobase/auth/event"
 	"ncobase/auth/structs"
 	"ncobase/auth/wrapper"
-	tenantStructs "ncobase/tenant/structs"
+	spaceStructs "ncobase/space/structs"
 	userService "ncobase/user/service"
 	userStructs "ncobase/user/structs"
 	"time"
@@ -28,8 +28,8 @@ type AccountServiceInterface interface {
 	Register(ctx context.Context, body *structs.RegisterBody) (*AuthResponse, error)
 	GetMe(ctx context.Context) (*structs.AccountMeshes, error)
 	UpdatePassword(ctx context.Context, body *userStructs.UserPassword) error
-	Tenant(ctx context.Context) (*tenantStructs.ReadTenant, error)
-	Tenants(ctx context.Context) (paging.Result[*tenantStructs.ReadTenant], error)
+	Space(ctx context.Context) (*spaceStructs.ReadSpace, error)
+	Spaces(ctx context.Context) (paging.Result[*spaceStructs.ReadSpace], error)
 	RefreshToken(ctx context.Context, refreshToken string) (*AuthResponse, error)
 }
 
@@ -40,21 +40,21 @@ type accountService struct {
 	ep  event.PublisherInterface
 
 	cas CodeAuthServiceInterface
-	ats AuthTenantServiceInterface
+	ats AuthSpaceServiceInterface
 	ss  SessionServiceInterface
 
 	usw  *wrapper.UserServiceWrapper
-	tsw  *wrapper.TenantServiceWrapper
+	tsw  *wrapper.SpaceServiceWrapper
 	asw  *wrapper.AccessServiceWrapper
-	ugsw *wrapper.SpaceServiceWrapper
+	ugsw *wrapper.OrganizationServiceWrapper
 }
 
 // NewAccountService creates a new service.
-func NewAccountService(d *data.Data, jtm *jwt.TokenManager, ep event.PublisherInterface, cas CodeAuthServiceInterface, ats AuthTenantServiceInterface, ss SessionServiceInterface,
+func NewAccountService(d *data.Data, jtm *jwt.TokenManager, ep event.PublisherInterface, cas CodeAuthServiceInterface, ats AuthSpaceServiceInterface, ss SessionServiceInterface,
 	usw *wrapper.UserServiceWrapper,
-	tsw *wrapper.TenantServiceWrapper,
+	tsw *wrapper.SpaceServiceWrapper,
 	asw *wrapper.AccessServiceWrapper,
-	ugsw *wrapper.SpaceServiceWrapper,
+	ugsw *wrapper.OrganizationServiceWrapper,
 ) AccountServiceInterface {
 	return &accountService{
 		d:    d,
@@ -108,21 +108,21 @@ func (s *accountService) Login(ctx context.Context, body *structs.LoginBody) (*A
 		return nil, v
 	}
 
-	// Get user tenants
-	userTenants, _ := s.tsw.GetUserTenants(ctx, user.ID)
-	var tenantIDs []string
-	for _, t := range userTenants {
-		tenantIDs = append(tenantIDs, t.ID)
+	// Get user spaces
+	userSpaces, _ := s.tsw.GetUserSpaces(ctx, user.ID)
+	var spaceIDs []string
+	for _, t := range userSpaces {
+		spaceIDs = append(spaceIDs, t.ID)
 	}
 
-	// Set default tenant context
-	defaultTenant, err := s.tsw.GetUserTenant(ctx, user.ID)
-	if err == nil && defaultTenant != nil {
-		ctx = ctxutil.SetTenantID(ctx, defaultTenant.ID)
+	// Set default space context
+	defaultSpace, err := s.tsw.GetUserSpace(ctx, user.ID)
+	if err == nil && defaultSpace != nil {
+		ctx = ctxutil.SetSpaceID(ctx, defaultSpace.ID)
 	}
 
 	// Create token payload
-	payload, err := CreateUserTokenPayload(ctx, user, tenantIDs, s.asw, s.tsw)
+	payload, err := CreateUserTokenPayload(ctx, user, spaceIDs, s.asw, s.tsw)
 	if err != nil {
 		return nil, err
 	}
@@ -134,11 +134,11 @@ func (s *accountService) Login(ctx context.Context, body *structs.LoginBody) (*A
 	}
 
 	// Set additional response data
-	authResp.TenantIDs = tenantIDs
-	if defaultTenant != nil {
-		authResp.DefaultTenant = &types.JSON{
-			"id":   defaultTenant.ID,
-			"name": defaultTenant.Name,
+	authResp.SpaceIDs = spaceIDs
+	if defaultSpace != nil {
+		authResp.DefaultSpace = &types.JSON{
+			"id":   defaultSpace.ID,
+			"name": defaultSpace.Name,
 		}
 	}
 
@@ -196,21 +196,21 @@ func (s *accountService) RefreshToken(ctx context.Context, refreshToken string) 
 		return nil, errors.New("user not found")
 	}
 
-	// Get user tenants
-	userTenants, _ := s.tsw.GetUserTenants(ctx, user.ID)
-	var tenantIDs []string
-	for _, t := range userTenants {
-		tenantIDs = append(tenantIDs, t.ID)
+	// Get user spaces
+	userSpaces, _ := s.tsw.GetUserSpaces(ctx, user.ID)
+	var spaceIDs []string
+	for _, t := range userSpaces {
+		spaceIDs = append(spaceIDs, t.ID)
 	}
 
-	// Set default tenant context
-	defaultTenant, err := s.tsw.GetUserTenant(ctx, user.ID)
-	if err == nil && defaultTenant != nil {
-		ctx = ctxutil.SetTenantID(ctx, defaultTenant.ID)
+	// Set default space context
+	defaultSpace, err := s.tsw.GetUserSpace(ctx, user.ID)
+	if err == nil && defaultSpace != nil {
+		ctx = ctxutil.SetSpaceID(ctx, defaultSpace.ID)
 	}
 
 	// Create token payload
-	tokenPayload, err := CreateUserTokenPayload(ctx, user, tenantIDs, s.asw, s.tsw)
+	tokenPayload, err := CreateUserTokenPayload(ctx, user, spaceIDs, s.asw, s.tsw)
 	if err != nil {
 		return nil, err
 	}
@@ -222,11 +222,11 @@ func (s *accountService) RefreshToken(ctx context.Context, refreshToken string) 
 	}
 
 	// Set additional response data
-	authResp.TenantIDs = tenantIDs
-	if defaultTenant != nil {
-		authResp.DefaultTenant = &types.JSON{
-			"id":   defaultTenant.ID,
-			"name": defaultTenant.Name,
+	authResp.SpaceIDs = spaceIDs
+	if defaultSpace != nil {
+		authResp.DefaultSpace = &types.JSON{
+			"id":   defaultSpace.ID,
+			"name": defaultSpace.Name,
 		}
 	}
 
@@ -292,10 +292,10 @@ func (s *accountService) Register(ctx context.Context, body *structs.RegisterBod
 
 	user := rst["user"].(*userStructs.ReadUser)
 
-	// Create tenant if needed
-	tenant, err := s.ats.IsCreateTenant(ctx, &tenantStructs.CreateTenantBody{
-		TenantBody: tenantStructs.TenantBody{
-			Name:      body.Tenant,
+	// Create space if needed
+	space, err := s.ats.IsCreateSpace(ctx, &spaceStructs.CreateSpaceBody{
+		SpaceBody: spaceStructs.SpaceBody{
+			Name:      body.Space,
 			CreatedBy: &user.ID,
 			UpdatedBy: &user.ID,
 		},
@@ -307,15 +307,15 @@ func (s *accountService) Register(ctx context.Context, body *structs.RegisterBod
 		return nil, err
 	}
 
-	// Get tenant IDs
-	var tenantIDs []string
-	if tenant != nil {
-		tenantIDs = append(tenantIDs, tenant.ID)
-		ctx = ctxutil.SetTenantID(ctx, tenant.ID)
+	// Get space IDs
+	var spaceIDs []string
+	if space != nil {
+		spaceIDs = append(spaceIDs, space.ID)
+		ctx = ctxutil.SetSpaceID(ctx, space.ID)
 	}
 
 	// Create token payload
-	tokenPayload, err := CreateUserTokenPayload(ctx, user, tenantIDs, s.asw, s.tsw)
+	tokenPayload, err := CreateUserTokenPayload(ctx, user, spaceIDs, s.asw, s.tsw)
 	if err != nil {
 		if err = tx.Rollback(); err != nil {
 			return nil, err
@@ -337,11 +337,11 @@ func (s *accountService) Register(ctx context.Context, body *structs.RegisterBod
 	}
 
 	// Set additional response data
-	authResp.TenantIDs = tenantIDs
-	if tenant != nil {
-		authResp.DefaultTenant = &types.JSON{
-			"id":   tenant.ID,
-			"name": tenant.Name,
+	authResp.SpaceIDs = spaceIDs
+	if space != nil {
+		authResp.DefaultSpace = &types.JSON{
+			"id":   space.ID,
+			"name": space.Name,
 		}
 	}
 
@@ -361,9 +361,9 @@ func (s *accountService) Register(ctx context.Context, body *structs.RegisterBod
 			"timestamp":           time.Now().UnixMilli(),
 		}
 
-		if tenant != nil {
-			(*metadata)["tenant_id"] = tenant.ID
-			(*metadata)["tenant_name"] = tenant.Name
+		if space != nil {
+			(*metadata)["space_id"] = space.ID
+			(*metadata)["space_name"] = space.Name
 		}
 
 		s.ep.PublishUserCreated(ctx, user.ID, metadata)
@@ -382,7 +382,7 @@ func (s *accountService) GetMe(ctx context.Context) (*structs.AccountMeshes, err
 	return s.Serialize(user, &serializeUserParams{
 		WithProfile:     true,
 		WithRoles:       true,
-		WithTenants:     true,
+		WithSpaces:      true,
 		WithGroups:      true,
 		WithPermissions: true,
 	}), nil
@@ -408,33 +408,33 @@ func (s *accountService) UpdatePassword(ctx context.Context, body *userStructs.U
 	return err
 }
 
-// Tenant returns user's default tenant
-func (s *accountService) Tenant(ctx context.Context) (*tenantStructs.ReadTenant, error) {
+// Space returns user's default space
+func (s *accountService) Space(ctx context.Context) (*spaceStructs.ReadSpace, error) {
 	userID := ctxutil.GetUserID(ctx)
 	if userID == "" {
 		return nil, errors.New("invalid user ID")
 	}
 
-	row, err := s.tsw.GetTenantByUser(ctx, userID)
-	if err = handleEntError(ctx, "Tenant", err); err != nil {
+	row, err := s.tsw.GetSpaceByUser(ctx, userID)
+	if err = handleEntError(ctx, "Space", err); err != nil {
 		return nil, err
 	}
 
 	return row, nil
 }
 
-// Tenants returns user's all tenants
-func (s *accountService) Tenants(ctx context.Context) (paging.Result[*tenantStructs.ReadTenant], error) {
+// Spaces returns user's all spaces
+func (s *accountService) Spaces(ctx context.Context) (paging.Result[*spaceStructs.ReadSpace], error) {
 	userID := ctxutil.GetUserID(ctx)
 	if userID == "" {
-		return paging.Result[*tenantStructs.ReadTenant]{}, errors.New("invalid user ID")
+		return paging.Result[*spaceStructs.ReadSpace]{}, errors.New("invalid user ID")
 	}
 
-	rows, err := s.tsw.ListTenants(ctx, &tenantStructs.ListTenantParams{
+	rows, err := s.tsw.ListSpaces(ctx, &spaceStructs.ListSpaceParams{
 		User: userID,
 	})
-	if err = handleEntError(ctx, "Tenants", err); err != nil {
-		return paging.Result[*tenantStructs.ReadTenant]{}, err
+	if err = handleEntError(ctx, "Spaces", err); err != nil {
+		return paging.Result[*spaceStructs.ReadSpace]{}, err
 	}
 
 	return rows, nil
@@ -493,7 +493,7 @@ func createUserAndProfile(ctx context.Context, svc *accountService, body *struct
 type serializeUserParams struct {
 	WithProfile     bool
 	WithRoles       bool
-	WithTenants     bool
+	WithSpaces      bool
 	WithGroups      bool
 	WithPermissions bool
 }
@@ -517,16 +517,16 @@ func (s *accountService) Serialize(user *userStructs.ReadUser, sp ...*serializeU
 		}
 	}
 
-	// Get user tenants
-	if params.WithTenants {
-		if tenants, _ := s.tsw.GetUserTenants(ctx, user.ID); len(tenants) > 0 {
-			um.Tenants = tenants
+	// Get user spaces
+	if params.WithSpaces {
+		if spaces, _ := s.tsw.GetUserSpaces(ctx, user.ID); len(spaces) > 0 {
+			um.Spaces = spaces
 		}
 	}
 
 	// Get roles and permissions together for efficiency
 	if params.WithRoles || params.WithPermissions {
-		roleSlugs, permissions, isAdmin, tenantID := s.getUserRolesAndPermissions(ctx, user.ID)
+		roleSlugs, permissions, isAdmin, spaceID := s.getUserRolesAndPermissions(ctx, user.ID)
 
 		if params.WithRoles {
 			um.Roles = roleSlugs
@@ -535,14 +535,14 @@ func (s *accountService) Serialize(user *userStructs.ReadUser, sp ...*serializeU
 		if params.WithPermissions {
 			um.Permissions = permissions
 			um.IsAdmin = isAdmin
-			um.TenantID = tenantID
+			um.SpaceID = spaceID
 		}
 	}
 
-	// Get user groups
+	// Get user orgs
 	if params.WithGroups {
-		groups, _ := s.ugsw.GetUserGroups(ctx, user.ID)
-		um.Groups = groups
+		orgs, _ := s.ugsw.GetUserGroups(ctx, user.ID)
+		um.Groups = orgs
 	}
 
 	return um
@@ -550,28 +550,28 @@ func (s *accountService) Serialize(user *userStructs.ReadUser, sp ...*serializeU
 
 // getUserRolesAndPermissions gets user roles and permissions efficiently
 func (s *accountService) getUserRolesAndPermissions(ctx context.Context, userID string) ([]string, []string, bool, string) {
-	// Get tenant context
-	tenantID := ctxutil.GetTenantID(ctx)
-	if tenantID == "" {
-		// Try to get default tenant for user
-		if defaultTenant, err := s.tsw.GetUserTenant(ctx, userID); err == nil && defaultTenant != nil {
-			tenantID = defaultTenant.ID
-			ctx = ctxutil.SetTenantID(ctx, tenantID)
+	// Get space context
+	spaceID := ctxutil.GetSpaceID(ctx)
+	if spaceID == "" {
+		// Try to get default space for user
+		if defaultSpace, err := s.tsw.GetUserSpace(ctx, userID); err == nil && defaultSpace != nil {
+			spaceID = defaultSpace.ID
+			ctx = ctxutil.SetSpaceID(ctx, spaceID)
 		}
 	}
 
 	// Use existing helper function to get comprehensive role and permission data
-	finalTenantID, roleSlugs, permissionCodes, isAdmin, err := GetUserTenantsRolesPermissions(ctx, userID, s.asw, s.tsw)
+	finalSpaceID, roleSlugs, permissionCodes, isAdmin, err := GetUserSpacesRolesPermissions(ctx, userID, s.asw, s.tsw)
 
 	if err != nil {
 		// Fallback: try to get basic role information
 		roleSlugs = s.getFallbackRoles(ctx, userID)
 		permissionCodes = []string{}
 		isAdmin = ctxutil.GetUserIsAdmin(ctx)
-		finalTenantID = tenantID
+		finalSpaceID = spaceID
 	}
 
-	return roleSlugs, permissionCodes, isAdmin, finalTenantID
+	return roleSlugs, permissionCodes, isAdmin, finalSpaceID
 }
 
 // getFallbackRoles gets basic role information when main method fails
@@ -585,12 +585,12 @@ func (s *accountService) getFallbackRoles(ctx context.Context, userID string) []
 		}
 	}
 
-	// Try tenant-specific roles if tenant context exists
-	tenantID := ctxutil.GetTenantID(ctx)
-	if tenantID != "" {
-		if roleIDs, err := s.tsw.GetUserRolesInTenant(ctx, userID, tenantID); err == nil && len(roleIDs) > 0 {
-			if tenantRoles, err := s.asw.GetByIDs(ctx, roleIDs); err == nil {
-				for _, role := range tenantRoles {
+	// Try space-specific roles if space context exists
+	spaceID := ctxutil.GetSpaceID(ctx)
+	if spaceID != "" {
+		if roleIDs, err := s.tsw.GetUserRolesInSpace(ctx, userID, spaceID); err == nil && len(roleIDs) > 0 {
+			if spaceRoles, err := s.asw.GetByIDs(ctx, roleIDs); err == nil {
+				for _, role := range spaceRoles {
 					// Avoid duplicates
 					found := false
 					for _, existing := range roleSlugs {

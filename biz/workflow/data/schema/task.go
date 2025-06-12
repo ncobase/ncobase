@@ -39,7 +39,7 @@ func (Task) Mixin() []ent.Mixin {
 		mixin.TimeTrackingMixin{},
 		mixin.WorkflowControlMixin{},
 		mixin.ExtraProps,
-		mixin.TenantID,
+		mixin.SpaceID,
 		mixin.Operator,
 		mixin.TimeAt{},
 	}

@@ -191,7 +191,7 @@ func (s *historyService) serialize(history *ent.History) *structs.ReadHistory {
 		FormData:     history.FormData,
 		NodeConfig:   history.NodeConfig,
 		Details:      history.Details,
-		TenantID:     history.TenantID,
+		SpaceID:      history.SpaceID,
 		CreatedBy:    &history.CreatedBy,
 		CreatedAt:    &history.CreatedAt,
 		UpdatedBy:    &history.UpdatedBy,

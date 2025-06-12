@@ -6,9 +6,9 @@ go 1.24
 replace (
 	ncobase/access => ./core/access
 	ncobase/auth => ./core/auth
+	ncobase/organization => ./core/organization
 	ncobase/space => ./core/space
 	ncobase/system => ./core/system
-	ncobase/tenant => ./core/tenant
 	ncobase/user => ./core/user
 )
 
@@ -45,13 +45,13 @@ require (
 	ncobase/content v0.0.0-00010101000000-000000000000
 	ncobase/counter v0.0.0-00010101000000-000000000000
 	ncobase/initialize v0.0.0-00010101000000-000000000000
+	ncobase/organization v0.0.0-00010101000000-000000000000
 	ncobase/payment v0.0.0-00010101000000-000000000000
 	ncobase/proxy v0.0.0-00010101000000-000000000000
 	ncobase/realtime v0.0.0-00010101000000-000000000000
 	ncobase/resource v0.0.0-00010101000000-000000000000
-	ncobase/space v0.0.0-00010101000000-000000000000
 	ncobase/system v0.0.0-00010101000000-000000000000
-	ncobase/tenant v0.0.0-00010101000000-000000000000
+	ncobase/space v0.0.0-00010101000000-000000000000
 	ncobase/user v0.0.0-00010101000000-000000000000
 	ncobase/workflow v0.0.0-00010101000000-000000000000
 )

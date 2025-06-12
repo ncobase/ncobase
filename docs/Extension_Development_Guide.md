@@ -206,7 +206,7 @@ func init() {
     registry.RegisterToGroup(New(), "business")
 
     // 带弱依赖注册
-    registry.RegisterToGroupWithWeakDeps(New(), "business", []string{"user", "tenant"})
+    registry.RegisterToGroupWithWeakDeps(New(), "business", []string{"user", "space"})
 }
 
 func New() *MyExtension {
@@ -682,7 +682,7 @@ _解决方案_: 将其中一个依赖转换为弱依赖类型
 **服务未找到**
 
 ```text
-错误: extension 'user-service' not found
+错误：extension 'user-service' not found
 ```
 
 _解决方案_: 检查扩展注册和初始化顺序
@@ -690,7 +690,7 @@ _解决方案_: 检查扩展注册和初始化顺序
 **gRPC 连接失败**
 
 ```text
-错误: failed to get gRPC connection for service-name
+错误：failed to get gRPC connection for service-name
 ```
 
 _解决方案_: 验证服务发现配置和网络连接

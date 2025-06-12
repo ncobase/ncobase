@@ -10,7 +10,7 @@ package service
 // 	oauthUserEnt "ncobase/auth/data/ent/oauthuser"
 // 	"ncobase/auth/middleware"
 // 	authStructs "ncobase/auth/structs"
-// 	tenantStructs "ncobase/tenant/structs"
+// 	spaceStructs "ncobase/space/structs"
 // 	userEnt "ncobase/user/data/ent/user"
 // 	userStructs "ncobase/user/structs"
 // 	"ncobase/helper"
@@ -136,8 +136,8 @@ package service
 // 		return nil, err
 // 	}
 //
-// 	if _, err := svc.isCreateTenant(ctx, &tenantStructs.CreateTenantBody{
-// 		TenantBody: tenantStructs.TenantBody{Name: body.Tenant, CreatedBy: &user.ID, UpdatedBy: &user.ID},
+// 	if _, err := svc.isCreateSpace(ctx, &spaceStructs.CreateSpaceBody{
+// 		SpaceBody: spaceStructs.SpaceBody{Name: body.Space, CreatedBy: &user.ID, UpdatedBy: &user.ID},
 // 	}); err != nil {
 // 		return nil, resp.InternalServer(err.Error())
 // 	}

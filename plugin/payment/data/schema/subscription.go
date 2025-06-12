@@ -47,8 +47,8 @@ func (PaymentSubscription) Fields() []ent.Field {
 		field.String("user_id").
 			Comment("User ID").
 			NotEmpty(),
-		field.String("tenant_id").
-			Comment("Tenant ID").
+		field.String("space_id").
+			Comment("Space ID").
 			Optional(),
 		field.String("product_id").
 			Comment("PaymentProduct ID").
@@ -98,7 +98,7 @@ func (PaymentSubscription) Indexes() []ent.Index {
 	return []ent.Index{
 		index.Fields("status"),
 		index.Fields("user_id"),
-		index.Fields("tenant_id"),
+		index.Fields("space_id"),
 		index.Fields("product_id"),
 		index.Fields("channel_id"),
 		index.Fields("current_period_end"),

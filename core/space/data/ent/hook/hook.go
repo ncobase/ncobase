@@ -8,40 +8,124 @@ import (
 	"ncobase/space/data/ent"
 )
 
-// The GroupFunc type is an adapter to allow the use of ordinary
-// function as Group mutator.
-type GroupFunc func(context.Context, *ent.GroupMutation) (ent.Value, error)
+// The SpaceFunc type is an adapter to allow the use of ordinary
+// function as Space mutator.
+type SpaceFunc func(context.Context, *ent.SpaceMutation) (ent.Value, error)
 
 // Mutate calls f(ctx, m).
-func (f GroupFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
-	if mv, ok := m.(*ent.GroupMutation); ok {
+func (f SpaceFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.SpaceMutation); ok {
 		return f(ctx, mv)
 	}
-	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.GroupMutation", m)
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.SpaceMutation", m)
 }
 
-// The GroupRoleFunc type is an adapter to allow the use of ordinary
-// function as GroupRole mutator.
-type GroupRoleFunc func(context.Context, *ent.GroupRoleMutation) (ent.Value, error)
+// The SpaceBillingFunc type is an adapter to allow the use of ordinary
+// function as SpaceBilling mutator.
+type SpaceBillingFunc func(context.Context, *ent.SpaceBillingMutation) (ent.Value, error)
 
 // Mutate calls f(ctx, m).
-func (f GroupRoleFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
-	if mv, ok := m.(*ent.GroupRoleMutation); ok {
+func (f SpaceBillingFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.SpaceBillingMutation); ok {
 		return f(ctx, mv)
 	}
-	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.GroupRoleMutation", m)
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.SpaceBillingMutation", m)
 }
 
-// The UserGroupFunc type is an adapter to allow the use of ordinary
-// function as UserGroup mutator.
-type UserGroupFunc func(context.Context, *ent.UserGroupMutation) (ent.Value, error)
+// The SpaceDictionaryFunc type is an adapter to allow the use of ordinary
+// function as SpaceDictionary mutator.
+type SpaceDictionaryFunc func(context.Context, *ent.SpaceDictionaryMutation) (ent.Value, error)
 
 // Mutate calls f(ctx, m).
-func (f UserGroupFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
-	if mv, ok := m.(*ent.UserGroupMutation); ok {
+func (f SpaceDictionaryFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.SpaceDictionaryMutation); ok {
 		return f(ctx, mv)
 	}
-	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.UserGroupMutation", m)
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.SpaceDictionaryMutation", m)
+}
+
+// The SpaceMenuFunc type is an adapter to allow the use of ordinary
+// function as SpaceMenu mutator.
+type SpaceMenuFunc func(context.Context, *ent.SpaceMenuMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f SpaceMenuFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.SpaceMenuMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.SpaceMenuMutation", m)
+}
+
+// The SpaceOptionFunc type is an adapter to allow the use of ordinary
+// function as SpaceOption mutator.
+type SpaceOptionFunc func(context.Context, *ent.SpaceOptionMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f SpaceOptionFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.SpaceOptionMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.SpaceOptionMutation", m)
+}
+
+// The SpaceOrganizationFunc type is an adapter to allow the use of ordinary
+// function as SpaceOrganization mutator.
+type SpaceOrganizationFunc func(context.Context, *ent.SpaceOrganizationMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f SpaceOrganizationFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.SpaceOrganizationMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.SpaceOrganizationMutation", m)
+}
+
+// The SpaceQuotaFunc type is an adapter to allow the use of ordinary
+// function as SpaceQuota mutator.
+type SpaceQuotaFunc func(context.Context, *ent.SpaceQuotaMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f SpaceQuotaFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.SpaceQuotaMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.SpaceQuotaMutation", m)
+}
+
+// The SpaceSettingFunc type is an adapter to allow the use of ordinary
+// function as SpaceSetting mutator.
+type SpaceSettingFunc func(context.Context, *ent.SpaceSettingMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f SpaceSettingFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.SpaceSettingMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.SpaceSettingMutation", m)
+}
+
+// The UserSpaceFunc type is an adapter to allow the use of ordinary
+// function as UserSpace mutator.
+type UserSpaceFunc func(context.Context, *ent.UserSpaceMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f UserSpaceFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.UserSpaceMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.UserSpaceMutation", m)
+}
+
+// The UserSpaceRoleFunc type is an adapter to allow the use of ordinary
+// function as UserSpaceRole mutator.
+type UserSpaceRoleFunc func(context.Context, *ent.UserSpaceRoleMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f UserSpaceRoleFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.UserSpaceRoleMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.UserSpaceRoleMutation", m)
 }
 
 // Condition is a hook condition function.

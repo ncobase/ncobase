@@ -184,7 +184,7 @@ func (s *userMeshesService) UpdateUserMeshes(ctx context.Context, username strin
 		employeeUpdates := &structs.UpdateEmployeeBody{
 			EmployeeBody: structs.EmployeeBody{
 				UserID:          user.ID,
-				TenantID:        updates.Employee.TenantID,
+				SpaceID:         updates.Employee.SpaceID,
 				EmployeeID:      updates.Employee.EmployeeID,
 				Department:      updates.Employee.Department,
 				Position:        updates.Employee.Position,

@@ -33,12 +33,12 @@ type codeAuthService struct {
 	ep  event.PublisherInterface
 
 	usw *wrapper.UserServiceWrapper
-	tsw *wrapper.TenantServiceWrapper
+	tsw *wrapper.SpaceServiceWrapper
 	asw *wrapper.AccessServiceWrapper
 }
 
 // NewCodeAuthService creates a new service
-func NewCodeAuthService(d *data.Data, jtm *jwt.TokenManager, ep event.PublisherInterface, usw *wrapper.UserServiceWrapper, tsw *wrapper.TenantServiceWrapper, asw *wrapper.AccessServiceWrapper) CodeAuthServiceInterface {
+func NewCodeAuthService(d *data.Data, jtm *jwt.TokenManager, ep event.PublisherInterface, usw *wrapper.UserServiceWrapper, tsw *wrapper.SpaceServiceWrapper, asw *wrapper.AccessServiceWrapper) CodeAuthServiceInterface {
 	return &codeAuthService{
 		d:   d,
 		jtm: jtm,
@@ -82,23 +82,23 @@ func (s *codeAuthService) CodeAuth(ctx context.Context, code string) (*AuthRespo
 	}
 
 	// User exists, proceed with login
-	// Get all tenants the user belongs to
-	userTenants, _ := s.tsw.GetUserTenants(ctx, user.ID)
-	var tenantIDs []string
-	if len(userTenants) > 0 {
-		for _, t := range userTenants {
-			tenantIDs = append(tenantIDs, t.ID)
+	// Get all spaces the user belongs to
+	userSpaces, _ := s.tsw.GetUserSpaces(ctx, user.ID)
+	var spaceIDs []string
+	if len(userSpaces) > 0 {
+		for _, t := range userSpaces {
+			spaceIDs = append(spaceIDs, t.ID)
 		}
 	}
 
-	// Set tenant ID in context if there's a default tenant
-	defaultTenant, err := s.tsw.GetTenantByUser(ctx, user.ID)
-	if err == nil && defaultTenant != nil {
-		ctx = ctxutil.SetTenantID(ctx, defaultTenant.ID)
+	// Set space ID in context if there's a default space
+	defaultSpace, err := s.tsw.GetSpaceByUser(ctx, user.ID)
+	if err == nil && defaultSpace != nil {
+		ctx = ctxutil.SetSpaceID(ctx, defaultSpace.ID)
 	}
 
 	// Create token payload
-	payload, err := CreateUserTokenPayload(ctx, user, tenantIDs, s.asw, s.tsw)
+	payload, err := CreateUserTokenPayload(ctx, user, spaceIDs, s.asw, s.tsw)
 	if err != nil {
 		return nil, err
 	}
@@ -110,11 +110,11 @@ func (s *codeAuthService) CodeAuth(ctx context.Context, code string) (*AuthRespo
 	}
 
 	// Set additional response data
-	authResp.TenantIDs = tenantIDs
-	if defaultTenant != nil {
-		authResp.DefaultTenant = &types.JSON{
-			"id":   defaultTenant.ID,
-			"name": defaultTenant.Name,
+	authResp.SpaceIDs = spaceIDs
+	if defaultSpace != nil {
+		authResp.DefaultSpace = &types.JSON{
+			"id":   defaultSpace.ID,
+			"name": defaultSpace.Name,
 		}
 	}
 

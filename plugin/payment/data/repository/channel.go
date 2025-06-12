@@ -23,8 +23,8 @@ type ChannelRepositoryInterface interface {
 	Delete(ctx context.Context, id string) error
 	List(ctx context.Context, query *structs.ChannelQuery) ([]*structs.Channel, error)
 	Count(ctx context.Context, query *structs.ChannelQuery) (int64, error)
-	UnsetDefault(ctx context.Context, provider string, tenantID string) error
-	GetDefault(ctx context.Context, provider string, tenantID string) (*structs.Channel, error)
+	UnsetDefault(ctx context.Context, provider string, spaceID string) error
+	GetDefault(ctx context.Context, provider string, spaceID string) (*structs.Channel, error)
 	IsInUse(ctx context.Context, id string) (bool, error)
 }
 
@@ -65,7 +65,7 @@ func (r *channelRepository) Create(ctx context.Context, channel *structs.CreateC
 			Where(
 				paymentChannelEnt.Provider(string(channel.Provider)),
 				paymentChannelEnt.IsDefault(true),
-				paymentChannelEnt.TenantIDEQ(channel.TenantID),
+				paymentChannelEnt.SpaceIDEQ(channel.SpaceID),
 			).
 			SetIsDefault(false).
 			Save(ctx)
@@ -83,7 +83,7 @@ func (r *channelRepository) Create(ctx context.Context, channel *structs.CreateC
 		SetSupportedTypes(convert.ToStringArray(channel.SupportedType)).
 		SetConfig(channel.Config).
 		SetExtras(channel.Metadata).
-		SetTenantID(channel.TenantID).
+		SetSpaceID(channel.SpaceID).
 		Save(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create payment channel: %w", err)
@@ -145,7 +145,7 @@ func (r *channelRepository) Update(ctx context.Context, channel *structs.UpdateC
 					paymentChannelEnt.Provider(string(channel.Provider)),
 					paymentChannelEnt.IsDefault(true),
 					paymentChannelEnt.IDNEQ(channel.ID),
-					paymentChannelEnt.TenantIDEQ(channel.TenantID),
+					paymentChannelEnt.SpaceIDEQ(channel.SpaceID),
 				).
 				SetIsDefault(false).
 				Save(ctx)
@@ -201,8 +201,8 @@ func (r *channelRepository) List(ctx context.Context, query *structs.ChannelQuer
 		q = q.Where(paymentChannelEnt.Status(string(query.Status)))
 	}
 
-	if query.TenantID != "" {
-		q = q.Where(paymentChannelEnt.TenantID(query.TenantID))
+	if query.SpaceID != "" {
+		q = q.Where(paymentChannelEnt.SpaceID(query.SpaceID))
 	}
 
 	// Apply cursor pagination
@@ -271,8 +271,8 @@ func (r *channelRepository) Count(ctx context.Context, query *structs.ChannelQue
 		q = q.Where(paymentChannelEnt.Status(string(query.Status)))
 	}
 
-	if query.TenantID != "" {
-		q = q.Where(paymentChannelEnt.TenantID(query.TenantID))
+	if query.SpaceID != "" {
+		q = q.Where(paymentChannelEnt.SpaceID(query.SpaceID))
 	}
 
 	// Execute count
@@ -285,12 +285,12 @@ func (r *channelRepository) Count(ctx context.Context, query *structs.ChannelQue
 }
 
 // UnsetDefault unsets the default channel for a provider
-func (r *channelRepository) UnsetDefault(ctx context.Context, provider string, tenantID string) error {
+func (r *channelRepository) UnsetDefault(ctx context.Context, provider string, spaceID string) error {
 	_, err := r.data.EC.PaymentChannel.Update().
 		Where(
 			paymentChannelEnt.Provider(provider),
 			paymentChannelEnt.IsDefault(true),
-			paymentChannelEnt.TenantIDEQ(tenantID),
+			paymentChannelEnt.SpaceIDEQ(spaceID),
 		).
 		SetIsDefault(false).
 		Save(ctx)
@@ -302,12 +302,12 @@ func (r *channelRepository) UnsetDefault(ctx context.Context, provider string, t
 }
 
 // GetDefault gets the default channel for a provider
-func (r *channelRepository) GetDefault(ctx context.Context, provider string, tenantID string) (*structs.Channel, error) {
+func (r *channelRepository) GetDefault(ctx context.Context, provider string, spaceID string) (*structs.Channel, error) {
 	channel, err := r.data.EC.PaymentChannel.Query().
 		Where(
 			paymentChannelEnt.Provider(provider),
 			paymentChannelEnt.IsDefault(true),
-			paymentChannelEnt.TenantIDEQ(tenantID),
+			paymentChannelEnt.SpaceIDEQ(spaceID),
 		).
 		Only(ctx)
 	if err != nil {
@@ -346,6 +346,6 @@ func (r *channelRepository) entToStruct(channel *ent.PaymentChannel) (*structs.C
 		}(),
 		Config:   channel.Config,
 		Metadata: channel.Extras,
-		TenantID: channel.TenantID,
+		SpaceID:  channel.SpaceID,
 	}, nil
 }

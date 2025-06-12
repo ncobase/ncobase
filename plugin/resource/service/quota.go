@@ -23,7 +23,7 @@ type QuotaServiceInterface interface {
 	IsQuotaExceeded(ctx context.Context, spaceID string) (bool, error)
 	MonitorQuota(ctx context.Context) error
 	UpdateUsage(ctx context.Context, spaceID string, quotaType string, delta int64) error
-	RefreshTenantServices()
+	RefreshSpaceServices()
 }
 
 // QuotaConfig represents quota configuration
@@ -328,7 +328,7 @@ func (s *quotaService) UpdateUsage(ctx context.Context, spaceID string, quotaTyp
 	return nil
 }
 
-// RefreshTenantServices refreshes tenant service references (placeholder)
-func (s *quotaService) RefreshTenantServices() {
-	// Placeholder for tenant service integration
+// RefreshSpaceServices refreshes space service references (placeholder)
+func (s *quotaService) RefreshSpaceServices() {
+	// Placeholder for space service integration
 }

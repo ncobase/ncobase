@@ -36,8 +36,8 @@ const (
 	FieldChannelID = "channel_id"
 	// FieldUserID holds the string denoting the user_id field in the database.
 	FieldUserID = "user_id"
-	// FieldTenantID holds the string denoting the tenant_id field in the database.
-	FieldTenantID = "tenant_id"
+	// FieldSpaceID holds the string denoting the space_id field in the database.
+	FieldSpaceID = "space_id"
 	// FieldProductID holds the string denoting the product_id field in the database.
 	FieldProductID = "product_id"
 	// FieldSubscriptionID holds the string denoting the subscription_id field in the database.
@@ -78,7 +78,7 @@ var Columns = []string{
 	FieldType,
 	FieldChannelID,
 	FieldUserID,
-	FieldTenantID,
+	FieldSpaceID,
 	FieldProductID,
 	FieldSubscriptionID,
 	FieldExpiresAt,
@@ -189,9 +189,9 @@ func ByUserID(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldUserID, opts...).ToFunc()
 }
 
-// ByTenantID orders the results by the tenant_id field.
-func ByTenantID(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldTenantID, opts...).ToFunc()
+// BySpaceID orders the results by the space_id field.
+func BySpaceID(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldSpaceID, opts...).ToFunc()
 }
 
 // ByProductID orders the results by the product_id field.

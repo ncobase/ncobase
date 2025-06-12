@@ -12,12 +12,26 @@ import (
 // Tx is a transactional client that is created by calling Client.Tx().
 type Tx struct {
 	config
-	// Group is the client for interacting with the Group builders.
-	Group *GroupClient
-	// GroupRole is the client for interacting with the GroupRole builders.
-	GroupRole *GroupRoleClient
-	// UserGroup is the client for interacting with the UserGroup builders.
-	UserGroup *UserGroupClient
+	// Space is the client for interacting with the Space builders.
+	Space *SpaceClient
+	// SpaceBilling is the client for interacting with the SpaceBilling builders.
+	SpaceBilling *SpaceBillingClient
+	// SpaceDictionary is the client for interacting with the SpaceDictionary builders.
+	SpaceDictionary *SpaceDictionaryClient
+	// SpaceMenu is the client for interacting with the SpaceMenu builders.
+	SpaceMenu *SpaceMenuClient
+	// SpaceOption is the client for interacting with the SpaceOption builders.
+	SpaceOption *SpaceOptionClient
+	// SpaceOrganization is the client for interacting with the SpaceOrganization builders.
+	SpaceOrganization *SpaceOrganizationClient
+	// SpaceQuota is the client for interacting with the SpaceQuota builders.
+	SpaceQuota *SpaceQuotaClient
+	// SpaceSetting is the client for interacting with the SpaceSetting builders.
+	SpaceSetting *SpaceSettingClient
+	// UserSpace is the client for interacting with the UserSpace builders.
+	UserSpace *UserSpaceClient
+	// UserSpaceRole is the client for interacting with the UserSpaceRole builders.
+	UserSpaceRole *UserSpaceRoleClient
 
 	// lazily loaded.
 	client     *Client
@@ -149,9 +163,16 @@ func (tx *Tx) Client() *Client {
 }
 
 func (tx *Tx) init() {
-	tx.Group = NewGroupClient(tx.config)
-	tx.GroupRole = NewGroupRoleClient(tx.config)
-	tx.UserGroup = NewUserGroupClient(tx.config)
+	tx.Space = NewSpaceClient(tx.config)
+	tx.SpaceBilling = NewSpaceBillingClient(tx.config)
+	tx.SpaceDictionary = NewSpaceDictionaryClient(tx.config)
+	tx.SpaceMenu = NewSpaceMenuClient(tx.config)
+	tx.SpaceOption = NewSpaceOptionClient(tx.config)
+	tx.SpaceOrganization = NewSpaceOrganizationClient(tx.config)
+	tx.SpaceQuota = NewSpaceQuotaClient(tx.config)
+	tx.SpaceSetting = NewSpaceSettingClient(tx.config)
+	tx.UserSpace = NewUserSpaceClient(tx.config)
+	tx.UserSpaceRole = NewUserSpaceRoleClient(tx.config)
 }
 
 // txDriver wraps the given dialect.Tx with a nop dialect.Driver implementation.
@@ -161,7 +182,7 @@ func (tx *Tx) init() {
 // of them in order to commit or rollback the transaction.
 //
 // If a closed transaction is embedded in one of the generated entities, and the entity
-// applies a query, for example: Group.QueryXXX(), the query will be executed
+// applies a query, for example: Space.QueryXXX(), the query will be executed
 // through the driver which created this transaction.
 //
 // Note that txDriver is not goroutine safe.

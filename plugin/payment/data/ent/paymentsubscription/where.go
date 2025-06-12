@@ -95,9 +95,9 @@ func UserID(v string) predicate.PaymentSubscription {
 	return predicate.PaymentSubscription(sql.FieldEQ(FieldUserID, v))
 }
 
-// TenantID applies equality check predicate on the "tenant_id" field. It's identical to TenantIDEQ.
-func TenantID(v string) predicate.PaymentSubscription {
-	return predicate.PaymentSubscription(sql.FieldEQ(FieldTenantID, v))
+// SpaceID applies equality check predicate on the "space_id" field. It's identical to SpaceIDEQ.
+func SpaceID(v string) predicate.PaymentSubscription {
+	return predicate.PaymentSubscription(sql.FieldEQ(FieldSpaceID, v))
 }
 
 // ProductID applies equality check predicate on the "product_id" field. It's identical to ProductIDEQ.
@@ -535,79 +535,79 @@ func UserIDContainsFold(v string) predicate.PaymentSubscription {
 	return predicate.PaymentSubscription(sql.FieldContainsFold(FieldUserID, v))
 }
 
-// TenantIDEQ applies the EQ predicate on the "tenant_id" field.
-func TenantIDEQ(v string) predicate.PaymentSubscription {
-	return predicate.PaymentSubscription(sql.FieldEQ(FieldTenantID, v))
+// SpaceIDEQ applies the EQ predicate on the "space_id" field.
+func SpaceIDEQ(v string) predicate.PaymentSubscription {
+	return predicate.PaymentSubscription(sql.FieldEQ(FieldSpaceID, v))
 }
 
-// TenantIDNEQ applies the NEQ predicate on the "tenant_id" field.
-func TenantIDNEQ(v string) predicate.PaymentSubscription {
-	return predicate.PaymentSubscription(sql.FieldNEQ(FieldTenantID, v))
+// SpaceIDNEQ applies the NEQ predicate on the "space_id" field.
+func SpaceIDNEQ(v string) predicate.PaymentSubscription {
+	return predicate.PaymentSubscription(sql.FieldNEQ(FieldSpaceID, v))
 }
 
-// TenantIDIn applies the In predicate on the "tenant_id" field.
-func TenantIDIn(vs ...string) predicate.PaymentSubscription {
-	return predicate.PaymentSubscription(sql.FieldIn(FieldTenantID, vs...))
+// SpaceIDIn applies the In predicate on the "space_id" field.
+func SpaceIDIn(vs ...string) predicate.PaymentSubscription {
+	return predicate.PaymentSubscription(sql.FieldIn(FieldSpaceID, vs...))
 }
 
-// TenantIDNotIn applies the NotIn predicate on the "tenant_id" field.
-func TenantIDNotIn(vs ...string) predicate.PaymentSubscription {
-	return predicate.PaymentSubscription(sql.FieldNotIn(FieldTenantID, vs...))
+// SpaceIDNotIn applies the NotIn predicate on the "space_id" field.
+func SpaceIDNotIn(vs ...string) predicate.PaymentSubscription {
+	return predicate.PaymentSubscription(sql.FieldNotIn(FieldSpaceID, vs...))
 }
 
-// TenantIDGT applies the GT predicate on the "tenant_id" field.
-func TenantIDGT(v string) predicate.PaymentSubscription {
-	return predicate.PaymentSubscription(sql.FieldGT(FieldTenantID, v))
+// SpaceIDGT applies the GT predicate on the "space_id" field.
+func SpaceIDGT(v string) predicate.PaymentSubscription {
+	return predicate.PaymentSubscription(sql.FieldGT(FieldSpaceID, v))
 }
 
-// TenantIDGTE applies the GTE predicate on the "tenant_id" field.
-func TenantIDGTE(v string) predicate.PaymentSubscription {
-	return predicate.PaymentSubscription(sql.FieldGTE(FieldTenantID, v))
+// SpaceIDGTE applies the GTE predicate on the "space_id" field.
+func SpaceIDGTE(v string) predicate.PaymentSubscription {
+	return predicate.PaymentSubscription(sql.FieldGTE(FieldSpaceID, v))
 }
 
-// TenantIDLT applies the LT predicate on the "tenant_id" field.
-func TenantIDLT(v string) predicate.PaymentSubscription {
-	return predicate.PaymentSubscription(sql.FieldLT(FieldTenantID, v))
+// SpaceIDLT applies the LT predicate on the "space_id" field.
+func SpaceIDLT(v string) predicate.PaymentSubscription {
+	return predicate.PaymentSubscription(sql.FieldLT(FieldSpaceID, v))
 }
 
-// TenantIDLTE applies the LTE predicate on the "tenant_id" field.
-func TenantIDLTE(v string) predicate.PaymentSubscription {
-	return predicate.PaymentSubscription(sql.FieldLTE(FieldTenantID, v))
+// SpaceIDLTE applies the LTE predicate on the "space_id" field.
+func SpaceIDLTE(v string) predicate.PaymentSubscription {
+	return predicate.PaymentSubscription(sql.FieldLTE(FieldSpaceID, v))
 }
 
-// TenantIDContains applies the Contains predicate on the "tenant_id" field.
-func TenantIDContains(v string) predicate.PaymentSubscription {
-	return predicate.PaymentSubscription(sql.FieldContains(FieldTenantID, v))
+// SpaceIDContains applies the Contains predicate on the "space_id" field.
+func SpaceIDContains(v string) predicate.PaymentSubscription {
+	return predicate.PaymentSubscription(sql.FieldContains(FieldSpaceID, v))
 }
 
-// TenantIDHasPrefix applies the HasPrefix predicate on the "tenant_id" field.
-func TenantIDHasPrefix(v string) predicate.PaymentSubscription {
-	return predicate.PaymentSubscription(sql.FieldHasPrefix(FieldTenantID, v))
+// SpaceIDHasPrefix applies the HasPrefix predicate on the "space_id" field.
+func SpaceIDHasPrefix(v string) predicate.PaymentSubscription {
+	return predicate.PaymentSubscription(sql.FieldHasPrefix(FieldSpaceID, v))
 }
 
-// TenantIDHasSuffix applies the HasSuffix predicate on the "tenant_id" field.
-func TenantIDHasSuffix(v string) predicate.PaymentSubscription {
-	return predicate.PaymentSubscription(sql.FieldHasSuffix(FieldTenantID, v))
+// SpaceIDHasSuffix applies the HasSuffix predicate on the "space_id" field.
+func SpaceIDHasSuffix(v string) predicate.PaymentSubscription {
+	return predicate.PaymentSubscription(sql.FieldHasSuffix(FieldSpaceID, v))
 }
 
-// TenantIDIsNil applies the IsNil predicate on the "tenant_id" field.
-func TenantIDIsNil() predicate.PaymentSubscription {
-	return predicate.PaymentSubscription(sql.FieldIsNull(FieldTenantID))
+// SpaceIDIsNil applies the IsNil predicate on the "space_id" field.
+func SpaceIDIsNil() predicate.PaymentSubscription {
+	return predicate.PaymentSubscription(sql.FieldIsNull(FieldSpaceID))
 }
 
-// TenantIDNotNil applies the NotNil predicate on the "tenant_id" field.
-func TenantIDNotNil() predicate.PaymentSubscription {
-	return predicate.PaymentSubscription(sql.FieldNotNull(FieldTenantID))
+// SpaceIDNotNil applies the NotNil predicate on the "space_id" field.
+func SpaceIDNotNil() predicate.PaymentSubscription {
+	return predicate.PaymentSubscription(sql.FieldNotNull(FieldSpaceID))
 }
 
-// TenantIDEqualFold applies the EqualFold predicate on the "tenant_id" field.
-func TenantIDEqualFold(v string) predicate.PaymentSubscription {
-	return predicate.PaymentSubscription(sql.FieldEqualFold(FieldTenantID, v))
+// SpaceIDEqualFold applies the EqualFold predicate on the "space_id" field.
+func SpaceIDEqualFold(v string) predicate.PaymentSubscription {
+	return predicate.PaymentSubscription(sql.FieldEqualFold(FieldSpaceID, v))
 }
 
-// TenantIDContainsFold applies the ContainsFold predicate on the "tenant_id" field.
-func TenantIDContainsFold(v string) predicate.PaymentSubscription {
-	return predicate.PaymentSubscription(sql.FieldContainsFold(FieldTenantID, v))
+// SpaceIDContainsFold applies the ContainsFold predicate on the "space_id" field.
+func SpaceIDContainsFold(v string) predicate.PaymentSubscription {
+	return predicate.PaymentSubscription(sql.FieldContainsFold(FieldSpaceID, v))
 }
 
 // ProductIDEQ applies the EQ predicate on the "product_id" field.

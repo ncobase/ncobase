@@ -144,7 +144,7 @@ func (r *distributionRepository) Update(ctx context.Context, id string, updates 
 			builder.SetExtras(value.(types.JSON))
 		case "error_details":
 			builder.SetNillableErrorDetails(convert.ToPointer(value.(string)))
-		case "tenant_id":
+		case "space_id":
 			builder.SetNillableSpaceID(convert.ToPointer(value.(string)))
 		case "updated_by":
 			builder.SetNillableUpdatedBy(convert.ToPointer(value.(string)))
@@ -342,7 +342,7 @@ func (r *distributionRepository) FindDistribution(ctx context.Context, params *s
 		builder = builder.Where(distributionEnt.ChannelIDEQ(params.ChannelID))
 	}
 
-	// if space / tenant provided
+	// if space / space provided
 	if validator.IsNotEmpty(params.SpaceID) {
 		builder = builder.Where(distributionEnt.SpaceIDEQ(params.SpaceID))
 	}

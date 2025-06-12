@@ -50,7 +50,7 @@ type discovery struct {
 
 // init registers the module
 func init() {
-	exr.RegisterToGroupWithWeakDeps(New(), group, []string{"user", "tenant", "access"})
+	exr.RegisterToGroupWithWeakDeps(New(), group, []string{"user", "space", "access"})
 }
 
 // New creates a new instance of the auth module.
@@ -97,7 +97,7 @@ func (m *Module) PostInit() error {
 	m.em.SubscribeEvent("exts.user.ready", func(data any) {
 		m.s.RefreshDependencies()
 	})
-	m.em.SubscribeEvent("exts.tenant.ready", func(data any) {
+	m.em.SubscribeEvent("exts.space.ready", func(data any) {
 		m.s.RefreshDependencies()
 	})
 	m.em.SubscribeEvent("exts.access.ready", func(data any) {
@@ -147,8 +147,8 @@ func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 	{
 		account.GET("", m.h.Account.GetMe)
 		account.PUT("/password", m.h.Account.UpdatePassword)
-		account.GET("/tenant", m.h.Account.Tenant)
-		account.GET("/tenants", m.h.Account.Tenants)
+		account.GET("/space", m.h.Account.Space)
+		account.GET("/spaces", m.h.Account.Spaces)
 	}
 
 	// Token endpoints
@@ -222,8 +222,8 @@ func (m *Module) Dependencies() []string {
 func (m *Module) GetAllDependencies() []ext.DependencyEntry {
 	return []ext.DependencyEntry{
 		{Name: "user", Type: ext.WeakDependency},
+		{Name: "organization", Type: ext.WeakDependency},
 		{Name: "space", Type: ext.WeakDependency},
-		{Name: "tenant", Type: ext.WeakDependency},
 		{Name: "access", Type: ext.WeakDependency},
 	}
 }

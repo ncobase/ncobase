@@ -1,6 +1,4 @@
-go 1.24
-
-toolchain go1.24.2
+go 1.24.4
 
 use (
 	.
@@ -9,9 +7,9 @@ use (
 	./biz/workflow
 	./core/access
 	./core/auth
+	./core/organization
 	./core/space
 	./core/system
-	./core/tenant
 	./core/user
 	./ncore
 	./plugin/counter

@@ -103,16 +103,16 @@ func (psc *PaymentSubscriptionCreate) SetUserID(s string) *PaymentSubscriptionCr
 	return psc
 }
 
-// SetTenantID sets the "tenant_id" field.
-func (psc *PaymentSubscriptionCreate) SetTenantID(s string) *PaymentSubscriptionCreate {
-	psc.mutation.SetTenantID(s)
+// SetSpaceID sets the "space_id" field.
+func (psc *PaymentSubscriptionCreate) SetSpaceID(s string) *PaymentSubscriptionCreate {
+	psc.mutation.SetSpaceID(s)
 	return psc
 }
 
-// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
-func (psc *PaymentSubscriptionCreate) SetNillableTenantID(s *string) *PaymentSubscriptionCreate {
+// SetNillableSpaceID sets the "space_id" field if the given value is not nil.
+func (psc *PaymentSubscriptionCreate) SetNillableSpaceID(s *string) *PaymentSubscriptionCreate {
 	if s != nil {
-		psc.SetTenantID(*s)
+		psc.SetSpaceID(*s)
 	}
 	return psc
 }
@@ -393,9 +393,9 @@ func (psc *PaymentSubscriptionCreate) createSpec() (*PaymentSubscription, *sqlgr
 		_spec.SetField(paymentsubscription.FieldUserID, field.TypeString, value)
 		_node.UserID = value
 	}
-	if value, ok := psc.mutation.TenantID(); ok {
-		_spec.SetField(paymentsubscription.FieldTenantID, field.TypeString, value)
-		_node.TenantID = value
+	if value, ok := psc.mutation.SpaceID(); ok {
+		_spec.SetField(paymentsubscription.FieldSpaceID, field.TypeString, value)
+		_node.SpaceID = value
 	}
 	if value, ok := psc.mutation.ChannelID(); ok {
 		_spec.SetField(paymentsubscription.FieldChannelID, field.TypeString, value)

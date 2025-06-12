@@ -140,23 +140,23 @@ func (ru *RuleUpdate) ClearExtras() *RuleUpdate {
 	return ru
 }
 
-// SetTenantID sets the "tenant_id" field.
-func (ru *RuleUpdate) SetTenantID(s string) *RuleUpdate {
-	ru.mutation.SetTenantID(s)
+// SetSpaceID sets the "space_id" field.
+func (ru *RuleUpdate) SetSpaceID(s string) *RuleUpdate {
+	ru.mutation.SetSpaceID(s)
 	return ru
 }
 
-// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
-func (ru *RuleUpdate) SetNillableTenantID(s *string) *RuleUpdate {
+// SetNillableSpaceID sets the "space_id" field if the given value is not nil.
+func (ru *RuleUpdate) SetNillableSpaceID(s *string) *RuleUpdate {
 	if s != nil {
-		ru.SetTenantID(*s)
+		ru.SetSpaceID(*s)
 	}
 	return ru
 }
 
-// ClearTenantID clears the value of the "tenant_id" field.
-func (ru *RuleUpdate) ClearTenantID() *RuleUpdate {
-	ru.mutation.ClearTenantID()
+// ClearSpaceID clears the value of the "space_id" field.
+func (ru *RuleUpdate) ClearSpaceID() *RuleUpdate {
+	ru.mutation.ClearSpaceID()
 	return ru
 }
 
@@ -466,11 +466,11 @@ func (ru *RuleUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if ru.mutation.ExtrasCleared() {
 		_spec.ClearField(rule.FieldExtras, field.TypeJSON)
 	}
-	if value, ok := ru.mutation.TenantID(); ok {
-		_spec.SetField(rule.FieldTenantID, field.TypeString, value)
+	if value, ok := ru.mutation.SpaceID(); ok {
+		_spec.SetField(rule.FieldSpaceID, field.TypeString, value)
 	}
-	if ru.mutation.TenantIDCleared() {
-		_spec.ClearField(rule.FieldTenantID, field.TypeString)
+	if ru.mutation.SpaceIDCleared() {
+		_spec.ClearField(rule.FieldSpaceID, field.TypeString)
 	}
 	if value, ok := ru.mutation.CreatedBy(); ok {
 		_spec.SetField(rule.FieldCreatedBy, field.TypeString, value)
@@ -681,23 +681,23 @@ func (ruo *RuleUpdateOne) ClearExtras() *RuleUpdateOne {
 	return ruo
 }
 
-// SetTenantID sets the "tenant_id" field.
-func (ruo *RuleUpdateOne) SetTenantID(s string) *RuleUpdateOne {
-	ruo.mutation.SetTenantID(s)
+// SetSpaceID sets the "space_id" field.
+func (ruo *RuleUpdateOne) SetSpaceID(s string) *RuleUpdateOne {
+	ruo.mutation.SetSpaceID(s)
 	return ruo
 }
 
-// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
-func (ruo *RuleUpdateOne) SetNillableTenantID(s *string) *RuleUpdateOne {
+// SetNillableSpaceID sets the "space_id" field if the given value is not nil.
+func (ruo *RuleUpdateOne) SetNillableSpaceID(s *string) *RuleUpdateOne {
 	if s != nil {
-		ruo.SetTenantID(*s)
+		ruo.SetSpaceID(*s)
 	}
 	return ruo
 }
 
-// ClearTenantID clears the value of the "tenant_id" field.
-func (ruo *RuleUpdateOne) ClearTenantID() *RuleUpdateOne {
-	ruo.mutation.ClearTenantID()
+// ClearSpaceID clears the value of the "space_id" field.
+func (ruo *RuleUpdateOne) ClearSpaceID() *RuleUpdateOne {
+	ruo.mutation.ClearSpaceID()
 	return ruo
 }
 
@@ -1037,11 +1037,11 @@ func (ruo *RuleUpdateOne) sqlSave(ctx context.Context) (_node *Rule, err error) 
 	if ruo.mutation.ExtrasCleared() {
 		_spec.ClearField(rule.FieldExtras, field.TypeJSON)
 	}
-	if value, ok := ruo.mutation.TenantID(); ok {
-		_spec.SetField(rule.FieldTenantID, field.TypeString, value)
+	if value, ok := ruo.mutation.SpaceID(); ok {
+		_spec.SetField(rule.FieldSpaceID, field.TypeString, value)
 	}
-	if ruo.mutation.TenantIDCleared() {
-		_spec.ClearField(rule.FieldTenantID, field.TypeString)
+	if ruo.mutation.SpaceIDCleared() {
+		_spec.ClearField(rule.FieldSpaceID, field.TypeString)
 	}
 	if value, ok := ruo.mutation.CreatedBy(); ok {
 		_spec.SetField(rule.FieldCreatedBy, field.TypeString, value)

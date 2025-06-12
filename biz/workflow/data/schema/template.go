@@ -43,7 +43,7 @@ func (Template) Mixin() []ent.Mixin {
 		mixin.WorkflowControlMixin{},
 		mixin.PermissionMixin{},
 		mixin.ExtraProps,
-		mixin.TenantID,
+		mixin.SpaceID,
 		mixin.Operator,
 		mixin.TimeAt{},
 	}

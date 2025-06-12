@@ -35,7 +35,7 @@ type NodeBody struct {
 	IsWorkingDay     bool              `json:"is_working_day,omitempty"`
 	TimeoutConfig    types.JSON        `json:"timeout_config,omitempty"`
 	TimeoutDuration  int               `json:"timeout_duration,omitempty"`
-	TenantID         string            `json:"tenant_id,omitempty"`
+	SpaceID          string            `json:"space_id,omitempty"`
 	Variables        types.JSON        `json:"variables,omitempty"`
 	Extras           types.JSON        `json:"extras,omitempty"`
 }
@@ -43,7 +43,7 @@ type NodeBody struct {
 // CreateNodeBody represents the body for creating node
 type CreateNodeBody struct {
 	NodeBody
-	TenantID string `json:"tenant_id,omitempty"`
+	SpaceID string `json:"space_id,omitempty"`
 }
 
 // UpdateNodeBody represents the body for updating node
@@ -81,7 +81,7 @@ type ReadNode struct {
 	IsWorkingDay     bool              `json:"is_working_day,omitempty"`
 	TimeoutConfig    types.JSON        `json:"timeout_config,omitempty"`
 	TimeoutDuration  int               `json:"timeout_duration,omitempty"`
-	TenantID         string            `json:"tenant_id,omitempty"`
+	SpaceID          string            `json:"space_id,omitempty"`
 	Variables        types.JSON        `json:"variables,omitempty"`
 	Extras           types.JSON        `json:"extras,omitempty"`
 	CreatedBy        *string           `json:"created_by,omitempty"`
@@ -120,7 +120,7 @@ type FindNodeParams struct {
 	Status     string `form:"status,omitempty" json:"status,omitempty"`
 	NodeKey    string `form:"node_key,omitempty" json:"node_key,omitempty"`
 	Name       string `form:"name,omitempty" json:"name,omitempty"`
-	Tenant     string `form:"tenant,omitempty" json:"tenant,omitempty"`
+	Space      string `form:"space,omitempty" json:"space,omitempty"`
 	SortBy     string `form:"sort_by,omitempty" json:"sort_by,omitempty"`
 }
 
@@ -132,6 +132,6 @@ type ListNodeParams struct {
 	ProcessID string `form:"process_id,omitempty" json:"process_id,omitempty"`
 	Type      string `form:"type,omitempty" json:"type,omitempty"`
 	Status    string `form:"status,omitempty" json:"status,omitempty"`
-	Tenant    string `form:"tenant,omitempty" json:"tenant,omitempty"`
+	Space     string `form:"space,omitempty" json:"space,omitempty"`
 	SortBy    string `form:"sort_by,omitempty" json:"sort_by,omitempty"`
 }

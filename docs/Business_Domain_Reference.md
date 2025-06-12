@@ -10,7 +10,7 @@ Business Domain Reference
 /iam/users # 用户管理 User Management
 /iam/roles # 角色管理 Role Management
 /iam/permissions # 权限管理 Permission Management
-/iam/groups # 用户组管理 Group Management
+/iam/orgs # 用户组管理 Group Management
 /iam/policies # 策略管理 Policy Management
 /iam/tokens # 令牌管理 Token Management
 /iam/sessions # 会话管理 Session Management
@@ -322,7 +322,7 @@ Business Domain Reference
  /social/posts # 帖子管理 Post Management
  /social/comments # 评论管理 Comment Management
  /social/users # 用户管理 User Management
- /social/groups # 群组管理 Group Management
+ /social/orgs # 群组管理 Group Management
  /social/messages # 消息管理 Message Management
  /social/notifications # 通知管理 Notification Management
  /social/followers # 关注管理 Follower Management

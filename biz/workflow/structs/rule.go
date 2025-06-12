@@ -23,14 +23,14 @@ type RuleBody struct {
 	IsEnabled     bool              `json:"is_enabled,omitempty"`
 	EffectiveTime *int64            `json:"effective_time,omitempty"`
 	ExpireTime    *int64            `json:"expire_time,omitempty"`
-	TenantID      string            `json:"tenant_id,omitempty"`
+	SpaceID       string            `json:"space_id,omitempty"`
 	Extras        types.JSON        `json:"extras,omitempty"`
 }
 
 // CreateRuleBody represents body for creating rule
 type CreateRuleBody struct {
 	RuleBody
-	TenantID string `json:"tenant_id,omitempty"`
+	SpaceID string `json:"space_id,omitempty"`
 }
 
 // UpdateRuleBody represents body for updating rule
@@ -56,7 +56,7 @@ type ReadRule struct {
 	IsEnabled     bool              `json:"is_enabled,omitempty"`
 	EffectiveTime *int64            `json:"effective_time,omitempty"`
 	ExpireTime    *int64            `json:"expire_time,omitempty"`
-	TenantID      string            `json:"tenant_id,omitempty"`
+	SpaceID       string            `json:"space_id,omitempty"`
 	Extras        types.JSON        `json:"extras,omitempty"`
 	CreatedBy     *string           `json:"created_by,omitempty"`
 	CreatedAt     *int64            `json:"created_at,omitempty"`
@@ -82,7 +82,7 @@ type FindRuleParams struct {
 	Type       string `form:"type,omitempty" json:"type,omitempty"`
 	Status     string `form:"status,omitempty" json:"status,omitempty"`
 	IsEnabled  *bool  `form:"is_enabled,omitempty" json:"is_enabled,omitempty"`
-	Tenant     string `form:"tenant,omitempty" json:"tenant,omitempty"`
+	Space      string `form:"space,omitempty" json:"space,omitempty"`
 }
 
 // ListRuleParams represents list parameters for rules
@@ -95,5 +95,5 @@ type ListRuleParams struct {
 	TemplateID string `form:"template_id,omitempty" json:"template_id,omitempty"`
 	NodeKey    string `form:"node_key,omitempty" json:"node_key,omitempty"`
 	IsEnabled  *bool  `form:"is_enabled,omitempty" json:"is_enabled,omitempty"`
-	Tenant     string `form:"tenant,omitempty" json:"tenant,omitempty"`
+	Space      string `form:"space,omitempty" json:"space,omitempty"`
 }

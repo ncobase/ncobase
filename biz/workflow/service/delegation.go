@@ -202,7 +202,7 @@ func (s *delegationService) serialize(delegation *ent.Delegation) *structs.ReadD
 		EndTime:     delegation.EndTime,
 		IsEnabled:   delegation.IsEnabled,
 		Status:      delegation.Status,
-		TenantID:    delegation.TenantID,
+		SpaceID:     delegation.SpaceID,
 		Extras:      delegation.Extras,
 		CreatedBy:   &delegation.CreatedBy,
 		CreatedAt:   &delegation.CreatedAt,

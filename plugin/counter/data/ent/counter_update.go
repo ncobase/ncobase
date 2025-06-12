@@ -230,23 +230,23 @@ func (cu *CounterUpdate) ClearDescription() *CounterUpdate {
 	return cu
 }
 
-// SetTenantID sets the "tenant_id" field.
-func (cu *CounterUpdate) SetTenantID(s string) *CounterUpdate {
-	cu.mutation.SetTenantID(s)
+// SetSpaceID sets the "space_id" field.
+func (cu *CounterUpdate) SetSpaceID(s string) *CounterUpdate {
+	cu.mutation.SetSpaceID(s)
 	return cu
 }
 
-// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
-func (cu *CounterUpdate) SetNillableTenantID(s *string) *CounterUpdate {
+// SetNillableSpaceID sets the "space_id" field if the given value is not nil.
+func (cu *CounterUpdate) SetNillableSpaceID(s *string) *CounterUpdate {
 	if s != nil {
-		cu.SetTenantID(*s)
+		cu.SetSpaceID(*s)
 	}
 	return cu
 }
 
-// ClearTenantID clears the value of the "tenant_id" field.
-func (cu *CounterUpdate) ClearTenantID() *CounterUpdate {
-	cu.mutation.ClearTenantID()
+// ClearSpaceID clears the value of the "space_id" field.
+func (cu *CounterUpdate) ClearSpaceID() *CounterUpdate {
+	cu.mutation.ClearSpaceID()
 	return cu
 }
 
@@ -432,11 +432,11 @@ func (cu *CounterUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if cu.mutation.DescriptionCleared() {
 		_spec.ClearField(counter.FieldDescription, field.TypeString)
 	}
-	if value, ok := cu.mutation.TenantID(); ok {
-		_spec.SetField(counter.FieldTenantID, field.TypeString, value)
+	if value, ok := cu.mutation.SpaceID(); ok {
+		_spec.SetField(counter.FieldSpaceID, field.TypeString, value)
 	}
-	if cu.mutation.TenantIDCleared() {
-		_spec.ClearField(counter.FieldTenantID, field.TypeString)
+	if cu.mutation.SpaceIDCleared() {
+		_spec.ClearField(counter.FieldSpaceID, field.TypeString)
 	}
 	if value, ok := cu.mutation.CreatedBy(); ok {
 		_spec.SetField(counter.FieldCreatedBy, field.TypeString, value)
@@ -685,23 +685,23 @@ func (cuo *CounterUpdateOne) ClearDescription() *CounterUpdateOne {
 	return cuo
 }
 
-// SetTenantID sets the "tenant_id" field.
-func (cuo *CounterUpdateOne) SetTenantID(s string) *CounterUpdateOne {
-	cuo.mutation.SetTenantID(s)
+// SetSpaceID sets the "space_id" field.
+func (cuo *CounterUpdateOne) SetSpaceID(s string) *CounterUpdateOne {
+	cuo.mutation.SetSpaceID(s)
 	return cuo
 }
 
-// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
-func (cuo *CounterUpdateOne) SetNillableTenantID(s *string) *CounterUpdateOne {
+// SetNillableSpaceID sets the "space_id" field if the given value is not nil.
+func (cuo *CounterUpdateOne) SetNillableSpaceID(s *string) *CounterUpdateOne {
 	if s != nil {
-		cuo.SetTenantID(*s)
+		cuo.SetSpaceID(*s)
 	}
 	return cuo
 }
 
-// ClearTenantID clears the value of the "tenant_id" field.
-func (cuo *CounterUpdateOne) ClearTenantID() *CounterUpdateOne {
-	cuo.mutation.ClearTenantID()
+// ClearSpaceID clears the value of the "space_id" field.
+func (cuo *CounterUpdateOne) ClearSpaceID() *CounterUpdateOne {
+	cuo.mutation.ClearSpaceID()
 	return cuo
 }
 
@@ -917,11 +917,11 @@ func (cuo *CounterUpdateOne) sqlSave(ctx context.Context) (_node *Counter, err e
 	if cuo.mutation.DescriptionCleared() {
 		_spec.ClearField(counter.FieldDescription, field.TypeString)
 	}
-	if value, ok := cuo.mutation.TenantID(); ok {
-		_spec.SetField(counter.FieldTenantID, field.TypeString, value)
+	if value, ok := cuo.mutation.SpaceID(); ok {
+		_spec.SetField(counter.FieldSpaceID, field.TypeString, value)
 	}
-	if cuo.mutation.TenantIDCleared() {
-		_spec.ClearField(counter.FieldTenantID, field.TypeString)
+	if cuo.mutation.SpaceIDCleared() {
+		_spec.ClearField(counter.FieldSpaceID, field.TypeString)
 	}
 	if value, ok := cuo.mutation.CreatedBy(); ok {
 		_spec.SetField(counter.FieldCreatedBy, field.TypeString, value)

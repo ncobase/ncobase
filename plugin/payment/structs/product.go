@@ -46,7 +46,7 @@ type Product struct {
 	BillingInterval BillingInterval `json:"billing_interval,omitempty"`
 	TrialDays       int             `json:"trial_days,omitempty"`
 	Features        []string        `json:"features,omitempty"`
-	TenantID        string          `json:"tenant_id,omitempty"`
+	SpaceID         string          `json:"space_id,omitempty"`
 	Metadata        map[string]any  `json:"metadata,omitempty"`
 	CreatedAt       int64           `json:"created_at,omitempty"`
 	UpdatedAt       int64           `json:"updated_at,omitempty"`
@@ -68,7 +68,7 @@ type CreateProductInput struct {
 	BillingInterval BillingInterval `json:"billing_interval,omitempty"`
 	TrialDays       int             `json:"trial_days,omitempty"`
 	Features        []string        `json:"features,omitempty"`
-	TenantID        string          `json:"tenant_id,omitempty"`
+	SpaceID         string          `json:"space_id,omitempty"`
 	Metadata        map[string]any  `json:"metadata,omitempty"`
 }
 
@@ -89,6 +89,6 @@ type UpdateProductInput struct {
 type ProductQuery struct {
 	Status      ProductStatus `form:"status" json:"status,omitempty"`
 	PricingType PricingType   `form:"pricing_type" json:"pricing_type,omitempty"`
-	TenantID    string        `form:"tenant_id" json:"tenant_id,omitempty"`
+	SpaceID     string        `form:"space_id" json:"space_id,omitempty"`
 	PaginationQuery
 }

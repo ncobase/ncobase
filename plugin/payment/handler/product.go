@@ -173,7 +173,7 @@ func (h *productHandler) Delete(c *gin.Context) {
 // @Produce json
 // @Param status query string false "Filter by status"
 // @Param pricing_type query string false "Filter by pricing type"
-// @Param tenant_id query string false "Filter by tenant ID"
+// @Param space_id query string false "Filter by space ID"
 // @Param cursor query string false "Cursor for pagination"
 // @Param page_size query int false "Page size" default(20)
 // @Success 200 {array} structs.Product "success"
