@@ -64,7 +64,7 @@ func (m *Module) Init(conf *config.Config, em ext.ManagerInterface) (err error) 
 		return fmt.Errorf("organization module already initialized")
 	}
 
-	m.d, m.cleanup, err = data.New(conf.Data)
+	m.d, m.cleanup, err = data.New(conf.Data, conf.Environment)
 	if err != nil {
 		return err
 	}

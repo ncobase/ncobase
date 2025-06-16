@@ -80,7 +80,7 @@ func (p *Plugin) Init(conf *config.Config, em ext.ManagerInterface) (err error) 
 		return fmt.Errorf("counter plugin already initialized")
 	}
 
-	p.d, p.cleanup, err = data.New(conf.Data)
+	p.d, p.cleanup, err = data.New(conf.Data, conf.Environment)
 	if err != nil {
 		return err
 	}
