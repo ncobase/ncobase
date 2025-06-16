@@ -25,7 +25,7 @@ func registerRest(e *gin.Engine, conf *config.Config) {
 	})
 
 	// Swagger documentation endpoint
-	if conf.RunMode != gin.ReleaseMode {
+	if !conf.IsProd() {
 		e.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	}
 }

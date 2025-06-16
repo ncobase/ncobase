@@ -1,7 +1,7 @@
 # Application name
 app_name: application
-# Run mode (release / debug)
-run_mode: release
+# Running environment production / development / debug
+environment: production
 
 consul:
   address: 127.0.0.1:8500

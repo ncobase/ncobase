@@ -24,7 +24,7 @@ type Data struct {
 }
 
 // New creates a new Database Connection.
-func New(conf *config.Data) (*Data, func(name ...string), error) {
+func New(conf *config.Data, env ...string) (*Data, func(name ...string), error) {
 	d, cleanup, err := data.New(conf)
 	if err != nil {
 		return nil, nil, err
@@ -37,7 +37,7 @@ func New(conf *config.Data) (*Data, func(name ...string), error) {
 	}
 
 	// create master ent client
-	entClient, err := newEntClient(masterDB, conf.Database.Master, conf.Database.Migrate, conf.Environment)
+	entClient, err := newEntClient(masterDB, conf.Database.Master, conf.Database.Migrate, env...)
 	if err != nil {
 		return nil, cleanup, fmt.Errorf("failed to create master ent client: %v", err)
 	}
@@ -46,7 +46,7 @@ func New(conf *config.Data) (*Data, func(name ...string), error) {
 	var entClientRead *ent.Client
 	if readDB, err := d.GetSlaveDB(); err == nil && readDB != nil {
 		if readDB != masterDB {
-			entClientRead, err = newEntClient(readDB, conf.Database.Master, false, conf.Environment) // slave does not support migration
+			entClientRead, err = newEntClient(readDB, conf.Database.Master, false, env...) // slave does not support migration
 			if err != nil {
 				logger.Warnf(nil, "Failed to create read-only ent client, will use master for reads: %v", err)
 				entClientRead = entClient // fallback to master

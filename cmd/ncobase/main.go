@@ -160,7 +160,7 @@ func initTracer(conf *config.Config, appName string) {
 			Version:            version.Version,
 			Branch:             version.Branch,
 			Revision:           version.Revision,
-			Environment:        conf.RunMode,
+			Environment:        conf.Environment,
 			SamplingRate:       1.0,
 			MaxAttributes:      100,
 			BatchTimeout:       5 * time.Second,
@@ -180,7 +180,7 @@ func initSentry(conf *config.Config, appName string) {
 			Dsn:         conf.Observes.Sentry.Endpoint,
 			Name:        appName,
 			Release:     version.Version,
-			Environment: conf.RunMode,
+			Environment: conf.Environment,
 		}); err != nil {
 			logger.Errorf(context.Background(), "sentry.Init: %s", err)
 		}

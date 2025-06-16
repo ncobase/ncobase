@@ -18,10 +18,10 @@ import (
 // ginServer creates and initializes server
 func ginServer(conf *config.Config, em ext.ManagerInterface) (*gin.Engine, error) {
 	// Set gin mode
-	if conf.RunMode == "" {
-		conf.RunMode = gin.ReleaseMode
+	if conf.IsProd() {
+		conf.Environment = gin.ReleaseMode
 	}
-	gin.SetMode(conf.RunMode)
+	gin.SetMode(conf.Environment)
 
 	// Create gin engine
 	engine := gin.New()
