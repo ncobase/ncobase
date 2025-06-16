@@ -90,7 +90,7 @@ func handleTokenAuth(c *gin.Context, jtm *jwt.TokenManager, token string) bool {
 			logger.Warnf(ctx, "Failed to refresh token: %v", err)
 		} else if refreshed {
 			c.Header(consts.AuthorizationKey, consts.BearerKey+newToken)
-			logger.Infof(ctx, "Token refreshed for user %s", jwt.GetUserIDFromToken(claims))
+			logger.Infof(ctx, "Token refreshed for user %s", jwt.GetPayloadString(claims, "user_id"))
 		}
 	}
 
@@ -148,22 +148,22 @@ func setUserContextFromToken(c *gin.Context, claims map[string]any) context.Cont
 	}
 
 	// Extract user info from token
-	if userID := jwt.GetUserIDFromToken(claims); userID != "" {
+	if userID := jwt.GetPayloadString(claims, "user_id"); userID != "" {
 		ctx = ctxutil.SetUserID(ctx, userID)
 	}
 
-	if spaceID := jwt.GetSpaceIDFromToken(claims); spaceID != "" {
+	if spaceID := jwt.GetPayloadString(claims, "space_id"); spaceID != "" {
 		ctx = ctxutil.SetSpaceID(ctx, spaceID)
 	}
 
 	// Set user attributes
-	roles := jwt.GetRolesFromToken(claims)
-	permissions := jwt.GetPermissionsFromToken(claims)
-	isAdmin := jwt.IsAdminFromToken(claims)
-	username := jwt.GetUsernameFromToken(claims)
-	email := jwt.GetEmailFromToken(claims)
-	userStatus := jwt.GetUserStatusFromToken(claims)
-	isCertified := jwt.IsCertifiedFromToken(claims)
+	roles := jwt.GetPayloadStringSlice(claims, "roles")
+	permissions := jwt.GetPayloadStringSlice(claims, "permissions")
+	isAdmin := jwt.GetPayloadBool(claims, "is_admin")
+	username := jwt.GetPayloadString(claims, "username")
+	email := jwt.GetPayloadString(claims, "email")
+	userStatus := jwt.GetPayloadInt(claims, "user_status")
+	isCertified := jwt.GetPayloadBool(claims, "is_certified")
 
 	ctx = ctxutil.SetUsername(ctx, username)
 	ctx = ctxutil.SetUserEmail(ctx, email)
@@ -173,12 +173,12 @@ func setUserContextFromToken(c *gin.Context, claims map[string]any) context.Cont
 	ctx = ctxutil.SetUserPermissions(ctx, permissions)
 	ctx = ctxutil.SetUserIsAdmin(ctx, isAdmin)
 
-	if spaceIDs := jwt.GetSpaceIDsFromToken(claims); len(spaceIDs) > 0 {
+	if spaceIDs := jwt.GetPayloadStringSlice(claims, "space_ids"); len(spaceIDs) > 0 {
 		ctx = ctxutil.SetUserSpaceIDs(ctx, spaceIDs)
 	}
 
 	// Set in Gin context for compatibility
-	c.Set("user_id", jwt.GetUserIDFromToken(claims))
+	c.Set("user_id", jwt.GetPayloadString(claims, "user_id"))
 	c.Set("username", username)
 	c.Set("email", email)
 	c.Set("roles", roles)

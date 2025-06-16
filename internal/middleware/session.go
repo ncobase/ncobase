@@ -159,7 +159,7 @@ func getTokenIDFromJWT(tokenString string, jtm *jwt.TokenManager) string {
 		return ""
 	}
 
-	return jwt.GetTokenIDFromToken(claims)
+	return jwt.GetTokenID(claims)
 }
 
 func updateSessionAccess(asw *AuthServiceWrapper, tokenID string) {
