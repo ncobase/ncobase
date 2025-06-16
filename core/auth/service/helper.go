@@ -175,12 +175,12 @@ func generateUserTokens(jtm *jwt.TokenManager, payload map[string]any, tokenID s
 	}
 
 	// Generate access token (shorter expiry for security)
-	accessToken, _ := jtm.GenerateAccessTokenWithExpiry(tokenID, payload, 2*time.Hour)
+	accessToken, _ := jtm.GenerateAccessToken(tokenID, payload)
 
 	// Generate refresh token (longer expiry)
-	refreshToken, _ := jtm.GenerateRefreshTokenWithExpiry(tokenID, types.JSON{
+	refreshToken, _ := jtm.GenerateRefreshToken(tokenID, types.JSON{
 		"user_id": userID,
-	}, 7*24*time.Hour)
+	})
 
 	return accessToken, refreshToken
 }
