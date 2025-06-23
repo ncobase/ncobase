@@ -50,8 +50,8 @@ require (
 	ncobase/proxy v0.0.0-00010101000000-000000000000
 	ncobase/realtime v0.0.0-00010101000000-000000000000
 	ncobase/resource v0.0.0-00010101000000-000000000000
-	ncobase/system v0.0.0-00010101000000-000000000000
 	ncobase/space v0.0.0-00010101000000-000000000000
+	ncobase/system v0.0.0-00010101000000-000000000000
 	ncobase/user v0.0.0-00010101000000-000000000000
 	ncobase/workflow v0.0.0-00010101000000-000000000000
 )
@@ -111,7 +111,7 @@ require (
 	github.com/gammazero/toposort v0.1.1 // indirect
 	github.com/getsentry/sentry-go v0.33.0 // indirect
 	github.com/gin-contrib/sse v1.1.0 // indirect
-	github.com/go-chi/chi/v5 v5.2.1 // indirect
+	github.com/go-chi/chi/v5 v5.2.2 // indirect
 	github.com/go-jose/go-jose/v4 v4.1.0 // indirect
 	github.com/go-logr/logr v1.4.3 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
