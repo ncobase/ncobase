@@ -236,34 +236,57 @@ oauth:
   enable_pkce: false
   state_secret: "your-state-secret-key"
   default_scope: ["email", "profile"]
-
   google:
     client_id: "your-google-client-id"
     client_secret: "your-google-client-secret"
-    redirect_url: "https://yourapp.com/auth/oauth/google/callback"
+    redirect_url: "https://example.com/oauth/google/callback"
     enabled: true
     scopes: ["openid", "email", "profile"]
-
   github:
     client_id: "your-github-client-id"
     client_secret: "your-github-client-secret"
-    redirect_url: "https://yourapp.com/auth/oauth/github/callback"
+    redirect_url: "https://example.com/oauth/github/callback"
     enabled: true
     scopes: ["user:email"]
-
   facebook:
     client_id: "your-facebook-app-id"
     client_secret: "your-facebook-app-secret"
-    redirect_url: "https://yourapp.com/auth/oauth/facebook/callback"
+    redirect_url: "https://example.com/oauth/facebook/callback"
     enabled: true
     scopes: ["email", "public_profile"]
-
   microsoft:
     client_id: "your-microsoft-client-id"
     client_secret: "your-microsoft-client-secret"
-    redirect_url: "https://yourapp.com/auth/oauth/microsoft/callback"
+    redirect_url: "https://example.com/oauth/microsoft/callback"
     enabled: true
     scopes: ["openid", "email", "profile"]
+  tiktok:
+    client_id: "your-tiktok-client-id"
+    client_secret: "your-tiktok-client-secret"
+    redirect_url: "https://example.com/auth/oauth/tiktok/callback"
+    enabled: true
+  wechat:
+    client_id: "your-wechat-app-id"
+    client_secret: "your-wechat-app-secret"
+    redirect_url: "https://example.com/auth/oauth/wechat/callback"
+    enabled: true
+  alipay:
+    client_id: "your-alipay-app-id"
+    client_secret: "your-alipay-app-secret"
+    redirect_url: "https://example.com/auth/oauth/alipay/callback"
+    enabled: true
+  custom_provider:
+    client_id: "custom-client-id"
+    client_secret: "custom-client-secret"
+    redirect_url: "https://example.com/oauth/custom/callback"
+    auth_url: "https://custom-provider.com/oauth/authorize"
+    token_url: "https://custom-provider.com/oauth/token"
+    user_info_url: "https://custom-provider.com/api/user"
+    scopes: [ "read_profile", "read_email" ]
+    enabled: true
+    extra_params:
+      response_mode: "query"
+      prompt: "consent"
 
 email:
   # use only one of these, optional: mailgun / aliyun / netease / sendgrid / smtp / tencent_cloud
