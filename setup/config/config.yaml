@@ -233,18 +233,37 @@ storage:
 #  endpoint:
 
 oauth:
-  github:
-    id:
-    secret:
-    redirect_url:
-  facebook:
-    id:
-    secret:
-    redirect_url:
+  enable_pkce: false
+  state_secret: "your-state-secret-key"
+  default_scope: ["email", "profile"]
+
   google:
-    client_id:
-    client_secret:
-    redirect_url:
+    client_id: "your-google-client-id"
+    client_secret: "your-google-client-secret"
+    redirect_url: "https://yourapp.com/auth/oauth/google/callback"
+    enabled: true
+    scopes: ["openid", "email", "profile"]
+
+  github:
+    client_id: "your-github-client-id"
+    client_secret: "your-github-client-secret"
+    redirect_url: "https://yourapp.com/auth/oauth/github/callback"
+    enabled: true
+    scopes: ["user:email"]
+
+  facebook:
+    client_id: "your-facebook-app-id"
+    client_secret: "your-facebook-app-secret"
+    redirect_url: "https://yourapp.com/auth/oauth/facebook/callback"
+    enabled: true
+    scopes: ["email", "public_profile"]
+
+  microsoft:
+    client_id: "your-microsoft-client-id"
+    client_secret: "your-microsoft-client-secret"
+    redirect_url: "https://yourapp.com/auth/oauth/microsoft/callback"
+    enabled: true
+    scopes: ["openid", "email", "profile"]
 
 email:
   # use only one of these, optional: mailgun / aliyun / netease / sendgrid / smtp / tencent_cloud
