@@ -1,6 +1,6 @@
 # Application name
 app_name: application
-# Running environment production / development / debug
+# Environment (development / staging / production)
 environment: production
 
 consul:
@@ -19,9 +19,9 @@ consul:
 
 observes:
   tracer:
-    endpoint:
+    endpoint: http://localhost:4318/v1/traces # OpenTelemetry collector endpoint
   sentry:
-    endpoint:
+    endpoint: https://xxxxx@sentry.io/xxxxx # Sentry DSN endpoint
 
 server:
   # Protocol type http / https
@@ -33,62 +33,81 @@ server:
   # Application running port
   port: 3000
 
+# gRPC server configuration (optional)
+grpc:
+  enabled: false
+  host: 127.0.0.1
+  port: 9090
+
 extension:
+  # Plugin mode: file (load from files) or c2hlbgo (built-in)
+  mode: file
+  # Plugin directory path
   path: ./plugins
+  # Include specific plugins
   includes:
-    - a
-    - b
-    - c
+    - auth # Authentication plugin
+    - logger # Logging plugin
+    - storage # Storage plugin
+    - notification # Notification plugin
+  # Exclude specific plugins
   excludes:
-    - d
+    - test # Test plugin
+    - mock # Mock plugin
+    - deprecated # Deprecated plugins
+  # Enable hot reload for plugin changes
   hot_reload: true
-
-  # Metrics configuration
-  metrics:
-    enabled: true                 # Enable extension layer metrics collection
-    flush_interval: "30s"         # How often to flush metrics to storage
-    batch_size: 100               # Batch size for metric writes
-    retention: "7d"               # How long to keep metrics
-    storage:
-      type: "auto"                # "memory", "redis", "auto"
-      key_prefix: "myapp_ext"     # Redis key prefix for extension metrics
-      options: { }                 # Additional storage options
-
-  # Performance configuration
-  performance:
-    max_memory_mb: 1024           # Maximum memory usage per extension
-    max_cpu_percent: 90           # Maximum CPU usage
-    gc_interval: "2m"             # Garbage collection interval
-    max_concurrent_loads: 10      # Maximum concurrent plugin loads
+  # Maximum number of plugins allowed
+  max_plugins: 50
 
   # Security configuration
   security:
-    enable_sandbox: false         # Enable sandboxing (disable in dev)
-    allowed_paths: [ ]             # Allowed plugin paths
-    blocked_extensions: [ ".exe", ".bat", ".cmd" ]
-    trusted_sources: [ ]           # Trusted plugin sources
-    require_signature: false     # Require plugin signatures
-    allow_unsafe: true            # Allow unsafe operations in development
+    enable_sandbox: false
+    allowed_paths: []
+    blocked_extensions: [".exe", ".bat"]
+    trusted_sources: []
+    require_signature: false
+    allow_unsafe: true # Allow in development
 
-  # Monitoring configuration
-  monitoring:
-    enable_health_check: true     # Enable health checks
-    health_check_interval: "60s" # Health check frequency
-    enable_detailed_metrics: true # Enable detailed monitoring
-    metrics_retention: "24h"     # Monitoring data retention
+  # Performance configuration
+  performance:
+    max_memory_mb: 512
+    max_cpu_percent: 80
+    gc_interval: "10m"
+    max_concurrent_loads: 5
+
+  # Extension metrics
+  metrics:
+    enabled: true
+    flush_interval: "60s"
+    batch_size: 100
+    retention: "7d"
+    storage:
+      type: "auto" # Will use Redis if available
+      key_prefix: "ncore_ext"
+
+  # Plugin-specific configuration
+  plugin_config:
+    auth_plugin:
+      oauth_providers: ["google", "github"]
+    logger_plugin:
+      log_level: "info"
+    storage_plugin:
+      cache_ttl: "1h"
+    notification_plugin:
+      batch_size: 50
 
 frontend:
-  sign_in_url: http://localhost:3000/login
-  sign_up_url: http://localhost:3000/register
+  # Frontend authentication URLs
+  sign_in_url: http://localhost:3000/login # URL for user login page
+  sign_up_url: http://localhost:3000/register # URL for user registration page
 
 data:
-  # Environment, support development / staging / production
-  environment:
   database:
     # global configuration
-    migrate: true  # migrate only support master
-    strategy: round_robin  # slave load balance strategy, round_robin / random / weight
-    max_retry: 3  # max retry
+    migrate: true # migrate only support master
+    strategy: round_robin # slave load balance strategy, round_robin / random / weight
+    max_retry: 3 # max retry
     # master configuration
     master:
       driver: postgres
@@ -96,49 +115,59 @@ data:
       # postgres: host=127.0.0.1 port=5432 dbname=db user=user password=password sslmode=disable TimeZone=Asia/Shanghai
       # sqlite3: file:./data.db?cache=shared&&_fk=1
       source: postgres://user:password@127.0.0.1:5432/db?sslmode=disable
-      max_open_conn: 32  # max open connections
-      max_life_time: 7200  # max life time
-      max_idle_conn: 8  # max idle connections
-      logging: false  # logging
+      max_open_conn: 32 # max open connections
+      max_life_time: 7200 # max life time
+      max_idle_conn: 8 # max idle connections
+      logging: false # logging
       # slave configuration, support multiple
       slaves:
-        - driver:
-          source:
+        - driver: postgres
+          source: postgres://user:password@127.0.0.1:5433/db?sslmode=disable
           max_open_conn: 64
           max_life_time: 7200
           max_idle_conn: 16
           logging: false
-          width: 1
-        - driver:
-          source:
+          weight: 1
+        - driver: postgres
+          source: postgres://user:password@127.0.0.1:5434/db?sslmode=disable
           max_open_conn: 64
           max_life_time: 7200
           max_idle_conn: 16
           logging: false
-          width: 1
-        - driver:
-          source:
+          weight: 1
+        - driver: postgres
+          source: postgres://user:password@127.0.0.1:5435/db?sslmode=disable
           max_open_conn: 64
           max_life_time: 7200
           max_idle_conn: 16
           logging: false
-          width: 1
+          weight: 1
   redis:
     addr: 127.0.0.1:6378
-    password:
+    password: your_redis_password
+    db: 0
     read_timeout: 0.4s
     write_timeout: 0.6s
     dial_timeout: 1s
   meilisearch:
-    host:
-    api_key:
+    host: http://127.0.0.1:7700
+    api_key: masterKey # Your Meilisearch master key
   elasticsearch:
     addresses:
-    username:
-    password:
+      - http://localhost:9200
+      - http://localhost:9201 # Optional additional nodes
+    username: elastic
+    password: your_password
+  opensearch:
+    addresses:
+      - http://localhost:9200
+      - http://localhost:9201 # Optional additional nodes
+    username: user
+    password: your_password
+    insecure_skip_tls: true
   mongodb:
-    strategy: round_robin  # slave load balance strategy, round_robin / random / weight
-    max_retry: 3  # max retry
+    strategy: round_robin # slave load balance strategy, round_robin / random / weight
+    max_retry: 3 # max retry
     master:
       uri: mongodb://user:pass@localhost:27017/dbname?authSource=admin&maxPoolSize=100&minPoolSize=10
       logging: false
@@ -150,35 +179,48 @@ data:
         logging: false
         weight: 1
   neo4j:
-    uri:
-    username:
-    password:
+    uri: localhost:7687
+    username: neo4j
+    password: password123
   rabbitmq:
-    url:
-    username:
-    password:
-    vhost:
+    url: localhost:5672
+    username: guest
+    password: guest
+    vhost: /
     connection_timeout: 10s
     heartbeat_interval: 15s
   kafka:
-    brokers: [ ]
-    client_id:
-    consumer_group:
-    topic:
+    brokers:
+      - localhost:9092
+      - localhost:9093
+    client_id: datidy-client
+    consumer_group: datidy-group
+    topic: datidy-topic
     read_timeout: 10s
     write_timeout: 10s
     connect_timeout: 10s
+
+  # Messaging configuration - Controls all messaging functionality
+  messaging:
+    enabled: true # Enable/disable all messaging functionality (events, queues)
+    publish_timeout: "30s" # Timeout for publishing messages
+    cross_region_mode: false # Enable cross-region messaging optimizations
+    retry_attempts: 3 # Number of retry attempts for failed operations
+    retry_backoff_max: "30s" # Maximum backoff time between retries
+    fallback_to_memory: true # Fallback to memory events when queues unavailable
+
+  # Data layer metrics
   metrics:
-    enabled: true                 # Enable data layer metrics collection
-    storage_type: "redis"         # "memory" or "redis" (auto-detects if not specified)
-    key_prefix: "myapp_data"      # Redis key prefix
-    retention_days: 7             # How long to keep metrics
-    batch_size: 100               # Batch size for metric writes
+    enabled: true # Enable data layer metrics collection
+    storage_type: "redis" # "memory", "redis", or "auto"
+    key_prefix: "ncore_data" # Redis key prefix for metrics
+    retention_days: 7 # How long to keep metrics data
+    batch_size: 100 # Batch size for metrics operations
 
 auth:
   jwt:
-    secret:  # openssl passwd -stdin < <(echo) | base64 | shasum / nanoid(35)
-    expire:  # expiration time in hours
+    secret: your-jwt-secret-key # openssl passwd -stdin < <(echo) | base64 | shasum / nanoid(35)
+    expiry: 24h # expiration time
   casbin:
     model: |
       [request_definition]
@@ -207,17 +249,36 @@ auth:
     - /sys/initialize/*
     - /static/*
     - "*swagger*"
+  max_sessions: 10 # Maximum concurrent sessions per user
+  session_cleanup_interval: 3600 # Session cleanup interval in seconds
 
 logger:
-  # Log level (1:fatal, 2:error, 3:warn, 4:info, 5:debug)
-  level: 4
+  # Log level (1:fatal, 2:error, 3:warn, 4:info, 5:debug, 6:trace)
+  level: 6
   # Log format (supported output formats: text/json)
   format: text
   # Log output (supported: stdout/stderr/file)
   output: stdout
   # Specify the file path for log output
   output_file: logs/access.log
-
+  # Log index name, if not set, the default is app_name + environment + -log
+  index_name: application-production-log
+  meilisearch:
+    host: http://127.0.0.1:7700
+    api_key: masterKey # Your Meilisearch master key
+  elasticsearch:
+    addresses:
+      - http://localhost:9200
+      - http://localhost:9201 # Optional additional nodes
+    username: elastic
+    password: your_password
+  opensearch:
+    addresses:
+      - http://localhost:9200
+      - http://localhost:9201 # Optional additional nodes
+    username: user
+    password: your_password
+    insecure_skip_tls: true
 
 storage:
   # filesystem（need to set the bucket as the storage path）/ minio / aliyun-oss / aws-s3 / azure / tencent-cos
@@ -233,88 +294,46 @@ storage:
 #  endpoint:
 
 oauth:
-  enable_pkce: false
-  state_secret: "your-state-secret-key"
-  default_scope: ["email", "profile"]
-  google:
-    client_id: "your-google-client-id"
-    client_secret: "your-google-client-secret"
-    redirect_url: "https://example.com/oauth/google/callback"
-    enabled: true
-    scopes: ["openid", "email", "profile"]
   github:
-    client_id: "your-github-client-id"
-    client_secret: "your-github-client-secret"
-    redirect_url: "https://example.com/oauth/github/callback"
-    enabled: true
-    scopes: ["user:email"]
+    id: "github_oauth_app_id" # Your GitHub OAuth App ID
+    secret: "github_oauth_app_secret" # Your GitHub OAuth App Secret
+    redirect_url: "http://localhost:3000/oauth/github/callback"
   facebook:
-    client_id: "your-facebook-app-id"
-    client_secret: "your-facebook-app-secret"
-    redirect_url: "https://example.com/oauth/facebook/callback"
-    enabled: true
-    scopes: ["email", "public_profile"]
-  microsoft:
-    client_id: "your-microsoft-client-id"
-    client_secret: "your-microsoft-client-secret"
-    redirect_url: "https://example.com/oauth/microsoft/callback"
-    enabled: true
-    scopes: ["openid", "email", "profile"]
-  tiktok:
-    client_id: "your-tiktok-client-id"
-    client_secret: "your-tiktok-client-secret"
-    redirect_url: "https://example.com/auth/oauth/tiktok/callback"
-    enabled: true
-  wechat:
-    client_id: "your-wechat-app-id"
-    client_secret: "your-wechat-app-secret"
-    redirect_url: "https://example.com/auth/oauth/wechat/callback"
-    enabled: true
-  alipay:
-    client_id: "your-alipay-app-id"
-    client_secret: "your-alipay-app-secret"
-    redirect_url: "https://example.com/auth/oauth/alipay/callback"
-    enabled: true
-  custom_provider:
-    client_id: "custom-client-id"
-    client_secret: "custom-client-secret"
-    redirect_url: "https://example.com/oauth/custom/callback"
-    auth_url: "https://custom-provider.com/oauth/authorize"
-    token_url: "https://custom-provider.com/oauth/token"
-    user_info_url: "https://custom-provider.com/api/user"
-    scopes: [ "read_profile", "read_email" ]
-    enabled: true
-    extra_params:
-      response_mode: "query"
-      prompt: "consent"
+    id: "facebook_app_id" # Your Facebook App ID
+    secret: "facebook_app_secret" # Your Facebook App Secret
+    redirect_url: "http://localhost:3000/oauth/facebook/callback"
+  google:
+    client_id: "google_oauth_client_id" # Your Google OAuth Client ID
+    client_secret: "google_oauth_secret" # Your Google OAuth Client Secret
+    redirect_url: "http://localhost:3000/oauth/google/callback"
 
 email:
   # use only one of these, optional: mailgun / aliyun / netease / sendgrid / smtp / tencent_cloud
   provider: smtp
   mailgun:
-    key:
-    domain:
-    from:
+    key: your-mailgun-api-key
+    domain: your-domain.com
+    from: no-reply@your-domain.com
   aliyun:
-    id:
-    secret:
-    account:
+    id: your-aliyun-access-key-id
+    secret: your-aliyun-access-key-secret
+    account: no-reply@your-domain.com
   netease:
-    username:
-    password:
-    from:
-    smtpHost:
-    smtpPort:
+    username: your-163-email@163.com
+    password: your-163-email-password
+    from: your-163-email@163.com
+    smtpHost: smtp.163.com
+    smtpPort: 465
   sendgrid:
-    key:
-    from:
+    key: your-sendgrid-api-key
+    from: no-reply@your-domain.com
   smtp:
-    smtpHost:
-    smtpPort:
-    username:
-    password:
-    from:
+    smtpHost: smtp.gmail.com
+    smtpPort: 587
+    username: your-email@gmail.com
+    password: your-email-password
+    from: your-email@gmail.com
   tencent_cloud:
-    id:
-    secret:
-    from:
+    id: your-tencent-secret-id
+    secret: your-tencent-secret-key
+    from: no-reply@your-domain.com
