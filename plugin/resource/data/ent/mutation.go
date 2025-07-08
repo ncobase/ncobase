@@ -41,7 +41,6 @@ type FileMutation struct {
 	bucket            *string
 	endpoint          *string
 	owner_id          *string
-	space_id          *string
 	extras            *map[string]interface{}
 	created_by        *string
 	updated_by        *string
@@ -49,7 +48,7 @@ type FileMutation struct {
 	addcreated_at     *int64
 	updated_at        *int64
 	addupdated_at     *int64
-	folder_path       *string
+	original_name     *string
 	access_level      *string
 	expires_at        *int64
 	addexpires_at     *int64
@@ -57,6 +56,7 @@ type FileMutation struct {
 	appendtags        []string
 	is_public         *bool
 	category          *string
+	hash              *string
 	processing_result *map[string]interface{}
 	clearedFields     map[string]struct{}
 	done              bool
@@ -567,55 +567,6 @@ func (m *FileMutation) ResetOwnerID() {
 	delete(m.clearedFields, file.FieldOwnerID)
 }
 
-// SetSpaceID sets the "space_id" field.
-func (m *FileMutation) SetSpaceID(s string) {
-	m.space_id = &s
-}
-
-// SpaceID returns the value of the "space_id" field in the mutation.
-func (m *FileMutation) SpaceID() (r string, exists bool) {
-	v := m.space_id
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldSpaceID returns the old "space_id" field's value of the File entity.
-// If the File object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *FileMutation) OldSpaceID(ctx context.Context) (v string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldSpaceID is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldSpaceID requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldSpaceID: %w", err)
-	}
-	return oldValue.SpaceID, nil
-}
-
-// ClearSpaceID clears the value of the "space_id" field.
-func (m *FileMutation) ClearSpaceID() {
-	m.space_id = nil
-	m.clearedFields[file.FieldSpaceID] = struct{}{}
-}
-
-// SpaceIDCleared returns if the "space_id" field was cleared in this mutation.
-func (m *FileMutation) SpaceIDCleared() bool {
-	_, ok := m.clearedFields[file.FieldSpaceID]
-	return ok
-}
-
-// ResetSpaceID resets all changes to the "space_id" field.
-func (m *FileMutation) ResetSpaceID() {
-	m.space_id = nil
-	delete(m.clearedFields, file.FieldSpaceID)
-}
-
 // SetExtras sets the "extras" field.
 func (m *FileMutation) SetExtras(value map[string]interface{}) {
 	m.extras = &value
@@ -903,53 +854,53 @@ func (m *FileMutation) ResetUpdatedAt() {
 	delete(m.clearedFields, file.FieldUpdatedAt)
 }
 
-// SetFolderPath sets the "folder_path" field.
-func (m *FileMutation) SetFolderPath(s string) {
-	m.folder_path = &s
+// SetOriginalName sets the "original_name" field.
+func (m *FileMutation) SetOriginalName(s string) {
+	m.original_name = &s
 }
 
-// FolderPath returns the value of the "folder_path" field in the mutation.
-func (m *FileMutation) FolderPath() (r string, exists bool) {
-	v := m.folder_path
+// OriginalName returns the value of the "original_name" field in the mutation.
+func (m *FileMutation) OriginalName() (r string, exists bool) {
+	v := m.original_name
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldFolderPath returns the old "folder_path" field's value of the File entity.
+// OldOriginalName returns the old "original_name" field's value of the File entity.
 // If the File object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *FileMutation) OldFolderPath(ctx context.Context) (v string, err error) {
+func (m *FileMutation) OldOriginalName(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldFolderPath is only allowed on UpdateOne operations")
+		return v, errors.New("OldOriginalName is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldFolderPath requires an ID field in the mutation")
+		return v, errors.New("OldOriginalName requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldFolderPath: %w", err)
+		return v, fmt.Errorf("querying old value for OldOriginalName: %w", err)
 	}
-	return oldValue.FolderPath, nil
+	return oldValue.OriginalName, nil
 }
 
-// ClearFolderPath clears the value of the "folder_path" field.
-func (m *FileMutation) ClearFolderPath() {
-	m.folder_path = nil
-	m.clearedFields[file.FieldFolderPath] = struct{}{}
+// ClearOriginalName clears the value of the "original_name" field.
+func (m *FileMutation) ClearOriginalName() {
+	m.original_name = nil
+	m.clearedFields[file.FieldOriginalName] = struct{}{}
 }
 
-// FolderPathCleared returns if the "folder_path" field was cleared in this mutation.
-func (m *FileMutation) FolderPathCleared() bool {
-	_, ok := m.clearedFields[file.FieldFolderPath]
+// OriginalNameCleared returns if the "original_name" field was cleared in this mutation.
+func (m *FileMutation) OriginalNameCleared() bool {
+	_, ok := m.clearedFields[file.FieldOriginalName]
 	return ok
 }
 
-// ResetFolderPath resets all changes to the "folder_path" field.
-func (m *FileMutation) ResetFolderPath() {
-	m.folder_path = nil
-	delete(m.clearedFields, file.FieldFolderPath)
+// ResetOriginalName resets all changes to the "original_name" field.
+func (m *FileMutation) ResetOriginalName() {
+	m.original_name = nil
+	delete(m.clearedFields, file.FieldOriginalName)
 }
 
 // SetAccessLevel sets the "access_level" field.
@@ -1195,6 +1146,55 @@ func (m *FileMutation) ResetCategory() {
 	m.category = nil
 }
 
+// SetHash sets the "hash" field.
+func (m *FileMutation) SetHash(s string) {
+	m.hash = &s
+}
+
+// Hash returns the value of the "hash" field in the mutation.
+func (m *FileMutation) Hash() (r string, exists bool) {
+	v := m.hash
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldHash returns the old "hash" field's value of the File entity.
+// If the File object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *FileMutation) OldHash(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldHash is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldHash requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldHash: %w", err)
+	}
+	return oldValue.Hash, nil
+}
+
+// ClearHash clears the value of the "hash" field.
+func (m *FileMutation) ClearHash() {
+	m.hash = nil
+	m.clearedFields[file.FieldHash] = struct{}{}
+}
+
+// HashCleared returns if the "hash" field was cleared in this mutation.
+func (m *FileMutation) HashCleared() bool {
+	_, ok := m.clearedFields[file.FieldHash]
+	return ok
+}
+
+// ResetHash resets all changes to the "hash" field.
+func (m *FileMutation) ResetHash() {
+	m.hash = nil
+	delete(m.clearedFields, file.FieldHash)
+}
+
 // SetProcessingResult sets the "processing_result" field.
 func (m *FileMutation) SetProcessingResult(value map[string]interface{}) {
 	m.processing_result = &value
@@ -1303,9 +1303,6 @@ func (m *FileMutation) Fields() []string {
 	if m.owner_id != nil {
 		fields = append(fields, file.FieldOwnerID)
 	}
-	if m.space_id != nil {
-		fields = append(fields, file.FieldSpaceID)
-	}
 	if m.extras != nil {
 		fields = append(fields, file.FieldExtras)
 	}
@@ -1321,8 +1318,8 @@ func (m *FileMutation) Fields() []string {
 	if m.updated_at != nil {
 		fields = append(fields, file.FieldUpdatedAt)
 	}
-	if m.folder_path != nil {
-		fields = append(fields, file.FieldFolderPath)
+	if m.original_name != nil {
+		fields = append(fields, file.FieldOriginalName)
 	}
 	if m.access_level != nil {
 		fields = append(fields, file.FieldAccessLevel)
@@ -1338,6 +1335,9 @@ func (m *FileMutation) Fields() []string {
 	}
 	if m.category != nil {
 		fields = append(fields, file.FieldCategory)
+	}
+	if m.hash != nil {
+		fields = append(fields, file.FieldHash)
 	}
 	if m.processing_result != nil {
 		fields = append(fields, file.FieldProcessingResult)
@@ -1366,8 +1366,6 @@ func (m *FileMutation) Field(name string) (ent.Value, bool) {
 		return m.Endpoint()
 	case file.FieldOwnerID:
 		return m.OwnerID()
-	case file.FieldSpaceID:
-		return m.SpaceID()
 	case file.FieldExtras:
 		return m.Extras()
 	case file.FieldCreatedBy:
@@ -1378,8 +1376,8 @@ func (m *FileMutation) Field(name string) (ent.Value, bool) {
 		return m.CreatedAt()
 	case file.FieldUpdatedAt:
 		return m.UpdatedAt()
-	case file.FieldFolderPath:
-		return m.FolderPath()
+	case file.FieldOriginalName:
+		return m.OriginalName()
 	case file.FieldAccessLevel:
 		return m.AccessLevel()
 	case file.FieldExpiresAt:
@@ -1390,6 +1388,8 @@ func (m *FileMutation) Field(name string) (ent.Value, bool) {
 		return m.IsPublic()
 	case file.FieldCategory:
 		return m.Category()
+	case file.FieldHash:
+		return m.Hash()
 	case file.FieldProcessingResult:
 		return m.ProcessingResult()
 	}
@@ -1417,8 +1417,6 @@ func (m *FileMutation) OldField(ctx context.Context, name string) (ent.Value, er
 		return m.OldEndpoint(ctx)
 	case file.FieldOwnerID:
 		return m.OldOwnerID(ctx)
-	case file.FieldSpaceID:
-		return m.OldSpaceID(ctx)
 	case file.FieldExtras:
 		return m.OldExtras(ctx)
 	case file.FieldCreatedBy:
@@ -1429,8 +1427,8 @@ func (m *FileMutation) OldField(ctx context.Context, name string) (ent.Value, er
 		return m.OldCreatedAt(ctx)
 	case file.FieldUpdatedAt:
 		return m.OldUpdatedAt(ctx)
-	case file.FieldFolderPath:
-		return m.OldFolderPath(ctx)
+	case file.FieldOriginalName:
+		return m.OldOriginalName(ctx)
 	case file.FieldAccessLevel:
 		return m.OldAccessLevel(ctx)
 	case file.FieldExpiresAt:
@@ -1441,6 +1439,8 @@ func (m *FileMutation) OldField(ctx context.Context, name string) (ent.Value, er
 		return m.OldIsPublic(ctx)
 	case file.FieldCategory:
 		return m.OldCategory(ctx)
+	case file.FieldHash:
+		return m.OldHash(ctx)
 	case file.FieldProcessingResult:
 		return m.OldProcessingResult(ctx)
 	}
@@ -1508,13 +1508,6 @@ func (m *FileMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetOwnerID(v)
 		return nil
-	case file.FieldSpaceID:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetSpaceID(v)
-		return nil
 	case file.FieldExtras:
 		v, ok := value.(map[string]interface{})
 		if !ok {
@@ -1550,12 +1543,12 @@ func (m *FileMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetUpdatedAt(v)
 		return nil
-	case file.FieldFolderPath:
+	case file.FieldOriginalName:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetFolderPath(v)
+		m.SetOriginalName(v)
 		return nil
 	case file.FieldAccessLevel:
 		v, ok := value.(string)
@@ -1591,6 +1584,13 @@ func (m *FileMutation) SetField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetCategory(v)
+		return nil
+	case file.FieldHash:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetHash(v)
 		return nil
 	case file.FieldProcessingResult:
 		v, ok := value.(map[string]interface{})
@@ -1701,9 +1701,6 @@ func (m *FileMutation) ClearedFields() []string {
 	if m.FieldCleared(file.FieldOwnerID) {
 		fields = append(fields, file.FieldOwnerID)
 	}
-	if m.FieldCleared(file.FieldSpaceID) {
-		fields = append(fields, file.FieldSpaceID)
-	}
 	if m.FieldCleared(file.FieldExtras) {
 		fields = append(fields, file.FieldExtras)
 	}
@@ -1719,14 +1716,17 @@ func (m *FileMutation) ClearedFields() []string {
 	if m.FieldCleared(file.FieldUpdatedAt) {
 		fields = append(fields, file.FieldUpdatedAt)
 	}
-	if m.FieldCleared(file.FieldFolderPath) {
-		fields = append(fields, file.FieldFolderPath)
+	if m.FieldCleared(file.FieldOriginalName) {
+		fields = append(fields, file.FieldOriginalName)
 	}
 	if m.FieldCleared(file.FieldExpiresAt) {
 		fields = append(fields, file.FieldExpiresAt)
 	}
 	if m.FieldCleared(file.FieldTags) {
 		fields = append(fields, file.FieldTags)
+	}
+	if m.FieldCleared(file.FieldHash) {
+		fields = append(fields, file.FieldHash)
 	}
 	if m.FieldCleared(file.FieldProcessingResult) {
 		fields = append(fields, file.FieldProcessingResult)
@@ -1766,9 +1766,6 @@ func (m *FileMutation) ClearField(name string) error {
 	case file.FieldOwnerID:
 		m.ClearOwnerID()
 		return nil
-	case file.FieldSpaceID:
-		m.ClearSpaceID()
-		return nil
 	case file.FieldExtras:
 		m.ClearExtras()
 		return nil
@@ -1784,14 +1781,17 @@ func (m *FileMutation) ClearField(name string) error {
 	case file.FieldUpdatedAt:
 		m.ClearUpdatedAt()
 		return nil
-	case file.FieldFolderPath:
-		m.ClearFolderPath()
+	case file.FieldOriginalName:
+		m.ClearOriginalName()
 		return nil
 	case file.FieldExpiresAt:
 		m.ClearExpiresAt()
 		return nil
 	case file.FieldTags:
 		m.ClearTags()
+		return nil
+	case file.FieldHash:
+		m.ClearHash()
 		return nil
 	case file.FieldProcessingResult:
 		m.ClearProcessingResult()
@@ -1828,9 +1828,6 @@ func (m *FileMutation) ResetField(name string) error {
 	case file.FieldOwnerID:
 		m.ResetOwnerID()
 		return nil
-	case file.FieldSpaceID:
-		m.ResetSpaceID()
-		return nil
 	case file.FieldExtras:
 		m.ResetExtras()
 		return nil
@@ -1846,8 +1843,8 @@ func (m *FileMutation) ResetField(name string) error {
 	case file.FieldUpdatedAt:
 		m.ResetUpdatedAt()
 		return nil
-	case file.FieldFolderPath:
-		m.ResetFolderPath()
+	case file.FieldOriginalName:
+		m.ResetOriginalName()
 		return nil
 	case file.FieldAccessLevel:
 		m.ResetAccessLevel()
@@ -1863,6 +1860,9 @@ func (m *FileMutation) ResetField(name string) error {
 		return nil
 	case file.FieldCategory:
 		m.ResetCategory()
+		return nil
+	case file.FieldHash:
+		m.ResetHash()
 		return nil
 	case file.FieldProcessingResult:
 		m.ResetProcessingResult()

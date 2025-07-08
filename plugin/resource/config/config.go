@@ -1,6 +1,8 @@
-package resource
+package config
 
-import "github.com/spf13/viper"
+import (
+	"github.com/spf13/viper"
+)
 
 // Config holds resource module configuration
 type Config struct {
@@ -29,8 +31,8 @@ type QuotaConfig struct {
 	QuotaCheckInterval string  `json:"quota_check_interval"`
 }
 
-// GetDefaultConfig returns default configuration
-func (p *Plugin) GetDefaultConfig() *Config {
+// New returns a new Config instance with default values
+func New() *Config {
 	return &Config{
 		MaxUploadSize:  5 * 1024 * 1024 * 1024, // 5GB default
 		AllowedTypes:   []string{"*"},          // All types by default
@@ -52,74 +54,74 @@ func (p *Plugin) GetDefaultConfig() *Config {
 	}
 }
 
-// GetConfigFromFile loads configuration from Viper
-func (p *Plugin) GetConfigFromFile(viper *viper.Viper) {
+// LoadFromViper loads configuration from Viper into the Config instance
+func (c *Config) LoadFromViper(viper *viper.Viper) {
 	if viper == nil {
 		return
 	}
 
 	// MaxUploadSize
 	if viper.IsSet("resource.max_upload_size") {
-		p.config.MaxUploadSize = viper.GetInt64("resource.max_upload_size")
+		c.MaxUploadSize = viper.GetInt64("resource.max_upload_size")
 	}
 
 	// AllowedTypes
 	if viper.IsSet("resource.allowed_types") {
-		p.config.AllowedTypes = viper.GetStringSlice("resource.allowed_types")
+		c.AllowedTypes = viper.GetStringSlice("resource.allowed_types")
 	}
 
 	// DefaultStorage
 	if viper.IsSet("resource.default_storage") {
-		p.config.DefaultStorage = viper.GetString("resource.default_storage")
+		c.DefaultStorage = viper.GetString("resource.default_storage")
 	}
 
 	// Load image processing config
-	if p.config.ImageProcessing == nil {
-		p.config.ImageProcessing = &ImageConfig{}
+	if c.ImageProcessing == nil {
+		c.ImageProcessing = &ImageConfig{}
 	}
 
 	if viper.IsSet("resource.image_processing.enable_thumbnails") {
-		p.config.ImageProcessing.EnableThumbnails = viper.GetBool("resource.image_processing.enable_thumbnails")
+		c.ImageProcessing.EnableThumbnails = viper.GetBool("resource.image_processing.enable_thumbnails")
 	}
 
 	if viper.IsSet("resource.image_processing.default_thumbnail_width") {
-		p.config.ImageProcessing.DefaultThumbnailWidth = viper.GetInt("resource.image_processing.default_thumbnail_width")
+		c.ImageProcessing.DefaultThumbnailWidth = viper.GetInt("resource.image_processing.default_thumbnail_width")
 	}
 
 	if viper.IsSet("resource.image_processing.default_thumbnail_height") {
-		p.config.ImageProcessing.DefaultThumbnailHeight = viper.GetInt("resource.image_processing.default_thumbnail_height")
+		c.ImageProcessing.DefaultThumbnailHeight = viper.GetInt("resource.image_processing.default_thumbnail_height")
 	}
 
 	if viper.IsSet("resource.image_processing.enable_resizing") {
-		p.config.ImageProcessing.EnableResizing = viper.GetBool("resource.image_processing.enable_resizing")
+		c.ImageProcessing.EnableResizing = viper.GetBool("resource.image_processing.enable_resizing")
 	}
 
 	if viper.IsSet("resource.image_processing.max_image_width") {
-		p.config.ImageProcessing.MaxImageWidth = viper.GetInt("resource.image_processing.max_image_width")
+		c.ImageProcessing.MaxImageWidth = viper.GetInt("resource.image_processing.max_image_width")
 	}
 
 	if viper.IsSet("resource.image_processing.max_image_height") {
-		p.config.ImageProcessing.MaxImageHeight = viper.GetInt("resource.image_processing.max_image_height")
+		c.ImageProcessing.MaxImageHeight = viper.GetInt("resource.image_processing.max_image_height")
 	}
 
 	// Load quota management config
-	if p.config.QuotaManagement == nil {
-		p.config.QuotaManagement = &QuotaConfig{}
+	if c.QuotaManagement == nil {
+		c.QuotaManagement = &QuotaConfig{}
 	}
 
 	if viper.IsSet("resource.quota_management.enable_quotas") {
-		p.config.QuotaManagement.EnableQuotas = viper.GetBool("resource.quota_management.enable_quotas")
+		c.QuotaManagement.EnableQuotas = viper.GetBool("resource.quota_management.enable_quotas")
 	}
 
 	if viper.IsSet("resource.quota_management.default_quota") {
-		p.config.QuotaManagement.DefaultQuota = viper.GetInt64("resource.quota_management.default_quota")
+		c.QuotaManagement.DefaultQuota = viper.GetInt64("resource.quota_management.default_quota")
 	}
 
 	if viper.IsSet("resource.quota_management.warning_threshold") {
-		p.config.QuotaManagement.WarningThreshold = viper.GetFloat64("resource.quota_management.warning_threshold")
+		c.QuotaManagement.WarningThreshold = viper.GetFloat64("resource.quota_management.warning_threshold")
 	}
 
 	if viper.IsSet("resource.quota_management.quota_check_interval") {
-		p.config.QuotaManagement.QuotaCheckInterval = viper.GetString("resource.quota_management.quota_check_interval")
+		c.QuotaManagement.QuotaCheckInterval = viper.GetString("resource.quota_management.quota_check_interval")
 	}
 }

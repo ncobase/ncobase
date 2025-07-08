@@ -131,20 +131,6 @@ func (fc *FileCreate) SetNillableOwnerID(s *string) *FileCreate {
 	return fc
 }
 
-// SetSpaceID sets the "space_id" field.
-func (fc *FileCreate) SetSpaceID(s string) *FileCreate {
-	fc.mutation.SetSpaceID(s)
-	return fc
-}
-
-// SetNillableSpaceID sets the "space_id" field if the given value is not nil.
-func (fc *FileCreate) SetNillableSpaceID(s *string) *FileCreate {
-	if s != nil {
-		fc.SetSpaceID(*s)
-	}
-	return fc
-}
-
 // SetExtras sets the "extras" field.
 func (fc *FileCreate) SetExtras(m map[string]interface{}) *FileCreate {
 	fc.mutation.SetExtras(m)
@@ -207,16 +193,16 @@ func (fc *FileCreate) SetNillableUpdatedAt(i *int64) *FileCreate {
 	return fc
 }
 
-// SetFolderPath sets the "folder_path" field.
-func (fc *FileCreate) SetFolderPath(s string) *FileCreate {
-	fc.mutation.SetFolderPath(s)
+// SetOriginalName sets the "original_name" field.
+func (fc *FileCreate) SetOriginalName(s string) *FileCreate {
+	fc.mutation.SetOriginalName(s)
 	return fc
 }
 
-// SetNillableFolderPath sets the "folder_path" field if the given value is not nil.
-func (fc *FileCreate) SetNillableFolderPath(s *string) *FileCreate {
+// SetNillableOriginalName sets the "original_name" field if the given value is not nil.
+func (fc *FileCreate) SetNillableOriginalName(s *string) *FileCreate {
 	if s != nil {
-		fc.SetFolderPath(*s)
+		fc.SetOriginalName(*s)
 	}
 	return fc
 }
@@ -279,6 +265,20 @@ func (fc *FileCreate) SetCategory(s string) *FileCreate {
 func (fc *FileCreate) SetNillableCategory(s *string) *FileCreate {
 	if s != nil {
 		fc.SetCategory(*s)
+	}
+	return fc
+}
+
+// SetHash sets the "hash" field.
+func (fc *FileCreate) SetHash(s string) *FileCreate {
+	fc.mutation.SetHash(s)
+	return fc
+}
+
+// SetNillableHash sets the "hash" field if the given value is not nil.
+func (fc *FileCreate) SetNillableHash(s *string) *FileCreate {
+	if s != nil {
+		fc.SetHash(*s)
 	}
 	return fc
 }
@@ -463,10 +463,6 @@ func (fc *FileCreate) createSpec() (*File, *sqlgraph.CreateSpec) {
 		_spec.SetField(file.FieldOwnerID, field.TypeString, value)
 		_node.OwnerID = value
 	}
-	if value, ok := fc.mutation.SpaceID(); ok {
-		_spec.SetField(file.FieldSpaceID, field.TypeString, value)
-		_node.SpaceID = value
-	}
 	if value, ok := fc.mutation.Extras(); ok {
 		_spec.SetField(file.FieldExtras, field.TypeJSON, value)
 		_node.Extras = value
@@ -487,9 +483,9 @@ func (fc *FileCreate) createSpec() (*File, *sqlgraph.CreateSpec) {
 		_spec.SetField(file.FieldUpdatedAt, field.TypeInt64, value)
 		_node.UpdatedAt = value
 	}
-	if value, ok := fc.mutation.FolderPath(); ok {
-		_spec.SetField(file.FieldFolderPath, field.TypeString, value)
-		_node.FolderPath = value
+	if value, ok := fc.mutation.OriginalName(); ok {
+		_spec.SetField(file.FieldOriginalName, field.TypeString, value)
+		_node.OriginalName = value
 	}
 	if value, ok := fc.mutation.AccessLevel(); ok {
 		_spec.SetField(file.FieldAccessLevel, field.TypeString, value)
@@ -510,6 +506,10 @@ func (fc *FileCreate) createSpec() (*File, *sqlgraph.CreateSpec) {
 	if value, ok := fc.mutation.Category(); ok {
 		_spec.SetField(file.FieldCategory, field.TypeString, value)
 		_node.Category = value
+	}
+	if value, ok := fc.mutation.Hash(); ok {
+		_spec.SetField(file.FieldHash, field.TypeString, value)
+		_node.Hash = value
 	}
 	if value, ok := fc.mutation.ProcessingResult(); ok {
 		_spec.SetField(file.FieldProcessingResult, field.TypeJSON, value)

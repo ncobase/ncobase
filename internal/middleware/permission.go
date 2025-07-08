@@ -151,8 +151,8 @@ func HasAnyPermission(requiredPermissions ...string) gin.HandlerFunc {
 	}
 }
 
-// IsAdmin middleware checks if user is an admin
-func IsAdmin() gin.HandlerFunc {
+// RequireAdmin middleware requires admin access
+func RequireAdmin() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		ctx := c.Request.Context()
 

@@ -29,6 +29,7 @@ The plugin supports various configuration options for storage, image processing,
 ## API Endpoints
 
 ### Files
+
 - `GET /res` - List files
 - `POST /res` - Create file
 - `GET /res/:slug` - Get file details
@@ -36,10 +37,12 @@ The plugin supports various configuration options for storage, image processing,
 - `DELETE /res/:slug` - Delete file
 
 ### Batch Operations
+
 - `POST /res/batch/upload` - Batch upload files
 - `POST /res/batch/process` - Batch process files
 
 ### Quota Management
+
 - `GET /res/quotas` - Get quota
 - `PUT /res/quotas` - Set quota
 - `GET /res/quotas/usage` - Get usage statistics

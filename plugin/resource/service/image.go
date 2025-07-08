@@ -14,6 +14,7 @@ import (
 
 	"github.com/disintegration/imaging"
 	"github.com/ncobase/ncore/logging/logger"
+	"github.com/ncobase/ncore/types"
 	"github.com/ncobase/ncore/validation/validator"
 )
 
@@ -21,7 +22,7 @@ import (
 type ImageProcessorInterface interface {
 	CreateThumbnail(ctx context.Context, reader io.Reader, filename string, maxWidth, maxHeight int) ([]byte, error)
 	ResizeImage(ctx context.Context, reader io.Reader, filename string, maxWidth, maxHeight int) ([]byte, error)
-	ProcessImage(ctx context.Context, reader io.Reader, filename string, options *structs.ProcessingOptions) ([]byte, map[string]any, error)
+	ProcessImage(ctx context.Context, reader io.Reader, filename string, options *structs.ProcessingOptions) ([]byte, types.JSON, error)
 	GetImageDimensions(ctx context.Context, reader io.Reader, filename string) (int, int, error)
 }
 
@@ -104,7 +105,7 @@ func (p *imageProcessor) ResizeImage(ctx context.Context, reader io.Reader, file
 }
 
 // ProcessImage processes an image according to the provided options
-func (p *imageProcessor) ProcessImage(ctx context.Context, reader io.Reader, filename string, options *structs.ProcessingOptions) ([]byte, map[string]any, error) {
+func (p *imageProcessor) ProcessImage(ctx context.Context, reader io.Reader, filename string, options *structs.ProcessingOptions) ([]byte, types.JSON, error) {
 	// Read all bytes from the reader
 	fileBytes, err := io.ReadAll(reader)
 	if err != nil {
@@ -131,7 +132,7 @@ func (p *imageProcessor) ProcessImage(ctx context.Context, reader io.Reader, fil
 	origHeight := bounds.Dy()
 
 	// Create metadata to return
-	metadata := map[string]any{
+	metadata := types.JSON{
 		"width":         origWidth,
 		"height":        origHeight,
 		"original_size": len(fileBytes),

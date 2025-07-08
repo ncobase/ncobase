@@ -7,13 +7,13 @@ import (
 	"github.com/ncobase/ncore/ecode"
 	"github.com/ncobase/ncore/logging/logger"
 	"github.com/ncobase/ncore/net/resp"
+	"github.com/ncobase/ncore/types"
 )
 
 // QuotaHandlerInterface defines quota handler methods
 type QuotaHandlerInterface interface {
-	GetQuota(c *gin.Context)
-	SetQuota(c *gin.Context)
-	GetUsage(c *gin.Context)
+	GetMyQuota(c *gin.Context)
+	GetMyUsage(c *gin.Context)
 }
 
 type quotaHandler struct {
@@ -27,25 +27,25 @@ func NewQuotaHandler(service service.QuotaServiceInterface) QuotaHandlerInterfac
 	}
 }
 
-// GetQuota handles retrieving storage quota for a space
+// GetMyQuota handles retrieving user's storage quota
 //
-// @Summary Get storage quota
-// @Description Get storage quota for a space
-// @Tags res
+// @Summary Get my storage quota
+// @Description Get storage quota for current user
+// @Tags Resource
 // @Produce json
-// @Param space_id query string true "Space ID"
 // @Success 200 {object} map[string]int64 "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /res/quotas [get]
+// @Router /res/quota [get]
 // @Security Bearer
-func (h *quotaHandler) GetQuota(c *gin.Context) {
-	spaceID := c.Query("space_id")
-	if spaceID == "" {
-		resp.Fail(c.Writer, resp.BadRequest(ecode.FieldIsRequired("space_id")))
+func (h *quotaHandler) GetMyQuota(c *gin.Context) {
+	// Get user ID from context (assuming it's set by middleware)
+	userID := c.GetString("user_id")
+	if userID == "" {
+		resp.Fail(c.Writer, resp.BadRequest(ecode.FieldIsRequired("user_id")))
 		return
 	}
 
-	quota, err := h.service.GetQuota(c.Request.Context(), spaceID)
+	quota, err := h.service.GetQuota(c.Request.Context(), userID)
 	if err != nil {
 		logger.Errorf(c.Request.Context(), "Error getting quota: %v", err)
 		resp.Fail(c.Writer, resp.InternalServer("Failed to get quota"))
@@ -57,72 +57,32 @@ func (h *quotaHandler) GetQuota(c *gin.Context) {
 	})
 }
 
-// SetQuota handles setting storage quota for a space
+// GetMyUsage handles retrieving user's current storage usage
 //
-// @Summary Set storage quota
-// @Description Set storage quota for a space
-// @Tags res
-// @Accept json
+// @Summary Get my storage usage
+// @Description Get current storage usage for current user
+// @Tags Resource
 // @Produce json
-// @Param body body map[string]interface{} true "Quota information"
-// @Success 200 {object} map[string]int64 "success"
-// @Failure 400 {object} resp.Exception "bad request"
-// @Router /res/quotas [put]
-// @Security Bearer
-func (h *quotaHandler) SetQuota(c *gin.Context) {
-	var body struct {
-		SpaceID string `json:"space_id" binding:"required"`
-		Quota   int64  `json:"quota" binding:"required"`
-	}
-
-	if err := c.ShouldBindJSON(&body); err != nil {
-		resp.Fail(c.Writer, resp.BadRequest("Invalid request body"))
-		return
-	}
-
-	if body.Quota <= 0 {
-		resp.Fail(c.Writer, resp.BadRequest("Quota must be greater than zero"))
-		return
-	}
-
-	err := h.service.SetQuota(c.Request.Context(), body.SpaceID, body.Quota)
-	if err != nil {
-		logger.Errorf(c.Request.Context(), "Error setting quota: %v", err)
-		resp.Fail(c.Writer, resp.InternalServer("Failed to set quota"))
-		return
-	}
-
-	resp.Success(c.Writer, map[string]int64{
-		"quota": body.Quota,
-	})
-}
-
-// GetUsage handles retrieving current storage usage for a space
-//
-// @Summary Get storage usage
-// @Description Get current storage usage for a space
-// @Tags res
-// @Produce json
-// @Param space_id query string true "Space ID"
 // @Success 200 {object} map[string]interface{} "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /res/quotas/usage [get]
+// @Router /res/usage [get]
 // @Security Bearer
-func (h *quotaHandler) GetUsage(c *gin.Context) {
-	spaceID := c.Query("space_id")
-	if spaceID == "" {
-		resp.Fail(c.Writer, resp.BadRequest(ecode.FieldIsRequired("space_id")))
+func (h *quotaHandler) GetMyUsage(c *gin.Context) {
+	// Get user ID from context (assuming it's set by middleware)
+	userID := c.GetString("user_id")
+	if userID == "" {
+		resp.Fail(c.Writer, resp.BadRequest(ecode.FieldIsRequired("user_id")))
 		return
 	}
 
-	usage, err := h.service.GetUsage(c.Request.Context(), spaceID)
+	usage, err := h.service.GetUsage(c.Request.Context(), userID)
 	if err != nil {
 		logger.Errorf(c.Request.Context(), "Error getting usage: %v", err)
 		resp.Fail(c.Writer, resp.InternalServer("Failed to get usage"))
 		return
 	}
 
-	quota, err := h.service.GetQuota(c.Request.Context(), spaceID)
+	quota, err := h.service.GetQuota(c.Request.Context(), userID)
 	if err != nil {
 		logger.Warnf(c.Request.Context(), "Error getting quota: %v", err)
 	}
@@ -134,12 +94,12 @@ func (h *quotaHandler) GetUsage(c *gin.Context) {
 	}
 
 	// Check if quota exceeded
-	isExceeded, err := h.service.IsQuotaExceeded(c.Request.Context(), spaceID)
+	isExceeded, err := h.service.IsQuotaExceeded(c.Request.Context(), userID)
 	if err != nil {
 		logger.Warnf(c.Request.Context(), "Error checking if quota is exceeded: %v", err)
 	}
 
-	resp.Success(c.Writer, map[string]any{
+	resp.Success(c.Writer, types.JSON{
 		"usage":           usage,
 		"quota":           quota,
 		"usage_percent":   usagePercent,

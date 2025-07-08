@@ -11,7 +11,7 @@ import (
 // ResourceFileServiceInterface defines resource file service interface for content module
 type ResourceFileServiceInterface interface {
 	Get(ctx context.Context, slug string) (*resourceStructs.ReadFile, error)
-	List(ctx context.Context, params *resourceStructs.ListFileParams) (interface{}, error)
+	List(ctx context.Context, params *resourceStructs.ListFileParams) (any, error)
 	Delete(ctx context.Context, slug string) error
 }
 
@@ -52,7 +52,7 @@ func (w *ResourceServiceWrapper) GetFile(ctx context.Context, slug string) (*res
 }
 
 // ListFiles lists files
-func (w *ResourceServiceWrapper) ListFiles(ctx context.Context, params *resourceStructs.ListFileParams) (interface{}, error) {
+func (w *ResourceServiceWrapper) ListFiles(ctx context.Context, params *resourceStructs.ListFileParams) (any, error) {
 	if w.fileService != nil {
 		return w.fileService.List(ctx, params)
 	}

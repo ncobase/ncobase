@@ -3,10 +3,11 @@ package resource
 import (
 	"context"
 	"fmt"
-	"ncobase/internal/middleware"
+	rConfig "ncobase/resource/config"
 	"ncobase/resource/data"
 	"ncobase/resource/event"
 	"ncobase/resource/handler"
+	"ncobase/resource/router"
 	"ncobase/resource/service"
 	"sync"
 	"time"
@@ -35,12 +36,14 @@ type Plugin struct {
 	initialized     bool
 	mu              sync.RWMutex
 	em              ext.ManagerInterface
-	s               *service.Service
-	h               *handler.Handler
-	d               *data.Data
 	cleanup         func(name ...string)
-	config          *Config
 	eventSubscriber event.SubscriberInterface
+
+	c *rConfig.Config
+	d *data.Data
+	s *service.Service
+	h *handler.Handler
+	r *router.Router
 
 	discovery
 }
@@ -76,7 +79,7 @@ func (p *Plugin) Name() string {
 
 // PreInit performs setup before initialization
 func (p *Plugin) PreInit() error {
-	p.config = p.GetDefaultConfig()
+	p.c = rConfig.New()
 	return nil
 }
 
@@ -103,7 +106,7 @@ func (p *Plugin) Init(conf *config.Config, em ext.ManagerInterface) (err error) 
 
 	// Load config from file
 	if conf.Viper != nil {
-		p.GetConfigFromFile(conf.Viper)
+		p.c.LoadFromViper(conf.Viper)
 	}
 
 	p.em = em
@@ -130,8 +133,8 @@ func (p *Plugin) PostInit() error {
 	p.eventSubscriber.SetQuotaUpdater(p.s.Quota)
 
 	// Start quota monitor if enabled
-	if p.config.QuotaManagement.EnableQuotas {
-		go p.startQuotaMonitor(p.s.Quota, p.config.QuotaManagement.QuotaCheckInterval)
+	if p.c.QuotaManagement.EnableQuotas {
+		go p.startQuotaMonitor(p.s.Quota, p.c.QuotaManagement.QuotaCheckInterval)
 	}
 
 	// Subscribe to events
@@ -139,6 +142,8 @@ func (p *Plugin) PostInit() error {
 
 	// Subscribe to dependency refresh events
 	p.subscribeDependencyEvents()
+
+	p.r = router.New(p.h)
 
 	return nil
 }
@@ -170,41 +175,7 @@ func (p *Plugin) startQuotaMonitor(quotaService service.QuotaServiceInterface, i
 
 // RegisterRoutes registers plugin routes
 func (p *Plugin) RegisterRoutes(r *gin.RouterGroup) {
-	resGroup := r.Group("/"+p.Group(), middleware.AuthenticatedUser)
-
-	resGroup.GET("", p.h.File.List)
-	resGroup.POST("", p.h.File.Create)
-	resGroup.GET("/:slug", p.h.File.Get)
-	resGroup.PUT("/:slug", p.h.File.Update)
-	resGroup.DELETE("/:slug", p.h.File.Delete)
-
-	// Advanced endpoints
-	resGroup.GET("/search", p.h.File.Search)
-	resGroup.GET("/categories", p.h.File.ListCategories)
-	resGroup.GET("/tags", p.h.File.ListTags)
-	resGroup.GET("/stats", p.h.File.GetStorageStats)
-
-	// Version and thumbnail operations
-	resGroup.GET("/:slug/versions", p.h.File.GetVersions)
-	resGroup.POST("/:slug/versions", p.h.File.CreateVersion)
-	resGroup.POST("/:slug/thumbnail", p.h.File.CreateThumbnail)
-	resGroup.PUT("/:slug/access", p.h.File.SetAccessLevel)
-	resGroup.POST("/:slug/share", p.h.File.GenerateShareURL)
-
-	// Batch operations
-	batch := resGroup.Group("/batch")
-	{
-		batch.POST("/upload", p.h.Batch.BatchUpload)
-		batch.POST("/process", p.h.Batch.BatchProcess)
-	}
-
-	// Quota management
-	quotas := resGroup.Group("/quotas")
-	{
-		quotas.GET("", p.h.Quota.GetQuota)
-		quotas.PUT("", p.h.Quota.SetQuota)
-		quotas.GET("/usage", p.h.Quota.GetUsage)
-	}
+	p.r.Register(r, p.Group())
 }
 
 // GetHandlers returns plugin handlers
@@ -254,9 +225,7 @@ func (p *Plugin) Dependencies() []string {
 
 // GetAllDependencies returns all dependencies with types
 func (p *Plugin) GetAllDependencies() []ext.DependencyEntry {
-	return []ext.DependencyEntry{
-		{Name: "space", Type: ext.WeakDependency},
-	}
+	return []ext.DependencyEntry{}
 }
 
 // Description returns plugin description

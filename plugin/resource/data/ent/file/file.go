@@ -27,8 +27,6 @@ const (
 	FieldEndpoint = "endpoint"
 	// FieldOwnerID holds the string denoting the owner_id field in the database.
 	FieldOwnerID = "owner_id"
-	// FieldSpaceID holds the string denoting the space_id field in the database.
-	FieldSpaceID = "space_id"
 	// FieldExtras holds the string denoting the extras field in the database.
 	FieldExtras = "extras"
 	// FieldCreatedBy holds the string denoting the created_by field in the database.
@@ -39,8 +37,8 @@ const (
 	FieldCreatedAt = "created_at"
 	// FieldUpdatedAt holds the string denoting the updated_at field in the database.
 	FieldUpdatedAt = "updated_at"
-	// FieldFolderPath holds the string denoting the folder_path field in the database.
-	FieldFolderPath = "folder_path"
+	// FieldOriginalName holds the string denoting the original_name field in the database.
+	FieldOriginalName = "original_name"
 	// FieldAccessLevel holds the string denoting the access_level field in the database.
 	FieldAccessLevel = "access_level"
 	// FieldExpiresAt holds the string denoting the expires_at field in the database.
@@ -51,6 +49,8 @@ const (
 	FieldIsPublic = "is_public"
 	// FieldCategory holds the string denoting the category field in the database.
 	FieldCategory = "category"
+	// FieldHash holds the string denoting the hash field in the database.
+	FieldHash = "hash"
 	// FieldProcessingResult holds the string denoting the processing_result field in the database.
 	FieldProcessingResult = "processing_result"
 	// Table holds the table name of the file in the database.
@@ -68,18 +68,18 @@ var Columns = []string{
 	FieldBucket,
 	FieldEndpoint,
 	FieldOwnerID,
-	FieldSpaceID,
 	FieldExtras,
 	FieldCreatedBy,
 	FieldUpdatedBy,
 	FieldCreatedAt,
 	FieldUpdatedAt,
-	FieldFolderPath,
+	FieldOriginalName,
 	FieldAccessLevel,
 	FieldExpiresAt,
 	FieldTags,
 	FieldIsPublic,
 	FieldCategory,
+	FieldHash,
 	FieldProcessingResult,
 }
 
@@ -166,11 +166,6 @@ func ByOwnerID(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldOwnerID, opts...).ToFunc()
 }
 
-// BySpaceID orders the results by the space_id field.
-func BySpaceID(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldSpaceID, opts...).ToFunc()
-}
-
 // ByCreatedBy orders the results by the created_by field.
 func ByCreatedBy(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldCreatedBy, opts...).ToFunc()
@@ -191,9 +186,9 @@ func ByUpdatedAt(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldUpdatedAt, opts...).ToFunc()
 }
 
-// ByFolderPath orders the results by the folder_path field.
-func ByFolderPath(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldFolderPath, opts...).ToFunc()
+// ByOriginalName orders the results by the original_name field.
+func ByOriginalName(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldOriginalName, opts...).ToFunc()
 }
 
 // ByAccessLevel orders the results by the access_level field.
@@ -214,4 +209,9 @@ func ByIsPublic(opts ...sql.OrderTermOption) OrderOption {
 // ByCategory orders the results by the category field.
 func ByCategory(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldCategory, opts...).ToFunc()
+}
+
+// ByHash orders the results by the hash field.
+func ByHash(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldHash, opts...).ToFunc()
 }

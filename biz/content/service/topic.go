@@ -206,7 +206,7 @@ func (s *topicService) serialize(ctx context.Context, row *ent.Topic) *structs.R
 		if featuredMedia, ok := row.Extras["featured_media"].(string); ok {
 			result.FeaturedMedia = featuredMedia
 		}
-		if tags, ok := row.Extras["tags"].([]interface{}); ok {
+		if tags, ok := row.Extras["tags"].([]any); ok {
 			tagStrings := make([]string, 0, len(tags))
 			for _, tag := range tags {
 				if tagStr, ok := tag.(string); ok {

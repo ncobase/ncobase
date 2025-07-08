@@ -189,26 +189,6 @@ func (fu *FileUpdate) ClearOwnerID() *FileUpdate {
 	return fu
 }
 
-// SetSpaceID sets the "space_id" field.
-func (fu *FileUpdate) SetSpaceID(s string) *FileUpdate {
-	fu.mutation.SetSpaceID(s)
-	return fu
-}
-
-// SetNillableSpaceID sets the "space_id" field if the given value is not nil.
-func (fu *FileUpdate) SetNillableSpaceID(s *string) *FileUpdate {
-	if s != nil {
-		fu.SetSpaceID(*s)
-	}
-	return fu
-}
-
-// ClearSpaceID clears the value of the "space_id" field.
-func (fu *FileUpdate) ClearSpaceID() *FileUpdate {
-	fu.mutation.ClearSpaceID()
-	return fu
-}
-
 // SetExtras sets the "extras" field.
 func (fu *FileUpdate) SetExtras(m map[string]interface{}) *FileUpdate {
 	fu.mutation.SetExtras(m)
@@ -280,23 +260,23 @@ func (fu *FileUpdate) ClearUpdatedAt() *FileUpdate {
 	return fu
 }
 
-// SetFolderPath sets the "folder_path" field.
-func (fu *FileUpdate) SetFolderPath(s string) *FileUpdate {
-	fu.mutation.SetFolderPath(s)
+// SetOriginalName sets the "original_name" field.
+func (fu *FileUpdate) SetOriginalName(s string) *FileUpdate {
+	fu.mutation.SetOriginalName(s)
 	return fu
 }
 
-// SetNillableFolderPath sets the "folder_path" field if the given value is not nil.
-func (fu *FileUpdate) SetNillableFolderPath(s *string) *FileUpdate {
+// SetNillableOriginalName sets the "original_name" field if the given value is not nil.
+func (fu *FileUpdate) SetNillableOriginalName(s *string) *FileUpdate {
 	if s != nil {
-		fu.SetFolderPath(*s)
+		fu.SetOriginalName(*s)
 	}
 	return fu
 }
 
-// ClearFolderPath clears the value of the "folder_path" field.
-func (fu *FileUpdate) ClearFolderPath() *FileUpdate {
-	fu.mutation.ClearFolderPath()
+// ClearOriginalName clears the value of the "original_name" field.
+func (fu *FileUpdate) ClearOriginalName() *FileUpdate {
+	fu.mutation.ClearOriginalName()
 	return fu
 }
 
@@ -384,6 +364,26 @@ func (fu *FileUpdate) SetNillableCategory(s *string) *FileUpdate {
 	if s != nil {
 		fu.SetCategory(*s)
 	}
+	return fu
+}
+
+// SetHash sets the "hash" field.
+func (fu *FileUpdate) SetHash(s string) *FileUpdate {
+	fu.mutation.SetHash(s)
+	return fu
+}
+
+// SetNillableHash sets the "hash" field if the given value is not nil.
+func (fu *FileUpdate) SetNillableHash(s *string) *FileUpdate {
+	if s != nil {
+		fu.SetHash(*s)
+	}
+	return fu
+}
+
+// ClearHash clears the value of the "hash" field.
+func (fu *FileUpdate) ClearHash() *FileUpdate {
+	fu.mutation.ClearHash()
 	return fu
 }
 
@@ -510,12 +510,6 @@ func (fu *FileUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if fu.mutation.OwnerIDCleared() {
 		_spec.ClearField(file.FieldOwnerID, field.TypeString)
 	}
-	if value, ok := fu.mutation.SpaceID(); ok {
-		_spec.SetField(file.FieldSpaceID, field.TypeString, value)
-	}
-	if fu.mutation.SpaceIDCleared() {
-		_spec.ClearField(file.FieldSpaceID, field.TypeString)
-	}
 	if value, ok := fu.mutation.Extras(); ok {
 		_spec.SetField(file.FieldExtras, field.TypeJSON, value)
 	}
@@ -546,11 +540,11 @@ func (fu *FileUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if fu.mutation.UpdatedAtCleared() {
 		_spec.ClearField(file.FieldUpdatedAt, field.TypeInt64)
 	}
-	if value, ok := fu.mutation.FolderPath(); ok {
-		_spec.SetField(file.FieldFolderPath, field.TypeString, value)
+	if value, ok := fu.mutation.OriginalName(); ok {
+		_spec.SetField(file.FieldOriginalName, field.TypeString, value)
 	}
-	if fu.mutation.FolderPathCleared() {
-		_spec.ClearField(file.FieldFolderPath, field.TypeString)
+	if fu.mutation.OriginalNameCleared() {
+		_spec.ClearField(file.FieldOriginalName, field.TypeString)
 	}
 	if value, ok := fu.mutation.AccessLevel(); ok {
 		_spec.SetField(file.FieldAccessLevel, field.TypeString, value)
@@ -580,6 +574,12 @@ func (fu *FileUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	}
 	if value, ok := fu.mutation.Category(); ok {
 		_spec.SetField(file.FieldCategory, field.TypeString, value)
+	}
+	if value, ok := fu.mutation.Hash(); ok {
+		_spec.SetField(file.FieldHash, field.TypeString, value)
+	}
+	if fu.mutation.HashCleared() {
+		_spec.ClearField(file.FieldHash, field.TypeString)
 	}
 	if value, ok := fu.mutation.ProcessingResult(); ok {
 		_spec.SetField(file.FieldProcessingResult, field.TypeJSON, value)
@@ -768,26 +768,6 @@ func (fuo *FileUpdateOne) ClearOwnerID() *FileUpdateOne {
 	return fuo
 }
 
-// SetSpaceID sets the "space_id" field.
-func (fuo *FileUpdateOne) SetSpaceID(s string) *FileUpdateOne {
-	fuo.mutation.SetSpaceID(s)
-	return fuo
-}
-
-// SetNillableSpaceID sets the "space_id" field if the given value is not nil.
-func (fuo *FileUpdateOne) SetNillableSpaceID(s *string) *FileUpdateOne {
-	if s != nil {
-		fuo.SetSpaceID(*s)
-	}
-	return fuo
-}
-
-// ClearSpaceID clears the value of the "space_id" field.
-func (fuo *FileUpdateOne) ClearSpaceID() *FileUpdateOne {
-	fuo.mutation.ClearSpaceID()
-	return fuo
-}
-
 // SetExtras sets the "extras" field.
 func (fuo *FileUpdateOne) SetExtras(m map[string]interface{}) *FileUpdateOne {
 	fuo.mutation.SetExtras(m)
@@ -859,23 +839,23 @@ func (fuo *FileUpdateOne) ClearUpdatedAt() *FileUpdateOne {
 	return fuo
 }
 
-// SetFolderPath sets the "folder_path" field.
-func (fuo *FileUpdateOne) SetFolderPath(s string) *FileUpdateOne {
-	fuo.mutation.SetFolderPath(s)
+// SetOriginalName sets the "original_name" field.
+func (fuo *FileUpdateOne) SetOriginalName(s string) *FileUpdateOne {
+	fuo.mutation.SetOriginalName(s)
 	return fuo
 }
 
-// SetNillableFolderPath sets the "folder_path" field if the given value is not nil.
-func (fuo *FileUpdateOne) SetNillableFolderPath(s *string) *FileUpdateOne {
+// SetNillableOriginalName sets the "original_name" field if the given value is not nil.
+func (fuo *FileUpdateOne) SetNillableOriginalName(s *string) *FileUpdateOne {
 	if s != nil {
-		fuo.SetFolderPath(*s)
+		fuo.SetOriginalName(*s)
 	}
 	return fuo
 }
 
-// ClearFolderPath clears the value of the "folder_path" field.
-func (fuo *FileUpdateOne) ClearFolderPath() *FileUpdateOne {
-	fuo.mutation.ClearFolderPath()
+// ClearOriginalName clears the value of the "original_name" field.
+func (fuo *FileUpdateOne) ClearOriginalName() *FileUpdateOne {
+	fuo.mutation.ClearOriginalName()
 	return fuo
 }
 
@@ -963,6 +943,26 @@ func (fuo *FileUpdateOne) SetNillableCategory(s *string) *FileUpdateOne {
 	if s != nil {
 		fuo.SetCategory(*s)
 	}
+	return fuo
+}
+
+// SetHash sets the "hash" field.
+func (fuo *FileUpdateOne) SetHash(s string) *FileUpdateOne {
+	fuo.mutation.SetHash(s)
+	return fuo
+}
+
+// SetNillableHash sets the "hash" field if the given value is not nil.
+func (fuo *FileUpdateOne) SetNillableHash(s *string) *FileUpdateOne {
+	if s != nil {
+		fuo.SetHash(*s)
+	}
+	return fuo
+}
+
+// ClearHash clears the value of the "hash" field.
+func (fuo *FileUpdateOne) ClearHash() *FileUpdateOne {
+	fuo.mutation.ClearHash()
 	return fuo
 }
 
@@ -1119,12 +1119,6 @@ func (fuo *FileUpdateOne) sqlSave(ctx context.Context) (_node *File, err error) 
 	if fuo.mutation.OwnerIDCleared() {
 		_spec.ClearField(file.FieldOwnerID, field.TypeString)
 	}
-	if value, ok := fuo.mutation.SpaceID(); ok {
-		_spec.SetField(file.FieldSpaceID, field.TypeString, value)
-	}
-	if fuo.mutation.SpaceIDCleared() {
-		_spec.ClearField(file.FieldSpaceID, field.TypeString)
-	}
 	if value, ok := fuo.mutation.Extras(); ok {
 		_spec.SetField(file.FieldExtras, field.TypeJSON, value)
 	}
@@ -1155,11 +1149,11 @@ func (fuo *FileUpdateOne) sqlSave(ctx context.Context) (_node *File, err error) 
 	if fuo.mutation.UpdatedAtCleared() {
 		_spec.ClearField(file.FieldUpdatedAt, field.TypeInt64)
 	}
-	if value, ok := fuo.mutation.FolderPath(); ok {
-		_spec.SetField(file.FieldFolderPath, field.TypeString, value)
+	if value, ok := fuo.mutation.OriginalName(); ok {
+		_spec.SetField(file.FieldOriginalName, field.TypeString, value)
 	}
-	if fuo.mutation.FolderPathCleared() {
-		_spec.ClearField(file.FieldFolderPath, field.TypeString)
+	if fuo.mutation.OriginalNameCleared() {
+		_spec.ClearField(file.FieldOriginalName, field.TypeString)
 	}
 	if value, ok := fuo.mutation.AccessLevel(); ok {
 		_spec.SetField(file.FieldAccessLevel, field.TypeString, value)
@@ -1189,6 +1183,12 @@ func (fuo *FileUpdateOne) sqlSave(ctx context.Context) (_node *File, err error) 
 	}
 	if value, ok := fuo.mutation.Category(); ok {
 		_spec.SetField(file.FieldCategory, field.TypeString, value)
+	}
+	if value, ok := fuo.mutation.Hash(); ok {
+		_spec.SetField(file.FieldHash, field.TypeString, value)
+	}
+	if fuo.mutation.HashCleared() {
+		_spec.ClearField(file.FieldHash, field.TypeString)
 	}
 	if value, ok := fuo.mutation.ProcessingResult(); ok {
 		_spec.SetField(file.FieldProcessingResult, field.TypeJSON, value)

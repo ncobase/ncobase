@@ -190,7 +190,7 @@ func (h *handler) HandleBatchUploadFailed(data any) {
 	h.trackBatchOperation(eventData, "failed")
 }
 
-// Helper methods for additional processing
+// Additional processing
 
 func (h *handler) handleFileIndexUpdate(eventData *FileEventData) {
 	// TODO: Update search index, invalidate caches, etc.

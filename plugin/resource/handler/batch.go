@@ -17,6 +17,8 @@ import (
 type BatchHandlerInterface interface {
 	BatchUpload(c *gin.Context)
 	BatchProcess(c *gin.Context)
+	BatchDelete(c *gin.Context)
+	GetBatchStatus(c *gin.Context)
 }
 
 type batchHandler struct {
@@ -36,13 +38,12 @@ func NewBatchHandler(fileService service.FileServiceInterface, batchService serv
 //
 // @Summary Batch upload
 // @Description Upload multiple files in a batch
-// @Tags res
+// @Tags Resource
 // @Accept multipart/form-data
 // @Produce json
 // @Param files formData file true "Files to upload"
-// @Param space_id formData string true "Space ID"
 // @Param owner_id formData string true "Owner ID"
-// @Param folder_path formData string false "Virtual folder path"
+// @Param path_prefix formData string false "Path prefix"
 // @Param access_level formData string false "Access level"
 // @Param tags formData string false "Comma-separated tags"
 // @Param extras formData string false "Additional metadata (JSON)"
@@ -62,12 +63,6 @@ func (h *batchHandler) BatchUpload(c *gin.Context) {
 		return
 	}
 
-	spaceID := c.PostForm("space_id")
-	if spaceID == "" {
-		resp.Fail(c.Writer, resp.BadRequest(ecode.FieldIsRequired("space_id")))
-		return
-	}
-
 	ownerID := c.PostForm("owner_id")
 	if ownerID == "" {
 		resp.Fail(c.Writer, resp.BadRequest(ecode.FieldIsRequired("owner_id")))
@@ -75,9 +70,8 @@ func (h *batchHandler) BatchUpload(c *gin.Context) {
 	}
 
 	params := &structs.BatchUploadParams{
-		SpaceID:    spaceID,
 		OwnerID:    ownerID,
-		FolderPath: c.PostForm("folder_path"),
+		PathPrefix: c.PostForm("path_prefix"),
 	}
 
 	if accessLevel := c.PostForm("access_level"); accessLevel != "" {
@@ -117,7 +111,7 @@ func (h *batchHandler) BatchUpload(c *gin.Context) {
 //
 // @Summary Batch process
 // @Description Process multiple files in a batch
-// @Tags res
+// @Tags Resource
 // @Accept json
 // @Produce json
 // @Param body body map[string]interface{} true "Processing parameters"
@@ -128,7 +122,7 @@ func (h *batchHandler) BatchUpload(c *gin.Context) {
 func (h *batchHandler) BatchProcess(c *gin.Context) {
 	var body struct {
 		IDs     []string                   `json:"ids" binding:"required"`
-		SpaceID string                     `json:"space_id" binding:"required"`
+		OwnerID string                     `json:"owner_id" binding:"required"`
 		Options *structs.ProcessingOptions `json:"options"`
 	}
 
@@ -166,4 +160,69 @@ func (h *batchHandler) BatchProcess(c *gin.Context) {
 	}
 
 	resp.Success(c.Writer, processed)
+}
+
+// BatchDelete handles deleting multiple files in a batch
+//
+// @Summary Batch delete
+// @Description Delete multiple files in a batch
+// @Tags Resource
+// @Accept json
+// @Produce json
+// @Param body body map[string]interface{} true "Delete parameters"
+// @Success 200 {object} structs.BatchDeleteResult "success"
+// @Failure 400 {object} resp.Exception "bad request"
+// @Router /res/batch/delete [post]
+// @Security Bearer
+func (h *batchHandler) BatchDelete(c *gin.Context) {
+	var body struct {
+		IDs     []string `json:"ids" binding:"required"`
+		OwnerID string   `json:"owner_id" binding:"required"`
+	}
+
+	if err := c.ShouldBindJSON(&body); err != nil {
+		resp.Fail(c.Writer, resp.BadRequest("Invalid request body"))
+		return
+	}
+
+	if len(body.IDs) == 0 {
+		resp.Fail(c.Writer, resp.BadRequest("No file IDs provided"))
+		return
+	}
+
+	result, err := h.batchService.BatchDelete(c.Request.Context(), body.IDs, body.OwnerID)
+	if err != nil {
+		logger.Errorf(c.Request.Context(), "Error in batch delete: %v", err)
+		resp.Fail(c.Writer, resp.InternalServer("Failed to delete files"))
+		return
+	}
+
+	resp.Success(c.Writer, result)
+}
+
+// GetBatchStatus handles getting batch operation status
+//
+// @Summary Get batch status
+// @Description Get status of a batch operation
+// @Tags Resource
+// @Produce json
+// @Param job_id path string true "Job ID"
+// @Success 200 {object} structs.BatchStatus "success"
+// @Failure 400 {object} resp.Exception "bad request"
+// @Router /res/status/{job_id} [get]
+// @Security Bearer
+func (h *batchHandler) GetBatchStatus(c *gin.Context) {
+	jobID := c.Param("job_id")
+	if jobID == "" {
+		resp.Fail(c.Writer, resp.BadRequest(ecode.FieldIsRequired("job_id")))
+		return
+	}
+
+	status, err := h.batchService.GetBatchStatus(c.Request.Context(), jobID)
+	if err != nil {
+		resp.Fail(c.Writer, resp.NotFound("Batch job not found"))
+		return
+	}
+
+	resp.Success(c.Writer, status)
 }

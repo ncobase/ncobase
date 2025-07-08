@@ -34,8 +34,6 @@ type File struct {
 	Endpoint string `json:"endpoint,omitempty"`
 	// owner id
 	OwnerID string `json:"owner_id,omitempty"`
-	// space id, e.g. space id, organization id, store id
-	SpaceID string `json:"space_id,omitempty"`
 	// Extend properties
 	Extras map[string]interface{} `json:"extras,omitempty"`
 	// id of the creator
@@ -46,18 +44,20 @@ type File struct {
 	CreatedAt int64 `json:"created_at,omitempty"`
 	// updated at
 	UpdatedAt int64 `json:"updated_at,omitempty"`
-	// Virtual folder path
-	FolderPath string `json:"folder_path,omitempty"`
+	// Original filename before processing
+	OriginalName string `json:"original_name,omitempty"`
 	// Access level: public, private, shared
 	AccessLevel string `json:"access_level,omitempty"`
 	// Expiration timestamp
 	ExpiresAt *int64 `json:"expires_at,omitempty"`
-	// File tags
+	// File tags for categorization
 	Tags []string `json:"tags,omitempty"`
 	// Public access flag
 	IsPublic bool `json:"is_public,omitempty"`
-	// File category
+	// File category (image, document, video, etc.)
 	Category string `json:"category,omitempty"`
+	// File content hash for deduplication
+	Hash string `json:"hash,omitempty"`
 	// Processing operation results
 	ProcessingResult map[string]interface{} `json:"processing_result,omitempty"`
 	selectValues     sql.SelectValues
@@ -74,7 +74,7 @@ func (*File) scanValues(columns []string) ([]any, error) {
 			values[i] = new(sql.NullBool)
 		case file.FieldSize, file.FieldCreatedAt, file.FieldUpdatedAt, file.FieldExpiresAt:
 			values[i] = new(sql.NullInt64)
-		case file.FieldID, file.FieldName, file.FieldPath, file.FieldType, file.FieldStorage, file.FieldBucket, file.FieldEndpoint, file.FieldOwnerID, file.FieldSpaceID, file.FieldCreatedBy, file.FieldUpdatedBy, file.FieldFolderPath, file.FieldAccessLevel, file.FieldCategory:
+		case file.FieldID, file.FieldName, file.FieldPath, file.FieldType, file.FieldStorage, file.FieldBucket, file.FieldEndpoint, file.FieldOwnerID, file.FieldCreatedBy, file.FieldUpdatedBy, file.FieldOriginalName, file.FieldAccessLevel, file.FieldCategory, file.FieldHash:
 			values[i] = new(sql.NullString)
 		default:
 			values[i] = new(sql.UnknownType)
@@ -145,12 +145,6 @@ func (f *File) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				f.OwnerID = value.String
 			}
-		case file.FieldSpaceID:
-			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field space_id", values[i])
-			} else if value.Valid {
-				f.SpaceID = value.String
-			}
 		case file.FieldExtras:
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field extras", values[i])
@@ -183,11 +177,11 @@ func (f *File) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				f.UpdatedAt = value.Int64
 			}
-		case file.FieldFolderPath:
+		case file.FieldOriginalName:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field folder_path", values[i])
+				return fmt.Errorf("unexpected type %T for field original_name", values[i])
 			} else if value.Valid {
-				f.FolderPath = value.String
+				f.OriginalName = value.String
 			}
 		case file.FieldAccessLevel:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -221,6 +215,12 @@ func (f *File) assignValues(columns []string, values []any) error {
 				return fmt.Errorf("unexpected type %T for field category", values[i])
 			} else if value.Valid {
 				f.Category = value.String
+			}
+		case file.FieldHash:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field hash", values[i])
+			} else if value.Valid {
+				f.Hash = value.String
 			}
 		case file.FieldProcessingResult:
 			if value, ok := values[i].(*[]byte); !ok {
@@ -290,9 +290,6 @@ func (f *File) String() string {
 	builder.WriteString("owner_id=")
 	builder.WriteString(f.OwnerID)
 	builder.WriteString(", ")
-	builder.WriteString("space_id=")
-	builder.WriteString(f.SpaceID)
-	builder.WriteString(", ")
 	builder.WriteString("extras=")
 	builder.WriteString(fmt.Sprintf("%v", f.Extras))
 	builder.WriteString(", ")
@@ -308,8 +305,8 @@ func (f *File) String() string {
 	builder.WriteString("updated_at=")
 	builder.WriteString(fmt.Sprintf("%v", f.UpdatedAt))
 	builder.WriteString(", ")
-	builder.WriteString("folder_path=")
-	builder.WriteString(f.FolderPath)
+	builder.WriteString("original_name=")
+	builder.WriteString(f.OriginalName)
 	builder.WriteString(", ")
 	builder.WriteString("access_level=")
 	builder.WriteString(f.AccessLevel)
@@ -327,6 +324,9 @@ func (f *File) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("category=")
 	builder.WriteString(f.Category)
+	builder.WriteString(", ")
+	builder.WriteString("hash=")
+	builder.WriteString(f.Hash)
 	builder.WriteString(", ")
 	builder.WriteString("processing_result=")
 	builder.WriteString(fmt.Sprintf("%v", f.ProcessingResult))

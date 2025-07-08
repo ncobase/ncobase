@@ -12,6 +12,7 @@ type Service struct {
 	File  FileServiceInterface
 	Batch BatchServiceInterface
 	Quota QuotaServiceInterface
+	Admin AdminServiceInterface
 }
 
 // New creates new resource service
@@ -26,7 +27,7 @@ func New(em ext.ManagerInterface, d *data.Data, publisher event.PublisherInterfa
 		EnableEnforcement: true,                    // Enforce quotas
 		CheckInterval:     24 * 60 * 60,            // 24 hours in seconds
 	}
-	quotaService := NewQuotaService(d, publisher, quotaConfig, em)
+	quotaService := NewQuotaService(d, publisher, quotaConfig)
 
 	// Create file service
 	fileService := NewFileService(d, imageProcessor, quotaService, publisher)
@@ -34,10 +35,14 @@ func New(em ext.ManagerInterface, d *data.Data, publisher event.PublisherInterfa
 	// Create batch service
 	batchService := NewBatchService(fileService, imageProcessor, publisher)
 
+	// Create admin service
+	adminService := NewAdminService(d, quotaService)
+
 	return &Service{
 		File:  fileService,
 		Batch: batchService,
 		Quota: quotaService,
+		Admin: adminService,
 	}
 }
 

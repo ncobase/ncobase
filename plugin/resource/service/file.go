@@ -12,31 +12,36 @@ import (
 	"ncobase/resource/event"
 	"ncobase/resource/structs"
 	"path/filepath"
+	"strings"
 	"time"
 
 	"github.com/ncobase/ncore/ctxutil"
 	"github.com/ncobase/ncore/data/paging"
-	"github.com/ncobase/ncore/data/storage"
 	"github.com/ncobase/ncore/ecode"
 	"github.com/ncobase/ncore/logging/logger"
 	"github.com/ncobase/ncore/types"
+	"github.com/ncobase/ncore/utils/nanoid"
 	"github.com/ncobase/ncore/validation/validator"
 )
 
-// FileServiceInterface defines file service methods
 type FileServiceInterface interface {
 	Create(ctx context.Context, body *structs.CreateFileBody) (*structs.ReadFile, error)
-	Update(ctx context.Context, slug string, updates map[string]any) (*structs.ReadFile, error)
+	Update(ctx context.Context, slug string, updates types.JSON) (*structs.ReadFile, error)
 	Get(ctx context.Context, slug string) (*structs.ReadFile, error)
+	GetPublic(ctx context.Context, slug string) (*structs.ReadFile, error)
+	GetByShareToken(ctx context.Context, token string) (*structs.ReadFile, error)
 	Delete(ctx context.Context, slug string) error
 	List(ctx context.Context, params *structs.ListFileParams) (paging.Result[*structs.ReadFile], error)
 	GetFileStream(ctx context.Context, slug string) (io.ReadCloser, *structs.ReadFile, error)
-	SearchByTags(ctx context.Context, spaceID string, tags []string, limit int) ([]*structs.ReadFile, error)
+	GetFileStreamByID(ctx context.Context, id string) (io.ReadCloser, error)
+	GetThumbnail(ctx context.Context, slug string) (io.ReadCloser, error)
+	SearchByTags(ctx context.Context, ownerID string, tags []string, limit int) ([]*structs.ReadFile, error)
 	GeneratePublicURL(ctx context.Context, slug string, expirationHours int) (string, error)
 	CreateVersion(ctx context.Context, slug string, file io.Reader, filename string) (*structs.ReadFile, error)
 	GetVersions(ctx context.Context, slug string) ([]*structs.ReadFile, error)
 	SetAccessLevel(ctx context.Context, slug string, accessLevel structs.AccessLevel) (*structs.ReadFile, error)
 	CreateThumbnail(ctx context.Context, slug string, options *structs.ProcessingOptions) (*structs.ReadFile, error)
+	GetTagsByOwner(ctx context.Context, ownerID string) ([]string, error)
 }
 
 type fileService struct {
@@ -46,7 +51,6 @@ type fileService struct {
 	publisher      event.PublisherInterface
 }
 
-// NewFileService creates new file service
 func NewFileService(
 	d *data.Data,
 	imageProcessor ImageProcessorInterface,
@@ -63,20 +67,16 @@ func NewFileService(
 
 // Create creates a new file
 func (s *fileService) Create(ctx context.Context, body *structs.CreateFileBody) (*structs.ReadFile, error) {
-	if validator.IsEmpty(body.OwnerID) {
-		return nil, errors.New(ecode.FieldIsRequired("owner_id"))
-	}
-
-	if validator.IsEmpty(body.SpaceID) {
-		body.SpaceID = ctxutil.GetSpaceID(ctx)
-		if body.SpaceID == "" {
-			return nil, errors.New(ecode.FieldIsRequired("space_id"))
+	// Get ownerID from context if not provided
+	if body.OwnerID == "" {
+		if userID := ctxutil.GetUserID(ctx); userID != "" {
+			body.OwnerID = userID
 		}
 	}
 
-	// Check quota
-	if s.quotaService != nil && body.Size != nil {
-		canProceed, err := s.quotaService.CheckAndUpdateQuota(ctx, body.SpaceID, *body.Size)
+	// Check quota only if ownerID is provided
+	if body.OwnerID != "" && s.quotaService != nil && body.Size != nil {
+		canProceed, err := s.quotaService.CheckAndUpdateQuota(ctx, body.OwnerID, *body.Size)
 		if err != nil {
 			logger.Warnf(ctx, "Error checking quota: %v", err)
 		} else if !canProceed {
@@ -85,9 +85,12 @@ func (s *fileService) Create(ctx context.Context, body *structs.CreateFileBody) 
 	}
 
 	// Get storage
-	storage, storageConfig := ctxutil.GetStorage(ctx)
+	storageClient, storageConfig := ctxutil.GetStorage(ctx)
+	if storageClient == nil || storageConfig == nil {
+		return nil, errors.New("storage not configured")
+	}
 
-	// Read file content
+	// Read file content and calculate hash
 	var fileBytes []byte
 	var err error
 	if body.File != nil {
@@ -99,24 +102,57 @@ func (s *fileService) Create(ctx context.Context, body *structs.CreateFileBody) 
 		if closer, ok := body.File.(io.Closer); ok {
 			defer closer.Close()
 		}
-		body.File = &readCloser{bytes.NewReader(fileBytes)}
 	} else {
 		return nil, errors.New("file content is required")
 	}
 
-	// Store file
-	_, err = storage.Put(body.Path, bytes.NewReader(fileBytes))
-	if err != nil {
-		logger.Errorf(ctx, "Error storing file: %v", err)
-		return nil, errors.New("failed to store file")
+	// Calculate file hash for deduplication
+	hash := calculateFileHash(fileBytes)
+
+	// Check for existing file with same hash (optional deduplication)
+	if body.OwnerID != "" && hash != "" {
+		existing, err := findFileByHash(ctx, body.OwnerID, hash)
+		if err == nil && existing != nil {
+			logger.Infof(ctx, "File with same hash already exists: %s", existing.ID)
+			// Could return existing file or continue with new upload based on business logic
+		}
 	}
+
+	// Generate storage path with optional parameters
+	ext := filepath.Ext(body.Path)
+	if ext == "" && body.Name != "" {
+		if body.Type != "" {
+			ext = s.getExtensionFromMimeType(body.Type)
+		}
+	}
+
+	var ownerIDPtr, pathPrefixPtr *string
+	if body.OwnerID != "" {
+		ownerIDPtr = &body.OwnerID
+	}
+	if body.PathPrefix != "" {
+		pathPrefixPtr = &body.PathPrefix
+	}
+
+	storagePath := s.generateUniqueStoragePath(body.Name, ext, ownerIDPtr, pathPrefixPtr)
+
+	// Store file
+	_, storeErr := storageClient.Put(storagePath, bytes.NewReader(fileBytes))
+	if storeErr != nil {
+		logger.Errorf(ctx, "Error storing file to %s: %v", storageConfig.Provider, storeErr)
+		return nil, fmt.Errorf("failed to store file: %w", storeErr)
+	}
+
+	// Cleanup on error
 	defer func() {
 		if err != nil {
-			_ = storage.Delete(body.Path)
+			if deleteErr := storageClient.Delete(storagePath); deleteErr != nil {
+				logger.Errorf(ctx, "Failed to cleanup file after error: %v", deleteErr)
+			}
 		}
 	}()
 
-	// Set defaults
+	// Set defaults and computed values
 	if body.AccessLevel == "" {
 		body.AccessLevel = structs.AccessLevelPrivate
 	}
@@ -125,14 +161,17 @@ func (s *fileService) Create(ctx context.Context, body *structs.CreateFileBody) 
 	body.Storage = storageConfig.Provider
 	body.Bucket = storageConfig.Bucket
 	body.Endpoint = storageConfig.Endpoint
+	body.Path = storagePath
 
-	// Set created by
+	// Set audit fields
 	userID := ctxutil.GetUserID(ctx)
-	body.CreatedBy = &userID
+	if userID != "" {
+		body.CreatedBy = &userID
+	}
 
 	// Process image if needed
 	thumbnailPath := ""
-	category := structs.GetFileCategory(filepath.Ext(body.Path))
+	category := structs.GetFileCategory(filepath.Ext(storagePath))
 
 	if category == structs.FileCategoryImage && s.imageProcessor != nil {
 		if body.ProcessingOptions == nil {
@@ -143,7 +182,6 @@ func (s *fileService) Create(ctx context.Context, body *structs.CreateFileBody) 
 			}
 		}
 
-		// Create thumbnail
 		thumbnailBytes, err := s.imageProcessor.CreateThumbnail(
 			ctx,
 			bytes.NewReader(fileBytes),
@@ -153,8 +191,8 @@ func (s *fileService) Create(ctx context.Context, body *structs.CreateFileBody) 
 		)
 
 		if err == nil {
-			thumbnailPath = fmt.Sprintf("thumbnails/%s", body.Path)
-			_, err = storage.Put(thumbnailPath, bytes.NewReader(thumbnailBytes))
+			thumbnailPath = s.generateThumbnailPath(storagePath)
+			_, err = storageClient.Put(thumbnailPath, bytes.NewReader(thumbnailBytes))
 			if err != nil {
 				logger.Warnf(ctx, "Error storing thumbnail: %v", err)
 				thumbnailPath = ""
@@ -162,69 +200,78 @@ func (s *fileService) Create(ctx context.Context, body *structs.CreateFileBody) 
 		}
 	}
 
-	// Prepare extras
+	// Prepare extras with all metadata
 	extendedData := make(types.JSON)
-	if body.FolderPath != "" {
-		extendedData["folder_path"] = body.FolderPath
-	}
-	if body.AccessLevel != "" {
-		extendedData["access_level"] = string(body.AccessLevel)
-	}
-	if len(body.Tags) > 0 {
-		extendedData["tags"] = body.Tags
-	}
-	if body.IsPublic {
-		extendedData["is_public"] = body.IsPublic
-	}
-	if thumbnailPath != "" {
-		extendedData["thumbnail_path"] = thumbnailPath
-	}
-	if body.ExpiresAt != nil {
-		extendedData["expires_at"] = *body.ExpiresAt
-	}
-	extendedData["category"] = string(category)
-
-	// Merge with existing extras
 	if body.Extras != nil {
 		for k, v := range *body.Extras {
 			extendedData[k] = v
 		}
 	}
+
+	// Add computed metadata
+	if thumbnailPath != "" {
+		extendedData["thumbnail_path"] = thumbnailPath
+	}
+	if body.PathPrefix != "" {
+		extendedData["path_prefix"] = body.PathPrefix
+	}
+	if body.OwnerID == "" {
+		extendedData["anonymous"] = true
+	}
+	if hash != "" {
+		extendedData["hash"] = hash // Also store in extras for backward compatibility
+	}
+
 	body.Extras = &extendedData
 
-	// Create file record
-	row, err := s.fileRepo.Create(ctx, body)
-	if err != nil {
-		logger.Errorf(ctx, "Error creating file: %v", err)
-		if thumbnailPath != "" {
-			_ = storage.Delete(thumbnailPath)
+	// Create file record with retry logic for name conflicts
+	maxRetries := 3
+	for retry := 0; retry < maxRetries; retry++ {
+		row, err := s.fileRepo.Create(ctx, body)
+		if err != nil {
+			if strings.Contains(err.Error(), "unique") || strings.Contains(err.Error(), "duplicate") {
+				body.Name = s.generateUniqueName(body.Name)
+				logger.Warnf(ctx, "Name conflict, retrying with new name: %s", body.Name)
+				continue
+			}
+
+			logger.Errorf(ctx, "Error creating file record: %v", err)
+			if thumbnailPath != "" {
+				_ = storageClient.Delete(thumbnailPath)
+			}
+			return nil, errors.New("failed to create file record")
 		}
-		return nil, errors.New("failed to create file")
+
+		// Success - publish event
+		if s.publisher != nil {
+			eventUserID := userID
+			if eventUserID == "" {
+				eventUserID = body.OwnerID
+			}
+
+			eventData := &event.FileEventData{
+				ID:      row.ID,
+				Name:    row.Name,
+				Path:    row.Path,
+				Type:    row.Type,
+				Size:    row.Size,
+				Storage: row.Storage,
+				Bucket:  row.Bucket,
+				OwnerID: row.OwnerID,
+				UserID:  eventUserID,
+				Extras:  &row.Extras,
+			}
+			s.publisher.PublishFileCreated(ctx, eventData)
+		}
+
+		return s.serialize(row), nil
 	}
 
-	// Publish event
-	if s.publisher != nil {
-		eventData := &event.FileEventData{
-			ID:      row.ID,
-			Name:    row.Name,
-			Path:    row.Path,
-			Type:    row.Type,
-			Size:    row.Size,
-			Storage: row.Storage,
-			Bucket:  row.Bucket,
-			OwnerID: row.OwnerID,
-			SpaceID: row.SpaceID,
-			UserID:  userID,
-			Extras:  &row.Extras,
-		}
-		s.publisher.PublishFileCreated(ctx, eventData)
-	}
-
-	return s.serialize(row), nil
+	return nil, errors.New("failed to create file record after retries")
 }
 
-// Update updates an existing file
-func (s *fileService) Update(ctx context.Context, slug string, updates map[string]any) (*structs.ReadFile, error) {
+// Update updates file
+func (s *fileService) Update(ctx context.Context, slug string, updates types.JSON) (*structs.ReadFile, error) {
 	if validator.IsEmpty(slug) {
 		return nil, errors.New(ecode.FieldIsRequired("slug"))
 	}
@@ -239,9 +286,12 @@ func (s *fileService) Update(ctx context.Context, slug string, updates map[strin
 		return nil, handleEntError(ctx, "File", err)
 	}
 
-	// Handle file update
+	// Handle file update with hash calculation
 	if fileReader, ok := updates["file"].(io.Reader); ok {
-		storage, storageConfig := ctxutil.GetStorage(ctx)
+		storageClient, storageConfig := ctxutil.GetStorage(ctx)
+		if storageClient == nil || storageConfig == nil {
+			return nil, errors.New("storage not configured")
+		}
 
 		fileBytes, err := io.ReadAll(fileReader)
 		if err != nil {
@@ -252,47 +302,71 @@ func (s *fileService) Update(ctx context.Context, slug string, updates map[strin
 			closer.Close()
 		}
 
-		// Store new file
-		if path, ok := updates["path"].(string); ok {
-			if _, err := storage.Put(path, bytes.NewReader(fileBytes)); err != nil {
-				return nil, errors.New("error updating file")
-			}
+		// Calculate new hash
+		newHash := calculateFileHash(fileBytes)
 
-			updates["storage"] = storageConfig.Provider
-			updates["bucket"] = storageConfig.Bucket
-			updates["endpoint"] = storageConfig.Endpoint
-			updates["size"] = len(fileBytes)
+		// Generate new storage path
+		fileName := existing.Name
+		if name, ok := updates["name"].(string); ok {
+			fileName = name
 		}
+
+		ext := filepath.Ext(existing.Path)
+		extras := getExtrasFromFile(existing)
+
+		var ownerIDPtr, pathPrefixPtr *string
+		if existing.OwnerID != "" {
+			ownerIDPtr = &existing.OwnerID
+		}
+		if pathPrefix, hasPrefix := extras["path_prefix"].(string); hasPrefix && pathPrefix != "" {
+			pathPrefixPtr = &pathPrefix
+		}
+
+		newStoragePath := s.generateUniqueStoragePath(fileName, ext, ownerIDPtr, pathPrefixPtr)
+
+		// Store new file
+		if _, err := storageClient.Put(newStoragePath, bytes.NewReader(fileBytes)); err != nil {
+			logger.Errorf(ctx, "Error updating file in storage: %v", err)
+			return nil, errors.New("error updating file")
+		}
+
+		// Delete old file
+		if err := storageClient.Delete(existing.Path); err != nil {
+			logger.Warnf(ctx, "Error deleting old file: %v", err)
+		}
+
+		// Update file metadata
+		updates["path"] = newStoragePath
+		updates["storage"] = storageConfig.Provider
+		updates["bucket"] = storageConfig.Bucket
+		updates["endpoint"] = storageConfig.Endpoint
+		updates["size"] = len(fileBytes)
+		updates["hash"] = newHash
+
+		// Update category if file type changed
+		newCategory := structs.GetFileCategory(ext)
+		updates["category"] = newCategory
 
 		delete(updates, "file")
 	}
 
-	// Update extras
-	extras := getExtrasFromFile(existing)
-	for field, value := range updates {
-		switch field {
-		case "folder_path":
-			extras["folder_path"] = value
-			delete(updates, field)
-		case "access_level":
-			extras["access_level"] = value
-			delete(updates, field)
-		case "tags":
-			extras["tags"] = value
-			delete(updates, field)
-		case "is_public":
-			extras["is_public"] = value
-			delete(updates, field)
-		case "expires_at":
-			extras["expires_at"] = value
-			delete(updates, field)
+	// Process extras updates - merge with existing
+	if extrasUpdate, ok := updates["extras"].(types.JSON); ok {
+		existingExtras := getExtrasFromFile(existing)
+
+		// Merge extras
+		for k, v := range extrasUpdate {
+			existingExtras[k] = v
 		}
+
+		updates["extras"] = existingExtras
 	}
-	updates["extras"] = extras
 
 	// Set updated by
 	userID := ctxutil.GetUserID(ctx)
-	updates["updated_by"] = userID
+	if userID != "" {
+		updates["updated_by"] = userID
+	}
 
 	// Update file
 	row, err := s.fileRepo.Update(ctx, slug, updates)
@@ -311,7 +385,6 @@ func (s *fileService) Update(ctx context.Context, slug string, updates map[strin
 			Storage: row.Storage,
 			Bucket:  row.Bucket,
 			OwnerID: row.OwnerID,
-			SpaceID: row.SpaceID,
 			UserID:  userID,
 			Extras:  &row.Extras,
 		}
@@ -321,7 +394,7 @@ func (s *fileService) Update(ctx context.Context, slug string, updates map[strin
 	return s.serialize(row), nil
 }
 
-// Get retrieves a file by ID
+// Get retrieves file by ID
 func (s *fileService) Get(ctx context.Context, slug string) (*structs.ReadFile, error) {
 	if validator.IsEmpty(slug) {
 		return nil, errors.New(ecode.FieldIsRequired("slug"))
@@ -338,13 +411,54 @@ func (s *fileService) Get(ctx context.Context, slug string) (*structs.ReadFile, 
 	return s.serialize(row), nil
 }
 
-// Delete deletes a file by ID
+// GetPublic retrieves public file
+func (s *fileService) GetPublic(ctx context.Context, slug string) (*structs.ReadFile, error) {
+	file, err := s.Get(ctx, slug)
+	if err != nil {
+		return nil, err
+	}
+
+	if !file.IsPublic {
+		return nil, errors.New("file is not public")
+	}
+
+	// Check expiration
+	if file.ExpiresAt != nil && time.Now().UnixMilli() > *file.ExpiresAt {
+		return nil, errors.New("file access has expired")
+	}
+
+	return file, nil
+}
+
+// GetByShareToken retrieves file by share token
+func (s *fileService) GetByShareToken(ctx context.Context, token string) (*structs.ReadFile, error) {
+	if len(token) < 10 {
+		return nil, errors.New("invalid share token")
+	}
+
+	// Extract file ID from token (simplified)
+	fileID := token[:len(token)-10] // Remove timestamp suffix
+
+	file, err := s.Get(ctx, fileID)
+	if err != nil {
+		return nil, err
+	}
+
+	// Verify token validity
+	if file.AccessLevel != structs.AccessLevelShared {
+		return nil, errors.New("file is not shared")
+	}
+
+	return file, nil
+}
+
+// Delete deletes file
 func (s *fileService) Delete(ctx context.Context, slug string) error {
 	if validator.IsEmpty(slug) {
 		return errors.New(ecode.FieldIsRequired("slug"))
 	}
 
-	storage, _ := ctxutil.GetStorage(ctx)
+	storageClient, _ := ctxutil.GetStorage(ctx)
 
 	// Get file details
 	row, err := s.fileRepo.GetByID(ctx, slug)
@@ -359,21 +473,23 @@ func (s *fileService) Delete(ctx context.Context, slug string) error {
 		thumbnailPath = tp
 	}
 
-	// Delete from database
+	// Delete from database first
 	err = s.fileRepo.Delete(ctx, slug)
 	if err != nil {
-		return errors.New("error deleting file")
+		return errors.New("error deleting file record")
 	}
 
-	// Delete from storage
-	if err := storage.Delete(row.Path); err != nil {
-		logger.Errorf(ctx, "Error deleting file: %v", err)
-	}
+	// Delete from storage (don't fail if storage deletion fails)
+	if storageClient != nil {
+		if err := storageClient.Delete(row.Path); err != nil {
+			logger.Errorf(ctx, "Error deleting file from storage: %v", err)
+		}
 
-	// Delete thumbnail
-	if thumbnailPath != "" {
-		if err := storage.Delete(thumbnailPath); err != nil {
-			logger.Warnf(ctx, "Error deleting thumbnail: %v", err)
+		// Delete thumbnail
+		if thumbnailPath != "" {
+			if err := storageClient.Delete(thumbnailPath); err != nil {
+				logger.Warnf(ctx, "Error deleting thumbnail: %v", err)
+			}
 		}
 	}
 
@@ -389,7 +505,6 @@ func (s *fileService) Delete(ctx context.Context, slug string) error {
 			Storage: row.Storage,
 			Bucket:  row.Bucket,
 			OwnerID: row.OwnerID,
-			SpaceID: row.SpaceID,
 			UserID:  userID,
 		}
 		s.publisher.PublishFileDeleted(ctx, eventData)
@@ -428,13 +543,16 @@ func (s *fileService) List(ctx context.Context, params *structs.ListFileParams) 
 	})
 }
 
-// GetFileStream retrieves file stream
+// GetFileStream gets file stream
 func (s *fileService) GetFileStream(ctx context.Context, slug string) (io.ReadCloser, *structs.ReadFile, error) {
 	if validator.IsEmpty(slug) {
 		return nil, nil, errors.New(ecode.FieldIsRequired("slug"))
 	}
 
-	storage, _ := ctxutil.GetStorage(ctx)
+	storageClient, _ := ctxutil.GetStorage(ctx)
+	if storageClient == nil {
+		return nil, nil, errors.New("storage not configured")
+	}
 
 	row, err := s.fileRepo.GetByID(ctx, slug)
 	if err != nil {
@@ -447,26 +565,63 @@ func (s *fileService) GetFileStream(ctx context.Context, slug string) (io.ReadCl
 	// Check expiration
 	extras := getExtrasFromFile(row)
 	if exp, ok := extras["expires_at"].(int64); ok {
-		if time.Now().Unix() > exp {
+		if time.Now().UnixMilli() > exp {
 			return nil, nil, errors.New("file access has expired")
 		}
 	}
 
-	fileStream, err := storage.GetStream(row.Path)
+	fileStream, err := storageClient.GetStream(row.Path)
 	if err != nil {
+		logger.Errorf(ctx, "Error retrieving file stream: %v", err)
 		return nil, nil, errors.New("error retrieving file stream")
 	}
 
 	return fileStream, s.serialize(row), nil
 }
 
+// GetFileStreamByID gets file stream by ID
+func (s *fileService) GetFileStreamByID(ctx context.Context, id string) (io.ReadCloser, error) {
+	storageClient, _ := ctxutil.GetStorage(ctx)
+	if storageClient == nil {
+		return nil, errors.New("storage not configured")
+	}
+
+	row, err := s.fileRepo.GetByID(ctx, id)
+	if err != nil {
+		return nil, errors.New("error retrieving file")
+	}
+
+	return storageClient.GetStream(row.Path)
+}
+
+// GetThumbnail gets thumbnail stream
+func (s *fileService) GetThumbnail(ctx context.Context, slug string) (io.ReadCloser, error) {
+	storageClient, _ := ctxutil.GetStorage(ctx)
+	if storageClient == nil {
+		return nil, errors.New("storage not configured")
+	}
+
+	row, err := s.fileRepo.GetByID(ctx, slug)
+	if err != nil {
+		return nil, errors.New("error retrieving file")
+	}
+
+	extras := getExtrasFromFile(row)
+	thumbnailPath, ok := extras["thumbnail_path"].(string)
+	if !ok || thumbnailPath == "" {
+		return nil, errors.New("thumbnail not found")
+	}
+
+	return storageClient.GetStream(thumbnailPath)
+}
+
 // SearchByTags searches files by tags
-func (s *fileService) SearchByTags(ctx context.Context, spaceID string, tags []string, limit int) ([]*structs.ReadFile, error) {
+func (s *fileService) SearchByTags(ctx context.Context, ownerID string, tags []string, limit int) ([]*structs.ReadFile, error) {
 	if len(tags) == 0 {
 		return nil, errors.New("at least one tag is required")
 	}
 
-	files, err := s.fileRepo.SearchByTags(ctx, spaceID, tags, limit)
+	files, err := s.fileRepo.SearchByTags(ctx, ownerID, tags, limit)
 	if err != nil {
 		return nil, err
 	}
@@ -479,7 +634,7 @@ func (s *fileService) SearchByTags(ctx context.Context, spaceID string, tags []s
 	return results, nil
 }
 
-// GeneratePublicURL generates a temporary public URL
+// GeneratePublicURL generates public URL
 func (s *fileService) GeneratePublicURL(ctx context.Context, slug string, expirationHours int) (string, error) {
 	row, err := s.fileRepo.GetByID(ctx, slug)
 	if err != nil {
@@ -489,31 +644,36 @@ func (s *fileService) GeneratePublicURL(ctx context.Context, slug string, expira
 	if expirationHours <= 0 {
 		expirationHours = 24
 	}
-	expiresAt := time.Now().Add(time.Duration(expirationHours) * time.Hour).Unix()
+	expiresAt := time.Now().Add(time.Duration(expirationHours) * time.Hour).UnixMilli()
 
 	extras := getExtrasFromFile(row)
 	extras["is_public"] = true
 	extras["expires_at"] = expiresAt
 
-	_, err = s.fileRepo.Update(ctx, slug, map[string]any{
+	_, err = s.fileRepo.Update(ctx, slug, types.JSON{
 		"extras": extras,
 	})
 	if err != nil {
 		return "", handleEntError(ctx, "File", err)
 	}
 
-	downloadURL := fmt.Sprintf("/res/files/%s?type=download&token=%d", row.ID, expiresAt)
+	// Generate share token (simplified)
+	shareToken := fmt.Sprintf("%s%d", row.ID, expiresAt)
+	downloadURL := fmt.Sprintf("/res/share/%s", shareToken)
 	return downloadURL, nil
 }
 
-// CreateVersion creates a new version of existing file
+// CreateVersion creates file version
 func (s *fileService) CreateVersion(ctx context.Context, slug string, file io.Reader, filename string) (*structs.ReadFile, error) {
 	existing, err := s.fileRepo.GetByID(ctx, slug)
 	if err != nil {
 		return nil, handleEntError(ctx, "File", err)
 	}
 
-	so, storageConfig := ctxutil.GetStorage(ctx)
+	storageClient, storageConfig := ctxutil.GetStorage(ctx)
+	if storageClient == nil || storageConfig == nil {
+		return nil, errors.New("storage not configured")
+	}
 
 	fileBytes, err := io.ReadAll(file)
 	if err != nil {
@@ -524,20 +684,23 @@ func (s *fileService) CreateVersion(ctx context.Context, slug string, file io.Re
 		closer.Close()
 	}
 
-	fileHeader := &storage.FileHeader{
-		Name: filename,
-		Size: len(fileBytes),
-		Path: fmt.Sprintf("versions/%s/%s", slug, filename),
-		Type: "", // Will be determined by content
+	// Generate version path using existing path prefix if available
+	ext := filepath.Ext(filename)
+	extras := getExtrasFromFile(existing)
+
+	var versionPath string
+	if pathPrefix, hasPrefix := extras["path_prefix"].(string); hasPrefix && pathPrefix != "" {
+		versionPath = s.generateVersionPathWithPrefix(existing.OwnerID, slug, filename, pathPrefix)
+	} else {
+		versionPath = s.generateVersionPath(existing.OwnerID, slug, filename)
 	}
 
-	_, err = so.Put(fileHeader.Path, bytes.NewReader(fileBytes))
+	_, err = storageClient.Put(versionPath, bytes.NewReader(fileBytes))
 	if err != nil {
 		return nil, fmt.Errorf("failed to store file version: %w", err)
 	}
 
 	// Extract current extras
-	extras := getExtrasFromFile(existing)
 	var versions []string
 	if v, ok := extras["versions"].([]string); ok {
 		versions = v
@@ -545,21 +708,18 @@ func (s *fileService) CreateVersion(ctx context.Context, slug string, file io.Re
 	versions = append(versions, existing.ID)
 
 	createBody := &structs.CreateFileBody{
-		Name:     fileHeader.Name,
-		Path:     fileHeader.Path,
-		Type:     fileHeader.Type,
-		Size:     &fileHeader.Size,
-		Storage:  storageConfig.Provider,
-		Bucket:   storageConfig.Bucket,
-		Endpoint: storageConfig.Endpoint,
-		OwnerID:  existing.OwnerID,
-		SpaceID:  existing.SpaceID,
+		Name:         strings.TrimSuffix(filename, ext),
+		OriginalName: filename,
+		Path:         versionPath,
+		Type:         existing.Type,
+		Size:         &[]int{len(fileBytes)}[0],
+		Storage:      storageConfig.Provider,
+		Bucket:       storageConfig.Bucket,
+		Endpoint:     storageConfig.Endpoint,
+		OwnerID:      existing.OwnerID,
 	}
 
 	// Copy extended properties
-	if folderPath, ok := extras["folder_path"].(string); ok {
-		createBody.FolderPath = folderPath
-	}
 	if accessLevel, ok := extras["access_level"].(string); ok {
 		createBody.AccessLevel = structs.AccessLevel(accessLevel)
 	}
@@ -573,7 +733,7 @@ func (s *fileService) CreateVersion(ctx context.Context, slug string, file io.Re
 	return s.Create(ctx, createBody)
 }
 
-// GetVersions retrieves all versions of a file
+// GetVersions gets file versions
 func (s *fileService) GetVersions(ctx context.Context, slug string) ([]*structs.ReadFile, error) {
 	current, err := s.Get(ctx, slug)
 	if err != nil {
@@ -618,7 +778,7 @@ func (s *fileService) SetAccessLevel(ctx context.Context, slug string, accessLev
 	extras["access_level"] = string(accessLevel)
 	extras["is_public"] = accessLevel == structs.AccessLevelPublic
 
-	updated, err := s.fileRepo.Update(ctx, slug, map[string]any{
+	updated, err := s.fileRepo.Update(ctx, slug, types.JSON{
 		"extras": extras,
 	})
 	if err != nil {
@@ -628,7 +788,7 @@ func (s *fileService) SetAccessLevel(ctx context.Context, slug string, accessLev
 	return s.serialize(updated), nil
 }
 
-// CreateThumbnail creates thumbnail for image file
+// CreateThumbnail creates thumbnail
 func (s *fileService) CreateThumbnail(ctx context.Context, slug string, options *structs.ProcessingOptions) (*structs.ReadFile, error) {
 	row, err := s.fileRepo.GetByID(ctx, slug)
 	if err != nil {
@@ -647,9 +807,12 @@ func (s *fileService) CreateThumbnail(ctx context.Context, slug string, options 
 		}
 	}
 
-	storage, _ := ctxutil.GetStorage(ctx)
+	storageClient, _ := ctxutil.GetStorage(ctx)
+	if storageClient == nil {
+		return nil, errors.New("storage not configured")
+	}
 
-	file, err := storage.Get(row.Path)
+	file, err := storageClient.GetStream(row.Path)
 	if err != nil {
 		return nil, fmt.Errorf("error retrieving file: %w", err)
 	}
@@ -671,8 +834,8 @@ func (s *fileService) CreateThumbnail(ctx context.Context, slug string, options 
 		return nil, fmt.Errorf("error creating thumbnail: %w", err)
 	}
 
-	thumbnailPath := fmt.Sprintf("thumbnails/%s", row.Path)
-	_, err = storage.Put(thumbnailPath, bytes.NewReader(thumbnailBytes))
+	thumbnailPath := s.generateThumbnailPath(row.Path)
+	_, err = storageClient.Put(thumbnailPath, bytes.NewReader(thumbnailBytes))
 	if err != nil {
 		return nil, fmt.Errorf("error storing thumbnail: %w", err)
 	}
@@ -680,7 +843,7 @@ func (s *fileService) CreateThumbnail(ctx context.Context, slug string, options 
 	extras := getExtrasFromFile(row)
 	extras["thumbnail_path"] = thumbnailPath
 
-	updated, err := s.fileRepo.Update(ctx, slug, map[string]any{
+	updated, err := s.fileRepo.Update(ctx, slug, types.JSON{
 		"extras": extras,
 	})
 	if err != nil {
@@ -690,69 +853,147 @@ func (s *fileService) CreateThumbnail(ctx context.Context, slug string, options 
 	return s.serialize(updated), nil
 }
 
+// GetTagsByOwner gets tags by owner
+func (s *fileService) GetTagsByOwner(ctx context.Context, ownerID string) ([]string, error) {
+	return s.fileRepo.GetTagsByOwner(ctx, ownerID)
+}
+
+// Helper methods
+
+// generateUniqueStoragePathWithPrefix generates storage path with custom prefix
+func (s *fileService) generateUniqueStoragePathWithPrefix(ownerID, fileName, ext, prefix string) string {
+	return s.generateUniqueStoragePath(fileName, ext, &ownerID, &prefix)
+}
+
+// generateUniqueStoragePath generates default unique storage path
+func (s *fileService) generateUniqueStoragePath(fileName, ext string, ownerID, pathPrefix *string) string {
+	timestamp := time.Now().Unix()
+	randomID := nanoid.Number(8)
+
+	// Clean filename
+	cleanName := strings.ReplaceAll(fileName, " ", "_")
+	cleanName = strings.ReplaceAll(cleanName, "/", "_")
+
+	pathParts := []string{}
+
+	// Add pathPrefix if provided
+	if pathPrefix != nil && *pathPrefix != "" {
+		pathParts = append(pathParts, *pathPrefix)
+	}
+
+	// Add ownerID if provided
+	if ownerID != nil && *ownerID != "" {
+		pathParts = append(pathParts, *ownerID)
+	}
+
+	// Add filename with timestamp and random ID
+	filename := fmt.Sprintf("%d_%s_%s%s", timestamp, randomID, cleanName, ext)
+	pathParts = append(pathParts, filename)
+
+	return strings.Join(pathParts, "/")
+}
+
+// generateUniqueName generates unique name for database
+func (s *fileService) generateUniqueName(originalName string) string {
+	timestamp := time.Now().Unix()
+	randomID := nanoid.Number(6)
+	return fmt.Sprintf("%s_%d_%s", originalName, timestamp, randomID)
+}
+
+// generateThumbnailPath generates thumbnail storage path
+func (s *fileService) generateThumbnailPath(originalPath string) string {
+	dir := filepath.Dir(originalPath)
+	fileName := filepath.Base(originalPath)
+	ext := filepath.Ext(fileName)
+	nameWithoutExt := strings.TrimSuffix(fileName, ext)
+
+	return fmt.Sprintf("%s/thumbnails/%s_thumb.jpg", dir, nameWithoutExt)
+}
+
+// generateVersionPath generates version storage path
+func (s *fileService) generateVersionPath(ownerID, parentSlug, fileName string) string {
+	timestamp := time.Now().Unix()
+	randomID := nanoid.Number(6)
+	ext := filepath.Ext(fileName)
+	nameWithoutExt := strings.TrimSuffix(fileName, ext)
+
+	return fmt.Sprintf("files/%s/versions/%s/%d_%s_%s%s",
+		ownerID, parentSlug, timestamp, randomID, nameWithoutExt, ext)
+}
+
+// generateVersionPathWithPrefix generates version storage path with custom prefix
+func (s *fileService) generateVersionPathWithPrefix(ownerID, parentSlug, fileName, prefix string) string {
+	timestamp := time.Now().Unix()
+	randomID := nanoid.Number(6)
+	ext := filepath.Ext(fileName)
+	nameWithoutExt := strings.TrimSuffix(fileName, ext)
+
+	return fmt.Sprintf("%s/%s/versions/%s/%d_%s_%s%s",
+		prefix, ownerID, parentSlug, timestamp, randomID, nameWithoutExt, ext)
+}
+
+// getExtensionFromMimeType attempts to get file extension from MIME type
+func (s *fileService) getExtensionFromMimeType(mimeType string) string {
+	mimeToExt := map[string]string{
+		"image/jpeg":       ".jpg",
+		"image/png":        ".png",
+		"image/gif":        ".gif",
+		"image/webp":       ".webp",
+		"text/plain":       ".txt",
+		"application/pdf":  ".pdf",
+		"application/json": ".json",
+		"video/mp4":        ".mp4",
+		"video/avi":        ".avi",
+		"audio/mp3":        ".mp3",
+		"audio/wav":        ".wav",
+	}
+
+	if ext, ok := mimeToExt[mimeType]; ok {
+		return ext
+	}
+	return ""
+}
+
 // serialize converts ent.File to structs.ReadFile
 func (s *fileService) serialize(row *ent.File) *structs.ReadFile {
 	extras := getExtrasFromFile(row)
 
 	file := &structs.ReadFile{
-		ID:        row.ID,
-		Name:      row.Name,
-		Path:      row.Path,
-		Type:      row.Type,
-		Size:      &row.Size,
-		Storage:   row.Storage,
-		Bucket:    row.Bucket,
-		Endpoint:  row.Endpoint,
-		OwnerID:   row.OwnerID,
-		SpaceID:   row.SpaceID,
-		Extras:    &row.Extras,
-		CreatedBy: &row.CreatedBy,
-		CreatedAt: &row.CreatedAt,
-		UpdatedBy: &row.UpdatedBy,
-		UpdatedAt: &row.UpdatedAt,
+		ID:           row.ID,
+		Name:         row.Name,
+		OriginalName: row.OriginalName,
+		Path:         row.Path,
+		Type:         row.Type,
+		Size:         &row.Size,
+		Storage:      row.Storage,
+		Bucket:       row.Bucket,
+		Endpoint:     row.Endpoint,
+		AccessLevel:  structs.AccessLevel(row.AccessLevel),
+		ExpiresAt:    row.ExpiresAt,
+		Tags:         row.Tags,
+		IsPublic:     row.IsPublic,
+		Category:     structs.FileCategory(row.Category),
+		Hash:         row.Hash,
+		OwnerID:      row.OwnerID,
+		Extras:       &row.Extras,
+		CreatedBy:    &row.CreatedBy,
+		CreatedAt:    &row.CreatedAt,
+		UpdatedBy:    &row.UpdatedBy,
+		UpdatedAt:    &row.UpdatedAt,
 	}
 
-	// Extract from extras
-	if folderPath, ok := extras["folder_path"].(string); ok {
-		file.FolderPath = folderPath
-	}
-	if accessLevel, ok := extras["access_level"].(string); ok {
-		file.AccessLevel = structs.AccessLevel(accessLevel)
-	}
-	if tags, ok := extras["tags"].([]string); ok {
-		file.Tags = tags
-	}
-	if isPublic, ok := extras["is_public"].(bool); ok {
-		file.IsPublic = isPublic
-	}
-	if category, ok := extras["category"].(string); ok {
-		file.Category = structs.FileCategory(category)
-	}
-	if exp, ok := extras["expires_at"].(int64); ok {
-		file.ExpiresAt = &exp
-		file.IsExpired = time.Now().Unix() > exp
+	// Check expiration
+	if file.ExpiresAt != nil {
+		file.IsExpired = time.Now().UnixMilli() > *file.ExpiresAt
 	}
 
 	// Set URLs if public
 	if file.IsPublic {
-		file.DownloadURL = fmt.Sprintf("/res/files/%s?type=download", row.ID)
+		file.DownloadURL = fmt.Sprintf("/res/dl/%s", row.ID)
 		if thumbnailPath, ok := extras["thumbnail_path"].(string); ok && thumbnailPath != "" {
-			file.ThumbnailURL = fmt.Sprintf("/res/files/%s?type=thumbnail", row.ID)
+			file.ThumbnailURL = fmt.Sprintf("/res/thumb/%s", row.ID)
 		}
 	}
 
 	return file
-}
-
-// Helper functions
-func getExtrasFromFile(file *ent.File) map[string]any {
-	if file == nil || file.Extras == nil {
-		return make(map[string]any)
-	}
-
-	extras := make(map[string]any)
-	for k, v := range file.Extras {
-		extras[k] = v
-	}
-	return extras
 }

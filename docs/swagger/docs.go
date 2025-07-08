@@ -435,13 +435,13 @@ const docTemplate = `{
                         "in": "query"
                     },
                     {
-                        "type": "integer",
-                        "name": "status",
+                        "type": "string",
+                        "name": "space_id",
                         "in": "query"
                     },
                     {
-                        "type": "string",
-                        "name": "space",
+                        "type": "integer",
+                        "name": "status",
                         "in": "query"
                     },
                     {
@@ -667,13 +667,13 @@ const docTemplate = `{
                         "in": "query"
                     },
                     {
-                        "type": "integer",
-                        "name": "status",
+                        "type": "string",
+                        "name": "space_id",
                         "in": "query"
                     },
                     {
-                        "type": "string",
-                        "name": "space",
+                        "type": "integer",
+                        "name": "status",
                         "in": "query"
                     },
                     {
@@ -971,7 +971,7 @@ const docTemplate = `{
         },
         "/cms/media": {
             "get": {
-                "description": "Retrieve a list of media resources.",
+                "description": "Retrieve a list of media resources with optional filtering",
                 "produces": [
                     "application/json"
                 ],
@@ -997,12 +997,17 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
+                        "name": "owner_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
                         "name": "search",
                         "in": "query"
                     },
                     {
                         "type": "string",
-                        "name": "space",
+                        "name": "space_id",
                         "in": "query"
                     },
                     {
@@ -1035,7 +1040,7 @@ const docTemplate = `{
                         "Bearer": []
                     }
                 ],
-                "description": "Create a new media resource.",
+                "description": "Create a new media resource with resource file reference or external URL",
                 "consumes": [
                     "application/json"
                 ],
@@ -1075,7 +1080,7 @@ const docTemplate = `{
         },
         "/cms/media/{id}": {
             "get": {
-                "description": "Retrieve details of a media resource.",
+                "description": "Retrieve details of a media resource with resource file reference",
                 "produces": [
                     "application/json"
                 ],
@@ -1113,7 +1118,7 @@ const docTemplate = `{
                         "Bearer": []
                     }
                 ],
-                "description": "Update an existing media resource.",
+                "description": "Update an existing media resource",
                 "consumes": [
                     "application/json"
                 ],
@@ -1163,7 +1168,7 @@ const docTemplate = `{
                         "Bearer": []
                     }
                 ],
-                "description": "Delete an existing media resource.",
+                "description": "Delete an existing media resource (note: does not delete the referenced resource file)",
                 "produces": [
                     "application/json"
                 ],
@@ -1239,14 +1244,13 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "name": "space",
+                        "name": "space_id",
                         "in": "query"
                     },
                     {
                         "type": "string",
                         "name": "type",
-                        "in": "query",
-                        "required": true
+                        "in": "query"
                     }
                 ],
                 "responses": {
@@ -1785,12 +1789,12 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "name": "taxonomy",
+                        "name": "space_id",
                         "in": "query"
                     },
                     {
                         "type": "string",
-                        "name": "space",
+                        "name": "taxonomy",
                         "in": "query"
                     }
                 ],
@@ -2027,17 +2031,17 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
+                        "name": "space",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
                         "name": "status",
                         "in": "query"
                     },
                     {
                         "type": "string",
                         "name": "template_id",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "name": "space",
                         "in": "query"
                     }
                 ],
@@ -2364,12 +2368,12 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "name": "task_id",
+                        "name": "space",
                         "in": "query"
                     },
                     {
                         "type": "string",
-                        "name": "space",
+                        "name": "task_id",
                         "in": "query"
                     },
                     {
@@ -2523,12 +2527,12 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "name": "status",
+                        "name": "space",
                         "in": "query"
                     },
                     {
                         "type": "string",
-                        "name": "space",
+                        "name": "status",
                         "in": "query"
                     },
                     {
@@ -2984,12 +2988,12 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "name": "template_id",
+                        "name": "space",
                         "in": "query"
                     },
                     {
                         "type": "string",
-                        "name": "space",
+                        "name": "template_id",
                         "in": "query"
                     }
                 ],
@@ -3414,12 +3418,12 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "name": "status",
+                        "name": "space",
                         "in": "query"
                     },
                     {
                         "type": "string",
-                        "name": "space",
+                        "name": "status",
                         "in": "query"
                     }
                 ],
@@ -4018,17 +4022,17 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
+                        "name": "space",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
                         "name": "status",
                         "in": "query"
                     },
                     {
                         "type": "string",
                         "name": "template_id",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "name": "space",
                         "in": "query"
                     },
                     {
@@ -4467,12 +4471,12 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "name": "status",
+                        "name": "space",
                         "in": "query"
                     },
                     {
                         "type": "string",
-                        "name": "space",
+                        "name": "status",
                         "in": "query"
                     }
                 ],
@@ -5134,12 +5138,12 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "name": "status",
+                        "name": "space",
                         "in": "query"
                     },
                     {
                         "type": "string",
-                        "name": "space",
+                        "name": "status",
                         "in": "query"
                     },
                     {
@@ -5801,603 +5805,6 @@ const docTemplate = `{
                 "responses": {
                     "200": {
                         "description": "success",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
-                        }
-                    }
-                }
-            }
-        },
-        "/org/orgs": {
-            "get": {
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
-                "description": "Retrieve a list or tree structure of orgs.",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "org"
-                ],
-                "summary": "List orgs",
-                "parameters": [
-                    {
-                        "type": "boolean",
-                        "name": "children",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "name": "cursor",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "name": "direction",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "name": "limit",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "name": "parent",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "name": "sort_by",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/ncobase_space_structs.ReadOrganization"
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
-                        }
-                    }
-                }
-            },
-            "put": {
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
-                "description": "Update an existing group.",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "org"
-                ],
-                "summary": "Update group",
-                "parameters": [
-                    {
-                        "description": "UpdateGroupBody object",
-                        "name": "body",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/ncobase_space_structs.UpdateGroupBody"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "$ref": "#/definitions/ncobase_space_structs.ReadOrganization"
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
-                        }
-                    }
-                }
-            },
-            "post": {
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
-                "description": "Create a new group.",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "org"
-                ],
-                "summary": "Create group",
-                "parameters": [
-                    {
-                        "description": "GroupBody object",
-                        "name": "body",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/ncobase_space_structs.GroupBody"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "$ref": "#/definitions/ncobase_space_structs.ReadOrganization"
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
-                        }
-                    }
-                }
-            }
-        },
-        "/org/orgs/{orgId}": {
-            "get": {
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
-                "description": "Retrieve a organization by ID or slug.",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "org"
-                ],
-                "summary": "Get group",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Organization ID or slug",
-                        "name": "orgId",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "boolean",
-                        "name": "children",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "name": "group",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "name": "parent",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "name": "sort_by",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "$ref": "#/definitions/ncobase_space_structs.ReadOrganization"
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
-                "description": "Delete a organization by ID or slug.",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "org"
-                ],
-                "summary": "Delete group",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Organization ID or slug",
-                        "name": "orgId",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
-                        }
-                    }
-                }
-            }
-        },
-        "/org/orgs/{orgId}/members": {
-            "get": {
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
-                "description": "Get all members of a specific group",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "org"
-                ],
-                "summary": "Get group members",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Organization ID or Slug",
-                        "name": "orgId",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/ncobase_space_structs.GroupMember"
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
-                        }
-                    }
-                }
-            },
-            "post": {
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
-                "description": "Add a user to a organization with a specified role",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "org"
-                ],
-                "summary": "Add member to group",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Organization ID or Slug",
-                        "name": "orgId",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "description": "User details to add",
-                        "name": "body",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/ncobase_space_structs.AddMemberRequest"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "$ref": "#/definitions/ncobase_space_structs.GroupMember"
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
-                        }
-                    }
-                }
-            }
-        },
-        "/org/orgs/{orgId}/members/{userId}": {
-            "put": {
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
-                "description": "Update a member's role in a organization",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "org"
-                ],
-                "summary": "Update group member",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Organization ID or Slug",
-                        "name": "orgId",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "User ID",
-                        "name": "userId",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "description": "Role update",
-                        "name": "body",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/ncobase_space_structs.UpdateMemberRequest"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "$ref": "#/definitions/ncobase_space_structs.GroupMember"
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
-                "description": "Remove a user from a organization",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "org"
-                ],
-                "summary": "Remove group member",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Organization ID or Slug",
-                        "name": "orgId",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "User ID",
-                        "name": "userId",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
-                        }
-                    }
-                }
-            }
-        },
-        "/org/orgs/{orgId}/members/{userId}/check": {
-            "get": {
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
-                "description": "Check if a user is a member of a organization",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "org"
-                ],
-                "summary": "Check if user is a member",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Organization ID or Slug",
-                        "name": "orgId",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "User ID",
-                        "name": "userId",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "boolean"
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
-                        }
-                    }
-                }
-            }
-        },
-        "/org/orgs/{orgId}/members/{userId}/is-owner": {
-            "get": {
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
-                "description": "Check if a user has owner role in a organization",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "org"
-                ],
-                "summary": "Check if user is an owner",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Organization ID or Slug",
-                        "name": "orgId",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "User ID",
-                        "name": "userId",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "boolean"
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
-                        }
-                    }
-                }
-            }
-        },
-        "/org/orgs/{orgId}/members/{userId}/role": {
-            "get": {
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
-                "description": "Get a user's role in a organization",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "org"
-                ],
-                "summary": "Get user role",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Organization ID or Slug",
-                        "name": "orgId",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "User ID",
-                        "name": "userId",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
                         "schema": {
                             "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
                         }
@@ -8775,15 +8182,176 @@ const docTemplate = `{
         },
         "/res": {
             "get": {
-                "description": "List files based on specified parameters.",
+                "description": "List files based on specified parameters",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "res"
+                    "Resource"
                 ],
-                "summary": "List files",
+                "summary": "List files with flexible filtering",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Pagination cursor",
+                        "name": "cursor",
+                        "in": "query"
+                    },
+                    {
+                        "maximum": 100,
+                        "type": "integer",
+                        "description": "Number of items per page (max 100)",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "enum": [
+                            "forward",
+                            "backward"
+                        ],
+                        "type": "string",
+                        "description": "Pagination direction",
+                        "name": "direction",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Owner ID for filtering",
+                        "name": "owner_id",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Created by user filter",
+                        "name": "user",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Content type filter",
+                        "name": "type",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Storage provider filter",
+                        "name": "storage",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "File category filter",
+                        "name": "category",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Comma-separated tags filter",
+                        "name": "tags",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Access level filter",
+                        "name": "access_level",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Path prefix filter",
+                        "name": "path_prefix",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Created after timestamp",
+                        "name": "created_after",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Created before timestamp",
+                        "name": "created_before",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Minimum file size in bytes",
+                        "name": "size_min",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Maximum file size in bytes",
+                        "name": "size_max",
+                        "in": "query"
+                    },
+                    {
+                        "type": "boolean",
+                        "description": "Public flag filter",
+                        "name": "is_public",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Search query",
+                        "name": "q",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Paginated file list",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_resource_structs.Result-ncobase_resource_structs_ReadFile"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Create one or multiple files with optional path organization",
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Resource"
+                ],
+                "summary": "Create files with flexible path structure",
+                "parameters": [
+                    {
+                        "type": "file",
+                        "description": "File to upload",
+                        "name": "file",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Owner ID (optional for storage path)",
+                        "name": "owner_id",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Custom path prefix (e.g., avatars, documents, public)",
+                        "name": "path_prefix",
+                        "in": "formData"
+                    },
                     {
                         "enum": [
                             "public",
@@ -8791,122 +8359,163 @@ const docTemplate = `{
                             "shared"
                         ],
                         "type": "string",
-                        "x-enum-comments": {
-                            "AccessLevelPrivate": "Only accessible to owner",
-                            "AccessLevelPublic": "Accessible to anyone",
-                            "AccessLevelShared": "Shared with specific users/orgs"
-                        },
-                        "x-enum-varnames": [
-                            "AccessLevelPublic",
-                            "AccessLevelPrivate",
-                            "AccessLevelShared"
-                        ],
+                        "description": "Access level",
                         "name": "access_level",
-                        "in": "query"
-                    },
-                    {
-                        "enum": [
-                            "image",
-                            "document",
-                            "video",
-                            "audio",
-                            "archive",
-                            "other"
-                        ],
-                        "type": "string",
-                        "x-enum-varnames": [
-                            "FileCategoryImage",
-                            "FileCategoryDocument",
-                            "FileCategoryVideo",
-                            "FileCategoryAudio",
-                            "FileCategoryArchive",
-                            "FileCategoryOther"
-                        ],
-                        "name": "category",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "name": "created_after",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "name": "created_before",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "name": "cursor",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "name": "direction",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "name": "folder_path",
-                        "in": "query"
+                        "in": "formData"
                     },
                     {
                         "type": "boolean",
+                        "description": "Public access flag",
                         "name": "is_public",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "name": "limit",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "name": "object",
-                        "in": "query",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Full-text search",
-                        "name": "q",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "name": "size_max",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "name": "size_min",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "name": "storage",
-                        "in": "query"
+                        "in": "formData"
                     },
                     {
                         "type": "string",
                         "description": "Comma-separated tags",
                         "name": "tags",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Processing options (JSON)",
+                        "name": "processing_options",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Expiration timestamp",
+                        "name": "expires_at",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Additional properties (JSON)",
+                        "name": "extras",
+                        "in": "formData"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Batch upload result",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "errors": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                },
+                                "failed": {
+                                    "type": "integer"
+                                },
+                                "files": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/ncobase_resource_structs.ReadFile"
+                                    }
+                                },
+                                "success": {
+                                    "type": "integer"
+                                },
+                                "total": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "413": {
+                        "description": "File too large",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/res/admin/batch/cleanup": {
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Perform batch cleanup operations",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Resource Admin"
+                ],
+                "summary": "Admin batch cleanup",
+                "parameters": [
+                    {
+                        "description": "Cleanup parameters",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_resource_structs.BatchCleanupRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_resource_structs.BatchCleanupResult"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/res/admin/batch/jobs": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "List all batch jobs",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Resource Admin"
+                ],
+                "summary": "Admin list batch jobs",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Job status filter",
+                        "name": "status",
                         "in": "query"
                     },
                     {
-                        "type": "string",
-                        "name": "space",
-                        "in": "query",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "name": "type",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "name": "user",
+                        "type": "integer",
+                        "description": "Limit",
+                        "name": "limit",
                         "in": "query"
                     }
                 ],
@@ -8914,10 +8523,281 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/ncobase_resource_structs.ReadFile"
-                            }
+                            "$ref": "#/definitions/ncobase_resource_structs.BatchJobListResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/res/admin/batch/jobs/{job_id}/cancel": {
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Cancel a specific batch job",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Resource Admin"
+                ],
+                "summary": "Admin cancel batch job",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Job ID",
+                        "name": "job_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/res/admin/files": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "List all files with admin view",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Resource Admin"
+                ],
+                "summary": "Admin list files",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Limit",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Offset",
+                        "name": "offset",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Status filter",
+                        "name": "status",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "User filter",
+                        "name": "user_id",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_resource_structs.AdminFileListResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/res/admin/files/{slug}": {
+            "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Delete file with admin privileges",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Resource Admin"
+                ],
+                "summary": "Admin delete file",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "File slug",
+                        "name": "slug",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/res/admin/files/{slug}/status": {
+            "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Set file status with admin privileges",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Resource Admin"
+                ],
+                "summary": "Admin set file status",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "File slug",
+                        "name": "slug",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Status update",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_resource_structs.AdminSetStatusRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_resource_structs.FileResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/res/admin/quotas": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "List all user quotas",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Resource Admin"
+                ],
+                "summary": "Admin list quotas",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Limit",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Offset",
+                        "name": "offset",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_resource_structs.AdminQuotaListResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/res/admin/quotas/{user_id}": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Get storage quota for a specific user",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Resource Admin"
+                ],
+                "summary": "Admin get user quota",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "user_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_resource_structs.QuotaInfo"
                         }
                     },
                     "400": {
@@ -8934,49 +8814,332 @@ const docTemplate = `{
                         "Bearer": []
                     }
                 ],
-                "description": "Create one or multiple files.",
+                "description": "Set storage quota for a specific user",
                 "consumes": [
-                    "multipart/form-data"
+                    "application/json"
                 ],
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "res"
+                    "Resource Admin"
                 ],
-                "summary": "Create files",
+                "summary": "Admin set user quota",
                 "parameters": [
                     {
-                        "type": "file",
-                        "description": "File to upload",
-                        "name": "file",
-                        "in": "formData",
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "user_id",
+                        "in": "path",
                         "required": true
                     },
                     {
-                        "type": "string",
-                        "description": "Object ID associated with the file",
-                        "name": "object_id",
-                        "in": "formData"
-                    },
-                    {
-                        "type": "string",
-                        "description": "Space ID associated with the file",
-                        "name": "space_id",
-                        "in": "formData"
-                    },
-                    {
-                        "type": "string",
-                        "description": "Additional properties associated with the file (JSON format)",
-                        "name": "extras",
-                        "in": "formData"
+                        "description": "Quota settings",
+                        "name": "quota",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_resource_structs.QuotaSetRequest"
+                        }
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_resource_structs.ReadFile"
+                            "$ref": "#/definitions/ncobase_resource_structs.QuotaInfo"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Delete storage quota for a specific user",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Resource Admin"
+                ],
+                "summary": "Admin delete user quota",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "user_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/res/admin/stats": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Get storage statistics for admin dashboard",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Resource Admin"
+                ],
+                "summary": "Get storage stats",
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_resource_structs.StorageStats"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/res/admin/stats/activity": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Get file activity statistics",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Resource Admin"
+                ],
+                "summary": "Get activity stats",
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_resource_structs.ActivityStats"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/res/admin/stats/usage": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Get detailed usage statistics",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Resource Admin"
+                ],
+                "summary": "Get usage stats",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Time period (day/week/month)",
+                        "name": "period",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_resource_structs.UsageStats"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/res/admin/storage/backup": {
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Initiate storage backup process",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Resource Admin"
+                ],
+                "summary": "Admin initiate backup",
+                "parameters": [
+                    {
+                        "description": "Backup parameters",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_resource_structs.BackupRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_resource_structs.BackupResult"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/res/admin/storage/health": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Get storage system health status",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Resource Admin"
+                ],
+                "summary": "Admin get storage health",
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_resource_structs.StorageHealth"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/res/admin/storage/optimize": {
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Optimize storage system",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Resource Admin"
+                ],
+                "summary": "Admin optimize storage",
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_resource_structs.OptimizeResult"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/res/batch/delete": {
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Delete multiple files in a batch",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Resource"
+                ],
+                "summary": "Batch delete",
+                "parameters": [
+                    {
+                        "description": "Delete parameters",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_resource_structs.BatchDeleteResult"
                         }
                     },
                     "400": {
@@ -9003,7 +9166,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "res"
+                    "Resource"
                 ],
                 "summary": "Batch process",
                 "parameters": [
@@ -9052,7 +9215,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "res"
+                    "Resource"
                 ],
                 "summary": "Batch upload",
                 "parameters": [
@@ -9065,22 +9228,15 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "Space ID",
-                        "name": "space_id",
+                        "description": "Owner ID",
+                        "name": "owner_id",
                         "in": "formData",
                         "required": true
                     },
                     {
                         "type": "string",
-                        "description": "Object ID",
-                        "name": "object_id",
-                        "in": "formData",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Virtual folder path",
-                        "name": "folder_path",
+                        "description": "Path prefix",
+                        "name": "path_prefix",
                         "in": "formData"
                     },
                     {
@@ -9130,7 +9286,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "res"
+                    "Resource"
                 ],
                 "summary": "List file categories",
                 "responses": {
@@ -9146,89 +9302,37 @@ const docTemplate = `{
                 }
             }
         },
-        "/res/quotas": {
+        "/res/dl/{slug}": {
             "get": {
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
-                "description": "Get the storage quota for a space",
+                "description": "Download a public file directly",
                 "produces": [
-                    "application/json"
+                    "application/octet-stream"
                 ],
                 "tags": [
-                    "res"
+                    "Resource Public"
                 ],
-                "summary": "Get storage quota",
+                "summary": "Download public file",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Space ID",
-                        "name": "space_id",
-                        "in": "query",
+                        "description": "File slug",
+                        "name": "slug",
+                        "in": "path",
                         "required": true
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "success",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "integer"
-                            }
-                        }
+                        "description": "File content"
                     },
                     "400": {
                         "description": "bad request",
                         "schema": {
                             "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
                         }
-                    }
-                }
-            },
-            "put": {
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
-                "description": "Set the storage quota for a space",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "res"
-                ],
-                "summary": "Set storage quota",
-                "parameters": [
-                    {
-                        "description": "Quota information",
-                        "name": "body",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "integer"
-                            }
-                        }
                     },
-                    "400": {
-                        "description": "bad request",
+                    "404": {
+                        "description": "file not found or not public",
                         "schema": {
                             "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
                         }
@@ -9236,36 +9340,29 @@ const docTemplate = `{
                 }
             }
         },
-        "/res/quotas/usage": {
+        "/res/quota": {
             "get": {
                 "security": [
                     {
                         "Bearer": []
                     }
                 ],
-                "description": "Get the current storage usage for a space",
+                "description": "Get storage quota for current user",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "res"
+                    "Resource"
                 ],
-                "summary": "Get storage usage",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Space ID",
-                        "name": "space_id",
-                        "in": "query",
-                        "required": true
-                    }
-                ],
+                "summary": "Get my storage quota",
                 "responses": {
                     "200": {
                         "description": "success",
                         "schema": {
                             "type": "object",
-                            "additionalProperties": true
+                            "additionalProperties": {
+                                "type": "integer"
+                            }
                         }
                     },
                     "400": {
@@ -9285,21 +9382,18 @@ const docTemplate = `{
                     }
                 ],
                 "description": "Search files by various criteria",
-                "consumes": [
-                    "application/json"
-                ],
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "res"
+                    "Resource"
                 ],
                 "summary": "Search files",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Space ID",
-                        "name": "space",
+                        "description": "Owner ID",
+                        "name": "owner_id",
                         "in": "query",
                         "required": true
                     },
@@ -9322,15 +9416,15 @@ const docTemplate = `{
                         "in": "query"
                     },
                     {
-                        "type": "string",
-                        "description": "Folder path",
-                        "name": "folder_path",
-                        "in": "query"
-                    },
-                    {
                         "type": "boolean",
                         "description": "Public flag",
                         "name": "is_public",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Number of results",
+                        "name": "limit",
                         "in": "query"
                     }
                 ],
@@ -9353,27 +9447,22 @@ const docTemplate = `{
                 }
             }
         },
-        "/res/stats": {
+        "/res/share/{token}": {
             "get": {
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
-                "description": "Get storage usage statistics for a space",
+                "description": "Access a shared file using share token",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "res"
+                    "Resource Public"
                 ],
-                "summary": "Get storage statistics",
+                "summary": "Get shared file",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Space ID",
-                        "name": "space_id",
-                        "in": "query",
+                        "description": "Share token",
+                        "name": "token",
+                        "in": "path",
                         "required": true
                     }
                 ],
@@ -9381,8 +9470,53 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/ncobase_resource_structs.ReadFile"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "404": {
+                        "description": "invalid or expired share token",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/res/status/{job_id}": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Get status of a batch operation",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Resource"
+                ],
+                "summary": "Get batch status",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Job ID",
+                        "name": "job_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_resource_structs.BatchStatus"
                         }
                     },
                     "400": {
@@ -9401,19 +9535,19 @@ const docTemplate = `{
                         "Bearer": []
                     }
                 ],
-                "description": "List all tags used in files for a space",
+                "description": "List all tags used in files for an owner",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "res"
+                    "Resource"
                 ],
                 "summary": "List file tags",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Space ID",
-                        "name": "space_id",
+                        "description": "Owner ID",
+                        "name": "owner_id",
                         "in": "query",
                         "required": true
                     }
@@ -9437,29 +9571,134 @@ const docTemplate = `{
                 }
             }
         },
-        "/res/{slug}": {
+        "/res/thumb/{slug}": {
             "get": {
-                "description": "Get details of a specific file.",
+                "description": "Get thumbnail image for a file",
+                "produces": [
+                    "image/jpeg"
+                ],
+                "tags": [
+                    "Resource Public"
+                ],
+                "summary": "Get file thumbnail",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "File slug",
+                        "name": "slug",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Thumbnail image"
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "404": {
+                        "description": "thumbnail not found",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/res/usage": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Get current storage usage for current user",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "res"
+                    "Resource"
+                ],
+                "summary": "Get my storage usage",
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/res/view/{slug}": {
+            "get": {
+                "description": "Get details of a public file by slug",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Resource Public"
+                ],
+                "summary": "Get public file",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "File slug",
+                        "name": "slug",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_resource_structs.ReadFile"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "404": {
+                        "description": "file not found or not public",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/res/{slug}": {
+            "get": {
+                "description": "Get details of a specific file",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Resource"
                 ],
                 "summary": "Get file",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Slug of the file to retrieve",
+                        "description": "File slug",
                         "name": "slug",
                         "in": "path",
                         "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Type of retrieval ('download' or 'stream')",
-                        "name": "type",
-                        "in": "query"
                     }
                 ],
                 "responses": {
@@ -9483,7 +9722,7 @@ const docTemplate = `{
                         "Bearer": []
                     }
                 ],
-                "description": "Update an existing file.",
+                "description": "Update an existing file",
                 "consumes": [
                     "multipart/form-data"
                 ],
@@ -9491,25 +9730,58 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "res"
+                    "Resource"
                 ],
                 "summary": "Update file",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Slug of the file to update",
+                        "description": "File slug",
                         "name": "slug",
                         "in": "path",
                         "required": true
                     },
                     {
-                        "description": "File details",
+                        "type": "string",
+                        "description": "File name",
+                        "name": "name",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "file",
+                        "description": "New file content",
                         "name": "file",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/ncobase_resource_structs.UpdateFileBody"
-                        }
+                        "in": "formData"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Access level (public, private, shared)",
+                        "name": "access_level",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "boolean",
+                        "description": "Public access flag",
+                        "name": "is_public",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Comma-separated tags",
+                        "name": "tags",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Processing options (JSON)",
+                        "name": "processing_options",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Additional properties (JSON)",
+                        "name": "extras",
+                        "in": "formData"
                     }
                 ],
                 "responses": {
@@ -9533,15 +9805,15 @@ const docTemplate = `{
                         "Bearer": []
                     }
                 ],
-                "description": "Delete a specific file.",
+                "description": "Delete a specific file",
                 "tags": [
-                    "res"
+                    "Resource"
                 ],
                 "summary": "Delete file",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Slug of the file to delete",
+                        "description": "File slug",
                         "name": "slug",
                         "in": "path",
                         "required": true
@@ -9549,10 +9821,7 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "success",
-                        "schema": {
-                            "$ref": "#/definitions/ncobase_resource_structs.ReadFile"
-                        }
+                        "description": "success"
                     },
                     "400": {
                         "description": "bad request",
@@ -9570,7 +9839,7 @@ const docTemplate = `{
                         "Bearer": []
                     }
                 ],
-                "description": "Set the access level for an file",
+                "description": "Set the access level for a file",
                 "consumes": [
                     "application/json"
                 ],
@@ -9578,7 +9847,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "res"
+                    "Resource"
                 ],
                 "summary": "Set access level",
                 "parameters": [
@@ -9590,14 +9859,16 @@ const docTemplate = `{
                         "required": true
                     },
                     {
-                        "description": "Access level",
+                        "description": "Access level request",
                         "name": "body",
                         "in": "body",
                         "required": true,
                         "schema": {
                             "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
+                            "properties": {
+                                "access_level": {
+                                    "type": "string"
+                                }
                             }
                         }
                     }
@@ -9614,9 +9885,37 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
                         }
+                    }
+                }
+            }
+        },
+        "/res/{slug}/download": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Download a file",
+                "tags": [
+                    "Resource"
+                ],
+                "summary": "Download file",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "File slug",
+                        "name": "slug",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "File content"
                     },
-                    "404": {
-                        "description": "not found",
+                    "400": {
+                        "description": "bad request",
                         "schema": {
                             "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
                         }
@@ -9631,7 +9930,7 @@ const docTemplate = `{
                         "Bearer": []
                     }
                 ],
-                "description": "Generate a shareable URL for an file",
+                "description": "Generate a shareable URL for a file",
                 "consumes": [
                     "application/json"
                 ],
@@ -9639,7 +9938,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "res"
+                    "Resource"
                 ],
                 "summary": "Generate share URL",
                 "parameters": [
@@ -9651,14 +9950,16 @@ const docTemplate = `{
                         "required": true
                     },
                     {
-                        "description": "Expiration time in hours",
+                        "description": "Expiration settings",
                         "name": "body",
                         "in": "body",
                         "required": true,
                         "schema": {
                             "type": "object",
-                            "additionalProperties": {
-                                "type": "integer"
+                            "properties": {
+                                "expiration_hours": {
+                                    "type": "integer"
+                                }
                             }
                         }
                     }
@@ -9668,19 +9969,21 @@ const docTemplate = `{
                         "description": "success",
                         "schema": {
                             "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
+                            "properties": {
+                                "expires_at": {
+                                    "type": "string"
+                                },
+                                "expires_in": {
+                                    "type": "string"
+                                },
+                                "url": {
+                                    "type": "string"
+                                }
                             }
                         }
                     },
                     "400": {
                         "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
-                        }
-                    },
-                    "404": {
-                        "description": "not found",
                         "schema": {
                             "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
                         }
@@ -9703,7 +10006,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "res"
+                    "Resource"
                 ],
                 "summary": "Create thumbnail",
                 "parameters": [
@@ -9736,12 +10039,6 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
                         }
-                    },
-                    "404": {
-                        "description": "not found",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
-                        }
                     }
                 }
             }
@@ -9753,12 +10050,12 @@ const docTemplate = `{
                         "Bearer": []
                     }
                 ],
-                "description": "Get all versions of an file",
+                "description": "Get all versions of a file",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "res"
+                    "Resource"
                 ],
                 "summary": "Get file versions",
                 "parameters": [
@@ -9785,12 +10082,6 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
                         }
-                    },
-                    "404": {
-                        "description": "not found",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
-                        }
                     }
                 }
             },
@@ -9808,7 +10099,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "res"
+                    "Resource"
                 ],
                 "summary": "Create file version",
                 "parameters": [
@@ -9836,12 +10127,6 @@ const docTemplate = `{
                     },
                     "400": {
                         "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
-                        }
-                    },
-                    "404": {
-                        "description": "not found",
                         "schema": {
                             "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
                         }
@@ -12126,49 +12411,6 @@ const docTemplate = `{
                 }
             }
         },
-        "/sys/orgs/{orgId}/spaces": {
-            "get": {
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
-                "description": "Get all spaces that have a specific group",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "sys"
-                ],
-                "summary": "Get group spaces",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Organization ID",
-                        "name": "orgId",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "type": "string"
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
-                        }
-                    }
-                }
-            }
-        },
         "/sys/menus": {
             "get": {
                 "security": [
@@ -13192,6 +13434,646 @@ const docTemplate = `{
                 }
             }
         },
+        "/sys/orgs": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Retrieve a list or tree structure of orgs.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "org"
+                ],
+                "summary": "List orgs",
+                "parameters": [
+                    {
+                        "type": "boolean",
+                        "name": "children",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "cursor",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "direction",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "parent",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "sort_by",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ncobase_organization_structs.ReadOrganization"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Update an existing organization.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "org"
+                ],
+                "summary": "Update organization",
+                "parameters": [
+                    {
+                        "description": "UpdateOrganizationBody object",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_organization_structs.UpdateOrganizationBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_organization_structs.ReadOrganization"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Create a new organization.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "org"
+                ],
+                "summary": "Create organization",
+                "parameters": [
+                    {
+                        "description": "OrganizationBody object",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_organization_structs.OrganizationBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_organization_structs.ReadOrganization"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/orgs/{orgId}": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Retrieve an organization by ID or slug.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "org"
+                ],
+                "summary": "Get organization",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Organization ID or slug",
+                        "name": "orgId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "boolean",
+                        "name": "children",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "organization",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "parent",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "sort_by",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_organization_structs.ReadOrganization"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Delete an organization by ID or slug.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "org"
+                ],
+                "summary": "Delete organization",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Organization ID or slug",
+                        "name": "orgId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/orgs/{orgId}/members": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Get all members of a specific organization",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "org"
+                ],
+                "summary": "Get organization members",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Organization ID or Slug",
+                        "name": "orgId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ncobase_organization_structs.OrganizationMember"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Add a user to an organization with a specified role",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "org"
+                ],
+                "summary": "Add member to organization",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Organization ID or Slug",
+                        "name": "orgId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "User details to add",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_organization_structs.AddMemberRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_organization_structs.OrganizationMember"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/orgs/{orgId}/members/{userId}": {
+            "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Update a member's role in an organization",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "org"
+                ],
+                "summary": "Update organization member",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Organization ID or Slug",
+                        "name": "orgId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "userId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Role update",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_organization_structs.UpdateMemberRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_organization_structs.OrganizationMember"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Remove a user from an organization",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "org"
+                ],
+                "summary": "Remove organization member",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Organization ID or Slug",
+                        "name": "orgId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "userId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/orgs/{orgId}/members/{userId}/check": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Check if a user is a member of an organization",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "org"
+                ],
+                "summary": "Check if user is a member",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Organization ID or Slug",
+                        "name": "orgId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "userId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "boolean"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/orgs/{orgId}/members/{userId}/is-owner": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Check if a user has owner role in an organization",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "org"
+                ],
+                "summary": "Check if user is an owner",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Organization ID or Slug",
+                        "name": "orgId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "userId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "boolean"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/orgs/{orgId}/members/{userId}/role": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Get a user's role in an organization",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "org"
+                ],
+                "summary": "Get user role",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Organization ID or Slug",
+                        "name": "orgId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "userId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/orgs/{orgId}/spaces": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Get all spaces that have a specific group",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Get group spaces",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Organization ID",
+                        "name": "orgId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
         "/sys/permissions": {
             "get": {
                 "security": [
@@ -13991,56 +14873,6 @@ const docTemplate = `{
                     }
                 }
             },
-            "put": {
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
-                "description": "Update the space information.",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "sys"
-                ],
-                "summary": "Update space",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Space ID",
-                        "name": "slug",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "description": "UpdateSpaceBody object",
-                        "name": "body",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/ncobase_space_structs.UpdateSpaceBody"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "$ref": "#/definitions/ncobase_space_structs.ReadSpace"
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
-                        }
-                    }
-                }
-            },
             "post": {
                 "security": [
                     {
@@ -14144,6 +14976,11 @@ const docTemplate = `{
                         "in": "query"
                     },
                     {
+                        "type": "string",
+                        "name": "space_id",
+                        "in": "query"
+                    },
+                    {
                         "enum": [
                             "pending",
                             "paid",
@@ -14160,11 +14997,6 @@ const docTemplate = `{
                             "StatusRefunded"
                         ],
                         "name": "status",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "name": "space_id",
                         "in": "query"
                     },
                     {
@@ -14809,15 +15641,15 @@ const docTemplate = `{
                     },
                     {
                         "enum": [
-                            "system",
                             "space",
+                            "system",
                             "user",
                             "feature"
                         ],
                         "type": "string",
                         "x-enum-varnames": [
-                            "ScopeSystem",
                             "Scope",
+                            "ScopeSystem",
                             "ScopeUser",
                             "ScopeFeature"
                         ],
@@ -15087,6 +15919,56 @@ const docTemplate = `{
                         "name": "spaceId",
                         "in": "path",
                         "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_space_structs.ReadSpace"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Update the space information.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Update space",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Space ID",
+                        "name": "spaceId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "UpdateSpaceBody object",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_space_structs.UpdateSpaceBody"
+                        }
                     }
                 ],
                 "responses": {
@@ -15509,226 +16391,6 @@ const docTemplate = `{
                 }
             }
         },
-        "/sys/spaces/{spaceId}/orgs": {
-            "get": {
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
-                "description": "Get all orgs belonging to a specific space",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "sys"
-                ],
-                "summary": "Get space orgs",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Space ID",
-                        "name": "spaceId",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "boolean",
-                        "name": "children",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "name": "cursor",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "name": "direction",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "name": "limit",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "name": "parent",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "name": "sort_by",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/ncobase_space_structs.ReadOrganization"
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
-                        }
-                    }
-                }
-            },
-            "post": {
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
-                "description": "Add a organization to a specific space",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "sys"
-                ],
-                "summary": "Add group to space",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Space ID",
-                        "name": "spaceId",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "description": "AddSpaceOrganizationRequest object",
-                        "name": "body",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/ncobase_space_structs.AddSpaceOrganizationRequest"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "$ref": "#/definitions/ncobase_space_structs.SpaceOrganizationRelation"
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
-                        }
-                    }
-                }
-            }
-        },
-        "/sys/spaces/{spaceId}/orgs/{orgId}": {
-            "delete": {
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
-                "description": "Remove a organization from a specific space",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "sys"
-                ],
-                "summary": "Remove group from space",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Space ID",
-                        "name": "spaceId",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Organization ID",
-                        "name": "orgId",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
-                        }
-                    }
-                }
-            }
-        },
-        "/sys/spaces/{spaceId}/orgs/{orgId}/check": {
-            "get": {
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
-                "description": "Check if a organization belongs to a specific space",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "sys"
-                ],
-                "summary": "Check if group is in space",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Space ID",
-                        "name": "spaceId",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Organization ID",
-                        "name": "orgId",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "boolean"
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
-                        }
-                    }
-                }
-            }
-        },
         "/sys/spaces/{spaceId}/menu": {
             "get": {
                 "security": [
@@ -16126,6 +16788,226 @@ const docTemplate = `{
                         "type": "string",
                         "description": "Options ID",
                         "name": "optionsId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "boolean"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/spaces/{spaceId}/orgs": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Get all orgs belonging to a specific space",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Get space orgs",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Space ID",
+                        "name": "spaceId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "boolean",
+                        "name": "children",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "cursor",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "direction",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "parent",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "sort_by",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ncobase_space_structs.ReadOrganization"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Add a organization to a specific space",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Add group to space",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Space ID",
+                        "name": "spaceId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "AddSpaceOrganizationRequest object",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_space_structs.AddSpaceOrganizationRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_space_structs.SpaceOrganizationRelation"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/spaces/{spaceId}/orgs/{orgId}": {
+            "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Remove a organization from a specific space",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Remove group from space",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Space ID",
+                        "name": "spaceId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Organization ID",
+                        "name": "orgId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/sys/spaces/{spaceId}/orgs/{orgId}/check": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Check if a organization belongs to a specific space",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Check if group is in space",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Space ID",
+                        "name": "spaceId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Organization ID",
+                        "name": "orgId",
                         "in": "path",
                         "required": true
                     }
@@ -16674,6 +17556,51 @@ const docTemplate = `{
             }
         },
         "/sys/spaces/{spaceId}/users/{userId}/roles": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Get all roles a user has in a specific space",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Get user space roles",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Space ID",
+                        "name": "spaceId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "User ID or username",
+                        "name": "userId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_space_structs.UserSpaceRolesResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            },
             "put": {
                 "security": [
                     {
@@ -16786,54 +17713,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/sys/spaces/{spaceId}/users/{username}/roles": {
-            "get": {
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
-                "description": "Get all roles a user has in a specific space",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "sys"
-                ],
-                "summary": "Get user space roles",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Space ID",
-                        "name": "spaceId",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "User ID or username",
-                        "name": "username",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "$ref": "#/definitions/ncobase_space_structs.UserSpaceRolesResponse"
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
-                        }
-                    }
-                }
-            }
-        },
-        "/sys/spaces/{spaceId}/users/{username}/roles/{roleId}/check": {
+        "/sys/spaces/{spaceId}/users/{userId}/roles/{roleId}/check": {
             "get": {
                 "security": [
                     {
@@ -16859,7 +17739,7 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "description": "User ID or username",
-                        "name": "username",
+                        "name": "userId",
                         "in": "path",
                         "required": true
                     },
@@ -17704,6 +18584,46 @@ const docTemplate = `{
                 }
             }
         },
+        "/sys/users/{username}/space": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Retrieve the space associated with the specified user.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Get user owned space",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Username",
+                        "name": "username",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_space_structs.ReadSpace"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
         "/sys/users/{username}/status": {
             "patch": {
                 "description": "Update a user's status (active, inactive, pending).",
@@ -17743,46 +18663,6 @@ const docTemplate = `{
                         "description": "success",
                         "schema": {
                             "$ref": "#/definitions/ncobase_user_structs.ReadUser"
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
-                        }
-                    }
-                }
-            }
-        },
-        "/sys/users/{username}/space": {
-            "get": {
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
-                "description": "Retrieve the space associated with the specified user.",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "sys"
-                ],
-                "summary": "Get user owned space",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Username",
-                        "name": "username",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "$ref": "#/definitions/ncobase_space_structs.ReadSpace"
                         }
                     },
                     "400": {
@@ -18876,14 +19756,14 @@ const docTemplate = `{
         "ncobase_auth_structs.AccountMeshes": {
             "type": "object",
             "properties": {
+                "is_admin": {
+                    "type": "boolean"
+                },
                 "orgs": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/ncobase_space_structs.ReadOrganization"
+                        "$ref": "#/definitions/ncobase_organization_structs.ReadOrganization"
                     }
-                },
-                "is_admin": {
-                    "type": "boolean"
                 },
                 "permissions": {
                     "type": "array",
@@ -19167,12 +20047,12 @@ const docTemplate = `{
                 "slug": {
                     "type": "string"
                 },
+                "space_id": {
+                    "type": "string"
+                },
                 "status": {
                     "description": "0: active, 1: inactive",
                     "type": "integer"
-                },
-                "space_id": {
-                    "type": "string"
                 },
                 "type": {
                     "description": "website, wechat, douyin, tiktok, xiaohongshu, twitter, facebook, custom",
@@ -19229,12 +20109,12 @@ const docTemplate = `{
                 "scheduled_at": {
                     "type": "integer"
                 },
+                "space_id": {
+                    "type": "string"
+                },
                 "status": {
                     "description": "0: draft, 1: scheduled, 2: published, 3: failed, 4: cancelled",
                     "type": "integer"
-                },
-                "space_id": {
-                    "type": "string"
                 },
                 "topic_id": {
                     "type": "string"
@@ -19256,23 +20136,15 @@ const docTemplate = `{
                 "description": {
                     "type": "string"
                 },
-                "duration": {
-                    "type": "number"
-                },
-                "height": {
-                    "type": "integer"
-                },
                 "metadata": {
                     "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
                 },
-                "mime_type": {
+                "owner_id": {
                     "type": "string"
                 },
-                "path": {
+                "resource_id": {
+                    "description": "Reference to resource plugin file",
                     "type": "string"
-                },
-                "size": {
-                    "type": "integer"
                 },
                 "space_id": {
                     "type": "string"
@@ -19288,10 +20160,8 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "url": {
+                    "description": "For external resources",
                     "type": "string"
-                },
-                "width": {
-                    "type": "integer"
                 }
             }
         },
@@ -19328,11 +20198,11 @@ const docTemplate = `{
                 "slug": {
                     "type": "string"
                 },
-                "status": {
-                    "type": "integer"
-                },
                 "space_id": {
                     "type": "string"
+                },
+                "status": {
+                    "type": "integer"
                 },
                 "thumbnail": {
                     "type": "string"
@@ -19397,6 +20267,9 @@ const docTemplate = `{
                 "slug": {
                     "type": "string"
                 },
+                "space_id": {
+                    "type": "string"
+                },
                 "status": {
                     "type": "integer"
                 },
@@ -19411,9 +20284,6 @@ const docTemplate = `{
                 },
                 "temp": {
                     "type": "boolean"
-                },
-                "space_id": {
-                    "type": "string"
                 },
                 "thumbnail": {
                     "type": "string"
@@ -19492,11 +20362,11 @@ const docTemplate = `{
                 "slug": {
                     "type": "string"
                 },
-                "status": {
-                    "type": "integer"
-                },
                 "space_id": {
                     "type": "string"
+                },
+                "status": {
+                    "type": "integer"
                 },
                 "type": {
                     "type": "string"
@@ -19551,11 +20421,11 @@ const docTemplate = `{
                 "scheduled_at": {
                     "type": "integer"
                 },
-                "status": {
-                    "type": "integer"
-                },
                 "space_id": {
                     "type": "string"
+                },
+                "status": {
+                    "type": "integer"
                 },
                 "topic": {
                     "$ref": "#/definitions/ncobase_content_structs.ReadTopic"
@@ -19586,26 +20456,25 @@ const docTemplate = `{
                 "description": {
                     "type": "string"
                 },
-                "duration": {
-                    "type": "number"
-                },
-                "height": {
-                    "type": "integer"
-                },
                 "id": {
                     "type": "string"
                 },
                 "metadata": {
                     "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
                 },
-                "mime_type": {
+                "owner_id": {
                     "type": "string"
                 },
-                "path": {
-                    "type": "string"
+                "resource": {
+                    "description": "Resource file reference",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/ncobase_content_structs.ResourceFileReference"
+                        }
+                    ]
                 },
-                "size": {
-                    "type": "integer"
+                "resource_id": {
+                    "type": "string"
                 },
                 "space_id": {
                     "type": "string"
@@ -19624,9 +20493,6 @@ const docTemplate = `{
                 },
                 "url": {
                     "type": "string"
-                },
-                "width": {
-                    "type": "integer"
                 }
             }
         },
@@ -19673,11 +20539,11 @@ const docTemplate = `{
                 "slug": {
                     "type": "string"
                 },
-                "status": {
-                    "type": "integer"
-                },
                 "space_id": {
                     "type": "string"
+                },
+                "status": {
+                    "type": "integer"
                 },
                 "thumbnail": {
                     "type": "string"
@@ -19756,6 +20622,9 @@ const docTemplate = `{
                 "slug": {
                     "type": "string"
                 },
+                "space_id": {
+                    "type": "string"
+                },
                 "status": {
                     "type": "integer"
                 },
@@ -19773,9 +20642,6 @@ const docTemplate = `{
                 },
                 "temp": {
                     "type": "boolean"
-                },
-                "space_id": {
-                    "type": "string"
                 },
                 "thumbnail": {
                     "type": "string"
@@ -19829,6 +20695,38 @@ const docTemplate = `{
                 }
             }
         },
+        "ncobase_content_structs.ResourceFileReference": {
+            "type": "object",
+            "properties": {
+                "download_url": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "is_expired": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "path": {
+                    "type": "string"
+                },
+                "size": {
+                    "type": "integer"
+                },
+                "storage": {
+                    "type": "string"
+                },
+                "thumbnail_url": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                }
+            }
+        },
         "ncobase_content_structs.UpdateChannelBody": {
             "type": "object",
             "properties": {
@@ -19874,12 +20772,12 @@ const docTemplate = `{
                 "slug": {
                     "type": "string"
                 },
+                "space_id": {
+                    "type": "string"
+                },
                 "status": {
                     "description": "0: active, 1: inactive",
                     "type": "integer"
-                },
-                "space_id": {
-                    "type": "string"
                 },
                 "type": {
                     "description": "website, wechat, douyin, tiktok, xiaohongshu, twitter, facebook, custom",
@@ -19939,12 +20837,12 @@ const docTemplate = `{
                 "scheduled_at": {
                     "type": "integer"
                 },
+                "space_id": {
+                    "type": "string"
+                },
                 "status": {
                     "description": "0: draft, 1: scheduled, 2: published, 3: failed, 4: cancelled",
                     "type": "integer"
-                },
-                "space_id": {
-                    "type": "string"
                 },
                 "topic_id": {
                     "type": "string"
@@ -19966,26 +20864,18 @@ const docTemplate = `{
                 "description": {
                     "type": "string"
                 },
-                "duration": {
-                    "type": "number"
-                },
-                "height": {
-                    "type": "integer"
-                },
                 "id": {
                     "type": "string"
                 },
                 "metadata": {
                     "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
                 },
-                "mime_type": {
+                "owner_id": {
                     "type": "string"
                 },
-                "path": {
+                "resource_id": {
+                    "description": "Reference to resource plugin file",
                     "type": "string"
-                },
-                "size": {
-                    "type": "integer"
                 },
                 "space_id": {
                     "type": "string"
@@ -20001,10 +20891,8 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "url": {
+                    "description": "For external resources",
                     "type": "string"
-                },
-                "width": {
-                    "type": "integer"
                 }
             }
         },
@@ -20044,11 +20932,11 @@ const docTemplate = `{
                 "slug": {
                     "type": "string"
                 },
-                "status": {
-                    "type": "integer"
-                },
                 "space_id": {
                     "type": "string"
+                },
+                "status": {
+                    "type": "integer"
                 },
                 "thumbnail": {
                     "type": "string"
@@ -20116,6 +21004,9 @@ const docTemplate = `{
                 "slug": {
                     "type": "string"
                 },
+                "space_id": {
+                    "type": "string"
+                },
                 "status": {
                     "type": "integer"
                 },
@@ -20130,9 +21021,6 @@ const docTemplate = `{
                 },
                 "temp": {
                     "type": "boolean"
-                },
-                "space_id": {
-                    "type": "string"
                 },
                 "thumbnail": {
                     "type": "string"
@@ -20178,13 +21066,13 @@ const docTemplate = `{
                 "prefix": {
                     "type": "string"
                 },
+                "space_id": {
+                    "type": "string"
+                },
                 "start_value": {
                     "type": "integer"
                 },
                 "suffix": {
-                    "type": "string"
-                },
-                "space_id": {
                     "type": "string"
                 },
                 "updated_by": {
@@ -20228,13 +21116,13 @@ const docTemplate = `{
                 "prefix": {
                     "type": "string"
                 },
+                "space_id": {
+                    "type": "string"
+                },
                 "start_value": {
                     "type": "integer"
                 },
                 "suffix": {
-                    "type": "string"
-                },
-                "space_id": {
                     "type": "string"
                 },
                 "updated_at": {
@@ -20278,19 +21166,212 @@ const docTemplate = `{
                 "prefix": {
                     "type": "string"
                 },
+                "space_id": {
+                    "type": "string"
+                },
                 "start_value": {
                     "type": "integer"
                 },
                 "suffix": {
                     "type": "string"
                 },
-                "space_id": {
+                "updated_by": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_organization_structs.AddMemberRequest": {
+            "type": "object",
+            "required": [
+                "role",
+                "user_id"
+            ],
+            "properties": {
+                "role": {
+                    "$ref": "#/definitions/ncobase_organization_structs.UserRole"
+                },
+                "user_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_organization_structs.OrganizationBody": {
+            "type": "object",
+            "properties": {
+                "created_by": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "disabled": {
+                    "type": "boolean"
+                },
+                "extras": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "leader": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "parent_id": {
+                    "type": "string"
+                },
+                "slug": {
+                    "type": "string"
+                },
+                "type": {
                     "type": "string"
                 },
                 "updated_by": {
                     "type": "string"
                 }
             }
+        },
+        "ncobase_organization_structs.OrganizationMember": {
+            "type": "object",
+            "properties": {
+                "added_at": {
+                    "type": "integer"
+                },
+                "avatar": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "last_login": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "role": {
+                    "$ref": "#/definitions/ncobase_organization_structs.UserRole"
+                },
+                "user_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_organization_structs.ReadOrganization": {
+            "type": "object",
+            "properties": {
+                "children": {
+                    "type": "array",
+                    "items": {}
+                },
+                "created_at": {
+                    "type": "integer"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "disabled": {
+                    "type": "boolean"
+                },
+                "extras": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "leader": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "parent_id": {
+                    "type": "string"
+                },
+                "slug": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "integer"
+                },
+                "updated_by": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_organization_structs.UpdateMemberRequest": {
+            "type": "object",
+            "required": [
+                "role"
+            ],
+            "properties": {
+                "role": {
+                    "$ref": "#/definitions/ncobase_organization_structs.UserRole"
+                }
+            }
+        },
+        "ncobase_organization_structs.UpdateOrganizationBody": {
+            "type": "object",
+            "properties": {
+                "created_by": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "disabled": {
+                    "type": "boolean"
+                },
+                "extras": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "leader": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "parent_id": {
+                    "type": "string"
+                },
+                "slug": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "updated_by": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_organization_structs.UserRole": {
+            "type": "string",
+            "enum": [
+                "owner",
+                "admin",
+                "editor",
+                "viewer",
+                "member"
+            ],
+            "x-enum-varnames": [
+                "RoleOwner",
+                "RoleAdmin",
+                "RoleEditor",
+                "RoleViewer",
+                "RoleMember"
+            ]
         },
         "ncobase_payment_structs.BillingInterval": {
             "type": "string",
@@ -20343,6 +21424,9 @@ const docTemplate = `{
                 "provider": {
                     "$ref": "#/definitions/ncobase_payment_structs.PaymentProvider"
                 },
+                "space_id": {
+                    "type": "string"
+                },
                 "status": {
                     "$ref": "#/definitions/ncobase_payment_structs.ChannelStatus"
                 },
@@ -20351,9 +21435,6 @@ const docTemplate = `{
                     "items": {
                         "$ref": "#/definitions/ncobase_payment_structs.PaymentType"
                     }
-                },
-                "space_id": {
-                    "type": "string"
                 },
                 "updated_at": {
                     "type": "integer"
@@ -20399,6 +21480,9 @@ const docTemplate = `{
                 "provider": {
                     "$ref": "#/definitions/ncobase_payment_structs.PaymentProvider"
                 },
+                "space_id": {
+                    "type": "string"
+                },
                 "status": {
                     "$ref": "#/definitions/ncobase_payment_structs.ChannelStatus"
                 },
@@ -20407,9 +21491,6 @@ const docTemplate = `{
                     "items": {
                         "$ref": "#/definitions/ncobase_payment_structs.PaymentType"
                     }
-                },
-                "space_id": {
-                    "type": "string"
                 }
             }
         },
@@ -20447,13 +21528,13 @@ const docTemplate = `{
                 "provider_ref": {
                     "type": "string"
                 },
+                "space_id": {
+                    "type": "string"
+                },
                 "status": {
                     "$ref": "#/definitions/ncobase_payment_structs.PaymentStatus"
                 },
                 "subscription_id": {
-                    "type": "string"
-                },
-                "space_id": {
                     "type": "string"
                 },
                 "type": {
@@ -20503,11 +21584,11 @@ const docTemplate = `{
                 "pricing_type": {
                     "$ref": "#/definitions/ncobase_payment_structs.PricingType"
                 },
-                "status": {
-                    "$ref": "#/definitions/ncobase_payment_structs.ProductStatus"
-                },
                 "space_id": {
                     "type": "string"
+                },
+                "status": {
+                    "$ref": "#/definitions/ncobase_payment_structs.ProductStatus"
                 },
                 "trial_days": {
                     "type": "integer"
@@ -20672,13 +21753,13 @@ const docTemplate = `{
                 "provider_ref": {
                     "type": "string"
                 },
+                "space_id": {
+                    "type": "string"
+                },
                 "status": {
                     "$ref": "#/definitions/ncobase_payment_structs.PaymentStatus"
                 },
                 "subscription_id": {
-                    "type": "string"
-                },
-                "space_id": {
                     "type": "string"
                 },
                 "type": {
@@ -20789,11 +21870,11 @@ const docTemplate = `{
                 "pricing_type": {
                     "$ref": "#/definitions/ncobase_payment_structs.PricingType"
                 },
-                "status": {
-                    "$ref": "#/definitions/ncobase_payment_structs.ProductStatus"
-                },
                 "space_id": {
                     "type": "string"
+                },
+                "status": {
+                    "$ref": "#/definitions/ncobase_payment_structs.ProductStatus"
                 },
                 "trial_days": {
                     "type": "integer"
@@ -20866,11 +21947,11 @@ const docTemplate = `{
                 "provider_ref": {
                     "type": "string"
                 },
-                "status": {
-                    "$ref": "#/definitions/ncobase_payment_structs.SubscriptionStatus"
-                },
                 "space_id": {
                     "type": "string"
+                },
+                "status": {
+                    "$ref": "#/definitions/ncobase_payment_structs.SubscriptionStatus"
                 },
                 "trial_end": {
                     "type": "string"
@@ -20925,6 +22006,9 @@ const docTemplate = `{
                 "provider": {
                     "$ref": "#/definitions/ncobase_payment_structs.PaymentProvider"
                 },
+                "space_id": {
+                    "type": "string"
+                },
                 "status": {
                     "$ref": "#/definitions/ncobase_payment_structs.ChannelStatus"
                 },
@@ -20933,9 +22017,6 @@ const docTemplate = `{
                     "items": {
                         "$ref": "#/definitions/ncobase_payment_structs.PaymentType"
                     }
-                },
-                "space_id": {
-                    "type": "string"
                 }
             }
         },
@@ -21607,16 +22688,315 @@ const docTemplate = `{
                 "private",
                 "shared"
             ],
-            "x-enum-comments": {
-                "AccessLevelPrivate": "Only accessible to owner",
-                "AccessLevelPublic": "Accessible to anyone",
-                "AccessLevelShared": "Shared with specific users/orgs"
-            },
             "x-enum-varnames": [
                 "AccessLevelPublic",
                 "AccessLevelPrivate",
                 "AccessLevelShared"
             ]
+        },
+        "ncobase_resource_structs.ActivityStats": {
+            "type": "object",
+            "properties": {
+                "activity_by_hour": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ncobase_resource_structs.HourlyActivity"
+                    }
+                },
+                "popular_files": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ncobase_resource_structs.PopularFile"
+                    }
+                },
+                "total_downloads": {
+                    "type": "integer"
+                },
+                "total_views": {
+                    "type": "integer"
+                }
+            }
+        },
+        "ncobase_resource_structs.AdminFileListResponse": {
+            "type": "object",
+            "properties": {
+                "files": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ncobase_resource_structs.ReadFile"
+                    }
+                },
+                "stats": {
+                    "$ref": "#/definitions/ncobase_resource_structs.FileStats"
+                },
+                "total": {
+                    "type": "integer"
+                }
+            }
+        },
+        "ncobase_resource_structs.AdminQuotaListResponse": {
+            "type": "object",
+            "properties": {
+                "quotas": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ncobase_resource_structs.QuotaInfo"
+                    }
+                },
+                "total": {
+                    "type": "integer"
+                }
+            }
+        },
+        "ncobase_resource_structs.AdminSetStatusRequest": {
+            "type": "object",
+            "required": [
+                "status"
+            ],
+            "properties": {
+                "reason": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_resource_structs.BackupRequest": {
+            "type": "object",
+            "required": [
+                "destination",
+                "type"
+            ],
+            "properties": {
+                "compression": {
+                    "type": "boolean"
+                },
+                "destination": {
+                    "type": "string"
+                },
+                "encryption": {
+                    "type": "boolean"
+                },
+                "filters": {
+                    "description": "file patterns to include/exclude",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "type": {
+                    "description": "full, incremental",
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_resource_structs.BackupResult": {
+            "type": "object",
+            "properties": {
+                "backup_id": {
+                    "type": "string"
+                },
+                "completed_at": {
+                    "type": "integer"
+                },
+                "destination": {
+                    "type": "string"
+                },
+                "duration": {
+                    "description": "seconds",
+                    "type": "integer"
+                },
+                "file_count": {
+                    "type": "integer"
+                },
+                "started_at": {
+                    "type": "integer"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "total_size": {
+                    "type": "integer"
+                },
+                "type": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_resource_structs.BatchCleanupRequest": {
+            "type": "object",
+            "required": [
+                "type"
+            ],
+            "properties": {
+                "dry_run": {
+                    "type": "boolean"
+                },
+                "filters": {
+                    "$ref": "#/definitions/ncobase_resource_structs.CleanupFilters"
+                },
+                "max_items": {
+                    "type": "integer"
+                },
+                "type": {
+                    "description": "expired, orphaned, duplicates",
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_resource_structs.BatchCleanupResult": {
+            "type": "object",
+            "properties": {
+                "cleaned_items": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "dry_run": {
+                    "type": "boolean"
+                },
+                "errors": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "items_cleaned": {
+                    "type": "integer"
+                },
+                "items_found": {
+                    "type": "integer"
+                },
+                "job_id": {
+                    "type": "string"
+                },
+                "space_freed": {
+                    "type": "integer"
+                },
+                "type": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_resource_structs.BatchDeleteResult": {
+            "type": "object",
+            "properties": {
+                "deleted_ids": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "errors": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "failed_ids": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "failure_count": {
+                    "type": "integer"
+                },
+                "operation_id": {
+                    "type": "string"
+                },
+                "success_count": {
+                    "type": "integer"
+                },
+                "total_files": {
+                    "type": "integer"
+                }
+            }
+        },
+        "ncobase_resource_structs.BatchJob": {
+            "type": "object",
+            "properties": {
+                "completed_at": {
+                    "type": "integer"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "error_count": {
+                    "type": "integer"
+                },
+                "errors": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "id": {
+                    "type": "string"
+                },
+                "item_count": {
+                    "type": "integer"
+                },
+                "processed_count": {
+                    "type": "integer"
+                },
+                "progress": {
+                    "type": "integer"
+                },
+                "result": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "started_at": {
+                    "type": "integer"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_resource_structs.BatchJobListResponse": {
+            "type": "object",
+            "properties": {
+                "jobs": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ncobase_resource_structs.BatchJob"
+                    }
+                },
+                "total": {
+                    "type": "integer"
+                }
+            }
+        },
+        "ncobase_resource_structs.BatchStatus": {
+            "type": "object",
+            "properties": {
+                "completed_at": {
+                    "type": "integer"
+                },
+                "message": {
+                    "type": "string"
+                },
+                "operation_id": {
+                    "type": "string"
+                },
+                "progress": {
+                    "description": "0-100",
+                    "type": "integer"
+                },
+                "started_at": {
+                    "type": "integer"
+                },
+                "status": {
+                    "description": "pending, processing, completed, failed",
+                    "type": "string"
+                }
+            }
         },
         "ncobase_resource_structs.BatchUploadResult": {
             "type": "object",
@@ -21653,6 +23033,41 @@ const docTemplate = `{
                 }
             }
         },
+        "ncobase_resource_structs.CleanupFilters": {
+            "type": "object",
+            "properties": {
+                "categories": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "max_size": {
+                    "type": "integer"
+                },
+                "min_size": {
+                    "type": "integer"
+                },
+                "older_than": {
+                    "description": "timestamp",
+                    "type": "integer"
+                }
+            }
+        },
+        "ncobase_resource_structs.DailyUpload": {
+            "type": "object",
+            "properties": {
+                "count": {
+                    "type": "integer"
+                },
+                "date": {
+                    "type": "string"
+                },
+                "size": {
+                    "type": "integer"
+                }
+            }
+        },
         "ncobase_resource_structs.FileCategory": {
             "type": "string",
             "enum": [
@@ -21672,92 +23087,7 @@ const docTemplate = `{
                 "FileCategoryOther"
             ]
         },
-        "ncobase_resource_structs.FileMetadata": {
-            "type": "object",
-            "properties": {
-                "author": {
-                    "description": "Content author",
-                    "type": "string"
-                },
-                "category": {
-                    "description": "File category",
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/ncobase_resource_structs.FileCategory"
-                        }
-                    ]
-                },
-                "creation_date": {
-                    "description": "Original file creation date",
-                    "type": "string"
-                },
-                "custom_fields": {
-                    "description": "User-defined metadata",
-                    "type": "object",
-                    "additionalProperties": {}
-                },
-                "description": {
-                    "description": "Content description",
-                    "type": "string"
-                },
-                "duration": {
-                    "description": "For audio/video in seconds",
-                    "type": "number"
-                },
-                "height": {
-                    "description": "For images",
-                    "type": "integer"
-                },
-                "keywords": {
-                    "description": "Content keywords",
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "modified_date": {
-                    "description": "Last modification date",
-                    "type": "string"
-                },
-                "title": {
-                    "description": "Content title",
-                    "type": "string"
-                },
-                "width": {
-                    "description": "For images",
-                    "type": "integer"
-                }
-            }
-        },
-        "ncobase_resource_structs.ProcessingOptions": {
-            "type": "object",
-            "properties": {
-                "compress_image": {
-                    "type": "boolean"
-                },
-                "compression_quality": {
-                    "description": "1-100",
-                    "type": "integer"
-                },
-                "convert_format": {
-                    "description": "Target format",
-                    "type": "string"
-                },
-                "create_thumbnail": {
-                    "type": "boolean"
-                },
-                "max_height": {
-                    "type": "integer"
-                },
-                "max_width": {
-                    "type": "integer"
-                },
-                "resize_image": {
-                    "type": "boolean"
-                }
-            }
-        },
-        "ncobase_resource_structs.ReadFile": {
+        "ncobase_resource_structs.FileResponse": {
             "type": "object",
             "properties": {
                 "access_level": {
@@ -21765,6 +23095,9 @@ const docTemplate = `{
                 },
                 "bucket": {
                     "type": "string"
+                },
+                "category": {
+                    "$ref": "#/definitions/ncobase_resource_structs.FileCategory"
                 },
                 "created_at": {
                     "type": "integer"
@@ -21784,7 +23117,12 @@ const docTemplate = `{
                 "extras": {
                     "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
                 },
-                "folder_path": {
+                "full_path": {
+                    "description": "Virtual fields",
+                    "type": "string"
+                },
+                "hash": {
+                    "description": "Sensitive fields",
                     "type": "string"
                 },
                 "id": {
@@ -21796,13 +23134,200 @@ const docTemplate = `{
                 "is_public": {
                     "type": "boolean"
                 },
-                "metadata": {
-                    "$ref": "#/definitions/ncobase_resource_structs.FileMetadata"
+                "name": {
+                    "type": "string"
+                },
+                "original_name": {
+                    "type": "string"
+                },
+                "owner_id": {
+                    "type": "string"
+                },
+                "path": {
+                    "type": "string"
+                },
+                "size": {
+                    "type": "integer"
+                },
+                "status_history": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ncobase_resource_structs.StatusChange"
+                    }
+                },
+                "storage": {
+                    "description": "Storage fields",
+                    "type": "string"
+                },
+                "tags": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "thumbnail_url": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "integer"
+                },
+                "updated_by": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_resource_structs.FileStats": {
+            "type": "object",
+            "properties": {
+                "by_category": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "integer"
+                    }
+                },
+                "by_status": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "integer"
+                    }
+                },
+                "total_count": {
+                    "type": "integer"
+                },
+                "total_size": {
+                    "type": "integer"
+                }
+            }
+        },
+        "ncobase_resource_structs.GrowthStats": {
+            "type": "object",
+            "properties": {
+                "files_growth": {
+                    "description": "percentage",
+                    "type": "number"
+                },
+                "size_growth": {
+                    "description": "percentage",
+                    "type": "number"
+                }
+            }
+        },
+        "ncobase_resource_structs.HealthCheck": {
+            "type": "object",
+            "properties": {
+                "last_run": {
+                    "type": "integer"
+                },
+                "message": {
+                    "type": "string"
                 },
                 "name": {
                     "type": "string"
                 },
-                "object_id": {
+                "status": {
+                    "description": "ok, warning, error",
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_resource_structs.HourlyActivity": {
+            "type": "object",
+            "properties": {
+                "downloads": {
+                    "type": "integer"
+                },
+                "hour": {
+                    "type": "integer"
+                },
+                "views": {
+                    "type": "integer"
+                }
+            }
+        },
+        "ncobase_resource_structs.OptimizeResult": {
+            "type": "object",
+            "properties": {
+                "deduplicated_files": {
+                    "type": "integer"
+                },
+                "duration": {
+                    "description": "seconds",
+                    "type": "integer"
+                },
+                "indexes_rebuilt": {
+                    "type": "integer"
+                },
+                "orphaned_cleaned": {
+                    "type": "integer"
+                },
+                "space_freed": {
+                    "type": "integer"
+                },
+                "task_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_resource_structs.PopularFile": {
+            "type": "object",
+            "properties": {
+                "access_level": {
+                    "$ref": "#/definitions/ncobase_resource_structs.AccessLevel"
+                },
+                "bucket": {
+                    "type": "string"
+                },
+                "category": {
+                    "$ref": "#/definitions/ncobase_resource_structs.FileCategory"
+                },
+                "created_at": {
+                    "type": "integer"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "download_url": {
+                    "type": "string"
+                },
+                "downloads": {
+                    "type": "integer"
+                },
+                "endpoint": {
+                    "type": "string"
+                },
+                "expires_at": {
+                    "type": "integer"
+                },
+                "extras": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "full_path": {
+                    "description": "Virtual fields",
+                    "type": "string"
+                },
+                "hash": {
+                    "description": "Sensitive fields",
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "is_expired": {
+                    "type": "boolean"
+                },
+                "is_public": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "original_name": {
+                    "type": "string"
+                },
+                "owner_id": {
                     "type": "string"
                 },
                 "path": {
@@ -21812,6 +23337,7 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "storage": {
+                    "description": "Storage fields",
                     "type": "string"
                 },
                 "tags": {
@@ -21819,9 +23345,6 @@ const docTemplate = `{
                     "items": {
                         "type": "string"
                     }
-                },
-                "space_id": {
-                    "type": "string"
                 },
                 "thumbnail_url": {
                     "type": "string"
@@ -21835,126 +23358,589 @@ const docTemplate = `{
                 "updated_by": {
                     "type": "string"
                 },
-                "versions": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
+                "views": {
+                    "type": "integer"
                 }
             }
         },
-        "ncobase_resource_structs.UpdateFileBody": {
+        "ncobase_resource_structs.ProcessingOptions": {
             "type": "object",
             "properties": {
-                "access_level": {
-                    "description": "Access level",
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/ncobase_resource_structs.AccessLevel"
-                        }
-                    ]
-                },
-                "bucket": {
-                    "type": "string"
-                },
-                "created_by": {
-                    "type": "string"
-                },
-                "endpoint": {
-                    "type": "string"
-                },
-                "expires_at": {
-                    "description": "Expiration timestamp",
-                    "type": "integer"
-                },
-                "extras": {
-                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                },
-                "folder_path": {
-                    "description": "Virtual folder path",
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "is_public": {
-                    "description": "Publicly accessible flag",
+                "compress_image": {
                     "type": "boolean"
                 },
-                "metadata": {
-                    "description": "metadata",
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/ncobase_resource_structs.FileMetadata"
-                        }
-                    ]
-                },
-                "name": {
-                    "type": "string"
-                },
-                "object_id": {
-                    "type": "string"
-                },
-                "path": {
-                    "type": "string"
-                },
-                "processing_options": {
-                    "description": "Processing options",
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/ncobase_resource_structs.ProcessingOptions"
-                        }
-                    ]
-                },
-                "size": {
+                "compression_quality": {
+                    "description": "1-100",
                     "type": "integer"
                 },
-                "storage": {
+                "convert_format": {
                     "type": "string"
                 },
-                "tags": {
-                    "description": "Tags for categorization",
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
+                "create_thumbnail": {
+                    "type": "boolean"
                 },
-                "space_id": {
-                    "type": "string"
+                "max_height": {
+                    "type": "integer"
                 },
-                "type": {
-                    "type": "string"
+                "max_width": {
+                    "type": "integer"
                 },
-                "updated_by": {
-                    "type": "string"
-                },
-                "versions": {
-                    "description": "Previous versions IDs",
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
+                "resize_image": {
+                    "type": "boolean"
                 }
             }
         },
-        "ncobase_space_structs.AddMemberRequest": {
+        "ncobase_resource_structs.QuotaInfo": {
             "type": "object",
-            "required": [
-                "role",
-                "user_id"
-            ],
             "properties": {
-                "role": {
-                    "$ref": "#/definitions/ncobase_space_structs.UserRole"
+                "file_count": {
+                    "type": "integer"
+                },
+                "last_activity": {
+                    "type": "integer"
+                },
+                "quota": {
+                    "type": "integer"
+                },
+                "usage": {
+                    "type": "integer"
+                },
+                "usage_percent": {
+                    "type": "number"
                 },
                 "user_id": {
                     "type": "string"
                 }
             }
         },
-        "ncobase_space_structs.GroupBody": {
+        "ncobase_resource_structs.QuotaSetRequest": {
+            "type": "object",
+            "required": [
+                "quota"
+            ],
+            "properties": {
+                "quota": {
+                    "type": "integer"
+                }
+            }
+        },
+        "ncobase_resource_structs.ReadFile": {
             "type": "object",
             "properties": {
+                "access_level": {
+                    "$ref": "#/definitions/ncobase_resource_structs.AccessLevel"
+                },
+                "bucket": {
+                    "type": "string"
+                },
+                "category": {
+                    "$ref": "#/definitions/ncobase_resource_structs.FileCategory"
+                },
+                "created_at": {
+                    "type": "integer"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "download_url": {
+                    "type": "string"
+                },
+                "endpoint": {
+                    "type": "string"
+                },
+                "expires_at": {
+                    "type": "integer"
+                },
+                "extras": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "full_path": {
+                    "description": "Virtual fields",
+                    "type": "string"
+                },
+                "hash": {
+                    "description": "Sensitive fields",
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "is_expired": {
+                    "type": "boolean"
+                },
+                "is_public": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "original_name": {
+                    "type": "string"
+                },
+                "owner_id": {
+                    "type": "string"
+                },
+                "path": {
+                    "type": "string"
+                },
+                "size": {
+                    "type": "integer"
+                },
+                "storage": {
+                    "description": "Storage fields",
+                    "type": "string"
+                },
+                "tags": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "thumbnail_url": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "integer"
+                },
+                "updated_by": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_resource_structs.Result-ncobase_resource_structs_ReadFile": {
+            "type": "object",
+            "properties": {
+                "cursor": {
+                    "type": "string"
+                },
+                "has_next": {
+                    "type": "boolean"
+                },
+                "has_prev": {
+                    "type": "boolean"
+                },
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ncobase_resource_structs.ReadFile"
+                    }
+                },
+                "next_cursor": {
+                    "type": "string"
+                },
+                "prev_cursor": {
+                    "type": "string"
+                },
+                "total": {
+                    "type": "integer"
+                }
+            }
+        },
+        "ncobase_resource_structs.StatusChange": {
+            "type": "object",
+            "properties": {
+                "changed_at": {
+                    "type": "integer"
+                },
+                "changed_by": {
+                    "type": "string"
+                },
+                "reason": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_resource_structs.StorageHealth": {
+            "type": "object",
+            "properties": {
+                "corrupted_files": {
+                    "type": "integer"
+                },
+                "free_space": {
+                    "type": "integer"
+                },
+                "health_checks": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ncobase_resource_structs.HealthCheck"
+                    }
+                },
+                "orphaned_files": {
+                    "type": "integer"
+                },
+                "recommendations": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "status": {
+                    "description": "healthy, warning, critical",
+                    "type": "string"
+                },
+                "total_space": {
+                    "type": "integer"
+                },
+                "usage_percent": {
+                    "type": "number"
+                },
+                "used_space": {
+                    "type": "integer"
+                }
+            }
+        },
+        "ncobase_resource_structs.StorageStats": {
+            "type": "object",
+            "properties": {
+                "by_category": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "integer"
+                    }
+                },
+                "by_storage": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "integer"
+                    }
+                },
+                "daily_uploads": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ncobase_resource_structs.DailyUpload"
+                    }
+                },
+                "storage_health": {
+                    "type": "string"
+                },
+                "top_users": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ncobase_resource_structs.UserUsage"
+                    }
+                },
+                "total_files": {
+                    "type": "integer"
+                },
+                "total_size": {
+                    "type": "integer"
+                },
+                "total_users": {
+                    "type": "integer"
+                }
+            }
+        },
+        "ncobase_resource_structs.UsageByDate": {
+            "type": "object",
+            "properties": {
+                "date": {
+                    "type": "string"
+                },
+                "files": {
+                    "type": "integer"
+                },
+                "size": {
+                    "type": "integer"
+                }
+            }
+        },
+        "ncobase_resource_structs.UsageStats": {
+            "type": "object",
+            "properties": {
+                "breakdown": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ncobase_resource_structs.UsageByDate"
+                    }
+                },
+                "growth": {
+                    "$ref": "#/definitions/ncobase_resource_structs.GrowthStats"
+                },
+                "period": {
+                    "type": "string"
+                },
+                "total_files": {
+                    "type": "integer"
+                },
+                "total_size": {
+                    "type": "integer"
+                }
+            }
+        },
+        "ncobase_resource_structs.UserUsage": {
+            "type": "object",
+            "properties": {
+                "files": {
+                    "type": "integer"
+                },
+                "size": {
+                    "type": "integer"
+                },
+                "user_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_space_structs.AddDictionaryToSpaceRequest": {
+            "type": "object",
+            "required": [
+                "dictionary_id"
+            ],
+            "properties": {
+                "dictionary_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_space_structs.AddMenuToSpaceRequest": {
+            "type": "object",
+            "required": [
+                "menu_id"
+            ],
+            "properties": {
+                "menu_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_space_structs.AddOptionsToSpaceRequest": {
+            "type": "object",
+            "required": [
+                "option_id"
+            ],
+            "properties": {
+                "option_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_space_structs.AddSpaceOrganizationRequest": {
+            "type": "object",
+            "required": [
+                "org_id"
+            ],
+            "properties": {
+                "org_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_space_structs.AddUserToSpaceRoleRequest": {
+            "type": "object",
+            "required": [
+                "role_id",
+                "user_id"
+            ],
+            "properties": {
+                "role_id": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_space_structs.BillingPeriod": {
+            "type": "string",
+            "enum": [
+                "monthly",
+                "yearly",
+                "one_time",
+                "usage_based"
+            ],
+            "x-enum-varnames": [
+                "PeriodMonthly",
+                "PeriodYearly",
+                "PeriodOneTime",
+                "PeriodUsage"
+            ]
+        },
+        "ncobase_space_structs.BillingStatus": {
+            "type": "string",
+            "enum": [
+                "pending",
+                "paid",
+                "overdue",
+                "cancelled",
+                "refunded"
+            ],
+            "x-enum-varnames": [
+                "StatusPending",
+                "StatusPaid",
+                "StatusOverdue",
+                "StatusCancelled",
+                "StatusRefunded"
+            ]
+        },
+        "ncobase_space_structs.BillingSummary": {
+            "type": "object",
+            "properties": {
+                "currency": {
+                    "type": "string"
+                },
+                "overdue_amount": {
+                    "type": "number"
+                },
+                "overdue_invoices": {
+                    "type": "integer"
+                },
+                "paid_amount": {
+                    "type": "number"
+                },
+                "paid_invoices": {
+                    "type": "integer"
+                },
+                "pending_amount": {
+                    "type": "number"
+                },
+                "space_id": {
+                    "type": "string"
+                },
+                "total_amount": {
+                    "type": "number"
+                },
+                "total_invoices": {
+                    "type": "integer"
+                }
+            }
+        },
+        "ncobase_space_structs.BulkUpdateError": {
+            "type": "object",
+            "properties": {
+                "error": {
+                    "type": "string"
+                },
+                "role_id": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_space_structs.BulkUpdateResponse": {
+            "type": "object",
+            "properties": {
+                "errors": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ncobase_space_structs.BulkUpdateError"
+                    }
+                },
+                "failed": {
+                    "type": "integer"
+                },
+                "results": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ncobase_space_structs.UserSpaceRoleResponse"
+                    }
+                },
+                "success": {
+                    "type": "integer"
+                },
+                "total": {
+                    "type": "integer"
+                }
+            }
+        },
+        "ncobase_space_structs.BulkUpdateSettingsRequest": {
+            "type": "object",
+            "required": [
+                "settings",
+                "space_id"
+            ],
+            "properties": {
+                "settings": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "space_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_space_structs.BulkUpdateUserSpaceRolesRequest": {
+            "type": "object",
+            "required": [
+                "updates"
+            ],
+            "properties": {
+                "updates": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ncobase_space_structs.UserSpaceRoleUpdate"
+                    }
+                }
+            }
+        },
+        "ncobase_space_structs.CreateSpaceBillingBody": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "type": "number"
+                },
+                "billing_period": {
+                    "$ref": "#/definitions/ncobase_space_structs.BillingPeriod"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "currency": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "due_date": {
+                    "type": "integer"
+                },
+                "extras": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "invoice_number": {
+                    "type": "string"
+                },
+                "paid_at": {
+                    "type": "integer"
+                },
+                "payment_method": {
+                    "type": "string"
+                },
+                "period_end": {
+                    "type": "integer"
+                },
+                "period_start": {
+                    "type": "integer"
+                },
+                "space_id": {
+                    "type": "string"
+                },
+                "status": {
+                    "$ref": "#/definitions/ncobase_space_structs.BillingStatus"
+                },
+                "updated_by": {
+                    "type": "string"
+                },
+                "usage_details": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                }
+            }
+        },
+        "ncobase_space_structs.CreateSpaceBody": {
+            "type": "object",
+            "properties": {
+                "copyright": {
+                    "type": "string"
+                },
                 "created_by": {
                     "type": "string"
                 },
@@ -21964,51 +23950,206 @@ const docTemplate = `{
                 "disabled": {
                     "type": "boolean"
                 },
+                "expired_at": {
+                    "type": "integer"
+                },
                 "extras": {
                     "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
                 },
-                "leader": {
-                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                "keywords": {
+                    "type": "string"
+                },
+                "logo": {
+                    "type": "string"
+                },
+                "logo_alt": {
+                    "type": "string"
                 },
                 "name": {
                     "type": "string"
                 },
-                "parent_id": {
-                    "type": "string"
+                "order": {
+                    "type": "integer"
                 },
                 "slug": {
                     "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "updated_by": {
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_space_structs.CreateSpaceQuotaBody": {
+            "type": "object",
+            "properties": {
+                "created_by": {
+                    "type": "string"
+                },
+                "current_used": {
+                    "type": "integer"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "enabled": {
+                    "type": "boolean"
+                },
+                "extras": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "max_value": {
+                    "type": "integer"
+                },
+                "quota_name": {
+                    "type": "string"
+                },
+                "quota_type": {
+                    "$ref": "#/definitions/ncobase_space_structs.QuotaType"
+                },
+                "space_id": {
+                    "type": "string"
+                },
+                "unit": {
+                    "$ref": "#/definitions/ncobase_space_structs.QuotaUnit"
                 },
                 "updated_by": {
                     "type": "string"
                 }
             }
         },
-        "ncobase_space_structs.GroupMember": {
+        "ncobase_space_structs.CreateSpaceSettingBody": {
             "type": "object",
             "properties": {
-                "added_at": {
+                "category": {
+                    "type": "string"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "default_value": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "extras": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "is_public": {
+                    "type": "boolean"
+                },
+                "is_readonly": {
+                    "type": "boolean"
+                },
+                "is_required": {
+                    "type": "boolean"
+                },
+                "scope": {
+                    "$ref": "#/definitions/ncobase_space_structs.SettingScope"
+                },
+                "setting_key": {
+                    "type": "string"
+                },
+                "setting_name": {
+                    "type": "string"
+                },
+                "setting_type": {
+                    "$ref": "#/definitions/ncobase_space_structs.SettingType"
+                },
+                "setting_value": {
+                    "type": "string"
+                },
+                "space_id": {
+                    "type": "string"
+                },
+                "updated_by": {
+                    "type": "string"
+                },
+                "validation": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                }
+            }
+        },
+        "ncobase_space_structs.PaymentRequest": {
+            "type": "object",
+            "required": [
+                "amount",
+                "billing_id",
+                "payment_method"
+            ],
+            "properties": {
+                "amount": {
+                    "type": "number"
+                },
+                "billing_id": {
+                    "type": "string"
+                },
+                "payment_method": {
+                    "type": "string"
+                },
+                "transaction_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_space_structs.QuotaType": {
+            "type": "string",
+            "enum": [
+                "users",
+                "storage",
+                "api_calls",
+                "projects",
+                "custom"
+            ],
+            "x-enum-varnames": [
+                "QuotaTypeUser",
+                "QuotaTypeStorage",
+                "QuotaTypeAPI",
+                "QuotaTypeProject",
+                "QuotaTypeCustom"
+            ]
+        },
+        "ncobase_space_structs.QuotaUnit": {
+            "type": "string",
+            "enum": [
+                "count",
+                "bytes",
+                "mb",
+                "gb",
+                "tb"
+            ],
+            "x-enum-varnames": [
+                "UnitCount",
+                "UnitBytes",
+                "UnitMB",
+                "UnitGB",
+                "UnitTB"
+            ]
+        },
+        "ncobase_space_structs.QuotaUsageRequest": {
+            "type": "object",
+            "required": [
+                "delta",
+                "quota_type",
+                "space_id"
+            ],
+            "properties": {
+                "delta": {
                     "type": "integer"
                 },
-                "avatar": {
-                    "type": "string"
+                "quota_type": {
+                    "$ref": "#/definitions/ncobase_space_structs.QuotaType"
                 },
-                "email": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "last_login": {
-                    "type": "integer"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "role": {
-                    "$ref": "#/definitions/ncobase_space_structs.UserRole"
-                },
-                "user_id": {
+                "space_id": {
                     "type": "string"
                 }
             }
@@ -22050,6 +24191,9 @@ const docTemplate = `{
                 "slug": {
                     "type": "string"
                 },
+                "type": {
+                    "type": "string"
+                },
                 "updated_at": {
                     "type": "integer"
                 },
@@ -22058,9 +24202,15 @@ const docTemplate = `{
                 }
             }
         },
-        "ncobase_space_structs.UpdateGroupBody": {
+        "ncobase_space_structs.ReadSpace": {
             "type": "object",
             "properties": {
+                "copyright": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "integer"
+                },
                 "created_by": {
                     "type": "string"
                 },
@@ -22070,56 +24220,506 @@ const docTemplate = `{
                 "disabled": {
                     "type": "boolean"
                 },
+                "expired_at": {
+                    "type": "integer"
+                },
                 "extras": {
                     "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
                 },
                 "id": {
                     "type": "string"
                 },
-                "leader": {
-                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                "keywords": {
+                    "type": "string"
+                },
+                "logo": {
+                    "type": "string"
+                },
+                "logo_alt": {
+                    "type": "string"
                 },
                 "name": {
                     "type": "string"
                 },
-                "parent_id": {
-                    "type": "string"
+                "order": {
+                    "type": "integer"
                 },
                 "slug": {
                     "type": "string"
                 },
+                "title": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "integer"
+                },
                 "updated_by": {
+                    "type": "string"
+                },
+                "url": {
                     "type": "string"
                 }
             }
         },
-        "ncobase_space_structs.UpdateMemberRequest": {
+        "ncobase_space_structs.ReadSpaceBilling": {
             "type": "object",
-            "required": [
-                "role"
-            ],
             "properties": {
-                "role": {
-                    "$ref": "#/definitions/ncobase_space_structs.UserRole"
+                "amount": {
+                    "type": "number"
+                },
+                "billing_period": {
+                    "$ref": "#/definitions/ncobase_space_structs.BillingPeriod"
+                },
+                "created_at": {
+                    "type": "integer"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "currency": {
+                    "type": "string"
+                },
+                "days_overdue": {
+                    "type": "integer"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "due_date": {
+                    "type": "integer"
+                },
+                "extras": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "invoice_number": {
+                    "type": "string"
+                },
+                "is_overdue": {
+                    "type": "boolean"
+                },
+                "paid_at": {
+                    "type": "integer"
+                },
+                "payment_method": {
+                    "type": "string"
+                },
+                "period_end": {
+                    "type": "integer"
+                },
+                "period_start": {
+                    "type": "integer"
+                },
+                "space_id": {
+                    "type": "string"
+                },
+                "status": {
+                    "$ref": "#/definitions/ncobase_space_structs.BillingStatus"
+                },
+                "updated_at": {
+                    "type": "integer"
+                },
+                "updated_by": {
+                    "type": "string"
+                },
+                "usage_details": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
                 }
             }
         },
-        "ncobase_space_structs.UserRole": {
+        "ncobase_space_structs.ReadSpaceQuota": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "integer"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "current_used": {
+                    "type": "integer"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "enabled": {
+                    "type": "boolean"
+                },
+                "extras": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "is_exceeded": {
+                    "type": "boolean"
+                },
+                "max_value": {
+                    "type": "integer"
+                },
+                "quota_name": {
+                    "type": "string"
+                },
+                "quota_type": {
+                    "$ref": "#/definitions/ncobase_space_structs.QuotaType"
+                },
+                "space_id": {
+                    "type": "string"
+                },
+                "unit": {
+                    "$ref": "#/definitions/ncobase_space_structs.QuotaUnit"
+                },
+                "updated_at": {
+                    "type": "integer"
+                },
+                "updated_by": {
+                    "type": "string"
+                },
+                "utilization_percent": {
+                    "type": "number"
+                }
+            }
+        },
+        "ncobase_space_structs.ReadSpaceSetting": {
+            "type": "object",
+            "properties": {
+                "category": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "integer"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "default_value": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "extras": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "is_public": {
+                    "type": "boolean"
+                },
+                "is_readonly": {
+                    "type": "boolean"
+                },
+                "is_required": {
+                    "type": "boolean"
+                },
+                "scope": {
+                    "$ref": "#/definitions/ncobase_space_structs.SettingScope"
+                },
+                "setting_key": {
+                    "type": "string"
+                },
+                "setting_name": {
+                    "type": "string"
+                },
+                "setting_type": {
+                    "$ref": "#/definitions/ncobase_space_structs.SettingType"
+                },
+                "setting_value": {
+                    "type": "string"
+                },
+                "space_id": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "integer"
+                },
+                "updated_by": {
+                    "type": "string"
+                },
+                "validation": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                }
+            }
+        },
+        "ncobase_space_structs.SettingScope": {
             "type": "string",
             "enum": [
-                "owner",
-                "admin",
-                "editor",
-                "viewer",
-                "member"
+                "space",
+                "system",
+                "user",
+                "feature"
             ],
             "x-enum-varnames": [
-                "RoleOwner",
-                "RoleAdmin",
-                "RoleEditor",
-                "RoleViewer",
-                "RoleMember"
+                "Scope",
+                "ScopeSystem",
+                "ScopeUser",
+                "ScopeFeature"
             ]
+        },
+        "ncobase_space_structs.SettingType": {
+            "type": "string",
+            "enum": [
+                "string",
+                "number",
+                "boolean",
+                "json",
+                "array"
+            ],
+            "x-enum-varnames": [
+                "TypeString",
+                "TypeNumber",
+                "TypeBoolean",
+                "TypeJSON",
+                "TypeArray"
+            ]
+        },
+        "ncobase_space_structs.SpaceDictionary": {
+            "type": "object",
+            "properties": {
+                "dictionary_id": {
+                    "type": "string"
+                },
+                "space_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_space_structs.SpaceMenu": {
+            "type": "object",
+            "properties": {
+                "menu_id": {
+                    "type": "string"
+                },
+                "space_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_space_structs.SpaceOption": {
+            "type": "object",
+            "properties": {
+                "option_id": {
+                    "type": "string"
+                },
+                "space_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_space_structs.SpaceOrganizationRelation": {
+            "type": "object",
+            "properties": {
+                "added_at": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "org_id": {
+                    "type": "string"
+                },
+                "space_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_space_structs.SpaceRoleUsersResponse": {
+            "type": "object",
+            "properties": {
+                "count": {
+                    "type": "integer"
+                },
+                "role_id": {
+                    "type": "string"
+                },
+                "space_id": {
+                    "type": "string"
+                },
+                "user_ids": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "ncobase_space_structs.SpaceUserInfo": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "joined_at": {
+                    "type": "integer"
+                },
+                "role_ids": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "user_id": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_space_structs.SpaceUsersListResponse": {
+            "type": "object",
+            "properties": {
+                "cursor": {
+                    "type": "string"
+                },
+                "total": {
+                    "type": "integer"
+                },
+                "users": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ncobase_space_structs.SpaceUserInfo"
+                    }
+                }
+            }
+        },
+        "ncobase_space_structs.UpdateSpaceBody": {
+            "type": "object",
+            "properties": {
+                "copyright": {
+                    "type": "string"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "disabled": {
+                    "type": "boolean"
+                },
+                "expired_at": {
+                    "type": "integer"
+                },
+                "extras": {
+                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "keywords": {
+                    "type": "string"
+                },
+                "logo": {
+                    "type": "string"
+                },
+                "logo_alt": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "order": {
+                    "type": "integer"
+                },
+                "slug": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "updated_by": {
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_space_structs.UpdateUserSpaceRoleRequest": {
+            "type": "object",
+            "required": [
+                "new_role_id",
+                "old_role_id"
+            ],
+            "properties": {
+                "new_role_id": {
+                    "type": "string"
+                },
+                "old_role_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_space_structs.UserSpaceRoleResponse": {
+            "type": "object",
+            "properties": {
+                "role_id": {
+                    "type": "string"
+                },
+                "space_id": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_space_structs.UserSpaceRoleUpdate": {
+            "type": "object",
+            "required": [
+                "operation",
+                "role_id",
+                "user_id"
+            ],
+            "properties": {
+                "old_role_id": {
+                    "description": "Required for \"update\" operation",
+                    "type": "string"
+                },
+                "operation": {
+                    "description": "\"add\", \"remove\", \"update\"",
+                    "type": "string"
+                },
+                "role_id": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_space_structs.UserSpaceRolesResponse": {
+            "type": "object",
+            "properties": {
+                "count": {
+                    "type": "integer"
+                },
+                "role_ids": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "space_id": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "string"
+                }
+            }
         },
         "ncobase_system_structs.DictionaryBody": {
             "type": "object",
@@ -22487,1037 +25087,6 @@ const docTemplate = `{
                 }
             }
         },
-        "ncobase_space_structs.AddDictionaryToSpaceRequest": {
-            "type": "object",
-            "required": [
-                "dictionary_id"
-            ],
-            "properties": {
-                "dictionary_id": {
-                    "type": "string"
-                }
-            }
-        },
-        "ncobase_space_structs.AddMenuToSpaceRequest": {
-            "type": "object",
-            "required": [
-                "menu_id"
-            ],
-            "properties": {
-                "menu_id": {
-                    "type": "string"
-                }
-            }
-        },
-        "ncobase_space_structs.AddOptionsToSpaceRequest": {
-            "type": "object",
-            "required": [
-                "option_id"
-            ],
-            "properties": {
-                "option_id": {
-                    "type": "string"
-                }
-            }
-        },
-        "ncobase_space_structs.AddSpaceOrganizationRequest": {
-            "type": "object",
-            "required": [
-                "org_id"
-            ],
-            "properties": {
-                "org_id": {
-                    "type": "string"
-                }
-            }
-        },
-        "ncobase_space_structs.AddUserToSpaceRoleRequest": {
-            "type": "object",
-            "required": [
-                "role_id",
-                "user_id"
-            ],
-            "properties": {
-                "role_id": {
-                    "type": "string"
-                },
-                "user_id": {
-                    "type": "string"
-                }
-            }
-        },
-        "ncobase_space_structs.BillingPeriod": {
-            "type": "string",
-            "enum": [
-                "monthly",
-                "yearly",
-                "one_time",
-                "usage_based"
-            ],
-            "x-enum-varnames": [
-                "PeriodMonthly",
-                "PeriodYearly",
-                "PeriodOneTime",
-                "PeriodUsage"
-            ]
-        },
-        "ncobase_space_structs.BillingStatus": {
-            "type": "string",
-            "enum": [
-                "pending",
-                "paid",
-                "overdue",
-                "cancelled",
-                "refunded"
-            ],
-            "x-enum-varnames": [
-                "StatusPending",
-                "StatusPaid",
-                "StatusOverdue",
-                "StatusCancelled",
-                "StatusRefunded"
-            ]
-        },
-        "ncobase_space_structs.BillingSummary": {
-            "type": "object",
-            "properties": {
-                "currency": {
-                    "type": "string"
-                },
-                "overdue_amount": {
-                    "type": "number"
-                },
-                "overdue_invoices": {
-                    "type": "integer"
-                },
-                "paid_amount": {
-                    "type": "number"
-                },
-                "paid_invoices": {
-                    "type": "integer"
-                },
-                "pending_amount": {
-                    "type": "number"
-                },
-                "space_id": {
-                    "type": "string"
-                },
-                "total_amount": {
-                    "type": "number"
-                },
-                "total_invoices": {
-                    "type": "integer"
-                }
-            }
-        },
-        "ncobase_space_structs.BulkUpdateError": {
-            "type": "object",
-            "properties": {
-                "error": {
-                    "type": "string"
-                },
-                "role_id": {
-                    "type": "string"
-                },
-                "user_id": {
-                    "type": "string"
-                }
-            }
-        },
-        "ncobase_space_structs.BulkUpdateResponse": {
-            "type": "object",
-            "properties": {
-                "errors": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/ncobase_space_structs.BulkUpdateError"
-                    }
-                },
-                "failed": {
-                    "type": "integer"
-                },
-                "results": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/ncobase_space_structs.UserSpaceRoleResponse"
-                    }
-                },
-                "success": {
-                    "type": "integer"
-                },
-                "total": {
-                    "type": "integer"
-                }
-            }
-        },
-        "ncobase_space_structs.BulkUpdateSettingsRequest": {
-            "type": "object",
-            "required": [
-                "settings",
-                "space_id"
-            ],
-            "properties": {
-                "settings": {
-                    "type": "object",
-                    "additionalProperties": {
-                        "type": "string"
-                    }
-                },
-                "space_id": {
-                    "type": "string"
-                }
-            }
-        },
-        "ncobase_space_structs.BulkUpdateUserSpaceRolesRequest": {
-            "type": "object",
-            "required": [
-                "updates"
-            ],
-            "properties": {
-                "updates": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/ncobase_space_structs.UserSpaceRoleUpdate"
-                    }
-                }
-            }
-        },
-        "ncobase_space_structs.CreateSpaceBillingBody": {
-            "type": "object",
-            "properties": {
-                "amount": {
-                    "type": "number"
-                },
-                "billing_period": {
-                    "$ref": "#/definitions/ncobase_space_structs.BillingPeriod"
-                },
-                "created_by": {
-                    "type": "string"
-                },
-                "currency": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "due_date": {
-                    "type": "integer"
-                },
-                "extras": {
-                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                },
-                "invoice_number": {
-                    "type": "string"
-                },
-                "paid_at": {
-                    "type": "integer"
-                },
-                "payment_method": {
-                    "type": "string"
-                },
-                "period_end": {
-                    "type": "integer"
-                },
-                "period_start": {
-                    "type": "integer"
-                },
-                "status": {
-                    "$ref": "#/definitions/ncobase_space_structs.BillingStatus"
-                },
-                "space_id": {
-                    "type": "string"
-                },
-                "updated_by": {
-                    "type": "string"
-                },
-                "usage_details": {
-                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                }
-            }
-        },
-        "ncobase_space_structs.CreateSpaceBody": {
-            "type": "object",
-            "properties": {
-                "copyright": {
-                    "type": "string"
-                },
-                "created_by": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "disabled": {
-                    "type": "boolean"
-                },
-                "expired_at": {
-                    "type": "integer"
-                },
-                "extras": {
-                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                },
-                "keywords": {
-                    "type": "string"
-                },
-                "logo": {
-                    "type": "string"
-                },
-                "logo_alt": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "order": {
-                    "type": "integer"
-                },
-                "slug": {
-                    "type": "string"
-                },
-                "title": {
-                    "type": "string"
-                },
-                "type": {
-                    "type": "string"
-                },
-                "updated_by": {
-                    "type": "string"
-                },
-                "url": {
-                    "type": "string"
-                }
-            }
-        },
-        "ncobase_space_structs.CreateSpaceQuotaBody": {
-            "type": "object",
-            "properties": {
-                "created_by": {
-                    "type": "string"
-                },
-                "current_used": {
-                    "type": "integer"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "enabled": {
-                    "type": "boolean"
-                },
-                "extras": {
-                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                },
-                "max_value": {
-                    "type": "integer"
-                },
-                "quota_name": {
-                    "type": "string"
-                },
-                "quota_type": {
-                    "$ref": "#/definitions/ncobase_space_structs.QuotaType"
-                },
-                "space_id": {
-                    "type": "string"
-                },
-                "unit": {
-                    "$ref": "#/definitions/ncobase_space_structs.QuotaUnit"
-                },
-                "updated_by": {
-                    "type": "string"
-                }
-            }
-        },
-        "ncobase_space_structs.CreateSpaceSettingBody": {
-            "type": "object",
-            "properties": {
-                "category": {
-                    "type": "string"
-                },
-                "created_by": {
-                    "type": "string"
-                },
-                "default_value": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "extras": {
-                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                },
-                "is_public": {
-                    "type": "boolean"
-                },
-                "is_readonly": {
-                    "type": "boolean"
-                },
-                "is_required": {
-                    "type": "boolean"
-                },
-                "scope": {
-                    "$ref": "#/definitions/ncobase_space_structs.SettingScope"
-                },
-                "setting_key": {
-                    "type": "string"
-                },
-                "setting_name": {
-                    "type": "string"
-                },
-                "setting_type": {
-                    "$ref": "#/definitions/ncobase_space_structs.SettingType"
-                },
-                "setting_value": {
-                    "type": "string"
-                },
-                "space_id": {
-                    "type": "string"
-                },
-                "updated_by": {
-                    "type": "string"
-                },
-                "validation": {
-                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                }
-            }
-        },
-        "ncobase_space_structs.PaymentRequest": {
-            "type": "object",
-            "required": [
-                "amount",
-                "billing_id",
-                "payment_method"
-            ],
-            "properties": {
-                "amount": {
-                    "type": "number"
-                },
-                "billing_id": {
-                    "type": "string"
-                },
-                "payment_method": {
-                    "type": "string"
-                },
-                "transaction_id": {
-                    "type": "string"
-                }
-            }
-        },
-        "ncobase_space_structs.QuotaType": {
-            "type": "string",
-            "enum": [
-                "users",
-                "storage",
-                "api_calls",
-                "projects",
-                "custom"
-            ],
-            "x-enum-varnames": [
-                "QuotaTypeUser",
-                "QuotaTypeStorage",
-                "QuotaTypeAPI",
-                "QuotaTypeProject",
-                "QuotaTypeCustom"
-            ]
-        },
-        "ncobase_space_structs.QuotaUnit": {
-            "type": "string",
-            "enum": [
-                "count",
-                "bytes",
-                "mb",
-                "gb",
-                "tb"
-            ],
-            "x-enum-varnames": [
-                "UnitCount",
-                "UnitBytes",
-                "UnitMB",
-                "UnitGB",
-                "UnitTB"
-            ]
-        },
-        "ncobase_space_structs.QuotaUsageRequest": {
-            "type": "object",
-            "required": [
-                "delta",
-                "quota_type",
-                "space_id"
-            ],
-            "properties": {
-                "delta": {
-                    "type": "integer"
-                },
-                "quota_type": {
-                    "$ref": "#/definitions/ncobase_space_structs.QuotaType"
-                },
-                "space_id": {
-                    "type": "string"
-                }
-            }
-        },
-        "ncobase_space_structs.ReadOrganization": {
-            "type": "object",
-            "properties": {
-                "children": {
-                    "type": "array",
-                    "items": {}
-                },
-                "created_at": {
-                    "type": "integer"
-                },
-                "created_by": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "disabled": {
-                    "type": "boolean"
-                },
-                "extras": {
-                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "leader": {
-                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "parent_id": {
-                    "type": "string"
-                },
-                "slug": {
-                    "type": "string"
-                },
-                "updated_at": {
-                    "type": "integer"
-                },
-                "updated_by": {
-                    "type": "string"
-                }
-            }
-        },
-        "ncobase_space_structs.ReadSpace": {
-            "type": "object",
-            "properties": {
-                "copyright": {
-                    "type": "string"
-                },
-                "created_at": {
-                    "type": "integer"
-                },
-                "created_by": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "disabled": {
-                    "type": "boolean"
-                },
-                "expired_at": {
-                    "type": "integer"
-                },
-                "extras": {
-                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "keywords": {
-                    "type": "string"
-                },
-                "logo": {
-                    "type": "string"
-                },
-                "logo_alt": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "order": {
-                    "type": "integer"
-                },
-                "slug": {
-                    "type": "string"
-                },
-                "title": {
-                    "type": "string"
-                },
-                "type": {
-                    "type": "string"
-                },
-                "updated_at": {
-                    "type": "integer"
-                },
-                "updated_by": {
-                    "type": "string"
-                },
-                "url": {
-                    "type": "string"
-                }
-            }
-        },
-        "ncobase_space_structs.ReadSpaceBilling": {
-            "type": "object",
-            "properties": {
-                "amount": {
-                    "type": "number"
-                },
-                "billing_period": {
-                    "$ref": "#/definitions/ncobase_space_structs.BillingPeriod"
-                },
-                "created_at": {
-                    "type": "integer"
-                },
-                "created_by": {
-                    "type": "string"
-                },
-                "currency": {
-                    "type": "string"
-                },
-                "days_overdue": {
-                    "type": "integer"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "due_date": {
-                    "type": "integer"
-                },
-                "extras": {
-                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "invoice_number": {
-                    "type": "string"
-                },
-                "is_overdue": {
-                    "type": "boolean"
-                },
-                "paid_at": {
-                    "type": "integer"
-                },
-                "payment_method": {
-                    "type": "string"
-                },
-                "period_end": {
-                    "type": "integer"
-                },
-                "period_start": {
-                    "type": "integer"
-                },
-                "status": {
-                    "$ref": "#/definitions/ncobase_space_structs.BillingStatus"
-                },
-                "space_id": {
-                    "type": "string"
-                },
-                "updated_at": {
-                    "type": "integer"
-                },
-                "updated_by": {
-                    "type": "string"
-                },
-                "usage_details": {
-                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                }
-            }
-        },
-        "ncobase_space_structs.ReadSpaceQuota": {
-            "type": "object",
-            "properties": {
-                "created_at": {
-                    "type": "integer"
-                },
-                "created_by": {
-                    "type": "string"
-                },
-                "current_used": {
-                    "type": "integer"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "enabled": {
-                    "type": "boolean"
-                },
-                "extras": {
-                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "is_exceeded": {
-                    "type": "boolean"
-                },
-                "max_value": {
-                    "type": "integer"
-                },
-                "quota_name": {
-                    "type": "string"
-                },
-                "quota_type": {
-                    "$ref": "#/definitions/ncobase_space_structs.QuotaType"
-                },
-                "space_id": {
-                    "type": "string"
-                },
-                "unit": {
-                    "$ref": "#/definitions/ncobase_space_structs.QuotaUnit"
-                },
-                "updated_at": {
-                    "type": "integer"
-                },
-                "updated_by": {
-                    "type": "string"
-                },
-                "utilization_percent": {
-                    "type": "number"
-                }
-            }
-        },
-        "ncobase_space_structs.ReadSpaceSetting": {
-            "type": "object",
-            "properties": {
-                "category": {
-                    "type": "string"
-                },
-                "created_at": {
-                    "type": "integer"
-                },
-                "created_by": {
-                    "type": "string"
-                },
-                "default_value": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "extras": {
-                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "is_public": {
-                    "type": "boolean"
-                },
-                "is_readonly": {
-                    "type": "boolean"
-                },
-                "is_required": {
-                    "type": "boolean"
-                },
-                "scope": {
-                    "$ref": "#/definitions/ncobase_space_structs.SettingScope"
-                },
-                "setting_key": {
-                    "type": "string"
-                },
-                "setting_name": {
-                    "type": "string"
-                },
-                "setting_type": {
-                    "$ref": "#/definitions/ncobase_space_structs.SettingType"
-                },
-                "setting_value": {
-                    "type": "string"
-                },
-                "space_id": {
-                    "type": "string"
-                },
-                "updated_at": {
-                    "type": "integer"
-                },
-                "updated_by": {
-                    "type": "string"
-                },
-                "validation": {
-                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                }
-            }
-        },
-        "ncobase_space_structs.SettingScope": {
-            "type": "string",
-            "enum": [
-                "system",
-                "space",
-                "user",
-                "feature"
-            ],
-            "x-enum-varnames": [
-                "ScopeSystem",
-                "Scope",
-                "ScopeUser",
-                "ScopeFeature"
-            ]
-        },
-        "ncobase_space_structs.SettingType": {
-            "type": "string",
-            "enum": [
-                "string",
-                "number",
-                "boolean",
-                "json",
-                "array"
-            ],
-            "x-enum-varnames": [
-                "TypeString",
-                "TypeNumber",
-                "TypeBoolean",
-                "TypeJSON",
-                "TypeArray"
-            ]
-        },
-        "ncobase_space_structs.SpaceDictionary": {
-            "type": "object",
-            "properties": {
-                "dictionary_id": {
-                    "type": "string"
-                },
-                "space_id": {
-                    "type": "string"
-                }
-            }
-        },
-        "ncobase_space_structs.SpaceOrganizationRelation": {
-            "type": "object",
-            "properties": {
-                "added_at": {
-                    "type": "integer"
-                },
-                "org_id": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "space_id": {
-                    "type": "string"
-                }
-            }
-        },
-        "ncobase_space_structs.SpaceMenu": {
-            "type": "object",
-            "properties": {
-                "menu_id": {
-                    "type": "string"
-                },
-                "space_id": {
-                    "type": "string"
-                }
-            }
-        },
-        "ncobase_space_structs.SpaceOption": {
-            "type": "object",
-            "properties": {
-                "option_id": {
-                    "type": "string"
-                },
-                "space_id": {
-                    "type": "string"
-                }
-            }
-        },
-        "ncobase_space_structs.SpaceRoleUsersResponse": {
-            "type": "object",
-            "properties": {
-                "count": {
-                    "type": "integer"
-                },
-                "role_id": {
-                    "type": "string"
-                },
-                "space_id": {
-                    "type": "string"
-                },
-                "user_ids": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                }
-            }
-        },
-        "ncobase_space_structs.SpaceUserInfo": {
-            "type": "object",
-            "properties": {
-                "email": {
-                    "type": "string"
-                },
-                "joined_at": {
-                    "type": "integer"
-                },
-                "role_ids": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "user_id": {
-                    "type": "string"
-                },
-                "username": {
-                    "type": "string"
-                }
-            }
-        },
-        "ncobase_space_structs.SpaceUsersListResponse": {
-            "type": "object",
-            "properties": {
-                "cursor": {
-                    "type": "string"
-                },
-                "total": {
-                    "type": "integer"
-                },
-                "users": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/ncobase_space_structs.SpaceUserInfo"
-                    }
-                }
-            }
-        },
-        "ncobase_space_structs.UpdateSpaceBody": {
-            "type": "object",
-            "properties": {
-                "copyright": {
-                    "type": "string"
-                },
-                "created_by": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "disabled": {
-                    "type": "boolean"
-                },
-                "expired_at": {
-                    "type": "integer"
-                },
-                "extras": {
-                    "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "keywords": {
-                    "type": "string"
-                },
-                "logo": {
-                    "type": "string"
-                },
-                "logo_alt": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "order": {
-                    "type": "integer"
-                },
-                "slug": {
-                    "type": "string"
-                },
-                "title": {
-                    "type": "string"
-                },
-                "type": {
-                    "type": "string"
-                },
-                "updated_by": {
-                    "type": "string"
-                },
-                "url": {
-                    "type": "string"
-                }
-            }
-        },
-        "ncobase_space_structs.UpdateUserSpaceRoleRequest": {
-            "type": "object",
-            "required": [
-                "new_role_id",
-                "old_role_id"
-            ],
-            "properties": {
-                "new_role_id": {
-                    "type": "string"
-                },
-                "old_role_id": {
-                    "type": "string"
-                }
-            }
-        },
-        "ncobase_space_structs.UserSpaceRoleResponse": {
-            "type": "object",
-            "properties": {
-                "role_id": {
-                    "type": "string"
-                },
-                "status": {
-                    "type": "string"
-                },
-                "space_id": {
-                    "type": "string"
-                },
-                "user_id": {
-                    "type": "string"
-                }
-            }
-        },
-        "ncobase_space_structs.UserSpaceRoleUpdate": {
-            "type": "object",
-            "required": [
-                "operation",
-                "role_id",
-                "user_id"
-            ],
-            "properties": {
-                "old_role_id": {
-                    "description": "Required for \"update\" operation",
-                    "type": "string"
-                },
-                "operation": {
-                    "description": "\"add\", \"remove\", \"update\"",
-                    "type": "string"
-                },
-                "role_id": {
-                    "type": "string"
-                },
-                "user_id": {
-                    "type": "string"
-                }
-            }
-        },
-        "ncobase_space_structs.UserSpaceRolesResponse": {
-            "type": "object",
-            "properties": {
-                "count": {
-                    "type": "integer"
-                },
-                "role_ids": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "space_id": {
-                    "type": "string"
-                },
-                "user_id": {
-                    "type": "string"
-                }
-            }
-        },
         "ncobase_user_structs.ApiKey": {
             "type": "object",
             "properties": {
@@ -23594,10 +25163,10 @@ const docTemplate = `{
                         "type": "string"
                     }
                 },
-                "status": {
+                "space_id": {
                     "type": "string"
                 },
-                "space_id": {
+                "status": {
                     "type": "string"
                 },
                 "termination_date": {
@@ -23671,10 +25240,10 @@ const docTemplate = `{
                         "type": "string"
                     }
                 },
-                "status": {
+                "space_id": {
                     "type": "string"
                 },
-                "space_id": {
+                "status": {
                     "type": "string"
                 },
                 "termination_date": {
@@ -23806,10 +25375,10 @@ const docTemplate = `{
                         "type": "string"
                     }
                 },
-                "status": {
+                "space_id": {
                     "type": "string"
                 },
-                "space_id": {
+                "status": {
                     "type": "string"
                 },
                 "termination_date": {
@@ -24098,6 +25667,9 @@ const docTemplate = `{
                 "node_type": {
                     "type": "string"
                 },
+                "space_id": {
+                    "type": "string"
+                },
                 "start_time": {
                     "type": "integer"
                 },
@@ -24105,9 +25677,6 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "template_id": {
-                    "type": "string"
-                },
-                "space_id": {
                     "type": "string"
                 }
             }
@@ -24148,13 +25717,13 @@ const docTemplate = `{
                 "process_id": {
                     "type": "string"
                 },
+                "space_id": {
+                    "type": "string"
+                },
                 "task_id": {
                     "type": "string"
                 },
                 "template_id": {
-                    "type": "string"
-                },
-                "space_id": {
                     "type": "string"
                 },
                 "type": {
@@ -24252,13 +25821,13 @@ const docTemplate = `{
                 "skippable": {
                     "type": "boolean"
                 },
+                "space_id": {
+                    "type": "string"
+                },
                 "status": {
                     "type": "string"
                 },
                 "template_id": {
-                    "type": "string"
-                },
-                "space_id": {
                     "type": "string"
                 },
                 "timeout_config": {
@@ -24368,6 +25937,9 @@ const docTemplate = `{
                 "retryable": {
                     "type": "boolean"
                 },
+                "space_id": {
+                    "type": "string"
+                },
                 "start_node_id": {
                     "type": "string"
                 },
@@ -24381,9 +25953,6 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "template_id": {
-                    "type": "string"
-                },
-                "space_id": {
                     "type": "string"
                 },
                 "title": {
@@ -24418,10 +25987,10 @@ const docTemplate = `{
                 "source_version": {
                     "type": "string"
                 },
-                "template_id": {
+                "space_id": {
                     "type": "string"
                 },
-                "space_id": {
+                "template_id": {
                     "type": "string"
                 },
                 "validation_rules": {
@@ -24468,6 +26037,9 @@ const docTemplate = `{
                 "node_type": {
                     "type": "string"
                 },
+                "space_id": {
+                    "type": "string"
+                },
                 "start_time": {
                     "type": "integer"
                 },
@@ -24475,9 +26047,6 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "template_id": {
-                    "type": "string"
-                },
-                "space_id": {
                     "type": "string"
                 },
                 "updated_at": {
@@ -24533,13 +26102,13 @@ const docTemplate = `{
                 "process_id": {
                     "type": "string"
                 },
+                "space_id": {
+                    "type": "string"
+                },
                 "task_id": {
                     "type": "string"
                 },
                 "template_id": {
-                    "type": "string"
-                },
-                "space_id": {
                     "type": "string"
                 },
                 "type": {
@@ -24655,13 +26224,13 @@ const docTemplate = `{
                 "skippable": {
                     "type": "boolean"
                 },
+                "space_id": {
+                    "type": "string"
+                },
                 "status": {
                     "type": "string"
                 },
                 "template_id": {
-                    "type": "string"
-                },
-                "space_id": {
                     "type": "string"
                 },
                 "timeout_config": {
@@ -24771,6 +26340,9 @@ const docTemplate = `{
                 "retryable": {
                     "type": "boolean"
                 },
+                "space_id": {
+                    "type": "string"
+                },
                 "start_node_id": {
                     "type": "string"
                 },
@@ -24784,9 +26356,6 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "template_id": {
-                    "type": "string"
-                },
-                "space_id": {
                     "type": "string"
                 },
                 "title": {
@@ -24836,10 +26405,10 @@ const docTemplate = `{
                 "source_version": {
                     "type": "string"
                 },
-                "template_id": {
+                "space_id": {
                     "type": "string"
                 },
-                "space_id": {
+                "template_id": {
                     "type": "string"
                 },
                 "updated_at": {
@@ -24907,13 +26476,13 @@ const docTemplate = `{
                 "rule_key": {
                     "type": "string"
                 },
+                "space_id": {
+                    "type": "string"
+                },
                 "status": {
                     "type": "string"
                 },
                 "template_id": {
-                    "type": "string"
-                },
-                "space_id": {
                     "type": "string"
                 },
                 "type": {
@@ -25029,6 +26598,9 @@ const docTemplate = `{
                 "restrictions": {
                     "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
                 },
+                "space_id": {
+                    "type": "string"
+                },
                 "start_time": {
                     "type": "integer"
                 },
@@ -25042,9 +26614,6 @@ const docTemplate = `{
                     }
                 },
                 "task_key": {
-                    "type": "string"
-                },
-                "space_id": {
                     "type": "string"
                 },
                 "updated_at": {
@@ -25160,6 +26729,9 @@ const docTemplate = `{
                 "source_version": {
                     "type": "string"
                 },
+                "space_id": {
+                    "type": "string"
+                },
                 "status": {
                     "type": "string"
                 },
@@ -25167,9 +26739,6 @@ const docTemplate = `{
                     "type": "boolean"
                 },
                 "template_key": {
-                    "type": "string"
-                },
-                "space_id": {
                     "type": "string"
                 },
                 "timeout_config": {
@@ -25234,13 +26803,13 @@ const docTemplate = `{
                 "rule_key": {
                     "type": "string"
                 },
+                "space_id": {
+                    "type": "string"
+                },
                 "status": {
                     "type": "string"
                 },
                 "template_id": {
-                    "type": "string"
-                },
-                "space_id": {
                     "type": "string"
                 },
                 "type": {
@@ -25277,10 +26846,10 @@ const docTemplate = `{
                 "priority": {
                     "type": "integer"
                 },
-                "template_id": {
+                "space_id": {
                     "type": "string"
                 },
-                "space_id": {
+                "template_id": {
                     "type": "string"
                 },
                 "variables": {
@@ -25449,6 +27018,9 @@ const docTemplate = `{
                 "restrictions": {
                     "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
                 },
+                "space_id": {
+                    "type": "string"
+                },
                 "start_time": {
                     "type": "integer"
                 },
@@ -25462,9 +27034,6 @@ const docTemplate = `{
                     }
                 },
                 "task_key": {
-                    "type": "string"
-                },
-                "space_id": {
                     "type": "string"
                 },
                 "urge_count": {
@@ -25565,6 +27134,9 @@ const docTemplate = `{
                 "source_version": {
                     "type": "string"
                 },
+                "space_id": {
+                    "type": "string"
+                },
                 "status": {
                     "type": "string"
                 },
@@ -25572,9 +27144,6 @@ const docTemplate = `{
                     "type": "boolean"
                 },
                 "template_key": {
-                    "type": "string"
-                },
-                "space_id": {
                     "type": "string"
                 },
                 "timeout_config": {
@@ -25667,6 +27236,9 @@ const docTemplate = `{
                 "node_type": {
                     "type": "string"
                 },
+                "space_id": {
+                    "type": "string"
+                },
                 "start_time": {
                     "type": "integer"
                 },
@@ -25674,9 +27246,6 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "template_id": {
-                    "type": "string"
-                },
-                "space_id": {
                     "type": "string"
                 }
             }
@@ -25771,13 +27340,13 @@ const docTemplate = `{
                 "skippable": {
                     "type": "boolean"
                 },
+                "space_id": {
+                    "type": "string"
+                },
                 "status": {
                     "type": "string"
                 },
                 "template_id": {
-                    "type": "string"
-                },
-                "space_id": {
                     "type": "string"
                 },
                 "timeout_config": {
@@ -25875,6 +27444,9 @@ const docTemplate = `{
                 "retryable": {
                     "type": "boolean"
                 },
+                "space_id": {
+                    "type": "string"
+                },
                 "start_node_id": {
                     "type": "string"
                 },
@@ -25888,9 +27460,6 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "template_id": {
-                    "type": "string"
-                },
-                "space_id": {
                     "type": "string"
                 },
                 "title": {
@@ -25928,10 +27497,10 @@ const docTemplate = `{
                 "source_version": {
                     "type": "string"
                 },
-                "template_id": {
+                "space_id": {
                     "type": "string"
                 },
-                "space_id": {
+                "template_id": {
                     "type": "string"
                 },
                 "validation_rules": {
@@ -25987,13 +27556,13 @@ const docTemplate = `{
                 "rule_key": {
                     "type": "string"
                 },
+                "space_id": {
+                    "type": "string"
+                },
                 "status": {
                     "type": "string"
                 },
                 "template_id": {
-                    "type": "string"
-                },
-                "space_id": {
                     "type": "string"
                 },
                 "type": {
@@ -26097,6 +27666,9 @@ const docTemplate = `{
                 "restrictions": {
                     "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
                 },
+                "space_id": {
+                    "type": "string"
+                },
                 "start_time": {
                     "type": "integer"
                 },
@@ -26110,9 +27682,6 @@ const docTemplate = `{
                     }
                 },
                 "task_key": {
-                    "type": "string"
-                },
-                "space_id": {
                     "type": "string"
                 },
                 "urge_count": {
@@ -26216,6 +27785,9 @@ const docTemplate = `{
                 "source_version": {
                     "type": "string"
                 },
+                "space_id": {
+                    "type": "string"
+                },
                 "status": {
                     "type": "string"
                 },
@@ -26223,9 +27795,6 @@ const docTemplate = `{
                     "type": "boolean"
                 },
                 "template_key": {
-                    "type": "string"
-                },
-                "space_id": {
                     "type": "string"
                 },
                 "timeout_config": {

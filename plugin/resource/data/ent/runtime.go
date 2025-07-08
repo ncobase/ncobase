@@ -18,10 +18,10 @@ func init() {
 	_ = fileMixinFields1
 	fileMixinFields4 := fileMixin[4].Fields()
 	_ = fileMixinFields4
-	fileMixinFields10 := fileMixin[10].Fields()
-	_ = fileMixinFields10
-	fileMixinFields12 := fileMixin[12].Fields()
-	_ = fileMixinFields12
+	fileMixinFields9 := fileMixin[9].Fields()
+	_ = fileMixinFields9
+	fileMixinFields11 := fileMixin[11].Fields()
+	_ = fileMixinFields11
 	fileFields := schema.File{}.Fields()
 	_ = fileFields
 	// fileDescName is the schema descriptor for name field.
@@ -33,15 +33,15 @@ func init() {
 	// file.DefaultSize holds the default value on creation for the size field.
 	file.DefaultSize = fileDescSize.Default.(int)
 	// fileDescExtras is the schema descriptor for extras field.
-	fileDescExtras := fileMixinFields10[0].Descriptor()
+	fileDescExtras := fileMixinFields9[0].Descriptor()
 	// file.DefaultExtras holds the default value on creation for the extras field.
 	file.DefaultExtras = fileDescExtras.Default.(map[string]interface{})
 	// fileDescCreatedAt is the schema descriptor for created_at field.
-	fileDescCreatedAt := fileMixinFields12[0].Descriptor()
+	fileDescCreatedAt := fileMixinFields11[0].Descriptor()
 	// file.DefaultCreatedAt holds the default value on creation for the created_at field.
 	file.DefaultCreatedAt = fileDescCreatedAt.Default.(func() int64)
 	// fileDescUpdatedAt is the schema descriptor for updated_at field.
-	fileDescUpdatedAt := fileMixinFields12[1].Descriptor()
+	fileDescUpdatedAt := fileMixinFields11[1].Descriptor()
 	// file.DefaultUpdatedAt holds the default value on creation for the updated_at field.
 	file.DefaultUpdatedAt = fileDescUpdatedAt.Default.(func() int64)
 	// file.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
