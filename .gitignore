@@ -8,7 +8,7 @@ logs/*
 uploads/
 
 # config
-!setup/config/config.yaml
+!examples/config.yaml
 config.yaml
 config-website.yaml
 config-enterprise.yaml
