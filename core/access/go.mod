@@ -15,7 +15,7 @@ require (
 	entgo.io/ent v0.14.4
 	github.com/casbin/casbin/v2 v2.106.0
 	github.com/gin-gonic/gin v1.10.1
-	github.com/ncobase/ncore v0.1.15
+	github.com/ncobase/ncore v0.1.17
 	ncobase v0.0.0-00010101000000-000000000000
 )
 
