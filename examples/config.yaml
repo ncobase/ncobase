@@ -142,6 +142,32 @@ data:
           max_idle_conn: 16
           logging: false
           weight: 1
+  search:
+    index_prefix: "application-production"
+    default_engine: "elasticsearch"
+    auto_create_index: true
+    index_settings:
+      shards: 1
+      replicas: 0
+      refresh_interval: "1s"
+      searchable_fields: [ "title", "content" ]
+      filterable_fields: [ "id", "type", "status" ]
+    elasticsearch:
+      addresses:
+        - http://localhost:9200
+        - http://localhost:9201 # Optional additional nodes
+      username: elastic
+      password: your_password
+    opensearch:
+      addresses:
+        - http://localhost:9200
+        - http://localhost:9201 # Optional additional nodes
+      username: user
+      password: your_password
+      insecure_skip_tls: true
+    meilisearch:
+      host: http://127.0.0.1:7700
+      api_key: masterKey # Your Meilisearch master key
   redis:
     addr: 127.0.0.1:6378
     password: your_redis_password
@@ -149,22 +175,6 @@ data:
     read_timeout: 0.4s
     write_timeout: 0.6s
     dial_timeout: 1s
-  meilisearch:
-    host: http://127.0.0.1:7700
-    api_key: masterKey # Your Meilisearch master key
-  elasticsearch:
-    addresses:
-      - http://localhost:9200
-      - http://localhost:9201 # Optional additional nodes
-    username: elastic
-    password: your_password
-  opensearch:
-    addresses:
-      - http://localhost:9200
-      - http://localhost:9201 # Optional additional nodes
-    username: user
-    password: your_password
-    insecure_skip_tls: true
   mongodb:
     strategy: round_robin # slave load balance strategy, round_robin / random / weight
     max_retry: 3 # max retry
