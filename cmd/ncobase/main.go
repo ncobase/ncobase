@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"errors"
+	"flag"
 	"fmt"
 	"ncobase/internal/server"
 	"net"
@@ -34,9 +35,13 @@ const (
 // @description Type "Bearer" followed by a space and JWT token.
 // @termsOfService https://ncobase.com
 func main() {
-	logger.SetVersion(version.GetVersionInfo().Version)
+	flag.Parse()
+	// handle version flags
+	version.Flags()
 	// load config
 	conf := loadConfig()
+	// set logger version
+	logger.SetVersion(version.GetVersionInfo().Version)
 
 	// watch config file changes
 	// config.Watch(func(newConfig *config.Config) {
