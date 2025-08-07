@@ -115,13 +115,13 @@ func Logger(c *gin.Context) {
 	l := logger.WithFields(ctx, entry)
 	switch {
 	case c.Writer.Status() >= http.StatusInternalServerError:
-		l.Error("Server error occurred while processing request")
-	case c.Writer.Status() >= http.StatusBadRequest:
-		l.Warn("Client request error")
-	case c.Writer.Status() >= http.StatusMultipleChoices:
-		l.Info("Request completed with redirection")
-	case c.Writer.Status() == http.StatusOK:
-		l.Info("Request completed successfully")
+		l.Error("Oops! Something went wrong on our end")
+	case c.Writer.Status() >= http.StatusBadRequest && c.Writer.Status() < http.StatusInternalServerError:
+		l.Warn("Request couldn't be processed")
+	case c.Writer.Status() >= http.StatusMultipleChoices && c.Writer.Status() < http.StatusBadRequest:
+		l.Info("Redirecting request")
+	case c.Writer.Status() >= http.StatusOK && c.Writer.Status() < http.StatusMultipleChoices:
+		l.Info("Request processed successfully")
 	default:
 		l.Info("Request completed with status: " + strconv.Itoa(c.Writer.Status()))
 	}
