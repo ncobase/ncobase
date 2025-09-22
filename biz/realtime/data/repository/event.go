@@ -32,8 +32,20 @@ type EventRepositoryInterface interface {
 	CreateBatch(ctx context.Context, events []*ent.EventCreate) ([]*ent.Event, error)
 	DeleteBatch(ctx context.Context, ids []string) error
 
-	GetEventHistory(ctx context.Context, channelID, eventType string, limit int) ([]*ent.Event, error)
-	GetEventsByUserID(ctx context.Context, userID string, limit int) ([]*ent.Event, error)
+	UpdateStatus(ctx context.Context, id string, status string, errorMsg string) error
+	UpdateStatusBatch(ctx context.Context, ids []string, status string) error
+	GetEventsByStatus(ctx context.Context, status string, limit int) ([]*ent.Event, error)
+
+	SearchEvents(ctx context.Context, query *structs.SearchQuery) ([]*ent.Event, error)
+	GetEventsByTimeRange(ctx context.Context, start, end int64) ([]*ent.Event, error)
+	GetEventsBySource(ctx context.Context, source string, limit int) ([]*ent.Event, error)
+	GetEventsByType(ctx context.Context, eventType string, limit int) ([]*ent.Event, error)
+
+	GetStatsData(ctx context.Context, params *structs.StatsParams) (map[string]any, error)
+	GetEventCounts(ctx context.Context, timeRange *structs.TimeRange) (map[string]int64, error)
+
+	GetFailedEvents(ctx context.Context, limit int) ([]*ent.Event, error)
+	IncrementRetryCount(ctx context.Context, id string) error
 }
 
 type eventRepository struct {
@@ -117,7 +129,7 @@ func (r *eventRepository) FindByID(ctx context.Context, id string) (*ent.Event, 
 		Only(ctx)
 }
 
-// List lists events and filters
+// List lists events with filters
 func (r *eventRepository) List(ctx context.Context, params *structs.ListEventParams) ([]*ent.Event, error) {
 	builder, err := r.buildQuery(ctx, params)
 	if validator.IsNotNil(err) {
@@ -163,7 +175,9 @@ func (r *eventRepository) List(ctx context.Context, params *structs.ListEventPar
 		builder.Order(ent.Desc(eventEnt.FieldCreatedAt), ent.Desc(eventEnt.FieldID))
 	}
 
-	builder.Limit(params.Limit)
+	if params.Limit > 0 {
+		builder.Limit(params.Limit)
+	}
 
 	rows, err := builder.All(ctx)
 	if err != nil {
@@ -182,7 +196,7 @@ func (r *eventRepository) Count(ctx context.Context, params *structs.ListEventPa
 	return builder.Count(ctx)
 }
 
-// CountX gets a count of channels.
+// CountX gets a count of events
 func (r *eventRepository) CountX(ctx context.Context, params *structs.ListEventParams) int {
 	builder, err := r.buildQuery(ctx, params)
 	if validator.IsNotNil(err) {
@@ -246,70 +260,249 @@ func (r *eventRepository) DeleteBatch(ctx context.Context, ids []string) error {
 	return tx.Commit()
 }
 
-// GetEventHistory gets event history for a channel and event type
-func (r *eventRepository) GetEventHistory(ctx context.Context, channelID, eventType string, limit int) ([]*ent.Event, error) {
-	if limit <= 0 {
-		limit = 100 // default limit
+// UpdateStatus updates an event's status and error message
+func (r *eventRepository) UpdateStatus(ctx context.Context, id string, status string, errorMsg string) error {
+	update := r.ec.Event.UpdateOneID(id).SetStatus(status)
+
+	if errorMsg != "" {
+		update = update.SetErrorMessage(errorMsg)
 	}
 
+	if status == "processed" {
+		update = update.SetProcessedAt(ctx.Value("timestamp").(int64))
+	}
+
+	err := update.Exec(ctx)
+	if err != nil {
+		return err
+	}
+
+	cacheKey := fmt.Sprintf("event:%s", id)
+	if err := r.c.Delete(ctx, cacheKey); err != nil {
+		logger.Warnf(ctx, "Failed to delete event cache: %v", err)
+	}
+
+	return nil
+}
+
+// UpdateStatusBatch updates status for multiple events
+func (r *eventRepository) UpdateStatusBatch(ctx context.Context, ids []string, status string) error {
+	tx, err := r.ec.Tx(ctx)
+	if err != nil {
+		return err
+	}
+	defer func() {
+		if v := recover(); v != nil {
+			tx.Rollback()
+			panic(v)
+		}
+	}()
+
+	update := tx.Event.Update().
+		Where(eventEnt.IDIn(ids...)).
+		SetStatus(status)
+
+	if status == "processed" {
+		update = update.SetProcessedAt(ctx.Value("timestamp").(int64))
+	}
+
+	_, err = update.Save(ctx)
+	if err != nil {
+		tx.Rollback()
+		return err
+	}
+
+	return tx.Commit()
+}
+
+// GetEventsByStatus gets events by status
+func (r *eventRepository) GetEventsByStatus(ctx context.Context, status string, limit int) ([]*ent.Event, error) {
+	if limit <= 0 {
+		limit = 100
+	}
+
+	return r.ec.Event.Query().
+		Where(eventEnt.Status(status)).
+		Order(ent.Desc(eventEnt.FieldCreatedAt)).
+		Limit(limit).
+		All(ctx)
+}
+
+// SearchEvents performs search with complex queries
+func (r *eventRepository) SearchEvents(ctx context.Context, query *structs.SearchQuery) ([]*ent.Event, error) {
+	builder := r.ec.Event.Query()
+
+	// Apply basic filters from search query
+	if query.Filters != nil {
+		if eventType, ok := query.Filters["type"].(string); ok {
+			builder = builder.Where(eventEnt.Type(eventType))
+		}
+		if source, ok := query.Filters["source"].(string); ok {
+			builder = builder.Where(eventEnt.Source(source))
+		}
+		if status, ok := query.Filters["status"].(string); ok {
+			builder = builder.Where(eventEnt.Status(status))
+		}
+	}
+
+	// Apply time range
+	if query.TimeRange != nil {
+		// Note: This is simplified. In real implementation, you'd parse ISO 8601 timestamps
+		// and convert to Unix timestamps for the database query
+	}
+
+	// Apply sorting
+	builder = builder.Order(ent.Desc(eventEnt.FieldCreatedAt))
+
+	// Apply pagination
+	if query.From > 0 {
+		builder = builder.Offset(query.From)
+	}
+	if query.Size > 0 {
+		builder = builder.Limit(query.Size)
+	}
+
+	return builder.All(ctx)
+}
+
+// GetEventsByTimeRange gets events within time range
+func (r *eventRepository) GetEventsByTimeRange(ctx context.Context, start, end int64) ([]*ent.Event, error) {
 	return r.ec.Event.Query().
 		Where(
-			eventEnt.ChannelID(channelID),
-			eventEnt.Type(eventType),
+			eventEnt.CreatedAtGTE(start),
+			eventEnt.CreatedAtLTE(end),
 		).
 		Order(ent.Desc(eventEnt.FieldCreatedAt)).
-		Limit(limit).
 		All(ctx)
 }
 
-// GetEventsByUserID gets events for a specific user
-func (r *eventRepository) GetEventsByUserID(ctx context.Context, userID string, limit int) ([]*ent.Event, error) {
+// GetEventsBySource gets events by source
+func (r *eventRepository) GetEventsBySource(ctx context.Context, source string, limit int) ([]*ent.Event, error) {
 	if limit <= 0 {
-		limit = 100 // default limit
+		limit = 100
 	}
 
 	return r.ec.Event.Query().
-		Where(eventEnt.UserID(userID)).
+		Where(eventEnt.Source(source)).
 		Order(ent.Desc(eventEnt.FieldCreatedAt)).
 		Limit(limit).
 		All(ctx)
 }
 
-// buildQuery creates list builder.
+// GetEventsByType gets events by type
+func (r *eventRepository) GetEventsByType(ctx context.Context, eventType string, limit int) ([]*ent.Event, error) {
+	if limit <= 0 {
+		limit = 100
+	}
+
+	return r.ec.Event.Query().
+		Where(eventEnt.Type(eventType)).
+		Order(ent.Desc(eventEnt.FieldCreatedAt)).
+		Limit(limit).
+		All(ctx)
+}
+
+// GetStatsData gets statistics data for real-time stats
+func (r *eventRepository) GetStatsData(ctx context.Context, params *structs.StatsParams) (map[string]any, error) {
+	stats := make(map[string]any)
+
+	// Total events count
+	total, err := r.ec.Event.Query().Count(ctx)
+	if err != nil {
+		return nil, err
+	}
+	stats["total_events"] = total
+
+	// Events by status
+	statusCounts := make(map[string]int)
+	statuses := []string{"pending", "processed", "failed", "retry"}
+	for _, status := range statuses {
+		count, err := r.ec.Event.Query().
+			Where(eventEnt.Status(status)).
+			Count(ctx)
+		if err != nil {
+			return nil, err
+		}
+		statusCounts[status] = count
+	}
+	stats["by_status"] = statusCounts
+
+	// Events by type
+	typeCounts := make(map[string]int)
+	// This is a simplified implementation. In practice, you'd want to
+	// use a more efficient aggregation query
+	stats["by_type"] = typeCounts
+
+	return stats, nil
+}
+
+// GetEventCounts gets event counts within time range
+func (r *eventRepository) GetEventCounts(ctx context.Context, timeRange *structs.TimeRange) (map[string]int64, error) {
+	counts := make(map[string]int64)
+
+	// This is a simplified implementation
+	// In practice, you'd parse the time range and perform aggregated queries
+	total, err := r.ec.Event.Query().Count(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	counts["total"] = int64(total)
+	return counts, nil
+}
+
+// GetFailedEvents gets events that failed processing
+func (r *eventRepository) GetFailedEvents(ctx context.Context, limit int) ([]*ent.Event, error) {
+	if limit <= 0 {
+		limit = 100
+	}
+
+	return r.ec.Event.Query().
+		Where(eventEnt.Status("failed")).
+		Order(ent.Asc(eventEnt.FieldCreatedAt)). // Oldest first for retry
+		Limit(limit).
+		All(ctx)
+}
+
+// IncrementRetryCount increments the retry count for an event
+func (r *eventRepository) IncrementRetryCount(ctx context.Context, id string) error {
+	err := r.ec.Event.UpdateOneID(id).
+		AddRetryCount(1).
+		Exec(ctx)
+	if err != nil {
+		return err
+	}
+
+	cacheKey := fmt.Sprintf("event:%s", id)
+	if err := r.c.Delete(ctx, cacheKey); err != nil {
+		logger.Warnf(ctx, "Failed to delete event cache: %v", err)
+	}
+
+	return nil
+}
+
+// buildQuery creates query builder with filters
 func (r *eventRepository) buildQuery(ctx context.Context, params *structs.ListEventParams) (*ent.EventQuery, error) {
-	// create builder.
 	builder := r.ec.Event.Query()
+
+	if params.Type != "" {
+		builder = builder.Where(eventEnt.Type(params.Type))
+	}
+
+	if params.Source != "" {
+		builder = builder.Where(eventEnt.Source(params.Source))
+	}
+
+	if params.Status != "" {
+		builder = builder.Where(eventEnt.Status(params.Status))
+	}
+
+	if len(params.TimeRange) == 2 {
+		builder = builder.Where(
+			eventEnt.CreatedAtGTE(params.TimeRange[0]),
+			eventEnt.CreatedAtLTE(params.TimeRange[1]),
+		)
+	}
 
 	return builder, nil
 }
-
-// // buildQuery builds a query with filters
-// func (r *eventRepository) buildQuery(filters map[string]any) *ent.EventQuery {
-// 	query := r.ec.Event.Query()
-//
-// 	for key, value := range filters {
-// 		switch key {
-// 		case "type":
-// 			if typ, ok := value.(string); ok {
-// 				query = query.Where(eventEnt.Type(typ))
-// 			}
-// 		case "channel_id":
-// 			if channelID, ok := value.(string); ok {
-// 				query = query.Where(eventEnt.ChannelID(channelID))
-// 			}
-// 		case "user_id":
-// 			if userID, ok := value.(string); ok {
-// 				query = query.Where(eventEnt.UserID(userID))
-// 			}
-// 		case "time_range":
-// 			if timeRange, ok := value.([]int64); ok && len(timeRange) == 2 {
-// 				query = query.Where(
-// 					eventEnt.CreatedAtGTE(timeRange[0]),
-// 					eventEnt.CreatedAtLTE(timeRange[1]),
-// 				)
-// 			}
-// 		}
-// 	}
-//
-// 	return query
-// }

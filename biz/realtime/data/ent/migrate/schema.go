@@ -13,10 +13,14 @@ var (
 	NcseRtEventColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
 		{Name: "type", Type: field.TypeString, Nullable: true, Comment: "type"},
-		{Name: "channel_id", Type: field.TypeString, Nullable: true, Comment: "channel id"},
 		{Name: "payload", Type: field.TypeJSON, Nullable: true, Comment: "Payload"},
-		{Name: "user_id", Type: field.TypeString, Nullable: true, Comment: "user id"},
 		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
+		{Name: "source", Type: field.TypeString, Nullable: true, Comment: "Event source identifier"},
+		{Name: "status", Type: field.TypeString, Comment: "Processing status: pending, processed, failed, retry", Default: "pending"},
+		{Name: "priority", Type: field.TypeString, Nullable: true, Comment: "Event priority: low, normal, high, critical", Default: "normal"},
+		{Name: "processed_at", Type: field.TypeInt64, Nullable: true, Comment: "Event processing timestamp"},
+		{Name: "retry_count", Type: field.TypeInt, Comment: "Number of retry attempts", Default: 0},
+		{Name: "error_message", Type: field.TypeString, Nullable: true, Size: 2147483647, Comment: "Error message if processing failed"},
 	}
 	// NcseRtEventTable holds the schema information for the "ncse_rt_event" table.
 	NcseRtEventTable = &schema.Table{
@@ -30,14 +34,39 @@ var (
 				Columns: []*schema.Column{NcseRtEventColumns[0]},
 			},
 			{
-				Name:    "event_channel_id",
+				Name:    "event_status",
 				Unique:  false,
-				Columns: []*schema.Column{NcseRtEventColumns[2]},
+				Columns: []*schema.Column{NcseRtEventColumns[5]},
 			},
 			{
-				Name:    "event_user_id",
+				Name:    "event_source",
 				Unique:  false,
 				Columns: []*schema.Column{NcseRtEventColumns[4]},
+			},
+			{
+				Name:    "event_type",
+				Unique:  false,
+				Columns: []*schema.Column{NcseRtEventColumns[1]},
+			},
+			{
+				Name:    "event_priority",
+				Unique:  false,
+				Columns: []*schema.Column{NcseRtEventColumns[6]},
+			},
+			{
+				Name:    "event_created_at_status",
+				Unique:  false,
+				Columns: []*schema.Column{NcseRtEventColumns[3], NcseRtEventColumns[5]},
+			},
+			{
+				Name:    "event_type_source",
+				Unique:  false,
+				Columns: []*schema.Column{NcseRtEventColumns[1], NcseRtEventColumns[4]},
+			},
+			{
+				Name:    "event_status_retry_count",
+				Unique:  false,
+				Columns: []*schema.Column{NcseRtEventColumns[5], NcseRtEventColumns[8]},
 			},
 		},
 	}

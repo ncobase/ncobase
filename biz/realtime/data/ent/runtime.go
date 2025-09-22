@@ -17,20 +17,32 @@ func init() {
 	eventMixin := schema.Event{}.Mixin()
 	eventMixinFields0 := eventMixin[0].Fields()
 	_ = eventMixinFields0
+	eventMixinFields2 := eventMixin[2].Fields()
+	_ = eventMixinFields2
 	eventMixinFields3 := eventMixin[3].Fields()
 	_ = eventMixinFields3
-	eventMixinFields5 := eventMixin[5].Fields()
-	_ = eventMixinFields5
 	eventFields := schema.Event{}.Fields()
 	_ = eventFields
 	// eventDescPayload is the schema descriptor for payload field.
-	eventDescPayload := eventMixinFields3[0].Descriptor()
+	eventDescPayload := eventMixinFields2[0].Descriptor()
 	// event.DefaultPayload holds the default value on creation for the payload field.
 	event.DefaultPayload = eventDescPayload.Default.(map[string]interface{})
 	// eventDescCreatedAt is the schema descriptor for created_at field.
-	eventDescCreatedAt := eventMixinFields5[0].Descriptor()
+	eventDescCreatedAt := eventMixinFields3[0].Descriptor()
 	// event.DefaultCreatedAt holds the default value on creation for the created_at field.
 	event.DefaultCreatedAt = eventDescCreatedAt.Default.(func() int64)
+	// eventDescStatus is the schema descriptor for status field.
+	eventDescStatus := eventFields[1].Descriptor()
+	// event.DefaultStatus holds the default value on creation for the status field.
+	event.DefaultStatus = eventDescStatus.Default.(string)
+	// eventDescPriority is the schema descriptor for priority field.
+	eventDescPriority := eventFields[2].Descriptor()
+	// event.DefaultPriority holds the default value on creation for the priority field.
+	event.DefaultPriority = eventDescPriority.Default.(string)
+	// eventDescRetryCount is the schema descriptor for retry_count field.
+	eventDescRetryCount := eventFields[4].Descriptor()
+	// event.DefaultRetryCount holds the default value on creation for the retry_count field.
+	event.DefaultRetryCount = eventDescRetryCount.Default.(int)
 	// eventDescID is the schema descriptor for id field.
 	eventDescID := eventMixinFields0[0].Descriptor()
 	// event.DefaultID holds the default value on creation for the id field.

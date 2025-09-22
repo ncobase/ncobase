@@ -4,6 +4,7 @@ package ent
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"ncobase/realtime/data/ent/event"
 
@@ -32,37 +33,9 @@ func (ec *EventCreate) SetNillableType(s *string) *EventCreate {
 	return ec
 }
 
-// SetChannelID sets the "channel_id" field.
-func (ec *EventCreate) SetChannelID(s string) *EventCreate {
-	ec.mutation.SetChannelID(s)
-	return ec
-}
-
-// SetNillableChannelID sets the "channel_id" field if the given value is not nil.
-func (ec *EventCreate) SetNillableChannelID(s *string) *EventCreate {
-	if s != nil {
-		ec.SetChannelID(*s)
-	}
-	return ec
-}
-
 // SetPayload sets the "payload" field.
 func (ec *EventCreate) SetPayload(m map[string]interface{}) *EventCreate {
 	ec.mutation.SetPayload(m)
-	return ec
-}
-
-// SetUserID sets the "user_id" field.
-func (ec *EventCreate) SetUserID(s string) *EventCreate {
-	ec.mutation.SetUserID(s)
-	return ec
-}
-
-// SetNillableUserID sets the "user_id" field if the given value is not nil.
-func (ec *EventCreate) SetNillableUserID(s *string) *EventCreate {
-	if s != nil {
-		ec.SetUserID(*s)
-	}
 	return ec
 }
 
@@ -76,6 +49,90 @@ func (ec *EventCreate) SetCreatedAt(i int64) *EventCreate {
 func (ec *EventCreate) SetNillableCreatedAt(i *int64) *EventCreate {
 	if i != nil {
 		ec.SetCreatedAt(*i)
+	}
+	return ec
+}
+
+// SetSource sets the "source" field.
+func (ec *EventCreate) SetSource(s string) *EventCreate {
+	ec.mutation.SetSource(s)
+	return ec
+}
+
+// SetNillableSource sets the "source" field if the given value is not nil.
+func (ec *EventCreate) SetNillableSource(s *string) *EventCreate {
+	if s != nil {
+		ec.SetSource(*s)
+	}
+	return ec
+}
+
+// SetStatus sets the "status" field.
+func (ec *EventCreate) SetStatus(s string) *EventCreate {
+	ec.mutation.SetStatus(s)
+	return ec
+}
+
+// SetNillableStatus sets the "status" field if the given value is not nil.
+func (ec *EventCreate) SetNillableStatus(s *string) *EventCreate {
+	if s != nil {
+		ec.SetStatus(*s)
+	}
+	return ec
+}
+
+// SetPriority sets the "priority" field.
+func (ec *EventCreate) SetPriority(s string) *EventCreate {
+	ec.mutation.SetPriority(s)
+	return ec
+}
+
+// SetNillablePriority sets the "priority" field if the given value is not nil.
+func (ec *EventCreate) SetNillablePriority(s *string) *EventCreate {
+	if s != nil {
+		ec.SetPriority(*s)
+	}
+	return ec
+}
+
+// SetProcessedAt sets the "processed_at" field.
+func (ec *EventCreate) SetProcessedAt(i int64) *EventCreate {
+	ec.mutation.SetProcessedAt(i)
+	return ec
+}
+
+// SetNillableProcessedAt sets the "processed_at" field if the given value is not nil.
+func (ec *EventCreate) SetNillableProcessedAt(i *int64) *EventCreate {
+	if i != nil {
+		ec.SetProcessedAt(*i)
+	}
+	return ec
+}
+
+// SetRetryCount sets the "retry_count" field.
+func (ec *EventCreate) SetRetryCount(i int) *EventCreate {
+	ec.mutation.SetRetryCount(i)
+	return ec
+}
+
+// SetNillableRetryCount sets the "retry_count" field if the given value is not nil.
+func (ec *EventCreate) SetNillableRetryCount(i *int) *EventCreate {
+	if i != nil {
+		ec.SetRetryCount(*i)
+	}
+	return ec
+}
+
+// SetErrorMessage sets the "error_message" field.
+func (ec *EventCreate) SetErrorMessage(s string) *EventCreate {
+	ec.mutation.SetErrorMessage(s)
+	return ec
+}
+
+// SetNillableErrorMessage sets the "error_message" field if the given value is not nil.
+func (ec *EventCreate) SetNillableErrorMessage(s *string) *EventCreate {
+	if s != nil {
+		ec.SetErrorMessage(*s)
 	}
 	return ec
 }
@@ -137,6 +194,18 @@ func (ec *EventCreate) defaults() {
 		v := event.DefaultCreatedAt()
 		ec.mutation.SetCreatedAt(v)
 	}
+	if _, ok := ec.mutation.Status(); !ok {
+		v := event.DefaultStatus
+		ec.mutation.SetStatus(v)
+	}
+	if _, ok := ec.mutation.Priority(); !ok {
+		v := event.DefaultPriority
+		ec.mutation.SetPriority(v)
+	}
+	if _, ok := ec.mutation.RetryCount(); !ok {
+		v := event.DefaultRetryCount
+		ec.mutation.SetRetryCount(v)
+	}
 	if _, ok := ec.mutation.ID(); !ok {
 		v := event.DefaultID()
 		ec.mutation.SetID(v)
@@ -145,6 +214,12 @@ func (ec *EventCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (ec *EventCreate) check() error {
+	if _, ok := ec.mutation.Status(); !ok {
+		return &ValidationError{Name: "status", err: errors.New(`ent: missing required field "Event.status"`)}
+	}
+	if _, ok := ec.mutation.RetryCount(); !ok {
+		return &ValidationError{Name: "retry_count", err: errors.New(`ent: missing required field "Event.retry_count"`)}
+	}
 	if v, ok := ec.mutation.ID(); ok {
 		if err := event.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "Event.id": %w`, err)}
@@ -189,21 +264,37 @@ func (ec *EventCreate) createSpec() (*Event, *sqlgraph.CreateSpec) {
 		_spec.SetField(event.FieldType, field.TypeString, value)
 		_node.Type = value
 	}
-	if value, ok := ec.mutation.ChannelID(); ok {
-		_spec.SetField(event.FieldChannelID, field.TypeString, value)
-		_node.ChannelID = value
-	}
 	if value, ok := ec.mutation.Payload(); ok {
 		_spec.SetField(event.FieldPayload, field.TypeJSON, value)
 		_node.Payload = value
 	}
-	if value, ok := ec.mutation.UserID(); ok {
-		_spec.SetField(event.FieldUserID, field.TypeString, value)
-		_node.UserID = value
-	}
 	if value, ok := ec.mutation.CreatedAt(); ok {
 		_spec.SetField(event.FieldCreatedAt, field.TypeInt64, value)
 		_node.CreatedAt = value
+	}
+	if value, ok := ec.mutation.Source(); ok {
+		_spec.SetField(event.FieldSource, field.TypeString, value)
+		_node.Source = value
+	}
+	if value, ok := ec.mutation.Status(); ok {
+		_spec.SetField(event.FieldStatus, field.TypeString, value)
+		_node.Status = value
+	}
+	if value, ok := ec.mutation.Priority(); ok {
+		_spec.SetField(event.FieldPriority, field.TypeString, value)
+		_node.Priority = value
+	}
+	if value, ok := ec.mutation.ProcessedAt(); ok {
+		_spec.SetField(event.FieldProcessedAt, field.TypeInt64, value)
+		_node.ProcessedAt = value
+	}
+	if value, ok := ec.mutation.RetryCount(); ok {
+		_spec.SetField(event.FieldRetryCount, field.TypeInt, value)
+		_node.RetryCount = value
+	}
+	if value, ok := ec.mutation.ErrorMessage(); ok {
+		_spec.SetField(event.FieldErrorMessage, field.TypeString, value)
+		_node.ErrorMessage = value
 	}
 	return _node, _spec
 }

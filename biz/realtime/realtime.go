@@ -100,6 +100,22 @@ func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 	// WebSocket endpoint
 	rg.GET("/ws", m.h.WebSocket.HandleConnection)
 
+	// Core event interfaces
+	core := r.Group("", middleware.AuthenticatedUser)
+	{
+		core.POST("/events", m.h.Event.Publish)
+		core.GET("/events/:id", m.h.Event.Get)
+		core.POST("/search", m.h.Event.Search)
+		core.GET("/stats/realtime", m.h.Event.RealtimeStats)
+		core.POST("/events/:id/retry", m.h.Event.Retry)
+		core.POST("/events/batch", m.h.Event.PublishBatch)
+		core.GET("/events/failed", m.h.Event.GetFailedEvents)
+		core.POST("/events/process", m.h.Event.ProcessPendingEvents)
+		core.PUT("/events/:id/status", m.h.Event.UpdateEventStatus)
+		core.GET("/events/types", m.h.Event.GetEventTypes)
+		core.GET("/events/sources", m.h.Event.GetEventSources)
+	}
+
 	// Notification endpoints
 	notifications := rg.Group("/notifications")
 	{
@@ -132,9 +148,9 @@ func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 	events := rg.Group("/events")
 	{
 		events.GET("", m.h.Event.List)
+		events.POST("/publish", m.h.Event.PublishExtended)
 		events.GET("/:id", m.h.Event.Get)
 		events.DELETE("/:id", m.h.Event.Delete)
-		events.POST("/publish", m.h.Event.Publish)
 		events.GET("/history", m.h.Event.GetHistory)
 	}
 }

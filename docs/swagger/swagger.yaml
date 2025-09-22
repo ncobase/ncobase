@@ -2033,13 +2033,13 @@ definitions:
     type: object
   ncobase_realtime_structs.EventBody:
     properties:
-      channel_id:
-        type: string
       payload:
         $ref: '#/definitions/github_com_ncobase_ncore_types.JSON'
-      type:
+      priority:
         type: string
-      user_id:
+      source:
+        type: string
+      type:
         type: string
     type: object
   ncobase_realtime_structs.NotificationBody:
@@ -2082,17 +2082,25 @@ definitions:
     type: object
   ncobase_realtime_structs.ReadEvent:
     properties:
-      channel_id:
-        type: string
       created_at:
         type: integer
+      error_message:
+        type: string
       id:
         type: string
       payload:
         $ref: '#/definitions/github_com_ncobase_ncore_types.JSON'
-      type:
+      priority:
         type: string
-      user_id:
+      processed_at:
+        type: integer
+      retry_count:
+        type: integer
+      source:
+        type: string
+      status:
+        type: string
+      type:
         type: string
     type: object
   ncobase_realtime_structs.ReadNotification:
@@ -2158,6 +2166,81 @@ definitions:
       username:
         type: string
     type: object
+  ncobase_realtime_structs.RealtimeStats:
+    properties:
+      breakdown:
+        additionalProperties:
+          additionalProperties: {}
+          type: object
+        type: object
+      interval:
+        type: string
+      metrics:
+        additionalProperties: {}
+        type: object
+      timestamp:
+        type: string
+    type: object
+  ncobase_realtime_structs.RetryOptions:
+    properties:
+      delay_seconds:
+        type: integer
+      max_attempts:
+        type: integer
+    type: object
+  ncobase_realtime_structs.RetryParams:
+    properties:
+      priority:
+        type: string
+      reason:
+        type: string
+      retry_options:
+        $ref: '#/definitions/ncobase_realtime_structs.RetryOptions'
+    type: object
+  ncobase_realtime_structs.RetryResult:
+    properties:
+      retry_id:
+        type: string
+      scheduled_at:
+        type: string
+    type: object
+  ncobase_realtime_structs.SearchQuery:
+    properties:
+      aggregations:
+        additionalProperties: {}
+        type: object
+      filters:
+        additionalProperties: {}
+        type: object
+      from:
+        type: integer
+      query:
+        additionalProperties: {}
+        type: object
+      size:
+        type: integer
+      sort:
+        items:
+          additionalProperties: {}
+          type: object
+        type: array
+      time_range:
+        $ref: '#/definitions/ncobase_realtime_structs.TimeRange'
+    type: object
+  ncobase_realtime_structs.SearchResult:
+    properties:
+      aggregations:
+        additionalProperties: {}
+        type: object
+      events:
+        items:
+          $ref: '#/definitions/ncobase_realtime_structs.ReadEvent'
+        type: array
+      scroll_id:
+        type: string
+      total:
+        type: integer
+    type: object
   ncobase_realtime_structs.SubscriptionBody:
     properties:
       channel_id:
@@ -2166,6 +2249,15 @@ definitions:
         description: '0: disabled, 1: enabled'
         type: integer
       user_id:
+        type: string
+    type: object
+  ncobase_realtime_structs.TimeRange:
+    properties:
+      end:
+        description: ISO 8601 format
+        type: string
+      start:
+        description: ISO 8601 format
         type: string
     type: object
   ncobase_realtime_structs.UpdateChannel:
@@ -2798,10 +2890,12 @@ definitions:
     properties:
       by_category:
         additionalProperties:
+          format: int64
           type: integer
         type: object
       by_storage:
         additionalProperties:
+          format: int64
           type: integer
         type: object
       daily_uploads:
@@ -4103,6 +4197,22 @@ definitions:
       ActionTransfer: Transfer
       ActionUrge: Urge
       ActionWithdraw: Withdraw
+    x-enum-descriptions:
+    - Submit form
+    - Save draft
+    - Revoke approval
+    - Reassign task
+    - Add countersign
+    - Send reminder
+    - Approve
+    - Reject
+    - Delegate
+    - Transfer
+    - Withdraw
+    - Terminate
+    - Suspend
+    - Resume
+    - Urge
     x-enum-varnames:
     - ActionSubmit
     - ActionSave
@@ -5024,6 +5134,21 @@ definitions:
       StatusSuspended: Suspended
       StatusTerminated: Terminated
       StatusWithdrawn: Withdrawn
+    x-enum-descriptions:
+    - Draft
+    - Ready
+    - Active
+    - Pending
+    - Suspended
+    - Processing
+    - Completed
+    - Compensated
+    - Rejected
+    - Cancelled
+    - Terminated
+    - Rollbacked
+    - Withdrawn
+    - Error
     x-enum-varnames:
     - StatusDraft
     - StatusReady
@@ -6910,6 +7035,253 @@ paths:
       summary: Update topic
       tags:
       - cms
+  /events:
+    post:
+      consumes:
+      - application/json
+      description: Publish a new event
+      parameters:
+      - description: Event data
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/ncobase_realtime_structs.CreateEvent'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/ncobase_realtime_structs.ReadEvent'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Publish a new event
+      tags:
+      - events
+  /events/{id}:
+    get:
+      description: Get an event by ID
+      parameters:
+      - description: Event ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/ncobase_realtime_structs.ReadEvent'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Get an event by ID
+      tags:
+      - events
+  /events/{id}/retry:
+    post:
+      consumes:
+      - application/json
+      description: Retry processing of a failed event
+      parameters:
+      - description: Event ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Retry parameters
+        in: body
+        name: body
+        schema:
+          $ref: '#/definitions/ncobase_realtime_structs.RetryParams'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/ncobase_realtime_structs.RetryResult'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Retry a failed event
+      tags:
+      - events
+  /events/{id}/status:
+    put:
+      consumes:
+      - application/json
+      description: Update the processing status of an event
+      parameters:
+      - description: Event ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Status update
+        in: body
+        name: body
+        required: true
+        schema:
+          properties:
+            error_message:
+              type: string
+            status:
+              type: string
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Update event status
+      tags:
+      - events
+  /events/batch:
+    post:
+      consumes:
+      - application/json
+      description: Publish multiple events in a single batch
+      parameters:
+      - description: Array of event data
+        in: body
+        name: body
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/ncobase_realtime_structs.CreateEvent'
+          type: array
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            items:
+              $ref: '#/definitions/ncobase_realtime_structs.ReadEvent'
+            type: array
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Publish multiple events
+      tags:
+      - events
+  /events/failed:
+    get:
+      description: Get events that failed processing
+      parameters:
+      - description: 'Limit results (default: 50, max: 200)'
+        in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            items:
+              $ref: '#/definitions/ncobase_realtime_structs.ReadEvent'
+            type: array
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Get failed events
+      tags:
+      - events
+  /events/process:
+    post:
+      description: Manually trigger processing of pending events
+      parameters:
+      - description: 'Limit events to process (default: 10, max: 50)'
+        in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            items:
+              $ref: '#/definitions/ncobase_realtime_structs.ReadEvent'
+            type: array
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Process pending events
+      tags:
+      - events
+  /events/sources:
+    get:
+      description: Get list of available event sources
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            properties:
+              sources:
+                items:
+                  type: string
+                type: array
+            type: object
+      security:
+      - Bearer: []
+      summary: Get event sources
+      tags:
+      - events
+  /events/types:
+    get:
+      description: Get list of available event types
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            properties:
+              types:
+                items:
+                  type: string
+                type: array
+            type: object
+      security:
+      - Bearer: []
+      summary: Get event types
+      tags:
+      - events
   /flow/delegations:
     get:
       description: List delegation rules
@@ -9571,10 +9943,12 @@ paths:
         name: has_error
         type: boolean
       - description: Filter by start date (Unix timestamp)
+        format: int64
         in: query
         name: start_date
         type: integer
       - description: Filter by end date (Unix timestamp)
+        format: int64
         in: query
         name: end_date
         type: integer
@@ -9728,10 +10102,12 @@ paths:
         name: subscription_id
         type: string
       - description: Filter by start date (Unix timestamp)
+        format: int64
         in: query
         name: start_date
         type: integer
       - description: Filter by end date (Unix timestamp)
+        format: int64
         in: query
         name: end_date
         type: integer
@@ -11806,6 +12182,7 @@ paths:
           description: success
           schema:
             additionalProperties:
+              format: int64
               type: integer
             type: object
         "400":
@@ -12280,9 +12657,6 @@ paths:
       description: Retrieve a list of events based on the provided query parameters
       parameters:
       - in: query
-        name: channel_id
-        type: string
-      - in: query
         name: cursor
         type: string
       - in: query
@@ -12291,6 +12665,12 @@ paths:
       - in: query
         name: limit
         type: integer
+      - in: query
+        name: source
+        type: string
+      - in: query
+        name: status
+        type: string
       - collectionFormat: csv
         in: query
         items:
@@ -12299,9 +12679,6 @@ paths:
         type: array
       - in: query
         name: type
-        type: string
-      - in: query
-        name: user_id
         type: string
       produces:
       - application/json
@@ -12336,7 +12713,7 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/ncobase_realtime_structs.ReadEvent'
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
         "400":
           description: bad request
           schema:
@@ -12346,44 +12723,22 @@ paths:
       summary: Delete an event
       tags:
       - rt
-    get:
-      description: Get an event by ID
-      parameters:
-      - description: Event ID
-        in: path
-        name: id
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: success
-          schema:
-            $ref: '#/definitions/ncobase_realtime_structs.ReadEvent'
-        "400":
-          description: bad request
-          schema:
-            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
-      security:
-      - Bearer: []
-      summary: Get an event by ID
-      tags:
-      - rt
   /rt/events/history:
     get:
-      description: Get event history
+      description: Get event history with filters
       parameters:
-      - description: Channel ID
-        in: query
-        name: channel_id
-        required: true
-        type: string
       - description: Event type
         in: query
         name: type
-        required: true
         type: string
+      - description: Event source
+        in: query
+        name: source
+        type: string
+      - description: Limit results
+        in: query
+        name: limit
+        type: integer
       produces:
       - application/json
       responses:
@@ -12406,7 +12761,7 @@ paths:
     post:
       consumes:
       - application/json
-      description: Publish a new event
+      description: Publish a new event with full options
       parameters:
       - description: Event data
         in: body
@@ -12427,7 +12782,7 @@ paths:
             $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
       security:
       - Bearer: []
-      summary: Publish a new event
+      summary: Publish a new event (extended)
       tags:
       - rt
   /rt/notifications:
@@ -12689,6 +13044,34 @@ paths:
       summary: Handle WebSocket connection
       tags:
       - rt
+  /search:
+    post:
+      consumes:
+      - application/json
+      description: Search events with complex queries and aggregations
+      parameters:
+      - description: Search query
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/ncobase_realtime_structs.SearchQuery'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/ncobase_realtime_structs.SearchResult'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Search events
+      tags:
+      - events
   /sessions:
     get:
       description: List all sessions for the current user
@@ -12795,6 +13178,34 @@ paths:
       summary: Deactivate all sessions
       tags:
       - auth
+  /stats/realtime:
+    get:
+      description: Get real-time event statistics and metrics
+      parameters:
+      - description: Time interval (1m, 5m, 15m, 1h)
+        in: query
+        name: interval
+        type: string
+      - description: Statistics type (overview, detailed)
+        in: query
+        name: type
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/ncobase_realtime_structs.RealtimeStats'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/github_com_ncobase_ncore_net_resp.Exception'
+      security:
+      - Bearer: []
+      summary: Get real-time statistics
+      tags:
+      - events
   /sys/activities:
     get:
       description: Lists activities.

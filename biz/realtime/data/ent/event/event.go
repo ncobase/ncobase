@@ -13,14 +13,22 @@ const (
 	FieldID = "id"
 	// FieldType holds the string denoting the type field in the database.
 	FieldType = "type"
-	// FieldChannelID holds the string denoting the channel_id field in the database.
-	FieldChannelID = "channel_id"
 	// FieldPayload holds the string denoting the payload field in the database.
 	FieldPayload = "payload"
-	// FieldUserID holds the string denoting the user_id field in the database.
-	FieldUserID = "user_id"
 	// FieldCreatedAt holds the string denoting the created_at field in the database.
 	FieldCreatedAt = "created_at"
+	// FieldSource holds the string denoting the source field in the database.
+	FieldSource = "source"
+	// FieldStatus holds the string denoting the status field in the database.
+	FieldStatus = "status"
+	// FieldPriority holds the string denoting the priority field in the database.
+	FieldPriority = "priority"
+	// FieldProcessedAt holds the string denoting the processed_at field in the database.
+	FieldProcessedAt = "processed_at"
+	// FieldRetryCount holds the string denoting the retry_count field in the database.
+	FieldRetryCount = "retry_count"
+	// FieldErrorMessage holds the string denoting the error_message field in the database.
+	FieldErrorMessage = "error_message"
 	// Table holds the table name of the event in the database.
 	Table = "ncse_rt_event"
 )
@@ -29,10 +37,14 @@ const (
 var Columns = []string{
 	FieldID,
 	FieldType,
-	FieldChannelID,
 	FieldPayload,
-	FieldUserID,
 	FieldCreatedAt,
+	FieldSource,
+	FieldStatus,
+	FieldPriority,
+	FieldProcessedAt,
+	FieldRetryCount,
+	FieldErrorMessage,
 }
 
 // ValidColumn reports if the column name is valid (part of the table columns).
@@ -50,6 +62,12 @@ var (
 	DefaultPayload map[string]interface{}
 	// DefaultCreatedAt holds the default value on creation for the "created_at" field.
 	DefaultCreatedAt func() int64
+	// DefaultStatus holds the default value on creation for the "status" field.
+	DefaultStatus string
+	// DefaultPriority holds the default value on creation for the "priority" field.
+	DefaultPriority string
+	// DefaultRetryCount holds the default value on creation for the "retry_count" field.
+	DefaultRetryCount int
 	// DefaultID holds the default value on creation for the "id" field.
 	DefaultID func() string
 	// IDValidator is a validator for the "id" field. It is called by the builders before save.
@@ -69,17 +87,37 @@ func ByType(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldType, opts...).ToFunc()
 }
 
-// ByChannelID orders the results by the channel_id field.
-func ByChannelID(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldChannelID, opts...).ToFunc()
-}
-
-// ByUserID orders the results by the user_id field.
-func ByUserID(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldUserID, opts...).ToFunc()
-}
-
 // ByCreatedAt orders the results by the created_at field.
 func ByCreatedAt(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldCreatedAt, opts...).ToFunc()
+}
+
+// BySource orders the results by the source field.
+func BySource(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldSource, opts...).ToFunc()
+}
+
+// ByStatus orders the results by the status field.
+func ByStatus(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldStatus, opts...).ToFunc()
+}
+
+// ByPriority orders the results by the priority field.
+func ByPriority(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldPriority, opts...).ToFunc()
+}
+
+// ByProcessedAt orders the results by the processed_at field.
+func ByProcessedAt(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldProcessedAt, opts...).ToFunc()
+}
+
+// ByRetryCount orders the results by the retry_count field.
+func ByRetryCount(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldRetryCount, opts...).ToFunc()
+}
+
+// ByErrorMessage orders the results by the error_message field.
+func ByErrorMessage(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldErrorMessage, opts...).ToFunc()
 }

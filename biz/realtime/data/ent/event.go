@@ -20,14 +20,22 @@ type Event struct {
 	ID string `json:"id,omitempty"`
 	// type
 	Type string `json:"type,omitempty"`
-	// channel id
-	ChannelID string `json:"channel_id,omitempty"`
 	// Payload
 	Payload map[string]interface{} `json:"payload,omitempty"`
-	// user id
-	UserID string `json:"user_id,omitempty"`
 	// created at
-	CreatedAt    int64 `json:"created_at,omitempty"`
+	CreatedAt int64 `json:"created_at,omitempty"`
+	// Event source identifier
+	Source string `json:"source,omitempty"`
+	// Processing status: pending, processed, failed, retry
+	Status string `json:"status,omitempty"`
+	// Event priority: low, normal, high, critical
+	Priority string `json:"priority,omitempty"`
+	// Event processing timestamp
+	ProcessedAt int64 `json:"processed_at,omitempty"`
+	// Number of retry attempts
+	RetryCount int `json:"retry_count,omitempty"`
+	// Error message if processing failed
+	ErrorMessage string `json:"error_message,omitempty"`
 	selectValues sql.SelectValues
 }
 
@@ -38,9 +46,9 @@ func (*Event) scanValues(columns []string) ([]any, error) {
 		switch columns[i] {
 		case event.FieldPayload:
 			values[i] = new([]byte)
-		case event.FieldCreatedAt:
+		case event.FieldCreatedAt, event.FieldProcessedAt, event.FieldRetryCount:
 			values[i] = new(sql.NullInt64)
-		case event.FieldID, event.FieldType, event.FieldChannelID, event.FieldUserID:
+		case event.FieldID, event.FieldType, event.FieldSource, event.FieldStatus, event.FieldPriority, event.FieldErrorMessage:
 			values[i] = new(sql.NullString)
 		default:
 			values[i] = new(sql.UnknownType)
@@ -69,12 +77,6 @@ func (e *Event) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				e.Type = value.String
 			}
-		case event.FieldChannelID:
-			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field channel_id", values[i])
-			} else if value.Valid {
-				e.ChannelID = value.String
-			}
 		case event.FieldPayload:
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field payload", values[i])
@@ -83,17 +85,47 @@ func (e *Event) assignValues(columns []string, values []any) error {
 					return fmt.Errorf("unmarshal field payload: %w", err)
 				}
 			}
-		case event.FieldUserID:
-			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field user_id", values[i])
-			} else if value.Valid {
-				e.UserID = value.String
-			}
 		case event.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field created_at", values[i])
 			} else if value.Valid {
 				e.CreatedAt = value.Int64
+			}
+		case event.FieldSource:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field source", values[i])
+			} else if value.Valid {
+				e.Source = value.String
+			}
+		case event.FieldStatus:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field status", values[i])
+			} else if value.Valid {
+				e.Status = value.String
+			}
+		case event.FieldPriority:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field priority", values[i])
+			} else if value.Valid {
+				e.Priority = value.String
+			}
+		case event.FieldProcessedAt:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field processed_at", values[i])
+			} else if value.Valid {
+				e.ProcessedAt = value.Int64
+			}
+		case event.FieldRetryCount:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field retry_count", values[i])
+			} else if value.Valid {
+				e.RetryCount = int(value.Int64)
+			}
+		case event.FieldErrorMessage:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field error_message", values[i])
+			} else if value.Valid {
+				e.ErrorMessage = value.String
 			}
 		default:
 			e.selectValues.Set(columns[i], values[i])
@@ -134,17 +166,29 @@ func (e *Event) String() string {
 	builder.WriteString("type=")
 	builder.WriteString(e.Type)
 	builder.WriteString(", ")
-	builder.WriteString("channel_id=")
-	builder.WriteString(e.ChannelID)
-	builder.WriteString(", ")
 	builder.WriteString("payload=")
 	builder.WriteString(fmt.Sprintf("%v", e.Payload))
 	builder.WriteString(", ")
-	builder.WriteString("user_id=")
-	builder.WriteString(e.UserID)
-	builder.WriteString(", ")
 	builder.WriteString("created_at=")
 	builder.WriteString(fmt.Sprintf("%v", e.CreatedAt))
+	builder.WriteString(", ")
+	builder.WriteString("source=")
+	builder.WriteString(e.Source)
+	builder.WriteString(", ")
+	builder.WriteString("status=")
+	builder.WriteString(e.Status)
+	builder.WriteString(", ")
+	builder.WriteString("priority=")
+	builder.WriteString(e.Priority)
+	builder.WriteString(", ")
+	builder.WriteString("processed_at=")
+	builder.WriteString(fmt.Sprintf("%v", e.ProcessedAt))
+	builder.WriteString(", ")
+	builder.WriteString("retry_count=")
+	builder.WriteString(fmt.Sprintf("%v", e.RetryCount))
+	builder.WriteString(", ")
+	builder.WriteString("error_message=")
+	builder.WriteString(e.ErrorMessage)
 	builder.WriteByte(')')
 	return builder.String()
 }

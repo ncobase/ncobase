@@ -1983,6 +1983,403 @@ const docTemplate = `{
                 }
             }
         },
+        "/events": {
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Publish a new event",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "events"
+                ],
+                "summary": "Publish a new event",
+                "parameters": [
+                    {
+                        "description": "Event data",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_realtime_structs.CreateEvent"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_realtime_structs.ReadEvent"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/events/batch": {
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Publish multiple events in a single batch",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "events"
+                ],
+                "summary": "Publish multiple events",
+                "parameters": [
+                    {
+                        "description": "Array of event data",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ncobase_realtime_structs.CreateEvent"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ncobase_realtime_structs.ReadEvent"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/events/failed": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Get events that failed processing",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "events"
+                ],
+                "summary": "Get failed events",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Limit results (default: 50, max: 200)",
+                        "name": "limit",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ncobase_realtime_structs.ReadEvent"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/events/process": {
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Manually trigger processing of pending events",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "events"
+                ],
+                "summary": "Process pending events",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Limit events to process (default: 10, max: 50)",
+                        "name": "limit",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ncobase_realtime_structs.ReadEvent"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/events/sources": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Get list of available event sources",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "events"
+                ],
+                "summary": "Get event sources",
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "sources": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/events/types": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Get list of available event types",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "events"
+                ],
+                "summary": "Get event types",
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "types": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/events/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Get an event by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "events"
+                ],
+                "summary": "Get an event by ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Event ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_realtime_structs.ReadEvent"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/events/{id}/retry": {
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Retry processing of a failed event",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "events"
+                ],
+                "summary": "Retry a failed event",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Event ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Retry parameters",
+                        "name": "body",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_realtime_structs.RetryParams"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_realtime_structs.RetryResult"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/events/{id}/status": {
+            "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Update the processing status of an event",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "events"
+                ],
+                "summary": "Update event status",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Event ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Status update",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "error_message": {
+                                    "type": "string"
+                                },
+                                "status": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
         "/flow/delegations": {
             "get": {
                 "security": [
@@ -6253,12 +6650,14 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
+                        "format": "int64",
                         "description": "Filter by start date (Unix timestamp)",
                         "name": "start_date",
                         "in": "query"
                     },
                     {
                         "type": "integer",
+                        "format": "int64",
                         "description": "Filter by end date (Unix timestamp)",
                         "name": "end_date",
                         "in": "query"
@@ -6498,12 +6897,14 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
+                        "format": "int64",
                         "description": "Filter by start date (Unix timestamp)",
                         "name": "start_date",
                         "in": "query"
                     },
                     {
                         "type": "integer",
+                        "format": "int64",
                         "description": "Filter by end date (Unix timestamp)",
                         "name": "end_date",
                         "in": "query"
@@ -9361,7 +9762,8 @@ const docTemplate = `{
                         "schema": {
                             "type": "object",
                             "additionalProperties": {
-                                "type": "integer"
+                                "type": "integer",
+                                "format": "int64"
                             }
                         }
                     },
@@ -10569,11 +10971,6 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "name": "channel_id",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
                         "name": "cursor",
                         "in": "query"
                     },
@@ -10588,6 +10985,16 @@ const docTemplate = `{
                         "in": "query"
                     },
                     {
+                        "type": "string",
+                        "name": "source",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "status",
+                        "in": "query"
+                    },
+                    {
                         "type": "array",
                         "items": {
                             "type": "integer"
@@ -10599,11 +11006,6 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "name": "type",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "name": "user_id",
                         "in": "query"
                     }
                 ],
@@ -10633,7 +11035,7 @@ const docTemplate = `{
                         "Bearer": []
                     }
                 ],
-                "description": "Get event history",
+                "description": "Get event history with filters",
                 "produces": [
                     "application/json"
                 ],
@@ -10644,17 +11046,21 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Channel ID",
-                        "name": "channel_id",
-                        "in": "query",
-                        "required": true
+                        "description": "Event type",
+                        "name": "type",
+                        "in": "query"
                     },
                     {
                         "type": "string",
-                        "description": "Event type",
-                        "name": "type",
-                        "in": "query",
-                        "required": true
+                        "description": "Event source",
+                        "name": "source",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Limit results",
+                        "name": "limit",
+                        "in": "query"
                     }
                 ],
                 "responses": {
@@ -10683,7 +11089,7 @@ const docTemplate = `{
                         "Bearer": []
                     }
                 ],
-                "description": "Publish a new event",
+                "description": "Publish a new event with full options",
                 "consumes": [
                     "application/json"
                 ],
@@ -10693,7 +11099,7 @@ const docTemplate = `{
                 "tags": [
                     "rt"
                 ],
-                "summary": "Publish a new event",
+                "summary": "Publish a new event (extended)",
                 "parameters": [
                     {
                         "description": "Event data",
@@ -10722,44 +11128,6 @@ const docTemplate = `{
             }
         },
         "/rt/events/{id}": {
-            "get": {
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
-                "description": "Get an event by ID",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "rt"
-                ],
-                "summary": "Get an event by ID",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Event ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "$ref": "#/definitions/ncobase_realtime_structs.ReadEvent"
-                        }
-                    },
-                    "400": {
-                        "description": "bad request",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
-                        }
-                    }
-                }
-            },
             "delete": {
                 "security": [
                     {
@@ -10787,7 +11155,7 @@ const docTemplate = `{
                     "200": {
                         "description": "success",
                         "schema": {
-                            "$ref": "#/definitions/ncobase_realtime_structs.ReadEvent"
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
                         }
                     },
                     "400": {
@@ -11219,6 +11587,51 @@ const docTemplate = `{
                 "responses": {}
             }
         },
+        "/search": {
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Search events with complex queries and aggregations",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "events"
+                ],
+                "summary": "Search events",
+                "parameters": [
+                    {
+                        "description": "Search query",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_realtime_structs.SearchQuery"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_realtime_structs.SearchResult"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
         "/sessions": {
             "get": {
                 "security": [
@@ -11377,6 +11790,51 @@ const docTemplate = `{
                         "description": "success",
                         "schema": {
                             "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ncobase_ncore_net_resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/stats/realtime": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Get real-time event statistics and metrics",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "events"
+                ],
+                "summary": "Get real-time statistics",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Time interval (1m, 5m, 15m, 1h)",
+                        "name": "interval",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Statistics type (overview, detailed)",
+                        "name": "type",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/ncobase_realtime_structs.RealtimeStats"
                         }
                     },
                     "400": {
@@ -22453,16 +22911,16 @@ const docTemplate = `{
         "ncobase_realtime_structs.EventBody": {
             "type": "object",
             "properties": {
-                "channel_id": {
-                    "type": "string"
-                },
                 "payload": {
                     "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
                 },
-                "type": {
+                "priority": {
                     "type": "string"
                 },
-                "user_id": {
+                "source": {
+                    "type": "string"
+                },
+                "type": {
                     "type": "string"
                 }
             }
@@ -22528,11 +22986,11 @@ const docTemplate = `{
         "ncobase_realtime_structs.ReadEvent": {
             "type": "object",
             "properties": {
-                "channel_id": {
-                    "type": "string"
-                },
                 "created_at": {
                     "type": "integer"
+                },
+                "error_message": {
+                    "type": "string"
                 },
                 "id": {
                     "type": "string"
@@ -22540,10 +22998,22 @@ const docTemplate = `{
                 "payload": {
                     "$ref": "#/definitions/github_com_ncobase_ncore_types.JSON"
                 },
-                "type": {
+                "priority": {
                     "type": "string"
                 },
-                "user_id": {
+                "processed_at": {
+                    "type": "integer"
+                },
+                "retry_count": {
+                    "type": "integer"
+                },
+                "source": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "type": {
                     "type": "string"
                 }
             }
@@ -22644,6 +23114,118 @@ const docTemplate = `{
                 }
             }
         },
+        "ncobase_realtime_structs.RealtimeStats": {
+            "type": "object",
+            "properties": {
+                "breakdown": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "object",
+                        "additionalProperties": {}
+                    }
+                },
+                "interval": {
+                    "type": "string"
+                },
+                "metrics": {
+                    "type": "object",
+                    "additionalProperties": {}
+                },
+                "timestamp": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_realtime_structs.RetryOptions": {
+            "type": "object",
+            "properties": {
+                "delay_seconds": {
+                    "type": "integer"
+                },
+                "max_attempts": {
+                    "type": "integer"
+                }
+            }
+        },
+        "ncobase_realtime_structs.RetryParams": {
+            "type": "object",
+            "properties": {
+                "priority": {
+                    "type": "string"
+                },
+                "reason": {
+                    "type": "string"
+                },
+                "retry_options": {
+                    "$ref": "#/definitions/ncobase_realtime_structs.RetryOptions"
+                }
+            }
+        },
+        "ncobase_realtime_structs.RetryResult": {
+            "type": "object",
+            "properties": {
+                "retry_id": {
+                    "type": "string"
+                },
+                "scheduled_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_realtime_structs.SearchQuery": {
+            "type": "object",
+            "properties": {
+                "aggregations": {
+                    "type": "object",
+                    "additionalProperties": {}
+                },
+                "filters": {
+                    "type": "object",
+                    "additionalProperties": {}
+                },
+                "from": {
+                    "type": "integer"
+                },
+                "query": {
+                    "type": "object",
+                    "additionalProperties": {}
+                },
+                "size": {
+                    "type": "integer"
+                },
+                "sort": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "additionalProperties": {}
+                    }
+                },
+                "time_range": {
+                    "$ref": "#/definitions/ncobase_realtime_structs.TimeRange"
+                }
+            }
+        },
+        "ncobase_realtime_structs.SearchResult": {
+            "type": "object",
+            "properties": {
+                "aggregations": {
+                    "type": "object",
+                    "additionalProperties": {}
+                },
+                "events": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ncobase_realtime_structs.ReadEvent"
+                    }
+                },
+                "scroll_id": {
+                    "type": "string"
+                },
+                "total": {
+                    "type": "integer"
+                }
+            }
+        },
         "ncobase_realtime_structs.SubscriptionBody": {
             "type": "object",
             "properties": {
@@ -22655,6 +23237,19 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "user_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "ncobase_realtime_structs.TimeRange": {
+            "type": "object",
+            "properties": {
+                "end": {
+                    "description": "ISO 8601 format",
+                    "type": "string"
+                },
+                "start": {
+                    "description": "ISO 8601 format",
                     "type": "string"
                 }
             }
@@ -23601,13 +24196,15 @@ const docTemplate = `{
                 "by_category": {
                     "type": "object",
                     "additionalProperties": {
-                        "type": "integer"
+                        "type": "integer",
+                        "format": "int64"
                     }
                 },
                 "by_storage": {
                     "type": "object",
                     "additionalProperties": {
-                        "type": "integer"
+                        "type": "integer",
+                        "format": "int64"
                     }
                 },
                 "daily_uploads": {
@@ -25543,6 +26140,23 @@ const docTemplate = `{
                 "ActionUrge": "Urge",
                 "ActionWithdraw": "Withdraw"
             },
+            "x-enum-descriptions": [
+                "Submit form",
+                "Save draft",
+                "Revoke approval",
+                "Reassign task",
+                "Add countersign",
+                "Send reminder",
+                "Approve",
+                "Reject",
+                "Delegate",
+                "Transfer",
+                "Withdraw",
+                "Terminate",
+                "Suspend",
+                "Resume",
+                "Urge"
+            ],
             "x-enum-varnames": [
                 "ActionSubmit",
                 "ActionSave",
@@ -26908,6 +27522,22 @@ const docTemplate = `{
                 "StatusTerminated": "Terminated",
                 "StatusWithdrawn": "Withdrawn"
             },
+            "x-enum-descriptions": [
+                "Draft",
+                "Ready",
+                "Active",
+                "Pending",
+                "Suspended",
+                "Processing",
+                "Completed",
+                "Compensated",
+                "Rejected",
+                "Cancelled",
+                "Terminated",
+                "Rollbacked",
+                "Withdrawn",
+                "Error"
+            ],
             "x-enum-varnames": [
                 "StatusDraft",
                 "StatusReady",
