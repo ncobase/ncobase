@@ -85,7 +85,7 @@ func (*File) scanValues(columns []string) ([]any, error) {
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
 // to the File fields.
-func (f *File) assignValues(columns []string, values []any) error {
+func (_m *File) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
@@ -95,61 +95,61 @@ func (f *File) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field id", values[i])
 			} else if value.Valid {
-				f.ID = value.String
+				_m.ID = value.String
 			}
 		case file.FieldName:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field name", values[i])
 			} else if value.Valid {
-				f.Name = value.String
+				_m.Name = value.String
 			}
 		case file.FieldPath:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field path", values[i])
 			} else if value.Valid {
-				f.Path = value.String
+				_m.Path = value.String
 			}
 		case file.FieldType:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field type", values[i])
 			} else if value.Valid {
-				f.Type = value.String
+				_m.Type = value.String
 			}
 		case file.FieldSize:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field size", values[i])
 			} else if value.Valid {
-				f.Size = int(value.Int64)
+				_m.Size = int(value.Int64)
 			}
 		case file.FieldStorage:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field storage", values[i])
 			} else if value.Valid {
-				f.Storage = value.String
+				_m.Storage = value.String
 			}
 		case file.FieldBucket:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field bucket", values[i])
 			} else if value.Valid {
-				f.Bucket = value.String
+				_m.Bucket = value.String
 			}
 		case file.FieldEndpoint:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field endpoint", values[i])
 			} else if value.Valid {
-				f.Endpoint = value.String
+				_m.Endpoint = value.String
 			}
 		case file.FieldOwnerID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field owner_id", values[i])
 			} else if value.Valid {
-				f.OwnerID = value.String
+				_m.OwnerID = value.String
 			}
 		case file.FieldExtras:
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field extras", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &f.Extras); err != nil {
+				if err := json.Unmarshal(*value, &_m.Extras); err != nil {
 					return fmt.Errorf("unmarshal field extras: %w", err)
 				}
 			}
@@ -157,50 +157,50 @@ func (f *File) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field created_by", values[i])
 			} else if value.Valid {
-				f.CreatedBy = value.String
+				_m.CreatedBy = value.String
 			}
 		case file.FieldUpdatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_by", values[i])
 			} else if value.Valid {
-				f.UpdatedBy = value.String
+				_m.UpdatedBy = value.String
 			}
 		case file.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field created_at", values[i])
 			} else if value.Valid {
-				f.CreatedAt = value.Int64
+				_m.CreatedAt = value.Int64
 			}
 		case file.FieldUpdatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_at", values[i])
 			} else if value.Valid {
-				f.UpdatedAt = value.Int64
+				_m.UpdatedAt = value.Int64
 			}
 		case file.FieldOriginalName:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field original_name", values[i])
 			} else if value.Valid {
-				f.OriginalName = value.String
+				_m.OriginalName = value.String
 			}
 		case file.FieldAccessLevel:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field access_level", values[i])
 			} else if value.Valid {
-				f.AccessLevel = value.String
+				_m.AccessLevel = value.String
 			}
 		case file.FieldExpiresAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field expires_at", values[i])
 			} else if value.Valid {
-				f.ExpiresAt = new(int64)
-				*f.ExpiresAt = value.Int64
+				_m.ExpiresAt = new(int64)
+				*_m.ExpiresAt = value.Int64
 			}
 		case file.FieldTags:
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field tags", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &f.Tags); err != nil {
+				if err := json.Unmarshal(*value, &_m.Tags); err != nil {
 					return fmt.Errorf("unmarshal field tags: %w", err)
 				}
 			}
@@ -208,30 +208,30 @@ func (f *File) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field is_public", values[i])
 			} else if value.Valid {
-				f.IsPublic = value.Bool
+				_m.IsPublic = value.Bool
 			}
 		case file.FieldCategory:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field category", values[i])
 			} else if value.Valid {
-				f.Category = value.String
+				_m.Category = value.String
 			}
 		case file.FieldHash:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field hash", values[i])
 			} else if value.Valid {
-				f.Hash = value.String
+				_m.Hash = value.String
 			}
 		case file.FieldProcessingResult:
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field processing_result", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &f.ProcessingResult); err != nil {
+				if err := json.Unmarshal(*value, &_m.ProcessingResult); err != nil {
 					return fmt.Errorf("unmarshal field processing_result: %w", err)
 				}
 			}
 		default:
-			f.selectValues.Set(columns[i], values[i])
+			_m.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
@@ -239,97 +239,97 @@ func (f *File) assignValues(columns []string, values []any) error {
 
 // Value returns the ent.Value that was dynamically selected and assigned to the File.
 // This includes values selected through modifiers, order, etc.
-func (f *File) Value(name string) (ent.Value, error) {
-	return f.selectValues.Get(name)
+func (_m *File) Value(name string) (ent.Value, error) {
+	return _m.selectValues.Get(name)
 }
 
 // Update returns a builder for updating this File.
 // Note that you need to call File.Unwrap() before calling this method if this File
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (f *File) Update() *FileUpdateOne {
-	return NewFileClient(f.config).UpdateOne(f)
+func (_m *File) Update() *FileUpdateOne {
+	return NewFileClient(_m.config).UpdateOne(_m)
 }
 
 // Unwrap unwraps the File entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (f *File) Unwrap() *File {
-	_tx, ok := f.config.driver.(*txDriver)
+func (_m *File) Unwrap() *File {
+	_tx, ok := _m.config.driver.(*txDriver)
 	if !ok {
 		panic("ent: File is not a transactional entity")
 	}
-	f.config.driver = _tx.drv
-	return f
+	_m.config.driver = _tx.drv
+	return _m
 }
 
 // String implements the fmt.Stringer.
-func (f *File) String() string {
+func (_m *File) String() string {
 	var builder strings.Builder
 	builder.WriteString("File(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", f.ID))
+	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
 	builder.WriteString("name=")
-	builder.WriteString(f.Name)
+	builder.WriteString(_m.Name)
 	builder.WriteString(", ")
 	builder.WriteString("path=")
-	builder.WriteString(f.Path)
+	builder.WriteString(_m.Path)
 	builder.WriteString(", ")
 	builder.WriteString("type=")
-	builder.WriteString(f.Type)
+	builder.WriteString(_m.Type)
 	builder.WriteString(", ")
 	builder.WriteString("size=")
-	builder.WriteString(fmt.Sprintf("%v", f.Size))
+	builder.WriteString(fmt.Sprintf("%v", _m.Size))
 	builder.WriteString(", ")
 	builder.WriteString("storage=")
-	builder.WriteString(f.Storage)
+	builder.WriteString(_m.Storage)
 	builder.WriteString(", ")
 	builder.WriteString("bucket=")
-	builder.WriteString(f.Bucket)
+	builder.WriteString(_m.Bucket)
 	builder.WriteString(", ")
 	builder.WriteString("endpoint=")
-	builder.WriteString(f.Endpoint)
+	builder.WriteString(_m.Endpoint)
 	builder.WriteString(", ")
 	builder.WriteString("owner_id=")
-	builder.WriteString(f.OwnerID)
+	builder.WriteString(_m.OwnerID)
 	builder.WriteString(", ")
 	builder.WriteString("extras=")
-	builder.WriteString(fmt.Sprintf("%v", f.Extras))
+	builder.WriteString(fmt.Sprintf("%v", _m.Extras))
 	builder.WriteString(", ")
 	builder.WriteString("created_by=")
-	builder.WriteString(f.CreatedBy)
+	builder.WriteString(_m.CreatedBy)
 	builder.WriteString(", ")
 	builder.WriteString("updated_by=")
-	builder.WriteString(f.UpdatedBy)
+	builder.WriteString(_m.UpdatedBy)
 	builder.WriteString(", ")
 	builder.WriteString("created_at=")
-	builder.WriteString(fmt.Sprintf("%v", f.CreatedAt))
+	builder.WriteString(fmt.Sprintf("%v", _m.CreatedAt))
 	builder.WriteString(", ")
 	builder.WriteString("updated_at=")
-	builder.WriteString(fmt.Sprintf("%v", f.UpdatedAt))
+	builder.WriteString(fmt.Sprintf("%v", _m.UpdatedAt))
 	builder.WriteString(", ")
 	builder.WriteString("original_name=")
-	builder.WriteString(f.OriginalName)
+	builder.WriteString(_m.OriginalName)
 	builder.WriteString(", ")
 	builder.WriteString("access_level=")
-	builder.WriteString(f.AccessLevel)
+	builder.WriteString(_m.AccessLevel)
 	builder.WriteString(", ")
-	if v := f.ExpiresAt; v != nil {
+	if v := _m.ExpiresAt; v != nil {
 		builder.WriteString("expires_at=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
 	builder.WriteString("tags=")
-	builder.WriteString(fmt.Sprintf("%v", f.Tags))
+	builder.WriteString(fmt.Sprintf("%v", _m.Tags))
 	builder.WriteString(", ")
 	builder.WriteString("is_public=")
-	builder.WriteString(fmt.Sprintf("%v", f.IsPublic))
+	builder.WriteString(fmt.Sprintf("%v", _m.IsPublic))
 	builder.WriteString(", ")
 	builder.WriteString("category=")
-	builder.WriteString(f.Category)
+	builder.WriteString(_m.Category)
 	builder.WriteString(", ")
 	builder.WriteString("hash=")
-	builder.WriteString(f.Hash)
+	builder.WriteString(_m.Hash)
 	builder.WriteString(", ")
 	builder.WriteString("processing_result=")
-	builder.WriteString(fmt.Sprintf("%v", f.ProcessingResult))
+	builder.WriteString(fmt.Sprintf("%v", _m.ProcessingResult))
 	builder.WriteByte(')')
 	return builder.String()
 }

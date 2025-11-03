@@ -69,7 +69,7 @@ func (*SpaceQuota) scanValues(columns []string) ([]any, error) {
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
 // to the SpaceQuota fields.
-func (sq *SpaceQuota) assignValues(columns []string, values []any) error {
+func (_m *SpaceQuota) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
@@ -79,25 +79,25 @@ func (sq *SpaceQuota) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field id", values[i])
 			} else if value.Valid {
-				sq.ID = value.String
+				_m.ID = value.String
 			}
 		case spacequota.FieldSpaceID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field space_id", values[i])
 			} else if value.Valid {
-				sq.SpaceID = value.String
+				_m.SpaceID = value.String
 			}
 		case spacequota.FieldDescription:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field description", values[i])
 			} else if value.Valid {
-				sq.Description = value.String
+				_m.Description = value.String
 			}
 		case spacequota.FieldExtras:
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field extras", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &sq.Extras); err != nil {
+				if err := json.Unmarshal(*value, &_m.Extras); err != nil {
 					return fmt.Errorf("unmarshal field extras: %w", err)
 				}
 			}
@@ -105,64 +105,64 @@ func (sq *SpaceQuota) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field created_by", values[i])
 			} else if value.Valid {
-				sq.CreatedBy = value.String
+				_m.CreatedBy = value.String
 			}
 		case spacequota.FieldUpdatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_by", values[i])
 			} else if value.Valid {
-				sq.UpdatedBy = value.String
+				_m.UpdatedBy = value.String
 			}
 		case spacequota.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field created_at", values[i])
 			} else if value.Valid {
-				sq.CreatedAt = value.Int64
+				_m.CreatedAt = value.Int64
 			}
 		case spacequota.FieldUpdatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_at", values[i])
 			} else if value.Valid {
-				sq.UpdatedAt = value.Int64
+				_m.UpdatedAt = value.Int64
 			}
 		case spacequota.FieldQuotaType:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field quota_type", values[i])
 			} else if value.Valid {
-				sq.QuotaType = value.String
+				_m.QuotaType = value.String
 			}
 		case spacequota.FieldQuotaName:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field quota_name", values[i])
 			} else if value.Valid {
-				sq.QuotaName = value.String
+				_m.QuotaName = value.String
 			}
 		case spacequota.FieldMaxValue:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field max_value", values[i])
 			} else if value.Valid {
-				sq.MaxValue = value.Int64
+				_m.MaxValue = value.Int64
 			}
 		case spacequota.FieldCurrentUsed:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field current_used", values[i])
 			} else if value.Valid {
-				sq.CurrentUsed = value.Int64
+				_m.CurrentUsed = value.Int64
 			}
 		case spacequota.FieldUnit:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field unit", values[i])
 			} else if value.Valid {
-				sq.Unit = value.String
+				_m.Unit = value.String
 			}
 		case spacequota.FieldEnabled:
 			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field enabled", values[i])
 			} else if value.Valid {
-				sq.Enabled = value.Bool
+				_m.Enabled = value.Bool
 			}
 		default:
-			sq.selectValues.Set(columns[i], values[i])
+			_m.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
@@ -170,71 +170,71 @@ func (sq *SpaceQuota) assignValues(columns []string, values []any) error {
 
 // Value returns the ent.Value that was dynamically selected and assigned to the SpaceQuota.
 // This includes values selected through modifiers, order, etc.
-func (sq *SpaceQuota) Value(name string) (ent.Value, error) {
-	return sq.selectValues.Get(name)
+func (_m *SpaceQuota) Value(name string) (ent.Value, error) {
+	return _m.selectValues.Get(name)
 }
 
 // Update returns a builder for updating this SpaceQuota.
 // Note that you need to call SpaceQuota.Unwrap() before calling this method if this SpaceQuota
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (sq *SpaceQuota) Update() *SpaceQuotaUpdateOne {
-	return NewSpaceQuotaClient(sq.config).UpdateOne(sq)
+func (_m *SpaceQuota) Update() *SpaceQuotaUpdateOne {
+	return NewSpaceQuotaClient(_m.config).UpdateOne(_m)
 }
 
 // Unwrap unwraps the SpaceQuota entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (sq *SpaceQuota) Unwrap() *SpaceQuota {
-	_tx, ok := sq.config.driver.(*txDriver)
+func (_m *SpaceQuota) Unwrap() *SpaceQuota {
+	_tx, ok := _m.config.driver.(*txDriver)
 	if !ok {
 		panic("ent: SpaceQuota is not a transactional entity")
 	}
-	sq.config.driver = _tx.drv
-	return sq
+	_m.config.driver = _tx.drv
+	return _m
 }
 
 // String implements the fmt.Stringer.
-func (sq *SpaceQuota) String() string {
+func (_m *SpaceQuota) String() string {
 	var builder strings.Builder
 	builder.WriteString("SpaceQuota(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", sq.ID))
+	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
 	builder.WriteString("space_id=")
-	builder.WriteString(sq.SpaceID)
+	builder.WriteString(_m.SpaceID)
 	builder.WriteString(", ")
 	builder.WriteString("description=")
-	builder.WriteString(sq.Description)
+	builder.WriteString(_m.Description)
 	builder.WriteString(", ")
 	builder.WriteString("extras=")
-	builder.WriteString(fmt.Sprintf("%v", sq.Extras))
+	builder.WriteString(fmt.Sprintf("%v", _m.Extras))
 	builder.WriteString(", ")
 	builder.WriteString("created_by=")
-	builder.WriteString(sq.CreatedBy)
+	builder.WriteString(_m.CreatedBy)
 	builder.WriteString(", ")
 	builder.WriteString("updated_by=")
-	builder.WriteString(sq.UpdatedBy)
+	builder.WriteString(_m.UpdatedBy)
 	builder.WriteString(", ")
 	builder.WriteString("created_at=")
-	builder.WriteString(fmt.Sprintf("%v", sq.CreatedAt))
+	builder.WriteString(fmt.Sprintf("%v", _m.CreatedAt))
 	builder.WriteString(", ")
 	builder.WriteString("updated_at=")
-	builder.WriteString(fmt.Sprintf("%v", sq.UpdatedAt))
+	builder.WriteString(fmt.Sprintf("%v", _m.UpdatedAt))
 	builder.WriteString(", ")
 	builder.WriteString("quota_type=")
-	builder.WriteString(sq.QuotaType)
+	builder.WriteString(_m.QuotaType)
 	builder.WriteString(", ")
 	builder.WriteString("quota_name=")
-	builder.WriteString(sq.QuotaName)
+	builder.WriteString(_m.QuotaName)
 	builder.WriteString(", ")
 	builder.WriteString("max_value=")
-	builder.WriteString(fmt.Sprintf("%v", sq.MaxValue))
+	builder.WriteString(fmt.Sprintf("%v", _m.MaxValue))
 	builder.WriteString(", ")
 	builder.WriteString("current_used=")
-	builder.WriteString(fmt.Sprintf("%v", sq.CurrentUsed))
+	builder.WriteString(fmt.Sprintf("%v", _m.CurrentUsed))
 	builder.WriteString(", ")
 	builder.WriteString("unit=")
-	builder.WriteString(sq.Unit)
+	builder.WriteString(_m.Unit)
 	builder.WriteString(", ")
 	builder.WriteString("enabled=")
-	builder.WriteString(fmt.Sprintf("%v", sq.Enabled))
+	builder.WriteString(fmt.Sprintf("%v", _m.Enabled))
 	builder.WriteByte(')')
 	return builder.String()
 }

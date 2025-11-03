@@ -22,124 +22,124 @@ type RolePermissionUpdate struct {
 }
 
 // Where appends a list predicates to the RolePermissionUpdate builder.
-func (rpu *RolePermissionUpdate) Where(ps ...predicate.RolePermission) *RolePermissionUpdate {
-	rpu.mutation.Where(ps...)
-	return rpu
+func (_u *RolePermissionUpdate) Where(ps ...predicate.RolePermission) *RolePermissionUpdate {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // SetRoleID sets the "role_id" field.
-func (rpu *RolePermissionUpdate) SetRoleID(s string) *RolePermissionUpdate {
-	rpu.mutation.SetRoleID(s)
-	return rpu
+func (_u *RolePermissionUpdate) SetRoleID(v string) *RolePermissionUpdate {
+	_u.mutation.SetRoleID(v)
+	return _u
 }
 
 // SetNillableRoleID sets the "role_id" field if the given value is not nil.
-func (rpu *RolePermissionUpdate) SetNillableRoleID(s *string) *RolePermissionUpdate {
-	if s != nil {
-		rpu.SetRoleID(*s)
+func (_u *RolePermissionUpdate) SetNillableRoleID(v *string) *RolePermissionUpdate {
+	if v != nil {
+		_u.SetRoleID(*v)
 	}
-	return rpu
+	return _u
 }
 
 // ClearRoleID clears the value of the "role_id" field.
-func (rpu *RolePermissionUpdate) ClearRoleID() *RolePermissionUpdate {
-	rpu.mutation.ClearRoleID()
-	return rpu
+func (_u *RolePermissionUpdate) ClearRoleID() *RolePermissionUpdate {
+	_u.mutation.ClearRoleID()
+	return _u
 }
 
 // SetPermissionID sets the "permission_id" field.
-func (rpu *RolePermissionUpdate) SetPermissionID(s string) *RolePermissionUpdate {
-	rpu.mutation.SetPermissionID(s)
-	return rpu
+func (_u *RolePermissionUpdate) SetPermissionID(v string) *RolePermissionUpdate {
+	_u.mutation.SetPermissionID(v)
+	return _u
 }
 
 // SetNillablePermissionID sets the "permission_id" field if the given value is not nil.
-func (rpu *RolePermissionUpdate) SetNillablePermissionID(s *string) *RolePermissionUpdate {
-	if s != nil {
-		rpu.SetPermissionID(*s)
+func (_u *RolePermissionUpdate) SetNillablePermissionID(v *string) *RolePermissionUpdate {
+	if v != nil {
+		_u.SetPermissionID(*v)
 	}
-	return rpu
+	return _u
 }
 
 // ClearPermissionID clears the value of the "permission_id" field.
-func (rpu *RolePermissionUpdate) ClearPermissionID() *RolePermissionUpdate {
-	rpu.mutation.ClearPermissionID()
-	return rpu
+func (_u *RolePermissionUpdate) ClearPermissionID() *RolePermissionUpdate {
+	_u.mutation.ClearPermissionID()
+	return _u
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (rpu *RolePermissionUpdate) SetCreatedBy(s string) *RolePermissionUpdate {
-	rpu.mutation.SetCreatedBy(s)
-	return rpu
+func (_u *RolePermissionUpdate) SetCreatedBy(v string) *RolePermissionUpdate {
+	_u.mutation.SetCreatedBy(v)
+	return _u
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (rpu *RolePermissionUpdate) SetNillableCreatedBy(s *string) *RolePermissionUpdate {
-	if s != nil {
-		rpu.SetCreatedBy(*s)
+func (_u *RolePermissionUpdate) SetNillableCreatedBy(v *string) *RolePermissionUpdate {
+	if v != nil {
+		_u.SetCreatedBy(*v)
 	}
-	return rpu
+	return _u
 }
 
 // ClearCreatedBy clears the value of the "created_by" field.
-func (rpu *RolePermissionUpdate) ClearCreatedBy() *RolePermissionUpdate {
-	rpu.mutation.ClearCreatedBy()
-	return rpu
+func (_u *RolePermissionUpdate) ClearCreatedBy() *RolePermissionUpdate {
+	_u.mutation.ClearCreatedBy()
+	return _u
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (rpu *RolePermissionUpdate) SetUpdatedBy(s string) *RolePermissionUpdate {
-	rpu.mutation.SetUpdatedBy(s)
-	return rpu
+func (_u *RolePermissionUpdate) SetUpdatedBy(v string) *RolePermissionUpdate {
+	_u.mutation.SetUpdatedBy(v)
+	return _u
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (rpu *RolePermissionUpdate) SetNillableUpdatedBy(s *string) *RolePermissionUpdate {
-	if s != nil {
-		rpu.SetUpdatedBy(*s)
+func (_u *RolePermissionUpdate) SetNillableUpdatedBy(v *string) *RolePermissionUpdate {
+	if v != nil {
+		_u.SetUpdatedBy(*v)
 	}
-	return rpu
+	return _u
 }
 
 // ClearUpdatedBy clears the value of the "updated_by" field.
-func (rpu *RolePermissionUpdate) ClearUpdatedBy() *RolePermissionUpdate {
-	rpu.mutation.ClearUpdatedBy()
-	return rpu
+func (_u *RolePermissionUpdate) ClearUpdatedBy() *RolePermissionUpdate {
+	_u.mutation.ClearUpdatedBy()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (rpu *RolePermissionUpdate) SetUpdatedAt(i int64) *RolePermissionUpdate {
-	rpu.mutation.ResetUpdatedAt()
-	rpu.mutation.SetUpdatedAt(i)
-	return rpu
+func (_u *RolePermissionUpdate) SetUpdatedAt(v int64) *RolePermissionUpdate {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (rpu *RolePermissionUpdate) AddUpdatedAt(i int64) *RolePermissionUpdate {
-	rpu.mutation.AddUpdatedAt(i)
-	return rpu
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *RolePermissionUpdate) AddUpdatedAt(v int64) *RolePermissionUpdate {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (rpu *RolePermissionUpdate) ClearUpdatedAt() *RolePermissionUpdate {
-	rpu.mutation.ClearUpdatedAt()
-	return rpu
+func (_u *RolePermissionUpdate) ClearUpdatedAt() *RolePermissionUpdate {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // Mutation returns the RolePermissionMutation object of the builder.
-func (rpu *RolePermissionUpdate) Mutation() *RolePermissionMutation {
-	return rpu.mutation
+func (_u *RolePermissionUpdate) Mutation() *RolePermissionMutation {
+	return _u.mutation
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
-func (rpu *RolePermissionUpdate) Save(ctx context.Context) (int, error) {
-	rpu.defaults()
-	return withHooks(ctx, rpu.sqlSave, rpu.mutation, rpu.hooks)
+func (_u *RolePermissionUpdate) Save(ctx context.Context) (int, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (rpu *RolePermissionUpdate) SaveX(ctx context.Context) int {
-	affected, err := rpu.Save(ctx)
+func (_u *RolePermissionUpdate) SaveX(ctx context.Context) int {
+	affected, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -147,72 +147,72 @@ func (rpu *RolePermissionUpdate) SaveX(ctx context.Context) int {
 }
 
 // Exec executes the query.
-func (rpu *RolePermissionUpdate) Exec(ctx context.Context) error {
-	_, err := rpu.Save(ctx)
+func (_u *RolePermissionUpdate) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (rpu *RolePermissionUpdate) ExecX(ctx context.Context) {
-	if err := rpu.Exec(ctx); err != nil {
+func (_u *RolePermissionUpdate) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (rpu *RolePermissionUpdate) defaults() {
-	if _, ok := rpu.mutation.UpdatedAt(); !ok && !rpu.mutation.UpdatedAtCleared() {
+func (_u *RolePermissionUpdate) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := rolepermission.UpdateDefaultUpdatedAt()
-		rpu.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (rpu *RolePermissionUpdate) sqlSave(ctx context.Context) (n int, err error) {
+func (_u *RolePermissionUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	_spec := sqlgraph.NewUpdateSpec(rolepermission.Table, rolepermission.Columns, sqlgraph.NewFieldSpec(rolepermission.FieldID, field.TypeString))
-	if ps := rpu.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := rpu.mutation.RoleID(); ok {
+	if value, ok := _u.mutation.RoleID(); ok {
 		_spec.SetField(rolepermission.FieldRoleID, field.TypeString, value)
 	}
-	if rpu.mutation.RoleIDCleared() {
+	if _u.mutation.RoleIDCleared() {
 		_spec.ClearField(rolepermission.FieldRoleID, field.TypeString)
 	}
-	if value, ok := rpu.mutation.PermissionID(); ok {
+	if value, ok := _u.mutation.PermissionID(); ok {
 		_spec.SetField(rolepermission.FieldPermissionID, field.TypeString, value)
 	}
-	if rpu.mutation.PermissionIDCleared() {
+	if _u.mutation.PermissionIDCleared() {
 		_spec.ClearField(rolepermission.FieldPermissionID, field.TypeString)
 	}
-	if value, ok := rpu.mutation.CreatedBy(); ok {
+	if value, ok := _u.mutation.CreatedBy(); ok {
 		_spec.SetField(rolepermission.FieldCreatedBy, field.TypeString, value)
 	}
-	if rpu.mutation.CreatedByCleared() {
+	if _u.mutation.CreatedByCleared() {
 		_spec.ClearField(rolepermission.FieldCreatedBy, field.TypeString)
 	}
-	if value, ok := rpu.mutation.UpdatedBy(); ok {
+	if value, ok := _u.mutation.UpdatedBy(); ok {
 		_spec.SetField(rolepermission.FieldUpdatedBy, field.TypeString, value)
 	}
-	if rpu.mutation.UpdatedByCleared() {
+	if _u.mutation.UpdatedByCleared() {
 		_spec.ClearField(rolepermission.FieldUpdatedBy, field.TypeString)
 	}
-	if rpu.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(rolepermission.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := rpu.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(rolepermission.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := rpu.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(rolepermission.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if rpu.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(rolepermission.FieldUpdatedAt, field.TypeInt64)
 	}
-	if n, err = sqlgraph.UpdateNodes(ctx, rpu.driver, _spec); err != nil {
+	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{rolepermission.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -220,8 +220,8 @@ func (rpu *RolePermissionUpdate) sqlSave(ctx context.Context) (n int, err error)
 		}
 		return 0, err
 	}
-	rpu.mutation.done = true
-	return n, nil
+	_u.mutation.done = true
+	return _node, nil
 }
 
 // RolePermissionUpdateOne is the builder for updating a single RolePermission entity.
@@ -233,131 +233,131 @@ type RolePermissionUpdateOne struct {
 }
 
 // SetRoleID sets the "role_id" field.
-func (rpuo *RolePermissionUpdateOne) SetRoleID(s string) *RolePermissionUpdateOne {
-	rpuo.mutation.SetRoleID(s)
-	return rpuo
+func (_u *RolePermissionUpdateOne) SetRoleID(v string) *RolePermissionUpdateOne {
+	_u.mutation.SetRoleID(v)
+	return _u
 }
 
 // SetNillableRoleID sets the "role_id" field if the given value is not nil.
-func (rpuo *RolePermissionUpdateOne) SetNillableRoleID(s *string) *RolePermissionUpdateOne {
-	if s != nil {
-		rpuo.SetRoleID(*s)
+func (_u *RolePermissionUpdateOne) SetNillableRoleID(v *string) *RolePermissionUpdateOne {
+	if v != nil {
+		_u.SetRoleID(*v)
 	}
-	return rpuo
+	return _u
 }
 
 // ClearRoleID clears the value of the "role_id" field.
-func (rpuo *RolePermissionUpdateOne) ClearRoleID() *RolePermissionUpdateOne {
-	rpuo.mutation.ClearRoleID()
-	return rpuo
+func (_u *RolePermissionUpdateOne) ClearRoleID() *RolePermissionUpdateOne {
+	_u.mutation.ClearRoleID()
+	return _u
 }
 
 // SetPermissionID sets the "permission_id" field.
-func (rpuo *RolePermissionUpdateOne) SetPermissionID(s string) *RolePermissionUpdateOne {
-	rpuo.mutation.SetPermissionID(s)
-	return rpuo
+func (_u *RolePermissionUpdateOne) SetPermissionID(v string) *RolePermissionUpdateOne {
+	_u.mutation.SetPermissionID(v)
+	return _u
 }
 
 // SetNillablePermissionID sets the "permission_id" field if the given value is not nil.
-func (rpuo *RolePermissionUpdateOne) SetNillablePermissionID(s *string) *RolePermissionUpdateOne {
-	if s != nil {
-		rpuo.SetPermissionID(*s)
+func (_u *RolePermissionUpdateOne) SetNillablePermissionID(v *string) *RolePermissionUpdateOne {
+	if v != nil {
+		_u.SetPermissionID(*v)
 	}
-	return rpuo
+	return _u
 }
 
 // ClearPermissionID clears the value of the "permission_id" field.
-func (rpuo *RolePermissionUpdateOne) ClearPermissionID() *RolePermissionUpdateOne {
-	rpuo.mutation.ClearPermissionID()
-	return rpuo
+func (_u *RolePermissionUpdateOne) ClearPermissionID() *RolePermissionUpdateOne {
+	_u.mutation.ClearPermissionID()
+	return _u
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (rpuo *RolePermissionUpdateOne) SetCreatedBy(s string) *RolePermissionUpdateOne {
-	rpuo.mutation.SetCreatedBy(s)
-	return rpuo
+func (_u *RolePermissionUpdateOne) SetCreatedBy(v string) *RolePermissionUpdateOne {
+	_u.mutation.SetCreatedBy(v)
+	return _u
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (rpuo *RolePermissionUpdateOne) SetNillableCreatedBy(s *string) *RolePermissionUpdateOne {
-	if s != nil {
-		rpuo.SetCreatedBy(*s)
+func (_u *RolePermissionUpdateOne) SetNillableCreatedBy(v *string) *RolePermissionUpdateOne {
+	if v != nil {
+		_u.SetCreatedBy(*v)
 	}
-	return rpuo
+	return _u
 }
 
 // ClearCreatedBy clears the value of the "created_by" field.
-func (rpuo *RolePermissionUpdateOne) ClearCreatedBy() *RolePermissionUpdateOne {
-	rpuo.mutation.ClearCreatedBy()
-	return rpuo
+func (_u *RolePermissionUpdateOne) ClearCreatedBy() *RolePermissionUpdateOne {
+	_u.mutation.ClearCreatedBy()
+	return _u
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (rpuo *RolePermissionUpdateOne) SetUpdatedBy(s string) *RolePermissionUpdateOne {
-	rpuo.mutation.SetUpdatedBy(s)
-	return rpuo
+func (_u *RolePermissionUpdateOne) SetUpdatedBy(v string) *RolePermissionUpdateOne {
+	_u.mutation.SetUpdatedBy(v)
+	return _u
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (rpuo *RolePermissionUpdateOne) SetNillableUpdatedBy(s *string) *RolePermissionUpdateOne {
-	if s != nil {
-		rpuo.SetUpdatedBy(*s)
+func (_u *RolePermissionUpdateOne) SetNillableUpdatedBy(v *string) *RolePermissionUpdateOne {
+	if v != nil {
+		_u.SetUpdatedBy(*v)
 	}
-	return rpuo
+	return _u
 }
 
 // ClearUpdatedBy clears the value of the "updated_by" field.
-func (rpuo *RolePermissionUpdateOne) ClearUpdatedBy() *RolePermissionUpdateOne {
-	rpuo.mutation.ClearUpdatedBy()
-	return rpuo
+func (_u *RolePermissionUpdateOne) ClearUpdatedBy() *RolePermissionUpdateOne {
+	_u.mutation.ClearUpdatedBy()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (rpuo *RolePermissionUpdateOne) SetUpdatedAt(i int64) *RolePermissionUpdateOne {
-	rpuo.mutation.ResetUpdatedAt()
-	rpuo.mutation.SetUpdatedAt(i)
-	return rpuo
+func (_u *RolePermissionUpdateOne) SetUpdatedAt(v int64) *RolePermissionUpdateOne {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (rpuo *RolePermissionUpdateOne) AddUpdatedAt(i int64) *RolePermissionUpdateOne {
-	rpuo.mutation.AddUpdatedAt(i)
-	return rpuo
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *RolePermissionUpdateOne) AddUpdatedAt(v int64) *RolePermissionUpdateOne {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (rpuo *RolePermissionUpdateOne) ClearUpdatedAt() *RolePermissionUpdateOne {
-	rpuo.mutation.ClearUpdatedAt()
-	return rpuo
+func (_u *RolePermissionUpdateOne) ClearUpdatedAt() *RolePermissionUpdateOne {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // Mutation returns the RolePermissionMutation object of the builder.
-func (rpuo *RolePermissionUpdateOne) Mutation() *RolePermissionMutation {
-	return rpuo.mutation
+func (_u *RolePermissionUpdateOne) Mutation() *RolePermissionMutation {
+	return _u.mutation
 }
 
 // Where appends a list predicates to the RolePermissionUpdate builder.
-func (rpuo *RolePermissionUpdateOne) Where(ps ...predicate.RolePermission) *RolePermissionUpdateOne {
-	rpuo.mutation.Where(ps...)
-	return rpuo
+func (_u *RolePermissionUpdateOne) Where(ps ...predicate.RolePermission) *RolePermissionUpdateOne {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // Select allows selecting one or more fields (columns) of the returned entity.
 // The default is selecting all fields defined in the entity schema.
-func (rpuo *RolePermissionUpdateOne) Select(field string, fields ...string) *RolePermissionUpdateOne {
-	rpuo.fields = append([]string{field}, fields...)
-	return rpuo
+func (_u *RolePermissionUpdateOne) Select(field string, fields ...string) *RolePermissionUpdateOne {
+	_u.fields = append([]string{field}, fields...)
+	return _u
 }
 
 // Save executes the query and returns the updated RolePermission entity.
-func (rpuo *RolePermissionUpdateOne) Save(ctx context.Context) (*RolePermission, error) {
-	rpuo.defaults()
-	return withHooks(ctx, rpuo.sqlSave, rpuo.mutation, rpuo.hooks)
+func (_u *RolePermissionUpdateOne) Save(ctx context.Context) (*RolePermission, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (rpuo *RolePermissionUpdateOne) SaveX(ctx context.Context) *RolePermission {
-	node, err := rpuo.Save(ctx)
+func (_u *RolePermissionUpdateOne) SaveX(ctx context.Context) *RolePermission {
+	node, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -365,34 +365,34 @@ func (rpuo *RolePermissionUpdateOne) SaveX(ctx context.Context) *RolePermission 
 }
 
 // Exec executes the query on the entity.
-func (rpuo *RolePermissionUpdateOne) Exec(ctx context.Context) error {
-	_, err := rpuo.Save(ctx)
+func (_u *RolePermissionUpdateOne) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (rpuo *RolePermissionUpdateOne) ExecX(ctx context.Context) {
-	if err := rpuo.Exec(ctx); err != nil {
+func (_u *RolePermissionUpdateOne) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (rpuo *RolePermissionUpdateOne) defaults() {
-	if _, ok := rpuo.mutation.UpdatedAt(); !ok && !rpuo.mutation.UpdatedAtCleared() {
+func (_u *RolePermissionUpdateOne) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := rolepermission.UpdateDefaultUpdatedAt()
-		rpuo.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (rpuo *RolePermissionUpdateOne) sqlSave(ctx context.Context) (_node *RolePermission, err error) {
+func (_u *RolePermissionUpdateOne) sqlSave(ctx context.Context) (_node *RolePermission, err error) {
 	_spec := sqlgraph.NewUpdateSpec(rolepermission.Table, rolepermission.Columns, sqlgraph.NewFieldSpec(rolepermission.FieldID, field.TypeString))
-	id, ok := rpuo.mutation.ID()
+	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "RolePermission.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
-	if fields := rpuo.fields; len(fields) > 0 {
+	if fields := _u.fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, rolepermission.FieldID)
 		for _, f := range fields {
@@ -404,53 +404,53 @@ func (rpuo *RolePermissionUpdateOne) sqlSave(ctx context.Context) (_node *RolePe
 			}
 		}
 	}
-	if ps := rpuo.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := rpuo.mutation.RoleID(); ok {
+	if value, ok := _u.mutation.RoleID(); ok {
 		_spec.SetField(rolepermission.FieldRoleID, field.TypeString, value)
 	}
-	if rpuo.mutation.RoleIDCleared() {
+	if _u.mutation.RoleIDCleared() {
 		_spec.ClearField(rolepermission.FieldRoleID, field.TypeString)
 	}
-	if value, ok := rpuo.mutation.PermissionID(); ok {
+	if value, ok := _u.mutation.PermissionID(); ok {
 		_spec.SetField(rolepermission.FieldPermissionID, field.TypeString, value)
 	}
-	if rpuo.mutation.PermissionIDCleared() {
+	if _u.mutation.PermissionIDCleared() {
 		_spec.ClearField(rolepermission.FieldPermissionID, field.TypeString)
 	}
-	if value, ok := rpuo.mutation.CreatedBy(); ok {
+	if value, ok := _u.mutation.CreatedBy(); ok {
 		_spec.SetField(rolepermission.FieldCreatedBy, field.TypeString, value)
 	}
-	if rpuo.mutation.CreatedByCleared() {
+	if _u.mutation.CreatedByCleared() {
 		_spec.ClearField(rolepermission.FieldCreatedBy, field.TypeString)
 	}
-	if value, ok := rpuo.mutation.UpdatedBy(); ok {
+	if value, ok := _u.mutation.UpdatedBy(); ok {
 		_spec.SetField(rolepermission.FieldUpdatedBy, field.TypeString, value)
 	}
-	if rpuo.mutation.UpdatedByCleared() {
+	if _u.mutation.UpdatedByCleared() {
 		_spec.ClearField(rolepermission.FieldUpdatedBy, field.TypeString)
 	}
-	if rpuo.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(rolepermission.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := rpuo.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(rolepermission.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := rpuo.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(rolepermission.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if rpuo.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(rolepermission.FieldUpdatedAt, field.TypeInt64)
 	}
-	_node = &RolePermission{config: rpuo.config}
+	_node = &RolePermission{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues
-	if err = sqlgraph.UpdateNode(ctx, rpuo.driver, _spec); err != nil {
+	if err = sqlgraph.UpdateNode(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{rolepermission.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -458,6 +458,6 @@ func (rpuo *RolePermissionUpdateOne) sqlSave(ctx context.Context) (_node *RolePe
 		}
 		return nil, err
 	}
-	rpuo.mutation.done = true
+	_u.mutation.done = true
 	return _node, nil
 }

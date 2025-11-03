@@ -32,44 +32,44 @@ type DistributionQuery struct {
 }
 
 // Where adds a new predicate for the DistributionQuery builder.
-func (dq *DistributionQuery) Where(ps ...predicate.Distribution) *DistributionQuery {
-	dq.predicates = append(dq.predicates, ps...)
-	return dq
+func (_q *DistributionQuery) Where(ps ...predicate.Distribution) *DistributionQuery {
+	_q.predicates = append(_q.predicates, ps...)
+	return _q
 }
 
 // Limit the number of records to be returned by this query.
-func (dq *DistributionQuery) Limit(limit int) *DistributionQuery {
-	dq.ctx.Limit = &limit
-	return dq
+func (_q *DistributionQuery) Limit(limit int) *DistributionQuery {
+	_q.ctx.Limit = &limit
+	return _q
 }
 
 // Offset to start from.
-func (dq *DistributionQuery) Offset(offset int) *DistributionQuery {
-	dq.ctx.Offset = &offset
-	return dq
+func (_q *DistributionQuery) Offset(offset int) *DistributionQuery {
+	_q.ctx.Offset = &offset
+	return _q
 }
 
 // Unique configures the query builder to filter duplicate records on query.
 // By default, unique is set to true, and can be disabled using this method.
-func (dq *DistributionQuery) Unique(unique bool) *DistributionQuery {
-	dq.ctx.Unique = &unique
-	return dq
+func (_q *DistributionQuery) Unique(unique bool) *DistributionQuery {
+	_q.ctx.Unique = &unique
+	return _q
 }
 
 // Order specifies how the records should be ordered.
-func (dq *DistributionQuery) Order(o ...distribution.OrderOption) *DistributionQuery {
-	dq.order = append(dq.order, o...)
-	return dq
+func (_q *DistributionQuery) Order(o ...distribution.OrderOption) *DistributionQuery {
+	_q.order = append(_q.order, o...)
+	return _q
 }
 
 // QueryTopic chains the current query on the "topic" edge.
-func (dq *DistributionQuery) QueryTopic() *TopicQuery {
-	query := (&TopicClient{config: dq.config}).Query()
+func (_q *DistributionQuery) QueryTopic() *TopicQuery {
+	query := (&TopicClient{config: _q.config}).Query()
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
-		if err := dq.prepareQuery(ctx); err != nil {
+		if err := _q.prepareQuery(ctx); err != nil {
 			return nil, err
 		}
-		selector := dq.sqlQuery(ctx)
+		selector := _q.sqlQuery(ctx)
 		if err := selector.Err(); err != nil {
 			return nil, err
 		}
@@ -78,20 +78,20 @@ func (dq *DistributionQuery) QueryTopic() *TopicQuery {
 			sqlgraph.To(topic.Table, topic.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, false, distribution.TopicTable, distribution.TopicColumn),
 		)
-		fromU = sqlgraph.SetNeighbors(dq.driver.Dialect(), step)
+		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
 	}
 	return query
 }
 
 // QueryChannel chains the current query on the "channel" edge.
-func (dq *DistributionQuery) QueryChannel() *CMSChannelQuery {
-	query := (&CMSChannelClient{config: dq.config}).Query()
+func (_q *DistributionQuery) QueryChannel() *CMSChannelQuery {
+	query := (&CMSChannelClient{config: _q.config}).Query()
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
-		if err := dq.prepareQuery(ctx); err != nil {
+		if err := _q.prepareQuery(ctx); err != nil {
 			return nil, err
 		}
-		selector := dq.sqlQuery(ctx)
+		selector := _q.sqlQuery(ctx)
 		if err := selector.Err(); err != nil {
 			return nil, err
 		}
@@ -100,7 +100,7 @@ func (dq *DistributionQuery) QueryChannel() *CMSChannelQuery {
 			sqlgraph.To(cmschannel.Table, cmschannel.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, false, distribution.ChannelTable, distribution.ChannelColumn),
 		)
-		fromU = sqlgraph.SetNeighbors(dq.driver.Dialect(), step)
+		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
 	}
 	return query
@@ -108,8 +108,8 @@ func (dq *DistributionQuery) QueryChannel() *CMSChannelQuery {
 
 // First returns the first Distribution entity from the query.
 // Returns a *NotFoundError when no Distribution was found.
-func (dq *DistributionQuery) First(ctx context.Context) (*Distribution, error) {
-	nodes, err := dq.Limit(1).All(setContextOp(ctx, dq.ctx, ent.OpQueryFirst))
+func (_q *DistributionQuery) First(ctx context.Context) (*Distribution, error) {
+	nodes, err := _q.Limit(1).All(setContextOp(ctx, _q.ctx, ent.OpQueryFirst))
 	if err != nil {
 		return nil, err
 	}
@@ -120,8 +120,8 @@ func (dq *DistributionQuery) First(ctx context.Context) (*Distribution, error) {
 }
 
 // FirstX is like First, but panics if an error occurs.
-func (dq *DistributionQuery) FirstX(ctx context.Context) *Distribution {
-	node, err := dq.First(ctx)
+func (_q *DistributionQuery) FirstX(ctx context.Context) *Distribution {
+	node, err := _q.First(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
 	}
@@ -130,9 +130,9 @@ func (dq *DistributionQuery) FirstX(ctx context.Context) *Distribution {
 
 // FirstID returns the first Distribution ID from the query.
 // Returns a *NotFoundError when no Distribution ID was found.
-func (dq *DistributionQuery) FirstID(ctx context.Context) (id string, err error) {
+func (_q *DistributionQuery) FirstID(ctx context.Context) (id string, err error) {
 	var ids []string
-	if ids, err = dq.Limit(1).IDs(setContextOp(ctx, dq.ctx, ent.OpQueryFirstID)); err != nil {
+	if ids, err = _q.Limit(1).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryFirstID)); err != nil {
 		return
 	}
 	if len(ids) == 0 {
@@ -143,8 +143,8 @@ func (dq *DistributionQuery) FirstID(ctx context.Context) (id string, err error)
 }
 
 // FirstIDX is like FirstID, but panics if an error occurs.
-func (dq *DistributionQuery) FirstIDX(ctx context.Context) string {
-	id, err := dq.FirstID(ctx)
+func (_q *DistributionQuery) FirstIDX(ctx context.Context) string {
+	id, err := _q.FirstID(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
 	}
@@ -154,8 +154,8 @@ func (dq *DistributionQuery) FirstIDX(ctx context.Context) string {
 // Only returns a single Distribution entity found by the query, ensuring it only returns one.
 // Returns a *NotSingularError when more than one Distribution entity is found.
 // Returns a *NotFoundError when no Distribution entities are found.
-func (dq *DistributionQuery) Only(ctx context.Context) (*Distribution, error) {
-	nodes, err := dq.Limit(2).All(setContextOp(ctx, dq.ctx, ent.OpQueryOnly))
+func (_q *DistributionQuery) Only(ctx context.Context) (*Distribution, error) {
+	nodes, err := _q.Limit(2).All(setContextOp(ctx, _q.ctx, ent.OpQueryOnly))
 	if err != nil {
 		return nil, err
 	}
@@ -170,8 +170,8 @@ func (dq *DistributionQuery) Only(ctx context.Context) (*Distribution, error) {
 }
 
 // OnlyX is like Only, but panics if an error occurs.
-func (dq *DistributionQuery) OnlyX(ctx context.Context) *Distribution {
-	node, err := dq.Only(ctx)
+func (_q *DistributionQuery) OnlyX(ctx context.Context) *Distribution {
+	node, err := _q.Only(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -181,9 +181,9 @@ func (dq *DistributionQuery) OnlyX(ctx context.Context) *Distribution {
 // OnlyID is like Only, but returns the only Distribution ID in the query.
 // Returns a *NotSingularError when more than one Distribution ID is found.
 // Returns a *NotFoundError when no entities are found.
-func (dq *DistributionQuery) OnlyID(ctx context.Context) (id string, err error) {
+func (_q *DistributionQuery) OnlyID(ctx context.Context) (id string, err error) {
 	var ids []string
-	if ids, err = dq.Limit(2).IDs(setContextOp(ctx, dq.ctx, ent.OpQueryOnlyID)); err != nil {
+	if ids, err = _q.Limit(2).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryOnlyID)); err != nil {
 		return
 	}
 	switch len(ids) {
@@ -198,8 +198,8 @@ func (dq *DistributionQuery) OnlyID(ctx context.Context) (id string, err error) 
 }
 
 // OnlyIDX is like OnlyID, but panics if an error occurs.
-func (dq *DistributionQuery) OnlyIDX(ctx context.Context) string {
-	id, err := dq.OnlyID(ctx)
+func (_q *DistributionQuery) OnlyIDX(ctx context.Context) string {
+	id, err := _q.OnlyID(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -207,18 +207,18 @@ func (dq *DistributionQuery) OnlyIDX(ctx context.Context) string {
 }
 
 // All executes the query and returns a list of Distributions.
-func (dq *DistributionQuery) All(ctx context.Context) ([]*Distribution, error) {
-	ctx = setContextOp(ctx, dq.ctx, ent.OpQueryAll)
-	if err := dq.prepareQuery(ctx); err != nil {
+func (_q *DistributionQuery) All(ctx context.Context) ([]*Distribution, error) {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryAll)
+	if err := _q.prepareQuery(ctx); err != nil {
 		return nil, err
 	}
 	qr := querierAll[[]*Distribution, *DistributionQuery]()
-	return withInterceptors[[]*Distribution](ctx, dq, qr, dq.inters)
+	return withInterceptors[[]*Distribution](ctx, _q, qr, _q.inters)
 }
 
 // AllX is like All, but panics if an error occurs.
-func (dq *DistributionQuery) AllX(ctx context.Context) []*Distribution {
-	nodes, err := dq.All(ctx)
+func (_q *DistributionQuery) AllX(ctx context.Context) []*Distribution {
+	nodes, err := _q.All(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -226,20 +226,20 @@ func (dq *DistributionQuery) AllX(ctx context.Context) []*Distribution {
 }
 
 // IDs executes the query and returns a list of Distribution IDs.
-func (dq *DistributionQuery) IDs(ctx context.Context) (ids []string, err error) {
-	if dq.ctx.Unique == nil && dq.path != nil {
-		dq.Unique(true)
+func (_q *DistributionQuery) IDs(ctx context.Context) (ids []string, err error) {
+	if _q.ctx.Unique == nil && _q.path != nil {
+		_q.Unique(true)
 	}
-	ctx = setContextOp(ctx, dq.ctx, ent.OpQueryIDs)
-	if err = dq.Select(distribution.FieldID).Scan(ctx, &ids); err != nil {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryIDs)
+	if err = _q.Select(distribution.FieldID).Scan(ctx, &ids); err != nil {
 		return nil, err
 	}
 	return ids, nil
 }
 
 // IDsX is like IDs, but panics if an error occurs.
-func (dq *DistributionQuery) IDsX(ctx context.Context) []string {
-	ids, err := dq.IDs(ctx)
+func (_q *DistributionQuery) IDsX(ctx context.Context) []string {
+	ids, err := _q.IDs(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -247,17 +247,17 @@ func (dq *DistributionQuery) IDsX(ctx context.Context) []string {
 }
 
 // Count returns the count of the given query.
-func (dq *DistributionQuery) Count(ctx context.Context) (int, error) {
-	ctx = setContextOp(ctx, dq.ctx, ent.OpQueryCount)
-	if err := dq.prepareQuery(ctx); err != nil {
+func (_q *DistributionQuery) Count(ctx context.Context) (int, error) {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryCount)
+	if err := _q.prepareQuery(ctx); err != nil {
 		return 0, err
 	}
-	return withInterceptors[int](ctx, dq, querierCount[*DistributionQuery](), dq.inters)
+	return withInterceptors[int](ctx, _q, querierCount[*DistributionQuery](), _q.inters)
 }
 
 // CountX is like Count, but panics if an error occurs.
-func (dq *DistributionQuery) CountX(ctx context.Context) int {
-	count, err := dq.Count(ctx)
+func (_q *DistributionQuery) CountX(ctx context.Context) int {
+	count, err := _q.Count(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -265,9 +265,9 @@ func (dq *DistributionQuery) CountX(ctx context.Context) int {
 }
 
 // Exist returns true if the query has elements in the graph.
-func (dq *DistributionQuery) Exist(ctx context.Context) (bool, error) {
-	ctx = setContextOp(ctx, dq.ctx, ent.OpQueryExist)
-	switch _, err := dq.FirstID(ctx); {
+func (_q *DistributionQuery) Exist(ctx context.Context) (bool, error) {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryExist)
+	switch _, err := _q.FirstID(ctx); {
 	case IsNotFound(err):
 		return false, nil
 	case err != nil:
@@ -278,8 +278,8 @@ func (dq *DistributionQuery) Exist(ctx context.Context) (bool, error) {
 }
 
 // ExistX is like Exist, but panics if an error occurs.
-func (dq *DistributionQuery) ExistX(ctx context.Context) bool {
-	exist, err := dq.Exist(ctx)
+func (_q *DistributionQuery) ExistX(ctx context.Context) bool {
+	exist, err := _q.Exist(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -288,44 +288,44 @@ func (dq *DistributionQuery) ExistX(ctx context.Context) bool {
 
 // Clone returns a duplicate of the DistributionQuery builder, including all associated steps. It can be
 // used to prepare common query builders and use them differently after the clone is made.
-func (dq *DistributionQuery) Clone() *DistributionQuery {
-	if dq == nil {
+func (_q *DistributionQuery) Clone() *DistributionQuery {
+	if _q == nil {
 		return nil
 	}
 	return &DistributionQuery{
-		config:      dq.config,
-		ctx:         dq.ctx.Clone(),
-		order:       append([]distribution.OrderOption{}, dq.order...),
-		inters:      append([]Interceptor{}, dq.inters...),
-		predicates:  append([]predicate.Distribution{}, dq.predicates...),
-		withTopic:   dq.withTopic.Clone(),
-		withChannel: dq.withChannel.Clone(),
+		config:      _q.config,
+		ctx:         _q.ctx.Clone(),
+		order:       append([]distribution.OrderOption{}, _q.order...),
+		inters:      append([]Interceptor{}, _q.inters...),
+		predicates:  append([]predicate.Distribution{}, _q.predicates...),
+		withTopic:   _q.withTopic.Clone(),
+		withChannel: _q.withChannel.Clone(),
 		// clone intermediate query.
-		sql:  dq.sql.Clone(),
-		path: dq.path,
+		sql:  _q.sql.Clone(),
+		path: _q.path,
 	}
 }
 
 // WithTopic tells the query-builder to eager-load the nodes that are connected to
 // the "topic" edge. The optional arguments are used to configure the query builder of the edge.
-func (dq *DistributionQuery) WithTopic(opts ...func(*TopicQuery)) *DistributionQuery {
-	query := (&TopicClient{config: dq.config}).Query()
+func (_q *DistributionQuery) WithTopic(opts ...func(*TopicQuery)) *DistributionQuery {
+	query := (&TopicClient{config: _q.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
-	dq.withTopic = query
-	return dq
+	_q.withTopic = query
+	return _q
 }
 
 // WithChannel tells the query-builder to eager-load the nodes that are connected to
 // the "channel" edge. The optional arguments are used to configure the query builder of the edge.
-func (dq *DistributionQuery) WithChannel(opts ...func(*CMSChannelQuery)) *DistributionQuery {
-	query := (&CMSChannelClient{config: dq.config}).Query()
+func (_q *DistributionQuery) WithChannel(opts ...func(*CMSChannelQuery)) *DistributionQuery {
+	query := (&CMSChannelClient{config: _q.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
-	dq.withChannel = query
-	return dq
+	_q.withChannel = query
+	return _q
 }
 
 // GroupBy is used to group vertices by one or more fields/columns.
@@ -342,10 +342,10 @@ func (dq *DistributionQuery) WithChannel(opts ...func(*CMSChannelQuery)) *Distri
 //		GroupBy(distribution.FieldExtras).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
-func (dq *DistributionQuery) GroupBy(field string, fields ...string) *DistributionGroupBy {
-	dq.ctx.Fields = append([]string{field}, fields...)
-	grbuild := &DistributionGroupBy{build: dq}
-	grbuild.flds = &dq.ctx.Fields
+func (_q *DistributionQuery) GroupBy(field string, fields ...string) *DistributionGroupBy {
+	_q.ctx.Fields = append([]string{field}, fields...)
+	grbuild := &DistributionGroupBy{build: _q}
+	grbuild.flds = &_q.ctx.Fields
 	grbuild.label = distribution.Label
 	grbuild.scan = grbuild.Scan
 	return grbuild
@@ -363,59 +363,59 @@ func (dq *DistributionQuery) GroupBy(field string, fields ...string) *Distributi
 //	client.Distribution.Query().
 //		Select(distribution.FieldExtras).
 //		Scan(ctx, &v)
-func (dq *DistributionQuery) Select(fields ...string) *DistributionSelect {
-	dq.ctx.Fields = append(dq.ctx.Fields, fields...)
-	sbuild := &DistributionSelect{DistributionQuery: dq}
+func (_q *DistributionQuery) Select(fields ...string) *DistributionSelect {
+	_q.ctx.Fields = append(_q.ctx.Fields, fields...)
+	sbuild := &DistributionSelect{DistributionQuery: _q}
 	sbuild.label = distribution.Label
-	sbuild.flds, sbuild.scan = &dq.ctx.Fields, sbuild.Scan
+	sbuild.flds, sbuild.scan = &_q.ctx.Fields, sbuild.Scan
 	return sbuild
 }
 
 // Aggregate returns a DistributionSelect configured with the given aggregations.
-func (dq *DistributionQuery) Aggregate(fns ...AggregateFunc) *DistributionSelect {
-	return dq.Select().Aggregate(fns...)
+func (_q *DistributionQuery) Aggregate(fns ...AggregateFunc) *DistributionSelect {
+	return _q.Select().Aggregate(fns...)
 }
 
-func (dq *DistributionQuery) prepareQuery(ctx context.Context) error {
-	for _, inter := range dq.inters {
+func (_q *DistributionQuery) prepareQuery(ctx context.Context) error {
+	for _, inter := range _q.inters {
 		if inter == nil {
 			return fmt.Errorf("ent: uninitialized interceptor (forgotten import ent/runtime?)")
 		}
 		if trv, ok := inter.(Traverser); ok {
-			if err := trv.Traverse(ctx, dq); err != nil {
+			if err := trv.Traverse(ctx, _q); err != nil {
 				return err
 			}
 		}
 	}
-	for _, f := range dq.ctx.Fields {
+	for _, f := range _q.ctx.Fields {
 		if !distribution.ValidColumn(f) {
 			return &ValidationError{Name: f, err: fmt.Errorf("ent: invalid field %q for query", f)}
 		}
 	}
-	if dq.path != nil {
-		prev, err := dq.path(ctx)
+	if _q.path != nil {
+		prev, err := _q.path(ctx)
 		if err != nil {
 			return err
 		}
-		dq.sql = prev
+		_q.sql = prev
 	}
 	return nil
 }
 
-func (dq *DistributionQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*Distribution, error) {
+func (_q *DistributionQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*Distribution, error) {
 	var (
 		nodes       = []*Distribution{}
-		_spec       = dq.querySpec()
+		_spec       = _q.querySpec()
 		loadedTypes = [2]bool{
-			dq.withTopic != nil,
-			dq.withChannel != nil,
+			_q.withTopic != nil,
+			_q.withChannel != nil,
 		}
 	)
 	_spec.ScanValues = func(columns []string) ([]any, error) {
 		return (*Distribution).scanValues(nil, columns)
 	}
 	_spec.Assign = func(columns []string, values []any) error {
-		node := &Distribution{config: dq.config}
+		node := &Distribution{config: _q.config}
 		nodes = append(nodes, node)
 		node.Edges.loadedTypes = loadedTypes
 		return node.assignValues(columns, values)
@@ -423,20 +423,20 @@ func (dq *DistributionQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]
 	for i := range hooks {
 		hooks[i](ctx, _spec)
 	}
-	if err := sqlgraph.QueryNodes(ctx, dq.driver, _spec); err != nil {
+	if err := sqlgraph.QueryNodes(ctx, _q.driver, _spec); err != nil {
 		return nil, err
 	}
 	if len(nodes) == 0 {
 		return nodes, nil
 	}
-	if query := dq.withTopic; query != nil {
-		if err := dq.loadTopic(ctx, query, nodes, nil,
+	if query := _q.withTopic; query != nil {
+		if err := _q.loadTopic(ctx, query, nodes, nil,
 			func(n *Distribution, e *Topic) { n.Edges.Topic = e }); err != nil {
 			return nil, err
 		}
 	}
-	if query := dq.withChannel; query != nil {
-		if err := dq.loadChannel(ctx, query, nodes, nil,
+	if query := _q.withChannel; query != nil {
+		if err := _q.loadChannel(ctx, query, nodes, nil,
 			func(n *Distribution, e *CMSChannel) { n.Edges.Channel = e }); err != nil {
 			return nil, err
 		}
@@ -444,7 +444,7 @@ func (dq *DistributionQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]
 	return nodes, nil
 }
 
-func (dq *DistributionQuery) loadTopic(ctx context.Context, query *TopicQuery, nodes []*Distribution, init func(*Distribution), assign func(*Distribution, *Topic)) error {
+func (_q *DistributionQuery) loadTopic(ctx context.Context, query *TopicQuery, nodes []*Distribution, init func(*Distribution), assign func(*Distribution, *Topic)) error {
 	ids := make([]string, 0, len(nodes))
 	nodeids := make(map[string][]*Distribution)
 	for i := range nodes {
@@ -473,7 +473,7 @@ func (dq *DistributionQuery) loadTopic(ctx context.Context, query *TopicQuery, n
 	}
 	return nil
 }
-func (dq *DistributionQuery) loadChannel(ctx context.Context, query *CMSChannelQuery, nodes []*Distribution, init func(*Distribution), assign func(*Distribution, *CMSChannel)) error {
+func (_q *DistributionQuery) loadChannel(ctx context.Context, query *CMSChannelQuery, nodes []*Distribution, init func(*Distribution), assign func(*Distribution, *CMSChannel)) error {
 	ids := make([]string, 0, len(nodes))
 	nodeids := make(map[string][]*Distribution)
 	for i := range nodes {
@@ -503,24 +503,24 @@ func (dq *DistributionQuery) loadChannel(ctx context.Context, query *CMSChannelQ
 	return nil
 }
 
-func (dq *DistributionQuery) sqlCount(ctx context.Context) (int, error) {
-	_spec := dq.querySpec()
-	_spec.Node.Columns = dq.ctx.Fields
-	if len(dq.ctx.Fields) > 0 {
-		_spec.Unique = dq.ctx.Unique != nil && *dq.ctx.Unique
+func (_q *DistributionQuery) sqlCount(ctx context.Context) (int, error) {
+	_spec := _q.querySpec()
+	_spec.Node.Columns = _q.ctx.Fields
+	if len(_q.ctx.Fields) > 0 {
+		_spec.Unique = _q.ctx.Unique != nil && *_q.ctx.Unique
 	}
-	return sqlgraph.CountNodes(ctx, dq.driver, _spec)
+	return sqlgraph.CountNodes(ctx, _q.driver, _spec)
 }
 
-func (dq *DistributionQuery) querySpec() *sqlgraph.QuerySpec {
+func (_q *DistributionQuery) querySpec() *sqlgraph.QuerySpec {
 	_spec := sqlgraph.NewQuerySpec(distribution.Table, distribution.Columns, sqlgraph.NewFieldSpec(distribution.FieldID, field.TypeString))
-	_spec.From = dq.sql
-	if unique := dq.ctx.Unique; unique != nil {
+	_spec.From = _q.sql
+	if unique := _q.ctx.Unique; unique != nil {
 		_spec.Unique = *unique
-	} else if dq.path != nil {
+	} else if _q.path != nil {
 		_spec.Unique = true
 	}
-	if fields := dq.ctx.Fields; len(fields) > 0 {
+	if fields := _q.ctx.Fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, distribution.FieldID)
 		for i := range fields {
@@ -528,27 +528,27 @@ func (dq *DistributionQuery) querySpec() *sqlgraph.QuerySpec {
 				_spec.Node.Columns = append(_spec.Node.Columns, fields[i])
 			}
 		}
-		if dq.withTopic != nil {
+		if _q.withTopic != nil {
 			_spec.Node.AddColumnOnce(distribution.FieldTopicID)
 		}
-		if dq.withChannel != nil {
+		if _q.withChannel != nil {
 			_spec.Node.AddColumnOnce(distribution.FieldChannelID)
 		}
 	}
-	if ps := dq.predicates; len(ps) > 0 {
+	if ps := _q.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if limit := dq.ctx.Limit; limit != nil {
+	if limit := _q.ctx.Limit; limit != nil {
 		_spec.Limit = *limit
 	}
-	if offset := dq.ctx.Offset; offset != nil {
+	if offset := _q.ctx.Offset; offset != nil {
 		_spec.Offset = *offset
 	}
-	if ps := dq.order; len(ps) > 0 {
+	if ps := _q.order; len(ps) > 0 {
 		_spec.Order = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
@@ -558,33 +558,33 @@ func (dq *DistributionQuery) querySpec() *sqlgraph.QuerySpec {
 	return _spec
 }
 
-func (dq *DistributionQuery) sqlQuery(ctx context.Context) *sql.Selector {
-	builder := sql.Dialect(dq.driver.Dialect())
+func (_q *DistributionQuery) sqlQuery(ctx context.Context) *sql.Selector {
+	builder := sql.Dialect(_q.driver.Dialect())
 	t1 := builder.Table(distribution.Table)
-	columns := dq.ctx.Fields
+	columns := _q.ctx.Fields
 	if len(columns) == 0 {
 		columns = distribution.Columns
 	}
 	selector := builder.Select(t1.Columns(columns...)...).From(t1)
-	if dq.sql != nil {
-		selector = dq.sql
+	if _q.sql != nil {
+		selector = _q.sql
 		selector.Select(selector.Columns(columns...)...)
 	}
-	if dq.ctx.Unique != nil && *dq.ctx.Unique {
+	if _q.ctx.Unique != nil && *_q.ctx.Unique {
 		selector.Distinct()
 	}
-	for _, p := range dq.predicates {
+	for _, p := range _q.predicates {
 		p(selector)
 	}
-	for _, p := range dq.order {
+	for _, p := range _q.order {
 		p(selector)
 	}
-	if offset := dq.ctx.Offset; offset != nil {
+	if offset := _q.ctx.Offset; offset != nil {
 		// limit is mandatory for offset clause. We start
 		// with default value, and override it below if needed.
 		selector.Offset(*offset).Limit(math.MaxInt32)
 	}
-	if limit := dq.ctx.Limit; limit != nil {
+	if limit := _q.ctx.Limit; limit != nil {
 		selector.Limit(*limit)
 	}
 	return selector
@@ -597,41 +597,41 @@ type DistributionGroupBy struct {
 }
 
 // Aggregate adds the given aggregation functions to the group-by query.
-func (dgb *DistributionGroupBy) Aggregate(fns ...AggregateFunc) *DistributionGroupBy {
-	dgb.fns = append(dgb.fns, fns...)
-	return dgb
+func (_g *DistributionGroupBy) Aggregate(fns ...AggregateFunc) *DistributionGroupBy {
+	_g.fns = append(_g.fns, fns...)
+	return _g
 }
 
 // Scan applies the selector query and scans the result into the given value.
-func (dgb *DistributionGroupBy) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, dgb.build.ctx, ent.OpQueryGroupBy)
-	if err := dgb.build.prepareQuery(ctx); err != nil {
+func (_g *DistributionGroupBy) Scan(ctx context.Context, v any) error {
+	ctx = setContextOp(ctx, _g.build.ctx, ent.OpQueryGroupBy)
+	if err := _g.build.prepareQuery(ctx); err != nil {
 		return err
 	}
-	return scanWithInterceptors[*DistributionQuery, *DistributionGroupBy](ctx, dgb.build, dgb, dgb.build.inters, v)
+	return scanWithInterceptors[*DistributionQuery, *DistributionGroupBy](ctx, _g.build, _g, _g.build.inters, v)
 }
 
-func (dgb *DistributionGroupBy) sqlScan(ctx context.Context, root *DistributionQuery, v any) error {
+func (_g *DistributionGroupBy) sqlScan(ctx context.Context, root *DistributionQuery, v any) error {
 	selector := root.sqlQuery(ctx).Select()
-	aggregation := make([]string, 0, len(dgb.fns))
-	for _, fn := range dgb.fns {
+	aggregation := make([]string, 0, len(_g.fns))
+	for _, fn := range _g.fns {
 		aggregation = append(aggregation, fn(selector))
 	}
 	if len(selector.SelectedColumns()) == 0 {
-		columns := make([]string, 0, len(*dgb.flds)+len(dgb.fns))
-		for _, f := range *dgb.flds {
+		columns := make([]string, 0, len(*_g.flds)+len(_g.fns))
+		for _, f := range *_g.flds {
 			columns = append(columns, selector.C(f))
 		}
 		columns = append(columns, aggregation...)
 		selector.Select(columns...)
 	}
-	selector.GroupBy(selector.Columns(*dgb.flds...)...)
+	selector.GroupBy(selector.Columns(*_g.flds...)...)
 	if err := selector.Err(); err != nil {
 		return err
 	}
 	rows := &sql.Rows{}
 	query, args := selector.Query()
-	if err := dgb.build.driver.Query(ctx, query, args, rows); err != nil {
+	if err := _g.build.driver.Query(ctx, query, args, rows); err != nil {
 		return err
 	}
 	defer rows.Close()
@@ -645,27 +645,27 @@ type DistributionSelect struct {
 }
 
 // Aggregate adds the given aggregation functions to the selector query.
-func (ds *DistributionSelect) Aggregate(fns ...AggregateFunc) *DistributionSelect {
-	ds.fns = append(ds.fns, fns...)
-	return ds
+func (_s *DistributionSelect) Aggregate(fns ...AggregateFunc) *DistributionSelect {
+	_s.fns = append(_s.fns, fns...)
+	return _s
 }
 
 // Scan applies the selector query and scans the result into the given value.
-func (ds *DistributionSelect) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, ds.ctx, ent.OpQuerySelect)
-	if err := ds.prepareQuery(ctx); err != nil {
+func (_s *DistributionSelect) Scan(ctx context.Context, v any) error {
+	ctx = setContextOp(ctx, _s.ctx, ent.OpQuerySelect)
+	if err := _s.prepareQuery(ctx); err != nil {
 		return err
 	}
-	return scanWithInterceptors[*DistributionQuery, *DistributionSelect](ctx, ds.DistributionQuery, ds, ds.inters, v)
+	return scanWithInterceptors[*DistributionQuery, *DistributionSelect](ctx, _s.DistributionQuery, _s, _s.inters, v)
 }
 
-func (ds *DistributionSelect) sqlScan(ctx context.Context, root *DistributionQuery, v any) error {
+func (_s *DistributionSelect) sqlScan(ctx context.Context, root *DistributionQuery, v any) error {
 	selector := root.sqlQuery(ctx)
-	aggregation := make([]string, 0, len(ds.fns))
-	for _, fn := range ds.fns {
+	aggregation := make([]string, 0, len(_s.fns))
+	for _, fn := range _s.fns {
 		aggregation = append(aggregation, fn(selector))
 	}
-	switch n := len(*ds.selector.flds); {
+	switch n := len(*_s.selector.flds); {
 	case n == 0 && len(aggregation) > 0:
 		selector.Select(aggregation...)
 	case n != 0 && len(aggregation) > 0:
@@ -673,7 +673,7 @@ func (ds *DistributionSelect) sqlScan(ctx context.Context, root *DistributionQue
 	}
 	rows := &sql.Rows{}
 	query, args := selector.Query()
-	if err := ds.driver.Query(ctx, query, args, rows); err != nil {
+	if err := _s.driver.Query(ctx, query, args, rows); err != nil {
 		return err
 	}
 	defer rows.Close()

@@ -24,319 +24,319 @@ type EmployeeUpdate struct {
 }
 
 // Where appends a list predicates to the EmployeeUpdate builder.
-func (eu *EmployeeUpdate) Where(ps ...predicate.Employee) *EmployeeUpdate {
-	eu.mutation.Where(ps...)
-	return eu
+func (_u *EmployeeUpdate) Where(ps ...predicate.Employee) *EmployeeUpdate {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // SetSpaceID sets the "space_id" field.
-func (eu *EmployeeUpdate) SetSpaceID(s string) *EmployeeUpdate {
-	eu.mutation.SetSpaceID(s)
-	return eu
+func (_u *EmployeeUpdate) SetSpaceID(v string) *EmployeeUpdate {
+	_u.mutation.SetSpaceID(v)
+	return _u
 }
 
 // SetNillableSpaceID sets the "space_id" field if the given value is not nil.
-func (eu *EmployeeUpdate) SetNillableSpaceID(s *string) *EmployeeUpdate {
-	if s != nil {
-		eu.SetSpaceID(*s)
+func (_u *EmployeeUpdate) SetNillableSpaceID(v *string) *EmployeeUpdate {
+	if v != nil {
+		_u.SetSpaceID(*v)
 	}
-	return eu
+	return _u
 }
 
 // ClearSpaceID clears the value of the "space_id" field.
-func (eu *EmployeeUpdate) ClearSpaceID() *EmployeeUpdate {
-	eu.mutation.ClearSpaceID()
-	return eu
+func (_u *EmployeeUpdate) ClearSpaceID() *EmployeeUpdate {
+	_u.mutation.ClearSpaceID()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (eu *EmployeeUpdate) SetUpdatedAt(i int64) *EmployeeUpdate {
-	eu.mutation.ResetUpdatedAt()
-	eu.mutation.SetUpdatedAt(i)
-	return eu
+func (_u *EmployeeUpdate) SetUpdatedAt(v int64) *EmployeeUpdate {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (eu *EmployeeUpdate) AddUpdatedAt(i int64) *EmployeeUpdate {
-	eu.mutation.AddUpdatedAt(i)
-	return eu
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *EmployeeUpdate) AddUpdatedAt(v int64) *EmployeeUpdate {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (eu *EmployeeUpdate) ClearUpdatedAt() *EmployeeUpdate {
-	eu.mutation.ClearUpdatedAt()
-	return eu
+func (_u *EmployeeUpdate) ClearUpdatedAt() *EmployeeUpdate {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // SetEmployeeID sets the "employee_id" field.
-func (eu *EmployeeUpdate) SetEmployeeID(s string) *EmployeeUpdate {
-	eu.mutation.SetEmployeeID(s)
-	return eu
+func (_u *EmployeeUpdate) SetEmployeeID(v string) *EmployeeUpdate {
+	_u.mutation.SetEmployeeID(v)
+	return _u
 }
 
 // SetNillableEmployeeID sets the "employee_id" field if the given value is not nil.
-func (eu *EmployeeUpdate) SetNillableEmployeeID(s *string) *EmployeeUpdate {
-	if s != nil {
-		eu.SetEmployeeID(*s)
+func (_u *EmployeeUpdate) SetNillableEmployeeID(v *string) *EmployeeUpdate {
+	if v != nil {
+		_u.SetEmployeeID(*v)
 	}
-	return eu
+	return _u
 }
 
 // ClearEmployeeID clears the value of the "employee_id" field.
-func (eu *EmployeeUpdate) ClearEmployeeID() *EmployeeUpdate {
-	eu.mutation.ClearEmployeeID()
-	return eu
+func (_u *EmployeeUpdate) ClearEmployeeID() *EmployeeUpdate {
+	_u.mutation.ClearEmployeeID()
+	return _u
 }
 
 // SetDepartment sets the "department" field.
-func (eu *EmployeeUpdate) SetDepartment(s string) *EmployeeUpdate {
-	eu.mutation.SetDepartment(s)
-	return eu
+func (_u *EmployeeUpdate) SetDepartment(v string) *EmployeeUpdate {
+	_u.mutation.SetDepartment(v)
+	return _u
 }
 
 // SetNillableDepartment sets the "department" field if the given value is not nil.
-func (eu *EmployeeUpdate) SetNillableDepartment(s *string) *EmployeeUpdate {
-	if s != nil {
-		eu.SetDepartment(*s)
+func (_u *EmployeeUpdate) SetNillableDepartment(v *string) *EmployeeUpdate {
+	if v != nil {
+		_u.SetDepartment(*v)
 	}
-	return eu
+	return _u
 }
 
 // ClearDepartment clears the value of the "department" field.
-func (eu *EmployeeUpdate) ClearDepartment() *EmployeeUpdate {
-	eu.mutation.ClearDepartment()
-	return eu
+func (_u *EmployeeUpdate) ClearDepartment() *EmployeeUpdate {
+	_u.mutation.ClearDepartment()
+	return _u
 }
 
 // SetPosition sets the "position" field.
-func (eu *EmployeeUpdate) SetPosition(s string) *EmployeeUpdate {
-	eu.mutation.SetPosition(s)
-	return eu
+func (_u *EmployeeUpdate) SetPosition(v string) *EmployeeUpdate {
+	_u.mutation.SetPosition(v)
+	return _u
 }
 
 // SetNillablePosition sets the "position" field if the given value is not nil.
-func (eu *EmployeeUpdate) SetNillablePosition(s *string) *EmployeeUpdate {
-	if s != nil {
-		eu.SetPosition(*s)
+func (_u *EmployeeUpdate) SetNillablePosition(v *string) *EmployeeUpdate {
+	if v != nil {
+		_u.SetPosition(*v)
 	}
-	return eu
+	return _u
 }
 
 // ClearPosition clears the value of the "position" field.
-func (eu *EmployeeUpdate) ClearPosition() *EmployeeUpdate {
-	eu.mutation.ClearPosition()
-	return eu
+func (_u *EmployeeUpdate) ClearPosition() *EmployeeUpdate {
+	_u.mutation.ClearPosition()
+	return _u
 }
 
 // SetManagerID sets the "manager_id" field.
-func (eu *EmployeeUpdate) SetManagerID(s string) *EmployeeUpdate {
-	eu.mutation.SetManagerID(s)
-	return eu
+func (_u *EmployeeUpdate) SetManagerID(v string) *EmployeeUpdate {
+	_u.mutation.SetManagerID(v)
+	return _u
 }
 
 // SetNillableManagerID sets the "manager_id" field if the given value is not nil.
-func (eu *EmployeeUpdate) SetNillableManagerID(s *string) *EmployeeUpdate {
-	if s != nil {
-		eu.SetManagerID(*s)
+func (_u *EmployeeUpdate) SetNillableManagerID(v *string) *EmployeeUpdate {
+	if v != nil {
+		_u.SetManagerID(*v)
 	}
-	return eu
+	return _u
 }
 
 // ClearManagerID clears the value of the "manager_id" field.
-func (eu *EmployeeUpdate) ClearManagerID() *EmployeeUpdate {
-	eu.mutation.ClearManagerID()
-	return eu
+func (_u *EmployeeUpdate) ClearManagerID() *EmployeeUpdate {
+	_u.mutation.ClearManagerID()
+	return _u
 }
 
 // SetHireDate sets the "hire_date" field.
-func (eu *EmployeeUpdate) SetHireDate(t time.Time) *EmployeeUpdate {
-	eu.mutation.SetHireDate(t)
-	return eu
+func (_u *EmployeeUpdate) SetHireDate(v time.Time) *EmployeeUpdate {
+	_u.mutation.SetHireDate(v)
+	return _u
 }
 
 // SetNillableHireDate sets the "hire_date" field if the given value is not nil.
-func (eu *EmployeeUpdate) SetNillableHireDate(t *time.Time) *EmployeeUpdate {
-	if t != nil {
-		eu.SetHireDate(*t)
+func (_u *EmployeeUpdate) SetNillableHireDate(v *time.Time) *EmployeeUpdate {
+	if v != nil {
+		_u.SetHireDate(*v)
 	}
-	return eu
+	return _u
 }
 
 // ClearHireDate clears the value of the "hire_date" field.
-func (eu *EmployeeUpdate) ClearHireDate() *EmployeeUpdate {
-	eu.mutation.ClearHireDate()
-	return eu
+func (_u *EmployeeUpdate) ClearHireDate() *EmployeeUpdate {
+	_u.mutation.ClearHireDate()
+	return _u
 }
 
 // SetTerminationDate sets the "termination_date" field.
-func (eu *EmployeeUpdate) SetTerminationDate(t time.Time) *EmployeeUpdate {
-	eu.mutation.SetTerminationDate(t)
-	return eu
+func (_u *EmployeeUpdate) SetTerminationDate(v time.Time) *EmployeeUpdate {
+	_u.mutation.SetTerminationDate(v)
+	return _u
 }
 
 // SetNillableTerminationDate sets the "termination_date" field if the given value is not nil.
-func (eu *EmployeeUpdate) SetNillableTerminationDate(t *time.Time) *EmployeeUpdate {
-	if t != nil {
-		eu.SetTerminationDate(*t)
+func (_u *EmployeeUpdate) SetNillableTerminationDate(v *time.Time) *EmployeeUpdate {
+	if v != nil {
+		_u.SetTerminationDate(*v)
 	}
-	return eu
+	return _u
 }
 
 // ClearTerminationDate clears the value of the "termination_date" field.
-func (eu *EmployeeUpdate) ClearTerminationDate() *EmployeeUpdate {
-	eu.mutation.ClearTerminationDate()
-	return eu
+func (_u *EmployeeUpdate) ClearTerminationDate() *EmployeeUpdate {
+	_u.mutation.ClearTerminationDate()
+	return _u
 }
 
 // SetEmploymentType sets the "employment_type" field.
-func (eu *EmployeeUpdate) SetEmploymentType(et employee.EmploymentType) *EmployeeUpdate {
-	eu.mutation.SetEmploymentType(et)
-	return eu
+func (_u *EmployeeUpdate) SetEmploymentType(v employee.EmploymentType) *EmployeeUpdate {
+	_u.mutation.SetEmploymentType(v)
+	return _u
 }
 
 // SetNillableEmploymentType sets the "employment_type" field if the given value is not nil.
-func (eu *EmployeeUpdate) SetNillableEmploymentType(et *employee.EmploymentType) *EmployeeUpdate {
-	if et != nil {
-		eu.SetEmploymentType(*et)
+func (_u *EmployeeUpdate) SetNillableEmploymentType(v *employee.EmploymentType) *EmployeeUpdate {
+	if v != nil {
+		_u.SetEmploymentType(*v)
 	}
-	return eu
+	return _u
 }
 
 // SetStatus sets the "status" field.
-func (eu *EmployeeUpdate) SetStatus(e employee.Status) *EmployeeUpdate {
-	eu.mutation.SetStatus(e)
-	return eu
+func (_u *EmployeeUpdate) SetStatus(v employee.Status) *EmployeeUpdate {
+	_u.mutation.SetStatus(v)
+	return _u
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (eu *EmployeeUpdate) SetNillableStatus(e *employee.Status) *EmployeeUpdate {
-	if e != nil {
-		eu.SetStatus(*e)
+func (_u *EmployeeUpdate) SetNillableStatus(v *employee.Status) *EmployeeUpdate {
+	if v != nil {
+		_u.SetStatus(*v)
 	}
-	return eu
+	return _u
 }
 
 // SetSalary sets the "salary" field.
-func (eu *EmployeeUpdate) SetSalary(f float64) *EmployeeUpdate {
-	eu.mutation.ResetSalary()
-	eu.mutation.SetSalary(f)
-	return eu
+func (_u *EmployeeUpdate) SetSalary(v float64) *EmployeeUpdate {
+	_u.mutation.ResetSalary()
+	_u.mutation.SetSalary(v)
+	return _u
 }
 
 // SetNillableSalary sets the "salary" field if the given value is not nil.
-func (eu *EmployeeUpdate) SetNillableSalary(f *float64) *EmployeeUpdate {
-	if f != nil {
-		eu.SetSalary(*f)
+func (_u *EmployeeUpdate) SetNillableSalary(v *float64) *EmployeeUpdate {
+	if v != nil {
+		_u.SetSalary(*v)
 	}
-	return eu
+	return _u
 }
 
-// AddSalary adds f to the "salary" field.
-func (eu *EmployeeUpdate) AddSalary(f float64) *EmployeeUpdate {
-	eu.mutation.AddSalary(f)
-	return eu
+// AddSalary adds value to the "salary" field.
+func (_u *EmployeeUpdate) AddSalary(v float64) *EmployeeUpdate {
+	_u.mutation.AddSalary(v)
+	return _u
 }
 
 // ClearSalary clears the value of the "salary" field.
-func (eu *EmployeeUpdate) ClearSalary() *EmployeeUpdate {
-	eu.mutation.ClearSalary()
-	return eu
+func (_u *EmployeeUpdate) ClearSalary() *EmployeeUpdate {
+	_u.mutation.ClearSalary()
+	return _u
 }
 
 // SetWorkLocation sets the "work_location" field.
-func (eu *EmployeeUpdate) SetWorkLocation(s string) *EmployeeUpdate {
-	eu.mutation.SetWorkLocation(s)
-	return eu
+func (_u *EmployeeUpdate) SetWorkLocation(v string) *EmployeeUpdate {
+	_u.mutation.SetWorkLocation(v)
+	return _u
 }
 
 // SetNillableWorkLocation sets the "work_location" field if the given value is not nil.
-func (eu *EmployeeUpdate) SetNillableWorkLocation(s *string) *EmployeeUpdate {
-	if s != nil {
-		eu.SetWorkLocation(*s)
+func (_u *EmployeeUpdate) SetNillableWorkLocation(v *string) *EmployeeUpdate {
+	if v != nil {
+		_u.SetWorkLocation(*v)
 	}
-	return eu
+	return _u
 }
 
 // ClearWorkLocation clears the value of the "work_location" field.
-func (eu *EmployeeUpdate) ClearWorkLocation() *EmployeeUpdate {
-	eu.mutation.ClearWorkLocation()
-	return eu
+func (_u *EmployeeUpdate) ClearWorkLocation() *EmployeeUpdate {
+	_u.mutation.ClearWorkLocation()
+	return _u
 }
 
 // SetContactInfo sets the "contact_info" field.
-func (eu *EmployeeUpdate) SetContactInfo(m map[string]interface{}) *EmployeeUpdate {
-	eu.mutation.SetContactInfo(m)
-	return eu
+func (_u *EmployeeUpdate) SetContactInfo(v map[string]interface{}) *EmployeeUpdate {
+	_u.mutation.SetContactInfo(v)
+	return _u
 }
 
 // ClearContactInfo clears the value of the "contact_info" field.
-func (eu *EmployeeUpdate) ClearContactInfo() *EmployeeUpdate {
-	eu.mutation.ClearContactInfo()
-	return eu
+func (_u *EmployeeUpdate) ClearContactInfo() *EmployeeUpdate {
+	_u.mutation.ClearContactInfo()
+	return _u
 }
 
 // SetSkills sets the "skills" field.
-func (eu *EmployeeUpdate) SetSkills(s []string) *EmployeeUpdate {
-	eu.mutation.SetSkills(s)
-	return eu
+func (_u *EmployeeUpdate) SetSkills(v []string) *EmployeeUpdate {
+	_u.mutation.SetSkills(v)
+	return _u
 }
 
-// AppendSkills appends s to the "skills" field.
-func (eu *EmployeeUpdate) AppendSkills(s []string) *EmployeeUpdate {
-	eu.mutation.AppendSkills(s)
-	return eu
+// AppendSkills appends value to the "skills" field.
+func (_u *EmployeeUpdate) AppendSkills(v []string) *EmployeeUpdate {
+	_u.mutation.AppendSkills(v)
+	return _u
 }
 
 // ClearSkills clears the value of the "skills" field.
-func (eu *EmployeeUpdate) ClearSkills() *EmployeeUpdate {
-	eu.mutation.ClearSkills()
-	return eu
+func (_u *EmployeeUpdate) ClearSkills() *EmployeeUpdate {
+	_u.mutation.ClearSkills()
+	return _u
 }
 
 // SetCertifications sets the "certifications" field.
-func (eu *EmployeeUpdate) SetCertifications(s []string) *EmployeeUpdate {
-	eu.mutation.SetCertifications(s)
-	return eu
+func (_u *EmployeeUpdate) SetCertifications(v []string) *EmployeeUpdate {
+	_u.mutation.SetCertifications(v)
+	return _u
 }
 
-// AppendCertifications appends s to the "certifications" field.
-func (eu *EmployeeUpdate) AppendCertifications(s []string) *EmployeeUpdate {
-	eu.mutation.AppendCertifications(s)
-	return eu
+// AppendCertifications appends value to the "certifications" field.
+func (_u *EmployeeUpdate) AppendCertifications(v []string) *EmployeeUpdate {
+	_u.mutation.AppendCertifications(v)
+	return _u
 }
 
 // ClearCertifications clears the value of the "certifications" field.
-func (eu *EmployeeUpdate) ClearCertifications() *EmployeeUpdate {
-	eu.mutation.ClearCertifications()
-	return eu
+func (_u *EmployeeUpdate) ClearCertifications() *EmployeeUpdate {
+	_u.mutation.ClearCertifications()
+	return _u
 }
 
 // SetExtras sets the "extras" field.
-func (eu *EmployeeUpdate) SetExtras(m map[string]interface{}) *EmployeeUpdate {
-	eu.mutation.SetExtras(m)
-	return eu
+func (_u *EmployeeUpdate) SetExtras(v map[string]interface{}) *EmployeeUpdate {
+	_u.mutation.SetExtras(v)
+	return _u
 }
 
 // ClearExtras clears the value of the "extras" field.
-func (eu *EmployeeUpdate) ClearExtras() *EmployeeUpdate {
-	eu.mutation.ClearExtras()
-	return eu
+func (_u *EmployeeUpdate) ClearExtras() *EmployeeUpdate {
+	_u.mutation.ClearExtras()
+	return _u
 }
 
 // Mutation returns the EmployeeMutation object of the builder.
-func (eu *EmployeeUpdate) Mutation() *EmployeeMutation {
-	return eu.mutation
+func (_u *EmployeeUpdate) Mutation() *EmployeeMutation {
+	return _u.mutation
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
-func (eu *EmployeeUpdate) Save(ctx context.Context) (int, error) {
-	eu.defaults()
-	return withHooks(ctx, eu.sqlSave, eu.mutation, eu.hooks)
+func (_u *EmployeeUpdate) Save(ctx context.Context) (int, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (eu *EmployeeUpdate) SaveX(ctx context.Context) int {
-	affected, err := eu.Save(ctx)
+func (_u *EmployeeUpdate) SaveX(ctx context.Context) int {
+	affected, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -344,34 +344,34 @@ func (eu *EmployeeUpdate) SaveX(ctx context.Context) int {
 }
 
 // Exec executes the query.
-func (eu *EmployeeUpdate) Exec(ctx context.Context) error {
-	_, err := eu.Save(ctx)
+func (_u *EmployeeUpdate) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (eu *EmployeeUpdate) ExecX(ctx context.Context) {
-	if err := eu.Exec(ctx); err != nil {
+func (_u *EmployeeUpdate) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (eu *EmployeeUpdate) defaults() {
-	if _, ok := eu.mutation.UpdatedAt(); !ok && !eu.mutation.UpdatedAtCleared() {
+func (_u *EmployeeUpdate) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := employee.UpdateDefaultUpdatedAt()
-		eu.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (eu *EmployeeUpdate) check() error {
-	if v, ok := eu.mutation.EmploymentType(); ok {
+func (_u *EmployeeUpdate) check() error {
+	if v, ok := _u.mutation.EmploymentType(); ok {
 		if err := employee.EmploymentTypeValidator(v); err != nil {
 			return &ValidationError{Name: "employment_type", err: fmt.Errorf(`ent: validator failed for field "Employee.employment_type": %w`, err)}
 		}
 	}
-	if v, ok := eu.mutation.Status(); ok {
+	if v, ok := _u.mutation.Status(); ok {
 		if err := employee.StatusValidator(v); err != nil {
 			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Employee.status": %w`, err)}
 		}
@@ -379,128 +379,128 @@ func (eu *EmployeeUpdate) check() error {
 	return nil
 }
 
-func (eu *EmployeeUpdate) sqlSave(ctx context.Context) (n int, err error) {
-	if err := eu.check(); err != nil {
-		return n, err
+func (_u *EmployeeUpdate) sqlSave(ctx context.Context) (_node int, err error) {
+	if err := _u.check(); err != nil {
+		return _node, err
 	}
 	_spec := sqlgraph.NewUpdateSpec(employee.Table, employee.Columns, sqlgraph.NewFieldSpec(employee.FieldID, field.TypeString))
-	if ps := eu.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := eu.mutation.SpaceID(); ok {
+	if value, ok := _u.mutation.SpaceID(); ok {
 		_spec.SetField(employee.FieldSpaceID, field.TypeString, value)
 	}
-	if eu.mutation.SpaceIDCleared() {
+	if _u.mutation.SpaceIDCleared() {
 		_spec.ClearField(employee.FieldSpaceID, field.TypeString)
 	}
-	if eu.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(employee.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := eu.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(employee.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := eu.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(employee.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if eu.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(employee.FieldUpdatedAt, field.TypeInt64)
 	}
-	if value, ok := eu.mutation.EmployeeID(); ok {
+	if value, ok := _u.mutation.EmployeeID(); ok {
 		_spec.SetField(employee.FieldEmployeeID, field.TypeString, value)
 	}
-	if eu.mutation.EmployeeIDCleared() {
+	if _u.mutation.EmployeeIDCleared() {
 		_spec.ClearField(employee.FieldEmployeeID, field.TypeString)
 	}
-	if value, ok := eu.mutation.Department(); ok {
+	if value, ok := _u.mutation.Department(); ok {
 		_spec.SetField(employee.FieldDepartment, field.TypeString, value)
 	}
-	if eu.mutation.DepartmentCleared() {
+	if _u.mutation.DepartmentCleared() {
 		_spec.ClearField(employee.FieldDepartment, field.TypeString)
 	}
-	if value, ok := eu.mutation.Position(); ok {
+	if value, ok := _u.mutation.Position(); ok {
 		_spec.SetField(employee.FieldPosition, field.TypeString, value)
 	}
-	if eu.mutation.PositionCleared() {
+	if _u.mutation.PositionCleared() {
 		_spec.ClearField(employee.FieldPosition, field.TypeString)
 	}
-	if value, ok := eu.mutation.ManagerID(); ok {
+	if value, ok := _u.mutation.ManagerID(); ok {
 		_spec.SetField(employee.FieldManagerID, field.TypeString, value)
 	}
-	if eu.mutation.ManagerIDCleared() {
+	if _u.mutation.ManagerIDCleared() {
 		_spec.ClearField(employee.FieldManagerID, field.TypeString)
 	}
-	if value, ok := eu.mutation.HireDate(); ok {
+	if value, ok := _u.mutation.HireDate(); ok {
 		_spec.SetField(employee.FieldHireDate, field.TypeTime, value)
 	}
-	if eu.mutation.HireDateCleared() {
+	if _u.mutation.HireDateCleared() {
 		_spec.ClearField(employee.FieldHireDate, field.TypeTime)
 	}
-	if value, ok := eu.mutation.TerminationDate(); ok {
+	if value, ok := _u.mutation.TerminationDate(); ok {
 		_spec.SetField(employee.FieldTerminationDate, field.TypeTime, value)
 	}
-	if eu.mutation.TerminationDateCleared() {
+	if _u.mutation.TerminationDateCleared() {
 		_spec.ClearField(employee.FieldTerminationDate, field.TypeTime)
 	}
-	if value, ok := eu.mutation.EmploymentType(); ok {
+	if value, ok := _u.mutation.EmploymentType(); ok {
 		_spec.SetField(employee.FieldEmploymentType, field.TypeEnum, value)
 	}
-	if value, ok := eu.mutation.Status(); ok {
+	if value, ok := _u.mutation.Status(); ok {
 		_spec.SetField(employee.FieldStatus, field.TypeEnum, value)
 	}
-	if value, ok := eu.mutation.Salary(); ok {
+	if value, ok := _u.mutation.Salary(); ok {
 		_spec.SetField(employee.FieldSalary, field.TypeFloat64, value)
 	}
-	if value, ok := eu.mutation.AddedSalary(); ok {
+	if value, ok := _u.mutation.AddedSalary(); ok {
 		_spec.AddField(employee.FieldSalary, field.TypeFloat64, value)
 	}
-	if eu.mutation.SalaryCleared() {
+	if _u.mutation.SalaryCleared() {
 		_spec.ClearField(employee.FieldSalary, field.TypeFloat64)
 	}
-	if value, ok := eu.mutation.WorkLocation(); ok {
+	if value, ok := _u.mutation.WorkLocation(); ok {
 		_spec.SetField(employee.FieldWorkLocation, field.TypeString, value)
 	}
-	if eu.mutation.WorkLocationCleared() {
+	if _u.mutation.WorkLocationCleared() {
 		_spec.ClearField(employee.FieldWorkLocation, field.TypeString)
 	}
-	if value, ok := eu.mutation.ContactInfo(); ok {
+	if value, ok := _u.mutation.ContactInfo(); ok {
 		_spec.SetField(employee.FieldContactInfo, field.TypeJSON, value)
 	}
-	if eu.mutation.ContactInfoCleared() {
+	if _u.mutation.ContactInfoCleared() {
 		_spec.ClearField(employee.FieldContactInfo, field.TypeJSON)
 	}
-	if value, ok := eu.mutation.Skills(); ok {
+	if value, ok := _u.mutation.Skills(); ok {
 		_spec.SetField(employee.FieldSkills, field.TypeJSON, value)
 	}
-	if value, ok := eu.mutation.AppendedSkills(); ok {
+	if value, ok := _u.mutation.AppendedSkills(); ok {
 		_spec.AddModifier(func(u *sql.UpdateBuilder) {
 			sqljson.Append(u, employee.FieldSkills, value)
 		})
 	}
-	if eu.mutation.SkillsCleared() {
+	if _u.mutation.SkillsCleared() {
 		_spec.ClearField(employee.FieldSkills, field.TypeJSON)
 	}
-	if value, ok := eu.mutation.Certifications(); ok {
+	if value, ok := _u.mutation.Certifications(); ok {
 		_spec.SetField(employee.FieldCertifications, field.TypeJSON, value)
 	}
-	if value, ok := eu.mutation.AppendedCertifications(); ok {
+	if value, ok := _u.mutation.AppendedCertifications(); ok {
 		_spec.AddModifier(func(u *sql.UpdateBuilder) {
 			sqljson.Append(u, employee.FieldCertifications, value)
 		})
 	}
-	if eu.mutation.CertificationsCleared() {
+	if _u.mutation.CertificationsCleared() {
 		_spec.ClearField(employee.FieldCertifications, field.TypeJSON)
 	}
-	if value, ok := eu.mutation.Extras(); ok {
+	if value, ok := _u.mutation.Extras(); ok {
 		_spec.SetField(employee.FieldExtras, field.TypeJSON, value)
 	}
-	if eu.mutation.ExtrasCleared() {
+	if _u.mutation.ExtrasCleared() {
 		_spec.ClearField(employee.FieldExtras, field.TypeJSON)
 	}
-	if n, err = sqlgraph.UpdateNodes(ctx, eu.driver, _spec); err != nil {
+	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{employee.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -508,8 +508,8 @@ func (eu *EmployeeUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		return 0, err
 	}
-	eu.mutation.done = true
-	return n, nil
+	_u.mutation.done = true
+	return _node, nil
 }
 
 // EmployeeUpdateOne is the builder for updating a single Employee entity.
@@ -521,326 +521,326 @@ type EmployeeUpdateOne struct {
 }
 
 // SetSpaceID sets the "space_id" field.
-func (euo *EmployeeUpdateOne) SetSpaceID(s string) *EmployeeUpdateOne {
-	euo.mutation.SetSpaceID(s)
-	return euo
+func (_u *EmployeeUpdateOne) SetSpaceID(v string) *EmployeeUpdateOne {
+	_u.mutation.SetSpaceID(v)
+	return _u
 }
 
 // SetNillableSpaceID sets the "space_id" field if the given value is not nil.
-func (euo *EmployeeUpdateOne) SetNillableSpaceID(s *string) *EmployeeUpdateOne {
-	if s != nil {
-		euo.SetSpaceID(*s)
+func (_u *EmployeeUpdateOne) SetNillableSpaceID(v *string) *EmployeeUpdateOne {
+	if v != nil {
+		_u.SetSpaceID(*v)
 	}
-	return euo
+	return _u
 }
 
 // ClearSpaceID clears the value of the "space_id" field.
-func (euo *EmployeeUpdateOne) ClearSpaceID() *EmployeeUpdateOne {
-	euo.mutation.ClearSpaceID()
-	return euo
+func (_u *EmployeeUpdateOne) ClearSpaceID() *EmployeeUpdateOne {
+	_u.mutation.ClearSpaceID()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (euo *EmployeeUpdateOne) SetUpdatedAt(i int64) *EmployeeUpdateOne {
-	euo.mutation.ResetUpdatedAt()
-	euo.mutation.SetUpdatedAt(i)
-	return euo
+func (_u *EmployeeUpdateOne) SetUpdatedAt(v int64) *EmployeeUpdateOne {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (euo *EmployeeUpdateOne) AddUpdatedAt(i int64) *EmployeeUpdateOne {
-	euo.mutation.AddUpdatedAt(i)
-	return euo
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *EmployeeUpdateOne) AddUpdatedAt(v int64) *EmployeeUpdateOne {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (euo *EmployeeUpdateOne) ClearUpdatedAt() *EmployeeUpdateOne {
-	euo.mutation.ClearUpdatedAt()
-	return euo
+func (_u *EmployeeUpdateOne) ClearUpdatedAt() *EmployeeUpdateOne {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // SetEmployeeID sets the "employee_id" field.
-func (euo *EmployeeUpdateOne) SetEmployeeID(s string) *EmployeeUpdateOne {
-	euo.mutation.SetEmployeeID(s)
-	return euo
+func (_u *EmployeeUpdateOne) SetEmployeeID(v string) *EmployeeUpdateOne {
+	_u.mutation.SetEmployeeID(v)
+	return _u
 }
 
 // SetNillableEmployeeID sets the "employee_id" field if the given value is not nil.
-func (euo *EmployeeUpdateOne) SetNillableEmployeeID(s *string) *EmployeeUpdateOne {
-	if s != nil {
-		euo.SetEmployeeID(*s)
+func (_u *EmployeeUpdateOne) SetNillableEmployeeID(v *string) *EmployeeUpdateOne {
+	if v != nil {
+		_u.SetEmployeeID(*v)
 	}
-	return euo
+	return _u
 }
 
 // ClearEmployeeID clears the value of the "employee_id" field.
-func (euo *EmployeeUpdateOne) ClearEmployeeID() *EmployeeUpdateOne {
-	euo.mutation.ClearEmployeeID()
-	return euo
+func (_u *EmployeeUpdateOne) ClearEmployeeID() *EmployeeUpdateOne {
+	_u.mutation.ClearEmployeeID()
+	return _u
 }
 
 // SetDepartment sets the "department" field.
-func (euo *EmployeeUpdateOne) SetDepartment(s string) *EmployeeUpdateOne {
-	euo.mutation.SetDepartment(s)
-	return euo
+func (_u *EmployeeUpdateOne) SetDepartment(v string) *EmployeeUpdateOne {
+	_u.mutation.SetDepartment(v)
+	return _u
 }
 
 // SetNillableDepartment sets the "department" field if the given value is not nil.
-func (euo *EmployeeUpdateOne) SetNillableDepartment(s *string) *EmployeeUpdateOne {
-	if s != nil {
-		euo.SetDepartment(*s)
+func (_u *EmployeeUpdateOne) SetNillableDepartment(v *string) *EmployeeUpdateOne {
+	if v != nil {
+		_u.SetDepartment(*v)
 	}
-	return euo
+	return _u
 }
 
 // ClearDepartment clears the value of the "department" field.
-func (euo *EmployeeUpdateOne) ClearDepartment() *EmployeeUpdateOne {
-	euo.mutation.ClearDepartment()
-	return euo
+func (_u *EmployeeUpdateOne) ClearDepartment() *EmployeeUpdateOne {
+	_u.mutation.ClearDepartment()
+	return _u
 }
 
 // SetPosition sets the "position" field.
-func (euo *EmployeeUpdateOne) SetPosition(s string) *EmployeeUpdateOne {
-	euo.mutation.SetPosition(s)
-	return euo
+func (_u *EmployeeUpdateOne) SetPosition(v string) *EmployeeUpdateOne {
+	_u.mutation.SetPosition(v)
+	return _u
 }
 
 // SetNillablePosition sets the "position" field if the given value is not nil.
-func (euo *EmployeeUpdateOne) SetNillablePosition(s *string) *EmployeeUpdateOne {
-	if s != nil {
-		euo.SetPosition(*s)
+func (_u *EmployeeUpdateOne) SetNillablePosition(v *string) *EmployeeUpdateOne {
+	if v != nil {
+		_u.SetPosition(*v)
 	}
-	return euo
+	return _u
 }
 
 // ClearPosition clears the value of the "position" field.
-func (euo *EmployeeUpdateOne) ClearPosition() *EmployeeUpdateOne {
-	euo.mutation.ClearPosition()
-	return euo
+func (_u *EmployeeUpdateOne) ClearPosition() *EmployeeUpdateOne {
+	_u.mutation.ClearPosition()
+	return _u
 }
 
 // SetManagerID sets the "manager_id" field.
-func (euo *EmployeeUpdateOne) SetManagerID(s string) *EmployeeUpdateOne {
-	euo.mutation.SetManagerID(s)
-	return euo
+func (_u *EmployeeUpdateOne) SetManagerID(v string) *EmployeeUpdateOne {
+	_u.mutation.SetManagerID(v)
+	return _u
 }
 
 // SetNillableManagerID sets the "manager_id" field if the given value is not nil.
-func (euo *EmployeeUpdateOne) SetNillableManagerID(s *string) *EmployeeUpdateOne {
-	if s != nil {
-		euo.SetManagerID(*s)
+func (_u *EmployeeUpdateOne) SetNillableManagerID(v *string) *EmployeeUpdateOne {
+	if v != nil {
+		_u.SetManagerID(*v)
 	}
-	return euo
+	return _u
 }
 
 // ClearManagerID clears the value of the "manager_id" field.
-func (euo *EmployeeUpdateOne) ClearManagerID() *EmployeeUpdateOne {
-	euo.mutation.ClearManagerID()
-	return euo
+func (_u *EmployeeUpdateOne) ClearManagerID() *EmployeeUpdateOne {
+	_u.mutation.ClearManagerID()
+	return _u
 }
 
 // SetHireDate sets the "hire_date" field.
-func (euo *EmployeeUpdateOne) SetHireDate(t time.Time) *EmployeeUpdateOne {
-	euo.mutation.SetHireDate(t)
-	return euo
+func (_u *EmployeeUpdateOne) SetHireDate(v time.Time) *EmployeeUpdateOne {
+	_u.mutation.SetHireDate(v)
+	return _u
 }
 
 // SetNillableHireDate sets the "hire_date" field if the given value is not nil.
-func (euo *EmployeeUpdateOne) SetNillableHireDate(t *time.Time) *EmployeeUpdateOne {
-	if t != nil {
-		euo.SetHireDate(*t)
+func (_u *EmployeeUpdateOne) SetNillableHireDate(v *time.Time) *EmployeeUpdateOne {
+	if v != nil {
+		_u.SetHireDate(*v)
 	}
-	return euo
+	return _u
 }
 
 // ClearHireDate clears the value of the "hire_date" field.
-func (euo *EmployeeUpdateOne) ClearHireDate() *EmployeeUpdateOne {
-	euo.mutation.ClearHireDate()
-	return euo
+func (_u *EmployeeUpdateOne) ClearHireDate() *EmployeeUpdateOne {
+	_u.mutation.ClearHireDate()
+	return _u
 }
 
 // SetTerminationDate sets the "termination_date" field.
-func (euo *EmployeeUpdateOne) SetTerminationDate(t time.Time) *EmployeeUpdateOne {
-	euo.mutation.SetTerminationDate(t)
-	return euo
+func (_u *EmployeeUpdateOne) SetTerminationDate(v time.Time) *EmployeeUpdateOne {
+	_u.mutation.SetTerminationDate(v)
+	return _u
 }
 
 // SetNillableTerminationDate sets the "termination_date" field if the given value is not nil.
-func (euo *EmployeeUpdateOne) SetNillableTerminationDate(t *time.Time) *EmployeeUpdateOne {
-	if t != nil {
-		euo.SetTerminationDate(*t)
+func (_u *EmployeeUpdateOne) SetNillableTerminationDate(v *time.Time) *EmployeeUpdateOne {
+	if v != nil {
+		_u.SetTerminationDate(*v)
 	}
-	return euo
+	return _u
 }
 
 // ClearTerminationDate clears the value of the "termination_date" field.
-func (euo *EmployeeUpdateOne) ClearTerminationDate() *EmployeeUpdateOne {
-	euo.mutation.ClearTerminationDate()
-	return euo
+func (_u *EmployeeUpdateOne) ClearTerminationDate() *EmployeeUpdateOne {
+	_u.mutation.ClearTerminationDate()
+	return _u
 }
 
 // SetEmploymentType sets the "employment_type" field.
-func (euo *EmployeeUpdateOne) SetEmploymentType(et employee.EmploymentType) *EmployeeUpdateOne {
-	euo.mutation.SetEmploymentType(et)
-	return euo
+func (_u *EmployeeUpdateOne) SetEmploymentType(v employee.EmploymentType) *EmployeeUpdateOne {
+	_u.mutation.SetEmploymentType(v)
+	return _u
 }
 
 // SetNillableEmploymentType sets the "employment_type" field if the given value is not nil.
-func (euo *EmployeeUpdateOne) SetNillableEmploymentType(et *employee.EmploymentType) *EmployeeUpdateOne {
-	if et != nil {
-		euo.SetEmploymentType(*et)
+func (_u *EmployeeUpdateOne) SetNillableEmploymentType(v *employee.EmploymentType) *EmployeeUpdateOne {
+	if v != nil {
+		_u.SetEmploymentType(*v)
 	}
-	return euo
+	return _u
 }
 
 // SetStatus sets the "status" field.
-func (euo *EmployeeUpdateOne) SetStatus(e employee.Status) *EmployeeUpdateOne {
-	euo.mutation.SetStatus(e)
-	return euo
+func (_u *EmployeeUpdateOne) SetStatus(v employee.Status) *EmployeeUpdateOne {
+	_u.mutation.SetStatus(v)
+	return _u
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (euo *EmployeeUpdateOne) SetNillableStatus(e *employee.Status) *EmployeeUpdateOne {
-	if e != nil {
-		euo.SetStatus(*e)
+func (_u *EmployeeUpdateOne) SetNillableStatus(v *employee.Status) *EmployeeUpdateOne {
+	if v != nil {
+		_u.SetStatus(*v)
 	}
-	return euo
+	return _u
 }
 
 // SetSalary sets the "salary" field.
-func (euo *EmployeeUpdateOne) SetSalary(f float64) *EmployeeUpdateOne {
-	euo.mutation.ResetSalary()
-	euo.mutation.SetSalary(f)
-	return euo
+func (_u *EmployeeUpdateOne) SetSalary(v float64) *EmployeeUpdateOne {
+	_u.mutation.ResetSalary()
+	_u.mutation.SetSalary(v)
+	return _u
 }
 
 // SetNillableSalary sets the "salary" field if the given value is not nil.
-func (euo *EmployeeUpdateOne) SetNillableSalary(f *float64) *EmployeeUpdateOne {
-	if f != nil {
-		euo.SetSalary(*f)
+func (_u *EmployeeUpdateOne) SetNillableSalary(v *float64) *EmployeeUpdateOne {
+	if v != nil {
+		_u.SetSalary(*v)
 	}
-	return euo
+	return _u
 }
 
-// AddSalary adds f to the "salary" field.
-func (euo *EmployeeUpdateOne) AddSalary(f float64) *EmployeeUpdateOne {
-	euo.mutation.AddSalary(f)
-	return euo
+// AddSalary adds value to the "salary" field.
+func (_u *EmployeeUpdateOne) AddSalary(v float64) *EmployeeUpdateOne {
+	_u.mutation.AddSalary(v)
+	return _u
 }
 
 // ClearSalary clears the value of the "salary" field.
-func (euo *EmployeeUpdateOne) ClearSalary() *EmployeeUpdateOne {
-	euo.mutation.ClearSalary()
-	return euo
+func (_u *EmployeeUpdateOne) ClearSalary() *EmployeeUpdateOne {
+	_u.mutation.ClearSalary()
+	return _u
 }
 
 // SetWorkLocation sets the "work_location" field.
-func (euo *EmployeeUpdateOne) SetWorkLocation(s string) *EmployeeUpdateOne {
-	euo.mutation.SetWorkLocation(s)
-	return euo
+func (_u *EmployeeUpdateOne) SetWorkLocation(v string) *EmployeeUpdateOne {
+	_u.mutation.SetWorkLocation(v)
+	return _u
 }
 
 // SetNillableWorkLocation sets the "work_location" field if the given value is not nil.
-func (euo *EmployeeUpdateOne) SetNillableWorkLocation(s *string) *EmployeeUpdateOne {
-	if s != nil {
-		euo.SetWorkLocation(*s)
+func (_u *EmployeeUpdateOne) SetNillableWorkLocation(v *string) *EmployeeUpdateOne {
+	if v != nil {
+		_u.SetWorkLocation(*v)
 	}
-	return euo
+	return _u
 }
 
 // ClearWorkLocation clears the value of the "work_location" field.
-func (euo *EmployeeUpdateOne) ClearWorkLocation() *EmployeeUpdateOne {
-	euo.mutation.ClearWorkLocation()
-	return euo
+func (_u *EmployeeUpdateOne) ClearWorkLocation() *EmployeeUpdateOne {
+	_u.mutation.ClearWorkLocation()
+	return _u
 }
 
 // SetContactInfo sets the "contact_info" field.
-func (euo *EmployeeUpdateOne) SetContactInfo(m map[string]interface{}) *EmployeeUpdateOne {
-	euo.mutation.SetContactInfo(m)
-	return euo
+func (_u *EmployeeUpdateOne) SetContactInfo(v map[string]interface{}) *EmployeeUpdateOne {
+	_u.mutation.SetContactInfo(v)
+	return _u
 }
 
 // ClearContactInfo clears the value of the "contact_info" field.
-func (euo *EmployeeUpdateOne) ClearContactInfo() *EmployeeUpdateOne {
-	euo.mutation.ClearContactInfo()
-	return euo
+func (_u *EmployeeUpdateOne) ClearContactInfo() *EmployeeUpdateOne {
+	_u.mutation.ClearContactInfo()
+	return _u
 }
 
 // SetSkills sets the "skills" field.
-func (euo *EmployeeUpdateOne) SetSkills(s []string) *EmployeeUpdateOne {
-	euo.mutation.SetSkills(s)
-	return euo
+func (_u *EmployeeUpdateOne) SetSkills(v []string) *EmployeeUpdateOne {
+	_u.mutation.SetSkills(v)
+	return _u
 }
 
-// AppendSkills appends s to the "skills" field.
-func (euo *EmployeeUpdateOne) AppendSkills(s []string) *EmployeeUpdateOne {
-	euo.mutation.AppendSkills(s)
-	return euo
+// AppendSkills appends value to the "skills" field.
+func (_u *EmployeeUpdateOne) AppendSkills(v []string) *EmployeeUpdateOne {
+	_u.mutation.AppendSkills(v)
+	return _u
 }
 
 // ClearSkills clears the value of the "skills" field.
-func (euo *EmployeeUpdateOne) ClearSkills() *EmployeeUpdateOne {
-	euo.mutation.ClearSkills()
-	return euo
+func (_u *EmployeeUpdateOne) ClearSkills() *EmployeeUpdateOne {
+	_u.mutation.ClearSkills()
+	return _u
 }
 
 // SetCertifications sets the "certifications" field.
-func (euo *EmployeeUpdateOne) SetCertifications(s []string) *EmployeeUpdateOne {
-	euo.mutation.SetCertifications(s)
-	return euo
+func (_u *EmployeeUpdateOne) SetCertifications(v []string) *EmployeeUpdateOne {
+	_u.mutation.SetCertifications(v)
+	return _u
 }
 
-// AppendCertifications appends s to the "certifications" field.
-func (euo *EmployeeUpdateOne) AppendCertifications(s []string) *EmployeeUpdateOne {
-	euo.mutation.AppendCertifications(s)
-	return euo
+// AppendCertifications appends value to the "certifications" field.
+func (_u *EmployeeUpdateOne) AppendCertifications(v []string) *EmployeeUpdateOne {
+	_u.mutation.AppendCertifications(v)
+	return _u
 }
 
 // ClearCertifications clears the value of the "certifications" field.
-func (euo *EmployeeUpdateOne) ClearCertifications() *EmployeeUpdateOne {
-	euo.mutation.ClearCertifications()
-	return euo
+func (_u *EmployeeUpdateOne) ClearCertifications() *EmployeeUpdateOne {
+	_u.mutation.ClearCertifications()
+	return _u
 }
 
 // SetExtras sets the "extras" field.
-func (euo *EmployeeUpdateOne) SetExtras(m map[string]interface{}) *EmployeeUpdateOne {
-	euo.mutation.SetExtras(m)
-	return euo
+func (_u *EmployeeUpdateOne) SetExtras(v map[string]interface{}) *EmployeeUpdateOne {
+	_u.mutation.SetExtras(v)
+	return _u
 }
 
 // ClearExtras clears the value of the "extras" field.
-func (euo *EmployeeUpdateOne) ClearExtras() *EmployeeUpdateOne {
-	euo.mutation.ClearExtras()
-	return euo
+func (_u *EmployeeUpdateOne) ClearExtras() *EmployeeUpdateOne {
+	_u.mutation.ClearExtras()
+	return _u
 }
 
 // Mutation returns the EmployeeMutation object of the builder.
-func (euo *EmployeeUpdateOne) Mutation() *EmployeeMutation {
-	return euo.mutation
+func (_u *EmployeeUpdateOne) Mutation() *EmployeeMutation {
+	return _u.mutation
 }
 
 // Where appends a list predicates to the EmployeeUpdate builder.
-func (euo *EmployeeUpdateOne) Where(ps ...predicate.Employee) *EmployeeUpdateOne {
-	euo.mutation.Where(ps...)
-	return euo
+func (_u *EmployeeUpdateOne) Where(ps ...predicate.Employee) *EmployeeUpdateOne {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // Select allows selecting one or more fields (columns) of the returned entity.
 // The default is selecting all fields defined in the entity schema.
-func (euo *EmployeeUpdateOne) Select(field string, fields ...string) *EmployeeUpdateOne {
-	euo.fields = append([]string{field}, fields...)
-	return euo
+func (_u *EmployeeUpdateOne) Select(field string, fields ...string) *EmployeeUpdateOne {
+	_u.fields = append([]string{field}, fields...)
+	return _u
 }
 
 // Save executes the query and returns the updated Employee entity.
-func (euo *EmployeeUpdateOne) Save(ctx context.Context) (*Employee, error) {
-	euo.defaults()
-	return withHooks(ctx, euo.sqlSave, euo.mutation, euo.hooks)
+func (_u *EmployeeUpdateOne) Save(ctx context.Context) (*Employee, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (euo *EmployeeUpdateOne) SaveX(ctx context.Context) *Employee {
-	node, err := euo.Save(ctx)
+func (_u *EmployeeUpdateOne) SaveX(ctx context.Context) *Employee {
+	node, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -848,34 +848,34 @@ func (euo *EmployeeUpdateOne) SaveX(ctx context.Context) *Employee {
 }
 
 // Exec executes the query on the entity.
-func (euo *EmployeeUpdateOne) Exec(ctx context.Context) error {
-	_, err := euo.Save(ctx)
+func (_u *EmployeeUpdateOne) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (euo *EmployeeUpdateOne) ExecX(ctx context.Context) {
-	if err := euo.Exec(ctx); err != nil {
+func (_u *EmployeeUpdateOne) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (euo *EmployeeUpdateOne) defaults() {
-	if _, ok := euo.mutation.UpdatedAt(); !ok && !euo.mutation.UpdatedAtCleared() {
+func (_u *EmployeeUpdateOne) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := employee.UpdateDefaultUpdatedAt()
-		euo.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (euo *EmployeeUpdateOne) check() error {
-	if v, ok := euo.mutation.EmploymentType(); ok {
+func (_u *EmployeeUpdateOne) check() error {
+	if v, ok := _u.mutation.EmploymentType(); ok {
 		if err := employee.EmploymentTypeValidator(v); err != nil {
 			return &ValidationError{Name: "employment_type", err: fmt.Errorf(`ent: validator failed for field "Employee.employment_type": %w`, err)}
 		}
 	}
-	if v, ok := euo.mutation.Status(); ok {
+	if v, ok := _u.mutation.Status(); ok {
 		if err := employee.StatusValidator(v); err != nil {
 			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Employee.status": %w`, err)}
 		}
@@ -883,17 +883,17 @@ func (euo *EmployeeUpdateOne) check() error {
 	return nil
 }
 
-func (euo *EmployeeUpdateOne) sqlSave(ctx context.Context) (_node *Employee, err error) {
-	if err := euo.check(); err != nil {
+func (_u *EmployeeUpdateOne) sqlSave(ctx context.Context) (_node *Employee, err error) {
+	if err := _u.check(); err != nil {
 		return _node, err
 	}
 	_spec := sqlgraph.NewUpdateSpec(employee.Table, employee.Columns, sqlgraph.NewFieldSpec(employee.FieldID, field.TypeString))
-	id, ok := euo.mutation.ID()
+	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "Employee.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
-	if fields := euo.fields; len(fields) > 0 {
+	if fields := _u.fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, employee.FieldID)
 		for _, f := range fields {
@@ -905,126 +905,126 @@ func (euo *EmployeeUpdateOne) sqlSave(ctx context.Context) (_node *Employee, err
 			}
 		}
 	}
-	if ps := euo.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := euo.mutation.SpaceID(); ok {
+	if value, ok := _u.mutation.SpaceID(); ok {
 		_spec.SetField(employee.FieldSpaceID, field.TypeString, value)
 	}
-	if euo.mutation.SpaceIDCleared() {
+	if _u.mutation.SpaceIDCleared() {
 		_spec.ClearField(employee.FieldSpaceID, field.TypeString)
 	}
-	if euo.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(employee.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := euo.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(employee.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := euo.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(employee.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if euo.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(employee.FieldUpdatedAt, field.TypeInt64)
 	}
-	if value, ok := euo.mutation.EmployeeID(); ok {
+	if value, ok := _u.mutation.EmployeeID(); ok {
 		_spec.SetField(employee.FieldEmployeeID, field.TypeString, value)
 	}
-	if euo.mutation.EmployeeIDCleared() {
+	if _u.mutation.EmployeeIDCleared() {
 		_spec.ClearField(employee.FieldEmployeeID, field.TypeString)
 	}
-	if value, ok := euo.mutation.Department(); ok {
+	if value, ok := _u.mutation.Department(); ok {
 		_spec.SetField(employee.FieldDepartment, field.TypeString, value)
 	}
-	if euo.mutation.DepartmentCleared() {
+	if _u.mutation.DepartmentCleared() {
 		_spec.ClearField(employee.FieldDepartment, field.TypeString)
 	}
-	if value, ok := euo.mutation.Position(); ok {
+	if value, ok := _u.mutation.Position(); ok {
 		_spec.SetField(employee.FieldPosition, field.TypeString, value)
 	}
-	if euo.mutation.PositionCleared() {
+	if _u.mutation.PositionCleared() {
 		_spec.ClearField(employee.FieldPosition, field.TypeString)
 	}
-	if value, ok := euo.mutation.ManagerID(); ok {
+	if value, ok := _u.mutation.ManagerID(); ok {
 		_spec.SetField(employee.FieldManagerID, field.TypeString, value)
 	}
-	if euo.mutation.ManagerIDCleared() {
+	if _u.mutation.ManagerIDCleared() {
 		_spec.ClearField(employee.FieldManagerID, field.TypeString)
 	}
-	if value, ok := euo.mutation.HireDate(); ok {
+	if value, ok := _u.mutation.HireDate(); ok {
 		_spec.SetField(employee.FieldHireDate, field.TypeTime, value)
 	}
-	if euo.mutation.HireDateCleared() {
+	if _u.mutation.HireDateCleared() {
 		_spec.ClearField(employee.FieldHireDate, field.TypeTime)
 	}
-	if value, ok := euo.mutation.TerminationDate(); ok {
+	if value, ok := _u.mutation.TerminationDate(); ok {
 		_spec.SetField(employee.FieldTerminationDate, field.TypeTime, value)
 	}
-	if euo.mutation.TerminationDateCleared() {
+	if _u.mutation.TerminationDateCleared() {
 		_spec.ClearField(employee.FieldTerminationDate, field.TypeTime)
 	}
-	if value, ok := euo.mutation.EmploymentType(); ok {
+	if value, ok := _u.mutation.EmploymentType(); ok {
 		_spec.SetField(employee.FieldEmploymentType, field.TypeEnum, value)
 	}
-	if value, ok := euo.mutation.Status(); ok {
+	if value, ok := _u.mutation.Status(); ok {
 		_spec.SetField(employee.FieldStatus, field.TypeEnum, value)
 	}
-	if value, ok := euo.mutation.Salary(); ok {
+	if value, ok := _u.mutation.Salary(); ok {
 		_spec.SetField(employee.FieldSalary, field.TypeFloat64, value)
 	}
-	if value, ok := euo.mutation.AddedSalary(); ok {
+	if value, ok := _u.mutation.AddedSalary(); ok {
 		_spec.AddField(employee.FieldSalary, field.TypeFloat64, value)
 	}
-	if euo.mutation.SalaryCleared() {
+	if _u.mutation.SalaryCleared() {
 		_spec.ClearField(employee.FieldSalary, field.TypeFloat64)
 	}
-	if value, ok := euo.mutation.WorkLocation(); ok {
+	if value, ok := _u.mutation.WorkLocation(); ok {
 		_spec.SetField(employee.FieldWorkLocation, field.TypeString, value)
 	}
-	if euo.mutation.WorkLocationCleared() {
+	if _u.mutation.WorkLocationCleared() {
 		_spec.ClearField(employee.FieldWorkLocation, field.TypeString)
 	}
-	if value, ok := euo.mutation.ContactInfo(); ok {
+	if value, ok := _u.mutation.ContactInfo(); ok {
 		_spec.SetField(employee.FieldContactInfo, field.TypeJSON, value)
 	}
-	if euo.mutation.ContactInfoCleared() {
+	if _u.mutation.ContactInfoCleared() {
 		_spec.ClearField(employee.FieldContactInfo, field.TypeJSON)
 	}
-	if value, ok := euo.mutation.Skills(); ok {
+	if value, ok := _u.mutation.Skills(); ok {
 		_spec.SetField(employee.FieldSkills, field.TypeJSON, value)
 	}
-	if value, ok := euo.mutation.AppendedSkills(); ok {
+	if value, ok := _u.mutation.AppendedSkills(); ok {
 		_spec.AddModifier(func(u *sql.UpdateBuilder) {
 			sqljson.Append(u, employee.FieldSkills, value)
 		})
 	}
-	if euo.mutation.SkillsCleared() {
+	if _u.mutation.SkillsCleared() {
 		_spec.ClearField(employee.FieldSkills, field.TypeJSON)
 	}
-	if value, ok := euo.mutation.Certifications(); ok {
+	if value, ok := _u.mutation.Certifications(); ok {
 		_spec.SetField(employee.FieldCertifications, field.TypeJSON, value)
 	}
-	if value, ok := euo.mutation.AppendedCertifications(); ok {
+	if value, ok := _u.mutation.AppendedCertifications(); ok {
 		_spec.AddModifier(func(u *sql.UpdateBuilder) {
 			sqljson.Append(u, employee.FieldCertifications, value)
 		})
 	}
-	if euo.mutation.CertificationsCleared() {
+	if _u.mutation.CertificationsCleared() {
 		_spec.ClearField(employee.FieldCertifications, field.TypeJSON)
 	}
-	if value, ok := euo.mutation.Extras(); ok {
+	if value, ok := _u.mutation.Extras(); ok {
 		_spec.SetField(employee.FieldExtras, field.TypeJSON, value)
 	}
-	if euo.mutation.ExtrasCleared() {
+	if _u.mutation.ExtrasCleared() {
 		_spec.ClearField(employee.FieldExtras, field.TypeJSON)
 	}
-	_node = &Employee{config: euo.config}
+	_node = &Employee{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues
-	if err = sqlgraph.UpdateNode(ctx, euo.driver, _spec); err != nil {
+	if err = sqlgraph.UpdateNode(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{employee.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -1032,6 +1032,6 @@ func (euo *EmployeeUpdateOne) sqlSave(ctx context.Context) (_node *Employee, err
 		}
 		return nil, err
 	}
-	euo.mutation.done = true
+	_u.mutation.done = true
 	return _node, nil
 }

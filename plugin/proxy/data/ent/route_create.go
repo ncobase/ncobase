@@ -20,253 +20,253 @@ type RouteCreate struct {
 }
 
 // SetName sets the "name" field.
-func (rc *RouteCreate) SetName(s string) *RouteCreate {
-	rc.mutation.SetName(s)
-	return rc
+func (_c *RouteCreate) SetName(v string) *RouteCreate {
+	_c.mutation.SetName(v)
+	return _c
 }
 
 // SetNillableName sets the "name" field if the given value is not nil.
-func (rc *RouteCreate) SetNillableName(s *string) *RouteCreate {
-	if s != nil {
-		rc.SetName(*s)
+func (_c *RouteCreate) SetNillableName(v *string) *RouteCreate {
+	if v != nil {
+		_c.SetName(*v)
 	}
-	return rc
+	return _c
 }
 
 // SetDescription sets the "description" field.
-func (rc *RouteCreate) SetDescription(s string) *RouteCreate {
-	rc.mutation.SetDescription(s)
-	return rc
+func (_c *RouteCreate) SetDescription(v string) *RouteCreate {
+	_c.mutation.SetDescription(v)
+	return _c
 }
 
 // SetNillableDescription sets the "description" field if the given value is not nil.
-func (rc *RouteCreate) SetNillableDescription(s *string) *RouteCreate {
-	if s != nil {
-		rc.SetDescription(*s)
+func (_c *RouteCreate) SetNillableDescription(v *string) *RouteCreate {
+	if v != nil {
+		_c.SetDescription(*v)
 	}
-	return rc
+	return _c
 }
 
 // SetDisabled sets the "disabled" field.
-func (rc *RouteCreate) SetDisabled(b bool) *RouteCreate {
-	rc.mutation.SetDisabled(b)
-	return rc
+func (_c *RouteCreate) SetDisabled(v bool) *RouteCreate {
+	_c.mutation.SetDisabled(v)
+	return _c
 }
 
 // SetNillableDisabled sets the "disabled" field if the given value is not nil.
-func (rc *RouteCreate) SetNillableDisabled(b *bool) *RouteCreate {
-	if b != nil {
-		rc.SetDisabled(*b)
+func (_c *RouteCreate) SetNillableDisabled(v *bool) *RouteCreate {
+	if v != nil {
+		_c.SetDisabled(*v)
 	}
-	return rc
+	return _c
 }
 
 // SetExtras sets the "extras" field.
-func (rc *RouteCreate) SetExtras(m map[string]interface{}) *RouteCreate {
-	rc.mutation.SetExtras(m)
-	return rc
+func (_c *RouteCreate) SetExtras(v map[string]interface{}) *RouteCreate {
+	_c.mutation.SetExtras(v)
+	return _c
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (rc *RouteCreate) SetCreatedBy(s string) *RouteCreate {
-	rc.mutation.SetCreatedBy(s)
-	return rc
+func (_c *RouteCreate) SetCreatedBy(v string) *RouteCreate {
+	_c.mutation.SetCreatedBy(v)
+	return _c
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (rc *RouteCreate) SetNillableCreatedBy(s *string) *RouteCreate {
-	if s != nil {
-		rc.SetCreatedBy(*s)
+func (_c *RouteCreate) SetNillableCreatedBy(v *string) *RouteCreate {
+	if v != nil {
+		_c.SetCreatedBy(*v)
 	}
-	return rc
+	return _c
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (rc *RouteCreate) SetUpdatedBy(s string) *RouteCreate {
-	rc.mutation.SetUpdatedBy(s)
-	return rc
+func (_c *RouteCreate) SetUpdatedBy(v string) *RouteCreate {
+	_c.mutation.SetUpdatedBy(v)
+	return _c
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (rc *RouteCreate) SetNillableUpdatedBy(s *string) *RouteCreate {
-	if s != nil {
-		rc.SetUpdatedBy(*s)
+func (_c *RouteCreate) SetNillableUpdatedBy(v *string) *RouteCreate {
+	if v != nil {
+		_c.SetUpdatedBy(*v)
 	}
-	return rc
+	return _c
 }
 
 // SetCreatedAt sets the "created_at" field.
-func (rc *RouteCreate) SetCreatedAt(i int64) *RouteCreate {
-	rc.mutation.SetCreatedAt(i)
-	return rc
+func (_c *RouteCreate) SetCreatedAt(v int64) *RouteCreate {
+	_c.mutation.SetCreatedAt(v)
+	return _c
 }
 
 // SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
-func (rc *RouteCreate) SetNillableCreatedAt(i *int64) *RouteCreate {
-	if i != nil {
-		rc.SetCreatedAt(*i)
+func (_c *RouteCreate) SetNillableCreatedAt(v *int64) *RouteCreate {
+	if v != nil {
+		_c.SetCreatedAt(*v)
 	}
-	return rc
+	return _c
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (rc *RouteCreate) SetUpdatedAt(i int64) *RouteCreate {
-	rc.mutation.SetUpdatedAt(i)
-	return rc
+func (_c *RouteCreate) SetUpdatedAt(v int64) *RouteCreate {
+	_c.mutation.SetUpdatedAt(v)
+	return _c
 }
 
 // SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
-func (rc *RouteCreate) SetNillableUpdatedAt(i *int64) *RouteCreate {
-	if i != nil {
-		rc.SetUpdatedAt(*i)
+func (_c *RouteCreate) SetNillableUpdatedAt(v *int64) *RouteCreate {
+	if v != nil {
+		_c.SetUpdatedAt(*v)
 	}
-	return rc
+	return _c
 }
 
 // SetEndpointID sets the "endpoint_id" field.
-func (rc *RouteCreate) SetEndpointID(s string) *RouteCreate {
-	rc.mutation.SetEndpointID(s)
-	return rc
+func (_c *RouteCreate) SetEndpointID(v string) *RouteCreate {
+	_c.mutation.SetEndpointID(v)
+	return _c
 }
 
 // SetPathPattern sets the "path_pattern" field.
-func (rc *RouteCreate) SetPathPattern(s string) *RouteCreate {
-	rc.mutation.SetPathPattern(s)
-	return rc
+func (_c *RouteCreate) SetPathPattern(v string) *RouteCreate {
+	_c.mutation.SetPathPattern(v)
+	return _c
 }
 
 // SetTargetPath sets the "target_path" field.
-func (rc *RouteCreate) SetTargetPath(s string) *RouteCreate {
-	rc.mutation.SetTargetPath(s)
-	return rc
+func (_c *RouteCreate) SetTargetPath(v string) *RouteCreate {
+	_c.mutation.SetTargetPath(v)
+	return _c
 }
 
 // SetMethod sets the "method" field.
-func (rc *RouteCreate) SetMethod(s string) *RouteCreate {
-	rc.mutation.SetMethod(s)
-	return rc
+func (_c *RouteCreate) SetMethod(v string) *RouteCreate {
+	_c.mutation.SetMethod(v)
+	return _c
 }
 
 // SetNillableMethod sets the "method" field if the given value is not nil.
-func (rc *RouteCreate) SetNillableMethod(s *string) *RouteCreate {
-	if s != nil {
-		rc.SetMethod(*s)
+func (_c *RouteCreate) SetNillableMethod(v *string) *RouteCreate {
+	if v != nil {
+		_c.SetMethod(*v)
 	}
-	return rc
+	return _c
 }
 
 // SetInputTransformerID sets the "input_transformer_id" field.
-func (rc *RouteCreate) SetInputTransformerID(s string) *RouteCreate {
-	rc.mutation.SetInputTransformerID(s)
-	return rc
+func (_c *RouteCreate) SetInputTransformerID(v string) *RouteCreate {
+	_c.mutation.SetInputTransformerID(v)
+	return _c
 }
 
 // SetNillableInputTransformerID sets the "input_transformer_id" field if the given value is not nil.
-func (rc *RouteCreate) SetNillableInputTransformerID(s *string) *RouteCreate {
-	if s != nil {
-		rc.SetInputTransformerID(*s)
+func (_c *RouteCreate) SetNillableInputTransformerID(v *string) *RouteCreate {
+	if v != nil {
+		_c.SetInputTransformerID(*v)
 	}
-	return rc
+	return _c
 }
 
 // SetOutputTransformerID sets the "output_transformer_id" field.
-func (rc *RouteCreate) SetOutputTransformerID(s string) *RouteCreate {
-	rc.mutation.SetOutputTransformerID(s)
-	return rc
+func (_c *RouteCreate) SetOutputTransformerID(v string) *RouteCreate {
+	_c.mutation.SetOutputTransformerID(v)
+	return _c
 }
 
 // SetNillableOutputTransformerID sets the "output_transformer_id" field if the given value is not nil.
-func (rc *RouteCreate) SetNillableOutputTransformerID(s *string) *RouteCreate {
-	if s != nil {
-		rc.SetOutputTransformerID(*s)
+func (_c *RouteCreate) SetNillableOutputTransformerID(v *string) *RouteCreate {
+	if v != nil {
+		_c.SetOutputTransformerID(*v)
 	}
-	return rc
+	return _c
 }
 
 // SetCacheEnabled sets the "cache_enabled" field.
-func (rc *RouteCreate) SetCacheEnabled(b bool) *RouteCreate {
-	rc.mutation.SetCacheEnabled(b)
-	return rc
+func (_c *RouteCreate) SetCacheEnabled(v bool) *RouteCreate {
+	_c.mutation.SetCacheEnabled(v)
+	return _c
 }
 
 // SetNillableCacheEnabled sets the "cache_enabled" field if the given value is not nil.
-func (rc *RouteCreate) SetNillableCacheEnabled(b *bool) *RouteCreate {
-	if b != nil {
-		rc.SetCacheEnabled(*b)
+func (_c *RouteCreate) SetNillableCacheEnabled(v *bool) *RouteCreate {
+	if v != nil {
+		_c.SetCacheEnabled(*v)
 	}
-	return rc
+	return _c
 }
 
 // SetCacheTTL sets the "cache_ttl" field.
-func (rc *RouteCreate) SetCacheTTL(i int) *RouteCreate {
-	rc.mutation.SetCacheTTL(i)
-	return rc
+func (_c *RouteCreate) SetCacheTTL(v int) *RouteCreate {
+	_c.mutation.SetCacheTTL(v)
+	return _c
 }
 
 // SetNillableCacheTTL sets the "cache_ttl" field if the given value is not nil.
-func (rc *RouteCreate) SetNillableCacheTTL(i *int) *RouteCreate {
-	if i != nil {
-		rc.SetCacheTTL(*i)
+func (_c *RouteCreate) SetNillableCacheTTL(v *int) *RouteCreate {
+	if v != nil {
+		_c.SetCacheTTL(*v)
 	}
-	return rc
+	return _c
 }
 
 // SetRateLimit sets the "rate_limit" field.
-func (rc *RouteCreate) SetRateLimit(s string) *RouteCreate {
-	rc.mutation.SetRateLimit(s)
-	return rc
+func (_c *RouteCreate) SetRateLimit(v string) *RouteCreate {
+	_c.mutation.SetRateLimit(v)
+	return _c
 }
 
 // SetNillableRateLimit sets the "rate_limit" field if the given value is not nil.
-func (rc *RouteCreate) SetNillableRateLimit(s *string) *RouteCreate {
-	if s != nil {
-		rc.SetRateLimit(*s)
+func (_c *RouteCreate) SetNillableRateLimit(v *string) *RouteCreate {
+	if v != nil {
+		_c.SetRateLimit(*v)
 	}
-	return rc
+	return _c
 }
 
 // SetStripAuthHeader sets the "strip_auth_header" field.
-func (rc *RouteCreate) SetStripAuthHeader(b bool) *RouteCreate {
-	rc.mutation.SetStripAuthHeader(b)
-	return rc
+func (_c *RouteCreate) SetStripAuthHeader(v bool) *RouteCreate {
+	_c.mutation.SetStripAuthHeader(v)
+	return _c
 }
 
 // SetNillableStripAuthHeader sets the "strip_auth_header" field if the given value is not nil.
-func (rc *RouteCreate) SetNillableStripAuthHeader(b *bool) *RouteCreate {
-	if b != nil {
-		rc.SetStripAuthHeader(*b)
+func (_c *RouteCreate) SetNillableStripAuthHeader(v *bool) *RouteCreate {
+	if v != nil {
+		_c.SetStripAuthHeader(*v)
 	}
-	return rc
+	return _c
 }
 
 // SetID sets the "id" field.
-func (rc *RouteCreate) SetID(s string) *RouteCreate {
-	rc.mutation.SetID(s)
-	return rc
+func (_c *RouteCreate) SetID(v string) *RouteCreate {
+	_c.mutation.SetID(v)
+	return _c
 }
 
 // SetNillableID sets the "id" field if the given value is not nil.
-func (rc *RouteCreate) SetNillableID(s *string) *RouteCreate {
-	if s != nil {
-		rc.SetID(*s)
+func (_c *RouteCreate) SetNillableID(v *string) *RouteCreate {
+	if v != nil {
+		_c.SetID(*v)
 	}
-	return rc
+	return _c
 }
 
 // Mutation returns the RouteMutation object of the builder.
-func (rc *RouteCreate) Mutation() *RouteMutation {
-	return rc.mutation
+func (_c *RouteCreate) Mutation() *RouteMutation {
+	return _c.mutation
 }
 
 // Save creates the Route in the database.
-func (rc *RouteCreate) Save(ctx context.Context) (*Route, error) {
-	rc.defaults()
-	return withHooks(ctx, rc.sqlSave, rc.mutation, rc.hooks)
+func (_c *RouteCreate) Save(ctx context.Context) (*Route, error) {
+	_c.defaults()
+	return withHooks(ctx, _c.sqlSave, _c.mutation, _c.hooks)
 }
 
 // SaveX calls Save and panics if Save returns an error.
-func (rc *RouteCreate) SaveX(ctx context.Context) *Route {
-	v, err := rc.Save(ctx)
+func (_c *RouteCreate) SaveX(ctx context.Context) *Route {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -274,92 +274,92 @@ func (rc *RouteCreate) SaveX(ctx context.Context) *Route {
 }
 
 // Exec executes the query.
-func (rc *RouteCreate) Exec(ctx context.Context) error {
-	_, err := rc.Save(ctx)
+func (_c *RouteCreate) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (rc *RouteCreate) ExecX(ctx context.Context) {
-	if err := rc.Exec(ctx); err != nil {
+func (_c *RouteCreate) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (rc *RouteCreate) defaults() {
-	if _, ok := rc.mutation.Disabled(); !ok {
+func (_c *RouteCreate) defaults() {
+	if _, ok := _c.mutation.Disabled(); !ok {
 		v := route.DefaultDisabled
-		rc.mutation.SetDisabled(v)
+		_c.mutation.SetDisabled(v)
 	}
-	if _, ok := rc.mutation.Extras(); !ok {
+	if _, ok := _c.mutation.Extras(); !ok {
 		v := route.DefaultExtras
-		rc.mutation.SetExtras(v)
+		_c.mutation.SetExtras(v)
 	}
-	if _, ok := rc.mutation.CreatedAt(); !ok {
+	if _, ok := _c.mutation.CreatedAt(); !ok {
 		v := route.DefaultCreatedAt()
-		rc.mutation.SetCreatedAt(v)
+		_c.mutation.SetCreatedAt(v)
 	}
-	if _, ok := rc.mutation.UpdatedAt(); !ok {
+	if _, ok := _c.mutation.UpdatedAt(); !ok {
 		v := route.DefaultUpdatedAt()
-		rc.mutation.SetUpdatedAt(v)
+		_c.mutation.SetUpdatedAt(v)
 	}
-	if _, ok := rc.mutation.Method(); !ok {
+	if _, ok := _c.mutation.Method(); !ok {
 		v := route.DefaultMethod
-		rc.mutation.SetMethod(v)
+		_c.mutation.SetMethod(v)
 	}
-	if _, ok := rc.mutation.CacheEnabled(); !ok {
+	if _, ok := _c.mutation.CacheEnabled(); !ok {
 		v := route.DefaultCacheEnabled
-		rc.mutation.SetCacheEnabled(v)
+		_c.mutation.SetCacheEnabled(v)
 	}
-	if _, ok := rc.mutation.CacheTTL(); !ok {
+	if _, ok := _c.mutation.CacheTTL(); !ok {
 		v := route.DefaultCacheTTL
-		rc.mutation.SetCacheTTL(v)
+		_c.mutation.SetCacheTTL(v)
 	}
-	if _, ok := rc.mutation.StripAuthHeader(); !ok {
+	if _, ok := _c.mutation.StripAuthHeader(); !ok {
 		v := route.DefaultStripAuthHeader
-		rc.mutation.SetStripAuthHeader(v)
+		_c.mutation.SetStripAuthHeader(v)
 	}
-	if _, ok := rc.mutation.ID(); !ok {
+	if _, ok := _c.mutation.ID(); !ok {
 		v := route.DefaultID()
-		rc.mutation.SetID(v)
+		_c.mutation.SetID(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (rc *RouteCreate) check() error {
-	if _, ok := rc.mutation.EndpointID(); !ok {
+func (_c *RouteCreate) check() error {
+	if _, ok := _c.mutation.EndpointID(); !ok {
 		return &ValidationError{Name: "endpoint_id", err: errors.New(`ent: missing required field "Route.endpoint_id"`)}
 	}
-	if _, ok := rc.mutation.PathPattern(); !ok {
+	if _, ok := _c.mutation.PathPattern(); !ok {
 		return &ValidationError{Name: "path_pattern", err: errors.New(`ent: missing required field "Route.path_pattern"`)}
 	}
-	if v, ok := rc.mutation.PathPattern(); ok {
+	if v, ok := _c.mutation.PathPattern(); ok {
 		if err := route.PathPatternValidator(v); err != nil {
 			return &ValidationError{Name: "path_pattern", err: fmt.Errorf(`ent: validator failed for field "Route.path_pattern": %w`, err)}
 		}
 	}
-	if _, ok := rc.mutation.TargetPath(); !ok {
+	if _, ok := _c.mutation.TargetPath(); !ok {
 		return &ValidationError{Name: "target_path", err: errors.New(`ent: missing required field "Route.target_path"`)}
 	}
-	if v, ok := rc.mutation.TargetPath(); ok {
+	if v, ok := _c.mutation.TargetPath(); ok {
 		if err := route.TargetPathValidator(v); err != nil {
 			return &ValidationError{Name: "target_path", err: fmt.Errorf(`ent: validator failed for field "Route.target_path": %w`, err)}
 		}
 	}
-	if _, ok := rc.mutation.Method(); !ok {
+	if _, ok := _c.mutation.Method(); !ok {
 		return &ValidationError{Name: "method", err: errors.New(`ent: missing required field "Route.method"`)}
 	}
-	if _, ok := rc.mutation.CacheEnabled(); !ok {
+	if _, ok := _c.mutation.CacheEnabled(); !ok {
 		return &ValidationError{Name: "cache_enabled", err: errors.New(`ent: missing required field "Route.cache_enabled"`)}
 	}
-	if _, ok := rc.mutation.CacheTTL(); !ok {
+	if _, ok := _c.mutation.CacheTTL(); !ok {
 		return &ValidationError{Name: "cache_ttl", err: errors.New(`ent: missing required field "Route.cache_ttl"`)}
 	}
-	if _, ok := rc.mutation.StripAuthHeader(); !ok {
+	if _, ok := _c.mutation.StripAuthHeader(); !ok {
 		return &ValidationError{Name: "strip_auth_header", err: errors.New(`ent: missing required field "Route.strip_auth_header"`)}
 	}
-	if v, ok := rc.mutation.ID(); ok {
+	if v, ok := _c.mutation.ID(); ok {
 		if err := route.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "Route.id": %w`, err)}
 		}
@@ -367,12 +367,12 @@ func (rc *RouteCreate) check() error {
 	return nil
 }
 
-func (rc *RouteCreate) sqlSave(ctx context.Context) (*Route, error) {
-	if err := rc.check(); err != nil {
+func (_c *RouteCreate) sqlSave(ctx context.Context) (*Route, error) {
+	if err := _c.check(); err != nil {
 		return nil, err
 	}
-	_node, _spec := rc.createSpec()
-	if err := sqlgraph.CreateNode(ctx, rc.driver, _spec); err != nil {
+	_node, _spec := _c.createSpec()
+	if err := sqlgraph.CreateNode(ctx, _c.driver, _spec); err != nil {
 		if sqlgraph.IsConstraintError(err) {
 			err = &ConstraintError{msg: err.Error(), wrap: err}
 		}
@@ -385,89 +385,89 @@ func (rc *RouteCreate) sqlSave(ctx context.Context) (*Route, error) {
 			return nil, fmt.Errorf("unexpected Route.ID type: %T", _spec.ID.Value)
 		}
 	}
-	rc.mutation.id = &_node.ID
-	rc.mutation.done = true
+	_c.mutation.id = &_node.ID
+	_c.mutation.done = true
 	return _node, nil
 }
 
-func (rc *RouteCreate) createSpec() (*Route, *sqlgraph.CreateSpec) {
+func (_c *RouteCreate) createSpec() (*Route, *sqlgraph.CreateSpec) {
 	var (
-		_node = &Route{config: rc.config}
+		_node = &Route{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(route.Table, sqlgraph.NewFieldSpec(route.FieldID, field.TypeString))
 	)
-	if id, ok := rc.mutation.ID(); ok {
+	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
 	}
-	if value, ok := rc.mutation.Name(); ok {
+	if value, ok := _c.mutation.Name(); ok {
 		_spec.SetField(route.FieldName, field.TypeString, value)
 		_node.Name = value
 	}
-	if value, ok := rc.mutation.Description(); ok {
+	if value, ok := _c.mutation.Description(); ok {
 		_spec.SetField(route.FieldDescription, field.TypeString, value)
 		_node.Description = value
 	}
-	if value, ok := rc.mutation.Disabled(); ok {
+	if value, ok := _c.mutation.Disabled(); ok {
 		_spec.SetField(route.FieldDisabled, field.TypeBool, value)
 		_node.Disabled = value
 	}
-	if value, ok := rc.mutation.Extras(); ok {
+	if value, ok := _c.mutation.Extras(); ok {
 		_spec.SetField(route.FieldExtras, field.TypeJSON, value)
 		_node.Extras = value
 	}
-	if value, ok := rc.mutation.CreatedBy(); ok {
+	if value, ok := _c.mutation.CreatedBy(); ok {
 		_spec.SetField(route.FieldCreatedBy, field.TypeString, value)
 		_node.CreatedBy = value
 	}
-	if value, ok := rc.mutation.UpdatedBy(); ok {
+	if value, ok := _c.mutation.UpdatedBy(); ok {
 		_spec.SetField(route.FieldUpdatedBy, field.TypeString, value)
 		_node.UpdatedBy = value
 	}
-	if value, ok := rc.mutation.CreatedAt(); ok {
+	if value, ok := _c.mutation.CreatedAt(); ok {
 		_spec.SetField(route.FieldCreatedAt, field.TypeInt64, value)
 		_node.CreatedAt = value
 	}
-	if value, ok := rc.mutation.UpdatedAt(); ok {
+	if value, ok := _c.mutation.UpdatedAt(); ok {
 		_spec.SetField(route.FieldUpdatedAt, field.TypeInt64, value)
 		_node.UpdatedAt = value
 	}
-	if value, ok := rc.mutation.EndpointID(); ok {
+	if value, ok := _c.mutation.EndpointID(); ok {
 		_spec.SetField(route.FieldEndpointID, field.TypeString, value)
 		_node.EndpointID = value
 	}
-	if value, ok := rc.mutation.PathPattern(); ok {
+	if value, ok := _c.mutation.PathPattern(); ok {
 		_spec.SetField(route.FieldPathPattern, field.TypeString, value)
 		_node.PathPattern = value
 	}
-	if value, ok := rc.mutation.TargetPath(); ok {
+	if value, ok := _c.mutation.TargetPath(); ok {
 		_spec.SetField(route.FieldTargetPath, field.TypeString, value)
 		_node.TargetPath = value
 	}
-	if value, ok := rc.mutation.Method(); ok {
+	if value, ok := _c.mutation.Method(); ok {
 		_spec.SetField(route.FieldMethod, field.TypeString, value)
 		_node.Method = value
 	}
-	if value, ok := rc.mutation.InputTransformerID(); ok {
+	if value, ok := _c.mutation.InputTransformerID(); ok {
 		_spec.SetField(route.FieldInputTransformerID, field.TypeString, value)
 		_node.InputTransformerID = value
 	}
-	if value, ok := rc.mutation.OutputTransformerID(); ok {
+	if value, ok := _c.mutation.OutputTransformerID(); ok {
 		_spec.SetField(route.FieldOutputTransformerID, field.TypeString, value)
 		_node.OutputTransformerID = value
 	}
-	if value, ok := rc.mutation.CacheEnabled(); ok {
+	if value, ok := _c.mutation.CacheEnabled(); ok {
 		_spec.SetField(route.FieldCacheEnabled, field.TypeBool, value)
 		_node.CacheEnabled = value
 	}
-	if value, ok := rc.mutation.CacheTTL(); ok {
+	if value, ok := _c.mutation.CacheTTL(); ok {
 		_spec.SetField(route.FieldCacheTTL, field.TypeInt, value)
 		_node.CacheTTL = value
 	}
-	if value, ok := rc.mutation.RateLimit(); ok {
+	if value, ok := _c.mutation.RateLimit(); ok {
 		_spec.SetField(route.FieldRateLimit, field.TypeString, value)
 		_node.RateLimit = value
 	}
-	if value, ok := rc.mutation.StripAuthHeader(); ok {
+	if value, ok := _c.mutation.StripAuthHeader(); ok {
 		_spec.SetField(route.FieldStripAuthHeader, field.TypeBool, value)
 		_node.StripAuthHeader = value
 	}
@@ -482,16 +482,16 @@ type RouteCreateBulk struct {
 }
 
 // Save creates the Route entities in the database.
-func (rcb *RouteCreateBulk) Save(ctx context.Context) ([]*Route, error) {
-	if rcb.err != nil {
-		return nil, rcb.err
+func (_c *RouteCreateBulk) Save(ctx context.Context) ([]*Route, error) {
+	if _c.err != nil {
+		return nil, _c.err
 	}
-	specs := make([]*sqlgraph.CreateSpec, len(rcb.builders))
-	nodes := make([]*Route, len(rcb.builders))
-	mutators := make([]Mutator, len(rcb.builders))
-	for i := range rcb.builders {
+	specs := make([]*sqlgraph.CreateSpec, len(_c.builders))
+	nodes := make([]*Route, len(_c.builders))
+	mutators := make([]Mutator, len(_c.builders))
+	for i := range _c.builders {
 		func(i int, root context.Context) {
-			builder := rcb.builders[i]
+			builder := _c.builders[i]
 			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*RouteMutation)
@@ -505,11 +505,11 @@ func (rcb *RouteCreateBulk) Save(ctx context.Context) ([]*Route, error) {
 				var err error
 				nodes[i], specs[i] = builder.createSpec()
 				if i < len(mutators)-1 {
-					_, err = mutators[i+1].Mutate(root, rcb.builders[i+1].mutation)
+					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
 					// Invoke the actual operation on the latest mutation in the chain.
-					if err = sqlgraph.BatchCreate(ctx, rcb.driver, spec); err != nil {
+					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
 							err = &ConstraintError{msg: err.Error(), wrap: err}
 						}
@@ -529,7 +529,7 @@ func (rcb *RouteCreateBulk) Save(ctx context.Context) ([]*Route, error) {
 		}(i, ctx)
 	}
 	if len(mutators) > 0 {
-		if _, err := mutators[0].Mutate(ctx, rcb.builders[0].mutation); err != nil {
+		if _, err := mutators[0].Mutate(ctx, _c.builders[0].mutation); err != nil {
 			return nil, err
 		}
 	}
@@ -537,8 +537,8 @@ func (rcb *RouteCreateBulk) Save(ctx context.Context) ([]*Route, error) {
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (rcb *RouteCreateBulk) SaveX(ctx context.Context) []*Route {
-	v, err := rcb.Save(ctx)
+func (_c *RouteCreateBulk) SaveX(ctx context.Context) []*Route {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -546,14 +546,14 @@ func (rcb *RouteCreateBulk) SaveX(ctx context.Context) []*Route {
 }
 
 // Exec executes the query.
-func (rcb *RouteCreateBulk) Exec(ctx context.Context) error {
-	_, err := rcb.Save(ctx)
+func (_c *RouteCreateBulk) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (rcb *RouteCreateBulk) ExecX(ctx context.Context) {
-	if err := rcb.Exec(ctx); err != nil {
+func (_c *RouteCreateBulk) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

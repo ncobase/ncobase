@@ -22,300 +22,300 @@ type SpaceSettingUpdate struct {
 }
 
 // Where appends a list predicates to the SpaceSettingUpdate builder.
-func (ssu *SpaceSettingUpdate) Where(ps ...predicate.SpaceSetting) *SpaceSettingUpdate {
-	ssu.mutation.Where(ps...)
-	return ssu
+func (_u *SpaceSettingUpdate) Where(ps ...predicate.SpaceSetting) *SpaceSettingUpdate {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // SetSpaceID sets the "space_id" field.
-func (ssu *SpaceSettingUpdate) SetSpaceID(s string) *SpaceSettingUpdate {
-	ssu.mutation.SetSpaceID(s)
-	return ssu
+func (_u *SpaceSettingUpdate) SetSpaceID(v string) *SpaceSettingUpdate {
+	_u.mutation.SetSpaceID(v)
+	return _u
 }
 
 // SetNillableSpaceID sets the "space_id" field if the given value is not nil.
-func (ssu *SpaceSettingUpdate) SetNillableSpaceID(s *string) *SpaceSettingUpdate {
-	if s != nil {
-		ssu.SetSpaceID(*s)
+func (_u *SpaceSettingUpdate) SetNillableSpaceID(v *string) *SpaceSettingUpdate {
+	if v != nil {
+		_u.SetSpaceID(*v)
 	}
-	return ssu
+	return _u
 }
 
 // ClearSpaceID clears the value of the "space_id" field.
-func (ssu *SpaceSettingUpdate) ClearSpaceID() *SpaceSettingUpdate {
-	ssu.mutation.ClearSpaceID()
-	return ssu
+func (_u *SpaceSettingUpdate) ClearSpaceID() *SpaceSettingUpdate {
+	_u.mutation.ClearSpaceID()
+	return _u
 }
 
 // SetDescription sets the "description" field.
-func (ssu *SpaceSettingUpdate) SetDescription(s string) *SpaceSettingUpdate {
-	ssu.mutation.SetDescription(s)
-	return ssu
+func (_u *SpaceSettingUpdate) SetDescription(v string) *SpaceSettingUpdate {
+	_u.mutation.SetDescription(v)
+	return _u
 }
 
 // SetNillableDescription sets the "description" field if the given value is not nil.
-func (ssu *SpaceSettingUpdate) SetNillableDescription(s *string) *SpaceSettingUpdate {
-	if s != nil {
-		ssu.SetDescription(*s)
+func (_u *SpaceSettingUpdate) SetNillableDescription(v *string) *SpaceSettingUpdate {
+	if v != nil {
+		_u.SetDescription(*v)
 	}
-	return ssu
+	return _u
 }
 
 // ClearDescription clears the value of the "description" field.
-func (ssu *SpaceSettingUpdate) ClearDescription() *SpaceSettingUpdate {
-	ssu.mutation.ClearDescription()
-	return ssu
+func (_u *SpaceSettingUpdate) ClearDescription() *SpaceSettingUpdate {
+	_u.mutation.ClearDescription()
+	return _u
 }
 
 // SetExtras sets the "extras" field.
-func (ssu *SpaceSettingUpdate) SetExtras(m map[string]interface{}) *SpaceSettingUpdate {
-	ssu.mutation.SetExtras(m)
-	return ssu
+func (_u *SpaceSettingUpdate) SetExtras(v map[string]interface{}) *SpaceSettingUpdate {
+	_u.mutation.SetExtras(v)
+	return _u
 }
 
 // ClearExtras clears the value of the "extras" field.
-func (ssu *SpaceSettingUpdate) ClearExtras() *SpaceSettingUpdate {
-	ssu.mutation.ClearExtras()
-	return ssu
+func (_u *SpaceSettingUpdate) ClearExtras() *SpaceSettingUpdate {
+	_u.mutation.ClearExtras()
+	return _u
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (ssu *SpaceSettingUpdate) SetCreatedBy(s string) *SpaceSettingUpdate {
-	ssu.mutation.SetCreatedBy(s)
-	return ssu
+func (_u *SpaceSettingUpdate) SetCreatedBy(v string) *SpaceSettingUpdate {
+	_u.mutation.SetCreatedBy(v)
+	return _u
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (ssu *SpaceSettingUpdate) SetNillableCreatedBy(s *string) *SpaceSettingUpdate {
-	if s != nil {
-		ssu.SetCreatedBy(*s)
+func (_u *SpaceSettingUpdate) SetNillableCreatedBy(v *string) *SpaceSettingUpdate {
+	if v != nil {
+		_u.SetCreatedBy(*v)
 	}
-	return ssu
+	return _u
 }
 
 // ClearCreatedBy clears the value of the "created_by" field.
-func (ssu *SpaceSettingUpdate) ClearCreatedBy() *SpaceSettingUpdate {
-	ssu.mutation.ClearCreatedBy()
-	return ssu
+func (_u *SpaceSettingUpdate) ClearCreatedBy() *SpaceSettingUpdate {
+	_u.mutation.ClearCreatedBy()
+	return _u
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (ssu *SpaceSettingUpdate) SetUpdatedBy(s string) *SpaceSettingUpdate {
-	ssu.mutation.SetUpdatedBy(s)
-	return ssu
+func (_u *SpaceSettingUpdate) SetUpdatedBy(v string) *SpaceSettingUpdate {
+	_u.mutation.SetUpdatedBy(v)
+	return _u
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (ssu *SpaceSettingUpdate) SetNillableUpdatedBy(s *string) *SpaceSettingUpdate {
-	if s != nil {
-		ssu.SetUpdatedBy(*s)
+func (_u *SpaceSettingUpdate) SetNillableUpdatedBy(v *string) *SpaceSettingUpdate {
+	if v != nil {
+		_u.SetUpdatedBy(*v)
 	}
-	return ssu
+	return _u
 }
 
 // ClearUpdatedBy clears the value of the "updated_by" field.
-func (ssu *SpaceSettingUpdate) ClearUpdatedBy() *SpaceSettingUpdate {
-	ssu.mutation.ClearUpdatedBy()
-	return ssu
+func (_u *SpaceSettingUpdate) ClearUpdatedBy() *SpaceSettingUpdate {
+	_u.mutation.ClearUpdatedBy()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (ssu *SpaceSettingUpdate) SetUpdatedAt(i int64) *SpaceSettingUpdate {
-	ssu.mutation.ResetUpdatedAt()
-	ssu.mutation.SetUpdatedAt(i)
-	return ssu
+func (_u *SpaceSettingUpdate) SetUpdatedAt(v int64) *SpaceSettingUpdate {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (ssu *SpaceSettingUpdate) AddUpdatedAt(i int64) *SpaceSettingUpdate {
-	ssu.mutation.AddUpdatedAt(i)
-	return ssu
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *SpaceSettingUpdate) AddUpdatedAt(v int64) *SpaceSettingUpdate {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (ssu *SpaceSettingUpdate) ClearUpdatedAt() *SpaceSettingUpdate {
-	ssu.mutation.ClearUpdatedAt()
-	return ssu
+func (_u *SpaceSettingUpdate) ClearUpdatedAt() *SpaceSettingUpdate {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // SetSettingKey sets the "setting_key" field.
-func (ssu *SpaceSettingUpdate) SetSettingKey(s string) *SpaceSettingUpdate {
-	ssu.mutation.SetSettingKey(s)
-	return ssu
+func (_u *SpaceSettingUpdate) SetSettingKey(v string) *SpaceSettingUpdate {
+	_u.mutation.SetSettingKey(v)
+	return _u
 }
 
 // SetNillableSettingKey sets the "setting_key" field if the given value is not nil.
-func (ssu *SpaceSettingUpdate) SetNillableSettingKey(s *string) *SpaceSettingUpdate {
-	if s != nil {
-		ssu.SetSettingKey(*s)
+func (_u *SpaceSettingUpdate) SetNillableSettingKey(v *string) *SpaceSettingUpdate {
+	if v != nil {
+		_u.SetSettingKey(*v)
 	}
-	return ssu
+	return _u
 }
 
 // SetSettingName sets the "setting_name" field.
-func (ssu *SpaceSettingUpdate) SetSettingName(s string) *SpaceSettingUpdate {
-	ssu.mutation.SetSettingName(s)
-	return ssu
+func (_u *SpaceSettingUpdate) SetSettingName(v string) *SpaceSettingUpdate {
+	_u.mutation.SetSettingName(v)
+	return _u
 }
 
 // SetNillableSettingName sets the "setting_name" field if the given value is not nil.
-func (ssu *SpaceSettingUpdate) SetNillableSettingName(s *string) *SpaceSettingUpdate {
-	if s != nil {
-		ssu.SetSettingName(*s)
+func (_u *SpaceSettingUpdate) SetNillableSettingName(v *string) *SpaceSettingUpdate {
+	if v != nil {
+		_u.SetSettingName(*v)
 	}
-	return ssu
+	return _u
 }
 
 // SetSettingValue sets the "setting_value" field.
-func (ssu *SpaceSettingUpdate) SetSettingValue(s string) *SpaceSettingUpdate {
-	ssu.mutation.SetSettingValue(s)
-	return ssu
+func (_u *SpaceSettingUpdate) SetSettingValue(v string) *SpaceSettingUpdate {
+	_u.mutation.SetSettingValue(v)
+	return _u
 }
 
 // SetNillableSettingValue sets the "setting_value" field if the given value is not nil.
-func (ssu *SpaceSettingUpdate) SetNillableSettingValue(s *string) *SpaceSettingUpdate {
-	if s != nil {
-		ssu.SetSettingValue(*s)
+func (_u *SpaceSettingUpdate) SetNillableSettingValue(v *string) *SpaceSettingUpdate {
+	if v != nil {
+		_u.SetSettingValue(*v)
 	}
-	return ssu
+	return _u
 }
 
 // ClearSettingValue clears the value of the "setting_value" field.
-func (ssu *SpaceSettingUpdate) ClearSettingValue() *SpaceSettingUpdate {
-	ssu.mutation.ClearSettingValue()
-	return ssu
+func (_u *SpaceSettingUpdate) ClearSettingValue() *SpaceSettingUpdate {
+	_u.mutation.ClearSettingValue()
+	return _u
 }
 
 // SetDefaultValue sets the "default_value" field.
-func (ssu *SpaceSettingUpdate) SetDefaultValue(s string) *SpaceSettingUpdate {
-	ssu.mutation.SetDefaultValue(s)
-	return ssu
+func (_u *SpaceSettingUpdate) SetDefaultValue(v string) *SpaceSettingUpdate {
+	_u.mutation.SetDefaultValue(v)
+	return _u
 }
 
 // SetNillableDefaultValue sets the "default_value" field if the given value is not nil.
-func (ssu *SpaceSettingUpdate) SetNillableDefaultValue(s *string) *SpaceSettingUpdate {
-	if s != nil {
-		ssu.SetDefaultValue(*s)
+func (_u *SpaceSettingUpdate) SetNillableDefaultValue(v *string) *SpaceSettingUpdate {
+	if v != nil {
+		_u.SetDefaultValue(*v)
 	}
-	return ssu
+	return _u
 }
 
 // ClearDefaultValue clears the value of the "default_value" field.
-func (ssu *SpaceSettingUpdate) ClearDefaultValue() *SpaceSettingUpdate {
-	ssu.mutation.ClearDefaultValue()
-	return ssu
+func (_u *SpaceSettingUpdate) ClearDefaultValue() *SpaceSettingUpdate {
+	_u.mutation.ClearDefaultValue()
+	return _u
 }
 
 // SetSettingType sets the "setting_type" field.
-func (ssu *SpaceSettingUpdate) SetSettingType(s string) *SpaceSettingUpdate {
-	ssu.mutation.SetSettingType(s)
-	return ssu
+func (_u *SpaceSettingUpdate) SetSettingType(v string) *SpaceSettingUpdate {
+	_u.mutation.SetSettingType(v)
+	return _u
 }
 
 // SetNillableSettingType sets the "setting_type" field if the given value is not nil.
-func (ssu *SpaceSettingUpdate) SetNillableSettingType(s *string) *SpaceSettingUpdate {
-	if s != nil {
-		ssu.SetSettingType(*s)
+func (_u *SpaceSettingUpdate) SetNillableSettingType(v *string) *SpaceSettingUpdate {
+	if v != nil {
+		_u.SetSettingType(*v)
 	}
-	return ssu
+	return _u
 }
 
 // SetScope sets the "scope" field.
-func (ssu *SpaceSettingUpdate) SetScope(s string) *SpaceSettingUpdate {
-	ssu.mutation.SetScope(s)
-	return ssu
+func (_u *SpaceSettingUpdate) SetScope(v string) *SpaceSettingUpdate {
+	_u.mutation.SetScope(v)
+	return _u
 }
 
 // SetNillableScope sets the "scope" field if the given value is not nil.
-func (ssu *SpaceSettingUpdate) SetNillableScope(s *string) *SpaceSettingUpdate {
-	if s != nil {
-		ssu.SetScope(*s)
+func (_u *SpaceSettingUpdate) SetNillableScope(v *string) *SpaceSettingUpdate {
+	if v != nil {
+		_u.SetScope(*v)
 	}
-	return ssu
+	return _u
 }
 
 // SetCategory sets the "category" field.
-func (ssu *SpaceSettingUpdate) SetCategory(s string) *SpaceSettingUpdate {
-	ssu.mutation.SetCategory(s)
-	return ssu
+func (_u *SpaceSettingUpdate) SetCategory(v string) *SpaceSettingUpdate {
+	_u.mutation.SetCategory(v)
+	return _u
 }
 
 // SetNillableCategory sets the "category" field if the given value is not nil.
-func (ssu *SpaceSettingUpdate) SetNillableCategory(s *string) *SpaceSettingUpdate {
-	if s != nil {
-		ssu.SetCategory(*s)
+func (_u *SpaceSettingUpdate) SetNillableCategory(v *string) *SpaceSettingUpdate {
+	if v != nil {
+		_u.SetCategory(*v)
 	}
-	return ssu
+	return _u
 }
 
 // SetIsPublic sets the "is_public" field.
-func (ssu *SpaceSettingUpdate) SetIsPublic(b bool) *SpaceSettingUpdate {
-	ssu.mutation.SetIsPublic(b)
-	return ssu
+func (_u *SpaceSettingUpdate) SetIsPublic(v bool) *SpaceSettingUpdate {
+	_u.mutation.SetIsPublic(v)
+	return _u
 }
 
 // SetNillableIsPublic sets the "is_public" field if the given value is not nil.
-func (ssu *SpaceSettingUpdate) SetNillableIsPublic(b *bool) *SpaceSettingUpdate {
-	if b != nil {
-		ssu.SetIsPublic(*b)
+func (_u *SpaceSettingUpdate) SetNillableIsPublic(v *bool) *SpaceSettingUpdate {
+	if v != nil {
+		_u.SetIsPublic(*v)
 	}
-	return ssu
+	return _u
 }
 
 // SetIsRequired sets the "is_required" field.
-func (ssu *SpaceSettingUpdate) SetIsRequired(b bool) *SpaceSettingUpdate {
-	ssu.mutation.SetIsRequired(b)
-	return ssu
+func (_u *SpaceSettingUpdate) SetIsRequired(v bool) *SpaceSettingUpdate {
+	_u.mutation.SetIsRequired(v)
+	return _u
 }
 
 // SetNillableIsRequired sets the "is_required" field if the given value is not nil.
-func (ssu *SpaceSettingUpdate) SetNillableIsRequired(b *bool) *SpaceSettingUpdate {
-	if b != nil {
-		ssu.SetIsRequired(*b)
+func (_u *SpaceSettingUpdate) SetNillableIsRequired(v *bool) *SpaceSettingUpdate {
+	if v != nil {
+		_u.SetIsRequired(*v)
 	}
-	return ssu
+	return _u
 }
 
 // SetIsReadonly sets the "is_readonly" field.
-func (ssu *SpaceSettingUpdate) SetIsReadonly(b bool) *SpaceSettingUpdate {
-	ssu.mutation.SetIsReadonly(b)
-	return ssu
+func (_u *SpaceSettingUpdate) SetIsReadonly(v bool) *SpaceSettingUpdate {
+	_u.mutation.SetIsReadonly(v)
+	return _u
 }
 
 // SetNillableIsReadonly sets the "is_readonly" field if the given value is not nil.
-func (ssu *SpaceSettingUpdate) SetNillableIsReadonly(b *bool) *SpaceSettingUpdate {
-	if b != nil {
-		ssu.SetIsReadonly(*b)
+func (_u *SpaceSettingUpdate) SetNillableIsReadonly(v *bool) *SpaceSettingUpdate {
+	if v != nil {
+		_u.SetIsReadonly(*v)
 	}
-	return ssu
+	return _u
 }
 
 // SetValidation sets the "validation" field.
-func (ssu *SpaceSettingUpdate) SetValidation(m map[string]interface{}) *SpaceSettingUpdate {
-	ssu.mutation.SetValidation(m)
-	return ssu
+func (_u *SpaceSettingUpdate) SetValidation(v map[string]interface{}) *SpaceSettingUpdate {
+	_u.mutation.SetValidation(v)
+	return _u
 }
 
 // ClearValidation clears the value of the "validation" field.
-func (ssu *SpaceSettingUpdate) ClearValidation() *SpaceSettingUpdate {
-	ssu.mutation.ClearValidation()
-	return ssu
+func (_u *SpaceSettingUpdate) ClearValidation() *SpaceSettingUpdate {
+	_u.mutation.ClearValidation()
+	return _u
 }
 
 // Mutation returns the SpaceSettingMutation object of the builder.
-func (ssu *SpaceSettingUpdate) Mutation() *SpaceSettingMutation {
-	return ssu.mutation
+func (_u *SpaceSettingUpdate) Mutation() *SpaceSettingMutation {
+	return _u.mutation
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
-func (ssu *SpaceSettingUpdate) Save(ctx context.Context) (int, error) {
-	ssu.defaults()
-	return withHooks(ctx, ssu.sqlSave, ssu.mutation, ssu.hooks)
+func (_u *SpaceSettingUpdate) Save(ctx context.Context) (int, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (ssu *SpaceSettingUpdate) SaveX(ctx context.Context) int {
-	affected, err := ssu.Save(ctx)
+func (_u *SpaceSettingUpdate) SaveX(ctx context.Context) int {
+	affected, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -323,34 +323,34 @@ func (ssu *SpaceSettingUpdate) SaveX(ctx context.Context) int {
 }
 
 // Exec executes the query.
-func (ssu *SpaceSettingUpdate) Exec(ctx context.Context) error {
-	_, err := ssu.Save(ctx)
+func (_u *SpaceSettingUpdate) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (ssu *SpaceSettingUpdate) ExecX(ctx context.Context) {
-	if err := ssu.Exec(ctx); err != nil {
+func (_u *SpaceSettingUpdate) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (ssu *SpaceSettingUpdate) defaults() {
-	if _, ok := ssu.mutation.UpdatedAt(); !ok && !ssu.mutation.UpdatedAtCleared() {
+func (_u *SpaceSettingUpdate) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := spacesetting.UpdateDefaultUpdatedAt()
-		ssu.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (ssu *SpaceSettingUpdate) check() error {
-	if v, ok := ssu.mutation.SettingKey(); ok {
+func (_u *SpaceSettingUpdate) check() error {
+	if v, ok := _u.mutation.SettingKey(); ok {
 		if err := spacesetting.SettingKeyValidator(v); err != nil {
 			return &ValidationError{Name: "setting_key", err: fmt.Errorf(`ent: validator failed for field "SpaceSetting.setting_key": %w`, err)}
 		}
 	}
-	if v, ok := ssu.mutation.SettingName(); ok {
+	if v, ok := _u.mutation.SettingName(); ok {
 		if err := spacesetting.SettingNameValidator(v); err != nil {
 			return &ValidationError{Name: "setting_name", err: fmt.Errorf(`ent: validator failed for field "SpaceSetting.setting_name": %w`, err)}
 		}
@@ -358,103 +358,103 @@ func (ssu *SpaceSettingUpdate) check() error {
 	return nil
 }
 
-func (ssu *SpaceSettingUpdate) sqlSave(ctx context.Context) (n int, err error) {
-	if err := ssu.check(); err != nil {
-		return n, err
+func (_u *SpaceSettingUpdate) sqlSave(ctx context.Context) (_node int, err error) {
+	if err := _u.check(); err != nil {
+		return _node, err
 	}
 	_spec := sqlgraph.NewUpdateSpec(spacesetting.Table, spacesetting.Columns, sqlgraph.NewFieldSpec(spacesetting.FieldID, field.TypeString))
-	if ps := ssu.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := ssu.mutation.SpaceID(); ok {
+	if value, ok := _u.mutation.SpaceID(); ok {
 		_spec.SetField(spacesetting.FieldSpaceID, field.TypeString, value)
 	}
-	if ssu.mutation.SpaceIDCleared() {
+	if _u.mutation.SpaceIDCleared() {
 		_spec.ClearField(spacesetting.FieldSpaceID, field.TypeString)
 	}
-	if value, ok := ssu.mutation.Description(); ok {
+	if value, ok := _u.mutation.Description(); ok {
 		_spec.SetField(spacesetting.FieldDescription, field.TypeString, value)
 	}
-	if ssu.mutation.DescriptionCleared() {
+	if _u.mutation.DescriptionCleared() {
 		_spec.ClearField(spacesetting.FieldDescription, field.TypeString)
 	}
-	if value, ok := ssu.mutation.Extras(); ok {
+	if value, ok := _u.mutation.Extras(); ok {
 		_spec.SetField(spacesetting.FieldExtras, field.TypeJSON, value)
 	}
-	if ssu.mutation.ExtrasCleared() {
+	if _u.mutation.ExtrasCleared() {
 		_spec.ClearField(spacesetting.FieldExtras, field.TypeJSON)
 	}
-	if value, ok := ssu.mutation.CreatedBy(); ok {
+	if value, ok := _u.mutation.CreatedBy(); ok {
 		_spec.SetField(spacesetting.FieldCreatedBy, field.TypeString, value)
 	}
-	if ssu.mutation.CreatedByCleared() {
+	if _u.mutation.CreatedByCleared() {
 		_spec.ClearField(spacesetting.FieldCreatedBy, field.TypeString)
 	}
-	if value, ok := ssu.mutation.UpdatedBy(); ok {
+	if value, ok := _u.mutation.UpdatedBy(); ok {
 		_spec.SetField(spacesetting.FieldUpdatedBy, field.TypeString, value)
 	}
-	if ssu.mutation.UpdatedByCleared() {
+	if _u.mutation.UpdatedByCleared() {
 		_spec.ClearField(spacesetting.FieldUpdatedBy, field.TypeString)
 	}
-	if ssu.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(spacesetting.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := ssu.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(spacesetting.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := ssu.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(spacesetting.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if ssu.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(spacesetting.FieldUpdatedAt, field.TypeInt64)
 	}
-	if value, ok := ssu.mutation.SettingKey(); ok {
+	if value, ok := _u.mutation.SettingKey(); ok {
 		_spec.SetField(spacesetting.FieldSettingKey, field.TypeString, value)
 	}
-	if value, ok := ssu.mutation.SettingName(); ok {
+	if value, ok := _u.mutation.SettingName(); ok {
 		_spec.SetField(spacesetting.FieldSettingName, field.TypeString, value)
 	}
-	if value, ok := ssu.mutation.SettingValue(); ok {
+	if value, ok := _u.mutation.SettingValue(); ok {
 		_spec.SetField(spacesetting.FieldSettingValue, field.TypeString, value)
 	}
-	if ssu.mutation.SettingValueCleared() {
+	if _u.mutation.SettingValueCleared() {
 		_spec.ClearField(spacesetting.FieldSettingValue, field.TypeString)
 	}
-	if value, ok := ssu.mutation.DefaultValue(); ok {
+	if value, ok := _u.mutation.DefaultValue(); ok {
 		_spec.SetField(spacesetting.FieldDefaultValue, field.TypeString, value)
 	}
-	if ssu.mutation.DefaultValueCleared() {
+	if _u.mutation.DefaultValueCleared() {
 		_spec.ClearField(spacesetting.FieldDefaultValue, field.TypeString)
 	}
-	if value, ok := ssu.mutation.SettingType(); ok {
+	if value, ok := _u.mutation.SettingType(); ok {
 		_spec.SetField(spacesetting.FieldSettingType, field.TypeString, value)
 	}
-	if value, ok := ssu.mutation.Scope(); ok {
+	if value, ok := _u.mutation.Scope(); ok {
 		_spec.SetField(spacesetting.FieldScope, field.TypeString, value)
 	}
-	if value, ok := ssu.mutation.Category(); ok {
+	if value, ok := _u.mutation.Category(); ok {
 		_spec.SetField(spacesetting.FieldCategory, field.TypeString, value)
 	}
-	if value, ok := ssu.mutation.IsPublic(); ok {
+	if value, ok := _u.mutation.IsPublic(); ok {
 		_spec.SetField(spacesetting.FieldIsPublic, field.TypeBool, value)
 	}
-	if value, ok := ssu.mutation.IsRequired(); ok {
+	if value, ok := _u.mutation.IsRequired(); ok {
 		_spec.SetField(spacesetting.FieldIsRequired, field.TypeBool, value)
 	}
-	if value, ok := ssu.mutation.IsReadonly(); ok {
+	if value, ok := _u.mutation.IsReadonly(); ok {
 		_spec.SetField(spacesetting.FieldIsReadonly, field.TypeBool, value)
 	}
-	if value, ok := ssu.mutation.Validation(); ok {
+	if value, ok := _u.mutation.Validation(); ok {
 		_spec.SetField(spacesetting.FieldValidation, field.TypeJSON, value)
 	}
-	if ssu.mutation.ValidationCleared() {
+	if _u.mutation.ValidationCleared() {
 		_spec.ClearField(spacesetting.FieldValidation, field.TypeJSON)
 	}
-	if n, err = sqlgraph.UpdateNodes(ctx, ssu.driver, _spec); err != nil {
+	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{spacesetting.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -462,8 +462,8 @@ func (ssu *SpaceSettingUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		return 0, err
 	}
-	ssu.mutation.done = true
-	return n, nil
+	_u.mutation.done = true
+	return _node, nil
 }
 
 // SpaceSettingUpdateOne is the builder for updating a single SpaceSetting entity.
@@ -475,307 +475,307 @@ type SpaceSettingUpdateOne struct {
 }
 
 // SetSpaceID sets the "space_id" field.
-func (ssuo *SpaceSettingUpdateOne) SetSpaceID(s string) *SpaceSettingUpdateOne {
-	ssuo.mutation.SetSpaceID(s)
-	return ssuo
+func (_u *SpaceSettingUpdateOne) SetSpaceID(v string) *SpaceSettingUpdateOne {
+	_u.mutation.SetSpaceID(v)
+	return _u
 }
 
 // SetNillableSpaceID sets the "space_id" field if the given value is not nil.
-func (ssuo *SpaceSettingUpdateOne) SetNillableSpaceID(s *string) *SpaceSettingUpdateOne {
-	if s != nil {
-		ssuo.SetSpaceID(*s)
+func (_u *SpaceSettingUpdateOne) SetNillableSpaceID(v *string) *SpaceSettingUpdateOne {
+	if v != nil {
+		_u.SetSpaceID(*v)
 	}
-	return ssuo
+	return _u
 }
 
 // ClearSpaceID clears the value of the "space_id" field.
-func (ssuo *SpaceSettingUpdateOne) ClearSpaceID() *SpaceSettingUpdateOne {
-	ssuo.mutation.ClearSpaceID()
-	return ssuo
+func (_u *SpaceSettingUpdateOne) ClearSpaceID() *SpaceSettingUpdateOne {
+	_u.mutation.ClearSpaceID()
+	return _u
 }
 
 // SetDescription sets the "description" field.
-func (ssuo *SpaceSettingUpdateOne) SetDescription(s string) *SpaceSettingUpdateOne {
-	ssuo.mutation.SetDescription(s)
-	return ssuo
+func (_u *SpaceSettingUpdateOne) SetDescription(v string) *SpaceSettingUpdateOne {
+	_u.mutation.SetDescription(v)
+	return _u
 }
 
 // SetNillableDescription sets the "description" field if the given value is not nil.
-func (ssuo *SpaceSettingUpdateOne) SetNillableDescription(s *string) *SpaceSettingUpdateOne {
-	if s != nil {
-		ssuo.SetDescription(*s)
+func (_u *SpaceSettingUpdateOne) SetNillableDescription(v *string) *SpaceSettingUpdateOne {
+	if v != nil {
+		_u.SetDescription(*v)
 	}
-	return ssuo
+	return _u
 }
 
 // ClearDescription clears the value of the "description" field.
-func (ssuo *SpaceSettingUpdateOne) ClearDescription() *SpaceSettingUpdateOne {
-	ssuo.mutation.ClearDescription()
-	return ssuo
+func (_u *SpaceSettingUpdateOne) ClearDescription() *SpaceSettingUpdateOne {
+	_u.mutation.ClearDescription()
+	return _u
 }
 
 // SetExtras sets the "extras" field.
-func (ssuo *SpaceSettingUpdateOne) SetExtras(m map[string]interface{}) *SpaceSettingUpdateOne {
-	ssuo.mutation.SetExtras(m)
-	return ssuo
+func (_u *SpaceSettingUpdateOne) SetExtras(v map[string]interface{}) *SpaceSettingUpdateOne {
+	_u.mutation.SetExtras(v)
+	return _u
 }
 
 // ClearExtras clears the value of the "extras" field.
-func (ssuo *SpaceSettingUpdateOne) ClearExtras() *SpaceSettingUpdateOne {
-	ssuo.mutation.ClearExtras()
-	return ssuo
+func (_u *SpaceSettingUpdateOne) ClearExtras() *SpaceSettingUpdateOne {
+	_u.mutation.ClearExtras()
+	return _u
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (ssuo *SpaceSettingUpdateOne) SetCreatedBy(s string) *SpaceSettingUpdateOne {
-	ssuo.mutation.SetCreatedBy(s)
-	return ssuo
+func (_u *SpaceSettingUpdateOne) SetCreatedBy(v string) *SpaceSettingUpdateOne {
+	_u.mutation.SetCreatedBy(v)
+	return _u
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (ssuo *SpaceSettingUpdateOne) SetNillableCreatedBy(s *string) *SpaceSettingUpdateOne {
-	if s != nil {
-		ssuo.SetCreatedBy(*s)
+func (_u *SpaceSettingUpdateOne) SetNillableCreatedBy(v *string) *SpaceSettingUpdateOne {
+	if v != nil {
+		_u.SetCreatedBy(*v)
 	}
-	return ssuo
+	return _u
 }
 
 // ClearCreatedBy clears the value of the "created_by" field.
-func (ssuo *SpaceSettingUpdateOne) ClearCreatedBy() *SpaceSettingUpdateOne {
-	ssuo.mutation.ClearCreatedBy()
-	return ssuo
+func (_u *SpaceSettingUpdateOne) ClearCreatedBy() *SpaceSettingUpdateOne {
+	_u.mutation.ClearCreatedBy()
+	return _u
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (ssuo *SpaceSettingUpdateOne) SetUpdatedBy(s string) *SpaceSettingUpdateOne {
-	ssuo.mutation.SetUpdatedBy(s)
-	return ssuo
+func (_u *SpaceSettingUpdateOne) SetUpdatedBy(v string) *SpaceSettingUpdateOne {
+	_u.mutation.SetUpdatedBy(v)
+	return _u
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (ssuo *SpaceSettingUpdateOne) SetNillableUpdatedBy(s *string) *SpaceSettingUpdateOne {
-	if s != nil {
-		ssuo.SetUpdatedBy(*s)
+func (_u *SpaceSettingUpdateOne) SetNillableUpdatedBy(v *string) *SpaceSettingUpdateOne {
+	if v != nil {
+		_u.SetUpdatedBy(*v)
 	}
-	return ssuo
+	return _u
 }
 
 // ClearUpdatedBy clears the value of the "updated_by" field.
-func (ssuo *SpaceSettingUpdateOne) ClearUpdatedBy() *SpaceSettingUpdateOne {
-	ssuo.mutation.ClearUpdatedBy()
-	return ssuo
+func (_u *SpaceSettingUpdateOne) ClearUpdatedBy() *SpaceSettingUpdateOne {
+	_u.mutation.ClearUpdatedBy()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (ssuo *SpaceSettingUpdateOne) SetUpdatedAt(i int64) *SpaceSettingUpdateOne {
-	ssuo.mutation.ResetUpdatedAt()
-	ssuo.mutation.SetUpdatedAt(i)
-	return ssuo
+func (_u *SpaceSettingUpdateOne) SetUpdatedAt(v int64) *SpaceSettingUpdateOne {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (ssuo *SpaceSettingUpdateOne) AddUpdatedAt(i int64) *SpaceSettingUpdateOne {
-	ssuo.mutation.AddUpdatedAt(i)
-	return ssuo
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *SpaceSettingUpdateOne) AddUpdatedAt(v int64) *SpaceSettingUpdateOne {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (ssuo *SpaceSettingUpdateOne) ClearUpdatedAt() *SpaceSettingUpdateOne {
-	ssuo.mutation.ClearUpdatedAt()
-	return ssuo
+func (_u *SpaceSettingUpdateOne) ClearUpdatedAt() *SpaceSettingUpdateOne {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // SetSettingKey sets the "setting_key" field.
-func (ssuo *SpaceSettingUpdateOne) SetSettingKey(s string) *SpaceSettingUpdateOne {
-	ssuo.mutation.SetSettingKey(s)
-	return ssuo
+func (_u *SpaceSettingUpdateOne) SetSettingKey(v string) *SpaceSettingUpdateOne {
+	_u.mutation.SetSettingKey(v)
+	return _u
 }
 
 // SetNillableSettingKey sets the "setting_key" field if the given value is not nil.
-func (ssuo *SpaceSettingUpdateOne) SetNillableSettingKey(s *string) *SpaceSettingUpdateOne {
-	if s != nil {
-		ssuo.SetSettingKey(*s)
+func (_u *SpaceSettingUpdateOne) SetNillableSettingKey(v *string) *SpaceSettingUpdateOne {
+	if v != nil {
+		_u.SetSettingKey(*v)
 	}
-	return ssuo
+	return _u
 }
 
 // SetSettingName sets the "setting_name" field.
-func (ssuo *SpaceSettingUpdateOne) SetSettingName(s string) *SpaceSettingUpdateOne {
-	ssuo.mutation.SetSettingName(s)
-	return ssuo
+func (_u *SpaceSettingUpdateOne) SetSettingName(v string) *SpaceSettingUpdateOne {
+	_u.mutation.SetSettingName(v)
+	return _u
 }
 
 // SetNillableSettingName sets the "setting_name" field if the given value is not nil.
-func (ssuo *SpaceSettingUpdateOne) SetNillableSettingName(s *string) *SpaceSettingUpdateOne {
-	if s != nil {
-		ssuo.SetSettingName(*s)
+func (_u *SpaceSettingUpdateOne) SetNillableSettingName(v *string) *SpaceSettingUpdateOne {
+	if v != nil {
+		_u.SetSettingName(*v)
 	}
-	return ssuo
+	return _u
 }
 
 // SetSettingValue sets the "setting_value" field.
-func (ssuo *SpaceSettingUpdateOne) SetSettingValue(s string) *SpaceSettingUpdateOne {
-	ssuo.mutation.SetSettingValue(s)
-	return ssuo
+func (_u *SpaceSettingUpdateOne) SetSettingValue(v string) *SpaceSettingUpdateOne {
+	_u.mutation.SetSettingValue(v)
+	return _u
 }
 
 // SetNillableSettingValue sets the "setting_value" field if the given value is not nil.
-func (ssuo *SpaceSettingUpdateOne) SetNillableSettingValue(s *string) *SpaceSettingUpdateOne {
-	if s != nil {
-		ssuo.SetSettingValue(*s)
+func (_u *SpaceSettingUpdateOne) SetNillableSettingValue(v *string) *SpaceSettingUpdateOne {
+	if v != nil {
+		_u.SetSettingValue(*v)
 	}
-	return ssuo
+	return _u
 }
 
 // ClearSettingValue clears the value of the "setting_value" field.
-func (ssuo *SpaceSettingUpdateOne) ClearSettingValue() *SpaceSettingUpdateOne {
-	ssuo.mutation.ClearSettingValue()
-	return ssuo
+func (_u *SpaceSettingUpdateOne) ClearSettingValue() *SpaceSettingUpdateOne {
+	_u.mutation.ClearSettingValue()
+	return _u
 }
 
 // SetDefaultValue sets the "default_value" field.
-func (ssuo *SpaceSettingUpdateOne) SetDefaultValue(s string) *SpaceSettingUpdateOne {
-	ssuo.mutation.SetDefaultValue(s)
-	return ssuo
+func (_u *SpaceSettingUpdateOne) SetDefaultValue(v string) *SpaceSettingUpdateOne {
+	_u.mutation.SetDefaultValue(v)
+	return _u
 }
 
 // SetNillableDefaultValue sets the "default_value" field if the given value is not nil.
-func (ssuo *SpaceSettingUpdateOne) SetNillableDefaultValue(s *string) *SpaceSettingUpdateOne {
-	if s != nil {
-		ssuo.SetDefaultValue(*s)
+func (_u *SpaceSettingUpdateOne) SetNillableDefaultValue(v *string) *SpaceSettingUpdateOne {
+	if v != nil {
+		_u.SetDefaultValue(*v)
 	}
-	return ssuo
+	return _u
 }
 
 // ClearDefaultValue clears the value of the "default_value" field.
-func (ssuo *SpaceSettingUpdateOne) ClearDefaultValue() *SpaceSettingUpdateOne {
-	ssuo.mutation.ClearDefaultValue()
-	return ssuo
+func (_u *SpaceSettingUpdateOne) ClearDefaultValue() *SpaceSettingUpdateOne {
+	_u.mutation.ClearDefaultValue()
+	return _u
 }
 
 // SetSettingType sets the "setting_type" field.
-func (ssuo *SpaceSettingUpdateOne) SetSettingType(s string) *SpaceSettingUpdateOne {
-	ssuo.mutation.SetSettingType(s)
-	return ssuo
+func (_u *SpaceSettingUpdateOne) SetSettingType(v string) *SpaceSettingUpdateOne {
+	_u.mutation.SetSettingType(v)
+	return _u
 }
 
 // SetNillableSettingType sets the "setting_type" field if the given value is not nil.
-func (ssuo *SpaceSettingUpdateOne) SetNillableSettingType(s *string) *SpaceSettingUpdateOne {
-	if s != nil {
-		ssuo.SetSettingType(*s)
+func (_u *SpaceSettingUpdateOne) SetNillableSettingType(v *string) *SpaceSettingUpdateOne {
+	if v != nil {
+		_u.SetSettingType(*v)
 	}
-	return ssuo
+	return _u
 }
 
 // SetScope sets the "scope" field.
-func (ssuo *SpaceSettingUpdateOne) SetScope(s string) *SpaceSettingUpdateOne {
-	ssuo.mutation.SetScope(s)
-	return ssuo
+func (_u *SpaceSettingUpdateOne) SetScope(v string) *SpaceSettingUpdateOne {
+	_u.mutation.SetScope(v)
+	return _u
 }
 
 // SetNillableScope sets the "scope" field if the given value is not nil.
-func (ssuo *SpaceSettingUpdateOne) SetNillableScope(s *string) *SpaceSettingUpdateOne {
-	if s != nil {
-		ssuo.SetScope(*s)
+func (_u *SpaceSettingUpdateOne) SetNillableScope(v *string) *SpaceSettingUpdateOne {
+	if v != nil {
+		_u.SetScope(*v)
 	}
-	return ssuo
+	return _u
 }
 
 // SetCategory sets the "category" field.
-func (ssuo *SpaceSettingUpdateOne) SetCategory(s string) *SpaceSettingUpdateOne {
-	ssuo.mutation.SetCategory(s)
-	return ssuo
+func (_u *SpaceSettingUpdateOne) SetCategory(v string) *SpaceSettingUpdateOne {
+	_u.mutation.SetCategory(v)
+	return _u
 }
 
 // SetNillableCategory sets the "category" field if the given value is not nil.
-func (ssuo *SpaceSettingUpdateOne) SetNillableCategory(s *string) *SpaceSettingUpdateOne {
-	if s != nil {
-		ssuo.SetCategory(*s)
+func (_u *SpaceSettingUpdateOne) SetNillableCategory(v *string) *SpaceSettingUpdateOne {
+	if v != nil {
+		_u.SetCategory(*v)
 	}
-	return ssuo
+	return _u
 }
 
 // SetIsPublic sets the "is_public" field.
-func (ssuo *SpaceSettingUpdateOne) SetIsPublic(b bool) *SpaceSettingUpdateOne {
-	ssuo.mutation.SetIsPublic(b)
-	return ssuo
+func (_u *SpaceSettingUpdateOne) SetIsPublic(v bool) *SpaceSettingUpdateOne {
+	_u.mutation.SetIsPublic(v)
+	return _u
 }
 
 // SetNillableIsPublic sets the "is_public" field if the given value is not nil.
-func (ssuo *SpaceSettingUpdateOne) SetNillableIsPublic(b *bool) *SpaceSettingUpdateOne {
-	if b != nil {
-		ssuo.SetIsPublic(*b)
+func (_u *SpaceSettingUpdateOne) SetNillableIsPublic(v *bool) *SpaceSettingUpdateOne {
+	if v != nil {
+		_u.SetIsPublic(*v)
 	}
-	return ssuo
+	return _u
 }
 
 // SetIsRequired sets the "is_required" field.
-func (ssuo *SpaceSettingUpdateOne) SetIsRequired(b bool) *SpaceSettingUpdateOne {
-	ssuo.mutation.SetIsRequired(b)
-	return ssuo
+func (_u *SpaceSettingUpdateOne) SetIsRequired(v bool) *SpaceSettingUpdateOne {
+	_u.mutation.SetIsRequired(v)
+	return _u
 }
 
 // SetNillableIsRequired sets the "is_required" field if the given value is not nil.
-func (ssuo *SpaceSettingUpdateOne) SetNillableIsRequired(b *bool) *SpaceSettingUpdateOne {
-	if b != nil {
-		ssuo.SetIsRequired(*b)
+func (_u *SpaceSettingUpdateOne) SetNillableIsRequired(v *bool) *SpaceSettingUpdateOne {
+	if v != nil {
+		_u.SetIsRequired(*v)
 	}
-	return ssuo
+	return _u
 }
 
 // SetIsReadonly sets the "is_readonly" field.
-func (ssuo *SpaceSettingUpdateOne) SetIsReadonly(b bool) *SpaceSettingUpdateOne {
-	ssuo.mutation.SetIsReadonly(b)
-	return ssuo
+func (_u *SpaceSettingUpdateOne) SetIsReadonly(v bool) *SpaceSettingUpdateOne {
+	_u.mutation.SetIsReadonly(v)
+	return _u
 }
 
 // SetNillableIsReadonly sets the "is_readonly" field if the given value is not nil.
-func (ssuo *SpaceSettingUpdateOne) SetNillableIsReadonly(b *bool) *SpaceSettingUpdateOne {
-	if b != nil {
-		ssuo.SetIsReadonly(*b)
+func (_u *SpaceSettingUpdateOne) SetNillableIsReadonly(v *bool) *SpaceSettingUpdateOne {
+	if v != nil {
+		_u.SetIsReadonly(*v)
 	}
-	return ssuo
+	return _u
 }
 
 // SetValidation sets the "validation" field.
-func (ssuo *SpaceSettingUpdateOne) SetValidation(m map[string]interface{}) *SpaceSettingUpdateOne {
-	ssuo.mutation.SetValidation(m)
-	return ssuo
+func (_u *SpaceSettingUpdateOne) SetValidation(v map[string]interface{}) *SpaceSettingUpdateOne {
+	_u.mutation.SetValidation(v)
+	return _u
 }
 
 // ClearValidation clears the value of the "validation" field.
-func (ssuo *SpaceSettingUpdateOne) ClearValidation() *SpaceSettingUpdateOne {
-	ssuo.mutation.ClearValidation()
-	return ssuo
+func (_u *SpaceSettingUpdateOne) ClearValidation() *SpaceSettingUpdateOne {
+	_u.mutation.ClearValidation()
+	return _u
 }
 
 // Mutation returns the SpaceSettingMutation object of the builder.
-func (ssuo *SpaceSettingUpdateOne) Mutation() *SpaceSettingMutation {
-	return ssuo.mutation
+func (_u *SpaceSettingUpdateOne) Mutation() *SpaceSettingMutation {
+	return _u.mutation
 }
 
 // Where appends a list predicates to the SpaceSettingUpdate builder.
-func (ssuo *SpaceSettingUpdateOne) Where(ps ...predicate.SpaceSetting) *SpaceSettingUpdateOne {
-	ssuo.mutation.Where(ps...)
-	return ssuo
+func (_u *SpaceSettingUpdateOne) Where(ps ...predicate.SpaceSetting) *SpaceSettingUpdateOne {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // Select allows selecting one or more fields (columns) of the returned entity.
 // The default is selecting all fields defined in the entity schema.
-func (ssuo *SpaceSettingUpdateOne) Select(field string, fields ...string) *SpaceSettingUpdateOne {
-	ssuo.fields = append([]string{field}, fields...)
-	return ssuo
+func (_u *SpaceSettingUpdateOne) Select(field string, fields ...string) *SpaceSettingUpdateOne {
+	_u.fields = append([]string{field}, fields...)
+	return _u
 }
 
 // Save executes the query and returns the updated SpaceSetting entity.
-func (ssuo *SpaceSettingUpdateOne) Save(ctx context.Context) (*SpaceSetting, error) {
-	ssuo.defaults()
-	return withHooks(ctx, ssuo.sqlSave, ssuo.mutation, ssuo.hooks)
+func (_u *SpaceSettingUpdateOne) Save(ctx context.Context) (*SpaceSetting, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (ssuo *SpaceSettingUpdateOne) SaveX(ctx context.Context) *SpaceSetting {
-	node, err := ssuo.Save(ctx)
+func (_u *SpaceSettingUpdateOne) SaveX(ctx context.Context) *SpaceSetting {
+	node, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -783,34 +783,34 @@ func (ssuo *SpaceSettingUpdateOne) SaveX(ctx context.Context) *SpaceSetting {
 }
 
 // Exec executes the query on the entity.
-func (ssuo *SpaceSettingUpdateOne) Exec(ctx context.Context) error {
-	_, err := ssuo.Save(ctx)
+func (_u *SpaceSettingUpdateOne) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (ssuo *SpaceSettingUpdateOne) ExecX(ctx context.Context) {
-	if err := ssuo.Exec(ctx); err != nil {
+func (_u *SpaceSettingUpdateOne) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (ssuo *SpaceSettingUpdateOne) defaults() {
-	if _, ok := ssuo.mutation.UpdatedAt(); !ok && !ssuo.mutation.UpdatedAtCleared() {
+func (_u *SpaceSettingUpdateOne) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := spacesetting.UpdateDefaultUpdatedAt()
-		ssuo.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (ssuo *SpaceSettingUpdateOne) check() error {
-	if v, ok := ssuo.mutation.SettingKey(); ok {
+func (_u *SpaceSettingUpdateOne) check() error {
+	if v, ok := _u.mutation.SettingKey(); ok {
 		if err := spacesetting.SettingKeyValidator(v); err != nil {
 			return &ValidationError{Name: "setting_key", err: fmt.Errorf(`ent: validator failed for field "SpaceSetting.setting_key": %w`, err)}
 		}
 	}
-	if v, ok := ssuo.mutation.SettingName(); ok {
+	if v, ok := _u.mutation.SettingName(); ok {
 		if err := spacesetting.SettingNameValidator(v); err != nil {
 			return &ValidationError{Name: "setting_name", err: fmt.Errorf(`ent: validator failed for field "SpaceSetting.setting_name": %w`, err)}
 		}
@@ -818,17 +818,17 @@ func (ssuo *SpaceSettingUpdateOne) check() error {
 	return nil
 }
 
-func (ssuo *SpaceSettingUpdateOne) sqlSave(ctx context.Context) (_node *SpaceSetting, err error) {
-	if err := ssuo.check(); err != nil {
+func (_u *SpaceSettingUpdateOne) sqlSave(ctx context.Context) (_node *SpaceSetting, err error) {
+	if err := _u.check(); err != nil {
 		return _node, err
 	}
 	_spec := sqlgraph.NewUpdateSpec(spacesetting.Table, spacesetting.Columns, sqlgraph.NewFieldSpec(spacesetting.FieldID, field.TypeString))
-	id, ok := ssuo.mutation.ID()
+	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "SpaceSetting.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
-	if fields := ssuo.fields; len(fields) > 0 {
+	if fields := _u.fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, spacesetting.FieldID)
 		for _, f := range fields {
@@ -840,101 +840,101 @@ func (ssuo *SpaceSettingUpdateOne) sqlSave(ctx context.Context) (_node *SpaceSet
 			}
 		}
 	}
-	if ps := ssuo.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := ssuo.mutation.SpaceID(); ok {
+	if value, ok := _u.mutation.SpaceID(); ok {
 		_spec.SetField(spacesetting.FieldSpaceID, field.TypeString, value)
 	}
-	if ssuo.mutation.SpaceIDCleared() {
+	if _u.mutation.SpaceIDCleared() {
 		_spec.ClearField(spacesetting.FieldSpaceID, field.TypeString)
 	}
-	if value, ok := ssuo.mutation.Description(); ok {
+	if value, ok := _u.mutation.Description(); ok {
 		_spec.SetField(spacesetting.FieldDescription, field.TypeString, value)
 	}
-	if ssuo.mutation.DescriptionCleared() {
+	if _u.mutation.DescriptionCleared() {
 		_spec.ClearField(spacesetting.FieldDescription, field.TypeString)
 	}
-	if value, ok := ssuo.mutation.Extras(); ok {
+	if value, ok := _u.mutation.Extras(); ok {
 		_spec.SetField(spacesetting.FieldExtras, field.TypeJSON, value)
 	}
-	if ssuo.mutation.ExtrasCleared() {
+	if _u.mutation.ExtrasCleared() {
 		_spec.ClearField(spacesetting.FieldExtras, field.TypeJSON)
 	}
-	if value, ok := ssuo.mutation.CreatedBy(); ok {
+	if value, ok := _u.mutation.CreatedBy(); ok {
 		_spec.SetField(spacesetting.FieldCreatedBy, field.TypeString, value)
 	}
-	if ssuo.mutation.CreatedByCleared() {
+	if _u.mutation.CreatedByCleared() {
 		_spec.ClearField(spacesetting.FieldCreatedBy, field.TypeString)
 	}
-	if value, ok := ssuo.mutation.UpdatedBy(); ok {
+	if value, ok := _u.mutation.UpdatedBy(); ok {
 		_spec.SetField(spacesetting.FieldUpdatedBy, field.TypeString, value)
 	}
-	if ssuo.mutation.UpdatedByCleared() {
+	if _u.mutation.UpdatedByCleared() {
 		_spec.ClearField(spacesetting.FieldUpdatedBy, field.TypeString)
 	}
-	if ssuo.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(spacesetting.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := ssuo.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(spacesetting.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := ssuo.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(spacesetting.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if ssuo.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(spacesetting.FieldUpdatedAt, field.TypeInt64)
 	}
-	if value, ok := ssuo.mutation.SettingKey(); ok {
+	if value, ok := _u.mutation.SettingKey(); ok {
 		_spec.SetField(spacesetting.FieldSettingKey, field.TypeString, value)
 	}
-	if value, ok := ssuo.mutation.SettingName(); ok {
+	if value, ok := _u.mutation.SettingName(); ok {
 		_spec.SetField(spacesetting.FieldSettingName, field.TypeString, value)
 	}
-	if value, ok := ssuo.mutation.SettingValue(); ok {
+	if value, ok := _u.mutation.SettingValue(); ok {
 		_spec.SetField(spacesetting.FieldSettingValue, field.TypeString, value)
 	}
-	if ssuo.mutation.SettingValueCleared() {
+	if _u.mutation.SettingValueCleared() {
 		_spec.ClearField(spacesetting.FieldSettingValue, field.TypeString)
 	}
-	if value, ok := ssuo.mutation.DefaultValue(); ok {
+	if value, ok := _u.mutation.DefaultValue(); ok {
 		_spec.SetField(spacesetting.FieldDefaultValue, field.TypeString, value)
 	}
-	if ssuo.mutation.DefaultValueCleared() {
+	if _u.mutation.DefaultValueCleared() {
 		_spec.ClearField(spacesetting.FieldDefaultValue, field.TypeString)
 	}
-	if value, ok := ssuo.mutation.SettingType(); ok {
+	if value, ok := _u.mutation.SettingType(); ok {
 		_spec.SetField(spacesetting.FieldSettingType, field.TypeString, value)
 	}
-	if value, ok := ssuo.mutation.Scope(); ok {
+	if value, ok := _u.mutation.Scope(); ok {
 		_spec.SetField(spacesetting.FieldScope, field.TypeString, value)
 	}
-	if value, ok := ssuo.mutation.Category(); ok {
+	if value, ok := _u.mutation.Category(); ok {
 		_spec.SetField(spacesetting.FieldCategory, field.TypeString, value)
 	}
-	if value, ok := ssuo.mutation.IsPublic(); ok {
+	if value, ok := _u.mutation.IsPublic(); ok {
 		_spec.SetField(spacesetting.FieldIsPublic, field.TypeBool, value)
 	}
-	if value, ok := ssuo.mutation.IsRequired(); ok {
+	if value, ok := _u.mutation.IsRequired(); ok {
 		_spec.SetField(spacesetting.FieldIsRequired, field.TypeBool, value)
 	}
-	if value, ok := ssuo.mutation.IsReadonly(); ok {
+	if value, ok := _u.mutation.IsReadonly(); ok {
 		_spec.SetField(spacesetting.FieldIsReadonly, field.TypeBool, value)
 	}
-	if value, ok := ssuo.mutation.Validation(); ok {
+	if value, ok := _u.mutation.Validation(); ok {
 		_spec.SetField(spacesetting.FieldValidation, field.TypeJSON, value)
 	}
-	if ssuo.mutation.ValidationCleared() {
+	if _u.mutation.ValidationCleared() {
 		_spec.ClearField(spacesetting.FieldValidation, field.TypeJSON)
 	}
-	_node = &SpaceSetting{config: ssuo.config}
+	_node = &SpaceSetting{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues
-	if err = sqlgraph.UpdateNode(ctx, ssuo.driver, _spec); err != nil {
+	if err = sqlgraph.UpdateNode(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{spacesetting.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -942,6 +942,6 @@ func (ssuo *SpaceSettingUpdateOne) sqlSave(ctx context.Context) (_node *SpaceSet
 		}
 		return nil, err
 	}
-	ssuo.mutation.done = true
+	_u.mutation.done = true
 	return _node, nil
 }

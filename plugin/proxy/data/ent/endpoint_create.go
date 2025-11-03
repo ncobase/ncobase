@@ -20,269 +20,269 @@ type EndpointCreate struct {
 }
 
 // SetName sets the "name" field.
-func (ec *EndpointCreate) SetName(s string) *EndpointCreate {
-	ec.mutation.SetName(s)
-	return ec
+func (_c *EndpointCreate) SetName(v string) *EndpointCreate {
+	_c.mutation.SetName(v)
+	return _c
 }
 
 // SetNillableName sets the "name" field if the given value is not nil.
-func (ec *EndpointCreate) SetNillableName(s *string) *EndpointCreate {
-	if s != nil {
-		ec.SetName(*s)
+func (_c *EndpointCreate) SetNillableName(v *string) *EndpointCreate {
+	if v != nil {
+		_c.SetName(*v)
 	}
-	return ec
+	return _c
 }
 
 // SetDescription sets the "description" field.
-func (ec *EndpointCreate) SetDescription(s string) *EndpointCreate {
-	ec.mutation.SetDescription(s)
-	return ec
+func (_c *EndpointCreate) SetDescription(v string) *EndpointCreate {
+	_c.mutation.SetDescription(v)
+	return _c
 }
 
 // SetNillableDescription sets the "description" field if the given value is not nil.
-func (ec *EndpointCreate) SetNillableDescription(s *string) *EndpointCreate {
-	if s != nil {
-		ec.SetDescription(*s)
+func (_c *EndpointCreate) SetNillableDescription(v *string) *EndpointCreate {
+	if v != nil {
+		_c.SetDescription(*v)
 	}
-	return ec
+	return _c
 }
 
 // SetDisabled sets the "disabled" field.
-func (ec *EndpointCreate) SetDisabled(b bool) *EndpointCreate {
-	ec.mutation.SetDisabled(b)
-	return ec
+func (_c *EndpointCreate) SetDisabled(v bool) *EndpointCreate {
+	_c.mutation.SetDisabled(v)
+	return _c
 }
 
 // SetNillableDisabled sets the "disabled" field if the given value is not nil.
-func (ec *EndpointCreate) SetNillableDisabled(b *bool) *EndpointCreate {
-	if b != nil {
-		ec.SetDisabled(*b)
+func (_c *EndpointCreate) SetNillableDisabled(v *bool) *EndpointCreate {
+	if v != nil {
+		_c.SetDisabled(*v)
 	}
-	return ec
+	return _c
 }
 
 // SetExtras sets the "extras" field.
-func (ec *EndpointCreate) SetExtras(m map[string]interface{}) *EndpointCreate {
-	ec.mutation.SetExtras(m)
-	return ec
+func (_c *EndpointCreate) SetExtras(v map[string]interface{}) *EndpointCreate {
+	_c.mutation.SetExtras(v)
+	return _c
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (ec *EndpointCreate) SetCreatedBy(s string) *EndpointCreate {
-	ec.mutation.SetCreatedBy(s)
-	return ec
+func (_c *EndpointCreate) SetCreatedBy(v string) *EndpointCreate {
+	_c.mutation.SetCreatedBy(v)
+	return _c
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (ec *EndpointCreate) SetNillableCreatedBy(s *string) *EndpointCreate {
-	if s != nil {
-		ec.SetCreatedBy(*s)
+func (_c *EndpointCreate) SetNillableCreatedBy(v *string) *EndpointCreate {
+	if v != nil {
+		_c.SetCreatedBy(*v)
 	}
-	return ec
+	return _c
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (ec *EndpointCreate) SetUpdatedBy(s string) *EndpointCreate {
-	ec.mutation.SetUpdatedBy(s)
-	return ec
+func (_c *EndpointCreate) SetUpdatedBy(v string) *EndpointCreate {
+	_c.mutation.SetUpdatedBy(v)
+	return _c
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (ec *EndpointCreate) SetNillableUpdatedBy(s *string) *EndpointCreate {
-	if s != nil {
-		ec.SetUpdatedBy(*s)
+func (_c *EndpointCreate) SetNillableUpdatedBy(v *string) *EndpointCreate {
+	if v != nil {
+		_c.SetUpdatedBy(*v)
 	}
-	return ec
+	return _c
 }
 
 // SetCreatedAt sets the "created_at" field.
-func (ec *EndpointCreate) SetCreatedAt(i int64) *EndpointCreate {
-	ec.mutation.SetCreatedAt(i)
-	return ec
+func (_c *EndpointCreate) SetCreatedAt(v int64) *EndpointCreate {
+	_c.mutation.SetCreatedAt(v)
+	return _c
 }
 
 // SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
-func (ec *EndpointCreate) SetNillableCreatedAt(i *int64) *EndpointCreate {
-	if i != nil {
-		ec.SetCreatedAt(*i)
+func (_c *EndpointCreate) SetNillableCreatedAt(v *int64) *EndpointCreate {
+	if v != nil {
+		_c.SetCreatedAt(*v)
 	}
-	return ec
+	return _c
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (ec *EndpointCreate) SetUpdatedAt(i int64) *EndpointCreate {
-	ec.mutation.SetUpdatedAt(i)
-	return ec
+func (_c *EndpointCreate) SetUpdatedAt(v int64) *EndpointCreate {
+	_c.mutation.SetUpdatedAt(v)
+	return _c
 }
 
 // SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
-func (ec *EndpointCreate) SetNillableUpdatedAt(i *int64) *EndpointCreate {
-	if i != nil {
-		ec.SetUpdatedAt(*i)
+func (_c *EndpointCreate) SetNillableUpdatedAt(v *int64) *EndpointCreate {
+	if v != nil {
+		_c.SetUpdatedAt(*v)
 	}
-	return ec
+	return _c
 }
 
 // SetBaseURL sets the "base_url" field.
-func (ec *EndpointCreate) SetBaseURL(s string) *EndpointCreate {
-	ec.mutation.SetBaseURL(s)
-	return ec
+func (_c *EndpointCreate) SetBaseURL(v string) *EndpointCreate {
+	_c.mutation.SetBaseURL(v)
+	return _c
 }
 
 // SetProtocol sets the "protocol" field.
-func (ec *EndpointCreate) SetProtocol(s string) *EndpointCreate {
-	ec.mutation.SetProtocol(s)
-	return ec
+func (_c *EndpointCreate) SetProtocol(v string) *EndpointCreate {
+	_c.mutation.SetProtocol(v)
+	return _c
 }
 
 // SetNillableProtocol sets the "protocol" field if the given value is not nil.
-func (ec *EndpointCreate) SetNillableProtocol(s *string) *EndpointCreate {
-	if s != nil {
-		ec.SetProtocol(*s)
+func (_c *EndpointCreate) SetNillableProtocol(v *string) *EndpointCreate {
+	if v != nil {
+		_c.SetProtocol(*v)
 	}
-	return ec
+	return _c
 }
 
 // SetAuthType sets the "auth_type" field.
-func (ec *EndpointCreate) SetAuthType(s string) *EndpointCreate {
-	ec.mutation.SetAuthType(s)
-	return ec
+func (_c *EndpointCreate) SetAuthType(v string) *EndpointCreate {
+	_c.mutation.SetAuthType(v)
+	return _c
 }
 
 // SetNillableAuthType sets the "auth_type" field if the given value is not nil.
-func (ec *EndpointCreate) SetNillableAuthType(s *string) *EndpointCreate {
-	if s != nil {
-		ec.SetAuthType(*s)
+func (_c *EndpointCreate) SetNillableAuthType(v *string) *EndpointCreate {
+	if v != nil {
+		_c.SetAuthType(*v)
 	}
-	return ec
+	return _c
 }
 
 // SetAuthConfig sets the "auth_config" field.
-func (ec *EndpointCreate) SetAuthConfig(s string) *EndpointCreate {
-	ec.mutation.SetAuthConfig(s)
-	return ec
+func (_c *EndpointCreate) SetAuthConfig(v string) *EndpointCreate {
+	_c.mutation.SetAuthConfig(v)
+	return _c
 }
 
 // SetNillableAuthConfig sets the "auth_config" field if the given value is not nil.
-func (ec *EndpointCreate) SetNillableAuthConfig(s *string) *EndpointCreate {
-	if s != nil {
-		ec.SetAuthConfig(*s)
+func (_c *EndpointCreate) SetNillableAuthConfig(v *string) *EndpointCreate {
+	if v != nil {
+		_c.SetAuthConfig(*v)
 	}
-	return ec
+	return _c
 }
 
 // SetTimeout sets the "timeout" field.
-func (ec *EndpointCreate) SetTimeout(i int) *EndpointCreate {
-	ec.mutation.SetTimeout(i)
-	return ec
+func (_c *EndpointCreate) SetTimeout(v int) *EndpointCreate {
+	_c.mutation.SetTimeout(v)
+	return _c
 }
 
 // SetNillableTimeout sets the "timeout" field if the given value is not nil.
-func (ec *EndpointCreate) SetNillableTimeout(i *int) *EndpointCreate {
-	if i != nil {
-		ec.SetTimeout(*i)
+func (_c *EndpointCreate) SetNillableTimeout(v *int) *EndpointCreate {
+	if v != nil {
+		_c.SetTimeout(*v)
 	}
-	return ec
+	return _c
 }
 
 // SetUseCircuitBreaker sets the "use_circuit_breaker" field.
-func (ec *EndpointCreate) SetUseCircuitBreaker(b bool) *EndpointCreate {
-	ec.mutation.SetUseCircuitBreaker(b)
-	return ec
+func (_c *EndpointCreate) SetUseCircuitBreaker(v bool) *EndpointCreate {
+	_c.mutation.SetUseCircuitBreaker(v)
+	return _c
 }
 
 // SetNillableUseCircuitBreaker sets the "use_circuit_breaker" field if the given value is not nil.
-func (ec *EndpointCreate) SetNillableUseCircuitBreaker(b *bool) *EndpointCreate {
-	if b != nil {
-		ec.SetUseCircuitBreaker(*b)
+func (_c *EndpointCreate) SetNillableUseCircuitBreaker(v *bool) *EndpointCreate {
+	if v != nil {
+		_c.SetUseCircuitBreaker(*v)
 	}
-	return ec
+	return _c
 }
 
 // SetRetryCount sets the "retry_count" field.
-func (ec *EndpointCreate) SetRetryCount(i int) *EndpointCreate {
-	ec.mutation.SetRetryCount(i)
-	return ec
+func (_c *EndpointCreate) SetRetryCount(v int) *EndpointCreate {
+	_c.mutation.SetRetryCount(v)
+	return _c
 }
 
 // SetNillableRetryCount sets the "retry_count" field if the given value is not nil.
-func (ec *EndpointCreate) SetNillableRetryCount(i *int) *EndpointCreate {
-	if i != nil {
-		ec.SetRetryCount(*i)
+func (_c *EndpointCreate) SetNillableRetryCount(v *int) *EndpointCreate {
+	if v != nil {
+		_c.SetRetryCount(*v)
 	}
-	return ec
+	return _c
 }
 
 // SetValidateSsl sets the "validate_ssl" field.
-func (ec *EndpointCreate) SetValidateSsl(b bool) *EndpointCreate {
-	ec.mutation.SetValidateSsl(b)
-	return ec
+func (_c *EndpointCreate) SetValidateSsl(v bool) *EndpointCreate {
+	_c.mutation.SetValidateSsl(v)
+	return _c
 }
 
 // SetNillableValidateSsl sets the "validate_ssl" field if the given value is not nil.
-func (ec *EndpointCreate) SetNillableValidateSsl(b *bool) *EndpointCreate {
-	if b != nil {
-		ec.SetValidateSsl(*b)
+func (_c *EndpointCreate) SetNillableValidateSsl(v *bool) *EndpointCreate {
+	if v != nil {
+		_c.SetValidateSsl(*v)
 	}
-	return ec
+	return _c
 }
 
 // SetLogRequests sets the "log_requests" field.
-func (ec *EndpointCreate) SetLogRequests(b bool) *EndpointCreate {
-	ec.mutation.SetLogRequests(b)
-	return ec
+func (_c *EndpointCreate) SetLogRequests(v bool) *EndpointCreate {
+	_c.mutation.SetLogRequests(v)
+	return _c
 }
 
 // SetNillableLogRequests sets the "log_requests" field if the given value is not nil.
-func (ec *EndpointCreate) SetNillableLogRequests(b *bool) *EndpointCreate {
-	if b != nil {
-		ec.SetLogRequests(*b)
+func (_c *EndpointCreate) SetNillableLogRequests(v *bool) *EndpointCreate {
+	if v != nil {
+		_c.SetLogRequests(*v)
 	}
-	return ec
+	return _c
 }
 
 // SetLogResponses sets the "log_responses" field.
-func (ec *EndpointCreate) SetLogResponses(b bool) *EndpointCreate {
-	ec.mutation.SetLogResponses(b)
-	return ec
+func (_c *EndpointCreate) SetLogResponses(v bool) *EndpointCreate {
+	_c.mutation.SetLogResponses(v)
+	return _c
 }
 
 // SetNillableLogResponses sets the "log_responses" field if the given value is not nil.
-func (ec *EndpointCreate) SetNillableLogResponses(b *bool) *EndpointCreate {
-	if b != nil {
-		ec.SetLogResponses(*b)
+func (_c *EndpointCreate) SetNillableLogResponses(v *bool) *EndpointCreate {
+	if v != nil {
+		_c.SetLogResponses(*v)
 	}
-	return ec
+	return _c
 }
 
 // SetID sets the "id" field.
-func (ec *EndpointCreate) SetID(s string) *EndpointCreate {
-	ec.mutation.SetID(s)
-	return ec
+func (_c *EndpointCreate) SetID(v string) *EndpointCreate {
+	_c.mutation.SetID(v)
+	return _c
 }
 
 // SetNillableID sets the "id" field if the given value is not nil.
-func (ec *EndpointCreate) SetNillableID(s *string) *EndpointCreate {
-	if s != nil {
-		ec.SetID(*s)
+func (_c *EndpointCreate) SetNillableID(v *string) *EndpointCreate {
+	if v != nil {
+		_c.SetID(*v)
 	}
-	return ec
+	return _c
 }
 
 // Mutation returns the EndpointMutation object of the builder.
-func (ec *EndpointCreate) Mutation() *EndpointMutation {
-	return ec.mutation
+func (_c *EndpointCreate) Mutation() *EndpointMutation {
+	return _c.mutation
 }
 
 // Save creates the Endpoint in the database.
-func (ec *EndpointCreate) Save(ctx context.Context) (*Endpoint, error) {
-	ec.defaults()
-	return withHooks(ctx, ec.sqlSave, ec.mutation, ec.hooks)
+func (_c *EndpointCreate) Save(ctx context.Context) (*Endpoint, error) {
+	_c.defaults()
+	return withHooks(ctx, _c.sqlSave, _c.mutation, _c.hooks)
 }
 
 // SaveX calls Save and panics if Save returns an error.
-func (ec *EndpointCreate) SaveX(ctx context.Context) *Endpoint {
-	v, err := ec.Save(ctx)
+func (_c *EndpointCreate) SaveX(ctx context.Context) *Endpoint {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -290,109 +290,109 @@ func (ec *EndpointCreate) SaveX(ctx context.Context) *Endpoint {
 }
 
 // Exec executes the query.
-func (ec *EndpointCreate) Exec(ctx context.Context) error {
-	_, err := ec.Save(ctx)
+func (_c *EndpointCreate) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (ec *EndpointCreate) ExecX(ctx context.Context) {
-	if err := ec.Exec(ctx); err != nil {
+func (_c *EndpointCreate) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (ec *EndpointCreate) defaults() {
-	if _, ok := ec.mutation.Disabled(); !ok {
+func (_c *EndpointCreate) defaults() {
+	if _, ok := _c.mutation.Disabled(); !ok {
 		v := endpoint.DefaultDisabled
-		ec.mutation.SetDisabled(v)
+		_c.mutation.SetDisabled(v)
 	}
-	if _, ok := ec.mutation.Extras(); !ok {
+	if _, ok := _c.mutation.Extras(); !ok {
 		v := endpoint.DefaultExtras
-		ec.mutation.SetExtras(v)
+		_c.mutation.SetExtras(v)
 	}
-	if _, ok := ec.mutation.CreatedAt(); !ok {
+	if _, ok := _c.mutation.CreatedAt(); !ok {
 		v := endpoint.DefaultCreatedAt()
-		ec.mutation.SetCreatedAt(v)
+		_c.mutation.SetCreatedAt(v)
 	}
-	if _, ok := ec.mutation.UpdatedAt(); !ok {
+	if _, ok := _c.mutation.UpdatedAt(); !ok {
 		v := endpoint.DefaultUpdatedAt()
-		ec.mutation.SetUpdatedAt(v)
+		_c.mutation.SetUpdatedAt(v)
 	}
-	if _, ok := ec.mutation.Protocol(); !ok {
+	if _, ok := _c.mutation.Protocol(); !ok {
 		v := endpoint.DefaultProtocol
-		ec.mutation.SetProtocol(v)
+		_c.mutation.SetProtocol(v)
 	}
-	if _, ok := ec.mutation.AuthType(); !ok {
+	if _, ok := _c.mutation.AuthType(); !ok {
 		v := endpoint.DefaultAuthType
-		ec.mutation.SetAuthType(v)
+		_c.mutation.SetAuthType(v)
 	}
-	if _, ok := ec.mutation.Timeout(); !ok {
+	if _, ok := _c.mutation.Timeout(); !ok {
 		v := endpoint.DefaultTimeout
-		ec.mutation.SetTimeout(v)
+		_c.mutation.SetTimeout(v)
 	}
-	if _, ok := ec.mutation.UseCircuitBreaker(); !ok {
+	if _, ok := _c.mutation.UseCircuitBreaker(); !ok {
 		v := endpoint.DefaultUseCircuitBreaker
-		ec.mutation.SetUseCircuitBreaker(v)
+		_c.mutation.SetUseCircuitBreaker(v)
 	}
-	if _, ok := ec.mutation.RetryCount(); !ok {
+	if _, ok := _c.mutation.RetryCount(); !ok {
 		v := endpoint.DefaultRetryCount
-		ec.mutation.SetRetryCount(v)
+		_c.mutation.SetRetryCount(v)
 	}
-	if _, ok := ec.mutation.ValidateSsl(); !ok {
+	if _, ok := _c.mutation.ValidateSsl(); !ok {
 		v := endpoint.DefaultValidateSsl
-		ec.mutation.SetValidateSsl(v)
+		_c.mutation.SetValidateSsl(v)
 	}
-	if _, ok := ec.mutation.LogRequests(); !ok {
+	if _, ok := _c.mutation.LogRequests(); !ok {
 		v := endpoint.DefaultLogRequests
-		ec.mutation.SetLogRequests(v)
+		_c.mutation.SetLogRequests(v)
 	}
-	if _, ok := ec.mutation.LogResponses(); !ok {
+	if _, ok := _c.mutation.LogResponses(); !ok {
 		v := endpoint.DefaultLogResponses
-		ec.mutation.SetLogResponses(v)
+		_c.mutation.SetLogResponses(v)
 	}
-	if _, ok := ec.mutation.ID(); !ok {
+	if _, ok := _c.mutation.ID(); !ok {
 		v := endpoint.DefaultID()
-		ec.mutation.SetID(v)
+		_c.mutation.SetID(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (ec *EndpointCreate) check() error {
-	if _, ok := ec.mutation.BaseURL(); !ok {
+func (_c *EndpointCreate) check() error {
+	if _, ok := _c.mutation.BaseURL(); !ok {
 		return &ValidationError{Name: "base_url", err: errors.New(`ent: missing required field "Endpoint.base_url"`)}
 	}
-	if v, ok := ec.mutation.BaseURL(); ok {
+	if v, ok := _c.mutation.BaseURL(); ok {
 		if err := endpoint.BaseURLValidator(v); err != nil {
 			return &ValidationError{Name: "base_url", err: fmt.Errorf(`ent: validator failed for field "Endpoint.base_url": %w`, err)}
 		}
 	}
-	if _, ok := ec.mutation.Protocol(); !ok {
+	if _, ok := _c.mutation.Protocol(); !ok {
 		return &ValidationError{Name: "protocol", err: errors.New(`ent: missing required field "Endpoint.protocol"`)}
 	}
-	if _, ok := ec.mutation.AuthType(); !ok {
+	if _, ok := _c.mutation.AuthType(); !ok {
 		return &ValidationError{Name: "auth_type", err: errors.New(`ent: missing required field "Endpoint.auth_type"`)}
 	}
-	if _, ok := ec.mutation.Timeout(); !ok {
+	if _, ok := _c.mutation.Timeout(); !ok {
 		return &ValidationError{Name: "timeout", err: errors.New(`ent: missing required field "Endpoint.timeout"`)}
 	}
-	if _, ok := ec.mutation.UseCircuitBreaker(); !ok {
+	if _, ok := _c.mutation.UseCircuitBreaker(); !ok {
 		return &ValidationError{Name: "use_circuit_breaker", err: errors.New(`ent: missing required field "Endpoint.use_circuit_breaker"`)}
 	}
-	if _, ok := ec.mutation.RetryCount(); !ok {
+	if _, ok := _c.mutation.RetryCount(); !ok {
 		return &ValidationError{Name: "retry_count", err: errors.New(`ent: missing required field "Endpoint.retry_count"`)}
 	}
-	if _, ok := ec.mutation.ValidateSsl(); !ok {
+	if _, ok := _c.mutation.ValidateSsl(); !ok {
 		return &ValidationError{Name: "validate_ssl", err: errors.New(`ent: missing required field "Endpoint.validate_ssl"`)}
 	}
-	if _, ok := ec.mutation.LogRequests(); !ok {
+	if _, ok := _c.mutation.LogRequests(); !ok {
 		return &ValidationError{Name: "log_requests", err: errors.New(`ent: missing required field "Endpoint.log_requests"`)}
 	}
-	if _, ok := ec.mutation.LogResponses(); !ok {
+	if _, ok := _c.mutation.LogResponses(); !ok {
 		return &ValidationError{Name: "log_responses", err: errors.New(`ent: missing required field "Endpoint.log_responses"`)}
 	}
-	if v, ok := ec.mutation.ID(); ok {
+	if v, ok := _c.mutation.ID(); ok {
 		if err := endpoint.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "Endpoint.id": %w`, err)}
 		}
@@ -400,12 +400,12 @@ func (ec *EndpointCreate) check() error {
 	return nil
 }
 
-func (ec *EndpointCreate) sqlSave(ctx context.Context) (*Endpoint, error) {
-	if err := ec.check(); err != nil {
+func (_c *EndpointCreate) sqlSave(ctx context.Context) (*Endpoint, error) {
+	if err := _c.check(); err != nil {
 		return nil, err
 	}
-	_node, _spec := ec.createSpec()
-	if err := sqlgraph.CreateNode(ctx, ec.driver, _spec); err != nil {
+	_node, _spec := _c.createSpec()
+	if err := sqlgraph.CreateNode(ctx, _c.driver, _spec); err != nil {
 		if sqlgraph.IsConstraintError(err) {
 			err = &ConstraintError{msg: err.Error(), wrap: err}
 		}
@@ -418,89 +418,89 @@ func (ec *EndpointCreate) sqlSave(ctx context.Context) (*Endpoint, error) {
 			return nil, fmt.Errorf("unexpected Endpoint.ID type: %T", _spec.ID.Value)
 		}
 	}
-	ec.mutation.id = &_node.ID
-	ec.mutation.done = true
+	_c.mutation.id = &_node.ID
+	_c.mutation.done = true
 	return _node, nil
 }
 
-func (ec *EndpointCreate) createSpec() (*Endpoint, *sqlgraph.CreateSpec) {
+func (_c *EndpointCreate) createSpec() (*Endpoint, *sqlgraph.CreateSpec) {
 	var (
-		_node = &Endpoint{config: ec.config}
+		_node = &Endpoint{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(endpoint.Table, sqlgraph.NewFieldSpec(endpoint.FieldID, field.TypeString))
 	)
-	if id, ok := ec.mutation.ID(); ok {
+	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
 	}
-	if value, ok := ec.mutation.Name(); ok {
+	if value, ok := _c.mutation.Name(); ok {
 		_spec.SetField(endpoint.FieldName, field.TypeString, value)
 		_node.Name = value
 	}
-	if value, ok := ec.mutation.Description(); ok {
+	if value, ok := _c.mutation.Description(); ok {
 		_spec.SetField(endpoint.FieldDescription, field.TypeString, value)
 		_node.Description = value
 	}
-	if value, ok := ec.mutation.Disabled(); ok {
+	if value, ok := _c.mutation.Disabled(); ok {
 		_spec.SetField(endpoint.FieldDisabled, field.TypeBool, value)
 		_node.Disabled = value
 	}
-	if value, ok := ec.mutation.Extras(); ok {
+	if value, ok := _c.mutation.Extras(); ok {
 		_spec.SetField(endpoint.FieldExtras, field.TypeJSON, value)
 		_node.Extras = value
 	}
-	if value, ok := ec.mutation.CreatedBy(); ok {
+	if value, ok := _c.mutation.CreatedBy(); ok {
 		_spec.SetField(endpoint.FieldCreatedBy, field.TypeString, value)
 		_node.CreatedBy = value
 	}
-	if value, ok := ec.mutation.UpdatedBy(); ok {
+	if value, ok := _c.mutation.UpdatedBy(); ok {
 		_spec.SetField(endpoint.FieldUpdatedBy, field.TypeString, value)
 		_node.UpdatedBy = value
 	}
-	if value, ok := ec.mutation.CreatedAt(); ok {
+	if value, ok := _c.mutation.CreatedAt(); ok {
 		_spec.SetField(endpoint.FieldCreatedAt, field.TypeInt64, value)
 		_node.CreatedAt = value
 	}
-	if value, ok := ec.mutation.UpdatedAt(); ok {
+	if value, ok := _c.mutation.UpdatedAt(); ok {
 		_spec.SetField(endpoint.FieldUpdatedAt, field.TypeInt64, value)
 		_node.UpdatedAt = value
 	}
-	if value, ok := ec.mutation.BaseURL(); ok {
+	if value, ok := _c.mutation.BaseURL(); ok {
 		_spec.SetField(endpoint.FieldBaseURL, field.TypeString, value)
 		_node.BaseURL = value
 	}
-	if value, ok := ec.mutation.Protocol(); ok {
+	if value, ok := _c.mutation.Protocol(); ok {
 		_spec.SetField(endpoint.FieldProtocol, field.TypeString, value)
 		_node.Protocol = value
 	}
-	if value, ok := ec.mutation.AuthType(); ok {
+	if value, ok := _c.mutation.AuthType(); ok {
 		_spec.SetField(endpoint.FieldAuthType, field.TypeString, value)
 		_node.AuthType = value
 	}
-	if value, ok := ec.mutation.AuthConfig(); ok {
+	if value, ok := _c.mutation.AuthConfig(); ok {
 		_spec.SetField(endpoint.FieldAuthConfig, field.TypeString, value)
 		_node.AuthConfig = value
 	}
-	if value, ok := ec.mutation.Timeout(); ok {
+	if value, ok := _c.mutation.Timeout(); ok {
 		_spec.SetField(endpoint.FieldTimeout, field.TypeInt, value)
 		_node.Timeout = value
 	}
-	if value, ok := ec.mutation.UseCircuitBreaker(); ok {
+	if value, ok := _c.mutation.UseCircuitBreaker(); ok {
 		_spec.SetField(endpoint.FieldUseCircuitBreaker, field.TypeBool, value)
 		_node.UseCircuitBreaker = value
 	}
-	if value, ok := ec.mutation.RetryCount(); ok {
+	if value, ok := _c.mutation.RetryCount(); ok {
 		_spec.SetField(endpoint.FieldRetryCount, field.TypeInt, value)
 		_node.RetryCount = value
 	}
-	if value, ok := ec.mutation.ValidateSsl(); ok {
+	if value, ok := _c.mutation.ValidateSsl(); ok {
 		_spec.SetField(endpoint.FieldValidateSsl, field.TypeBool, value)
 		_node.ValidateSsl = value
 	}
-	if value, ok := ec.mutation.LogRequests(); ok {
+	if value, ok := _c.mutation.LogRequests(); ok {
 		_spec.SetField(endpoint.FieldLogRequests, field.TypeBool, value)
 		_node.LogRequests = value
 	}
-	if value, ok := ec.mutation.LogResponses(); ok {
+	if value, ok := _c.mutation.LogResponses(); ok {
 		_spec.SetField(endpoint.FieldLogResponses, field.TypeBool, value)
 		_node.LogResponses = value
 	}
@@ -515,16 +515,16 @@ type EndpointCreateBulk struct {
 }
 
 // Save creates the Endpoint entities in the database.
-func (ecb *EndpointCreateBulk) Save(ctx context.Context) ([]*Endpoint, error) {
-	if ecb.err != nil {
-		return nil, ecb.err
+func (_c *EndpointCreateBulk) Save(ctx context.Context) ([]*Endpoint, error) {
+	if _c.err != nil {
+		return nil, _c.err
 	}
-	specs := make([]*sqlgraph.CreateSpec, len(ecb.builders))
-	nodes := make([]*Endpoint, len(ecb.builders))
-	mutators := make([]Mutator, len(ecb.builders))
-	for i := range ecb.builders {
+	specs := make([]*sqlgraph.CreateSpec, len(_c.builders))
+	nodes := make([]*Endpoint, len(_c.builders))
+	mutators := make([]Mutator, len(_c.builders))
+	for i := range _c.builders {
 		func(i int, root context.Context) {
-			builder := ecb.builders[i]
+			builder := _c.builders[i]
 			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*EndpointMutation)
@@ -538,11 +538,11 @@ func (ecb *EndpointCreateBulk) Save(ctx context.Context) ([]*Endpoint, error) {
 				var err error
 				nodes[i], specs[i] = builder.createSpec()
 				if i < len(mutators)-1 {
-					_, err = mutators[i+1].Mutate(root, ecb.builders[i+1].mutation)
+					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
 					// Invoke the actual operation on the latest mutation in the chain.
-					if err = sqlgraph.BatchCreate(ctx, ecb.driver, spec); err != nil {
+					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
 							err = &ConstraintError{msg: err.Error(), wrap: err}
 						}
@@ -562,7 +562,7 @@ func (ecb *EndpointCreateBulk) Save(ctx context.Context) ([]*Endpoint, error) {
 		}(i, ctx)
 	}
 	if len(mutators) > 0 {
-		if _, err := mutators[0].Mutate(ctx, ecb.builders[0].mutation); err != nil {
+		if _, err := mutators[0].Mutate(ctx, _c.builders[0].mutation); err != nil {
 			return nil, err
 		}
 	}
@@ -570,8 +570,8 @@ func (ecb *EndpointCreateBulk) Save(ctx context.Context) ([]*Endpoint, error) {
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (ecb *EndpointCreateBulk) SaveX(ctx context.Context) []*Endpoint {
-	v, err := ecb.Save(ctx)
+func (_c *EndpointCreateBulk) SaveX(ctx context.Context) []*Endpoint {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -579,14 +579,14 @@ func (ecb *EndpointCreateBulk) SaveX(ctx context.Context) []*Endpoint {
 }
 
 // Exec executes the query.
-func (ecb *EndpointCreateBulk) Exec(ctx context.Context) error {
-	_, err := ecb.Save(ctx)
+func (_c *EndpointCreateBulk) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (ecb *EndpointCreateBulk) ExecX(ctx context.Context) {
-	if err := ecb.Exec(ctx); err != nil {
+func (_c *EndpointCreateBulk) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

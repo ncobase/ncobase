@@ -102,7 +102,7 @@ func (*PaymentSubscription) scanValues(columns []string) ([]any, error) {
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
 // to the PaymentSubscription fields.
-func (ps *PaymentSubscription) assignValues(columns []string, values []any) error {
+func (_m *PaymentSubscription) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
@@ -112,13 +112,13 @@ func (ps *PaymentSubscription) assignValues(columns []string, values []any) erro
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field id", values[i])
 			} else if value.Valid {
-				ps.ID = value.String
+				_m.ID = value.String
 			}
 		case paymentsubscription.FieldExtras:
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field extras", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &ps.Extras); err != nil {
+				if err := json.Unmarshal(*value, &_m.Extras); err != nil {
 					return fmt.Errorf("unmarshal field extras: %w", err)
 				}
 			}
@@ -126,104 +126,104 @@ func (ps *PaymentSubscription) assignValues(columns []string, values []any) erro
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field created_by", values[i])
 			} else if value.Valid {
-				ps.CreatedBy = value.String
+				_m.CreatedBy = value.String
 			}
 		case paymentsubscription.FieldUpdatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_by", values[i])
 			} else if value.Valid {
-				ps.UpdatedBy = value.String
+				_m.UpdatedBy = value.String
 			}
 		case paymentsubscription.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field created_at", values[i])
 			} else if value.Valid {
-				ps.CreatedAt = value.Int64
+				_m.CreatedAt = value.Int64
 			}
 		case paymentsubscription.FieldUpdatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_at", values[i])
 			} else if value.Valid {
-				ps.UpdatedAt = value.Int64
+				_m.UpdatedAt = value.Int64
 			}
 		case paymentsubscription.FieldStatus:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field status", values[i])
 			} else if value.Valid {
-				ps.Status = value.String
+				_m.Status = value.String
 			}
 		case paymentsubscription.FieldUserID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field user_id", values[i])
 			} else if value.Valid {
-				ps.UserID = value.String
+				_m.UserID = value.String
 			}
 		case paymentsubscription.FieldSpaceID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field space_id", values[i])
 			} else if value.Valid {
-				ps.SpaceID = value.String
+				_m.SpaceID = value.String
 			}
 		case paymentsubscription.FieldProductID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field product_id", values[i])
 			} else if value.Valid {
-				ps.ProductID = value.String
+				_m.ProductID = value.String
 			}
 		case paymentsubscription.FieldChannelID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field channel_id", values[i])
 			} else if value.Valid {
-				ps.ChannelID = value.String
+				_m.ChannelID = value.String
 			}
 		case paymentsubscription.FieldCurrentPeriodStart:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field current_period_start", values[i])
 			} else if value.Valid {
-				ps.CurrentPeriodStart = value.Time
+				_m.CurrentPeriodStart = value.Time
 			}
 		case paymentsubscription.FieldCurrentPeriodEnd:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field current_period_end", values[i])
 			} else if value.Valid {
-				ps.CurrentPeriodEnd = value.Time
+				_m.CurrentPeriodEnd = value.Time
 			}
 		case paymentsubscription.FieldCancelAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field cancel_at", values[i])
 			} else if value.Valid {
-				ps.CancelAt = new(time.Time)
-				*ps.CancelAt = value.Time
+				_m.CancelAt = new(time.Time)
+				*_m.CancelAt = value.Time
 			}
 		case paymentsubscription.FieldCancelledAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field cancelled_at", values[i])
 			} else if value.Valid {
-				ps.CancelledAt = new(time.Time)
-				*ps.CancelledAt = value.Time
+				_m.CancelledAt = new(time.Time)
+				*_m.CancelledAt = value.Time
 			}
 		case paymentsubscription.FieldTrialStart:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field trial_start", values[i])
 			} else if value.Valid {
-				ps.TrialStart = new(time.Time)
-				*ps.TrialStart = value.Time
+				_m.TrialStart = new(time.Time)
+				*_m.TrialStart = value.Time
 			}
 		case paymentsubscription.FieldTrialEnd:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field trial_end", values[i])
 			} else if value.Valid {
-				ps.TrialEnd = new(time.Time)
-				*ps.TrialEnd = value.Time
+				_m.TrialEnd = new(time.Time)
+				*_m.TrialEnd = value.Time
 			}
 		case paymentsubscription.FieldProviderRef:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field provider_ref", values[i])
 			} else if value.Valid {
-				ps.ProviderRef = value.String
+				_m.ProviderRef = value.String
 			}
 		default:
-			ps.selectValues.Set(columns[i], values[i])
+			_m.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
@@ -231,96 +231,96 @@ func (ps *PaymentSubscription) assignValues(columns []string, values []any) erro
 
 // Value returns the ent.Value that was dynamically selected and assigned to the PaymentSubscription.
 // This includes values selected through modifiers, order, etc.
-func (ps *PaymentSubscription) Value(name string) (ent.Value, error) {
-	return ps.selectValues.Get(name)
+func (_m *PaymentSubscription) Value(name string) (ent.Value, error) {
+	return _m.selectValues.Get(name)
 }
 
 // QueryProduct queries the "product" edge of the PaymentSubscription entity.
-func (ps *PaymentSubscription) QueryProduct() *PaymentProductQuery {
-	return NewPaymentSubscriptionClient(ps.config).QueryProduct(ps)
+func (_m *PaymentSubscription) QueryProduct() *PaymentProductQuery {
+	return NewPaymentSubscriptionClient(_m.config).QueryProduct(_m)
 }
 
 // Update returns a builder for updating this PaymentSubscription.
 // Note that you need to call PaymentSubscription.Unwrap() before calling this method if this PaymentSubscription
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (ps *PaymentSubscription) Update() *PaymentSubscriptionUpdateOne {
-	return NewPaymentSubscriptionClient(ps.config).UpdateOne(ps)
+func (_m *PaymentSubscription) Update() *PaymentSubscriptionUpdateOne {
+	return NewPaymentSubscriptionClient(_m.config).UpdateOne(_m)
 }
 
 // Unwrap unwraps the PaymentSubscription entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (ps *PaymentSubscription) Unwrap() *PaymentSubscription {
-	_tx, ok := ps.config.driver.(*txDriver)
+func (_m *PaymentSubscription) Unwrap() *PaymentSubscription {
+	_tx, ok := _m.config.driver.(*txDriver)
 	if !ok {
 		panic("ent: PaymentSubscription is not a transactional entity")
 	}
-	ps.config.driver = _tx.drv
-	return ps
+	_m.config.driver = _tx.drv
+	return _m
 }
 
 // String implements the fmt.Stringer.
-func (ps *PaymentSubscription) String() string {
+func (_m *PaymentSubscription) String() string {
 	var builder strings.Builder
 	builder.WriteString("PaymentSubscription(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", ps.ID))
+	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
 	builder.WriteString("extras=")
-	builder.WriteString(fmt.Sprintf("%v", ps.Extras))
+	builder.WriteString(fmt.Sprintf("%v", _m.Extras))
 	builder.WriteString(", ")
 	builder.WriteString("created_by=")
-	builder.WriteString(ps.CreatedBy)
+	builder.WriteString(_m.CreatedBy)
 	builder.WriteString(", ")
 	builder.WriteString("updated_by=")
-	builder.WriteString(ps.UpdatedBy)
+	builder.WriteString(_m.UpdatedBy)
 	builder.WriteString(", ")
 	builder.WriteString("created_at=")
-	builder.WriteString(fmt.Sprintf("%v", ps.CreatedAt))
+	builder.WriteString(fmt.Sprintf("%v", _m.CreatedAt))
 	builder.WriteString(", ")
 	builder.WriteString("updated_at=")
-	builder.WriteString(fmt.Sprintf("%v", ps.UpdatedAt))
+	builder.WriteString(fmt.Sprintf("%v", _m.UpdatedAt))
 	builder.WriteString(", ")
 	builder.WriteString("status=")
-	builder.WriteString(ps.Status)
+	builder.WriteString(_m.Status)
 	builder.WriteString(", ")
 	builder.WriteString("user_id=")
-	builder.WriteString(ps.UserID)
+	builder.WriteString(_m.UserID)
 	builder.WriteString(", ")
 	builder.WriteString("space_id=")
-	builder.WriteString(ps.SpaceID)
+	builder.WriteString(_m.SpaceID)
 	builder.WriteString(", ")
 	builder.WriteString("product_id=")
-	builder.WriteString(ps.ProductID)
+	builder.WriteString(_m.ProductID)
 	builder.WriteString(", ")
 	builder.WriteString("channel_id=")
-	builder.WriteString(ps.ChannelID)
+	builder.WriteString(_m.ChannelID)
 	builder.WriteString(", ")
 	builder.WriteString("current_period_start=")
-	builder.WriteString(ps.CurrentPeriodStart.Format(time.ANSIC))
+	builder.WriteString(_m.CurrentPeriodStart.Format(time.ANSIC))
 	builder.WriteString(", ")
 	builder.WriteString("current_period_end=")
-	builder.WriteString(ps.CurrentPeriodEnd.Format(time.ANSIC))
+	builder.WriteString(_m.CurrentPeriodEnd.Format(time.ANSIC))
 	builder.WriteString(", ")
-	if v := ps.CancelAt; v != nil {
+	if v := _m.CancelAt; v != nil {
 		builder.WriteString("cancel_at=")
 		builder.WriteString(v.Format(time.ANSIC))
 	}
 	builder.WriteString(", ")
-	if v := ps.CancelledAt; v != nil {
+	if v := _m.CancelledAt; v != nil {
 		builder.WriteString("cancelled_at=")
 		builder.WriteString(v.Format(time.ANSIC))
 	}
 	builder.WriteString(", ")
-	if v := ps.TrialStart; v != nil {
+	if v := _m.TrialStart; v != nil {
 		builder.WriteString("trial_start=")
 		builder.WriteString(v.Format(time.ANSIC))
 	}
 	builder.WriteString(", ")
-	if v := ps.TrialEnd; v != nil {
+	if v := _m.TrialEnd; v != nil {
 		builder.WriteString("trial_end=")
 		builder.WriteString(v.Format(time.ANSIC))
 	}
 	builder.WriteString(", ")
 	builder.WriteString("provider_ref=")
-	builder.WriteString(ps.ProviderRef)
+	builder.WriteString(_m.ProviderRef)
 	builder.WriteByte(')')
 	return builder.String()
 }

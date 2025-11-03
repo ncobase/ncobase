@@ -48,7 +48,7 @@ func (*Subscription) scanValues(columns []string) ([]any, error) {
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
 // to the Subscription fields.
-func (s *Subscription) assignValues(columns []string, values []any) error {
+func (_m *Subscription) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
@@ -58,40 +58,40 @@ func (s *Subscription) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field id", values[i])
 			} else if value.Valid {
-				s.ID = value.String
+				_m.ID = value.String
 			}
 		case subscription.FieldUserID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field user_id", values[i])
 			} else if value.Valid {
-				s.UserID = value.String
+				_m.UserID = value.String
 			}
 		case subscription.FieldChannelID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field channel_id", values[i])
 			} else if value.Valid {
-				s.ChannelID = value.String
+				_m.ChannelID = value.String
 			}
 		case subscription.FieldStatus:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field status", values[i])
 			} else if value.Valid {
-				s.Status = int(value.Int64)
+				_m.Status = int(value.Int64)
 			}
 		case subscription.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field created_at", values[i])
 			} else if value.Valid {
-				s.CreatedAt = value.Int64
+				_m.CreatedAt = value.Int64
 			}
 		case subscription.FieldUpdatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_at", values[i])
 			} else if value.Valid {
-				s.UpdatedAt = value.Int64
+				_m.UpdatedAt = value.Int64
 			}
 		default:
-			s.selectValues.Set(columns[i], values[i])
+			_m.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
@@ -99,47 +99,47 @@ func (s *Subscription) assignValues(columns []string, values []any) error {
 
 // Value returns the ent.Value that was dynamically selected and assigned to the Subscription.
 // This includes values selected through modifiers, order, etc.
-func (s *Subscription) Value(name string) (ent.Value, error) {
-	return s.selectValues.Get(name)
+func (_m *Subscription) Value(name string) (ent.Value, error) {
+	return _m.selectValues.Get(name)
 }
 
 // Update returns a builder for updating this Subscription.
 // Note that you need to call Subscription.Unwrap() before calling this method if this Subscription
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (s *Subscription) Update() *SubscriptionUpdateOne {
-	return NewSubscriptionClient(s.config).UpdateOne(s)
+func (_m *Subscription) Update() *SubscriptionUpdateOne {
+	return NewSubscriptionClient(_m.config).UpdateOne(_m)
 }
 
 // Unwrap unwraps the Subscription entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (s *Subscription) Unwrap() *Subscription {
-	_tx, ok := s.config.driver.(*txDriver)
+func (_m *Subscription) Unwrap() *Subscription {
+	_tx, ok := _m.config.driver.(*txDriver)
 	if !ok {
 		panic("ent: Subscription is not a transactional entity")
 	}
-	s.config.driver = _tx.drv
-	return s
+	_m.config.driver = _tx.drv
+	return _m
 }
 
 // String implements the fmt.Stringer.
-func (s *Subscription) String() string {
+func (_m *Subscription) String() string {
 	var builder strings.Builder
 	builder.WriteString("Subscription(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", s.ID))
+	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
 	builder.WriteString("user_id=")
-	builder.WriteString(s.UserID)
+	builder.WriteString(_m.UserID)
 	builder.WriteString(", ")
 	builder.WriteString("channel_id=")
-	builder.WriteString(s.ChannelID)
+	builder.WriteString(_m.ChannelID)
 	builder.WriteString(", ")
 	builder.WriteString("status=")
-	builder.WriteString(fmt.Sprintf("%v", s.Status))
+	builder.WriteString(fmt.Sprintf("%v", _m.Status))
 	builder.WriteString(", ")
 	builder.WriteString("created_at=")
-	builder.WriteString(fmt.Sprintf("%v", s.CreatedAt))
+	builder.WriteString(fmt.Sprintf("%v", _m.CreatedAt))
 	builder.WriteString(", ")
 	builder.WriteString("updated_at=")
-	builder.WriteString(fmt.Sprintf("%v", s.UpdatedAt))
+	builder.WriteString(fmt.Sprintf("%v", _m.UpdatedAt))
 	builder.WriteByte(')')
 	return builder.String()
 }

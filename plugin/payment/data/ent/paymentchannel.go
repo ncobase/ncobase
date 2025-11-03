@@ -69,7 +69,7 @@ func (*PaymentChannel) scanValues(columns []string) ([]any, error) {
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
 // to the PaymentChannel fields.
-func (pc *PaymentChannel) assignValues(columns []string, values []any) error {
+func (_m *PaymentChannel) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
@@ -79,25 +79,25 @@ func (pc *PaymentChannel) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field id", values[i])
 			} else if value.Valid {
-				pc.ID = value.String
+				_m.ID = value.String
 			}
 		case paymentchannel.FieldName:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field name", values[i])
 			} else if value.Valid {
-				pc.Name = value.String
+				_m.Name = value.String
 			}
 		case paymentchannel.FieldDescription:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field description", values[i])
 			} else if value.Valid {
-				pc.Description = value.String
+				_m.Description = value.String
 			}
 		case paymentchannel.FieldExtras:
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field extras", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &pc.Extras); err != nil {
+				if err := json.Unmarshal(*value, &_m.Extras); err != nil {
 					return fmt.Errorf("unmarshal field extras: %w", err)
 				}
 			}
@@ -105,49 +105,49 @@ func (pc *PaymentChannel) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field created_by", values[i])
 			} else if value.Valid {
-				pc.CreatedBy = value.String
+				_m.CreatedBy = value.String
 			}
 		case paymentchannel.FieldUpdatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_by", values[i])
 			} else if value.Valid {
-				pc.UpdatedBy = value.String
+				_m.UpdatedBy = value.String
 			}
 		case paymentchannel.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field created_at", values[i])
 			} else if value.Valid {
-				pc.CreatedAt = value.Int64
+				_m.CreatedAt = value.Int64
 			}
 		case paymentchannel.FieldUpdatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_at", values[i])
 			} else if value.Valid {
-				pc.UpdatedAt = value.Int64
+				_m.UpdatedAt = value.Int64
 			}
 		case paymentchannel.FieldProvider:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field provider", values[i])
 			} else if value.Valid {
-				pc.Provider = value.String
+				_m.Provider = value.String
 			}
 		case paymentchannel.FieldStatus:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field status", values[i])
 			} else if value.Valid {
-				pc.Status = value.String
+				_m.Status = value.String
 			}
 		case paymentchannel.FieldIsDefault:
 			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field is_default", values[i])
 			} else if value.Valid {
-				pc.IsDefault = value.Bool
+				_m.IsDefault = value.Bool
 			}
 		case paymentchannel.FieldSupportedTypes:
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field supported_types", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &pc.SupportedTypes); err != nil {
+				if err := json.Unmarshal(*value, &_m.SupportedTypes); err != nil {
 					return fmt.Errorf("unmarshal field supported_types: %w", err)
 				}
 			}
@@ -155,7 +155,7 @@ func (pc *PaymentChannel) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field config", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &pc.Config); err != nil {
+				if err := json.Unmarshal(*value, &_m.Config); err != nil {
 					return fmt.Errorf("unmarshal field config: %w", err)
 				}
 			}
@@ -163,10 +163,10 @@ func (pc *PaymentChannel) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field space_id", values[i])
 			} else if value.Valid {
-				pc.SpaceID = value.String
+				_m.SpaceID = value.String
 			}
 		default:
-			pc.selectValues.Set(columns[i], values[i])
+			_m.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
@@ -174,71 +174,71 @@ func (pc *PaymentChannel) assignValues(columns []string, values []any) error {
 
 // Value returns the ent.Value that was dynamically selected and assigned to the PaymentChannel.
 // This includes values selected through modifiers, order, etc.
-func (pc *PaymentChannel) Value(name string) (ent.Value, error) {
-	return pc.selectValues.Get(name)
+func (_m *PaymentChannel) Value(name string) (ent.Value, error) {
+	return _m.selectValues.Get(name)
 }
 
 // Update returns a builder for updating this PaymentChannel.
 // Note that you need to call PaymentChannel.Unwrap() before calling this method if this PaymentChannel
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (pc *PaymentChannel) Update() *PaymentChannelUpdateOne {
-	return NewPaymentChannelClient(pc.config).UpdateOne(pc)
+func (_m *PaymentChannel) Update() *PaymentChannelUpdateOne {
+	return NewPaymentChannelClient(_m.config).UpdateOne(_m)
 }
 
 // Unwrap unwraps the PaymentChannel entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (pc *PaymentChannel) Unwrap() *PaymentChannel {
-	_tx, ok := pc.config.driver.(*txDriver)
+func (_m *PaymentChannel) Unwrap() *PaymentChannel {
+	_tx, ok := _m.config.driver.(*txDriver)
 	if !ok {
 		panic("ent: PaymentChannel is not a transactional entity")
 	}
-	pc.config.driver = _tx.drv
-	return pc
+	_m.config.driver = _tx.drv
+	return _m
 }
 
 // String implements the fmt.Stringer.
-func (pc *PaymentChannel) String() string {
+func (_m *PaymentChannel) String() string {
 	var builder strings.Builder
 	builder.WriteString("PaymentChannel(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", pc.ID))
+	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
 	builder.WriteString("name=")
-	builder.WriteString(pc.Name)
+	builder.WriteString(_m.Name)
 	builder.WriteString(", ")
 	builder.WriteString("description=")
-	builder.WriteString(pc.Description)
+	builder.WriteString(_m.Description)
 	builder.WriteString(", ")
 	builder.WriteString("extras=")
-	builder.WriteString(fmt.Sprintf("%v", pc.Extras))
+	builder.WriteString(fmt.Sprintf("%v", _m.Extras))
 	builder.WriteString(", ")
 	builder.WriteString("created_by=")
-	builder.WriteString(pc.CreatedBy)
+	builder.WriteString(_m.CreatedBy)
 	builder.WriteString(", ")
 	builder.WriteString("updated_by=")
-	builder.WriteString(pc.UpdatedBy)
+	builder.WriteString(_m.UpdatedBy)
 	builder.WriteString(", ")
 	builder.WriteString("created_at=")
-	builder.WriteString(fmt.Sprintf("%v", pc.CreatedAt))
+	builder.WriteString(fmt.Sprintf("%v", _m.CreatedAt))
 	builder.WriteString(", ")
 	builder.WriteString("updated_at=")
-	builder.WriteString(fmt.Sprintf("%v", pc.UpdatedAt))
+	builder.WriteString(fmt.Sprintf("%v", _m.UpdatedAt))
 	builder.WriteString(", ")
 	builder.WriteString("provider=")
-	builder.WriteString(pc.Provider)
+	builder.WriteString(_m.Provider)
 	builder.WriteString(", ")
 	builder.WriteString("status=")
-	builder.WriteString(pc.Status)
+	builder.WriteString(_m.Status)
 	builder.WriteString(", ")
 	builder.WriteString("is_default=")
-	builder.WriteString(fmt.Sprintf("%v", pc.IsDefault))
+	builder.WriteString(fmt.Sprintf("%v", _m.IsDefault))
 	builder.WriteString(", ")
 	builder.WriteString("supported_types=")
-	builder.WriteString(fmt.Sprintf("%v", pc.SupportedTypes))
+	builder.WriteString(fmt.Sprintf("%v", _m.SupportedTypes))
 	builder.WriteString(", ")
 	builder.WriteString("config=")
-	builder.WriteString(fmt.Sprintf("%v", pc.Config))
+	builder.WriteString(fmt.Sprintf("%v", _m.Config))
 	builder.WriteString(", ")
 	builder.WriteString("space_id=")
-	builder.WriteString(pc.SpaceID)
+	builder.WriteString(_m.SpaceID)
 	builder.WriteByte(')')
 	return builder.String()
 }

@@ -20,277 +20,277 @@ type SpaceCreate struct {
 }
 
 // SetName sets the "name" field.
-func (sc *SpaceCreate) SetName(s string) *SpaceCreate {
-	sc.mutation.SetName(s)
-	return sc
+func (_c *SpaceCreate) SetName(v string) *SpaceCreate {
+	_c.mutation.SetName(v)
+	return _c
 }
 
 // SetNillableName sets the "name" field if the given value is not nil.
-func (sc *SpaceCreate) SetNillableName(s *string) *SpaceCreate {
-	if s != nil {
-		sc.SetName(*s)
+func (_c *SpaceCreate) SetNillableName(v *string) *SpaceCreate {
+	if v != nil {
+		_c.SetName(*v)
 	}
-	return sc
+	return _c
 }
 
 // SetSlug sets the "slug" field.
-func (sc *SpaceCreate) SetSlug(s string) *SpaceCreate {
-	sc.mutation.SetSlug(s)
-	return sc
+func (_c *SpaceCreate) SetSlug(v string) *SpaceCreate {
+	_c.mutation.SetSlug(v)
+	return _c
 }
 
 // SetNillableSlug sets the "slug" field if the given value is not nil.
-func (sc *SpaceCreate) SetNillableSlug(s *string) *SpaceCreate {
-	if s != nil {
-		sc.SetSlug(*s)
+func (_c *SpaceCreate) SetNillableSlug(v *string) *SpaceCreate {
+	if v != nil {
+		_c.SetSlug(*v)
 	}
-	return sc
+	return _c
 }
 
 // SetType sets the "type" field.
-func (sc *SpaceCreate) SetType(s string) *SpaceCreate {
-	sc.mutation.SetType(s)
-	return sc
+func (_c *SpaceCreate) SetType(v string) *SpaceCreate {
+	_c.mutation.SetType(v)
+	return _c
 }
 
 // SetNillableType sets the "type" field if the given value is not nil.
-func (sc *SpaceCreate) SetNillableType(s *string) *SpaceCreate {
-	if s != nil {
-		sc.SetType(*s)
+func (_c *SpaceCreate) SetNillableType(v *string) *SpaceCreate {
+	if v != nil {
+		_c.SetType(*v)
 	}
-	return sc
+	return _c
 }
 
 // SetTitle sets the "title" field.
-func (sc *SpaceCreate) SetTitle(s string) *SpaceCreate {
-	sc.mutation.SetTitle(s)
-	return sc
+func (_c *SpaceCreate) SetTitle(v string) *SpaceCreate {
+	_c.mutation.SetTitle(v)
+	return _c
 }
 
 // SetNillableTitle sets the "title" field if the given value is not nil.
-func (sc *SpaceCreate) SetNillableTitle(s *string) *SpaceCreate {
-	if s != nil {
-		sc.SetTitle(*s)
+func (_c *SpaceCreate) SetNillableTitle(v *string) *SpaceCreate {
+	if v != nil {
+		_c.SetTitle(*v)
 	}
-	return sc
+	return _c
 }
 
 // SetURL sets the "url" field.
-func (sc *SpaceCreate) SetURL(s string) *SpaceCreate {
-	sc.mutation.SetURL(s)
-	return sc
+func (_c *SpaceCreate) SetURL(v string) *SpaceCreate {
+	_c.mutation.SetURL(v)
+	return _c
 }
 
 // SetNillableURL sets the "url" field if the given value is not nil.
-func (sc *SpaceCreate) SetNillableURL(s *string) *SpaceCreate {
-	if s != nil {
-		sc.SetURL(*s)
+func (_c *SpaceCreate) SetNillableURL(v *string) *SpaceCreate {
+	if v != nil {
+		_c.SetURL(*v)
 	}
-	return sc
+	return _c
 }
 
 // SetLogo sets the "logo" field.
-func (sc *SpaceCreate) SetLogo(s string) *SpaceCreate {
-	sc.mutation.SetLogo(s)
-	return sc
+func (_c *SpaceCreate) SetLogo(v string) *SpaceCreate {
+	_c.mutation.SetLogo(v)
+	return _c
 }
 
 // SetNillableLogo sets the "logo" field if the given value is not nil.
-func (sc *SpaceCreate) SetNillableLogo(s *string) *SpaceCreate {
-	if s != nil {
-		sc.SetLogo(*s)
+func (_c *SpaceCreate) SetNillableLogo(v *string) *SpaceCreate {
+	if v != nil {
+		_c.SetLogo(*v)
 	}
-	return sc
+	return _c
 }
 
 // SetLogoAlt sets the "logo_alt" field.
-func (sc *SpaceCreate) SetLogoAlt(s string) *SpaceCreate {
-	sc.mutation.SetLogoAlt(s)
-	return sc
+func (_c *SpaceCreate) SetLogoAlt(v string) *SpaceCreate {
+	_c.mutation.SetLogoAlt(v)
+	return _c
 }
 
 // SetNillableLogoAlt sets the "logo_alt" field if the given value is not nil.
-func (sc *SpaceCreate) SetNillableLogoAlt(s *string) *SpaceCreate {
-	if s != nil {
-		sc.SetLogoAlt(*s)
+func (_c *SpaceCreate) SetNillableLogoAlt(v *string) *SpaceCreate {
+	if v != nil {
+		_c.SetLogoAlt(*v)
 	}
-	return sc
+	return _c
 }
 
 // SetKeywords sets the "keywords" field.
-func (sc *SpaceCreate) SetKeywords(s string) *SpaceCreate {
-	sc.mutation.SetKeywords(s)
-	return sc
+func (_c *SpaceCreate) SetKeywords(v string) *SpaceCreate {
+	_c.mutation.SetKeywords(v)
+	return _c
 }
 
 // SetNillableKeywords sets the "keywords" field if the given value is not nil.
-func (sc *SpaceCreate) SetNillableKeywords(s *string) *SpaceCreate {
-	if s != nil {
-		sc.SetKeywords(*s)
+func (_c *SpaceCreate) SetNillableKeywords(v *string) *SpaceCreate {
+	if v != nil {
+		_c.SetKeywords(*v)
 	}
-	return sc
+	return _c
 }
 
 // SetCopyright sets the "copyright" field.
-func (sc *SpaceCreate) SetCopyright(s string) *SpaceCreate {
-	sc.mutation.SetCopyright(s)
-	return sc
+func (_c *SpaceCreate) SetCopyright(v string) *SpaceCreate {
+	_c.mutation.SetCopyright(v)
+	return _c
 }
 
 // SetNillableCopyright sets the "copyright" field if the given value is not nil.
-func (sc *SpaceCreate) SetNillableCopyright(s *string) *SpaceCreate {
-	if s != nil {
-		sc.SetCopyright(*s)
+func (_c *SpaceCreate) SetNillableCopyright(v *string) *SpaceCreate {
+	if v != nil {
+		_c.SetCopyright(*v)
 	}
-	return sc
+	return _c
 }
 
 // SetDescription sets the "description" field.
-func (sc *SpaceCreate) SetDescription(s string) *SpaceCreate {
-	sc.mutation.SetDescription(s)
-	return sc
+func (_c *SpaceCreate) SetDescription(v string) *SpaceCreate {
+	_c.mutation.SetDescription(v)
+	return _c
 }
 
 // SetNillableDescription sets the "description" field if the given value is not nil.
-func (sc *SpaceCreate) SetNillableDescription(s *string) *SpaceCreate {
-	if s != nil {
-		sc.SetDescription(*s)
+func (_c *SpaceCreate) SetNillableDescription(v *string) *SpaceCreate {
+	if v != nil {
+		_c.SetDescription(*v)
 	}
-	return sc
+	return _c
 }
 
 // SetOrder sets the "order" field.
-func (sc *SpaceCreate) SetOrder(i int) *SpaceCreate {
-	sc.mutation.SetOrder(i)
-	return sc
+func (_c *SpaceCreate) SetOrder(v int) *SpaceCreate {
+	_c.mutation.SetOrder(v)
+	return _c
 }
 
 // SetNillableOrder sets the "order" field if the given value is not nil.
-func (sc *SpaceCreate) SetNillableOrder(i *int) *SpaceCreate {
-	if i != nil {
-		sc.SetOrder(*i)
+func (_c *SpaceCreate) SetNillableOrder(v *int) *SpaceCreate {
+	if v != nil {
+		_c.SetOrder(*v)
 	}
-	return sc
+	return _c
 }
 
 // SetDisabled sets the "disabled" field.
-func (sc *SpaceCreate) SetDisabled(b bool) *SpaceCreate {
-	sc.mutation.SetDisabled(b)
-	return sc
+func (_c *SpaceCreate) SetDisabled(v bool) *SpaceCreate {
+	_c.mutation.SetDisabled(v)
+	return _c
 }
 
 // SetNillableDisabled sets the "disabled" field if the given value is not nil.
-func (sc *SpaceCreate) SetNillableDisabled(b *bool) *SpaceCreate {
-	if b != nil {
-		sc.SetDisabled(*b)
+func (_c *SpaceCreate) SetNillableDisabled(v *bool) *SpaceCreate {
+	if v != nil {
+		_c.SetDisabled(*v)
 	}
-	return sc
+	return _c
 }
 
 // SetExtras sets the "extras" field.
-func (sc *SpaceCreate) SetExtras(m map[string]interface{}) *SpaceCreate {
-	sc.mutation.SetExtras(m)
-	return sc
+func (_c *SpaceCreate) SetExtras(v map[string]interface{}) *SpaceCreate {
+	_c.mutation.SetExtras(v)
+	return _c
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (sc *SpaceCreate) SetCreatedBy(s string) *SpaceCreate {
-	sc.mutation.SetCreatedBy(s)
-	return sc
+func (_c *SpaceCreate) SetCreatedBy(v string) *SpaceCreate {
+	_c.mutation.SetCreatedBy(v)
+	return _c
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (sc *SpaceCreate) SetNillableCreatedBy(s *string) *SpaceCreate {
-	if s != nil {
-		sc.SetCreatedBy(*s)
+func (_c *SpaceCreate) SetNillableCreatedBy(v *string) *SpaceCreate {
+	if v != nil {
+		_c.SetCreatedBy(*v)
 	}
-	return sc
+	return _c
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (sc *SpaceCreate) SetUpdatedBy(s string) *SpaceCreate {
-	sc.mutation.SetUpdatedBy(s)
-	return sc
+func (_c *SpaceCreate) SetUpdatedBy(v string) *SpaceCreate {
+	_c.mutation.SetUpdatedBy(v)
+	return _c
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (sc *SpaceCreate) SetNillableUpdatedBy(s *string) *SpaceCreate {
-	if s != nil {
-		sc.SetUpdatedBy(*s)
+func (_c *SpaceCreate) SetNillableUpdatedBy(v *string) *SpaceCreate {
+	if v != nil {
+		_c.SetUpdatedBy(*v)
 	}
-	return sc
+	return _c
 }
 
 // SetExpiredAt sets the "expired_at" field.
-func (sc *SpaceCreate) SetExpiredAt(i int64) *SpaceCreate {
-	sc.mutation.SetExpiredAt(i)
-	return sc
+func (_c *SpaceCreate) SetExpiredAt(v int64) *SpaceCreate {
+	_c.mutation.SetExpiredAt(v)
+	return _c
 }
 
 // SetNillableExpiredAt sets the "expired_at" field if the given value is not nil.
-func (sc *SpaceCreate) SetNillableExpiredAt(i *int64) *SpaceCreate {
-	if i != nil {
-		sc.SetExpiredAt(*i)
+func (_c *SpaceCreate) SetNillableExpiredAt(v *int64) *SpaceCreate {
+	if v != nil {
+		_c.SetExpiredAt(*v)
 	}
-	return sc
+	return _c
 }
 
 // SetCreatedAt sets the "created_at" field.
-func (sc *SpaceCreate) SetCreatedAt(i int64) *SpaceCreate {
-	sc.mutation.SetCreatedAt(i)
-	return sc
+func (_c *SpaceCreate) SetCreatedAt(v int64) *SpaceCreate {
+	_c.mutation.SetCreatedAt(v)
+	return _c
 }
 
 // SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
-func (sc *SpaceCreate) SetNillableCreatedAt(i *int64) *SpaceCreate {
-	if i != nil {
-		sc.SetCreatedAt(*i)
+func (_c *SpaceCreate) SetNillableCreatedAt(v *int64) *SpaceCreate {
+	if v != nil {
+		_c.SetCreatedAt(*v)
 	}
-	return sc
+	return _c
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (sc *SpaceCreate) SetUpdatedAt(i int64) *SpaceCreate {
-	sc.mutation.SetUpdatedAt(i)
-	return sc
+func (_c *SpaceCreate) SetUpdatedAt(v int64) *SpaceCreate {
+	_c.mutation.SetUpdatedAt(v)
+	return _c
 }
 
 // SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
-func (sc *SpaceCreate) SetNillableUpdatedAt(i *int64) *SpaceCreate {
-	if i != nil {
-		sc.SetUpdatedAt(*i)
+func (_c *SpaceCreate) SetNillableUpdatedAt(v *int64) *SpaceCreate {
+	if v != nil {
+		_c.SetUpdatedAt(*v)
 	}
-	return sc
+	return _c
 }
 
 // SetID sets the "id" field.
-func (sc *SpaceCreate) SetID(s string) *SpaceCreate {
-	sc.mutation.SetID(s)
-	return sc
+func (_c *SpaceCreate) SetID(v string) *SpaceCreate {
+	_c.mutation.SetID(v)
+	return _c
 }
 
 // SetNillableID sets the "id" field if the given value is not nil.
-func (sc *SpaceCreate) SetNillableID(s *string) *SpaceCreate {
-	if s != nil {
-		sc.SetID(*s)
+func (_c *SpaceCreate) SetNillableID(v *string) *SpaceCreate {
+	if v != nil {
+		_c.SetID(*v)
 	}
-	return sc
+	return _c
 }
 
 // Mutation returns the SpaceMutation object of the builder.
-func (sc *SpaceCreate) Mutation() *SpaceMutation {
-	return sc.mutation
+func (_c *SpaceCreate) Mutation() *SpaceMutation {
+	return _c.mutation
 }
 
 // Save creates the Space in the database.
-func (sc *SpaceCreate) Save(ctx context.Context) (*Space, error) {
-	sc.defaults()
-	return withHooks(ctx, sc.sqlSave, sc.mutation, sc.hooks)
+func (_c *SpaceCreate) Save(ctx context.Context) (*Space, error) {
+	_c.defaults()
+	return withHooks(ctx, _c.sqlSave, _c.mutation, _c.hooks)
 }
 
 // SaveX calls Save and panics if Save returns an error.
-func (sc *SpaceCreate) SaveX(ctx context.Context) *Space {
-	v, err := sc.Save(ctx)
+func (_c *SpaceCreate) SaveX(ctx context.Context) *Space {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -298,52 +298,52 @@ func (sc *SpaceCreate) SaveX(ctx context.Context) *Space {
 }
 
 // Exec executes the query.
-func (sc *SpaceCreate) Exec(ctx context.Context) error {
-	_, err := sc.Save(ctx)
+func (_c *SpaceCreate) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (sc *SpaceCreate) ExecX(ctx context.Context) {
-	if err := sc.Exec(ctx); err != nil {
+func (_c *SpaceCreate) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (sc *SpaceCreate) defaults() {
-	if _, ok := sc.mutation.Order(); !ok {
+func (_c *SpaceCreate) defaults() {
+	if _, ok := _c.mutation.Order(); !ok {
 		v := space.DefaultOrder
-		sc.mutation.SetOrder(v)
+		_c.mutation.SetOrder(v)
 	}
-	if _, ok := sc.mutation.Disabled(); !ok {
+	if _, ok := _c.mutation.Disabled(); !ok {
 		v := space.DefaultDisabled
-		sc.mutation.SetDisabled(v)
+		_c.mutation.SetDisabled(v)
 	}
-	if _, ok := sc.mutation.Extras(); !ok {
+	if _, ok := _c.mutation.Extras(); !ok {
 		v := space.DefaultExtras
-		sc.mutation.SetExtras(v)
+		_c.mutation.SetExtras(v)
 	}
-	if _, ok := sc.mutation.CreatedAt(); !ok {
+	if _, ok := _c.mutation.CreatedAt(); !ok {
 		v := space.DefaultCreatedAt()
-		sc.mutation.SetCreatedAt(v)
+		_c.mutation.SetCreatedAt(v)
 	}
-	if _, ok := sc.mutation.UpdatedAt(); !ok {
+	if _, ok := _c.mutation.UpdatedAt(); !ok {
 		v := space.DefaultUpdatedAt()
-		sc.mutation.SetUpdatedAt(v)
+		_c.mutation.SetUpdatedAt(v)
 	}
-	if _, ok := sc.mutation.ID(); !ok {
+	if _, ok := _c.mutation.ID(); !ok {
 		v := space.DefaultID()
-		sc.mutation.SetID(v)
+		_c.mutation.SetID(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (sc *SpaceCreate) check() error {
-	if _, ok := sc.mutation.Order(); !ok {
+func (_c *SpaceCreate) check() error {
+	if _, ok := _c.mutation.Order(); !ok {
 		return &ValidationError{Name: "order", err: errors.New(`ent: missing required field "Space.order"`)}
 	}
-	if v, ok := sc.mutation.ID(); ok {
+	if v, ok := _c.mutation.ID(); ok {
 		if err := space.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "Space.id": %w`, err)}
 		}
@@ -351,12 +351,12 @@ func (sc *SpaceCreate) check() error {
 	return nil
 }
 
-func (sc *SpaceCreate) sqlSave(ctx context.Context) (*Space, error) {
-	if err := sc.check(); err != nil {
+func (_c *SpaceCreate) sqlSave(ctx context.Context) (*Space, error) {
+	if err := _c.check(); err != nil {
 		return nil, err
 	}
-	_node, _spec := sc.createSpec()
-	if err := sqlgraph.CreateNode(ctx, sc.driver, _spec); err != nil {
+	_node, _spec := _c.createSpec()
+	if err := sqlgraph.CreateNode(ctx, _c.driver, _spec); err != nil {
 		if sqlgraph.IsConstraintError(err) {
 			err = &ConstraintError{msg: err.Error(), wrap: err}
 		}
@@ -369,89 +369,89 @@ func (sc *SpaceCreate) sqlSave(ctx context.Context) (*Space, error) {
 			return nil, fmt.Errorf("unexpected Space.ID type: %T", _spec.ID.Value)
 		}
 	}
-	sc.mutation.id = &_node.ID
-	sc.mutation.done = true
+	_c.mutation.id = &_node.ID
+	_c.mutation.done = true
 	return _node, nil
 }
 
-func (sc *SpaceCreate) createSpec() (*Space, *sqlgraph.CreateSpec) {
+func (_c *SpaceCreate) createSpec() (*Space, *sqlgraph.CreateSpec) {
 	var (
-		_node = &Space{config: sc.config}
+		_node = &Space{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(space.Table, sqlgraph.NewFieldSpec(space.FieldID, field.TypeString))
 	)
-	if id, ok := sc.mutation.ID(); ok {
+	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
 	}
-	if value, ok := sc.mutation.Name(); ok {
+	if value, ok := _c.mutation.Name(); ok {
 		_spec.SetField(space.FieldName, field.TypeString, value)
 		_node.Name = value
 	}
-	if value, ok := sc.mutation.Slug(); ok {
+	if value, ok := _c.mutation.Slug(); ok {
 		_spec.SetField(space.FieldSlug, field.TypeString, value)
 		_node.Slug = value
 	}
-	if value, ok := sc.mutation.GetType(); ok {
+	if value, ok := _c.mutation.GetType(); ok {
 		_spec.SetField(space.FieldType, field.TypeString, value)
 		_node.Type = value
 	}
-	if value, ok := sc.mutation.Title(); ok {
+	if value, ok := _c.mutation.Title(); ok {
 		_spec.SetField(space.FieldTitle, field.TypeString, value)
 		_node.Title = value
 	}
-	if value, ok := sc.mutation.URL(); ok {
+	if value, ok := _c.mutation.URL(); ok {
 		_spec.SetField(space.FieldURL, field.TypeString, value)
 		_node.URL = value
 	}
-	if value, ok := sc.mutation.Logo(); ok {
+	if value, ok := _c.mutation.Logo(); ok {
 		_spec.SetField(space.FieldLogo, field.TypeString, value)
 		_node.Logo = value
 	}
-	if value, ok := sc.mutation.LogoAlt(); ok {
+	if value, ok := _c.mutation.LogoAlt(); ok {
 		_spec.SetField(space.FieldLogoAlt, field.TypeString, value)
 		_node.LogoAlt = value
 	}
-	if value, ok := sc.mutation.Keywords(); ok {
+	if value, ok := _c.mutation.Keywords(); ok {
 		_spec.SetField(space.FieldKeywords, field.TypeString, value)
 		_node.Keywords = value
 	}
-	if value, ok := sc.mutation.Copyright(); ok {
+	if value, ok := _c.mutation.Copyright(); ok {
 		_spec.SetField(space.FieldCopyright, field.TypeString, value)
 		_node.Copyright = value
 	}
-	if value, ok := sc.mutation.Description(); ok {
+	if value, ok := _c.mutation.Description(); ok {
 		_spec.SetField(space.FieldDescription, field.TypeString, value)
 		_node.Description = value
 	}
-	if value, ok := sc.mutation.Order(); ok {
+	if value, ok := _c.mutation.Order(); ok {
 		_spec.SetField(space.FieldOrder, field.TypeInt, value)
 		_node.Order = value
 	}
-	if value, ok := sc.mutation.Disabled(); ok {
+	if value, ok := _c.mutation.Disabled(); ok {
 		_spec.SetField(space.FieldDisabled, field.TypeBool, value)
 		_node.Disabled = value
 	}
-	if value, ok := sc.mutation.Extras(); ok {
+	if value, ok := _c.mutation.Extras(); ok {
 		_spec.SetField(space.FieldExtras, field.TypeJSON, value)
 		_node.Extras = value
 	}
-	if value, ok := sc.mutation.CreatedBy(); ok {
+	if value, ok := _c.mutation.CreatedBy(); ok {
 		_spec.SetField(space.FieldCreatedBy, field.TypeString, value)
 		_node.CreatedBy = value
 	}
-	if value, ok := sc.mutation.UpdatedBy(); ok {
+	if value, ok := _c.mutation.UpdatedBy(); ok {
 		_spec.SetField(space.FieldUpdatedBy, field.TypeString, value)
 		_node.UpdatedBy = value
 	}
-	if value, ok := sc.mutation.ExpiredAt(); ok {
+	if value, ok := _c.mutation.ExpiredAt(); ok {
 		_spec.SetField(space.FieldExpiredAt, field.TypeInt64, value)
 		_node.ExpiredAt = value
 	}
-	if value, ok := sc.mutation.CreatedAt(); ok {
+	if value, ok := _c.mutation.CreatedAt(); ok {
 		_spec.SetField(space.FieldCreatedAt, field.TypeInt64, value)
 		_node.CreatedAt = value
 	}
-	if value, ok := sc.mutation.UpdatedAt(); ok {
+	if value, ok := _c.mutation.UpdatedAt(); ok {
 		_spec.SetField(space.FieldUpdatedAt, field.TypeInt64, value)
 		_node.UpdatedAt = value
 	}
@@ -466,16 +466,16 @@ type SpaceCreateBulk struct {
 }
 
 // Save creates the Space entities in the database.
-func (scb *SpaceCreateBulk) Save(ctx context.Context) ([]*Space, error) {
-	if scb.err != nil {
-		return nil, scb.err
+func (_c *SpaceCreateBulk) Save(ctx context.Context) ([]*Space, error) {
+	if _c.err != nil {
+		return nil, _c.err
 	}
-	specs := make([]*sqlgraph.CreateSpec, len(scb.builders))
-	nodes := make([]*Space, len(scb.builders))
-	mutators := make([]Mutator, len(scb.builders))
-	for i := range scb.builders {
+	specs := make([]*sqlgraph.CreateSpec, len(_c.builders))
+	nodes := make([]*Space, len(_c.builders))
+	mutators := make([]Mutator, len(_c.builders))
+	for i := range _c.builders {
 		func(i int, root context.Context) {
-			builder := scb.builders[i]
+			builder := _c.builders[i]
 			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*SpaceMutation)
@@ -489,11 +489,11 @@ func (scb *SpaceCreateBulk) Save(ctx context.Context) ([]*Space, error) {
 				var err error
 				nodes[i], specs[i] = builder.createSpec()
 				if i < len(mutators)-1 {
-					_, err = mutators[i+1].Mutate(root, scb.builders[i+1].mutation)
+					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
 					// Invoke the actual operation on the latest mutation in the chain.
-					if err = sqlgraph.BatchCreate(ctx, scb.driver, spec); err != nil {
+					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
 							err = &ConstraintError{msg: err.Error(), wrap: err}
 						}
@@ -513,7 +513,7 @@ func (scb *SpaceCreateBulk) Save(ctx context.Context) ([]*Space, error) {
 		}(i, ctx)
 	}
 	if len(mutators) > 0 {
-		if _, err := mutators[0].Mutate(ctx, scb.builders[0].mutation); err != nil {
+		if _, err := mutators[0].Mutate(ctx, _c.builders[0].mutation); err != nil {
 			return nil, err
 		}
 	}
@@ -521,8 +521,8 @@ func (scb *SpaceCreateBulk) Save(ctx context.Context) ([]*Space, error) {
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (scb *SpaceCreateBulk) SaveX(ctx context.Context) []*Space {
-	v, err := scb.Save(ctx)
+func (_c *SpaceCreateBulk) SaveX(ctx context.Context) []*Space {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -530,14 +530,14 @@ func (scb *SpaceCreateBulk) SaveX(ctx context.Context) []*Space {
 }
 
 // Exec executes the query.
-func (scb *SpaceCreateBulk) Exec(ctx context.Context) error {
-	_, err := scb.Save(ctx)
+func (_c *SpaceCreateBulk) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (scb *SpaceCreateBulk) ExecX(ctx context.Context) {
-	if err := scb.Exec(ctx); err != nil {
+func (_c *SpaceCreateBulk) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

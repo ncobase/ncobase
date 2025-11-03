@@ -79,7 +79,7 @@ func (*Space) scanValues(columns []string) ([]any, error) {
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
 // to the Space fields.
-func (s *Space) assignValues(columns []string, values []any) error {
+func (_m *Space) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
@@ -89,85 +89,85 @@ func (s *Space) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field id", values[i])
 			} else if value.Valid {
-				s.ID = value.String
+				_m.ID = value.String
 			}
 		case space.FieldName:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field name", values[i])
 			} else if value.Valid {
-				s.Name = value.String
+				_m.Name = value.String
 			}
 		case space.FieldSlug:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field slug", values[i])
 			} else if value.Valid {
-				s.Slug = value.String
+				_m.Slug = value.String
 			}
 		case space.FieldType:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field type", values[i])
 			} else if value.Valid {
-				s.Type = value.String
+				_m.Type = value.String
 			}
 		case space.FieldTitle:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field title", values[i])
 			} else if value.Valid {
-				s.Title = value.String
+				_m.Title = value.String
 			}
 		case space.FieldURL:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field url", values[i])
 			} else if value.Valid {
-				s.URL = value.String
+				_m.URL = value.String
 			}
 		case space.FieldLogo:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field logo", values[i])
 			} else if value.Valid {
-				s.Logo = value.String
+				_m.Logo = value.String
 			}
 		case space.FieldLogoAlt:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field logo_alt", values[i])
 			} else if value.Valid {
-				s.LogoAlt = value.String
+				_m.LogoAlt = value.String
 			}
 		case space.FieldKeywords:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field keywords", values[i])
 			} else if value.Valid {
-				s.Keywords = value.String
+				_m.Keywords = value.String
 			}
 		case space.FieldCopyright:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field copyright", values[i])
 			} else if value.Valid {
-				s.Copyright = value.String
+				_m.Copyright = value.String
 			}
 		case space.FieldDescription:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field description", values[i])
 			} else if value.Valid {
-				s.Description = value.String
+				_m.Description = value.String
 			}
 		case space.FieldOrder:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field order", values[i])
 			} else if value.Valid {
-				s.Order = int(value.Int64)
+				_m.Order = int(value.Int64)
 			}
 		case space.FieldDisabled:
 			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field disabled", values[i])
 			} else if value.Valid {
-				s.Disabled = value.Bool
+				_m.Disabled = value.Bool
 			}
 		case space.FieldExtras:
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field extras", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &s.Extras); err != nil {
+				if err := json.Unmarshal(*value, &_m.Extras); err != nil {
 					return fmt.Errorf("unmarshal field extras: %w", err)
 				}
 			}
@@ -175,34 +175,34 @@ func (s *Space) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field created_by", values[i])
 			} else if value.Valid {
-				s.CreatedBy = value.String
+				_m.CreatedBy = value.String
 			}
 		case space.FieldUpdatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_by", values[i])
 			} else if value.Valid {
-				s.UpdatedBy = value.String
+				_m.UpdatedBy = value.String
 			}
 		case space.FieldExpiredAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field expired_at", values[i])
 			} else if value.Valid {
-				s.ExpiredAt = value.Int64
+				_m.ExpiredAt = value.Int64
 			}
 		case space.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field created_at", values[i])
 			} else if value.Valid {
-				s.CreatedAt = value.Int64
+				_m.CreatedAt = value.Int64
 			}
 		case space.FieldUpdatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_at", values[i])
 			} else if value.Valid {
-				s.UpdatedAt = value.Int64
+				_m.UpdatedAt = value.Int64
 			}
 		default:
-			s.selectValues.Set(columns[i], values[i])
+			_m.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
@@ -210,86 +210,86 @@ func (s *Space) assignValues(columns []string, values []any) error {
 
 // Value returns the ent.Value that was dynamically selected and assigned to the Space.
 // This includes values selected through modifiers, order, etc.
-func (s *Space) Value(name string) (ent.Value, error) {
-	return s.selectValues.Get(name)
+func (_m *Space) Value(name string) (ent.Value, error) {
+	return _m.selectValues.Get(name)
 }
 
 // Update returns a builder for updating this Space.
 // Note that you need to call Space.Unwrap() before calling this method if this Space
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (s *Space) Update() *SpaceUpdateOne {
-	return NewSpaceClient(s.config).UpdateOne(s)
+func (_m *Space) Update() *SpaceUpdateOne {
+	return NewSpaceClient(_m.config).UpdateOne(_m)
 }
 
 // Unwrap unwraps the Space entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (s *Space) Unwrap() *Space {
-	_tx, ok := s.config.driver.(*txDriver)
+func (_m *Space) Unwrap() *Space {
+	_tx, ok := _m.config.driver.(*txDriver)
 	if !ok {
 		panic("ent: Space is not a transactional entity")
 	}
-	s.config.driver = _tx.drv
-	return s
+	_m.config.driver = _tx.drv
+	return _m
 }
 
 // String implements the fmt.Stringer.
-func (s *Space) String() string {
+func (_m *Space) String() string {
 	var builder strings.Builder
 	builder.WriteString("Space(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", s.ID))
+	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
 	builder.WriteString("name=")
-	builder.WriteString(s.Name)
+	builder.WriteString(_m.Name)
 	builder.WriteString(", ")
 	builder.WriteString("slug=")
-	builder.WriteString(s.Slug)
+	builder.WriteString(_m.Slug)
 	builder.WriteString(", ")
 	builder.WriteString("type=")
-	builder.WriteString(s.Type)
+	builder.WriteString(_m.Type)
 	builder.WriteString(", ")
 	builder.WriteString("title=")
-	builder.WriteString(s.Title)
+	builder.WriteString(_m.Title)
 	builder.WriteString(", ")
 	builder.WriteString("url=")
-	builder.WriteString(s.URL)
+	builder.WriteString(_m.URL)
 	builder.WriteString(", ")
 	builder.WriteString("logo=")
-	builder.WriteString(s.Logo)
+	builder.WriteString(_m.Logo)
 	builder.WriteString(", ")
 	builder.WriteString("logo_alt=")
-	builder.WriteString(s.LogoAlt)
+	builder.WriteString(_m.LogoAlt)
 	builder.WriteString(", ")
 	builder.WriteString("keywords=")
-	builder.WriteString(s.Keywords)
+	builder.WriteString(_m.Keywords)
 	builder.WriteString(", ")
 	builder.WriteString("copyright=")
-	builder.WriteString(s.Copyright)
+	builder.WriteString(_m.Copyright)
 	builder.WriteString(", ")
 	builder.WriteString("description=")
-	builder.WriteString(s.Description)
+	builder.WriteString(_m.Description)
 	builder.WriteString(", ")
 	builder.WriteString("order=")
-	builder.WriteString(fmt.Sprintf("%v", s.Order))
+	builder.WriteString(fmt.Sprintf("%v", _m.Order))
 	builder.WriteString(", ")
 	builder.WriteString("disabled=")
-	builder.WriteString(fmt.Sprintf("%v", s.Disabled))
+	builder.WriteString(fmt.Sprintf("%v", _m.Disabled))
 	builder.WriteString(", ")
 	builder.WriteString("extras=")
-	builder.WriteString(fmt.Sprintf("%v", s.Extras))
+	builder.WriteString(fmt.Sprintf("%v", _m.Extras))
 	builder.WriteString(", ")
 	builder.WriteString("created_by=")
-	builder.WriteString(s.CreatedBy)
+	builder.WriteString(_m.CreatedBy)
 	builder.WriteString(", ")
 	builder.WriteString("updated_by=")
-	builder.WriteString(s.UpdatedBy)
+	builder.WriteString(_m.UpdatedBy)
 	builder.WriteString(", ")
 	builder.WriteString("expired_at=")
-	builder.WriteString(fmt.Sprintf("%v", s.ExpiredAt))
+	builder.WriteString(fmt.Sprintf("%v", _m.ExpiredAt))
 	builder.WriteString(", ")
 	builder.WriteString("created_at=")
-	builder.WriteString(fmt.Sprintf("%v", s.CreatedAt))
+	builder.WriteString(fmt.Sprintf("%v", _m.CreatedAt))
 	builder.WriteString(", ")
 	builder.WriteString("updated_at=")
-	builder.WriteString(fmt.Sprintf("%v", s.UpdatedAt))
+	builder.WriteString(fmt.Sprintf("%v", _m.UpdatedAt))
 	builder.WriteByte(')')
 	return builder.String()
 }

@@ -23,183 +23,183 @@ type NotificationUpdate struct {
 }
 
 // Where appends a list predicates to the NotificationUpdate builder.
-func (nu *NotificationUpdate) Where(ps ...predicate.Notification) *NotificationUpdate {
-	nu.mutation.Where(ps...)
-	return nu
+func (_u *NotificationUpdate) Where(ps ...predicate.Notification) *NotificationUpdate {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // SetTitle sets the "title" field.
-func (nu *NotificationUpdate) SetTitle(s string) *NotificationUpdate {
-	nu.mutation.SetTitle(s)
-	return nu
+func (_u *NotificationUpdate) SetTitle(v string) *NotificationUpdate {
+	_u.mutation.SetTitle(v)
+	return _u
 }
 
 // SetNillableTitle sets the "title" field if the given value is not nil.
-func (nu *NotificationUpdate) SetNillableTitle(s *string) *NotificationUpdate {
-	if s != nil {
-		nu.SetTitle(*s)
+func (_u *NotificationUpdate) SetNillableTitle(v *string) *NotificationUpdate {
+	if v != nil {
+		_u.SetTitle(*v)
 	}
-	return nu
+	return _u
 }
 
 // ClearTitle clears the value of the "title" field.
-func (nu *NotificationUpdate) ClearTitle() *NotificationUpdate {
-	nu.mutation.ClearTitle()
-	return nu
+func (_u *NotificationUpdate) ClearTitle() *NotificationUpdate {
+	_u.mutation.ClearTitle()
+	return _u
 }
 
 // SetContent sets the "content" field.
-func (nu *NotificationUpdate) SetContent(s string) *NotificationUpdate {
-	nu.mutation.SetContent(s)
-	return nu
+func (_u *NotificationUpdate) SetContent(v string) *NotificationUpdate {
+	_u.mutation.SetContent(v)
+	return _u
 }
 
 // SetNillableContent sets the "content" field if the given value is not nil.
-func (nu *NotificationUpdate) SetNillableContent(s *string) *NotificationUpdate {
-	if s != nil {
-		nu.SetContent(*s)
+func (_u *NotificationUpdate) SetNillableContent(v *string) *NotificationUpdate {
+	if v != nil {
+		_u.SetContent(*v)
 	}
-	return nu
+	return _u
 }
 
 // ClearContent clears the value of the "content" field.
-func (nu *NotificationUpdate) ClearContent() *NotificationUpdate {
-	nu.mutation.ClearContent()
-	return nu
+func (_u *NotificationUpdate) ClearContent() *NotificationUpdate {
+	_u.mutation.ClearContent()
+	return _u
 }
 
 // SetType sets the "type" field.
-func (nu *NotificationUpdate) SetType(s string) *NotificationUpdate {
-	nu.mutation.SetType(s)
-	return nu
+func (_u *NotificationUpdate) SetType(v string) *NotificationUpdate {
+	_u.mutation.SetType(v)
+	return _u
 }
 
 // SetNillableType sets the "type" field if the given value is not nil.
-func (nu *NotificationUpdate) SetNillableType(s *string) *NotificationUpdate {
-	if s != nil {
-		nu.SetType(*s)
+func (_u *NotificationUpdate) SetNillableType(v *string) *NotificationUpdate {
+	if v != nil {
+		_u.SetType(*v)
 	}
-	return nu
+	return _u
 }
 
 // ClearType clears the value of the "type" field.
-func (nu *NotificationUpdate) ClearType() *NotificationUpdate {
-	nu.mutation.ClearType()
-	return nu
+func (_u *NotificationUpdate) ClearType() *NotificationUpdate {
+	_u.mutation.ClearType()
+	return _u
 }
 
 // SetUserID sets the "user_id" field.
-func (nu *NotificationUpdate) SetUserID(s string) *NotificationUpdate {
-	nu.mutation.SetUserID(s)
-	return nu
+func (_u *NotificationUpdate) SetUserID(v string) *NotificationUpdate {
+	_u.mutation.SetUserID(v)
+	return _u
 }
 
 // SetNillableUserID sets the "user_id" field if the given value is not nil.
-func (nu *NotificationUpdate) SetNillableUserID(s *string) *NotificationUpdate {
-	if s != nil {
-		nu.SetUserID(*s)
+func (_u *NotificationUpdate) SetNillableUserID(v *string) *NotificationUpdate {
+	if v != nil {
+		_u.SetUserID(*v)
 	}
-	return nu
+	return _u
 }
 
 // ClearUserID clears the value of the "user_id" field.
-func (nu *NotificationUpdate) ClearUserID() *NotificationUpdate {
-	nu.mutation.ClearUserID()
-	return nu
+func (_u *NotificationUpdate) ClearUserID() *NotificationUpdate {
+	_u.mutation.ClearUserID()
+	return _u
 }
 
 // SetStatus sets the "status" field.
-func (nu *NotificationUpdate) SetStatus(i int) *NotificationUpdate {
-	nu.mutation.ResetStatus()
-	nu.mutation.SetStatus(i)
-	return nu
+func (_u *NotificationUpdate) SetStatus(v int) *NotificationUpdate {
+	_u.mutation.ResetStatus()
+	_u.mutation.SetStatus(v)
+	return _u
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (nu *NotificationUpdate) SetNillableStatus(i *int) *NotificationUpdate {
-	if i != nil {
-		nu.SetStatus(*i)
+func (_u *NotificationUpdate) SetNillableStatus(v *int) *NotificationUpdate {
+	if v != nil {
+		_u.SetStatus(*v)
 	}
-	return nu
+	return _u
 }
 
-// AddStatus adds i to the "status" field.
-func (nu *NotificationUpdate) AddStatus(i int) *NotificationUpdate {
-	nu.mutation.AddStatus(i)
-	return nu
+// AddStatus adds value to the "status" field.
+func (_u *NotificationUpdate) AddStatus(v int) *NotificationUpdate {
+	_u.mutation.AddStatus(v)
+	return _u
 }
 
 // SetLinks sets the "links" field.
-func (nu *NotificationUpdate) SetLinks(m []map[string]interface{}) *NotificationUpdate {
-	nu.mutation.SetLinks(m)
-	return nu
+func (_u *NotificationUpdate) SetLinks(v []map[string]interface{}) *NotificationUpdate {
+	_u.mutation.SetLinks(v)
+	return _u
 }
 
-// AppendLinks appends m to the "links" field.
-func (nu *NotificationUpdate) AppendLinks(m []map[string]interface{}) *NotificationUpdate {
-	nu.mutation.AppendLinks(m)
-	return nu
+// AppendLinks appends value to the "links" field.
+func (_u *NotificationUpdate) AppendLinks(v []map[string]interface{}) *NotificationUpdate {
+	_u.mutation.AppendLinks(v)
+	return _u
 }
 
 // ClearLinks clears the value of the "links" field.
-func (nu *NotificationUpdate) ClearLinks() *NotificationUpdate {
-	nu.mutation.ClearLinks()
-	return nu
+func (_u *NotificationUpdate) ClearLinks() *NotificationUpdate {
+	_u.mutation.ClearLinks()
+	return _u
 }
 
 // SetChannelID sets the "channel_id" field.
-func (nu *NotificationUpdate) SetChannelID(s string) *NotificationUpdate {
-	nu.mutation.SetChannelID(s)
-	return nu
+func (_u *NotificationUpdate) SetChannelID(v string) *NotificationUpdate {
+	_u.mutation.SetChannelID(v)
+	return _u
 }
 
 // SetNillableChannelID sets the "channel_id" field if the given value is not nil.
-func (nu *NotificationUpdate) SetNillableChannelID(s *string) *NotificationUpdate {
-	if s != nil {
-		nu.SetChannelID(*s)
+func (_u *NotificationUpdate) SetNillableChannelID(v *string) *NotificationUpdate {
+	if v != nil {
+		_u.SetChannelID(*v)
 	}
-	return nu
+	return _u
 }
 
 // ClearChannelID clears the value of the "channel_id" field.
-func (nu *NotificationUpdate) ClearChannelID() *NotificationUpdate {
-	nu.mutation.ClearChannelID()
-	return nu
+func (_u *NotificationUpdate) ClearChannelID() *NotificationUpdate {
+	_u.mutation.ClearChannelID()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (nu *NotificationUpdate) SetUpdatedAt(i int64) *NotificationUpdate {
-	nu.mutation.ResetUpdatedAt()
-	nu.mutation.SetUpdatedAt(i)
-	return nu
+func (_u *NotificationUpdate) SetUpdatedAt(v int64) *NotificationUpdate {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (nu *NotificationUpdate) AddUpdatedAt(i int64) *NotificationUpdate {
-	nu.mutation.AddUpdatedAt(i)
-	return nu
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *NotificationUpdate) AddUpdatedAt(v int64) *NotificationUpdate {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (nu *NotificationUpdate) ClearUpdatedAt() *NotificationUpdate {
-	nu.mutation.ClearUpdatedAt()
-	return nu
+func (_u *NotificationUpdate) ClearUpdatedAt() *NotificationUpdate {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // Mutation returns the NotificationMutation object of the builder.
-func (nu *NotificationUpdate) Mutation() *NotificationMutation {
-	return nu.mutation
+func (_u *NotificationUpdate) Mutation() *NotificationMutation {
+	return _u.mutation
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
-func (nu *NotificationUpdate) Save(ctx context.Context) (int, error) {
-	nu.defaults()
-	return withHooks(ctx, nu.sqlSave, nu.mutation, nu.hooks)
+func (_u *NotificationUpdate) Save(ctx context.Context) (int, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (nu *NotificationUpdate) SaveX(ctx context.Context) int {
-	affected, err := nu.Save(ctx)
+func (_u *NotificationUpdate) SaveX(ctx context.Context) int {
+	affected, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -207,95 +207,95 @@ func (nu *NotificationUpdate) SaveX(ctx context.Context) int {
 }
 
 // Exec executes the query.
-func (nu *NotificationUpdate) Exec(ctx context.Context) error {
-	_, err := nu.Save(ctx)
+func (_u *NotificationUpdate) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (nu *NotificationUpdate) ExecX(ctx context.Context) {
-	if err := nu.Exec(ctx); err != nil {
+func (_u *NotificationUpdate) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (nu *NotificationUpdate) defaults() {
-	if _, ok := nu.mutation.UpdatedAt(); !ok && !nu.mutation.UpdatedAtCleared() {
+func (_u *NotificationUpdate) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := notification.UpdateDefaultUpdatedAt()
-		nu.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (nu *NotificationUpdate) sqlSave(ctx context.Context) (n int, err error) {
+func (_u *NotificationUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	_spec := sqlgraph.NewUpdateSpec(notification.Table, notification.Columns, sqlgraph.NewFieldSpec(notification.FieldID, field.TypeString))
-	if ps := nu.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := nu.mutation.Title(); ok {
+	if value, ok := _u.mutation.Title(); ok {
 		_spec.SetField(notification.FieldTitle, field.TypeString, value)
 	}
-	if nu.mutation.TitleCleared() {
+	if _u.mutation.TitleCleared() {
 		_spec.ClearField(notification.FieldTitle, field.TypeString)
 	}
-	if value, ok := nu.mutation.Content(); ok {
+	if value, ok := _u.mutation.Content(); ok {
 		_spec.SetField(notification.FieldContent, field.TypeString, value)
 	}
-	if nu.mutation.ContentCleared() {
+	if _u.mutation.ContentCleared() {
 		_spec.ClearField(notification.FieldContent, field.TypeString)
 	}
-	if value, ok := nu.mutation.GetType(); ok {
+	if value, ok := _u.mutation.GetType(); ok {
 		_spec.SetField(notification.FieldType, field.TypeString, value)
 	}
-	if nu.mutation.TypeCleared() {
+	if _u.mutation.TypeCleared() {
 		_spec.ClearField(notification.FieldType, field.TypeString)
 	}
-	if value, ok := nu.mutation.UserID(); ok {
+	if value, ok := _u.mutation.UserID(); ok {
 		_spec.SetField(notification.FieldUserID, field.TypeString, value)
 	}
-	if nu.mutation.UserIDCleared() {
+	if _u.mutation.UserIDCleared() {
 		_spec.ClearField(notification.FieldUserID, field.TypeString)
 	}
-	if value, ok := nu.mutation.Status(); ok {
+	if value, ok := _u.mutation.Status(); ok {
 		_spec.SetField(notification.FieldStatus, field.TypeInt, value)
 	}
-	if value, ok := nu.mutation.AddedStatus(); ok {
+	if value, ok := _u.mutation.AddedStatus(); ok {
 		_spec.AddField(notification.FieldStatus, field.TypeInt, value)
 	}
-	if value, ok := nu.mutation.Links(); ok {
+	if value, ok := _u.mutation.Links(); ok {
 		_spec.SetField(notification.FieldLinks, field.TypeJSON, value)
 	}
-	if value, ok := nu.mutation.AppendedLinks(); ok {
+	if value, ok := _u.mutation.AppendedLinks(); ok {
 		_spec.AddModifier(func(u *sql.UpdateBuilder) {
 			sqljson.Append(u, notification.FieldLinks, value)
 		})
 	}
-	if nu.mutation.LinksCleared() {
+	if _u.mutation.LinksCleared() {
 		_spec.ClearField(notification.FieldLinks, field.TypeJSON)
 	}
-	if value, ok := nu.mutation.ChannelID(); ok {
+	if value, ok := _u.mutation.ChannelID(); ok {
 		_spec.SetField(notification.FieldChannelID, field.TypeString, value)
 	}
-	if nu.mutation.ChannelIDCleared() {
+	if _u.mutation.ChannelIDCleared() {
 		_spec.ClearField(notification.FieldChannelID, field.TypeString)
 	}
-	if nu.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(notification.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := nu.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(notification.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := nu.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(notification.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if nu.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(notification.FieldUpdatedAt, field.TypeInt64)
 	}
-	if n, err = sqlgraph.UpdateNodes(ctx, nu.driver, _spec); err != nil {
+	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{notification.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -303,8 +303,8 @@ func (nu *NotificationUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		return 0, err
 	}
-	nu.mutation.done = true
-	return n, nil
+	_u.mutation.done = true
+	return _node, nil
 }
 
 // NotificationUpdateOne is the builder for updating a single Notification entity.
@@ -316,190 +316,190 @@ type NotificationUpdateOne struct {
 }
 
 // SetTitle sets the "title" field.
-func (nuo *NotificationUpdateOne) SetTitle(s string) *NotificationUpdateOne {
-	nuo.mutation.SetTitle(s)
-	return nuo
+func (_u *NotificationUpdateOne) SetTitle(v string) *NotificationUpdateOne {
+	_u.mutation.SetTitle(v)
+	return _u
 }
 
 // SetNillableTitle sets the "title" field if the given value is not nil.
-func (nuo *NotificationUpdateOne) SetNillableTitle(s *string) *NotificationUpdateOne {
-	if s != nil {
-		nuo.SetTitle(*s)
+func (_u *NotificationUpdateOne) SetNillableTitle(v *string) *NotificationUpdateOne {
+	if v != nil {
+		_u.SetTitle(*v)
 	}
-	return nuo
+	return _u
 }
 
 // ClearTitle clears the value of the "title" field.
-func (nuo *NotificationUpdateOne) ClearTitle() *NotificationUpdateOne {
-	nuo.mutation.ClearTitle()
-	return nuo
+func (_u *NotificationUpdateOne) ClearTitle() *NotificationUpdateOne {
+	_u.mutation.ClearTitle()
+	return _u
 }
 
 // SetContent sets the "content" field.
-func (nuo *NotificationUpdateOne) SetContent(s string) *NotificationUpdateOne {
-	nuo.mutation.SetContent(s)
-	return nuo
+func (_u *NotificationUpdateOne) SetContent(v string) *NotificationUpdateOne {
+	_u.mutation.SetContent(v)
+	return _u
 }
 
 // SetNillableContent sets the "content" field if the given value is not nil.
-func (nuo *NotificationUpdateOne) SetNillableContent(s *string) *NotificationUpdateOne {
-	if s != nil {
-		nuo.SetContent(*s)
+func (_u *NotificationUpdateOne) SetNillableContent(v *string) *NotificationUpdateOne {
+	if v != nil {
+		_u.SetContent(*v)
 	}
-	return nuo
+	return _u
 }
 
 // ClearContent clears the value of the "content" field.
-func (nuo *NotificationUpdateOne) ClearContent() *NotificationUpdateOne {
-	nuo.mutation.ClearContent()
-	return nuo
+func (_u *NotificationUpdateOne) ClearContent() *NotificationUpdateOne {
+	_u.mutation.ClearContent()
+	return _u
 }
 
 // SetType sets the "type" field.
-func (nuo *NotificationUpdateOne) SetType(s string) *NotificationUpdateOne {
-	nuo.mutation.SetType(s)
-	return nuo
+func (_u *NotificationUpdateOne) SetType(v string) *NotificationUpdateOne {
+	_u.mutation.SetType(v)
+	return _u
 }
 
 // SetNillableType sets the "type" field if the given value is not nil.
-func (nuo *NotificationUpdateOne) SetNillableType(s *string) *NotificationUpdateOne {
-	if s != nil {
-		nuo.SetType(*s)
+func (_u *NotificationUpdateOne) SetNillableType(v *string) *NotificationUpdateOne {
+	if v != nil {
+		_u.SetType(*v)
 	}
-	return nuo
+	return _u
 }
 
 // ClearType clears the value of the "type" field.
-func (nuo *NotificationUpdateOne) ClearType() *NotificationUpdateOne {
-	nuo.mutation.ClearType()
-	return nuo
+func (_u *NotificationUpdateOne) ClearType() *NotificationUpdateOne {
+	_u.mutation.ClearType()
+	return _u
 }
 
 // SetUserID sets the "user_id" field.
-func (nuo *NotificationUpdateOne) SetUserID(s string) *NotificationUpdateOne {
-	nuo.mutation.SetUserID(s)
-	return nuo
+func (_u *NotificationUpdateOne) SetUserID(v string) *NotificationUpdateOne {
+	_u.mutation.SetUserID(v)
+	return _u
 }
 
 // SetNillableUserID sets the "user_id" field if the given value is not nil.
-func (nuo *NotificationUpdateOne) SetNillableUserID(s *string) *NotificationUpdateOne {
-	if s != nil {
-		nuo.SetUserID(*s)
+func (_u *NotificationUpdateOne) SetNillableUserID(v *string) *NotificationUpdateOne {
+	if v != nil {
+		_u.SetUserID(*v)
 	}
-	return nuo
+	return _u
 }
 
 // ClearUserID clears the value of the "user_id" field.
-func (nuo *NotificationUpdateOne) ClearUserID() *NotificationUpdateOne {
-	nuo.mutation.ClearUserID()
-	return nuo
+func (_u *NotificationUpdateOne) ClearUserID() *NotificationUpdateOne {
+	_u.mutation.ClearUserID()
+	return _u
 }
 
 // SetStatus sets the "status" field.
-func (nuo *NotificationUpdateOne) SetStatus(i int) *NotificationUpdateOne {
-	nuo.mutation.ResetStatus()
-	nuo.mutation.SetStatus(i)
-	return nuo
+func (_u *NotificationUpdateOne) SetStatus(v int) *NotificationUpdateOne {
+	_u.mutation.ResetStatus()
+	_u.mutation.SetStatus(v)
+	return _u
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (nuo *NotificationUpdateOne) SetNillableStatus(i *int) *NotificationUpdateOne {
-	if i != nil {
-		nuo.SetStatus(*i)
+func (_u *NotificationUpdateOne) SetNillableStatus(v *int) *NotificationUpdateOne {
+	if v != nil {
+		_u.SetStatus(*v)
 	}
-	return nuo
+	return _u
 }
 
-// AddStatus adds i to the "status" field.
-func (nuo *NotificationUpdateOne) AddStatus(i int) *NotificationUpdateOne {
-	nuo.mutation.AddStatus(i)
-	return nuo
+// AddStatus adds value to the "status" field.
+func (_u *NotificationUpdateOne) AddStatus(v int) *NotificationUpdateOne {
+	_u.mutation.AddStatus(v)
+	return _u
 }
 
 // SetLinks sets the "links" field.
-func (nuo *NotificationUpdateOne) SetLinks(m []map[string]interface{}) *NotificationUpdateOne {
-	nuo.mutation.SetLinks(m)
-	return nuo
+func (_u *NotificationUpdateOne) SetLinks(v []map[string]interface{}) *NotificationUpdateOne {
+	_u.mutation.SetLinks(v)
+	return _u
 }
 
-// AppendLinks appends m to the "links" field.
-func (nuo *NotificationUpdateOne) AppendLinks(m []map[string]interface{}) *NotificationUpdateOne {
-	nuo.mutation.AppendLinks(m)
-	return nuo
+// AppendLinks appends value to the "links" field.
+func (_u *NotificationUpdateOne) AppendLinks(v []map[string]interface{}) *NotificationUpdateOne {
+	_u.mutation.AppendLinks(v)
+	return _u
 }
 
 // ClearLinks clears the value of the "links" field.
-func (nuo *NotificationUpdateOne) ClearLinks() *NotificationUpdateOne {
-	nuo.mutation.ClearLinks()
-	return nuo
+func (_u *NotificationUpdateOne) ClearLinks() *NotificationUpdateOne {
+	_u.mutation.ClearLinks()
+	return _u
 }
 
 // SetChannelID sets the "channel_id" field.
-func (nuo *NotificationUpdateOne) SetChannelID(s string) *NotificationUpdateOne {
-	nuo.mutation.SetChannelID(s)
-	return nuo
+func (_u *NotificationUpdateOne) SetChannelID(v string) *NotificationUpdateOne {
+	_u.mutation.SetChannelID(v)
+	return _u
 }
 
 // SetNillableChannelID sets the "channel_id" field if the given value is not nil.
-func (nuo *NotificationUpdateOne) SetNillableChannelID(s *string) *NotificationUpdateOne {
-	if s != nil {
-		nuo.SetChannelID(*s)
+func (_u *NotificationUpdateOne) SetNillableChannelID(v *string) *NotificationUpdateOne {
+	if v != nil {
+		_u.SetChannelID(*v)
 	}
-	return nuo
+	return _u
 }
 
 // ClearChannelID clears the value of the "channel_id" field.
-func (nuo *NotificationUpdateOne) ClearChannelID() *NotificationUpdateOne {
-	nuo.mutation.ClearChannelID()
-	return nuo
+func (_u *NotificationUpdateOne) ClearChannelID() *NotificationUpdateOne {
+	_u.mutation.ClearChannelID()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (nuo *NotificationUpdateOne) SetUpdatedAt(i int64) *NotificationUpdateOne {
-	nuo.mutation.ResetUpdatedAt()
-	nuo.mutation.SetUpdatedAt(i)
-	return nuo
+func (_u *NotificationUpdateOne) SetUpdatedAt(v int64) *NotificationUpdateOne {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (nuo *NotificationUpdateOne) AddUpdatedAt(i int64) *NotificationUpdateOne {
-	nuo.mutation.AddUpdatedAt(i)
-	return nuo
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *NotificationUpdateOne) AddUpdatedAt(v int64) *NotificationUpdateOne {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (nuo *NotificationUpdateOne) ClearUpdatedAt() *NotificationUpdateOne {
-	nuo.mutation.ClearUpdatedAt()
-	return nuo
+func (_u *NotificationUpdateOne) ClearUpdatedAt() *NotificationUpdateOne {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // Mutation returns the NotificationMutation object of the builder.
-func (nuo *NotificationUpdateOne) Mutation() *NotificationMutation {
-	return nuo.mutation
+func (_u *NotificationUpdateOne) Mutation() *NotificationMutation {
+	return _u.mutation
 }
 
 // Where appends a list predicates to the NotificationUpdate builder.
-func (nuo *NotificationUpdateOne) Where(ps ...predicate.Notification) *NotificationUpdateOne {
-	nuo.mutation.Where(ps...)
-	return nuo
+func (_u *NotificationUpdateOne) Where(ps ...predicate.Notification) *NotificationUpdateOne {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // Select allows selecting one or more fields (columns) of the returned entity.
 // The default is selecting all fields defined in the entity schema.
-func (nuo *NotificationUpdateOne) Select(field string, fields ...string) *NotificationUpdateOne {
-	nuo.fields = append([]string{field}, fields...)
-	return nuo
+func (_u *NotificationUpdateOne) Select(field string, fields ...string) *NotificationUpdateOne {
+	_u.fields = append([]string{field}, fields...)
+	return _u
 }
 
 // Save executes the query and returns the updated Notification entity.
-func (nuo *NotificationUpdateOne) Save(ctx context.Context) (*Notification, error) {
-	nuo.defaults()
-	return withHooks(ctx, nuo.sqlSave, nuo.mutation, nuo.hooks)
+func (_u *NotificationUpdateOne) Save(ctx context.Context) (*Notification, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (nuo *NotificationUpdateOne) SaveX(ctx context.Context) *Notification {
-	node, err := nuo.Save(ctx)
+func (_u *NotificationUpdateOne) SaveX(ctx context.Context) *Notification {
+	node, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -507,34 +507,34 @@ func (nuo *NotificationUpdateOne) SaveX(ctx context.Context) *Notification {
 }
 
 // Exec executes the query on the entity.
-func (nuo *NotificationUpdateOne) Exec(ctx context.Context) error {
-	_, err := nuo.Save(ctx)
+func (_u *NotificationUpdateOne) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (nuo *NotificationUpdateOne) ExecX(ctx context.Context) {
-	if err := nuo.Exec(ctx); err != nil {
+func (_u *NotificationUpdateOne) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (nuo *NotificationUpdateOne) defaults() {
-	if _, ok := nuo.mutation.UpdatedAt(); !ok && !nuo.mutation.UpdatedAtCleared() {
+func (_u *NotificationUpdateOne) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := notification.UpdateDefaultUpdatedAt()
-		nuo.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (nuo *NotificationUpdateOne) sqlSave(ctx context.Context) (_node *Notification, err error) {
+func (_u *NotificationUpdateOne) sqlSave(ctx context.Context) (_node *Notification, err error) {
 	_spec := sqlgraph.NewUpdateSpec(notification.Table, notification.Columns, sqlgraph.NewFieldSpec(notification.FieldID, field.TypeString))
-	id, ok := nuo.mutation.ID()
+	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "Notification.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
-	if fields := nuo.fields; len(fields) > 0 {
+	if fields := _u.fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, notification.FieldID)
 		for _, f := range fields {
@@ -546,76 +546,76 @@ func (nuo *NotificationUpdateOne) sqlSave(ctx context.Context) (_node *Notificat
 			}
 		}
 	}
-	if ps := nuo.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := nuo.mutation.Title(); ok {
+	if value, ok := _u.mutation.Title(); ok {
 		_spec.SetField(notification.FieldTitle, field.TypeString, value)
 	}
-	if nuo.mutation.TitleCleared() {
+	if _u.mutation.TitleCleared() {
 		_spec.ClearField(notification.FieldTitle, field.TypeString)
 	}
-	if value, ok := nuo.mutation.Content(); ok {
+	if value, ok := _u.mutation.Content(); ok {
 		_spec.SetField(notification.FieldContent, field.TypeString, value)
 	}
-	if nuo.mutation.ContentCleared() {
+	if _u.mutation.ContentCleared() {
 		_spec.ClearField(notification.FieldContent, field.TypeString)
 	}
-	if value, ok := nuo.mutation.GetType(); ok {
+	if value, ok := _u.mutation.GetType(); ok {
 		_spec.SetField(notification.FieldType, field.TypeString, value)
 	}
-	if nuo.mutation.TypeCleared() {
+	if _u.mutation.TypeCleared() {
 		_spec.ClearField(notification.FieldType, field.TypeString)
 	}
-	if value, ok := nuo.mutation.UserID(); ok {
+	if value, ok := _u.mutation.UserID(); ok {
 		_spec.SetField(notification.FieldUserID, field.TypeString, value)
 	}
-	if nuo.mutation.UserIDCleared() {
+	if _u.mutation.UserIDCleared() {
 		_spec.ClearField(notification.FieldUserID, field.TypeString)
 	}
-	if value, ok := nuo.mutation.Status(); ok {
+	if value, ok := _u.mutation.Status(); ok {
 		_spec.SetField(notification.FieldStatus, field.TypeInt, value)
 	}
-	if value, ok := nuo.mutation.AddedStatus(); ok {
+	if value, ok := _u.mutation.AddedStatus(); ok {
 		_spec.AddField(notification.FieldStatus, field.TypeInt, value)
 	}
-	if value, ok := nuo.mutation.Links(); ok {
+	if value, ok := _u.mutation.Links(); ok {
 		_spec.SetField(notification.FieldLinks, field.TypeJSON, value)
 	}
-	if value, ok := nuo.mutation.AppendedLinks(); ok {
+	if value, ok := _u.mutation.AppendedLinks(); ok {
 		_spec.AddModifier(func(u *sql.UpdateBuilder) {
 			sqljson.Append(u, notification.FieldLinks, value)
 		})
 	}
-	if nuo.mutation.LinksCleared() {
+	if _u.mutation.LinksCleared() {
 		_spec.ClearField(notification.FieldLinks, field.TypeJSON)
 	}
-	if value, ok := nuo.mutation.ChannelID(); ok {
+	if value, ok := _u.mutation.ChannelID(); ok {
 		_spec.SetField(notification.FieldChannelID, field.TypeString, value)
 	}
-	if nuo.mutation.ChannelIDCleared() {
+	if _u.mutation.ChannelIDCleared() {
 		_spec.ClearField(notification.FieldChannelID, field.TypeString)
 	}
-	if nuo.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(notification.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := nuo.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(notification.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := nuo.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(notification.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if nuo.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(notification.FieldUpdatedAt, field.TypeInt64)
 	}
-	_node = &Notification{config: nuo.config}
+	_node = &Notification{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues
-	if err = sqlgraph.UpdateNode(ctx, nuo.driver, _spec); err != nil {
+	if err = sqlgraph.UpdateNode(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{notification.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -623,6 +623,6 @@ func (nuo *NotificationUpdateOne) sqlSave(ctx context.Context) (_node *Notificat
 		}
 		return nil, err
 	}
-	nuo.mutation.done = true
+	_u.mutation.done = true
 	return _node, nil
 }

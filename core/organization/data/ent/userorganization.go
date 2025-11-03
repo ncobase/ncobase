@@ -52,7 +52,7 @@ func (*UserOrganization) scanValues(columns []string) ([]any, error) {
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
 // to the UserOrganization fields.
-func (uo *UserOrganization) assignValues(columns []string, values []any) error {
+func (_m *UserOrganization) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
@@ -62,52 +62,52 @@ func (uo *UserOrganization) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field id", values[i])
 			} else if value.Valid {
-				uo.ID = value.String
+				_m.ID = value.String
 			}
 		case userorganization.FieldUserID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field user_id", values[i])
 			} else if value.Valid {
-				uo.UserID = value.String
+				_m.UserID = value.String
 			}
 		case userorganization.FieldOrgID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field org_id", values[i])
 			} else if value.Valid {
-				uo.OrgID = value.String
+				_m.OrgID = value.String
 			}
 		case userorganization.FieldCreatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field created_by", values[i])
 			} else if value.Valid {
-				uo.CreatedBy = value.String
+				_m.CreatedBy = value.String
 			}
 		case userorganization.FieldUpdatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_by", values[i])
 			} else if value.Valid {
-				uo.UpdatedBy = value.String
+				_m.UpdatedBy = value.String
 			}
 		case userorganization.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field created_at", values[i])
 			} else if value.Valid {
-				uo.CreatedAt = value.Int64
+				_m.CreatedAt = value.Int64
 			}
 		case userorganization.FieldUpdatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_at", values[i])
 			} else if value.Valid {
-				uo.UpdatedAt = value.Int64
+				_m.UpdatedAt = value.Int64
 			}
 		case userorganization.FieldRole:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field role", values[i])
 			} else if value.Valid {
-				uo.Role = value.String
+				_m.Role = value.String
 			}
 		default:
-			uo.selectValues.Set(columns[i], values[i])
+			_m.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
@@ -115,53 +115,53 @@ func (uo *UserOrganization) assignValues(columns []string, values []any) error {
 
 // Value returns the ent.Value that was dynamically selected and assigned to the UserOrganization.
 // This includes values selected through modifiers, order, etc.
-func (uo *UserOrganization) Value(name string) (ent.Value, error) {
-	return uo.selectValues.Get(name)
+func (_m *UserOrganization) Value(name string) (ent.Value, error) {
+	return _m.selectValues.Get(name)
 }
 
 // Update returns a builder for updating this UserOrganization.
 // Note that you need to call UserOrganization.Unwrap() before calling this method if this UserOrganization
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (uo *UserOrganization) Update() *UserOrganizationUpdateOne {
-	return NewUserOrganizationClient(uo.config).UpdateOne(uo)
+func (_m *UserOrganization) Update() *UserOrganizationUpdateOne {
+	return NewUserOrganizationClient(_m.config).UpdateOne(_m)
 }
 
 // Unwrap unwraps the UserOrganization entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (uo *UserOrganization) Unwrap() *UserOrganization {
-	_tx, ok := uo.config.driver.(*txDriver)
+func (_m *UserOrganization) Unwrap() *UserOrganization {
+	_tx, ok := _m.config.driver.(*txDriver)
 	if !ok {
 		panic("ent: UserOrganization is not a transactional entity")
 	}
-	uo.config.driver = _tx.drv
-	return uo
+	_m.config.driver = _tx.drv
+	return _m
 }
 
 // String implements the fmt.Stringer.
-func (uo *UserOrganization) String() string {
+func (_m *UserOrganization) String() string {
 	var builder strings.Builder
 	builder.WriteString("UserOrganization(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", uo.ID))
+	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
 	builder.WriteString("user_id=")
-	builder.WriteString(uo.UserID)
+	builder.WriteString(_m.UserID)
 	builder.WriteString(", ")
 	builder.WriteString("org_id=")
-	builder.WriteString(uo.OrgID)
+	builder.WriteString(_m.OrgID)
 	builder.WriteString(", ")
 	builder.WriteString("created_by=")
-	builder.WriteString(uo.CreatedBy)
+	builder.WriteString(_m.CreatedBy)
 	builder.WriteString(", ")
 	builder.WriteString("updated_by=")
-	builder.WriteString(uo.UpdatedBy)
+	builder.WriteString(_m.UpdatedBy)
 	builder.WriteString(", ")
 	builder.WriteString("created_at=")
-	builder.WriteString(fmt.Sprintf("%v", uo.CreatedAt))
+	builder.WriteString(fmt.Sprintf("%v", _m.CreatedAt))
 	builder.WriteString(", ")
 	builder.WriteString("updated_at=")
-	builder.WriteString(fmt.Sprintf("%v", uo.UpdatedAt))
+	builder.WriteString(fmt.Sprintf("%v", _m.UpdatedAt))
 	builder.WriteString(", ")
 	builder.WriteString("role=")
-	builder.WriteString(uo.Role)
+	builder.WriteString(_m.Role)
 	builder.WriteByte(')')
 	return builder.String()
 }

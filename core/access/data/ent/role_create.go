@@ -19,151 +19,151 @@ type RoleCreate struct {
 }
 
 // SetName sets the "name" field.
-func (rc *RoleCreate) SetName(s string) *RoleCreate {
-	rc.mutation.SetName(s)
-	return rc
+func (_c *RoleCreate) SetName(v string) *RoleCreate {
+	_c.mutation.SetName(v)
+	return _c
 }
 
 // SetNillableName sets the "name" field if the given value is not nil.
-func (rc *RoleCreate) SetNillableName(s *string) *RoleCreate {
-	if s != nil {
-		rc.SetName(*s)
+func (_c *RoleCreate) SetNillableName(v *string) *RoleCreate {
+	if v != nil {
+		_c.SetName(*v)
 	}
-	return rc
+	return _c
 }
 
 // SetSlug sets the "slug" field.
-func (rc *RoleCreate) SetSlug(s string) *RoleCreate {
-	rc.mutation.SetSlug(s)
-	return rc
+func (_c *RoleCreate) SetSlug(v string) *RoleCreate {
+	_c.mutation.SetSlug(v)
+	return _c
 }
 
 // SetNillableSlug sets the "slug" field if the given value is not nil.
-func (rc *RoleCreate) SetNillableSlug(s *string) *RoleCreate {
-	if s != nil {
-		rc.SetSlug(*s)
+func (_c *RoleCreate) SetNillableSlug(v *string) *RoleCreate {
+	if v != nil {
+		_c.SetSlug(*v)
 	}
-	return rc
+	return _c
 }
 
 // SetDisabled sets the "disabled" field.
-func (rc *RoleCreate) SetDisabled(b bool) *RoleCreate {
-	rc.mutation.SetDisabled(b)
-	return rc
+func (_c *RoleCreate) SetDisabled(v bool) *RoleCreate {
+	_c.mutation.SetDisabled(v)
+	return _c
 }
 
 // SetNillableDisabled sets the "disabled" field if the given value is not nil.
-func (rc *RoleCreate) SetNillableDisabled(b *bool) *RoleCreate {
-	if b != nil {
-		rc.SetDisabled(*b)
+func (_c *RoleCreate) SetNillableDisabled(v *bool) *RoleCreate {
+	if v != nil {
+		_c.SetDisabled(*v)
 	}
-	return rc
+	return _c
 }
 
 // SetDescription sets the "description" field.
-func (rc *RoleCreate) SetDescription(s string) *RoleCreate {
-	rc.mutation.SetDescription(s)
-	return rc
+func (_c *RoleCreate) SetDescription(v string) *RoleCreate {
+	_c.mutation.SetDescription(v)
+	return _c
 }
 
 // SetNillableDescription sets the "description" field if the given value is not nil.
-func (rc *RoleCreate) SetNillableDescription(s *string) *RoleCreate {
-	if s != nil {
-		rc.SetDescription(*s)
+func (_c *RoleCreate) SetNillableDescription(v *string) *RoleCreate {
+	if v != nil {
+		_c.SetDescription(*v)
 	}
-	return rc
+	return _c
 }
 
 // SetExtras sets the "extras" field.
-func (rc *RoleCreate) SetExtras(m map[string]interface{}) *RoleCreate {
-	rc.mutation.SetExtras(m)
-	return rc
+func (_c *RoleCreate) SetExtras(v map[string]interface{}) *RoleCreate {
+	_c.mutation.SetExtras(v)
+	return _c
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (rc *RoleCreate) SetCreatedBy(s string) *RoleCreate {
-	rc.mutation.SetCreatedBy(s)
-	return rc
+func (_c *RoleCreate) SetCreatedBy(v string) *RoleCreate {
+	_c.mutation.SetCreatedBy(v)
+	return _c
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (rc *RoleCreate) SetNillableCreatedBy(s *string) *RoleCreate {
-	if s != nil {
-		rc.SetCreatedBy(*s)
+func (_c *RoleCreate) SetNillableCreatedBy(v *string) *RoleCreate {
+	if v != nil {
+		_c.SetCreatedBy(*v)
 	}
-	return rc
+	return _c
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (rc *RoleCreate) SetUpdatedBy(s string) *RoleCreate {
-	rc.mutation.SetUpdatedBy(s)
-	return rc
+func (_c *RoleCreate) SetUpdatedBy(v string) *RoleCreate {
+	_c.mutation.SetUpdatedBy(v)
+	return _c
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (rc *RoleCreate) SetNillableUpdatedBy(s *string) *RoleCreate {
-	if s != nil {
-		rc.SetUpdatedBy(*s)
+func (_c *RoleCreate) SetNillableUpdatedBy(v *string) *RoleCreate {
+	if v != nil {
+		_c.SetUpdatedBy(*v)
 	}
-	return rc
+	return _c
 }
 
 // SetCreatedAt sets the "created_at" field.
-func (rc *RoleCreate) SetCreatedAt(i int64) *RoleCreate {
-	rc.mutation.SetCreatedAt(i)
-	return rc
+func (_c *RoleCreate) SetCreatedAt(v int64) *RoleCreate {
+	_c.mutation.SetCreatedAt(v)
+	return _c
 }
 
 // SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
-func (rc *RoleCreate) SetNillableCreatedAt(i *int64) *RoleCreate {
-	if i != nil {
-		rc.SetCreatedAt(*i)
+func (_c *RoleCreate) SetNillableCreatedAt(v *int64) *RoleCreate {
+	if v != nil {
+		_c.SetCreatedAt(*v)
 	}
-	return rc
+	return _c
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (rc *RoleCreate) SetUpdatedAt(i int64) *RoleCreate {
-	rc.mutation.SetUpdatedAt(i)
-	return rc
+func (_c *RoleCreate) SetUpdatedAt(v int64) *RoleCreate {
+	_c.mutation.SetUpdatedAt(v)
+	return _c
 }
 
 // SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
-func (rc *RoleCreate) SetNillableUpdatedAt(i *int64) *RoleCreate {
-	if i != nil {
-		rc.SetUpdatedAt(*i)
+func (_c *RoleCreate) SetNillableUpdatedAt(v *int64) *RoleCreate {
+	if v != nil {
+		_c.SetUpdatedAt(*v)
 	}
-	return rc
+	return _c
 }
 
 // SetID sets the "id" field.
-func (rc *RoleCreate) SetID(s string) *RoleCreate {
-	rc.mutation.SetID(s)
-	return rc
+func (_c *RoleCreate) SetID(v string) *RoleCreate {
+	_c.mutation.SetID(v)
+	return _c
 }
 
 // SetNillableID sets the "id" field if the given value is not nil.
-func (rc *RoleCreate) SetNillableID(s *string) *RoleCreate {
-	if s != nil {
-		rc.SetID(*s)
+func (_c *RoleCreate) SetNillableID(v *string) *RoleCreate {
+	if v != nil {
+		_c.SetID(*v)
 	}
-	return rc
+	return _c
 }
 
 // Mutation returns the RoleMutation object of the builder.
-func (rc *RoleCreate) Mutation() *RoleMutation {
-	return rc.mutation
+func (_c *RoleCreate) Mutation() *RoleMutation {
+	return _c.mutation
 }
 
 // Save creates the Role in the database.
-func (rc *RoleCreate) Save(ctx context.Context) (*Role, error) {
-	rc.defaults()
-	return withHooks(ctx, rc.sqlSave, rc.mutation, rc.hooks)
+func (_c *RoleCreate) Save(ctx context.Context) (*Role, error) {
+	_c.defaults()
+	return withHooks(ctx, _c.sqlSave, _c.mutation, _c.hooks)
 }
 
 // SaveX calls Save and panics if Save returns an error.
-func (rc *RoleCreate) SaveX(ctx context.Context) *Role {
-	v, err := rc.Save(ctx)
+func (_c *RoleCreate) SaveX(ctx context.Context) *Role {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -171,45 +171,45 @@ func (rc *RoleCreate) SaveX(ctx context.Context) *Role {
 }
 
 // Exec executes the query.
-func (rc *RoleCreate) Exec(ctx context.Context) error {
-	_, err := rc.Save(ctx)
+func (_c *RoleCreate) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (rc *RoleCreate) ExecX(ctx context.Context) {
-	if err := rc.Exec(ctx); err != nil {
+func (_c *RoleCreate) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (rc *RoleCreate) defaults() {
-	if _, ok := rc.mutation.Disabled(); !ok {
+func (_c *RoleCreate) defaults() {
+	if _, ok := _c.mutation.Disabled(); !ok {
 		v := role.DefaultDisabled
-		rc.mutation.SetDisabled(v)
+		_c.mutation.SetDisabled(v)
 	}
-	if _, ok := rc.mutation.Extras(); !ok {
+	if _, ok := _c.mutation.Extras(); !ok {
 		v := role.DefaultExtras
-		rc.mutation.SetExtras(v)
+		_c.mutation.SetExtras(v)
 	}
-	if _, ok := rc.mutation.CreatedAt(); !ok {
+	if _, ok := _c.mutation.CreatedAt(); !ok {
 		v := role.DefaultCreatedAt()
-		rc.mutation.SetCreatedAt(v)
+		_c.mutation.SetCreatedAt(v)
 	}
-	if _, ok := rc.mutation.UpdatedAt(); !ok {
+	if _, ok := _c.mutation.UpdatedAt(); !ok {
 		v := role.DefaultUpdatedAt()
-		rc.mutation.SetUpdatedAt(v)
+		_c.mutation.SetUpdatedAt(v)
 	}
-	if _, ok := rc.mutation.ID(); !ok {
+	if _, ok := _c.mutation.ID(); !ok {
 		v := role.DefaultID()
-		rc.mutation.SetID(v)
+		_c.mutation.SetID(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (rc *RoleCreate) check() error {
-	if v, ok := rc.mutation.ID(); ok {
+func (_c *RoleCreate) check() error {
+	if v, ok := _c.mutation.ID(); ok {
 		if err := role.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "Role.id": %w`, err)}
 		}
@@ -217,12 +217,12 @@ func (rc *RoleCreate) check() error {
 	return nil
 }
 
-func (rc *RoleCreate) sqlSave(ctx context.Context) (*Role, error) {
-	if err := rc.check(); err != nil {
+func (_c *RoleCreate) sqlSave(ctx context.Context) (*Role, error) {
+	if err := _c.check(); err != nil {
 		return nil, err
 	}
-	_node, _spec := rc.createSpec()
-	if err := sqlgraph.CreateNode(ctx, rc.driver, _spec); err != nil {
+	_node, _spec := _c.createSpec()
+	if err := sqlgraph.CreateNode(ctx, _c.driver, _spec); err != nil {
 		if sqlgraph.IsConstraintError(err) {
 			err = &ConstraintError{msg: err.Error(), wrap: err}
 		}
@@ -235,53 +235,53 @@ func (rc *RoleCreate) sqlSave(ctx context.Context) (*Role, error) {
 			return nil, fmt.Errorf("unexpected Role.ID type: %T", _spec.ID.Value)
 		}
 	}
-	rc.mutation.id = &_node.ID
-	rc.mutation.done = true
+	_c.mutation.id = &_node.ID
+	_c.mutation.done = true
 	return _node, nil
 }
 
-func (rc *RoleCreate) createSpec() (*Role, *sqlgraph.CreateSpec) {
+func (_c *RoleCreate) createSpec() (*Role, *sqlgraph.CreateSpec) {
 	var (
-		_node = &Role{config: rc.config}
+		_node = &Role{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(role.Table, sqlgraph.NewFieldSpec(role.FieldID, field.TypeString))
 	)
-	if id, ok := rc.mutation.ID(); ok {
+	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
 	}
-	if value, ok := rc.mutation.Name(); ok {
+	if value, ok := _c.mutation.Name(); ok {
 		_spec.SetField(role.FieldName, field.TypeString, value)
 		_node.Name = value
 	}
-	if value, ok := rc.mutation.Slug(); ok {
+	if value, ok := _c.mutation.Slug(); ok {
 		_spec.SetField(role.FieldSlug, field.TypeString, value)
 		_node.Slug = value
 	}
-	if value, ok := rc.mutation.Disabled(); ok {
+	if value, ok := _c.mutation.Disabled(); ok {
 		_spec.SetField(role.FieldDisabled, field.TypeBool, value)
 		_node.Disabled = value
 	}
-	if value, ok := rc.mutation.Description(); ok {
+	if value, ok := _c.mutation.Description(); ok {
 		_spec.SetField(role.FieldDescription, field.TypeString, value)
 		_node.Description = value
 	}
-	if value, ok := rc.mutation.Extras(); ok {
+	if value, ok := _c.mutation.Extras(); ok {
 		_spec.SetField(role.FieldExtras, field.TypeJSON, value)
 		_node.Extras = value
 	}
-	if value, ok := rc.mutation.CreatedBy(); ok {
+	if value, ok := _c.mutation.CreatedBy(); ok {
 		_spec.SetField(role.FieldCreatedBy, field.TypeString, value)
 		_node.CreatedBy = value
 	}
-	if value, ok := rc.mutation.UpdatedBy(); ok {
+	if value, ok := _c.mutation.UpdatedBy(); ok {
 		_spec.SetField(role.FieldUpdatedBy, field.TypeString, value)
 		_node.UpdatedBy = value
 	}
-	if value, ok := rc.mutation.CreatedAt(); ok {
+	if value, ok := _c.mutation.CreatedAt(); ok {
 		_spec.SetField(role.FieldCreatedAt, field.TypeInt64, value)
 		_node.CreatedAt = value
 	}
-	if value, ok := rc.mutation.UpdatedAt(); ok {
+	if value, ok := _c.mutation.UpdatedAt(); ok {
 		_spec.SetField(role.FieldUpdatedAt, field.TypeInt64, value)
 		_node.UpdatedAt = value
 	}
@@ -296,16 +296,16 @@ type RoleCreateBulk struct {
 }
 
 // Save creates the Role entities in the database.
-func (rcb *RoleCreateBulk) Save(ctx context.Context) ([]*Role, error) {
-	if rcb.err != nil {
-		return nil, rcb.err
+func (_c *RoleCreateBulk) Save(ctx context.Context) ([]*Role, error) {
+	if _c.err != nil {
+		return nil, _c.err
 	}
-	specs := make([]*sqlgraph.CreateSpec, len(rcb.builders))
-	nodes := make([]*Role, len(rcb.builders))
-	mutators := make([]Mutator, len(rcb.builders))
-	for i := range rcb.builders {
+	specs := make([]*sqlgraph.CreateSpec, len(_c.builders))
+	nodes := make([]*Role, len(_c.builders))
+	mutators := make([]Mutator, len(_c.builders))
+	for i := range _c.builders {
 		func(i int, root context.Context) {
-			builder := rcb.builders[i]
+			builder := _c.builders[i]
 			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*RoleMutation)
@@ -319,11 +319,11 @@ func (rcb *RoleCreateBulk) Save(ctx context.Context) ([]*Role, error) {
 				var err error
 				nodes[i], specs[i] = builder.createSpec()
 				if i < len(mutators)-1 {
-					_, err = mutators[i+1].Mutate(root, rcb.builders[i+1].mutation)
+					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
 					// Invoke the actual operation on the latest mutation in the chain.
-					if err = sqlgraph.BatchCreate(ctx, rcb.driver, spec); err != nil {
+					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
 							err = &ConstraintError{msg: err.Error(), wrap: err}
 						}
@@ -343,7 +343,7 @@ func (rcb *RoleCreateBulk) Save(ctx context.Context) ([]*Role, error) {
 		}(i, ctx)
 	}
 	if len(mutators) > 0 {
-		if _, err := mutators[0].Mutate(ctx, rcb.builders[0].mutation); err != nil {
+		if _, err := mutators[0].Mutate(ctx, _c.builders[0].mutation); err != nil {
 			return nil, err
 		}
 	}
@@ -351,8 +351,8 @@ func (rcb *RoleCreateBulk) Save(ctx context.Context) ([]*Role, error) {
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (rcb *RoleCreateBulk) SaveX(ctx context.Context) []*Role {
-	v, err := rcb.Save(ctx)
+func (_c *RoleCreateBulk) SaveX(ctx context.Context) []*Role {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -360,14 +360,14 @@ func (rcb *RoleCreateBulk) SaveX(ctx context.Context) []*Role {
 }
 
 // Exec executes the query.
-func (rcb *RoleCreateBulk) Exec(ctx context.Context) error {
-	_, err := rcb.Save(ctx)
+func (_c *RoleCreateBulk) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (rcb *RoleCreateBulk) ExecX(ctx context.Context) {
-	if err := rcb.Exec(ctx); err != nil {
+func (_c *RoleCreateBulk) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

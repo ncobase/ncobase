@@ -20,515 +20,515 @@ type TemplateCreate struct {
 }
 
 // SetName sets the "name" field.
-func (tc *TemplateCreate) SetName(s string) *TemplateCreate {
-	tc.mutation.SetName(s)
-	return tc
+func (_c *TemplateCreate) SetName(v string) *TemplateCreate {
+	_c.mutation.SetName(v)
+	return _c
 }
 
 // SetNillableName sets the "name" field if the given value is not nil.
-func (tc *TemplateCreate) SetNillableName(s *string) *TemplateCreate {
-	if s != nil {
-		tc.SetName(*s)
+func (_c *TemplateCreate) SetNillableName(v *string) *TemplateCreate {
+	if v != nil {
+		_c.SetName(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetCode sets the "code" field.
-func (tc *TemplateCreate) SetCode(s string) *TemplateCreate {
-	tc.mutation.SetCode(s)
-	return tc
+func (_c *TemplateCreate) SetCode(v string) *TemplateCreate {
+	_c.mutation.SetCode(v)
+	return _c
 }
 
 // SetNillableCode sets the "code" field if the given value is not nil.
-func (tc *TemplateCreate) SetNillableCode(s *string) *TemplateCreate {
-	if s != nil {
-		tc.SetCode(*s)
+func (_c *TemplateCreate) SetNillableCode(v *string) *TemplateCreate {
+	if v != nil {
+		_c.SetCode(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetDescription sets the "description" field.
-func (tc *TemplateCreate) SetDescription(s string) *TemplateCreate {
-	tc.mutation.SetDescription(s)
-	return tc
+func (_c *TemplateCreate) SetDescription(v string) *TemplateCreate {
+	_c.mutation.SetDescription(v)
+	return _c
 }
 
 // SetNillableDescription sets the "description" field if the given value is not nil.
-func (tc *TemplateCreate) SetNillableDescription(s *string) *TemplateCreate {
-	if s != nil {
-		tc.SetDescription(*s)
+func (_c *TemplateCreate) SetNillableDescription(v *string) *TemplateCreate {
+	if v != nil {
+		_c.SetDescription(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetType sets the "type" field.
-func (tc *TemplateCreate) SetType(s string) *TemplateCreate {
-	tc.mutation.SetType(s)
-	return tc
+func (_c *TemplateCreate) SetType(v string) *TemplateCreate {
+	_c.mutation.SetType(v)
+	return _c
 }
 
 // SetNillableType sets the "type" field if the given value is not nil.
-func (tc *TemplateCreate) SetNillableType(s *string) *TemplateCreate {
-	if s != nil {
-		tc.SetType(*s)
+func (_c *TemplateCreate) SetNillableType(v *string) *TemplateCreate {
+	if v != nil {
+		_c.SetType(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetVersion sets the "version" field.
-func (tc *TemplateCreate) SetVersion(s string) *TemplateCreate {
-	tc.mutation.SetVersion(s)
-	return tc
+func (_c *TemplateCreate) SetVersion(v string) *TemplateCreate {
+	_c.mutation.SetVersion(v)
+	return _c
 }
 
 // SetNillableVersion sets the "version" field if the given value is not nil.
-func (tc *TemplateCreate) SetNillableVersion(s *string) *TemplateCreate {
-	if s != nil {
-		tc.SetVersion(*s)
+func (_c *TemplateCreate) SetNillableVersion(v *string) *TemplateCreate {
+	if v != nil {
+		_c.SetVersion(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetStatus sets the "status" field.
-func (tc *TemplateCreate) SetStatus(s string) *TemplateCreate {
-	tc.mutation.SetStatus(s)
-	return tc
+func (_c *TemplateCreate) SetStatus(v string) *TemplateCreate {
+	_c.mutation.SetStatus(v)
+	return _c
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (tc *TemplateCreate) SetNillableStatus(s *string) *TemplateCreate {
-	if s != nil {
-		tc.SetStatus(*s)
+func (_c *TemplateCreate) SetNillableStatus(v *string) *TemplateCreate {
+	if v != nil {
+		_c.SetStatus(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetDisabled sets the "disabled" field.
-func (tc *TemplateCreate) SetDisabled(b bool) *TemplateCreate {
-	tc.mutation.SetDisabled(b)
-	return tc
+func (_c *TemplateCreate) SetDisabled(v bool) *TemplateCreate {
+	_c.mutation.SetDisabled(v)
+	return _c
 }
 
 // SetNillableDisabled sets the "disabled" field if the given value is not nil.
-func (tc *TemplateCreate) SetNillableDisabled(b *bool) *TemplateCreate {
-	if b != nil {
-		tc.SetDisabled(*b)
+func (_c *TemplateCreate) SetNillableDisabled(v *bool) *TemplateCreate {
+	if v != nil {
+		_c.SetDisabled(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetFormCode sets the "form_code" field.
-func (tc *TemplateCreate) SetFormCode(s string) *TemplateCreate {
-	tc.mutation.SetFormCode(s)
-	return tc
+func (_c *TemplateCreate) SetFormCode(v string) *TemplateCreate {
+	_c.mutation.SetFormCode(v)
+	return _c
 }
 
 // SetFormVersion sets the "form_version" field.
-func (tc *TemplateCreate) SetFormVersion(s string) *TemplateCreate {
-	tc.mutation.SetFormVersion(s)
-	return tc
+func (_c *TemplateCreate) SetFormVersion(v string) *TemplateCreate {
+	_c.mutation.SetFormVersion(v)
+	return _c
 }
 
 // SetNillableFormVersion sets the "form_version" field if the given value is not nil.
-func (tc *TemplateCreate) SetNillableFormVersion(s *string) *TemplateCreate {
-	if s != nil {
-		tc.SetFormVersion(*s)
+func (_c *TemplateCreate) SetNillableFormVersion(v *string) *TemplateCreate {
+	if v != nil {
+		_c.SetFormVersion(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetFormConfig sets the "form_config" field.
-func (tc *TemplateCreate) SetFormConfig(m map[string]interface{}) *TemplateCreate {
-	tc.mutation.SetFormConfig(m)
-	return tc
+func (_c *TemplateCreate) SetFormConfig(v map[string]interface{}) *TemplateCreate {
+	_c.mutation.SetFormConfig(v)
+	return _c
 }
 
 // SetFormPermissions sets the "form_permissions" field.
-func (tc *TemplateCreate) SetFormPermissions(m map[string]interface{}) *TemplateCreate {
-	tc.mutation.SetFormPermissions(m)
-	return tc
+func (_c *TemplateCreate) SetFormPermissions(v map[string]interface{}) *TemplateCreate {
+	_c.mutation.SetFormPermissions(v)
+	return _c
 }
 
 // SetFieldPermissions sets the "field_permissions" field.
-func (tc *TemplateCreate) SetFieldPermissions(m map[string]interface{}) *TemplateCreate {
-	tc.mutation.SetFieldPermissions(m)
-	return tc
+func (_c *TemplateCreate) SetFieldPermissions(v map[string]interface{}) *TemplateCreate {
+	_c.mutation.SetFieldPermissions(v)
+	return _c
 }
 
 // SetNodeKey sets the "node_key" field.
-func (tc *TemplateCreate) SetNodeKey(s string) *TemplateCreate {
-	tc.mutation.SetNodeKey(s)
-	return tc
+func (_c *TemplateCreate) SetNodeKey(v string) *TemplateCreate {
+	_c.mutation.SetNodeKey(v)
+	return _c
 }
 
 // SetNodeType sets the "node_type" field.
-func (tc *TemplateCreate) SetNodeType(s string) *TemplateCreate {
-	tc.mutation.SetNodeType(s)
-	return tc
+func (_c *TemplateCreate) SetNodeType(v string) *TemplateCreate {
+	_c.mutation.SetNodeType(v)
+	return _c
 }
 
 // SetNodeConfig sets the "node_config" field.
-func (tc *TemplateCreate) SetNodeConfig(m map[string]interface{}) *TemplateCreate {
-	tc.mutation.SetNodeConfig(m)
-	return tc
+func (_c *TemplateCreate) SetNodeConfig(v map[string]interface{}) *TemplateCreate {
+	_c.mutation.SetNodeConfig(v)
+	return _c
 }
 
 // SetNodeRules sets the "node_rules" field.
-func (tc *TemplateCreate) SetNodeRules(m map[string]interface{}) *TemplateCreate {
-	tc.mutation.SetNodeRules(m)
-	return tc
+func (_c *TemplateCreate) SetNodeRules(v map[string]interface{}) *TemplateCreate {
+	_c.mutation.SetNodeRules(v)
+	return _c
 }
 
 // SetNodeEvents sets the "node_events" field.
-func (tc *TemplateCreate) SetNodeEvents(m map[string]interface{}) *TemplateCreate {
-	tc.mutation.SetNodeEvents(m)
-	return tc
+func (_c *TemplateCreate) SetNodeEvents(v map[string]interface{}) *TemplateCreate {
+	_c.mutation.SetNodeEvents(v)
+	return _c
 }
 
 // SetBusinessTags sets the "business_tags" field.
-func (tc *TemplateCreate) SetBusinessTags(s []string) *TemplateCreate {
-	tc.mutation.SetBusinessTags(s)
-	return tc
+func (_c *TemplateCreate) SetBusinessTags(v []string) *TemplateCreate {
+	_c.mutation.SetBusinessTags(v)
+	return _c
 }
 
 // SetModuleCode sets the "module_code" field.
-func (tc *TemplateCreate) SetModuleCode(s string) *TemplateCreate {
-	tc.mutation.SetModuleCode(s)
-	return tc
+func (_c *TemplateCreate) SetModuleCode(v string) *TemplateCreate {
+	_c.mutation.SetModuleCode(v)
+	return _c
 }
 
 // SetCategory sets the "category" field.
-func (tc *TemplateCreate) SetCategory(s string) *TemplateCreate {
-	tc.mutation.SetCategory(s)
-	return tc
+func (_c *TemplateCreate) SetCategory(v string) *TemplateCreate {
+	_c.mutation.SetCategory(v)
+	return _c
 }
 
 // SetNillableCategory sets the "category" field if the given value is not nil.
-func (tc *TemplateCreate) SetNillableCategory(s *string) *TemplateCreate {
-	if s != nil {
-		tc.SetCategory(*s)
+func (_c *TemplateCreate) SetNillableCategory(v *string) *TemplateCreate {
+	if v != nil {
+		_c.SetCategory(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetAllowCancel sets the "allow_cancel" field.
-func (tc *TemplateCreate) SetAllowCancel(b bool) *TemplateCreate {
-	tc.mutation.SetAllowCancel(b)
-	return tc
+func (_c *TemplateCreate) SetAllowCancel(v bool) *TemplateCreate {
+	_c.mutation.SetAllowCancel(v)
+	return _c
 }
 
 // SetNillableAllowCancel sets the "allow_cancel" field if the given value is not nil.
-func (tc *TemplateCreate) SetNillableAllowCancel(b *bool) *TemplateCreate {
-	if b != nil {
-		tc.SetAllowCancel(*b)
+func (_c *TemplateCreate) SetNillableAllowCancel(v *bool) *TemplateCreate {
+	if v != nil {
+		_c.SetAllowCancel(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetAllowUrge sets the "allow_urge" field.
-func (tc *TemplateCreate) SetAllowUrge(b bool) *TemplateCreate {
-	tc.mutation.SetAllowUrge(b)
-	return tc
+func (_c *TemplateCreate) SetAllowUrge(v bool) *TemplateCreate {
+	_c.mutation.SetAllowUrge(v)
+	return _c
 }
 
 // SetNillableAllowUrge sets the "allow_urge" field if the given value is not nil.
-func (tc *TemplateCreate) SetNillableAllowUrge(b *bool) *TemplateCreate {
-	if b != nil {
-		tc.SetAllowUrge(*b)
+func (_c *TemplateCreate) SetNillableAllowUrge(v *bool) *TemplateCreate {
+	if v != nil {
+		_c.SetAllowUrge(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetAllowDelegate sets the "allow_delegate" field.
-func (tc *TemplateCreate) SetAllowDelegate(b bool) *TemplateCreate {
-	tc.mutation.SetAllowDelegate(b)
-	return tc
+func (_c *TemplateCreate) SetAllowDelegate(v bool) *TemplateCreate {
+	_c.mutation.SetAllowDelegate(v)
+	return _c
 }
 
 // SetNillableAllowDelegate sets the "allow_delegate" field if the given value is not nil.
-func (tc *TemplateCreate) SetNillableAllowDelegate(b *bool) *TemplateCreate {
-	if b != nil {
-		tc.SetAllowDelegate(*b)
+func (_c *TemplateCreate) SetNillableAllowDelegate(v *bool) *TemplateCreate {
+	if v != nil {
+		_c.SetAllowDelegate(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetAllowTransfer sets the "allow_transfer" field.
-func (tc *TemplateCreate) SetAllowTransfer(b bool) *TemplateCreate {
-	tc.mutation.SetAllowTransfer(b)
-	return tc
+func (_c *TemplateCreate) SetAllowTransfer(v bool) *TemplateCreate {
+	_c.mutation.SetAllowTransfer(v)
+	return _c
 }
 
 // SetNillableAllowTransfer sets the "allow_transfer" field if the given value is not nil.
-func (tc *TemplateCreate) SetNillableAllowTransfer(b *bool) *TemplateCreate {
-	if b != nil {
-		tc.SetAllowTransfer(*b)
+func (_c *TemplateCreate) SetNillableAllowTransfer(v *bool) *TemplateCreate {
+	if v != nil {
+		_c.SetAllowTransfer(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetIsDraftEnabled sets the "is_draft_enabled" field.
-func (tc *TemplateCreate) SetIsDraftEnabled(b bool) *TemplateCreate {
-	tc.mutation.SetIsDraftEnabled(b)
-	return tc
+func (_c *TemplateCreate) SetIsDraftEnabled(v bool) *TemplateCreate {
+	_c.mutation.SetIsDraftEnabled(v)
+	return _c
 }
 
 // SetNillableIsDraftEnabled sets the "is_draft_enabled" field if the given value is not nil.
-func (tc *TemplateCreate) SetNillableIsDraftEnabled(b *bool) *TemplateCreate {
-	if b != nil {
-		tc.SetIsDraftEnabled(*b)
+func (_c *TemplateCreate) SetNillableIsDraftEnabled(v *bool) *TemplateCreate {
+	if v != nil {
+		_c.SetIsDraftEnabled(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetIsAutoStart sets the "is_auto_start" field.
-func (tc *TemplateCreate) SetIsAutoStart(b bool) *TemplateCreate {
-	tc.mutation.SetIsAutoStart(b)
-	return tc
+func (_c *TemplateCreate) SetIsAutoStart(v bool) *TemplateCreate {
+	_c.mutation.SetIsAutoStart(v)
+	return _c
 }
 
 // SetNillableIsAutoStart sets the "is_auto_start" field if the given value is not nil.
-func (tc *TemplateCreate) SetNillableIsAutoStart(b *bool) *TemplateCreate {
-	if b != nil {
-		tc.SetIsAutoStart(*b)
+func (_c *TemplateCreate) SetNillableIsAutoStart(v *bool) *TemplateCreate {
+	if v != nil {
+		_c.SetIsAutoStart(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetStrictMode sets the "strict_mode" field.
-func (tc *TemplateCreate) SetStrictMode(b bool) *TemplateCreate {
-	tc.mutation.SetStrictMode(b)
-	return tc
+func (_c *TemplateCreate) SetStrictMode(v bool) *TemplateCreate {
+	_c.mutation.SetStrictMode(v)
+	return _c
 }
 
 // SetNillableStrictMode sets the "strict_mode" field if the given value is not nil.
-func (tc *TemplateCreate) SetNillableStrictMode(b *bool) *TemplateCreate {
-	if b != nil {
-		tc.SetStrictMode(*b)
+func (_c *TemplateCreate) SetNillableStrictMode(v *bool) *TemplateCreate {
+	if v != nil {
+		_c.SetStrictMode(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetViewers sets the "viewers" field.
-func (tc *TemplateCreate) SetViewers(s []string) *TemplateCreate {
-	tc.mutation.SetViewers(s)
-	return tc
+func (_c *TemplateCreate) SetViewers(v []string) *TemplateCreate {
+	_c.mutation.SetViewers(v)
+	return _c
 }
 
 // SetEditors sets the "editors" field.
-func (tc *TemplateCreate) SetEditors(s []string) *TemplateCreate {
-	tc.mutation.SetEditors(s)
-	return tc
+func (_c *TemplateCreate) SetEditors(v []string) *TemplateCreate {
+	_c.mutation.SetEditors(v)
+	return _c
 }
 
 // SetPermissionConfigs sets the "permission_configs" field.
-func (tc *TemplateCreate) SetPermissionConfigs(m map[string]interface{}) *TemplateCreate {
-	tc.mutation.SetPermissionConfigs(m)
-	return tc
+func (_c *TemplateCreate) SetPermissionConfigs(v map[string]interface{}) *TemplateCreate {
+	_c.mutation.SetPermissionConfigs(v)
+	return _c
 }
 
 // SetRoleConfigs sets the "role_configs" field.
-func (tc *TemplateCreate) SetRoleConfigs(m map[string]interface{}) *TemplateCreate {
-	tc.mutation.SetRoleConfigs(m)
-	return tc
+func (_c *TemplateCreate) SetRoleConfigs(v map[string]interface{}) *TemplateCreate {
+	_c.mutation.SetRoleConfigs(v)
+	return _c
 }
 
 // SetVisibleRange sets the "visible_range" field.
-func (tc *TemplateCreate) SetVisibleRange(m map[string]interface{}) *TemplateCreate {
-	tc.mutation.SetVisibleRange(m)
-	return tc
+func (_c *TemplateCreate) SetVisibleRange(v map[string]interface{}) *TemplateCreate {
+	_c.mutation.SetVisibleRange(v)
+	return _c
 }
 
 // SetExtras sets the "extras" field.
-func (tc *TemplateCreate) SetExtras(m map[string]interface{}) *TemplateCreate {
-	tc.mutation.SetExtras(m)
-	return tc
+func (_c *TemplateCreate) SetExtras(v map[string]interface{}) *TemplateCreate {
+	_c.mutation.SetExtras(v)
+	return _c
 }
 
 // SetSpaceID sets the "space_id" field.
-func (tc *TemplateCreate) SetSpaceID(s string) *TemplateCreate {
-	tc.mutation.SetSpaceID(s)
-	return tc
+func (_c *TemplateCreate) SetSpaceID(v string) *TemplateCreate {
+	_c.mutation.SetSpaceID(v)
+	return _c
 }
 
 // SetNillableSpaceID sets the "space_id" field if the given value is not nil.
-func (tc *TemplateCreate) SetNillableSpaceID(s *string) *TemplateCreate {
-	if s != nil {
-		tc.SetSpaceID(*s)
+func (_c *TemplateCreate) SetNillableSpaceID(v *string) *TemplateCreate {
+	if v != nil {
+		_c.SetSpaceID(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (tc *TemplateCreate) SetCreatedBy(s string) *TemplateCreate {
-	tc.mutation.SetCreatedBy(s)
-	return tc
+func (_c *TemplateCreate) SetCreatedBy(v string) *TemplateCreate {
+	_c.mutation.SetCreatedBy(v)
+	return _c
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (tc *TemplateCreate) SetNillableCreatedBy(s *string) *TemplateCreate {
-	if s != nil {
-		tc.SetCreatedBy(*s)
+func (_c *TemplateCreate) SetNillableCreatedBy(v *string) *TemplateCreate {
+	if v != nil {
+		_c.SetCreatedBy(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (tc *TemplateCreate) SetUpdatedBy(s string) *TemplateCreate {
-	tc.mutation.SetUpdatedBy(s)
-	return tc
+func (_c *TemplateCreate) SetUpdatedBy(v string) *TemplateCreate {
+	_c.mutation.SetUpdatedBy(v)
+	return _c
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (tc *TemplateCreate) SetNillableUpdatedBy(s *string) *TemplateCreate {
-	if s != nil {
-		tc.SetUpdatedBy(*s)
+func (_c *TemplateCreate) SetNillableUpdatedBy(v *string) *TemplateCreate {
+	if v != nil {
+		_c.SetUpdatedBy(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetCreatedAt sets the "created_at" field.
-func (tc *TemplateCreate) SetCreatedAt(i int64) *TemplateCreate {
-	tc.mutation.SetCreatedAt(i)
-	return tc
+func (_c *TemplateCreate) SetCreatedAt(v int64) *TemplateCreate {
+	_c.mutation.SetCreatedAt(v)
+	return _c
 }
 
 // SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
-func (tc *TemplateCreate) SetNillableCreatedAt(i *int64) *TemplateCreate {
-	if i != nil {
-		tc.SetCreatedAt(*i)
+func (_c *TemplateCreate) SetNillableCreatedAt(v *int64) *TemplateCreate {
+	if v != nil {
+		_c.SetCreatedAt(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (tc *TemplateCreate) SetUpdatedAt(i int64) *TemplateCreate {
-	tc.mutation.SetUpdatedAt(i)
-	return tc
+func (_c *TemplateCreate) SetUpdatedAt(v int64) *TemplateCreate {
+	_c.mutation.SetUpdatedAt(v)
+	return _c
 }
 
 // SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
-func (tc *TemplateCreate) SetNillableUpdatedAt(i *int64) *TemplateCreate {
-	if i != nil {
-		tc.SetUpdatedAt(*i)
+func (_c *TemplateCreate) SetNillableUpdatedAt(v *int64) *TemplateCreate {
+	if v != nil {
+		_c.SetUpdatedAt(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetTemplateKey sets the "template_key" field.
-func (tc *TemplateCreate) SetTemplateKey(s string) *TemplateCreate {
-	tc.mutation.SetTemplateKey(s)
-	return tc
+func (_c *TemplateCreate) SetTemplateKey(v string) *TemplateCreate {
+	_c.mutation.SetTemplateKey(v)
+	return _c
 }
 
 // SetProcessRules sets the "process_rules" field.
-func (tc *TemplateCreate) SetProcessRules(m map[string]interface{}) *TemplateCreate {
-	tc.mutation.SetProcessRules(m)
-	return tc
+func (_c *TemplateCreate) SetProcessRules(v map[string]interface{}) *TemplateCreate {
+	_c.mutation.SetProcessRules(v)
+	return _c
 }
 
 // SetTriggerConditions sets the "trigger_conditions" field.
-func (tc *TemplateCreate) SetTriggerConditions(m map[string]interface{}) *TemplateCreate {
-	tc.mutation.SetTriggerConditions(m)
-	return tc
+func (_c *TemplateCreate) SetTriggerConditions(v map[string]interface{}) *TemplateCreate {
+	_c.mutation.SetTriggerConditions(v)
+	return _c
 }
 
 // SetTimeoutConfig sets the "timeout_config" field.
-func (tc *TemplateCreate) SetTimeoutConfig(m map[string]interface{}) *TemplateCreate {
-	tc.mutation.SetTimeoutConfig(m)
-	return tc
+func (_c *TemplateCreate) SetTimeoutConfig(v map[string]interface{}) *TemplateCreate {
+	_c.mutation.SetTimeoutConfig(v)
+	return _c
 }
 
 // SetReminderConfig sets the "reminder_config" field.
-func (tc *TemplateCreate) SetReminderConfig(m map[string]interface{}) *TemplateCreate {
-	tc.mutation.SetReminderConfig(m)
-	return tc
+func (_c *TemplateCreate) SetReminderConfig(v map[string]interface{}) *TemplateCreate {
+	_c.mutation.SetReminderConfig(v)
+	return _c
 }
 
 // SetSourceVersion sets the "source_version" field.
-func (tc *TemplateCreate) SetSourceVersion(s string) *TemplateCreate {
-	tc.mutation.SetSourceVersion(s)
-	return tc
+func (_c *TemplateCreate) SetSourceVersion(v string) *TemplateCreate {
+	_c.mutation.SetSourceVersion(v)
+	return _c
 }
 
 // SetNillableSourceVersion sets the "source_version" field if the given value is not nil.
-func (tc *TemplateCreate) SetNillableSourceVersion(s *string) *TemplateCreate {
-	if s != nil {
-		tc.SetSourceVersion(*s)
+func (_c *TemplateCreate) SetNillableSourceVersion(v *string) *TemplateCreate {
+	if v != nil {
+		_c.SetSourceVersion(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetIsLatest sets the "is_latest" field.
-func (tc *TemplateCreate) SetIsLatest(b bool) *TemplateCreate {
-	tc.mutation.SetIsLatest(b)
-	return tc
+func (_c *TemplateCreate) SetIsLatest(v bool) *TemplateCreate {
+	_c.mutation.SetIsLatest(v)
+	return _c
 }
 
 // SetNillableIsLatest sets the "is_latest" field if the given value is not nil.
-func (tc *TemplateCreate) SetNillableIsLatest(b *bool) *TemplateCreate {
-	if b != nil {
-		tc.SetIsLatest(*b)
+func (_c *TemplateCreate) SetNillableIsLatest(v *bool) *TemplateCreate {
+	if v != nil {
+		_c.SetIsLatest(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetEffectiveTime sets the "effective_time" field.
-func (tc *TemplateCreate) SetEffectiveTime(i int64) *TemplateCreate {
-	tc.mutation.SetEffectiveTime(i)
-	return tc
+func (_c *TemplateCreate) SetEffectiveTime(v int64) *TemplateCreate {
+	_c.mutation.SetEffectiveTime(v)
+	return _c
 }
 
 // SetNillableEffectiveTime sets the "effective_time" field if the given value is not nil.
-func (tc *TemplateCreate) SetNillableEffectiveTime(i *int64) *TemplateCreate {
-	if i != nil {
-		tc.SetEffectiveTime(*i)
+func (_c *TemplateCreate) SetNillableEffectiveTime(v *int64) *TemplateCreate {
+	if v != nil {
+		_c.SetEffectiveTime(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetExpireTime sets the "expire_time" field.
-func (tc *TemplateCreate) SetExpireTime(i int64) *TemplateCreate {
-	tc.mutation.SetExpireTime(i)
-	return tc
+func (_c *TemplateCreate) SetExpireTime(v int64) *TemplateCreate {
+	_c.mutation.SetExpireTime(v)
+	return _c
 }
 
 // SetNillableExpireTime sets the "expire_time" field if the given value is not nil.
-func (tc *TemplateCreate) SetNillableExpireTime(i *int64) *TemplateCreate {
-	if i != nil {
-		tc.SetExpireTime(*i)
+func (_c *TemplateCreate) SetNillableExpireTime(v *int64) *TemplateCreate {
+	if v != nil {
+		_c.SetExpireTime(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetID sets the "id" field.
-func (tc *TemplateCreate) SetID(s string) *TemplateCreate {
-	tc.mutation.SetID(s)
-	return tc
+func (_c *TemplateCreate) SetID(v string) *TemplateCreate {
+	_c.mutation.SetID(v)
+	return _c
 }
 
 // SetNillableID sets the "id" field if the given value is not nil.
-func (tc *TemplateCreate) SetNillableID(s *string) *TemplateCreate {
-	if s != nil {
-		tc.SetID(*s)
+func (_c *TemplateCreate) SetNillableID(v *string) *TemplateCreate {
+	if v != nil {
+		_c.SetID(*v)
 	}
-	return tc
+	return _c
 }
 
 // Mutation returns the TemplateMutation object of the builder.
-func (tc *TemplateCreate) Mutation() *TemplateMutation {
-	return tc.mutation
+func (_c *TemplateCreate) Mutation() *TemplateMutation {
+	return _c.mutation
 }
 
 // Save creates the Template in the database.
-func (tc *TemplateCreate) Save(ctx context.Context) (*Template, error) {
-	tc.defaults()
-	return withHooks(ctx, tc.sqlSave, tc.mutation, tc.hooks)
+func (_c *TemplateCreate) Save(ctx context.Context) (*Template, error) {
+	_c.defaults()
+	return withHooks(ctx, _c.sqlSave, _c.mutation, _c.hooks)
 }
 
 // SaveX calls Save and panics if Save returns an error.
-func (tc *TemplateCreate) SaveX(ctx context.Context) *Template {
-	v, err := tc.Save(ctx)
+func (_c *TemplateCreate) SaveX(ctx context.Context) *Template {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -536,116 +536,116 @@ func (tc *TemplateCreate) SaveX(ctx context.Context) *Template {
 }
 
 // Exec executes the query.
-func (tc *TemplateCreate) Exec(ctx context.Context) error {
-	_, err := tc.Save(ctx)
+func (_c *TemplateCreate) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (tc *TemplateCreate) ExecX(ctx context.Context) {
-	if err := tc.Exec(ctx); err != nil {
+func (_c *TemplateCreate) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (tc *TemplateCreate) defaults() {
-	if _, ok := tc.mutation.Disabled(); !ok {
+func (_c *TemplateCreate) defaults() {
+	if _, ok := _c.mutation.Disabled(); !ok {
 		v := template.DefaultDisabled
-		tc.mutation.SetDisabled(v)
+		_c.mutation.SetDisabled(v)
 	}
-	if _, ok := tc.mutation.AllowCancel(); !ok {
+	if _, ok := _c.mutation.AllowCancel(); !ok {
 		v := template.DefaultAllowCancel
-		tc.mutation.SetAllowCancel(v)
+		_c.mutation.SetAllowCancel(v)
 	}
-	if _, ok := tc.mutation.AllowUrge(); !ok {
+	if _, ok := _c.mutation.AllowUrge(); !ok {
 		v := template.DefaultAllowUrge
-		tc.mutation.SetAllowUrge(v)
+		_c.mutation.SetAllowUrge(v)
 	}
-	if _, ok := tc.mutation.AllowDelegate(); !ok {
+	if _, ok := _c.mutation.AllowDelegate(); !ok {
 		v := template.DefaultAllowDelegate
-		tc.mutation.SetAllowDelegate(v)
+		_c.mutation.SetAllowDelegate(v)
 	}
-	if _, ok := tc.mutation.AllowTransfer(); !ok {
+	if _, ok := _c.mutation.AllowTransfer(); !ok {
 		v := template.DefaultAllowTransfer
-		tc.mutation.SetAllowTransfer(v)
+		_c.mutation.SetAllowTransfer(v)
 	}
-	if _, ok := tc.mutation.IsDraftEnabled(); !ok {
+	if _, ok := _c.mutation.IsDraftEnabled(); !ok {
 		v := template.DefaultIsDraftEnabled
-		tc.mutation.SetIsDraftEnabled(v)
+		_c.mutation.SetIsDraftEnabled(v)
 	}
-	if _, ok := tc.mutation.IsAutoStart(); !ok {
+	if _, ok := _c.mutation.IsAutoStart(); !ok {
 		v := template.DefaultIsAutoStart
-		tc.mutation.SetIsAutoStart(v)
+		_c.mutation.SetIsAutoStart(v)
 	}
-	if _, ok := tc.mutation.StrictMode(); !ok {
+	if _, ok := _c.mutation.StrictMode(); !ok {
 		v := template.DefaultStrictMode
-		tc.mutation.SetStrictMode(v)
+		_c.mutation.SetStrictMode(v)
 	}
-	if _, ok := tc.mutation.Extras(); !ok {
+	if _, ok := _c.mutation.Extras(); !ok {
 		v := template.DefaultExtras
-		tc.mutation.SetExtras(v)
+		_c.mutation.SetExtras(v)
 	}
-	if _, ok := tc.mutation.CreatedAt(); !ok {
+	if _, ok := _c.mutation.CreatedAt(); !ok {
 		v := template.DefaultCreatedAt()
-		tc.mutation.SetCreatedAt(v)
+		_c.mutation.SetCreatedAt(v)
 	}
-	if _, ok := tc.mutation.UpdatedAt(); !ok {
+	if _, ok := _c.mutation.UpdatedAt(); !ok {
 		v := template.DefaultUpdatedAt()
-		tc.mutation.SetUpdatedAt(v)
+		_c.mutation.SetUpdatedAt(v)
 	}
-	if _, ok := tc.mutation.IsLatest(); !ok {
+	if _, ok := _c.mutation.IsLatest(); !ok {
 		v := template.DefaultIsLatest
-		tc.mutation.SetIsLatest(v)
+		_c.mutation.SetIsLatest(v)
 	}
-	if _, ok := tc.mutation.ID(); !ok {
+	if _, ok := _c.mutation.ID(); !ok {
 		v := template.DefaultID()
-		tc.mutation.SetID(v)
+		_c.mutation.SetID(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (tc *TemplateCreate) check() error {
-	if _, ok := tc.mutation.FormCode(); !ok {
+func (_c *TemplateCreate) check() error {
+	if _, ok := _c.mutation.FormCode(); !ok {
 		return &ValidationError{Name: "form_code", err: errors.New(`ent: missing required field "Template.form_code"`)}
 	}
-	if _, ok := tc.mutation.NodeKey(); !ok {
+	if _, ok := _c.mutation.NodeKey(); !ok {
 		return &ValidationError{Name: "node_key", err: errors.New(`ent: missing required field "Template.node_key"`)}
 	}
-	if _, ok := tc.mutation.NodeType(); !ok {
+	if _, ok := _c.mutation.NodeType(); !ok {
 		return &ValidationError{Name: "node_type", err: errors.New(`ent: missing required field "Template.node_type"`)}
 	}
-	if _, ok := tc.mutation.ModuleCode(); !ok {
+	if _, ok := _c.mutation.ModuleCode(); !ok {
 		return &ValidationError{Name: "module_code", err: errors.New(`ent: missing required field "Template.module_code"`)}
 	}
-	if _, ok := tc.mutation.AllowCancel(); !ok {
+	if _, ok := _c.mutation.AllowCancel(); !ok {
 		return &ValidationError{Name: "allow_cancel", err: errors.New(`ent: missing required field "Template.allow_cancel"`)}
 	}
-	if _, ok := tc.mutation.AllowUrge(); !ok {
+	if _, ok := _c.mutation.AllowUrge(); !ok {
 		return &ValidationError{Name: "allow_urge", err: errors.New(`ent: missing required field "Template.allow_urge"`)}
 	}
-	if _, ok := tc.mutation.AllowDelegate(); !ok {
+	if _, ok := _c.mutation.AllowDelegate(); !ok {
 		return &ValidationError{Name: "allow_delegate", err: errors.New(`ent: missing required field "Template.allow_delegate"`)}
 	}
-	if _, ok := tc.mutation.AllowTransfer(); !ok {
+	if _, ok := _c.mutation.AllowTransfer(); !ok {
 		return &ValidationError{Name: "allow_transfer", err: errors.New(`ent: missing required field "Template.allow_transfer"`)}
 	}
-	if _, ok := tc.mutation.IsDraftEnabled(); !ok {
+	if _, ok := _c.mutation.IsDraftEnabled(); !ok {
 		return &ValidationError{Name: "is_draft_enabled", err: errors.New(`ent: missing required field "Template.is_draft_enabled"`)}
 	}
-	if _, ok := tc.mutation.IsAutoStart(); !ok {
+	if _, ok := _c.mutation.IsAutoStart(); !ok {
 		return &ValidationError{Name: "is_auto_start", err: errors.New(`ent: missing required field "Template.is_auto_start"`)}
 	}
-	if _, ok := tc.mutation.StrictMode(); !ok {
+	if _, ok := _c.mutation.StrictMode(); !ok {
 		return &ValidationError{Name: "strict_mode", err: errors.New(`ent: missing required field "Template.strict_mode"`)}
 	}
-	if _, ok := tc.mutation.TemplateKey(); !ok {
+	if _, ok := _c.mutation.TemplateKey(); !ok {
 		return &ValidationError{Name: "template_key", err: errors.New(`ent: missing required field "Template.template_key"`)}
 	}
-	if _, ok := tc.mutation.IsLatest(); !ok {
+	if _, ok := _c.mutation.IsLatest(); !ok {
 		return &ValidationError{Name: "is_latest", err: errors.New(`ent: missing required field "Template.is_latest"`)}
 	}
-	if v, ok := tc.mutation.ID(); ok {
+	if v, ok := _c.mutation.ID(); ok {
 		if err := template.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "Template.id": %w`, err)}
 		}
@@ -653,12 +653,12 @@ func (tc *TemplateCreate) check() error {
 	return nil
 }
 
-func (tc *TemplateCreate) sqlSave(ctx context.Context) (*Template, error) {
-	if err := tc.check(); err != nil {
+func (_c *TemplateCreate) sqlSave(ctx context.Context) (*Template, error) {
+	if err := _c.check(); err != nil {
 		return nil, err
 	}
-	_node, _spec := tc.createSpec()
-	if err := sqlgraph.CreateNode(ctx, tc.driver, _spec); err != nil {
+	_node, _spec := _c.createSpec()
+	if err := sqlgraph.CreateNode(ctx, _c.driver, _spec); err != nil {
 		if sqlgraph.IsConstraintError(err) {
 			err = &ConstraintError{msg: err.Error(), wrap: err}
 		}
@@ -671,205 +671,205 @@ func (tc *TemplateCreate) sqlSave(ctx context.Context) (*Template, error) {
 			return nil, fmt.Errorf("unexpected Template.ID type: %T", _spec.ID.Value)
 		}
 	}
-	tc.mutation.id = &_node.ID
-	tc.mutation.done = true
+	_c.mutation.id = &_node.ID
+	_c.mutation.done = true
 	return _node, nil
 }
 
-func (tc *TemplateCreate) createSpec() (*Template, *sqlgraph.CreateSpec) {
+func (_c *TemplateCreate) createSpec() (*Template, *sqlgraph.CreateSpec) {
 	var (
-		_node = &Template{config: tc.config}
+		_node = &Template{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(template.Table, sqlgraph.NewFieldSpec(template.FieldID, field.TypeString))
 	)
-	if id, ok := tc.mutation.ID(); ok {
+	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
 	}
-	if value, ok := tc.mutation.Name(); ok {
+	if value, ok := _c.mutation.Name(); ok {
 		_spec.SetField(template.FieldName, field.TypeString, value)
 		_node.Name = value
 	}
-	if value, ok := tc.mutation.Code(); ok {
+	if value, ok := _c.mutation.Code(); ok {
 		_spec.SetField(template.FieldCode, field.TypeString, value)
 		_node.Code = value
 	}
-	if value, ok := tc.mutation.Description(); ok {
+	if value, ok := _c.mutation.Description(); ok {
 		_spec.SetField(template.FieldDescription, field.TypeString, value)
 		_node.Description = value
 	}
-	if value, ok := tc.mutation.GetType(); ok {
+	if value, ok := _c.mutation.GetType(); ok {
 		_spec.SetField(template.FieldType, field.TypeString, value)
 		_node.Type = value
 	}
-	if value, ok := tc.mutation.Version(); ok {
+	if value, ok := _c.mutation.Version(); ok {
 		_spec.SetField(template.FieldVersion, field.TypeString, value)
 		_node.Version = value
 	}
-	if value, ok := tc.mutation.Status(); ok {
+	if value, ok := _c.mutation.Status(); ok {
 		_spec.SetField(template.FieldStatus, field.TypeString, value)
 		_node.Status = value
 	}
-	if value, ok := tc.mutation.Disabled(); ok {
+	if value, ok := _c.mutation.Disabled(); ok {
 		_spec.SetField(template.FieldDisabled, field.TypeBool, value)
 		_node.Disabled = value
 	}
-	if value, ok := tc.mutation.FormCode(); ok {
+	if value, ok := _c.mutation.FormCode(); ok {
 		_spec.SetField(template.FieldFormCode, field.TypeString, value)
 		_node.FormCode = value
 	}
-	if value, ok := tc.mutation.FormVersion(); ok {
+	if value, ok := _c.mutation.FormVersion(); ok {
 		_spec.SetField(template.FieldFormVersion, field.TypeString, value)
 		_node.FormVersion = value
 	}
-	if value, ok := tc.mutation.FormConfig(); ok {
+	if value, ok := _c.mutation.FormConfig(); ok {
 		_spec.SetField(template.FieldFormConfig, field.TypeJSON, value)
 		_node.FormConfig = value
 	}
-	if value, ok := tc.mutation.FormPermissions(); ok {
+	if value, ok := _c.mutation.FormPermissions(); ok {
 		_spec.SetField(template.FieldFormPermissions, field.TypeJSON, value)
 		_node.FormPermissions = value
 	}
-	if value, ok := tc.mutation.FieldPermissions(); ok {
+	if value, ok := _c.mutation.FieldPermissions(); ok {
 		_spec.SetField(template.FieldFieldPermissions, field.TypeJSON, value)
 		_node.FieldPermissions = value
 	}
-	if value, ok := tc.mutation.NodeKey(); ok {
+	if value, ok := _c.mutation.NodeKey(); ok {
 		_spec.SetField(template.FieldNodeKey, field.TypeString, value)
 		_node.NodeKey = value
 	}
-	if value, ok := tc.mutation.NodeType(); ok {
+	if value, ok := _c.mutation.NodeType(); ok {
 		_spec.SetField(template.FieldNodeType, field.TypeString, value)
 		_node.NodeType = value
 	}
-	if value, ok := tc.mutation.NodeConfig(); ok {
+	if value, ok := _c.mutation.NodeConfig(); ok {
 		_spec.SetField(template.FieldNodeConfig, field.TypeJSON, value)
 		_node.NodeConfig = value
 	}
-	if value, ok := tc.mutation.NodeRules(); ok {
+	if value, ok := _c.mutation.NodeRules(); ok {
 		_spec.SetField(template.FieldNodeRules, field.TypeJSON, value)
 		_node.NodeRules = value
 	}
-	if value, ok := tc.mutation.NodeEvents(); ok {
+	if value, ok := _c.mutation.NodeEvents(); ok {
 		_spec.SetField(template.FieldNodeEvents, field.TypeJSON, value)
 		_node.NodeEvents = value
 	}
-	if value, ok := tc.mutation.BusinessTags(); ok {
+	if value, ok := _c.mutation.BusinessTags(); ok {
 		_spec.SetField(template.FieldBusinessTags, field.TypeJSON, value)
 		_node.BusinessTags = value
 	}
-	if value, ok := tc.mutation.ModuleCode(); ok {
+	if value, ok := _c.mutation.ModuleCode(); ok {
 		_spec.SetField(template.FieldModuleCode, field.TypeString, value)
 		_node.ModuleCode = value
 	}
-	if value, ok := tc.mutation.Category(); ok {
+	if value, ok := _c.mutation.Category(); ok {
 		_spec.SetField(template.FieldCategory, field.TypeString, value)
 		_node.Category = value
 	}
-	if value, ok := tc.mutation.AllowCancel(); ok {
+	if value, ok := _c.mutation.AllowCancel(); ok {
 		_spec.SetField(template.FieldAllowCancel, field.TypeBool, value)
 		_node.AllowCancel = value
 	}
-	if value, ok := tc.mutation.AllowUrge(); ok {
+	if value, ok := _c.mutation.AllowUrge(); ok {
 		_spec.SetField(template.FieldAllowUrge, field.TypeBool, value)
 		_node.AllowUrge = value
 	}
-	if value, ok := tc.mutation.AllowDelegate(); ok {
+	if value, ok := _c.mutation.AllowDelegate(); ok {
 		_spec.SetField(template.FieldAllowDelegate, field.TypeBool, value)
 		_node.AllowDelegate = value
 	}
-	if value, ok := tc.mutation.AllowTransfer(); ok {
+	if value, ok := _c.mutation.AllowTransfer(); ok {
 		_spec.SetField(template.FieldAllowTransfer, field.TypeBool, value)
 		_node.AllowTransfer = value
 	}
-	if value, ok := tc.mutation.IsDraftEnabled(); ok {
+	if value, ok := _c.mutation.IsDraftEnabled(); ok {
 		_spec.SetField(template.FieldIsDraftEnabled, field.TypeBool, value)
 		_node.IsDraftEnabled = value
 	}
-	if value, ok := tc.mutation.IsAutoStart(); ok {
+	if value, ok := _c.mutation.IsAutoStart(); ok {
 		_spec.SetField(template.FieldIsAutoStart, field.TypeBool, value)
 		_node.IsAutoStart = value
 	}
-	if value, ok := tc.mutation.StrictMode(); ok {
+	if value, ok := _c.mutation.StrictMode(); ok {
 		_spec.SetField(template.FieldStrictMode, field.TypeBool, value)
 		_node.StrictMode = value
 	}
-	if value, ok := tc.mutation.Viewers(); ok {
+	if value, ok := _c.mutation.Viewers(); ok {
 		_spec.SetField(template.FieldViewers, field.TypeJSON, value)
 		_node.Viewers = value
 	}
-	if value, ok := tc.mutation.Editors(); ok {
+	if value, ok := _c.mutation.Editors(); ok {
 		_spec.SetField(template.FieldEditors, field.TypeJSON, value)
 		_node.Editors = value
 	}
-	if value, ok := tc.mutation.PermissionConfigs(); ok {
+	if value, ok := _c.mutation.PermissionConfigs(); ok {
 		_spec.SetField(template.FieldPermissionConfigs, field.TypeJSON, value)
 		_node.PermissionConfigs = value
 	}
-	if value, ok := tc.mutation.RoleConfigs(); ok {
+	if value, ok := _c.mutation.RoleConfigs(); ok {
 		_spec.SetField(template.FieldRoleConfigs, field.TypeJSON, value)
 		_node.RoleConfigs = value
 	}
-	if value, ok := tc.mutation.VisibleRange(); ok {
+	if value, ok := _c.mutation.VisibleRange(); ok {
 		_spec.SetField(template.FieldVisibleRange, field.TypeJSON, value)
 		_node.VisibleRange = value
 	}
-	if value, ok := tc.mutation.Extras(); ok {
+	if value, ok := _c.mutation.Extras(); ok {
 		_spec.SetField(template.FieldExtras, field.TypeJSON, value)
 		_node.Extras = value
 	}
-	if value, ok := tc.mutation.SpaceID(); ok {
+	if value, ok := _c.mutation.SpaceID(); ok {
 		_spec.SetField(template.FieldSpaceID, field.TypeString, value)
 		_node.SpaceID = value
 	}
-	if value, ok := tc.mutation.CreatedBy(); ok {
+	if value, ok := _c.mutation.CreatedBy(); ok {
 		_spec.SetField(template.FieldCreatedBy, field.TypeString, value)
 		_node.CreatedBy = value
 	}
-	if value, ok := tc.mutation.UpdatedBy(); ok {
+	if value, ok := _c.mutation.UpdatedBy(); ok {
 		_spec.SetField(template.FieldUpdatedBy, field.TypeString, value)
 		_node.UpdatedBy = value
 	}
-	if value, ok := tc.mutation.CreatedAt(); ok {
+	if value, ok := _c.mutation.CreatedAt(); ok {
 		_spec.SetField(template.FieldCreatedAt, field.TypeInt64, value)
 		_node.CreatedAt = value
 	}
-	if value, ok := tc.mutation.UpdatedAt(); ok {
+	if value, ok := _c.mutation.UpdatedAt(); ok {
 		_spec.SetField(template.FieldUpdatedAt, field.TypeInt64, value)
 		_node.UpdatedAt = value
 	}
-	if value, ok := tc.mutation.TemplateKey(); ok {
+	if value, ok := _c.mutation.TemplateKey(); ok {
 		_spec.SetField(template.FieldTemplateKey, field.TypeString, value)
 		_node.TemplateKey = value
 	}
-	if value, ok := tc.mutation.ProcessRules(); ok {
+	if value, ok := _c.mutation.ProcessRules(); ok {
 		_spec.SetField(template.FieldProcessRules, field.TypeJSON, value)
 		_node.ProcessRules = value
 	}
-	if value, ok := tc.mutation.TriggerConditions(); ok {
+	if value, ok := _c.mutation.TriggerConditions(); ok {
 		_spec.SetField(template.FieldTriggerConditions, field.TypeJSON, value)
 		_node.TriggerConditions = value
 	}
-	if value, ok := tc.mutation.TimeoutConfig(); ok {
+	if value, ok := _c.mutation.TimeoutConfig(); ok {
 		_spec.SetField(template.FieldTimeoutConfig, field.TypeJSON, value)
 		_node.TimeoutConfig = value
 	}
-	if value, ok := tc.mutation.ReminderConfig(); ok {
+	if value, ok := _c.mutation.ReminderConfig(); ok {
 		_spec.SetField(template.FieldReminderConfig, field.TypeJSON, value)
 		_node.ReminderConfig = value
 	}
-	if value, ok := tc.mutation.SourceVersion(); ok {
+	if value, ok := _c.mutation.SourceVersion(); ok {
 		_spec.SetField(template.FieldSourceVersion, field.TypeString, value)
 		_node.SourceVersion = value
 	}
-	if value, ok := tc.mutation.IsLatest(); ok {
+	if value, ok := _c.mutation.IsLatest(); ok {
 		_spec.SetField(template.FieldIsLatest, field.TypeBool, value)
 		_node.IsLatest = value
 	}
-	if value, ok := tc.mutation.EffectiveTime(); ok {
+	if value, ok := _c.mutation.EffectiveTime(); ok {
 		_spec.SetField(template.FieldEffectiveTime, field.TypeInt64, value)
 		_node.EffectiveTime = value
 	}
-	if value, ok := tc.mutation.ExpireTime(); ok {
+	if value, ok := _c.mutation.ExpireTime(); ok {
 		_spec.SetField(template.FieldExpireTime, field.TypeInt64, value)
 		_node.ExpireTime = value
 	}
@@ -884,16 +884,16 @@ type TemplateCreateBulk struct {
 }
 
 // Save creates the Template entities in the database.
-func (tcb *TemplateCreateBulk) Save(ctx context.Context) ([]*Template, error) {
-	if tcb.err != nil {
-		return nil, tcb.err
+func (_c *TemplateCreateBulk) Save(ctx context.Context) ([]*Template, error) {
+	if _c.err != nil {
+		return nil, _c.err
 	}
-	specs := make([]*sqlgraph.CreateSpec, len(tcb.builders))
-	nodes := make([]*Template, len(tcb.builders))
-	mutators := make([]Mutator, len(tcb.builders))
-	for i := range tcb.builders {
+	specs := make([]*sqlgraph.CreateSpec, len(_c.builders))
+	nodes := make([]*Template, len(_c.builders))
+	mutators := make([]Mutator, len(_c.builders))
+	for i := range _c.builders {
 		func(i int, root context.Context) {
-			builder := tcb.builders[i]
+			builder := _c.builders[i]
 			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*TemplateMutation)
@@ -907,11 +907,11 @@ func (tcb *TemplateCreateBulk) Save(ctx context.Context) ([]*Template, error) {
 				var err error
 				nodes[i], specs[i] = builder.createSpec()
 				if i < len(mutators)-1 {
-					_, err = mutators[i+1].Mutate(root, tcb.builders[i+1].mutation)
+					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
 					// Invoke the actual operation on the latest mutation in the chain.
-					if err = sqlgraph.BatchCreate(ctx, tcb.driver, spec); err != nil {
+					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
 							err = &ConstraintError{msg: err.Error(), wrap: err}
 						}
@@ -931,7 +931,7 @@ func (tcb *TemplateCreateBulk) Save(ctx context.Context) ([]*Template, error) {
 		}(i, ctx)
 	}
 	if len(mutators) > 0 {
-		if _, err := mutators[0].Mutate(ctx, tcb.builders[0].mutation); err != nil {
+		if _, err := mutators[0].Mutate(ctx, _c.builders[0].mutation); err != nil {
 			return nil, err
 		}
 	}
@@ -939,8 +939,8 @@ func (tcb *TemplateCreateBulk) Save(ctx context.Context) ([]*Template, error) {
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (tcb *TemplateCreateBulk) SaveX(ctx context.Context) []*Template {
-	v, err := tcb.Save(ctx)
+func (_c *TemplateCreateBulk) SaveX(ctx context.Context) []*Template {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -948,14 +948,14 @@ func (tcb *TemplateCreateBulk) SaveX(ctx context.Context) []*Template {
 }
 
 // Exec executes the query.
-func (tcb *TemplateCreateBulk) Exec(ctx context.Context) error {
-	_, err := tcb.Save(ctx)
+func (_c *TemplateCreateBulk) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (tcb *TemplateCreateBulk) ExecX(ctx context.Context) {
-	if err := tcb.Exec(ctx); err != nil {
+func (_c *TemplateCreateBulk) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

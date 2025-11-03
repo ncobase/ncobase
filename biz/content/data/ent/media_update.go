@@ -22,250 +22,250 @@ type MediaUpdate struct {
 }
 
 // Where appends a list predicates to the MediaUpdate builder.
-func (mu *MediaUpdate) Where(ps ...predicate.Media) *MediaUpdate {
-	mu.mutation.Where(ps...)
-	return mu
+func (_u *MediaUpdate) Where(ps ...predicate.Media) *MediaUpdate {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // SetTitle sets the "title" field.
-func (mu *MediaUpdate) SetTitle(s string) *MediaUpdate {
-	mu.mutation.SetTitle(s)
-	return mu
+func (_u *MediaUpdate) SetTitle(v string) *MediaUpdate {
+	_u.mutation.SetTitle(v)
+	return _u
 }
 
 // SetNillableTitle sets the "title" field if the given value is not nil.
-func (mu *MediaUpdate) SetNillableTitle(s *string) *MediaUpdate {
-	if s != nil {
-		mu.SetTitle(*s)
+func (_u *MediaUpdate) SetNillableTitle(v *string) *MediaUpdate {
+	if v != nil {
+		_u.SetTitle(*v)
 	}
-	return mu
+	return _u
 }
 
 // ClearTitle clears the value of the "title" field.
-func (mu *MediaUpdate) ClearTitle() *MediaUpdate {
-	mu.mutation.ClearTitle()
-	return mu
+func (_u *MediaUpdate) ClearTitle() *MediaUpdate {
+	_u.mutation.ClearTitle()
+	return _u
 }
 
 // SetType sets the "type" field.
-func (mu *MediaUpdate) SetType(s string) *MediaUpdate {
-	mu.mutation.SetType(s)
-	return mu
+func (_u *MediaUpdate) SetType(v string) *MediaUpdate {
+	_u.mutation.SetType(v)
+	return _u
 }
 
 // SetNillableType sets the "type" field if the given value is not nil.
-func (mu *MediaUpdate) SetNillableType(s *string) *MediaUpdate {
-	if s != nil {
-		mu.SetType(*s)
+func (_u *MediaUpdate) SetNillableType(v *string) *MediaUpdate {
+	if v != nil {
+		_u.SetType(*v)
 	}
-	return mu
+	return _u
 }
 
 // ClearType clears the value of the "type" field.
-func (mu *MediaUpdate) ClearType() *MediaUpdate {
-	mu.mutation.ClearType()
-	return mu
+func (_u *MediaUpdate) ClearType() *MediaUpdate {
+	_u.mutation.ClearType()
+	return _u
 }
 
 // SetURL sets the "url" field.
-func (mu *MediaUpdate) SetURL(s string) *MediaUpdate {
-	mu.mutation.SetURL(s)
-	return mu
+func (_u *MediaUpdate) SetURL(v string) *MediaUpdate {
+	_u.mutation.SetURL(v)
+	return _u
 }
 
 // SetNillableURL sets the "url" field if the given value is not nil.
-func (mu *MediaUpdate) SetNillableURL(s *string) *MediaUpdate {
-	if s != nil {
-		mu.SetURL(*s)
+func (_u *MediaUpdate) SetNillableURL(v *string) *MediaUpdate {
+	if v != nil {
+		_u.SetURL(*v)
 	}
-	return mu
+	return _u
 }
 
 // ClearURL clears the value of the "url" field.
-func (mu *MediaUpdate) ClearURL() *MediaUpdate {
-	mu.mutation.ClearURL()
-	return mu
+func (_u *MediaUpdate) ClearURL() *MediaUpdate {
+	_u.mutation.ClearURL()
+	return _u
 }
 
 // SetExtras sets the "extras" field.
-func (mu *MediaUpdate) SetExtras(m map[string]interface{}) *MediaUpdate {
-	mu.mutation.SetExtras(m)
-	return mu
+func (_u *MediaUpdate) SetExtras(v map[string]interface{}) *MediaUpdate {
+	_u.mutation.SetExtras(v)
+	return _u
 }
 
 // ClearExtras clears the value of the "extras" field.
-func (mu *MediaUpdate) ClearExtras() *MediaUpdate {
-	mu.mutation.ClearExtras()
-	return mu
+func (_u *MediaUpdate) ClearExtras() *MediaUpdate {
+	_u.mutation.ClearExtras()
+	return _u
 }
 
 // SetSpaceID sets the "space_id" field.
-func (mu *MediaUpdate) SetSpaceID(s string) *MediaUpdate {
-	mu.mutation.SetSpaceID(s)
-	return mu
+func (_u *MediaUpdate) SetSpaceID(v string) *MediaUpdate {
+	_u.mutation.SetSpaceID(v)
+	return _u
 }
 
 // SetNillableSpaceID sets the "space_id" field if the given value is not nil.
-func (mu *MediaUpdate) SetNillableSpaceID(s *string) *MediaUpdate {
-	if s != nil {
-		mu.SetSpaceID(*s)
+func (_u *MediaUpdate) SetNillableSpaceID(v *string) *MediaUpdate {
+	if v != nil {
+		_u.SetSpaceID(*v)
 	}
-	return mu
+	return _u
 }
 
 // ClearSpaceID clears the value of the "space_id" field.
-func (mu *MediaUpdate) ClearSpaceID() *MediaUpdate {
-	mu.mutation.ClearSpaceID()
-	return mu
+func (_u *MediaUpdate) ClearSpaceID() *MediaUpdate {
+	_u.mutation.ClearSpaceID()
+	return _u
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (mu *MediaUpdate) SetCreatedBy(s string) *MediaUpdate {
-	mu.mutation.SetCreatedBy(s)
-	return mu
+func (_u *MediaUpdate) SetCreatedBy(v string) *MediaUpdate {
+	_u.mutation.SetCreatedBy(v)
+	return _u
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (mu *MediaUpdate) SetNillableCreatedBy(s *string) *MediaUpdate {
-	if s != nil {
-		mu.SetCreatedBy(*s)
+func (_u *MediaUpdate) SetNillableCreatedBy(v *string) *MediaUpdate {
+	if v != nil {
+		_u.SetCreatedBy(*v)
 	}
-	return mu
+	return _u
 }
 
 // ClearCreatedBy clears the value of the "created_by" field.
-func (mu *MediaUpdate) ClearCreatedBy() *MediaUpdate {
-	mu.mutation.ClearCreatedBy()
-	return mu
+func (_u *MediaUpdate) ClearCreatedBy() *MediaUpdate {
+	_u.mutation.ClearCreatedBy()
+	return _u
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (mu *MediaUpdate) SetUpdatedBy(s string) *MediaUpdate {
-	mu.mutation.SetUpdatedBy(s)
-	return mu
+func (_u *MediaUpdate) SetUpdatedBy(v string) *MediaUpdate {
+	_u.mutation.SetUpdatedBy(v)
+	return _u
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (mu *MediaUpdate) SetNillableUpdatedBy(s *string) *MediaUpdate {
-	if s != nil {
-		mu.SetUpdatedBy(*s)
+func (_u *MediaUpdate) SetNillableUpdatedBy(v *string) *MediaUpdate {
+	if v != nil {
+		_u.SetUpdatedBy(*v)
 	}
-	return mu
+	return _u
 }
 
 // ClearUpdatedBy clears the value of the "updated_by" field.
-func (mu *MediaUpdate) ClearUpdatedBy() *MediaUpdate {
-	mu.mutation.ClearUpdatedBy()
-	return mu
+func (_u *MediaUpdate) ClearUpdatedBy() *MediaUpdate {
+	_u.mutation.ClearUpdatedBy()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (mu *MediaUpdate) SetUpdatedAt(i int64) *MediaUpdate {
-	mu.mutation.ResetUpdatedAt()
-	mu.mutation.SetUpdatedAt(i)
-	return mu
+func (_u *MediaUpdate) SetUpdatedAt(v int64) *MediaUpdate {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (mu *MediaUpdate) AddUpdatedAt(i int64) *MediaUpdate {
-	mu.mutation.AddUpdatedAt(i)
-	return mu
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *MediaUpdate) AddUpdatedAt(v int64) *MediaUpdate {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (mu *MediaUpdate) ClearUpdatedAt() *MediaUpdate {
-	mu.mutation.ClearUpdatedAt()
-	return mu
+func (_u *MediaUpdate) ClearUpdatedAt() *MediaUpdate {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // SetOwnerID sets the "owner_id" field.
-func (mu *MediaUpdate) SetOwnerID(s string) *MediaUpdate {
-	mu.mutation.SetOwnerID(s)
-	return mu
+func (_u *MediaUpdate) SetOwnerID(v string) *MediaUpdate {
+	_u.mutation.SetOwnerID(v)
+	return _u
 }
 
 // SetNillableOwnerID sets the "owner_id" field if the given value is not nil.
-func (mu *MediaUpdate) SetNillableOwnerID(s *string) *MediaUpdate {
-	if s != nil {
-		mu.SetOwnerID(*s)
+func (_u *MediaUpdate) SetNillableOwnerID(v *string) *MediaUpdate {
+	if v != nil {
+		_u.SetOwnerID(*v)
 	}
-	return mu
+	return _u
 }
 
 // SetResourceID sets the "resource_id" field.
-func (mu *MediaUpdate) SetResourceID(s string) *MediaUpdate {
-	mu.mutation.SetResourceID(s)
-	return mu
+func (_u *MediaUpdate) SetResourceID(v string) *MediaUpdate {
+	_u.mutation.SetResourceID(v)
+	return _u
 }
 
 // SetNillableResourceID sets the "resource_id" field if the given value is not nil.
-func (mu *MediaUpdate) SetNillableResourceID(s *string) *MediaUpdate {
-	if s != nil {
-		mu.SetResourceID(*s)
+func (_u *MediaUpdate) SetNillableResourceID(v *string) *MediaUpdate {
+	if v != nil {
+		_u.SetResourceID(*v)
 	}
-	return mu
+	return _u
 }
 
 // ClearResourceID clears the value of the "resource_id" field.
-func (mu *MediaUpdate) ClearResourceID() *MediaUpdate {
-	mu.mutation.ClearResourceID()
-	return mu
+func (_u *MediaUpdate) ClearResourceID() *MediaUpdate {
+	_u.mutation.ClearResourceID()
+	return _u
 }
 
 // SetDescription sets the "description" field.
-func (mu *MediaUpdate) SetDescription(s string) *MediaUpdate {
-	mu.mutation.SetDescription(s)
-	return mu
+func (_u *MediaUpdate) SetDescription(v string) *MediaUpdate {
+	_u.mutation.SetDescription(v)
+	return _u
 }
 
 // SetNillableDescription sets the "description" field if the given value is not nil.
-func (mu *MediaUpdate) SetNillableDescription(s *string) *MediaUpdate {
-	if s != nil {
-		mu.SetDescription(*s)
+func (_u *MediaUpdate) SetNillableDescription(v *string) *MediaUpdate {
+	if v != nil {
+		_u.SetDescription(*v)
 	}
-	return mu
+	return _u
 }
 
 // ClearDescription clears the value of the "description" field.
-func (mu *MediaUpdate) ClearDescription() *MediaUpdate {
-	mu.mutation.ClearDescription()
-	return mu
+func (_u *MediaUpdate) ClearDescription() *MediaUpdate {
+	_u.mutation.ClearDescription()
+	return _u
 }
 
 // SetAlt sets the "alt" field.
-func (mu *MediaUpdate) SetAlt(s string) *MediaUpdate {
-	mu.mutation.SetAlt(s)
-	return mu
+func (_u *MediaUpdate) SetAlt(v string) *MediaUpdate {
+	_u.mutation.SetAlt(v)
+	return _u
 }
 
 // SetNillableAlt sets the "alt" field if the given value is not nil.
-func (mu *MediaUpdate) SetNillableAlt(s *string) *MediaUpdate {
-	if s != nil {
-		mu.SetAlt(*s)
+func (_u *MediaUpdate) SetNillableAlt(v *string) *MediaUpdate {
+	if v != nil {
+		_u.SetAlt(*v)
 	}
-	return mu
+	return _u
 }
 
 // ClearAlt clears the value of the "alt" field.
-func (mu *MediaUpdate) ClearAlt() *MediaUpdate {
-	mu.mutation.ClearAlt()
-	return mu
+func (_u *MediaUpdate) ClearAlt() *MediaUpdate {
+	_u.mutation.ClearAlt()
+	return _u
 }
 
 // Mutation returns the MediaMutation object of the builder.
-func (mu *MediaUpdate) Mutation() *MediaMutation {
-	return mu.mutation
+func (_u *MediaUpdate) Mutation() *MediaMutation {
+	return _u.mutation
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
-func (mu *MediaUpdate) Save(ctx context.Context) (int, error) {
-	mu.defaults()
-	return withHooks(ctx, mu.sqlSave, mu.mutation, mu.hooks)
+func (_u *MediaUpdate) Save(ctx context.Context) (int, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (mu *MediaUpdate) SaveX(ctx context.Context) int {
-	affected, err := mu.Save(ctx)
+func (_u *MediaUpdate) SaveX(ctx context.Context) int {
+	affected, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -273,29 +273,29 @@ func (mu *MediaUpdate) SaveX(ctx context.Context) int {
 }
 
 // Exec executes the query.
-func (mu *MediaUpdate) Exec(ctx context.Context) error {
-	_, err := mu.Save(ctx)
+func (_u *MediaUpdate) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (mu *MediaUpdate) ExecX(ctx context.Context) {
-	if err := mu.Exec(ctx); err != nil {
+func (_u *MediaUpdate) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (mu *MediaUpdate) defaults() {
-	if _, ok := mu.mutation.UpdatedAt(); !ok && !mu.mutation.UpdatedAtCleared() {
+func (_u *MediaUpdate) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := media.UpdateDefaultUpdatedAt()
-		mu.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (mu *MediaUpdate) check() error {
-	if v, ok := mu.mutation.OwnerID(); ok {
+func (_u *MediaUpdate) check() error {
+	if v, ok := _u.mutation.OwnerID(); ok {
 		if err := media.OwnerIDValidator(v); err != nil {
 			return &ValidationError{Name: "owner_id", err: fmt.Errorf(`ent: validator failed for field "Media.owner_id": %w`, err)}
 		}
@@ -303,94 +303,94 @@ func (mu *MediaUpdate) check() error {
 	return nil
 }
 
-func (mu *MediaUpdate) sqlSave(ctx context.Context) (n int, err error) {
-	if err := mu.check(); err != nil {
-		return n, err
+func (_u *MediaUpdate) sqlSave(ctx context.Context) (_node int, err error) {
+	if err := _u.check(); err != nil {
+		return _node, err
 	}
 	_spec := sqlgraph.NewUpdateSpec(media.Table, media.Columns, sqlgraph.NewFieldSpec(media.FieldID, field.TypeString))
-	if ps := mu.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := mu.mutation.Title(); ok {
+	if value, ok := _u.mutation.Title(); ok {
 		_spec.SetField(media.FieldTitle, field.TypeString, value)
 	}
-	if mu.mutation.TitleCleared() {
+	if _u.mutation.TitleCleared() {
 		_spec.ClearField(media.FieldTitle, field.TypeString)
 	}
-	if value, ok := mu.mutation.GetType(); ok {
+	if value, ok := _u.mutation.GetType(); ok {
 		_spec.SetField(media.FieldType, field.TypeString, value)
 	}
-	if mu.mutation.TypeCleared() {
+	if _u.mutation.TypeCleared() {
 		_spec.ClearField(media.FieldType, field.TypeString)
 	}
-	if value, ok := mu.mutation.URL(); ok {
+	if value, ok := _u.mutation.URL(); ok {
 		_spec.SetField(media.FieldURL, field.TypeString, value)
 	}
-	if mu.mutation.URLCleared() {
+	if _u.mutation.URLCleared() {
 		_spec.ClearField(media.FieldURL, field.TypeString)
 	}
-	if value, ok := mu.mutation.Extras(); ok {
+	if value, ok := _u.mutation.Extras(); ok {
 		_spec.SetField(media.FieldExtras, field.TypeJSON, value)
 	}
-	if mu.mutation.ExtrasCleared() {
+	if _u.mutation.ExtrasCleared() {
 		_spec.ClearField(media.FieldExtras, field.TypeJSON)
 	}
-	if value, ok := mu.mutation.SpaceID(); ok {
+	if value, ok := _u.mutation.SpaceID(); ok {
 		_spec.SetField(media.FieldSpaceID, field.TypeString, value)
 	}
-	if mu.mutation.SpaceIDCleared() {
+	if _u.mutation.SpaceIDCleared() {
 		_spec.ClearField(media.FieldSpaceID, field.TypeString)
 	}
-	if value, ok := mu.mutation.CreatedBy(); ok {
+	if value, ok := _u.mutation.CreatedBy(); ok {
 		_spec.SetField(media.FieldCreatedBy, field.TypeString, value)
 	}
-	if mu.mutation.CreatedByCleared() {
+	if _u.mutation.CreatedByCleared() {
 		_spec.ClearField(media.FieldCreatedBy, field.TypeString)
 	}
-	if value, ok := mu.mutation.UpdatedBy(); ok {
+	if value, ok := _u.mutation.UpdatedBy(); ok {
 		_spec.SetField(media.FieldUpdatedBy, field.TypeString, value)
 	}
-	if mu.mutation.UpdatedByCleared() {
+	if _u.mutation.UpdatedByCleared() {
 		_spec.ClearField(media.FieldUpdatedBy, field.TypeString)
 	}
-	if mu.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(media.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := mu.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(media.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := mu.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(media.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if mu.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(media.FieldUpdatedAt, field.TypeInt64)
 	}
-	if value, ok := mu.mutation.OwnerID(); ok {
+	if value, ok := _u.mutation.OwnerID(); ok {
 		_spec.SetField(media.FieldOwnerID, field.TypeString, value)
 	}
-	if value, ok := mu.mutation.ResourceID(); ok {
+	if value, ok := _u.mutation.ResourceID(); ok {
 		_spec.SetField(media.FieldResourceID, field.TypeString, value)
 	}
-	if mu.mutation.ResourceIDCleared() {
+	if _u.mutation.ResourceIDCleared() {
 		_spec.ClearField(media.FieldResourceID, field.TypeString)
 	}
-	if value, ok := mu.mutation.Description(); ok {
+	if value, ok := _u.mutation.Description(); ok {
 		_spec.SetField(media.FieldDescription, field.TypeString, value)
 	}
-	if mu.mutation.DescriptionCleared() {
+	if _u.mutation.DescriptionCleared() {
 		_spec.ClearField(media.FieldDescription, field.TypeString)
 	}
-	if value, ok := mu.mutation.Alt(); ok {
+	if value, ok := _u.mutation.Alt(); ok {
 		_spec.SetField(media.FieldAlt, field.TypeString, value)
 	}
-	if mu.mutation.AltCleared() {
+	if _u.mutation.AltCleared() {
 		_spec.ClearField(media.FieldAlt, field.TypeString)
 	}
-	if n, err = sqlgraph.UpdateNodes(ctx, mu.driver, _spec); err != nil {
+	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{media.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -398,8 +398,8 @@ func (mu *MediaUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		return 0, err
 	}
-	mu.mutation.done = true
-	return n, nil
+	_u.mutation.done = true
+	return _node, nil
 }
 
 // MediaUpdateOne is the builder for updating a single Media entity.
@@ -411,257 +411,257 @@ type MediaUpdateOne struct {
 }
 
 // SetTitle sets the "title" field.
-func (muo *MediaUpdateOne) SetTitle(s string) *MediaUpdateOne {
-	muo.mutation.SetTitle(s)
-	return muo
+func (_u *MediaUpdateOne) SetTitle(v string) *MediaUpdateOne {
+	_u.mutation.SetTitle(v)
+	return _u
 }
 
 // SetNillableTitle sets the "title" field if the given value is not nil.
-func (muo *MediaUpdateOne) SetNillableTitle(s *string) *MediaUpdateOne {
-	if s != nil {
-		muo.SetTitle(*s)
+func (_u *MediaUpdateOne) SetNillableTitle(v *string) *MediaUpdateOne {
+	if v != nil {
+		_u.SetTitle(*v)
 	}
-	return muo
+	return _u
 }
 
 // ClearTitle clears the value of the "title" field.
-func (muo *MediaUpdateOne) ClearTitle() *MediaUpdateOne {
-	muo.mutation.ClearTitle()
-	return muo
+func (_u *MediaUpdateOne) ClearTitle() *MediaUpdateOne {
+	_u.mutation.ClearTitle()
+	return _u
 }
 
 // SetType sets the "type" field.
-func (muo *MediaUpdateOne) SetType(s string) *MediaUpdateOne {
-	muo.mutation.SetType(s)
-	return muo
+func (_u *MediaUpdateOne) SetType(v string) *MediaUpdateOne {
+	_u.mutation.SetType(v)
+	return _u
 }
 
 // SetNillableType sets the "type" field if the given value is not nil.
-func (muo *MediaUpdateOne) SetNillableType(s *string) *MediaUpdateOne {
-	if s != nil {
-		muo.SetType(*s)
+func (_u *MediaUpdateOne) SetNillableType(v *string) *MediaUpdateOne {
+	if v != nil {
+		_u.SetType(*v)
 	}
-	return muo
+	return _u
 }
 
 // ClearType clears the value of the "type" field.
-func (muo *MediaUpdateOne) ClearType() *MediaUpdateOne {
-	muo.mutation.ClearType()
-	return muo
+func (_u *MediaUpdateOne) ClearType() *MediaUpdateOne {
+	_u.mutation.ClearType()
+	return _u
 }
 
 // SetURL sets the "url" field.
-func (muo *MediaUpdateOne) SetURL(s string) *MediaUpdateOne {
-	muo.mutation.SetURL(s)
-	return muo
+func (_u *MediaUpdateOne) SetURL(v string) *MediaUpdateOne {
+	_u.mutation.SetURL(v)
+	return _u
 }
 
 // SetNillableURL sets the "url" field if the given value is not nil.
-func (muo *MediaUpdateOne) SetNillableURL(s *string) *MediaUpdateOne {
-	if s != nil {
-		muo.SetURL(*s)
+func (_u *MediaUpdateOne) SetNillableURL(v *string) *MediaUpdateOne {
+	if v != nil {
+		_u.SetURL(*v)
 	}
-	return muo
+	return _u
 }
 
 // ClearURL clears the value of the "url" field.
-func (muo *MediaUpdateOne) ClearURL() *MediaUpdateOne {
-	muo.mutation.ClearURL()
-	return muo
+func (_u *MediaUpdateOne) ClearURL() *MediaUpdateOne {
+	_u.mutation.ClearURL()
+	return _u
 }
 
 // SetExtras sets the "extras" field.
-func (muo *MediaUpdateOne) SetExtras(m map[string]interface{}) *MediaUpdateOne {
-	muo.mutation.SetExtras(m)
-	return muo
+func (_u *MediaUpdateOne) SetExtras(v map[string]interface{}) *MediaUpdateOne {
+	_u.mutation.SetExtras(v)
+	return _u
 }
 
 // ClearExtras clears the value of the "extras" field.
-func (muo *MediaUpdateOne) ClearExtras() *MediaUpdateOne {
-	muo.mutation.ClearExtras()
-	return muo
+func (_u *MediaUpdateOne) ClearExtras() *MediaUpdateOne {
+	_u.mutation.ClearExtras()
+	return _u
 }
 
 // SetSpaceID sets the "space_id" field.
-func (muo *MediaUpdateOne) SetSpaceID(s string) *MediaUpdateOne {
-	muo.mutation.SetSpaceID(s)
-	return muo
+func (_u *MediaUpdateOne) SetSpaceID(v string) *MediaUpdateOne {
+	_u.mutation.SetSpaceID(v)
+	return _u
 }
 
 // SetNillableSpaceID sets the "space_id" field if the given value is not nil.
-func (muo *MediaUpdateOne) SetNillableSpaceID(s *string) *MediaUpdateOne {
-	if s != nil {
-		muo.SetSpaceID(*s)
+func (_u *MediaUpdateOne) SetNillableSpaceID(v *string) *MediaUpdateOne {
+	if v != nil {
+		_u.SetSpaceID(*v)
 	}
-	return muo
+	return _u
 }
 
 // ClearSpaceID clears the value of the "space_id" field.
-func (muo *MediaUpdateOne) ClearSpaceID() *MediaUpdateOne {
-	muo.mutation.ClearSpaceID()
-	return muo
+func (_u *MediaUpdateOne) ClearSpaceID() *MediaUpdateOne {
+	_u.mutation.ClearSpaceID()
+	return _u
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (muo *MediaUpdateOne) SetCreatedBy(s string) *MediaUpdateOne {
-	muo.mutation.SetCreatedBy(s)
-	return muo
+func (_u *MediaUpdateOne) SetCreatedBy(v string) *MediaUpdateOne {
+	_u.mutation.SetCreatedBy(v)
+	return _u
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (muo *MediaUpdateOne) SetNillableCreatedBy(s *string) *MediaUpdateOne {
-	if s != nil {
-		muo.SetCreatedBy(*s)
+func (_u *MediaUpdateOne) SetNillableCreatedBy(v *string) *MediaUpdateOne {
+	if v != nil {
+		_u.SetCreatedBy(*v)
 	}
-	return muo
+	return _u
 }
 
 // ClearCreatedBy clears the value of the "created_by" field.
-func (muo *MediaUpdateOne) ClearCreatedBy() *MediaUpdateOne {
-	muo.mutation.ClearCreatedBy()
-	return muo
+func (_u *MediaUpdateOne) ClearCreatedBy() *MediaUpdateOne {
+	_u.mutation.ClearCreatedBy()
+	return _u
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (muo *MediaUpdateOne) SetUpdatedBy(s string) *MediaUpdateOne {
-	muo.mutation.SetUpdatedBy(s)
-	return muo
+func (_u *MediaUpdateOne) SetUpdatedBy(v string) *MediaUpdateOne {
+	_u.mutation.SetUpdatedBy(v)
+	return _u
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (muo *MediaUpdateOne) SetNillableUpdatedBy(s *string) *MediaUpdateOne {
-	if s != nil {
-		muo.SetUpdatedBy(*s)
+func (_u *MediaUpdateOne) SetNillableUpdatedBy(v *string) *MediaUpdateOne {
+	if v != nil {
+		_u.SetUpdatedBy(*v)
 	}
-	return muo
+	return _u
 }
 
 // ClearUpdatedBy clears the value of the "updated_by" field.
-func (muo *MediaUpdateOne) ClearUpdatedBy() *MediaUpdateOne {
-	muo.mutation.ClearUpdatedBy()
-	return muo
+func (_u *MediaUpdateOne) ClearUpdatedBy() *MediaUpdateOne {
+	_u.mutation.ClearUpdatedBy()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (muo *MediaUpdateOne) SetUpdatedAt(i int64) *MediaUpdateOne {
-	muo.mutation.ResetUpdatedAt()
-	muo.mutation.SetUpdatedAt(i)
-	return muo
+func (_u *MediaUpdateOne) SetUpdatedAt(v int64) *MediaUpdateOne {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (muo *MediaUpdateOne) AddUpdatedAt(i int64) *MediaUpdateOne {
-	muo.mutation.AddUpdatedAt(i)
-	return muo
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *MediaUpdateOne) AddUpdatedAt(v int64) *MediaUpdateOne {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (muo *MediaUpdateOne) ClearUpdatedAt() *MediaUpdateOne {
-	muo.mutation.ClearUpdatedAt()
-	return muo
+func (_u *MediaUpdateOne) ClearUpdatedAt() *MediaUpdateOne {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // SetOwnerID sets the "owner_id" field.
-func (muo *MediaUpdateOne) SetOwnerID(s string) *MediaUpdateOne {
-	muo.mutation.SetOwnerID(s)
-	return muo
+func (_u *MediaUpdateOne) SetOwnerID(v string) *MediaUpdateOne {
+	_u.mutation.SetOwnerID(v)
+	return _u
 }
 
 // SetNillableOwnerID sets the "owner_id" field if the given value is not nil.
-func (muo *MediaUpdateOne) SetNillableOwnerID(s *string) *MediaUpdateOne {
-	if s != nil {
-		muo.SetOwnerID(*s)
+func (_u *MediaUpdateOne) SetNillableOwnerID(v *string) *MediaUpdateOne {
+	if v != nil {
+		_u.SetOwnerID(*v)
 	}
-	return muo
+	return _u
 }
 
 // SetResourceID sets the "resource_id" field.
-func (muo *MediaUpdateOne) SetResourceID(s string) *MediaUpdateOne {
-	muo.mutation.SetResourceID(s)
-	return muo
+func (_u *MediaUpdateOne) SetResourceID(v string) *MediaUpdateOne {
+	_u.mutation.SetResourceID(v)
+	return _u
 }
 
 // SetNillableResourceID sets the "resource_id" field if the given value is not nil.
-func (muo *MediaUpdateOne) SetNillableResourceID(s *string) *MediaUpdateOne {
-	if s != nil {
-		muo.SetResourceID(*s)
+func (_u *MediaUpdateOne) SetNillableResourceID(v *string) *MediaUpdateOne {
+	if v != nil {
+		_u.SetResourceID(*v)
 	}
-	return muo
+	return _u
 }
 
 // ClearResourceID clears the value of the "resource_id" field.
-func (muo *MediaUpdateOne) ClearResourceID() *MediaUpdateOne {
-	muo.mutation.ClearResourceID()
-	return muo
+func (_u *MediaUpdateOne) ClearResourceID() *MediaUpdateOne {
+	_u.mutation.ClearResourceID()
+	return _u
 }
 
 // SetDescription sets the "description" field.
-func (muo *MediaUpdateOne) SetDescription(s string) *MediaUpdateOne {
-	muo.mutation.SetDescription(s)
-	return muo
+func (_u *MediaUpdateOne) SetDescription(v string) *MediaUpdateOne {
+	_u.mutation.SetDescription(v)
+	return _u
 }
 
 // SetNillableDescription sets the "description" field if the given value is not nil.
-func (muo *MediaUpdateOne) SetNillableDescription(s *string) *MediaUpdateOne {
-	if s != nil {
-		muo.SetDescription(*s)
+func (_u *MediaUpdateOne) SetNillableDescription(v *string) *MediaUpdateOne {
+	if v != nil {
+		_u.SetDescription(*v)
 	}
-	return muo
+	return _u
 }
 
 // ClearDescription clears the value of the "description" field.
-func (muo *MediaUpdateOne) ClearDescription() *MediaUpdateOne {
-	muo.mutation.ClearDescription()
-	return muo
+func (_u *MediaUpdateOne) ClearDescription() *MediaUpdateOne {
+	_u.mutation.ClearDescription()
+	return _u
 }
 
 // SetAlt sets the "alt" field.
-func (muo *MediaUpdateOne) SetAlt(s string) *MediaUpdateOne {
-	muo.mutation.SetAlt(s)
-	return muo
+func (_u *MediaUpdateOne) SetAlt(v string) *MediaUpdateOne {
+	_u.mutation.SetAlt(v)
+	return _u
 }
 
 // SetNillableAlt sets the "alt" field if the given value is not nil.
-func (muo *MediaUpdateOne) SetNillableAlt(s *string) *MediaUpdateOne {
-	if s != nil {
-		muo.SetAlt(*s)
+func (_u *MediaUpdateOne) SetNillableAlt(v *string) *MediaUpdateOne {
+	if v != nil {
+		_u.SetAlt(*v)
 	}
-	return muo
+	return _u
 }
 
 // ClearAlt clears the value of the "alt" field.
-func (muo *MediaUpdateOne) ClearAlt() *MediaUpdateOne {
-	muo.mutation.ClearAlt()
-	return muo
+func (_u *MediaUpdateOne) ClearAlt() *MediaUpdateOne {
+	_u.mutation.ClearAlt()
+	return _u
 }
 
 // Mutation returns the MediaMutation object of the builder.
-func (muo *MediaUpdateOne) Mutation() *MediaMutation {
-	return muo.mutation
+func (_u *MediaUpdateOne) Mutation() *MediaMutation {
+	return _u.mutation
 }
 
 // Where appends a list predicates to the MediaUpdate builder.
-func (muo *MediaUpdateOne) Where(ps ...predicate.Media) *MediaUpdateOne {
-	muo.mutation.Where(ps...)
-	return muo
+func (_u *MediaUpdateOne) Where(ps ...predicate.Media) *MediaUpdateOne {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // Select allows selecting one or more fields (columns) of the returned entity.
 // The default is selecting all fields defined in the entity schema.
-func (muo *MediaUpdateOne) Select(field string, fields ...string) *MediaUpdateOne {
-	muo.fields = append([]string{field}, fields...)
-	return muo
+func (_u *MediaUpdateOne) Select(field string, fields ...string) *MediaUpdateOne {
+	_u.fields = append([]string{field}, fields...)
+	return _u
 }
 
 // Save executes the query and returns the updated Media entity.
-func (muo *MediaUpdateOne) Save(ctx context.Context) (*Media, error) {
-	muo.defaults()
-	return withHooks(ctx, muo.sqlSave, muo.mutation, muo.hooks)
+func (_u *MediaUpdateOne) Save(ctx context.Context) (*Media, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (muo *MediaUpdateOne) SaveX(ctx context.Context) *Media {
-	node, err := muo.Save(ctx)
+func (_u *MediaUpdateOne) SaveX(ctx context.Context) *Media {
+	node, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -669,29 +669,29 @@ func (muo *MediaUpdateOne) SaveX(ctx context.Context) *Media {
 }
 
 // Exec executes the query on the entity.
-func (muo *MediaUpdateOne) Exec(ctx context.Context) error {
-	_, err := muo.Save(ctx)
+func (_u *MediaUpdateOne) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (muo *MediaUpdateOne) ExecX(ctx context.Context) {
-	if err := muo.Exec(ctx); err != nil {
+func (_u *MediaUpdateOne) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (muo *MediaUpdateOne) defaults() {
-	if _, ok := muo.mutation.UpdatedAt(); !ok && !muo.mutation.UpdatedAtCleared() {
+func (_u *MediaUpdateOne) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := media.UpdateDefaultUpdatedAt()
-		muo.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (muo *MediaUpdateOne) check() error {
-	if v, ok := muo.mutation.OwnerID(); ok {
+func (_u *MediaUpdateOne) check() error {
+	if v, ok := _u.mutation.OwnerID(); ok {
 		if err := media.OwnerIDValidator(v); err != nil {
 			return &ValidationError{Name: "owner_id", err: fmt.Errorf(`ent: validator failed for field "Media.owner_id": %w`, err)}
 		}
@@ -699,17 +699,17 @@ func (muo *MediaUpdateOne) check() error {
 	return nil
 }
 
-func (muo *MediaUpdateOne) sqlSave(ctx context.Context) (_node *Media, err error) {
-	if err := muo.check(); err != nil {
+func (_u *MediaUpdateOne) sqlSave(ctx context.Context) (_node *Media, err error) {
+	if err := _u.check(); err != nil {
 		return _node, err
 	}
 	_spec := sqlgraph.NewUpdateSpec(media.Table, media.Columns, sqlgraph.NewFieldSpec(media.FieldID, field.TypeString))
-	id, ok := muo.mutation.ID()
+	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "Media.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
-	if fields := muo.fields; len(fields) > 0 {
+	if fields := _u.fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, media.FieldID)
 		for _, f := range fields {
@@ -721,92 +721,92 @@ func (muo *MediaUpdateOne) sqlSave(ctx context.Context) (_node *Media, err error
 			}
 		}
 	}
-	if ps := muo.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := muo.mutation.Title(); ok {
+	if value, ok := _u.mutation.Title(); ok {
 		_spec.SetField(media.FieldTitle, field.TypeString, value)
 	}
-	if muo.mutation.TitleCleared() {
+	if _u.mutation.TitleCleared() {
 		_spec.ClearField(media.FieldTitle, field.TypeString)
 	}
-	if value, ok := muo.mutation.GetType(); ok {
+	if value, ok := _u.mutation.GetType(); ok {
 		_spec.SetField(media.FieldType, field.TypeString, value)
 	}
-	if muo.mutation.TypeCleared() {
+	if _u.mutation.TypeCleared() {
 		_spec.ClearField(media.FieldType, field.TypeString)
 	}
-	if value, ok := muo.mutation.URL(); ok {
+	if value, ok := _u.mutation.URL(); ok {
 		_spec.SetField(media.FieldURL, field.TypeString, value)
 	}
-	if muo.mutation.URLCleared() {
+	if _u.mutation.URLCleared() {
 		_spec.ClearField(media.FieldURL, field.TypeString)
 	}
-	if value, ok := muo.mutation.Extras(); ok {
+	if value, ok := _u.mutation.Extras(); ok {
 		_spec.SetField(media.FieldExtras, field.TypeJSON, value)
 	}
-	if muo.mutation.ExtrasCleared() {
+	if _u.mutation.ExtrasCleared() {
 		_spec.ClearField(media.FieldExtras, field.TypeJSON)
 	}
-	if value, ok := muo.mutation.SpaceID(); ok {
+	if value, ok := _u.mutation.SpaceID(); ok {
 		_spec.SetField(media.FieldSpaceID, field.TypeString, value)
 	}
-	if muo.mutation.SpaceIDCleared() {
+	if _u.mutation.SpaceIDCleared() {
 		_spec.ClearField(media.FieldSpaceID, field.TypeString)
 	}
-	if value, ok := muo.mutation.CreatedBy(); ok {
+	if value, ok := _u.mutation.CreatedBy(); ok {
 		_spec.SetField(media.FieldCreatedBy, field.TypeString, value)
 	}
-	if muo.mutation.CreatedByCleared() {
+	if _u.mutation.CreatedByCleared() {
 		_spec.ClearField(media.FieldCreatedBy, field.TypeString)
 	}
-	if value, ok := muo.mutation.UpdatedBy(); ok {
+	if value, ok := _u.mutation.UpdatedBy(); ok {
 		_spec.SetField(media.FieldUpdatedBy, field.TypeString, value)
 	}
-	if muo.mutation.UpdatedByCleared() {
+	if _u.mutation.UpdatedByCleared() {
 		_spec.ClearField(media.FieldUpdatedBy, field.TypeString)
 	}
-	if muo.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(media.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := muo.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(media.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := muo.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(media.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if muo.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(media.FieldUpdatedAt, field.TypeInt64)
 	}
-	if value, ok := muo.mutation.OwnerID(); ok {
+	if value, ok := _u.mutation.OwnerID(); ok {
 		_spec.SetField(media.FieldOwnerID, field.TypeString, value)
 	}
-	if value, ok := muo.mutation.ResourceID(); ok {
+	if value, ok := _u.mutation.ResourceID(); ok {
 		_spec.SetField(media.FieldResourceID, field.TypeString, value)
 	}
-	if muo.mutation.ResourceIDCleared() {
+	if _u.mutation.ResourceIDCleared() {
 		_spec.ClearField(media.FieldResourceID, field.TypeString)
 	}
-	if value, ok := muo.mutation.Description(); ok {
+	if value, ok := _u.mutation.Description(); ok {
 		_spec.SetField(media.FieldDescription, field.TypeString, value)
 	}
-	if muo.mutation.DescriptionCleared() {
+	if _u.mutation.DescriptionCleared() {
 		_spec.ClearField(media.FieldDescription, field.TypeString)
 	}
-	if value, ok := muo.mutation.Alt(); ok {
+	if value, ok := _u.mutation.Alt(); ok {
 		_spec.SetField(media.FieldAlt, field.TypeString, value)
 	}
-	if muo.mutation.AltCleared() {
+	if _u.mutation.AltCleared() {
 		_spec.ClearField(media.FieldAlt, field.TypeString)
 	}
-	_node = &Media{config: muo.config}
+	_node = &Media{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues
-	if err = sqlgraph.UpdateNode(ctx, muo.driver, _spec); err != nil {
+	if err = sqlgraph.UpdateNode(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{media.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -814,6 +814,6 @@ func (muo *MediaUpdateOne) sqlSave(ctx context.Context) (_node *Media, err error
 		}
 		return nil, err
 	}
-	muo.mutation.done = true
+	_u.mutation.done = true
 	return _node, nil
 }

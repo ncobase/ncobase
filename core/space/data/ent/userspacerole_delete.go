@@ -20,56 +20,56 @@ type UserSpaceRoleDelete struct {
 }
 
 // Where appends a list predicates to the UserSpaceRoleDelete builder.
-func (usrd *UserSpaceRoleDelete) Where(ps ...predicate.UserSpaceRole) *UserSpaceRoleDelete {
-	usrd.mutation.Where(ps...)
-	return usrd
+func (_d *UserSpaceRoleDelete) Where(ps ...predicate.UserSpaceRole) *UserSpaceRoleDelete {
+	_d.mutation.Where(ps...)
+	return _d
 }
 
 // Exec executes the deletion query and returns how many vertices were deleted.
-func (usrd *UserSpaceRoleDelete) Exec(ctx context.Context) (int, error) {
-	return withHooks(ctx, usrd.sqlExec, usrd.mutation, usrd.hooks)
+func (_d *UserSpaceRoleDelete) Exec(ctx context.Context) (int, error) {
+	return withHooks(ctx, _d.sqlExec, _d.mutation, _d.hooks)
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (usrd *UserSpaceRoleDelete) ExecX(ctx context.Context) int {
-	n, err := usrd.Exec(ctx)
+func (_d *UserSpaceRoleDelete) ExecX(ctx context.Context) int {
+	n, err := _d.Exec(ctx)
 	if err != nil {
 		panic(err)
 	}
 	return n
 }
 
-func (usrd *UserSpaceRoleDelete) sqlExec(ctx context.Context) (int, error) {
+func (_d *UserSpaceRoleDelete) sqlExec(ctx context.Context) (int, error) {
 	_spec := sqlgraph.NewDeleteSpec(userspacerole.Table, sqlgraph.NewFieldSpec(userspacerole.FieldID, field.TypeString))
-	if ps := usrd.mutation.predicates; len(ps) > 0 {
+	if ps := _d.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	affected, err := sqlgraph.DeleteNodes(ctx, usrd.driver, _spec)
+	affected, err := sqlgraph.DeleteNodes(ctx, _d.driver, _spec)
 	if err != nil && sqlgraph.IsConstraintError(err) {
 		err = &ConstraintError{msg: err.Error(), wrap: err}
 	}
-	usrd.mutation.done = true
+	_d.mutation.done = true
 	return affected, err
 }
 
 // UserSpaceRoleDeleteOne is the builder for deleting a single UserSpaceRole entity.
 type UserSpaceRoleDeleteOne struct {
-	usrd *UserSpaceRoleDelete
+	_d *UserSpaceRoleDelete
 }
 
 // Where appends a list predicates to the UserSpaceRoleDelete builder.
-func (usrdo *UserSpaceRoleDeleteOne) Where(ps ...predicate.UserSpaceRole) *UserSpaceRoleDeleteOne {
-	usrdo.usrd.mutation.Where(ps...)
-	return usrdo
+func (_d *UserSpaceRoleDeleteOne) Where(ps ...predicate.UserSpaceRole) *UserSpaceRoleDeleteOne {
+	_d._d.mutation.Where(ps...)
+	return _d
 }
 
 // Exec executes the deletion query.
-func (usrdo *UserSpaceRoleDeleteOne) Exec(ctx context.Context) error {
-	n, err := usrdo.usrd.Exec(ctx)
+func (_d *UserSpaceRoleDeleteOne) Exec(ctx context.Context) error {
+	n, err := _d._d.Exec(ctx)
 	switch {
 	case err != nil:
 		return err
@@ -81,8 +81,8 @@ func (usrdo *UserSpaceRoleDeleteOne) Exec(ctx context.Context) error {
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (usrdo *UserSpaceRoleDeleteOne) ExecX(ctx context.Context) {
-	if err := usrdo.Exec(ctx); err != nil {
+func (_d *UserSpaceRoleDeleteOne) ExecX(ctx context.Context) {
+	if err := _d.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

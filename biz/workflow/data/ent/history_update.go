@@ -22,362 +22,362 @@ type HistoryUpdate struct {
 }
 
 // Where appends a list predicates to the HistoryUpdate builder.
-func (hu *HistoryUpdate) Where(ps ...predicate.History) *HistoryUpdate {
-	hu.mutation.Where(ps...)
-	return hu
+func (_u *HistoryUpdate) Where(ps ...predicate.History) *HistoryUpdate {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // SetType sets the "type" field.
-func (hu *HistoryUpdate) SetType(s string) *HistoryUpdate {
-	hu.mutation.SetType(s)
-	return hu
+func (_u *HistoryUpdate) SetType(v string) *HistoryUpdate {
+	_u.mutation.SetType(v)
+	return _u
 }
 
 // SetNillableType sets the "type" field if the given value is not nil.
-func (hu *HistoryUpdate) SetNillableType(s *string) *HistoryUpdate {
-	if s != nil {
-		hu.SetType(*s)
+func (_u *HistoryUpdate) SetNillableType(v *string) *HistoryUpdate {
+	if v != nil {
+		_u.SetType(*v)
 	}
-	return hu
+	return _u
 }
 
 // ClearType clears the value of the "type" field.
-func (hu *HistoryUpdate) ClearType() *HistoryUpdate {
-	hu.mutation.ClearType()
-	return hu
+func (_u *HistoryUpdate) ClearType() *HistoryUpdate {
+	_u.mutation.ClearType()
+	return _u
 }
 
 // SetProcessID sets the "process_id" field.
-func (hu *HistoryUpdate) SetProcessID(s string) *HistoryUpdate {
-	hu.mutation.SetProcessID(s)
-	return hu
+func (_u *HistoryUpdate) SetProcessID(v string) *HistoryUpdate {
+	_u.mutation.SetProcessID(v)
+	return _u
 }
 
 // SetNillableProcessID sets the "process_id" field if the given value is not nil.
-func (hu *HistoryUpdate) SetNillableProcessID(s *string) *HistoryUpdate {
-	if s != nil {
-		hu.SetProcessID(*s)
+func (_u *HistoryUpdate) SetNillableProcessID(v *string) *HistoryUpdate {
+	if v != nil {
+		_u.SetProcessID(*v)
 	}
-	return hu
+	return _u
 }
 
 // SetTemplateID sets the "template_id" field.
-func (hu *HistoryUpdate) SetTemplateID(s string) *HistoryUpdate {
-	hu.mutation.SetTemplateID(s)
-	return hu
+func (_u *HistoryUpdate) SetTemplateID(v string) *HistoryUpdate {
+	_u.mutation.SetTemplateID(v)
+	return _u
 }
 
 // SetNillableTemplateID sets the "template_id" field if the given value is not nil.
-func (hu *HistoryUpdate) SetNillableTemplateID(s *string) *HistoryUpdate {
-	if s != nil {
-		hu.SetTemplateID(*s)
+func (_u *HistoryUpdate) SetNillableTemplateID(v *string) *HistoryUpdate {
+	if v != nil {
+		_u.SetTemplateID(*v)
 	}
-	return hu
+	return _u
 }
 
 // SetBusinessKey sets the "business_key" field.
-func (hu *HistoryUpdate) SetBusinessKey(s string) *HistoryUpdate {
-	hu.mutation.SetBusinessKey(s)
-	return hu
+func (_u *HistoryUpdate) SetBusinessKey(v string) *HistoryUpdate {
+	_u.mutation.SetBusinessKey(v)
+	return _u
 }
 
 // SetNillableBusinessKey sets the "business_key" field if the given value is not nil.
-func (hu *HistoryUpdate) SetNillableBusinessKey(s *string) *HistoryUpdate {
-	if s != nil {
-		hu.SetBusinessKey(*s)
+func (_u *HistoryUpdate) SetNillableBusinessKey(v *string) *HistoryUpdate {
+	if v != nil {
+		_u.SetBusinessKey(*v)
 	}
-	return hu
+	return _u
 }
 
 // SetNodeKey sets the "node_key" field.
-func (hu *HistoryUpdate) SetNodeKey(s string) *HistoryUpdate {
-	hu.mutation.SetNodeKey(s)
-	return hu
+func (_u *HistoryUpdate) SetNodeKey(v string) *HistoryUpdate {
+	_u.mutation.SetNodeKey(v)
+	return _u
 }
 
 // SetNillableNodeKey sets the "node_key" field if the given value is not nil.
-func (hu *HistoryUpdate) SetNillableNodeKey(s *string) *HistoryUpdate {
-	if s != nil {
-		hu.SetNodeKey(*s)
+func (_u *HistoryUpdate) SetNillableNodeKey(v *string) *HistoryUpdate {
+	if v != nil {
+		_u.SetNodeKey(*v)
 	}
-	return hu
+	return _u
 }
 
 // SetNodeType sets the "node_type" field.
-func (hu *HistoryUpdate) SetNodeType(s string) *HistoryUpdate {
-	hu.mutation.SetNodeType(s)
-	return hu
+func (_u *HistoryUpdate) SetNodeType(v string) *HistoryUpdate {
+	_u.mutation.SetNodeType(v)
+	return _u
 }
 
 // SetNillableNodeType sets the "node_type" field if the given value is not nil.
-func (hu *HistoryUpdate) SetNillableNodeType(s *string) *HistoryUpdate {
-	if s != nil {
-		hu.SetNodeType(*s)
+func (_u *HistoryUpdate) SetNillableNodeType(v *string) *HistoryUpdate {
+	if v != nil {
+		_u.SetNodeType(*v)
 	}
-	return hu
+	return _u
 }
 
 // SetNodeConfig sets the "node_config" field.
-func (hu *HistoryUpdate) SetNodeConfig(m map[string]interface{}) *HistoryUpdate {
-	hu.mutation.SetNodeConfig(m)
-	return hu
+func (_u *HistoryUpdate) SetNodeConfig(v map[string]interface{}) *HistoryUpdate {
+	_u.mutation.SetNodeConfig(v)
+	return _u
 }
 
 // ClearNodeConfig clears the value of the "node_config" field.
-func (hu *HistoryUpdate) ClearNodeConfig() *HistoryUpdate {
-	hu.mutation.ClearNodeConfig()
-	return hu
+func (_u *HistoryUpdate) ClearNodeConfig() *HistoryUpdate {
+	_u.mutation.ClearNodeConfig()
+	return _u
 }
 
 // SetNodeRules sets the "node_rules" field.
-func (hu *HistoryUpdate) SetNodeRules(m map[string]interface{}) *HistoryUpdate {
-	hu.mutation.SetNodeRules(m)
-	return hu
+func (_u *HistoryUpdate) SetNodeRules(v map[string]interface{}) *HistoryUpdate {
+	_u.mutation.SetNodeRules(v)
+	return _u
 }
 
 // ClearNodeRules clears the value of the "node_rules" field.
-func (hu *HistoryUpdate) ClearNodeRules() *HistoryUpdate {
-	hu.mutation.ClearNodeRules()
-	return hu
+func (_u *HistoryUpdate) ClearNodeRules() *HistoryUpdate {
+	_u.mutation.ClearNodeRules()
+	return _u
 }
 
 // SetNodeEvents sets the "node_events" field.
-func (hu *HistoryUpdate) SetNodeEvents(m map[string]interface{}) *HistoryUpdate {
-	hu.mutation.SetNodeEvents(m)
-	return hu
+func (_u *HistoryUpdate) SetNodeEvents(v map[string]interface{}) *HistoryUpdate {
+	_u.mutation.SetNodeEvents(v)
+	return _u
 }
 
 // ClearNodeEvents clears the value of the "node_events" field.
-func (hu *HistoryUpdate) ClearNodeEvents() *HistoryUpdate {
-	hu.mutation.ClearNodeEvents()
-	return hu
+func (_u *HistoryUpdate) ClearNodeEvents() *HistoryUpdate {
+	_u.mutation.ClearNodeEvents()
+	return _u
 }
 
 // SetSpaceID sets the "space_id" field.
-func (hu *HistoryUpdate) SetSpaceID(s string) *HistoryUpdate {
-	hu.mutation.SetSpaceID(s)
-	return hu
+func (_u *HistoryUpdate) SetSpaceID(v string) *HistoryUpdate {
+	_u.mutation.SetSpaceID(v)
+	return _u
 }
 
 // SetNillableSpaceID sets the "space_id" field if the given value is not nil.
-func (hu *HistoryUpdate) SetNillableSpaceID(s *string) *HistoryUpdate {
-	if s != nil {
-		hu.SetSpaceID(*s)
+func (_u *HistoryUpdate) SetNillableSpaceID(v *string) *HistoryUpdate {
+	if v != nil {
+		_u.SetSpaceID(*v)
 	}
-	return hu
+	return _u
 }
 
 // ClearSpaceID clears the value of the "space_id" field.
-func (hu *HistoryUpdate) ClearSpaceID() *HistoryUpdate {
-	hu.mutation.ClearSpaceID()
-	return hu
+func (_u *HistoryUpdate) ClearSpaceID() *HistoryUpdate {
+	_u.mutation.ClearSpaceID()
+	return _u
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (hu *HistoryUpdate) SetCreatedBy(s string) *HistoryUpdate {
-	hu.mutation.SetCreatedBy(s)
-	return hu
+func (_u *HistoryUpdate) SetCreatedBy(v string) *HistoryUpdate {
+	_u.mutation.SetCreatedBy(v)
+	return _u
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (hu *HistoryUpdate) SetNillableCreatedBy(s *string) *HistoryUpdate {
-	if s != nil {
-		hu.SetCreatedBy(*s)
+func (_u *HistoryUpdate) SetNillableCreatedBy(v *string) *HistoryUpdate {
+	if v != nil {
+		_u.SetCreatedBy(*v)
 	}
-	return hu
+	return _u
 }
 
 // ClearCreatedBy clears the value of the "created_by" field.
-func (hu *HistoryUpdate) ClearCreatedBy() *HistoryUpdate {
-	hu.mutation.ClearCreatedBy()
-	return hu
+func (_u *HistoryUpdate) ClearCreatedBy() *HistoryUpdate {
+	_u.mutation.ClearCreatedBy()
+	return _u
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (hu *HistoryUpdate) SetUpdatedBy(s string) *HistoryUpdate {
-	hu.mutation.SetUpdatedBy(s)
-	return hu
+func (_u *HistoryUpdate) SetUpdatedBy(v string) *HistoryUpdate {
+	_u.mutation.SetUpdatedBy(v)
+	return _u
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (hu *HistoryUpdate) SetNillableUpdatedBy(s *string) *HistoryUpdate {
-	if s != nil {
-		hu.SetUpdatedBy(*s)
+func (_u *HistoryUpdate) SetNillableUpdatedBy(v *string) *HistoryUpdate {
+	if v != nil {
+		_u.SetUpdatedBy(*v)
 	}
-	return hu
+	return _u
 }
 
 // ClearUpdatedBy clears the value of the "updated_by" field.
-func (hu *HistoryUpdate) ClearUpdatedBy() *HistoryUpdate {
-	hu.mutation.ClearUpdatedBy()
-	return hu
+func (_u *HistoryUpdate) ClearUpdatedBy() *HistoryUpdate {
+	_u.mutation.ClearUpdatedBy()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (hu *HistoryUpdate) SetUpdatedAt(i int64) *HistoryUpdate {
-	hu.mutation.ResetUpdatedAt()
-	hu.mutation.SetUpdatedAt(i)
-	return hu
+func (_u *HistoryUpdate) SetUpdatedAt(v int64) *HistoryUpdate {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (hu *HistoryUpdate) AddUpdatedAt(i int64) *HistoryUpdate {
-	hu.mutation.AddUpdatedAt(i)
-	return hu
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *HistoryUpdate) AddUpdatedAt(v int64) *HistoryUpdate {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (hu *HistoryUpdate) ClearUpdatedAt() *HistoryUpdate {
-	hu.mutation.ClearUpdatedAt()
-	return hu
+func (_u *HistoryUpdate) ClearUpdatedAt() *HistoryUpdate {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // SetNodeName sets the "node_name" field.
-func (hu *HistoryUpdate) SetNodeName(s string) *HistoryUpdate {
-	hu.mutation.SetNodeName(s)
-	return hu
+func (_u *HistoryUpdate) SetNodeName(v string) *HistoryUpdate {
+	_u.mutation.SetNodeName(v)
+	return _u
 }
 
 // SetNillableNodeName sets the "node_name" field if the given value is not nil.
-func (hu *HistoryUpdate) SetNillableNodeName(s *string) *HistoryUpdate {
-	if s != nil {
-		hu.SetNodeName(*s)
+func (_u *HistoryUpdate) SetNillableNodeName(v *string) *HistoryUpdate {
+	if v != nil {
+		_u.SetNodeName(*v)
 	}
-	return hu
+	return _u
 }
 
 // SetOperator sets the "operator" field.
-func (hu *HistoryUpdate) SetOperator(s string) *HistoryUpdate {
-	hu.mutation.SetOperator(s)
-	return hu
+func (_u *HistoryUpdate) SetOperator(v string) *HistoryUpdate {
+	_u.mutation.SetOperator(v)
+	return _u
 }
 
 // SetNillableOperator sets the "operator" field if the given value is not nil.
-func (hu *HistoryUpdate) SetNillableOperator(s *string) *HistoryUpdate {
-	if s != nil {
-		hu.SetOperator(*s)
+func (_u *HistoryUpdate) SetNillableOperator(v *string) *HistoryUpdate {
+	if v != nil {
+		_u.SetOperator(*v)
 	}
-	return hu
+	return _u
 }
 
 // SetOperatorDept sets the "operator_dept" field.
-func (hu *HistoryUpdate) SetOperatorDept(s string) *HistoryUpdate {
-	hu.mutation.SetOperatorDept(s)
-	return hu
+func (_u *HistoryUpdate) SetOperatorDept(v string) *HistoryUpdate {
+	_u.mutation.SetOperatorDept(v)
+	return _u
 }
 
 // SetNillableOperatorDept sets the "operator_dept" field if the given value is not nil.
-func (hu *HistoryUpdate) SetNillableOperatorDept(s *string) *HistoryUpdate {
-	if s != nil {
-		hu.SetOperatorDept(*s)
+func (_u *HistoryUpdate) SetNillableOperatorDept(v *string) *HistoryUpdate {
+	if v != nil {
+		_u.SetOperatorDept(*v)
 	}
-	return hu
+	return _u
 }
 
 // ClearOperatorDept clears the value of the "operator_dept" field.
-func (hu *HistoryUpdate) ClearOperatorDept() *HistoryUpdate {
-	hu.mutation.ClearOperatorDept()
-	return hu
+func (_u *HistoryUpdate) ClearOperatorDept() *HistoryUpdate {
+	_u.mutation.ClearOperatorDept()
+	return _u
 }
 
 // SetTaskID sets the "task_id" field.
-func (hu *HistoryUpdate) SetTaskID(s string) *HistoryUpdate {
-	hu.mutation.SetTaskID(s)
-	return hu
+func (_u *HistoryUpdate) SetTaskID(v string) *HistoryUpdate {
+	_u.mutation.SetTaskID(v)
+	return _u
 }
 
 // SetNillableTaskID sets the "task_id" field if the given value is not nil.
-func (hu *HistoryUpdate) SetNillableTaskID(s *string) *HistoryUpdate {
-	if s != nil {
-		hu.SetTaskID(*s)
+func (_u *HistoryUpdate) SetNillableTaskID(v *string) *HistoryUpdate {
+	if v != nil {
+		_u.SetTaskID(*v)
 	}
-	return hu
+	return _u
 }
 
 // ClearTaskID clears the value of the "task_id" field.
-func (hu *HistoryUpdate) ClearTaskID() *HistoryUpdate {
-	hu.mutation.ClearTaskID()
-	return hu
+func (_u *HistoryUpdate) ClearTaskID() *HistoryUpdate {
+	_u.mutation.ClearTaskID()
+	return _u
 }
 
 // SetVariables sets the "variables" field.
-func (hu *HistoryUpdate) SetVariables(m map[string]interface{}) *HistoryUpdate {
-	hu.mutation.SetVariables(m)
-	return hu
+func (_u *HistoryUpdate) SetVariables(v map[string]interface{}) *HistoryUpdate {
+	_u.mutation.SetVariables(v)
+	return _u
 }
 
 // SetFormData sets the "form_data" field.
-func (hu *HistoryUpdate) SetFormData(m map[string]interface{}) *HistoryUpdate {
-	hu.mutation.SetFormData(m)
-	return hu
+func (_u *HistoryUpdate) SetFormData(v map[string]interface{}) *HistoryUpdate {
+	_u.mutation.SetFormData(v)
+	return _u
 }
 
 // ClearFormData clears the value of the "form_data" field.
-func (hu *HistoryUpdate) ClearFormData() *HistoryUpdate {
-	hu.mutation.ClearFormData()
-	return hu
+func (_u *HistoryUpdate) ClearFormData() *HistoryUpdate {
+	_u.mutation.ClearFormData()
+	return _u
 }
 
 // SetAction sets the "action" field.
-func (hu *HistoryUpdate) SetAction(s string) *HistoryUpdate {
-	hu.mutation.SetAction(s)
-	return hu
+func (_u *HistoryUpdate) SetAction(v string) *HistoryUpdate {
+	_u.mutation.SetAction(v)
+	return _u
 }
 
 // SetNillableAction sets the "action" field if the given value is not nil.
-func (hu *HistoryUpdate) SetNillableAction(s *string) *HistoryUpdate {
-	if s != nil {
-		hu.SetAction(*s)
+func (_u *HistoryUpdate) SetNillableAction(v *string) *HistoryUpdate {
+	if v != nil {
+		_u.SetAction(*v)
 	}
-	return hu
+	return _u
 }
 
 // SetComment sets the "comment" field.
-func (hu *HistoryUpdate) SetComment(s string) *HistoryUpdate {
-	hu.mutation.SetComment(s)
-	return hu
+func (_u *HistoryUpdate) SetComment(v string) *HistoryUpdate {
+	_u.mutation.SetComment(v)
+	return _u
 }
 
 // SetNillableComment sets the "comment" field if the given value is not nil.
-func (hu *HistoryUpdate) SetNillableComment(s *string) *HistoryUpdate {
-	if s != nil {
-		hu.SetComment(*s)
+func (_u *HistoryUpdate) SetNillableComment(v *string) *HistoryUpdate {
+	if v != nil {
+		_u.SetComment(*v)
 	}
-	return hu
+	return _u
 }
 
 // ClearComment clears the value of the "comment" field.
-func (hu *HistoryUpdate) ClearComment() *HistoryUpdate {
-	hu.mutation.ClearComment()
-	return hu
+func (_u *HistoryUpdate) ClearComment() *HistoryUpdate {
+	_u.mutation.ClearComment()
+	return _u
 }
 
 // SetDetails sets the "details" field.
-func (hu *HistoryUpdate) SetDetails(m map[string]interface{}) *HistoryUpdate {
-	hu.mutation.SetDetails(m)
-	return hu
+func (_u *HistoryUpdate) SetDetails(v map[string]interface{}) *HistoryUpdate {
+	_u.mutation.SetDetails(v)
+	return _u
 }
 
 // ClearDetails clears the value of the "details" field.
-func (hu *HistoryUpdate) ClearDetails() *HistoryUpdate {
-	hu.mutation.ClearDetails()
-	return hu
+func (_u *HistoryUpdate) ClearDetails() *HistoryUpdate {
+	_u.mutation.ClearDetails()
+	return _u
 }
 
 // Mutation returns the HistoryMutation object of the builder.
-func (hu *HistoryUpdate) Mutation() *HistoryMutation {
-	return hu.mutation
+func (_u *HistoryUpdate) Mutation() *HistoryMutation {
+	return _u.mutation
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
-func (hu *HistoryUpdate) Save(ctx context.Context) (int, error) {
-	hu.defaults()
-	return withHooks(ctx, hu.sqlSave, hu.mutation, hu.hooks)
+func (_u *HistoryUpdate) Save(ctx context.Context) (int, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (hu *HistoryUpdate) SaveX(ctx context.Context) int {
-	affected, err := hu.Save(ctx)
+func (_u *HistoryUpdate) SaveX(ctx context.Context) int {
+	affected, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -385,147 +385,147 @@ func (hu *HistoryUpdate) SaveX(ctx context.Context) int {
 }
 
 // Exec executes the query.
-func (hu *HistoryUpdate) Exec(ctx context.Context) error {
-	_, err := hu.Save(ctx)
+func (_u *HistoryUpdate) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (hu *HistoryUpdate) ExecX(ctx context.Context) {
-	if err := hu.Exec(ctx); err != nil {
+func (_u *HistoryUpdate) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (hu *HistoryUpdate) defaults() {
-	if _, ok := hu.mutation.UpdatedAt(); !ok && !hu.mutation.UpdatedAtCleared() {
+func (_u *HistoryUpdate) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := history.UpdateDefaultUpdatedAt()
-		hu.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (hu *HistoryUpdate) sqlSave(ctx context.Context) (n int, err error) {
+func (_u *HistoryUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	_spec := sqlgraph.NewUpdateSpec(history.Table, history.Columns, sqlgraph.NewFieldSpec(history.FieldID, field.TypeString))
-	if ps := hu.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := hu.mutation.GetType(); ok {
+	if value, ok := _u.mutation.GetType(); ok {
 		_spec.SetField(history.FieldType, field.TypeString, value)
 	}
-	if hu.mutation.TypeCleared() {
+	if _u.mutation.TypeCleared() {
 		_spec.ClearField(history.FieldType, field.TypeString)
 	}
-	if value, ok := hu.mutation.ProcessID(); ok {
+	if value, ok := _u.mutation.ProcessID(); ok {
 		_spec.SetField(history.FieldProcessID, field.TypeString, value)
 	}
-	if value, ok := hu.mutation.TemplateID(); ok {
+	if value, ok := _u.mutation.TemplateID(); ok {
 		_spec.SetField(history.FieldTemplateID, field.TypeString, value)
 	}
-	if value, ok := hu.mutation.BusinessKey(); ok {
+	if value, ok := _u.mutation.BusinessKey(); ok {
 		_spec.SetField(history.FieldBusinessKey, field.TypeString, value)
 	}
-	if value, ok := hu.mutation.NodeKey(); ok {
+	if value, ok := _u.mutation.NodeKey(); ok {
 		_spec.SetField(history.FieldNodeKey, field.TypeString, value)
 	}
-	if value, ok := hu.mutation.NodeType(); ok {
+	if value, ok := _u.mutation.NodeType(); ok {
 		_spec.SetField(history.FieldNodeType, field.TypeString, value)
 	}
-	if value, ok := hu.mutation.NodeConfig(); ok {
+	if value, ok := _u.mutation.NodeConfig(); ok {
 		_spec.SetField(history.FieldNodeConfig, field.TypeJSON, value)
 	}
-	if hu.mutation.NodeConfigCleared() {
+	if _u.mutation.NodeConfigCleared() {
 		_spec.ClearField(history.FieldNodeConfig, field.TypeJSON)
 	}
-	if value, ok := hu.mutation.NodeRules(); ok {
+	if value, ok := _u.mutation.NodeRules(); ok {
 		_spec.SetField(history.FieldNodeRules, field.TypeJSON, value)
 	}
-	if hu.mutation.NodeRulesCleared() {
+	if _u.mutation.NodeRulesCleared() {
 		_spec.ClearField(history.FieldNodeRules, field.TypeJSON)
 	}
-	if value, ok := hu.mutation.NodeEvents(); ok {
+	if value, ok := _u.mutation.NodeEvents(); ok {
 		_spec.SetField(history.FieldNodeEvents, field.TypeJSON, value)
 	}
-	if hu.mutation.NodeEventsCleared() {
+	if _u.mutation.NodeEventsCleared() {
 		_spec.ClearField(history.FieldNodeEvents, field.TypeJSON)
 	}
-	if value, ok := hu.mutation.SpaceID(); ok {
+	if value, ok := _u.mutation.SpaceID(); ok {
 		_spec.SetField(history.FieldSpaceID, field.TypeString, value)
 	}
-	if hu.mutation.SpaceIDCleared() {
+	if _u.mutation.SpaceIDCleared() {
 		_spec.ClearField(history.FieldSpaceID, field.TypeString)
 	}
-	if value, ok := hu.mutation.CreatedBy(); ok {
+	if value, ok := _u.mutation.CreatedBy(); ok {
 		_spec.SetField(history.FieldCreatedBy, field.TypeString, value)
 	}
-	if hu.mutation.CreatedByCleared() {
+	if _u.mutation.CreatedByCleared() {
 		_spec.ClearField(history.FieldCreatedBy, field.TypeString)
 	}
-	if value, ok := hu.mutation.UpdatedBy(); ok {
+	if value, ok := _u.mutation.UpdatedBy(); ok {
 		_spec.SetField(history.FieldUpdatedBy, field.TypeString, value)
 	}
-	if hu.mutation.UpdatedByCleared() {
+	if _u.mutation.UpdatedByCleared() {
 		_spec.ClearField(history.FieldUpdatedBy, field.TypeString)
 	}
-	if hu.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(history.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := hu.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(history.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := hu.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(history.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if hu.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(history.FieldUpdatedAt, field.TypeInt64)
 	}
-	if value, ok := hu.mutation.NodeName(); ok {
+	if value, ok := _u.mutation.NodeName(); ok {
 		_spec.SetField(history.FieldNodeName, field.TypeString, value)
 	}
-	if value, ok := hu.mutation.Operator(); ok {
+	if value, ok := _u.mutation.Operator(); ok {
 		_spec.SetField(history.FieldOperator, field.TypeString, value)
 	}
-	if value, ok := hu.mutation.OperatorDept(); ok {
+	if value, ok := _u.mutation.OperatorDept(); ok {
 		_spec.SetField(history.FieldOperatorDept, field.TypeString, value)
 	}
-	if hu.mutation.OperatorDeptCleared() {
+	if _u.mutation.OperatorDeptCleared() {
 		_spec.ClearField(history.FieldOperatorDept, field.TypeString)
 	}
-	if value, ok := hu.mutation.TaskID(); ok {
+	if value, ok := _u.mutation.TaskID(); ok {
 		_spec.SetField(history.FieldTaskID, field.TypeString, value)
 	}
-	if hu.mutation.TaskIDCleared() {
+	if _u.mutation.TaskIDCleared() {
 		_spec.ClearField(history.FieldTaskID, field.TypeString)
 	}
-	if value, ok := hu.mutation.Variables(); ok {
+	if value, ok := _u.mutation.Variables(); ok {
 		_spec.SetField(history.FieldVariables, field.TypeJSON, value)
 	}
-	if value, ok := hu.mutation.FormData(); ok {
+	if value, ok := _u.mutation.FormData(); ok {
 		_spec.SetField(history.FieldFormData, field.TypeJSON, value)
 	}
-	if hu.mutation.FormDataCleared() {
+	if _u.mutation.FormDataCleared() {
 		_spec.ClearField(history.FieldFormData, field.TypeJSON)
 	}
-	if value, ok := hu.mutation.Action(); ok {
+	if value, ok := _u.mutation.Action(); ok {
 		_spec.SetField(history.FieldAction, field.TypeString, value)
 	}
-	if value, ok := hu.mutation.Comment(); ok {
+	if value, ok := _u.mutation.Comment(); ok {
 		_spec.SetField(history.FieldComment, field.TypeString, value)
 	}
-	if hu.mutation.CommentCleared() {
+	if _u.mutation.CommentCleared() {
 		_spec.ClearField(history.FieldComment, field.TypeString)
 	}
-	if value, ok := hu.mutation.Details(); ok {
+	if value, ok := _u.mutation.Details(); ok {
 		_spec.SetField(history.FieldDetails, field.TypeJSON, value)
 	}
-	if hu.mutation.DetailsCleared() {
+	if _u.mutation.DetailsCleared() {
 		_spec.ClearField(history.FieldDetails, field.TypeJSON)
 	}
-	if n, err = sqlgraph.UpdateNodes(ctx, hu.driver, _spec); err != nil {
+	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{history.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -533,8 +533,8 @@ func (hu *HistoryUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		return 0, err
 	}
-	hu.mutation.done = true
-	return n, nil
+	_u.mutation.done = true
+	return _node, nil
 }
 
 // HistoryUpdateOne is the builder for updating a single History entity.
@@ -546,369 +546,369 @@ type HistoryUpdateOne struct {
 }
 
 // SetType sets the "type" field.
-func (huo *HistoryUpdateOne) SetType(s string) *HistoryUpdateOne {
-	huo.mutation.SetType(s)
-	return huo
+func (_u *HistoryUpdateOne) SetType(v string) *HistoryUpdateOne {
+	_u.mutation.SetType(v)
+	return _u
 }
 
 // SetNillableType sets the "type" field if the given value is not nil.
-func (huo *HistoryUpdateOne) SetNillableType(s *string) *HistoryUpdateOne {
-	if s != nil {
-		huo.SetType(*s)
+func (_u *HistoryUpdateOne) SetNillableType(v *string) *HistoryUpdateOne {
+	if v != nil {
+		_u.SetType(*v)
 	}
-	return huo
+	return _u
 }
 
 // ClearType clears the value of the "type" field.
-func (huo *HistoryUpdateOne) ClearType() *HistoryUpdateOne {
-	huo.mutation.ClearType()
-	return huo
+func (_u *HistoryUpdateOne) ClearType() *HistoryUpdateOne {
+	_u.mutation.ClearType()
+	return _u
 }
 
 // SetProcessID sets the "process_id" field.
-func (huo *HistoryUpdateOne) SetProcessID(s string) *HistoryUpdateOne {
-	huo.mutation.SetProcessID(s)
-	return huo
+func (_u *HistoryUpdateOne) SetProcessID(v string) *HistoryUpdateOne {
+	_u.mutation.SetProcessID(v)
+	return _u
 }
 
 // SetNillableProcessID sets the "process_id" field if the given value is not nil.
-func (huo *HistoryUpdateOne) SetNillableProcessID(s *string) *HistoryUpdateOne {
-	if s != nil {
-		huo.SetProcessID(*s)
+func (_u *HistoryUpdateOne) SetNillableProcessID(v *string) *HistoryUpdateOne {
+	if v != nil {
+		_u.SetProcessID(*v)
 	}
-	return huo
+	return _u
 }
 
 // SetTemplateID sets the "template_id" field.
-func (huo *HistoryUpdateOne) SetTemplateID(s string) *HistoryUpdateOne {
-	huo.mutation.SetTemplateID(s)
-	return huo
+func (_u *HistoryUpdateOne) SetTemplateID(v string) *HistoryUpdateOne {
+	_u.mutation.SetTemplateID(v)
+	return _u
 }
 
 // SetNillableTemplateID sets the "template_id" field if the given value is not nil.
-func (huo *HistoryUpdateOne) SetNillableTemplateID(s *string) *HistoryUpdateOne {
-	if s != nil {
-		huo.SetTemplateID(*s)
+func (_u *HistoryUpdateOne) SetNillableTemplateID(v *string) *HistoryUpdateOne {
+	if v != nil {
+		_u.SetTemplateID(*v)
 	}
-	return huo
+	return _u
 }
 
 // SetBusinessKey sets the "business_key" field.
-func (huo *HistoryUpdateOne) SetBusinessKey(s string) *HistoryUpdateOne {
-	huo.mutation.SetBusinessKey(s)
-	return huo
+func (_u *HistoryUpdateOne) SetBusinessKey(v string) *HistoryUpdateOne {
+	_u.mutation.SetBusinessKey(v)
+	return _u
 }
 
 // SetNillableBusinessKey sets the "business_key" field if the given value is not nil.
-func (huo *HistoryUpdateOne) SetNillableBusinessKey(s *string) *HistoryUpdateOne {
-	if s != nil {
-		huo.SetBusinessKey(*s)
+func (_u *HistoryUpdateOne) SetNillableBusinessKey(v *string) *HistoryUpdateOne {
+	if v != nil {
+		_u.SetBusinessKey(*v)
 	}
-	return huo
+	return _u
 }
 
 // SetNodeKey sets the "node_key" field.
-func (huo *HistoryUpdateOne) SetNodeKey(s string) *HistoryUpdateOne {
-	huo.mutation.SetNodeKey(s)
-	return huo
+func (_u *HistoryUpdateOne) SetNodeKey(v string) *HistoryUpdateOne {
+	_u.mutation.SetNodeKey(v)
+	return _u
 }
 
 // SetNillableNodeKey sets the "node_key" field if the given value is not nil.
-func (huo *HistoryUpdateOne) SetNillableNodeKey(s *string) *HistoryUpdateOne {
-	if s != nil {
-		huo.SetNodeKey(*s)
+func (_u *HistoryUpdateOne) SetNillableNodeKey(v *string) *HistoryUpdateOne {
+	if v != nil {
+		_u.SetNodeKey(*v)
 	}
-	return huo
+	return _u
 }
 
 // SetNodeType sets the "node_type" field.
-func (huo *HistoryUpdateOne) SetNodeType(s string) *HistoryUpdateOne {
-	huo.mutation.SetNodeType(s)
-	return huo
+func (_u *HistoryUpdateOne) SetNodeType(v string) *HistoryUpdateOne {
+	_u.mutation.SetNodeType(v)
+	return _u
 }
 
 // SetNillableNodeType sets the "node_type" field if the given value is not nil.
-func (huo *HistoryUpdateOne) SetNillableNodeType(s *string) *HistoryUpdateOne {
-	if s != nil {
-		huo.SetNodeType(*s)
+func (_u *HistoryUpdateOne) SetNillableNodeType(v *string) *HistoryUpdateOne {
+	if v != nil {
+		_u.SetNodeType(*v)
 	}
-	return huo
+	return _u
 }
 
 // SetNodeConfig sets the "node_config" field.
-func (huo *HistoryUpdateOne) SetNodeConfig(m map[string]interface{}) *HistoryUpdateOne {
-	huo.mutation.SetNodeConfig(m)
-	return huo
+func (_u *HistoryUpdateOne) SetNodeConfig(v map[string]interface{}) *HistoryUpdateOne {
+	_u.mutation.SetNodeConfig(v)
+	return _u
 }
 
 // ClearNodeConfig clears the value of the "node_config" field.
-func (huo *HistoryUpdateOne) ClearNodeConfig() *HistoryUpdateOne {
-	huo.mutation.ClearNodeConfig()
-	return huo
+func (_u *HistoryUpdateOne) ClearNodeConfig() *HistoryUpdateOne {
+	_u.mutation.ClearNodeConfig()
+	return _u
 }
 
 // SetNodeRules sets the "node_rules" field.
-func (huo *HistoryUpdateOne) SetNodeRules(m map[string]interface{}) *HistoryUpdateOne {
-	huo.mutation.SetNodeRules(m)
-	return huo
+func (_u *HistoryUpdateOne) SetNodeRules(v map[string]interface{}) *HistoryUpdateOne {
+	_u.mutation.SetNodeRules(v)
+	return _u
 }
 
 // ClearNodeRules clears the value of the "node_rules" field.
-func (huo *HistoryUpdateOne) ClearNodeRules() *HistoryUpdateOne {
-	huo.mutation.ClearNodeRules()
-	return huo
+func (_u *HistoryUpdateOne) ClearNodeRules() *HistoryUpdateOne {
+	_u.mutation.ClearNodeRules()
+	return _u
 }
 
 // SetNodeEvents sets the "node_events" field.
-func (huo *HistoryUpdateOne) SetNodeEvents(m map[string]interface{}) *HistoryUpdateOne {
-	huo.mutation.SetNodeEvents(m)
-	return huo
+func (_u *HistoryUpdateOne) SetNodeEvents(v map[string]interface{}) *HistoryUpdateOne {
+	_u.mutation.SetNodeEvents(v)
+	return _u
 }
 
 // ClearNodeEvents clears the value of the "node_events" field.
-func (huo *HistoryUpdateOne) ClearNodeEvents() *HistoryUpdateOne {
-	huo.mutation.ClearNodeEvents()
-	return huo
+func (_u *HistoryUpdateOne) ClearNodeEvents() *HistoryUpdateOne {
+	_u.mutation.ClearNodeEvents()
+	return _u
 }
 
 // SetSpaceID sets the "space_id" field.
-func (huo *HistoryUpdateOne) SetSpaceID(s string) *HistoryUpdateOne {
-	huo.mutation.SetSpaceID(s)
-	return huo
+func (_u *HistoryUpdateOne) SetSpaceID(v string) *HistoryUpdateOne {
+	_u.mutation.SetSpaceID(v)
+	return _u
 }
 
 // SetNillableSpaceID sets the "space_id" field if the given value is not nil.
-func (huo *HistoryUpdateOne) SetNillableSpaceID(s *string) *HistoryUpdateOne {
-	if s != nil {
-		huo.SetSpaceID(*s)
+func (_u *HistoryUpdateOne) SetNillableSpaceID(v *string) *HistoryUpdateOne {
+	if v != nil {
+		_u.SetSpaceID(*v)
 	}
-	return huo
+	return _u
 }
 
 // ClearSpaceID clears the value of the "space_id" field.
-func (huo *HistoryUpdateOne) ClearSpaceID() *HistoryUpdateOne {
-	huo.mutation.ClearSpaceID()
-	return huo
+func (_u *HistoryUpdateOne) ClearSpaceID() *HistoryUpdateOne {
+	_u.mutation.ClearSpaceID()
+	return _u
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (huo *HistoryUpdateOne) SetCreatedBy(s string) *HistoryUpdateOne {
-	huo.mutation.SetCreatedBy(s)
-	return huo
+func (_u *HistoryUpdateOne) SetCreatedBy(v string) *HistoryUpdateOne {
+	_u.mutation.SetCreatedBy(v)
+	return _u
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (huo *HistoryUpdateOne) SetNillableCreatedBy(s *string) *HistoryUpdateOne {
-	if s != nil {
-		huo.SetCreatedBy(*s)
+func (_u *HistoryUpdateOne) SetNillableCreatedBy(v *string) *HistoryUpdateOne {
+	if v != nil {
+		_u.SetCreatedBy(*v)
 	}
-	return huo
+	return _u
 }
 
 // ClearCreatedBy clears the value of the "created_by" field.
-func (huo *HistoryUpdateOne) ClearCreatedBy() *HistoryUpdateOne {
-	huo.mutation.ClearCreatedBy()
-	return huo
+func (_u *HistoryUpdateOne) ClearCreatedBy() *HistoryUpdateOne {
+	_u.mutation.ClearCreatedBy()
+	return _u
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (huo *HistoryUpdateOne) SetUpdatedBy(s string) *HistoryUpdateOne {
-	huo.mutation.SetUpdatedBy(s)
-	return huo
+func (_u *HistoryUpdateOne) SetUpdatedBy(v string) *HistoryUpdateOne {
+	_u.mutation.SetUpdatedBy(v)
+	return _u
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (huo *HistoryUpdateOne) SetNillableUpdatedBy(s *string) *HistoryUpdateOne {
-	if s != nil {
-		huo.SetUpdatedBy(*s)
+func (_u *HistoryUpdateOne) SetNillableUpdatedBy(v *string) *HistoryUpdateOne {
+	if v != nil {
+		_u.SetUpdatedBy(*v)
 	}
-	return huo
+	return _u
 }
 
 // ClearUpdatedBy clears the value of the "updated_by" field.
-func (huo *HistoryUpdateOne) ClearUpdatedBy() *HistoryUpdateOne {
-	huo.mutation.ClearUpdatedBy()
-	return huo
+func (_u *HistoryUpdateOne) ClearUpdatedBy() *HistoryUpdateOne {
+	_u.mutation.ClearUpdatedBy()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (huo *HistoryUpdateOne) SetUpdatedAt(i int64) *HistoryUpdateOne {
-	huo.mutation.ResetUpdatedAt()
-	huo.mutation.SetUpdatedAt(i)
-	return huo
+func (_u *HistoryUpdateOne) SetUpdatedAt(v int64) *HistoryUpdateOne {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (huo *HistoryUpdateOne) AddUpdatedAt(i int64) *HistoryUpdateOne {
-	huo.mutation.AddUpdatedAt(i)
-	return huo
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *HistoryUpdateOne) AddUpdatedAt(v int64) *HistoryUpdateOne {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (huo *HistoryUpdateOne) ClearUpdatedAt() *HistoryUpdateOne {
-	huo.mutation.ClearUpdatedAt()
-	return huo
+func (_u *HistoryUpdateOne) ClearUpdatedAt() *HistoryUpdateOne {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // SetNodeName sets the "node_name" field.
-func (huo *HistoryUpdateOne) SetNodeName(s string) *HistoryUpdateOne {
-	huo.mutation.SetNodeName(s)
-	return huo
+func (_u *HistoryUpdateOne) SetNodeName(v string) *HistoryUpdateOne {
+	_u.mutation.SetNodeName(v)
+	return _u
 }
 
 // SetNillableNodeName sets the "node_name" field if the given value is not nil.
-func (huo *HistoryUpdateOne) SetNillableNodeName(s *string) *HistoryUpdateOne {
-	if s != nil {
-		huo.SetNodeName(*s)
+func (_u *HistoryUpdateOne) SetNillableNodeName(v *string) *HistoryUpdateOne {
+	if v != nil {
+		_u.SetNodeName(*v)
 	}
-	return huo
+	return _u
 }
 
 // SetOperator sets the "operator" field.
-func (huo *HistoryUpdateOne) SetOperator(s string) *HistoryUpdateOne {
-	huo.mutation.SetOperator(s)
-	return huo
+func (_u *HistoryUpdateOne) SetOperator(v string) *HistoryUpdateOne {
+	_u.mutation.SetOperator(v)
+	return _u
 }
 
 // SetNillableOperator sets the "operator" field if the given value is not nil.
-func (huo *HistoryUpdateOne) SetNillableOperator(s *string) *HistoryUpdateOne {
-	if s != nil {
-		huo.SetOperator(*s)
+func (_u *HistoryUpdateOne) SetNillableOperator(v *string) *HistoryUpdateOne {
+	if v != nil {
+		_u.SetOperator(*v)
 	}
-	return huo
+	return _u
 }
 
 // SetOperatorDept sets the "operator_dept" field.
-func (huo *HistoryUpdateOne) SetOperatorDept(s string) *HistoryUpdateOne {
-	huo.mutation.SetOperatorDept(s)
-	return huo
+func (_u *HistoryUpdateOne) SetOperatorDept(v string) *HistoryUpdateOne {
+	_u.mutation.SetOperatorDept(v)
+	return _u
 }
 
 // SetNillableOperatorDept sets the "operator_dept" field if the given value is not nil.
-func (huo *HistoryUpdateOne) SetNillableOperatorDept(s *string) *HistoryUpdateOne {
-	if s != nil {
-		huo.SetOperatorDept(*s)
+func (_u *HistoryUpdateOne) SetNillableOperatorDept(v *string) *HistoryUpdateOne {
+	if v != nil {
+		_u.SetOperatorDept(*v)
 	}
-	return huo
+	return _u
 }
 
 // ClearOperatorDept clears the value of the "operator_dept" field.
-func (huo *HistoryUpdateOne) ClearOperatorDept() *HistoryUpdateOne {
-	huo.mutation.ClearOperatorDept()
-	return huo
+func (_u *HistoryUpdateOne) ClearOperatorDept() *HistoryUpdateOne {
+	_u.mutation.ClearOperatorDept()
+	return _u
 }
 
 // SetTaskID sets the "task_id" field.
-func (huo *HistoryUpdateOne) SetTaskID(s string) *HistoryUpdateOne {
-	huo.mutation.SetTaskID(s)
-	return huo
+func (_u *HistoryUpdateOne) SetTaskID(v string) *HistoryUpdateOne {
+	_u.mutation.SetTaskID(v)
+	return _u
 }
 
 // SetNillableTaskID sets the "task_id" field if the given value is not nil.
-func (huo *HistoryUpdateOne) SetNillableTaskID(s *string) *HistoryUpdateOne {
-	if s != nil {
-		huo.SetTaskID(*s)
+func (_u *HistoryUpdateOne) SetNillableTaskID(v *string) *HistoryUpdateOne {
+	if v != nil {
+		_u.SetTaskID(*v)
 	}
-	return huo
+	return _u
 }
 
 // ClearTaskID clears the value of the "task_id" field.
-func (huo *HistoryUpdateOne) ClearTaskID() *HistoryUpdateOne {
-	huo.mutation.ClearTaskID()
-	return huo
+func (_u *HistoryUpdateOne) ClearTaskID() *HistoryUpdateOne {
+	_u.mutation.ClearTaskID()
+	return _u
 }
 
 // SetVariables sets the "variables" field.
-func (huo *HistoryUpdateOne) SetVariables(m map[string]interface{}) *HistoryUpdateOne {
-	huo.mutation.SetVariables(m)
-	return huo
+func (_u *HistoryUpdateOne) SetVariables(v map[string]interface{}) *HistoryUpdateOne {
+	_u.mutation.SetVariables(v)
+	return _u
 }
 
 // SetFormData sets the "form_data" field.
-func (huo *HistoryUpdateOne) SetFormData(m map[string]interface{}) *HistoryUpdateOne {
-	huo.mutation.SetFormData(m)
-	return huo
+func (_u *HistoryUpdateOne) SetFormData(v map[string]interface{}) *HistoryUpdateOne {
+	_u.mutation.SetFormData(v)
+	return _u
 }
 
 // ClearFormData clears the value of the "form_data" field.
-func (huo *HistoryUpdateOne) ClearFormData() *HistoryUpdateOne {
-	huo.mutation.ClearFormData()
-	return huo
+func (_u *HistoryUpdateOne) ClearFormData() *HistoryUpdateOne {
+	_u.mutation.ClearFormData()
+	return _u
 }
 
 // SetAction sets the "action" field.
-func (huo *HistoryUpdateOne) SetAction(s string) *HistoryUpdateOne {
-	huo.mutation.SetAction(s)
-	return huo
+func (_u *HistoryUpdateOne) SetAction(v string) *HistoryUpdateOne {
+	_u.mutation.SetAction(v)
+	return _u
 }
 
 // SetNillableAction sets the "action" field if the given value is not nil.
-func (huo *HistoryUpdateOne) SetNillableAction(s *string) *HistoryUpdateOne {
-	if s != nil {
-		huo.SetAction(*s)
+func (_u *HistoryUpdateOne) SetNillableAction(v *string) *HistoryUpdateOne {
+	if v != nil {
+		_u.SetAction(*v)
 	}
-	return huo
+	return _u
 }
 
 // SetComment sets the "comment" field.
-func (huo *HistoryUpdateOne) SetComment(s string) *HistoryUpdateOne {
-	huo.mutation.SetComment(s)
-	return huo
+func (_u *HistoryUpdateOne) SetComment(v string) *HistoryUpdateOne {
+	_u.mutation.SetComment(v)
+	return _u
 }
 
 // SetNillableComment sets the "comment" field if the given value is not nil.
-func (huo *HistoryUpdateOne) SetNillableComment(s *string) *HistoryUpdateOne {
-	if s != nil {
-		huo.SetComment(*s)
+func (_u *HistoryUpdateOne) SetNillableComment(v *string) *HistoryUpdateOne {
+	if v != nil {
+		_u.SetComment(*v)
 	}
-	return huo
+	return _u
 }
 
 // ClearComment clears the value of the "comment" field.
-func (huo *HistoryUpdateOne) ClearComment() *HistoryUpdateOne {
-	huo.mutation.ClearComment()
-	return huo
+func (_u *HistoryUpdateOne) ClearComment() *HistoryUpdateOne {
+	_u.mutation.ClearComment()
+	return _u
 }
 
 // SetDetails sets the "details" field.
-func (huo *HistoryUpdateOne) SetDetails(m map[string]interface{}) *HistoryUpdateOne {
-	huo.mutation.SetDetails(m)
-	return huo
+func (_u *HistoryUpdateOne) SetDetails(v map[string]interface{}) *HistoryUpdateOne {
+	_u.mutation.SetDetails(v)
+	return _u
 }
 
 // ClearDetails clears the value of the "details" field.
-func (huo *HistoryUpdateOne) ClearDetails() *HistoryUpdateOne {
-	huo.mutation.ClearDetails()
-	return huo
+func (_u *HistoryUpdateOne) ClearDetails() *HistoryUpdateOne {
+	_u.mutation.ClearDetails()
+	return _u
 }
 
 // Mutation returns the HistoryMutation object of the builder.
-func (huo *HistoryUpdateOne) Mutation() *HistoryMutation {
-	return huo.mutation
+func (_u *HistoryUpdateOne) Mutation() *HistoryMutation {
+	return _u.mutation
 }
 
 // Where appends a list predicates to the HistoryUpdate builder.
-func (huo *HistoryUpdateOne) Where(ps ...predicate.History) *HistoryUpdateOne {
-	huo.mutation.Where(ps...)
-	return huo
+func (_u *HistoryUpdateOne) Where(ps ...predicate.History) *HistoryUpdateOne {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // Select allows selecting one or more fields (columns) of the returned entity.
 // The default is selecting all fields defined in the entity schema.
-func (huo *HistoryUpdateOne) Select(field string, fields ...string) *HistoryUpdateOne {
-	huo.fields = append([]string{field}, fields...)
-	return huo
+func (_u *HistoryUpdateOne) Select(field string, fields ...string) *HistoryUpdateOne {
+	_u.fields = append([]string{field}, fields...)
+	return _u
 }
 
 // Save executes the query and returns the updated History entity.
-func (huo *HistoryUpdateOne) Save(ctx context.Context) (*History, error) {
-	huo.defaults()
-	return withHooks(ctx, huo.sqlSave, huo.mutation, huo.hooks)
+func (_u *HistoryUpdateOne) Save(ctx context.Context) (*History, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (huo *HistoryUpdateOne) SaveX(ctx context.Context) *History {
-	node, err := huo.Save(ctx)
+func (_u *HistoryUpdateOne) SaveX(ctx context.Context) *History {
+	node, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -916,34 +916,34 @@ func (huo *HistoryUpdateOne) SaveX(ctx context.Context) *History {
 }
 
 // Exec executes the query on the entity.
-func (huo *HistoryUpdateOne) Exec(ctx context.Context) error {
-	_, err := huo.Save(ctx)
+func (_u *HistoryUpdateOne) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (huo *HistoryUpdateOne) ExecX(ctx context.Context) {
-	if err := huo.Exec(ctx); err != nil {
+func (_u *HistoryUpdateOne) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (huo *HistoryUpdateOne) defaults() {
-	if _, ok := huo.mutation.UpdatedAt(); !ok && !huo.mutation.UpdatedAtCleared() {
+func (_u *HistoryUpdateOne) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := history.UpdateDefaultUpdatedAt()
-		huo.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (huo *HistoryUpdateOne) sqlSave(ctx context.Context) (_node *History, err error) {
+func (_u *HistoryUpdateOne) sqlSave(ctx context.Context) (_node *History, err error) {
 	_spec := sqlgraph.NewUpdateSpec(history.Table, history.Columns, sqlgraph.NewFieldSpec(history.FieldID, field.TypeString))
-	id, ok := huo.mutation.ID()
+	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "History.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
-	if fields := huo.fields; len(fields) > 0 {
+	if fields := _u.fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, history.FieldID)
 		for _, f := range fields {
@@ -955,128 +955,128 @@ func (huo *HistoryUpdateOne) sqlSave(ctx context.Context) (_node *History, err e
 			}
 		}
 	}
-	if ps := huo.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := huo.mutation.GetType(); ok {
+	if value, ok := _u.mutation.GetType(); ok {
 		_spec.SetField(history.FieldType, field.TypeString, value)
 	}
-	if huo.mutation.TypeCleared() {
+	if _u.mutation.TypeCleared() {
 		_spec.ClearField(history.FieldType, field.TypeString)
 	}
-	if value, ok := huo.mutation.ProcessID(); ok {
+	if value, ok := _u.mutation.ProcessID(); ok {
 		_spec.SetField(history.FieldProcessID, field.TypeString, value)
 	}
-	if value, ok := huo.mutation.TemplateID(); ok {
+	if value, ok := _u.mutation.TemplateID(); ok {
 		_spec.SetField(history.FieldTemplateID, field.TypeString, value)
 	}
-	if value, ok := huo.mutation.BusinessKey(); ok {
+	if value, ok := _u.mutation.BusinessKey(); ok {
 		_spec.SetField(history.FieldBusinessKey, field.TypeString, value)
 	}
-	if value, ok := huo.mutation.NodeKey(); ok {
+	if value, ok := _u.mutation.NodeKey(); ok {
 		_spec.SetField(history.FieldNodeKey, field.TypeString, value)
 	}
-	if value, ok := huo.mutation.NodeType(); ok {
+	if value, ok := _u.mutation.NodeType(); ok {
 		_spec.SetField(history.FieldNodeType, field.TypeString, value)
 	}
-	if value, ok := huo.mutation.NodeConfig(); ok {
+	if value, ok := _u.mutation.NodeConfig(); ok {
 		_spec.SetField(history.FieldNodeConfig, field.TypeJSON, value)
 	}
-	if huo.mutation.NodeConfigCleared() {
+	if _u.mutation.NodeConfigCleared() {
 		_spec.ClearField(history.FieldNodeConfig, field.TypeJSON)
 	}
-	if value, ok := huo.mutation.NodeRules(); ok {
+	if value, ok := _u.mutation.NodeRules(); ok {
 		_spec.SetField(history.FieldNodeRules, field.TypeJSON, value)
 	}
-	if huo.mutation.NodeRulesCleared() {
+	if _u.mutation.NodeRulesCleared() {
 		_spec.ClearField(history.FieldNodeRules, field.TypeJSON)
 	}
-	if value, ok := huo.mutation.NodeEvents(); ok {
+	if value, ok := _u.mutation.NodeEvents(); ok {
 		_spec.SetField(history.FieldNodeEvents, field.TypeJSON, value)
 	}
-	if huo.mutation.NodeEventsCleared() {
+	if _u.mutation.NodeEventsCleared() {
 		_spec.ClearField(history.FieldNodeEvents, field.TypeJSON)
 	}
-	if value, ok := huo.mutation.SpaceID(); ok {
+	if value, ok := _u.mutation.SpaceID(); ok {
 		_spec.SetField(history.FieldSpaceID, field.TypeString, value)
 	}
-	if huo.mutation.SpaceIDCleared() {
+	if _u.mutation.SpaceIDCleared() {
 		_spec.ClearField(history.FieldSpaceID, field.TypeString)
 	}
-	if value, ok := huo.mutation.CreatedBy(); ok {
+	if value, ok := _u.mutation.CreatedBy(); ok {
 		_spec.SetField(history.FieldCreatedBy, field.TypeString, value)
 	}
-	if huo.mutation.CreatedByCleared() {
+	if _u.mutation.CreatedByCleared() {
 		_spec.ClearField(history.FieldCreatedBy, field.TypeString)
 	}
-	if value, ok := huo.mutation.UpdatedBy(); ok {
+	if value, ok := _u.mutation.UpdatedBy(); ok {
 		_spec.SetField(history.FieldUpdatedBy, field.TypeString, value)
 	}
-	if huo.mutation.UpdatedByCleared() {
+	if _u.mutation.UpdatedByCleared() {
 		_spec.ClearField(history.FieldUpdatedBy, field.TypeString)
 	}
-	if huo.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(history.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := huo.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(history.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := huo.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(history.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if huo.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(history.FieldUpdatedAt, field.TypeInt64)
 	}
-	if value, ok := huo.mutation.NodeName(); ok {
+	if value, ok := _u.mutation.NodeName(); ok {
 		_spec.SetField(history.FieldNodeName, field.TypeString, value)
 	}
-	if value, ok := huo.mutation.Operator(); ok {
+	if value, ok := _u.mutation.Operator(); ok {
 		_spec.SetField(history.FieldOperator, field.TypeString, value)
 	}
-	if value, ok := huo.mutation.OperatorDept(); ok {
+	if value, ok := _u.mutation.OperatorDept(); ok {
 		_spec.SetField(history.FieldOperatorDept, field.TypeString, value)
 	}
-	if huo.mutation.OperatorDeptCleared() {
+	if _u.mutation.OperatorDeptCleared() {
 		_spec.ClearField(history.FieldOperatorDept, field.TypeString)
 	}
-	if value, ok := huo.mutation.TaskID(); ok {
+	if value, ok := _u.mutation.TaskID(); ok {
 		_spec.SetField(history.FieldTaskID, field.TypeString, value)
 	}
-	if huo.mutation.TaskIDCleared() {
+	if _u.mutation.TaskIDCleared() {
 		_spec.ClearField(history.FieldTaskID, field.TypeString)
 	}
-	if value, ok := huo.mutation.Variables(); ok {
+	if value, ok := _u.mutation.Variables(); ok {
 		_spec.SetField(history.FieldVariables, field.TypeJSON, value)
 	}
-	if value, ok := huo.mutation.FormData(); ok {
+	if value, ok := _u.mutation.FormData(); ok {
 		_spec.SetField(history.FieldFormData, field.TypeJSON, value)
 	}
-	if huo.mutation.FormDataCleared() {
+	if _u.mutation.FormDataCleared() {
 		_spec.ClearField(history.FieldFormData, field.TypeJSON)
 	}
-	if value, ok := huo.mutation.Action(); ok {
+	if value, ok := _u.mutation.Action(); ok {
 		_spec.SetField(history.FieldAction, field.TypeString, value)
 	}
-	if value, ok := huo.mutation.Comment(); ok {
+	if value, ok := _u.mutation.Comment(); ok {
 		_spec.SetField(history.FieldComment, field.TypeString, value)
 	}
-	if huo.mutation.CommentCleared() {
+	if _u.mutation.CommentCleared() {
 		_spec.ClearField(history.FieldComment, field.TypeString)
 	}
-	if value, ok := huo.mutation.Details(); ok {
+	if value, ok := _u.mutation.Details(); ok {
 		_spec.SetField(history.FieldDetails, field.TypeJSON, value)
 	}
-	if huo.mutation.DetailsCleared() {
+	if _u.mutation.DetailsCleared() {
 		_spec.ClearField(history.FieldDetails, field.TypeJSON)
 	}
-	_node = &History{config: huo.config}
+	_node = &History{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues
-	if err = sqlgraph.UpdateNode(ctx, huo.driver, _spec); err != nil {
+	if err = sqlgraph.UpdateNode(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{history.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -1084,6 +1084,6 @@ func (huo *HistoryUpdateOne) sqlSave(ctx context.Context) (_node *History, err e
 		}
 		return nil, err
 	}
-	huo.mutation.done = true
+	_u.mutation.done = true
 	return _node, nil
 }

@@ -22,124 +22,124 @@ type SpaceMenuUpdate struct {
 }
 
 // Where appends a list predicates to the SpaceMenuUpdate builder.
-func (smu *SpaceMenuUpdate) Where(ps ...predicate.SpaceMenu) *SpaceMenuUpdate {
-	smu.mutation.Where(ps...)
-	return smu
+func (_u *SpaceMenuUpdate) Where(ps ...predicate.SpaceMenu) *SpaceMenuUpdate {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // SetSpaceID sets the "space_id" field.
-func (smu *SpaceMenuUpdate) SetSpaceID(s string) *SpaceMenuUpdate {
-	smu.mutation.SetSpaceID(s)
-	return smu
+func (_u *SpaceMenuUpdate) SetSpaceID(v string) *SpaceMenuUpdate {
+	_u.mutation.SetSpaceID(v)
+	return _u
 }
 
 // SetNillableSpaceID sets the "space_id" field if the given value is not nil.
-func (smu *SpaceMenuUpdate) SetNillableSpaceID(s *string) *SpaceMenuUpdate {
-	if s != nil {
-		smu.SetSpaceID(*s)
+func (_u *SpaceMenuUpdate) SetNillableSpaceID(v *string) *SpaceMenuUpdate {
+	if v != nil {
+		_u.SetSpaceID(*v)
 	}
-	return smu
+	return _u
 }
 
 // ClearSpaceID clears the value of the "space_id" field.
-func (smu *SpaceMenuUpdate) ClearSpaceID() *SpaceMenuUpdate {
-	smu.mutation.ClearSpaceID()
-	return smu
+func (_u *SpaceMenuUpdate) ClearSpaceID() *SpaceMenuUpdate {
+	_u.mutation.ClearSpaceID()
+	return _u
 }
 
 // SetMenuID sets the "menu_id" field.
-func (smu *SpaceMenuUpdate) SetMenuID(s string) *SpaceMenuUpdate {
-	smu.mutation.SetMenuID(s)
-	return smu
+func (_u *SpaceMenuUpdate) SetMenuID(v string) *SpaceMenuUpdate {
+	_u.mutation.SetMenuID(v)
+	return _u
 }
 
 // SetNillableMenuID sets the "menu_id" field if the given value is not nil.
-func (smu *SpaceMenuUpdate) SetNillableMenuID(s *string) *SpaceMenuUpdate {
-	if s != nil {
-		smu.SetMenuID(*s)
+func (_u *SpaceMenuUpdate) SetNillableMenuID(v *string) *SpaceMenuUpdate {
+	if v != nil {
+		_u.SetMenuID(*v)
 	}
-	return smu
+	return _u
 }
 
 // ClearMenuID clears the value of the "menu_id" field.
-func (smu *SpaceMenuUpdate) ClearMenuID() *SpaceMenuUpdate {
-	smu.mutation.ClearMenuID()
-	return smu
+func (_u *SpaceMenuUpdate) ClearMenuID() *SpaceMenuUpdate {
+	_u.mutation.ClearMenuID()
+	return _u
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (smu *SpaceMenuUpdate) SetCreatedBy(s string) *SpaceMenuUpdate {
-	smu.mutation.SetCreatedBy(s)
-	return smu
+func (_u *SpaceMenuUpdate) SetCreatedBy(v string) *SpaceMenuUpdate {
+	_u.mutation.SetCreatedBy(v)
+	return _u
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (smu *SpaceMenuUpdate) SetNillableCreatedBy(s *string) *SpaceMenuUpdate {
-	if s != nil {
-		smu.SetCreatedBy(*s)
+func (_u *SpaceMenuUpdate) SetNillableCreatedBy(v *string) *SpaceMenuUpdate {
+	if v != nil {
+		_u.SetCreatedBy(*v)
 	}
-	return smu
+	return _u
 }
 
 // ClearCreatedBy clears the value of the "created_by" field.
-func (smu *SpaceMenuUpdate) ClearCreatedBy() *SpaceMenuUpdate {
-	smu.mutation.ClearCreatedBy()
-	return smu
+func (_u *SpaceMenuUpdate) ClearCreatedBy() *SpaceMenuUpdate {
+	_u.mutation.ClearCreatedBy()
+	return _u
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (smu *SpaceMenuUpdate) SetUpdatedBy(s string) *SpaceMenuUpdate {
-	smu.mutation.SetUpdatedBy(s)
-	return smu
+func (_u *SpaceMenuUpdate) SetUpdatedBy(v string) *SpaceMenuUpdate {
+	_u.mutation.SetUpdatedBy(v)
+	return _u
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (smu *SpaceMenuUpdate) SetNillableUpdatedBy(s *string) *SpaceMenuUpdate {
-	if s != nil {
-		smu.SetUpdatedBy(*s)
+func (_u *SpaceMenuUpdate) SetNillableUpdatedBy(v *string) *SpaceMenuUpdate {
+	if v != nil {
+		_u.SetUpdatedBy(*v)
 	}
-	return smu
+	return _u
 }
 
 // ClearUpdatedBy clears the value of the "updated_by" field.
-func (smu *SpaceMenuUpdate) ClearUpdatedBy() *SpaceMenuUpdate {
-	smu.mutation.ClearUpdatedBy()
-	return smu
+func (_u *SpaceMenuUpdate) ClearUpdatedBy() *SpaceMenuUpdate {
+	_u.mutation.ClearUpdatedBy()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (smu *SpaceMenuUpdate) SetUpdatedAt(i int64) *SpaceMenuUpdate {
-	smu.mutation.ResetUpdatedAt()
-	smu.mutation.SetUpdatedAt(i)
-	return smu
+func (_u *SpaceMenuUpdate) SetUpdatedAt(v int64) *SpaceMenuUpdate {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (smu *SpaceMenuUpdate) AddUpdatedAt(i int64) *SpaceMenuUpdate {
-	smu.mutation.AddUpdatedAt(i)
-	return smu
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *SpaceMenuUpdate) AddUpdatedAt(v int64) *SpaceMenuUpdate {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (smu *SpaceMenuUpdate) ClearUpdatedAt() *SpaceMenuUpdate {
-	smu.mutation.ClearUpdatedAt()
-	return smu
+func (_u *SpaceMenuUpdate) ClearUpdatedAt() *SpaceMenuUpdate {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // Mutation returns the SpaceMenuMutation object of the builder.
-func (smu *SpaceMenuUpdate) Mutation() *SpaceMenuMutation {
-	return smu.mutation
+func (_u *SpaceMenuUpdate) Mutation() *SpaceMenuMutation {
+	return _u.mutation
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
-func (smu *SpaceMenuUpdate) Save(ctx context.Context) (int, error) {
-	smu.defaults()
-	return withHooks(ctx, smu.sqlSave, smu.mutation, smu.hooks)
+func (_u *SpaceMenuUpdate) Save(ctx context.Context) (int, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (smu *SpaceMenuUpdate) SaveX(ctx context.Context) int {
-	affected, err := smu.Save(ctx)
+func (_u *SpaceMenuUpdate) SaveX(ctx context.Context) int {
+	affected, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -147,72 +147,72 @@ func (smu *SpaceMenuUpdate) SaveX(ctx context.Context) int {
 }
 
 // Exec executes the query.
-func (smu *SpaceMenuUpdate) Exec(ctx context.Context) error {
-	_, err := smu.Save(ctx)
+func (_u *SpaceMenuUpdate) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (smu *SpaceMenuUpdate) ExecX(ctx context.Context) {
-	if err := smu.Exec(ctx); err != nil {
+func (_u *SpaceMenuUpdate) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (smu *SpaceMenuUpdate) defaults() {
-	if _, ok := smu.mutation.UpdatedAt(); !ok && !smu.mutation.UpdatedAtCleared() {
+func (_u *SpaceMenuUpdate) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := spacemenu.UpdateDefaultUpdatedAt()
-		smu.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (smu *SpaceMenuUpdate) sqlSave(ctx context.Context) (n int, err error) {
+func (_u *SpaceMenuUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	_spec := sqlgraph.NewUpdateSpec(spacemenu.Table, spacemenu.Columns, sqlgraph.NewFieldSpec(spacemenu.FieldID, field.TypeString))
-	if ps := smu.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := smu.mutation.SpaceID(); ok {
+	if value, ok := _u.mutation.SpaceID(); ok {
 		_spec.SetField(spacemenu.FieldSpaceID, field.TypeString, value)
 	}
-	if smu.mutation.SpaceIDCleared() {
+	if _u.mutation.SpaceIDCleared() {
 		_spec.ClearField(spacemenu.FieldSpaceID, field.TypeString)
 	}
-	if value, ok := smu.mutation.MenuID(); ok {
+	if value, ok := _u.mutation.MenuID(); ok {
 		_spec.SetField(spacemenu.FieldMenuID, field.TypeString, value)
 	}
-	if smu.mutation.MenuIDCleared() {
+	if _u.mutation.MenuIDCleared() {
 		_spec.ClearField(spacemenu.FieldMenuID, field.TypeString)
 	}
-	if value, ok := smu.mutation.CreatedBy(); ok {
+	if value, ok := _u.mutation.CreatedBy(); ok {
 		_spec.SetField(spacemenu.FieldCreatedBy, field.TypeString, value)
 	}
-	if smu.mutation.CreatedByCleared() {
+	if _u.mutation.CreatedByCleared() {
 		_spec.ClearField(spacemenu.FieldCreatedBy, field.TypeString)
 	}
-	if value, ok := smu.mutation.UpdatedBy(); ok {
+	if value, ok := _u.mutation.UpdatedBy(); ok {
 		_spec.SetField(spacemenu.FieldUpdatedBy, field.TypeString, value)
 	}
-	if smu.mutation.UpdatedByCleared() {
+	if _u.mutation.UpdatedByCleared() {
 		_spec.ClearField(spacemenu.FieldUpdatedBy, field.TypeString)
 	}
-	if smu.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(spacemenu.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := smu.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(spacemenu.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := smu.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(spacemenu.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if smu.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(spacemenu.FieldUpdatedAt, field.TypeInt64)
 	}
-	if n, err = sqlgraph.UpdateNodes(ctx, smu.driver, _spec); err != nil {
+	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{spacemenu.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -220,8 +220,8 @@ func (smu *SpaceMenuUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		return 0, err
 	}
-	smu.mutation.done = true
-	return n, nil
+	_u.mutation.done = true
+	return _node, nil
 }
 
 // SpaceMenuUpdateOne is the builder for updating a single SpaceMenu entity.
@@ -233,131 +233,131 @@ type SpaceMenuUpdateOne struct {
 }
 
 // SetSpaceID sets the "space_id" field.
-func (smuo *SpaceMenuUpdateOne) SetSpaceID(s string) *SpaceMenuUpdateOne {
-	smuo.mutation.SetSpaceID(s)
-	return smuo
+func (_u *SpaceMenuUpdateOne) SetSpaceID(v string) *SpaceMenuUpdateOne {
+	_u.mutation.SetSpaceID(v)
+	return _u
 }
 
 // SetNillableSpaceID sets the "space_id" field if the given value is not nil.
-func (smuo *SpaceMenuUpdateOne) SetNillableSpaceID(s *string) *SpaceMenuUpdateOne {
-	if s != nil {
-		smuo.SetSpaceID(*s)
+func (_u *SpaceMenuUpdateOne) SetNillableSpaceID(v *string) *SpaceMenuUpdateOne {
+	if v != nil {
+		_u.SetSpaceID(*v)
 	}
-	return smuo
+	return _u
 }
 
 // ClearSpaceID clears the value of the "space_id" field.
-func (smuo *SpaceMenuUpdateOne) ClearSpaceID() *SpaceMenuUpdateOne {
-	smuo.mutation.ClearSpaceID()
-	return smuo
+func (_u *SpaceMenuUpdateOne) ClearSpaceID() *SpaceMenuUpdateOne {
+	_u.mutation.ClearSpaceID()
+	return _u
 }
 
 // SetMenuID sets the "menu_id" field.
-func (smuo *SpaceMenuUpdateOne) SetMenuID(s string) *SpaceMenuUpdateOne {
-	smuo.mutation.SetMenuID(s)
-	return smuo
+func (_u *SpaceMenuUpdateOne) SetMenuID(v string) *SpaceMenuUpdateOne {
+	_u.mutation.SetMenuID(v)
+	return _u
 }
 
 // SetNillableMenuID sets the "menu_id" field if the given value is not nil.
-func (smuo *SpaceMenuUpdateOne) SetNillableMenuID(s *string) *SpaceMenuUpdateOne {
-	if s != nil {
-		smuo.SetMenuID(*s)
+func (_u *SpaceMenuUpdateOne) SetNillableMenuID(v *string) *SpaceMenuUpdateOne {
+	if v != nil {
+		_u.SetMenuID(*v)
 	}
-	return smuo
+	return _u
 }
 
 // ClearMenuID clears the value of the "menu_id" field.
-func (smuo *SpaceMenuUpdateOne) ClearMenuID() *SpaceMenuUpdateOne {
-	smuo.mutation.ClearMenuID()
-	return smuo
+func (_u *SpaceMenuUpdateOne) ClearMenuID() *SpaceMenuUpdateOne {
+	_u.mutation.ClearMenuID()
+	return _u
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (smuo *SpaceMenuUpdateOne) SetCreatedBy(s string) *SpaceMenuUpdateOne {
-	smuo.mutation.SetCreatedBy(s)
-	return smuo
+func (_u *SpaceMenuUpdateOne) SetCreatedBy(v string) *SpaceMenuUpdateOne {
+	_u.mutation.SetCreatedBy(v)
+	return _u
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (smuo *SpaceMenuUpdateOne) SetNillableCreatedBy(s *string) *SpaceMenuUpdateOne {
-	if s != nil {
-		smuo.SetCreatedBy(*s)
+func (_u *SpaceMenuUpdateOne) SetNillableCreatedBy(v *string) *SpaceMenuUpdateOne {
+	if v != nil {
+		_u.SetCreatedBy(*v)
 	}
-	return smuo
+	return _u
 }
 
 // ClearCreatedBy clears the value of the "created_by" field.
-func (smuo *SpaceMenuUpdateOne) ClearCreatedBy() *SpaceMenuUpdateOne {
-	smuo.mutation.ClearCreatedBy()
-	return smuo
+func (_u *SpaceMenuUpdateOne) ClearCreatedBy() *SpaceMenuUpdateOne {
+	_u.mutation.ClearCreatedBy()
+	return _u
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (smuo *SpaceMenuUpdateOne) SetUpdatedBy(s string) *SpaceMenuUpdateOne {
-	smuo.mutation.SetUpdatedBy(s)
-	return smuo
+func (_u *SpaceMenuUpdateOne) SetUpdatedBy(v string) *SpaceMenuUpdateOne {
+	_u.mutation.SetUpdatedBy(v)
+	return _u
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (smuo *SpaceMenuUpdateOne) SetNillableUpdatedBy(s *string) *SpaceMenuUpdateOne {
-	if s != nil {
-		smuo.SetUpdatedBy(*s)
+func (_u *SpaceMenuUpdateOne) SetNillableUpdatedBy(v *string) *SpaceMenuUpdateOne {
+	if v != nil {
+		_u.SetUpdatedBy(*v)
 	}
-	return smuo
+	return _u
 }
 
 // ClearUpdatedBy clears the value of the "updated_by" field.
-func (smuo *SpaceMenuUpdateOne) ClearUpdatedBy() *SpaceMenuUpdateOne {
-	smuo.mutation.ClearUpdatedBy()
-	return smuo
+func (_u *SpaceMenuUpdateOne) ClearUpdatedBy() *SpaceMenuUpdateOne {
+	_u.mutation.ClearUpdatedBy()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (smuo *SpaceMenuUpdateOne) SetUpdatedAt(i int64) *SpaceMenuUpdateOne {
-	smuo.mutation.ResetUpdatedAt()
-	smuo.mutation.SetUpdatedAt(i)
-	return smuo
+func (_u *SpaceMenuUpdateOne) SetUpdatedAt(v int64) *SpaceMenuUpdateOne {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (smuo *SpaceMenuUpdateOne) AddUpdatedAt(i int64) *SpaceMenuUpdateOne {
-	smuo.mutation.AddUpdatedAt(i)
-	return smuo
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *SpaceMenuUpdateOne) AddUpdatedAt(v int64) *SpaceMenuUpdateOne {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (smuo *SpaceMenuUpdateOne) ClearUpdatedAt() *SpaceMenuUpdateOne {
-	smuo.mutation.ClearUpdatedAt()
-	return smuo
+func (_u *SpaceMenuUpdateOne) ClearUpdatedAt() *SpaceMenuUpdateOne {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // Mutation returns the SpaceMenuMutation object of the builder.
-func (smuo *SpaceMenuUpdateOne) Mutation() *SpaceMenuMutation {
-	return smuo.mutation
+func (_u *SpaceMenuUpdateOne) Mutation() *SpaceMenuMutation {
+	return _u.mutation
 }
 
 // Where appends a list predicates to the SpaceMenuUpdate builder.
-func (smuo *SpaceMenuUpdateOne) Where(ps ...predicate.SpaceMenu) *SpaceMenuUpdateOne {
-	smuo.mutation.Where(ps...)
-	return smuo
+func (_u *SpaceMenuUpdateOne) Where(ps ...predicate.SpaceMenu) *SpaceMenuUpdateOne {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // Select allows selecting one or more fields (columns) of the returned entity.
 // The default is selecting all fields defined in the entity schema.
-func (smuo *SpaceMenuUpdateOne) Select(field string, fields ...string) *SpaceMenuUpdateOne {
-	smuo.fields = append([]string{field}, fields...)
-	return smuo
+func (_u *SpaceMenuUpdateOne) Select(field string, fields ...string) *SpaceMenuUpdateOne {
+	_u.fields = append([]string{field}, fields...)
+	return _u
 }
 
 // Save executes the query and returns the updated SpaceMenu entity.
-func (smuo *SpaceMenuUpdateOne) Save(ctx context.Context) (*SpaceMenu, error) {
-	smuo.defaults()
-	return withHooks(ctx, smuo.sqlSave, smuo.mutation, smuo.hooks)
+func (_u *SpaceMenuUpdateOne) Save(ctx context.Context) (*SpaceMenu, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (smuo *SpaceMenuUpdateOne) SaveX(ctx context.Context) *SpaceMenu {
-	node, err := smuo.Save(ctx)
+func (_u *SpaceMenuUpdateOne) SaveX(ctx context.Context) *SpaceMenu {
+	node, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -365,34 +365,34 @@ func (smuo *SpaceMenuUpdateOne) SaveX(ctx context.Context) *SpaceMenu {
 }
 
 // Exec executes the query on the entity.
-func (smuo *SpaceMenuUpdateOne) Exec(ctx context.Context) error {
-	_, err := smuo.Save(ctx)
+func (_u *SpaceMenuUpdateOne) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (smuo *SpaceMenuUpdateOne) ExecX(ctx context.Context) {
-	if err := smuo.Exec(ctx); err != nil {
+func (_u *SpaceMenuUpdateOne) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (smuo *SpaceMenuUpdateOne) defaults() {
-	if _, ok := smuo.mutation.UpdatedAt(); !ok && !smuo.mutation.UpdatedAtCleared() {
+func (_u *SpaceMenuUpdateOne) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := spacemenu.UpdateDefaultUpdatedAt()
-		smuo.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (smuo *SpaceMenuUpdateOne) sqlSave(ctx context.Context) (_node *SpaceMenu, err error) {
+func (_u *SpaceMenuUpdateOne) sqlSave(ctx context.Context) (_node *SpaceMenu, err error) {
 	_spec := sqlgraph.NewUpdateSpec(spacemenu.Table, spacemenu.Columns, sqlgraph.NewFieldSpec(spacemenu.FieldID, field.TypeString))
-	id, ok := smuo.mutation.ID()
+	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "SpaceMenu.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
-	if fields := smuo.fields; len(fields) > 0 {
+	if fields := _u.fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, spacemenu.FieldID)
 		for _, f := range fields {
@@ -404,53 +404,53 @@ func (smuo *SpaceMenuUpdateOne) sqlSave(ctx context.Context) (_node *SpaceMenu, 
 			}
 		}
 	}
-	if ps := smuo.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := smuo.mutation.SpaceID(); ok {
+	if value, ok := _u.mutation.SpaceID(); ok {
 		_spec.SetField(spacemenu.FieldSpaceID, field.TypeString, value)
 	}
-	if smuo.mutation.SpaceIDCleared() {
+	if _u.mutation.SpaceIDCleared() {
 		_spec.ClearField(spacemenu.FieldSpaceID, field.TypeString)
 	}
-	if value, ok := smuo.mutation.MenuID(); ok {
+	if value, ok := _u.mutation.MenuID(); ok {
 		_spec.SetField(spacemenu.FieldMenuID, field.TypeString, value)
 	}
-	if smuo.mutation.MenuIDCleared() {
+	if _u.mutation.MenuIDCleared() {
 		_spec.ClearField(spacemenu.FieldMenuID, field.TypeString)
 	}
-	if value, ok := smuo.mutation.CreatedBy(); ok {
+	if value, ok := _u.mutation.CreatedBy(); ok {
 		_spec.SetField(spacemenu.FieldCreatedBy, field.TypeString, value)
 	}
-	if smuo.mutation.CreatedByCleared() {
+	if _u.mutation.CreatedByCleared() {
 		_spec.ClearField(spacemenu.FieldCreatedBy, field.TypeString)
 	}
-	if value, ok := smuo.mutation.UpdatedBy(); ok {
+	if value, ok := _u.mutation.UpdatedBy(); ok {
 		_spec.SetField(spacemenu.FieldUpdatedBy, field.TypeString, value)
 	}
-	if smuo.mutation.UpdatedByCleared() {
+	if _u.mutation.UpdatedByCleared() {
 		_spec.ClearField(spacemenu.FieldUpdatedBy, field.TypeString)
 	}
-	if smuo.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(spacemenu.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := smuo.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(spacemenu.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := smuo.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(spacemenu.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if smuo.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(spacemenu.FieldUpdatedAt, field.TypeInt64)
 	}
-	_node = &SpaceMenu{config: smuo.config}
+	_node = &SpaceMenu{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues
-	if err = sqlgraph.UpdateNode(ctx, smuo.driver, _spec); err != nil {
+	if err = sqlgraph.UpdateNode(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{spacemenu.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -458,6 +458,6 @@ func (smuo *SpaceMenuUpdateOne) sqlSave(ctx context.Context) (_node *SpaceMenu, 
 		}
 		return nil, err
 	}
-	smuo.mutation.done = true
+	_u.mutation.done = true
 	return _node, nil
 }

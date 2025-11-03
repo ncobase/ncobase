@@ -20,56 +20,56 @@ type SpaceMenuDelete struct {
 }
 
 // Where appends a list predicates to the SpaceMenuDelete builder.
-func (smd *SpaceMenuDelete) Where(ps ...predicate.SpaceMenu) *SpaceMenuDelete {
-	smd.mutation.Where(ps...)
-	return smd
+func (_d *SpaceMenuDelete) Where(ps ...predicate.SpaceMenu) *SpaceMenuDelete {
+	_d.mutation.Where(ps...)
+	return _d
 }
 
 // Exec executes the deletion query and returns how many vertices were deleted.
-func (smd *SpaceMenuDelete) Exec(ctx context.Context) (int, error) {
-	return withHooks(ctx, smd.sqlExec, smd.mutation, smd.hooks)
+func (_d *SpaceMenuDelete) Exec(ctx context.Context) (int, error) {
+	return withHooks(ctx, _d.sqlExec, _d.mutation, _d.hooks)
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (smd *SpaceMenuDelete) ExecX(ctx context.Context) int {
-	n, err := smd.Exec(ctx)
+func (_d *SpaceMenuDelete) ExecX(ctx context.Context) int {
+	n, err := _d.Exec(ctx)
 	if err != nil {
 		panic(err)
 	}
 	return n
 }
 
-func (smd *SpaceMenuDelete) sqlExec(ctx context.Context) (int, error) {
+func (_d *SpaceMenuDelete) sqlExec(ctx context.Context) (int, error) {
 	_spec := sqlgraph.NewDeleteSpec(spacemenu.Table, sqlgraph.NewFieldSpec(spacemenu.FieldID, field.TypeString))
-	if ps := smd.mutation.predicates; len(ps) > 0 {
+	if ps := _d.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	affected, err := sqlgraph.DeleteNodes(ctx, smd.driver, _spec)
+	affected, err := sqlgraph.DeleteNodes(ctx, _d.driver, _spec)
 	if err != nil && sqlgraph.IsConstraintError(err) {
 		err = &ConstraintError{msg: err.Error(), wrap: err}
 	}
-	smd.mutation.done = true
+	_d.mutation.done = true
 	return affected, err
 }
 
 // SpaceMenuDeleteOne is the builder for deleting a single SpaceMenu entity.
 type SpaceMenuDeleteOne struct {
-	smd *SpaceMenuDelete
+	_d *SpaceMenuDelete
 }
 
 // Where appends a list predicates to the SpaceMenuDelete builder.
-func (smdo *SpaceMenuDeleteOne) Where(ps ...predicate.SpaceMenu) *SpaceMenuDeleteOne {
-	smdo.smd.mutation.Where(ps...)
-	return smdo
+func (_d *SpaceMenuDeleteOne) Where(ps ...predicate.SpaceMenu) *SpaceMenuDeleteOne {
+	_d._d.mutation.Where(ps...)
+	return _d
 }
 
 // Exec executes the deletion query.
-func (smdo *SpaceMenuDeleteOne) Exec(ctx context.Context) error {
-	n, err := smdo.smd.Exec(ctx)
+func (_d *SpaceMenuDeleteOne) Exec(ctx context.Context) error {
+	n, err := _d._d.Exec(ctx)
 	switch {
 	case err != nil:
 		return err
@@ -81,8 +81,8 @@ func (smdo *SpaceMenuDeleteOne) Exec(ctx context.Context) error {
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (smdo *SpaceMenuDeleteOne) ExecX(ctx context.Context) {
-	if err := smdo.Exec(ctx); err != nil {
+func (_d *SpaceMenuDeleteOne) ExecX(ctx context.Context) {
+	if err := _d.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

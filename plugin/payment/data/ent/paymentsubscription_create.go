@@ -22,228 +22,228 @@ type PaymentSubscriptionCreate struct {
 }
 
 // SetExtras sets the "extras" field.
-func (psc *PaymentSubscriptionCreate) SetExtras(m map[string]interface{}) *PaymentSubscriptionCreate {
-	psc.mutation.SetExtras(m)
-	return psc
+func (_c *PaymentSubscriptionCreate) SetExtras(v map[string]interface{}) *PaymentSubscriptionCreate {
+	_c.mutation.SetExtras(v)
+	return _c
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (psc *PaymentSubscriptionCreate) SetCreatedBy(s string) *PaymentSubscriptionCreate {
-	psc.mutation.SetCreatedBy(s)
-	return psc
+func (_c *PaymentSubscriptionCreate) SetCreatedBy(v string) *PaymentSubscriptionCreate {
+	_c.mutation.SetCreatedBy(v)
+	return _c
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (psc *PaymentSubscriptionCreate) SetNillableCreatedBy(s *string) *PaymentSubscriptionCreate {
-	if s != nil {
-		psc.SetCreatedBy(*s)
+func (_c *PaymentSubscriptionCreate) SetNillableCreatedBy(v *string) *PaymentSubscriptionCreate {
+	if v != nil {
+		_c.SetCreatedBy(*v)
 	}
-	return psc
+	return _c
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (psc *PaymentSubscriptionCreate) SetUpdatedBy(s string) *PaymentSubscriptionCreate {
-	psc.mutation.SetUpdatedBy(s)
-	return psc
+func (_c *PaymentSubscriptionCreate) SetUpdatedBy(v string) *PaymentSubscriptionCreate {
+	_c.mutation.SetUpdatedBy(v)
+	return _c
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (psc *PaymentSubscriptionCreate) SetNillableUpdatedBy(s *string) *PaymentSubscriptionCreate {
-	if s != nil {
-		psc.SetUpdatedBy(*s)
+func (_c *PaymentSubscriptionCreate) SetNillableUpdatedBy(v *string) *PaymentSubscriptionCreate {
+	if v != nil {
+		_c.SetUpdatedBy(*v)
 	}
-	return psc
+	return _c
 }
 
 // SetCreatedAt sets the "created_at" field.
-func (psc *PaymentSubscriptionCreate) SetCreatedAt(i int64) *PaymentSubscriptionCreate {
-	psc.mutation.SetCreatedAt(i)
-	return psc
+func (_c *PaymentSubscriptionCreate) SetCreatedAt(v int64) *PaymentSubscriptionCreate {
+	_c.mutation.SetCreatedAt(v)
+	return _c
 }
 
 // SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
-func (psc *PaymentSubscriptionCreate) SetNillableCreatedAt(i *int64) *PaymentSubscriptionCreate {
-	if i != nil {
-		psc.SetCreatedAt(*i)
+func (_c *PaymentSubscriptionCreate) SetNillableCreatedAt(v *int64) *PaymentSubscriptionCreate {
+	if v != nil {
+		_c.SetCreatedAt(*v)
 	}
-	return psc
+	return _c
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (psc *PaymentSubscriptionCreate) SetUpdatedAt(i int64) *PaymentSubscriptionCreate {
-	psc.mutation.SetUpdatedAt(i)
-	return psc
+func (_c *PaymentSubscriptionCreate) SetUpdatedAt(v int64) *PaymentSubscriptionCreate {
+	_c.mutation.SetUpdatedAt(v)
+	return _c
 }
 
 // SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
-func (psc *PaymentSubscriptionCreate) SetNillableUpdatedAt(i *int64) *PaymentSubscriptionCreate {
-	if i != nil {
-		psc.SetUpdatedAt(*i)
+func (_c *PaymentSubscriptionCreate) SetNillableUpdatedAt(v *int64) *PaymentSubscriptionCreate {
+	if v != nil {
+		_c.SetUpdatedAt(*v)
 	}
-	return psc
+	return _c
 }
 
 // SetStatus sets the "status" field.
-func (psc *PaymentSubscriptionCreate) SetStatus(s string) *PaymentSubscriptionCreate {
-	psc.mutation.SetStatus(s)
-	return psc
+func (_c *PaymentSubscriptionCreate) SetStatus(v string) *PaymentSubscriptionCreate {
+	_c.mutation.SetStatus(v)
+	return _c
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (psc *PaymentSubscriptionCreate) SetNillableStatus(s *string) *PaymentSubscriptionCreate {
-	if s != nil {
-		psc.SetStatus(*s)
+func (_c *PaymentSubscriptionCreate) SetNillableStatus(v *string) *PaymentSubscriptionCreate {
+	if v != nil {
+		_c.SetStatus(*v)
 	}
-	return psc
+	return _c
 }
 
 // SetUserID sets the "user_id" field.
-func (psc *PaymentSubscriptionCreate) SetUserID(s string) *PaymentSubscriptionCreate {
-	psc.mutation.SetUserID(s)
-	return psc
+func (_c *PaymentSubscriptionCreate) SetUserID(v string) *PaymentSubscriptionCreate {
+	_c.mutation.SetUserID(v)
+	return _c
 }
 
 // SetSpaceID sets the "space_id" field.
-func (psc *PaymentSubscriptionCreate) SetSpaceID(s string) *PaymentSubscriptionCreate {
-	psc.mutation.SetSpaceID(s)
-	return psc
+func (_c *PaymentSubscriptionCreate) SetSpaceID(v string) *PaymentSubscriptionCreate {
+	_c.mutation.SetSpaceID(v)
+	return _c
 }
 
 // SetNillableSpaceID sets the "space_id" field if the given value is not nil.
-func (psc *PaymentSubscriptionCreate) SetNillableSpaceID(s *string) *PaymentSubscriptionCreate {
-	if s != nil {
-		psc.SetSpaceID(*s)
+func (_c *PaymentSubscriptionCreate) SetNillableSpaceID(v *string) *PaymentSubscriptionCreate {
+	if v != nil {
+		_c.SetSpaceID(*v)
 	}
-	return psc
+	return _c
 }
 
 // SetProductID sets the "product_id" field.
-func (psc *PaymentSubscriptionCreate) SetProductID(s string) *PaymentSubscriptionCreate {
-	psc.mutation.SetProductID(s)
-	return psc
+func (_c *PaymentSubscriptionCreate) SetProductID(v string) *PaymentSubscriptionCreate {
+	_c.mutation.SetProductID(v)
+	return _c
 }
 
 // SetChannelID sets the "channel_id" field.
-func (psc *PaymentSubscriptionCreate) SetChannelID(s string) *PaymentSubscriptionCreate {
-	psc.mutation.SetChannelID(s)
-	return psc
+func (_c *PaymentSubscriptionCreate) SetChannelID(v string) *PaymentSubscriptionCreate {
+	_c.mutation.SetChannelID(v)
+	return _c
 }
 
 // SetCurrentPeriodStart sets the "current_period_start" field.
-func (psc *PaymentSubscriptionCreate) SetCurrentPeriodStart(t time.Time) *PaymentSubscriptionCreate {
-	psc.mutation.SetCurrentPeriodStart(t)
-	return psc
+func (_c *PaymentSubscriptionCreate) SetCurrentPeriodStart(v time.Time) *PaymentSubscriptionCreate {
+	_c.mutation.SetCurrentPeriodStart(v)
+	return _c
 }
 
 // SetCurrentPeriodEnd sets the "current_period_end" field.
-func (psc *PaymentSubscriptionCreate) SetCurrentPeriodEnd(t time.Time) *PaymentSubscriptionCreate {
-	psc.mutation.SetCurrentPeriodEnd(t)
-	return psc
+func (_c *PaymentSubscriptionCreate) SetCurrentPeriodEnd(v time.Time) *PaymentSubscriptionCreate {
+	_c.mutation.SetCurrentPeriodEnd(v)
+	return _c
 }
 
 // SetCancelAt sets the "cancel_at" field.
-func (psc *PaymentSubscriptionCreate) SetCancelAt(t time.Time) *PaymentSubscriptionCreate {
-	psc.mutation.SetCancelAt(t)
-	return psc
+func (_c *PaymentSubscriptionCreate) SetCancelAt(v time.Time) *PaymentSubscriptionCreate {
+	_c.mutation.SetCancelAt(v)
+	return _c
 }
 
 // SetNillableCancelAt sets the "cancel_at" field if the given value is not nil.
-func (psc *PaymentSubscriptionCreate) SetNillableCancelAt(t *time.Time) *PaymentSubscriptionCreate {
-	if t != nil {
-		psc.SetCancelAt(*t)
+func (_c *PaymentSubscriptionCreate) SetNillableCancelAt(v *time.Time) *PaymentSubscriptionCreate {
+	if v != nil {
+		_c.SetCancelAt(*v)
 	}
-	return psc
+	return _c
 }
 
 // SetCancelledAt sets the "cancelled_at" field.
-func (psc *PaymentSubscriptionCreate) SetCancelledAt(t time.Time) *PaymentSubscriptionCreate {
-	psc.mutation.SetCancelledAt(t)
-	return psc
+func (_c *PaymentSubscriptionCreate) SetCancelledAt(v time.Time) *PaymentSubscriptionCreate {
+	_c.mutation.SetCancelledAt(v)
+	return _c
 }
 
 // SetNillableCancelledAt sets the "cancelled_at" field if the given value is not nil.
-func (psc *PaymentSubscriptionCreate) SetNillableCancelledAt(t *time.Time) *PaymentSubscriptionCreate {
-	if t != nil {
-		psc.SetCancelledAt(*t)
+func (_c *PaymentSubscriptionCreate) SetNillableCancelledAt(v *time.Time) *PaymentSubscriptionCreate {
+	if v != nil {
+		_c.SetCancelledAt(*v)
 	}
-	return psc
+	return _c
 }
 
 // SetTrialStart sets the "trial_start" field.
-func (psc *PaymentSubscriptionCreate) SetTrialStart(t time.Time) *PaymentSubscriptionCreate {
-	psc.mutation.SetTrialStart(t)
-	return psc
+func (_c *PaymentSubscriptionCreate) SetTrialStart(v time.Time) *PaymentSubscriptionCreate {
+	_c.mutation.SetTrialStart(v)
+	return _c
 }
 
 // SetNillableTrialStart sets the "trial_start" field if the given value is not nil.
-func (psc *PaymentSubscriptionCreate) SetNillableTrialStart(t *time.Time) *PaymentSubscriptionCreate {
-	if t != nil {
-		psc.SetTrialStart(*t)
+func (_c *PaymentSubscriptionCreate) SetNillableTrialStart(v *time.Time) *PaymentSubscriptionCreate {
+	if v != nil {
+		_c.SetTrialStart(*v)
 	}
-	return psc
+	return _c
 }
 
 // SetTrialEnd sets the "trial_end" field.
-func (psc *PaymentSubscriptionCreate) SetTrialEnd(t time.Time) *PaymentSubscriptionCreate {
-	psc.mutation.SetTrialEnd(t)
-	return psc
+func (_c *PaymentSubscriptionCreate) SetTrialEnd(v time.Time) *PaymentSubscriptionCreate {
+	_c.mutation.SetTrialEnd(v)
+	return _c
 }
 
 // SetNillableTrialEnd sets the "trial_end" field if the given value is not nil.
-func (psc *PaymentSubscriptionCreate) SetNillableTrialEnd(t *time.Time) *PaymentSubscriptionCreate {
-	if t != nil {
-		psc.SetTrialEnd(*t)
+func (_c *PaymentSubscriptionCreate) SetNillableTrialEnd(v *time.Time) *PaymentSubscriptionCreate {
+	if v != nil {
+		_c.SetTrialEnd(*v)
 	}
-	return psc
+	return _c
 }
 
 // SetProviderRef sets the "provider_ref" field.
-func (psc *PaymentSubscriptionCreate) SetProviderRef(s string) *PaymentSubscriptionCreate {
-	psc.mutation.SetProviderRef(s)
-	return psc
+func (_c *PaymentSubscriptionCreate) SetProviderRef(v string) *PaymentSubscriptionCreate {
+	_c.mutation.SetProviderRef(v)
+	return _c
 }
 
 // SetNillableProviderRef sets the "provider_ref" field if the given value is not nil.
-func (psc *PaymentSubscriptionCreate) SetNillableProviderRef(s *string) *PaymentSubscriptionCreate {
-	if s != nil {
-		psc.SetProviderRef(*s)
+func (_c *PaymentSubscriptionCreate) SetNillableProviderRef(v *string) *PaymentSubscriptionCreate {
+	if v != nil {
+		_c.SetProviderRef(*v)
 	}
-	return psc
+	return _c
 }
 
 // SetID sets the "id" field.
-func (psc *PaymentSubscriptionCreate) SetID(s string) *PaymentSubscriptionCreate {
-	psc.mutation.SetID(s)
-	return psc
+func (_c *PaymentSubscriptionCreate) SetID(v string) *PaymentSubscriptionCreate {
+	_c.mutation.SetID(v)
+	return _c
 }
 
 // SetNillableID sets the "id" field if the given value is not nil.
-func (psc *PaymentSubscriptionCreate) SetNillableID(s *string) *PaymentSubscriptionCreate {
-	if s != nil {
-		psc.SetID(*s)
+func (_c *PaymentSubscriptionCreate) SetNillableID(v *string) *PaymentSubscriptionCreate {
+	if v != nil {
+		_c.SetID(*v)
 	}
-	return psc
+	return _c
 }
 
 // SetProduct sets the "product" edge to the PaymentProduct entity.
-func (psc *PaymentSubscriptionCreate) SetProduct(p *PaymentProduct) *PaymentSubscriptionCreate {
-	return psc.SetProductID(p.ID)
+func (_c *PaymentSubscriptionCreate) SetProduct(v *PaymentProduct) *PaymentSubscriptionCreate {
+	return _c.SetProductID(v.ID)
 }
 
 // Mutation returns the PaymentSubscriptionMutation object of the builder.
-func (psc *PaymentSubscriptionCreate) Mutation() *PaymentSubscriptionMutation {
-	return psc.mutation
+func (_c *PaymentSubscriptionCreate) Mutation() *PaymentSubscriptionMutation {
+	return _c.mutation
 }
 
 // Save creates the PaymentSubscription in the database.
-func (psc *PaymentSubscriptionCreate) Save(ctx context.Context) (*PaymentSubscription, error) {
-	psc.defaults()
-	return withHooks(ctx, psc.sqlSave, psc.mutation, psc.hooks)
+func (_c *PaymentSubscriptionCreate) Save(ctx context.Context) (*PaymentSubscription, error) {
+	_c.defaults()
+	return withHooks(ctx, _c.sqlSave, _c.mutation, _c.hooks)
 }
 
 // SaveX calls Save and panics if Save returns an error.
-func (psc *PaymentSubscriptionCreate) SaveX(ctx context.Context) *PaymentSubscription {
-	v, err := psc.Save(ctx)
+func (_c *PaymentSubscriptionCreate) SaveX(ctx context.Context) *PaymentSubscription {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -251,94 +251,94 @@ func (psc *PaymentSubscriptionCreate) SaveX(ctx context.Context) *PaymentSubscri
 }
 
 // Exec executes the query.
-func (psc *PaymentSubscriptionCreate) Exec(ctx context.Context) error {
-	_, err := psc.Save(ctx)
+func (_c *PaymentSubscriptionCreate) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (psc *PaymentSubscriptionCreate) ExecX(ctx context.Context) {
-	if err := psc.Exec(ctx); err != nil {
+func (_c *PaymentSubscriptionCreate) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (psc *PaymentSubscriptionCreate) defaults() {
-	if _, ok := psc.mutation.Extras(); !ok {
+func (_c *PaymentSubscriptionCreate) defaults() {
+	if _, ok := _c.mutation.Extras(); !ok {
 		v := paymentsubscription.DefaultExtras
-		psc.mutation.SetExtras(v)
+		_c.mutation.SetExtras(v)
 	}
-	if _, ok := psc.mutation.CreatedAt(); !ok {
+	if _, ok := _c.mutation.CreatedAt(); !ok {
 		v := paymentsubscription.DefaultCreatedAt()
-		psc.mutation.SetCreatedAt(v)
+		_c.mutation.SetCreatedAt(v)
 	}
-	if _, ok := psc.mutation.UpdatedAt(); !ok {
+	if _, ok := _c.mutation.UpdatedAt(); !ok {
 		v := paymentsubscription.DefaultUpdatedAt()
-		psc.mutation.SetUpdatedAt(v)
+		_c.mutation.SetUpdatedAt(v)
 	}
-	if _, ok := psc.mutation.Status(); !ok {
+	if _, ok := _c.mutation.Status(); !ok {
 		v := paymentsubscription.DefaultStatus
-		psc.mutation.SetStatus(v)
+		_c.mutation.SetStatus(v)
 	}
-	if _, ok := psc.mutation.ID(); !ok {
+	if _, ok := _c.mutation.ID(); !ok {
 		v := paymentsubscription.DefaultID()
-		psc.mutation.SetID(v)
+		_c.mutation.SetID(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (psc *PaymentSubscriptionCreate) check() error {
-	if _, ok := psc.mutation.Status(); !ok {
+func (_c *PaymentSubscriptionCreate) check() error {
+	if _, ok := _c.mutation.Status(); !ok {
 		return &ValidationError{Name: "status", err: errors.New(`ent: missing required field "PaymentSubscription.status"`)}
 	}
-	if _, ok := psc.mutation.UserID(); !ok {
+	if _, ok := _c.mutation.UserID(); !ok {
 		return &ValidationError{Name: "user_id", err: errors.New(`ent: missing required field "PaymentSubscription.user_id"`)}
 	}
-	if v, ok := psc.mutation.UserID(); ok {
+	if v, ok := _c.mutation.UserID(); ok {
 		if err := paymentsubscription.UserIDValidator(v); err != nil {
 			return &ValidationError{Name: "user_id", err: fmt.Errorf(`ent: validator failed for field "PaymentSubscription.user_id": %w`, err)}
 		}
 	}
-	if _, ok := psc.mutation.ProductID(); !ok {
+	if _, ok := _c.mutation.ProductID(); !ok {
 		return &ValidationError{Name: "product_id", err: errors.New(`ent: missing required field "PaymentSubscription.product_id"`)}
 	}
-	if v, ok := psc.mutation.ProductID(); ok {
+	if v, ok := _c.mutation.ProductID(); ok {
 		if err := paymentsubscription.ProductIDValidator(v); err != nil {
 			return &ValidationError{Name: "product_id", err: fmt.Errorf(`ent: validator failed for field "PaymentSubscription.product_id": %w`, err)}
 		}
 	}
-	if _, ok := psc.mutation.ChannelID(); !ok {
+	if _, ok := _c.mutation.ChannelID(); !ok {
 		return &ValidationError{Name: "channel_id", err: errors.New(`ent: missing required field "PaymentSubscription.channel_id"`)}
 	}
-	if v, ok := psc.mutation.ChannelID(); ok {
+	if v, ok := _c.mutation.ChannelID(); ok {
 		if err := paymentsubscription.ChannelIDValidator(v); err != nil {
 			return &ValidationError{Name: "channel_id", err: fmt.Errorf(`ent: validator failed for field "PaymentSubscription.channel_id": %w`, err)}
 		}
 	}
-	if _, ok := psc.mutation.CurrentPeriodStart(); !ok {
+	if _, ok := _c.mutation.CurrentPeriodStart(); !ok {
 		return &ValidationError{Name: "current_period_start", err: errors.New(`ent: missing required field "PaymentSubscription.current_period_start"`)}
 	}
-	if _, ok := psc.mutation.CurrentPeriodEnd(); !ok {
+	if _, ok := _c.mutation.CurrentPeriodEnd(); !ok {
 		return &ValidationError{Name: "current_period_end", err: errors.New(`ent: missing required field "PaymentSubscription.current_period_end"`)}
 	}
-	if v, ok := psc.mutation.ID(); ok {
+	if v, ok := _c.mutation.ID(); ok {
 		if err := paymentsubscription.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "PaymentSubscription.id": %w`, err)}
 		}
 	}
-	if len(psc.mutation.ProductIDs()) == 0 {
+	if len(_c.mutation.ProductIDs()) == 0 {
 		return &ValidationError{Name: "product", err: errors.New(`ent: missing required edge "PaymentSubscription.product"`)}
 	}
 	return nil
 }
 
-func (psc *PaymentSubscriptionCreate) sqlSave(ctx context.Context) (*PaymentSubscription, error) {
-	if err := psc.check(); err != nil {
+func (_c *PaymentSubscriptionCreate) sqlSave(ctx context.Context) (*PaymentSubscription, error) {
+	if err := _c.check(); err != nil {
 		return nil, err
 	}
-	_node, _spec := psc.createSpec()
-	if err := sqlgraph.CreateNode(ctx, psc.driver, _spec); err != nil {
+	_node, _spec := _c.createSpec()
+	if err := sqlgraph.CreateNode(ctx, _c.driver, _spec); err != nil {
 		if sqlgraph.IsConstraintError(err) {
 			err = &ConstraintError{msg: err.Error(), wrap: err}
 		}
@@ -351,85 +351,85 @@ func (psc *PaymentSubscriptionCreate) sqlSave(ctx context.Context) (*PaymentSubs
 			return nil, fmt.Errorf("unexpected PaymentSubscription.ID type: %T", _spec.ID.Value)
 		}
 	}
-	psc.mutation.id = &_node.ID
-	psc.mutation.done = true
+	_c.mutation.id = &_node.ID
+	_c.mutation.done = true
 	return _node, nil
 }
 
-func (psc *PaymentSubscriptionCreate) createSpec() (*PaymentSubscription, *sqlgraph.CreateSpec) {
+func (_c *PaymentSubscriptionCreate) createSpec() (*PaymentSubscription, *sqlgraph.CreateSpec) {
 	var (
-		_node = &PaymentSubscription{config: psc.config}
+		_node = &PaymentSubscription{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(paymentsubscription.Table, sqlgraph.NewFieldSpec(paymentsubscription.FieldID, field.TypeString))
 	)
-	if id, ok := psc.mutation.ID(); ok {
+	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
 	}
-	if value, ok := psc.mutation.Extras(); ok {
+	if value, ok := _c.mutation.Extras(); ok {
 		_spec.SetField(paymentsubscription.FieldExtras, field.TypeJSON, value)
 		_node.Extras = value
 	}
-	if value, ok := psc.mutation.CreatedBy(); ok {
+	if value, ok := _c.mutation.CreatedBy(); ok {
 		_spec.SetField(paymentsubscription.FieldCreatedBy, field.TypeString, value)
 		_node.CreatedBy = value
 	}
-	if value, ok := psc.mutation.UpdatedBy(); ok {
+	if value, ok := _c.mutation.UpdatedBy(); ok {
 		_spec.SetField(paymentsubscription.FieldUpdatedBy, field.TypeString, value)
 		_node.UpdatedBy = value
 	}
-	if value, ok := psc.mutation.CreatedAt(); ok {
+	if value, ok := _c.mutation.CreatedAt(); ok {
 		_spec.SetField(paymentsubscription.FieldCreatedAt, field.TypeInt64, value)
 		_node.CreatedAt = value
 	}
-	if value, ok := psc.mutation.UpdatedAt(); ok {
+	if value, ok := _c.mutation.UpdatedAt(); ok {
 		_spec.SetField(paymentsubscription.FieldUpdatedAt, field.TypeInt64, value)
 		_node.UpdatedAt = value
 	}
-	if value, ok := psc.mutation.Status(); ok {
+	if value, ok := _c.mutation.Status(); ok {
 		_spec.SetField(paymentsubscription.FieldStatus, field.TypeString, value)
 		_node.Status = value
 	}
-	if value, ok := psc.mutation.UserID(); ok {
+	if value, ok := _c.mutation.UserID(); ok {
 		_spec.SetField(paymentsubscription.FieldUserID, field.TypeString, value)
 		_node.UserID = value
 	}
-	if value, ok := psc.mutation.SpaceID(); ok {
+	if value, ok := _c.mutation.SpaceID(); ok {
 		_spec.SetField(paymentsubscription.FieldSpaceID, field.TypeString, value)
 		_node.SpaceID = value
 	}
-	if value, ok := psc.mutation.ChannelID(); ok {
+	if value, ok := _c.mutation.ChannelID(); ok {
 		_spec.SetField(paymentsubscription.FieldChannelID, field.TypeString, value)
 		_node.ChannelID = value
 	}
-	if value, ok := psc.mutation.CurrentPeriodStart(); ok {
+	if value, ok := _c.mutation.CurrentPeriodStart(); ok {
 		_spec.SetField(paymentsubscription.FieldCurrentPeriodStart, field.TypeTime, value)
 		_node.CurrentPeriodStart = value
 	}
-	if value, ok := psc.mutation.CurrentPeriodEnd(); ok {
+	if value, ok := _c.mutation.CurrentPeriodEnd(); ok {
 		_spec.SetField(paymentsubscription.FieldCurrentPeriodEnd, field.TypeTime, value)
 		_node.CurrentPeriodEnd = value
 	}
-	if value, ok := psc.mutation.CancelAt(); ok {
+	if value, ok := _c.mutation.CancelAt(); ok {
 		_spec.SetField(paymentsubscription.FieldCancelAt, field.TypeTime, value)
 		_node.CancelAt = &value
 	}
-	if value, ok := psc.mutation.CancelledAt(); ok {
+	if value, ok := _c.mutation.CancelledAt(); ok {
 		_spec.SetField(paymentsubscription.FieldCancelledAt, field.TypeTime, value)
 		_node.CancelledAt = &value
 	}
-	if value, ok := psc.mutation.TrialStart(); ok {
+	if value, ok := _c.mutation.TrialStart(); ok {
 		_spec.SetField(paymentsubscription.FieldTrialStart, field.TypeTime, value)
 		_node.TrialStart = &value
 	}
-	if value, ok := psc.mutation.TrialEnd(); ok {
+	if value, ok := _c.mutation.TrialEnd(); ok {
 		_spec.SetField(paymentsubscription.FieldTrialEnd, field.TypeTime, value)
 		_node.TrialEnd = &value
 	}
-	if value, ok := psc.mutation.ProviderRef(); ok {
+	if value, ok := _c.mutation.ProviderRef(); ok {
 		_spec.SetField(paymentsubscription.FieldProviderRef, field.TypeString, value)
 		_node.ProviderRef = value
 	}
-	if nodes := psc.mutation.ProductIDs(); len(nodes) > 0 {
+	if nodes := _c.mutation.ProductIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -457,16 +457,16 @@ type PaymentSubscriptionCreateBulk struct {
 }
 
 // Save creates the PaymentSubscription entities in the database.
-func (pscb *PaymentSubscriptionCreateBulk) Save(ctx context.Context) ([]*PaymentSubscription, error) {
-	if pscb.err != nil {
-		return nil, pscb.err
+func (_c *PaymentSubscriptionCreateBulk) Save(ctx context.Context) ([]*PaymentSubscription, error) {
+	if _c.err != nil {
+		return nil, _c.err
 	}
-	specs := make([]*sqlgraph.CreateSpec, len(pscb.builders))
-	nodes := make([]*PaymentSubscription, len(pscb.builders))
-	mutators := make([]Mutator, len(pscb.builders))
-	for i := range pscb.builders {
+	specs := make([]*sqlgraph.CreateSpec, len(_c.builders))
+	nodes := make([]*PaymentSubscription, len(_c.builders))
+	mutators := make([]Mutator, len(_c.builders))
+	for i := range _c.builders {
 		func(i int, root context.Context) {
-			builder := pscb.builders[i]
+			builder := _c.builders[i]
 			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*PaymentSubscriptionMutation)
@@ -480,11 +480,11 @@ func (pscb *PaymentSubscriptionCreateBulk) Save(ctx context.Context) ([]*Payment
 				var err error
 				nodes[i], specs[i] = builder.createSpec()
 				if i < len(mutators)-1 {
-					_, err = mutators[i+1].Mutate(root, pscb.builders[i+1].mutation)
+					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
 					// Invoke the actual operation on the latest mutation in the chain.
-					if err = sqlgraph.BatchCreate(ctx, pscb.driver, spec); err != nil {
+					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
 							err = &ConstraintError{msg: err.Error(), wrap: err}
 						}
@@ -504,7 +504,7 @@ func (pscb *PaymentSubscriptionCreateBulk) Save(ctx context.Context) ([]*Payment
 		}(i, ctx)
 	}
 	if len(mutators) > 0 {
-		if _, err := mutators[0].Mutate(ctx, pscb.builders[0].mutation); err != nil {
+		if _, err := mutators[0].Mutate(ctx, _c.builders[0].mutation); err != nil {
 			return nil, err
 		}
 	}
@@ -512,8 +512,8 @@ func (pscb *PaymentSubscriptionCreateBulk) Save(ctx context.Context) ([]*Payment
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (pscb *PaymentSubscriptionCreateBulk) SaveX(ctx context.Context) []*PaymentSubscription {
-	v, err := pscb.Save(ctx)
+func (_c *PaymentSubscriptionCreateBulk) SaveX(ctx context.Context) []*PaymentSubscription {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -521,14 +521,14 @@ func (pscb *PaymentSubscriptionCreateBulk) SaveX(ctx context.Context) []*Payment
 }
 
 // Exec executes the query.
-func (pscb *PaymentSubscriptionCreateBulk) Exec(ctx context.Context) error {
-	_, err := pscb.Save(ctx)
+func (_c *PaymentSubscriptionCreateBulk) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (pscb *PaymentSubscriptionCreateBulk) ExecX(ctx context.Context) {
-	if err := pscb.Exec(ctx); err != nil {
+func (_c *PaymentSubscriptionCreateBulk) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

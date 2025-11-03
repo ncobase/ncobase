@@ -55,7 +55,7 @@ func (*RTChannel) scanValues(columns []string) ([]any, error) {
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
 // to the RTChannel fields.
-func (rc *RTChannel) assignValues(columns []string, values []any) error {
+func (_m *RTChannel) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
@@ -65,37 +65,37 @@ func (rc *RTChannel) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field id", values[i])
 			} else if value.Valid {
-				rc.ID = value.String
+				_m.ID = value.String
 			}
 		case rtchannel.FieldName:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field name", values[i])
 			} else if value.Valid {
-				rc.Name = value.String
+				_m.Name = value.String
 			}
 		case rtchannel.FieldDescription:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field description", values[i])
 			} else if value.Valid {
-				rc.Description = value.String
+				_m.Description = value.String
 			}
 		case rtchannel.FieldType:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field type", values[i])
 			} else if value.Valid {
-				rc.Type = value.String
+				_m.Type = value.String
 			}
 		case rtchannel.FieldStatus:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field status", values[i])
 			} else if value.Valid {
-				rc.Status = int(value.Int64)
+				_m.Status = int(value.Int64)
 			}
 		case rtchannel.FieldExtras:
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field extras", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &rc.Extras); err != nil {
+				if err := json.Unmarshal(*value, &_m.Extras); err != nil {
 					return fmt.Errorf("unmarshal field extras: %w", err)
 				}
 			}
@@ -103,16 +103,16 @@ func (rc *RTChannel) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field created_at", values[i])
 			} else if value.Valid {
-				rc.CreatedAt = value.Int64
+				_m.CreatedAt = value.Int64
 			}
 		case rtchannel.FieldUpdatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_at", values[i])
 			} else if value.Valid {
-				rc.UpdatedAt = value.Int64
+				_m.UpdatedAt = value.Int64
 			}
 		default:
-			rc.selectValues.Set(columns[i], values[i])
+			_m.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
@@ -120,53 +120,53 @@ func (rc *RTChannel) assignValues(columns []string, values []any) error {
 
 // Value returns the ent.Value that was dynamically selected and assigned to the RTChannel.
 // This includes values selected through modifiers, order, etc.
-func (rc *RTChannel) Value(name string) (ent.Value, error) {
-	return rc.selectValues.Get(name)
+func (_m *RTChannel) Value(name string) (ent.Value, error) {
+	return _m.selectValues.Get(name)
 }
 
 // Update returns a builder for updating this RTChannel.
 // Note that you need to call RTChannel.Unwrap() before calling this method if this RTChannel
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (rc *RTChannel) Update() *RTChannelUpdateOne {
-	return NewRTChannelClient(rc.config).UpdateOne(rc)
+func (_m *RTChannel) Update() *RTChannelUpdateOne {
+	return NewRTChannelClient(_m.config).UpdateOne(_m)
 }
 
 // Unwrap unwraps the RTChannel entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (rc *RTChannel) Unwrap() *RTChannel {
-	_tx, ok := rc.config.driver.(*txDriver)
+func (_m *RTChannel) Unwrap() *RTChannel {
+	_tx, ok := _m.config.driver.(*txDriver)
 	if !ok {
 		panic("ent: RTChannel is not a transactional entity")
 	}
-	rc.config.driver = _tx.drv
-	return rc
+	_m.config.driver = _tx.drv
+	return _m
 }
 
 // String implements the fmt.Stringer.
-func (rc *RTChannel) String() string {
+func (_m *RTChannel) String() string {
 	var builder strings.Builder
 	builder.WriteString("RTChannel(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", rc.ID))
+	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
 	builder.WriteString("name=")
-	builder.WriteString(rc.Name)
+	builder.WriteString(_m.Name)
 	builder.WriteString(", ")
 	builder.WriteString("description=")
-	builder.WriteString(rc.Description)
+	builder.WriteString(_m.Description)
 	builder.WriteString(", ")
 	builder.WriteString("type=")
-	builder.WriteString(rc.Type)
+	builder.WriteString(_m.Type)
 	builder.WriteString(", ")
 	builder.WriteString("status=")
-	builder.WriteString(fmt.Sprintf("%v", rc.Status))
+	builder.WriteString(fmt.Sprintf("%v", _m.Status))
 	builder.WriteString(", ")
 	builder.WriteString("extras=")
-	builder.WriteString(fmt.Sprintf("%v", rc.Extras))
+	builder.WriteString(fmt.Sprintf("%v", _m.Extras))
 	builder.WriteString(", ")
 	builder.WriteString("created_at=")
-	builder.WriteString(fmt.Sprintf("%v", rc.CreatedAt))
+	builder.WriteString(fmt.Sprintf("%v", _m.CreatedAt))
 	builder.WriteString(", ")
 	builder.WriteString("updated_at=")
-	builder.WriteString(fmt.Sprintf("%v", rc.UpdatedAt))
+	builder.WriteString(fmt.Sprintf("%v", _m.UpdatedAt))
 	builder.WriteByte(')')
 	return builder.String()
 }

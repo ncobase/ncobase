@@ -23,377 +23,377 @@ type RuleUpdate struct {
 }
 
 // Where appends a list predicates to the RuleUpdate builder.
-func (ru *RuleUpdate) Where(ps ...predicate.Rule) *RuleUpdate {
-	ru.mutation.Where(ps...)
-	return ru
+func (_u *RuleUpdate) Where(ps ...predicate.Rule) *RuleUpdate {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // SetName sets the "name" field.
-func (ru *RuleUpdate) SetName(s string) *RuleUpdate {
-	ru.mutation.SetName(s)
-	return ru
+func (_u *RuleUpdate) SetName(v string) *RuleUpdate {
+	_u.mutation.SetName(v)
+	return _u
 }
 
 // SetNillableName sets the "name" field if the given value is not nil.
-func (ru *RuleUpdate) SetNillableName(s *string) *RuleUpdate {
-	if s != nil {
-		ru.SetName(*s)
+func (_u *RuleUpdate) SetNillableName(v *string) *RuleUpdate {
+	if v != nil {
+		_u.SetName(*v)
 	}
-	return ru
+	return _u
 }
 
 // ClearName clears the value of the "name" field.
-func (ru *RuleUpdate) ClearName() *RuleUpdate {
-	ru.mutation.ClearName()
-	return ru
+func (_u *RuleUpdate) ClearName() *RuleUpdate {
+	_u.mutation.ClearName()
+	return _u
 }
 
 // SetCode sets the "code" field.
-func (ru *RuleUpdate) SetCode(s string) *RuleUpdate {
-	ru.mutation.SetCode(s)
-	return ru
+func (_u *RuleUpdate) SetCode(v string) *RuleUpdate {
+	_u.mutation.SetCode(v)
+	return _u
 }
 
 // SetNillableCode sets the "code" field if the given value is not nil.
-func (ru *RuleUpdate) SetNillableCode(s *string) *RuleUpdate {
-	if s != nil {
-		ru.SetCode(*s)
+func (_u *RuleUpdate) SetNillableCode(v *string) *RuleUpdate {
+	if v != nil {
+		_u.SetCode(*v)
 	}
-	return ru
+	return _u
 }
 
 // ClearCode clears the value of the "code" field.
-func (ru *RuleUpdate) ClearCode() *RuleUpdate {
-	ru.mutation.ClearCode()
-	return ru
+func (_u *RuleUpdate) ClearCode() *RuleUpdate {
+	_u.mutation.ClearCode()
+	return _u
 }
 
 // SetDescription sets the "description" field.
-func (ru *RuleUpdate) SetDescription(s string) *RuleUpdate {
-	ru.mutation.SetDescription(s)
-	return ru
+func (_u *RuleUpdate) SetDescription(v string) *RuleUpdate {
+	_u.mutation.SetDescription(v)
+	return _u
 }
 
 // SetNillableDescription sets the "description" field if the given value is not nil.
-func (ru *RuleUpdate) SetNillableDescription(s *string) *RuleUpdate {
-	if s != nil {
-		ru.SetDescription(*s)
+func (_u *RuleUpdate) SetNillableDescription(v *string) *RuleUpdate {
+	if v != nil {
+		_u.SetDescription(*v)
 	}
-	return ru
+	return _u
 }
 
 // ClearDescription clears the value of the "description" field.
-func (ru *RuleUpdate) ClearDescription() *RuleUpdate {
-	ru.mutation.ClearDescription()
-	return ru
+func (_u *RuleUpdate) ClearDescription() *RuleUpdate {
+	_u.mutation.ClearDescription()
+	return _u
 }
 
 // SetType sets the "type" field.
-func (ru *RuleUpdate) SetType(s string) *RuleUpdate {
-	ru.mutation.SetType(s)
-	return ru
+func (_u *RuleUpdate) SetType(v string) *RuleUpdate {
+	_u.mutation.SetType(v)
+	return _u
 }
 
 // SetNillableType sets the "type" field if the given value is not nil.
-func (ru *RuleUpdate) SetNillableType(s *string) *RuleUpdate {
-	if s != nil {
-		ru.SetType(*s)
+func (_u *RuleUpdate) SetNillableType(v *string) *RuleUpdate {
+	if v != nil {
+		_u.SetType(*v)
 	}
-	return ru
+	return _u
 }
 
 // ClearType clears the value of the "type" field.
-func (ru *RuleUpdate) ClearType() *RuleUpdate {
-	ru.mutation.ClearType()
-	return ru
+func (_u *RuleUpdate) ClearType() *RuleUpdate {
+	_u.mutation.ClearType()
+	return _u
 }
 
 // SetStatus sets the "status" field.
-func (ru *RuleUpdate) SetStatus(s string) *RuleUpdate {
-	ru.mutation.SetStatus(s)
-	return ru
+func (_u *RuleUpdate) SetStatus(v string) *RuleUpdate {
+	_u.mutation.SetStatus(v)
+	return _u
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (ru *RuleUpdate) SetNillableStatus(s *string) *RuleUpdate {
-	if s != nil {
-		ru.SetStatus(*s)
+func (_u *RuleUpdate) SetNillableStatus(v *string) *RuleUpdate {
+	if v != nil {
+		_u.SetStatus(*v)
 	}
-	return ru
+	return _u
 }
 
 // ClearStatus clears the value of the "status" field.
-func (ru *RuleUpdate) ClearStatus() *RuleUpdate {
-	ru.mutation.ClearStatus()
-	return ru
+func (_u *RuleUpdate) ClearStatus() *RuleUpdate {
+	_u.mutation.ClearStatus()
+	return _u
 }
 
 // SetExtras sets the "extras" field.
-func (ru *RuleUpdate) SetExtras(m map[string]interface{}) *RuleUpdate {
-	ru.mutation.SetExtras(m)
-	return ru
+func (_u *RuleUpdate) SetExtras(v map[string]interface{}) *RuleUpdate {
+	_u.mutation.SetExtras(v)
+	return _u
 }
 
 // ClearExtras clears the value of the "extras" field.
-func (ru *RuleUpdate) ClearExtras() *RuleUpdate {
-	ru.mutation.ClearExtras()
-	return ru
+func (_u *RuleUpdate) ClearExtras() *RuleUpdate {
+	_u.mutation.ClearExtras()
+	return _u
 }
 
 // SetSpaceID sets the "space_id" field.
-func (ru *RuleUpdate) SetSpaceID(s string) *RuleUpdate {
-	ru.mutation.SetSpaceID(s)
-	return ru
+func (_u *RuleUpdate) SetSpaceID(v string) *RuleUpdate {
+	_u.mutation.SetSpaceID(v)
+	return _u
 }
 
 // SetNillableSpaceID sets the "space_id" field if the given value is not nil.
-func (ru *RuleUpdate) SetNillableSpaceID(s *string) *RuleUpdate {
-	if s != nil {
-		ru.SetSpaceID(*s)
+func (_u *RuleUpdate) SetNillableSpaceID(v *string) *RuleUpdate {
+	if v != nil {
+		_u.SetSpaceID(*v)
 	}
-	return ru
+	return _u
 }
 
 // ClearSpaceID clears the value of the "space_id" field.
-func (ru *RuleUpdate) ClearSpaceID() *RuleUpdate {
-	ru.mutation.ClearSpaceID()
-	return ru
+func (_u *RuleUpdate) ClearSpaceID() *RuleUpdate {
+	_u.mutation.ClearSpaceID()
+	return _u
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (ru *RuleUpdate) SetCreatedBy(s string) *RuleUpdate {
-	ru.mutation.SetCreatedBy(s)
-	return ru
+func (_u *RuleUpdate) SetCreatedBy(v string) *RuleUpdate {
+	_u.mutation.SetCreatedBy(v)
+	return _u
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (ru *RuleUpdate) SetNillableCreatedBy(s *string) *RuleUpdate {
-	if s != nil {
-		ru.SetCreatedBy(*s)
+func (_u *RuleUpdate) SetNillableCreatedBy(v *string) *RuleUpdate {
+	if v != nil {
+		_u.SetCreatedBy(*v)
 	}
-	return ru
+	return _u
 }
 
 // ClearCreatedBy clears the value of the "created_by" field.
-func (ru *RuleUpdate) ClearCreatedBy() *RuleUpdate {
-	ru.mutation.ClearCreatedBy()
-	return ru
+func (_u *RuleUpdate) ClearCreatedBy() *RuleUpdate {
+	_u.mutation.ClearCreatedBy()
+	return _u
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (ru *RuleUpdate) SetUpdatedBy(s string) *RuleUpdate {
-	ru.mutation.SetUpdatedBy(s)
-	return ru
+func (_u *RuleUpdate) SetUpdatedBy(v string) *RuleUpdate {
+	_u.mutation.SetUpdatedBy(v)
+	return _u
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (ru *RuleUpdate) SetNillableUpdatedBy(s *string) *RuleUpdate {
-	if s != nil {
-		ru.SetUpdatedBy(*s)
+func (_u *RuleUpdate) SetNillableUpdatedBy(v *string) *RuleUpdate {
+	if v != nil {
+		_u.SetUpdatedBy(*v)
 	}
-	return ru
+	return _u
 }
 
 // ClearUpdatedBy clears the value of the "updated_by" field.
-func (ru *RuleUpdate) ClearUpdatedBy() *RuleUpdate {
-	ru.mutation.ClearUpdatedBy()
-	return ru
+func (_u *RuleUpdate) ClearUpdatedBy() *RuleUpdate {
+	_u.mutation.ClearUpdatedBy()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (ru *RuleUpdate) SetUpdatedAt(i int64) *RuleUpdate {
-	ru.mutation.ResetUpdatedAt()
-	ru.mutation.SetUpdatedAt(i)
-	return ru
+func (_u *RuleUpdate) SetUpdatedAt(v int64) *RuleUpdate {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (ru *RuleUpdate) AddUpdatedAt(i int64) *RuleUpdate {
-	ru.mutation.AddUpdatedAt(i)
-	return ru
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *RuleUpdate) AddUpdatedAt(v int64) *RuleUpdate {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (ru *RuleUpdate) ClearUpdatedAt() *RuleUpdate {
-	ru.mutation.ClearUpdatedAt()
-	return ru
+func (_u *RuleUpdate) ClearUpdatedAt() *RuleUpdate {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // SetRuleKey sets the "rule_key" field.
-func (ru *RuleUpdate) SetRuleKey(s string) *RuleUpdate {
-	ru.mutation.SetRuleKey(s)
-	return ru
+func (_u *RuleUpdate) SetRuleKey(v string) *RuleUpdate {
+	_u.mutation.SetRuleKey(v)
+	return _u
 }
 
 // SetNillableRuleKey sets the "rule_key" field if the given value is not nil.
-func (ru *RuleUpdate) SetNillableRuleKey(s *string) *RuleUpdate {
-	if s != nil {
-		ru.SetRuleKey(*s)
+func (_u *RuleUpdate) SetNillableRuleKey(v *string) *RuleUpdate {
+	if v != nil {
+		_u.SetRuleKey(*v)
 	}
-	return ru
+	return _u
 }
 
 // SetTemplateID sets the "template_id" field.
-func (ru *RuleUpdate) SetTemplateID(s string) *RuleUpdate {
-	ru.mutation.SetTemplateID(s)
-	return ru
+func (_u *RuleUpdate) SetTemplateID(v string) *RuleUpdate {
+	_u.mutation.SetTemplateID(v)
+	return _u
 }
 
 // SetNillableTemplateID sets the "template_id" field if the given value is not nil.
-func (ru *RuleUpdate) SetNillableTemplateID(s *string) *RuleUpdate {
-	if s != nil {
-		ru.SetTemplateID(*s)
+func (_u *RuleUpdate) SetNillableTemplateID(v *string) *RuleUpdate {
+	if v != nil {
+		_u.SetTemplateID(*v)
 	}
-	return ru
+	return _u
 }
 
 // ClearTemplateID clears the value of the "template_id" field.
-func (ru *RuleUpdate) ClearTemplateID() *RuleUpdate {
-	ru.mutation.ClearTemplateID()
-	return ru
+func (_u *RuleUpdate) ClearTemplateID() *RuleUpdate {
+	_u.mutation.ClearTemplateID()
+	return _u
 }
 
 // SetNodeKey sets the "node_key" field.
-func (ru *RuleUpdate) SetNodeKey(s string) *RuleUpdate {
-	ru.mutation.SetNodeKey(s)
-	return ru
+func (_u *RuleUpdate) SetNodeKey(v string) *RuleUpdate {
+	_u.mutation.SetNodeKey(v)
+	return _u
 }
 
 // SetNillableNodeKey sets the "node_key" field if the given value is not nil.
-func (ru *RuleUpdate) SetNillableNodeKey(s *string) *RuleUpdate {
-	if s != nil {
-		ru.SetNodeKey(*s)
+func (_u *RuleUpdate) SetNillableNodeKey(v *string) *RuleUpdate {
+	if v != nil {
+		_u.SetNodeKey(*v)
 	}
-	return ru
+	return _u
 }
 
 // ClearNodeKey clears the value of the "node_key" field.
-func (ru *RuleUpdate) ClearNodeKey() *RuleUpdate {
-	ru.mutation.ClearNodeKey()
-	return ru
+func (_u *RuleUpdate) ClearNodeKey() *RuleUpdate {
+	_u.mutation.ClearNodeKey()
+	return _u
 }
 
 // SetConditions sets the "conditions" field.
-func (ru *RuleUpdate) SetConditions(s []string) *RuleUpdate {
-	ru.mutation.SetConditions(s)
-	return ru
+func (_u *RuleUpdate) SetConditions(v []string) *RuleUpdate {
+	_u.mutation.SetConditions(v)
+	return _u
 }
 
-// AppendConditions appends s to the "conditions" field.
-func (ru *RuleUpdate) AppendConditions(s []string) *RuleUpdate {
-	ru.mutation.AppendConditions(s)
-	return ru
+// AppendConditions appends value to the "conditions" field.
+func (_u *RuleUpdate) AppendConditions(v []string) *RuleUpdate {
+	_u.mutation.AppendConditions(v)
+	return _u
 }
 
 // SetActions sets the "actions" field.
-func (ru *RuleUpdate) SetActions(m map[string]interface{}) *RuleUpdate {
-	ru.mutation.SetActions(m)
-	return ru
+func (_u *RuleUpdate) SetActions(v map[string]interface{}) *RuleUpdate {
+	_u.mutation.SetActions(v)
+	return _u
 }
 
 // SetPriority sets the "priority" field.
-func (ru *RuleUpdate) SetPriority(i int) *RuleUpdate {
-	ru.mutation.ResetPriority()
-	ru.mutation.SetPriority(i)
-	return ru
+func (_u *RuleUpdate) SetPriority(v int) *RuleUpdate {
+	_u.mutation.ResetPriority()
+	_u.mutation.SetPriority(v)
+	return _u
 }
 
 // SetNillablePriority sets the "priority" field if the given value is not nil.
-func (ru *RuleUpdate) SetNillablePriority(i *int) *RuleUpdate {
-	if i != nil {
-		ru.SetPriority(*i)
+func (_u *RuleUpdate) SetNillablePriority(v *int) *RuleUpdate {
+	if v != nil {
+		_u.SetPriority(*v)
 	}
-	return ru
+	return _u
 }
 
-// AddPriority adds i to the "priority" field.
-func (ru *RuleUpdate) AddPriority(i int) *RuleUpdate {
-	ru.mutation.AddPriority(i)
-	return ru
+// AddPriority adds value to the "priority" field.
+func (_u *RuleUpdate) AddPriority(v int) *RuleUpdate {
+	_u.mutation.AddPriority(v)
+	return _u
 }
 
 // SetIsEnabled sets the "is_enabled" field.
-func (ru *RuleUpdate) SetIsEnabled(b bool) *RuleUpdate {
-	ru.mutation.SetIsEnabled(b)
-	return ru
+func (_u *RuleUpdate) SetIsEnabled(v bool) *RuleUpdate {
+	_u.mutation.SetIsEnabled(v)
+	return _u
 }
 
 // SetNillableIsEnabled sets the "is_enabled" field if the given value is not nil.
-func (ru *RuleUpdate) SetNillableIsEnabled(b *bool) *RuleUpdate {
-	if b != nil {
-		ru.SetIsEnabled(*b)
+func (_u *RuleUpdate) SetNillableIsEnabled(v *bool) *RuleUpdate {
+	if v != nil {
+		_u.SetIsEnabled(*v)
 	}
-	return ru
+	return _u
 }
 
 // SetEffectiveTime sets the "effective_time" field.
-func (ru *RuleUpdate) SetEffectiveTime(i int64) *RuleUpdate {
-	ru.mutation.ResetEffectiveTime()
-	ru.mutation.SetEffectiveTime(i)
-	return ru
+func (_u *RuleUpdate) SetEffectiveTime(v int64) *RuleUpdate {
+	_u.mutation.ResetEffectiveTime()
+	_u.mutation.SetEffectiveTime(v)
+	return _u
 }
 
 // SetNillableEffectiveTime sets the "effective_time" field if the given value is not nil.
-func (ru *RuleUpdate) SetNillableEffectiveTime(i *int64) *RuleUpdate {
-	if i != nil {
-		ru.SetEffectiveTime(*i)
+func (_u *RuleUpdate) SetNillableEffectiveTime(v *int64) *RuleUpdate {
+	if v != nil {
+		_u.SetEffectiveTime(*v)
 	}
-	return ru
+	return _u
 }
 
-// AddEffectiveTime adds i to the "effective_time" field.
-func (ru *RuleUpdate) AddEffectiveTime(i int64) *RuleUpdate {
-	ru.mutation.AddEffectiveTime(i)
-	return ru
+// AddEffectiveTime adds value to the "effective_time" field.
+func (_u *RuleUpdate) AddEffectiveTime(v int64) *RuleUpdate {
+	_u.mutation.AddEffectiveTime(v)
+	return _u
 }
 
 // ClearEffectiveTime clears the value of the "effective_time" field.
-func (ru *RuleUpdate) ClearEffectiveTime() *RuleUpdate {
-	ru.mutation.ClearEffectiveTime()
-	return ru
+func (_u *RuleUpdate) ClearEffectiveTime() *RuleUpdate {
+	_u.mutation.ClearEffectiveTime()
+	return _u
 }
 
 // SetExpireTime sets the "expire_time" field.
-func (ru *RuleUpdate) SetExpireTime(i int64) *RuleUpdate {
-	ru.mutation.ResetExpireTime()
-	ru.mutation.SetExpireTime(i)
-	return ru
+func (_u *RuleUpdate) SetExpireTime(v int64) *RuleUpdate {
+	_u.mutation.ResetExpireTime()
+	_u.mutation.SetExpireTime(v)
+	return _u
 }
 
 // SetNillableExpireTime sets the "expire_time" field if the given value is not nil.
-func (ru *RuleUpdate) SetNillableExpireTime(i *int64) *RuleUpdate {
-	if i != nil {
-		ru.SetExpireTime(*i)
+func (_u *RuleUpdate) SetNillableExpireTime(v *int64) *RuleUpdate {
+	if v != nil {
+		_u.SetExpireTime(*v)
 	}
-	return ru
+	return _u
 }
 
-// AddExpireTime adds i to the "expire_time" field.
-func (ru *RuleUpdate) AddExpireTime(i int64) *RuleUpdate {
-	ru.mutation.AddExpireTime(i)
-	return ru
+// AddExpireTime adds value to the "expire_time" field.
+func (_u *RuleUpdate) AddExpireTime(v int64) *RuleUpdate {
+	_u.mutation.AddExpireTime(v)
+	return _u
 }
 
 // ClearExpireTime clears the value of the "expire_time" field.
-func (ru *RuleUpdate) ClearExpireTime() *RuleUpdate {
-	ru.mutation.ClearExpireTime()
-	return ru
+func (_u *RuleUpdate) ClearExpireTime() *RuleUpdate {
+	_u.mutation.ClearExpireTime()
+	return _u
 }
 
 // Mutation returns the RuleMutation object of the builder.
-func (ru *RuleUpdate) Mutation() *RuleMutation {
-	return ru.mutation
+func (_u *RuleUpdate) Mutation() *RuleMutation {
+	return _u.mutation
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
-func (ru *RuleUpdate) Save(ctx context.Context) (int, error) {
-	ru.defaults()
-	return withHooks(ctx, ru.sqlSave, ru.mutation, ru.hooks)
+func (_u *RuleUpdate) Save(ctx context.Context) (int, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (ru *RuleUpdate) SaveX(ctx context.Context) int {
-	affected, err := ru.Save(ctx)
+func (_u *RuleUpdate) SaveX(ctx context.Context) int {
+	affected, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -401,155 +401,155 @@ func (ru *RuleUpdate) SaveX(ctx context.Context) int {
 }
 
 // Exec executes the query.
-func (ru *RuleUpdate) Exec(ctx context.Context) error {
-	_, err := ru.Save(ctx)
+func (_u *RuleUpdate) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (ru *RuleUpdate) ExecX(ctx context.Context) {
-	if err := ru.Exec(ctx); err != nil {
+func (_u *RuleUpdate) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (ru *RuleUpdate) defaults() {
-	if _, ok := ru.mutation.UpdatedAt(); !ok && !ru.mutation.UpdatedAtCleared() {
+func (_u *RuleUpdate) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := rule.UpdateDefaultUpdatedAt()
-		ru.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (ru *RuleUpdate) sqlSave(ctx context.Context) (n int, err error) {
+func (_u *RuleUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	_spec := sqlgraph.NewUpdateSpec(rule.Table, rule.Columns, sqlgraph.NewFieldSpec(rule.FieldID, field.TypeString))
-	if ps := ru.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := ru.mutation.Name(); ok {
+	if value, ok := _u.mutation.Name(); ok {
 		_spec.SetField(rule.FieldName, field.TypeString, value)
 	}
-	if ru.mutation.NameCleared() {
+	if _u.mutation.NameCleared() {
 		_spec.ClearField(rule.FieldName, field.TypeString)
 	}
-	if value, ok := ru.mutation.Code(); ok {
+	if value, ok := _u.mutation.Code(); ok {
 		_spec.SetField(rule.FieldCode, field.TypeString, value)
 	}
-	if ru.mutation.CodeCleared() {
+	if _u.mutation.CodeCleared() {
 		_spec.ClearField(rule.FieldCode, field.TypeString)
 	}
-	if value, ok := ru.mutation.Description(); ok {
+	if value, ok := _u.mutation.Description(); ok {
 		_spec.SetField(rule.FieldDescription, field.TypeString, value)
 	}
-	if ru.mutation.DescriptionCleared() {
+	if _u.mutation.DescriptionCleared() {
 		_spec.ClearField(rule.FieldDescription, field.TypeString)
 	}
-	if value, ok := ru.mutation.GetType(); ok {
+	if value, ok := _u.mutation.GetType(); ok {
 		_spec.SetField(rule.FieldType, field.TypeString, value)
 	}
-	if ru.mutation.TypeCleared() {
+	if _u.mutation.TypeCleared() {
 		_spec.ClearField(rule.FieldType, field.TypeString)
 	}
-	if value, ok := ru.mutation.Status(); ok {
+	if value, ok := _u.mutation.Status(); ok {
 		_spec.SetField(rule.FieldStatus, field.TypeString, value)
 	}
-	if ru.mutation.StatusCleared() {
+	if _u.mutation.StatusCleared() {
 		_spec.ClearField(rule.FieldStatus, field.TypeString)
 	}
-	if value, ok := ru.mutation.Extras(); ok {
+	if value, ok := _u.mutation.Extras(); ok {
 		_spec.SetField(rule.FieldExtras, field.TypeJSON, value)
 	}
-	if ru.mutation.ExtrasCleared() {
+	if _u.mutation.ExtrasCleared() {
 		_spec.ClearField(rule.FieldExtras, field.TypeJSON)
 	}
-	if value, ok := ru.mutation.SpaceID(); ok {
+	if value, ok := _u.mutation.SpaceID(); ok {
 		_spec.SetField(rule.FieldSpaceID, field.TypeString, value)
 	}
-	if ru.mutation.SpaceIDCleared() {
+	if _u.mutation.SpaceIDCleared() {
 		_spec.ClearField(rule.FieldSpaceID, field.TypeString)
 	}
-	if value, ok := ru.mutation.CreatedBy(); ok {
+	if value, ok := _u.mutation.CreatedBy(); ok {
 		_spec.SetField(rule.FieldCreatedBy, field.TypeString, value)
 	}
-	if ru.mutation.CreatedByCleared() {
+	if _u.mutation.CreatedByCleared() {
 		_spec.ClearField(rule.FieldCreatedBy, field.TypeString)
 	}
-	if value, ok := ru.mutation.UpdatedBy(); ok {
+	if value, ok := _u.mutation.UpdatedBy(); ok {
 		_spec.SetField(rule.FieldUpdatedBy, field.TypeString, value)
 	}
-	if ru.mutation.UpdatedByCleared() {
+	if _u.mutation.UpdatedByCleared() {
 		_spec.ClearField(rule.FieldUpdatedBy, field.TypeString)
 	}
-	if ru.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(rule.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := ru.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(rule.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := ru.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(rule.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if ru.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(rule.FieldUpdatedAt, field.TypeInt64)
 	}
-	if value, ok := ru.mutation.RuleKey(); ok {
+	if value, ok := _u.mutation.RuleKey(); ok {
 		_spec.SetField(rule.FieldRuleKey, field.TypeString, value)
 	}
-	if value, ok := ru.mutation.TemplateID(); ok {
+	if value, ok := _u.mutation.TemplateID(); ok {
 		_spec.SetField(rule.FieldTemplateID, field.TypeString, value)
 	}
-	if ru.mutation.TemplateIDCleared() {
+	if _u.mutation.TemplateIDCleared() {
 		_spec.ClearField(rule.FieldTemplateID, field.TypeString)
 	}
-	if value, ok := ru.mutation.NodeKey(); ok {
+	if value, ok := _u.mutation.NodeKey(); ok {
 		_spec.SetField(rule.FieldNodeKey, field.TypeString, value)
 	}
-	if ru.mutation.NodeKeyCleared() {
+	if _u.mutation.NodeKeyCleared() {
 		_spec.ClearField(rule.FieldNodeKey, field.TypeString)
 	}
-	if value, ok := ru.mutation.Conditions(); ok {
+	if value, ok := _u.mutation.Conditions(); ok {
 		_spec.SetField(rule.FieldConditions, field.TypeJSON, value)
 	}
-	if value, ok := ru.mutation.AppendedConditions(); ok {
+	if value, ok := _u.mutation.AppendedConditions(); ok {
 		_spec.AddModifier(func(u *sql.UpdateBuilder) {
 			sqljson.Append(u, rule.FieldConditions, value)
 		})
 	}
-	if value, ok := ru.mutation.Actions(); ok {
+	if value, ok := _u.mutation.Actions(); ok {
 		_spec.SetField(rule.FieldActions, field.TypeJSON, value)
 	}
-	if value, ok := ru.mutation.Priority(); ok {
+	if value, ok := _u.mutation.Priority(); ok {
 		_spec.SetField(rule.FieldPriority, field.TypeInt, value)
 	}
-	if value, ok := ru.mutation.AddedPriority(); ok {
+	if value, ok := _u.mutation.AddedPriority(); ok {
 		_spec.AddField(rule.FieldPriority, field.TypeInt, value)
 	}
-	if value, ok := ru.mutation.IsEnabled(); ok {
+	if value, ok := _u.mutation.IsEnabled(); ok {
 		_spec.SetField(rule.FieldIsEnabled, field.TypeBool, value)
 	}
-	if value, ok := ru.mutation.EffectiveTime(); ok {
+	if value, ok := _u.mutation.EffectiveTime(); ok {
 		_spec.SetField(rule.FieldEffectiveTime, field.TypeInt64, value)
 	}
-	if value, ok := ru.mutation.AddedEffectiveTime(); ok {
+	if value, ok := _u.mutation.AddedEffectiveTime(); ok {
 		_spec.AddField(rule.FieldEffectiveTime, field.TypeInt64, value)
 	}
-	if ru.mutation.EffectiveTimeCleared() {
+	if _u.mutation.EffectiveTimeCleared() {
 		_spec.ClearField(rule.FieldEffectiveTime, field.TypeInt64)
 	}
-	if value, ok := ru.mutation.ExpireTime(); ok {
+	if value, ok := _u.mutation.ExpireTime(); ok {
 		_spec.SetField(rule.FieldExpireTime, field.TypeInt64, value)
 	}
-	if value, ok := ru.mutation.AddedExpireTime(); ok {
+	if value, ok := _u.mutation.AddedExpireTime(); ok {
 		_spec.AddField(rule.FieldExpireTime, field.TypeInt64, value)
 	}
-	if ru.mutation.ExpireTimeCleared() {
+	if _u.mutation.ExpireTimeCleared() {
 		_spec.ClearField(rule.FieldExpireTime, field.TypeInt64)
 	}
-	if n, err = sqlgraph.UpdateNodes(ctx, ru.driver, _spec); err != nil {
+	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{rule.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -557,8 +557,8 @@ func (ru *RuleUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		return 0, err
 	}
-	ru.mutation.done = true
-	return n, nil
+	_u.mutation.done = true
+	return _node, nil
 }
 
 // RuleUpdateOne is the builder for updating a single Rule entity.
@@ -570,384 +570,384 @@ type RuleUpdateOne struct {
 }
 
 // SetName sets the "name" field.
-func (ruo *RuleUpdateOne) SetName(s string) *RuleUpdateOne {
-	ruo.mutation.SetName(s)
-	return ruo
+func (_u *RuleUpdateOne) SetName(v string) *RuleUpdateOne {
+	_u.mutation.SetName(v)
+	return _u
 }
 
 // SetNillableName sets the "name" field if the given value is not nil.
-func (ruo *RuleUpdateOne) SetNillableName(s *string) *RuleUpdateOne {
-	if s != nil {
-		ruo.SetName(*s)
+func (_u *RuleUpdateOne) SetNillableName(v *string) *RuleUpdateOne {
+	if v != nil {
+		_u.SetName(*v)
 	}
-	return ruo
+	return _u
 }
 
 // ClearName clears the value of the "name" field.
-func (ruo *RuleUpdateOne) ClearName() *RuleUpdateOne {
-	ruo.mutation.ClearName()
-	return ruo
+func (_u *RuleUpdateOne) ClearName() *RuleUpdateOne {
+	_u.mutation.ClearName()
+	return _u
 }
 
 // SetCode sets the "code" field.
-func (ruo *RuleUpdateOne) SetCode(s string) *RuleUpdateOne {
-	ruo.mutation.SetCode(s)
-	return ruo
+func (_u *RuleUpdateOne) SetCode(v string) *RuleUpdateOne {
+	_u.mutation.SetCode(v)
+	return _u
 }
 
 // SetNillableCode sets the "code" field if the given value is not nil.
-func (ruo *RuleUpdateOne) SetNillableCode(s *string) *RuleUpdateOne {
-	if s != nil {
-		ruo.SetCode(*s)
+func (_u *RuleUpdateOne) SetNillableCode(v *string) *RuleUpdateOne {
+	if v != nil {
+		_u.SetCode(*v)
 	}
-	return ruo
+	return _u
 }
 
 // ClearCode clears the value of the "code" field.
-func (ruo *RuleUpdateOne) ClearCode() *RuleUpdateOne {
-	ruo.mutation.ClearCode()
-	return ruo
+func (_u *RuleUpdateOne) ClearCode() *RuleUpdateOne {
+	_u.mutation.ClearCode()
+	return _u
 }
 
 // SetDescription sets the "description" field.
-func (ruo *RuleUpdateOne) SetDescription(s string) *RuleUpdateOne {
-	ruo.mutation.SetDescription(s)
-	return ruo
+func (_u *RuleUpdateOne) SetDescription(v string) *RuleUpdateOne {
+	_u.mutation.SetDescription(v)
+	return _u
 }
 
 // SetNillableDescription sets the "description" field if the given value is not nil.
-func (ruo *RuleUpdateOne) SetNillableDescription(s *string) *RuleUpdateOne {
-	if s != nil {
-		ruo.SetDescription(*s)
+func (_u *RuleUpdateOne) SetNillableDescription(v *string) *RuleUpdateOne {
+	if v != nil {
+		_u.SetDescription(*v)
 	}
-	return ruo
+	return _u
 }
 
 // ClearDescription clears the value of the "description" field.
-func (ruo *RuleUpdateOne) ClearDescription() *RuleUpdateOne {
-	ruo.mutation.ClearDescription()
-	return ruo
+func (_u *RuleUpdateOne) ClearDescription() *RuleUpdateOne {
+	_u.mutation.ClearDescription()
+	return _u
 }
 
 // SetType sets the "type" field.
-func (ruo *RuleUpdateOne) SetType(s string) *RuleUpdateOne {
-	ruo.mutation.SetType(s)
-	return ruo
+func (_u *RuleUpdateOne) SetType(v string) *RuleUpdateOne {
+	_u.mutation.SetType(v)
+	return _u
 }
 
 // SetNillableType sets the "type" field if the given value is not nil.
-func (ruo *RuleUpdateOne) SetNillableType(s *string) *RuleUpdateOne {
-	if s != nil {
-		ruo.SetType(*s)
+func (_u *RuleUpdateOne) SetNillableType(v *string) *RuleUpdateOne {
+	if v != nil {
+		_u.SetType(*v)
 	}
-	return ruo
+	return _u
 }
 
 // ClearType clears the value of the "type" field.
-func (ruo *RuleUpdateOne) ClearType() *RuleUpdateOne {
-	ruo.mutation.ClearType()
-	return ruo
+func (_u *RuleUpdateOne) ClearType() *RuleUpdateOne {
+	_u.mutation.ClearType()
+	return _u
 }
 
 // SetStatus sets the "status" field.
-func (ruo *RuleUpdateOne) SetStatus(s string) *RuleUpdateOne {
-	ruo.mutation.SetStatus(s)
-	return ruo
+func (_u *RuleUpdateOne) SetStatus(v string) *RuleUpdateOne {
+	_u.mutation.SetStatus(v)
+	return _u
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (ruo *RuleUpdateOne) SetNillableStatus(s *string) *RuleUpdateOne {
-	if s != nil {
-		ruo.SetStatus(*s)
+func (_u *RuleUpdateOne) SetNillableStatus(v *string) *RuleUpdateOne {
+	if v != nil {
+		_u.SetStatus(*v)
 	}
-	return ruo
+	return _u
 }
 
 // ClearStatus clears the value of the "status" field.
-func (ruo *RuleUpdateOne) ClearStatus() *RuleUpdateOne {
-	ruo.mutation.ClearStatus()
-	return ruo
+func (_u *RuleUpdateOne) ClearStatus() *RuleUpdateOne {
+	_u.mutation.ClearStatus()
+	return _u
 }
 
 // SetExtras sets the "extras" field.
-func (ruo *RuleUpdateOne) SetExtras(m map[string]interface{}) *RuleUpdateOne {
-	ruo.mutation.SetExtras(m)
-	return ruo
+func (_u *RuleUpdateOne) SetExtras(v map[string]interface{}) *RuleUpdateOne {
+	_u.mutation.SetExtras(v)
+	return _u
 }
 
 // ClearExtras clears the value of the "extras" field.
-func (ruo *RuleUpdateOne) ClearExtras() *RuleUpdateOne {
-	ruo.mutation.ClearExtras()
-	return ruo
+func (_u *RuleUpdateOne) ClearExtras() *RuleUpdateOne {
+	_u.mutation.ClearExtras()
+	return _u
 }
 
 // SetSpaceID sets the "space_id" field.
-func (ruo *RuleUpdateOne) SetSpaceID(s string) *RuleUpdateOne {
-	ruo.mutation.SetSpaceID(s)
-	return ruo
+func (_u *RuleUpdateOne) SetSpaceID(v string) *RuleUpdateOne {
+	_u.mutation.SetSpaceID(v)
+	return _u
 }
 
 // SetNillableSpaceID sets the "space_id" field if the given value is not nil.
-func (ruo *RuleUpdateOne) SetNillableSpaceID(s *string) *RuleUpdateOne {
-	if s != nil {
-		ruo.SetSpaceID(*s)
+func (_u *RuleUpdateOne) SetNillableSpaceID(v *string) *RuleUpdateOne {
+	if v != nil {
+		_u.SetSpaceID(*v)
 	}
-	return ruo
+	return _u
 }
 
 // ClearSpaceID clears the value of the "space_id" field.
-func (ruo *RuleUpdateOne) ClearSpaceID() *RuleUpdateOne {
-	ruo.mutation.ClearSpaceID()
-	return ruo
+func (_u *RuleUpdateOne) ClearSpaceID() *RuleUpdateOne {
+	_u.mutation.ClearSpaceID()
+	return _u
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (ruo *RuleUpdateOne) SetCreatedBy(s string) *RuleUpdateOne {
-	ruo.mutation.SetCreatedBy(s)
-	return ruo
+func (_u *RuleUpdateOne) SetCreatedBy(v string) *RuleUpdateOne {
+	_u.mutation.SetCreatedBy(v)
+	return _u
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (ruo *RuleUpdateOne) SetNillableCreatedBy(s *string) *RuleUpdateOne {
-	if s != nil {
-		ruo.SetCreatedBy(*s)
+func (_u *RuleUpdateOne) SetNillableCreatedBy(v *string) *RuleUpdateOne {
+	if v != nil {
+		_u.SetCreatedBy(*v)
 	}
-	return ruo
+	return _u
 }
 
 // ClearCreatedBy clears the value of the "created_by" field.
-func (ruo *RuleUpdateOne) ClearCreatedBy() *RuleUpdateOne {
-	ruo.mutation.ClearCreatedBy()
-	return ruo
+func (_u *RuleUpdateOne) ClearCreatedBy() *RuleUpdateOne {
+	_u.mutation.ClearCreatedBy()
+	return _u
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (ruo *RuleUpdateOne) SetUpdatedBy(s string) *RuleUpdateOne {
-	ruo.mutation.SetUpdatedBy(s)
-	return ruo
+func (_u *RuleUpdateOne) SetUpdatedBy(v string) *RuleUpdateOne {
+	_u.mutation.SetUpdatedBy(v)
+	return _u
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (ruo *RuleUpdateOne) SetNillableUpdatedBy(s *string) *RuleUpdateOne {
-	if s != nil {
-		ruo.SetUpdatedBy(*s)
+func (_u *RuleUpdateOne) SetNillableUpdatedBy(v *string) *RuleUpdateOne {
+	if v != nil {
+		_u.SetUpdatedBy(*v)
 	}
-	return ruo
+	return _u
 }
 
 // ClearUpdatedBy clears the value of the "updated_by" field.
-func (ruo *RuleUpdateOne) ClearUpdatedBy() *RuleUpdateOne {
-	ruo.mutation.ClearUpdatedBy()
-	return ruo
+func (_u *RuleUpdateOne) ClearUpdatedBy() *RuleUpdateOne {
+	_u.mutation.ClearUpdatedBy()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (ruo *RuleUpdateOne) SetUpdatedAt(i int64) *RuleUpdateOne {
-	ruo.mutation.ResetUpdatedAt()
-	ruo.mutation.SetUpdatedAt(i)
-	return ruo
+func (_u *RuleUpdateOne) SetUpdatedAt(v int64) *RuleUpdateOne {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (ruo *RuleUpdateOne) AddUpdatedAt(i int64) *RuleUpdateOne {
-	ruo.mutation.AddUpdatedAt(i)
-	return ruo
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *RuleUpdateOne) AddUpdatedAt(v int64) *RuleUpdateOne {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (ruo *RuleUpdateOne) ClearUpdatedAt() *RuleUpdateOne {
-	ruo.mutation.ClearUpdatedAt()
-	return ruo
+func (_u *RuleUpdateOne) ClearUpdatedAt() *RuleUpdateOne {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // SetRuleKey sets the "rule_key" field.
-func (ruo *RuleUpdateOne) SetRuleKey(s string) *RuleUpdateOne {
-	ruo.mutation.SetRuleKey(s)
-	return ruo
+func (_u *RuleUpdateOne) SetRuleKey(v string) *RuleUpdateOne {
+	_u.mutation.SetRuleKey(v)
+	return _u
 }
 
 // SetNillableRuleKey sets the "rule_key" field if the given value is not nil.
-func (ruo *RuleUpdateOne) SetNillableRuleKey(s *string) *RuleUpdateOne {
-	if s != nil {
-		ruo.SetRuleKey(*s)
+func (_u *RuleUpdateOne) SetNillableRuleKey(v *string) *RuleUpdateOne {
+	if v != nil {
+		_u.SetRuleKey(*v)
 	}
-	return ruo
+	return _u
 }
 
 // SetTemplateID sets the "template_id" field.
-func (ruo *RuleUpdateOne) SetTemplateID(s string) *RuleUpdateOne {
-	ruo.mutation.SetTemplateID(s)
-	return ruo
+func (_u *RuleUpdateOne) SetTemplateID(v string) *RuleUpdateOne {
+	_u.mutation.SetTemplateID(v)
+	return _u
 }
 
 // SetNillableTemplateID sets the "template_id" field if the given value is not nil.
-func (ruo *RuleUpdateOne) SetNillableTemplateID(s *string) *RuleUpdateOne {
-	if s != nil {
-		ruo.SetTemplateID(*s)
+func (_u *RuleUpdateOne) SetNillableTemplateID(v *string) *RuleUpdateOne {
+	if v != nil {
+		_u.SetTemplateID(*v)
 	}
-	return ruo
+	return _u
 }
 
 // ClearTemplateID clears the value of the "template_id" field.
-func (ruo *RuleUpdateOne) ClearTemplateID() *RuleUpdateOne {
-	ruo.mutation.ClearTemplateID()
-	return ruo
+func (_u *RuleUpdateOne) ClearTemplateID() *RuleUpdateOne {
+	_u.mutation.ClearTemplateID()
+	return _u
 }
 
 // SetNodeKey sets the "node_key" field.
-func (ruo *RuleUpdateOne) SetNodeKey(s string) *RuleUpdateOne {
-	ruo.mutation.SetNodeKey(s)
-	return ruo
+func (_u *RuleUpdateOne) SetNodeKey(v string) *RuleUpdateOne {
+	_u.mutation.SetNodeKey(v)
+	return _u
 }
 
 // SetNillableNodeKey sets the "node_key" field if the given value is not nil.
-func (ruo *RuleUpdateOne) SetNillableNodeKey(s *string) *RuleUpdateOne {
-	if s != nil {
-		ruo.SetNodeKey(*s)
+func (_u *RuleUpdateOne) SetNillableNodeKey(v *string) *RuleUpdateOne {
+	if v != nil {
+		_u.SetNodeKey(*v)
 	}
-	return ruo
+	return _u
 }
 
 // ClearNodeKey clears the value of the "node_key" field.
-func (ruo *RuleUpdateOne) ClearNodeKey() *RuleUpdateOne {
-	ruo.mutation.ClearNodeKey()
-	return ruo
+func (_u *RuleUpdateOne) ClearNodeKey() *RuleUpdateOne {
+	_u.mutation.ClearNodeKey()
+	return _u
 }
 
 // SetConditions sets the "conditions" field.
-func (ruo *RuleUpdateOne) SetConditions(s []string) *RuleUpdateOne {
-	ruo.mutation.SetConditions(s)
-	return ruo
+func (_u *RuleUpdateOne) SetConditions(v []string) *RuleUpdateOne {
+	_u.mutation.SetConditions(v)
+	return _u
 }
 
-// AppendConditions appends s to the "conditions" field.
-func (ruo *RuleUpdateOne) AppendConditions(s []string) *RuleUpdateOne {
-	ruo.mutation.AppendConditions(s)
-	return ruo
+// AppendConditions appends value to the "conditions" field.
+func (_u *RuleUpdateOne) AppendConditions(v []string) *RuleUpdateOne {
+	_u.mutation.AppendConditions(v)
+	return _u
 }
 
 // SetActions sets the "actions" field.
-func (ruo *RuleUpdateOne) SetActions(m map[string]interface{}) *RuleUpdateOne {
-	ruo.mutation.SetActions(m)
-	return ruo
+func (_u *RuleUpdateOne) SetActions(v map[string]interface{}) *RuleUpdateOne {
+	_u.mutation.SetActions(v)
+	return _u
 }
 
 // SetPriority sets the "priority" field.
-func (ruo *RuleUpdateOne) SetPriority(i int) *RuleUpdateOne {
-	ruo.mutation.ResetPriority()
-	ruo.mutation.SetPriority(i)
-	return ruo
+func (_u *RuleUpdateOne) SetPriority(v int) *RuleUpdateOne {
+	_u.mutation.ResetPriority()
+	_u.mutation.SetPriority(v)
+	return _u
 }
 
 // SetNillablePriority sets the "priority" field if the given value is not nil.
-func (ruo *RuleUpdateOne) SetNillablePriority(i *int) *RuleUpdateOne {
-	if i != nil {
-		ruo.SetPriority(*i)
+func (_u *RuleUpdateOne) SetNillablePriority(v *int) *RuleUpdateOne {
+	if v != nil {
+		_u.SetPriority(*v)
 	}
-	return ruo
+	return _u
 }
 
-// AddPriority adds i to the "priority" field.
-func (ruo *RuleUpdateOne) AddPriority(i int) *RuleUpdateOne {
-	ruo.mutation.AddPriority(i)
-	return ruo
+// AddPriority adds value to the "priority" field.
+func (_u *RuleUpdateOne) AddPriority(v int) *RuleUpdateOne {
+	_u.mutation.AddPriority(v)
+	return _u
 }
 
 // SetIsEnabled sets the "is_enabled" field.
-func (ruo *RuleUpdateOne) SetIsEnabled(b bool) *RuleUpdateOne {
-	ruo.mutation.SetIsEnabled(b)
-	return ruo
+func (_u *RuleUpdateOne) SetIsEnabled(v bool) *RuleUpdateOne {
+	_u.mutation.SetIsEnabled(v)
+	return _u
 }
 
 // SetNillableIsEnabled sets the "is_enabled" field if the given value is not nil.
-func (ruo *RuleUpdateOne) SetNillableIsEnabled(b *bool) *RuleUpdateOne {
-	if b != nil {
-		ruo.SetIsEnabled(*b)
+func (_u *RuleUpdateOne) SetNillableIsEnabled(v *bool) *RuleUpdateOne {
+	if v != nil {
+		_u.SetIsEnabled(*v)
 	}
-	return ruo
+	return _u
 }
 
 // SetEffectiveTime sets the "effective_time" field.
-func (ruo *RuleUpdateOne) SetEffectiveTime(i int64) *RuleUpdateOne {
-	ruo.mutation.ResetEffectiveTime()
-	ruo.mutation.SetEffectiveTime(i)
-	return ruo
+func (_u *RuleUpdateOne) SetEffectiveTime(v int64) *RuleUpdateOne {
+	_u.mutation.ResetEffectiveTime()
+	_u.mutation.SetEffectiveTime(v)
+	return _u
 }
 
 // SetNillableEffectiveTime sets the "effective_time" field if the given value is not nil.
-func (ruo *RuleUpdateOne) SetNillableEffectiveTime(i *int64) *RuleUpdateOne {
-	if i != nil {
-		ruo.SetEffectiveTime(*i)
+func (_u *RuleUpdateOne) SetNillableEffectiveTime(v *int64) *RuleUpdateOne {
+	if v != nil {
+		_u.SetEffectiveTime(*v)
 	}
-	return ruo
+	return _u
 }
 
-// AddEffectiveTime adds i to the "effective_time" field.
-func (ruo *RuleUpdateOne) AddEffectiveTime(i int64) *RuleUpdateOne {
-	ruo.mutation.AddEffectiveTime(i)
-	return ruo
+// AddEffectiveTime adds value to the "effective_time" field.
+func (_u *RuleUpdateOne) AddEffectiveTime(v int64) *RuleUpdateOne {
+	_u.mutation.AddEffectiveTime(v)
+	return _u
 }
 
 // ClearEffectiveTime clears the value of the "effective_time" field.
-func (ruo *RuleUpdateOne) ClearEffectiveTime() *RuleUpdateOne {
-	ruo.mutation.ClearEffectiveTime()
-	return ruo
+func (_u *RuleUpdateOne) ClearEffectiveTime() *RuleUpdateOne {
+	_u.mutation.ClearEffectiveTime()
+	return _u
 }
 
 // SetExpireTime sets the "expire_time" field.
-func (ruo *RuleUpdateOne) SetExpireTime(i int64) *RuleUpdateOne {
-	ruo.mutation.ResetExpireTime()
-	ruo.mutation.SetExpireTime(i)
-	return ruo
+func (_u *RuleUpdateOne) SetExpireTime(v int64) *RuleUpdateOne {
+	_u.mutation.ResetExpireTime()
+	_u.mutation.SetExpireTime(v)
+	return _u
 }
 
 // SetNillableExpireTime sets the "expire_time" field if the given value is not nil.
-func (ruo *RuleUpdateOne) SetNillableExpireTime(i *int64) *RuleUpdateOne {
-	if i != nil {
-		ruo.SetExpireTime(*i)
+func (_u *RuleUpdateOne) SetNillableExpireTime(v *int64) *RuleUpdateOne {
+	if v != nil {
+		_u.SetExpireTime(*v)
 	}
-	return ruo
+	return _u
 }
 
-// AddExpireTime adds i to the "expire_time" field.
-func (ruo *RuleUpdateOne) AddExpireTime(i int64) *RuleUpdateOne {
-	ruo.mutation.AddExpireTime(i)
-	return ruo
+// AddExpireTime adds value to the "expire_time" field.
+func (_u *RuleUpdateOne) AddExpireTime(v int64) *RuleUpdateOne {
+	_u.mutation.AddExpireTime(v)
+	return _u
 }
 
 // ClearExpireTime clears the value of the "expire_time" field.
-func (ruo *RuleUpdateOne) ClearExpireTime() *RuleUpdateOne {
-	ruo.mutation.ClearExpireTime()
-	return ruo
+func (_u *RuleUpdateOne) ClearExpireTime() *RuleUpdateOne {
+	_u.mutation.ClearExpireTime()
+	return _u
 }
 
 // Mutation returns the RuleMutation object of the builder.
-func (ruo *RuleUpdateOne) Mutation() *RuleMutation {
-	return ruo.mutation
+func (_u *RuleUpdateOne) Mutation() *RuleMutation {
+	return _u.mutation
 }
 
 // Where appends a list predicates to the RuleUpdate builder.
-func (ruo *RuleUpdateOne) Where(ps ...predicate.Rule) *RuleUpdateOne {
-	ruo.mutation.Where(ps...)
-	return ruo
+func (_u *RuleUpdateOne) Where(ps ...predicate.Rule) *RuleUpdateOne {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // Select allows selecting one or more fields (columns) of the returned entity.
 // The default is selecting all fields defined in the entity schema.
-func (ruo *RuleUpdateOne) Select(field string, fields ...string) *RuleUpdateOne {
-	ruo.fields = append([]string{field}, fields...)
-	return ruo
+func (_u *RuleUpdateOne) Select(field string, fields ...string) *RuleUpdateOne {
+	_u.fields = append([]string{field}, fields...)
+	return _u
 }
 
 // Save executes the query and returns the updated Rule entity.
-func (ruo *RuleUpdateOne) Save(ctx context.Context) (*Rule, error) {
-	ruo.defaults()
-	return withHooks(ctx, ruo.sqlSave, ruo.mutation, ruo.hooks)
+func (_u *RuleUpdateOne) Save(ctx context.Context) (*Rule, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (ruo *RuleUpdateOne) SaveX(ctx context.Context) *Rule {
-	node, err := ruo.Save(ctx)
+func (_u *RuleUpdateOne) SaveX(ctx context.Context) *Rule {
+	node, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -955,34 +955,34 @@ func (ruo *RuleUpdateOne) SaveX(ctx context.Context) *Rule {
 }
 
 // Exec executes the query on the entity.
-func (ruo *RuleUpdateOne) Exec(ctx context.Context) error {
-	_, err := ruo.Save(ctx)
+func (_u *RuleUpdateOne) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (ruo *RuleUpdateOne) ExecX(ctx context.Context) {
-	if err := ruo.Exec(ctx); err != nil {
+func (_u *RuleUpdateOne) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (ruo *RuleUpdateOne) defaults() {
-	if _, ok := ruo.mutation.UpdatedAt(); !ok && !ruo.mutation.UpdatedAtCleared() {
+func (_u *RuleUpdateOne) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := rule.UpdateDefaultUpdatedAt()
-		ruo.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (ruo *RuleUpdateOne) sqlSave(ctx context.Context) (_node *Rule, err error) {
+func (_u *RuleUpdateOne) sqlSave(ctx context.Context) (_node *Rule, err error) {
 	_spec := sqlgraph.NewUpdateSpec(rule.Table, rule.Columns, sqlgraph.NewFieldSpec(rule.FieldID, field.TypeString))
-	id, ok := ruo.mutation.ID()
+	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "Rule.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
-	if fields := ruo.fields; len(fields) > 0 {
+	if fields := _u.fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, rule.FieldID)
 		for _, f := range fields {
@@ -994,136 +994,136 @@ func (ruo *RuleUpdateOne) sqlSave(ctx context.Context) (_node *Rule, err error) 
 			}
 		}
 	}
-	if ps := ruo.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := ruo.mutation.Name(); ok {
+	if value, ok := _u.mutation.Name(); ok {
 		_spec.SetField(rule.FieldName, field.TypeString, value)
 	}
-	if ruo.mutation.NameCleared() {
+	if _u.mutation.NameCleared() {
 		_spec.ClearField(rule.FieldName, field.TypeString)
 	}
-	if value, ok := ruo.mutation.Code(); ok {
+	if value, ok := _u.mutation.Code(); ok {
 		_spec.SetField(rule.FieldCode, field.TypeString, value)
 	}
-	if ruo.mutation.CodeCleared() {
+	if _u.mutation.CodeCleared() {
 		_spec.ClearField(rule.FieldCode, field.TypeString)
 	}
-	if value, ok := ruo.mutation.Description(); ok {
+	if value, ok := _u.mutation.Description(); ok {
 		_spec.SetField(rule.FieldDescription, field.TypeString, value)
 	}
-	if ruo.mutation.DescriptionCleared() {
+	if _u.mutation.DescriptionCleared() {
 		_spec.ClearField(rule.FieldDescription, field.TypeString)
 	}
-	if value, ok := ruo.mutation.GetType(); ok {
+	if value, ok := _u.mutation.GetType(); ok {
 		_spec.SetField(rule.FieldType, field.TypeString, value)
 	}
-	if ruo.mutation.TypeCleared() {
+	if _u.mutation.TypeCleared() {
 		_spec.ClearField(rule.FieldType, field.TypeString)
 	}
-	if value, ok := ruo.mutation.Status(); ok {
+	if value, ok := _u.mutation.Status(); ok {
 		_spec.SetField(rule.FieldStatus, field.TypeString, value)
 	}
-	if ruo.mutation.StatusCleared() {
+	if _u.mutation.StatusCleared() {
 		_spec.ClearField(rule.FieldStatus, field.TypeString)
 	}
-	if value, ok := ruo.mutation.Extras(); ok {
+	if value, ok := _u.mutation.Extras(); ok {
 		_spec.SetField(rule.FieldExtras, field.TypeJSON, value)
 	}
-	if ruo.mutation.ExtrasCleared() {
+	if _u.mutation.ExtrasCleared() {
 		_spec.ClearField(rule.FieldExtras, field.TypeJSON)
 	}
-	if value, ok := ruo.mutation.SpaceID(); ok {
+	if value, ok := _u.mutation.SpaceID(); ok {
 		_spec.SetField(rule.FieldSpaceID, field.TypeString, value)
 	}
-	if ruo.mutation.SpaceIDCleared() {
+	if _u.mutation.SpaceIDCleared() {
 		_spec.ClearField(rule.FieldSpaceID, field.TypeString)
 	}
-	if value, ok := ruo.mutation.CreatedBy(); ok {
+	if value, ok := _u.mutation.CreatedBy(); ok {
 		_spec.SetField(rule.FieldCreatedBy, field.TypeString, value)
 	}
-	if ruo.mutation.CreatedByCleared() {
+	if _u.mutation.CreatedByCleared() {
 		_spec.ClearField(rule.FieldCreatedBy, field.TypeString)
 	}
-	if value, ok := ruo.mutation.UpdatedBy(); ok {
+	if value, ok := _u.mutation.UpdatedBy(); ok {
 		_spec.SetField(rule.FieldUpdatedBy, field.TypeString, value)
 	}
-	if ruo.mutation.UpdatedByCleared() {
+	if _u.mutation.UpdatedByCleared() {
 		_spec.ClearField(rule.FieldUpdatedBy, field.TypeString)
 	}
-	if ruo.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(rule.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := ruo.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(rule.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := ruo.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(rule.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if ruo.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(rule.FieldUpdatedAt, field.TypeInt64)
 	}
-	if value, ok := ruo.mutation.RuleKey(); ok {
+	if value, ok := _u.mutation.RuleKey(); ok {
 		_spec.SetField(rule.FieldRuleKey, field.TypeString, value)
 	}
-	if value, ok := ruo.mutation.TemplateID(); ok {
+	if value, ok := _u.mutation.TemplateID(); ok {
 		_spec.SetField(rule.FieldTemplateID, field.TypeString, value)
 	}
-	if ruo.mutation.TemplateIDCleared() {
+	if _u.mutation.TemplateIDCleared() {
 		_spec.ClearField(rule.FieldTemplateID, field.TypeString)
 	}
-	if value, ok := ruo.mutation.NodeKey(); ok {
+	if value, ok := _u.mutation.NodeKey(); ok {
 		_spec.SetField(rule.FieldNodeKey, field.TypeString, value)
 	}
-	if ruo.mutation.NodeKeyCleared() {
+	if _u.mutation.NodeKeyCleared() {
 		_spec.ClearField(rule.FieldNodeKey, field.TypeString)
 	}
-	if value, ok := ruo.mutation.Conditions(); ok {
+	if value, ok := _u.mutation.Conditions(); ok {
 		_spec.SetField(rule.FieldConditions, field.TypeJSON, value)
 	}
-	if value, ok := ruo.mutation.AppendedConditions(); ok {
+	if value, ok := _u.mutation.AppendedConditions(); ok {
 		_spec.AddModifier(func(u *sql.UpdateBuilder) {
 			sqljson.Append(u, rule.FieldConditions, value)
 		})
 	}
-	if value, ok := ruo.mutation.Actions(); ok {
+	if value, ok := _u.mutation.Actions(); ok {
 		_spec.SetField(rule.FieldActions, field.TypeJSON, value)
 	}
-	if value, ok := ruo.mutation.Priority(); ok {
+	if value, ok := _u.mutation.Priority(); ok {
 		_spec.SetField(rule.FieldPriority, field.TypeInt, value)
 	}
-	if value, ok := ruo.mutation.AddedPriority(); ok {
+	if value, ok := _u.mutation.AddedPriority(); ok {
 		_spec.AddField(rule.FieldPriority, field.TypeInt, value)
 	}
-	if value, ok := ruo.mutation.IsEnabled(); ok {
+	if value, ok := _u.mutation.IsEnabled(); ok {
 		_spec.SetField(rule.FieldIsEnabled, field.TypeBool, value)
 	}
-	if value, ok := ruo.mutation.EffectiveTime(); ok {
+	if value, ok := _u.mutation.EffectiveTime(); ok {
 		_spec.SetField(rule.FieldEffectiveTime, field.TypeInt64, value)
 	}
-	if value, ok := ruo.mutation.AddedEffectiveTime(); ok {
+	if value, ok := _u.mutation.AddedEffectiveTime(); ok {
 		_spec.AddField(rule.FieldEffectiveTime, field.TypeInt64, value)
 	}
-	if ruo.mutation.EffectiveTimeCleared() {
+	if _u.mutation.EffectiveTimeCleared() {
 		_spec.ClearField(rule.FieldEffectiveTime, field.TypeInt64)
 	}
-	if value, ok := ruo.mutation.ExpireTime(); ok {
+	if value, ok := _u.mutation.ExpireTime(); ok {
 		_spec.SetField(rule.FieldExpireTime, field.TypeInt64, value)
 	}
-	if value, ok := ruo.mutation.AddedExpireTime(); ok {
+	if value, ok := _u.mutation.AddedExpireTime(); ok {
 		_spec.AddField(rule.FieldExpireTime, field.TypeInt64, value)
 	}
-	if ruo.mutation.ExpireTimeCleared() {
+	if _u.mutation.ExpireTimeCleared() {
 		_spec.ClearField(rule.FieldExpireTime, field.TypeInt64)
 	}
-	_node = &Rule{config: ruo.config}
+	_node = &Rule{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues
-	if err = sqlgraph.UpdateNode(ctx, ruo.driver, _spec); err != nil {
+	if err = sqlgraph.UpdateNode(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{rule.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -1131,6 +1131,6 @@ func (ruo *RuleUpdateOne) sqlSave(ctx context.Context) (_node *Rule, err error) 
 		}
 		return nil, err
 	}
-	ruo.mutation.done = true
+	_u.mutation.done = true
 	return _node, nil
 }

@@ -20,277 +20,277 @@ type TaxonomyCreate struct {
 }
 
 // SetName sets the "name" field.
-func (tc *TaxonomyCreate) SetName(s string) *TaxonomyCreate {
-	tc.mutation.SetName(s)
-	return tc
+func (_c *TaxonomyCreate) SetName(v string) *TaxonomyCreate {
+	_c.mutation.SetName(v)
+	return _c
 }
 
 // SetNillableName sets the "name" field if the given value is not nil.
-func (tc *TaxonomyCreate) SetNillableName(s *string) *TaxonomyCreate {
-	if s != nil {
-		tc.SetName(*s)
+func (_c *TaxonomyCreate) SetNillableName(v *string) *TaxonomyCreate {
+	if v != nil {
+		_c.SetName(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetType sets the "type" field.
-func (tc *TaxonomyCreate) SetType(s string) *TaxonomyCreate {
-	tc.mutation.SetType(s)
-	return tc
+func (_c *TaxonomyCreate) SetType(v string) *TaxonomyCreate {
+	_c.mutation.SetType(v)
+	return _c
 }
 
 // SetNillableType sets the "type" field if the given value is not nil.
-func (tc *TaxonomyCreate) SetNillableType(s *string) *TaxonomyCreate {
-	if s != nil {
-		tc.SetType(*s)
+func (_c *TaxonomyCreate) SetNillableType(v *string) *TaxonomyCreate {
+	if v != nil {
+		_c.SetType(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetSlug sets the "slug" field.
-func (tc *TaxonomyCreate) SetSlug(s string) *TaxonomyCreate {
-	tc.mutation.SetSlug(s)
-	return tc
+func (_c *TaxonomyCreate) SetSlug(v string) *TaxonomyCreate {
+	_c.mutation.SetSlug(v)
+	return _c
 }
 
 // SetNillableSlug sets the "slug" field if the given value is not nil.
-func (tc *TaxonomyCreate) SetNillableSlug(s *string) *TaxonomyCreate {
-	if s != nil {
-		tc.SetSlug(*s)
+func (_c *TaxonomyCreate) SetNillableSlug(v *string) *TaxonomyCreate {
+	if v != nil {
+		_c.SetSlug(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetCover sets the "cover" field.
-func (tc *TaxonomyCreate) SetCover(s string) *TaxonomyCreate {
-	tc.mutation.SetCover(s)
-	return tc
+func (_c *TaxonomyCreate) SetCover(v string) *TaxonomyCreate {
+	_c.mutation.SetCover(v)
+	return _c
 }
 
 // SetNillableCover sets the "cover" field if the given value is not nil.
-func (tc *TaxonomyCreate) SetNillableCover(s *string) *TaxonomyCreate {
-	if s != nil {
-		tc.SetCover(*s)
+func (_c *TaxonomyCreate) SetNillableCover(v *string) *TaxonomyCreate {
+	if v != nil {
+		_c.SetCover(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetThumbnail sets the "thumbnail" field.
-func (tc *TaxonomyCreate) SetThumbnail(s string) *TaxonomyCreate {
-	tc.mutation.SetThumbnail(s)
-	return tc
+func (_c *TaxonomyCreate) SetThumbnail(v string) *TaxonomyCreate {
+	_c.mutation.SetThumbnail(v)
+	return _c
 }
 
 // SetNillableThumbnail sets the "thumbnail" field if the given value is not nil.
-func (tc *TaxonomyCreate) SetNillableThumbnail(s *string) *TaxonomyCreate {
-	if s != nil {
-		tc.SetThumbnail(*s)
+func (_c *TaxonomyCreate) SetNillableThumbnail(v *string) *TaxonomyCreate {
+	if v != nil {
+		_c.SetThumbnail(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetColor sets the "color" field.
-func (tc *TaxonomyCreate) SetColor(s string) *TaxonomyCreate {
-	tc.mutation.SetColor(s)
-	return tc
+func (_c *TaxonomyCreate) SetColor(v string) *TaxonomyCreate {
+	_c.mutation.SetColor(v)
+	return _c
 }
 
 // SetNillableColor sets the "color" field if the given value is not nil.
-func (tc *TaxonomyCreate) SetNillableColor(s *string) *TaxonomyCreate {
-	if s != nil {
-		tc.SetColor(*s)
+func (_c *TaxonomyCreate) SetNillableColor(v *string) *TaxonomyCreate {
+	if v != nil {
+		_c.SetColor(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetIcon sets the "icon" field.
-func (tc *TaxonomyCreate) SetIcon(s string) *TaxonomyCreate {
-	tc.mutation.SetIcon(s)
-	return tc
+func (_c *TaxonomyCreate) SetIcon(v string) *TaxonomyCreate {
+	_c.mutation.SetIcon(v)
+	return _c
 }
 
 // SetNillableIcon sets the "icon" field if the given value is not nil.
-func (tc *TaxonomyCreate) SetNillableIcon(s *string) *TaxonomyCreate {
-	if s != nil {
-		tc.SetIcon(*s)
+func (_c *TaxonomyCreate) SetNillableIcon(v *string) *TaxonomyCreate {
+	if v != nil {
+		_c.SetIcon(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetURL sets the "url" field.
-func (tc *TaxonomyCreate) SetURL(s string) *TaxonomyCreate {
-	tc.mutation.SetURL(s)
-	return tc
+func (_c *TaxonomyCreate) SetURL(v string) *TaxonomyCreate {
+	_c.mutation.SetURL(v)
+	return _c
 }
 
 // SetNillableURL sets the "url" field if the given value is not nil.
-func (tc *TaxonomyCreate) SetNillableURL(s *string) *TaxonomyCreate {
-	if s != nil {
-		tc.SetURL(*s)
+func (_c *TaxonomyCreate) SetNillableURL(v *string) *TaxonomyCreate {
+	if v != nil {
+		_c.SetURL(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetKeywords sets the "keywords" field.
-func (tc *TaxonomyCreate) SetKeywords(s string) *TaxonomyCreate {
-	tc.mutation.SetKeywords(s)
-	return tc
+func (_c *TaxonomyCreate) SetKeywords(v string) *TaxonomyCreate {
+	_c.mutation.SetKeywords(v)
+	return _c
 }
 
 // SetNillableKeywords sets the "keywords" field if the given value is not nil.
-func (tc *TaxonomyCreate) SetNillableKeywords(s *string) *TaxonomyCreate {
-	if s != nil {
-		tc.SetKeywords(*s)
+func (_c *TaxonomyCreate) SetNillableKeywords(v *string) *TaxonomyCreate {
+	if v != nil {
+		_c.SetKeywords(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetDescription sets the "description" field.
-func (tc *TaxonomyCreate) SetDescription(s string) *TaxonomyCreate {
-	tc.mutation.SetDescription(s)
-	return tc
+func (_c *TaxonomyCreate) SetDescription(v string) *TaxonomyCreate {
+	_c.mutation.SetDescription(v)
+	return _c
 }
 
 // SetNillableDescription sets the "description" field if the given value is not nil.
-func (tc *TaxonomyCreate) SetNillableDescription(s *string) *TaxonomyCreate {
-	if s != nil {
-		tc.SetDescription(*s)
+func (_c *TaxonomyCreate) SetNillableDescription(v *string) *TaxonomyCreate {
+	if v != nil {
+		_c.SetDescription(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetStatus sets the "status" field.
-func (tc *TaxonomyCreate) SetStatus(i int) *TaxonomyCreate {
-	tc.mutation.SetStatus(i)
-	return tc
+func (_c *TaxonomyCreate) SetStatus(v int) *TaxonomyCreate {
+	_c.mutation.SetStatus(v)
+	return _c
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (tc *TaxonomyCreate) SetNillableStatus(i *int) *TaxonomyCreate {
-	if i != nil {
-		tc.SetStatus(*i)
+func (_c *TaxonomyCreate) SetNillableStatus(v *int) *TaxonomyCreate {
+	if v != nil {
+		_c.SetStatus(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetExtras sets the "extras" field.
-func (tc *TaxonomyCreate) SetExtras(m map[string]interface{}) *TaxonomyCreate {
-	tc.mutation.SetExtras(m)
-	return tc
+func (_c *TaxonomyCreate) SetExtras(v map[string]interface{}) *TaxonomyCreate {
+	_c.mutation.SetExtras(v)
+	return _c
 }
 
 // SetParentID sets the "parent_id" field.
-func (tc *TaxonomyCreate) SetParentID(s string) *TaxonomyCreate {
-	tc.mutation.SetParentID(s)
-	return tc
+func (_c *TaxonomyCreate) SetParentID(v string) *TaxonomyCreate {
+	_c.mutation.SetParentID(v)
+	return _c
 }
 
 // SetNillableParentID sets the "parent_id" field if the given value is not nil.
-func (tc *TaxonomyCreate) SetNillableParentID(s *string) *TaxonomyCreate {
-	if s != nil {
-		tc.SetParentID(*s)
+func (_c *TaxonomyCreate) SetNillableParentID(v *string) *TaxonomyCreate {
+	if v != nil {
+		_c.SetParentID(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetSpaceID sets the "space_id" field.
-func (tc *TaxonomyCreate) SetSpaceID(s string) *TaxonomyCreate {
-	tc.mutation.SetSpaceID(s)
-	return tc
+func (_c *TaxonomyCreate) SetSpaceID(v string) *TaxonomyCreate {
+	_c.mutation.SetSpaceID(v)
+	return _c
 }
 
 // SetNillableSpaceID sets the "space_id" field if the given value is not nil.
-func (tc *TaxonomyCreate) SetNillableSpaceID(s *string) *TaxonomyCreate {
-	if s != nil {
-		tc.SetSpaceID(*s)
+func (_c *TaxonomyCreate) SetNillableSpaceID(v *string) *TaxonomyCreate {
+	if v != nil {
+		_c.SetSpaceID(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (tc *TaxonomyCreate) SetCreatedBy(s string) *TaxonomyCreate {
-	tc.mutation.SetCreatedBy(s)
-	return tc
+func (_c *TaxonomyCreate) SetCreatedBy(v string) *TaxonomyCreate {
+	_c.mutation.SetCreatedBy(v)
+	return _c
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (tc *TaxonomyCreate) SetNillableCreatedBy(s *string) *TaxonomyCreate {
-	if s != nil {
-		tc.SetCreatedBy(*s)
+func (_c *TaxonomyCreate) SetNillableCreatedBy(v *string) *TaxonomyCreate {
+	if v != nil {
+		_c.SetCreatedBy(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (tc *TaxonomyCreate) SetUpdatedBy(s string) *TaxonomyCreate {
-	tc.mutation.SetUpdatedBy(s)
-	return tc
+func (_c *TaxonomyCreate) SetUpdatedBy(v string) *TaxonomyCreate {
+	_c.mutation.SetUpdatedBy(v)
+	return _c
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (tc *TaxonomyCreate) SetNillableUpdatedBy(s *string) *TaxonomyCreate {
-	if s != nil {
-		tc.SetUpdatedBy(*s)
+func (_c *TaxonomyCreate) SetNillableUpdatedBy(v *string) *TaxonomyCreate {
+	if v != nil {
+		_c.SetUpdatedBy(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetCreatedAt sets the "created_at" field.
-func (tc *TaxonomyCreate) SetCreatedAt(i int64) *TaxonomyCreate {
-	tc.mutation.SetCreatedAt(i)
-	return tc
+func (_c *TaxonomyCreate) SetCreatedAt(v int64) *TaxonomyCreate {
+	_c.mutation.SetCreatedAt(v)
+	return _c
 }
 
 // SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
-func (tc *TaxonomyCreate) SetNillableCreatedAt(i *int64) *TaxonomyCreate {
-	if i != nil {
-		tc.SetCreatedAt(*i)
+func (_c *TaxonomyCreate) SetNillableCreatedAt(v *int64) *TaxonomyCreate {
+	if v != nil {
+		_c.SetCreatedAt(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (tc *TaxonomyCreate) SetUpdatedAt(i int64) *TaxonomyCreate {
-	tc.mutation.SetUpdatedAt(i)
-	return tc
+func (_c *TaxonomyCreate) SetUpdatedAt(v int64) *TaxonomyCreate {
+	_c.mutation.SetUpdatedAt(v)
+	return _c
 }
 
 // SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
-func (tc *TaxonomyCreate) SetNillableUpdatedAt(i *int64) *TaxonomyCreate {
-	if i != nil {
-		tc.SetUpdatedAt(*i)
+func (_c *TaxonomyCreate) SetNillableUpdatedAt(v *int64) *TaxonomyCreate {
+	if v != nil {
+		_c.SetUpdatedAt(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetID sets the "id" field.
-func (tc *TaxonomyCreate) SetID(s string) *TaxonomyCreate {
-	tc.mutation.SetID(s)
-	return tc
+func (_c *TaxonomyCreate) SetID(v string) *TaxonomyCreate {
+	_c.mutation.SetID(v)
+	return _c
 }
 
 // SetNillableID sets the "id" field if the given value is not nil.
-func (tc *TaxonomyCreate) SetNillableID(s *string) *TaxonomyCreate {
-	if s != nil {
-		tc.SetID(*s)
+func (_c *TaxonomyCreate) SetNillableID(v *string) *TaxonomyCreate {
+	if v != nil {
+		_c.SetID(*v)
 	}
-	return tc
+	return _c
 }
 
 // Mutation returns the TaxonomyMutation object of the builder.
-func (tc *TaxonomyCreate) Mutation() *TaxonomyMutation {
-	return tc.mutation
+func (_c *TaxonomyCreate) Mutation() *TaxonomyMutation {
+	return _c.mutation
 }
 
 // Save creates the Taxonomy in the database.
-func (tc *TaxonomyCreate) Save(ctx context.Context) (*Taxonomy, error) {
-	tc.defaults()
-	return withHooks(ctx, tc.sqlSave, tc.mutation, tc.hooks)
+func (_c *TaxonomyCreate) Save(ctx context.Context) (*Taxonomy, error) {
+	_c.defaults()
+	return withHooks(ctx, _c.sqlSave, _c.mutation, _c.hooks)
 }
 
 // SaveX calls Save and panics if Save returns an error.
-func (tc *TaxonomyCreate) SaveX(ctx context.Context) *Taxonomy {
-	v, err := tc.Save(ctx)
+func (_c *TaxonomyCreate) SaveX(ctx context.Context) *Taxonomy {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -298,48 +298,48 @@ func (tc *TaxonomyCreate) SaveX(ctx context.Context) *Taxonomy {
 }
 
 // Exec executes the query.
-func (tc *TaxonomyCreate) Exec(ctx context.Context) error {
-	_, err := tc.Save(ctx)
+func (_c *TaxonomyCreate) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (tc *TaxonomyCreate) ExecX(ctx context.Context) {
-	if err := tc.Exec(ctx); err != nil {
+func (_c *TaxonomyCreate) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (tc *TaxonomyCreate) defaults() {
-	if _, ok := tc.mutation.Status(); !ok {
+func (_c *TaxonomyCreate) defaults() {
+	if _, ok := _c.mutation.Status(); !ok {
 		v := taxonomy.DefaultStatus
-		tc.mutation.SetStatus(v)
+		_c.mutation.SetStatus(v)
 	}
-	if _, ok := tc.mutation.Extras(); !ok {
+	if _, ok := _c.mutation.Extras(); !ok {
 		v := taxonomy.DefaultExtras
-		tc.mutation.SetExtras(v)
+		_c.mutation.SetExtras(v)
 	}
-	if _, ok := tc.mutation.CreatedAt(); !ok {
+	if _, ok := _c.mutation.CreatedAt(); !ok {
 		v := taxonomy.DefaultCreatedAt()
-		tc.mutation.SetCreatedAt(v)
+		_c.mutation.SetCreatedAt(v)
 	}
-	if _, ok := tc.mutation.UpdatedAt(); !ok {
+	if _, ok := _c.mutation.UpdatedAt(); !ok {
 		v := taxonomy.DefaultUpdatedAt()
-		tc.mutation.SetUpdatedAt(v)
+		_c.mutation.SetUpdatedAt(v)
 	}
-	if _, ok := tc.mutation.ID(); !ok {
+	if _, ok := _c.mutation.ID(); !ok {
 		v := taxonomy.DefaultID()
-		tc.mutation.SetID(v)
+		_c.mutation.SetID(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (tc *TaxonomyCreate) check() error {
-	if _, ok := tc.mutation.Status(); !ok {
+func (_c *TaxonomyCreate) check() error {
+	if _, ok := _c.mutation.Status(); !ok {
 		return &ValidationError{Name: "status", err: errors.New(`ent: missing required field "Taxonomy.status"`)}
 	}
-	if v, ok := tc.mutation.ID(); ok {
+	if v, ok := _c.mutation.ID(); ok {
 		if err := taxonomy.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "Taxonomy.id": %w`, err)}
 		}
@@ -347,12 +347,12 @@ func (tc *TaxonomyCreate) check() error {
 	return nil
 }
 
-func (tc *TaxonomyCreate) sqlSave(ctx context.Context) (*Taxonomy, error) {
-	if err := tc.check(); err != nil {
+func (_c *TaxonomyCreate) sqlSave(ctx context.Context) (*Taxonomy, error) {
+	if err := _c.check(); err != nil {
 		return nil, err
 	}
-	_node, _spec := tc.createSpec()
-	if err := sqlgraph.CreateNode(ctx, tc.driver, _spec); err != nil {
+	_node, _spec := _c.createSpec()
+	if err := sqlgraph.CreateNode(ctx, _c.driver, _spec); err != nil {
 		if sqlgraph.IsConstraintError(err) {
 			err = &ConstraintError{msg: err.Error(), wrap: err}
 		}
@@ -365,89 +365,89 @@ func (tc *TaxonomyCreate) sqlSave(ctx context.Context) (*Taxonomy, error) {
 			return nil, fmt.Errorf("unexpected Taxonomy.ID type: %T", _spec.ID.Value)
 		}
 	}
-	tc.mutation.id = &_node.ID
-	tc.mutation.done = true
+	_c.mutation.id = &_node.ID
+	_c.mutation.done = true
 	return _node, nil
 }
 
-func (tc *TaxonomyCreate) createSpec() (*Taxonomy, *sqlgraph.CreateSpec) {
+func (_c *TaxonomyCreate) createSpec() (*Taxonomy, *sqlgraph.CreateSpec) {
 	var (
-		_node = &Taxonomy{config: tc.config}
+		_node = &Taxonomy{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(taxonomy.Table, sqlgraph.NewFieldSpec(taxonomy.FieldID, field.TypeString))
 	)
-	if id, ok := tc.mutation.ID(); ok {
+	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
 	}
-	if value, ok := tc.mutation.Name(); ok {
+	if value, ok := _c.mutation.Name(); ok {
 		_spec.SetField(taxonomy.FieldName, field.TypeString, value)
 		_node.Name = value
 	}
-	if value, ok := tc.mutation.GetType(); ok {
+	if value, ok := _c.mutation.GetType(); ok {
 		_spec.SetField(taxonomy.FieldType, field.TypeString, value)
 		_node.Type = value
 	}
-	if value, ok := tc.mutation.Slug(); ok {
+	if value, ok := _c.mutation.Slug(); ok {
 		_spec.SetField(taxonomy.FieldSlug, field.TypeString, value)
 		_node.Slug = value
 	}
-	if value, ok := tc.mutation.Cover(); ok {
+	if value, ok := _c.mutation.Cover(); ok {
 		_spec.SetField(taxonomy.FieldCover, field.TypeString, value)
 		_node.Cover = value
 	}
-	if value, ok := tc.mutation.Thumbnail(); ok {
+	if value, ok := _c.mutation.Thumbnail(); ok {
 		_spec.SetField(taxonomy.FieldThumbnail, field.TypeString, value)
 		_node.Thumbnail = value
 	}
-	if value, ok := tc.mutation.Color(); ok {
+	if value, ok := _c.mutation.Color(); ok {
 		_spec.SetField(taxonomy.FieldColor, field.TypeString, value)
 		_node.Color = value
 	}
-	if value, ok := tc.mutation.Icon(); ok {
+	if value, ok := _c.mutation.Icon(); ok {
 		_spec.SetField(taxonomy.FieldIcon, field.TypeString, value)
 		_node.Icon = value
 	}
-	if value, ok := tc.mutation.URL(); ok {
+	if value, ok := _c.mutation.URL(); ok {
 		_spec.SetField(taxonomy.FieldURL, field.TypeString, value)
 		_node.URL = value
 	}
-	if value, ok := tc.mutation.Keywords(); ok {
+	if value, ok := _c.mutation.Keywords(); ok {
 		_spec.SetField(taxonomy.FieldKeywords, field.TypeString, value)
 		_node.Keywords = value
 	}
-	if value, ok := tc.mutation.Description(); ok {
+	if value, ok := _c.mutation.Description(); ok {
 		_spec.SetField(taxonomy.FieldDescription, field.TypeString, value)
 		_node.Description = value
 	}
-	if value, ok := tc.mutation.Status(); ok {
+	if value, ok := _c.mutation.Status(); ok {
 		_spec.SetField(taxonomy.FieldStatus, field.TypeInt, value)
 		_node.Status = value
 	}
-	if value, ok := tc.mutation.Extras(); ok {
+	if value, ok := _c.mutation.Extras(); ok {
 		_spec.SetField(taxonomy.FieldExtras, field.TypeJSON, value)
 		_node.Extras = value
 	}
-	if value, ok := tc.mutation.ParentID(); ok {
+	if value, ok := _c.mutation.ParentID(); ok {
 		_spec.SetField(taxonomy.FieldParentID, field.TypeString, value)
 		_node.ParentID = value
 	}
-	if value, ok := tc.mutation.SpaceID(); ok {
+	if value, ok := _c.mutation.SpaceID(); ok {
 		_spec.SetField(taxonomy.FieldSpaceID, field.TypeString, value)
 		_node.SpaceID = value
 	}
-	if value, ok := tc.mutation.CreatedBy(); ok {
+	if value, ok := _c.mutation.CreatedBy(); ok {
 		_spec.SetField(taxonomy.FieldCreatedBy, field.TypeString, value)
 		_node.CreatedBy = value
 	}
-	if value, ok := tc.mutation.UpdatedBy(); ok {
+	if value, ok := _c.mutation.UpdatedBy(); ok {
 		_spec.SetField(taxonomy.FieldUpdatedBy, field.TypeString, value)
 		_node.UpdatedBy = value
 	}
-	if value, ok := tc.mutation.CreatedAt(); ok {
+	if value, ok := _c.mutation.CreatedAt(); ok {
 		_spec.SetField(taxonomy.FieldCreatedAt, field.TypeInt64, value)
 		_node.CreatedAt = value
 	}
-	if value, ok := tc.mutation.UpdatedAt(); ok {
+	if value, ok := _c.mutation.UpdatedAt(); ok {
 		_spec.SetField(taxonomy.FieldUpdatedAt, field.TypeInt64, value)
 		_node.UpdatedAt = value
 	}
@@ -462,16 +462,16 @@ type TaxonomyCreateBulk struct {
 }
 
 // Save creates the Taxonomy entities in the database.
-func (tcb *TaxonomyCreateBulk) Save(ctx context.Context) ([]*Taxonomy, error) {
-	if tcb.err != nil {
-		return nil, tcb.err
+func (_c *TaxonomyCreateBulk) Save(ctx context.Context) ([]*Taxonomy, error) {
+	if _c.err != nil {
+		return nil, _c.err
 	}
-	specs := make([]*sqlgraph.CreateSpec, len(tcb.builders))
-	nodes := make([]*Taxonomy, len(tcb.builders))
-	mutators := make([]Mutator, len(tcb.builders))
-	for i := range tcb.builders {
+	specs := make([]*sqlgraph.CreateSpec, len(_c.builders))
+	nodes := make([]*Taxonomy, len(_c.builders))
+	mutators := make([]Mutator, len(_c.builders))
+	for i := range _c.builders {
 		func(i int, root context.Context) {
-			builder := tcb.builders[i]
+			builder := _c.builders[i]
 			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*TaxonomyMutation)
@@ -485,11 +485,11 @@ func (tcb *TaxonomyCreateBulk) Save(ctx context.Context) ([]*Taxonomy, error) {
 				var err error
 				nodes[i], specs[i] = builder.createSpec()
 				if i < len(mutators)-1 {
-					_, err = mutators[i+1].Mutate(root, tcb.builders[i+1].mutation)
+					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
 					// Invoke the actual operation on the latest mutation in the chain.
-					if err = sqlgraph.BatchCreate(ctx, tcb.driver, spec); err != nil {
+					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
 							err = &ConstraintError{msg: err.Error(), wrap: err}
 						}
@@ -509,7 +509,7 @@ func (tcb *TaxonomyCreateBulk) Save(ctx context.Context) ([]*Taxonomy, error) {
 		}(i, ctx)
 	}
 	if len(mutators) > 0 {
-		if _, err := mutators[0].Mutate(ctx, tcb.builders[0].mutation); err != nil {
+		if _, err := mutators[0].Mutate(ctx, _c.builders[0].mutation); err != nil {
 			return nil, err
 		}
 	}
@@ -517,8 +517,8 @@ func (tcb *TaxonomyCreateBulk) Save(ctx context.Context) ([]*Taxonomy, error) {
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (tcb *TaxonomyCreateBulk) SaveX(ctx context.Context) []*Taxonomy {
-	v, err := tcb.Save(ctx)
+func (_c *TaxonomyCreateBulk) SaveX(ctx context.Context) []*Taxonomy {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -526,14 +526,14 @@ func (tcb *TaxonomyCreateBulk) SaveX(ctx context.Context) []*Taxonomy {
 }
 
 // Exec executes the query.
-func (tcb *TaxonomyCreateBulk) Exec(ctx context.Context) error {
-	_, err := tcb.Save(ctx)
+func (_c *TaxonomyCreateBulk) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (tcb *TaxonomyCreateBulk) ExecX(ctx context.Context) {
-	if err := tcb.Exec(ctx); err != nil {
+func (_c *TaxonomyCreateBulk) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

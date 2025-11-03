@@ -22,164 +22,164 @@ type OptionsUpdate struct {
 }
 
 // Where appends a list predicates to the OptionsUpdate builder.
-func (ou *OptionsUpdate) Where(ps ...predicate.Options) *OptionsUpdate {
-	ou.mutation.Where(ps...)
-	return ou
+func (_u *OptionsUpdate) Where(ps ...predicate.Options) *OptionsUpdate {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // SetName sets the "name" field.
-func (ou *OptionsUpdate) SetName(s string) *OptionsUpdate {
-	ou.mutation.SetName(s)
-	return ou
+func (_u *OptionsUpdate) SetName(v string) *OptionsUpdate {
+	_u.mutation.SetName(v)
+	return _u
 }
 
 // SetNillableName sets the "name" field if the given value is not nil.
-func (ou *OptionsUpdate) SetNillableName(s *string) *OptionsUpdate {
-	if s != nil {
-		ou.SetName(*s)
+func (_u *OptionsUpdate) SetNillableName(v *string) *OptionsUpdate {
+	if v != nil {
+		_u.SetName(*v)
 	}
-	return ou
+	return _u
 }
 
 // ClearName clears the value of the "name" field.
-func (ou *OptionsUpdate) ClearName() *OptionsUpdate {
-	ou.mutation.ClearName()
-	return ou
+func (_u *OptionsUpdate) ClearName() *OptionsUpdate {
+	_u.mutation.ClearName()
+	return _u
 }
 
 // SetType sets the "type" field.
-func (ou *OptionsUpdate) SetType(s string) *OptionsUpdate {
-	ou.mutation.SetType(s)
-	return ou
+func (_u *OptionsUpdate) SetType(v string) *OptionsUpdate {
+	_u.mutation.SetType(v)
+	return _u
 }
 
 // SetNillableType sets the "type" field if the given value is not nil.
-func (ou *OptionsUpdate) SetNillableType(s *string) *OptionsUpdate {
-	if s != nil {
-		ou.SetType(*s)
+func (_u *OptionsUpdate) SetNillableType(v *string) *OptionsUpdate {
+	if v != nil {
+		_u.SetType(*v)
 	}
-	return ou
+	return _u
 }
 
 // ClearType clears the value of the "type" field.
-func (ou *OptionsUpdate) ClearType() *OptionsUpdate {
-	ou.mutation.ClearType()
-	return ou
+func (_u *OptionsUpdate) ClearType() *OptionsUpdate {
+	_u.mutation.ClearType()
+	return _u
 }
 
 // SetValue sets the "value" field.
-func (ou *OptionsUpdate) SetValue(s string) *OptionsUpdate {
-	ou.mutation.SetValue(s)
-	return ou
+func (_u *OptionsUpdate) SetValue(v string) *OptionsUpdate {
+	_u.mutation.SetValue(v)
+	return _u
 }
 
 // SetNillableValue sets the "value" field if the given value is not nil.
-func (ou *OptionsUpdate) SetNillableValue(s *string) *OptionsUpdate {
-	if s != nil {
-		ou.SetValue(*s)
+func (_u *OptionsUpdate) SetNillableValue(v *string) *OptionsUpdate {
+	if v != nil {
+		_u.SetValue(*v)
 	}
-	return ou
+	return _u
 }
 
 // ClearValue clears the value of the "value" field.
-func (ou *OptionsUpdate) ClearValue() *OptionsUpdate {
-	ou.mutation.ClearValue()
-	return ou
+func (_u *OptionsUpdate) ClearValue() *OptionsUpdate {
+	_u.mutation.ClearValue()
+	return _u
 }
 
 // SetAutoload sets the "autoload" field.
-func (ou *OptionsUpdate) SetAutoload(b bool) *OptionsUpdate {
-	ou.mutation.SetAutoload(b)
-	return ou
+func (_u *OptionsUpdate) SetAutoload(v bool) *OptionsUpdate {
+	_u.mutation.SetAutoload(v)
+	return _u
 }
 
 // SetNillableAutoload sets the "autoload" field if the given value is not nil.
-func (ou *OptionsUpdate) SetNillableAutoload(b *bool) *OptionsUpdate {
-	if b != nil {
-		ou.SetAutoload(*b)
+func (_u *OptionsUpdate) SetNillableAutoload(v *bool) *OptionsUpdate {
+	if v != nil {
+		_u.SetAutoload(*v)
 	}
-	return ou
+	return _u
 }
 
 // ClearAutoload clears the value of the "autoload" field.
-func (ou *OptionsUpdate) ClearAutoload() *OptionsUpdate {
-	ou.mutation.ClearAutoload()
-	return ou
+func (_u *OptionsUpdate) ClearAutoload() *OptionsUpdate {
+	_u.mutation.ClearAutoload()
+	return _u
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (ou *OptionsUpdate) SetCreatedBy(s string) *OptionsUpdate {
-	ou.mutation.SetCreatedBy(s)
-	return ou
+func (_u *OptionsUpdate) SetCreatedBy(v string) *OptionsUpdate {
+	_u.mutation.SetCreatedBy(v)
+	return _u
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (ou *OptionsUpdate) SetNillableCreatedBy(s *string) *OptionsUpdate {
-	if s != nil {
-		ou.SetCreatedBy(*s)
+func (_u *OptionsUpdate) SetNillableCreatedBy(v *string) *OptionsUpdate {
+	if v != nil {
+		_u.SetCreatedBy(*v)
 	}
-	return ou
+	return _u
 }
 
 // ClearCreatedBy clears the value of the "created_by" field.
-func (ou *OptionsUpdate) ClearCreatedBy() *OptionsUpdate {
-	ou.mutation.ClearCreatedBy()
-	return ou
+func (_u *OptionsUpdate) ClearCreatedBy() *OptionsUpdate {
+	_u.mutation.ClearCreatedBy()
+	return _u
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (ou *OptionsUpdate) SetUpdatedBy(s string) *OptionsUpdate {
-	ou.mutation.SetUpdatedBy(s)
-	return ou
+func (_u *OptionsUpdate) SetUpdatedBy(v string) *OptionsUpdate {
+	_u.mutation.SetUpdatedBy(v)
+	return _u
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (ou *OptionsUpdate) SetNillableUpdatedBy(s *string) *OptionsUpdate {
-	if s != nil {
-		ou.SetUpdatedBy(*s)
+func (_u *OptionsUpdate) SetNillableUpdatedBy(v *string) *OptionsUpdate {
+	if v != nil {
+		_u.SetUpdatedBy(*v)
 	}
-	return ou
+	return _u
 }
 
 // ClearUpdatedBy clears the value of the "updated_by" field.
-func (ou *OptionsUpdate) ClearUpdatedBy() *OptionsUpdate {
-	ou.mutation.ClearUpdatedBy()
-	return ou
+func (_u *OptionsUpdate) ClearUpdatedBy() *OptionsUpdate {
+	_u.mutation.ClearUpdatedBy()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (ou *OptionsUpdate) SetUpdatedAt(i int64) *OptionsUpdate {
-	ou.mutation.ResetUpdatedAt()
-	ou.mutation.SetUpdatedAt(i)
-	return ou
+func (_u *OptionsUpdate) SetUpdatedAt(v int64) *OptionsUpdate {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (ou *OptionsUpdate) AddUpdatedAt(i int64) *OptionsUpdate {
-	ou.mutation.AddUpdatedAt(i)
-	return ou
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *OptionsUpdate) AddUpdatedAt(v int64) *OptionsUpdate {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (ou *OptionsUpdate) ClearUpdatedAt() *OptionsUpdate {
-	ou.mutation.ClearUpdatedAt()
-	return ou
+func (_u *OptionsUpdate) ClearUpdatedAt() *OptionsUpdate {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // Mutation returns the OptionsMutation object of the builder.
-func (ou *OptionsUpdate) Mutation() *OptionsMutation {
-	return ou.mutation
+func (_u *OptionsUpdate) Mutation() *OptionsMutation {
+	return _u.mutation
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
-func (ou *OptionsUpdate) Save(ctx context.Context) (int, error) {
-	ou.defaults()
-	return withHooks(ctx, ou.sqlSave, ou.mutation, ou.hooks)
+func (_u *OptionsUpdate) Save(ctx context.Context) (int, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (ou *OptionsUpdate) SaveX(ctx context.Context) int {
-	affected, err := ou.Save(ctx)
+func (_u *OptionsUpdate) SaveX(ctx context.Context) int {
+	affected, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -187,29 +187,29 @@ func (ou *OptionsUpdate) SaveX(ctx context.Context) int {
 }
 
 // Exec executes the query.
-func (ou *OptionsUpdate) Exec(ctx context.Context) error {
-	_, err := ou.Save(ctx)
+func (_u *OptionsUpdate) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (ou *OptionsUpdate) ExecX(ctx context.Context) {
-	if err := ou.Exec(ctx); err != nil {
+func (_u *OptionsUpdate) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (ou *OptionsUpdate) defaults() {
-	if _, ok := ou.mutation.UpdatedAt(); !ok && !ou.mutation.UpdatedAtCleared() {
+func (_u *OptionsUpdate) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := options.UpdateDefaultUpdatedAt()
-		ou.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (ou *OptionsUpdate) check() error {
-	if v, ok := ou.mutation.Name(); ok {
+func (_u *OptionsUpdate) check() error {
+	if v, ok := _u.mutation.Name(); ok {
 		if err := options.NameValidator(v); err != nil {
 			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "Options.name": %w`, err)}
 		}
@@ -217,67 +217,67 @@ func (ou *OptionsUpdate) check() error {
 	return nil
 }
 
-func (ou *OptionsUpdate) sqlSave(ctx context.Context) (n int, err error) {
-	if err := ou.check(); err != nil {
-		return n, err
+func (_u *OptionsUpdate) sqlSave(ctx context.Context) (_node int, err error) {
+	if err := _u.check(); err != nil {
+		return _node, err
 	}
 	_spec := sqlgraph.NewUpdateSpec(options.Table, options.Columns, sqlgraph.NewFieldSpec(options.FieldID, field.TypeString))
-	if ps := ou.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := ou.mutation.Name(); ok {
+	if value, ok := _u.mutation.Name(); ok {
 		_spec.SetField(options.FieldName, field.TypeString, value)
 	}
-	if ou.mutation.NameCleared() {
+	if _u.mutation.NameCleared() {
 		_spec.ClearField(options.FieldName, field.TypeString)
 	}
-	if value, ok := ou.mutation.GetType(); ok {
+	if value, ok := _u.mutation.GetType(); ok {
 		_spec.SetField(options.FieldType, field.TypeString, value)
 	}
-	if ou.mutation.TypeCleared() {
+	if _u.mutation.TypeCleared() {
 		_spec.ClearField(options.FieldType, field.TypeString)
 	}
-	if value, ok := ou.mutation.Value(); ok {
+	if value, ok := _u.mutation.Value(); ok {
 		_spec.SetField(options.FieldValue, field.TypeString, value)
 	}
-	if ou.mutation.ValueCleared() {
+	if _u.mutation.ValueCleared() {
 		_spec.ClearField(options.FieldValue, field.TypeString)
 	}
-	if value, ok := ou.mutation.Autoload(); ok {
+	if value, ok := _u.mutation.Autoload(); ok {
 		_spec.SetField(options.FieldAutoload, field.TypeBool, value)
 	}
-	if ou.mutation.AutoloadCleared() {
+	if _u.mutation.AutoloadCleared() {
 		_spec.ClearField(options.FieldAutoload, field.TypeBool)
 	}
-	if value, ok := ou.mutation.CreatedBy(); ok {
+	if value, ok := _u.mutation.CreatedBy(); ok {
 		_spec.SetField(options.FieldCreatedBy, field.TypeString, value)
 	}
-	if ou.mutation.CreatedByCleared() {
+	if _u.mutation.CreatedByCleared() {
 		_spec.ClearField(options.FieldCreatedBy, field.TypeString)
 	}
-	if value, ok := ou.mutation.UpdatedBy(); ok {
+	if value, ok := _u.mutation.UpdatedBy(); ok {
 		_spec.SetField(options.FieldUpdatedBy, field.TypeString, value)
 	}
-	if ou.mutation.UpdatedByCleared() {
+	if _u.mutation.UpdatedByCleared() {
 		_spec.ClearField(options.FieldUpdatedBy, field.TypeString)
 	}
-	if ou.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(options.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := ou.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(options.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := ou.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(options.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if ou.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(options.FieldUpdatedAt, field.TypeInt64)
 	}
-	if n, err = sqlgraph.UpdateNodes(ctx, ou.driver, _spec); err != nil {
+	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{options.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -285,8 +285,8 @@ func (ou *OptionsUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		return 0, err
 	}
-	ou.mutation.done = true
-	return n, nil
+	_u.mutation.done = true
+	return _node, nil
 }
 
 // OptionsUpdateOne is the builder for updating a single Options entity.
@@ -298,171 +298,171 @@ type OptionsUpdateOne struct {
 }
 
 // SetName sets the "name" field.
-func (ouo *OptionsUpdateOne) SetName(s string) *OptionsUpdateOne {
-	ouo.mutation.SetName(s)
-	return ouo
+func (_u *OptionsUpdateOne) SetName(v string) *OptionsUpdateOne {
+	_u.mutation.SetName(v)
+	return _u
 }
 
 // SetNillableName sets the "name" field if the given value is not nil.
-func (ouo *OptionsUpdateOne) SetNillableName(s *string) *OptionsUpdateOne {
-	if s != nil {
-		ouo.SetName(*s)
+func (_u *OptionsUpdateOne) SetNillableName(v *string) *OptionsUpdateOne {
+	if v != nil {
+		_u.SetName(*v)
 	}
-	return ouo
+	return _u
 }
 
 // ClearName clears the value of the "name" field.
-func (ouo *OptionsUpdateOne) ClearName() *OptionsUpdateOne {
-	ouo.mutation.ClearName()
-	return ouo
+func (_u *OptionsUpdateOne) ClearName() *OptionsUpdateOne {
+	_u.mutation.ClearName()
+	return _u
 }
 
 // SetType sets the "type" field.
-func (ouo *OptionsUpdateOne) SetType(s string) *OptionsUpdateOne {
-	ouo.mutation.SetType(s)
-	return ouo
+func (_u *OptionsUpdateOne) SetType(v string) *OptionsUpdateOne {
+	_u.mutation.SetType(v)
+	return _u
 }
 
 // SetNillableType sets the "type" field if the given value is not nil.
-func (ouo *OptionsUpdateOne) SetNillableType(s *string) *OptionsUpdateOne {
-	if s != nil {
-		ouo.SetType(*s)
+func (_u *OptionsUpdateOne) SetNillableType(v *string) *OptionsUpdateOne {
+	if v != nil {
+		_u.SetType(*v)
 	}
-	return ouo
+	return _u
 }
 
 // ClearType clears the value of the "type" field.
-func (ouo *OptionsUpdateOne) ClearType() *OptionsUpdateOne {
-	ouo.mutation.ClearType()
-	return ouo
+func (_u *OptionsUpdateOne) ClearType() *OptionsUpdateOne {
+	_u.mutation.ClearType()
+	return _u
 }
 
 // SetValue sets the "value" field.
-func (ouo *OptionsUpdateOne) SetValue(s string) *OptionsUpdateOne {
-	ouo.mutation.SetValue(s)
-	return ouo
+func (_u *OptionsUpdateOne) SetValue(v string) *OptionsUpdateOne {
+	_u.mutation.SetValue(v)
+	return _u
 }
 
 // SetNillableValue sets the "value" field if the given value is not nil.
-func (ouo *OptionsUpdateOne) SetNillableValue(s *string) *OptionsUpdateOne {
-	if s != nil {
-		ouo.SetValue(*s)
+func (_u *OptionsUpdateOne) SetNillableValue(v *string) *OptionsUpdateOne {
+	if v != nil {
+		_u.SetValue(*v)
 	}
-	return ouo
+	return _u
 }
 
 // ClearValue clears the value of the "value" field.
-func (ouo *OptionsUpdateOne) ClearValue() *OptionsUpdateOne {
-	ouo.mutation.ClearValue()
-	return ouo
+func (_u *OptionsUpdateOne) ClearValue() *OptionsUpdateOne {
+	_u.mutation.ClearValue()
+	return _u
 }
 
 // SetAutoload sets the "autoload" field.
-func (ouo *OptionsUpdateOne) SetAutoload(b bool) *OptionsUpdateOne {
-	ouo.mutation.SetAutoload(b)
-	return ouo
+func (_u *OptionsUpdateOne) SetAutoload(v bool) *OptionsUpdateOne {
+	_u.mutation.SetAutoload(v)
+	return _u
 }
 
 // SetNillableAutoload sets the "autoload" field if the given value is not nil.
-func (ouo *OptionsUpdateOne) SetNillableAutoload(b *bool) *OptionsUpdateOne {
-	if b != nil {
-		ouo.SetAutoload(*b)
+func (_u *OptionsUpdateOne) SetNillableAutoload(v *bool) *OptionsUpdateOne {
+	if v != nil {
+		_u.SetAutoload(*v)
 	}
-	return ouo
+	return _u
 }
 
 // ClearAutoload clears the value of the "autoload" field.
-func (ouo *OptionsUpdateOne) ClearAutoload() *OptionsUpdateOne {
-	ouo.mutation.ClearAutoload()
-	return ouo
+func (_u *OptionsUpdateOne) ClearAutoload() *OptionsUpdateOne {
+	_u.mutation.ClearAutoload()
+	return _u
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (ouo *OptionsUpdateOne) SetCreatedBy(s string) *OptionsUpdateOne {
-	ouo.mutation.SetCreatedBy(s)
-	return ouo
+func (_u *OptionsUpdateOne) SetCreatedBy(v string) *OptionsUpdateOne {
+	_u.mutation.SetCreatedBy(v)
+	return _u
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (ouo *OptionsUpdateOne) SetNillableCreatedBy(s *string) *OptionsUpdateOne {
-	if s != nil {
-		ouo.SetCreatedBy(*s)
+func (_u *OptionsUpdateOne) SetNillableCreatedBy(v *string) *OptionsUpdateOne {
+	if v != nil {
+		_u.SetCreatedBy(*v)
 	}
-	return ouo
+	return _u
 }
 
 // ClearCreatedBy clears the value of the "created_by" field.
-func (ouo *OptionsUpdateOne) ClearCreatedBy() *OptionsUpdateOne {
-	ouo.mutation.ClearCreatedBy()
-	return ouo
+func (_u *OptionsUpdateOne) ClearCreatedBy() *OptionsUpdateOne {
+	_u.mutation.ClearCreatedBy()
+	return _u
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (ouo *OptionsUpdateOne) SetUpdatedBy(s string) *OptionsUpdateOne {
-	ouo.mutation.SetUpdatedBy(s)
-	return ouo
+func (_u *OptionsUpdateOne) SetUpdatedBy(v string) *OptionsUpdateOne {
+	_u.mutation.SetUpdatedBy(v)
+	return _u
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (ouo *OptionsUpdateOne) SetNillableUpdatedBy(s *string) *OptionsUpdateOne {
-	if s != nil {
-		ouo.SetUpdatedBy(*s)
+func (_u *OptionsUpdateOne) SetNillableUpdatedBy(v *string) *OptionsUpdateOne {
+	if v != nil {
+		_u.SetUpdatedBy(*v)
 	}
-	return ouo
+	return _u
 }
 
 // ClearUpdatedBy clears the value of the "updated_by" field.
-func (ouo *OptionsUpdateOne) ClearUpdatedBy() *OptionsUpdateOne {
-	ouo.mutation.ClearUpdatedBy()
-	return ouo
+func (_u *OptionsUpdateOne) ClearUpdatedBy() *OptionsUpdateOne {
+	_u.mutation.ClearUpdatedBy()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (ouo *OptionsUpdateOne) SetUpdatedAt(i int64) *OptionsUpdateOne {
-	ouo.mutation.ResetUpdatedAt()
-	ouo.mutation.SetUpdatedAt(i)
-	return ouo
+func (_u *OptionsUpdateOne) SetUpdatedAt(v int64) *OptionsUpdateOne {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (ouo *OptionsUpdateOne) AddUpdatedAt(i int64) *OptionsUpdateOne {
-	ouo.mutation.AddUpdatedAt(i)
-	return ouo
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *OptionsUpdateOne) AddUpdatedAt(v int64) *OptionsUpdateOne {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (ouo *OptionsUpdateOne) ClearUpdatedAt() *OptionsUpdateOne {
-	ouo.mutation.ClearUpdatedAt()
-	return ouo
+func (_u *OptionsUpdateOne) ClearUpdatedAt() *OptionsUpdateOne {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // Mutation returns the OptionsMutation object of the builder.
-func (ouo *OptionsUpdateOne) Mutation() *OptionsMutation {
-	return ouo.mutation
+func (_u *OptionsUpdateOne) Mutation() *OptionsMutation {
+	return _u.mutation
 }
 
 // Where appends a list predicates to the OptionsUpdate builder.
-func (ouo *OptionsUpdateOne) Where(ps ...predicate.Options) *OptionsUpdateOne {
-	ouo.mutation.Where(ps...)
-	return ouo
+func (_u *OptionsUpdateOne) Where(ps ...predicate.Options) *OptionsUpdateOne {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // Select allows selecting one or more fields (columns) of the returned entity.
 // The default is selecting all fields defined in the entity schema.
-func (ouo *OptionsUpdateOne) Select(field string, fields ...string) *OptionsUpdateOne {
-	ouo.fields = append([]string{field}, fields...)
-	return ouo
+func (_u *OptionsUpdateOne) Select(field string, fields ...string) *OptionsUpdateOne {
+	_u.fields = append([]string{field}, fields...)
+	return _u
 }
 
 // Save executes the query and returns the updated Options entity.
-func (ouo *OptionsUpdateOne) Save(ctx context.Context) (*Options, error) {
-	ouo.defaults()
-	return withHooks(ctx, ouo.sqlSave, ouo.mutation, ouo.hooks)
+func (_u *OptionsUpdateOne) Save(ctx context.Context) (*Options, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (ouo *OptionsUpdateOne) SaveX(ctx context.Context) *Options {
-	node, err := ouo.Save(ctx)
+func (_u *OptionsUpdateOne) SaveX(ctx context.Context) *Options {
+	node, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -470,29 +470,29 @@ func (ouo *OptionsUpdateOne) SaveX(ctx context.Context) *Options {
 }
 
 // Exec executes the query on the entity.
-func (ouo *OptionsUpdateOne) Exec(ctx context.Context) error {
-	_, err := ouo.Save(ctx)
+func (_u *OptionsUpdateOne) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (ouo *OptionsUpdateOne) ExecX(ctx context.Context) {
-	if err := ouo.Exec(ctx); err != nil {
+func (_u *OptionsUpdateOne) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (ouo *OptionsUpdateOne) defaults() {
-	if _, ok := ouo.mutation.UpdatedAt(); !ok && !ouo.mutation.UpdatedAtCleared() {
+func (_u *OptionsUpdateOne) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := options.UpdateDefaultUpdatedAt()
-		ouo.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (ouo *OptionsUpdateOne) check() error {
-	if v, ok := ouo.mutation.Name(); ok {
+func (_u *OptionsUpdateOne) check() error {
+	if v, ok := _u.mutation.Name(); ok {
 		if err := options.NameValidator(v); err != nil {
 			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "Options.name": %w`, err)}
 		}
@@ -500,17 +500,17 @@ func (ouo *OptionsUpdateOne) check() error {
 	return nil
 }
 
-func (ouo *OptionsUpdateOne) sqlSave(ctx context.Context) (_node *Options, err error) {
-	if err := ouo.check(); err != nil {
+func (_u *OptionsUpdateOne) sqlSave(ctx context.Context) (_node *Options, err error) {
+	if err := _u.check(); err != nil {
 		return _node, err
 	}
 	_spec := sqlgraph.NewUpdateSpec(options.Table, options.Columns, sqlgraph.NewFieldSpec(options.FieldID, field.TypeString))
-	id, ok := ouo.mutation.ID()
+	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "Options.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
-	if fields := ouo.fields; len(fields) > 0 {
+	if fields := _u.fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, options.FieldID)
 		for _, f := range fields {
@@ -522,65 +522,65 @@ func (ouo *OptionsUpdateOne) sqlSave(ctx context.Context) (_node *Options, err e
 			}
 		}
 	}
-	if ps := ouo.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := ouo.mutation.Name(); ok {
+	if value, ok := _u.mutation.Name(); ok {
 		_spec.SetField(options.FieldName, field.TypeString, value)
 	}
-	if ouo.mutation.NameCleared() {
+	if _u.mutation.NameCleared() {
 		_spec.ClearField(options.FieldName, field.TypeString)
 	}
-	if value, ok := ouo.mutation.GetType(); ok {
+	if value, ok := _u.mutation.GetType(); ok {
 		_spec.SetField(options.FieldType, field.TypeString, value)
 	}
-	if ouo.mutation.TypeCleared() {
+	if _u.mutation.TypeCleared() {
 		_spec.ClearField(options.FieldType, field.TypeString)
 	}
-	if value, ok := ouo.mutation.Value(); ok {
+	if value, ok := _u.mutation.Value(); ok {
 		_spec.SetField(options.FieldValue, field.TypeString, value)
 	}
-	if ouo.mutation.ValueCleared() {
+	if _u.mutation.ValueCleared() {
 		_spec.ClearField(options.FieldValue, field.TypeString)
 	}
-	if value, ok := ouo.mutation.Autoload(); ok {
+	if value, ok := _u.mutation.Autoload(); ok {
 		_spec.SetField(options.FieldAutoload, field.TypeBool, value)
 	}
-	if ouo.mutation.AutoloadCleared() {
+	if _u.mutation.AutoloadCleared() {
 		_spec.ClearField(options.FieldAutoload, field.TypeBool)
 	}
-	if value, ok := ouo.mutation.CreatedBy(); ok {
+	if value, ok := _u.mutation.CreatedBy(); ok {
 		_spec.SetField(options.FieldCreatedBy, field.TypeString, value)
 	}
-	if ouo.mutation.CreatedByCleared() {
+	if _u.mutation.CreatedByCleared() {
 		_spec.ClearField(options.FieldCreatedBy, field.TypeString)
 	}
-	if value, ok := ouo.mutation.UpdatedBy(); ok {
+	if value, ok := _u.mutation.UpdatedBy(); ok {
 		_spec.SetField(options.FieldUpdatedBy, field.TypeString, value)
 	}
-	if ouo.mutation.UpdatedByCleared() {
+	if _u.mutation.UpdatedByCleared() {
 		_spec.ClearField(options.FieldUpdatedBy, field.TypeString)
 	}
-	if ouo.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(options.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := ouo.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(options.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := ouo.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(options.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if ouo.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(options.FieldUpdatedAt, field.TypeInt64)
 	}
-	_node = &Options{config: ouo.config}
+	_node = &Options{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues
-	if err = sqlgraph.UpdateNode(ctx, ouo.driver, _spec); err != nil {
+	if err = sqlgraph.UpdateNode(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{options.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -588,6 +588,6 @@ func (ouo *OptionsUpdateOne) sqlSave(ctx context.Context) (_node *Options, err e
 		}
 		return nil, err
 	}
-	ouo.mutation.done = true
+	_u.mutation.done = true
 	return _node, nil
 }

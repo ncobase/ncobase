@@ -24,308 +24,308 @@ type PaymentProductUpdate struct {
 }
 
 // Where appends a list predicates to the PaymentProductUpdate builder.
-func (ppu *PaymentProductUpdate) Where(ps ...predicate.PaymentProduct) *PaymentProductUpdate {
-	ppu.mutation.Where(ps...)
-	return ppu
+func (_u *PaymentProductUpdate) Where(ps ...predicate.PaymentProduct) *PaymentProductUpdate {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // SetName sets the "name" field.
-func (ppu *PaymentProductUpdate) SetName(s string) *PaymentProductUpdate {
-	ppu.mutation.SetName(s)
-	return ppu
+func (_u *PaymentProductUpdate) SetName(v string) *PaymentProductUpdate {
+	_u.mutation.SetName(v)
+	return _u
 }
 
 // SetNillableName sets the "name" field if the given value is not nil.
-func (ppu *PaymentProductUpdate) SetNillableName(s *string) *PaymentProductUpdate {
-	if s != nil {
-		ppu.SetName(*s)
+func (_u *PaymentProductUpdate) SetNillableName(v *string) *PaymentProductUpdate {
+	if v != nil {
+		_u.SetName(*v)
 	}
-	return ppu
+	return _u
 }
 
 // ClearName clears the value of the "name" field.
-func (ppu *PaymentProductUpdate) ClearName() *PaymentProductUpdate {
-	ppu.mutation.ClearName()
-	return ppu
+func (_u *PaymentProductUpdate) ClearName() *PaymentProductUpdate {
+	_u.mutation.ClearName()
+	return _u
 }
 
 // SetDescription sets the "description" field.
-func (ppu *PaymentProductUpdate) SetDescription(s string) *PaymentProductUpdate {
-	ppu.mutation.SetDescription(s)
-	return ppu
+func (_u *PaymentProductUpdate) SetDescription(v string) *PaymentProductUpdate {
+	_u.mutation.SetDescription(v)
+	return _u
 }
 
 // SetNillableDescription sets the "description" field if the given value is not nil.
-func (ppu *PaymentProductUpdate) SetNillableDescription(s *string) *PaymentProductUpdate {
-	if s != nil {
-		ppu.SetDescription(*s)
+func (_u *PaymentProductUpdate) SetNillableDescription(v *string) *PaymentProductUpdate {
+	if v != nil {
+		_u.SetDescription(*v)
 	}
-	return ppu
+	return _u
 }
 
 // ClearDescription clears the value of the "description" field.
-func (ppu *PaymentProductUpdate) ClearDescription() *PaymentProductUpdate {
-	ppu.mutation.ClearDescription()
-	return ppu
+func (_u *PaymentProductUpdate) ClearDescription() *PaymentProductUpdate {
+	_u.mutation.ClearDescription()
+	return _u
 }
 
 // SetExtras sets the "extras" field.
-func (ppu *PaymentProductUpdate) SetExtras(m map[string]interface{}) *PaymentProductUpdate {
-	ppu.mutation.SetExtras(m)
-	return ppu
+func (_u *PaymentProductUpdate) SetExtras(v map[string]interface{}) *PaymentProductUpdate {
+	_u.mutation.SetExtras(v)
+	return _u
 }
 
 // ClearExtras clears the value of the "extras" field.
-func (ppu *PaymentProductUpdate) ClearExtras() *PaymentProductUpdate {
-	ppu.mutation.ClearExtras()
-	return ppu
+func (_u *PaymentProductUpdate) ClearExtras() *PaymentProductUpdate {
+	_u.mutation.ClearExtras()
+	return _u
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (ppu *PaymentProductUpdate) SetCreatedBy(s string) *PaymentProductUpdate {
-	ppu.mutation.SetCreatedBy(s)
-	return ppu
+func (_u *PaymentProductUpdate) SetCreatedBy(v string) *PaymentProductUpdate {
+	_u.mutation.SetCreatedBy(v)
+	return _u
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (ppu *PaymentProductUpdate) SetNillableCreatedBy(s *string) *PaymentProductUpdate {
-	if s != nil {
-		ppu.SetCreatedBy(*s)
+func (_u *PaymentProductUpdate) SetNillableCreatedBy(v *string) *PaymentProductUpdate {
+	if v != nil {
+		_u.SetCreatedBy(*v)
 	}
-	return ppu
+	return _u
 }
 
 // ClearCreatedBy clears the value of the "created_by" field.
-func (ppu *PaymentProductUpdate) ClearCreatedBy() *PaymentProductUpdate {
-	ppu.mutation.ClearCreatedBy()
-	return ppu
+func (_u *PaymentProductUpdate) ClearCreatedBy() *PaymentProductUpdate {
+	_u.mutation.ClearCreatedBy()
+	return _u
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (ppu *PaymentProductUpdate) SetUpdatedBy(s string) *PaymentProductUpdate {
-	ppu.mutation.SetUpdatedBy(s)
-	return ppu
+func (_u *PaymentProductUpdate) SetUpdatedBy(v string) *PaymentProductUpdate {
+	_u.mutation.SetUpdatedBy(v)
+	return _u
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (ppu *PaymentProductUpdate) SetNillableUpdatedBy(s *string) *PaymentProductUpdate {
-	if s != nil {
-		ppu.SetUpdatedBy(*s)
+func (_u *PaymentProductUpdate) SetNillableUpdatedBy(v *string) *PaymentProductUpdate {
+	if v != nil {
+		_u.SetUpdatedBy(*v)
 	}
-	return ppu
+	return _u
 }
 
 // ClearUpdatedBy clears the value of the "updated_by" field.
-func (ppu *PaymentProductUpdate) ClearUpdatedBy() *PaymentProductUpdate {
-	ppu.mutation.ClearUpdatedBy()
-	return ppu
+func (_u *PaymentProductUpdate) ClearUpdatedBy() *PaymentProductUpdate {
+	_u.mutation.ClearUpdatedBy()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (ppu *PaymentProductUpdate) SetUpdatedAt(i int64) *PaymentProductUpdate {
-	ppu.mutation.ResetUpdatedAt()
-	ppu.mutation.SetUpdatedAt(i)
-	return ppu
+func (_u *PaymentProductUpdate) SetUpdatedAt(v int64) *PaymentProductUpdate {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (ppu *PaymentProductUpdate) AddUpdatedAt(i int64) *PaymentProductUpdate {
-	ppu.mutation.AddUpdatedAt(i)
-	return ppu
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *PaymentProductUpdate) AddUpdatedAt(v int64) *PaymentProductUpdate {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (ppu *PaymentProductUpdate) ClearUpdatedAt() *PaymentProductUpdate {
-	ppu.mutation.ClearUpdatedAt()
-	return ppu
+func (_u *PaymentProductUpdate) ClearUpdatedAt() *PaymentProductUpdate {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // SetStatus sets the "status" field.
-func (ppu *PaymentProductUpdate) SetStatus(s string) *PaymentProductUpdate {
-	ppu.mutation.SetStatus(s)
-	return ppu
+func (_u *PaymentProductUpdate) SetStatus(v string) *PaymentProductUpdate {
+	_u.mutation.SetStatus(v)
+	return _u
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (ppu *PaymentProductUpdate) SetNillableStatus(s *string) *PaymentProductUpdate {
-	if s != nil {
-		ppu.SetStatus(*s)
+func (_u *PaymentProductUpdate) SetNillableStatus(v *string) *PaymentProductUpdate {
+	if v != nil {
+		_u.SetStatus(*v)
 	}
-	return ppu
+	return _u
 }
 
 // SetPricingType sets the "pricing_type" field.
-func (ppu *PaymentProductUpdate) SetPricingType(s string) *PaymentProductUpdate {
-	ppu.mutation.SetPricingType(s)
-	return ppu
+func (_u *PaymentProductUpdate) SetPricingType(v string) *PaymentProductUpdate {
+	_u.mutation.SetPricingType(v)
+	return _u
 }
 
 // SetNillablePricingType sets the "pricing_type" field if the given value is not nil.
-func (ppu *PaymentProductUpdate) SetNillablePricingType(s *string) *PaymentProductUpdate {
-	if s != nil {
-		ppu.SetPricingType(*s)
+func (_u *PaymentProductUpdate) SetNillablePricingType(v *string) *PaymentProductUpdate {
+	if v != nil {
+		_u.SetPricingType(*v)
 	}
-	return ppu
+	return _u
 }
 
 // SetPrice sets the "price" field.
-func (ppu *PaymentProductUpdate) SetPrice(f float64) *PaymentProductUpdate {
-	ppu.mutation.ResetPrice()
-	ppu.mutation.SetPrice(f)
-	return ppu
+func (_u *PaymentProductUpdate) SetPrice(v float64) *PaymentProductUpdate {
+	_u.mutation.ResetPrice()
+	_u.mutation.SetPrice(v)
+	return _u
 }
 
 // SetNillablePrice sets the "price" field if the given value is not nil.
-func (ppu *PaymentProductUpdate) SetNillablePrice(f *float64) *PaymentProductUpdate {
-	if f != nil {
-		ppu.SetPrice(*f)
+func (_u *PaymentProductUpdate) SetNillablePrice(v *float64) *PaymentProductUpdate {
+	if v != nil {
+		_u.SetPrice(*v)
 	}
-	return ppu
+	return _u
 }
 
-// AddPrice adds f to the "price" field.
-func (ppu *PaymentProductUpdate) AddPrice(f float64) *PaymentProductUpdate {
-	ppu.mutation.AddPrice(f)
-	return ppu
+// AddPrice adds value to the "price" field.
+func (_u *PaymentProductUpdate) AddPrice(v float64) *PaymentProductUpdate {
+	_u.mutation.AddPrice(v)
+	return _u
 }
 
 // SetCurrency sets the "currency" field.
-func (ppu *PaymentProductUpdate) SetCurrency(s string) *PaymentProductUpdate {
-	ppu.mutation.SetCurrency(s)
-	return ppu
+func (_u *PaymentProductUpdate) SetCurrency(v string) *PaymentProductUpdate {
+	_u.mutation.SetCurrency(v)
+	return _u
 }
 
 // SetNillableCurrency sets the "currency" field if the given value is not nil.
-func (ppu *PaymentProductUpdate) SetNillableCurrency(s *string) *PaymentProductUpdate {
-	if s != nil {
-		ppu.SetCurrency(*s)
+func (_u *PaymentProductUpdate) SetNillableCurrency(v *string) *PaymentProductUpdate {
+	if v != nil {
+		_u.SetCurrency(*v)
 	}
-	return ppu
+	return _u
 }
 
 // SetBillingInterval sets the "billing_interval" field.
-func (ppu *PaymentProductUpdate) SetBillingInterval(s string) *PaymentProductUpdate {
-	ppu.mutation.SetBillingInterval(s)
-	return ppu
+func (_u *PaymentProductUpdate) SetBillingInterval(v string) *PaymentProductUpdate {
+	_u.mutation.SetBillingInterval(v)
+	return _u
 }
 
 // SetNillableBillingInterval sets the "billing_interval" field if the given value is not nil.
-func (ppu *PaymentProductUpdate) SetNillableBillingInterval(s *string) *PaymentProductUpdate {
-	if s != nil {
-		ppu.SetBillingInterval(*s)
+func (_u *PaymentProductUpdate) SetNillableBillingInterval(v *string) *PaymentProductUpdate {
+	if v != nil {
+		_u.SetBillingInterval(*v)
 	}
-	return ppu
+	return _u
 }
 
 // ClearBillingInterval clears the value of the "billing_interval" field.
-func (ppu *PaymentProductUpdate) ClearBillingInterval() *PaymentProductUpdate {
-	ppu.mutation.ClearBillingInterval()
-	return ppu
+func (_u *PaymentProductUpdate) ClearBillingInterval() *PaymentProductUpdate {
+	_u.mutation.ClearBillingInterval()
+	return _u
 }
 
 // SetTrialDays sets the "trial_days" field.
-func (ppu *PaymentProductUpdate) SetTrialDays(i int) *PaymentProductUpdate {
-	ppu.mutation.ResetTrialDays()
-	ppu.mutation.SetTrialDays(i)
-	return ppu
+func (_u *PaymentProductUpdate) SetTrialDays(v int) *PaymentProductUpdate {
+	_u.mutation.ResetTrialDays()
+	_u.mutation.SetTrialDays(v)
+	return _u
 }
 
 // SetNillableTrialDays sets the "trial_days" field if the given value is not nil.
-func (ppu *PaymentProductUpdate) SetNillableTrialDays(i *int) *PaymentProductUpdate {
-	if i != nil {
-		ppu.SetTrialDays(*i)
+func (_u *PaymentProductUpdate) SetNillableTrialDays(v *int) *PaymentProductUpdate {
+	if v != nil {
+		_u.SetTrialDays(*v)
 	}
-	return ppu
+	return _u
 }
 
-// AddTrialDays adds i to the "trial_days" field.
-func (ppu *PaymentProductUpdate) AddTrialDays(i int) *PaymentProductUpdate {
-	ppu.mutation.AddTrialDays(i)
-	return ppu
+// AddTrialDays adds value to the "trial_days" field.
+func (_u *PaymentProductUpdate) AddTrialDays(v int) *PaymentProductUpdate {
+	_u.mutation.AddTrialDays(v)
+	return _u
 }
 
 // SetFeatures sets the "features" field.
-func (ppu *PaymentProductUpdate) SetFeatures(s []string) *PaymentProductUpdate {
-	ppu.mutation.SetFeatures(s)
-	return ppu
+func (_u *PaymentProductUpdate) SetFeatures(v []string) *PaymentProductUpdate {
+	_u.mutation.SetFeatures(v)
+	return _u
 }
 
-// AppendFeatures appends s to the "features" field.
-func (ppu *PaymentProductUpdate) AppendFeatures(s []string) *PaymentProductUpdate {
-	ppu.mutation.AppendFeatures(s)
-	return ppu
+// AppendFeatures appends value to the "features" field.
+func (_u *PaymentProductUpdate) AppendFeatures(v []string) *PaymentProductUpdate {
+	_u.mutation.AppendFeatures(v)
+	return _u
 }
 
 // SetSpaceID sets the "space_id" field.
-func (ppu *PaymentProductUpdate) SetSpaceID(s string) *PaymentProductUpdate {
-	ppu.mutation.SetSpaceID(s)
-	return ppu
+func (_u *PaymentProductUpdate) SetSpaceID(v string) *PaymentProductUpdate {
+	_u.mutation.SetSpaceID(v)
+	return _u
 }
 
 // SetNillableSpaceID sets the "space_id" field if the given value is not nil.
-func (ppu *PaymentProductUpdate) SetNillableSpaceID(s *string) *PaymentProductUpdate {
-	if s != nil {
-		ppu.SetSpaceID(*s)
+func (_u *PaymentProductUpdate) SetNillableSpaceID(v *string) *PaymentProductUpdate {
+	if v != nil {
+		_u.SetSpaceID(*v)
 	}
-	return ppu
+	return _u
 }
 
 // ClearSpaceID clears the value of the "space_id" field.
-func (ppu *PaymentProductUpdate) ClearSpaceID() *PaymentProductUpdate {
-	ppu.mutation.ClearSpaceID()
-	return ppu
+func (_u *PaymentProductUpdate) ClearSpaceID() *PaymentProductUpdate {
+	_u.mutation.ClearSpaceID()
+	return _u
 }
 
 // AddSubscriptionIDs adds the "subscriptions" edge to the PaymentSubscription entity by IDs.
-func (ppu *PaymentProductUpdate) AddSubscriptionIDs(ids ...string) *PaymentProductUpdate {
-	ppu.mutation.AddSubscriptionIDs(ids...)
-	return ppu
+func (_u *PaymentProductUpdate) AddSubscriptionIDs(ids ...string) *PaymentProductUpdate {
+	_u.mutation.AddSubscriptionIDs(ids...)
+	return _u
 }
 
 // AddSubscriptions adds the "subscriptions" edges to the PaymentSubscription entity.
-func (ppu *PaymentProductUpdate) AddSubscriptions(p ...*PaymentSubscription) *PaymentProductUpdate {
-	ids := make([]string, len(p))
-	for i := range p {
-		ids[i] = p[i].ID
+func (_u *PaymentProductUpdate) AddSubscriptions(v ...*PaymentSubscription) *PaymentProductUpdate {
+	ids := make([]string, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return ppu.AddSubscriptionIDs(ids...)
+	return _u.AddSubscriptionIDs(ids...)
 }
 
 // Mutation returns the PaymentProductMutation object of the builder.
-func (ppu *PaymentProductUpdate) Mutation() *PaymentProductMutation {
-	return ppu.mutation
+func (_u *PaymentProductUpdate) Mutation() *PaymentProductMutation {
+	return _u.mutation
 }
 
 // ClearSubscriptions clears all "subscriptions" edges to the PaymentSubscription entity.
-func (ppu *PaymentProductUpdate) ClearSubscriptions() *PaymentProductUpdate {
-	ppu.mutation.ClearSubscriptions()
-	return ppu
+func (_u *PaymentProductUpdate) ClearSubscriptions() *PaymentProductUpdate {
+	_u.mutation.ClearSubscriptions()
+	return _u
 }
 
 // RemoveSubscriptionIDs removes the "subscriptions" edge to PaymentSubscription entities by IDs.
-func (ppu *PaymentProductUpdate) RemoveSubscriptionIDs(ids ...string) *PaymentProductUpdate {
-	ppu.mutation.RemoveSubscriptionIDs(ids...)
-	return ppu
+func (_u *PaymentProductUpdate) RemoveSubscriptionIDs(ids ...string) *PaymentProductUpdate {
+	_u.mutation.RemoveSubscriptionIDs(ids...)
+	return _u
 }
 
 // RemoveSubscriptions removes "subscriptions" edges to PaymentSubscription entities.
-func (ppu *PaymentProductUpdate) RemoveSubscriptions(p ...*PaymentSubscription) *PaymentProductUpdate {
-	ids := make([]string, len(p))
-	for i := range p {
-		ids[i] = p[i].ID
+func (_u *PaymentProductUpdate) RemoveSubscriptions(v ...*PaymentSubscription) *PaymentProductUpdate {
+	ids := make([]string, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return ppu.RemoveSubscriptionIDs(ids...)
+	return _u.RemoveSubscriptionIDs(ids...)
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
-func (ppu *PaymentProductUpdate) Save(ctx context.Context) (int, error) {
-	ppu.defaults()
-	return withHooks(ctx, ppu.sqlSave, ppu.mutation, ppu.hooks)
+func (_u *PaymentProductUpdate) Save(ctx context.Context) (int, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (ppu *PaymentProductUpdate) SaveX(ctx context.Context) int {
-	affected, err := ppu.Save(ctx)
+func (_u *PaymentProductUpdate) SaveX(ctx context.Context) int {
+	affected, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -333,29 +333,29 @@ func (ppu *PaymentProductUpdate) SaveX(ctx context.Context) int {
 }
 
 // Exec executes the query.
-func (ppu *PaymentProductUpdate) Exec(ctx context.Context) error {
-	_, err := ppu.Save(ctx)
+func (_u *PaymentProductUpdate) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (ppu *PaymentProductUpdate) ExecX(ctx context.Context) {
-	if err := ppu.Exec(ctx); err != nil {
+func (_u *PaymentProductUpdate) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (ppu *PaymentProductUpdate) defaults() {
-	if _, ok := ppu.mutation.UpdatedAt(); !ok && !ppu.mutation.UpdatedAtCleared() {
+func (_u *PaymentProductUpdate) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := paymentproduct.UpdateDefaultUpdatedAt()
-		ppu.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (ppu *PaymentProductUpdate) check() error {
-	if v, ok := ppu.mutation.Price(); ok {
+func (_u *PaymentProductUpdate) check() error {
+	if v, ok := _u.mutation.Price(); ok {
 		if err := paymentproduct.PriceValidator(v); err != nil {
 			return &ValidationError{Name: "price", err: fmt.Errorf(`ent: validator failed for field "PaymentProduct.price": %w`, err)}
 		}
@@ -363,102 +363,102 @@ func (ppu *PaymentProductUpdate) check() error {
 	return nil
 }
 
-func (ppu *PaymentProductUpdate) sqlSave(ctx context.Context) (n int, err error) {
-	if err := ppu.check(); err != nil {
-		return n, err
+func (_u *PaymentProductUpdate) sqlSave(ctx context.Context) (_node int, err error) {
+	if err := _u.check(); err != nil {
+		return _node, err
 	}
 	_spec := sqlgraph.NewUpdateSpec(paymentproduct.Table, paymentproduct.Columns, sqlgraph.NewFieldSpec(paymentproduct.FieldID, field.TypeString))
-	if ps := ppu.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := ppu.mutation.Name(); ok {
+	if value, ok := _u.mutation.Name(); ok {
 		_spec.SetField(paymentproduct.FieldName, field.TypeString, value)
 	}
-	if ppu.mutation.NameCleared() {
+	if _u.mutation.NameCleared() {
 		_spec.ClearField(paymentproduct.FieldName, field.TypeString)
 	}
-	if value, ok := ppu.mutation.Description(); ok {
+	if value, ok := _u.mutation.Description(); ok {
 		_spec.SetField(paymentproduct.FieldDescription, field.TypeString, value)
 	}
-	if ppu.mutation.DescriptionCleared() {
+	if _u.mutation.DescriptionCleared() {
 		_spec.ClearField(paymentproduct.FieldDescription, field.TypeString)
 	}
-	if value, ok := ppu.mutation.Extras(); ok {
+	if value, ok := _u.mutation.Extras(); ok {
 		_spec.SetField(paymentproduct.FieldExtras, field.TypeJSON, value)
 	}
-	if ppu.mutation.ExtrasCleared() {
+	if _u.mutation.ExtrasCleared() {
 		_spec.ClearField(paymentproduct.FieldExtras, field.TypeJSON)
 	}
-	if value, ok := ppu.mutation.CreatedBy(); ok {
+	if value, ok := _u.mutation.CreatedBy(); ok {
 		_spec.SetField(paymentproduct.FieldCreatedBy, field.TypeString, value)
 	}
-	if ppu.mutation.CreatedByCleared() {
+	if _u.mutation.CreatedByCleared() {
 		_spec.ClearField(paymentproduct.FieldCreatedBy, field.TypeString)
 	}
-	if value, ok := ppu.mutation.UpdatedBy(); ok {
+	if value, ok := _u.mutation.UpdatedBy(); ok {
 		_spec.SetField(paymentproduct.FieldUpdatedBy, field.TypeString, value)
 	}
-	if ppu.mutation.UpdatedByCleared() {
+	if _u.mutation.UpdatedByCleared() {
 		_spec.ClearField(paymentproduct.FieldUpdatedBy, field.TypeString)
 	}
-	if ppu.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(paymentproduct.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := ppu.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(paymentproduct.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := ppu.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(paymentproduct.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if ppu.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(paymentproduct.FieldUpdatedAt, field.TypeInt64)
 	}
-	if value, ok := ppu.mutation.Status(); ok {
+	if value, ok := _u.mutation.Status(); ok {
 		_spec.SetField(paymentproduct.FieldStatus, field.TypeString, value)
 	}
-	if value, ok := ppu.mutation.PricingType(); ok {
+	if value, ok := _u.mutation.PricingType(); ok {
 		_spec.SetField(paymentproduct.FieldPricingType, field.TypeString, value)
 	}
-	if value, ok := ppu.mutation.Price(); ok {
+	if value, ok := _u.mutation.Price(); ok {
 		_spec.SetField(paymentproduct.FieldPrice, field.TypeFloat64, value)
 	}
-	if value, ok := ppu.mutation.AddedPrice(); ok {
+	if value, ok := _u.mutation.AddedPrice(); ok {
 		_spec.AddField(paymentproduct.FieldPrice, field.TypeFloat64, value)
 	}
-	if value, ok := ppu.mutation.Currency(); ok {
+	if value, ok := _u.mutation.Currency(); ok {
 		_spec.SetField(paymentproduct.FieldCurrency, field.TypeString, value)
 	}
-	if value, ok := ppu.mutation.BillingInterval(); ok {
+	if value, ok := _u.mutation.BillingInterval(); ok {
 		_spec.SetField(paymentproduct.FieldBillingInterval, field.TypeString, value)
 	}
-	if ppu.mutation.BillingIntervalCleared() {
+	if _u.mutation.BillingIntervalCleared() {
 		_spec.ClearField(paymentproduct.FieldBillingInterval, field.TypeString)
 	}
-	if value, ok := ppu.mutation.TrialDays(); ok {
+	if value, ok := _u.mutation.TrialDays(); ok {
 		_spec.SetField(paymentproduct.FieldTrialDays, field.TypeInt, value)
 	}
-	if value, ok := ppu.mutation.AddedTrialDays(); ok {
+	if value, ok := _u.mutation.AddedTrialDays(); ok {
 		_spec.AddField(paymentproduct.FieldTrialDays, field.TypeInt, value)
 	}
-	if value, ok := ppu.mutation.Features(); ok {
+	if value, ok := _u.mutation.Features(); ok {
 		_spec.SetField(paymentproduct.FieldFeatures, field.TypeJSON, value)
 	}
-	if value, ok := ppu.mutation.AppendedFeatures(); ok {
+	if value, ok := _u.mutation.AppendedFeatures(); ok {
 		_spec.AddModifier(func(u *sql.UpdateBuilder) {
 			sqljson.Append(u, paymentproduct.FieldFeatures, value)
 		})
 	}
-	if value, ok := ppu.mutation.SpaceID(); ok {
+	if value, ok := _u.mutation.SpaceID(); ok {
 		_spec.SetField(paymentproduct.FieldSpaceID, field.TypeString, value)
 	}
-	if ppu.mutation.SpaceIDCleared() {
+	if _u.mutation.SpaceIDCleared() {
 		_spec.ClearField(paymentproduct.FieldSpaceID, field.TypeString)
 	}
-	if ppu.mutation.SubscriptionsCleared() {
+	if _u.mutation.SubscriptionsCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -471,7 +471,7 @@ func (ppu *PaymentProductUpdate) sqlSave(ctx context.Context) (n int, err error)
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := ppu.mutation.RemovedSubscriptionsIDs(); len(nodes) > 0 && !ppu.mutation.SubscriptionsCleared() {
+	if nodes := _u.mutation.RemovedSubscriptionsIDs(); len(nodes) > 0 && !_u.mutation.SubscriptionsCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -487,7 +487,7 @@ func (ppu *PaymentProductUpdate) sqlSave(ctx context.Context) (n int, err error)
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := ppu.mutation.SubscriptionsIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.SubscriptionsIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -503,7 +503,7 @@ func (ppu *PaymentProductUpdate) sqlSave(ctx context.Context) (n int, err error)
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if n, err = sqlgraph.UpdateNodes(ctx, ppu.driver, _spec); err != nil {
+	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{paymentproduct.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -511,8 +511,8 @@ func (ppu *PaymentProductUpdate) sqlSave(ctx context.Context) (n int, err error)
 		}
 		return 0, err
 	}
-	ppu.mutation.done = true
-	return n, nil
+	_u.mutation.done = true
+	return _node, nil
 }
 
 // PaymentProductUpdateOne is the builder for updating a single PaymentProduct entity.
@@ -524,315 +524,315 @@ type PaymentProductUpdateOne struct {
 }
 
 // SetName sets the "name" field.
-func (ppuo *PaymentProductUpdateOne) SetName(s string) *PaymentProductUpdateOne {
-	ppuo.mutation.SetName(s)
-	return ppuo
+func (_u *PaymentProductUpdateOne) SetName(v string) *PaymentProductUpdateOne {
+	_u.mutation.SetName(v)
+	return _u
 }
 
 // SetNillableName sets the "name" field if the given value is not nil.
-func (ppuo *PaymentProductUpdateOne) SetNillableName(s *string) *PaymentProductUpdateOne {
-	if s != nil {
-		ppuo.SetName(*s)
+func (_u *PaymentProductUpdateOne) SetNillableName(v *string) *PaymentProductUpdateOne {
+	if v != nil {
+		_u.SetName(*v)
 	}
-	return ppuo
+	return _u
 }
 
 // ClearName clears the value of the "name" field.
-func (ppuo *PaymentProductUpdateOne) ClearName() *PaymentProductUpdateOne {
-	ppuo.mutation.ClearName()
-	return ppuo
+func (_u *PaymentProductUpdateOne) ClearName() *PaymentProductUpdateOne {
+	_u.mutation.ClearName()
+	return _u
 }
 
 // SetDescription sets the "description" field.
-func (ppuo *PaymentProductUpdateOne) SetDescription(s string) *PaymentProductUpdateOne {
-	ppuo.mutation.SetDescription(s)
-	return ppuo
+func (_u *PaymentProductUpdateOne) SetDescription(v string) *PaymentProductUpdateOne {
+	_u.mutation.SetDescription(v)
+	return _u
 }
 
 // SetNillableDescription sets the "description" field if the given value is not nil.
-func (ppuo *PaymentProductUpdateOne) SetNillableDescription(s *string) *PaymentProductUpdateOne {
-	if s != nil {
-		ppuo.SetDescription(*s)
+func (_u *PaymentProductUpdateOne) SetNillableDescription(v *string) *PaymentProductUpdateOne {
+	if v != nil {
+		_u.SetDescription(*v)
 	}
-	return ppuo
+	return _u
 }
 
 // ClearDescription clears the value of the "description" field.
-func (ppuo *PaymentProductUpdateOne) ClearDescription() *PaymentProductUpdateOne {
-	ppuo.mutation.ClearDescription()
-	return ppuo
+func (_u *PaymentProductUpdateOne) ClearDescription() *PaymentProductUpdateOne {
+	_u.mutation.ClearDescription()
+	return _u
 }
 
 // SetExtras sets the "extras" field.
-func (ppuo *PaymentProductUpdateOne) SetExtras(m map[string]interface{}) *PaymentProductUpdateOne {
-	ppuo.mutation.SetExtras(m)
-	return ppuo
+func (_u *PaymentProductUpdateOne) SetExtras(v map[string]interface{}) *PaymentProductUpdateOne {
+	_u.mutation.SetExtras(v)
+	return _u
 }
 
 // ClearExtras clears the value of the "extras" field.
-func (ppuo *PaymentProductUpdateOne) ClearExtras() *PaymentProductUpdateOne {
-	ppuo.mutation.ClearExtras()
-	return ppuo
+func (_u *PaymentProductUpdateOne) ClearExtras() *PaymentProductUpdateOne {
+	_u.mutation.ClearExtras()
+	return _u
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (ppuo *PaymentProductUpdateOne) SetCreatedBy(s string) *PaymentProductUpdateOne {
-	ppuo.mutation.SetCreatedBy(s)
-	return ppuo
+func (_u *PaymentProductUpdateOne) SetCreatedBy(v string) *PaymentProductUpdateOne {
+	_u.mutation.SetCreatedBy(v)
+	return _u
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (ppuo *PaymentProductUpdateOne) SetNillableCreatedBy(s *string) *PaymentProductUpdateOne {
-	if s != nil {
-		ppuo.SetCreatedBy(*s)
+func (_u *PaymentProductUpdateOne) SetNillableCreatedBy(v *string) *PaymentProductUpdateOne {
+	if v != nil {
+		_u.SetCreatedBy(*v)
 	}
-	return ppuo
+	return _u
 }
 
 // ClearCreatedBy clears the value of the "created_by" field.
-func (ppuo *PaymentProductUpdateOne) ClearCreatedBy() *PaymentProductUpdateOne {
-	ppuo.mutation.ClearCreatedBy()
-	return ppuo
+func (_u *PaymentProductUpdateOne) ClearCreatedBy() *PaymentProductUpdateOne {
+	_u.mutation.ClearCreatedBy()
+	return _u
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (ppuo *PaymentProductUpdateOne) SetUpdatedBy(s string) *PaymentProductUpdateOne {
-	ppuo.mutation.SetUpdatedBy(s)
-	return ppuo
+func (_u *PaymentProductUpdateOne) SetUpdatedBy(v string) *PaymentProductUpdateOne {
+	_u.mutation.SetUpdatedBy(v)
+	return _u
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (ppuo *PaymentProductUpdateOne) SetNillableUpdatedBy(s *string) *PaymentProductUpdateOne {
-	if s != nil {
-		ppuo.SetUpdatedBy(*s)
+func (_u *PaymentProductUpdateOne) SetNillableUpdatedBy(v *string) *PaymentProductUpdateOne {
+	if v != nil {
+		_u.SetUpdatedBy(*v)
 	}
-	return ppuo
+	return _u
 }
 
 // ClearUpdatedBy clears the value of the "updated_by" field.
-func (ppuo *PaymentProductUpdateOne) ClearUpdatedBy() *PaymentProductUpdateOne {
-	ppuo.mutation.ClearUpdatedBy()
-	return ppuo
+func (_u *PaymentProductUpdateOne) ClearUpdatedBy() *PaymentProductUpdateOne {
+	_u.mutation.ClearUpdatedBy()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (ppuo *PaymentProductUpdateOne) SetUpdatedAt(i int64) *PaymentProductUpdateOne {
-	ppuo.mutation.ResetUpdatedAt()
-	ppuo.mutation.SetUpdatedAt(i)
-	return ppuo
+func (_u *PaymentProductUpdateOne) SetUpdatedAt(v int64) *PaymentProductUpdateOne {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (ppuo *PaymentProductUpdateOne) AddUpdatedAt(i int64) *PaymentProductUpdateOne {
-	ppuo.mutation.AddUpdatedAt(i)
-	return ppuo
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *PaymentProductUpdateOne) AddUpdatedAt(v int64) *PaymentProductUpdateOne {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (ppuo *PaymentProductUpdateOne) ClearUpdatedAt() *PaymentProductUpdateOne {
-	ppuo.mutation.ClearUpdatedAt()
-	return ppuo
+func (_u *PaymentProductUpdateOne) ClearUpdatedAt() *PaymentProductUpdateOne {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // SetStatus sets the "status" field.
-func (ppuo *PaymentProductUpdateOne) SetStatus(s string) *PaymentProductUpdateOne {
-	ppuo.mutation.SetStatus(s)
-	return ppuo
+func (_u *PaymentProductUpdateOne) SetStatus(v string) *PaymentProductUpdateOne {
+	_u.mutation.SetStatus(v)
+	return _u
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (ppuo *PaymentProductUpdateOne) SetNillableStatus(s *string) *PaymentProductUpdateOne {
-	if s != nil {
-		ppuo.SetStatus(*s)
+func (_u *PaymentProductUpdateOne) SetNillableStatus(v *string) *PaymentProductUpdateOne {
+	if v != nil {
+		_u.SetStatus(*v)
 	}
-	return ppuo
+	return _u
 }
 
 // SetPricingType sets the "pricing_type" field.
-func (ppuo *PaymentProductUpdateOne) SetPricingType(s string) *PaymentProductUpdateOne {
-	ppuo.mutation.SetPricingType(s)
-	return ppuo
+func (_u *PaymentProductUpdateOne) SetPricingType(v string) *PaymentProductUpdateOne {
+	_u.mutation.SetPricingType(v)
+	return _u
 }
 
 // SetNillablePricingType sets the "pricing_type" field if the given value is not nil.
-func (ppuo *PaymentProductUpdateOne) SetNillablePricingType(s *string) *PaymentProductUpdateOne {
-	if s != nil {
-		ppuo.SetPricingType(*s)
+func (_u *PaymentProductUpdateOne) SetNillablePricingType(v *string) *PaymentProductUpdateOne {
+	if v != nil {
+		_u.SetPricingType(*v)
 	}
-	return ppuo
+	return _u
 }
 
 // SetPrice sets the "price" field.
-func (ppuo *PaymentProductUpdateOne) SetPrice(f float64) *PaymentProductUpdateOne {
-	ppuo.mutation.ResetPrice()
-	ppuo.mutation.SetPrice(f)
-	return ppuo
+func (_u *PaymentProductUpdateOne) SetPrice(v float64) *PaymentProductUpdateOne {
+	_u.mutation.ResetPrice()
+	_u.mutation.SetPrice(v)
+	return _u
 }
 
 // SetNillablePrice sets the "price" field if the given value is not nil.
-func (ppuo *PaymentProductUpdateOne) SetNillablePrice(f *float64) *PaymentProductUpdateOne {
-	if f != nil {
-		ppuo.SetPrice(*f)
+func (_u *PaymentProductUpdateOne) SetNillablePrice(v *float64) *PaymentProductUpdateOne {
+	if v != nil {
+		_u.SetPrice(*v)
 	}
-	return ppuo
+	return _u
 }
 
-// AddPrice adds f to the "price" field.
-func (ppuo *PaymentProductUpdateOne) AddPrice(f float64) *PaymentProductUpdateOne {
-	ppuo.mutation.AddPrice(f)
-	return ppuo
+// AddPrice adds value to the "price" field.
+func (_u *PaymentProductUpdateOne) AddPrice(v float64) *PaymentProductUpdateOne {
+	_u.mutation.AddPrice(v)
+	return _u
 }
 
 // SetCurrency sets the "currency" field.
-func (ppuo *PaymentProductUpdateOne) SetCurrency(s string) *PaymentProductUpdateOne {
-	ppuo.mutation.SetCurrency(s)
-	return ppuo
+func (_u *PaymentProductUpdateOne) SetCurrency(v string) *PaymentProductUpdateOne {
+	_u.mutation.SetCurrency(v)
+	return _u
 }
 
 // SetNillableCurrency sets the "currency" field if the given value is not nil.
-func (ppuo *PaymentProductUpdateOne) SetNillableCurrency(s *string) *PaymentProductUpdateOne {
-	if s != nil {
-		ppuo.SetCurrency(*s)
+func (_u *PaymentProductUpdateOne) SetNillableCurrency(v *string) *PaymentProductUpdateOne {
+	if v != nil {
+		_u.SetCurrency(*v)
 	}
-	return ppuo
+	return _u
 }
 
 // SetBillingInterval sets the "billing_interval" field.
-func (ppuo *PaymentProductUpdateOne) SetBillingInterval(s string) *PaymentProductUpdateOne {
-	ppuo.mutation.SetBillingInterval(s)
-	return ppuo
+func (_u *PaymentProductUpdateOne) SetBillingInterval(v string) *PaymentProductUpdateOne {
+	_u.mutation.SetBillingInterval(v)
+	return _u
 }
 
 // SetNillableBillingInterval sets the "billing_interval" field if the given value is not nil.
-func (ppuo *PaymentProductUpdateOne) SetNillableBillingInterval(s *string) *PaymentProductUpdateOne {
-	if s != nil {
-		ppuo.SetBillingInterval(*s)
+func (_u *PaymentProductUpdateOne) SetNillableBillingInterval(v *string) *PaymentProductUpdateOne {
+	if v != nil {
+		_u.SetBillingInterval(*v)
 	}
-	return ppuo
+	return _u
 }
 
 // ClearBillingInterval clears the value of the "billing_interval" field.
-func (ppuo *PaymentProductUpdateOne) ClearBillingInterval() *PaymentProductUpdateOne {
-	ppuo.mutation.ClearBillingInterval()
-	return ppuo
+func (_u *PaymentProductUpdateOne) ClearBillingInterval() *PaymentProductUpdateOne {
+	_u.mutation.ClearBillingInterval()
+	return _u
 }
 
 // SetTrialDays sets the "trial_days" field.
-func (ppuo *PaymentProductUpdateOne) SetTrialDays(i int) *PaymentProductUpdateOne {
-	ppuo.mutation.ResetTrialDays()
-	ppuo.mutation.SetTrialDays(i)
-	return ppuo
+func (_u *PaymentProductUpdateOne) SetTrialDays(v int) *PaymentProductUpdateOne {
+	_u.mutation.ResetTrialDays()
+	_u.mutation.SetTrialDays(v)
+	return _u
 }
 
 // SetNillableTrialDays sets the "trial_days" field if the given value is not nil.
-func (ppuo *PaymentProductUpdateOne) SetNillableTrialDays(i *int) *PaymentProductUpdateOne {
-	if i != nil {
-		ppuo.SetTrialDays(*i)
+func (_u *PaymentProductUpdateOne) SetNillableTrialDays(v *int) *PaymentProductUpdateOne {
+	if v != nil {
+		_u.SetTrialDays(*v)
 	}
-	return ppuo
+	return _u
 }
 
-// AddTrialDays adds i to the "trial_days" field.
-func (ppuo *PaymentProductUpdateOne) AddTrialDays(i int) *PaymentProductUpdateOne {
-	ppuo.mutation.AddTrialDays(i)
-	return ppuo
+// AddTrialDays adds value to the "trial_days" field.
+func (_u *PaymentProductUpdateOne) AddTrialDays(v int) *PaymentProductUpdateOne {
+	_u.mutation.AddTrialDays(v)
+	return _u
 }
 
 // SetFeatures sets the "features" field.
-func (ppuo *PaymentProductUpdateOne) SetFeatures(s []string) *PaymentProductUpdateOne {
-	ppuo.mutation.SetFeatures(s)
-	return ppuo
+func (_u *PaymentProductUpdateOne) SetFeatures(v []string) *PaymentProductUpdateOne {
+	_u.mutation.SetFeatures(v)
+	return _u
 }
 
-// AppendFeatures appends s to the "features" field.
-func (ppuo *PaymentProductUpdateOne) AppendFeatures(s []string) *PaymentProductUpdateOne {
-	ppuo.mutation.AppendFeatures(s)
-	return ppuo
+// AppendFeatures appends value to the "features" field.
+func (_u *PaymentProductUpdateOne) AppendFeatures(v []string) *PaymentProductUpdateOne {
+	_u.mutation.AppendFeatures(v)
+	return _u
 }
 
 // SetSpaceID sets the "space_id" field.
-func (ppuo *PaymentProductUpdateOne) SetSpaceID(s string) *PaymentProductUpdateOne {
-	ppuo.mutation.SetSpaceID(s)
-	return ppuo
+func (_u *PaymentProductUpdateOne) SetSpaceID(v string) *PaymentProductUpdateOne {
+	_u.mutation.SetSpaceID(v)
+	return _u
 }
 
 // SetNillableSpaceID sets the "space_id" field if the given value is not nil.
-func (ppuo *PaymentProductUpdateOne) SetNillableSpaceID(s *string) *PaymentProductUpdateOne {
-	if s != nil {
-		ppuo.SetSpaceID(*s)
+func (_u *PaymentProductUpdateOne) SetNillableSpaceID(v *string) *PaymentProductUpdateOne {
+	if v != nil {
+		_u.SetSpaceID(*v)
 	}
-	return ppuo
+	return _u
 }
 
 // ClearSpaceID clears the value of the "space_id" field.
-func (ppuo *PaymentProductUpdateOne) ClearSpaceID() *PaymentProductUpdateOne {
-	ppuo.mutation.ClearSpaceID()
-	return ppuo
+func (_u *PaymentProductUpdateOne) ClearSpaceID() *PaymentProductUpdateOne {
+	_u.mutation.ClearSpaceID()
+	return _u
 }
 
 // AddSubscriptionIDs adds the "subscriptions" edge to the PaymentSubscription entity by IDs.
-func (ppuo *PaymentProductUpdateOne) AddSubscriptionIDs(ids ...string) *PaymentProductUpdateOne {
-	ppuo.mutation.AddSubscriptionIDs(ids...)
-	return ppuo
+func (_u *PaymentProductUpdateOne) AddSubscriptionIDs(ids ...string) *PaymentProductUpdateOne {
+	_u.mutation.AddSubscriptionIDs(ids...)
+	return _u
 }
 
 // AddSubscriptions adds the "subscriptions" edges to the PaymentSubscription entity.
-func (ppuo *PaymentProductUpdateOne) AddSubscriptions(p ...*PaymentSubscription) *PaymentProductUpdateOne {
-	ids := make([]string, len(p))
-	for i := range p {
-		ids[i] = p[i].ID
+func (_u *PaymentProductUpdateOne) AddSubscriptions(v ...*PaymentSubscription) *PaymentProductUpdateOne {
+	ids := make([]string, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return ppuo.AddSubscriptionIDs(ids...)
+	return _u.AddSubscriptionIDs(ids...)
 }
 
 // Mutation returns the PaymentProductMutation object of the builder.
-func (ppuo *PaymentProductUpdateOne) Mutation() *PaymentProductMutation {
-	return ppuo.mutation
+func (_u *PaymentProductUpdateOne) Mutation() *PaymentProductMutation {
+	return _u.mutation
 }
 
 // ClearSubscriptions clears all "subscriptions" edges to the PaymentSubscription entity.
-func (ppuo *PaymentProductUpdateOne) ClearSubscriptions() *PaymentProductUpdateOne {
-	ppuo.mutation.ClearSubscriptions()
-	return ppuo
+func (_u *PaymentProductUpdateOne) ClearSubscriptions() *PaymentProductUpdateOne {
+	_u.mutation.ClearSubscriptions()
+	return _u
 }
 
 // RemoveSubscriptionIDs removes the "subscriptions" edge to PaymentSubscription entities by IDs.
-func (ppuo *PaymentProductUpdateOne) RemoveSubscriptionIDs(ids ...string) *PaymentProductUpdateOne {
-	ppuo.mutation.RemoveSubscriptionIDs(ids...)
-	return ppuo
+func (_u *PaymentProductUpdateOne) RemoveSubscriptionIDs(ids ...string) *PaymentProductUpdateOne {
+	_u.mutation.RemoveSubscriptionIDs(ids...)
+	return _u
 }
 
 // RemoveSubscriptions removes "subscriptions" edges to PaymentSubscription entities.
-func (ppuo *PaymentProductUpdateOne) RemoveSubscriptions(p ...*PaymentSubscription) *PaymentProductUpdateOne {
-	ids := make([]string, len(p))
-	for i := range p {
-		ids[i] = p[i].ID
+func (_u *PaymentProductUpdateOne) RemoveSubscriptions(v ...*PaymentSubscription) *PaymentProductUpdateOne {
+	ids := make([]string, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return ppuo.RemoveSubscriptionIDs(ids...)
+	return _u.RemoveSubscriptionIDs(ids...)
 }
 
 // Where appends a list predicates to the PaymentProductUpdate builder.
-func (ppuo *PaymentProductUpdateOne) Where(ps ...predicate.PaymentProduct) *PaymentProductUpdateOne {
-	ppuo.mutation.Where(ps...)
-	return ppuo
+func (_u *PaymentProductUpdateOne) Where(ps ...predicate.PaymentProduct) *PaymentProductUpdateOne {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // Select allows selecting one or more fields (columns) of the returned entity.
 // The default is selecting all fields defined in the entity schema.
-func (ppuo *PaymentProductUpdateOne) Select(field string, fields ...string) *PaymentProductUpdateOne {
-	ppuo.fields = append([]string{field}, fields...)
-	return ppuo
+func (_u *PaymentProductUpdateOne) Select(field string, fields ...string) *PaymentProductUpdateOne {
+	_u.fields = append([]string{field}, fields...)
+	return _u
 }
 
 // Save executes the query and returns the updated PaymentProduct entity.
-func (ppuo *PaymentProductUpdateOne) Save(ctx context.Context) (*PaymentProduct, error) {
-	ppuo.defaults()
-	return withHooks(ctx, ppuo.sqlSave, ppuo.mutation, ppuo.hooks)
+func (_u *PaymentProductUpdateOne) Save(ctx context.Context) (*PaymentProduct, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (ppuo *PaymentProductUpdateOne) SaveX(ctx context.Context) *PaymentProduct {
-	node, err := ppuo.Save(ctx)
+func (_u *PaymentProductUpdateOne) SaveX(ctx context.Context) *PaymentProduct {
+	node, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -840,29 +840,29 @@ func (ppuo *PaymentProductUpdateOne) SaveX(ctx context.Context) *PaymentProduct 
 }
 
 // Exec executes the query on the entity.
-func (ppuo *PaymentProductUpdateOne) Exec(ctx context.Context) error {
-	_, err := ppuo.Save(ctx)
+func (_u *PaymentProductUpdateOne) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (ppuo *PaymentProductUpdateOne) ExecX(ctx context.Context) {
-	if err := ppuo.Exec(ctx); err != nil {
+func (_u *PaymentProductUpdateOne) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (ppuo *PaymentProductUpdateOne) defaults() {
-	if _, ok := ppuo.mutation.UpdatedAt(); !ok && !ppuo.mutation.UpdatedAtCleared() {
+func (_u *PaymentProductUpdateOne) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := paymentproduct.UpdateDefaultUpdatedAt()
-		ppuo.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (ppuo *PaymentProductUpdateOne) check() error {
-	if v, ok := ppuo.mutation.Price(); ok {
+func (_u *PaymentProductUpdateOne) check() error {
+	if v, ok := _u.mutation.Price(); ok {
 		if err := paymentproduct.PriceValidator(v); err != nil {
 			return &ValidationError{Name: "price", err: fmt.Errorf(`ent: validator failed for field "PaymentProduct.price": %w`, err)}
 		}
@@ -870,17 +870,17 @@ func (ppuo *PaymentProductUpdateOne) check() error {
 	return nil
 }
 
-func (ppuo *PaymentProductUpdateOne) sqlSave(ctx context.Context) (_node *PaymentProduct, err error) {
-	if err := ppuo.check(); err != nil {
+func (_u *PaymentProductUpdateOne) sqlSave(ctx context.Context) (_node *PaymentProduct, err error) {
+	if err := _u.check(); err != nil {
 		return _node, err
 	}
 	_spec := sqlgraph.NewUpdateSpec(paymentproduct.Table, paymentproduct.Columns, sqlgraph.NewFieldSpec(paymentproduct.FieldID, field.TypeString))
-	id, ok := ppuo.mutation.ID()
+	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "PaymentProduct.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
-	if fields := ppuo.fields; len(fields) > 0 {
+	if fields := _u.fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, paymentproduct.FieldID)
 		for _, f := range fields {
@@ -892,97 +892,97 @@ func (ppuo *PaymentProductUpdateOne) sqlSave(ctx context.Context) (_node *Paymen
 			}
 		}
 	}
-	if ps := ppuo.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := ppuo.mutation.Name(); ok {
+	if value, ok := _u.mutation.Name(); ok {
 		_spec.SetField(paymentproduct.FieldName, field.TypeString, value)
 	}
-	if ppuo.mutation.NameCleared() {
+	if _u.mutation.NameCleared() {
 		_spec.ClearField(paymentproduct.FieldName, field.TypeString)
 	}
-	if value, ok := ppuo.mutation.Description(); ok {
+	if value, ok := _u.mutation.Description(); ok {
 		_spec.SetField(paymentproduct.FieldDescription, field.TypeString, value)
 	}
-	if ppuo.mutation.DescriptionCleared() {
+	if _u.mutation.DescriptionCleared() {
 		_spec.ClearField(paymentproduct.FieldDescription, field.TypeString)
 	}
-	if value, ok := ppuo.mutation.Extras(); ok {
+	if value, ok := _u.mutation.Extras(); ok {
 		_spec.SetField(paymentproduct.FieldExtras, field.TypeJSON, value)
 	}
-	if ppuo.mutation.ExtrasCleared() {
+	if _u.mutation.ExtrasCleared() {
 		_spec.ClearField(paymentproduct.FieldExtras, field.TypeJSON)
 	}
-	if value, ok := ppuo.mutation.CreatedBy(); ok {
+	if value, ok := _u.mutation.CreatedBy(); ok {
 		_spec.SetField(paymentproduct.FieldCreatedBy, field.TypeString, value)
 	}
-	if ppuo.mutation.CreatedByCleared() {
+	if _u.mutation.CreatedByCleared() {
 		_spec.ClearField(paymentproduct.FieldCreatedBy, field.TypeString)
 	}
-	if value, ok := ppuo.mutation.UpdatedBy(); ok {
+	if value, ok := _u.mutation.UpdatedBy(); ok {
 		_spec.SetField(paymentproduct.FieldUpdatedBy, field.TypeString, value)
 	}
-	if ppuo.mutation.UpdatedByCleared() {
+	if _u.mutation.UpdatedByCleared() {
 		_spec.ClearField(paymentproduct.FieldUpdatedBy, field.TypeString)
 	}
-	if ppuo.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(paymentproduct.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := ppuo.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(paymentproduct.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := ppuo.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(paymentproduct.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if ppuo.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(paymentproduct.FieldUpdatedAt, field.TypeInt64)
 	}
-	if value, ok := ppuo.mutation.Status(); ok {
+	if value, ok := _u.mutation.Status(); ok {
 		_spec.SetField(paymentproduct.FieldStatus, field.TypeString, value)
 	}
-	if value, ok := ppuo.mutation.PricingType(); ok {
+	if value, ok := _u.mutation.PricingType(); ok {
 		_spec.SetField(paymentproduct.FieldPricingType, field.TypeString, value)
 	}
-	if value, ok := ppuo.mutation.Price(); ok {
+	if value, ok := _u.mutation.Price(); ok {
 		_spec.SetField(paymentproduct.FieldPrice, field.TypeFloat64, value)
 	}
-	if value, ok := ppuo.mutation.AddedPrice(); ok {
+	if value, ok := _u.mutation.AddedPrice(); ok {
 		_spec.AddField(paymentproduct.FieldPrice, field.TypeFloat64, value)
 	}
-	if value, ok := ppuo.mutation.Currency(); ok {
+	if value, ok := _u.mutation.Currency(); ok {
 		_spec.SetField(paymentproduct.FieldCurrency, field.TypeString, value)
 	}
-	if value, ok := ppuo.mutation.BillingInterval(); ok {
+	if value, ok := _u.mutation.BillingInterval(); ok {
 		_spec.SetField(paymentproduct.FieldBillingInterval, field.TypeString, value)
 	}
-	if ppuo.mutation.BillingIntervalCleared() {
+	if _u.mutation.BillingIntervalCleared() {
 		_spec.ClearField(paymentproduct.FieldBillingInterval, field.TypeString)
 	}
-	if value, ok := ppuo.mutation.TrialDays(); ok {
+	if value, ok := _u.mutation.TrialDays(); ok {
 		_spec.SetField(paymentproduct.FieldTrialDays, field.TypeInt, value)
 	}
-	if value, ok := ppuo.mutation.AddedTrialDays(); ok {
+	if value, ok := _u.mutation.AddedTrialDays(); ok {
 		_spec.AddField(paymentproduct.FieldTrialDays, field.TypeInt, value)
 	}
-	if value, ok := ppuo.mutation.Features(); ok {
+	if value, ok := _u.mutation.Features(); ok {
 		_spec.SetField(paymentproduct.FieldFeatures, field.TypeJSON, value)
 	}
-	if value, ok := ppuo.mutation.AppendedFeatures(); ok {
+	if value, ok := _u.mutation.AppendedFeatures(); ok {
 		_spec.AddModifier(func(u *sql.UpdateBuilder) {
 			sqljson.Append(u, paymentproduct.FieldFeatures, value)
 		})
 	}
-	if value, ok := ppuo.mutation.SpaceID(); ok {
+	if value, ok := _u.mutation.SpaceID(); ok {
 		_spec.SetField(paymentproduct.FieldSpaceID, field.TypeString, value)
 	}
-	if ppuo.mutation.SpaceIDCleared() {
+	if _u.mutation.SpaceIDCleared() {
 		_spec.ClearField(paymentproduct.FieldSpaceID, field.TypeString)
 	}
-	if ppuo.mutation.SubscriptionsCleared() {
+	if _u.mutation.SubscriptionsCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -995,7 +995,7 @@ func (ppuo *PaymentProductUpdateOne) sqlSave(ctx context.Context) (_node *Paymen
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := ppuo.mutation.RemovedSubscriptionsIDs(); len(nodes) > 0 && !ppuo.mutation.SubscriptionsCleared() {
+	if nodes := _u.mutation.RemovedSubscriptionsIDs(); len(nodes) > 0 && !_u.mutation.SubscriptionsCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -1011,7 +1011,7 @@ func (ppuo *PaymentProductUpdateOne) sqlSave(ctx context.Context) (_node *Paymen
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := ppuo.mutation.SubscriptionsIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.SubscriptionsIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -1027,10 +1027,10 @@ func (ppuo *PaymentProductUpdateOne) sqlSave(ctx context.Context) (_node *Paymen
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	_node = &PaymentProduct{config: ppuo.config}
+	_node = &PaymentProduct{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues
-	if err = sqlgraph.UpdateNode(ctx, ppuo.driver, _spec); err != nil {
+	if err = sqlgraph.UpdateNode(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{paymentproduct.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -1038,6 +1038,6 @@ func (ppuo *PaymentProductUpdateOne) sqlSave(ctx context.Context) (_node *Paymen
 		}
 		return nil, err
 	}
-	ppuo.mutation.done = true
+	_u.mutation.done = true
 	return _node, nil
 }

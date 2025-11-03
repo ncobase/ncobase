@@ -20,377 +20,377 @@ type BusinessCreate struct {
 }
 
 // SetCode sets the "code" field.
-func (bc *BusinessCreate) SetCode(s string) *BusinessCreate {
-	bc.mutation.SetCode(s)
-	return bc
+func (_c *BusinessCreate) SetCode(v string) *BusinessCreate {
+	_c.mutation.SetCode(v)
+	return _c
 }
 
 // SetNillableCode sets the "code" field if the given value is not nil.
-func (bc *BusinessCreate) SetNillableCode(s *string) *BusinessCreate {
-	if s != nil {
-		bc.SetCode(*s)
+func (_c *BusinessCreate) SetNillableCode(v *string) *BusinessCreate {
+	if v != nil {
+		_c.SetCode(*v)
 	}
-	return bc
+	return _c
 }
 
 // SetStatus sets the "status" field.
-func (bc *BusinessCreate) SetStatus(s string) *BusinessCreate {
-	bc.mutation.SetStatus(s)
-	return bc
+func (_c *BusinessCreate) SetStatus(v string) *BusinessCreate {
+	_c.mutation.SetStatus(v)
+	return _c
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (bc *BusinessCreate) SetNillableStatus(s *string) *BusinessCreate {
-	if s != nil {
-		bc.SetStatus(*s)
+func (_c *BusinessCreate) SetNillableStatus(v *string) *BusinessCreate {
+	if v != nil {
+		_c.SetStatus(*v)
 	}
-	return bc
+	return _c
 }
 
 // SetFormCode sets the "form_code" field.
-func (bc *BusinessCreate) SetFormCode(s string) *BusinessCreate {
-	bc.mutation.SetFormCode(s)
-	return bc
+func (_c *BusinessCreate) SetFormCode(v string) *BusinessCreate {
+	_c.mutation.SetFormCode(v)
+	return _c
 }
 
 // SetFormVersion sets the "form_version" field.
-func (bc *BusinessCreate) SetFormVersion(s string) *BusinessCreate {
-	bc.mutation.SetFormVersion(s)
-	return bc
+func (_c *BusinessCreate) SetFormVersion(v string) *BusinessCreate {
+	_c.mutation.SetFormVersion(v)
+	return _c
 }
 
 // SetNillableFormVersion sets the "form_version" field if the given value is not nil.
-func (bc *BusinessCreate) SetNillableFormVersion(s *string) *BusinessCreate {
-	if s != nil {
-		bc.SetFormVersion(*s)
+func (_c *BusinessCreate) SetNillableFormVersion(v *string) *BusinessCreate {
+	if v != nil {
+		_c.SetFormVersion(*v)
 	}
-	return bc
+	return _c
 }
 
 // SetFormConfig sets the "form_config" field.
-func (bc *BusinessCreate) SetFormConfig(m map[string]interface{}) *BusinessCreate {
-	bc.mutation.SetFormConfig(m)
-	return bc
+func (_c *BusinessCreate) SetFormConfig(v map[string]interface{}) *BusinessCreate {
+	_c.mutation.SetFormConfig(v)
+	return _c
 }
 
 // SetFormPermissions sets the "form_permissions" field.
-func (bc *BusinessCreate) SetFormPermissions(m map[string]interface{}) *BusinessCreate {
-	bc.mutation.SetFormPermissions(m)
-	return bc
+func (_c *BusinessCreate) SetFormPermissions(v map[string]interface{}) *BusinessCreate {
+	_c.mutation.SetFormPermissions(v)
+	return _c
 }
 
 // SetFieldPermissions sets the "field_permissions" field.
-func (bc *BusinessCreate) SetFieldPermissions(m map[string]interface{}) *BusinessCreate {
-	bc.mutation.SetFieldPermissions(m)
-	return bc
+func (_c *BusinessCreate) SetFieldPermissions(v map[string]interface{}) *BusinessCreate {
+	_c.mutation.SetFieldPermissions(v)
+	return _c
 }
 
 // SetProcessID sets the "process_id" field.
-func (bc *BusinessCreate) SetProcessID(s string) *BusinessCreate {
-	bc.mutation.SetProcessID(s)
-	return bc
+func (_c *BusinessCreate) SetProcessID(v string) *BusinessCreate {
+	_c.mutation.SetProcessID(v)
+	return _c
 }
 
 // SetTemplateID sets the "template_id" field.
-func (bc *BusinessCreate) SetTemplateID(s string) *BusinessCreate {
-	bc.mutation.SetTemplateID(s)
-	return bc
+func (_c *BusinessCreate) SetTemplateID(v string) *BusinessCreate {
+	_c.mutation.SetTemplateID(v)
+	return _c
 }
 
 // SetBusinessKey sets the "business_key" field.
-func (bc *BusinessCreate) SetBusinessKey(s string) *BusinessCreate {
-	bc.mutation.SetBusinessKey(s)
-	return bc
+func (_c *BusinessCreate) SetBusinessKey(v string) *BusinessCreate {
+	_c.mutation.SetBusinessKey(v)
+	return _c
 }
 
 // SetOriginData sets the "origin_data" field.
-func (bc *BusinessCreate) SetOriginData(m map[string]interface{}) *BusinessCreate {
-	bc.mutation.SetOriginData(m)
-	return bc
+func (_c *BusinessCreate) SetOriginData(v map[string]interface{}) *BusinessCreate {
+	_c.mutation.SetOriginData(v)
+	return _c
 }
 
 // SetCurrentData sets the "current_data" field.
-func (bc *BusinessCreate) SetCurrentData(m map[string]interface{}) *BusinessCreate {
-	bc.mutation.SetCurrentData(m)
-	return bc
+func (_c *BusinessCreate) SetCurrentData(v map[string]interface{}) *BusinessCreate {
+	_c.mutation.SetCurrentData(v)
+	return _c
 }
 
 // SetChangeLogs sets the "change_logs" field.
-func (bc *BusinessCreate) SetChangeLogs(m []map[string]interface{}) *BusinessCreate {
-	bc.mutation.SetChangeLogs(m)
-	return bc
+func (_c *BusinessCreate) SetChangeLogs(v []map[string]interface{}) *BusinessCreate {
+	_c.mutation.SetChangeLogs(v)
+	return _c
 }
 
 // SetLastModified sets the "last_modified" field.
-func (bc *BusinessCreate) SetLastModified(i int64) *BusinessCreate {
-	bc.mutation.SetLastModified(i)
-	return bc
+func (_c *BusinessCreate) SetLastModified(v int64) *BusinessCreate {
+	_c.mutation.SetLastModified(v)
+	return _c
 }
 
 // SetNillableLastModified sets the "last_modified" field if the given value is not nil.
-func (bc *BusinessCreate) SetNillableLastModified(i *int64) *BusinessCreate {
-	if i != nil {
-		bc.SetLastModified(*i)
+func (_c *BusinessCreate) SetNillableLastModified(v *int64) *BusinessCreate {
+	if v != nil {
+		_c.SetLastModified(*v)
 	}
-	return bc
+	return _c
 }
 
 // SetLastModifier sets the "last_modifier" field.
-func (bc *BusinessCreate) SetLastModifier(s string) *BusinessCreate {
-	bc.mutation.SetLastModifier(s)
-	return bc
+func (_c *BusinessCreate) SetLastModifier(v string) *BusinessCreate {
+	_c.mutation.SetLastModifier(v)
+	return _c
 }
 
 // SetNillableLastModifier sets the "last_modifier" field if the given value is not nil.
-func (bc *BusinessCreate) SetNillableLastModifier(s *string) *BusinessCreate {
-	if s != nil {
-		bc.SetLastModifier(*s)
+func (_c *BusinessCreate) SetNillableLastModifier(v *string) *BusinessCreate {
+	if v != nil {
+		_c.SetLastModifier(*v)
 	}
-	return bc
+	return _c
 }
 
 // SetOperationLogs sets the "operation_logs" field.
-func (bc *BusinessCreate) SetOperationLogs(m []map[string]interface{}) *BusinessCreate {
-	bc.mutation.SetOperationLogs(m)
-	return bc
+func (_c *BusinessCreate) SetOperationLogs(v []map[string]interface{}) *BusinessCreate {
+	_c.mutation.SetOperationLogs(v)
+	return _c
 }
 
 // SetFlowStatus sets the "flow_status" field.
-func (bc *BusinessCreate) SetFlowStatus(s string) *BusinessCreate {
-	bc.mutation.SetFlowStatus(s)
-	return bc
+func (_c *BusinessCreate) SetFlowStatus(v string) *BusinessCreate {
+	_c.mutation.SetFlowStatus(v)
+	return _c
 }
 
 // SetNillableFlowStatus sets the "flow_status" field if the given value is not nil.
-func (bc *BusinessCreate) SetNillableFlowStatus(s *string) *BusinessCreate {
-	if s != nil {
-		bc.SetFlowStatus(*s)
+func (_c *BusinessCreate) SetNillableFlowStatus(v *string) *BusinessCreate {
+	if v != nil {
+		_c.SetFlowStatus(*v)
 	}
-	return bc
+	return _c
 }
 
 // SetFlowVariables sets the "flow_variables" field.
-func (bc *BusinessCreate) SetFlowVariables(m map[string]interface{}) *BusinessCreate {
-	bc.mutation.SetFlowVariables(m)
-	return bc
+func (_c *BusinessCreate) SetFlowVariables(v map[string]interface{}) *BusinessCreate {
+	_c.mutation.SetFlowVariables(v)
+	return _c
 }
 
 // SetIsDraft sets the "is_draft" field.
-func (bc *BusinessCreate) SetIsDraft(b bool) *BusinessCreate {
-	bc.mutation.SetIsDraft(b)
-	return bc
+func (_c *BusinessCreate) SetIsDraft(v bool) *BusinessCreate {
+	_c.mutation.SetIsDraft(v)
+	return _c
 }
 
 // SetNillableIsDraft sets the "is_draft" field if the given value is not nil.
-func (bc *BusinessCreate) SetNillableIsDraft(b *bool) *BusinessCreate {
-	if b != nil {
-		bc.SetIsDraft(*b)
+func (_c *BusinessCreate) SetNillableIsDraft(v *bool) *BusinessCreate {
+	if v != nil {
+		_c.SetIsDraft(*v)
 	}
-	return bc
+	return _c
 }
 
 // SetIsTerminated sets the "is_terminated" field.
-func (bc *BusinessCreate) SetIsTerminated(b bool) *BusinessCreate {
-	bc.mutation.SetIsTerminated(b)
-	return bc
+func (_c *BusinessCreate) SetIsTerminated(v bool) *BusinessCreate {
+	_c.mutation.SetIsTerminated(v)
+	return _c
 }
 
 // SetNillableIsTerminated sets the "is_terminated" field if the given value is not nil.
-func (bc *BusinessCreate) SetNillableIsTerminated(b *bool) *BusinessCreate {
-	if b != nil {
-		bc.SetIsTerminated(*b)
+func (_c *BusinessCreate) SetNillableIsTerminated(v *bool) *BusinessCreate {
+	if v != nil {
+		_c.SetIsTerminated(*v)
 	}
-	return bc
+	return _c
 }
 
 // SetIsSuspended sets the "is_suspended" field.
-func (bc *BusinessCreate) SetIsSuspended(b bool) *BusinessCreate {
-	bc.mutation.SetIsSuspended(b)
-	return bc
+func (_c *BusinessCreate) SetIsSuspended(v bool) *BusinessCreate {
+	_c.mutation.SetIsSuspended(v)
+	return _c
 }
 
 // SetNillableIsSuspended sets the "is_suspended" field if the given value is not nil.
-func (bc *BusinessCreate) SetNillableIsSuspended(b *bool) *BusinessCreate {
-	if b != nil {
-		bc.SetIsSuspended(*b)
+func (_c *BusinessCreate) SetNillableIsSuspended(v *bool) *BusinessCreate {
+	if v != nil {
+		_c.SetIsSuspended(*v)
 	}
-	return bc
+	return _c
 }
 
 // SetSuspendReason sets the "suspend_reason" field.
-func (bc *BusinessCreate) SetSuspendReason(s string) *BusinessCreate {
-	bc.mutation.SetSuspendReason(s)
-	return bc
+func (_c *BusinessCreate) SetSuspendReason(v string) *BusinessCreate {
+	_c.mutation.SetSuspendReason(v)
+	return _c
 }
 
 // SetNillableSuspendReason sets the "suspend_reason" field if the given value is not nil.
-func (bc *BusinessCreate) SetNillableSuspendReason(s *string) *BusinessCreate {
-	if s != nil {
-		bc.SetSuspendReason(*s)
+func (_c *BusinessCreate) SetNillableSuspendReason(v *string) *BusinessCreate {
+	if v != nil {
+		_c.SetSuspendReason(*v)
 	}
-	return bc
+	return _c
 }
 
 // SetBusinessTags sets the "business_tags" field.
-func (bc *BusinessCreate) SetBusinessTags(s []string) *BusinessCreate {
-	bc.mutation.SetBusinessTags(s)
-	return bc
+func (_c *BusinessCreate) SetBusinessTags(v []string) *BusinessCreate {
+	_c.mutation.SetBusinessTags(v)
+	return _c
 }
 
 // SetModuleCode sets the "module_code" field.
-func (bc *BusinessCreate) SetModuleCode(s string) *BusinessCreate {
-	bc.mutation.SetModuleCode(s)
-	return bc
+func (_c *BusinessCreate) SetModuleCode(v string) *BusinessCreate {
+	_c.mutation.SetModuleCode(v)
+	return _c
 }
 
 // SetCategory sets the "category" field.
-func (bc *BusinessCreate) SetCategory(s string) *BusinessCreate {
-	bc.mutation.SetCategory(s)
-	return bc
+func (_c *BusinessCreate) SetCategory(v string) *BusinessCreate {
+	_c.mutation.SetCategory(v)
+	return _c
 }
 
 // SetNillableCategory sets the "category" field if the given value is not nil.
-func (bc *BusinessCreate) SetNillableCategory(s *string) *BusinessCreate {
-	if s != nil {
-		bc.SetCategory(*s)
+func (_c *BusinessCreate) SetNillableCategory(v *string) *BusinessCreate {
+	if v != nil {
+		_c.SetCategory(*v)
 	}
-	return bc
+	return _c
 }
 
 // SetViewers sets the "viewers" field.
-func (bc *BusinessCreate) SetViewers(s []string) *BusinessCreate {
-	bc.mutation.SetViewers(s)
-	return bc
+func (_c *BusinessCreate) SetViewers(v []string) *BusinessCreate {
+	_c.mutation.SetViewers(v)
+	return _c
 }
 
 // SetEditors sets the "editors" field.
-func (bc *BusinessCreate) SetEditors(s []string) *BusinessCreate {
-	bc.mutation.SetEditors(s)
-	return bc
+func (_c *BusinessCreate) SetEditors(v []string) *BusinessCreate {
+	_c.mutation.SetEditors(v)
+	return _c
 }
 
 // SetPermissionConfigs sets the "permission_configs" field.
-func (bc *BusinessCreate) SetPermissionConfigs(m map[string]interface{}) *BusinessCreate {
-	bc.mutation.SetPermissionConfigs(m)
-	return bc
+func (_c *BusinessCreate) SetPermissionConfigs(v map[string]interface{}) *BusinessCreate {
+	_c.mutation.SetPermissionConfigs(v)
+	return _c
 }
 
 // SetRoleConfigs sets the "role_configs" field.
-func (bc *BusinessCreate) SetRoleConfigs(m map[string]interface{}) *BusinessCreate {
-	bc.mutation.SetRoleConfigs(m)
-	return bc
+func (_c *BusinessCreate) SetRoleConfigs(v map[string]interface{}) *BusinessCreate {
+	_c.mutation.SetRoleConfigs(v)
+	return _c
 }
 
 // SetVisibleRange sets the "visible_range" field.
-func (bc *BusinessCreate) SetVisibleRange(m map[string]interface{}) *BusinessCreate {
-	bc.mutation.SetVisibleRange(m)
-	return bc
+func (_c *BusinessCreate) SetVisibleRange(v map[string]interface{}) *BusinessCreate {
+	_c.mutation.SetVisibleRange(v)
+	return _c
 }
 
 // SetExtras sets the "extras" field.
-func (bc *BusinessCreate) SetExtras(m map[string]interface{}) *BusinessCreate {
-	bc.mutation.SetExtras(m)
-	return bc
+func (_c *BusinessCreate) SetExtras(v map[string]interface{}) *BusinessCreate {
+	_c.mutation.SetExtras(v)
+	return _c
 }
 
 // SetSpaceID sets the "space_id" field.
-func (bc *BusinessCreate) SetSpaceID(s string) *BusinessCreate {
-	bc.mutation.SetSpaceID(s)
-	return bc
+func (_c *BusinessCreate) SetSpaceID(v string) *BusinessCreate {
+	_c.mutation.SetSpaceID(v)
+	return _c
 }
 
 // SetNillableSpaceID sets the "space_id" field if the given value is not nil.
-func (bc *BusinessCreate) SetNillableSpaceID(s *string) *BusinessCreate {
-	if s != nil {
-		bc.SetSpaceID(*s)
+func (_c *BusinessCreate) SetNillableSpaceID(v *string) *BusinessCreate {
+	if v != nil {
+		_c.SetSpaceID(*v)
 	}
-	return bc
+	return _c
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (bc *BusinessCreate) SetCreatedBy(s string) *BusinessCreate {
-	bc.mutation.SetCreatedBy(s)
-	return bc
+func (_c *BusinessCreate) SetCreatedBy(v string) *BusinessCreate {
+	_c.mutation.SetCreatedBy(v)
+	return _c
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (bc *BusinessCreate) SetNillableCreatedBy(s *string) *BusinessCreate {
-	if s != nil {
-		bc.SetCreatedBy(*s)
+func (_c *BusinessCreate) SetNillableCreatedBy(v *string) *BusinessCreate {
+	if v != nil {
+		_c.SetCreatedBy(*v)
 	}
-	return bc
+	return _c
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (bc *BusinessCreate) SetUpdatedBy(s string) *BusinessCreate {
-	bc.mutation.SetUpdatedBy(s)
-	return bc
+func (_c *BusinessCreate) SetUpdatedBy(v string) *BusinessCreate {
+	_c.mutation.SetUpdatedBy(v)
+	return _c
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (bc *BusinessCreate) SetNillableUpdatedBy(s *string) *BusinessCreate {
-	if s != nil {
-		bc.SetUpdatedBy(*s)
+func (_c *BusinessCreate) SetNillableUpdatedBy(v *string) *BusinessCreate {
+	if v != nil {
+		_c.SetUpdatedBy(*v)
 	}
-	return bc
+	return _c
 }
 
 // SetCreatedAt sets the "created_at" field.
-func (bc *BusinessCreate) SetCreatedAt(i int64) *BusinessCreate {
-	bc.mutation.SetCreatedAt(i)
-	return bc
+func (_c *BusinessCreate) SetCreatedAt(v int64) *BusinessCreate {
+	_c.mutation.SetCreatedAt(v)
+	return _c
 }
 
 // SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
-func (bc *BusinessCreate) SetNillableCreatedAt(i *int64) *BusinessCreate {
-	if i != nil {
-		bc.SetCreatedAt(*i)
+func (_c *BusinessCreate) SetNillableCreatedAt(v *int64) *BusinessCreate {
+	if v != nil {
+		_c.SetCreatedAt(*v)
 	}
-	return bc
+	return _c
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (bc *BusinessCreate) SetUpdatedAt(i int64) *BusinessCreate {
-	bc.mutation.SetUpdatedAt(i)
-	return bc
+func (_c *BusinessCreate) SetUpdatedAt(v int64) *BusinessCreate {
+	_c.mutation.SetUpdatedAt(v)
+	return _c
 }
 
 // SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
-func (bc *BusinessCreate) SetNillableUpdatedAt(i *int64) *BusinessCreate {
-	if i != nil {
-		bc.SetUpdatedAt(*i)
+func (_c *BusinessCreate) SetNillableUpdatedAt(v *int64) *BusinessCreate {
+	if v != nil {
+		_c.SetUpdatedAt(*v)
 	}
-	return bc
+	return _c
 }
 
 // SetID sets the "id" field.
-func (bc *BusinessCreate) SetID(s string) *BusinessCreate {
-	bc.mutation.SetID(s)
-	return bc
+func (_c *BusinessCreate) SetID(v string) *BusinessCreate {
+	_c.mutation.SetID(v)
+	return _c
 }
 
 // SetNillableID sets the "id" field if the given value is not nil.
-func (bc *BusinessCreate) SetNillableID(s *string) *BusinessCreate {
-	if s != nil {
-		bc.SetID(*s)
+func (_c *BusinessCreate) SetNillableID(v *string) *BusinessCreate {
+	if v != nil {
+		_c.SetID(*v)
 	}
-	return bc
+	return _c
 }
 
 // Mutation returns the BusinessMutation object of the builder.
-func (bc *BusinessCreate) Mutation() *BusinessMutation {
-	return bc.mutation
+func (_c *BusinessCreate) Mutation() *BusinessMutation {
+	return _c.mutation
 }
 
 // Save creates the Business in the database.
-func (bc *BusinessCreate) Save(ctx context.Context) (*Business, error) {
-	bc.defaults()
-	return withHooks(ctx, bc.sqlSave, bc.mutation, bc.hooks)
+func (_c *BusinessCreate) Save(ctx context.Context) (*Business, error) {
+	_c.defaults()
+	return withHooks(ctx, _c.sqlSave, _c.mutation, _c.hooks)
 }
 
 // SaveX calls Save and panics if Save returns an error.
-func (bc *BusinessCreate) SaveX(ctx context.Context) *Business {
-	v, err := bc.Save(ctx)
+func (_c *BusinessCreate) SaveX(ctx context.Context) *Business {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -398,83 +398,83 @@ func (bc *BusinessCreate) SaveX(ctx context.Context) *Business {
 }
 
 // Exec executes the query.
-func (bc *BusinessCreate) Exec(ctx context.Context) error {
-	_, err := bc.Save(ctx)
+func (_c *BusinessCreate) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (bc *BusinessCreate) ExecX(ctx context.Context) {
-	if err := bc.Exec(ctx); err != nil {
+func (_c *BusinessCreate) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (bc *BusinessCreate) defaults() {
-	if _, ok := bc.mutation.IsDraft(); !ok {
+func (_c *BusinessCreate) defaults() {
+	if _, ok := _c.mutation.IsDraft(); !ok {
 		v := business.DefaultIsDraft
-		bc.mutation.SetIsDraft(v)
+		_c.mutation.SetIsDraft(v)
 	}
-	if _, ok := bc.mutation.IsTerminated(); !ok {
+	if _, ok := _c.mutation.IsTerminated(); !ok {
 		v := business.DefaultIsTerminated
-		bc.mutation.SetIsTerminated(v)
+		_c.mutation.SetIsTerminated(v)
 	}
-	if _, ok := bc.mutation.IsSuspended(); !ok {
+	if _, ok := _c.mutation.IsSuspended(); !ok {
 		v := business.DefaultIsSuspended
-		bc.mutation.SetIsSuspended(v)
+		_c.mutation.SetIsSuspended(v)
 	}
-	if _, ok := bc.mutation.Extras(); !ok {
+	if _, ok := _c.mutation.Extras(); !ok {
 		v := business.DefaultExtras
-		bc.mutation.SetExtras(v)
+		_c.mutation.SetExtras(v)
 	}
-	if _, ok := bc.mutation.CreatedAt(); !ok {
+	if _, ok := _c.mutation.CreatedAt(); !ok {
 		v := business.DefaultCreatedAt()
-		bc.mutation.SetCreatedAt(v)
+		_c.mutation.SetCreatedAt(v)
 	}
-	if _, ok := bc.mutation.UpdatedAt(); !ok {
+	if _, ok := _c.mutation.UpdatedAt(); !ok {
 		v := business.DefaultUpdatedAt()
-		bc.mutation.SetUpdatedAt(v)
+		_c.mutation.SetUpdatedAt(v)
 	}
-	if _, ok := bc.mutation.ID(); !ok {
+	if _, ok := _c.mutation.ID(); !ok {
 		v := business.DefaultID()
-		bc.mutation.SetID(v)
+		_c.mutation.SetID(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (bc *BusinessCreate) check() error {
-	if _, ok := bc.mutation.FormCode(); !ok {
+func (_c *BusinessCreate) check() error {
+	if _, ok := _c.mutation.FormCode(); !ok {
 		return &ValidationError{Name: "form_code", err: errors.New(`ent: missing required field "Business.form_code"`)}
 	}
-	if _, ok := bc.mutation.ProcessID(); !ok {
+	if _, ok := _c.mutation.ProcessID(); !ok {
 		return &ValidationError{Name: "process_id", err: errors.New(`ent: missing required field "Business.process_id"`)}
 	}
-	if _, ok := bc.mutation.TemplateID(); !ok {
+	if _, ok := _c.mutation.TemplateID(); !ok {
 		return &ValidationError{Name: "template_id", err: errors.New(`ent: missing required field "Business.template_id"`)}
 	}
-	if _, ok := bc.mutation.BusinessKey(); !ok {
+	if _, ok := _c.mutation.BusinessKey(); !ok {
 		return &ValidationError{Name: "business_key", err: errors.New(`ent: missing required field "Business.business_key"`)}
 	}
-	if _, ok := bc.mutation.OriginData(); !ok {
+	if _, ok := _c.mutation.OriginData(); !ok {
 		return &ValidationError{Name: "origin_data", err: errors.New(`ent: missing required field "Business.origin_data"`)}
 	}
-	if _, ok := bc.mutation.CurrentData(); !ok {
+	if _, ok := _c.mutation.CurrentData(); !ok {
 		return &ValidationError{Name: "current_data", err: errors.New(`ent: missing required field "Business.current_data"`)}
 	}
-	if _, ok := bc.mutation.IsDraft(); !ok {
+	if _, ok := _c.mutation.IsDraft(); !ok {
 		return &ValidationError{Name: "is_draft", err: errors.New(`ent: missing required field "Business.is_draft"`)}
 	}
-	if _, ok := bc.mutation.IsTerminated(); !ok {
+	if _, ok := _c.mutation.IsTerminated(); !ok {
 		return &ValidationError{Name: "is_terminated", err: errors.New(`ent: missing required field "Business.is_terminated"`)}
 	}
-	if _, ok := bc.mutation.IsSuspended(); !ok {
+	if _, ok := _c.mutation.IsSuspended(); !ok {
 		return &ValidationError{Name: "is_suspended", err: errors.New(`ent: missing required field "Business.is_suspended"`)}
 	}
-	if _, ok := bc.mutation.ModuleCode(); !ok {
+	if _, ok := _c.mutation.ModuleCode(); !ok {
 		return &ValidationError{Name: "module_code", err: errors.New(`ent: missing required field "Business.module_code"`)}
 	}
-	if v, ok := bc.mutation.ID(); ok {
+	if v, ok := _c.mutation.ID(); ok {
 		if err := business.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "Business.id": %w`, err)}
 		}
@@ -482,12 +482,12 @@ func (bc *BusinessCreate) check() error {
 	return nil
 }
 
-func (bc *BusinessCreate) sqlSave(ctx context.Context) (*Business, error) {
-	if err := bc.check(); err != nil {
+func (_c *BusinessCreate) sqlSave(ctx context.Context) (*Business, error) {
+	if err := _c.check(); err != nil {
 		return nil, err
 	}
-	_node, _spec := bc.createSpec()
-	if err := sqlgraph.CreateNode(ctx, bc.driver, _spec); err != nil {
+	_node, _spec := _c.createSpec()
+	if err := sqlgraph.CreateNode(ctx, _c.driver, _spec); err != nil {
 		if sqlgraph.IsConstraintError(err) {
 			err = &ConstraintError{msg: err.Error(), wrap: err}
 		}
@@ -500,161 +500,161 @@ func (bc *BusinessCreate) sqlSave(ctx context.Context) (*Business, error) {
 			return nil, fmt.Errorf("unexpected Business.ID type: %T", _spec.ID.Value)
 		}
 	}
-	bc.mutation.id = &_node.ID
-	bc.mutation.done = true
+	_c.mutation.id = &_node.ID
+	_c.mutation.done = true
 	return _node, nil
 }
 
-func (bc *BusinessCreate) createSpec() (*Business, *sqlgraph.CreateSpec) {
+func (_c *BusinessCreate) createSpec() (*Business, *sqlgraph.CreateSpec) {
 	var (
-		_node = &Business{config: bc.config}
+		_node = &Business{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(business.Table, sqlgraph.NewFieldSpec(business.FieldID, field.TypeString))
 	)
-	if id, ok := bc.mutation.ID(); ok {
+	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
 	}
-	if value, ok := bc.mutation.Code(); ok {
+	if value, ok := _c.mutation.Code(); ok {
 		_spec.SetField(business.FieldCode, field.TypeString, value)
 		_node.Code = value
 	}
-	if value, ok := bc.mutation.Status(); ok {
+	if value, ok := _c.mutation.Status(); ok {
 		_spec.SetField(business.FieldStatus, field.TypeString, value)
 		_node.Status = value
 	}
-	if value, ok := bc.mutation.FormCode(); ok {
+	if value, ok := _c.mutation.FormCode(); ok {
 		_spec.SetField(business.FieldFormCode, field.TypeString, value)
 		_node.FormCode = value
 	}
-	if value, ok := bc.mutation.FormVersion(); ok {
+	if value, ok := _c.mutation.FormVersion(); ok {
 		_spec.SetField(business.FieldFormVersion, field.TypeString, value)
 		_node.FormVersion = value
 	}
-	if value, ok := bc.mutation.FormConfig(); ok {
+	if value, ok := _c.mutation.FormConfig(); ok {
 		_spec.SetField(business.FieldFormConfig, field.TypeJSON, value)
 		_node.FormConfig = value
 	}
-	if value, ok := bc.mutation.FormPermissions(); ok {
+	if value, ok := _c.mutation.FormPermissions(); ok {
 		_spec.SetField(business.FieldFormPermissions, field.TypeJSON, value)
 		_node.FormPermissions = value
 	}
-	if value, ok := bc.mutation.FieldPermissions(); ok {
+	if value, ok := _c.mutation.FieldPermissions(); ok {
 		_spec.SetField(business.FieldFieldPermissions, field.TypeJSON, value)
 		_node.FieldPermissions = value
 	}
-	if value, ok := bc.mutation.ProcessID(); ok {
+	if value, ok := _c.mutation.ProcessID(); ok {
 		_spec.SetField(business.FieldProcessID, field.TypeString, value)
 		_node.ProcessID = value
 	}
-	if value, ok := bc.mutation.TemplateID(); ok {
+	if value, ok := _c.mutation.TemplateID(); ok {
 		_spec.SetField(business.FieldTemplateID, field.TypeString, value)
 		_node.TemplateID = value
 	}
-	if value, ok := bc.mutation.BusinessKey(); ok {
+	if value, ok := _c.mutation.BusinessKey(); ok {
 		_spec.SetField(business.FieldBusinessKey, field.TypeString, value)
 		_node.BusinessKey = value
 	}
-	if value, ok := bc.mutation.OriginData(); ok {
+	if value, ok := _c.mutation.OriginData(); ok {
 		_spec.SetField(business.FieldOriginData, field.TypeJSON, value)
 		_node.OriginData = value
 	}
-	if value, ok := bc.mutation.CurrentData(); ok {
+	if value, ok := _c.mutation.CurrentData(); ok {
 		_spec.SetField(business.FieldCurrentData, field.TypeJSON, value)
 		_node.CurrentData = value
 	}
-	if value, ok := bc.mutation.ChangeLogs(); ok {
+	if value, ok := _c.mutation.ChangeLogs(); ok {
 		_spec.SetField(business.FieldChangeLogs, field.TypeJSON, value)
 		_node.ChangeLogs = value
 	}
-	if value, ok := bc.mutation.LastModified(); ok {
+	if value, ok := _c.mutation.LastModified(); ok {
 		_spec.SetField(business.FieldLastModified, field.TypeInt64, value)
 		_node.LastModified = value
 	}
-	if value, ok := bc.mutation.LastModifier(); ok {
+	if value, ok := _c.mutation.LastModifier(); ok {
 		_spec.SetField(business.FieldLastModifier, field.TypeString, value)
 		_node.LastModifier = value
 	}
-	if value, ok := bc.mutation.OperationLogs(); ok {
+	if value, ok := _c.mutation.OperationLogs(); ok {
 		_spec.SetField(business.FieldOperationLogs, field.TypeJSON, value)
 		_node.OperationLogs = value
 	}
-	if value, ok := bc.mutation.FlowStatus(); ok {
+	if value, ok := _c.mutation.FlowStatus(); ok {
 		_spec.SetField(business.FieldFlowStatus, field.TypeString, value)
 		_node.FlowStatus = value
 	}
-	if value, ok := bc.mutation.FlowVariables(); ok {
+	if value, ok := _c.mutation.FlowVariables(); ok {
 		_spec.SetField(business.FieldFlowVariables, field.TypeJSON, value)
 		_node.FlowVariables = value
 	}
-	if value, ok := bc.mutation.IsDraft(); ok {
+	if value, ok := _c.mutation.IsDraft(); ok {
 		_spec.SetField(business.FieldIsDraft, field.TypeBool, value)
 		_node.IsDraft = value
 	}
-	if value, ok := bc.mutation.IsTerminated(); ok {
+	if value, ok := _c.mutation.IsTerminated(); ok {
 		_spec.SetField(business.FieldIsTerminated, field.TypeBool, value)
 		_node.IsTerminated = value
 	}
-	if value, ok := bc.mutation.IsSuspended(); ok {
+	if value, ok := _c.mutation.IsSuspended(); ok {
 		_spec.SetField(business.FieldIsSuspended, field.TypeBool, value)
 		_node.IsSuspended = value
 	}
-	if value, ok := bc.mutation.SuspendReason(); ok {
+	if value, ok := _c.mutation.SuspendReason(); ok {
 		_spec.SetField(business.FieldSuspendReason, field.TypeString, value)
 		_node.SuspendReason = value
 	}
-	if value, ok := bc.mutation.BusinessTags(); ok {
+	if value, ok := _c.mutation.BusinessTags(); ok {
 		_spec.SetField(business.FieldBusinessTags, field.TypeJSON, value)
 		_node.BusinessTags = value
 	}
-	if value, ok := bc.mutation.ModuleCode(); ok {
+	if value, ok := _c.mutation.ModuleCode(); ok {
 		_spec.SetField(business.FieldModuleCode, field.TypeString, value)
 		_node.ModuleCode = value
 	}
-	if value, ok := bc.mutation.Category(); ok {
+	if value, ok := _c.mutation.Category(); ok {
 		_spec.SetField(business.FieldCategory, field.TypeString, value)
 		_node.Category = value
 	}
-	if value, ok := bc.mutation.Viewers(); ok {
+	if value, ok := _c.mutation.Viewers(); ok {
 		_spec.SetField(business.FieldViewers, field.TypeJSON, value)
 		_node.Viewers = value
 	}
-	if value, ok := bc.mutation.Editors(); ok {
+	if value, ok := _c.mutation.Editors(); ok {
 		_spec.SetField(business.FieldEditors, field.TypeJSON, value)
 		_node.Editors = value
 	}
-	if value, ok := bc.mutation.PermissionConfigs(); ok {
+	if value, ok := _c.mutation.PermissionConfigs(); ok {
 		_spec.SetField(business.FieldPermissionConfigs, field.TypeJSON, value)
 		_node.PermissionConfigs = value
 	}
-	if value, ok := bc.mutation.RoleConfigs(); ok {
+	if value, ok := _c.mutation.RoleConfigs(); ok {
 		_spec.SetField(business.FieldRoleConfigs, field.TypeJSON, value)
 		_node.RoleConfigs = value
 	}
-	if value, ok := bc.mutation.VisibleRange(); ok {
+	if value, ok := _c.mutation.VisibleRange(); ok {
 		_spec.SetField(business.FieldVisibleRange, field.TypeJSON, value)
 		_node.VisibleRange = value
 	}
-	if value, ok := bc.mutation.Extras(); ok {
+	if value, ok := _c.mutation.Extras(); ok {
 		_spec.SetField(business.FieldExtras, field.TypeJSON, value)
 		_node.Extras = value
 	}
-	if value, ok := bc.mutation.SpaceID(); ok {
+	if value, ok := _c.mutation.SpaceID(); ok {
 		_spec.SetField(business.FieldSpaceID, field.TypeString, value)
 		_node.SpaceID = value
 	}
-	if value, ok := bc.mutation.CreatedBy(); ok {
+	if value, ok := _c.mutation.CreatedBy(); ok {
 		_spec.SetField(business.FieldCreatedBy, field.TypeString, value)
 		_node.CreatedBy = value
 	}
-	if value, ok := bc.mutation.UpdatedBy(); ok {
+	if value, ok := _c.mutation.UpdatedBy(); ok {
 		_spec.SetField(business.FieldUpdatedBy, field.TypeString, value)
 		_node.UpdatedBy = value
 	}
-	if value, ok := bc.mutation.CreatedAt(); ok {
+	if value, ok := _c.mutation.CreatedAt(); ok {
 		_spec.SetField(business.FieldCreatedAt, field.TypeInt64, value)
 		_node.CreatedAt = value
 	}
-	if value, ok := bc.mutation.UpdatedAt(); ok {
+	if value, ok := _c.mutation.UpdatedAt(); ok {
 		_spec.SetField(business.FieldUpdatedAt, field.TypeInt64, value)
 		_node.UpdatedAt = value
 	}
@@ -669,16 +669,16 @@ type BusinessCreateBulk struct {
 }
 
 // Save creates the Business entities in the database.
-func (bcb *BusinessCreateBulk) Save(ctx context.Context) ([]*Business, error) {
-	if bcb.err != nil {
-		return nil, bcb.err
+func (_c *BusinessCreateBulk) Save(ctx context.Context) ([]*Business, error) {
+	if _c.err != nil {
+		return nil, _c.err
 	}
-	specs := make([]*sqlgraph.CreateSpec, len(bcb.builders))
-	nodes := make([]*Business, len(bcb.builders))
-	mutators := make([]Mutator, len(bcb.builders))
-	for i := range bcb.builders {
+	specs := make([]*sqlgraph.CreateSpec, len(_c.builders))
+	nodes := make([]*Business, len(_c.builders))
+	mutators := make([]Mutator, len(_c.builders))
+	for i := range _c.builders {
 		func(i int, root context.Context) {
-			builder := bcb.builders[i]
+			builder := _c.builders[i]
 			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*BusinessMutation)
@@ -692,11 +692,11 @@ func (bcb *BusinessCreateBulk) Save(ctx context.Context) ([]*Business, error) {
 				var err error
 				nodes[i], specs[i] = builder.createSpec()
 				if i < len(mutators)-1 {
-					_, err = mutators[i+1].Mutate(root, bcb.builders[i+1].mutation)
+					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
 					// Invoke the actual operation on the latest mutation in the chain.
-					if err = sqlgraph.BatchCreate(ctx, bcb.driver, spec); err != nil {
+					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
 							err = &ConstraintError{msg: err.Error(), wrap: err}
 						}
@@ -716,7 +716,7 @@ func (bcb *BusinessCreateBulk) Save(ctx context.Context) ([]*Business, error) {
 		}(i, ctx)
 	}
 	if len(mutators) > 0 {
-		if _, err := mutators[0].Mutate(ctx, bcb.builders[0].mutation); err != nil {
+		if _, err := mutators[0].Mutate(ctx, _c.builders[0].mutation); err != nil {
 			return nil, err
 		}
 	}
@@ -724,8 +724,8 @@ func (bcb *BusinessCreateBulk) Save(ctx context.Context) ([]*Business, error) {
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (bcb *BusinessCreateBulk) SaveX(ctx context.Context) []*Business {
-	v, err := bcb.Save(ctx)
+func (_c *BusinessCreateBulk) SaveX(ctx context.Context) []*Business {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -733,14 +733,14 @@ func (bcb *BusinessCreateBulk) SaveX(ctx context.Context) []*Business {
 }
 
 // Exec executes the query.
-func (bcb *BusinessCreateBulk) Exec(ctx context.Context) error {
-	_, err := bcb.Save(ctx)
+func (_c *BusinessCreateBulk) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (bcb *BusinessCreateBulk) ExecX(ctx context.Context) {
-	if err := bcb.Exec(ctx); err != nil {
+func (_c *BusinessCreateBulk) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

@@ -70,7 +70,7 @@ func (*Counter) scanValues(columns []string) ([]any, error) {
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
 // to the Counter fields.
-func (c *Counter) assignValues(columns []string, values []any) error {
+func (_m *Counter) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
@@ -80,100 +80,100 @@ func (c *Counter) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field id", values[i])
 			} else if value.Valid {
-				c.ID = value.String
+				_m.ID = value.String
 			}
 		case counter.FieldIdentifier:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field identifier", values[i])
 			} else if value.Valid {
-				c.Identifier = value.String
+				_m.Identifier = value.String
 			}
 		case counter.FieldName:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field name", values[i])
 			} else if value.Valid {
-				c.Name = value.String
+				_m.Name = value.String
 			}
 		case counter.FieldPrefix:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field prefix", values[i])
 			} else if value.Valid {
-				c.Prefix = value.String
+				_m.Prefix = value.String
 			}
 		case counter.FieldSuffix:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field suffix", values[i])
 			} else if value.Valid {
-				c.Suffix = value.String
+				_m.Suffix = value.String
 			}
 		case counter.FieldStartValue:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field start_value", values[i])
 			} else if value.Valid {
-				c.StartValue = int(value.Int64)
+				_m.StartValue = int(value.Int64)
 			}
 		case counter.FieldIncrementStep:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field increment_step", values[i])
 			} else if value.Valid {
-				c.IncrementStep = int(value.Int64)
+				_m.IncrementStep = int(value.Int64)
 			}
 		case counter.FieldDateFormat:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field date_format", values[i])
 			} else if value.Valid {
-				c.DateFormat = value.String
+				_m.DateFormat = value.String
 			}
 		case counter.FieldCurrentValue:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field current_value", values[i])
 			} else if value.Valid {
-				c.CurrentValue = int(value.Int64)
+				_m.CurrentValue = int(value.Int64)
 			}
 		case counter.FieldDisabled:
 			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field disabled", values[i])
 			} else if value.Valid {
-				c.Disabled = value.Bool
+				_m.Disabled = value.Bool
 			}
 		case counter.FieldDescription:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field description", values[i])
 			} else if value.Valid {
-				c.Description = value.String
+				_m.Description = value.String
 			}
 		case counter.FieldSpaceID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field space_id", values[i])
 			} else if value.Valid {
-				c.SpaceID = value.String
+				_m.SpaceID = value.String
 			}
 		case counter.FieldCreatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field created_by", values[i])
 			} else if value.Valid {
-				c.CreatedBy = value.String
+				_m.CreatedBy = value.String
 			}
 		case counter.FieldUpdatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_by", values[i])
 			} else if value.Valid {
-				c.UpdatedBy = value.String
+				_m.UpdatedBy = value.String
 			}
 		case counter.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field created_at", values[i])
 			} else if value.Valid {
-				c.CreatedAt = value.Int64
+				_m.CreatedAt = value.Int64
 			}
 		case counter.FieldUpdatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_at", values[i])
 			} else if value.Valid {
-				c.UpdatedAt = value.Int64
+				_m.UpdatedAt = value.Int64
 			}
 		default:
-			c.selectValues.Set(columns[i], values[i])
+			_m.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
@@ -181,77 +181,77 @@ func (c *Counter) assignValues(columns []string, values []any) error {
 
 // Value returns the ent.Value that was dynamically selected and assigned to the Counter.
 // This includes values selected through modifiers, order, etc.
-func (c *Counter) Value(name string) (ent.Value, error) {
-	return c.selectValues.Get(name)
+func (_m *Counter) Value(name string) (ent.Value, error) {
+	return _m.selectValues.Get(name)
 }
 
 // Update returns a builder for updating this Counter.
 // Note that you need to call Counter.Unwrap() before calling this method if this Counter
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (c *Counter) Update() *CounterUpdateOne {
-	return NewCounterClient(c.config).UpdateOne(c)
+func (_m *Counter) Update() *CounterUpdateOne {
+	return NewCounterClient(_m.config).UpdateOne(_m)
 }
 
 // Unwrap unwraps the Counter entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (c *Counter) Unwrap() *Counter {
-	_tx, ok := c.config.driver.(*txDriver)
+func (_m *Counter) Unwrap() *Counter {
+	_tx, ok := _m.config.driver.(*txDriver)
 	if !ok {
 		panic("ent: Counter is not a transactional entity")
 	}
-	c.config.driver = _tx.drv
-	return c
+	_m.config.driver = _tx.drv
+	return _m
 }
 
 // String implements the fmt.Stringer.
-func (c *Counter) String() string {
+func (_m *Counter) String() string {
 	var builder strings.Builder
 	builder.WriteString("Counter(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", c.ID))
+	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
 	builder.WriteString("identifier=")
-	builder.WriteString(c.Identifier)
+	builder.WriteString(_m.Identifier)
 	builder.WriteString(", ")
 	builder.WriteString("name=")
-	builder.WriteString(c.Name)
+	builder.WriteString(_m.Name)
 	builder.WriteString(", ")
 	builder.WriteString("prefix=")
-	builder.WriteString(c.Prefix)
+	builder.WriteString(_m.Prefix)
 	builder.WriteString(", ")
 	builder.WriteString("suffix=")
-	builder.WriteString(c.Suffix)
+	builder.WriteString(_m.Suffix)
 	builder.WriteString(", ")
 	builder.WriteString("start_value=")
-	builder.WriteString(fmt.Sprintf("%v", c.StartValue))
+	builder.WriteString(fmt.Sprintf("%v", _m.StartValue))
 	builder.WriteString(", ")
 	builder.WriteString("increment_step=")
-	builder.WriteString(fmt.Sprintf("%v", c.IncrementStep))
+	builder.WriteString(fmt.Sprintf("%v", _m.IncrementStep))
 	builder.WriteString(", ")
 	builder.WriteString("date_format=")
-	builder.WriteString(c.DateFormat)
+	builder.WriteString(_m.DateFormat)
 	builder.WriteString(", ")
 	builder.WriteString("current_value=")
-	builder.WriteString(fmt.Sprintf("%v", c.CurrentValue))
+	builder.WriteString(fmt.Sprintf("%v", _m.CurrentValue))
 	builder.WriteString(", ")
 	builder.WriteString("disabled=")
-	builder.WriteString(fmt.Sprintf("%v", c.Disabled))
+	builder.WriteString(fmt.Sprintf("%v", _m.Disabled))
 	builder.WriteString(", ")
 	builder.WriteString("description=")
-	builder.WriteString(c.Description)
+	builder.WriteString(_m.Description)
 	builder.WriteString(", ")
 	builder.WriteString("space_id=")
-	builder.WriteString(c.SpaceID)
+	builder.WriteString(_m.SpaceID)
 	builder.WriteString(", ")
 	builder.WriteString("created_by=")
-	builder.WriteString(c.CreatedBy)
+	builder.WriteString(_m.CreatedBy)
 	builder.WriteString(", ")
 	builder.WriteString("updated_by=")
-	builder.WriteString(c.UpdatedBy)
+	builder.WriteString(_m.UpdatedBy)
 	builder.WriteString(", ")
 	builder.WriteString("created_at=")
-	builder.WriteString(fmt.Sprintf("%v", c.CreatedAt))
+	builder.WriteString(fmt.Sprintf("%v", _m.CreatedAt))
 	builder.WriteString(", ")
 	builder.WriteString("updated_at=")
-	builder.WriteString(fmt.Sprintf("%v", c.UpdatedAt))
+	builder.WriteString(fmt.Sprintf("%v", _m.UpdatedAt))
 	builder.WriteByte(')')
 	return builder.String()
 }

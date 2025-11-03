@@ -22,124 +22,124 @@ type SpaceOptionUpdate struct {
 }
 
 // Where appends a list predicates to the SpaceOptionUpdate builder.
-func (sou *SpaceOptionUpdate) Where(ps ...predicate.SpaceOption) *SpaceOptionUpdate {
-	sou.mutation.Where(ps...)
-	return sou
+func (_u *SpaceOptionUpdate) Where(ps ...predicate.SpaceOption) *SpaceOptionUpdate {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // SetSpaceID sets the "space_id" field.
-func (sou *SpaceOptionUpdate) SetSpaceID(s string) *SpaceOptionUpdate {
-	sou.mutation.SetSpaceID(s)
-	return sou
+func (_u *SpaceOptionUpdate) SetSpaceID(v string) *SpaceOptionUpdate {
+	_u.mutation.SetSpaceID(v)
+	return _u
 }
 
 // SetNillableSpaceID sets the "space_id" field if the given value is not nil.
-func (sou *SpaceOptionUpdate) SetNillableSpaceID(s *string) *SpaceOptionUpdate {
-	if s != nil {
-		sou.SetSpaceID(*s)
+func (_u *SpaceOptionUpdate) SetNillableSpaceID(v *string) *SpaceOptionUpdate {
+	if v != nil {
+		_u.SetSpaceID(*v)
 	}
-	return sou
+	return _u
 }
 
 // ClearSpaceID clears the value of the "space_id" field.
-func (sou *SpaceOptionUpdate) ClearSpaceID() *SpaceOptionUpdate {
-	sou.mutation.ClearSpaceID()
-	return sou
+func (_u *SpaceOptionUpdate) ClearSpaceID() *SpaceOptionUpdate {
+	_u.mutation.ClearSpaceID()
+	return _u
 }
 
 // SetOptionID sets the "option_id" field.
-func (sou *SpaceOptionUpdate) SetOptionID(s string) *SpaceOptionUpdate {
-	sou.mutation.SetOptionID(s)
-	return sou
+func (_u *SpaceOptionUpdate) SetOptionID(v string) *SpaceOptionUpdate {
+	_u.mutation.SetOptionID(v)
+	return _u
 }
 
 // SetNillableOptionID sets the "option_id" field if the given value is not nil.
-func (sou *SpaceOptionUpdate) SetNillableOptionID(s *string) *SpaceOptionUpdate {
-	if s != nil {
-		sou.SetOptionID(*s)
+func (_u *SpaceOptionUpdate) SetNillableOptionID(v *string) *SpaceOptionUpdate {
+	if v != nil {
+		_u.SetOptionID(*v)
 	}
-	return sou
+	return _u
 }
 
 // ClearOptionID clears the value of the "option_id" field.
-func (sou *SpaceOptionUpdate) ClearOptionID() *SpaceOptionUpdate {
-	sou.mutation.ClearOptionID()
-	return sou
+func (_u *SpaceOptionUpdate) ClearOptionID() *SpaceOptionUpdate {
+	_u.mutation.ClearOptionID()
+	return _u
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (sou *SpaceOptionUpdate) SetCreatedBy(s string) *SpaceOptionUpdate {
-	sou.mutation.SetCreatedBy(s)
-	return sou
+func (_u *SpaceOptionUpdate) SetCreatedBy(v string) *SpaceOptionUpdate {
+	_u.mutation.SetCreatedBy(v)
+	return _u
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (sou *SpaceOptionUpdate) SetNillableCreatedBy(s *string) *SpaceOptionUpdate {
-	if s != nil {
-		sou.SetCreatedBy(*s)
+func (_u *SpaceOptionUpdate) SetNillableCreatedBy(v *string) *SpaceOptionUpdate {
+	if v != nil {
+		_u.SetCreatedBy(*v)
 	}
-	return sou
+	return _u
 }
 
 // ClearCreatedBy clears the value of the "created_by" field.
-func (sou *SpaceOptionUpdate) ClearCreatedBy() *SpaceOptionUpdate {
-	sou.mutation.ClearCreatedBy()
-	return sou
+func (_u *SpaceOptionUpdate) ClearCreatedBy() *SpaceOptionUpdate {
+	_u.mutation.ClearCreatedBy()
+	return _u
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (sou *SpaceOptionUpdate) SetUpdatedBy(s string) *SpaceOptionUpdate {
-	sou.mutation.SetUpdatedBy(s)
-	return sou
+func (_u *SpaceOptionUpdate) SetUpdatedBy(v string) *SpaceOptionUpdate {
+	_u.mutation.SetUpdatedBy(v)
+	return _u
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (sou *SpaceOptionUpdate) SetNillableUpdatedBy(s *string) *SpaceOptionUpdate {
-	if s != nil {
-		sou.SetUpdatedBy(*s)
+func (_u *SpaceOptionUpdate) SetNillableUpdatedBy(v *string) *SpaceOptionUpdate {
+	if v != nil {
+		_u.SetUpdatedBy(*v)
 	}
-	return sou
+	return _u
 }
 
 // ClearUpdatedBy clears the value of the "updated_by" field.
-func (sou *SpaceOptionUpdate) ClearUpdatedBy() *SpaceOptionUpdate {
-	sou.mutation.ClearUpdatedBy()
-	return sou
+func (_u *SpaceOptionUpdate) ClearUpdatedBy() *SpaceOptionUpdate {
+	_u.mutation.ClearUpdatedBy()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (sou *SpaceOptionUpdate) SetUpdatedAt(i int64) *SpaceOptionUpdate {
-	sou.mutation.ResetUpdatedAt()
-	sou.mutation.SetUpdatedAt(i)
-	return sou
+func (_u *SpaceOptionUpdate) SetUpdatedAt(v int64) *SpaceOptionUpdate {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (sou *SpaceOptionUpdate) AddUpdatedAt(i int64) *SpaceOptionUpdate {
-	sou.mutation.AddUpdatedAt(i)
-	return sou
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *SpaceOptionUpdate) AddUpdatedAt(v int64) *SpaceOptionUpdate {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (sou *SpaceOptionUpdate) ClearUpdatedAt() *SpaceOptionUpdate {
-	sou.mutation.ClearUpdatedAt()
-	return sou
+func (_u *SpaceOptionUpdate) ClearUpdatedAt() *SpaceOptionUpdate {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // Mutation returns the SpaceOptionMutation object of the builder.
-func (sou *SpaceOptionUpdate) Mutation() *SpaceOptionMutation {
-	return sou.mutation
+func (_u *SpaceOptionUpdate) Mutation() *SpaceOptionMutation {
+	return _u.mutation
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
-func (sou *SpaceOptionUpdate) Save(ctx context.Context) (int, error) {
-	sou.defaults()
-	return withHooks(ctx, sou.sqlSave, sou.mutation, sou.hooks)
+func (_u *SpaceOptionUpdate) Save(ctx context.Context) (int, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (sou *SpaceOptionUpdate) SaveX(ctx context.Context) int {
-	affected, err := sou.Save(ctx)
+func (_u *SpaceOptionUpdate) SaveX(ctx context.Context) int {
+	affected, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -147,72 +147,72 @@ func (sou *SpaceOptionUpdate) SaveX(ctx context.Context) int {
 }
 
 // Exec executes the query.
-func (sou *SpaceOptionUpdate) Exec(ctx context.Context) error {
-	_, err := sou.Save(ctx)
+func (_u *SpaceOptionUpdate) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (sou *SpaceOptionUpdate) ExecX(ctx context.Context) {
-	if err := sou.Exec(ctx); err != nil {
+func (_u *SpaceOptionUpdate) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (sou *SpaceOptionUpdate) defaults() {
-	if _, ok := sou.mutation.UpdatedAt(); !ok && !sou.mutation.UpdatedAtCleared() {
+func (_u *SpaceOptionUpdate) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := spaceoption.UpdateDefaultUpdatedAt()
-		sou.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (sou *SpaceOptionUpdate) sqlSave(ctx context.Context) (n int, err error) {
+func (_u *SpaceOptionUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	_spec := sqlgraph.NewUpdateSpec(spaceoption.Table, spaceoption.Columns, sqlgraph.NewFieldSpec(spaceoption.FieldID, field.TypeString))
-	if ps := sou.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := sou.mutation.SpaceID(); ok {
+	if value, ok := _u.mutation.SpaceID(); ok {
 		_spec.SetField(spaceoption.FieldSpaceID, field.TypeString, value)
 	}
-	if sou.mutation.SpaceIDCleared() {
+	if _u.mutation.SpaceIDCleared() {
 		_spec.ClearField(spaceoption.FieldSpaceID, field.TypeString)
 	}
-	if value, ok := sou.mutation.OptionID(); ok {
+	if value, ok := _u.mutation.OptionID(); ok {
 		_spec.SetField(spaceoption.FieldOptionID, field.TypeString, value)
 	}
-	if sou.mutation.OptionIDCleared() {
+	if _u.mutation.OptionIDCleared() {
 		_spec.ClearField(spaceoption.FieldOptionID, field.TypeString)
 	}
-	if value, ok := sou.mutation.CreatedBy(); ok {
+	if value, ok := _u.mutation.CreatedBy(); ok {
 		_spec.SetField(spaceoption.FieldCreatedBy, field.TypeString, value)
 	}
-	if sou.mutation.CreatedByCleared() {
+	if _u.mutation.CreatedByCleared() {
 		_spec.ClearField(spaceoption.FieldCreatedBy, field.TypeString)
 	}
-	if value, ok := sou.mutation.UpdatedBy(); ok {
+	if value, ok := _u.mutation.UpdatedBy(); ok {
 		_spec.SetField(spaceoption.FieldUpdatedBy, field.TypeString, value)
 	}
-	if sou.mutation.UpdatedByCleared() {
+	if _u.mutation.UpdatedByCleared() {
 		_spec.ClearField(spaceoption.FieldUpdatedBy, field.TypeString)
 	}
-	if sou.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(spaceoption.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := sou.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(spaceoption.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := sou.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(spaceoption.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if sou.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(spaceoption.FieldUpdatedAt, field.TypeInt64)
 	}
-	if n, err = sqlgraph.UpdateNodes(ctx, sou.driver, _spec); err != nil {
+	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{spaceoption.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -220,8 +220,8 @@ func (sou *SpaceOptionUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		return 0, err
 	}
-	sou.mutation.done = true
-	return n, nil
+	_u.mutation.done = true
+	return _node, nil
 }
 
 // SpaceOptionUpdateOne is the builder for updating a single SpaceOption entity.
@@ -233,131 +233,131 @@ type SpaceOptionUpdateOne struct {
 }
 
 // SetSpaceID sets the "space_id" field.
-func (souo *SpaceOptionUpdateOne) SetSpaceID(s string) *SpaceOptionUpdateOne {
-	souo.mutation.SetSpaceID(s)
-	return souo
+func (_u *SpaceOptionUpdateOne) SetSpaceID(v string) *SpaceOptionUpdateOne {
+	_u.mutation.SetSpaceID(v)
+	return _u
 }
 
 // SetNillableSpaceID sets the "space_id" field if the given value is not nil.
-func (souo *SpaceOptionUpdateOne) SetNillableSpaceID(s *string) *SpaceOptionUpdateOne {
-	if s != nil {
-		souo.SetSpaceID(*s)
+func (_u *SpaceOptionUpdateOne) SetNillableSpaceID(v *string) *SpaceOptionUpdateOne {
+	if v != nil {
+		_u.SetSpaceID(*v)
 	}
-	return souo
+	return _u
 }
 
 // ClearSpaceID clears the value of the "space_id" field.
-func (souo *SpaceOptionUpdateOne) ClearSpaceID() *SpaceOptionUpdateOne {
-	souo.mutation.ClearSpaceID()
-	return souo
+func (_u *SpaceOptionUpdateOne) ClearSpaceID() *SpaceOptionUpdateOne {
+	_u.mutation.ClearSpaceID()
+	return _u
 }
 
 // SetOptionID sets the "option_id" field.
-func (souo *SpaceOptionUpdateOne) SetOptionID(s string) *SpaceOptionUpdateOne {
-	souo.mutation.SetOptionID(s)
-	return souo
+func (_u *SpaceOptionUpdateOne) SetOptionID(v string) *SpaceOptionUpdateOne {
+	_u.mutation.SetOptionID(v)
+	return _u
 }
 
 // SetNillableOptionID sets the "option_id" field if the given value is not nil.
-func (souo *SpaceOptionUpdateOne) SetNillableOptionID(s *string) *SpaceOptionUpdateOne {
-	if s != nil {
-		souo.SetOptionID(*s)
+func (_u *SpaceOptionUpdateOne) SetNillableOptionID(v *string) *SpaceOptionUpdateOne {
+	if v != nil {
+		_u.SetOptionID(*v)
 	}
-	return souo
+	return _u
 }
 
 // ClearOptionID clears the value of the "option_id" field.
-func (souo *SpaceOptionUpdateOne) ClearOptionID() *SpaceOptionUpdateOne {
-	souo.mutation.ClearOptionID()
-	return souo
+func (_u *SpaceOptionUpdateOne) ClearOptionID() *SpaceOptionUpdateOne {
+	_u.mutation.ClearOptionID()
+	return _u
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (souo *SpaceOptionUpdateOne) SetCreatedBy(s string) *SpaceOptionUpdateOne {
-	souo.mutation.SetCreatedBy(s)
-	return souo
+func (_u *SpaceOptionUpdateOne) SetCreatedBy(v string) *SpaceOptionUpdateOne {
+	_u.mutation.SetCreatedBy(v)
+	return _u
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (souo *SpaceOptionUpdateOne) SetNillableCreatedBy(s *string) *SpaceOptionUpdateOne {
-	if s != nil {
-		souo.SetCreatedBy(*s)
+func (_u *SpaceOptionUpdateOne) SetNillableCreatedBy(v *string) *SpaceOptionUpdateOne {
+	if v != nil {
+		_u.SetCreatedBy(*v)
 	}
-	return souo
+	return _u
 }
 
 // ClearCreatedBy clears the value of the "created_by" field.
-func (souo *SpaceOptionUpdateOne) ClearCreatedBy() *SpaceOptionUpdateOne {
-	souo.mutation.ClearCreatedBy()
-	return souo
+func (_u *SpaceOptionUpdateOne) ClearCreatedBy() *SpaceOptionUpdateOne {
+	_u.mutation.ClearCreatedBy()
+	return _u
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (souo *SpaceOptionUpdateOne) SetUpdatedBy(s string) *SpaceOptionUpdateOne {
-	souo.mutation.SetUpdatedBy(s)
-	return souo
+func (_u *SpaceOptionUpdateOne) SetUpdatedBy(v string) *SpaceOptionUpdateOne {
+	_u.mutation.SetUpdatedBy(v)
+	return _u
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (souo *SpaceOptionUpdateOne) SetNillableUpdatedBy(s *string) *SpaceOptionUpdateOne {
-	if s != nil {
-		souo.SetUpdatedBy(*s)
+func (_u *SpaceOptionUpdateOne) SetNillableUpdatedBy(v *string) *SpaceOptionUpdateOne {
+	if v != nil {
+		_u.SetUpdatedBy(*v)
 	}
-	return souo
+	return _u
 }
 
 // ClearUpdatedBy clears the value of the "updated_by" field.
-func (souo *SpaceOptionUpdateOne) ClearUpdatedBy() *SpaceOptionUpdateOne {
-	souo.mutation.ClearUpdatedBy()
-	return souo
+func (_u *SpaceOptionUpdateOne) ClearUpdatedBy() *SpaceOptionUpdateOne {
+	_u.mutation.ClearUpdatedBy()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (souo *SpaceOptionUpdateOne) SetUpdatedAt(i int64) *SpaceOptionUpdateOne {
-	souo.mutation.ResetUpdatedAt()
-	souo.mutation.SetUpdatedAt(i)
-	return souo
+func (_u *SpaceOptionUpdateOne) SetUpdatedAt(v int64) *SpaceOptionUpdateOne {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (souo *SpaceOptionUpdateOne) AddUpdatedAt(i int64) *SpaceOptionUpdateOne {
-	souo.mutation.AddUpdatedAt(i)
-	return souo
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *SpaceOptionUpdateOne) AddUpdatedAt(v int64) *SpaceOptionUpdateOne {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (souo *SpaceOptionUpdateOne) ClearUpdatedAt() *SpaceOptionUpdateOne {
-	souo.mutation.ClearUpdatedAt()
-	return souo
+func (_u *SpaceOptionUpdateOne) ClearUpdatedAt() *SpaceOptionUpdateOne {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // Mutation returns the SpaceOptionMutation object of the builder.
-func (souo *SpaceOptionUpdateOne) Mutation() *SpaceOptionMutation {
-	return souo.mutation
+func (_u *SpaceOptionUpdateOne) Mutation() *SpaceOptionMutation {
+	return _u.mutation
 }
 
 // Where appends a list predicates to the SpaceOptionUpdate builder.
-func (souo *SpaceOptionUpdateOne) Where(ps ...predicate.SpaceOption) *SpaceOptionUpdateOne {
-	souo.mutation.Where(ps...)
-	return souo
+func (_u *SpaceOptionUpdateOne) Where(ps ...predicate.SpaceOption) *SpaceOptionUpdateOne {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // Select allows selecting one or more fields (columns) of the returned entity.
 // The default is selecting all fields defined in the entity schema.
-func (souo *SpaceOptionUpdateOne) Select(field string, fields ...string) *SpaceOptionUpdateOne {
-	souo.fields = append([]string{field}, fields...)
-	return souo
+func (_u *SpaceOptionUpdateOne) Select(field string, fields ...string) *SpaceOptionUpdateOne {
+	_u.fields = append([]string{field}, fields...)
+	return _u
 }
 
 // Save executes the query and returns the updated SpaceOption entity.
-func (souo *SpaceOptionUpdateOne) Save(ctx context.Context) (*SpaceOption, error) {
-	souo.defaults()
-	return withHooks(ctx, souo.sqlSave, souo.mutation, souo.hooks)
+func (_u *SpaceOptionUpdateOne) Save(ctx context.Context) (*SpaceOption, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (souo *SpaceOptionUpdateOne) SaveX(ctx context.Context) *SpaceOption {
-	node, err := souo.Save(ctx)
+func (_u *SpaceOptionUpdateOne) SaveX(ctx context.Context) *SpaceOption {
+	node, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -365,34 +365,34 @@ func (souo *SpaceOptionUpdateOne) SaveX(ctx context.Context) *SpaceOption {
 }
 
 // Exec executes the query on the entity.
-func (souo *SpaceOptionUpdateOne) Exec(ctx context.Context) error {
-	_, err := souo.Save(ctx)
+func (_u *SpaceOptionUpdateOne) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (souo *SpaceOptionUpdateOne) ExecX(ctx context.Context) {
-	if err := souo.Exec(ctx); err != nil {
+func (_u *SpaceOptionUpdateOne) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (souo *SpaceOptionUpdateOne) defaults() {
-	if _, ok := souo.mutation.UpdatedAt(); !ok && !souo.mutation.UpdatedAtCleared() {
+func (_u *SpaceOptionUpdateOne) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := spaceoption.UpdateDefaultUpdatedAt()
-		souo.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (souo *SpaceOptionUpdateOne) sqlSave(ctx context.Context) (_node *SpaceOption, err error) {
+func (_u *SpaceOptionUpdateOne) sqlSave(ctx context.Context) (_node *SpaceOption, err error) {
 	_spec := sqlgraph.NewUpdateSpec(spaceoption.Table, spaceoption.Columns, sqlgraph.NewFieldSpec(spaceoption.FieldID, field.TypeString))
-	id, ok := souo.mutation.ID()
+	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "SpaceOption.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
-	if fields := souo.fields; len(fields) > 0 {
+	if fields := _u.fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, spaceoption.FieldID)
 		for _, f := range fields {
@@ -404,53 +404,53 @@ func (souo *SpaceOptionUpdateOne) sqlSave(ctx context.Context) (_node *SpaceOpti
 			}
 		}
 	}
-	if ps := souo.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := souo.mutation.SpaceID(); ok {
+	if value, ok := _u.mutation.SpaceID(); ok {
 		_spec.SetField(spaceoption.FieldSpaceID, field.TypeString, value)
 	}
-	if souo.mutation.SpaceIDCleared() {
+	if _u.mutation.SpaceIDCleared() {
 		_spec.ClearField(spaceoption.FieldSpaceID, field.TypeString)
 	}
-	if value, ok := souo.mutation.OptionID(); ok {
+	if value, ok := _u.mutation.OptionID(); ok {
 		_spec.SetField(spaceoption.FieldOptionID, field.TypeString, value)
 	}
-	if souo.mutation.OptionIDCleared() {
+	if _u.mutation.OptionIDCleared() {
 		_spec.ClearField(spaceoption.FieldOptionID, field.TypeString)
 	}
-	if value, ok := souo.mutation.CreatedBy(); ok {
+	if value, ok := _u.mutation.CreatedBy(); ok {
 		_spec.SetField(spaceoption.FieldCreatedBy, field.TypeString, value)
 	}
-	if souo.mutation.CreatedByCleared() {
+	if _u.mutation.CreatedByCleared() {
 		_spec.ClearField(spaceoption.FieldCreatedBy, field.TypeString)
 	}
-	if value, ok := souo.mutation.UpdatedBy(); ok {
+	if value, ok := _u.mutation.UpdatedBy(); ok {
 		_spec.SetField(spaceoption.FieldUpdatedBy, field.TypeString, value)
 	}
-	if souo.mutation.UpdatedByCleared() {
+	if _u.mutation.UpdatedByCleared() {
 		_spec.ClearField(spaceoption.FieldUpdatedBy, field.TypeString)
 	}
-	if souo.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(spaceoption.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := souo.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(spaceoption.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := souo.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(spaceoption.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if souo.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(spaceoption.FieldUpdatedAt, field.TypeInt64)
 	}
-	_node = &SpaceOption{config: souo.config}
+	_node = &SpaceOption{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues
-	if err = sqlgraph.UpdateNode(ctx, souo.driver, _spec); err != nil {
+	if err = sqlgraph.UpdateNode(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{spaceoption.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -458,6 +458,6 @@ func (souo *SpaceOptionUpdateOne) sqlSave(ctx context.Context) (_node *SpaceOpti
 		}
 		return nil, err
 	}
-	souo.mutation.done = true
+	_u.mutation.done = true
 	return _node, nil
 }

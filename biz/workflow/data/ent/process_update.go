@@ -23,801 +23,801 @@ type ProcessUpdate struct {
 }
 
 // Where appends a list predicates to the ProcessUpdate builder.
-func (pu *ProcessUpdate) Where(ps ...predicate.Process) *ProcessUpdate {
-	pu.mutation.Where(ps...)
-	return pu
+func (_u *ProcessUpdate) Where(ps ...predicate.Process) *ProcessUpdate {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // SetStatus sets the "status" field.
-func (pu *ProcessUpdate) SetStatus(s string) *ProcessUpdate {
-	pu.mutation.SetStatus(s)
-	return pu
+func (_u *ProcessUpdate) SetStatus(v string) *ProcessUpdate {
+	_u.mutation.SetStatus(v)
+	return _u
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (pu *ProcessUpdate) SetNillableStatus(s *string) *ProcessUpdate {
-	if s != nil {
-		pu.SetStatus(*s)
+func (_u *ProcessUpdate) SetNillableStatus(v *string) *ProcessUpdate {
+	if v != nil {
+		_u.SetStatus(*v)
 	}
-	return pu
+	return _u
 }
 
 // ClearStatus clears the value of the "status" field.
-func (pu *ProcessUpdate) ClearStatus() *ProcessUpdate {
-	pu.mutation.ClearStatus()
-	return pu
+func (_u *ProcessUpdate) ClearStatus() *ProcessUpdate {
+	_u.mutation.ClearStatus()
+	return _u
 }
 
 // SetProcessID sets the "process_id" field.
-func (pu *ProcessUpdate) SetProcessID(s string) *ProcessUpdate {
-	pu.mutation.SetProcessID(s)
-	return pu
+func (_u *ProcessUpdate) SetProcessID(v string) *ProcessUpdate {
+	_u.mutation.SetProcessID(v)
+	return _u
 }
 
 // SetNillableProcessID sets the "process_id" field if the given value is not nil.
-func (pu *ProcessUpdate) SetNillableProcessID(s *string) *ProcessUpdate {
-	if s != nil {
-		pu.SetProcessID(*s)
+func (_u *ProcessUpdate) SetNillableProcessID(v *string) *ProcessUpdate {
+	if v != nil {
+		_u.SetProcessID(*v)
 	}
-	return pu
+	return _u
 }
 
 // SetTemplateID sets the "template_id" field.
-func (pu *ProcessUpdate) SetTemplateID(s string) *ProcessUpdate {
-	pu.mutation.SetTemplateID(s)
-	return pu
+func (_u *ProcessUpdate) SetTemplateID(v string) *ProcessUpdate {
+	_u.mutation.SetTemplateID(v)
+	return _u
 }
 
 // SetNillableTemplateID sets the "template_id" field if the given value is not nil.
-func (pu *ProcessUpdate) SetNillableTemplateID(s *string) *ProcessUpdate {
-	if s != nil {
-		pu.SetTemplateID(*s)
+func (_u *ProcessUpdate) SetNillableTemplateID(v *string) *ProcessUpdate {
+	if v != nil {
+		_u.SetTemplateID(*v)
 	}
-	return pu
+	return _u
 }
 
 // SetBusinessKey sets the "business_key" field.
-func (pu *ProcessUpdate) SetBusinessKey(s string) *ProcessUpdate {
-	pu.mutation.SetBusinessKey(s)
-	return pu
+func (_u *ProcessUpdate) SetBusinessKey(v string) *ProcessUpdate {
+	_u.mutation.SetBusinessKey(v)
+	return _u
 }
 
 // SetNillableBusinessKey sets the "business_key" field if the given value is not nil.
-func (pu *ProcessUpdate) SetNillableBusinessKey(s *string) *ProcessUpdate {
-	if s != nil {
-		pu.SetBusinessKey(*s)
+func (_u *ProcessUpdate) SetNillableBusinessKey(v *string) *ProcessUpdate {
+	if v != nil {
+		_u.SetBusinessKey(*v)
 	}
-	return pu
+	return _u
 }
 
 // SetFormCode sets the "form_code" field.
-func (pu *ProcessUpdate) SetFormCode(s string) *ProcessUpdate {
-	pu.mutation.SetFormCode(s)
-	return pu
+func (_u *ProcessUpdate) SetFormCode(v string) *ProcessUpdate {
+	_u.mutation.SetFormCode(v)
+	return _u
 }
 
 // SetNillableFormCode sets the "form_code" field if the given value is not nil.
-func (pu *ProcessUpdate) SetNillableFormCode(s *string) *ProcessUpdate {
-	if s != nil {
-		pu.SetFormCode(*s)
+func (_u *ProcessUpdate) SetNillableFormCode(v *string) *ProcessUpdate {
+	if v != nil {
+		_u.SetFormCode(*v)
 	}
-	return pu
+	return _u
 }
 
 // SetFormVersion sets the "form_version" field.
-func (pu *ProcessUpdate) SetFormVersion(s string) *ProcessUpdate {
-	pu.mutation.SetFormVersion(s)
-	return pu
+func (_u *ProcessUpdate) SetFormVersion(v string) *ProcessUpdate {
+	_u.mutation.SetFormVersion(v)
+	return _u
 }
 
 // SetNillableFormVersion sets the "form_version" field if the given value is not nil.
-func (pu *ProcessUpdate) SetNillableFormVersion(s *string) *ProcessUpdate {
-	if s != nil {
-		pu.SetFormVersion(*s)
+func (_u *ProcessUpdate) SetNillableFormVersion(v *string) *ProcessUpdate {
+	if v != nil {
+		_u.SetFormVersion(*v)
 	}
-	return pu
+	return _u
 }
 
 // ClearFormVersion clears the value of the "form_version" field.
-func (pu *ProcessUpdate) ClearFormVersion() *ProcessUpdate {
-	pu.mutation.ClearFormVersion()
-	return pu
+func (_u *ProcessUpdate) ClearFormVersion() *ProcessUpdate {
+	_u.mutation.ClearFormVersion()
+	return _u
 }
 
 // SetFormConfig sets the "form_config" field.
-func (pu *ProcessUpdate) SetFormConfig(m map[string]interface{}) *ProcessUpdate {
-	pu.mutation.SetFormConfig(m)
-	return pu
+func (_u *ProcessUpdate) SetFormConfig(v map[string]interface{}) *ProcessUpdate {
+	_u.mutation.SetFormConfig(v)
+	return _u
 }
 
 // ClearFormConfig clears the value of the "form_config" field.
-func (pu *ProcessUpdate) ClearFormConfig() *ProcessUpdate {
-	pu.mutation.ClearFormConfig()
-	return pu
+func (_u *ProcessUpdate) ClearFormConfig() *ProcessUpdate {
+	_u.mutation.ClearFormConfig()
+	return _u
 }
 
 // SetFormPermissions sets the "form_permissions" field.
-func (pu *ProcessUpdate) SetFormPermissions(m map[string]interface{}) *ProcessUpdate {
-	pu.mutation.SetFormPermissions(m)
-	return pu
+func (_u *ProcessUpdate) SetFormPermissions(v map[string]interface{}) *ProcessUpdate {
+	_u.mutation.SetFormPermissions(v)
+	return _u
 }
 
 // ClearFormPermissions clears the value of the "form_permissions" field.
-func (pu *ProcessUpdate) ClearFormPermissions() *ProcessUpdate {
-	pu.mutation.ClearFormPermissions()
-	return pu
+func (_u *ProcessUpdate) ClearFormPermissions() *ProcessUpdate {
+	_u.mutation.ClearFormPermissions()
+	return _u
 }
 
 // SetFieldPermissions sets the "field_permissions" field.
-func (pu *ProcessUpdate) SetFieldPermissions(m map[string]interface{}) *ProcessUpdate {
-	pu.mutation.SetFieldPermissions(m)
-	return pu
+func (_u *ProcessUpdate) SetFieldPermissions(v map[string]interface{}) *ProcessUpdate {
+	_u.mutation.SetFieldPermissions(v)
+	return _u
 }
 
 // ClearFieldPermissions clears the value of the "field_permissions" field.
-func (pu *ProcessUpdate) ClearFieldPermissions() *ProcessUpdate {
-	pu.mutation.ClearFieldPermissions()
-	return pu
+func (_u *ProcessUpdate) ClearFieldPermissions() *ProcessUpdate {
+	_u.mutation.ClearFieldPermissions()
+	return _u
 }
 
 // SetBusinessTags sets the "business_tags" field.
-func (pu *ProcessUpdate) SetBusinessTags(s []string) *ProcessUpdate {
-	pu.mutation.SetBusinessTags(s)
-	return pu
+func (_u *ProcessUpdate) SetBusinessTags(v []string) *ProcessUpdate {
+	_u.mutation.SetBusinessTags(v)
+	return _u
 }
 
-// AppendBusinessTags appends s to the "business_tags" field.
-func (pu *ProcessUpdate) AppendBusinessTags(s []string) *ProcessUpdate {
-	pu.mutation.AppendBusinessTags(s)
-	return pu
+// AppendBusinessTags appends value to the "business_tags" field.
+func (_u *ProcessUpdate) AppendBusinessTags(v []string) *ProcessUpdate {
+	_u.mutation.AppendBusinessTags(v)
+	return _u
 }
 
 // ClearBusinessTags clears the value of the "business_tags" field.
-func (pu *ProcessUpdate) ClearBusinessTags() *ProcessUpdate {
-	pu.mutation.ClearBusinessTags()
-	return pu
+func (_u *ProcessUpdate) ClearBusinessTags() *ProcessUpdate {
+	_u.mutation.ClearBusinessTags()
+	return _u
 }
 
 // SetModuleCode sets the "module_code" field.
-func (pu *ProcessUpdate) SetModuleCode(s string) *ProcessUpdate {
-	pu.mutation.SetModuleCode(s)
-	return pu
+func (_u *ProcessUpdate) SetModuleCode(v string) *ProcessUpdate {
+	_u.mutation.SetModuleCode(v)
+	return _u
 }
 
 // SetNillableModuleCode sets the "module_code" field if the given value is not nil.
-func (pu *ProcessUpdate) SetNillableModuleCode(s *string) *ProcessUpdate {
-	if s != nil {
-		pu.SetModuleCode(*s)
+func (_u *ProcessUpdate) SetNillableModuleCode(v *string) *ProcessUpdate {
+	if v != nil {
+		_u.SetModuleCode(*v)
 	}
-	return pu
+	return _u
 }
 
 // SetCategory sets the "category" field.
-func (pu *ProcessUpdate) SetCategory(s string) *ProcessUpdate {
-	pu.mutation.SetCategory(s)
-	return pu
+func (_u *ProcessUpdate) SetCategory(v string) *ProcessUpdate {
+	_u.mutation.SetCategory(v)
+	return _u
 }
 
 // SetNillableCategory sets the "category" field if the given value is not nil.
-func (pu *ProcessUpdate) SetNillableCategory(s *string) *ProcessUpdate {
-	if s != nil {
-		pu.SetCategory(*s)
+func (_u *ProcessUpdate) SetNillableCategory(v *string) *ProcessUpdate {
+	if v != nil {
+		_u.SetCategory(*v)
 	}
-	return pu
+	return _u
 }
 
 // ClearCategory clears the value of the "category" field.
-func (pu *ProcessUpdate) ClearCategory() *ProcessUpdate {
-	pu.mutation.ClearCategory()
-	return pu
+func (_u *ProcessUpdate) ClearCategory() *ProcessUpdate {
+	_u.mutation.ClearCategory()
+	return _u
 }
 
 // SetFlowStatus sets the "flow_status" field.
-func (pu *ProcessUpdate) SetFlowStatus(s string) *ProcessUpdate {
-	pu.mutation.SetFlowStatus(s)
-	return pu
+func (_u *ProcessUpdate) SetFlowStatus(v string) *ProcessUpdate {
+	_u.mutation.SetFlowStatus(v)
+	return _u
 }
 
 // SetNillableFlowStatus sets the "flow_status" field if the given value is not nil.
-func (pu *ProcessUpdate) SetNillableFlowStatus(s *string) *ProcessUpdate {
-	if s != nil {
-		pu.SetFlowStatus(*s)
+func (_u *ProcessUpdate) SetNillableFlowStatus(v *string) *ProcessUpdate {
+	if v != nil {
+		_u.SetFlowStatus(*v)
 	}
-	return pu
+	return _u
 }
 
 // ClearFlowStatus clears the value of the "flow_status" field.
-func (pu *ProcessUpdate) ClearFlowStatus() *ProcessUpdate {
-	pu.mutation.ClearFlowStatus()
-	return pu
+func (_u *ProcessUpdate) ClearFlowStatus() *ProcessUpdate {
+	_u.mutation.ClearFlowStatus()
+	return _u
 }
 
 // SetFlowVariables sets the "flow_variables" field.
-func (pu *ProcessUpdate) SetFlowVariables(m map[string]interface{}) *ProcessUpdate {
-	pu.mutation.SetFlowVariables(m)
-	return pu
+func (_u *ProcessUpdate) SetFlowVariables(v map[string]interface{}) *ProcessUpdate {
+	_u.mutation.SetFlowVariables(v)
+	return _u
 }
 
 // ClearFlowVariables clears the value of the "flow_variables" field.
-func (pu *ProcessUpdate) ClearFlowVariables() *ProcessUpdate {
-	pu.mutation.ClearFlowVariables()
-	return pu
+func (_u *ProcessUpdate) ClearFlowVariables() *ProcessUpdate {
+	_u.mutation.ClearFlowVariables()
+	return _u
 }
 
 // SetIsDraft sets the "is_draft" field.
-func (pu *ProcessUpdate) SetIsDraft(b bool) *ProcessUpdate {
-	pu.mutation.SetIsDraft(b)
-	return pu
+func (_u *ProcessUpdate) SetIsDraft(v bool) *ProcessUpdate {
+	_u.mutation.SetIsDraft(v)
+	return _u
 }
 
 // SetNillableIsDraft sets the "is_draft" field if the given value is not nil.
-func (pu *ProcessUpdate) SetNillableIsDraft(b *bool) *ProcessUpdate {
-	if b != nil {
-		pu.SetIsDraft(*b)
+func (_u *ProcessUpdate) SetNillableIsDraft(v *bool) *ProcessUpdate {
+	if v != nil {
+		_u.SetIsDraft(*v)
 	}
-	return pu
+	return _u
 }
 
 // SetIsTerminated sets the "is_terminated" field.
-func (pu *ProcessUpdate) SetIsTerminated(b bool) *ProcessUpdate {
-	pu.mutation.SetIsTerminated(b)
-	return pu
+func (_u *ProcessUpdate) SetIsTerminated(v bool) *ProcessUpdate {
+	_u.mutation.SetIsTerminated(v)
+	return _u
 }
 
 // SetNillableIsTerminated sets the "is_terminated" field if the given value is not nil.
-func (pu *ProcessUpdate) SetNillableIsTerminated(b *bool) *ProcessUpdate {
-	if b != nil {
-		pu.SetIsTerminated(*b)
+func (_u *ProcessUpdate) SetNillableIsTerminated(v *bool) *ProcessUpdate {
+	if v != nil {
+		_u.SetIsTerminated(*v)
 	}
-	return pu
+	return _u
 }
 
 // SetIsSuspended sets the "is_suspended" field.
-func (pu *ProcessUpdate) SetIsSuspended(b bool) *ProcessUpdate {
-	pu.mutation.SetIsSuspended(b)
-	return pu
+func (_u *ProcessUpdate) SetIsSuspended(v bool) *ProcessUpdate {
+	_u.mutation.SetIsSuspended(v)
+	return _u
 }
 
 // SetNillableIsSuspended sets the "is_suspended" field if the given value is not nil.
-func (pu *ProcessUpdate) SetNillableIsSuspended(b *bool) *ProcessUpdate {
-	if b != nil {
-		pu.SetIsSuspended(*b)
+func (_u *ProcessUpdate) SetNillableIsSuspended(v *bool) *ProcessUpdate {
+	if v != nil {
+		_u.SetIsSuspended(*v)
 	}
-	return pu
+	return _u
 }
 
 // SetSuspendReason sets the "suspend_reason" field.
-func (pu *ProcessUpdate) SetSuspendReason(s string) *ProcessUpdate {
-	pu.mutation.SetSuspendReason(s)
-	return pu
+func (_u *ProcessUpdate) SetSuspendReason(v string) *ProcessUpdate {
+	_u.mutation.SetSuspendReason(v)
+	return _u
 }
 
 // SetNillableSuspendReason sets the "suspend_reason" field if the given value is not nil.
-func (pu *ProcessUpdate) SetNillableSuspendReason(s *string) *ProcessUpdate {
-	if s != nil {
-		pu.SetSuspendReason(*s)
+func (_u *ProcessUpdate) SetNillableSuspendReason(v *string) *ProcessUpdate {
+	if v != nil {
+		_u.SetSuspendReason(*v)
 	}
-	return pu
+	return _u
 }
 
 // ClearSuspendReason clears the value of the "suspend_reason" field.
-func (pu *ProcessUpdate) ClearSuspendReason() *ProcessUpdate {
-	pu.mutation.ClearSuspendReason()
-	return pu
+func (_u *ProcessUpdate) ClearSuspendReason() *ProcessUpdate {
+	_u.mutation.ClearSuspendReason()
+	return _u
 }
 
 // SetStartTime sets the "start_time" field.
-func (pu *ProcessUpdate) SetStartTime(i int64) *ProcessUpdate {
-	pu.mutation.ResetStartTime()
-	pu.mutation.SetStartTime(i)
-	return pu
+func (_u *ProcessUpdate) SetStartTime(v int64) *ProcessUpdate {
+	_u.mutation.ResetStartTime()
+	_u.mutation.SetStartTime(v)
+	return _u
 }
 
 // SetNillableStartTime sets the "start_time" field if the given value is not nil.
-func (pu *ProcessUpdate) SetNillableStartTime(i *int64) *ProcessUpdate {
-	if i != nil {
-		pu.SetStartTime(*i)
+func (_u *ProcessUpdate) SetNillableStartTime(v *int64) *ProcessUpdate {
+	if v != nil {
+		_u.SetStartTime(*v)
 	}
-	return pu
+	return _u
 }
 
-// AddStartTime adds i to the "start_time" field.
-func (pu *ProcessUpdate) AddStartTime(i int64) *ProcessUpdate {
-	pu.mutation.AddStartTime(i)
-	return pu
+// AddStartTime adds value to the "start_time" field.
+func (_u *ProcessUpdate) AddStartTime(v int64) *ProcessUpdate {
+	_u.mutation.AddStartTime(v)
+	return _u
 }
 
 // SetEndTime sets the "end_time" field.
-func (pu *ProcessUpdate) SetEndTime(i int64) *ProcessUpdate {
-	pu.mutation.ResetEndTime()
-	pu.mutation.SetEndTime(i)
-	return pu
+func (_u *ProcessUpdate) SetEndTime(v int64) *ProcessUpdate {
+	_u.mutation.ResetEndTime()
+	_u.mutation.SetEndTime(v)
+	return _u
 }
 
 // SetNillableEndTime sets the "end_time" field if the given value is not nil.
-func (pu *ProcessUpdate) SetNillableEndTime(i *int64) *ProcessUpdate {
-	if i != nil {
-		pu.SetEndTime(*i)
+func (_u *ProcessUpdate) SetNillableEndTime(v *int64) *ProcessUpdate {
+	if v != nil {
+		_u.SetEndTime(*v)
 	}
-	return pu
+	return _u
 }
 
-// AddEndTime adds i to the "end_time" field.
-func (pu *ProcessUpdate) AddEndTime(i int64) *ProcessUpdate {
-	pu.mutation.AddEndTime(i)
-	return pu
+// AddEndTime adds value to the "end_time" field.
+func (_u *ProcessUpdate) AddEndTime(v int64) *ProcessUpdate {
+	_u.mutation.AddEndTime(v)
+	return _u
 }
 
 // ClearEndTime clears the value of the "end_time" field.
-func (pu *ProcessUpdate) ClearEndTime() *ProcessUpdate {
-	pu.mutation.ClearEndTime()
-	return pu
+func (_u *ProcessUpdate) ClearEndTime() *ProcessUpdate {
+	_u.mutation.ClearEndTime()
+	return _u
 }
 
 // SetDueTime sets the "due_time" field.
-func (pu *ProcessUpdate) SetDueTime(i int64) *ProcessUpdate {
-	pu.mutation.ResetDueTime()
-	pu.mutation.SetDueTime(i)
-	return pu
+func (_u *ProcessUpdate) SetDueTime(v int64) *ProcessUpdate {
+	_u.mutation.ResetDueTime()
+	_u.mutation.SetDueTime(v)
+	return _u
 }
 
 // SetNillableDueTime sets the "due_time" field if the given value is not nil.
-func (pu *ProcessUpdate) SetNillableDueTime(i *int64) *ProcessUpdate {
-	if i != nil {
-		pu.SetDueTime(*i)
+func (_u *ProcessUpdate) SetNillableDueTime(v *int64) *ProcessUpdate {
+	if v != nil {
+		_u.SetDueTime(*v)
 	}
-	return pu
+	return _u
 }
 
-// AddDueTime adds i to the "due_time" field.
-func (pu *ProcessUpdate) AddDueTime(i int64) *ProcessUpdate {
-	pu.mutation.AddDueTime(i)
-	return pu
+// AddDueTime adds value to the "due_time" field.
+func (_u *ProcessUpdate) AddDueTime(v int64) *ProcessUpdate {
+	_u.mutation.AddDueTime(v)
+	return _u
 }
 
 // ClearDueTime clears the value of the "due_time" field.
-func (pu *ProcessUpdate) ClearDueTime() *ProcessUpdate {
-	pu.mutation.ClearDueTime()
-	return pu
+func (_u *ProcessUpdate) ClearDueTime() *ProcessUpdate {
+	_u.mutation.ClearDueTime()
+	return _u
 }
 
 // SetDuration sets the "duration" field.
-func (pu *ProcessUpdate) SetDuration(i int) *ProcessUpdate {
-	pu.mutation.ResetDuration()
-	pu.mutation.SetDuration(i)
-	return pu
+func (_u *ProcessUpdate) SetDuration(v int) *ProcessUpdate {
+	_u.mutation.ResetDuration()
+	_u.mutation.SetDuration(v)
+	return _u
 }
 
 // SetNillableDuration sets the "duration" field if the given value is not nil.
-func (pu *ProcessUpdate) SetNillableDuration(i *int) *ProcessUpdate {
-	if i != nil {
-		pu.SetDuration(*i)
+func (_u *ProcessUpdate) SetNillableDuration(v *int) *ProcessUpdate {
+	if v != nil {
+		_u.SetDuration(*v)
 	}
-	return pu
+	return _u
 }
 
-// AddDuration adds i to the "duration" field.
-func (pu *ProcessUpdate) AddDuration(i int) *ProcessUpdate {
-	pu.mutation.AddDuration(i)
-	return pu
+// AddDuration adds value to the "duration" field.
+func (_u *ProcessUpdate) AddDuration(v int) *ProcessUpdate {
+	_u.mutation.AddDuration(v)
+	return _u
 }
 
 // ClearDuration clears the value of the "duration" field.
-func (pu *ProcessUpdate) ClearDuration() *ProcessUpdate {
-	pu.mutation.ClearDuration()
-	return pu
+func (_u *ProcessUpdate) ClearDuration() *ProcessUpdate {
+	_u.mutation.ClearDuration()
+	return _u
 }
 
 // SetPriority sets the "priority" field.
-func (pu *ProcessUpdate) SetPriority(i int) *ProcessUpdate {
-	pu.mutation.ResetPriority()
-	pu.mutation.SetPriority(i)
-	return pu
+func (_u *ProcessUpdate) SetPriority(v int) *ProcessUpdate {
+	_u.mutation.ResetPriority()
+	_u.mutation.SetPriority(v)
+	return _u
 }
 
 // SetNillablePriority sets the "priority" field if the given value is not nil.
-func (pu *ProcessUpdate) SetNillablePriority(i *int) *ProcessUpdate {
-	if i != nil {
-		pu.SetPriority(*i)
+func (_u *ProcessUpdate) SetNillablePriority(v *int) *ProcessUpdate {
+	if v != nil {
+		_u.SetPriority(*v)
 	}
-	return pu
+	return _u
 }
 
-// AddPriority adds i to the "priority" field.
-func (pu *ProcessUpdate) AddPriority(i int) *ProcessUpdate {
-	pu.mutation.AddPriority(i)
-	return pu
+// AddPriority adds value to the "priority" field.
+func (_u *ProcessUpdate) AddPriority(v int) *ProcessUpdate {
+	_u.mutation.AddPriority(v)
+	return _u
 }
 
 // SetIsTimeout sets the "is_timeout" field.
-func (pu *ProcessUpdate) SetIsTimeout(b bool) *ProcessUpdate {
-	pu.mutation.SetIsTimeout(b)
-	return pu
+func (_u *ProcessUpdate) SetIsTimeout(v bool) *ProcessUpdate {
+	_u.mutation.SetIsTimeout(v)
+	return _u
 }
 
 // SetNillableIsTimeout sets the "is_timeout" field if the given value is not nil.
-func (pu *ProcessUpdate) SetNillableIsTimeout(b *bool) *ProcessUpdate {
-	if b != nil {
-		pu.SetIsTimeout(*b)
+func (_u *ProcessUpdate) SetNillableIsTimeout(v *bool) *ProcessUpdate {
+	if v != nil {
+		_u.SetIsTimeout(*v)
 	}
-	return pu
+	return _u
 }
 
 // SetReminderCount sets the "reminder_count" field.
-func (pu *ProcessUpdate) SetReminderCount(i int) *ProcessUpdate {
-	pu.mutation.ResetReminderCount()
-	pu.mutation.SetReminderCount(i)
-	return pu
+func (_u *ProcessUpdate) SetReminderCount(v int) *ProcessUpdate {
+	_u.mutation.ResetReminderCount()
+	_u.mutation.SetReminderCount(v)
+	return _u
 }
 
 // SetNillableReminderCount sets the "reminder_count" field if the given value is not nil.
-func (pu *ProcessUpdate) SetNillableReminderCount(i *int) *ProcessUpdate {
-	if i != nil {
-		pu.SetReminderCount(*i)
+func (_u *ProcessUpdate) SetNillableReminderCount(v *int) *ProcessUpdate {
+	if v != nil {
+		_u.SetReminderCount(*v)
 	}
-	return pu
+	return _u
 }
 
-// AddReminderCount adds i to the "reminder_count" field.
-func (pu *ProcessUpdate) AddReminderCount(i int) *ProcessUpdate {
-	pu.mutation.AddReminderCount(i)
-	return pu
+// AddReminderCount adds value to the "reminder_count" field.
+func (_u *ProcessUpdate) AddReminderCount(v int) *ProcessUpdate {
+	_u.mutation.AddReminderCount(v)
+	return _u
 }
 
 // SetAllowCancel sets the "allow_cancel" field.
-func (pu *ProcessUpdate) SetAllowCancel(b bool) *ProcessUpdate {
-	pu.mutation.SetAllowCancel(b)
-	return pu
+func (_u *ProcessUpdate) SetAllowCancel(v bool) *ProcessUpdate {
+	_u.mutation.SetAllowCancel(v)
+	return _u
 }
 
 // SetNillableAllowCancel sets the "allow_cancel" field if the given value is not nil.
-func (pu *ProcessUpdate) SetNillableAllowCancel(b *bool) *ProcessUpdate {
-	if b != nil {
-		pu.SetAllowCancel(*b)
+func (_u *ProcessUpdate) SetNillableAllowCancel(v *bool) *ProcessUpdate {
+	if v != nil {
+		_u.SetAllowCancel(*v)
 	}
-	return pu
+	return _u
 }
 
 // SetAllowUrge sets the "allow_urge" field.
-func (pu *ProcessUpdate) SetAllowUrge(b bool) *ProcessUpdate {
-	pu.mutation.SetAllowUrge(b)
-	return pu
+func (_u *ProcessUpdate) SetAllowUrge(v bool) *ProcessUpdate {
+	_u.mutation.SetAllowUrge(v)
+	return _u
 }
 
 // SetNillableAllowUrge sets the "allow_urge" field if the given value is not nil.
-func (pu *ProcessUpdate) SetNillableAllowUrge(b *bool) *ProcessUpdate {
-	if b != nil {
-		pu.SetAllowUrge(*b)
+func (_u *ProcessUpdate) SetNillableAllowUrge(v *bool) *ProcessUpdate {
+	if v != nil {
+		_u.SetAllowUrge(*v)
 	}
-	return pu
+	return _u
 }
 
 // SetAllowDelegate sets the "allow_delegate" field.
-func (pu *ProcessUpdate) SetAllowDelegate(b bool) *ProcessUpdate {
-	pu.mutation.SetAllowDelegate(b)
-	return pu
+func (_u *ProcessUpdate) SetAllowDelegate(v bool) *ProcessUpdate {
+	_u.mutation.SetAllowDelegate(v)
+	return _u
 }
 
 // SetNillableAllowDelegate sets the "allow_delegate" field if the given value is not nil.
-func (pu *ProcessUpdate) SetNillableAllowDelegate(b *bool) *ProcessUpdate {
-	if b != nil {
-		pu.SetAllowDelegate(*b)
+func (_u *ProcessUpdate) SetNillableAllowDelegate(v *bool) *ProcessUpdate {
+	if v != nil {
+		_u.SetAllowDelegate(*v)
 	}
-	return pu
+	return _u
 }
 
 // SetAllowTransfer sets the "allow_transfer" field.
-func (pu *ProcessUpdate) SetAllowTransfer(b bool) *ProcessUpdate {
-	pu.mutation.SetAllowTransfer(b)
-	return pu
+func (_u *ProcessUpdate) SetAllowTransfer(v bool) *ProcessUpdate {
+	_u.mutation.SetAllowTransfer(v)
+	return _u
 }
 
 // SetNillableAllowTransfer sets the "allow_transfer" field if the given value is not nil.
-func (pu *ProcessUpdate) SetNillableAllowTransfer(b *bool) *ProcessUpdate {
-	if b != nil {
-		pu.SetAllowTransfer(*b)
+func (_u *ProcessUpdate) SetNillableAllowTransfer(v *bool) *ProcessUpdate {
+	if v != nil {
+		_u.SetAllowTransfer(*v)
 	}
-	return pu
+	return _u
 }
 
 // SetIsDraftEnabled sets the "is_draft_enabled" field.
-func (pu *ProcessUpdate) SetIsDraftEnabled(b bool) *ProcessUpdate {
-	pu.mutation.SetIsDraftEnabled(b)
-	return pu
+func (_u *ProcessUpdate) SetIsDraftEnabled(v bool) *ProcessUpdate {
+	_u.mutation.SetIsDraftEnabled(v)
+	return _u
 }
 
 // SetNillableIsDraftEnabled sets the "is_draft_enabled" field if the given value is not nil.
-func (pu *ProcessUpdate) SetNillableIsDraftEnabled(b *bool) *ProcessUpdate {
-	if b != nil {
-		pu.SetIsDraftEnabled(*b)
+func (_u *ProcessUpdate) SetNillableIsDraftEnabled(v *bool) *ProcessUpdate {
+	if v != nil {
+		_u.SetIsDraftEnabled(*v)
 	}
-	return pu
+	return _u
 }
 
 // SetIsAutoStart sets the "is_auto_start" field.
-func (pu *ProcessUpdate) SetIsAutoStart(b bool) *ProcessUpdate {
-	pu.mutation.SetIsAutoStart(b)
-	return pu
+func (_u *ProcessUpdate) SetIsAutoStart(v bool) *ProcessUpdate {
+	_u.mutation.SetIsAutoStart(v)
+	return _u
 }
 
 // SetNillableIsAutoStart sets the "is_auto_start" field if the given value is not nil.
-func (pu *ProcessUpdate) SetNillableIsAutoStart(b *bool) *ProcessUpdate {
-	if b != nil {
-		pu.SetIsAutoStart(*b)
+func (_u *ProcessUpdate) SetNillableIsAutoStart(v *bool) *ProcessUpdate {
+	if v != nil {
+		_u.SetIsAutoStart(*v)
 	}
-	return pu
+	return _u
 }
 
 // SetStrictMode sets the "strict_mode" field.
-func (pu *ProcessUpdate) SetStrictMode(b bool) *ProcessUpdate {
-	pu.mutation.SetStrictMode(b)
-	return pu
+func (_u *ProcessUpdate) SetStrictMode(v bool) *ProcessUpdate {
+	_u.mutation.SetStrictMode(v)
+	return _u
 }
 
 // SetNillableStrictMode sets the "strict_mode" field if the given value is not nil.
-func (pu *ProcessUpdate) SetNillableStrictMode(b *bool) *ProcessUpdate {
-	if b != nil {
-		pu.SetStrictMode(*b)
+func (_u *ProcessUpdate) SetNillableStrictMode(v *bool) *ProcessUpdate {
+	if v != nil {
+		_u.SetStrictMode(*v)
 	}
-	return pu
+	return _u
 }
 
 // SetExtras sets the "extras" field.
-func (pu *ProcessUpdate) SetExtras(m map[string]interface{}) *ProcessUpdate {
-	pu.mutation.SetExtras(m)
-	return pu
+func (_u *ProcessUpdate) SetExtras(v map[string]interface{}) *ProcessUpdate {
+	_u.mutation.SetExtras(v)
+	return _u
 }
 
 // ClearExtras clears the value of the "extras" field.
-func (pu *ProcessUpdate) ClearExtras() *ProcessUpdate {
-	pu.mutation.ClearExtras()
-	return pu
+func (_u *ProcessUpdate) ClearExtras() *ProcessUpdate {
+	_u.mutation.ClearExtras()
+	return _u
 }
 
 // SetSpaceID sets the "space_id" field.
-func (pu *ProcessUpdate) SetSpaceID(s string) *ProcessUpdate {
-	pu.mutation.SetSpaceID(s)
-	return pu
+func (_u *ProcessUpdate) SetSpaceID(v string) *ProcessUpdate {
+	_u.mutation.SetSpaceID(v)
+	return _u
 }
 
 // SetNillableSpaceID sets the "space_id" field if the given value is not nil.
-func (pu *ProcessUpdate) SetNillableSpaceID(s *string) *ProcessUpdate {
-	if s != nil {
-		pu.SetSpaceID(*s)
+func (_u *ProcessUpdate) SetNillableSpaceID(v *string) *ProcessUpdate {
+	if v != nil {
+		_u.SetSpaceID(*v)
 	}
-	return pu
+	return _u
 }
 
 // ClearSpaceID clears the value of the "space_id" field.
-func (pu *ProcessUpdate) ClearSpaceID() *ProcessUpdate {
-	pu.mutation.ClearSpaceID()
-	return pu
+func (_u *ProcessUpdate) ClearSpaceID() *ProcessUpdate {
+	_u.mutation.ClearSpaceID()
+	return _u
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (pu *ProcessUpdate) SetCreatedBy(s string) *ProcessUpdate {
-	pu.mutation.SetCreatedBy(s)
-	return pu
+func (_u *ProcessUpdate) SetCreatedBy(v string) *ProcessUpdate {
+	_u.mutation.SetCreatedBy(v)
+	return _u
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (pu *ProcessUpdate) SetNillableCreatedBy(s *string) *ProcessUpdate {
-	if s != nil {
-		pu.SetCreatedBy(*s)
+func (_u *ProcessUpdate) SetNillableCreatedBy(v *string) *ProcessUpdate {
+	if v != nil {
+		_u.SetCreatedBy(*v)
 	}
-	return pu
+	return _u
 }
 
 // ClearCreatedBy clears the value of the "created_by" field.
-func (pu *ProcessUpdate) ClearCreatedBy() *ProcessUpdate {
-	pu.mutation.ClearCreatedBy()
-	return pu
+func (_u *ProcessUpdate) ClearCreatedBy() *ProcessUpdate {
+	_u.mutation.ClearCreatedBy()
+	return _u
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (pu *ProcessUpdate) SetUpdatedBy(s string) *ProcessUpdate {
-	pu.mutation.SetUpdatedBy(s)
-	return pu
+func (_u *ProcessUpdate) SetUpdatedBy(v string) *ProcessUpdate {
+	_u.mutation.SetUpdatedBy(v)
+	return _u
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (pu *ProcessUpdate) SetNillableUpdatedBy(s *string) *ProcessUpdate {
-	if s != nil {
-		pu.SetUpdatedBy(*s)
+func (_u *ProcessUpdate) SetNillableUpdatedBy(v *string) *ProcessUpdate {
+	if v != nil {
+		_u.SetUpdatedBy(*v)
 	}
-	return pu
+	return _u
 }
 
 // ClearUpdatedBy clears the value of the "updated_by" field.
-func (pu *ProcessUpdate) ClearUpdatedBy() *ProcessUpdate {
-	pu.mutation.ClearUpdatedBy()
-	return pu
+func (_u *ProcessUpdate) ClearUpdatedBy() *ProcessUpdate {
+	_u.mutation.ClearUpdatedBy()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (pu *ProcessUpdate) SetUpdatedAt(i int64) *ProcessUpdate {
-	pu.mutation.ResetUpdatedAt()
-	pu.mutation.SetUpdatedAt(i)
-	return pu
+func (_u *ProcessUpdate) SetUpdatedAt(v int64) *ProcessUpdate {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (pu *ProcessUpdate) AddUpdatedAt(i int64) *ProcessUpdate {
-	pu.mutation.AddUpdatedAt(i)
-	return pu
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *ProcessUpdate) AddUpdatedAt(v int64) *ProcessUpdate {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (pu *ProcessUpdate) ClearUpdatedAt() *ProcessUpdate {
-	pu.mutation.ClearUpdatedAt()
-	return pu
+func (_u *ProcessUpdate) ClearUpdatedAt() *ProcessUpdate {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // SetProcessKey sets the "process_key" field.
-func (pu *ProcessUpdate) SetProcessKey(s string) *ProcessUpdate {
-	pu.mutation.SetProcessKey(s)
-	return pu
+func (_u *ProcessUpdate) SetProcessKey(v string) *ProcessUpdate {
+	_u.mutation.SetProcessKey(v)
+	return _u
 }
 
 // SetNillableProcessKey sets the "process_key" field if the given value is not nil.
-func (pu *ProcessUpdate) SetNillableProcessKey(s *string) *ProcessUpdate {
-	if s != nil {
-		pu.SetProcessKey(*s)
+func (_u *ProcessUpdate) SetNillableProcessKey(v *string) *ProcessUpdate {
+	if v != nil {
+		_u.SetProcessKey(*v)
 	}
-	return pu
+	return _u
 }
 
 // SetInitiator sets the "initiator" field.
-func (pu *ProcessUpdate) SetInitiator(s string) *ProcessUpdate {
-	pu.mutation.SetInitiator(s)
-	return pu
+func (_u *ProcessUpdate) SetInitiator(v string) *ProcessUpdate {
+	_u.mutation.SetInitiator(v)
+	return _u
 }
 
 // SetNillableInitiator sets the "initiator" field if the given value is not nil.
-func (pu *ProcessUpdate) SetNillableInitiator(s *string) *ProcessUpdate {
-	if s != nil {
-		pu.SetInitiator(*s)
+func (_u *ProcessUpdate) SetNillableInitiator(v *string) *ProcessUpdate {
+	if v != nil {
+		_u.SetInitiator(*v)
 	}
-	return pu
+	return _u
 }
 
 // SetInitiatorDept sets the "initiator_dept" field.
-func (pu *ProcessUpdate) SetInitiatorDept(s string) *ProcessUpdate {
-	pu.mutation.SetInitiatorDept(s)
-	return pu
+func (_u *ProcessUpdate) SetInitiatorDept(v string) *ProcessUpdate {
+	_u.mutation.SetInitiatorDept(v)
+	return _u
 }
 
 // SetNillableInitiatorDept sets the "initiator_dept" field if the given value is not nil.
-func (pu *ProcessUpdate) SetNillableInitiatorDept(s *string) *ProcessUpdate {
-	if s != nil {
-		pu.SetInitiatorDept(*s)
+func (_u *ProcessUpdate) SetNillableInitiatorDept(v *string) *ProcessUpdate {
+	if v != nil {
+		_u.SetInitiatorDept(*v)
 	}
-	return pu
+	return _u
 }
 
 // ClearInitiatorDept clears the value of the "initiator_dept" field.
-func (pu *ProcessUpdate) ClearInitiatorDept() *ProcessUpdate {
-	pu.mutation.ClearInitiatorDept()
-	return pu
+func (_u *ProcessUpdate) ClearInitiatorDept() *ProcessUpdate {
+	_u.mutation.ClearInitiatorDept()
+	return _u
 }
 
 // SetProcessCode sets the "process_code" field.
-func (pu *ProcessUpdate) SetProcessCode(s string) *ProcessUpdate {
-	pu.mutation.SetProcessCode(s)
-	return pu
+func (_u *ProcessUpdate) SetProcessCode(v string) *ProcessUpdate {
+	_u.mutation.SetProcessCode(v)
+	return _u
 }
 
 // SetNillableProcessCode sets the "process_code" field if the given value is not nil.
-func (pu *ProcessUpdate) SetNillableProcessCode(s *string) *ProcessUpdate {
-	if s != nil {
-		pu.SetProcessCode(*s)
+func (_u *ProcessUpdate) SetNillableProcessCode(v *string) *ProcessUpdate {
+	if v != nil {
+		_u.SetProcessCode(*v)
 	}
-	return pu
+	return _u
 }
 
 // SetVariables sets the "variables" field.
-func (pu *ProcessUpdate) SetVariables(m map[string]interface{}) *ProcessUpdate {
-	pu.mutation.SetVariables(m)
-	return pu
+func (_u *ProcessUpdate) SetVariables(v map[string]interface{}) *ProcessUpdate {
+	_u.mutation.SetVariables(v)
+	return _u
 }
 
 // SetCurrentNode sets the "current_node" field.
-func (pu *ProcessUpdate) SetCurrentNode(s string) *ProcessUpdate {
-	pu.mutation.SetCurrentNode(s)
-	return pu
+func (_u *ProcessUpdate) SetCurrentNode(v string) *ProcessUpdate {
+	_u.mutation.SetCurrentNode(v)
+	return _u
 }
 
 // SetNillableCurrentNode sets the "current_node" field if the given value is not nil.
-func (pu *ProcessUpdate) SetNillableCurrentNode(s *string) *ProcessUpdate {
-	if s != nil {
-		pu.SetCurrentNode(*s)
+func (_u *ProcessUpdate) SetNillableCurrentNode(v *string) *ProcessUpdate {
+	if v != nil {
+		_u.SetCurrentNode(*v)
 	}
-	return pu
+	return _u
 }
 
 // ClearCurrentNode clears the value of the "current_node" field.
-func (pu *ProcessUpdate) ClearCurrentNode() *ProcessUpdate {
-	pu.mutation.ClearCurrentNode()
-	return pu
+func (_u *ProcessUpdate) ClearCurrentNode() *ProcessUpdate {
+	_u.mutation.ClearCurrentNode()
+	return _u
 }
 
 // SetActiveNodes sets the "active_nodes" field.
-func (pu *ProcessUpdate) SetActiveNodes(s []string) *ProcessUpdate {
-	pu.mutation.SetActiveNodes(s)
-	return pu
+func (_u *ProcessUpdate) SetActiveNodes(v []string) *ProcessUpdate {
+	_u.mutation.SetActiveNodes(v)
+	return _u
 }
 
-// AppendActiveNodes appends s to the "active_nodes" field.
-func (pu *ProcessUpdate) AppendActiveNodes(s []string) *ProcessUpdate {
-	pu.mutation.AppendActiveNodes(s)
-	return pu
+// AppendActiveNodes appends value to the "active_nodes" field.
+func (_u *ProcessUpdate) AppendActiveNodes(v []string) *ProcessUpdate {
+	_u.mutation.AppendActiveNodes(v)
+	return _u
 }
 
 // ClearActiveNodes clears the value of the "active_nodes" field.
-func (pu *ProcessUpdate) ClearActiveNodes() *ProcessUpdate {
-	pu.mutation.ClearActiveNodes()
-	return pu
+func (_u *ProcessUpdate) ClearActiveNodes() *ProcessUpdate {
+	_u.mutation.ClearActiveNodes()
+	return _u
 }
 
 // SetProcessSnapshot sets the "process_snapshot" field.
-func (pu *ProcessUpdate) SetProcessSnapshot(m map[string]interface{}) *ProcessUpdate {
-	pu.mutation.SetProcessSnapshot(m)
-	return pu
+func (_u *ProcessUpdate) SetProcessSnapshot(v map[string]interface{}) *ProcessUpdate {
+	_u.mutation.SetProcessSnapshot(v)
+	return _u
 }
 
 // ClearProcessSnapshot clears the value of the "process_snapshot" field.
-func (pu *ProcessUpdate) ClearProcessSnapshot() *ProcessUpdate {
-	pu.mutation.ClearProcessSnapshot()
-	return pu
+func (_u *ProcessUpdate) ClearProcessSnapshot() *ProcessUpdate {
+	_u.mutation.ClearProcessSnapshot()
+	return _u
 }
 
 // SetFormSnapshot sets the "form_snapshot" field.
-func (pu *ProcessUpdate) SetFormSnapshot(m map[string]interface{}) *ProcessUpdate {
-	pu.mutation.SetFormSnapshot(m)
-	return pu
+func (_u *ProcessUpdate) SetFormSnapshot(v map[string]interface{}) *ProcessUpdate {
+	_u.mutation.SetFormSnapshot(v)
+	return _u
 }
 
 // ClearFormSnapshot clears the value of the "form_snapshot" field.
-func (pu *ProcessUpdate) ClearFormSnapshot() *ProcessUpdate {
-	pu.mutation.ClearFormSnapshot()
-	return pu
+func (_u *ProcessUpdate) ClearFormSnapshot() *ProcessUpdate {
+	_u.mutation.ClearFormSnapshot()
+	return _u
 }
 
 // SetUrgeCount sets the "urge_count" field.
-func (pu *ProcessUpdate) SetUrgeCount(i int) *ProcessUpdate {
-	pu.mutation.ResetUrgeCount()
-	pu.mutation.SetUrgeCount(i)
-	return pu
+func (_u *ProcessUpdate) SetUrgeCount(v int) *ProcessUpdate {
+	_u.mutation.ResetUrgeCount()
+	_u.mutation.SetUrgeCount(v)
+	return _u
 }
 
 // SetNillableUrgeCount sets the "urge_count" field if the given value is not nil.
-func (pu *ProcessUpdate) SetNillableUrgeCount(i *int) *ProcessUpdate {
-	if i != nil {
-		pu.SetUrgeCount(*i)
+func (_u *ProcessUpdate) SetNillableUrgeCount(v *int) *ProcessUpdate {
+	if v != nil {
+		_u.SetUrgeCount(*v)
 	}
-	return pu
+	return _u
 }
 
-// AddUrgeCount adds i to the "urge_count" field.
-func (pu *ProcessUpdate) AddUrgeCount(i int) *ProcessUpdate {
-	pu.mutation.AddUrgeCount(i)
-	return pu
+// AddUrgeCount adds value to the "urge_count" field.
+func (_u *ProcessUpdate) AddUrgeCount(v int) *ProcessUpdate {
+	_u.mutation.AddUrgeCount(v)
+	return _u
 }
 
 // Mutation returns the ProcessMutation object of the builder.
-func (pu *ProcessUpdate) Mutation() *ProcessMutation {
-	return pu.mutation
+func (_u *ProcessUpdate) Mutation() *ProcessMutation {
+	return _u.mutation
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
-func (pu *ProcessUpdate) Save(ctx context.Context) (int, error) {
-	pu.defaults()
-	return withHooks(ctx, pu.sqlSave, pu.mutation, pu.hooks)
+func (_u *ProcessUpdate) Save(ctx context.Context) (int, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (pu *ProcessUpdate) SaveX(ctx context.Context) int {
-	affected, err := pu.Save(ctx)
+func (_u *ProcessUpdate) SaveX(ctx context.Context) int {
+	affected, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -825,283 +825,283 @@ func (pu *ProcessUpdate) SaveX(ctx context.Context) int {
 }
 
 // Exec executes the query.
-func (pu *ProcessUpdate) Exec(ctx context.Context) error {
-	_, err := pu.Save(ctx)
+func (_u *ProcessUpdate) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (pu *ProcessUpdate) ExecX(ctx context.Context) {
-	if err := pu.Exec(ctx); err != nil {
+func (_u *ProcessUpdate) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (pu *ProcessUpdate) defaults() {
-	if _, ok := pu.mutation.UpdatedAt(); !ok && !pu.mutation.UpdatedAtCleared() {
+func (_u *ProcessUpdate) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := process.UpdateDefaultUpdatedAt()
-		pu.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (pu *ProcessUpdate) sqlSave(ctx context.Context) (n int, err error) {
+func (_u *ProcessUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	_spec := sqlgraph.NewUpdateSpec(process.Table, process.Columns, sqlgraph.NewFieldSpec(process.FieldID, field.TypeString))
-	if ps := pu.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := pu.mutation.Status(); ok {
+	if value, ok := _u.mutation.Status(); ok {
 		_spec.SetField(process.FieldStatus, field.TypeString, value)
 	}
-	if pu.mutation.StatusCleared() {
+	if _u.mutation.StatusCleared() {
 		_spec.ClearField(process.FieldStatus, field.TypeString)
 	}
-	if value, ok := pu.mutation.ProcessID(); ok {
+	if value, ok := _u.mutation.ProcessID(); ok {
 		_spec.SetField(process.FieldProcessID, field.TypeString, value)
 	}
-	if value, ok := pu.mutation.TemplateID(); ok {
+	if value, ok := _u.mutation.TemplateID(); ok {
 		_spec.SetField(process.FieldTemplateID, field.TypeString, value)
 	}
-	if value, ok := pu.mutation.BusinessKey(); ok {
+	if value, ok := _u.mutation.BusinessKey(); ok {
 		_spec.SetField(process.FieldBusinessKey, field.TypeString, value)
 	}
-	if value, ok := pu.mutation.FormCode(); ok {
+	if value, ok := _u.mutation.FormCode(); ok {
 		_spec.SetField(process.FieldFormCode, field.TypeString, value)
 	}
-	if value, ok := pu.mutation.FormVersion(); ok {
+	if value, ok := _u.mutation.FormVersion(); ok {
 		_spec.SetField(process.FieldFormVersion, field.TypeString, value)
 	}
-	if pu.mutation.FormVersionCleared() {
+	if _u.mutation.FormVersionCleared() {
 		_spec.ClearField(process.FieldFormVersion, field.TypeString)
 	}
-	if value, ok := pu.mutation.FormConfig(); ok {
+	if value, ok := _u.mutation.FormConfig(); ok {
 		_spec.SetField(process.FieldFormConfig, field.TypeJSON, value)
 	}
-	if pu.mutation.FormConfigCleared() {
+	if _u.mutation.FormConfigCleared() {
 		_spec.ClearField(process.FieldFormConfig, field.TypeJSON)
 	}
-	if value, ok := pu.mutation.FormPermissions(); ok {
+	if value, ok := _u.mutation.FormPermissions(); ok {
 		_spec.SetField(process.FieldFormPermissions, field.TypeJSON, value)
 	}
-	if pu.mutation.FormPermissionsCleared() {
+	if _u.mutation.FormPermissionsCleared() {
 		_spec.ClearField(process.FieldFormPermissions, field.TypeJSON)
 	}
-	if value, ok := pu.mutation.FieldPermissions(); ok {
+	if value, ok := _u.mutation.FieldPermissions(); ok {
 		_spec.SetField(process.FieldFieldPermissions, field.TypeJSON, value)
 	}
-	if pu.mutation.FieldPermissionsCleared() {
+	if _u.mutation.FieldPermissionsCleared() {
 		_spec.ClearField(process.FieldFieldPermissions, field.TypeJSON)
 	}
-	if value, ok := pu.mutation.BusinessTags(); ok {
+	if value, ok := _u.mutation.BusinessTags(); ok {
 		_spec.SetField(process.FieldBusinessTags, field.TypeJSON, value)
 	}
-	if value, ok := pu.mutation.AppendedBusinessTags(); ok {
+	if value, ok := _u.mutation.AppendedBusinessTags(); ok {
 		_spec.AddModifier(func(u *sql.UpdateBuilder) {
 			sqljson.Append(u, process.FieldBusinessTags, value)
 		})
 	}
-	if pu.mutation.BusinessTagsCleared() {
+	if _u.mutation.BusinessTagsCleared() {
 		_spec.ClearField(process.FieldBusinessTags, field.TypeJSON)
 	}
-	if value, ok := pu.mutation.ModuleCode(); ok {
+	if value, ok := _u.mutation.ModuleCode(); ok {
 		_spec.SetField(process.FieldModuleCode, field.TypeString, value)
 	}
-	if value, ok := pu.mutation.Category(); ok {
+	if value, ok := _u.mutation.Category(); ok {
 		_spec.SetField(process.FieldCategory, field.TypeString, value)
 	}
-	if pu.mutation.CategoryCleared() {
+	if _u.mutation.CategoryCleared() {
 		_spec.ClearField(process.FieldCategory, field.TypeString)
 	}
-	if value, ok := pu.mutation.FlowStatus(); ok {
+	if value, ok := _u.mutation.FlowStatus(); ok {
 		_spec.SetField(process.FieldFlowStatus, field.TypeString, value)
 	}
-	if pu.mutation.FlowStatusCleared() {
+	if _u.mutation.FlowStatusCleared() {
 		_spec.ClearField(process.FieldFlowStatus, field.TypeString)
 	}
-	if value, ok := pu.mutation.FlowVariables(); ok {
+	if value, ok := _u.mutation.FlowVariables(); ok {
 		_spec.SetField(process.FieldFlowVariables, field.TypeJSON, value)
 	}
-	if pu.mutation.FlowVariablesCleared() {
+	if _u.mutation.FlowVariablesCleared() {
 		_spec.ClearField(process.FieldFlowVariables, field.TypeJSON)
 	}
-	if value, ok := pu.mutation.IsDraft(); ok {
+	if value, ok := _u.mutation.IsDraft(); ok {
 		_spec.SetField(process.FieldIsDraft, field.TypeBool, value)
 	}
-	if value, ok := pu.mutation.IsTerminated(); ok {
+	if value, ok := _u.mutation.IsTerminated(); ok {
 		_spec.SetField(process.FieldIsTerminated, field.TypeBool, value)
 	}
-	if value, ok := pu.mutation.IsSuspended(); ok {
+	if value, ok := _u.mutation.IsSuspended(); ok {
 		_spec.SetField(process.FieldIsSuspended, field.TypeBool, value)
 	}
-	if value, ok := pu.mutation.SuspendReason(); ok {
+	if value, ok := _u.mutation.SuspendReason(); ok {
 		_spec.SetField(process.FieldSuspendReason, field.TypeString, value)
 	}
-	if pu.mutation.SuspendReasonCleared() {
+	if _u.mutation.SuspendReasonCleared() {
 		_spec.ClearField(process.FieldSuspendReason, field.TypeString)
 	}
-	if value, ok := pu.mutation.StartTime(); ok {
+	if value, ok := _u.mutation.StartTime(); ok {
 		_spec.SetField(process.FieldStartTime, field.TypeInt64, value)
 	}
-	if value, ok := pu.mutation.AddedStartTime(); ok {
+	if value, ok := _u.mutation.AddedStartTime(); ok {
 		_spec.AddField(process.FieldStartTime, field.TypeInt64, value)
 	}
-	if value, ok := pu.mutation.EndTime(); ok {
+	if value, ok := _u.mutation.EndTime(); ok {
 		_spec.SetField(process.FieldEndTime, field.TypeInt64, value)
 	}
-	if value, ok := pu.mutation.AddedEndTime(); ok {
+	if value, ok := _u.mutation.AddedEndTime(); ok {
 		_spec.AddField(process.FieldEndTime, field.TypeInt64, value)
 	}
-	if pu.mutation.EndTimeCleared() {
+	if _u.mutation.EndTimeCleared() {
 		_spec.ClearField(process.FieldEndTime, field.TypeInt64)
 	}
-	if value, ok := pu.mutation.DueTime(); ok {
+	if value, ok := _u.mutation.DueTime(); ok {
 		_spec.SetField(process.FieldDueTime, field.TypeInt64, value)
 	}
-	if value, ok := pu.mutation.AddedDueTime(); ok {
+	if value, ok := _u.mutation.AddedDueTime(); ok {
 		_spec.AddField(process.FieldDueTime, field.TypeInt64, value)
 	}
-	if pu.mutation.DueTimeCleared() {
+	if _u.mutation.DueTimeCleared() {
 		_spec.ClearField(process.FieldDueTime, field.TypeInt64)
 	}
-	if value, ok := pu.mutation.Duration(); ok {
+	if value, ok := _u.mutation.Duration(); ok {
 		_spec.SetField(process.FieldDuration, field.TypeInt, value)
 	}
-	if value, ok := pu.mutation.AddedDuration(); ok {
+	if value, ok := _u.mutation.AddedDuration(); ok {
 		_spec.AddField(process.FieldDuration, field.TypeInt, value)
 	}
-	if pu.mutation.DurationCleared() {
+	if _u.mutation.DurationCleared() {
 		_spec.ClearField(process.FieldDuration, field.TypeInt)
 	}
-	if value, ok := pu.mutation.Priority(); ok {
+	if value, ok := _u.mutation.Priority(); ok {
 		_spec.SetField(process.FieldPriority, field.TypeInt, value)
 	}
-	if value, ok := pu.mutation.AddedPriority(); ok {
+	if value, ok := _u.mutation.AddedPriority(); ok {
 		_spec.AddField(process.FieldPriority, field.TypeInt, value)
 	}
-	if value, ok := pu.mutation.IsTimeout(); ok {
+	if value, ok := _u.mutation.IsTimeout(); ok {
 		_spec.SetField(process.FieldIsTimeout, field.TypeBool, value)
 	}
-	if value, ok := pu.mutation.ReminderCount(); ok {
+	if value, ok := _u.mutation.ReminderCount(); ok {
 		_spec.SetField(process.FieldReminderCount, field.TypeInt, value)
 	}
-	if value, ok := pu.mutation.AddedReminderCount(); ok {
+	if value, ok := _u.mutation.AddedReminderCount(); ok {
 		_spec.AddField(process.FieldReminderCount, field.TypeInt, value)
 	}
-	if value, ok := pu.mutation.AllowCancel(); ok {
+	if value, ok := _u.mutation.AllowCancel(); ok {
 		_spec.SetField(process.FieldAllowCancel, field.TypeBool, value)
 	}
-	if value, ok := pu.mutation.AllowUrge(); ok {
+	if value, ok := _u.mutation.AllowUrge(); ok {
 		_spec.SetField(process.FieldAllowUrge, field.TypeBool, value)
 	}
-	if value, ok := pu.mutation.AllowDelegate(); ok {
+	if value, ok := _u.mutation.AllowDelegate(); ok {
 		_spec.SetField(process.FieldAllowDelegate, field.TypeBool, value)
 	}
-	if value, ok := pu.mutation.AllowTransfer(); ok {
+	if value, ok := _u.mutation.AllowTransfer(); ok {
 		_spec.SetField(process.FieldAllowTransfer, field.TypeBool, value)
 	}
-	if value, ok := pu.mutation.IsDraftEnabled(); ok {
+	if value, ok := _u.mutation.IsDraftEnabled(); ok {
 		_spec.SetField(process.FieldIsDraftEnabled, field.TypeBool, value)
 	}
-	if value, ok := pu.mutation.IsAutoStart(); ok {
+	if value, ok := _u.mutation.IsAutoStart(); ok {
 		_spec.SetField(process.FieldIsAutoStart, field.TypeBool, value)
 	}
-	if value, ok := pu.mutation.StrictMode(); ok {
+	if value, ok := _u.mutation.StrictMode(); ok {
 		_spec.SetField(process.FieldStrictMode, field.TypeBool, value)
 	}
-	if value, ok := pu.mutation.Extras(); ok {
+	if value, ok := _u.mutation.Extras(); ok {
 		_spec.SetField(process.FieldExtras, field.TypeJSON, value)
 	}
-	if pu.mutation.ExtrasCleared() {
+	if _u.mutation.ExtrasCleared() {
 		_spec.ClearField(process.FieldExtras, field.TypeJSON)
 	}
-	if value, ok := pu.mutation.SpaceID(); ok {
+	if value, ok := _u.mutation.SpaceID(); ok {
 		_spec.SetField(process.FieldSpaceID, field.TypeString, value)
 	}
-	if pu.mutation.SpaceIDCleared() {
+	if _u.mutation.SpaceIDCleared() {
 		_spec.ClearField(process.FieldSpaceID, field.TypeString)
 	}
-	if value, ok := pu.mutation.CreatedBy(); ok {
+	if value, ok := _u.mutation.CreatedBy(); ok {
 		_spec.SetField(process.FieldCreatedBy, field.TypeString, value)
 	}
-	if pu.mutation.CreatedByCleared() {
+	if _u.mutation.CreatedByCleared() {
 		_spec.ClearField(process.FieldCreatedBy, field.TypeString)
 	}
-	if value, ok := pu.mutation.UpdatedBy(); ok {
+	if value, ok := _u.mutation.UpdatedBy(); ok {
 		_spec.SetField(process.FieldUpdatedBy, field.TypeString, value)
 	}
-	if pu.mutation.UpdatedByCleared() {
+	if _u.mutation.UpdatedByCleared() {
 		_spec.ClearField(process.FieldUpdatedBy, field.TypeString)
 	}
-	if pu.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(process.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := pu.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(process.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := pu.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(process.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if pu.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(process.FieldUpdatedAt, field.TypeInt64)
 	}
-	if value, ok := pu.mutation.ProcessKey(); ok {
+	if value, ok := _u.mutation.ProcessKey(); ok {
 		_spec.SetField(process.FieldProcessKey, field.TypeString, value)
 	}
-	if value, ok := pu.mutation.Initiator(); ok {
+	if value, ok := _u.mutation.Initiator(); ok {
 		_spec.SetField(process.FieldInitiator, field.TypeString, value)
 	}
-	if value, ok := pu.mutation.InitiatorDept(); ok {
+	if value, ok := _u.mutation.InitiatorDept(); ok {
 		_spec.SetField(process.FieldInitiatorDept, field.TypeString, value)
 	}
-	if pu.mutation.InitiatorDeptCleared() {
+	if _u.mutation.InitiatorDeptCleared() {
 		_spec.ClearField(process.FieldInitiatorDept, field.TypeString)
 	}
-	if value, ok := pu.mutation.ProcessCode(); ok {
+	if value, ok := _u.mutation.ProcessCode(); ok {
 		_spec.SetField(process.FieldProcessCode, field.TypeString, value)
 	}
-	if value, ok := pu.mutation.Variables(); ok {
+	if value, ok := _u.mutation.Variables(); ok {
 		_spec.SetField(process.FieldVariables, field.TypeJSON, value)
 	}
-	if value, ok := pu.mutation.CurrentNode(); ok {
+	if value, ok := _u.mutation.CurrentNode(); ok {
 		_spec.SetField(process.FieldCurrentNode, field.TypeString, value)
 	}
-	if pu.mutation.CurrentNodeCleared() {
+	if _u.mutation.CurrentNodeCleared() {
 		_spec.ClearField(process.FieldCurrentNode, field.TypeString)
 	}
-	if value, ok := pu.mutation.ActiveNodes(); ok {
+	if value, ok := _u.mutation.ActiveNodes(); ok {
 		_spec.SetField(process.FieldActiveNodes, field.TypeJSON, value)
 	}
-	if value, ok := pu.mutation.AppendedActiveNodes(); ok {
+	if value, ok := _u.mutation.AppendedActiveNodes(); ok {
 		_spec.AddModifier(func(u *sql.UpdateBuilder) {
 			sqljson.Append(u, process.FieldActiveNodes, value)
 		})
 	}
-	if pu.mutation.ActiveNodesCleared() {
+	if _u.mutation.ActiveNodesCleared() {
 		_spec.ClearField(process.FieldActiveNodes, field.TypeJSON)
 	}
-	if value, ok := pu.mutation.ProcessSnapshot(); ok {
+	if value, ok := _u.mutation.ProcessSnapshot(); ok {
 		_spec.SetField(process.FieldProcessSnapshot, field.TypeJSON, value)
 	}
-	if pu.mutation.ProcessSnapshotCleared() {
+	if _u.mutation.ProcessSnapshotCleared() {
 		_spec.ClearField(process.FieldProcessSnapshot, field.TypeJSON)
 	}
-	if value, ok := pu.mutation.FormSnapshot(); ok {
+	if value, ok := _u.mutation.FormSnapshot(); ok {
 		_spec.SetField(process.FieldFormSnapshot, field.TypeJSON, value)
 	}
-	if pu.mutation.FormSnapshotCleared() {
+	if _u.mutation.FormSnapshotCleared() {
 		_spec.ClearField(process.FieldFormSnapshot, field.TypeJSON)
 	}
-	if value, ok := pu.mutation.UrgeCount(); ok {
+	if value, ok := _u.mutation.UrgeCount(); ok {
 		_spec.SetField(process.FieldUrgeCount, field.TypeInt, value)
 	}
-	if value, ok := pu.mutation.AddedUrgeCount(); ok {
+	if value, ok := _u.mutation.AddedUrgeCount(); ok {
 		_spec.AddField(process.FieldUrgeCount, field.TypeInt, value)
 	}
-	if n, err = sqlgraph.UpdateNodes(ctx, pu.driver, _spec); err != nil {
+	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{process.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -1109,8 +1109,8 @@ func (pu *ProcessUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		return 0, err
 	}
-	pu.mutation.done = true
-	return n, nil
+	_u.mutation.done = true
+	return _node, nil
 }
 
 // ProcessUpdateOne is the builder for updating a single Process entity.
@@ -1122,808 +1122,808 @@ type ProcessUpdateOne struct {
 }
 
 // SetStatus sets the "status" field.
-func (puo *ProcessUpdateOne) SetStatus(s string) *ProcessUpdateOne {
-	puo.mutation.SetStatus(s)
-	return puo
+func (_u *ProcessUpdateOne) SetStatus(v string) *ProcessUpdateOne {
+	_u.mutation.SetStatus(v)
+	return _u
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (puo *ProcessUpdateOne) SetNillableStatus(s *string) *ProcessUpdateOne {
-	if s != nil {
-		puo.SetStatus(*s)
+func (_u *ProcessUpdateOne) SetNillableStatus(v *string) *ProcessUpdateOne {
+	if v != nil {
+		_u.SetStatus(*v)
 	}
-	return puo
+	return _u
 }
 
 // ClearStatus clears the value of the "status" field.
-func (puo *ProcessUpdateOne) ClearStatus() *ProcessUpdateOne {
-	puo.mutation.ClearStatus()
-	return puo
+func (_u *ProcessUpdateOne) ClearStatus() *ProcessUpdateOne {
+	_u.mutation.ClearStatus()
+	return _u
 }
 
 // SetProcessID sets the "process_id" field.
-func (puo *ProcessUpdateOne) SetProcessID(s string) *ProcessUpdateOne {
-	puo.mutation.SetProcessID(s)
-	return puo
+func (_u *ProcessUpdateOne) SetProcessID(v string) *ProcessUpdateOne {
+	_u.mutation.SetProcessID(v)
+	return _u
 }
 
 // SetNillableProcessID sets the "process_id" field if the given value is not nil.
-func (puo *ProcessUpdateOne) SetNillableProcessID(s *string) *ProcessUpdateOne {
-	if s != nil {
-		puo.SetProcessID(*s)
+func (_u *ProcessUpdateOne) SetNillableProcessID(v *string) *ProcessUpdateOne {
+	if v != nil {
+		_u.SetProcessID(*v)
 	}
-	return puo
+	return _u
 }
 
 // SetTemplateID sets the "template_id" field.
-func (puo *ProcessUpdateOne) SetTemplateID(s string) *ProcessUpdateOne {
-	puo.mutation.SetTemplateID(s)
-	return puo
+func (_u *ProcessUpdateOne) SetTemplateID(v string) *ProcessUpdateOne {
+	_u.mutation.SetTemplateID(v)
+	return _u
 }
 
 // SetNillableTemplateID sets the "template_id" field if the given value is not nil.
-func (puo *ProcessUpdateOne) SetNillableTemplateID(s *string) *ProcessUpdateOne {
-	if s != nil {
-		puo.SetTemplateID(*s)
+func (_u *ProcessUpdateOne) SetNillableTemplateID(v *string) *ProcessUpdateOne {
+	if v != nil {
+		_u.SetTemplateID(*v)
 	}
-	return puo
+	return _u
 }
 
 // SetBusinessKey sets the "business_key" field.
-func (puo *ProcessUpdateOne) SetBusinessKey(s string) *ProcessUpdateOne {
-	puo.mutation.SetBusinessKey(s)
-	return puo
+func (_u *ProcessUpdateOne) SetBusinessKey(v string) *ProcessUpdateOne {
+	_u.mutation.SetBusinessKey(v)
+	return _u
 }
 
 // SetNillableBusinessKey sets the "business_key" field if the given value is not nil.
-func (puo *ProcessUpdateOne) SetNillableBusinessKey(s *string) *ProcessUpdateOne {
-	if s != nil {
-		puo.SetBusinessKey(*s)
+func (_u *ProcessUpdateOne) SetNillableBusinessKey(v *string) *ProcessUpdateOne {
+	if v != nil {
+		_u.SetBusinessKey(*v)
 	}
-	return puo
+	return _u
 }
 
 // SetFormCode sets the "form_code" field.
-func (puo *ProcessUpdateOne) SetFormCode(s string) *ProcessUpdateOne {
-	puo.mutation.SetFormCode(s)
-	return puo
+func (_u *ProcessUpdateOne) SetFormCode(v string) *ProcessUpdateOne {
+	_u.mutation.SetFormCode(v)
+	return _u
 }
 
 // SetNillableFormCode sets the "form_code" field if the given value is not nil.
-func (puo *ProcessUpdateOne) SetNillableFormCode(s *string) *ProcessUpdateOne {
-	if s != nil {
-		puo.SetFormCode(*s)
+func (_u *ProcessUpdateOne) SetNillableFormCode(v *string) *ProcessUpdateOne {
+	if v != nil {
+		_u.SetFormCode(*v)
 	}
-	return puo
+	return _u
 }
 
 // SetFormVersion sets the "form_version" field.
-func (puo *ProcessUpdateOne) SetFormVersion(s string) *ProcessUpdateOne {
-	puo.mutation.SetFormVersion(s)
-	return puo
+func (_u *ProcessUpdateOne) SetFormVersion(v string) *ProcessUpdateOne {
+	_u.mutation.SetFormVersion(v)
+	return _u
 }
 
 // SetNillableFormVersion sets the "form_version" field if the given value is not nil.
-func (puo *ProcessUpdateOne) SetNillableFormVersion(s *string) *ProcessUpdateOne {
-	if s != nil {
-		puo.SetFormVersion(*s)
+func (_u *ProcessUpdateOne) SetNillableFormVersion(v *string) *ProcessUpdateOne {
+	if v != nil {
+		_u.SetFormVersion(*v)
 	}
-	return puo
+	return _u
 }
 
 // ClearFormVersion clears the value of the "form_version" field.
-func (puo *ProcessUpdateOne) ClearFormVersion() *ProcessUpdateOne {
-	puo.mutation.ClearFormVersion()
-	return puo
+func (_u *ProcessUpdateOne) ClearFormVersion() *ProcessUpdateOne {
+	_u.mutation.ClearFormVersion()
+	return _u
 }
 
 // SetFormConfig sets the "form_config" field.
-func (puo *ProcessUpdateOne) SetFormConfig(m map[string]interface{}) *ProcessUpdateOne {
-	puo.mutation.SetFormConfig(m)
-	return puo
+func (_u *ProcessUpdateOne) SetFormConfig(v map[string]interface{}) *ProcessUpdateOne {
+	_u.mutation.SetFormConfig(v)
+	return _u
 }
 
 // ClearFormConfig clears the value of the "form_config" field.
-func (puo *ProcessUpdateOne) ClearFormConfig() *ProcessUpdateOne {
-	puo.mutation.ClearFormConfig()
-	return puo
+func (_u *ProcessUpdateOne) ClearFormConfig() *ProcessUpdateOne {
+	_u.mutation.ClearFormConfig()
+	return _u
 }
 
 // SetFormPermissions sets the "form_permissions" field.
-func (puo *ProcessUpdateOne) SetFormPermissions(m map[string]interface{}) *ProcessUpdateOne {
-	puo.mutation.SetFormPermissions(m)
-	return puo
+func (_u *ProcessUpdateOne) SetFormPermissions(v map[string]interface{}) *ProcessUpdateOne {
+	_u.mutation.SetFormPermissions(v)
+	return _u
 }
 
 // ClearFormPermissions clears the value of the "form_permissions" field.
-func (puo *ProcessUpdateOne) ClearFormPermissions() *ProcessUpdateOne {
-	puo.mutation.ClearFormPermissions()
-	return puo
+func (_u *ProcessUpdateOne) ClearFormPermissions() *ProcessUpdateOne {
+	_u.mutation.ClearFormPermissions()
+	return _u
 }
 
 // SetFieldPermissions sets the "field_permissions" field.
-func (puo *ProcessUpdateOne) SetFieldPermissions(m map[string]interface{}) *ProcessUpdateOne {
-	puo.mutation.SetFieldPermissions(m)
-	return puo
+func (_u *ProcessUpdateOne) SetFieldPermissions(v map[string]interface{}) *ProcessUpdateOne {
+	_u.mutation.SetFieldPermissions(v)
+	return _u
 }
 
 // ClearFieldPermissions clears the value of the "field_permissions" field.
-func (puo *ProcessUpdateOne) ClearFieldPermissions() *ProcessUpdateOne {
-	puo.mutation.ClearFieldPermissions()
-	return puo
+func (_u *ProcessUpdateOne) ClearFieldPermissions() *ProcessUpdateOne {
+	_u.mutation.ClearFieldPermissions()
+	return _u
 }
 
 // SetBusinessTags sets the "business_tags" field.
-func (puo *ProcessUpdateOne) SetBusinessTags(s []string) *ProcessUpdateOne {
-	puo.mutation.SetBusinessTags(s)
-	return puo
+func (_u *ProcessUpdateOne) SetBusinessTags(v []string) *ProcessUpdateOne {
+	_u.mutation.SetBusinessTags(v)
+	return _u
 }
 
-// AppendBusinessTags appends s to the "business_tags" field.
-func (puo *ProcessUpdateOne) AppendBusinessTags(s []string) *ProcessUpdateOne {
-	puo.mutation.AppendBusinessTags(s)
-	return puo
+// AppendBusinessTags appends value to the "business_tags" field.
+func (_u *ProcessUpdateOne) AppendBusinessTags(v []string) *ProcessUpdateOne {
+	_u.mutation.AppendBusinessTags(v)
+	return _u
 }
 
 // ClearBusinessTags clears the value of the "business_tags" field.
-func (puo *ProcessUpdateOne) ClearBusinessTags() *ProcessUpdateOne {
-	puo.mutation.ClearBusinessTags()
-	return puo
+func (_u *ProcessUpdateOne) ClearBusinessTags() *ProcessUpdateOne {
+	_u.mutation.ClearBusinessTags()
+	return _u
 }
 
 // SetModuleCode sets the "module_code" field.
-func (puo *ProcessUpdateOne) SetModuleCode(s string) *ProcessUpdateOne {
-	puo.mutation.SetModuleCode(s)
-	return puo
+func (_u *ProcessUpdateOne) SetModuleCode(v string) *ProcessUpdateOne {
+	_u.mutation.SetModuleCode(v)
+	return _u
 }
 
 // SetNillableModuleCode sets the "module_code" field if the given value is not nil.
-func (puo *ProcessUpdateOne) SetNillableModuleCode(s *string) *ProcessUpdateOne {
-	if s != nil {
-		puo.SetModuleCode(*s)
+func (_u *ProcessUpdateOne) SetNillableModuleCode(v *string) *ProcessUpdateOne {
+	if v != nil {
+		_u.SetModuleCode(*v)
 	}
-	return puo
+	return _u
 }
 
 // SetCategory sets the "category" field.
-func (puo *ProcessUpdateOne) SetCategory(s string) *ProcessUpdateOne {
-	puo.mutation.SetCategory(s)
-	return puo
+func (_u *ProcessUpdateOne) SetCategory(v string) *ProcessUpdateOne {
+	_u.mutation.SetCategory(v)
+	return _u
 }
 
 // SetNillableCategory sets the "category" field if the given value is not nil.
-func (puo *ProcessUpdateOne) SetNillableCategory(s *string) *ProcessUpdateOne {
-	if s != nil {
-		puo.SetCategory(*s)
+func (_u *ProcessUpdateOne) SetNillableCategory(v *string) *ProcessUpdateOne {
+	if v != nil {
+		_u.SetCategory(*v)
 	}
-	return puo
+	return _u
 }
 
 // ClearCategory clears the value of the "category" field.
-func (puo *ProcessUpdateOne) ClearCategory() *ProcessUpdateOne {
-	puo.mutation.ClearCategory()
-	return puo
+func (_u *ProcessUpdateOne) ClearCategory() *ProcessUpdateOne {
+	_u.mutation.ClearCategory()
+	return _u
 }
 
 // SetFlowStatus sets the "flow_status" field.
-func (puo *ProcessUpdateOne) SetFlowStatus(s string) *ProcessUpdateOne {
-	puo.mutation.SetFlowStatus(s)
-	return puo
+func (_u *ProcessUpdateOne) SetFlowStatus(v string) *ProcessUpdateOne {
+	_u.mutation.SetFlowStatus(v)
+	return _u
 }
 
 // SetNillableFlowStatus sets the "flow_status" field if the given value is not nil.
-func (puo *ProcessUpdateOne) SetNillableFlowStatus(s *string) *ProcessUpdateOne {
-	if s != nil {
-		puo.SetFlowStatus(*s)
+func (_u *ProcessUpdateOne) SetNillableFlowStatus(v *string) *ProcessUpdateOne {
+	if v != nil {
+		_u.SetFlowStatus(*v)
 	}
-	return puo
+	return _u
 }
 
 // ClearFlowStatus clears the value of the "flow_status" field.
-func (puo *ProcessUpdateOne) ClearFlowStatus() *ProcessUpdateOne {
-	puo.mutation.ClearFlowStatus()
-	return puo
+func (_u *ProcessUpdateOne) ClearFlowStatus() *ProcessUpdateOne {
+	_u.mutation.ClearFlowStatus()
+	return _u
 }
 
 // SetFlowVariables sets the "flow_variables" field.
-func (puo *ProcessUpdateOne) SetFlowVariables(m map[string]interface{}) *ProcessUpdateOne {
-	puo.mutation.SetFlowVariables(m)
-	return puo
+func (_u *ProcessUpdateOne) SetFlowVariables(v map[string]interface{}) *ProcessUpdateOne {
+	_u.mutation.SetFlowVariables(v)
+	return _u
 }
 
 // ClearFlowVariables clears the value of the "flow_variables" field.
-func (puo *ProcessUpdateOne) ClearFlowVariables() *ProcessUpdateOne {
-	puo.mutation.ClearFlowVariables()
-	return puo
+func (_u *ProcessUpdateOne) ClearFlowVariables() *ProcessUpdateOne {
+	_u.mutation.ClearFlowVariables()
+	return _u
 }
 
 // SetIsDraft sets the "is_draft" field.
-func (puo *ProcessUpdateOne) SetIsDraft(b bool) *ProcessUpdateOne {
-	puo.mutation.SetIsDraft(b)
-	return puo
+func (_u *ProcessUpdateOne) SetIsDraft(v bool) *ProcessUpdateOne {
+	_u.mutation.SetIsDraft(v)
+	return _u
 }
 
 // SetNillableIsDraft sets the "is_draft" field if the given value is not nil.
-func (puo *ProcessUpdateOne) SetNillableIsDraft(b *bool) *ProcessUpdateOne {
-	if b != nil {
-		puo.SetIsDraft(*b)
+func (_u *ProcessUpdateOne) SetNillableIsDraft(v *bool) *ProcessUpdateOne {
+	if v != nil {
+		_u.SetIsDraft(*v)
 	}
-	return puo
+	return _u
 }
 
 // SetIsTerminated sets the "is_terminated" field.
-func (puo *ProcessUpdateOne) SetIsTerminated(b bool) *ProcessUpdateOne {
-	puo.mutation.SetIsTerminated(b)
-	return puo
+func (_u *ProcessUpdateOne) SetIsTerminated(v bool) *ProcessUpdateOne {
+	_u.mutation.SetIsTerminated(v)
+	return _u
 }
 
 // SetNillableIsTerminated sets the "is_terminated" field if the given value is not nil.
-func (puo *ProcessUpdateOne) SetNillableIsTerminated(b *bool) *ProcessUpdateOne {
-	if b != nil {
-		puo.SetIsTerminated(*b)
+func (_u *ProcessUpdateOne) SetNillableIsTerminated(v *bool) *ProcessUpdateOne {
+	if v != nil {
+		_u.SetIsTerminated(*v)
 	}
-	return puo
+	return _u
 }
 
 // SetIsSuspended sets the "is_suspended" field.
-func (puo *ProcessUpdateOne) SetIsSuspended(b bool) *ProcessUpdateOne {
-	puo.mutation.SetIsSuspended(b)
-	return puo
+func (_u *ProcessUpdateOne) SetIsSuspended(v bool) *ProcessUpdateOne {
+	_u.mutation.SetIsSuspended(v)
+	return _u
 }
 
 // SetNillableIsSuspended sets the "is_suspended" field if the given value is not nil.
-func (puo *ProcessUpdateOne) SetNillableIsSuspended(b *bool) *ProcessUpdateOne {
-	if b != nil {
-		puo.SetIsSuspended(*b)
+func (_u *ProcessUpdateOne) SetNillableIsSuspended(v *bool) *ProcessUpdateOne {
+	if v != nil {
+		_u.SetIsSuspended(*v)
 	}
-	return puo
+	return _u
 }
 
 // SetSuspendReason sets the "suspend_reason" field.
-func (puo *ProcessUpdateOne) SetSuspendReason(s string) *ProcessUpdateOne {
-	puo.mutation.SetSuspendReason(s)
-	return puo
+func (_u *ProcessUpdateOne) SetSuspendReason(v string) *ProcessUpdateOne {
+	_u.mutation.SetSuspendReason(v)
+	return _u
 }
 
 // SetNillableSuspendReason sets the "suspend_reason" field if the given value is not nil.
-func (puo *ProcessUpdateOne) SetNillableSuspendReason(s *string) *ProcessUpdateOne {
-	if s != nil {
-		puo.SetSuspendReason(*s)
+func (_u *ProcessUpdateOne) SetNillableSuspendReason(v *string) *ProcessUpdateOne {
+	if v != nil {
+		_u.SetSuspendReason(*v)
 	}
-	return puo
+	return _u
 }
 
 // ClearSuspendReason clears the value of the "suspend_reason" field.
-func (puo *ProcessUpdateOne) ClearSuspendReason() *ProcessUpdateOne {
-	puo.mutation.ClearSuspendReason()
-	return puo
+func (_u *ProcessUpdateOne) ClearSuspendReason() *ProcessUpdateOne {
+	_u.mutation.ClearSuspendReason()
+	return _u
 }
 
 // SetStartTime sets the "start_time" field.
-func (puo *ProcessUpdateOne) SetStartTime(i int64) *ProcessUpdateOne {
-	puo.mutation.ResetStartTime()
-	puo.mutation.SetStartTime(i)
-	return puo
+func (_u *ProcessUpdateOne) SetStartTime(v int64) *ProcessUpdateOne {
+	_u.mutation.ResetStartTime()
+	_u.mutation.SetStartTime(v)
+	return _u
 }
 
 // SetNillableStartTime sets the "start_time" field if the given value is not nil.
-func (puo *ProcessUpdateOne) SetNillableStartTime(i *int64) *ProcessUpdateOne {
-	if i != nil {
-		puo.SetStartTime(*i)
+func (_u *ProcessUpdateOne) SetNillableStartTime(v *int64) *ProcessUpdateOne {
+	if v != nil {
+		_u.SetStartTime(*v)
 	}
-	return puo
+	return _u
 }
 
-// AddStartTime adds i to the "start_time" field.
-func (puo *ProcessUpdateOne) AddStartTime(i int64) *ProcessUpdateOne {
-	puo.mutation.AddStartTime(i)
-	return puo
+// AddStartTime adds value to the "start_time" field.
+func (_u *ProcessUpdateOne) AddStartTime(v int64) *ProcessUpdateOne {
+	_u.mutation.AddStartTime(v)
+	return _u
 }
 
 // SetEndTime sets the "end_time" field.
-func (puo *ProcessUpdateOne) SetEndTime(i int64) *ProcessUpdateOne {
-	puo.mutation.ResetEndTime()
-	puo.mutation.SetEndTime(i)
-	return puo
+func (_u *ProcessUpdateOne) SetEndTime(v int64) *ProcessUpdateOne {
+	_u.mutation.ResetEndTime()
+	_u.mutation.SetEndTime(v)
+	return _u
 }
 
 // SetNillableEndTime sets the "end_time" field if the given value is not nil.
-func (puo *ProcessUpdateOne) SetNillableEndTime(i *int64) *ProcessUpdateOne {
-	if i != nil {
-		puo.SetEndTime(*i)
+func (_u *ProcessUpdateOne) SetNillableEndTime(v *int64) *ProcessUpdateOne {
+	if v != nil {
+		_u.SetEndTime(*v)
 	}
-	return puo
+	return _u
 }
 
-// AddEndTime adds i to the "end_time" field.
-func (puo *ProcessUpdateOne) AddEndTime(i int64) *ProcessUpdateOne {
-	puo.mutation.AddEndTime(i)
-	return puo
+// AddEndTime adds value to the "end_time" field.
+func (_u *ProcessUpdateOne) AddEndTime(v int64) *ProcessUpdateOne {
+	_u.mutation.AddEndTime(v)
+	return _u
 }
 
 // ClearEndTime clears the value of the "end_time" field.
-func (puo *ProcessUpdateOne) ClearEndTime() *ProcessUpdateOne {
-	puo.mutation.ClearEndTime()
-	return puo
+func (_u *ProcessUpdateOne) ClearEndTime() *ProcessUpdateOne {
+	_u.mutation.ClearEndTime()
+	return _u
 }
 
 // SetDueTime sets the "due_time" field.
-func (puo *ProcessUpdateOne) SetDueTime(i int64) *ProcessUpdateOne {
-	puo.mutation.ResetDueTime()
-	puo.mutation.SetDueTime(i)
-	return puo
+func (_u *ProcessUpdateOne) SetDueTime(v int64) *ProcessUpdateOne {
+	_u.mutation.ResetDueTime()
+	_u.mutation.SetDueTime(v)
+	return _u
 }
 
 // SetNillableDueTime sets the "due_time" field if the given value is not nil.
-func (puo *ProcessUpdateOne) SetNillableDueTime(i *int64) *ProcessUpdateOne {
-	if i != nil {
-		puo.SetDueTime(*i)
+func (_u *ProcessUpdateOne) SetNillableDueTime(v *int64) *ProcessUpdateOne {
+	if v != nil {
+		_u.SetDueTime(*v)
 	}
-	return puo
+	return _u
 }
 
-// AddDueTime adds i to the "due_time" field.
-func (puo *ProcessUpdateOne) AddDueTime(i int64) *ProcessUpdateOne {
-	puo.mutation.AddDueTime(i)
-	return puo
+// AddDueTime adds value to the "due_time" field.
+func (_u *ProcessUpdateOne) AddDueTime(v int64) *ProcessUpdateOne {
+	_u.mutation.AddDueTime(v)
+	return _u
 }
 
 // ClearDueTime clears the value of the "due_time" field.
-func (puo *ProcessUpdateOne) ClearDueTime() *ProcessUpdateOne {
-	puo.mutation.ClearDueTime()
-	return puo
+func (_u *ProcessUpdateOne) ClearDueTime() *ProcessUpdateOne {
+	_u.mutation.ClearDueTime()
+	return _u
 }
 
 // SetDuration sets the "duration" field.
-func (puo *ProcessUpdateOne) SetDuration(i int) *ProcessUpdateOne {
-	puo.mutation.ResetDuration()
-	puo.mutation.SetDuration(i)
-	return puo
+func (_u *ProcessUpdateOne) SetDuration(v int) *ProcessUpdateOne {
+	_u.mutation.ResetDuration()
+	_u.mutation.SetDuration(v)
+	return _u
 }
 
 // SetNillableDuration sets the "duration" field if the given value is not nil.
-func (puo *ProcessUpdateOne) SetNillableDuration(i *int) *ProcessUpdateOne {
-	if i != nil {
-		puo.SetDuration(*i)
+func (_u *ProcessUpdateOne) SetNillableDuration(v *int) *ProcessUpdateOne {
+	if v != nil {
+		_u.SetDuration(*v)
 	}
-	return puo
+	return _u
 }
 
-// AddDuration adds i to the "duration" field.
-func (puo *ProcessUpdateOne) AddDuration(i int) *ProcessUpdateOne {
-	puo.mutation.AddDuration(i)
-	return puo
+// AddDuration adds value to the "duration" field.
+func (_u *ProcessUpdateOne) AddDuration(v int) *ProcessUpdateOne {
+	_u.mutation.AddDuration(v)
+	return _u
 }
 
 // ClearDuration clears the value of the "duration" field.
-func (puo *ProcessUpdateOne) ClearDuration() *ProcessUpdateOne {
-	puo.mutation.ClearDuration()
-	return puo
+func (_u *ProcessUpdateOne) ClearDuration() *ProcessUpdateOne {
+	_u.mutation.ClearDuration()
+	return _u
 }
 
 // SetPriority sets the "priority" field.
-func (puo *ProcessUpdateOne) SetPriority(i int) *ProcessUpdateOne {
-	puo.mutation.ResetPriority()
-	puo.mutation.SetPriority(i)
-	return puo
+func (_u *ProcessUpdateOne) SetPriority(v int) *ProcessUpdateOne {
+	_u.mutation.ResetPriority()
+	_u.mutation.SetPriority(v)
+	return _u
 }
 
 // SetNillablePriority sets the "priority" field if the given value is not nil.
-func (puo *ProcessUpdateOne) SetNillablePriority(i *int) *ProcessUpdateOne {
-	if i != nil {
-		puo.SetPriority(*i)
+func (_u *ProcessUpdateOne) SetNillablePriority(v *int) *ProcessUpdateOne {
+	if v != nil {
+		_u.SetPriority(*v)
 	}
-	return puo
+	return _u
 }
 
-// AddPriority adds i to the "priority" field.
-func (puo *ProcessUpdateOne) AddPriority(i int) *ProcessUpdateOne {
-	puo.mutation.AddPriority(i)
-	return puo
+// AddPriority adds value to the "priority" field.
+func (_u *ProcessUpdateOne) AddPriority(v int) *ProcessUpdateOne {
+	_u.mutation.AddPriority(v)
+	return _u
 }
 
 // SetIsTimeout sets the "is_timeout" field.
-func (puo *ProcessUpdateOne) SetIsTimeout(b bool) *ProcessUpdateOne {
-	puo.mutation.SetIsTimeout(b)
-	return puo
+func (_u *ProcessUpdateOne) SetIsTimeout(v bool) *ProcessUpdateOne {
+	_u.mutation.SetIsTimeout(v)
+	return _u
 }
 
 // SetNillableIsTimeout sets the "is_timeout" field if the given value is not nil.
-func (puo *ProcessUpdateOne) SetNillableIsTimeout(b *bool) *ProcessUpdateOne {
-	if b != nil {
-		puo.SetIsTimeout(*b)
+func (_u *ProcessUpdateOne) SetNillableIsTimeout(v *bool) *ProcessUpdateOne {
+	if v != nil {
+		_u.SetIsTimeout(*v)
 	}
-	return puo
+	return _u
 }
 
 // SetReminderCount sets the "reminder_count" field.
-func (puo *ProcessUpdateOne) SetReminderCount(i int) *ProcessUpdateOne {
-	puo.mutation.ResetReminderCount()
-	puo.mutation.SetReminderCount(i)
-	return puo
+func (_u *ProcessUpdateOne) SetReminderCount(v int) *ProcessUpdateOne {
+	_u.mutation.ResetReminderCount()
+	_u.mutation.SetReminderCount(v)
+	return _u
 }
 
 // SetNillableReminderCount sets the "reminder_count" field if the given value is not nil.
-func (puo *ProcessUpdateOne) SetNillableReminderCount(i *int) *ProcessUpdateOne {
-	if i != nil {
-		puo.SetReminderCount(*i)
+func (_u *ProcessUpdateOne) SetNillableReminderCount(v *int) *ProcessUpdateOne {
+	if v != nil {
+		_u.SetReminderCount(*v)
 	}
-	return puo
+	return _u
 }
 
-// AddReminderCount adds i to the "reminder_count" field.
-func (puo *ProcessUpdateOne) AddReminderCount(i int) *ProcessUpdateOne {
-	puo.mutation.AddReminderCount(i)
-	return puo
+// AddReminderCount adds value to the "reminder_count" field.
+func (_u *ProcessUpdateOne) AddReminderCount(v int) *ProcessUpdateOne {
+	_u.mutation.AddReminderCount(v)
+	return _u
 }
 
 // SetAllowCancel sets the "allow_cancel" field.
-func (puo *ProcessUpdateOne) SetAllowCancel(b bool) *ProcessUpdateOne {
-	puo.mutation.SetAllowCancel(b)
-	return puo
+func (_u *ProcessUpdateOne) SetAllowCancel(v bool) *ProcessUpdateOne {
+	_u.mutation.SetAllowCancel(v)
+	return _u
 }
 
 // SetNillableAllowCancel sets the "allow_cancel" field if the given value is not nil.
-func (puo *ProcessUpdateOne) SetNillableAllowCancel(b *bool) *ProcessUpdateOne {
-	if b != nil {
-		puo.SetAllowCancel(*b)
+func (_u *ProcessUpdateOne) SetNillableAllowCancel(v *bool) *ProcessUpdateOne {
+	if v != nil {
+		_u.SetAllowCancel(*v)
 	}
-	return puo
+	return _u
 }
 
 // SetAllowUrge sets the "allow_urge" field.
-func (puo *ProcessUpdateOne) SetAllowUrge(b bool) *ProcessUpdateOne {
-	puo.mutation.SetAllowUrge(b)
-	return puo
+func (_u *ProcessUpdateOne) SetAllowUrge(v bool) *ProcessUpdateOne {
+	_u.mutation.SetAllowUrge(v)
+	return _u
 }
 
 // SetNillableAllowUrge sets the "allow_urge" field if the given value is not nil.
-func (puo *ProcessUpdateOne) SetNillableAllowUrge(b *bool) *ProcessUpdateOne {
-	if b != nil {
-		puo.SetAllowUrge(*b)
+func (_u *ProcessUpdateOne) SetNillableAllowUrge(v *bool) *ProcessUpdateOne {
+	if v != nil {
+		_u.SetAllowUrge(*v)
 	}
-	return puo
+	return _u
 }
 
 // SetAllowDelegate sets the "allow_delegate" field.
-func (puo *ProcessUpdateOne) SetAllowDelegate(b bool) *ProcessUpdateOne {
-	puo.mutation.SetAllowDelegate(b)
-	return puo
+func (_u *ProcessUpdateOne) SetAllowDelegate(v bool) *ProcessUpdateOne {
+	_u.mutation.SetAllowDelegate(v)
+	return _u
 }
 
 // SetNillableAllowDelegate sets the "allow_delegate" field if the given value is not nil.
-func (puo *ProcessUpdateOne) SetNillableAllowDelegate(b *bool) *ProcessUpdateOne {
-	if b != nil {
-		puo.SetAllowDelegate(*b)
+func (_u *ProcessUpdateOne) SetNillableAllowDelegate(v *bool) *ProcessUpdateOne {
+	if v != nil {
+		_u.SetAllowDelegate(*v)
 	}
-	return puo
+	return _u
 }
 
 // SetAllowTransfer sets the "allow_transfer" field.
-func (puo *ProcessUpdateOne) SetAllowTransfer(b bool) *ProcessUpdateOne {
-	puo.mutation.SetAllowTransfer(b)
-	return puo
+func (_u *ProcessUpdateOne) SetAllowTransfer(v bool) *ProcessUpdateOne {
+	_u.mutation.SetAllowTransfer(v)
+	return _u
 }
 
 // SetNillableAllowTransfer sets the "allow_transfer" field if the given value is not nil.
-func (puo *ProcessUpdateOne) SetNillableAllowTransfer(b *bool) *ProcessUpdateOne {
-	if b != nil {
-		puo.SetAllowTransfer(*b)
+func (_u *ProcessUpdateOne) SetNillableAllowTransfer(v *bool) *ProcessUpdateOne {
+	if v != nil {
+		_u.SetAllowTransfer(*v)
 	}
-	return puo
+	return _u
 }
 
 // SetIsDraftEnabled sets the "is_draft_enabled" field.
-func (puo *ProcessUpdateOne) SetIsDraftEnabled(b bool) *ProcessUpdateOne {
-	puo.mutation.SetIsDraftEnabled(b)
-	return puo
+func (_u *ProcessUpdateOne) SetIsDraftEnabled(v bool) *ProcessUpdateOne {
+	_u.mutation.SetIsDraftEnabled(v)
+	return _u
 }
 
 // SetNillableIsDraftEnabled sets the "is_draft_enabled" field if the given value is not nil.
-func (puo *ProcessUpdateOne) SetNillableIsDraftEnabled(b *bool) *ProcessUpdateOne {
-	if b != nil {
-		puo.SetIsDraftEnabled(*b)
+func (_u *ProcessUpdateOne) SetNillableIsDraftEnabled(v *bool) *ProcessUpdateOne {
+	if v != nil {
+		_u.SetIsDraftEnabled(*v)
 	}
-	return puo
+	return _u
 }
 
 // SetIsAutoStart sets the "is_auto_start" field.
-func (puo *ProcessUpdateOne) SetIsAutoStart(b bool) *ProcessUpdateOne {
-	puo.mutation.SetIsAutoStart(b)
-	return puo
+func (_u *ProcessUpdateOne) SetIsAutoStart(v bool) *ProcessUpdateOne {
+	_u.mutation.SetIsAutoStart(v)
+	return _u
 }
 
 // SetNillableIsAutoStart sets the "is_auto_start" field if the given value is not nil.
-func (puo *ProcessUpdateOne) SetNillableIsAutoStart(b *bool) *ProcessUpdateOne {
-	if b != nil {
-		puo.SetIsAutoStart(*b)
+func (_u *ProcessUpdateOne) SetNillableIsAutoStart(v *bool) *ProcessUpdateOne {
+	if v != nil {
+		_u.SetIsAutoStart(*v)
 	}
-	return puo
+	return _u
 }
 
 // SetStrictMode sets the "strict_mode" field.
-func (puo *ProcessUpdateOne) SetStrictMode(b bool) *ProcessUpdateOne {
-	puo.mutation.SetStrictMode(b)
-	return puo
+func (_u *ProcessUpdateOne) SetStrictMode(v bool) *ProcessUpdateOne {
+	_u.mutation.SetStrictMode(v)
+	return _u
 }
 
 // SetNillableStrictMode sets the "strict_mode" field if the given value is not nil.
-func (puo *ProcessUpdateOne) SetNillableStrictMode(b *bool) *ProcessUpdateOne {
-	if b != nil {
-		puo.SetStrictMode(*b)
+func (_u *ProcessUpdateOne) SetNillableStrictMode(v *bool) *ProcessUpdateOne {
+	if v != nil {
+		_u.SetStrictMode(*v)
 	}
-	return puo
+	return _u
 }
 
 // SetExtras sets the "extras" field.
-func (puo *ProcessUpdateOne) SetExtras(m map[string]interface{}) *ProcessUpdateOne {
-	puo.mutation.SetExtras(m)
-	return puo
+func (_u *ProcessUpdateOne) SetExtras(v map[string]interface{}) *ProcessUpdateOne {
+	_u.mutation.SetExtras(v)
+	return _u
 }
 
 // ClearExtras clears the value of the "extras" field.
-func (puo *ProcessUpdateOne) ClearExtras() *ProcessUpdateOne {
-	puo.mutation.ClearExtras()
-	return puo
+func (_u *ProcessUpdateOne) ClearExtras() *ProcessUpdateOne {
+	_u.mutation.ClearExtras()
+	return _u
 }
 
 // SetSpaceID sets the "space_id" field.
-func (puo *ProcessUpdateOne) SetSpaceID(s string) *ProcessUpdateOne {
-	puo.mutation.SetSpaceID(s)
-	return puo
+func (_u *ProcessUpdateOne) SetSpaceID(v string) *ProcessUpdateOne {
+	_u.mutation.SetSpaceID(v)
+	return _u
 }
 
 // SetNillableSpaceID sets the "space_id" field if the given value is not nil.
-func (puo *ProcessUpdateOne) SetNillableSpaceID(s *string) *ProcessUpdateOne {
-	if s != nil {
-		puo.SetSpaceID(*s)
+func (_u *ProcessUpdateOne) SetNillableSpaceID(v *string) *ProcessUpdateOne {
+	if v != nil {
+		_u.SetSpaceID(*v)
 	}
-	return puo
+	return _u
 }
 
 // ClearSpaceID clears the value of the "space_id" field.
-func (puo *ProcessUpdateOne) ClearSpaceID() *ProcessUpdateOne {
-	puo.mutation.ClearSpaceID()
-	return puo
+func (_u *ProcessUpdateOne) ClearSpaceID() *ProcessUpdateOne {
+	_u.mutation.ClearSpaceID()
+	return _u
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (puo *ProcessUpdateOne) SetCreatedBy(s string) *ProcessUpdateOne {
-	puo.mutation.SetCreatedBy(s)
-	return puo
+func (_u *ProcessUpdateOne) SetCreatedBy(v string) *ProcessUpdateOne {
+	_u.mutation.SetCreatedBy(v)
+	return _u
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (puo *ProcessUpdateOne) SetNillableCreatedBy(s *string) *ProcessUpdateOne {
-	if s != nil {
-		puo.SetCreatedBy(*s)
+func (_u *ProcessUpdateOne) SetNillableCreatedBy(v *string) *ProcessUpdateOne {
+	if v != nil {
+		_u.SetCreatedBy(*v)
 	}
-	return puo
+	return _u
 }
 
 // ClearCreatedBy clears the value of the "created_by" field.
-func (puo *ProcessUpdateOne) ClearCreatedBy() *ProcessUpdateOne {
-	puo.mutation.ClearCreatedBy()
-	return puo
+func (_u *ProcessUpdateOne) ClearCreatedBy() *ProcessUpdateOne {
+	_u.mutation.ClearCreatedBy()
+	return _u
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (puo *ProcessUpdateOne) SetUpdatedBy(s string) *ProcessUpdateOne {
-	puo.mutation.SetUpdatedBy(s)
-	return puo
+func (_u *ProcessUpdateOne) SetUpdatedBy(v string) *ProcessUpdateOne {
+	_u.mutation.SetUpdatedBy(v)
+	return _u
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (puo *ProcessUpdateOne) SetNillableUpdatedBy(s *string) *ProcessUpdateOne {
-	if s != nil {
-		puo.SetUpdatedBy(*s)
+func (_u *ProcessUpdateOne) SetNillableUpdatedBy(v *string) *ProcessUpdateOne {
+	if v != nil {
+		_u.SetUpdatedBy(*v)
 	}
-	return puo
+	return _u
 }
 
 // ClearUpdatedBy clears the value of the "updated_by" field.
-func (puo *ProcessUpdateOne) ClearUpdatedBy() *ProcessUpdateOne {
-	puo.mutation.ClearUpdatedBy()
-	return puo
+func (_u *ProcessUpdateOne) ClearUpdatedBy() *ProcessUpdateOne {
+	_u.mutation.ClearUpdatedBy()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (puo *ProcessUpdateOne) SetUpdatedAt(i int64) *ProcessUpdateOne {
-	puo.mutation.ResetUpdatedAt()
-	puo.mutation.SetUpdatedAt(i)
-	return puo
+func (_u *ProcessUpdateOne) SetUpdatedAt(v int64) *ProcessUpdateOne {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (puo *ProcessUpdateOne) AddUpdatedAt(i int64) *ProcessUpdateOne {
-	puo.mutation.AddUpdatedAt(i)
-	return puo
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *ProcessUpdateOne) AddUpdatedAt(v int64) *ProcessUpdateOne {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (puo *ProcessUpdateOne) ClearUpdatedAt() *ProcessUpdateOne {
-	puo.mutation.ClearUpdatedAt()
-	return puo
+func (_u *ProcessUpdateOne) ClearUpdatedAt() *ProcessUpdateOne {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // SetProcessKey sets the "process_key" field.
-func (puo *ProcessUpdateOne) SetProcessKey(s string) *ProcessUpdateOne {
-	puo.mutation.SetProcessKey(s)
-	return puo
+func (_u *ProcessUpdateOne) SetProcessKey(v string) *ProcessUpdateOne {
+	_u.mutation.SetProcessKey(v)
+	return _u
 }
 
 // SetNillableProcessKey sets the "process_key" field if the given value is not nil.
-func (puo *ProcessUpdateOne) SetNillableProcessKey(s *string) *ProcessUpdateOne {
-	if s != nil {
-		puo.SetProcessKey(*s)
+func (_u *ProcessUpdateOne) SetNillableProcessKey(v *string) *ProcessUpdateOne {
+	if v != nil {
+		_u.SetProcessKey(*v)
 	}
-	return puo
+	return _u
 }
 
 // SetInitiator sets the "initiator" field.
-func (puo *ProcessUpdateOne) SetInitiator(s string) *ProcessUpdateOne {
-	puo.mutation.SetInitiator(s)
-	return puo
+func (_u *ProcessUpdateOne) SetInitiator(v string) *ProcessUpdateOne {
+	_u.mutation.SetInitiator(v)
+	return _u
 }
 
 // SetNillableInitiator sets the "initiator" field if the given value is not nil.
-func (puo *ProcessUpdateOne) SetNillableInitiator(s *string) *ProcessUpdateOne {
-	if s != nil {
-		puo.SetInitiator(*s)
+func (_u *ProcessUpdateOne) SetNillableInitiator(v *string) *ProcessUpdateOne {
+	if v != nil {
+		_u.SetInitiator(*v)
 	}
-	return puo
+	return _u
 }
 
 // SetInitiatorDept sets the "initiator_dept" field.
-func (puo *ProcessUpdateOne) SetInitiatorDept(s string) *ProcessUpdateOne {
-	puo.mutation.SetInitiatorDept(s)
-	return puo
+func (_u *ProcessUpdateOne) SetInitiatorDept(v string) *ProcessUpdateOne {
+	_u.mutation.SetInitiatorDept(v)
+	return _u
 }
 
 // SetNillableInitiatorDept sets the "initiator_dept" field if the given value is not nil.
-func (puo *ProcessUpdateOne) SetNillableInitiatorDept(s *string) *ProcessUpdateOne {
-	if s != nil {
-		puo.SetInitiatorDept(*s)
+func (_u *ProcessUpdateOne) SetNillableInitiatorDept(v *string) *ProcessUpdateOne {
+	if v != nil {
+		_u.SetInitiatorDept(*v)
 	}
-	return puo
+	return _u
 }
 
 // ClearInitiatorDept clears the value of the "initiator_dept" field.
-func (puo *ProcessUpdateOne) ClearInitiatorDept() *ProcessUpdateOne {
-	puo.mutation.ClearInitiatorDept()
-	return puo
+func (_u *ProcessUpdateOne) ClearInitiatorDept() *ProcessUpdateOne {
+	_u.mutation.ClearInitiatorDept()
+	return _u
 }
 
 // SetProcessCode sets the "process_code" field.
-func (puo *ProcessUpdateOne) SetProcessCode(s string) *ProcessUpdateOne {
-	puo.mutation.SetProcessCode(s)
-	return puo
+func (_u *ProcessUpdateOne) SetProcessCode(v string) *ProcessUpdateOne {
+	_u.mutation.SetProcessCode(v)
+	return _u
 }
 
 // SetNillableProcessCode sets the "process_code" field if the given value is not nil.
-func (puo *ProcessUpdateOne) SetNillableProcessCode(s *string) *ProcessUpdateOne {
-	if s != nil {
-		puo.SetProcessCode(*s)
+func (_u *ProcessUpdateOne) SetNillableProcessCode(v *string) *ProcessUpdateOne {
+	if v != nil {
+		_u.SetProcessCode(*v)
 	}
-	return puo
+	return _u
 }
 
 // SetVariables sets the "variables" field.
-func (puo *ProcessUpdateOne) SetVariables(m map[string]interface{}) *ProcessUpdateOne {
-	puo.mutation.SetVariables(m)
-	return puo
+func (_u *ProcessUpdateOne) SetVariables(v map[string]interface{}) *ProcessUpdateOne {
+	_u.mutation.SetVariables(v)
+	return _u
 }
 
 // SetCurrentNode sets the "current_node" field.
-func (puo *ProcessUpdateOne) SetCurrentNode(s string) *ProcessUpdateOne {
-	puo.mutation.SetCurrentNode(s)
-	return puo
+func (_u *ProcessUpdateOne) SetCurrentNode(v string) *ProcessUpdateOne {
+	_u.mutation.SetCurrentNode(v)
+	return _u
 }
 
 // SetNillableCurrentNode sets the "current_node" field if the given value is not nil.
-func (puo *ProcessUpdateOne) SetNillableCurrentNode(s *string) *ProcessUpdateOne {
-	if s != nil {
-		puo.SetCurrentNode(*s)
+func (_u *ProcessUpdateOne) SetNillableCurrentNode(v *string) *ProcessUpdateOne {
+	if v != nil {
+		_u.SetCurrentNode(*v)
 	}
-	return puo
+	return _u
 }
 
 // ClearCurrentNode clears the value of the "current_node" field.
-func (puo *ProcessUpdateOne) ClearCurrentNode() *ProcessUpdateOne {
-	puo.mutation.ClearCurrentNode()
-	return puo
+func (_u *ProcessUpdateOne) ClearCurrentNode() *ProcessUpdateOne {
+	_u.mutation.ClearCurrentNode()
+	return _u
 }
 
 // SetActiveNodes sets the "active_nodes" field.
-func (puo *ProcessUpdateOne) SetActiveNodes(s []string) *ProcessUpdateOne {
-	puo.mutation.SetActiveNodes(s)
-	return puo
+func (_u *ProcessUpdateOne) SetActiveNodes(v []string) *ProcessUpdateOne {
+	_u.mutation.SetActiveNodes(v)
+	return _u
 }
 
-// AppendActiveNodes appends s to the "active_nodes" field.
-func (puo *ProcessUpdateOne) AppendActiveNodes(s []string) *ProcessUpdateOne {
-	puo.mutation.AppendActiveNodes(s)
-	return puo
+// AppendActiveNodes appends value to the "active_nodes" field.
+func (_u *ProcessUpdateOne) AppendActiveNodes(v []string) *ProcessUpdateOne {
+	_u.mutation.AppendActiveNodes(v)
+	return _u
 }
 
 // ClearActiveNodes clears the value of the "active_nodes" field.
-func (puo *ProcessUpdateOne) ClearActiveNodes() *ProcessUpdateOne {
-	puo.mutation.ClearActiveNodes()
-	return puo
+func (_u *ProcessUpdateOne) ClearActiveNodes() *ProcessUpdateOne {
+	_u.mutation.ClearActiveNodes()
+	return _u
 }
 
 // SetProcessSnapshot sets the "process_snapshot" field.
-func (puo *ProcessUpdateOne) SetProcessSnapshot(m map[string]interface{}) *ProcessUpdateOne {
-	puo.mutation.SetProcessSnapshot(m)
-	return puo
+func (_u *ProcessUpdateOne) SetProcessSnapshot(v map[string]interface{}) *ProcessUpdateOne {
+	_u.mutation.SetProcessSnapshot(v)
+	return _u
 }
 
 // ClearProcessSnapshot clears the value of the "process_snapshot" field.
-func (puo *ProcessUpdateOne) ClearProcessSnapshot() *ProcessUpdateOne {
-	puo.mutation.ClearProcessSnapshot()
-	return puo
+func (_u *ProcessUpdateOne) ClearProcessSnapshot() *ProcessUpdateOne {
+	_u.mutation.ClearProcessSnapshot()
+	return _u
 }
 
 // SetFormSnapshot sets the "form_snapshot" field.
-func (puo *ProcessUpdateOne) SetFormSnapshot(m map[string]interface{}) *ProcessUpdateOne {
-	puo.mutation.SetFormSnapshot(m)
-	return puo
+func (_u *ProcessUpdateOne) SetFormSnapshot(v map[string]interface{}) *ProcessUpdateOne {
+	_u.mutation.SetFormSnapshot(v)
+	return _u
 }
 
 // ClearFormSnapshot clears the value of the "form_snapshot" field.
-func (puo *ProcessUpdateOne) ClearFormSnapshot() *ProcessUpdateOne {
-	puo.mutation.ClearFormSnapshot()
-	return puo
+func (_u *ProcessUpdateOne) ClearFormSnapshot() *ProcessUpdateOne {
+	_u.mutation.ClearFormSnapshot()
+	return _u
 }
 
 // SetUrgeCount sets the "urge_count" field.
-func (puo *ProcessUpdateOne) SetUrgeCount(i int) *ProcessUpdateOne {
-	puo.mutation.ResetUrgeCount()
-	puo.mutation.SetUrgeCount(i)
-	return puo
+func (_u *ProcessUpdateOne) SetUrgeCount(v int) *ProcessUpdateOne {
+	_u.mutation.ResetUrgeCount()
+	_u.mutation.SetUrgeCount(v)
+	return _u
 }
 
 // SetNillableUrgeCount sets the "urge_count" field if the given value is not nil.
-func (puo *ProcessUpdateOne) SetNillableUrgeCount(i *int) *ProcessUpdateOne {
-	if i != nil {
-		puo.SetUrgeCount(*i)
+func (_u *ProcessUpdateOne) SetNillableUrgeCount(v *int) *ProcessUpdateOne {
+	if v != nil {
+		_u.SetUrgeCount(*v)
 	}
-	return puo
+	return _u
 }
 
-// AddUrgeCount adds i to the "urge_count" field.
-func (puo *ProcessUpdateOne) AddUrgeCount(i int) *ProcessUpdateOne {
-	puo.mutation.AddUrgeCount(i)
-	return puo
+// AddUrgeCount adds value to the "urge_count" field.
+func (_u *ProcessUpdateOne) AddUrgeCount(v int) *ProcessUpdateOne {
+	_u.mutation.AddUrgeCount(v)
+	return _u
 }
 
 // Mutation returns the ProcessMutation object of the builder.
-func (puo *ProcessUpdateOne) Mutation() *ProcessMutation {
-	return puo.mutation
+func (_u *ProcessUpdateOne) Mutation() *ProcessMutation {
+	return _u.mutation
 }
 
 // Where appends a list predicates to the ProcessUpdate builder.
-func (puo *ProcessUpdateOne) Where(ps ...predicate.Process) *ProcessUpdateOne {
-	puo.mutation.Where(ps...)
-	return puo
+func (_u *ProcessUpdateOne) Where(ps ...predicate.Process) *ProcessUpdateOne {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // Select allows selecting one or more fields (columns) of the returned entity.
 // The default is selecting all fields defined in the entity schema.
-func (puo *ProcessUpdateOne) Select(field string, fields ...string) *ProcessUpdateOne {
-	puo.fields = append([]string{field}, fields...)
-	return puo
+func (_u *ProcessUpdateOne) Select(field string, fields ...string) *ProcessUpdateOne {
+	_u.fields = append([]string{field}, fields...)
+	return _u
 }
 
 // Save executes the query and returns the updated Process entity.
-func (puo *ProcessUpdateOne) Save(ctx context.Context) (*Process, error) {
-	puo.defaults()
-	return withHooks(ctx, puo.sqlSave, puo.mutation, puo.hooks)
+func (_u *ProcessUpdateOne) Save(ctx context.Context) (*Process, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (puo *ProcessUpdateOne) SaveX(ctx context.Context) *Process {
-	node, err := puo.Save(ctx)
+func (_u *ProcessUpdateOne) SaveX(ctx context.Context) *Process {
+	node, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -1931,34 +1931,34 @@ func (puo *ProcessUpdateOne) SaveX(ctx context.Context) *Process {
 }
 
 // Exec executes the query on the entity.
-func (puo *ProcessUpdateOne) Exec(ctx context.Context) error {
-	_, err := puo.Save(ctx)
+func (_u *ProcessUpdateOne) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (puo *ProcessUpdateOne) ExecX(ctx context.Context) {
-	if err := puo.Exec(ctx); err != nil {
+func (_u *ProcessUpdateOne) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (puo *ProcessUpdateOne) defaults() {
-	if _, ok := puo.mutation.UpdatedAt(); !ok && !puo.mutation.UpdatedAtCleared() {
+func (_u *ProcessUpdateOne) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := process.UpdateDefaultUpdatedAt()
-		puo.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (puo *ProcessUpdateOne) sqlSave(ctx context.Context) (_node *Process, err error) {
+func (_u *ProcessUpdateOne) sqlSave(ctx context.Context) (_node *Process, err error) {
 	_spec := sqlgraph.NewUpdateSpec(process.Table, process.Columns, sqlgraph.NewFieldSpec(process.FieldID, field.TypeString))
-	id, ok := puo.mutation.ID()
+	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "Process.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
-	if fields := puo.fields; len(fields) > 0 {
+	if fields := _u.fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, process.FieldID)
 		for _, f := range fields {
@@ -1970,264 +1970,264 @@ func (puo *ProcessUpdateOne) sqlSave(ctx context.Context) (_node *Process, err e
 			}
 		}
 	}
-	if ps := puo.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := puo.mutation.Status(); ok {
+	if value, ok := _u.mutation.Status(); ok {
 		_spec.SetField(process.FieldStatus, field.TypeString, value)
 	}
-	if puo.mutation.StatusCleared() {
+	if _u.mutation.StatusCleared() {
 		_spec.ClearField(process.FieldStatus, field.TypeString)
 	}
-	if value, ok := puo.mutation.ProcessID(); ok {
+	if value, ok := _u.mutation.ProcessID(); ok {
 		_spec.SetField(process.FieldProcessID, field.TypeString, value)
 	}
-	if value, ok := puo.mutation.TemplateID(); ok {
+	if value, ok := _u.mutation.TemplateID(); ok {
 		_spec.SetField(process.FieldTemplateID, field.TypeString, value)
 	}
-	if value, ok := puo.mutation.BusinessKey(); ok {
+	if value, ok := _u.mutation.BusinessKey(); ok {
 		_spec.SetField(process.FieldBusinessKey, field.TypeString, value)
 	}
-	if value, ok := puo.mutation.FormCode(); ok {
+	if value, ok := _u.mutation.FormCode(); ok {
 		_spec.SetField(process.FieldFormCode, field.TypeString, value)
 	}
-	if value, ok := puo.mutation.FormVersion(); ok {
+	if value, ok := _u.mutation.FormVersion(); ok {
 		_spec.SetField(process.FieldFormVersion, field.TypeString, value)
 	}
-	if puo.mutation.FormVersionCleared() {
+	if _u.mutation.FormVersionCleared() {
 		_spec.ClearField(process.FieldFormVersion, field.TypeString)
 	}
-	if value, ok := puo.mutation.FormConfig(); ok {
+	if value, ok := _u.mutation.FormConfig(); ok {
 		_spec.SetField(process.FieldFormConfig, field.TypeJSON, value)
 	}
-	if puo.mutation.FormConfigCleared() {
+	if _u.mutation.FormConfigCleared() {
 		_spec.ClearField(process.FieldFormConfig, field.TypeJSON)
 	}
-	if value, ok := puo.mutation.FormPermissions(); ok {
+	if value, ok := _u.mutation.FormPermissions(); ok {
 		_spec.SetField(process.FieldFormPermissions, field.TypeJSON, value)
 	}
-	if puo.mutation.FormPermissionsCleared() {
+	if _u.mutation.FormPermissionsCleared() {
 		_spec.ClearField(process.FieldFormPermissions, field.TypeJSON)
 	}
-	if value, ok := puo.mutation.FieldPermissions(); ok {
+	if value, ok := _u.mutation.FieldPermissions(); ok {
 		_spec.SetField(process.FieldFieldPermissions, field.TypeJSON, value)
 	}
-	if puo.mutation.FieldPermissionsCleared() {
+	if _u.mutation.FieldPermissionsCleared() {
 		_spec.ClearField(process.FieldFieldPermissions, field.TypeJSON)
 	}
-	if value, ok := puo.mutation.BusinessTags(); ok {
+	if value, ok := _u.mutation.BusinessTags(); ok {
 		_spec.SetField(process.FieldBusinessTags, field.TypeJSON, value)
 	}
-	if value, ok := puo.mutation.AppendedBusinessTags(); ok {
+	if value, ok := _u.mutation.AppendedBusinessTags(); ok {
 		_spec.AddModifier(func(u *sql.UpdateBuilder) {
 			sqljson.Append(u, process.FieldBusinessTags, value)
 		})
 	}
-	if puo.mutation.BusinessTagsCleared() {
+	if _u.mutation.BusinessTagsCleared() {
 		_spec.ClearField(process.FieldBusinessTags, field.TypeJSON)
 	}
-	if value, ok := puo.mutation.ModuleCode(); ok {
+	if value, ok := _u.mutation.ModuleCode(); ok {
 		_spec.SetField(process.FieldModuleCode, field.TypeString, value)
 	}
-	if value, ok := puo.mutation.Category(); ok {
+	if value, ok := _u.mutation.Category(); ok {
 		_spec.SetField(process.FieldCategory, field.TypeString, value)
 	}
-	if puo.mutation.CategoryCleared() {
+	if _u.mutation.CategoryCleared() {
 		_spec.ClearField(process.FieldCategory, field.TypeString)
 	}
-	if value, ok := puo.mutation.FlowStatus(); ok {
+	if value, ok := _u.mutation.FlowStatus(); ok {
 		_spec.SetField(process.FieldFlowStatus, field.TypeString, value)
 	}
-	if puo.mutation.FlowStatusCleared() {
+	if _u.mutation.FlowStatusCleared() {
 		_spec.ClearField(process.FieldFlowStatus, field.TypeString)
 	}
-	if value, ok := puo.mutation.FlowVariables(); ok {
+	if value, ok := _u.mutation.FlowVariables(); ok {
 		_spec.SetField(process.FieldFlowVariables, field.TypeJSON, value)
 	}
-	if puo.mutation.FlowVariablesCleared() {
+	if _u.mutation.FlowVariablesCleared() {
 		_spec.ClearField(process.FieldFlowVariables, field.TypeJSON)
 	}
-	if value, ok := puo.mutation.IsDraft(); ok {
+	if value, ok := _u.mutation.IsDraft(); ok {
 		_spec.SetField(process.FieldIsDraft, field.TypeBool, value)
 	}
-	if value, ok := puo.mutation.IsTerminated(); ok {
+	if value, ok := _u.mutation.IsTerminated(); ok {
 		_spec.SetField(process.FieldIsTerminated, field.TypeBool, value)
 	}
-	if value, ok := puo.mutation.IsSuspended(); ok {
+	if value, ok := _u.mutation.IsSuspended(); ok {
 		_spec.SetField(process.FieldIsSuspended, field.TypeBool, value)
 	}
-	if value, ok := puo.mutation.SuspendReason(); ok {
+	if value, ok := _u.mutation.SuspendReason(); ok {
 		_spec.SetField(process.FieldSuspendReason, field.TypeString, value)
 	}
-	if puo.mutation.SuspendReasonCleared() {
+	if _u.mutation.SuspendReasonCleared() {
 		_spec.ClearField(process.FieldSuspendReason, field.TypeString)
 	}
-	if value, ok := puo.mutation.StartTime(); ok {
+	if value, ok := _u.mutation.StartTime(); ok {
 		_spec.SetField(process.FieldStartTime, field.TypeInt64, value)
 	}
-	if value, ok := puo.mutation.AddedStartTime(); ok {
+	if value, ok := _u.mutation.AddedStartTime(); ok {
 		_spec.AddField(process.FieldStartTime, field.TypeInt64, value)
 	}
-	if value, ok := puo.mutation.EndTime(); ok {
+	if value, ok := _u.mutation.EndTime(); ok {
 		_spec.SetField(process.FieldEndTime, field.TypeInt64, value)
 	}
-	if value, ok := puo.mutation.AddedEndTime(); ok {
+	if value, ok := _u.mutation.AddedEndTime(); ok {
 		_spec.AddField(process.FieldEndTime, field.TypeInt64, value)
 	}
-	if puo.mutation.EndTimeCleared() {
+	if _u.mutation.EndTimeCleared() {
 		_spec.ClearField(process.FieldEndTime, field.TypeInt64)
 	}
-	if value, ok := puo.mutation.DueTime(); ok {
+	if value, ok := _u.mutation.DueTime(); ok {
 		_spec.SetField(process.FieldDueTime, field.TypeInt64, value)
 	}
-	if value, ok := puo.mutation.AddedDueTime(); ok {
+	if value, ok := _u.mutation.AddedDueTime(); ok {
 		_spec.AddField(process.FieldDueTime, field.TypeInt64, value)
 	}
-	if puo.mutation.DueTimeCleared() {
+	if _u.mutation.DueTimeCleared() {
 		_spec.ClearField(process.FieldDueTime, field.TypeInt64)
 	}
-	if value, ok := puo.mutation.Duration(); ok {
+	if value, ok := _u.mutation.Duration(); ok {
 		_spec.SetField(process.FieldDuration, field.TypeInt, value)
 	}
-	if value, ok := puo.mutation.AddedDuration(); ok {
+	if value, ok := _u.mutation.AddedDuration(); ok {
 		_spec.AddField(process.FieldDuration, field.TypeInt, value)
 	}
-	if puo.mutation.DurationCleared() {
+	if _u.mutation.DurationCleared() {
 		_spec.ClearField(process.FieldDuration, field.TypeInt)
 	}
-	if value, ok := puo.mutation.Priority(); ok {
+	if value, ok := _u.mutation.Priority(); ok {
 		_spec.SetField(process.FieldPriority, field.TypeInt, value)
 	}
-	if value, ok := puo.mutation.AddedPriority(); ok {
+	if value, ok := _u.mutation.AddedPriority(); ok {
 		_spec.AddField(process.FieldPriority, field.TypeInt, value)
 	}
-	if value, ok := puo.mutation.IsTimeout(); ok {
+	if value, ok := _u.mutation.IsTimeout(); ok {
 		_spec.SetField(process.FieldIsTimeout, field.TypeBool, value)
 	}
-	if value, ok := puo.mutation.ReminderCount(); ok {
+	if value, ok := _u.mutation.ReminderCount(); ok {
 		_spec.SetField(process.FieldReminderCount, field.TypeInt, value)
 	}
-	if value, ok := puo.mutation.AddedReminderCount(); ok {
+	if value, ok := _u.mutation.AddedReminderCount(); ok {
 		_spec.AddField(process.FieldReminderCount, field.TypeInt, value)
 	}
-	if value, ok := puo.mutation.AllowCancel(); ok {
+	if value, ok := _u.mutation.AllowCancel(); ok {
 		_spec.SetField(process.FieldAllowCancel, field.TypeBool, value)
 	}
-	if value, ok := puo.mutation.AllowUrge(); ok {
+	if value, ok := _u.mutation.AllowUrge(); ok {
 		_spec.SetField(process.FieldAllowUrge, field.TypeBool, value)
 	}
-	if value, ok := puo.mutation.AllowDelegate(); ok {
+	if value, ok := _u.mutation.AllowDelegate(); ok {
 		_spec.SetField(process.FieldAllowDelegate, field.TypeBool, value)
 	}
-	if value, ok := puo.mutation.AllowTransfer(); ok {
+	if value, ok := _u.mutation.AllowTransfer(); ok {
 		_spec.SetField(process.FieldAllowTransfer, field.TypeBool, value)
 	}
-	if value, ok := puo.mutation.IsDraftEnabled(); ok {
+	if value, ok := _u.mutation.IsDraftEnabled(); ok {
 		_spec.SetField(process.FieldIsDraftEnabled, field.TypeBool, value)
 	}
-	if value, ok := puo.mutation.IsAutoStart(); ok {
+	if value, ok := _u.mutation.IsAutoStart(); ok {
 		_spec.SetField(process.FieldIsAutoStart, field.TypeBool, value)
 	}
-	if value, ok := puo.mutation.StrictMode(); ok {
+	if value, ok := _u.mutation.StrictMode(); ok {
 		_spec.SetField(process.FieldStrictMode, field.TypeBool, value)
 	}
-	if value, ok := puo.mutation.Extras(); ok {
+	if value, ok := _u.mutation.Extras(); ok {
 		_spec.SetField(process.FieldExtras, field.TypeJSON, value)
 	}
-	if puo.mutation.ExtrasCleared() {
+	if _u.mutation.ExtrasCleared() {
 		_spec.ClearField(process.FieldExtras, field.TypeJSON)
 	}
-	if value, ok := puo.mutation.SpaceID(); ok {
+	if value, ok := _u.mutation.SpaceID(); ok {
 		_spec.SetField(process.FieldSpaceID, field.TypeString, value)
 	}
-	if puo.mutation.SpaceIDCleared() {
+	if _u.mutation.SpaceIDCleared() {
 		_spec.ClearField(process.FieldSpaceID, field.TypeString)
 	}
-	if value, ok := puo.mutation.CreatedBy(); ok {
+	if value, ok := _u.mutation.CreatedBy(); ok {
 		_spec.SetField(process.FieldCreatedBy, field.TypeString, value)
 	}
-	if puo.mutation.CreatedByCleared() {
+	if _u.mutation.CreatedByCleared() {
 		_spec.ClearField(process.FieldCreatedBy, field.TypeString)
 	}
-	if value, ok := puo.mutation.UpdatedBy(); ok {
+	if value, ok := _u.mutation.UpdatedBy(); ok {
 		_spec.SetField(process.FieldUpdatedBy, field.TypeString, value)
 	}
-	if puo.mutation.UpdatedByCleared() {
+	if _u.mutation.UpdatedByCleared() {
 		_spec.ClearField(process.FieldUpdatedBy, field.TypeString)
 	}
-	if puo.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(process.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := puo.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(process.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := puo.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(process.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if puo.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(process.FieldUpdatedAt, field.TypeInt64)
 	}
-	if value, ok := puo.mutation.ProcessKey(); ok {
+	if value, ok := _u.mutation.ProcessKey(); ok {
 		_spec.SetField(process.FieldProcessKey, field.TypeString, value)
 	}
-	if value, ok := puo.mutation.Initiator(); ok {
+	if value, ok := _u.mutation.Initiator(); ok {
 		_spec.SetField(process.FieldInitiator, field.TypeString, value)
 	}
-	if value, ok := puo.mutation.InitiatorDept(); ok {
+	if value, ok := _u.mutation.InitiatorDept(); ok {
 		_spec.SetField(process.FieldInitiatorDept, field.TypeString, value)
 	}
-	if puo.mutation.InitiatorDeptCleared() {
+	if _u.mutation.InitiatorDeptCleared() {
 		_spec.ClearField(process.FieldInitiatorDept, field.TypeString)
 	}
-	if value, ok := puo.mutation.ProcessCode(); ok {
+	if value, ok := _u.mutation.ProcessCode(); ok {
 		_spec.SetField(process.FieldProcessCode, field.TypeString, value)
 	}
-	if value, ok := puo.mutation.Variables(); ok {
+	if value, ok := _u.mutation.Variables(); ok {
 		_spec.SetField(process.FieldVariables, field.TypeJSON, value)
 	}
-	if value, ok := puo.mutation.CurrentNode(); ok {
+	if value, ok := _u.mutation.CurrentNode(); ok {
 		_spec.SetField(process.FieldCurrentNode, field.TypeString, value)
 	}
-	if puo.mutation.CurrentNodeCleared() {
+	if _u.mutation.CurrentNodeCleared() {
 		_spec.ClearField(process.FieldCurrentNode, field.TypeString)
 	}
-	if value, ok := puo.mutation.ActiveNodes(); ok {
+	if value, ok := _u.mutation.ActiveNodes(); ok {
 		_spec.SetField(process.FieldActiveNodes, field.TypeJSON, value)
 	}
-	if value, ok := puo.mutation.AppendedActiveNodes(); ok {
+	if value, ok := _u.mutation.AppendedActiveNodes(); ok {
 		_spec.AddModifier(func(u *sql.UpdateBuilder) {
 			sqljson.Append(u, process.FieldActiveNodes, value)
 		})
 	}
-	if puo.mutation.ActiveNodesCleared() {
+	if _u.mutation.ActiveNodesCleared() {
 		_spec.ClearField(process.FieldActiveNodes, field.TypeJSON)
 	}
-	if value, ok := puo.mutation.ProcessSnapshot(); ok {
+	if value, ok := _u.mutation.ProcessSnapshot(); ok {
 		_spec.SetField(process.FieldProcessSnapshot, field.TypeJSON, value)
 	}
-	if puo.mutation.ProcessSnapshotCleared() {
+	if _u.mutation.ProcessSnapshotCleared() {
 		_spec.ClearField(process.FieldProcessSnapshot, field.TypeJSON)
 	}
-	if value, ok := puo.mutation.FormSnapshot(); ok {
+	if value, ok := _u.mutation.FormSnapshot(); ok {
 		_spec.SetField(process.FieldFormSnapshot, field.TypeJSON, value)
 	}
-	if puo.mutation.FormSnapshotCleared() {
+	if _u.mutation.FormSnapshotCleared() {
 		_spec.ClearField(process.FieldFormSnapshot, field.TypeJSON)
 	}
-	if value, ok := puo.mutation.UrgeCount(); ok {
+	if value, ok := _u.mutation.UrgeCount(); ok {
 		_spec.SetField(process.FieldUrgeCount, field.TypeInt, value)
 	}
-	if value, ok := puo.mutation.AddedUrgeCount(); ok {
+	if value, ok := _u.mutation.AddedUrgeCount(); ok {
 		_spec.AddField(process.FieldUrgeCount, field.TypeInt, value)
 	}
-	_node = &Process{config: puo.config}
+	_node = &Process{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues
-	if err = sqlgraph.UpdateNode(ctx, puo.driver, _spec); err != nil {
+	if err = sqlgraph.UpdateNode(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{process.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -2235,6 +2235,6 @@ func (puo *ProcessUpdateOne) sqlSave(ctx context.Context) (_node *Process, err e
 		}
 		return nil, err
 	}
-	puo.mutation.done = true
+	_u.mutation.done = true
 	return _node, nil
 }

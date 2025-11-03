@@ -22,307 +22,307 @@ type CounterUpdate struct {
 }
 
 // Where appends a list predicates to the CounterUpdate builder.
-func (cu *CounterUpdate) Where(ps ...predicate.Counter) *CounterUpdate {
-	cu.mutation.Where(ps...)
-	return cu
+func (_u *CounterUpdate) Where(ps ...predicate.Counter) *CounterUpdate {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // SetIdentifier sets the "identifier" field.
-func (cu *CounterUpdate) SetIdentifier(s string) *CounterUpdate {
-	cu.mutation.SetIdentifier(s)
-	return cu
+func (_u *CounterUpdate) SetIdentifier(v string) *CounterUpdate {
+	_u.mutation.SetIdentifier(v)
+	return _u
 }
 
 // SetNillableIdentifier sets the "identifier" field if the given value is not nil.
-func (cu *CounterUpdate) SetNillableIdentifier(s *string) *CounterUpdate {
-	if s != nil {
-		cu.SetIdentifier(*s)
+func (_u *CounterUpdate) SetNillableIdentifier(v *string) *CounterUpdate {
+	if v != nil {
+		_u.SetIdentifier(*v)
 	}
-	return cu
+	return _u
 }
 
 // ClearIdentifier clears the value of the "identifier" field.
-func (cu *CounterUpdate) ClearIdentifier() *CounterUpdate {
-	cu.mutation.ClearIdentifier()
-	return cu
+func (_u *CounterUpdate) ClearIdentifier() *CounterUpdate {
+	_u.mutation.ClearIdentifier()
+	return _u
 }
 
 // SetName sets the "name" field.
-func (cu *CounterUpdate) SetName(s string) *CounterUpdate {
-	cu.mutation.SetName(s)
-	return cu
+func (_u *CounterUpdate) SetName(v string) *CounterUpdate {
+	_u.mutation.SetName(v)
+	return _u
 }
 
 // SetNillableName sets the "name" field if the given value is not nil.
-func (cu *CounterUpdate) SetNillableName(s *string) *CounterUpdate {
-	if s != nil {
-		cu.SetName(*s)
+func (_u *CounterUpdate) SetNillableName(v *string) *CounterUpdate {
+	if v != nil {
+		_u.SetName(*v)
 	}
-	return cu
+	return _u
 }
 
 // ClearName clears the value of the "name" field.
-func (cu *CounterUpdate) ClearName() *CounterUpdate {
-	cu.mutation.ClearName()
-	return cu
+func (_u *CounterUpdate) ClearName() *CounterUpdate {
+	_u.mutation.ClearName()
+	return _u
 }
 
 // SetPrefix sets the "prefix" field.
-func (cu *CounterUpdate) SetPrefix(s string) *CounterUpdate {
-	cu.mutation.SetPrefix(s)
-	return cu
+func (_u *CounterUpdate) SetPrefix(v string) *CounterUpdate {
+	_u.mutation.SetPrefix(v)
+	return _u
 }
 
 // SetNillablePrefix sets the "prefix" field if the given value is not nil.
-func (cu *CounterUpdate) SetNillablePrefix(s *string) *CounterUpdate {
-	if s != nil {
-		cu.SetPrefix(*s)
+func (_u *CounterUpdate) SetNillablePrefix(v *string) *CounterUpdate {
+	if v != nil {
+		_u.SetPrefix(*v)
 	}
-	return cu
+	return _u
 }
 
 // ClearPrefix clears the value of the "prefix" field.
-func (cu *CounterUpdate) ClearPrefix() *CounterUpdate {
-	cu.mutation.ClearPrefix()
-	return cu
+func (_u *CounterUpdate) ClearPrefix() *CounterUpdate {
+	_u.mutation.ClearPrefix()
+	return _u
 }
 
 // SetSuffix sets the "suffix" field.
-func (cu *CounterUpdate) SetSuffix(s string) *CounterUpdate {
-	cu.mutation.SetSuffix(s)
-	return cu
+func (_u *CounterUpdate) SetSuffix(v string) *CounterUpdate {
+	_u.mutation.SetSuffix(v)
+	return _u
 }
 
 // SetNillableSuffix sets the "suffix" field if the given value is not nil.
-func (cu *CounterUpdate) SetNillableSuffix(s *string) *CounterUpdate {
-	if s != nil {
-		cu.SetSuffix(*s)
+func (_u *CounterUpdate) SetNillableSuffix(v *string) *CounterUpdate {
+	if v != nil {
+		_u.SetSuffix(*v)
 	}
-	return cu
+	return _u
 }
 
 // ClearSuffix clears the value of the "suffix" field.
-func (cu *CounterUpdate) ClearSuffix() *CounterUpdate {
-	cu.mutation.ClearSuffix()
-	return cu
+func (_u *CounterUpdate) ClearSuffix() *CounterUpdate {
+	_u.mutation.ClearSuffix()
+	return _u
 }
 
 // SetStartValue sets the "start_value" field.
-func (cu *CounterUpdate) SetStartValue(i int) *CounterUpdate {
-	cu.mutation.ResetStartValue()
-	cu.mutation.SetStartValue(i)
-	return cu
+func (_u *CounterUpdate) SetStartValue(v int) *CounterUpdate {
+	_u.mutation.ResetStartValue()
+	_u.mutation.SetStartValue(v)
+	return _u
 }
 
 // SetNillableStartValue sets the "start_value" field if the given value is not nil.
-func (cu *CounterUpdate) SetNillableStartValue(i *int) *CounterUpdate {
-	if i != nil {
-		cu.SetStartValue(*i)
+func (_u *CounterUpdate) SetNillableStartValue(v *int) *CounterUpdate {
+	if v != nil {
+		_u.SetStartValue(*v)
 	}
-	return cu
+	return _u
 }
 
-// AddStartValue adds i to the "start_value" field.
-func (cu *CounterUpdate) AddStartValue(i int) *CounterUpdate {
-	cu.mutation.AddStartValue(i)
-	return cu
+// AddStartValue adds value to the "start_value" field.
+func (_u *CounterUpdate) AddStartValue(v int) *CounterUpdate {
+	_u.mutation.AddStartValue(v)
+	return _u
 }
 
 // SetIncrementStep sets the "increment_step" field.
-func (cu *CounterUpdate) SetIncrementStep(i int) *CounterUpdate {
-	cu.mutation.ResetIncrementStep()
-	cu.mutation.SetIncrementStep(i)
-	return cu
+func (_u *CounterUpdate) SetIncrementStep(v int) *CounterUpdate {
+	_u.mutation.ResetIncrementStep()
+	_u.mutation.SetIncrementStep(v)
+	return _u
 }
 
 // SetNillableIncrementStep sets the "increment_step" field if the given value is not nil.
-func (cu *CounterUpdate) SetNillableIncrementStep(i *int) *CounterUpdate {
-	if i != nil {
-		cu.SetIncrementStep(*i)
+func (_u *CounterUpdate) SetNillableIncrementStep(v *int) *CounterUpdate {
+	if v != nil {
+		_u.SetIncrementStep(*v)
 	}
-	return cu
+	return _u
 }
 
-// AddIncrementStep adds i to the "increment_step" field.
-func (cu *CounterUpdate) AddIncrementStep(i int) *CounterUpdate {
-	cu.mutation.AddIncrementStep(i)
-	return cu
+// AddIncrementStep adds value to the "increment_step" field.
+func (_u *CounterUpdate) AddIncrementStep(v int) *CounterUpdate {
+	_u.mutation.AddIncrementStep(v)
+	return _u
 }
 
 // SetDateFormat sets the "date_format" field.
-func (cu *CounterUpdate) SetDateFormat(s string) *CounterUpdate {
-	cu.mutation.SetDateFormat(s)
-	return cu
+func (_u *CounterUpdate) SetDateFormat(v string) *CounterUpdate {
+	_u.mutation.SetDateFormat(v)
+	return _u
 }
 
 // SetNillableDateFormat sets the "date_format" field if the given value is not nil.
-func (cu *CounterUpdate) SetNillableDateFormat(s *string) *CounterUpdate {
-	if s != nil {
-		cu.SetDateFormat(*s)
+func (_u *CounterUpdate) SetNillableDateFormat(v *string) *CounterUpdate {
+	if v != nil {
+		_u.SetDateFormat(*v)
 	}
-	return cu
+	return _u
 }
 
 // ClearDateFormat clears the value of the "date_format" field.
-func (cu *CounterUpdate) ClearDateFormat() *CounterUpdate {
-	cu.mutation.ClearDateFormat()
-	return cu
+func (_u *CounterUpdate) ClearDateFormat() *CounterUpdate {
+	_u.mutation.ClearDateFormat()
+	return _u
 }
 
 // SetCurrentValue sets the "current_value" field.
-func (cu *CounterUpdate) SetCurrentValue(i int) *CounterUpdate {
-	cu.mutation.ResetCurrentValue()
-	cu.mutation.SetCurrentValue(i)
-	return cu
+func (_u *CounterUpdate) SetCurrentValue(v int) *CounterUpdate {
+	_u.mutation.ResetCurrentValue()
+	_u.mutation.SetCurrentValue(v)
+	return _u
 }
 
 // SetNillableCurrentValue sets the "current_value" field if the given value is not nil.
-func (cu *CounterUpdate) SetNillableCurrentValue(i *int) *CounterUpdate {
-	if i != nil {
-		cu.SetCurrentValue(*i)
+func (_u *CounterUpdate) SetNillableCurrentValue(v *int) *CounterUpdate {
+	if v != nil {
+		_u.SetCurrentValue(*v)
 	}
-	return cu
+	return _u
 }
 
-// AddCurrentValue adds i to the "current_value" field.
-func (cu *CounterUpdate) AddCurrentValue(i int) *CounterUpdate {
-	cu.mutation.AddCurrentValue(i)
-	return cu
+// AddCurrentValue adds value to the "current_value" field.
+func (_u *CounterUpdate) AddCurrentValue(v int) *CounterUpdate {
+	_u.mutation.AddCurrentValue(v)
+	return _u
 }
 
 // SetDisabled sets the "disabled" field.
-func (cu *CounterUpdate) SetDisabled(b bool) *CounterUpdate {
-	cu.mutation.SetDisabled(b)
-	return cu
+func (_u *CounterUpdate) SetDisabled(v bool) *CounterUpdate {
+	_u.mutation.SetDisabled(v)
+	return _u
 }
 
 // SetNillableDisabled sets the "disabled" field if the given value is not nil.
-func (cu *CounterUpdate) SetNillableDisabled(b *bool) *CounterUpdate {
-	if b != nil {
-		cu.SetDisabled(*b)
+func (_u *CounterUpdate) SetNillableDisabled(v *bool) *CounterUpdate {
+	if v != nil {
+		_u.SetDisabled(*v)
 	}
-	return cu
+	return _u
 }
 
 // ClearDisabled clears the value of the "disabled" field.
-func (cu *CounterUpdate) ClearDisabled() *CounterUpdate {
-	cu.mutation.ClearDisabled()
-	return cu
+func (_u *CounterUpdate) ClearDisabled() *CounterUpdate {
+	_u.mutation.ClearDisabled()
+	return _u
 }
 
 // SetDescription sets the "description" field.
-func (cu *CounterUpdate) SetDescription(s string) *CounterUpdate {
-	cu.mutation.SetDescription(s)
-	return cu
+func (_u *CounterUpdate) SetDescription(v string) *CounterUpdate {
+	_u.mutation.SetDescription(v)
+	return _u
 }
 
 // SetNillableDescription sets the "description" field if the given value is not nil.
-func (cu *CounterUpdate) SetNillableDescription(s *string) *CounterUpdate {
-	if s != nil {
-		cu.SetDescription(*s)
+func (_u *CounterUpdate) SetNillableDescription(v *string) *CounterUpdate {
+	if v != nil {
+		_u.SetDescription(*v)
 	}
-	return cu
+	return _u
 }
 
 // ClearDescription clears the value of the "description" field.
-func (cu *CounterUpdate) ClearDescription() *CounterUpdate {
-	cu.mutation.ClearDescription()
-	return cu
+func (_u *CounterUpdate) ClearDescription() *CounterUpdate {
+	_u.mutation.ClearDescription()
+	return _u
 }
 
 // SetSpaceID sets the "space_id" field.
-func (cu *CounterUpdate) SetSpaceID(s string) *CounterUpdate {
-	cu.mutation.SetSpaceID(s)
-	return cu
+func (_u *CounterUpdate) SetSpaceID(v string) *CounterUpdate {
+	_u.mutation.SetSpaceID(v)
+	return _u
 }
 
 // SetNillableSpaceID sets the "space_id" field if the given value is not nil.
-func (cu *CounterUpdate) SetNillableSpaceID(s *string) *CounterUpdate {
-	if s != nil {
-		cu.SetSpaceID(*s)
+func (_u *CounterUpdate) SetNillableSpaceID(v *string) *CounterUpdate {
+	if v != nil {
+		_u.SetSpaceID(*v)
 	}
-	return cu
+	return _u
 }
 
 // ClearSpaceID clears the value of the "space_id" field.
-func (cu *CounterUpdate) ClearSpaceID() *CounterUpdate {
-	cu.mutation.ClearSpaceID()
-	return cu
+func (_u *CounterUpdate) ClearSpaceID() *CounterUpdate {
+	_u.mutation.ClearSpaceID()
+	return _u
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (cu *CounterUpdate) SetCreatedBy(s string) *CounterUpdate {
-	cu.mutation.SetCreatedBy(s)
-	return cu
+func (_u *CounterUpdate) SetCreatedBy(v string) *CounterUpdate {
+	_u.mutation.SetCreatedBy(v)
+	return _u
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (cu *CounterUpdate) SetNillableCreatedBy(s *string) *CounterUpdate {
-	if s != nil {
-		cu.SetCreatedBy(*s)
+func (_u *CounterUpdate) SetNillableCreatedBy(v *string) *CounterUpdate {
+	if v != nil {
+		_u.SetCreatedBy(*v)
 	}
-	return cu
+	return _u
 }
 
 // ClearCreatedBy clears the value of the "created_by" field.
-func (cu *CounterUpdate) ClearCreatedBy() *CounterUpdate {
-	cu.mutation.ClearCreatedBy()
-	return cu
+func (_u *CounterUpdate) ClearCreatedBy() *CounterUpdate {
+	_u.mutation.ClearCreatedBy()
+	return _u
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (cu *CounterUpdate) SetUpdatedBy(s string) *CounterUpdate {
-	cu.mutation.SetUpdatedBy(s)
-	return cu
+func (_u *CounterUpdate) SetUpdatedBy(v string) *CounterUpdate {
+	_u.mutation.SetUpdatedBy(v)
+	return _u
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (cu *CounterUpdate) SetNillableUpdatedBy(s *string) *CounterUpdate {
-	if s != nil {
-		cu.SetUpdatedBy(*s)
+func (_u *CounterUpdate) SetNillableUpdatedBy(v *string) *CounterUpdate {
+	if v != nil {
+		_u.SetUpdatedBy(*v)
 	}
-	return cu
+	return _u
 }
 
 // ClearUpdatedBy clears the value of the "updated_by" field.
-func (cu *CounterUpdate) ClearUpdatedBy() *CounterUpdate {
-	cu.mutation.ClearUpdatedBy()
-	return cu
+func (_u *CounterUpdate) ClearUpdatedBy() *CounterUpdate {
+	_u.mutation.ClearUpdatedBy()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (cu *CounterUpdate) SetUpdatedAt(i int64) *CounterUpdate {
-	cu.mutation.ResetUpdatedAt()
-	cu.mutation.SetUpdatedAt(i)
-	return cu
+func (_u *CounterUpdate) SetUpdatedAt(v int64) *CounterUpdate {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (cu *CounterUpdate) AddUpdatedAt(i int64) *CounterUpdate {
-	cu.mutation.AddUpdatedAt(i)
-	return cu
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *CounterUpdate) AddUpdatedAt(v int64) *CounterUpdate {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (cu *CounterUpdate) ClearUpdatedAt() *CounterUpdate {
-	cu.mutation.ClearUpdatedAt()
-	return cu
+func (_u *CounterUpdate) ClearUpdatedAt() *CounterUpdate {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // Mutation returns the CounterMutation object of the builder.
-func (cu *CounterUpdate) Mutation() *CounterMutation {
-	return cu.mutation
+func (_u *CounterUpdate) Mutation() *CounterMutation {
+	return _u.mutation
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
-func (cu *CounterUpdate) Save(ctx context.Context) (int, error) {
-	cu.defaults()
-	return withHooks(ctx, cu.sqlSave, cu.mutation, cu.hooks)
+func (_u *CounterUpdate) Save(ctx context.Context) (int, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (cu *CounterUpdate) SaveX(ctx context.Context) int {
-	affected, err := cu.Save(ctx)
+func (_u *CounterUpdate) SaveX(ctx context.Context) int {
+	affected, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -330,29 +330,29 @@ func (cu *CounterUpdate) SaveX(ctx context.Context) int {
 }
 
 // Exec executes the query.
-func (cu *CounterUpdate) Exec(ctx context.Context) error {
-	_, err := cu.Save(ctx)
+func (_u *CounterUpdate) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (cu *CounterUpdate) ExecX(ctx context.Context) {
-	if err := cu.Exec(ctx); err != nil {
+func (_u *CounterUpdate) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (cu *CounterUpdate) defaults() {
-	if _, ok := cu.mutation.UpdatedAt(); !ok && !cu.mutation.UpdatedAtCleared() {
+func (_u *CounterUpdate) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := counter.UpdateDefaultUpdatedAt()
-		cu.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (cu *CounterUpdate) check() error {
-	if v, ok := cu.mutation.Identifier(); ok {
+func (_u *CounterUpdate) check() error {
+	if v, ok := _u.mutation.Identifier(); ok {
 		if err := counter.IdentifierValidator(v); err != nil {
 			return &ValidationError{Name: "identifier", err: fmt.Errorf(`ent: validator failed for field "Counter.identifier": %w`, err)}
 		}
@@ -360,109 +360,109 @@ func (cu *CounterUpdate) check() error {
 	return nil
 }
 
-func (cu *CounterUpdate) sqlSave(ctx context.Context) (n int, err error) {
-	if err := cu.check(); err != nil {
-		return n, err
+func (_u *CounterUpdate) sqlSave(ctx context.Context) (_node int, err error) {
+	if err := _u.check(); err != nil {
+		return _node, err
 	}
 	_spec := sqlgraph.NewUpdateSpec(counter.Table, counter.Columns, sqlgraph.NewFieldSpec(counter.FieldID, field.TypeString))
-	if ps := cu.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := cu.mutation.Identifier(); ok {
+	if value, ok := _u.mutation.Identifier(); ok {
 		_spec.SetField(counter.FieldIdentifier, field.TypeString, value)
 	}
-	if cu.mutation.IdentifierCleared() {
+	if _u.mutation.IdentifierCleared() {
 		_spec.ClearField(counter.FieldIdentifier, field.TypeString)
 	}
-	if value, ok := cu.mutation.Name(); ok {
+	if value, ok := _u.mutation.Name(); ok {
 		_spec.SetField(counter.FieldName, field.TypeString, value)
 	}
-	if cu.mutation.NameCleared() {
+	if _u.mutation.NameCleared() {
 		_spec.ClearField(counter.FieldName, field.TypeString)
 	}
-	if value, ok := cu.mutation.Prefix(); ok {
+	if value, ok := _u.mutation.Prefix(); ok {
 		_spec.SetField(counter.FieldPrefix, field.TypeString, value)
 	}
-	if cu.mutation.PrefixCleared() {
+	if _u.mutation.PrefixCleared() {
 		_spec.ClearField(counter.FieldPrefix, field.TypeString)
 	}
-	if value, ok := cu.mutation.Suffix(); ok {
+	if value, ok := _u.mutation.Suffix(); ok {
 		_spec.SetField(counter.FieldSuffix, field.TypeString, value)
 	}
-	if cu.mutation.SuffixCleared() {
+	if _u.mutation.SuffixCleared() {
 		_spec.ClearField(counter.FieldSuffix, field.TypeString)
 	}
-	if value, ok := cu.mutation.StartValue(); ok {
+	if value, ok := _u.mutation.StartValue(); ok {
 		_spec.SetField(counter.FieldStartValue, field.TypeInt, value)
 	}
-	if value, ok := cu.mutation.AddedStartValue(); ok {
+	if value, ok := _u.mutation.AddedStartValue(); ok {
 		_spec.AddField(counter.FieldStartValue, field.TypeInt, value)
 	}
-	if value, ok := cu.mutation.IncrementStep(); ok {
+	if value, ok := _u.mutation.IncrementStep(); ok {
 		_spec.SetField(counter.FieldIncrementStep, field.TypeInt, value)
 	}
-	if value, ok := cu.mutation.AddedIncrementStep(); ok {
+	if value, ok := _u.mutation.AddedIncrementStep(); ok {
 		_spec.AddField(counter.FieldIncrementStep, field.TypeInt, value)
 	}
-	if value, ok := cu.mutation.DateFormat(); ok {
+	if value, ok := _u.mutation.DateFormat(); ok {
 		_spec.SetField(counter.FieldDateFormat, field.TypeString, value)
 	}
-	if cu.mutation.DateFormatCleared() {
+	if _u.mutation.DateFormatCleared() {
 		_spec.ClearField(counter.FieldDateFormat, field.TypeString)
 	}
-	if value, ok := cu.mutation.CurrentValue(); ok {
+	if value, ok := _u.mutation.CurrentValue(); ok {
 		_spec.SetField(counter.FieldCurrentValue, field.TypeInt, value)
 	}
-	if value, ok := cu.mutation.AddedCurrentValue(); ok {
+	if value, ok := _u.mutation.AddedCurrentValue(); ok {
 		_spec.AddField(counter.FieldCurrentValue, field.TypeInt, value)
 	}
-	if value, ok := cu.mutation.Disabled(); ok {
+	if value, ok := _u.mutation.Disabled(); ok {
 		_spec.SetField(counter.FieldDisabled, field.TypeBool, value)
 	}
-	if cu.mutation.DisabledCleared() {
+	if _u.mutation.DisabledCleared() {
 		_spec.ClearField(counter.FieldDisabled, field.TypeBool)
 	}
-	if value, ok := cu.mutation.Description(); ok {
+	if value, ok := _u.mutation.Description(); ok {
 		_spec.SetField(counter.FieldDescription, field.TypeString, value)
 	}
-	if cu.mutation.DescriptionCleared() {
+	if _u.mutation.DescriptionCleared() {
 		_spec.ClearField(counter.FieldDescription, field.TypeString)
 	}
-	if value, ok := cu.mutation.SpaceID(); ok {
+	if value, ok := _u.mutation.SpaceID(); ok {
 		_spec.SetField(counter.FieldSpaceID, field.TypeString, value)
 	}
-	if cu.mutation.SpaceIDCleared() {
+	if _u.mutation.SpaceIDCleared() {
 		_spec.ClearField(counter.FieldSpaceID, field.TypeString)
 	}
-	if value, ok := cu.mutation.CreatedBy(); ok {
+	if value, ok := _u.mutation.CreatedBy(); ok {
 		_spec.SetField(counter.FieldCreatedBy, field.TypeString, value)
 	}
-	if cu.mutation.CreatedByCleared() {
+	if _u.mutation.CreatedByCleared() {
 		_spec.ClearField(counter.FieldCreatedBy, field.TypeString)
 	}
-	if value, ok := cu.mutation.UpdatedBy(); ok {
+	if value, ok := _u.mutation.UpdatedBy(); ok {
 		_spec.SetField(counter.FieldUpdatedBy, field.TypeString, value)
 	}
-	if cu.mutation.UpdatedByCleared() {
+	if _u.mutation.UpdatedByCleared() {
 		_spec.ClearField(counter.FieldUpdatedBy, field.TypeString)
 	}
-	if cu.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(counter.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := cu.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(counter.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := cu.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(counter.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if cu.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(counter.FieldUpdatedAt, field.TypeInt64)
 	}
-	if n, err = sqlgraph.UpdateNodes(ctx, cu.driver, _spec); err != nil {
+	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{counter.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -470,8 +470,8 @@ func (cu *CounterUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		return 0, err
 	}
-	cu.mutation.done = true
-	return n, nil
+	_u.mutation.done = true
+	return _node, nil
 }
 
 // CounterUpdateOne is the builder for updating a single Counter entity.
@@ -483,314 +483,314 @@ type CounterUpdateOne struct {
 }
 
 // SetIdentifier sets the "identifier" field.
-func (cuo *CounterUpdateOne) SetIdentifier(s string) *CounterUpdateOne {
-	cuo.mutation.SetIdentifier(s)
-	return cuo
+func (_u *CounterUpdateOne) SetIdentifier(v string) *CounterUpdateOne {
+	_u.mutation.SetIdentifier(v)
+	return _u
 }
 
 // SetNillableIdentifier sets the "identifier" field if the given value is not nil.
-func (cuo *CounterUpdateOne) SetNillableIdentifier(s *string) *CounterUpdateOne {
-	if s != nil {
-		cuo.SetIdentifier(*s)
+func (_u *CounterUpdateOne) SetNillableIdentifier(v *string) *CounterUpdateOne {
+	if v != nil {
+		_u.SetIdentifier(*v)
 	}
-	return cuo
+	return _u
 }
 
 // ClearIdentifier clears the value of the "identifier" field.
-func (cuo *CounterUpdateOne) ClearIdentifier() *CounterUpdateOne {
-	cuo.mutation.ClearIdentifier()
-	return cuo
+func (_u *CounterUpdateOne) ClearIdentifier() *CounterUpdateOne {
+	_u.mutation.ClearIdentifier()
+	return _u
 }
 
 // SetName sets the "name" field.
-func (cuo *CounterUpdateOne) SetName(s string) *CounterUpdateOne {
-	cuo.mutation.SetName(s)
-	return cuo
+func (_u *CounterUpdateOne) SetName(v string) *CounterUpdateOne {
+	_u.mutation.SetName(v)
+	return _u
 }
 
 // SetNillableName sets the "name" field if the given value is not nil.
-func (cuo *CounterUpdateOne) SetNillableName(s *string) *CounterUpdateOne {
-	if s != nil {
-		cuo.SetName(*s)
+func (_u *CounterUpdateOne) SetNillableName(v *string) *CounterUpdateOne {
+	if v != nil {
+		_u.SetName(*v)
 	}
-	return cuo
+	return _u
 }
 
 // ClearName clears the value of the "name" field.
-func (cuo *CounterUpdateOne) ClearName() *CounterUpdateOne {
-	cuo.mutation.ClearName()
-	return cuo
+func (_u *CounterUpdateOne) ClearName() *CounterUpdateOne {
+	_u.mutation.ClearName()
+	return _u
 }
 
 // SetPrefix sets the "prefix" field.
-func (cuo *CounterUpdateOne) SetPrefix(s string) *CounterUpdateOne {
-	cuo.mutation.SetPrefix(s)
-	return cuo
+func (_u *CounterUpdateOne) SetPrefix(v string) *CounterUpdateOne {
+	_u.mutation.SetPrefix(v)
+	return _u
 }
 
 // SetNillablePrefix sets the "prefix" field if the given value is not nil.
-func (cuo *CounterUpdateOne) SetNillablePrefix(s *string) *CounterUpdateOne {
-	if s != nil {
-		cuo.SetPrefix(*s)
+func (_u *CounterUpdateOne) SetNillablePrefix(v *string) *CounterUpdateOne {
+	if v != nil {
+		_u.SetPrefix(*v)
 	}
-	return cuo
+	return _u
 }
 
 // ClearPrefix clears the value of the "prefix" field.
-func (cuo *CounterUpdateOne) ClearPrefix() *CounterUpdateOne {
-	cuo.mutation.ClearPrefix()
-	return cuo
+func (_u *CounterUpdateOne) ClearPrefix() *CounterUpdateOne {
+	_u.mutation.ClearPrefix()
+	return _u
 }
 
 // SetSuffix sets the "suffix" field.
-func (cuo *CounterUpdateOne) SetSuffix(s string) *CounterUpdateOne {
-	cuo.mutation.SetSuffix(s)
-	return cuo
+func (_u *CounterUpdateOne) SetSuffix(v string) *CounterUpdateOne {
+	_u.mutation.SetSuffix(v)
+	return _u
 }
 
 // SetNillableSuffix sets the "suffix" field if the given value is not nil.
-func (cuo *CounterUpdateOne) SetNillableSuffix(s *string) *CounterUpdateOne {
-	if s != nil {
-		cuo.SetSuffix(*s)
+func (_u *CounterUpdateOne) SetNillableSuffix(v *string) *CounterUpdateOne {
+	if v != nil {
+		_u.SetSuffix(*v)
 	}
-	return cuo
+	return _u
 }
 
 // ClearSuffix clears the value of the "suffix" field.
-func (cuo *CounterUpdateOne) ClearSuffix() *CounterUpdateOne {
-	cuo.mutation.ClearSuffix()
-	return cuo
+func (_u *CounterUpdateOne) ClearSuffix() *CounterUpdateOne {
+	_u.mutation.ClearSuffix()
+	return _u
 }
 
 // SetStartValue sets the "start_value" field.
-func (cuo *CounterUpdateOne) SetStartValue(i int) *CounterUpdateOne {
-	cuo.mutation.ResetStartValue()
-	cuo.mutation.SetStartValue(i)
-	return cuo
+func (_u *CounterUpdateOne) SetStartValue(v int) *CounterUpdateOne {
+	_u.mutation.ResetStartValue()
+	_u.mutation.SetStartValue(v)
+	return _u
 }
 
 // SetNillableStartValue sets the "start_value" field if the given value is not nil.
-func (cuo *CounterUpdateOne) SetNillableStartValue(i *int) *CounterUpdateOne {
-	if i != nil {
-		cuo.SetStartValue(*i)
+func (_u *CounterUpdateOne) SetNillableStartValue(v *int) *CounterUpdateOne {
+	if v != nil {
+		_u.SetStartValue(*v)
 	}
-	return cuo
+	return _u
 }
 
-// AddStartValue adds i to the "start_value" field.
-func (cuo *CounterUpdateOne) AddStartValue(i int) *CounterUpdateOne {
-	cuo.mutation.AddStartValue(i)
-	return cuo
+// AddStartValue adds value to the "start_value" field.
+func (_u *CounterUpdateOne) AddStartValue(v int) *CounterUpdateOne {
+	_u.mutation.AddStartValue(v)
+	return _u
 }
 
 // SetIncrementStep sets the "increment_step" field.
-func (cuo *CounterUpdateOne) SetIncrementStep(i int) *CounterUpdateOne {
-	cuo.mutation.ResetIncrementStep()
-	cuo.mutation.SetIncrementStep(i)
-	return cuo
+func (_u *CounterUpdateOne) SetIncrementStep(v int) *CounterUpdateOne {
+	_u.mutation.ResetIncrementStep()
+	_u.mutation.SetIncrementStep(v)
+	return _u
 }
 
 // SetNillableIncrementStep sets the "increment_step" field if the given value is not nil.
-func (cuo *CounterUpdateOne) SetNillableIncrementStep(i *int) *CounterUpdateOne {
-	if i != nil {
-		cuo.SetIncrementStep(*i)
+func (_u *CounterUpdateOne) SetNillableIncrementStep(v *int) *CounterUpdateOne {
+	if v != nil {
+		_u.SetIncrementStep(*v)
 	}
-	return cuo
+	return _u
 }
 
-// AddIncrementStep adds i to the "increment_step" field.
-func (cuo *CounterUpdateOne) AddIncrementStep(i int) *CounterUpdateOne {
-	cuo.mutation.AddIncrementStep(i)
-	return cuo
+// AddIncrementStep adds value to the "increment_step" field.
+func (_u *CounterUpdateOne) AddIncrementStep(v int) *CounterUpdateOne {
+	_u.mutation.AddIncrementStep(v)
+	return _u
 }
 
 // SetDateFormat sets the "date_format" field.
-func (cuo *CounterUpdateOne) SetDateFormat(s string) *CounterUpdateOne {
-	cuo.mutation.SetDateFormat(s)
-	return cuo
+func (_u *CounterUpdateOne) SetDateFormat(v string) *CounterUpdateOne {
+	_u.mutation.SetDateFormat(v)
+	return _u
 }
 
 // SetNillableDateFormat sets the "date_format" field if the given value is not nil.
-func (cuo *CounterUpdateOne) SetNillableDateFormat(s *string) *CounterUpdateOne {
-	if s != nil {
-		cuo.SetDateFormat(*s)
+func (_u *CounterUpdateOne) SetNillableDateFormat(v *string) *CounterUpdateOne {
+	if v != nil {
+		_u.SetDateFormat(*v)
 	}
-	return cuo
+	return _u
 }
 
 // ClearDateFormat clears the value of the "date_format" field.
-func (cuo *CounterUpdateOne) ClearDateFormat() *CounterUpdateOne {
-	cuo.mutation.ClearDateFormat()
-	return cuo
+func (_u *CounterUpdateOne) ClearDateFormat() *CounterUpdateOne {
+	_u.mutation.ClearDateFormat()
+	return _u
 }
 
 // SetCurrentValue sets the "current_value" field.
-func (cuo *CounterUpdateOne) SetCurrentValue(i int) *CounterUpdateOne {
-	cuo.mutation.ResetCurrentValue()
-	cuo.mutation.SetCurrentValue(i)
-	return cuo
+func (_u *CounterUpdateOne) SetCurrentValue(v int) *CounterUpdateOne {
+	_u.mutation.ResetCurrentValue()
+	_u.mutation.SetCurrentValue(v)
+	return _u
 }
 
 // SetNillableCurrentValue sets the "current_value" field if the given value is not nil.
-func (cuo *CounterUpdateOne) SetNillableCurrentValue(i *int) *CounterUpdateOne {
-	if i != nil {
-		cuo.SetCurrentValue(*i)
+func (_u *CounterUpdateOne) SetNillableCurrentValue(v *int) *CounterUpdateOne {
+	if v != nil {
+		_u.SetCurrentValue(*v)
 	}
-	return cuo
+	return _u
 }
 
-// AddCurrentValue adds i to the "current_value" field.
-func (cuo *CounterUpdateOne) AddCurrentValue(i int) *CounterUpdateOne {
-	cuo.mutation.AddCurrentValue(i)
-	return cuo
+// AddCurrentValue adds value to the "current_value" field.
+func (_u *CounterUpdateOne) AddCurrentValue(v int) *CounterUpdateOne {
+	_u.mutation.AddCurrentValue(v)
+	return _u
 }
 
 // SetDisabled sets the "disabled" field.
-func (cuo *CounterUpdateOne) SetDisabled(b bool) *CounterUpdateOne {
-	cuo.mutation.SetDisabled(b)
-	return cuo
+func (_u *CounterUpdateOne) SetDisabled(v bool) *CounterUpdateOne {
+	_u.mutation.SetDisabled(v)
+	return _u
 }
 
 // SetNillableDisabled sets the "disabled" field if the given value is not nil.
-func (cuo *CounterUpdateOne) SetNillableDisabled(b *bool) *CounterUpdateOne {
-	if b != nil {
-		cuo.SetDisabled(*b)
+func (_u *CounterUpdateOne) SetNillableDisabled(v *bool) *CounterUpdateOne {
+	if v != nil {
+		_u.SetDisabled(*v)
 	}
-	return cuo
+	return _u
 }
 
 // ClearDisabled clears the value of the "disabled" field.
-func (cuo *CounterUpdateOne) ClearDisabled() *CounterUpdateOne {
-	cuo.mutation.ClearDisabled()
-	return cuo
+func (_u *CounterUpdateOne) ClearDisabled() *CounterUpdateOne {
+	_u.mutation.ClearDisabled()
+	return _u
 }
 
 // SetDescription sets the "description" field.
-func (cuo *CounterUpdateOne) SetDescription(s string) *CounterUpdateOne {
-	cuo.mutation.SetDescription(s)
-	return cuo
+func (_u *CounterUpdateOne) SetDescription(v string) *CounterUpdateOne {
+	_u.mutation.SetDescription(v)
+	return _u
 }
 
 // SetNillableDescription sets the "description" field if the given value is not nil.
-func (cuo *CounterUpdateOne) SetNillableDescription(s *string) *CounterUpdateOne {
-	if s != nil {
-		cuo.SetDescription(*s)
+func (_u *CounterUpdateOne) SetNillableDescription(v *string) *CounterUpdateOne {
+	if v != nil {
+		_u.SetDescription(*v)
 	}
-	return cuo
+	return _u
 }
 
 // ClearDescription clears the value of the "description" field.
-func (cuo *CounterUpdateOne) ClearDescription() *CounterUpdateOne {
-	cuo.mutation.ClearDescription()
-	return cuo
+func (_u *CounterUpdateOne) ClearDescription() *CounterUpdateOne {
+	_u.mutation.ClearDescription()
+	return _u
 }
 
 // SetSpaceID sets the "space_id" field.
-func (cuo *CounterUpdateOne) SetSpaceID(s string) *CounterUpdateOne {
-	cuo.mutation.SetSpaceID(s)
-	return cuo
+func (_u *CounterUpdateOne) SetSpaceID(v string) *CounterUpdateOne {
+	_u.mutation.SetSpaceID(v)
+	return _u
 }
 
 // SetNillableSpaceID sets the "space_id" field if the given value is not nil.
-func (cuo *CounterUpdateOne) SetNillableSpaceID(s *string) *CounterUpdateOne {
-	if s != nil {
-		cuo.SetSpaceID(*s)
+func (_u *CounterUpdateOne) SetNillableSpaceID(v *string) *CounterUpdateOne {
+	if v != nil {
+		_u.SetSpaceID(*v)
 	}
-	return cuo
+	return _u
 }
 
 // ClearSpaceID clears the value of the "space_id" field.
-func (cuo *CounterUpdateOne) ClearSpaceID() *CounterUpdateOne {
-	cuo.mutation.ClearSpaceID()
-	return cuo
+func (_u *CounterUpdateOne) ClearSpaceID() *CounterUpdateOne {
+	_u.mutation.ClearSpaceID()
+	return _u
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (cuo *CounterUpdateOne) SetCreatedBy(s string) *CounterUpdateOne {
-	cuo.mutation.SetCreatedBy(s)
-	return cuo
+func (_u *CounterUpdateOne) SetCreatedBy(v string) *CounterUpdateOne {
+	_u.mutation.SetCreatedBy(v)
+	return _u
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (cuo *CounterUpdateOne) SetNillableCreatedBy(s *string) *CounterUpdateOne {
-	if s != nil {
-		cuo.SetCreatedBy(*s)
+func (_u *CounterUpdateOne) SetNillableCreatedBy(v *string) *CounterUpdateOne {
+	if v != nil {
+		_u.SetCreatedBy(*v)
 	}
-	return cuo
+	return _u
 }
 
 // ClearCreatedBy clears the value of the "created_by" field.
-func (cuo *CounterUpdateOne) ClearCreatedBy() *CounterUpdateOne {
-	cuo.mutation.ClearCreatedBy()
-	return cuo
+func (_u *CounterUpdateOne) ClearCreatedBy() *CounterUpdateOne {
+	_u.mutation.ClearCreatedBy()
+	return _u
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (cuo *CounterUpdateOne) SetUpdatedBy(s string) *CounterUpdateOne {
-	cuo.mutation.SetUpdatedBy(s)
-	return cuo
+func (_u *CounterUpdateOne) SetUpdatedBy(v string) *CounterUpdateOne {
+	_u.mutation.SetUpdatedBy(v)
+	return _u
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (cuo *CounterUpdateOne) SetNillableUpdatedBy(s *string) *CounterUpdateOne {
-	if s != nil {
-		cuo.SetUpdatedBy(*s)
+func (_u *CounterUpdateOne) SetNillableUpdatedBy(v *string) *CounterUpdateOne {
+	if v != nil {
+		_u.SetUpdatedBy(*v)
 	}
-	return cuo
+	return _u
 }
 
 // ClearUpdatedBy clears the value of the "updated_by" field.
-func (cuo *CounterUpdateOne) ClearUpdatedBy() *CounterUpdateOne {
-	cuo.mutation.ClearUpdatedBy()
-	return cuo
+func (_u *CounterUpdateOne) ClearUpdatedBy() *CounterUpdateOne {
+	_u.mutation.ClearUpdatedBy()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (cuo *CounterUpdateOne) SetUpdatedAt(i int64) *CounterUpdateOne {
-	cuo.mutation.ResetUpdatedAt()
-	cuo.mutation.SetUpdatedAt(i)
-	return cuo
+func (_u *CounterUpdateOne) SetUpdatedAt(v int64) *CounterUpdateOne {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (cuo *CounterUpdateOne) AddUpdatedAt(i int64) *CounterUpdateOne {
-	cuo.mutation.AddUpdatedAt(i)
-	return cuo
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *CounterUpdateOne) AddUpdatedAt(v int64) *CounterUpdateOne {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (cuo *CounterUpdateOne) ClearUpdatedAt() *CounterUpdateOne {
-	cuo.mutation.ClearUpdatedAt()
-	return cuo
+func (_u *CounterUpdateOne) ClearUpdatedAt() *CounterUpdateOne {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // Mutation returns the CounterMutation object of the builder.
-func (cuo *CounterUpdateOne) Mutation() *CounterMutation {
-	return cuo.mutation
+func (_u *CounterUpdateOne) Mutation() *CounterMutation {
+	return _u.mutation
 }
 
 // Where appends a list predicates to the CounterUpdate builder.
-func (cuo *CounterUpdateOne) Where(ps ...predicate.Counter) *CounterUpdateOne {
-	cuo.mutation.Where(ps...)
-	return cuo
+func (_u *CounterUpdateOne) Where(ps ...predicate.Counter) *CounterUpdateOne {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // Select allows selecting one or more fields (columns) of the returned entity.
 // The default is selecting all fields defined in the entity schema.
-func (cuo *CounterUpdateOne) Select(field string, fields ...string) *CounterUpdateOne {
-	cuo.fields = append([]string{field}, fields...)
-	return cuo
+func (_u *CounterUpdateOne) Select(field string, fields ...string) *CounterUpdateOne {
+	_u.fields = append([]string{field}, fields...)
+	return _u
 }
 
 // Save executes the query and returns the updated Counter entity.
-func (cuo *CounterUpdateOne) Save(ctx context.Context) (*Counter, error) {
-	cuo.defaults()
-	return withHooks(ctx, cuo.sqlSave, cuo.mutation, cuo.hooks)
+func (_u *CounterUpdateOne) Save(ctx context.Context) (*Counter, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (cuo *CounterUpdateOne) SaveX(ctx context.Context) *Counter {
-	node, err := cuo.Save(ctx)
+func (_u *CounterUpdateOne) SaveX(ctx context.Context) *Counter {
+	node, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -798,29 +798,29 @@ func (cuo *CounterUpdateOne) SaveX(ctx context.Context) *Counter {
 }
 
 // Exec executes the query on the entity.
-func (cuo *CounterUpdateOne) Exec(ctx context.Context) error {
-	_, err := cuo.Save(ctx)
+func (_u *CounterUpdateOne) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (cuo *CounterUpdateOne) ExecX(ctx context.Context) {
-	if err := cuo.Exec(ctx); err != nil {
+func (_u *CounterUpdateOne) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (cuo *CounterUpdateOne) defaults() {
-	if _, ok := cuo.mutation.UpdatedAt(); !ok && !cuo.mutation.UpdatedAtCleared() {
+func (_u *CounterUpdateOne) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := counter.UpdateDefaultUpdatedAt()
-		cuo.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (cuo *CounterUpdateOne) check() error {
-	if v, ok := cuo.mutation.Identifier(); ok {
+func (_u *CounterUpdateOne) check() error {
+	if v, ok := _u.mutation.Identifier(); ok {
 		if err := counter.IdentifierValidator(v); err != nil {
 			return &ValidationError{Name: "identifier", err: fmt.Errorf(`ent: validator failed for field "Counter.identifier": %w`, err)}
 		}
@@ -828,17 +828,17 @@ func (cuo *CounterUpdateOne) check() error {
 	return nil
 }
 
-func (cuo *CounterUpdateOne) sqlSave(ctx context.Context) (_node *Counter, err error) {
-	if err := cuo.check(); err != nil {
+func (_u *CounterUpdateOne) sqlSave(ctx context.Context) (_node *Counter, err error) {
+	if err := _u.check(); err != nil {
 		return _node, err
 	}
 	_spec := sqlgraph.NewUpdateSpec(counter.Table, counter.Columns, sqlgraph.NewFieldSpec(counter.FieldID, field.TypeString))
-	id, ok := cuo.mutation.ID()
+	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "Counter.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
-	if fields := cuo.fields; len(fields) > 0 {
+	if fields := _u.fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, counter.FieldID)
 		for _, f := range fields {
@@ -850,107 +850,107 @@ func (cuo *CounterUpdateOne) sqlSave(ctx context.Context) (_node *Counter, err e
 			}
 		}
 	}
-	if ps := cuo.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := cuo.mutation.Identifier(); ok {
+	if value, ok := _u.mutation.Identifier(); ok {
 		_spec.SetField(counter.FieldIdentifier, field.TypeString, value)
 	}
-	if cuo.mutation.IdentifierCleared() {
+	if _u.mutation.IdentifierCleared() {
 		_spec.ClearField(counter.FieldIdentifier, field.TypeString)
 	}
-	if value, ok := cuo.mutation.Name(); ok {
+	if value, ok := _u.mutation.Name(); ok {
 		_spec.SetField(counter.FieldName, field.TypeString, value)
 	}
-	if cuo.mutation.NameCleared() {
+	if _u.mutation.NameCleared() {
 		_spec.ClearField(counter.FieldName, field.TypeString)
 	}
-	if value, ok := cuo.mutation.Prefix(); ok {
+	if value, ok := _u.mutation.Prefix(); ok {
 		_spec.SetField(counter.FieldPrefix, field.TypeString, value)
 	}
-	if cuo.mutation.PrefixCleared() {
+	if _u.mutation.PrefixCleared() {
 		_spec.ClearField(counter.FieldPrefix, field.TypeString)
 	}
-	if value, ok := cuo.mutation.Suffix(); ok {
+	if value, ok := _u.mutation.Suffix(); ok {
 		_spec.SetField(counter.FieldSuffix, field.TypeString, value)
 	}
-	if cuo.mutation.SuffixCleared() {
+	if _u.mutation.SuffixCleared() {
 		_spec.ClearField(counter.FieldSuffix, field.TypeString)
 	}
-	if value, ok := cuo.mutation.StartValue(); ok {
+	if value, ok := _u.mutation.StartValue(); ok {
 		_spec.SetField(counter.FieldStartValue, field.TypeInt, value)
 	}
-	if value, ok := cuo.mutation.AddedStartValue(); ok {
+	if value, ok := _u.mutation.AddedStartValue(); ok {
 		_spec.AddField(counter.FieldStartValue, field.TypeInt, value)
 	}
-	if value, ok := cuo.mutation.IncrementStep(); ok {
+	if value, ok := _u.mutation.IncrementStep(); ok {
 		_spec.SetField(counter.FieldIncrementStep, field.TypeInt, value)
 	}
-	if value, ok := cuo.mutation.AddedIncrementStep(); ok {
+	if value, ok := _u.mutation.AddedIncrementStep(); ok {
 		_spec.AddField(counter.FieldIncrementStep, field.TypeInt, value)
 	}
-	if value, ok := cuo.mutation.DateFormat(); ok {
+	if value, ok := _u.mutation.DateFormat(); ok {
 		_spec.SetField(counter.FieldDateFormat, field.TypeString, value)
 	}
-	if cuo.mutation.DateFormatCleared() {
+	if _u.mutation.DateFormatCleared() {
 		_spec.ClearField(counter.FieldDateFormat, field.TypeString)
 	}
-	if value, ok := cuo.mutation.CurrentValue(); ok {
+	if value, ok := _u.mutation.CurrentValue(); ok {
 		_spec.SetField(counter.FieldCurrentValue, field.TypeInt, value)
 	}
-	if value, ok := cuo.mutation.AddedCurrentValue(); ok {
+	if value, ok := _u.mutation.AddedCurrentValue(); ok {
 		_spec.AddField(counter.FieldCurrentValue, field.TypeInt, value)
 	}
-	if value, ok := cuo.mutation.Disabled(); ok {
+	if value, ok := _u.mutation.Disabled(); ok {
 		_spec.SetField(counter.FieldDisabled, field.TypeBool, value)
 	}
-	if cuo.mutation.DisabledCleared() {
+	if _u.mutation.DisabledCleared() {
 		_spec.ClearField(counter.FieldDisabled, field.TypeBool)
 	}
-	if value, ok := cuo.mutation.Description(); ok {
+	if value, ok := _u.mutation.Description(); ok {
 		_spec.SetField(counter.FieldDescription, field.TypeString, value)
 	}
-	if cuo.mutation.DescriptionCleared() {
+	if _u.mutation.DescriptionCleared() {
 		_spec.ClearField(counter.FieldDescription, field.TypeString)
 	}
-	if value, ok := cuo.mutation.SpaceID(); ok {
+	if value, ok := _u.mutation.SpaceID(); ok {
 		_spec.SetField(counter.FieldSpaceID, field.TypeString, value)
 	}
-	if cuo.mutation.SpaceIDCleared() {
+	if _u.mutation.SpaceIDCleared() {
 		_spec.ClearField(counter.FieldSpaceID, field.TypeString)
 	}
-	if value, ok := cuo.mutation.CreatedBy(); ok {
+	if value, ok := _u.mutation.CreatedBy(); ok {
 		_spec.SetField(counter.FieldCreatedBy, field.TypeString, value)
 	}
-	if cuo.mutation.CreatedByCleared() {
+	if _u.mutation.CreatedByCleared() {
 		_spec.ClearField(counter.FieldCreatedBy, field.TypeString)
 	}
-	if value, ok := cuo.mutation.UpdatedBy(); ok {
+	if value, ok := _u.mutation.UpdatedBy(); ok {
 		_spec.SetField(counter.FieldUpdatedBy, field.TypeString, value)
 	}
-	if cuo.mutation.UpdatedByCleared() {
+	if _u.mutation.UpdatedByCleared() {
 		_spec.ClearField(counter.FieldUpdatedBy, field.TypeString)
 	}
-	if cuo.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(counter.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := cuo.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(counter.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := cuo.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(counter.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if cuo.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(counter.FieldUpdatedAt, field.TypeInt64)
 	}
-	_node = &Counter{config: cuo.config}
+	_node = &Counter{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues
-	if err = sqlgraph.UpdateNode(ctx, cuo.driver, _spec); err != nil {
+	if err = sqlgraph.UpdateNode(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{counter.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -958,6 +958,6 @@ func (cuo *CounterUpdateOne) sqlSave(ctx context.Context) (_node *Counter, err e
 		}
 		return nil, err
 	}
-	cuo.mutation.done = true
+	_u.mutation.done = true
 	return _node, nil
 }

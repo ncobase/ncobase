@@ -19,131 +19,131 @@ type UserSpaceRoleCreate struct {
 }
 
 // SetUserID sets the "user_id" field.
-func (usrc *UserSpaceRoleCreate) SetUserID(s string) *UserSpaceRoleCreate {
-	usrc.mutation.SetUserID(s)
-	return usrc
+func (_c *UserSpaceRoleCreate) SetUserID(v string) *UserSpaceRoleCreate {
+	_c.mutation.SetUserID(v)
+	return _c
 }
 
 // SetNillableUserID sets the "user_id" field if the given value is not nil.
-func (usrc *UserSpaceRoleCreate) SetNillableUserID(s *string) *UserSpaceRoleCreate {
-	if s != nil {
-		usrc.SetUserID(*s)
+func (_c *UserSpaceRoleCreate) SetNillableUserID(v *string) *UserSpaceRoleCreate {
+	if v != nil {
+		_c.SetUserID(*v)
 	}
-	return usrc
+	return _c
 }
 
 // SetSpaceID sets the "space_id" field.
-func (usrc *UserSpaceRoleCreate) SetSpaceID(s string) *UserSpaceRoleCreate {
-	usrc.mutation.SetSpaceID(s)
-	return usrc
+func (_c *UserSpaceRoleCreate) SetSpaceID(v string) *UserSpaceRoleCreate {
+	_c.mutation.SetSpaceID(v)
+	return _c
 }
 
 // SetNillableSpaceID sets the "space_id" field if the given value is not nil.
-func (usrc *UserSpaceRoleCreate) SetNillableSpaceID(s *string) *UserSpaceRoleCreate {
-	if s != nil {
-		usrc.SetSpaceID(*s)
+func (_c *UserSpaceRoleCreate) SetNillableSpaceID(v *string) *UserSpaceRoleCreate {
+	if v != nil {
+		_c.SetSpaceID(*v)
 	}
-	return usrc
+	return _c
 }
 
 // SetRoleID sets the "role_id" field.
-func (usrc *UserSpaceRoleCreate) SetRoleID(s string) *UserSpaceRoleCreate {
-	usrc.mutation.SetRoleID(s)
-	return usrc
+func (_c *UserSpaceRoleCreate) SetRoleID(v string) *UserSpaceRoleCreate {
+	_c.mutation.SetRoleID(v)
+	return _c
 }
 
 // SetNillableRoleID sets the "role_id" field if the given value is not nil.
-func (usrc *UserSpaceRoleCreate) SetNillableRoleID(s *string) *UserSpaceRoleCreate {
-	if s != nil {
-		usrc.SetRoleID(*s)
+func (_c *UserSpaceRoleCreate) SetNillableRoleID(v *string) *UserSpaceRoleCreate {
+	if v != nil {
+		_c.SetRoleID(*v)
 	}
-	return usrc
+	return _c
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (usrc *UserSpaceRoleCreate) SetCreatedBy(s string) *UserSpaceRoleCreate {
-	usrc.mutation.SetCreatedBy(s)
-	return usrc
+func (_c *UserSpaceRoleCreate) SetCreatedBy(v string) *UserSpaceRoleCreate {
+	_c.mutation.SetCreatedBy(v)
+	return _c
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (usrc *UserSpaceRoleCreate) SetNillableCreatedBy(s *string) *UserSpaceRoleCreate {
-	if s != nil {
-		usrc.SetCreatedBy(*s)
+func (_c *UserSpaceRoleCreate) SetNillableCreatedBy(v *string) *UserSpaceRoleCreate {
+	if v != nil {
+		_c.SetCreatedBy(*v)
 	}
-	return usrc
+	return _c
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (usrc *UserSpaceRoleCreate) SetUpdatedBy(s string) *UserSpaceRoleCreate {
-	usrc.mutation.SetUpdatedBy(s)
-	return usrc
+func (_c *UserSpaceRoleCreate) SetUpdatedBy(v string) *UserSpaceRoleCreate {
+	_c.mutation.SetUpdatedBy(v)
+	return _c
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (usrc *UserSpaceRoleCreate) SetNillableUpdatedBy(s *string) *UserSpaceRoleCreate {
-	if s != nil {
-		usrc.SetUpdatedBy(*s)
+func (_c *UserSpaceRoleCreate) SetNillableUpdatedBy(v *string) *UserSpaceRoleCreate {
+	if v != nil {
+		_c.SetUpdatedBy(*v)
 	}
-	return usrc
+	return _c
 }
 
 // SetCreatedAt sets the "created_at" field.
-func (usrc *UserSpaceRoleCreate) SetCreatedAt(i int64) *UserSpaceRoleCreate {
-	usrc.mutation.SetCreatedAt(i)
-	return usrc
+func (_c *UserSpaceRoleCreate) SetCreatedAt(v int64) *UserSpaceRoleCreate {
+	_c.mutation.SetCreatedAt(v)
+	return _c
 }
 
 // SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
-func (usrc *UserSpaceRoleCreate) SetNillableCreatedAt(i *int64) *UserSpaceRoleCreate {
-	if i != nil {
-		usrc.SetCreatedAt(*i)
+func (_c *UserSpaceRoleCreate) SetNillableCreatedAt(v *int64) *UserSpaceRoleCreate {
+	if v != nil {
+		_c.SetCreatedAt(*v)
 	}
-	return usrc
+	return _c
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (usrc *UserSpaceRoleCreate) SetUpdatedAt(i int64) *UserSpaceRoleCreate {
-	usrc.mutation.SetUpdatedAt(i)
-	return usrc
+func (_c *UserSpaceRoleCreate) SetUpdatedAt(v int64) *UserSpaceRoleCreate {
+	_c.mutation.SetUpdatedAt(v)
+	return _c
 }
 
 // SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
-func (usrc *UserSpaceRoleCreate) SetNillableUpdatedAt(i *int64) *UserSpaceRoleCreate {
-	if i != nil {
-		usrc.SetUpdatedAt(*i)
+func (_c *UserSpaceRoleCreate) SetNillableUpdatedAt(v *int64) *UserSpaceRoleCreate {
+	if v != nil {
+		_c.SetUpdatedAt(*v)
 	}
-	return usrc
+	return _c
 }
 
 // SetID sets the "id" field.
-func (usrc *UserSpaceRoleCreate) SetID(s string) *UserSpaceRoleCreate {
-	usrc.mutation.SetID(s)
-	return usrc
+func (_c *UserSpaceRoleCreate) SetID(v string) *UserSpaceRoleCreate {
+	_c.mutation.SetID(v)
+	return _c
 }
 
 // SetNillableID sets the "id" field if the given value is not nil.
-func (usrc *UserSpaceRoleCreate) SetNillableID(s *string) *UserSpaceRoleCreate {
-	if s != nil {
-		usrc.SetID(*s)
+func (_c *UserSpaceRoleCreate) SetNillableID(v *string) *UserSpaceRoleCreate {
+	if v != nil {
+		_c.SetID(*v)
 	}
-	return usrc
+	return _c
 }
 
 // Mutation returns the UserSpaceRoleMutation object of the builder.
-func (usrc *UserSpaceRoleCreate) Mutation() *UserSpaceRoleMutation {
-	return usrc.mutation
+func (_c *UserSpaceRoleCreate) Mutation() *UserSpaceRoleMutation {
+	return _c.mutation
 }
 
 // Save creates the UserSpaceRole in the database.
-func (usrc *UserSpaceRoleCreate) Save(ctx context.Context) (*UserSpaceRole, error) {
-	usrc.defaults()
-	return withHooks(ctx, usrc.sqlSave, usrc.mutation, usrc.hooks)
+func (_c *UserSpaceRoleCreate) Save(ctx context.Context) (*UserSpaceRole, error) {
+	_c.defaults()
+	return withHooks(ctx, _c.sqlSave, _c.mutation, _c.hooks)
 }
 
 // SaveX calls Save and panics if Save returns an error.
-func (usrc *UserSpaceRoleCreate) SaveX(ctx context.Context) *UserSpaceRole {
-	v, err := usrc.Save(ctx)
+func (_c *UserSpaceRoleCreate) SaveX(ctx context.Context) *UserSpaceRole {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -151,37 +151,37 @@ func (usrc *UserSpaceRoleCreate) SaveX(ctx context.Context) *UserSpaceRole {
 }
 
 // Exec executes the query.
-func (usrc *UserSpaceRoleCreate) Exec(ctx context.Context) error {
-	_, err := usrc.Save(ctx)
+func (_c *UserSpaceRoleCreate) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (usrc *UserSpaceRoleCreate) ExecX(ctx context.Context) {
-	if err := usrc.Exec(ctx); err != nil {
+func (_c *UserSpaceRoleCreate) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (usrc *UserSpaceRoleCreate) defaults() {
-	if _, ok := usrc.mutation.CreatedAt(); !ok {
+func (_c *UserSpaceRoleCreate) defaults() {
+	if _, ok := _c.mutation.CreatedAt(); !ok {
 		v := userspacerole.DefaultCreatedAt()
-		usrc.mutation.SetCreatedAt(v)
+		_c.mutation.SetCreatedAt(v)
 	}
-	if _, ok := usrc.mutation.UpdatedAt(); !ok {
+	if _, ok := _c.mutation.UpdatedAt(); !ok {
 		v := userspacerole.DefaultUpdatedAt()
-		usrc.mutation.SetUpdatedAt(v)
+		_c.mutation.SetUpdatedAt(v)
 	}
-	if _, ok := usrc.mutation.ID(); !ok {
+	if _, ok := _c.mutation.ID(); !ok {
 		v := userspacerole.DefaultID()
-		usrc.mutation.SetID(v)
+		_c.mutation.SetID(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (usrc *UserSpaceRoleCreate) check() error {
-	if v, ok := usrc.mutation.ID(); ok {
+func (_c *UserSpaceRoleCreate) check() error {
+	if v, ok := _c.mutation.ID(); ok {
 		if err := userspacerole.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "UserSpaceRole.id": %w`, err)}
 		}
@@ -189,12 +189,12 @@ func (usrc *UserSpaceRoleCreate) check() error {
 	return nil
 }
 
-func (usrc *UserSpaceRoleCreate) sqlSave(ctx context.Context) (*UserSpaceRole, error) {
-	if err := usrc.check(); err != nil {
+func (_c *UserSpaceRoleCreate) sqlSave(ctx context.Context) (*UserSpaceRole, error) {
+	if err := _c.check(); err != nil {
 		return nil, err
 	}
-	_node, _spec := usrc.createSpec()
-	if err := sqlgraph.CreateNode(ctx, usrc.driver, _spec); err != nil {
+	_node, _spec := _c.createSpec()
+	if err := sqlgraph.CreateNode(ctx, _c.driver, _spec); err != nil {
 		if sqlgraph.IsConstraintError(err) {
 			err = &ConstraintError{msg: err.Error(), wrap: err}
 		}
@@ -207,45 +207,45 @@ func (usrc *UserSpaceRoleCreate) sqlSave(ctx context.Context) (*UserSpaceRole, e
 			return nil, fmt.Errorf("unexpected UserSpaceRole.ID type: %T", _spec.ID.Value)
 		}
 	}
-	usrc.mutation.id = &_node.ID
-	usrc.mutation.done = true
+	_c.mutation.id = &_node.ID
+	_c.mutation.done = true
 	return _node, nil
 }
 
-func (usrc *UserSpaceRoleCreate) createSpec() (*UserSpaceRole, *sqlgraph.CreateSpec) {
+func (_c *UserSpaceRoleCreate) createSpec() (*UserSpaceRole, *sqlgraph.CreateSpec) {
 	var (
-		_node = &UserSpaceRole{config: usrc.config}
+		_node = &UserSpaceRole{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(userspacerole.Table, sqlgraph.NewFieldSpec(userspacerole.FieldID, field.TypeString))
 	)
-	if id, ok := usrc.mutation.ID(); ok {
+	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
 	}
-	if value, ok := usrc.mutation.UserID(); ok {
+	if value, ok := _c.mutation.UserID(); ok {
 		_spec.SetField(userspacerole.FieldUserID, field.TypeString, value)
 		_node.UserID = value
 	}
-	if value, ok := usrc.mutation.SpaceID(); ok {
+	if value, ok := _c.mutation.SpaceID(); ok {
 		_spec.SetField(userspacerole.FieldSpaceID, field.TypeString, value)
 		_node.SpaceID = value
 	}
-	if value, ok := usrc.mutation.RoleID(); ok {
+	if value, ok := _c.mutation.RoleID(); ok {
 		_spec.SetField(userspacerole.FieldRoleID, field.TypeString, value)
 		_node.RoleID = value
 	}
-	if value, ok := usrc.mutation.CreatedBy(); ok {
+	if value, ok := _c.mutation.CreatedBy(); ok {
 		_spec.SetField(userspacerole.FieldCreatedBy, field.TypeString, value)
 		_node.CreatedBy = value
 	}
-	if value, ok := usrc.mutation.UpdatedBy(); ok {
+	if value, ok := _c.mutation.UpdatedBy(); ok {
 		_spec.SetField(userspacerole.FieldUpdatedBy, field.TypeString, value)
 		_node.UpdatedBy = value
 	}
-	if value, ok := usrc.mutation.CreatedAt(); ok {
+	if value, ok := _c.mutation.CreatedAt(); ok {
 		_spec.SetField(userspacerole.FieldCreatedAt, field.TypeInt64, value)
 		_node.CreatedAt = value
 	}
-	if value, ok := usrc.mutation.UpdatedAt(); ok {
+	if value, ok := _c.mutation.UpdatedAt(); ok {
 		_spec.SetField(userspacerole.FieldUpdatedAt, field.TypeInt64, value)
 		_node.UpdatedAt = value
 	}
@@ -260,16 +260,16 @@ type UserSpaceRoleCreateBulk struct {
 }
 
 // Save creates the UserSpaceRole entities in the database.
-func (usrcb *UserSpaceRoleCreateBulk) Save(ctx context.Context) ([]*UserSpaceRole, error) {
-	if usrcb.err != nil {
-		return nil, usrcb.err
+func (_c *UserSpaceRoleCreateBulk) Save(ctx context.Context) ([]*UserSpaceRole, error) {
+	if _c.err != nil {
+		return nil, _c.err
 	}
-	specs := make([]*sqlgraph.CreateSpec, len(usrcb.builders))
-	nodes := make([]*UserSpaceRole, len(usrcb.builders))
-	mutators := make([]Mutator, len(usrcb.builders))
-	for i := range usrcb.builders {
+	specs := make([]*sqlgraph.CreateSpec, len(_c.builders))
+	nodes := make([]*UserSpaceRole, len(_c.builders))
+	mutators := make([]Mutator, len(_c.builders))
+	for i := range _c.builders {
 		func(i int, root context.Context) {
-			builder := usrcb.builders[i]
+			builder := _c.builders[i]
 			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*UserSpaceRoleMutation)
@@ -283,11 +283,11 @@ func (usrcb *UserSpaceRoleCreateBulk) Save(ctx context.Context) ([]*UserSpaceRol
 				var err error
 				nodes[i], specs[i] = builder.createSpec()
 				if i < len(mutators)-1 {
-					_, err = mutators[i+1].Mutate(root, usrcb.builders[i+1].mutation)
+					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
 					// Invoke the actual operation on the latest mutation in the chain.
-					if err = sqlgraph.BatchCreate(ctx, usrcb.driver, spec); err != nil {
+					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
 							err = &ConstraintError{msg: err.Error(), wrap: err}
 						}
@@ -307,7 +307,7 @@ func (usrcb *UserSpaceRoleCreateBulk) Save(ctx context.Context) ([]*UserSpaceRol
 		}(i, ctx)
 	}
 	if len(mutators) > 0 {
-		if _, err := mutators[0].Mutate(ctx, usrcb.builders[0].mutation); err != nil {
+		if _, err := mutators[0].Mutate(ctx, _c.builders[0].mutation); err != nil {
 			return nil, err
 		}
 	}
@@ -315,8 +315,8 @@ func (usrcb *UserSpaceRoleCreateBulk) Save(ctx context.Context) ([]*UserSpaceRol
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (usrcb *UserSpaceRoleCreateBulk) SaveX(ctx context.Context) []*UserSpaceRole {
-	v, err := usrcb.Save(ctx)
+func (_c *UserSpaceRoleCreateBulk) SaveX(ctx context.Context) []*UserSpaceRole {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -324,14 +324,14 @@ func (usrcb *UserSpaceRoleCreateBulk) SaveX(ctx context.Context) []*UserSpaceRol
 }
 
 // Exec executes the query.
-func (usrcb *UserSpaceRoleCreateBulk) Exec(ctx context.Context) error {
-	_, err := usrcb.Save(ctx)
+func (_c *UserSpaceRoleCreateBulk) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (usrcb *UserSpaceRoleCreateBulk) ExecX(ctx context.Context) {
-	if err := usrcb.Exec(ctx); err != nil {
+func (_c *UserSpaceRoleCreateBulk) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

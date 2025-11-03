@@ -19,117 +19,117 @@ type RolePermissionCreate struct {
 }
 
 // SetRoleID sets the "role_id" field.
-func (rpc *RolePermissionCreate) SetRoleID(s string) *RolePermissionCreate {
-	rpc.mutation.SetRoleID(s)
-	return rpc
+func (_c *RolePermissionCreate) SetRoleID(v string) *RolePermissionCreate {
+	_c.mutation.SetRoleID(v)
+	return _c
 }
 
 // SetNillableRoleID sets the "role_id" field if the given value is not nil.
-func (rpc *RolePermissionCreate) SetNillableRoleID(s *string) *RolePermissionCreate {
-	if s != nil {
-		rpc.SetRoleID(*s)
+func (_c *RolePermissionCreate) SetNillableRoleID(v *string) *RolePermissionCreate {
+	if v != nil {
+		_c.SetRoleID(*v)
 	}
-	return rpc
+	return _c
 }
 
 // SetPermissionID sets the "permission_id" field.
-func (rpc *RolePermissionCreate) SetPermissionID(s string) *RolePermissionCreate {
-	rpc.mutation.SetPermissionID(s)
-	return rpc
+func (_c *RolePermissionCreate) SetPermissionID(v string) *RolePermissionCreate {
+	_c.mutation.SetPermissionID(v)
+	return _c
 }
 
 // SetNillablePermissionID sets the "permission_id" field if the given value is not nil.
-func (rpc *RolePermissionCreate) SetNillablePermissionID(s *string) *RolePermissionCreate {
-	if s != nil {
-		rpc.SetPermissionID(*s)
+func (_c *RolePermissionCreate) SetNillablePermissionID(v *string) *RolePermissionCreate {
+	if v != nil {
+		_c.SetPermissionID(*v)
 	}
-	return rpc
+	return _c
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (rpc *RolePermissionCreate) SetCreatedBy(s string) *RolePermissionCreate {
-	rpc.mutation.SetCreatedBy(s)
-	return rpc
+func (_c *RolePermissionCreate) SetCreatedBy(v string) *RolePermissionCreate {
+	_c.mutation.SetCreatedBy(v)
+	return _c
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (rpc *RolePermissionCreate) SetNillableCreatedBy(s *string) *RolePermissionCreate {
-	if s != nil {
-		rpc.SetCreatedBy(*s)
+func (_c *RolePermissionCreate) SetNillableCreatedBy(v *string) *RolePermissionCreate {
+	if v != nil {
+		_c.SetCreatedBy(*v)
 	}
-	return rpc
+	return _c
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (rpc *RolePermissionCreate) SetUpdatedBy(s string) *RolePermissionCreate {
-	rpc.mutation.SetUpdatedBy(s)
-	return rpc
+func (_c *RolePermissionCreate) SetUpdatedBy(v string) *RolePermissionCreate {
+	_c.mutation.SetUpdatedBy(v)
+	return _c
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (rpc *RolePermissionCreate) SetNillableUpdatedBy(s *string) *RolePermissionCreate {
-	if s != nil {
-		rpc.SetUpdatedBy(*s)
+func (_c *RolePermissionCreate) SetNillableUpdatedBy(v *string) *RolePermissionCreate {
+	if v != nil {
+		_c.SetUpdatedBy(*v)
 	}
-	return rpc
+	return _c
 }
 
 // SetCreatedAt sets the "created_at" field.
-func (rpc *RolePermissionCreate) SetCreatedAt(i int64) *RolePermissionCreate {
-	rpc.mutation.SetCreatedAt(i)
-	return rpc
+func (_c *RolePermissionCreate) SetCreatedAt(v int64) *RolePermissionCreate {
+	_c.mutation.SetCreatedAt(v)
+	return _c
 }
 
 // SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
-func (rpc *RolePermissionCreate) SetNillableCreatedAt(i *int64) *RolePermissionCreate {
-	if i != nil {
-		rpc.SetCreatedAt(*i)
+func (_c *RolePermissionCreate) SetNillableCreatedAt(v *int64) *RolePermissionCreate {
+	if v != nil {
+		_c.SetCreatedAt(*v)
 	}
-	return rpc
+	return _c
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (rpc *RolePermissionCreate) SetUpdatedAt(i int64) *RolePermissionCreate {
-	rpc.mutation.SetUpdatedAt(i)
-	return rpc
+func (_c *RolePermissionCreate) SetUpdatedAt(v int64) *RolePermissionCreate {
+	_c.mutation.SetUpdatedAt(v)
+	return _c
 }
 
 // SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
-func (rpc *RolePermissionCreate) SetNillableUpdatedAt(i *int64) *RolePermissionCreate {
-	if i != nil {
-		rpc.SetUpdatedAt(*i)
+func (_c *RolePermissionCreate) SetNillableUpdatedAt(v *int64) *RolePermissionCreate {
+	if v != nil {
+		_c.SetUpdatedAt(*v)
 	}
-	return rpc
+	return _c
 }
 
 // SetID sets the "id" field.
-func (rpc *RolePermissionCreate) SetID(s string) *RolePermissionCreate {
-	rpc.mutation.SetID(s)
-	return rpc
+func (_c *RolePermissionCreate) SetID(v string) *RolePermissionCreate {
+	_c.mutation.SetID(v)
+	return _c
 }
 
 // SetNillableID sets the "id" field if the given value is not nil.
-func (rpc *RolePermissionCreate) SetNillableID(s *string) *RolePermissionCreate {
-	if s != nil {
-		rpc.SetID(*s)
+func (_c *RolePermissionCreate) SetNillableID(v *string) *RolePermissionCreate {
+	if v != nil {
+		_c.SetID(*v)
 	}
-	return rpc
+	return _c
 }
 
 // Mutation returns the RolePermissionMutation object of the builder.
-func (rpc *RolePermissionCreate) Mutation() *RolePermissionMutation {
-	return rpc.mutation
+func (_c *RolePermissionCreate) Mutation() *RolePermissionMutation {
+	return _c.mutation
 }
 
 // Save creates the RolePermission in the database.
-func (rpc *RolePermissionCreate) Save(ctx context.Context) (*RolePermission, error) {
-	rpc.defaults()
-	return withHooks(ctx, rpc.sqlSave, rpc.mutation, rpc.hooks)
+func (_c *RolePermissionCreate) Save(ctx context.Context) (*RolePermission, error) {
+	_c.defaults()
+	return withHooks(ctx, _c.sqlSave, _c.mutation, _c.hooks)
 }
 
 // SaveX calls Save and panics if Save returns an error.
-func (rpc *RolePermissionCreate) SaveX(ctx context.Context) *RolePermission {
-	v, err := rpc.Save(ctx)
+func (_c *RolePermissionCreate) SaveX(ctx context.Context) *RolePermission {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -137,37 +137,37 @@ func (rpc *RolePermissionCreate) SaveX(ctx context.Context) *RolePermission {
 }
 
 // Exec executes the query.
-func (rpc *RolePermissionCreate) Exec(ctx context.Context) error {
-	_, err := rpc.Save(ctx)
+func (_c *RolePermissionCreate) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (rpc *RolePermissionCreate) ExecX(ctx context.Context) {
-	if err := rpc.Exec(ctx); err != nil {
+func (_c *RolePermissionCreate) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (rpc *RolePermissionCreate) defaults() {
-	if _, ok := rpc.mutation.CreatedAt(); !ok {
+func (_c *RolePermissionCreate) defaults() {
+	if _, ok := _c.mutation.CreatedAt(); !ok {
 		v := rolepermission.DefaultCreatedAt()
-		rpc.mutation.SetCreatedAt(v)
+		_c.mutation.SetCreatedAt(v)
 	}
-	if _, ok := rpc.mutation.UpdatedAt(); !ok {
+	if _, ok := _c.mutation.UpdatedAt(); !ok {
 		v := rolepermission.DefaultUpdatedAt()
-		rpc.mutation.SetUpdatedAt(v)
+		_c.mutation.SetUpdatedAt(v)
 	}
-	if _, ok := rpc.mutation.ID(); !ok {
+	if _, ok := _c.mutation.ID(); !ok {
 		v := rolepermission.DefaultID()
-		rpc.mutation.SetID(v)
+		_c.mutation.SetID(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (rpc *RolePermissionCreate) check() error {
-	if v, ok := rpc.mutation.ID(); ok {
+func (_c *RolePermissionCreate) check() error {
+	if v, ok := _c.mutation.ID(); ok {
 		if err := rolepermission.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "RolePermission.id": %w`, err)}
 		}
@@ -175,12 +175,12 @@ func (rpc *RolePermissionCreate) check() error {
 	return nil
 }
 
-func (rpc *RolePermissionCreate) sqlSave(ctx context.Context) (*RolePermission, error) {
-	if err := rpc.check(); err != nil {
+func (_c *RolePermissionCreate) sqlSave(ctx context.Context) (*RolePermission, error) {
+	if err := _c.check(); err != nil {
 		return nil, err
 	}
-	_node, _spec := rpc.createSpec()
-	if err := sqlgraph.CreateNode(ctx, rpc.driver, _spec); err != nil {
+	_node, _spec := _c.createSpec()
+	if err := sqlgraph.CreateNode(ctx, _c.driver, _spec); err != nil {
 		if sqlgraph.IsConstraintError(err) {
 			err = &ConstraintError{msg: err.Error(), wrap: err}
 		}
@@ -193,41 +193,41 @@ func (rpc *RolePermissionCreate) sqlSave(ctx context.Context) (*RolePermission, 
 			return nil, fmt.Errorf("unexpected RolePermission.ID type: %T", _spec.ID.Value)
 		}
 	}
-	rpc.mutation.id = &_node.ID
-	rpc.mutation.done = true
+	_c.mutation.id = &_node.ID
+	_c.mutation.done = true
 	return _node, nil
 }
 
-func (rpc *RolePermissionCreate) createSpec() (*RolePermission, *sqlgraph.CreateSpec) {
+func (_c *RolePermissionCreate) createSpec() (*RolePermission, *sqlgraph.CreateSpec) {
 	var (
-		_node = &RolePermission{config: rpc.config}
+		_node = &RolePermission{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(rolepermission.Table, sqlgraph.NewFieldSpec(rolepermission.FieldID, field.TypeString))
 	)
-	if id, ok := rpc.mutation.ID(); ok {
+	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
 	}
-	if value, ok := rpc.mutation.RoleID(); ok {
+	if value, ok := _c.mutation.RoleID(); ok {
 		_spec.SetField(rolepermission.FieldRoleID, field.TypeString, value)
 		_node.RoleID = value
 	}
-	if value, ok := rpc.mutation.PermissionID(); ok {
+	if value, ok := _c.mutation.PermissionID(); ok {
 		_spec.SetField(rolepermission.FieldPermissionID, field.TypeString, value)
 		_node.PermissionID = value
 	}
-	if value, ok := rpc.mutation.CreatedBy(); ok {
+	if value, ok := _c.mutation.CreatedBy(); ok {
 		_spec.SetField(rolepermission.FieldCreatedBy, field.TypeString, value)
 		_node.CreatedBy = value
 	}
-	if value, ok := rpc.mutation.UpdatedBy(); ok {
+	if value, ok := _c.mutation.UpdatedBy(); ok {
 		_spec.SetField(rolepermission.FieldUpdatedBy, field.TypeString, value)
 		_node.UpdatedBy = value
 	}
-	if value, ok := rpc.mutation.CreatedAt(); ok {
+	if value, ok := _c.mutation.CreatedAt(); ok {
 		_spec.SetField(rolepermission.FieldCreatedAt, field.TypeInt64, value)
 		_node.CreatedAt = value
 	}
-	if value, ok := rpc.mutation.UpdatedAt(); ok {
+	if value, ok := _c.mutation.UpdatedAt(); ok {
 		_spec.SetField(rolepermission.FieldUpdatedAt, field.TypeInt64, value)
 		_node.UpdatedAt = value
 	}
@@ -242,16 +242,16 @@ type RolePermissionCreateBulk struct {
 }
 
 // Save creates the RolePermission entities in the database.
-func (rpcb *RolePermissionCreateBulk) Save(ctx context.Context) ([]*RolePermission, error) {
-	if rpcb.err != nil {
-		return nil, rpcb.err
+func (_c *RolePermissionCreateBulk) Save(ctx context.Context) ([]*RolePermission, error) {
+	if _c.err != nil {
+		return nil, _c.err
 	}
-	specs := make([]*sqlgraph.CreateSpec, len(rpcb.builders))
-	nodes := make([]*RolePermission, len(rpcb.builders))
-	mutators := make([]Mutator, len(rpcb.builders))
-	for i := range rpcb.builders {
+	specs := make([]*sqlgraph.CreateSpec, len(_c.builders))
+	nodes := make([]*RolePermission, len(_c.builders))
+	mutators := make([]Mutator, len(_c.builders))
+	for i := range _c.builders {
 		func(i int, root context.Context) {
-			builder := rpcb.builders[i]
+			builder := _c.builders[i]
 			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*RolePermissionMutation)
@@ -265,11 +265,11 @@ func (rpcb *RolePermissionCreateBulk) Save(ctx context.Context) ([]*RolePermissi
 				var err error
 				nodes[i], specs[i] = builder.createSpec()
 				if i < len(mutators)-1 {
-					_, err = mutators[i+1].Mutate(root, rpcb.builders[i+1].mutation)
+					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
 					// Invoke the actual operation on the latest mutation in the chain.
-					if err = sqlgraph.BatchCreate(ctx, rpcb.driver, spec); err != nil {
+					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
 							err = &ConstraintError{msg: err.Error(), wrap: err}
 						}
@@ -289,7 +289,7 @@ func (rpcb *RolePermissionCreateBulk) Save(ctx context.Context) ([]*RolePermissi
 		}(i, ctx)
 	}
 	if len(mutators) > 0 {
-		if _, err := mutators[0].Mutate(ctx, rpcb.builders[0].mutation); err != nil {
+		if _, err := mutators[0].Mutate(ctx, _c.builders[0].mutation); err != nil {
 			return nil, err
 		}
 	}
@@ -297,8 +297,8 @@ func (rpcb *RolePermissionCreateBulk) Save(ctx context.Context) ([]*RolePermissi
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (rpcb *RolePermissionCreateBulk) SaveX(ctx context.Context) []*RolePermission {
-	v, err := rpcb.Save(ctx)
+func (_c *RolePermissionCreateBulk) SaveX(ctx context.Context) []*RolePermission {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -306,14 +306,14 @@ func (rpcb *RolePermissionCreateBulk) SaveX(ctx context.Context) []*RolePermissi
 }
 
 // Exec executes the query.
-func (rpcb *RolePermissionCreateBulk) Exec(ctx context.Context) error {
-	_, err := rpcb.Save(ctx)
+func (_c *RolePermissionCreateBulk) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (rpcb *RolePermissionCreateBulk) ExecX(ctx context.Context) {
-	if err := rpcb.Exec(ctx); err != nil {
+func (_c *RolePermissionCreateBulk) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

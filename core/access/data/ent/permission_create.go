@@ -19,179 +19,179 @@ type PermissionCreate struct {
 }
 
 // SetName sets the "name" field.
-func (pc *PermissionCreate) SetName(s string) *PermissionCreate {
-	pc.mutation.SetName(s)
-	return pc
+func (_c *PermissionCreate) SetName(v string) *PermissionCreate {
+	_c.mutation.SetName(v)
+	return _c
 }
 
 // SetNillableName sets the "name" field if the given value is not nil.
-func (pc *PermissionCreate) SetNillableName(s *string) *PermissionCreate {
-	if s != nil {
-		pc.SetName(*s)
+func (_c *PermissionCreate) SetNillableName(v *string) *PermissionCreate {
+	if v != nil {
+		_c.SetName(*v)
 	}
-	return pc
+	return _c
 }
 
 // SetAction sets the "action" field.
-func (pc *PermissionCreate) SetAction(s string) *PermissionCreate {
-	pc.mutation.SetAction(s)
-	return pc
+func (_c *PermissionCreate) SetAction(v string) *PermissionCreate {
+	_c.mutation.SetAction(v)
+	return _c
 }
 
 // SetNillableAction sets the "action" field if the given value is not nil.
-func (pc *PermissionCreate) SetNillableAction(s *string) *PermissionCreate {
-	if s != nil {
-		pc.SetAction(*s)
+func (_c *PermissionCreate) SetNillableAction(v *string) *PermissionCreate {
+	if v != nil {
+		_c.SetAction(*v)
 	}
-	return pc
+	return _c
 }
 
 // SetSubject sets the "subject" field.
-func (pc *PermissionCreate) SetSubject(s string) *PermissionCreate {
-	pc.mutation.SetSubject(s)
-	return pc
+func (_c *PermissionCreate) SetSubject(v string) *PermissionCreate {
+	_c.mutation.SetSubject(v)
+	return _c
 }
 
 // SetNillableSubject sets the "subject" field if the given value is not nil.
-func (pc *PermissionCreate) SetNillableSubject(s *string) *PermissionCreate {
-	if s != nil {
-		pc.SetSubject(*s)
+func (_c *PermissionCreate) SetNillableSubject(v *string) *PermissionCreate {
+	if v != nil {
+		_c.SetSubject(*v)
 	}
-	return pc
+	return _c
 }
 
 // SetDescription sets the "description" field.
-func (pc *PermissionCreate) SetDescription(s string) *PermissionCreate {
-	pc.mutation.SetDescription(s)
-	return pc
+func (_c *PermissionCreate) SetDescription(v string) *PermissionCreate {
+	_c.mutation.SetDescription(v)
+	return _c
 }
 
 // SetNillableDescription sets the "description" field if the given value is not nil.
-func (pc *PermissionCreate) SetNillableDescription(s *string) *PermissionCreate {
-	if s != nil {
-		pc.SetDescription(*s)
+func (_c *PermissionCreate) SetNillableDescription(v *string) *PermissionCreate {
+	if v != nil {
+		_c.SetDescription(*v)
 	}
-	return pc
+	return _c
 }
 
 // SetDefault sets the "default" field.
-func (pc *PermissionCreate) SetDefault(b bool) *PermissionCreate {
-	pc.mutation.SetDefault(b)
-	return pc
+func (_c *PermissionCreate) SetDefault(v bool) *PermissionCreate {
+	_c.mutation.SetDefault(v)
+	return _c
 }
 
 // SetNillableDefault sets the "default" field if the given value is not nil.
-func (pc *PermissionCreate) SetNillableDefault(b *bool) *PermissionCreate {
-	if b != nil {
-		pc.SetDefault(*b)
+func (_c *PermissionCreate) SetNillableDefault(v *bool) *PermissionCreate {
+	if v != nil {
+		_c.SetDefault(*v)
 	}
-	return pc
+	return _c
 }
 
 // SetDisabled sets the "disabled" field.
-func (pc *PermissionCreate) SetDisabled(b bool) *PermissionCreate {
-	pc.mutation.SetDisabled(b)
-	return pc
+func (_c *PermissionCreate) SetDisabled(v bool) *PermissionCreate {
+	_c.mutation.SetDisabled(v)
+	return _c
 }
 
 // SetNillableDisabled sets the "disabled" field if the given value is not nil.
-func (pc *PermissionCreate) SetNillableDisabled(b *bool) *PermissionCreate {
-	if b != nil {
-		pc.SetDisabled(*b)
+func (_c *PermissionCreate) SetNillableDisabled(v *bool) *PermissionCreate {
+	if v != nil {
+		_c.SetDisabled(*v)
 	}
-	return pc
+	return _c
 }
 
 // SetExtras sets the "extras" field.
-func (pc *PermissionCreate) SetExtras(m map[string]interface{}) *PermissionCreate {
-	pc.mutation.SetExtras(m)
-	return pc
+func (_c *PermissionCreate) SetExtras(v map[string]interface{}) *PermissionCreate {
+	_c.mutation.SetExtras(v)
+	return _c
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (pc *PermissionCreate) SetCreatedBy(s string) *PermissionCreate {
-	pc.mutation.SetCreatedBy(s)
-	return pc
+func (_c *PermissionCreate) SetCreatedBy(v string) *PermissionCreate {
+	_c.mutation.SetCreatedBy(v)
+	return _c
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (pc *PermissionCreate) SetNillableCreatedBy(s *string) *PermissionCreate {
-	if s != nil {
-		pc.SetCreatedBy(*s)
+func (_c *PermissionCreate) SetNillableCreatedBy(v *string) *PermissionCreate {
+	if v != nil {
+		_c.SetCreatedBy(*v)
 	}
-	return pc
+	return _c
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (pc *PermissionCreate) SetUpdatedBy(s string) *PermissionCreate {
-	pc.mutation.SetUpdatedBy(s)
-	return pc
+func (_c *PermissionCreate) SetUpdatedBy(v string) *PermissionCreate {
+	_c.mutation.SetUpdatedBy(v)
+	return _c
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (pc *PermissionCreate) SetNillableUpdatedBy(s *string) *PermissionCreate {
-	if s != nil {
-		pc.SetUpdatedBy(*s)
+func (_c *PermissionCreate) SetNillableUpdatedBy(v *string) *PermissionCreate {
+	if v != nil {
+		_c.SetUpdatedBy(*v)
 	}
-	return pc
+	return _c
 }
 
 // SetCreatedAt sets the "created_at" field.
-func (pc *PermissionCreate) SetCreatedAt(i int64) *PermissionCreate {
-	pc.mutation.SetCreatedAt(i)
-	return pc
+func (_c *PermissionCreate) SetCreatedAt(v int64) *PermissionCreate {
+	_c.mutation.SetCreatedAt(v)
+	return _c
 }
 
 // SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
-func (pc *PermissionCreate) SetNillableCreatedAt(i *int64) *PermissionCreate {
-	if i != nil {
-		pc.SetCreatedAt(*i)
+func (_c *PermissionCreate) SetNillableCreatedAt(v *int64) *PermissionCreate {
+	if v != nil {
+		_c.SetCreatedAt(*v)
 	}
-	return pc
+	return _c
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (pc *PermissionCreate) SetUpdatedAt(i int64) *PermissionCreate {
-	pc.mutation.SetUpdatedAt(i)
-	return pc
+func (_c *PermissionCreate) SetUpdatedAt(v int64) *PermissionCreate {
+	_c.mutation.SetUpdatedAt(v)
+	return _c
 }
 
 // SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
-func (pc *PermissionCreate) SetNillableUpdatedAt(i *int64) *PermissionCreate {
-	if i != nil {
-		pc.SetUpdatedAt(*i)
+func (_c *PermissionCreate) SetNillableUpdatedAt(v *int64) *PermissionCreate {
+	if v != nil {
+		_c.SetUpdatedAt(*v)
 	}
-	return pc
+	return _c
 }
 
 // SetID sets the "id" field.
-func (pc *PermissionCreate) SetID(s string) *PermissionCreate {
-	pc.mutation.SetID(s)
-	return pc
+func (_c *PermissionCreate) SetID(v string) *PermissionCreate {
+	_c.mutation.SetID(v)
+	return _c
 }
 
 // SetNillableID sets the "id" field if the given value is not nil.
-func (pc *PermissionCreate) SetNillableID(s *string) *PermissionCreate {
-	if s != nil {
-		pc.SetID(*s)
+func (_c *PermissionCreate) SetNillableID(v *string) *PermissionCreate {
+	if v != nil {
+		_c.SetID(*v)
 	}
-	return pc
+	return _c
 }
 
 // Mutation returns the PermissionMutation object of the builder.
-func (pc *PermissionCreate) Mutation() *PermissionMutation {
-	return pc.mutation
+func (_c *PermissionCreate) Mutation() *PermissionMutation {
+	return _c.mutation
 }
 
 // Save creates the Permission in the database.
-func (pc *PermissionCreate) Save(ctx context.Context) (*Permission, error) {
-	pc.defaults()
-	return withHooks(ctx, pc.sqlSave, pc.mutation, pc.hooks)
+func (_c *PermissionCreate) Save(ctx context.Context) (*Permission, error) {
+	_c.defaults()
+	return withHooks(ctx, _c.sqlSave, _c.mutation, _c.hooks)
 }
 
 // SaveX calls Save and panics if Save returns an error.
-func (pc *PermissionCreate) SaveX(ctx context.Context) *Permission {
-	v, err := pc.Save(ctx)
+func (_c *PermissionCreate) SaveX(ctx context.Context) *Permission {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -199,49 +199,49 @@ func (pc *PermissionCreate) SaveX(ctx context.Context) *Permission {
 }
 
 // Exec executes the query.
-func (pc *PermissionCreate) Exec(ctx context.Context) error {
-	_, err := pc.Save(ctx)
+func (_c *PermissionCreate) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (pc *PermissionCreate) ExecX(ctx context.Context) {
-	if err := pc.Exec(ctx); err != nil {
+func (_c *PermissionCreate) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (pc *PermissionCreate) defaults() {
-	if _, ok := pc.mutation.Default(); !ok {
+func (_c *PermissionCreate) defaults() {
+	if _, ok := _c.mutation.Default(); !ok {
 		v := permission.DefaultDefault
-		pc.mutation.SetDefault(v)
+		_c.mutation.SetDefault(v)
 	}
-	if _, ok := pc.mutation.Disabled(); !ok {
+	if _, ok := _c.mutation.Disabled(); !ok {
 		v := permission.DefaultDisabled
-		pc.mutation.SetDisabled(v)
+		_c.mutation.SetDisabled(v)
 	}
-	if _, ok := pc.mutation.Extras(); !ok {
+	if _, ok := _c.mutation.Extras(); !ok {
 		v := permission.DefaultExtras
-		pc.mutation.SetExtras(v)
+		_c.mutation.SetExtras(v)
 	}
-	if _, ok := pc.mutation.CreatedAt(); !ok {
+	if _, ok := _c.mutation.CreatedAt(); !ok {
 		v := permission.DefaultCreatedAt()
-		pc.mutation.SetCreatedAt(v)
+		_c.mutation.SetCreatedAt(v)
 	}
-	if _, ok := pc.mutation.UpdatedAt(); !ok {
+	if _, ok := _c.mutation.UpdatedAt(); !ok {
 		v := permission.DefaultUpdatedAt()
-		pc.mutation.SetUpdatedAt(v)
+		_c.mutation.SetUpdatedAt(v)
 	}
-	if _, ok := pc.mutation.ID(); !ok {
+	if _, ok := _c.mutation.ID(); !ok {
 		v := permission.DefaultID()
-		pc.mutation.SetID(v)
+		_c.mutation.SetID(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (pc *PermissionCreate) check() error {
-	if v, ok := pc.mutation.ID(); ok {
+func (_c *PermissionCreate) check() error {
+	if v, ok := _c.mutation.ID(); ok {
 		if err := permission.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "Permission.id": %w`, err)}
 		}
@@ -249,12 +249,12 @@ func (pc *PermissionCreate) check() error {
 	return nil
 }
 
-func (pc *PermissionCreate) sqlSave(ctx context.Context) (*Permission, error) {
-	if err := pc.check(); err != nil {
+func (_c *PermissionCreate) sqlSave(ctx context.Context) (*Permission, error) {
+	if err := _c.check(); err != nil {
 		return nil, err
 	}
-	_node, _spec := pc.createSpec()
-	if err := sqlgraph.CreateNode(ctx, pc.driver, _spec); err != nil {
+	_node, _spec := _c.createSpec()
+	if err := sqlgraph.CreateNode(ctx, _c.driver, _spec); err != nil {
 		if sqlgraph.IsConstraintError(err) {
 			err = &ConstraintError{msg: err.Error(), wrap: err}
 		}
@@ -267,61 +267,61 @@ func (pc *PermissionCreate) sqlSave(ctx context.Context) (*Permission, error) {
 			return nil, fmt.Errorf("unexpected Permission.ID type: %T", _spec.ID.Value)
 		}
 	}
-	pc.mutation.id = &_node.ID
-	pc.mutation.done = true
+	_c.mutation.id = &_node.ID
+	_c.mutation.done = true
 	return _node, nil
 }
 
-func (pc *PermissionCreate) createSpec() (*Permission, *sqlgraph.CreateSpec) {
+func (_c *PermissionCreate) createSpec() (*Permission, *sqlgraph.CreateSpec) {
 	var (
-		_node = &Permission{config: pc.config}
+		_node = &Permission{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(permission.Table, sqlgraph.NewFieldSpec(permission.FieldID, field.TypeString))
 	)
-	if id, ok := pc.mutation.ID(); ok {
+	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
 	}
-	if value, ok := pc.mutation.Name(); ok {
+	if value, ok := _c.mutation.Name(); ok {
 		_spec.SetField(permission.FieldName, field.TypeString, value)
 		_node.Name = value
 	}
-	if value, ok := pc.mutation.Action(); ok {
+	if value, ok := _c.mutation.Action(); ok {
 		_spec.SetField(permission.FieldAction, field.TypeString, value)
 		_node.Action = value
 	}
-	if value, ok := pc.mutation.Subject(); ok {
+	if value, ok := _c.mutation.Subject(); ok {
 		_spec.SetField(permission.FieldSubject, field.TypeString, value)
 		_node.Subject = value
 	}
-	if value, ok := pc.mutation.Description(); ok {
+	if value, ok := _c.mutation.Description(); ok {
 		_spec.SetField(permission.FieldDescription, field.TypeString, value)
 		_node.Description = value
 	}
-	if value, ok := pc.mutation.Default(); ok {
+	if value, ok := _c.mutation.Default(); ok {
 		_spec.SetField(permission.FieldDefault, field.TypeBool, value)
 		_node.Default = value
 	}
-	if value, ok := pc.mutation.Disabled(); ok {
+	if value, ok := _c.mutation.Disabled(); ok {
 		_spec.SetField(permission.FieldDisabled, field.TypeBool, value)
 		_node.Disabled = value
 	}
-	if value, ok := pc.mutation.Extras(); ok {
+	if value, ok := _c.mutation.Extras(); ok {
 		_spec.SetField(permission.FieldExtras, field.TypeJSON, value)
 		_node.Extras = value
 	}
-	if value, ok := pc.mutation.CreatedBy(); ok {
+	if value, ok := _c.mutation.CreatedBy(); ok {
 		_spec.SetField(permission.FieldCreatedBy, field.TypeString, value)
 		_node.CreatedBy = value
 	}
-	if value, ok := pc.mutation.UpdatedBy(); ok {
+	if value, ok := _c.mutation.UpdatedBy(); ok {
 		_spec.SetField(permission.FieldUpdatedBy, field.TypeString, value)
 		_node.UpdatedBy = value
 	}
-	if value, ok := pc.mutation.CreatedAt(); ok {
+	if value, ok := _c.mutation.CreatedAt(); ok {
 		_spec.SetField(permission.FieldCreatedAt, field.TypeInt64, value)
 		_node.CreatedAt = value
 	}
-	if value, ok := pc.mutation.UpdatedAt(); ok {
+	if value, ok := _c.mutation.UpdatedAt(); ok {
 		_spec.SetField(permission.FieldUpdatedAt, field.TypeInt64, value)
 		_node.UpdatedAt = value
 	}
@@ -336,16 +336,16 @@ type PermissionCreateBulk struct {
 }
 
 // Save creates the Permission entities in the database.
-func (pcb *PermissionCreateBulk) Save(ctx context.Context) ([]*Permission, error) {
-	if pcb.err != nil {
-		return nil, pcb.err
+func (_c *PermissionCreateBulk) Save(ctx context.Context) ([]*Permission, error) {
+	if _c.err != nil {
+		return nil, _c.err
 	}
-	specs := make([]*sqlgraph.CreateSpec, len(pcb.builders))
-	nodes := make([]*Permission, len(pcb.builders))
-	mutators := make([]Mutator, len(pcb.builders))
-	for i := range pcb.builders {
+	specs := make([]*sqlgraph.CreateSpec, len(_c.builders))
+	nodes := make([]*Permission, len(_c.builders))
+	mutators := make([]Mutator, len(_c.builders))
+	for i := range _c.builders {
 		func(i int, root context.Context) {
-			builder := pcb.builders[i]
+			builder := _c.builders[i]
 			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*PermissionMutation)
@@ -359,11 +359,11 @@ func (pcb *PermissionCreateBulk) Save(ctx context.Context) ([]*Permission, error
 				var err error
 				nodes[i], specs[i] = builder.createSpec()
 				if i < len(mutators)-1 {
-					_, err = mutators[i+1].Mutate(root, pcb.builders[i+1].mutation)
+					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
 					// Invoke the actual operation on the latest mutation in the chain.
-					if err = sqlgraph.BatchCreate(ctx, pcb.driver, spec); err != nil {
+					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
 							err = &ConstraintError{msg: err.Error(), wrap: err}
 						}
@@ -383,7 +383,7 @@ func (pcb *PermissionCreateBulk) Save(ctx context.Context) ([]*Permission, error
 		}(i, ctx)
 	}
 	if len(mutators) > 0 {
-		if _, err := mutators[0].Mutate(ctx, pcb.builders[0].mutation); err != nil {
+		if _, err := mutators[0].Mutate(ctx, _c.builders[0].mutation); err != nil {
 			return nil, err
 		}
 	}
@@ -391,8 +391,8 @@ func (pcb *PermissionCreateBulk) Save(ctx context.Context) ([]*Permission, error
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (pcb *PermissionCreateBulk) SaveX(ctx context.Context) []*Permission {
-	v, err := pcb.Save(ctx)
+func (_c *PermissionCreateBulk) SaveX(ctx context.Context) []*Permission {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -400,14 +400,14 @@ func (pcb *PermissionCreateBulk) SaveX(ctx context.Context) []*Permission {
 }
 
 // Exec executes the query.
-func (pcb *PermissionCreateBulk) Exec(ctx context.Context) error {
-	_, err := pcb.Save(ctx)
+func (_c *PermissionCreateBulk) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (pcb *PermissionCreateBulk) ExecX(ctx context.Context) {
-	if err := pcb.Exec(ctx); err != nil {
+func (_c *PermissionCreateBulk) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

@@ -28,40 +28,40 @@ type PaymentChannelQuery struct {
 }
 
 // Where adds a new predicate for the PaymentChannelQuery builder.
-func (pcq *PaymentChannelQuery) Where(ps ...predicate.PaymentChannel) *PaymentChannelQuery {
-	pcq.predicates = append(pcq.predicates, ps...)
-	return pcq
+func (_q *PaymentChannelQuery) Where(ps ...predicate.PaymentChannel) *PaymentChannelQuery {
+	_q.predicates = append(_q.predicates, ps...)
+	return _q
 }
 
 // Limit the number of records to be returned by this query.
-func (pcq *PaymentChannelQuery) Limit(limit int) *PaymentChannelQuery {
-	pcq.ctx.Limit = &limit
-	return pcq
+func (_q *PaymentChannelQuery) Limit(limit int) *PaymentChannelQuery {
+	_q.ctx.Limit = &limit
+	return _q
 }
 
 // Offset to start from.
-func (pcq *PaymentChannelQuery) Offset(offset int) *PaymentChannelQuery {
-	pcq.ctx.Offset = &offset
-	return pcq
+func (_q *PaymentChannelQuery) Offset(offset int) *PaymentChannelQuery {
+	_q.ctx.Offset = &offset
+	return _q
 }
 
 // Unique configures the query builder to filter duplicate records on query.
 // By default, unique is set to true, and can be disabled using this method.
-func (pcq *PaymentChannelQuery) Unique(unique bool) *PaymentChannelQuery {
-	pcq.ctx.Unique = &unique
-	return pcq
+func (_q *PaymentChannelQuery) Unique(unique bool) *PaymentChannelQuery {
+	_q.ctx.Unique = &unique
+	return _q
 }
 
 // Order specifies how the records should be ordered.
-func (pcq *PaymentChannelQuery) Order(o ...paymentchannel.OrderOption) *PaymentChannelQuery {
-	pcq.order = append(pcq.order, o...)
-	return pcq
+func (_q *PaymentChannelQuery) Order(o ...paymentchannel.OrderOption) *PaymentChannelQuery {
+	_q.order = append(_q.order, o...)
+	return _q
 }
 
 // First returns the first PaymentChannel entity from the query.
 // Returns a *NotFoundError when no PaymentChannel was found.
-func (pcq *PaymentChannelQuery) First(ctx context.Context) (*PaymentChannel, error) {
-	nodes, err := pcq.Limit(1).All(setContextOp(ctx, pcq.ctx, ent.OpQueryFirst))
+func (_q *PaymentChannelQuery) First(ctx context.Context) (*PaymentChannel, error) {
+	nodes, err := _q.Limit(1).All(setContextOp(ctx, _q.ctx, ent.OpQueryFirst))
 	if err != nil {
 		return nil, err
 	}
@@ -72,8 +72,8 @@ func (pcq *PaymentChannelQuery) First(ctx context.Context) (*PaymentChannel, err
 }
 
 // FirstX is like First, but panics if an error occurs.
-func (pcq *PaymentChannelQuery) FirstX(ctx context.Context) *PaymentChannel {
-	node, err := pcq.First(ctx)
+func (_q *PaymentChannelQuery) FirstX(ctx context.Context) *PaymentChannel {
+	node, err := _q.First(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
 	}
@@ -82,9 +82,9 @@ func (pcq *PaymentChannelQuery) FirstX(ctx context.Context) *PaymentChannel {
 
 // FirstID returns the first PaymentChannel ID from the query.
 // Returns a *NotFoundError when no PaymentChannel ID was found.
-func (pcq *PaymentChannelQuery) FirstID(ctx context.Context) (id string, err error) {
+func (_q *PaymentChannelQuery) FirstID(ctx context.Context) (id string, err error) {
 	var ids []string
-	if ids, err = pcq.Limit(1).IDs(setContextOp(ctx, pcq.ctx, ent.OpQueryFirstID)); err != nil {
+	if ids, err = _q.Limit(1).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryFirstID)); err != nil {
 		return
 	}
 	if len(ids) == 0 {
@@ -95,8 +95,8 @@ func (pcq *PaymentChannelQuery) FirstID(ctx context.Context) (id string, err err
 }
 
 // FirstIDX is like FirstID, but panics if an error occurs.
-func (pcq *PaymentChannelQuery) FirstIDX(ctx context.Context) string {
-	id, err := pcq.FirstID(ctx)
+func (_q *PaymentChannelQuery) FirstIDX(ctx context.Context) string {
+	id, err := _q.FirstID(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
 	}
@@ -106,8 +106,8 @@ func (pcq *PaymentChannelQuery) FirstIDX(ctx context.Context) string {
 // Only returns a single PaymentChannel entity found by the query, ensuring it only returns one.
 // Returns a *NotSingularError when more than one PaymentChannel entity is found.
 // Returns a *NotFoundError when no PaymentChannel entities are found.
-func (pcq *PaymentChannelQuery) Only(ctx context.Context) (*PaymentChannel, error) {
-	nodes, err := pcq.Limit(2).All(setContextOp(ctx, pcq.ctx, ent.OpQueryOnly))
+func (_q *PaymentChannelQuery) Only(ctx context.Context) (*PaymentChannel, error) {
+	nodes, err := _q.Limit(2).All(setContextOp(ctx, _q.ctx, ent.OpQueryOnly))
 	if err != nil {
 		return nil, err
 	}
@@ -122,8 +122,8 @@ func (pcq *PaymentChannelQuery) Only(ctx context.Context) (*PaymentChannel, erro
 }
 
 // OnlyX is like Only, but panics if an error occurs.
-func (pcq *PaymentChannelQuery) OnlyX(ctx context.Context) *PaymentChannel {
-	node, err := pcq.Only(ctx)
+func (_q *PaymentChannelQuery) OnlyX(ctx context.Context) *PaymentChannel {
+	node, err := _q.Only(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -133,9 +133,9 @@ func (pcq *PaymentChannelQuery) OnlyX(ctx context.Context) *PaymentChannel {
 // OnlyID is like Only, but returns the only PaymentChannel ID in the query.
 // Returns a *NotSingularError when more than one PaymentChannel ID is found.
 // Returns a *NotFoundError when no entities are found.
-func (pcq *PaymentChannelQuery) OnlyID(ctx context.Context) (id string, err error) {
+func (_q *PaymentChannelQuery) OnlyID(ctx context.Context) (id string, err error) {
 	var ids []string
-	if ids, err = pcq.Limit(2).IDs(setContextOp(ctx, pcq.ctx, ent.OpQueryOnlyID)); err != nil {
+	if ids, err = _q.Limit(2).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryOnlyID)); err != nil {
 		return
 	}
 	switch len(ids) {
@@ -150,8 +150,8 @@ func (pcq *PaymentChannelQuery) OnlyID(ctx context.Context) (id string, err erro
 }
 
 // OnlyIDX is like OnlyID, but panics if an error occurs.
-func (pcq *PaymentChannelQuery) OnlyIDX(ctx context.Context) string {
-	id, err := pcq.OnlyID(ctx)
+func (_q *PaymentChannelQuery) OnlyIDX(ctx context.Context) string {
+	id, err := _q.OnlyID(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -159,18 +159,18 @@ func (pcq *PaymentChannelQuery) OnlyIDX(ctx context.Context) string {
 }
 
 // All executes the query and returns a list of PaymentChannels.
-func (pcq *PaymentChannelQuery) All(ctx context.Context) ([]*PaymentChannel, error) {
-	ctx = setContextOp(ctx, pcq.ctx, ent.OpQueryAll)
-	if err := pcq.prepareQuery(ctx); err != nil {
+func (_q *PaymentChannelQuery) All(ctx context.Context) ([]*PaymentChannel, error) {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryAll)
+	if err := _q.prepareQuery(ctx); err != nil {
 		return nil, err
 	}
 	qr := querierAll[[]*PaymentChannel, *PaymentChannelQuery]()
-	return withInterceptors[[]*PaymentChannel](ctx, pcq, qr, pcq.inters)
+	return withInterceptors[[]*PaymentChannel](ctx, _q, qr, _q.inters)
 }
 
 // AllX is like All, but panics if an error occurs.
-func (pcq *PaymentChannelQuery) AllX(ctx context.Context) []*PaymentChannel {
-	nodes, err := pcq.All(ctx)
+func (_q *PaymentChannelQuery) AllX(ctx context.Context) []*PaymentChannel {
+	nodes, err := _q.All(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -178,20 +178,20 @@ func (pcq *PaymentChannelQuery) AllX(ctx context.Context) []*PaymentChannel {
 }
 
 // IDs executes the query and returns a list of PaymentChannel IDs.
-func (pcq *PaymentChannelQuery) IDs(ctx context.Context) (ids []string, err error) {
-	if pcq.ctx.Unique == nil && pcq.path != nil {
-		pcq.Unique(true)
+func (_q *PaymentChannelQuery) IDs(ctx context.Context) (ids []string, err error) {
+	if _q.ctx.Unique == nil && _q.path != nil {
+		_q.Unique(true)
 	}
-	ctx = setContextOp(ctx, pcq.ctx, ent.OpQueryIDs)
-	if err = pcq.Select(paymentchannel.FieldID).Scan(ctx, &ids); err != nil {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryIDs)
+	if err = _q.Select(paymentchannel.FieldID).Scan(ctx, &ids); err != nil {
 		return nil, err
 	}
 	return ids, nil
 }
 
 // IDsX is like IDs, but panics if an error occurs.
-func (pcq *PaymentChannelQuery) IDsX(ctx context.Context) []string {
-	ids, err := pcq.IDs(ctx)
+func (_q *PaymentChannelQuery) IDsX(ctx context.Context) []string {
+	ids, err := _q.IDs(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -199,17 +199,17 @@ func (pcq *PaymentChannelQuery) IDsX(ctx context.Context) []string {
 }
 
 // Count returns the count of the given query.
-func (pcq *PaymentChannelQuery) Count(ctx context.Context) (int, error) {
-	ctx = setContextOp(ctx, pcq.ctx, ent.OpQueryCount)
-	if err := pcq.prepareQuery(ctx); err != nil {
+func (_q *PaymentChannelQuery) Count(ctx context.Context) (int, error) {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryCount)
+	if err := _q.prepareQuery(ctx); err != nil {
 		return 0, err
 	}
-	return withInterceptors[int](ctx, pcq, querierCount[*PaymentChannelQuery](), pcq.inters)
+	return withInterceptors[int](ctx, _q, querierCount[*PaymentChannelQuery](), _q.inters)
 }
 
 // CountX is like Count, but panics if an error occurs.
-func (pcq *PaymentChannelQuery) CountX(ctx context.Context) int {
-	count, err := pcq.Count(ctx)
+func (_q *PaymentChannelQuery) CountX(ctx context.Context) int {
+	count, err := _q.Count(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -217,9 +217,9 @@ func (pcq *PaymentChannelQuery) CountX(ctx context.Context) int {
 }
 
 // Exist returns true if the query has elements in the graph.
-func (pcq *PaymentChannelQuery) Exist(ctx context.Context) (bool, error) {
-	ctx = setContextOp(ctx, pcq.ctx, ent.OpQueryExist)
-	switch _, err := pcq.FirstID(ctx); {
+func (_q *PaymentChannelQuery) Exist(ctx context.Context) (bool, error) {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryExist)
+	switch _, err := _q.FirstID(ctx); {
 	case IsNotFound(err):
 		return false, nil
 	case err != nil:
@@ -230,8 +230,8 @@ func (pcq *PaymentChannelQuery) Exist(ctx context.Context) (bool, error) {
 }
 
 // ExistX is like Exist, but panics if an error occurs.
-func (pcq *PaymentChannelQuery) ExistX(ctx context.Context) bool {
-	exist, err := pcq.Exist(ctx)
+func (_q *PaymentChannelQuery) ExistX(ctx context.Context) bool {
+	exist, err := _q.Exist(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -240,19 +240,19 @@ func (pcq *PaymentChannelQuery) ExistX(ctx context.Context) bool {
 
 // Clone returns a duplicate of the PaymentChannelQuery builder, including all associated steps. It can be
 // used to prepare common query builders and use them differently after the clone is made.
-func (pcq *PaymentChannelQuery) Clone() *PaymentChannelQuery {
-	if pcq == nil {
+func (_q *PaymentChannelQuery) Clone() *PaymentChannelQuery {
+	if _q == nil {
 		return nil
 	}
 	return &PaymentChannelQuery{
-		config:     pcq.config,
-		ctx:        pcq.ctx.Clone(),
-		order:      append([]paymentchannel.OrderOption{}, pcq.order...),
-		inters:     append([]Interceptor{}, pcq.inters...),
-		predicates: append([]predicate.PaymentChannel{}, pcq.predicates...),
+		config:     _q.config,
+		ctx:        _q.ctx.Clone(),
+		order:      append([]paymentchannel.OrderOption{}, _q.order...),
+		inters:     append([]Interceptor{}, _q.inters...),
+		predicates: append([]predicate.PaymentChannel{}, _q.predicates...),
 		// clone intermediate query.
-		sql:  pcq.sql.Clone(),
-		path: pcq.path,
+		sql:  _q.sql.Clone(),
+		path: _q.path,
 	}
 }
 
@@ -270,10 +270,10 @@ func (pcq *PaymentChannelQuery) Clone() *PaymentChannelQuery {
 //		GroupBy(paymentchannel.FieldName).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
-func (pcq *PaymentChannelQuery) GroupBy(field string, fields ...string) *PaymentChannelGroupBy {
-	pcq.ctx.Fields = append([]string{field}, fields...)
-	grbuild := &PaymentChannelGroupBy{build: pcq}
-	grbuild.flds = &pcq.ctx.Fields
+func (_q *PaymentChannelQuery) GroupBy(field string, fields ...string) *PaymentChannelGroupBy {
+	_q.ctx.Fields = append([]string{field}, fields...)
+	grbuild := &PaymentChannelGroupBy{build: _q}
+	grbuild.flds = &_q.ctx.Fields
 	grbuild.label = paymentchannel.Label
 	grbuild.scan = grbuild.Scan
 	return grbuild
@@ -291,62 +291,62 @@ func (pcq *PaymentChannelQuery) GroupBy(field string, fields ...string) *Payment
 //	client.PaymentChannel.Query().
 //		Select(paymentchannel.FieldName).
 //		Scan(ctx, &v)
-func (pcq *PaymentChannelQuery) Select(fields ...string) *PaymentChannelSelect {
-	pcq.ctx.Fields = append(pcq.ctx.Fields, fields...)
-	sbuild := &PaymentChannelSelect{PaymentChannelQuery: pcq}
+func (_q *PaymentChannelQuery) Select(fields ...string) *PaymentChannelSelect {
+	_q.ctx.Fields = append(_q.ctx.Fields, fields...)
+	sbuild := &PaymentChannelSelect{PaymentChannelQuery: _q}
 	sbuild.label = paymentchannel.Label
-	sbuild.flds, sbuild.scan = &pcq.ctx.Fields, sbuild.Scan
+	sbuild.flds, sbuild.scan = &_q.ctx.Fields, sbuild.Scan
 	return sbuild
 }
 
 // Aggregate returns a PaymentChannelSelect configured with the given aggregations.
-func (pcq *PaymentChannelQuery) Aggregate(fns ...AggregateFunc) *PaymentChannelSelect {
-	return pcq.Select().Aggregate(fns...)
+func (_q *PaymentChannelQuery) Aggregate(fns ...AggregateFunc) *PaymentChannelSelect {
+	return _q.Select().Aggregate(fns...)
 }
 
-func (pcq *PaymentChannelQuery) prepareQuery(ctx context.Context) error {
-	for _, inter := range pcq.inters {
+func (_q *PaymentChannelQuery) prepareQuery(ctx context.Context) error {
+	for _, inter := range _q.inters {
 		if inter == nil {
 			return fmt.Errorf("ent: uninitialized interceptor (forgotten import ent/runtime?)")
 		}
 		if trv, ok := inter.(Traverser); ok {
-			if err := trv.Traverse(ctx, pcq); err != nil {
+			if err := trv.Traverse(ctx, _q); err != nil {
 				return err
 			}
 		}
 	}
-	for _, f := range pcq.ctx.Fields {
+	for _, f := range _q.ctx.Fields {
 		if !paymentchannel.ValidColumn(f) {
 			return &ValidationError{Name: f, err: fmt.Errorf("ent: invalid field %q for query", f)}
 		}
 	}
-	if pcq.path != nil {
-		prev, err := pcq.path(ctx)
+	if _q.path != nil {
+		prev, err := _q.path(ctx)
 		if err != nil {
 			return err
 		}
-		pcq.sql = prev
+		_q.sql = prev
 	}
 	return nil
 }
 
-func (pcq *PaymentChannelQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*PaymentChannel, error) {
+func (_q *PaymentChannelQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*PaymentChannel, error) {
 	var (
 		nodes = []*PaymentChannel{}
-		_spec = pcq.querySpec()
+		_spec = _q.querySpec()
 	)
 	_spec.ScanValues = func(columns []string) ([]any, error) {
 		return (*PaymentChannel).scanValues(nil, columns)
 	}
 	_spec.Assign = func(columns []string, values []any) error {
-		node := &PaymentChannel{config: pcq.config}
+		node := &PaymentChannel{config: _q.config}
 		nodes = append(nodes, node)
 		return node.assignValues(columns, values)
 	}
 	for i := range hooks {
 		hooks[i](ctx, _spec)
 	}
-	if err := sqlgraph.QueryNodes(ctx, pcq.driver, _spec); err != nil {
+	if err := sqlgraph.QueryNodes(ctx, _q.driver, _spec); err != nil {
 		return nil, err
 	}
 	if len(nodes) == 0 {
@@ -355,24 +355,24 @@ func (pcq *PaymentChannelQuery) sqlAll(ctx context.Context, hooks ...queryHook) 
 	return nodes, nil
 }
 
-func (pcq *PaymentChannelQuery) sqlCount(ctx context.Context) (int, error) {
-	_spec := pcq.querySpec()
-	_spec.Node.Columns = pcq.ctx.Fields
-	if len(pcq.ctx.Fields) > 0 {
-		_spec.Unique = pcq.ctx.Unique != nil && *pcq.ctx.Unique
+func (_q *PaymentChannelQuery) sqlCount(ctx context.Context) (int, error) {
+	_spec := _q.querySpec()
+	_spec.Node.Columns = _q.ctx.Fields
+	if len(_q.ctx.Fields) > 0 {
+		_spec.Unique = _q.ctx.Unique != nil && *_q.ctx.Unique
 	}
-	return sqlgraph.CountNodes(ctx, pcq.driver, _spec)
+	return sqlgraph.CountNodes(ctx, _q.driver, _spec)
 }
 
-func (pcq *PaymentChannelQuery) querySpec() *sqlgraph.QuerySpec {
+func (_q *PaymentChannelQuery) querySpec() *sqlgraph.QuerySpec {
 	_spec := sqlgraph.NewQuerySpec(paymentchannel.Table, paymentchannel.Columns, sqlgraph.NewFieldSpec(paymentchannel.FieldID, field.TypeString))
-	_spec.From = pcq.sql
-	if unique := pcq.ctx.Unique; unique != nil {
+	_spec.From = _q.sql
+	if unique := _q.ctx.Unique; unique != nil {
 		_spec.Unique = *unique
-	} else if pcq.path != nil {
+	} else if _q.path != nil {
 		_spec.Unique = true
 	}
-	if fields := pcq.ctx.Fields; len(fields) > 0 {
+	if fields := _q.ctx.Fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, paymentchannel.FieldID)
 		for i := range fields {
@@ -381,20 +381,20 @@ func (pcq *PaymentChannelQuery) querySpec() *sqlgraph.QuerySpec {
 			}
 		}
 	}
-	if ps := pcq.predicates; len(ps) > 0 {
+	if ps := _q.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if limit := pcq.ctx.Limit; limit != nil {
+	if limit := _q.ctx.Limit; limit != nil {
 		_spec.Limit = *limit
 	}
-	if offset := pcq.ctx.Offset; offset != nil {
+	if offset := _q.ctx.Offset; offset != nil {
 		_spec.Offset = *offset
 	}
-	if ps := pcq.order; len(ps) > 0 {
+	if ps := _q.order; len(ps) > 0 {
 		_spec.Order = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
@@ -404,33 +404,33 @@ func (pcq *PaymentChannelQuery) querySpec() *sqlgraph.QuerySpec {
 	return _spec
 }
 
-func (pcq *PaymentChannelQuery) sqlQuery(ctx context.Context) *sql.Selector {
-	builder := sql.Dialect(pcq.driver.Dialect())
+func (_q *PaymentChannelQuery) sqlQuery(ctx context.Context) *sql.Selector {
+	builder := sql.Dialect(_q.driver.Dialect())
 	t1 := builder.Table(paymentchannel.Table)
-	columns := pcq.ctx.Fields
+	columns := _q.ctx.Fields
 	if len(columns) == 0 {
 		columns = paymentchannel.Columns
 	}
 	selector := builder.Select(t1.Columns(columns...)...).From(t1)
-	if pcq.sql != nil {
-		selector = pcq.sql
+	if _q.sql != nil {
+		selector = _q.sql
 		selector.Select(selector.Columns(columns...)...)
 	}
-	if pcq.ctx.Unique != nil && *pcq.ctx.Unique {
+	if _q.ctx.Unique != nil && *_q.ctx.Unique {
 		selector.Distinct()
 	}
-	for _, p := range pcq.predicates {
+	for _, p := range _q.predicates {
 		p(selector)
 	}
-	for _, p := range pcq.order {
+	for _, p := range _q.order {
 		p(selector)
 	}
-	if offset := pcq.ctx.Offset; offset != nil {
+	if offset := _q.ctx.Offset; offset != nil {
 		// limit is mandatory for offset clause. We start
 		// with default value, and override it below if needed.
 		selector.Offset(*offset).Limit(math.MaxInt32)
 	}
-	if limit := pcq.ctx.Limit; limit != nil {
+	if limit := _q.ctx.Limit; limit != nil {
 		selector.Limit(*limit)
 	}
 	return selector
@@ -443,41 +443,41 @@ type PaymentChannelGroupBy struct {
 }
 
 // Aggregate adds the given aggregation functions to the group-by query.
-func (pcgb *PaymentChannelGroupBy) Aggregate(fns ...AggregateFunc) *PaymentChannelGroupBy {
-	pcgb.fns = append(pcgb.fns, fns...)
-	return pcgb
+func (_g *PaymentChannelGroupBy) Aggregate(fns ...AggregateFunc) *PaymentChannelGroupBy {
+	_g.fns = append(_g.fns, fns...)
+	return _g
 }
 
 // Scan applies the selector query and scans the result into the given value.
-func (pcgb *PaymentChannelGroupBy) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, pcgb.build.ctx, ent.OpQueryGroupBy)
-	if err := pcgb.build.prepareQuery(ctx); err != nil {
+func (_g *PaymentChannelGroupBy) Scan(ctx context.Context, v any) error {
+	ctx = setContextOp(ctx, _g.build.ctx, ent.OpQueryGroupBy)
+	if err := _g.build.prepareQuery(ctx); err != nil {
 		return err
 	}
-	return scanWithInterceptors[*PaymentChannelQuery, *PaymentChannelGroupBy](ctx, pcgb.build, pcgb, pcgb.build.inters, v)
+	return scanWithInterceptors[*PaymentChannelQuery, *PaymentChannelGroupBy](ctx, _g.build, _g, _g.build.inters, v)
 }
 
-func (pcgb *PaymentChannelGroupBy) sqlScan(ctx context.Context, root *PaymentChannelQuery, v any) error {
+func (_g *PaymentChannelGroupBy) sqlScan(ctx context.Context, root *PaymentChannelQuery, v any) error {
 	selector := root.sqlQuery(ctx).Select()
-	aggregation := make([]string, 0, len(pcgb.fns))
-	for _, fn := range pcgb.fns {
+	aggregation := make([]string, 0, len(_g.fns))
+	for _, fn := range _g.fns {
 		aggregation = append(aggregation, fn(selector))
 	}
 	if len(selector.SelectedColumns()) == 0 {
-		columns := make([]string, 0, len(*pcgb.flds)+len(pcgb.fns))
-		for _, f := range *pcgb.flds {
+		columns := make([]string, 0, len(*_g.flds)+len(_g.fns))
+		for _, f := range *_g.flds {
 			columns = append(columns, selector.C(f))
 		}
 		columns = append(columns, aggregation...)
 		selector.Select(columns...)
 	}
-	selector.GroupBy(selector.Columns(*pcgb.flds...)...)
+	selector.GroupBy(selector.Columns(*_g.flds...)...)
 	if err := selector.Err(); err != nil {
 		return err
 	}
 	rows := &sql.Rows{}
 	query, args := selector.Query()
-	if err := pcgb.build.driver.Query(ctx, query, args, rows); err != nil {
+	if err := _g.build.driver.Query(ctx, query, args, rows); err != nil {
 		return err
 	}
 	defer rows.Close()
@@ -491,27 +491,27 @@ type PaymentChannelSelect struct {
 }
 
 // Aggregate adds the given aggregation functions to the selector query.
-func (pcs *PaymentChannelSelect) Aggregate(fns ...AggregateFunc) *PaymentChannelSelect {
-	pcs.fns = append(pcs.fns, fns...)
-	return pcs
+func (_s *PaymentChannelSelect) Aggregate(fns ...AggregateFunc) *PaymentChannelSelect {
+	_s.fns = append(_s.fns, fns...)
+	return _s
 }
 
 // Scan applies the selector query and scans the result into the given value.
-func (pcs *PaymentChannelSelect) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, pcs.ctx, ent.OpQuerySelect)
-	if err := pcs.prepareQuery(ctx); err != nil {
+func (_s *PaymentChannelSelect) Scan(ctx context.Context, v any) error {
+	ctx = setContextOp(ctx, _s.ctx, ent.OpQuerySelect)
+	if err := _s.prepareQuery(ctx); err != nil {
 		return err
 	}
-	return scanWithInterceptors[*PaymentChannelQuery, *PaymentChannelSelect](ctx, pcs.PaymentChannelQuery, pcs, pcs.inters, v)
+	return scanWithInterceptors[*PaymentChannelQuery, *PaymentChannelSelect](ctx, _s.PaymentChannelQuery, _s, _s.inters, v)
 }
 
-func (pcs *PaymentChannelSelect) sqlScan(ctx context.Context, root *PaymentChannelQuery, v any) error {
+func (_s *PaymentChannelSelect) sqlScan(ctx context.Context, root *PaymentChannelQuery, v any) error {
 	selector := root.sqlQuery(ctx)
-	aggregation := make([]string, 0, len(pcs.fns))
-	for _, fn := range pcs.fns {
+	aggregation := make([]string, 0, len(_s.fns))
+	for _, fn := range _s.fns {
 		aggregation = append(aggregation, fn(selector))
 	}
-	switch n := len(*pcs.selector.flds); {
+	switch n := len(*_s.selector.flds); {
 	case n == 0 && len(aggregation) > 0:
 		selector.Select(aggregation...)
 	case n != 0 && len(aggregation) > 0:
@@ -519,7 +519,7 @@ func (pcs *PaymentChannelSelect) sqlScan(ctx context.Context, root *PaymentChann
 	}
 	rows := &sql.Rows{}
 	query, args := selector.Query()
-	if err := pcs.driver.Query(ctx, query, args, rows); err != nil {
+	if err := _s.driver.Query(ctx, query, args, rows); err != nil {
 		return err
 	}
 	defer rows.Close()

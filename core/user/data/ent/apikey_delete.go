@@ -20,56 +20,56 @@ type ApiKeyDelete struct {
 }
 
 // Where appends a list predicates to the ApiKeyDelete builder.
-func (akd *ApiKeyDelete) Where(ps ...predicate.ApiKey) *ApiKeyDelete {
-	akd.mutation.Where(ps...)
-	return akd
+func (_d *ApiKeyDelete) Where(ps ...predicate.ApiKey) *ApiKeyDelete {
+	_d.mutation.Where(ps...)
+	return _d
 }
 
 // Exec executes the deletion query and returns how many vertices were deleted.
-func (akd *ApiKeyDelete) Exec(ctx context.Context) (int, error) {
-	return withHooks(ctx, akd.sqlExec, akd.mutation, akd.hooks)
+func (_d *ApiKeyDelete) Exec(ctx context.Context) (int, error) {
+	return withHooks(ctx, _d.sqlExec, _d.mutation, _d.hooks)
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (akd *ApiKeyDelete) ExecX(ctx context.Context) int {
-	n, err := akd.Exec(ctx)
+func (_d *ApiKeyDelete) ExecX(ctx context.Context) int {
+	n, err := _d.Exec(ctx)
 	if err != nil {
 		panic(err)
 	}
 	return n
 }
 
-func (akd *ApiKeyDelete) sqlExec(ctx context.Context) (int, error) {
+func (_d *ApiKeyDelete) sqlExec(ctx context.Context) (int, error) {
 	_spec := sqlgraph.NewDeleteSpec(apikey.Table, sqlgraph.NewFieldSpec(apikey.FieldID, field.TypeString))
-	if ps := akd.mutation.predicates; len(ps) > 0 {
+	if ps := _d.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	affected, err := sqlgraph.DeleteNodes(ctx, akd.driver, _spec)
+	affected, err := sqlgraph.DeleteNodes(ctx, _d.driver, _spec)
 	if err != nil && sqlgraph.IsConstraintError(err) {
 		err = &ConstraintError{msg: err.Error(), wrap: err}
 	}
-	akd.mutation.done = true
+	_d.mutation.done = true
 	return affected, err
 }
 
 // ApiKeyDeleteOne is the builder for deleting a single ApiKey entity.
 type ApiKeyDeleteOne struct {
-	akd *ApiKeyDelete
+	_d *ApiKeyDelete
 }
 
 // Where appends a list predicates to the ApiKeyDelete builder.
-func (akdo *ApiKeyDeleteOne) Where(ps ...predicate.ApiKey) *ApiKeyDeleteOne {
-	akdo.akd.mutation.Where(ps...)
-	return akdo
+func (_d *ApiKeyDeleteOne) Where(ps ...predicate.ApiKey) *ApiKeyDeleteOne {
+	_d._d.mutation.Where(ps...)
+	return _d
 }
 
 // Exec executes the deletion query.
-func (akdo *ApiKeyDeleteOne) Exec(ctx context.Context) error {
-	n, err := akdo.akd.Exec(ctx)
+func (_d *ApiKeyDeleteOne) Exec(ctx context.Context) error {
+	n, err := _d._d.Exec(ctx)
 	switch {
 	case err != nil:
 		return err
@@ -81,8 +81,8 @@ func (akdo *ApiKeyDeleteOne) Exec(ctx context.Context) error {
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (akdo *ApiKeyDeleteOne) ExecX(ctx context.Context) {
-	if err := akdo.Exec(ctx); err != nil {
+func (_d *ApiKeyDeleteOne) ExecX(ctx context.Context) {
+	if err := _d.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

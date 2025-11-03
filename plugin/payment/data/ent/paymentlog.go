@@ -93,7 +93,7 @@ func (*PaymentLog) scanValues(columns []string) ([]any, error) {
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
 // to the PaymentLog fields.
-func (pl *PaymentLog) assignValues(columns []string, values []any) error {
+func (_m *PaymentLog) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
@@ -103,13 +103,13 @@ func (pl *PaymentLog) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field id", values[i])
 			} else if value.Valid {
-				pl.ID = value.String
+				_m.ID = value.String
 			}
 		case paymentlog.FieldExtras:
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field extras", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &pl.Extras); err != nil {
+				if err := json.Unmarshal(*value, &_m.Extras); err != nil {
 					return fmt.Errorf("unmarshal field extras: %w", err)
 				}
 			}
@@ -117,82 +117,82 @@ func (pl *PaymentLog) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field created_at", values[i])
 			} else if value.Valid {
-				pl.CreatedAt = value.Int64
+				_m.CreatedAt = value.Int64
 			}
 		case paymentlog.FieldUpdatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_at", values[i])
 			} else if value.Valid {
-				pl.UpdatedAt = value.Int64
+				_m.UpdatedAt = value.Int64
 			}
 		case paymentlog.FieldOrderID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field order_id", values[i])
 			} else if value.Valid {
-				pl.OrderID = value.String
+				_m.OrderID = value.String
 			}
 		case paymentlog.FieldChannelID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field channel_id", values[i])
 			} else if value.Valid {
-				pl.ChannelID = value.String
+				_m.ChannelID = value.String
 			}
 		case paymentlog.FieldType:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field type", values[i])
 			} else if value.Valid {
-				pl.Type = value.String
+				_m.Type = value.String
 			}
 		case paymentlog.FieldStatusBefore:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field status_before", values[i])
 			} else if value.Valid {
-				pl.StatusBefore = value.String
+				_m.StatusBefore = value.String
 			}
 		case paymentlog.FieldStatusAfter:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field status_after", values[i])
 			} else if value.Valid {
-				pl.StatusAfter = value.String
+				_m.StatusAfter = value.String
 			}
 		case paymentlog.FieldRequestData:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field request_data", values[i])
 			} else if value.Valid {
-				pl.RequestData = value.String
+				_m.RequestData = value.String
 			}
 		case paymentlog.FieldResponseData:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field response_data", values[i])
 			} else if value.Valid {
-				pl.ResponseData = value.String
+				_m.ResponseData = value.String
 			}
 		case paymentlog.FieldIP:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field ip", values[i])
 			} else if value.Valid {
-				pl.IP = value.String
+				_m.IP = value.String
 			}
 		case paymentlog.FieldUserAgent:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field user_agent", values[i])
 			} else if value.Valid {
-				pl.UserAgent = value.String
+				_m.UserAgent = value.String
 			}
 		case paymentlog.FieldUserID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field user_id", values[i])
 			} else if value.Valid {
-				pl.UserID = value.String
+				_m.UserID = value.String
 			}
 		case paymentlog.FieldError:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field error", values[i])
 			} else if value.Valid {
-				pl.Error = value.String
+				_m.Error = value.String
 			}
 		default:
-			pl.selectValues.Set(columns[i], values[i])
+			_m.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
@@ -200,79 +200,79 @@ func (pl *PaymentLog) assignValues(columns []string, values []any) error {
 
 // Value returns the ent.Value that was dynamically selected and assigned to the PaymentLog.
 // This includes values selected through modifiers, order, etc.
-func (pl *PaymentLog) Value(name string) (ent.Value, error) {
-	return pl.selectValues.Get(name)
+func (_m *PaymentLog) Value(name string) (ent.Value, error) {
+	return _m.selectValues.Get(name)
 }
 
 // QueryOrder queries the "order" edge of the PaymentLog entity.
-func (pl *PaymentLog) QueryOrder() *PaymentOrderQuery {
-	return NewPaymentLogClient(pl.config).QueryOrder(pl)
+func (_m *PaymentLog) QueryOrder() *PaymentOrderQuery {
+	return NewPaymentLogClient(_m.config).QueryOrder(_m)
 }
 
 // Update returns a builder for updating this PaymentLog.
 // Note that you need to call PaymentLog.Unwrap() before calling this method if this PaymentLog
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (pl *PaymentLog) Update() *PaymentLogUpdateOne {
-	return NewPaymentLogClient(pl.config).UpdateOne(pl)
+func (_m *PaymentLog) Update() *PaymentLogUpdateOne {
+	return NewPaymentLogClient(_m.config).UpdateOne(_m)
 }
 
 // Unwrap unwraps the PaymentLog entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (pl *PaymentLog) Unwrap() *PaymentLog {
-	_tx, ok := pl.config.driver.(*txDriver)
+func (_m *PaymentLog) Unwrap() *PaymentLog {
+	_tx, ok := _m.config.driver.(*txDriver)
 	if !ok {
 		panic("ent: PaymentLog is not a transactional entity")
 	}
-	pl.config.driver = _tx.drv
-	return pl
+	_m.config.driver = _tx.drv
+	return _m
 }
 
 // String implements the fmt.Stringer.
-func (pl *PaymentLog) String() string {
+func (_m *PaymentLog) String() string {
 	var builder strings.Builder
 	builder.WriteString("PaymentLog(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", pl.ID))
+	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
 	builder.WriteString("extras=")
-	builder.WriteString(fmt.Sprintf("%v", pl.Extras))
+	builder.WriteString(fmt.Sprintf("%v", _m.Extras))
 	builder.WriteString(", ")
 	builder.WriteString("created_at=")
-	builder.WriteString(fmt.Sprintf("%v", pl.CreatedAt))
+	builder.WriteString(fmt.Sprintf("%v", _m.CreatedAt))
 	builder.WriteString(", ")
 	builder.WriteString("updated_at=")
-	builder.WriteString(fmt.Sprintf("%v", pl.UpdatedAt))
+	builder.WriteString(fmt.Sprintf("%v", _m.UpdatedAt))
 	builder.WriteString(", ")
 	builder.WriteString("order_id=")
-	builder.WriteString(pl.OrderID)
+	builder.WriteString(_m.OrderID)
 	builder.WriteString(", ")
 	builder.WriteString("channel_id=")
-	builder.WriteString(pl.ChannelID)
+	builder.WriteString(_m.ChannelID)
 	builder.WriteString(", ")
 	builder.WriteString("type=")
-	builder.WriteString(pl.Type)
+	builder.WriteString(_m.Type)
 	builder.WriteString(", ")
 	builder.WriteString("status_before=")
-	builder.WriteString(pl.StatusBefore)
+	builder.WriteString(_m.StatusBefore)
 	builder.WriteString(", ")
 	builder.WriteString("status_after=")
-	builder.WriteString(pl.StatusAfter)
+	builder.WriteString(_m.StatusAfter)
 	builder.WriteString(", ")
 	builder.WriteString("request_data=")
-	builder.WriteString(pl.RequestData)
+	builder.WriteString(_m.RequestData)
 	builder.WriteString(", ")
 	builder.WriteString("response_data=")
-	builder.WriteString(pl.ResponseData)
+	builder.WriteString(_m.ResponseData)
 	builder.WriteString(", ")
 	builder.WriteString("ip=")
-	builder.WriteString(pl.IP)
+	builder.WriteString(_m.IP)
 	builder.WriteString(", ")
 	builder.WriteString("user_agent=")
-	builder.WriteString(pl.UserAgent)
+	builder.WriteString(_m.UserAgent)
 	builder.WriteString(", ")
 	builder.WriteString("user_id=")
-	builder.WriteString(pl.UserID)
+	builder.WriteString(_m.UserID)
 	builder.WriteString(", ")
 	builder.WriteString("error=")
-	builder.WriteString(pl.Error)
+	builder.WriteString(_m.Error)
 	builder.WriteByte(')')
 	return builder.String()
 }

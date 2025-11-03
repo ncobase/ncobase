@@ -65,7 +65,7 @@ func (*Transformer) scanValues(columns []string) ([]any, error) {
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
 // to the Transformer fields.
-func (t *Transformer) assignValues(columns []string, values []any) error {
+func (_m *Transformer) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
@@ -75,31 +75,31 @@ func (t *Transformer) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field id", values[i])
 			} else if value.Valid {
-				t.ID = value.String
+				_m.ID = value.String
 			}
 		case transformer.FieldName:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field name", values[i])
 			} else if value.Valid {
-				t.Name = value.String
+				_m.Name = value.String
 			}
 		case transformer.FieldDescription:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field description", values[i])
 			} else if value.Valid {
-				t.Description = value.String
+				_m.Description = value.String
 			}
 		case transformer.FieldDisabled:
 			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field disabled", values[i])
 			} else if value.Valid {
-				t.Disabled = value.Bool
+				_m.Disabled = value.Bool
 			}
 		case transformer.FieldExtras:
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field extras", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &t.Extras); err != nil {
+				if err := json.Unmarshal(*value, &_m.Extras); err != nil {
 					return fmt.Errorf("unmarshal field extras: %w", err)
 				}
 			}
@@ -107,46 +107,46 @@ func (t *Transformer) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field created_by", values[i])
 			} else if value.Valid {
-				t.CreatedBy = value.String
+				_m.CreatedBy = value.String
 			}
 		case transformer.FieldUpdatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_by", values[i])
 			} else if value.Valid {
-				t.UpdatedBy = value.String
+				_m.UpdatedBy = value.String
 			}
 		case transformer.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field created_at", values[i])
 			} else if value.Valid {
-				t.CreatedAt = value.Int64
+				_m.CreatedAt = value.Int64
 			}
 		case transformer.FieldUpdatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_at", values[i])
 			} else if value.Valid {
-				t.UpdatedAt = value.Int64
+				_m.UpdatedAt = value.Int64
 			}
 		case transformer.FieldType:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field type", values[i])
 			} else if value.Valid {
-				t.Type = value.String
+				_m.Type = value.String
 			}
 		case transformer.FieldContent:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field content", values[i])
 			} else if value.Valid {
-				t.Content = value.String
+				_m.Content = value.String
 			}
 		case transformer.FieldContentType:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field content_type", values[i])
 			} else if value.Valid {
-				t.ContentType = value.String
+				_m.ContentType = value.String
 			}
 		default:
-			t.selectValues.Set(columns[i], values[i])
+			_m.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
@@ -154,65 +154,65 @@ func (t *Transformer) assignValues(columns []string, values []any) error {
 
 // Value returns the ent.Value that was dynamically selected and assigned to the Transformer.
 // This includes values selected through modifiers, order, etc.
-func (t *Transformer) Value(name string) (ent.Value, error) {
-	return t.selectValues.Get(name)
+func (_m *Transformer) Value(name string) (ent.Value, error) {
+	return _m.selectValues.Get(name)
 }
 
 // Update returns a builder for updating this Transformer.
 // Note that you need to call Transformer.Unwrap() before calling this method if this Transformer
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (t *Transformer) Update() *TransformerUpdateOne {
-	return NewTransformerClient(t.config).UpdateOne(t)
+func (_m *Transformer) Update() *TransformerUpdateOne {
+	return NewTransformerClient(_m.config).UpdateOne(_m)
 }
 
 // Unwrap unwraps the Transformer entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (t *Transformer) Unwrap() *Transformer {
-	_tx, ok := t.config.driver.(*txDriver)
+func (_m *Transformer) Unwrap() *Transformer {
+	_tx, ok := _m.config.driver.(*txDriver)
 	if !ok {
 		panic("ent: Transformer is not a transactional entity")
 	}
-	t.config.driver = _tx.drv
-	return t
+	_m.config.driver = _tx.drv
+	return _m
 }
 
 // String implements the fmt.Stringer.
-func (t *Transformer) String() string {
+func (_m *Transformer) String() string {
 	var builder strings.Builder
 	builder.WriteString("Transformer(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", t.ID))
+	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
 	builder.WriteString("name=")
-	builder.WriteString(t.Name)
+	builder.WriteString(_m.Name)
 	builder.WriteString(", ")
 	builder.WriteString("description=")
-	builder.WriteString(t.Description)
+	builder.WriteString(_m.Description)
 	builder.WriteString(", ")
 	builder.WriteString("disabled=")
-	builder.WriteString(fmt.Sprintf("%v", t.Disabled))
+	builder.WriteString(fmt.Sprintf("%v", _m.Disabled))
 	builder.WriteString(", ")
 	builder.WriteString("extras=")
-	builder.WriteString(fmt.Sprintf("%v", t.Extras))
+	builder.WriteString(fmt.Sprintf("%v", _m.Extras))
 	builder.WriteString(", ")
 	builder.WriteString("created_by=")
-	builder.WriteString(t.CreatedBy)
+	builder.WriteString(_m.CreatedBy)
 	builder.WriteString(", ")
 	builder.WriteString("updated_by=")
-	builder.WriteString(t.UpdatedBy)
+	builder.WriteString(_m.UpdatedBy)
 	builder.WriteString(", ")
 	builder.WriteString("created_at=")
-	builder.WriteString(fmt.Sprintf("%v", t.CreatedAt))
+	builder.WriteString(fmt.Sprintf("%v", _m.CreatedAt))
 	builder.WriteString(", ")
 	builder.WriteString("updated_at=")
-	builder.WriteString(fmt.Sprintf("%v", t.UpdatedAt))
+	builder.WriteString(fmt.Sprintf("%v", _m.UpdatedAt))
 	builder.WriteString(", ")
 	builder.WriteString("type=")
-	builder.WriteString(t.Type)
+	builder.WriteString(_m.Type)
 	builder.WriteString(", ")
 	builder.WriteString("content=")
-	builder.WriteString(t.Content)
+	builder.WriteString(_m.Content)
 	builder.WriteString(", ")
 	builder.WriteString("content_type=")
-	builder.WriteString(t.ContentType)
+	builder.WriteString(_m.ContentType)
 	builder.WriteByte(')')
 	return builder.String()
 }

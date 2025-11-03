@@ -50,7 +50,7 @@ func (*TaxonomyRelation) scanValues(columns []string) ([]any, error) {
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
 // to the TaxonomyRelation fields.
-func (tr *TaxonomyRelation) assignValues(columns []string, values []any) error {
+func (_m *TaxonomyRelation) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
@@ -60,46 +60,46 @@ func (tr *TaxonomyRelation) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field id", values[i])
 			} else if value.Valid {
-				tr.ID = value.String
+				_m.ID = value.String
 			}
 		case taxonomyrelation.FieldObjectID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field object_id", values[i])
 			} else if value.Valid {
-				tr.ObjectID = value.String
+				_m.ObjectID = value.String
 			}
 		case taxonomyrelation.FieldTaxonomyID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field taxonomy_id", values[i])
 			} else if value.Valid {
-				tr.TaxonomyID = value.String
+				_m.TaxonomyID = value.String
 			}
 		case taxonomyrelation.FieldType:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field type", values[i])
 			} else if value.Valid {
-				tr.Type = value.String
+				_m.Type = value.String
 			}
 		case taxonomyrelation.FieldOrder:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field order", values[i])
 			} else if value.Valid {
-				tr.Order = int(value.Int64)
+				_m.Order = int(value.Int64)
 			}
 		case taxonomyrelation.FieldCreatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field created_by", values[i])
 			} else if value.Valid {
-				tr.CreatedBy = value.String
+				_m.CreatedBy = value.String
 			}
 		case taxonomyrelation.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field created_at", values[i])
 			} else if value.Valid {
-				tr.CreatedAt = value.Int64
+				_m.CreatedAt = value.Int64
 			}
 		default:
-			tr.selectValues.Set(columns[i], values[i])
+			_m.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
@@ -107,50 +107,50 @@ func (tr *TaxonomyRelation) assignValues(columns []string, values []any) error {
 
 // Value returns the ent.Value that was dynamically selected and assigned to the TaxonomyRelation.
 // This includes values selected through modifiers, order, etc.
-func (tr *TaxonomyRelation) Value(name string) (ent.Value, error) {
-	return tr.selectValues.Get(name)
+func (_m *TaxonomyRelation) Value(name string) (ent.Value, error) {
+	return _m.selectValues.Get(name)
 }
 
 // Update returns a builder for updating this TaxonomyRelation.
 // Note that you need to call TaxonomyRelation.Unwrap() before calling this method if this TaxonomyRelation
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (tr *TaxonomyRelation) Update() *TaxonomyRelationUpdateOne {
-	return NewTaxonomyRelationClient(tr.config).UpdateOne(tr)
+func (_m *TaxonomyRelation) Update() *TaxonomyRelationUpdateOne {
+	return NewTaxonomyRelationClient(_m.config).UpdateOne(_m)
 }
 
 // Unwrap unwraps the TaxonomyRelation entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (tr *TaxonomyRelation) Unwrap() *TaxonomyRelation {
-	_tx, ok := tr.config.driver.(*txDriver)
+func (_m *TaxonomyRelation) Unwrap() *TaxonomyRelation {
+	_tx, ok := _m.config.driver.(*txDriver)
 	if !ok {
 		panic("ent: TaxonomyRelation is not a transactional entity")
 	}
-	tr.config.driver = _tx.drv
-	return tr
+	_m.config.driver = _tx.drv
+	return _m
 }
 
 // String implements the fmt.Stringer.
-func (tr *TaxonomyRelation) String() string {
+func (_m *TaxonomyRelation) String() string {
 	var builder strings.Builder
 	builder.WriteString("TaxonomyRelation(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", tr.ID))
+	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
 	builder.WriteString("object_id=")
-	builder.WriteString(tr.ObjectID)
+	builder.WriteString(_m.ObjectID)
 	builder.WriteString(", ")
 	builder.WriteString("taxonomy_id=")
-	builder.WriteString(tr.TaxonomyID)
+	builder.WriteString(_m.TaxonomyID)
 	builder.WriteString(", ")
 	builder.WriteString("type=")
-	builder.WriteString(tr.Type)
+	builder.WriteString(_m.Type)
 	builder.WriteString(", ")
 	builder.WriteString("order=")
-	builder.WriteString(fmt.Sprintf("%v", tr.Order))
+	builder.WriteString(fmt.Sprintf("%v", _m.Order))
 	builder.WriteString(", ")
 	builder.WriteString("created_by=")
-	builder.WriteString(tr.CreatedBy)
+	builder.WriteString(_m.CreatedBy)
 	builder.WriteString(", ")
 	builder.WriteString("created_at=")
-	builder.WriteString(fmt.Sprintf("%v", tr.CreatedAt))
+	builder.WriteString(fmt.Sprintf("%v", _m.CreatedAt))
 	builder.WriteByte(')')
 	return builder.String()
 }

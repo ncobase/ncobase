@@ -272,8 +272,8 @@ func (c *OrganizationClient) Update() *OrganizationUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *OrganizationClient) UpdateOne(o *Organization) *OrganizationUpdateOne {
-	mutation := newOrganizationMutation(c.config, OpUpdateOne, withOrganization(o))
+func (c *OrganizationClient) UpdateOne(_m *Organization) *OrganizationUpdateOne {
+	mutation := newOrganizationMutation(c.config, OpUpdateOne, withOrganization(_m))
 	return &OrganizationUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -290,8 +290,8 @@ func (c *OrganizationClient) Delete() *OrganizationDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *OrganizationClient) DeleteOne(o *Organization) *OrganizationDeleteOne {
-	return c.DeleteOneID(o.ID)
+func (c *OrganizationClient) DeleteOne(_m *Organization) *OrganizationDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -405,8 +405,8 @@ func (c *OrganizationRoleClient) Update() *OrganizationRoleUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *OrganizationRoleClient) UpdateOne(or *OrganizationRole) *OrganizationRoleUpdateOne {
-	mutation := newOrganizationRoleMutation(c.config, OpUpdateOne, withOrganizationRole(or))
+func (c *OrganizationRoleClient) UpdateOne(_m *OrganizationRole) *OrganizationRoleUpdateOne {
+	mutation := newOrganizationRoleMutation(c.config, OpUpdateOne, withOrganizationRole(_m))
 	return &OrganizationRoleUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -423,8 +423,8 @@ func (c *OrganizationRoleClient) Delete() *OrganizationRoleDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *OrganizationRoleClient) DeleteOne(or *OrganizationRole) *OrganizationRoleDeleteOne {
-	return c.DeleteOneID(or.ID)
+func (c *OrganizationRoleClient) DeleteOne(_m *OrganizationRole) *OrganizationRoleDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -538,8 +538,8 @@ func (c *UserOrganizationClient) Update() *UserOrganizationUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *UserOrganizationClient) UpdateOne(uo *UserOrganization) *UserOrganizationUpdateOne {
-	mutation := newUserOrganizationMutation(c.config, OpUpdateOne, withUserOrganization(uo))
+func (c *UserOrganizationClient) UpdateOne(_m *UserOrganization) *UserOrganizationUpdateOne {
+	mutation := newUserOrganizationMutation(c.config, OpUpdateOne, withUserOrganization(_m))
 	return &UserOrganizationUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -556,8 +556,8 @@ func (c *UserOrganizationClient) Delete() *UserOrganizationDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *UserOrganizationClient) DeleteOne(uo *UserOrganization) *UserOrganizationDeleteOne {
-	return c.DeleteOneID(uo.ID)
+func (c *UserOrganizationClient) DeleteOne(_m *UserOrganization) *UserOrganizationDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.

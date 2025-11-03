@@ -28,40 +28,40 @@ type UserSpaceRoleQuery struct {
 }
 
 // Where adds a new predicate for the UserSpaceRoleQuery builder.
-func (usrq *UserSpaceRoleQuery) Where(ps ...predicate.UserSpaceRole) *UserSpaceRoleQuery {
-	usrq.predicates = append(usrq.predicates, ps...)
-	return usrq
+func (_q *UserSpaceRoleQuery) Where(ps ...predicate.UserSpaceRole) *UserSpaceRoleQuery {
+	_q.predicates = append(_q.predicates, ps...)
+	return _q
 }
 
 // Limit the number of records to be returned by this query.
-func (usrq *UserSpaceRoleQuery) Limit(limit int) *UserSpaceRoleQuery {
-	usrq.ctx.Limit = &limit
-	return usrq
+func (_q *UserSpaceRoleQuery) Limit(limit int) *UserSpaceRoleQuery {
+	_q.ctx.Limit = &limit
+	return _q
 }
 
 // Offset to start from.
-func (usrq *UserSpaceRoleQuery) Offset(offset int) *UserSpaceRoleQuery {
-	usrq.ctx.Offset = &offset
-	return usrq
+func (_q *UserSpaceRoleQuery) Offset(offset int) *UserSpaceRoleQuery {
+	_q.ctx.Offset = &offset
+	return _q
 }
 
 // Unique configures the query builder to filter duplicate records on query.
 // By default, unique is set to true, and can be disabled using this method.
-func (usrq *UserSpaceRoleQuery) Unique(unique bool) *UserSpaceRoleQuery {
-	usrq.ctx.Unique = &unique
-	return usrq
+func (_q *UserSpaceRoleQuery) Unique(unique bool) *UserSpaceRoleQuery {
+	_q.ctx.Unique = &unique
+	return _q
 }
 
 // Order specifies how the records should be ordered.
-func (usrq *UserSpaceRoleQuery) Order(o ...userspacerole.OrderOption) *UserSpaceRoleQuery {
-	usrq.order = append(usrq.order, o...)
-	return usrq
+func (_q *UserSpaceRoleQuery) Order(o ...userspacerole.OrderOption) *UserSpaceRoleQuery {
+	_q.order = append(_q.order, o...)
+	return _q
 }
 
 // First returns the first UserSpaceRole entity from the query.
 // Returns a *NotFoundError when no UserSpaceRole was found.
-func (usrq *UserSpaceRoleQuery) First(ctx context.Context) (*UserSpaceRole, error) {
-	nodes, err := usrq.Limit(1).All(setContextOp(ctx, usrq.ctx, ent.OpQueryFirst))
+func (_q *UserSpaceRoleQuery) First(ctx context.Context) (*UserSpaceRole, error) {
+	nodes, err := _q.Limit(1).All(setContextOp(ctx, _q.ctx, ent.OpQueryFirst))
 	if err != nil {
 		return nil, err
 	}
@@ -72,8 +72,8 @@ func (usrq *UserSpaceRoleQuery) First(ctx context.Context) (*UserSpaceRole, erro
 }
 
 // FirstX is like First, but panics if an error occurs.
-func (usrq *UserSpaceRoleQuery) FirstX(ctx context.Context) *UserSpaceRole {
-	node, err := usrq.First(ctx)
+func (_q *UserSpaceRoleQuery) FirstX(ctx context.Context) *UserSpaceRole {
+	node, err := _q.First(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
 	}
@@ -82,9 +82,9 @@ func (usrq *UserSpaceRoleQuery) FirstX(ctx context.Context) *UserSpaceRole {
 
 // FirstID returns the first UserSpaceRole ID from the query.
 // Returns a *NotFoundError when no UserSpaceRole ID was found.
-func (usrq *UserSpaceRoleQuery) FirstID(ctx context.Context) (id string, err error) {
+func (_q *UserSpaceRoleQuery) FirstID(ctx context.Context) (id string, err error) {
 	var ids []string
-	if ids, err = usrq.Limit(1).IDs(setContextOp(ctx, usrq.ctx, ent.OpQueryFirstID)); err != nil {
+	if ids, err = _q.Limit(1).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryFirstID)); err != nil {
 		return
 	}
 	if len(ids) == 0 {
@@ -95,8 +95,8 @@ func (usrq *UserSpaceRoleQuery) FirstID(ctx context.Context) (id string, err err
 }
 
 // FirstIDX is like FirstID, but panics if an error occurs.
-func (usrq *UserSpaceRoleQuery) FirstIDX(ctx context.Context) string {
-	id, err := usrq.FirstID(ctx)
+func (_q *UserSpaceRoleQuery) FirstIDX(ctx context.Context) string {
+	id, err := _q.FirstID(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
 	}
@@ -106,8 +106,8 @@ func (usrq *UserSpaceRoleQuery) FirstIDX(ctx context.Context) string {
 // Only returns a single UserSpaceRole entity found by the query, ensuring it only returns one.
 // Returns a *NotSingularError when more than one UserSpaceRole entity is found.
 // Returns a *NotFoundError when no UserSpaceRole entities are found.
-func (usrq *UserSpaceRoleQuery) Only(ctx context.Context) (*UserSpaceRole, error) {
-	nodes, err := usrq.Limit(2).All(setContextOp(ctx, usrq.ctx, ent.OpQueryOnly))
+func (_q *UserSpaceRoleQuery) Only(ctx context.Context) (*UserSpaceRole, error) {
+	nodes, err := _q.Limit(2).All(setContextOp(ctx, _q.ctx, ent.OpQueryOnly))
 	if err != nil {
 		return nil, err
 	}
@@ -122,8 +122,8 @@ func (usrq *UserSpaceRoleQuery) Only(ctx context.Context) (*UserSpaceRole, error
 }
 
 // OnlyX is like Only, but panics if an error occurs.
-func (usrq *UserSpaceRoleQuery) OnlyX(ctx context.Context) *UserSpaceRole {
-	node, err := usrq.Only(ctx)
+func (_q *UserSpaceRoleQuery) OnlyX(ctx context.Context) *UserSpaceRole {
+	node, err := _q.Only(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -133,9 +133,9 @@ func (usrq *UserSpaceRoleQuery) OnlyX(ctx context.Context) *UserSpaceRole {
 // OnlyID is like Only, but returns the only UserSpaceRole ID in the query.
 // Returns a *NotSingularError when more than one UserSpaceRole ID is found.
 // Returns a *NotFoundError when no entities are found.
-func (usrq *UserSpaceRoleQuery) OnlyID(ctx context.Context) (id string, err error) {
+func (_q *UserSpaceRoleQuery) OnlyID(ctx context.Context) (id string, err error) {
 	var ids []string
-	if ids, err = usrq.Limit(2).IDs(setContextOp(ctx, usrq.ctx, ent.OpQueryOnlyID)); err != nil {
+	if ids, err = _q.Limit(2).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryOnlyID)); err != nil {
 		return
 	}
 	switch len(ids) {
@@ -150,8 +150,8 @@ func (usrq *UserSpaceRoleQuery) OnlyID(ctx context.Context) (id string, err erro
 }
 
 // OnlyIDX is like OnlyID, but panics if an error occurs.
-func (usrq *UserSpaceRoleQuery) OnlyIDX(ctx context.Context) string {
-	id, err := usrq.OnlyID(ctx)
+func (_q *UserSpaceRoleQuery) OnlyIDX(ctx context.Context) string {
+	id, err := _q.OnlyID(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -159,18 +159,18 @@ func (usrq *UserSpaceRoleQuery) OnlyIDX(ctx context.Context) string {
 }
 
 // All executes the query and returns a list of UserSpaceRoles.
-func (usrq *UserSpaceRoleQuery) All(ctx context.Context) ([]*UserSpaceRole, error) {
-	ctx = setContextOp(ctx, usrq.ctx, ent.OpQueryAll)
-	if err := usrq.prepareQuery(ctx); err != nil {
+func (_q *UserSpaceRoleQuery) All(ctx context.Context) ([]*UserSpaceRole, error) {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryAll)
+	if err := _q.prepareQuery(ctx); err != nil {
 		return nil, err
 	}
 	qr := querierAll[[]*UserSpaceRole, *UserSpaceRoleQuery]()
-	return withInterceptors[[]*UserSpaceRole](ctx, usrq, qr, usrq.inters)
+	return withInterceptors[[]*UserSpaceRole](ctx, _q, qr, _q.inters)
 }
 
 // AllX is like All, but panics if an error occurs.
-func (usrq *UserSpaceRoleQuery) AllX(ctx context.Context) []*UserSpaceRole {
-	nodes, err := usrq.All(ctx)
+func (_q *UserSpaceRoleQuery) AllX(ctx context.Context) []*UserSpaceRole {
+	nodes, err := _q.All(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -178,20 +178,20 @@ func (usrq *UserSpaceRoleQuery) AllX(ctx context.Context) []*UserSpaceRole {
 }
 
 // IDs executes the query and returns a list of UserSpaceRole IDs.
-func (usrq *UserSpaceRoleQuery) IDs(ctx context.Context) (ids []string, err error) {
-	if usrq.ctx.Unique == nil && usrq.path != nil {
-		usrq.Unique(true)
+func (_q *UserSpaceRoleQuery) IDs(ctx context.Context) (ids []string, err error) {
+	if _q.ctx.Unique == nil && _q.path != nil {
+		_q.Unique(true)
 	}
-	ctx = setContextOp(ctx, usrq.ctx, ent.OpQueryIDs)
-	if err = usrq.Select(userspacerole.FieldID).Scan(ctx, &ids); err != nil {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryIDs)
+	if err = _q.Select(userspacerole.FieldID).Scan(ctx, &ids); err != nil {
 		return nil, err
 	}
 	return ids, nil
 }
 
 // IDsX is like IDs, but panics if an error occurs.
-func (usrq *UserSpaceRoleQuery) IDsX(ctx context.Context) []string {
-	ids, err := usrq.IDs(ctx)
+func (_q *UserSpaceRoleQuery) IDsX(ctx context.Context) []string {
+	ids, err := _q.IDs(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -199,17 +199,17 @@ func (usrq *UserSpaceRoleQuery) IDsX(ctx context.Context) []string {
 }
 
 // Count returns the count of the given query.
-func (usrq *UserSpaceRoleQuery) Count(ctx context.Context) (int, error) {
-	ctx = setContextOp(ctx, usrq.ctx, ent.OpQueryCount)
-	if err := usrq.prepareQuery(ctx); err != nil {
+func (_q *UserSpaceRoleQuery) Count(ctx context.Context) (int, error) {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryCount)
+	if err := _q.prepareQuery(ctx); err != nil {
 		return 0, err
 	}
-	return withInterceptors[int](ctx, usrq, querierCount[*UserSpaceRoleQuery](), usrq.inters)
+	return withInterceptors[int](ctx, _q, querierCount[*UserSpaceRoleQuery](), _q.inters)
 }
 
 // CountX is like Count, but panics if an error occurs.
-func (usrq *UserSpaceRoleQuery) CountX(ctx context.Context) int {
-	count, err := usrq.Count(ctx)
+func (_q *UserSpaceRoleQuery) CountX(ctx context.Context) int {
+	count, err := _q.Count(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -217,9 +217,9 @@ func (usrq *UserSpaceRoleQuery) CountX(ctx context.Context) int {
 }
 
 // Exist returns true if the query has elements in the graph.
-func (usrq *UserSpaceRoleQuery) Exist(ctx context.Context) (bool, error) {
-	ctx = setContextOp(ctx, usrq.ctx, ent.OpQueryExist)
-	switch _, err := usrq.FirstID(ctx); {
+func (_q *UserSpaceRoleQuery) Exist(ctx context.Context) (bool, error) {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryExist)
+	switch _, err := _q.FirstID(ctx); {
 	case IsNotFound(err):
 		return false, nil
 	case err != nil:
@@ -230,8 +230,8 @@ func (usrq *UserSpaceRoleQuery) Exist(ctx context.Context) (bool, error) {
 }
 
 // ExistX is like Exist, but panics if an error occurs.
-func (usrq *UserSpaceRoleQuery) ExistX(ctx context.Context) bool {
-	exist, err := usrq.Exist(ctx)
+func (_q *UserSpaceRoleQuery) ExistX(ctx context.Context) bool {
+	exist, err := _q.Exist(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -240,19 +240,19 @@ func (usrq *UserSpaceRoleQuery) ExistX(ctx context.Context) bool {
 
 // Clone returns a duplicate of the UserSpaceRoleQuery builder, including all associated steps. It can be
 // used to prepare common query builders and use them differently after the clone is made.
-func (usrq *UserSpaceRoleQuery) Clone() *UserSpaceRoleQuery {
-	if usrq == nil {
+func (_q *UserSpaceRoleQuery) Clone() *UserSpaceRoleQuery {
+	if _q == nil {
 		return nil
 	}
 	return &UserSpaceRoleQuery{
-		config:     usrq.config,
-		ctx:        usrq.ctx.Clone(),
-		order:      append([]userspacerole.OrderOption{}, usrq.order...),
-		inters:     append([]Interceptor{}, usrq.inters...),
-		predicates: append([]predicate.UserSpaceRole{}, usrq.predicates...),
+		config:     _q.config,
+		ctx:        _q.ctx.Clone(),
+		order:      append([]userspacerole.OrderOption{}, _q.order...),
+		inters:     append([]Interceptor{}, _q.inters...),
+		predicates: append([]predicate.UserSpaceRole{}, _q.predicates...),
 		// clone intermediate query.
-		sql:  usrq.sql.Clone(),
-		path: usrq.path,
+		sql:  _q.sql.Clone(),
+		path: _q.path,
 	}
 }
 
@@ -270,10 +270,10 @@ func (usrq *UserSpaceRoleQuery) Clone() *UserSpaceRoleQuery {
 //		GroupBy(userspacerole.FieldUserID).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
-func (usrq *UserSpaceRoleQuery) GroupBy(field string, fields ...string) *UserSpaceRoleGroupBy {
-	usrq.ctx.Fields = append([]string{field}, fields...)
-	grbuild := &UserSpaceRoleGroupBy{build: usrq}
-	grbuild.flds = &usrq.ctx.Fields
+func (_q *UserSpaceRoleQuery) GroupBy(field string, fields ...string) *UserSpaceRoleGroupBy {
+	_q.ctx.Fields = append([]string{field}, fields...)
+	grbuild := &UserSpaceRoleGroupBy{build: _q}
+	grbuild.flds = &_q.ctx.Fields
 	grbuild.label = userspacerole.Label
 	grbuild.scan = grbuild.Scan
 	return grbuild
@@ -291,62 +291,62 @@ func (usrq *UserSpaceRoleQuery) GroupBy(field string, fields ...string) *UserSpa
 //	client.UserSpaceRole.Query().
 //		Select(userspacerole.FieldUserID).
 //		Scan(ctx, &v)
-func (usrq *UserSpaceRoleQuery) Select(fields ...string) *UserSpaceRoleSelect {
-	usrq.ctx.Fields = append(usrq.ctx.Fields, fields...)
-	sbuild := &UserSpaceRoleSelect{UserSpaceRoleQuery: usrq}
+func (_q *UserSpaceRoleQuery) Select(fields ...string) *UserSpaceRoleSelect {
+	_q.ctx.Fields = append(_q.ctx.Fields, fields...)
+	sbuild := &UserSpaceRoleSelect{UserSpaceRoleQuery: _q}
 	sbuild.label = userspacerole.Label
-	sbuild.flds, sbuild.scan = &usrq.ctx.Fields, sbuild.Scan
+	sbuild.flds, sbuild.scan = &_q.ctx.Fields, sbuild.Scan
 	return sbuild
 }
 
 // Aggregate returns a UserSpaceRoleSelect configured with the given aggregations.
-func (usrq *UserSpaceRoleQuery) Aggregate(fns ...AggregateFunc) *UserSpaceRoleSelect {
-	return usrq.Select().Aggregate(fns...)
+func (_q *UserSpaceRoleQuery) Aggregate(fns ...AggregateFunc) *UserSpaceRoleSelect {
+	return _q.Select().Aggregate(fns...)
 }
 
-func (usrq *UserSpaceRoleQuery) prepareQuery(ctx context.Context) error {
-	for _, inter := range usrq.inters {
+func (_q *UserSpaceRoleQuery) prepareQuery(ctx context.Context) error {
+	for _, inter := range _q.inters {
 		if inter == nil {
 			return fmt.Errorf("ent: uninitialized interceptor (forgotten import ent/runtime?)")
 		}
 		if trv, ok := inter.(Traverser); ok {
-			if err := trv.Traverse(ctx, usrq); err != nil {
+			if err := trv.Traverse(ctx, _q); err != nil {
 				return err
 			}
 		}
 	}
-	for _, f := range usrq.ctx.Fields {
+	for _, f := range _q.ctx.Fields {
 		if !userspacerole.ValidColumn(f) {
 			return &ValidationError{Name: f, err: fmt.Errorf("ent: invalid field %q for query", f)}
 		}
 	}
-	if usrq.path != nil {
-		prev, err := usrq.path(ctx)
+	if _q.path != nil {
+		prev, err := _q.path(ctx)
 		if err != nil {
 			return err
 		}
-		usrq.sql = prev
+		_q.sql = prev
 	}
 	return nil
 }
 
-func (usrq *UserSpaceRoleQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*UserSpaceRole, error) {
+func (_q *UserSpaceRoleQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*UserSpaceRole, error) {
 	var (
 		nodes = []*UserSpaceRole{}
-		_spec = usrq.querySpec()
+		_spec = _q.querySpec()
 	)
 	_spec.ScanValues = func(columns []string) ([]any, error) {
 		return (*UserSpaceRole).scanValues(nil, columns)
 	}
 	_spec.Assign = func(columns []string, values []any) error {
-		node := &UserSpaceRole{config: usrq.config}
+		node := &UserSpaceRole{config: _q.config}
 		nodes = append(nodes, node)
 		return node.assignValues(columns, values)
 	}
 	for i := range hooks {
 		hooks[i](ctx, _spec)
 	}
-	if err := sqlgraph.QueryNodes(ctx, usrq.driver, _spec); err != nil {
+	if err := sqlgraph.QueryNodes(ctx, _q.driver, _spec); err != nil {
 		return nil, err
 	}
 	if len(nodes) == 0 {
@@ -355,24 +355,24 @@ func (usrq *UserSpaceRoleQuery) sqlAll(ctx context.Context, hooks ...queryHook) 
 	return nodes, nil
 }
 
-func (usrq *UserSpaceRoleQuery) sqlCount(ctx context.Context) (int, error) {
-	_spec := usrq.querySpec()
-	_spec.Node.Columns = usrq.ctx.Fields
-	if len(usrq.ctx.Fields) > 0 {
-		_spec.Unique = usrq.ctx.Unique != nil && *usrq.ctx.Unique
+func (_q *UserSpaceRoleQuery) sqlCount(ctx context.Context) (int, error) {
+	_spec := _q.querySpec()
+	_spec.Node.Columns = _q.ctx.Fields
+	if len(_q.ctx.Fields) > 0 {
+		_spec.Unique = _q.ctx.Unique != nil && *_q.ctx.Unique
 	}
-	return sqlgraph.CountNodes(ctx, usrq.driver, _spec)
+	return sqlgraph.CountNodes(ctx, _q.driver, _spec)
 }
 
-func (usrq *UserSpaceRoleQuery) querySpec() *sqlgraph.QuerySpec {
+func (_q *UserSpaceRoleQuery) querySpec() *sqlgraph.QuerySpec {
 	_spec := sqlgraph.NewQuerySpec(userspacerole.Table, userspacerole.Columns, sqlgraph.NewFieldSpec(userspacerole.FieldID, field.TypeString))
-	_spec.From = usrq.sql
-	if unique := usrq.ctx.Unique; unique != nil {
+	_spec.From = _q.sql
+	if unique := _q.ctx.Unique; unique != nil {
 		_spec.Unique = *unique
-	} else if usrq.path != nil {
+	} else if _q.path != nil {
 		_spec.Unique = true
 	}
-	if fields := usrq.ctx.Fields; len(fields) > 0 {
+	if fields := _q.ctx.Fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, userspacerole.FieldID)
 		for i := range fields {
@@ -381,20 +381,20 @@ func (usrq *UserSpaceRoleQuery) querySpec() *sqlgraph.QuerySpec {
 			}
 		}
 	}
-	if ps := usrq.predicates; len(ps) > 0 {
+	if ps := _q.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if limit := usrq.ctx.Limit; limit != nil {
+	if limit := _q.ctx.Limit; limit != nil {
 		_spec.Limit = *limit
 	}
-	if offset := usrq.ctx.Offset; offset != nil {
+	if offset := _q.ctx.Offset; offset != nil {
 		_spec.Offset = *offset
 	}
-	if ps := usrq.order; len(ps) > 0 {
+	if ps := _q.order; len(ps) > 0 {
 		_spec.Order = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
@@ -404,33 +404,33 @@ func (usrq *UserSpaceRoleQuery) querySpec() *sqlgraph.QuerySpec {
 	return _spec
 }
 
-func (usrq *UserSpaceRoleQuery) sqlQuery(ctx context.Context) *sql.Selector {
-	builder := sql.Dialect(usrq.driver.Dialect())
+func (_q *UserSpaceRoleQuery) sqlQuery(ctx context.Context) *sql.Selector {
+	builder := sql.Dialect(_q.driver.Dialect())
 	t1 := builder.Table(userspacerole.Table)
-	columns := usrq.ctx.Fields
+	columns := _q.ctx.Fields
 	if len(columns) == 0 {
 		columns = userspacerole.Columns
 	}
 	selector := builder.Select(t1.Columns(columns...)...).From(t1)
-	if usrq.sql != nil {
-		selector = usrq.sql
+	if _q.sql != nil {
+		selector = _q.sql
 		selector.Select(selector.Columns(columns...)...)
 	}
-	if usrq.ctx.Unique != nil && *usrq.ctx.Unique {
+	if _q.ctx.Unique != nil && *_q.ctx.Unique {
 		selector.Distinct()
 	}
-	for _, p := range usrq.predicates {
+	for _, p := range _q.predicates {
 		p(selector)
 	}
-	for _, p := range usrq.order {
+	for _, p := range _q.order {
 		p(selector)
 	}
-	if offset := usrq.ctx.Offset; offset != nil {
+	if offset := _q.ctx.Offset; offset != nil {
 		// limit is mandatory for offset clause. We start
 		// with default value, and override it below if needed.
 		selector.Offset(*offset).Limit(math.MaxInt32)
 	}
-	if limit := usrq.ctx.Limit; limit != nil {
+	if limit := _q.ctx.Limit; limit != nil {
 		selector.Limit(*limit)
 	}
 	return selector
@@ -443,41 +443,41 @@ type UserSpaceRoleGroupBy struct {
 }
 
 // Aggregate adds the given aggregation functions to the group-by query.
-func (usrgb *UserSpaceRoleGroupBy) Aggregate(fns ...AggregateFunc) *UserSpaceRoleGroupBy {
-	usrgb.fns = append(usrgb.fns, fns...)
-	return usrgb
+func (_g *UserSpaceRoleGroupBy) Aggregate(fns ...AggregateFunc) *UserSpaceRoleGroupBy {
+	_g.fns = append(_g.fns, fns...)
+	return _g
 }
 
 // Scan applies the selector query and scans the result into the given value.
-func (usrgb *UserSpaceRoleGroupBy) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, usrgb.build.ctx, ent.OpQueryGroupBy)
-	if err := usrgb.build.prepareQuery(ctx); err != nil {
+func (_g *UserSpaceRoleGroupBy) Scan(ctx context.Context, v any) error {
+	ctx = setContextOp(ctx, _g.build.ctx, ent.OpQueryGroupBy)
+	if err := _g.build.prepareQuery(ctx); err != nil {
 		return err
 	}
-	return scanWithInterceptors[*UserSpaceRoleQuery, *UserSpaceRoleGroupBy](ctx, usrgb.build, usrgb, usrgb.build.inters, v)
+	return scanWithInterceptors[*UserSpaceRoleQuery, *UserSpaceRoleGroupBy](ctx, _g.build, _g, _g.build.inters, v)
 }
 
-func (usrgb *UserSpaceRoleGroupBy) sqlScan(ctx context.Context, root *UserSpaceRoleQuery, v any) error {
+func (_g *UserSpaceRoleGroupBy) sqlScan(ctx context.Context, root *UserSpaceRoleQuery, v any) error {
 	selector := root.sqlQuery(ctx).Select()
-	aggregation := make([]string, 0, len(usrgb.fns))
-	for _, fn := range usrgb.fns {
+	aggregation := make([]string, 0, len(_g.fns))
+	for _, fn := range _g.fns {
 		aggregation = append(aggregation, fn(selector))
 	}
 	if len(selector.SelectedColumns()) == 0 {
-		columns := make([]string, 0, len(*usrgb.flds)+len(usrgb.fns))
-		for _, f := range *usrgb.flds {
+		columns := make([]string, 0, len(*_g.flds)+len(_g.fns))
+		for _, f := range *_g.flds {
 			columns = append(columns, selector.C(f))
 		}
 		columns = append(columns, aggregation...)
 		selector.Select(columns...)
 	}
-	selector.GroupBy(selector.Columns(*usrgb.flds...)...)
+	selector.GroupBy(selector.Columns(*_g.flds...)...)
 	if err := selector.Err(); err != nil {
 		return err
 	}
 	rows := &sql.Rows{}
 	query, args := selector.Query()
-	if err := usrgb.build.driver.Query(ctx, query, args, rows); err != nil {
+	if err := _g.build.driver.Query(ctx, query, args, rows); err != nil {
 		return err
 	}
 	defer rows.Close()
@@ -491,27 +491,27 @@ type UserSpaceRoleSelect struct {
 }
 
 // Aggregate adds the given aggregation functions to the selector query.
-func (usrs *UserSpaceRoleSelect) Aggregate(fns ...AggregateFunc) *UserSpaceRoleSelect {
-	usrs.fns = append(usrs.fns, fns...)
-	return usrs
+func (_s *UserSpaceRoleSelect) Aggregate(fns ...AggregateFunc) *UserSpaceRoleSelect {
+	_s.fns = append(_s.fns, fns...)
+	return _s
 }
 
 // Scan applies the selector query and scans the result into the given value.
-func (usrs *UserSpaceRoleSelect) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, usrs.ctx, ent.OpQuerySelect)
-	if err := usrs.prepareQuery(ctx); err != nil {
+func (_s *UserSpaceRoleSelect) Scan(ctx context.Context, v any) error {
+	ctx = setContextOp(ctx, _s.ctx, ent.OpQuerySelect)
+	if err := _s.prepareQuery(ctx); err != nil {
 		return err
 	}
-	return scanWithInterceptors[*UserSpaceRoleQuery, *UserSpaceRoleSelect](ctx, usrs.UserSpaceRoleQuery, usrs, usrs.inters, v)
+	return scanWithInterceptors[*UserSpaceRoleQuery, *UserSpaceRoleSelect](ctx, _s.UserSpaceRoleQuery, _s, _s.inters, v)
 }
 
-func (usrs *UserSpaceRoleSelect) sqlScan(ctx context.Context, root *UserSpaceRoleQuery, v any) error {
+func (_s *UserSpaceRoleSelect) sqlScan(ctx context.Context, root *UserSpaceRoleQuery, v any) error {
 	selector := root.sqlQuery(ctx)
-	aggregation := make([]string, 0, len(usrs.fns))
-	for _, fn := range usrs.fns {
+	aggregation := make([]string, 0, len(_s.fns))
+	for _, fn := range _s.fns {
 		aggregation = append(aggregation, fn(selector))
 	}
-	switch n := len(*usrs.selector.flds); {
+	switch n := len(*_s.selector.flds); {
 	case n == 0 && len(aggregation) > 0:
 		selector.Select(aggregation...)
 	case n != 0 && len(aggregation) > 0:
@@ -519,7 +519,7 @@ func (usrs *UserSpaceRoleSelect) sqlScan(ctx context.Context, root *UserSpaceRol
 	}
 	rows := &sql.Rows{}
 	query, args := selector.Query()
-	if err := usrs.driver.Query(ctx, query, args, rows); err != nil {
+	if err := _s.driver.Query(ctx, query, args, rows); err != nil {
 		return err
 	}
 	defer rows.Close()

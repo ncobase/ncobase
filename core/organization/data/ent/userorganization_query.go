@@ -28,40 +28,40 @@ type UserOrganizationQuery struct {
 }
 
 // Where adds a new predicate for the UserOrganizationQuery builder.
-func (uoq *UserOrganizationQuery) Where(ps ...predicate.UserOrganization) *UserOrganizationQuery {
-	uoq.predicates = append(uoq.predicates, ps...)
-	return uoq
+func (_q *UserOrganizationQuery) Where(ps ...predicate.UserOrganization) *UserOrganizationQuery {
+	_q.predicates = append(_q.predicates, ps...)
+	return _q
 }
 
 // Limit the number of records to be returned by this query.
-func (uoq *UserOrganizationQuery) Limit(limit int) *UserOrganizationQuery {
-	uoq.ctx.Limit = &limit
-	return uoq
+func (_q *UserOrganizationQuery) Limit(limit int) *UserOrganizationQuery {
+	_q.ctx.Limit = &limit
+	return _q
 }
 
 // Offset to start from.
-func (uoq *UserOrganizationQuery) Offset(offset int) *UserOrganizationQuery {
-	uoq.ctx.Offset = &offset
-	return uoq
+func (_q *UserOrganizationQuery) Offset(offset int) *UserOrganizationQuery {
+	_q.ctx.Offset = &offset
+	return _q
 }
 
 // Unique configures the query builder to filter duplicate records on query.
 // By default, unique is set to true, and can be disabled using this method.
-func (uoq *UserOrganizationQuery) Unique(unique bool) *UserOrganizationQuery {
-	uoq.ctx.Unique = &unique
-	return uoq
+func (_q *UserOrganizationQuery) Unique(unique bool) *UserOrganizationQuery {
+	_q.ctx.Unique = &unique
+	return _q
 }
 
 // Order specifies how the records should be ordered.
-func (uoq *UserOrganizationQuery) Order(o ...userorganization.OrderOption) *UserOrganizationQuery {
-	uoq.order = append(uoq.order, o...)
-	return uoq
+func (_q *UserOrganizationQuery) Order(o ...userorganization.OrderOption) *UserOrganizationQuery {
+	_q.order = append(_q.order, o...)
+	return _q
 }
 
 // First returns the first UserOrganization entity from the query.
 // Returns a *NotFoundError when no UserOrganization was found.
-func (uoq *UserOrganizationQuery) First(ctx context.Context) (*UserOrganization, error) {
-	nodes, err := uoq.Limit(1).All(setContextOp(ctx, uoq.ctx, ent.OpQueryFirst))
+func (_q *UserOrganizationQuery) First(ctx context.Context) (*UserOrganization, error) {
+	nodes, err := _q.Limit(1).All(setContextOp(ctx, _q.ctx, ent.OpQueryFirst))
 	if err != nil {
 		return nil, err
 	}
@@ -72,8 +72,8 @@ func (uoq *UserOrganizationQuery) First(ctx context.Context) (*UserOrganization,
 }
 
 // FirstX is like First, but panics if an error occurs.
-func (uoq *UserOrganizationQuery) FirstX(ctx context.Context) *UserOrganization {
-	node, err := uoq.First(ctx)
+func (_q *UserOrganizationQuery) FirstX(ctx context.Context) *UserOrganization {
+	node, err := _q.First(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
 	}
@@ -82,9 +82,9 @@ func (uoq *UserOrganizationQuery) FirstX(ctx context.Context) *UserOrganization 
 
 // FirstID returns the first UserOrganization ID from the query.
 // Returns a *NotFoundError when no UserOrganization ID was found.
-func (uoq *UserOrganizationQuery) FirstID(ctx context.Context) (id string, err error) {
+func (_q *UserOrganizationQuery) FirstID(ctx context.Context) (id string, err error) {
 	var ids []string
-	if ids, err = uoq.Limit(1).IDs(setContextOp(ctx, uoq.ctx, ent.OpQueryFirstID)); err != nil {
+	if ids, err = _q.Limit(1).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryFirstID)); err != nil {
 		return
 	}
 	if len(ids) == 0 {
@@ -95,8 +95,8 @@ func (uoq *UserOrganizationQuery) FirstID(ctx context.Context) (id string, err e
 }
 
 // FirstIDX is like FirstID, but panics if an error occurs.
-func (uoq *UserOrganizationQuery) FirstIDX(ctx context.Context) string {
-	id, err := uoq.FirstID(ctx)
+func (_q *UserOrganizationQuery) FirstIDX(ctx context.Context) string {
+	id, err := _q.FirstID(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
 	}
@@ -106,8 +106,8 @@ func (uoq *UserOrganizationQuery) FirstIDX(ctx context.Context) string {
 // Only returns a single UserOrganization entity found by the query, ensuring it only returns one.
 // Returns a *NotSingularError when more than one UserOrganization entity is found.
 // Returns a *NotFoundError when no UserOrganization entities are found.
-func (uoq *UserOrganizationQuery) Only(ctx context.Context) (*UserOrganization, error) {
-	nodes, err := uoq.Limit(2).All(setContextOp(ctx, uoq.ctx, ent.OpQueryOnly))
+func (_q *UserOrganizationQuery) Only(ctx context.Context) (*UserOrganization, error) {
+	nodes, err := _q.Limit(2).All(setContextOp(ctx, _q.ctx, ent.OpQueryOnly))
 	if err != nil {
 		return nil, err
 	}
@@ -122,8 +122,8 @@ func (uoq *UserOrganizationQuery) Only(ctx context.Context) (*UserOrganization, 
 }
 
 // OnlyX is like Only, but panics if an error occurs.
-func (uoq *UserOrganizationQuery) OnlyX(ctx context.Context) *UserOrganization {
-	node, err := uoq.Only(ctx)
+func (_q *UserOrganizationQuery) OnlyX(ctx context.Context) *UserOrganization {
+	node, err := _q.Only(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -133,9 +133,9 @@ func (uoq *UserOrganizationQuery) OnlyX(ctx context.Context) *UserOrganization {
 // OnlyID is like Only, but returns the only UserOrganization ID in the query.
 // Returns a *NotSingularError when more than one UserOrganization ID is found.
 // Returns a *NotFoundError when no entities are found.
-func (uoq *UserOrganizationQuery) OnlyID(ctx context.Context) (id string, err error) {
+func (_q *UserOrganizationQuery) OnlyID(ctx context.Context) (id string, err error) {
 	var ids []string
-	if ids, err = uoq.Limit(2).IDs(setContextOp(ctx, uoq.ctx, ent.OpQueryOnlyID)); err != nil {
+	if ids, err = _q.Limit(2).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryOnlyID)); err != nil {
 		return
 	}
 	switch len(ids) {
@@ -150,8 +150,8 @@ func (uoq *UserOrganizationQuery) OnlyID(ctx context.Context) (id string, err er
 }
 
 // OnlyIDX is like OnlyID, but panics if an error occurs.
-func (uoq *UserOrganizationQuery) OnlyIDX(ctx context.Context) string {
-	id, err := uoq.OnlyID(ctx)
+func (_q *UserOrganizationQuery) OnlyIDX(ctx context.Context) string {
+	id, err := _q.OnlyID(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -159,18 +159,18 @@ func (uoq *UserOrganizationQuery) OnlyIDX(ctx context.Context) string {
 }
 
 // All executes the query and returns a list of UserOrganizations.
-func (uoq *UserOrganizationQuery) All(ctx context.Context) ([]*UserOrganization, error) {
-	ctx = setContextOp(ctx, uoq.ctx, ent.OpQueryAll)
-	if err := uoq.prepareQuery(ctx); err != nil {
+func (_q *UserOrganizationQuery) All(ctx context.Context) ([]*UserOrganization, error) {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryAll)
+	if err := _q.prepareQuery(ctx); err != nil {
 		return nil, err
 	}
 	qr := querierAll[[]*UserOrganization, *UserOrganizationQuery]()
-	return withInterceptors[[]*UserOrganization](ctx, uoq, qr, uoq.inters)
+	return withInterceptors[[]*UserOrganization](ctx, _q, qr, _q.inters)
 }
 
 // AllX is like All, but panics if an error occurs.
-func (uoq *UserOrganizationQuery) AllX(ctx context.Context) []*UserOrganization {
-	nodes, err := uoq.All(ctx)
+func (_q *UserOrganizationQuery) AllX(ctx context.Context) []*UserOrganization {
+	nodes, err := _q.All(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -178,20 +178,20 @@ func (uoq *UserOrganizationQuery) AllX(ctx context.Context) []*UserOrganization 
 }
 
 // IDs executes the query and returns a list of UserOrganization IDs.
-func (uoq *UserOrganizationQuery) IDs(ctx context.Context) (ids []string, err error) {
-	if uoq.ctx.Unique == nil && uoq.path != nil {
-		uoq.Unique(true)
+func (_q *UserOrganizationQuery) IDs(ctx context.Context) (ids []string, err error) {
+	if _q.ctx.Unique == nil && _q.path != nil {
+		_q.Unique(true)
 	}
-	ctx = setContextOp(ctx, uoq.ctx, ent.OpQueryIDs)
-	if err = uoq.Select(userorganization.FieldID).Scan(ctx, &ids); err != nil {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryIDs)
+	if err = _q.Select(userorganization.FieldID).Scan(ctx, &ids); err != nil {
 		return nil, err
 	}
 	return ids, nil
 }
 
 // IDsX is like IDs, but panics if an error occurs.
-func (uoq *UserOrganizationQuery) IDsX(ctx context.Context) []string {
-	ids, err := uoq.IDs(ctx)
+func (_q *UserOrganizationQuery) IDsX(ctx context.Context) []string {
+	ids, err := _q.IDs(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -199,17 +199,17 @@ func (uoq *UserOrganizationQuery) IDsX(ctx context.Context) []string {
 }
 
 // Count returns the count of the given query.
-func (uoq *UserOrganizationQuery) Count(ctx context.Context) (int, error) {
-	ctx = setContextOp(ctx, uoq.ctx, ent.OpQueryCount)
-	if err := uoq.prepareQuery(ctx); err != nil {
+func (_q *UserOrganizationQuery) Count(ctx context.Context) (int, error) {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryCount)
+	if err := _q.prepareQuery(ctx); err != nil {
 		return 0, err
 	}
-	return withInterceptors[int](ctx, uoq, querierCount[*UserOrganizationQuery](), uoq.inters)
+	return withInterceptors[int](ctx, _q, querierCount[*UserOrganizationQuery](), _q.inters)
 }
 
 // CountX is like Count, but panics if an error occurs.
-func (uoq *UserOrganizationQuery) CountX(ctx context.Context) int {
-	count, err := uoq.Count(ctx)
+func (_q *UserOrganizationQuery) CountX(ctx context.Context) int {
+	count, err := _q.Count(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -217,9 +217,9 @@ func (uoq *UserOrganizationQuery) CountX(ctx context.Context) int {
 }
 
 // Exist returns true if the query has elements in the graph.
-func (uoq *UserOrganizationQuery) Exist(ctx context.Context) (bool, error) {
-	ctx = setContextOp(ctx, uoq.ctx, ent.OpQueryExist)
-	switch _, err := uoq.FirstID(ctx); {
+func (_q *UserOrganizationQuery) Exist(ctx context.Context) (bool, error) {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryExist)
+	switch _, err := _q.FirstID(ctx); {
 	case IsNotFound(err):
 		return false, nil
 	case err != nil:
@@ -230,8 +230,8 @@ func (uoq *UserOrganizationQuery) Exist(ctx context.Context) (bool, error) {
 }
 
 // ExistX is like Exist, but panics if an error occurs.
-func (uoq *UserOrganizationQuery) ExistX(ctx context.Context) bool {
-	exist, err := uoq.Exist(ctx)
+func (_q *UserOrganizationQuery) ExistX(ctx context.Context) bool {
+	exist, err := _q.Exist(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -240,19 +240,19 @@ func (uoq *UserOrganizationQuery) ExistX(ctx context.Context) bool {
 
 // Clone returns a duplicate of the UserOrganizationQuery builder, including all associated steps. It can be
 // used to prepare common query builders and use them differently after the clone is made.
-func (uoq *UserOrganizationQuery) Clone() *UserOrganizationQuery {
-	if uoq == nil {
+func (_q *UserOrganizationQuery) Clone() *UserOrganizationQuery {
+	if _q == nil {
 		return nil
 	}
 	return &UserOrganizationQuery{
-		config:     uoq.config,
-		ctx:        uoq.ctx.Clone(),
-		order:      append([]userorganization.OrderOption{}, uoq.order...),
-		inters:     append([]Interceptor{}, uoq.inters...),
-		predicates: append([]predicate.UserOrganization{}, uoq.predicates...),
+		config:     _q.config,
+		ctx:        _q.ctx.Clone(),
+		order:      append([]userorganization.OrderOption{}, _q.order...),
+		inters:     append([]Interceptor{}, _q.inters...),
+		predicates: append([]predicate.UserOrganization{}, _q.predicates...),
 		// clone intermediate query.
-		sql:  uoq.sql.Clone(),
-		path: uoq.path,
+		sql:  _q.sql.Clone(),
+		path: _q.path,
 	}
 }
 
@@ -270,10 +270,10 @@ func (uoq *UserOrganizationQuery) Clone() *UserOrganizationQuery {
 //		GroupBy(userorganization.FieldUserID).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
-func (uoq *UserOrganizationQuery) GroupBy(field string, fields ...string) *UserOrganizationGroupBy {
-	uoq.ctx.Fields = append([]string{field}, fields...)
-	grbuild := &UserOrganizationGroupBy{build: uoq}
-	grbuild.flds = &uoq.ctx.Fields
+func (_q *UserOrganizationQuery) GroupBy(field string, fields ...string) *UserOrganizationGroupBy {
+	_q.ctx.Fields = append([]string{field}, fields...)
+	grbuild := &UserOrganizationGroupBy{build: _q}
+	grbuild.flds = &_q.ctx.Fields
 	grbuild.label = userorganization.Label
 	grbuild.scan = grbuild.Scan
 	return grbuild
@@ -291,62 +291,62 @@ func (uoq *UserOrganizationQuery) GroupBy(field string, fields ...string) *UserO
 //	client.UserOrganization.Query().
 //		Select(userorganization.FieldUserID).
 //		Scan(ctx, &v)
-func (uoq *UserOrganizationQuery) Select(fields ...string) *UserOrganizationSelect {
-	uoq.ctx.Fields = append(uoq.ctx.Fields, fields...)
-	sbuild := &UserOrganizationSelect{UserOrganizationQuery: uoq}
+func (_q *UserOrganizationQuery) Select(fields ...string) *UserOrganizationSelect {
+	_q.ctx.Fields = append(_q.ctx.Fields, fields...)
+	sbuild := &UserOrganizationSelect{UserOrganizationQuery: _q}
 	sbuild.label = userorganization.Label
-	sbuild.flds, sbuild.scan = &uoq.ctx.Fields, sbuild.Scan
+	sbuild.flds, sbuild.scan = &_q.ctx.Fields, sbuild.Scan
 	return sbuild
 }
 
 // Aggregate returns a UserOrganizationSelect configured with the given aggregations.
-func (uoq *UserOrganizationQuery) Aggregate(fns ...AggregateFunc) *UserOrganizationSelect {
-	return uoq.Select().Aggregate(fns...)
+func (_q *UserOrganizationQuery) Aggregate(fns ...AggregateFunc) *UserOrganizationSelect {
+	return _q.Select().Aggregate(fns...)
 }
 
-func (uoq *UserOrganizationQuery) prepareQuery(ctx context.Context) error {
-	for _, inter := range uoq.inters {
+func (_q *UserOrganizationQuery) prepareQuery(ctx context.Context) error {
+	for _, inter := range _q.inters {
 		if inter == nil {
 			return fmt.Errorf("ent: uninitialized interceptor (forgotten import ent/runtime?)")
 		}
 		if trv, ok := inter.(Traverser); ok {
-			if err := trv.Traverse(ctx, uoq); err != nil {
+			if err := trv.Traverse(ctx, _q); err != nil {
 				return err
 			}
 		}
 	}
-	for _, f := range uoq.ctx.Fields {
+	for _, f := range _q.ctx.Fields {
 		if !userorganization.ValidColumn(f) {
 			return &ValidationError{Name: f, err: fmt.Errorf("ent: invalid field %q for query", f)}
 		}
 	}
-	if uoq.path != nil {
-		prev, err := uoq.path(ctx)
+	if _q.path != nil {
+		prev, err := _q.path(ctx)
 		if err != nil {
 			return err
 		}
-		uoq.sql = prev
+		_q.sql = prev
 	}
 	return nil
 }
 
-func (uoq *UserOrganizationQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*UserOrganization, error) {
+func (_q *UserOrganizationQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*UserOrganization, error) {
 	var (
 		nodes = []*UserOrganization{}
-		_spec = uoq.querySpec()
+		_spec = _q.querySpec()
 	)
 	_spec.ScanValues = func(columns []string) ([]any, error) {
 		return (*UserOrganization).scanValues(nil, columns)
 	}
 	_spec.Assign = func(columns []string, values []any) error {
-		node := &UserOrganization{config: uoq.config}
+		node := &UserOrganization{config: _q.config}
 		nodes = append(nodes, node)
 		return node.assignValues(columns, values)
 	}
 	for i := range hooks {
 		hooks[i](ctx, _spec)
 	}
-	if err := sqlgraph.QueryNodes(ctx, uoq.driver, _spec); err != nil {
+	if err := sqlgraph.QueryNodes(ctx, _q.driver, _spec); err != nil {
 		return nil, err
 	}
 	if len(nodes) == 0 {
@@ -355,24 +355,24 @@ func (uoq *UserOrganizationQuery) sqlAll(ctx context.Context, hooks ...queryHook
 	return nodes, nil
 }
 
-func (uoq *UserOrganizationQuery) sqlCount(ctx context.Context) (int, error) {
-	_spec := uoq.querySpec()
-	_spec.Node.Columns = uoq.ctx.Fields
-	if len(uoq.ctx.Fields) > 0 {
-		_spec.Unique = uoq.ctx.Unique != nil && *uoq.ctx.Unique
+func (_q *UserOrganizationQuery) sqlCount(ctx context.Context) (int, error) {
+	_spec := _q.querySpec()
+	_spec.Node.Columns = _q.ctx.Fields
+	if len(_q.ctx.Fields) > 0 {
+		_spec.Unique = _q.ctx.Unique != nil && *_q.ctx.Unique
 	}
-	return sqlgraph.CountNodes(ctx, uoq.driver, _spec)
+	return sqlgraph.CountNodes(ctx, _q.driver, _spec)
 }
 
-func (uoq *UserOrganizationQuery) querySpec() *sqlgraph.QuerySpec {
+func (_q *UserOrganizationQuery) querySpec() *sqlgraph.QuerySpec {
 	_spec := sqlgraph.NewQuerySpec(userorganization.Table, userorganization.Columns, sqlgraph.NewFieldSpec(userorganization.FieldID, field.TypeString))
-	_spec.From = uoq.sql
-	if unique := uoq.ctx.Unique; unique != nil {
+	_spec.From = _q.sql
+	if unique := _q.ctx.Unique; unique != nil {
 		_spec.Unique = *unique
-	} else if uoq.path != nil {
+	} else if _q.path != nil {
 		_spec.Unique = true
 	}
-	if fields := uoq.ctx.Fields; len(fields) > 0 {
+	if fields := _q.ctx.Fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, userorganization.FieldID)
 		for i := range fields {
@@ -381,20 +381,20 @@ func (uoq *UserOrganizationQuery) querySpec() *sqlgraph.QuerySpec {
 			}
 		}
 	}
-	if ps := uoq.predicates; len(ps) > 0 {
+	if ps := _q.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if limit := uoq.ctx.Limit; limit != nil {
+	if limit := _q.ctx.Limit; limit != nil {
 		_spec.Limit = *limit
 	}
-	if offset := uoq.ctx.Offset; offset != nil {
+	if offset := _q.ctx.Offset; offset != nil {
 		_spec.Offset = *offset
 	}
-	if ps := uoq.order; len(ps) > 0 {
+	if ps := _q.order; len(ps) > 0 {
 		_spec.Order = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
@@ -404,33 +404,33 @@ func (uoq *UserOrganizationQuery) querySpec() *sqlgraph.QuerySpec {
 	return _spec
 }
 
-func (uoq *UserOrganizationQuery) sqlQuery(ctx context.Context) *sql.Selector {
-	builder := sql.Dialect(uoq.driver.Dialect())
+func (_q *UserOrganizationQuery) sqlQuery(ctx context.Context) *sql.Selector {
+	builder := sql.Dialect(_q.driver.Dialect())
 	t1 := builder.Table(userorganization.Table)
-	columns := uoq.ctx.Fields
+	columns := _q.ctx.Fields
 	if len(columns) == 0 {
 		columns = userorganization.Columns
 	}
 	selector := builder.Select(t1.Columns(columns...)...).From(t1)
-	if uoq.sql != nil {
-		selector = uoq.sql
+	if _q.sql != nil {
+		selector = _q.sql
 		selector.Select(selector.Columns(columns...)...)
 	}
-	if uoq.ctx.Unique != nil && *uoq.ctx.Unique {
+	if _q.ctx.Unique != nil && *_q.ctx.Unique {
 		selector.Distinct()
 	}
-	for _, p := range uoq.predicates {
+	for _, p := range _q.predicates {
 		p(selector)
 	}
-	for _, p := range uoq.order {
+	for _, p := range _q.order {
 		p(selector)
 	}
-	if offset := uoq.ctx.Offset; offset != nil {
+	if offset := _q.ctx.Offset; offset != nil {
 		// limit is mandatory for offset clause. We start
 		// with default value, and override it below if needed.
 		selector.Offset(*offset).Limit(math.MaxInt32)
 	}
-	if limit := uoq.ctx.Limit; limit != nil {
+	if limit := _q.ctx.Limit; limit != nil {
 		selector.Limit(*limit)
 	}
 	return selector
@@ -443,41 +443,41 @@ type UserOrganizationGroupBy struct {
 }
 
 // Aggregate adds the given aggregation functions to the group-by query.
-func (uogb *UserOrganizationGroupBy) Aggregate(fns ...AggregateFunc) *UserOrganizationGroupBy {
-	uogb.fns = append(uogb.fns, fns...)
-	return uogb
+func (_g *UserOrganizationGroupBy) Aggregate(fns ...AggregateFunc) *UserOrganizationGroupBy {
+	_g.fns = append(_g.fns, fns...)
+	return _g
 }
 
 // Scan applies the selector query and scans the result into the given value.
-func (uogb *UserOrganizationGroupBy) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, uogb.build.ctx, ent.OpQueryGroupBy)
-	if err := uogb.build.prepareQuery(ctx); err != nil {
+func (_g *UserOrganizationGroupBy) Scan(ctx context.Context, v any) error {
+	ctx = setContextOp(ctx, _g.build.ctx, ent.OpQueryGroupBy)
+	if err := _g.build.prepareQuery(ctx); err != nil {
 		return err
 	}
-	return scanWithInterceptors[*UserOrganizationQuery, *UserOrganizationGroupBy](ctx, uogb.build, uogb, uogb.build.inters, v)
+	return scanWithInterceptors[*UserOrganizationQuery, *UserOrganizationGroupBy](ctx, _g.build, _g, _g.build.inters, v)
 }
 
-func (uogb *UserOrganizationGroupBy) sqlScan(ctx context.Context, root *UserOrganizationQuery, v any) error {
+func (_g *UserOrganizationGroupBy) sqlScan(ctx context.Context, root *UserOrganizationQuery, v any) error {
 	selector := root.sqlQuery(ctx).Select()
-	aggregation := make([]string, 0, len(uogb.fns))
-	for _, fn := range uogb.fns {
+	aggregation := make([]string, 0, len(_g.fns))
+	for _, fn := range _g.fns {
 		aggregation = append(aggregation, fn(selector))
 	}
 	if len(selector.SelectedColumns()) == 0 {
-		columns := make([]string, 0, len(*uogb.flds)+len(uogb.fns))
-		for _, f := range *uogb.flds {
+		columns := make([]string, 0, len(*_g.flds)+len(_g.fns))
+		for _, f := range *_g.flds {
 			columns = append(columns, selector.C(f))
 		}
 		columns = append(columns, aggregation...)
 		selector.Select(columns...)
 	}
-	selector.GroupBy(selector.Columns(*uogb.flds...)...)
+	selector.GroupBy(selector.Columns(*_g.flds...)...)
 	if err := selector.Err(); err != nil {
 		return err
 	}
 	rows := &sql.Rows{}
 	query, args := selector.Query()
-	if err := uogb.build.driver.Query(ctx, query, args, rows); err != nil {
+	if err := _g.build.driver.Query(ctx, query, args, rows); err != nil {
 		return err
 	}
 	defer rows.Close()
@@ -491,27 +491,27 @@ type UserOrganizationSelect struct {
 }
 
 // Aggregate adds the given aggregation functions to the selector query.
-func (uos *UserOrganizationSelect) Aggregate(fns ...AggregateFunc) *UserOrganizationSelect {
-	uos.fns = append(uos.fns, fns...)
-	return uos
+func (_s *UserOrganizationSelect) Aggregate(fns ...AggregateFunc) *UserOrganizationSelect {
+	_s.fns = append(_s.fns, fns...)
+	return _s
 }
 
 // Scan applies the selector query and scans the result into the given value.
-func (uos *UserOrganizationSelect) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, uos.ctx, ent.OpQuerySelect)
-	if err := uos.prepareQuery(ctx); err != nil {
+func (_s *UserOrganizationSelect) Scan(ctx context.Context, v any) error {
+	ctx = setContextOp(ctx, _s.ctx, ent.OpQuerySelect)
+	if err := _s.prepareQuery(ctx); err != nil {
 		return err
 	}
-	return scanWithInterceptors[*UserOrganizationQuery, *UserOrganizationSelect](ctx, uos.UserOrganizationQuery, uos, uos.inters, v)
+	return scanWithInterceptors[*UserOrganizationQuery, *UserOrganizationSelect](ctx, _s.UserOrganizationQuery, _s, _s.inters, v)
 }
 
-func (uos *UserOrganizationSelect) sqlScan(ctx context.Context, root *UserOrganizationQuery, v any) error {
+func (_s *UserOrganizationSelect) sqlScan(ctx context.Context, root *UserOrganizationQuery, v any) error {
 	selector := root.sqlQuery(ctx)
-	aggregation := make([]string, 0, len(uos.fns))
-	for _, fn := range uos.fns {
+	aggregation := make([]string, 0, len(_s.fns))
+	for _, fn := range _s.fns {
 		aggregation = append(aggregation, fn(selector))
 	}
-	switch n := len(*uos.selector.flds); {
+	switch n := len(*_s.selector.flds); {
 	case n == 0 && len(aggregation) > 0:
 		selector.Select(aggregation...)
 	case n != 0 && len(aggregation) > 0:
@@ -519,7 +519,7 @@ func (uos *UserOrganizationSelect) sqlScan(ctx context.Context, root *UserOrgani
 	}
 	rows := &sql.Rows{}
 	query, args := selector.Query()
-	if err := uos.driver.Query(ctx, query, args, rows); err != nil {
+	if err := _s.driver.Query(ctx, query, args, rows); err != nil {
 		return err
 	}
 	defer rows.Close()

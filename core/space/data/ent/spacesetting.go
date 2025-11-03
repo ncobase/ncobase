@@ -79,7 +79,7 @@ func (*SpaceSetting) scanValues(columns []string) ([]any, error) {
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
 // to the SpaceSetting fields.
-func (ss *SpaceSetting) assignValues(columns []string, values []any) error {
+func (_m *SpaceSetting) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
@@ -89,25 +89,25 @@ func (ss *SpaceSetting) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field id", values[i])
 			} else if value.Valid {
-				ss.ID = value.String
+				_m.ID = value.String
 			}
 		case spacesetting.FieldSpaceID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field space_id", values[i])
 			} else if value.Valid {
-				ss.SpaceID = value.String
+				_m.SpaceID = value.String
 			}
 		case spacesetting.FieldDescription:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field description", values[i])
 			} else if value.Valid {
-				ss.Description = value.String
+				_m.Description = value.String
 			}
 		case spacesetting.FieldExtras:
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field extras", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &ss.Extras); err != nil {
+				if err := json.Unmarshal(*value, &_m.Extras); err != nil {
 					return fmt.Errorf("unmarshal field extras: %w", err)
 				}
 			}
@@ -115,96 +115,96 @@ func (ss *SpaceSetting) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field created_by", values[i])
 			} else if value.Valid {
-				ss.CreatedBy = value.String
+				_m.CreatedBy = value.String
 			}
 		case spacesetting.FieldUpdatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_by", values[i])
 			} else if value.Valid {
-				ss.UpdatedBy = value.String
+				_m.UpdatedBy = value.String
 			}
 		case spacesetting.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field created_at", values[i])
 			} else if value.Valid {
-				ss.CreatedAt = value.Int64
+				_m.CreatedAt = value.Int64
 			}
 		case spacesetting.FieldUpdatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_at", values[i])
 			} else if value.Valid {
-				ss.UpdatedAt = value.Int64
+				_m.UpdatedAt = value.Int64
 			}
 		case spacesetting.FieldSettingKey:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field setting_key", values[i])
 			} else if value.Valid {
-				ss.SettingKey = value.String
+				_m.SettingKey = value.String
 			}
 		case spacesetting.FieldSettingName:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field setting_name", values[i])
 			} else if value.Valid {
-				ss.SettingName = value.String
+				_m.SettingName = value.String
 			}
 		case spacesetting.FieldSettingValue:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field setting_value", values[i])
 			} else if value.Valid {
-				ss.SettingValue = value.String
+				_m.SettingValue = value.String
 			}
 		case spacesetting.FieldDefaultValue:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field default_value", values[i])
 			} else if value.Valid {
-				ss.DefaultValue = value.String
+				_m.DefaultValue = value.String
 			}
 		case spacesetting.FieldSettingType:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field setting_type", values[i])
 			} else if value.Valid {
-				ss.SettingType = value.String
+				_m.SettingType = value.String
 			}
 		case spacesetting.FieldScope:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field scope", values[i])
 			} else if value.Valid {
-				ss.Scope = value.String
+				_m.Scope = value.String
 			}
 		case spacesetting.FieldCategory:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field category", values[i])
 			} else if value.Valid {
-				ss.Category = value.String
+				_m.Category = value.String
 			}
 		case spacesetting.FieldIsPublic:
 			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field is_public", values[i])
 			} else if value.Valid {
-				ss.IsPublic = value.Bool
+				_m.IsPublic = value.Bool
 			}
 		case spacesetting.FieldIsRequired:
 			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field is_required", values[i])
 			} else if value.Valid {
-				ss.IsRequired = value.Bool
+				_m.IsRequired = value.Bool
 			}
 		case spacesetting.FieldIsReadonly:
 			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field is_readonly", values[i])
 			} else if value.Valid {
-				ss.IsReadonly = value.Bool
+				_m.IsReadonly = value.Bool
 			}
 		case spacesetting.FieldValidation:
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field validation", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &ss.Validation); err != nil {
+				if err := json.Unmarshal(*value, &_m.Validation); err != nil {
 					return fmt.Errorf("unmarshal field validation: %w", err)
 				}
 			}
 		default:
-			ss.selectValues.Set(columns[i], values[i])
+			_m.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
@@ -212,86 +212,86 @@ func (ss *SpaceSetting) assignValues(columns []string, values []any) error {
 
 // Value returns the ent.Value that was dynamically selected and assigned to the SpaceSetting.
 // This includes values selected through modifiers, order, etc.
-func (ss *SpaceSetting) Value(name string) (ent.Value, error) {
-	return ss.selectValues.Get(name)
+func (_m *SpaceSetting) Value(name string) (ent.Value, error) {
+	return _m.selectValues.Get(name)
 }
 
 // Update returns a builder for updating this SpaceSetting.
 // Note that you need to call SpaceSetting.Unwrap() before calling this method if this SpaceSetting
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (ss *SpaceSetting) Update() *SpaceSettingUpdateOne {
-	return NewSpaceSettingClient(ss.config).UpdateOne(ss)
+func (_m *SpaceSetting) Update() *SpaceSettingUpdateOne {
+	return NewSpaceSettingClient(_m.config).UpdateOne(_m)
 }
 
 // Unwrap unwraps the SpaceSetting entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (ss *SpaceSetting) Unwrap() *SpaceSetting {
-	_tx, ok := ss.config.driver.(*txDriver)
+func (_m *SpaceSetting) Unwrap() *SpaceSetting {
+	_tx, ok := _m.config.driver.(*txDriver)
 	if !ok {
 		panic("ent: SpaceSetting is not a transactional entity")
 	}
-	ss.config.driver = _tx.drv
-	return ss
+	_m.config.driver = _tx.drv
+	return _m
 }
 
 // String implements the fmt.Stringer.
-func (ss *SpaceSetting) String() string {
+func (_m *SpaceSetting) String() string {
 	var builder strings.Builder
 	builder.WriteString("SpaceSetting(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", ss.ID))
+	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
 	builder.WriteString("space_id=")
-	builder.WriteString(ss.SpaceID)
+	builder.WriteString(_m.SpaceID)
 	builder.WriteString(", ")
 	builder.WriteString("description=")
-	builder.WriteString(ss.Description)
+	builder.WriteString(_m.Description)
 	builder.WriteString(", ")
 	builder.WriteString("extras=")
-	builder.WriteString(fmt.Sprintf("%v", ss.Extras))
+	builder.WriteString(fmt.Sprintf("%v", _m.Extras))
 	builder.WriteString(", ")
 	builder.WriteString("created_by=")
-	builder.WriteString(ss.CreatedBy)
+	builder.WriteString(_m.CreatedBy)
 	builder.WriteString(", ")
 	builder.WriteString("updated_by=")
-	builder.WriteString(ss.UpdatedBy)
+	builder.WriteString(_m.UpdatedBy)
 	builder.WriteString(", ")
 	builder.WriteString("created_at=")
-	builder.WriteString(fmt.Sprintf("%v", ss.CreatedAt))
+	builder.WriteString(fmt.Sprintf("%v", _m.CreatedAt))
 	builder.WriteString(", ")
 	builder.WriteString("updated_at=")
-	builder.WriteString(fmt.Sprintf("%v", ss.UpdatedAt))
+	builder.WriteString(fmt.Sprintf("%v", _m.UpdatedAt))
 	builder.WriteString(", ")
 	builder.WriteString("setting_key=")
-	builder.WriteString(ss.SettingKey)
+	builder.WriteString(_m.SettingKey)
 	builder.WriteString(", ")
 	builder.WriteString("setting_name=")
-	builder.WriteString(ss.SettingName)
+	builder.WriteString(_m.SettingName)
 	builder.WriteString(", ")
 	builder.WriteString("setting_value=")
-	builder.WriteString(ss.SettingValue)
+	builder.WriteString(_m.SettingValue)
 	builder.WriteString(", ")
 	builder.WriteString("default_value=")
-	builder.WriteString(ss.DefaultValue)
+	builder.WriteString(_m.DefaultValue)
 	builder.WriteString(", ")
 	builder.WriteString("setting_type=")
-	builder.WriteString(ss.SettingType)
+	builder.WriteString(_m.SettingType)
 	builder.WriteString(", ")
 	builder.WriteString("scope=")
-	builder.WriteString(ss.Scope)
+	builder.WriteString(_m.Scope)
 	builder.WriteString(", ")
 	builder.WriteString("category=")
-	builder.WriteString(ss.Category)
+	builder.WriteString(_m.Category)
 	builder.WriteString(", ")
 	builder.WriteString("is_public=")
-	builder.WriteString(fmt.Sprintf("%v", ss.IsPublic))
+	builder.WriteString(fmt.Sprintf("%v", _m.IsPublic))
 	builder.WriteString(", ")
 	builder.WriteString("is_required=")
-	builder.WriteString(fmt.Sprintf("%v", ss.IsRequired))
+	builder.WriteString(fmt.Sprintf("%v", _m.IsRequired))
 	builder.WriteString(", ")
 	builder.WriteString("is_readonly=")
-	builder.WriteString(fmt.Sprintf("%v", ss.IsReadonly))
+	builder.WriteString(fmt.Sprintf("%v", _m.IsReadonly))
 	builder.WriteString(", ")
 	builder.WriteString("validation=")
-	builder.WriteString(fmt.Sprintf("%v", ss.Validation))
+	builder.WriteString(fmt.Sprintf("%v", _m.Validation))
 	builder.WriteByte(')')
 	return builder.String()
 }

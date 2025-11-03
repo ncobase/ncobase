@@ -67,7 +67,7 @@ func (*Media) scanValues(columns []string) ([]any, error) {
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
 // to the Media fields.
-func (m *Media) assignValues(columns []string, values []any) error {
+func (_m *Media) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
@@ -77,31 +77,31 @@ func (m *Media) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field id", values[i])
 			} else if value.Valid {
-				m.ID = value.String
+				_m.ID = value.String
 			}
 		case media.FieldTitle:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field title", values[i])
 			} else if value.Valid {
-				m.Title = value.String
+				_m.Title = value.String
 			}
 		case media.FieldType:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field type", values[i])
 			} else if value.Valid {
-				m.Type = value.String
+				_m.Type = value.String
 			}
 		case media.FieldURL:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field url", values[i])
 			} else if value.Valid {
-				m.URL = value.String
+				_m.URL = value.String
 			}
 		case media.FieldExtras:
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field extras", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &m.Extras); err != nil {
+				if err := json.Unmarshal(*value, &_m.Extras); err != nil {
 					return fmt.Errorf("unmarshal field extras: %w", err)
 				}
 			}
@@ -109,58 +109,58 @@ func (m *Media) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field space_id", values[i])
 			} else if value.Valid {
-				m.SpaceID = value.String
+				_m.SpaceID = value.String
 			}
 		case media.FieldCreatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field created_by", values[i])
 			} else if value.Valid {
-				m.CreatedBy = value.String
+				_m.CreatedBy = value.String
 			}
 		case media.FieldUpdatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_by", values[i])
 			} else if value.Valid {
-				m.UpdatedBy = value.String
+				_m.UpdatedBy = value.String
 			}
 		case media.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field created_at", values[i])
 			} else if value.Valid {
-				m.CreatedAt = value.Int64
+				_m.CreatedAt = value.Int64
 			}
 		case media.FieldUpdatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_at", values[i])
 			} else if value.Valid {
-				m.UpdatedAt = value.Int64
+				_m.UpdatedAt = value.Int64
 			}
 		case media.FieldOwnerID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field owner_id", values[i])
 			} else if value.Valid {
-				m.OwnerID = value.String
+				_m.OwnerID = value.String
 			}
 		case media.FieldResourceID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field resource_id", values[i])
 			} else if value.Valid {
-				m.ResourceID = value.String
+				_m.ResourceID = value.String
 			}
 		case media.FieldDescription:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field description", values[i])
 			} else if value.Valid {
-				m.Description = value.String
+				_m.Description = value.String
 			}
 		case media.FieldAlt:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field alt", values[i])
 			} else if value.Valid {
-				m.Alt = value.String
+				_m.Alt = value.String
 			}
 		default:
-			m.selectValues.Set(columns[i], values[i])
+			_m.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
@@ -168,71 +168,71 @@ func (m *Media) assignValues(columns []string, values []any) error {
 
 // Value returns the ent.Value that was dynamically selected and assigned to the Media.
 // This includes values selected through modifiers, order, etc.
-func (m *Media) Value(name string) (ent.Value, error) {
-	return m.selectValues.Get(name)
+func (_m *Media) Value(name string) (ent.Value, error) {
+	return _m.selectValues.Get(name)
 }
 
 // Update returns a builder for updating this Media.
 // Note that you need to call Media.Unwrap() before calling this method if this Media
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (m *Media) Update() *MediaUpdateOne {
-	return NewMediaClient(m.config).UpdateOne(m)
+func (_m *Media) Update() *MediaUpdateOne {
+	return NewMediaClient(_m.config).UpdateOne(_m)
 }
 
 // Unwrap unwraps the Media entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (m *Media) Unwrap() *Media {
-	_tx, ok := m.config.driver.(*txDriver)
+func (_m *Media) Unwrap() *Media {
+	_tx, ok := _m.config.driver.(*txDriver)
 	if !ok {
 		panic("ent: Media is not a transactional entity")
 	}
-	m.config.driver = _tx.drv
-	return m
+	_m.config.driver = _tx.drv
+	return _m
 }
 
 // String implements the fmt.Stringer.
-func (m *Media) String() string {
+func (_m *Media) String() string {
 	var builder strings.Builder
 	builder.WriteString("Media(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", m.ID))
+	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
 	builder.WriteString("title=")
-	builder.WriteString(m.Title)
+	builder.WriteString(_m.Title)
 	builder.WriteString(", ")
 	builder.WriteString("type=")
-	builder.WriteString(m.Type)
+	builder.WriteString(_m.Type)
 	builder.WriteString(", ")
 	builder.WriteString("url=")
-	builder.WriteString(m.URL)
+	builder.WriteString(_m.URL)
 	builder.WriteString(", ")
 	builder.WriteString("extras=")
-	builder.WriteString(fmt.Sprintf("%v", m.Extras))
+	builder.WriteString(fmt.Sprintf("%v", _m.Extras))
 	builder.WriteString(", ")
 	builder.WriteString("space_id=")
-	builder.WriteString(m.SpaceID)
+	builder.WriteString(_m.SpaceID)
 	builder.WriteString(", ")
 	builder.WriteString("created_by=")
-	builder.WriteString(m.CreatedBy)
+	builder.WriteString(_m.CreatedBy)
 	builder.WriteString(", ")
 	builder.WriteString("updated_by=")
-	builder.WriteString(m.UpdatedBy)
+	builder.WriteString(_m.UpdatedBy)
 	builder.WriteString(", ")
 	builder.WriteString("created_at=")
-	builder.WriteString(fmt.Sprintf("%v", m.CreatedAt))
+	builder.WriteString(fmt.Sprintf("%v", _m.CreatedAt))
 	builder.WriteString(", ")
 	builder.WriteString("updated_at=")
-	builder.WriteString(fmt.Sprintf("%v", m.UpdatedAt))
+	builder.WriteString(fmt.Sprintf("%v", _m.UpdatedAt))
 	builder.WriteString(", ")
 	builder.WriteString("owner_id=")
-	builder.WriteString(m.OwnerID)
+	builder.WriteString(_m.OwnerID)
 	builder.WriteString(", ")
 	builder.WriteString("resource_id=")
-	builder.WriteString(m.ResourceID)
+	builder.WriteString(_m.ResourceID)
 	builder.WriteString(", ")
 	builder.WriteString("description=")
-	builder.WriteString(m.Description)
+	builder.WriteString(_m.Description)
 	builder.WriteString(", ")
 	builder.WriteString("alt=")
-	builder.WriteString(m.Alt)
+	builder.WriteString(_m.Alt)
 	builder.WriteByte(')')
 	return builder.String()
 }

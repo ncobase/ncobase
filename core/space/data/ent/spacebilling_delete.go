@@ -20,56 +20,56 @@ type SpaceBillingDelete struct {
 }
 
 // Where appends a list predicates to the SpaceBillingDelete builder.
-func (sbd *SpaceBillingDelete) Where(ps ...predicate.SpaceBilling) *SpaceBillingDelete {
-	sbd.mutation.Where(ps...)
-	return sbd
+func (_d *SpaceBillingDelete) Where(ps ...predicate.SpaceBilling) *SpaceBillingDelete {
+	_d.mutation.Where(ps...)
+	return _d
 }
 
 // Exec executes the deletion query and returns how many vertices were deleted.
-func (sbd *SpaceBillingDelete) Exec(ctx context.Context) (int, error) {
-	return withHooks(ctx, sbd.sqlExec, sbd.mutation, sbd.hooks)
+func (_d *SpaceBillingDelete) Exec(ctx context.Context) (int, error) {
+	return withHooks(ctx, _d.sqlExec, _d.mutation, _d.hooks)
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (sbd *SpaceBillingDelete) ExecX(ctx context.Context) int {
-	n, err := sbd.Exec(ctx)
+func (_d *SpaceBillingDelete) ExecX(ctx context.Context) int {
+	n, err := _d.Exec(ctx)
 	if err != nil {
 		panic(err)
 	}
 	return n
 }
 
-func (sbd *SpaceBillingDelete) sqlExec(ctx context.Context) (int, error) {
+func (_d *SpaceBillingDelete) sqlExec(ctx context.Context) (int, error) {
 	_spec := sqlgraph.NewDeleteSpec(spacebilling.Table, sqlgraph.NewFieldSpec(spacebilling.FieldID, field.TypeString))
-	if ps := sbd.mutation.predicates; len(ps) > 0 {
+	if ps := _d.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	affected, err := sqlgraph.DeleteNodes(ctx, sbd.driver, _spec)
+	affected, err := sqlgraph.DeleteNodes(ctx, _d.driver, _spec)
 	if err != nil && sqlgraph.IsConstraintError(err) {
 		err = &ConstraintError{msg: err.Error(), wrap: err}
 	}
-	sbd.mutation.done = true
+	_d.mutation.done = true
 	return affected, err
 }
 
 // SpaceBillingDeleteOne is the builder for deleting a single SpaceBilling entity.
 type SpaceBillingDeleteOne struct {
-	sbd *SpaceBillingDelete
+	_d *SpaceBillingDelete
 }
 
 // Where appends a list predicates to the SpaceBillingDelete builder.
-func (sbdo *SpaceBillingDeleteOne) Where(ps ...predicate.SpaceBilling) *SpaceBillingDeleteOne {
-	sbdo.sbd.mutation.Where(ps...)
-	return sbdo
+func (_d *SpaceBillingDeleteOne) Where(ps ...predicate.SpaceBilling) *SpaceBillingDeleteOne {
+	_d._d.mutation.Where(ps...)
+	return _d
 }
 
 // Exec executes the deletion query.
-func (sbdo *SpaceBillingDeleteOne) Exec(ctx context.Context) error {
-	n, err := sbdo.sbd.Exec(ctx)
+func (_d *SpaceBillingDeleteOne) Exec(ctx context.Context) error {
+	n, err := _d._d.Exec(ctx)
 	switch {
 	case err != nil:
 		return err
@@ -81,8 +81,8 @@ func (sbdo *SpaceBillingDeleteOne) Exec(ctx context.Context) error {
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (sbdo *SpaceBillingDeleteOne) ExecX(ctx context.Context) {
-	if err := sbdo.Exec(ctx); err != nil {
+func (_d *SpaceBillingDeleteOne) ExecX(ctx context.Context) {
+	if err := _d.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

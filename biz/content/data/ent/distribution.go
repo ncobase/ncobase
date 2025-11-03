@@ -107,7 +107,7 @@ func (*Distribution) scanValues(columns []string) ([]any, error) {
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
 // to the Distribution fields.
-func (d *Distribution) assignValues(columns []string, values []any) error {
+func (_m *Distribution) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
@@ -117,13 +117,13 @@ func (d *Distribution) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field id", values[i])
 			} else if value.Valid {
-				d.ID = value.String
+				_m.ID = value.String
 			}
 		case distribution.FieldExtras:
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field extras", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &d.Extras); err != nil {
+				if err := json.Unmarshal(*value, &_m.Extras); err != nil {
 					return fmt.Errorf("unmarshal field extras: %w", err)
 				}
 			}
@@ -131,84 +131,84 @@ func (d *Distribution) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field space_id", values[i])
 			} else if value.Valid {
-				d.SpaceID = value.String
+				_m.SpaceID = value.String
 			}
 		case distribution.FieldCreatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field created_by", values[i])
 			} else if value.Valid {
-				d.CreatedBy = value.String
+				_m.CreatedBy = value.String
 			}
 		case distribution.FieldUpdatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_by", values[i])
 			} else if value.Valid {
-				d.UpdatedBy = value.String
+				_m.UpdatedBy = value.String
 			}
 		case distribution.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field created_at", values[i])
 			} else if value.Valid {
-				d.CreatedAt = value.Int64
+				_m.CreatedAt = value.Int64
 			}
 		case distribution.FieldUpdatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_at", values[i])
 			} else if value.Valid {
-				d.UpdatedAt = value.Int64
+				_m.UpdatedAt = value.Int64
 			}
 		case distribution.FieldTopicID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field topic_id", values[i])
 			} else if value.Valid {
-				d.TopicID = value.String
+				_m.TopicID = value.String
 			}
 		case distribution.FieldChannelID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field channel_id", values[i])
 			} else if value.Valid {
-				d.ChannelID = value.String
+				_m.ChannelID = value.String
 			}
 		case distribution.FieldStatus:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field status", values[i])
 			} else if value.Valid {
-				d.Status = int(value.Int64)
+				_m.Status = int(value.Int64)
 			}
 		case distribution.FieldScheduledAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field scheduled_at", values[i])
 			} else if value.Valid {
-				d.ScheduledAt = new(int64)
-				*d.ScheduledAt = value.Int64
+				_m.ScheduledAt = new(int64)
+				*_m.ScheduledAt = value.Int64
 			}
 		case distribution.FieldPublishedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field published_at", values[i])
 			} else if value.Valid {
-				d.PublishedAt = new(int64)
-				*d.PublishedAt = value.Int64
+				_m.PublishedAt = new(int64)
+				*_m.PublishedAt = value.Int64
 			}
 		case distribution.FieldExternalID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field external_id", values[i])
 			} else if value.Valid {
-				d.ExternalID = value.String
+				_m.ExternalID = value.String
 			}
 		case distribution.FieldExternalURL:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field external_url", values[i])
 			} else if value.Valid {
-				d.ExternalURL = value.String
+				_m.ExternalURL = value.String
 			}
 		case distribution.FieldErrorDetails:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field error_details", values[i])
 			} else if value.Valid {
-				d.ErrorDetails = value.String
+				_m.ErrorDetails = value.String
 			}
 		default:
-			d.selectValues.Set(columns[i], values[i])
+			_m.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
@@ -216,88 +216,88 @@ func (d *Distribution) assignValues(columns []string, values []any) error {
 
 // Value returns the ent.Value that was dynamically selected and assigned to the Distribution.
 // This includes values selected through modifiers, order, etc.
-func (d *Distribution) Value(name string) (ent.Value, error) {
-	return d.selectValues.Get(name)
+func (_m *Distribution) Value(name string) (ent.Value, error) {
+	return _m.selectValues.Get(name)
 }
 
 // QueryTopic queries the "topic" edge of the Distribution entity.
-func (d *Distribution) QueryTopic() *TopicQuery {
-	return NewDistributionClient(d.config).QueryTopic(d)
+func (_m *Distribution) QueryTopic() *TopicQuery {
+	return NewDistributionClient(_m.config).QueryTopic(_m)
 }
 
 // QueryChannel queries the "channel" edge of the Distribution entity.
-func (d *Distribution) QueryChannel() *CMSChannelQuery {
-	return NewDistributionClient(d.config).QueryChannel(d)
+func (_m *Distribution) QueryChannel() *CMSChannelQuery {
+	return NewDistributionClient(_m.config).QueryChannel(_m)
 }
 
 // Update returns a builder for updating this Distribution.
 // Note that you need to call Distribution.Unwrap() before calling this method if this Distribution
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (d *Distribution) Update() *DistributionUpdateOne {
-	return NewDistributionClient(d.config).UpdateOne(d)
+func (_m *Distribution) Update() *DistributionUpdateOne {
+	return NewDistributionClient(_m.config).UpdateOne(_m)
 }
 
 // Unwrap unwraps the Distribution entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (d *Distribution) Unwrap() *Distribution {
-	_tx, ok := d.config.driver.(*txDriver)
+func (_m *Distribution) Unwrap() *Distribution {
+	_tx, ok := _m.config.driver.(*txDriver)
 	if !ok {
 		panic("ent: Distribution is not a transactional entity")
 	}
-	d.config.driver = _tx.drv
-	return d
+	_m.config.driver = _tx.drv
+	return _m
 }
 
 // String implements the fmt.Stringer.
-func (d *Distribution) String() string {
+func (_m *Distribution) String() string {
 	var builder strings.Builder
 	builder.WriteString("Distribution(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", d.ID))
+	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
 	builder.WriteString("extras=")
-	builder.WriteString(fmt.Sprintf("%v", d.Extras))
+	builder.WriteString(fmt.Sprintf("%v", _m.Extras))
 	builder.WriteString(", ")
 	builder.WriteString("space_id=")
-	builder.WriteString(d.SpaceID)
+	builder.WriteString(_m.SpaceID)
 	builder.WriteString(", ")
 	builder.WriteString("created_by=")
-	builder.WriteString(d.CreatedBy)
+	builder.WriteString(_m.CreatedBy)
 	builder.WriteString(", ")
 	builder.WriteString("updated_by=")
-	builder.WriteString(d.UpdatedBy)
+	builder.WriteString(_m.UpdatedBy)
 	builder.WriteString(", ")
 	builder.WriteString("created_at=")
-	builder.WriteString(fmt.Sprintf("%v", d.CreatedAt))
+	builder.WriteString(fmt.Sprintf("%v", _m.CreatedAt))
 	builder.WriteString(", ")
 	builder.WriteString("updated_at=")
-	builder.WriteString(fmt.Sprintf("%v", d.UpdatedAt))
+	builder.WriteString(fmt.Sprintf("%v", _m.UpdatedAt))
 	builder.WriteString(", ")
 	builder.WriteString("topic_id=")
-	builder.WriteString(d.TopicID)
+	builder.WriteString(_m.TopicID)
 	builder.WriteString(", ")
 	builder.WriteString("channel_id=")
-	builder.WriteString(d.ChannelID)
+	builder.WriteString(_m.ChannelID)
 	builder.WriteString(", ")
 	builder.WriteString("status=")
-	builder.WriteString(fmt.Sprintf("%v", d.Status))
+	builder.WriteString(fmt.Sprintf("%v", _m.Status))
 	builder.WriteString(", ")
-	if v := d.ScheduledAt; v != nil {
+	if v := _m.ScheduledAt; v != nil {
 		builder.WriteString("scheduled_at=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
-	if v := d.PublishedAt; v != nil {
+	if v := _m.PublishedAt; v != nil {
 		builder.WriteString("published_at=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
 	builder.WriteString("external_id=")
-	builder.WriteString(d.ExternalID)
+	builder.WriteString(_m.ExternalID)
 	builder.WriteString(", ")
 	builder.WriteString("external_url=")
-	builder.WriteString(d.ExternalURL)
+	builder.WriteString(_m.ExternalURL)
 	builder.WriteString(", ")
 	builder.WriteString("error_details=")
-	builder.WriteString(d.ErrorDetails)
+	builder.WriteString(_m.ErrorDetails)
 	builder.WriteByte(')')
 	return builder.String()
 }

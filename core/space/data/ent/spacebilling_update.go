@@ -22,359 +22,359 @@ type SpaceBillingUpdate struct {
 }
 
 // Where appends a list predicates to the SpaceBillingUpdate builder.
-func (sbu *SpaceBillingUpdate) Where(ps ...predicate.SpaceBilling) *SpaceBillingUpdate {
-	sbu.mutation.Where(ps...)
-	return sbu
+func (_u *SpaceBillingUpdate) Where(ps ...predicate.SpaceBilling) *SpaceBillingUpdate {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // SetSpaceID sets the "space_id" field.
-func (sbu *SpaceBillingUpdate) SetSpaceID(s string) *SpaceBillingUpdate {
-	sbu.mutation.SetSpaceID(s)
-	return sbu
+func (_u *SpaceBillingUpdate) SetSpaceID(v string) *SpaceBillingUpdate {
+	_u.mutation.SetSpaceID(v)
+	return _u
 }
 
 // SetNillableSpaceID sets the "space_id" field if the given value is not nil.
-func (sbu *SpaceBillingUpdate) SetNillableSpaceID(s *string) *SpaceBillingUpdate {
-	if s != nil {
-		sbu.SetSpaceID(*s)
+func (_u *SpaceBillingUpdate) SetNillableSpaceID(v *string) *SpaceBillingUpdate {
+	if v != nil {
+		_u.SetSpaceID(*v)
 	}
-	return sbu
+	return _u
 }
 
 // ClearSpaceID clears the value of the "space_id" field.
-func (sbu *SpaceBillingUpdate) ClearSpaceID() *SpaceBillingUpdate {
-	sbu.mutation.ClearSpaceID()
-	return sbu
+func (_u *SpaceBillingUpdate) ClearSpaceID() *SpaceBillingUpdate {
+	_u.mutation.ClearSpaceID()
+	return _u
 }
 
 // SetDescription sets the "description" field.
-func (sbu *SpaceBillingUpdate) SetDescription(s string) *SpaceBillingUpdate {
-	sbu.mutation.SetDescription(s)
-	return sbu
+func (_u *SpaceBillingUpdate) SetDescription(v string) *SpaceBillingUpdate {
+	_u.mutation.SetDescription(v)
+	return _u
 }
 
 // SetNillableDescription sets the "description" field if the given value is not nil.
-func (sbu *SpaceBillingUpdate) SetNillableDescription(s *string) *SpaceBillingUpdate {
-	if s != nil {
-		sbu.SetDescription(*s)
+func (_u *SpaceBillingUpdate) SetNillableDescription(v *string) *SpaceBillingUpdate {
+	if v != nil {
+		_u.SetDescription(*v)
 	}
-	return sbu
+	return _u
 }
 
 // ClearDescription clears the value of the "description" field.
-func (sbu *SpaceBillingUpdate) ClearDescription() *SpaceBillingUpdate {
-	sbu.mutation.ClearDescription()
-	return sbu
+func (_u *SpaceBillingUpdate) ClearDescription() *SpaceBillingUpdate {
+	_u.mutation.ClearDescription()
+	return _u
 }
 
 // SetExtras sets the "extras" field.
-func (sbu *SpaceBillingUpdate) SetExtras(m map[string]interface{}) *SpaceBillingUpdate {
-	sbu.mutation.SetExtras(m)
-	return sbu
+func (_u *SpaceBillingUpdate) SetExtras(v map[string]interface{}) *SpaceBillingUpdate {
+	_u.mutation.SetExtras(v)
+	return _u
 }
 
 // ClearExtras clears the value of the "extras" field.
-func (sbu *SpaceBillingUpdate) ClearExtras() *SpaceBillingUpdate {
-	sbu.mutation.ClearExtras()
-	return sbu
+func (_u *SpaceBillingUpdate) ClearExtras() *SpaceBillingUpdate {
+	_u.mutation.ClearExtras()
+	return _u
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (sbu *SpaceBillingUpdate) SetCreatedBy(s string) *SpaceBillingUpdate {
-	sbu.mutation.SetCreatedBy(s)
-	return sbu
+func (_u *SpaceBillingUpdate) SetCreatedBy(v string) *SpaceBillingUpdate {
+	_u.mutation.SetCreatedBy(v)
+	return _u
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (sbu *SpaceBillingUpdate) SetNillableCreatedBy(s *string) *SpaceBillingUpdate {
-	if s != nil {
-		sbu.SetCreatedBy(*s)
+func (_u *SpaceBillingUpdate) SetNillableCreatedBy(v *string) *SpaceBillingUpdate {
+	if v != nil {
+		_u.SetCreatedBy(*v)
 	}
-	return sbu
+	return _u
 }
 
 // ClearCreatedBy clears the value of the "created_by" field.
-func (sbu *SpaceBillingUpdate) ClearCreatedBy() *SpaceBillingUpdate {
-	sbu.mutation.ClearCreatedBy()
-	return sbu
+func (_u *SpaceBillingUpdate) ClearCreatedBy() *SpaceBillingUpdate {
+	_u.mutation.ClearCreatedBy()
+	return _u
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (sbu *SpaceBillingUpdate) SetUpdatedBy(s string) *SpaceBillingUpdate {
-	sbu.mutation.SetUpdatedBy(s)
-	return sbu
+func (_u *SpaceBillingUpdate) SetUpdatedBy(v string) *SpaceBillingUpdate {
+	_u.mutation.SetUpdatedBy(v)
+	return _u
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (sbu *SpaceBillingUpdate) SetNillableUpdatedBy(s *string) *SpaceBillingUpdate {
-	if s != nil {
-		sbu.SetUpdatedBy(*s)
+func (_u *SpaceBillingUpdate) SetNillableUpdatedBy(v *string) *SpaceBillingUpdate {
+	if v != nil {
+		_u.SetUpdatedBy(*v)
 	}
-	return sbu
+	return _u
 }
 
 // ClearUpdatedBy clears the value of the "updated_by" field.
-func (sbu *SpaceBillingUpdate) ClearUpdatedBy() *SpaceBillingUpdate {
-	sbu.mutation.ClearUpdatedBy()
-	return sbu
+func (_u *SpaceBillingUpdate) ClearUpdatedBy() *SpaceBillingUpdate {
+	_u.mutation.ClearUpdatedBy()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (sbu *SpaceBillingUpdate) SetUpdatedAt(i int64) *SpaceBillingUpdate {
-	sbu.mutation.ResetUpdatedAt()
-	sbu.mutation.SetUpdatedAt(i)
-	return sbu
+func (_u *SpaceBillingUpdate) SetUpdatedAt(v int64) *SpaceBillingUpdate {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (sbu *SpaceBillingUpdate) AddUpdatedAt(i int64) *SpaceBillingUpdate {
-	sbu.mutation.AddUpdatedAt(i)
-	return sbu
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *SpaceBillingUpdate) AddUpdatedAt(v int64) *SpaceBillingUpdate {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (sbu *SpaceBillingUpdate) ClearUpdatedAt() *SpaceBillingUpdate {
-	sbu.mutation.ClearUpdatedAt()
-	return sbu
+func (_u *SpaceBillingUpdate) ClearUpdatedAt() *SpaceBillingUpdate {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // SetBillingPeriod sets the "billing_period" field.
-func (sbu *SpaceBillingUpdate) SetBillingPeriod(s string) *SpaceBillingUpdate {
-	sbu.mutation.SetBillingPeriod(s)
-	return sbu
+func (_u *SpaceBillingUpdate) SetBillingPeriod(v string) *SpaceBillingUpdate {
+	_u.mutation.SetBillingPeriod(v)
+	return _u
 }
 
 // SetNillableBillingPeriod sets the "billing_period" field if the given value is not nil.
-func (sbu *SpaceBillingUpdate) SetNillableBillingPeriod(s *string) *SpaceBillingUpdate {
-	if s != nil {
-		sbu.SetBillingPeriod(*s)
+func (_u *SpaceBillingUpdate) SetNillableBillingPeriod(v *string) *SpaceBillingUpdate {
+	if v != nil {
+		_u.SetBillingPeriod(*v)
 	}
-	return sbu
+	return _u
 }
 
 // SetPeriodStart sets the "period_start" field.
-func (sbu *SpaceBillingUpdate) SetPeriodStart(i int64) *SpaceBillingUpdate {
-	sbu.mutation.ResetPeriodStart()
-	sbu.mutation.SetPeriodStart(i)
-	return sbu
+func (_u *SpaceBillingUpdate) SetPeriodStart(v int64) *SpaceBillingUpdate {
+	_u.mutation.ResetPeriodStart()
+	_u.mutation.SetPeriodStart(v)
+	return _u
 }
 
 // SetNillablePeriodStart sets the "period_start" field if the given value is not nil.
-func (sbu *SpaceBillingUpdate) SetNillablePeriodStart(i *int64) *SpaceBillingUpdate {
-	if i != nil {
-		sbu.SetPeriodStart(*i)
+func (_u *SpaceBillingUpdate) SetNillablePeriodStart(v *int64) *SpaceBillingUpdate {
+	if v != nil {
+		_u.SetPeriodStart(*v)
 	}
-	return sbu
+	return _u
 }
 
-// AddPeriodStart adds i to the "period_start" field.
-func (sbu *SpaceBillingUpdate) AddPeriodStart(i int64) *SpaceBillingUpdate {
-	sbu.mutation.AddPeriodStart(i)
-	return sbu
+// AddPeriodStart adds value to the "period_start" field.
+func (_u *SpaceBillingUpdate) AddPeriodStart(v int64) *SpaceBillingUpdate {
+	_u.mutation.AddPeriodStart(v)
+	return _u
 }
 
 // ClearPeriodStart clears the value of the "period_start" field.
-func (sbu *SpaceBillingUpdate) ClearPeriodStart() *SpaceBillingUpdate {
-	sbu.mutation.ClearPeriodStart()
-	return sbu
+func (_u *SpaceBillingUpdate) ClearPeriodStart() *SpaceBillingUpdate {
+	_u.mutation.ClearPeriodStart()
+	return _u
 }
 
 // SetPeriodEnd sets the "period_end" field.
-func (sbu *SpaceBillingUpdate) SetPeriodEnd(i int64) *SpaceBillingUpdate {
-	sbu.mutation.ResetPeriodEnd()
-	sbu.mutation.SetPeriodEnd(i)
-	return sbu
+func (_u *SpaceBillingUpdate) SetPeriodEnd(v int64) *SpaceBillingUpdate {
+	_u.mutation.ResetPeriodEnd()
+	_u.mutation.SetPeriodEnd(v)
+	return _u
 }
 
 // SetNillablePeriodEnd sets the "period_end" field if the given value is not nil.
-func (sbu *SpaceBillingUpdate) SetNillablePeriodEnd(i *int64) *SpaceBillingUpdate {
-	if i != nil {
-		sbu.SetPeriodEnd(*i)
+func (_u *SpaceBillingUpdate) SetNillablePeriodEnd(v *int64) *SpaceBillingUpdate {
+	if v != nil {
+		_u.SetPeriodEnd(*v)
 	}
-	return sbu
+	return _u
 }
 
-// AddPeriodEnd adds i to the "period_end" field.
-func (sbu *SpaceBillingUpdate) AddPeriodEnd(i int64) *SpaceBillingUpdate {
-	sbu.mutation.AddPeriodEnd(i)
-	return sbu
+// AddPeriodEnd adds value to the "period_end" field.
+func (_u *SpaceBillingUpdate) AddPeriodEnd(v int64) *SpaceBillingUpdate {
+	_u.mutation.AddPeriodEnd(v)
+	return _u
 }
 
 // ClearPeriodEnd clears the value of the "period_end" field.
-func (sbu *SpaceBillingUpdate) ClearPeriodEnd() *SpaceBillingUpdate {
-	sbu.mutation.ClearPeriodEnd()
-	return sbu
+func (_u *SpaceBillingUpdate) ClearPeriodEnd() *SpaceBillingUpdate {
+	_u.mutation.ClearPeriodEnd()
+	return _u
 }
 
 // SetAmount sets the "amount" field.
-func (sbu *SpaceBillingUpdate) SetAmount(f float64) *SpaceBillingUpdate {
-	sbu.mutation.ResetAmount()
-	sbu.mutation.SetAmount(f)
-	return sbu
+func (_u *SpaceBillingUpdate) SetAmount(v float64) *SpaceBillingUpdate {
+	_u.mutation.ResetAmount()
+	_u.mutation.SetAmount(v)
+	return _u
 }
 
 // SetNillableAmount sets the "amount" field if the given value is not nil.
-func (sbu *SpaceBillingUpdate) SetNillableAmount(f *float64) *SpaceBillingUpdate {
-	if f != nil {
-		sbu.SetAmount(*f)
+func (_u *SpaceBillingUpdate) SetNillableAmount(v *float64) *SpaceBillingUpdate {
+	if v != nil {
+		_u.SetAmount(*v)
 	}
-	return sbu
+	return _u
 }
 
-// AddAmount adds f to the "amount" field.
-func (sbu *SpaceBillingUpdate) AddAmount(f float64) *SpaceBillingUpdate {
-	sbu.mutation.AddAmount(f)
-	return sbu
+// AddAmount adds value to the "amount" field.
+func (_u *SpaceBillingUpdate) AddAmount(v float64) *SpaceBillingUpdate {
+	_u.mutation.AddAmount(v)
+	return _u
 }
 
 // SetCurrency sets the "currency" field.
-func (sbu *SpaceBillingUpdate) SetCurrency(s string) *SpaceBillingUpdate {
-	sbu.mutation.SetCurrency(s)
-	return sbu
+func (_u *SpaceBillingUpdate) SetCurrency(v string) *SpaceBillingUpdate {
+	_u.mutation.SetCurrency(v)
+	return _u
 }
 
 // SetNillableCurrency sets the "currency" field if the given value is not nil.
-func (sbu *SpaceBillingUpdate) SetNillableCurrency(s *string) *SpaceBillingUpdate {
-	if s != nil {
-		sbu.SetCurrency(*s)
+func (_u *SpaceBillingUpdate) SetNillableCurrency(v *string) *SpaceBillingUpdate {
+	if v != nil {
+		_u.SetCurrency(*v)
 	}
-	return sbu
+	return _u
 }
 
 // SetStatus sets the "status" field.
-func (sbu *SpaceBillingUpdate) SetStatus(s string) *SpaceBillingUpdate {
-	sbu.mutation.SetStatus(s)
-	return sbu
+func (_u *SpaceBillingUpdate) SetStatus(v string) *SpaceBillingUpdate {
+	_u.mutation.SetStatus(v)
+	return _u
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (sbu *SpaceBillingUpdate) SetNillableStatus(s *string) *SpaceBillingUpdate {
-	if s != nil {
-		sbu.SetStatus(*s)
+func (_u *SpaceBillingUpdate) SetNillableStatus(v *string) *SpaceBillingUpdate {
+	if v != nil {
+		_u.SetStatus(*v)
 	}
-	return sbu
+	return _u
 }
 
 // SetInvoiceNumber sets the "invoice_number" field.
-func (sbu *SpaceBillingUpdate) SetInvoiceNumber(s string) *SpaceBillingUpdate {
-	sbu.mutation.SetInvoiceNumber(s)
-	return sbu
+func (_u *SpaceBillingUpdate) SetInvoiceNumber(v string) *SpaceBillingUpdate {
+	_u.mutation.SetInvoiceNumber(v)
+	return _u
 }
 
 // SetNillableInvoiceNumber sets the "invoice_number" field if the given value is not nil.
-func (sbu *SpaceBillingUpdate) SetNillableInvoiceNumber(s *string) *SpaceBillingUpdate {
-	if s != nil {
-		sbu.SetInvoiceNumber(*s)
+func (_u *SpaceBillingUpdate) SetNillableInvoiceNumber(v *string) *SpaceBillingUpdate {
+	if v != nil {
+		_u.SetInvoiceNumber(*v)
 	}
-	return sbu
+	return _u
 }
 
 // ClearInvoiceNumber clears the value of the "invoice_number" field.
-func (sbu *SpaceBillingUpdate) ClearInvoiceNumber() *SpaceBillingUpdate {
-	sbu.mutation.ClearInvoiceNumber()
-	return sbu
+func (_u *SpaceBillingUpdate) ClearInvoiceNumber() *SpaceBillingUpdate {
+	_u.mutation.ClearInvoiceNumber()
+	return _u
 }
 
 // SetPaymentMethod sets the "payment_method" field.
-func (sbu *SpaceBillingUpdate) SetPaymentMethod(s string) *SpaceBillingUpdate {
-	sbu.mutation.SetPaymentMethod(s)
-	return sbu
+func (_u *SpaceBillingUpdate) SetPaymentMethod(v string) *SpaceBillingUpdate {
+	_u.mutation.SetPaymentMethod(v)
+	return _u
 }
 
 // SetNillablePaymentMethod sets the "payment_method" field if the given value is not nil.
-func (sbu *SpaceBillingUpdate) SetNillablePaymentMethod(s *string) *SpaceBillingUpdate {
-	if s != nil {
-		sbu.SetPaymentMethod(*s)
+func (_u *SpaceBillingUpdate) SetNillablePaymentMethod(v *string) *SpaceBillingUpdate {
+	if v != nil {
+		_u.SetPaymentMethod(*v)
 	}
-	return sbu
+	return _u
 }
 
 // ClearPaymentMethod clears the value of the "payment_method" field.
-func (sbu *SpaceBillingUpdate) ClearPaymentMethod() *SpaceBillingUpdate {
-	sbu.mutation.ClearPaymentMethod()
-	return sbu
+func (_u *SpaceBillingUpdate) ClearPaymentMethod() *SpaceBillingUpdate {
+	_u.mutation.ClearPaymentMethod()
+	return _u
 }
 
 // SetPaidAt sets the "paid_at" field.
-func (sbu *SpaceBillingUpdate) SetPaidAt(i int64) *SpaceBillingUpdate {
-	sbu.mutation.ResetPaidAt()
-	sbu.mutation.SetPaidAt(i)
-	return sbu
+func (_u *SpaceBillingUpdate) SetPaidAt(v int64) *SpaceBillingUpdate {
+	_u.mutation.ResetPaidAt()
+	_u.mutation.SetPaidAt(v)
+	return _u
 }
 
 // SetNillablePaidAt sets the "paid_at" field if the given value is not nil.
-func (sbu *SpaceBillingUpdate) SetNillablePaidAt(i *int64) *SpaceBillingUpdate {
-	if i != nil {
-		sbu.SetPaidAt(*i)
+func (_u *SpaceBillingUpdate) SetNillablePaidAt(v *int64) *SpaceBillingUpdate {
+	if v != nil {
+		_u.SetPaidAt(*v)
 	}
-	return sbu
+	return _u
 }
 
-// AddPaidAt adds i to the "paid_at" field.
-func (sbu *SpaceBillingUpdate) AddPaidAt(i int64) *SpaceBillingUpdate {
-	sbu.mutation.AddPaidAt(i)
-	return sbu
+// AddPaidAt adds value to the "paid_at" field.
+func (_u *SpaceBillingUpdate) AddPaidAt(v int64) *SpaceBillingUpdate {
+	_u.mutation.AddPaidAt(v)
+	return _u
 }
 
 // ClearPaidAt clears the value of the "paid_at" field.
-func (sbu *SpaceBillingUpdate) ClearPaidAt() *SpaceBillingUpdate {
-	sbu.mutation.ClearPaidAt()
-	return sbu
+func (_u *SpaceBillingUpdate) ClearPaidAt() *SpaceBillingUpdate {
+	_u.mutation.ClearPaidAt()
+	return _u
 }
 
 // SetDueDate sets the "due_date" field.
-func (sbu *SpaceBillingUpdate) SetDueDate(i int64) *SpaceBillingUpdate {
-	sbu.mutation.ResetDueDate()
-	sbu.mutation.SetDueDate(i)
-	return sbu
+func (_u *SpaceBillingUpdate) SetDueDate(v int64) *SpaceBillingUpdate {
+	_u.mutation.ResetDueDate()
+	_u.mutation.SetDueDate(v)
+	return _u
 }
 
 // SetNillableDueDate sets the "due_date" field if the given value is not nil.
-func (sbu *SpaceBillingUpdate) SetNillableDueDate(i *int64) *SpaceBillingUpdate {
-	if i != nil {
-		sbu.SetDueDate(*i)
+func (_u *SpaceBillingUpdate) SetNillableDueDate(v *int64) *SpaceBillingUpdate {
+	if v != nil {
+		_u.SetDueDate(*v)
 	}
-	return sbu
+	return _u
 }
 
-// AddDueDate adds i to the "due_date" field.
-func (sbu *SpaceBillingUpdate) AddDueDate(i int64) *SpaceBillingUpdate {
-	sbu.mutation.AddDueDate(i)
-	return sbu
+// AddDueDate adds value to the "due_date" field.
+func (_u *SpaceBillingUpdate) AddDueDate(v int64) *SpaceBillingUpdate {
+	_u.mutation.AddDueDate(v)
+	return _u
 }
 
 // ClearDueDate clears the value of the "due_date" field.
-func (sbu *SpaceBillingUpdate) ClearDueDate() *SpaceBillingUpdate {
-	sbu.mutation.ClearDueDate()
-	return sbu
+func (_u *SpaceBillingUpdate) ClearDueDate() *SpaceBillingUpdate {
+	_u.mutation.ClearDueDate()
+	return _u
 }
 
 // SetUsageDetails sets the "usage_details" field.
-func (sbu *SpaceBillingUpdate) SetUsageDetails(m map[string]interface{}) *SpaceBillingUpdate {
-	sbu.mutation.SetUsageDetails(m)
-	return sbu
+func (_u *SpaceBillingUpdate) SetUsageDetails(v map[string]interface{}) *SpaceBillingUpdate {
+	_u.mutation.SetUsageDetails(v)
+	return _u
 }
 
 // ClearUsageDetails clears the value of the "usage_details" field.
-func (sbu *SpaceBillingUpdate) ClearUsageDetails() *SpaceBillingUpdate {
-	sbu.mutation.ClearUsageDetails()
-	return sbu
+func (_u *SpaceBillingUpdate) ClearUsageDetails() *SpaceBillingUpdate {
+	_u.mutation.ClearUsageDetails()
+	return _u
 }
 
 // Mutation returns the SpaceBillingMutation object of the builder.
-func (sbu *SpaceBillingUpdate) Mutation() *SpaceBillingMutation {
-	return sbu.mutation
+func (_u *SpaceBillingUpdate) Mutation() *SpaceBillingMutation {
+	return _u.mutation
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
-func (sbu *SpaceBillingUpdate) Save(ctx context.Context) (int, error) {
-	sbu.defaults()
-	return withHooks(ctx, sbu.sqlSave, sbu.mutation, sbu.hooks)
+func (_u *SpaceBillingUpdate) Save(ctx context.Context) (int, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (sbu *SpaceBillingUpdate) SaveX(ctx context.Context) int {
-	affected, err := sbu.Save(ctx)
+func (_u *SpaceBillingUpdate) SaveX(ctx context.Context) int {
+	affected, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -382,29 +382,29 @@ func (sbu *SpaceBillingUpdate) SaveX(ctx context.Context) int {
 }
 
 // Exec executes the query.
-func (sbu *SpaceBillingUpdate) Exec(ctx context.Context) error {
-	_, err := sbu.Save(ctx)
+func (_u *SpaceBillingUpdate) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (sbu *SpaceBillingUpdate) ExecX(ctx context.Context) {
-	if err := sbu.Exec(ctx); err != nil {
+func (_u *SpaceBillingUpdate) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (sbu *SpaceBillingUpdate) defaults() {
-	if _, ok := sbu.mutation.UpdatedAt(); !ok && !sbu.mutation.UpdatedAtCleared() {
+func (_u *SpaceBillingUpdate) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := spacebilling.UpdateDefaultUpdatedAt()
-		sbu.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (sbu *SpaceBillingUpdate) check() error {
-	if v, ok := sbu.mutation.Amount(); ok {
+func (_u *SpaceBillingUpdate) check() error {
+	if v, ok := _u.mutation.Amount(); ok {
 		if err := spacebilling.AmountValidator(v); err != nil {
 			return &ValidationError{Name: "amount", err: fmt.Errorf(`ent: validator failed for field "SpaceBilling.amount": %w`, err)}
 		}
@@ -412,130 +412,130 @@ func (sbu *SpaceBillingUpdate) check() error {
 	return nil
 }
 
-func (sbu *SpaceBillingUpdate) sqlSave(ctx context.Context) (n int, err error) {
-	if err := sbu.check(); err != nil {
-		return n, err
+func (_u *SpaceBillingUpdate) sqlSave(ctx context.Context) (_node int, err error) {
+	if err := _u.check(); err != nil {
+		return _node, err
 	}
 	_spec := sqlgraph.NewUpdateSpec(spacebilling.Table, spacebilling.Columns, sqlgraph.NewFieldSpec(spacebilling.FieldID, field.TypeString))
-	if ps := sbu.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := sbu.mutation.SpaceID(); ok {
+	if value, ok := _u.mutation.SpaceID(); ok {
 		_spec.SetField(spacebilling.FieldSpaceID, field.TypeString, value)
 	}
-	if sbu.mutation.SpaceIDCleared() {
+	if _u.mutation.SpaceIDCleared() {
 		_spec.ClearField(spacebilling.FieldSpaceID, field.TypeString)
 	}
-	if value, ok := sbu.mutation.Description(); ok {
+	if value, ok := _u.mutation.Description(); ok {
 		_spec.SetField(spacebilling.FieldDescription, field.TypeString, value)
 	}
-	if sbu.mutation.DescriptionCleared() {
+	if _u.mutation.DescriptionCleared() {
 		_spec.ClearField(spacebilling.FieldDescription, field.TypeString)
 	}
-	if value, ok := sbu.mutation.Extras(); ok {
+	if value, ok := _u.mutation.Extras(); ok {
 		_spec.SetField(spacebilling.FieldExtras, field.TypeJSON, value)
 	}
-	if sbu.mutation.ExtrasCleared() {
+	if _u.mutation.ExtrasCleared() {
 		_spec.ClearField(spacebilling.FieldExtras, field.TypeJSON)
 	}
-	if value, ok := sbu.mutation.CreatedBy(); ok {
+	if value, ok := _u.mutation.CreatedBy(); ok {
 		_spec.SetField(spacebilling.FieldCreatedBy, field.TypeString, value)
 	}
-	if sbu.mutation.CreatedByCleared() {
+	if _u.mutation.CreatedByCleared() {
 		_spec.ClearField(spacebilling.FieldCreatedBy, field.TypeString)
 	}
-	if value, ok := sbu.mutation.UpdatedBy(); ok {
+	if value, ok := _u.mutation.UpdatedBy(); ok {
 		_spec.SetField(spacebilling.FieldUpdatedBy, field.TypeString, value)
 	}
-	if sbu.mutation.UpdatedByCleared() {
+	if _u.mutation.UpdatedByCleared() {
 		_spec.ClearField(spacebilling.FieldUpdatedBy, field.TypeString)
 	}
-	if sbu.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(spacebilling.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := sbu.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(spacebilling.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := sbu.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(spacebilling.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if sbu.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(spacebilling.FieldUpdatedAt, field.TypeInt64)
 	}
-	if value, ok := sbu.mutation.BillingPeriod(); ok {
+	if value, ok := _u.mutation.BillingPeriod(); ok {
 		_spec.SetField(spacebilling.FieldBillingPeriod, field.TypeString, value)
 	}
-	if value, ok := sbu.mutation.PeriodStart(); ok {
+	if value, ok := _u.mutation.PeriodStart(); ok {
 		_spec.SetField(spacebilling.FieldPeriodStart, field.TypeInt64, value)
 	}
-	if value, ok := sbu.mutation.AddedPeriodStart(); ok {
+	if value, ok := _u.mutation.AddedPeriodStart(); ok {
 		_spec.AddField(spacebilling.FieldPeriodStart, field.TypeInt64, value)
 	}
-	if sbu.mutation.PeriodStartCleared() {
+	if _u.mutation.PeriodStartCleared() {
 		_spec.ClearField(spacebilling.FieldPeriodStart, field.TypeInt64)
 	}
-	if value, ok := sbu.mutation.PeriodEnd(); ok {
+	if value, ok := _u.mutation.PeriodEnd(); ok {
 		_spec.SetField(spacebilling.FieldPeriodEnd, field.TypeInt64, value)
 	}
-	if value, ok := sbu.mutation.AddedPeriodEnd(); ok {
+	if value, ok := _u.mutation.AddedPeriodEnd(); ok {
 		_spec.AddField(spacebilling.FieldPeriodEnd, field.TypeInt64, value)
 	}
-	if sbu.mutation.PeriodEndCleared() {
+	if _u.mutation.PeriodEndCleared() {
 		_spec.ClearField(spacebilling.FieldPeriodEnd, field.TypeInt64)
 	}
-	if value, ok := sbu.mutation.Amount(); ok {
+	if value, ok := _u.mutation.Amount(); ok {
 		_spec.SetField(spacebilling.FieldAmount, field.TypeFloat64, value)
 	}
-	if value, ok := sbu.mutation.AddedAmount(); ok {
+	if value, ok := _u.mutation.AddedAmount(); ok {
 		_spec.AddField(spacebilling.FieldAmount, field.TypeFloat64, value)
 	}
-	if value, ok := sbu.mutation.Currency(); ok {
+	if value, ok := _u.mutation.Currency(); ok {
 		_spec.SetField(spacebilling.FieldCurrency, field.TypeString, value)
 	}
-	if value, ok := sbu.mutation.Status(); ok {
+	if value, ok := _u.mutation.Status(); ok {
 		_spec.SetField(spacebilling.FieldStatus, field.TypeString, value)
 	}
-	if value, ok := sbu.mutation.InvoiceNumber(); ok {
+	if value, ok := _u.mutation.InvoiceNumber(); ok {
 		_spec.SetField(spacebilling.FieldInvoiceNumber, field.TypeString, value)
 	}
-	if sbu.mutation.InvoiceNumberCleared() {
+	if _u.mutation.InvoiceNumberCleared() {
 		_spec.ClearField(spacebilling.FieldInvoiceNumber, field.TypeString)
 	}
-	if value, ok := sbu.mutation.PaymentMethod(); ok {
+	if value, ok := _u.mutation.PaymentMethod(); ok {
 		_spec.SetField(spacebilling.FieldPaymentMethod, field.TypeString, value)
 	}
-	if sbu.mutation.PaymentMethodCleared() {
+	if _u.mutation.PaymentMethodCleared() {
 		_spec.ClearField(spacebilling.FieldPaymentMethod, field.TypeString)
 	}
-	if value, ok := sbu.mutation.PaidAt(); ok {
+	if value, ok := _u.mutation.PaidAt(); ok {
 		_spec.SetField(spacebilling.FieldPaidAt, field.TypeInt64, value)
 	}
-	if value, ok := sbu.mutation.AddedPaidAt(); ok {
+	if value, ok := _u.mutation.AddedPaidAt(); ok {
 		_spec.AddField(spacebilling.FieldPaidAt, field.TypeInt64, value)
 	}
-	if sbu.mutation.PaidAtCleared() {
+	if _u.mutation.PaidAtCleared() {
 		_spec.ClearField(spacebilling.FieldPaidAt, field.TypeInt64)
 	}
-	if value, ok := sbu.mutation.DueDate(); ok {
+	if value, ok := _u.mutation.DueDate(); ok {
 		_spec.SetField(spacebilling.FieldDueDate, field.TypeInt64, value)
 	}
-	if value, ok := sbu.mutation.AddedDueDate(); ok {
+	if value, ok := _u.mutation.AddedDueDate(); ok {
 		_spec.AddField(spacebilling.FieldDueDate, field.TypeInt64, value)
 	}
-	if sbu.mutation.DueDateCleared() {
+	if _u.mutation.DueDateCleared() {
 		_spec.ClearField(spacebilling.FieldDueDate, field.TypeInt64)
 	}
-	if value, ok := sbu.mutation.UsageDetails(); ok {
+	if value, ok := _u.mutation.UsageDetails(); ok {
 		_spec.SetField(spacebilling.FieldUsageDetails, field.TypeJSON, value)
 	}
-	if sbu.mutation.UsageDetailsCleared() {
+	if _u.mutation.UsageDetailsCleared() {
 		_spec.ClearField(spacebilling.FieldUsageDetails, field.TypeJSON)
 	}
-	if n, err = sqlgraph.UpdateNodes(ctx, sbu.driver, _spec); err != nil {
+	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{spacebilling.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -543,8 +543,8 @@ func (sbu *SpaceBillingUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		return 0, err
 	}
-	sbu.mutation.done = true
-	return n, nil
+	_u.mutation.done = true
+	return _node, nil
 }
 
 // SpaceBillingUpdateOne is the builder for updating a single SpaceBilling entity.
@@ -556,366 +556,366 @@ type SpaceBillingUpdateOne struct {
 }
 
 // SetSpaceID sets the "space_id" field.
-func (sbuo *SpaceBillingUpdateOne) SetSpaceID(s string) *SpaceBillingUpdateOne {
-	sbuo.mutation.SetSpaceID(s)
-	return sbuo
+func (_u *SpaceBillingUpdateOne) SetSpaceID(v string) *SpaceBillingUpdateOne {
+	_u.mutation.SetSpaceID(v)
+	return _u
 }
 
 // SetNillableSpaceID sets the "space_id" field if the given value is not nil.
-func (sbuo *SpaceBillingUpdateOne) SetNillableSpaceID(s *string) *SpaceBillingUpdateOne {
-	if s != nil {
-		sbuo.SetSpaceID(*s)
+func (_u *SpaceBillingUpdateOne) SetNillableSpaceID(v *string) *SpaceBillingUpdateOne {
+	if v != nil {
+		_u.SetSpaceID(*v)
 	}
-	return sbuo
+	return _u
 }
 
 // ClearSpaceID clears the value of the "space_id" field.
-func (sbuo *SpaceBillingUpdateOne) ClearSpaceID() *SpaceBillingUpdateOne {
-	sbuo.mutation.ClearSpaceID()
-	return sbuo
+func (_u *SpaceBillingUpdateOne) ClearSpaceID() *SpaceBillingUpdateOne {
+	_u.mutation.ClearSpaceID()
+	return _u
 }
 
 // SetDescription sets the "description" field.
-func (sbuo *SpaceBillingUpdateOne) SetDescription(s string) *SpaceBillingUpdateOne {
-	sbuo.mutation.SetDescription(s)
-	return sbuo
+func (_u *SpaceBillingUpdateOne) SetDescription(v string) *SpaceBillingUpdateOne {
+	_u.mutation.SetDescription(v)
+	return _u
 }
 
 // SetNillableDescription sets the "description" field if the given value is not nil.
-func (sbuo *SpaceBillingUpdateOne) SetNillableDescription(s *string) *SpaceBillingUpdateOne {
-	if s != nil {
-		sbuo.SetDescription(*s)
+func (_u *SpaceBillingUpdateOne) SetNillableDescription(v *string) *SpaceBillingUpdateOne {
+	if v != nil {
+		_u.SetDescription(*v)
 	}
-	return sbuo
+	return _u
 }
 
 // ClearDescription clears the value of the "description" field.
-func (sbuo *SpaceBillingUpdateOne) ClearDescription() *SpaceBillingUpdateOne {
-	sbuo.mutation.ClearDescription()
-	return sbuo
+func (_u *SpaceBillingUpdateOne) ClearDescription() *SpaceBillingUpdateOne {
+	_u.mutation.ClearDescription()
+	return _u
 }
 
 // SetExtras sets the "extras" field.
-func (sbuo *SpaceBillingUpdateOne) SetExtras(m map[string]interface{}) *SpaceBillingUpdateOne {
-	sbuo.mutation.SetExtras(m)
-	return sbuo
+func (_u *SpaceBillingUpdateOne) SetExtras(v map[string]interface{}) *SpaceBillingUpdateOne {
+	_u.mutation.SetExtras(v)
+	return _u
 }
 
 // ClearExtras clears the value of the "extras" field.
-func (sbuo *SpaceBillingUpdateOne) ClearExtras() *SpaceBillingUpdateOne {
-	sbuo.mutation.ClearExtras()
-	return sbuo
+func (_u *SpaceBillingUpdateOne) ClearExtras() *SpaceBillingUpdateOne {
+	_u.mutation.ClearExtras()
+	return _u
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (sbuo *SpaceBillingUpdateOne) SetCreatedBy(s string) *SpaceBillingUpdateOne {
-	sbuo.mutation.SetCreatedBy(s)
-	return sbuo
+func (_u *SpaceBillingUpdateOne) SetCreatedBy(v string) *SpaceBillingUpdateOne {
+	_u.mutation.SetCreatedBy(v)
+	return _u
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (sbuo *SpaceBillingUpdateOne) SetNillableCreatedBy(s *string) *SpaceBillingUpdateOne {
-	if s != nil {
-		sbuo.SetCreatedBy(*s)
+func (_u *SpaceBillingUpdateOne) SetNillableCreatedBy(v *string) *SpaceBillingUpdateOne {
+	if v != nil {
+		_u.SetCreatedBy(*v)
 	}
-	return sbuo
+	return _u
 }
 
 // ClearCreatedBy clears the value of the "created_by" field.
-func (sbuo *SpaceBillingUpdateOne) ClearCreatedBy() *SpaceBillingUpdateOne {
-	sbuo.mutation.ClearCreatedBy()
-	return sbuo
+func (_u *SpaceBillingUpdateOne) ClearCreatedBy() *SpaceBillingUpdateOne {
+	_u.mutation.ClearCreatedBy()
+	return _u
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (sbuo *SpaceBillingUpdateOne) SetUpdatedBy(s string) *SpaceBillingUpdateOne {
-	sbuo.mutation.SetUpdatedBy(s)
-	return sbuo
+func (_u *SpaceBillingUpdateOne) SetUpdatedBy(v string) *SpaceBillingUpdateOne {
+	_u.mutation.SetUpdatedBy(v)
+	return _u
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (sbuo *SpaceBillingUpdateOne) SetNillableUpdatedBy(s *string) *SpaceBillingUpdateOne {
-	if s != nil {
-		sbuo.SetUpdatedBy(*s)
+func (_u *SpaceBillingUpdateOne) SetNillableUpdatedBy(v *string) *SpaceBillingUpdateOne {
+	if v != nil {
+		_u.SetUpdatedBy(*v)
 	}
-	return sbuo
+	return _u
 }
 
 // ClearUpdatedBy clears the value of the "updated_by" field.
-func (sbuo *SpaceBillingUpdateOne) ClearUpdatedBy() *SpaceBillingUpdateOne {
-	sbuo.mutation.ClearUpdatedBy()
-	return sbuo
+func (_u *SpaceBillingUpdateOne) ClearUpdatedBy() *SpaceBillingUpdateOne {
+	_u.mutation.ClearUpdatedBy()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (sbuo *SpaceBillingUpdateOne) SetUpdatedAt(i int64) *SpaceBillingUpdateOne {
-	sbuo.mutation.ResetUpdatedAt()
-	sbuo.mutation.SetUpdatedAt(i)
-	return sbuo
+func (_u *SpaceBillingUpdateOne) SetUpdatedAt(v int64) *SpaceBillingUpdateOne {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (sbuo *SpaceBillingUpdateOne) AddUpdatedAt(i int64) *SpaceBillingUpdateOne {
-	sbuo.mutation.AddUpdatedAt(i)
-	return sbuo
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *SpaceBillingUpdateOne) AddUpdatedAt(v int64) *SpaceBillingUpdateOne {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (sbuo *SpaceBillingUpdateOne) ClearUpdatedAt() *SpaceBillingUpdateOne {
-	sbuo.mutation.ClearUpdatedAt()
-	return sbuo
+func (_u *SpaceBillingUpdateOne) ClearUpdatedAt() *SpaceBillingUpdateOne {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // SetBillingPeriod sets the "billing_period" field.
-func (sbuo *SpaceBillingUpdateOne) SetBillingPeriod(s string) *SpaceBillingUpdateOne {
-	sbuo.mutation.SetBillingPeriod(s)
-	return sbuo
+func (_u *SpaceBillingUpdateOne) SetBillingPeriod(v string) *SpaceBillingUpdateOne {
+	_u.mutation.SetBillingPeriod(v)
+	return _u
 }
 
 // SetNillableBillingPeriod sets the "billing_period" field if the given value is not nil.
-func (sbuo *SpaceBillingUpdateOne) SetNillableBillingPeriod(s *string) *SpaceBillingUpdateOne {
-	if s != nil {
-		sbuo.SetBillingPeriod(*s)
+func (_u *SpaceBillingUpdateOne) SetNillableBillingPeriod(v *string) *SpaceBillingUpdateOne {
+	if v != nil {
+		_u.SetBillingPeriod(*v)
 	}
-	return sbuo
+	return _u
 }
 
 // SetPeriodStart sets the "period_start" field.
-func (sbuo *SpaceBillingUpdateOne) SetPeriodStart(i int64) *SpaceBillingUpdateOne {
-	sbuo.mutation.ResetPeriodStart()
-	sbuo.mutation.SetPeriodStart(i)
-	return sbuo
+func (_u *SpaceBillingUpdateOne) SetPeriodStart(v int64) *SpaceBillingUpdateOne {
+	_u.mutation.ResetPeriodStart()
+	_u.mutation.SetPeriodStart(v)
+	return _u
 }
 
 // SetNillablePeriodStart sets the "period_start" field if the given value is not nil.
-func (sbuo *SpaceBillingUpdateOne) SetNillablePeriodStart(i *int64) *SpaceBillingUpdateOne {
-	if i != nil {
-		sbuo.SetPeriodStart(*i)
+func (_u *SpaceBillingUpdateOne) SetNillablePeriodStart(v *int64) *SpaceBillingUpdateOne {
+	if v != nil {
+		_u.SetPeriodStart(*v)
 	}
-	return sbuo
+	return _u
 }
 
-// AddPeriodStart adds i to the "period_start" field.
-func (sbuo *SpaceBillingUpdateOne) AddPeriodStart(i int64) *SpaceBillingUpdateOne {
-	sbuo.mutation.AddPeriodStart(i)
-	return sbuo
+// AddPeriodStart adds value to the "period_start" field.
+func (_u *SpaceBillingUpdateOne) AddPeriodStart(v int64) *SpaceBillingUpdateOne {
+	_u.mutation.AddPeriodStart(v)
+	return _u
 }
 
 // ClearPeriodStart clears the value of the "period_start" field.
-func (sbuo *SpaceBillingUpdateOne) ClearPeriodStart() *SpaceBillingUpdateOne {
-	sbuo.mutation.ClearPeriodStart()
-	return sbuo
+func (_u *SpaceBillingUpdateOne) ClearPeriodStart() *SpaceBillingUpdateOne {
+	_u.mutation.ClearPeriodStart()
+	return _u
 }
 
 // SetPeriodEnd sets the "period_end" field.
-func (sbuo *SpaceBillingUpdateOne) SetPeriodEnd(i int64) *SpaceBillingUpdateOne {
-	sbuo.mutation.ResetPeriodEnd()
-	sbuo.mutation.SetPeriodEnd(i)
-	return sbuo
+func (_u *SpaceBillingUpdateOne) SetPeriodEnd(v int64) *SpaceBillingUpdateOne {
+	_u.mutation.ResetPeriodEnd()
+	_u.mutation.SetPeriodEnd(v)
+	return _u
 }
 
 // SetNillablePeriodEnd sets the "period_end" field if the given value is not nil.
-func (sbuo *SpaceBillingUpdateOne) SetNillablePeriodEnd(i *int64) *SpaceBillingUpdateOne {
-	if i != nil {
-		sbuo.SetPeriodEnd(*i)
+func (_u *SpaceBillingUpdateOne) SetNillablePeriodEnd(v *int64) *SpaceBillingUpdateOne {
+	if v != nil {
+		_u.SetPeriodEnd(*v)
 	}
-	return sbuo
+	return _u
 }
 
-// AddPeriodEnd adds i to the "period_end" field.
-func (sbuo *SpaceBillingUpdateOne) AddPeriodEnd(i int64) *SpaceBillingUpdateOne {
-	sbuo.mutation.AddPeriodEnd(i)
-	return sbuo
+// AddPeriodEnd adds value to the "period_end" field.
+func (_u *SpaceBillingUpdateOne) AddPeriodEnd(v int64) *SpaceBillingUpdateOne {
+	_u.mutation.AddPeriodEnd(v)
+	return _u
 }
 
 // ClearPeriodEnd clears the value of the "period_end" field.
-func (sbuo *SpaceBillingUpdateOne) ClearPeriodEnd() *SpaceBillingUpdateOne {
-	sbuo.mutation.ClearPeriodEnd()
-	return sbuo
+func (_u *SpaceBillingUpdateOne) ClearPeriodEnd() *SpaceBillingUpdateOne {
+	_u.mutation.ClearPeriodEnd()
+	return _u
 }
 
 // SetAmount sets the "amount" field.
-func (sbuo *SpaceBillingUpdateOne) SetAmount(f float64) *SpaceBillingUpdateOne {
-	sbuo.mutation.ResetAmount()
-	sbuo.mutation.SetAmount(f)
-	return sbuo
+func (_u *SpaceBillingUpdateOne) SetAmount(v float64) *SpaceBillingUpdateOne {
+	_u.mutation.ResetAmount()
+	_u.mutation.SetAmount(v)
+	return _u
 }
 
 // SetNillableAmount sets the "amount" field if the given value is not nil.
-func (sbuo *SpaceBillingUpdateOne) SetNillableAmount(f *float64) *SpaceBillingUpdateOne {
-	if f != nil {
-		sbuo.SetAmount(*f)
+func (_u *SpaceBillingUpdateOne) SetNillableAmount(v *float64) *SpaceBillingUpdateOne {
+	if v != nil {
+		_u.SetAmount(*v)
 	}
-	return sbuo
+	return _u
 }
 
-// AddAmount adds f to the "amount" field.
-func (sbuo *SpaceBillingUpdateOne) AddAmount(f float64) *SpaceBillingUpdateOne {
-	sbuo.mutation.AddAmount(f)
-	return sbuo
+// AddAmount adds value to the "amount" field.
+func (_u *SpaceBillingUpdateOne) AddAmount(v float64) *SpaceBillingUpdateOne {
+	_u.mutation.AddAmount(v)
+	return _u
 }
 
 // SetCurrency sets the "currency" field.
-func (sbuo *SpaceBillingUpdateOne) SetCurrency(s string) *SpaceBillingUpdateOne {
-	sbuo.mutation.SetCurrency(s)
-	return sbuo
+func (_u *SpaceBillingUpdateOne) SetCurrency(v string) *SpaceBillingUpdateOne {
+	_u.mutation.SetCurrency(v)
+	return _u
 }
 
 // SetNillableCurrency sets the "currency" field if the given value is not nil.
-func (sbuo *SpaceBillingUpdateOne) SetNillableCurrency(s *string) *SpaceBillingUpdateOne {
-	if s != nil {
-		sbuo.SetCurrency(*s)
+func (_u *SpaceBillingUpdateOne) SetNillableCurrency(v *string) *SpaceBillingUpdateOne {
+	if v != nil {
+		_u.SetCurrency(*v)
 	}
-	return sbuo
+	return _u
 }
 
 // SetStatus sets the "status" field.
-func (sbuo *SpaceBillingUpdateOne) SetStatus(s string) *SpaceBillingUpdateOne {
-	sbuo.mutation.SetStatus(s)
-	return sbuo
+func (_u *SpaceBillingUpdateOne) SetStatus(v string) *SpaceBillingUpdateOne {
+	_u.mutation.SetStatus(v)
+	return _u
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (sbuo *SpaceBillingUpdateOne) SetNillableStatus(s *string) *SpaceBillingUpdateOne {
-	if s != nil {
-		sbuo.SetStatus(*s)
+func (_u *SpaceBillingUpdateOne) SetNillableStatus(v *string) *SpaceBillingUpdateOne {
+	if v != nil {
+		_u.SetStatus(*v)
 	}
-	return sbuo
+	return _u
 }
 
 // SetInvoiceNumber sets the "invoice_number" field.
-func (sbuo *SpaceBillingUpdateOne) SetInvoiceNumber(s string) *SpaceBillingUpdateOne {
-	sbuo.mutation.SetInvoiceNumber(s)
-	return sbuo
+func (_u *SpaceBillingUpdateOne) SetInvoiceNumber(v string) *SpaceBillingUpdateOne {
+	_u.mutation.SetInvoiceNumber(v)
+	return _u
 }
 
 // SetNillableInvoiceNumber sets the "invoice_number" field if the given value is not nil.
-func (sbuo *SpaceBillingUpdateOne) SetNillableInvoiceNumber(s *string) *SpaceBillingUpdateOne {
-	if s != nil {
-		sbuo.SetInvoiceNumber(*s)
+func (_u *SpaceBillingUpdateOne) SetNillableInvoiceNumber(v *string) *SpaceBillingUpdateOne {
+	if v != nil {
+		_u.SetInvoiceNumber(*v)
 	}
-	return sbuo
+	return _u
 }
 
 // ClearInvoiceNumber clears the value of the "invoice_number" field.
-func (sbuo *SpaceBillingUpdateOne) ClearInvoiceNumber() *SpaceBillingUpdateOne {
-	sbuo.mutation.ClearInvoiceNumber()
-	return sbuo
+func (_u *SpaceBillingUpdateOne) ClearInvoiceNumber() *SpaceBillingUpdateOne {
+	_u.mutation.ClearInvoiceNumber()
+	return _u
 }
 
 // SetPaymentMethod sets the "payment_method" field.
-func (sbuo *SpaceBillingUpdateOne) SetPaymentMethod(s string) *SpaceBillingUpdateOne {
-	sbuo.mutation.SetPaymentMethod(s)
-	return sbuo
+func (_u *SpaceBillingUpdateOne) SetPaymentMethod(v string) *SpaceBillingUpdateOne {
+	_u.mutation.SetPaymentMethod(v)
+	return _u
 }
 
 // SetNillablePaymentMethod sets the "payment_method" field if the given value is not nil.
-func (sbuo *SpaceBillingUpdateOne) SetNillablePaymentMethod(s *string) *SpaceBillingUpdateOne {
-	if s != nil {
-		sbuo.SetPaymentMethod(*s)
+func (_u *SpaceBillingUpdateOne) SetNillablePaymentMethod(v *string) *SpaceBillingUpdateOne {
+	if v != nil {
+		_u.SetPaymentMethod(*v)
 	}
-	return sbuo
+	return _u
 }
 
 // ClearPaymentMethod clears the value of the "payment_method" field.
-func (sbuo *SpaceBillingUpdateOne) ClearPaymentMethod() *SpaceBillingUpdateOne {
-	sbuo.mutation.ClearPaymentMethod()
-	return sbuo
+func (_u *SpaceBillingUpdateOne) ClearPaymentMethod() *SpaceBillingUpdateOne {
+	_u.mutation.ClearPaymentMethod()
+	return _u
 }
 
 // SetPaidAt sets the "paid_at" field.
-func (sbuo *SpaceBillingUpdateOne) SetPaidAt(i int64) *SpaceBillingUpdateOne {
-	sbuo.mutation.ResetPaidAt()
-	sbuo.mutation.SetPaidAt(i)
-	return sbuo
+func (_u *SpaceBillingUpdateOne) SetPaidAt(v int64) *SpaceBillingUpdateOne {
+	_u.mutation.ResetPaidAt()
+	_u.mutation.SetPaidAt(v)
+	return _u
 }
 
 // SetNillablePaidAt sets the "paid_at" field if the given value is not nil.
-func (sbuo *SpaceBillingUpdateOne) SetNillablePaidAt(i *int64) *SpaceBillingUpdateOne {
-	if i != nil {
-		sbuo.SetPaidAt(*i)
+func (_u *SpaceBillingUpdateOne) SetNillablePaidAt(v *int64) *SpaceBillingUpdateOne {
+	if v != nil {
+		_u.SetPaidAt(*v)
 	}
-	return sbuo
+	return _u
 }
 
-// AddPaidAt adds i to the "paid_at" field.
-func (sbuo *SpaceBillingUpdateOne) AddPaidAt(i int64) *SpaceBillingUpdateOne {
-	sbuo.mutation.AddPaidAt(i)
-	return sbuo
+// AddPaidAt adds value to the "paid_at" field.
+func (_u *SpaceBillingUpdateOne) AddPaidAt(v int64) *SpaceBillingUpdateOne {
+	_u.mutation.AddPaidAt(v)
+	return _u
 }
 
 // ClearPaidAt clears the value of the "paid_at" field.
-func (sbuo *SpaceBillingUpdateOne) ClearPaidAt() *SpaceBillingUpdateOne {
-	sbuo.mutation.ClearPaidAt()
-	return sbuo
+func (_u *SpaceBillingUpdateOne) ClearPaidAt() *SpaceBillingUpdateOne {
+	_u.mutation.ClearPaidAt()
+	return _u
 }
 
 // SetDueDate sets the "due_date" field.
-func (sbuo *SpaceBillingUpdateOne) SetDueDate(i int64) *SpaceBillingUpdateOne {
-	sbuo.mutation.ResetDueDate()
-	sbuo.mutation.SetDueDate(i)
-	return sbuo
+func (_u *SpaceBillingUpdateOne) SetDueDate(v int64) *SpaceBillingUpdateOne {
+	_u.mutation.ResetDueDate()
+	_u.mutation.SetDueDate(v)
+	return _u
 }
 
 // SetNillableDueDate sets the "due_date" field if the given value is not nil.
-func (sbuo *SpaceBillingUpdateOne) SetNillableDueDate(i *int64) *SpaceBillingUpdateOne {
-	if i != nil {
-		sbuo.SetDueDate(*i)
+func (_u *SpaceBillingUpdateOne) SetNillableDueDate(v *int64) *SpaceBillingUpdateOne {
+	if v != nil {
+		_u.SetDueDate(*v)
 	}
-	return sbuo
+	return _u
 }
 
-// AddDueDate adds i to the "due_date" field.
-func (sbuo *SpaceBillingUpdateOne) AddDueDate(i int64) *SpaceBillingUpdateOne {
-	sbuo.mutation.AddDueDate(i)
-	return sbuo
+// AddDueDate adds value to the "due_date" field.
+func (_u *SpaceBillingUpdateOne) AddDueDate(v int64) *SpaceBillingUpdateOne {
+	_u.mutation.AddDueDate(v)
+	return _u
 }
 
 // ClearDueDate clears the value of the "due_date" field.
-func (sbuo *SpaceBillingUpdateOne) ClearDueDate() *SpaceBillingUpdateOne {
-	sbuo.mutation.ClearDueDate()
-	return sbuo
+func (_u *SpaceBillingUpdateOne) ClearDueDate() *SpaceBillingUpdateOne {
+	_u.mutation.ClearDueDate()
+	return _u
 }
 
 // SetUsageDetails sets the "usage_details" field.
-func (sbuo *SpaceBillingUpdateOne) SetUsageDetails(m map[string]interface{}) *SpaceBillingUpdateOne {
-	sbuo.mutation.SetUsageDetails(m)
-	return sbuo
+func (_u *SpaceBillingUpdateOne) SetUsageDetails(v map[string]interface{}) *SpaceBillingUpdateOne {
+	_u.mutation.SetUsageDetails(v)
+	return _u
 }
 
 // ClearUsageDetails clears the value of the "usage_details" field.
-func (sbuo *SpaceBillingUpdateOne) ClearUsageDetails() *SpaceBillingUpdateOne {
-	sbuo.mutation.ClearUsageDetails()
-	return sbuo
+func (_u *SpaceBillingUpdateOne) ClearUsageDetails() *SpaceBillingUpdateOne {
+	_u.mutation.ClearUsageDetails()
+	return _u
 }
 
 // Mutation returns the SpaceBillingMutation object of the builder.
-func (sbuo *SpaceBillingUpdateOne) Mutation() *SpaceBillingMutation {
-	return sbuo.mutation
+func (_u *SpaceBillingUpdateOne) Mutation() *SpaceBillingMutation {
+	return _u.mutation
 }
 
 // Where appends a list predicates to the SpaceBillingUpdate builder.
-func (sbuo *SpaceBillingUpdateOne) Where(ps ...predicate.SpaceBilling) *SpaceBillingUpdateOne {
-	sbuo.mutation.Where(ps...)
-	return sbuo
+func (_u *SpaceBillingUpdateOne) Where(ps ...predicate.SpaceBilling) *SpaceBillingUpdateOne {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // Select allows selecting one or more fields (columns) of the returned entity.
 // The default is selecting all fields defined in the entity schema.
-func (sbuo *SpaceBillingUpdateOne) Select(field string, fields ...string) *SpaceBillingUpdateOne {
-	sbuo.fields = append([]string{field}, fields...)
-	return sbuo
+func (_u *SpaceBillingUpdateOne) Select(field string, fields ...string) *SpaceBillingUpdateOne {
+	_u.fields = append([]string{field}, fields...)
+	return _u
 }
 
 // Save executes the query and returns the updated SpaceBilling entity.
-func (sbuo *SpaceBillingUpdateOne) Save(ctx context.Context) (*SpaceBilling, error) {
-	sbuo.defaults()
-	return withHooks(ctx, sbuo.sqlSave, sbuo.mutation, sbuo.hooks)
+func (_u *SpaceBillingUpdateOne) Save(ctx context.Context) (*SpaceBilling, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (sbuo *SpaceBillingUpdateOne) SaveX(ctx context.Context) *SpaceBilling {
-	node, err := sbuo.Save(ctx)
+func (_u *SpaceBillingUpdateOne) SaveX(ctx context.Context) *SpaceBilling {
+	node, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -923,29 +923,29 @@ func (sbuo *SpaceBillingUpdateOne) SaveX(ctx context.Context) *SpaceBilling {
 }
 
 // Exec executes the query on the entity.
-func (sbuo *SpaceBillingUpdateOne) Exec(ctx context.Context) error {
-	_, err := sbuo.Save(ctx)
+func (_u *SpaceBillingUpdateOne) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (sbuo *SpaceBillingUpdateOne) ExecX(ctx context.Context) {
-	if err := sbuo.Exec(ctx); err != nil {
+func (_u *SpaceBillingUpdateOne) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (sbuo *SpaceBillingUpdateOne) defaults() {
-	if _, ok := sbuo.mutation.UpdatedAt(); !ok && !sbuo.mutation.UpdatedAtCleared() {
+func (_u *SpaceBillingUpdateOne) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := spacebilling.UpdateDefaultUpdatedAt()
-		sbuo.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (sbuo *SpaceBillingUpdateOne) check() error {
-	if v, ok := sbuo.mutation.Amount(); ok {
+func (_u *SpaceBillingUpdateOne) check() error {
+	if v, ok := _u.mutation.Amount(); ok {
 		if err := spacebilling.AmountValidator(v); err != nil {
 			return &ValidationError{Name: "amount", err: fmt.Errorf(`ent: validator failed for field "SpaceBilling.amount": %w`, err)}
 		}
@@ -953,17 +953,17 @@ func (sbuo *SpaceBillingUpdateOne) check() error {
 	return nil
 }
 
-func (sbuo *SpaceBillingUpdateOne) sqlSave(ctx context.Context) (_node *SpaceBilling, err error) {
-	if err := sbuo.check(); err != nil {
+func (_u *SpaceBillingUpdateOne) sqlSave(ctx context.Context) (_node *SpaceBilling, err error) {
+	if err := _u.check(); err != nil {
 		return _node, err
 	}
 	_spec := sqlgraph.NewUpdateSpec(spacebilling.Table, spacebilling.Columns, sqlgraph.NewFieldSpec(spacebilling.FieldID, field.TypeString))
-	id, ok := sbuo.mutation.ID()
+	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "SpaceBilling.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
-	if fields := sbuo.fields; len(fields) > 0 {
+	if fields := _u.fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, spacebilling.FieldID)
 		for _, f := range fields {
@@ -975,128 +975,128 @@ func (sbuo *SpaceBillingUpdateOne) sqlSave(ctx context.Context) (_node *SpaceBil
 			}
 		}
 	}
-	if ps := sbuo.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := sbuo.mutation.SpaceID(); ok {
+	if value, ok := _u.mutation.SpaceID(); ok {
 		_spec.SetField(spacebilling.FieldSpaceID, field.TypeString, value)
 	}
-	if sbuo.mutation.SpaceIDCleared() {
+	if _u.mutation.SpaceIDCleared() {
 		_spec.ClearField(spacebilling.FieldSpaceID, field.TypeString)
 	}
-	if value, ok := sbuo.mutation.Description(); ok {
+	if value, ok := _u.mutation.Description(); ok {
 		_spec.SetField(spacebilling.FieldDescription, field.TypeString, value)
 	}
-	if sbuo.mutation.DescriptionCleared() {
+	if _u.mutation.DescriptionCleared() {
 		_spec.ClearField(spacebilling.FieldDescription, field.TypeString)
 	}
-	if value, ok := sbuo.mutation.Extras(); ok {
+	if value, ok := _u.mutation.Extras(); ok {
 		_spec.SetField(spacebilling.FieldExtras, field.TypeJSON, value)
 	}
-	if sbuo.mutation.ExtrasCleared() {
+	if _u.mutation.ExtrasCleared() {
 		_spec.ClearField(spacebilling.FieldExtras, field.TypeJSON)
 	}
-	if value, ok := sbuo.mutation.CreatedBy(); ok {
+	if value, ok := _u.mutation.CreatedBy(); ok {
 		_spec.SetField(spacebilling.FieldCreatedBy, field.TypeString, value)
 	}
-	if sbuo.mutation.CreatedByCleared() {
+	if _u.mutation.CreatedByCleared() {
 		_spec.ClearField(spacebilling.FieldCreatedBy, field.TypeString)
 	}
-	if value, ok := sbuo.mutation.UpdatedBy(); ok {
+	if value, ok := _u.mutation.UpdatedBy(); ok {
 		_spec.SetField(spacebilling.FieldUpdatedBy, field.TypeString, value)
 	}
-	if sbuo.mutation.UpdatedByCleared() {
+	if _u.mutation.UpdatedByCleared() {
 		_spec.ClearField(spacebilling.FieldUpdatedBy, field.TypeString)
 	}
-	if sbuo.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(spacebilling.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := sbuo.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(spacebilling.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := sbuo.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(spacebilling.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if sbuo.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(spacebilling.FieldUpdatedAt, field.TypeInt64)
 	}
-	if value, ok := sbuo.mutation.BillingPeriod(); ok {
+	if value, ok := _u.mutation.BillingPeriod(); ok {
 		_spec.SetField(spacebilling.FieldBillingPeriod, field.TypeString, value)
 	}
-	if value, ok := sbuo.mutation.PeriodStart(); ok {
+	if value, ok := _u.mutation.PeriodStart(); ok {
 		_spec.SetField(spacebilling.FieldPeriodStart, field.TypeInt64, value)
 	}
-	if value, ok := sbuo.mutation.AddedPeriodStart(); ok {
+	if value, ok := _u.mutation.AddedPeriodStart(); ok {
 		_spec.AddField(spacebilling.FieldPeriodStart, field.TypeInt64, value)
 	}
-	if sbuo.mutation.PeriodStartCleared() {
+	if _u.mutation.PeriodStartCleared() {
 		_spec.ClearField(spacebilling.FieldPeriodStart, field.TypeInt64)
 	}
-	if value, ok := sbuo.mutation.PeriodEnd(); ok {
+	if value, ok := _u.mutation.PeriodEnd(); ok {
 		_spec.SetField(spacebilling.FieldPeriodEnd, field.TypeInt64, value)
 	}
-	if value, ok := sbuo.mutation.AddedPeriodEnd(); ok {
+	if value, ok := _u.mutation.AddedPeriodEnd(); ok {
 		_spec.AddField(spacebilling.FieldPeriodEnd, field.TypeInt64, value)
 	}
-	if sbuo.mutation.PeriodEndCleared() {
+	if _u.mutation.PeriodEndCleared() {
 		_spec.ClearField(spacebilling.FieldPeriodEnd, field.TypeInt64)
 	}
-	if value, ok := sbuo.mutation.Amount(); ok {
+	if value, ok := _u.mutation.Amount(); ok {
 		_spec.SetField(spacebilling.FieldAmount, field.TypeFloat64, value)
 	}
-	if value, ok := sbuo.mutation.AddedAmount(); ok {
+	if value, ok := _u.mutation.AddedAmount(); ok {
 		_spec.AddField(spacebilling.FieldAmount, field.TypeFloat64, value)
 	}
-	if value, ok := sbuo.mutation.Currency(); ok {
+	if value, ok := _u.mutation.Currency(); ok {
 		_spec.SetField(spacebilling.FieldCurrency, field.TypeString, value)
 	}
-	if value, ok := sbuo.mutation.Status(); ok {
+	if value, ok := _u.mutation.Status(); ok {
 		_spec.SetField(spacebilling.FieldStatus, field.TypeString, value)
 	}
-	if value, ok := sbuo.mutation.InvoiceNumber(); ok {
+	if value, ok := _u.mutation.InvoiceNumber(); ok {
 		_spec.SetField(spacebilling.FieldInvoiceNumber, field.TypeString, value)
 	}
-	if sbuo.mutation.InvoiceNumberCleared() {
+	if _u.mutation.InvoiceNumberCleared() {
 		_spec.ClearField(spacebilling.FieldInvoiceNumber, field.TypeString)
 	}
-	if value, ok := sbuo.mutation.PaymentMethod(); ok {
+	if value, ok := _u.mutation.PaymentMethod(); ok {
 		_spec.SetField(spacebilling.FieldPaymentMethod, field.TypeString, value)
 	}
-	if sbuo.mutation.PaymentMethodCleared() {
+	if _u.mutation.PaymentMethodCleared() {
 		_spec.ClearField(spacebilling.FieldPaymentMethod, field.TypeString)
 	}
-	if value, ok := sbuo.mutation.PaidAt(); ok {
+	if value, ok := _u.mutation.PaidAt(); ok {
 		_spec.SetField(spacebilling.FieldPaidAt, field.TypeInt64, value)
 	}
-	if value, ok := sbuo.mutation.AddedPaidAt(); ok {
+	if value, ok := _u.mutation.AddedPaidAt(); ok {
 		_spec.AddField(spacebilling.FieldPaidAt, field.TypeInt64, value)
 	}
-	if sbuo.mutation.PaidAtCleared() {
+	if _u.mutation.PaidAtCleared() {
 		_spec.ClearField(spacebilling.FieldPaidAt, field.TypeInt64)
 	}
-	if value, ok := sbuo.mutation.DueDate(); ok {
+	if value, ok := _u.mutation.DueDate(); ok {
 		_spec.SetField(spacebilling.FieldDueDate, field.TypeInt64, value)
 	}
-	if value, ok := sbuo.mutation.AddedDueDate(); ok {
+	if value, ok := _u.mutation.AddedDueDate(); ok {
 		_spec.AddField(spacebilling.FieldDueDate, field.TypeInt64, value)
 	}
-	if sbuo.mutation.DueDateCleared() {
+	if _u.mutation.DueDateCleared() {
 		_spec.ClearField(spacebilling.FieldDueDate, field.TypeInt64)
 	}
-	if value, ok := sbuo.mutation.UsageDetails(); ok {
+	if value, ok := _u.mutation.UsageDetails(); ok {
 		_spec.SetField(spacebilling.FieldUsageDetails, field.TypeJSON, value)
 	}
-	if sbuo.mutation.UsageDetailsCleared() {
+	if _u.mutation.UsageDetailsCleared() {
 		_spec.ClearField(spacebilling.FieldUsageDetails, field.TypeJSON)
 	}
-	_node = &SpaceBilling{config: sbuo.config}
+	_node = &SpaceBilling{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues
-	if err = sqlgraph.UpdateNode(ctx, sbuo.driver, _spec); err != nil {
+	if err = sqlgraph.UpdateNode(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{spacebilling.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -1104,6 +1104,6 @@ func (sbuo *SpaceBillingUpdateOne) sqlSave(ctx context.Context) (_node *SpaceBil
 		}
 		return nil, err
 	}
-	sbuo.mutation.done = true
+	_u.mutation.done = true
 	return _node, nil
 }

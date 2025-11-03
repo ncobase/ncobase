@@ -20,183 +20,183 @@ type PaymentChannelCreate struct {
 }
 
 // SetName sets the "name" field.
-func (pcc *PaymentChannelCreate) SetName(s string) *PaymentChannelCreate {
-	pcc.mutation.SetName(s)
-	return pcc
+func (_c *PaymentChannelCreate) SetName(v string) *PaymentChannelCreate {
+	_c.mutation.SetName(v)
+	return _c
 }
 
 // SetNillableName sets the "name" field if the given value is not nil.
-func (pcc *PaymentChannelCreate) SetNillableName(s *string) *PaymentChannelCreate {
-	if s != nil {
-		pcc.SetName(*s)
+func (_c *PaymentChannelCreate) SetNillableName(v *string) *PaymentChannelCreate {
+	if v != nil {
+		_c.SetName(*v)
 	}
-	return pcc
+	return _c
 }
 
 // SetDescription sets the "description" field.
-func (pcc *PaymentChannelCreate) SetDescription(s string) *PaymentChannelCreate {
-	pcc.mutation.SetDescription(s)
-	return pcc
+func (_c *PaymentChannelCreate) SetDescription(v string) *PaymentChannelCreate {
+	_c.mutation.SetDescription(v)
+	return _c
 }
 
 // SetNillableDescription sets the "description" field if the given value is not nil.
-func (pcc *PaymentChannelCreate) SetNillableDescription(s *string) *PaymentChannelCreate {
-	if s != nil {
-		pcc.SetDescription(*s)
+func (_c *PaymentChannelCreate) SetNillableDescription(v *string) *PaymentChannelCreate {
+	if v != nil {
+		_c.SetDescription(*v)
 	}
-	return pcc
+	return _c
 }
 
 // SetExtras sets the "extras" field.
-func (pcc *PaymentChannelCreate) SetExtras(m map[string]interface{}) *PaymentChannelCreate {
-	pcc.mutation.SetExtras(m)
-	return pcc
+func (_c *PaymentChannelCreate) SetExtras(v map[string]interface{}) *PaymentChannelCreate {
+	_c.mutation.SetExtras(v)
+	return _c
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (pcc *PaymentChannelCreate) SetCreatedBy(s string) *PaymentChannelCreate {
-	pcc.mutation.SetCreatedBy(s)
-	return pcc
+func (_c *PaymentChannelCreate) SetCreatedBy(v string) *PaymentChannelCreate {
+	_c.mutation.SetCreatedBy(v)
+	return _c
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (pcc *PaymentChannelCreate) SetNillableCreatedBy(s *string) *PaymentChannelCreate {
-	if s != nil {
-		pcc.SetCreatedBy(*s)
+func (_c *PaymentChannelCreate) SetNillableCreatedBy(v *string) *PaymentChannelCreate {
+	if v != nil {
+		_c.SetCreatedBy(*v)
 	}
-	return pcc
+	return _c
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (pcc *PaymentChannelCreate) SetUpdatedBy(s string) *PaymentChannelCreate {
-	pcc.mutation.SetUpdatedBy(s)
-	return pcc
+func (_c *PaymentChannelCreate) SetUpdatedBy(v string) *PaymentChannelCreate {
+	_c.mutation.SetUpdatedBy(v)
+	return _c
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (pcc *PaymentChannelCreate) SetNillableUpdatedBy(s *string) *PaymentChannelCreate {
-	if s != nil {
-		pcc.SetUpdatedBy(*s)
+func (_c *PaymentChannelCreate) SetNillableUpdatedBy(v *string) *PaymentChannelCreate {
+	if v != nil {
+		_c.SetUpdatedBy(*v)
 	}
-	return pcc
+	return _c
 }
 
 // SetCreatedAt sets the "created_at" field.
-func (pcc *PaymentChannelCreate) SetCreatedAt(i int64) *PaymentChannelCreate {
-	pcc.mutation.SetCreatedAt(i)
-	return pcc
+func (_c *PaymentChannelCreate) SetCreatedAt(v int64) *PaymentChannelCreate {
+	_c.mutation.SetCreatedAt(v)
+	return _c
 }
 
 // SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
-func (pcc *PaymentChannelCreate) SetNillableCreatedAt(i *int64) *PaymentChannelCreate {
-	if i != nil {
-		pcc.SetCreatedAt(*i)
+func (_c *PaymentChannelCreate) SetNillableCreatedAt(v *int64) *PaymentChannelCreate {
+	if v != nil {
+		_c.SetCreatedAt(*v)
 	}
-	return pcc
+	return _c
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (pcc *PaymentChannelCreate) SetUpdatedAt(i int64) *PaymentChannelCreate {
-	pcc.mutation.SetUpdatedAt(i)
-	return pcc
+func (_c *PaymentChannelCreate) SetUpdatedAt(v int64) *PaymentChannelCreate {
+	_c.mutation.SetUpdatedAt(v)
+	return _c
 }
 
 // SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
-func (pcc *PaymentChannelCreate) SetNillableUpdatedAt(i *int64) *PaymentChannelCreate {
-	if i != nil {
-		pcc.SetUpdatedAt(*i)
+func (_c *PaymentChannelCreate) SetNillableUpdatedAt(v *int64) *PaymentChannelCreate {
+	if v != nil {
+		_c.SetUpdatedAt(*v)
 	}
-	return pcc
+	return _c
 }
 
 // SetProvider sets the "provider" field.
-func (pcc *PaymentChannelCreate) SetProvider(s string) *PaymentChannelCreate {
-	pcc.mutation.SetProvider(s)
-	return pcc
+func (_c *PaymentChannelCreate) SetProvider(v string) *PaymentChannelCreate {
+	_c.mutation.SetProvider(v)
+	return _c
 }
 
 // SetStatus sets the "status" field.
-func (pcc *PaymentChannelCreate) SetStatus(s string) *PaymentChannelCreate {
-	pcc.mutation.SetStatus(s)
-	return pcc
+func (_c *PaymentChannelCreate) SetStatus(v string) *PaymentChannelCreate {
+	_c.mutation.SetStatus(v)
+	return _c
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (pcc *PaymentChannelCreate) SetNillableStatus(s *string) *PaymentChannelCreate {
-	if s != nil {
-		pcc.SetStatus(*s)
+func (_c *PaymentChannelCreate) SetNillableStatus(v *string) *PaymentChannelCreate {
+	if v != nil {
+		_c.SetStatus(*v)
 	}
-	return pcc
+	return _c
 }
 
 // SetIsDefault sets the "is_default" field.
-func (pcc *PaymentChannelCreate) SetIsDefault(b bool) *PaymentChannelCreate {
-	pcc.mutation.SetIsDefault(b)
-	return pcc
+func (_c *PaymentChannelCreate) SetIsDefault(v bool) *PaymentChannelCreate {
+	_c.mutation.SetIsDefault(v)
+	return _c
 }
 
 // SetNillableIsDefault sets the "is_default" field if the given value is not nil.
-func (pcc *PaymentChannelCreate) SetNillableIsDefault(b *bool) *PaymentChannelCreate {
-	if b != nil {
-		pcc.SetIsDefault(*b)
+func (_c *PaymentChannelCreate) SetNillableIsDefault(v *bool) *PaymentChannelCreate {
+	if v != nil {
+		_c.SetIsDefault(*v)
 	}
-	return pcc
+	return _c
 }
 
 // SetSupportedTypes sets the "supported_types" field.
-func (pcc *PaymentChannelCreate) SetSupportedTypes(s []string) *PaymentChannelCreate {
-	pcc.mutation.SetSupportedTypes(s)
-	return pcc
+func (_c *PaymentChannelCreate) SetSupportedTypes(v []string) *PaymentChannelCreate {
+	_c.mutation.SetSupportedTypes(v)
+	return _c
 }
 
 // SetConfig sets the "config" field.
-func (pcc *PaymentChannelCreate) SetConfig(m map[string]interface{}) *PaymentChannelCreate {
-	pcc.mutation.SetConfig(m)
-	return pcc
+func (_c *PaymentChannelCreate) SetConfig(v map[string]interface{}) *PaymentChannelCreate {
+	_c.mutation.SetConfig(v)
+	return _c
 }
 
 // SetSpaceID sets the "space_id" field.
-func (pcc *PaymentChannelCreate) SetSpaceID(s string) *PaymentChannelCreate {
-	pcc.mutation.SetSpaceID(s)
-	return pcc
+func (_c *PaymentChannelCreate) SetSpaceID(v string) *PaymentChannelCreate {
+	_c.mutation.SetSpaceID(v)
+	return _c
 }
 
 // SetNillableSpaceID sets the "space_id" field if the given value is not nil.
-func (pcc *PaymentChannelCreate) SetNillableSpaceID(s *string) *PaymentChannelCreate {
-	if s != nil {
-		pcc.SetSpaceID(*s)
+func (_c *PaymentChannelCreate) SetNillableSpaceID(v *string) *PaymentChannelCreate {
+	if v != nil {
+		_c.SetSpaceID(*v)
 	}
-	return pcc
+	return _c
 }
 
 // SetID sets the "id" field.
-func (pcc *PaymentChannelCreate) SetID(s string) *PaymentChannelCreate {
-	pcc.mutation.SetID(s)
-	return pcc
+func (_c *PaymentChannelCreate) SetID(v string) *PaymentChannelCreate {
+	_c.mutation.SetID(v)
+	return _c
 }
 
 // SetNillableID sets the "id" field if the given value is not nil.
-func (pcc *PaymentChannelCreate) SetNillableID(s *string) *PaymentChannelCreate {
-	if s != nil {
-		pcc.SetID(*s)
+func (_c *PaymentChannelCreate) SetNillableID(v *string) *PaymentChannelCreate {
+	if v != nil {
+		_c.SetID(*v)
 	}
-	return pcc
+	return _c
 }
 
 // Mutation returns the PaymentChannelMutation object of the builder.
-func (pcc *PaymentChannelCreate) Mutation() *PaymentChannelMutation {
-	return pcc.mutation
+func (_c *PaymentChannelCreate) Mutation() *PaymentChannelMutation {
+	return _c.mutation
 }
 
 // Save creates the PaymentChannel in the database.
-func (pcc *PaymentChannelCreate) Save(ctx context.Context) (*PaymentChannel, error) {
-	pcc.defaults()
-	return withHooks(ctx, pcc.sqlSave, pcc.mutation, pcc.hooks)
+func (_c *PaymentChannelCreate) Save(ctx context.Context) (*PaymentChannel, error) {
+	_c.defaults()
+	return withHooks(ctx, _c.sqlSave, _c.mutation, _c.hooks)
 }
 
 // SaveX calls Save and panics if Save returns an error.
-func (pcc *PaymentChannelCreate) SaveX(ctx context.Context) *PaymentChannel {
-	v, err := pcc.Save(ctx)
+func (_c *PaymentChannelCreate) SaveX(ctx context.Context) *PaymentChannel {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -204,69 +204,69 @@ func (pcc *PaymentChannelCreate) SaveX(ctx context.Context) *PaymentChannel {
 }
 
 // Exec executes the query.
-func (pcc *PaymentChannelCreate) Exec(ctx context.Context) error {
-	_, err := pcc.Save(ctx)
+func (_c *PaymentChannelCreate) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (pcc *PaymentChannelCreate) ExecX(ctx context.Context) {
-	if err := pcc.Exec(ctx); err != nil {
+func (_c *PaymentChannelCreate) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (pcc *PaymentChannelCreate) defaults() {
-	if _, ok := pcc.mutation.Extras(); !ok {
+func (_c *PaymentChannelCreate) defaults() {
+	if _, ok := _c.mutation.Extras(); !ok {
 		v := paymentchannel.DefaultExtras
-		pcc.mutation.SetExtras(v)
+		_c.mutation.SetExtras(v)
 	}
-	if _, ok := pcc.mutation.CreatedAt(); !ok {
+	if _, ok := _c.mutation.CreatedAt(); !ok {
 		v := paymentchannel.DefaultCreatedAt()
-		pcc.mutation.SetCreatedAt(v)
+		_c.mutation.SetCreatedAt(v)
 	}
-	if _, ok := pcc.mutation.UpdatedAt(); !ok {
+	if _, ok := _c.mutation.UpdatedAt(); !ok {
 		v := paymentchannel.DefaultUpdatedAt()
-		pcc.mutation.SetUpdatedAt(v)
+		_c.mutation.SetUpdatedAt(v)
 	}
-	if _, ok := pcc.mutation.Status(); !ok {
+	if _, ok := _c.mutation.Status(); !ok {
 		v := paymentchannel.DefaultStatus
-		pcc.mutation.SetStatus(v)
+		_c.mutation.SetStatus(v)
 	}
-	if _, ok := pcc.mutation.IsDefault(); !ok {
+	if _, ok := _c.mutation.IsDefault(); !ok {
 		v := paymentchannel.DefaultIsDefault
-		pcc.mutation.SetIsDefault(v)
+		_c.mutation.SetIsDefault(v)
 	}
-	if _, ok := pcc.mutation.ID(); !ok {
+	if _, ok := _c.mutation.ID(); !ok {
 		v := paymentchannel.DefaultID()
-		pcc.mutation.SetID(v)
+		_c.mutation.SetID(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (pcc *PaymentChannelCreate) check() error {
-	if _, ok := pcc.mutation.Provider(); !ok {
+func (_c *PaymentChannelCreate) check() error {
+	if _, ok := _c.mutation.Provider(); !ok {
 		return &ValidationError{Name: "provider", err: errors.New(`ent: missing required field "PaymentChannel.provider"`)}
 	}
-	if v, ok := pcc.mutation.Provider(); ok {
+	if v, ok := _c.mutation.Provider(); ok {
 		if err := paymentchannel.ProviderValidator(v); err != nil {
 			return &ValidationError{Name: "provider", err: fmt.Errorf(`ent: validator failed for field "PaymentChannel.provider": %w`, err)}
 		}
 	}
-	if _, ok := pcc.mutation.Status(); !ok {
+	if _, ok := _c.mutation.Status(); !ok {
 		return &ValidationError{Name: "status", err: errors.New(`ent: missing required field "PaymentChannel.status"`)}
 	}
-	if _, ok := pcc.mutation.IsDefault(); !ok {
+	if _, ok := _c.mutation.IsDefault(); !ok {
 		return &ValidationError{Name: "is_default", err: errors.New(`ent: missing required field "PaymentChannel.is_default"`)}
 	}
-	if _, ok := pcc.mutation.SupportedTypes(); !ok {
+	if _, ok := _c.mutation.SupportedTypes(); !ok {
 		return &ValidationError{Name: "supported_types", err: errors.New(`ent: missing required field "PaymentChannel.supported_types"`)}
 	}
-	if _, ok := pcc.mutation.Config(); !ok {
+	if _, ok := _c.mutation.Config(); !ok {
 		return &ValidationError{Name: "config", err: errors.New(`ent: missing required field "PaymentChannel.config"`)}
 	}
-	if v, ok := pcc.mutation.ID(); ok {
+	if v, ok := _c.mutation.ID(); ok {
 		if err := paymentchannel.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "PaymentChannel.id": %w`, err)}
 		}
@@ -274,12 +274,12 @@ func (pcc *PaymentChannelCreate) check() error {
 	return nil
 }
 
-func (pcc *PaymentChannelCreate) sqlSave(ctx context.Context) (*PaymentChannel, error) {
-	if err := pcc.check(); err != nil {
+func (_c *PaymentChannelCreate) sqlSave(ctx context.Context) (*PaymentChannel, error) {
+	if err := _c.check(); err != nil {
 		return nil, err
 	}
-	_node, _spec := pcc.createSpec()
-	if err := sqlgraph.CreateNode(ctx, pcc.driver, _spec); err != nil {
+	_node, _spec := _c.createSpec()
+	if err := sqlgraph.CreateNode(ctx, _c.driver, _spec); err != nil {
 		if sqlgraph.IsConstraintError(err) {
 			err = &ConstraintError{msg: err.Error(), wrap: err}
 		}
@@ -292,69 +292,69 @@ func (pcc *PaymentChannelCreate) sqlSave(ctx context.Context) (*PaymentChannel, 
 			return nil, fmt.Errorf("unexpected PaymentChannel.ID type: %T", _spec.ID.Value)
 		}
 	}
-	pcc.mutation.id = &_node.ID
-	pcc.mutation.done = true
+	_c.mutation.id = &_node.ID
+	_c.mutation.done = true
 	return _node, nil
 }
 
-func (pcc *PaymentChannelCreate) createSpec() (*PaymentChannel, *sqlgraph.CreateSpec) {
+func (_c *PaymentChannelCreate) createSpec() (*PaymentChannel, *sqlgraph.CreateSpec) {
 	var (
-		_node = &PaymentChannel{config: pcc.config}
+		_node = &PaymentChannel{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(paymentchannel.Table, sqlgraph.NewFieldSpec(paymentchannel.FieldID, field.TypeString))
 	)
-	if id, ok := pcc.mutation.ID(); ok {
+	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
 	}
-	if value, ok := pcc.mutation.Name(); ok {
+	if value, ok := _c.mutation.Name(); ok {
 		_spec.SetField(paymentchannel.FieldName, field.TypeString, value)
 		_node.Name = value
 	}
-	if value, ok := pcc.mutation.Description(); ok {
+	if value, ok := _c.mutation.Description(); ok {
 		_spec.SetField(paymentchannel.FieldDescription, field.TypeString, value)
 		_node.Description = value
 	}
-	if value, ok := pcc.mutation.Extras(); ok {
+	if value, ok := _c.mutation.Extras(); ok {
 		_spec.SetField(paymentchannel.FieldExtras, field.TypeJSON, value)
 		_node.Extras = value
 	}
-	if value, ok := pcc.mutation.CreatedBy(); ok {
+	if value, ok := _c.mutation.CreatedBy(); ok {
 		_spec.SetField(paymentchannel.FieldCreatedBy, field.TypeString, value)
 		_node.CreatedBy = value
 	}
-	if value, ok := pcc.mutation.UpdatedBy(); ok {
+	if value, ok := _c.mutation.UpdatedBy(); ok {
 		_spec.SetField(paymentchannel.FieldUpdatedBy, field.TypeString, value)
 		_node.UpdatedBy = value
 	}
-	if value, ok := pcc.mutation.CreatedAt(); ok {
+	if value, ok := _c.mutation.CreatedAt(); ok {
 		_spec.SetField(paymentchannel.FieldCreatedAt, field.TypeInt64, value)
 		_node.CreatedAt = value
 	}
-	if value, ok := pcc.mutation.UpdatedAt(); ok {
+	if value, ok := _c.mutation.UpdatedAt(); ok {
 		_spec.SetField(paymentchannel.FieldUpdatedAt, field.TypeInt64, value)
 		_node.UpdatedAt = value
 	}
-	if value, ok := pcc.mutation.Provider(); ok {
+	if value, ok := _c.mutation.Provider(); ok {
 		_spec.SetField(paymentchannel.FieldProvider, field.TypeString, value)
 		_node.Provider = value
 	}
-	if value, ok := pcc.mutation.Status(); ok {
+	if value, ok := _c.mutation.Status(); ok {
 		_spec.SetField(paymentchannel.FieldStatus, field.TypeString, value)
 		_node.Status = value
 	}
-	if value, ok := pcc.mutation.IsDefault(); ok {
+	if value, ok := _c.mutation.IsDefault(); ok {
 		_spec.SetField(paymentchannel.FieldIsDefault, field.TypeBool, value)
 		_node.IsDefault = value
 	}
-	if value, ok := pcc.mutation.SupportedTypes(); ok {
+	if value, ok := _c.mutation.SupportedTypes(); ok {
 		_spec.SetField(paymentchannel.FieldSupportedTypes, field.TypeJSON, value)
 		_node.SupportedTypes = value
 	}
-	if value, ok := pcc.mutation.Config(); ok {
+	if value, ok := _c.mutation.Config(); ok {
 		_spec.SetField(paymentchannel.FieldConfig, field.TypeJSON, value)
 		_node.Config = value
 	}
-	if value, ok := pcc.mutation.SpaceID(); ok {
+	if value, ok := _c.mutation.SpaceID(); ok {
 		_spec.SetField(paymentchannel.FieldSpaceID, field.TypeString, value)
 		_node.SpaceID = value
 	}
@@ -369,16 +369,16 @@ type PaymentChannelCreateBulk struct {
 }
 
 // Save creates the PaymentChannel entities in the database.
-func (pccb *PaymentChannelCreateBulk) Save(ctx context.Context) ([]*PaymentChannel, error) {
-	if pccb.err != nil {
-		return nil, pccb.err
+func (_c *PaymentChannelCreateBulk) Save(ctx context.Context) ([]*PaymentChannel, error) {
+	if _c.err != nil {
+		return nil, _c.err
 	}
-	specs := make([]*sqlgraph.CreateSpec, len(pccb.builders))
-	nodes := make([]*PaymentChannel, len(pccb.builders))
-	mutators := make([]Mutator, len(pccb.builders))
-	for i := range pccb.builders {
+	specs := make([]*sqlgraph.CreateSpec, len(_c.builders))
+	nodes := make([]*PaymentChannel, len(_c.builders))
+	mutators := make([]Mutator, len(_c.builders))
+	for i := range _c.builders {
 		func(i int, root context.Context) {
-			builder := pccb.builders[i]
+			builder := _c.builders[i]
 			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*PaymentChannelMutation)
@@ -392,11 +392,11 @@ func (pccb *PaymentChannelCreateBulk) Save(ctx context.Context) ([]*PaymentChann
 				var err error
 				nodes[i], specs[i] = builder.createSpec()
 				if i < len(mutators)-1 {
-					_, err = mutators[i+1].Mutate(root, pccb.builders[i+1].mutation)
+					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
 					// Invoke the actual operation on the latest mutation in the chain.
-					if err = sqlgraph.BatchCreate(ctx, pccb.driver, spec); err != nil {
+					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
 							err = &ConstraintError{msg: err.Error(), wrap: err}
 						}
@@ -416,7 +416,7 @@ func (pccb *PaymentChannelCreateBulk) Save(ctx context.Context) ([]*PaymentChann
 		}(i, ctx)
 	}
 	if len(mutators) > 0 {
-		if _, err := mutators[0].Mutate(ctx, pccb.builders[0].mutation); err != nil {
+		if _, err := mutators[0].Mutate(ctx, _c.builders[0].mutation); err != nil {
 			return nil, err
 		}
 	}
@@ -424,8 +424,8 @@ func (pccb *PaymentChannelCreateBulk) Save(ctx context.Context) ([]*PaymentChann
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (pccb *PaymentChannelCreateBulk) SaveX(ctx context.Context) []*PaymentChannel {
-	v, err := pccb.Save(ctx)
+func (_c *PaymentChannelCreateBulk) SaveX(ctx context.Context) []*PaymentChannel {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -433,14 +433,14 @@ func (pccb *PaymentChannelCreateBulk) SaveX(ctx context.Context) []*PaymentChann
 }
 
 // Exec executes the query.
-func (pccb *PaymentChannelCreateBulk) Exec(ctx context.Context) error {
-	_, err := pccb.Save(ctx)
+func (_c *PaymentChannelCreateBulk) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (pccb *PaymentChannelCreateBulk) ExecX(ctx context.Context) {
-	if err := pccb.Exec(ctx); err != nil {
+func (_c *PaymentChannelCreateBulk) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

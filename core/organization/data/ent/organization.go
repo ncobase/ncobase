@@ -67,7 +67,7 @@ func (*Organization) scanValues(columns []string) ([]any, error) {
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
 // to the Organization fields.
-func (o *Organization) assignValues(columns []string, values []any) error {
+func (_m *Organization) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
@@ -77,43 +77,43 @@ func (o *Organization) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field id", values[i])
 			} else if value.Valid {
-				o.ID = value.String
+				_m.ID = value.String
 			}
 		case organization.FieldName:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field name", values[i])
 			} else if value.Valid {
-				o.Name = value.String
+				_m.Name = value.String
 			}
 		case organization.FieldSlug:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field slug", values[i])
 			} else if value.Valid {
-				o.Slug = value.String
+				_m.Slug = value.String
 			}
 		case organization.FieldType:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field type", values[i])
 			} else if value.Valid {
-				o.Type = value.String
+				_m.Type = value.String
 			}
 		case organization.FieldDisabled:
 			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field disabled", values[i])
 			} else if value.Valid {
-				o.Disabled = value.Bool
+				_m.Disabled = value.Bool
 			}
 		case organization.FieldDescription:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field description", values[i])
 			} else if value.Valid {
-				o.Description = value.String
+				_m.Description = value.String
 			}
 		case organization.FieldLeader:
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field leader", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &o.Leader); err != nil {
+				if err := json.Unmarshal(*value, &_m.Leader); err != nil {
 					return fmt.Errorf("unmarshal field leader: %w", err)
 				}
 			}
@@ -121,7 +121,7 @@ func (o *Organization) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field extras", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &o.Extras); err != nil {
+				if err := json.Unmarshal(*value, &_m.Extras); err != nil {
 					return fmt.Errorf("unmarshal field extras: %w", err)
 				}
 			}
@@ -129,34 +129,34 @@ func (o *Organization) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field parent_id", values[i])
 			} else if value.Valid {
-				o.ParentID = value.String
+				_m.ParentID = value.String
 			}
 		case organization.FieldCreatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field created_by", values[i])
 			} else if value.Valid {
-				o.CreatedBy = value.String
+				_m.CreatedBy = value.String
 			}
 		case organization.FieldUpdatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_by", values[i])
 			} else if value.Valid {
-				o.UpdatedBy = value.String
+				_m.UpdatedBy = value.String
 			}
 		case organization.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field created_at", values[i])
 			} else if value.Valid {
-				o.CreatedAt = value.Int64
+				_m.CreatedAt = value.Int64
 			}
 		case organization.FieldUpdatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_at", values[i])
 			} else if value.Valid {
-				o.UpdatedAt = value.Int64
+				_m.UpdatedAt = value.Int64
 			}
 		default:
-			o.selectValues.Set(columns[i], values[i])
+			_m.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
@@ -164,68 +164,68 @@ func (o *Organization) assignValues(columns []string, values []any) error {
 
 // Value returns the ent.Value that was dynamically selected and assigned to the Organization.
 // This includes values selected through modifiers, order, etc.
-func (o *Organization) Value(name string) (ent.Value, error) {
-	return o.selectValues.Get(name)
+func (_m *Organization) Value(name string) (ent.Value, error) {
+	return _m.selectValues.Get(name)
 }
 
 // Update returns a builder for updating this Organization.
 // Note that you need to call Organization.Unwrap() before calling this method if this Organization
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (o *Organization) Update() *OrganizationUpdateOne {
-	return NewOrganizationClient(o.config).UpdateOne(o)
+func (_m *Organization) Update() *OrganizationUpdateOne {
+	return NewOrganizationClient(_m.config).UpdateOne(_m)
 }
 
 // Unwrap unwraps the Organization entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (o *Organization) Unwrap() *Organization {
-	_tx, ok := o.config.driver.(*txDriver)
+func (_m *Organization) Unwrap() *Organization {
+	_tx, ok := _m.config.driver.(*txDriver)
 	if !ok {
 		panic("ent: Organization is not a transactional entity")
 	}
-	o.config.driver = _tx.drv
-	return o
+	_m.config.driver = _tx.drv
+	return _m
 }
 
 // String implements the fmt.Stringer.
-func (o *Organization) String() string {
+func (_m *Organization) String() string {
 	var builder strings.Builder
 	builder.WriteString("Organization(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", o.ID))
+	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
 	builder.WriteString("name=")
-	builder.WriteString(o.Name)
+	builder.WriteString(_m.Name)
 	builder.WriteString(", ")
 	builder.WriteString("slug=")
-	builder.WriteString(o.Slug)
+	builder.WriteString(_m.Slug)
 	builder.WriteString(", ")
 	builder.WriteString("type=")
-	builder.WriteString(o.Type)
+	builder.WriteString(_m.Type)
 	builder.WriteString(", ")
 	builder.WriteString("disabled=")
-	builder.WriteString(fmt.Sprintf("%v", o.Disabled))
+	builder.WriteString(fmt.Sprintf("%v", _m.Disabled))
 	builder.WriteString(", ")
 	builder.WriteString("description=")
-	builder.WriteString(o.Description)
+	builder.WriteString(_m.Description)
 	builder.WriteString(", ")
 	builder.WriteString("leader=")
-	builder.WriteString(fmt.Sprintf("%v", o.Leader))
+	builder.WriteString(fmt.Sprintf("%v", _m.Leader))
 	builder.WriteString(", ")
 	builder.WriteString("extras=")
-	builder.WriteString(fmt.Sprintf("%v", o.Extras))
+	builder.WriteString(fmt.Sprintf("%v", _m.Extras))
 	builder.WriteString(", ")
 	builder.WriteString("parent_id=")
-	builder.WriteString(o.ParentID)
+	builder.WriteString(_m.ParentID)
 	builder.WriteString(", ")
 	builder.WriteString("created_by=")
-	builder.WriteString(o.CreatedBy)
+	builder.WriteString(_m.CreatedBy)
 	builder.WriteString(", ")
 	builder.WriteString("updated_by=")
-	builder.WriteString(o.UpdatedBy)
+	builder.WriteString(_m.UpdatedBy)
 	builder.WriteString(", ")
 	builder.WriteString("created_at=")
-	builder.WriteString(fmt.Sprintf("%v", o.CreatedAt))
+	builder.WriteString(fmt.Sprintf("%v", _m.CreatedAt))
 	builder.WriteString(", ")
 	builder.WriteString("updated_at=")
-	builder.WriteString(fmt.Sprintf("%v", o.UpdatedAt))
+	builder.WriteString(fmt.Sprintf("%v", _m.UpdatedAt))
 	builder.WriteByte(')')
 	return builder.String()
 }

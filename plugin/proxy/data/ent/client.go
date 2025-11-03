@@ -282,8 +282,8 @@ func (c *EndpointClient) Update() *EndpointUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *EndpointClient) UpdateOne(e *Endpoint) *EndpointUpdateOne {
-	mutation := newEndpointMutation(c.config, OpUpdateOne, withEndpoint(e))
+func (c *EndpointClient) UpdateOne(_m *Endpoint) *EndpointUpdateOne {
+	mutation := newEndpointMutation(c.config, OpUpdateOne, withEndpoint(_m))
 	return &EndpointUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -300,8 +300,8 @@ func (c *EndpointClient) Delete() *EndpointDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *EndpointClient) DeleteOne(e *Endpoint) *EndpointDeleteOne {
-	return c.DeleteOneID(e.ID)
+func (c *EndpointClient) DeleteOne(_m *Endpoint) *EndpointDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -415,8 +415,8 @@ func (c *LogsClient) Update() *LogsUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *LogsClient) UpdateOne(l *Logs) *LogsUpdateOne {
-	mutation := newLogsMutation(c.config, OpUpdateOne, withLogs(l))
+func (c *LogsClient) UpdateOne(_m *Logs) *LogsUpdateOne {
+	mutation := newLogsMutation(c.config, OpUpdateOne, withLogs(_m))
 	return &LogsUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -433,8 +433,8 @@ func (c *LogsClient) Delete() *LogsDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *LogsClient) DeleteOne(l *Logs) *LogsDeleteOne {
-	return c.DeleteOneID(l.ID)
+func (c *LogsClient) DeleteOne(_m *Logs) *LogsDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -548,8 +548,8 @@ func (c *RouteClient) Update() *RouteUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *RouteClient) UpdateOne(r *Route) *RouteUpdateOne {
-	mutation := newRouteMutation(c.config, OpUpdateOne, withRoute(r))
+func (c *RouteClient) UpdateOne(_m *Route) *RouteUpdateOne {
+	mutation := newRouteMutation(c.config, OpUpdateOne, withRoute(_m))
 	return &RouteUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -566,8 +566,8 @@ func (c *RouteClient) Delete() *RouteDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *RouteClient) DeleteOne(r *Route) *RouteDeleteOne {
-	return c.DeleteOneID(r.ID)
+func (c *RouteClient) DeleteOne(_m *Route) *RouteDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -681,8 +681,8 @@ func (c *TransformerClient) Update() *TransformerUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *TransformerClient) UpdateOne(t *Transformer) *TransformerUpdateOne {
-	mutation := newTransformerMutation(c.config, OpUpdateOne, withTransformer(t))
+func (c *TransformerClient) UpdateOne(_m *Transformer) *TransformerUpdateOne {
+	mutation := newTransformerMutation(c.config, OpUpdateOne, withTransformer(_m))
 	return &TransformerUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -699,8 +699,8 @@ func (c *TransformerClient) Delete() *TransformerDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *TransformerClient) DeleteOne(t *Transformer) *TransformerDeleteOne {
-	return c.DeleteOneID(t.ID)
+func (c *TransformerClient) DeleteOne(_m *Transformer) *TransformerDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.

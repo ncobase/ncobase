@@ -23,581 +23,581 @@ type BusinessUpdate struct {
 }
 
 // Where appends a list predicates to the BusinessUpdate builder.
-func (bu *BusinessUpdate) Where(ps ...predicate.Business) *BusinessUpdate {
-	bu.mutation.Where(ps...)
-	return bu
+func (_u *BusinessUpdate) Where(ps ...predicate.Business) *BusinessUpdate {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // SetCode sets the "code" field.
-func (bu *BusinessUpdate) SetCode(s string) *BusinessUpdate {
-	bu.mutation.SetCode(s)
-	return bu
+func (_u *BusinessUpdate) SetCode(v string) *BusinessUpdate {
+	_u.mutation.SetCode(v)
+	return _u
 }
 
 // SetNillableCode sets the "code" field if the given value is not nil.
-func (bu *BusinessUpdate) SetNillableCode(s *string) *BusinessUpdate {
-	if s != nil {
-		bu.SetCode(*s)
+func (_u *BusinessUpdate) SetNillableCode(v *string) *BusinessUpdate {
+	if v != nil {
+		_u.SetCode(*v)
 	}
-	return bu
+	return _u
 }
 
 // ClearCode clears the value of the "code" field.
-func (bu *BusinessUpdate) ClearCode() *BusinessUpdate {
-	bu.mutation.ClearCode()
-	return bu
+func (_u *BusinessUpdate) ClearCode() *BusinessUpdate {
+	_u.mutation.ClearCode()
+	return _u
 }
 
 // SetStatus sets the "status" field.
-func (bu *BusinessUpdate) SetStatus(s string) *BusinessUpdate {
-	bu.mutation.SetStatus(s)
-	return bu
+func (_u *BusinessUpdate) SetStatus(v string) *BusinessUpdate {
+	_u.mutation.SetStatus(v)
+	return _u
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (bu *BusinessUpdate) SetNillableStatus(s *string) *BusinessUpdate {
-	if s != nil {
-		bu.SetStatus(*s)
+func (_u *BusinessUpdate) SetNillableStatus(v *string) *BusinessUpdate {
+	if v != nil {
+		_u.SetStatus(*v)
 	}
-	return bu
+	return _u
 }
 
 // ClearStatus clears the value of the "status" field.
-func (bu *BusinessUpdate) ClearStatus() *BusinessUpdate {
-	bu.mutation.ClearStatus()
-	return bu
+func (_u *BusinessUpdate) ClearStatus() *BusinessUpdate {
+	_u.mutation.ClearStatus()
+	return _u
 }
 
 // SetFormCode sets the "form_code" field.
-func (bu *BusinessUpdate) SetFormCode(s string) *BusinessUpdate {
-	bu.mutation.SetFormCode(s)
-	return bu
+func (_u *BusinessUpdate) SetFormCode(v string) *BusinessUpdate {
+	_u.mutation.SetFormCode(v)
+	return _u
 }
 
 // SetNillableFormCode sets the "form_code" field if the given value is not nil.
-func (bu *BusinessUpdate) SetNillableFormCode(s *string) *BusinessUpdate {
-	if s != nil {
-		bu.SetFormCode(*s)
+func (_u *BusinessUpdate) SetNillableFormCode(v *string) *BusinessUpdate {
+	if v != nil {
+		_u.SetFormCode(*v)
 	}
-	return bu
+	return _u
 }
 
 // SetFormVersion sets the "form_version" field.
-func (bu *BusinessUpdate) SetFormVersion(s string) *BusinessUpdate {
-	bu.mutation.SetFormVersion(s)
-	return bu
+func (_u *BusinessUpdate) SetFormVersion(v string) *BusinessUpdate {
+	_u.mutation.SetFormVersion(v)
+	return _u
 }
 
 // SetNillableFormVersion sets the "form_version" field if the given value is not nil.
-func (bu *BusinessUpdate) SetNillableFormVersion(s *string) *BusinessUpdate {
-	if s != nil {
-		bu.SetFormVersion(*s)
+func (_u *BusinessUpdate) SetNillableFormVersion(v *string) *BusinessUpdate {
+	if v != nil {
+		_u.SetFormVersion(*v)
 	}
-	return bu
+	return _u
 }
 
 // ClearFormVersion clears the value of the "form_version" field.
-func (bu *BusinessUpdate) ClearFormVersion() *BusinessUpdate {
-	bu.mutation.ClearFormVersion()
-	return bu
+func (_u *BusinessUpdate) ClearFormVersion() *BusinessUpdate {
+	_u.mutation.ClearFormVersion()
+	return _u
 }
 
 // SetFormConfig sets the "form_config" field.
-func (bu *BusinessUpdate) SetFormConfig(m map[string]interface{}) *BusinessUpdate {
-	bu.mutation.SetFormConfig(m)
-	return bu
+func (_u *BusinessUpdate) SetFormConfig(v map[string]interface{}) *BusinessUpdate {
+	_u.mutation.SetFormConfig(v)
+	return _u
 }
 
 // ClearFormConfig clears the value of the "form_config" field.
-func (bu *BusinessUpdate) ClearFormConfig() *BusinessUpdate {
-	bu.mutation.ClearFormConfig()
-	return bu
+func (_u *BusinessUpdate) ClearFormConfig() *BusinessUpdate {
+	_u.mutation.ClearFormConfig()
+	return _u
 }
 
 // SetFormPermissions sets the "form_permissions" field.
-func (bu *BusinessUpdate) SetFormPermissions(m map[string]interface{}) *BusinessUpdate {
-	bu.mutation.SetFormPermissions(m)
-	return bu
+func (_u *BusinessUpdate) SetFormPermissions(v map[string]interface{}) *BusinessUpdate {
+	_u.mutation.SetFormPermissions(v)
+	return _u
 }
 
 // ClearFormPermissions clears the value of the "form_permissions" field.
-func (bu *BusinessUpdate) ClearFormPermissions() *BusinessUpdate {
-	bu.mutation.ClearFormPermissions()
-	return bu
+func (_u *BusinessUpdate) ClearFormPermissions() *BusinessUpdate {
+	_u.mutation.ClearFormPermissions()
+	return _u
 }
 
 // SetFieldPermissions sets the "field_permissions" field.
-func (bu *BusinessUpdate) SetFieldPermissions(m map[string]interface{}) *BusinessUpdate {
-	bu.mutation.SetFieldPermissions(m)
-	return bu
+func (_u *BusinessUpdate) SetFieldPermissions(v map[string]interface{}) *BusinessUpdate {
+	_u.mutation.SetFieldPermissions(v)
+	return _u
 }
 
 // ClearFieldPermissions clears the value of the "field_permissions" field.
-func (bu *BusinessUpdate) ClearFieldPermissions() *BusinessUpdate {
-	bu.mutation.ClearFieldPermissions()
-	return bu
+func (_u *BusinessUpdate) ClearFieldPermissions() *BusinessUpdate {
+	_u.mutation.ClearFieldPermissions()
+	return _u
 }
 
 // SetProcessID sets the "process_id" field.
-func (bu *BusinessUpdate) SetProcessID(s string) *BusinessUpdate {
-	bu.mutation.SetProcessID(s)
-	return bu
+func (_u *BusinessUpdate) SetProcessID(v string) *BusinessUpdate {
+	_u.mutation.SetProcessID(v)
+	return _u
 }
 
 // SetNillableProcessID sets the "process_id" field if the given value is not nil.
-func (bu *BusinessUpdate) SetNillableProcessID(s *string) *BusinessUpdate {
-	if s != nil {
-		bu.SetProcessID(*s)
+func (_u *BusinessUpdate) SetNillableProcessID(v *string) *BusinessUpdate {
+	if v != nil {
+		_u.SetProcessID(*v)
 	}
-	return bu
+	return _u
 }
 
 // SetTemplateID sets the "template_id" field.
-func (bu *BusinessUpdate) SetTemplateID(s string) *BusinessUpdate {
-	bu.mutation.SetTemplateID(s)
-	return bu
+func (_u *BusinessUpdate) SetTemplateID(v string) *BusinessUpdate {
+	_u.mutation.SetTemplateID(v)
+	return _u
 }
 
 // SetNillableTemplateID sets the "template_id" field if the given value is not nil.
-func (bu *BusinessUpdate) SetNillableTemplateID(s *string) *BusinessUpdate {
-	if s != nil {
-		bu.SetTemplateID(*s)
+func (_u *BusinessUpdate) SetNillableTemplateID(v *string) *BusinessUpdate {
+	if v != nil {
+		_u.SetTemplateID(*v)
 	}
-	return bu
+	return _u
 }
 
 // SetBusinessKey sets the "business_key" field.
-func (bu *BusinessUpdate) SetBusinessKey(s string) *BusinessUpdate {
-	bu.mutation.SetBusinessKey(s)
-	return bu
+func (_u *BusinessUpdate) SetBusinessKey(v string) *BusinessUpdate {
+	_u.mutation.SetBusinessKey(v)
+	return _u
 }
 
 // SetNillableBusinessKey sets the "business_key" field if the given value is not nil.
-func (bu *BusinessUpdate) SetNillableBusinessKey(s *string) *BusinessUpdate {
-	if s != nil {
-		bu.SetBusinessKey(*s)
+func (_u *BusinessUpdate) SetNillableBusinessKey(v *string) *BusinessUpdate {
+	if v != nil {
+		_u.SetBusinessKey(*v)
 	}
-	return bu
+	return _u
 }
 
 // SetOriginData sets the "origin_data" field.
-func (bu *BusinessUpdate) SetOriginData(m map[string]interface{}) *BusinessUpdate {
-	bu.mutation.SetOriginData(m)
-	return bu
+func (_u *BusinessUpdate) SetOriginData(v map[string]interface{}) *BusinessUpdate {
+	_u.mutation.SetOriginData(v)
+	return _u
 }
 
 // SetCurrentData sets the "current_data" field.
-func (bu *BusinessUpdate) SetCurrentData(m map[string]interface{}) *BusinessUpdate {
-	bu.mutation.SetCurrentData(m)
-	return bu
+func (_u *BusinessUpdate) SetCurrentData(v map[string]interface{}) *BusinessUpdate {
+	_u.mutation.SetCurrentData(v)
+	return _u
 }
 
 // SetChangeLogs sets the "change_logs" field.
-func (bu *BusinessUpdate) SetChangeLogs(m []map[string]interface{}) *BusinessUpdate {
-	bu.mutation.SetChangeLogs(m)
-	return bu
+func (_u *BusinessUpdate) SetChangeLogs(v []map[string]interface{}) *BusinessUpdate {
+	_u.mutation.SetChangeLogs(v)
+	return _u
 }
 
-// AppendChangeLogs appends m to the "change_logs" field.
-func (bu *BusinessUpdate) AppendChangeLogs(m []map[string]interface{}) *BusinessUpdate {
-	bu.mutation.AppendChangeLogs(m)
-	return bu
+// AppendChangeLogs appends value to the "change_logs" field.
+func (_u *BusinessUpdate) AppendChangeLogs(v []map[string]interface{}) *BusinessUpdate {
+	_u.mutation.AppendChangeLogs(v)
+	return _u
 }
 
 // ClearChangeLogs clears the value of the "change_logs" field.
-func (bu *BusinessUpdate) ClearChangeLogs() *BusinessUpdate {
-	bu.mutation.ClearChangeLogs()
-	return bu
+func (_u *BusinessUpdate) ClearChangeLogs() *BusinessUpdate {
+	_u.mutation.ClearChangeLogs()
+	return _u
 }
 
 // SetLastModified sets the "last_modified" field.
-func (bu *BusinessUpdate) SetLastModified(i int64) *BusinessUpdate {
-	bu.mutation.ResetLastModified()
-	bu.mutation.SetLastModified(i)
-	return bu
+func (_u *BusinessUpdate) SetLastModified(v int64) *BusinessUpdate {
+	_u.mutation.ResetLastModified()
+	_u.mutation.SetLastModified(v)
+	return _u
 }
 
 // SetNillableLastModified sets the "last_modified" field if the given value is not nil.
-func (bu *BusinessUpdate) SetNillableLastModified(i *int64) *BusinessUpdate {
-	if i != nil {
-		bu.SetLastModified(*i)
+func (_u *BusinessUpdate) SetNillableLastModified(v *int64) *BusinessUpdate {
+	if v != nil {
+		_u.SetLastModified(*v)
 	}
-	return bu
+	return _u
 }
 
-// AddLastModified adds i to the "last_modified" field.
-func (bu *BusinessUpdate) AddLastModified(i int64) *BusinessUpdate {
-	bu.mutation.AddLastModified(i)
-	return bu
+// AddLastModified adds value to the "last_modified" field.
+func (_u *BusinessUpdate) AddLastModified(v int64) *BusinessUpdate {
+	_u.mutation.AddLastModified(v)
+	return _u
 }
 
 // ClearLastModified clears the value of the "last_modified" field.
-func (bu *BusinessUpdate) ClearLastModified() *BusinessUpdate {
-	bu.mutation.ClearLastModified()
-	return bu
+func (_u *BusinessUpdate) ClearLastModified() *BusinessUpdate {
+	_u.mutation.ClearLastModified()
+	return _u
 }
 
 // SetLastModifier sets the "last_modifier" field.
-func (bu *BusinessUpdate) SetLastModifier(s string) *BusinessUpdate {
-	bu.mutation.SetLastModifier(s)
-	return bu
+func (_u *BusinessUpdate) SetLastModifier(v string) *BusinessUpdate {
+	_u.mutation.SetLastModifier(v)
+	return _u
 }
 
 // SetNillableLastModifier sets the "last_modifier" field if the given value is not nil.
-func (bu *BusinessUpdate) SetNillableLastModifier(s *string) *BusinessUpdate {
-	if s != nil {
-		bu.SetLastModifier(*s)
+func (_u *BusinessUpdate) SetNillableLastModifier(v *string) *BusinessUpdate {
+	if v != nil {
+		_u.SetLastModifier(*v)
 	}
-	return bu
+	return _u
 }
 
 // ClearLastModifier clears the value of the "last_modifier" field.
-func (bu *BusinessUpdate) ClearLastModifier() *BusinessUpdate {
-	bu.mutation.ClearLastModifier()
-	return bu
+func (_u *BusinessUpdate) ClearLastModifier() *BusinessUpdate {
+	_u.mutation.ClearLastModifier()
+	return _u
 }
 
 // SetOperationLogs sets the "operation_logs" field.
-func (bu *BusinessUpdate) SetOperationLogs(m []map[string]interface{}) *BusinessUpdate {
-	bu.mutation.SetOperationLogs(m)
-	return bu
+func (_u *BusinessUpdate) SetOperationLogs(v []map[string]interface{}) *BusinessUpdate {
+	_u.mutation.SetOperationLogs(v)
+	return _u
 }
 
-// AppendOperationLogs appends m to the "operation_logs" field.
-func (bu *BusinessUpdate) AppendOperationLogs(m []map[string]interface{}) *BusinessUpdate {
-	bu.mutation.AppendOperationLogs(m)
-	return bu
+// AppendOperationLogs appends value to the "operation_logs" field.
+func (_u *BusinessUpdate) AppendOperationLogs(v []map[string]interface{}) *BusinessUpdate {
+	_u.mutation.AppendOperationLogs(v)
+	return _u
 }
 
 // ClearOperationLogs clears the value of the "operation_logs" field.
-func (bu *BusinessUpdate) ClearOperationLogs() *BusinessUpdate {
-	bu.mutation.ClearOperationLogs()
-	return bu
+func (_u *BusinessUpdate) ClearOperationLogs() *BusinessUpdate {
+	_u.mutation.ClearOperationLogs()
+	return _u
 }
 
 // SetFlowStatus sets the "flow_status" field.
-func (bu *BusinessUpdate) SetFlowStatus(s string) *BusinessUpdate {
-	bu.mutation.SetFlowStatus(s)
-	return bu
+func (_u *BusinessUpdate) SetFlowStatus(v string) *BusinessUpdate {
+	_u.mutation.SetFlowStatus(v)
+	return _u
 }
 
 // SetNillableFlowStatus sets the "flow_status" field if the given value is not nil.
-func (bu *BusinessUpdate) SetNillableFlowStatus(s *string) *BusinessUpdate {
-	if s != nil {
-		bu.SetFlowStatus(*s)
+func (_u *BusinessUpdate) SetNillableFlowStatus(v *string) *BusinessUpdate {
+	if v != nil {
+		_u.SetFlowStatus(*v)
 	}
-	return bu
+	return _u
 }
 
 // ClearFlowStatus clears the value of the "flow_status" field.
-func (bu *BusinessUpdate) ClearFlowStatus() *BusinessUpdate {
-	bu.mutation.ClearFlowStatus()
-	return bu
+func (_u *BusinessUpdate) ClearFlowStatus() *BusinessUpdate {
+	_u.mutation.ClearFlowStatus()
+	return _u
 }
 
 // SetFlowVariables sets the "flow_variables" field.
-func (bu *BusinessUpdate) SetFlowVariables(m map[string]interface{}) *BusinessUpdate {
-	bu.mutation.SetFlowVariables(m)
-	return bu
+func (_u *BusinessUpdate) SetFlowVariables(v map[string]interface{}) *BusinessUpdate {
+	_u.mutation.SetFlowVariables(v)
+	return _u
 }
 
 // ClearFlowVariables clears the value of the "flow_variables" field.
-func (bu *BusinessUpdate) ClearFlowVariables() *BusinessUpdate {
-	bu.mutation.ClearFlowVariables()
-	return bu
+func (_u *BusinessUpdate) ClearFlowVariables() *BusinessUpdate {
+	_u.mutation.ClearFlowVariables()
+	return _u
 }
 
 // SetIsDraft sets the "is_draft" field.
-func (bu *BusinessUpdate) SetIsDraft(b bool) *BusinessUpdate {
-	bu.mutation.SetIsDraft(b)
-	return bu
+func (_u *BusinessUpdate) SetIsDraft(v bool) *BusinessUpdate {
+	_u.mutation.SetIsDraft(v)
+	return _u
 }
 
 // SetNillableIsDraft sets the "is_draft" field if the given value is not nil.
-func (bu *BusinessUpdate) SetNillableIsDraft(b *bool) *BusinessUpdate {
-	if b != nil {
-		bu.SetIsDraft(*b)
+func (_u *BusinessUpdate) SetNillableIsDraft(v *bool) *BusinessUpdate {
+	if v != nil {
+		_u.SetIsDraft(*v)
 	}
-	return bu
+	return _u
 }
 
 // SetIsTerminated sets the "is_terminated" field.
-func (bu *BusinessUpdate) SetIsTerminated(b bool) *BusinessUpdate {
-	bu.mutation.SetIsTerminated(b)
-	return bu
+func (_u *BusinessUpdate) SetIsTerminated(v bool) *BusinessUpdate {
+	_u.mutation.SetIsTerminated(v)
+	return _u
 }
 
 // SetNillableIsTerminated sets the "is_terminated" field if the given value is not nil.
-func (bu *BusinessUpdate) SetNillableIsTerminated(b *bool) *BusinessUpdate {
-	if b != nil {
-		bu.SetIsTerminated(*b)
+func (_u *BusinessUpdate) SetNillableIsTerminated(v *bool) *BusinessUpdate {
+	if v != nil {
+		_u.SetIsTerminated(*v)
 	}
-	return bu
+	return _u
 }
 
 // SetIsSuspended sets the "is_suspended" field.
-func (bu *BusinessUpdate) SetIsSuspended(b bool) *BusinessUpdate {
-	bu.mutation.SetIsSuspended(b)
-	return bu
+func (_u *BusinessUpdate) SetIsSuspended(v bool) *BusinessUpdate {
+	_u.mutation.SetIsSuspended(v)
+	return _u
 }
 
 // SetNillableIsSuspended sets the "is_suspended" field if the given value is not nil.
-func (bu *BusinessUpdate) SetNillableIsSuspended(b *bool) *BusinessUpdate {
-	if b != nil {
-		bu.SetIsSuspended(*b)
+func (_u *BusinessUpdate) SetNillableIsSuspended(v *bool) *BusinessUpdate {
+	if v != nil {
+		_u.SetIsSuspended(*v)
 	}
-	return bu
+	return _u
 }
 
 // SetSuspendReason sets the "suspend_reason" field.
-func (bu *BusinessUpdate) SetSuspendReason(s string) *BusinessUpdate {
-	bu.mutation.SetSuspendReason(s)
-	return bu
+func (_u *BusinessUpdate) SetSuspendReason(v string) *BusinessUpdate {
+	_u.mutation.SetSuspendReason(v)
+	return _u
 }
 
 // SetNillableSuspendReason sets the "suspend_reason" field if the given value is not nil.
-func (bu *BusinessUpdate) SetNillableSuspendReason(s *string) *BusinessUpdate {
-	if s != nil {
-		bu.SetSuspendReason(*s)
+func (_u *BusinessUpdate) SetNillableSuspendReason(v *string) *BusinessUpdate {
+	if v != nil {
+		_u.SetSuspendReason(*v)
 	}
-	return bu
+	return _u
 }
 
 // ClearSuspendReason clears the value of the "suspend_reason" field.
-func (bu *BusinessUpdate) ClearSuspendReason() *BusinessUpdate {
-	bu.mutation.ClearSuspendReason()
-	return bu
+func (_u *BusinessUpdate) ClearSuspendReason() *BusinessUpdate {
+	_u.mutation.ClearSuspendReason()
+	return _u
 }
 
 // SetBusinessTags sets the "business_tags" field.
-func (bu *BusinessUpdate) SetBusinessTags(s []string) *BusinessUpdate {
-	bu.mutation.SetBusinessTags(s)
-	return bu
+func (_u *BusinessUpdate) SetBusinessTags(v []string) *BusinessUpdate {
+	_u.mutation.SetBusinessTags(v)
+	return _u
 }
 
-// AppendBusinessTags appends s to the "business_tags" field.
-func (bu *BusinessUpdate) AppendBusinessTags(s []string) *BusinessUpdate {
-	bu.mutation.AppendBusinessTags(s)
-	return bu
+// AppendBusinessTags appends value to the "business_tags" field.
+func (_u *BusinessUpdate) AppendBusinessTags(v []string) *BusinessUpdate {
+	_u.mutation.AppendBusinessTags(v)
+	return _u
 }
 
 // ClearBusinessTags clears the value of the "business_tags" field.
-func (bu *BusinessUpdate) ClearBusinessTags() *BusinessUpdate {
-	bu.mutation.ClearBusinessTags()
-	return bu
+func (_u *BusinessUpdate) ClearBusinessTags() *BusinessUpdate {
+	_u.mutation.ClearBusinessTags()
+	return _u
 }
 
 // SetModuleCode sets the "module_code" field.
-func (bu *BusinessUpdate) SetModuleCode(s string) *BusinessUpdate {
-	bu.mutation.SetModuleCode(s)
-	return bu
+func (_u *BusinessUpdate) SetModuleCode(v string) *BusinessUpdate {
+	_u.mutation.SetModuleCode(v)
+	return _u
 }
 
 // SetNillableModuleCode sets the "module_code" field if the given value is not nil.
-func (bu *BusinessUpdate) SetNillableModuleCode(s *string) *BusinessUpdate {
-	if s != nil {
-		bu.SetModuleCode(*s)
+func (_u *BusinessUpdate) SetNillableModuleCode(v *string) *BusinessUpdate {
+	if v != nil {
+		_u.SetModuleCode(*v)
 	}
-	return bu
+	return _u
 }
 
 // SetCategory sets the "category" field.
-func (bu *BusinessUpdate) SetCategory(s string) *BusinessUpdate {
-	bu.mutation.SetCategory(s)
-	return bu
+func (_u *BusinessUpdate) SetCategory(v string) *BusinessUpdate {
+	_u.mutation.SetCategory(v)
+	return _u
 }
 
 // SetNillableCategory sets the "category" field if the given value is not nil.
-func (bu *BusinessUpdate) SetNillableCategory(s *string) *BusinessUpdate {
-	if s != nil {
-		bu.SetCategory(*s)
+func (_u *BusinessUpdate) SetNillableCategory(v *string) *BusinessUpdate {
+	if v != nil {
+		_u.SetCategory(*v)
 	}
-	return bu
+	return _u
 }
 
 // ClearCategory clears the value of the "category" field.
-func (bu *BusinessUpdate) ClearCategory() *BusinessUpdate {
-	bu.mutation.ClearCategory()
-	return bu
+func (_u *BusinessUpdate) ClearCategory() *BusinessUpdate {
+	_u.mutation.ClearCategory()
+	return _u
 }
 
 // SetViewers sets the "viewers" field.
-func (bu *BusinessUpdate) SetViewers(s []string) *BusinessUpdate {
-	bu.mutation.SetViewers(s)
-	return bu
+func (_u *BusinessUpdate) SetViewers(v []string) *BusinessUpdate {
+	_u.mutation.SetViewers(v)
+	return _u
 }
 
-// AppendViewers appends s to the "viewers" field.
-func (bu *BusinessUpdate) AppendViewers(s []string) *BusinessUpdate {
-	bu.mutation.AppendViewers(s)
-	return bu
+// AppendViewers appends value to the "viewers" field.
+func (_u *BusinessUpdate) AppendViewers(v []string) *BusinessUpdate {
+	_u.mutation.AppendViewers(v)
+	return _u
 }
 
 // ClearViewers clears the value of the "viewers" field.
-func (bu *BusinessUpdate) ClearViewers() *BusinessUpdate {
-	bu.mutation.ClearViewers()
-	return bu
+func (_u *BusinessUpdate) ClearViewers() *BusinessUpdate {
+	_u.mutation.ClearViewers()
+	return _u
 }
 
 // SetEditors sets the "editors" field.
-func (bu *BusinessUpdate) SetEditors(s []string) *BusinessUpdate {
-	bu.mutation.SetEditors(s)
-	return bu
+func (_u *BusinessUpdate) SetEditors(v []string) *BusinessUpdate {
+	_u.mutation.SetEditors(v)
+	return _u
 }
 
-// AppendEditors appends s to the "editors" field.
-func (bu *BusinessUpdate) AppendEditors(s []string) *BusinessUpdate {
-	bu.mutation.AppendEditors(s)
-	return bu
+// AppendEditors appends value to the "editors" field.
+func (_u *BusinessUpdate) AppendEditors(v []string) *BusinessUpdate {
+	_u.mutation.AppendEditors(v)
+	return _u
 }
 
 // ClearEditors clears the value of the "editors" field.
-func (bu *BusinessUpdate) ClearEditors() *BusinessUpdate {
-	bu.mutation.ClearEditors()
-	return bu
+func (_u *BusinessUpdate) ClearEditors() *BusinessUpdate {
+	_u.mutation.ClearEditors()
+	return _u
 }
 
 // SetPermissionConfigs sets the "permission_configs" field.
-func (bu *BusinessUpdate) SetPermissionConfigs(m map[string]interface{}) *BusinessUpdate {
-	bu.mutation.SetPermissionConfigs(m)
-	return bu
+func (_u *BusinessUpdate) SetPermissionConfigs(v map[string]interface{}) *BusinessUpdate {
+	_u.mutation.SetPermissionConfigs(v)
+	return _u
 }
 
 // ClearPermissionConfigs clears the value of the "permission_configs" field.
-func (bu *BusinessUpdate) ClearPermissionConfigs() *BusinessUpdate {
-	bu.mutation.ClearPermissionConfigs()
-	return bu
+func (_u *BusinessUpdate) ClearPermissionConfigs() *BusinessUpdate {
+	_u.mutation.ClearPermissionConfigs()
+	return _u
 }
 
 // SetRoleConfigs sets the "role_configs" field.
-func (bu *BusinessUpdate) SetRoleConfigs(m map[string]interface{}) *BusinessUpdate {
-	bu.mutation.SetRoleConfigs(m)
-	return bu
+func (_u *BusinessUpdate) SetRoleConfigs(v map[string]interface{}) *BusinessUpdate {
+	_u.mutation.SetRoleConfigs(v)
+	return _u
 }
 
 // ClearRoleConfigs clears the value of the "role_configs" field.
-func (bu *BusinessUpdate) ClearRoleConfigs() *BusinessUpdate {
-	bu.mutation.ClearRoleConfigs()
-	return bu
+func (_u *BusinessUpdate) ClearRoleConfigs() *BusinessUpdate {
+	_u.mutation.ClearRoleConfigs()
+	return _u
 }
 
 // SetVisibleRange sets the "visible_range" field.
-func (bu *BusinessUpdate) SetVisibleRange(m map[string]interface{}) *BusinessUpdate {
-	bu.mutation.SetVisibleRange(m)
-	return bu
+func (_u *BusinessUpdate) SetVisibleRange(v map[string]interface{}) *BusinessUpdate {
+	_u.mutation.SetVisibleRange(v)
+	return _u
 }
 
 // ClearVisibleRange clears the value of the "visible_range" field.
-func (bu *BusinessUpdate) ClearVisibleRange() *BusinessUpdate {
-	bu.mutation.ClearVisibleRange()
-	return bu
+func (_u *BusinessUpdate) ClearVisibleRange() *BusinessUpdate {
+	_u.mutation.ClearVisibleRange()
+	return _u
 }
 
 // SetExtras sets the "extras" field.
-func (bu *BusinessUpdate) SetExtras(m map[string]interface{}) *BusinessUpdate {
-	bu.mutation.SetExtras(m)
-	return bu
+func (_u *BusinessUpdate) SetExtras(v map[string]interface{}) *BusinessUpdate {
+	_u.mutation.SetExtras(v)
+	return _u
 }
 
 // ClearExtras clears the value of the "extras" field.
-func (bu *BusinessUpdate) ClearExtras() *BusinessUpdate {
-	bu.mutation.ClearExtras()
-	return bu
+func (_u *BusinessUpdate) ClearExtras() *BusinessUpdate {
+	_u.mutation.ClearExtras()
+	return _u
 }
 
 // SetSpaceID sets the "space_id" field.
-func (bu *BusinessUpdate) SetSpaceID(s string) *BusinessUpdate {
-	bu.mutation.SetSpaceID(s)
-	return bu
+func (_u *BusinessUpdate) SetSpaceID(v string) *BusinessUpdate {
+	_u.mutation.SetSpaceID(v)
+	return _u
 }
 
 // SetNillableSpaceID sets the "space_id" field if the given value is not nil.
-func (bu *BusinessUpdate) SetNillableSpaceID(s *string) *BusinessUpdate {
-	if s != nil {
-		bu.SetSpaceID(*s)
+func (_u *BusinessUpdate) SetNillableSpaceID(v *string) *BusinessUpdate {
+	if v != nil {
+		_u.SetSpaceID(*v)
 	}
-	return bu
+	return _u
 }
 
 // ClearSpaceID clears the value of the "space_id" field.
-func (bu *BusinessUpdate) ClearSpaceID() *BusinessUpdate {
-	bu.mutation.ClearSpaceID()
-	return bu
+func (_u *BusinessUpdate) ClearSpaceID() *BusinessUpdate {
+	_u.mutation.ClearSpaceID()
+	return _u
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (bu *BusinessUpdate) SetCreatedBy(s string) *BusinessUpdate {
-	bu.mutation.SetCreatedBy(s)
-	return bu
+func (_u *BusinessUpdate) SetCreatedBy(v string) *BusinessUpdate {
+	_u.mutation.SetCreatedBy(v)
+	return _u
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (bu *BusinessUpdate) SetNillableCreatedBy(s *string) *BusinessUpdate {
-	if s != nil {
-		bu.SetCreatedBy(*s)
+func (_u *BusinessUpdate) SetNillableCreatedBy(v *string) *BusinessUpdate {
+	if v != nil {
+		_u.SetCreatedBy(*v)
 	}
-	return bu
+	return _u
 }
 
 // ClearCreatedBy clears the value of the "created_by" field.
-func (bu *BusinessUpdate) ClearCreatedBy() *BusinessUpdate {
-	bu.mutation.ClearCreatedBy()
-	return bu
+func (_u *BusinessUpdate) ClearCreatedBy() *BusinessUpdate {
+	_u.mutation.ClearCreatedBy()
+	return _u
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (bu *BusinessUpdate) SetUpdatedBy(s string) *BusinessUpdate {
-	bu.mutation.SetUpdatedBy(s)
-	return bu
+func (_u *BusinessUpdate) SetUpdatedBy(v string) *BusinessUpdate {
+	_u.mutation.SetUpdatedBy(v)
+	return _u
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (bu *BusinessUpdate) SetNillableUpdatedBy(s *string) *BusinessUpdate {
-	if s != nil {
-		bu.SetUpdatedBy(*s)
+func (_u *BusinessUpdate) SetNillableUpdatedBy(v *string) *BusinessUpdate {
+	if v != nil {
+		_u.SetUpdatedBy(*v)
 	}
-	return bu
+	return _u
 }
 
 // ClearUpdatedBy clears the value of the "updated_by" field.
-func (bu *BusinessUpdate) ClearUpdatedBy() *BusinessUpdate {
-	bu.mutation.ClearUpdatedBy()
-	return bu
+func (_u *BusinessUpdate) ClearUpdatedBy() *BusinessUpdate {
+	_u.mutation.ClearUpdatedBy()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (bu *BusinessUpdate) SetUpdatedAt(i int64) *BusinessUpdate {
-	bu.mutation.ResetUpdatedAt()
-	bu.mutation.SetUpdatedAt(i)
-	return bu
+func (_u *BusinessUpdate) SetUpdatedAt(v int64) *BusinessUpdate {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (bu *BusinessUpdate) AddUpdatedAt(i int64) *BusinessUpdate {
-	bu.mutation.AddUpdatedAt(i)
-	return bu
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *BusinessUpdate) AddUpdatedAt(v int64) *BusinessUpdate {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (bu *BusinessUpdate) ClearUpdatedAt() *BusinessUpdate {
-	bu.mutation.ClearUpdatedAt()
-	return bu
+func (_u *BusinessUpdate) ClearUpdatedAt() *BusinessUpdate {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // Mutation returns the BusinessMutation object of the builder.
-func (bu *BusinessUpdate) Mutation() *BusinessMutation {
-	return bu.mutation
+func (_u *BusinessUpdate) Mutation() *BusinessMutation {
+	return _u.mutation
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
-func (bu *BusinessUpdate) Save(ctx context.Context) (int, error) {
-	bu.defaults()
-	return withHooks(ctx, bu.sqlSave, bu.mutation, bu.hooks)
+func (_u *BusinessUpdate) Save(ctx context.Context) (int, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (bu *BusinessUpdate) SaveX(ctx context.Context) int {
-	affected, err := bu.Save(ctx)
+func (_u *BusinessUpdate) SaveX(ctx context.Context) int {
+	affected, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -605,250 +605,250 @@ func (bu *BusinessUpdate) SaveX(ctx context.Context) int {
 }
 
 // Exec executes the query.
-func (bu *BusinessUpdate) Exec(ctx context.Context) error {
-	_, err := bu.Save(ctx)
+func (_u *BusinessUpdate) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (bu *BusinessUpdate) ExecX(ctx context.Context) {
-	if err := bu.Exec(ctx); err != nil {
+func (_u *BusinessUpdate) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (bu *BusinessUpdate) defaults() {
-	if _, ok := bu.mutation.UpdatedAt(); !ok && !bu.mutation.UpdatedAtCleared() {
+func (_u *BusinessUpdate) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := business.UpdateDefaultUpdatedAt()
-		bu.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (bu *BusinessUpdate) sqlSave(ctx context.Context) (n int, err error) {
+func (_u *BusinessUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	_spec := sqlgraph.NewUpdateSpec(business.Table, business.Columns, sqlgraph.NewFieldSpec(business.FieldID, field.TypeString))
-	if ps := bu.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := bu.mutation.Code(); ok {
+	if value, ok := _u.mutation.Code(); ok {
 		_spec.SetField(business.FieldCode, field.TypeString, value)
 	}
-	if bu.mutation.CodeCleared() {
+	if _u.mutation.CodeCleared() {
 		_spec.ClearField(business.FieldCode, field.TypeString)
 	}
-	if value, ok := bu.mutation.Status(); ok {
+	if value, ok := _u.mutation.Status(); ok {
 		_spec.SetField(business.FieldStatus, field.TypeString, value)
 	}
-	if bu.mutation.StatusCleared() {
+	if _u.mutation.StatusCleared() {
 		_spec.ClearField(business.FieldStatus, field.TypeString)
 	}
-	if value, ok := bu.mutation.FormCode(); ok {
+	if value, ok := _u.mutation.FormCode(); ok {
 		_spec.SetField(business.FieldFormCode, field.TypeString, value)
 	}
-	if value, ok := bu.mutation.FormVersion(); ok {
+	if value, ok := _u.mutation.FormVersion(); ok {
 		_spec.SetField(business.FieldFormVersion, field.TypeString, value)
 	}
-	if bu.mutation.FormVersionCleared() {
+	if _u.mutation.FormVersionCleared() {
 		_spec.ClearField(business.FieldFormVersion, field.TypeString)
 	}
-	if value, ok := bu.mutation.FormConfig(); ok {
+	if value, ok := _u.mutation.FormConfig(); ok {
 		_spec.SetField(business.FieldFormConfig, field.TypeJSON, value)
 	}
-	if bu.mutation.FormConfigCleared() {
+	if _u.mutation.FormConfigCleared() {
 		_spec.ClearField(business.FieldFormConfig, field.TypeJSON)
 	}
-	if value, ok := bu.mutation.FormPermissions(); ok {
+	if value, ok := _u.mutation.FormPermissions(); ok {
 		_spec.SetField(business.FieldFormPermissions, field.TypeJSON, value)
 	}
-	if bu.mutation.FormPermissionsCleared() {
+	if _u.mutation.FormPermissionsCleared() {
 		_spec.ClearField(business.FieldFormPermissions, field.TypeJSON)
 	}
-	if value, ok := bu.mutation.FieldPermissions(); ok {
+	if value, ok := _u.mutation.FieldPermissions(); ok {
 		_spec.SetField(business.FieldFieldPermissions, field.TypeJSON, value)
 	}
-	if bu.mutation.FieldPermissionsCleared() {
+	if _u.mutation.FieldPermissionsCleared() {
 		_spec.ClearField(business.FieldFieldPermissions, field.TypeJSON)
 	}
-	if value, ok := bu.mutation.ProcessID(); ok {
+	if value, ok := _u.mutation.ProcessID(); ok {
 		_spec.SetField(business.FieldProcessID, field.TypeString, value)
 	}
-	if value, ok := bu.mutation.TemplateID(); ok {
+	if value, ok := _u.mutation.TemplateID(); ok {
 		_spec.SetField(business.FieldTemplateID, field.TypeString, value)
 	}
-	if value, ok := bu.mutation.BusinessKey(); ok {
+	if value, ok := _u.mutation.BusinessKey(); ok {
 		_spec.SetField(business.FieldBusinessKey, field.TypeString, value)
 	}
-	if value, ok := bu.mutation.OriginData(); ok {
+	if value, ok := _u.mutation.OriginData(); ok {
 		_spec.SetField(business.FieldOriginData, field.TypeJSON, value)
 	}
-	if value, ok := bu.mutation.CurrentData(); ok {
+	if value, ok := _u.mutation.CurrentData(); ok {
 		_spec.SetField(business.FieldCurrentData, field.TypeJSON, value)
 	}
-	if value, ok := bu.mutation.ChangeLogs(); ok {
+	if value, ok := _u.mutation.ChangeLogs(); ok {
 		_spec.SetField(business.FieldChangeLogs, field.TypeJSON, value)
 	}
-	if value, ok := bu.mutation.AppendedChangeLogs(); ok {
+	if value, ok := _u.mutation.AppendedChangeLogs(); ok {
 		_spec.AddModifier(func(u *sql.UpdateBuilder) {
 			sqljson.Append(u, business.FieldChangeLogs, value)
 		})
 	}
-	if bu.mutation.ChangeLogsCleared() {
+	if _u.mutation.ChangeLogsCleared() {
 		_spec.ClearField(business.FieldChangeLogs, field.TypeJSON)
 	}
-	if value, ok := bu.mutation.LastModified(); ok {
+	if value, ok := _u.mutation.LastModified(); ok {
 		_spec.SetField(business.FieldLastModified, field.TypeInt64, value)
 	}
-	if value, ok := bu.mutation.AddedLastModified(); ok {
+	if value, ok := _u.mutation.AddedLastModified(); ok {
 		_spec.AddField(business.FieldLastModified, field.TypeInt64, value)
 	}
-	if bu.mutation.LastModifiedCleared() {
+	if _u.mutation.LastModifiedCleared() {
 		_spec.ClearField(business.FieldLastModified, field.TypeInt64)
 	}
-	if value, ok := bu.mutation.LastModifier(); ok {
+	if value, ok := _u.mutation.LastModifier(); ok {
 		_spec.SetField(business.FieldLastModifier, field.TypeString, value)
 	}
-	if bu.mutation.LastModifierCleared() {
+	if _u.mutation.LastModifierCleared() {
 		_spec.ClearField(business.FieldLastModifier, field.TypeString)
 	}
-	if value, ok := bu.mutation.OperationLogs(); ok {
+	if value, ok := _u.mutation.OperationLogs(); ok {
 		_spec.SetField(business.FieldOperationLogs, field.TypeJSON, value)
 	}
-	if value, ok := bu.mutation.AppendedOperationLogs(); ok {
+	if value, ok := _u.mutation.AppendedOperationLogs(); ok {
 		_spec.AddModifier(func(u *sql.UpdateBuilder) {
 			sqljson.Append(u, business.FieldOperationLogs, value)
 		})
 	}
-	if bu.mutation.OperationLogsCleared() {
+	if _u.mutation.OperationLogsCleared() {
 		_spec.ClearField(business.FieldOperationLogs, field.TypeJSON)
 	}
-	if value, ok := bu.mutation.FlowStatus(); ok {
+	if value, ok := _u.mutation.FlowStatus(); ok {
 		_spec.SetField(business.FieldFlowStatus, field.TypeString, value)
 	}
-	if bu.mutation.FlowStatusCleared() {
+	if _u.mutation.FlowStatusCleared() {
 		_spec.ClearField(business.FieldFlowStatus, field.TypeString)
 	}
-	if value, ok := bu.mutation.FlowVariables(); ok {
+	if value, ok := _u.mutation.FlowVariables(); ok {
 		_spec.SetField(business.FieldFlowVariables, field.TypeJSON, value)
 	}
-	if bu.mutation.FlowVariablesCleared() {
+	if _u.mutation.FlowVariablesCleared() {
 		_spec.ClearField(business.FieldFlowVariables, field.TypeJSON)
 	}
-	if value, ok := bu.mutation.IsDraft(); ok {
+	if value, ok := _u.mutation.IsDraft(); ok {
 		_spec.SetField(business.FieldIsDraft, field.TypeBool, value)
 	}
-	if value, ok := bu.mutation.IsTerminated(); ok {
+	if value, ok := _u.mutation.IsTerminated(); ok {
 		_spec.SetField(business.FieldIsTerminated, field.TypeBool, value)
 	}
-	if value, ok := bu.mutation.IsSuspended(); ok {
+	if value, ok := _u.mutation.IsSuspended(); ok {
 		_spec.SetField(business.FieldIsSuspended, field.TypeBool, value)
 	}
-	if value, ok := bu.mutation.SuspendReason(); ok {
+	if value, ok := _u.mutation.SuspendReason(); ok {
 		_spec.SetField(business.FieldSuspendReason, field.TypeString, value)
 	}
-	if bu.mutation.SuspendReasonCleared() {
+	if _u.mutation.SuspendReasonCleared() {
 		_spec.ClearField(business.FieldSuspendReason, field.TypeString)
 	}
-	if value, ok := bu.mutation.BusinessTags(); ok {
+	if value, ok := _u.mutation.BusinessTags(); ok {
 		_spec.SetField(business.FieldBusinessTags, field.TypeJSON, value)
 	}
-	if value, ok := bu.mutation.AppendedBusinessTags(); ok {
+	if value, ok := _u.mutation.AppendedBusinessTags(); ok {
 		_spec.AddModifier(func(u *sql.UpdateBuilder) {
 			sqljson.Append(u, business.FieldBusinessTags, value)
 		})
 	}
-	if bu.mutation.BusinessTagsCleared() {
+	if _u.mutation.BusinessTagsCleared() {
 		_spec.ClearField(business.FieldBusinessTags, field.TypeJSON)
 	}
-	if value, ok := bu.mutation.ModuleCode(); ok {
+	if value, ok := _u.mutation.ModuleCode(); ok {
 		_spec.SetField(business.FieldModuleCode, field.TypeString, value)
 	}
-	if value, ok := bu.mutation.Category(); ok {
+	if value, ok := _u.mutation.Category(); ok {
 		_spec.SetField(business.FieldCategory, field.TypeString, value)
 	}
-	if bu.mutation.CategoryCleared() {
+	if _u.mutation.CategoryCleared() {
 		_spec.ClearField(business.FieldCategory, field.TypeString)
 	}
-	if value, ok := bu.mutation.Viewers(); ok {
+	if value, ok := _u.mutation.Viewers(); ok {
 		_spec.SetField(business.FieldViewers, field.TypeJSON, value)
 	}
-	if value, ok := bu.mutation.AppendedViewers(); ok {
+	if value, ok := _u.mutation.AppendedViewers(); ok {
 		_spec.AddModifier(func(u *sql.UpdateBuilder) {
 			sqljson.Append(u, business.FieldViewers, value)
 		})
 	}
-	if bu.mutation.ViewersCleared() {
+	if _u.mutation.ViewersCleared() {
 		_spec.ClearField(business.FieldViewers, field.TypeJSON)
 	}
-	if value, ok := bu.mutation.Editors(); ok {
+	if value, ok := _u.mutation.Editors(); ok {
 		_spec.SetField(business.FieldEditors, field.TypeJSON, value)
 	}
-	if value, ok := bu.mutation.AppendedEditors(); ok {
+	if value, ok := _u.mutation.AppendedEditors(); ok {
 		_spec.AddModifier(func(u *sql.UpdateBuilder) {
 			sqljson.Append(u, business.FieldEditors, value)
 		})
 	}
-	if bu.mutation.EditorsCleared() {
+	if _u.mutation.EditorsCleared() {
 		_spec.ClearField(business.FieldEditors, field.TypeJSON)
 	}
-	if value, ok := bu.mutation.PermissionConfigs(); ok {
+	if value, ok := _u.mutation.PermissionConfigs(); ok {
 		_spec.SetField(business.FieldPermissionConfigs, field.TypeJSON, value)
 	}
-	if bu.mutation.PermissionConfigsCleared() {
+	if _u.mutation.PermissionConfigsCleared() {
 		_spec.ClearField(business.FieldPermissionConfigs, field.TypeJSON)
 	}
-	if value, ok := bu.mutation.RoleConfigs(); ok {
+	if value, ok := _u.mutation.RoleConfigs(); ok {
 		_spec.SetField(business.FieldRoleConfigs, field.TypeJSON, value)
 	}
-	if bu.mutation.RoleConfigsCleared() {
+	if _u.mutation.RoleConfigsCleared() {
 		_spec.ClearField(business.FieldRoleConfigs, field.TypeJSON)
 	}
-	if value, ok := bu.mutation.VisibleRange(); ok {
+	if value, ok := _u.mutation.VisibleRange(); ok {
 		_spec.SetField(business.FieldVisibleRange, field.TypeJSON, value)
 	}
-	if bu.mutation.VisibleRangeCleared() {
+	if _u.mutation.VisibleRangeCleared() {
 		_spec.ClearField(business.FieldVisibleRange, field.TypeJSON)
 	}
-	if value, ok := bu.mutation.Extras(); ok {
+	if value, ok := _u.mutation.Extras(); ok {
 		_spec.SetField(business.FieldExtras, field.TypeJSON, value)
 	}
-	if bu.mutation.ExtrasCleared() {
+	if _u.mutation.ExtrasCleared() {
 		_spec.ClearField(business.FieldExtras, field.TypeJSON)
 	}
-	if value, ok := bu.mutation.SpaceID(); ok {
+	if value, ok := _u.mutation.SpaceID(); ok {
 		_spec.SetField(business.FieldSpaceID, field.TypeString, value)
 	}
-	if bu.mutation.SpaceIDCleared() {
+	if _u.mutation.SpaceIDCleared() {
 		_spec.ClearField(business.FieldSpaceID, field.TypeString)
 	}
-	if value, ok := bu.mutation.CreatedBy(); ok {
+	if value, ok := _u.mutation.CreatedBy(); ok {
 		_spec.SetField(business.FieldCreatedBy, field.TypeString, value)
 	}
-	if bu.mutation.CreatedByCleared() {
+	if _u.mutation.CreatedByCleared() {
 		_spec.ClearField(business.FieldCreatedBy, field.TypeString)
 	}
-	if value, ok := bu.mutation.UpdatedBy(); ok {
+	if value, ok := _u.mutation.UpdatedBy(); ok {
 		_spec.SetField(business.FieldUpdatedBy, field.TypeString, value)
 	}
-	if bu.mutation.UpdatedByCleared() {
+	if _u.mutation.UpdatedByCleared() {
 		_spec.ClearField(business.FieldUpdatedBy, field.TypeString)
 	}
-	if bu.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(business.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := bu.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(business.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := bu.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(business.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if bu.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(business.FieldUpdatedAt, field.TypeInt64)
 	}
-	if n, err = sqlgraph.UpdateNodes(ctx, bu.driver, _spec); err != nil {
+	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{business.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -856,8 +856,8 @@ func (bu *BusinessUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		return 0, err
 	}
-	bu.mutation.done = true
-	return n, nil
+	_u.mutation.done = true
+	return _node, nil
 }
 
 // BusinessUpdateOne is the builder for updating a single Business entity.
@@ -869,588 +869,588 @@ type BusinessUpdateOne struct {
 }
 
 // SetCode sets the "code" field.
-func (buo *BusinessUpdateOne) SetCode(s string) *BusinessUpdateOne {
-	buo.mutation.SetCode(s)
-	return buo
+func (_u *BusinessUpdateOne) SetCode(v string) *BusinessUpdateOne {
+	_u.mutation.SetCode(v)
+	return _u
 }
 
 // SetNillableCode sets the "code" field if the given value is not nil.
-func (buo *BusinessUpdateOne) SetNillableCode(s *string) *BusinessUpdateOne {
-	if s != nil {
-		buo.SetCode(*s)
+func (_u *BusinessUpdateOne) SetNillableCode(v *string) *BusinessUpdateOne {
+	if v != nil {
+		_u.SetCode(*v)
 	}
-	return buo
+	return _u
 }
 
 // ClearCode clears the value of the "code" field.
-func (buo *BusinessUpdateOne) ClearCode() *BusinessUpdateOne {
-	buo.mutation.ClearCode()
-	return buo
+func (_u *BusinessUpdateOne) ClearCode() *BusinessUpdateOne {
+	_u.mutation.ClearCode()
+	return _u
 }
 
 // SetStatus sets the "status" field.
-func (buo *BusinessUpdateOne) SetStatus(s string) *BusinessUpdateOne {
-	buo.mutation.SetStatus(s)
-	return buo
+func (_u *BusinessUpdateOne) SetStatus(v string) *BusinessUpdateOne {
+	_u.mutation.SetStatus(v)
+	return _u
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (buo *BusinessUpdateOne) SetNillableStatus(s *string) *BusinessUpdateOne {
-	if s != nil {
-		buo.SetStatus(*s)
+func (_u *BusinessUpdateOne) SetNillableStatus(v *string) *BusinessUpdateOne {
+	if v != nil {
+		_u.SetStatus(*v)
 	}
-	return buo
+	return _u
 }
 
 // ClearStatus clears the value of the "status" field.
-func (buo *BusinessUpdateOne) ClearStatus() *BusinessUpdateOne {
-	buo.mutation.ClearStatus()
-	return buo
+func (_u *BusinessUpdateOne) ClearStatus() *BusinessUpdateOne {
+	_u.mutation.ClearStatus()
+	return _u
 }
 
 // SetFormCode sets the "form_code" field.
-func (buo *BusinessUpdateOne) SetFormCode(s string) *BusinessUpdateOne {
-	buo.mutation.SetFormCode(s)
-	return buo
+func (_u *BusinessUpdateOne) SetFormCode(v string) *BusinessUpdateOne {
+	_u.mutation.SetFormCode(v)
+	return _u
 }
 
 // SetNillableFormCode sets the "form_code" field if the given value is not nil.
-func (buo *BusinessUpdateOne) SetNillableFormCode(s *string) *BusinessUpdateOne {
-	if s != nil {
-		buo.SetFormCode(*s)
+func (_u *BusinessUpdateOne) SetNillableFormCode(v *string) *BusinessUpdateOne {
+	if v != nil {
+		_u.SetFormCode(*v)
 	}
-	return buo
+	return _u
 }
 
 // SetFormVersion sets the "form_version" field.
-func (buo *BusinessUpdateOne) SetFormVersion(s string) *BusinessUpdateOne {
-	buo.mutation.SetFormVersion(s)
-	return buo
+func (_u *BusinessUpdateOne) SetFormVersion(v string) *BusinessUpdateOne {
+	_u.mutation.SetFormVersion(v)
+	return _u
 }
 
 // SetNillableFormVersion sets the "form_version" field if the given value is not nil.
-func (buo *BusinessUpdateOne) SetNillableFormVersion(s *string) *BusinessUpdateOne {
-	if s != nil {
-		buo.SetFormVersion(*s)
+func (_u *BusinessUpdateOne) SetNillableFormVersion(v *string) *BusinessUpdateOne {
+	if v != nil {
+		_u.SetFormVersion(*v)
 	}
-	return buo
+	return _u
 }
 
 // ClearFormVersion clears the value of the "form_version" field.
-func (buo *BusinessUpdateOne) ClearFormVersion() *BusinessUpdateOne {
-	buo.mutation.ClearFormVersion()
-	return buo
+func (_u *BusinessUpdateOne) ClearFormVersion() *BusinessUpdateOne {
+	_u.mutation.ClearFormVersion()
+	return _u
 }
 
 // SetFormConfig sets the "form_config" field.
-func (buo *BusinessUpdateOne) SetFormConfig(m map[string]interface{}) *BusinessUpdateOne {
-	buo.mutation.SetFormConfig(m)
-	return buo
+func (_u *BusinessUpdateOne) SetFormConfig(v map[string]interface{}) *BusinessUpdateOne {
+	_u.mutation.SetFormConfig(v)
+	return _u
 }
 
 // ClearFormConfig clears the value of the "form_config" field.
-func (buo *BusinessUpdateOne) ClearFormConfig() *BusinessUpdateOne {
-	buo.mutation.ClearFormConfig()
-	return buo
+func (_u *BusinessUpdateOne) ClearFormConfig() *BusinessUpdateOne {
+	_u.mutation.ClearFormConfig()
+	return _u
 }
 
 // SetFormPermissions sets the "form_permissions" field.
-func (buo *BusinessUpdateOne) SetFormPermissions(m map[string]interface{}) *BusinessUpdateOne {
-	buo.mutation.SetFormPermissions(m)
-	return buo
+func (_u *BusinessUpdateOne) SetFormPermissions(v map[string]interface{}) *BusinessUpdateOne {
+	_u.mutation.SetFormPermissions(v)
+	return _u
 }
 
 // ClearFormPermissions clears the value of the "form_permissions" field.
-func (buo *BusinessUpdateOne) ClearFormPermissions() *BusinessUpdateOne {
-	buo.mutation.ClearFormPermissions()
-	return buo
+func (_u *BusinessUpdateOne) ClearFormPermissions() *BusinessUpdateOne {
+	_u.mutation.ClearFormPermissions()
+	return _u
 }
 
 // SetFieldPermissions sets the "field_permissions" field.
-func (buo *BusinessUpdateOne) SetFieldPermissions(m map[string]interface{}) *BusinessUpdateOne {
-	buo.mutation.SetFieldPermissions(m)
-	return buo
+func (_u *BusinessUpdateOne) SetFieldPermissions(v map[string]interface{}) *BusinessUpdateOne {
+	_u.mutation.SetFieldPermissions(v)
+	return _u
 }
 
 // ClearFieldPermissions clears the value of the "field_permissions" field.
-func (buo *BusinessUpdateOne) ClearFieldPermissions() *BusinessUpdateOne {
-	buo.mutation.ClearFieldPermissions()
-	return buo
+func (_u *BusinessUpdateOne) ClearFieldPermissions() *BusinessUpdateOne {
+	_u.mutation.ClearFieldPermissions()
+	return _u
 }
 
 // SetProcessID sets the "process_id" field.
-func (buo *BusinessUpdateOne) SetProcessID(s string) *BusinessUpdateOne {
-	buo.mutation.SetProcessID(s)
-	return buo
+func (_u *BusinessUpdateOne) SetProcessID(v string) *BusinessUpdateOne {
+	_u.mutation.SetProcessID(v)
+	return _u
 }
 
 // SetNillableProcessID sets the "process_id" field if the given value is not nil.
-func (buo *BusinessUpdateOne) SetNillableProcessID(s *string) *BusinessUpdateOne {
-	if s != nil {
-		buo.SetProcessID(*s)
+func (_u *BusinessUpdateOne) SetNillableProcessID(v *string) *BusinessUpdateOne {
+	if v != nil {
+		_u.SetProcessID(*v)
 	}
-	return buo
+	return _u
 }
 
 // SetTemplateID sets the "template_id" field.
-func (buo *BusinessUpdateOne) SetTemplateID(s string) *BusinessUpdateOne {
-	buo.mutation.SetTemplateID(s)
-	return buo
+func (_u *BusinessUpdateOne) SetTemplateID(v string) *BusinessUpdateOne {
+	_u.mutation.SetTemplateID(v)
+	return _u
 }
 
 // SetNillableTemplateID sets the "template_id" field if the given value is not nil.
-func (buo *BusinessUpdateOne) SetNillableTemplateID(s *string) *BusinessUpdateOne {
-	if s != nil {
-		buo.SetTemplateID(*s)
+func (_u *BusinessUpdateOne) SetNillableTemplateID(v *string) *BusinessUpdateOne {
+	if v != nil {
+		_u.SetTemplateID(*v)
 	}
-	return buo
+	return _u
 }
 
 // SetBusinessKey sets the "business_key" field.
-func (buo *BusinessUpdateOne) SetBusinessKey(s string) *BusinessUpdateOne {
-	buo.mutation.SetBusinessKey(s)
-	return buo
+func (_u *BusinessUpdateOne) SetBusinessKey(v string) *BusinessUpdateOne {
+	_u.mutation.SetBusinessKey(v)
+	return _u
 }
 
 // SetNillableBusinessKey sets the "business_key" field if the given value is not nil.
-func (buo *BusinessUpdateOne) SetNillableBusinessKey(s *string) *BusinessUpdateOne {
-	if s != nil {
-		buo.SetBusinessKey(*s)
+func (_u *BusinessUpdateOne) SetNillableBusinessKey(v *string) *BusinessUpdateOne {
+	if v != nil {
+		_u.SetBusinessKey(*v)
 	}
-	return buo
+	return _u
 }
 
 // SetOriginData sets the "origin_data" field.
-func (buo *BusinessUpdateOne) SetOriginData(m map[string]interface{}) *BusinessUpdateOne {
-	buo.mutation.SetOriginData(m)
-	return buo
+func (_u *BusinessUpdateOne) SetOriginData(v map[string]interface{}) *BusinessUpdateOne {
+	_u.mutation.SetOriginData(v)
+	return _u
 }
 
 // SetCurrentData sets the "current_data" field.
-func (buo *BusinessUpdateOne) SetCurrentData(m map[string]interface{}) *BusinessUpdateOne {
-	buo.mutation.SetCurrentData(m)
-	return buo
+func (_u *BusinessUpdateOne) SetCurrentData(v map[string]interface{}) *BusinessUpdateOne {
+	_u.mutation.SetCurrentData(v)
+	return _u
 }
 
 // SetChangeLogs sets the "change_logs" field.
-func (buo *BusinessUpdateOne) SetChangeLogs(m []map[string]interface{}) *BusinessUpdateOne {
-	buo.mutation.SetChangeLogs(m)
-	return buo
+func (_u *BusinessUpdateOne) SetChangeLogs(v []map[string]interface{}) *BusinessUpdateOne {
+	_u.mutation.SetChangeLogs(v)
+	return _u
 }
 
-// AppendChangeLogs appends m to the "change_logs" field.
-func (buo *BusinessUpdateOne) AppendChangeLogs(m []map[string]interface{}) *BusinessUpdateOne {
-	buo.mutation.AppendChangeLogs(m)
-	return buo
+// AppendChangeLogs appends value to the "change_logs" field.
+func (_u *BusinessUpdateOne) AppendChangeLogs(v []map[string]interface{}) *BusinessUpdateOne {
+	_u.mutation.AppendChangeLogs(v)
+	return _u
 }
 
 // ClearChangeLogs clears the value of the "change_logs" field.
-func (buo *BusinessUpdateOne) ClearChangeLogs() *BusinessUpdateOne {
-	buo.mutation.ClearChangeLogs()
-	return buo
+func (_u *BusinessUpdateOne) ClearChangeLogs() *BusinessUpdateOne {
+	_u.mutation.ClearChangeLogs()
+	return _u
 }
 
 // SetLastModified sets the "last_modified" field.
-func (buo *BusinessUpdateOne) SetLastModified(i int64) *BusinessUpdateOne {
-	buo.mutation.ResetLastModified()
-	buo.mutation.SetLastModified(i)
-	return buo
+func (_u *BusinessUpdateOne) SetLastModified(v int64) *BusinessUpdateOne {
+	_u.mutation.ResetLastModified()
+	_u.mutation.SetLastModified(v)
+	return _u
 }
 
 // SetNillableLastModified sets the "last_modified" field if the given value is not nil.
-func (buo *BusinessUpdateOne) SetNillableLastModified(i *int64) *BusinessUpdateOne {
-	if i != nil {
-		buo.SetLastModified(*i)
+func (_u *BusinessUpdateOne) SetNillableLastModified(v *int64) *BusinessUpdateOne {
+	if v != nil {
+		_u.SetLastModified(*v)
 	}
-	return buo
+	return _u
 }
 
-// AddLastModified adds i to the "last_modified" field.
-func (buo *BusinessUpdateOne) AddLastModified(i int64) *BusinessUpdateOne {
-	buo.mutation.AddLastModified(i)
-	return buo
+// AddLastModified adds value to the "last_modified" field.
+func (_u *BusinessUpdateOne) AddLastModified(v int64) *BusinessUpdateOne {
+	_u.mutation.AddLastModified(v)
+	return _u
 }
 
 // ClearLastModified clears the value of the "last_modified" field.
-func (buo *BusinessUpdateOne) ClearLastModified() *BusinessUpdateOne {
-	buo.mutation.ClearLastModified()
-	return buo
+func (_u *BusinessUpdateOne) ClearLastModified() *BusinessUpdateOne {
+	_u.mutation.ClearLastModified()
+	return _u
 }
 
 // SetLastModifier sets the "last_modifier" field.
-func (buo *BusinessUpdateOne) SetLastModifier(s string) *BusinessUpdateOne {
-	buo.mutation.SetLastModifier(s)
-	return buo
+func (_u *BusinessUpdateOne) SetLastModifier(v string) *BusinessUpdateOne {
+	_u.mutation.SetLastModifier(v)
+	return _u
 }
 
 // SetNillableLastModifier sets the "last_modifier" field if the given value is not nil.
-func (buo *BusinessUpdateOne) SetNillableLastModifier(s *string) *BusinessUpdateOne {
-	if s != nil {
-		buo.SetLastModifier(*s)
+func (_u *BusinessUpdateOne) SetNillableLastModifier(v *string) *BusinessUpdateOne {
+	if v != nil {
+		_u.SetLastModifier(*v)
 	}
-	return buo
+	return _u
 }
 
 // ClearLastModifier clears the value of the "last_modifier" field.
-func (buo *BusinessUpdateOne) ClearLastModifier() *BusinessUpdateOne {
-	buo.mutation.ClearLastModifier()
-	return buo
+func (_u *BusinessUpdateOne) ClearLastModifier() *BusinessUpdateOne {
+	_u.mutation.ClearLastModifier()
+	return _u
 }
 
 // SetOperationLogs sets the "operation_logs" field.
-func (buo *BusinessUpdateOne) SetOperationLogs(m []map[string]interface{}) *BusinessUpdateOne {
-	buo.mutation.SetOperationLogs(m)
-	return buo
+func (_u *BusinessUpdateOne) SetOperationLogs(v []map[string]interface{}) *BusinessUpdateOne {
+	_u.mutation.SetOperationLogs(v)
+	return _u
 }
 
-// AppendOperationLogs appends m to the "operation_logs" field.
-func (buo *BusinessUpdateOne) AppendOperationLogs(m []map[string]interface{}) *BusinessUpdateOne {
-	buo.mutation.AppendOperationLogs(m)
-	return buo
+// AppendOperationLogs appends value to the "operation_logs" field.
+func (_u *BusinessUpdateOne) AppendOperationLogs(v []map[string]interface{}) *BusinessUpdateOne {
+	_u.mutation.AppendOperationLogs(v)
+	return _u
 }
 
 // ClearOperationLogs clears the value of the "operation_logs" field.
-func (buo *BusinessUpdateOne) ClearOperationLogs() *BusinessUpdateOne {
-	buo.mutation.ClearOperationLogs()
-	return buo
+func (_u *BusinessUpdateOne) ClearOperationLogs() *BusinessUpdateOne {
+	_u.mutation.ClearOperationLogs()
+	return _u
 }
 
 // SetFlowStatus sets the "flow_status" field.
-func (buo *BusinessUpdateOne) SetFlowStatus(s string) *BusinessUpdateOne {
-	buo.mutation.SetFlowStatus(s)
-	return buo
+func (_u *BusinessUpdateOne) SetFlowStatus(v string) *BusinessUpdateOne {
+	_u.mutation.SetFlowStatus(v)
+	return _u
 }
 
 // SetNillableFlowStatus sets the "flow_status" field if the given value is not nil.
-func (buo *BusinessUpdateOne) SetNillableFlowStatus(s *string) *BusinessUpdateOne {
-	if s != nil {
-		buo.SetFlowStatus(*s)
+func (_u *BusinessUpdateOne) SetNillableFlowStatus(v *string) *BusinessUpdateOne {
+	if v != nil {
+		_u.SetFlowStatus(*v)
 	}
-	return buo
+	return _u
 }
 
 // ClearFlowStatus clears the value of the "flow_status" field.
-func (buo *BusinessUpdateOne) ClearFlowStatus() *BusinessUpdateOne {
-	buo.mutation.ClearFlowStatus()
-	return buo
+func (_u *BusinessUpdateOne) ClearFlowStatus() *BusinessUpdateOne {
+	_u.mutation.ClearFlowStatus()
+	return _u
 }
 
 // SetFlowVariables sets the "flow_variables" field.
-func (buo *BusinessUpdateOne) SetFlowVariables(m map[string]interface{}) *BusinessUpdateOne {
-	buo.mutation.SetFlowVariables(m)
-	return buo
+func (_u *BusinessUpdateOne) SetFlowVariables(v map[string]interface{}) *BusinessUpdateOne {
+	_u.mutation.SetFlowVariables(v)
+	return _u
 }
 
 // ClearFlowVariables clears the value of the "flow_variables" field.
-func (buo *BusinessUpdateOne) ClearFlowVariables() *BusinessUpdateOne {
-	buo.mutation.ClearFlowVariables()
-	return buo
+func (_u *BusinessUpdateOne) ClearFlowVariables() *BusinessUpdateOne {
+	_u.mutation.ClearFlowVariables()
+	return _u
 }
 
 // SetIsDraft sets the "is_draft" field.
-func (buo *BusinessUpdateOne) SetIsDraft(b bool) *BusinessUpdateOne {
-	buo.mutation.SetIsDraft(b)
-	return buo
+func (_u *BusinessUpdateOne) SetIsDraft(v bool) *BusinessUpdateOne {
+	_u.mutation.SetIsDraft(v)
+	return _u
 }
 
 // SetNillableIsDraft sets the "is_draft" field if the given value is not nil.
-func (buo *BusinessUpdateOne) SetNillableIsDraft(b *bool) *BusinessUpdateOne {
-	if b != nil {
-		buo.SetIsDraft(*b)
+func (_u *BusinessUpdateOne) SetNillableIsDraft(v *bool) *BusinessUpdateOne {
+	if v != nil {
+		_u.SetIsDraft(*v)
 	}
-	return buo
+	return _u
 }
 
 // SetIsTerminated sets the "is_terminated" field.
-func (buo *BusinessUpdateOne) SetIsTerminated(b bool) *BusinessUpdateOne {
-	buo.mutation.SetIsTerminated(b)
-	return buo
+func (_u *BusinessUpdateOne) SetIsTerminated(v bool) *BusinessUpdateOne {
+	_u.mutation.SetIsTerminated(v)
+	return _u
 }
 
 // SetNillableIsTerminated sets the "is_terminated" field if the given value is not nil.
-func (buo *BusinessUpdateOne) SetNillableIsTerminated(b *bool) *BusinessUpdateOne {
-	if b != nil {
-		buo.SetIsTerminated(*b)
+func (_u *BusinessUpdateOne) SetNillableIsTerminated(v *bool) *BusinessUpdateOne {
+	if v != nil {
+		_u.SetIsTerminated(*v)
 	}
-	return buo
+	return _u
 }
 
 // SetIsSuspended sets the "is_suspended" field.
-func (buo *BusinessUpdateOne) SetIsSuspended(b bool) *BusinessUpdateOne {
-	buo.mutation.SetIsSuspended(b)
-	return buo
+func (_u *BusinessUpdateOne) SetIsSuspended(v bool) *BusinessUpdateOne {
+	_u.mutation.SetIsSuspended(v)
+	return _u
 }
 
 // SetNillableIsSuspended sets the "is_suspended" field if the given value is not nil.
-func (buo *BusinessUpdateOne) SetNillableIsSuspended(b *bool) *BusinessUpdateOne {
-	if b != nil {
-		buo.SetIsSuspended(*b)
+func (_u *BusinessUpdateOne) SetNillableIsSuspended(v *bool) *BusinessUpdateOne {
+	if v != nil {
+		_u.SetIsSuspended(*v)
 	}
-	return buo
+	return _u
 }
 
 // SetSuspendReason sets the "suspend_reason" field.
-func (buo *BusinessUpdateOne) SetSuspendReason(s string) *BusinessUpdateOne {
-	buo.mutation.SetSuspendReason(s)
-	return buo
+func (_u *BusinessUpdateOne) SetSuspendReason(v string) *BusinessUpdateOne {
+	_u.mutation.SetSuspendReason(v)
+	return _u
 }
 
 // SetNillableSuspendReason sets the "suspend_reason" field if the given value is not nil.
-func (buo *BusinessUpdateOne) SetNillableSuspendReason(s *string) *BusinessUpdateOne {
-	if s != nil {
-		buo.SetSuspendReason(*s)
+func (_u *BusinessUpdateOne) SetNillableSuspendReason(v *string) *BusinessUpdateOne {
+	if v != nil {
+		_u.SetSuspendReason(*v)
 	}
-	return buo
+	return _u
 }
 
 // ClearSuspendReason clears the value of the "suspend_reason" field.
-func (buo *BusinessUpdateOne) ClearSuspendReason() *BusinessUpdateOne {
-	buo.mutation.ClearSuspendReason()
-	return buo
+func (_u *BusinessUpdateOne) ClearSuspendReason() *BusinessUpdateOne {
+	_u.mutation.ClearSuspendReason()
+	return _u
 }
 
 // SetBusinessTags sets the "business_tags" field.
-func (buo *BusinessUpdateOne) SetBusinessTags(s []string) *BusinessUpdateOne {
-	buo.mutation.SetBusinessTags(s)
-	return buo
+func (_u *BusinessUpdateOne) SetBusinessTags(v []string) *BusinessUpdateOne {
+	_u.mutation.SetBusinessTags(v)
+	return _u
 }
 
-// AppendBusinessTags appends s to the "business_tags" field.
-func (buo *BusinessUpdateOne) AppendBusinessTags(s []string) *BusinessUpdateOne {
-	buo.mutation.AppendBusinessTags(s)
-	return buo
+// AppendBusinessTags appends value to the "business_tags" field.
+func (_u *BusinessUpdateOne) AppendBusinessTags(v []string) *BusinessUpdateOne {
+	_u.mutation.AppendBusinessTags(v)
+	return _u
 }
 
 // ClearBusinessTags clears the value of the "business_tags" field.
-func (buo *BusinessUpdateOne) ClearBusinessTags() *BusinessUpdateOne {
-	buo.mutation.ClearBusinessTags()
-	return buo
+func (_u *BusinessUpdateOne) ClearBusinessTags() *BusinessUpdateOne {
+	_u.mutation.ClearBusinessTags()
+	return _u
 }
 
 // SetModuleCode sets the "module_code" field.
-func (buo *BusinessUpdateOne) SetModuleCode(s string) *BusinessUpdateOne {
-	buo.mutation.SetModuleCode(s)
-	return buo
+func (_u *BusinessUpdateOne) SetModuleCode(v string) *BusinessUpdateOne {
+	_u.mutation.SetModuleCode(v)
+	return _u
 }
 
 // SetNillableModuleCode sets the "module_code" field if the given value is not nil.
-func (buo *BusinessUpdateOne) SetNillableModuleCode(s *string) *BusinessUpdateOne {
-	if s != nil {
-		buo.SetModuleCode(*s)
+func (_u *BusinessUpdateOne) SetNillableModuleCode(v *string) *BusinessUpdateOne {
+	if v != nil {
+		_u.SetModuleCode(*v)
 	}
-	return buo
+	return _u
 }
 
 // SetCategory sets the "category" field.
-func (buo *BusinessUpdateOne) SetCategory(s string) *BusinessUpdateOne {
-	buo.mutation.SetCategory(s)
-	return buo
+func (_u *BusinessUpdateOne) SetCategory(v string) *BusinessUpdateOne {
+	_u.mutation.SetCategory(v)
+	return _u
 }
 
 // SetNillableCategory sets the "category" field if the given value is not nil.
-func (buo *BusinessUpdateOne) SetNillableCategory(s *string) *BusinessUpdateOne {
-	if s != nil {
-		buo.SetCategory(*s)
+func (_u *BusinessUpdateOne) SetNillableCategory(v *string) *BusinessUpdateOne {
+	if v != nil {
+		_u.SetCategory(*v)
 	}
-	return buo
+	return _u
 }
 
 // ClearCategory clears the value of the "category" field.
-func (buo *BusinessUpdateOne) ClearCategory() *BusinessUpdateOne {
-	buo.mutation.ClearCategory()
-	return buo
+func (_u *BusinessUpdateOne) ClearCategory() *BusinessUpdateOne {
+	_u.mutation.ClearCategory()
+	return _u
 }
 
 // SetViewers sets the "viewers" field.
-func (buo *BusinessUpdateOne) SetViewers(s []string) *BusinessUpdateOne {
-	buo.mutation.SetViewers(s)
-	return buo
+func (_u *BusinessUpdateOne) SetViewers(v []string) *BusinessUpdateOne {
+	_u.mutation.SetViewers(v)
+	return _u
 }
 
-// AppendViewers appends s to the "viewers" field.
-func (buo *BusinessUpdateOne) AppendViewers(s []string) *BusinessUpdateOne {
-	buo.mutation.AppendViewers(s)
-	return buo
+// AppendViewers appends value to the "viewers" field.
+func (_u *BusinessUpdateOne) AppendViewers(v []string) *BusinessUpdateOne {
+	_u.mutation.AppendViewers(v)
+	return _u
 }
 
 // ClearViewers clears the value of the "viewers" field.
-func (buo *BusinessUpdateOne) ClearViewers() *BusinessUpdateOne {
-	buo.mutation.ClearViewers()
-	return buo
+func (_u *BusinessUpdateOne) ClearViewers() *BusinessUpdateOne {
+	_u.mutation.ClearViewers()
+	return _u
 }
 
 // SetEditors sets the "editors" field.
-func (buo *BusinessUpdateOne) SetEditors(s []string) *BusinessUpdateOne {
-	buo.mutation.SetEditors(s)
-	return buo
+func (_u *BusinessUpdateOne) SetEditors(v []string) *BusinessUpdateOne {
+	_u.mutation.SetEditors(v)
+	return _u
 }
 
-// AppendEditors appends s to the "editors" field.
-func (buo *BusinessUpdateOne) AppendEditors(s []string) *BusinessUpdateOne {
-	buo.mutation.AppendEditors(s)
-	return buo
+// AppendEditors appends value to the "editors" field.
+func (_u *BusinessUpdateOne) AppendEditors(v []string) *BusinessUpdateOne {
+	_u.mutation.AppendEditors(v)
+	return _u
 }
 
 // ClearEditors clears the value of the "editors" field.
-func (buo *BusinessUpdateOne) ClearEditors() *BusinessUpdateOne {
-	buo.mutation.ClearEditors()
-	return buo
+func (_u *BusinessUpdateOne) ClearEditors() *BusinessUpdateOne {
+	_u.mutation.ClearEditors()
+	return _u
 }
 
 // SetPermissionConfigs sets the "permission_configs" field.
-func (buo *BusinessUpdateOne) SetPermissionConfigs(m map[string]interface{}) *BusinessUpdateOne {
-	buo.mutation.SetPermissionConfigs(m)
-	return buo
+func (_u *BusinessUpdateOne) SetPermissionConfigs(v map[string]interface{}) *BusinessUpdateOne {
+	_u.mutation.SetPermissionConfigs(v)
+	return _u
 }
 
 // ClearPermissionConfigs clears the value of the "permission_configs" field.
-func (buo *BusinessUpdateOne) ClearPermissionConfigs() *BusinessUpdateOne {
-	buo.mutation.ClearPermissionConfigs()
-	return buo
+func (_u *BusinessUpdateOne) ClearPermissionConfigs() *BusinessUpdateOne {
+	_u.mutation.ClearPermissionConfigs()
+	return _u
 }
 
 // SetRoleConfigs sets the "role_configs" field.
-func (buo *BusinessUpdateOne) SetRoleConfigs(m map[string]interface{}) *BusinessUpdateOne {
-	buo.mutation.SetRoleConfigs(m)
-	return buo
+func (_u *BusinessUpdateOne) SetRoleConfigs(v map[string]interface{}) *BusinessUpdateOne {
+	_u.mutation.SetRoleConfigs(v)
+	return _u
 }
 
 // ClearRoleConfigs clears the value of the "role_configs" field.
-func (buo *BusinessUpdateOne) ClearRoleConfigs() *BusinessUpdateOne {
-	buo.mutation.ClearRoleConfigs()
-	return buo
+func (_u *BusinessUpdateOne) ClearRoleConfigs() *BusinessUpdateOne {
+	_u.mutation.ClearRoleConfigs()
+	return _u
 }
 
 // SetVisibleRange sets the "visible_range" field.
-func (buo *BusinessUpdateOne) SetVisibleRange(m map[string]interface{}) *BusinessUpdateOne {
-	buo.mutation.SetVisibleRange(m)
-	return buo
+func (_u *BusinessUpdateOne) SetVisibleRange(v map[string]interface{}) *BusinessUpdateOne {
+	_u.mutation.SetVisibleRange(v)
+	return _u
 }
 
 // ClearVisibleRange clears the value of the "visible_range" field.
-func (buo *BusinessUpdateOne) ClearVisibleRange() *BusinessUpdateOne {
-	buo.mutation.ClearVisibleRange()
-	return buo
+func (_u *BusinessUpdateOne) ClearVisibleRange() *BusinessUpdateOne {
+	_u.mutation.ClearVisibleRange()
+	return _u
 }
 
 // SetExtras sets the "extras" field.
-func (buo *BusinessUpdateOne) SetExtras(m map[string]interface{}) *BusinessUpdateOne {
-	buo.mutation.SetExtras(m)
-	return buo
+func (_u *BusinessUpdateOne) SetExtras(v map[string]interface{}) *BusinessUpdateOne {
+	_u.mutation.SetExtras(v)
+	return _u
 }
 
 // ClearExtras clears the value of the "extras" field.
-func (buo *BusinessUpdateOne) ClearExtras() *BusinessUpdateOne {
-	buo.mutation.ClearExtras()
-	return buo
+func (_u *BusinessUpdateOne) ClearExtras() *BusinessUpdateOne {
+	_u.mutation.ClearExtras()
+	return _u
 }
 
 // SetSpaceID sets the "space_id" field.
-func (buo *BusinessUpdateOne) SetSpaceID(s string) *BusinessUpdateOne {
-	buo.mutation.SetSpaceID(s)
-	return buo
+func (_u *BusinessUpdateOne) SetSpaceID(v string) *BusinessUpdateOne {
+	_u.mutation.SetSpaceID(v)
+	return _u
 }
 
 // SetNillableSpaceID sets the "space_id" field if the given value is not nil.
-func (buo *BusinessUpdateOne) SetNillableSpaceID(s *string) *BusinessUpdateOne {
-	if s != nil {
-		buo.SetSpaceID(*s)
+func (_u *BusinessUpdateOne) SetNillableSpaceID(v *string) *BusinessUpdateOne {
+	if v != nil {
+		_u.SetSpaceID(*v)
 	}
-	return buo
+	return _u
 }
 
 // ClearSpaceID clears the value of the "space_id" field.
-func (buo *BusinessUpdateOne) ClearSpaceID() *BusinessUpdateOne {
-	buo.mutation.ClearSpaceID()
-	return buo
+func (_u *BusinessUpdateOne) ClearSpaceID() *BusinessUpdateOne {
+	_u.mutation.ClearSpaceID()
+	return _u
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (buo *BusinessUpdateOne) SetCreatedBy(s string) *BusinessUpdateOne {
-	buo.mutation.SetCreatedBy(s)
-	return buo
+func (_u *BusinessUpdateOne) SetCreatedBy(v string) *BusinessUpdateOne {
+	_u.mutation.SetCreatedBy(v)
+	return _u
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (buo *BusinessUpdateOne) SetNillableCreatedBy(s *string) *BusinessUpdateOne {
-	if s != nil {
-		buo.SetCreatedBy(*s)
+func (_u *BusinessUpdateOne) SetNillableCreatedBy(v *string) *BusinessUpdateOne {
+	if v != nil {
+		_u.SetCreatedBy(*v)
 	}
-	return buo
+	return _u
 }
 
 // ClearCreatedBy clears the value of the "created_by" field.
-func (buo *BusinessUpdateOne) ClearCreatedBy() *BusinessUpdateOne {
-	buo.mutation.ClearCreatedBy()
-	return buo
+func (_u *BusinessUpdateOne) ClearCreatedBy() *BusinessUpdateOne {
+	_u.mutation.ClearCreatedBy()
+	return _u
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (buo *BusinessUpdateOne) SetUpdatedBy(s string) *BusinessUpdateOne {
-	buo.mutation.SetUpdatedBy(s)
-	return buo
+func (_u *BusinessUpdateOne) SetUpdatedBy(v string) *BusinessUpdateOne {
+	_u.mutation.SetUpdatedBy(v)
+	return _u
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (buo *BusinessUpdateOne) SetNillableUpdatedBy(s *string) *BusinessUpdateOne {
-	if s != nil {
-		buo.SetUpdatedBy(*s)
+func (_u *BusinessUpdateOne) SetNillableUpdatedBy(v *string) *BusinessUpdateOne {
+	if v != nil {
+		_u.SetUpdatedBy(*v)
 	}
-	return buo
+	return _u
 }
 
 // ClearUpdatedBy clears the value of the "updated_by" field.
-func (buo *BusinessUpdateOne) ClearUpdatedBy() *BusinessUpdateOne {
-	buo.mutation.ClearUpdatedBy()
-	return buo
+func (_u *BusinessUpdateOne) ClearUpdatedBy() *BusinessUpdateOne {
+	_u.mutation.ClearUpdatedBy()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (buo *BusinessUpdateOne) SetUpdatedAt(i int64) *BusinessUpdateOne {
-	buo.mutation.ResetUpdatedAt()
-	buo.mutation.SetUpdatedAt(i)
-	return buo
+func (_u *BusinessUpdateOne) SetUpdatedAt(v int64) *BusinessUpdateOne {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (buo *BusinessUpdateOne) AddUpdatedAt(i int64) *BusinessUpdateOne {
-	buo.mutation.AddUpdatedAt(i)
-	return buo
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *BusinessUpdateOne) AddUpdatedAt(v int64) *BusinessUpdateOne {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (buo *BusinessUpdateOne) ClearUpdatedAt() *BusinessUpdateOne {
-	buo.mutation.ClearUpdatedAt()
-	return buo
+func (_u *BusinessUpdateOne) ClearUpdatedAt() *BusinessUpdateOne {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // Mutation returns the BusinessMutation object of the builder.
-func (buo *BusinessUpdateOne) Mutation() *BusinessMutation {
-	return buo.mutation
+func (_u *BusinessUpdateOne) Mutation() *BusinessMutation {
+	return _u.mutation
 }
 
 // Where appends a list predicates to the BusinessUpdate builder.
-func (buo *BusinessUpdateOne) Where(ps ...predicate.Business) *BusinessUpdateOne {
-	buo.mutation.Where(ps...)
-	return buo
+func (_u *BusinessUpdateOne) Where(ps ...predicate.Business) *BusinessUpdateOne {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // Select allows selecting one or more fields (columns) of the returned entity.
 // The default is selecting all fields defined in the entity schema.
-func (buo *BusinessUpdateOne) Select(field string, fields ...string) *BusinessUpdateOne {
-	buo.fields = append([]string{field}, fields...)
-	return buo
+func (_u *BusinessUpdateOne) Select(field string, fields ...string) *BusinessUpdateOne {
+	_u.fields = append([]string{field}, fields...)
+	return _u
 }
 
 // Save executes the query and returns the updated Business entity.
-func (buo *BusinessUpdateOne) Save(ctx context.Context) (*Business, error) {
-	buo.defaults()
-	return withHooks(ctx, buo.sqlSave, buo.mutation, buo.hooks)
+func (_u *BusinessUpdateOne) Save(ctx context.Context) (*Business, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (buo *BusinessUpdateOne) SaveX(ctx context.Context) *Business {
-	node, err := buo.Save(ctx)
+func (_u *BusinessUpdateOne) SaveX(ctx context.Context) *Business {
+	node, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -1458,34 +1458,34 @@ func (buo *BusinessUpdateOne) SaveX(ctx context.Context) *Business {
 }
 
 // Exec executes the query on the entity.
-func (buo *BusinessUpdateOne) Exec(ctx context.Context) error {
-	_, err := buo.Save(ctx)
+func (_u *BusinessUpdateOne) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (buo *BusinessUpdateOne) ExecX(ctx context.Context) {
-	if err := buo.Exec(ctx); err != nil {
+func (_u *BusinessUpdateOne) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (buo *BusinessUpdateOne) defaults() {
-	if _, ok := buo.mutation.UpdatedAt(); !ok && !buo.mutation.UpdatedAtCleared() {
+func (_u *BusinessUpdateOne) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := business.UpdateDefaultUpdatedAt()
-		buo.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (buo *BusinessUpdateOne) sqlSave(ctx context.Context) (_node *Business, err error) {
+func (_u *BusinessUpdateOne) sqlSave(ctx context.Context) (_node *Business, err error) {
 	_spec := sqlgraph.NewUpdateSpec(business.Table, business.Columns, sqlgraph.NewFieldSpec(business.FieldID, field.TypeString))
-	id, ok := buo.mutation.ID()
+	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "Business.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
-	if fields := buo.fields; len(fields) > 0 {
+	if fields := _u.fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, business.FieldID)
 		for _, f := range fields {
@@ -1497,231 +1497,231 @@ func (buo *BusinessUpdateOne) sqlSave(ctx context.Context) (_node *Business, err
 			}
 		}
 	}
-	if ps := buo.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := buo.mutation.Code(); ok {
+	if value, ok := _u.mutation.Code(); ok {
 		_spec.SetField(business.FieldCode, field.TypeString, value)
 	}
-	if buo.mutation.CodeCleared() {
+	if _u.mutation.CodeCleared() {
 		_spec.ClearField(business.FieldCode, field.TypeString)
 	}
-	if value, ok := buo.mutation.Status(); ok {
+	if value, ok := _u.mutation.Status(); ok {
 		_spec.SetField(business.FieldStatus, field.TypeString, value)
 	}
-	if buo.mutation.StatusCleared() {
+	if _u.mutation.StatusCleared() {
 		_spec.ClearField(business.FieldStatus, field.TypeString)
 	}
-	if value, ok := buo.mutation.FormCode(); ok {
+	if value, ok := _u.mutation.FormCode(); ok {
 		_spec.SetField(business.FieldFormCode, field.TypeString, value)
 	}
-	if value, ok := buo.mutation.FormVersion(); ok {
+	if value, ok := _u.mutation.FormVersion(); ok {
 		_spec.SetField(business.FieldFormVersion, field.TypeString, value)
 	}
-	if buo.mutation.FormVersionCleared() {
+	if _u.mutation.FormVersionCleared() {
 		_spec.ClearField(business.FieldFormVersion, field.TypeString)
 	}
-	if value, ok := buo.mutation.FormConfig(); ok {
+	if value, ok := _u.mutation.FormConfig(); ok {
 		_spec.SetField(business.FieldFormConfig, field.TypeJSON, value)
 	}
-	if buo.mutation.FormConfigCleared() {
+	if _u.mutation.FormConfigCleared() {
 		_spec.ClearField(business.FieldFormConfig, field.TypeJSON)
 	}
-	if value, ok := buo.mutation.FormPermissions(); ok {
+	if value, ok := _u.mutation.FormPermissions(); ok {
 		_spec.SetField(business.FieldFormPermissions, field.TypeJSON, value)
 	}
-	if buo.mutation.FormPermissionsCleared() {
+	if _u.mutation.FormPermissionsCleared() {
 		_spec.ClearField(business.FieldFormPermissions, field.TypeJSON)
 	}
-	if value, ok := buo.mutation.FieldPermissions(); ok {
+	if value, ok := _u.mutation.FieldPermissions(); ok {
 		_spec.SetField(business.FieldFieldPermissions, field.TypeJSON, value)
 	}
-	if buo.mutation.FieldPermissionsCleared() {
+	if _u.mutation.FieldPermissionsCleared() {
 		_spec.ClearField(business.FieldFieldPermissions, field.TypeJSON)
 	}
-	if value, ok := buo.mutation.ProcessID(); ok {
+	if value, ok := _u.mutation.ProcessID(); ok {
 		_spec.SetField(business.FieldProcessID, field.TypeString, value)
 	}
-	if value, ok := buo.mutation.TemplateID(); ok {
+	if value, ok := _u.mutation.TemplateID(); ok {
 		_spec.SetField(business.FieldTemplateID, field.TypeString, value)
 	}
-	if value, ok := buo.mutation.BusinessKey(); ok {
+	if value, ok := _u.mutation.BusinessKey(); ok {
 		_spec.SetField(business.FieldBusinessKey, field.TypeString, value)
 	}
-	if value, ok := buo.mutation.OriginData(); ok {
+	if value, ok := _u.mutation.OriginData(); ok {
 		_spec.SetField(business.FieldOriginData, field.TypeJSON, value)
 	}
-	if value, ok := buo.mutation.CurrentData(); ok {
+	if value, ok := _u.mutation.CurrentData(); ok {
 		_spec.SetField(business.FieldCurrentData, field.TypeJSON, value)
 	}
-	if value, ok := buo.mutation.ChangeLogs(); ok {
+	if value, ok := _u.mutation.ChangeLogs(); ok {
 		_spec.SetField(business.FieldChangeLogs, field.TypeJSON, value)
 	}
-	if value, ok := buo.mutation.AppendedChangeLogs(); ok {
+	if value, ok := _u.mutation.AppendedChangeLogs(); ok {
 		_spec.AddModifier(func(u *sql.UpdateBuilder) {
 			sqljson.Append(u, business.FieldChangeLogs, value)
 		})
 	}
-	if buo.mutation.ChangeLogsCleared() {
+	if _u.mutation.ChangeLogsCleared() {
 		_spec.ClearField(business.FieldChangeLogs, field.TypeJSON)
 	}
-	if value, ok := buo.mutation.LastModified(); ok {
+	if value, ok := _u.mutation.LastModified(); ok {
 		_spec.SetField(business.FieldLastModified, field.TypeInt64, value)
 	}
-	if value, ok := buo.mutation.AddedLastModified(); ok {
+	if value, ok := _u.mutation.AddedLastModified(); ok {
 		_spec.AddField(business.FieldLastModified, field.TypeInt64, value)
 	}
-	if buo.mutation.LastModifiedCleared() {
+	if _u.mutation.LastModifiedCleared() {
 		_spec.ClearField(business.FieldLastModified, field.TypeInt64)
 	}
-	if value, ok := buo.mutation.LastModifier(); ok {
+	if value, ok := _u.mutation.LastModifier(); ok {
 		_spec.SetField(business.FieldLastModifier, field.TypeString, value)
 	}
-	if buo.mutation.LastModifierCleared() {
+	if _u.mutation.LastModifierCleared() {
 		_spec.ClearField(business.FieldLastModifier, field.TypeString)
 	}
-	if value, ok := buo.mutation.OperationLogs(); ok {
+	if value, ok := _u.mutation.OperationLogs(); ok {
 		_spec.SetField(business.FieldOperationLogs, field.TypeJSON, value)
 	}
-	if value, ok := buo.mutation.AppendedOperationLogs(); ok {
+	if value, ok := _u.mutation.AppendedOperationLogs(); ok {
 		_spec.AddModifier(func(u *sql.UpdateBuilder) {
 			sqljson.Append(u, business.FieldOperationLogs, value)
 		})
 	}
-	if buo.mutation.OperationLogsCleared() {
+	if _u.mutation.OperationLogsCleared() {
 		_spec.ClearField(business.FieldOperationLogs, field.TypeJSON)
 	}
-	if value, ok := buo.mutation.FlowStatus(); ok {
+	if value, ok := _u.mutation.FlowStatus(); ok {
 		_spec.SetField(business.FieldFlowStatus, field.TypeString, value)
 	}
-	if buo.mutation.FlowStatusCleared() {
+	if _u.mutation.FlowStatusCleared() {
 		_spec.ClearField(business.FieldFlowStatus, field.TypeString)
 	}
-	if value, ok := buo.mutation.FlowVariables(); ok {
+	if value, ok := _u.mutation.FlowVariables(); ok {
 		_spec.SetField(business.FieldFlowVariables, field.TypeJSON, value)
 	}
-	if buo.mutation.FlowVariablesCleared() {
+	if _u.mutation.FlowVariablesCleared() {
 		_spec.ClearField(business.FieldFlowVariables, field.TypeJSON)
 	}
-	if value, ok := buo.mutation.IsDraft(); ok {
+	if value, ok := _u.mutation.IsDraft(); ok {
 		_spec.SetField(business.FieldIsDraft, field.TypeBool, value)
 	}
-	if value, ok := buo.mutation.IsTerminated(); ok {
+	if value, ok := _u.mutation.IsTerminated(); ok {
 		_spec.SetField(business.FieldIsTerminated, field.TypeBool, value)
 	}
-	if value, ok := buo.mutation.IsSuspended(); ok {
+	if value, ok := _u.mutation.IsSuspended(); ok {
 		_spec.SetField(business.FieldIsSuspended, field.TypeBool, value)
 	}
-	if value, ok := buo.mutation.SuspendReason(); ok {
+	if value, ok := _u.mutation.SuspendReason(); ok {
 		_spec.SetField(business.FieldSuspendReason, field.TypeString, value)
 	}
-	if buo.mutation.SuspendReasonCleared() {
+	if _u.mutation.SuspendReasonCleared() {
 		_spec.ClearField(business.FieldSuspendReason, field.TypeString)
 	}
-	if value, ok := buo.mutation.BusinessTags(); ok {
+	if value, ok := _u.mutation.BusinessTags(); ok {
 		_spec.SetField(business.FieldBusinessTags, field.TypeJSON, value)
 	}
-	if value, ok := buo.mutation.AppendedBusinessTags(); ok {
+	if value, ok := _u.mutation.AppendedBusinessTags(); ok {
 		_spec.AddModifier(func(u *sql.UpdateBuilder) {
 			sqljson.Append(u, business.FieldBusinessTags, value)
 		})
 	}
-	if buo.mutation.BusinessTagsCleared() {
+	if _u.mutation.BusinessTagsCleared() {
 		_spec.ClearField(business.FieldBusinessTags, field.TypeJSON)
 	}
-	if value, ok := buo.mutation.ModuleCode(); ok {
+	if value, ok := _u.mutation.ModuleCode(); ok {
 		_spec.SetField(business.FieldModuleCode, field.TypeString, value)
 	}
-	if value, ok := buo.mutation.Category(); ok {
+	if value, ok := _u.mutation.Category(); ok {
 		_spec.SetField(business.FieldCategory, field.TypeString, value)
 	}
-	if buo.mutation.CategoryCleared() {
+	if _u.mutation.CategoryCleared() {
 		_spec.ClearField(business.FieldCategory, field.TypeString)
 	}
-	if value, ok := buo.mutation.Viewers(); ok {
+	if value, ok := _u.mutation.Viewers(); ok {
 		_spec.SetField(business.FieldViewers, field.TypeJSON, value)
 	}
-	if value, ok := buo.mutation.AppendedViewers(); ok {
+	if value, ok := _u.mutation.AppendedViewers(); ok {
 		_spec.AddModifier(func(u *sql.UpdateBuilder) {
 			sqljson.Append(u, business.FieldViewers, value)
 		})
 	}
-	if buo.mutation.ViewersCleared() {
+	if _u.mutation.ViewersCleared() {
 		_spec.ClearField(business.FieldViewers, field.TypeJSON)
 	}
-	if value, ok := buo.mutation.Editors(); ok {
+	if value, ok := _u.mutation.Editors(); ok {
 		_spec.SetField(business.FieldEditors, field.TypeJSON, value)
 	}
-	if value, ok := buo.mutation.AppendedEditors(); ok {
+	if value, ok := _u.mutation.AppendedEditors(); ok {
 		_spec.AddModifier(func(u *sql.UpdateBuilder) {
 			sqljson.Append(u, business.FieldEditors, value)
 		})
 	}
-	if buo.mutation.EditorsCleared() {
+	if _u.mutation.EditorsCleared() {
 		_spec.ClearField(business.FieldEditors, field.TypeJSON)
 	}
-	if value, ok := buo.mutation.PermissionConfigs(); ok {
+	if value, ok := _u.mutation.PermissionConfigs(); ok {
 		_spec.SetField(business.FieldPermissionConfigs, field.TypeJSON, value)
 	}
-	if buo.mutation.PermissionConfigsCleared() {
+	if _u.mutation.PermissionConfigsCleared() {
 		_spec.ClearField(business.FieldPermissionConfigs, field.TypeJSON)
 	}
-	if value, ok := buo.mutation.RoleConfigs(); ok {
+	if value, ok := _u.mutation.RoleConfigs(); ok {
 		_spec.SetField(business.FieldRoleConfigs, field.TypeJSON, value)
 	}
-	if buo.mutation.RoleConfigsCleared() {
+	if _u.mutation.RoleConfigsCleared() {
 		_spec.ClearField(business.FieldRoleConfigs, field.TypeJSON)
 	}
-	if value, ok := buo.mutation.VisibleRange(); ok {
+	if value, ok := _u.mutation.VisibleRange(); ok {
 		_spec.SetField(business.FieldVisibleRange, field.TypeJSON, value)
 	}
-	if buo.mutation.VisibleRangeCleared() {
+	if _u.mutation.VisibleRangeCleared() {
 		_spec.ClearField(business.FieldVisibleRange, field.TypeJSON)
 	}
-	if value, ok := buo.mutation.Extras(); ok {
+	if value, ok := _u.mutation.Extras(); ok {
 		_spec.SetField(business.FieldExtras, field.TypeJSON, value)
 	}
-	if buo.mutation.ExtrasCleared() {
+	if _u.mutation.ExtrasCleared() {
 		_spec.ClearField(business.FieldExtras, field.TypeJSON)
 	}
-	if value, ok := buo.mutation.SpaceID(); ok {
+	if value, ok := _u.mutation.SpaceID(); ok {
 		_spec.SetField(business.FieldSpaceID, field.TypeString, value)
 	}
-	if buo.mutation.SpaceIDCleared() {
+	if _u.mutation.SpaceIDCleared() {
 		_spec.ClearField(business.FieldSpaceID, field.TypeString)
 	}
-	if value, ok := buo.mutation.CreatedBy(); ok {
+	if value, ok := _u.mutation.CreatedBy(); ok {
 		_spec.SetField(business.FieldCreatedBy, field.TypeString, value)
 	}
-	if buo.mutation.CreatedByCleared() {
+	if _u.mutation.CreatedByCleared() {
 		_spec.ClearField(business.FieldCreatedBy, field.TypeString)
 	}
-	if value, ok := buo.mutation.UpdatedBy(); ok {
+	if value, ok := _u.mutation.UpdatedBy(); ok {
 		_spec.SetField(business.FieldUpdatedBy, field.TypeString, value)
 	}
-	if buo.mutation.UpdatedByCleared() {
+	if _u.mutation.UpdatedByCleared() {
 		_spec.ClearField(business.FieldUpdatedBy, field.TypeString)
 	}
-	if buo.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(business.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := buo.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(business.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := buo.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(business.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if buo.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(business.FieldUpdatedAt, field.TypeInt64)
 	}
-	_node = &Business{config: buo.config}
+	_node = &Business{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues
-	if err = sqlgraph.UpdateNode(ctx, buo.driver, _spec); err != nil {
+	if err = sqlgraph.UpdateNode(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{business.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -1729,6 +1729,6 @@ func (buo *BusinessUpdateOne) sqlSave(ctx context.Context) (_node *Business, err
 		}
 		return nil, err
 	}
-	buo.mutation.done = true
+	_u.mutation.done = true
 	return _node, nil
 }

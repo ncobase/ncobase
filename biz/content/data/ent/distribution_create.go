@@ -22,215 +22,215 @@ type DistributionCreate struct {
 }
 
 // SetExtras sets the "extras" field.
-func (dc *DistributionCreate) SetExtras(m map[string]interface{}) *DistributionCreate {
-	dc.mutation.SetExtras(m)
-	return dc
+func (_c *DistributionCreate) SetExtras(v map[string]interface{}) *DistributionCreate {
+	_c.mutation.SetExtras(v)
+	return _c
 }
 
 // SetSpaceID sets the "space_id" field.
-func (dc *DistributionCreate) SetSpaceID(s string) *DistributionCreate {
-	dc.mutation.SetSpaceID(s)
-	return dc
+func (_c *DistributionCreate) SetSpaceID(v string) *DistributionCreate {
+	_c.mutation.SetSpaceID(v)
+	return _c
 }
 
 // SetNillableSpaceID sets the "space_id" field if the given value is not nil.
-func (dc *DistributionCreate) SetNillableSpaceID(s *string) *DistributionCreate {
-	if s != nil {
-		dc.SetSpaceID(*s)
+func (_c *DistributionCreate) SetNillableSpaceID(v *string) *DistributionCreate {
+	if v != nil {
+		_c.SetSpaceID(*v)
 	}
-	return dc
+	return _c
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (dc *DistributionCreate) SetCreatedBy(s string) *DistributionCreate {
-	dc.mutation.SetCreatedBy(s)
-	return dc
+func (_c *DistributionCreate) SetCreatedBy(v string) *DistributionCreate {
+	_c.mutation.SetCreatedBy(v)
+	return _c
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (dc *DistributionCreate) SetNillableCreatedBy(s *string) *DistributionCreate {
-	if s != nil {
-		dc.SetCreatedBy(*s)
+func (_c *DistributionCreate) SetNillableCreatedBy(v *string) *DistributionCreate {
+	if v != nil {
+		_c.SetCreatedBy(*v)
 	}
-	return dc
+	return _c
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (dc *DistributionCreate) SetUpdatedBy(s string) *DistributionCreate {
-	dc.mutation.SetUpdatedBy(s)
-	return dc
+func (_c *DistributionCreate) SetUpdatedBy(v string) *DistributionCreate {
+	_c.mutation.SetUpdatedBy(v)
+	return _c
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (dc *DistributionCreate) SetNillableUpdatedBy(s *string) *DistributionCreate {
-	if s != nil {
-		dc.SetUpdatedBy(*s)
+func (_c *DistributionCreate) SetNillableUpdatedBy(v *string) *DistributionCreate {
+	if v != nil {
+		_c.SetUpdatedBy(*v)
 	}
-	return dc
+	return _c
 }
 
 // SetCreatedAt sets the "created_at" field.
-func (dc *DistributionCreate) SetCreatedAt(i int64) *DistributionCreate {
-	dc.mutation.SetCreatedAt(i)
-	return dc
+func (_c *DistributionCreate) SetCreatedAt(v int64) *DistributionCreate {
+	_c.mutation.SetCreatedAt(v)
+	return _c
 }
 
 // SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
-func (dc *DistributionCreate) SetNillableCreatedAt(i *int64) *DistributionCreate {
-	if i != nil {
-		dc.SetCreatedAt(*i)
+func (_c *DistributionCreate) SetNillableCreatedAt(v *int64) *DistributionCreate {
+	if v != nil {
+		_c.SetCreatedAt(*v)
 	}
-	return dc
+	return _c
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (dc *DistributionCreate) SetUpdatedAt(i int64) *DistributionCreate {
-	dc.mutation.SetUpdatedAt(i)
-	return dc
+func (_c *DistributionCreate) SetUpdatedAt(v int64) *DistributionCreate {
+	_c.mutation.SetUpdatedAt(v)
+	return _c
 }
 
 // SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
-func (dc *DistributionCreate) SetNillableUpdatedAt(i *int64) *DistributionCreate {
-	if i != nil {
-		dc.SetUpdatedAt(*i)
+func (_c *DistributionCreate) SetNillableUpdatedAt(v *int64) *DistributionCreate {
+	if v != nil {
+		_c.SetUpdatedAt(*v)
 	}
-	return dc
+	return _c
 }
 
 // SetTopicID sets the "topic_id" field.
-func (dc *DistributionCreate) SetTopicID(s string) *DistributionCreate {
-	dc.mutation.SetTopicID(s)
-	return dc
+func (_c *DistributionCreate) SetTopicID(v string) *DistributionCreate {
+	_c.mutation.SetTopicID(v)
+	return _c
 }
 
 // SetChannelID sets the "channel_id" field.
-func (dc *DistributionCreate) SetChannelID(s string) *DistributionCreate {
-	dc.mutation.SetChannelID(s)
-	return dc
+func (_c *DistributionCreate) SetChannelID(v string) *DistributionCreate {
+	_c.mutation.SetChannelID(v)
+	return _c
 }
 
 // SetStatus sets the "status" field.
-func (dc *DistributionCreate) SetStatus(i int) *DistributionCreate {
-	dc.mutation.SetStatus(i)
-	return dc
+func (_c *DistributionCreate) SetStatus(v int) *DistributionCreate {
+	_c.mutation.SetStatus(v)
+	return _c
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (dc *DistributionCreate) SetNillableStatus(i *int) *DistributionCreate {
-	if i != nil {
-		dc.SetStatus(*i)
+func (_c *DistributionCreate) SetNillableStatus(v *int) *DistributionCreate {
+	if v != nil {
+		_c.SetStatus(*v)
 	}
-	return dc
+	return _c
 }
 
 // SetScheduledAt sets the "scheduled_at" field.
-func (dc *DistributionCreate) SetScheduledAt(i int64) *DistributionCreate {
-	dc.mutation.SetScheduledAt(i)
-	return dc
+func (_c *DistributionCreate) SetScheduledAt(v int64) *DistributionCreate {
+	_c.mutation.SetScheduledAt(v)
+	return _c
 }
 
 // SetNillableScheduledAt sets the "scheduled_at" field if the given value is not nil.
-func (dc *DistributionCreate) SetNillableScheduledAt(i *int64) *DistributionCreate {
-	if i != nil {
-		dc.SetScheduledAt(*i)
+func (_c *DistributionCreate) SetNillableScheduledAt(v *int64) *DistributionCreate {
+	if v != nil {
+		_c.SetScheduledAt(*v)
 	}
-	return dc
+	return _c
 }
 
 // SetPublishedAt sets the "published_at" field.
-func (dc *DistributionCreate) SetPublishedAt(i int64) *DistributionCreate {
-	dc.mutation.SetPublishedAt(i)
-	return dc
+func (_c *DistributionCreate) SetPublishedAt(v int64) *DistributionCreate {
+	_c.mutation.SetPublishedAt(v)
+	return _c
 }
 
 // SetNillablePublishedAt sets the "published_at" field if the given value is not nil.
-func (dc *DistributionCreate) SetNillablePublishedAt(i *int64) *DistributionCreate {
-	if i != nil {
-		dc.SetPublishedAt(*i)
+func (_c *DistributionCreate) SetNillablePublishedAt(v *int64) *DistributionCreate {
+	if v != nil {
+		_c.SetPublishedAt(*v)
 	}
-	return dc
+	return _c
 }
 
 // SetExternalID sets the "external_id" field.
-func (dc *DistributionCreate) SetExternalID(s string) *DistributionCreate {
-	dc.mutation.SetExternalID(s)
-	return dc
+func (_c *DistributionCreate) SetExternalID(v string) *DistributionCreate {
+	_c.mutation.SetExternalID(v)
+	return _c
 }
 
 // SetNillableExternalID sets the "external_id" field if the given value is not nil.
-func (dc *DistributionCreate) SetNillableExternalID(s *string) *DistributionCreate {
-	if s != nil {
-		dc.SetExternalID(*s)
+func (_c *DistributionCreate) SetNillableExternalID(v *string) *DistributionCreate {
+	if v != nil {
+		_c.SetExternalID(*v)
 	}
-	return dc
+	return _c
 }
 
 // SetExternalURL sets the "external_url" field.
-func (dc *DistributionCreate) SetExternalURL(s string) *DistributionCreate {
-	dc.mutation.SetExternalURL(s)
-	return dc
+func (_c *DistributionCreate) SetExternalURL(v string) *DistributionCreate {
+	_c.mutation.SetExternalURL(v)
+	return _c
 }
 
 // SetNillableExternalURL sets the "external_url" field if the given value is not nil.
-func (dc *DistributionCreate) SetNillableExternalURL(s *string) *DistributionCreate {
-	if s != nil {
-		dc.SetExternalURL(*s)
+func (_c *DistributionCreate) SetNillableExternalURL(v *string) *DistributionCreate {
+	if v != nil {
+		_c.SetExternalURL(*v)
 	}
-	return dc
+	return _c
 }
 
 // SetErrorDetails sets the "error_details" field.
-func (dc *DistributionCreate) SetErrorDetails(s string) *DistributionCreate {
-	dc.mutation.SetErrorDetails(s)
-	return dc
+func (_c *DistributionCreate) SetErrorDetails(v string) *DistributionCreate {
+	_c.mutation.SetErrorDetails(v)
+	return _c
 }
 
 // SetNillableErrorDetails sets the "error_details" field if the given value is not nil.
-func (dc *DistributionCreate) SetNillableErrorDetails(s *string) *DistributionCreate {
-	if s != nil {
-		dc.SetErrorDetails(*s)
+func (_c *DistributionCreate) SetNillableErrorDetails(v *string) *DistributionCreate {
+	if v != nil {
+		_c.SetErrorDetails(*v)
 	}
-	return dc
+	return _c
 }
 
 // SetID sets the "id" field.
-func (dc *DistributionCreate) SetID(s string) *DistributionCreate {
-	dc.mutation.SetID(s)
-	return dc
+func (_c *DistributionCreate) SetID(v string) *DistributionCreate {
+	_c.mutation.SetID(v)
+	return _c
 }
 
 // SetNillableID sets the "id" field if the given value is not nil.
-func (dc *DistributionCreate) SetNillableID(s *string) *DistributionCreate {
-	if s != nil {
-		dc.SetID(*s)
+func (_c *DistributionCreate) SetNillableID(v *string) *DistributionCreate {
+	if v != nil {
+		_c.SetID(*v)
 	}
-	return dc
+	return _c
 }
 
 // SetTopic sets the "topic" edge to the Topic entity.
-func (dc *DistributionCreate) SetTopic(t *Topic) *DistributionCreate {
-	return dc.SetTopicID(t.ID)
+func (_c *DistributionCreate) SetTopic(v *Topic) *DistributionCreate {
+	return _c.SetTopicID(v.ID)
 }
 
 // SetChannel sets the "channel" edge to the CMSChannel entity.
-func (dc *DistributionCreate) SetChannel(c *CMSChannel) *DistributionCreate {
-	return dc.SetChannelID(c.ID)
+func (_c *DistributionCreate) SetChannel(v *CMSChannel) *DistributionCreate {
+	return _c.SetChannelID(v.ID)
 }
 
 // Mutation returns the DistributionMutation object of the builder.
-func (dc *DistributionCreate) Mutation() *DistributionMutation {
-	return dc.mutation
+func (_c *DistributionCreate) Mutation() *DistributionMutation {
+	return _c.mutation
 }
 
 // Save creates the Distribution in the database.
-func (dc *DistributionCreate) Save(ctx context.Context) (*Distribution, error) {
-	dc.defaults()
-	return withHooks(ctx, dc.sqlSave, dc.mutation, dc.hooks)
+func (_c *DistributionCreate) Save(ctx context.Context) (*Distribution, error) {
+	_c.defaults()
+	return withHooks(ctx, _c.sqlSave, _c.mutation, _c.hooks)
 }
 
 // SaveX calls Save and panics if Save returns an error.
-func (dc *DistributionCreate) SaveX(ctx context.Context) *Distribution {
-	v, err := dc.Save(ctx)
+func (_c *DistributionCreate) SaveX(ctx context.Context) *Distribution {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -238,83 +238,83 @@ func (dc *DistributionCreate) SaveX(ctx context.Context) *Distribution {
 }
 
 // Exec executes the query.
-func (dc *DistributionCreate) Exec(ctx context.Context) error {
-	_, err := dc.Save(ctx)
+func (_c *DistributionCreate) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (dc *DistributionCreate) ExecX(ctx context.Context) {
-	if err := dc.Exec(ctx); err != nil {
+func (_c *DistributionCreate) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (dc *DistributionCreate) defaults() {
-	if _, ok := dc.mutation.Extras(); !ok {
+func (_c *DistributionCreate) defaults() {
+	if _, ok := _c.mutation.Extras(); !ok {
 		v := distribution.DefaultExtras
-		dc.mutation.SetExtras(v)
+		_c.mutation.SetExtras(v)
 	}
-	if _, ok := dc.mutation.CreatedAt(); !ok {
+	if _, ok := _c.mutation.CreatedAt(); !ok {
 		v := distribution.DefaultCreatedAt()
-		dc.mutation.SetCreatedAt(v)
+		_c.mutation.SetCreatedAt(v)
 	}
-	if _, ok := dc.mutation.UpdatedAt(); !ok {
+	if _, ok := _c.mutation.UpdatedAt(); !ok {
 		v := distribution.DefaultUpdatedAt()
-		dc.mutation.SetUpdatedAt(v)
+		_c.mutation.SetUpdatedAt(v)
 	}
-	if _, ok := dc.mutation.Status(); !ok {
+	if _, ok := _c.mutation.Status(); !ok {
 		v := distribution.DefaultStatus
-		dc.mutation.SetStatus(v)
+		_c.mutation.SetStatus(v)
 	}
-	if _, ok := dc.mutation.ID(); !ok {
+	if _, ok := _c.mutation.ID(); !ok {
 		v := distribution.DefaultID()
-		dc.mutation.SetID(v)
+		_c.mutation.SetID(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (dc *DistributionCreate) check() error {
-	if _, ok := dc.mutation.TopicID(); !ok {
+func (_c *DistributionCreate) check() error {
+	if _, ok := _c.mutation.TopicID(); !ok {
 		return &ValidationError{Name: "topic_id", err: errors.New(`ent: missing required field "Distribution.topic_id"`)}
 	}
-	if v, ok := dc.mutation.TopicID(); ok {
+	if v, ok := _c.mutation.TopicID(); ok {
 		if err := distribution.TopicIDValidator(v); err != nil {
 			return &ValidationError{Name: "topic_id", err: fmt.Errorf(`ent: validator failed for field "Distribution.topic_id": %w`, err)}
 		}
 	}
-	if _, ok := dc.mutation.ChannelID(); !ok {
+	if _, ok := _c.mutation.ChannelID(); !ok {
 		return &ValidationError{Name: "channel_id", err: errors.New(`ent: missing required field "Distribution.channel_id"`)}
 	}
-	if v, ok := dc.mutation.ChannelID(); ok {
+	if v, ok := _c.mutation.ChannelID(); ok {
 		if err := distribution.ChannelIDValidator(v); err != nil {
 			return &ValidationError{Name: "channel_id", err: fmt.Errorf(`ent: validator failed for field "Distribution.channel_id": %w`, err)}
 		}
 	}
-	if _, ok := dc.mutation.Status(); !ok {
+	if _, ok := _c.mutation.Status(); !ok {
 		return &ValidationError{Name: "status", err: errors.New(`ent: missing required field "Distribution.status"`)}
 	}
-	if v, ok := dc.mutation.ID(); ok {
+	if v, ok := _c.mutation.ID(); ok {
 		if err := distribution.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "Distribution.id": %w`, err)}
 		}
 	}
-	if len(dc.mutation.TopicIDs()) == 0 {
+	if len(_c.mutation.TopicIDs()) == 0 {
 		return &ValidationError{Name: "topic", err: errors.New(`ent: missing required edge "Distribution.topic"`)}
 	}
-	if len(dc.mutation.ChannelIDs()) == 0 {
+	if len(_c.mutation.ChannelIDs()) == 0 {
 		return &ValidationError{Name: "channel", err: errors.New(`ent: missing required edge "Distribution.channel"`)}
 	}
 	return nil
 }
 
-func (dc *DistributionCreate) sqlSave(ctx context.Context) (*Distribution, error) {
-	if err := dc.check(); err != nil {
+func (_c *DistributionCreate) sqlSave(ctx context.Context) (*Distribution, error) {
+	if err := _c.check(); err != nil {
 		return nil, err
 	}
-	_node, _spec := dc.createSpec()
-	if err := sqlgraph.CreateNode(ctx, dc.driver, _spec); err != nil {
+	_node, _spec := _c.createSpec()
+	if err := sqlgraph.CreateNode(ctx, _c.driver, _spec); err != nil {
 		if sqlgraph.IsConstraintError(err) {
 			err = &ConstraintError{msg: err.Error(), wrap: err}
 		}
@@ -327,69 +327,69 @@ func (dc *DistributionCreate) sqlSave(ctx context.Context) (*Distribution, error
 			return nil, fmt.Errorf("unexpected Distribution.ID type: %T", _spec.ID.Value)
 		}
 	}
-	dc.mutation.id = &_node.ID
-	dc.mutation.done = true
+	_c.mutation.id = &_node.ID
+	_c.mutation.done = true
 	return _node, nil
 }
 
-func (dc *DistributionCreate) createSpec() (*Distribution, *sqlgraph.CreateSpec) {
+func (_c *DistributionCreate) createSpec() (*Distribution, *sqlgraph.CreateSpec) {
 	var (
-		_node = &Distribution{config: dc.config}
+		_node = &Distribution{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(distribution.Table, sqlgraph.NewFieldSpec(distribution.FieldID, field.TypeString))
 	)
-	if id, ok := dc.mutation.ID(); ok {
+	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
 	}
-	if value, ok := dc.mutation.Extras(); ok {
+	if value, ok := _c.mutation.Extras(); ok {
 		_spec.SetField(distribution.FieldExtras, field.TypeJSON, value)
 		_node.Extras = value
 	}
-	if value, ok := dc.mutation.SpaceID(); ok {
+	if value, ok := _c.mutation.SpaceID(); ok {
 		_spec.SetField(distribution.FieldSpaceID, field.TypeString, value)
 		_node.SpaceID = value
 	}
-	if value, ok := dc.mutation.CreatedBy(); ok {
+	if value, ok := _c.mutation.CreatedBy(); ok {
 		_spec.SetField(distribution.FieldCreatedBy, field.TypeString, value)
 		_node.CreatedBy = value
 	}
-	if value, ok := dc.mutation.UpdatedBy(); ok {
+	if value, ok := _c.mutation.UpdatedBy(); ok {
 		_spec.SetField(distribution.FieldUpdatedBy, field.TypeString, value)
 		_node.UpdatedBy = value
 	}
-	if value, ok := dc.mutation.CreatedAt(); ok {
+	if value, ok := _c.mutation.CreatedAt(); ok {
 		_spec.SetField(distribution.FieldCreatedAt, field.TypeInt64, value)
 		_node.CreatedAt = value
 	}
-	if value, ok := dc.mutation.UpdatedAt(); ok {
+	if value, ok := _c.mutation.UpdatedAt(); ok {
 		_spec.SetField(distribution.FieldUpdatedAt, field.TypeInt64, value)
 		_node.UpdatedAt = value
 	}
-	if value, ok := dc.mutation.Status(); ok {
+	if value, ok := _c.mutation.Status(); ok {
 		_spec.SetField(distribution.FieldStatus, field.TypeInt, value)
 		_node.Status = value
 	}
-	if value, ok := dc.mutation.ScheduledAt(); ok {
+	if value, ok := _c.mutation.ScheduledAt(); ok {
 		_spec.SetField(distribution.FieldScheduledAt, field.TypeInt64, value)
 		_node.ScheduledAt = &value
 	}
-	if value, ok := dc.mutation.PublishedAt(); ok {
+	if value, ok := _c.mutation.PublishedAt(); ok {
 		_spec.SetField(distribution.FieldPublishedAt, field.TypeInt64, value)
 		_node.PublishedAt = &value
 	}
-	if value, ok := dc.mutation.ExternalID(); ok {
+	if value, ok := _c.mutation.ExternalID(); ok {
 		_spec.SetField(distribution.FieldExternalID, field.TypeString, value)
 		_node.ExternalID = value
 	}
-	if value, ok := dc.mutation.ExternalURL(); ok {
+	if value, ok := _c.mutation.ExternalURL(); ok {
 		_spec.SetField(distribution.FieldExternalURL, field.TypeString, value)
 		_node.ExternalURL = value
 	}
-	if value, ok := dc.mutation.ErrorDetails(); ok {
+	if value, ok := _c.mutation.ErrorDetails(); ok {
 		_spec.SetField(distribution.FieldErrorDetails, field.TypeString, value)
 		_node.ErrorDetails = value
 	}
-	if nodes := dc.mutation.TopicIDs(); len(nodes) > 0 {
+	if nodes := _c.mutation.TopicIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: false,
@@ -406,7 +406,7 @@ func (dc *DistributionCreate) createSpec() (*Distribution, *sqlgraph.CreateSpec)
 		_node.TopicID = nodes[0]
 		_spec.Edges = append(_spec.Edges, edge)
 	}
-	if nodes := dc.mutation.ChannelIDs(); len(nodes) > 0 {
+	if nodes := _c.mutation.ChannelIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: false,
@@ -434,16 +434,16 @@ type DistributionCreateBulk struct {
 }
 
 // Save creates the Distribution entities in the database.
-func (dcb *DistributionCreateBulk) Save(ctx context.Context) ([]*Distribution, error) {
-	if dcb.err != nil {
-		return nil, dcb.err
+func (_c *DistributionCreateBulk) Save(ctx context.Context) ([]*Distribution, error) {
+	if _c.err != nil {
+		return nil, _c.err
 	}
-	specs := make([]*sqlgraph.CreateSpec, len(dcb.builders))
-	nodes := make([]*Distribution, len(dcb.builders))
-	mutators := make([]Mutator, len(dcb.builders))
-	for i := range dcb.builders {
+	specs := make([]*sqlgraph.CreateSpec, len(_c.builders))
+	nodes := make([]*Distribution, len(_c.builders))
+	mutators := make([]Mutator, len(_c.builders))
+	for i := range _c.builders {
 		func(i int, root context.Context) {
-			builder := dcb.builders[i]
+			builder := _c.builders[i]
 			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*DistributionMutation)
@@ -457,11 +457,11 @@ func (dcb *DistributionCreateBulk) Save(ctx context.Context) ([]*Distribution, e
 				var err error
 				nodes[i], specs[i] = builder.createSpec()
 				if i < len(mutators)-1 {
-					_, err = mutators[i+1].Mutate(root, dcb.builders[i+1].mutation)
+					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
 					// Invoke the actual operation on the latest mutation in the chain.
-					if err = sqlgraph.BatchCreate(ctx, dcb.driver, spec); err != nil {
+					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
 							err = &ConstraintError{msg: err.Error(), wrap: err}
 						}
@@ -481,7 +481,7 @@ func (dcb *DistributionCreateBulk) Save(ctx context.Context) ([]*Distribution, e
 		}(i, ctx)
 	}
 	if len(mutators) > 0 {
-		if _, err := mutators[0].Mutate(ctx, dcb.builders[0].mutation); err != nil {
+		if _, err := mutators[0].Mutate(ctx, _c.builders[0].mutation); err != nil {
 			return nil, err
 		}
 	}
@@ -489,8 +489,8 @@ func (dcb *DistributionCreateBulk) Save(ctx context.Context) ([]*Distribution, e
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (dcb *DistributionCreateBulk) SaveX(ctx context.Context) []*Distribution {
-	v, err := dcb.Save(ctx)
+func (_c *DistributionCreateBulk) SaveX(ctx context.Context) []*Distribution {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -498,14 +498,14 @@ func (dcb *DistributionCreateBulk) SaveX(ctx context.Context) []*Distribution {
 }
 
 // Exec executes the query.
-func (dcb *DistributionCreateBulk) Exec(ctx context.Context) error {
-	_, err := dcb.Save(ctx)
+func (_c *DistributionCreateBulk) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (dcb *DistributionCreateBulk) ExecX(ctx context.Context) {
-	if err := dcb.Exec(ctx); err != nil {
+func (_c *DistributionCreateBulk) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

@@ -94,7 +94,7 @@ func (*PaymentProduct) scanValues(columns []string) ([]any, error) {
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
 // to the PaymentProduct fields.
-func (pp *PaymentProduct) assignValues(columns []string, values []any) error {
+func (_m *PaymentProduct) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
@@ -104,25 +104,25 @@ func (pp *PaymentProduct) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field id", values[i])
 			} else if value.Valid {
-				pp.ID = value.String
+				_m.ID = value.String
 			}
 		case paymentproduct.FieldName:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field name", values[i])
 			} else if value.Valid {
-				pp.Name = value.String
+				_m.Name = value.String
 			}
 		case paymentproduct.FieldDescription:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field description", values[i])
 			} else if value.Valid {
-				pp.Description = value.String
+				_m.Description = value.String
 			}
 		case paymentproduct.FieldExtras:
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field extras", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &pp.Extras); err != nil {
+				if err := json.Unmarshal(*value, &_m.Extras); err != nil {
 					return fmt.Errorf("unmarshal field extras: %w", err)
 				}
 			}
@@ -130,67 +130,67 @@ func (pp *PaymentProduct) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field created_by", values[i])
 			} else if value.Valid {
-				pp.CreatedBy = value.String
+				_m.CreatedBy = value.String
 			}
 		case paymentproduct.FieldUpdatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_by", values[i])
 			} else if value.Valid {
-				pp.UpdatedBy = value.String
+				_m.UpdatedBy = value.String
 			}
 		case paymentproduct.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field created_at", values[i])
 			} else if value.Valid {
-				pp.CreatedAt = value.Int64
+				_m.CreatedAt = value.Int64
 			}
 		case paymentproduct.FieldUpdatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_at", values[i])
 			} else if value.Valid {
-				pp.UpdatedAt = value.Int64
+				_m.UpdatedAt = value.Int64
 			}
 		case paymentproduct.FieldStatus:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field status", values[i])
 			} else if value.Valid {
-				pp.Status = value.String
+				_m.Status = value.String
 			}
 		case paymentproduct.FieldPricingType:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field pricing_type", values[i])
 			} else if value.Valid {
-				pp.PricingType = value.String
+				_m.PricingType = value.String
 			}
 		case paymentproduct.FieldPrice:
 			if value, ok := values[i].(*sql.NullFloat64); !ok {
 				return fmt.Errorf("unexpected type %T for field price", values[i])
 			} else if value.Valid {
-				pp.Price = value.Float64
+				_m.Price = value.Float64
 			}
 		case paymentproduct.FieldCurrency:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field currency", values[i])
 			} else if value.Valid {
-				pp.Currency = value.String
+				_m.Currency = value.String
 			}
 		case paymentproduct.FieldBillingInterval:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field billing_interval", values[i])
 			} else if value.Valid {
-				pp.BillingInterval = value.String
+				_m.BillingInterval = value.String
 			}
 		case paymentproduct.FieldTrialDays:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field trial_days", values[i])
 			} else if value.Valid {
-				pp.TrialDays = int(value.Int64)
+				_m.TrialDays = int(value.Int64)
 			}
 		case paymentproduct.FieldFeatures:
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field features", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &pp.Features); err != nil {
+				if err := json.Unmarshal(*value, &_m.Features); err != nil {
 					return fmt.Errorf("unmarshal field features: %w", err)
 				}
 			}
@@ -198,10 +198,10 @@ func (pp *PaymentProduct) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field space_id", values[i])
 			} else if value.Valid {
-				pp.SpaceID = value.String
+				_m.SpaceID = value.String
 			}
 		default:
-			pp.selectValues.Set(columns[i], values[i])
+			_m.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
@@ -209,82 +209,82 @@ func (pp *PaymentProduct) assignValues(columns []string, values []any) error {
 
 // Value returns the ent.Value that was dynamically selected and assigned to the PaymentProduct.
 // This includes values selected through modifiers, order, etc.
-func (pp *PaymentProduct) Value(name string) (ent.Value, error) {
-	return pp.selectValues.Get(name)
+func (_m *PaymentProduct) Value(name string) (ent.Value, error) {
+	return _m.selectValues.Get(name)
 }
 
 // QuerySubscriptions queries the "subscriptions" edge of the PaymentProduct entity.
-func (pp *PaymentProduct) QuerySubscriptions() *PaymentSubscriptionQuery {
-	return NewPaymentProductClient(pp.config).QuerySubscriptions(pp)
+func (_m *PaymentProduct) QuerySubscriptions() *PaymentSubscriptionQuery {
+	return NewPaymentProductClient(_m.config).QuerySubscriptions(_m)
 }
 
 // Update returns a builder for updating this PaymentProduct.
 // Note that you need to call PaymentProduct.Unwrap() before calling this method if this PaymentProduct
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (pp *PaymentProduct) Update() *PaymentProductUpdateOne {
-	return NewPaymentProductClient(pp.config).UpdateOne(pp)
+func (_m *PaymentProduct) Update() *PaymentProductUpdateOne {
+	return NewPaymentProductClient(_m.config).UpdateOne(_m)
 }
 
 // Unwrap unwraps the PaymentProduct entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (pp *PaymentProduct) Unwrap() *PaymentProduct {
-	_tx, ok := pp.config.driver.(*txDriver)
+func (_m *PaymentProduct) Unwrap() *PaymentProduct {
+	_tx, ok := _m.config.driver.(*txDriver)
 	if !ok {
 		panic("ent: PaymentProduct is not a transactional entity")
 	}
-	pp.config.driver = _tx.drv
-	return pp
+	_m.config.driver = _tx.drv
+	return _m
 }
 
 // String implements the fmt.Stringer.
-func (pp *PaymentProduct) String() string {
+func (_m *PaymentProduct) String() string {
 	var builder strings.Builder
 	builder.WriteString("PaymentProduct(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", pp.ID))
+	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
 	builder.WriteString("name=")
-	builder.WriteString(pp.Name)
+	builder.WriteString(_m.Name)
 	builder.WriteString(", ")
 	builder.WriteString("description=")
-	builder.WriteString(pp.Description)
+	builder.WriteString(_m.Description)
 	builder.WriteString(", ")
 	builder.WriteString("extras=")
-	builder.WriteString(fmt.Sprintf("%v", pp.Extras))
+	builder.WriteString(fmt.Sprintf("%v", _m.Extras))
 	builder.WriteString(", ")
 	builder.WriteString("created_by=")
-	builder.WriteString(pp.CreatedBy)
+	builder.WriteString(_m.CreatedBy)
 	builder.WriteString(", ")
 	builder.WriteString("updated_by=")
-	builder.WriteString(pp.UpdatedBy)
+	builder.WriteString(_m.UpdatedBy)
 	builder.WriteString(", ")
 	builder.WriteString("created_at=")
-	builder.WriteString(fmt.Sprintf("%v", pp.CreatedAt))
+	builder.WriteString(fmt.Sprintf("%v", _m.CreatedAt))
 	builder.WriteString(", ")
 	builder.WriteString("updated_at=")
-	builder.WriteString(fmt.Sprintf("%v", pp.UpdatedAt))
+	builder.WriteString(fmt.Sprintf("%v", _m.UpdatedAt))
 	builder.WriteString(", ")
 	builder.WriteString("status=")
-	builder.WriteString(pp.Status)
+	builder.WriteString(_m.Status)
 	builder.WriteString(", ")
 	builder.WriteString("pricing_type=")
-	builder.WriteString(pp.PricingType)
+	builder.WriteString(_m.PricingType)
 	builder.WriteString(", ")
 	builder.WriteString("price=")
-	builder.WriteString(fmt.Sprintf("%v", pp.Price))
+	builder.WriteString(fmt.Sprintf("%v", _m.Price))
 	builder.WriteString(", ")
 	builder.WriteString("currency=")
-	builder.WriteString(pp.Currency)
+	builder.WriteString(_m.Currency)
 	builder.WriteString(", ")
 	builder.WriteString("billing_interval=")
-	builder.WriteString(pp.BillingInterval)
+	builder.WriteString(_m.BillingInterval)
 	builder.WriteString(", ")
 	builder.WriteString("trial_days=")
-	builder.WriteString(fmt.Sprintf("%v", pp.TrialDays))
+	builder.WriteString(fmt.Sprintf("%v", _m.TrialDays))
 	builder.WriteString(", ")
 	builder.WriteString("features=")
-	builder.WriteString(fmt.Sprintf("%v", pp.Features))
+	builder.WriteString(fmt.Sprintf("%v", _m.Features))
 	builder.WriteString(", ")
 	builder.WriteString("space_id=")
-	builder.WriteString(pp.SpaceID)
+	builder.WriteString(_m.SpaceID)
 	builder.WriteByte(')')
 	return builder.String()
 }

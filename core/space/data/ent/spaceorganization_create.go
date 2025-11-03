@@ -20,131 +20,131 @@ type SpaceOrganizationCreate struct {
 }
 
 // SetSpaceID sets the "space_id" field.
-func (soc *SpaceOrganizationCreate) SetSpaceID(s string) *SpaceOrganizationCreate {
-	soc.mutation.SetSpaceID(s)
-	return soc
+func (_c *SpaceOrganizationCreate) SetSpaceID(v string) *SpaceOrganizationCreate {
+	_c.mutation.SetSpaceID(v)
+	return _c
 }
 
 // SetNillableSpaceID sets the "space_id" field if the given value is not nil.
-func (soc *SpaceOrganizationCreate) SetNillableSpaceID(s *string) *SpaceOrganizationCreate {
-	if s != nil {
-		soc.SetSpaceID(*s)
+func (_c *SpaceOrganizationCreate) SetNillableSpaceID(v *string) *SpaceOrganizationCreate {
+	if v != nil {
+		_c.SetSpaceID(*v)
 	}
-	return soc
+	return _c
 }
 
 // SetOrgID sets the "org_id" field.
-func (soc *SpaceOrganizationCreate) SetOrgID(s string) *SpaceOrganizationCreate {
-	soc.mutation.SetOrgID(s)
-	return soc
+func (_c *SpaceOrganizationCreate) SetOrgID(v string) *SpaceOrganizationCreate {
+	_c.mutation.SetOrgID(v)
+	return _c
 }
 
 // SetNillableOrgID sets the "org_id" field if the given value is not nil.
-func (soc *SpaceOrganizationCreate) SetNillableOrgID(s *string) *SpaceOrganizationCreate {
-	if s != nil {
-		soc.SetOrgID(*s)
+func (_c *SpaceOrganizationCreate) SetNillableOrgID(v *string) *SpaceOrganizationCreate {
+	if v != nil {
+		_c.SetOrgID(*v)
 	}
-	return soc
+	return _c
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (soc *SpaceOrganizationCreate) SetCreatedBy(s string) *SpaceOrganizationCreate {
-	soc.mutation.SetCreatedBy(s)
-	return soc
+func (_c *SpaceOrganizationCreate) SetCreatedBy(v string) *SpaceOrganizationCreate {
+	_c.mutation.SetCreatedBy(v)
+	return _c
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (soc *SpaceOrganizationCreate) SetNillableCreatedBy(s *string) *SpaceOrganizationCreate {
-	if s != nil {
-		soc.SetCreatedBy(*s)
+func (_c *SpaceOrganizationCreate) SetNillableCreatedBy(v *string) *SpaceOrganizationCreate {
+	if v != nil {
+		_c.SetCreatedBy(*v)
 	}
-	return soc
+	return _c
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (soc *SpaceOrganizationCreate) SetUpdatedBy(s string) *SpaceOrganizationCreate {
-	soc.mutation.SetUpdatedBy(s)
-	return soc
+func (_c *SpaceOrganizationCreate) SetUpdatedBy(v string) *SpaceOrganizationCreate {
+	_c.mutation.SetUpdatedBy(v)
+	return _c
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (soc *SpaceOrganizationCreate) SetNillableUpdatedBy(s *string) *SpaceOrganizationCreate {
-	if s != nil {
-		soc.SetUpdatedBy(*s)
+func (_c *SpaceOrganizationCreate) SetNillableUpdatedBy(v *string) *SpaceOrganizationCreate {
+	if v != nil {
+		_c.SetUpdatedBy(*v)
 	}
-	return soc
+	return _c
 }
 
 // SetCreatedAt sets the "created_at" field.
-func (soc *SpaceOrganizationCreate) SetCreatedAt(i int64) *SpaceOrganizationCreate {
-	soc.mutation.SetCreatedAt(i)
-	return soc
+func (_c *SpaceOrganizationCreate) SetCreatedAt(v int64) *SpaceOrganizationCreate {
+	_c.mutation.SetCreatedAt(v)
+	return _c
 }
 
 // SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
-func (soc *SpaceOrganizationCreate) SetNillableCreatedAt(i *int64) *SpaceOrganizationCreate {
-	if i != nil {
-		soc.SetCreatedAt(*i)
+func (_c *SpaceOrganizationCreate) SetNillableCreatedAt(v *int64) *SpaceOrganizationCreate {
+	if v != nil {
+		_c.SetCreatedAt(*v)
 	}
-	return soc
+	return _c
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (soc *SpaceOrganizationCreate) SetUpdatedAt(i int64) *SpaceOrganizationCreate {
-	soc.mutation.SetUpdatedAt(i)
-	return soc
+func (_c *SpaceOrganizationCreate) SetUpdatedAt(v int64) *SpaceOrganizationCreate {
+	_c.mutation.SetUpdatedAt(v)
+	return _c
 }
 
 // SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
-func (soc *SpaceOrganizationCreate) SetNillableUpdatedAt(i *int64) *SpaceOrganizationCreate {
-	if i != nil {
-		soc.SetUpdatedAt(*i)
+func (_c *SpaceOrganizationCreate) SetNillableUpdatedAt(v *int64) *SpaceOrganizationCreate {
+	if v != nil {
+		_c.SetUpdatedAt(*v)
 	}
-	return soc
+	return _c
 }
 
 // SetRelationType sets the "relation_type" field.
-func (soc *SpaceOrganizationCreate) SetRelationType(s string) *SpaceOrganizationCreate {
-	soc.mutation.SetRelationType(s)
-	return soc
+func (_c *SpaceOrganizationCreate) SetRelationType(v string) *SpaceOrganizationCreate {
+	_c.mutation.SetRelationType(v)
+	return _c
 }
 
 // SetNillableRelationType sets the "relation_type" field if the given value is not nil.
-func (soc *SpaceOrganizationCreate) SetNillableRelationType(s *string) *SpaceOrganizationCreate {
-	if s != nil {
-		soc.SetRelationType(*s)
+func (_c *SpaceOrganizationCreate) SetNillableRelationType(v *string) *SpaceOrganizationCreate {
+	if v != nil {
+		_c.SetRelationType(*v)
 	}
-	return soc
+	return _c
 }
 
 // SetID sets the "id" field.
-func (soc *SpaceOrganizationCreate) SetID(s string) *SpaceOrganizationCreate {
-	soc.mutation.SetID(s)
-	return soc
+func (_c *SpaceOrganizationCreate) SetID(v string) *SpaceOrganizationCreate {
+	_c.mutation.SetID(v)
+	return _c
 }
 
 // SetNillableID sets the "id" field if the given value is not nil.
-func (soc *SpaceOrganizationCreate) SetNillableID(s *string) *SpaceOrganizationCreate {
-	if s != nil {
-		soc.SetID(*s)
+func (_c *SpaceOrganizationCreate) SetNillableID(v *string) *SpaceOrganizationCreate {
+	if v != nil {
+		_c.SetID(*v)
 	}
-	return soc
+	return _c
 }
 
 // Mutation returns the SpaceOrganizationMutation object of the builder.
-func (soc *SpaceOrganizationCreate) Mutation() *SpaceOrganizationMutation {
-	return soc.mutation
+func (_c *SpaceOrganizationCreate) Mutation() *SpaceOrganizationMutation {
+	return _c.mutation
 }
 
 // Save creates the SpaceOrganization in the database.
-func (soc *SpaceOrganizationCreate) Save(ctx context.Context) (*SpaceOrganization, error) {
-	soc.defaults()
-	return withHooks(ctx, soc.sqlSave, soc.mutation, soc.hooks)
+func (_c *SpaceOrganizationCreate) Save(ctx context.Context) (*SpaceOrganization, error) {
+	_c.defaults()
+	return withHooks(ctx, _c.sqlSave, _c.mutation, _c.hooks)
 }
 
 // SaveX calls Save and panics if Save returns an error.
-func (soc *SpaceOrganizationCreate) SaveX(ctx context.Context) *SpaceOrganization {
-	v, err := soc.Save(ctx)
+func (_c *SpaceOrganizationCreate) SaveX(ctx context.Context) *SpaceOrganization {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -152,49 +152,49 @@ func (soc *SpaceOrganizationCreate) SaveX(ctx context.Context) *SpaceOrganizatio
 }
 
 // Exec executes the query.
-func (soc *SpaceOrganizationCreate) Exec(ctx context.Context) error {
-	_, err := soc.Save(ctx)
+func (_c *SpaceOrganizationCreate) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (soc *SpaceOrganizationCreate) ExecX(ctx context.Context) {
-	if err := soc.Exec(ctx); err != nil {
+func (_c *SpaceOrganizationCreate) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (soc *SpaceOrganizationCreate) defaults() {
-	if _, ok := soc.mutation.CreatedAt(); !ok {
+func (_c *SpaceOrganizationCreate) defaults() {
+	if _, ok := _c.mutation.CreatedAt(); !ok {
 		v := spaceorganization.DefaultCreatedAt()
-		soc.mutation.SetCreatedAt(v)
+		_c.mutation.SetCreatedAt(v)
 	}
-	if _, ok := soc.mutation.UpdatedAt(); !ok {
+	if _, ok := _c.mutation.UpdatedAt(); !ok {
 		v := spaceorganization.DefaultUpdatedAt()
-		soc.mutation.SetUpdatedAt(v)
+		_c.mutation.SetUpdatedAt(v)
 	}
-	if _, ok := soc.mutation.RelationType(); !ok {
+	if _, ok := _c.mutation.RelationType(); !ok {
 		v := spaceorganization.DefaultRelationType
-		soc.mutation.SetRelationType(v)
+		_c.mutation.SetRelationType(v)
 	}
-	if _, ok := soc.mutation.ID(); !ok {
+	if _, ok := _c.mutation.ID(); !ok {
 		v := spaceorganization.DefaultID()
-		soc.mutation.SetID(v)
+		_c.mutation.SetID(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (soc *SpaceOrganizationCreate) check() error {
-	if _, ok := soc.mutation.RelationType(); !ok {
+func (_c *SpaceOrganizationCreate) check() error {
+	if _, ok := _c.mutation.RelationType(); !ok {
 		return &ValidationError{Name: "relation_type", err: errors.New(`ent: missing required field "SpaceOrganization.relation_type"`)}
 	}
-	if v, ok := soc.mutation.RelationType(); ok {
+	if v, ok := _c.mutation.RelationType(); ok {
 		if err := spaceorganization.RelationTypeValidator(v); err != nil {
 			return &ValidationError{Name: "relation_type", err: fmt.Errorf(`ent: validator failed for field "SpaceOrganization.relation_type": %w`, err)}
 		}
 	}
-	if v, ok := soc.mutation.ID(); ok {
+	if v, ok := _c.mutation.ID(); ok {
 		if err := spaceorganization.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "SpaceOrganization.id": %w`, err)}
 		}
@@ -202,12 +202,12 @@ func (soc *SpaceOrganizationCreate) check() error {
 	return nil
 }
 
-func (soc *SpaceOrganizationCreate) sqlSave(ctx context.Context) (*SpaceOrganization, error) {
-	if err := soc.check(); err != nil {
+func (_c *SpaceOrganizationCreate) sqlSave(ctx context.Context) (*SpaceOrganization, error) {
+	if err := _c.check(); err != nil {
 		return nil, err
 	}
-	_node, _spec := soc.createSpec()
-	if err := sqlgraph.CreateNode(ctx, soc.driver, _spec); err != nil {
+	_node, _spec := _c.createSpec()
+	if err := sqlgraph.CreateNode(ctx, _c.driver, _spec); err != nil {
 		if sqlgraph.IsConstraintError(err) {
 			err = &ConstraintError{msg: err.Error(), wrap: err}
 		}
@@ -220,45 +220,45 @@ func (soc *SpaceOrganizationCreate) sqlSave(ctx context.Context) (*SpaceOrganiza
 			return nil, fmt.Errorf("unexpected SpaceOrganization.ID type: %T", _spec.ID.Value)
 		}
 	}
-	soc.mutation.id = &_node.ID
-	soc.mutation.done = true
+	_c.mutation.id = &_node.ID
+	_c.mutation.done = true
 	return _node, nil
 }
 
-func (soc *SpaceOrganizationCreate) createSpec() (*SpaceOrganization, *sqlgraph.CreateSpec) {
+func (_c *SpaceOrganizationCreate) createSpec() (*SpaceOrganization, *sqlgraph.CreateSpec) {
 	var (
-		_node = &SpaceOrganization{config: soc.config}
+		_node = &SpaceOrganization{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(spaceorganization.Table, sqlgraph.NewFieldSpec(spaceorganization.FieldID, field.TypeString))
 	)
-	if id, ok := soc.mutation.ID(); ok {
+	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
 	}
-	if value, ok := soc.mutation.SpaceID(); ok {
+	if value, ok := _c.mutation.SpaceID(); ok {
 		_spec.SetField(spaceorganization.FieldSpaceID, field.TypeString, value)
 		_node.SpaceID = value
 	}
-	if value, ok := soc.mutation.OrgID(); ok {
+	if value, ok := _c.mutation.OrgID(); ok {
 		_spec.SetField(spaceorganization.FieldOrgID, field.TypeString, value)
 		_node.OrgID = value
 	}
-	if value, ok := soc.mutation.CreatedBy(); ok {
+	if value, ok := _c.mutation.CreatedBy(); ok {
 		_spec.SetField(spaceorganization.FieldCreatedBy, field.TypeString, value)
 		_node.CreatedBy = value
 	}
-	if value, ok := soc.mutation.UpdatedBy(); ok {
+	if value, ok := _c.mutation.UpdatedBy(); ok {
 		_spec.SetField(spaceorganization.FieldUpdatedBy, field.TypeString, value)
 		_node.UpdatedBy = value
 	}
-	if value, ok := soc.mutation.CreatedAt(); ok {
+	if value, ok := _c.mutation.CreatedAt(); ok {
 		_spec.SetField(spaceorganization.FieldCreatedAt, field.TypeInt64, value)
 		_node.CreatedAt = value
 	}
-	if value, ok := soc.mutation.UpdatedAt(); ok {
+	if value, ok := _c.mutation.UpdatedAt(); ok {
 		_spec.SetField(spaceorganization.FieldUpdatedAt, field.TypeInt64, value)
 		_node.UpdatedAt = value
 	}
-	if value, ok := soc.mutation.RelationType(); ok {
+	if value, ok := _c.mutation.RelationType(); ok {
 		_spec.SetField(spaceorganization.FieldRelationType, field.TypeString, value)
 		_node.RelationType = value
 	}
@@ -273,16 +273,16 @@ type SpaceOrganizationCreateBulk struct {
 }
 
 // Save creates the SpaceOrganization entities in the database.
-func (socb *SpaceOrganizationCreateBulk) Save(ctx context.Context) ([]*SpaceOrganization, error) {
-	if socb.err != nil {
-		return nil, socb.err
+func (_c *SpaceOrganizationCreateBulk) Save(ctx context.Context) ([]*SpaceOrganization, error) {
+	if _c.err != nil {
+		return nil, _c.err
 	}
-	specs := make([]*sqlgraph.CreateSpec, len(socb.builders))
-	nodes := make([]*SpaceOrganization, len(socb.builders))
-	mutators := make([]Mutator, len(socb.builders))
-	for i := range socb.builders {
+	specs := make([]*sqlgraph.CreateSpec, len(_c.builders))
+	nodes := make([]*SpaceOrganization, len(_c.builders))
+	mutators := make([]Mutator, len(_c.builders))
+	for i := range _c.builders {
 		func(i int, root context.Context) {
-			builder := socb.builders[i]
+			builder := _c.builders[i]
 			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*SpaceOrganizationMutation)
@@ -296,11 +296,11 @@ func (socb *SpaceOrganizationCreateBulk) Save(ctx context.Context) ([]*SpaceOrga
 				var err error
 				nodes[i], specs[i] = builder.createSpec()
 				if i < len(mutators)-1 {
-					_, err = mutators[i+1].Mutate(root, socb.builders[i+1].mutation)
+					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
 					// Invoke the actual operation on the latest mutation in the chain.
-					if err = sqlgraph.BatchCreate(ctx, socb.driver, spec); err != nil {
+					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
 							err = &ConstraintError{msg: err.Error(), wrap: err}
 						}
@@ -320,7 +320,7 @@ func (socb *SpaceOrganizationCreateBulk) Save(ctx context.Context) ([]*SpaceOrga
 		}(i, ctx)
 	}
 	if len(mutators) > 0 {
-		if _, err := mutators[0].Mutate(ctx, socb.builders[0].mutation); err != nil {
+		if _, err := mutators[0].Mutate(ctx, _c.builders[0].mutation); err != nil {
 			return nil, err
 		}
 	}
@@ -328,8 +328,8 @@ func (socb *SpaceOrganizationCreateBulk) Save(ctx context.Context) ([]*SpaceOrga
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (socb *SpaceOrganizationCreateBulk) SaveX(ctx context.Context) []*SpaceOrganization {
-	v, err := socb.Save(ctx)
+func (_c *SpaceOrganizationCreateBulk) SaveX(ctx context.Context) []*SpaceOrganization {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -337,14 +337,14 @@ func (socb *SpaceOrganizationCreateBulk) SaveX(ctx context.Context) []*SpaceOrga
 }
 
 // Exec executes the query.
-func (socb *SpaceOrganizationCreateBulk) Exec(ctx context.Context) error {
-	_, err := socb.Save(ctx)
+func (_c *SpaceOrganizationCreateBulk) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (socb *SpaceOrganizationCreateBulk) ExecX(ctx context.Context) {
-	if err := socb.Exec(ctx); err != nil {
+func (_c *SpaceOrganizationCreateBulk) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

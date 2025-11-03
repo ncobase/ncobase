@@ -28,40 +28,40 @@ type DelegationQuery struct {
 }
 
 // Where adds a new predicate for the DelegationQuery builder.
-func (dq *DelegationQuery) Where(ps ...predicate.Delegation) *DelegationQuery {
-	dq.predicates = append(dq.predicates, ps...)
-	return dq
+func (_q *DelegationQuery) Where(ps ...predicate.Delegation) *DelegationQuery {
+	_q.predicates = append(_q.predicates, ps...)
+	return _q
 }
 
 // Limit the number of records to be returned by this query.
-func (dq *DelegationQuery) Limit(limit int) *DelegationQuery {
-	dq.ctx.Limit = &limit
-	return dq
+func (_q *DelegationQuery) Limit(limit int) *DelegationQuery {
+	_q.ctx.Limit = &limit
+	return _q
 }
 
 // Offset to start from.
-func (dq *DelegationQuery) Offset(offset int) *DelegationQuery {
-	dq.ctx.Offset = &offset
-	return dq
+func (_q *DelegationQuery) Offset(offset int) *DelegationQuery {
+	_q.ctx.Offset = &offset
+	return _q
 }
 
 // Unique configures the query builder to filter duplicate records on query.
 // By default, unique is set to true, and can be disabled using this method.
-func (dq *DelegationQuery) Unique(unique bool) *DelegationQuery {
-	dq.ctx.Unique = &unique
-	return dq
+func (_q *DelegationQuery) Unique(unique bool) *DelegationQuery {
+	_q.ctx.Unique = &unique
+	return _q
 }
 
 // Order specifies how the records should be ordered.
-func (dq *DelegationQuery) Order(o ...delegation.OrderOption) *DelegationQuery {
-	dq.order = append(dq.order, o...)
-	return dq
+func (_q *DelegationQuery) Order(o ...delegation.OrderOption) *DelegationQuery {
+	_q.order = append(_q.order, o...)
+	return _q
 }
 
 // First returns the first Delegation entity from the query.
 // Returns a *NotFoundError when no Delegation was found.
-func (dq *DelegationQuery) First(ctx context.Context) (*Delegation, error) {
-	nodes, err := dq.Limit(1).All(setContextOp(ctx, dq.ctx, ent.OpQueryFirst))
+func (_q *DelegationQuery) First(ctx context.Context) (*Delegation, error) {
+	nodes, err := _q.Limit(1).All(setContextOp(ctx, _q.ctx, ent.OpQueryFirst))
 	if err != nil {
 		return nil, err
 	}
@@ -72,8 +72,8 @@ func (dq *DelegationQuery) First(ctx context.Context) (*Delegation, error) {
 }
 
 // FirstX is like First, but panics if an error occurs.
-func (dq *DelegationQuery) FirstX(ctx context.Context) *Delegation {
-	node, err := dq.First(ctx)
+func (_q *DelegationQuery) FirstX(ctx context.Context) *Delegation {
+	node, err := _q.First(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
 	}
@@ -82,9 +82,9 @@ func (dq *DelegationQuery) FirstX(ctx context.Context) *Delegation {
 
 // FirstID returns the first Delegation ID from the query.
 // Returns a *NotFoundError when no Delegation ID was found.
-func (dq *DelegationQuery) FirstID(ctx context.Context) (id string, err error) {
+func (_q *DelegationQuery) FirstID(ctx context.Context) (id string, err error) {
 	var ids []string
-	if ids, err = dq.Limit(1).IDs(setContextOp(ctx, dq.ctx, ent.OpQueryFirstID)); err != nil {
+	if ids, err = _q.Limit(1).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryFirstID)); err != nil {
 		return
 	}
 	if len(ids) == 0 {
@@ -95,8 +95,8 @@ func (dq *DelegationQuery) FirstID(ctx context.Context) (id string, err error) {
 }
 
 // FirstIDX is like FirstID, but panics if an error occurs.
-func (dq *DelegationQuery) FirstIDX(ctx context.Context) string {
-	id, err := dq.FirstID(ctx)
+func (_q *DelegationQuery) FirstIDX(ctx context.Context) string {
+	id, err := _q.FirstID(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
 	}
@@ -106,8 +106,8 @@ func (dq *DelegationQuery) FirstIDX(ctx context.Context) string {
 // Only returns a single Delegation entity found by the query, ensuring it only returns one.
 // Returns a *NotSingularError when more than one Delegation entity is found.
 // Returns a *NotFoundError when no Delegation entities are found.
-func (dq *DelegationQuery) Only(ctx context.Context) (*Delegation, error) {
-	nodes, err := dq.Limit(2).All(setContextOp(ctx, dq.ctx, ent.OpQueryOnly))
+func (_q *DelegationQuery) Only(ctx context.Context) (*Delegation, error) {
+	nodes, err := _q.Limit(2).All(setContextOp(ctx, _q.ctx, ent.OpQueryOnly))
 	if err != nil {
 		return nil, err
 	}
@@ -122,8 +122,8 @@ func (dq *DelegationQuery) Only(ctx context.Context) (*Delegation, error) {
 }
 
 // OnlyX is like Only, but panics if an error occurs.
-func (dq *DelegationQuery) OnlyX(ctx context.Context) *Delegation {
-	node, err := dq.Only(ctx)
+func (_q *DelegationQuery) OnlyX(ctx context.Context) *Delegation {
+	node, err := _q.Only(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -133,9 +133,9 @@ func (dq *DelegationQuery) OnlyX(ctx context.Context) *Delegation {
 // OnlyID is like Only, but returns the only Delegation ID in the query.
 // Returns a *NotSingularError when more than one Delegation ID is found.
 // Returns a *NotFoundError when no entities are found.
-func (dq *DelegationQuery) OnlyID(ctx context.Context) (id string, err error) {
+func (_q *DelegationQuery) OnlyID(ctx context.Context) (id string, err error) {
 	var ids []string
-	if ids, err = dq.Limit(2).IDs(setContextOp(ctx, dq.ctx, ent.OpQueryOnlyID)); err != nil {
+	if ids, err = _q.Limit(2).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryOnlyID)); err != nil {
 		return
 	}
 	switch len(ids) {
@@ -150,8 +150,8 @@ func (dq *DelegationQuery) OnlyID(ctx context.Context) (id string, err error) {
 }
 
 // OnlyIDX is like OnlyID, but panics if an error occurs.
-func (dq *DelegationQuery) OnlyIDX(ctx context.Context) string {
-	id, err := dq.OnlyID(ctx)
+func (_q *DelegationQuery) OnlyIDX(ctx context.Context) string {
+	id, err := _q.OnlyID(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -159,18 +159,18 @@ func (dq *DelegationQuery) OnlyIDX(ctx context.Context) string {
 }
 
 // All executes the query and returns a list of Delegations.
-func (dq *DelegationQuery) All(ctx context.Context) ([]*Delegation, error) {
-	ctx = setContextOp(ctx, dq.ctx, ent.OpQueryAll)
-	if err := dq.prepareQuery(ctx); err != nil {
+func (_q *DelegationQuery) All(ctx context.Context) ([]*Delegation, error) {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryAll)
+	if err := _q.prepareQuery(ctx); err != nil {
 		return nil, err
 	}
 	qr := querierAll[[]*Delegation, *DelegationQuery]()
-	return withInterceptors[[]*Delegation](ctx, dq, qr, dq.inters)
+	return withInterceptors[[]*Delegation](ctx, _q, qr, _q.inters)
 }
 
 // AllX is like All, but panics if an error occurs.
-func (dq *DelegationQuery) AllX(ctx context.Context) []*Delegation {
-	nodes, err := dq.All(ctx)
+func (_q *DelegationQuery) AllX(ctx context.Context) []*Delegation {
+	nodes, err := _q.All(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -178,20 +178,20 @@ func (dq *DelegationQuery) AllX(ctx context.Context) []*Delegation {
 }
 
 // IDs executes the query and returns a list of Delegation IDs.
-func (dq *DelegationQuery) IDs(ctx context.Context) (ids []string, err error) {
-	if dq.ctx.Unique == nil && dq.path != nil {
-		dq.Unique(true)
+func (_q *DelegationQuery) IDs(ctx context.Context) (ids []string, err error) {
+	if _q.ctx.Unique == nil && _q.path != nil {
+		_q.Unique(true)
 	}
-	ctx = setContextOp(ctx, dq.ctx, ent.OpQueryIDs)
-	if err = dq.Select(delegation.FieldID).Scan(ctx, &ids); err != nil {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryIDs)
+	if err = _q.Select(delegation.FieldID).Scan(ctx, &ids); err != nil {
 		return nil, err
 	}
 	return ids, nil
 }
 
 // IDsX is like IDs, but panics if an error occurs.
-func (dq *DelegationQuery) IDsX(ctx context.Context) []string {
-	ids, err := dq.IDs(ctx)
+func (_q *DelegationQuery) IDsX(ctx context.Context) []string {
+	ids, err := _q.IDs(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -199,17 +199,17 @@ func (dq *DelegationQuery) IDsX(ctx context.Context) []string {
 }
 
 // Count returns the count of the given query.
-func (dq *DelegationQuery) Count(ctx context.Context) (int, error) {
-	ctx = setContextOp(ctx, dq.ctx, ent.OpQueryCount)
-	if err := dq.prepareQuery(ctx); err != nil {
+func (_q *DelegationQuery) Count(ctx context.Context) (int, error) {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryCount)
+	if err := _q.prepareQuery(ctx); err != nil {
 		return 0, err
 	}
-	return withInterceptors[int](ctx, dq, querierCount[*DelegationQuery](), dq.inters)
+	return withInterceptors[int](ctx, _q, querierCount[*DelegationQuery](), _q.inters)
 }
 
 // CountX is like Count, but panics if an error occurs.
-func (dq *DelegationQuery) CountX(ctx context.Context) int {
-	count, err := dq.Count(ctx)
+func (_q *DelegationQuery) CountX(ctx context.Context) int {
+	count, err := _q.Count(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -217,9 +217,9 @@ func (dq *DelegationQuery) CountX(ctx context.Context) int {
 }
 
 // Exist returns true if the query has elements in the graph.
-func (dq *DelegationQuery) Exist(ctx context.Context) (bool, error) {
-	ctx = setContextOp(ctx, dq.ctx, ent.OpQueryExist)
-	switch _, err := dq.FirstID(ctx); {
+func (_q *DelegationQuery) Exist(ctx context.Context) (bool, error) {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryExist)
+	switch _, err := _q.FirstID(ctx); {
 	case IsNotFound(err):
 		return false, nil
 	case err != nil:
@@ -230,8 +230,8 @@ func (dq *DelegationQuery) Exist(ctx context.Context) (bool, error) {
 }
 
 // ExistX is like Exist, but panics if an error occurs.
-func (dq *DelegationQuery) ExistX(ctx context.Context) bool {
-	exist, err := dq.Exist(ctx)
+func (_q *DelegationQuery) ExistX(ctx context.Context) bool {
+	exist, err := _q.Exist(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -240,19 +240,19 @@ func (dq *DelegationQuery) ExistX(ctx context.Context) bool {
 
 // Clone returns a duplicate of the DelegationQuery builder, including all associated steps. It can be
 // used to prepare common query builders and use them differently after the clone is made.
-func (dq *DelegationQuery) Clone() *DelegationQuery {
-	if dq == nil {
+func (_q *DelegationQuery) Clone() *DelegationQuery {
+	if _q == nil {
 		return nil
 	}
 	return &DelegationQuery{
-		config:     dq.config,
-		ctx:        dq.ctx.Clone(),
-		order:      append([]delegation.OrderOption{}, dq.order...),
-		inters:     append([]Interceptor{}, dq.inters...),
-		predicates: append([]predicate.Delegation{}, dq.predicates...),
+		config:     _q.config,
+		ctx:        _q.ctx.Clone(),
+		order:      append([]delegation.OrderOption{}, _q.order...),
+		inters:     append([]Interceptor{}, _q.inters...),
+		predicates: append([]predicate.Delegation{}, _q.predicates...),
 		// clone intermediate query.
-		sql:  dq.sql.Clone(),
-		path: dq.path,
+		sql:  _q.sql.Clone(),
+		path: _q.path,
 	}
 }
 
@@ -270,10 +270,10 @@ func (dq *DelegationQuery) Clone() *DelegationQuery {
 //		GroupBy(delegation.FieldStatus).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
-func (dq *DelegationQuery) GroupBy(field string, fields ...string) *DelegationGroupBy {
-	dq.ctx.Fields = append([]string{field}, fields...)
-	grbuild := &DelegationGroupBy{build: dq}
-	grbuild.flds = &dq.ctx.Fields
+func (_q *DelegationQuery) GroupBy(field string, fields ...string) *DelegationGroupBy {
+	_q.ctx.Fields = append([]string{field}, fields...)
+	grbuild := &DelegationGroupBy{build: _q}
+	grbuild.flds = &_q.ctx.Fields
 	grbuild.label = delegation.Label
 	grbuild.scan = grbuild.Scan
 	return grbuild
@@ -291,62 +291,62 @@ func (dq *DelegationQuery) GroupBy(field string, fields ...string) *DelegationGr
 //	client.Delegation.Query().
 //		Select(delegation.FieldStatus).
 //		Scan(ctx, &v)
-func (dq *DelegationQuery) Select(fields ...string) *DelegationSelect {
-	dq.ctx.Fields = append(dq.ctx.Fields, fields...)
-	sbuild := &DelegationSelect{DelegationQuery: dq}
+func (_q *DelegationQuery) Select(fields ...string) *DelegationSelect {
+	_q.ctx.Fields = append(_q.ctx.Fields, fields...)
+	sbuild := &DelegationSelect{DelegationQuery: _q}
 	sbuild.label = delegation.Label
-	sbuild.flds, sbuild.scan = &dq.ctx.Fields, sbuild.Scan
+	sbuild.flds, sbuild.scan = &_q.ctx.Fields, sbuild.Scan
 	return sbuild
 }
 
 // Aggregate returns a DelegationSelect configured with the given aggregations.
-func (dq *DelegationQuery) Aggregate(fns ...AggregateFunc) *DelegationSelect {
-	return dq.Select().Aggregate(fns...)
+func (_q *DelegationQuery) Aggregate(fns ...AggregateFunc) *DelegationSelect {
+	return _q.Select().Aggregate(fns...)
 }
 
-func (dq *DelegationQuery) prepareQuery(ctx context.Context) error {
-	for _, inter := range dq.inters {
+func (_q *DelegationQuery) prepareQuery(ctx context.Context) error {
+	for _, inter := range _q.inters {
 		if inter == nil {
 			return fmt.Errorf("ent: uninitialized interceptor (forgotten import ent/runtime?)")
 		}
 		if trv, ok := inter.(Traverser); ok {
-			if err := trv.Traverse(ctx, dq); err != nil {
+			if err := trv.Traverse(ctx, _q); err != nil {
 				return err
 			}
 		}
 	}
-	for _, f := range dq.ctx.Fields {
+	for _, f := range _q.ctx.Fields {
 		if !delegation.ValidColumn(f) {
 			return &ValidationError{Name: f, err: fmt.Errorf("ent: invalid field %q for query", f)}
 		}
 	}
-	if dq.path != nil {
-		prev, err := dq.path(ctx)
+	if _q.path != nil {
+		prev, err := _q.path(ctx)
 		if err != nil {
 			return err
 		}
-		dq.sql = prev
+		_q.sql = prev
 	}
 	return nil
 }
 
-func (dq *DelegationQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*Delegation, error) {
+func (_q *DelegationQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*Delegation, error) {
 	var (
 		nodes = []*Delegation{}
-		_spec = dq.querySpec()
+		_spec = _q.querySpec()
 	)
 	_spec.ScanValues = func(columns []string) ([]any, error) {
 		return (*Delegation).scanValues(nil, columns)
 	}
 	_spec.Assign = func(columns []string, values []any) error {
-		node := &Delegation{config: dq.config}
+		node := &Delegation{config: _q.config}
 		nodes = append(nodes, node)
 		return node.assignValues(columns, values)
 	}
 	for i := range hooks {
 		hooks[i](ctx, _spec)
 	}
-	if err := sqlgraph.QueryNodes(ctx, dq.driver, _spec); err != nil {
+	if err := sqlgraph.QueryNodes(ctx, _q.driver, _spec); err != nil {
 		return nil, err
 	}
 	if len(nodes) == 0 {
@@ -355,24 +355,24 @@ func (dq *DelegationQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*D
 	return nodes, nil
 }
 
-func (dq *DelegationQuery) sqlCount(ctx context.Context) (int, error) {
-	_spec := dq.querySpec()
-	_spec.Node.Columns = dq.ctx.Fields
-	if len(dq.ctx.Fields) > 0 {
-		_spec.Unique = dq.ctx.Unique != nil && *dq.ctx.Unique
+func (_q *DelegationQuery) sqlCount(ctx context.Context) (int, error) {
+	_spec := _q.querySpec()
+	_spec.Node.Columns = _q.ctx.Fields
+	if len(_q.ctx.Fields) > 0 {
+		_spec.Unique = _q.ctx.Unique != nil && *_q.ctx.Unique
 	}
-	return sqlgraph.CountNodes(ctx, dq.driver, _spec)
+	return sqlgraph.CountNodes(ctx, _q.driver, _spec)
 }
 
-func (dq *DelegationQuery) querySpec() *sqlgraph.QuerySpec {
+func (_q *DelegationQuery) querySpec() *sqlgraph.QuerySpec {
 	_spec := sqlgraph.NewQuerySpec(delegation.Table, delegation.Columns, sqlgraph.NewFieldSpec(delegation.FieldID, field.TypeString))
-	_spec.From = dq.sql
-	if unique := dq.ctx.Unique; unique != nil {
+	_spec.From = _q.sql
+	if unique := _q.ctx.Unique; unique != nil {
 		_spec.Unique = *unique
-	} else if dq.path != nil {
+	} else if _q.path != nil {
 		_spec.Unique = true
 	}
-	if fields := dq.ctx.Fields; len(fields) > 0 {
+	if fields := _q.ctx.Fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, delegation.FieldID)
 		for i := range fields {
@@ -381,20 +381,20 @@ func (dq *DelegationQuery) querySpec() *sqlgraph.QuerySpec {
 			}
 		}
 	}
-	if ps := dq.predicates; len(ps) > 0 {
+	if ps := _q.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if limit := dq.ctx.Limit; limit != nil {
+	if limit := _q.ctx.Limit; limit != nil {
 		_spec.Limit = *limit
 	}
-	if offset := dq.ctx.Offset; offset != nil {
+	if offset := _q.ctx.Offset; offset != nil {
 		_spec.Offset = *offset
 	}
-	if ps := dq.order; len(ps) > 0 {
+	if ps := _q.order; len(ps) > 0 {
 		_spec.Order = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
@@ -404,33 +404,33 @@ func (dq *DelegationQuery) querySpec() *sqlgraph.QuerySpec {
 	return _spec
 }
 
-func (dq *DelegationQuery) sqlQuery(ctx context.Context) *sql.Selector {
-	builder := sql.Dialect(dq.driver.Dialect())
+func (_q *DelegationQuery) sqlQuery(ctx context.Context) *sql.Selector {
+	builder := sql.Dialect(_q.driver.Dialect())
 	t1 := builder.Table(delegation.Table)
-	columns := dq.ctx.Fields
+	columns := _q.ctx.Fields
 	if len(columns) == 0 {
 		columns = delegation.Columns
 	}
 	selector := builder.Select(t1.Columns(columns...)...).From(t1)
-	if dq.sql != nil {
-		selector = dq.sql
+	if _q.sql != nil {
+		selector = _q.sql
 		selector.Select(selector.Columns(columns...)...)
 	}
-	if dq.ctx.Unique != nil && *dq.ctx.Unique {
+	if _q.ctx.Unique != nil && *_q.ctx.Unique {
 		selector.Distinct()
 	}
-	for _, p := range dq.predicates {
+	for _, p := range _q.predicates {
 		p(selector)
 	}
-	for _, p := range dq.order {
+	for _, p := range _q.order {
 		p(selector)
 	}
-	if offset := dq.ctx.Offset; offset != nil {
+	if offset := _q.ctx.Offset; offset != nil {
 		// limit is mandatory for offset clause. We start
 		// with default value, and override it below if needed.
 		selector.Offset(*offset).Limit(math.MaxInt32)
 	}
-	if limit := dq.ctx.Limit; limit != nil {
+	if limit := _q.ctx.Limit; limit != nil {
 		selector.Limit(*limit)
 	}
 	return selector
@@ -443,41 +443,41 @@ type DelegationGroupBy struct {
 }
 
 // Aggregate adds the given aggregation functions to the group-by query.
-func (dgb *DelegationGroupBy) Aggregate(fns ...AggregateFunc) *DelegationGroupBy {
-	dgb.fns = append(dgb.fns, fns...)
-	return dgb
+func (_g *DelegationGroupBy) Aggregate(fns ...AggregateFunc) *DelegationGroupBy {
+	_g.fns = append(_g.fns, fns...)
+	return _g
 }
 
 // Scan applies the selector query and scans the result into the given value.
-func (dgb *DelegationGroupBy) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, dgb.build.ctx, ent.OpQueryGroupBy)
-	if err := dgb.build.prepareQuery(ctx); err != nil {
+func (_g *DelegationGroupBy) Scan(ctx context.Context, v any) error {
+	ctx = setContextOp(ctx, _g.build.ctx, ent.OpQueryGroupBy)
+	if err := _g.build.prepareQuery(ctx); err != nil {
 		return err
 	}
-	return scanWithInterceptors[*DelegationQuery, *DelegationGroupBy](ctx, dgb.build, dgb, dgb.build.inters, v)
+	return scanWithInterceptors[*DelegationQuery, *DelegationGroupBy](ctx, _g.build, _g, _g.build.inters, v)
 }
 
-func (dgb *DelegationGroupBy) sqlScan(ctx context.Context, root *DelegationQuery, v any) error {
+func (_g *DelegationGroupBy) sqlScan(ctx context.Context, root *DelegationQuery, v any) error {
 	selector := root.sqlQuery(ctx).Select()
-	aggregation := make([]string, 0, len(dgb.fns))
-	for _, fn := range dgb.fns {
+	aggregation := make([]string, 0, len(_g.fns))
+	for _, fn := range _g.fns {
 		aggregation = append(aggregation, fn(selector))
 	}
 	if len(selector.SelectedColumns()) == 0 {
-		columns := make([]string, 0, len(*dgb.flds)+len(dgb.fns))
-		for _, f := range *dgb.flds {
+		columns := make([]string, 0, len(*_g.flds)+len(_g.fns))
+		for _, f := range *_g.flds {
 			columns = append(columns, selector.C(f))
 		}
 		columns = append(columns, aggregation...)
 		selector.Select(columns...)
 	}
-	selector.GroupBy(selector.Columns(*dgb.flds...)...)
+	selector.GroupBy(selector.Columns(*_g.flds...)...)
 	if err := selector.Err(); err != nil {
 		return err
 	}
 	rows := &sql.Rows{}
 	query, args := selector.Query()
-	if err := dgb.build.driver.Query(ctx, query, args, rows); err != nil {
+	if err := _g.build.driver.Query(ctx, query, args, rows); err != nil {
 		return err
 	}
 	defer rows.Close()
@@ -491,27 +491,27 @@ type DelegationSelect struct {
 }
 
 // Aggregate adds the given aggregation functions to the selector query.
-func (ds *DelegationSelect) Aggregate(fns ...AggregateFunc) *DelegationSelect {
-	ds.fns = append(ds.fns, fns...)
-	return ds
+func (_s *DelegationSelect) Aggregate(fns ...AggregateFunc) *DelegationSelect {
+	_s.fns = append(_s.fns, fns...)
+	return _s
 }
 
 // Scan applies the selector query and scans the result into the given value.
-func (ds *DelegationSelect) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, ds.ctx, ent.OpQuerySelect)
-	if err := ds.prepareQuery(ctx); err != nil {
+func (_s *DelegationSelect) Scan(ctx context.Context, v any) error {
+	ctx = setContextOp(ctx, _s.ctx, ent.OpQuerySelect)
+	if err := _s.prepareQuery(ctx); err != nil {
 		return err
 	}
-	return scanWithInterceptors[*DelegationQuery, *DelegationSelect](ctx, ds.DelegationQuery, ds, ds.inters, v)
+	return scanWithInterceptors[*DelegationQuery, *DelegationSelect](ctx, _s.DelegationQuery, _s, _s.inters, v)
 }
 
-func (ds *DelegationSelect) sqlScan(ctx context.Context, root *DelegationQuery, v any) error {
+func (_s *DelegationSelect) sqlScan(ctx context.Context, root *DelegationQuery, v any) error {
 	selector := root.sqlQuery(ctx)
-	aggregation := make([]string, 0, len(ds.fns))
-	for _, fn := range ds.fns {
+	aggregation := make([]string, 0, len(_s.fns))
+	for _, fn := range _s.fns {
 		aggregation = append(aggregation, fn(selector))
 	}
-	switch n := len(*ds.selector.flds); {
+	switch n := len(*_s.selector.flds); {
 	case n == 0 && len(aggregation) > 0:
 		selector.Select(aggregation...)
 	case n != 0 && len(aggregation) > 0:
@@ -519,7 +519,7 @@ func (ds *DelegationSelect) sqlScan(ctx context.Context, root *DelegationQuery, 
 	}
 	rows := &sql.Rows{}
 	query, args := selector.Query()
-	if err := ds.driver.Query(ctx, query, args, rows); err != nil {
+	if err := _s.driver.Query(ctx, query, args, rows); err != nil {
 		return err
 	}
 	defer rows.Close()

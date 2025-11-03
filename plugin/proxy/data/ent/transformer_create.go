@@ -20,163 +20,163 @@ type TransformerCreate struct {
 }
 
 // SetName sets the "name" field.
-func (tc *TransformerCreate) SetName(s string) *TransformerCreate {
-	tc.mutation.SetName(s)
-	return tc
+func (_c *TransformerCreate) SetName(v string) *TransformerCreate {
+	_c.mutation.SetName(v)
+	return _c
 }
 
 // SetNillableName sets the "name" field if the given value is not nil.
-func (tc *TransformerCreate) SetNillableName(s *string) *TransformerCreate {
-	if s != nil {
-		tc.SetName(*s)
+func (_c *TransformerCreate) SetNillableName(v *string) *TransformerCreate {
+	if v != nil {
+		_c.SetName(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetDescription sets the "description" field.
-func (tc *TransformerCreate) SetDescription(s string) *TransformerCreate {
-	tc.mutation.SetDescription(s)
-	return tc
+func (_c *TransformerCreate) SetDescription(v string) *TransformerCreate {
+	_c.mutation.SetDescription(v)
+	return _c
 }
 
 // SetNillableDescription sets the "description" field if the given value is not nil.
-func (tc *TransformerCreate) SetNillableDescription(s *string) *TransformerCreate {
-	if s != nil {
-		tc.SetDescription(*s)
+func (_c *TransformerCreate) SetNillableDescription(v *string) *TransformerCreate {
+	if v != nil {
+		_c.SetDescription(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetDisabled sets the "disabled" field.
-func (tc *TransformerCreate) SetDisabled(b bool) *TransformerCreate {
-	tc.mutation.SetDisabled(b)
-	return tc
+func (_c *TransformerCreate) SetDisabled(v bool) *TransformerCreate {
+	_c.mutation.SetDisabled(v)
+	return _c
 }
 
 // SetNillableDisabled sets the "disabled" field if the given value is not nil.
-func (tc *TransformerCreate) SetNillableDisabled(b *bool) *TransformerCreate {
-	if b != nil {
-		tc.SetDisabled(*b)
+func (_c *TransformerCreate) SetNillableDisabled(v *bool) *TransformerCreate {
+	if v != nil {
+		_c.SetDisabled(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetExtras sets the "extras" field.
-func (tc *TransformerCreate) SetExtras(m map[string]interface{}) *TransformerCreate {
-	tc.mutation.SetExtras(m)
-	return tc
+func (_c *TransformerCreate) SetExtras(v map[string]interface{}) *TransformerCreate {
+	_c.mutation.SetExtras(v)
+	return _c
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (tc *TransformerCreate) SetCreatedBy(s string) *TransformerCreate {
-	tc.mutation.SetCreatedBy(s)
-	return tc
+func (_c *TransformerCreate) SetCreatedBy(v string) *TransformerCreate {
+	_c.mutation.SetCreatedBy(v)
+	return _c
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (tc *TransformerCreate) SetNillableCreatedBy(s *string) *TransformerCreate {
-	if s != nil {
-		tc.SetCreatedBy(*s)
+func (_c *TransformerCreate) SetNillableCreatedBy(v *string) *TransformerCreate {
+	if v != nil {
+		_c.SetCreatedBy(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (tc *TransformerCreate) SetUpdatedBy(s string) *TransformerCreate {
-	tc.mutation.SetUpdatedBy(s)
-	return tc
+func (_c *TransformerCreate) SetUpdatedBy(v string) *TransformerCreate {
+	_c.mutation.SetUpdatedBy(v)
+	return _c
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (tc *TransformerCreate) SetNillableUpdatedBy(s *string) *TransformerCreate {
-	if s != nil {
-		tc.SetUpdatedBy(*s)
+func (_c *TransformerCreate) SetNillableUpdatedBy(v *string) *TransformerCreate {
+	if v != nil {
+		_c.SetUpdatedBy(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetCreatedAt sets the "created_at" field.
-func (tc *TransformerCreate) SetCreatedAt(i int64) *TransformerCreate {
-	tc.mutation.SetCreatedAt(i)
-	return tc
+func (_c *TransformerCreate) SetCreatedAt(v int64) *TransformerCreate {
+	_c.mutation.SetCreatedAt(v)
+	return _c
 }
 
 // SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
-func (tc *TransformerCreate) SetNillableCreatedAt(i *int64) *TransformerCreate {
-	if i != nil {
-		tc.SetCreatedAt(*i)
+func (_c *TransformerCreate) SetNillableCreatedAt(v *int64) *TransformerCreate {
+	if v != nil {
+		_c.SetCreatedAt(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (tc *TransformerCreate) SetUpdatedAt(i int64) *TransformerCreate {
-	tc.mutation.SetUpdatedAt(i)
-	return tc
+func (_c *TransformerCreate) SetUpdatedAt(v int64) *TransformerCreate {
+	_c.mutation.SetUpdatedAt(v)
+	return _c
 }
 
 // SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
-func (tc *TransformerCreate) SetNillableUpdatedAt(i *int64) *TransformerCreate {
-	if i != nil {
-		tc.SetUpdatedAt(*i)
+func (_c *TransformerCreate) SetNillableUpdatedAt(v *int64) *TransformerCreate {
+	if v != nil {
+		_c.SetUpdatedAt(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetType sets the "type" field.
-func (tc *TransformerCreate) SetType(s string) *TransformerCreate {
-	tc.mutation.SetType(s)
-	return tc
+func (_c *TransformerCreate) SetType(v string) *TransformerCreate {
+	_c.mutation.SetType(v)
+	return _c
 }
 
 // SetContent sets the "content" field.
-func (tc *TransformerCreate) SetContent(s string) *TransformerCreate {
-	tc.mutation.SetContent(s)
-	return tc
+func (_c *TransformerCreate) SetContent(v string) *TransformerCreate {
+	_c.mutation.SetContent(v)
+	return _c
 }
 
 // SetContentType sets the "content_type" field.
-func (tc *TransformerCreate) SetContentType(s string) *TransformerCreate {
-	tc.mutation.SetContentType(s)
-	return tc
+func (_c *TransformerCreate) SetContentType(v string) *TransformerCreate {
+	_c.mutation.SetContentType(v)
+	return _c
 }
 
 // SetNillableContentType sets the "content_type" field if the given value is not nil.
-func (tc *TransformerCreate) SetNillableContentType(s *string) *TransformerCreate {
-	if s != nil {
-		tc.SetContentType(*s)
+func (_c *TransformerCreate) SetNillableContentType(v *string) *TransformerCreate {
+	if v != nil {
+		_c.SetContentType(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetID sets the "id" field.
-func (tc *TransformerCreate) SetID(s string) *TransformerCreate {
-	tc.mutation.SetID(s)
-	return tc
+func (_c *TransformerCreate) SetID(v string) *TransformerCreate {
+	_c.mutation.SetID(v)
+	return _c
 }
 
 // SetNillableID sets the "id" field if the given value is not nil.
-func (tc *TransformerCreate) SetNillableID(s *string) *TransformerCreate {
-	if s != nil {
-		tc.SetID(*s)
+func (_c *TransformerCreate) SetNillableID(v *string) *TransformerCreate {
+	if v != nil {
+		_c.SetID(*v)
 	}
-	return tc
+	return _c
 }
 
 // Mutation returns the TransformerMutation object of the builder.
-func (tc *TransformerCreate) Mutation() *TransformerMutation {
-	return tc.mutation
+func (_c *TransformerCreate) Mutation() *TransformerMutation {
+	return _c.mutation
 }
 
 // Save creates the Transformer in the database.
-func (tc *TransformerCreate) Save(ctx context.Context) (*Transformer, error) {
-	tc.defaults()
-	return withHooks(ctx, tc.sqlSave, tc.mutation, tc.hooks)
+func (_c *TransformerCreate) Save(ctx context.Context) (*Transformer, error) {
+	_c.defaults()
+	return withHooks(ctx, _c.sqlSave, _c.mutation, _c.hooks)
 }
 
 // SaveX calls Save and panics if Save returns an error.
-func (tc *TransformerCreate) SaveX(ctx context.Context) *Transformer {
-	v, err := tc.Save(ctx)
+func (_c *TransformerCreate) SaveX(ctx context.Context) *Transformer {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -184,68 +184,68 @@ func (tc *TransformerCreate) SaveX(ctx context.Context) *Transformer {
 }
 
 // Exec executes the query.
-func (tc *TransformerCreate) Exec(ctx context.Context) error {
-	_, err := tc.Save(ctx)
+func (_c *TransformerCreate) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (tc *TransformerCreate) ExecX(ctx context.Context) {
-	if err := tc.Exec(ctx); err != nil {
+func (_c *TransformerCreate) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (tc *TransformerCreate) defaults() {
-	if _, ok := tc.mutation.Disabled(); !ok {
+func (_c *TransformerCreate) defaults() {
+	if _, ok := _c.mutation.Disabled(); !ok {
 		v := transformer.DefaultDisabled
-		tc.mutation.SetDisabled(v)
+		_c.mutation.SetDisabled(v)
 	}
-	if _, ok := tc.mutation.Extras(); !ok {
+	if _, ok := _c.mutation.Extras(); !ok {
 		v := transformer.DefaultExtras
-		tc.mutation.SetExtras(v)
+		_c.mutation.SetExtras(v)
 	}
-	if _, ok := tc.mutation.CreatedAt(); !ok {
+	if _, ok := _c.mutation.CreatedAt(); !ok {
 		v := transformer.DefaultCreatedAt()
-		tc.mutation.SetCreatedAt(v)
+		_c.mutation.SetCreatedAt(v)
 	}
-	if _, ok := tc.mutation.UpdatedAt(); !ok {
+	if _, ok := _c.mutation.UpdatedAt(); !ok {
 		v := transformer.DefaultUpdatedAt()
-		tc.mutation.SetUpdatedAt(v)
+		_c.mutation.SetUpdatedAt(v)
 	}
-	if _, ok := tc.mutation.ContentType(); !ok {
+	if _, ok := _c.mutation.ContentType(); !ok {
 		v := transformer.DefaultContentType
-		tc.mutation.SetContentType(v)
+		_c.mutation.SetContentType(v)
 	}
-	if _, ok := tc.mutation.ID(); !ok {
+	if _, ok := _c.mutation.ID(); !ok {
 		v := transformer.DefaultID()
-		tc.mutation.SetID(v)
+		_c.mutation.SetID(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (tc *TransformerCreate) check() error {
-	if _, ok := tc.mutation.GetType(); !ok {
+func (_c *TransformerCreate) check() error {
+	if _, ok := _c.mutation.GetType(); !ok {
 		return &ValidationError{Name: "type", err: errors.New(`ent: missing required field "Transformer.type"`)}
 	}
-	if v, ok := tc.mutation.GetType(); ok {
+	if v, ok := _c.mutation.GetType(); ok {
 		if err := transformer.TypeValidator(v); err != nil {
 			return &ValidationError{Name: "type", err: fmt.Errorf(`ent: validator failed for field "Transformer.type": %w`, err)}
 		}
 	}
-	if _, ok := tc.mutation.Content(); !ok {
+	if _, ok := _c.mutation.Content(); !ok {
 		return &ValidationError{Name: "content", err: errors.New(`ent: missing required field "Transformer.content"`)}
 	}
-	if v, ok := tc.mutation.Content(); ok {
+	if v, ok := _c.mutation.Content(); ok {
 		if err := transformer.ContentValidator(v); err != nil {
 			return &ValidationError{Name: "content", err: fmt.Errorf(`ent: validator failed for field "Transformer.content": %w`, err)}
 		}
 	}
-	if _, ok := tc.mutation.ContentType(); !ok {
+	if _, ok := _c.mutation.ContentType(); !ok {
 		return &ValidationError{Name: "content_type", err: errors.New(`ent: missing required field "Transformer.content_type"`)}
 	}
-	if v, ok := tc.mutation.ID(); ok {
+	if v, ok := _c.mutation.ID(); ok {
 		if err := transformer.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "Transformer.id": %w`, err)}
 		}
@@ -253,12 +253,12 @@ func (tc *TransformerCreate) check() error {
 	return nil
 }
 
-func (tc *TransformerCreate) sqlSave(ctx context.Context) (*Transformer, error) {
-	if err := tc.check(); err != nil {
+func (_c *TransformerCreate) sqlSave(ctx context.Context) (*Transformer, error) {
+	if err := _c.check(); err != nil {
 		return nil, err
 	}
-	_node, _spec := tc.createSpec()
-	if err := sqlgraph.CreateNode(ctx, tc.driver, _spec); err != nil {
+	_node, _spec := _c.createSpec()
+	if err := sqlgraph.CreateNode(ctx, _c.driver, _spec); err != nil {
 		if sqlgraph.IsConstraintError(err) {
 			err = &ConstraintError{msg: err.Error(), wrap: err}
 		}
@@ -271,61 +271,61 @@ func (tc *TransformerCreate) sqlSave(ctx context.Context) (*Transformer, error) 
 			return nil, fmt.Errorf("unexpected Transformer.ID type: %T", _spec.ID.Value)
 		}
 	}
-	tc.mutation.id = &_node.ID
-	tc.mutation.done = true
+	_c.mutation.id = &_node.ID
+	_c.mutation.done = true
 	return _node, nil
 }
 
-func (tc *TransformerCreate) createSpec() (*Transformer, *sqlgraph.CreateSpec) {
+func (_c *TransformerCreate) createSpec() (*Transformer, *sqlgraph.CreateSpec) {
 	var (
-		_node = &Transformer{config: tc.config}
+		_node = &Transformer{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(transformer.Table, sqlgraph.NewFieldSpec(transformer.FieldID, field.TypeString))
 	)
-	if id, ok := tc.mutation.ID(); ok {
+	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
 	}
-	if value, ok := tc.mutation.Name(); ok {
+	if value, ok := _c.mutation.Name(); ok {
 		_spec.SetField(transformer.FieldName, field.TypeString, value)
 		_node.Name = value
 	}
-	if value, ok := tc.mutation.Description(); ok {
+	if value, ok := _c.mutation.Description(); ok {
 		_spec.SetField(transformer.FieldDescription, field.TypeString, value)
 		_node.Description = value
 	}
-	if value, ok := tc.mutation.Disabled(); ok {
+	if value, ok := _c.mutation.Disabled(); ok {
 		_spec.SetField(transformer.FieldDisabled, field.TypeBool, value)
 		_node.Disabled = value
 	}
-	if value, ok := tc.mutation.Extras(); ok {
+	if value, ok := _c.mutation.Extras(); ok {
 		_spec.SetField(transformer.FieldExtras, field.TypeJSON, value)
 		_node.Extras = value
 	}
-	if value, ok := tc.mutation.CreatedBy(); ok {
+	if value, ok := _c.mutation.CreatedBy(); ok {
 		_spec.SetField(transformer.FieldCreatedBy, field.TypeString, value)
 		_node.CreatedBy = value
 	}
-	if value, ok := tc.mutation.UpdatedBy(); ok {
+	if value, ok := _c.mutation.UpdatedBy(); ok {
 		_spec.SetField(transformer.FieldUpdatedBy, field.TypeString, value)
 		_node.UpdatedBy = value
 	}
-	if value, ok := tc.mutation.CreatedAt(); ok {
+	if value, ok := _c.mutation.CreatedAt(); ok {
 		_spec.SetField(transformer.FieldCreatedAt, field.TypeInt64, value)
 		_node.CreatedAt = value
 	}
-	if value, ok := tc.mutation.UpdatedAt(); ok {
+	if value, ok := _c.mutation.UpdatedAt(); ok {
 		_spec.SetField(transformer.FieldUpdatedAt, field.TypeInt64, value)
 		_node.UpdatedAt = value
 	}
-	if value, ok := tc.mutation.GetType(); ok {
+	if value, ok := _c.mutation.GetType(); ok {
 		_spec.SetField(transformer.FieldType, field.TypeString, value)
 		_node.Type = value
 	}
-	if value, ok := tc.mutation.Content(); ok {
+	if value, ok := _c.mutation.Content(); ok {
 		_spec.SetField(transformer.FieldContent, field.TypeString, value)
 		_node.Content = value
 	}
-	if value, ok := tc.mutation.ContentType(); ok {
+	if value, ok := _c.mutation.ContentType(); ok {
 		_spec.SetField(transformer.FieldContentType, field.TypeString, value)
 		_node.ContentType = value
 	}
@@ -340,16 +340,16 @@ type TransformerCreateBulk struct {
 }
 
 // Save creates the Transformer entities in the database.
-func (tcb *TransformerCreateBulk) Save(ctx context.Context) ([]*Transformer, error) {
-	if tcb.err != nil {
-		return nil, tcb.err
+func (_c *TransformerCreateBulk) Save(ctx context.Context) ([]*Transformer, error) {
+	if _c.err != nil {
+		return nil, _c.err
 	}
-	specs := make([]*sqlgraph.CreateSpec, len(tcb.builders))
-	nodes := make([]*Transformer, len(tcb.builders))
-	mutators := make([]Mutator, len(tcb.builders))
-	for i := range tcb.builders {
+	specs := make([]*sqlgraph.CreateSpec, len(_c.builders))
+	nodes := make([]*Transformer, len(_c.builders))
+	mutators := make([]Mutator, len(_c.builders))
+	for i := range _c.builders {
 		func(i int, root context.Context) {
-			builder := tcb.builders[i]
+			builder := _c.builders[i]
 			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*TransformerMutation)
@@ -363,11 +363,11 @@ func (tcb *TransformerCreateBulk) Save(ctx context.Context) ([]*Transformer, err
 				var err error
 				nodes[i], specs[i] = builder.createSpec()
 				if i < len(mutators)-1 {
-					_, err = mutators[i+1].Mutate(root, tcb.builders[i+1].mutation)
+					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
 					// Invoke the actual operation on the latest mutation in the chain.
-					if err = sqlgraph.BatchCreate(ctx, tcb.driver, spec); err != nil {
+					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
 							err = &ConstraintError{msg: err.Error(), wrap: err}
 						}
@@ -387,7 +387,7 @@ func (tcb *TransformerCreateBulk) Save(ctx context.Context) ([]*Transformer, err
 		}(i, ctx)
 	}
 	if len(mutators) > 0 {
-		if _, err := mutators[0].Mutate(ctx, tcb.builders[0].mutation); err != nil {
+		if _, err := mutators[0].Mutate(ctx, _c.builders[0].mutation); err != nil {
 			return nil, err
 		}
 	}
@@ -395,8 +395,8 @@ func (tcb *TransformerCreateBulk) Save(ctx context.Context) ([]*Transformer, err
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (tcb *TransformerCreateBulk) SaveX(ctx context.Context) []*Transformer {
-	v, err := tcb.Save(ctx)
+func (_c *TransformerCreateBulk) SaveX(ctx context.Context) []*Transformer {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -404,14 +404,14 @@ func (tcb *TransformerCreateBulk) SaveX(ctx context.Context) []*Transformer {
 }
 
 // Exec executes the query.
-func (tcb *TransformerCreateBulk) Exec(ctx context.Context) error {
-	_, err := tcb.Save(ctx)
+func (_c *TransformerCreateBulk) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (tcb *TransformerCreateBulk) ExecX(ctx context.Context) {
-	if err := tcb.Exec(ctx); err != nil {
+func (_c *TransformerCreateBulk) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

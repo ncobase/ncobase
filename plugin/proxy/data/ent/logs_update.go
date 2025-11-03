@@ -22,282 +22,282 @@ type LogsUpdate struct {
 }
 
 // Where appends a list predicates to the LogsUpdate builder.
-func (lu *LogsUpdate) Where(ps ...predicate.Logs) *LogsUpdate {
-	lu.mutation.Where(ps...)
-	return lu
+func (_u *LogsUpdate) Where(ps ...predicate.Logs) *LogsUpdate {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (lu *LogsUpdate) SetUpdatedAt(i int64) *LogsUpdate {
-	lu.mutation.ResetUpdatedAt()
-	lu.mutation.SetUpdatedAt(i)
-	return lu
+func (_u *LogsUpdate) SetUpdatedAt(v int64) *LogsUpdate {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (lu *LogsUpdate) AddUpdatedAt(i int64) *LogsUpdate {
-	lu.mutation.AddUpdatedAt(i)
-	return lu
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *LogsUpdate) AddUpdatedAt(v int64) *LogsUpdate {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (lu *LogsUpdate) ClearUpdatedAt() *LogsUpdate {
-	lu.mutation.ClearUpdatedAt()
-	return lu
+func (_u *LogsUpdate) ClearUpdatedAt() *LogsUpdate {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // SetEndpointID sets the "endpoint_id" field.
-func (lu *LogsUpdate) SetEndpointID(s string) *LogsUpdate {
-	lu.mutation.SetEndpointID(s)
-	return lu
+func (_u *LogsUpdate) SetEndpointID(v string) *LogsUpdate {
+	_u.mutation.SetEndpointID(v)
+	return _u
 }
 
 // SetNillableEndpointID sets the "endpoint_id" field if the given value is not nil.
-func (lu *LogsUpdate) SetNillableEndpointID(s *string) *LogsUpdate {
-	if s != nil {
-		lu.SetEndpointID(*s)
+func (_u *LogsUpdate) SetNillableEndpointID(v *string) *LogsUpdate {
+	if v != nil {
+		_u.SetEndpointID(*v)
 	}
-	return lu
+	return _u
 }
 
 // SetRouteID sets the "route_id" field.
-func (lu *LogsUpdate) SetRouteID(s string) *LogsUpdate {
-	lu.mutation.SetRouteID(s)
-	return lu
+func (_u *LogsUpdate) SetRouteID(v string) *LogsUpdate {
+	_u.mutation.SetRouteID(v)
+	return _u
 }
 
 // SetNillableRouteID sets the "route_id" field if the given value is not nil.
-func (lu *LogsUpdate) SetNillableRouteID(s *string) *LogsUpdate {
-	if s != nil {
-		lu.SetRouteID(*s)
+func (_u *LogsUpdate) SetNillableRouteID(v *string) *LogsUpdate {
+	if v != nil {
+		_u.SetRouteID(*v)
 	}
-	return lu
+	return _u
 }
 
 // SetRequestMethod sets the "request_method" field.
-func (lu *LogsUpdate) SetRequestMethod(s string) *LogsUpdate {
-	lu.mutation.SetRequestMethod(s)
-	return lu
+func (_u *LogsUpdate) SetRequestMethod(v string) *LogsUpdate {
+	_u.mutation.SetRequestMethod(v)
+	return _u
 }
 
 // SetNillableRequestMethod sets the "request_method" field if the given value is not nil.
-func (lu *LogsUpdate) SetNillableRequestMethod(s *string) *LogsUpdate {
-	if s != nil {
-		lu.SetRequestMethod(*s)
+func (_u *LogsUpdate) SetNillableRequestMethod(v *string) *LogsUpdate {
+	if v != nil {
+		_u.SetRequestMethod(*v)
 	}
-	return lu
+	return _u
 }
 
 // SetRequestPath sets the "request_path" field.
-func (lu *LogsUpdate) SetRequestPath(s string) *LogsUpdate {
-	lu.mutation.SetRequestPath(s)
-	return lu
+func (_u *LogsUpdate) SetRequestPath(v string) *LogsUpdate {
+	_u.mutation.SetRequestPath(v)
+	return _u
 }
 
 // SetNillableRequestPath sets the "request_path" field if the given value is not nil.
-func (lu *LogsUpdate) SetNillableRequestPath(s *string) *LogsUpdate {
-	if s != nil {
-		lu.SetRequestPath(*s)
+func (_u *LogsUpdate) SetNillableRequestPath(v *string) *LogsUpdate {
+	if v != nil {
+		_u.SetRequestPath(*v)
 	}
-	return lu
+	return _u
 }
 
 // SetRequestHeaders sets the "request_headers" field.
-func (lu *LogsUpdate) SetRequestHeaders(s string) *LogsUpdate {
-	lu.mutation.SetRequestHeaders(s)
-	return lu
+func (_u *LogsUpdate) SetRequestHeaders(v string) *LogsUpdate {
+	_u.mutation.SetRequestHeaders(v)
+	return _u
 }
 
 // SetNillableRequestHeaders sets the "request_headers" field if the given value is not nil.
-func (lu *LogsUpdate) SetNillableRequestHeaders(s *string) *LogsUpdate {
-	if s != nil {
-		lu.SetRequestHeaders(*s)
+func (_u *LogsUpdate) SetNillableRequestHeaders(v *string) *LogsUpdate {
+	if v != nil {
+		_u.SetRequestHeaders(*v)
 	}
-	return lu
+	return _u
 }
 
 // ClearRequestHeaders clears the value of the "request_headers" field.
-func (lu *LogsUpdate) ClearRequestHeaders() *LogsUpdate {
-	lu.mutation.ClearRequestHeaders()
-	return lu
+func (_u *LogsUpdate) ClearRequestHeaders() *LogsUpdate {
+	_u.mutation.ClearRequestHeaders()
+	return _u
 }
 
 // SetRequestBody sets the "request_body" field.
-func (lu *LogsUpdate) SetRequestBody(s string) *LogsUpdate {
-	lu.mutation.SetRequestBody(s)
-	return lu
+func (_u *LogsUpdate) SetRequestBody(v string) *LogsUpdate {
+	_u.mutation.SetRequestBody(v)
+	return _u
 }
 
 // SetNillableRequestBody sets the "request_body" field if the given value is not nil.
-func (lu *LogsUpdate) SetNillableRequestBody(s *string) *LogsUpdate {
-	if s != nil {
-		lu.SetRequestBody(*s)
+func (_u *LogsUpdate) SetNillableRequestBody(v *string) *LogsUpdate {
+	if v != nil {
+		_u.SetRequestBody(*v)
 	}
-	return lu
+	return _u
 }
 
 // ClearRequestBody clears the value of the "request_body" field.
-func (lu *LogsUpdate) ClearRequestBody() *LogsUpdate {
-	lu.mutation.ClearRequestBody()
-	return lu
+func (_u *LogsUpdate) ClearRequestBody() *LogsUpdate {
+	_u.mutation.ClearRequestBody()
+	return _u
 }
 
 // SetStatusCode sets the "status_code" field.
-func (lu *LogsUpdate) SetStatusCode(i int) *LogsUpdate {
-	lu.mutation.ResetStatusCode()
-	lu.mutation.SetStatusCode(i)
-	return lu
+func (_u *LogsUpdate) SetStatusCode(v int) *LogsUpdate {
+	_u.mutation.ResetStatusCode()
+	_u.mutation.SetStatusCode(v)
+	return _u
 }
 
 // SetNillableStatusCode sets the "status_code" field if the given value is not nil.
-func (lu *LogsUpdate) SetNillableStatusCode(i *int) *LogsUpdate {
-	if i != nil {
-		lu.SetStatusCode(*i)
+func (_u *LogsUpdate) SetNillableStatusCode(v *int) *LogsUpdate {
+	if v != nil {
+		_u.SetStatusCode(*v)
 	}
-	return lu
+	return _u
 }
 
-// AddStatusCode adds i to the "status_code" field.
-func (lu *LogsUpdate) AddStatusCode(i int) *LogsUpdate {
-	lu.mutation.AddStatusCode(i)
-	return lu
+// AddStatusCode adds value to the "status_code" field.
+func (_u *LogsUpdate) AddStatusCode(v int) *LogsUpdate {
+	_u.mutation.AddStatusCode(v)
+	return _u
 }
 
 // SetResponseHeaders sets the "response_headers" field.
-func (lu *LogsUpdate) SetResponseHeaders(s string) *LogsUpdate {
-	lu.mutation.SetResponseHeaders(s)
-	return lu
+func (_u *LogsUpdate) SetResponseHeaders(v string) *LogsUpdate {
+	_u.mutation.SetResponseHeaders(v)
+	return _u
 }
 
 // SetNillableResponseHeaders sets the "response_headers" field if the given value is not nil.
-func (lu *LogsUpdate) SetNillableResponseHeaders(s *string) *LogsUpdate {
-	if s != nil {
-		lu.SetResponseHeaders(*s)
+func (_u *LogsUpdate) SetNillableResponseHeaders(v *string) *LogsUpdate {
+	if v != nil {
+		_u.SetResponseHeaders(*v)
 	}
-	return lu
+	return _u
 }
 
 // ClearResponseHeaders clears the value of the "response_headers" field.
-func (lu *LogsUpdate) ClearResponseHeaders() *LogsUpdate {
-	lu.mutation.ClearResponseHeaders()
-	return lu
+func (_u *LogsUpdate) ClearResponseHeaders() *LogsUpdate {
+	_u.mutation.ClearResponseHeaders()
+	return _u
 }
 
 // SetResponseBody sets the "response_body" field.
-func (lu *LogsUpdate) SetResponseBody(s string) *LogsUpdate {
-	lu.mutation.SetResponseBody(s)
-	return lu
+func (_u *LogsUpdate) SetResponseBody(v string) *LogsUpdate {
+	_u.mutation.SetResponseBody(v)
+	return _u
 }
 
 // SetNillableResponseBody sets the "response_body" field if the given value is not nil.
-func (lu *LogsUpdate) SetNillableResponseBody(s *string) *LogsUpdate {
-	if s != nil {
-		lu.SetResponseBody(*s)
+func (_u *LogsUpdate) SetNillableResponseBody(v *string) *LogsUpdate {
+	if v != nil {
+		_u.SetResponseBody(*v)
 	}
-	return lu
+	return _u
 }
 
 // ClearResponseBody clears the value of the "response_body" field.
-func (lu *LogsUpdate) ClearResponseBody() *LogsUpdate {
-	lu.mutation.ClearResponseBody()
-	return lu
+func (_u *LogsUpdate) ClearResponseBody() *LogsUpdate {
+	_u.mutation.ClearResponseBody()
+	return _u
 }
 
 // SetDuration sets the "duration" field.
-func (lu *LogsUpdate) SetDuration(i int) *LogsUpdate {
-	lu.mutation.ResetDuration()
-	lu.mutation.SetDuration(i)
-	return lu
+func (_u *LogsUpdate) SetDuration(v int) *LogsUpdate {
+	_u.mutation.ResetDuration()
+	_u.mutation.SetDuration(v)
+	return _u
 }
 
 // SetNillableDuration sets the "duration" field if the given value is not nil.
-func (lu *LogsUpdate) SetNillableDuration(i *int) *LogsUpdate {
-	if i != nil {
-		lu.SetDuration(*i)
+func (_u *LogsUpdate) SetNillableDuration(v *int) *LogsUpdate {
+	if v != nil {
+		_u.SetDuration(*v)
 	}
-	return lu
+	return _u
 }
 
-// AddDuration adds i to the "duration" field.
-func (lu *LogsUpdate) AddDuration(i int) *LogsUpdate {
-	lu.mutation.AddDuration(i)
-	return lu
+// AddDuration adds value to the "duration" field.
+func (_u *LogsUpdate) AddDuration(v int) *LogsUpdate {
+	_u.mutation.AddDuration(v)
+	return _u
 }
 
 // SetError sets the "error" field.
-func (lu *LogsUpdate) SetError(s string) *LogsUpdate {
-	lu.mutation.SetError(s)
-	return lu
+func (_u *LogsUpdate) SetError(v string) *LogsUpdate {
+	_u.mutation.SetError(v)
+	return _u
 }
 
 // SetNillableError sets the "error" field if the given value is not nil.
-func (lu *LogsUpdate) SetNillableError(s *string) *LogsUpdate {
-	if s != nil {
-		lu.SetError(*s)
+func (_u *LogsUpdate) SetNillableError(v *string) *LogsUpdate {
+	if v != nil {
+		_u.SetError(*v)
 	}
-	return lu
+	return _u
 }
 
 // ClearError clears the value of the "error" field.
-func (lu *LogsUpdate) ClearError() *LogsUpdate {
-	lu.mutation.ClearError()
-	return lu
+func (_u *LogsUpdate) ClearError() *LogsUpdate {
+	_u.mutation.ClearError()
+	return _u
 }
 
 // SetClientIP sets the "client_ip" field.
-func (lu *LogsUpdate) SetClientIP(s string) *LogsUpdate {
-	lu.mutation.SetClientIP(s)
-	return lu
+func (_u *LogsUpdate) SetClientIP(v string) *LogsUpdate {
+	_u.mutation.SetClientIP(v)
+	return _u
 }
 
 // SetNillableClientIP sets the "client_ip" field if the given value is not nil.
-func (lu *LogsUpdate) SetNillableClientIP(s *string) *LogsUpdate {
-	if s != nil {
-		lu.SetClientIP(*s)
+func (_u *LogsUpdate) SetNillableClientIP(v *string) *LogsUpdate {
+	if v != nil {
+		_u.SetClientIP(*v)
 	}
-	return lu
+	return _u
 }
 
 // ClearClientIP clears the value of the "client_ip" field.
-func (lu *LogsUpdate) ClearClientIP() *LogsUpdate {
-	lu.mutation.ClearClientIP()
-	return lu
+func (_u *LogsUpdate) ClearClientIP() *LogsUpdate {
+	_u.mutation.ClearClientIP()
+	return _u
 }
 
 // SetUserID sets the "user_id" field.
-func (lu *LogsUpdate) SetUserID(s string) *LogsUpdate {
-	lu.mutation.SetUserID(s)
-	return lu
+func (_u *LogsUpdate) SetUserID(v string) *LogsUpdate {
+	_u.mutation.SetUserID(v)
+	return _u
 }
 
 // SetNillableUserID sets the "user_id" field if the given value is not nil.
-func (lu *LogsUpdate) SetNillableUserID(s *string) *LogsUpdate {
-	if s != nil {
-		lu.SetUserID(*s)
+func (_u *LogsUpdate) SetNillableUserID(v *string) *LogsUpdate {
+	if v != nil {
+		_u.SetUserID(*v)
 	}
-	return lu
+	return _u
 }
 
 // ClearUserID clears the value of the "user_id" field.
-func (lu *LogsUpdate) ClearUserID() *LogsUpdate {
-	lu.mutation.ClearUserID()
-	return lu
+func (_u *LogsUpdate) ClearUserID() *LogsUpdate {
+	_u.mutation.ClearUserID()
+	return _u
 }
 
 // Mutation returns the LogsMutation object of the builder.
-func (lu *LogsUpdate) Mutation() *LogsMutation {
-	return lu.mutation
+func (_u *LogsUpdate) Mutation() *LogsMutation {
+	return _u.mutation
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
-func (lu *LogsUpdate) Save(ctx context.Context) (int, error) {
-	lu.defaults()
-	return withHooks(ctx, lu.sqlSave, lu.mutation, lu.hooks)
+func (_u *LogsUpdate) Save(ctx context.Context) (int, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (lu *LogsUpdate) SaveX(ctx context.Context) int {
-	affected, err := lu.Save(ctx)
+func (_u *LogsUpdate) SaveX(ctx context.Context) int {
+	affected, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -305,114 +305,114 @@ func (lu *LogsUpdate) SaveX(ctx context.Context) int {
 }
 
 // Exec executes the query.
-func (lu *LogsUpdate) Exec(ctx context.Context) error {
-	_, err := lu.Save(ctx)
+func (_u *LogsUpdate) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (lu *LogsUpdate) ExecX(ctx context.Context) {
-	if err := lu.Exec(ctx); err != nil {
+func (_u *LogsUpdate) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (lu *LogsUpdate) defaults() {
-	if _, ok := lu.mutation.UpdatedAt(); !ok && !lu.mutation.UpdatedAtCleared() {
+func (_u *LogsUpdate) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := logs.UpdateDefaultUpdatedAt()
-		lu.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (lu *LogsUpdate) sqlSave(ctx context.Context) (n int, err error) {
+func (_u *LogsUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	_spec := sqlgraph.NewUpdateSpec(logs.Table, logs.Columns, sqlgraph.NewFieldSpec(logs.FieldID, field.TypeString))
-	if ps := lu.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if lu.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(logs.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := lu.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(logs.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := lu.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(logs.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if lu.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(logs.FieldUpdatedAt, field.TypeInt64)
 	}
-	if value, ok := lu.mutation.EndpointID(); ok {
+	if value, ok := _u.mutation.EndpointID(); ok {
 		_spec.SetField(logs.FieldEndpointID, field.TypeString, value)
 	}
-	if value, ok := lu.mutation.RouteID(); ok {
+	if value, ok := _u.mutation.RouteID(); ok {
 		_spec.SetField(logs.FieldRouteID, field.TypeString, value)
 	}
-	if value, ok := lu.mutation.RequestMethod(); ok {
+	if value, ok := _u.mutation.RequestMethod(); ok {
 		_spec.SetField(logs.FieldRequestMethod, field.TypeString, value)
 	}
-	if value, ok := lu.mutation.RequestPath(); ok {
+	if value, ok := _u.mutation.RequestPath(); ok {
 		_spec.SetField(logs.FieldRequestPath, field.TypeString, value)
 	}
-	if value, ok := lu.mutation.RequestHeaders(); ok {
+	if value, ok := _u.mutation.RequestHeaders(); ok {
 		_spec.SetField(logs.FieldRequestHeaders, field.TypeString, value)
 	}
-	if lu.mutation.RequestHeadersCleared() {
+	if _u.mutation.RequestHeadersCleared() {
 		_spec.ClearField(logs.FieldRequestHeaders, field.TypeString)
 	}
-	if value, ok := lu.mutation.RequestBody(); ok {
+	if value, ok := _u.mutation.RequestBody(); ok {
 		_spec.SetField(logs.FieldRequestBody, field.TypeString, value)
 	}
-	if lu.mutation.RequestBodyCleared() {
+	if _u.mutation.RequestBodyCleared() {
 		_spec.ClearField(logs.FieldRequestBody, field.TypeString)
 	}
-	if value, ok := lu.mutation.StatusCode(); ok {
+	if value, ok := _u.mutation.StatusCode(); ok {
 		_spec.SetField(logs.FieldStatusCode, field.TypeInt, value)
 	}
-	if value, ok := lu.mutation.AddedStatusCode(); ok {
+	if value, ok := _u.mutation.AddedStatusCode(); ok {
 		_spec.AddField(logs.FieldStatusCode, field.TypeInt, value)
 	}
-	if value, ok := lu.mutation.ResponseHeaders(); ok {
+	if value, ok := _u.mutation.ResponseHeaders(); ok {
 		_spec.SetField(logs.FieldResponseHeaders, field.TypeString, value)
 	}
-	if lu.mutation.ResponseHeadersCleared() {
+	if _u.mutation.ResponseHeadersCleared() {
 		_spec.ClearField(logs.FieldResponseHeaders, field.TypeString)
 	}
-	if value, ok := lu.mutation.ResponseBody(); ok {
+	if value, ok := _u.mutation.ResponseBody(); ok {
 		_spec.SetField(logs.FieldResponseBody, field.TypeString, value)
 	}
-	if lu.mutation.ResponseBodyCleared() {
+	if _u.mutation.ResponseBodyCleared() {
 		_spec.ClearField(logs.FieldResponseBody, field.TypeString)
 	}
-	if value, ok := lu.mutation.Duration(); ok {
+	if value, ok := _u.mutation.Duration(); ok {
 		_spec.SetField(logs.FieldDuration, field.TypeInt, value)
 	}
-	if value, ok := lu.mutation.AddedDuration(); ok {
+	if value, ok := _u.mutation.AddedDuration(); ok {
 		_spec.AddField(logs.FieldDuration, field.TypeInt, value)
 	}
-	if value, ok := lu.mutation.Error(); ok {
+	if value, ok := _u.mutation.Error(); ok {
 		_spec.SetField(logs.FieldError, field.TypeString, value)
 	}
-	if lu.mutation.ErrorCleared() {
+	if _u.mutation.ErrorCleared() {
 		_spec.ClearField(logs.FieldError, field.TypeString)
 	}
-	if value, ok := lu.mutation.ClientIP(); ok {
+	if value, ok := _u.mutation.ClientIP(); ok {
 		_spec.SetField(logs.FieldClientIP, field.TypeString, value)
 	}
-	if lu.mutation.ClientIPCleared() {
+	if _u.mutation.ClientIPCleared() {
 		_spec.ClearField(logs.FieldClientIP, field.TypeString)
 	}
-	if value, ok := lu.mutation.UserID(); ok {
+	if value, ok := _u.mutation.UserID(); ok {
 		_spec.SetField(logs.FieldUserID, field.TypeString, value)
 	}
-	if lu.mutation.UserIDCleared() {
+	if _u.mutation.UserIDCleared() {
 		_spec.ClearField(logs.FieldUserID, field.TypeString)
 	}
-	if n, err = sqlgraph.UpdateNodes(ctx, lu.driver, _spec); err != nil {
+	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{logs.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -420,8 +420,8 @@ func (lu *LogsUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		return 0, err
 	}
-	lu.mutation.done = true
-	return n, nil
+	_u.mutation.done = true
+	return _node, nil
 }
 
 // LogsUpdateOne is the builder for updating a single Logs entity.
@@ -433,289 +433,289 @@ type LogsUpdateOne struct {
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (luo *LogsUpdateOne) SetUpdatedAt(i int64) *LogsUpdateOne {
-	luo.mutation.ResetUpdatedAt()
-	luo.mutation.SetUpdatedAt(i)
-	return luo
+func (_u *LogsUpdateOne) SetUpdatedAt(v int64) *LogsUpdateOne {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (luo *LogsUpdateOne) AddUpdatedAt(i int64) *LogsUpdateOne {
-	luo.mutation.AddUpdatedAt(i)
-	return luo
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *LogsUpdateOne) AddUpdatedAt(v int64) *LogsUpdateOne {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (luo *LogsUpdateOne) ClearUpdatedAt() *LogsUpdateOne {
-	luo.mutation.ClearUpdatedAt()
-	return luo
+func (_u *LogsUpdateOne) ClearUpdatedAt() *LogsUpdateOne {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // SetEndpointID sets the "endpoint_id" field.
-func (luo *LogsUpdateOne) SetEndpointID(s string) *LogsUpdateOne {
-	luo.mutation.SetEndpointID(s)
-	return luo
+func (_u *LogsUpdateOne) SetEndpointID(v string) *LogsUpdateOne {
+	_u.mutation.SetEndpointID(v)
+	return _u
 }
 
 // SetNillableEndpointID sets the "endpoint_id" field if the given value is not nil.
-func (luo *LogsUpdateOne) SetNillableEndpointID(s *string) *LogsUpdateOne {
-	if s != nil {
-		luo.SetEndpointID(*s)
+func (_u *LogsUpdateOne) SetNillableEndpointID(v *string) *LogsUpdateOne {
+	if v != nil {
+		_u.SetEndpointID(*v)
 	}
-	return luo
+	return _u
 }
 
 // SetRouteID sets the "route_id" field.
-func (luo *LogsUpdateOne) SetRouteID(s string) *LogsUpdateOne {
-	luo.mutation.SetRouteID(s)
-	return luo
+func (_u *LogsUpdateOne) SetRouteID(v string) *LogsUpdateOne {
+	_u.mutation.SetRouteID(v)
+	return _u
 }
 
 // SetNillableRouteID sets the "route_id" field if the given value is not nil.
-func (luo *LogsUpdateOne) SetNillableRouteID(s *string) *LogsUpdateOne {
-	if s != nil {
-		luo.SetRouteID(*s)
+func (_u *LogsUpdateOne) SetNillableRouteID(v *string) *LogsUpdateOne {
+	if v != nil {
+		_u.SetRouteID(*v)
 	}
-	return luo
+	return _u
 }
 
 // SetRequestMethod sets the "request_method" field.
-func (luo *LogsUpdateOne) SetRequestMethod(s string) *LogsUpdateOne {
-	luo.mutation.SetRequestMethod(s)
-	return luo
+func (_u *LogsUpdateOne) SetRequestMethod(v string) *LogsUpdateOne {
+	_u.mutation.SetRequestMethod(v)
+	return _u
 }
 
 // SetNillableRequestMethod sets the "request_method" field if the given value is not nil.
-func (luo *LogsUpdateOne) SetNillableRequestMethod(s *string) *LogsUpdateOne {
-	if s != nil {
-		luo.SetRequestMethod(*s)
+func (_u *LogsUpdateOne) SetNillableRequestMethod(v *string) *LogsUpdateOne {
+	if v != nil {
+		_u.SetRequestMethod(*v)
 	}
-	return luo
+	return _u
 }
 
 // SetRequestPath sets the "request_path" field.
-func (luo *LogsUpdateOne) SetRequestPath(s string) *LogsUpdateOne {
-	luo.mutation.SetRequestPath(s)
-	return luo
+func (_u *LogsUpdateOne) SetRequestPath(v string) *LogsUpdateOne {
+	_u.mutation.SetRequestPath(v)
+	return _u
 }
 
 // SetNillableRequestPath sets the "request_path" field if the given value is not nil.
-func (luo *LogsUpdateOne) SetNillableRequestPath(s *string) *LogsUpdateOne {
-	if s != nil {
-		luo.SetRequestPath(*s)
+func (_u *LogsUpdateOne) SetNillableRequestPath(v *string) *LogsUpdateOne {
+	if v != nil {
+		_u.SetRequestPath(*v)
 	}
-	return luo
+	return _u
 }
 
 // SetRequestHeaders sets the "request_headers" field.
-func (luo *LogsUpdateOne) SetRequestHeaders(s string) *LogsUpdateOne {
-	luo.mutation.SetRequestHeaders(s)
-	return luo
+func (_u *LogsUpdateOne) SetRequestHeaders(v string) *LogsUpdateOne {
+	_u.mutation.SetRequestHeaders(v)
+	return _u
 }
 
 // SetNillableRequestHeaders sets the "request_headers" field if the given value is not nil.
-func (luo *LogsUpdateOne) SetNillableRequestHeaders(s *string) *LogsUpdateOne {
-	if s != nil {
-		luo.SetRequestHeaders(*s)
+func (_u *LogsUpdateOne) SetNillableRequestHeaders(v *string) *LogsUpdateOne {
+	if v != nil {
+		_u.SetRequestHeaders(*v)
 	}
-	return luo
+	return _u
 }
 
 // ClearRequestHeaders clears the value of the "request_headers" field.
-func (luo *LogsUpdateOne) ClearRequestHeaders() *LogsUpdateOne {
-	luo.mutation.ClearRequestHeaders()
-	return luo
+func (_u *LogsUpdateOne) ClearRequestHeaders() *LogsUpdateOne {
+	_u.mutation.ClearRequestHeaders()
+	return _u
 }
 
 // SetRequestBody sets the "request_body" field.
-func (luo *LogsUpdateOne) SetRequestBody(s string) *LogsUpdateOne {
-	luo.mutation.SetRequestBody(s)
-	return luo
+func (_u *LogsUpdateOne) SetRequestBody(v string) *LogsUpdateOne {
+	_u.mutation.SetRequestBody(v)
+	return _u
 }
 
 // SetNillableRequestBody sets the "request_body" field if the given value is not nil.
-func (luo *LogsUpdateOne) SetNillableRequestBody(s *string) *LogsUpdateOne {
-	if s != nil {
-		luo.SetRequestBody(*s)
+func (_u *LogsUpdateOne) SetNillableRequestBody(v *string) *LogsUpdateOne {
+	if v != nil {
+		_u.SetRequestBody(*v)
 	}
-	return luo
+	return _u
 }
 
 // ClearRequestBody clears the value of the "request_body" field.
-func (luo *LogsUpdateOne) ClearRequestBody() *LogsUpdateOne {
-	luo.mutation.ClearRequestBody()
-	return luo
+func (_u *LogsUpdateOne) ClearRequestBody() *LogsUpdateOne {
+	_u.mutation.ClearRequestBody()
+	return _u
 }
 
 // SetStatusCode sets the "status_code" field.
-func (luo *LogsUpdateOne) SetStatusCode(i int) *LogsUpdateOne {
-	luo.mutation.ResetStatusCode()
-	luo.mutation.SetStatusCode(i)
-	return luo
+func (_u *LogsUpdateOne) SetStatusCode(v int) *LogsUpdateOne {
+	_u.mutation.ResetStatusCode()
+	_u.mutation.SetStatusCode(v)
+	return _u
 }
 
 // SetNillableStatusCode sets the "status_code" field if the given value is not nil.
-func (luo *LogsUpdateOne) SetNillableStatusCode(i *int) *LogsUpdateOne {
-	if i != nil {
-		luo.SetStatusCode(*i)
+func (_u *LogsUpdateOne) SetNillableStatusCode(v *int) *LogsUpdateOne {
+	if v != nil {
+		_u.SetStatusCode(*v)
 	}
-	return luo
+	return _u
 }
 
-// AddStatusCode adds i to the "status_code" field.
-func (luo *LogsUpdateOne) AddStatusCode(i int) *LogsUpdateOne {
-	luo.mutation.AddStatusCode(i)
-	return luo
+// AddStatusCode adds value to the "status_code" field.
+func (_u *LogsUpdateOne) AddStatusCode(v int) *LogsUpdateOne {
+	_u.mutation.AddStatusCode(v)
+	return _u
 }
 
 // SetResponseHeaders sets the "response_headers" field.
-func (luo *LogsUpdateOne) SetResponseHeaders(s string) *LogsUpdateOne {
-	luo.mutation.SetResponseHeaders(s)
-	return luo
+func (_u *LogsUpdateOne) SetResponseHeaders(v string) *LogsUpdateOne {
+	_u.mutation.SetResponseHeaders(v)
+	return _u
 }
 
 // SetNillableResponseHeaders sets the "response_headers" field if the given value is not nil.
-func (luo *LogsUpdateOne) SetNillableResponseHeaders(s *string) *LogsUpdateOne {
-	if s != nil {
-		luo.SetResponseHeaders(*s)
+func (_u *LogsUpdateOne) SetNillableResponseHeaders(v *string) *LogsUpdateOne {
+	if v != nil {
+		_u.SetResponseHeaders(*v)
 	}
-	return luo
+	return _u
 }
 
 // ClearResponseHeaders clears the value of the "response_headers" field.
-func (luo *LogsUpdateOne) ClearResponseHeaders() *LogsUpdateOne {
-	luo.mutation.ClearResponseHeaders()
-	return luo
+func (_u *LogsUpdateOne) ClearResponseHeaders() *LogsUpdateOne {
+	_u.mutation.ClearResponseHeaders()
+	return _u
 }
 
 // SetResponseBody sets the "response_body" field.
-func (luo *LogsUpdateOne) SetResponseBody(s string) *LogsUpdateOne {
-	luo.mutation.SetResponseBody(s)
-	return luo
+func (_u *LogsUpdateOne) SetResponseBody(v string) *LogsUpdateOne {
+	_u.mutation.SetResponseBody(v)
+	return _u
 }
 
 // SetNillableResponseBody sets the "response_body" field if the given value is not nil.
-func (luo *LogsUpdateOne) SetNillableResponseBody(s *string) *LogsUpdateOne {
-	if s != nil {
-		luo.SetResponseBody(*s)
+func (_u *LogsUpdateOne) SetNillableResponseBody(v *string) *LogsUpdateOne {
+	if v != nil {
+		_u.SetResponseBody(*v)
 	}
-	return luo
+	return _u
 }
 
 // ClearResponseBody clears the value of the "response_body" field.
-func (luo *LogsUpdateOne) ClearResponseBody() *LogsUpdateOne {
-	luo.mutation.ClearResponseBody()
-	return luo
+func (_u *LogsUpdateOne) ClearResponseBody() *LogsUpdateOne {
+	_u.mutation.ClearResponseBody()
+	return _u
 }
 
 // SetDuration sets the "duration" field.
-func (luo *LogsUpdateOne) SetDuration(i int) *LogsUpdateOne {
-	luo.mutation.ResetDuration()
-	luo.mutation.SetDuration(i)
-	return luo
+func (_u *LogsUpdateOne) SetDuration(v int) *LogsUpdateOne {
+	_u.mutation.ResetDuration()
+	_u.mutation.SetDuration(v)
+	return _u
 }
 
 // SetNillableDuration sets the "duration" field if the given value is not nil.
-func (luo *LogsUpdateOne) SetNillableDuration(i *int) *LogsUpdateOne {
-	if i != nil {
-		luo.SetDuration(*i)
+func (_u *LogsUpdateOne) SetNillableDuration(v *int) *LogsUpdateOne {
+	if v != nil {
+		_u.SetDuration(*v)
 	}
-	return luo
+	return _u
 }
 
-// AddDuration adds i to the "duration" field.
-func (luo *LogsUpdateOne) AddDuration(i int) *LogsUpdateOne {
-	luo.mutation.AddDuration(i)
-	return luo
+// AddDuration adds value to the "duration" field.
+func (_u *LogsUpdateOne) AddDuration(v int) *LogsUpdateOne {
+	_u.mutation.AddDuration(v)
+	return _u
 }
 
 // SetError sets the "error" field.
-func (luo *LogsUpdateOne) SetError(s string) *LogsUpdateOne {
-	luo.mutation.SetError(s)
-	return luo
+func (_u *LogsUpdateOne) SetError(v string) *LogsUpdateOne {
+	_u.mutation.SetError(v)
+	return _u
 }
 
 // SetNillableError sets the "error" field if the given value is not nil.
-func (luo *LogsUpdateOne) SetNillableError(s *string) *LogsUpdateOne {
-	if s != nil {
-		luo.SetError(*s)
+func (_u *LogsUpdateOne) SetNillableError(v *string) *LogsUpdateOne {
+	if v != nil {
+		_u.SetError(*v)
 	}
-	return luo
+	return _u
 }
 
 // ClearError clears the value of the "error" field.
-func (luo *LogsUpdateOne) ClearError() *LogsUpdateOne {
-	luo.mutation.ClearError()
-	return luo
+func (_u *LogsUpdateOne) ClearError() *LogsUpdateOne {
+	_u.mutation.ClearError()
+	return _u
 }
 
 // SetClientIP sets the "client_ip" field.
-func (luo *LogsUpdateOne) SetClientIP(s string) *LogsUpdateOne {
-	luo.mutation.SetClientIP(s)
-	return luo
+func (_u *LogsUpdateOne) SetClientIP(v string) *LogsUpdateOne {
+	_u.mutation.SetClientIP(v)
+	return _u
 }
 
 // SetNillableClientIP sets the "client_ip" field if the given value is not nil.
-func (luo *LogsUpdateOne) SetNillableClientIP(s *string) *LogsUpdateOne {
-	if s != nil {
-		luo.SetClientIP(*s)
+func (_u *LogsUpdateOne) SetNillableClientIP(v *string) *LogsUpdateOne {
+	if v != nil {
+		_u.SetClientIP(*v)
 	}
-	return luo
+	return _u
 }
 
 // ClearClientIP clears the value of the "client_ip" field.
-func (luo *LogsUpdateOne) ClearClientIP() *LogsUpdateOne {
-	luo.mutation.ClearClientIP()
-	return luo
+func (_u *LogsUpdateOne) ClearClientIP() *LogsUpdateOne {
+	_u.mutation.ClearClientIP()
+	return _u
 }
 
 // SetUserID sets the "user_id" field.
-func (luo *LogsUpdateOne) SetUserID(s string) *LogsUpdateOne {
-	luo.mutation.SetUserID(s)
-	return luo
+func (_u *LogsUpdateOne) SetUserID(v string) *LogsUpdateOne {
+	_u.mutation.SetUserID(v)
+	return _u
 }
 
 // SetNillableUserID sets the "user_id" field if the given value is not nil.
-func (luo *LogsUpdateOne) SetNillableUserID(s *string) *LogsUpdateOne {
-	if s != nil {
-		luo.SetUserID(*s)
+func (_u *LogsUpdateOne) SetNillableUserID(v *string) *LogsUpdateOne {
+	if v != nil {
+		_u.SetUserID(*v)
 	}
-	return luo
+	return _u
 }
 
 // ClearUserID clears the value of the "user_id" field.
-func (luo *LogsUpdateOne) ClearUserID() *LogsUpdateOne {
-	luo.mutation.ClearUserID()
-	return luo
+func (_u *LogsUpdateOne) ClearUserID() *LogsUpdateOne {
+	_u.mutation.ClearUserID()
+	return _u
 }
 
 // Mutation returns the LogsMutation object of the builder.
-func (luo *LogsUpdateOne) Mutation() *LogsMutation {
-	return luo.mutation
+func (_u *LogsUpdateOne) Mutation() *LogsMutation {
+	return _u.mutation
 }
 
 // Where appends a list predicates to the LogsUpdate builder.
-func (luo *LogsUpdateOne) Where(ps ...predicate.Logs) *LogsUpdateOne {
-	luo.mutation.Where(ps...)
-	return luo
+func (_u *LogsUpdateOne) Where(ps ...predicate.Logs) *LogsUpdateOne {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // Select allows selecting one or more fields (columns) of the returned entity.
 // The default is selecting all fields defined in the entity schema.
-func (luo *LogsUpdateOne) Select(field string, fields ...string) *LogsUpdateOne {
-	luo.fields = append([]string{field}, fields...)
-	return luo
+func (_u *LogsUpdateOne) Select(field string, fields ...string) *LogsUpdateOne {
+	_u.fields = append([]string{field}, fields...)
+	return _u
 }
 
 // Save executes the query and returns the updated Logs entity.
-func (luo *LogsUpdateOne) Save(ctx context.Context) (*Logs, error) {
-	luo.defaults()
-	return withHooks(ctx, luo.sqlSave, luo.mutation, luo.hooks)
+func (_u *LogsUpdateOne) Save(ctx context.Context) (*Logs, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (luo *LogsUpdateOne) SaveX(ctx context.Context) *Logs {
-	node, err := luo.Save(ctx)
+func (_u *LogsUpdateOne) SaveX(ctx context.Context) *Logs {
+	node, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -723,34 +723,34 @@ func (luo *LogsUpdateOne) SaveX(ctx context.Context) *Logs {
 }
 
 // Exec executes the query on the entity.
-func (luo *LogsUpdateOne) Exec(ctx context.Context) error {
-	_, err := luo.Save(ctx)
+func (_u *LogsUpdateOne) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (luo *LogsUpdateOne) ExecX(ctx context.Context) {
-	if err := luo.Exec(ctx); err != nil {
+func (_u *LogsUpdateOne) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (luo *LogsUpdateOne) defaults() {
-	if _, ok := luo.mutation.UpdatedAt(); !ok && !luo.mutation.UpdatedAtCleared() {
+func (_u *LogsUpdateOne) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := logs.UpdateDefaultUpdatedAt()
-		luo.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (luo *LogsUpdateOne) sqlSave(ctx context.Context) (_node *Logs, err error) {
+func (_u *LogsUpdateOne) sqlSave(ctx context.Context) (_node *Logs, err error) {
 	_spec := sqlgraph.NewUpdateSpec(logs.Table, logs.Columns, sqlgraph.NewFieldSpec(logs.FieldID, field.TypeString))
-	id, ok := luo.mutation.ID()
+	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "Logs.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
-	if fields := luo.fields; len(fields) > 0 {
+	if fields := _u.fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, logs.FieldID)
 		for _, f := range fields {
@@ -762,95 +762,95 @@ func (luo *LogsUpdateOne) sqlSave(ctx context.Context) (_node *Logs, err error) 
 			}
 		}
 	}
-	if ps := luo.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if luo.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(logs.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := luo.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(logs.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := luo.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(logs.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if luo.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(logs.FieldUpdatedAt, field.TypeInt64)
 	}
-	if value, ok := luo.mutation.EndpointID(); ok {
+	if value, ok := _u.mutation.EndpointID(); ok {
 		_spec.SetField(logs.FieldEndpointID, field.TypeString, value)
 	}
-	if value, ok := luo.mutation.RouteID(); ok {
+	if value, ok := _u.mutation.RouteID(); ok {
 		_spec.SetField(logs.FieldRouteID, field.TypeString, value)
 	}
-	if value, ok := luo.mutation.RequestMethod(); ok {
+	if value, ok := _u.mutation.RequestMethod(); ok {
 		_spec.SetField(logs.FieldRequestMethod, field.TypeString, value)
 	}
-	if value, ok := luo.mutation.RequestPath(); ok {
+	if value, ok := _u.mutation.RequestPath(); ok {
 		_spec.SetField(logs.FieldRequestPath, field.TypeString, value)
 	}
-	if value, ok := luo.mutation.RequestHeaders(); ok {
+	if value, ok := _u.mutation.RequestHeaders(); ok {
 		_spec.SetField(logs.FieldRequestHeaders, field.TypeString, value)
 	}
-	if luo.mutation.RequestHeadersCleared() {
+	if _u.mutation.RequestHeadersCleared() {
 		_spec.ClearField(logs.FieldRequestHeaders, field.TypeString)
 	}
-	if value, ok := luo.mutation.RequestBody(); ok {
+	if value, ok := _u.mutation.RequestBody(); ok {
 		_spec.SetField(logs.FieldRequestBody, field.TypeString, value)
 	}
-	if luo.mutation.RequestBodyCleared() {
+	if _u.mutation.RequestBodyCleared() {
 		_spec.ClearField(logs.FieldRequestBody, field.TypeString)
 	}
-	if value, ok := luo.mutation.StatusCode(); ok {
+	if value, ok := _u.mutation.StatusCode(); ok {
 		_spec.SetField(logs.FieldStatusCode, field.TypeInt, value)
 	}
-	if value, ok := luo.mutation.AddedStatusCode(); ok {
+	if value, ok := _u.mutation.AddedStatusCode(); ok {
 		_spec.AddField(logs.FieldStatusCode, field.TypeInt, value)
 	}
-	if value, ok := luo.mutation.ResponseHeaders(); ok {
+	if value, ok := _u.mutation.ResponseHeaders(); ok {
 		_spec.SetField(logs.FieldResponseHeaders, field.TypeString, value)
 	}
-	if luo.mutation.ResponseHeadersCleared() {
+	if _u.mutation.ResponseHeadersCleared() {
 		_spec.ClearField(logs.FieldResponseHeaders, field.TypeString)
 	}
-	if value, ok := luo.mutation.ResponseBody(); ok {
+	if value, ok := _u.mutation.ResponseBody(); ok {
 		_spec.SetField(logs.FieldResponseBody, field.TypeString, value)
 	}
-	if luo.mutation.ResponseBodyCleared() {
+	if _u.mutation.ResponseBodyCleared() {
 		_spec.ClearField(logs.FieldResponseBody, field.TypeString)
 	}
-	if value, ok := luo.mutation.Duration(); ok {
+	if value, ok := _u.mutation.Duration(); ok {
 		_spec.SetField(logs.FieldDuration, field.TypeInt, value)
 	}
-	if value, ok := luo.mutation.AddedDuration(); ok {
+	if value, ok := _u.mutation.AddedDuration(); ok {
 		_spec.AddField(logs.FieldDuration, field.TypeInt, value)
 	}
-	if value, ok := luo.mutation.Error(); ok {
+	if value, ok := _u.mutation.Error(); ok {
 		_spec.SetField(logs.FieldError, field.TypeString, value)
 	}
-	if luo.mutation.ErrorCleared() {
+	if _u.mutation.ErrorCleared() {
 		_spec.ClearField(logs.FieldError, field.TypeString)
 	}
-	if value, ok := luo.mutation.ClientIP(); ok {
+	if value, ok := _u.mutation.ClientIP(); ok {
 		_spec.SetField(logs.FieldClientIP, field.TypeString, value)
 	}
-	if luo.mutation.ClientIPCleared() {
+	if _u.mutation.ClientIPCleared() {
 		_spec.ClearField(logs.FieldClientIP, field.TypeString)
 	}
-	if value, ok := luo.mutation.UserID(); ok {
+	if value, ok := _u.mutation.UserID(); ok {
 		_spec.SetField(logs.FieldUserID, field.TypeString, value)
 	}
-	if luo.mutation.UserIDCleared() {
+	if _u.mutation.UserIDCleared() {
 		_spec.ClearField(logs.FieldUserID, field.TypeString)
 	}
-	_node = &Logs{config: luo.config}
+	_node = &Logs{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues
-	if err = sqlgraph.UpdateNode(ctx, luo.driver, _spec); err != nil {
+	if err = sqlgraph.UpdateNode(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{logs.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -858,6 +858,6 @@ func (luo *LogsUpdateOne) sqlSave(ctx context.Context) (_node *Logs, err error) 
 		}
 		return nil, err
 	}
-	luo.mutation.done = true
+	_u.mutation.done = true
 	return _node, nil
 }

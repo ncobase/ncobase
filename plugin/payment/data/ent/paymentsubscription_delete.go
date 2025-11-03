@@ -20,56 +20,56 @@ type PaymentSubscriptionDelete struct {
 }
 
 // Where appends a list predicates to the PaymentSubscriptionDelete builder.
-func (psd *PaymentSubscriptionDelete) Where(ps ...predicate.PaymentSubscription) *PaymentSubscriptionDelete {
-	psd.mutation.Where(ps...)
-	return psd
+func (_d *PaymentSubscriptionDelete) Where(ps ...predicate.PaymentSubscription) *PaymentSubscriptionDelete {
+	_d.mutation.Where(ps...)
+	return _d
 }
 
 // Exec executes the deletion query and returns how many vertices were deleted.
-func (psd *PaymentSubscriptionDelete) Exec(ctx context.Context) (int, error) {
-	return withHooks(ctx, psd.sqlExec, psd.mutation, psd.hooks)
+func (_d *PaymentSubscriptionDelete) Exec(ctx context.Context) (int, error) {
+	return withHooks(ctx, _d.sqlExec, _d.mutation, _d.hooks)
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (psd *PaymentSubscriptionDelete) ExecX(ctx context.Context) int {
-	n, err := psd.Exec(ctx)
+func (_d *PaymentSubscriptionDelete) ExecX(ctx context.Context) int {
+	n, err := _d.Exec(ctx)
 	if err != nil {
 		panic(err)
 	}
 	return n
 }
 
-func (psd *PaymentSubscriptionDelete) sqlExec(ctx context.Context) (int, error) {
+func (_d *PaymentSubscriptionDelete) sqlExec(ctx context.Context) (int, error) {
 	_spec := sqlgraph.NewDeleteSpec(paymentsubscription.Table, sqlgraph.NewFieldSpec(paymentsubscription.FieldID, field.TypeString))
-	if ps := psd.mutation.predicates; len(ps) > 0 {
+	if ps := _d.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	affected, err := sqlgraph.DeleteNodes(ctx, psd.driver, _spec)
+	affected, err := sqlgraph.DeleteNodes(ctx, _d.driver, _spec)
 	if err != nil && sqlgraph.IsConstraintError(err) {
 		err = &ConstraintError{msg: err.Error(), wrap: err}
 	}
-	psd.mutation.done = true
+	_d.mutation.done = true
 	return affected, err
 }
 
 // PaymentSubscriptionDeleteOne is the builder for deleting a single PaymentSubscription entity.
 type PaymentSubscriptionDeleteOne struct {
-	psd *PaymentSubscriptionDelete
+	_d *PaymentSubscriptionDelete
 }
 
 // Where appends a list predicates to the PaymentSubscriptionDelete builder.
-func (psdo *PaymentSubscriptionDeleteOne) Where(ps ...predicate.PaymentSubscription) *PaymentSubscriptionDeleteOne {
-	psdo.psd.mutation.Where(ps...)
-	return psdo
+func (_d *PaymentSubscriptionDeleteOne) Where(ps ...predicate.PaymentSubscription) *PaymentSubscriptionDeleteOne {
+	_d._d.mutation.Where(ps...)
+	return _d
 }
 
 // Exec executes the deletion query.
-func (psdo *PaymentSubscriptionDeleteOne) Exec(ctx context.Context) error {
-	n, err := psdo.psd.Exec(ctx)
+func (_d *PaymentSubscriptionDeleteOne) Exec(ctx context.Context) error {
+	n, err := _d._d.Exec(ctx)
 	switch {
 	case err != nil:
 		return err
@@ -81,8 +81,8 @@ func (psdo *PaymentSubscriptionDeleteOne) Exec(ctx context.Context) error {
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (psdo *PaymentSubscriptionDeleteOne) ExecX(ctx context.Context) {
-	if err := psdo.Exec(ctx); err != nil {
+func (_d *PaymentSubscriptionDeleteOne) ExecX(ctx context.Context) {
+	if err := _d.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

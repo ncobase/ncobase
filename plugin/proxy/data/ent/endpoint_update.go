@@ -22,316 +22,316 @@ type EndpointUpdate struct {
 }
 
 // Where appends a list predicates to the EndpointUpdate builder.
-func (eu *EndpointUpdate) Where(ps ...predicate.Endpoint) *EndpointUpdate {
-	eu.mutation.Where(ps...)
-	return eu
+func (_u *EndpointUpdate) Where(ps ...predicate.Endpoint) *EndpointUpdate {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // SetName sets the "name" field.
-func (eu *EndpointUpdate) SetName(s string) *EndpointUpdate {
-	eu.mutation.SetName(s)
-	return eu
+func (_u *EndpointUpdate) SetName(v string) *EndpointUpdate {
+	_u.mutation.SetName(v)
+	return _u
 }
 
 // SetNillableName sets the "name" field if the given value is not nil.
-func (eu *EndpointUpdate) SetNillableName(s *string) *EndpointUpdate {
-	if s != nil {
-		eu.SetName(*s)
+func (_u *EndpointUpdate) SetNillableName(v *string) *EndpointUpdate {
+	if v != nil {
+		_u.SetName(*v)
 	}
-	return eu
+	return _u
 }
 
 // ClearName clears the value of the "name" field.
-func (eu *EndpointUpdate) ClearName() *EndpointUpdate {
-	eu.mutation.ClearName()
-	return eu
+func (_u *EndpointUpdate) ClearName() *EndpointUpdate {
+	_u.mutation.ClearName()
+	return _u
 }
 
 // SetDescription sets the "description" field.
-func (eu *EndpointUpdate) SetDescription(s string) *EndpointUpdate {
-	eu.mutation.SetDescription(s)
-	return eu
+func (_u *EndpointUpdate) SetDescription(v string) *EndpointUpdate {
+	_u.mutation.SetDescription(v)
+	return _u
 }
 
 // SetNillableDescription sets the "description" field if the given value is not nil.
-func (eu *EndpointUpdate) SetNillableDescription(s *string) *EndpointUpdate {
-	if s != nil {
-		eu.SetDescription(*s)
+func (_u *EndpointUpdate) SetNillableDescription(v *string) *EndpointUpdate {
+	if v != nil {
+		_u.SetDescription(*v)
 	}
-	return eu
+	return _u
 }
 
 // ClearDescription clears the value of the "description" field.
-func (eu *EndpointUpdate) ClearDescription() *EndpointUpdate {
-	eu.mutation.ClearDescription()
-	return eu
+func (_u *EndpointUpdate) ClearDescription() *EndpointUpdate {
+	_u.mutation.ClearDescription()
+	return _u
 }
 
 // SetDisabled sets the "disabled" field.
-func (eu *EndpointUpdate) SetDisabled(b bool) *EndpointUpdate {
-	eu.mutation.SetDisabled(b)
-	return eu
+func (_u *EndpointUpdate) SetDisabled(v bool) *EndpointUpdate {
+	_u.mutation.SetDisabled(v)
+	return _u
 }
 
 // SetNillableDisabled sets the "disabled" field if the given value is not nil.
-func (eu *EndpointUpdate) SetNillableDisabled(b *bool) *EndpointUpdate {
-	if b != nil {
-		eu.SetDisabled(*b)
+func (_u *EndpointUpdate) SetNillableDisabled(v *bool) *EndpointUpdate {
+	if v != nil {
+		_u.SetDisabled(*v)
 	}
-	return eu
+	return _u
 }
 
 // ClearDisabled clears the value of the "disabled" field.
-func (eu *EndpointUpdate) ClearDisabled() *EndpointUpdate {
-	eu.mutation.ClearDisabled()
-	return eu
+func (_u *EndpointUpdate) ClearDisabled() *EndpointUpdate {
+	_u.mutation.ClearDisabled()
+	return _u
 }
 
 // SetExtras sets the "extras" field.
-func (eu *EndpointUpdate) SetExtras(m map[string]interface{}) *EndpointUpdate {
-	eu.mutation.SetExtras(m)
-	return eu
+func (_u *EndpointUpdate) SetExtras(v map[string]interface{}) *EndpointUpdate {
+	_u.mutation.SetExtras(v)
+	return _u
 }
 
 // ClearExtras clears the value of the "extras" field.
-func (eu *EndpointUpdate) ClearExtras() *EndpointUpdate {
-	eu.mutation.ClearExtras()
-	return eu
+func (_u *EndpointUpdate) ClearExtras() *EndpointUpdate {
+	_u.mutation.ClearExtras()
+	return _u
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (eu *EndpointUpdate) SetCreatedBy(s string) *EndpointUpdate {
-	eu.mutation.SetCreatedBy(s)
-	return eu
+func (_u *EndpointUpdate) SetCreatedBy(v string) *EndpointUpdate {
+	_u.mutation.SetCreatedBy(v)
+	return _u
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (eu *EndpointUpdate) SetNillableCreatedBy(s *string) *EndpointUpdate {
-	if s != nil {
-		eu.SetCreatedBy(*s)
+func (_u *EndpointUpdate) SetNillableCreatedBy(v *string) *EndpointUpdate {
+	if v != nil {
+		_u.SetCreatedBy(*v)
 	}
-	return eu
+	return _u
 }
 
 // ClearCreatedBy clears the value of the "created_by" field.
-func (eu *EndpointUpdate) ClearCreatedBy() *EndpointUpdate {
-	eu.mutation.ClearCreatedBy()
-	return eu
+func (_u *EndpointUpdate) ClearCreatedBy() *EndpointUpdate {
+	_u.mutation.ClearCreatedBy()
+	return _u
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (eu *EndpointUpdate) SetUpdatedBy(s string) *EndpointUpdate {
-	eu.mutation.SetUpdatedBy(s)
-	return eu
+func (_u *EndpointUpdate) SetUpdatedBy(v string) *EndpointUpdate {
+	_u.mutation.SetUpdatedBy(v)
+	return _u
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (eu *EndpointUpdate) SetNillableUpdatedBy(s *string) *EndpointUpdate {
-	if s != nil {
-		eu.SetUpdatedBy(*s)
+func (_u *EndpointUpdate) SetNillableUpdatedBy(v *string) *EndpointUpdate {
+	if v != nil {
+		_u.SetUpdatedBy(*v)
 	}
-	return eu
+	return _u
 }
 
 // ClearUpdatedBy clears the value of the "updated_by" field.
-func (eu *EndpointUpdate) ClearUpdatedBy() *EndpointUpdate {
-	eu.mutation.ClearUpdatedBy()
-	return eu
+func (_u *EndpointUpdate) ClearUpdatedBy() *EndpointUpdate {
+	_u.mutation.ClearUpdatedBy()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (eu *EndpointUpdate) SetUpdatedAt(i int64) *EndpointUpdate {
-	eu.mutation.ResetUpdatedAt()
-	eu.mutation.SetUpdatedAt(i)
-	return eu
+func (_u *EndpointUpdate) SetUpdatedAt(v int64) *EndpointUpdate {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (eu *EndpointUpdate) AddUpdatedAt(i int64) *EndpointUpdate {
-	eu.mutation.AddUpdatedAt(i)
-	return eu
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *EndpointUpdate) AddUpdatedAt(v int64) *EndpointUpdate {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (eu *EndpointUpdate) ClearUpdatedAt() *EndpointUpdate {
-	eu.mutation.ClearUpdatedAt()
-	return eu
+func (_u *EndpointUpdate) ClearUpdatedAt() *EndpointUpdate {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // SetBaseURL sets the "base_url" field.
-func (eu *EndpointUpdate) SetBaseURL(s string) *EndpointUpdate {
-	eu.mutation.SetBaseURL(s)
-	return eu
+func (_u *EndpointUpdate) SetBaseURL(v string) *EndpointUpdate {
+	_u.mutation.SetBaseURL(v)
+	return _u
 }
 
 // SetNillableBaseURL sets the "base_url" field if the given value is not nil.
-func (eu *EndpointUpdate) SetNillableBaseURL(s *string) *EndpointUpdate {
-	if s != nil {
-		eu.SetBaseURL(*s)
+func (_u *EndpointUpdate) SetNillableBaseURL(v *string) *EndpointUpdate {
+	if v != nil {
+		_u.SetBaseURL(*v)
 	}
-	return eu
+	return _u
 }
 
 // SetProtocol sets the "protocol" field.
-func (eu *EndpointUpdate) SetProtocol(s string) *EndpointUpdate {
-	eu.mutation.SetProtocol(s)
-	return eu
+func (_u *EndpointUpdate) SetProtocol(v string) *EndpointUpdate {
+	_u.mutation.SetProtocol(v)
+	return _u
 }
 
 // SetNillableProtocol sets the "protocol" field if the given value is not nil.
-func (eu *EndpointUpdate) SetNillableProtocol(s *string) *EndpointUpdate {
-	if s != nil {
-		eu.SetProtocol(*s)
+func (_u *EndpointUpdate) SetNillableProtocol(v *string) *EndpointUpdate {
+	if v != nil {
+		_u.SetProtocol(*v)
 	}
-	return eu
+	return _u
 }
 
 // SetAuthType sets the "auth_type" field.
-func (eu *EndpointUpdate) SetAuthType(s string) *EndpointUpdate {
-	eu.mutation.SetAuthType(s)
-	return eu
+func (_u *EndpointUpdate) SetAuthType(v string) *EndpointUpdate {
+	_u.mutation.SetAuthType(v)
+	return _u
 }
 
 // SetNillableAuthType sets the "auth_type" field if the given value is not nil.
-func (eu *EndpointUpdate) SetNillableAuthType(s *string) *EndpointUpdate {
-	if s != nil {
-		eu.SetAuthType(*s)
+func (_u *EndpointUpdate) SetNillableAuthType(v *string) *EndpointUpdate {
+	if v != nil {
+		_u.SetAuthType(*v)
 	}
-	return eu
+	return _u
 }
 
 // SetAuthConfig sets the "auth_config" field.
-func (eu *EndpointUpdate) SetAuthConfig(s string) *EndpointUpdate {
-	eu.mutation.SetAuthConfig(s)
-	return eu
+func (_u *EndpointUpdate) SetAuthConfig(v string) *EndpointUpdate {
+	_u.mutation.SetAuthConfig(v)
+	return _u
 }
 
 // SetNillableAuthConfig sets the "auth_config" field if the given value is not nil.
-func (eu *EndpointUpdate) SetNillableAuthConfig(s *string) *EndpointUpdate {
-	if s != nil {
-		eu.SetAuthConfig(*s)
+func (_u *EndpointUpdate) SetNillableAuthConfig(v *string) *EndpointUpdate {
+	if v != nil {
+		_u.SetAuthConfig(*v)
 	}
-	return eu
+	return _u
 }
 
 // ClearAuthConfig clears the value of the "auth_config" field.
-func (eu *EndpointUpdate) ClearAuthConfig() *EndpointUpdate {
-	eu.mutation.ClearAuthConfig()
-	return eu
+func (_u *EndpointUpdate) ClearAuthConfig() *EndpointUpdate {
+	_u.mutation.ClearAuthConfig()
+	return _u
 }
 
 // SetTimeout sets the "timeout" field.
-func (eu *EndpointUpdate) SetTimeout(i int) *EndpointUpdate {
-	eu.mutation.ResetTimeout()
-	eu.mutation.SetTimeout(i)
-	return eu
+func (_u *EndpointUpdate) SetTimeout(v int) *EndpointUpdate {
+	_u.mutation.ResetTimeout()
+	_u.mutation.SetTimeout(v)
+	return _u
 }
 
 // SetNillableTimeout sets the "timeout" field if the given value is not nil.
-func (eu *EndpointUpdate) SetNillableTimeout(i *int) *EndpointUpdate {
-	if i != nil {
-		eu.SetTimeout(*i)
+func (_u *EndpointUpdate) SetNillableTimeout(v *int) *EndpointUpdate {
+	if v != nil {
+		_u.SetTimeout(*v)
 	}
-	return eu
+	return _u
 }
 
-// AddTimeout adds i to the "timeout" field.
-func (eu *EndpointUpdate) AddTimeout(i int) *EndpointUpdate {
-	eu.mutation.AddTimeout(i)
-	return eu
+// AddTimeout adds value to the "timeout" field.
+func (_u *EndpointUpdate) AddTimeout(v int) *EndpointUpdate {
+	_u.mutation.AddTimeout(v)
+	return _u
 }
 
 // SetUseCircuitBreaker sets the "use_circuit_breaker" field.
-func (eu *EndpointUpdate) SetUseCircuitBreaker(b bool) *EndpointUpdate {
-	eu.mutation.SetUseCircuitBreaker(b)
-	return eu
+func (_u *EndpointUpdate) SetUseCircuitBreaker(v bool) *EndpointUpdate {
+	_u.mutation.SetUseCircuitBreaker(v)
+	return _u
 }
 
 // SetNillableUseCircuitBreaker sets the "use_circuit_breaker" field if the given value is not nil.
-func (eu *EndpointUpdate) SetNillableUseCircuitBreaker(b *bool) *EndpointUpdate {
-	if b != nil {
-		eu.SetUseCircuitBreaker(*b)
+func (_u *EndpointUpdate) SetNillableUseCircuitBreaker(v *bool) *EndpointUpdate {
+	if v != nil {
+		_u.SetUseCircuitBreaker(*v)
 	}
-	return eu
+	return _u
 }
 
 // SetRetryCount sets the "retry_count" field.
-func (eu *EndpointUpdate) SetRetryCount(i int) *EndpointUpdate {
-	eu.mutation.ResetRetryCount()
-	eu.mutation.SetRetryCount(i)
-	return eu
+func (_u *EndpointUpdate) SetRetryCount(v int) *EndpointUpdate {
+	_u.mutation.ResetRetryCount()
+	_u.mutation.SetRetryCount(v)
+	return _u
 }
 
 // SetNillableRetryCount sets the "retry_count" field if the given value is not nil.
-func (eu *EndpointUpdate) SetNillableRetryCount(i *int) *EndpointUpdate {
-	if i != nil {
-		eu.SetRetryCount(*i)
+func (_u *EndpointUpdate) SetNillableRetryCount(v *int) *EndpointUpdate {
+	if v != nil {
+		_u.SetRetryCount(*v)
 	}
-	return eu
+	return _u
 }
 
-// AddRetryCount adds i to the "retry_count" field.
-func (eu *EndpointUpdate) AddRetryCount(i int) *EndpointUpdate {
-	eu.mutation.AddRetryCount(i)
-	return eu
+// AddRetryCount adds value to the "retry_count" field.
+func (_u *EndpointUpdate) AddRetryCount(v int) *EndpointUpdate {
+	_u.mutation.AddRetryCount(v)
+	return _u
 }
 
 // SetValidateSsl sets the "validate_ssl" field.
-func (eu *EndpointUpdate) SetValidateSsl(b bool) *EndpointUpdate {
-	eu.mutation.SetValidateSsl(b)
-	return eu
+func (_u *EndpointUpdate) SetValidateSsl(v bool) *EndpointUpdate {
+	_u.mutation.SetValidateSsl(v)
+	return _u
 }
 
 // SetNillableValidateSsl sets the "validate_ssl" field if the given value is not nil.
-func (eu *EndpointUpdate) SetNillableValidateSsl(b *bool) *EndpointUpdate {
-	if b != nil {
-		eu.SetValidateSsl(*b)
+func (_u *EndpointUpdate) SetNillableValidateSsl(v *bool) *EndpointUpdate {
+	if v != nil {
+		_u.SetValidateSsl(*v)
 	}
-	return eu
+	return _u
 }
 
 // SetLogRequests sets the "log_requests" field.
-func (eu *EndpointUpdate) SetLogRequests(b bool) *EndpointUpdate {
-	eu.mutation.SetLogRequests(b)
-	return eu
+func (_u *EndpointUpdate) SetLogRequests(v bool) *EndpointUpdate {
+	_u.mutation.SetLogRequests(v)
+	return _u
 }
 
 // SetNillableLogRequests sets the "log_requests" field if the given value is not nil.
-func (eu *EndpointUpdate) SetNillableLogRequests(b *bool) *EndpointUpdate {
-	if b != nil {
-		eu.SetLogRequests(*b)
+func (_u *EndpointUpdate) SetNillableLogRequests(v *bool) *EndpointUpdate {
+	if v != nil {
+		_u.SetLogRequests(*v)
 	}
-	return eu
+	return _u
 }
 
 // SetLogResponses sets the "log_responses" field.
-func (eu *EndpointUpdate) SetLogResponses(b bool) *EndpointUpdate {
-	eu.mutation.SetLogResponses(b)
-	return eu
+func (_u *EndpointUpdate) SetLogResponses(v bool) *EndpointUpdate {
+	_u.mutation.SetLogResponses(v)
+	return _u
 }
 
 // SetNillableLogResponses sets the "log_responses" field if the given value is not nil.
-func (eu *EndpointUpdate) SetNillableLogResponses(b *bool) *EndpointUpdate {
-	if b != nil {
-		eu.SetLogResponses(*b)
+func (_u *EndpointUpdate) SetNillableLogResponses(v *bool) *EndpointUpdate {
+	if v != nil {
+		_u.SetLogResponses(*v)
 	}
-	return eu
+	return _u
 }
 
 // Mutation returns the EndpointMutation object of the builder.
-func (eu *EndpointUpdate) Mutation() *EndpointMutation {
-	return eu.mutation
+func (_u *EndpointUpdate) Mutation() *EndpointMutation {
+	return _u.mutation
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
-func (eu *EndpointUpdate) Save(ctx context.Context) (int, error) {
-	eu.defaults()
-	return withHooks(ctx, eu.sqlSave, eu.mutation, eu.hooks)
+func (_u *EndpointUpdate) Save(ctx context.Context) (int, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (eu *EndpointUpdate) SaveX(ctx context.Context) int {
-	affected, err := eu.Save(ctx)
+func (_u *EndpointUpdate) SaveX(ctx context.Context) int {
+	affected, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -339,29 +339,29 @@ func (eu *EndpointUpdate) SaveX(ctx context.Context) int {
 }
 
 // Exec executes the query.
-func (eu *EndpointUpdate) Exec(ctx context.Context) error {
-	_, err := eu.Save(ctx)
+func (_u *EndpointUpdate) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (eu *EndpointUpdate) ExecX(ctx context.Context) {
-	if err := eu.Exec(ctx); err != nil {
+func (_u *EndpointUpdate) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (eu *EndpointUpdate) defaults() {
-	if _, ok := eu.mutation.UpdatedAt(); !ok && !eu.mutation.UpdatedAtCleared() {
+func (_u *EndpointUpdate) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := endpoint.UpdateDefaultUpdatedAt()
-		eu.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (eu *EndpointUpdate) check() error {
-	if v, ok := eu.mutation.BaseURL(); ok {
+func (_u *EndpointUpdate) check() error {
+	if v, ok := _u.mutation.BaseURL(); ok {
 		if err := endpoint.BaseURLValidator(v); err != nil {
 			return &ValidationError{Name: "base_url", err: fmt.Errorf(`ent: validator failed for field "Endpoint.base_url": %w`, err)}
 		}
@@ -369,106 +369,106 @@ func (eu *EndpointUpdate) check() error {
 	return nil
 }
 
-func (eu *EndpointUpdate) sqlSave(ctx context.Context) (n int, err error) {
-	if err := eu.check(); err != nil {
-		return n, err
+func (_u *EndpointUpdate) sqlSave(ctx context.Context) (_node int, err error) {
+	if err := _u.check(); err != nil {
+		return _node, err
 	}
 	_spec := sqlgraph.NewUpdateSpec(endpoint.Table, endpoint.Columns, sqlgraph.NewFieldSpec(endpoint.FieldID, field.TypeString))
-	if ps := eu.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := eu.mutation.Name(); ok {
+	if value, ok := _u.mutation.Name(); ok {
 		_spec.SetField(endpoint.FieldName, field.TypeString, value)
 	}
-	if eu.mutation.NameCleared() {
+	if _u.mutation.NameCleared() {
 		_spec.ClearField(endpoint.FieldName, field.TypeString)
 	}
-	if value, ok := eu.mutation.Description(); ok {
+	if value, ok := _u.mutation.Description(); ok {
 		_spec.SetField(endpoint.FieldDescription, field.TypeString, value)
 	}
-	if eu.mutation.DescriptionCleared() {
+	if _u.mutation.DescriptionCleared() {
 		_spec.ClearField(endpoint.FieldDescription, field.TypeString)
 	}
-	if value, ok := eu.mutation.Disabled(); ok {
+	if value, ok := _u.mutation.Disabled(); ok {
 		_spec.SetField(endpoint.FieldDisabled, field.TypeBool, value)
 	}
-	if eu.mutation.DisabledCleared() {
+	if _u.mutation.DisabledCleared() {
 		_spec.ClearField(endpoint.FieldDisabled, field.TypeBool)
 	}
-	if value, ok := eu.mutation.Extras(); ok {
+	if value, ok := _u.mutation.Extras(); ok {
 		_spec.SetField(endpoint.FieldExtras, field.TypeJSON, value)
 	}
-	if eu.mutation.ExtrasCleared() {
+	if _u.mutation.ExtrasCleared() {
 		_spec.ClearField(endpoint.FieldExtras, field.TypeJSON)
 	}
-	if value, ok := eu.mutation.CreatedBy(); ok {
+	if value, ok := _u.mutation.CreatedBy(); ok {
 		_spec.SetField(endpoint.FieldCreatedBy, field.TypeString, value)
 	}
-	if eu.mutation.CreatedByCleared() {
+	if _u.mutation.CreatedByCleared() {
 		_spec.ClearField(endpoint.FieldCreatedBy, field.TypeString)
 	}
-	if value, ok := eu.mutation.UpdatedBy(); ok {
+	if value, ok := _u.mutation.UpdatedBy(); ok {
 		_spec.SetField(endpoint.FieldUpdatedBy, field.TypeString, value)
 	}
-	if eu.mutation.UpdatedByCleared() {
+	if _u.mutation.UpdatedByCleared() {
 		_spec.ClearField(endpoint.FieldUpdatedBy, field.TypeString)
 	}
-	if eu.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(endpoint.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := eu.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(endpoint.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := eu.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(endpoint.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if eu.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(endpoint.FieldUpdatedAt, field.TypeInt64)
 	}
-	if value, ok := eu.mutation.BaseURL(); ok {
+	if value, ok := _u.mutation.BaseURL(); ok {
 		_spec.SetField(endpoint.FieldBaseURL, field.TypeString, value)
 	}
-	if value, ok := eu.mutation.Protocol(); ok {
+	if value, ok := _u.mutation.Protocol(); ok {
 		_spec.SetField(endpoint.FieldProtocol, field.TypeString, value)
 	}
-	if value, ok := eu.mutation.AuthType(); ok {
+	if value, ok := _u.mutation.AuthType(); ok {
 		_spec.SetField(endpoint.FieldAuthType, field.TypeString, value)
 	}
-	if value, ok := eu.mutation.AuthConfig(); ok {
+	if value, ok := _u.mutation.AuthConfig(); ok {
 		_spec.SetField(endpoint.FieldAuthConfig, field.TypeString, value)
 	}
-	if eu.mutation.AuthConfigCleared() {
+	if _u.mutation.AuthConfigCleared() {
 		_spec.ClearField(endpoint.FieldAuthConfig, field.TypeString)
 	}
-	if value, ok := eu.mutation.Timeout(); ok {
+	if value, ok := _u.mutation.Timeout(); ok {
 		_spec.SetField(endpoint.FieldTimeout, field.TypeInt, value)
 	}
-	if value, ok := eu.mutation.AddedTimeout(); ok {
+	if value, ok := _u.mutation.AddedTimeout(); ok {
 		_spec.AddField(endpoint.FieldTimeout, field.TypeInt, value)
 	}
-	if value, ok := eu.mutation.UseCircuitBreaker(); ok {
+	if value, ok := _u.mutation.UseCircuitBreaker(); ok {
 		_spec.SetField(endpoint.FieldUseCircuitBreaker, field.TypeBool, value)
 	}
-	if value, ok := eu.mutation.RetryCount(); ok {
+	if value, ok := _u.mutation.RetryCount(); ok {
 		_spec.SetField(endpoint.FieldRetryCount, field.TypeInt, value)
 	}
-	if value, ok := eu.mutation.AddedRetryCount(); ok {
+	if value, ok := _u.mutation.AddedRetryCount(); ok {
 		_spec.AddField(endpoint.FieldRetryCount, field.TypeInt, value)
 	}
-	if value, ok := eu.mutation.ValidateSsl(); ok {
+	if value, ok := _u.mutation.ValidateSsl(); ok {
 		_spec.SetField(endpoint.FieldValidateSsl, field.TypeBool, value)
 	}
-	if value, ok := eu.mutation.LogRequests(); ok {
+	if value, ok := _u.mutation.LogRequests(); ok {
 		_spec.SetField(endpoint.FieldLogRequests, field.TypeBool, value)
 	}
-	if value, ok := eu.mutation.LogResponses(); ok {
+	if value, ok := _u.mutation.LogResponses(); ok {
 		_spec.SetField(endpoint.FieldLogResponses, field.TypeBool, value)
 	}
-	if n, err = sqlgraph.UpdateNodes(ctx, eu.driver, _spec); err != nil {
+	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{endpoint.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -476,8 +476,8 @@ func (eu *EndpointUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		return 0, err
 	}
-	eu.mutation.done = true
-	return n, nil
+	_u.mutation.done = true
+	return _node, nil
 }
 
 // EndpointUpdateOne is the builder for updating a single Endpoint entity.
@@ -489,323 +489,323 @@ type EndpointUpdateOne struct {
 }
 
 // SetName sets the "name" field.
-func (euo *EndpointUpdateOne) SetName(s string) *EndpointUpdateOne {
-	euo.mutation.SetName(s)
-	return euo
+func (_u *EndpointUpdateOne) SetName(v string) *EndpointUpdateOne {
+	_u.mutation.SetName(v)
+	return _u
 }
 
 // SetNillableName sets the "name" field if the given value is not nil.
-func (euo *EndpointUpdateOne) SetNillableName(s *string) *EndpointUpdateOne {
-	if s != nil {
-		euo.SetName(*s)
+func (_u *EndpointUpdateOne) SetNillableName(v *string) *EndpointUpdateOne {
+	if v != nil {
+		_u.SetName(*v)
 	}
-	return euo
+	return _u
 }
 
 // ClearName clears the value of the "name" field.
-func (euo *EndpointUpdateOne) ClearName() *EndpointUpdateOne {
-	euo.mutation.ClearName()
-	return euo
+func (_u *EndpointUpdateOne) ClearName() *EndpointUpdateOne {
+	_u.mutation.ClearName()
+	return _u
 }
 
 // SetDescription sets the "description" field.
-func (euo *EndpointUpdateOne) SetDescription(s string) *EndpointUpdateOne {
-	euo.mutation.SetDescription(s)
-	return euo
+func (_u *EndpointUpdateOne) SetDescription(v string) *EndpointUpdateOne {
+	_u.mutation.SetDescription(v)
+	return _u
 }
 
 // SetNillableDescription sets the "description" field if the given value is not nil.
-func (euo *EndpointUpdateOne) SetNillableDescription(s *string) *EndpointUpdateOne {
-	if s != nil {
-		euo.SetDescription(*s)
+func (_u *EndpointUpdateOne) SetNillableDescription(v *string) *EndpointUpdateOne {
+	if v != nil {
+		_u.SetDescription(*v)
 	}
-	return euo
+	return _u
 }
 
 // ClearDescription clears the value of the "description" field.
-func (euo *EndpointUpdateOne) ClearDescription() *EndpointUpdateOne {
-	euo.mutation.ClearDescription()
-	return euo
+func (_u *EndpointUpdateOne) ClearDescription() *EndpointUpdateOne {
+	_u.mutation.ClearDescription()
+	return _u
 }
 
 // SetDisabled sets the "disabled" field.
-func (euo *EndpointUpdateOne) SetDisabled(b bool) *EndpointUpdateOne {
-	euo.mutation.SetDisabled(b)
-	return euo
+func (_u *EndpointUpdateOne) SetDisabled(v bool) *EndpointUpdateOne {
+	_u.mutation.SetDisabled(v)
+	return _u
 }
 
 // SetNillableDisabled sets the "disabled" field if the given value is not nil.
-func (euo *EndpointUpdateOne) SetNillableDisabled(b *bool) *EndpointUpdateOne {
-	if b != nil {
-		euo.SetDisabled(*b)
+func (_u *EndpointUpdateOne) SetNillableDisabled(v *bool) *EndpointUpdateOne {
+	if v != nil {
+		_u.SetDisabled(*v)
 	}
-	return euo
+	return _u
 }
 
 // ClearDisabled clears the value of the "disabled" field.
-func (euo *EndpointUpdateOne) ClearDisabled() *EndpointUpdateOne {
-	euo.mutation.ClearDisabled()
-	return euo
+func (_u *EndpointUpdateOne) ClearDisabled() *EndpointUpdateOne {
+	_u.mutation.ClearDisabled()
+	return _u
 }
 
 // SetExtras sets the "extras" field.
-func (euo *EndpointUpdateOne) SetExtras(m map[string]interface{}) *EndpointUpdateOne {
-	euo.mutation.SetExtras(m)
-	return euo
+func (_u *EndpointUpdateOne) SetExtras(v map[string]interface{}) *EndpointUpdateOne {
+	_u.mutation.SetExtras(v)
+	return _u
 }
 
 // ClearExtras clears the value of the "extras" field.
-func (euo *EndpointUpdateOne) ClearExtras() *EndpointUpdateOne {
-	euo.mutation.ClearExtras()
-	return euo
+func (_u *EndpointUpdateOne) ClearExtras() *EndpointUpdateOne {
+	_u.mutation.ClearExtras()
+	return _u
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (euo *EndpointUpdateOne) SetCreatedBy(s string) *EndpointUpdateOne {
-	euo.mutation.SetCreatedBy(s)
-	return euo
+func (_u *EndpointUpdateOne) SetCreatedBy(v string) *EndpointUpdateOne {
+	_u.mutation.SetCreatedBy(v)
+	return _u
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (euo *EndpointUpdateOne) SetNillableCreatedBy(s *string) *EndpointUpdateOne {
-	if s != nil {
-		euo.SetCreatedBy(*s)
+func (_u *EndpointUpdateOne) SetNillableCreatedBy(v *string) *EndpointUpdateOne {
+	if v != nil {
+		_u.SetCreatedBy(*v)
 	}
-	return euo
+	return _u
 }
 
 // ClearCreatedBy clears the value of the "created_by" field.
-func (euo *EndpointUpdateOne) ClearCreatedBy() *EndpointUpdateOne {
-	euo.mutation.ClearCreatedBy()
-	return euo
+func (_u *EndpointUpdateOne) ClearCreatedBy() *EndpointUpdateOne {
+	_u.mutation.ClearCreatedBy()
+	return _u
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (euo *EndpointUpdateOne) SetUpdatedBy(s string) *EndpointUpdateOne {
-	euo.mutation.SetUpdatedBy(s)
-	return euo
+func (_u *EndpointUpdateOne) SetUpdatedBy(v string) *EndpointUpdateOne {
+	_u.mutation.SetUpdatedBy(v)
+	return _u
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (euo *EndpointUpdateOne) SetNillableUpdatedBy(s *string) *EndpointUpdateOne {
-	if s != nil {
-		euo.SetUpdatedBy(*s)
+func (_u *EndpointUpdateOne) SetNillableUpdatedBy(v *string) *EndpointUpdateOne {
+	if v != nil {
+		_u.SetUpdatedBy(*v)
 	}
-	return euo
+	return _u
 }
 
 // ClearUpdatedBy clears the value of the "updated_by" field.
-func (euo *EndpointUpdateOne) ClearUpdatedBy() *EndpointUpdateOne {
-	euo.mutation.ClearUpdatedBy()
-	return euo
+func (_u *EndpointUpdateOne) ClearUpdatedBy() *EndpointUpdateOne {
+	_u.mutation.ClearUpdatedBy()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (euo *EndpointUpdateOne) SetUpdatedAt(i int64) *EndpointUpdateOne {
-	euo.mutation.ResetUpdatedAt()
-	euo.mutation.SetUpdatedAt(i)
-	return euo
+func (_u *EndpointUpdateOne) SetUpdatedAt(v int64) *EndpointUpdateOne {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (euo *EndpointUpdateOne) AddUpdatedAt(i int64) *EndpointUpdateOne {
-	euo.mutation.AddUpdatedAt(i)
-	return euo
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *EndpointUpdateOne) AddUpdatedAt(v int64) *EndpointUpdateOne {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (euo *EndpointUpdateOne) ClearUpdatedAt() *EndpointUpdateOne {
-	euo.mutation.ClearUpdatedAt()
-	return euo
+func (_u *EndpointUpdateOne) ClearUpdatedAt() *EndpointUpdateOne {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // SetBaseURL sets the "base_url" field.
-func (euo *EndpointUpdateOne) SetBaseURL(s string) *EndpointUpdateOne {
-	euo.mutation.SetBaseURL(s)
-	return euo
+func (_u *EndpointUpdateOne) SetBaseURL(v string) *EndpointUpdateOne {
+	_u.mutation.SetBaseURL(v)
+	return _u
 }
 
 // SetNillableBaseURL sets the "base_url" field if the given value is not nil.
-func (euo *EndpointUpdateOne) SetNillableBaseURL(s *string) *EndpointUpdateOne {
-	if s != nil {
-		euo.SetBaseURL(*s)
+func (_u *EndpointUpdateOne) SetNillableBaseURL(v *string) *EndpointUpdateOne {
+	if v != nil {
+		_u.SetBaseURL(*v)
 	}
-	return euo
+	return _u
 }
 
 // SetProtocol sets the "protocol" field.
-func (euo *EndpointUpdateOne) SetProtocol(s string) *EndpointUpdateOne {
-	euo.mutation.SetProtocol(s)
-	return euo
+func (_u *EndpointUpdateOne) SetProtocol(v string) *EndpointUpdateOne {
+	_u.mutation.SetProtocol(v)
+	return _u
 }
 
 // SetNillableProtocol sets the "protocol" field if the given value is not nil.
-func (euo *EndpointUpdateOne) SetNillableProtocol(s *string) *EndpointUpdateOne {
-	if s != nil {
-		euo.SetProtocol(*s)
+func (_u *EndpointUpdateOne) SetNillableProtocol(v *string) *EndpointUpdateOne {
+	if v != nil {
+		_u.SetProtocol(*v)
 	}
-	return euo
+	return _u
 }
 
 // SetAuthType sets the "auth_type" field.
-func (euo *EndpointUpdateOne) SetAuthType(s string) *EndpointUpdateOne {
-	euo.mutation.SetAuthType(s)
-	return euo
+func (_u *EndpointUpdateOne) SetAuthType(v string) *EndpointUpdateOne {
+	_u.mutation.SetAuthType(v)
+	return _u
 }
 
 // SetNillableAuthType sets the "auth_type" field if the given value is not nil.
-func (euo *EndpointUpdateOne) SetNillableAuthType(s *string) *EndpointUpdateOne {
-	if s != nil {
-		euo.SetAuthType(*s)
+func (_u *EndpointUpdateOne) SetNillableAuthType(v *string) *EndpointUpdateOne {
+	if v != nil {
+		_u.SetAuthType(*v)
 	}
-	return euo
+	return _u
 }
 
 // SetAuthConfig sets the "auth_config" field.
-func (euo *EndpointUpdateOne) SetAuthConfig(s string) *EndpointUpdateOne {
-	euo.mutation.SetAuthConfig(s)
-	return euo
+func (_u *EndpointUpdateOne) SetAuthConfig(v string) *EndpointUpdateOne {
+	_u.mutation.SetAuthConfig(v)
+	return _u
 }
 
 // SetNillableAuthConfig sets the "auth_config" field if the given value is not nil.
-func (euo *EndpointUpdateOne) SetNillableAuthConfig(s *string) *EndpointUpdateOne {
-	if s != nil {
-		euo.SetAuthConfig(*s)
+func (_u *EndpointUpdateOne) SetNillableAuthConfig(v *string) *EndpointUpdateOne {
+	if v != nil {
+		_u.SetAuthConfig(*v)
 	}
-	return euo
+	return _u
 }
 
 // ClearAuthConfig clears the value of the "auth_config" field.
-func (euo *EndpointUpdateOne) ClearAuthConfig() *EndpointUpdateOne {
-	euo.mutation.ClearAuthConfig()
-	return euo
+func (_u *EndpointUpdateOne) ClearAuthConfig() *EndpointUpdateOne {
+	_u.mutation.ClearAuthConfig()
+	return _u
 }
 
 // SetTimeout sets the "timeout" field.
-func (euo *EndpointUpdateOne) SetTimeout(i int) *EndpointUpdateOne {
-	euo.mutation.ResetTimeout()
-	euo.mutation.SetTimeout(i)
-	return euo
+func (_u *EndpointUpdateOne) SetTimeout(v int) *EndpointUpdateOne {
+	_u.mutation.ResetTimeout()
+	_u.mutation.SetTimeout(v)
+	return _u
 }
 
 // SetNillableTimeout sets the "timeout" field if the given value is not nil.
-func (euo *EndpointUpdateOne) SetNillableTimeout(i *int) *EndpointUpdateOne {
-	if i != nil {
-		euo.SetTimeout(*i)
+func (_u *EndpointUpdateOne) SetNillableTimeout(v *int) *EndpointUpdateOne {
+	if v != nil {
+		_u.SetTimeout(*v)
 	}
-	return euo
+	return _u
 }
 
-// AddTimeout adds i to the "timeout" field.
-func (euo *EndpointUpdateOne) AddTimeout(i int) *EndpointUpdateOne {
-	euo.mutation.AddTimeout(i)
-	return euo
+// AddTimeout adds value to the "timeout" field.
+func (_u *EndpointUpdateOne) AddTimeout(v int) *EndpointUpdateOne {
+	_u.mutation.AddTimeout(v)
+	return _u
 }
 
 // SetUseCircuitBreaker sets the "use_circuit_breaker" field.
-func (euo *EndpointUpdateOne) SetUseCircuitBreaker(b bool) *EndpointUpdateOne {
-	euo.mutation.SetUseCircuitBreaker(b)
-	return euo
+func (_u *EndpointUpdateOne) SetUseCircuitBreaker(v bool) *EndpointUpdateOne {
+	_u.mutation.SetUseCircuitBreaker(v)
+	return _u
 }
 
 // SetNillableUseCircuitBreaker sets the "use_circuit_breaker" field if the given value is not nil.
-func (euo *EndpointUpdateOne) SetNillableUseCircuitBreaker(b *bool) *EndpointUpdateOne {
-	if b != nil {
-		euo.SetUseCircuitBreaker(*b)
+func (_u *EndpointUpdateOne) SetNillableUseCircuitBreaker(v *bool) *EndpointUpdateOne {
+	if v != nil {
+		_u.SetUseCircuitBreaker(*v)
 	}
-	return euo
+	return _u
 }
 
 // SetRetryCount sets the "retry_count" field.
-func (euo *EndpointUpdateOne) SetRetryCount(i int) *EndpointUpdateOne {
-	euo.mutation.ResetRetryCount()
-	euo.mutation.SetRetryCount(i)
-	return euo
+func (_u *EndpointUpdateOne) SetRetryCount(v int) *EndpointUpdateOne {
+	_u.mutation.ResetRetryCount()
+	_u.mutation.SetRetryCount(v)
+	return _u
 }
 
 // SetNillableRetryCount sets the "retry_count" field if the given value is not nil.
-func (euo *EndpointUpdateOne) SetNillableRetryCount(i *int) *EndpointUpdateOne {
-	if i != nil {
-		euo.SetRetryCount(*i)
+func (_u *EndpointUpdateOne) SetNillableRetryCount(v *int) *EndpointUpdateOne {
+	if v != nil {
+		_u.SetRetryCount(*v)
 	}
-	return euo
+	return _u
 }
 
-// AddRetryCount adds i to the "retry_count" field.
-func (euo *EndpointUpdateOne) AddRetryCount(i int) *EndpointUpdateOne {
-	euo.mutation.AddRetryCount(i)
-	return euo
+// AddRetryCount adds value to the "retry_count" field.
+func (_u *EndpointUpdateOne) AddRetryCount(v int) *EndpointUpdateOne {
+	_u.mutation.AddRetryCount(v)
+	return _u
 }
 
 // SetValidateSsl sets the "validate_ssl" field.
-func (euo *EndpointUpdateOne) SetValidateSsl(b bool) *EndpointUpdateOne {
-	euo.mutation.SetValidateSsl(b)
-	return euo
+func (_u *EndpointUpdateOne) SetValidateSsl(v bool) *EndpointUpdateOne {
+	_u.mutation.SetValidateSsl(v)
+	return _u
 }
 
 // SetNillableValidateSsl sets the "validate_ssl" field if the given value is not nil.
-func (euo *EndpointUpdateOne) SetNillableValidateSsl(b *bool) *EndpointUpdateOne {
-	if b != nil {
-		euo.SetValidateSsl(*b)
+func (_u *EndpointUpdateOne) SetNillableValidateSsl(v *bool) *EndpointUpdateOne {
+	if v != nil {
+		_u.SetValidateSsl(*v)
 	}
-	return euo
+	return _u
 }
 
 // SetLogRequests sets the "log_requests" field.
-func (euo *EndpointUpdateOne) SetLogRequests(b bool) *EndpointUpdateOne {
-	euo.mutation.SetLogRequests(b)
-	return euo
+func (_u *EndpointUpdateOne) SetLogRequests(v bool) *EndpointUpdateOne {
+	_u.mutation.SetLogRequests(v)
+	return _u
 }
 
 // SetNillableLogRequests sets the "log_requests" field if the given value is not nil.
-func (euo *EndpointUpdateOne) SetNillableLogRequests(b *bool) *EndpointUpdateOne {
-	if b != nil {
-		euo.SetLogRequests(*b)
+func (_u *EndpointUpdateOne) SetNillableLogRequests(v *bool) *EndpointUpdateOne {
+	if v != nil {
+		_u.SetLogRequests(*v)
 	}
-	return euo
+	return _u
 }
 
 // SetLogResponses sets the "log_responses" field.
-func (euo *EndpointUpdateOne) SetLogResponses(b bool) *EndpointUpdateOne {
-	euo.mutation.SetLogResponses(b)
-	return euo
+func (_u *EndpointUpdateOne) SetLogResponses(v bool) *EndpointUpdateOne {
+	_u.mutation.SetLogResponses(v)
+	return _u
 }
 
 // SetNillableLogResponses sets the "log_responses" field if the given value is not nil.
-func (euo *EndpointUpdateOne) SetNillableLogResponses(b *bool) *EndpointUpdateOne {
-	if b != nil {
-		euo.SetLogResponses(*b)
+func (_u *EndpointUpdateOne) SetNillableLogResponses(v *bool) *EndpointUpdateOne {
+	if v != nil {
+		_u.SetLogResponses(*v)
 	}
-	return euo
+	return _u
 }
 
 // Mutation returns the EndpointMutation object of the builder.
-func (euo *EndpointUpdateOne) Mutation() *EndpointMutation {
-	return euo.mutation
+func (_u *EndpointUpdateOne) Mutation() *EndpointMutation {
+	return _u.mutation
 }
 
 // Where appends a list predicates to the EndpointUpdate builder.
-func (euo *EndpointUpdateOne) Where(ps ...predicate.Endpoint) *EndpointUpdateOne {
-	euo.mutation.Where(ps...)
-	return euo
+func (_u *EndpointUpdateOne) Where(ps ...predicate.Endpoint) *EndpointUpdateOne {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // Select allows selecting one or more fields (columns) of the returned entity.
 // The default is selecting all fields defined in the entity schema.
-func (euo *EndpointUpdateOne) Select(field string, fields ...string) *EndpointUpdateOne {
-	euo.fields = append([]string{field}, fields...)
-	return euo
+func (_u *EndpointUpdateOne) Select(field string, fields ...string) *EndpointUpdateOne {
+	_u.fields = append([]string{field}, fields...)
+	return _u
 }
 
 // Save executes the query and returns the updated Endpoint entity.
-func (euo *EndpointUpdateOne) Save(ctx context.Context) (*Endpoint, error) {
-	euo.defaults()
-	return withHooks(ctx, euo.sqlSave, euo.mutation, euo.hooks)
+func (_u *EndpointUpdateOne) Save(ctx context.Context) (*Endpoint, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (euo *EndpointUpdateOne) SaveX(ctx context.Context) *Endpoint {
-	node, err := euo.Save(ctx)
+func (_u *EndpointUpdateOne) SaveX(ctx context.Context) *Endpoint {
+	node, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -813,29 +813,29 @@ func (euo *EndpointUpdateOne) SaveX(ctx context.Context) *Endpoint {
 }
 
 // Exec executes the query on the entity.
-func (euo *EndpointUpdateOne) Exec(ctx context.Context) error {
-	_, err := euo.Save(ctx)
+func (_u *EndpointUpdateOne) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (euo *EndpointUpdateOne) ExecX(ctx context.Context) {
-	if err := euo.Exec(ctx); err != nil {
+func (_u *EndpointUpdateOne) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (euo *EndpointUpdateOne) defaults() {
-	if _, ok := euo.mutation.UpdatedAt(); !ok && !euo.mutation.UpdatedAtCleared() {
+func (_u *EndpointUpdateOne) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := endpoint.UpdateDefaultUpdatedAt()
-		euo.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (euo *EndpointUpdateOne) check() error {
-	if v, ok := euo.mutation.BaseURL(); ok {
+func (_u *EndpointUpdateOne) check() error {
+	if v, ok := _u.mutation.BaseURL(); ok {
 		if err := endpoint.BaseURLValidator(v); err != nil {
 			return &ValidationError{Name: "base_url", err: fmt.Errorf(`ent: validator failed for field "Endpoint.base_url": %w`, err)}
 		}
@@ -843,17 +843,17 @@ func (euo *EndpointUpdateOne) check() error {
 	return nil
 }
 
-func (euo *EndpointUpdateOne) sqlSave(ctx context.Context) (_node *Endpoint, err error) {
-	if err := euo.check(); err != nil {
+func (_u *EndpointUpdateOne) sqlSave(ctx context.Context) (_node *Endpoint, err error) {
+	if err := _u.check(); err != nil {
 		return _node, err
 	}
 	_spec := sqlgraph.NewUpdateSpec(endpoint.Table, endpoint.Columns, sqlgraph.NewFieldSpec(endpoint.FieldID, field.TypeString))
-	id, ok := euo.mutation.ID()
+	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "Endpoint.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
-	if fields := euo.fields; len(fields) > 0 {
+	if fields := _u.fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, endpoint.FieldID)
 		for _, f := range fields {
@@ -865,104 +865,104 @@ func (euo *EndpointUpdateOne) sqlSave(ctx context.Context) (_node *Endpoint, err
 			}
 		}
 	}
-	if ps := euo.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := euo.mutation.Name(); ok {
+	if value, ok := _u.mutation.Name(); ok {
 		_spec.SetField(endpoint.FieldName, field.TypeString, value)
 	}
-	if euo.mutation.NameCleared() {
+	if _u.mutation.NameCleared() {
 		_spec.ClearField(endpoint.FieldName, field.TypeString)
 	}
-	if value, ok := euo.mutation.Description(); ok {
+	if value, ok := _u.mutation.Description(); ok {
 		_spec.SetField(endpoint.FieldDescription, field.TypeString, value)
 	}
-	if euo.mutation.DescriptionCleared() {
+	if _u.mutation.DescriptionCleared() {
 		_spec.ClearField(endpoint.FieldDescription, field.TypeString)
 	}
-	if value, ok := euo.mutation.Disabled(); ok {
+	if value, ok := _u.mutation.Disabled(); ok {
 		_spec.SetField(endpoint.FieldDisabled, field.TypeBool, value)
 	}
-	if euo.mutation.DisabledCleared() {
+	if _u.mutation.DisabledCleared() {
 		_spec.ClearField(endpoint.FieldDisabled, field.TypeBool)
 	}
-	if value, ok := euo.mutation.Extras(); ok {
+	if value, ok := _u.mutation.Extras(); ok {
 		_spec.SetField(endpoint.FieldExtras, field.TypeJSON, value)
 	}
-	if euo.mutation.ExtrasCleared() {
+	if _u.mutation.ExtrasCleared() {
 		_spec.ClearField(endpoint.FieldExtras, field.TypeJSON)
 	}
-	if value, ok := euo.mutation.CreatedBy(); ok {
+	if value, ok := _u.mutation.CreatedBy(); ok {
 		_spec.SetField(endpoint.FieldCreatedBy, field.TypeString, value)
 	}
-	if euo.mutation.CreatedByCleared() {
+	if _u.mutation.CreatedByCleared() {
 		_spec.ClearField(endpoint.FieldCreatedBy, field.TypeString)
 	}
-	if value, ok := euo.mutation.UpdatedBy(); ok {
+	if value, ok := _u.mutation.UpdatedBy(); ok {
 		_spec.SetField(endpoint.FieldUpdatedBy, field.TypeString, value)
 	}
-	if euo.mutation.UpdatedByCleared() {
+	if _u.mutation.UpdatedByCleared() {
 		_spec.ClearField(endpoint.FieldUpdatedBy, field.TypeString)
 	}
-	if euo.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(endpoint.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := euo.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(endpoint.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := euo.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(endpoint.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if euo.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(endpoint.FieldUpdatedAt, field.TypeInt64)
 	}
-	if value, ok := euo.mutation.BaseURL(); ok {
+	if value, ok := _u.mutation.BaseURL(); ok {
 		_spec.SetField(endpoint.FieldBaseURL, field.TypeString, value)
 	}
-	if value, ok := euo.mutation.Protocol(); ok {
+	if value, ok := _u.mutation.Protocol(); ok {
 		_spec.SetField(endpoint.FieldProtocol, field.TypeString, value)
 	}
-	if value, ok := euo.mutation.AuthType(); ok {
+	if value, ok := _u.mutation.AuthType(); ok {
 		_spec.SetField(endpoint.FieldAuthType, field.TypeString, value)
 	}
-	if value, ok := euo.mutation.AuthConfig(); ok {
+	if value, ok := _u.mutation.AuthConfig(); ok {
 		_spec.SetField(endpoint.FieldAuthConfig, field.TypeString, value)
 	}
-	if euo.mutation.AuthConfigCleared() {
+	if _u.mutation.AuthConfigCleared() {
 		_spec.ClearField(endpoint.FieldAuthConfig, field.TypeString)
 	}
-	if value, ok := euo.mutation.Timeout(); ok {
+	if value, ok := _u.mutation.Timeout(); ok {
 		_spec.SetField(endpoint.FieldTimeout, field.TypeInt, value)
 	}
-	if value, ok := euo.mutation.AddedTimeout(); ok {
+	if value, ok := _u.mutation.AddedTimeout(); ok {
 		_spec.AddField(endpoint.FieldTimeout, field.TypeInt, value)
 	}
-	if value, ok := euo.mutation.UseCircuitBreaker(); ok {
+	if value, ok := _u.mutation.UseCircuitBreaker(); ok {
 		_spec.SetField(endpoint.FieldUseCircuitBreaker, field.TypeBool, value)
 	}
-	if value, ok := euo.mutation.RetryCount(); ok {
+	if value, ok := _u.mutation.RetryCount(); ok {
 		_spec.SetField(endpoint.FieldRetryCount, field.TypeInt, value)
 	}
-	if value, ok := euo.mutation.AddedRetryCount(); ok {
+	if value, ok := _u.mutation.AddedRetryCount(); ok {
 		_spec.AddField(endpoint.FieldRetryCount, field.TypeInt, value)
 	}
-	if value, ok := euo.mutation.ValidateSsl(); ok {
+	if value, ok := _u.mutation.ValidateSsl(); ok {
 		_spec.SetField(endpoint.FieldValidateSsl, field.TypeBool, value)
 	}
-	if value, ok := euo.mutation.LogRequests(); ok {
+	if value, ok := _u.mutation.LogRequests(); ok {
 		_spec.SetField(endpoint.FieldLogRequests, field.TypeBool, value)
 	}
-	if value, ok := euo.mutation.LogResponses(); ok {
+	if value, ok := _u.mutation.LogResponses(); ok {
 		_spec.SetField(endpoint.FieldLogResponses, field.TypeBool, value)
 	}
-	_node = &Endpoint{config: euo.config}
+	_node = &Endpoint{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues
-	if err = sqlgraph.UpdateNode(ctx, euo.driver, _spec); err != nil {
+	if err = sqlgraph.UpdateNode(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{endpoint.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -970,6 +970,6 @@ func (euo *EndpointUpdateOne) sqlSave(ctx context.Context) (_node *Endpoint, err
 		}
 		return nil, err
 	}
-	euo.mutation.done = true
+	_u.mutation.done = true
 	return _node, nil
 }

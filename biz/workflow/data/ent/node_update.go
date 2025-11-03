@@ -23,950 +23,950 @@ type NodeUpdate struct {
 }
 
 // Where appends a list predicates to the NodeUpdate builder.
-func (nu *NodeUpdate) Where(ps ...predicate.Node) *NodeUpdate {
-	nu.mutation.Where(ps...)
-	return nu
+func (_u *NodeUpdate) Where(ps ...predicate.Node) *NodeUpdate {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // SetName sets the "name" field.
-func (nu *NodeUpdate) SetName(s string) *NodeUpdate {
-	nu.mutation.SetName(s)
-	return nu
+func (_u *NodeUpdate) SetName(v string) *NodeUpdate {
+	_u.mutation.SetName(v)
+	return _u
 }
 
 // SetNillableName sets the "name" field if the given value is not nil.
-func (nu *NodeUpdate) SetNillableName(s *string) *NodeUpdate {
-	if s != nil {
-		nu.SetName(*s)
+func (_u *NodeUpdate) SetNillableName(v *string) *NodeUpdate {
+	if v != nil {
+		_u.SetName(*v)
 	}
-	return nu
+	return _u
 }
 
 // ClearName clears the value of the "name" field.
-func (nu *NodeUpdate) ClearName() *NodeUpdate {
-	nu.mutation.ClearName()
-	return nu
+func (_u *NodeUpdate) ClearName() *NodeUpdate {
+	_u.mutation.ClearName()
+	return _u
 }
 
 // SetDescription sets the "description" field.
-func (nu *NodeUpdate) SetDescription(s string) *NodeUpdate {
-	nu.mutation.SetDescription(s)
-	return nu
+func (_u *NodeUpdate) SetDescription(v string) *NodeUpdate {
+	_u.mutation.SetDescription(v)
+	return _u
 }
 
 // SetNillableDescription sets the "description" field if the given value is not nil.
-func (nu *NodeUpdate) SetNillableDescription(s *string) *NodeUpdate {
-	if s != nil {
-		nu.SetDescription(*s)
+func (_u *NodeUpdate) SetNillableDescription(v *string) *NodeUpdate {
+	if v != nil {
+		_u.SetDescription(*v)
 	}
-	return nu
+	return _u
 }
 
 // ClearDescription clears the value of the "description" field.
-func (nu *NodeUpdate) ClearDescription() *NodeUpdate {
-	nu.mutation.ClearDescription()
-	return nu
+func (_u *NodeUpdate) ClearDescription() *NodeUpdate {
+	_u.mutation.ClearDescription()
+	return _u
 }
 
 // SetType sets the "type" field.
-func (nu *NodeUpdate) SetType(s string) *NodeUpdate {
-	nu.mutation.SetType(s)
-	return nu
+func (_u *NodeUpdate) SetType(v string) *NodeUpdate {
+	_u.mutation.SetType(v)
+	return _u
 }
 
 // SetNillableType sets the "type" field if the given value is not nil.
-func (nu *NodeUpdate) SetNillableType(s *string) *NodeUpdate {
-	if s != nil {
-		nu.SetType(*s)
+func (_u *NodeUpdate) SetNillableType(v *string) *NodeUpdate {
+	if v != nil {
+		_u.SetType(*v)
 	}
-	return nu
+	return _u
 }
 
 // ClearType clears the value of the "type" field.
-func (nu *NodeUpdate) ClearType() *NodeUpdate {
-	nu.mutation.ClearType()
-	return nu
+func (_u *NodeUpdate) ClearType() *NodeUpdate {
+	_u.mutation.ClearType()
+	return _u
 }
 
 // SetStatus sets the "status" field.
-func (nu *NodeUpdate) SetStatus(s string) *NodeUpdate {
-	nu.mutation.SetStatus(s)
-	return nu
+func (_u *NodeUpdate) SetStatus(v string) *NodeUpdate {
+	_u.mutation.SetStatus(v)
+	return _u
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (nu *NodeUpdate) SetNillableStatus(s *string) *NodeUpdate {
-	if s != nil {
-		nu.SetStatus(*s)
+func (_u *NodeUpdate) SetNillableStatus(v *string) *NodeUpdate {
+	if v != nil {
+		_u.SetStatus(*v)
 	}
-	return nu
+	return _u
 }
 
 // ClearStatus clears the value of the "status" field.
-func (nu *NodeUpdate) ClearStatus() *NodeUpdate {
-	nu.mutation.ClearStatus()
-	return nu
+func (_u *NodeUpdate) ClearStatus() *NodeUpdate {
+	_u.mutation.ClearStatus()
+	return _u
 }
 
 // SetNodeKey sets the "node_key" field.
-func (nu *NodeUpdate) SetNodeKey(s string) *NodeUpdate {
-	nu.mutation.SetNodeKey(s)
-	return nu
+func (_u *NodeUpdate) SetNodeKey(v string) *NodeUpdate {
+	_u.mutation.SetNodeKey(v)
+	return _u
 }
 
 // SetNillableNodeKey sets the "node_key" field if the given value is not nil.
-func (nu *NodeUpdate) SetNillableNodeKey(s *string) *NodeUpdate {
-	if s != nil {
-		nu.SetNodeKey(*s)
+func (_u *NodeUpdate) SetNillableNodeKey(v *string) *NodeUpdate {
+	if v != nil {
+		_u.SetNodeKey(*v)
 	}
-	return nu
+	return _u
 }
 
 // SetNodeType sets the "node_type" field.
-func (nu *NodeUpdate) SetNodeType(s string) *NodeUpdate {
-	nu.mutation.SetNodeType(s)
-	return nu
+func (_u *NodeUpdate) SetNodeType(v string) *NodeUpdate {
+	_u.mutation.SetNodeType(v)
+	return _u
 }
 
 // SetNillableNodeType sets the "node_type" field if the given value is not nil.
-func (nu *NodeUpdate) SetNillableNodeType(s *string) *NodeUpdate {
-	if s != nil {
-		nu.SetNodeType(*s)
+func (_u *NodeUpdate) SetNillableNodeType(v *string) *NodeUpdate {
+	if v != nil {
+		_u.SetNodeType(*v)
 	}
-	return nu
+	return _u
 }
 
 // SetNodeConfig sets the "node_config" field.
-func (nu *NodeUpdate) SetNodeConfig(m map[string]interface{}) *NodeUpdate {
-	nu.mutation.SetNodeConfig(m)
-	return nu
+func (_u *NodeUpdate) SetNodeConfig(v map[string]interface{}) *NodeUpdate {
+	_u.mutation.SetNodeConfig(v)
+	return _u
 }
 
 // ClearNodeConfig clears the value of the "node_config" field.
-func (nu *NodeUpdate) ClearNodeConfig() *NodeUpdate {
-	nu.mutation.ClearNodeConfig()
-	return nu
+func (_u *NodeUpdate) ClearNodeConfig() *NodeUpdate {
+	_u.mutation.ClearNodeConfig()
+	return _u
 }
 
 // SetNodeRules sets the "node_rules" field.
-func (nu *NodeUpdate) SetNodeRules(m map[string]interface{}) *NodeUpdate {
-	nu.mutation.SetNodeRules(m)
-	return nu
+func (_u *NodeUpdate) SetNodeRules(v map[string]interface{}) *NodeUpdate {
+	_u.mutation.SetNodeRules(v)
+	return _u
 }
 
 // ClearNodeRules clears the value of the "node_rules" field.
-func (nu *NodeUpdate) ClearNodeRules() *NodeUpdate {
-	nu.mutation.ClearNodeRules()
-	return nu
+func (_u *NodeUpdate) ClearNodeRules() *NodeUpdate {
+	_u.mutation.ClearNodeRules()
+	return _u
 }
 
 // SetNodeEvents sets the "node_events" field.
-func (nu *NodeUpdate) SetNodeEvents(m map[string]interface{}) *NodeUpdate {
-	nu.mutation.SetNodeEvents(m)
-	return nu
+func (_u *NodeUpdate) SetNodeEvents(v map[string]interface{}) *NodeUpdate {
+	_u.mutation.SetNodeEvents(v)
+	return _u
 }
 
 // ClearNodeEvents clears the value of the "node_events" field.
-func (nu *NodeUpdate) ClearNodeEvents() *NodeUpdate {
-	nu.mutation.ClearNodeEvents()
-	return nu
+func (_u *NodeUpdate) ClearNodeEvents() *NodeUpdate {
+	_u.mutation.ClearNodeEvents()
+	return _u
 }
 
 // SetFormCode sets the "form_code" field.
-func (nu *NodeUpdate) SetFormCode(s string) *NodeUpdate {
-	nu.mutation.SetFormCode(s)
-	return nu
+func (_u *NodeUpdate) SetFormCode(v string) *NodeUpdate {
+	_u.mutation.SetFormCode(v)
+	return _u
 }
 
 // SetNillableFormCode sets the "form_code" field if the given value is not nil.
-func (nu *NodeUpdate) SetNillableFormCode(s *string) *NodeUpdate {
-	if s != nil {
-		nu.SetFormCode(*s)
+func (_u *NodeUpdate) SetNillableFormCode(v *string) *NodeUpdate {
+	if v != nil {
+		_u.SetFormCode(*v)
 	}
-	return nu
+	return _u
 }
 
 // SetFormVersion sets the "form_version" field.
-func (nu *NodeUpdate) SetFormVersion(s string) *NodeUpdate {
-	nu.mutation.SetFormVersion(s)
-	return nu
+func (_u *NodeUpdate) SetFormVersion(v string) *NodeUpdate {
+	_u.mutation.SetFormVersion(v)
+	return _u
 }
 
 // SetNillableFormVersion sets the "form_version" field if the given value is not nil.
-func (nu *NodeUpdate) SetNillableFormVersion(s *string) *NodeUpdate {
-	if s != nil {
-		nu.SetFormVersion(*s)
+func (_u *NodeUpdate) SetNillableFormVersion(v *string) *NodeUpdate {
+	if v != nil {
+		_u.SetFormVersion(*v)
 	}
-	return nu
+	return _u
 }
 
 // ClearFormVersion clears the value of the "form_version" field.
-func (nu *NodeUpdate) ClearFormVersion() *NodeUpdate {
-	nu.mutation.ClearFormVersion()
-	return nu
+func (_u *NodeUpdate) ClearFormVersion() *NodeUpdate {
+	_u.mutation.ClearFormVersion()
+	return _u
 }
 
 // SetFormConfig sets the "form_config" field.
-func (nu *NodeUpdate) SetFormConfig(m map[string]interface{}) *NodeUpdate {
-	nu.mutation.SetFormConfig(m)
-	return nu
+func (_u *NodeUpdate) SetFormConfig(v map[string]interface{}) *NodeUpdate {
+	_u.mutation.SetFormConfig(v)
+	return _u
 }
 
 // ClearFormConfig clears the value of the "form_config" field.
-func (nu *NodeUpdate) ClearFormConfig() *NodeUpdate {
-	nu.mutation.ClearFormConfig()
-	return nu
+func (_u *NodeUpdate) ClearFormConfig() *NodeUpdate {
+	_u.mutation.ClearFormConfig()
+	return _u
 }
 
 // SetFormPermissions sets the "form_permissions" field.
-func (nu *NodeUpdate) SetFormPermissions(m map[string]interface{}) *NodeUpdate {
-	nu.mutation.SetFormPermissions(m)
-	return nu
+func (_u *NodeUpdate) SetFormPermissions(v map[string]interface{}) *NodeUpdate {
+	_u.mutation.SetFormPermissions(v)
+	return _u
 }
 
 // ClearFormPermissions clears the value of the "form_permissions" field.
-func (nu *NodeUpdate) ClearFormPermissions() *NodeUpdate {
-	nu.mutation.ClearFormPermissions()
-	return nu
+func (_u *NodeUpdate) ClearFormPermissions() *NodeUpdate {
+	_u.mutation.ClearFormPermissions()
+	return _u
 }
 
 // SetFieldPermissions sets the "field_permissions" field.
-func (nu *NodeUpdate) SetFieldPermissions(m map[string]interface{}) *NodeUpdate {
-	nu.mutation.SetFieldPermissions(m)
-	return nu
+func (_u *NodeUpdate) SetFieldPermissions(v map[string]interface{}) *NodeUpdate {
+	_u.mutation.SetFieldPermissions(v)
+	return _u
 }
 
 // ClearFieldPermissions clears the value of the "field_permissions" field.
-func (nu *NodeUpdate) ClearFieldPermissions() *NodeUpdate {
-	nu.mutation.ClearFieldPermissions()
-	return nu
+func (_u *NodeUpdate) ClearFieldPermissions() *NodeUpdate {
+	_u.mutation.ClearFieldPermissions()
+	return _u
 }
 
 // SetAssignees sets the "assignees" field.
-func (nu *NodeUpdate) SetAssignees(s []string) *NodeUpdate {
-	nu.mutation.SetAssignees(s)
-	return nu
+func (_u *NodeUpdate) SetAssignees(v []string) *NodeUpdate {
+	_u.mutation.SetAssignees(v)
+	return _u
 }
 
-// AppendAssignees appends s to the "assignees" field.
-func (nu *NodeUpdate) AppendAssignees(s []string) *NodeUpdate {
-	nu.mutation.AppendAssignees(s)
-	return nu
+// AppendAssignees appends value to the "assignees" field.
+func (_u *NodeUpdate) AppendAssignees(v []string) *NodeUpdate {
+	_u.mutation.AppendAssignees(v)
+	return _u
 }
 
 // SetCandidates sets the "candidates" field.
-func (nu *NodeUpdate) SetCandidates(s []string) *NodeUpdate {
-	nu.mutation.SetCandidates(s)
-	return nu
+func (_u *NodeUpdate) SetCandidates(v []string) *NodeUpdate {
+	_u.mutation.SetCandidates(v)
+	return _u
 }
 
-// AppendCandidates appends s to the "candidates" field.
-func (nu *NodeUpdate) AppendCandidates(s []string) *NodeUpdate {
-	nu.mutation.AppendCandidates(s)
-	return nu
+// AppendCandidates appends value to the "candidates" field.
+func (_u *NodeUpdate) AppendCandidates(v []string) *NodeUpdate {
+	_u.mutation.AppendCandidates(v)
+	return _u
 }
 
 // SetDelegatedFrom sets the "delegated_from" field.
-func (nu *NodeUpdate) SetDelegatedFrom(s string) *NodeUpdate {
-	nu.mutation.SetDelegatedFrom(s)
-	return nu
+func (_u *NodeUpdate) SetDelegatedFrom(v string) *NodeUpdate {
+	_u.mutation.SetDelegatedFrom(v)
+	return _u
 }
 
 // SetNillableDelegatedFrom sets the "delegated_from" field if the given value is not nil.
-func (nu *NodeUpdate) SetNillableDelegatedFrom(s *string) *NodeUpdate {
-	if s != nil {
-		nu.SetDelegatedFrom(*s)
+func (_u *NodeUpdate) SetNillableDelegatedFrom(v *string) *NodeUpdate {
+	if v != nil {
+		_u.SetDelegatedFrom(*v)
 	}
-	return nu
+	return _u
 }
 
 // ClearDelegatedFrom clears the value of the "delegated_from" field.
-func (nu *NodeUpdate) ClearDelegatedFrom() *NodeUpdate {
-	nu.mutation.ClearDelegatedFrom()
-	return nu
+func (_u *NodeUpdate) ClearDelegatedFrom() *NodeUpdate {
+	_u.mutation.ClearDelegatedFrom()
+	return _u
 }
 
 // SetDelegatedReason sets the "delegated_reason" field.
-func (nu *NodeUpdate) SetDelegatedReason(s string) *NodeUpdate {
-	nu.mutation.SetDelegatedReason(s)
-	return nu
+func (_u *NodeUpdate) SetDelegatedReason(v string) *NodeUpdate {
+	_u.mutation.SetDelegatedReason(v)
+	return _u
 }
 
 // SetNillableDelegatedReason sets the "delegated_reason" field if the given value is not nil.
-func (nu *NodeUpdate) SetNillableDelegatedReason(s *string) *NodeUpdate {
-	if s != nil {
-		nu.SetDelegatedReason(*s)
+func (_u *NodeUpdate) SetNillableDelegatedReason(v *string) *NodeUpdate {
+	if v != nil {
+		_u.SetDelegatedReason(*v)
 	}
-	return nu
+	return _u
 }
 
 // ClearDelegatedReason clears the value of the "delegated_reason" field.
-func (nu *NodeUpdate) ClearDelegatedReason() *NodeUpdate {
-	nu.mutation.ClearDelegatedReason()
-	return nu
+func (_u *NodeUpdate) ClearDelegatedReason() *NodeUpdate {
+	_u.mutation.ClearDelegatedReason()
+	return _u
 }
 
 // SetIsDelegated sets the "is_delegated" field.
-func (nu *NodeUpdate) SetIsDelegated(b bool) *NodeUpdate {
-	nu.mutation.SetIsDelegated(b)
-	return nu
+func (_u *NodeUpdate) SetIsDelegated(v bool) *NodeUpdate {
+	_u.mutation.SetIsDelegated(v)
+	return _u
 }
 
 // SetNillableIsDelegated sets the "is_delegated" field if the given value is not nil.
-func (nu *NodeUpdate) SetNillableIsDelegated(b *bool) *NodeUpdate {
-	if b != nil {
-		nu.SetIsDelegated(*b)
+func (_u *NodeUpdate) SetNillableIsDelegated(v *bool) *NodeUpdate {
+	if v != nil {
+		_u.SetIsDelegated(*v)
 	}
-	return nu
+	return _u
 }
 
 // SetIsTransferred sets the "is_transferred" field.
-func (nu *NodeUpdate) SetIsTransferred(b bool) *NodeUpdate {
-	nu.mutation.SetIsTransferred(b)
-	return nu
+func (_u *NodeUpdate) SetIsTransferred(v bool) *NodeUpdate {
+	_u.mutation.SetIsTransferred(v)
+	return _u
 }
 
 // SetNillableIsTransferred sets the "is_transferred" field if the given value is not nil.
-func (nu *NodeUpdate) SetNillableIsTransferred(b *bool) *NodeUpdate {
-	if b != nil {
-		nu.SetIsTransferred(*b)
+func (_u *NodeUpdate) SetNillableIsTransferred(v *bool) *NodeUpdate {
+	if v != nil {
+		_u.SetIsTransferred(*v)
 	}
-	return nu
+	return _u
 }
 
 // SetAllowCancel sets the "allow_cancel" field.
-func (nu *NodeUpdate) SetAllowCancel(b bool) *NodeUpdate {
-	nu.mutation.SetAllowCancel(b)
-	return nu
+func (_u *NodeUpdate) SetAllowCancel(v bool) *NodeUpdate {
+	_u.mutation.SetAllowCancel(v)
+	return _u
 }
 
 // SetNillableAllowCancel sets the "allow_cancel" field if the given value is not nil.
-func (nu *NodeUpdate) SetNillableAllowCancel(b *bool) *NodeUpdate {
-	if b != nil {
-		nu.SetAllowCancel(*b)
+func (_u *NodeUpdate) SetNillableAllowCancel(v *bool) *NodeUpdate {
+	if v != nil {
+		_u.SetAllowCancel(*v)
 	}
-	return nu
+	return _u
 }
 
 // SetAllowUrge sets the "allow_urge" field.
-func (nu *NodeUpdate) SetAllowUrge(b bool) *NodeUpdate {
-	nu.mutation.SetAllowUrge(b)
-	return nu
+func (_u *NodeUpdate) SetAllowUrge(v bool) *NodeUpdate {
+	_u.mutation.SetAllowUrge(v)
+	return _u
 }
 
 // SetNillableAllowUrge sets the "allow_urge" field if the given value is not nil.
-func (nu *NodeUpdate) SetNillableAllowUrge(b *bool) *NodeUpdate {
-	if b != nil {
-		nu.SetAllowUrge(*b)
+func (_u *NodeUpdate) SetNillableAllowUrge(v *bool) *NodeUpdate {
+	if v != nil {
+		_u.SetAllowUrge(*v)
 	}
-	return nu
+	return _u
 }
 
 // SetAllowDelegate sets the "allow_delegate" field.
-func (nu *NodeUpdate) SetAllowDelegate(b bool) *NodeUpdate {
-	nu.mutation.SetAllowDelegate(b)
-	return nu
+func (_u *NodeUpdate) SetAllowDelegate(v bool) *NodeUpdate {
+	_u.mutation.SetAllowDelegate(v)
+	return _u
 }
 
 // SetNillableAllowDelegate sets the "allow_delegate" field if the given value is not nil.
-func (nu *NodeUpdate) SetNillableAllowDelegate(b *bool) *NodeUpdate {
-	if b != nil {
-		nu.SetAllowDelegate(*b)
+func (_u *NodeUpdate) SetNillableAllowDelegate(v *bool) *NodeUpdate {
+	if v != nil {
+		_u.SetAllowDelegate(*v)
 	}
-	return nu
+	return _u
 }
 
 // SetAllowTransfer sets the "allow_transfer" field.
-func (nu *NodeUpdate) SetAllowTransfer(b bool) *NodeUpdate {
-	nu.mutation.SetAllowTransfer(b)
-	return nu
+func (_u *NodeUpdate) SetAllowTransfer(v bool) *NodeUpdate {
+	_u.mutation.SetAllowTransfer(v)
+	return _u
 }
 
 // SetNillableAllowTransfer sets the "allow_transfer" field if the given value is not nil.
-func (nu *NodeUpdate) SetNillableAllowTransfer(b *bool) *NodeUpdate {
-	if b != nil {
-		nu.SetAllowTransfer(*b)
+func (_u *NodeUpdate) SetNillableAllowTransfer(v *bool) *NodeUpdate {
+	if v != nil {
+		_u.SetAllowTransfer(*v)
 	}
-	return nu
+	return _u
 }
 
 // SetIsDraftEnabled sets the "is_draft_enabled" field.
-func (nu *NodeUpdate) SetIsDraftEnabled(b bool) *NodeUpdate {
-	nu.mutation.SetIsDraftEnabled(b)
-	return nu
+func (_u *NodeUpdate) SetIsDraftEnabled(v bool) *NodeUpdate {
+	_u.mutation.SetIsDraftEnabled(v)
+	return _u
 }
 
 // SetNillableIsDraftEnabled sets the "is_draft_enabled" field if the given value is not nil.
-func (nu *NodeUpdate) SetNillableIsDraftEnabled(b *bool) *NodeUpdate {
-	if b != nil {
-		nu.SetIsDraftEnabled(*b)
+func (_u *NodeUpdate) SetNillableIsDraftEnabled(v *bool) *NodeUpdate {
+	if v != nil {
+		_u.SetIsDraftEnabled(*v)
 	}
-	return nu
+	return _u
 }
 
 // SetIsAutoStart sets the "is_auto_start" field.
-func (nu *NodeUpdate) SetIsAutoStart(b bool) *NodeUpdate {
-	nu.mutation.SetIsAutoStart(b)
-	return nu
+func (_u *NodeUpdate) SetIsAutoStart(v bool) *NodeUpdate {
+	_u.mutation.SetIsAutoStart(v)
+	return _u
 }
 
 // SetNillableIsAutoStart sets the "is_auto_start" field if the given value is not nil.
-func (nu *NodeUpdate) SetNillableIsAutoStart(b *bool) *NodeUpdate {
-	if b != nil {
-		nu.SetIsAutoStart(*b)
+func (_u *NodeUpdate) SetNillableIsAutoStart(v *bool) *NodeUpdate {
+	if v != nil {
+		_u.SetIsAutoStart(*v)
 	}
-	return nu
+	return _u
 }
 
 // SetStrictMode sets the "strict_mode" field.
-func (nu *NodeUpdate) SetStrictMode(b bool) *NodeUpdate {
-	nu.mutation.SetStrictMode(b)
-	return nu
+func (_u *NodeUpdate) SetStrictMode(v bool) *NodeUpdate {
+	_u.mutation.SetStrictMode(v)
+	return _u
 }
 
 // SetNillableStrictMode sets the "strict_mode" field if the given value is not nil.
-func (nu *NodeUpdate) SetNillableStrictMode(b *bool) *NodeUpdate {
-	if b != nil {
-		nu.SetStrictMode(*b)
+func (_u *NodeUpdate) SetNillableStrictMode(v *bool) *NodeUpdate {
+	if v != nil {
+		_u.SetStrictMode(*v)
 	}
-	return nu
+	return _u
 }
 
 // SetStartTime sets the "start_time" field.
-func (nu *NodeUpdate) SetStartTime(i int64) *NodeUpdate {
-	nu.mutation.ResetStartTime()
-	nu.mutation.SetStartTime(i)
-	return nu
+func (_u *NodeUpdate) SetStartTime(v int64) *NodeUpdate {
+	_u.mutation.ResetStartTime()
+	_u.mutation.SetStartTime(v)
+	return _u
 }
 
 // SetNillableStartTime sets the "start_time" field if the given value is not nil.
-func (nu *NodeUpdate) SetNillableStartTime(i *int64) *NodeUpdate {
-	if i != nil {
-		nu.SetStartTime(*i)
+func (_u *NodeUpdate) SetNillableStartTime(v *int64) *NodeUpdate {
+	if v != nil {
+		_u.SetStartTime(*v)
 	}
-	return nu
+	return _u
 }
 
-// AddStartTime adds i to the "start_time" field.
-func (nu *NodeUpdate) AddStartTime(i int64) *NodeUpdate {
-	nu.mutation.AddStartTime(i)
-	return nu
+// AddStartTime adds value to the "start_time" field.
+func (_u *NodeUpdate) AddStartTime(v int64) *NodeUpdate {
+	_u.mutation.AddStartTime(v)
+	return _u
 }
 
 // SetEndTime sets the "end_time" field.
-func (nu *NodeUpdate) SetEndTime(i int64) *NodeUpdate {
-	nu.mutation.ResetEndTime()
-	nu.mutation.SetEndTime(i)
-	return nu
+func (_u *NodeUpdate) SetEndTime(v int64) *NodeUpdate {
+	_u.mutation.ResetEndTime()
+	_u.mutation.SetEndTime(v)
+	return _u
 }
 
 // SetNillableEndTime sets the "end_time" field if the given value is not nil.
-func (nu *NodeUpdate) SetNillableEndTime(i *int64) *NodeUpdate {
-	if i != nil {
-		nu.SetEndTime(*i)
+func (_u *NodeUpdate) SetNillableEndTime(v *int64) *NodeUpdate {
+	if v != nil {
+		_u.SetEndTime(*v)
 	}
-	return nu
+	return _u
 }
 
-// AddEndTime adds i to the "end_time" field.
-func (nu *NodeUpdate) AddEndTime(i int64) *NodeUpdate {
-	nu.mutation.AddEndTime(i)
-	return nu
+// AddEndTime adds value to the "end_time" field.
+func (_u *NodeUpdate) AddEndTime(v int64) *NodeUpdate {
+	_u.mutation.AddEndTime(v)
+	return _u
 }
 
 // ClearEndTime clears the value of the "end_time" field.
-func (nu *NodeUpdate) ClearEndTime() *NodeUpdate {
-	nu.mutation.ClearEndTime()
-	return nu
+func (_u *NodeUpdate) ClearEndTime() *NodeUpdate {
+	_u.mutation.ClearEndTime()
+	return _u
 }
 
 // SetDueTime sets the "due_time" field.
-func (nu *NodeUpdate) SetDueTime(i int64) *NodeUpdate {
-	nu.mutation.ResetDueTime()
-	nu.mutation.SetDueTime(i)
-	return nu
+func (_u *NodeUpdate) SetDueTime(v int64) *NodeUpdate {
+	_u.mutation.ResetDueTime()
+	_u.mutation.SetDueTime(v)
+	return _u
 }
 
 // SetNillableDueTime sets the "due_time" field if the given value is not nil.
-func (nu *NodeUpdate) SetNillableDueTime(i *int64) *NodeUpdate {
-	if i != nil {
-		nu.SetDueTime(*i)
+func (_u *NodeUpdate) SetNillableDueTime(v *int64) *NodeUpdate {
+	if v != nil {
+		_u.SetDueTime(*v)
 	}
-	return nu
+	return _u
 }
 
-// AddDueTime adds i to the "due_time" field.
-func (nu *NodeUpdate) AddDueTime(i int64) *NodeUpdate {
-	nu.mutation.AddDueTime(i)
-	return nu
+// AddDueTime adds value to the "due_time" field.
+func (_u *NodeUpdate) AddDueTime(v int64) *NodeUpdate {
+	_u.mutation.AddDueTime(v)
+	return _u
 }
 
 // ClearDueTime clears the value of the "due_time" field.
-func (nu *NodeUpdate) ClearDueTime() *NodeUpdate {
-	nu.mutation.ClearDueTime()
-	return nu
+func (_u *NodeUpdate) ClearDueTime() *NodeUpdate {
+	_u.mutation.ClearDueTime()
+	return _u
 }
 
 // SetDuration sets the "duration" field.
-func (nu *NodeUpdate) SetDuration(i int) *NodeUpdate {
-	nu.mutation.ResetDuration()
-	nu.mutation.SetDuration(i)
-	return nu
+func (_u *NodeUpdate) SetDuration(v int) *NodeUpdate {
+	_u.mutation.ResetDuration()
+	_u.mutation.SetDuration(v)
+	return _u
 }
 
 // SetNillableDuration sets the "duration" field if the given value is not nil.
-func (nu *NodeUpdate) SetNillableDuration(i *int) *NodeUpdate {
-	if i != nil {
-		nu.SetDuration(*i)
+func (_u *NodeUpdate) SetNillableDuration(v *int) *NodeUpdate {
+	if v != nil {
+		_u.SetDuration(*v)
 	}
-	return nu
+	return _u
 }
 
-// AddDuration adds i to the "duration" field.
-func (nu *NodeUpdate) AddDuration(i int) *NodeUpdate {
-	nu.mutation.AddDuration(i)
-	return nu
+// AddDuration adds value to the "duration" field.
+func (_u *NodeUpdate) AddDuration(v int) *NodeUpdate {
+	_u.mutation.AddDuration(v)
+	return _u
 }
 
 // ClearDuration clears the value of the "duration" field.
-func (nu *NodeUpdate) ClearDuration() *NodeUpdate {
-	nu.mutation.ClearDuration()
-	return nu
+func (_u *NodeUpdate) ClearDuration() *NodeUpdate {
+	_u.mutation.ClearDuration()
+	return _u
 }
 
 // SetPriority sets the "priority" field.
-func (nu *NodeUpdate) SetPriority(i int) *NodeUpdate {
-	nu.mutation.ResetPriority()
-	nu.mutation.SetPriority(i)
-	return nu
+func (_u *NodeUpdate) SetPriority(v int) *NodeUpdate {
+	_u.mutation.ResetPriority()
+	_u.mutation.SetPriority(v)
+	return _u
 }
 
 // SetNillablePriority sets the "priority" field if the given value is not nil.
-func (nu *NodeUpdate) SetNillablePriority(i *int) *NodeUpdate {
-	if i != nil {
-		nu.SetPriority(*i)
+func (_u *NodeUpdate) SetNillablePriority(v *int) *NodeUpdate {
+	if v != nil {
+		_u.SetPriority(*v)
 	}
-	return nu
+	return _u
 }
 
-// AddPriority adds i to the "priority" field.
-func (nu *NodeUpdate) AddPriority(i int) *NodeUpdate {
-	nu.mutation.AddPriority(i)
-	return nu
+// AddPriority adds value to the "priority" field.
+func (_u *NodeUpdate) AddPriority(v int) *NodeUpdate {
+	_u.mutation.AddPriority(v)
+	return _u
 }
 
 // SetIsTimeout sets the "is_timeout" field.
-func (nu *NodeUpdate) SetIsTimeout(b bool) *NodeUpdate {
-	nu.mutation.SetIsTimeout(b)
-	return nu
+func (_u *NodeUpdate) SetIsTimeout(v bool) *NodeUpdate {
+	_u.mutation.SetIsTimeout(v)
+	return _u
 }
 
 // SetNillableIsTimeout sets the "is_timeout" field if the given value is not nil.
-func (nu *NodeUpdate) SetNillableIsTimeout(b *bool) *NodeUpdate {
-	if b != nil {
-		nu.SetIsTimeout(*b)
+func (_u *NodeUpdate) SetNillableIsTimeout(v *bool) *NodeUpdate {
+	if v != nil {
+		_u.SetIsTimeout(*v)
 	}
-	return nu
+	return _u
 }
 
 // SetReminderCount sets the "reminder_count" field.
-func (nu *NodeUpdate) SetReminderCount(i int) *NodeUpdate {
-	nu.mutation.ResetReminderCount()
-	nu.mutation.SetReminderCount(i)
-	return nu
+func (_u *NodeUpdate) SetReminderCount(v int) *NodeUpdate {
+	_u.mutation.ResetReminderCount()
+	_u.mutation.SetReminderCount(v)
+	return _u
 }
 
 // SetNillableReminderCount sets the "reminder_count" field if the given value is not nil.
-func (nu *NodeUpdate) SetNillableReminderCount(i *int) *NodeUpdate {
-	if i != nil {
-		nu.SetReminderCount(*i)
+func (_u *NodeUpdate) SetNillableReminderCount(v *int) *NodeUpdate {
+	if v != nil {
+		_u.SetReminderCount(*v)
 	}
-	return nu
+	return _u
 }
 
-// AddReminderCount adds i to the "reminder_count" field.
-func (nu *NodeUpdate) AddReminderCount(i int) *NodeUpdate {
-	nu.mutation.AddReminderCount(i)
-	return nu
+// AddReminderCount adds value to the "reminder_count" field.
+func (_u *NodeUpdate) AddReminderCount(v int) *NodeUpdate {
+	_u.mutation.AddReminderCount(v)
+	return _u
 }
 
 // SetExtras sets the "extras" field.
-func (nu *NodeUpdate) SetExtras(m map[string]interface{}) *NodeUpdate {
-	nu.mutation.SetExtras(m)
-	return nu
+func (_u *NodeUpdate) SetExtras(v map[string]interface{}) *NodeUpdate {
+	_u.mutation.SetExtras(v)
+	return _u
 }
 
 // ClearExtras clears the value of the "extras" field.
-func (nu *NodeUpdate) ClearExtras() *NodeUpdate {
-	nu.mutation.ClearExtras()
-	return nu
+func (_u *NodeUpdate) ClearExtras() *NodeUpdate {
+	_u.mutation.ClearExtras()
+	return _u
 }
 
 // SetSpaceID sets the "space_id" field.
-func (nu *NodeUpdate) SetSpaceID(s string) *NodeUpdate {
-	nu.mutation.SetSpaceID(s)
-	return nu
+func (_u *NodeUpdate) SetSpaceID(v string) *NodeUpdate {
+	_u.mutation.SetSpaceID(v)
+	return _u
 }
 
 // SetNillableSpaceID sets the "space_id" field if the given value is not nil.
-func (nu *NodeUpdate) SetNillableSpaceID(s *string) *NodeUpdate {
-	if s != nil {
-		nu.SetSpaceID(*s)
+func (_u *NodeUpdate) SetNillableSpaceID(v *string) *NodeUpdate {
+	if v != nil {
+		_u.SetSpaceID(*v)
 	}
-	return nu
+	return _u
 }
 
 // ClearSpaceID clears the value of the "space_id" field.
-func (nu *NodeUpdate) ClearSpaceID() *NodeUpdate {
-	nu.mutation.ClearSpaceID()
-	return nu
+func (_u *NodeUpdate) ClearSpaceID() *NodeUpdate {
+	_u.mutation.ClearSpaceID()
+	return _u
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (nu *NodeUpdate) SetCreatedBy(s string) *NodeUpdate {
-	nu.mutation.SetCreatedBy(s)
-	return nu
+func (_u *NodeUpdate) SetCreatedBy(v string) *NodeUpdate {
+	_u.mutation.SetCreatedBy(v)
+	return _u
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (nu *NodeUpdate) SetNillableCreatedBy(s *string) *NodeUpdate {
-	if s != nil {
-		nu.SetCreatedBy(*s)
+func (_u *NodeUpdate) SetNillableCreatedBy(v *string) *NodeUpdate {
+	if v != nil {
+		_u.SetCreatedBy(*v)
 	}
-	return nu
+	return _u
 }
 
 // ClearCreatedBy clears the value of the "created_by" field.
-func (nu *NodeUpdate) ClearCreatedBy() *NodeUpdate {
-	nu.mutation.ClearCreatedBy()
-	return nu
+func (_u *NodeUpdate) ClearCreatedBy() *NodeUpdate {
+	_u.mutation.ClearCreatedBy()
+	return _u
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (nu *NodeUpdate) SetUpdatedBy(s string) *NodeUpdate {
-	nu.mutation.SetUpdatedBy(s)
-	return nu
+func (_u *NodeUpdate) SetUpdatedBy(v string) *NodeUpdate {
+	_u.mutation.SetUpdatedBy(v)
+	return _u
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (nu *NodeUpdate) SetNillableUpdatedBy(s *string) *NodeUpdate {
-	if s != nil {
-		nu.SetUpdatedBy(*s)
+func (_u *NodeUpdate) SetNillableUpdatedBy(v *string) *NodeUpdate {
+	if v != nil {
+		_u.SetUpdatedBy(*v)
 	}
-	return nu
+	return _u
 }
 
 // ClearUpdatedBy clears the value of the "updated_by" field.
-func (nu *NodeUpdate) ClearUpdatedBy() *NodeUpdate {
-	nu.mutation.ClearUpdatedBy()
-	return nu
+func (_u *NodeUpdate) ClearUpdatedBy() *NodeUpdate {
+	_u.mutation.ClearUpdatedBy()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (nu *NodeUpdate) SetUpdatedAt(i int64) *NodeUpdate {
-	nu.mutation.ResetUpdatedAt()
-	nu.mutation.SetUpdatedAt(i)
-	return nu
+func (_u *NodeUpdate) SetUpdatedAt(v int64) *NodeUpdate {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (nu *NodeUpdate) AddUpdatedAt(i int64) *NodeUpdate {
-	nu.mutation.AddUpdatedAt(i)
-	return nu
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *NodeUpdate) AddUpdatedAt(v int64) *NodeUpdate {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (nu *NodeUpdate) ClearUpdatedAt() *NodeUpdate {
-	nu.mutation.ClearUpdatedAt()
-	return nu
+func (_u *NodeUpdate) ClearUpdatedAt() *NodeUpdate {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // SetProcessID sets the "process_id" field.
-func (nu *NodeUpdate) SetProcessID(s string) *NodeUpdate {
-	nu.mutation.SetProcessID(s)
-	return nu
+func (_u *NodeUpdate) SetProcessID(v string) *NodeUpdate {
+	_u.mutation.SetProcessID(v)
+	return _u
 }
 
 // SetNillableProcessID sets the "process_id" field if the given value is not nil.
-func (nu *NodeUpdate) SetNillableProcessID(s *string) *NodeUpdate {
-	if s != nil {
-		nu.SetProcessID(*s)
+func (_u *NodeUpdate) SetNillableProcessID(v *string) *NodeUpdate {
+	if v != nil {
+		_u.SetProcessID(*v)
 	}
-	return nu
+	return _u
 }
 
 // SetPermissions sets the "permissions" field.
-func (nu *NodeUpdate) SetPermissions(m map[string]interface{}) *NodeUpdate {
-	nu.mutation.SetPermissions(m)
-	return nu
+func (_u *NodeUpdate) SetPermissions(v map[string]interface{}) *NodeUpdate {
+	_u.mutation.SetPermissions(v)
+	return _u
 }
 
 // SetPrevNodes sets the "prev_nodes" field.
-func (nu *NodeUpdate) SetPrevNodes(s []string) *NodeUpdate {
-	nu.mutation.SetPrevNodes(s)
-	return nu
+func (_u *NodeUpdate) SetPrevNodes(v []string) *NodeUpdate {
+	_u.mutation.SetPrevNodes(v)
+	return _u
 }
 
-// AppendPrevNodes appends s to the "prev_nodes" field.
-func (nu *NodeUpdate) AppendPrevNodes(s []string) *NodeUpdate {
-	nu.mutation.AppendPrevNodes(s)
-	return nu
+// AppendPrevNodes appends value to the "prev_nodes" field.
+func (_u *NodeUpdate) AppendPrevNodes(v []string) *NodeUpdate {
+	_u.mutation.AppendPrevNodes(v)
+	return _u
 }
 
 // ClearPrevNodes clears the value of the "prev_nodes" field.
-func (nu *NodeUpdate) ClearPrevNodes() *NodeUpdate {
-	nu.mutation.ClearPrevNodes()
-	return nu
+func (_u *NodeUpdate) ClearPrevNodes() *NodeUpdate {
+	_u.mutation.ClearPrevNodes()
+	return _u
 }
 
 // SetNextNodes sets the "next_nodes" field.
-func (nu *NodeUpdate) SetNextNodes(s []string) *NodeUpdate {
-	nu.mutation.SetNextNodes(s)
-	return nu
+func (_u *NodeUpdate) SetNextNodes(v []string) *NodeUpdate {
+	_u.mutation.SetNextNodes(v)
+	return _u
 }
 
-// AppendNextNodes appends s to the "next_nodes" field.
-func (nu *NodeUpdate) AppendNextNodes(s []string) *NodeUpdate {
-	nu.mutation.AppendNextNodes(s)
-	return nu
+// AppendNextNodes appends value to the "next_nodes" field.
+func (_u *NodeUpdate) AppendNextNodes(v []string) *NodeUpdate {
+	_u.mutation.AppendNextNodes(v)
+	return _u
 }
 
 // ClearNextNodes clears the value of the "next_nodes" field.
-func (nu *NodeUpdate) ClearNextNodes() *NodeUpdate {
-	nu.mutation.ClearNextNodes()
-	return nu
+func (_u *NodeUpdate) ClearNextNodes() *NodeUpdate {
+	_u.mutation.ClearNextNodes()
+	return _u
 }
 
 // SetParallelNodes sets the "parallel_nodes" field.
-func (nu *NodeUpdate) SetParallelNodes(s []string) *NodeUpdate {
-	nu.mutation.SetParallelNodes(s)
-	return nu
+func (_u *NodeUpdate) SetParallelNodes(v []string) *NodeUpdate {
+	_u.mutation.SetParallelNodes(v)
+	return _u
 }
 
-// AppendParallelNodes appends s to the "parallel_nodes" field.
-func (nu *NodeUpdate) AppendParallelNodes(s []string) *NodeUpdate {
-	nu.mutation.AppendParallelNodes(s)
-	return nu
+// AppendParallelNodes appends value to the "parallel_nodes" field.
+func (_u *NodeUpdate) AppendParallelNodes(v []string) *NodeUpdate {
+	_u.mutation.AppendParallelNodes(v)
+	return _u
 }
 
 // ClearParallelNodes clears the value of the "parallel_nodes" field.
-func (nu *NodeUpdate) ClearParallelNodes() *NodeUpdate {
-	nu.mutation.ClearParallelNodes()
-	return nu
+func (_u *NodeUpdate) ClearParallelNodes() *NodeUpdate {
+	_u.mutation.ClearParallelNodes()
+	return _u
 }
 
 // SetBranchNodes sets the "branch_nodes" field.
-func (nu *NodeUpdate) SetBranchNodes(s []string) *NodeUpdate {
-	nu.mutation.SetBranchNodes(s)
-	return nu
+func (_u *NodeUpdate) SetBranchNodes(v []string) *NodeUpdate {
+	_u.mutation.SetBranchNodes(v)
+	return _u
 }
 
-// AppendBranchNodes appends s to the "branch_nodes" field.
-func (nu *NodeUpdate) AppendBranchNodes(s []string) *NodeUpdate {
-	nu.mutation.AppendBranchNodes(s)
-	return nu
+// AppendBranchNodes appends value to the "branch_nodes" field.
+func (_u *NodeUpdate) AppendBranchNodes(v []string) *NodeUpdate {
+	_u.mutation.AppendBranchNodes(v)
+	return _u
 }
 
 // ClearBranchNodes clears the value of the "branch_nodes" field.
-func (nu *NodeUpdate) ClearBranchNodes() *NodeUpdate {
-	nu.mutation.ClearBranchNodes()
-	return nu
+func (_u *NodeUpdate) ClearBranchNodes() *NodeUpdate {
+	_u.mutation.ClearBranchNodes()
+	return _u
 }
 
 // SetConditions sets the "conditions" field.
-func (nu *NodeUpdate) SetConditions(s []string) *NodeUpdate {
-	nu.mutation.SetConditions(s)
-	return nu
+func (_u *NodeUpdate) SetConditions(v []string) *NodeUpdate {
+	_u.mutation.SetConditions(v)
+	return _u
 }
 
-// AppendConditions appends s to the "conditions" field.
-func (nu *NodeUpdate) AppendConditions(s []string) *NodeUpdate {
-	nu.mutation.AppendConditions(s)
-	return nu
+// AppendConditions appends value to the "conditions" field.
+func (_u *NodeUpdate) AppendConditions(v []string) *NodeUpdate {
+	_u.mutation.AppendConditions(v)
+	return _u
 }
 
 // ClearConditions clears the value of the "conditions" field.
-func (nu *NodeUpdate) ClearConditions() *NodeUpdate {
-	nu.mutation.ClearConditions()
-	return nu
+func (_u *NodeUpdate) ClearConditions() *NodeUpdate {
+	_u.mutation.ClearConditions()
+	return _u
 }
 
 // SetProperties sets the "properties" field.
-func (nu *NodeUpdate) SetProperties(m map[string]interface{}) *NodeUpdate {
-	nu.mutation.SetProperties(m)
-	return nu
+func (_u *NodeUpdate) SetProperties(v map[string]interface{}) *NodeUpdate {
+	_u.mutation.SetProperties(v)
+	return _u
 }
 
 // ClearProperties clears the value of the "properties" field.
-func (nu *NodeUpdate) ClearProperties() *NodeUpdate {
-	nu.mutation.ClearProperties()
-	return nu
+func (_u *NodeUpdate) ClearProperties() *NodeUpdate {
+	_u.mutation.ClearProperties()
+	return _u
 }
 
 // SetIsCountersign sets the "is_countersign" field.
-func (nu *NodeUpdate) SetIsCountersign(b bool) *NodeUpdate {
-	nu.mutation.SetIsCountersign(b)
-	return nu
+func (_u *NodeUpdate) SetIsCountersign(v bool) *NodeUpdate {
+	_u.mutation.SetIsCountersign(v)
+	return _u
 }
 
 // SetNillableIsCountersign sets the "is_countersign" field if the given value is not nil.
-func (nu *NodeUpdate) SetNillableIsCountersign(b *bool) *NodeUpdate {
-	if b != nil {
-		nu.SetIsCountersign(*b)
+func (_u *NodeUpdate) SetNillableIsCountersign(v *bool) *NodeUpdate {
+	if v != nil {
+		_u.SetIsCountersign(*v)
 	}
-	return nu
+	return _u
 }
 
 // SetCountersignRule sets the "countersign_rule" field.
-func (nu *NodeUpdate) SetCountersignRule(s string) *NodeUpdate {
-	nu.mutation.SetCountersignRule(s)
-	return nu
+func (_u *NodeUpdate) SetCountersignRule(v string) *NodeUpdate {
+	_u.mutation.SetCountersignRule(v)
+	return _u
 }
 
 // SetNillableCountersignRule sets the "countersign_rule" field if the given value is not nil.
-func (nu *NodeUpdate) SetNillableCountersignRule(s *string) *NodeUpdate {
-	if s != nil {
-		nu.SetCountersignRule(*s)
+func (_u *NodeUpdate) SetNillableCountersignRule(v *string) *NodeUpdate {
+	if v != nil {
+		_u.SetCountersignRule(*v)
 	}
-	return nu
+	return _u
 }
 
 // ClearCountersignRule clears the value of the "countersign_rule" field.
-func (nu *NodeUpdate) ClearCountersignRule() *NodeUpdate {
-	nu.mutation.ClearCountersignRule()
-	return nu
+func (_u *NodeUpdate) ClearCountersignRule() *NodeUpdate {
+	_u.mutation.ClearCountersignRule()
+	return _u
 }
 
 // SetHandlers sets the "handlers" field.
-func (nu *NodeUpdate) SetHandlers(m map[string]interface{}) *NodeUpdate {
-	nu.mutation.SetHandlers(m)
-	return nu
+func (_u *NodeUpdate) SetHandlers(v map[string]interface{}) *NodeUpdate {
+	_u.mutation.SetHandlers(v)
+	return _u
 }
 
 // ClearHandlers clears the value of the "handlers" field.
-func (nu *NodeUpdate) ClearHandlers() *NodeUpdate {
-	nu.mutation.ClearHandlers()
-	return nu
+func (_u *NodeUpdate) ClearHandlers() *NodeUpdate {
+	_u.mutation.ClearHandlers()
+	return _u
 }
 
 // SetListeners sets the "listeners" field.
-func (nu *NodeUpdate) SetListeners(m map[string]interface{}) *NodeUpdate {
-	nu.mutation.SetListeners(m)
-	return nu
+func (_u *NodeUpdate) SetListeners(v map[string]interface{}) *NodeUpdate {
+	_u.mutation.SetListeners(v)
+	return _u
 }
 
 // ClearListeners clears the value of the "listeners" field.
-func (nu *NodeUpdate) ClearListeners() *NodeUpdate {
-	nu.mutation.ClearListeners()
-	return nu
+func (_u *NodeUpdate) ClearListeners() *NodeUpdate {
+	_u.mutation.ClearListeners()
+	return _u
 }
 
 // SetHooks sets the "hooks" field.
-func (nu *NodeUpdate) SetHooks(m map[string]interface{}) *NodeUpdate {
-	nu.mutation.SetHooks(m)
-	return nu
+func (_u *NodeUpdate) SetHooks(v map[string]interface{}) *NodeUpdate {
+	_u.mutation.SetHooks(v)
+	return _u
 }
 
 // ClearHooks clears the value of the "hooks" field.
-func (nu *NodeUpdate) ClearHooks() *NodeUpdate {
-	nu.mutation.ClearHooks()
-	return nu
+func (_u *NodeUpdate) ClearHooks() *NodeUpdate {
+	_u.mutation.ClearHooks()
+	return _u
 }
 
 // SetVariables sets the "variables" field.
-func (nu *NodeUpdate) SetVariables(m map[string]interface{}) *NodeUpdate {
-	nu.mutation.SetVariables(m)
-	return nu
+func (_u *NodeUpdate) SetVariables(v map[string]interface{}) *NodeUpdate {
+	_u.mutation.SetVariables(v)
+	return _u
 }
 
 // ClearVariables clears the value of the "variables" field.
-func (nu *NodeUpdate) ClearVariables() *NodeUpdate {
-	nu.mutation.ClearVariables()
-	return nu
+func (_u *NodeUpdate) ClearVariables() *NodeUpdate {
+	_u.mutation.ClearVariables()
+	return _u
 }
 
 // SetRetryTimes sets the "retry_times" field.
-func (nu *NodeUpdate) SetRetryTimes(i int) *NodeUpdate {
-	nu.mutation.ResetRetryTimes()
-	nu.mutation.SetRetryTimes(i)
-	return nu
+func (_u *NodeUpdate) SetRetryTimes(v int) *NodeUpdate {
+	_u.mutation.ResetRetryTimes()
+	_u.mutation.SetRetryTimes(v)
+	return _u
 }
 
 // SetNillableRetryTimes sets the "retry_times" field if the given value is not nil.
-func (nu *NodeUpdate) SetNillableRetryTimes(i *int) *NodeUpdate {
-	if i != nil {
-		nu.SetRetryTimes(*i)
+func (_u *NodeUpdate) SetNillableRetryTimes(v *int) *NodeUpdate {
+	if v != nil {
+		_u.SetRetryTimes(*v)
 	}
-	return nu
+	return _u
 }
 
-// AddRetryTimes adds i to the "retry_times" field.
-func (nu *NodeUpdate) AddRetryTimes(i int) *NodeUpdate {
-	nu.mutation.AddRetryTimes(i)
-	return nu
+// AddRetryTimes adds value to the "retry_times" field.
+func (_u *NodeUpdate) AddRetryTimes(v int) *NodeUpdate {
+	_u.mutation.AddRetryTimes(v)
+	return _u
 }
 
 // ClearRetryTimes clears the value of the "retry_times" field.
-func (nu *NodeUpdate) ClearRetryTimes() *NodeUpdate {
-	nu.mutation.ClearRetryTimes()
-	return nu
+func (_u *NodeUpdate) ClearRetryTimes() *NodeUpdate {
+	_u.mutation.ClearRetryTimes()
+	return _u
 }
 
 // SetRetryInterval sets the "retry_interval" field.
-func (nu *NodeUpdate) SetRetryInterval(i int) *NodeUpdate {
-	nu.mutation.ResetRetryInterval()
-	nu.mutation.SetRetryInterval(i)
-	return nu
+func (_u *NodeUpdate) SetRetryInterval(v int) *NodeUpdate {
+	_u.mutation.ResetRetryInterval()
+	_u.mutation.SetRetryInterval(v)
+	return _u
 }
 
 // SetNillableRetryInterval sets the "retry_interval" field if the given value is not nil.
-func (nu *NodeUpdate) SetNillableRetryInterval(i *int) *NodeUpdate {
-	if i != nil {
-		nu.SetRetryInterval(*i)
+func (_u *NodeUpdate) SetNillableRetryInterval(v *int) *NodeUpdate {
+	if v != nil {
+		_u.SetRetryInterval(*v)
 	}
-	return nu
+	return _u
 }
 
-// AddRetryInterval adds i to the "retry_interval" field.
-func (nu *NodeUpdate) AddRetryInterval(i int) *NodeUpdate {
-	nu.mutation.AddRetryInterval(i)
-	return nu
+// AddRetryInterval adds value to the "retry_interval" field.
+func (_u *NodeUpdate) AddRetryInterval(v int) *NodeUpdate {
+	_u.mutation.AddRetryInterval(v)
+	return _u
 }
 
 // ClearRetryInterval clears the value of the "retry_interval" field.
-func (nu *NodeUpdate) ClearRetryInterval() *NodeUpdate {
-	nu.mutation.ClearRetryInterval()
-	return nu
+func (_u *NodeUpdate) ClearRetryInterval() *NodeUpdate {
+	_u.mutation.ClearRetryInterval()
+	return _u
 }
 
 // SetIsWorkingDay sets the "is_working_day" field.
-func (nu *NodeUpdate) SetIsWorkingDay(b bool) *NodeUpdate {
-	nu.mutation.SetIsWorkingDay(b)
-	return nu
+func (_u *NodeUpdate) SetIsWorkingDay(v bool) *NodeUpdate {
+	_u.mutation.SetIsWorkingDay(v)
+	return _u
 }
 
 // SetNillableIsWorkingDay sets the "is_working_day" field if the given value is not nil.
-func (nu *NodeUpdate) SetNillableIsWorkingDay(b *bool) *NodeUpdate {
-	if b != nil {
-		nu.SetIsWorkingDay(*b)
+func (_u *NodeUpdate) SetNillableIsWorkingDay(v *bool) *NodeUpdate {
+	if v != nil {
+		_u.SetIsWorkingDay(*v)
 	}
-	return nu
+	return _u
 }
 
 // Mutation returns the NodeMutation object of the builder.
-func (nu *NodeUpdate) Mutation() *NodeMutation {
-	return nu.mutation
+func (_u *NodeUpdate) Mutation() *NodeMutation {
+	return _u.mutation
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
-func (nu *NodeUpdate) Save(ctx context.Context) (int, error) {
-	nu.defaults()
-	return withHooks(ctx, nu.sqlSave, nu.mutation, nu.hooks)
+func (_u *NodeUpdate) Save(ctx context.Context) (int, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (nu *NodeUpdate) SaveX(ctx context.Context) int {
-	affected, err := nu.Save(ctx)
+func (_u *NodeUpdate) SaveX(ctx context.Context) int {
+	affected, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -974,371 +974,371 @@ func (nu *NodeUpdate) SaveX(ctx context.Context) int {
 }
 
 // Exec executes the query.
-func (nu *NodeUpdate) Exec(ctx context.Context) error {
-	_, err := nu.Save(ctx)
+func (_u *NodeUpdate) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (nu *NodeUpdate) ExecX(ctx context.Context) {
-	if err := nu.Exec(ctx); err != nil {
+func (_u *NodeUpdate) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (nu *NodeUpdate) defaults() {
-	if _, ok := nu.mutation.UpdatedAt(); !ok && !nu.mutation.UpdatedAtCleared() {
+func (_u *NodeUpdate) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := node.UpdateDefaultUpdatedAt()
-		nu.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (nu *NodeUpdate) sqlSave(ctx context.Context) (n int, err error) {
+func (_u *NodeUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	_spec := sqlgraph.NewUpdateSpec(node.Table, node.Columns, sqlgraph.NewFieldSpec(node.FieldID, field.TypeString))
-	if ps := nu.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := nu.mutation.Name(); ok {
+	if value, ok := _u.mutation.Name(); ok {
 		_spec.SetField(node.FieldName, field.TypeString, value)
 	}
-	if nu.mutation.NameCleared() {
+	if _u.mutation.NameCleared() {
 		_spec.ClearField(node.FieldName, field.TypeString)
 	}
-	if value, ok := nu.mutation.Description(); ok {
+	if value, ok := _u.mutation.Description(); ok {
 		_spec.SetField(node.FieldDescription, field.TypeString, value)
 	}
-	if nu.mutation.DescriptionCleared() {
+	if _u.mutation.DescriptionCleared() {
 		_spec.ClearField(node.FieldDescription, field.TypeString)
 	}
-	if value, ok := nu.mutation.GetType(); ok {
+	if value, ok := _u.mutation.GetType(); ok {
 		_spec.SetField(node.FieldType, field.TypeString, value)
 	}
-	if nu.mutation.TypeCleared() {
+	if _u.mutation.TypeCleared() {
 		_spec.ClearField(node.FieldType, field.TypeString)
 	}
-	if value, ok := nu.mutation.Status(); ok {
+	if value, ok := _u.mutation.Status(); ok {
 		_spec.SetField(node.FieldStatus, field.TypeString, value)
 	}
-	if nu.mutation.StatusCleared() {
+	if _u.mutation.StatusCleared() {
 		_spec.ClearField(node.FieldStatus, field.TypeString)
 	}
-	if value, ok := nu.mutation.NodeKey(); ok {
+	if value, ok := _u.mutation.NodeKey(); ok {
 		_spec.SetField(node.FieldNodeKey, field.TypeString, value)
 	}
-	if value, ok := nu.mutation.NodeType(); ok {
+	if value, ok := _u.mutation.NodeType(); ok {
 		_spec.SetField(node.FieldNodeType, field.TypeString, value)
 	}
-	if value, ok := nu.mutation.NodeConfig(); ok {
+	if value, ok := _u.mutation.NodeConfig(); ok {
 		_spec.SetField(node.FieldNodeConfig, field.TypeJSON, value)
 	}
-	if nu.mutation.NodeConfigCleared() {
+	if _u.mutation.NodeConfigCleared() {
 		_spec.ClearField(node.FieldNodeConfig, field.TypeJSON)
 	}
-	if value, ok := nu.mutation.NodeRules(); ok {
+	if value, ok := _u.mutation.NodeRules(); ok {
 		_spec.SetField(node.FieldNodeRules, field.TypeJSON, value)
 	}
-	if nu.mutation.NodeRulesCleared() {
+	if _u.mutation.NodeRulesCleared() {
 		_spec.ClearField(node.FieldNodeRules, field.TypeJSON)
 	}
-	if value, ok := nu.mutation.NodeEvents(); ok {
+	if value, ok := _u.mutation.NodeEvents(); ok {
 		_spec.SetField(node.FieldNodeEvents, field.TypeJSON, value)
 	}
-	if nu.mutation.NodeEventsCleared() {
+	if _u.mutation.NodeEventsCleared() {
 		_spec.ClearField(node.FieldNodeEvents, field.TypeJSON)
 	}
-	if value, ok := nu.mutation.FormCode(); ok {
+	if value, ok := _u.mutation.FormCode(); ok {
 		_spec.SetField(node.FieldFormCode, field.TypeString, value)
 	}
-	if value, ok := nu.mutation.FormVersion(); ok {
+	if value, ok := _u.mutation.FormVersion(); ok {
 		_spec.SetField(node.FieldFormVersion, field.TypeString, value)
 	}
-	if nu.mutation.FormVersionCleared() {
+	if _u.mutation.FormVersionCleared() {
 		_spec.ClearField(node.FieldFormVersion, field.TypeString)
 	}
-	if value, ok := nu.mutation.FormConfig(); ok {
+	if value, ok := _u.mutation.FormConfig(); ok {
 		_spec.SetField(node.FieldFormConfig, field.TypeJSON, value)
 	}
-	if nu.mutation.FormConfigCleared() {
+	if _u.mutation.FormConfigCleared() {
 		_spec.ClearField(node.FieldFormConfig, field.TypeJSON)
 	}
-	if value, ok := nu.mutation.FormPermissions(); ok {
+	if value, ok := _u.mutation.FormPermissions(); ok {
 		_spec.SetField(node.FieldFormPermissions, field.TypeJSON, value)
 	}
-	if nu.mutation.FormPermissionsCleared() {
+	if _u.mutation.FormPermissionsCleared() {
 		_spec.ClearField(node.FieldFormPermissions, field.TypeJSON)
 	}
-	if value, ok := nu.mutation.FieldPermissions(); ok {
+	if value, ok := _u.mutation.FieldPermissions(); ok {
 		_spec.SetField(node.FieldFieldPermissions, field.TypeJSON, value)
 	}
-	if nu.mutation.FieldPermissionsCleared() {
+	if _u.mutation.FieldPermissionsCleared() {
 		_spec.ClearField(node.FieldFieldPermissions, field.TypeJSON)
 	}
-	if value, ok := nu.mutation.Assignees(); ok {
+	if value, ok := _u.mutation.Assignees(); ok {
 		_spec.SetField(node.FieldAssignees, field.TypeJSON, value)
 	}
-	if value, ok := nu.mutation.AppendedAssignees(); ok {
+	if value, ok := _u.mutation.AppendedAssignees(); ok {
 		_spec.AddModifier(func(u *sql.UpdateBuilder) {
 			sqljson.Append(u, node.FieldAssignees, value)
 		})
 	}
-	if value, ok := nu.mutation.Candidates(); ok {
+	if value, ok := _u.mutation.Candidates(); ok {
 		_spec.SetField(node.FieldCandidates, field.TypeJSON, value)
 	}
-	if value, ok := nu.mutation.AppendedCandidates(); ok {
+	if value, ok := _u.mutation.AppendedCandidates(); ok {
 		_spec.AddModifier(func(u *sql.UpdateBuilder) {
 			sqljson.Append(u, node.FieldCandidates, value)
 		})
 	}
-	if value, ok := nu.mutation.DelegatedFrom(); ok {
+	if value, ok := _u.mutation.DelegatedFrom(); ok {
 		_spec.SetField(node.FieldDelegatedFrom, field.TypeString, value)
 	}
-	if nu.mutation.DelegatedFromCleared() {
+	if _u.mutation.DelegatedFromCleared() {
 		_spec.ClearField(node.FieldDelegatedFrom, field.TypeString)
 	}
-	if value, ok := nu.mutation.DelegatedReason(); ok {
+	if value, ok := _u.mutation.DelegatedReason(); ok {
 		_spec.SetField(node.FieldDelegatedReason, field.TypeString, value)
 	}
-	if nu.mutation.DelegatedReasonCleared() {
+	if _u.mutation.DelegatedReasonCleared() {
 		_spec.ClearField(node.FieldDelegatedReason, field.TypeString)
 	}
-	if value, ok := nu.mutation.IsDelegated(); ok {
+	if value, ok := _u.mutation.IsDelegated(); ok {
 		_spec.SetField(node.FieldIsDelegated, field.TypeBool, value)
 	}
-	if value, ok := nu.mutation.IsTransferred(); ok {
+	if value, ok := _u.mutation.IsTransferred(); ok {
 		_spec.SetField(node.FieldIsTransferred, field.TypeBool, value)
 	}
-	if value, ok := nu.mutation.AllowCancel(); ok {
+	if value, ok := _u.mutation.AllowCancel(); ok {
 		_spec.SetField(node.FieldAllowCancel, field.TypeBool, value)
 	}
-	if value, ok := nu.mutation.AllowUrge(); ok {
+	if value, ok := _u.mutation.AllowUrge(); ok {
 		_spec.SetField(node.FieldAllowUrge, field.TypeBool, value)
 	}
-	if value, ok := nu.mutation.AllowDelegate(); ok {
+	if value, ok := _u.mutation.AllowDelegate(); ok {
 		_spec.SetField(node.FieldAllowDelegate, field.TypeBool, value)
 	}
-	if value, ok := nu.mutation.AllowTransfer(); ok {
+	if value, ok := _u.mutation.AllowTransfer(); ok {
 		_spec.SetField(node.FieldAllowTransfer, field.TypeBool, value)
 	}
-	if value, ok := nu.mutation.IsDraftEnabled(); ok {
+	if value, ok := _u.mutation.IsDraftEnabled(); ok {
 		_spec.SetField(node.FieldIsDraftEnabled, field.TypeBool, value)
 	}
-	if value, ok := nu.mutation.IsAutoStart(); ok {
+	if value, ok := _u.mutation.IsAutoStart(); ok {
 		_spec.SetField(node.FieldIsAutoStart, field.TypeBool, value)
 	}
-	if value, ok := nu.mutation.StrictMode(); ok {
+	if value, ok := _u.mutation.StrictMode(); ok {
 		_spec.SetField(node.FieldStrictMode, field.TypeBool, value)
 	}
-	if value, ok := nu.mutation.StartTime(); ok {
+	if value, ok := _u.mutation.StartTime(); ok {
 		_spec.SetField(node.FieldStartTime, field.TypeInt64, value)
 	}
-	if value, ok := nu.mutation.AddedStartTime(); ok {
+	if value, ok := _u.mutation.AddedStartTime(); ok {
 		_spec.AddField(node.FieldStartTime, field.TypeInt64, value)
 	}
-	if value, ok := nu.mutation.EndTime(); ok {
+	if value, ok := _u.mutation.EndTime(); ok {
 		_spec.SetField(node.FieldEndTime, field.TypeInt64, value)
 	}
-	if value, ok := nu.mutation.AddedEndTime(); ok {
+	if value, ok := _u.mutation.AddedEndTime(); ok {
 		_spec.AddField(node.FieldEndTime, field.TypeInt64, value)
 	}
-	if nu.mutation.EndTimeCleared() {
+	if _u.mutation.EndTimeCleared() {
 		_spec.ClearField(node.FieldEndTime, field.TypeInt64)
 	}
-	if value, ok := nu.mutation.DueTime(); ok {
+	if value, ok := _u.mutation.DueTime(); ok {
 		_spec.SetField(node.FieldDueTime, field.TypeInt64, value)
 	}
-	if value, ok := nu.mutation.AddedDueTime(); ok {
+	if value, ok := _u.mutation.AddedDueTime(); ok {
 		_spec.AddField(node.FieldDueTime, field.TypeInt64, value)
 	}
-	if nu.mutation.DueTimeCleared() {
+	if _u.mutation.DueTimeCleared() {
 		_spec.ClearField(node.FieldDueTime, field.TypeInt64)
 	}
-	if value, ok := nu.mutation.Duration(); ok {
+	if value, ok := _u.mutation.Duration(); ok {
 		_spec.SetField(node.FieldDuration, field.TypeInt, value)
 	}
-	if value, ok := nu.mutation.AddedDuration(); ok {
+	if value, ok := _u.mutation.AddedDuration(); ok {
 		_spec.AddField(node.FieldDuration, field.TypeInt, value)
 	}
-	if nu.mutation.DurationCleared() {
+	if _u.mutation.DurationCleared() {
 		_spec.ClearField(node.FieldDuration, field.TypeInt)
 	}
-	if value, ok := nu.mutation.Priority(); ok {
+	if value, ok := _u.mutation.Priority(); ok {
 		_spec.SetField(node.FieldPriority, field.TypeInt, value)
 	}
-	if value, ok := nu.mutation.AddedPriority(); ok {
+	if value, ok := _u.mutation.AddedPriority(); ok {
 		_spec.AddField(node.FieldPriority, field.TypeInt, value)
 	}
-	if value, ok := nu.mutation.IsTimeout(); ok {
+	if value, ok := _u.mutation.IsTimeout(); ok {
 		_spec.SetField(node.FieldIsTimeout, field.TypeBool, value)
 	}
-	if value, ok := nu.mutation.ReminderCount(); ok {
+	if value, ok := _u.mutation.ReminderCount(); ok {
 		_spec.SetField(node.FieldReminderCount, field.TypeInt, value)
 	}
-	if value, ok := nu.mutation.AddedReminderCount(); ok {
+	if value, ok := _u.mutation.AddedReminderCount(); ok {
 		_spec.AddField(node.FieldReminderCount, field.TypeInt, value)
 	}
-	if value, ok := nu.mutation.Extras(); ok {
+	if value, ok := _u.mutation.Extras(); ok {
 		_spec.SetField(node.FieldExtras, field.TypeJSON, value)
 	}
-	if nu.mutation.ExtrasCleared() {
+	if _u.mutation.ExtrasCleared() {
 		_spec.ClearField(node.FieldExtras, field.TypeJSON)
 	}
-	if value, ok := nu.mutation.SpaceID(); ok {
+	if value, ok := _u.mutation.SpaceID(); ok {
 		_spec.SetField(node.FieldSpaceID, field.TypeString, value)
 	}
-	if nu.mutation.SpaceIDCleared() {
+	if _u.mutation.SpaceIDCleared() {
 		_spec.ClearField(node.FieldSpaceID, field.TypeString)
 	}
-	if value, ok := nu.mutation.CreatedBy(); ok {
+	if value, ok := _u.mutation.CreatedBy(); ok {
 		_spec.SetField(node.FieldCreatedBy, field.TypeString, value)
 	}
-	if nu.mutation.CreatedByCleared() {
+	if _u.mutation.CreatedByCleared() {
 		_spec.ClearField(node.FieldCreatedBy, field.TypeString)
 	}
-	if value, ok := nu.mutation.UpdatedBy(); ok {
+	if value, ok := _u.mutation.UpdatedBy(); ok {
 		_spec.SetField(node.FieldUpdatedBy, field.TypeString, value)
 	}
-	if nu.mutation.UpdatedByCleared() {
+	if _u.mutation.UpdatedByCleared() {
 		_spec.ClearField(node.FieldUpdatedBy, field.TypeString)
 	}
-	if nu.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(node.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := nu.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(node.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := nu.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(node.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if nu.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(node.FieldUpdatedAt, field.TypeInt64)
 	}
-	if value, ok := nu.mutation.ProcessID(); ok {
+	if value, ok := _u.mutation.ProcessID(); ok {
 		_spec.SetField(node.FieldProcessID, field.TypeString, value)
 	}
-	if value, ok := nu.mutation.Permissions(); ok {
+	if value, ok := _u.mutation.Permissions(); ok {
 		_spec.SetField(node.FieldPermissions, field.TypeJSON, value)
 	}
-	if value, ok := nu.mutation.PrevNodes(); ok {
+	if value, ok := _u.mutation.PrevNodes(); ok {
 		_spec.SetField(node.FieldPrevNodes, field.TypeJSON, value)
 	}
-	if value, ok := nu.mutation.AppendedPrevNodes(); ok {
+	if value, ok := _u.mutation.AppendedPrevNodes(); ok {
 		_spec.AddModifier(func(u *sql.UpdateBuilder) {
 			sqljson.Append(u, node.FieldPrevNodes, value)
 		})
 	}
-	if nu.mutation.PrevNodesCleared() {
+	if _u.mutation.PrevNodesCleared() {
 		_spec.ClearField(node.FieldPrevNodes, field.TypeJSON)
 	}
-	if value, ok := nu.mutation.NextNodes(); ok {
+	if value, ok := _u.mutation.NextNodes(); ok {
 		_spec.SetField(node.FieldNextNodes, field.TypeJSON, value)
 	}
-	if value, ok := nu.mutation.AppendedNextNodes(); ok {
+	if value, ok := _u.mutation.AppendedNextNodes(); ok {
 		_spec.AddModifier(func(u *sql.UpdateBuilder) {
 			sqljson.Append(u, node.FieldNextNodes, value)
 		})
 	}
-	if nu.mutation.NextNodesCleared() {
+	if _u.mutation.NextNodesCleared() {
 		_spec.ClearField(node.FieldNextNodes, field.TypeJSON)
 	}
-	if value, ok := nu.mutation.ParallelNodes(); ok {
+	if value, ok := _u.mutation.ParallelNodes(); ok {
 		_spec.SetField(node.FieldParallelNodes, field.TypeJSON, value)
 	}
-	if value, ok := nu.mutation.AppendedParallelNodes(); ok {
+	if value, ok := _u.mutation.AppendedParallelNodes(); ok {
 		_spec.AddModifier(func(u *sql.UpdateBuilder) {
 			sqljson.Append(u, node.FieldParallelNodes, value)
 		})
 	}
-	if nu.mutation.ParallelNodesCleared() {
+	if _u.mutation.ParallelNodesCleared() {
 		_spec.ClearField(node.FieldParallelNodes, field.TypeJSON)
 	}
-	if value, ok := nu.mutation.BranchNodes(); ok {
+	if value, ok := _u.mutation.BranchNodes(); ok {
 		_spec.SetField(node.FieldBranchNodes, field.TypeJSON, value)
 	}
-	if value, ok := nu.mutation.AppendedBranchNodes(); ok {
+	if value, ok := _u.mutation.AppendedBranchNodes(); ok {
 		_spec.AddModifier(func(u *sql.UpdateBuilder) {
 			sqljson.Append(u, node.FieldBranchNodes, value)
 		})
 	}
-	if nu.mutation.BranchNodesCleared() {
+	if _u.mutation.BranchNodesCleared() {
 		_spec.ClearField(node.FieldBranchNodes, field.TypeJSON)
 	}
-	if value, ok := nu.mutation.Conditions(); ok {
+	if value, ok := _u.mutation.Conditions(); ok {
 		_spec.SetField(node.FieldConditions, field.TypeJSON, value)
 	}
-	if value, ok := nu.mutation.AppendedConditions(); ok {
+	if value, ok := _u.mutation.AppendedConditions(); ok {
 		_spec.AddModifier(func(u *sql.UpdateBuilder) {
 			sqljson.Append(u, node.FieldConditions, value)
 		})
 	}
-	if nu.mutation.ConditionsCleared() {
+	if _u.mutation.ConditionsCleared() {
 		_spec.ClearField(node.FieldConditions, field.TypeJSON)
 	}
-	if value, ok := nu.mutation.Properties(); ok {
+	if value, ok := _u.mutation.Properties(); ok {
 		_spec.SetField(node.FieldProperties, field.TypeJSON, value)
 	}
-	if nu.mutation.PropertiesCleared() {
+	if _u.mutation.PropertiesCleared() {
 		_spec.ClearField(node.FieldProperties, field.TypeJSON)
 	}
-	if value, ok := nu.mutation.IsCountersign(); ok {
+	if value, ok := _u.mutation.IsCountersign(); ok {
 		_spec.SetField(node.FieldIsCountersign, field.TypeBool, value)
 	}
-	if value, ok := nu.mutation.CountersignRule(); ok {
+	if value, ok := _u.mutation.CountersignRule(); ok {
 		_spec.SetField(node.FieldCountersignRule, field.TypeString, value)
 	}
-	if nu.mutation.CountersignRuleCleared() {
+	if _u.mutation.CountersignRuleCleared() {
 		_spec.ClearField(node.FieldCountersignRule, field.TypeString)
 	}
-	if value, ok := nu.mutation.Handlers(); ok {
+	if value, ok := _u.mutation.Handlers(); ok {
 		_spec.SetField(node.FieldHandlers, field.TypeJSON, value)
 	}
-	if nu.mutation.HandlersCleared() {
+	if _u.mutation.HandlersCleared() {
 		_spec.ClearField(node.FieldHandlers, field.TypeJSON)
 	}
-	if value, ok := nu.mutation.Listeners(); ok {
+	if value, ok := _u.mutation.Listeners(); ok {
 		_spec.SetField(node.FieldListeners, field.TypeJSON, value)
 	}
-	if nu.mutation.ListenersCleared() {
+	if _u.mutation.ListenersCleared() {
 		_spec.ClearField(node.FieldListeners, field.TypeJSON)
 	}
-	if value, ok := nu.mutation.Hooks(); ok {
+	if value, ok := _u.mutation.Hooks(); ok {
 		_spec.SetField(node.FieldHooks, field.TypeJSON, value)
 	}
-	if nu.mutation.HooksCleared() {
+	if _u.mutation.HooksCleared() {
 		_spec.ClearField(node.FieldHooks, field.TypeJSON)
 	}
-	if value, ok := nu.mutation.Variables(); ok {
+	if value, ok := _u.mutation.Variables(); ok {
 		_spec.SetField(node.FieldVariables, field.TypeJSON, value)
 	}
-	if nu.mutation.VariablesCleared() {
+	if _u.mutation.VariablesCleared() {
 		_spec.ClearField(node.FieldVariables, field.TypeJSON)
 	}
-	if value, ok := nu.mutation.RetryTimes(); ok {
+	if value, ok := _u.mutation.RetryTimes(); ok {
 		_spec.SetField(node.FieldRetryTimes, field.TypeInt, value)
 	}
-	if value, ok := nu.mutation.AddedRetryTimes(); ok {
+	if value, ok := _u.mutation.AddedRetryTimes(); ok {
 		_spec.AddField(node.FieldRetryTimes, field.TypeInt, value)
 	}
-	if nu.mutation.RetryTimesCleared() {
+	if _u.mutation.RetryTimesCleared() {
 		_spec.ClearField(node.FieldRetryTimes, field.TypeInt)
 	}
-	if value, ok := nu.mutation.RetryInterval(); ok {
+	if value, ok := _u.mutation.RetryInterval(); ok {
 		_spec.SetField(node.FieldRetryInterval, field.TypeInt, value)
 	}
-	if value, ok := nu.mutation.AddedRetryInterval(); ok {
+	if value, ok := _u.mutation.AddedRetryInterval(); ok {
 		_spec.AddField(node.FieldRetryInterval, field.TypeInt, value)
 	}
-	if nu.mutation.RetryIntervalCleared() {
+	if _u.mutation.RetryIntervalCleared() {
 		_spec.ClearField(node.FieldRetryInterval, field.TypeInt)
 	}
-	if value, ok := nu.mutation.IsWorkingDay(); ok {
+	if value, ok := _u.mutation.IsWorkingDay(); ok {
 		_spec.SetField(node.FieldIsWorkingDay, field.TypeBool, value)
 	}
-	if n, err = sqlgraph.UpdateNodes(ctx, nu.driver, _spec); err != nil {
+	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{node.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -1346,8 +1346,8 @@ func (nu *NodeUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		return 0, err
 	}
-	nu.mutation.done = true
-	return n, nil
+	_u.mutation.done = true
+	return _node, nil
 }
 
 // NodeUpdateOne is the builder for updating a single Node entity.
@@ -1359,957 +1359,957 @@ type NodeUpdateOne struct {
 }
 
 // SetName sets the "name" field.
-func (nuo *NodeUpdateOne) SetName(s string) *NodeUpdateOne {
-	nuo.mutation.SetName(s)
-	return nuo
+func (_u *NodeUpdateOne) SetName(v string) *NodeUpdateOne {
+	_u.mutation.SetName(v)
+	return _u
 }
 
 // SetNillableName sets the "name" field if the given value is not nil.
-func (nuo *NodeUpdateOne) SetNillableName(s *string) *NodeUpdateOne {
-	if s != nil {
-		nuo.SetName(*s)
+func (_u *NodeUpdateOne) SetNillableName(v *string) *NodeUpdateOne {
+	if v != nil {
+		_u.SetName(*v)
 	}
-	return nuo
+	return _u
 }
 
 // ClearName clears the value of the "name" field.
-func (nuo *NodeUpdateOne) ClearName() *NodeUpdateOne {
-	nuo.mutation.ClearName()
-	return nuo
+func (_u *NodeUpdateOne) ClearName() *NodeUpdateOne {
+	_u.mutation.ClearName()
+	return _u
 }
 
 // SetDescription sets the "description" field.
-func (nuo *NodeUpdateOne) SetDescription(s string) *NodeUpdateOne {
-	nuo.mutation.SetDescription(s)
-	return nuo
+func (_u *NodeUpdateOne) SetDescription(v string) *NodeUpdateOne {
+	_u.mutation.SetDescription(v)
+	return _u
 }
 
 // SetNillableDescription sets the "description" field if the given value is not nil.
-func (nuo *NodeUpdateOne) SetNillableDescription(s *string) *NodeUpdateOne {
-	if s != nil {
-		nuo.SetDescription(*s)
+func (_u *NodeUpdateOne) SetNillableDescription(v *string) *NodeUpdateOne {
+	if v != nil {
+		_u.SetDescription(*v)
 	}
-	return nuo
+	return _u
 }
 
 // ClearDescription clears the value of the "description" field.
-func (nuo *NodeUpdateOne) ClearDescription() *NodeUpdateOne {
-	nuo.mutation.ClearDescription()
-	return nuo
+func (_u *NodeUpdateOne) ClearDescription() *NodeUpdateOne {
+	_u.mutation.ClearDescription()
+	return _u
 }
 
 // SetType sets the "type" field.
-func (nuo *NodeUpdateOne) SetType(s string) *NodeUpdateOne {
-	nuo.mutation.SetType(s)
-	return nuo
+func (_u *NodeUpdateOne) SetType(v string) *NodeUpdateOne {
+	_u.mutation.SetType(v)
+	return _u
 }
 
 // SetNillableType sets the "type" field if the given value is not nil.
-func (nuo *NodeUpdateOne) SetNillableType(s *string) *NodeUpdateOne {
-	if s != nil {
-		nuo.SetType(*s)
+func (_u *NodeUpdateOne) SetNillableType(v *string) *NodeUpdateOne {
+	if v != nil {
+		_u.SetType(*v)
 	}
-	return nuo
+	return _u
 }
 
 // ClearType clears the value of the "type" field.
-func (nuo *NodeUpdateOne) ClearType() *NodeUpdateOne {
-	nuo.mutation.ClearType()
-	return nuo
+func (_u *NodeUpdateOne) ClearType() *NodeUpdateOne {
+	_u.mutation.ClearType()
+	return _u
 }
 
 // SetStatus sets the "status" field.
-func (nuo *NodeUpdateOne) SetStatus(s string) *NodeUpdateOne {
-	nuo.mutation.SetStatus(s)
-	return nuo
+func (_u *NodeUpdateOne) SetStatus(v string) *NodeUpdateOne {
+	_u.mutation.SetStatus(v)
+	return _u
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (nuo *NodeUpdateOne) SetNillableStatus(s *string) *NodeUpdateOne {
-	if s != nil {
-		nuo.SetStatus(*s)
+func (_u *NodeUpdateOne) SetNillableStatus(v *string) *NodeUpdateOne {
+	if v != nil {
+		_u.SetStatus(*v)
 	}
-	return nuo
+	return _u
 }
 
 // ClearStatus clears the value of the "status" field.
-func (nuo *NodeUpdateOne) ClearStatus() *NodeUpdateOne {
-	nuo.mutation.ClearStatus()
-	return nuo
+func (_u *NodeUpdateOne) ClearStatus() *NodeUpdateOne {
+	_u.mutation.ClearStatus()
+	return _u
 }
 
 // SetNodeKey sets the "node_key" field.
-func (nuo *NodeUpdateOne) SetNodeKey(s string) *NodeUpdateOne {
-	nuo.mutation.SetNodeKey(s)
-	return nuo
+func (_u *NodeUpdateOne) SetNodeKey(v string) *NodeUpdateOne {
+	_u.mutation.SetNodeKey(v)
+	return _u
 }
 
 // SetNillableNodeKey sets the "node_key" field if the given value is not nil.
-func (nuo *NodeUpdateOne) SetNillableNodeKey(s *string) *NodeUpdateOne {
-	if s != nil {
-		nuo.SetNodeKey(*s)
+func (_u *NodeUpdateOne) SetNillableNodeKey(v *string) *NodeUpdateOne {
+	if v != nil {
+		_u.SetNodeKey(*v)
 	}
-	return nuo
+	return _u
 }
 
 // SetNodeType sets the "node_type" field.
-func (nuo *NodeUpdateOne) SetNodeType(s string) *NodeUpdateOne {
-	nuo.mutation.SetNodeType(s)
-	return nuo
+func (_u *NodeUpdateOne) SetNodeType(v string) *NodeUpdateOne {
+	_u.mutation.SetNodeType(v)
+	return _u
 }
 
 // SetNillableNodeType sets the "node_type" field if the given value is not nil.
-func (nuo *NodeUpdateOne) SetNillableNodeType(s *string) *NodeUpdateOne {
-	if s != nil {
-		nuo.SetNodeType(*s)
+func (_u *NodeUpdateOne) SetNillableNodeType(v *string) *NodeUpdateOne {
+	if v != nil {
+		_u.SetNodeType(*v)
 	}
-	return nuo
+	return _u
 }
 
 // SetNodeConfig sets the "node_config" field.
-func (nuo *NodeUpdateOne) SetNodeConfig(m map[string]interface{}) *NodeUpdateOne {
-	nuo.mutation.SetNodeConfig(m)
-	return nuo
+func (_u *NodeUpdateOne) SetNodeConfig(v map[string]interface{}) *NodeUpdateOne {
+	_u.mutation.SetNodeConfig(v)
+	return _u
 }
 
 // ClearNodeConfig clears the value of the "node_config" field.
-func (nuo *NodeUpdateOne) ClearNodeConfig() *NodeUpdateOne {
-	nuo.mutation.ClearNodeConfig()
-	return nuo
+func (_u *NodeUpdateOne) ClearNodeConfig() *NodeUpdateOne {
+	_u.mutation.ClearNodeConfig()
+	return _u
 }
 
 // SetNodeRules sets the "node_rules" field.
-func (nuo *NodeUpdateOne) SetNodeRules(m map[string]interface{}) *NodeUpdateOne {
-	nuo.mutation.SetNodeRules(m)
-	return nuo
+func (_u *NodeUpdateOne) SetNodeRules(v map[string]interface{}) *NodeUpdateOne {
+	_u.mutation.SetNodeRules(v)
+	return _u
 }
 
 // ClearNodeRules clears the value of the "node_rules" field.
-func (nuo *NodeUpdateOne) ClearNodeRules() *NodeUpdateOne {
-	nuo.mutation.ClearNodeRules()
-	return nuo
+func (_u *NodeUpdateOne) ClearNodeRules() *NodeUpdateOne {
+	_u.mutation.ClearNodeRules()
+	return _u
 }
 
 // SetNodeEvents sets the "node_events" field.
-func (nuo *NodeUpdateOne) SetNodeEvents(m map[string]interface{}) *NodeUpdateOne {
-	nuo.mutation.SetNodeEvents(m)
-	return nuo
+func (_u *NodeUpdateOne) SetNodeEvents(v map[string]interface{}) *NodeUpdateOne {
+	_u.mutation.SetNodeEvents(v)
+	return _u
 }
 
 // ClearNodeEvents clears the value of the "node_events" field.
-func (nuo *NodeUpdateOne) ClearNodeEvents() *NodeUpdateOne {
-	nuo.mutation.ClearNodeEvents()
-	return nuo
+func (_u *NodeUpdateOne) ClearNodeEvents() *NodeUpdateOne {
+	_u.mutation.ClearNodeEvents()
+	return _u
 }
 
 // SetFormCode sets the "form_code" field.
-func (nuo *NodeUpdateOne) SetFormCode(s string) *NodeUpdateOne {
-	nuo.mutation.SetFormCode(s)
-	return nuo
+func (_u *NodeUpdateOne) SetFormCode(v string) *NodeUpdateOne {
+	_u.mutation.SetFormCode(v)
+	return _u
 }
 
 // SetNillableFormCode sets the "form_code" field if the given value is not nil.
-func (nuo *NodeUpdateOne) SetNillableFormCode(s *string) *NodeUpdateOne {
-	if s != nil {
-		nuo.SetFormCode(*s)
+func (_u *NodeUpdateOne) SetNillableFormCode(v *string) *NodeUpdateOne {
+	if v != nil {
+		_u.SetFormCode(*v)
 	}
-	return nuo
+	return _u
 }
 
 // SetFormVersion sets the "form_version" field.
-func (nuo *NodeUpdateOne) SetFormVersion(s string) *NodeUpdateOne {
-	nuo.mutation.SetFormVersion(s)
-	return nuo
+func (_u *NodeUpdateOne) SetFormVersion(v string) *NodeUpdateOne {
+	_u.mutation.SetFormVersion(v)
+	return _u
 }
 
 // SetNillableFormVersion sets the "form_version" field if the given value is not nil.
-func (nuo *NodeUpdateOne) SetNillableFormVersion(s *string) *NodeUpdateOne {
-	if s != nil {
-		nuo.SetFormVersion(*s)
+func (_u *NodeUpdateOne) SetNillableFormVersion(v *string) *NodeUpdateOne {
+	if v != nil {
+		_u.SetFormVersion(*v)
 	}
-	return nuo
+	return _u
 }
 
 // ClearFormVersion clears the value of the "form_version" field.
-func (nuo *NodeUpdateOne) ClearFormVersion() *NodeUpdateOne {
-	nuo.mutation.ClearFormVersion()
-	return nuo
+func (_u *NodeUpdateOne) ClearFormVersion() *NodeUpdateOne {
+	_u.mutation.ClearFormVersion()
+	return _u
 }
 
 // SetFormConfig sets the "form_config" field.
-func (nuo *NodeUpdateOne) SetFormConfig(m map[string]interface{}) *NodeUpdateOne {
-	nuo.mutation.SetFormConfig(m)
-	return nuo
+func (_u *NodeUpdateOne) SetFormConfig(v map[string]interface{}) *NodeUpdateOne {
+	_u.mutation.SetFormConfig(v)
+	return _u
 }
 
 // ClearFormConfig clears the value of the "form_config" field.
-func (nuo *NodeUpdateOne) ClearFormConfig() *NodeUpdateOne {
-	nuo.mutation.ClearFormConfig()
-	return nuo
+func (_u *NodeUpdateOne) ClearFormConfig() *NodeUpdateOne {
+	_u.mutation.ClearFormConfig()
+	return _u
 }
 
 // SetFormPermissions sets the "form_permissions" field.
-func (nuo *NodeUpdateOne) SetFormPermissions(m map[string]interface{}) *NodeUpdateOne {
-	nuo.mutation.SetFormPermissions(m)
-	return nuo
+func (_u *NodeUpdateOne) SetFormPermissions(v map[string]interface{}) *NodeUpdateOne {
+	_u.mutation.SetFormPermissions(v)
+	return _u
 }
 
 // ClearFormPermissions clears the value of the "form_permissions" field.
-func (nuo *NodeUpdateOne) ClearFormPermissions() *NodeUpdateOne {
-	nuo.mutation.ClearFormPermissions()
-	return nuo
+func (_u *NodeUpdateOne) ClearFormPermissions() *NodeUpdateOne {
+	_u.mutation.ClearFormPermissions()
+	return _u
 }
 
 // SetFieldPermissions sets the "field_permissions" field.
-func (nuo *NodeUpdateOne) SetFieldPermissions(m map[string]interface{}) *NodeUpdateOne {
-	nuo.mutation.SetFieldPermissions(m)
-	return nuo
+func (_u *NodeUpdateOne) SetFieldPermissions(v map[string]interface{}) *NodeUpdateOne {
+	_u.mutation.SetFieldPermissions(v)
+	return _u
 }
 
 // ClearFieldPermissions clears the value of the "field_permissions" field.
-func (nuo *NodeUpdateOne) ClearFieldPermissions() *NodeUpdateOne {
-	nuo.mutation.ClearFieldPermissions()
-	return nuo
+func (_u *NodeUpdateOne) ClearFieldPermissions() *NodeUpdateOne {
+	_u.mutation.ClearFieldPermissions()
+	return _u
 }
 
 // SetAssignees sets the "assignees" field.
-func (nuo *NodeUpdateOne) SetAssignees(s []string) *NodeUpdateOne {
-	nuo.mutation.SetAssignees(s)
-	return nuo
+func (_u *NodeUpdateOne) SetAssignees(v []string) *NodeUpdateOne {
+	_u.mutation.SetAssignees(v)
+	return _u
 }
 
-// AppendAssignees appends s to the "assignees" field.
-func (nuo *NodeUpdateOne) AppendAssignees(s []string) *NodeUpdateOne {
-	nuo.mutation.AppendAssignees(s)
-	return nuo
+// AppendAssignees appends value to the "assignees" field.
+func (_u *NodeUpdateOne) AppendAssignees(v []string) *NodeUpdateOne {
+	_u.mutation.AppendAssignees(v)
+	return _u
 }
 
 // SetCandidates sets the "candidates" field.
-func (nuo *NodeUpdateOne) SetCandidates(s []string) *NodeUpdateOne {
-	nuo.mutation.SetCandidates(s)
-	return nuo
+func (_u *NodeUpdateOne) SetCandidates(v []string) *NodeUpdateOne {
+	_u.mutation.SetCandidates(v)
+	return _u
 }
 
-// AppendCandidates appends s to the "candidates" field.
-func (nuo *NodeUpdateOne) AppendCandidates(s []string) *NodeUpdateOne {
-	nuo.mutation.AppendCandidates(s)
-	return nuo
+// AppendCandidates appends value to the "candidates" field.
+func (_u *NodeUpdateOne) AppendCandidates(v []string) *NodeUpdateOne {
+	_u.mutation.AppendCandidates(v)
+	return _u
 }
 
 // SetDelegatedFrom sets the "delegated_from" field.
-func (nuo *NodeUpdateOne) SetDelegatedFrom(s string) *NodeUpdateOne {
-	nuo.mutation.SetDelegatedFrom(s)
-	return nuo
+func (_u *NodeUpdateOne) SetDelegatedFrom(v string) *NodeUpdateOne {
+	_u.mutation.SetDelegatedFrom(v)
+	return _u
 }
 
 // SetNillableDelegatedFrom sets the "delegated_from" field if the given value is not nil.
-func (nuo *NodeUpdateOne) SetNillableDelegatedFrom(s *string) *NodeUpdateOne {
-	if s != nil {
-		nuo.SetDelegatedFrom(*s)
+func (_u *NodeUpdateOne) SetNillableDelegatedFrom(v *string) *NodeUpdateOne {
+	if v != nil {
+		_u.SetDelegatedFrom(*v)
 	}
-	return nuo
+	return _u
 }
 
 // ClearDelegatedFrom clears the value of the "delegated_from" field.
-func (nuo *NodeUpdateOne) ClearDelegatedFrom() *NodeUpdateOne {
-	nuo.mutation.ClearDelegatedFrom()
-	return nuo
+func (_u *NodeUpdateOne) ClearDelegatedFrom() *NodeUpdateOne {
+	_u.mutation.ClearDelegatedFrom()
+	return _u
 }
 
 // SetDelegatedReason sets the "delegated_reason" field.
-func (nuo *NodeUpdateOne) SetDelegatedReason(s string) *NodeUpdateOne {
-	nuo.mutation.SetDelegatedReason(s)
-	return nuo
+func (_u *NodeUpdateOne) SetDelegatedReason(v string) *NodeUpdateOne {
+	_u.mutation.SetDelegatedReason(v)
+	return _u
 }
 
 // SetNillableDelegatedReason sets the "delegated_reason" field if the given value is not nil.
-func (nuo *NodeUpdateOne) SetNillableDelegatedReason(s *string) *NodeUpdateOne {
-	if s != nil {
-		nuo.SetDelegatedReason(*s)
+func (_u *NodeUpdateOne) SetNillableDelegatedReason(v *string) *NodeUpdateOne {
+	if v != nil {
+		_u.SetDelegatedReason(*v)
 	}
-	return nuo
+	return _u
 }
 
 // ClearDelegatedReason clears the value of the "delegated_reason" field.
-func (nuo *NodeUpdateOne) ClearDelegatedReason() *NodeUpdateOne {
-	nuo.mutation.ClearDelegatedReason()
-	return nuo
+func (_u *NodeUpdateOne) ClearDelegatedReason() *NodeUpdateOne {
+	_u.mutation.ClearDelegatedReason()
+	return _u
 }
 
 // SetIsDelegated sets the "is_delegated" field.
-func (nuo *NodeUpdateOne) SetIsDelegated(b bool) *NodeUpdateOne {
-	nuo.mutation.SetIsDelegated(b)
-	return nuo
+func (_u *NodeUpdateOne) SetIsDelegated(v bool) *NodeUpdateOne {
+	_u.mutation.SetIsDelegated(v)
+	return _u
 }
 
 // SetNillableIsDelegated sets the "is_delegated" field if the given value is not nil.
-func (nuo *NodeUpdateOne) SetNillableIsDelegated(b *bool) *NodeUpdateOne {
-	if b != nil {
-		nuo.SetIsDelegated(*b)
+func (_u *NodeUpdateOne) SetNillableIsDelegated(v *bool) *NodeUpdateOne {
+	if v != nil {
+		_u.SetIsDelegated(*v)
 	}
-	return nuo
+	return _u
 }
 
 // SetIsTransferred sets the "is_transferred" field.
-func (nuo *NodeUpdateOne) SetIsTransferred(b bool) *NodeUpdateOne {
-	nuo.mutation.SetIsTransferred(b)
-	return nuo
+func (_u *NodeUpdateOne) SetIsTransferred(v bool) *NodeUpdateOne {
+	_u.mutation.SetIsTransferred(v)
+	return _u
 }
 
 // SetNillableIsTransferred sets the "is_transferred" field if the given value is not nil.
-func (nuo *NodeUpdateOne) SetNillableIsTransferred(b *bool) *NodeUpdateOne {
-	if b != nil {
-		nuo.SetIsTransferred(*b)
+func (_u *NodeUpdateOne) SetNillableIsTransferred(v *bool) *NodeUpdateOne {
+	if v != nil {
+		_u.SetIsTransferred(*v)
 	}
-	return nuo
+	return _u
 }
 
 // SetAllowCancel sets the "allow_cancel" field.
-func (nuo *NodeUpdateOne) SetAllowCancel(b bool) *NodeUpdateOne {
-	nuo.mutation.SetAllowCancel(b)
-	return nuo
+func (_u *NodeUpdateOne) SetAllowCancel(v bool) *NodeUpdateOne {
+	_u.mutation.SetAllowCancel(v)
+	return _u
 }
 
 // SetNillableAllowCancel sets the "allow_cancel" field if the given value is not nil.
-func (nuo *NodeUpdateOne) SetNillableAllowCancel(b *bool) *NodeUpdateOne {
-	if b != nil {
-		nuo.SetAllowCancel(*b)
+func (_u *NodeUpdateOne) SetNillableAllowCancel(v *bool) *NodeUpdateOne {
+	if v != nil {
+		_u.SetAllowCancel(*v)
 	}
-	return nuo
+	return _u
 }
 
 // SetAllowUrge sets the "allow_urge" field.
-func (nuo *NodeUpdateOne) SetAllowUrge(b bool) *NodeUpdateOne {
-	nuo.mutation.SetAllowUrge(b)
-	return nuo
+func (_u *NodeUpdateOne) SetAllowUrge(v bool) *NodeUpdateOne {
+	_u.mutation.SetAllowUrge(v)
+	return _u
 }
 
 // SetNillableAllowUrge sets the "allow_urge" field if the given value is not nil.
-func (nuo *NodeUpdateOne) SetNillableAllowUrge(b *bool) *NodeUpdateOne {
-	if b != nil {
-		nuo.SetAllowUrge(*b)
+func (_u *NodeUpdateOne) SetNillableAllowUrge(v *bool) *NodeUpdateOne {
+	if v != nil {
+		_u.SetAllowUrge(*v)
 	}
-	return nuo
+	return _u
 }
 
 // SetAllowDelegate sets the "allow_delegate" field.
-func (nuo *NodeUpdateOne) SetAllowDelegate(b bool) *NodeUpdateOne {
-	nuo.mutation.SetAllowDelegate(b)
-	return nuo
+func (_u *NodeUpdateOne) SetAllowDelegate(v bool) *NodeUpdateOne {
+	_u.mutation.SetAllowDelegate(v)
+	return _u
 }
 
 // SetNillableAllowDelegate sets the "allow_delegate" field if the given value is not nil.
-func (nuo *NodeUpdateOne) SetNillableAllowDelegate(b *bool) *NodeUpdateOne {
-	if b != nil {
-		nuo.SetAllowDelegate(*b)
+func (_u *NodeUpdateOne) SetNillableAllowDelegate(v *bool) *NodeUpdateOne {
+	if v != nil {
+		_u.SetAllowDelegate(*v)
 	}
-	return nuo
+	return _u
 }
 
 // SetAllowTransfer sets the "allow_transfer" field.
-func (nuo *NodeUpdateOne) SetAllowTransfer(b bool) *NodeUpdateOne {
-	nuo.mutation.SetAllowTransfer(b)
-	return nuo
+func (_u *NodeUpdateOne) SetAllowTransfer(v bool) *NodeUpdateOne {
+	_u.mutation.SetAllowTransfer(v)
+	return _u
 }
 
 // SetNillableAllowTransfer sets the "allow_transfer" field if the given value is not nil.
-func (nuo *NodeUpdateOne) SetNillableAllowTransfer(b *bool) *NodeUpdateOne {
-	if b != nil {
-		nuo.SetAllowTransfer(*b)
+func (_u *NodeUpdateOne) SetNillableAllowTransfer(v *bool) *NodeUpdateOne {
+	if v != nil {
+		_u.SetAllowTransfer(*v)
 	}
-	return nuo
+	return _u
 }
 
 // SetIsDraftEnabled sets the "is_draft_enabled" field.
-func (nuo *NodeUpdateOne) SetIsDraftEnabled(b bool) *NodeUpdateOne {
-	nuo.mutation.SetIsDraftEnabled(b)
-	return nuo
+func (_u *NodeUpdateOne) SetIsDraftEnabled(v bool) *NodeUpdateOne {
+	_u.mutation.SetIsDraftEnabled(v)
+	return _u
 }
 
 // SetNillableIsDraftEnabled sets the "is_draft_enabled" field if the given value is not nil.
-func (nuo *NodeUpdateOne) SetNillableIsDraftEnabled(b *bool) *NodeUpdateOne {
-	if b != nil {
-		nuo.SetIsDraftEnabled(*b)
+func (_u *NodeUpdateOne) SetNillableIsDraftEnabled(v *bool) *NodeUpdateOne {
+	if v != nil {
+		_u.SetIsDraftEnabled(*v)
 	}
-	return nuo
+	return _u
 }
 
 // SetIsAutoStart sets the "is_auto_start" field.
-func (nuo *NodeUpdateOne) SetIsAutoStart(b bool) *NodeUpdateOne {
-	nuo.mutation.SetIsAutoStart(b)
-	return nuo
+func (_u *NodeUpdateOne) SetIsAutoStart(v bool) *NodeUpdateOne {
+	_u.mutation.SetIsAutoStart(v)
+	return _u
 }
 
 // SetNillableIsAutoStart sets the "is_auto_start" field if the given value is not nil.
-func (nuo *NodeUpdateOne) SetNillableIsAutoStart(b *bool) *NodeUpdateOne {
-	if b != nil {
-		nuo.SetIsAutoStart(*b)
+func (_u *NodeUpdateOne) SetNillableIsAutoStart(v *bool) *NodeUpdateOne {
+	if v != nil {
+		_u.SetIsAutoStart(*v)
 	}
-	return nuo
+	return _u
 }
 
 // SetStrictMode sets the "strict_mode" field.
-func (nuo *NodeUpdateOne) SetStrictMode(b bool) *NodeUpdateOne {
-	nuo.mutation.SetStrictMode(b)
-	return nuo
+func (_u *NodeUpdateOne) SetStrictMode(v bool) *NodeUpdateOne {
+	_u.mutation.SetStrictMode(v)
+	return _u
 }
 
 // SetNillableStrictMode sets the "strict_mode" field if the given value is not nil.
-func (nuo *NodeUpdateOne) SetNillableStrictMode(b *bool) *NodeUpdateOne {
-	if b != nil {
-		nuo.SetStrictMode(*b)
+func (_u *NodeUpdateOne) SetNillableStrictMode(v *bool) *NodeUpdateOne {
+	if v != nil {
+		_u.SetStrictMode(*v)
 	}
-	return nuo
+	return _u
 }
 
 // SetStartTime sets the "start_time" field.
-func (nuo *NodeUpdateOne) SetStartTime(i int64) *NodeUpdateOne {
-	nuo.mutation.ResetStartTime()
-	nuo.mutation.SetStartTime(i)
-	return nuo
+func (_u *NodeUpdateOne) SetStartTime(v int64) *NodeUpdateOne {
+	_u.mutation.ResetStartTime()
+	_u.mutation.SetStartTime(v)
+	return _u
 }
 
 // SetNillableStartTime sets the "start_time" field if the given value is not nil.
-func (nuo *NodeUpdateOne) SetNillableStartTime(i *int64) *NodeUpdateOne {
-	if i != nil {
-		nuo.SetStartTime(*i)
+func (_u *NodeUpdateOne) SetNillableStartTime(v *int64) *NodeUpdateOne {
+	if v != nil {
+		_u.SetStartTime(*v)
 	}
-	return nuo
+	return _u
 }
 
-// AddStartTime adds i to the "start_time" field.
-func (nuo *NodeUpdateOne) AddStartTime(i int64) *NodeUpdateOne {
-	nuo.mutation.AddStartTime(i)
-	return nuo
+// AddStartTime adds value to the "start_time" field.
+func (_u *NodeUpdateOne) AddStartTime(v int64) *NodeUpdateOne {
+	_u.mutation.AddStartTime(v)
+	return _u
 }
 
 // SetEndTime sets the "end_time" field.
-func (nuo *NodeUpdateOne) SetEndTime(i int64) *NodeUpdateOne {
-	nuo.mutation.ResetEndTime()
-	nuo.mutation.SetEndTime(i)
-	return nuo
+func (_u *NodeUpdateOne) SetEndTime(v int64) *NodeUpdateOne {
+	_u.mutation.ResetEndTime()
+	_u.mutation.SetEndTime(v)
+	return _u
 }
 
 // SetNillableEndTime sets the "end_time" field if the given value is not nil.
-func (nuo *NodeUpdateOne) SetNillableEndTime(i *int64) *NodeUpdateOne {
-	if i != nil {
-		nuo.SetEndTime(*i)
+func (_u *NodeUpdateOne) SetNillableEndTime(v *int64) *NodeUpdateOne {
+	if v != nil {
+		_u.SetEndTime(*v)
 	}
-	return nuo
+	return _u
 }
 
-// AddEndTime adds i to the "end_time" field.
-func (nuo *NodeUpdateOne) AddEndTime(i int64) *NodeUpdateOne {
-	nuo.mutation.AddEndTime(i)
-	return nuo
+// AddEndTime adds value to the "end_time" field.
+func (_u *NodeUpdateOne) AddEndTime(v int64) *NodeUpdateOne {
+	_u.mutation.AddEndTime(v)
+	return _u
 }
 
 // ClearEndTime clears the value of the "end_time" field.
-func (nuo *NodeUpdateOne) ClearEndTime() *NodeUpdateOne {
-	nuo.mutation.ClearEndTime()
-	return nuo
+func (_u *NodeUpdateOne) ClearEndTime() *NodeUpdateOne {
+	_u.mutation.ClearEndTime()
+	return _u
 }
 
 // SetDueTime sets the "due_time" field.
-func (nuo *NodeUpdateOne) SetDueTime(i int64) *NodeUpdateOne {
-	nuo.mutation.ResetDueTime()
-	nuo.mutation.SetDueTime(i)
-	return nuo
+func (_u *NodeUpdateOne) SetDueTime(v int64) *NodeUpdateOne {
+	_u.mutation.ResetDueTime()
+	_u.mutation.SetDueTime(v)
+	return _u
 }
 
 // SetNillableDueTime sets the "due_time" field if the given value is not nil.
-func (nuo *NodeUpdateOne) SetNillableDueTime(i *int64) *NodeUpdateOne {
-	if i != nil {
-		nuo.SetDueTime(*i)
+func (_u *NodeUpdateOne) SetNillableDueTime(v *int64) *NodeUpdateOne {
+	if v != nil {
+		_u.SetDueTime(*v)
 	}
-	return nuo
+	return _u
 }
 
-// AddDueTime adds i to the "due_time" field.
-func (nuo *NodeUpdateOne) AddDueTime(i int64) *NodeUpdateOne {
-	nuo.mutation.AddDueTime(i)
-	return nuo
+// AddDueTime adds value to the "due_time" field.
+func (_u *NodeUpdateOne) AddDueTime(v int64) *NodeUpdateOne {
+	_u.mutation.AddDueTime(v)
+	return _u
 }
 
 // ClearDueTime clears the value of the "due_time" field.
-func (nuo *NodeUpdateOne) ClearDueTime() *NodeUpdateOne {
-	nuo.mutation.ClearDueTime()
-	return nuo
+func (_u *NodeUpdateOne) ClearDueTime() *NodeUpdateOne {
+	_u.mutation.ClearDueTime()
+	return _u
 }
 
 // SetDuration sets the "duration" field.
-func (nuo *NodeUpdateOne) SetDuration(i int) *NodeUpdateOne {
-	nuo.mutation.ResetDuration()
-	nuo.mutation.SetDuration(i)
-	return nuo
+func (_u *NodeUpdateOne) SetDuration(v int) *NodeUpdateOne {
+	_u.mutation.ResetDuration()
+	_u.mutation.SetDuration(v)
+	return _u
 }
 
 // SetNillableDuration sets the "duration" field if the given value is not nil.
-func (nuo *NodeUpdateOne) SetNillableDuration(i *int) *NodeUpdateOne {
-	if i != nil {
-		nuo.SetDuration(*i)
+func (_u *NodeUpdateOne) SetNillableDuration(v *int) *NodeUpdateOne {
+	if v != nil {
+		_u.SetDuration(*v)
 	}
-	return nuo
+	return _u
 }
 
-// AddDuration adds i to the "duration" field.
-func (nuo *NodeUpdateOne) AddDuration(i int) *NodeUpdateOne {
-	nuo.mutation.AddDuration(i)
-	return nuo
+// AddDuration adds value to the "duration" field.
+func (_u *NodeUpdateOne) AddDuration(v int) *NodeUpdateOne {
+	_u.mutation.AddDuration(v)
+	return _u
 }
 
 // ClearDuration clears the value of the "duration" field.
-func (nuo *NodeUpdateOne) ClearDuration() *NodeUpdateOne {
-	nuo.mutation.ClearDuration()
-	return nuo
+func (_u *NodeUpdateOne) ClearDuration() *NodeUpdateOne {
+	_u.mutation.ClearDuration()
+	return _u
 }
 
 // SetPriority sets the "priority" field.
-func (nuo *NodeUpdateOne) SetPriority(i int) *NodeUpdateOne {
-	nuo.mutation.ResetPriority()
-	nuo.mutation.SetPriority(i)
-	return nuo
+func (_u *NodeUpdateOne) SetPriority(v int) *NodeUpdateOne {
+	_u.mutation.ResetPriority()
+	_u.mutation.SetPriority(v)
+	return _u
 }
 
 // SetNillablePriority sets the "priority" field if the given value is not nil.
-func (nuo *NodeUpdateOne) SetNillablePriority(i *int) *NodeUpdateOne {
-	if i != nil {
-		nuo.SetPriority(*i)
+func (_u *NodeUpdateOne) SetNillablePriority(v *int) *NodeUpdateOne {
+	if v != nil {
+		_u.SetPriority(*v)
 	}
-	return nuo
+	return _u
 }
 
-// AddPriority adds i to the "priority" field.
-func (nuo *NodeUpdateOne) AddPriority(i int) *NodeUpdateOne {
-	nuo.mutation.AddPriority(i)
-	return nuo
+// AddPriority adds value to the "priority" field.
+func (_u *NodeUpdateOne) AddPriority(v int) *NodeUpdateOne {
+	_u.mutation.AddPriority(v)
+	return _u
 }
 
 // SetIsTimeout sets the "is_timeout" field.
-func (nuo *NodeUpdateOne) SetIsTimeout(b bool) *NodeUpdateOne {
-	nuo.mutation.SetIsTimeout(b)
-	return nuo
+func (_u *NodeUpdateOne) SetIsTimeout(v bool) *NodeUpdateOne {
+	_u.mutation.SetIsTimeout(v)
+	return _u
 }
 
 // SetNillableIsTimeout sets the "is_timeout" field if the given value is not nil.
-func (nuo *NodeUpdateOne) SetNillableIsTimeout(b *bool) *NodeUpdateOne {
-	if b != nil {
-		nuo.SetIsTimeout(*b)
+func (_u *NodeUpdateOne) SetNillableIsTimeout(v *bool) *NodeUpdateOne {
+	if v != nil {
+		_u.SetIsTimeout(*v)
 	}
-	return nuo
+	return _u
 }
 
 // SetReminderCount sets the "reminder_count" field.
-func (nuo *NodeUpdateOne) SetReminderCount(i int) *NodeUpdateOne {
-	nuo.mutation.ResetReminderCount()
-	nuo.mutation.SetReminderCount(i)
-	return nuo
+func (_u *NodeUpdateOne) SetReminderCount(v int) *NodeUpdateOne {
+	_u.mutation.ResetReminderCount()
+	_u.mutation.SetReminderCount(v)
+	return _u
 }
 
 // SetNillableReminderCount sets the "reminder_count" field if the given value is not nil.
-func (nuo *NodeUpdateOne) SetNillableReminderCount(i *int) *NodeUpdateOne {
-	if i != nil {
-		nuo.SetReminderCount(*i)
+func (_u *NodeUpdateOne) SetNillableReminderCount(v *int) *NodeUpdateOne {
+	if v != nil {
+		_u.SetReminderCount(*v)
 	}
-	return nuo
+	return _u
 }
 
-// AddReminderCount adds i to the "reminder_count" field.
-func (nuo *NodeUpdateOne) AddReminderCount(i int) *NodeUpdateOne {
-	nuo.mutation.AddReminderCount(i)
-	return nuo
+// AddReminderCount adds value to the "reminder_count" field.
+func (_u *NodeUpdateOne) AddReminderCount(v int) *NodeUpdateOne {
+	_u.mutation.AddReminderCount(v)
+	return _u
 }
 
 // SetExtras sets the "extras" field.
-func (nuo *NodeUpdateOne) SetExtras(m map[string]interface{}) *NodeUpdateOne {
-	nuo.mutation.SetExtras(m)
-	return nuo
+func (_u *NodeUpdateOne) SetExtras(v map[string]interface{}) *NodeUpdateOne {
+	_u.mutation.SetExtras(v)
+	return _u
 }
 
 // ClearExtras clears the value of the "extras" field.
-func (nuo *NodeUpdateOne) ClearExtras() *NodeUpdateOne {
-	nuo.mutation.ClearExtras()
-	return nuo
+func (_u *NodeUpdateOne) ClearExtras() *NodeUpdateOne {
+	_u.mutation.ClearExtras()
+	return _u
 }
 
 // SetSpaceID sets the "space_id" field.
-func (nuo *NodeUpdateOne) SetSpaceID(s string) *NodeUpdateOne {
-	nuo.mutation.SetSpaceID(s)
-	return nuo
+func (_u *NodeUpdateOne) SetSpaceID(v string) *NodeUpdateOne {
+	_u.mutation.SetSpaceID(v)
+	return _u
 }
 
 // SetNillableSpaceID sets the "space_id" field if the given value is not nil.
-func (nuo *NodeUpdateOne) SetNillableSpaceID(s *string) *NodeUpdateOne {
-	if s != nil {
-		nuo.SetSpaceID(*s)
+func (_u *NodeUpdateOne) SetNillableSpaceID(v *string) *NodeUpdateOne {
+	if v != nil {
+		_u.SetSpaceID(*v)
 	}
-	return nuo
+	return _u
 }
 
 // ClearSpaceID clears the value of the "space_id" field.
-func (nuo *NodeUpdateOne) ClearSpaceID() *NodeUpdateOne {
-	nuo.mutation.ClearSpaceID()
-	return nuo
+func (_u *NodeUpdateOne) ClearSpaceID() *NodeUpdateOne {
+	_u.mutation.ClearSpaceID()
+	return _u
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (nuo *NodeUpdateOne) SetCreatedBy(s string) *NodeUpdateOne {
-	nuo.mutation.SetCreatedBy(s)
-	return nuo
+func (_u *NodeUpdateOne) SetCreatedBy(v string) *NodeUpdateOne {
+	_u.mutation.SetCreatedBy(v)
+	return _u
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (nuo *NodeUpdateOne) SetNillableCreatedBy(s *string) *NodeUpdateOne {
-	if s != nil {
-		nuo.SetCreatedBy(*s)
+func (_u *NodeUpdateOne) SetNillableCreatedBy(v *string) *NodeUpdateOne {
+	if v != nil {
+		_u.SetCreatedBy(*v)
 	}
-	return nuo
+	return _u
 }
 
 // ClearCreatedBy clears the value of the "created_by" field.
-func (nuo *NodeUpdateOne) ClearCreatedBy() *NodeUpdateOne {
-	nuo.mutation.ClearCreatedBy()
-	return nuo
+func (_u *NodeUpdateOne) ClearCreatedBy() *NodeUpdateOne {
+	_u.mutation.ClearCreatedBy()
+	return _u
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (nuo *NodeUpdateOne) SetUpdatedBy(s string) *NodeUpdateOne {
-	nuo.mutation.SetUpdatedBy(s)
-	return nuo
+func (_u *NodeUpdateOne) SetUpdatedBy(v string) *NodeUpdateOne {
+	_u.mutation.SetUpdatedBy(v)
+	return _u
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (nuo *NodeUpdateOne) SetNillableUpdatedBy(s *string) *NodeUpdateOne {
-	if s != nil {
-		nuo.SetUpdatedBy(*s)
+func (_u *NodeUpdateOne) SetNillableUpdatedBy(v *string) *NodeUpdateOne {
+	if v != nil {
+		_u.SetUpdatedBy(*v)
 	}
-	return nuo
+	return _u
 }
 
 // ClearUpdatedBy clears the value of the "updated_by" field.
-func (nuo *NodeUpdateOne) ClearUpdatedBy() *NodeUpdateOne {
-	nuo.mutation.ClearUpdatedBy()
-	return nuo
+func (_u *NodeUpdateOne) ClearUpdatedBy() *NodeUpdateOne {
+	_u.mutation.ClearUpdatedBy()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (nuo *NodeUpdateOne) SetUpdatedAt(i int64) *NodeUpdateOne {
-	nuo.mutation.ResetUpdatedAt()
-	nuo.mutation.SetUpdatedAt(i)
-	return nuo
+func (_u *NodeUpdateOne) SetUpdatedAt(v int64) *NodeUpdateOne {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (nuo *NodeUpdateOne) AddUpdatedAt(i int64) *NodeUpdateOne {
-	nuo.mutation.AddUpdatedAt(i)
-	return nuo
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *NodeUpdateOne) AddUpdatedAt(v int64) *NodeUpdateOne {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (nuo *NodeUpdateOne) ClearUpdatedAt() *NodeUpdateOne {
-	nuo.mutation.ClearUpdatedAt()
-	return nuo
+func (_u *NodeUpdateOne) ClearUpdatedAt() *NodeUpdateOne {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // SetProcessID sets the "process_id" field.
-func (nuo *NodeUpdateOne) SetProcessID(s string) *NodeUpdateOne {
-	nuo.mutation.SetProcessID(s)
-	return nuo
+func (_u *NodeUpdateOne) SetProcessID(v string) *NodeUpdateOne {
+	_u.mutation.SetProcessID(v)
+	return _u
 }
 
 // SetNillableProcessID sets the "process_id" field if the given value is not nil.
-func (nuo *NodeUpdateOne) SetNillableProcessID(s *string) *NodeUpdateOne {
-	if s != nil {
-		nuo.SetProcessID(*s)
+func (_u *NodeUpdateOne) SetNillableProcessID(v *string) *NodeUpdateOne {
+	if v != nil {
+		_u.SetProcessID(*v)
 	}
-	return nuo
+	return _u
 }
 
 // SetPermissions sets the "permissions" field.
-func (nuo *NodeUpdateOne) SetPermissions(m map[string]interface{}) *NodeUpdateOne {
-	nuo.mutation.SetPermissions(m)
-	return nuo
+func (_u *NodeUpdateOne) SetPermissions(v map[string]interface{}) *NodeUpdateOne {
+	_u.mutation.SetPermissions(v)
+	return _u
 }
 
 // SetPrevNodes sets the "prev_nodes" field.
-func (nuo *NodeUpdateOne) SetPrevNodes(s []string) *NodeUpdateOne {
-	nuo.mutation.SetPrevNodes(s)
-	return nuo
+func (_u *NodeUpdateOne) SetPrevNodes(v []string) *NodeUpdateOne {
+	_u.mutation.SetPrevNodes(v)
+	return _u
 }
 
-// AppendPrevNodes appends s to the "prev_nodes" field.
-func (nuo *NodeUpdateOne) AppendPrevNodes(s []string) *NodeUpdateOne {
-	nuo.mutation.AppendPrevNodes(s)
-	return nuo
+// AppendPrevNodes appends value to the "prev_nodes" field.
+func (_u *NodeUpdateOne) AppendPrevNodes(v []string) *NodeUpdateOne {
+	_u.mutation.AppendPrevNodes(v)
+	return _u
 }
 
 // ClearPrevNodes clears the value of the "prev_nodes" field.
-func (nuo *NodeUpdateOne) ClearPrevNodes() *NodeUpdateOne {
-	nuo.mutation.ClearPrevNodes()
-	return nuo
+func (_u *NodeUpdateOne) ClearPrevNodes() *NodeUpdateOne {
+	_u.mutation.ClearPrevNodes()
+	return _u
 }
 
 // SetNextNodes sets the "next_nodes" field.
-func (nuo *NodeUpdateOne) SetNextNodes(s []string) *NodeUpdateOne {
-	nuo.mutation.SetNextNodes(s)
-	return nuo
+func (_u *NodeUpdateOne) SetNextNodes(v []string) *NodeUpdateOne {
+	_u.mutation.SetNextNodes(v)
+	return _u
 }
 
-// AppendNextNodes appends s to the "next_nodes" field.
-func (nuo *NodeUpdateOne) AppendNextNodes(s []string) *NodeUpdateOne {
-	nuo.mutation.AppendNextNodes(s)
-	return nuo
+// AppendNextNodes appends value to the "next_nodes" field.
+func (_u *NodeUpdateOne) AppendNextNodes(v []string) *NodeUpdateOne {
+	_u.mutation.AppendNextNodes(v)
+	return _u
 }
 
 // ClearNextNodes clears the value of the "next_nodes" field.
-func (nuo *NodeUpdateOne) ClearNextNodes() *NodeUpdateOne {
-	nuo.mutation.ClearNextNodes()
-	return nuo
+func (_u *NodeUpdateOne) ClearNextNodes() *NodeUpdateOne {
+	_u.mutation.ClearNextNodes()
+	return _u
 }
 
 // SetParallelNodes sets the "parallel_nodes" field.
-func (nuo *NodeUpdateOne) SetParallelNodes(s []string) *NodeUpdateOne {
-	nuo.mutation.SetParallelNodes(s)
-	return nuo
+func (_u *NodeUpdateOne) SetParallelNodes(v []string) *NodeUpdateOne {
+	_u.mutation.SetParallelNodes(v)
+	return _u
 }
 
-// AppendParallelNodes appends s to the "parallel_nodes" field.
-func (nuo *NodeUpdateOne) AppendParallelNodes(s []string) *NodeUpdateOne {
-	nuo.mutation.AppendParallelNodes(s)
-	return nuo
+// AppendParallelNodes appends value to the "parallel_nodes" field.
+func (_u *NodeUpdateOne) AppendParallelNodes(v []string) *NodeUpdateOne {
+	_u.mutation.AppendParallelNodes(v)
+	return _u
 }
 
 // ClearParallelNodes clears the value of the "parallel_nodes" field.
-func (nuo *NodeUpdateOne) ClearParallelNodes() *NodeUpdateOne {
-	nuo.mutation.ClearParallelNodes()
-	return nuo
+func (_u *NodeUpdateOne) ClearParallelNodes() *NodeUpdateOne {
+	_u.mutation.ClearParallelNodes()
+	return _u
 }
 
 // SetBranchNodes sets the "branch_nodes" field.
-func (nuo *NodeUpdateOne) SetBranchNodes(s []string) *NodeUpdateOne {
-	nuo.mutation.SetBranchNodes(s)
-	return nuo
+func (_u *NodeUpdateOne) SetBranchNodes(v []string) *NodeUpdateOne {
+	_u.mutation.SetBranchNodes(v)
+	return _u
 }
 
-// AppendBranchNodes appends s to the "branch_nodes" field.
-func (nuo *NodeUpdateOne) AppendBranchNodes(s []string) *NodeUpdateOne {
-	nuo.mutation.AppendBranchNodes(s)
-	return nuo
+// AppendBranchNodes appends value to the "branch_nodes" field.
+func (_u *NodeUpdateOne) AppendBranchNodes(v []string) *NodeUpdateOne {
+	_u.mutation.AppendBranchNodes(v)
+	return _u
 }
 
 // ClearBranchNodes clears the value of the "branch_nodes" field.
-func (nuo *NodeUpdateOne) ClearBranchNodes() *NodeUpdateOne {
-	nuo.mutation.ClearBranchNodes()
-	return nuo
+func (_u *NodeUpdateOne) ClearBranchNodes() *NodeUpdateOne {
+	_u.mutation.ClearBranchNodes()
+	return _u
 }
 
 // SetConditions sets the "conditions" field.
-func (nuo *NodeUpdateOne) SetConditions(s []string) *NodeUpdateOne {
-	nuo.mutation.SetConditions(s)
-	return nuo
+func (_u *NodeUpdateOne) SetConditions(v []string) *NodeUpdateOne {
+	_u.mutation.SetConditions(v)
+	return _u
 }
 
-// AppendConditions appends s to the "conditions" field.
-func (nuo *NodeUpdateOne) AppendConditions(s []string) *NodeUpdateOne {
-	nuo.mutation.AppendConditions(s)
-	return nuo
+// AppendConditions appends value to the "conditions" field.
+func (_u *NodeUpdateOne) AppendConditions(v []string) *NodeUpdateOne {
+	_u.mutation.AppendConditions(v)
+	return _u
 }
 
 // ClearConditions clears the value of the "conditions" field.
-func (nuo *NodeUpdateOne) ClearConditions() *NodeUpdateOne {
-	nuo.mutation.ClearConditions()
-	return nuo
+func (_u *NodeUpdateOne) ClearConditions() *NodeUpdateOne {
+	_u.mutation.ClearConditions()
+	return _u
 }
 
 // SetProperties sets the "properties" field.
-func (nuo *NodeUpdateOne) SetProperties(m map[string]interface{}) *NodeUpdateOne {
-	nuo.mutation.SetProperties(m)
-	return nuo
+func (_u *NodeUpdateOne) SetProperties(v map[string]interface{}) *NodeUpdateOne {
+	_u.mutation.SetProperties(v)
+	return _u
 }
 
 // ClearProperties clears the value of the "properties" field.
-func (nuo *NodeUpdateOne) ClearProperties() *NodeUpdateOne {
-	nuo.mutation.ClearProperties()
-	return nuo
+func (_u *NodeUpdateOne) ClearProperties() *NodeUpdateOne {
+	_u.mutation.ClearProperties()
+	return _u
 }
 
 // SetIsCountersign sets the "is_countersign" field.
-func (nuo *NodeUpdateOne) SetIsCountersign(b bool) *NodeUpdateOne {
-	nuo.mutation.SetIsCountersign(b)
-	return nuo
+func (_u *NodeUpdateOne) SetIsCountersign(v bool) *NodeUpdateOne {
+	_u.mutation.SetIsCountersign(v)
+	return _u
 }
 
 // SetNillableIsCountersign sets the "is_countersign" field if the given value is not nil.
-func (nuo *NodeUpdateOne) SetNillableIsCountersign(b *bool) *NodeUpdateOne {
-	if b != nil {
-		nuo.SetIsCountersign(*b)
+func (_u *NodeUpdateOne) SetNillableIsCountersign(v *bool) *NodeUpdateOne {
+	if v != nil {
+		_u.SetIsCountersign(*v)
 	}
-	return nuo
+	return _u
 }
 
 // SetCountersignRule sets the "countersign_rule" field.
-func (nuo *NodeUpdateOne) SetCountersignRule(s string) *NodeUpdateOne {
-	nuo.mutation.SetCountersignRule(s)
-	return nuo
+func (_u *NodeUpdateOne) SetCountersignRule(v string) *NodeUpdateOne {
+	_u.mutation.SetCountersignRule(v)
+	return _u
 }
 
 // SetNillableCountersignRule sets the "countersign_rule" field if the given value is not nil.
-func (nuo *NodeUpdateOne) SetNillableCountersignRule(s *string) *NodeUpdateOne {
-	if s != nil {
-		nuo.SetCountersignRule(*s)
+func (_u *NodeUpdateOne) SetNillableCountersignRule(v *string) *NodeUpdateOne {
+	if v != nil {
+		_u.SetCountersignRule(*v)
 	}
-	return nuo
+	return _u
 }
 
 // ClearCountersignRule clears the value of the "countersign_rule" field.
-func (nuo *NodeUpdateOne) ClearCountersignRule() *NodeUpdateOne {
-	nuo.mutation.ClearCountersignRule()
-	return nuo
+func (_u *NodeUpdateOne) ClearCountersignRule() *NodeUpdateOne {
+	_u.mutation.ClearCountersignRule()
+	return _u
 }
 
 // SetHandlers sets the "handlers" field.
-func (nuo *NodeUpdateOne) SetHandlers(m map[string]interface{}) *NodeUpdateOne {
-	nuo.mutation.SetHandlers(m)
-	return nuo
+func (_u *NodeUpdateOne) SetHandlers(v map[string]interface{}) *NodeUpdateOne {
+	_u.mutation.SetHandlers(v)
+	return _u
 }
 
 // ClearHandlers clears the value of the "handlers" field.
-func (nuo *NodeUpdateOne) ClearHandlers() *NodeUpdateOne {
-	nuo.mutation.ClearHandlers()
-	return nuo
+func (_u *NodeUpdateOne) ClearHandlers() *NodeUpdateOne {
+	_u.mutation.ClearHandlers()
+	return _u
 }
 
 // SetListeners sets the "listeners" field.
-func (nuo *NodeUpdateOne) SetListeners(m map[string]interface{}) *NodeUpdateOne {
-	nuo.mutation.SetListeners(m)
-	return nuo
+func (_u *NodeUpdateOne) SetListeners(v map[string]interface{}) *NodeUpdateOne {
+	_u.mutation.SetListeners(v)
+	return _u
 }
 
 // ClearListeners clears the value of the "listeners" field.
-func (nuo *NodeUpdateOne) ClearListeners() *NodeUpdateOne {
-	nuo.mutation.ClearListeners()
-	return nuo
+func (_u *NodeUpdateOne) ClearListeners() *NodeUpdateOne {
+	_u.mutation.ClearListeners()
+	return _u
 }
 
 // SetHooks sets the "hooks" field.
-func (nuo *NodeUpdateOne) SetHooks(m map[string]interface{}) *NodeUpdateOne {
-	nuo.mutation.SetHooks(m)
-	return nuo
+func (_u *NodeUpdateOne) SetHooks(v map[string]interface{}) *NodeUpdateOne {
+	_u.mutation.SetHooks(v)
+	return _u
 }
 
 // ClearHooks clears the value of the "hooks" field.
-func (nuo *NodeUpdateOne) ClearHooks() *NodeUpdateOne {
-	nuo.mutation.ClearHooks()
-	return nuo
+func (_u *NodeUpdateOne) ClearHooks() *NodeUpdateOne {
+	_u.mutation.ClearHooks()
+	return _u
 }
 
 // SetVariables sets the "variables" field.
-func (nuo *NodeUpdateOne) SetVariables(m map[string]interface{}) *NodeUpdateOne {
-	nuo.mutation.SetVariables(m)
-	return nuo
+func (_u *NodeUpdateOne) SetVariables(v map[string]interface{}) *NodeUpdateOne {
+	_u.mutation.SetVariables(v)
+	return _u
 }
 
 // ClearVariables clears the value of the "variables" field.
-func (nuo *NodeUpdateOne) ClearVariables() *NodeUpdateOne {
-	nuo.mutation.ClearVariables()
-	return nuo
+func (_u *NodeUpdateOne) ClearVariables() *NodeUpdateOne {
+	_u.mutation.ClearVariables()
+	return _u
 }
 
 // SetRetryTimes sets the "retry_times" field.
-func (nuo *NodeUpdateOne) SetRetryTimes(i int) *NodeUpdateOne {
-	nuo.mutation.ResetRetryTimes()
-	nuo.mutation.SetRetryTimes(i)
-	return nuo
+func (_u *NodeUpdateOne) SetRetryTimes(v int) *NodeUpdateOne {
+	_u.mutation.ResetRetryTimes()
+	_u.mutation.SetRetryTimes(v)
+	return _u
 }
 
 // SetNillableRetryTimes sets the "retry_times" field if the given value is not nil.
-func (nuo *NodeUpdateOne) SetNillableRetryTimes(i *int) *NodeUpdateOne {
-	if i != nil {
-		nuo.SetRetryTimes(*i)
+func (_u *NodeUpdateOne) SetNillableRetryTimes(v *int) *NodeUpdateOne {
+	if v != nil {
+		_u.SetRetryTimes(*v)
 	}
-	return nuo
+	return _u
 }
 
-// AddRetryTimes adds i to the "retry_times" field.
-func (nuo *NodeUpdateOne) AddRetryTimes(i int) *NodeUpdateOne {
-	nuo.mutation.AddRetryTimes(i)
-	return nuo
+// AddRetryTimes adds value to the "retry_times" field.
+func (_u *NodeUpdateOne) AddRetryTimes(v int) *NodeUpdateOne {
+	_u.mutation.AddRetryTimes(v)
+	return _u
 }
 
 // ClearRetryTimes clears the value of the "retry_times" field.
-func (nuo *NodeUpdateOne) ClearRetryTimes() *NodeUpdateOne {
-	nuo.mutation.ClearRetryTimes()
-	return nuo
+func (_u *NodeUpdateOne) ClearRetryTimes() *NodeUpdateOne {
+	_u.mutation.ClearRetryTimes()
+	return _u
 }
 
 // SetRetryInterval sets the "retry_interval" field.
-func (nuo *NodeUpdateOne) SetRetryInterval(i int) *NodeUpdateOne {
-	nuo.mutation.ResetRetryInterval()
-	nuo.mutation.SetRetryInterval(i)
-	return nuo
+func (_u *NodeUpdateOne) SetRetryInterval(v int) *NodeUpdateOne {
+	_u.mutation.ResetRetryInterval()
+	_u.mutation.SetRetryInterval(v)
+	return _u
 }
 
 // SetNillableRetryInterval sets the "retry_interval" field if the given value is not nil.
-func (nuo *NodeUpdateOne) SetNillableRetryInterval(i *int) *NodeUpdateOne {
-	if i != nil {
-		nuo.SetRetryInterval(*i)
+func (_u *NodeUpdateOne) SetNillableRetryInterval(v *int) *NodeUpdateOne {
+	if v != nil {
+		_u.SetRetryInterval(*v)
 	}
-	return nuo
+	return _u
 }
 
-// AddRetryInterval adds i to the "retry_interval" field.
-func (nuo *NodeUpdateOne) AddRetryInterval(i int) *NodeUpdateOne {
-	nuo.mutation.AddRetryInterval(i)
-	return nuo
+// AddRetryInterval adds value to the "retry_interval" field.
+func (_u *NodeUpdateOne) AddRetryInterval(v int) *NodeUpdateOne {
+	_u.mutation.AddRetryInterval(v)
+	return _u
 }
 
 // ClearRetryInterval clears the value of the "retry_interval" field.
-func (nuo *NodeUpdateOne) ClearRetryInterval() *NodeUpdateOne {
-	nuo.mutation.ClearRetryInterval()
-	return nuo
+func (_u *NodeUpdateOne) ClearRetryInterval() *NodeUpdateOne {
+	_u.mutation.ClearRetryInterval()
+	return _u
 }
 
 // SetIsWorkingDay sets the "is_working_day" field.
-func (nuo *NodeUpdateOne) SetIsWorkingDay(b bool) *NodeUpdateOne {
-	nuo.mutation.SetIsWorkingDay(b)
-	return nuo
+func (_u *NodeUpdateOne) SetIsWorkingDay(v bool) *NodeUpdateOne {
+	_u.mutation.SetIsWorkingDay(v)
+	return _u
 }
 
 // SetNillableIsWorkingDay sets the "is_working_day" field if the given value is not nil.
-func (nuo *NodeUpdateOne) SetNillableIsWorkingDay(b *bool) *NodeUpdateOne {
-	if b != nil {
-		nuo.SetIsWorkingDay(*b)
+func (_u *NodeUpdateOne) SetNillableIsWorkingDay(v *bool) *NodeUpdateOne {
+	if v != nil {
+		_u.SetIsWorkingDay(*v)
 	}
-	return nuo
+	return _u
 }
 
 // Mutation returns the NodeMutation object of the builder.
-func (nuo *NodeUpdateOne) Mutation() *NodeMutation {
-	return nuo.mutation
+func (_u *NodeUpdateOne) Mutation() *NodeMutation {
+	return _u.mutation
 }
 
 // Where appends a list predicates to the NodeUpdate builder.
-func (nuo *NodeUpdateOne) Where(ps ...predicate.Node) *NodeUpdateOne {
-	nuo.mutation.Where(ps...)
-	return nuo
+func (_u *NodeUpdateOne) Where(ps ...predicate.Node) *NodeUpdateOne {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // Select allows selecting one or more fields (columns) of the returned entity.
 // The default is selecting all fields defined in the entity schema.
-func (nuo *NodeUpdateOne) Select(field string, fields ...string) *NodeUpdateOne {
-	nuo.fields = append([]string{field}, fields...)
-	return nuo
+func (_u *NodeUpdateOne) Select(field string, fields ...string) *NodeUpdateOne {
+	_u.fields = append([]string{field}, fields...)
+	return _u
 }
 
 // Save executes the query and returns the updated Node entity.
-func (nuo *NodeUpdateOne) Save(ctx context.Context) (*Node, error) {
-	nuo.defaults()
-	return withHooks(ctx, nuo.sqlSave, nuo.mutation, nuo.hooks)
+func (_u *NodeUpdateOne) Save(ctx context.Context) (*Node, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (nuo *NodeUpdateOne) SaveX(ctx context.Context) *Node {
-	node, err := nuo.Save(ctx)
+func (_u *NodeUpdateOne) SaveX(ctx context.Context) *Node {
+	node, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -2317,34 +2317,34 @@ func (nuo *NodeUpdateOne) SaveX(ctx context.Context) *Node {
 }
 
 // Exec executes the query on the entity.
-func (nuo *NodeUpdateOne) Exec(ctx context.Context) error {
-	_, err := nuo.Save(ctx)
+func (_u *NodeUpdateOne) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (nuo *NodeUpdateOne) ExecX(ctx context.Context) {
-	if err := nuo.Exec(ctx); err != nil {
+func (_u *NodeUpdateOne) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (nuo *NodeUpdateOne) defaults() {
-	if _, ok := nuo.mutation.UpdatedAt(); !ok && !nuo.mutation.UpdatedAtCleared() {
+func (_u *NodeUpdateOne) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := node.UpdateDefaultUpdatedAt()
-		nuo.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (nuo *NodeUpdateOne) sqlSave(ctx context.Context) (_node *Node, err error) {
+func (_u *NodeUpdateOne) sqlSave(ctx context.Context) (_node *Node, err error) {
 	_spec := sqlgraph.NewUpdateSpec(node.Table, node.Columns, sqlgraph.NewFieldSpec(node.FieldID, field.TypeString))
-	id, ok := nuo.mutation.ID()
+	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "Node.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
-	if fields := nuo.fields; len(fields) > 0 {
+	if fields := _u.fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, node.FieldID)
 		for _, f := range fields {
@@ -2356,352 +2356,352 @@ func (nuo *NodeUpdateOne) sqlSave(ctx context.Context) (_node *Node, err error) 
 			}
 		}
 	}
-	if ps := nuo.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := nuo.mutation.Name(); ok {
+	if value, ok := _u.mutation.Name(); ok {
 		_spec.SetField(node.FieldName, field.TypeString, value)
 	}
-	if nuo.mutation.NameCleared() {
+	if _u.mutation.NameCleared() {
 		_spec.ClearField(node.FieldName, field.TypeString)
 	}
-	if value, ok := nuo.mutation.Description(); ok {
+	if value, ok := _u.mutation.Description(); ok {
 		_spec.SetField(node.FieldDescription, field.TypeString, value)
 	}
-	if nuo.mutation.DescriptionCleared() {
+	if _u.mutation.DescriptionCleared() {
 		_spec.ClearField(node.FieldDescription, field.TypeString)
 	}
-	if value, ok := nuo.mutation.GetType(); ok {
+	if value, ok := _u.mutation.GetType(); ok {
 		_spec.SetField(node.FieldType, field.TypeString, value)
 	}
-	if nuo.mutation.TypeCleared() {
+	if _u.mutation.TypeCleared() {
 		_spec.ClearField(node.FieldType, field.TypeString)
 	}
-	if value, ok := nuo.mutation.Status(); ok {
+	if value, ok := _u.mutation.Status(); ok {
 		_spec.SetField(node.FieldStatus, field.TypeString, value)
 	}
-	if nuo.mutation.StatusCleared() {
+	if _u.mutation.StatusCleared() {
 		_spec.ClearField(node.FieldStatus, field.TypeString)
 	}
-	if value, ok := nuo.mutation.NodeKey(); ok {
+	if value, ok := _u.mutation.NodeKey(); ok {
 		_spec.SetField(node.FieldNodeKey, field.TypeString, value)
 	}
-	if value, ok := nuo.mutation.NodeType(); ok {
+	if value, ok := _u.mutation.NodeType(); ok {
 		_spec.SetField(node.FieldNodeType, field.TypeString, value)
 	}
-	if value, ok := nuo.mutation.NodeConfig(); ok {
+	if value, ok := _u.mutation.NodeConfig(); ok {
 		_spec.SetField(node.FieldNodeConfig, field.TypeJSON, value)
 	}
-	if nuo.mutation.NodeConfigCleared() {
+	if _u.mutation.NodeConfigCleared() {
 		_spec.ClearField(node.FieldNodeConfig, field.TypeJSON)
 	}
-	if value, ok := nuo.mutation.NodeRules(); ok {
+	if value, ok := _u.mutation.NodeRules(); ok {
 		_spec.SetField(node.FieldNodeRules, field.TypeJSON, value)
 	}
-	if nuo.mutation.NodeRulesCleared() {
+	if _u.mutation.NodeRulesCleared() {
 		_spec.ClearField(node.FieldNodeRules, field.TypeJSON)
 	}
-	if value, ok := nuo.mutation.NodeEvents(); ok {
+	if value, ok := _u.mutation.NodeEvents(); ok {
 		_spec.SetField(node.FieldNodeEvents, field.TypeJSON, value)
 	}
-	if nuo.mutation.NodeEventsCleared() {
+	if _u.mutation.NodeEventsCleared() {
 		_spec.ClearField(node.FieldNodeEvents, field.TypeJSON)
 	}
-	if value, ok := nuo.mutation.FormCode(); ok {
+	if value, ok := _u.mutation.FormCode(); ok {
 		_spec.SetField(node.FieldFormCode, field.TypeString, value)
 	}
-	if value, ok := nuo.mutation.FormVersion(); ok {
+	if value, ok := _u.mutation.FormVersion(); ok {
 		_spec.SetField(node.FieldFormVersion, field.TypeString, value)
 	}
-	if nuo.mutation.FormVersionCleared() {
+	if _u.mutation.FormVersionCleared() {
 		_spec.ClearField(node.FieldFormVersion, field.TypeString)
 	}
-	if value, ok := nuo.mutation.FormConfig(); ok {
+	if value, ok := _u.mutation.FormConfig(); ok {
 		_spec.SetField(node.FieldFormConfig, field.TypeJSON, value)
 	}
-	if nuo.mutation.FormConfigCleared() {
+	if _u.mutation.FormConfigCleared() {
 		_spec.ClearField(node.FieldFormConfig, field.TypeJSON)
 	}
-	if value, ok := nuo.mutation.FormPermissions(); ok {
+	if value, ok := _u.mutation.FormPermissions(); ok {
 		_spec.SetField(node.FieldFormPermissions, field.TypeJSON, value)
 	}
-	if nuo.mutation.FormPermissionsCleared() {
+	if _u.mutation.FormPermissionsCleared() {
 		_spec.ClearField(node.FieldFormPermissions, field.TypeJSON)
 	}
-	if value, ok := nuo.mutation.FieldPermissions(); ok {
+	if value, ok := _u.mutation.FieldPermissions(); ok {
 		_spec.SetField(node.FieldFieldPermissions, field.TypeJSON, value)
 	}
-	if nuo.mutation.FieldPermissionsCleared() {
+	if _u.mutation.FieldPermissionsCleared() {
 		_spec.ClearField(node.FieldFieldPermissions, field.TypeJSON)
 	}
-	if value, ok := nuo.mutation.Assignees(); ok {
+	if value, ok := _u.mutation.Assignees(); ok {
 		_spec.SetField(node.FieldAssignees, field.TypeJSON, value)
 	}
-	if value, ok := nuo.mutation.AppendedAssignees(); ok {
+	if value, ok := _u.mutation.AppendedAssignees(); ok {
 		_spec.AddModifier(func(u *sql.UpdateBuilder) {
 			sqljson.Append(u, node.FieldAssignees, value)
 		})
 	}
-	if value, ok := nuo.mutation.Candidates(); ok {
+	if value, ok := _u.mutation.Candidates(); ok {
 		_spec.SetField(node.FieldCandidates, field.TypeJSON, value)
 	}
-	if value, ok := nuo.mutation.AppendedCandidates(); ok {
+	if value, ok := _u.mutation.AppendedCandidates(); ok {
 		_spec.AddModifier(func(u *sql.UpdateBuilder) {
 			sqljson.Append(u, node.FieldCandidates, value)
 		})
 	}
-	if value, ok := nuo.mutation.DelegatedFrom(); ok {
+	if value, ok := _u.mutation.DelegatedFrom(); ok {
 		_spec.SetField(node.FieldDelegatedFrom, field.TypeString, value)
 	}
-	if nuo.mutation.DelegatedFromCleared() {
+	if _u.mutation.DelegatedFromCleared() {
 		_spec.ClearField(node.FieldDelegatedFrom, field.TypeString)
 	}
-	if value, ok := nuo.mutation.DelegatedReason(); ok {
+	if value, ok := _u.mutation.DelegatedReason(); ok {
 		_spec.SetField(node.FieldDelegatedReason, field.TypeString, value)
 	}
-	if nuo.mutation.DelegatedReasonCleared() {
+	if _u.mutation.DelegatedReasonCleared() {
 		_spec.ClearField(node.FieldDelegatedReason, field.TypeString)
 	}
-	if value, ok := nuo.mutation.IsDelegated(); ok {
+	if value, ok := _u.mutation.IsDelegated(); ok {
 		_spec.SetField(node.FieldIsDelegated, field.TypeBool, value)
 	}
-	if value, ok := nuo.mutation.IsTransferred(); ok {
+	if value, ok := _u.mutation.IsTransferred(); ok {
 		_spec.SetField(node.FieldIsTransferred, field.TypeBool, value)
 	}
-	if value, ok := nuo.mutation.AllowCancel(); ok {
+	if value, ok := _u.mutation.AllowCancel(); ok {
 		_spec.SetField(node.FieldAllowCancel, field.TypeBool, value)
 	}
-	if value, ok := nuo.mutation.AllowUrge(); ok {
+	if value, ok := _u.mutation.AllowUrge(); ok {
 		_spec.SetField(node.FieldAllowUrge, field.TypeBool, value)
 	}
-	if value, ok := nuo.mutation.AllowDelegate(); ok {
+	if value, ok := _u.mutation.AllowDelegate(); ok {
 		_spec.SetField(node.FieldAllowDelegate, field.TypeBool, value)
 	}
-	if value, ok := nuo.mutation.AllowTransfer(); ok {
+	if value, ok := _u.mutation.AllowTransfer(); ok {
 		_spec.SetField(node.FieldAllowTransfer, field.TypeBool, value)
 	}
-	if value, ok := nuo.mutation.IsDraftEnabled(); ok {
+	if value, ok := _u.mutation.IsDraftEnabled(); ok {
 		_spec.SetField(node.FieldIsDraftEnabled, field.TypeBool, value)
 	}
-	if value, ok := nuo.mutation.IsAutoStart(); ok {
+	if value, ok := _u.mutation.IsAutoStart(); ok {
 		_spec.SetField(node.FieldIsAutoStart, field.TypeBool, value)
 	}
-	if value, ok := nuo.mutation.StrictMode(); ok {
+	if value, ok := _u.mutation.StrictMode(); ok {
 		_spec.SetField(node.FieldStrictMode, field.TypeBool, value)
 	}
-	if value, ok := nuo.mutation.StartTime(); ok {
+	if value, ok := _u.mutation.StartTime(); ok {
 		_spec.SetField(node.FieldStartTime, field.TypeInt64, value)
 	}
-	if value, ok := nuo.mutation.AddedStartTime(); ok {
+	if value, ok := _u.mutation.AddedStartTime(); ok {
 		_spec.AddField(node.FieldStartTime, field.TypeInt64, value)
 	}
-	if value, ok := nuo.mutation.EndTime(); ok {
+	if value, ok := _u.mutation.EndTime(); ok {
 		_spec.SetField(node.FieldEndTime, field.TypeInt64, value)
 	}
-	if value, ok := nuo.mutation.AddedEndTime(); ok {
+	if value, ok := _u.mutation.AddedEndTime(); ok {
 		_spec.AddField(node.FieldEndTime, field.TypeInt64, value)
 	}
-	if nuo.mutation.EndTimeCleared() {
+	if _u.mutation.EndTimeCleared() {
 		_spec.ClearField(node.FieldEndTime, field.TypeInt64)
 	}
-	if value, ok := nuo.mutation.DueTime(); ok {
+	if value, ok := _u.mutation.DueTime(); ok {
 		_spec.SetField(node.FieldDueTime, field.TypeInt64, value)
 	}
-	if value, ok := nuo.mutation.AddedDueTime(); ok {
+	if value, ok := _u.mutation.AddedDueTime(); ok {
 		_spec.AddField(node.FieldDueTime, field.TypeInt64, value)
 	}
-	if nuo.mutation.DueTimeCleared() {
+	if _u.mutation.DueTimeCleared() {
 		_spec.ClearField(node.FieldDueTime, field.TypeInt64)
 	}
-	if value, ok := nuo.mutation.Duration(); ok {
+	if value, ok := _u.mutation.Duration(); ok {
 		_spec.SetField(node.FieldDuration, field.TypeInt, value)
 	}
-	if value, ok := nuo.mutation.AddedDuration(); ok {
+	if value, ok := _u.mutation.AddedDuration(); ok {
 		_spec.AddField(node.FieldDuration, field.TypeInt, value)
 	}
-	if nuo.mutation.DurationCleared() {
+	if _u.mutation.DurationCleared() {
 		_spec.ClearField(node.FieldDuration, field.TypeInt)
 	}
-	if value, ok := nuo.mutation.Priority(); ok {
+	if value, ok := _u.mutation.Priority(); ok {
 		_spec.SetField(node.FieldPriority, field.TypeInt, value)
 	}
-	if value, ok := nuo.mutation.AddedPriority(); ok {
+	if value, ok := _u.mutation.AddedPriority(); ok {
 		_spec.AddField(node.FieldPriority, field.TypeInt, value)
 	}
-	if value, ok := nuo.mutation.IsTimeout(); ok {
+	if value, ok := _u.mutation.IsTimeout(); ok {
 		_spec.SetField(node.FieldIsTimeout, field.TypeBool, value)
 	}
-	if value, ok := nuo.mutation.ReminderCount(); ok {
+	if value, ok := _u.mutation.ReminderCount(); ok {
 		_spec.SetField(node.FieldReminderCount, field.TypeInt, value)
 	}
-	if value, ok := nuo.mutation.AddedReminderCount(); ok {
+	if value, ok := _u.mutation.AddedReminderCount(); ok {
 		_spec.AddField(node.FieldReminderCount, field.TypeInt, value)
 	}
-	if value, ok := nuo.mutation.Extras(); ok {
+	if value, ok := _u.mutation.Extras(); ok {
 		_spec.SetField(node.FieldExtras, field.TypeJSON, value)
 	}
-	if nuo.mutation.ExtrasCleared() {
+	if _u.mutation.ExtrasCleared() {
 		_spec.ClearField(node.FieldExtras, field.TypeJSON)
 	}
-	if value, ok := nuo.mutation.SpaceID(); ok {
+	if value, ok := _u.mutation.SpaceID(); ok {
 		_spec.SetField(node.FieldSpaceID, field.TypeString, value)
 	}
-	if nuo.mutation.SpaceIDCleared() {
+	if _u.mutation.SpaceIDCleared() {
 		_spec.ClearField(node.FieldSpaceID, field.TypeString)
 	}
-	if value, ok := nuo.mutation.CreatedBy(); ok {
+	if value, ok := _u.mutation.CreatedBy(); ok {
 		_spec.SetField(node.FieldCreatedBy, field.TypeString, value)
 	}
-	if nuo.mutation.CreatedByCleared() {
+	if _u.mutation.CreatedByCleared() {
 		_spec.ClearField(node.FieldCreatedBy, field.TypeString)
 	}
-	if value, ok := nuo.mutation.UpdatedBy(); ok {
+	if value, ok := _u.mutation.UpdatedBy(); ok {
 		_spec.SetField(node.FieldUpdatedBy, field.TypeString, value)
 	}
-	if nuo.mutation.UpdatedByCleared() {
+	if _u.mutation.UpdatedByCleared() {
 		_spec.ClearField(node.FieldUpdatedBy, field.TypeString)
 	}
-	if nuo.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(node.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := nuo.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(node.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := nuo.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(node.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if nuo.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(node.FieldUpdatedAt, field.TypeInt64)
 	}
-	if value, ok := nuo.mutation.ProcessID(); ok {
+	if value, ok := _u.mutation.ProcessID(); ok {
 		_spec.SetField(node.FieldProcessID, field.TypeString, value)
 	}
-	if value, ok := nuo.mutation.Permissions(); ok {
+	if value, ok := _u.mutation.Permissions(); ok {
 		_spec.SetField(node.FieldPermissions, field.TypeJSON, value)
 	}
-	if value, ok := nuo.mutation.PrevNodes(); ok {
+	if value, ok := _u.mutation.PrevNodes(); ok {
 		_spec.SetField(node.FieldPrevNodes, field.TypeJSON, value)
 	}
-	if value, ok := nuo.mutation.AppendedPrevNodes(); ok {
+	if value, ok := _u.mutation.AppendedPrevNodes(); ok {
 		_spec.AddModifier(func(u *sql.UpdateBuilder) {
 			sqljson.Append(u, node.FieldPrevNodes, value)
 		})
 	}
-	if nuo.mutation.PrevNodesCleared() {
+	if _u.mutation.PrevNodesCleared() {
 		_spec.ClearField(node.FieldPrevNodes, field.TypeJSON)
 	}
-	if value, ok := nuo.mutation.NextNodes(); ok {
+	if value, ok := _u.mutation.NextNodes(); ok {
 		_spec.SetField(node.FieldNextNodes, field.TypeJSON, value)
 	}
-	if value, ok := nuo.mutation.AppendedNextNodes(); ok {
+	if value, ok := _u.mutation.AppendedNextNodes(); ok {
 		_spec.AddModifier(func(u *sql.UpdateBuilder) {
 			sqljson.Append(u, node.FieldNextNodes, value)
 		})
 	}
-	if nuo.mutation.NextNodesCleared() {
+	if _u.mutation.NextNodesCleared() {
 		_spec.ClearField(node.FieldNextNodes, field.TypeJSON)
 	}
-	if value, ok := nuo.mutation.ParallelNodes(); ok {
+	if value, ok := _u.mutation.ParallelNodes(); ok {
 		_spec.SetField(node.FieldParallelNodes, field.TypeJSON, value)
 	}
-	if value, ok := nuo.mutation.AppendedParallelNodes(); ok {
+	if value, ok := _u.mutation.AppendedParallelNodes(); ok {
 		_spec.AddModifier(func(u *sql.UpdateBuilder) {
 			sqljson.Append(u, node.FieldParallelNodes, value)
 		})
 	}
-	if nuo.mutation.ParallelNodesCleared() {
+	if _u.mutation.ParallelNodesCleared() {
 		_spec.ClearField(node.FieldParallelNodes, field.TypeJSON)
 	}
-	if value, ok := nuo.mutation.BranchNodes(); ok {
+	if value, ok := _u.mutation.BranchNodes(); ok {
 		_spec.SetField(node.FieldBranchNodes, field.TypeJSON, value)
 	}
-	if value, ok := nuo.mutation.AppendedBranchNodes(); ok {
+	if value, ok := _u.mutation.AppendedBranchNodes(); ok {
 		_spec.AddModifier(func(u *sql.UpdateBuilder) {
 			sqljson.Append(u, node.FieldBranchNodes, value)
 		})
 	}
-	if nuo.mutation.BranchNodesCleared() {
+	if _u.mutation.BranchNodesCleared() {
 		_spec.ClearField(node.FieldBranchNodes, field.TypeJSON)
 	}
-	if value, ok := nuo.mutation.Conditions(); ok {
+	if value, ok := _u.mutation.Conditions(); ok {
 		_spec.SetField(node.FieldConditions, field.TypeJSON, value)
 	}
-	if value, ok := nuo.mutation.AppendedConditions(); ok {
+	if value, ok := _u.mutation.AppendedConditions(); ok {
 		_spec.AddModifier(func(u *sql.UpdateBuilder) {
 			sqljson.Append(u, node.FieldConditions, value)
 		})
 	}
-	if nuo.mutation.ConditionsCleared() {
+	if _u.mutation.ConditionsCleared() {
 		_spec.ClearField(node.FieldConditions, field.TypeJSON)
 	}
-	if value, ok := nuo.mutation.Properties(); ok {
+	if value, ok := _u.mutation.Properties(); ok {
 		_spec.SetField(node.FieldProperties, field.TypeJSON, value)
 	}
-	if nuo.mutation.PropertiesCleared() {
+	if _u.mutation.PropertiesCleared() {
 		_spec.ClearField(node.FieldProperties, field.TypeJSON)
 	}
-	if value, ok := nuo.mutation.IsCountersign(); ok {
+	if value, ok := _u.mutation.IsCountersign(); ok {
 		_spec.SetField(node.FieldIsCountersign, field.TypeBool, value)
 	}
-	if value, ok := nuo.mutation.CountersignRule(); ok {
+	if value, ok := _u.mutation.CountersignRule(); ok {
 		_spec.SetField(node.FieldCountersignRule, field.TypeString, value)
 	}
-	if nuo.mutation.CountersignRuleCleared() {
+	if _u.mutation.CountersignRuleCleared() {
 		_spec.ClearField(node.FieldCountersignRule, field.TypeString)
 	}
-	if value, ok := nuo.mutation.Handlers(); ok {
+	if value, ok := _u.mutation.Handlers(); ok {
 		_spec.SetField(node.FieldHandlers, field.TypeJSON, value)
 	}
-	if nuo.mutation.HandlersCleared() {
+	if _u.mutation.HandlersCleared() {
 		_spec.ClearField(node.FieldHandlers, field.TypeJSON)
 	}
-	if value, ok := nuo.mutation.Listeners(); ok {
+	if value, ok := _u.mutation.Listeners(); ok {
 		_spec.SetField(node.FieldListeners, field.TypeJSON, value)
 	}
-	if nuo.mutation.ListenersCleared() {
+	if _u.mutation.ListenersCleared() {
 		_spec.ClearField(node.FieldListeners, field.TypeJSON)
 	}
-	if value, ok := nuo.mutation.Hooks(); ok {
+	if value, ok := _u.mutation.Hooks(); ok {
 		_spec.SetField(node.FieldHooks, field.TypeJSON, value)
 	}
-	if nuo.mutation.HooksCleared() {
+	if _u.mutation.HooksCleared() {
 		_spec.ClearField(node.FieldHooks, field.TypeJSON)
 	}
-	if value, ok := nuo.mutation.Variables(); ok {
+	if value, ok := _u.mutation.Variables(); ok {
 		_spec.SetField(node.FieldVariables, field.TypeJSON, value)
 	}
-	if nuo.mutation.VariablesCleared() {
+	if _u.mutation.VariablesCleared() {
 		_spec.ClearField(node.FieldVariables, field.TypeJSON)
 	}
-	if value, ok := nuo.mutation.RetryTimes(); ok {
+	if value, ok := _u.mutation.RetryTimes(); ok {
 		_spec.SetField(node.FieldRetryTimes, field.TypeInt, value)
 	}
-	if value, ok := nuo.mutation.AddedRetryTimes(); ok {
+	if value, ok := _u.mutation.AddedRetryTimes(); ok {
 		_spec.AddField(node.FieldRetryTimes, field.TypeInt, value)
 	}
-	if nuo.mutation.RetryTimesCleared() {
+	if _u.mutation.RetryTimesCleared() {
 		_spec.ClearField(node.FieldRetryTimes, field.TypeInt)
 	}
-	if value, ok := nuo.mutation.RetryInterval(); ok {
+	if value, ok := _u.mutation.RetryInterval(); ok {
 		_spec.SetField(node.FieldRetryInterval, field.TypeInt, value)
 	}
-	if value, ok := nuo.mutation.AddedRetryInterval(); ok {
+	if value, ok := _u.mutation.AddedRetryInterval(); ok {
 		_spec.AddField(node.FieldRetryInterval, field.TypeInt, value)
 	}
-	if nuo.mutation.RetryIntervalCleared() {
+	if _u.mutation.RetryIntervalCleared() {
 		_spec.ClearField(node.FieldRetryInterval, field.TypeInt)
 	}
-	if value, ok := nuo.mutation.IsWorkingDay(); ok {
+	if value, ok := _u.mutation.IsWorkingDay(); ok {
 		_spec.SetField(node.FieldIsWorkingDay, field.TypeBool, value)
 	}
-	_node = &Node{config: nuo.config}
+	_node = &Node{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues
-	if err = sqlgraph.UpdateNode(ctx, nuo.driver, _spec); err != nil {
+	if err = sqlgraph.UpdateNode(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{node.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -2709,6 +2709,6 @@ func (nuo *NodeUpdateOne) sqlSave(ctx context.Context) (_node *Node, err error) 
 		}
 		return nil, err
 	}
-	nuo.mutation.done = true
+	_u.mutation.done = true
 	return _node, nil
 }

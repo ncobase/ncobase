@@ -22,228 +22,228 @@ type OrganizationUpdate struct {
 }
 
 // Where appends a list predicates to the OrganizationUpdate builder.
-func (ou *OrganizationUpdate) Where(ps ...predicate.Organization) *OrganizationUpdate {
-	ou.mutation.Where(ps...)
-	return ou
+func (_u *OrganizationUpdate) Where(ps ...predicate.Organization) *OrganizationUpdate {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // SetName sets the "name" field.
-func (ou *OrganizationUpdate) SetName(s string) *OrganizationUpdate {
-	ou.mutation.SetName(s)
-	return ou
+func (_u *OrganizationUpdate) SetName(v string) *OrganizationUpdate {
+	_u.mutation.SetName(v)
+	return _u
 }
 
 // SetNillableName sets the "name" field if the given value is not nil.
-func (ou *OrganizationUpdate) SetNillableName(s *string) *OrganizationUpdate {
-	if s != nil {
-		ou.SetName(*s)
+func (_u *OrganizationUpdate) SetNillableName(v *string) *OrganizationUpdate {
+	if v != nil {
+		_u.SetName(*v)
 	}
-	return ou
+	return _u
 }
 
 // ClearName clears the value of the "name" field.
-func (ou *OrganizationUpdate) ClearName() *OrganizationUpdate {
-	ou.mutation.ClearName()
-	return ou
+func (_u *OrganizationUpdate) ClearName() *OrganizationUpdate {
+	_u.mutation.ClearName()
+	return _u
 }
 
 // SetSlug sets the "slug" field.
-func (ou *OrganizationUpdate) SetSlug(s string) *OrganizationUpdate {
-	ou.mutation.SetSlug(s)
-	return ou
+func (_u *OrganizationUpdate) SetSlug(v string) *OrganizationUpdate {
+	_u.mutation.SetSlug(v)
+	return _u
 }
 
 // SetNillableSlug sets the "slug" field if the given value is not nil.
-func (ou *OrganizationUpdate) SetNillableSlug(s *string) *OrganizationUpdate {
-	if s != nil {
-		ou.SetSlug(*s)
+func (_u *OrganizationUpdate) SetNillableSlug(v *string) *OrganizationUpdate {
+	if v != nil {
+		_u.SetSlug(*v)
 	}
-	return ou
+	return _u
 }
 
 // ClearSlug clears the value of the "slug" field.
-func (ou *OrganizationUpdate) ClearSlug() *OrganizationUpdate {
-	ou.mutation.ClearSlug()
-	return ou
+func (_u *OrganizationUpdate) ClearSlug() *OrganizationUpdate {
+	_u.mutation.ClearSlug()
+	return _u
 }
 
 // SetType sets the "type" field.
-func (ou *OrganizationUpdate) SetType(s string) *OrganizationUpdate {
-	ou.mutation.SetType(s)
-	return ou
+func (_u *OrganizationUpdate) SetType(v string) *OrganizationUpdate {
+	_u.mutation.SetType(v)
+	return _u
 }
 
 // SetNillableType sets the "type" field if the given value is not nil.
-func (ou *OrganizationUpdate) SetNillableType(s *string) *OrganizationUpdate {
-	if s != nil {
-		ou.SetType(*s)
+func (_u *OrganizationUpdate) SetNillableType(v *string) *OrganizationUpdate {
+	if v != nil {
+		_u.SetType(*v)
 	}
-	return ou
+	return _u
 }
 
 // ClearType clears the value of the "type" field.
-func (ou *OrganizationUpdate) ClearType() *OrganizationUpdate {
-	ou.mutation.ClearType()
-	return ou
+func (_u *OrganizationUpdate) ClearType() *OrganizationUpdate {
+	_u.mutation.ClearType()
+	return _u
 }
 
 // SetDisabled sets the "disabled" field.
-func (ou *OrganizationUpdate) SetDisabled(b bool) *OrganizationUpdate {
-	ou.mutation.SetDisabled(b)
-	return ou
+func (_u *OrganizationUpdate) SetDisabled(v bool) *OrganizationUpdate {
+	_u.mutation.SetDisabled(v)
+	return _u
 }
 
 // SetNillableDisabled sets the "disabled" field if the given value is not nil.
-func (ou *OrganizationUpdate) SetNillableDisabled(b *bool) *OrganizationUpdate {
-	if b != nil {
-		ou.SetDisabled(*b)
+func (_u *OrganizationUpdate) SetNillableDisabled(v *bool) *OrganizationUpdate {
+	if v != nil {
+		_u.SetDisabled(*v)
 	}
-	return ou
+	return _u
 }
 
 // ClearDisabled clears the value of the "disabled" field.
-func (ou *OrganizationUpdate) ClearDisabled() *OrganizationUpdate {
-	ou.mutation.ClearDisabled()
-	return ou
+func (_u *OrganizationUpdate) ClearDisabled() *OrganizationUpdate {
+	_u.mutation.ClearDisabled()
+	return _u
 }
 
 // SetDescription sets the "description" field.
-func (ou *OrganizationUpdate) SetDescription(s string) *OrganizationUpdate {
-	ou.mutation.SetDescription(s)
-	return ou
+func (_u *OrganizationUpdate) SetDescription(v string) *OrganizationUpdate {
+	_u.mutation.SetDescription(v)
+	return _u
 }
 
 // SetNillableDescription sets the "description" field if the given value is not nil.
-func (ou *OrganizationUpdate) SetNillableDescription(s *string) *OrganizationUpdate {
-	if s != nil {
-		ou.SetDescription(*s)
+func (_u *OrganizationUpdate) SetNillableDescription(v *string) *OrganizationUpdate {
+	if v != nil {
+		_u.SetDescription(*v)
 	}
-	return ou
+	return _u
 }
 
 // ClearDescription clears the value of the "description" field.
-func (ou *OrganizationUpdate) ClearDescription() *OrganizationUpdate {
-	ou.mutation.ClearDescription()
-	return ou
+func (_u *OrganizationUpdate) ClearDescription() *OrganizationUpdate {
+	_u.mutation.ClearDescription()
+	return _u
 }
 
 // SetLeader sets the "leader" field.
-func (ou *OrganizationUpdate) SetLeader(m map[string]interface{}) *OrganizationUpdate {
-	ou.mutation.SetLeader(m)
-	return ou
+func (_u *OrganizationUpdate) SetLeader(v map[string]interface{}) *OrganizationUpdate {
+	_u.mutation.SetLeader(v)
+	return _u
 }
 
 // ClearLeader clears the value of the "leader" field.
-func (ou *OrganizationUpdate) ClearLeader() *OrganizationUpdate {
-	ou.mutation.ClearLeader()
-	return ou
+func (_u *OrganizationUpdate) ClearLeader() *OrganizationUpdate {
+	_u.mutation.ClearLeader()
+	return _u
 }
 
 // SetExtras sets the "extras" field.
-func (ou *OrganizationUpdate) SetExtras(m map[string]interface{}) *OrganizationUpdate {
-	ou.mutation.SetExtras(m)
-	return ou
+func (_u *OrganizationUpdate) SetExtras(v map[string]interface{}) *OrganizationUpdate {
+	_u.mutation.SetExtras(v)
+	return _u
 }
 
 // ClearExtras clears the value of the "extras" field.
-func (ou *OrganizationUpdate) ClearExtras() *OrganizationUpdate {
-	ou.mutation.ClearExtras()
-	return ou
+func (_u *OrganizationUpdate) ClearExtras() *OrganizationUpdate {
+	_u.mutation.ClearExtras()
+	return _u
 }
 
 // SetParentID sets the "parent_id" field.
-func (ou *OrganizationUpdate) SetParentID(s string) *OrganizationUpdate {
-	ou.mutation.SetParentID(s)
-	return ou
+func (_u *OrganizationUpdate) SetParentID(v string) *OrganizationUpdate {
+	_u.mutation.SetParentID(v)
+	return _u
 }
 
 // SetNillableParentID sets the "parent_id" field if the given value is not nil.
-func (ou *OrganizationUpdate) SetNillableParentID(s *string) *OrganizationUpdate {
-	if s != nil {
-		ou.SetParentID(*s)
+func (_u *OrganizationUpdate) SetNillableParentID(v *string) *OrganizationUpdate {
+	if v != nil {
+		_u.SetParentID(*v)
 	}
-	return ou
+	return _u
 }
 
 // ClearParentID clears the value of the "parent_id" field.
-func (ou *OrganizationUpdate) ClearParentID() *OrganizationUpdate {
-	ou.mutation.ClearParentID()
-	return ou
+func (_u *OrganizationUpdate) ClearParentID() *OrganizationUpdate {
+	_u.mutation.ClearParentID()
+	return _u
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (ou *OrganizationUpdate) SetCreatedBy(s string) *OrganizationUpdate {
-	ou.mutation.SetCreatedBy(s)
-	return ou
+func (_u *OrganizationUpdate) SetCreatedBy(v string) *OrganizationUpdate {
+	_u.mutation.SetCreatedBy(v)
+	return _u
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (ou *OrganizationUpdate) SetNillableCreatedBy(s *string) *OrganizationUpdate {
-	if s != nil {
-		ou.SetCreatedBy(*s)
+func (_u *OrganizationUpdate) SetNillableCreatedBy(v *string) *OrganizationUpdate {
+	if v != nil {
+		_u.SetCreatedBy(*v)
 	}
-	return ou
+	return _u
 }
 
 // ClearCreatedBy clears the value of the "created_by" field.
-func (ou *OrganizationUpdate) ClearCreatedBy() *OrganizationUpdate {
-	ou.mutation.ClearCreatedBy()
-	return ou
+func (_u *OrganizationUpdate) ClearCreatedBy() *OrganizationUpdate {
+	_u.mutation.ClearCreatedBy()
+	return _u
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (ou *OrganizationUpdate) SetUpdatedBy(s string) *OrganizationUpdate {
-	ou.mutation.SetUpdatedBy(s)
-	return ou
+func (_u *OrganizationUpdate) SetUpdatedBy(v string) *OrganizationUpdate {
+	_u.mutation.SetUpdatedBy(v)
+	return _u
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (ou *OrganizationUpdate) SetNillableUpdatedBy(s *string) *OrganizationUpdate {
-	if s != nil {
-		ou.SetUpdatedBy(*s)
+func (_u *OrganizationUpdate) SetNillableUpdatedBy(v *string) *OrganizationUpdate {
+	if v != nil {
+		_u.SetUpdatedBy(*v)
 	}
-	return ou
+	return _u
 }
 
 // ClearUpdatedBy clears the value of the "updated_by" field.
-func (ou *OrganizationUpdate) ClearUpdatedBy() *OrganizationUpdate {
-	ou.mutation.ClearUpdatedBy()
-	return ou
+func (_u *OrganizationUpdate) ClearUpdatedBy() *OrganizationUpdate {
+	_u.mutation.ClearUpdatedBy()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (ou *OrganizationUpdate) SetUpdatedAt(i int64) *OrganizationUpdate {
-	ou.mutation.ResetUpdatedAt()
-	ou.mutation.SetUpdatedAt(i)
-	return ou
+func (_u *OrganizationUpdate) SetUpdatedAt(v int64) *OrganizationUpdate {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (ou *OrganizationUpdate) AddUpdatedAt(i int64) *OrganizationUpdate {
-	ou.mutation.AddUpdatedAt(i)
-	return ou
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *OrganizationUpdate) AddUpdatedAt(v int64) *OrganizationUpdate {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (ou *OrganizationUpdate) ClearUpdatedAt() *OrganizationUpdate {
-	ou.mutation.ClearUpdatedAt()
-	return ou
+func (_u *OrganizationUpdate) ClearUpdatedAt() *OrganizationUpdate {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // Mutation returns the OrganizationMutation object of the builder.
-func (ou *OrganizationUpdate) Mutation() *OrganizationMutation {
-	return ou.mutation
+func (_u *OrganizationUpdate) Mutation() *OrganizationMutation {
+	return _u.mutation
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
-func (ou *OrganizationUpdate) Save(ctx context.Context) (int, error) {
-	ou.defaults()
-	return withHooks(ctx, ou.sqlSave, ou.mutation, ou.hooks)
+func (_u *OrganizationUpdate) Save(ctx context.Context) (int, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (ou *OrganizationUpdate) SaveX(ctx context.Context) int {
-	affected, err := ou.Save(ctx)
+func (_u *OrganizationUpdate) SaveX(ctx context.Context) int {
+	affected, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -251,108 +251,108 @@ func (ou *OrganizationUpdate) SaveX(ctx context.Context) int {
 }
 
 // Exec executes the query.
-func (ou *OrganizationUpdate) Exec(ctx context.Context) error {
-	_, err := ou.Save(ctx)
+func (_u *OrganizationUpdate) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (ou *OrganizationUpdate) ExecX(ctx context.Context) {
-	if err := ou.Exec(ctx); err != nil {
+func (_u *OrganizationUpdate) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (ou *OrganizationUpdate) defaults() {
-	if _, ok := ou.mutation.UpdatedAt(); !ok && !ou.mutation.UpdatedAtCleared() {
+func (_u *OrganizationUpdate) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := organization.UpdateDefaultUpdatedAt()
-		ou.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (ou *OrganizationUpdate) sqlSave(ctx context.Context) (n int, err error) {
+func (_u *OrganizationUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	_spec := sqlgraph.NewUpdateSpec(organization.Table, organization.Columns, sqlgraph.NewFieldSpec(organization.FieldID, field.TypeString))
-	if ps := ou.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := ou.mutation.Name(); ok {
+	if value, ok := _u.mutation.Name(); ok {
 		_spec.SetField(organization.FieldName, field.TypeString, value)
 	}
-	if ou.mutation.NameCleared() {
+	if _u.mutation.NameCleared() {
 		_spec.ClearField(organization.FieldName, field.TypeString)
 	}
-	if value, ok := ou.mutation.Slug(); ok {
+	if value, ok := _u.mutation.Slug(); ok {
 		_spec.SetField(organization.FieldSlug, field.TypeString, value)
 	}
-	if ou.mutation.SlugCleared() {
+	if _u.mutation.SlugCleared() {
 		_spec.ClearField(organization.FieldSlug, field.TypeString)
 	}
-	if value, ok := ou.mutation.GetType(); ok {
+	if value, ok := _u.mutation.GetType(); ok {
 		_spec.SetField(organization.FieldType, field.TypeString, value)
 	}
-	if ou.mutation.TypeCleared() {
+	if _u.mutation.TypeCleared() {
 		_spec.ClearField(organization.FieldType, field.TypeString)
 	}
-	if value, ok := ou.mutation.Disabled(); ok {
+	if value, ok := _u.mutation.Disabled(); ok {
 		_spec.SetField(organization.FieldDisabled, field.TypeBool, value)
 	}
-	if ou.mutation.DisabledCleared() {
+	if _u.mutation.DisabledCleared() {
 		_spec.ClearField(organization.FieldDisabled, field.TypeBool)
 	}
-	if value, ok := ou.mutation.Description(); ok {
+	if value, ok := _u.mutation.Description(); ok {
 		_spec.SetField(organization.FieldDescription, field.TypeString, value)
 	}
-	if ou.mutation.DescriptionCleared() {
+	if _u.mutation.DescriptionCleared() {
 		_spec.ClearField(organization.FieldDescription, field.TypeString)
 	}
-	if value, ok := ou.mutation.Leader(); ok {
+	if value, ok := _u.mutation.Leader(); ok {
 		_spec.SetField(organization.FieldLeader, field.TypeJSON, value)
 	}
-	if ou.mutation.LeaderCleared() {
+	if _u.mutation.LeaderCleared() {
 		_spec.ClearField(organization.FieldLeader, field.TypeJSON)
 	}
-	if value, ok := ou.mutation.Extras(); ok {
+	if value, ok := _u.mutation.Extras(); ok {
 		_spec.SetField(organization.FieldExtras, field.TypeJSON, value)
 	}
-	if ou.mutation.ExtrasCleared() {
+	if _u.mutation.ExtrasCleared() {
 		_spec.ClearField(organization.FieldExtras, field.TypeJSON)
 	}
-	if value, ok := ou.mutation.ParentID(); ok {
+	if value, ok := _u.mutation.ParentID(); ok {
 		_spec.SetField(organization.FieldParentID, field.TypeString, value)
 	}
-	if ou.mutation.ParentIDCleared() {
+	if _u.mutation.ParentIDCleared() {
 		_spec.ClearField(organization.FieldParentID, field.TypeString)
 	}
-	if value, ok := ou.mutation.CreatedBy(); ok {
+	if value, ok := _u.mutation.CreatedBy(); ok {
 		_spec.SetField(organization.FieldCreatedBy, field.TypeString, value)
 	}
-	if ou.mutation.CreatedByCleared() {
+	if _u.mutation.CreatedByCleared() {
 		_spec.ClearField(organization.FieldCreatedBy, field.TypeString)
 	}
-	if value, ok := ou.mutation.UpdatedBy(); ok {
+	if value, ok := _u.mutation.UpdatedBy(); ok {
 		_spec.SetField(organization.FieldUpdatedBy, field.TypeString, value)
 	}
-	if ou.mutation.UpdatedByCleared() {
+	if _u.mutation.UpdatedByCleared() {
 		_spec.ClearField(organization.FieldUpdatedBy, field.TypeString)
 	}
-	if ou.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(organization.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := ou.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(organization.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := ou.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(organization.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if ou.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(organization.FieldUpdatedAt, field.TypeInt64)
 	}
-	if n, err = sqlgraph.UpdateNodes(ctx, ou.driver, _spec); err != nil {
+	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{organization.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -360,8 +360,8 @@ func (ou *OrganizationUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		return 0, err
 	}
-	ou.mutation.done = true
-	return n, nil
+	_u.mutation.done = true
+	return _node, nil
 }
 
 // OrganizationUpdateOne is the builder for updating a single Organization entity.
@@ -373,235 +373,235 @@ type OrganizationUpdateOne struct {
 }
 
 // SetName sets the "name" field.
-func (ouo *OrganizationUpdateOne) SetName(s string) *OrganizationUpdateOne {
-	ouo.mutation.SetName(s)
-	return ouo
+func (_u *OrganizationUpdateOne) SetName(v string) *OrganizationUpdateOne {
+	_u.mutation.SetName(v)
+	return _u
 }
 
 // SetNillableName sets the "name" field if the given value is not nil.
-func (ouo *OrganizationUpdateOne) SetNillableName(s *string) *OrganizationUpdateOne {
-	if s != nil {
-		ouo.SetName(*s)
+func (_u *OrganizationUpdateOne) SetNillableName(v *string) *OrganizationUpdateOne {
+	if v != nil {
+		_u.SetName(*v)
 	}
-	return ouo
+	return _u
 }
 
 // ClearName clears the value of the "name" field.
-func (ouo *OrganizationUpdateOne) ClearName() *OrganizationUpdateOne {
-	ouo.mutation.ClearName()
-	return ouo
+func (_u *OrganizationUpdateOne) ClearName() *OrganizationUpdateOne {
+	_u.mutation.ClearName()
+	return _u
 }
 
 // SetSlug sets the "slug" field.
-func (ouo *OrganizationUpdateOne) SetSlug(s string) *OrganizationUpdateOne {
-	ouo.mutation.SetSlug(s)
-	return ouo
+func (_u *OrganizationUpdateOne) SetSlug(v string) *OrganizationUpdateOne {
+	_u.mutation.SetSlug(v)
+	return _u
 }
 
 // SetNillableSlug sets the "slug" field if the given value is not nil.
-func (ouo *OrganizationUpdateOne) SetNillableSlug(s *string) *OrganizationUpdateOne {
-	if s != nil {
-		ouo.SetSlug(*s)
+func (_u *OrganizationUpdateOne) SetNillableSlug(v *string) *OrganizationUpdateOne {
+	if v != nil {
+		_u.SetSlug(*v)
 	}
-	return ouo
+	return _u
 }
 
 // ClearSlug clears the value of the "slug" field.
-func (ouo *OrganizationUpdateOne) ClearSlug() *OrganizationUpdateOne {
-	ouo.mutation.ClearSlug()
-	return ouo
+func (_u *OrganizationUpdateOne) ClearSlug() *OrganizationUpdateOne {
+	_u.mutation.ClearSlug()
+	return _u
 }
 
 // SetType sets the "type" field.
-func (ouo *OrganizationUpdateOne) SetType(s string) *OrganizationUpdateOne {
-	ouo.mutation.SetType(s)
-	return ouo
+func (_u *OrganizationUpdateOne) SetType(v string) *OrganizationUpdateOne {
+	_u.mutation.SetType(v)
+	return _u
 }
 
 // SetNillableType sets the "type" field if the given value is not nil.
-func (ouo *OrganizationUpdateOne) SetNillableType(s *string) *OrganizationUpdateOne {
-	if s != nil {
-		ouo.SetType(*s)
+func (_u *OrganizationUpdateOne) SetNillableType(v *string) *OrganizationUpdateOne {
+	if v != nil {
+		_u.SetType(*v)
 	}
-	return ouo
+	return _u
 }
 
 // ClearType clears the value of the "type" field.
-func (ouo *OrganizationUpdateOne) ClearType() *OrganizationUpdateOne {
-	ouo.mutation.ClearType()
-	return ouo
+func (_u *OrganizationUpdateOne) ClearType() *OrganizationUpdateOne {
+	_u.mutation.ClearType()
+	return _u
 }
 
 // SetDisabled sets the "disabled" field.
-func (ouo *OrganizationUpdateOne) SetDisabled(b bool) *OrganizationUpdateOne {
-	ouo.mutation.SetDisabled(b)
-	return ouo
+func (_u *OrganizationUpdateOne) SetDisabled(v bool) *OrganizationUpdateOne {
+	_u.mutation.SetDisabled(v)
+	return _u
 }
 
 // SetNillableDisabled sets the "disabled" field if the given value is not nil.
-func (ouo *OrganizationUpdateOne) SetNillableDisabled(b *bool) *OrganizationUpdateOne {
-	if b != nil {
-		ouo.SetDisabled(*b)
+func (_u *OrganizationUpdateOne) SetNillableDisabled(v *bool) *OrganizationUpdateOne {
+	if v != nil {
+		_u.SetDisabled(*v)
 	}
-	return ouo
+	return _u
 }
 
 // ClearDisabled clears the value of the "disabled" field.
-func (ouo *OrganizationUpdateOne) ClearDisabled() *OrganizationUpdateOne {
-	ouo.mutation.ClearDisabled()
-	return ouo
+func (_u *OrganizationUpdateOne) ClearDisabled() *OrganizationUpdateOne {
+	_u.mutation.ClearDisabled()
+	return _u
 }
 
 // SetDescription sets the "description" field.
-func (ouo *OrganizationUpdateOne) SetDescription(s string) *OrganizationUpdateOne {
-	ouo.mutation.SetDescription(s)
-	return ouo
+func (_u *OrganizationUpdateOne) SetDescription(v string) *OrganizationUpdateOne {
+	_u.mutation.SetDescription(v)
+	return _u
 }
 
 // SetNillableDescription sets the "description" field if the given value is not nil.
-func (ouo *OrganizationUpdateOne) SetNillableDescription(s *string) *OrganizationUpdateOne {
-	if s != nil {
-		ouo.SetDescription(*s)
+func (_u *OrganizationUpdateOne) SetNillableDescription(v *string) *OrganizationUpdateOne {
+	if v != nil {
+		_u.SetDescription(*v)
 	}
-	return ouo
+	return _u
 }
 
 // ClearDescription clears the value of the "description" field.
-func (ouo *OrganizationUpdateOne) ClearDescription() *OrganizationUpdateOne {
-	ouo.mutation.ClearDescription()
-	return ouo
+func (_u *OrganizationUpdateOne) ClearDescription() *OrganizationUpdateOne {
+	_u.mutation.ClearDescription()
+	return _u
 }
 
 // SetLeader sets the "leader" field.
-func (ouo *OrganizationUpdateOne) SetLeader(m map[string]interface{}) *OrganizationUpdateOne {
-	ouo.mutation.SetLeader(m)
-	return ouo
+func (_u *OrganizationUpdateOne) SetLeader(v map[string]interface{}) *OrganizationUpdateOne {
+	_u.mutation.SetLeader(v)
+	return _u
 }
 
 // ClearLeader clears the value of the "leader" field.
-func (ouo *OrganizationUpdateOne) ClearLeader() *OrganizationUpdateOne {
-	ouo.mutation.ClearLeader()
-	return ouo
+func (_u *OrganizationUpdateOne) ClearLeader() *OrganizationUpdateOne {
+	_u.mutation.ClearLeader()
+	return _u
 }
 
 // SetExtras sets the "extras" field.
-func (ouo *OrganizationUpdateOne) SetExtras(m map[string]interface{}) *OrganizationUpdateOne {
-	ouo.mutation.SetExtras(m)
-	return ouo
+func (_u *OrganizationUpdateOne) SetExtras(v map[string]interface{}) *OrganizationUpdateOne {
+	_u.mutation.SetExtras(v)
+	return _u
 }
 
 // ClearExtras clears the value of the "extras" field.
-func (ouo *OrganizationUpdateOne) ClearExtras() *OrganizationUpdateOne {
-	ouo.mutation.ClearExtras()
-	return ouo
+func (_u *OrganizationUpdateOne) ClearExtras() *OrganizationUpdateOne {
+	_u.mutation.ClearExtras()
+	return _u
 }
 
 // SetParentID sets the "parent_id" field.
-func (ouo *OrganizationUpdateOne) SetParentID(s string) *OrganizationUpdateOne {
-	ouo.mutation.SetParentID(s)
-	return ouo
+func (_u *OrganizationUpdateOne) SetParentID(v string) *OrganizationUpdateOne {
+	_u.mutation.SetParentID(v)
+	return _u
 }
 
 // SetNillableParentID sets the "parent_id" field if the given value is not nil.
-func (ouo *OrganizationUpdateOne) SetNillableParentID(s *string) *OrganizationUpdateOne {
-	if s != nil {
-		ouo.SetParentID(*s)
+func (_u *OrganizationUpdateOne) SetNillableParentID(v *string) *OrganizationUpdateOne {
+	if v != nil {
+		_u.SetParentID(*v)
 	}
-	return ouo
+	return _u
 }
 
 // ClearParentID clears the value of the "parent_id" field.
-func (ouo *OrganizationUpdateOne) ClearParentID() *OrganizationUpdateOne {
-	ouo.mutation.ClearParentID()
-	return ouo
+func (_u *OrganizationUpdateOne) ClearParentID() *OrganizationUpdateOne {
+	_u.mutation.ClearParentID()
+	return _u
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (ouo *OrganizationUpdateOne) SetCreatedBy(s string) *OrganizationUpdateOne {
-	ouo.mutation.SetCreatedBy(s)
-	return ouo
+func (_u *OrganizationUpdateOne) SetCreatedBy(v string) *OrganizationUpdateOne {
+	_u.mutation.SetCreatedBy(v)
+	return _u
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (ouo *OrganizationUpdateOne) SetNillableCreatedBy(s *string) *OrganizationUpdateOne {
-	if s != nil {
-		ouo.SetCreatedBy(*s)
+func (_u *OrganizationUpdateOne) SetNillableCreatedBy(v *string) *OrganizationUpdateOne {
+	if v != nil {
+		_u.SetCreatedBy(*v)
 	}
-	return ouo
+	return _u
 }
 
 // ClearCreatedBy clears the value of the "created_by" field.
-func (ouo *OrganizationUpdateOne) ClearCreatedBy() *OrganizationUpdateOne {
-	ouo.mutation.ClearCreatedBy()
-	return ouo
+func (_u *OrganizationUpdateOne) ClearCreatedBy() *OrganizationUpdateOne {
+	_u.mutation.ClearCreatedBy()
+	return _u
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (ouo *OrganizationUpdateOne) SetUpdatedBy(s string) *OrganizationUpdateOne {
-	ouo.mutation.SetUpdatedBy(s)
-	return ouo
+func (_u *OrganizationUpdateOne) SetUpdatedBy(v string) *OrganizationUpdateOne {
+	_u.mutation.SetUpdatedBy(v)
+	return _u
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (ouo *OrganizationUpdateOne) SetNillableUpdatedBy(s *string) *OrganizationUpdateOne {
-	if s != nil {
-		ouo.SetUpdatedBy(*s)
+func (_u *OrganizationUpdateOne) SetNillableUpdatedBy(v *string) *OrganizationUpdateOne {
+	if v != nil {
+		_u.SetUpdatedBy(*v)
 	}
-	return ouo
+	return _u
 }
 
 // ClearUpdatedBy clears the value of the "updated_by" field.
-func (ouo *OrganizationUpdateOne) ClearUpdatedBy() *OrganizationUpdateOne {
-	ouo.mutation.ClearUpdatedBy()
-	return ouo
+func (_u *OrganizationUpdateOne) ClearUpdatedBy() *OrganizationUpdateOne {
+	_u.mutation.ClearUpdatedBy()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (ouo *OrganizationUpdateOne) SetUpdatedAt(i int64) *OrganizationUpdateOne {
-	ouo.mutation.ResetUpdatedAt()
-	ouo.mutation.SetUpdatedAt(i)
-	return ouo
+func (_u *OrganizationUpdateOne) SetUpdatedAt(v int64) *OrganizationUpdateOne {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (ouo *OrganizationUpdateOne) AddUpdatedAt(i int64) *OrganizationUpdateOne {
-	ouo.mutation.AddUpdatedAt(i)
-	return ouo
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *OrganizationUpdateOne) AddUpdatedAt(v int64) *OrganizationUpdateOne {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (ouo *OrganizationUpdateOne) ClearUpdatedAt() *OrganizationUpdateOne {
-	ouo.mutation.ClearUpdatedAt()
-	return ouo
+func (_u *OrganizationUpdateOne) ClearUpdatedAt() *OrganizationUpdateOne {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // Mutation returns the OrganizationMutation object of the builder.
-func (ouo *OrganizationUpdateOne) Mutation() *OrganizationMutation {
-	return ouo.mutation
+func (_u *OrganizationUpdateOne) Mutation() *OrganizationMutation {
+	return _u.mutation
 }
 
 // Where appends a list predicates to the OrganizationUpdate builder.
-func (ouo *OrganizationUpdateOne) Where(ps ...predicate.Organization) *OrganizationUpdateOne {
-	ouo.mutation.Where(ps...)
-	return ouo
+func (_u *OrganizationUpdateOne) Where(ps ...predicate.Organization) *OrganizationUpdateOne {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // Select allows selecting one or more fields (columns) of the returned entity.
 // The default is selecting all fields defined in the entity schema.
-func (ouo *OrganizationUpdateOne) Select(field string, fields ...string) *OrganizationUpdateOne {
-	ouo.fields = append([]string{field}, fields...)
-	return ouo
+func (_u *OrganizationUpdateOne) Select(field string, fields ...string) *OrganizationUpdateOne {
+	_u.fields = append([]string{field}, fields...)
+	return _u
 }
 
 // Save executes the query and returns the updated Organization entity.
-func (ouo *OrganizationUpdateOne) Save(ctx context.Context) (*Organization, error) {
-	ouo.defaults()
-	return withHooks(ctx, ouo.sqlSave, ouo.mutation, ouo.hooks)
+func (_u *OrganizationUpdateOne) Save(ctx context.Context) (*Organization, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (ouo *OrganizationUpdateOne) SaveX(ctx context.Context) *Organization {
-	node, err := ouo.Save(ctx)
+func (_u *OrganizationUpdateOne) SaveX(ctx context.Context) *Organization {
+	node, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -609,34 +609,34 @@ func (ouo *OrganizationUpdateOne) SaveX(ctx context.Context) *Organization {
 }
 
 // Exec executes the query on the entity.
-func (ouo *OrganizationUpdateOne) Exec(ctx context.Context) error {
-	_, err := ouo.Save(ctx)
+func (_u *OrganizationUpdateOne) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (ouo *OrganizationUpdateOne) ExecX(ctx context.Context) {
-	if err := ouo.Exec(ctx); err != nil {
+func (_u *OrganizationUpdateOne) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (ouo *OrganizationUpdateOne) defaults() {
-	if _, ok := ouo.mutation.UpdatedAt(); !ok && !ouo.mutation.UpdatedAtCleared() {
+func (_u *OrganizationUpdateOne) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := organization.UpdateDefaultUpdatedAt()
-		ouo.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (ouo *OrganizationUpdateOne) sqlSave(ctx context.Context) (_node *Organization, err error) {
+func (_u *OrganizationUpdateOne) sqlSave(ctx context.Context) (_node *Organization, err error) {
 	_spec := sqlgraph.NewUpdateSpec(organization.Table, organization.Columns, sqlgraph.NewFieldSpec(organization.FieldID, field.TypeString))
-	id, ok := ouo.mutation.ID()
+	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "Organization.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
-	if fields := ouo.fields; len(fields) > 0 {
+	if fields := _u.fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, organization.FieldID)
 		for _, f := range fields {
@@ -648,89 +648,89 @@ func (ouo *OrganizationUpdateOne) sqlSave(ctx context.Context) (_node *Organizat
 			}
 		}
 	}
-	if ps := ouo.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := ouo.mutation.Name(); ok {
+	if value, ok := _u.mutation.Name(); ok {
 		_spec.SetField(organization.FieldName, field.TypeString, value)
 	}
-	if ouo.mutation.NameCleared() {
+	if _u.mutation.NameCleared() {
 		_spec.ClearField(organization.FieldName, field.TypeString)
 	}
-	if value, ok := ouo.mutation.Slug(); ok {
+	if value, ok := _u.mutation.Slug(); ok {
 		_spec.SetField(organization.FieldSlug, field.TypeString, value)
 	}
-	if ouo.mutation.SlugCleared() {
+	if _u.mutation.SlugCleared() {
 		_spec.ClearField(organization.FieldSlug, field.TypeString)
 	}
-	if value, ok := ouo.mutation.GetType(); ok {
+	if value, ok := _u.mutation.GetType(); ok {
 		_spec.SetField(organization.FieldType, field.TypeString, value)
 	}
-	if ouo.mutation.TypeCleared() {
+	if _u.mutation.TypeCleared() {
 		_spec.ClearField(organization.FieldType, field.TypeString)
 	}
-	if value, ok := ouo.mutation.Disabled(); ok {
+	if value, ok := _u.mutation.Disabled(); ok {
 		_spec.SetField(organization.FieldDisabled, field.TypeBool, value)
 	}
-	if ouo.mutation.DisabledCleared() {
+	if _u.mutation.DisabledCleared() {
 		_spec.ClearField(organization.FieldDisabled, field.TypeBool)
 	}
-	if value, ok := ouo.mutation.Description(); ok {
+	if value, ok := _u.mutation.Description(); ok {
 		_spec.SetField(organization.FieldDescription, field.TypeString, value)
 	}
-	if ouo.mutation.DescriptionCleared() {
+	if _u.mutation.DescriptionCleared() {
 		_spec.ClearField(organization.FieldDescription, field.TypeString)
 	}
-	if value, ok := ouo.mutation.Leader(); ok {
+	if value, ok := _u.mutation.Leader(); ok {
 		_spec.SetField(organization.FieldLeader, field.TypeJSON, value)
 	}
-	if ouo.mutation.LeaderCleared() {
+	if _u.mutation.LeaderCleared() {
 		_spec.ClearField(organization.FieldLeader, field.TypeJSON)
 	}
-	if value, ok := ouo.mutation.Extras(); ok {
+	if value, ok := _u.mutation.Extras(); ok {
 		_spec.SetField(organization.FieldExtras, field.TypeJSON, value)
 	}
-	if ouo.mutation.ExtrasCleared() {
+	if _u.mutation.ExtrasCleared() {
 		_spec.ClearField(organization.FieldExtras, field.TypeJSON)
 	}
-	if value, ok := ouo.mutation.ParentID(); ok {
+	if value, ok := _u.mutation.ParentID(); ok {
 		_spec.SetField(organization.FieldParentID, field.TypeString, value)
 	}
-	if ouo.mutation.ParentIDCleared() {
+	if _u.mutation.ParentIDCleared() {
 		_spec.ClearField(organization.FieldParentID, field.TypeString)
 	}
-	if value, ok := ouo.mutation.CreatedBy(); ok {
+	if value, ok := _u.mutation.CreatedBy(); ok {
 		_spec.SetField(organization.FieldCreatedBy, field.TypeString, value)
 	}
-	if ouo.mutation.CreatedByCleared() {
+	if _u.mutation.CreatedByCleared() {
 		_spec.ClearField(organization.FieldCreatedBy, field.TypeString)
 	}
-	if value, ok := ouo.mutation.UpdatedBy(); ok {
+	if value, ok := _u.mutation.UpdatedBy(); ok {
 		_spec.SetField(organization.FieldUpdatedBy, field.TypeString, value)
 	}
-	if ouo.mutation.UpdatedByCleared() {
+	if _u.mutation.UpdatedByCleared() {
 		_spec.ClearField(organization.FieldUpdatedBy, field.TypeString)
 	}
-	if ouo.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(organization.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := ouo.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(organization.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := ouo.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(organization.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if ouo.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(organization.FieldUpdatedAt, field.TypeInt64)
 	}
-	_node = &Organization{config: ouo.config}
+	_node = &Organization{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues
-	if err = sqlgraph.UpdateNode(ctx, ouo.driver, _spec); err != nil {
+	if err = sqlgraph.UpdateNode(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{organization.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -738,6 +738,6 @@ func (ouo *OrganizationUpdateOne) sqlSave(ctx context.Context) (_node *Organizat
 		}
 		return nil, err
 	}
-	ouo.mutation.done = true
+	_u.mutation.done = true
 	return _node, nil
 }

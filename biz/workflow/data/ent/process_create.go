@@ -20,561 +20,561 @@ type ProcessCreate struct {
 }
 
 // SetStatus sets the "status" field.
-func (pc *ProcessCreate) SetStatus(s string) *ProcessCreate {
-	pc.mutation.SetStatus(s)
-	return pc
+func (_c *ProcessCreate) SetStatus(v string) *ProcessCreate {
+	_c.mutation.SetStatus(v)
+	return _c
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (pc *ProcessCreate) SetNillableStatus(s *string) *ProcessCreate {
-	if s != nil {
-		pc.SetStatus(*s)
+func (_c *ProcessCreate) SetNillableStatus(v *string) *ProcessCreate {
+	if v != nil {
+		_c.SetStatus(*v)
 	}
-	return pc
+	return _c
 }
 
 // SetProcessID sets the "process_id" field.
-func (pc *ProcessCreate) SetProcessID(s string) *ProcessCreate {
-	pc.mutation.SetProcessID(s)
-	return pc
+func (_c *ProcessCreate) SetProcessID(v string) *ProcessCreate {
+	_c.mutation.SetProcessID(v)
+	return _c
 }
 
 // SetTemplateID sets the "template_id" field.
-func (pc *ProcessCreate) SetTemplateID(s string) *ProcessCreate {
-	pc.mutation.SetTemplateID(s)
-	return pc
+func (_c *ProcessCreate) SetTemplateID(v string) *ProcessCreate {
+	_c.mutation.SetTemplateID(v)
+	return _c
 }
 
 // SetBusinessKey sets the "business_key" field.
-func (pc *ProcessCreate) SetBusinessKey(s string) *ProcessCreate {
-	pc.mutation.SetBusinessKey(s)
-	return pc
+func (_c *ProcessCreate) SetBusinessKey(v string) *ProcessCreate {
+	_c.mutation.SetBusinessKey(v)
+	return _c
 }
 
 // SetFormCode sets the "form_code" field.
-func (pc *ProcessCreate) SetFormCode(s string) *ProcessCreate {
-	pc.mutation.SetFormCode(s)
-	return pc
+func (_c *ProcessCreate) SetFormCode(v string) *ProcessCreate {
+	_c.mutation.SetFormCode(v)
+	return _c
 }
 
 // SetFormVersion sets the "form_version" field.
-func (pc *ProcessCreate) SetFormVersion(s string) *ProcessCreate {
-	pc.mutation.SetFormVersion(s)
-	return pc
+func (_c *ProcessCreate) SetFormVersion(v string) *ProcessCreate {
+	_c.mutation.SetFormVersion(v)
+	return _c
 }
 
 // SetNillableFormVersion sets the "form_version" field if the given value is not nil.
-func (pc *ProcessCreate) SetNillableFormVersion(s *string) *ProcessCreate {
-	if s != nil {
-		pc.SetFormVersion(*s)
+func (_c *ProcessCreate) SetNillableFormVersion(v *string) *ProcessCreate {
+	if v != nil {
+		_c.SetFormVersion(*v)
 	}
-	return pc
+	return _c
 }
 
 // SetFormConfig sets the "form_config" field.
-func (pc *ProcessCreate) SetFormConfig(m map[string]interface{}) *ProcessCreate {
-	pc.mutation.SetFormConfig(m)
-	return pc
+func (_c *ProcessCreate) SetFormConfig(v map[string]interface{}) *ProcessCreate {
+	_c.mutation.SetFormConfig(v)
+	return _c
 }
 
 // SetFormPermissions sets the "form_permissions" field.
-func (pc *ProcessCreate) SetFormPermissions(m map[string]interface{}) *ProcessCreate {
-	pc.mutation.SetFormPermissions(m)
-	return pc
+func (_c *ProcessCreate) SetFormPermissions(v map[string]interface{}) *ProcessCreate {
+	_c.mutation.SetFormPermissions(v)
+	return _c
 }
 
 // SetFieldPermissions sets the "field_permissions" field.
-func (pc *ProcessCreate) SetFieldPermissions(m map[string]interface{}) *ProcessCreate {
-	pc.mutation.SetFieldPermissions(m)
-	return pc
+func (_c *ProcessCreate) SetFieldPermissions(v map[string]interface{}) *ProcessCreate {
+	_c.mutation.SetFieldPermissions(v)
+	return _c
 }
 
 // SetBusinessTags sets the "business_tags" field.
-func (pc *ProcessCreate) SetBusinessTags(s []string) *ProcessCreate {
-	pc.mutation.SetBusinessTags(s)
-	return pc
+func (_c *ProcessCreate) SetBusinessTags(v []string) *ProcessCreate {
+	_c.mutation.SetBusinessTags(v)
+	return _c
 }
 
 // SetModuleCode sets the "module_code" field.
-func (pc *ProcessCreate) SetModuleCode(s string) *ProcessCreate {
-	pc.mutation.SetModuleCode(s)
-	return pc
+func (_c *ProcessCreate) SetModuleCode(v string) *ProcessCreate {
+	_c.mutation.SetModuleCode(v)
+	return _c
 }
 
 // SetCategory sets the "category" field.
-func (pc *ProcessCreate) SetCategory(s string) *ProcessCreate {
-	pc.mutation.SetCategory(s)
-	return pc
+func (_c *ProcessCreate) SetCategory(v string) *ProcessCreate {
+	_c.mutation.SetCategory(v)
+	return _c
 }
 
 // SetNillableCategory sets the "category" field if the given value is not nil.
-func (pc *ProcessCreate) SetNillableCategory(s *string) *ProcessCreate {
-	if s != nil {
-		pc.SetCategory(*s)
+func (_c *ProcessCreate) SetNillableCategory(v *string) *ProcessCreate {
+	if v != nil {
+		_c.SetCategory(*v)
 	}
-	return pc
+	return _c
 }
 
 // SetFlowStatus sets the "flow_status" field.
-func (pc *ProcessCreate) SetFlowStatus(s string) *ProcessCreate {
-	pc.mutation.SetFlowStatus(s)
-	return pc
+func (_c *ProcessCreate) SetFlowStatus(v string) *ProcessCreate {
+	_c.mutation.SetFlowStatus(v)
+	return _c
 }
 
 // SetNillableFlowStatus sets the "flow_status" field if the given value is not nil.
-func (pc *ProcessCreate) SetNillableFlowStatus(s *string) *ProcessCreate {
-	if s != nil {
-		pc.SetFlowStatus(*s)
+func (_c *ProcessCreate) SetNillableFlowStatus(v *string) *ProcessCreate {
+	if v != nil {
+		_c.SetFlowStatus(*v)
 	}
-	return pc
+	return _c
 }
 
 // SetFlowVariables sets the "flow_variables" field.
-func (pc *ProcessCreate) SetFlowVariables(m map[string]interface{}) *ProcessCreate {
-	pc.mutation.SetFlowVariables(m)
-	return pc
+func (_c *ProcessCreate) SetFlowVariables(v map[string]interface{}) *ProcessCreate {
+	_c.mutation.SetFlowVariables(v)
+	return _c
 }
 
 // SetIsDraft sets the "is_draft" field.
-func (pc *ProcessCreate) SetIsDraft(b bool) *ProcessCreate {
-	pc.mutation.SetIsDraft(b)
-	return pc
+func (_c *ProcessCreate) SetIsDraft(v bool) *ProcessCreate {
+	_c.mutation.SetIsDraft(v)
+	return _c
 }
 
 // SetNillableIsDraft sets the "is_draft" field if the given value is not nil.
-func (pc *ProcessCreate) SetNillableIsDraft(b *bool) *ProcessCreate {
-	if b != nil {
-		pc.SetIsDraft(*b)
+func (_c *ProcessCreate) SetNillableIsDraft(v *bool) *ProcessCreate {
+	if v != nil {
+		_c.SetIsDraft(*v)
 	}
-	return pc
+	return _c
 }
 
 // SetIsTerminated sets the "is_terminated" field.
-func (pc *ProcessCreate) SetIsTerminated(b bool) *ProcessCreate {
-	pc.mutation.SetIsTerminated(b)
-	return pc
+func (_c *ProcessCreate) SetIsTerminated(v bool) *ProcessCreate {
+	_c.mutation.SetIsTerminated(v)
+	return _c
 }
 
 // SetNillableIsTerminated sets the "is_terminated" field if the given value is not nil.
-func (pc *ProcessCreate) SetNillableIsTerminated(b *bool) *ProcessCreate {
-	if b != nil {
-		pc.SetIsTerminated(*b)
+func (_c *ProcessCreate) SetNillableIsTerminated(v *bool) *ProcessCreate {
+	if v != nil {
+		_c.SetIsTerminated(*v)
 	}
-	return pc
+	return _c
 }
 
 // SetIsSuspended sets the "is_suspended" field.
-func (pc *ProcessCreate) SetIsSuspended(b bool) *ProcessCreate {
-	pc.mutation.SetIsSuspended(b)
-	return pc
+func (_c *ProcessCreate) SetIsSuspended(v bool) *ProcessCreate {
+	_c.mutation.SetIsSuspended(v)
+	return _c
 }
 
 // SetNillableIsSuspended sets the "is_suspended" field if the given value is not nil.
-func (pc *ProcessCreate) SetNillableIsSuspended(b *bool) *ProcessCreate {
-	if b != nil {
-		pc.SetIsSuspended(*b)
+func (_c *ProcessCreate) SetNillableIsSuspended(v *bool) *ProcessCreate {
+	if v != nil {
+		_c.SetIsSuspended(*v)
 	}
-	return pc
+	return _c
 }
 
 // SetSuspendReason sets the "suspend_reason" field.
-func (pc *ProcessCreate) SetSuspendReason(s string) *ProcessCreate {
-	pc.mutation.SetSuspendReason(s)
-	return pc
+func (_c *ProcessCreate) SetSuspendReason(v string) *ProcessCreate {
+	_c.mutation.SetSuspendReason(v)
+	return _c
 }
 
 // SetNillableSuspendReason sets the "suspend_reason" field if the given value is not nil.
-func (pc *ProcessCreate) SetNillableSuspendReason(s *string) *ProcessCreate {
-	if s != nil {
-		pc.SetSuspendReason(*s)
+func (_c *ProcessCreate) SetNillableSuspendReason(v *string) *ProcessCreate {
+	if v != nil {
+		_c.SetSuspendReason(*v)
 	}
-	return pc
+	return _c
 }
 
 // SetStartTime sets the "start_time" field.
-func (pc *ProcessCreate) SetStartTime(i int64) *ProcessCreate {
-	pc.mutation.SetStartTime(i)
-	return pc
+func (_c *ProcessCreate) SetStartTime(v int64) *ProcessCreate {
+	_c.mutation.SetStartTime(v)
+	return _c
 }
 
 // SetNillableStartTime sets the "start_time" field if the given value is not nil.
-func (pc *ProcessCreate) SetNillableStartTime(i *int64) *ProcessCreate {
-	if i != nil {
-		pc.SetStartTime(*i)
+func (_c *ProcessCreate) SetNillableStartTime(v *int64) *ProcessCreate {
+	if v != nil {
+		_c.SetStartTime(*v)
 	}
-	return pc
+	return _c
 }
 
 // SetEndTime sets the "end_time" field.
-func (pc *ProcessCreate) SetEndTime(i int64) *ProcessCreate {
-	pc.mutation.SetEndTime(i)
-	return pc
+func (_c *ProcessCreate) SetEndTime(v int64) *ProcessCreate {
+	_c.mutation.SetEndTime(v)
+	return _c
 }
 
 // SetNillableEndTime sets the "end_time" field if the given value is not nil.
-func (pc *ProcessCreate) SetNillableEndTime(i *int64) *ProcessCreate {
-	if i != nil {
-		pc.SetEndTime(*i)
+func (_c *ProcessCreate) SetNillableEndTime(v *int64) *ProcessCreate {
+	if v != nil {
+		_c.SetEndTime(*v)
 	}
-	return pc
+	return _c
 }
 
 // SetDueTime sets the "due_time" field.
-func (pc *ProcessCreate) SetDueTime(i int64) *ProcessCreate {
-	pc.mutation.SetDueTime(i)
-	return pc
+func (_c *ProcessCreate) SetDueTime(v int64) *ProcessCreate {
+	_c.mutation.SetDueTime(v)
+	return _c
 }
 
 // SetNillableDueTime sets the "due_time" field if the given value is not nil.
-func (pc *ProcessCreate) SetNillableDueTime(i *int64) *ProcessCreate {
-	if i != nil {
-		pc.SetDueTime(*i)
+func (_c *ProcessCreate) SetNillableDueTime(v *int64) *ProcessCreate {
+	if v != nil {
+		_c.SetDueTime(*v)
 	}
-	return pc
+	return _c
 }
 
 // SetDuration sets the "duration" field.
-func (pc *ProcessCreate) SetDuration(i int) *ProcessCreate {
-	pc.mutation.SetDuration(i)
-	return pc
+func (_c *ProcessCreate) SetDuration(v int) *ProcessCreate {
+	_c.mutation.SetDuration(v)
+	return _c
 }
 
 // SetNillableDuration sets the "duration" field if the given value is not nil.
-func (pc *ProcessCreate) SetNillableDuration(i *int) *ProcessCreate {
-	if i != nil {
-		pc.SetDuration(*i)
+func (_c *ProcessCreate) SetNillableDuration(v *int) *ProcessCreate {
+	if v != nil {
+		_c.SetDuration(*v)
 	}
-	return pc
+	return _c
 }
 
 // SetPriority sets the "priority" field.
-func (pc *ProcessCreate) SetPriority(i int) *ProcessCreate {
-	pc.mutation.SetPriority(i)
-	return pc
+func (_c *ProcessCreate) SetPriority(v int) *ProcessCreate {
+	_c.mutation.SetPriority(v)
+	return _c
 }
 
 // SetNillablePriority sets the "priority" field if the given value is not nil.
-func (pc *ProcessCreate) SetNillablePriority(i *int) *ProcessCreate {
-	if i != nil {
-		pc.SetPriority(*i)
+func (_c *ProcessCreate) SetNillablePriority(v *int) *ProcessCreate {
+	if v != nil {
+		_c.SetPriority(*v)
 	}
-	return pc
+	return _c
 }
 
 // SetIsTimeout sets the "is_timeout" field.
-func (pc *ProcessCreate) SetIsTimeout(b bool) *ProcessCreate {
-	pc.mutation.SetIsTimeout(b)
-	return pc
+func (_c *ProcessCreate) SetIsTimeout(v bool) *ProcessCreate {
+	_c.mutation.SetIsTimeout(v)
+	return _c
 }
 
 // SetNillableIsTimeout sets the "is_timeout" field if the given value is not nil.
-func (pc *ProcessCreate) SetNillableIsTimeout(b *bool) *ProcessCreate {
-	if b != nil {
-		pc.SetIsTimeout(*b)
+func (_c *ProcessCreate) SetNillableIsTimeout(v *bool) *ProcessCreate {
+	if v != nil {
+		_c.SetIsTimeout(*v)
 	}
-	return pc
+	return _c
 }
 
 // SetReminderCount sets the "reminder_count" field.
-func (pc *ProcessCreate) SetReminderCount(i int) *ProcessCreate {
-	pc.mutation.SetReminderCount(i)
-	return pc
+func (_c *ProcessCreate) SetReminderCount(v int) *ProcessCreate {
+	_c.mutation.SetReminderCount(v)
+	return _c
 }
 
 // SetNillableReminderCount sets the "reminder_count" field if the given value is not nil.
-func (pc *ProcessCreate) SetNillableReminderCount(i *int) *ProcessCreate {
-	if i != nil {
-		pc.SetReminderCount(*i)
+func (_c *ProcessCreate) SetNillableReminderCount(v *int) *ProcessCreate {
+	if v != nil {
+		_c.SetReminderCount(*v)
 	}
-	return pc
+	return _c
 }
 
 // SetAllowCancel sets the "allow_cancel" field.
-func (pc *ProcessCreate) SetAllowCancel(b bool) *ProcessCreate {
-	pc.mutation.SetAllowCancel(b)
-	return pc
+func (_c *ProcessCreate) SetAllowCancel(v bool) *ProcessCreate {
+	_c.mutation.SetAllowCancel(v)
+	return _c
 }
 
 // SetNillableAllowCancel sets the "allow_cancel" field if the given value is not nil.
-func (pc *ProcessCreate) SetNillableAllowCancel(b *bool) *ProcessCreate {
-	if b != nil {
-		pc.SetAllowCancel(*b)
+func (_c *ProcessCreate) SetNillableAllowCancel(v *bool) *ProcessCreate {
+	if v != nil {
+		_c.SetAllowCancel(*v)
 	}
-	return pc
+	return _c
 }
 
 // SetAllowUrge sets the "allow_urge" field.
-func (pc *ProcessCreate) SetAllowUrge(b bool) *ProcessCreate {
-	pc.mutation.SetAllowUrge(b)
-	return pc
+func (_c *ProcessCreate) SetAllowUrge(v bool) *ProcessCreate {
+	_c.mutation.SetAllowUrge(v)
+	return _c
 }
 
 // SetNillableAllowUrge sets the "allow_urge" field if the given value is not nil.
-func (pc *ProcessCreate) SetNillableAllowUrge(b *bool) *ProcessCreate {
-	if b != nil {
-		pc.SetAllowUrge(*b)
+func (_c *ProcessCreate) SetNillableAllowUrge(v *bool) *ProcessCreate {
+	if v != nil {
+		_c.SetAllowUrge(*v)
 	}
-	return pc
+	return _c
 }
 
 // SetAllowDelegate sets the "allow_delegate" field.
-func (pc *ProcessCreate) SetAllowDelegate(b bool) *ProcessCreate {
-	pc.mutation.SetAllowDelegate(b)
-	return pc
+func (_c *ProcessCreate) SetAllowDelegate(v bool) *ProcessCreate {
+	_c.mutation.SetAllowDelegate(v)
+	return _c
 }
 
 // SetNillableAllowDelegate sets the "allow_delegate" field if the given value is not nil.
-func (pc *ProcessCreate) SetNillableAllowDelegate(b *bool) *ProcessCreate {
-	if b != nil {
-		pc.SetAllowDelegate(*b)
+func (_c *ProcessCreate) SetNillableAllowDelegate(v *bool) *ProcessCreate {
+	if v != nil {
+		_c.SetAllowDelegate(*v)
 	}
-	return pc
+	return _c
 }
 
 // SetAllowTransfer sets the "allow_transfer" field.
-func (pc *ProcessCreate) SetAllowTransfer(b bool) *ProcessCreate {
-	pc.mutation.SetAllowTransfer(b)
-	return pc
+func (_c *ProcessCreate) SetAllowTransfer(v bool) *ProcessCreate {
+	_c.mutation.SetAllowTransfer(v)
+	return _c
 }
 
 // SetNillableAllowTransfer sets the "allow_transfer" field if the given value is not nil.
-func (pc *ProcessCreate) SetNillableAllowTransfer(b *bool) *ProcessCreate {
-	if b != nil {
-		pc.SetAllowTransfer(*b)
+func (_c *ProcessCreate) SetNillableAllowTransfer(v *bool) *ProcessCreate {
+	if v != nil {
+		_c.SetAllowTransfer(*v)
 	}
-	return pc
+	return _c
 }
 
 // SetIsDraftEnabled sets the "is_draft_enabled" field.
-func (pc *ProcessCreate) SetIsDraftEnabled(b bool) *ProcessCreate {
-	pc.mutation.SetIsDraftEnabled(b)
-	return pc
+func (_c *ProcessCreate) SetIsDraftEnabled(v bool) *ProcessCreate {
+	_c.mutation.SetIsDraftEnabled(v)
+	return _c
 }
 
 // SetNillableIsDraftEnabled sets the "is_draft_enabled" field if the given value is not nil.
-func (pc *ProcessCreate) SetNillableIsDraftEnabled(b *bool) *ProcessCreate {
-	if b != nil {
-		pc.SetIsDraftEnabled(*b)
+func (_c *ProcessCreate) SetNillableIsDraftEnabled(v *bool) *ProcessCreate {
+	if v != nil {
+		_c.SetIsDraftEnabled(*v)
 	}
-	return pc
+	return _c
 }
 
 // SetIsAutoStart sets the "is_auto_start" field.
-func (pc *ProcessCreate) SetIsAutoStart(b bool) *ProcessCreate {
-	pc.mutation.SetIsAutoStart(b)
-	return pc
+func (_c *ProcessCreate) SetIsAutoStart(v bool) *ProcessCreate {
+	_c.mutation.SetIsAutoStart(v)
+	return _c
 }
 
 // SetNillableIsAutoStart sets the "is_auto_start" field if the given value is not nil.
-func (pc *ProcessCreate) SetNillableIsAutoStart(b *bool) *ProcessCreate {
-	if b != nil {
-		pc.SetIsAutoStart(*b)
+func (_c *ProcessCreate) SetNillableIsAutoStart(v *bool) *ProcessCreate {
+	if v != nil {
+		_c.SetIsAutoStart(*v)
 	}
-	return pc
+	return _c
 }
 
 // SetStrictMode sets the "strict_mode" field.
-func (pc *ProcessCreate) SetStrictMode(b bool) *ProcessCreate {
-	pc.mutation.SetStrictMode(b)
-	return pc
+func (_c *ProcessCreate) SetStrictMode(v bool) *ProcessCreate {
+	_c.mutation.SetStrictMode(v)
+	return _c
 }
 
 // SetNillableStrictMode sets the "strict_mode" field if the given value is not nil.
-func (pc *ProcessCreate) SetNillableStrictMode(b *bool) *ProcessCreate {
-	if b != nil {
-		pc.SetStrictMode(*b)
+func (_c *ProcessCreate) SetNillableStrictMode(v *bool) *ProcessCreate {
+	if v != nil {
+		_c.SetStrictMode(*v)
 	}
-	return pc
+	return _c
 }
 
 // SetExtras sets the "extras" field.
-func (pc *ProcessCreate) SetExtras(m map[string]interface{}) *ProcessCreate {
-	pc.mutation.SetExtras(m)
-	return pc
+func (_c *ProcessCreate) SetExtras(v map[string]interface{}) *ProcessCreate {
+	_c.mutation.SetExtras(v)
+	return _c
 }
 
 // SetSpaceID sets the "space_id" field.
-func (pc *ProcessCreate) SetSpaceID(s string) *ProcessCreate {
-	pc.mutation.SetSpaceID(s)
-	return pc
+func (_c *ProcessCreate) SetSpaceID(v string) *ProcessCreate {
+	_c.mutation.SetSpaceID(v)
+	return _c
 }
 
 // SetNillableSpaceID sets the "space_id" field if the given value is not nil.
-func (pc *ProcessCreate) SetNillableSpaceID(s *string) *ProcessCreate {
-	if s != nil {
-		pc.SetSpaceID(*s)
+func (_c *ProcessCreate) SetNillableSpaceID(v *string) *ProcessCreate {
+	if v != nil {
+		_c.SetSpaceID(*v)
 	}
-	return pc
+	return _c
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (pc *ProcessCreate) SetCreatedBy(s string) *ProcessCreate {
-	pc.mutation.SetCreatedBy(s)
-	return pc
+func (_c *ProcessCreate) SetCreatedBy(v string) *ProcessCreate {
+	_c.mutation.SetCreatedBy(v)
+	return _c
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (pc *ProcessCreate) SetNillableCreatedBy(s *string) *ProcessCreate {
-	if s != nil {
-		pc.SetCreatedBy(*s)
+func (_c *ProcessCreate) SetNillableCreatedBy(v *string) *ProcessCreate {
+	if v != nil {
+		_c.SetCreatedBy(*v)
 	}
-	return pc
+	return _c
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (pc *ProcessCreate) SetUpdatedBy(s string) *ProcessCreate {
-	pc.mutation.SetUpdatedBy(s)
-	return pc
+func (_c *ProcessCreate) SetUpdatedBy(v string) *ProcessCreate {
+	_c.mutation.SetUpdatedBy(v)
+	return _c
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (pc *ProcessCreate) SetNillableUpdatedBy(s *string) *ProcessCreate {
-	if s != nil {
-		pc.SetUpdatedBy(*s)
+func (_c *ProcessCreate) SetNillableUpdatedBy(v *string) *ProcessCreate {
+	if v != nil {
+		_c.SetUpdatedBy(*v)
 	}
-	return pc
+	return _c
 }
 
 // SetCreatedAt sets the "created_at" field.
-func (pc *ProcessCreate) SetCreatedAt(i int64) *ProcessCreate {
-	pc.mutation.SetCreatedAt(i)
-	return pc
+func (_c *ProcessCreate) SetCreatedAt(v int64) *ProcessCreate {
+	_c.mutation.SetCreatedAt(v)
+	return _c
 }
 
 // SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
-func (pc *ProcessCreate) SetNillableCreatedAt(i *int64) *ProcessCreate {
-	if i != nil {
-		pc.SetCreatedAt(*i)
+func (_c *ProcessCreate) SetNillableCreatedAt(v *int64) *ProcessCreate {
+	if v != nil {
+		_c.SetCreatedAt(*v)
 	}
-	return pc
+	return _c
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (pc *ProcessCreate) SetUpdatedAt(i int64) *ProcessCreate {
-	pc.mutation.SetUpdatedAt(i)
-	return pc
+func (_c *ProcessCreate) SetUpdatedAt(v int64) *ProcessCreate {
+	_c.mutation.SetUpdatedAt(v)
+	return _c
 }
 
 // SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
-func (pc *ProcessCreate) SetNillableUpdatedAt(i *int64) *ProcessCreate {
-	if i != nil {
-		pc.SetUpdatedAt(*i)
+func (_c *ProcessCreate) SetNillableUpdatedAt(v *int64) *ProcessCreate {
+	if v != nil {
+		_c.SetUpdatedAt(*v)
 	}
-	return pc
+	return _c
 }
 
 // SetProcessKey sets the "process_key" field.
-func (pc *ProcessCreate) SetProcessKey(s string) *ProcessCreate {
-	pc.mutation.SetProcessKey(s)
-	return pc
+func (_c *ProcessCreate) SetProcessKey(v string) *ProcessCreate {
+	_c.mutation.SetProcessKey(v)
+	return _c
 }
 
 // SetInitiator sets the "initiator" field.
-func (pc *ProcessCreate) SetInitiator(s string) *ProcessCreate {
-	pc.mutation.SetInitiator(s)
-	return pc
+func (_c *ProcessCreate) SetInitiator(v string) *ProcessCreate {
+	_c.mutation.SetInitiator(v)
+	return _c
 }
 
 // SetInitiatorDept sets the "initiator_dept" field.
-func (pc *ProcessCreate) SetInitiatorDept(s string) *ProcessCreate {
-	pc.mutation.SetInitiatorDept(s)
-	return pc
+func (_c *ProcessCreate) SetInitiatorDept(v string) *ProcessCreate {
+	_c.mutation.SetInitiatorDept(v)
+	return _c
 }
 
 // SetNillableInitiatorDept sets the "initiator_dept" field if the given value is not nil.
-func (pc *ProcessCreate) SetNillableInitiatorDept(s *string) *ProcessCreate {
-	if s != nil {
-		pc.SetInitiatorDept(*s)
+func (_c *ProcessCreate) SetNillableInitiatorDept(v *string) *ProcessCreate {
+	if v != nil {
+		_c.SetInitiatorDept(*v)
 	}
-	return pc
+	return _c
 }
 
 // SetProcessCode sets the "process_code" field.
-func (pc *ProcessCreate) SetProcessCode(s string) *ProcessCreate {
-	pc.mutation.SetProcessCode(s)
-	return pc
+func (_c *ProcessCreate) SetProcessCode(v string) *ProcessCreate {
+	_c.mutation.SetProcessCode(v)
+	return _c
 }
 
 // SetVariables sets the "variables" field.
-func (pc *ProcessCreate) SetVariables(m map[string]interface{}) *ProcessCreate {
-	pc.mutation.SetVariables(m)
-	return pc
+func (_c *ProcessCreate) SetVariables(v map[string]interface{}) *ProcessCreate {
+	_c.mutation.SetVariables(v)
+	return _c
 }
 
 // SetCurrentNode sets the "current_node" field.
-func (pc *ProcessCreate) SetCurrentNode(s string) *ProcessCreate {
-	pc.mutation.SetCurrentNode(s)
-	return pc
+func (_c *ProcessCreate) SetCurrentNode(v string) *ProcessCreate {
+	_c.mutation.SetCurrentNode(v)
+	return _c
 }
 
 // SetNillableCurrentNode sets the "current_node" field if the given value is not nil.
-func (pc *ProcessCreate) SetNillableCurrentNode(s *string) *ProcessCreate {
-	if s != nil {
-		pc.SetCurrentNode(*s)
+func (_c *ProcessCreate) SetNillableCurrentNode(v *string) *ProcessCreate {
+	if v != nil {
+		_c.SetCurrentNode(*v)
 	}
-	return pc
+	return _c
 }
 
 // SetActiveNodes sets the "active_nodes" field.
-func (pc *ProcessCreate) SetActiveNodes(s []string) *ProcessCreate {
-	pc.mutation.SetActiveNodes(s)
-	return pc
+func (_c *ProcessCreate) SetActiveNodes(v []string) *ProcessCreate {
+	_c.mutation.SetActiveNodes(v)
+	return _c
 }
 
 // SetProcessSnapshot sets the "process_snapshot" field.
-func (pc *ProcessCreate) SetProcessSnapshot(m map[string]interface{}) *ProcessCreate {
-	pc.mutation.SetProcessSnapshot(m)
-	return pc
+func (_c *ProcessCreate) SetProcessSnapshot(v map[string]interface{}) *ProcessCreate {
+	_c.mutation.SetProcessSnapshot(v)
+	return _c
 }
 
 // SetFormSnapshot sets the "form_snapshot" field.
-func (pc *ProcessCreate) SetFormSnapshot(m map[string]interface{}) *ProcessCreate {
-	pc.mutation.SetFormSnapshot(m)
-	return pc
+func (_c *ProcessCreate) SetFormSnapshot(v map[string]interface{}) *ProcessCreate {
+	_c.mutation.SetFormSnapshot(v)
+	return _c
 }
 
 // SetUrgeCount sets the "urge_count" field.
-func (pc *ProcessCreate) SetUrgeCount(i int) *ProcessCreate {
-	pc.mutation.SetUrgeCount(i)
-	return pc
+func (_c *ProcessCreate) SetUrgeCount(v int) *ProcessCreate {
+	_c.mutation.SetUrgeCount(v)
+	return _c
 }
 
 // SetNillableUrgeCount sets the "urge_count" field if the given value is not nil.
-func (pc *ProcessCreate) SetNillableUrgeCount(i *int) *ProcessCreate {
-	if i != nil {
-		pc.SetUrgeCount(*i)
+func (_c *ProcessCreate) SetNillableUrgeCount(v *int) *ProcessCreate {
+	if v != nil {
+		_c.SetUrgeCount(*v)
 	}
-	return pc
+	return _c
 }
 
 // SetID sets the "id" field.
-func (pc *ProcessCreate) SetID(s string) *ProcessCreate {
-	pc.mutation.SetID(s)
-	return pc
+func (_c *ProcessCreate) SetID(v string) *ProcessCreate {
+	_c.mutation.SetID(v)
+	return _c
 }
 
 // SetNillableID sets the "id" field if the given value is not nil.
-func (pc *ProcessCreate) SetNillableID(s *string) *ProcessCreate {
-	if s != nil {
-		pc.SetID(*s)
+func (_c *ProcessCreate) SetNillableID(v *string) *ProcessCreate {
+	if v != nil {
+		_c.SetID(*v)
 	}
-	return pc
+	return _c
 }
 
 // Mutation returns the ProcessMutation object of the builder.
-func (pc *ProcessCreate) Mutation() *ProcessMutation {
-	return pc.mutation
+func (_c *ProcessCreate) Mutation() *ProcessMutation {
+	return _c.mutation
 }
 
 // Save creates the Process in the database.
-func (pc *ProcessCreate) Save(ctx context.Context) (*Process, error) {
-	pc.defaults()
-	return withHooks(ctx, pc.sqlSave, pc.mutation, pc.hooks)
+func (_c *ProcessCreate) Save(ctx context.Context) (*Process, error) {
+	_c.defaults()
+	return withHooks(ctx, _c.sqlSave, _c.mutation, _c.hooks)
 }
 
 // SaveX calls Save and panics if Save returns an error.
-func (pc *ProcessCreate) SaveX(ctx context.Context) *Process {
-	v, err := pc.Save(ctx)
+func (_c *ProcessCreate) SaveX(ctx context.Context) *Process {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -582,173 +582,173 @@ func (pc *ProcessCreate) SaveX(ctx context.Context) *Process {
 }
 
 // Exec executes the query.
-func (pc *ProcessCreate) Exec(ctx context.Context) error {
-	_, err := pc.Save(ctx)
+func (_c *ProcessCreate) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (pc *ProcessCreate) ExecX(ctx context.Context) {
-	if err := pc.Exec(ctx); err != nil {
+func (_c *ProcessCreate) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (pc *ProcessCreate) defaults() {
-	if _, ok := pc.mutation.IsDraft(); !ok {
+func (_c *ProcessCreate) defaults() {
+	if _, ok := _c.mutation.IsDraft(); !ok {
 		v := process.DefaultIsDraft
-		pc.mutation.SetIsDraft(v)
+		_c.mutation.SetIsDraft(v)
 	}
-	if _, ok := pc.mutation.IsTerminated(); !ok {
+	if _, ok := _c.mutation.IsTerminated(); !ok {
 		v := process.DefaultIsTerminated
-		pc.mutation.SetIsTerminated(v)
+		_c.mutation.SetIsTerminated(v)
 	}
-	if _, ok := pc.mutation.IsSuspended(); !ok {
+	if _, ok := _c.mutation.IsSuspended(); !ok {
 		v := process.DefaultIsSuspended
-		pc.mutation.SetIsSuspended(v)
+		_c.mutation.SetIsSuspended(v)
 	}
-	if _, ok := pc.mutation.StartTime(); !ok {
+	if _, ok := _c.mutation.StartTime(); !ok {
 		v := process.DefaultStartTime()
-		pc.mutation.SetStartTime(v)
+		_c.mutation.SetStartTime(v)
 	}
-	if _, ok := pc.mutation.Priority(); !ok {
+	if _, ok := _c.mutation.Priority(); !ok {
 		v := process.DefaultPriority
-		pc.mutation.SetPriority(v)
+		_c.mutation.SetPriority(v)
 	}
-	if _, ok := pc.mutation.IsTimeout(); !ok {
+	if _, ok := _c.mutation.IsTimeout(); !ok {
 		v := process.DefaultIsTimeout
-		pc.mutation.SetIsTimeout(v)
+		_c.mutation.SetIsTimeout(v)
 	}
-	if _, ok := pc.mutation.ReminderCount(); !ok {
+	if _, ok := _c.mutation.ReminderCount(); !ok {
 		v := process.DefaultReminderCount
-		pc.mutation.SetReminderCount(v)
+		_c.mutation.SetReminderCount(v)
 	}
-	if _, ok := pc.mutation.AllowCancel(); !ok {
+	if _, ok := _c.mutation.AllowCancel(); !ok {
 		v := process.DefaultAllowCancel
-		pc.mutation.SetAllowCancel(v)
+		_c.mutation.SetAllowCancel(v)
 	}
-	if _, ok := pc.mutation.AllowUrge(); !ok {
+	if _, ok := _c.mutation.AllowUrge(); !ok {
 		v := process.DefaultAllowUrge
-		pc.mutation.SetAllowUrge(v)
+		_c.mutation.SetAllowUrge(v)
 	}
-	if _, ok := pc.mutation.AllowDelegate(); !ok {
+	if _, ok := _c.mutation.AllowDelegate(); !ok {
 		v := process.DefaultAllowDelegate
-		pc.mutation.SetAllowDelegate(v)
+		_c.mutation.SetAllowDelegate(v)
 	}
-	if _, ok := pc.mutation.AllowTransfer(); !ok {
+	if _, ok := _c.mutation.AllowTransfer(); !ok {
 		v := process.DefaultAllowTransfer
-		pc.mutation.SetAllowTransfer(v)
+		_c.mutation.SetAllowTransfer(v)
 	}
-	if _, ok := pc.mutation.IsDraftEnabled(); !ok {
+	if _, ok := _c.mutation.IsDraftEnabled(); !ok {
 		v := process.DefaultIsDraftEnabled
-		pc.mutation.SetIsDraftEnabled(v)
+		_c.mutation.SetIsDraftEnabled(v)
 	}
-	if _, ok := pc.mutation.IsAutoStart(); !ok {
+	if _, ok := _c.mutation.IsAutoStart(); !ok {
 		v := process.DefaultIsAutoStart
-		pc.mutation.SetIsAutoStart(v)
+		_c.mutation.SetIsAutoStart(v)
 	}
-	if _, ok := pc.mutation.StrictMode(); !ok {
+	if _, ok := _c.mutation.StrictMode(); !ok {
 		v := process.DefaultStrictMode
-		pc.mutation.SetStrictMode(v)
+		_c.mutation.SetStrictMode(v)
 	}
-	if _, ok := pc.mutation.Extras(); !ok {
+	if _, ok := _c.mutation.Extras(); !ok {
 		v := process.DefaultExtras
-		pc.mutation.SetExtras(v)
+		_c.mutation.SetExtras(v)
 	}
-	if _, ok := pc.mutation.CreatedAt(); !ok {
+	if _, ok := _c.mutation.CreatedAt(); !ok {
 		v := process.DefaultCreatedAt()
-		pc.mutation.SetCreatedAt(v)
+		_c.mutation.SetCreatedAt(v)
 	}
-	if _, ok := pc.mutation.UpdatedAt(); !ok {
+	if _, ok := _c.mutation.UpdatedAt(); !ok {
 		v := process.DefaultUpdatedAt()
-		pc.mutation.SetUpdatedAt(v)
+		_c.mutation.SetUpdatedAt(v)
 	}
-	if _, ok := pc.mutation.UrgeCount(); !ok {
+	if _, ok := _c.mutation.UrgeCount(); !ok {
 		v := process.DefaultUrgeCount
-		pc.mutation.SetUrgeCount(v)
+		_c.mutation.SetUrgeCount(v)
 	}
-	if _, ok := pc.mutation.ID(); !ok {
+	if _, ok := _c.mutation.ID(); !ok {
 		v := process.DefaultID()
-		pc.mutation.SetID(v)
+		_c.mutation.SetID(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (pc *ProcessCreate) check() error {
-	if _, ok := pc.mutation.ProcessID(); !ok {
+func (_c *ProcessCreate) check() error {
+	if _, ok := _c.mutation.ProcessID(); !ok {
 		return &ValidationError{Name: "process_id", err: errors.New(`ent: missing required field "Process.process_id"`)}
 	}
-	if _, ok := pc.mutation.TemplateID(); !ok {
+	if _, ok := _c.mutation.TemplateID(); !ok {
 		return &ValidationError{Name: "template_id", err: errors.New(`ent: missing required field "Process.template_id"`)}
 	}
-	if _, ok := pc.mutation.BusinessKey(); !ok {
+	if _, ok := _c.mutation.BusinessKey(); !ok {
 		return &ValidationError{Name: "business_key", err: errors.New(`ent: missing required field "Process.business_key"`)}
 	}
-	if _, ok := pc.mutation.FormCode(); !ok {
+	if _, ok := _c.mutation.FormCode(); !ok {
 		return &ValidationError{Name: "form_code", err: errors.New(`ent: missing required field "Process.form_code"`)}
 	}
-	if _, ok := pc.mutation.ModuleCode(); !ok {
+	if _, ok := _c.mutation.ModuleCode(); !ok {
 		return &ValidationError{Name: "module_code", err: errors.New(`ent: missing required field "Process.module_code"`)}
 	}
-	if _, ok := pc.mutation.IsDraft(); !ok {
+	if _, ok := _c.mutation.IsDraft(); !ok {
 		return &ValidationError{Name: "is_draft", err: errors.New(`ent: missing required field "Process.is_draft"`)}
 	}
-	if _, ok := pc.mutation.IsTerminated(); !ok {
+	if _, ok := _c.mutation.IsTerminated(); !ok {
 		return &ValidationError{Name: "is_terminated", err: errors.New(`ent: missing required field "Process.is_terminated"`)}
 	}
-	if _, ok := pc.mutation.IsSuspended(); !ok {
+	if _, ok := _c.mutation.IsSuspended(); !ok {
 		return &ValidationError{Name: "is_suspended", err: errors.New(`ent: missing required field "Process.is_suspended"`)}
 	}
-	if _, ok := pc.mutation.StartTime(); !ok {
+	if _, ok := _c.mutation.StartTime(); !ok {
 		return &ValidationError{Name: "start_time", err: errors.New(`ent: missing required field "Process.start_time"`)}
 	}
-	if _, ok := pc.mutation.Priority(); !ok {
+	if _, ok := _c.mutation.Priority(); !ok {
 		return &ValidationError{Name: "priority", err: errors.New(`ent: missing required field "Process.priority"`)}
 	}
-	if _, ok := pc.mutation.IsTimeout(); !ok {
+	if _, ok := _c.mutation.IsTimeout(); !ok {
 		return &ValidationError{Name: "is_timeout", err: errors.New(`ent: missing required field "Process.is_timeout"`)}
 	}
-	if _, ok := pc.mutation.ReminderCount(); !ok {
+	if _, ok := _c.mutation.ReminderCount(); !ok {
 		return &ValidationError{Name: "reminder_count", err: errors.New(`ent: missing required field "Process.reminder_count"`)}
 	}
-	if _, ok := pc.mutation.AllowCancel(); !ok {
+	if _, ok := _c.mutation.AllowCancel(); !ok {
 		return &ValidationError{Name: "allow_cancel", err: errors.New(`ent: missing required field "Process.allow_cancel"`)}
 	}
-	if _, ok := pc.mutation.AllowUrge(); !ok {
+	if _, ok := _c.mutation.AllowUrge(); !ok {
 		return &ValidationError{Name: "allow_urge", err: errors.New(`ent: missing required field "Process.allow_urge"`)}
 	}
-	if _, ok := pc.mutation.AllowDelegate(); !ok {
+	if _, ok := _c.mutation.AllowDelegate(); !ok {
 		return &ValidationError{Name: "allow_delegate", err: errors.New(`ent: missing required field "Process.allow_delegate"`)}
 	}
-	if _, ok := pc.mutation.AllowTransfer(); !ok {
+	if _, ok := _c.mutation.AllowTransfer(); !ok {
 		return &ValidationError{Name: "allow_transfer", err: errors.New(`ent: missing required field "Process.allow_transfer"`)}
 	}
-	if _, ok := pc.mutation.IsDraftEnabled(); !ok {
+	if _, ok := _c.mutation.IsDraftEnabled(); !ok {
 		return &ValidationError{Name: "is_draft_enabled", err: errors.New(`ent: missing required field "Process.is_draft_enabled"`)}
 	}
-	if _, ok := pc.mutation.IsAutoStart(); !ok {
+	if _, ok := _c.mutation.IsAutoStart(); !ok {
 		return &ValidationError{Name: "is_auto_start", err: errors.New(`ent: missing required field "Process.is_auto_start"`)}
 	}
-	if _, ok := pc.mutation.StrictMode(); !ok {
+	if _, ok := _c.mutation.StrictMode(); !ok {
 		return &ValidationError{Name: "strict_mode", err: errors.New(`ent: missing required field "Process.strict_mode"`)}
 	}
-	if _, ok := pc.mutation.ProcessKey(); !ok {
+	if _, ok := _c.mutation.ProcessKey(); !ok {
 		return &ValidationError{Name: "process_key", err: errors.New(`ent: missing required field "Process.process_key"`)}
 	}
-	if _, ok := pc.mutation.Initiator(); !ok {
+	if _, ok := _c.mutation.Initiator(); !ok {
 		return &ValidationError{Name: "initiator", err: errors.New(`ent: missing required field "Process.initiator"`)}
 	}
-	if _, ok := pc.mutation.ProcessCode(); !ok {
+	if _, ok := _c.mutation.ProcessCode(); !ok {
 		return &ValidationError{Name: "process_code", err: errors.New(`ent: missing required field "Process.process_code"`)}
 	}
-	if _, ok := pc.mutation.Variables(); !ok {
+	if _, ok := _c.mutation.Variables(); !ok {
 		return &ValidationError{Name: "variables", err: errors.New(`ent: missing required field "Process.variables"`)}
 	}
-	if _, ok := pc.mutation.UrgeCount(); !ok {
+	if _, ok := _c.mutation.UrgeCount(); !ok {
 		return &ValidationError{Name: "urge_count", err: errors.New(`ent: missing required field "Process.urge_count"`)}
 	}
-	if v, ok := pc.mutation.ID(); ok {
+	if v, ok := _c.mutation.ID(); ok {
 		if err := process.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "Process.id": %w`, err)}
 		}
@@ -756,12 +756,12 @@ func (pc *ProcessCreate) check() error {
 	return nil
 }
 
-func (pc *ProcessCreate) sqlSave(ctx context.Context) (*Process, error) {
-	if err := pc.check(); err != nil {
+func (_c *ProcessCreate) sqlSave(ctx context.Context) (*Process, error) {
+	if err := _c.check(); err != nil {
 		return nil, err
 	}
-	_node, _spec := pc.createSpec()
-	if err := sqlgraph.CreateNode(ctx, pc.driver, _spec); err != nil {
+	_node, _spec := _c.createSpec()
+	if err := sqlgraph.CreateNode(ctx, _c.driver, _spec); err != nil {
 		if sqlgraph.IsConstraintError(err) {
 			err = &ConstraintError{msg: err.Error(), wrap: err}
 		}
@@ -774,209 +774,209 @@ func (pc *ProcessCreate) sqlSave(ctx context.Context) (*Process, error) {
 			return nil, fmt.Errorf("unexpected Process.ID type: %T", _spec.ID.Value)
 		}
 	}
-	pc.mutation.id = &_node.ID
-	pc.mutation.done = true
+	_c.mutation.id = &_node.ID
+	_c.mutation.done = true
 	return _node, nil
 }
 
-func (pc *ProcessCreate) createSpec() (*Process, *sqlgraph.CreateSpec) {
+func (_c *ProcessCreate) createSpec() (*Process, *sqlgraph.CreateSpec) {
 	var (
-		_node = &Process{config: pc.config}
+		_node = &Process{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(process.Table, sqlgraph.NewFieldSpec(process.FieldID, field.TypeString))
 	)
-	if id, ok := pc.mutation.ID(); ok {
+	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
 	}
-	if value, ok := pc.mutation.Status(); ok {
+	if value, ok := _c.mutation.Status(); ok {
 		_spec.SetField(process.FieldStatus, field.TypeString, value)
 		_node.Status = value
 	}
-	if value, ok := pc.mutation.ProcessID(); ok {
+	if value, ok := _c.mutation.ProcessID(); ok {
 		_spec.SetField(process.FieldProcessID, field.TypeString, value)
 		_node.ProcessID = value
 	}
-	if value, ok := pc.mutation.TemplateID(); ok {
+	if value, ok := _c.mutation.TemplateID(); ok {
 		_spec.SetField(process.FieldTemplateID, field.TypeString, value)
 		_node.TemplateID = value
 	}
-	if value, ok := pc.mutation.BusinessKey(); ok {
+	if value, ok := _c.mutation.BusinessKey(); ok {
 		_spec.SetField(process.FieldBusinessKey, field.TypeString, value)
 		_node.BusinessKey = value
 	}
-	if value, ok := pc.mutation.FormCode(); ok {
+	if value, ok := _c.mutation.FormCode(); ok {
 		_spec.SetField(process.FieldFormCode, field.TypeString, value)
 		_node.FormCode = value
 	}
-	if value, ok := pc.mutation.FormVersion(); ok {
+	if value, ok := _c.mutation.FormVersion(); ok {
 		_spec.SetField(process.FieldFormVersion, field.TypeString, value)
 		_node.FormVersion = value
 	}
-	if value, ok := pc.mutation.FormConfig(); ok {
+	if value, ok := _c.mutation.FormConfig(); ok {
 		_spec.SetField(process.FieldFormConfig, field.TypeJSON, value)
 		_node.FormConfig = value
 	}
-	if value, ok := pc.mutation.FormPermissions(); ok {
+	if value, ok := _c.mutation.FormPermissions(); ok {
 		_spec.SetField(process.FieldFormPermissions, field.TypeJSON, value)
 		_node.FormPermissions = value
 	}
-	if value, ok := pc.mutation.FieldPermissions(); ok {
+	if value, ok := _c.mutation.FieldPermissions(); ok {
 		_spec.SetField(process.FieldFieldPermissions, field.TypeJSON, value)
 		_node.FieldPermissions = value
 	}
-	if value, ok := pc.mutation.BusinessTags(); ok {
+	if value, ok := _c.mutation.BusinessTags(); ok {
 		_spec.SetField(process.FieldBusinessTags, field.TypeJSON, value)
 		_node.BusinessTags = value
 	}
-	if value, ok := pc.mutation.ModuleCode(); ok {
+	if value, ok := _c.mutation.ModuleCode(); ok {
 		_spec.SetField(process.FieldModuleCode, field.TypeString, value)
 		_node.ModuleCode = value
 	}
-	if value, ok := pc.mutation.Category(); ok {
+	if value, ok := _c.mutation.Category(); ok {
 		_spec.SetField(process.FieldCategory, field.TypeString, value)
 		_node.Category = value
 	}
-	if value, ok := pc.mutation.FlowStatus(); ok {
+	if value, ok := _c.mutation.FlowStatus(); ok {
 		_spec.SetField(process.FieldFlowStatus, field.TypeString, value)
 		_node.FlowStatus = value
 	}
-	if value, ok := pc.mutation.FlowVariables(); ok {
+	if value, ok := _c.mutation.FlowVariables(); ok {
 		_spec.SetField(process.FieldFlowVariables, field.TypeJSON, value)
 		_node.FlowVariables = value
 	}
-	if value, ok := pc.mutation.IsDraft(); ok {
+	if value, ok := _c.mutation.IsDraft(); ok {
 		_spec.SetField(process.FieldIsDraft, field.TypeBool, value)
 		_node.IsDraft = value
 	}
-	if value, ok := pc.mutation.IsTerminated(); ok {
+	if value, ok := _c.mutation.IsTerminated(); ok {
 		_spec.SetField(process.FieldIsTerminated, field.TypeBool, value)
 		_node.IsTerminated = value
 	}
-	if value, ok := pc.mutation.IsSuspended(); ok {
+	if value, ok := _c.mutation.IsSuspended(); ok {
 		_spec.SetField(process.FieldIsSuspended, field.TypeBool, value)
 		_node.IsSuspended = value
 	}
-	if value, ok := pc.mutation.SuspendReason(); ok {
+	if value, ok := _c.mutation.SuspendReason(); ok {
 		_spec.SetField(process.FieldSuspendReason, field.TypeString, value)
 		_node.SuspendReason = value
 	}
-	if value, ok := pc.mutation.StartTime(); ok {
+	if value, ok := _c.mutation.StartTime(); ok {
 		_spec.SetField(process.FieldStartTime, field.TypeInt64, value)
 		_node.StartTime = value
 	}
-	if value, ok := pc.mutation.EndTime(); ok {
+	if value, ok := _c.mutation.EndTime(); ok {
 		_spec.SetField(process.FieldEndTime, field.TypeInt64, value)
 		_node.EndTime = &value
 	}
-	if value, ok := pc.mutation.DueTime(); ok {
+	if value, ok := _c.mutation.DueTime(); ok {
 		_spec.SetField(process.FieldDueTime, field.TypeInt64, value)
 		_node.DueTime = &value
 	}
-	if value, ok := pc.mutation.Duration(); ok {
+	if value, ok := _c.mutation.Duration(); ok {
 		_spec.SetField(process.FieldDuration, field.TypeInt, value)
 		_node.Duration = value
 	}
-	if value, ok := pc.mutation.Priority(); ok {
+	if value, ok := _c.mutation.Priority(); ok {
 		_spec.SetField(process.FieldPriority, field.TypeInt, value)
 		_node.Priority = value
 	}
-	if value, ok := pc.mutation.IsTimeout(); ok {
+	if value, ok := _c.mutation.IsTimeout(); ok {
 		_spec.SetField(process.FieldIsTimeout, field.TypeBool, value)
 		_node.IsTimeout = value
 	}
-	if value, ok := pc.mutation.ReminderCount(); ok {
+	if value, ok := _c.mutation.ReminderCount(); ok {
 		_spec.SetField(process.FieldReminderCount, field.TypeInt, value)
 		_node.ReminderCount = value
 	}
-	if value, ok := pc.mutation.AllowCancel(); ok {
+	if value, ok := _c.mutation.AllowCancel(); ok {
 		_spec.SetField(process.FieldAllowCancel, field.TypeBool, value)
 		_node.AllowCancel = value
 	}
-	if value, ok := pc.mutation.AllowUrge(); ok {
+	if value, ok := _c.mutation.AllowUrge(); ok {
 		_spec.SetField(process.FieldAllowUrge, field.TypeBool, value)
 		_node.AllowUrge = value
 	}
-	if value, ok := pc.mutation.AllowDelegate(); ok {
+	if value, ok := _c.mutation.AllowDelegate(); ok {
 		_spec.SetField(process.FieldAllowDelegate, field.TypeBool, value)
 		_node.AllowDelegate = value
 	}
-	if value, ok := pc.mutation.AllowTransfer(); ok {
+	if value, ok := _c.mutation.AllowTransfer(); ok {
 		_spec.SetField(process.FieldAllowTransfer, field.TypeBool, value)
 		_node.AllowTransfer = value
 	}
-	if value, ok := pc.mutation.IsDraftEnabled(); ok {
+	if value, ok := _c.mutation.IsDraftEnabled(); ok {
 		_spec.SetField(process.FieldIsDraftEnabled, field.TypeBool, value)
 		_node.IsDraftEnabled = value
 	}
-	if value, ok := pc.mutation.IsAutoStart(); ok {
+	if value, ok := _c.mutation.IsAutoStart(); ok {
 		_spec.SetField(process.FieldIsAutoStart, field.TypeBool, value)
 		_node.IsAutoStart = value
 	}
-	if value, ok := pc.mutation.StrictMode(); ok {
+	if value, ok := _c.mutation.StrictMode(); ok {
 		_spec.SetField(process.FieldStrictMode, field.TypeBool, value)
 		_node.StrictMode = value
 	}
-	if value, ok := pc.mutation.Extras(); ok {
+	if value, ok := _c.mutation.Extras(); ok {
 		_spec.SetField(process.FieldExtras, field.TypeJSON, value)
 		_node.Extras = value
 	}
-	if value, ok := pc.mutation.SpaceID(); ok {
+	if value, ok := _c.mutation.SpaceID(); ok {
 		_spec.SetField(process.FieldSpaceID, field.TypeString, value)
 		_node.SpaceID = value
 	}
-	if value, ok := pc.mutation.CreatedBy(); ok {
+	if value, ok := _c.mutation.CreatedBy(); ok {
 		_spec.SetField(process.FieldCreatedBy, field.TypeString, value)
 		_node.CreatedBy = value
 	}
-	if value, ok := pc.mutation.UpdatedBy(); ok {
+	if value, ok := _c.mutation.UpdatedBy(); ok {
 		_spec.SetField(process.FieldUpdatedBy, field.TypeString, value)
 		_node.UpdatedBy = value
 	}
-	if value, ok := pc.mutation.CreatedAt(); ok {
+	if value, ok := _c.mutation.CreatedAt(); ok {
 		_spec.SetField(process.FieldCreatedAt, field.TypeInt64, value)
 		_node.CreatedAt = value
 	}
-	if value, ok := pc.mutation.UpdatedAt(); ok {
+	if value, ok := _c.mutation.UpdatedAt(); ok {
 		_spec.SetField(process.FieldUpdatedAt, field.TypeInt64, value)
 		_node.UpdatedAt = value
 	}
-	if value, ok := pc.mutation.ProcessKey(); ok {
+	if value, ok := _c.mutation.ProcessKey(); ok {
 		_spec.SetField(process.FieldProcessKey, field.TypeString, value)
 		_node.ProcessKey = value
 	}
-	if value, ok := pc.mutation.Initiator(); ok {
+	if value, ok := _c.mutation.Initiator(); ok {
 		_spec.SetField(process.FieldInitiator, field.TypeString, value)
 		_node.Initiator = value
 	}
-	if value, ok := pc.mutation.InitiatorDept(); ok {
+	if value, ok := _c.mutation.InitiatorDept(); ok {
 		_spec.SetField(process.FieldInitiatorDept, field.TypeString, value)
 		_node.InitiatorDept = value
 	}
-	if value, ok := pc.mutation.ProcessCode(); ok {
+	if value, ok := _c.mutation.ProcessCode(); ok {
 		_spec.SetField(process.FieldProcessCode, field.TypeString, value)
 		_node.ProcessCode = value
 	}
-	if value, ok := pc.mutation.Variables(); ok {
+	if value, ok := _c.mutation.Variables(); ok {
 		_spec.SetField(process.FieldVariables, field.TypeJSON, value)
 		_node.Variables = value
 	}
-	if value, ok := pc.mutation.CurrentNode(); ok {
+	if value, ok := _c.mutation.CurrentNode(); ok {
 		_spec.SetField(process.FieldCurrentNode, field.TypeString, value)
 		_node.CurrentNode = value
 	}
-	if value, ok := pc.mutation.ActiveNodes(); ok {
+	if value, ok := _c.mutation.ActiveNodes(); ok {
 		_spec.SetField(process.FieldActiveNodes, field.TypeJSON, value)
 		_node.ActiveNodes = value
 	}
-	if value, ok := pc.mutation.ProcessSnapshot(); ok {
+	if value, ok := _c.mutation.ProcessSnapshot(); ok {
 		_spec.SetField(process.FieldProcessSnapshot, field.TypeJSON, value)
 		_node.ProcessSnapshot = value
 	}
-	if value, ok := pc.mutation.FormSnapshot(); ok {
+	if value, ok := _c.mutation.FormSnapshot(); ok {
 		_spec.SetField(process.FieldFormSnapshot, field.TypeJSON, value)
 		_node.FormSnapshot = value
 	}
-	if value, ok := pc.mutation.UrgeCount(); ok {
+	if value, ok := _c.mutation.UrgeCount(); ok {
 		_spec.SetField(process.FieldUrgeCount, field.TypeInt, value)
 		_node.UrgeCount = value
 	}
@@ -991,16 +991,16 @@ type ProcessCreateBulk struct {
 }
 
 // Save creates the Process entities in the database.
-func (pcb *ProcessCreateBulk) Save(ctx context.Context) ([]*Process, error) {
-	if pcb.err != nil {
-		return nil, pcb.err
+func (_c *ProcessCreateBulk) Save(ctx context.Context) ([]*Process, error) {
+	if _c.err != nil {
+		return nil, _c.err
 	}
-	specs := make([]*sqlgraph.CreateSpec, len(pcb.builders))
-	nodes := make([]*Process, len(pcb.builders))
-	mutators := make([]Mutator, len(pcb.builders))
-	for i := range pcb.builders {
+	specs := make([]*sqlgraph.CreateSpec, len(_c.builders))
+	nodes := make([]*Process, len(_c.builders))
+	mutators := make([]Mutator, len(_c.builders))
+	for i := range _c.builders {
 		func(i int, root context.Context) {
-			builder := pcb.builders[i]
+			builder := _c.builders[i]
 			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*ProcessMutation)
@@ -1014,11 +1014,11 @@ func (pcb *ProcessCreateBulk) Save(ctx context.Context) ([]*Process, error) {
 				var err error
 				nodes[i], specs[i] = builder.createSpec()
 				if i < len(mutators)-1 {
-					_, err = mutators[i+1].Mutate(root, pcb.builders[i+1].mutation)
+					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
 					// Invoke the actual operation on the latest mutation in the chain.
-					if err = sqlgraph.BatchCreate(ctx, pcb.driver, spec); err != nil {
+					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
 							err = &ConstraintError{msg: err.Error(), wrap: err}
 						}
@@ -1038,7 +1038,7 @@ func (pcb *ProcessCreateBulk) Save(ctx context.Context) ([]*Process, error) {
 		}(i, ctx)
 	}
 	if len(mutators) > 0 {
-		if _, err := mutators[0].Mutate(ctx, pcb.builders[0].mutation); err != nil {
+		if _, err := mutators[0].Mutate(ctx, _c.builders[0].mutation); err != nil {
 			return nil, err
 		}
 	}
@@ -1046,8 +1046,8 @@ func (pcb *ProcessCreateBulk) Save(ctx context.Context) ([]*Process, error) {
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (pcb *ProcessCreateBulk) SaveX(ctx context.Context) []*Process {
-	v, err := pcb.Save(ctx)
+func (_c *ProcessCreateBulk) SaveX(ctx context.Context) []*Process {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -1055,14 +1055,14 @@ func (pcb *ProcessCreateBulk) SaveX(ctx context.Context) []*Process {
 }
 
 // Exec executes the query.
-func (pcb *ProcessCreateBulk) Exec(ctx context.Context) error {
-	_, err := pcb.Save(ctx)
+func (_c *ProcessCreateBulk) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (pcb *ProcessCreateBulk) ExecX(ctx context.Context) {
-	if err := pcb.Exec(ctx); err != nil {
+func (_c *ProcessCreateBulk) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

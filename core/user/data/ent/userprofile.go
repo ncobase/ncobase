@@ -57,7 +57,7 @@ func (*UserProfile) scanValues(columns []string) ([]any, error) {
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
 // to the UserProfile fields.
-func (up *UserProfile) assignValues(columns []string, values []any) error {
+func (_m *UserProfile) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
@@ -67,49 +67,49 @@ func (up *UserProfile) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field id", values[i])
 			} else if value.Valid {
-				up.ID = value.String
+				_m.ID = value.String
 			}
 		case userprofile.FieldDisplayName:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field display_name", values[i])
 			} else if value.Valid {
-				up.DisplayName = value.String
+				_m.DisplayName = value.String
 			}
 		case userprofile.FieldFirstName:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field first_name", values[i])
 			} else if value.Valid {
-				up.FirstName = value.String
+				_m.FirstName = value.String
 			}
 		case userprofile.FieldLastName:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field last_name", values[i])
 			} else if value.Valid {
-				up.LastName = value.String
+				_m.LastName = value.String
 			}
 		case userprofile.FieldTitle:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field title", values[i])
 			} else if value.Valid {
-				up.Title = value.String
+				_m.Title = value.String
 			}
 		case userprofile.FieldShortBio:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field short_bio", values[i])
 			} else if value.Valid {
-				up.ShortBio = value.String
+				_m.ShortBio = value.String
 			}
 		case userprofile.FieldAbout:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field about", values[i])
 			} else if value.Valid {
-				up.About = value.String
+				_m.About = value.String
 			}
 		case userprofile.FieldLinks:
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field links", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &up.Links); err != nil {
+				if err := json.Unmarshal(*value, &_m.Links); err != nil {
 					return fmt.Errorf("unmarshal field links: %w", err)
 				}
 			}
@@ -117,18 +117,18 @@ func (up *UserProfile) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field thumbnail", values[i])
 			} else if value.Valid {
-				up.Thumbnail = value.String
+				_m.Thumbnail = value.String
 			}
 		case userprofile.FieldExtras:
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field extras", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &up.Extras); err != nil {
+				if err := json.Unmarshal(*value, &_m.Extras); err != nil {
 					return fmt.Errorf("unmarshal field extras: %w", err)
 				}
 			}
 		default:
-			up.selectValues.Set(columns[i], values[i])
+			_m.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
@@ -136,59 +136,59 @@ func (up *UserProfile) assignValues(columns []string, values []any) error {
 
 // Value returns the ent.Value that was dynamically selected and assigned to the UserProfile.
 // This includes values selected through modifiers, order, etc.
-func (up *UserProfile) Value(name string) (ent.Value, error) {
-	return up.selectValues.Get(name)
+func (_m *UserProfile) Value(name string) (ent.Value, error) {
+	return _m.selectValues.Get(name)
 }
 
 // Update returns a builder for updating this UserProfile.
 // Note that you need to call UserProfile.Unwrap() before calling this method if this UserProfile
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (up *UserProfile) Update() *UserProfileUpdateOne {
-	return NewUserProfileClient(up.config).UpdateOne(up)
+func (_m *UserProfile) Update() *UserProfileUpdateOne {
+	return NewUserProfileClient(_m.config).UpdateOne(_m)
 }
 
 // Unwrap unwraps the UserProfile entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (up *UserProfile) Unwrap() *UserProfile {
-	_tx, ok := up.config.driver.(*txDriver)
+func (_m *UserProfile) Unwrap() *UserProfile {
+	_tx, ok := _m.config.driver.(*txDriver)
 	if !ok {
 		panic("ent: UserProfile is not a transactional entity")
 	}
-	up.config.driver = _tx.drv
-	return up
+	_m.config.driver = _tx.drv
+	return _m
 }
 
 // String implements the fmt.Stringer.
-func (up *UserProfile) String() string {
+func (_m *UserProfile) String() string {
 	var builder strings.Builder
 	builder.WriteString("UserProfile(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", up.ID))
+	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
 	builder.WriteString("display_name=")
-	builder.WriteString(up.DisplayName)
+	builder.WriteString(_m.DisplayName)
 	builder.WriteString(", ")
 	builder.WriteString("first_name=")
-	builder.WriteString(up.FirstName)
+	builder.WriteString(_m.FirstName)
 	builder.WriteString(", ")
 	builder.WriteString("last_name=")
-	builder.WriteString(up.LastName)
+	builder.WriteString(_m.LastName)
 	builder.WriteString(", ")
 	builder.WriteString("title=")
-	builder.WriteString(up.Title)
+	builder.WriteString(_m.Title)
 	builder.WriteString(", ")
 	builder.WriteString("short_bio=")
-	builder.WriteString(up.ShortBio)
+	builder.WriteString(_m.ShortBio)
 	builder.WriteString(", ")
 	builder.WriteString("about=")
-	builder.WriteString(up.About)
+	builder.WriteString(_m.About)
 	builder.WriteString(", ")
 	builder.WriteString("links=")
-	builder.WriteString(fmt.Sprintf("%v", up.Links))
+	builder.WriteString(fmt.Sprintf("%v", _m.Links))
 	builder.WriteString(", ")
 	builder.WriteString("thumbnail=")
-	builder.WriteString(up.Thumbnail)
+	builder.WriteString(_m.Thumbnail)
 	builder.WriteString(", ")
 	builder.WriteString("extras=")
-	builder.WriteString(fmt.Sprintf("%v", up.Extras))
+	builder.WriteString(fmt.Sprintf("%v", _m.Extras))
 	builder.WriteByte(')')
 	return builder.String()
 }

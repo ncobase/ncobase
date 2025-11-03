@@ -28,40 +28,40 @@ type TaxonomyRelationQuery struct {
 }
 
 // Where adds a new predicate for the TaxonomyRelationQuery builder.
-func (trq *TaxonomyRelationQuery) Where(ps ...predicate.TaxonomyRelation) *TaxonomyRelationQuery {
-	trq.predicates = append(trq.predicates, ps...)
-	return trq
+func (_q *TaxonomyRelationQuery) Where(ps ...predicate.TaxonomyRelation) *TaxonomyRelationQuery {
+	_q.predicates = append(_q.predicates, ps...)
+	return _q
 }
 
 // Limit the number of records to be returned by this query.
-func (trq *TaxonomyRelationQuery) Limit(limit int) *TaxonomyRelationQuery {
-	trq.ctx.Limit = &limit
-	return trq
+func (_q *TaxonomyRelationQuery) Limit(limit int) *TaxonomyRelationQuery {
+	_q.ctx.Limit = &limit
+	return _q
 }
 
 // Offset to start from.
-func (trq *TaxonomyRelationQuery) Offset(offset int) *TaxonomyRelationQuery {
-	trq.ctx.Offset = &offset
-	return trq
+func (_q *TaxonomyRelationQuery) Offset(offset int) *TaxonomyRelationQuery {
+	_q.ctx.Offset = &offset
+	return _q
 }
 
 // Unique configures the query builder to filter duplicate records on query.
 // By default, unique is set to true, and can be disabled using this method.
-func (trq *TaxonomyRelationQuery) Unique(unique bool) *TaxonomyRelationQuery {
-	trq.ctx.Unique = &unique
-	return trq
+func (_q *TaxonomyRelationQuery) Unique(unique bool) *TaxonomyRelationQuery {
+	_q.ctx.Unique = &unique
+	return _q
 }
 
 // Order specifies how the records should be ordered.
-func (trq *TaxonomyRelationQuery) Order(o ...taxonomyrelation.OrderOption) *TaxonomyRelationQuery {
-	trq.order = append(trq.order, o...)
-	return trq
+func (_q *TaxonomyRelationQuery) Order(o ...taxonomyrelation.OrderOption) *TaxonomyRelationQuery {
+	_q.order = append(_q.order, o...)
+	return _q
 }
 
 // First returns the first TaxonomyRelation entity from the query.
 // Returns a *NotFoundError when no TaxonomyRelation was found.
-func (trq *TaxonomyRelationQuery) First(ctx context.Context) (*TaxonomyRelation, error) {
-	nodes, err := trq.Limit(1).All(setContextOp(ctx, trq.ctx, ent.OpQueryFirst))
+func (_q *TaxonomyRelationQuery) First(ctx context.Context) (*TaxonomyRelation, error) {
+	nodes, err := _q.Limit(1).All(setContextOp(ctx, _q.ctx, ent.OpQueryFirst))
 	if err != nil {
 		return nil, err
 	}
@@ -72,8 +72,8 @@ func (trq *TaxonomyRelationQuery) First(ctx context.Context) (*TaxonomyRelation,
 }
 
 // FirstX is like First, but panics if an error occurs.
-func (trq *TaxonomyRelationQuery) FirstX(ctx context.Context) *TaxonomyRelation {
-	node, err := trq.First(ctx)
+func (_q *TaxonomyRelationQuery) FirstX(ctx context.Context) *TaxonomyRelation {
+	node, err := _q.First(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
 	}
@@ -82,9 +82,9 @@ func (trq *TaxonomyRelationQuery) FirstX(ctx context.Context) *TaxonomyRelation 
 
 // FirstID returns the first TaxonomyRelation ID from the query.
 // Returns a *NotFoundError when no TaxonomyRelation ID was found.
-func (trq *TaxonomyRelationQuery) FirstID(ctx context.Context) (id string, err error) {
+func (_q *TaxonomyRelationQuery) FirstID(ctx context.Context) (id string, err error) {
 	var ids []string
-	if ids, err = trq.Limit(1).IDs(setContextOp(ctx, trq.ctx, ent.OpQueryFirstID)); err != nil {
+	if ids, err = _q.Limit(1).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryFirstID)); err != nil {
 		return
 	}
 	if len(ids) == 0 {
@@ -95,8 +95,8 @@ func (trq *TaxonomyRelationQuery) FirstID(ctx context.Context) (id string, err e
 }
 
 // FirstIDX is like FirstID, but panics if an error occurs.
-func (trq *TaxonomyRelationQuery) FirstIDX(ctx context.Context) string {
-	id, err := trq.FirstID(ctx)
+func (_q *TaxonomyRelationQuery) FirstIDX(ctx context.Context) string {
+	id, err := _q.FirstID(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
 	}
@@ -106,8 +106,8 @@ func (trq *TaxonomyRelationQuery) FirstIDX(ctx context.Context) string {
 // Only returns a single TaxonomyRelation entity found by the query, ensuring it only returns one.
 // Returns a *NotSingularError when more than one TaxonomyRelation entity is found.
 // Returns a *NotFoundError when no TaxonomyRelation entities are found.
-func (trq *TaxonomyRelationQuery) Only(ctx context.Context) (*TaxonomyRelation, error) {
-	nodes, err := trq.Limit(2).All(setContextOp(ctx, trq.ctx, ent.OpQueryOnly))
+func (_q *TaxonomyRelationQuery) Only(ctx context.Context) (*TaxonomyRelation, error) {
+	nodes, err := _q.Limit(2).All(setContextOp(ctx, _q.ctx, ent.OpQueryOnly))
 	if err != nil {
 		return nil, err
 	}
@@ -122,8 +122,8 @@ func (trq *TaxonomyRelationQuery) Only(ctx context.Context) (*TaxonomyRelation, 
 }
 
 // OnlyX is like Only, but panics if an error occurs.
-func (trq *TaxonomyRelationQuery) OnlyX(ctx context.Context) *TaxonomyRelation {
-	node, err := trq.Only(ctx)
+func (_q *TaxonomyRelationQuery) OnlyX(ctx context.Context) *TaxonomyRelation {
+	node, err := _q.Only(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -133,9 +133,9 @@ func (trq *TaxonomyRelationQuery) OnlyX(ctx context.Context) *TaxonomyRelation {
 // OnlyID is like Only, but returns the only TaxonomyRelation ID in the query.
 // Returns a *NotSingularError when more than one TaxonomyRelation ID is found.
 // Returns a *NotFoundError when no entities are found.
-func (trq *TaxonomyRelationQuery) OnlyID(ctx context.Context) (id string, err error) {
+func (_q *TaxonomyRelationQuery) OnlyID(ctx context.Context) (id string, err error) {
 	var ids []string
-	if ids, err = trq.Limit(2).IDs(setContextOp(ctx, trq.ctx, ent.OpQueryOnlyID)); err != nil {
+	if ids, err = _q.Limit(2).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryOnlyID)); err != nil {
 		return
 	}
 	switch len(ids) {
@@ -150,8 +150,8 @@ func (trq *TaxonomyRelationQuery) OnlyID(ctx context.Context) (id string, err er
 }
 
 // OnlyIDX is like OnlyID, but panics if an error occurs.
-func (trq *TaxonomyRelationQuery) OnlyIDX(ctx context.Context) string {
-	id, err := trq.OnlyID(ctx)
+func (_q *TaxonomyRelationQuery) OnlyIDX(ctx context.Context) string {
+	id, err := _q.OnlyID(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -159,18 +159,18 @@ func (trq *TaxonomyRelationQuery) OnlyIDX(ctx context.Context) string {
 }
 
 // All executes the query and returns a list of TaxonomyRelations.
-func (trq *TaxonomyRelationQuery) All(ctx context.Context) ([]*TaxonomyRelation, error) {
-	ctx = setContextOp(ctx, trq.ctx, ent.OpQueryAll)
-	if err := trq.prepareQuery(ctx); err != nil {
+func (_q *TaxonomyRelationQuery) All(ctx context.Context) ([]*TaxonomyRelation, error) {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryAll)
+	if err := _q.prepareQuery(ctx); err != nil {
 		return nil, err
 	}
 	qr := querierAll[[]*TaxonomyRelation, *TaxonomyRelationQuery]()
-	return withInterceptors[[]*TaxonomyRelation](ctx, trq, qr, trq.inters)
+	return withInterceptors[[]*TaxonomyRelation](ctx, _q, qr, _q.inters)
 }
 
 // AllX is like All, but panics if an error occurs.
-func (trq *TaxonomyRelationQuery) AllX(ctx context.Context) []*TaxonomyRelation {
-	nodes, err := trq.All(ctx)
+func (_q *TaxonomyRelationQuery) AllX(ctx context.Context) []*TaxonomyRelation {
+	nodes, err := _q.All(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -178,20 +178,20 @@ func (trq *TaxonomyRelationQuery) AllX(ctx context.Context) []*TaxonomyRelation 
 }
 
 // IDs executes the query and returns a list of TaxonomyRelation IDs.
-func (trq *TaxonomyRelationQuery) IDs(ctx context.Context) (ids []string, err error) {
-	if trq.ctx.Unique == nil && trq.path != nil {
-		trq.Unique(true)
+func (_q *TaxonomyRelationQuery) IDs(ctx context.Context) (ids []string, err error) {
+	if _q.ctx.Unique == nil && _q.path != nil {
+		_q.Unique(true)
 	}
-	ctx = setContextOp(ctx, trq.ctx, ent.OpQueryIDs)
-	if err = trq.Select(taxonomyrelation.FieldID).Scan(ctx, &ids); err != nil {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryIDs)
+	if err = _q.Select(taxonomyrelation.FieldID).Scan(ctx, &ids); err != nil {
 		return nil, err
 	}
 	return ids, nil
 }
 
 // IDsX is like IDs, but panics if an error occurs.
-func (trq *TaxonomyRelationQuery) IDsX(ctx context.Context) []string {
-	ids, err := trq.IDs(ctx)
+func (_q *TaxonomyRelationQuery) IDsX(ctx context.Context) []string {
+	ids, err := _q.IDs(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -199,17 +199,17 @@ func (trq *TaxonomyRelationQuery) IDsX(ctx context.Context) []string {
 }
 
 // Count returns the count of the given query.
-func (trq *TaxonomyRelationQuery) Count(ctx context.Context) (int, error) {
-	ctx = setContextOp(ctx, trq.ctx, ent.OpQueryCount)
-	if err := trq.prepareQuery(ctx); err != nil {
+func (_q *TaxonomyRelationQuery) Count(ctx context.Context) (int, error) {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryCount)
+	if err := _q.prepareQuery(ctx); err != nil {
 		return 0, err
 	}
-	return withInterceptors[int](ctx, trq, querierCount[*TaxonomyRelationQuery](), trq.inters)
+	return withInterceptors[int](ctx, _q, querierCount[*TaxonomyRelationQuery](), _q.inters)
 }
 
 // CountX is like Count, but panics if an error occurs.
-func (trq *TaxonomyRelationQuery) CountX(ctx context.Context) int {
-	count, err := trq.Count(ctx)
+func (_q *TaxonomyRelationQuery) CountX(ctx context.Context) int {
+	count, err := _q.Count(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -217,9 +217,9 @@ func (trq *TaxonomyRelationQuery) CountX(ctx context.Context) int {
 }
 
 // Exist returns true if the query has elements in the graph.
-func (trq *TaxonomyRelationQuery) Exist(ctx context.Context) (bool, error) {
-	ctx = setContextOp(ctx, trq.ctx, ent.OpQueryExist)
-	switch _, err := trq.FirstID(ctx); {
+func (_q *TaxonomyRelationQuery) Exist(ctx context.Context) (bool, error) {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryExist)
+	switch _, err := _q.FirstID(ctx); {
 	case IsNotFound(err):
 		return false, nil
 	case err != nil:
@@ -230,8 +230,8 @@ func (trq *TaxonomyRelationQuery) Exist(ctx context.Context) (bool, error) {
 }
 
 // ExistX is like Exist, but panics if an error occurs.
-func (trq *TaxonomyRelationQuery) ExistX(ctx context.Context) bool {
-	exist, err := trq.Exist(ctx)
+func (_q *TaxonomyRelationQuery) ExistX(ctx context.Context) bool {
+	exist, err := _q.Exist(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -240,19 +240,19 @@ func (trq *TaxonomyRelationQuery) ExistX(ctx context.Context) bool {
 
 // Clone returns a duplicate of the TaxonomyRelationQuery builder, including all associated steps. It can be
 // used to prepare common query builders and use them differently after the clone is made.
-func (trq *TaxonomyRelationQuery) Clone() *TaxonomyRelationQuery {
-	if trq == nil {
+func (_q *TaxonomyRelationQuery) Clone() *TaxonomyRelationQuery {
+	if _q == nil {
 		return nil
 	}
 	return &TaxonomyRelationQuery{
-		config:     trq.config,
-		ctx:        trq.ctx.Clone(),
-		order:      append([]taxonomyrelation.OrderOption{}, trq.order...),
-		inters:     append([]Interceptor{}, trq.inters...),
-		predicates: append([]predicate.TaxonomyRelation{}, trq.predicates...),
+		config:     _q.config,
+		ctx:        _q.ctx.Clone(),
+		order:      append([]taxonomyrelation.OrderOption{}, _q.order...),
+		inters:     append([]Interceptor{}, _q.inters...),
+		predicates: append([]predicate.TaxonomyRelation{}, _q.predicates...),
 		// clone intermediate query.
-		sql:  trq.sql.Clone(),
-		path: trq.path,
+		sql:  _q.sql.Clone(),
+		path: _q.path,
 	}
 }
 
@@ -270,10 +270,10 @@ func (trq *TaxonomyRelationQuery) Clone() *TaxonomyRelationQuery {
 //		GroupBy(taxonomyrelation.FieldObjectID).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
-func (trq *TaxonomyRelationQuery) GroupBy(field string, fields ...string) *TaxonomyRelationGroupBy {
-	trq.ctx.Fields = append([]string{field}, fields...)
-	grbuild := &TaxonomyRelationGroupBy{build: trq}
-	grbuild.flds = &trq.ctx.Fields
+func (_q *TaxonomyRelationQuery) GroupBy(field string, fields ...string) *TaxonomyRelationGroupBy {
+	_q.ctx.Fields = append([]string{field}, fields...)
+	grbuild := &TaxonomyRelationGroupBy{build: _q}
+	grbuild.flds = &_q.ctx.Fields
 	grbuild.label = taxonomyrelation.Label
 	grbuild.scan = grbuild.Scan
 	return grbuild
@@ -291,62 +291,62 @@ func (trq *TaxonomyRelationQuery) GroupBy(field string, fields ...string) *Taxon
 //	client.TaxonomyRelation.Query().
 //		Select(taxonomyrelation.FieldObjectID).
 //		Scan(ctx, &v)
-func (trq *TaxonomyRelationQuery) Select(fields ...string) *TaxonomyRelationSelect {
-	trq.ctx.Fields = append(trq.ctx.Fields, fields...)
-	sbuild := &TaxonomyRelationSelect{TaxonomyRelationQuery: trq}
+func (_q *TaxonomyRelationQuery) Select(fields ...string) *TaxonomyRelationSelect {
+	_q.ctx.Fields = append(_q.ctx.Fields, fields...)
+	sbuild := &TaxonomyRelationSelect{TaxonomyRelationQuery: _q}
 	sbuild.label = taxonomyrelation.Label
-	sbuild.flds, sbuild.scan = &trq.ctx.Fields, sbuild.Scan
+	sbuild.flds, sbuild.scan = &_q.ctx.Fields, sbuild.Scan
 	return sbuild
 }
 
 // Aggregate returns a TaxonomyRelationSelect configured with the given aggregations.
-func (trq *TaxonomyRelationQuery) Aggregate(fns ...AggregateFunc) *TaxonomyRelationSelect {
-	return trq.Select().Aggregate(fns...)
+func (_q *TaxonomyRelationQuery) Aggregate(fns ...AggregateFunc) *TaxonomyRelationSelect {
+	return _q.Select().Aggregate(fns...)
 }
 
-func (trq *TaxonomyRelationQuery) prepareQuery(ctx context.Context) error {
-	for _, inter := range trq.inters {
+func (_q *TaxonomyRelationQuery) prepareQuery(ctx context.Context) error {
+	for _, inter := range _q.inters {
 		if inter == nil {
 			return fmt.Errorf("ent: uninitialized interceptor (forgotten import ent/runtime?)")
 		}
 		if trv, ok := inter.(Traverser); ok {
-			if err := trv.Traverse(ctx, trq); err != nil {
+			if err := trv.Traverse(ctx, _q); err != nil {
 				return err
 			}
 		}
 	}
-	for _, f := range trq.ctx.Fields {
+	for _, f := range _q.ctx.Fields {
 		if !taxonomyrelation.ValidColumn(f) {
 			return &ValidationError{Name: f, err: fmt.Errorf("ent: invalid field %q for query", f)}
 		}
 	}
-	if trq.path != nil {
-		prev, err := trq.path(ctx)
+	if _q.path != nil {
+		prev, err := _q.path(ctx)
 		if err != nil {
 			return err
 		}
-		trq.sql = prev
+		_q.sql = prev
 	}
 	return nil
 }
 
-func (trq *TaxonomyRelationQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*TaxonomyRelation, error) {
+func (_q *TaxonomyRelationQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*TaxonomyRelation, error) {
 	var (
 		nodes = []*TaxonomyRelation{}
-		_spec = trq.querySpec()
+		_spec = _q.querySpec()
 	)
 	_spec.ScanValues = func(columns []string) ([]any, error) {
 		return (*TaxonomyRelation).scanValues(nil, columns)
 	}
 	_spec.Assign = func(columns []string, values []any) error {
-		node := &TaxonomyRelation{config: trq.config}
+		node := &TaxonomyRelation{config: _q.config}
 		nodes = append(nodes, node)
 		return node.assignValues(columns, values)
 	}
 	for i := range hooks {
 		hooks[i](ctx, _spec)
 	}
-	if err := sqlgraph.QueryNodes(ctx, trq.driver, _spec); err != nil {
+	if err := sqlgraph.QueryNodes(ctx, _q.driver, _spec); err != nil {
 		return nil, err
 	}
 	if len(nodes) == 0 {
@@ -355,24 +355,24 @@ func (trq *TaxonomyRelationQuery) sqlAll(ctx context.Context, hooks ...queryHook
 	return nodes, nil
 }
 
-func (trq *TaxonomyRelationQuery) sqlCount(ctx context.Context) (int, error) {
-	_spec := trq.querySpec()
-	_spec.Node.Columns = trq.ctx.Fields
-	if len(trq.ctx.Fields) > 0 {
-		_spec.Unique = trq.ctx.Unique != nil && *trq.ctx.Unique
+func (_q *TaxonomyRelationQuery) sqlCount(ctx context.Context) (int, error) {
+	_spec := _q.querySpec()
+	_spec.Node.Columns = _q.ctx.Fields
+	if len(_q.ctx.Fields) > 0 {
+		_spec.Unique = _q.ctx.Unique != nil && *_q.ctx.Unique
 	}
-	return sqlgraph.CountNodes(ctx, trq.driver, _spec)
+	return sqlgraph.CountNodes(ctx, _q.driver, _spec)
 }
 
-func (trq *TaxonomyRelationQuery) querySpec() *sqlgraph.QuerySpec {
+func (_q *TaxonomyRelationQuery) querySpec() *sqlgraph.QuerySpec {
 	_spec := sqlgraph.NewQuerySpec(taxonomyrelation.Table, taxonomyrelation.Columns, sqlgraph.NewFieldSpec(taxonomyrelation.FieldID, field.TypeString))
-	_spec.From = trq.sql
-	if unique := trq.ctx.Unique; unique != nil {
+	_spec.From = _q.sql
+	if unique := _q.ctx.Unique; unique != nil {
 		_spec.Unique = *unique
-	} else if trq.path != nil {
+	} else if _q.path != nil {
 		_spec.Unique = true
 	}
-	if fields := trq.ctx.Fields; len(fields) > 0 {
+	if fields := _q.ctx.Fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, taxonomyrelation.FieldID)
 		for i := range fields {
@@ -381,20 +381,20 @@ func (trq *TaxonomyRelationQuery) querySpec() *sqlgraph.QuerySpec {
 			}
 		}
 	}
-	if ps := trq.predicates; len(ps) > 0 {
+	if ps := _q.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if limit := trq.ctx.Limit; limit != nil {
+	if limit := _q.ctx.Limit; limit != nil {
 		_spec.Limit = *limit
 	}
-	if offset := trq.ctx.Offset; offset != nil {
+	if offset := _q.ctx.Offset; offset != nil {
 		_spec.Offset = *offset
 	}
-	if ps := trq.order; len(ps) > 0 {
+	if ps := _q.order; len(ps) > 0 {
 		_spec.Order = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
@@ -404,33 +404,33 @@ func (trq *TaxonomyRelationQuery) querySpec() *sqlgraph.QuerySpec {
 	return _spec
 }
 
-func (trq *TaxonomyRelationQuery) sqlQuery(ctx context.Context) *sql.Selector {
-	builder := sql.Dialect(trq.driver.Dialect())
+func (_q *TaxonomyRelationQuery) sqlQuery(ctx context.Context) *sql.Selector {
+	builder := sql.Dialect(_q.driver.Dialect())
 	t1 := builder.Table(taxonomyrelation.Table)
-	columns := trq.ctx.Fields
+	columns := _q.ctx.Fields
 	if len(columns) == 0 {
 		columns = taxonomyrelation.Columns
 	}
 	selector := builder.Select(t1.Columns(columns...)...).From(t1)
-	if trq.sql != nil {
-		selector = trq.sql
+	if _q.sql != nil {
+		selector = _q.sql
 		selector.Select(selector.Columns(columns...)...)
 	}
-	if trq.ctx.Unique != nil && *trq.ctx.Unique {
+	if _q.ctx.Unique != nil && *_q.ctx.Unique {
 		selector.Distinct()
 	}
-	for _, p := range trq.predicates {
+	for _, p := range _q.predicates {
 		p(selector)
 	}
-	for _, p := range trq.order {
+	for _, p := range _q.order {
 		p(selector)
 	}
-	if offset := trq.ctx.Offset; offset != nil {
+	if offset := _q.ctx.Offset; offset != nil {
 		// limit is mandatory for offset clause. We start
 		// with default value, and override it below if needed.
 		selector.Offset(*offset).Limit(math.MaxInt32)
 	}
-	if limit := trq.ctx.Limit; limit != nil {
+	if limit := _q.ctx.Limit; limit != nil {
 		selector.Limit(*limit)
 	}
 	return selector
@@ -443,41 +443,41 @@ type TaxonomyRelationGroupBy struct {
 }
 
 // Aggregate adds the given aggregation functions to the group-by query.
-func (trgb *TaxonomyRelationGroupBy) Aggregate(fns ...AggregateFunc) *TaxonomyRelationGroupBy {
-	trgb.fns = append(trgb.fns, fns...)
-	return trgb
+func (_g *TaxonomyRelationGroupBy) Aggregate(fns ...AggregateFunc) *TaxonomyRelationGroupBy {
+	_g.fns = append(_g.fns, fns...)
+	return _g
 }
 
 // Scan applies the selector query and scans the result into the given value.
-func (trgb *TaxonomyRelationGroupBy) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, trgb.build.ctx, ent.OpQueryGroupBy)
-	if err := trgb.build.prepareQuery(ctx); err != nil {
+func (_g *TaxonomyRelationGroupBy) Scan(ctx context.Context, v any) error {
+	ctx = setContextOp(ctx, _g.build.ctx, ent.OpQueryGroupBy)
+	if err := _g.build.prepareQuery(ctx); err != nil {
 		return err
 	}
-	return scanWithInterceptors[*TaxonomyRelationQuery, *TaxonomyRelationGroupBy](ctx, trgb.build, trgb, trgb.build.inters, v)
+	return scanWithInterceptors[*TaxonomyRelationQuery, *TaxonomyRelationGroupBy](ctx, _g.build, _g, _g.build.inters, v)
 }
 
-func (trgb *TaxonomyRelationGroupBy) sqlScan(ctx context.Context, root *TaxonomyRelationQuery, v any) error {
+func (_g *TaxonomyRelationGroupBy) sqlScan(ctx context.Context, root *TaxonomyRelationQuery, v any) error {
 	selector := root.sqlQuery(ctx).Select()
-	aggregation := make([]string, 0, len(trgb.fns))
-	for _, fn := range trgb.fns {
+	aggregation := make([]string, 0, len(_g.fns))
+	for _, fn := range _g.fns {
 		aggregation = append(aggregation, fn(selector))
 	}
 	if len(selector.SelectedColumns()) == 0 {
-		columns := make([]string, 0, len(*trgb.flds)+len(trgb.fns))
-		for _, f := range *trgb.flds {
+		columns := make([]string, 0, len(*_g.flds)+len(_g.fns))
+		for _, f := range *_g.flds {
 			columns = append(columns, selector.C(f))
 		}
 		columns = append(columns, aggregation...)
 		selector.Select(columns...)
 	}
-	selector.GroupBy(selector.Columns(*trgb.flds...)...)
+	selector.GroupBy(selector.Columns(*_g.flds...)...)
 	if err := selector.Err(); err != nil {
 		return err
 	}
 	rows := &sql.Rows{}
 	query, args := selector.Query()
-	if err := trgb.build.driver.Query(ctx, query, args, rows); err != nil {
+	if err := _g.build.driver.Query(ctx, query, args, rows); err != nil {
 		return err
 	}
 	defer rows.Close()
@@ -491,27 +491,27 @@ type TaxonomyRelationSelect struct {
 }
 
 // Aggregate adds the given aggregation functions to the selector query.
-func (trs *TaxonomyRelationSelect) Aggregate(fns ...AggregateFunc) *TaxonomyRelationSelect {
-	trs.fns = append(trs.fns, fns...)
-	return trs
+func (_s *TaxonomyRelationSelect) Aggregate(fns ...AggregateFunc) *TaxonomyRelationSelect {
+	_s.fns = append(_s.fns, fns...)
+	return _s
 }
 
 // Scan applies the selector query and scans the result into the given value.
-func (trs *TaxonomyRelationSelect) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, trs.ctx, ent.OpQuerySelect)
-	if err := trs.prepareQuery(ctx); err != nil {
+func (_s *TaxonomyRelationSelect) Scan(ctx context.Context, v any) error {
+	ctx = setContextOp(ctx, _s.ctx, ent.OpQuerySelect)
+	if err := _s.prepareQuery(ctx); err != nil {
 		return err
 	}
-	return scanWithInterceptors[*TaxonomyRelationQuery, *TaxonomyRelationSelect](ctx, trs.TaxonomyRelationQuery, trs, trs.inters, v)
+	return scanWithInterceptors[*TaxonomyRelationQuery, *TaxonomyRelationSelect](ctx, _s.TaxonomyRelationQuery, _s, _s.inters, v)
 }
 
-func (trs *TaxonomyRelationSelect) sqlScan(ctx context.Context, root *TaxonomyRelationQuery, v any) error {
+func (_s *TaxonomyRelationSelect) sqlScan(ctx context.Context, root *TaxonomyRelationQuery, v any) error {
 	selector := root.sqlQuery(ctx)
-	aggregation := make([]string, 0, len(trs.fns))
-	for _, fn := range trs.fns {
+	aggregation := make([]string, 0, len(_s.fns))
+	for _, fn := range _s.fns {
 		aggregation = append(aggregation, fn(selector))
 	}
-	switch n := len(*trs.selector.flds); {
+	switch n := len(*_s.selector.flds); {
 	case n == 0 && len(aggregation) > 0:
 		selector.Select(aggregation...)
 	case n != 0 && len(aggregation) > 0:
@@ -519,7 +519,7 @@ func (trs *TaxonomyRelationSelect) sqlScan(ctx context.Context, root *TaxonomyRe
 	}
 	rows := &sql.Rows{}
 	query, args := selector.Query()
-	if err := trs.driver.Query(ctx, query, args, rows); err != nil {
+	if err := _s.driver.Query(ctx, query, args, rows); err != nil {
 		return err
 	}
 	defer rows.Close()

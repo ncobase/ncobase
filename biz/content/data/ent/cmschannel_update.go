@@ -23,323 +23,323 @@ type CMSChannelUpdate struct {
 }
 
 // Where appends a list predicates to the CMSChannelUpdate builder.
-func (ccu *CMSChannelUpdate) Where(ps ...predicate.CMSChannel) *CMSChannelUpdate {
-	ccu.mutation.Where(ps...)
-	return ccu
+func (_u *CMSChannelUpdate) Where(ps ...predicate.CMSChannel) *CMSChannelUpdate {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // SetName sets the "name" field.
-func (ccu *CMSChannelUpdate) SetName(s string) *CMSChannelUpdate {
-	ccu.mutation.SetName(s)
-	return ccu
+func (_u *CMSChannelUpdate) SetName(v string) *CMSChannelUpdate {
+	_u.mutation.SetName(v)
+	return _u
 }
 
 // SetNillableName sets the "name" field if the given value is not nil.
-func (ccu *CMSChannelUpdate) SetNillableName(s *string) *CMSChannelUpdate {
-	if s != nil {
-		ccu.SetName(*s)
+func (_u *CMSChannelUpdate) SetNillableName(v *string) *CMSChannelUpdate {
+	if v != nil {
+		_u.SetName(*v)
 	}
-	return ccu
+	return _u
 }
 
 // ClearName clears the value of the "name" field.
-func (ccu *CMSChannelUpdate) ClearName() *CMSChannelUpdate {
-	ccu.mutation.ClearName()
-	return ccu
+func (_u *CMSChannelUpdate) ClearName() *CMSChannelUpdate {
+	_u.mutation.ClearName()
+	return _u
 }
 
 // SetType sets the "type" field.
-func (ccu *CMSChannelUpdate) SetType(s string) *CMSChannelUpdate {
-	ccu.mutation.SetType(s)
-	return ccu
+func (_u *CMSChannelUpdate) SetType(v string) *CMSChannelUpdate {
+	_u.mutation.SetType(v)
+	return _u
 }
 
 // SetNillableType sets the "type" field if the given value is not nil.
-func (ccu *CMSChannelUpdate) SetNillableType(s *string) *CMSChannelUpdate {
-	if s != nil {
-		ccu.SetType(*s)
+func (_u *CMSChannelUpdate) SetNillableType(v *string) *CMSChannelUpdate {
+	if v != nil {
+		_u.SetType(*v)
 	}
-	return ccu
+	return _u
 }
 
 // ClearType clears the value of the "type" field.
-func (ccu *CMSChannelUpdate) ClearType() *CMSChannelUpdate {
-	ccu.mutation.ClearType()
-	return ccu
+func (_u *CMSChannelUpdate) ClearType() *CMSChannelUpdate {
+	_u.mutation.ClearType()
+	return _u
 }
 
 // SetSlug sets the "slug" field.
-func (ccu *CMSChannelUpdate) SetSlug(s string) *CMSChannelUpdate {
-	ccu.mutation.SetSlug(s)
-	return ccu
+func (_u *CMSChannelUpdate) SetSlug(v string) *CMSChannelUpdate {
+	_u.mutation.SetSlug(v)
+	return _u
 }
 
 // SetNillableSlug sets the "slug" field if the given value is not nil.
-func (ccu *CMSChannelUpdate) SetNillableSlug(s *string) *CMSChannelUpdate {
-	if s != nil {
-		ccu.SetSlug(*s)
+func (_u *CMSChannelUpdate) SetNillableSlug(v *string) *CMSChannelUpdate {
+	if v != nil {
+		_u.SetSlug(*v)
 	}
-	return ccu
+	return _u
 }
 
 // ClearSlug clears the value of the "slug" field.
-func (ccu *CMSChannelUpdate) ClearSlug() *CMSChannelUpdate {
-	ccu.mutation.ClearSlug()
-	return ccu
+func (_u *CMSChannelUpdate) ClearSlug() *CMSChannelUpdate {
+	_u.mutation.ClearSlug()
+	return _u
 }
 
 // SetIcon sets the "icon" field.
-func (ccu *CMSChannelUpdate) SetIcon(s string) *CMSChannelUpdate {
-	ccu.mutation.SetIcon(s)
-	return ccu
+func (_u *CMSChannelUpdate) SetIcon(v string) *CMSChannelUpdate {
+	_u.mutation.SetIcon(v)
+	return _u
 }
 
 // SetNillableIcon sets the "icon" field if the given value is not nil.
-func (ccu *CMSChannelUpdate) SetNillableIcon(s *string) *CMSChannelUpdate {
-	if s != nil {
-		ccu.SetIcon(*s)
+func (_u *CMSChannelUpdate) SetNillableIcon(v *string) *CMSChannelUpdate {
+	if v != nil {
+		_u.SetIcon(*v)
 	}
-	return ccu
+	return _u
 }
 
 // ClearIcon clears the value of the "icon" field.
-func (ccu *CMSChannelUpdate) ClearIcon() *CMSChannelUpdate {
-	ccu.mutation.ClearIcon()
-	return ccu
+func (_u *CMSChannelUpdate) ClearIcon() *CMSChannelUpdate {
+	_u.mutation.ClearIcon()
+	return _u
 }
 
 // SetStatus sets the "status" field.
-func (ccu *CMSChannelUpdate) SetStatus(i int) *CMSChannelUpdate {
-	ccu.mutation.ResetStatus()
-	ccu.mutation.SetStatus(i)
-	return ccu
+func (_u *CMSChannelUpdate) SetStatus(v int) *CMSChannelUpdate {
+	_u.mutation.ResetStatus()
+	_u.mutation.SetStatus(v)
+	return _u
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (ccu *CMSChannelUpdate) SetNillableStatus(i *int) *CMSChannelUpdate {
-	if i != nil {
-		ccu.SetStatus(*i)
+func (_u *CMSChannelUpdate) SetNillableStatus(v *int) *CMSChannelUpdate {
+	if v != nil {
+		_u.SetStatus(*v)
 	}
-	return ccu
+	return _u
 }
 
-// AddStatus adds i to the "status" field.
-func (ccu *CMSChannelUpdate) AddStatus(i int) *CMSChannelUpdate {
-	ccu.mutation.AddStatus(i)
-	return ccu
+// AddStatus adds value to the "status" field.
+func (_u *CMSChannelUpdate) AddStatus(v int) *CMSChannelUpdate {
+	_u.mutation.AddStatus(v)
+	return _u
 }
 
 // SetExtras sets the "extras" field.
-func (ccu *CMSChannelUpdate) SetExtras(m map[string]interface{}) *CMSChannelUpdate {
-	ccu.mutation.SetExtras(m)
-	return ccu
+func (_u *CMSChannelUpdate) SetExtras(v map[string]interface{}) *CMSChannelUpdate {
+	_u.mutation.SetExtras(v)
+	return _u
 }
 
 // ClearExtras clears the value of the "extras" field.
-func (ccu *CMSChannelUpdate) ClearExtras() *CMSChannelUpdate {
-	ccu.mutation.ClearExtras()
-	return ccu
+func (_u *CMSChannelUpdate) ClearExtras() *CMSChannelUpdate {
+	_u.mutation.ClearExtras()
+	return _u
 }
 
 // SetSpaceID sets the "space_id" field.
-func (ccu *CMSChannelUpdate) SetSpaceID(s string) *CMSChannelUpdate {
-	ccu.mutation.SetSpaceID(s)
-	return ccu
+func (_u *CMSChannelUpdate) SetSpaceID(v string) *CMSChannelUpdate {
+	_u.mutation.SetSpaceID(v)
+	return _u
 }
 
 // SetNillableSpaceID sets the "space_id" field if the given value is not nil.
-func (ccu *CMSChannelUpdate) SetNillableSpaceID(s *string) *CMSChannelUpdate {
-	if s != nil {
-		ccu.SetSpaceID(*s)
+func (_u *CMSChannelUpdate) SetNillableSpaceID(v *string) *CMSChannelUpdate {
+	if v != nil {
+		_u.SetSpaceID(*v)
 	}
-	return ccu
+	return _u
 }
 
 // ClearSpaceID clears the value of the "space_id" field.
-func (ccu *CMSChannelUpdate) ClearSpaceID() *CMSChannelUpdate {
-	ccu.mutation.ClearSpaceID()
-	return ccu
+func (_u *CMSChannelUpdate) ClearSpaceID() *CMSChannelUpdate {
+	_u.mutation.ClearSpaceID()
+	return _u
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (ccu *CMSChannelUpdate) SetCreatedBy(s string) *CMSChannelUpdate {
-	ccu.mutation.SetCreatedBy(s)
-	return ccu
+func (_u *CMSChannelUpdate) SetCreatedBy(v string) *CMSChannelUpdate {
+	_u.mutation.SetCreatedBy(v)
+	return _u
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (ccu *CMSChannelUpdate) SetNillableCreatedBy(s *string) *CMSChannelUpdate {
-	if s != nil {
-		ccu.SetCreatedBy(*s)
+func (_u *CMSChannelUpdate) SetNillableCreatedBy(v *string) *CMSChannelUpdate {
+	if v != nil {
+		_u.SetCreatedBy(*v)
 	}
-	return ccu
+	return _u
 }
 
 // ClearCreatedBy clears the value of the "created_by" field.
-func (ccu *CMSChannelUpdate) ClearCreatedBy() *CMSChannelUpdate {
-	ccu.mutation.ClearCreatedBy()
-	return ccu
+func (_u *CMSChannelUpdate) ClearCreatedBy() *CMSChannelUpdate {
+	_u.mutation.ClearCreatedBy()
+	return _u
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (ccu *CMSChannelUpdate) SetUpdatedBy(s string) *CMSChannelUpdate {
-	ccu.mutation.SetUpdatedBy(s)
-	return ccu
+func (_u *CMSChannelUpdate) SetUpdatedBy(v string) *CMSChannelUpdate {
+	_u.mutation.SetUpdatedBy(v)
+	return _u
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (ccu *CMSChannelUpdate) SetNillableUpdatedBy(s *string) *CMSChannelUpdate {
-	if s != nil {
-		ccu.SetUpdatedBy(*s)
+func (_u *CMSChannelUpdate) SetNillableUpdatedBy(v *string) *CMSChannelUpdate {
+	if v != nil {
+		_u.SetUpdatedBy(*v)
 	}
-	return ccu
+	return _u
 }
 
 // ClearUpdatedBy clears the value of the "updated_by" field.
-func (ccu *CMSChannelUpdate) ClearUpdatedBy() *CMSChannelUpdate {
-	ccu.mutation.ClearUpdatedBy()
-	return ccu
+func (_u *CMSChannelUpdate) ClearUpdatedBy() *CMSChannelUpdate {
+	_u.mutation.ClearUpdatedBy()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (ccu *CMSChannelUpdate) SetUpdatedAt(i int64) *CMSChannelUpdate {
-	ccu.mutation.ResetUpdatedAt()
-	ccu.mutation.SetUpdatedAt(i)
-	return ccu
+func (_u *CMSChannelUpdate) SetUpdatedAt(v int64) *CMSChannelUpdate {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (ccu *CMSChannelUpdate) AddUpdatedAt(i int64) *CMSChannelUpdate {
-	ccu.mutation.AddUpdatedAt(i)
-	return ccu
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *CMSChannelUpdate) AddUpdatedAt(v int64) *CMSChannelUpdate {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (ccu *CMSChannelUpdate) ClearUpdatedAt() *CMSChannelUpdate {
-	ccu.mutation.ClearUpdatedAt()
-	return ccu
+func (_u *CMSChannelUpdate) ClearUpdatedAt() *CMSChannelUpdate {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // SetAllowedTypes sets the "allowed_types" field.
-func (ccu *CMSChannelUpdate) SetAllowedTypes(s []string) *CMSChannelUpdate {
-	ccu.mutation.SetAllowedTypes(s)
-	return ccu
+func (_u *CMSChannelUpdate) SetAllowedTypes(v []string) *CMSChannelUpdate {
+	_u.mutation.SetAllowedTypes(v)
+	return _u
 }
 
-// AppendAllowedTypes appends s to the "allowed_types" field.
-func (ccu *CMSChannelUpdate) AppendAllowedTypes(s []string) *CMSChannelUpdate {
-	ccu.mutation.AppendAllowedTypes(s)
-	return ccu
+// AppendAllowedTypes appends value to the "allowed_types" field.
+func (_u *CMSChannelUpdate) AppendAllowedTypes(v []string) *CMSChannelUpdate {
+	_u.mutation.AppendAllowedTypes(v)
+	return _u
 }
 
 // ClearAllowedTypes clears the value of the "allowed_types" field.
-func (ccu *CMSChannelUpdate) ClearAllowedTypes() *CMSChannelUpdate {
-	ccu.mutation.ClearAllowedTypes()
-	return ccu
+func (_u *CMSChannelUpdate) ClearAllowedTypes() *CMSChannelUpdate {
+	_u.mutation.ClearAllowedTypes()
+	return _u
 }
 
 // SetDescription sets the "description" field.
-func (ccu *CMSChannelUpdate) SetDescription(s string) *CMSChannelUpdate {
-	ccu.mutation.SetDescription(s)
-	return ccu
+func (_u *CMSChannelUpdate) SetDescription(v string) *CMSChannelUpdate {
+	_u.mutation.SetDescription(v)
+	return _u
 }
 
 // SetNillableDescription sets the "description" field if the given value is not nil.
-func (ccu *CMSChannelUpdate) SetNillableDescription(s *string) *CMSChannelUpdate {
-	if s != nil {
-		ccu.SetDescription(*s)
+func (_u *CMSChannelUpdate) SetNillableDescription(v *string) *CMSChannelUpdate {
+	if v != nil {
+		_u.SetDescription(*v)
 	}
-	return ccu
+	return _u
 }
 
 // ClearDescription clears the value of the "description" field.
-func (ccu *CMSChannelUpdate) ClearDescription() *CMSChannelUpdate {
-	ccu.mutation.ClearDescription()
-	return ccu
+func (_u *CMSChannelUpdate) ClearDescription() *CMSChannelUpdate {
+	_u.mutation.ClearDescription()
+	return _u
 }
 
 // SetLogo sets the "logo" field.
-func (ccu *CMSChannelUpdate) SetLogo(s string) *CMSChannelUpdate {
-	ccu.mutation.SetLogo(s)
-	return ccu
+func (_u *CMSChannelUpdate) SetLogo(v string) *CMSChannelUpdate {
+	_u.mutation.SetLogo(v)
+	return _u
 }
 
 // SetNillableLogo sets the "logo" field if the given value is not nil.
-func (ccu *CMSChannelUpdate) SetNillableLogo(s *string) *CMSChannelUpdate {
-	if s != nil {
-		ccu.SetLogo(*s)
+func (_u *CMSChannelUpdate) SetNillableLogo(v *string) *CMSChannelUpdate {
+	if v != nil {
+		_u.SetLogo(*v)
 	}
-	return ccu
+	return _u
 }
 
 // ClearLogo clears the value of the "logo" field.
-func (ccu *CMSChannelUpdate) ClearLogo() *CMSChannelUpdate {
-	ccu.mutation.ClearLogo()
-	return ccu
+func (_u *CMSChannelUpdate) ClearLogo() *CMSChannelUpdate {
+	_u.mutation.ClearLogo()
+	return _u
 }
 
 // SetWebhookURL sets the "webhook_url" field.
-func (ccu *CMSChannelUpdate) SetWebhookURL(s string) *CMSChannelUpdate {
-	ccu.mutation.SetWebhookURL(s)
-	return ccu
+func (_u *CMSChannelUpdate) SetWebhookURL(v string) *CMSChannelUpdate {
+	_u.mutation.SetWebhookURL(v)
+	return _u
 }
 
 // SetNillableWebhookURL sets the "webhook_url" field if the given value is not nil.
-func (ccu *CMSChannelUpdate) SetNillableWebhookURL(s *string) *CMSChannelUpdate {
-	if s != nil {
-		ccu.SetWebhookURL(*s)
+func (_u *CMSChannelUpdate) SetNillableWebhookURL(v *string) *CMSChannelUpdate {
+	if v != nil {
+		_u.SetWebhookURL(*v)
 	}
-	return ccu
+	return _u
 }
 
 // ClearWebhookURL clears the value of the "webhook_url" field.
-func (ccu *CMSChannelUpdate) ClearWebhookURL() *CMSChannelUpdate {
-	ccu.mutation.ClearWebhookURL()
-	return ccu
+func (_u *CMSChannelUpdate) ClearWebhookURL() *CMSChannelUpdate {
+	_u.mutation.ClearWebhookURL()
+	return _u
 }
 
 // SetAutoPublish sets the "auto_publish" field.
-func (ccu *CMSChannelUpdate) SetAutoPublish(b bool) *CMSChannelUpdate {
-	ccu.mutation.SetAutoPublish(b)
-	return ccu
+func (_u *CMSChannelUpdate) SetAutoPublish(v bool) *CMSChannelUpdate {
+	_u.mutation.SetAutoPublish(v)
+	return _u
 }
 
 // SetNillableAutoPublish sets the "auto_publish" field if the given value is not nil.
-func (ccu *CMSChannelUpdate) SetNillableAutoPublish(b *bool) *CMSChannelUpdate {
-	if b != nil {
-		ccu.SetAutoPublish(*b)
+func (_u *CMSChannelUpdate) SetNillableAutoPublish(v *bool) *CMSChannelUpdate {
+	if v != nil {
+		_u.SetAutoPublish(*v)
 	}
-	return ccu
+	return _u
 }
 
 // SetRequireReview sets the "require_review" field.
-func (ccu *CMSChannelUpdate) SetRequireReview(b bool) *CMSChannelUpdate {
-	ccu.mutation.SetRequireReview(b)
-	return ccu
+func (_u *CMSChannelUpdate) SetRequireReview(v bool) *CMSChannelUpdate {
+	_u.mutation.SetRequireReview(v)
+	return _u
 }
 
 // SetNillableRequireReview sets the "require_review" field if the given value is not nil.
-func (ccu *CMSChannelUpdate) SetNillableRequireReview(b *bool) *CMSChannelUpdate {
-	if b != nil {
-		ccu.SetRequireReview(*b)
+func (_u *CMSChannelUpdate) SetNillableRequireReview(v *bool) *CMSChannelUpdate {
+	if v != nil {
+		_u.SetRequireReview(*v)
 	}
-	return ccu
+	return _u
 }
 
 // Mutation returns the CMSChannelMutation object of the builder.
-func (ccu *CMSChannelUpdate) Mutation() *CMSChannelMutation {
-	return ccu.mutation
+func (_u *CMSChannelUpdate) Mutation() *CMSChannelMutation {
+	return _u.mutation
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
-func (ccu *CMSChannelUpdate) Save(ctx context.Context) (int, error) {
-	ccu.defaults()
-	return withHooks(ctx, ccu.sqlSave, ccu.mutation, ccu.hooks)
+func (_u *CMSChannelUpdate) Save(ctx context.Context) (int, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (ccu *CMSChannelUpdate) SaveX(ctx context.Context) int {
-	affected, err := ccu.Save(ctx)
+func (_u *CMSChannelUpdate) SaveX(ctx context.Context) int {
+	affected, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -347,137 +347,137 @@ func (ccu *CMSChannelUpdate) SaveX(ctx context.Context) int {
 }
 
 // Exec executes the query.
-func (ccu *CMSChannelUpdate) Exec(ctx context.Context) error {
-	_, err := ccu.Save(ctx)
+func (_u *CMSChannelUpdate) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (ccu *CMSChannelUpdate) ExecX(ctx context.Context) {
-	if err := ccu.Exec(ctx); err != nil {
+func (_u *CMSChannelUpdate) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (ccu *CMSChannelUpdate) defaults() {
-	if _, ok := ccu.mutation.UpdatedAt(); !ok && !ccu.mutation.UpdatedAtCleared() {
+func (_u *CMSChannelUpdate) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := cmschannel.UpdateDefaultUpdatedAt()
-		ccu.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (ccu *CMSChannelUpdate) sqlSave(ctx context.Context) (n int, err error) {
+func (_u *CMSChannelUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	_spec := sqlgraph.NewUpdateSpec(cmschannel.Table, cmschannel.Columns, sqlgraph.NewFieldSpec(cmschannel.FieldID, field.TypeString))
-	if ps := ccu.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := ccu.mutation.Name(); ok {
+	if value, ok := _u.mutation.Name(); ok {
 		_spec.SetField(cmschannel.FieldName, field.TypeString, value)
 	}
-	if ccu.mutation.NameCleared() {
+	if _u.mutation.NameCleared() {
 		_spec.ClearField(cmschannel.FieldName, field.TypeString)
 	}
-	if value, ok := ccu.mutation.GetType(); ok {
+	if value, ok := _u.mutation.GetType(); ok {
 		_spec.SetField(cmschannel.FieldType, field.TypeString, value)
 	}
-	if ccu.mutation.TypeCleared() {
+	if _u.mutation.TypeCleared() {
 		_spec.ClearField(cmschannel.FieldType, field.TypeString)
 	}
-	if value, ok := ccu.mutation.Slug(); ok {
+	if value, ok := _u.mutation.Slug(); ok {
 		_spec.SetField(cmschannel.FieldSlug, field.TypeString, value)
 	}
-	if ccu.mutation.SlugCleared() {
+	if _u.mutation.SlugCleared() {
 		_spec.ClearField(cmschannel.FieldSlug, field.TypeString)
 	}
-	if value, ok := ccu.mutation.Icon(); ok {
+	if value, ok := _u.mutation.Icon(); ok {
 		_spec.SetField(cmschannel.FieldIcon, field.TypeString, value)
 	}
-	if ccu.mutation.IconCleared() {
+	if _u.mutation.IconCleared() {
 		_spec.ClearField(cmschannel.FieldIcon, field.TypeString)
 	}
-	if value, ok := ccu.mutation.Status(); ok {
+	if value, ok := _u.mutation.Status(); ok {
 		_spec.SetField(cmschannel.FieldStatus, field.TypeInt, value)
 	}
-	if value, ok := ccu.mutation.AddedStatus(); ok {
+	if value, ok := _u.mutation.AddedStatus(); ok {
 		_spec.AddField(cmschannel.FieldStatus, field.TypeInt, value)
 	}
-	if value, ok := ccu.mutation.Extras(); ok {
+	if value, ok := _u.mutation.Extras(); ok {
 		_spec.SetField(cmschannel.FieldExtras, field.TypeJSON, value)
 	}
-	if ccu.mutation.ExtrasCleared() {
+	if _u.mutation.ExtrasCleared() {
 		_spec.ClearField(cmschannel.FieldExtras, field.TypeJSON)
 	}
-	if value, ok := ccu.mutation.SpaceID(); ok {
+	if value, ok := _u.mutation.SpaceID(); ok {
 		_spec.SetField(cmschannel.FieldSpaceID, field.TypeString, value)
 	}
-	if ccu.mutation.SpaceIDCleared() {
+	if _u.mutation.SpaceIDCleared() {
 		_spec.ClearField(cmschannel.FieldSpaceID, field.TypeString)
 	}
-	if value, ok := ccu.mutation.CreatedBy(); ok {
+	if value, ok := _u.mutation.CreatedBy(); ok {
 		_spec.SetField(cmschannel.FieldCreatedBy, field.TypeString, value)
 	}
-	if ccu.mutation.CreatedByCleared() {
+	if _u.mutation.CreatedByCleared() {
 		_spec.ClearField(cmschannel.FieldCreatedBy, field.TypeString)
 	}
-	if value, ok := ccu.mutation.UpdatedBy(); ok {
+	if value, ok := _u.mutation.UpdatedBy(); ok {
 		_spec.SetField(cmschannel.FieldUpdatedBy, field.TypeString, value)
 	}
-	if ccu.mutation.UpdatedByCleared() {
+	if _u.mutation.UpdatedByCleared() {
 		_spec.ClearField(cmschannel.FieldUpdatedBy, field.TypeString)
 	}
-	if ccu.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(cmschannel.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := ccu.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(cmschannel.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := ccu.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(cmschannel.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if ccu.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(cmschannel.FieldUpdatedAt, field.TypeInt64)
 	}
-	if value, ok := ccu.mutation.AllowedTypes(); ok {
+	if value, ok := _u.mutation.AllowedTypes(); ok {
 		_spec.SetField(cmschannel.FieldAllowedTypes, field.TypeJSON, value)
 	}
-	if value, ok := ccu.mutation.AppendedAllowedTypes(); ok {
+	if value, ok := _u.mutation.AppendedAllowedTypes(); ok {
 		_spec.AddModifier(func(u *sql.UpdateBuilder) {
 			sqljson.Append(u, cmschannel.FieldAllowedTypes, value)
 		})
 	}
-	if ccu.mutation.AllowedTypesCleared() {
+	if _u.mutation.AllowedTypesCleared() {
 		_spec.ClearField(cmschannel.FieldAllowedTypes, field.TypeJSON)
 	}
-	if value, ok := ccu.mutation.Description(); ok {
+	if value, ok := _u.mutation.Description(); ok {
 		_spec.SetField(cmschannel.FieldDescription, field.TypeString, value)
 	}
-	if ccu.mutation.DescriptionCleared() {
+	if _u.mutation.DescriptionCleared() {
 		_spec.ClearField(cmschannel.FieldDescription, field.TypeString)
 	}
-	if value, ok := ccu.mutation.Logo(); ok {
+	if value, ok := _u.mutation.Logo(); ok {
 		_spec.SetField(cmschannel.FieldLogo, field.TypeString, value)
 	}
-	if ccu.mutation.LogoCleared() {
+	if _u.mutation.LogoCleared() {
 		_spec.ClearField(cmschannel.FieldLogo, field.TypeString)
 	}
-	if value, ok := ccu.mutation.WebhookURL(); ok {
+	if value, ok := _u.mutation.WebhookURL(); ok {
 		_spec.SetField(cmschannel.FieldWebhookURL, field.TypeString, value)
 	}
-	if ccu.mutation.WebhookURLCleared() {
+	if _u.mutation.WebhookURLCleared() {
 		_spec.ClearField(cmschannel.FieldWebhookURL, field.TypeString)
 	}
-	if value, ok := ccu.mutation.AutoPublish(); ok {
+	if value, ok := _u.mutation.AutoPublish(); ok {
 		_spec.SetField(cmschannel.FieldAutoPublish, field.TypeBool, value)
 	}
-	if value, ok := ccu.mutation.RequireReview(); ok {
+	if value, ok := _u.mutation.RequireReview(); ok {
 		_spec.SetField(cmschannel.FieldRequireReview, field.TypeBool, value)
 	}
-	if n, err = sqlgraph.UpdateNodes(ctx, ccu.driver, _spec); err != nil {
+	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{cmschannel.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -485,8 +485,8 @@ func (ccu *CMSChannelUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		return 0, err
 	}
-	ccu.mutation.done = true
-	return n, nil
+	_u.mutation.done = true
+	return _node, nil
 }
 
 // CMSChannelUpdateOne is the builder for updating a single CMSChannel entity.
@@ -498,330 +498,330 @@ type CMSChannelUpdateOne struct {
 }
 
 // SetName sets the "name" field.
-func (ccuo *CMSChannelUpdateOne) SetName(s string) *CMSChannelUpdateOne {
-	ccuo.mutation.SetName(s)
-	return ccuo
+func (_u *CMSChannelUpdateOne) SetName(v string) *CMSChannelUpdateOne {
+	_u.mutation.SetName(v)
+	return _u
 }
 
 // SetNillableName sets the "name" field if the given value is not nil.
-func (ccuo *CMSChannelUpdateOne) SetNillableName(s *string) *CMSChannelUpdateOne {
-	if s != nil {
-		ccuo.SetName(*s)
+func (_u *CMSChannelUpdateOne) SetNillableName(v *string) *CMSChannelUpdateOne {
+	if v != nil {
+		_u.SetName(*v)
 	}
-	return ccuo
+	return _u
 }
 
 // ClearName clears the value of the "name" field.
-func (ccuo *CMSChannelUpdateOne) ClearName() *CMSChannelUpdateOne {
-	ccuo.mutation.ClearName()
-	return ccuo
+func (_u *CMSChannelUpdateOne) ClearName() *CMSChannelUpdateOne {
+	_u.mutation.ClearName()
+	return _u
 }
 
 // SetType sets the "type" field.
-func (ccuo *CMSChannelUpdateOne) SetType(s string) *CMSChannelUpdateOne {
-	ccuo.mutation.SetType(s)
-	return ccuo
+func (_u *CMSChannelUpdateOne) SetType(v string) *CMSChannelUpdateOne {
+	_u.mutation.SetType(v)
+	return _u
 }
 
 // SetNillableType sets the "type" field if the given value is not nil.
-func (ccuo *CMSChannelUpdateOne) SetNillableType(s *string) *CMSChannelUpdateOne {
-	if s != nil {
-		ccuo.SetType(*s)
+func (_u *CMSChannelUpdateOne) SetNillableType(v *string) *CMSChannelUpdateOne {
+	if v != nil {
+		_u.SetType(*v)
 	}
-	return ccuo
+	return _u
 }
 
 // ClearType clears the value of the "type" field.
-func (ccuo *CMSChannelUpdateOne) ClearType() *CMSChannelUpdateOne {
-	ccuo.mutation.ClearType()
-	return ccuo
+func (_u *CMSChannelUpdateOne) ClearType() *CMSChannelUpdateOne {
+	_u.mutation.ClearType()
+	return _u
 }
 
 // SetSlug sets the "slug" field.
-func (ccuo *CMSChannelUpdateOne) SetSlug(s string) *CMSChannelUpdateOne {
-	ccuo.mutation.SetSlug(s)
-	return ccuo
+func (_u *CMSChannelUpdateOne) SetSlug(v string) *CMSChannelUpdateOne {
+	_u.mutation.SetSlug(v)
+	return _u
 }
 
 // SetNillableSlug sets the "slug" field if the given value is not nil.
-func (ccuo *CMSChannelUpdateOne) SetNillableSlug(s *string) *CMSChannelUpdateOne {
-	if s != nil {
-		ccuo.SetSlug(*s)
+func (_u *CMSChannelUpdateOne) SetNillableSlug(v *string) *CMSChannelUpdateOne {
+	if v != nil {
+		_u.SetSlug(*v)
 	}
-	return ccuo
+	return _u
 }
 
 // ClearSlug clears the value of the "slug" field.
-func (ccuo *CMSChannelUpdateOne) ClearSlug() *CMSChannelUpdateOne {
-	ccuo.mutation.ClearSlug()
-	return ccuo
+func (_u *CMSChannelUpdateOne) ClearSlug() *CMSChannelUpdateOne {
+	_u.mutation.ClearSlug()
+	return _u
 }
 
 // SetIcon sets the "icon" field.
-func (ccuo *CMSChannelUpdateOne) SetIcon(s string) *CMSChannelUpdateOne {
-	ccuo.mutation.SetIcon(s)
-	return ccuo
+func (_u *CMSChannelUpdateOne) SetIcon(v string) *CMSChannelUpdateOne {
+	_u.mutation.SetIcon(v)
+	return _u
 }
 
 // SetNillableIcon sets the "icon" field if the given value is not nil.
-func (ccuo *CMSChannelUpdateOne) SetNillableIcon(s *string) *CMSChannelUpdateOne {
-	if s != nil {
-		ccuo.SetIcon(*s)
+func (_u *CMSChannelUpdateOne) SetNillableIcon(v *string) *CMSChannelUpdateOne {
+	if v != nil {
+		_u.SetIcon(*v)
 	}
-	return ccuo
+	return _u
 }
 
 // ClearIcon clears the value of the "icon" field.
-func (ccuo *CMSChannelUpdateOne) ClearIcon() *CMSChannelUpdateOne {
-	ccuo.mutation.ClearIcon()
-	return ccuo
+func (_u *CMSChannelUpdateOne) ClearIcon() *CMSChannelUpdateOne {
+	_u.mutation.ClearIcon()
+	return _u
 }
 
 // SetStatus sets the "status" field.
-func (ccuo *CMSChannelUpdateOne) SetStatus(i int) *CMSChannelUpdateOne {
-	ccuo.mutation.ResetStatus()
-	ccuo.mutation.SetStatus(i)
-	return ccuo
+func (_u *CMSChannelUpdateOne) SetStatus(v int) *CMSChannelUpdateOne {
+	_u.mutation.ResetStatus()
+	_u.mutation.SetStatus(v)
+	return _u
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (ccuo *CMSChannelUpdateOne) SetNillableStatus(i *int) *CMSChannelUpdateOne {
-	if i != nil {
-		ccuo.SetStatus(*i)
+func (_u *CMSChannelUpdateOne) SetNillableStatus(v *int) *CMSChannelUpdateOne {
+	if v != nil {
+		_u.SetStatus(*v)
 	}
-	return ccuo
+	return _u
 }
 
-// AddStatus adds i to the "status" field.
-func (ccuo *CMSChannelUpdateOne) AddStatus(i int) *CMSChannelUpdateOne {
-	ccuo.mutation.AddStatus(i)
-	return ccuo
+// AddStatus adds value to the "status" field.
+func (_u *CMSChannelUpdateOne) AddStatus(v int) *CMSChannelUpdateOne {
+	_u.mutation.AddStatus(v)
+	return _u
 }
 
 // SetExtras sets the "extras" field.
-func (ccuo *CMSChannelUpdateOne) SetExtras(m map[string]interface{}) *CMSChannelUpdateOne {
-	ccuo.mutation.SetExtras(m)
-	return ccuo
+func (_u *CMSChannelUpdateOne) SetExtras(v map[string]interface{}) *CMSChannelUpdateOne {
+	_u.mutation.SetExtras(v)
+	return _u
 }
 
 // ClearExtras clears the value of the "extras" field.
-func (ccuo *CMSChannelUpdateOne) ClearExtras() *CMSChannelUpdateOne {
-	ccuo.mutation.ClearExtras()
-	return ccuo
+func (_u *CMSChannelUpdateOne) ClearExtras() *CMSChannelUpdateOne {
+	_u.mutation.ClearExtras()
+	return _u
 }
 
 // SetSpaceID sets the "space_id" field.
-func (ccuo *CMSChannelUpdateOne) SetSpaceID(s string) *CMSChannelUpdateOne {
-	ccuo.mutation.SetSpaceID(s)
-	return ccuo
+func (_u *CMSChannelUpdateOne) SetSpaceID(v string) *CMSChannelUpdateOne {
+	_u.mutation.SetSpaceID(v)
+	return _u
 }
 
 // SetNillableSpaceID sets the "space_id" field if the given value is not nil.
-func (ccuo *CMSChannelUpdateOne) SetNillableSpaceID(s *string) *CMSChannelUpdateOne {
-	if s != nil {
-		ccuo.SetSpaceID(*s)
+func (_u *CMSChannelUpdateOne) SetNillableSpaceID(v *string) *CMSChannelUpdateOne {
+	if v != nil {
+		_u.SetSpaceID(*v)
 	}
-	return ccuo
+	return _u
 }
 
 // ClearSpaceID clears the value of the "space_id" field.
-func (ccuo *CMSChannelUpdateOne) ClearSpaceID() *CMSChannelUpdateOne {
-	ccuo.mutation.ClearSpaceID()
-	return ccuo
+func (_u *CMSChannelUpdateOne) ClearSpaceID() *CMSChannelUpdateOne {
+	_u.mutation.ClearSpaceID()
+	return _u
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (ccuo *CMSChannelUpdateOne) SetCreatedBy(s string) *CMSChannelUpdateOne {
-	ccuo.mutation.SetCreatedBy(s)
-	return ccuo
+func (_u *CMSChannelUpdateOne) SetCreatedBy(v string) *CMSChannelUpdateOne {
+	_u.mutation.SetCreatedBy(v)
+	return _u
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (ccuo *CMSChannelUpdateOne) SetNillableCreatedBy(s *string) *CMSChannelUpdateOne {
-	if s != nil {
-		ccuo.SetCreatedBy(*s)
+func (_u *CMSChannelUpdateOne) SetNillableCreatedBy(v *string) *CMSChannelUpdateOne {
+	if v != nil {
+		_u.SetCreatedBy(*v)
 	}
-	return ccuo
+	return _u
 }
 
 // ClearCreatedBy clears the value of the "created_by" field.
-func (ccuo *CMSChannelUpdateOne) ClearCreatedBy() *CMSChannelUpdateOne {
-	ccuo.mutation.ClearCreatedBy()
-	return ccuo
+func (_u *CMSChannelUpdateOne) ClearCreatedBy() *CMSChannelUpdateOne {
+	_u.mutation.ClearCreatedBy()
+	return _u
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (ccuo *CMSChannelUpdateOne) SetUpdatedBy(s string) *CMSChannelUpdateOne {
-	ccuo.mutation.SetUpdatedBy(s)
-	return ccuo
+func (_u *CMSChannelUpdateOne) SetUpdatedBy(v string) *CMSChannelUpdateOne {
+	_u.mutation.SetUpdatedBy(v)
+	return _u
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (ccuo *CMSChannelUpdateOne) SetNillableUpdatedBy(s *string) *CMSChannelUpdateOne {
-	if s != nil {
-		ccuo.SetUpdatedBy(*s)
+func (_u *CMSChannelUpdateOne) SetNillableUpdatedBy(v *string) *CMSChannelUpdateOne {
+	if v != nil {
+		_u.SetUpdatedBy(*v)
 	}
-	return ccuo
+	return _u
 }
 
 // ClearUpdatedBy clears the value of the "updated_by" field.
-func (ccuo *CMSChannelUpdateOne) ClearUpdatedBy() *CMSChannelUpdateOne {
-	ccuo.mutation.ClearUpdatedBy()
-	return ccuo
+func (_u *CMSChannelUpdateOne) ClearUpdatedBy() *CMSChannelUpdateOne {
+	_u.mutation.ClearUpdatedBy()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (ccuo *CMSChannelUpdateOne) SetUpdatedAt(i int64) *CMSChannelUpdateOne {
-	ccuo.mutation.ResetUpdatedAt()
-	ccuo.mutation.SetUpdatedAt(i)
-	return ccuo
+func (_u *CMSChannelUpdateOne) SetUpdatedAt(v int64) *CMSChannelUpdateOne {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (ccuo *CMSChannelUpdateOne) AddUpdatedAt(i int64) *CMSChannelUpdateOne {
-	ccuo.mutation.AddUpdatedAt(i)
-	return ccuo
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *CMSChannelUpdateOne) AddUpdatedAt(v int64) *CMSChannelUpdateOne {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (ccuo *CMSChannelUpdateOne) ClearUpdatedAt() *CMSChannelUpdateOne {
-	ccuo.mutation.ClearUpdatedAt()
-	return ccuo
+func (_u *CMSChannelUpdateOne) ClearUpdatedAt() *CMSChannelUpdateOne {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // SetAllowedTypes sets the "allowed_types" field.
-func (ccuo *CMSChannelUpdateOne) SetAllowedTypes(s []string) *CMSChannelUpdateOne {
-	ccuo.mutation.SetAllowedTypes(s)
-	return ccuo
+func (_u *CMSChannelUpdateOne) SetAllowedTypes(v []string) *CMSChannelUpdateOne {
+	_u.mutation.SetAllowedTypes(v)
+	return _u
 }
 
-// AppendAllowedTypes appends s to the "allowed_types" field.
-func (ccuo *CMSChannelUpdateOne) AppendAllowedTypes(s []string) *CMSChannelUpdateOne {
-	ccuo.mutation.AppendAllowedTypes(s)
-	return ccuo
+// AppendAllowedTypes appends value to the "allowed_types" field.
+func (_u *CMSChannelUpdateOne) AppendAllowedTypes(v []string) *CMSChannelUpdateOne {
+	_u.mutation.AppendAllowedTypes(v)
+	return _u
 }
 
 // ClearAllowedTypes clears the value of the "allowed_types" field.
-func (ccuo *CMSChannelUpdateOne) ClearAllowedTypes() *CMSChannelUpdateOne {
-	ccuo.mutation.ClearAllowedTypes()
-	return ccuo
+func (_u *CMSChannelUpdateOne) ClearAllowedTypes() *CMSChannelUpdateOne {
+	_u.mutation.ClearAllowedTypes()
+	return _u
 }
 
 // SetDescription sets the "description" field.
-func (ccuo *CMSChannelUpdateOne) SetDescription(s string) *CMSChannelUpdateOne {
-	ccuo.mutation.SetDescription(s)
-	return ccuo
+func (_u *CMSChannelUpdateOne) SetDescription(v string) *CMSChannelUpdateOne {
+	_u.mutation.SetDescription(v)
+	return _u
 }
 
 // SetNillableDescription sets the "description" field if the given value is not nil.
-func (ccuo *CMSChannelUpdateOne) SetNillableDescription(s *string) *CMSChannelUpdateOne {
-	if s != nil {
-		ccuo.SetDescription(*s)
+func (_u *CMSChannelUpdateOne) SetNillableDescription(v *string) *CMSChannelUpdateOne {
+	if v != nil {
+		_u.SetDescription(*v)
 	}
-	return ccuo
+	return _u
 }
 
 // ClearDescription clears the value of the "description" field.
-func (ccuo *CMSChannelUpdateOne) ClearDescription() *CMSChannelUpdateOne {
-	ccuo.mutation.ClearDescription()
-	return ccuo
+func (_u *CMSChannelUpdateOne) ClearDescription() *CMSChannelUpdateOne {
+	_u.mutation.ClearDescription()
+	return _u
 }
 
 // SetLogo sets the "logo" field.
-func (ccuo *CMSChannelUpdateOne) SetLogo(s string) *CMSChannelUpdateOne {
-	ccuo.mutation.SetLogo(s)
-	return ccuo
+func (_u *CMSChannelUpdateOne) SetLogo(v string) *CMSChannelUpdateOne {
+	_u.mutation.SetLogo(v)
+	return _u
 }
 
 // SetNillableLogo sets the "logo" field if the given value is not nil.
-func (ccuo *CMSChannelUpdateOne) SetNillableLogo(s *string) *CMSChannelUpdateOne {
-	if s != nil {
-		ccuo.SetLogo(*s)
+func (_u *CMSChannelUpdateOne) SetNillableLogo(v *string) *CMSChannelUpdateOne {
+	if v != nil {
+		_u.SetLogo(*v)
 	}
-	return ccuo
+	return _u
 }
 
 // ClearLogo clears the value of the "logo" field.
-func (ccuo *CMSChannelUpdateOne) ClearLogo() *CMSChannelUpdateOne {
-	ccuo.mutation.ClearLogo()
-	return ccuo
+func (_u *CMSChannelUpdateOne) ClearLogo() *CMSChannelUpdateOne {
+	_u.mutation.ClearLogo()
+	return _u
 }
 
 // SetWebhookURL sets the "webhook_url" field.
-func (ccuo *CMSChannelUpdateOne) SetWebhookURL(s string) *CMSChannelUpdateOne {
-	ccuo.mutation.SetWebhookURL(s)
-	return ccuo
+func (_u *CMSChannelUpdateOne) SetWebhookURL(v string) *CMSChannelUpdateOne {
+	_u.mutation.SetWebhookURL(v)
+	return _u
 }
 
 // SetNillableWebhookURL sets the "webhook_url" field if the given value is not nil.
-func (ccuo *CMSChannelUpdateOne) SetNillableWebhookURL(s *string) *CMSChannelUpdateOne {
-	if s != nil {
-		ccuo.SetWebhookURL(*s)
+func (_u *CMSChannelUpdateOne) SetNillableWebhookURL(v *string) *CMSChannelUpdateOne {
+	if v != nil {
+		_u.SetWebhookURL(*v)
 	}
-	return ccuo
+	return _u
 }
 
 // ClearWebhookURL clears the value of the "webhook_url" field.
-func (ccuo *CMSChannelUpdateOne) ClearWebhookURL() *CMSChannelUpdateOne {
-	ccuo.mutation.ClearWebhookURL()
-	return ccuo
+func (_u *CMSChannelUpdateOne) ClearWebhookURL() *CMSChannelUpdateOne {
+	_u.mutation.ClearWebhookURL()
+	return _u
 }
 
 // SetAutoPublish sets the "auto_publish" field.
-func (ccuo *CMSChannelUpdateOne) SetAutoPublish(b bool) *CMSChannelUpdateOne {
-	ccuo.mutation.SetAutoPublish(b)
-	return ccuo
+func (_u *CMSChannelUpdateOne) SetAutoPublish(v bool) *CMSChannelUpdateOne {
+	_u.mutation.SetAutoPublish(v)
+	return _u
 }
 
 // SetNillableAutoPublish sets the "auto_publish" field if the given value is not nil.
-func (ccuo *CMSChannelUpdateOne) SetNillableAutoPublish(b *bool) *CMSChannelUpdateOne {
-	if b != nil {
-		ccuo.SetAutoPublish(*b)
+func (_u *CMSChannelUpdateOne) SetNillableAutoPublish(v *bool) *CMSChannelUpdateOne {
+	if v != nil {
+		_u.SetAutoPublish(*v)
 	}
-	return ccuo
+	return _u
 }
 
 // SetRequireReview sets the "require_review" field.
-func (ccuo *CMSChannelUpdateOne) SetRequireReview(b bool) *CMSChannelUpdateOne {
-	ccuo.mutation.SetRequireReview(b)
-	return ccuo
+func (_u *CMSChannelUpdateOne) SetRequireReview(v bool) *CMSChannelUpdateOne {
+	_u.mutation.SetRequireReview(v)
+	return _u
 }
 
 // SetNillableRequireReview sets the "require_review" field if the given value is not nil.
-func (ccuo *CMSChannelUpdateOne) SetNillableRequireReview(b *bool) *CMSChannelUpdateOne {
-	if b != nil {
-		ccuo.SetRequireReview(*b)
+func (_u *CMSChannelUpdateOne) SetNillableRequireReview(v *bool) *CMSChannelUpdateOne {
+	if v != nil {
+		_u.SetRequireReview(*v)
 	}
-	return ccuo
+	return _u
 }
 
 // Mutation returns the CMSChannelMutation object of the builder.
-func (ccuo *CMSChannelUpdateOne) Mutation() *CMSChannelMutation {
-	return ccuo.mutation
+func (_u *CMSChannelUpdateOne) Mutation() *CMSChannelMutation {
+	return _u.mutation
 }
 
 // Where appends a list predicates to the CMSChannelUpdate builder.
-func (ccuo *CMSChannelUpdateOne) Where(ps ...predicate.CMSChannel) *CMSChannelUpdateOne {
-	ccuo.mutation.Where(ps...)
-	return ccuo
+func (_u *CMSChannelUpdateOne) Where(ps ...predicate.CMSChannel) *CMSChannelUpdateOne {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // Select allows selecting one or more fields (columns) of the returned entity.
 // The default is selecting all fields defined in the entity schema.
-func (ccuo *CMSChannelUpdateOne) Select(field string, fields ...string) *CMSChannelUpdateOne {
-	ccuo.fields = append([]string{field}, fields...)
-	return ccuo
+func (_u *CMSChannelUpdateOne) Select(field string, fields ...string) *CMSChannelUpdateOne {
+	_u.fields = append([]string{field}, fields...)
+	return _u
 }
 
 // Save executes the query and returns the updated CMSChannel entity.
-func (ccuo *CMSChannelUpdateOne) Save(ctx context.Context) (*CMSChannel, error) {
-	ccuo.defaults()
-	return withHooks(ctx, ccuo.sqlSave, ccuo.mutation, ccuo.hooks)
+func (_u *CMSChannelUpdateOne) Save(ctx context.Context) (*CMSChannel, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (ccuo *CMSChannelUpdateOne) SaveX(ctx context.Context) *CMSChannel {
-	node, err := ccuo.Save(ctx)
+func (_u *CMSChannelUpdateOne) SaveX(ctx context.Context) *CMSChannel {
+	node, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -829,34 +829,34 @@ func (ccuo *CMSChannelUpdateOne) SaveX(ctx context.Context) *CMSChannel {
 }
 
 // Exec executes the query on the entity.
-func (ccuo *CMSChannelUpdateOne) Exec(ctx context.Context) error {
-	_, err := ccuo.Save(ctx)
+func (_u *CMSChannelUpdateOne) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (ccuo *CMSChannelUpdateOne) ExecX(ctx context.Context) {
-	if err := ccuo.Exec(ctx); err != nil {
+func (_u *CMSChannelUpdateOne) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (ccuo *CMSChannelUpdateOne) defaults() {
-	if _, ok := ccuo.mutation.UpdatedAt(); !ok && !ccuo.mutation.UpdatedAtCleared() {
+func (_u *CMSChannelUpdateOne) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := cmschannel.UpdateDefaultUpdatedAt()
-		ccuo.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (ccuo *CMSChannelUpdateOne) sqlSave(ctx context.Context) (_node *CMSChannel, err error) {
+func (_u *CMSChannelUpdateOne) sqlSave(ctx context.Context) (_node *CMSChannel, err error) {
 	_spec := sqlgraph.NewUpdateSpec(cmschannel.Table, cmschannel.Columns, sqlgraph.NewFieldSpec(cmschannel.FieldID, field.TypeString))
-	id, ok := ccuo.mutation.ID()
+	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "CMSChannel.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
-	if fields := ccuo.fields; len(fields) > 0 {
+	if fields := _u.fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, cmschannel.FieldID)
 		for _, f := range fields {
@@ -868,118 +868,118 @@ func (ccuo *CMSChannelUpdateOne) sqlSave(ctx context.Context) (_node *CMSChannel
 			}
 		}
 	}
-	if ps := ccuo.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := ccuo.mutation.Name(); ok {
+	if value, ok := _u.mutation.Name(); ok {
 		_spec.SetField(cmschannel.FieldName, field.TypeString, value)
 	}
-	if ccuo.mutation.NameCleared() {
+	if _u.mutation.NameCleared() {
 		_spec.ClearField(cmschannel.FieldName, field.TypeString)
 	}
-	if value, ok := ccuo.mutation.GetType(); ok {
+	if value, ok := _u.mutation.GetType(); ok {
 		_spec.SetField(cmschannel.FieldType, field.TypeString, value)
 	}
-	if ccuo.mutation.TypeCleared() {
+	if _u.mutation.TypeCleared() {
 		_spec.ClearField(cmschannel.FieldType, field.TypeString)
 	}
-	if value, ok := ccuo.mutation.Slug(); ok {
+	if value, ok := _u.mutation.Slug(); ok {
 		_spec.SetField(cmschannel.FieldSlug, field.TypeString, value)
 	}
-	if ccuo.mutation.SlugCleared() {
+	if _u.mutation.SlugCleared() {
 		_spec.ClearField(cmschannel.FieldSlug, field.TypeString)
 	}
-	if value, ok := ccuo.mutation.Icon(); ok {
+	if value, ok := _u.mutation.Icon(); ok {
 		_spec.SetField(cmschannel.FieldIcon, field.TypeString, value)
 	}
-	if ccuo.mutation.IconCleared() {
+	if _u.mutation.IconCleared() {
 		_spec.ClearField(cmschannel.FieldIcon, field.TypeString)
 	}
-	if value, ok := ccuo.mutation.Status(); ok {
+	if value, ok := _u.mutation.Status(); ok {
 		_spec.SetField(cmschannel.FieldStatus, field.TypeInt, value)
 	}
-	if value, ok := ccuo.mutation.AddedStatus(); ok {
+	if value, ok := _u.mutation.AddedStatus(); ok {
 		_spec.AddField(cmschannel.FieldStatus, field.TypeInt, value)
 	}
-	if value, ok := ccuo.mutation.Extras(); ok {
+	if value, ok := _u.mutation.Extras(); ok {
 		_spec.SetField(cmschannel.FieldExtras, field.TypeJSON, value)
 	}
-	if ccuo.mutation.ExtrasCleared() {
+	if _u.mutation.ExtrasCleared() {
 		_spec.ClearField(cmschannel.FieldExtras, field.TypeJSON)
 	}
-	if value, ok := ccuo.mutation.SpaceID(); ok {
+	if value, ok := _u.mutation.SpaceID(); ok {
 		_spec.SetField(cmschannel.FieldSpaceID, field.TypeString, value)
 	}
-	if ccuo.mutation.SpaceIDCleared() {
+	if _u.mutation.SpaceIDCleared() {
 		_spec.ClearField(cmschannel.FieldSpaceID, field.TypeString)
 	}
-	if value, ok := ccuo.mutation.CreatedBy(); ok {
+	if value, ok := _u.mutation.CreatedBy(); ok {
 		_spec.SetField(cmschannel.FieldCreatedBy, field.TypeString, value)
 	}
-	if ccuo.mutation.CreatedByCleared() {
+	if _u.mutation.CreatedByCleared() {
 		_spec.ClearField(cmschannel.FieldCreatedBy, field.TypeString)
 	}
-	if value, ok := ccuo.mutation.UpdatedBy(); ok {
+	if value, ok := _u.mutation.UpdatedBy(); ok {
 		_spec.SetField(cmschannel.FieldUpdatedBy, field.TypeString, value)
 	}
-	if ccuo.mutation.UpdatedByCleared() {
+	if _u.mutation.UpdatedByCleared() {
 		_spec.ClearField(cmschannel.FieldUpdatedBy, field.TypeString)
 	}
-	if ccuo.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(cmschannel.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := ccuo.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(cmschannel.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := ccuo.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(cmschannel.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if ccuo.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(cmschannel.FieldUpdatedAt, field.TypeInt64)
 	}
-	if value, ok := ccuo.mutation.AllowedTypes(); ok {
+	if value, ok := _u.mutation.AllowedTypes(); ok {
 		_spec.SetField(cmschannel.FieldAllowedTypes, field.TypeJSON, value)
 	}
-	if value, ok := ccuo.mutation.AppendedAllowedTypes(); ok {
+	if value, ok := _u.mutation.AppendedAllowedTypes(); ok {
 		_spec.AddModifier(func(u *sql.UpdateBuilder) {
 			sqljson.Append(u, cmschannel.FieldAllowedTypes, value)
 		})
 	}
-	if ccuo.mutation.AllowedTypesCleared() {
+	if _u.mutation.AllowedTypesCleared() {
 		_spec.ClearField(cmschannel.FieldAllowedTypes, field.TypeJSON)
 	}
-	if value, ok := ccuo.mutation.Description(); ok {
+	if value, ok := _u.mutation.Description(); ok {
 		_spec.SetField(cmschannel.FieldDescription, field.TypeString, value)
 	}
-	if ccuo.mutation.DescriptionCleared() {
+	if _u.mutation.DescriptionCleared() {
 		_spec.ClearField(cmschannel.FieldDescription, field.TypeString)
 	}
-	if value, ok := ccuo.mutation.Logo(); ok {
+	if value, ok := _u.mutation.Logo(); ok {
 		_spec.SetField(cmschannel.FieldLogo, field.TypeString, value)
 	}
-	if ccuo.mutation.LogoCleared() {
+	if _u.mutation.LogoCleared() {
 		_spec.ClearField(cmschannel.FieldLogo, field.TypeString)
 	}
-	if value, ok := ccuo.mutation.WebhookURL(); ok {
+	if value, ok := _u.mutation.WebhookURL(); ok {
 		_spec.SetField(cmschannel.FieldWebhookURL, field.TypeString, value)
 	}
-	if ccuo.mutation.WebhookURLCleared() {
+	if _u.mutation.WebhookURLCleared() {
 		_spec.ClearField(cmschannel.FieldWebhookURL, field.TypeString)
 	}
-	if value, ok := ccuo.mutation.AutoPublish(); ok {
+	if value, ok := _u.mutation.AutoPublish(); ok {
 		_spec.SetField(cmschannel.FieldAutoPublish, field.TypeBool, value)
 	}
-	if value, ok := ccuo.mutation.RequireReview(); ok {
+	if value, ok := _u.mutation.RequireReview(); ok {
 		_spec.SetField(cmschannel.FieldRequireReview, field.TypeBool, value)
 	}
-	_node = &CMSChannel{config: ccuo.config}
+	_node = &CMSChannel{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues
-	if err = sqlgraph.UpdateNode(ctx, ccuo.driver, _spec); err != nil {
+	if err = sqlgraph.UpdateNode(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{cmschannel.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -987,6 +987,6 @@ func (ccuo *CMSChannelUpdateOne) sqlSave(ctx context.Context) (_node *CMSChannel
 		}
 		return nil, err
 	}
-	ccuo.mutation.done = true
+	_u.mutation.done = true
 	return _node, nil
 }

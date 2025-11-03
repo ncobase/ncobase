@@ -73,7 +73,7 @@ func (*Delegation) scanValues(columns []string) ([]any, error) {
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
 // to the Delegation fields.
-func (d *Delegation) assignValues(columns []string, values []any) error {
+func (_m *Delegation) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
@@ -83,19 +83,19 @@ func (d *Delegation) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field id", values[i])
 			} else if value.Valid {
-				d.ID = value.String
+				_m.ID = value.String
 			}
 		case delegation.FieldStatus:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field status", values[i])
 			} else if value.Valid {
-				d.Status = value.String
+				_m.Status = value.String
 			}
 		case delegation.FieldExtras:
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field extras", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &d.Extras); err != nil {
+				if err := json.Unmarshal(*value, &_m.Extras); err != nil {
 					return fmt.Errorf("unmarshal field extras: %w", err)
 				}
 			}
@@ -103,61 +103,61 @@ func (d *Delegation) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field space_id", values[i])
 			} else if value.Valid {
-				d.SpaceID = value.String
+				_m.SpaceID = value.String
 			}
 		case delegation.FieldCreatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field created_by", values[i])
 			} else if value.Valid {
-				d.CreatedBy = value.String
+				_m.CreatedBy = value.String
 			}
 		case delegation.FieldUpdatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_by", values[i])
 			} else if value.Valid {
-				d.UpdatedBy = value.String
+				_m.UpdatedBy = value.String
 			}
 		case delegation.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field created_at", values[i])
 			} else if value.Valid {
-				d.CreatedAt = value.Int64
+				_m.CreatedAt = value.Int64
 			}
 		case delegation.FieldUpdatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_at", values[i])
 			} else if value.Valid {
-				d.UpdatedAt = value.Int64
+				_m.UpdatedAt = value.Int64
 			}
 		case delegation.FieldDelegatorID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field delegator_id", values[i])
 			} else if value.Valid {
-				d.DelegatorID = value.String
+				_m.DelegatorID = value.String
 			}
 		case delegation.FieldDelegateeID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field delegatee_id", values[i])
 			} else if value.Valid {
-				d.DelegateeID = value.String
+				_m.DelegateeID = value.String
 			}
 		case delegation.FieldTemplateID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field template_id", values[i])
 			} else if value.Valid {
-				d.TemplateID = value.String
+				_m.TemplateID = value.String
 			}
 		case delegation.FieldNodeType:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field node_type", values[i])
 			} else if value.Valid {
-				d.NodeType = value.String
+				_m.NodeType = value.String
 			}
 		case delegation.FieldConditions:
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field conditions", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &d.Conditions); err != nil {
+				if err := json.Unmarshal(*value, &_m.Conditions); err != nil {
 					return fmt.Errorf("unmarshal field conditions: %w", err)
 				}
 			}
@@ -165,22 +165,22 @@ func (d *Delegation) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field start_time", values[i])
 			} else if value.Valid {
-				d.StartTime = value.Int64
+				_m.StartTime = value.Int64
 			}
 		case delegation.FieldEndTime:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field end_time", values[i])
 			} else if value.Valid {
-				d.EndTime = value.Int64
+				_m.EndTime = value.Int64
 			}
 		case delegation.FieldIsEnabled:
 			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field is_enabled", values[i])
 			} else if value.Valid {
-				d.IsEnabled = value.Bool
+				_m.IsEnabled = value.Bool
 			}
 		default:
-			d.selectValues.Set(columns[i], values[i])
+			_m.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
@@ -188,77 +188,77 @@ func (d *Delegation) assignValues(columns []string, values []any) error {
 
 // Value returns the ent.Value that was dynamically selected and assigned to the Delegation.
 // This includes values selected through modifiers, order, etc.
-func (d *Delegation) Value(name string) (ent.Value, error) {
-	return d.selectValues.Get(name)
+func (_m *Delegation) Value(name string) (ent.Value, error) {
+	return _m.selectValues.Get(name)
 }
 
 // Update returns a builder for updating this Delegation.
 // Note that you need to call Delegation.Unwrap() before calling this method if this Delegation
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (d *Delegation) Update() *DelegationUpdateOne {
-	return NewDelegationClient(d.config).UpdateOne(d)
+func (_m *Delegation) Update() *DelegationUpdateOne {
+	return NewDelegationClient(_m.config).UpdateOne(_m)
 }
 
 // Unwrap unwraps the Delegation entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (d *Delegation) Unwrap() *Delegation {
-	_tx, ok := d.config.driver.(*txDriver)
+func (_m *Delegation) Unwrap() *Delegation {
+	_tx, ok := _m.config.driver.(*txDriver)
 	if !ok {
 		panic("ent: Delegation is not a transactional entity")
 	}
-	d.config.driver = _tx.drv
-	return d
+	_m.config.driver = _tx.drv
+	return _m
 }
 
 // String implements the fmt.Stringer.
-func (d *Delegation) String() string {
+func (_m *Delegation) String() string {
 	var builder strings.Builder
 	builder.WriteString("Delegation(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", d.ID))
+	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
 	builder.WriteString("status=")
-	builder.WriteString(d.Status)
+	builder.WriteString(_m.Status)
 	builder.WriteString(", ")
 	builder.WriteString("extras=")
-	builder.WriteString(fmt.Sprintf("%v", d.Extras))
+	builder.WriteString(fmt.Sprintf("%v", _m.Extras))
 	builder.WriteString(", ")
 	builder.WriteString("space_id=")
-	builder.WriteString(d.SpaceID)
+	builder.WriteString(_m.SpaceID)
 	builder.WriteString(", ")
 	builder.WriteString("created_by=")
-	builder.WriteString(d.CreatedBy)
+	builder.WriteString(_m.CreatedBy)
 	builder.WriteString(", ")
 	builder.WriteString("updated_by=")
-	builder.WriteString(d.UpdatedBy)
+	builder.WriteString(_m.UpdatedBy)
 	builder.WriteString(", ")
 	builder.WriteString("created_at=")
-	builder.WriteString(fmt.Sprintf("%v", d.CreatedAt))
+	builder.WriteString(fmt.Sprintf("%v", _m.CreatedAt))
 	builder.WriteString(", ")
 	builder.WriteString("updated_at=")
-	builder.WriteString(fmt.Sprintf("%v", d.UpdatedAt))
+	builder.WriteString(fmt.Sprintf("%v", _m.UpdatedAt))
 	builder.WriteString(", ")
 	builder.WriteString("delegator_id=")
-	builder.WriteString(d.DelegatorID)
+	builder.WriteString(_m.DelegatorID)
 	builder.WriteString(", ")
 	builder.WriteString("delegatee_id=")
-	builder.WriteString(d.DelegateeID)
+	builder.WriteString(_m.DelegateeID)
 	builder.WriteString(", ")
 	builder.WriteString("template_id=")
-	builder.WriteString(d.TemplateID)
+	builder.WriteString(_m.TemplateID)
 	builder.WriteString(", ")
 	builder.WriteString("node_type=")
-	builder.WriteString(d.NodeType)
+	builder.WriteString(_m.NodeType)
 	builder.WriteString(", ")
 	builder.WriteString("conditions=")
-	builder.WriteString(fmt.Sprintf("%v", d.Conditions))
+	builder.WriteString(fmt.Sprintf("%v", _m.Conditions))
 	builder.WriteString(", ")
 	builder.WriteString("start_time=")
-	builder.WriteString(fmt.Sprintf("%v", d.StartTime))
+	builder.WriteString(fmt.Sprintf("%v", _m.StartTime))
 	builder.WriteString(", ")
 	builder.WriteString("end_time=")
-	builder.WriteString(fmt.Sprintf("%v", d.EndTime))
+	builder.WriteString(fmt.Sprintf("%v", _m.EndTime))
 	builder.WriteString(", ")
 	builder.WriteString("is_enabled=")
-	builder.WriteString(fmt.Sprintf("%v", d.IsEnabled))
+	builder.WriteString(fmt.Sprintf("%v", _m.IsEnabled))
 	builder.WriteByte(')')
 	return builder.String()
 }

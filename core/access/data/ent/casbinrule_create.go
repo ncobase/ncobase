@@ -19,187 +19,187 @@ type CasbinRuleCreate struct {
 }
 
 // SetPType sets the "p_type" field.
-func (crc *CasbinRuleCreate) SetPType(s string) *CasbinRuleCreate {
-	crc.mutation.SetPType(s)
-	return crc
+func (_c *CasbinRuleCreate) SetPType(v string) *CasbinRuleCreate {
+	_c.mutation.SetPType(v)
+	return _c
 }
 
 // SetNillablePType sets the "p_type" field if the given value is not nil.
-func (crc *CasbinRuleCreate) SetNillablePType(s *string) *CasbinRuleCreate {
-	if s != nil {
-		crc.SetPType(*s)
+func (_c *CasbinRuleCreate) SetNillablePType(v *string) *CasbinRuleCreate {
+	if v != nil {
+		_c.SetPType(*v)
 	}
-	return crc
+	return _c
 }
 
 // SetV0 sets the "v0" field.
-func (crc *CasbinRuleCreate) SetV0(s string) *CasbinRuleCreate {
-	crc.mutation.SetV0(s)
-	return crc
+func (_c *CasbinRuleCreate) SetV0(v string) *CasbinRuleCreate {
+	_c.mutation.SetV0(v)
+	return _c
 }
 
 // SetNillableV0 sets the "v0" field if the given value is not nil.
-func (crc *CasbinRuleCreate) SetNillableV0(s *string) *CasbinRuleCreate {
-	if s != nil {
-		crc.SetV0(*s)
+func (_c *CasbinRuleCreate) SetNillableV0(v *string) *CasbinRuleCreate {
+	if v != nil {
+		_c.SetV0(*v)
 	}
-	return crc
+	return _c
 }
 
 // SetV1 sets the "v1" field.
-func (crc *CasbinRuleCreate) SetV1(s string) *CasbinRuleCreate {
-	crc.mutation.SetV1(s)
-	return crc
+func (_c *CasbinRuleCreate) SetV1(v string) *CasbinRuleCreate {
+	_c.mutation.SetV1(v)
+	return _c
 }
 
 // SetNillableV1 sets the "v1" field if the given value is not nil.
-func (crc *CasbinRuleCreate) SetNillableV1(s *string) *CasbinRuleCreate {
-	if s != nil {
-		crc.SetV1(*s)
+func (_c *CasbinRuleCreate) SetNillableV1(v *string) *CasbinRuleCreate {
+	if v != nil {
+		_c.SetV1(*v)
 	}
-	return crc
+	return _c
 }
 
 // SetV2 sets the "v2" field.
-func (crc *CasbinRuleCreate) SetV2(s string) *CasbinRuleCreate {
-	crc.mutation.SetV2(s)
-	return crc
+func (_c *CasbinRuleCreate) SetV2(v string) *CasbinRuleCreate {
+	_c.mutation.SetV2(v)
+	return _c
 }
 
 // SetNillableV2 sets the "v2" field if the given value is not nil.
-func (crc *CasbinRuleCreate) SetNillableV2(s *string) *CasbinRuleCreate {
-	if s != nil {
-		crc.SetV2(*s)
+func (_c *CasbinRuleCreate) SetNillableV2(v *string) *CasbinRuleCreate {
+	if v != nil {
+		_c.SetV2(*v)
 	}
-	return crc
+	return _c
 }
 
 // SetV3 sets the "v3" field.
-func (crc *CasbinRuleCreate) SetV3(s string) *CasbinRuleCreate {
-	crc.mutation.SetV3(s)
-	return crc
+func (_c *CasbinRuleCreate) SetV3(v string) *CasbinRuleCreate {
+	_c.mutation.SetV3(v)
+	return _c
 }
 
 // SetNillableV3 sets the "v3" field if the given value is not nil.
-func (crc *CasbinRuleCreate) SetNillableV3(s *string) *CasbinRuleCreate {
-	if s != nil {
-		crc.SetV3(*s)
+func (_c *CasbinRuleCreate) SetNillableV3(v *string) *CasbinRuleCreate {
+	if v != nil {
+		_c.SetV3(*v)
 	}
-	return crc
+	return _c
 }
 
 // SetV4 sets the "v4" field.
-func (crc *CasbinRuleCreate) SetV4(s string) *CasbinRuleCreate {
-	crc.mutation.SetV4(s)
-	return crc
+func (_c *CasbinRuleCreate) SetV4(v string) *CasbinRuleCreate {
+	_c.mutation.SetV4(v)
+	return _c
 }
 
 // SetNillableV4 sets the "v4" field if the given value is not nil.
-func (crc *CasbinRuleCreate) SetNillableV4(s *string) *CasbinRuleCreate {
-	if s != nil {
-		crc.SetV4(*s)
+func (_c *CasbinRuleCreate) SetNillableV4(v *string) *CasbinRuleCreate {
+	if v != nil {
+		_c.SetV4(*v)
 	}
-	return crc
+	return _c
 }
 
 // SetV5 sets the "v5" field.
-func (crc *CasbinRuleCreate) SetV5(s string) *CasbinRuleCreate {
-	crc.mutation.SetV5(s)
-	return crc
+func (_c *CasbinRuleCreate) SetV5(v string) *CasbinRuleCreate {
+	_c.mutation.SetV5(v)
+	return _c
 }
 
 // SetNillableV5 sets the "v5" field if the given value is not nil.
-func (crc *CasbinRuleCreate) SetNillableV5(s *string) *CasbinRuleCreate {
-	if s != nil {
-		crc.SetV5(*s)
+func (_c *CasbinRuleCreate) SetNillableV5(v *string) *CasbinRuleCreate {
+	if v != nil {
+		_c.SetV5(*v)
 	}
-	return crc
+	return _c
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (crc *CasbinRuleCreate) SetCreatedBy(s string) *CasbinRuleCreate {
-	crc.mutation.SetCreatedBy(s)
-	return crc
+func (_c *CasbinRuleCreate) SetCreatedBy(v string) *CasbinRuleCreate {
+	_c.mutation.SetCreatedBy(v)
+	return _c
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (crc *CasbinRuleCreate) SetNillableCreatedBy(s *string) *CasbinRuleCreate {
-	if s != nil {
-		crc.SetCreatedBy(*s)
+func (_c *CasbinRuleCreate) SetNillableCreatedBy(v *string) *CasbinRuleCreate {
+	if v != nil {
+		_c.SetCreatedBy(*v)
 	}
-	return crc
+	return _c
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (crc *CasbinRuleCreate) SetUpdatedBy(s string) *CasbinRuleCreate {
-	crc.mutation.SetUpdatedBy(s)
-	return crc
+func (_c *CasbinRuleCreate) SetUpdatedBy(v string) *CasbinRuleCreate {
+	_c.mutation.SetUpdatedBy(v)
+	return _c
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (crc *CasbinRuleCreate) SetNillableUpdatedBy(s *string) *CasbinRuleCreate {
-	if s != nil {
-		crc.SetUpdatedBy(*s)
+func (_c *CasbinRuleCreate) SetNillableUpdatedBy(v *string) *CasbinRuleCreate {
+	if v != nil {
+		_c.SetUpdatedBy(*v)
 	}
-	return crc
+	return _c
 }
 
 // SetCreatedAt sets the "created_at" field.
-func (crc *CasbinRuleCreate) SetCreatedAt(i int64) *CasbinRuleCreate {
-	crc.mutation.SetCreatedAt(i)
-	return crc
+func (_c *CasbinRuleCreate) SetCreatedAt(v int64) *CasbinRuleCreate {
+	_c.mutation.SetCreatedAt(v)
+	return _c
 }
 
 // SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
-func (crc *CasbinRuleCreate) SetNillableCreatedAt(i *int64) *CasbinRuleCreate {
-	if i != nil {
-		crc.SetCreatedAt(*i)
+func (_c *CasbinRuleCreate) SetNillableCreatedAt(v *int64) *CasbinRuleCreate {
+	if v != nil {
+		_c.SetCreatedAt(*v)
 	}
-	return crc
+	return _c
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (crc *CasbinRuleCreate) SetUpdatedAt(i int64) *CasbinRuleCreate {
-	crc.mutation.SetUpdatedAt(i)
-	return crc
+func (_c *CasbinRuleCreate) SetUpdatedAt(v int64) *CasbinRuleCreate {
+	_c.mutation.SetUpdatedAt(v)
+	return _c
 }
 
 // SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
-func (crc *CasbinRuleCreate) SetNillableUpdatedAt(i *int64) *CasbinRuleCreate {
-	if i != nil {
-		crc.SetUpdatedAt(*i)
+func (_c *CasbinRuleCreate) SetNillableUpdatedAt(v *int64) *CasbinRuleCreate {
+	if v != nil {
+		_c.SetUpdatedAt(*v)
 	}
-	return crc
+	return _c
 }
 
 // SetID sets the "id" field.
-func (crc *CasbinRuleCreate) SetID(s string) *CasbinRuleCreate {
-	crc.mutation.SetID(s)
-	return crc
+func (_c *CasbinRuleCreate) SetID(v string) *CasbinRuleCreate {
+	_c.mutation.SetID(v)
+	return _c
 }
 
 // SetNillableID sets the "id" field if the given value is not nil.
-func (crc *CasbinRuleCreate) SetNillableID(s *string) *CasbinRuleCreate {
-	if s != nil {
-		crc.SetID(*s)
+func (_c *CasbinRuleCreate) SetNillableID(v *string) *CasbinRuleCreate {
+	if v != nil {
+		_c.SetID(*v)
 	}
-	return crc
+	return _c
 }
 
 // Mutation returns the CasbinRuleMutation object of the builder.
-func (crc *CasbinRuleCreate) Mutation() *CasbinRuleMutation {
-	return crc.mutation
+func (_c *CasbinRuleCreate) Mutation() *CasbinRuleMutation {
+	return _c.mutation
 }
 
 // Save creates the CasbinRule in the database.
-func (crc *CasbinRuleCreate) Save(ctx context.Context) (*CasbinRule, error) {
-	crc.defaults()
-	return withHooks(ctx, crc.sqlSave, crc.mutation, crc.hooks)
+func (_c *CasbinRuleCreate) Save(ctx context.Context) (*CasbinRule, error) {
+	_c.defaults()
+	return withHooks(ctx, _c.sqlSave, _c.mutation, _c.hooks)
 }
 
 // SaveX calls Save and panics if Save returns an error.
-func (crc *CasbinRuleCreate) SaveX(ctx context.Context) *CasbinRule {
-	v, err := crc.Save(ctx)
+func (_c *CasbinRuleCreate) SaveX(ctx context.Context) *CasbinRule {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -207,37 +207,37 @@ func (crc *CasbinRuleCreate) SaveX(ctx context.Context) *CasbinRule {
 }
 
 // Exec executes the query.
-func (crc *CasbinRuleCreate) Exec(ctx context.Context) error {
-	_, err := crc.Save(ctx)
+func (_c *CasbinRuleCreate) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (crc *CasbinRuleCreate) ExecX(ctx context.Context) {
-	if err := crc.Exec(ctx); err != nil {
+func (_c *CasbinRuleCreate) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (crc *CasbinRuleCreate) defaults() {
-	if _, ok := crc.mutation.CreatedAt(); !ok {
+func (_c *CasbinRuleCreate) defaults() {
+	if _, ok := _c.mutation.CreatedAt(); !ok {
 		v := casbinrule.DefaultCreatedAt()
-		crc.mutation.SetCreatedAt(v)
+		_c.mutation.SetCreatedAt(v)
 	}
-	if _, ok := crc.mutation.UpdatedAt(); !ok {
+	if _, ok := _c.mutation.UpdatedAt(); !ok {
 		v := casbinrule.DefaultUpdatedAt()
-		crc.mutation.SetUpdatedAt(v)
+		_c.mutation.SetUpdatedAt(v)
 	}
-	if _, ok := crc.mutation.ID(); !ok {
+	if _, ok := _c.mutation.ID(); !ok {
 		v := casbinrule.DefaultID()
-		crc.mutation.SetID(v)
+		_c.mutation.SetID(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (crc *CasbinRuleCreate) check() error {
-	if v, ok := crc.mutation.ID(); ok {
+func (_c *CasbinRuleCreate) check() error {
+	if v, ok := _c.mutation.ID(); ok {
 		if err := casbinrule.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "CasbinRule.id": %w`, err)}
 		}
@@ -245,12 +245,12 @@ func (crc *CasbinRuleCreate) check() error {
 	return nil
 }
 
-func (crc *CasbinRuleCreate) sqlSave(ctx context.Context) (*CasbinRule, error) {
-	if err := crc.check(); err != nil {
+func (_c *CasbinRuleCreate) sqlSave(ctx context.Context) (*CasbinRule, error) {
+	if err := _c.check(); err != nil {
 		return nil, err
 	}
-	_node, _spec := crc.createSpec()
-	if err := sqlgraph.CreateNode(ctx, crc.driver, _spec); err != nil {
+	_node, _spec := _c.createSpec()
+	if err := sqlgraph.CreateNode(ctx, _c.driver, _spec); err != nil {
 		if sqlgraph.IsConstraintError(err) {
 			err = &ConstraintError{msg: err.Error(), wrap: err}
 		}
@@ -263,61 +263,61 @@ func (crc *CasbinRuleCreate) sqlSave(ctx context.Context) (*CasbinRule, error) {
 			return nil, fmt.Errorf("unexpected CasbinRule.ID type: %T", _spec.ID.Value)
 		}
 	}
-	crc.mutation.id = &_node.ID
-	crc.mutation.done = true
+	_c.mutation.id = &_node.ID
+	_c.mutation.done = true
 	return _node, nil
 }
 
-func (crc *CasbinRuleCreate) createSpec() (*CasbinRule, *sqlgraph.CreateSpec) {
+func (_c *CasbinRuleCreate) createSpec() (*CasbinRule, *sqlgraph.CreateSpec) {
 	var (
-		_node = &CasbinRule{config: crc.config}
+		_node = &CasbinRule{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(casbinrule.Table, sqlgraph.NewFieldSpec(casbinrule.FieldID, field.TypeString))
 	)
-	if id, ok := crc.mutation.ID(); ok {
+	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
 	}
-	if value, ok := crc.mutation.PType(); ok {
+	if value, ok := _c.mutation.PType(); ok {
 		_spec.SetField(casbinrule.FieldPType, field.TypeString, value)
 		_node.PType = value
 	}
-	if value, ok := crc.mutation.V0(); ok {
+	if value, ok := _c.mutation.V0(); ok {
 		_spec.SetField(casbinrule.FieldV0, field.TypeString, value)
 		_node.V0 = value
 	}
-	if value, ok := crc.mutation.V1(); ok {
+	if value, ok := _c.mutation.V1(); ok {
 		_spec.SetField(casbinrule.FieldV1, field.TypeString, value)
 		_node.V1 = value
 	}
-	if value, ok := crc.mutation.V2(); ok {
+	if value, ok := _c.mutation.V2(); ok {
 		_spec.SetField(casbinrule.FieldV2, field.TypeString, value)
 		_node.V2 = value
 	}
-	if value, ok := crc.mutation.V3(); ok {
+	if value, ok := _c.mutation.V3(); ok {
 		_spec.SetField(casbinrule.FieldV3, field.TypeString, value)
 		_node.V3 = value
 	}
-	if value, ok := crc.mutation.V4(); ok {
+	if value, ok := _c.mutation.V4(); ok {
 		_spec.SetField(casbinrule.FieldV4, field.TypeString, value)
 		_node.V4 = value
 	}
-	if value, ok := crc.mutation.V5(); ok {
+	if value, ok := _c.mutation.V5(); ok {
 		_spec.SetField(casbinrule.FieldV5, field.TypeString, value)
 		_node.V5 = value
 	}
-	if value, ok := crc.mutation.CreatedBy(); ok {
+	if value, ok := _c.mutation.CreatedBy(); ok {
 		_spec.SetField(casbinrule.FieldCreatedBy, field.TypeString, value)
 		_node.CreatedBy = value
 	}
-	if value, ok := crc.mutation.UpdatedBy(); ok {
+	if value, ok := _c.mutation.UpdatedBy(); ok {
 		_spec.SetField(casbinrule.FieldUpdatedBy, field.TypeString, value)
 		_node.UpdatedBy = value
 	}
-	if value, ok := crc.mutation.CreatedAt(); ok {
+	if value, ok := _c.mutation.CreatedAt(); ok {
 		_spec.SetField(casbinrule.FieldCreatedAt, field.TypeInt64, value)
 		_node.CreatedAt = value
 	}
-	if value, ok := crc.mutation.UpdatedAt(); ok {
+	if value, ok := _c.mutation.UpdatedAt(); ok {
 		_spec.SetField(casbinrule.FieldUpdatedAt, field.TypeInt64, value)
 		_node.UpdatedAt = value
 	}
@@ -332,16 +332,16 @@ type CasbinRuleCreateBulk struct {
 }
 
 // Save creates the CasbinRule entities in the database.
-func (crcb *CasbinRuleCreateBulk) Save(ctx context.Context) ([]*CasbinRule, error) {
-	if crcb.err != nil {
-		return nil, crcb.err
+func (_c *CasbinRuleCreateBulk) Save(ctx context.Context) ([]*CasbinRule, error) {
+	if _c.err != nil {
+		return nil, _c.err
 	}
-	specs := make([]*sqlgraph.CreateSpec, len(crcb.builders))
-	nodes := make([]*CasbinRule, len(crcb.builders))
-	mutators := make([]Mutator, len(crcb.builders))
-	for i := range crcb.builders {
+	specs := make([]*sqlgraph.CreateSpec, len(_c.builders))
+	nodes := make([]*CasbinRule, len(_c.builders))
+	mutators := make([]Mutator, len(_c.builders))
+	for i := range _c.builders {
 		func(i int, root context.Context) {
-			builder := crcb.builders[i]
+			builder := _c.builders[i]
 			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*CasbinRuleMutation)
@@ -355,11 +355,11 @@ func (crcb *CasbinRuleCreateBulk) Save(ctx context.Context) ([]*CasbinRule, erro
 				var err error
 				nodes[i], specs[i] = builder.createSpec()
 				if i < len(mutators)-1 {
-					_, err = mutators[i+1].Mutate(root, crcb.builders[i+1].mutation)
+					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
 					// Invoke the actual operation on the latest mutation in the chain.
-					if err = sqlgraph.BatchCreate(ctx, crcb.driver, spec); err != nil {
+					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
 							err = &ConstraintError{msg: err.Error(), wrap: err}
 						}
@@ -379,7 +379,7 @@ func (crcb *CasbinRuleCreateBulk) Save(ctx context.Context) ([]*CasbinRule, erro
 		}(i, ctx)
 	}
 	if len(mutators) > 0 {
-		if _, err := mutators[0].Mutate(ctx, crcb.builders[0].mutation); err != nil {
+		if _, err := mutators[0].Mutate(ctx, _c.builders[0].mutation); err != nil {
 			return nil, err
 		}
 	}
@@ -387,8 +387,8 @@ func (crcb *CasbinRuleCreateBulk) Save(ctx context.Context) ([]*CasbinRule, erro
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (crcb *CasbinRuleCreateBulk) SaveX(ctx context.Context) []*CasbinRule {
-	v, err := crcb.Save(ctx)
+func (_c *CasbinRuleCreateBulk) SaveX(ctx context.Context) []*CasbinRule {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -396,14 +396,14 @@ func (crcb *CasbinRuleCreateBulk) SaveX(ctx context.Context) []*CasbinRule {
 }
 
 // Exec executes the query.
-func (crcb *CasbinRuleCreateBulk) Exec(ctx context.Context) error {
-	_, err := crcb.Save(ctx)
+func (_c *CasbinRuleCreateBulk) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (crcb *CasbinRuleCreateBulk) ExecX(ctx context.Context) {
-	if err := crcb.Exec(ctx); err != nil {
+func (_c *CasbinRuleCreateBulk) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

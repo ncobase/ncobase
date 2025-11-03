@@ -272,8 +272,8 @@ func (c *DictionaryClient) Update() *DictionaryUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *DictionaryClient) UpdateOne(d *Dictionary) *DictionaryUpdateOne {
-	mutation := newDictionaryMutation(c.config, OpUpdateOne, withDictionary(d))
+func (c *DictionaryClient) UpdateOne(_m *Dictionary) *DictionaryUpdateOne {
+	mutation := newDictionaryMutation(c.config, OpUpdateOne, withDictionary(_m))
 	return &DictionaryUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -290,8 +290,8 @@ func (c *DictionaryClient) Delete() *DictionaryDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *DictionaryClient) DeleteOne(d *Dictionary) *DictionaryDeleteOne {
-	return c.DeleteOneID(d.ID)
+func (c *DictionaryClient) DeleteOne(_m *Dictionary) *DictionaryDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -405,8 +405,8 @@ func (c *MenuClient) Update() *MenuUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *MenuClient) UpdateOne(m *Menu) *MenuUpdateOne {
-	mutation := newMenuMutation(c.config, OpUpdateOne, withMenu(m))
+func (c *MenuClient) UpdateOne(_m *Menu) *MenuUpdateOne {
+	mutation := newMenuMutation(c.config, OpUpdateOne, withMenu(_m))
 	return &MenuUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -423,8 +423,8 @@ func (c *MenuClient) Delete() *MenuDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *MenuClient) DeleteOne(m *Menu) *MenuDeleteOne {
-	return c.DeleteOneID(m.ID)
+func (c *MenuClient) DeleteOne(_m *Menu) *MenuDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -538,8 +538,8 @@ func (c *OptionsClient) Update() *OptionsUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *OptionsClient) UpdateOne(o *Options) *OptionsUpdateOne {
-	mutation := newOptionsMutation(c.config, OpUpdateOne, withOptions(o))
+func (c *OptionsClient) UpdateOne(_m *Options) *OptionsUpdateOne {
+	mutation := newOptionsMutation(c.config, OpUpdateOne, withOptions(_m))
 	return &OptionsUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -556,8 +556,8 @@ func (c *OptionsClient) Delete() *OptionsDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *OptionsClient) DeleteOne(o *Options) *OptionsDeleteOne {
-	return c.DeleteOneID(o.ID)
+func (c *OptionsClient) DeleteOne(_m *Options) *OptionsDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.

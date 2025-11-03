@@ -19,89 +19,89 @@ type AuthTokenCreate struct {
 }
 
 // SetDisabled sets the "disabled" field.
-func (atc *AuthTokenCreate) SetDisabled(b bool) *AuthTokenCreate {
-	atc.mutation.SetDisabled(b)
-	return atc
+func (_c *AuthTokenCreate) SetDisabled(v bool) *AuthTokenCreate {
+	_c.mutation.SetDisabled(v)
+	return _c
 }
 
 // SetNillableDisabled sets the "disabled" field if the given value is not nil.
-func (atc *AuthTokenCreate) SetNillableDisabled(b *bool) *AuthTokenCreate {
-	if b != nil {
-		atc.SetDisabled(*b)
+func (_c *AuthTokenCreate) SetNillableDisabled(v *bool) *AuthTokenCreate {
+	if v != nil {
+		_c.SetDisabled(*v)
 	}
-	return atc
+	return _c
 }
 
 // SetCreatedAt sets the "created_at" field.
-func (atc *AuthTokenCreate) SetCreatedAt(i int64) *AuthTokenCreate {
-	atc.mutation.SetCreatedAt(i)
-	return atc
+func (_c *AuthTokenCreate) SetCreatedAt(v int64) *AuthTokenCreate {
+	_c.mutation.SetCreatedAt(v)
+	return _c
 }
 
 // SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
-func (atc *AuthTokenCreate) SetNillableCreatedAt(i *int64) *AuthTokenCreate {
-	if i != nil {
-		atc.SetCreatedAt(*i)
+func (_c *AuthTokenCreate) SetNillableCreatedAt(v *int64) *AuthTokenCreate {
+	if v != nil {
+		_c.SetCreatedAt(*v)
 	}
-	return atc
+	return _c
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (atc *AuthTokenCreate) SetUpdatedAt(i int64) *AuthTokenCreate {
-	atc.mutation.SetUpdatedAt(i)
-	return atc
+func (_c *AuthTokenCreate) SetUpdatedAt(v int64) *AuthTokenCreate {
+	_c.mutation.SetUpdatedAt(v)
+	return _c
 }
 
 // SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
-func (atc *AuthTokenCreate) SetNillableUpdatedAt(i *int64) *AuthTokenCreate {
-	if i != nil {
-		atc.SetUpdatedAt(*i)
+func (_c *AuthTokenCreate) SetNillableUpdatedAt(v *int64) *AuthTokenCreate {
+	if v != nil {
+		_c.SetUpdatedAt(*v)
 	}
-	return atc
+	return _c
 }
 
 // SetUserID sets the "user_id" field.
-func (atc *AuthTokenCreate) SetUserID(s string) *AuthTokenCreate {
-	atc.mutation.SetUserID(s)
-	return atc
+func (_c *AuthTokenCreate) SetUserID(v string) *AuthTokenCreate {
+	_c.mutation.SetUserID(v)
+	return _c
 }
 
 // SetNillableUserID sets the "user_id" field if the given value is not nil.
-func (atc *AuthTokenCreate) SetNillableUserID(s *string) *AuthTokenCreate {
-	if s != nil {
-		atc.SetUserID(*s)
+func (_c *AuthTokenCreate) SetNillableUserID(v *string) *AuthTokenCreate {
+	if v != nil {
+		_c.SetUserID(*v)
 	}
-	return atc
+	return _c
 }
 
 // SetID sets the "id" field.
-func (atc *AuthTokenCreate) SetID(s string) *AuthTokenCreate {
-	atc.mutation.SetID(s)
-	return atc
+func (_c *AuthTokenCreate) SetID(v string) *AuthTokenCreate {
+	_c.mutation.SetID(v)
+	return _c
 }
 
 // SetNillableID sets the "id" field if the given value is not nil.
-func (atc *AuthTokenCreate) SetNillableID(s *string) *AuthTokenCreate {
-	if s != nil {
-		atc.SetID(*s)
+func (_c *AuthTokenCreate) SetNillableID(v *string) *AuthTokenCreate {
+	if v != nil {
+		_c.SetID(*v)
 	}
-	return atc
+	return _c
 }
 
 // Mutation returns the AuthTokenMutation object of the builder.
-func (atc *AuthTokenCreate) Mutation() *AuthTokenMutation {
-	return atc.mutation
+func (_c *AuthTokenCreate) Mutation() *AuthTokenMutation {
+	return _c.mutation
 }
 
 // Save creates the AuthToken in the database.
-func (atc *AuthTokenCreate) Save(ctx context.Context) (*AuthToken, error) {
-	atc.defaults()
-	return withHooks(ctx, atc.sqlSave, atc.mutation, atc.hooks)
+func (_c *AuthTokenCreate) Save(ctx context.Context) (*AuthToken, error) {
+	_c.defaults()
+	return withHooks(ctx, _c.sqlSave, _c.mutation, _c.hooks)
 }
 
 // SaveX calls Save and panics if Save returns an error.
-func (atc *AuthTokenCreate) SaveX(ctx context.Context) *AuthToken {
-	v, err := atc.Save(ctx)
+func (_c *AuthTokenCreate) SaveX(ctx context.Context) *AuthToken {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -109,41 +109,41 @@ func (atc *AuthTokenCreate) SaveX(ctx context.Context) *AuthToken {
 }
 
 // Exec executes the query.
-func (atc *AuthTokenCreate) Exec(ctx context.Context) error {
-	_, err := atc.Save(ctx)
+func (_c *AuthTokenCreate) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (atc *AuthTokenCreate) ExecX(ctx context.Context) {
-	if err := atc.Exec(ctx); err != nil {
+func (_c *AuthTokenCreate) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (atc *AuthTokenCreate) defaults() {
-	if _, ok := atc.mutation.Disabled(); !ok {
+func (_c *AuthTokenCreate) defaults() {
+	if _, ok := _c.mutation.Disabled(); !ok {
 		v := authtoken.DefaultDisabled
-		atc.mutation.SetDisabled(v)
+		_c.mutation.SetDisabled(v)
 	}
-	if _, ok := atc.mutation.CreatedAt(); !ok {
+	if _, ok := _c.mutation.CreatedAt(); !ok {
 		v := authtoken.DefaultCreatedAt()
-		atc.mutation.SetCreatedAt(v)
+		_c.mutation.SetCreatedAt(v)
 	}
-	if _, ok := atc.mutation.UpdatedAt(); !ok {
+	if _, ok := _c.mutation.UpdatedAt(); !ok {
 		v := authtoken.DefaultUpdatedAt()
-		atc.mutation.SetUpdatedAt(v)
+		_c.mutation.SetUpdatedAt(v)
 	}
-	if _, ok := atc.mutation.ID(); !ok {
+	if _, ok := _c.mutation.ID(); !ok {
 		v := authtoken.DefaultID()
-		atc.mutation.SetID(v)
+		_c.mutation.SetID(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (atc *AuthTokenCreate) check() error {
-	if v, ok := atc.mutation.ID(); ok {
+func (_c *AuthTokenCreate) check() error {
+	if v, ok := _c.mutation.ID(); ok {
 		if err := authtoken.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "AuthToken.id": %w`, err)}
 		}
@@ -151,12 +151,12 @@ func (atc *AuthTokenCreate) check() error {
 	return nil
 }
 
-func (atc *AuthTokenCreate) sqlSave(ctx context.Context) (*AuthToken, error) {
-	if err := atc.check(); err != nil {
+func (_c *AuthTokenCreate) sqlSave(ctx context.Context) (*AuthToken, error) {
+	if err := _c.check(); err != nil {
 		return nil, err
 	}
-	_node, _spec := atc.createSpec()
-	if err := sqlgraph.CreateNode(ctx, atc.driver, _spec); err != nil {
+	_node, _spec := _c.createSpec()
+	if err := sqlgraph.CreateNode(ctx, _c.driver, _spec); err != nil {
 		if sqlgraph.IsConstraintError(err) {
 			err = &ConstraintError{msg: err.Error(), wrap: err}
 		}
@@ -169,33 +169,33 @@ func (atc *AuthTokenCreate) sqlSave(ctx context.Context) (*AuthToken, error) {
 			return nil, fmt.Errorf("unexpected AuthToken.ID type: %T", _spec.ID.Value)
 		}
 	}
-	atc.mutation.id = &_node.ID
-	atc.mutation.done = true
+	_c.mutation.id = &_node.ID
+	_c.mutation.done = true
 	return _node, nil
 }
 
-func (atc *AuthTokenCreate) createSpec() (*AuthToken, *sqlgraph.CreateSpec) {
+func (_c *AuthTokenCreate) createSpec() (*AuthToken, *sqlgraph.CreateSpec) {
 	var (
-		_node = &AuthToken{config: atc.config}
+		_node = &AuthToken{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(authtoken.Table, sqlgraph.NewFieldSpec(authtoken.FieldID, field.TypeString))
 	)
-	if id, ok := atc.mutation.ID(); ok {
+	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
 	}
-	if value, ok := atc.mutation.Disabled(); ok {
+	if value, ok := _c.mutation.Disabled(); ok {
 		_spec.SetField(authtoken.FieldDisabled, field.TypeBool, value)
 		_node.Disabled = value
 	}
-	if value, ok := atc.mutation.CreatedAt(); ok {
+	if value, ok := _c.mutation.CreatedAt(); ok {
 		_spec.SetField(authtoken.FieldCreatedAt, field.TypeInt64, value)
 		_node.CreatedAt = value
 	}
-	if value, ok := atc.mutation.UpdatedAt(); ok {
+	if value, ok := _c.mutation.UpdatedAt(); ok {
 		_spec.SetField(authtoken.FieldUpdatedAt, field.TypeInt64, value)
 		_node.UpdatedAt = value
 	}
-	if value, ok := atc.mutation.UserID(); ok {
+	if value, ok := _c.mutation.UserID(); ok {
 		_spec.SetField(authtoken.FieldUserID, field.TypeString, value)
 		_node.UserID = value
 	}
@@ -210,16 +210,16 @@ type AuthTokenCreateBulk struct {
 }
 
 // Save creates the AuthToken entities in the database.
-func (atcb *AuthTokenCreateBulk) Save(ctx context.Context) ([]*AuthToken, error) {
-	if atcb.err != nil {
-		return nil, atcb.err
+func (_c *AuthTokenCreateBulk) Save(ctx context.Context) ([]*AuthToken, error) {
+	if _c.err != nil {
+		return nil, _c.err
 	}
-	specs := make([]*sqlgraph.CreateSpec, len(atcb.builders))
-	nodes := make([]*AuthToken, len(atcb.builders))
-	mutators := make([]Mutator, len(atcb.builders))
-	for i := range atcb.builders {
+	specs := make([]*sqlgraph.CreateSpec, len(_c.builders))
+	nodes := make([]*AuthToken, len(_c.builders))
+	mutators := make([]Mutator, len(_c.builders))
+	for i := range _c.builders {
 		func(i int, root context.Context) {
-			builder := atcb.builders[i]
+			builder := _c.builders[i]
 			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*AuthTokenMutation)
@@ -233,11 +233,11 @@ func (atcb *AuthTokenCreateBulk) Save(ctx context.Context) ([]*AuthToken, error)
 				var err error
 				nodes[i], specs[i] = builder.createSpec()
 				if i < len(mutators)-1 {
-					_, err = mutators[i+1].Mutate(root, atcb.builders[i+1].mutation)
+					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
 					// Invoke the actual operation on the latest mutation in the chain.
-					if err = sqlgraph.BatchCreate(ctx, atcb.driver, spec); err != nil {
+					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
 							err = &ConstraintError{msg: err.Error(), wrap: err}
 						}
@@ -257,7 +257,7 @@ func (atcb *AuthTokenCreateBulk) Save(ctx context.Context) ([]*AuthToken, error)
 		}(i, ctx)
 	}
 	if len(mutators) > 0 {
-		if _, err := mutators[0].Mutate(ctx, atcb.builders[0].mutation); err != nil {
+		if _, err := mutators[0].Mutate(ctx, _c.builders[0].mutation); err != nil {
 			return nil, err
 		}
 	}
@@ -265,8 +265,8 @@ func (atcb *AuthTokenCreateBulk) Save(ctx context.Context) ([]*AuthToken, error)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (atcb *AuthTokenCreateBulk) SaveX(ctx context.Context) []*AuthToken {
-	v, err := atcb.Save(ctx)
+func (_c *AuthTokenCreateBulk) SaveX(ctx context.Context) []*AuthToken {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -274,14 +274,14 @@ func (atcb *AuthTokenCreateBulk) SaveX(ctx context.Context) []*AuthToken {
 }
 
 // Exec executes the query.
-func (atcb *AuthTokenCreateBulk) Exec(ctx context.Context) error {
-	_, err := atcb.Save(ctx)
+func (_c *AuthTokenCreateBulk) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (atcb *AuthTokenCreateBulk) ExecX(ctx context.Context) {
-	if err := atcb.Exec(ctx); err != nil {
+func (_c *AuthTokenCreateBulk) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

@@ -22,124 +22,124 @@ type UserSpaceUpdate struct {
 }
 
 // Where appends a list predicates to the UserSpaceUpdate builder.
-func (usu *UserSpaceUpdate) Where(ps ...predicate.UserSpace) *UserSpaceUpdate {
-	usu.mutation.Where(ps...)
-	return usu
+func (_u *UserSpaceUpdate) Where(ps ...predicate.UserSpace) *UserSpaceUpdate {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // SetUserID sets the "user_id" field.
-func (usu *UserSpaceUpdate) SetUserID(s string) *UserSpaceUpdate {
-	usu.mutation.SetUserID(s)
-	return usu
+func (_u *UserSpaceUpdate) SetUserID(v string) *UserSpaceUpdate {
+	_u.mutation.SetUserID(v)
+	return _u
 }
 
 // SetNillableUserID sets the "user_id" field if the given value is not nil.
-func (usu *UserSpaceUpdate) SetNillableUserID(s *string) *UserSpaceUpdate {
-	if s != nil {
-		usu.SetUserID(*s)
+func (_u *UserSpaceUpdate) SetNillableUserID(v *string) *UserSpaceUpdate {
+	if v != nil {
+		_u.SetUserID(*v)
 	}
-	return usu
+	return _u
 }
 
 // ClearUserID clears the value of the "user_id" field.
-func (usu *UserSpaceUpdate) ClearUserID() *UserSpaceUpdate {
-	usu.mutation.ClearUserID()
-	return usu
+func (_u *UserSpaceUpdate) ClearUserID() *UserSpaceUpdate {
+	_u.mutation.ClearUserID()
+	return _u
 }
 
 // SetSpaceID sets the "space_id" field.
-func (usu *UserSpaceUpdate) SetSpaceID(s string) *UserSpaceUpdate {
-	usu.mutation.SetSpaceID(s)
-	return usu
+func (_u *UserSpaceUpdate) SetSpaceID(v string) *UserSpaceUpdate {
+	_u.mutation.SetSpaceID(v)
+	return _u
 }
 
 // SetNillableSpaceID sets the "space_id" field if the given value is not nil.
-func (usu *UserSpaceUpdate) SetNillableSpaceID(s *string) *UserSpaceUpdate {
-	if s != nil {
-		usu.SetSpaceID(*s)
+func (_u *UserSpaceUpdate) SetNillableSpaceID(v *string) *UserSpaceUpdate {
+	if v != nil {
+		_u.SetSpaceID(*v)
 	}
-	return usu
+	return _u
 }
 
 // ClearSpaceID clears the value of the "space_id" field.
-func (usu *UserSpaceUpdate) ClearSpaceID() *UserSpaceUpdate {
-	usu.mutation.ClearSpaceID()
-	return usu
+func (_u *UserSpaceUpdate) ClearSpaceID() *UserSpaceUpdate {
+	_u.mutation.ClearSpaceID()
+	return _u
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (usu *UserSpaceUpdate) SetCreatedBy(s string) *UserSpaceUpdate {
-	usu.mutation.SetCreatedBy(s)
-	return usu
+func (_u *UserSpaceUpdate) SetCreatedBy(v string) *UserSpaceUpdate {
+	_u.mutation.SetCreatedBy(v)
+	return _u
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (usu *UserSpaceUpdate) SetNillableCreatedBy(s *string) *UserSpaceUpdate {
-	if s != nil {
-		usu.SetCreatedBy(*s)
+func (_u *UserSpaceUpdate) SetNillableCreatedBy(v *string) *UserSpaceUpdate {
+	if v != nil {
+		_u.SetCreatedBy(*v)
 	}
-	return usu
+	return _u
 }
 
 // ClearCreatedBy clears the value of the "created_by" field.
-func (usu *UserSpaceUpdate) ClearCreatedBy() *UserSpaceUpdate {
-	usu.mutation.ClearCreatedBy()
-	return usu
+func (_u *UserSpaceUpdate) ClearCreatedBy() *UserSpaceUpdate {
+	_u.mutation.ClearCreatedBy()
+	return _u
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (usu *UserSpaceUpdate) SetUpdatedBy(s string) *UserSpaceUpdate {
-	usu.mutation.SetUpdatedBy(s)
-	return usu
+func (_u *UserSpaceUpdate) SetUpdatedBy(v string) *UserSpaceUpdate {
+	_u.mutation.SetUpdatedBy(v)
+	return _u
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (usu *UserSpaceUpdate) SetNillableUpdatedBy(s *string) *UserSpaceUpdate {
-	if s != nil {
-		usu.SetUpdatedBy(*s)
+func (_u *UserSpaceUpdate) SetNillableUpdatedBy(v *string) *UserSpaceUpdate {
+	if v != nil {
+		_u.SetUpdatedBy(*v)
 	}
-	return usu
+	return _u
 }
 
 // ClearUpdatedBy clears the value of the "updated_by" field.
-func (usu *UserSpaceUpdate) ClearUpdatedBy() *UserSpaceUpdate {
-	usu.mutation.ClearUpdatedBy()
-	return usu
+func (_u *UserSpaceUpdate) ClearUpdatedBy() *UserSpaceUpdate {
+	_u.mutation.ClearUpdatedBy()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (usu *UserSpaceUpdate) SetUpdatedAt(i int64) *UserSpaceUpdate {
-	usu.mutation.ResetUpdatedAt()
-	usu.mutation.SetUpdatedAt(i)
-	return usu
+func (_u *UserSpaceUpdate) SetUpdatedAt(v int64) *UserSpaceUpdate {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (usu *UserSpaceUpdate) AddUpdatedAt(i int64) *UserSpaceUpdate {
-	usu.mutation.AddUpdatedAt(i)
-	return usu
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *UserSpaceUpdate) AddUpdatedAt(v int64) *UserSpaceUpdate {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (usu *UserSpaceUpdate) ClearUpdatedAt() *UserSpaceUpdate {
-	usu.mutation.ClearUpdatedAt()
-	return usu
+func (_u *UserSpaceUpdate) ClearUpdatedAt() *UserSpaceUpdate {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // Mutation returns the UserSpaceMutation object of the builder.
-func (usu *UserSpaceUpdate) Mutation() *UserSpaceMutation {
-	return usu.mutation
+func (_u *UserSpaceUpdate) Mutation() *UserSpaceMutation {
+	return _u.mutation
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
-func (usu *UserSpaceUpdate) Save(ctx context.Context) (int, error) {
-	usu.defaults()
-	return withHooks(ctx, usu.sqlSave, usu.mutation, usu.hooks)
+func (_u *UserSpaceUpdate) Save(ctx context.Context) (int, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (usu *UserSpaceUpdate) SaveX(ctx context.Context) int {
-	affected, err := usu.Save(ctx)
+func (_u *UserSpaceUpdate) SaveX(ctx context.Context) int {
+	affected, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -147,72 +147,72 @@ func (usu *UserSpaceUpdate) SaveX(ctx context.Context) int {
 }
 
 // Exec executes the query.
-func (usu *UserSpaceUpdate) Exec(ctx context.Context) error {
-	_, err := usu.Save(ctx)
+func (_u *UserSpaceUpdate) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (usu *UserSpaceUpdate) ExecX(ctx context.Context) {
-	if err := usu.Exec(ctx); err != nil {
+func (_u *UserSpaceUpdate) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (usu *UserSpaceUpdate) defaults() {
-	if _, ok := usu.mutation.UpdatedAt(); !ok && !usu.mutation.UpdatedAtCleared() {
+func (_u *UserSpaceUpdate) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := userspace.UpdateDefaultUpdatedAt()
-		usu.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (usu *UserSpaceUpdate) sqlSave(ctx context.Context) (n int, err error) {
+func (_u *UserSpaceUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	_spec := sqlgraph.NewUpdateSpec(userspace.Table, userspace.Columns, sqlgraph.NewFieldSpec(userspace.FieldID, field.TypeString))
-	if ps := usu.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := usu.mutation.UserID(); ok {
+	if value, ok := _u.mutation.UserID(); ok {
 		_spec.SetField(userspace.FieldUserID, field.TypeString, value)
 	}
-	if usu.mutation.UserIDCleared() {
+	if _u.mutation.UserIDCleared() {
 		_spec.ClearField(userspace.FieldUserID, field.TypeString)
 	}
-	if value, ok := usu.mutation.SpaceID(); ok {
+	if value, ok := _u.mutation.SpaceID(); ok {
 		_spec.SetField(userspace.FieldSpaceID, field.TypeString, value)
 	}
-	if usu.mutation.SpaceIDCleared() {
+	if _u.mutation.SpaceIDCleared() {
 		_spec.ClearField(userspace.FieldSpaceID, field.TypeString)
 	}
-	if value, ok := usu.mutation.CreatedBy(); ok {
+	if value, ok := _u.mutation.CreatedBy(); ok {
 		_spec.SetField(userspace.FieldCreatedBy, field.TypeString, value)
 	}
-	if usu.mutation.CreatedByCleared() {
+	if _u.mutation.CreatedByCleared() {
 		_spec.ClearField(userspace.FieldCreatedBy, field.TypeString)
 	}
-	if value, ok := usu.mutation.UpdatedBy(); ok {
+	if value, ok := _u.mutation.UpdatedBy(); ok {
 		_spec.SetField(userspace.FieldUpdatedBy, field.TypeString, value)
 	}
-	if usu.mutation.UpdatedByCleared() {
+	if _u.mutation.UpdatedByCleared() {
 		_spec.ClearField(userspace.FieldUpdatedBy, field.TypeString)
 	}
-	if usu.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(userspace.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := usu.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(userspace.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := usu.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(userspace.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if usu.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(userspace.FieldUpdatedAt, field.TypeInt64)
 	}
-	if n, err = sqlgraph.UpdateNodes(ctx, usu.driver, _spec); err != nil {
+	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{userspace.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -220,8 +220,8 @@ func (usu *UserSpaceUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		return 0, err
 	}
-	usu.mutation.done = true
-	return n, nil
+	_u.mutation.done = true
+	return _node, nil
 }
 
 // UserSpaceUpdateOne is the builder for updating a single UserSpace entity.
@@ -233,131 +233,131 @@ type UserSpaceUpdateOne struct {
 }
 
 // SetUserID sets the "user_id" field.
-func (usuo *UserSpaceUpdateOne) SetUserID(s string) *UserSpaceUpdateOne {
-	usuo.mutation.SetUserID(s)
-	return usuo
+func (_u *UserSpaceUpdateOne) SetUserID(v string) *UserSpaceUpdateOne {
+	_u.mutation.SetUserID(v)
+	return _u
 }
 
 // SetNillableUserID sets the "user_id" field if the given value is not nil.
-func (usuo *UserSpaceUpdateOne) SetNillableUserID(s *string) *UserSpaceUpdateOne {
-	if s != nil {
-		usuo.SetUserID(*s)
+func (_u *UserSpaceUpdateOne) SetNillableUserID(v *string) *UserSpaceUpdateOne {
+	if v != nil {
+		_u.SetUserID(*v)
 	}
-	return usuo
+	return _u
 }
 
 // ClearUserID clears the value of the "user_id" field.
-func (usuo *UserSpaceUpdateOne) ClearUserID() *UserSpaceUpdateOne {
-	usuo.mutation.ClearUserID()
-	return usuo
+func (_u *UserSpaceUpdateOne) ClearUserID() *UserSpaceUpdateOne {
+	_u.mutation.ClearUserID()
+	return _u
 }
 
 // SetSpaceID sets the "space_id" field.
-func (usuo *UserSpaceUpdateOne) SetSpaceID(s string) *UserSpaceUpdateOne {
-	usuo.mutation.SetSpaceID(s)
-	return usuo
+func (_u *UserSpaceUpdateOne) SetSpaceID(v string) *UserSpaceUpdateOne {
+	_u.mutation.SetSpaceID(v)
+	return _u
 }
 
 // SetNillableSpaceID sets the "space_id" field if the given value is not nil.
-func (usuo *UserSpaceUpdateOne) SetNillableSpaceID(s *string) *UserSpaceUpdateOne {
-	if s != nil {
-		usuo.SetSpaceID(*s)
+func (_u *UserSpaceUpdateOne) SetNillableSpaceID(v *string) *UserSpaceUpdateOne {
+	if v != nil {
+		_u.SetSpaceID(*v)
 	}
-	return usuo
+	return _u
 }
 
 // ClearSpaceID clears the value of the "space_id" field.
-func (usuo *UserSpaceUpdateOne) ClearSpaceID() *UserSpaceUpdateOne {
-	usuo.mutation.ClearSpaceID()
-	return usuo
+func (_u *UserSpaceUpdateOne) ClearSpaceID() *UserSpaceUpdateOne {
+	_u.mutation.ClearSpaceID()
+	return _u
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (usuo *UserSpaceUpdateOne) SetCreatedBy(s string) *UserSpaceUpdateOne {
-	usuo.mutation.SetCreatedBy(s)
-	return usuo
+func (_u *UserSpaceUpdateOne) SetCreatedBy(v string) *UserSpaceUpdateOne {
+	_u.mutation.SetCreatedBy(v)
+	return _u
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (usuo *UserSpaceUpdateOne) SetNillableCreatedBy(s *string) *UserSpaceUpdateOne {
-	if s != nil {
-		usuo.SetCreatedBy(*s)
+func (_u *UserSpaceUpdateOne) SetNillableCreatedBy(v *string) *UserSpaceUpdateOne {
+	if v != nil {
+		_u.SetCreatedBy(*v)
 	}
-	return usuo
+	return _u
 }
 
 // ClearCreatedBy clears the value of the "created_by" field.
-func (usuo *UserSpaceUpdateOne) ClearCreatedBy() *UserSpaceUpdateOne {
-	usuo.mutation.ClearCreatedBy()
-	return usuo
+func (_u *UserSpaceUpdateOne) ClearCreatedBy() *UserSpaceUpdateOne {
+	_u.mutation.ClearCreatedBy()
+	return _u
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (usuo *UserSpaceUpdateOne) SetUpdatedBy(s string) *UserSpaceUpdateOne {
-	usuo.mutation.SetUpdatedBy(s)
-	return usuo
+func (_u *UserSpaceUpdateOne) SetUpdatedBy(v string) *UserSpaceUpdateOne {
+	_u.mutation.SetUpdatedBy(v)
+	return _u
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (usuo *UserSpaceUpdateOne) SetNillableUpdatedBy(s *string) *UserSpaceUpdateOne {
-	if s != nil {
-		usuo.SetUpdatedBy(*s)
+func (_u *UserSpaceUpdateOne) SetNillableUpdatedBy(v *string) *UserSpaceUpdateOne {
+	if v != nil {
+		_u.SetUpdatedBy(*v)
 	}
-	return usuo
+	return _u
 }
 
 // ClearUpdatedBy clears the value of the "updated_by" field.
-func (usuo *UserSpaceUpdateOne) ClearUpdatedBy() *UserSpaceUpdateOne {
-	usuo.mutation.ClearUpdatedBy()
-	return usuo
+func (_u *UserSpaceUpdateOne) ClearUpdatedBy() *UserSpaceUpdateOne {
+	_u.mutation.ClearUpdatedBy()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (usuo *UserSpaceUpdateOne) SetUpdatedAt(i int64) *UserSpaceUpdateOne {
-	usuo.mutation.ResetUpdatedAt()
-	usuo.mutation.SetUpdatedAt(i)
-	return usuo
+func (_u *UserSpaceUpdateOne) SetUpdatedAt(v int64) *UserSpaceUpdateOne {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (usuo *UserSpaceUpdateOne) AddUpdatedAt(i int64) *UserSpaceUpdateOne {
-	usuo.mutation.AddUpdatedAt(i)
-	return usuo
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *UserSpaceUpdateOne) AddUpdatedAt(v int64) *UserSpaceUpdateOne {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (usuo *UserSpaceUpdateOne) ClearUpdatedAt() *UserSpaceUpdateOne {
-	usuo.mutation.ClearUpdatedAt()
-	return usuo
+func (_u *UserSpaceUpdateOne) ClearUpdatedAt() *UserSpaceUpdateOne {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // Mutation returns the UserSpaceMutation object of the builder.
-func (usuo *UserSpaceUpdateOne) Mutation() *UserSpaceMutation {
-	return usuo.mutation
+func (_u *UserSpaceUpdateOne) Mutation() *UserSpaceMutation {
+	return _u.mutation
 }
 
 // Where appends a list predicates to the UserSpaceUpdate builder.
-func (usuo *UserSpaceUpdateOne) Where(ps ...predicate.UserSpace) *UserSpaceUpdateOne {
-	usuo.mutation.Where(ps...)
-	return usuo
+func (_u *UserSpaceUpdateOne) Where(ps ...predicate.UserSpace) *UserSpaceUpdateOne {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // Select allows selecting one or more fields (columns) of the returned entity.
 // The default is selecting all fields defined in the entity schema.
-func (usuo *UserSpaceUpdateOne) Select(field string, fields ...string) *UserSpaceUpdateOne {
-	usuo.fields = append([]string{field}, fields...)
-	return usuo
+func (_u *UserSpaceUpdateOne) Select(field string, fields ...string) *UserSpaceUpdateOne {
+	_u.fields = append([]string{field}, fields...)
+	return _u
 }
 
 // Save executes the query and returns the updated UserSpace entity.
-func (usuo *UserSpaceUpdateOne) Save(ctx context.Context) (*UserSpace, error) {
-	usuo.defaults()
-	return withHooks(ctx, usuo.sqlSave, usuo.mutation, usuo.hooks)
+func (_u *UserSpaceUpdateOne) Save(ctx context.Context) (*UserSpace, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (usuo *UserSpaceUpdateOne) SaveX(ctx context.Context) *UserSpace {
-	node, err := usuo.Save(ctx)
+func (_u *UserSpaceUpdateOne) SaveX(ctx context.Context) *UserSpace {
+	node, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -365,34 +365,34 @@ func (usuo *UserSpaceUpdateOne) SaveX(ctx context.Context) *UserSpace {
 }
 
 // Exec executes the query on the entity.
-func (usuo *UserSpaceUpdateOne) Exec(ctx context.Context) error {
-	_, err := usuo.Save(ctx)
+func (_u *UserSpaceUpdateOne) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (usuo *UserSpaceUpdateOne) ExecX(ctx context.Context) {
-	if err := usuo.Exec(ctx); err != nil {
+func (_u *UserSpaceUpdateOne) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (usuo *UserSpaceUpdateOne) defaults() {
-	if _, ok := usuo.mutation.UpdatedAt(); !ok && !usuo.mutation.UpdatedAtCleared() {
+func (_u *UserSpaceUpdateOne) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := userspace.UpdateDefaultUpdatedAt()
-		usuo.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (usuo *UserSpaceUpdateOne) sqlSave(ctx context.Context) (_node *UserSpace, err error) {
+func (_u *UserSpaceUpdateOne) sqlSave(ctx context.Context) (_node *UserSpace, err error) {
 	_spec := sqlgraph.NewUpdateSpec(userspace.Table, userspace.Columns, sqlgraph.NewFieldSpec(userspace.FieldID, field.TypeString))
-	id, ok := usuo.mutation.ID()
+	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "UserSpace.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
-	if fields := usuo.fields; len(fields) > 0 {
+	if fields := _u.fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, userspace.FieldID)
 		for _, f := range fields {
@@ -404,53 +404,53 @@ func (usuo *UserSpaceUpdateOne) sqlSave(ctx context.Context) (_node *UserSpace, 
 			}
 		}
 	}
-	if ps := usuo.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := usuo.mutation.UserID(); ok {
+	if value, ok := _u.mutation.UserID(); ok {
 		_spec.SetField(userspace.FieldUserID, field.TypeString, value)
 	}
-	if usuo.mutation.UserIDCleared() {
+	if _u.mutation.UserIDCleared() {
 		_spec.ClearField(userspace.FieldUserID, field.TypeString)
 	}
-	if value, ok := usuo.mutation.SpaceID(); ok {
+	if value, ok := _u.mutation.SpaceID(); ok {
 		_spec.SetField(userspace.FieldSpaceID, field.TypeString, value)
 	}
-	if usuo.mutation.SpaceIDCleared() {
+	if _u.mutation.SpaceIDCleared() {
 		_spec.ClearField(userspace.FieldSpaceID, field.TypeString)
 	}
-	if value, ok := usuo.mutation.CreatedBy(); ok {
+	if value, ok := _u.mutation.CreatedBy(); ok {
 		_spec.SetField(userspace.FieldCreatedBy, field.TypeString, value)
 	}
-	if usuo.mutation.CreatedByCleared() {
+	if _u.mutation.CreatedByCleared() {
 		_spec.ClearField(userspace.FieldCreatedBy, field.TypeString)
 	}
-	if value, ok := usuo.mutation.UpdatedBy(); ok {
+	if value, ok := _u.mutation.UpdatedBy(); ok {
 		_spec.SetField(userspace.FieldUpdatedBy, field.TypeString, value)
 	}
-	if usuo.mutation.UpdatedByCleared() {
+	if _u.mutation.UpdatedByCleared() {
 		_spec.ClearField(userspace.FieldUpdatedBy, field.TypeString)
 	}
-	if usuo.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(userspace.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := usuo.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(userspace.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := usuo.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(userspace.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if usuo.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(userspace.FieldUpdatedAt, field.TypeInt64)
 	}
-	_node = &UserSpace{config: usuo.config}
+	_node = &UserSpace{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues
-	if err = sqlgraph.UpdateNode(ctx, usuo.driver, _spec); err != nil {
+	if err = sqlgraph.UpdateNode(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{userspace.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -458,6 +458,6 @@ func (usuo *UserSpaceUpdateOne) sqlSave(ctx context.Context) (_node *UserSpace, 
 		}
 		return nil, err
 	}
-	usuo.mutation.done = true
+	_u.mutation.done = true
 	return _node, nil
 }

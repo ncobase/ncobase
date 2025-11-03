@@ -20,243 +20,243 @@ type CounterCreate struct {
 }
 
 // SetIdentifier sets the "identifier" field.
-func (cc *CounterCreate) SetIdentifier(s string) *CounterCreate {
-	cc.mutation.SetIdentifier(s)
-	return cc
+func (_c *CounterCreate) SetIdentifier(v string) *CounterCreate {
+	_c.mutation.SetIdentifier(v)
+	return _c
 }
 
 // SetNillableIdentifier sets the "identifier" field if the given value is not nil.
-func (cc *CounterCreate) SetNillableIdentifier(s *string) *CounterCreate {
-	if s != nil {
-		cc.SetIdentifier(*s)
+func (_c *CounterCreate) SetNillableIdentifier(v *string) *CounterCreate {
+	if v != nil {
+		_c.SetIdentifier(*v)
 	}
-	return cc
+	return _c
 }
 
 // SetName sets the "name" field.
-func (cc *CounterCreate) SetName(s string) *CounterCreate {
-	cc.mutation.SetName(s)
-	return cc
+func (_c *CounterCreate) SetName(v string) *CounterCreate {
+	_c.mutation.SetName(v)
+	return _c
 }
 
 // SetNillableName sets the "name" field if the given value is not nil.
-func (cc *CounterCreate) SetNillableName(s *string) *CounterCreate {
-	if s != nil {
-		cc.SetName(*s)
+func (_c *CounterCreate) SetNillableName(v *string) *CounterCreate {
+	if v != nil {
+		_c.SetName(*v)
 	}
-	return cc
+	return _c
 }
 
 // SetPrefix sets the "prefix" field.
-func (cc *CounterCreate) SetPrefix(s string) *CounterCreate {
-	cc.mutation.SetPrefix(s)
-	return cc
+func (_c *CounterCreate) SetPrefix(v string) *CounterCreate {
+	_c.mutation.SetPrefix(v)
+	return _c
 }
 
 // SetNillablePrefix sets the "prefix" field if the given value is not nil.
-func (cc *CounterCreate) SetNillablePrefix(s *string) *CounterCreate {
-	if s != nil {
-		cc.SetPrefix(*s)
+func (_c *CounterCreate) SetNillablePrefix(v *string) *CounterCreate {
+	if v != nil {
+		_c.SetPrefix(*v)
 	}
-	return cc
+	return _c
 }
 
 // SetSuffix sets the "suffix" field.
-func (cc *CounterCreate) SetSuffix(s string) *CounterCreate {
-	cc.mutation.SetSuffix(s)
-	return cc
+func (_c *CounterCreate) SetSuffix(v string) *CounterCreate {
+	_c.mutation.SetSuffix(v)
+	return _c
 }
 
 // SetNillableSuffix sets the "suffix" field if the given value is not nil.
-func (cc *CounterCreate) SetNillableSuffix(s *string) *CounterCreate {
-	if s != nil {
-		cc.SetSuffix(*s)
+func (_c *CounterCreate) SetNillableSuffix(v *string) *CounterCreate {
+	if v != nil {
+		_c.SetSuffix(*v)
 	}
-	return cc
+	return _c
 }
 
 // SetStartValue sets the "start_value" field.
-func (cc *CounterCreate) SetStartValue(i int) *CounterCreate {
-	cc.mutation.SetStartValue(i)
-	return cc
+func (_c *CounterCreate) SetStartValue(v int) *CounterCreate {
+	_c.mutation.SetStartValue(v)
+	return _c
 }
 
 // SetNillableStartValue sets the "start_value" field if the given value is not nil.
-func (cc *CounterCreate) SetNillableStartValue(i *int) *CounterCreate {
-	if i != nil {
-		cc.SetStartValue(*i)
+func (_c *CounterCreate) SetNillableStartValue(v *int) *CounterCreate {
+	if v != nil {
+		_c.SetStartValue(*v)
 	}
-	return cc
+	return _c
 }
 
 // SetIncrementStep sets the "increment_step" field.
-func (cc *CounterCreate) SetIncrementStep(i int) *CounterCreate {
-	cc.mutation.SetIncrementStep(i)
-	return cc
+func (_c *CounterCreate) SetIncrementStep(v int) *CounterCreate {
+	_c.mutation.SetIncrementStep(v)
+	return _c
 }
 
 // SetNillableIncrementStep sets the "increment_step" field if the given value is not nil.
-func (cc *CounterCreate) SetNillableIncrementStep(i *int) *CounterCreate {
-	if i != nil {
-		cc.SetIncrementStep(*i)
+func (_c *CounterCreate) SetNillableIncrementStep(v *int) *CounterCreate {
+	if v != nil {
+		_c.SetIncrementStep(*v)
 	}
-	return cc
+	return _c
 }
 
 // SetDateFormat sets the "date_format" field.
-func (cc *CounterCreate) SetDateFormat(s string) *CounterCreate {
-	cc.mutation.SetDateFormat(s)
-	return cc
+func (_c *CounterCreate) SetDateFormat(v string) *CounterCreate {
+	_c.mutation.SetDateFormat(v)
+	return _c
 }
 
 // SetNillableDateFormat sets the "date_format" field if the given value is not nil.
-func (cc *CounterCreate) SetNillableDateFormat(s *string) *CounterCreate {
-	if s != nil {
-		cc.SetDateFormat(*s)
+func (_c *CounterCreate) SetNillableDateFormat(v *string) *CounterCreate {
+	if v != nil {
+		_c.SetDateFormat(*v)
 	}
-	return cc
+	return _c
 }
 
 // SetCurrentValue sets the "current_value" field.
-func (cc *CounterCreate) SetCurrentValue(i int) *CounterCreate {
-	cc.mutation.SetCurrentValue(i)
-	return cc
+func (_c *CounterCreate) SetCurrentValue(v int) *CounterCreate {
+	_c.mutation.SetCurrentValue(v)
+	return _c
 }
 
 // SetNillableCurrentValue sets the "current_value" field if the given value is not nil.
-func (cc *CounterCreate) SetNillableCurrentValue(i *int) *CounterCreate {
-	if i != nil {
-		cc.SetCurrentValue(*i)
+func (_c *CounterCreate) SetNillableCurrentValue(v *int) *CounterCreate {
+	if v != nil {
+		_c.SetCurrentValue(*v)
 	}
-	return cc
+	return _c
 }
 
 // SetDisabled sets the "disabled" field.
-func (cc *CounterCreate) SetDisabled(b bool) *CounterCreate {
-	cc.mutation.SetDisabled(b)
-	return cc
+func (_c *CounterCreate) SetDisabled(v bool) *CounterCreate {
+	_c.mutation.SetDisabled(v)
+	return _c
 }
 
 // SetNillableDisabled sets the "disabled" field if the given value is not nil.
-func (cc *CounterCreate) SetNillableDisabled(b *bool) *CounterCreate {
-	if b != nil {
-		cc.SetDisabled(*b)
+func (_c *CounterCreate) SetNillableDisabled(v *bool) *CounterCreate {
+	if v != nil {
+		_c.SetDisabled(*v)
 	}
-	return cc
+	return _c
 }
 
 // SetDescription sets the "description" field.
-func (cc *CounterCreate) SetDescription(s string) *CounterCreate {
-	cc.mutation.SetDescription(s)
-	return cc
+func (_c *CounterCreate) SetDescription(v string) *CounterCreate {
+	_c.mutation.SetDescription(v)
+	return _c
 }
 
 // SetNillableDescription sets the "description" field if the given value is not nil.
-func (cc *CounterCreate) SetNillableDescription(s *string) *CounterCreate {
-	if s != nil {
-		cc.SetDescription(*s)
+func (_c *CounterCreate) SetNillableDescription(v *string) *CounterCreate {
+	if v != nil {
+		_c.SetDescription(*v)
 	}
-	return cc
+	return _c
 }
 
 // SetSpaceID sets the "space_id" field.
-func (cc *CounterCreate) SetSpaceID(s string) *CounterCreate {
-	cc.mutation.SetSpaceID(s)
-	return cc
+func (_c *CounterCreate) SetSpaceID(v string) *CounterCreate {
+	_c.mutation.SetSpaceID(v)
+	return _c
 }
 
 // SetNillableSpaceID sets the "space_id" field if the given value is not nil.
-func (cc *CounterCreate) SetNillableSpaceID(s *string) *CounterCreate {
-	if s != nil {
-		cc.SetSpaceID(*s)
+func (_c *CounterCreate) SetNillableSpaceID(v *string) *CounterCreate {
+	if v != nil {
+		_c.SetSpaceID(*v)
 	}
-	return cc
+	return _c
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (cc *CounterCreate) SetCreatedBy(s string) *CounterCreate {
-	cc.mutation.SetCreatedBy(s)
-	return cc
+func (_c *CounterCreate) SetCreatedBy(v string) *CounterCreate {
+	_c.mutation.SetCreatedBy(v)
+	return _c
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (cc *CounterCreate) SetNillableCreatedBy(s *string) *CounterCreate {
-	if s != nil {
-		cc.SetCreatedBy(*s)
+func (_c *CounterCreate) SetNillableCreatedBy(v *string) *CounterCreate {
+	if v != nil {
+		_c.SetCreatedBy(*v)
 	}
-	return cc
+	return _c
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (cc *CounterCreate) SetUpdatedBy(s string) *CounterCreate {
-	cc.mutation.SetUpdatedBy(s)
-	return cc
+func (_c *CounterCreate) SetUpdatedBy(v string) *CounterCreate {
+	_c.mutation.SetUpdatedBy(v)
+	return _c
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (cc *CounterCreate) SetNillableUpdatedBy(s *string) *CounterCreate {
-	if s != nil {
-		cc.SetUpdatedBy(*s)
+func (_c *CounterCreate) SetNillableUpdatedBy(v *string) *CounterCreate {
+	if v != nil {
+		_c.SetUpdatedBy(*v)
 	}
-	return cc
+	return _c
 }
 
 // SetCreatedAt sets the "created_at" field.
-func (cc *CounterCreate) SetCreatedAt(i int64) *CounterCreate {
-	cc.mutation.SetCreatedAt(i)
-	return cc
+func (_c *CounterCreate) SetCreatedAt(v int64) *CounterCreate {
+	_c.mutation.SetCreatedAt(v)
+	return _c
 }
 
 // SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
-func (cc *CounterCreate) SetNillableCreatedAt(i *int64) *CounterCreate {
-	if i != nil {
-		cc.SetCreatedAt(*i)
+func (_c *CounterCreate) SetNillableCreatedAt(v *int64) *CounterCreate {
+	if v != nil {
+		_c.SetCreatedAt(*v)
 	}
-	return cc
+	return _c
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (cc *CounterCreate) SetUpdatedAt(i int64) *CounterCreate {
-	cc.mutation.SetUpdatedAt(i)
-	return cc
+func (_c *CounterCreate) SetUpdatedAt(v int64) *CounterCreate {
+	_c.mutation.SetUpdatedAt(v)
+	return _c
 }
 
 // SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
-func (cc *CounterCreate) SetNillableUpdatedAt(i *int64) *CounterCreate {
-	if i != nil {
-		cc.SetUpdatedAt(*i)
+func (_c *CounterCreate) SetNillableUpdatedAt(v *int64) *CounterCreate {
+	if v != nil {
+		_c.SetUpdatedAt(*v)
 	}
-	return cc
+	return _c
 }
 
 // SetID sets the "id" field.
-func (cc *CounterCreate) SetID(s string) *CounterCreate {
-	cc.mutation.SetID(s)
-	return cc
+func (_c *CounterCreate) SetID(v string) *CounterCreate {
+	_c.mutation.SetID(v)
+	return _c
 }
 
 // SetNillableID sets the "id" field if the given value is not nil.
-func (cc *CounterCreate) SetNillableID(s *string) *CounterCreate {
-	if s != nil {
-		cc.SetID(*s)
+func (_c *CounterCreate) SetNillableID(v *string) *CounterCreate {
+	if v != nil {
+		_c.SetID(*v)
 	}
-	return cc
+	return _c
 }
 
 // Mutation returns the CounterMutation object of the builder.
-func (cc *CounterCreate) Mutation() *CounterMutation {
-	return cc.mutation
+func (_c *CounterCreate) Mutation() *CounterMutation {
+	return _c.mutation
 }
 
 // Save creates the Counter in the database.
-func (cc *CounterCreate) Save(ctx context.Context) (*Counter, error) {
-	cc.defaults()
-	return withHooks(ctx, cc.sqlSave, cc.mutation, cc.hooks)
+func (_c *CounterCreate) Save(ctx context.Context) (*Counter, error) {
+	_c.defaults()
+	return withHooks(ctx, _c.sqlSave, _c.mutation, _c.hooks)
 }
 
 // SaveX calls Save and panics if Save returns an error.
-func (cc *CounterCreate) SaveX(ctx context.Context) *Counter {
-	v, err := cc.Save(ctx)
+func (_c *CounterCreate) SaveX(ctx context.Context) *Counter {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -264,71 +264,71 @@ func (cc *CounterCreate) SaveX(ctx context.Context) *Counter {
 }
 
 // Exec executes the query.
-func (cc *CounterCreate) Exec(ctx context.Context) error {
-	_, err := cc.Save(ctx)
+func (_c *CounterCreate) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (cc *CounterCreate) ExecX(ctx context.Context) {
-	if err := cc.Exec(ctx); err != nil {
+func (_c *CounterCreate) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (cc *CounterCreate) defaults() {
-	if _, ok := cc.mutation.StartValue(); !ok {
+func (_c *CounterCreate) defaults() {
+	if _, ok := _c.mutation.StartValue(); !ok {
 		v := counter.DefaultStartValue
-		cc.mutation.SetStartValue(v)
+		_c.mutation.SetStartValue(v)
 	}
-	if _, ok := cc.mutation.IncrementStep(); !ok {
+	if _, ok := _c.mutation.IncrementStep(); !ok {
 		v := counter.DefaultIncrementStep
-		cc.mutation.SetIncrementStep(v)
+		_c.mutation.SetIncrementStep(v)
 	}
-	if _, ok := cc.mutation.DateFormat(); !ok {
+	if _, ok := _c.mutation.DateFormat(); !ok {
 		v := counter.DefaultDateFormat
-		cc.mutation.SetDateFormat(v)
+		_c.mutation.SetDateFormat(v)
 	}
-	if _, ok := cc.mutation.CurrentValue(); !ok {
+	if _, ok := _c.mutation.CurrentValue(); !ok {
 		v := counter.DefaultCurrentValue
-		cc.mutation.SetCurrentValue(v)
+		_c.mutation.SetCurrentValue(v)
 	}
-	if _, ok := cc.mutation.Disabled(); !ok {
+	if _, ok := _c.mutation.Disabled(); !ok {
 		v := counter.DefaultDisabled
-		cc.mutation.SetDisabled(v)
+		_c.mutation.SetDisabled(v)
 	}
-	if _, ok := cc.mutation.CreatedAt(); !ok {
+	if _, ok := _c.mutation.CreatedAt(); !ok {
 		v := counter.DefaultCreatedAt()
-		cc.mutation.SetCreatedAt(v)
+		_c.mutation.SetCreatedAt(v)
 	}
-	if _, ok := cc.mutation.UpdatedAt(); !ok {
+	if _, ok := _c.mutation.UpdatedAt(); !ok {
 		v := counter.DefaultUpdatedAt()
-		cc.mutation.SetUpdatedAt(v)
+		_c.mutation.SetUpdatedAt(v)
 	}
-	if _, ok := cc.mutation.ID(); !ok {
+	if _, ok := _c.mutation.ID(); !ok {
 		v := counter.DefaultID()
-		cc.mutation.SetID(v)
+		_c.mutation.SetID(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (cc *CounterCreate) check() error {
-	if v, ok := cc.mutation.Identifier(); ok {
+func (_c *CounterCreate) check() error {
+	if v, ok := _c.mutation.Identifier(); ok {
 		if err := counter.IdentifierValidator(v); err != nil {
 			return &ValidationError{Name: "identifier", err: fmt.Errorf(`ent: validator failed for field "Counter.identifier": %w`, err)}
 		}
 	}
-	if _, ok := cc.mutation.StartValue(); !ok {
+	if _, ok := _c.mutation.StartValue(); !ok {
 		return &ValidationError{Name: "start_value", err: errors.New(`ent: missing required field "Counter.start_value"`)}
 	}
-	if _, ok := cc.mutation.IncrementStep(); !ok {
+	if _, ok := _c.mutation.IncrementStep(); !ok {
 		return &ValidationError{Name: "increment_step", err: errors.New(`ent: missing required field "Counter.increment_step"`)}
 	}
-	if _, ok := cc.mutation.CurrentValue(); !ok {
+	if _, ok := _c.mutation.CurrentValue(); !ok {
 		return &ValidationError{Name: "current_value", err: errors.New(`ent: missing required field "Counter.current_value"`)}
 	}
-	if v, ok := cc.mutation.ID(); ok {
+	if v, ok := _c.mutation.ID(); ok {
 		if err := counter.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "Counter.id": %w`, err)}
 		}
@@ -336,12 +336,12 @@ func (cc *CounterCreate) check() error {
 	return nil
 }
 
-func (cc *CounterCreate) sqlSave(ctx context.Context) (*Counter, error) {
-	if err := cc.check(); err != nil {
+func (_c *CounterCreate) sqlSave(ctx context.Context) (*Counter, error) {
+	if err := _c.check(); err != nil {
 		return nil, err
 	}
-	_node, _spec := cc.createSpec()
-	if err := sqlgraph.CreateNode(ctx, cc.driver, _spec); err != nil {
+	_node, _spec := _c.createSpec()
+	if err := sqlgraph.CreateNode(ctx, _c.driver, _spec); err != nil {
 		if sqlgraph.IsConstraintError(err) {
 			err = &ConstraintError{msg: err.Error(), wrap: err}
 		}
@@ -354,77 +354,77 @@ func (cc *CounterCreate) sqlSave(ctx context.Context) (*Counter, error) {
 			return nil, fmt.Errorf("unexpected Counter.ID type: %T", _spec.ID.Value)
 		}
 	}
-	cc.mutation.id = &_node.ID
-	cc.mutation.done = true
+	_c.mutation.id = &_node.ID
+	_c.mutation.done = true
 	return _node, nil
 }
 
-func (cc *CounterCreate) createSpec() (*Counter, *sqlgraph.CreateSpec) {
+func (_c *CounterCreate) createSpec() (*Counter, *sqlgraph.CreateSpec) {
 	var (
-		_node = &Counter{config: cc.config}
+		_node = &Counter{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(counter.Table, sqlgraph.NewFieldSpec(counter.FieldID, field.TypeString))
 	)
-	if id, ok := cc.mutation.ID(); ok {
+	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
 	}
-	if value, ok := cc.mutation.Identifier(); ok {
+	if value, ok := _c.mutation.Identifier(); ok {
 		_spec.SetField(counter.FieldIdentifier, field.TypeString, value)
 		_node.Identifier = value
 	}
-	if value, ok := cc.mutation.Name(); ok {
+	if value, ok := _c.mutation.Name(); ok {
 		_spec.SetField(counter.FieldName, field.TypeString, value)
 		_node.Name = value
 	}
-	if value, ok := cc.mutation.Prefix(); ok {
+	if value, ok := _c.mutation.Prefix(); ok {
 		_spec.SetField(counter.FieldPrefix, field.TypeString, value)
 		_node.Prefix = value
 	}
-	if value, ok := cc.mutation.Suffix(); ok {
+	if value, ok := _c.mutation.Suffix(); ok {
 		_spec.SetField(counter.FieldSuffix, field.TypeString, value)
 		_node.Suffix = value
 	}
-	if value, ok := cc.mutation.StartValue(); ok {
+	if value, ok := _c.mutation.StartValue(); ok {
 		_spec.SetField(counter.FieldStartValue, field.TypeInt, value)
 		_node.StartValue = value
 	}
-	if value, ok := cc.mutation.IncrementStep(); ok {
+	if value, ok := _c.mutation.IncrementStep(); ok {
 		_spec.SetField(counter.FieldIncrementStep, field.TypeInt, value)
 		_node.IncrementStep = value
 	}
-	if value, ok := cc.mutation.DateFormat(); ok {
+	if value, ok := _c.mutation.DateFormat(); ok {
 		_spec.SetField(counter.FieldDateFormat, field.TypeString, value)
 		_node.DateFormat = value
 	}
-	if value, ok := cc.mutation.CurrentValue(); ok {
+	if value, ok := _c.mutation.CurrentValue(); ok {
 		_spec.SetField(counter.FieldCurrentValue, field.TypeInt, value)
 		_node.CurrentValue = value
 	}
-	if value, ok := cc.mutation.Disabled(); ok {
+	if value, ok := _c.mutation.Disabled(); ok {
 		_spec.SetField(counter.FieldDisabled, field.TypeBool, value)
 		_node.Disabled = value
 	}
-	if value, ok := cc.mutation.Description(); ok {
+	if value, ok := _c.mutation.Description(); ok {
 		_spec.SetField(counter.FieldDescription, field.TypeString, value)
 		_node.Description = value
 	}
-	if value, ok := cc.mutation.SpaceID(); ok {
+	if value, ok := _c.mutation.SpaceID(); ok {
 		_spec.SetField(counter.FieldSpaceID, field.TypeString, value)
 		_node.SpaceID = value
 	}
-	if value, ok := cc.mutation.CreatedBy(); ok {
+	if value, ok := _c.mutation.CreatedBy(); ok {
 		_spec.SetField(counter.FieldCreatedBy, field.TypeString, value)
 		_node.CreatedBy = value
 	}
-	if value, ok := cc.mutation.UpdatedBy(); ok {
+	if value, ok := _c.mutation.UpdatedBy(); ok {
 		_spec.SetField(counter.FieldUpdatedBy, field.TypeString, value)
 		_node.UpdatedBy = value
 	}
-	if value, ok := cc.mutation.CreatedAt(); ok {
+	if value, ok := _c.mutation.CreatedAt(); ok {
 		_spec.SetField(counter.FieldCreatedAt, field.TypeInt64, value)
 		_node.CreatedAt = value
 	}
-	if value, ok := cc.mutation.UpdatedAt(); ok {
+	if value, ok := _c.mutation.UpdatedAt(); ok {
 		_spec.SetField(counter.FieldUpdatedAt, field.TypeInt64, value)
 		_node.UpdatedAt = value
 	}
@@ -439,16 +439,16 @@ type CounterCreateBulk struct {
 }
 
 // Save creates the Counter entities in the database.
-func (ccb *CounterCreateBulk) Save(ctx context.Context) ([]*Counter, error) {
-	if ccb.err != nil {
-		return nil, ccb.err
+func (_c *CounterCreateBulk) Save(ctx context.Context) ([]*Counter, error) {
+	if _c.err != nil {
+		return nil, _c.err
 	}
-	specs := make([]*sqlgraph.CreateSpec, len(ccb.builders))
-	nodes := make([]*Counter, len(ccb.builders))
-	mutators := make([]Mutator, len(ccb.builders))
-	for i := range ccb.builders {
+	specs := make([]*sqlgraph.CreateSpec, len(_c.builders))
+	nodes := make([]*Counter, len(_c.builders))
+	mutators := make([]Mutator, len(_c.builders))
+	for i := range _c.builders {
 		func(i int, root context.Context) {
-			builder := ccb.builders[i]
+			builder := _c.builders[i]
 			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*CounterMutation)
@@ -462,11 +462,11 @@ func (ccb *CounterCreateBulk) Save(ctx context.Context) ([]*Counter, error) {
 				var err error
 				nodes[i], specs[i] = builder.createSpec()
 				if i < len(mutators)-1 {
-					_, err = mutators[i+1].Mutate(root, ccb.builders[i+1].mutation)
+					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
 					// Invoke the actual operation on the latest mutation in the chain.
-					if err = sqlgraph.BatchCreate(ctx, ccb.driver, spec); err != nil {
+					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
 							err = &ConstraintError{msg: err.Error(), wrap: err}
 						}
@@ -486,7 +486,7 @@ func (ccb *CounterCreateBulk) Save(ctx context.Context) ([]*Counter, error) {
 		}(i, ctx)
 	}
 	if len(mutators) > 0 {
-		if _, err := mutators[0].Mutate(ctx, ccb.builders[0].mutation); err != nil {
+		if _, err := mutators[0].Mutate(ctx, _c.builders[0].mutation); err != nil {
 			return nil, err
 		}
 	}
@@ -494,8 +494,8 @@ func (ccb *CounterCreateBulk) Save(ctx context.Context) ([]*Counter, error) {
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (ccb *CounterCreateBulk) SaveX(ctx context.Context) []*Counter {
-	v, err := ccb.Save(ctx)
+func (_c *CounterCreateBulk) SaveX(ctx context.Context) []*Counter {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -503,14 +503,14 @@ func (ccb *CounterCreateBulk) SaveX(ctx context.Context) []*Counter {
 }
 
 // Exec executes the query.
-func (ccb *CounterCreateBulk) Exec(ctx context.Context) error {
-	_, err := ccb.Save(ctx)
+func (_c *CounterCreateBulk) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (ccb *CounterCreateBulk) ExecX(ctx context.Context) {
-	if err := ccb.Exec(ctx); err != nil {
+func (_c *CounterCreateBulk) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

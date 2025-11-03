@@ -50,7 +50,7 @@ func (*SpaceOption) scanValues(columns []string) ([]any, error) {
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
 // to the SpaceOption fields.
-func (so *SpaceOption) assignValues(columns []string, values []any) error {
+func (_m *SpaceOption) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
@@ -60,46 +60,46 @@ func (so *SpaceOption) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field id", values[i])
 			} else if value.Valid {
-				so.ID = value.String
+				_m.ID = value.String
 			}
 		case spaceoption.FieldSpaceID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field space_id", values[i])
 			} else if value.Valid {
-				so.SpaceID = value.String
+				_m.SpaceID = value.String
 			}
 		case spaceoption.FieldOptionID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field option_id", values[i])
 			} else if value.Valid {
-				so.OptionID = value.String
+				_m.OptionID = value.String
 			}
 		case spaceoption.FieldCreatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field created_by", values[i])
 			} else if value.Valid {
-				so.CreatedBy = value.String
+				_m.CreatedBy = value.String
 			}
 		case spaceoption.FieldUpdatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_by", values[i])
 			} else if value.Valid {
-				so.UpdatedBy = value.String
+				_m.UpdatedBy = value.String
 			}
 		case spaceoption.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field created_at", values[i])
 			} else if value.Valid {
-				so.CreatedAt = value.Int64
+				_m.CreatedAt = value.Int64
 			}
 		case spaceoption.FieldUpdatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_at", values[i])
 			} else if value.Valid {
-				so.UpdatedAt = value.Int64
+				_m.UpdatedAt = value.Int64
 			}
 		default:
-			so.selectValues.Set(columns[i], values[i])
+			_m.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
@@ -107,50 +107,50 @@ func (so *SpaceOption) assignValues(columns []string, values []any) error {
 
 // Value returns the ent.Value that was dynamically selected and assigned to the SpaceOption.
 // This includes values selected through modifiers, order, etc.
-func (so *SpaceOption) Value(name string) (ent.Value, error) {
-	return so.selectValues.Get(name)
+func (_m *SpaceOption) Value(name string) (ent.Value, error) {
+	return _m.selectValues.Get(name)
 }
 
 // Update returns a builder for updating this SpaceOption.
 // Note that you need to call SpaceOption.Unwrap() before calling this method if this SpaceOption
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (so *SpaceOption) Update() *SpaceOptionUpdateOne {
-	return NewSpaceOptionClient(so.config).UpdateOne(so)
+func (_m *SpaceOption) Update() *SpaceOptionUpdateOne {
+	return NewSpaceOptionClient(_m.config).UpdateOne(_m)
 }
 
 // Unwrap unwraps the SpaceOption entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (so *SpaceOption) Unwrap() *SpaceOption {
-	_tx, ok := so.config.driver.(*txDriver)
+func (_m *SpaceOption) Unwrap() *SpaceOption {
+	_tx, ok := _m.config.driver.(*txDriver)
 	if !ok {
 		panic("ent: SpaceOption is not a transactional entity")
 	}
-	so.config.driver = _tx.drv
-	return so
+	_m.config.driver = _tx.drv
+	return _m
 }
 
 // String implements the fmt.Stringer.
-func (so *SpaceOption) String() string {
+func (_m *SpaceOption) String() string {
 	var builder strings.Builder
 	builder.WriteString("SpaceOption(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", so.ID))
+	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
 	builder.WriteString("space_id=")
-	builder.WriteString(so.SpaceID)
+	builder.WriteString(_m.SpaceID)
 	builder.WriteString(", ")
 	builder.WriteString("option_id=")
-	builder.WriteString(so.OptionID)
+	builder.WriteString(_m.OptionID)
 	builder.WriteString(", ")
 	builder.WriteString("created_by=")
-	builder.WriteString(so.CreatedBy)
+	builder.WriteString(_m.CreatedBy)
 	builder.WriteString(", ")
 	builder.WriteString("updated_by=")
-	builder.WriteString(so.UpdatedBy)
+	builder.WriteString(_m.UpdatedBy)
 	builder.WriteString(", ")
 	builder.WriteString("created_at=")
-	builder.WriteString(fmt.Sprintf("%v", so.CreatedAt))
+	builder.WriteString(fmt.Sprintf("%v", _m.CreatedAt))
 	builder.WriteString(", ")
 	builder.WriteString("updated_at=")
-	builder.WriteString(fmt.Sprintf("%v", so.UpdatedAt))
+	builder.WriteString(fmt.Sprintf("%v", _m.UpdatedAt))
 	builder.WriteByte(')')
 	return builder.String()
 }

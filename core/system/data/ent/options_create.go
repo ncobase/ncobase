@@ -19,145 +19,145 @@ type OptionsCreate struct {
 }
 
 // SetName sets the "name" field.
-func (oc *OptionsCreate) SetName(s string) *OptionsCreate {
-	oc.mutation.SetName(s)
-	return oc
+func (_c *OptionsCreate) SetName(v string) *OptionsCreate {
+	_c.mutation.SetName(v)
+	return _c
 }
 
 // SetNillableName sets the "name" field if the given value is not nil.
-func (oc *OptionsCreate) SetNillableName(s *string) *OptionsCreate {
-	if s != nil {
-		oc.SetName(*s)
+func (_c *OptionsCreate) SetNillableName(v *string) *OptionsCreate {
+	if v != nil {
+		_c.SetName(*v)
 	}
-	return oc
+	return _c
 }
 
 // SetType sets the "type" field.
-func (oc *OptionsCreate) SetType(s string) *OptionsCreate {
-	oc.mutation.SetType(s)
-	return oc
+func (_c *OptionsCreate) SetType(v string) *OptionsCreate {
+	_c.mutation.SetType(v)
+	return _c
 }
 
 // SetNillableType sets the "type" field if the given value is not nil.
-func (oc *OptionsCreate) SetNillableType(s *string) *OptionsCreate {
-	if s != nil {
-		oc.SetType(*s)
+func (_c *OptionsCreate) SetNillableType(v *string) *OptionsCreate {
+	if v != nil {
+		_c.SetType(*v)
 	}
-	return oc
+	return _c
 }
 
 // SetValue sets the "value" field.
-func (oc *OptionsCreate) SetValue(s string) *OptionsCreate {
-	oc.mutation.SetValue(s)
-	return oc
+func (_c *OptionsCreate) SetValue(v string) *OptionsCreate {
+	_c.mutation.SetValue(v)
+	return _c
 }
 
 // SetNillableValue sets the "value" field if the given value is not nil.
-func (oc *OptionsCreate) SetNillableValue(s *string) *OptionsCreate {
-	if s != nil {
-		oc.SetValue(*s)
+func (_c *OptionsCreate) SetNillableValue(v *string) *OptionsCreate {
+	if v != nil {
+		_c.SetValue(*v)
 	}
-	return oc
+	return _c
 }
 
 // SetAutoload sets the "autoload" field.
-func (oc *OptionsCreate) SetAutoload(b bool) *OptionsCreate {
-	oc.mutation.SetAutoload(b)
-	return oc
+func (_c *OptionsCreate) SetAutoload(v bool) *OptionsCreate {
+	_c.mutation.SetAutoload(v)
+	return _c
 }
 
 // SetNillableAutoload sets the "autoload" field if the given value is not nil.
-func (oc *OptionsCreate) SetNillableAutoload(b *bool) *OptionsCreate {
-	if b != nil {
-		oc.SetAutoload(*b)
+func (_c *OptionsCreate) SetNillableAutoload(v *bool) *OptionsCreate {
+	if v != nil {
+		_c.SetAutoload(*v)
 	}
-	return oc
+	return _c
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (oc *OptionsCreate) SetCreatedBy(s string) *OptionsCreate {
-	oc.mutation.SetCreatedBy(s)
-	return oc
+func (_c *OptionsCreate) SetCreatedBy(v string) *OptionsCreate {
+	_c.mutation.SetCreatedBy(v)
+	return _c
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (oc *OptionsCreate) SetNillableCreatedBy(s *string) *OptionsCreate {
-	if s != nil {
-		oc.SetCreatedBy(*s)
+func (_c *OptionsCreate) SetNillableCreatedBy(v *string) *OptionsCreate {
+	if v != nil {
+		_c.SetCreatedBy(*v)
 	}
-	return oc
+	return _c
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (oc *OptionsCreate) SetUpdatedBy(s string) *OptionsCreate {
-	oc.mutation.SetUpdatedBy(s)
-	return oc
+func (_c *OptionsCreate) SetUpdatedBy(v string) *OptionsCreate {
+	_c.mutation.SetUpdatedBy(v)
+	return _c
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (oc *OptionsCreate) SetNillableUpdatedBy(s *string) *OptionsCreate {
-	if s != nil {
-		oc.SetUpdatedBy(*s)
+func (_c *OptionsCreate) SetNillableUpdatedBy(v *string) *OptionsCreate {
+	if v != nil {
+		_c.SetUpdatedBy(*v)
 	}
-	return oc
+	return _c
 }
 
 // SetCreatedAt sets the "created_at" field.
-func (oc *OptionsCreate) SetCreatedAt(i int64) *OptionsCreate {
-	oc.mutation.SetCreatedAt(i)
-	return oc
+func (_c *OptionsCreate) SetCreatedAt(v int64) *OptionsCreate {
+	_c.mutation.SetCreatedAt(v)
+	return _c
 }
 
 // SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
-func (oc *OptionsCreate) SetNillableCreatedAt(i *int64) *OptionsCreate {
-	if i != nil {
-		oc.SetCreatedAt(*i)
+func (_c *OptionsCreate) SetNillableCreatedAt(v *int64) *OptionsCreate {
+	if v != nil {
+		_c.SetCreatedAt(*v)
 	}
-	return oc
+	return _c
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (oc *OptionsCreate) SetUpdatedAt(i int64) *OptionsCreate {
-	oc.mutation.SetUpdatedAt(i)
-	return oc
+func (_c *OptionsCreate) SetUpdatedAt(v int64) *OptionsCreate {
+	_c.mutation.SetUpdatedAt(v)
+	return _c
 }
 
 // SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
-func (oc *OptionsCreate) SetNillableUpdatedAt(i *int64) *OptionsCreate {
-	if i != nil {
-		oc.SetUpdatedAt(*i)
+func (_c *OptionsCreate) SetNillableUpdatedAt(v *int64) *OptionsCreate {
+	if v != nil {
+		_c.SetUpdatedAt(*v)
 	}
-	return oc
+	return _c
 }
 
 // SetID sets the "id" field.
-func (oc *OptionsCreate) SetID(s string) *OptionsCreate {
-	oc.mutation.SetID(s)
-	return oc
+func (_c *OptionsCreate) SetID(v string) *OptionsCreate {
+	_c.mutation.SetID(v)
+	return _c
 }
 
 // SetNillableID sets the "id" field if the given value is not nil.
-func (oc *OptionsCreate) SetNillableID(s *string) *OptionsCreate {
-	if s != nil {
-		oc.SetID(*s)
+func (_c *OptionsCreate) SetNillableID(v *string) *OptionsCreate {
+	if v != nil {
+		_c.SetID(*v)
 	}
-	return oc
+	return _c
 }
 
 // Mutation returns the OptionsMutation object of the builder.
-func (oc *OptionsCreate) Mutation() *OptionsMutation {
-	return oc.mutation
+func (_c *OptionsCreate) Mutation() *OptionsMutation {
+	return _c.mutation
 }
 
 // Save creates the Options in the database.
-func (oc *OptionsCreate) Save(ctx context.Context) (*Options, error) {
-	oc.defaults()
-	return withHooks(ctx, oc.sqlSave, oc.mutation, oc.hooks)
+func (_c *OptionsCreate) Save(ctx context.Context) (*Options, error) {
+	_c.defaults()
+	return withHooks(ctx, _c.sqlSave, _c.mutation, _c.hooks)
 }
 
 // SaveX calls Save and panics if Save returns an error.
-func (oc *OptionsCreate) SaveX(ctx context.Context) *Options {
-	v, err := oc.Save(ctx)
+func (_c *OptionsCreate) SaveX(ctx context.Context) *Options {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -165,46 +165,46 @@ func (oc *OptionsCreate) SaveX(ctx context.Context) *Options {
 }
 
 // Exec executes the query.
-func (oc *OptionsCreate) Exec(ctx context.Context) error {
-	_, err := oc.Save(ctx)
+func (_c *OptionsCreate) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (oc *OptionsCreate) ExecX(ctx context.Context) {
-	if err := oc.Exec(ctx); err != nil {
+func (_c *OptionsCreate) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (oc *OptionsCreate) defaults() {
-	if _, ok := oc.mutation.Autoload(); !ok {
+func (_c *OptionsCreate) defaults() {
+	if _, ok := _c.mutation.Autoload(); !ok {
 		v := options.DefaultAutoload
-		oc.mutation.SetAutoload(v)
+		_c.mutation.SetAutoload(v)
 	}
-	if _, ok := oc.mutation.CreatedAt(); !ok {
+	if _, ok := _c.mutation.CreatedAt(); !ok {
 		v := options.DefaultCreatedAt()
-		oc.mutation.SetCreatedAt(v)
+		_c.mutation.SetCreatedAt(v)
 	}
-	if _, ok := oc.mutation.UpdatedAt(); !ok {
+	if _, ok := _c.mutation.UpdatedAt(); !ok {
 		v := options.DefaultUpdatedAt()
-		oc.mutation.SetUpdatedAt(v)
+		_c.mutation.SetUpdatedAt(v)
 	}
-	if _, ok := oc.mutation.ID(); !ok {
+	if _, ok := _c.mutation.ID(); !ok {
 		v := options.DefaultID()
-		oc.mutation.SetID(v)
+		_c.mutation.SetID(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (oc *OptionsCreate) check() error {
-	if v, ok := oc.mutation.Name(); ok {
+func (_c *OptionsCreate) check() error {
+	if v, ok := _c.mutation.Name(); ok {
 		if err := options.NameValidator(v); err != nil {
 			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "Options.name": %w`, err)}
 		}
 	}
-	if v, ok := oc.mutation.ID(); ok {
+	if v, ok := _c.mutation.ID(); ok {
 		if err := options.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "Options.id": %w`, err)}
 		}
@@ -212,12 +212,12 @@ func (oc *OptionsCreate) check() error {
 	return nil
 }
 
-func (oc *OptionsCreate) sqlSave(ctx context.Context) (*Options, error) {
-	if err := oc.check(); err != nil {
+func (_c *OptionsCreate) sqlSave(ctx context.Context) (*Options, error) {
+	if err := _c.check(); err != nil {
 		return nil, err
 	}
-	_node, _spec := oc.createSpec()
-	if err := sqlgraph.CreateNode(ctx, oc.driver, _spec); err != nil {
+	_node, _spec := _c.createSpec()
+	if err := sqlgraph.CreateNode(ctx, _c.driver, _spec); err != nil {
 		if sqlgraph.IsConstraintError(err) {
 			err = &ConstraintError{msg: err.Error(), wrap: err}
 		}
@@ -230,49 +230,49 @@ func (oc *OptionsCreate) sqlSave(ctx context.Context) (*Options, error) {
 			return nil, fmt.Errorf("unexpected Options.ID type: %T", _spec.ID.Value)
 		}
 	}
-	oc.mutation.id = &_node.ID
-	oc.mutation.done = true
+	_c.mutation.id = &_node.ID
+	_c.mutation.done = true
 	return _node, nil
 }
 
-func (oc *OptionsCreate) createSpec() (*Options, *sqlgraph.CreateSpec) {
+func (_c *OptionsCreate) createSpec() (*Options, *sqlgraph.CreateSpec) {
 	var (
-		_node = &Options{config: oc.config}
+		_node = &Options{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(options.Table, sqlgraph.NewFieldSpec(options.FieldID, field.TypeString))
 	)
-	if id, ok := oc.mutation.ID(); ok {
+	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
 	}
-	if value, ok := oc.mutation.Name(); ok {
+	if value, ok := _c.mutation.Name(); ok {
 		_spec.SetField(options.FieldName, field.TypeString, value)
 		_node.Name = value
 	}
-	if value, ok := oc.mutation.GetType(); ok {
+	if value, ok := _c.mutation.GetType(); ok {
 		_spec.SetField(options.FieldType, field.TypeString, value)
 		_node.Type = value
 	}
-	if value, ok := oc.mutation.Value(); ok {
+	if value, ok := _c.mutation.Value(); ok {
 		_spec.SetField(options.FieldValue, field.TypeString, value)
 		_node.Value = value
 	}
-	if value, ok := oc.mutation.Autoload(); ok {
+	if value, ok := _c.mutation.Autoload(); ok {
 		_spec.SetField(options.FieldAutoload, field.TypeBool, value)
 		_node.Autoload = value
 	}
-	if value, ok := oc.mutation.CreatedBy(); ok {
+	if value, ok := _c.mutation.CreatedBy(); ok {
 		_spec.SetField(options.FieldCreatedBy, field.TypeString, value)
 		_node.CreatedBy = value
 	}
-	if value, ok := oc.mutation.UpdatedBy(); ok {
+	if value, ok := _c.mutation.UpdatedBy(); ok {
 		_spec.SetField(options.FieldUpdatedBy, field.TypeString, value)
 		_node.UpdatedBy = value
 	}
-	if value, ok := oc.mutation.CreatedAt(); ok {
+	if value, ok := _c.mutation.CreatedAt(); ok {
 		_spec.SetField(options.FieldCreatedAt, field.TypeInt64, value)
 		_node.CreatedAt = value
 	}
-	if value, ok := oc.mutation.UpdatedAt(); ok {
+	if value, ok := _c.mutation.UpdatedAt(); ok {
 		_spec.SetField(options.FieldUpdatedAt, field.TypeInt64, value)
 		_node.UpdatedAt = value
 	}
@@ -287,16 +287,16 @@ type OptionsCreateBulk struct {
 }
 
 // Save creates the Options entities in the database.
-func (ocb *OptionsCreateBulk) Save(ctx context.Context) ([]*Options, error) {
-	if ocb.err != nil {
-		return nil, ocb.err
+func (_c *OptionsCreateBulk) Save(ctx context.Context) ([]*Options, error) {
+	if _c.err != nil {
+		return nil, _c.err
 	}
-	specs := make([]*sqlgraph.CreateSpec, len(ocb.builders))
-	nodes := make([]*Options, len(ocb.builders))
-	mutators := make([]Mutator, len(ocb.builders))
-	for i := range ocb.builders {
+	specs := make([]*sqlgraph.CreateSpec, len(_c.builders))
+	nodes := make([]*Options, len(_c.builders))
+	mutators := make([]Mutator, len(_c.builders))
+	for i := range _c.builders {
 		func(i int, root context.Context) {
-			builder := ocb.builders[i]
+			builder := _c.builders[i]
 			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*OptionsMutation)
@@ -310,11 +310,11 @@ func (ocb *OptionsCreateBulk) Save(ctx context.Context) ([]*Options, error) {
 				var err error
 				nodes[i], specs[i] = builder.createSpec()
 				if i < len(mutators)-1 {
-					_, err = mutators[i+1].Mutate(root, ocb.builders[i+1].mutation)
+					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
 					// Invoke the actual operation on the latest mutation in the chain.
-					if err = sqlgraph.BatchCreate(ctx, ocb.driver, spec); err != nil {
+					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
 							err = &ConstraintError{msg: err.Error(), wrap: err}
 						}
@@ -334,7 +334,7 @@ func (ocb *OptionsCreateBulk) Save(ctx context.Context) ([]*Options, error) {
 		}(i, ctx)
 	}
 	if len(mutators) > 0 {
-		if _, err := mutators[0].Mutate(ctx, ocb.builders[0].mutation); err != nil {
+		if _, err := mutators[0].Mutate(ctx, _c.builders[0].mutation); err != nil {
 			return nil, err
 		}
 	}
@@ -342,8 +342,8 @@ func (ocb *OptionsCreateBulk) Save(ctx context.Context) ([]*Options, error) {
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (ocb *OptionsCreateBulk) SaveX(ctx context.Context) []*Options {
-	v, err := ocb.Save(ctx)
+func (_c *OptionsCreateBulk) SaveX(ctx context.Context) []*Options {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -351,14 +351,14 @@ func (ocb *OptionsCreateBulk) SaveX(ctx context.Context) []*Options {
 }
 
 // Exec executes the query.
-func (ocb *OptionsCreateBulk) Exec(ctx context.Context) error {
-	_, err := ocb.Save(ctx)
+func (_c *OptionsCreateBulk) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (ocb *OptionsCreateBulk) ExecX(ctx context.Context) {
-	if err := ocb.Exec(ctx); err != nil {
+func (_c *OptionsCreateBulk) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

@@ -22,124 +22,124 @@ type OrganizationRoleUpdate struct {
 }
 
 // Where appends a list predicates to the OrganizationRoleUpdate builder.
-func (oru *OrganizationRoleUpdate) Where(ps ...predicate.OrganizationRole) *OrganizationRoleUpdate {
-	oru.mutation.Where(ps...)
-	return oru
+func (_u *OrganizationRoleUpdate) Where(ps ...predicate.OrganizationRole) *OrganizationRoleUpdate {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // SetOrgID sets the "org_id" field.
-func (oru *OrganizationRoleUpdate) SetOrgID(s string) *OrganizationRoleUpdate {
-	oru.mutation.SetOrgID(s)
-	return oru
+func (_u *OrganizationRoleUpdate) SetOrgID(v string) *OrganizationRoleUpdate {
+	_u.mutation.SetOrgID(v)
+	return _u
 }
 
 // SetNillableOrgID sets the "org_id" field if the given value is not nil.
-func (oru *OrganizationRoleUpdate) SetNillableOrgID(s *string) *OrganizationRoleUpdate {
-	if s != nil {
-		oru.SetOrgID(*s)
+func (_u *OrganizationRoleUpdate) SetNillableOrgID(v *string) *OrganizationRoleUpdate {
+	if v != nil {
+		_u.SetOrgID(*v)
 	}
-	return oru
+	return _u
 }
 
 // ClearOrgID clears the value of the "org_id" field.
-func (oru *OrganizationRoleUpdate) ClearOrgID() *OrganizationRoleUpdate {
-	oru.mutation.ClearOrgID()
-	return oru
+func (_u *OrganizationRoleUpdate) ClearOrgID() *OrganizationRoleUpdate {
+	_u.mutation.ClearOrgID()
+	return _u
 }
 
 // SetRoleID sets the "role_id" field.
-func (oru *OrganizationRoleUpdate) SetRoleID(s string) *OrganizationRoleUpdate {
-	oru.mutation.SetRoleID(s)
-	return oru
+func (_u *OrganizationRoleUpdate) SetRoleID(v string) *OrganizationRoleUpdate {
+	_u.mutation.SetRoleID(v)
+	return _u
 }
 
 // SetNillableRoleID sets the "role_id" field if the given value is not nil.
-func (oru *OrganizationRoleUpdate) SetNillableRoleID(s *string) *OrganizationRoleUpdate {
-	if s != nil {
-		oru.SetRoleID(*s)
+func (_u *OrganizationRoleUpdate) SetNillableRoleID(v *string) *OrganizationRoleUpdate {
+	if v != nil {
+		_u.SetRoleID(*v)
 	}
-	return oru
+	return _u
 }
 
 // ClearRoleID clears the value of the "role_id" field.
-func (oru *OrganizationRoleUpdate) ClearRoleID() *OrganizationRoleUpdate {
-	oru.mutation.ClearRoleID()
-	return oru
+func (_u *OrganizationRoleUpdate) ClearRoleID() *OrganizationRoleUpdate {
+	_u.mutation.ClearRoleID()
+	return _u
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (oru *OrganizationRoleUpdate) SetCreatedBy(s string) *OrganizationRoleUpdate {
-	oru.mutation.SetCreatedBy(s)
-	return oru
+func (_u *OrganizationRoleUpdate) SetCreatedBy(v string) *OrganizationRoleUpdate {
+	_u.mutation.SetCreatedBy(v)
+	return _u
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (oru *OrganizationRoleUpdate) SetNillableCreatedBy(s *string) *OrganizationRoleUpdate {
-	if s != nil {
-		oru.SetCreatedBy(*s)
+func (_u *OrganizationRoleUpdate) SetNillableCreatedBy(v *string) *OrganizationRoleUpdate {
+	if v != nil {
+		_u.SetCreatedBy(*v)
 	}
-	return oru
+	return _u
 }
 
 // ClearCreatedBy clears the value of the "created_by" field.
-func (oru *OrganizationRoleUpdate) ClearCreatedBy() *OrganizationRoleUpdate {
-	oru.mutation.ClearCreatedBy()
-	return oru
+func (_u *OrganizationRoleUpdate) ClearCreatedBy() *OrganizationRoleUpdate {
+	_u.mutation.ClearCreatedBy()
+	return _u
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (oru *OrganizationRoleUpdate) SetUpdatedBy(s string) *OrganizationRoleUpdate {
-	oru.mutation.SetUpdatedBy(s)
-	return oru
+func (_u *OrganizationRoleUpdate) SetUpdatedBy(v string) *OrganizationRoleUpdate {
+	_u.mutation.SetUpdatedBy(v)
+	return _u
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (oru *OrganizationRoleUpdate) SetNillableUpdatedBy(s *string) *OrganizationRoleUpdate {
-	if s != nil {
-		oru.SetUpdatedBy(*s)
+func (_u *OrganizationRoleUpdate) SetNillableUpdatedBy(v *string) *OrganizationRoleUpdate {
+	if v != nil {
+		_u.SetUpdatedBy(*v)
 	}
-	return oru
+	return _u
 }
 
 // ClearUpdatedBy clears the value of the "updated_by" field.
-func (oru *OrganizationRoleUpdate) ClearUpdatedBy() *OrganizationRoleUpdate {
-	oru.mutation.ClearUpdatedBy()
-	return oru
+func (_u *OrganizationRoleUpdate) ClearUpdatedBy() *OrganizationRoleUpdate {
+	_u.mutation.ClearUpdatedBy()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (oru *OrganizationRoleUpdate) SetUpdatedAt(i int64) *OrganizationRoleUpdate {
-	oru.mutation.ResetUpdatedAt()
-	oru.mutation.SetUpdatedAt(i)
-	return oru
+func (_u *OrganizationRoleUpdate) SetUpdatedAt(v int64) *OrganizationRoleUpdate {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (oru *OrganizationRoleUpdate) AddUpdatedAt(i int64) *OrganizationRoleUpdate {
-	oru.mutation.AddUpdatedAt(i)
-	return oru
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *OrganizationRoleUpdate) AddUpdatedAt(v int64) *OrganizationRoleUpdate {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (oru *OrganizationRoleUpdate) ClearUpdatedAt() *OrganizationRoleUpdate {
-	oru.mutation.ClearUpdatedAt()
-	return oru
+func (_u *OrganizationRoleUpdate) ClearUpdatedAt() *OrganizationRoleUpdate {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // Mutation returns the OrganizationRoleMutation object of the builder.
-func (oru *OrganizationRoleUpdate) Mutation() *OrganizationRoleMutation {
-	return oru.mutation
+func (_u *OrganizationRoleUpdate) Mutation() *OrganizationRoleMutation {
+	return _u.mutation
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
-func (oru *OrganizationRoleUpdate) Save(ctx context.Context) (int, error) {
-	oru.defaults()
-	return withHooks(ctx, oru.sqlSave, oru.mutation, oru.hooks)
+func (_u *OrganizationRoleUpdate) Save(ctx context.Context) (int, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (oru *OrganizationRoleUpdate) SaveX(ctx context.Context) int {
-	affected, err := oru.Save(ctx)
+func (_u *OrganizationRoleUpdate) SaveX(ctx context.Context) int {
+	affected, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -147,72 +147,72 @@ func (oru *OrganizationRoleUpdate) SaveX(ctx context.Context) int {
 }
 
 // Exec executes the query.
-func (oru *OrganizationRoleUpdate) Exec(ctx context.Context) error {
-	_, err := oru.Save(ctx)
+func (_u *OrganizationRoleUpdate) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (oru *OrganizationRoleUpdate) ExecX(ctx context.Context) {
-	if err := oru.Exec(ctx); err != nil {
+func (_u *OrganizationRoleUpdate) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (oru *OrganizationRoleUpdate) defaults() {
-	if _, ok := oru.mutation.UpdatedAt(); !ok && !oru.mutation.UpdatedAtCleared() {
+func (_u *OrganizationRoleUpdate) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := organizationrole.UpdateDefaultUpdatedAt()
-		oru.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (oru *OrganizationRoleUpdate) sqlSave(ctx context.Context) (n int, err error) {
+func (_u *OrganizationRoleUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	_spec := sqlgraph.NewUpdateSpec(organizationrole.Table, organizationrole.Columns, sqlgraph.NewFieldSpec(organizationrole.FieldID, field.TypeString))
-	if ps := oru.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := oru.mutation.OrgID(); ok {
+	if value, ok := _u.mutation.OrgID(); ok {
 		_spec.SetField(organizationrole.FieldOrgID, field.TypeString, value)
 	}
-	if oru.mutation.OrgIDCleared() {
+	if _u.mutation.OrgIDCleared() {
 		_spec.ClearField(organizationrole.FieldOrgID, field.TypeString)
 	}
-	if value, ok := oru.mutation.RoleID(); ok {
+	if value, ok := _u.mutation.RoleID(); ok {
 		_spec.SetField(organizationrole.FieldRoleID, field.TypeString, value)
 	}
-	if oru.mutation.RoleIDCleared() {
+	if _u.mutation.RoleIDCleared() {
 		_spec.ClearField(organizationrole.FieldRoleID, field.TypeString)
 	}
-	if value, ok := oru.mutation.CreatedBy(); ok {
+	if value, ok := _u.mutation.CreatedBy(); ok {
 		_spec.SetField(organizationrole.FieldCreatedBy, field.TypeString, value)
 	}
-	if oru.mutation.CreatedByCleared() {
+	if _u.mutation.CreatedByCleared() {
 		_spec.ClearField(organizationrole.FieldCreatedBy, field.TypeString)
 	}
-	if value, ok := oru.mutation.UpdatedBy(); ok {
+	if value, ok := _u.mutation.UpdatedBy(); ok {
 		_spec.SetField(organizationrole.FieldUpdatedBy, field.TypeString, value)
 	}
-	if oru.mutation.UpdatedByCleared() {
+	if _u.mutation.UpdatedByCleared() {
 		_spec.ClearField(organizationrole.FieldUpdatedBy, field.TypeString)
 	}
-	if oru.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(organizationrole.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := oru.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(organizationrole.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := oru.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(organizationrole.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if oru.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(organizationrole.FieldUpdatedAt, field.TypeInt64)
 	}
-	if n, err = sqlgraph.UpdateNodes(ctx, oru.driver, _spec); err != nil {
+	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{organizationrole.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -220,8 +220,8 @@ func (oru *OrganizationRoleUpdate) sqlSave(ctx context.Context) (n int, err erro
 		}
 		return 0, err
 	}
-	oru.mutation.done = true
-	return n, nil
+	_u.mutation.done = true
+	return _node, nil
 }
 
 // OrganizationRoleUpdateOne is the builder for updating a single OrganizationRole entity.
@@ -233,131 +233,131 @@ type OrganizationRoleUpdateOne struct {
 }
 
 // SetOrgID sets the "org_id" field.
-func (oruo *OrganizationRoleUpdateOne) SetOrgID(s string) *OrganizationRoleUpdateOne {
-	oruo.mutation.SetOrgID(s)
-	return oruo
+func (_u *OrganizationRoleUpdateOne) SetOrgID(v string) *OrganizationRoleUpdateOne {
+	_u.mutation.SetOrgID(v)
+	return _u
 }
 
 // SetNillableOrgID sets the "org_id" field if the given value is not nil.
-func (oruo *OrganizationRoleUpdateOne) SetNillableOrgID(s *string) *OrganizationRoleUpdateOne {
-	if s != nil {
-		oruo.SetOrgID(*s)
+func (_u *OrganizationRoleUpdateOne) SetNillableOrgID(v *string) *OrganizationRoleUpdateOne {
+	if v != nil {
+		_u.SetOrgID(*v)
 	}
-	return oruo
+	return _u
 }
 
 // ClearOrgID clears the value of the "org_id" field.
-func (oruo *OrganizationRoleUpdateOne) ClearOrgID() *OrganizationRoleUpdateOne {
-	oruo.mutation.ClearOrgID()
-	return oruo
+func (_u *OrganizationRoleUpdateOne) ClearOrgID() *OrganizationRoleUpdateOne {
+	_u.mutation.ClearOrgID()
+	return _u
 }
 
 // SetRoleID sets the "role_id" field.
-func (oruo *OrganizationRoleUpdateOne) SetRoleID(s string) *OrganizationRoleUpdateOne {
-	oruo.mutation.SetRoleID(s)
-	return oruo
+func (_u *OrganizationRoleUpdateOne) SetRoleID(v string) *OrganizationRoleUpdateOne {
+	_u.mutation.SetRoleID(v)
+	return _u
 }
 
 // SetNillableRoleID sets the "role_id" field if the given value is not nil.
-func (oruo *OrganizationRoleUpdateOne) SetNillableRoleID(s *string) *OrganizationRoleUpdateOne {
-	if s != nil {
-		oruo.SetRoleID(*s)
+func (_u *OrganizationRoleUpdateOne) SetNillableRoleID(v *string) *OrganizationRoleUpdateOne {
+	if v != nil {
+		_u.SetRoleID(*v)
 	}
-	return oruo
+	return _u
 }
 
 // ClearRoleID clears the value of the "role_id" field.
-func (oruo *OrganizationRoleUpdateOne) ClearRoleID() *OrganizationRoleUpdateOne {
-	oruo.mutation.ClearRoleID()
-	return oruo
+func (_u *OrganizationRoleUpdateOne) ClearRoleID() *OrganizationRoleUpdateOne {
+	_u.mutation.ClearRoleID()
+	return _u
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (oruo *OrganizationRoleUpdateOne) SetCreatedBy(s string) *OrganizationRoleUpdateOne {
-	oruo.mutation.SetCreatedBy(s)
-	return oruo
+func (_u *OrganizationRoleUpdateOne) SetCreatedBy(v string) *OrganizationRoleUpdateOne {
+	_u.mutation.SetCreatedBy(v)
+	return _u
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (oruo *OrganizationRoleUpdateOne) SetNillableCreatedBy(s *string) *OrganizationRoleUpdateOne {
-	if s != nil {
-		oruo.SetCreatedBy(*s)
+func (_u *OrganizationRoleUpdateOne) SetNillableCreatedBy(v *string) *OrganizationRoleUpdateOne {
+	if v != nil {
+		_u.SetCreatedBy(*v)
 	}
-	return oruo
+	return _u
 }
 
 // ClearCreatedBy clears the value of the "created_by" field.
-func (oruo *OrganizationRoleUpdateOne) ClearCreatedBy() *OrganizationRoleUpdateOne {
-	oruo.mutation.ClearCreatedBy()
-	return oruo
+func (_u *OrganizationRoleUpdateOne) ClearCreatedBy() *OrganizationRoleUpdateOne {
+	_u.mutation.ClearCreatedBy()
+	return _u
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (oruo *OrganizationRoleUpdateOne) SetUpdatedBy(s string) *OrganizationRoleUpdateOne {
-	oruo.mutation.SetUpdatedBy(s)
-	return oruo
+func (_u *OrganizationRoleUpdateOne) SetUpdatedBy(v string) *OrganizationRoleUpdateOne {
+	_u.mutation.SetUpdatedBy(v)
+	return _u
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (oruo *OrganizationRoleUpdateOne) SetNillableUpdatedBy(s *string) *OrganizationRoleUpdateOne {
-	if s != nil {
-		oruo.SetUpdatedBy(*s)
+func (_u *OrganizationRoleUpdateOne) SetNillableUpdatedBy(v *string) *OrganizationRoleUpdateOne {
+	if v != nil {
+		_u.SetUpdatedBy(*v)
 	}
-	return oruo
+	return _u
 }
 
 // ClearUpdatedBy clears the value of the "updated_by" field.
-func (oruo *OrganizationRoleUpdateOne) ClearUpdatedBy() *OrganizationRoleUpdateOne {
-	oruo.mutation.ClearUpdatedBy()
-	return oruo
+func (_u *OrganizationRoleUpdateOne) ClearUpdatedBy() *OrganizationRoleUpdateOne {
+	_u.mutation.ClearUpdatedBy()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (oruo *OrganizationRoleUpdateOne) SetUpdatedAt(i int64) *OrganizationRoleUpdateOne {
-	oruo.mutation.ResetUpdatedAt()
-	oruo.mutation.SetUpdatedAt(i)
-	return oruo
+func (_u *OrganizationRoleUpdateOne) SetUpdatedAt(v int64) *OrganizationRoleUpdateOne {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (oruo *OrganizationRoleUpdateOne) AddUpdatedAt(i int64) *OrganizationRoleUpdateOne {
-	oruo.mutation.AddUpdatedAt(i)
-	return oruo
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *OrganizationRoleUpdateOne) AddUpdatedAt(v int64) *OrganizationRoleUpdateOne {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (oruo *OrganizationRoleUpdateOne) ClearUpdatedAt() *OrganizationRoleUpdateOne {
-	oruo.mutation.ClearUpdatedAt()
-	return oruo
+func (_u *OrganizationRoleUpdateOne) ClearUpdatedAt() *OrganizationRoleUpdateOne {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // Mutation returns the OrganizationRoleMutation object of the builder.
-func (oruo *OrganizationRoleUpdateOne) Mutation() *OrganizationRoleMutation {
-	return oruo.mutation
+func (_u *OrganizationRoleUpdateOne) Mutation() *OrganizationRoleMutation {
+	return _u.mutation
 }
 
 // Where appends a list predicates to the OrganizationRoleUpdate builder.
-func (oruo *OrganizationRoleUpdateOne) Where(ps ...predicate.OrganizationRole) *OrganizationRoleUpdateOne {
-	oruo.mutation.Where(ps...)
-	return oruo
+func (_u *OrganizationRoleUpdateOne) Where(ps ...predicate.OrganizationRole) *OrganizationRoleUpdateOne {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // Select allows selecting one or more fields (columns) of the returned entity.
 // The default is selecting all fields defined in the entity schema.
-func (oruo *OrganizationRoleUpdateOne) Select(field string, fields ...string) *OrganizationRoleUpdateOne {
-	oruo.fields = append([]string{field}, fields...)
-	return oruo
+func (_u *OrganizationRoleUpdateOne) Select(field string, fields ...string) *OrganizationRoleUpdateOne {
+	_u.fields = append([]string{field}, fields...)
+	return _u
 }
 
 // Save executes the query and returns the updated OrganizationRole entity.
-func (oruo *OrganizationRoleUpdateOne) Save(ctx context.Context) (*OrganizationRole, error) {
-	oruo.defaults()
-	return withHooks(ctx, oruo.sqlSave, oruo.mutation, oruo.hooks)
+func (_u *OrganizationRoleUpdateOne) Save(ctx context.Context) (*OrganizationRole, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (oruo *OrganizationRoleUpdateOne) SaveX(ctx context.Context) *OrganizationRole {
-	node, err := oruo.Save(ctx)
+func (_u *OrganizationRoleUpdateOne) SaveX(ctx context.Context) *OrganizationRole {
+	node, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -365,34 +365,34 @@ func (oruo *OrganizationRoleUpdateOne) SaveX(ctx context.Context) *OrganizationR
 }
 
 // Exec executes the query on the entity.
-func (oruo *OrganizationRoleUpdateOne) Exec(ctx context.Context) error {
-	_, err := oruo.Save(ctx)
+func (_u *OrganizationRoleUpdateOne) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (oruo *OrganizationRoleUpdateOne) ExecX(ctx context.Context) {
-	if err := oruo.Exec(ctx); err != nil {
+func (_u *OrganizationRoleUpdateOne) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (oruo *OrganizationRoleUpdateOne) defaults() {
-	if _, ok := oruo.mutation.UpdatedAt(); !ok && !oruo.mutation.UpdatedAtCleared() {
+func (_u *OrganizationRoleUpdateOne) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := organizationrole.UpdateDefaultUpdatedAt()
-		oruo.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (oruo *OrganizationRoleUpdateOne) sqlSave(ctx context.Context) (_node *OrganizationRole, err error) {
+func (_u *OrganizationRoleUpdateOne) sqlSave(ctx context.Context) (_node *OrganizationRole, err error) {
 	_spec := sqlgraph.NewUpdateSpec(organizationrole.Table, organizationrole.Columns, sqlgraph.NewFieldSpec(organizationrole.FieldID, field.TypeString))
-	id, ok := oruo.mutation.ID()
+	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "OrganizationRole.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
-	if fields := oruo.fields; len(fields) > 0 {
+	if fields := _u.fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, organizationrole.FieldID)
 		for _, f := range fields {
@@ -404,53 +404,53 @@ func (oruo *OrganizationRoleUpdateOne) sqlSave(ctx context.Context) (_node *Orga
 			}
 		}
 	}
-	if ps := oruo.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := oruo.mutation.OrgID(); ok {
+	if value, ok := _u.mutation.OrgID(); ok {
 		_spec.SetField(organizationrole.FieldOrgID, field.TypeString, value)
 	}
-	if oruo.mutation.OrgIDCleared() {
+	if _u.mutation.OrgIDCleared() {
 		_spec.ClearField(organizationrole.FieldOrgID, field.TypeString)
 	}
-	if value, ok := oruo.mutation.RoleID(); ok {
+	if value, ok := _u.mutation.RoleID(); ok {
 		_spec.SetField(organizationrole.FieldRoleID, field.TypeString, value)
 	}
-	if oruo.mutation.RoleIDCleared() {
+	if _u.mutation.RoleIDCleared() {
 		_spec.ClearField(organizationrole.FieldRoleID, field.TypeString)
 	}
-	if value, ok := oruo.mutation.CreatedBy(); ok {
+	if value, ok := _u.mutation.CreatedBy(); ok {
 		_spec.SetField(organizationrole.FieldCreatedBy, field.TypeString, value)
 	}
-	if oruo.mutation.CreatedByCleared() {
+	if _u.mutation.CreatedByCleared() {
 		_spec.ClearField(organizationrole.FieldCreatedBy, field.TypeString)
 	}
-	if value, ok := oruo.mutation.UpdatedBy(); ok {
+	if value, ok := _u.mutation.UpdatedBy(); ok {
 		_spec.SetField(organizationrole.FieldUpdatedBy, field.TypeString, value)
 	}
-	if oruo.mutation.UpdatedByCleared() {
+	if _u.mutation.UpdatedByCleared() {
 		_spec.ClearField(organizationrole.FieldUpdatedBy, field.TypeString)
 	}
-	if oruo.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(organizationrole.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := oruo.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(organizationrole.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := oruo.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(organizationrole.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if oruo.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(organizationrole.FieldUpdatedAt, field.TypeInt64)
 	}
-	_node = &OrganizationRole{config: oruo.config}
+	_node = &OrganizationRole{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues
-	if err = sqlgraph.UpdateNode(ctx, oruo.driver, _spec); err != nil {
+	if err = sqlgraph.UpdateNode(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{organizationrole.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -458,6 +458,6 @@ func (oruo *OrganizationRoleUpdateOne) sqlSave(ctx context.Context) (_node *Orga
 		}
 		return nil, err
 	}
-	oruo.mutation.done = true
+	_u.mutation.done = true
 	return _node, nil
 }

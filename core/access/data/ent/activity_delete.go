@@ -20,56 +20,56 @@ type ActivityDelete struct {
 }
 
 // Where appends a list predicates to the ActivityDelete builder.
-func (ad *ActivityDelete) Where(ps ...predicate.Activity) *ActivityDelete {
-	ad.mutation.Where(ps...)
-	return ad
+func (_d *ActivityDelete) Where(ps ...predicate.Activity) *ActivityDelete {
+	_d.mutation.Where(ps...)
+	return _d
 }
 
 // Exec executes the deletion query and returns how many vertices were deleted.
-func (ad *ActivityDelete) Exec(ctx context.Context) (int, error) {
-	return withHooks(ctx, ad.sqlExec, ad.mutation, ad.hooks)
+func (_d *ActivityDelete) Exec(ctx context.Context) (int, error) {
+	return withHooks(ctx, _d.sqlExec, _d.mutation, _d.hooks)
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (ad *ActivityDelete) ExecX(ctx context.Context) int {
-	n, err := ad.Exec(ctx)
+func (_d *ActivityDelete) ExecX(ctx context.Context) int {
+	n, err := _d.Exec(ctx)
 	if err != nil {
 		panic(err)
 	}
 	return n
 }
 
-func (ad *ActivityDelete) sqlExec(ctx context.Context) (int, error) {
+func (_d *ActivityDelete) sqlExec(ctx context.Context) (int, error) {
 	_spec := sqlgraph.NewDeleteSpec(activity.Table, sqlgraph.NewFieldSpec(activity.FieldID, field.TypeString))
-	if ps := ad.mutation.predicates; len(ps) > 0 {
+	if ps := _d.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	affected, err := sqlgraph.DeleteNodes(ctx, ad.driver, _spec)
+	affected, err := sqlgraph.DeleteNodes(ctx, _d.driver, _spec)
 	if err != nil && sqlgraph.IsConstraintError(err) {
 		err = &ConstraintError{msg: err.Error(), wrap: err}
 	}
-	ad.mutation.done = true
+	_d.mutation.done = true
 	return affected, err
 }
 
 // ActivityDeleteOne is the builder for deleting a single Activity entity.
 type ActivityDeleteOne struct {
-	ad *ActivityDelete
+	_d *ActivityDelete
 }
 
 // Where appends a list predicates to the ActivityDelete builder.
-func (ado *ActivityDeleteOne) Where(ps ...predicate.Activity) *ActivityDeleteOne {
-	ado.ad.mutation.Where(ps...)
-	return ado
+func (_d *ActivityDeleteOne) Where(ps ...predicate.Activity) *ActivityDeleteOne {
+	_d._d.mutation.Where(ps...)
+	return _d
 }
 
 // Exec executes the deletion query.
-func (ado *ActivityDeleteOne) Exec(ctx context.Context) error {
-	n, err := ado.ad.Exec(ctx)
+func (_d *ActivityDeleteOne) Exec(ctx context.Context) error {
+	n, err := _d._d.Exec(ctx)
 	switch {
 	case err != nil:
 		return err
@@ -81,8 +81,8 @@ func (ado *ActivityDeleteOne) Exec(ctx context.Context) error {
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (ado *ActivityDeleteOne) ExecX(ctx context.Context) {
-	if err := ado.Exec(ctx); err != nil {
+func (_d *ActivityDeleteOne) ExecX(ctx context.Context) {
+	if err := _d.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

@@ -22,116 +22,116 @@ type ActivityUpdate struct {
 }
 
 // Where appends a list predicates to the ActivityUpdate builder.
-func (au *ActivityUpdate) Where(ps ...predicate.Activity) *ActivityUpdate {
-	au.mutation.Where(ps...)
-	return au
+func (_u *ActivityUpdate) Where(ps ...predicate.Activity) *ActivityUpdate {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // SetType sets the "type" field.
-func (au *ActivityUpdate) SetType(s string) *ActivityUpdate {
-	au.mutation.SetType(s)
-	return au
+func (_u *ActivityUpdate) SetType(v string) *ActivityUpdate {
+	_u.mutation.SetType(v)
+	return _u
 }
 
 // SetNillableType sets the "type" field if the given value is not nil.
-func (au *ActivityUpdate) SetNillableType(s *string) *ActivityUpdate {
-	if s != nil {
-		au.SetType(*s)
+func (_u *ActivityUpdate) SetNillableType(v *string) *ActivityUpdate {
+	if v != nil {
+		_u.SetType(*v)
 	}
-	return au
+	return _u
 }
 
 // ClearType clears the value of the "type" field.
-func (au *ActivityUpdate) ClearType() *ActivityUpdate {
-	au.mutation.ClearType()
-	return au
+func (_u *ActivityUpdate) ClearType() *ActivityUpdate {
+	_u.mutation.ClearType()
+	return _u
 }
 
 // SetUserID sets the "user_id" field.
-func (au *ActivityUpdate) SetUserID(s string) *ActivityUpdate {
-	au.mutation.SetUserID(s)
-	return au
+func (_u *ActivityUpdate) SetUserID(v string) *ActivityUpdate {
+	_u.mutation.SetUserID(v)
+	return _u
 }
 
 // SetNillableUserID sets the "user_id" field if the given value is not nil.
-func (au *ActivityUpdate) SetNillableUserID(s *string) *ActivityUpdate {
-	if s != nil {
-		au.SetUserID(*s)
+func (_u *ActivityUpdate) SetNillableUserID(v *string) *ActivityUpdate {
+	if v != nil {
+		_u.SetUserID(*v)
 	}
-	return au
+	return _u
 }
 
 // ClearUserID clears the value of the "user_id" field.
-func (au *ActivityUpdate) ClearUserID() *ActivityUpdate {
-	au.mutation.ClearUserID()
-	return au
+func (_u *ActivityUpdate) ClearUserID() *ActivityUpdate {
+	_u.mutation.ClearUserID()
+	return _u
 }
 
 // SetDetails sets the "details" field.
-func (au *ActivityUpdate) SetDetails(s string) *ActivityUpdate {
-	au.mutation.SetDetails(s)
-	return au
+func (_u *ActivityUpdate) SetDetails(v string) *ActivityUpdate {
+	_u.mutation.SetDetails(v)
+	return _u
 }
 
 // SetNillableDetails sets the "details" field if the given value is not nil.
-func (au *ActivityUpdate) SetNillableDetails(s *string) *ActivityUpdate {
-	if s != nil {
-		au.SetDetails(*s)
+func (_u *ActivityUpdate) SetNillableDetails(v *string) *ActivityUpdate {
+	if v != nil {
+		_u.SetDetails(*v)
 	}
-	return au
+	return _u
 }
 
 // ClearDetails clears the value of the "details" field.
-func (au *ActivityUpdate) ClearDetails() *ActivityUpdate {
-	au.mutation.ClearDetails()
-	return au
+func (_u *ActivityUpdate) ClearDetails() *ActivityUpdate {
+	_u.mutation.ClearDetails()
+	return _u
 }
 
 // SetMetadata sets the "metadata" field.
-func (au *ActivityUpdate) SetMetadata(m map[string]interface{}) *ActivityUpdate {
-	au.mutation.SetMetadata(m)
-	return au
+func (_u *ActivityUpdate) SetMetadata(v map[string]interface{}) *ActivityUpdate {
+	_u.mutation.SetMetadata(v)
+	return _u
 }
 
 // ClearMetadata clears the value of the "metadata" field.
-func (au *ActivityUpdate) ClearMetadata() *ActivityUpdate {
-	au.mutation.ClearMetadata()
-	return au
+func (_u *ActivityUpdate) ClearMetadata() *ActivityUpdate {
+	_u.mutation.ClearMetadata()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (au *ActivityUpdate) SetUpdatedAt(i int64) *ActivityUpdate {
-	au.mutation.ResetUpdatedAt()
-	au.mutation.SetUpdatedAt(i)
-	return au
+func (_u *ActivityUpdate) SetUpdatedAt(v int64) *ActivityUpdate {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (au *ActivityUpdate) AddUpdatedAt(i int64) *ActivityUpdate {
-	au.mutation.AddUpdatedAt(i)
-	return au
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *ActivityUpdate) AddUpdatedAt(v int64) *ActivityUpdate {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (au *ActivityUpdate) ClearUpdatedAt() *ActivityUpdate {
-	au.mutation.ClearUpdatedAt()
-	return au
+func (_u *ActivityUpdate) ClearUpdatedAt() *ActivityUpdate {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // Mutation returns the ActivityMutation object of the builder.
-func (au *ActivityUpdate) Mutation() *ActivityMutation {
-	return au.mutation
+func (_u *ActivityUpdate) Mutation() *ActivityMutation {
+	return _u.mutation
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
-func (au *ActivityUpdate) Save(ctx context.Context) (int, error) {
-	au.defaults()
-	return withHooks(ctx, au.sqlSave, au.mutation, au.hooks)
+func (_u *ActivityUpdate) Save(ctx context.Context) (int, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (au *ActivityUpdate) SaveX(ctx context.Context) int {
-	affected, err := au.Save(ctx)
+func (_u *ActivityUpdate) SaveX(ctx context.Context) int {
+	affected, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -139,72 +139,72 @@ func (au *ActivityUpdate) SaveX(ctx context.Context) int {
 }
 
 // Exec executes the query.
-func (au *ActivityUpdate) Exec(ctx context.Context) error {
-	_, err := au.Save(ctx)
+func (_u *ActivityUpdate) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (au *ActivityUpdate) ExecX(ctx context.Context) {
-	if err := au.Exec(ctx); err != nil {
+func (_u *ActivityUpdate) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (au *ActivityUpdate) defaults() {
-	if _, ok := au.mutation.UpdatedAt(); !ok && !au.mutation.UpdatedAtCleared() {
+func (_u *ActivityUpdate) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := activity.UpdateDefaultUpdatedAt()
-		au.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (au *ActivityUpdate) sqlSave(ctx context.Context) (n int, err error) {
+func (_u *ActivityUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	_spec := sqlgraph.NewUpdateSpec(activity.Table, activity.Columns, sqlgraph.NewFieldSpec(activity.FieldID, field.TypeString))
-	if ps := au.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := au.mutation.GetType(); ok {
+	if value, ok := _u.mutation.GetType(); ok {
 		_spec.SetField(activity.FieldType, field.TypeString, value)
 	}
-	if au.mutation.TypeCleared() {
+	if _u.mutation.TypeCleared() {
 		_spec.ClearField(activity.FieldType, field.TypeString)
 	}
-	if value, ok := au.mutation.UserID(); ok {
+	if value, ok := _u.mutation.UserID(); ok {
 		_spec.SetField(activity.FieldUserID, field.TypeString, value)
 	}
-	if au.mutation.UserIDCleared() {
+	if _u.mutation.UserIDCleared() {
 		_spec.ClearField(activity.FieldUserID, field.TypeString)
 	}
-	if value, ok := au.mutation.Details(); ok {
+	if value, ok := _u.mutation.Details(); ok {
 		_spec.SetField(activity.FieldDetails, field.TypeString, value)
 	}
-	if au.mutation.DetailsCleared() {
+	if _u.mutation.DetailsCleared() {
 		_spec.ClearField(activity.FieldDetails, field.TypeString)
 	}
-	if value, ok := au.mutation.Metadata(); ok {
+	if value, ok := _u.mutation.Metadata(); ok {
 		_spec.SetField(activity.FieldMetadata, field.TypeJSON, value)
 	}
-	if au.mutation.MetadataCleared() {
+	if _u.mutation.MetadataCleared() {
 		_spec.ClearField(activity.FieldMetadata, field.TypeJSON)
 	}
-	if au.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(activity.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := au.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(activity.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := au.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(activity.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if au.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(activity.FieldUpdatedAt, field.TypeInt64)
 	}
-	if n, err = sqlgraph.UpdateNodes(ctx, au.driver, _spec); err != nil {
+	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{activity.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -212,8 +212,8 @@ func (au *ActivityUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		return 0, err
 	}
-	au.mutation.done = true
-	return n, nil
+	_u.mutation.done = true
+	return _node, nil
 }
 
 // ActivityUpdateOne is the builder for updating a single Activity entity.
@@ -225,123 +225,123 @@ type ActivityUpdateOne struct {
 }
 
 // SetType sets the "type" field.
-func (auo *ActivityUpdateOne) SetType(s string) *ActivityUpdateOne {
-	auo.mutation.SetType(s)
-	return auo
+func (_u *ActivityUpdateOne) SetType(v string) *ActivityUpdateOne {
+	_u.mutation.SetType(v)
+	return _u
 }
 
 // SetNillableType sets the "type" field if the given value is not nil.
-func (auo *ActivityUpdateOne) SetNillableType(s *string) *ActivityUpdateOne {
-	if s != nil {
-		auo.SetType(*s)
+func (_u *ActivityUpdateOne) SetNillableType(v *string) *ActivityUpdateOne {
+	if v != nil {
+		_u.SetType(*v)
 	}
-	return auo
+	return _u
 }
 
 // ClearType clears the value of the "type" field.
-func (auo *ActivityUpdateOne) ClearType() *ActivityUpdateOne {
-	auo.mutation.ClearType()
-	return auo
+func (_u *ActivityUpdateOne) ClearType() *ActivityUpdateOne {
+	_u.mutation.ClearType()
+	return _u
 }
 
 // SetUserID sets the "user_id" field.
-func (auo *ActivityUpdateOne) SetUserID(s string) *ActivityUpdateOne {
-	auo.mutation.SetUserID(s)
-	return auo
+func (_u *ActivityUpdateOne) SetUserID(v string) *ActivityUpdateOne {
+	_u.mutation.SetUserID(v)
+	return _u
 }
 
 // SetNillableUserID sets the "user_id" field if the given value is not nil.
-func (auo *ActivityUpdateOne) SetNillableUserID(s *string) *ActivityUpdateOne {
-	if s != nil {
-		auo.SetUserID(*s)
+func (_u *ActivityUpdateOne) SetNillableUserID(v *string) *ActivityUpdateOne {
+	if v != nil {
+		_u.SetUserID(*v)
 	}
-	return auo
+	return _u
 }
 
 // ClearUserID clears the value of the "user_id" field.
-func (auo *ActivityUpdateOne) ClearUserID() *ActivityUpdateOne {
-	auo.mutation.ClearUserID()
-	return auo
+func (_u *ActivityUpdateOne) ClearUserID() *ActivityUpdateOne {
+	_u.mutation.ClearUserID()
+	return _u
 }
 
 // SetDetails sets the "details" field.
-func (auo *ActivityUpdateOne) SetDetails(s string) *ActivityUpdateOne {
-	auo.mutation.SetDetails(s)
-	return auo
+func (_u *ActivityUpdateOne) SetDetails(v string) *ActivityUpdateOne {
+	_u.mutation.SetDetails(v)
+	return _u
 }
 
 // SetNillableDetails sets the "details" field if the given value is not nil.
-func (auo *ActivityUpdateOne) SetNillableDetails(s *string) *ActivityUpdateOne {
-	if s != nil {
-		auo.SetDetails(*s)
+func (_u *ActivityUpdateOne) SetNillableDetails(v *string) *ActivityUpdateOne {
+	if v != nil {
+		_u.SetDetails(*v)
 	}
-	return auo
+	return _u
 }
 
 // ClearDetails clears the value of the "details" field.
-func (auo *ActivityUpdateOne) ClearDetails() *ActivityUpdateOne {
-	auo.mutation.ClearDetails()
-	return auo
+func (_u *ActivityUpdateOne) ClearDetails() *ActivityUpdateOne {
+	_u.mutation.ClearDetails()
+	return _u
 }
 
 // SetMetadata sets the "metadata" field.
-func (auo *ActivityUpdateOne) SetMetadata(m map[string]interface{}) *ActivityUpdateOne {
-	auo.mutation.SetMetadata(m)
-	return auo
+func (_u *ActivityUpdateOne) SetMetadata(v map[string]interface{}) *ActivityUpdateOne {
+	_u.mutation.SetMetadata(v)
+	return _u
 }
 
 // ClearMetadata clears the value of the "metadata" field.
-func (auo *ActivityUpdateOne) ClearMetadata() *ActivityUpdateOne {
-	auo.mutation.ClearMetadata()
-	return auo
+func (_u *ActivityUpdateOne) ClearMetadata() *ActivityUpdateOne {
+	_u.mutation.ClearMetadata()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (auo *ActivityUpdateOne) SetUpdatedAt(i int64) *ActivityUpdateOne {
-	auo.mutation.ResetUpdatedAt()
-	auo.mutation.SetUpdatedAt(i)
-	return auo
+func (_u *ActivityUpdateOne) SetUpdatedAt(v int64) *ActivityUpdateOne {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (auo *ActivityUpdateOne) AddUpdatedAt(i int64) *ActivityUpdateOne {
-	auo.mutation.AddUpdatedAt(i)
-	return auo
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *ActivityUpdateOne) AddUpdatedAt(v int64) *ActivityUpdateOne {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (auo *ActivityUpdateOne) ClearUpdatedAt() *ActivityUpdateOne {
-	auo.mutation.ClearUpdatedAt()
-	return auo
+func (_u *ActivityUpdateOne) ClearUpdatedAt() *ActivityUpdateOne {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // Mutation returns the ActivityMutation object of the builder.
-func (auo *ActivityUpdateOne) Mutation() *ActivityMutation {
-	return auo.mutation
+func (_u *ActivityUpdateOne) Mutation() *ActivityMutation {
+	return _u.mutation
 }
 
 // Where appends a list predicates to the ActivityUpdate builder.
-func (auo *ActivityUpdateOne) Where(ps ...predicate.Activity) *ActivityUpdateOne {
-	auo.mutation.Where(ps...)
-	return auo
+func (_u *ActivityUpdateOne) Where(ps ...predicate.Activity) *ActivityUpdateOne {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // Select allows selecting one or more fields (columns) of the returned entity.
 // The default is selecting all fields defined in the entity schema.
-func (auo *ActivityUpdateOne) Select(field string, fields ...string) *ActivityUpdateOne {
-	auo.fields = append([]string{field}, fields...)
-	return auo
+func (_u *ActivityUpdateOne) Select(field string, fields ...string) *ActivityUpdateOne {
+	_u.fields = append([]string{field}, fields...)
+	return _u
 }
 
 // Save executes the query and returns the updated Activity entity.
-func (auo *ActivityUpdateOne) Save(ctx context.Context) (*Activity, error) {
-	auo.defaults()
-	return withHooks(ctx, auo.sqlSave, auo.mutation, auo.hooks)
+func (_u *ActivityUpdateOne) Save(ctx context.Context) (*Activity, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (auo *ActivityUpdateOne) SaveX(ctx context.Context) *Activity {
-	node, err := auo.Save(ctx)
+func (_u *ActivityUpdateOne) SaveX(ctx context.Context) *Activity {
+	node, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -349,34 +349,34 @@ func (auo *ActivityUpdateOne) SaveX(ctx context.Context) *Activity {
 }
 
 // Exec executes the query on the entity.
-func (auo *ActivityUpdateOne) Exec(ctx context.Context) error {
-	_, err := auo.Save(ctx)
+func (_u *ActivityUpdateOne) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (auo *ActivityUpdateOne) ExecX(ctx context.Context) {
-	if err := auo.Exec(ctx); err != nil {
+func (_u *ActivityUpdateOne) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (auo *ActivityUpdateOne) defaults() {
-	if _, ok := auo.mutation.UpdatedAt(); !ok && !auo.mutation.UpdatedAtCleared() {
+func (_u *ActivityUpdateOne) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := activity.UpdateDefaultUpdatedAt()
-		auo.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (auo *ActivityUpdateOne) sqlSave(ctx context.Context) (_node *Activity, err error) {
+func (_u *ActivityUpdateOne) sqlSave(ctx context.Context) (_node *Activity, err error) {
 	_spec := sqlgraph.NewUpdateSpec(activity.Table, activity.Columns, sqlgraph.NewFieldSpec(activity.FieldID, field.TypeString))
-	id, ok := auo.mutation.ID()
+	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "Activity.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
-	if fields := auo.fields; len(fields) > 0 {
+	if fields := _u.fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, activity.FieldID)
 		for _, f := range fields {
@@ -388,53 +388,53 @@ func (auo *ActivityUpdateOne) sqlSave(ctx context.Context) (_node *Activity, err
 			}
 		}
 	}
-	if ps := auo.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := auo.mutation.GetType(); ok {
+	if value, ok := _u.mutation.GetType(); ok {
 		_spec.SetField(activity.FieldType, field.TypeString, value)
 	}
-	if auo.mutation.TypeCleared() {
+	if _u.mutation.TypeCleared() {
 		_spec.ClearField(activity.FieldType, field.TypeString)
 	}
-	if value, ok := auo.mutation.UserID(); ok {
+	if value, ok := _u.mutation.UserID(); ok {
 		_spec.SetField(activity.FieldUserID, field.TypeString, value)
 	}
-	if auo.mutation.UserIDCleared() {
+	if _u.mutation.UserIDCleared() {
 		_spec.ClearField(activity.FieldUserID, field.TypeString)
 	}
-	if value, ok := auo.mutation.Details(); ok {
+	if value, ok := _u.mutation.Details(); ok {
 		_spec.SetField(activity.FieldDetails, field.TypeString, value)
 	}
-	if auo.mutation.DetailsCleared() {
+	if _u.mutation.DetailsCleared() {
 		_spec.ClearField(activity.FieldDetails, field.TypeString)
 	}
-	if value, ok := auo.mutation.Metadata(); ok {
+	if value, ok := _u.mutation.Metadata(); ok {
 		_spec.SetField(activity.FieldMetadata, field.TypeJSON, value)
 	}
-	if auo.mutation.MetadataCleared() {
+	if _u.mutation.MetadataCleared() {
 		_spec.ClearField(activity.FieldMetadata, field.TypeJSON)
 	}
-	if auo.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(activity.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := auo.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(activity.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := auo.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(activity.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if auo.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(activity.FieldUpdatedAt, field.TypeInt64)
 	}
-	_node = &Activity{config: auo.config}
+	_node = &Activity{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues
-	if err = sqlgraph.UpdateNode(ctx, auo.driver, _spec); err != nil {
+	if err = sqlgraph.UpdateNode(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{activity.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -442,6 +442,6 @@ func (auo *ActivityUpdateOne) sqlSave(ctx context.Context) (_node *Activity, err
 		}
 		return nil, err
 	}
-	auo.mutation.done = true
+	_u.mutation.done = true
 	return _node, nil
 }

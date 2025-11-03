@@ -19,109 +19,109 @@ type ActivityCreate struct {
 }
 
 // SetType sets the "type" field.
-func (ac *ActivityCreate) SetType(s string) *ActivityCreate {
-	ac.mutation.SetType(s)
-	return ac
+func (_c *ActivityCreate) SetType(v string) *ActivityCreate {
+	_c.mutation.SetType(v)
+	return _c
 }
 
 // SetNillableType sets the "type" field if the given value is not nil.
-func (ac *ActivityCreate) SetNillableType(s *string) *ActivityCreate {
-	if s != nil {
-		ac.SetType(*s)
+func (_c *ActivityCreate) SetNillableType(v *string) *ActivityCreate {
+	if v != nil {
+		_c.SetType(*v)
 	}
-	return ac
+	return _c
 }
 
 // SetUserID sets the "user_id" field.
-func (ac *ActivityCreate) SetUserID(s string) *ActivityCreate {
-	ac.mutation.SetUserID(s)
-	return ac
+func (_c *ActivityCreate) SetUserID(v string) *ActivityCreate {
+	_c.mutation.SetUserID(v)
+	return _c
 }
 
 // SetNillableUserID sets the "user_id" field if the given value is not nil.
-func (ac *ActivityCreate) SetNillableUserID(s *string) *ActivityCreate {
-	if s != nil {
-		ac.SetUserID(*s)
+func (_c *ActivityCreate) SetNillableUserID(v *string) *ActivityCreate {
+	if v != nil {
+		_c.SetUserID(*v)
 	}
-	return ac
+	return _c
 }
 
 // SetDetails sets the "details" field.
-func (ac *ActivityCreate) SetDetails(s string) *ActivityCreate {
-	ac.mutation.SetDetails(s)
-	return ac
+func (_c *ActivityCreate) SetDetails(v string) *ActivityCreate {
+	_c.mutation.SetDetails(v)
+	return _c
 }
 
 // SetNillableDetails sets the "details" field if the given value is not nil.
-func (ac *ActivityCreate) SetNillableDetails(s *string) *ActivityCreate {
-	if s != nil {
-		ac.SetDetails(*s)
+func (_c *ActivityCreate) SetNillableDetails(v *string) *ActivityCreate {
+	if v != nil {
+		_c.SetDetails(*v)
 	}
-	return ac
+	return _c
 }
 
 // SetMetadata sets the "metadata" field.
-func (ac *ActivityCreate) SetMetadata(m map[string]interface{}) *ActivityCreate {
-	ac.mutation.SetMetadata(m)
-	return ac
+func (_c *ActivityCreate) SetMetadata(v map[string]interface{}) *ActivityCreate {
+	_c.mutation.SetMetadata(v)
+	return _c
 }
 
 // SetCreatedAt sets the "created_at" field.
-func (ac *ActivityCreate) SetCreatedAt(i int64) *ActivityCreate {
-	ac.mutation.SetCreatedAt(i)
-	return ac
+func (_c *ActivityCreate) SetCreatedAt(v int64) *ActivityCreate {
+	_c.mutation.SetCreatedAt(v)
+	return _c
 }
 
 // SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
-func (ac *ActivityCreate) SetNillableCreatedAt(i *int64) *ActivityCreate {
-	if i != nil {
-		ac.SetCreatedAt(*i)
+func (_c *ActivityCreate) SetNillableCreatedAt(v *int64) *ActivityCreate {
+	if v != nil {
+		_c.SetCreatedAt(*v)
 	}
-	return ac
+	return _c
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (ac *ActivityCreate) SetUpdatedAt(i int64) *ActivityCreate {
-	ac.mutation.SetUpdatedAt(i)
-	return ac
+func (_c *ActivityCreate) SetUpdatedAt(v int64) *ActivityCreate {
+	_c.mutation.SetUpdatedAt(v)
+	return _c
 }
 
 // SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
-func (ac *ActivityCreate) SetNillableUpdatedAt(i *int64) *ActivityCreate {
-	if i != nil {
-		ac.SetUpdatedAt(*i)
+func (_c *ActivityCreate) SetNillableUpdatedAt(v *int64) *ActivityCreate {
+	if v != nil {
+		_c.SetUpdatedAt(*v)
 	}
-	return ac
+	return _c
 }
 
 // SetID sets the "id" field.
-func (ac *ActivityCreate) SetID(s string) *ActivityCreate {
-	ac.mutation.SetID(s)
-	return ac
+func (_c *ActivityCreate) SetID(v string) *ActivityCreate {
+	_c.mutation.SetID(v)
+	return _c
 }
 
 // SetNillableID sets the "id" field if the given value is not nil.
-func (ac *ActivityCreate) SetNillableID(s *string) *ActivityCreate {
-	if s != nil {
-		ac.SetID(*s)
+func (_c *ActivityCreate) SetNillableID(v *string) *ActivityCreate {
+	if v != nil {
+		_c.SetID(*v)
 	}
-	return ac
+	return _c
 }
 
 // Mutation returns the ActivityMutation object of the builder.
-func (ac *ActivityCreate) Mutation() *ActivityMutation {
-	return ac.mutation
+func (_c *ActivityCreate) Mutation() *ActivityMutation {
+	return _c.mutation
 }
 
 // Save creates the Activity in the database.
-func (ac *ActivityCreate) Save(ctx context.Context) (*Activity, error) {
-	ac.defaults()
-	return withHooks(ctx, ac.sqlSave, ac.mutation, ac.hooks)
+func (_c *ActivityCreate) Save(ctx context.Context) (*Activity, error) {
+	_c.defaults()
+	return withHooks(ctx, _c.sqlSave, _c.mutation, _c.hooks)
 }
 
 // SaveX calls Save and panics if Save returns an error.
-func (ac *ActivityCreate) SaveX(ctx context.Context) *Activity {
-	v, err := ac.Save(ctx)
+func (_c *ActivityCreate) SaveX(ctx context.Context) *Activity {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -129,41 +129,41 @@ func (ac *ActivityCreate) SaveX(ctx context.Context) *Activity {
 }
 
 // Exec executes the query.
-func (ac *ActivityCreate) Exec(ctx context.Context) error {
-	_, err := ac.Save(ctx)
+func (_c *ActivityCreate) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (ac *ActivityCreate) ExecX(ctx context.Context) {
-	if err := ac.Exec(ctx); err != nil {
+func (_c *ActivityCreate) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (ac *ActivityCreate) defaults() {
-	if _, ok := ac.mutation.Metadata(); !ok {
+func (_c *ActivityCreate) defaults() {
+	if _, ok := _c.mutation.Metadata(); !ok {
 		v := activity.DefaultMetadata
-		ac.mutation.SetMetadata(v)
+		_c.mutation.SetMetadata(v)
 	}
-	if _, ok := ac.mutation.CreatedAt(); !ok {
+	if _, ok := _c.mutation.CreatedAt(); !ok {
 		v := activity.DefaultCreatedAt()
-		ac.mutation.SetCreatedAt(v)
+		_c.mutation.SetCreatedAt(v)
 	}
-	if _, ok := ac.mutation.UpdatedAt(); !ok {
+	if _, ok := _c.mutation.UpdatedAt(); !ok {
 		v := activity.DefaultUpdatedAt()
-		ac.mutation.SetUpdatedAt(v)
+		_c.mutation.SetUpdatedAt(v)
 	}
-	if _, ok := ac.mutation.ID(); !ok {
+	if _, ok := _c.mutation.ID(); !ok {
 		v := activity.DefaultID()
-		ac.mutation.SetID(v)
+		_c.mutation.SetID(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (ac *ActivityCreate) check() error {
-	if v, ok := ac.mutation.ID(); ok {
+func (_c *ActivityCreate) check() error {
+	if v, ok := _c.mutation.ID(); ok {
 		if err := activity.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "Activity.id": %w`, err)}
 		}
@@ -171,12 +171,12 @@ func (ac *ActivityCreate) check() error {
 	return nil
 }
 
-func (ac *ActivityCreate) sqlSave(ctx context.Context) (*Activity, error) {
-	if err := ac.check(); err != nil {
+func (_c *ActivityCreate) sqlSave(ctx context.Context) (*Activity, error) {
+	if err := _c.check(); err != nil {
 		return nil, err
 	}
-	_node, _spec := ac.createSpec()
-	if err := sqlgraph.CreateNode(ctx, ac.driver, _spec); err != nil {
+	_node, _spec := _c.createSpec()
+	if err := sqlgraph.CreateNode(ctx, _c.driver, _spec); err != nil {
 		if sqlgraph.IsConstraintError(err) {
 			err = &ConstraintError{msg: err.Error(), wrap: err}
 		}
@@ -189,41 +189,41 @@ func (ac *ActivityCreate) sqlSave(ctx context.Context) (*Activity, error) {
 			return nil, fmt.Errorf("unexpected Activity.ID type: %T", _spec.ID.Value)
 		}
 	}
-	ac.mutation.id = &_node.ID
-	ac.mutation.done = true
+	_c.mutation.id = &_node.ID
+	_c.mutation.done = true
 	return _node, nil
 }
 
-func (ac *ActivityCreate) createSpec() (*Activity, *sqlgraph.CreateSpec) {
+func (_c *ActivityCreate) createSpec() (*Activity, *sqlgraph.CreateSpec) {
 	var (
-		_node = &Activity{config: ac.config}
+		_node = &Activity{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(activity.Table, sqlgraph.NewFieldSpec(activity.FieldID, field.TypeString))
 	)
-	if id, ok := ac.mutation.ID(); ok {
+	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
 	}
-	if value, ok := ac.mutation.GetType(); ok {
+	if value, ok := _c.mutation.GetType(); ok {
 		_spec.SetField(activity.FieldType, field.TypeString, value)
 		_node.Type = value
 	}
-	if value, ok := ac.mutation.UserID(); ok {
+	if value, ok := _c.mutation.UserID(); ok {
 		_spec.SetField(activity.FieldUserID, field.TypeString, value)
 		_node.UserID = value
 	}
-	if value, ok := ac.mutation.Details(); ok {
+	if value, ok := _c.mutation.Details(); ok {
 		_spec.SetField(activity.FieldDetails, field.TypeString, value)
 		_node.Details = value
 	}
-	if value, ok := ac.mutation.Metadata(); ok {
+	if value, ok := _c.mutation.Metadata(); ok {
 		_spec.SetField(activity.FieldMetadata, field.TypeJSON, value)
 		_node.Metadata = value
 	}
-	if value, ok := ac.mutation.CreatedAt(); ok {
+	if value, ok := _c.mutation.CreatedAt(); ok {
 		_spec.SetField(activity.FieldCreatedAt, field.TypeInt64, value)
 		_node.CreatedAt = value
 	}
-	if value, ok := ac.mutation.UpdatedAt(); ok {
+	if value, ok := _c.mutation.UpdatedAt(); ok {
 		_spec.SetField(activity.FieldUpdatedAt, field.TypeInt64, value)
 		_node.UpdatedAt = value
 	}
@@ -238,16 +238,16 @@ type ActivityCreateBulk struct {
 }
 
 // Save creates the Activity entities in the database.
-func (acb *ActivityCreateBulk) Save(ctx context.Context) ([]*Activity, error) {
-	if acb.err != nil {
-		return nil, acb.err
+func (_c *ActivityCreateBulk) Save(ctx context.Context) ([]*Activity, error) {
+	if _c.err != nil {
+		return nil, _c.err
 	}
-	specs := make([]*sqlgraph.CreateSpec, len(acb.builders))
-	nodes := make([]*Activity, len(acb.builders))
-	mutators := make([]Mutator, len(acb.builders))
-	for i := range acb.builders {
+	specs := make([]*sqlgraph.CreateSpec, len(_c.builders))
+	nodes := make([]*Activity, len(_c.builders))
+	mutators := make([]Mutator, len(_c.builders))
+	for i := range _c.builders {
 		func(i int, root context.Context) {
-			builder := acb.builders[i]
+			builder := _c.builders[i]
 			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*ActivityMutation)
@@ -261,11 +261,11 @@ func (acb *ActivityCreateBulk) Save(ctx context.Context) ([]*Activity, error) {
 				var err error
 				nodes[i], specs[i] = builder.createSpec()
 				if i < len(mutators)-1 {
-					_, err = mutators[i+1].Mutate(root, acb.builders[i+1].mutation)
+					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
 					// Invoke the actual operation on the latest mutation in the chain.
-					if err = sqlgraph.BatchCreate(ctx, acb.driver, spec); err != nil {
+					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
 							err = &ConstraintError{msg: err.Error(), wrap: err}
 						}
@@ -285,7 +285,7 @@ func (acb *ActivityCreateBulk) Save(ctx context.Context) ([]*Activity, error) {
 		}(i, ctx)
 	}
 	if len(mutators) > 0 {
-		if _, err := mutators[0].Mutate(ctx, acb.builders[0].mutation); err != nil {
+		if _, err := mutators[0].Mutate(ctx, _c.builders[0].mutation); err != nil {
 			return nil, err
 		}
 	}
@@ -293,8 +293,8 @@ func (acb *ActivityCreateBulk) Save(ctx context.Context) ([]*Activity, error) {
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (acb *ActivityCreateBulk) SaveX(ctx context.Context) []*Activity {
-	v, err := acb.Save(ctx)
+func (_c *ActivityCreateBulk) SaveX(ctx context.Context) []*Activity {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -302,14 +302,14 @@ func (acb *ActivityCreateBulk) SaveX(ctx context.Context) []*Activity {
 }
 
 // Exec executes the query.
-func (acb *ActivityCreateBulk) Exec(ctx context.Context) error {
-	_, err := acb.Save(ctx)
+func (_c *ActivityCreateBulk) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (acb *ActivityCreateBulk) ExecX(ctx context.Context) {
-	if err := acb.Exec(ctx); err != nil {
+func (_c *ActivityCreateBulk) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

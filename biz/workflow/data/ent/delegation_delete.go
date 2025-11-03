@@ -20,56 +20,56 @@ type DelegationDelete struct {
 }
 
 // Where appends a list predicates to the DelegationDelete builder.
-func (dd *DelegationDelete) Where(ps ...predicate.Delegation) *DelegationDelete {
-	dd.mutation.Where(ps...)
-	return dd
+func (_d *DelegationDelete) Where(ps ...predicate.Delegation) *DelegationDelete {
+	_d.mutation.Where(ps...)
+	return _d
 }
 
 // Exec executes the deletion query and returns how many vertices were deleted.
-func (dd *DelegationDelete) Exec(ctx context.Context) (int, error) {
-	return withHooks(ctx, dd.sqlExec, dd.mutation, dd.hooks)
+func (_d *DelegationDelete) Exec(ctx context.Context) (int, error) {
+	return withHooks(ctx, _d.sqlExec, _d.mutation, _d.hooks)
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (dd *DelegationDelete) ExecX(ctx context.Context) int {
-	n, err := dd.Exec(ctx)
+func (_d *DelegationDelete) ExecX(ctx context.Context) int {
+	n, err := _d.Exec(ctx)
 	if err != nil {
 		panic(err)
 	}
 	return n
 }
 
-func (dd *DelegationDelete) sqlExec(ctx context.Context) (int, error) {
+func (_d *DelegationDelete) sqlExec(ctx context.Context) (int, error) {
 	_spec := sqlgraph.NewDeleteSpec(delegation.Table, sqlgraph.NewFieldSpec(delegation.FieldID, field.TypeString))
-	if ps := dd.mutation.predicates; len(ps) > 0 {
+	if ps := _d.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	affected, err := sqlgraph.DeleteNodes(ctx, dd.driver, _spec)
+	affected, err := sqlgraph.DeleteNodes(ctx, _d.driver, _spec)
 	if err != nil && sqlgraph.IsConstraintError(err) {
 		err = &ConstraintError{msg: err.Error(), wrap: err}
 	}
-	dd.mutation.done = true
+	_d.mutation.done = true
 	return affected, err
 }
 
 // DelegationDeleteOne is the builder for deleting a single Delegation entity.
 type DelegationDeleteOne struct {
-	dd *DelegationDelete
+	_d *DelegationDelete
 }
 
 // Where appends a list predicates to the DelegationDelete builder.
-func (ddo *DelegationDeleteOne) Where(ps ...predicate.Delegation) *DelegationDeleteOne {
-	ddo.dd.mutation.Where(ps...)
-	return ddo
+func (_d *DelegationDeleteOne) Where(ps ...predicate.Delegation) *DelegationDeleteOne {
+	_d._d.mutation.Where(ps...)
+	return _d
 }
 
 // Exec executes the deletion query.
-func (ddo *DelegationDeleteOne) Exec(ctx context.Context) error {
-	n, err := ddo.dd.Exec(ctx)
+func (_d *DelegationDeleteOne) Exec(ctx context.Context) error {
+	n, err := _d._d.Exec(ctx)
 	switch {
 	case err != nil:
 		return err
@@ -81,8 +81,8 @@ func (ddo *DelegationDeleteOne) Exec(ctx context.Context) error {
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (ddo *DelegationDeleteOne) ExecX(ctx context.Context) {
-	if err := ddo.Exec(ctx); err != nil {
+func (_d *DelegationDeleteOne) ExecX(ctx context.Context) {
+	if err := _d.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

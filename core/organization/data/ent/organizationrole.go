@@ -50,7 +50,7 @@ func (*OrganizationRole) scanValues(columns []string) ([]any, error) {
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
 // to the OrganizationRole fields.
-func (or *OrganizationRole) assignValues(columns []string, values []any) error {
+func (_m *OrganizationRole) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
@@ -60,46 +60,46 @@ func (or *OrganizationRole) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field id", values[i])
 			} else if value.Valid {
-				or.ID = value.String
+				_m.ID = value.String
 			}
 		case organizationrole.FieldOrgID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field org_id", values[i])
 			} else if value.Valid {
-				or.OrgID = value.String
+				_m.OrgID = value.String
 			}
 		case organizationrole.FieldRoleID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field role_id", values[i])
 			} else if value.Valid {
-				or.RoleID = value.String
+				_m.RoleID = value.String
 			}
 		case organizationrole.FieldCreatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field created_by", values[i])
 			} else if value.Valid {
-				or.CreatedBy = value.String
+				_m.CreatedBy = value.String
 			}
 		case organizationrole.FieldUpdatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_by", values[i])
 			} else if value.Valid {
-				or.UpdatedBy = value.String
+				_m.UpdatedBy = value.String
 			}
 		case organizationrole.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field created_at", values[i])
 			} else if value.Valid {
-				or.CreatedAt = value.Int64
+				_m.CreatedAt = value.Int64
 			}
 		case organizationrole.FieldUpdatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_at", values[i])
 			} else if value.Valid {
-				or.UpdatedAt = value.Int64
+				_m.UpdatedAt = value.Int64
 			}
 		default:
-			or.selectValues.Set(columns[i], values[i])
+			_m.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
@@ -107,50 +107,50 @@ func (or *OrganizationRole) assignValues(columns []string, values []any) error {
 
 // Value returns the ent.Value that was dynamically selected and assigned to the OrganizationRole.
 // This includes values selected through modifiers, order, etc.
-func (or *OrganizationRole) Value(name string) (ent.Value, error) {
-	return or.selectValues.Get(name)
+func (_m *OrganizationRole) Value(name string) (ent.Value, error) {
+	return _m.selectValues.Get(name)
 }
 
 // Update returns a builder for updating this OrganizationRole.
 // Note that you need to call OrganizationRole.Unwrap() before calling this method if this OrganizationRole
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (or *OrganizationRole) Update() *OrganizationRoleUpdateOne {
-	return NewOrganizationRoleClient(or.config).UpdateOne(or)
+func (_m *OrganizationRole) Update() *OrganizationRoleUpdateOne {
+	return NewOrganizationRoleClient(_m.config).UpdateOne(_m)
 }
 
 // Unwrap unwraps the OrganizationRole entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (or *OrganizationRole) Unwrap() *OrganizationRole {
-	_tx, ok := or.config.driver.(*txDriver)
+func (_m *OrganizationRole) Unwrap() *OrganizationRole {
+	_tx, ok := _m.config.driver.(*txDriver)
 	if !ok {
 		panic("ent: OrganizationRole is not a transactional entity")
 	}
-	or.config.driver = _tx.drv
-	return or
+	_m.config.driver = _tx.drv
+	return _m
 }
 
 // String implements the fmt.Stringer.
-func (or *OrganizationRole) String() string {
+func (_m *OrganizationRole) String() string {
 	var builder strings.Builder
 	builder.WriteString("OrganizationRole(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", or.ID))
+	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
 	builder.WriteString("org_id=")
-	builder.WriteString(or.OrgID)
+	builder.WriteString(_m.OrgID)
 	builder.WriteString(", ")
 	builder.WriteString("role_id=")
-	builder.WriteString(or.RoleID)
+	builder.WriteString(_m.RoleID)
 	builder.WriteString(", ")
 	builder.WriteString("created_by=")
-	builder.WriteString(or.CreatedBy)
+	builder.WriteString(_m.CreatedBy)
 	builder.WriteString(", ")
 	builder.WriteString("updated_by=")
-	builder.WriteString(or.UpdatedBy)
+	builder.WriteString(_m.UpdatedBy)
 	builder.WriteString(", ")
 	builder.WriteString("created_at=")
-	builder.WriteString(fmt.Sprintf("%v", or.CreatedAt))
+	builder.WriteString(fmt.Sprintf("%v", _m.CreatedAt))
 	builder.WriteString(", ")
 	builder.WriteString("updated_at=")
-	builder.WriteString(fmt.Sprintf("%v", or.UpdatedAt))
+	builder.WriteString(fmt.Sprintf("%v", _m.UpdatedAt))
 	builder.WriteByte(')')
 	return builder.String()
 }

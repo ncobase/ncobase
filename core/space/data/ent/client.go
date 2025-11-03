@@ -336,8 +336,8 @@ func (c *SpaceClient) Update() *SpaceUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *SpaceClient) UpdateOne(s *Space) *SpaceUpdateOne {
-	mutation := newSpaceMutation(c.config, OpUpdateOne, withSpace(s))
+func (c *SpaceClient) UpdateOne(_m *Space) *SpaceUpdateOne {
+	mutation := newSpaceMutation(c.config, OpUpdateOne, withSpace(_m))
 	return &SpaceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -354,8 +354,8 @@ func (c *SpaceClient) Delete() *SpaceDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *SpaceClient) DeleteOne(s *Space) *SpaceDeleteOne {
-	return c.DeleteOneID(s.ID)
+func (c *SpaceClient) DeleteOne(_m *Space) *SpaceDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -469,8 +469,8 @@ func (c *SpaceBillingClient) Update() *SpaceBillingUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *SpaceBillingClient) UpdateOne(sb *SpaceBilling) *SpaceBillingUpdateOne {
-	mutation := newSpaceBillingMutation(c.config, OpUpdateOne, withSpaceBilling(sb))
+func (c *SpaceBillingClient) UpdateOne(_m *SpaceBilling) *SpaceBillingUpdateOne {
+	mutation := newSpaceBillingMutation(c.config, OpUpdateOne, withSpaceBilling(_m))
 	return &SpaceBillingUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -487,8 +487,8 @@ func (c *SpaceBillingClient) Delete() *SpaceBillingDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *SpaceBillingClient) DeleteOne(sb *SpaceBilling) *SpaceBillingDeleteOne {
-	return c.DeleteOneID(sb.ID)
+func (c *SpaceBillingClient) DeleteOne(_m *SpaceBilling) *SpaceBillingDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -602,8 +602,8 @@ func (c *SpaceDictionaryClient) Update() *SpaceDictionaryUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *SpaceDictionaryClient) UpdateOne(sd *SpaceDictionary) *SpaceDictionaryUpdateOne {
-	mutation := newSpaceDictionaryMutation(c.config, OpUpdateOne, withSpaceDictionary(sd))
+func (c *SpaceDictionaryClient) UpdateOne(_m *SpaceDictionary) *SpaceDictionaryUpdateOne {
+	mutation := newSpaceDictionaryMutation(c.config, OpUpdateOne, withSpaceDictionary(_m))
 	return &SpaceDictionaryUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -620,8 +620,8 @@ func (c *SpaceDictionaryClient) Delete() *SpaceDictionaryDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *SpaceDictionaryClient) DeleteOne(sd *SpaceDictionary) *SpaceDictionaryDeleteOne {
-	return c.DeleteOneID(sd.ID)
+func (c *SpaceDictionaryClient) DeleteOne(_m *SpaceDictionary) *SpaceDictionaryDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -735,8 +735,8 @@ func (c *SpaceMenuClient) Update() *SpaceMenuUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *SpaceMenuClient) UpdateOne(sm *SpaceMenu) *SpaceMenuUpdateOne {
-	mutation := newSpaceMenuMutation(c.config, OpUpdateOne, withSpaceMenu(sm))
+func (c *SpaceMenuClient) UpdateOne(_m *SpaceMenu) *SpaceMenuUpdateOne {
+	mutation := newSpaceMenuMutation(c.config, OpUpdateOne, withSpaceMenu(_m))
 	return &SpaceMenuUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -753,8 +753,8 @@ func (c *SpaceMenuClient) Delete() *SpaceMenuDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *SpaceMenuClient) DeleteOne(sm *SpaceMenu) *SpaceMenuDeleteOne {
-	return c.DeleteOneID(sm.ID)
+func (c *SpaceMenuClient) DeleteOne(_m *SpaceMenu) *SpaceMenuDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -868,8 +868,8 @@ func (c *SpaceOptionClient) Update() *SpaceOptionUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *SpaceOptionClient) UpdateOne(so *SpaceOption) *SpaceOptionUpdateOne {
-	mutation := newSpaceOptionMutation(c.config, OpUpdateOne, withSpaceOption(so))
+func (c *SpaceOptionClient) UpdateOne(_m *SpaceOption) *SpaceOptionUpdateOne {
+	mutation := newSpaceOptionMutation(c.config, OpUpdateOne, withSpaceOption(_m))
 	return &SpaceOptionUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -886,8 +886,8 @@ func (c *SpaceOptionClient) Delete() *SpaceOptionDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *SpaceOptionClient) DeleteOne(so *SpaceOption) *SpaceOptionDeleteOne {
-	return c.DeleteOneID(so.ID)
+func (c *SpaceOptionClient) DeleteOne(_m *SpaceOption) *SpaceOptionDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -1001,8 +1001,8 @@ func (c *SpaceOrganizationClient) Update() *SpaceOrganizationUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *SpaceOrganizationClient) UpdateOne(so *SpaceOrganization) *SpaceOrganizationUpdateOne {
-	mutation := newSpaceOrganizationMutation(c.config, OpUpdateOne, withSpaceOrganization(so))
+func (c *SpaceOrganizationClient) UpdateOne(_m *SpaceOrganization) *SpaceOrganizationUpdateOne {
+	mutation := newSpaceOrganizationMutation(c.config, OpUpdateOne, withSpaceOrganization(_m))
 	return &SpaceOrganizationUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -1019,8 +1019,8 @@ func (c *SpaceOrganizationClient) Delete() *SpaceOrganizationDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *SpaceOrganizationClient) DeleteOne(so *SpaceOrganization) *SpaceOrganizationDeleteOne {
-	return c.DeleteOneID(so.ID)
+func (c *SpaceOrganizationClient) DeleteOne(_m *SpaceOrganization) *SpaceOrganizationDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -1134,8 +1134,8 @@ func (c *SpaceQuotaClient) Update() *SpaceQuotaUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *SpaceQuotaClient) UpdateOne(sq *SpaceQuota) *SpaceQuotaUpdateOne {
-	mutation := newSpaceQuotaMutation(c.config, OpUpdateOne, withSpaceQuota(sq))
+func (c *SpaceQuotaClient) UpdateOne(_m *SpaceQuota) *SpaceQuotaUpdateOne {
+	mutation := newSpaceQuotaMutation(c.config, OpUpdateOne, withSpaceQuota(_m))
 	return &SpaceQuotaUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -1152,8 +1152,8 @@ func (c *SpaceQuotaClient) Delete() *SpaceQuotaDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *SpaceQuotaClient) DeleteOne(sq *SpaceQuota) *SpaceQuotaDeleteOne {
-	return c.DeleteOneID(sq.ID)
+func (c *SpaceQuotaClient) DeleteOne(_m *SpaceQuota) *SpaceQuotaDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -1267,8 +1267,8 @@ func (c *SpaceSettingClient) Update() *SpaceSettingUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *SpaceSettingClient) UpdateOne(ss *SpaceSetting) *SpaceSettingUpdateOne {
-	mutation := newSpaceSettingMutation(c.config, OpUpdateOne, withSpaceSetting(ss))
+func (c *SpaceSettingClient) UpdateOne(_m *SpaceSetting) *SpaceSettingUpdateOne {
+	mutation := newSpaceSettingMutation(c.config, OpUpdateOne, withSpaceSetting(_m))
 	return &SpaceSettingUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -1285,8 +1285,8 @@ func (c *SpaceSettingClient) Delete() *SpaceSettingDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *SpaceSettingClient) DeleteOne(ss *SpaceSetting) *SpaceSettingDeleteOne {
-	return c.DeleteOneID(ss.ID)
+func (c *SpaceSettingClient) DeleteOne(_m *SpaceSetting) *SpaceSettingDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -1400,8 +1400,8 @@ func (c *UserSpaceClient) Update() *UserSpaceUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *UserSpaceClient) UpdateOne(us *UserSpace) *UserSpaceUpdateOne {
-	mutation := newUserSpaceMutation(c.config, OpUpdateOne, withUserSpace(us))
+func (c *UserSpaceClient) UpdateOne(_m *UserSpace) *UserSpaceUpdateOne {
+	mutation := newUserSpaceMutation(c.config, OpUpdateOne, withUserSpace(_m))
 	return &UserSpaceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -1418,8 +1418,8 @@ func (c *UserSpaceClient) Delete() *UserSpaceDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *UserSpaceClient) DeleteOne(us *UserSpace) *UserSpaceDeleteOne {
-	return c.DeleteOneID(us.ID)
+func (c *UserSpaceClient) DeleteOne(_m *UserSpace) *UserSpaceDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -1533,8 +1533,8 @@ func (c *UserSpaceRoleClient) Update() *UserSpaceRoleUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *UserSpaceRoleClient) UpdateOne(usr *UserSpaceRole) *UserSpaceRoleUpdateOne {
-	mutation := newUserSpaceRoleMutation(c.config, OpUpdateOne, withUserSpaceRole(usr))
+func (c *UserSpaceRoleClient) UpdateOne(_m *UserSpaceRole) *UserSpaceRoleUpdateOne {
+	mutation := newUserSpaceRoleMutation(c.config, OpUpdateOne, withUserSpaceRole(_m))
 	return &UserSpaceRoleUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -1551,8 +1551,8 @@ func (c *UserSpaceRoleClient) Delete() *UserSpaceRoleDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *UserSpaceRoleClient) DeleteOne(usr *UserSpaceRole) *UserSpaceRoleDeleteOne {
-	return c.DeleteOneID(usr.ID)
+func (c *UserSpaceRoleClient) DeleteOne(_m *UserSpaceRole) *UserSpaceRoleDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.

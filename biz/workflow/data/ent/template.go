@@ -137,7 +137,7 @@ func (*Template) scanValues(columns []string) ([]any, error) {
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
 // to the Template fields.
-func (t *Template) assignValues(columns []string, values []any) error {
+func (_m *Template) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
@@ -147,67 +147,67 @@ func (t *Template) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field id", values[i])
 			} else if value.Valid {
-				t.ID = value.String
+				_m.ID = value.String
 			}
 		case template.FieldName:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field name", values[i])
 			} else if value.Valid {
-				t.Name = value.String
+				_m.Name = value.String
 			}
 		case template.FieldCode:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field code", values[i])
 			} else if value.Valid {
-				t.Code = value.String
+				_m.Code = value.String
 			}
 		case template.FieldDescription:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field description", values[i])
 			} else if value.Valid {
-				t.Description = value.String
+				_m.Description = value.String
 			}
 		case template.FieldType:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field type", values[i])
 			} else if value.Valid {
-				t.Type = value.String
+				_m.Type = value.String
 			}
 		case template.FieldVersion:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field version", values[i])
 			} else if value.Valid {
-				t.Version = value.String
+				_m.Version = value.String
 			}
 		case template.FieldStatus:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field status", values[i])
 			} else if value.Valid {
-				t.Status = value.String
+				_m.Status = value.String
 			}
 		case template.FieldDisabled:
 			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field disabled", values[i])
 			} else if value.Valid {
-				t.Disabled = value.Bool
+				_m.Disabled = value.Bool
 			}
 		case template.FieldFormCode:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field form_code", values[i])
 			} else if value.Valid {
-				t.FormCode = value.String
+				_m.FormCode = value.String
 			}
 		case template.FieldFormVersion:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field form_version", values[i])
 			} else if value.Valid {
-				t.FormVersion = value.String
+				_m.FormVersion = value.String
 			}
 		case template.FieldFormConfig:
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field form_config", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &t.FormConfig); err != nil {
+				if err := json.Unmarshal(*value, &_m.FormConfig); err != nil {
 					return fmt.Errorf("unmarshal field form_config: %w", err)
 				}
 			}
@@ -215,7 +215,7 @@ func (t *Template) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field form_permissions", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &t.FormPermissions); err != nil {
+				if err := json.Unmarshal(*value, &_m.FormPermissions); err != nil {
 					return fmt.Errorf("unmarshal field form_permissions: %w", err)
 				}
 			}
@@ -223,7 +223,7 @@ func (t *Template) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field field_permissions", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &t.FieldPermissions); err != nil {
+				if err := json.Unmarshal(*value, &_m.FieldPermissions); err != nil {
 					return fmt.Errorf("unmarshal field field_permissions: %w", err)
 				}
 			}
@@ -231,19 +231,19 @@ func (t *Template) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field node_key", values[i])
 			} else if value.Valid {
-				t.NodeKey = value.String
+				_m.NodeKey = value.String
 			}
 		case template.FieldNodeType:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field node_type", values[i])
 			} else if value.Valid {
-				t.NodeType = value.String
+				_m.NodeType = value.String
 			}
 		case template.FieldNodeConfig:
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field node_config", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &t.NodeConfig); err != nil {
+				if err := json.Unmarshal(*value, &_m.NodeConfig); err != nil {
 					return fmt.Errorf("unmarshal field node_config: %w", err)
 				}
 			}
@@ -251,7 +251,7 @@ func (t *Template) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field node_rules", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &t.NodeRules); err != nil {
+				if err := json.Unmarshal(*value, &_m.NodeRules); err != nil {
 					return fmt.Errorf("unmarshal field node_rules: %w", err)
 				}
 			}
@@ -259,7 +259,7 @@ func (t *Template) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field node_events", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &t.NodeEvents); err != nil {
+				if err := json.Unmarshal(*value, &_m.NodeEvents); err != nil {
 					return fmt.Errorf("unmarshal field node_events: %w", err)
 				}
 			}
@@ -267,7 +267,7 @@ func (t *Template) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field business_tags", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &t.BusinessTags); err != nil {
+				if err := json.Unmarshal(*value, &_m.BusinessTags); err != nil {
 					return fmt.Errorf("unmarshal field business_tags: %w", err)
 				}
 			}
@@ -275,61 +275,61 @@ func (t *Template) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field module_code", values[i])
 			} else if value.Valid {
-				t.ModuleCode = value.String
+				_m.ModuleCode = value.String
 			}
 		case template.FieldCategory:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field category", values[i])
 			} else if value.Valid {
-				t.Category = value.String
+				_m.Category = value.String
 			}
 		case template.FieldAllowCancel:
 			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field allow_cancel", values[i])
 			} else if value.Valid {
-				t.AllowCancel = value.Bool
+				_m.AllowCancel = value.Bool
 			}
 		case template.FieldAllowUrge:
 			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field allow_urge", values[i])
 			} else if value.Valid {
-				t.AllowUrge = value.Bool
+				_m.AllowUrge = value.Bool
 			}
 		case template.FieldAllowDelegate:
 			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field allow_delegate", values[i])
 			} else if value.Valid {
-				t.AllowDelegate = value.Bool
+				_m.AllowDelegate = value.Bool
 			}
 		case template.FieldAllowTransfer:
 			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field allow_transfer", values[i])
 			} else if value.Valid {
-				t.AllowTransfer = value.Bool
+				_m.AllowTransfer = value.Bool
 			}
 		case template.FieldIsDraftEnabled:
 			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field is_draft_enabled", values[i])
 			} else if value.Valid {
-				t.IsDraftEnabled = value.Bool
+				_m.IsDraftEnabled = value.Bool
 			}
 		case template.FieldIsAutoStart:
 			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field is_auto_start", values[i])
 			} else if value.Valid {
-				t.IsAutoStart = value.Bool
+				_m.IsAutoStart = value.Bool
 			}
 		case template.FieldStrictMode:
 			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field strict_mode", values[i])
 			} else if value.Valid {
-				t.StrictMode = value.Bool
+				_m.StrictMode = value.Bool
 			}
 		case template.FieldViewers:
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field viewers", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &t.Viewers); err != nil {
+				if err := json.Unmarshal(*value, &_m.Viewers); err != nil {
 					return fmt.Errorf("unmarshal field viewers: %w", err)
 				}
 			}
@@ -337,7 +337,7 @@ func (t *Template) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field editors", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &t.Editors); err != nil {
+				if err := json.Unmarshal(*value, &_m.Editors); err != nil {
 					return fmt.Errorf("unmarshal field editors: %w", err)
 				}
 			}
@@ -345,7 +345,7 @@ func (t *Template) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field permission_configs", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &t.PermissionConfigs); err != nil {
+				if err := json.Unmarshal(*value, &_m.PermissionConfigs); err != nil {
 					return fmt.Errorf("unmarshal field permission_configs: %w", err)
 				}
 			}
@@ -353,7 +353,7 @@ func (t *Template) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field role_configs", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &t.RoleConfigs); err != nil {
+				if err := json.Unmarshal(*value, &_m.RoleConfigs); err != nil {
 					return fmt.Errorf("unmarshal field role_configs: %w", err)
 				}
 			}
@@ -361,7 +361,7 @@ func (t *Template) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field visible_range", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &t.VisibleRange); err != nil {
+				if err := json.Unmarshal(*value, &_m.VisibleRange); err != nil {
 					return fmt.Errorf("unmarshal field visible_range: %w", err)
 				}
 			}
@@ -369,7 +369,7 @@ func (t *Template) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field extras", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &t.Extras); err != nil {
+				if err := json.Unmarshal(*value, &_m.Extras); err != nil {
 					return fmt.Errorf("unmarshal field extras: %w", err)
 				}
 			}
@@ -377,43 +377,43 @@ func (t *Template) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field space_id", values[i])
 			} else if value.Valid {
-				t.SpaceID = value.String
+				_m.SpaceID = value.String
 			}
 		case template.FieldCreatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field created_by", values[i])
 			} else if value.Valid {
-				t.CreatedBy = value.String
+				_m.CreatedBy = value.String
 			}
 		case template.FieldUpdatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_by", values[i])
 			} else if value.Valid {
-				t.UpdatedBy = value.String
+				_m.UpdatedBy = value.String
 			}
 		case template.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field created_at", values[i])
 			} else if value.Valid {
-				t.CreatedAt = value.Int64
+				_m.CreatedAt = value.Int64
 			}
 		case template.FieldUpdatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_at", values[i])
 			} else if value.Valid {
-				t.UpdatedAt = value.Int64
+				_m.UpdatedAt = value.Int64
 			}
 		case template.FieldTemplateKey:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field template_key", values[i])
 			} else if value.Valid {
-				t.TemplateKey = value.String
+				_m.TemplateKey = value.String
 			}
 		case template.FieldProcessRules:
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field process_rules", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &t.ProcessRules); err != nil {
+				if err := json.Unmarshal(*value, &_m.ProcessRules); err != nil {
 					return fmt.Errorf("unmarshal field process_rules: %w", err)
 				}
 			}
@@ -421,7 +421,7 @@ func (t *Template) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field trigger_conditions", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &t.TriggerConditions); err != nil {
+				if err := json.Unmarshal(*value, &_m.TriggerConditions); err != nil {
 					return fmt.Errorf("unmarshal field trigger_conditions: %w", err)
 				}
 			}
@@ -429,7 +429,7 @@ func (t *Template) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field timeout_config", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &t.TimeoutConfig); err != nil {
+				if err := json.Unmarshal(*value, &_m.TimeoutConfig); err != nil {
 					return fmt.Errorf("unmarshal field timeout_config: %w", err)
 				}
 			}
@@ -437,7 +437,7 @@ func (t *Template) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field reminder_config", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &t.ReminderConfig); err != nil {
+				if err := json.Unmarshal(*value, &_m.ReminderConfig); err != nil {
 					return fmt.Errorf("unmarshal field reminder_config: %w", err)
 				}
 			}
@@ -445,28 +445,28 @@ func (t *Template) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field source_version", values[i])
 			} else if value.Valid {
-				t.SourceVersion = value.String
+				_m.SourceVersion = value.String
 			}
 		case template.FieldIsLatest:
 			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field is_latest", values[i])
 			} else if value.Valid {
-				t.IsLatest = value.Bool
+				_m.IsLatest = value.Bool
 			}
 		case template.FieldEffectiveTime:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field effective_time", values[i])
 			} else if value.Valid {
-				t.EffectiveTime = value.Int64
+				_m.EffectiveTime = value.Int64
 			}
 		case template.FieldExpireTime:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field expire_time", values[i])
 			} else if value.Valid {
-				t.ExpireTime = value.Int64
+				_m.ExpireTime = value.Int64
 			}
 		default:
-			t.selectValues.Set(columns[i], values[i])
+			_m.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
@@ -474,173 +474,173 @@ func (t *Template) assignValues(columns []string, values []any) error {
 
 // Value returns the ent.Value that was dynamically selected and assigned to the Template.
 // This includes values selected through modifiers, order, etc.
-func (t *Template) Value(name string) (ent.Value, error) {
-	return t.selectValues.Get(name)
+func (_m *Template) Value(name string) (ent.Value, error) {
+	return _m.selectValues.Get(name)
 }
 
 // Update returns a builder for updating this Template.
 // Note that you need to call Template.Unwrap() before calling this method if this Template
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (t *Template) Update() *TemplateUpdateOne {
-	return NewTemplateClient(t.config).UpdateOne(t)
+func (_m *Template) Update() *TemplateUpdateOne {
+	return NewTemplateClient(_m.config).UpdateOne(_m)
 }
 
 // Unwrap unwraps the Template entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (t *Template) Unwrap() *Template {
-	_tx, ok := t.config.driver.(*txDriver)
+func (_m *Template) Unwrap() *Template {
+	_tx, ok := _m.config.driver.(*txDriver)
 	if !ok {
 		panic("ent: Template is not a transactional entity")
 	}
-	t.config.driver = _tx.drv
-	return t
+	_m.config.driver = _tx.drv
+	return _m
 }
 
 // String implements the fmt.Stringer.
-func (t *Template) String() string {
+func (_m *Template) String() string {
 	var builder strings.Builder
 	builder.WriteString("Template(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", t.ID))
+	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
 	builder.WriteString("name=")
-	builder.WriteString(t.Name)
+	builder.WriteString(_m.Name)
 	builder.WriteString(", ")
 	builder.WriteString("code=")
-	builder.WriteString(t.Code)
+	builder.WriteString(_m.Code)
 	builder.WriteString(", ")
 	builder.WriteString("description=")
-	builder.WriteString(t.Description)
+	builder.WriteString(_m.Description)
 	builder.WriteString(", ")
 	builder.WriteString("type=")
-	builder.WriteString(t.Type)
+	builder.WriteString(_m.Type)
 	builder.WriteString(", ")
 	builder.WriteString("version=")
-	builder.WriteString(t.Version)
+	builder.WriteString(_m.Version)
 	builder.WriteString(", ")
 	builder.WriteString("status=")
-	builder.WriteString(t.Status)
+	builder.WriteString(_m.Status)
 	builder.WriteString(", ")
 	builder.WriteString("disabled=")
-	builder.WriteString(fmt.Sprintf("%v", t.Disabled))
+	builder.WriteString(fmt.Sprintf("%v", _m.Disabled))
 	builder.WriteString(", ")
 	builder.WriteString("form_code=")
-	builder.WriteString(t.FormCode)
+	builder.WriteString(_m.FormCode)
 	builder.WriteString(", ")
 	builder.WriteString("form_version=")
-	builder.WriteString(t.FormVersion)
+	builder.WriteString(_m.FormVersion)
 	builder.WriteString(", ")
 	builder.WriteString("form_config=")
-	builder.WriteString(fmt.Sprintf("%v", t.FormConfig))
+	builder.WriteString(fmt.Sprintf("%v", _m.FormConfig))
 	builder.WriteString(", ")
 	builder.WriteString("form_permissions=")
-	builder.WriteString(fmt.Sprintf("%v", t.FormPermissions))
+	builder.WriteString(fmt.Sprintf("%v", _m.FormPermissions))
 	builder.WriteString(", ")
 	builder.WriteString("field_permissions=")
-	builder.WriteString(fmt.Sprintf("%v", t.FieldPermissions))
+	builder.WriteString(fmt.Sprintf("%v", _m.FieldPermissions))
 	builder.WriteString(", ")
 	builder.WriteString("node_key=")
-	builder.WriteString(t.NodeKey)
+	builder.WriteString(_m.NodeKey)
 	builder.WriteString(", ")
 	builder.WriteString("node_type=")
-	builder.WriteString(t.NodeType)
+	builder.WriteString(_m.NodeType)
 	builder.WriteString(", ")
 	builder.WriteString("node_config=")
-	builder.WriteString(fmt.Sprintf("%v", t.NodeConfig))
+	builder.WriteString(fmt.Sprintf("%v", _m.NodeConfig))
 	builder.WriteString(", ")
 	builder.WriteString("node_rules=")
-	builder.WriteString(fmt.Sprintf("%v", t.NodeRules))
+	builder.WriteString(fmt.Sprintf("%v", _m.NodeRules))
 	builder.WriteString(", ")
 	builder.WriteString("node_events=")
-	builder.WriteString(fmt.Sprintf("%v", t.NodeEvents))
+	builder.WriteString(fmt.Sprintf("%v", _m.NodeEvents))
 	builder.WriteString(", ")
 	builder.WriteString("business_tags=")
-	builder.WriteString(fmt.Sprintf("%v", t.BusinessTags))
+	builder.WriteString(fmt.Sprintf("%v", _m.BusinessTags))
 	builder.WriteString(", ")
 	builder.WriteString("module_code=")
-	builder.WriteString(t.ModuleCode)
+	builder.WriteString(_m.ModuleCode)
 	builder.WriteString(", ")
 	builder.WriteString("category=")
-	builder.WriteString(t.Category)
+	builder.WriteString(_m.Category)
 	builder.WriteString(", ")
 	builder.WriteString("allow_cancel=")
-	builder.WriteString(fmt.Sprintf("%v", t.AllowCancel))
+	builder.WriteString(fmt.Sprintf("%v", _m.AllowCancel))
 	builder.WriteString(", ")
 	builder.WriteString("allow_urge=")
-	builder.WriteString(fmt.Sprintf("%v", t.AllowUrge))
+	builder.WriteString(fmt.Sprintf("%v", _m.AllowUrge))
 	builder.WriteString(", ")
 	builder.WriteString("allow_delegate=")
-	builder.WriteString(fmt.Sprintf("%v", t.AllowDelegate))
+	builder.WriteString(fmt.Sprintf("%v", _m.AllowDelegate))
 	builder.WriteString(", ")
 	builder.WriteString("allow_transfer=")
-	builder.WriteString(fmt.Sprintf("%v", t.AllowTransfer))
+	builder.WriteString(fmt.Sprintf("%v", _m.AllowTransfer))
 	builder.WriteString(", ")
 	builder.WriteString("is_draft_enabled=")
-	builder.WriteString(fmt.Sprintf("%v", t.IsDraftEnabled))
+	builder.WriteString(fmt.Sprintf("%v", _m.IsDraftEnabled))
 	builder.WriteString(", ")
 	builder.WriteString("is_auto_start=")
-	builder.WriteString(fmt.Sprintf("%v", t.IsAutoStart))
+	builder.WriteString(fmt.Sprintf("%v", _m.IsAutoStart))
 	builder.WriteString(", ")
 	builder.WriteString("strict_mode=")
-	builder.WriteString(fmt.Sprintf("%v", t.StrictMode))
+	builder.WriteString(fmt.Sprintf("%v", _m.StrictMode))
 	builder.WriteString(", ")
 	builder.WriteString("viewers=")
-	builder.WriteString(fmt.Sprintf("%v", t.Viewers))
+	builder.WriteString(fmt.Sprintf("%v", _m.Viewers))
 	builder.WriteString(", ")
 	builder.WriteString("editors=")
-	builder.WriteString(fmt.Sprintf("%v", t.Editors))
+	builder.WriteString(fmt.Sprintf("%v", _m.Editors))
 	builder.WriteString(", ")
 	builder.WriteString("permission_configs=")
-	builder.WriteString(fmt.Sprintf("%v", t.PermissionConfigs))
+	builder.WriteString(fmt.Sprintf("%v", _m.PermissionConfigs))
 	builder.WriteString(", ")
 	builder.WriteString("role_configs=")
-	builder.WriteString(fmt.Sprintf("%v", t.RoleConfigs))
+	builder.WriteString(fmt.Sprintf("%v", _m.RoleConfigs))
 	builder.WriteString(", ")
 	builder.WriteString("visible_range=")
-	builder.WriteString(fmt.Sprintf("%v", t.VisibleRange))
+	builder.WriteString(fmt.Sprintf("%v", _m.VisibleRange))
 	builder.WriteString(", ")
 	builder.WriteString("extras=")
-	builder.WriteString(fmt.Sprintf("%v", t.Extras))
+	builder.WriteString(fmt.Sprintf("%v", _m.Extras))
 	builder.WriteString(", ")
 	builder.WriteString("space_id=")
-	builder.WriteString(t.SpaceID)
+	builder.WriteString(_m.SpaceID)
 	builder.WriteString(", ")
 	builder.WriteString("created_by=")
-	builder.WriteString(t.CreatedBy)
+	builder.WriteString(_m.CreatedBy)
 	builder.WriteString(", ")
 	builder.WriteString("updated_by=")
-	builder.WriteString(t.UpdatedBy)
+	builder.WriteString(_m.UpdatedBy)
 	builder.WriteString(", ")
 	builder.WriteString("created_at=")
-	builder.WriteString(fmt.Sprintf("%v", t.CreatedAt))
+	builder.WriteString(fmt.Sprintf("%v", _m.CreatedAt))
 	builder.WriteString(", ")
 	builder.WriteString("updated_at=")
-	builder.WriteString(fmt.Sprintf("%v", t.UpdatedAt))
+	builder.WriteString(fmt.Sprintf("%v", _m.UpdatedAt))
 	builder.WriteString(", ")
 	builder.WriteString("template_key=")
-	builder.WriteString(t.TemplateKey)
+	builder.WriteString(_m.TemplateKey)
 	builder.WriteString(", ")
 	builder.WriteString("process_rules=")
-	builder.WriteString(fmt.Sprintf("%v", t.ProcessRules))
+	builder.WriteString(fmt.Sprintf("%v", _m.ProcessRules))
 	builder.WriteString(", ")
 	builder.WriteString("trigger_conditions=")
-	builder.WriteString(fmt.Sprintf("%v", t.TriggerConditions))
+	builder.WriteString(fmt.Sprintf("%v", _m.TriggerConditions))
 	builder.WriteString(", ")
 	builder.WriteString("timeout_config=")
-	builder.WriteString(fmt.Sprintf("%v", t.TimeoutConfig))
+	builder.WriteString(fmt.Sprintf("%v", _m.TimeoutConfig))
 	builder.WriteString(", ")
 	builder.WriteString("reminder_config=")
-	builder.WriteString(fmt.Sprintf("%v", t.ReminderConfig))
+	builder.WriteString(fmt.Sprintf("%v", _m.ReminderConfig))
 	builder.WriteString(", ")
 	builder.WriteString("source_version=")
-	builder.WriteString(t.SourceVersion)
+	builder.WriteString(_m.SourceVersion)
 	builder.WriteString(", ")
 	builder.WriteString("is_latest=")
-	builder.WriteString(fmt.Sprintf("%v", t.IsLatest))
+	builder.WriteString(fmt.Sprintf("%v", _m.IsLatest))
 	builder.WriteString(", ")
 	builder.WriteString("effective_time=")
-	builder.WriteString(fmt.Sprintf("%v", t.EffectiveTime))
+	builder.WriteString(fmt.Sprintf("%v", _m.EffectiveTime))
 	builder.WriteString(", ")
 	builder.WriteString("expire_time=")
-	builder.WriteString(fmt.Sprintf("%v", t.ExpireTime))
+	builder.WriteString(fmt.Sprintf("%v", _m.ExpireTime))
 	builder.WriteByte(')')
 	return builder.String()
 }

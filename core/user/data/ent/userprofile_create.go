@@ -19,143 +19,143 @@ type UserProfileCreate struct {
 }
 
 // SetDisplayName sets the "display_name" field.
-func (upc *UserProfileCreate) SetDisplayName(s string) *UserProfileCreate {
-	upc.mutation.SetDisplayName(s)
-	return upc
+func (_c *UserProfileCreate) SetDisplayName(v string) *UserProfileCreate {
+	_c.mutation.SetDisplayName(v)
+	return _c
 }
 
 // SetNillableDisplayName sets the "display_name" field if the given value is not nil.
-func (upc *UserProfileCreate) SetNillableDisplayName(s *string) *UserProfileCreate {
-	if s != nil {
-		upc.SetDisplayName(*s)
+func (_c *UserProfileCreate) SetNillableDisplayName(v *string) *UserProfileCreate {
+	if v != nil {
+		_c.SetDisplayName(*v)
 	}
-	return upc
+	return _c
 }
 
 // SetFirstName sets the "first_name" field.
-func (upc *UserProfileCreate) SetFirstName(s string) *UserProfileCreate {
-	upc.mutation.SetFirstName(s)
-	return upc
+func (_c *UserProfileCreate) SetFirstName(v string) *UserProfileCreate {
+	_c.mutation.SetFirstName(v)
+	return _c
 }
 
 // SetNillableFirstName sets the "first_name" field if the given value is not nil.
-func (upc *UserProfileCreate) SetNillableFirstName(s *string) *UserProfileCreate {
-	if s != nil {
-		upc.SetFirstName(*s)
+func (_c *UserProfileCreate) SetNillableFirstName(v *string) *UserProfileCreate {
+	if v != nil {
+		_c.SetFirstName(*v)
 	}
-	return upc
+	return _c
 }
 
 // SetLastName sets the "last_name" field.
-func (upc *UserProfileCreate) SetLastName(s string) *UserProfileCreate {
-	upc.mutation.SetLastName(s)
-	return upc
+func (_c *UserProfileCreate) SetLastName(v string) *UserProfileCreate {
+	_c.mutation.SetLastName(v)
+	return _c
 }
 
 // SetNillableLastName sets the "last_name" field if the given value is not nil.
-func (upc *UserProfileCreate) SetNillableLastName(s *string) *UserProfileCreate {
-	if s != nil {
-		upc.SetLastName(*s)
+func (_c *UserProfileCreate) SetNillableLastName(v *string) *UserProfileCreate {
+	if v != nil {
+		_c.SetLastName(*v)
 	}
-	return upc
+	return _c
 }
 
 // SetTitle sets the "title" field.
-func (upc *UserProfileCreate) SetTitle(s string) *UserProfileCreate {
-	upc.mutation.SetTitle(s)
-	return upc
+func (_c *UserProfileCreate) SetTitle(v string) *UserProfileCreate {
+	_c.mutation.SetTitle(v)
+	return _c
 }
 
 // SetNillableTitle sets the "title" field if the given value is not nil.
-func (upc *UserProfileCreate) SetNillableTitle(s *string) *UserProfileCreate {
-	if s != nil {
-		upc.SetTitle(*s)
+func (_c *UserProfileCreate) SetNillableTitle(v *string) *UserProfileCreate {
+	if v != nil {
+		_c.SetTitle(*v)
 	}
-	return upc
+	return _c
 }
 
 // SetShortBio sets the "short_bio" field.
-func (upc *UserProfileCreate) SetShortBio(s string) *UserProfileCreate {
-	upc.mutation.SetShortBio(s)
-	return upc
+func (_c *UserProfileCreate) SetShortBio(v string) *UserProfileCreate {
+	_c.mutation.SetShortBio(v)
+	return _c
 }
 
 // SetNillableShortBio sets the "short_bio" field if the given value is not nil.
-func (upc *UserProfileCreate) SetNillableShortBio(s *string) *UserProfileCreate {
-	if s != nil {
-		upc.SetShortBio(*s)
+func (_c *UserProfileCreate) SetNillableShortBio(v *string) *UserProfileCreate {
+	if v != nil {
+		_c.SetShortBio(*v)
 	}
-	return upc
+	return _c
 }
 
 // SetAbout sets the "about" field.
-func (upc *UserProfileCreate) SetAbout(s string) *UserProfileCreate {
-	upc.mutation.SetAbout(s)
-	return upc
+func (_c *UserProfileCreate) SetAbout(v string) *UserProfileCreate {
+	_c.mutation.SetAbout(v)
+	return _c
 }
 
 // SetNillableAbout sets the "about" field if the given value is not nil.
-func (upc *UserProfileCreate) SetNillableAbout(s *string) *UserProfileCreate {
-	if s != nil {
-		upc.SetAbout(*s)
+func (_c *UserProfileCreate) SetNillableAbout(v *string) *UserProfileCreate {
+	if v != nil {
+		_c.SetAbout(*v)
 	}
-	return upc
+	return _c
 }
 
 // SetLinks sets the "links" field.
-func (upc *UserProfileCreate) SetLinks(m []map[string]interface{}) *UserProfileCreate {
-	upc.mutation.SetLinks(m)
-	return upc
+func (_c *UserProfileCreate) SetLinks(v []map[string]interface{}) *UserProfileCreate {
+	_c.mutation.SetLinks(v)
+	return _c
 }
 
 // SetThumbnail sets the "thumbnail" field.
-func (upc *UserProfileCreate) SetThumbnail(s string) *UserProfileCreate {
-	upc.mutation.SetThumbnail(s)
-	return upc
+func (_c *UserProfileCreate) SetThumbnail(v string) *UserProfileCreate {
+	_c.mutation.SetThumbnail(v)
+	return _c
 }
 
 // SetNillableThumbnail sets the "thumbnail" field if the given value is not nil.
-func (upc *UserProfileCreate) SetNillableThumbnail(s *string) *UserProfileCreate {
-	if s != nil {
-		upc.SetThumbnail(*s)
+func (_c *UserProfileCreate) SetNillableThumbnail(v *string) *UserProfileCreate {
+	if v != nil {
+		_c.SetThumbnail(*v)
 	}
-	return upc
+	return _c
 }
 
 // SetExtras sets the "extras" field.
-func (upc *UserProfileCreate) SetExtras(m map[string]interface{}) *UserProfileCreate {
-	upc.mutation.SetExtras(m)
-	return upc
+func (_c *UserProfileCreate) SetExtras(v map[string]interface{}) *UserProfileCreate {
+	_c.mutation.SetExtras(v)
+	return _c
 }
 
 // SetID sets the "id" field.
-func (upc *UserProfileCreate) SetID(s string) *UserProfileCreate {
-	upc.mutation.SetID(s)
-	return upc
+func (_c *UserProfileCreate) SetID(v string) *UserProfileCreate {
+	_c.mutation.SetID(v)
+	return _c
 }
 
 // SetNillableID sets the "id" field if the given value is not nil.
-func (upc *UserProfileCreate) SetNillableID(s *string) *UserProfileCreate {
-	if s != nil {
-		upc.SetID(*s)
+func (_c *UserProfileCreate) SetNillableID(v *string) *UserProfileCreate {
+	if v != nil {
+		_c.SetID(*v)
 	}
-	return upc
+	return _c
 }
 
 // Mutation returns the UserProfileMutation object of the builder.
-func (upc *UserProfileCreate) Mutation() *UserProfileMutation {
-	return upc.mutation
+func (_c *UserProfileCreate) Mutation() *UserProfileMutation {
+	return _c.mutation
 }
 
 // Save creates the UserProfile in the database.
-func (upc *UserProfileCreate) Save(ctx context.Context) (*UserProfile, error) {
-	upc.defaults()
-	return withHooks(ctx, upc.sqlSave, upc.mutation, upc.hooks)
+func (_c *UserProfileCreate) Save(ctx context.Context) (*UserProfile, error) {
+	_c.defaults()
+	return withHooks(ctx, _c.sqlSave, _c.mutation, _c.hooks)
 }
 
 // SaveX calls Save and panics if Save returns an error.
-func (upc *UserProfileCreate) SaveX(ctx context.Context) *UserProfile {
-	v, err := upc.Save(ctx)
+func (_c *UserProfileCreate) SaveX(ctx context.Context) *UserProfile {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -163,45 +163,45 @@ func (upc *UserProfileCreate) SaveX(ctx context.Context) *UserProfile {
 }
 
 // Exec executes the query.
-func (upc *UserProfileCreate) Exec(ctx context.Context) error {
-	_, err := upc.Save(ctx)
+func (_c *UserProfileCreate) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (upc *UserProfileCreate) ExecX(ctx context.Context) {
-	if err := upc.Exec(ctx); err != nil {
+func (_c *UserProfileCreate) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (upc *UserProfileCreate) defaults() {
-	if _, ok := upc.mutation.Links(); !ok {
+func (_c *UserProfileCreate) defaults() {
+	if _, ok := _c.mutation.Links(); !ok {
 		v := userprofile.DefaultLinks
-		upc.mutation.SetLinks(v)
+		_c.mutation.SetLinks(v)
 	}
-	if _, ok := upc.mutation.Extras(); !ok {
+	if _, ok := _c.mutation.Extras(); !ok {
 		v := userprofile.DefaultExtras
-		upc.mutation.SetExtras(v)
+		_c.mutation.SetExtras(v)
 	}
-	if _, ok := upc.mutation.ID(); !ok {
+	if _, ok := _c.mutation.ID(); !ok {
 		v := userprofile.DefaultID()
-		upc.mutation.SetID(v)
+		_c.mutation.SetID(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (upc *UserProfileCreate) check() error {
+func (_c *UserProfileCreate) check() error {
 	return nil
 }
 
-func (upc *UserProfileCreate) sqlSave(ctx context.Context) (*UserProfile, error) {
-	if err := upc.check(); err != nil {
+func (_c *UserProfileCreate) sqlSave(ctx context.Context) (*UserProfile, error) {
+	if err := _c.check(); err != nil {
 		return nil, err
 	}
-	_node, _spec := upc.createSpec()
-	if err := sqlgraph.CreateNode(ctx, upc.driver, _spec); err != nil {
+	_node, _spec := _c.createSpec()
+	if err := sqlgraph.CreateNode(ctx, _c.driver, _spec); err != nil {
 		if sqlgraph.IsConstraintError(err) {
 			err = &ConstraintError{msg: err.Error(), wrap: err}
 		}
@@ -214,53 +214,53 @@ func (upc *UserProfileCreate) sqlSave(ctx context.Context) (*UserProfile, error)
 			return nil, fmt.Errorf("unexpected UserProfile.ID type: %T", _spec.ID.Value)
 		}
 	}
-	upc.mutation.id = &_node.ID
-	upc.mutation.done = true
+	_c.mutation.id = &_node.ID
+	_c.mutation.done = true
 	return _node, nil
 }
 
-func (upc *UserProfileCreate) createSpec() (*UserProfile, *sqlgraph.CreateSpec) {
+func (_c *UserProfileCreate) createSpec() (*UserProfile, *sqlgraph.CreateSpec) {
 	var (
-		_node = &UserProfile{config: upc.config}
+		_node = &UserProfile{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(userprofile.Table, sqlgraph.NewFieldSpec(userprofile.FieldID, field.TypeString))
 	)
-	if id, ok := upc.mutation.ID(); ok {
+	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
 	}
-	if value, ok := upc.mutation.DisplayName(); ok {
+	if value, ok := _c.mutation.DisplayName(); ok {
 		_spec.SetField(userprofile.FieldDisplayName, field.TypeString, value)
 		_node.DisplayName = value
 	}
-	if value, ok := upc.mutation.FirstName(); ok {
+	if value, ok := _c.mutation.FirstName(); ok {
 		_spec.SetField(userprofile.FieldFirstName, field.TypeString, value)
 		_node.FirstName = value
 	}
-	if value, ok := upc.mutation.LastName(); ok {
+	if value, ok := _c.mutation.LastName(); ok {
 		_spec.SetField(userprofile.FieldLastName, field.TypeString, value)
 		_node.LastName = value
 	}
-	if value, ok := upc.mutation.Title(); ok {
+	if value, ok := _c.mutation.Title(); ok {
 		_spec.SetField(userprofile.FieldTitle, field.TypeString, value)
 		_node.Title = value
 	}
-	if value, ok := upc.mutation.ShortBio(); ok {
+	if value, ok := _c.mutation.ShortBio(); ok {
 		_spec.SetField(userprofile.FieldShortBio, field.TypeString, value)
 		_node.ShortBio = value
 	}
-	if value, ok := upc.mutation.About(); ok {
+	if value, ok := _c.mutation.About(); ok {
 		_spec.SetField(userprofile.FieldAbout, field.TypeString, value)
 		_node.About = value
 	}
-	if value, ok := upc.mutation.Links(); ok {
+	if value, ok := _c.mutation.Links(); ok {
 		_spec.SetField(userprofile.FieldLinks, field.TypeJSON, value)
 		_node.Links = value
 	}
-	if value, ok := upc.mutation.Thumbnail(); ok {
+	if value, ok := _c.mutation.Thumbnail(); ok {
 		_spec.SetField(userprofile.FieldThumbnail, field.TypeString, value)
 		_node.Thumbnail = value
 	}
-	if value, ok := upc.mutation.Extras(); ok {
+	if value, ok := _c.mutation.Extras(); ok {
 		_spec.SetField(userprofile.FieldExtras, field.TypeJSON, value)
 		_node.Extras = value
 	}
@@ -275,16 +275,16 @@ type UserProfileCreateBulk struct {
 }
 
 // Save creates the UserProfile entities in the database.
-func (upcb *UserProfileCreateBulk) Save(ctx context.Context) ([]*UserProfile, error) {
-	if upcb.err != nil {
-		return nil, upcb.err
+func (_c *UserProfileCreateBulk) Save(ctx context.Context) ([]*UserProfile, error) {
+	if _c.err != nil {
+		return nil, _c.err
 	}
-	specs := make([]*sqlgraph.CreateSpec, len(upcb.builders))
-	nodes := make([]*UserProfile, len(upcb.builders))
-	mutators := make([]Mutator, len(upcb.builders))
-	for i := range upcb.builders {
+	specs := make([]*sqlgraph.CreateSpec, len(_c.builders))
+	nodes := make([]*UserProfile, len(_c.builders))
+	mutators := make([]Mutator, len(_c.builders))
+	for i := range _c.builders {
 		func(i int, root context.Context) {
-			builder := upcb.builders[i]
+			builder := _c.builders[i]
 			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*UserProfileMutation)
@@ -298,11 +298,11 @@ func (upcb *UserProfileCreateBulk) Save(ctx context.Context) ([]*UserProfile, er
 				var err error
 				nodes[i], specs[i] = builder.createSpec()
 				if i < len(mutators)-1 {
-					_, err = mutators[i+1].Mutate(root, upcb.builders[i+1].mutation)
+					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
 					// Invoke the actual operation on the latest mutation in the chain.
-					if err = sqlgraph.BatchCreate(ctx, upcb.driver, spec); err != nil {
+					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
 							err = &ConstraintError{msg: err.Error(), wrap: err}
 						}
@@ -322,7 +322,7 @@ func (upcb *UserProfileCreateBulk) Save(ctx context.Context) ([]*UserProfile, er
 		}(i, ctx)
 	}
 	if len(mutators) > 0 {
-		if _, err := mutators[0].Mutate(ctx, upcb.builders[0].mutation); err != nil {
+		if _, err := mutators[0].Mutate(ctx, _c.builders[0].mutation); err != nil {
 			return nil, err
 		}
 	}
@@ -330,8 +330,8 @@ func (upcb *UserProfileCreateBulk) Save(ctx context.Context) ([]*UserProfile, er
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (upcb *UserProfileCreateBulk) SaveX(ctx context.Context) []*UserProfile {
-	v, err := upcb.Save(ctx)
+func (_c *UserProfileCreateBulk) SaveX(ctx context.Context) []*UserProfile {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -339,14 +339,14 @@ func (upcb *UserProfileCreateBulk) SaveX(ctx context.Context) []*UserProfile {
 }
 
 // Exec executes the query.
-func (upcb *UserProfileCreateBulk) Exec(ctx context.Context) error {
-	_, err := upcb.Save(ctx)
+func (_c *UserProfileCreateBulk) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (upcb *UserProfileCreateBulk) ExecX(ctx context.Context) {
-	if err := upcb.Exec(ctx); err != nil {
+func (_c *UserProfileCreateBulk) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

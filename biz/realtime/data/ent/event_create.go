@@ -20,151 +20,151 @@ type EventCreate struct {
 }
 
 // SetType sets the "type" field.
-func (ec *EventCreate) SetType(s string) *EventCreate {
-	ec.mutation.SetType(s)
-	return ec
+func (_c *EventCreate) SetType(v string) *EventCreate {
+	_c.mutation.SetType(v)
+	return _c
 }
 
 // SetNillableType sets the "type" field if the given value is not nil.
-func (ec *EventCreate) SetNillableType(s *string) *EventCreate {
-	if s != nil {
-		ec.SetType(*s)
+func (_c *EventCreate) SetNillableType(v *string) *EventCreate {
+	if v != nil {
+		_c.SetType(*v)
 	}
-	return ec
+	return _c
 }
 
 // SetPayload sets the "payload" field.
-func (ec *EventCreate) SetPayload(m map[string]interface{}) *EventCreate {
-	ec.mutation.SetPayload(m)
-	return ec
+func (_c *EventCreate) SetPayload(v map[string]interface{}) *EventCreate {
+	_c.mutation.SetPayload(v)
+	return _c
 }
 
 // SetCreatedAt sets the "created_at" field.
-func (ec *EventCreate) SetCreatedAt(i int64) *EventCreate {
-	ec.mutation.SetCreatedAt(i)
-	return ec
+func (_c *EventCreate) SetCreatedAt(v int64) *EventCreate {
+	_c.mutation.SetCreatedAt(v)
+	return _c
 }
 
 // SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
-func (ec *EventCreate) SetNillableCreatedAt(i *int64) *EventCreate {
-	if i != nil {
-		ec.SetCreatedAt(*i)
+func (_c *EventCreate) SetNillableCreatedAt(v *int64) *EventCreate {
+	if v != nil {
+		_c.SetCreatedAt(*v)
 	}
-	return ec
+	return _c
 }
 
 // SetSource sets the "source" field.
-func (ec *EventCreate) SetSource(s string) *EventCreate {
-	ec.mutation.SetSource(s)
-	return ec
+func (_c *EventCreate) SetSource(v string) *EventCreate {
+	_c.mutation.SetSource(v)
+	return _c
 }
 
 // SetNillableSource sets the "source" field if the given value is not nil.
-func (ec *EventCreate) SetNillableSource(s *string) *EventCreate {
-	if s != nil {
-		ec.SetSource(*s)
+func (_c *EventCreate) SetNillableSource(v *string) *EventCreate {
+	if v != nil {
+		_c.SetSource(*v)
 	}
-	return ec
+	return _c
 }
 
 // SetStatus sets the "status" field.
-func (ec *EventCreate) SetStatus(s string) *EventCreate {
-	ec.mutation.SetStatus(s)
-	return ec
+func (_c *EventCreate) SetStatus(v string) *EventCreate {
+	_c.mutation.SetStatus(v)
+	return _c
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (ec *EventCreate) SetNillableStatus(s *string) *EventCreate {
-	if s != nil {
-		ec.SetStatus(*s)
+func (_c *EventCreate) SetNillableStatus(v *string) *EventCreate {
+	if v != nil {
+		_c.SetStatus(*v)
 	}
-	return ec
+	return _c
 }
 
 // SetPriority sets the "priority" field.
-func (ec *EventCreate) SetPriority(s string) *EventCreate {
-	ec.mutation.SetPriority(s)
-	return ec
+func (_c *EventCreate) SetPriority(v string) *EventCreate {
+	_c.mutation.SetPriority(v)
+	return _c
 }
 
 // SetNillablePriority sets the "priority" field if the given value is not nil.
-func (ec *EventCreate) SetNillablePriority(s *string) *EventCreate {
-	if s != nil {
-		ec.SetPriority(*s)
+func (_c *EventCreate) SetNillablePriority(v *string) *EventCreate {
+	if v != nil {
+		_c.SetPriority(*v)
 	}
-	return ec
+	return _c
 }
 
 // SetProcessedAt sets the "processed_at" field.
-func (ec *EventCreate) SetProcessedAt(i int64) *EventCreate {
-	ec.mutation.SetProcessedAt(i)
-	return ec
+func (_c *EventCreate) SetProcessedAt(v int64) *EventCreate {
+	_c.mutation.SetProcessedAt(v)
+	return _c
 }
 
 // SetNillableProcessedAt sets the "processed_at" field if the given value is not nil.
-func (ec *EventCreate) SetNillableProcessedAt(i *int64) *EventCreate {
-	if i != nil {
-		ec.SetProcessedAt(*i)
+func (_c *EventCreate) SetNillableProcessedAt(v *int64) *EventCreate {
+	if v != nil {
+		_c.SetProcessedAt(*v)
 	}
-	return ec
+	return _c
 }
 
 // SetRetryCount sets the "retry_count" field.
-func (ec *EventCreate) SetRetryCount(i int) *EventCreate {
-	ec.mutation.SetRetryCount(i)
-	return ec
+func (_c *EventCreate) SetRetryCount(v int) *EventCreate {
+	_c.mutation.SetRetryCount(v)
+	return _c
 }
 
 // SetNillableRetryCount sets the "retry_count" field if the given value is not nil.
-func (ec *EventCreate) SetNillableRetryCount(i *int) *EventCreate {
-	if i != nil {
-		ec.SetRetryCount(*i)
+func (_c *EventCreate) SetNillableRetryCount(v *int) *EventCreate {
+	if v != nil {
+		_c.SetRetryCount(*v)
 	}
-	return ec
+	return _c
 }
 
 // SetErrorMessage sets the "error_message" field.
-func (ec *EventCreate) SetErrorMessage(s string) *EventCreate {
-	ec.mutation.SetErrorMessage(s)
-	return ec
+func (_c *EventCreate) SetErrorMessage(v string) *EventCreate {
+	_c.mutation.SetErrorMessage(v)
+	return _c
 }
 
 // SetNillableErrorMessage sets the "error_message" field if the given value is not nil.
-func (ec *EventCreate) SetNillableErrorMessage(s *string) *EventCreate {
-	if s != nil {
-		ec.SetErrorMessage(*s)
+func (_c *EventCreate) SetNillableErrorMessage(v *string) *EventCreate {
+	if v != nil {
+		_c.SetErrorMessage(*v)
 	}
-	return ec
+	return _c
 }
 
 // SetID sets the "id" field.
-func (ec *EventCreate) SetID(s string) *EventCreate {
-	ec.mutation.SetID(s)
-	return ec
+func (_c *EventCreate) SetID(v string) *EventCreate {
+	_c.mutation.SetID(v)
+	return _c
 }
 
 // SetNillableID sets the "id" field if the given value is not nil.
-func (ec *EventCreate) SetNillableID(s *string) *EventCreate {
-	if s != nil {
-		ec.SetID(*s)
+func (_c *EventCreate) SetNillableID(v *string) *EventCreate {
+	if v != nil {
+		_c.SetID(*v)
 	}
-	return ec
+	return _c
 }
 
 // Mutation returns the EventMutation object of the builder.
-func (ec *EventCreate) Mutation() *EventMutation {
-	return ec.mutation
+func (_c *EventCreate) Mutation() *EventMutation {
+	return _c.mutation
 }
 
 // Save creates the Event in the database.
-func (ec *EventCreate) Save(ctx context.Context) (*Event, error) {
-	ec.defaults()
-	return withHooks(ctx, ec.sqlSave, ec.mutation, ec.hooks)
+func (_c *EventCreate) Save(ctx context.Context) (*Event, error) {
+	_c.defaults()
+	return withHooks(ctx, _c.sqlSave, _c.mutation, _c.hooks)
 }
 
 // SaveX calls Save and panics if Save returns an error.
-func (ec *EventCreate) SaveX(ctx context.Context) *Event {
-	v, err := ec.Save(ctx)
+func (_c *EventCreate) SaveX(ctx context.Context) *Event {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -172,55 +172,55 @@ func (ec *EventCreate) SaveX(ctx context.Context) *Event {
 }
 
 // Exec executes the query.
-func (ec *EventCreate) Exec(ctx context.Context) error {
-	_, err := ec.Save(ctx)
+func (_c *EventCreate) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (ec *EventCreate) ExecX(ctx context.Context) {
-	if err := ec.Exec(ctx); err != nil {
+func (_c *EventCreate) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (ec *EventCreate) defaults() {
-	if _, ok := ec.mutation.Payload(); !ok {
+func (_c *EventCreate) defaults() {
+	if _, ok := _c.mutation.Payload(); !ok {
 		v := event.DefaultPayload
-		ec.mutation.SetPayload(v)
+		_c.mutation.SetPayload(v)
 	}
-	if _, ok := ec.mutation.CreatedAt(); !ok {
+	if _, ok := _c.mutation.CreatedAt(); !ok {
 		v := event.DefaultCreatedAt()
-		ec.mutation.SetCreatedAt(v)
+		_c.mutation.SetCreatedAt(v)
 	}
-	if _, ok := ec.mutation.Status(); !ok {
+	if _, ok := _c.mutation.Status(); !ok {
 		v := event.DefaultStatus
-		ec.mutation.SetStatus(v)
+		_c.mutation.SetStatus(v)
 	}
-	if _, ok := ec.mutation.Priority(); !ok {
+	if _, ok := _c.mutation.Priority(); !ok {
 		v := event.DefaultPriority
-		ec.mutation.SetPriority(v)
+		_c.mutation.SetPriority(v)
 	}
-	if _, ok := ec.mutation.RetryCount(); !ok {
+	if _, ok := _c.mutation.RetryCount(); !ok {
 		v := event.DefaultRetryCount
-		ec.mutation.SetRetryCount(v)
+		_c.mutation.SetRetryCount(v)
 	}
-	if _, ok := ec.mutation.ID(); !ok {
+	if _, ok := _c.mutation.ID(); !ok {
 		v := event.DefaultID()
-		ec.mutation.SetID(v)
+		_c.mutation.SetID(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (ec *EventCreate) check() error {
-	if _, ok := ec.mutation.Status(); !ok {
+func (_c *EventCreate) check() error {
+	if _, ok := _c.mutation.Status(); !ok {
 		return &ValidationError{Name: "status", err: errors.New(`ent: missing required field "Event.status"`)}
 	}
-	if _, ok := ec.mutation.RetryCount(); !ok {
+	if _, ok := _c.mutation.RetryCount(); !ok {
 		return &ValidationError{Name: "retry_count", err: errors.New(`ent: missing required field "Event.retry_count"`)}
 	}
-	if v, ok := ec.mutation.ID(); ok {
+	if v, ok := _c.mutation.ID(); ok {
 		if err := event.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "Event.id": %w`, err)}
 		}
@@ -228,12 +228,12 @@ func (ec *EventCreate) check() error {
 	return nil
 }
 
-func (ec *EventCreate) sqlSave(ctx context.Context) (*Event, error) {
-	if err := ec.check(); err != nil {
+func (_c *EventCreate) sqlSave(ctx context.Context) (*Event, error) {
+	if err := _c.check(); err != nil {
 		return nil, err
 	}
-	_node, _spec := ec.createSpec()
-	if err := sqlgraph.CreateNode(ctx, ec.driver, _spec); err != nil {
+	_node, _spec := _c.createSpec()
+	if err := sqlgraph.CreateNode(ctx, _c.driver, _spec); err != nil {
 		if sqlgraph.IsConstraintError(err) {
 			err = &ConstraintError{msg: err.Error(), wrap: err}
 		}
@@ -246,53 +246,53 @@ func (ec *EventCreate) sqlSave(ctx context.Context) (*Event, error) {
 			return nil, fmt.Errorf("unexpected Event.ID type: %T", _spec.ID.Value)
 		}
 	}
-	ec.mutation.id = &_node.ID
-	ec.mutation.done = true
+	_c.mutation.id = &_node.ID
+	_c.mutation.done = true
 	return _node, nil
 }
 
-func (ec *EventCreate) createSpec() (*Event, *sqlgraph.CreateSpec) {
+func (_c *EventCreate) createSpec() (*Event, *sqlgraph.CreateSpec) {
 	var (
-		_node = &Event{config: ec.config}
+		_node = &Event{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(event.Table, sqlgraph.NewFieldSpec(event.FieldID, field.TypeString))
 	)
-	if id, ok := ec.mutation.ID(); ok {
+	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
 	}
-	if value, ok := ec.mutation.GetType(); ok {
+	if value, ok := _c.mutation.GetType(); ok {
 		_spec.SetField(event.FieldType, field.TypeString, value)
 		_node.Type = value
 	}
-	if value, ok := ec.mutation.Payload(); ok {
+	if value, ok := _c.mutation.Payload(); ok {
 		_spec.SetField(event.FieldPayload, field.TypeJSON, value)
 		_node.Payload = value
 	}
-	if value, ok := ec.mutation.CreatedAt(); ok {
+	if value, ok := _c.mutation.CreatedAt(); ok {
 		_spec.SetField(event.FieldCreatedAt, field.TypeInt64, value)
 		_node.CreatedAt = value
 	}
-	if value, ok := ec.mutation.Source(); ok {
+	if value, ok := _c.mutation.Source(); ok {
 		_spec.SetField(event.FieldSource, field.TypeString, value)
 		_node.Source = value
 	}
-	if value, ok := ec.mutation.Status(); ok {
+	if value, ok := _c.mutation.Status(); ok {
 		_spec.SetField(event.FieldStatus, field.TypeString, value)
 		_node.Status = value
 	}
-	if value, ok := ec.mutation.Priority(); ok {
+	if value, ok := _c.mutation.Priority(); ok {
 		_spec.SetField(event.FieldPriority, field.TypeString, value)
 		_node.Priority = value
 	}
-	if value, ok := ec.mutation.ProcessedAt(); ok {
+	if value, ok := _c.mutation.ProcessedAt(); ok {
 		_spec.SetField(event.FieldProcessedAt, field.TypeInt64, value)
 		_node.ProcessedAt = value
 	}
-	if value, ok := ec.mutation.RetryCount(); ok {
+	if value, ok := _c.mutation.RetryCount(); ok {
 		_spec.SetField(event.FieldRetryCount, field.TypeInt, value)
 		_node.RetryCount = value
 	}
-	if value, ok := ec.mutation.ErrorMessage(); ok {
+	if value, ok := _c.mutation.ErrorMessage(); ok {
 		_spec.SetField(event.FieldErrorMessage, field.TypeString, value)
 		_node.ErrorMessage = value
 	}
@@ -307,16 +307,16 @@ type EventCreateBulk struct {
 }
 
 // Save creates the Event entities in the database.
-func (ecb *EventCreateBulk) Save(ctx context.Context) ([]*Event, error) {
-	if ecb.err != nil {
-		return nil, ecb.err
+func (_c *EventCreateBulk) Save(ctx context.Context) ([]*Event, error) {
+	if _c.err != nil {
+		return nil, _c.err
 	}
-	specs := make([]*sqlgraph.CreateSpec, len(ecb.builders))
-	nodes := make([]*Event, len(ecb.builders))
-	mutators := make([]Mutator, len(ecb.builders))
-	for i := range ecb.builders {
+	specs := make([]*sqlgraph.CreateSpec, len(_c.builders))
+	nodes := make([]*Event, len(_c.builders))
+	mutators := make([]Mutator, len(_c.builders))
+	for i := range _c.builders {
 		func(i int, root context.Context) {
-			builder := ecb.builders[i]
+			builder := _c.builders[i]
 			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*EventMutation)
@@ -330,11 +330,11 @@ func (ecb *EventCreateBulk) Save(ctx context.Context) ([]*Event, error) {
 				var err error
 				nodes[i], specs[i] = builder.createSpec()
 				if i < len(mutators)-1 {
-					_, err = mutators[i+1].Mutate(root, ecb.builders[i+1].mutation)
+					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
 					// Invoke the actual operation on the latest mutation in the chain.
-					if err = sqlgraph.BatchCreate(ctx, ecb.driver, spec); err != nil {
+					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
 							err = &ConstraintError{msg: err.Error(), wrap: err}
 						}
@@ -354,7 +354,7 @@ func (ecb *EventCreateBulk) Save(ctx context.Context) ([]*Event, error) {
 		}(i, ctx)
 	}
 	if len(mutators) > 0 {
-		if _, err := mutators[0].Mutate(ctx, ecb.builders[0].mutation); err != nil {
+		if _, err := mutators[0].Mutate(ctx, _c.builders[0].mutation); err != nil {
 			return nil, err
 		}
 	}
@@ -362,8 +362,8 @@ func (ecb *EventCreateBulk) Save(ctx context.Context) ([]*Event, error) {
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (ecb *EventCreateBulk) SaveX(ctx context.Context) []*Event {
-	v, err := ecb.Save(ctx)
+func (_c *EventCreateBulk) SaveX(ctx context.Context) []*Event {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -371,14 +371,14 @@ func (ecb *EventCreateBulk) SaveX(ctx context.Context) []*Event {
 }
 
 // Exec executes the query.
-func (ecb *EventCreateBulk) Exec(ctx context.Context) error {
-	_, err := ecb.Save(ctx)
+func (_c *EventCreateBulk) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (ecb *EventCreateBulk) ExecX(ctx context.Context) {
-	if err := ecb.Exec(ctx); err != nil {
+func (_c *EventCreateBulk) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

@@ -20,303 +20,303 @@ type FileCreate struct {
 }
 
 // SetName sets the "name" field.
-func (fc *FileCreate) SetName(s string) *FileCreate {
-	fc.mutation.SetName(s)
-	return fc
+func (_c *FileCreate) SetName(v string) *FileCreate {
+	_c.mutation.SetName(v)
+	return _c
 }
 
 // SetNillableName sets the "name" field if the given value is not nil.
-func (fc *FileCreate) SetNillableName(s *string) *FileCreate {
-	if s != nil {
-		fc.SetName(*s)
+func (_c *FileCreate) SetNillableName(v *string) *FileCreate {
+	if v != nil {
+		_c.SetName(*v)
 	}
-	return fc
+	return _c
 }
 
 // SetPath sets the "path" field.
-func (fc *FileCreate) SetPath(s string) *FileCreate {
-	fc.mutation.SetPath(s)
-	return fc
+func (_c *FileCreate) SetPath(v string) *FileCreate {
+	_c.mutation.SetPath(v)
+	return _c
 }
 
 // SetNillablePath sets the "path" field if the given value is not nil.
-func (fc *FileCreate) SetNillablePath(s *string) *FileCreate {
-	if s != nil {
-		fc.SetPath(*s)
+func (_c *FileCreate) SetNillablePath(v *string) *FileCreate {
+	if v != nil {
+		_c.SetPath(*v)
 	}
-	return fc
+	return _c
 }
 
 // SetType sets the "type" field.
-func (fc *FileCreate) SetType(s string) *FileCreate {
-	fc.mutation.SetType(s)
-	return fc
+func (_c *FileCreate) SetType(v string) *FileCreate {
+	_c.mutation.SetType(v)
+	return _c
 }
 
 // SetNillableType sets the "type" field if the given value is not nil.
-func (fc *FileCreate) SetNillableType(s *string) *FileCreate {
-	if s != nil {
-		fc.SetType(*s)
+func (_c *FileCreate) SetNillableType(v *string) *FileCreate {
+	if v != nil {
+		_c.SetType(*v)
 	}
-	return fc
+	return _c
 }
 
 // SetSize sets the "size" field.
-func (fc *FileCreate) SetSize(i int) *FileCreate {
-	fc.mutation.SetSize(i)
-	return fc
+func (_c *FileCreate) SetSize(v int) *FileCreate {
+	_c.mutation.SetSize(v)
+	return _c
 }
 
 // SetNillableSize sets the "size" field if the given value is not nil.
-func (fc *FileCreate) SetNillableSize(i *int) *FileCreate {
-	if i != nil {
-		fc.SetSize(*i)
+func (_c *FileCreate) SetNillableSize(v *int) *FileCreate {
+	if v != nil {
+		_c.SetSize(*v)
 	}
-	return fc
+	return _c
 }
 
 // SetStorage sets the "storage" field.
-func (fc *FileCreate) SetStorage(s string) *FileCreate {
-	fc.mutation.SetStorage(s)
-	return fc
+func (_c *FileCreate) SetStorage(v string) *FileCreate {
+	_c.mutation.SetStorage(v)
+	return _c
 }
 
 // SetNillableStorage sets the "storage" field if the given value is not nil.
-func (fc *FileCreate) SetNillableStorage(s *string) *FileCreate {
-	if s != nil {
-		fc.SetStorage(*s)
+func (_c *FileCreate) SetNillableStorage(v *string) *FileCreate {
+	if v != nil {
+		_c.SetStorage(*v)
 	}
-	return fc
+	return _c
 }
 
 // SetBucket sets the "bucket" field.
-func (fc *FileCreate) SetBucket(s string) *FileCreate {
-	fc.mutation.SetBucket(s)
-	return fc
+func (_c *FileCreate) SetBucket(v string) *FileCreate {
+	_c.mutation.SetBucket(v)
+	return _c
 }
 
 // SetNillableBucket sets the "bucket" field if the given value is not nil.
-func (fc *FileCreate) SetNillableBucket(s *string) *FileCreate {
-	if s != nil {
-		fc.SetBucket(*s)
+func (_c *FileCreate) SetNillableBucket(v *string) *FileCreate {
+	if v != nil {
+		_c.SetBucket(*v)
 	}
-	return fc
+	return _c
 }
 
 // SetEndpoint sets the "endpoint" field.
-func (fc *FileCreate) SetEndpoint(s string) *FileCreate {
-	fc.mutation.SetEndpoint(s)
-	return fc
+func (_c *FileCreate) SetEndpoint(v string) *FileCreate {
+	_c.mutation.SetEndpoint(v)
+	return _c
 }
 
 // SetNillableEndpoint sets the "endpoint" field if the given value is not nil.
-func (fc *FileCreate) SetNillableEndpoint(s *string) *FileCreate {
-	if s != nil {
-		fc.SetEndpoint(*s)
+func (_c *FileCreate) SetNillableEndpoint(v *string) *FileCreate {
+	if v != nil {
+		_c.SetEndpoint(*v)
 	}
-	return fc
+	return _c
 }
 
 // SetOwnerID sets the "owner_id" field.
-func (fc *FileCreate) SetOwnerID(s string) *FileCreate {
-	fc.mutation.SetOwnerID(s)
-	return fc
+func (_c *FileCreate) SetOwnerID(v string) *FileCreate {
+	_c.mutation.SetOwnerID(v)
+	return _c
 }
 
 // SetNillableOwnerID sets the "owner_id" field if the given value is not nil.
-func (fc *FileCreate) SetNillableOwnerID(s *string) *FileCreate {
-	if s != nil {
-		fc.SetOwnerID(*s)
+func (_c *FileCreate) SetNillableOwnerID(v *string) *FileCreate {
+	if v != nil {
+		_c.SetOwnerID(*v)
 	}
-	return fc
+	return _c
 }
 
 // SetExtras sets the "extras" field.
-func (fc *FileCreate) SetExtras(m map[string]interface{}) *FileCreate {
-	fc.mutation.SetExtras(m)
-	return fc
+func (_c *FileCreate) SetExtras(v map[string]interface{}) *FileCreate {
+	_c.mutation.SetExtras(v)
+	return _c
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (fc *FileCreate) SetCreatedBy(s string) *FileCreate {
-	fc.mutation.SetCreatedBy(s)
-	return fc
+func (_c *FileCreate) SetCreatedBy(v string) *FileCreate {
+	_c.mutation.SetCreatedBy(v)
+	return _c
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (fc *FileCreate) SetNillableCreatedBy(s *string) *FileCreate {
-	if s != nil {
-		fc.SetCreatedBy(*s)
+func (_c *FileCreate) SetNillableCreatedBy(v *string) *FileCreate {
+	if v != nil {
+		_c.SetCreatedBy(*v)
 	}
-	return fc
+	return _c
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (fc *FileCreate) SetUpdatedBy(s string) *FileCreate {
-	fc.mutation.SetUpdatedBy(s)
-	return fc
+func (_c *FileCreate) SetUpdatedBy(v string) *FileCreate {
+	_c.mutation.SetUpdatedBy(v)
+	return _c
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (fc *FileCreate) SetNillableUpdatedBy(s *string) *FileCreate {
-	if s != nil {
-		fc.SetUpdatedBy(*s)
+func (_c *FileCreate) SetNillableUpdatedBy(v *string) *FileCreate {
+	if v != nil {
+		_c.SetUpdatedBy(*v)
 	}
-	return fc
+	return _c
 }
 
 // SetCreatedAt sets the "created_at" field.
-func (fc *FileCreate) SetCreatedAt(i int64) *FileCreate {
-	fc.mutation.SetCreatedAt(i)
-	return fc
+func (_c *FileCreate) SetCreatedAt(v int64) *FileCreate {
+	_c.mutation.SetCreatedAt(v)
+	return _c
 }
 
 // SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
-func (fc *FileCreate) SetNillableCreatedAt(i *int64) *FileCreate {
-	if i != nil {
-		fc.SetCreatedAt(*i)
+func (_c *FileCreate) SetNillableCreatedAt(v *int64) *FileCreate {
+	if v != nil {
+		_c.SetCreatedAt(*v)
 	}
-	return fc
+	return _c
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (fc *FileCreate) SetUpdatedAt(i int64) *FileCreate {
-	fc.mutation.SetUpdatedAt(i)
-	return fc
+func (_c *FileCreate) SetUpdatedAt(v int64) *FileCreate {
+	_c.mutation.SetUpdatedAt(v)
+	return _c
 }
 
 // SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
-func (fc *FileCreate) SetNillableUpdatedAt(i *int64) *FileCreate {
-	if i != nil {
-		fc.SetUpdatedAt(*i)
+func (_c *FileCreate) SetNillableUpdatedAt(v *int64) *FileCreate {
+	if v != nil {
+		_c.SetUpdatedAt(*v)
 	}
-	return fc
+	return _c
 }
 
 // SetOriginalName sets the "original_name" field.
-func (fc *FileCreate) SetOriginalName(s string) *FileCreate {
-	fc.mutation.SetOriginalName(s)
-	return fc
+func (_c *FileCreate) SetOriginalName(v string) *FileCreate {
+	_c.mutation.SetOriginalName(v)
+	return _c
 }
 
 // SetNillableOriginalName sets the "original_name" field if the given value is not nil.
-func (fc *FileCreate) SetNillableOriginalName(s *string) *FileCreate {
-	if s != nil {
-		fc.SetOriginalName(*s)
+func (_c *FileCreate) SetNillableOriginalName(v *string) *FileCreate {
+	if v != nil {
+		_c.SetOriginalName(*v)
 	}
-	return fc
+	return _c
 }
 
 // SetAccessLevel sets the "access_level" field.
-func (fc *FileCreate) SetAccessLevel(s string) *FileCreate {
-	fc.mutation.SetAccessLevel(s)
-	return fc
+func (_c *FileCreate) SetAccessLevel(v string) *FileCreate {
+	_c.mutation.SetAccessLevel(v)
+	return _c
 }
 
 // SetNillableAccessLevel sets the "access_level" field if the given value is not nil.
-func (fc *FileCreate) SetNillableAccessLevel(s *string) *FileCreate {
-	if s != nil {
-		fc.SetAccessLevel(*s)
+func (_c *FileCreate) SetNillableAccessLevel(v *string) *FileCreate {
+	if v != nil {
+		_c.SetAccessLevel(*v)
 	}
-	return fc
+	return _c
 }
 
 // SetExpiresAt sets the "expires_at" field.
-func (fc *FileCreate) SetExpiresAt(i int64) *FileCreate {
-	fc.mutation.SetExpiresAt(i)
-	return fc
+func (_c *FileCreate) SetExpiresAt(v int64) *FileCreate {
+	_c.mutation.SetExpiresAt(v)
+	return _c
 }
 
 // SetNillableExpiresAt sets the "expires_at" field if the given value is not nil.
-func (fc *FileCreate) SetNillableExpiresAt(i *int64) *FileCreate {
-	if i != nil {
-		fc.SetExpiresAt(*i)
+func (_c *FileCreate) SetNillableExpiresAt(v *int64) *FileCreate {
+	if v != nil {
+		_c.SetExpiresAt(*v)
 	}
-	return fc
+	return _c
 }
 
 // SetTags sets the "tags" field.
-func (fc *FileCreate) SetTags(s []string) *FileCreate {
-	fc.mutation.SetTags(s)
-	return fc
+func (_c *FileCreate) SetTags(v []string) *FileCreate {
+	_c.mutation.SetTags(v)
+	return _c
 }
 
 // SetIsPublic sets the "is_public" field.
-func (fc *FileCreate) SetIsPublic(b bool) *FileCreate {
-	fc.mutation.SetIsPublic(b)
-	return fc
+func (_c *FileCreate) SetIsPublic(v bool) *FileCreate {
+	_c.mutation.SetIsPublic(v)
+	return _c
 }
 
 // SetNillableIsPublic sets the "is_public" field if the given value is not nil.
-func (fc *FileCreate) SetNillableIsPublic(b *bool) *FileCreate {
-	if b != nil {
-		fc.SetIsPublic(*b)
+func (_c *FileCreate) SetNillableIsPublic(v *bool) *FileCreate {
+	if v != nil {
+		_c.SetIsPublic(*v)
 	}
-	return fc
+	return _c
 }
 
 // SetCategory sets the "category" field.
-func (fc *FileCreate) SetCategory(s string) *FileCreate {
-	fc.mutation.SetCategory(s)
-	return fc
+func (_c *FileCreate) SetCategory(v string) *FileCreate {
+	_c.mutation.SetCategory(v)
+	return _c
 }
 
 // SetNillableCategory sets the "category" field if the given value is not nil.
-func (fc *FileCreate) SetNillableCategory(s *string) *FileCreate {
-	if s != nil {
-		fc.SetCategory(*s)
+func (_c *FileCreate) SetNillableCategory(v *string) *FileCreate {
+	if v != nil {
+		_c.SetCategory(*v)
 	}
-	return fc
+	return _c
 }
 
 // SetHash sets the "hash" field.
-func (fc *FileCreate) SetHash(s string) *FileCreate {
-	fc.mutation.SetHash(s)
-	return fc
+func (_c *FileCreate) SetHash(v string) *FileCreate {
+	_c.mutation.SetHash(v)
+	return _c
 }
 
 // SetNillableHash sets the "hash" field if the given value is not nil.
-func (fc *FileCreate) SetNillableHash(s *string) *FileCreate {
-	if s != nil {
-		fc.SetHash(*s)
+func (_c *FileCreate) SetNillableHash(v *string) *FileCreate {
+	if v != nil {
+		_c.SetHash(*v)
 	}
-	return fc
+	return _c
 }
 
 // SetProcessingResult sets the "processing_result" field.
-func (fc *FileCreate) SetProcessingResult(m map[string]interface{}) *FileCreate {
-	fc.mutation.SetProcessingResult(m)
-	return fc
+func (_c *FileCreate) SetProcessingResult(v map[string]interface{}) *FileCreate {
+	_c.mutation.SetProcessingResult(v)
+	return _c
 }
 
 // SetID sets the "id" field.
-func (fc *FileCreate) SetID(s string) *FileCreate {
-	fc.mutation.SetID(s)
-	return fc
+func (_c *FileCreate) SetID(v string) *FileCreate {
+	_c.mutation.SetID(v)
+	return _c
 }
 
 // SetNillableID sets the "id" field if the given value is not nil.
-func (fc *FileCreate) SetNillableID(s *string) *FileCreate {
-	if s != nil {
-		fc.SetID(*s)
+func (_c *FileCreate) SetNillableID(v *string) *FileCreate {
+	if v != nil {
+		_c.SetID(*v)
 	}
-	return fc
+	return _c
 }
 
 // Mutation returns the FileMutation object of the builder.
-func (fc *FileCreate) Mutation() *FileMutation {
-	return fc.mutation
+func (_c *FileCreate) Mutation() *FileMutation {
+	return _c.mutation
 }
 
 // Save creates the File in the database.
-func (fc *FileCreate) Save(ctx context.Context) (*File, error) {
-	fc.defaults()
-	return withHooks(ctx, fc.sqlSave, fc.mutation, fc.hooks)
+func (_c *FileCreate) Save(ctx context.Context) (*File, error) {
+	_c.defaults()
+	return withHooks(ctx, _c.sqlSave, _c.mutation, _c.hooks)
 }
 
 // SaveX calls Save and panics if Save returns an error.
-func (fc *FileCreate) SaveX(ctx context.Context) *File {
-	v, err := fc.Save(ctx)
+func (_c *FileCreate) SaveX(ctx context.Context) *File {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -324,74 +324,74 @@ func (fc *FileCreate) SaveX(ctx context.Context) *File {
 }
 
 // Exec executes the query.
-func (fc *FileCreate) Exec(ctx context.Context) error {
-	_, err := fc.Save(ctx)
+func (_c *FileCreate) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (fc *FileCreate) ExecX(ctx context.Context) {
-	if err := fc.Exec(ctx); err != nil {
+func (_c *FileCreate) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (fc *FileCreate) defaults() {
-	if _, ok := fc.mutation.Size(); !ok {
+func (_c *FileCreate) defaults() {
+	if _, ok := _c.mutation.Size(); !ok {
 		v := file.DefaultSize
-		fc.mutation.SetSize(v)
+		_c.mutation.SetSize(v)
 	}
-	if _, ok := fc.mutation.Extras(); !ok {
+	if _, ok := _c.mutation.Extras(); !ok {
 		v := file.DefaultExtras
-		fc.mutation.SetExtras(v)
+		_c.mutation.SetExtras(v)
 	}
-	if _, ok := fc.mutation.CreatedAt(); !ok {
+	if _, ok := _c.mutation.CreatedAt(); !ok {
 		v := file.DefaultCreatedAt()
-		fc.mutation.SetCreatedAt(v)
+		_c.mutation.SetCreatedAt(v)
 	}
-	if _, ok := fc.mutation.UpdatedAt(); !ok {
+	if _, ok := _c.mutation.UpdatedAt(); !ok {
 		v := file.DefaultUpdatedAt()
-		fc.mutation.SetUpdatedAt(v)
+		_c.mutation.SetUpdatedAt(v)
 	}
-	if _, ok := fc.mutation.AccessLevel(); !ok {
+	if _, ok := _c.mutation.AccessLevel(); !ok {
 		v := file.DefaultAccessLevel
-		fc.mutation.SetAccessLevel(v)
+		_c.mutation.SetAccessLevel(v)
 	}
-	if _, ok := fc.mutation.IsPublic(); !ok {
+	if _, ok := _c.mutation.IsPublic(); !ok {
 		v := file.DefaultIsPublic
-		fc.mutation.SetIsPublic(v)
+		_c.mutation.SetIsPublic(v)
 	}
-	if _, ok := fc.mutation.Category(); !ok {
+	if _, ok := _c.mutation.Category(); !ok {
 		v := file.DefaultCategory
-		fc.mutation.SetCategory(v)
+		_c.mutation.SetCategory(v)
 	}
-	if _, ok := fc.mutation.ID(); !ok {
+	if _, ok := _c.mutation.ID(); !ok {
 		v := file.DefaultID()
-		fc.mutation.SetID(v)
+		_c.mutation.SetID(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (fc *FileCreate) check() error {
-	if v, ok := fc.mutation.Name(); ok {
+func (_c *FileCreate) check() error {
+	if v, ok := _c.mutation.Name(); ok {
 		if err := file.NameValidator(v); err != nil {
 			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "File.name": %w`, err)}
 		}
 	}
-	if _, ok := fc.mutation.Size(); !ok {
+	if _, ok := _c.mutation.Size(); !ok {
 		return &ValidationError{Name: "size", err: errors.New(`ent: missing required field "File.size"`)}
 	}
-	if _, ok := fc.mutation.AccessLevel(); !ok {
+	if _, ok := _c.mutation.AccessLevel(); !ok {
 		return &ValidationError{Name: "access_level", err: errors.New(`ent: missing required field "File.access_level"`)}
 	}
-	if _, ok := fc.mutation.IsPublic(); !ok {
+	if _, ok := _c.mutation.IsPublic(); !ok {
 		return &ValidationError{Name: "is_public", err: errors.New(`ent: missing required field "File.is_public"`)}
 	}
-	if _, ok := fc.mutation.Category(); !ok {
+	if _, ok := _c.mutation.Category(); !ok {
 		return &ValidationError{Name: "category", err: errors.New(`ent: missing required field "File.category"`)}
 	}
-	if v, ok := fc.mutation.ID(); ok {
+	if v, ok := _c.mutation.ID(); ok {
 		if err := file.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "File.id": %w`, err)}
 		}
@@ -399,12 +399,12 @@ func (fc *FileCreate) check() error {
 	return nil
 }
 
-func (fc *FileCreate) sqlSave(ctx context.Context) (*File, error) {
-	if err := fc.check(); err != nil {
+func (_c *FileCreate) sqlSave(ctx context.Context) (*File, error) {
+	if err := _c.check(); err != nil {
 		return nil, err
 	}
-	_node, _spec := fc.createSpec()
-	if err := sqlgraph.CreateNode(ctx, fc.driver, _spec); err != nil {
+	_node, _spec := _c.createSpec()
+	if err := sqlgraph.CreateNode(ctx, _c.driver, _spec); err != nil {
 		if sqlgraph.IsConstraintError(err) {
 			err = &ConstraintError{msg: err.Error(), wrap: err}
 		}
@@ -417,101 +417,101 @@ func (fc *FileCreate) sqlSave(ctx context.Context) (*File, error) {
 			return nil, fmt.Errorf("unexpected File.ID type: %T", _spec.ID.Value)
 		}
 	}
-	fc.mutation.id = &_node.ID
-	fc.mutation.done = true
+	_c.mutation.id = &_node.ID
+	_c.mutation.done = true
 	return _node, nil
 }
 
-func (fc *FileCreate) createSpec() (*File, *sqlgraph.CreateSpec) {
+func (_c *FileCreate) createSpec() (*File, *sqlgraph.CreateSpec) {
 	var (
-		_node = &File{config: fc.config}
+		_node = &File{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(file.Table, sqlgraph.NewFieldSpec(file.FieldID, field.TypeString))
 	)
-	if id, ok := fc.mutation.ID(); ok {
+	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
 	}
-	if value, ok := fc.mutation.Name(); ok {
+	if value, ok := _c.mutation.Name(); ok {
 		_spec.SetField(file.FieldName, field.TypeString, value)
 		_node.Name = value
 	}
-	if value, ok := fc.mutation.Path(); ok {
+	if value, ok := _c.mutation.Path(); ok {
 		_spec.SetField(file.FieldPath, field.TypeString, value)
 		_node.Path = value
 	}
-	if value, ok := fc.mutation.GetType(); ok {
+	if value, ok := _c.mutation.GetType(); ok {
 		_spec.SetField(file.FieldType, field.TypeString, value)
 		_node.Type = value
 	}
-	if value, ok := fc.mutation.Size(); ok {
+	if value, ok := _c.mutation.Size(); ok {
 		_spec.SetField(file.FieldSize, field.TypeInt, value)
 		_node.Size = value
 	}
-	if value, ok := fc.mutation.Storage(); ok {
+	if value, ok := _c.mutation.Storage(); ok {
 		_spec.SetField(file.FieldStorage, field.TypeString, value)
 		_node.Storage = value
 	}
-	if value, ok := fc.mutation.Bucket(); ok {
+	if value, ok := _c.mutation.Bucket(); ok {
 		_spec.SetField(file.FieldBucket, field.TypeString, value)
 		_node.Bucket = value
 	}
-	if value, ok := fc.mutation.Endpoint(); ok {
+	if value, ok := _c.mutation.Endpoint(); ok {
 		_spec.SetField(file.FieldEndpoint, field.TypeString, value)
 		_node.Endpoint = value
 	}
-	if value, ok := fc.mutation.OwnerID(); ok {
+	if value, ok := _c.mutation.OwnerID(); ok {
 		_spec.SetField(file.FieldOwnerID, field.TypeString, value)
 		_node.OwnerID = value
 	}
-	if value, ok := fc.mutation.Extras(); ok {
+	if value, ok := _c.mutation.Extras(); ok {
 		_spec.SetField(file.FieldExtras, field.TypeJSON, value)
 		_node.Extras = value
 	}
-	if value, ok := fc.mutation.CreatedBy(); ok {
+	if value, ok := _c.mutation.CreatedBy(); ok {
 		_spec.SetField(file.FieldCreatedBy, field.TypeString, value)
 		_node.CreatedBy = value
 	}
-	if value, ok := fc.mutation.UpdatedBy(); ok {
+	if value, ok := _c.mutation.UpdatedBy(); ok {
 		_spec.SetField(file.FieldUpdatedBy, field.TypeString, value)
 		_node.UpdatedBy = value
 	}
-	if value, ok := fc.mutation.CreatedAt(); ok {
+	if value, ok := _c.mutation.CreatedAt(); ok {
 		_spec.SetField(file.FieldCreatedAt, field.TypeInt64, value)
 		_node.CreatedAt = value
 	}
-	if value, ok := fc.mutation.UpdatedAt(); ok {
+	if value, ok := _c.mutation.UpdatedAt(); ok {
 		_spec.SetField(file.FieldUpdatedAt, field.TypeInt64, value)
 		_node.UpdatedAt = value
 	}
-	if value, ok := fc.mutation.OriginalName(); ok {
+	if value, ok := _c.mutation.OriginalName(); ok {
 		_spec.SetField(file.FieldOriginalName, field.TypeString, value)
 		_node.OriginalName = value
 	}
-	if value, ok := fc.mutation.AccessLevel(); ok {
+	if value, ok := _c.mutation.AccessLevel(); ok {
 		_spec.SetField(file.FieldAccessLevel, field.TypeString, value)
 		_node.AccessLevel = value
 	}
-	if value, ok := fc.mutation.ExpiresAt(); ok {
+	if value, ok := _c.mutation.ExpiresAt(); ok {
 		_spec.SetField(file.FieldExpiresAt, field.TypeInt64, value)
 		_node.ExpiresAt = &value
 	}
-	if value, ok := fc.mutation.Tags(); ok {
+	if value, ok := _c.mutation.Tags(); ok {
 		_spec.SetField(file.FieldTags, field.TypeJSON, value)
 		_node.Tags = value
 	}
-	if value, ok := fc.mutation.IsPublic(); ok {
+	if value, ok := _c.mutation.IsPublic(); ok {
 		_spec.SetField(file.FieldIsPublic, field.TypeBool, value)
 		_node.IsPublic = value
 	}
-	if value, ok := fc.mutation.Category(); ok {
+	if value, ok := _c.mutation.Category(); ok {
 		_spec.SetField(file.FieldCategory, field.TypeString, value)
 		_node.Category = value
 	}
-	if value, ok := fc.mutation.Hash(); ok {
+	if value, ok := _c.mutation.Hash(); ok {
 		_spec.SetField(file.FieldHash, field.TypeString, value)
 		_node.Hash = value
 	}
-	if value, ok := fc.mutation.ProcessingResult(); ok {
+	if value, ok := _c.mutation.ProcessingResult(); ok {
 		_spec.SetField(file.FieldProcessingResult, field.TypeJSON, value)
 		_node.ProcessingResult = value
 	}
@@ -526,16 +526,16 @@ type FileCreateBulk struct {
 }
 
 // Save creates the File entities in the database.
-func (fcb *FileCreateBulk) Save(ctx context.Context) ([]*File, error) {
-	if fcb.err != nil {
-		return nil, fcb.err
+func (_c *FileCreateBulk) Save(ctx context.Context) ([]*File, error) {
+	if _c.err != nil {
+		return nil, _c.err
 	}
-	specs := make([]*sqlgraph.CreateSpec, len(fcb.builders))
-	nodes := make([]*File, len(fcb.builders))
-	mutators := make([]Mutator, len(fcb.builders))
-	for i := range fcb.builders {
+	specs := make([]*sqlgraph.CreateSpec, len(_c.builders))
+	nodes := make([]*File, len(_c.builders))
+	mutators := make([]Mutator, len(_c.builders))
+	for i := range _c.builders {
 		func(i int, root context.Context) {
-			builder := fcb.builders[i]
+			builder := _c.builders[i]
 			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*FileMutation)
@@ -549,11 +549,11 @@ func (fcb *FileCreateBulk) Save(ctx context.Context) ([]*File, error) {
 				var err error
 				nodes[i], specs[i] = builder.createSpec()
 				if i < len(mutators)-1 {
-					_, err = mutators[i+1].Mutate(root, fcb.builders[i+1].mutation)
+					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
 					// Invoke the actual operation on the latest mutation in the chain.
-					if err = sqlgraph.BatchCreate(ctx, fcb.driver, spec); err != nil {
+					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
 							err = &ConstraintError{msg: err.Error(), wrap: err}
 						}
@@ -573,7 +573,7 @@ func (fcb *FileCreateBulk) Save(ctx context.Context) ([]*File, error) {
 		}(i, ctx)
 	}
 	if len(mutators) > 0 {
-		if _, err := mutators[0].Mutate(ctx, fcb.builders[0].mutation); err != nil {
+		if _, err := mutators[0].Mutate(ctx, _c.builders[0].mutation); err != nil {
 			return nil, err
 		}
 	}
@@ -581,8 +581,8 @@ func (fcb *FileCreateBulk) Save(ctx context.Context) ([]*File, error) {
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (fcb *FileCreateBulk) SaveX(ctx context.Context) []*File {
-	v, err := fcb.Save(ctx)
+func (_c *FileCreateBulk) SaveX(ctx context.Context) []*File {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -590,14 +590,14 @@ func (fcb *FileCreateBulk) SaveX(ctx context.Context) []*File {
 }
 
 // Exec executes the query.
-func (fcb *FileCreateBulk) Exec(ctx context.Context) error {
-	_, err := fcb.Save(ctx)
+func (_c *FileCreateBulk) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (fcb *FileCreateBulk) ExecX(ctx context.Context) {
-	if err := fcb.Exec(ctx); err != nil {
+func (_c *FileCreateBulk) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

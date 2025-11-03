@@ -79,7 +79,7 @@ func (*Endpoint) scanValues(columns []string) ([]any, error) {
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
 // to the Endpoint fields.
-func (e *Endpoint) assignValues(columns []string, values []any) error {
+func (_m *Endpoint) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
@@ -89,31 +89,31 @@ func (e *Endpoint) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field id", values[i])
 			} else if value.Valid {
-				e.ID = value.String
+				_m.ID = value.String
 			}
 		case endpoint.FieldName:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field name", values[i])
 			} else if value.Valid {
-				e.Name = value.String
+				_m.Name = value.String
 			}
 		case endpoint.FieldDescription:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field description", values[i])
 			} else if value.Valid {
-				e.Description = value.String
+				_m.Description = value.String
 			}
 		case endpoint.FieldDisabled:
 			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field disabled", values[i])
 			} else if value.Valid {
-				e.Disabled = value.Bool
+				_m.Disabled = value.Bool
 			}
 		case endpoint.FieldExtras:
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field extras", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &e.Extras); err != nil {
+				if err := json.Unmarshal(*value, &_m.Extras); err != nil {
 					return fmt.Errorf("unmarshal field extras: %w", err)
 				}
 			}
@@ -121,88 +121,88 @@ func (e *Endpoint) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field created_by", values[i])
 			} else if value.Valid {
-				e.CreatedBy = value.String
+				_m.CreatedBy = value.String
 			}
 		case endpoint.FieldUpdatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_by", values[i])
 			} else if value.Valid {
-				e.UpdatedBy = value.String
+				_m.UpdatedBy = value.String
 			}
 		case endpoint.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field created_at", values[i])
 			} else if value.Valid {
-				e.CreatedAt = value.Int64
+				_m.CreatedAt = value.Int64
 			}
 		case endpoint.FieldUpdatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_at", values[i])
 			} else if value.Valid {
-				e.UpdatedAt = value.Int64
+				_m.UpdatedAt = value.Int64
 			}
 		case endpoint.FieldBaseURL:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field base_url", values[i])
 			} else if value.Valid {
-				e.BaseURL = value.String
+				_m.BaseURL = value.String
 			}
 		case endpoint.FieldProtocol:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field protocol", values[i])
 			} else if value.Valid {
-				e.Protocol = value.String
+				_m.Protocol = value.String
 			}
 		case endpoint.FieldAuthType:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field auth_type", values[i])
 			} else if value.Valid {
-				e.AuthType = value.String
+				_m.AuthType = value.String
 			}
 		case endpoint.FieldAuthConfig:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field auth_config", values[i])
 			} else if value.Valid {
-				e.AuthConfig = value.String
+				_m.AuthConfig = value.String
 			}
 		case endpoint.FieldTimeout:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field timeout", values[i])
 			} else if value.Valid {
-				e.Timeout = int(value.Int64)
+				_m.Timeout = int(value.Int64)
 			}
 		case endpoint.FieldUseCircuitBreaker:
 			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field use_circuit_breaker", values[i])
 			} else if value.Valid {
-				e.UseCircuitBreaker = value.Bool
+				_m.UseCircuitBreaker = value.Bool
 			}
 		case endpoint.FieldRetryCount:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field retry_count", values[i])
 			} else if value.Valid {
-				e.RetryCount = int(value.Int64)
+				_m.RetryCount = int(value.Int64)
 			}
 		case endpoint.FieldValidateSsl:
 			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field validate_ssl", values[i])
 			} else if value.Valid {
-				e.ValidateSsl = value.Bool
+				_m.ValidateSsl = value.Bool
 			}
 		case endpoint.FieldLogRequests:
 			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field log_requests", values[i])
 			} else if value.Valid {
-				e.LogRequests = value.Bool
+				_m.LogRequests = value.Bool
 			}
 		case endpoint.FieldLogResponses:
 			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field log_responses", values[i])
 			} else if value.Valid {
-				e.LogResponses = value.Bool
+				_m.LogResponses = value.Bool
 			}
 		default:
-			e.selectValues.Set(columns[i], values[i])
+			_m.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
@@ -210,86 +210,86 @@ func (e *Endpoint) assignValues(columns []string, values []any) error {
 
 // Value returns the ent.Value that was dynamically selected and assigned to the Endpoint.
 // This includes values selected through modifiers, order, etc.
-func (e *Endpoint) Value(name string) (ent.Value, error) {
-	return e.selectValues.Get(name)
+func (_m *Endpoint) Value(name string) (ent.Value, error) {
+	return _m.selectValues.Get(name)
 }
 
 // Update returns a builder for updating this Endpoint.
 // Note that you need to call Endpoint.Unwrap() before calling this method if this Endpoint
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (e *Endpoint) Update() *EndpointUpdateOne {
-	return NewEndpointClient(e.config).UpdateOne(e)
+func (_m *Endpoint) Update() *EndpointUpdateOne {
+	return NewEndpointClient(_m.config).UpdateOne(_m)
 }
 
 // Unwrap unwraps the Endpoint entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (e *Endpoint) Unwrap() *Endpoint {
-	_tx, ok := e.config.driver.(*txDriver)
+func (_m *Endpoint) Unwrap() *Endpoint {
+	_tx, ok := _m.config.driver.(*txDriver)
 	if !ok {
 		panic("ent: Endpoint is not a transactional entity")
 	}
-	e.config.driver = _tx.drv
-	return e
+	_m.config.driver = _tx.drv
+	return _m
 }
 
 // String implements the fmt.Stringer.
-func (e *Endpoint) String() string {
+func (_m *Endpoint) String() string {
 	var builder strings.Builder
 	builder.WriteString("Endpoint(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", e.ID))
+	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
 	builder.WriteString("name=")
-	builder.WriteString(e.Name)
+	builder.WriteString(_m.Name)
 	builder.WriteString(", ")
 	builder.WriteString("description=")
-	builder.WriteString(e.Description)
+	builder.WriteString(_m.Description)
 	builder.WriteString(", ")
 	builder.WriteString("disabled=")
-	builder.WriteString(fmt.Sprintf("%v", e.Disabled))
+	builder.WriteString(fmt.Sprintf("%v", _m.Disabled))
 	builder.WriteString(", ")
 	builder.WriteString("extras=")
-	builder.WriteString(fmt.Sprintf("%v", e.Extras))
+	builder.WriteString(fmt.Sprintf("%v", _m.Extras))
 	builder.WriteString(", ")
 	builder.WriteString("created_by=")
-	builder.WriteString(e.CreatedBy)
+	builder.WriteString(_m.CreatedBy)
 	builder.WriteString(", ")
 	builder.WriteString("updated_by=")
-	builder.WriteString(e.UpdatedBy)
+	builder.WriteString(_m.UpdatedBy)
 	builder.WriteString(", ")
 	builder.WriteString("created_at=")
-	builder.WriteString(fmt.Sprintf("%v", e.CreatedAt))
+	builder.WriteString(fmt.Sprintf("%v", _m.CreatedAt))
 	builder.WriteString(", ")
 	builder.WriteString("updated_at=")
-	builder.WriteString(fmt.Sprintf("%v", e.UpdatedAt))
+	builder.WriteString(fmt.Sprintf("%v", _m.UpdatedAt))
 	builder.WriteString(", ")
 	builder.WriteString("base_url=")
-	builder.WriteString(e.BaseURL)
+	builder.WriteString(_m.BaseURL)
 	builder.WriteString(", ")
 	builder.WriteString("protocol=")
-	builder.WriteString(e.Protocol)
+	builder.WriteString(_m.Protocol)
 	builder.WriteString(", ")
 	builder.WriteString("auth_type=")
-	builder.WriteString(e.AuthType)
+	builder.WriteString(_m.AuthType)
 	builder.WriteString(", ")
 	builder.WriteString("auth_config=")
-	builder.WriteString(e.AuthConfig)
+	builder.WriteString(_m.AuthConfig)
 	builder.WriteString(", ")
 	builder.WriteString("timeout=")
-	builder.WriteString(fmt.Sprintf("%v", e.Timeout))
+	builder.WriteString(fmt.Sprintf("%v", _m.Timeout))
 	builder.WriteString(", ")
 	builder.WriteString("use_circuit_breaker=")
-	builder.WriteString(fmt.Sprintf("%v", e.UseCircuitBreaker))
+	builder.WriteString(fmt.Sprintf("%v", _m.UseCircuitBreaker))
 	builder.WriteString(", ")
 	builder.WriteString("retry_count=")
-	builder.WriteString(fmt.Sprintf("%v", e.RetryCount))
+	builder.WriteString(fmt.Sprintf("%v", _m.RetryCount))
 	builder.WriteString(", ")
 	builder.WriteString("validate_ssl=")
-	builder.WriteString(fmt.Sprintf("%v", e.ValidateSsl))
+	builder.WriteString(fmt.Sprintf("%v", _m.ValidateSsl))
 	builder.WriteString(", ")
 	builder.WriteString("log_requests=")
-	builder.WriteString(fmt.Sprintf("%v", e.LogRequests))
+	builder.WriteString(fmt.Sprintf("%v", _m.LogRequests))
 	builder.WriteString(", ")
 	builder.WriteString("log_responses=")
-	builder.WriteString(fmt.Sprintf("%v", e.LogResponses))
+	builder.WriteString(fmt.Sprintf("%v", _m.LogResponses))
 	builder.WriteByte(')')
 	return builder.String()
 }

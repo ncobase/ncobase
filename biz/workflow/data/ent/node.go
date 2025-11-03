@@ -157,7 +157,7 @@ func (*Node) scanValues(columns []string) ([]any, error) {
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
 // to the Node fields.
-func (n *Node) assignValues(columns []string, values []any) error {
+func (_m *Node) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
@@ -167,49 +167,49 @@ func (n *Node) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field id", values[i])
 			} else if value.Valid {
-				n.ID = value.String
+				_m.ID = value.String
 			}
 		case node.FieldName:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field name", values[i])
 			} else if value.Valid {
-				n.Name = value.String
+				_m.Name = value.String
 			}
 		case node.FieldDescription:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field description", values[i])
 			} else if value.Valid {
-				n.Description = value.String
+				_m.Description = value.String
 			}
 		case node.FieldType:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field type", values[i])
 			} else if value.Valid {
-				n.Type = value.String
+				_m.Type = value.String
 			}
 		case node.FieldStatus:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field status", values[i])
 			} else if value.Valid {
-				n.Status = value.String
+				_m.Status = value.String
 			}
 		case node.FieldNodeKey:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field node_key", values[i])
 			} else if value.Valid {
-				n.NodeKey = value.String
+				_m.NodeKey = value.String
 			}
 		case node.FieldNodeType:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field node_type", values[i])
 			} else if value.Valid {
-				n.NodeType = value.String
+				_m.NodeType = value.String
 			}
 		case node.FieldNodeConfig:
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field node_config", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &n.NodeConfig); err != nil {
+				if err := json.Unmarshal(*value, &_m.NodeConfig); err != nil {
 					return fmt.Errorf("unmarshal field node_config: %w", err)
 				}
 			}
@@ -217,7 +217,7 @@ func (n *Node) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field node_rules", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &n.NodeRules); err != nil {
+				if err := json.Unmarshal(*value, &_m.NodeRules); err != nil {
 					return fmt.Errorf("unmarshal field node_rules: %w", err)
 				}
 			}
@@ -225,7 +225,7 @@ func (n *Node) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field node_events", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &n.NodeEvents); err != nil {
+				if err := json.Unmarshal(*value, &_m.NodeEvents); err != nil {
 					return fmt.Errorf("unmarshal field node_events: %w", err)
 				}
 			}
@@ -233,19 +233,19 @@ func (n *Node) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field form_code", values[i])
 			} else if value.Valid {
-				n.FormCode = value.String
+				_m.FormCode = value.String
 			}
 		case node.FieldFormVersion:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field form_version", values[i])
 			} else if value.Valid {
-				n.FormVersion = value.String
+				_m.FormVersion = value.String
 			}
 		case node.FieldFormConfig:
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field form_config", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &n.FormConfig); err != nil {
+				if err := json.Unmarshal(*value, &_m.FormConfig); err != nil {
 					return fmt.Errorf("unmarshal field form_config: %w", err)
 				}
 			}
@@ -253,7 +253,7 @@ func (n *Node) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field form_permissions", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &n.FormPermissions); err != nil {
+				if err := json.Unmarshal(*value, &_m.FormPermissions); err != nil {
 					return fmt.Errorf("unmarshal field form_permissions: %w", err)
 				}
 			}
@@ -261,7 +261,7 @@ func (n *Node) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field field_permissions", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &n.FieldPermissions); err != nil {
+				if err := json.Unmarshal(*value, &_m.FieldPermissions); err != nil {
 					return fmt.Errorf("unmarshal field field_permissions: %w", err)
 				}
 			}
@@ -269,7 +269,7 @@ func (n *Node) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field assignees", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &n.Assignees); err != nil {
+				if err := json.Unmarshal(*value, &_m.Assignees); err != nil {
 					return fmt.Errorf("unmarshal field assignees: %w", err)
 				}
 			}
@@ -277,7 +277,7 @@ func (n *Node) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field candidates", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &n.Candidates); err != nil {
+				if err := json.Unmarshal(*value, &_m.Candidates); err != nil {
 					return fmt.Errorf("unmarshal field candidates: %w", err)
 				}
 			}
@@ -285,117 +285,117 @@ func (n *Node) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field delegated_from", values[i])
 			} else if value.Valid {
-				n.DelegatedFrom = value.String
+				_m.DelegatedFrom = value.String
 			}
 		case node.FieldDelegatedReason:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field delegated_reason", values[i])
 			} else if value.Valid {
-				n.DelegatedReason = value.String
+				_m.DelegatedReason = value.String
 			}
 		case node.FieldIsDelegated:
 			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field is_delegated", values[i])
 			} else if value.Valid {
-				n.IsDelegated = value.Bool
+				_m.IsDelegated = value.Bool
 			}
 		case node.FieldIsTransferred:
 			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field is_transferred", values[i])
 			} else if value.Valid {
-				n.IsTransferred = value.Bool
+				_m.IsTransferred = value.Bool
 			}
 		case node.FieldAllowCancel:
 			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field allow_cancel", values[i])
 			} else if value.Valid {
-				n.AllowCancel = value.Bool
+				_m.AllowCancel = value.Bool
 			}
 		case node.FieldAllowUrge:
 			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field allow_urge", values[i])
 			} else if value.Valid {
-				n.AllowUrge = value.Bool
+				_m.AllowUrge = value.Bool
 			}
 		case node.FieldAllowDelegate:
 			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field allow_delegate", values[i])
 			} else if value.Valid {
-				n.AllowDelegate = value.Bool
+				_m.AllowDelegate = value.Bool
 			}
 		case node.FieldAllowTransfer:
 			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field allow_transfer", values[i])
 			} else if value.Valid {
-				n.AllowTransfer = value.Bool
+				_m.AllowTransfer = value.Bool
 			}
 		case node.FieldIsDraftEnabled:
 			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field is_draft_enabled", values[i])
 			} else if value.Valid {
-				n.IsDraftEnabled = value.Bool
+				_m.IsDraftEnabled = value.Bool
 			}
 		case node.FieldIsAutoStart:
 			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field is_auto_start", values[i])
 			} else if value.Valid {
-				n.IsAutoStart = value.Bool
+				_m.IsAutoStart = value.Bool
 			}
 		case node.FieldStrictMode:
 			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field strict_mode", values[i])
 			} else if value.Valid {
-				n.StrictMode = value.Bool
+				_m.StrictMode = value.Bool
 			}
 		case node.FieldStartTime:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field start_time", values[i])
 			} else if value.Valid {
-				n.StartTime = value.Int64
+				_m.StartTime = value.Int64
 			}
 		case node.FieldEndTime:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field end_time", values[i])
 			} else if value.Valid {
-				n.EndTime = new(int64)
-				*n.EndTime = value.Int64
+				_m.EndTime = new(int64)
+				*_m.EndTime = value.Int64
 			}
 		case node.FieldDueTime:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field due_time", values[i])
 			} else if value.Valid {
-				n.DueTime = new(int64)
-				*n.DueTime = value.Int64
+				_m.DueTime = new(int64)
+				*_m.DueTime = value.Int64
 			}
 		case node.FieldDuration:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field duration", values[i])
 			} else if value.Valid {
-				n.Duration = int(value.Int64)
+				_m.Duration = int(value.Int64)
 			}
 		case node.FieldPriority:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field priority", values[i])
 			} else if value.Valid {
-				n.Priority = int(value.Int64)
+				_m.Priority = int(value.Int64)
 			}
 		case node.FieldIsTimeout:
 			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field is_timeout", values[i])
 			} else if value.Valid {
-				n.IsTimeout = value.Bool
+				_m.IsTimeout = value.Bool
 			}
 		case node.FieldReminderCount:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field reminder_count", values[i])
 			} else if value.Valid {
-				n.ReminderCount = int(value.Int64)
+				_m.ReminderCount = int(value.Int64)
 			}
 		case node.FieldExtras:
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field extras", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &n.Extras); err != nil {
+				if err := json.Unmarshal(*value, &_m.Extras); err != nil {
 					return fmt.Errorf("unmarshal field extras: %w", err)
 				}
 			}
@@ -403,43 +403,43 @@ func (n *Node) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field space_id", values[i])
 			} else if value.Valid {
-				n.SpaceID = value.String
+				_m.SpaceID = value.String
 			}
 		case node.FieldCreatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field created_by", values[i])
 			} else if value.Valid {
-				n.CreatedBy = value.String
+				_m.CreatedBy = value.String
 			}
 		case node.FieldUpdatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_by", values[i])
 			} else if value.Valid {
-				n.UpdatedBy = value.String
+				_m.UpdatedBy = value.String
 			}
 		case node.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field created_at", values[i])
 			} else if value.Valid {
-				n.CreatedAt = value.Int64
+				_m.CreatedAt = value.Int64
 			}
 		case node.FieldUpdatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_at", values[i])
 			} else if value.Valid {
-				n.UpdatedAt = value.Int64
+				_m.UpdatedAt = value.Int64
 			}
 		case node.FieldProcessID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field process_id", values[i])
 			} else if value.Valid {
-				n.ProcessID = value.String
+				_m.ProcessID = value.String
 			}
 		case node.FieldPermissions:
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field permissions", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &n.Permissions); err != nil {
+				if err := json.Unmarshal(*value, &_m.Permissions); err != nil {
 					return fmt.Errorf("unmarshal field permissions: %w", err)
 				}
 			}
@@ -447,7 +447,7 @@ func (n *Node) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field prev_nodes", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &n.PrevNodes); err != nil {
+				if err := json.Unmarshal(*value, &_m.PrevNodes); err != nil {
 					return fmt.Errorf("unmarshal field prev_nodes: %w", err)
 				}
 			}
@@ -455,7 +455,7 @@ func (n *Node) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field next_nodes", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &n.NextNodes); err != nil {
+				if err := json.Unmarshal(*value, &_m.NextNodes); err != nil {
 					return fmt.Errorf("unmarshal field next_nodes: %w", err)
 				}
 			}
@@ -463,7 +463,7 @@ func (n *Node) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field parallel_nodes", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &n.ParallelNodes); err != nil {
+				if err := json.Unmarshal(*value, &_m.ParallelNodes); err != nil {
 					return fmt.Errorf("unmarshal field parallel_nodes: %w", err)
 				}
 			}
@@ -471,7 +471,7 @@ func (n *Node) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field branch_nodes", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &n.BranchNodes); err != nil {
+				if err := json.Unmarshal(*value, &_m.BranchNodes); err != nil {
 					return fmt.Errorf("unmarshal field branch_nodes: %w", err)
 				}
 			}
@@ -479,7 +479,7 @@ func (n *Node) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field conditions", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &n.Conditions); err != nil {
+				if err := json.Unmarshal(*value, &_m.Conditions); err != nil {
 					return fmt.Errorf("unmarshal field conditions: %w", err)
 				}
 			}
@@ -487,7 +487,7 @@ func (n *Node) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field properties", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &n.Properties); err != nil {
+				if err := json.Unmarshal(*value, &_m.Properties); err != nil {
 					return fmt.Errorf("unmarshal field properties: %w", err)
 				}
 			}
@@ -495,19 +495,19 @@ func (n *Node) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field is_countersign", values[i])
 			} else if value.Valid {
-				n.IsCountersign = value.Bool
+				_m.IsCountersign = value.Bool
 			}
 		case node.FieldCountersignRule:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field countersign_rule", values[i])
 			} else if value.Valid {
-				n.CountersignRule = value.String
+				_m.CountersignRule = value.String
 			}
 		case node.FieldHandlers:
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field handlers", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &n.Handlers); err != nil {
+				if err := json.Unmarshal(*value, &_m.Handlers); err != nil {
 					return fmt.Errorf("unmarshal field handlers: %w", err)
 				}
 			}
@@ -515,7 +515,7 @@ func (n *Node) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field listeners", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &n.Listeners); err != nil {
+				if err := json.Unmarshal(*value, &_m.Listeners); err != nil {
 					return fmt.Errorf("unmarshal field listeners: %w", err)
 				}
 			}
@@ -523,7 +523,7 @@ func (n *Node) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field hooks", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &n.Hooks); err != nil {
+				if err := json.Unmarshal(*value, &_m.Hooks); err != nil {
 					return fmt.Errorf("unmarshal field hooks: %w", err)
 				}
 			}
@@ -531,7 +531,7 @@ func (n *Node) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field variables", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &n.Variables); err != nil {
+				if err := json.Unmarshal(*value, &_m.Variables); err != nil {
 					return fmt.Errorf("unmarshal field variables: %w", err)
 				}
 			}
@@ -539,22 +539,22 @@ func (n *Node) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field retry_times", values[i])
 			} else if value.Valid {
-				n.RetryTimes = int(value.Int64)
+				_m.RetryTimes = int(value.Int64)
 			}
 		case node.FieldRetryInterval:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field retry_interval", values[i])
 			} else if value.Valid {
-				n.RetryInterval = int(value.Int64)
+				_m.RetryInterval = int(value.Int64)
 			}
 		case node.FieldIsWorkingDay:
 			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field is_working_day", values[i])
 			} else if value.Valid {
-				n.IsWorkingDay = value.Bool
+				_m.IsWorkingDay = value.Bool
 			}
 		default:
-			n.selectValues.Set(columns[i], values[i])
+			_m.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
@@ -562,207 +562,207 @@ func (n *Node) assignValues(columns []string, values []any) error {
 
 // Value returns the ent.Value that was dynamically selected and assigned to the Node.
 // This includes values selected through modifiers, order, etc.
-func (n *Node) Value(name string) (ent.Value, error) {
-	return n.selectValues.Get(name)
+func (_m *Node) Value(name string) (ent.Value, error) {
+	return _m.selectValues.Get(name)
 }
 
 // Update returns a builder for updating this Node.
 // Note that you need to call Node.Unwrap() before calling this method if this Node
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (n *Node) Update() *NodeUpdateOne {
-	return NewNodeClient(n.config).UpdateOne(n)
+func (_m *Node) Update() *NodeUpdateOne {
+	return NewNodeClient(_m.config).UpdateOne(_m)
 }
 
 // Unwrap unwraps the Node entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (n *Node) Unwrap() *Node {
-	_tx, ok := n.config.driver.(*txDriver)
+func (_m *Node) Unwrap() *Node {
+	_tx, ok := _m.config.driver.(*txDriver)
 	if !ok {
 		panic("ent: Node is not a transactional entity")
 	}
-	n.config.driver = _tx.drv
-	return n
+	_m.config.driver = _tx.drv
+	return _m
 }
 
 // String implements the fmt.Stringer.
-func (n *Node) String() string {
+func (_m *Node) String() string {
 	var builder strings.Builder
 	builder.WriteString("Node(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", n.ID))
+	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
 	builder.WriteString("name=")
-	builder.WriteString(n.Name)
+	builder.WriteString(_m.Name)
 	builder.WriteString(", ")
 	builder.WriteString("description=")
-	builder.WriteString(n.Description)
+	builder.WriteString(_m.Description)
 	builder.WriteString(", ")
 	builder.WriteString("type=")
-	builder.WriteString(n.Type)
+	builder.WriteString(_m.Type)
 	builder.WriteString(", ")
 	builder.WriteString("status=")
-	builder.WriteString(n.Status)
+	builder.WriteString(_m.Status)
 	builder.WriteString(", ")
 	builder.WriteString("node_key=")
-	builder.WriteString(n.NodeKey)
+	builder.WriteString(_m.NodeKey)
 	builder.WriteString(", ")
 	builder.WriteString("node_type=")
-	builder.WriteString(n.NodeType)
+	builder.WriteString(_m.NodeType)
 	builder.WriteString(", ")
 	builder.WriteString("node_config=")
-	builder.WriteString(fmt.Sprintf("%v", n.NodeConfig))
+	builder.WriteString(fmt.Sprintf("%v", _m.NodeConfig))
 	builder.WriteString(", ")
 	builder.WriteString("node_rules=")
-	builder.WriteString(fmt.Sprintf("%v", n.NodeRules))
+	builder.WriteString(fmt.Sprintf("%v", _m.NodeRules))
 	builder.WriteString(", ")
 	builder.WriteString("node_events=")
-	builder.WriteString(fmt.Sprintf("%v", n.NodeEvents))
+	builder.WriteString(fmt.Sprintf("%v", _m.NodeEvents))
 	builder.WriteString(", ")
 	builder.WriteString("form_code=")
-	builder.WriteString(n.FormCode)
+	builder.WriteString(_m.FormCode)
 	builder.WriteString(", ")
 	builder.WriteString("form_version=")
-	builder.WriteString(n.FormVersion)
+	builder.WriteString(_m.FormVersion)
 	builder.WriteString(", ")
 	builder.WriteString("form_config=")
-	builder.WriteString(fmt.Sprintf("%v", n.FormConfig))
+	builder.WriteString(fmt.Sprintf("%v", _m.FormConfig))
 	builder.WriteString(", ")
 	builder.WriteString("form_permissions=")
-	builder.WriteString(fmt.Sprintf("%v", n.FormPermissions))
+	builder.WriteString(fmt.Sprintf("%v", _m.FormPermissions))
 	builder.WriteString(", ")
 	builder.WriteString("field_permissions=")
-	builder.WriteString(fmt.Sprintf("%v", n.FieldPermissions))
+	builder.WriteString(fmt.Sprintf("%v", _m.FieldPermissions))
 	builder.WriteString(", ")
 	builder.WriteString("assignees=")
-	builder.WriteString(fmt.Sprintf("%v", n.Assignees))
+	builder.WriteString(fmt.Sprintf("%v", _m.Assignees))
 	builder.WriteString(", ")
 	builder.WriteString("candidates=")
-	builder.WriteString(fmt.Sprintf("%v", n.Candidates))
+	builder.WriteString(fmt.Sprintf("%v", _m.Candidates))
 	builder.WriteString(", ")
 	builder.WriteString("delegated_from=")
-	builder.WriteString(n.DelegatedFrom)
+	builder.WriteString(_m.DelegatedFrom)
 	builder.WriteString(", ")
 	builder.WriteString("delegated_reason=")
-	builder.WriteString(n.DelegatedReason)
+	builder.WriteString(_m.DelegatedReason)
 	builder.WriteString(", ")
 	builder.WriteString("is_delegated=")
-	builder.WriteString(fmt.Sprintf("%v", n.IsDelegated))
+	builder.WriteString(fmt.Sprintf("%v", _m.IsDelegated))
 	builder.WriteString(", ")
 	builder.WriteString("is_transferred=")
-	builder.WriteString(fmt.Sprintf("%v", n.IsTransferred))
+	builder.WriteString(fmt.Sprintf("%v", _m.IsTransferred))
 	builder.WriteString(", ")
 	builder.WriteString("allow_cancel=")
-	builder.WriteString(fmt.Sprintf("%v", n.AllowCancel))
+	builder.WriteString(fmt.Sprintf("%v", _m.AllowCancel))
 	builder.WriteString(", ")
 	builder.WriteString("allow_urge=")
-	builder.WriteString(fmt.Sprintf("%v", n.AllowUrge))
+	builder.WriteString(fmt.Sprintf("%v", _m.AllowUrge))
 	builder.WriteString(", ")
 	builder.WriteString("allow_delegate=")
-	builder.WriteString(fmt.Sprintf("%v", n.AllowDelegate))
+	builder.WriteString(fmt.Sprintf("%v", _m.AllowDelegate))
 	builder.WriteString(", ")
 	builder.WriteString("allow_transfer=")
-	builder.WriteString(fmt.Sprintf("%v", n.AllowTransfer))
+	builder.WriteString(fmt.Sprintf("%v", _m.AllowTransfer))
 	builder.WriteString(", ")
 	builder.WriteString("is_draft_enabled=")
-	builder.WriteString(fmt.Sprintf("%v", n.IsDraftEnabled))
+	builder.WriteString(fmt.Sprintf("%v", _m.IsDraftEnabled))
 	builder.WriteString(", ")
 	builder.WriteString("is_auto_start=")
-	builder.WriteString(fmt.Sprintf("%v", n.IsAutoStart))
+	builder.WriteString(fmt.Sprintf("%v", _m.IsAutoStart))
 	builder.WriteString(", ")
 	builder.WriteString("strict_mode=")
-	builder.WriteString(fmt.Sprintf("%v", n.StrictMode))
+	builder.WriteString(fmt.Sprintf("%v", _m.StrictMode))
 	builder.WriteString(", ")
 	builder.WriteString("start_time=")
-	builder.WriteString(fmt.Sprintf("%v", n.StartTime))
+	builder.WriteString(fmt.Sprintf("%v", _m.StartTime))
 	builder.WriteString(", ")
-	if v := n.EndTime; v != nil {
+	if v := _m.EndTime; v != nil {
 		builder.WriteString("end_time=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
-	if v := n.DueTime; v != nil {
+	if v := _m.DueTime; v != nil {
 		builder.WriteString("due_time=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
 	builder.WriteString("duration=")
-	builder.WriteString(fmt.Sprintf("%v", n.Duration))
+	builder.WriteString(fmt.Sprintf("%v", _m.Duration))
 	builder.WriteString(", ")
 	builder.WriteString("priority=")
-	builder.WriteString(fmt.Sprintf("%v", n.Priority))
+	builder.WriteString(fmt.Sprintf("%v", _m.Priority))
 	builder.WriteString(", ")
 	builder.WriteString("is_timeout=")
-	builder.WriteString(fmt.Sprintf("%v", n.IsTimeout))
+	builder.WriteString(fmt.Sprintf("%v", _m.IsTimeout))
 	builder.WriteString(", ")
 	builder.WriteString("reminder_count=")
-	builder.WriteString(fmt.Sprintf("%v", n.ReminderCount))
+	builder.WriteString(fmt.Sprintf("%v", _m.ReminderCount))
 	builder.WriteString(", ")
 	builder.WriteString("extras=")
-	builder.WriteString(fmt.Sprintf("%v", n.Extras))
+	builder.WriteString(fmt.Sprintf("%v", _m.Extras))
 	builder.WriteString(", ")
 	builder.WriteString("space_id=")
-	builder.WriteString(n.SpaceID)
+	builder.WriteString(_m.SpaceID)
 	builder.WriteString(", ")
 	builder.WriteString("created_by=")
-	builder.WriteString(n.CreatedBy)
+	builder.WriteString(_m.CreatedBy)
 	builder.WriteString(", ")
 	builder.WriteString("updated_by=")
-	builder.WriteString(n.UpdatedBy)
+	builder.WriteString(_m.UpdatedBy)
 	builder.WriteString(", ")
 	builder.WriteString("created_at=")
-	builder.WriteString(fmt.Sprintf("%v", n.CreatedAt))
+	builder.WriteString(fmt.Sprintf("%v", _m.CreatedAt))
 	builder.WriteString(", ")
 	builder.WriteString("updated_at=")
-	builder.WriteString(fmt.Sprintf("%v", n.UpdatedAt))
+	builder.WriteString(fmt.Sprintf("%v", _m.UpdatedAt))
 	builder.WriteString(", ")
 	builder.WriteString("process_id=")
-	builder.WriteString(n.ProcessID)
+	builder.WriteString(_m.ProcessID)
 	builder.WriteString(", ")
 	builder.WriteString("permissions=")
-	builder.WriteString(fmt.Sprintf("%v", n.Permissions))
+	builder.WriteString(fmt.Sprintf("%v", _m.Permissions))
 	builder.WriteString(", ")
 	builder.WriteString("prev_nodes=")
-	builder.WriteString(fmt.Sprintf("%v", n.PrevNodes))
+	builder.WriteString(fmt.Sprintf("%v", _m.PrevNodes))
 	builder.WriteString(", ")
 	builder.WriteString("next_nodes=")
-	builder.WriteString(fmt.Sprintf("%v", n.NextNodes))
+	builder.WriteString(fmt.Sprintf("%v", _m.NextNodes))
 	builder.WriteString(", ")
 	builder.WriteString("parallel_nodes=")
-	builder.WriteString(fmt.Sprintf("%v", n.ParallelNodes))
+	builder.WriteString(fmt.Sprintf("%v", _m.ParallelNodes))
 	builder.WriteString(", ")
 	builder.WriteString("branch_nodes=")
-	builder.WriteString(fmt.Sprintf("%v", n.BranchNodes))
+	builder.WriteString(fmt.Sprintf("%v", _m.BranchNodes))
 	builder.WriteString(", ")
 	builder.WriteString("conditions=")
-	builder.WriteString(fmt.Sprintf("%v", n.Conditions))
+	builder.WriteString(fmt.Sprintf("%v", _m.Conditions))
 	builder.WriteString(", ")
 	builder.WriteString("properties=")
-	builder.WriteString(fmt.Sprintf("%v", n.Properties))
+	builder.WriteString(fmt.Sprintf("%v", _m.Properties))
 	builder.WriteString(", ")
 	builder.WriteString("is_countersign=")
-	builder.WriteString(fmt.Sprintf("%v", n.IsCountersign))
+	builder.WriteString(fmt.Sprintf("%v", _m.IsCountersign))
 	builder.WriteString(", ")
 	builder.WriteString("countersign_rule=")
-	builder.WriteString(n.CountersignRule)
+	builder.WriteString(_m.CountersignRule)
 	builder.WriteString(", ")
 	builder.WriteString("handlers=")
-	builder.WriteString(fmt.Sprintf("%v", n.Handlers))
+	builder.WriteString(fmt.Sprintf("%v", _m.Handlers))
 	builder.WriteString(", ")
 	builder.WriteString("listeners=")
-	builder.WriteString(fmt.Sprintf("%v", n.Listeners))
+	builder.WriteString(fmt.Sprintf("%v", _m.Listeners))
 	builder.WriteString(", ")
 	builder.WriteString("hooks=")
-	builder.WriteString(fmt.Sprintf("%v", n.Hooks))
+	builder.WriteString(fmt.Sprintf("%v", _m.Hooks))
 	builder.WriteString(", ")
 	builder.WriteString("variables=")
-	builder.WriteString(fmt.Sprintf("%v", n.Variables))
+	builder.WriteString(fmt.Sprintf("%v", _m.Variables))
 	builder.WriteString(", ")
 	builder.WriteString("retry_times=")
-	builder.WriteString(fmt.Sprintf("%v", n.RetryTimes))
+	builder.WriteString(fmt.Sprintf("%v", _m.RetryTimes))
 	builder.WriteString(", ")
 	builder.WriteString("retry_interval=")
-	builder.WriteString(fmt.Sprintf("%v", n.RetryInterval))
+	builder.WriteString(fmt.Sprintf("%v", _m.RetryInterval))
 	builder.WriteString(", ")
 	builder.WriteString("is_working_day=")
-	builder.WriteString(fmt.Sprintf("%v", n.IsWorkingDay))
+	builder.WriteString(fmt.Sprintf("%v", _m.IsWorkingDay))
 	builder.WriteByte(')')
 	return builder.String()
 }

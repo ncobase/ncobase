@@ -22,125 +22,125 @@ type TaxonomyRelationUpdate struct {
 }
 
 // Where appends a list predicates to the TaxonomyRelationUpdate builder.
-func (tru *TaxonomyRelationUpdate) Where(ps ...predicate.TaxonomyRelation) *TaxonomyRelationUpdate {
-	tru.mutation.Where(ps...)
-	return tru
+func (_u *TaxonomyRelationUpdate) Where(ps ...predicate.TaxonomyRelation) *TaxonomyRelationUpdate {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // SetObjectID sets the "object_id" field.
-func (tru *TaxonomyRelationUpdate) SetObjectID(s string) *TaxonomyRelationUpdate {
-	tru.mutation.SetObjectID(s)
-	return tru
+func (_u *TaxonomyRelationUpdate) SetObjectID(v string) *TaxonomyRelationUpdate {
+	_u.mutation.SetObjectID(v)
+	return _u
 }
 
 // SetNillableObjectID sets the "object_id" field if the given value is not nil.
-func (tru *TaxonomyRelationUpdate) SetNillableObjectID(s *string) *TaxonomyRelationUpdate {
-	if s != nil {
-		tru.SetObjectID(*s)
+func (_u *TaxonomyRelationUpdate) SetNillableObjectID(v *string) *TaxonomyRelationUpdate {
+	if v != nil {
+		_u.SetObjectID(*v)
 	}
-	return tru
+	return _u
 }
 
 // ClearObjectID clears the value of the "object_id" field.
-func (tru *TaxonomyRelationUpdate) ClearObjectID() *TaxonomyRelationUpdate {
-	tru.mutation.ClearObjectID()
-	return tru
+func (_u *TaxonomyRelationUpdate) ClearObjectID() *TaxonomyRelationUpdate {
+	_u.mutation.ClearObjectID()
+	return _u
 }
 
 // SetTaxonomyID sets the "taxonomy_id" field.
-func (tru *TaxonomyRelationUpdate) SetTaxonomyID(s string) *TaxonomyRelationUpdate {
-	tru.mutation.SetTaxonomyID(s)
-	return tru
+func (_u *TaxonomyRelationUpdate) SetTaxonomyID(v string) *TaxonomyRelationUpdate {
+	_u.mutation.SetTaxonomyID(v)
+	return _u
 }
 
 // SetNillableTaxonomyID sets the "taxonomy_id" field if the given value is not nil.
-func (tru *TaxonomyRelationUpdate) SetNillableTaxonomyID(s *string) *TaxonomyRelationUpdate {
-	if s != nil {
-		tru.SetTaxonomyID(*s)
+func (_u *TaxonomyRelationUpdate) SetNillableTaxonomyID(v *string) *TaxonomyRelationUpdate {
+	if v != nil {
+		_u.SetTaxonomyID(*v)
 	}
-	return tru
+	return _u
 }
 
 // ClearTaxonomyID clears the value of the "taxonomy_id" field.
-func (tru *TaxonomyRelationUpdate) ClearTaxonomyID() *TaxonomyRelationUpdate {
-	tru.mutation.ClearTaxonomyID()
-	return tru
+func (_u *TaxonomyRelationUpdate) ClearTaxonomyID() *TaxonomyRelationUpdate {
+	_u.mutation.ClearTaxonomyID()
+	return _u
 }
 
 // SetType sets the "type" field.
-func (tru *TaxonomyRelationUpdate) SetType(s string) *TaxonomyRelationUpdate {
-	tru.mutation.SetType(s)
-	return tru
+func (_u *TaxonomyRelationUpdate) SetType(v string) *TaxonomyRelationUpdate {
+	_u.mutation.SetType(v)
+	return _u
 }
 
 // SetNillableType sets the "type" field if the given value is not nil.
-func (tru *TaxonomyRelationUpdate) SetNillableType(s *string) *TaxonomyRelationUpdate {
-	if s != nil {
-		tru.SetType(*s)
+func (_u *TaxonomyRelationUpdate) SetNillableType(v *string) *TaxonomyRelationUpdate {
+	if v != nil {
+		_u.SetType(*v)
 	}
-	return tru
+	return _u
 }
 
 // ClearType clears the value of the "type" field.
-func (tru *TaxonomyRelationUpdate) ClearType() *TaxonomyRelationUpdate {
-	tru.mutation.ClearType()
-	return tru
+func (_u *TaxonomyRelationUpdate) ClearType() *TaxonomyRelationUpdate {
+	_u.mutation.ClearType()
+	return _u
 }
 
 // SetOrder sets the "order" field.
-func (tru *TaxonomyRelationUpdate) SetOrder(i int) *TaxonomyRelationUpdate {
-	tru.mutation.ResetOrder()
-	tru.mutation.SetOrder(i)
-	return tru
+func (_u *TaxonomyRelationUpdate) SetOrder(v int) *TaxonomyRelationUpdate {
+	_u.mutation.ResetOrder()
+	_u.mutation.SetOrder(v)
+	return _u
 }
 
 // SetNillableOrder sets the "order" field if the given value is not nil.
-func (tru *TaxonomyRelationUpdate) SetNillableOrder(i *int) *TaxonomyRelationUpdate {
-	if i != nil {
-		tru.SetOrder(*i)
+func (_u *TaxonomyRelationUpdate) SetNillableOrder(v *int) *TaxonomyRelationUpdate {
+	if v != nil {
+		_u.SetOrder(*v)
 	}
-	return tru
+	return _u
 }
 
-// AddOrder adds i to the "order" field.
-func (tru *TaxonomyRelationUpdate) AddOrder(i int) *TaxonomyRelationUpdate {
-	tru.mutation.AddOrder(i)
-	return tru
+// AddOrder adds value to the "order" field.
+func (_u *TaxonomyRelationUpdate) AddOrder(v int) *TaxonomyRelationUpdate {
+	_u.mutation.AddOrder(v)
+	return _u
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (tru *TaxonomyRelationUpdate) SetCreatedBy(s string) *TaxonomyRelationUpdate {
-	tru.mutation.SetCreatedBy(s)
-	return tru
+func (_u *TaxonomyRelationUpdate) SetCreatedBy(v string) *TaxonomyRelationUpdate {
+	_u.mutation.SetCreatedBy(v)
+	return _u
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (tru *TaxonomyRelationUpdate) SetNillableCreatedBy(s *string) *TaxonomyRelationUpdate {
-	if s != nil {
-		tru.SetCreatedBy(*s)
+func (_u *TaxonomyRelationUpdate) SetNillableCreatedBy(v *string) *TaxonomyRelationUpdate {
+	if v != nil {
+		_u.SetCreatedBy(*v)
 	}
-	return tru
+	return _u
 }
 
 // ClearCreatedBy clears the value of the "created_by" field.
-func (tru *TaxonomyRelationUpdate) ClearCreatedBy() *TaxonomyRelationUpdate {
-	tru.mutation.ClearCreatedBy()
-	return tru
+func (_u *TaxonomyRelationUpdate) ClearCreatedBy() *TaxonomyRelationUpdate {
+	_u.mutation.ClearCreatedBy()
+	return _u
 }
 
 // Mutation returns the TaxonomyRelationMutation object of the builder.
-func (tru *TaxonomyRelationUpdate) Mutation() *TaxonomyRelationMutation {
-	return tru.mutation
+func (_u *TaxonomyRelationUpdate) Mutation() *TaxonomyRelationMutation {
+	return _u.mutation
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
-func (tru *TaxonomyRelationUpdate) Save(ctx context.Context) (int, error) {
-	return withHooks(ctx, tru.sqlSave, tru.mutation, tru.hooks)
+func (_u *TaxonomyRelationUpdate) Save(ctx context.Context) (int, error) {
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (tru *TaxonomyRelationUpdate) SaveX(ctx context.Context) int {
-	affected, err := tru.Save(ctx)
+func (_u *TaxonomyRelationUpdate) SaveX(ctx context.Context) int {
+	affected, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -148,61 +148,61 @@ func (tru *TaxonomyRelationUpdate) SaveX(ctx context.Context) int {
 }
 
 // Exec executes the query.
-func (tru *TaxonomyRelationUpdate) Exec(ctx context.Context) error {
-	_, err := tru.Save(ctx)
+func (_u *TaxonomyRelationUpdate) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (tru *TaxonomyRelationUpdate) ExecX(ctx context.Context) {
-	if err := tru.Exec(ctx); err != nil {
+func (_u *TaxonomyRelationUpdate) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
-func (tru *TaxonomyRelationUpdate) sqlSave(ctx context.Context) (n int, err error) {
+func (_u *TaxonomyRelationUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	_spec := sqlgraph.NewUpdateSpec(taxonomyrelation.Table, taxonomyrelation.Columns, sqlgraph.NewFieldSpec(taxonomyrelation.FieldID, field.TypeString))
-	if ps := tru.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := tru.mutation.ObjectID(); ok {
+	if value, ok := _u.mutation.ObjectID(); ok {
 		_spec.SetField(taxonomyrelation.FieldObjectID, field.TypeString, value)
 	}
-	if tru.mutation.ObjectIDCleared() {
+	if _u.mutation.ObjectIDCleared() {
 		_spec.ClearField(taxonomyrelation.FieldObjectID, field.TypeString)
 	}
-	if value, ok := tru.mutation.TaxonomyID(); ok {
+	if value, ok := _u.mutation.TaxonomyID(); ok {
 		_spec.SetField(taxonomyrelation.FieldTaxonomyID, field.TypeString, value)
 	}
-	if tru.mutation.TaxonomyIDCleared() {
+	if _u.mutation.TaxonomyIDCleared() {
 		_spec.ClearField(taxonomyrelation.FieldTaxonomyID, field.TypeString)
 	}
-	if value, ok := tru.mutation.GetType(); ok {
+	if value, ok := _u.mutation.GetType(); ok {
 		_spec.SetField(taxonomyrelation.FieldType, field.TypeString, value)
 	}
-	if tru.mutation.TypeCleared() {
+	if _u.mutation.TypeCleared() {
 		_spec.ClearField(taxonomyrelation.FieldType, field.TypeString)
 	}
-	if value, ok := tru.mutation.Order(); ok {
+	if value, ok := _u.mutation.Order(); ok {
 		_spec.SetField(taxonomyrelation.FieldOrder, field.TypeInt, value)
 	}
-	if value, ok := tru.mutation.AddedOrder(); ok {
+	if value, ok := _u.mutation.AddedOrder(); ok {
 		_spec.AddField(taxonomyrelation.FieldOrder, field.TypeInt, value)
 	}
-	if value, ok := tru.mutation.CreatedBy(); ok {
+	if value, ok := _u.mutation.CreatedBy(); ok {
 		_spec.SetField(taxonomyrelation.FieldCreatedBy, field.TypeString, value)
 	}
-	if tru.mutation.CreatedByCleared() {
+	if _u.mutation.CreatedByCleared() {
 		_spec.ClearField(taxonomyrelation.FieldCreatedBy, field.TypeString)
 	}
-	if tru.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(taxonomyrelation.FieldCreatedAt, field.TypeInt64)
 	}
-	if n, err = sqlgraph.UpdateNodes(ctx, tru.driver, _spec); err != nil {
+	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{taxonomyrelation.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -210,8 +210,8 @@ func (tru *TaxonomyRelationUpdate) sqlSave(ctx context.Context) (n int, err erro
 		}
 		return 0, err
 	}
-	tru.mutation.done = true
-	return n, nil
+	_u.mutation.done = true
+	return _node, nil
 }
 
 // TaxonomyRelationUpdateOne is the builder for updating a single TaxonomyRelation entity.
@@ -223,132 +223,132 @@ type TaxonomyRelationUpdateOne struct {
 }
 
 // SetObjectID sets the "object_id" field.
-func (truo *TaxonomyRelationUpdateOne) SetObjectID(s string) *TaxonomyRelationUpdateOne {
-	truo.mutation.SetObjectID(s)
-	return truo
+func (_u *TaxonomyRelationUpdateOne) SetObjectID(v string) *TaxonomyRelationUpdateOne {
+	_u.mutation.SetObjectID(v)
+	return _u
 }
 
 // SetNillableObjectID sets the "object_id" field if the given value is not nil.
-func (truo *TaxonomyRelationUpdateOne) SetNillableObjectID(s *string) *TaxonomyRelationUpdateOne {
-	if s != nil {
-		truo.SetObjectID(*s)
+func (_u *TaxonomyRelationUpdateOne) SetNillableObjectID(v *string) *TaxonomyRelationUpdateOne {
+	if v != nil {
+		_u.SetObjectID(*v)
 	}
-	return truo
+	return _u
 }
 
 // ClearObjectID clears the value of the "object_id" field.
-func (truo *TaxonomyRelationUpdateOne) ClearObjectID() *TaxonomyRelationUpdateOne {
-	truo.mutation.ClearObjectID()
-	return truo
+func (_u *TaxonomyRelationUpdateOne) ClearObjectID() *TaxonomyRelationUpdateOne {
+	_u.mutation.ClearObjectID()
+	return _u
 }
 
 // SetTaxonomyID sets the "taxonomy_id" field.
-func (truo *TaxonomyRelationUpdateOne) SetTaxonomyID(s string) *TaxonomyRelationUpdateOne {
-	truo.mutation.SetTaxonomyID(s)
-	return truo
+func (_u *TaxonomyRelationUpdateOne) SetTaxonomyID(v string) *TaxonomyRelationUpdateOne {
+	_u.mutation.SetTaxonomyID(v)
+	return _u
 }
 
 // SetNillableTaxonomyID sets the "taxonomy_id" field if the given value is not nil.
-func (truo *TaxonomyRelationUpdateOne) SetNillableTaxonomyID(s *string) *TaxonomyRelationUpdateOne {
-	if s != nil {
-		truo.SetTaxonomyID(*s)
+func (_u *TaxonomyRelationUpdateOne) SetNillableTaxonomyID(v *string) *TaxonomyRelationUpdateOne {
+	if v != nil {
+		_u.SetTaxonomyID(*v)
 	}
-	return truo
+	return _u
 }
 
 // ClearTaxonomyID clears the value of the "taxonomy_id" field.
-func (truo *TaxonomyRelationUpdateOne) ClearTaxonomyID() *TaxonomyRelationUpdateOne {
-	truo.mutation.ClearTaxonomyID()
-	return truo
+func (_u *TaxonomyRelationUpdateOne) ClearTaxonomyID() *TaxonomyRelationUpdateOne {
+	_u.mutation.ClearTaxonomyID()
+	return _u
 }
 
 // SetType sets the "type" field.
-func (truo *TaxonomyRelationUpdateOne) SetType(s string) *TaxonomyRelationUpdateOne {
-	truo.mutation.SetType(s)
-	return truo
+func (_u *TaxonomyRelationUpdateOne) SetType(v string) *TaxonomyRelationUpdateOne {
+	_u.mutation.SetType(v)
+	return _u
 }
 
 // SetNillableType sets the "type" field if the given value is not nil.
-func (truo *TaxonomyRelationUpdateOne) SetNillableType(s *string) *TaxonomyRelationUpdateOne {
-	if s != nil {
-		truo.SetType(*s)
+func (_u *TaxonomyRelationUpdateOne) SetNillableType(v *string) *TaxonomyRelationUpdateOne {
+	if v != nil {
+		_u.SetType(*v)
 	}
-	return truo
+	return _u
 }
 
 // ClearType clears the value of the "type" field.
-func (truo *TaxonomyRelationUpdateOne) ClearType() *TaxonomyRelationUpdateOne {
-	truo.mutation.ClearType()
-	return truo
+func (_u *TaxonomyRelationUpdateOne) ClearType() *TaxonomyRelationUpdateOne {
+	_u.mutation.ClearType()
+	return _u
 }
 
 // SetOrder sets the "order" field.
-func (truo *TaxonomyRelationUpdateOne) SetOrder(i int) *TaxonomyRelationUpdateOne {
-	truo.mutation.ResetOrder()
-	truo.mutation.SetOrder(i)
-	return truo
+func (_u *TaxonomyRelationUpdateOne) SetOrder(v int) *TaxonomyRelationUpdateOne {
+	_u.mutation.ResetOrder()
+	_u.mutation.SetOrder(v)
+	return _u
 }
 
 // SetNillableOrder sets the "order" field if the given value is not nil.
-func (truo *TaxonomyRelationUpdateOne) SetNillableOrder(i *int) *TaxonomyRelationUpdateOne {
-	if i != nil {
-		truo.SetOrder(*i)
+func (_u *TaxonomyRelationUpdateOne) SetNillableOrder(v *int) *TaxonomyRelationUpdateOne {
+	if v != nil {
+		_u.SetOrder(*v)
 	}
-	return truo
+	return _u
 }
 
-// AddOrder adds i to the "order" field.
-func (truo *TaxonomyRelationUpdateOne) AddOrder(i int) *TaxonomyRelationUpdateOne {
-	truo.mutation.AddOrder(i)
-	return truo
+// AddOrder adds value to the "order" field.
+func (_u *TaxonomyRelationUpdateOne) AddOrder(v int) *TaxonomyRelationUpdateOne {
+	_u.mutation.AddOrder(v)
+	return _u
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (truo *TaxonomyRelationUpdateOne) SetCreatedBy(s string) *TaxonomyRelationUpdateOne {
-	truo.mutation.SetCreatedBy(s)
-	return truo
+func (_u *TaxonomyRelationUpdateOne) SetCreatedBy(v string) *TaxonomyRelationUpdateOne {
+	_u.mutation.SetCreatedBy(v)
+	return _u
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (truo *TaxonomyRelationUpdateOne) SetNillableCreatedBy(s *string) *TaxonomyRelationUpdateOne {
-	if s != nil {
-		truo.SetCreatedBy(*s)
+func (_u *TaxonomyRelationUpdateOne) SetNillableCreatedBy(v *string) *TaxonomyRelationUpdateOne {
+	if v != nil {
+		_u.SetCreatedBy(*v)
 	}
-	return truo
+	return _u
 }
 
 // ClearCreatedBy clears the value of the "created_by" field.
-func (truo *TaxonomyRelationUpdateOne) ClearCreatedBy() *TaxonomyRelationUpdateOne {
-	truo.mutation.ClearCreatedBy()
-	return truo
+func (_u *TaxonomyRelationUpdateOne) ClearCreatedBy() *TaxonomyRelationUpdateOne {
+	_u.mutation.ClearCreatedBy()
+	return _u
 }
 
 // Mutation returns the TaxonomyRelationMutation object of the builder.
-func (truo *TaxonomyRelationUpdateOne) Mutation() *TaxonomyRelationMutation {
-	return truo.mutation
+func (_u *TaxonomyRelationUpdateOne) Mutation() *TaxonomyRelationMutation {
+	return _u.mutation
 }
 
 // Where appends a list predicates to the TaxonomyRelationUpdate builder.
-func (truo *TaxonomyRelationUpdateOne) Where(ps ...predicate.TaxonomyRelation) *TaxonomyRelationUpdateOne {
-	truo.mutation.Where(ps...)
-	return truo
+func (_u *TaxonomyRelationUpdateOne) Where(ps ...predicate.TaxonomyRelation) *TaxonomyRelationUpdateOne {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // Select allows selecting one or more fields (columns) of the returned entity.
 // The default is selecting all fields defined in the entity schema.
-func (truo *TaxonomyRelationUpdateOne) Select(field string, fields ...string) *TaxonomyRelationUpdateOne {
-	truo.fields = append([]string{field}, fields...)
-	return truo
+func (_u *TaxonomyRelationUpdateOne) Select(field string, fields ...string) *TaxonomyRelationUpdateOne {
+	_u.fields = append([]string{field}, fields...)
+	return _u
 }
 
 // Save executes the query and returns the updated TaxonomyRelation entity.
-func (truo *TaxonomyRelationUpdateOne) Save(ctx context.Context) (*TaxonomyRelation, error) {
-	return withHooks(ctx, truo.sqlSave, truo.mutation, truo.hooks)
+func (_u *TaxonomyRelationUpdateOne) Save(ctx context.Context) (*TaxonomyRelation, error) {
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (truo *TaxonomyRelationUpdateOne) SaveX(ctx context.Context) *TaxonomyRelation {
-	node, err := truo.Save(ctx)
+func (_u *TaxonomyRelationUpdateOne) SaveX(ctx context.Context) *TaxonomyRelation {
+	node, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -356,26 +356,26 @@ func (truo *TaxonomyRelationUpdateOne) SaveX(ctx context.Context) *TaxonomyRelat
 }
 
 // Exec executes the query on the entity.
-func (truo *TaxonomyRelationUpdateOne) Exec(ctx context.Context) error {
-	_, err := truo.Save(ctx)
+func (_u *TaxonomyRelationUpdateOne) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (truo *TaxonomyRelationUpdateOne) ExecX(ctx context.Context) {
-	if err := truo.Exec(ctx); err != nil {
+func (_u *TaxonomyRelationUpdateOne) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
-func (truo *TaxonomyRelationUpdateOne) sqlSave(ctx context.Context) (_node *TaxonomyRelation, err error) {
+func (_u *TaxonomyRelationUpdateOne) sqlSave(ctx context.Context) (_node *TaxonomyRelation, err error) {
 	_spec := sqlgraph.NewUpdateSpec(taxonomyrelation.Table, taxonomyrelation.Columns, sqlgraph.NewFieldSpec(taxonomyrelation.FieldID, field.TypeString))
-	id, ok := truo.mutation.ID()
+	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "TaxonomyRelation.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
-	if fields := truo.fields; len(fields) > 0 {
+	if fields := _u.fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, taxonomyrelation.FieldID)
 		for _, f := range fields {
@@ -387,50 +387,50 @@ func (truo *TaxonomyRelationUpdateOne) sqlSave(ctx context.Context) (_node *Taxo
 			}
 		}
 	}
-	if ps := truo.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := truo.mutation.ObjectID(); ok {
+	if value, ok := _u.mutation.ObjectID(); ok {
 		_spec.SetField(taxonomyrelation.FieldObjectID, field.TypeString, value)
 	}
-	if truo.mutation.ObjectIDCleared() {
+	if _u.mutation.ObjectIDCleared() {
 		_spec.ClearField(taxonomyrelation.FieldObjectID, field.TypeString)
 	}
-	if value, ok := truo.mutation.TaxonomyID(); ok {
+	if value, ok := _u.mutation.TaxonomyID(); ok {
 		_spec.SetField(taxonomyrelation.FieldTaxonomyID, field.TypeString, value)
 	}
-	if truo.mutation.TaxonomyIDCleared() {
+	if _u.mutation.TaxonomyIDCleared() {
 		_spec.ClearField(taxonomyrelation.FieldTaxonomyID, field.TypeString)
 	}
-	if value, ok := truo.mutation.GetType(); ok {
+	if value, ok := _u.mutation.GetType(); ok {
 		_spec.SetField(taxonomyrelation.FieldType, field.TypeString, value)
 	}
-	if truo.mutation.TypeCleared() {
+	if _u.mutation.TypeCleared() {
 		_spec.ClearField(taxonomyrelation.FieldType, field.TypeString)
 	}
-	if value, ok := truo.mutation.Order(); ok {
+	if value, ok := _u.mutation.Order(); ok {
 		_spec.SetField(taxonomyrelation.FieldOrder, field.TypeInt, value)
 	}
-	if value, ok := truo.mutation.AddedOrder(); ok {
+	if value, ok := _u.mutation.AddedOrder(); ok {
 		_spec.AddField(taxonomyrelation.FieldOrder, field.TypeInt, value)
 	}
-	if value, ok := truo.mutation.CreatedBy(); ok {
+	if value, ok := _u.mutation.CreatedBy(); ok {
 		_spec.SetField(taxonomyrelation.FieldCreatedBy, field.TypeString, value)
 	}
-	if truo.mutation.CreatedByCleared() {
+	if _u.mutation.CreatedByCleared() {
 		_spec.ClearField(taxonomyrelation.FieldCreatedBy, field.TypeString)
 	}
-	if truo.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(taxonomyrelation.FieldCreatedAt, field.TypeInt64)
 	}
-	_node = &TaxonomyRelation{config: truo.config}
+	_node = &TaxonomyRelation{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues
-	if err = sqlgraph.UpdateNode(ctx, truo.driver, _spec); err != nil {
+	if err = sqlgraph.UpdateNode(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{taxonomyrelation.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -438,6 +438,6 @@ func (truo *TaxonomyRelationUpdateOne) sqlSave(ctx context.Context) (_node *Taxo
 		}
 		return nil, err
 	}
-	truo.mutation.done = true
+	_u.mutation.done = true
 	return _node, nil
 }

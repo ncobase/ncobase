@@ -20,56 +20,56 @@ type DistributionDelete struct {
 }
 
 // Where appends a list predicates to the DistributionDelete builder.
-func (dd *DistributionDelete) Where(ps ...predicate.Distribution) *DistributionDelete {
-	dd.mutation.Where(ps...)
-	return dd
+func (_d *DistributionDelete) Where(ps ...predicate.Distribution) *DistributionDelete {
+	_d.mutation.Where(ps...)
+	return _d
 }
 
 // Exec executes the deletion query and returns how many vertices were deleted.
-func (dd *DistributionDelete) Exec(ctx context.Context) (int, error) {
-	return withHooks(ctx, dd.sqlExec, dd.mutation, dd.hooks)
+func (_d *DistributionDelete) Exec(ctx context.Context) (int, error) {
+	return withHooks(ctx, _d.sqlExec, _d.mutation, _d.hooks)
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (dd *DistributionDelete) ExecX(ctx context.Context) int {
-	n, err := dd.Exec(ctx)
+func (_d *DistributionDelete) ExecX(ctx context.Context) int {
+	n, err := _d.Exec(ctx)
 	if err != nil {
 		panic(err)
 	}
 	return n
 }
 
-func (dd *DistributionDelete) sqlExec(ctx context.Context) (int, error) {
+func (_d *DistributionDelete) sqlExec(ctx context.Context) (int, error) {
 	_spec := sqlgraph.NewDeleteSpec(distribution.Table, sqlgraph.NewFieldSpec(distribution.FieldID, field.TypeString))
-	if ps := dd.mutation.predicates; len(ps) > 0 {
+	if ps := _d.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	affected, err := sqlgraph.DeleteNodes(ctx, dd.driver, _spec)
+	affected, err := sqlgraph.DeleteNodes(ctx, _d.driver, _spec)
 	if err != nil && sqlgraph.IsConstraintError(err) {
 		err = &ConstraintError{msg: err.Error(), wrap: err}
 	}
-	dd.mutation.done = true
+	_d.mutation.done = true
 	return affected, err
 }
 
 // DistributionDeleteOne is the builder for deleting a single Distribution entity.
 type DistributionDeleteOne struct {
-	dd *DistributionDelete
+	_d *DistributionDelete
 }
 
 // Where appends a list predicates to the DistributionDelete builder.
-func (ddo *DistributionDeleteOne) Where(ps ...predicate.Distribution) *DistributionDeleteOne {
-	ddo.dd.mutation.Where(ps...)
-	return ddo
+func (_d *DistributionDeleteOne) Where(ps ...predicate.Distribution) *DistributionDeleteOne {
+	_d._d.mutation.Where(ps...)
+	return _d
 }
 
 // Exec executes the deletion query.
-func (ddo *DistributionDeleteOne) Exec(ctx context.Context) error {
-	n, err := ddo.dd.Exec(ctx)
+func (_d *DistributionDeleteOne) Exec(ctx context.Context) error {
+	n, err := _d._d.Exec(ctx)
 	switch {
 	case err != nil:
 		return err
@@ -81,8 +81,8 @@ func (ddo *DistributionDeleteOne) Exec(ctx context.Context) error {
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (ddo *DistributionDeleteOne) ExecX(ctx context.Context) {
-	if err := ddo.Exec(ctx); err != nil {
+func (_d *DistributionDeleteOne) ExecX(ctx context.Context) {
+	if err := _d.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

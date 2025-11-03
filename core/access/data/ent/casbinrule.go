@@ -60,7 +60,7 @@ func (*CasbinRule) scanValues(columns []string) ([]any, error) {
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
 // to the CasbinRule fields.
-func (cr *CasbinRule) assignValues(columns []string, values []any) error {
+func (_m *CasbinRule) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
@@ -70,76 +70,76 @@ func (cr *CasbinRule) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field id", values[i])
 			} else if value.Valid {
-				cr.ID = value.String
+				_m.ID = value.String
 			}
 		case casbinrule.FieldPType:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field p_type", values[i])
 			} else if value.Valid {
-				cr.PType = value.String
+				_m.PType = value.String
 			}
 		case casbinrule.FieldV0:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field v0", values[i])
 			} else if value.Valid {
-				cr.V0 = value.String
+				_m.V0 = value.String
 			}
 		case casbinrule.FieldV1:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field v1", values[i])
 			} else if value.Valid {
-				cr.V1 = value.String
+				_m.V1 = value.String
 			}
 		case casbinrule.FieldV2:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field v2", values[i])
 			} else if value.Valid {
-				cr.V2 = value.String
+				_m.V2 = value.String
 			}
 		case casbinrule.FieldV3:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field v3", values[i])
 			} else if value.Valid {
-				cr.V3 = value.String
+				_m.V3 = value.String
 			}
 		case casbinrule.FieldV4:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field v4", values[i])
 			} else if value.Valid {
-				cr.V4 = value.String
+				_m.V4 = value.String
 			}
 		case casbinrule.FieldV5:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field v5", values[i])
 			} else if value.Valid {
-				cr.V5 = value.String
+				_m.V5 = value.String
 			}
 		case casbinrule.FieldCreatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field created_by", values[i])
 			} else if value.Valid {
-				cr.CreatedBy = value.String
+				_m.CreatedBy = value.String
 			}
 		case casbinrule.FieldUpdatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_by", values[i])
 			} else if value.Valid {
-				cr.UpdatedBy = value.String
+				_m.UpdatedBy = value.String
 			}
 		case casbinrule.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field created_at", values[i])
 			} else if value.Valid {
-				cr.CreatedAt = value.Int64
+				_m.CreatedAt = value.Int64
 			}
 		case casbinrule.FieldUpdatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_at", values[i])
 			} else if value.Valid {
-				cr.UpdatedAt = value.Int64
+				_m.UpdatedAt = value.Int64
 			}
 		default:
-			cr.selectValues.Set(columns[i], values[i])
+			_m.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
@@ -147,65 +147,65 @@ func (cr *CasbinRule) assignValues(columns []string, values []any) error {
 
 // Value returns the ent.Value that was dynamically selected and assigned to the CasbinRule.
 // This includes values selected through modifiers, order, etc.
-func (cr *CasbinRule) Value(name string) (ent.Value, error) {
-	return cr.selectValues.Get(name)
+func (_m *CasbinRule) Value(name string) (ent.Value, error) {
+	return _m.selectValues.Get(name)
 }
 
 // Update returns a builder for updating this CasbinRule.
 // Note that you need to call CasbinRule.Unwrap() before calling this method if this CasbinRule
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (cr *CasbinRule) Update() *CasbinRuleUpdateOne {
-	return NewCasbinRuleClient(cr.config).UpdateOne(cr)
+func (_m *CasbinRule) Update() *CasbinRuleUpdateOne {
+	return NewCasbinRuleClient(_m.config).UpdateOne(_m)
 }
 
 // Unwrap unwraps the CasbinRule entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (cr *CasbinRule) Unwrap() *CasbinRule {
-	_tx, ok := cr.config.driver.(*txDriver)
+func (_m *CasbinRule) Unwrap() *CasbinRule {
+	_tx, ok := _m.config.driver.(*txDriver)
 	if !ok {
 		panic("ent: CasbinRule is not a transactional entity")
 	}
-	cr.config.driver = _tx.drv
-	return cr
+	_m.config.driver = _tx.drv
+	return _m
 }
 
 // String implements the fmt.Stringer.
-func (cr *CasbinRule) String() string {
+func (_m *CasbinRule) String() string {
 	var builder strings.Builder
 	builder.WriteString("CasbinRule(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", cr.ID))
+	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
 	builder.WriteString("p_type=")
-	builder.WriteString(cr.PType)
+	builder.WriteString(_m.PType)
 	builder.WriteString(", ")
 	builder.WriteString("v0=")
-	builder.WriteString(cr.V0)
+	builder.WriteString(_m.V0)
 	builder.WriteString(", ")
 	builder.WriteString("v1=")
-	builder.WriteString(cr.V1)
+	builder.WriteString(_m.V1)
 	builder.WriteString(", ")
 	builder.WriteString("v2=")
-	builder.WriteString(cr.V2)
+	builder.WriteString(_m.V2)
 	builder.WriteString(", ")
 	builder.WriteString("v3=")
-	builder.WriteString(cr.V3)
+	builder.WriteString(_m.V3)
 	builder.WriteString(", ")
 	builder.WriteString("v4=")
-	builder.WriteString(cr.V4)
+	builder.WriteString(_m.V4)
 	builder.WriteString(", ")
 	builder.WriteString("v5=")
-	builder.WriteString(cr.V5)
+	builder.WriteString(_m.V5)
 	builder.WriteString(", ")
 	builder.WriteString("created_by=")
-	builder.WriteString(cr.CreatedBy)
+	builder.WriteString(_m.CreatedBy)
 	builder.WriteString(", ")
 	builder.WriteString("updated_by=")
-	builder.WriteString(cr.UpdatedBy)
+	builder.WriteString(_m.UpdatedBy)
 	builder.WriteString(", ")
 	builder.WriteString("created_at=")
-	builder.WriteString(fmt.Sprintf("%v", cr.CreatedAt))
+	builder.WriteString(fmt.Sprintf("%v", _m.CreatedAt))
 	builder.WriteString(", ")
 	builder.WriteString("updated_at=")
-	builder.WriteString(fmt.Sprintf("%v", cr.UpdatedAt))
+	builder.WriteString(fmt.Sprintf("%v", _m.UpdatedAt))
 	builder.WriteByte(')')
 	return builder.String()
 }

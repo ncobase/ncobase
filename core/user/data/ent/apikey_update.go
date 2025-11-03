@@ -22,125 +22,125 @@ type ApiKeyUpdate struct {
 }
 
 // Where appends a list predicates to the ApiKeyUpdate builder.
-func (aku *ApiKeyUpdate) Where(ps ...predicate.ApiKey) *ApiKeyUpdate {
-	aku.mutation.Where(ps...)
-	return aku
+func (_u *ApiKeyUpdate) Where(ps ...predicate.ApiKey) *ApiKeyUpdate {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // SetName sets the "name" field.
-func (aku *ApiKeyUpdate) SetName(s string) *ApiKeyUpdate {
-	aku.mutation.SetName(s)
-	return aku
+func (_u *ApiKeyUpdate) SetName(v string) *ApiKeyUpdate {
+	_u.mutation.SetName(v)
+	return _u
 }
 
 // SetNillableName sets the "name" field if the given value is not nil.
-func (aku *ApiKeyUpdate) SetNillableName(s *string) *ApiKeyUpdate {
-	if s != nil {
-		aku.SetName(*s)
+func (_u *ApiKeyUpdate) SetNillableName(v *string) *ApiKeyUpdate {
+	if v != nil {
+		_u.SetName(*v)
 	}
-	return aku
+	return _u
 }
 
 // ClearName clears the value of the "name" field.
-func (aku *ApiKeyUpdate) ClearName() *ApiKeyUpdate {
-	aku.mutation.ClearName()
-	return aku
+func (_u *ApiKeyUpdate) ClearName() *ApiKeyUpdate {
+	_u.mutation.ClearName()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (aku *ApiKeyUpdate) SetUpdatedAt(i int64) *ApiKeyUpdate {
-	aku.mutation.ResetUpdatedAt()
-	aku.mutation.SetUpdatedAt(i)
-	return aku
+func (_u *ApiKeyUpdate) SetUpdatedAt(v int64) *ApiKeyUpdate {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (aku *ApiKeyUpdate) AddUpdatedAt(i int64) *ApiKeyUpdate {
-	aku.mutation.AddUpdatedAt(i)
-	return aku
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *ApiKeyUpdate) AddUpdatedAt(v int64) *ApiKeyUpdate {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (aku *ApiKeyUpdate) ClearUpdatedAt() *ApiKeyUpdate {
-	aku.mutation.ClearUpdatedAt()
-	return aku
+func (_u *ApiKeyUpdate) ClearUpdatedAt() *ApiKeyUpdate {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // SetUserID sets the "user_id" field.
-func (aku *ApiKeyUpdate) SetUserID(s string) *ApiKeyUpdate {
-	aku.mutation.SetUserID(s)
-	return aku
+func (_u *ApiKeyUpdate) SetUserID(v string) *ApiKeyUpdate {
+	_u.mutation.SetUserID(v)
+	return _u
 }
 
 // SetNillableUserID sets the "user_id" field if the given value is not nil.
-func (aku *ApiKeyUpdate) SetNillableUserID(s *string) *ApiKeyUpdate {
-	if s != nil {
-		aku.SetUserID(*s)
+func (_u *ApiKeyUpdate) SetNillableUserID(v *string) *ApiKeyUpdate {
+	if v != nil {
+		_u.SetUserID(*v)
 	}
-	return aku
+	return _u
 }
 
 // ClearUserID clears the value of the "user_id" field.
-func (aku *ApiKeyUpdate) ClearUserID() *ApiKeyUpdate {
-	aku.mutation.ClearUserID()
-	return aku
+func (_u *ApiKeyUpdate) ClearUserID() *ApiKeyUpdate {
+	_u.mutation.ClearUserID()
+	return _u
 }
 
 // SetKey sets the "key" field.
-func (aku *ApiKeyUpdate) SetKey(s string) *ApiKeyUpdate {
-	aku.mutation.SetKey(s)
-	return aku
+func (_u *ApiKeyUpdate) SetKey(v string) *ApiKeyUpdate {
+	_u.mutation.SetKey(v)
+	return _u
 }
 
 // SetNillableKey sets the "key" field if the given value is not nil.
-func (aku *ApiKeyUpdate) SetNillableKey(s *string) *ApiKeyUpdate {
-	if s != nil {
-		aku.SetKey(*s)
+func (_u *ApiKeyUpdate) SetNillableKey(v *string) *ApiKeyUpdate {
+	if v != nil {
+		_u.SetKey(*v)
 	}
-	return aku
+	return _u
 }
 
 // SetLastUsed sets the "last_used" field.
-func (aku *ApiKeyUpdate) SetLastUsed(i int64) *ApiKeyUpdate {
-	aku.mutation.ResetLastUsed()
-	aku.mutation.SetLastUsed(i)
-	return aku
+func (_u *ApiKeyUpdate) SetLastUsed(v int64) *ApiKeyUpdate {
+	_u.mutation.ResetLastUsed()
+	_u.mutation.SetLastUsed(v)
+	return _u
 }
 
 // SetNillableLastUsed sets the "last_used" field if the given value is not nil.
-func (aku *ApiKeyUpdate) SetNillableLastUsed(i *int64) *ApiKeyUpdate {
-	if i != nil {
-		aku.SetLastUsed(*i)
+func (_u *ApiKeyUpdate) SetNillableLastUsed(v *int64) *ApiKeyUpdate {
+	if v != nil {
+		_u.SetLastUsed(*v)
 	}
-	return aku
+	return _u
 }
 
-// AddLastUsed adds i to the "last_used" field.
-func (aku *ApiKeyUpdate) AddLastUsed(i int64) *ApiKeyUpdate {
-	aku.mutation.AddLastUsed(i)
-	return aku
+// AddLastUsed adds value to the "last_used" field.
+func (_u *ApiKeyUpdate) AddLastUsed(v int64) *ApiKeyUpdate {
+	_u.mutation.AddLastUsed(v)
+	return _u
 }
 
 // ClearLastUsed clears the value of the "last_used" field.
-func (aku *ApiKeyUpdate) ClearLastUsed() *ApiKeyUpdate {
-	aku.mutation.ClearLastUsed()
-	return aku
+func (_u *ApiKeyUpdate) ClearLastUsed() *ApiKeyUpdate {
+	_u.mutation.ClearLastUsed()
+	return _u
 }
 
 // Mutation returns the ApiKeyMutation object of the builder.
-func (aku *ApiKeyUpdate) Mutation() *ApiKeyMutation {
-	return aku.mutation
+func (_u *ApiKeyUpdate) Mutation() *ApiKeyMutation {
+	return _u.mutation
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
-func (aku *ApiKeyUpdate) Save(ctx context.Context) (int, error) {
-	aku.defaults()
-	return withHooks(ctx, aku.sqlSave, aku.mutation, aku.hooks)
+func (_u *ApiKeyUpdate) Save(ctx context.Context) (int, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (aku *ApiKeyUpdate) SaveX(ctx context.Context) int {
-	affected, err := aku.Save(ctx)
+func (_u *ApiKeyUpdate) SaveX(ctx context.Context) int {
+	affected, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -148,29 +148,29 @@ func (aku *ApiKeyUpdate) SaveX(ctx context.Context) int {
 }
 
 // Exec executes the query.
-func (aku *ApiKeyUpdate) Exec(ctx context.Context) error {
-	_, err := aku.Save(ctx)
+func (_u *ApiKeyUpdate) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (aku *ApiKeyUpdate) ExecX(ctx context.Context) {
-	if err := aku.Exec(ctx); err != nil {
+func (_u *ApiKeyUpdate) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (aku *ApiKeyUpdate) defaults() {
-	if _, ok := aku.mutation.UpdatedAt(); !ok && !aku.mutation.UpdatedAtCleared() {
+func (_u *ApiKeyUpdate) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := apikey.UpdateDefaultUpdatedAt()
-		aku.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (aku *ApiKeyUpdate) check() error {
-	if v, ok := aku.mutation.Key(); ok {
+func (_u *ApiKeyUpdate) check() error {
+	if v, ok := _u.mutation.Key(); ok {
 		if err := apikey.KeyValidator(v); err != nil {
 			return &ValidationError{Name: "key", err: fmt.Errorf(`ent: validator failed for field "ApiKey.key": %w`, err)}
 		}
@@ -178,55 +178,55 @@ func (aku *ApiKeyUpdate) check() error {
 	return nil
 }
 
-func (aku *ApiKeyUpdate) sqlSave(ctx context.Context) (n int, err error) {
-	if err := aku.check(); err != nil {
-		return n, err
+func (_u *ApiKeyUpdate) sqlSave(ctx context.Context) (_node int, err error) {
+	if err := _u.check(); err != nil {
+		return _node, err
 	}
 	_spec := sqlgraph.NewUpdateSpec(apikey.Table, apikey.Columns, sqlgraph.NewFieldSpec(apikey.FieldID, field.TypeString))
-	if ps := aku.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := aku.mutation.Name(); ok {
+	if value, ok := _u.mutation.Name(); ok {
 		_spec.SetField(apikey.FieldName, field.TypeString, value)
 	}
-	if aku.mutation.NameCleared() {
+	if _u.mutation.NameCleared() {
 		_spec.ClearField(apikey.FieldName, field.TypeString)
 	}
-	if aku.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(apikey.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := aku.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(apikey.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := aku.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(apikey.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if aku.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(apikey.FieldUpdatedAt, field.TypeInt64)
 	}
-	if value, ok := aku.mutation.UserID(); ok {
+	if value, ok := _u.mutation.UserID(); ok {
 		_spec.SetField(apikey.FieldUserID, field.TypeString, value)
 	}
-	if aku.mutation.UserIDCleared() {
+	if _u.mutation.UserIDCleared() {
 		_spec.ClearField(apikey.FieldUserID, field.TypeString)
 	}
-	if value, ok := aku.mutation.Key(); ok {
+	if value, ok := _u.mutation.Key(); ok {
 		_spec.SetField(apikey.FieldKey, field.TypeString, value)
 	}
-	if value, ok := aku.mutation.LastUsed(); ok {
+	if value, ok := _u.mutation.LastUsed(); ok {
 		_spec.SetField(apikey.FieldLastUsed, field.TypeInt64, value)
 	}
-	if value, ok := aku.mutation.AddedLastUsed(); ok {
+	if value, ok := _u.mutation.AddedLastUsed(); ok {
 		_spec.AddField(apikey.FieldLastUsed, field.TypeInt64, value)
 	}
-	if aku.mutation.LastUsedCleared() {
+	if _u.mutation.LastUsedCleared() {
 		_spec.ClearField(apikey.FieldLastUsed, field.TypeInt64)
 	}
-	if n, err = sqlgraph.UpdateNodes(ctx, aku.driver, _spec); err != nil {
+	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{apikey.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -234,8 +234,8 @@ func (aku *ApiKeyUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		return 0, err
 	}
-	aku.mutation.done = true
-	return n, nil
+	_u.mutation.done = true
+	return _node, nil
 }
 
 // ApiKeyUpdateOne is the builder for updating a single ApiKey entity.
@@ -247,132 +247,132 @@ type ApiKeyUpdateOne struct {
 }
 
 // SetName sets the "name" field.
-func (akuo *ApiKeyUpdateOne) SetName(s string) *ApiKeyUpdateOne {
-	akuo.mutation.SetName(s)
-	return akuo
+func (_u *ApiKeyUpdateOne) SetName(v string) *ApiKeyUpdateOne {
+	_u.mutation.SetName(v)
+	return _u
 }
 
 // SetNillableName sets the "name" field if the given value is not nil.
-func (akuo *ApiKeyUpdateOne) SetNillableName(s *string) *ApiKeyUpdateOne {
-	if s != nil {
-		akuo.SetName(*s)
+func (_u *ApiKeyUpdateOne) SetNillableName(v *string) *ApiKeyUpdateOne {
+	if v != nil {
+		_u.SetName(*v)
 	}
-	return akuo
+	return _u
 }
 
 // ClearName clears the value of the "name" field.
-func (akuo *ApiKeyUpdateOne) ClearName() *ApiKeyUpdateOne {
-	akuo.mutation.ClearName()
-	return akuo
+func (_u *ApiKeyUpdateOne) ClearName() *ApiKeyUpdateOne {
+	_u.mutation.ClearName()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (akuo *ApiKeyUpdateOne) SetUpdatedAt(i int64) *ApiKeyUpdateOne {
-	akuo.mutation.ResetUpdatedAt()
-	akuo.mutation.SetUpdatedAt(i)
-	return akuo
+func (_u *ApiKeyUpdateOne) SetUpdatedAt(v int64) *ApiKeyUpdateOne {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (akuo *ApiKeyUpdateOne) AddUpdatedAt(i int64) *ApiKeyUpdateOne {
-	akuo.mutation.AddUpdatedAt(i)
-	return akuo
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *ApiKeyUpdateOne) AddUpdatedAt(v int64) *ApiKeyUpdateOne {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (akuo *ApiKeyUpdateOne) ClearUpdatedAt() *ApiKeyUpdateOne {
-	akuo.mutation.ClearUpdatedAt()
-	return akuo
+func (_u *ApiKeyUpdateOne) ClearUpdatedAt() *ApiKeyUpdateOne {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // SetUserID sets the "user_id" field.
-func (akuo *ApiKeyUpdateOne) SetUserID(s string) *ApiKeyUpdateOne {
-	akuo.mutation.SetUserID(s)
-	return akuo
+func (_u *ApiKeyUpdateOne) SetUserID(v string) *ApiKeyUpdateOne {
+	_u.mutation.SetUserID(v)
+	return _u
 }
 
 // SetNillableUserID sets the "user_id" field if the given value is not nil.
-func (akuo *ApiKeyUpdateOne) SetNillableUserID(s *string) *ApiKeyUpdateOne {
-	if s != nil {
-		akuo.SetUserID(*s)
+func (_u *ApiKeyUpdateOne) SetNillableUserID(v *string) *ApiKeyUpdateOne {
+	if v != nil {
+		_u.SetUserID(*v)
 	}
-	return akuo
+	return _u
 }
 
 // ClearUserID clears the value of the "user_id" field.
-func (akuo *ApiKeyUpdateOne) ClearUserID() *ApiKeyUpdateOne {
-	akuo.mutation.ClearUserID()
-	return akuo
+func (_u *ApiKeyUpdateOne) ClearUserID() *ApiKeyUpdateOne {
+	_u.mutation.ClearUserID()
+	return _u
 }
 
 // SetKey sets the "key" field.
-func (akuo *ApiKeyUpdateOne) SetKey(s string) *ApiKeyUpdateOne {
-	akuo.mutation.SetKey(s)
-	return akuo
+func (_u *ApiKeyUpdateOne) SetKey(v string) *ApiKeyUpdateOne {
+	_u.mutation.SetKey(v)
+	return _u
 }
 
 // SetNillableKey sets the "key" field if the given value is not nil.
-func (akuo *ApiKeyUpdateOne) SetNillableKey(s *string) *ApiKeyUpdateOne {
-	if s != nil {
-		akuo.SetKey(*s)
+func (_u *ApiKeyUpdateOne) SetNillableKey(v *string) *ApiKeyUpdateOne {
+	if v != nil {
+		_u.SetKey(*v)
 	}
-	return akuo
+	return _u
 }
 
 // SetLastUsed sets the "last_used" field.
-func (akuo *ApiKeyUpdateOne) SetLastUsed(i int64) *ApiKeyUpdateOne {
-	akuo.mutation.ResetLastUsed()
-	akuo.mutation.SetLastUsed(i)
-	return akuo
+func (_u *ApiKeyUpdateOne) SetLastUsed(v int64) *ApiKeyUpdateOne {
+	_u.mutation.ResetLastUsed()
+	_u.mutation.SetLastUsed(v)
+	return _u
 }
 
 // SetNillableLastUsed sets the "last_used" field if the given value is not nil.
-func (akuo *ApiKeyUpdateOne) SetNillableLastUsed(i *int64) *ApiKeyUpdateOne {
-	if i != nil {
-		akuo.SetLastUsed(*i)
+func (_u *ApiKeyUpdateOne) SetNillableLastUsed(v *int64) *ApiKeyUpdateOne {
+	if v != nil {
+		_u.SetLastUsed(*v)
 	}
-	return akuo
+	return _u
 }
 
-// AddLastUsed adds i to the "last_used" field.
-func (akuo *ApiKeyUpdateOne) AddLastUsed(i int64) *ApiKeyUpdateOne {
-	akuo.mutation.AddLastUsed(i)
-	return akuo
+// AddLastUsed adds value to the "last_used" field.
+func (_u *ApiKeyUpdateOne) AddLastUsed(v int64) *ApiKeyUpdateOne {
+	_u.mutation.AddLastUsed(v)
+	return _u
 }
 
 // ClearLastUsed clears the value of the "last_used" field.
-func (akuo *ApiKeyUpdateOne) ClearLastUsed() *ApiKeyUpdateOne {
-	akuo.mutation.ClearLastUsed()
-	return akuo
+func (_u *ApiKeyUpdateOne) ClearLastUsed() *ApiKeyUpdateOne {
+	_u.mutation.ClearLastUsed()
+	return _u
 }
 
 // Mutation returns the ApiKeyMutation object of the builder.
-func (akuo *ApiKeyUpdateOne) Mutation() *ApiKeyMutation {
-	return akuo.mutation
+func (_u *ApiKeyUpdateOne) Mutation() *ApiKeyMutation {
+	return _u.mutation
 }
 
 // Where appends a list predicates to the ApiKeyUpdate builder.
-func (akuo *ApiKeyUpdateOne) Where(ps ...predicate.ApiKey) *ApiKeyUpdateOne {
-	akuo.mutation.Where(ps...)
-	return akuo
+func (_u *ApiKeyUpdateOne) Where(ps ...predicate.ApiKey) *ApiKeyUpdateOne {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // Select allows selecting one or more fields (columns) of the returned entity.
 // The default is selecting all fields defined in the entity schema.
-func (akuo *ApiKeyUpdateOne) Select(field string, fields ...string) *ApiKeyUpdateOne {
-	akuo.fields = append([]string{field}, fields...)
-	return akuo
+func (_u *ApiKeyUpdateOne) Select(field string, fields ...string) *ApiKeyUpdateOne {
+	_u.fields = append([]string{field}, fields...)
+	return _u
 }
 
 // Save executes the query and returns the updated ApiKey entity.
-func (akuo *ApiKeyUpdateOne) Save(ctx context.Context) (*ApiKey, error) {
-	akuo.defaults()
-	return withHooks(ctx, akuo.sqlSave, akuo.mutation, akuo.hooks)
+func (_u *ApiKeyUpdateOne) Save(ctx context.Context) (*ApiKey, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (akuo *ApiKeyUpdateOne) SaveX(ctx context.Context) *ApiKey {
-	node, err := akuo.Save(ctx)
+func (_u *ApiKeyUpdateOne) SaveX(ctx context.Context) *ApiKey {
+	node, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -380,29 +380,29 @@ func (akuo *ApiKeyUpdateOne) SaveX(ctx context.Context) *ApiKey {
 }
 
 // Exec executes the query on the entity.
-func (akuo *ApiKeyUpdateOne) Exec(ctx context.Context) error {
-	_, err := akuo.Save(ctx)
+func (_u *ApiKeyUpdateOne) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (akuo *ApiKeyUpdateOne) ExecX(ctx context.Context) {
-	if err := akuo.Exec(ctx); err != nil {
+func (_u *ApiKeyUpdateOne) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (akuo *ApiKeyUpdateOne) defaults() {
-	if _, ok := akuo.mutation.UpdatedAt(); !ok && !akuo.mutation.UpdatedAtCleared() {
+func (_u *ApiKeyUpdateOne) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := apikey.UpdateDefaultUpdatedAt()
-		akuo.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (akuo *ApiKeyUpdateOne) check() error {
-	if v, ok := akuo.mutation.Key(); ok {
+func (_u *ApiKeyUpdateOne) check() error {
+	if v, ok := _u.mutation.Key(); ok {
 		if err := apikey.KeyValidator(v); err != nil {
 			return &ValidationError{Name: "key", err: fmt.Errorf(`ent: validator failed for field "ApiKey.key": %w`, err)}
 		}
@@ -410,17 +410,17 @@ func (akuo *ApiKeyUpdateOne) check() error {
 	return nil
 }
 
-func (akuo *ApiKeyUpdateOne) sqlSave(ctx context.Context) (_node *ApiKey, err error) {
-	if err := akuo.check(); err != nil {
+func (_u *ApiKeyUpdateOne) sqlSave(ctx context.Context) (_node *ApiKey, err error) {
+	if err := _u.check(); err != nil {
 		return _node, err
 	}
 	_spec := sqlgraph.NewUpdateSpec(apikey.Table, apikey.Columns, sqlgraph.NewFieldSpec(apikey.FieldID, field.TypeString))
-	id, ok := akuo.mutation.ID()
+	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "ApiKey.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
-	if fields := akuo.fields; len(fields) > 0 {
+	if fields := _u.fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, apikey.FieldID)
 		for _, f := range fields {
@@ -432,53 +432,53 @@ func (akuo *ApiKeyUpdateOne) sqlSave(ctx context.Context) (_node *ApiKey, err er
 			}
 		}
 	}
-	if ps := akuo.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := akuo.mutation.Name(); ok {
+	if value, ok := _u.mutation.Name(); ok {
 		_spec.SetField(apikey.FieldName, field.TypeString, value)
 	}
-	if akuo.mutation.NameCleared() {
+	if _u.mutation.NameCleared() {
 		_spec.ClearField(apikey.FieldName, field.TypeString)
 	}
-	if akuo.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(apikey.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := akuo.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(apikey.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := akuo.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(apikey.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if akuo.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(apikey.FieldUpdatedAt, field.TypeInt64)
 	}
-	if value, ok := akuo.mutation.UserID(); ok {
+	if value, ok := _u.mutation.UserID(); ok {
 		_spec.SetField(apikey.FieldUserID, field.TypeString, value)
 	}
-	if akuo.mutation.UserIDCleared() {
+	if _u.mutation.UserIDCleared() {
 		_spec.ClearField(apikey.FieldUserID, field.TypeString)
 	}
-	if value, ok := akuo.mutation.Key(); ok {
+	if value, ok := _u.mutation.Key(); ok {
 		_spec.SetField(apikey.FieldKey, field.TypeString, value)
 	}
-	if value, ok := akuo.mutation.LastUsed(); ok {
+	if value, ok := _u.mutation.LastUsed(); ok {
 		_spec.SetField(apikey.FieldLastUsed, field.TypeInt64, value)
 	}
-	if value, ok := akuo.mutation.AddedLastUsed(); ok {
+	if value, ok := _u.mutation.AddedLastUsed(); ok {
 		_spec.AddField(apikey.FieldLastUsed, field.TypeInt64, value)
 	}
-	if akuo.mutation.LastUsedCleared() {
+	if _u.mutation.LastUsedCleared() {
 		_spec.ClearField(apikey.FieldLastUsed, field.TypeInt64)
 	}
-	_node = &ApiKey{config: akuo.config}
+	_node = &ApiKey{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues
-	if err = sqlgraph.UpdateNode(ctx, akuo.driver, _spec); err != nil {
+	if err = sqlgraph.UpdateNode(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{apikey.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -486,6 +486,6 @@ func (akuo *ApiKeyUpdateOne) sqlSave(ctx context.Context) (_node *ApiKey, err er
 		}
 		return nil, err
 	}
-	akuo.mutation.done = true
+	_u.mutation.done = true
 	return _node, nil
 }

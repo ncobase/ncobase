@@ -21,239 +21,239 @@ type EmployeeCreate struct {
 }
 
 // SetSpaceID sets the "space_id" field.
-func (ec *EmployeeCreate) SetSpaceID(s string) *EmployeeCreate {
-	ec.mutation.SetSpaceID(s)
-	return ec
+func (_c *EmployeeCreate) SetSpaceID(v string) *EmployeeCreate {
+	_c.mutation.SetSpaceID(v)
+	return _c
 }
 
 // SetNillableSpaceID sets the "space_id" field if the given value is not nil.
-func (ec *EmployeeCreate) SetNillableSpaceID(s *string) *EmployeeCreate {
-	if s != nil {
-		ec.SetSpaceID(*s)
+func (_c *EmployeeCreate) SetNillableSpaceID(v *string) *EmployeeCreate {
+	if v != nil {
+		_c.SetSpaceID(*v)
 	}
-	return ec
+	return _c
 }
 
 // SetCreatedAt sets the "created_at" field.
-func (ec *EmployeeCreate) SetCreatedAt(i int64) *EmployeeCreate {
-	ec.mutation.SetCreatedAt(i)
-	return ec
+func (_c *EmployeeCreate) SetCreatedAt(v int64) *EmployeeCreate {
+	_c.mutation.SetCreatedAt(v)
+	return _c
 }
 
 // SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
-func (ec *EmployeeCreate) SetNillableCreatedAt(i *int64) *EmployeeCreate {
-	if i != nil {
-		ec.SetCreatedAt(*i)
+func (_c *EmployeeCreate) SetNillableCreatedAt(v *int64) *EmployeeCreate {
+	if v != nil {
+		_c.SetCreatedAt(*v)
 	}
-	return ec
+	return _c
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (ec *EmployeeCreate) SetUpdatedAt(i int64) *EmployeeCreate {
-	ec.mutation.SetUpdatedAt(i)
-	return ec
+func (_c *EmployeeCreate) SetUpdatedAt(v int64) *EmployeeCreate {
+	_c.mutation.SetUpdatedAt(v)
+	return _c
 }
 
 // SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
-func (ec *EmployeeCreate) SetNillableUpdatedAt(i *int64) *EmployeeCreate {
-	if i != nil {
-		ec.SetUpdatedAt(*i)
+func (_c *EmployeeCreate) SetNillableUpdatedAt(v *int64) *EmployeeCreate {
+	if v != nil {
+		_c.SetUpdatedAt(*v)
 	}
-	return ec
+	return _c
 }
 
 // SetEmployeeID sets the "employee_id" field.
-func (ec *EmployeeCreate) SetEmployeeID(s string) *EmployeeCreate {
-	ec.mutation.SetEmployeeID(s)
-	return ec
+func (_c *EmployeeCreate) SetEmployeeID(v string) *EmployeeCreate {
+	_c.mutation.SetEmployeeID(v)
+	return _c
 }
 
 // SetNillableEmployeeID sets the "employee_id" field if the given value is not nil.
-func (ec *EmployeeCreate) SetNillableEmployeeID(s *string) *EmployeeCreate {
-	if s != nil {
-		ec.SetEmployeeID(*s)
+func (_c *EmployeeCreate) SetNillableEmployeeID(v *string) *EmployeeCreate {
+	if v != nil {
+		_c.SetEmployeeID(*v)
 	}
-	return ec
+	return _c
 }
 
 // SetDepartment sets the "department" field.
-func (ec *EmployeeCreate) SetDepartment(s string) *EmployeeCreate {
-	ec.mutation.SetDepartment(s)
-	return ec
+func (_c *EmployeeCreate) SetDepartment(v string) *EmployeeCreate {
+	_c.mutation.SetDepartment(v)
+	return _c
 }
 
 // SetNillableDepartment sets the "department" field if the given value is not nil.
-func (ec *EmployeeCreate) SetNillableDepartment(s *string) *EmployeeCreate {
-	if s != nil {
-		ec.SetDepartment(*s)
+func (_c *EmployeeCreate) SetNillableDepartment(v *string) *EmployeeCreate {
+	if v != nil {
+		_c.SetDepartment(*v)
 	}
-	return ec
+	return _c
 }
 
 // SetPosition sets the "position" field.
-func (ec *EmployeeCreate) SetPosition(s string) *EmployeeCreate {
-	ec.mutation.SetPosition(s)
-	return ec
+func (_c *EmployeeCreate) SetPosition(v string) *EmployeeCreate {
+	_c.mutation.SetPosition(v)
+	return _c
 }
 
 // SetNillablePosition sets the "position" field if the given value is not nil.
-func (ec *EmployeeCreate) SetNillablePosition(s *string) *EmployeeCreate {
-	if s != nil {
-		ec.SetPosition(*s)
+func (_c *EmployeeCreate) SetNillablePosition(v *string) *EmployeeCreate {
+	if v != nil {
+		_c.SetPosition(*v)
 	}
-	return ec
+	return _c
 }
 
 // SetManagerID sets the "manager_id" field.
-func (ec *EmployeeCreate) SetManagerID(s string) *EmployeeCreate {
-	ec.mutation.SetManagerID(s)
-	return ec
+func (_c *EmployeeCreate) SetManagerID(v string) *EmployeeCreate {
+	_c.mutation.SetManagerID(v)
+	return _c
 }
 
 // SetNillableManagerID sets the "manager_id" field if the given value is not nil.
-func (ec *EmployeeCreate) SetNillableManagerID(s *string) *EmployeeCreate {
-	if s != nil {
-		ec.SetManagerID(*s)
+func (_c *EmployeeCreate) SetNillableManagerID(v *string) *EmployeeCreate {
+	if v != nil {
+		_c.SetManagerID(*v)
 	}
-	return ec
+	return _c
 }
 
 // SetHireDate sets the "hire_date" field.
-func (ec *EmployeeCreate) SetHireDate(t time.Time) *EmployeeCreate {
-	ec.mutation.SetHireDate(t)
-	return ec
+func (_c *EmployeeCreate) SetHireDate(v time.Time) *EmployeeCreate {
+	_c.mutation.SetHireDate(v)
+	return _c
 }
 
 // SetNillableHireDate sets the "hire_date" field if the given value is not nil.
-func (ec *EmployeeCreate) SetNillableHireDate(t *time.Time) *EmployeeCreate {
-	if t != nil {
-		ec.SetHireDate(*t)
+func (_c *EmployeeCreate) SetNillableHireDate(v *time.Time) *EmployeeCreate {
+	if v != nil {
+		_c.SetHireDate(*v)
 	}
-	return ec
+	return _c
 }
 
 // SetTerminationDate sets the "termination_date" field.
-func (ec *EmployeeCreate) SetTerminationDate(t time.Time) *EmployeeCreate {
-	ec.mutation.SetTerminationDate(t)
-	return ec
+func (_c *EmployeeCreate) SetTerminationDate(v time.Time) *EmployeeCreate {
+	_c.mutation.SetTerminationDate(v)
+	return _c
 }
 
 // SetNillableTerminationDate sets the "termination_date" field if the given value is not nil.
-func (ec *EmployeeCreate) SetNillableTerminationDate(t *time.Time) *EmployeeCreate {
-	if t != nil {
-		ec.SetTerminationDate(*t)
+func (_c *EmployeeCreate) SetNillableTerminationDate(v *time.Time) *EmployeeCreate {
+	if v != nil {
+		_c.SetTerminationDate(*v)
 	}
-	return ec
+	return _c
 }
 
 // SetEmploymentType sets the "employment_type" field.
-func (ec *EmployeeCreate) SetEmploymentType(et employee.EmploymentType) *EmployeeCreate {
-	ec.mutation.SetEmploymentType(et)
-	return ec
+func (_c *EmployeeCreate) SetEmploymentType(v employee.EmploymentType) *EmployeeCreate {
+	_c.mutation.SetEmploymentType(v)
+	return _c
 }
 
 // SetNillableEmploymentType sets the "employment_type" field if the given value is not nil.
-func (ec *EmployeeCreate) SetNillableEmploymentType(et *employee.EmploymentType) *EmployeeCreate {
-	if et != nil {
-		ec.SetEmploymentType(*et)
+func (_c *EmployeeCreate) SetNillableEmploymentType(v *employee.EmploymentType) *EmployeeCreate {
+	if v != nil {
+		_c.SetEmploymentType(*v)
 	}
-	return ec
+	return _c
 }
 
 // SetStatus sets the "status" field.
-func (ec *EmployeeCreate) SetStatus(e employee.Status) *EmployeeCreate {
-	ec.mutation.SetStatus(e)
-	return ec
+func (_c *EmployeeCreate) SetStatus(v employee.Status) *EmployeeCreate {
+	_c.mutation.SetStatus(v)
+	return _c
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (ec *EmployeeCreate) SetNillableStatus(e *employee.Status) *EmployeeCreate {
-	if e != nil {
-		ec.SetStatus(*e)
+func (_c *EmployeeCreate) SetNillableStatus(v *employee.Status) *EmployeeCreate {
+	if v != nil {
+		_c.SetStatus(*v)
 	}
-	return ec
+	return _c
 }
 
 // SetSalary sets the "salary" field.
-func (ec *EmployeeCreate) SetSalary(f float64) *EmployeeCreate {
-	ec.mutation.SetSalary(f)
-	return ec
+func (_c *EmployeeCreate) SetSalary(v float64) *EmployeeCreate {
+	_c.mutation.SetSalary(v)
+	return _c
 }
 
 // SetNillableSalary sets the "salary" field if the given value is not nil.
-func (ec *EmployeeCreate) SetNillableSalary(f *float64) *EmployeeCreate {
-	if f != nil {
-		ec.SetSalary(*f)
+func (_c *EmployeeCreate) SetNillableSalary(v *float64) *EmployeeCreate {
+	if v != nil {
+		_c.SetSalary(*v)
 	}
-	return ec
+	return _c
 }
 
 // SetWorkLocation sets the "work_location" field.
-func (ec *EmployeeCreate) SetWorkLocation(s string) *EmployeeCreate {
-	ec.mutation.SetWorkLocation(s)
-	return ec
+func (_c *EmployeeCreate) SetWorkLocation(v string) *EmployeeCreate {
+	_c.mutation.SetWorkLocation(v)
+	return _c
 }
 
 // SetNillableWorkLocation sets the "work_location" field if the given value is not nil.
-func (ec *EmployeeCreate) SetNillableWorkLocation(s *string) *EmployeeCreate {
-	if s != nil {
-		ec.SetWorkLocation(*s)
+func (_c *EmployeeCreate) SetNillableWorkLocation(v *string) *EmployeeCreate {
+	if v != nil {
+		_c.SetWorkLocation(*v)
 	}
-	return ec
+	return _c
 }
 
 // SetContactInfo sets the "contact_info" field.
-func (ec *EmployeeCreate) SetContactInfo(m map[string]interface{}) *EmployeeCreate {
-	ec.mutation.SetContactInfo(m)
-	return ec
+func (_c *EmployeeCreate) SetContactInfo(v map[string]interface{}) *EmployeeCreate {
+	_c.mutation.SetContactInfo(v)
+	return _c
 }
 
 // SetSkills sets the "skills" field.
-func (ec *EmployeeCreate) SetSkills(s []string) *EmployeeCreate {
-	ec.mutation.SetSkills(s)
-	return ec
+func (_c *EmployeeCreate) SetSkills(v []string) *EmployeeCreate {
+	_c.mutation.SetSkills(v)
+	return _c
 }
 
 // SetCertifications sets the "certifications" field.
-func (ec *EmployeeCreate) SetCertifications(s []string) *EmployeeCreate {
-	ec.mutation.SetCertifications(s)
-	return ec
+func (_c *EmployeeCreate) SetCertifications(v []string) *EmployeeCreate {
+	_c.mutation.SetCertifications(v)
+	return _c
 }
 
 // SetExtras sets the "extras" field.
-func (ec *EmployeeCreate) SetExtras(m map[string]interface{}) *EmployeeCreate {
-	ec.mutation.SetExtras(m)
-	return ec
+func (_c *EmployeeCreate) SetExtras(v map[string]interface{}) *EmployeeCreate {
+	_c.mutation.SetExtras(v)
+	return _c
 }
 
 // SetID sets the "id" field.
-func (ec *EmployeeCreate) SetID(s string) *EmployeeCreate {
-	ec.mutation.SetID(s)
-	return ec
+func (_c *EmployeeCreate) SetID(v string) *EmployeeCreate {
+	_c.mutation.SetID(v)
+	return _c
 }
 
 // SetNillableID sets the "id" field if the given value is not nil.
-func (ec *EmployeeCreate) SetNillableID(s *string) *EmployeeCreate {
-	if s != nil {
-		ec.SetID(*s)
+func (_c *EmployeeCreate) SetNillableID(v *string) *EmployeeCreate {
+	if v != nil {
+		_c.SetID(*v)
 	}
-	return ec
+	return _c
 }
 
 // Mutation returns the EmployeeMutation object of the builder.
-func (ec *EmployeeCreate) Mutation() *EmployeeMutation {
-	return ec.mutation
+func (_c *EmployeeCreate) Mutation() *EmployeeMutation {
+	return _c.mutation
 }
 
 // Save creates the Employee in the database.
-func (ec *EmployeeCreate) Save(ctx context.Context) (*Employee, error) {
-	ec.defaults()
-	return withHooks(ctx, ec.sqlSave, ec.mutation, ec.hooks)
+func (_c *EmployeeCreate) Save(ctx context.Context) (*Employee, error) {
+	_c.defaults()
+	return withHooks(ctx, _c.sqlSave, _c.mutation, _c.hooks)
 }
 
 // SaveX calls Save and panics if Save returns an error.
-func (ec *EmployeeCreate) SaveX(ctx context.Context) *Employee {
-	v, err := ec.Save(ctx)
+func (_c *EmployeeCreate) SaveX(ctx context.Context) *Employee {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -261,56 +261,56 @@ func (ec *EmployeeCreate) SaveX(ctx context.Context) *Employee {
 }
 
 // Exec executes the query.
-func (ec *EmployeeCreate) Exec(ctx context.Context) error {
-	_, err := ec.Save(ctx)
+func (_c *EmployeeCreate) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (ec *EmployeeCreate) ExecX(ctx context.Context) {
-	if err := ec.Exec(ctx); err != nil {
+func (_c *EmployeeCreate) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (ec *EmployeeCreate) defaults() {
-	if _, ok := ec.mutation.CreatedAt(); !ok {
+func (_c *EmployeeCreate) defaults() {
+	if _, ok := _c.mutation.CreatedAt(); !ok {
 		v := employee.DefaultCreatedAt()
-		ec.mutation.SetCreatedAt(v)
+		_c.mutation.SetCreatedAt(v)
 	}
-	if _, ok := ec.mutation.UpdatedAt(); !ok {
+	if _, ok := _c.mutation.UpdatedAt(); !ok {
 		v := employee.DefaultUpdatedAt()
-		ec.mutation.SetUpdatedAt(v)
+		_c.mutation.SetUpdatedAt(v)
 	}
-	if _, ok := ec.mutation.EmploymentType(); !ok {
+	if _, ok := _c.mutation.EmploymentType(); !ok {
 		v := employee.DefaultEmploymentType
-		ec.mutation.SetEmploymentType(v)
+		_c.mutation.SetEmploymentType(v)
 	}
-	if _, ok := ec.mutation.Status(); !ok {
+	if _, ok := _c.mutation.Status(); !ok {
 		v := employee.DefaultStatus
-		ec.mutation.SetStatus(v)
+		_c.mutation.SetStatus(v)
 	}
-	if _, ok := ec.mutation.ID(); !ok {
+	if _, ok := _c.mutation.ID(); !ok {
 		v := employee.DefaultID()
-		ec.mutation.SetID(v)
+		_c.mutation.SetID(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (ec *EmployeeCreate) check() error {
-	if _, ok := ec.mutation.EmploymentType(); !ok {
+func (_c *EmployeeCreate) check() error {
+	if _, ok := _c.mutation.EmploymentType(); !ok {
 		return &ValidationError{Name: "employment_type", err: errors.New(`ent: missing required field "Employee.employment_type"`)}
 	}
-	if v, ok := ec.mutation.EmploymentType(); ok {
+	if v, ok := _c.mutation.EmploymentType(); ok {
 		if err := employee.EmploymentTypeValidator(v); err != nil {
 			return &ValidationError{Name: "employment_type", err: fmt.Errorf(`ent: validator failed for field "Employee.employment_type": %w`, err)}
 		}
 	}
-	if _, ok := ec.mutation.Status(); !ok {
+	if _, ok := _c.mutation.Status(); !ok {
 		return &ValidationError{Name: "status", err: errors.New(`ent: missing required field "Employee.status"`)}
 	}
-	if v, ok := ec.mutation.Status(); ok {
+	if v, ok := _c.mutation.Status(); ok {
 		if err := employee.StatusValidator(v); err != nil {
 			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Employee.status": %w`, err)}
 		}
@@ -318,12 +318,12 @@ func (ec *EmployeeCreate) check() error {
 	return nil
 }
 
-func (ec *EmployeeCreate) sqlSave(ctx context.Context) (*Employee, error) {
-	if err := ec.check(); err != nil {
+func (_c *EmployeeCreate) sqlSave(ctx context.Context) (*Employee, error) {
+	if err := _c.check(); err != nil {
 		return nil, err
 	}
-	_node, _spec := ec.createSpec()
-	if err := sqlgraph.CreateNode(ctx, ec.driver, _spec); err != nil {
+	_node, _spec := _c.createSpec()
+	if err := sqlgraph.CreateNode(ctx, _c.driver, _spec); err != nil {
 		if sqlgraph.IsConstraintError(err) {
 			err = &ConstraintError{msg: err.Error(), wrap: err}
 		}
@@ -336,85 +336,85 @@ func (ec *EmployeeCreate) sqlSave(ctx context.Context) (*Employee, error) {
 			return nil, fmt.Errorf("unexpected Employee.ID type: %T", _spec.ID.Value)
 		}
 	}
-	ec.mutation.id = &_node.ID
-	ec.mutation.done = true
+	_c.mutation.id = &_node.ID
+	_c.mutation.done = true
 	return _node, nil
 }
 
-func (ec *EmployeeCreate) createSpec() (*Employee, *sqlgraph.CreateSpec) {
+func (_c *EmployeeCreate) createSpec() (*Employee, *sqlgraph.CreateSpec) {
 	var (
-		_node = &Employee{config: ec.config}
+		_node = &Employee{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(employee.Table, sqlgraph.NewFieldSpec(employee.FieldID, field.TypeString))
 	)
-	if id, ok := ec.mutation.ID(); ok {
+	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
 	}
-	if value, ok := ec.mutation.SpaceID(); ok {
+	if value, ok := _c.mutation.SpaceID(); ok {
 		_spec.SetField(employee.FieldSpaceID, field.TypeString, value)
 		_node.SpaceID = value
 	}
-	if value, ok := ec.mutation.CreatedAt(); ok {
+	if value, ok := _c.mutation.CreatedAt(); ok {
 		_spec.SetField(employee.FieldCreatedAt, field.TypeInt64, value)
 		_node.CreatedAt = value
 	}
-	if value, ok := ec.mutation.UpdatedAt(); ok {
+	if value, ok := _c.mutation.UpdatedAt(); ok {
 		_spec.SetField(employee.FieldUpdatedAt, field.TypeInt64, value)
 		_node.UpdatedAt = value
 	}
-	if value, ok := ec.mutation.EmployeeID(); ok {
+	if value, ok := _c.mutation.EmployeeID(); ok {
 		_spec.SetField(employee.FieldEmployeeID, field.TypeString, value)
 		_node.EmployeeID = value
 	}
-	if value, ok := ec.mutation.Department(); ok {
+	if value, ok := _c.mutation.Department(); ok {
 		_spec.SetField(employee.FieldDepartment, field.TypeString, value)
 		_node.Department = value
 	}
-	if value, ok := ec.mutation.Position(); ok {
+	if value, ok := _c.mutation.Position(); ok {
 		_spec.SetField(employee.FieldPosition, field.TypeString, value)
 		_node.Position = value
 	}
-	if value, ok := ec.mutation.ManagerID(); ok {
+	if value, ok := _c.mutation.ManagerID(); ok {
 		_spec.SetField(employee.FieldManagerID, field.TypeString, value)
 		_node.ManagerID = value
 	}
-	if value, ok := ec.mutation.HireDate(); ok {
+	if value, ok := _c.mutation.HireDate(); ok {
 		_spec.SetField(employee.FieldHireDate, field.TypeTime, value)
 		_node.HireDate = value
 	}
-	if value, ok := ec.mutation.TerminationDate(); ok {
+	if value, ok := _c.mutation.TerminationDate(); ok {
 		_spec.SetField(employee.FieldTerminationDate, field.TypeTime, value)
 		_node.TerminationDate = &value
 	}
-	if value, ok := ec.mutation.EmploymentType(); ok {
+	if value, ok := _c.mutation.EmploymentType(); ok {
 		_spec.SetField(employee.FieldEmploymentType, field.TypeEnum, value)
 		_node.EmploymentType = value
 	}
-	if value, ok := ec.mutation.Status(); ok {
+	if value, ok := _c.mutation.Status(); ok {
 		_spec.SetField(employee.FieldStatus, field.TypeEnum, value)
 		_node.Status = value
 	}
-	if value, ok := ec.mutation.Salary(); ok {
+	if value, ok := _c.mutation.Salary(); ok {
 		_spec.SetField(employee.FieldSalary, field.TypeFloat64, value)
 		_node.Salary = value
 	}
-	if value, ok := ec.mutation.WorkLocation(); ok {
+	if value, ok := _c.mutation.WorkLocation(); ok {
 		_spec.SetField(employee.FieldWorkLocation, field.TypeString, value)
 		_node.WorkLocation = value
 	}
-	if value, ok := ec.mutation.ContactInfo(); ok {
+	if value, ok := _c.mutation.ContactInfo(); ok {
 		_spec.SetField(employee.FieldContactInfo, field.TypeJSON, value)
 		_node.ContactInfo = value
 	}
-	if value, ok := ec.mutation.Skills(); ok {
+	if value, ok := _c.mutation.Skills(); ok {
 		_spec.SetField(employee.FieldSkills, field.TypeJSON, value)
 		_node.Skills = value
 	}
-	if value, ok := ec.mutation.Certifications(); ok {
+	if value, ok := _c.mutation.Certifications(); ok {
 		_spec.SetField(employee.FieldCertifications, field.TypeJSON, value)
 		_node.Certifications = value
 	}
-	if value, ok := ec.mutation.Extras(); ok {
+	if value, ok := _c.mutation.Extras(); ok {
 		_spec.SetField(employee.FieldExtras, field.TypeJSON, value)
 		_node.Extras = value
 	}
@@ -429,16 +429,16 @@ type EmployeeCreateBulk struct {
 }
 
 // Save creates the Employee entities in the database.
-func (ecb *EmployeeCreateBulk) Save(ctx context.Context) ([]*Employee, error) {
-	if ecb.err != nil {
-		return nil, ecb.err
+func (_c *EmployeeCreateBulk) Save(ctx context.Context) ([]*Employee, error) {
+	if _c.err != nil {
+		return nil, _c.err
 	}
-	specs := make([]*sqlgraph.CreateSpec, len(ecb.builders))
-	nodes := make([]*Employee, len(ecb.builders))
-	mutators := make([]Mutator, len(ecb.builders))
-	for i := range ecb.builders {
+	specs := make([]*sqlgraph.CreateSpec, len(_c.builders))
+	nodes := make([]*Employee, len(_c.builders))
+	mutators := make([]Mutator, len(_c.builders))
+	for i := range _c.builders {
 		func(i int, root context.Context) {
-			builder := ecb.builders[i]
+			builder := _c.builders[i]
 			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*EmployeeMutation)
@@ -452,11 +452,11 @@ func (ecb *EmployeeCreateBulk) Save(ctx context.Context) ([]*Employee, error) {
 				var err error
 				nodes[i], specs[i] = builder.createSpec()
 				if i < len(mutators)-1 {
-					_, err = mutators[i+1].Mutate(root, ecb.builders[i+1].mutation)
+					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
 					// Invoke the actual operation on the latest mutation in the chain.
-					if err = sqlgraph.BatchCreate(ctx, ecb.driver, spec); err != nil {
+					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
 							err = &ConstraintError{msg: err.Error(), wrap: err}
 						}
@@ -476,7 +476,7 @@ func (ecb *EmployeeCreateBulk) Save(ctx context.Context) ([]*Employee, error) {
 		}(i, ctx)
 	}
 	if len(mutators) > 0 {
-		if _, err := mutators[0].Mutate(ctx, ecb.builders[0].mutation); err != nil {
+		if _, err := mutators[0].Mutate(ctx, _c.builders[0].mutation); err != nil {
 			return nil, err
 		}
 	}
@@ -484,8 +484,8 @@ func (ecb *EmployeeCreateBulk) Save(ctx context.Context) ([]*Employee, error) {
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (ecb *EmployeeCreateBulk) SaveX(ctx context.Context) []*Employee {
-	v, err := ecb.Save(ctx)
+func (_c *EmployeeCreateBulk) SaveX(ctx context.Context) []*Employee {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -493,14 +493,14 @@ func (ecb *EmployeeCreateBulk) SaveX(ctx context.Context) []*Employee {
 }
 
 // Exec executes the query.
-func (ecb *EmployeeCreateBulk) Exec(ctx context.Context) error {
-	_, err := ecb.Save(ctx)
+func (_c *EmployeeCreateBulk) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (ecb *EmployeeCreateBulk) ExecX(ctx context.Context) {
-	if err := ecb.Exec(ctx); err != nil {
+func (_c *EmployeeCreateBulk) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

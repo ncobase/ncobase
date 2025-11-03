@@ -24,175 +24,175 @@ type TopicMediaUpdate struct {
 }
 
 // Where appends a list predicates to the TopicMediaUpdate builder.
-func (tmu *TopicMediaUpdate) Where(ps ...predicate.TopicMedia) *TopicMediaUpdate {
-	tmu.mutation.Where(ps...)
-	return tmu
+func (_u *TopicMediaUpdate) Where(ps ...predicate.TopicMedia) *TopicMediaUpdate {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // SetType sets the "type" field.
-func (tmu *TopicMediaUpdate) SetType(s string) *TopicMediaUpdate {
-	tmu.mutation.SetType(s)
-	return tmu
+func (_u *TopicMediaUpdate) SetType(v string) *TopicMediaUpdate {
+	_u.mutation.SetType(v)
+	return _u
 }
 
 // SetNillableType sets the "type" field if the given value is not nil.
-func (tmu *TopicMediaUpdate) SetNillableType(s *string) *TopicMediaUpdate {
-	if s != nil {
-		tmu.SetType(*s)
+func (_u *TopicMediaUpdate) SetNillableType(v *string) *TopicMediaUpdate {
+	if v != nil {
+		_u.SetType(*v)
 	}
-	return tmu
+	return _u
 }
 
 // ClearType clears the value of the "type" field.
-func (tmu *TopicMediaUpdate) ClearType() *TopicMediaUpdate {
-	tmu.mutation.ClearType()
-	return tmu
+func (_u *TopicMediaUpdate) ClearType() *TopicMediaUpdate {
+	_u.mutation.ClearType()
+	return _u
 }
 
 // SetOrder sets the "order" field.
-func (tmu *TopicMediaUpdate) SetOrder(i int) *TopicMediaUpdate {
-	tmu.mutation.ResetOrder()
-	tmu.mutation.SetOrder(i)
-	return tmu
+func (_u *TopicMediaUpdate) SetOrder(v int) *TopicMediaUpdate {
+	_u.mutation.ResetOrder()
+	_u.mutation.SetOrder(v)
+	return _u
 }
 
 // SetNillableOrder sets the "order" field if the given value is not nil.
-func (tmu *TopicMediaUpdate) SetNillableOrder(i *int) *TopicMediaUpdate {
-	if i != nil {
-		tmu.SetOrder(*i)
+func (_u *TopicMediaUpdate) SetNillableOrder(v *int) *TopicMediaUpdate {
+	if v != nil {
+		_u.SetOrder(*v)
 	}
-	return tmu
+	return _u
 }
 
-// AddOrder adds i to the "order" field.
-func (tmu *TopicMediaUpdate) AddOrder(i int) *TopicMediaUpdate {
-	tmu.mutation.AddOrder(i)
-	return tmu
+// AddOrder adds value to the "order" field.
+func (_u *TopicMediaUpdate) AddOrder(v int) *TopicMediaUpdate {
+	_u.mutation.AddOrder(v)
+	return _u
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (tmu *TopicMediaUpdate) SetCreatedBy(s string) *TopicMediaUpdate {
-	tmu.mutation.SetCreatedBy(s)
-	return tmu
+func (_u *TopicMediaUpdate) SetCreatedBy(v string) *TopicMediaUpdate {
+	_u.mutation.SetCreatedBy(v)
+	return _u
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (tmu *TopicMediaUpdate) SetNillableCreatedBy(s *string) *TopicMediaUpdate {
-	if s != nil {
-		tmu.SetCreatedBy(*s)
+func (_u *TopicMediaUpdate) SetNillableCreatedBy(v *string) *TopicMediaUpdate {
+	if v != nil {
+		_u.SetCreatedBy(*v)
 	}
-	return tmu
+	return _u
 }
 
 // ClearCreatedBy clears the value of the "created_by" field.
-func (tmu *TopicMediaUpdate) ClearCreatedBy() *TopicMediaUpdate {
-	tmu.mutation.ClearCreatedBy()
-	return tmu
+func (_u *TopicMediaUpdate) ClearCreatedBy() *TopicMediaUpdate {
+	_u.mutation.ClearCreatedBy()
+	return _u
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (tmu *TopicMediaUpdate) SetUpdatedBy(s string) *TopicMediaUpdate {
-	tmu.mutation.SetUpdatedBy(s)
-	return tmu
+func (_u *TopicMediaUpdate) SetUpdatedBy(v string) *TopicMediaUpdate {
+	_u.mutation.SetUpdatedBy(v)
+	return _u
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (tmu *TopicMediaUpdate) SetNillableUpdatedBy(s *string) *TopicMediaUpdate {
-	if s != nil {
-		tmu.SetUpdatedBy(*s)
+func (_u *TopicMediaUpdate) SetNillableUpdatedBy(v *string) *TopicMediaUpdate {
+	if v != nil {
+		_u.SetUpdatedBy(*v)
 	}
-	return tmu
+	return _u
 }
 
 // ClearUpdatedBy clears the value of the "updated_by" field.
-func (tmu *TopicMediaUpdate) ClearUpdatedBy() *TopicMediaUpdate {
-	tmu.mutation.ClearUpdatedBy()
-	return tmu
+func (_u *TopicMediaUpdate) ClearUpdatedBy() *TopicMediaUpdate {
+	_u.mutation.ClearUpdatedBy()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (tmu *TopicMediaUpdate) SetUpdatedAt(i int64) *TopicMediaUpdate {
-	tmu.mutation.ResetUpdatedAt()
-	tmu.mutation.SetUpdatedAt(i)
-	return tmu
+func (_u *TopicMediaUpdate) SetUpdatedAt(v int64) *TopicMediaUpdate {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (tmu *TopicMediaUpdate) AddUpdatedAt(i int64) *TopicMediaUpdate {
-	tmu.mutation.AddUpdatedAt(i)
-	return tmu
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *TopicMediaUpdate) AddUpdatedAt(v int64) *TopicMediaUpdate {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (tmu *TopicMediaUpdate) ClearUpdatedAt() *TopicMediaUpdate {
-	tmu.mutation.ClearUpdatedAt()
-	return tmu
+func (_u *TopicMediaUpdate) ClearUpdatedAt() *TopicMediaUpdate {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // SetTopicID sets the "topic_id" field.
-func (tmu *TopicMediaUpdate) SetTopicID(s string) *TopicMediaUpdate {
-	tmu.mutation.SetTopicID(s)
-	return tmu
+func (_u *TopicMediaUpdate) SetTopicID(v string) *TopicMediaUpdate {
+	_u.mutation.SetTopicID(v)
+	return _u
 }
 
 // SetNillableTopicID sets the "topic_id" field if the given value is not nil.
-func (tmu *TopicMediaUpdate) SetNillableTopicID(s *string) *TopicMediaUpdate {
-	if s != nil {
-		tmu.SetTopicID(*s)
+func (_u *TopicMediaUpdate) SetNillableTopicID(v *string) *TopicMediaUpdate {
+	if v != nil {
+		_u.SetTopicID(*v)
 	}
-	return tmu
+	return _u
 }
 
 // SetMediaID sets the "media_id" field.
-func (tmu *TopicMediaUpdate) SetMediaID(s string) *TopicMediaUpdate {
-	tmu.mutation.SetMediaID(s)
-	return tmu
+func (_u *TopicMediaUpdate) SetMediaID(v string) *TopicMediaUpdate {
+	_u.mutation.SetMediaID(v)
+	return _u
 }
 
 // SetNillableMediaID sets the "media_id" field if the given value is not nil.
-func (tmu *TopicMediaUpdate) SetNillableMediaID(s *string) *TopicMediaUpdate {
-	if s != nil {
-		tmu.SetMediaID(*s)
+func (_u *TopicMediaUpdate) SetNillableMediaID(v *string) *TopicMediaUpdate {
+	if v != nil {
+		_u.SetMediaID(*v)
 	}
-	return tmu
+	return _u
 }
 
 // SetMedia sets the "media" edge to the Media entity.
-func (tmu *TopicMediaUpdate) SetMedia(m *Media) *TopicMediaUpdate {
-	return tmu.SetMediaID(m.ID)
+func (_u *TopicMediaUpdate) SetMedia(v *Media) *TopicMediaUpdate {
+	return _u.SetMediaID(v.ID)
 }
 
 // SetTopic sets the "topic" edge to the Topic entity.
-func (tmu *TopicMediaUpdate) SetTopic(t *Topic) *TopicMediaUpdate {
-	return tmu.SetTopicID(t.ID)
+func (_u *TopicMediaUpdate) SetTopic(v *Topic) *TopicMediaUpdate {
+	return _u.SetTopicID(v.ID)
 }
 
 // Mutation returns the TopicMediaMutation object of the builder.
-func (tmu *TopicMediaUpdate) Mutation() *TopicMediaMutation {
-	return tmu.mutation
+func (_u *TopicMediaUpdate) Mutation() *TopicMediaMutation {
+	return _u.mutation
 }
 
 // ClearMedia clears the "media" edge to the Media entity.
-func (tmu *TopicMediaUpdate) ClearMedia() *TopicMediaUpdate {
-	tmu.mutation.ClearMedia()
-	return tmu
+func (_u *TopicMediaUpdate) ClearMedia() *TopicMediaUpdate {
+	_u.mutation.ClearMedia()
+	return _u
 }
 
 // ClearTopic clears the "topic" edge to the Topic entity.
-func (tmu *TopicMediaUpdate) ClearTopic() *TopicMediaUpdate {
-	tmu.mutation.ClearTopic()
-	return tmu
+func (_u *TopicMediaUpdate) ClearTopic() *TopicMediaUpdate {
+	_u.mutation.ClearTopic()
+	return _u
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
-func (tmu *TopicMediaUpdate) Save(ctx context.Context) (int, error) {
-	tmu.defaults()
-	return withHooks(ctx, tmu.sqlSave, tmu.mutation, tmu.hooks)
+func (_u *TopicMediaUpdate) Save(ctx context.Context) (int, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (tmu *TopicMediaUpdate) SaveX(ctx context.Context) int {
-	affected, err := tmu.Save(ctx)
+func (_u *TopicMediaUpdate) SaveX(ctx context.Context) int {
+	affected, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -200,96 +200,96 @@ func (tmu *TopicMediaUpdate) SaveX(ctx context.Context) int {
 }
 
 // Exec executes the query.
-func (tmu *TopicMediaUpdate) Exec(ctx context.Context) error {
-	_, err := tmu.Save(ctx)
+func (_u *TopicMediaUpdate) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (tmu *TopicMediaUpdate) ExecX(ctx context.Context) {
-	if err := tmu.Exec(ctx); err != nil {
+func (_u *TopicMediaUpdate) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (tmu *TopicMediaUpdate) defaults() {
-	if _, ok := tmu.mutation.UpdatedAt(); !ok && !tmu.mutation.UpdatedAtCleared() {
+func (_u *TopicMediaUpdate) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := topicmedia.UpdateDefaultUpdatedAt()
-		tmu.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (tmu *TopicMediaUpdate) check() error {
-	if v, ok := tmu.mutation.TopicID(); ok {
+func (_u *TopicMediaUpdate) check() error {
+	if v, ok := _u.mutation.TopicID(); ok {
 		if err := topicmedia.TopicIDValidator(v); err != nil {
 			return &ValidationError{Name: "topic_id", err: fmt.Errorf(`ent: validator failed for field "TopicMedia.topic_id": %w`, err)}
 		}
 	}
-	if v, ok := tmu.mutation.MediaID(); ok {
+	if v, ok := _u.mutation.MediaID(); ok {
 		if err := topicmedia.MediaIDValidator(v); err != nil {
 			return &ValidationError{Name: "media_id", err: fmt.Errorf(`ent: validator failed for field "TopicMedia.media_id": %w`, err)}
 		}
 	}
-	if tmu.mutation.MediaCleared() && len(tmu.mutation.MediaIDs()) > 0 {
+	if _u.mutation.MediaCleared() && len(_u.mutation.MediaIDs()) > 0 {
 		return errors.New(`ent: clearing a required unique edge "TopicMedia.media"`)
 	}
-	if tmu.mutation.TopicCleared() && len(tmu.mutation.TopicIDs()) > 0 {
+	if _u.mutation.TopicCleared() && len(_u.mutation.TopicIDs()) > 0 {
 		return errors.New(`ent: clearing a required unique edge "TopicMedia.topic"`)
 	}
 	return nil
 }
 
-func (tmu *TopicMediaUpdate) sqlSave(ctx context.Context) (n int, err error) {
-	if err := tmu.check(); err != nil {
-		return n, err
+func (_u *TopicMediaUpdate) sqlSave(ctx context.Context) (_node int, err error) {
+	if err := _u.check(); err != nil {
+		return _node, err
 	}
 	_spec := sqlgraph.NewUpdateSpec(topicmedia.Table, topicmedia.Columns, sqlgraph.NewFieldSpec(topicmedia.FieldID, field.TypeString))
-	if ps := tmu.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := tmu.mutation.GetType(); ok {
+	if value, ok := _u.mutation.GetType(); ok {
 		_spec.SetField(topicmedia.FieldType, field.TypeString, value)
 	}
-	if tmu.mutation.TypeCleared() {
+	if _u.mutation.TypeCleared() {
 		_spec.ClearField(topicmedia.FieldType, field.TypeString)
 	}
-	if value, ok := tmu.mutation.Order(); ok {
+	if value, ok := _u.mutation.Order(); ok {
 		_spec.SetField(topicmedia.FieldOrder, field.TypeInt, value)
 	}
-	if value, ok := tmu.mutation.AddedOrder(); ok {
+	if value, ok := _u.mutation.AddedOrder(); ok {
 		_spec.AddField(topicmedia.FieldOrder, field.TypeInt, value)
 	}
-	if value, ok := tmu.mutation.CreatedBy(); ok {
+	if value, ok := _u.mutation.CreatedBy(); ok {
 		_spec.SetField(topicmedia.FieldCreatedBy, field.TypeString, value)
 	}
-	if tmu.mutation.CreatedByCleared() {
+	if _u.mutation.CreatedByCleared() {
 		_spec.ClearField(topicmedia.FieldCreatedBy, field.TypeString)
 	}
-	if value, ok := tmu.mutation.UpdatedBy(); ok {
+	if value, ok := _u.mutation.UpdatedBy(); ok {
 		_spec.SetField(topicmedia.FieldUpdatedBy, field.TypeString, value)
 	}
-	if tmu.mutation.UpdatedByCleared() {
+	if _u.mutation.UpdatedByCleared() {
 		_spec.ClearField(topicmedia.FieldUpdatedBy, field.TypeString)
 	}
-	if tmu.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(topicmedia.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := tmu.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(topicmedia.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := tmu.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(topicmedia.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if tmu.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(topicmedia.FieldUpdatedAt, field.TypeInt64)
 	}
-	if tmu.mutation.MediaCleared() {
+	if _u.mutation.MediaCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: false,
@@ -302,7 +302,7 @@ func (tmu *TopicMediaUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := tmu.mutation.MediaIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.MediaIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: false,
@@ -318,7 +318,7 @@ func (tmu *TopicMediaUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if tmu.mutation.TopicCleared() {
+	if _u.mutation.TopicCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: false,
@@ -331,7 +331,7 @@ func (tmu *TopicMediaUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := tmu.mutation.TopicIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.TopicIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: false,
@@ -347,7 +347,7 @@ func (tmu *TopicMediaUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if n, err = sqlgraph.UpdateNodes(ctx, tmu.driver, _spec); err != nil {
+	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{topicmedia.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -355,8 +355,8 @@ func (tmu *TopicMediaUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		return 0, err
 	}
-	tmu.mutation.done = true
-	return n, nil
+	_u.mutation.done = true
+	return _node, nil
 }
 
 // TopicMediaUpdateOne is the builder for updating a single TopicMedia entity.
@@ -368,182 +368,182 @@ type TopicMediaUpdateOne struct {
 }
 
 // SetType sets the "type" field.
-func (tmuo *TopicMediaUpdateOne) SetType(s string) *TopicMediaUpdateOne {
-	tmuo.mutation.SetType(s)
-	return tmuo
+func (_u *TopicMediaUpdateOne) SetType(v string) *TopicMediaUpdateOne {
+	_u.mutation.SetType(v)
+	return _u
 }
 
 // SetNillableType sets the "type" field if the given value is not nil.
-func (tmuo *TopicMediaUpdateOne) SetNillableType(s *string) *TopicMediaUpdateOne {
-	if s != nil {
-		tmuo.SetType(*s)
+func (_u *TopicMediaUpdateOne) SetNillableType(v *string) *TopicMediaUpdateOne {
+	if v != nil {
+		_u.SetType(*v)
 	}
-	return tmuo
+	return _u
 }
 
 // ClearType clears the value of the "type" field.
-func (tmuo *TopicMediaUpdateOne) ClearType() *TopicMediaUpdateOne {
-	tmuo.mutation.ClearType()
-	return tmuo
+func (_u *TopicMediaUpdateOne) ClearType() *TopicMediaUpdateOne {
+	_u.mutation.ClearType()
+	return _u
 }
 
 // SetOrder sets the "order" field.
-func (tmuo *TopicMediaUpdateOne) SetOrder(i int) *TopicMediaUpdateOne {
-	tmuo.mutation.ResetOrder()
-	tmuo.mutation.SetOrder(i)
-	return tmuo
+func (_u *TopicMediaUpdateOne) SetOrder(v int) *TopicMediaUpdateOne {
+	_u.mutation.ResetOrder()
+	_u.mutation.SetOrder(v)
+	return _u
 }
 
 // SetNillableOrder sets the "order" field if the given value is not nil.
-func (tmuo *TopicMediaUpdateOne) SetNillableOrder(i *int) *TopicMediaUpdateOne {
-	if i != nil {
-		tmuo.SetOrder(*i)
+func (_u *TopicMediaUpdateOne) SetNillableOrder(v *int) *TopicMediaUpdateOne {
+	if v != nil {
+		_u.SetOrder(*v)
 	}
-	return tmuo
+	return _u
 }
 
-// AddOrder adds i to the "order" field.
-func (tmuo *TopicMediaUpdateOne) AddOrder(i int) *TopicMediaUpdateOne {
-	tmuo.mutation.AddOrder(i)
-	return tmuo
+// AddOrder adds value to the "order" field.
+func (_u *TopicMediaUpdateOne) AddOrder(v int) *TopicMediaUpdateOne {
+	_u.mutation.AddOrder(v)
+	return _u
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (tmuo *TopicMediaUpdateOne) SetCreatedBy(s string) *TopicMediaUpdateOne {
-	tmuo.mutation.SetCreatedBy(s)
-	return tmuo
+func (_u *TopicMediaUpdateOne) SetCreatedBy(v string) *TopicMediaUpdateOne {
+	_u.mutation.SetCreatedBy(v)
+	return _u
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (tmuo *TopicMediaUpdateOne) SetNillableCreatedBy(s *string) *TopicMediaUpdateOne {
-	if s != nil {
-		tmuo.SetCreatedBy(*s)
+func (_u *TopicMediaUpdateOne) SetNillableCreatedBy(v *string) *TopicMediaUpdateOne {
+	if v != nil {
+		_u.SetCreatedBy(*v)
 	}
-	return tmuo
+	return _u
 }
 
 // ClearCreatedBy clears the value of the "created_by" field.
-func (tmuo *TopicMediaUpdateOne) ClearCreatedBy() *TopicMediaUpdateOne {
-	tmuo.mutation.ClearCreatedBy()
-	return tmuo
+func (_u *TopicMediaUpdateOne) ClearCreatedBy() *TopicMediaUpdateOne {
+	_u.mutation.ClearCreatedBy()
+	return _u
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (tmuo *TopicMediaUpdateOne) SetUpdatedBy(s string) *TopicMediaUpdateOne {
-	tmuo.mutation.SetUpdatedBy(s)
-	return tmuo
+func (_u *TopicMediaUpdateOne) SetUpdatedBy(v string) *TopicMediaUpdateOne {
+	_u.mutation.SetUpdatedBy(v)
+	return _u
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (tmuo *TopicMediaUpdateOne) SetNillableUpdatedBy(s *string) *TopicMediaUpdateOne {
-	if s != nil {
-		tmuo.SetUpdatedBy(*s)
+func (_u *TopicMediaUpdateOne) SetNillableUpdatedBy(v *string) *TopicMediaUpdateOne {
+	if v != nil {
+		_u.SetUpdatedBy(*v)
 	}
-	return tmuo
+	return _u
 }
 
 // ClearUpdatedBy clears the value of the "updated_by" field.
-func (tmuo *TopicMediaUpdateOne) ClearUpdatedBy() *TopicMediaUpdateOne {
-	tmuo.mutation.ClearUpdatedBy()
-	return tmuo
+func (_u *TopicMediaUpdateOne) ClearUpdatedBy() *TopicMediaUpdateOne {
+	_u.mutation.ClearUpdatedBy()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (tmuo *TopicMediaUpdateOne) SetUpdatedAt(i int64) *TopicMediaUpdateOne {
-	tmuo.mutation.ResetUpdatedAt()
-	tmuo.mutation.SetUpdatedAt(i)
-	return tmuo
+func (_u *TopicMediaUpdateOne) SetUpdatedAt(v int64) *TopicMediaUpdateOne {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (tmuo *TopicMediaUpdateOne) AddUpdatedAt(i int64) *TopicMediaUpdateOne {
-	tmuo.mutation.AddUpdatedAt(i)
-	return tmuo
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *TopicMediaUpdateOne) AddUpdatedAt(v int64) *TopicMediaUpdateOne {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (tmuo *TopicMediaUpdateOne) ClearUpdatedAt() *TopicMediaUpdateOne {
-	tmuo.mutation.ClearUpdatedAt()
-	return tmuo
+func (_u *TopicMediaUpdateOne) ClearUpdatedAt() *TopicMediaUpdateOne {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // SetTopicID sets the "topic_id" field.
-func (tmuo *TopicMediaUpdateOne) SetTopicID(s string) *TopicMediaUpdateOne {
-	tmuo.mutation.SetTopicID(s)
-	return tmuo
+func (_u *TopicMediaUpdateOne) SetTopicID(v string) *TopicMediaUpdateOne {
+	_u.mutation.SetTopicID(v)
+	return _u
 }
 
 // SetNillableTopicID sets the "topic_id" field if the given value is not nil.
-func (tmuo *TopicMediaUpdateOne) SetNillableTopicID(s *string) *TopicMediaUpdateOne {
-	if s != nil {
-		tmuo.SetTopicID(*s)
+func (_u *TopicMediaUpdateOne) SetNillableTopicID(v *string) *TopicMediaUpdateOne {
+	if v != nil {
+		_u.SetTopicID(*v)
 	}
-	return tmuo
+	return _u
 }
 
 // SetMediaID sets the "media_id" field.
-func (tmuo *TopicMediaUpdateOne) SetMediaID(s string) *TopicMediaUpdateOne {
-	tmuo.mutation.SetMediaID(s)
-	return tmuo
+func (_u *TopicMediaUpdateOne) SetMediaID(v string) *TopicMediaUpdateOne {
+	_u.mutation.SetMediaID(v)
+	return _u
 }
 
 // SetNillableMediaID sets the "media_id" field if the given value is not nil.
-func (tmuo *TopicMediaUpdateOne) SetNillableMediaID(s *string) *TopicMediaUpdateOne {
-	if s != nil {
-		tmuo.SetMediaID(*s)
+func (_u *TopicMediaUpdateOne) SetNillableMediaID(v *string) *TopicMediaUpdateOne {
+	if v != nil {
+		_u.SetMediaID(*v)
 	}
-	return tmuo
+	return _u
 }
 
 // SetMedia sets the "media" edge to the Media entity.
-func (tmuo *TopicMediaUpdateOne) SetMedia(m *Media) *TopicMediaUpdateOne {
-	return tmuo.SetMediaID(m.ID)
+func (_u *TopicMediaUpdateOne) SetMedia(v *Media) *TopicMediaUpdateOne {
+	return _u.SetMediaID(v.ID)
 }
 
 // SetTopic sets the "topic" edge to the Topic entity.
-func (tmuo *TopicMediaUpdateOne) SetTopic(t *Topic) *TopicMediaUpdateOne {
-	return tmuo.SetTopicID(t.ID)
+func (_u *TopicMediaUpdateOne) SetTopic(v *Topic) *TopicMediaUpdateOne {
+	return _u.SetTopicID(v.ID)
 }
 
 // Mutation returns the TopicMediaMutation object of the builder.
-func (tmuo *TopicMediaUpdateOne) Mutation() *TopicMediaMutation {
-	return tmuo.mutation
+func (_u *TopicMediaUpdateOne) Mutation() *TopicMediaMutation {
+	return _u.mutation
 }
 
 // ClearMedia clears the "media" edge to the Media entity.
-func (tmuo *TopicMediaUpdateOne) ClearMedia() *TopicMediaUpdateOne {
-	tmuo.mutation.ClearMedia()
-	return tmuo
+func (_u *TopicMediaUpdateOne) ClearMedia() *TopicMediaUpdateOne {
+	_u.mutation.ClearMedia()
+	return _u
 }
 
 // ClearTopic clears the "topic" edge to the Topic entity.
-func (tmuo *TopicMediaUpdateOne) ClearTopic() *TopicMediaUpdateOne {
-	tmuo.mutation.ClearTopic()
-	return tmuo
+func (_u *TopicMediaUpdateOne) ClearTopic() *TopicMediaUpdateOne {
+	_u.mutation.ClearTopic()
+	return _u
 }
 
 // Where appends a list predicates to the TopicMediaUpdate builder.
-func (tmuo *TopicMediaUpdateOne) Where(ps ...predicate.TopicMedia) *TopicMediaUpdateOne {
-	tmuo.mutation.Where(ps...)
-	return tmuo
+func (_u *TopicMediaUpdateOne) Where(ps ...predicate.TopicMedia) *TopicMediaUpdateOne {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // Select allows selecting one or more fields (columns) of the returned entity.
 // The default is selecting all fields defined in the entity schema.
-func (tmuo *TopicMediaUpdateOne) Select(field string, fields ...string) *TopicMediaUpdateOne {
-	tmuo.fields = append([]string{field}, fields...)
-	return tmuo
+func (_u *TopicMediaUpdateOne) Select(field string, fields ...string) *TopicMediaUpdateOne {
+	_u.fields = append([]string{field}, fields...)
+	return _u
 }
 
 // Save executes the query and returns the updated TopicMedia entity.
-func (tmuo *TopicMediaUpdateOne) Save(ctx context.Context) (*TopicMedia, error) {
-	tmuo.defaults()
-	return withHooks(ctx, tmuo.sqlSave, tmuo.mutation, tmuo.hooks)
+func (_u *TopicMediaUpdateOne) Save(ctx context.Context) (*TopicMedia, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (tmuo *TopicMediaUpdateOne) SaveX(ctx context.Context) *TopicMedia {
-	node, err := tmuo.Save(ctx)
+func (_u *TopicMediaUpdateOne) SaveX(ctx context.Context) *TopicMedia {
+	node, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -551,58 +551,58 @@ func (tmuo *TopicMediaUpdateOne) SaveX(ctx context.Context) *TopicMedia {
 }
 
 // Exec executes the query on the entity.
-func (tmuo *TopicMediaUpdateOne) Exec(ctx context.Context) error {
-	_, err := tmuo.Save(ctx)
+func (_u *TopicMediaUpdateOne) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (tmuo *TopicMediaUpdateOne) ExecX(ctx context.Context) {
-	if err := tmuo.Exec(ctx); err != nil {
+func (_u *TopicMediaUpdateOne) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (tmuo *TopicMediaUpdateOne) defaults() {
-	if _, ok := tmuo.mutation.UpdatedAt(); !ok && !tmuo.mutation.UpdatedAtCleared() {
+func (_u *TopicMediaUpdateOne) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := topicmedia.UpdateDefaultUpdatedAt()
-		tmuo.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (tmuo *TopicMediaUpdateOne) check() error {
-	if v, ok := tmuo.mutation.TopicID(); ok {
+func (_u *TopicMediaUpdateOne) check() error {
+	if v, ok := _u.mutation.TopicID(); ok {
 		if err := topicmedia.TopicIDValidator(v); err != nil {
 			return &ValidationError{Name: "topic_id", err: fmt.Errorf(`ent: validator failed for field "TopicMedia.topic_id": %w`, err)}
 		}
 	}
-	if v, ok := tmuo.mutation.MediaID(); ok {
+	if v, ok := _u.mutation.MediaID(); ok {
 		if err := topicmedia.MediaIDValidator(v); err != nil {
 			return &ValidationError{Name: "media_id", err: fmt.Errorf(`ent: validator failed for field "TopicMedia.media_id": %w`, err)}
 		}
 	}
-	if tmuo.mutation.MediaCleared() && len(tmuo.mutation.MediaIDs()) > 0 {
+	if _u.mutation.MediaCleared() && len(_u.mutation.MediaIDs()) > 0 {
 		return errors.New(`ent: clearing a required unique edge "TopicMedia.media"`)
 	}
-	if tmuo.mutation.TopicCleared() && len(tmuo.mutation.TopicIDs()) > 0 {
+	if _u.mutation.TopicCleared() && len(_u.mutation.TopicIDs()) > 0 {
 		return errors.New(`ent: clearing a required unique edge "TopicMedia.topic"`)
 	}
 	return nil
 }
 
-func (tmuo *TopicMediaUpdateOne) sqlSave(ctx context.Context) (_node *TopicMedia, err error) {
-	if err := tmuo.check(); err != nil {
+func (_u *TopicMediaUpdateOne) sqlSave(ctx context.Context) (_node *TopicMedia, err error) {
+	if err := _u.check(); err != nil {
 		return _node, err
 	}
 	_spec := sqlgraph.NewUpdateSpec(topicmedia.Table, topicmedia.Columns, sqlgraph.NewFieldSpec(topicmedia.FieldID, field.TypeString))
-	id, ok := tmuo.mutation.ID()
+	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "TopicMedia.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
-	if fields := tmuo.fields; len(fields) > 0 {
+	if fields := _u.fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, topicmedia.FieldID)
 		for _, f := range fields {
@@ -614,50 +614,50 @@ func (tmuo *TopicMediaUpdateOne) sqlSave(ctx context.Context) (_node *TopicMedia
 			}
 		}
 	}
-	if ps := tmuo.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := tmuo.mutation.GetType(); ok {
+	if value, ok := _u.mutation.GetType(); ok {
 		_spec.SetField(topicmedia.FieldType, field.TypeString, value)
 	}
-	if tmuo.mutation.TypeCleared() {
+	if _u.mutation.TypeCleared() {
 		_spec.ClearField(topicmedia.FieldType, field.TypeString)
 	}
-	if value, ok := tmuo.mutation.Order(); ok {
+	if value, ok := _u.mutation.Order(); ok {
 		_spec.SetField(topicmedia.FieldOrder, field.TypeInt, value)
 	}
-	if value, ok := tmuo.mutation.AddedOrder(); ok {
+	if value, ok := _u.mutation.AddedOrder(); ok {
 		_spec.AddField(topicmedia.FieldOrder, field.TypeInt, value)
 	}
-	if value, ok := tmuo.mutation.CreatedBy(); ok {
+	if value, ok := _u.mutation.CreatedBy(); ok {
 		_spec.SetField(topicmedia.FieldCreatedBy, field.TypeString, value)
 	}
-	if tmuo.mutation.CreatedByCleared() {
+	if _u.mutation.CreatedByCleared() {
 		_spec.ClearField(topicmedia.FieldCreatedBy, field.TypeString)
 	}
-	if value, ok := tmuo.mutation.UpdatedBy(); ok {
+	if value, ok := _u.mutation.UpdatedBy(); ok {
 		_spec.SetField(topicmedia.FieldUpdatedBy, field.TypeString, value)
 	}
-	if tmuo.mutation.UpdatedByCleared() {
+	if _u.mutation.UpdatedByCleared() {
 		_spec.ClearField(topicmedia.FieldUpdatedBy, field.TypeString)
 	}
-	if tmuo.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(topicmedia.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := tmuo.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(topicmedia.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := tmuo.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(topicmedia.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if tmuo.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(topicmedia.FieldUpdatedAt, field.TypeInt64)
 	}
-	if tmuo.mutation.MediaCleared() {
+	if _u.mutation.MediaCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: false,
@@ -670,7 +670,7 @@ func (tmuo *TopicMediaUpdateOne) sqlSave(ctx context.Context) (_node *TopicMedia
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := tmuo.mutation.MediaIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.MediaIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: false,
@@ -686,7 +686,7 @@ func (tmuo *TopicMediaUpdateOne) sqlSave(ctx context.Context) (_node *TopicMedia
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if tmuo.mutation.TopicCleared() {
+	if _u.mutation.TopicCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: false,
@@ -699,7 +699,7 @@ func (tmuo *TopicMediaUpdateOne) sqlSave(ctx context.Context) (_node *TopicMedia
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := tmuo.mutation.TopicIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.TopicIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: false,
@@ -715,10 +715,10 @@ func (tmuo *TopicMediaUpdateOne) sqlSave(ctx context.Context) (_node *TopicMedia
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	_node = &TopicMedia{config: tmuo.config}
+	_node = &TopicMedia{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues
-	if err = sqlgraph.UpdateNode(ctx, tmuo.driver, _spec); err != nil {
+	if err = sqlgraph.UpdateNode(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{topicmedia.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -726,6 +726,6 @@ func (tmuo *TopicMediaUpdateOne) sqlSave(ctx context.Context) (_node *TopicMedia
 		}
 		return nil, err
 	}
-	tmuo.mutation.done = true
+	_u.mutation.done = true
 	return _node, nil
 }

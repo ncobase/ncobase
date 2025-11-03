@@ -23,216 +23,216 @@ type PaymentChannelUpdate struct {
 }
 
 // Where appends a list predicates to the PaymentChannelUpdate builder.
-func (pcu *PaymentChannelUpdate) Where(ps ...predicate.PaymentChannel) *PaymentChannelUpdate {
-	pcu.mutation.Where(ps...)
-	return pcu
+func (_u *PaymentChannelUpdate) Where(ps ...predicate.PaymentChannel) *PaymentChannelUpdate {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // SetName sets the "name" field.
-func (pcu *PaymentChannelUpdate) SetName(s string) *PaymentChannelUpdate {
-	pcu.mutation.SetName(s)
-	return pcu
+func (_u *PaymentChannelUpdate) SetName(v string) *PaymentChannelUpdate {
+	_u.mutation.SetName(v)
+	return _u
 }
 
 // SetNillableName sets the "name" field if the given value is not nil.
-func (pcu *PaymentChannelUpdate) SetNillableName(s *string) *PaymentChannelUpdate {
-	if s != nil {
-		pcu.SetName(*s)
+func (_u *PaymentChannelUpdate) SetNillableName(v *string) *PaymentChannelUpdate {
+	if v != nil {
+		_u.SetName(*v)
 	}
-	return pcu
+	return _u
 }
 
 // ClearName clears the value of the "name" field.
-func (pcu *PaymentChannelUpdate) ClearName() *PaymentChannelUpdate {
-	pcu.mutation.ClearName()
-	return pcu
+func (_u *PaymentChannelUpdate) ClearName() *PaymentChannelUpdate {
+	_u.mutation.ClearName()
+	return _u
 }
 
 // SetDescription sets the "description" field.
-func (pcu *PaymentChannelUpdate) SetDescription(s string) *PaymentChannelUpdate {
-	pcu.mutation.SetDescription(s)
-	return pcu
+func (_u *PaymentChannelUpdate) SetDescription(v string) *PaymentChannelUpdate {
+	_u.mutation.SetDescription(v)
+	return _u
 }
 
 // SetNillableDescription sets the "description" field if the given value is not nil.
-func (pcu *PaymentChannelUpdate) SetNillableDescription(s *string) *PaymentChannelUpdate {
-	if s != nil {
-		pcu.SetDescription(*s)
+func (_u *PaymentChannelUpdate) SetNillableDescription(v *string) *PaymentChannelUpdate {
+	if v != nil {
+		_u.SetDescription(*v)
 	}
-	return pcu
+	return _u
 }
 
 // ClearDescription clears the value of the "description" field.
-func (pcu *PaymentChannelUpdate) ClearDescription() *PaymentChannelUpdate {
-	pcu.mutation.ClearDescription()
-	return pcu
+func (_u *PaymentChannelUpdate) ClearDescription() *PaymentChannelUpdate {
+	_u.mutation.ClearDescription()
+	return _u
 }
 
 // SetExtras sets the "extras" field.
-func (pcu *PaymentChannelUpdate) SetExtras(m map[string]interface{}) *PaymentChannelUpdate {
-	pcu.mutation.SetExtras(m)
-	return pcu
+func (_u *PaymentChannelUpdate) SetExtras(v map[string]interface{}) *PaymentChannelUpdate {
+	_u.mutation.SetExtras(v)
+	return _u
 }
 
 // ClearExtras clears the value of the "extras" field.
-func (pcu *PaymentChannelUpdate) ClearExtras() *PaymentChannelUpdate {
-	pcu.mutation.ClearExtras()
-	return pcu
+func (_u *PaymentChannelUpdate) ClearExtras() *PaymentChannelUpdate {
+	_u.mutation.ClearExtras()
+	return _u
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (pcu *PaymentChannelUpdate) SetCreatedBy(s string) *PaymentChannelUpdate {
-	pcu.mutation.SetCreatedBy(s)
-	return pcu
+func (_u *PaymentChannelUpdate) SetCreatedBy(v string) *PaymentChannelUpdate {
+	_u.mutation.SetCreatedBy(v)
+	return _u
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (pcu *PaymentChannelUpdate) SetNillableCreatedBy(s *string) *PaymentChannelUpdate {
-	if s != nil {
-		pcu.SetCreatedBy(*s)
+func (_u *PaymentChannelUpdate) SetNillableCreatedBy(v *string) *PaymentChannelUpdate {
+	if v != nil {
+		_u.SetCreatedBy(*v)
 	}
-	return pcu
+	return _u
 }
 
 // ClearCreatedBy clears the value of the "created_by" field.
-func (pcu *PaymentChannelUpdate) ClearCreatedBy() *PaymentChannelUpdate {
-	pcu.mutation.ClearCreatedBy()
-	return pcu
+func (_u *PaymentChannelUpdate) ClearCreatedBy() *PaymentChannelUpdate {
+	_u.mutation.ClearCreatedBy()
+	return _u
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (pcu *PaymentChannelUpdate) SetUpdatedBy(s string) *PaymentChannelUpdate {
-	pcu.mutation.SetUpdatedBy(s)
-	return pcu
+func (_u *PaymentChannelUpdate) SetUpdatedBy(v string) *PaymentChannelUpdate {
+	_u.mutation.SetUpdatedBy(v)
+	return _u
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (pcu *PaymentChannelUpdate) SetNillableUpdatedBy(s *string) *PaymentChannelUpdate {
-	if s != nil {
-		pcu.SetUpdatedBy(*s)
+func (_u *PaymentChannelUpdate) SetNillableUpdatedBy(v *string) *PaymentChannelUpdate {
+	if v != nil {
+		_u.SetUpdatedBy(*v)
 	}
-	return pcu
+	return _u
 }
 
 // ClearUpdatedBy clears the value of the "updated_by" field.
-func (pcu *PaymentChannelUpdate) ClearUpdatedBy() *PaymentChannelUpdate {
-	pcu.mutation.ClearUpdatedBy()
-	return pcu
+func (_u *PaymentChannelUpdate) ClearUpdatedBy() *PaymentChannelUpdate {
+	_u.mutation.ClearUpdatedBy()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (pcu *PaymentChannelUpdate) SetUpdatedAt(i int64) *PaymentChannelUpdate {
-	pcu.mutation.ResetUpdatedAt()
-	pcu.mutation.SetUpdatedAt(i)
-	return pcu
+func (_u *PaymentChannelUpdate) SetUpdatedAt(v int64) *PaymentChannelUpdate {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (pcu *PaymentChannelUpdate) AddUpdatedAt(i int64) *PaymentChannelUpdate {
-	pcu.mutation.AddUpdatedAt(i)
-	return pcu
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *PaymentChannelUpdate) AddUpdatedAt(v int64) *PaymentChannelUpdate {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (pcu *PaymentChannelUpdate) ClearUpdatedAt() *PaymentChannelUpdate {
-	pcu.mutation.ClearUpdatedAt()
-	return pcu
+func (_u *PaymentChannelUpdate) ClearUpdatedAt() *PaymentChannelUpdate {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // SetProvider sets the "provider" field.
-func (pcu *PaymentChannelUpdate) SetProvider(s string) *PaymentChannelUpdate {
-	pcu.mutation.SetProvider(s)
-	return pcu
+func (_u *PaymentChannelUpdate) SetProvider(v string) *PaymentChannelUpdate {
+	_u.mutation.SetProvider(v)
+	return _u
 }
 
 // SetNillableProvider sets the "provider" field if the given value is not nil.
-func (pcu *PaymentChannelUpdate) SetNillableProvider(s *string) *PaymentChannelUpdate {
-	if s != nil {
-		pcu.SetProvider(*s)
+func (_u *PaymentChannelUpdate) SetNillableProvider(v *string) *PaymentChannelUpdate {
+	if v != nil {
+		_u.SetProvider(*v)
 	}
-	return pcu
+	return _u
 }
 
 // SetStatus sets the "status" field.
-func (pcu *PaymentChannelUpdate) SetStatus(s string) *PaymentChannelUpdate {
-	pcu.mutation.SetStatus(s)
-	return pcu
+func (_u *PaymentChannelUpdate) SetStatus(v string) *PaymentChannelUpdate {
+	_u.mutation.SetStatus(v)
+	return _u
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (pcu *PaymentChannelUpdate) SetNillableStatus(s *string) *PaymentChannelUpdate {
-	if s != nil {
-		pcu.SetStatus(*s)
+func (_u *PaymentChannelUpdate) SetNillableStatus(v *string) *PaymentChannelUpdate {
+	if v != nil {
+		_u.SetStatus(*v)
 	}
-	return pcu
+	return _u
 }
 
 // SetIsDefault sets the "is_default" field.
-func (pcu *PaymentChannelUpdate) SetIsDefault(b bool) *PaymentChannelUpdate {
-	pcu.mutation.SetIsDefault(b)
-	return pcu
+func (_u *PaymentChannelUpdate) SetIsDefault(v bool) *PaymentChannelUpdate {
+	_u.mutation.SetIsDefault(v)
+	return _u
 }
 
 // SetNillableIsDefault sets the "is_default" field if the given value is not nil.
-func (pcu *PaymentChannelUpdate) SetNillableIsDefault(b *bool) *PaymentChannelUpdate {
-	if b != nil {
-		pcu.SetIsDefault(*b)
+func (_u *PaymentChannelUpdate) SetNillableIsDefault(v *bool) *PaymentChannelUpdate {
+	if v != nil {
+		_u.SetIsDefault(*v)
 	}
-	return pcu
+	return _u
 }
 
 // SetSupportedTypes sets the "supported_types" field.
-func (pcu *PaymentChannelUpdate) SetSupportedTypes(s []string) *PaymentChannelUpdate {
-	pcu.mutation.SetSupportedTypes(s)
-	return pcu
+func (_u *PaymentChannelUpdate) SetSupportedTypes(v []string) *PaymentChannelUpdate {
+	_u.mutation.SetSupportedTypes(v)
+	return _u
 }
 
-// AppendSupportedTypes appends s to the "supported_types" field.
-func (pcu *PaymentChannelUpdate) AppendSupportedTypes(s []string) *PaymentChannelUpdate {
-	pcu.mutation.AppendSupportedTypes(s)
-	return pcu
+// AppendSupportedTypes appends value to the "supported_types" field.
+func (_u *PaymentChannelUpdate) AppendSupportedTypes(v []string) *PaymentChannelUpdate {
+	_u.mutation.AppendSupportedTypes(v)
+	return _u
 }
 
 // SetConfig sets the "config" field.
-func (pcu *PaymentChannelUpdate) SetConfig(m map[string]interface{}) *PaymentChannelUpdate {
-	pcu.mutation.SetConfig(m)
-	return pcu
+func (_u *PaymentChannelUpdate) SetConfig(v map[string]interface{}) *PaymentChannelUpdate {
+	_u.mutation.SetConfig(v)
+	return _u
 }
 
 // SetSpaceID sets the "space_id" field.
-func (pcu *PaymentChannelUpdate) SetSpaceID(s string) *PaymentChannelUpdate {
-	pcu.mutation.SetSpaceID(s)
-	return pcu
+func (_u *PaymentChannelUpdate) SetSpaceID(v string) *PaymentChannelUpdate {
+	_u.mutation.SetSpaceID(v)
+	return _u
 }
 
 // SetNillableSpaceID sets the "space_id" field if the given value is not nil.
-func (pcu *PaymentChannelUpdate) SetNillableSpaceID(s *string) *PaymentChannelUpdate {
-	if s != nil {
-		pcu.SetSpaceID(*s)
+func (_u *PaymentChannelUpdate) SetNillableSpaceID(v *string) *PaymentChannelUpdate {
+	if v != nil {
+		_u.SetSpaceID(*v)
 	}
-	return pcu
+	return _u
 }
 
 // ClearSpaceID clears the value of the "space_id" field.
-func (pcu *PaymentChannelUpdate) ClearSpaceID() *PaymentChannelUpdate {
-	pcu.mutation.ClearSpaceID()
-	return pcu
+func (_u *PaymentChannelUpdate) ClearSpaceID() *PaymentChannelUpdate {
+	_u.mutation.ClearSpaceID()
+	return _u
 }
 
 // Mutation returns the PaymentChannelMutation object of the builder.
-func (pcu *PaymentChannelUpdate) Mutation() *PaymentChannelMutation {
-	return pcu.mutation
+func (_u *PaymentChannelUpdate) Mutation() *PaymentChannelMutation {
+	return _u.mutation
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
-func (pcu *PaymentChannelUpdate) Save(ctx context.Context) (int, error) {
-	pcu.defaults()
-	return withHooks(ctx, pcu.sqlSave, pcu.mutation, pcu.hooks)
+func (_u *PaymentChannelUpdate) Save(ctx context.Context) (int, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (pcu *PaymentChannelUpdate) SaveX(ctx context.Context) int {
-	affected, err := pcu.Save(ctx)
+func (_u *PaymentChannelUpdate) SaveX(ctx context.Context) int {
+	affected, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -240,29 +240,29 @@ func (pcu *PaymentChannelUpdate) SaveX(ctx context.Context) int {
 }
 
 // Exec executes the query.
-func (pcu *PaymentChannelUpdate) Exec(ctx context.Context) error {
-	_, err := pcu.Save(ctx)
+func (_u *PaymentChannelUpdate) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (pcu *PaymentChannelUpdate) ExecX(ctx context.Context) {
-	if err := pcu.Exec(ctx); err != nil {
+func (_u *PaymentChannelUpdate) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (pcu *PaymentChannelUpdate) defaults() {
-	if _, ok := pcu.mutation.UpdatedAt(); !ok && !pcu.mutation.UpdatedAtCleared() {
+func (_u *PaymentChannelUpdate) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := paymentchannel.UpdateDefaultUpdatedAt()
-		pcu.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (pcu *PaymentChannelUpdate) check() error {
-	if v, ok := pcu.mutation.Provider(); ok {
+func (_u *PaymentChannelUpdate) check() error {
+	if v, ok := _u.mutation.Provider(); ok {
 		if err := paymentchannel.ProviderValidator(v); err != nil {
 			return &ValidationError{Name: "provider", err: fmt.Errorf(`ent: validator failed for field "PaymentChannel.provider": %w`, err)}
 		}
@@ -270,87 +270,87 @@ func (pcu *PaymentChannelUpdate) check() error {
 	return nil
 }
 
-func (pcu *PaymentChannelUpdate) sqlSave(ctx context.Context) (n int, err error) {
-	if err := pcu.check(); err != nil {
-		return n, err
+func (_u *PaymentChannelUpdate) sqlSave(ctx context.Context) (_node int, err error) {
+	if err := _u.check(); err != nil {
+		return _node, err
 	}
 	_spec := sqlgraph.NewUpdateSpec(paymentchannel.Table, paymentchannel.Columns, sqlgraph.NewFieldSpec(paymentchannel.FieldID, field.TypeString))
-	if ps := pcu.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := pcu.mutation.Name(); ok {
+	if value, ok := _u.mutation.Name(); ok {
 		_spec.SetField(paymentchannel.FieldName, field.TypeString, value)
 	}
-	if pcu.mutation.NameCleared() {
+	if _u.mutation.NameCleared() {
 		_spec.ClearField(paymentchannel.FieldName, field.TypeString)
 	}
-	if value, ok := pcu.mutation.Description(); ok {
+	if value, ok := _u.mutation.Description(); ok {
 		_spec.SetField(paymentchannel.FieldDescription, field.TypeString, value)
 	}
-	if pcu.mutation.DescriptionCleared() {
+	if _u.mutation.DescriptionCleared() {
 		_spec.ClearField(paymentchannel.FieldDescription, field.TypeString)
 	}
-	if value, ok := pcu.mutation.Extras(); ok {
+	if value, ok := _u.mutation.Extras(); ok {
 		_spec.SetField(paymentchannel.FieldExtras, field.TypeJSON, value)
 	}
-	if pcu.mutation.ExtrasCleared() {
+	if _u.mutation.ExtrasCleared() {
 		_spec.ClearField(paymentchannel.FieldExtras, field.TypeJSON)
 	}
-	if value, ok := pcu.mutation.CreatedBy(); ok {
+	if value, ok := _u.mutation.CreatedBy(); ok {
 		_spec.SetField(paymentchannel.FieldCreatedBy, field.TypeString, value)
 	}
-	if pcu.mutation.CreatedByCleared() {
+	if _u.mutation.CreatedByCleared() {
 		_spec.ClearField(paymentchannel.FieldCreatedBy, field.TypeString)
 	}
-	if value, ok := pcu.mutation.UpdatedBy(); ok {
+	if value, ok := _u.mutation.UpdatedBy(); ok {
 		_spec.SetField(paymentchannel.FieldUpdatedBy, field.TypeString, value)
 	}
-	if pcu.mutation.UpdatedByCleared() {
+	if _u.mutation.UpdatedByCleared() {
 		_spec.ClearField(paymentchannel.FieldUpdatedBy, field.TypeString)
 	}
-	if pcu.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(paymentchannel.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := pcu.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(paymentchannel.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := pcu.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(paymentchannel.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if pcu.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(paymentchannel.FieldUpdatedAt, field.TypeInt64)
 	}
-	if value, ok := pcu.mutation.Provider(); ok {
+	if value, ok := _u.mutation.Provider(); ok {
 		_spec.SetField(paymentchannel.FieldProvider, field.TypeString, value)
 	}
-	if value, ok := pcu.mutation.Status(); ok {
+	if value, ok := _u.mutation.Status(); ok {
 		_spec.SetField(paymentchannel.FieldStatus, field.TypeString, value)
 	}
-	if value, ok := pcu.mutation.IsDefault(); ok {
+	if value, ok := _u.mutation.IsDefault(); ok {
 		_spec.SetField(paymentchannel.FieldIsDefault, field.TypeBool, value)
 	}
-	if value, ok := pcu.mutation.SupportedTypes(); ok {
+	if value, ok := _u.mutation.SupportedTypes(); ok {
 		_spec.SetField(paymentchannel.FieldSupportedTypes, field.TypeJSON, value)
 	}
-	if value, ok := pcu.mutation.AppendedSupportedTypes(); ok {
+	if value, ok := _u.mutation.AppendedSupportedTypes(); ok {
 		_spec.AddModifier(func(u *sql.UpdateBuilder) {
 			sqljson.Append(u, paymentchannel.FieldSupportedTypes, value)
 		})
 	}
-	if value, ok := pcu.mutation.Config(); ok {
+	if value, ok := _u.mutation.Config(); ok {
 		_spec.SetField(paymentchannel.FieldConfig, field.TypeJSON, value)
 	}
-	if value, ok := pcu.mutation.SpaceID(); ok {
+	if value, ok := _u.mutation.SpaceID(); ok {
 		_spec.SetField(paymentchannel.FieldSpaceID, field.TypeString, value)
 	}
-	if pcu.mutation.SpaceIDCleared() {
+	if _u.mutation.SpaceIDCleared() {
 		_spec.ClearField(paymentchannel.FieldSpaceID, field.TypeString)
 	}
-	if n, err = sqlgraph.UpdateNodes(ctx, pcu.driver, _spec); err != nil {
+	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{paymentchannel.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -358,8 +358,8 @@ func (pcu *PaymentChannelUpdate) sqlSave(ctx context.Context) (n int, err error)
 		}
 		return 0, err
 	}
-	pcu.mutation.done = true
-	return n, nil
+	_u.mutation.done = true
+	return _node, nil
 }
 
 // PaymentChannelUpdateOne is the builder for updating a single PaymentChannel entity.
@@ -371,223 +371,223 @@ type PaymentChannelUpdateOne struct {
 }
 
 // SetName sets the "name" field.
-func (pcuo *PaymentChannelUpdateOne) SetName(s string) *PaymentChannelUpdateOne {
-	pcuo.mutation.SetName(s)
-	return pcuo
+func (_u *PaymentChannelUpdateOne) SetName(v string) *PaymentChannelUpdateOne {
+	_u.mutation.SetName(v)
+	return _u
 }
 
 // SetNillableName sets the "name" field if the given value is not nil.
-func (pcuo *PaymentChannelUpdateOne) SetNillableName(s *string) *PaymentChannelUpdateOne {
-	if s != nil {
-		pcuo.SetName(*s)
+func (_u *PaymentChannelUpdateOne) SetNillableName(v *string) *PaymentChannelUpdateOne {
+	if v != nil {
+		_u.SetName(*v)
 	}
-	return pcuo
+	return _u
 }
 
 // ClearName clears the value of the "name" field.
-func (pcuo *PaymentChannelUpdateOne) ClearName() *PaymentChannelUpdateOne {
-	pcuo.mutation.ClearName()
-	return pcuo
+func (_u *PaymentChannelUpdateOne) ClearName() *PaymentChannelUpdateOne {
+	_u.mutation.ClearName()
+	return _u
 }
 
 // SetDescription sets the "description" field.
-func (pcuo *PaymentChannelUpdateOne) SetDescription(s string) *PaymentChannelUpdateOne {
-	pcuo.mutation.SetDescription(s)
-	return pcuo
+func (_u *PaymentChannelUpdateOne) SetDescription(v string) *PaymentChannelUpdateOne {
+	_u.mutation.SetDescription(v)
+	return _u
 }
 
 // SetNillableDescription sets the "description" field if the given value is not nil.
-func (pcuo *PaymentChannelUpdateOne) SetNillableDescription(s *string) *PaymentChannelUpdateOne {
-	if s != nil {
-		pcuo.SetDescription(*s)
+func (_u *PaymentChannelUpdateOne) SetNillableDescription(v *string) *PaymentChannelUpdateOne {
+	if v != nil {
+		_u.SetDescription(*v)
 	}
-	return pcuo
+	return _u
 }
 
 // ClearDescription clears the value of the "description" field.
-func (pcuo *PaymentChannelUpdateOne) ClearDescription() *PaymentChannelUpdateOne {
-	pcuo.mutation.ClearDescription()
-	return pcuo
+func (_u *PaymentChannelUpdateOne) ClearDescription() *PaymentChannelUpdateOne {
+	_u.mutation.ClearDescription()
+	return _u
 }
 
 // SetExtras sets the "extras" field.
-func (pcuo *PaymentChannelUpdateOne) SetExtras(m map[string]interface{}) *PaymentChannelUpdateOne {
-	pcuo.mutation.SetExtras(m)
-	return pcuo
+func (_u *PaymentChannelUpdateOne) SetExtras(v map[string]interface{}) *PaymentChannelUpdateOne {
+	_u.mutation.SetExtras(v)
+	return _u
 }
 
 // ClearExtras clears the value of the "extras" field.
-func (pcuo *PaymentChannelUpdateOne) ClearExtras() *PaymentChannelUpdateOne {
-	pcuo.mutation.ClearExtras()
-	return pcuo
+func (_u *PaymentChannelUpdateOne) ClearExtras() *PaymentChannelUpdateOne {
+	_u.mutation.ClearExtras()
+	return _u
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (pcuo *PaymentChannelUpdateOne) SetCreatedBy(s string) *PaymentChannelUpdateOne {
-	pcuo.mutation.SetCreatedBy(s)
-	return pcuo
+func (_u *PaymentChannelUpdateOne) SetCreatedBy(v string) *PaymentChannelUpdateOne {
+	_u.mutation.SetCreatedBy(v)
+	return _u
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (pcuo *PaymentChannelUpdateOne) SetNillableCreatedBy(s *string) *PaymentChannelUpdateOne {
-	if s != nil {
-		pcuo.SetCreatedBy(*s)
+func (_u *PaymentChannelUpdateOne) SetNillableCreatedBy(v *string) *PaymentChannelUpdateOne {
+	if v != nil {
+		_u.SetCreatedBy(*v)
 	}
-	return pcuo
+	return _u
 }
 
 // ClearCreatedBy clears the value of the "created_by" field.
-func (pcuo *PaymentChannelUpdateOne) ClearCreatedBy() *PaymentChannelUpdateOne {
-	pcuo.mutation.ClearCreatedBy()
-	return pcuo
+func (_u *PaymentChannelUpdateOne) ClearCreatedBy() *PaymentChannelUpdateOne {
+	_u.mutation.ClearCreatedBy()
+	return _u
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (pcuo *PaymentChannelUpdateOne) SetUpdatedBy(s string) *PaymentChannelUpdateOne {
-	pcuo.mutation.SetUpdatedBy(s)
-	return pcuo
+func (_u *PaymentChannelUpdateOne) SetUpdatedBy(v string) *PaymentChannelUpdateOne {
+	_u.mutation.SetUpdatedBy(v)
+	return _u
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (pcuo *PaymentChannelUpdateOne) SetNillableUpdatedBy(s *string) *PaymentChannelUpdateOne {
-	if s != nil {
-		pcuo.SetUpdatedBy(*s)
+func (_u *PaymentChannelUpdateOne) SetNillableUpdatedBy(v *string) *PaymentChannelUpdateOne {
+	if v != nil {
+		_u.SetUpdatedBy(*v)
 	}
-	return pcuo
+	return _u
 }
 
 // ClearUpdatedBy clears the value of the "updated_by" field.
-func (pcuo *PaymentChannelUpdateOne) ClearUpdatedBy() *PaymentChannelUpdateOne {
-	pcuo.mutation.ClearUpdatedBy()
-	return pcuo
+func (_u *PaymentChannelUpdateOne) ClearUpdatedBy() *PaymentChannelUpdateOne {
+	_u.mutation.ClearUpdatedBy()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (pcuo *PaymentChannelUpdateOne) SetUpdatedAt(i int64) *PaymentChannelUpdateOne {
-	pcuo.mutation.ResetUpdatedAt()
-	pcuo.mutation.SetUpdatedAt(i)
-	return pcuo
+func (_u *PaymentChannelUpdateOne) SetUpdatedAt(v int64) *PaymentChannelUpdateOne {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (pcuo *PaymentChannelUpdateOne) AddUpdatedAt(i int64) *PaymentChannelUpdateOne {
-	pcuo.mutation.AddUpdatedAt(i)
-	return pcuo
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *PaymentChannelUpdateOne) AddUpdatedAt(v int64) *PaymentChannelUpdateOne {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (pcuo *PaymentChannelUpdateOne) ClearUpdatedAt() *PaymentChannelUpdateOne {
-	pcuo.mutation.ClearUpdatedAt()
-	return pcuo
+func (_u *PaymentChannelUpdateOne) ClearUpdatedAt() *PaymentChannelUpdateOne {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // SetProvider sets the "provider" field.
-func (pcuo *PaymentChannelUpdateOne) SetProvider(s string) *PaymentChannelUpdateOne {
-	pcuo.mutation.SetProvider(s)
-	return pcuo
+func (_u *PaymentChannelUpdateOne) SetProvider(v string) *PaymentChannelUpdateOne {
+	_u.mutation.SetProvider(v)
+	return _u
 }
 
 // SetNillableProvider sets the "provider" field if the given value is not nil.
-func (pcuo *PaymentChannelUpdateOne) SetNillableProvider(s *string) *PaymentChannelUpdateOne {
-	if s != nil {
-		pcuo.SetProvider(*s)
+func (_u *PaymentChannelUpdateOne) SetNillableProvider(v *string) *PaymentChannelUpdateOne {
+	if v != nil {
+		_u.SetProvider(*v)
 	}
-	return pcuo
+	return _u
 }
 
 // SetStatus sets the "status" field.
-func (pcuo *PaymentChannelUpdateOne) SetStatus(s string) *PaymentChannelUpdateOne {
-	pcuo.mutation.SetStatus(s)
-	return pcuo
+func (_u *PaymentChannelUpdateOne) SetStatus(v string) *PaymentChannelUpdateOne {
+	_u.mutation.SetStatus(v)
+	return _u
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (pcuo *PaymentChannelUpdateOne) SetNillableStatus(s *string) *PaymentChannelUpdateOne {
-	if s != nil {
-		pcuo.SetStatus(*s)
+func (_u *PaymentChannelUpdateOne) SetNillableStatus(v *string) *PaymentChannelUpdateOne {
+	if v != nil {
+		_u.SetStatus(*v)
 	}
-	return pcuo
+	return _u
 }
 
 // SetIsDefault sets the "is_default" field.
-func (pcuo *PaymentChannelUpdateOne) SetIsDefault(b bool) *PaymentChannelUpdateOne {
-	pcuo.mutation.SetIsDefault(b)
-	return pcuo
+func (_u *PaymentChannelUpdateOne) SetIsDefault(v bool) *PaymentChannelUpdateOne {
+	_u.mutation.SetIsDefault(v)
+	return _u
 }
 
 // SetNillableIsDefault sets the "is_default" field if the given value is not nil.
-func (pcuo *PaymentChannelUpdateOne) SetNillableIsDefault(b *bool) *PaymentChannelUpdateOne {
-	if b != nil {
-		pcuo.SetIsDefault(*b)
+func (_u *PaymentChannelUpdateOne) SetNillableIsDefault(v *bool) *PaymentChannelUpdateOne {
+	if v != nil {
+		_u.SetIsDefault(*v)
 	}
-	return pcuo
+	return _u
 }
 
 // SetSupportedTypes sets the "supported_types" field.
-func (pcuo *PaymentChannelUpdateOne) SetSupportedTypes(s []string) *PaymentChannelUpdateOne {
-	pcuo.mutation.SetSupportedTypes(s)
-	return pcuo
+func (_u *PaymentChannelUpdateOne) SetSupportedTypes(v []string) *PaymentChannelUpdateOne {
+	_u.mutation.SetSupportedTypes(v)
+	return _u
 }
 
-// AppendSupportedTypes appends s to the "supported_types" field.
-func (pcuo *PaymentChannelUpdateOne) AppendSupportedTypes(s []string) *PaymentChannelUpdateOne {
-	pcuo.mutation.AppendSupportedTypes(s)
-	return pcuo
+// AppendSupportedTypes appends value to the "supported_types" field.
+func (_u *PaymentChannelUpdateOne) AppendSupportedTypes(v []string) *PaymentChannelUpdateOne {
+	_u.mutation.AppendSupportedTypes(v)
+	return _u
 }
 
 // SetConfig sets the "config" field.
-func (pcuo *PaymentChannelUpdateOne) SetConfig(m map[string]interface{}) *PaymentChannelUpdateOne {
-	pcuo.mutation.SetConfig(m)
-	return pcuo
+func (_u *PaymentChannelUpdateOne) SetConfig(v map[string]interface{}) *PaymentChannelUpdateOne {
+	_u.mutation.SetConfig(v)
+	return _u
 }
 
 // SetSpaceID sets the "space_id" field.
-func (pcuo *PaymentChannelUpdateOne) SetSpaceID(s string) *PaymentChannelUpdateOne {
-	pcuo.mutation.SetSpaceID(s)
-	return pcuo
+func (_u *PaymentChannelUpdateOne) SetSpaceID(v string) *PaymentChannelUpdateOne {
+	_u.mutation.SetSpaceID(v)
+	return _u
 }
 
 // SetNillableSpaceID sets the "space_id" field if the given value is not nil.
-func (pcuo *PaymentChannelUpdateOne) SetNillableSpaceID(s *string) *PaymentChannelUpdateOne {
-	if s != nil {
-		pcuo.SetSpaceID(*s)
+func (_u *PaymentChannelUpdateOne) SetNillableSpaceID(v *string) *PaymentChannelUpdateOne {
+	if v != nil {
+		_u.SetSpaceID(*v)
 	}
-	return pcuo
+	return _u
 }
 
 // ClearSpaceID clears the value of the "space_id" field.
-func (pcuo *PaymentChannelUpdateOne) ClearSpaceID() *PaymentChannelUpdateOne {
-	pcuo.mutation.ClearSpaceID()
-	return pcuo
+func (_u *PaymentChannelUpdateOne) ClearSpaceID() *PaymentChannelUpdateOne {
+	_u.mutation.ClearSpaceID()
+	return _u
 }
 
 // Mutation returns the PaymentChannelMutation object of the builder.
-func (pcuo *PaymentChannelUpdateOne) Mutation() *PaymentChannelMutation {
-	return pcuo.mutation
+func (_u *PaymentChannelUpdateOne) Mutation() *PaymentChannelMutation {
+	return _u.mutation
 }
 
 // Where appends a list predicates to the PaymentChannelUpdate builder.
-func (pcuo *PaymentChannelUpdateOne) Where(ps ...predicate.PaymentChannel) *PaymentChannelUpdateOne {
-	pcuo.mutation.Where(ps...)
-	return pcuo
+func (_u *PaymentChannelUpdateOne) Where(ps ...predicate.PaymentChannel) *PaymentChannelUpdateOne {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // Select allows selecting one or more fields (columns) of the returned entity.
 // The default is selecting all fields defined in the entity schema.
-func (pcuo *PaymentChannelUpdateOne) Select(field string, fields ...string) *PaymentChannelUpdateOne {
-	pcuo.fields = append([]string{field}, fields...)
-	return pcuo
+func (_u *PaymentChannelUpdateOne) Select(field string, fields ...string) *PaymentChannelUpdateOne {
+	_u.fields = append([]string{field}, fields...)
+	return _u
 }
 
 // Save executes the query and returns the updated PaymentChannel entity.
-func (pcuo *PaymentChannelUpdateOne) Save(ctx context.Context) (*PaymentChannel, error) {
-	pcuo.defaults()
-	return withHooks(ctx, pcuo.sqlSave, pcuo.mutation, pcuo.hooks)
+func (_u *PaymentChannelUpdateOne) Save(ctx context.Context) (*PaymentChannel, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (pcuo *PaymentChannelUpdateOne) SaveX(ctx context.Context) *PaymentChannel {
-	node, err := pcuo.Save(ctx)
+func (_u *PaymentChannelUpdateOne) SaveX(ctx context.Context) *PaymentChannel {
+	node, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -595,29 +595,29 @@ func (pcuo *PaymentChannelUpdateOne) SaveX(ctx context.Context) *PaymentChannel 
 }
 
 // Exec executes the query on the entity.
-func (pcuo *PaymentChannelUpdateOne) Exec(ctx context.Context) error {
-	_, err := pcuo.Save(ctx)
+func (_u *PaymentChannelUpdateOne) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (pcuo *PaymentChannelUpdateOne) ExecX(ctx context.Context) {
-	if err := pcuo.Exec(ctx); err != nil {
+func (_u *PaymentChannelUpdateOne) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (pcuo *PaymentChannelUpdateOne) defaults() {
-	if _, ok := pcuo.mutation.UpdatedAt(); !ok && !pcuo.mutation.UpdatedAtCleared() {
+func (_u *PaymentChannelUpdateOne) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := paymentchannel.UpdateDefaultUpdatedAt()
-		pcuo.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (pcuo *PaymentChannelUpdateOne) check() error {
-	if v, ok := pcuo.mutation.Provider(); ok {
+func (_u *PaymentChannelUpdateOne) check() error {
+	if v, ok := _u.mutation.Provider(); ok {
 		if err := paymentchannel.ProviderValidator(v); err != nil {
 			return &ValidationError{Name: "provider", err: fmt.Errorf(`ent: validator failed for field "PaymentChannel.provider": %w`, err)}
 		}
@@ -625,17 +625,17 @@ func (pcuo *PaymentChannelUpdateOne) check() error {
 	return nil
 }
 
-func (pcuo *PaymentChannelUpdateOne) sqlSave(ctx context.Context) (_node *PaymentChannel, err error) {
-	if err := pcuo.check(); err != nil {
+func (_u *PaymentChannelUpdateOne) sqlSave(ctx context.Context) (_node *PaymentChannel, err error) {
+	if err := _u.check(); err != nil {
 		return _node, err
 	}
 	_spec := sqlgraph.NewUpdateSpec(paymentchannel.Table, paymentchannel.Columns, sqlgraph.NewFieldSpec(paymentchannel.FieldID, field.TypeString))
-	id, ok := pcuo.mutation.ID()
+	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "PaymentChannel.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
-	if fields := pcuo.fields; len(fields) > 0 {
+	if fields := _u.fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, paymentchannel.FieldID)
 		for _, f := range fields {
@@ -647,85 +647,85 @@ func (pcuo *PaymentChannelUpdateOne) sqlSave(ctx context.Context) (_node *Paymen
 			}
 		}
 	}
-	if ps := pcuo.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := pcuo.mutation.Name(); ok {
+	if value, ok := _u.mutation.Name(); ok {
 		_spec.SetField(paymentchannel.FieldName, field.TypeString, value)
 	}
-	if pcuo.mutation.NameCleared() {
+	if _u.mutation.NameCleared() {
 		_spec.ClearField(paymentchannel.FieldName, field.TypeString)
 	}
-	if value, ok := pcuo.mutation.Description(); ok {
+	if value, ok := _u.mutation.Description(); ok {
 		_spec.SetField(paymentchannel.FieldDescription, field.TypeString, value)
 	}
-	if pcuo.mutation.DescriptionCleared() {
+	if _u.mutation.DescriptionCleared() {
 		_spec.ClearField(paymentchannel.FieldDescription, field.TypeString)
 	}
-	if value, ok := pcuo.mutation.Extras(); ok {
+	if value, ok := _u.mutation.Extras(); ok {
 		_spec.SetField(paymentchannel.FieldExtras, field.TypeJSON, value)
 	}
-	if pcuo.mutation.ExtrasCleared() {
+	if _u.mutation.ExtrasCleared() {
 		_spec.ClearField(paymentchannel.FieldExtras, field.TypeJSON)
 	}
-	if value, ok := pcuo.mutation.CreatedBy(); ok {
+	if value, ok := _u.mutation.CreatedBy(); ok {
 		_spec.SetField(paymentchannel.FieldCreatedBy, field.TypeString, value)
 	}
-	if pcuo.mutation.CreatedByCleared() {
+	if _u.mutation.CreatedByCleared() {
 		_spec.ClearField(paymentchannel.FieldCreatedBy, field.TypeString)
 	}
-	if value, ok := pcuo.mutation.UpdatedBy(); ok {
+	if value, ok := _u.mutation.UpdatedBy(); ok {
 		_spec.SetField(paymentchannel.FieldUpdatedBy, field.TypeString, value)
 	}
-	if pcuo.mutation.UpdatedByCleared() {
+	if _u.mutation.UpdatedByCleared() {
 		_spec.ClearField(paymentchannel.FieldUpdatedBy, field.TypeString)
 	}
-	if pcuo.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(paymentchannel.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := pcuo.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(paymentchannel.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := pcuo.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(paymentchannel.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if pcuo.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(paymentchannel.FieldUpdatedAt, field.TypeInt64)
 	}
-	if value, ok := pcuo.mutation.Provider(); ok {
+	if value, ok := _u.mutation.Provider(); ok {
 		_spec.SetField(paymentchannel.FieldProvider, field.TypeString, value)
 	}
-	if value, ok := pcuo.mutation.Status(); ok {
+	if value, ok := _u.mutation.Status(); ok {
 		_spec.SetField(paymentchannel.FieldStatus, field.TypeString, value)
 	}
-	if value, ok := pcuo.mutation.IsDefault(); ok {
+	if value, ok := _u.mutation.IsDefault(); ok {
 		_spec.SetField(paymentchannel.FieldIsDefault, field.TypeBool, value)
 	}
-	if value, ok := pcuo.mutation.SupportedTypes(); ok {
+	if value, ok := _u.mutation.SupportedTypes(); ok {
 		_spec.SetField(paymentchannel.FieldSupportedTypes, field.TypeJSON, value)
 	}
-	if value, ok := pcuo.mutation.AppendedSupportedTypes(); ok {
+	if value, ok := _u.mutation.AppendedSupportedTypes(); ok {
 		_spec.AddModifier(func(u *sql.UpdateBuilder) {
 			sqljson.Append(u, paymentchannel.FieldSupportedTypes, value)
 		})
 	}
-	if value, ok := pcuo.mutation.Config(); ok {
+	if value, ok := _u.mutation.Config(); ok {
 		_spec.SetField(paymentchannel.FieldConfig, field.TypeJSON, value)
 	}
-	if value, ok := pcuo.mutation.SpaceID(); ok {
+	if value, ok := _u.mutation.SpaceID(); ok {
 		_spec.SetField(paymentchannel.FieldSpaceID, field.TypeString, value)
 	}
-	if pcuo.mutation.SpaceIDCleared() {
+	if _u.mutation.SpaceIDCleared() {
 		_spec.ClearField(paymentchannel.FieldSpaceID, field.TypeString)
 	}
-	_node = &PaymentChannel{config: pcuo.config}
+	_node = &PaymentChannel{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues
-	if err = sqlgraph.UpdateNode(ctx, pcuo.driver, _spec); err != nil {
+	if err = sqlgraph.UpdateNode(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{paymentchannel.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -733,6 +733,6 @@ func (pcuo *PaymentChannelUpdateOne) sqlSave(ctx context.Context) (_node *Paymen
 		}
 		return nil, err
 	}
-	pcuo.mutation.done = true
+	_u.mutation.done = true
 	return _node, nil
 }

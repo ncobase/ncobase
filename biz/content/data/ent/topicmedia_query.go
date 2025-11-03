@@ -32,44 +32,44 @@ type TopicMediaQuery struct {
 }
 
 // Where adds a new predicate for the TopicMediaQuery builder.
-func (tmq *TopicMediaQuery) Where(ps ...predicate.TopicMedia) *TopicMediaQuery {
-	tmq.predicates = append(tmq.predicates, ps...)
-	return tmq
+func (_q *TopicMediaQuery) Where(ps ...predicate.TopicMedia) *TopicMediaQuery {
+	_q.predicates = append(_q.predicates, ps...)
+	return _q
 }
 
 // Limit the number of records to be returned by this query.
-func (tmq *TopicMediaQuery) Limit(limit int) *TopicMediaQuery {
-	tmq.ctx.Limit = &limit
-	return tmq
+func (_q *TopicMediaQuery) Limit(limit int) *TopicMediaQuery {
+	_q.ctx.Limit = &limit
+	return _q
 }
 
 // Offset to start from.
-func (tmq *TopicMediaQuery) Offset(offset int) *TopicMediaQuery {
-	tmq.ctx.Offset = &offset
-	return tmq
+func (_q *TopicMediaQuery) Offset(offset int) *TopicMediaQuery {
+	_q.ctx.Offset = &offset
+	return _q
 }
 
 // Unique configures the query builder to filter duplicate records on query.
 // By default, unique is set to true, and can be disabled using this method.
-func (tmq *TopicMediaQuery) Unique(unique bool) *TopicMediaQuery {
-	tmq.ctx.Unique = &unique
-	return tmq
+func (_q *TopicMediaQuery) Unique(unique bool) *TopicMediaQuery {
+	_q.ctx.Unique = &unique
+	return _q
 }
 
 // Order specifies how the records should be ordered.
-func (tmq *TopicMediaQuery) Order(o ...topicmedia.OrderOption) *TopicMediaQuery {
-	tmq.order = append(tmq.order, o...)
-	return tmq
+func (_q *TopicMediaQuery) Order(o ...topicmedia.OrderOption) *TopicMediaQuery {
+	_q.order = append(_q.order, o...)
+	return _q
 }
 
 // QueryMedia chains the current query on the "media" edge.
-func (tmq *TopicMediaQuery) QueryMedia() *MediaQuery {
-	query := (&MediaClient{config: tmq.config}).Query()
+func (_q *TopicMediaQuery) QueryMedia() *MediaQuery {
+	query := (&MediaClient{config: _q.config}).Query()
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
-		if err := tmq.prepareQuery(ctx); err != nil {
+		if err := _q.prepareQuery(ctx); err != nil {
 			return nil, err
 		}
-		selector := tmq.sqlQuery(ctx)
+		selector := _q.sqlQuery(ctx)
 		if err := selector.Err(); err != nil {
 			return nil, err
 		}
@@ -78,20 +78,20 @@ func (tmq *TopicMediaQuery) QueryMedia() *MediaQuery {
 			sqlgraph.To(media.Table, media.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, false, topicmedia.MediaTable, topicmedia.MediaColumn),
 		)
-		fromU = sqlgraph.SetNeighbors(tmq.driver.Dialect(), step)
+		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
 	}
 	return query
 }
 
 // QueryTopic chains the current query on the "topic" edge.
-func (tmq *TopicMediaQuery) QueryTopic() *TopicQuery {
-	query := (&TopicClient{config: tmq.config}).Query()
+func (_q *TopicMediaQuery) QueryTopic() *TopicQuery {
+	query := (&TopicClient{config: _q.config}).Query()
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
-		if err := tmq.prepareQuery(ctx); err != nil {
+		if err := _q.prepareQuery(ctx); err != nil {
 			return nil, err
 		}
-		selector := tmq.sqlQuery(ctx)
+		selector := _q.sqlQuery(ctx)
 		if err := selector.Err(); err != nil {
 			return nil, err
 		}
@@ -100,7 +100,7 @@ func (tmq *TopicMediaQuery) QueryTopic() *TopicQuery {
 			sqlgraph.To(topic.Table, topic.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, false, topicmedia.TopicTable, topicmedia.TopicColumn),
 		)
-		fromU = sqlgraph.SetNeighbors(tmq.driver.Dialect(), step)
+		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
 	}
 	return query
@@ -108,8 +108,8 @@ func (tmq *TopicMediaQuery) QueryTopic() *TopicQuery {
 
 // First returns the first TopicMedia entity from the query.
 // Returns a *NotFoundError when no TopicMedia was found.
-func (tmq *TopicMediaQuery) First(ctx context.Context) (*TopicMedia, error) {
-	nodes, err := tmq.Limit(1).All(setContextOp(ctx, tmq.ctx, ent.OpQueryFirst))
+func (_q *TopicMediaQuery) First(ctx context.Context) (*TopicMedia, error) {
+	nodes, err := _q.Limit(1).All(setContextOp(ctx, _q.ctx, ent.OpQueryFirst))
 	if err != nil {
 		return nil, err
 	}
@@ -120,8 +120,8 @@ func (tmq *TopicMediaQuery) First(ctx context.Context) (*TopicMedia, error) {
 }
 
 // FirstX is like First, but panics if an error occurs.
-func (tmq *TopicMediaQuery) FirstX(ctx context.Context) *TopicMedia {
-	node, err := tmq.First(ctx)
+func (_q *TopicMediaQuery) FirstX(ctx context.Context) *TopicMedia {
+	node, err := _q.First(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
 	}
@@ -130,9 +130,9 @@ func (tmq *TopicMediaQuery) FirstX(ctx context.Context) *TopicMedia {
 
 // FirstID returns the first TopicMedia ID from the query.
 // Returns a *NotFoundError when no TopicMedia ID was found.
-func (tmq *TopicMediaQuery) FirstID(ctx context.Context) (id string, err error) {
+func (_q *TopicMediaQuery) FirstID(ctx context.Context) (id string, err error) {
 	var ids []string
-	if ids, err = tmq.Limit(1).IDs(setContextOp(ctx, tmq.ctx, ent.OpQueryFirstID)); err != nil {
+	if ids, err = _q.Limit(1).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryFirstID)); err != nil {
 		return
 	}
 	if len(ids) == 0 {
@@ -143,8 +143,8 @@ func (tmq *TopicMediaQuery) FirstID(ctx context.Context) (id string, err error) 
 }
 
 // FirstIDX is like FirstID, but panics if an error occurs.
-func (tmq *TopicMediaQuery) FirstIDX(ctx context.Context) string {
-	id, err := tmq.FirstID(ctx)
+func (_q *TopicMediaQuery) FirstIDX(ctx context.Context) string {
+	id, err := _q.FirstID(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
 	}
@@ -154,8 +154,8 @@ func (tmq *TopicMediaQuery) FirstIDX(ctx context.Context) string {
 // Only returns a single TopicMedia entity found by the query, ensuring it only returns one.
 // Returns a *NotSingularError when more than one TopicMedia entity is found.
 // Returns a *NotFoundError when no TopicMedia entities are found.
-func (tmq *TopicMediaQuery) Only(ctx context.Context) (*TopicMedia, error) {
-	nodes, err := tmq.Limit(2).All(setContextOp(ctx, tmq.ctx, ent.OpQueryOnly))
+func (_q *TopicMediaQuery) Only(ctx context.Context) (*TopicMedia, error) {
+	nodes, err := _q.Limit(2).All(setContextOp(ctx, _q.ctx, ent.OpQueryOnly))
 	if err != nil {
 		return nil, err
 	}
@@ -170,8 +170,8 @@ func (tmq *TopicMediaQuery) Only(ctx context.Context) (*TopicMedia, error) {
 }
 
 // OnlyX is like Only, but panics if an error occurs.
-func (tmq *TopicMediaQuery) OnlyX(ctx context.Context) *TopicMedia {
-	node, err := tmq.Only(ctx)
+func (_q *TopicMediaQuery) OnlyX(ctx context.Context) *TopicMedia {
+	node, err := _q.Only(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -181,9 +181,9 @@ func (tmq *TopicMediaQuery) OnlyX(ctx context.Context) *TopicMedia {
 // OnlyID is like Only, but returns the only TopicMedia ID in the query.
 // Returns a *NotSingularError when more than one TopicMedia ID is found.
 // Returns a *NotFoundError when no entities are found.
-func (tmq *TopicMediaQuery) OnlyID(ctx context.Context) (id string, err error) {
+func (_q *TopicMediaQuery) OnlyID(ctx context.Context) (id string, err error) {
 	var ids []string
-	if ids, err = tmq.Limit(2).IDs(setContextOp(ctx, tmq.ctx, ent.OpQueryOnlyID)); err != nil {
+	if ids, err = _q.Limit(2).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryOnlyID)); err != nil {
 		return
 	}
 	switch len(ids) {
@@ -198,8 +198,8 @@ func (tmq *TopicMediaQuery) OnlyID(ctx context.Context) (id string, err error) {
 }
 
 // OnlyIDX is like OnlyID, but panics if an error occurs.
-func (tmq *TopicMediaQuery) OnlyIDX(ctx context.Context) string {
-	id, err := tmq.OnlyID(ctx)
+func (_q *TopicMediaQuery) OnlyIDX(ctx context.Context) string {
+	id, err := _q.OnlyID(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -207,18 +207,18 @@ func (tmq *TopicMediaQuery) OnlyIDX(ctx context.Context) string {
 }
 
 // All executes the query and returns a list of TopicMediaSlice.
-func (tmq *TopicMediaQuery) All(ctx context.Context) ([]*TopicMedia, error) {
-	ctx = setContextOp(ctx, tmq.ctx, ent.OpQueryAll)
-	if err := tmq.prepareQuery(ctx); err != nil {
+func (_q *TopicMediaQuery) All(ctx context.Context) ([]*TopicMedia, error) {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryAll)
+	if err := _q.prepareQuery(ctx); err != nil {
 		return nil, err
 	}
 	qr := querierAll[[]*TopicMedia, *TopicMediaQuery]()
-	return withInterceptors[[]*TopicMedia](ctx, tmq, qr, tmq.inters)
+	return withInterceptors[[]*TopicMedia](ctx, _q, qr, _q.inters)
 }
 
 // AllX is like All, but panics if an error occurs.
-func (tmq *TopicMediaQuery) AllX(ctx context.Context) []*TopicMedia {
-	nodes, err := tmq.All(ctx)
+func (_q *TopicMediaQuery) AllX(ctx context.Context) []*TopicMedia {
+	nodes, err := _q.All(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -226,20 +226,20 @@ func (tmq *TopicMediaQuery) AllX(ctx context.Context) []*TopicMedia {
 }
 
 // IDs executes the query and returns a list of TopicMedia IDs.
-func (tmq *TopicMediaQuery) IDs(ctx context.Context) (ids []string, err error) {
-	if tmq.ctx.Unique == nil && tmq.path != nil {
-		tmq.Unique(true)
+func (_q *TopicMediaQuery) IDs(ctx context.Context) (ids []string, err error) {
+	if _q.ctx.Unique == nil && _q.path != nil {
+		_q.Unique(true)
 	}
-	ctx = setContextOp(ctx, tmq.ctx, ent.OpQueryIDs)
-	if err = tmq.Select(topicmedia.FieldID).Scan(ctx, &ids); err != nil {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryIDs)
+	if err = _q.Select(topicmedia.FieldID).Scan(ctx, &ids); err != nil {
 		return nil, err
 	}
 	return ids, nil
 }
 
 // IDsX is like IDs, but panics if an error occurs.
-func (tmq *TopicMediaQuery) IDsX(ctx context.Context) []string {
-	ids, err := tmq.IDs(ctx)
+func (_q *TopicMediaQuery) IDsX(ctx context.Context) []string {
+	ids, err := _q.IDs(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -247,17 +247,17 @@ func (tmq *TopicMediaQuery) IDsX(ctx context.Context) []string {
 }
 
 // Count returns the count of the given query.
-func (tmq *TopicMediaQuery) Count(ctx context.Context) (int, error) {
-	ctx = setContextOp(ctx, tmq.ctx, ent.OpQueryCount)
-	if err := tmq.prepareQuery(ctx); err != nil {
+func (_q *TopicMediaQuery) Count(ctx context.Context) (int, error) {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryCount)
+	if err := _q.prepareQuery(ctx); err != nil {
 		return 0, err
 	}
-	return withInterceptors[int](ctx, tmq, querierCount[*TopicMediaQuery](), tmq.inters)
+	return withInterceptors[int](ctx, _q, querierCount[*TopicMediaQuery](), _q.inters)
 }
 
 // CountX is like Count, but panics if an error occurs.
-func (tmq *TopicMediaQuery) CountX(ctx context.Context) int {
-	count, err := tmq.Count(ctx)
+func (_q *TopicMediaQuery) CountX(ctx context.Context) int {
+	count, err := _q.Count(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -265,9 +265,9 @@ func (tmq *TopicMediaQuery) CountX(ctx context.Context) int {
 }
 
 // Exist returns true if the query has elements in the graph.
-func (tmq *TopicMediaQuery) Exist(ctx context.Context) (bool, error) {
-	ctx = setContextOp(ctx, tmq.ctx, ent.OpQueryExist)
-	switch _, err := tmq.FirstID(ctx); {
+func (_q *TopicMediaQuery) Exist(ctx context.Context) (bool, error) {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryExist)
+	switch _, err := _q.FirstID(ctx); {
 	case IsNotFound(err):
 		return false, nil
 	case err != nil:
@@ -278,8 +278,8 @@ func (tmq *TopicMediaQuery) Exist(ctx context.Context) (bool, error) {
 }
 
 // ExistX is like Exist, but panics if an error occurs.
-func (tmq *TopicMediaQuery) ExistX(ctx context.Context) bool {
-	exist, err := tmq.Exist(ctx)
+func (_q *TopicMediaQuery) ExistX(ctx context.Context) bool {
+	exist, err := _q.Exist(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -288,44 +288,44 @@ func (tmq *TopicMediaQuery) ExistX(ctx context.Context) bool {
 
 // Clone returns a duplicate of the TopicMediaQuery builder, including all associated steps. It can be
 // used to prepare common query builders and use them differently after the clone is made.
-func (tmq *TopicMediaQuery) Clone() *TopicMediaQuery {
-	if tmq == nil {
+func (_q *TopicMediaQuery) Clone() *TopicMediaQuery {
+	if _q == nil {
 		return nil
 	}
 	return &TopicMediaQuery{
-		config:     tmq.config,
-		ctx:        tmq.ctx.Clone(),
-		order:      append([]topicmedia.OrderOption{}, tmq.order...),
-		inters:     append([]Interceptor{}, tmq.inters...),
-		predicates: append([]predicate.TopicMedia{}, tmq.predicates...),
-		withMedia:  tmq.withMedia.Clone(),
-		withTopic:  tmq.withTopic.Clone(),
+		config:     _q.config,
+		ctx:        _q.ctx.Clone(),
+		order:      append([]topicmedia.OrderOption{}, _q.order...),
+		inters:     append([]Interceptor{}, _q.inters...),
+		predicates: append([]predicate.TopicMedia{}, _q.predicates...),
+		withMedia:  _q.withMedia.Clone(),
+		withTopic:  _q.withTopic.Clone(),
 		// clone intermediate query.
-		sql:  tmq.sql.Clone(),
-		path: tmq.path,
+		sql:  _q.sql.Clone(),
+		path: _q.path,
 	}
 }
 
 // WithMedia tells the query-builder to eager-load the nodes that are connected to
 // the "media" edge. The optional arguments are used to configure the query builder of the edge.
-func (tmq *TopicMediaQuery) WithMedia(opts ...func(*MediaQuery)) *TopicMediaQuery {
-	query := (&MediaClient{config: tmq.config}).Query()
+func (_q *TopicMediaQuery) WithMedia(opts ...func(*MediaQuery)) *TopicMediaQuery {
+	query := (&MediaClient{config: _q.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
-	tmq.withMedia = query
-	return tmq
+	_q.withMedia = query
+	return _q
 }
 
 // WithTopic tells the query-builder to eager-load the nodes that are connected to
 // the "topic" edge. The optional arguments are used to configure the query builder of the edge.
-func (tmq *TopicMediaQuery) WithTopic(opts ...func(*TopicQuery)) *TopicMediaQuery {
-	query := (&TopicClient{config: tmq.config}).Query()
+func (_q *TopicMediaQuery) WithTopic(opts ...func(*TopicQuery)) *TopicMediaQuery {
+	query := (&TopicClient{config: _q.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
-	tmq.withTopic = query
-	return tmq
+	_q.withTopic = query
+	return _q
 }
 
 // GroupBy is used to group vertices by one or more fields/columns.
@@ -342,10 +342,10 @@ func (tmq *TopicMediaQuery) WithTopic(opts ...func(*TopicQuery)) *TopicMediaQuer
 //		GroupBy(topicmedia.FieldType).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
-func (tmq *TopicMediaQuery) GroupBy(field string, fields ...string) *TopicMediaGroupBy {
-	tmq.ctx.Fields = append([]string{field}, fields...)
-	grbuild := &TopicMediaGroupBy{build: tmq}
-	grbuild.flds = &tmq.ctx.Fields
+func (_q *TopicMediaQuery) GroupBy(field string, fields ...string) *TopicMediaGroupBy {
+	_q.ctx.Fields = append([]string{field}, fields...)
+	grbuild := &TopicMediaGroupBy{build: _q}
+	grbuild.flds = &_q.ctx.Fields
 	grbuild.label = topicmedia.Label
 	grbuild.scan = grbuild.Scan
 	return grbuild
@@ -363,59 +363,59 @@ func (tmq *TopicMediaQuery) GroupBy(field string, fields ...string) *TopicMediaG
 //	client.TopicMedia.Query().
 //		Select(topicmedia.FieldType).
 //		Scan(ctx, &v)
-func (tmq *TopicMediaQuery) Select(fields ...string) *TopicMediaSelect {
-	tmq.ctx.Fields = append(tmq.ctx.Fields, fields...)
-	sbuild := &TopicMediaSelect{TopicMediaQuery: tmq}
+func (_q *TopicMediaQuery) Select(fields ...string) *TopicMediaSelect {
+	_q.ctx.Fields = append(_q.ctx.Fields, fields...)
+	sbuild := &TopicMediaSelect{TopicMediaQuery: _q}
 	sbuild.label = topicmedia.Label
-	sbuild.flds, sbuild.scan = &tmq.ctx.Fields, sbuild.Scan
+	sbuild.flds, sbuild.scan = &_q.ctx.Fields, sbuild.Scan
 	return sbuild
 }
 
 // Aggregate returns a TopicMediaSelect configured with the given aggregations.
-func (tmq *TopicMediaQuery) Aggregate(fns ...AggregateFunc) *TopicMediaSelect {
-	return tmq.Select().Aggregate(fns...)
+func (_q *TopicMediaQuery) Aggregate(fns ...AggregateFunc) *TopicMediaSelect {
+	return _q.Select().Aggregate(fns...)
 }
 
-func (tmq *TopicMediaQuery) prepareQuery(ctx context.Context) error {
-	for _, inter := range tmq.inters {
+func (_q *TopicMediaQuery) prepareQuery(ctx context.Context) error {
+	for _, inter := range _q.inters {
 		if inter == nil {
 			return fmt.Errorf("ent: uninitialized interceptor (forgotten import ent/runtime?)")
 		}
 		if trv, ok := inter.(Traverser); ok {
-			if err := trv.Traverse(ctx, tmq); err != nil {
+			if err := trv.Traverse(ctx, _q); err != nil {
 				return err
 			}
 		}
 	}
-	for _, f := range tmq.ctx.Fields {
+	for _, f := range _q.ctx.Fields {
 		if !topicmedia.ValidColumn(f) {
 			return &ValidationError{Name: f, err: fmt.Errorf("ent: invalid field %q for query", f)}
 		}
 	}
-	if tmq.path != nil {
-		prev, err := tmq.path(ctx)
+	if _q.path != nil {
+		prev, err := _q.path(ctx)
 		if err != nil {
 			return err
 		}
-		tmq.sql = prev
+		_q.sql = prev
 	}
 	return nil
 }
 
-func (tmq *TopicMediaQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*TopicMedia, error) {
+func (_q *TopicMediaQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*TopicMedia, error) {
 	var (
 		nodes       = []*TopicMedia{}
-		_spec       = tmq.querySpec()
+		_spec       = _q.querySpec()
 		loadedTypes = [2]bool{
-			tmq.withMedia != nil,
-			tmq.withTopic != nil,
+			_q.withMedia != nil,
+			_q.withTopic != nil,
 		}
 	)
 	_spec.ScanValues = func(columns []string) ([]any, error) {
 		return (*TopicMedia).scanValues(nil, columns)
 	}
 	_spec.Assign = func(columns []string, values []any) error {
-		node := &TopicMedia{config: tmq.config}
+		node := &TopicMedia{config: _q.config}
 		nodes = append(nodes, node)
 		node.Edges.loadedTypes = loadedTypes
 		return node.assignValues(columns, values)
@@ -423,20 +423,20 @@ func (tmq *TopicMediaQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*
 	for i := range hooks {
 		hooks[i](ctx, _spec)
 	}
-	if err := sqlgraph.QueryNodes(ctx, tmq.driver, _spec); err != nil {
+	if err := sqlgraph.QueryNodes(ctx, _q.driver, _spec); err != nil {
 		return nil, err
 	}
 	if len(nodes) == 0 {
 		return nodes, nil
 	}
-	if query := tmq.withMedia; query != nil {
-		if err := tmq.loadMedia(ctx, query, nodes, nil,
+	if query := _q.withMedia; query != nil {
+		if err := _q.loadMedia(ctx, query, nodes, nil,
 			func(n *TopicMedia, e *Media) { n.Edges.Media = e }); err != nil {
 			return nil, err
 		}
 	}
-	if query := tmq.withTopic; query != nil {
-		if err := tmq.loadTopic(ctx, query, nodes, nil,
+	if query := _q.withTopic; query != nil {
+		if err := _q.loadTopic(ctx, query, nodes, nil,
 			func(n *TopicMedia, e *Topic) { n.Edges.Topic = e }); err != nil {
 			return nil, err
 		}
@@ -444,7 +444,7 @@ func (tmq *TopicMediaQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*
 	return nodes, nil
 }
 
-func (tmq *TopicMediaQuery) loadMedia(ctx context.Context, query *MediaQuery, nodes []*TopicMedia, init func(*TopicMedia), assign func(*TopicMedia, *Media)) error {
+func (_q *TopicMediaQuery) loadMedia(ctx context.Context, query *MediaQuery, nodes []*TopicMedia, init func(*TopicMedia), assign func(*TopicMedia, *Media)) error {
 	ids := make([]string, 0, len(nodes))
 	nodeids := make(map[string][]*TopicMedia)
 	for i := range nodes {
@@ -473,7 +473,7 @@ func (tmq *TopicMediaQuery) loadMedia(ctx context.Context, query *MediaQuery, no
 	}
 	return nil
 }
-func (tmq *TopicMediaQuery) loadTopic(ctx context.Context, query *TopicQuery, nodes []*TopicMedia, init func(*TopicMedia), assign func(*TopicMedia, *Topic)) error {
+func (_q *TopicMediaQuery) loadTopic(ctx context.Context, query *TopicQuery, nodes []*TopicMedia, init func(*TopicMedia), assign func(*TopicMedia, *Topic)) error {
 	ids := make([]string, 0, len(nodes))
 	nodeids := make(map[string][]*TopicMedia)
 	for i := range nodes {
@@ -503,24 +503,24 @@ func (tmq *TopicMediaQuery) loadTopic(ctx context.Context, query *TopicQuery, no
 	return nil
 }
 
-func (tmq *TopicMediaQuery) sqlCount(ctx context.Context) (int, error) {
-	_spec := tmq.querySpec()
-	_spec.Node.Columns = tmq.ctx.Fields
-	if len(tmq.ctx.Fields) > 0 {
-		_spec.Unique = tmq.ctx.Unique != nil && *tmq.ctx.Unique
+func (_q *TopicMediaQuery) sqlCount(ctx context.Context) (int, error) {
+	_spec := _q.querySpec()
+	_spec.Node.Columns = _q.ctx.Fields
+	if len(_q.ctx.Fields) > 0 {
+		_spec.Unique = _q.ctx.Unique != nil && *_q.ctx.Unique
 	}
-	return sqlgraph.CountNodes(ctx, tmq.driver, _spec)
+	return sqlgraph.CountNodes(ctx, _q.driver, _spec)
 }
 
-func (tmq *TopicMediaQuery) querySpec() *sqlgraph.QuerySpec {
+func (_q *TopicMediaQuery) querySpec() *sqlgraph.QuerySpec {
 	_spec := sqlgraph.NewQuerySpec(topicmedia.Table, topicmedia.Columns, sqlgraph.NewFieldSpec(topicmedia.FieldID, field.TypeString))
-	_spec.From = tmq.sql
-	if unique := tmq.ctx.Unique; unique != nil {
+	_spec.From = _q.sql
+	if unique := _q.ctx.Unique; unique != nil {
 		_spec.Unique = *unique
-	} else if tmq.path != nil {
+	} else if _q.path != nil {
 		_spec.Unique = true
 	}
-	if fields := tmq.ctx.Fields; len(fields) > 0 {
+	if fields := _q.ctx.Fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, topicmedia.FieldID)
 		for i := range fields {
@@ -528,27 +528,27 @@ func (tmq *TopicMediaQuery) querySpec() *sqlgraph.QuerySpec {
 				_spec.Node.Columns = append(_spec.Node.Columns, fields[i])
 			}
 		}
-		if tmq.withMedia != nil {
+		if _q.withMedia != nil {
 			_spec.Node.AddColumnOnce(topicmedia.FieldMediaID)
 		}
-		if tmq.withTopic != nil {
+		if _q.withTopic != nil {
 			_spec.Node.AddColumnOnce(topicmedia.FieldTopicID)
 		}
 	}
-	if ps := tmq.predicates; len(ps) > 0 {
+	if ps := _q.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if limit := tmq.ctx.Limit; limit != nil {
+	if limit := _q.ctx.Limit; limit != nil {
 		_spec.Limit = *limit
 	}
-	if offset := tmq.ctx.Offset; offset != nil {
+	if offset := _q.ctx.Offset; offset != nil {
 		_spec.Offset = *offset
 	}
-	if ps := tmq.order; len(ps) > 0 {
+	if ps := _q.order; len(ps) > 0 {
 		_spec.Order = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
@@ -558,33 +558,33 @@ func (tmq *TopicMediaQuery) querySpec() *sqlgraph.QuerySpec {
 	return _spec
 }
 
-func (tmq *TopicMediaQuery) sqlQuery(ctx context.Context) *sql.Selector {
-	builder := sql.Dialect(tmq.driver.Dialect())
+func (_q *TopicMediaQuery) sqlQuery(ctx context.Context) *sql.Selector {
+	builder := sql.Dialect(_q.driver.Dialect())
 	t1 := builder.Table(topicmedia.Table)
-	columns := tmq.ctx.Fields
+	columns := _q.ctx.Fields
 	if len(columns) == 0 {
 		columns = topicmedia.Columns
 	}
 	selector := builder.Select(t1.Columns(columns...)...).From(t1)
-	if tmq.sql != nil {
-		selector = tmq.sql
+	if _q.sql != nil {
+		selector = _q.sql
 		selector.Select(selector.Columns(columns...)...)
 	}
-	if tmq.ctx.Unique != nil && *tmq.ctx.Unique {
+	if _q.ctx.Unique != nil && *_q.ctx.Unique {
 		selector.Distinct()
 	}
-	for _, p := range tmq.predicates {
+	for _, p := range _q.predicates {
 		p(selector)
 	}
-	for _, p := range tmq.order {
+	for _, p := range _q.order {
 		p(selector)
 	}
-	if offset := tmq.ctx.Offset; offset != nil {
+	if offset := _q.ctx.Offset; offset != nil {
 		// limit is mandatory for offset clause. We start
 		// with default value, and override it below if needed.
 		selector.Offset(*offset).Limit(math.MaxInt32)
 	}
-	if limit := tmq.ctx.Limit; limit != nil {
+	if limit := _q.ctx.Limit; limit != nil {
 		selector.Limit(*limit)
 	}
 	return selector
@@ -597,41 +597,41 @@ type TopicMediaGroupBy struct {
 }
 
 // Aggregate adds the given aggregation functions to the group-by query.
-func (tmgb *TopicMediaGroupBy) Aggregate(fns ...AggregateFunc) *TopicMediaGroupBy {
-	tmgb.fns = append(tmgb.fns, fns...)
-	return tmgb
+func (_g *TopicMediaGroupBy) Aggregate(fns ...AggregateFunc) *TopicMediaGroupBy {
+	_g.fns = append(_g.fns, fns...)
+	return _g
 }
 
 // Scan applies the selector query and scans the result into the given value.
-func (tmgb *TopicMediaGroupBy) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, tmgb.build.ctx, ent.OpQueryGroupBy)
-	if err := tmgb.build.prepareQuery(ctx); err != nil {
+func (_g *TopicMediaGroupBy) Scan(ctx context.Context, v any) error {
+	ctx = setContextOp(ctx, _g.build.ctx, ent.OpQueryGroupBy)
+	if err := _g.build.prepareQuery(ctx); err != nil {
 		return err
 	}
-	return scanWithInterceptors[*TopicMediaQuery, *TopicMediaGroupBy](ctx, tmgb.build, tmgb, tmgb.build.inters, v)
+	return scanWithInterceptors[*TopicMediaQuery, *TopicMediaGroupBy](ctx, _g.build, _g, _g.build.inters, v)
 }
 
-func (tmgb *TopicMediaGroupBy) sqlScan(ctx context.Context, root *TopicMediaQuery, v any) error {
+func (_g *TopicMediaGroupBy) sqlScan(ctx context.Context, root *TopicMediaQuery, v any) error {
 	selector := root.sqlQuery(ctx).Select()
-	aggregation := make([]string, 0, len(tmgb.fns))
-	for _, fn := range tmgb.fns {
+	aggregation := make([]string, 0, len(_g.fns))
+	for _, fn := range _g.fns {
 		aggregation = append(aggregation, fn(selector))
 	}
 	if len(selector.SelectedColumns()) == 0 {
-		columns := make([]string, 0, len(*tmgb.flds)+len(tmgb.fns))
-		for _, f := range *tmgb.flds {
+		columns := make([]string, 0, len(*_g.flds)+len(_g.fns))
+		for _, f := range *_g.flds {
 			columns = append(columns, selector.C(f))
 		}
 		columns = append(columns, aggregation...)
 		selector.Select(columns...)
 	}
-	selector.GroupBy(selector.Columns(*tmgb.flds...)...)
+	selector.GroupBy(selector.Columns(*_g.flds...)...)
 	if err := selector.Err(); err != nil {
 		return err
 	}
 	rows := &sql.Rows{}
 	query, args := selector.Query()
-	if err := tmgb.build.driver.Query(ctx, query, args, rows); err != nil {
+	if err := _g.build.driver.Query(ctx, query, args, rows); err != nil {
 		return err
 	}
 	defer rows.Close()
@@ -645,27 +645,27 @@ type TopicMediaSelect struct {
 }
 
 // Aggregate adds the given aggregation functions to the selector query.
-func (tms *TopicMediaSelect) Aggregate(fns ...AggregateFunc) *TopicMediaSelect {
-	tms.fns = append(tms.fns, fns...)
-	return tms
+func (_s *TopicMediaSelect) Aggregate(fns ...AggregateFunc) *TopicMediaSelect {
+	_s.fns = append(_s.fns, fns...)
+	return _s
 }
 
 // Scan applies the selector query and scans the result into the given value.
-func (tms *TopicMediaSelect) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, tms.ctx, ent.OpQuerySelect)
-	if err := tms.prepareQuery(ctx); err != nil {
+func (_s *TopicMediaSelect) Scan(ctx context.Context, v any) error {
+	ctx = setContextOp(ctx, _s.ctx, ent.OpQuerySelect)
+	if err := _s.prepareQuery(ctx); err != nil {
 		return err
 	}
-	return scanWithInterceptors[*TopicMediaQuery, *TopicMediaSelect](ctx, tms.TopicMediaQuery, tms, tms.inters, v)
+	return scanWithInterceptors[*TopicMediaQuery, *TopicMediaSelect](ctx, _s.TopicMediaQuery, _s, _s.inters, v)
 }
 
-func (tms *TopicMediaSelect) sqlScan(ctx context.Context, root *TopicMediaQuery, v any) error {
+func (_s *TopicMediaSelect) sqlScan(ctx context.Context, root *TopicMediaQuery, v any) error {
 	selector := root.sqlQuery(ctx)
-	aggregation := make([]string, 0, len(tms.fns))
-	for _, fn := range tms.fns {
+	aggregation := make([]string, 0, len(_s.fns))
+	for _, fn := range _s.fns {
 		aggregation = append(aggregation, fn(selector))
 	}
-	switch n := len(*tms.selector.flds); {
+	switch n := len(*_s.selector.flds); {
 	case n == 0 && len(aggregation) > 0:
 		selector.Select(aggregation...)
 	case n != 0 && len(aggregation) > 0:
@@ -673,7 +673,7 @@ func (tms *TopicMediaSelect) sqlScan(ctx context.Context, root *TopicMediaQuery,
 	}
 	rows := &sql.Rows{}
 	query, args := selector.Query()
-	if err := tms.driver.Query(ctx, query, args, rows); err != nil {
+	if err := _s.driver.Query(ctx, query, args, rows); err != nil {
 		return err
 	}
 	defer rows.Close()

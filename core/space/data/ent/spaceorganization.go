@@ -52,7 +52,7 @@ func (*SpaceOrganization) scanValues(columns []string) ([]any, error) {
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
 // to the SpaceOrganization fields.
-func (so *SpaceOrganization) assignValues(columns []string, values []any) error {
+func (_m *SpaceOrganization) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
@@ -62,52 +62,52 @@ func (so *SpaceOrganization) assignValues(columns []string, values []any) error 
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field id", values[i])
 			} else if value.Valid {
-				so.ID = value.String
+				_m.ID = value.String
 			}
 		case spaceorganization.FieldSpaceID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field space_id", values[i])
 			} else if value.Valid {
-				so.SpaceID = value.String
+				_m.SpaceID = value.String
 			}
 		case spaceorganization.FieldOrgID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field org_id", values[i])
 			} else if value.Valid {
-				so.OrgID = value.String
+				_m.OrgID = value.String
 			}
 		case spaceorganization.FieldCreatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field created_by", values[i])
 			} else if value.Valid {
-				so.CreatedBy = value.String
+				_m.CreatedBy = value.String
 			}
 		case spaceorganization.FieldUpdatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_by", values[i])
 			} else if value.Valid {
-				so.UpdatedBy = value.String
+				_m.UpdatedBy = value.String
 			}
 		case spaceorganization.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field created_at", values[i])
 			} else if value.Valid {
-				so.CreatedAt = value.Int64
+				_m.CreatedAt = value.Int64
 			}
 		case spaceorganization.FieldUpdatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_at", values[i])
 			} else if value.Valid {
-				so.UpdatedAt = value.Int64
+				_m.UpdatedAt = value.Int64
 			}
 		case spaceorganization.FieldRelationType:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field relation_type", values[i])
 			} else if value.Valid {
-				so.RelationType = value.String
+				_m.RelationType = value.String
 			}
 		default:
-			so.selectValues.Set(columns[i], values[i])
+			_m.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
@@ -115,53 +115,53 @@ func (so *SpaceOrganization) assignValues(columns []string, values []any) error 
 
 // Value returns the ent.Value that was dynamically selected and assigned to the SpaceOrganization.
 // This includes values selected through modifiers, order, etc.
-func (so *SpaceOrganization) Value(name string) (ent.Value, error) {
-	return so.selectValues.Get(name)
+func (_m *SpaceOrganization) Value(name string) (ent.Value, error) {
+	return _m.selectValues.Get(name)
 }
 
 // Update returns a builder for updating this SpaceOrganization.
 // Note that you need to call SpaceOrganization.Unwrap() before calling this method if this SpaceOrganization
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (so *SpaceOrganization) Update() *SpaceOrganizationUpdateOne {
-	return NewSpaceOrganizationClient(so.config).UpdateOne(so)
+func (_m *SpaceOrganization) Update() *SpaceOrganizationUpdateOne {
+	return NewSpaceOrganizationClient(_m.config).UpdateOne(_m)
 }
 
 // Unwrap unwraps the SpaceOrganization entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (so *SpaceOrganization) Unwrap() *SpaceOrganization {
-	_tx, ok := so.config.driver.(*txDriver)
+func (_m *SpaceOrganization) Unwrap() *SpaceOrganization {
+	_tx, ok := _m.config.driver.(*txDriver)
 	if !ok {
 		panic("ent: SpaceOrganization is not a transactional entity")
 	}
-	so.config.driver = _tx.drv
-	return so
+	_m.config.driver = _tx.drv
+	return _m
 }
 
 // String implements the fmt.Stringer.
-func (so *SpaceOrganization) String() string {
+func (_m *SpaceOrganization) String() string {
 	var builder strings.Builder
 	builder.WriteString("SpaceOrganization(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", so.ID))
+	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
 	builder.WriteString("space_id=")
-	builder.WriteString(so.SpaceID)
+	builder.WriteString(_m.SpaceID)
 	builder.WriteString(", ")
 	builder.WriteString("org_id=")
-	builder.WriteString(so.OrgID)
+	builder.WriteString(_m.OrgID)
 	builder.WriteString(", ")
 	builder.WriteString("created_by=")
-	builder.WriteString(so.CreatedBy)
+	builder.WriteString(_m.CreatedBy)
 	builder.WriteString(", ")
 	builder.WriteString("updated_by=")
-	builder.WriteString(so.UpdatedBy)
+	builder.WriteString(_m.UpdatedBy)
 	builder.WriteString(", ")
 	builder.WriteString("created_at=")
-	builder.WriteString(fmt.Sprintf("%v", so.CreatedAt))
+	builder.WriteString(fmt.Sprintf("%v", _m.CreatedAt))
 	builder.WriteString(", ")
 	builder.WriteString("updated_at=")
-	builder.WriteString(fmt.Sprintf("%v", so.UpdatedAt))
+	builder.WriteString(fmt.Sprintf("%v", _m.UpdatedAt))
 	builder.WriteString(", ")
 	builder.WriteString("relation_type=")
-	builder.WriteString(so.RelationType)
+	builder.WriteString(_m.RelationType)
 	builder.WriteByte(')')
 	return builder.String()
 }

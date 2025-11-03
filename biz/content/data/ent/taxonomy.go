@@ -77,7 +77,7 @@ func (*Taxonomy) scanValues(columns []string) ([]any, error) {
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
 // to the Taxonomy fields.
-func (t *Taxonomy) assignValues(columns []string, values []any) error {
+func (_m *Taxonomy) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
@@ -87,79 +87,79 @@ func (t *Taxonomy) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field id", values[i])
 			} else if value.Valid {
-				t.ID = value.String
+				_m.ID = value.String
 			}
 		case taxonomy.FieldName:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field name", values[i])
 			} else if value.Valid {
-				t.Name = value.String
+				_m.Name = value.String
 			}
 		case taxonomy.FieldType:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field type", values[i])
 			} else if value.Valid {
-				t.Type = value.String
+				_m.Type = value.String
 			}
 		case taxonomy.FieldSlug:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field slug", values[i])
 			} else if value.Valid {
-				t.Slug = value.String
+				_m.Slug = value.String
 			}
 		case taxonomy.FieldCover:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field cover", values[i])
 			} else if value.Valid {
-				t.Cover = value.String
+				_m.Cover = value.String
 			}
 		case taxonomy.FieldThumbnail:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field thumbnail", values[i])
 			} else if value.Valid {
-				t.Thumbnail = value.String
+				_m.Thumbnail = value.String
 			}
 		case taxonomy.FieldColor:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field color", values[i])
 			} else if value.Valid {
-				t.Color = value.String
+				_m.Color = value.String
 			}
 		case taxonomy.FieldIcon:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field icon", values[i])
 			} else if value.Valid {
-				t.Icon = value.String
+				_m.Icon = value.String
 			}
 		case taxonomy.FieldURL:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field url", values[i])
 			} else if value.Valid {
-				t.URL = value.String
+				_m.URL = value.String
 			}
 		case taxonomy.FieldKeywords:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field keywords", values[i])
 			} else if value.Valid {
-				t.Keywords = value.String
+				_m.Keywords = value.String
 			}
 		case taxonomy.FieldDescription:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field description", values[i])
 			} else if value.Valid {
-				t.Description = value.String
+				_m.Description = value.String
 			}
 		case taxonomy.FieldStatus:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field status", values[i])
 			} else if value.Valid {
-				t.Status = int(value.Int64)
+				_m.Status = int(value.Int64)
 			}
 		case taxonomy.FieldExtras:
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field extras", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &t.Extras); err != nil {
+				if err := json.Unmarshal(*value, &_m.Extras); err != nil {
 					return fmt.Errorf("unmarshal field extras: %w", err)
 				}
 			}
@@ -167,40 +167,40 @@ func (t *Taxonomy) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field parent_id", values[i])
 			} else if value.Valid {
-				t.ParentID = value.String
+				_m.ParentID = value.String
 			}
 		case taxonomy.FieldSpaceID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field space_id", values[i])
 			} else if value.Valid {
-				t.SpaceID = value.String
+				_m.SpaceID = value.String
 			}
 		case taxonomy.FieldCreatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field created_by", values[i])
 			} else if value.Valid {
-				t.CreatedBy = value.String
+				_m.CreatedBy = value.String
 			}
 		case taxonomy.FieldUpdatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_by", values[i])
 			} else if value.Valid {
-				t.UpdatedBy = value.String
+				_m.UpdatedBy = value.String
 			}
 		case taxonomy.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field created_at", values[i])
 			} else if value.Valid {
-				t.CreatedAt = value.Int64
+				_m.CreatedAt = value.Int64
 			}
 		case taxonomy.FieldUpdatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_at", values[i])
 			} else if value.Valid {
-				t.UpdatedAt = value.Int64
+				_m.UpdatedAt = value.Int64
 			}
 		default:
-			t.selectValues.Set(columns[i], values[i])
+			_m.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
@@ -208,86 +208,86 @@ func (t *Taxonomy) assignValues(columns []string, values []any) error {
 
 // Value returns the ent.Value that was dynamically selected and assigned to the Taxonomy.
 // This includes values selected through modifiers, order, etc.
-func (t *Taxonomy) Value(name string) (ent.Value, error) {
-	return t.selectValues.Get(name)
+func (_m *Taxonomy) Value(name string) (ent.Value, error) {
+	return _m.selectValues.Get(name)
 }
 
 // Update returns a builder for updating this Taxonomy.
 // Note that you need to call Taxonomy.Unwrap() before calling this method if this Taxonomy
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (t *Taxonomy) Update() *TaxonomyUpdateOne {
-	return NewTaxonomyClient(t.config).UpdateOne(t)
+func (_m *Taxonomy) Update() *TaxonomyUpdateOne {
+	return NewTaxonomyClient(_m.config).UpdateOne(_m)
 }
 
 // Unwrap unwraps the Taxonomy entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (t *Taxonomy) Unwrap() *Taxonomy {
-	_tx, ok := t.config.driver.(*txDriver)
+func (_m *Taxonomy) Unwrap() *Taxonomy {
+	_tx, ok := _m.config.driver.(*txDriver)
 	if !ok {
 		panic("ent: Taxonomy is not a transactional entity")
 	}
-	t.config.driver = _tx.drv
-	return t
+	_m.config.driver = _tx.drv
+	return _m
 }
 
 // String implements the fmt.Stringer.
-func (t *Taxonomy) String() string {
+func (_m *Taxonomy) String() string {
 	var builder strings.Builder
 	builder.WriteString("Taxonomy(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", t.ID))
+	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
 	builder.WriteString("name=")
-	builder.WriteString(t.Name)
+	builder.WriteString(_m.Name)
 	builder.WriteString(", ")
 	builder.WriteString("type=")
-	builder.WriteString(t.Type)
+	builder.WriteString(_m.Type)
 	builder.WriteString(", ")
 	builder.WriteString("slug=")
-	builder.WriteString(t.Slug)
+	builder.WriteString(_m.Slug)
 	builder.WriteString(", ")
 	builder.WriteString("cover=")
-	builder.WriteString(t.Cover)
+	builder.WriteString(_m.Cover)
 	builder.WriteString(", ")
 	builder.WriteString("thumbnail=")
-	builder.WriteString(t.Thumbnail)
+	builder.WriteString(_m.Thumbnail)
 	builder.WriteString(", ")
 	builder.WriteString("color=")
-	builder.WriteString(t.Color)
+	builder.WriteString(_m.Color)
 	builder.WriteString(", ")
 	builder.WriteString("icon=")
-	builder.WriteString(t.Icon)
+	builder.WriteString(_m.Icon)
 	builder.WriteString(", ")
 	builder.WriteString("url=")
-	builder.WriteString(t.URL)
+	builder.WriteString(_m.URL)
 	builder.WriteString(", ")
 	builder.WriteString("keywords=")
-	builder.WriteString(t.Keywords)
+	builder.WriteString(_m.Keywords)
 	builder.WriteString(", ")
 	builder.WriteString("description=")
-	builder.WriteString(t.Description)
+	builder.WriteString(_m.Description)
 	builder.WriteString(", ")
 	builder.WriteString("status=")
-	builder.WriteString(fmt.Sprintf("%v", t.Status))
+	builder.WriteString(fmt.Sprintf("%v", _m.Status))
 	builder.WriteString(", ")
 	builder.WriteString("extras=")
-	builder.WriteString(fmt.Sprintf("%v", t.Extras))
+	builder.WriteString(fmt.Sprintf("%v", _m.Extras))
 	builder.WriteString(", ")
 	builder.WriteString("parent_id=")
-	builder.WriteString(t.ParentID)
+	builder.WriteString(_m.ParentID)
 	builder.WriteString(", ")
 	builder.WriteString("space_id=")
-	builder.WriteString(t.SpaceID)
+	builder.WriteString(_m.SpaceID)
 	builder.WriteString(", ")
 	builder.WriteString("created_by=")
-	builder.WriteString(t.CreatedBy)
+	builder.WriteString(_m.CreatedBy)
 	builder.WriteString(", ")
 	builder.WriteString("updated_by=")
-	builder.WriteString(t.UpdatedBy)
+	builder.WriteString(_m.UpdatedBy)
 	builder.WriteString(", ")
 	builder.WriteString("created_at=")
-	builder.WriteString(fmt.Sprintf("%v", t.CreatedAt))
+	builder.WriteString(fmt.Sprintf("%v", _m.CreatedAt))
 	builder.WriteString(", ")
 	builder.WriteString("updated_at=")
-	builder.WriteString(fmt.Sprintf("%v", t.UpdatedAt))
+	builder.WriteString(fmt.Sprintf("%v", _m.UpdatedAt))
 	builder.WriteByte(')')
 	return builder.String()
 }

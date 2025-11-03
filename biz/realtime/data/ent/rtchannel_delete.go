@@ -20,56 +20,56 @@ type RTChannelDelete struct {
 }
 
 // Where appends a list predicates to the RTChannelDelete builder.
-func (rcd *RTChannelDelete) Where(ps ...predicate.RTChannel) *RTChannelDelete {
-	rcd.mutation.Where(ps...)
-	return rcd
+func (_d *RTChannelDelete) Where(ps ...predicate.RTChannel) *RTChannelDelete {
+	_d.mutation.Where(ps...)
+	return _d
 }
 
 // Exec executes the deletion query and returns how many vertices were deleted.
-func (rcd *RTChannelDelete) Exec(ctx context.Context) (int, error) {
-	return withHooks(ctx, rcd.sqlExec, rcd.mutation, rcd.hooks)
+func (_d *RTChannelDelete) Exec(ctx context.Context) (int, error) {
+	return withHooks(ctx, _d.sqlExec, _d.mutation, _d.hooks)
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (rcd *RTChannelDelete) ExecX(ctx context.Context) int {
-	n, err := rcd.Exec(ctx)
+func (_d *RTChannelDelete) ExecX(ctx context.Context) int {
+	n, err := _d.Exec(ctx)
 	if err != nil {
 		panic(err)
 	}
 	return n
 }
 
-func (rcd *RTChannelDelete) sqlExec(ctx context.Context) (int, error) {
+func (_d *RTChannelDelete) sqlExec(ctx context.Context) (int, error) {
 	_spec := sqlgraph.NewDeleteSpec(rtchannel.Table, sqlgraph.NewFieldSpec(rtchannel.FieldID, field.TypeString))
-	if ps := rcd.mutation.predicates; len(ps) > 0 {
+	if ps := _d.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	affected, err := sqlgraph.DeleteNodes(ctx, rcd.driver, _spec)
+	affected, err := sqlgraph.DeleteNodes(ctx, _d.driver, _spec)
 	if err != nil && sqlgraph.IsConstraintError(err) {
 		err = &ConstraintError{msg: err.Error(), wrap: err}
 	}
-	rcd.mutation.done = true
+	_d.mutation.done = true
 	return affected, err
 }
 
 // RTChannelDeleteOne is the builder for deleting a single RTChannel entity.
 type RTChannelDeleteOne struct {
-	rcd *RTChannelDelete
+	_d *RTChannelDelete
 }
 
 // Where appends a list predicates to the RTChannelDelete builder.
-func (rcdo *RTChannelDeleteOne) Where(ps ...predicate.RTChannel) *RTChannelDeleteOne {
-	rcdo.rcd.mutation.Where(ps...)
-	return rcdo
+func (_d *RTChannelDeleteOne) Where(ps ...predicate.RTChannel) *RTChannelDeleteOne {
+	_d._d.mutation.Where(ps...)
+	return _d
 }
 
 // Exec executes the deletion query.
-func (rcdo *RTChannelDeleteOne) Exec(ctx context.Context) error {
-	n, err := rcdo.rcd.Exec(ctx)
+func (_d *RTChannelDeleteOne) Exec(ctx context.Context) error {
+	n, err := _d._d.Exec(ctx)
 	switch {
 	case err != nil:
 		return err
@@ -81,8 +81,8 @@ func (rcdo *RTChannelDeleteOne) Exec(ctx context.Context) error {
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (rcdo *RTChannelDeleteOne) ExecX(ctx context.Context) {
-	if err := rcdo.Exec(ctx); err != nil {
+func (_d *RTChannelDeleteOne) ExecX(ctx context.Context) {
+	if err := _d.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

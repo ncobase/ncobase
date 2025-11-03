@@ -22,104 +22,104 @@ type CodeAuthUpdate struct {
 }
 
 // Where appends a list predicates to the CodeAuthUpdate builder.
-func (cau *CodeAuthUpdate) Where(ps ...predicate.CodeAuth) *CodeAuthUpdate {
-	cau.mutation.Where(ps...)
-	return cau
+func (_u *CodeAuthUpdate) Where(ps ...predicate.CodeAuth) *CodeAuthUpdate {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // SetCode sets the "code" field.
-func (cau *CodeAuthUpdate) SetCode(s string) *CodeAuthUpdate {
-	cau.mutation.SetCode(s)
-	return cau
+func (_u *CodeAuthUpdate) SetCode(v string) *CodeAuthUpdate {
+	_u.mutation.SetCode(v)
+	return _u
 }
 
 // SetNillableCode sets the "code" field if the given value is not nil.
-func (cau *CodeAuthUpdate) SetNillableCode(s *string) *CodeAuthUpdate {
-	if s != nil {
-		cau.SetCode(*s)
+func (_u *CodeAuthUpdate) SetNillableCode(v *string) *CodeAuthUpdate {
+	if v != nil {
+		_u.SetCode(*v)
 	}
-	return cau
+	return _u
 }
 
 // ClearCode clears the value of the "code" field.
-func (cau *CodeAuthUpdate) ClearCode() *CodeAuthUpdate {
-	cau.mutation.ClearCode()
-	return cau
+func (_u *CodeAuthUpdate) ClearCode() *CodeAuthUpdate {
+	_u.mutation.ClearCode()
+	return _u
 }
 
 // SetEmail sets the "email" field.
-func (cau *CodeAuthUpdate) SetEmail(s string) *CodeAuthUpdate {
-	cau.mutation.SetEmail(s)
-	return cau
+func (_u *CodeAuthUpdate) SetEmail(v string) *CodeAuthUpdate {
+	_u.mutation.SetEmail(v)
+	return _u
 }
 
 // SetNillableEmail sets the "email" field if the given value is not nil.
-func (cau *CodeAuthUpdate) SetNillableEmail(s *string) *CodeAuthUpdate {
-	if s != nil {
-		cau.SetEmail(*s)
+func (_u *CodeAuthUpdate) SetNillableEmail(v *string) *CodeAuthUpdate {
+	if v != nil {
+		_u.SetEmail(*v)
 	}
-	return cau
+	return _u
 }
 
 // ClearEmail clears the value of the "email" field.
-func (cau *CodeAuthUpdate) ClearEmail() *CodeAuthUpdate {
-	cau.mutation.ClearEmail()
-	return cau
+func (_u *CodeAuthUpdate) ClearEmail() *CodeAuthUpdate {
+	_u.mutation.ClearEmail()
+	return _u
 }
 
 // SetLogged sets the "logged" field.
-func (cau *CodeAuthUpdate) SetLogged(b bool) *CodeAuthUpdate {
-	cau.mutation.SetLogged(b)
-	return cau
+func (_u *CodeAuthUpdate) SetLogged(v bool) *CodeAuthUpdate {
+	_u.mutation.SetLogged(v)
+	return _u
 }
 
 // SetNillableLogged sets the "logged" field if the given value is not nil.
-func (cau *CodeAuthUpdate) SetNillableLogged(b *bool) *CodeAuthUpdate {
-	if b != nil {
-		cau.SetLogged(*b)
+func (_u *CodeAuthUpdate) SetNillableLogged(v *bool) *CodeAuthUpdate {
+	if v != nil {
+		_u.SetLogged(*v)
 	}
-	return cau
+	return _u
 }
 
 // ClearLogged clears the value of the "logged" field.
-func (cau *CodeAuthUpdate) ClearLogged() *CodeAuthUpdate {
-	cau.mutation.ClearLogged()
-	return cau
+func (_u *CodeAuthUpdate) ClearLogged() *CodeAuthUpdate {
+	_u.mutation.ClearLogged()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (cau *CodeAuthUpdate) SetUpdatedAt(i int64) *CodeAuthUpdate {
-	cau.mutation.ResetUpdatedAt()
-	cau.mutation.SetUpdatedAt(i)
-	return cau
+func (_u *CodeAuthUpdate) SetUpdatedAt(v int64) *CodeAuthUpdate {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (cau *CodeAuthUpdate) AddUpdatedAt(i int64) *CodeAuthUpdate {
-	cau.mutation.AddUpdatedAt(i)
-	return cau
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *CodeAuthUpdate) AddUpdatedAt(v int64) *CodeAuthUpdate {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (cau *CodeAuthUpdate) ClearUpdatedAt() *CodeAuthUpdate {
-	cau.mutation.ClearUpdatedAt()
-	return cau
+func (_u *CodeAuthUpdate) ClearUpdatedAt() *CodeAuthUpdate {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // Mutation returns the CodeAuthMutation object of the builder.
-func (cau *CodeAuthUpdate) Mutation() *CodeAuthMutation {
-	return cau.mutation
+func (_u *CodeAuthUpdate) Mutation() *CodeAuthMutation {
+	return _u.mutation
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
-func (cau *CodeAuthUpdate) Save(ctx context.Context) (int, error) {
-	cau.defaults()
-	return withHooks(ctx, cau.sqlSave, cau.mutation, cau.hooks)
+func (_u *CodeAuthUpdate) Save(ctx context.Context) (int, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (cau *CodeAuthUpdate) SaveX(ctx context.Context) int {
-	affected, err := cau.Save(ctx)
+func (_u *CodeAuthUpdate) SaveX(ctx context.Context) int {
+	affected, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -127,66 +127,66 @@ func (cau *CodeAuthUpdate) SaveX(ctx context.Context) int {
 }
 
 // Exec executes the query.
-func (cau *CodeAuthUpdate) Exec(ctx context.Context) error {
-	_, err := cau.Save(ctx)
+func (_u *CodeAuthUpdate) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (cau *CodeAuthUpdate) ExecX(ctx context.Context) {
-	if err := cau.Exec(ctx); err != nil {
+func (_u *CodeAuthUpdate) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (cau *CodeAuthUpdate) defaults() {
-	if _, ok := cau.mutation.UpdatedAt(); !ok && !cau.mutation.UpdatedAtCleared() {
+func (_u *CodeAuthUpdate) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := codeauth.UpdateDefaultUpdatedAt()
-		cau.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (cau *CodeAuthUpdate) sqlSave(ctx context.Context) (n int, err error) {
+func (_u *CodeAuthUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	_spec := sqlgraph.NewUpdateSpec(codeauth.Table, codeauth.Columns, sqlgraph.NewFieldSpec(codeauth.FieldID, field.TypeString))
-	if ps := cau.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := cau.mutation.Code(); ok {
+	if value, ok := _u.mutation.Code(); ok {
 		_spec.SetField(codeauth.FieldCode, field.TypeString, value)
 	}
-	if cau.mutation.CodeCleared() {
+	if _u.mutation.CodeCleared() {
 		_spec.ClearField(codeauth.FieldCode, field.TypeString)
 	}
-	if value, ok := cau.mutation.Email(); ok {
+	if value, ok := _u.mutation.Email(); ok {
 		_spec.SetField(codeauth.FieldEmail, field.TypeString, value)
 	}
-	if cau.mutation.EmailCleared() {
+	if _u.mutation.EmailCleared() {
 		_spec.ClearField(codeauth.FieldEmail, field.TypeString)
 	}
-	if value, ok := cau.mutation.Logged(); ok {
+	if value, ok := _u.mutation.Logged(); ok {
 		_spec.SetField(codeauth.FieldLogged, field.TypeBool, value)
 	}
-	if cau.mutation.LoggedCleared() {
+	if _u.mutation.LoggedCleared() {
 		_spec.ClearField(codeauth.FieldLogged, field.TypeBool)
 	}
-	if cau.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(codeauth.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := cau.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(codeauth.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := cau.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(codeauth.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if cau.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(codeauth.FieldUpdatedAt, field.TypeInt64)
 	}
-	if n, err = sqlgraph.UpdateNodes(ctx, cau.driver, _spec); err != nil {
+	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{codeauth.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -194,8 +194,8 @@ func (cau *CodeAuthUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		return 0, err
 	}
-	cau.mutation.done = true
-	return n, nil
+	_u.mutation.done = true
+	return _node, nil
 }
 
 // CodeAuthUpdateOne is the builder for updating a single CodeAuth entity.
@@ -207,111 +207,111 @@ type CodeAuthUpdateOne struct {
 }
 
 // SetCode sets the "code" field.
-func (cauo *CodeAuthUpdateOne) SetCode(s string) *CodeAuthUpdateOne {
-	cauo.mutation.SetCode(s)
-	return cauo
+func (_u *CodeAuthUpdateOne) SetCode(v string) *CodeAuthUpdateOne {
+	_u.mutation.SetCode(v)
+	return _u
 }
 
 // SetNillableCode sets the "code" field if the given value is not nil.
-func (cauo *CodeAuthUpdateOne) SetNillableCode(s *string) *CodeAuthUpdateOne {
-	if s != nil {
-		cauo.SetCode(*s)
+func (_u *CodeAuthUpdateOne) SetNillableCode(v *string) *CodeAuthUpdateOne {
+	if v != nil {
+		_u.SetCode(*v)
 	}
-	return cauo
+	return _u
 }
 
 // ClearCode clears the value of the "code" field.
-func (cauo *CodeAuthUpdateOne) ClearCode() *CodeAuthUpdateOne {
-	cauo.mutation.ClearCode()
-	return cauo
+func (_u *CodeAuthUpdateOne) ClearCode() *CodeAuthUpdateOne {
+	_u.mutation.ClearCode()
+	return _u
 }
 
 // SetEmail sets the "email" field.
-func (cauo *CodeAuthUpdateOne) SetEmail(s string) *CodeAuthUpdateOne {
-	cauo.mutation.SetEmail(s)
-	return cauo
+func (_u *CodeAuthUpdateOne) SetEmail(v string) *CodeAuthUpdateOne {
+	_u.mutation.SetEmail(v)
+	return _u
 }
 
 // SetNillableEmail sets the "email" field if the given value is not nil.
-func (cauo *CodeAuthUpdateOne) SetNillableEmail(s *string) *CodeAuthUpdateOne {
-	if s != nil {
-		cauo.SetEmail(*s)
+func (_u *CodeAuthUpdateOne) SetNillableEmail(v *string) *CodeAuthUpdateOne {
+	if v != nil {
+		_u.SetEmail(*v)
 	}
-	return cauo
+	return _u
 }
 
 // ClearEmail clears the value of the "email" field.
-func (cauo *CodeAuthUpdateOne) ClearEmail() *CodeAuthUpdateOne {
-	cauo.mutation.ClearEmail()
-	return cauo
+func (_u *CodeAuthUpdateOne) ClearEmail() *CodeAuthUpdateOne {
+	_u.mutation.ClearEmail()
+	return _u
 }
 
 // SetLogged sets the "logged" field.
-func (cauo *CodeAuthUpdateOne) SetLogged(b bool) *CodeAuthUpdateOne {
-	cauo.mutation.SetLogged(b)
-	return cauo
+func (_u *CodeAuthUpdateOne) SetLogged(v bool) *CodeAuthUpdateOne {
+	_u.mutation.SetLogged(v)
+	return _u
 }
 
 // SetNillableLogged sets the "logged" field if the given value is not nil.
-func (cauo *CodeAuthUpdateOne) SetNillableLogged(b *bool) *CodeAuthUpdateOne {
-	if b != nil {
-		cauo.SetLogged(*b)
+func (_u *CodeAuthUpdateOne) SetNillableLogged(v *bool) *CodeAuthUpdateOne {
+	if v != nil {
+		_u.SetLogged(*v)
 	}
-	return cauo
+	return _u
 }
 
 // ClearLogged clears the value of the "logged" field.
-func (cauo *CodeAuthUpdateOne) ClearLogged() *CodeAuthUpdateOne {
-	cauo.mutation.ClearLogged()
-	return cauo
+func (_u *CodeAuthUpdateOne) ClearLogged() *CodeAuthUpdateOne {
+	_u.mutation.ClearLogged()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (cauo *CodeAuthUpdateOne) SetUpdatedAt(i int64) *CodeAuthUpdateOne {
-	cauo.mutation.ResetUpdatedAt()
-	cauo.mutation.SetUpdatedAt(i)
-	return cauo
+func (_u *CodeAuthUpdateOne) SetUpdatedAt(v int64) *CodeAuthUpdateOne {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (cauo *CodeAuthUpdateOne) AddUpdatedAt(i int64) *CodeAuthUpdateOne {
-	cauo.mutation.AddUpdatedAt(i)
-	return cauo
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *CodeAuthUpdateOne) AddUpdatedAt(v int64) *CodeAuthUpdateOne {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (cauo *CodeAuthUpdateOne) ClearUpdatedAt() *CodeAuthUpdateOne {
-	cauo.mutation.ClearUpdatedAt()
-	return cauo
+func (_u *CodeAuthUpdateOne) ClearUpdatedAt() *CodeAuthUpdateOne {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // Mutation returns the CodeAuthMutation object of the builder.
-func (cauo *CodeAuthUpdateOne) Mutation() *CodeAuthMutation {
-	return cauo.mutation
+func (_u *CodeAuthUpdateOne) Mutation() *CodeAuthMutation {
+	return _u.mutation
 }
 
 // Where appends a list predicates to the CodeAuthUpdate builder.
-func (cauo *CodeAuthUpdateOne) Where(ps ...predicate.CodeAuth) *CodeAuthUpdateOne {
-	cauo.mutation.Where(ps...)
-	return cauo
+func (_u *CodeAuthUpdateOne) Where(ps ...predicate.CodeAuth) *CodeAuthUpdateOne {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // Select allows selecting one or more fields (columns) of the returned entity.
 // The default is selecting all fields defined in the entity schema.
-func (cauo *CodeAuthUpdateOne) Select(field string, fields ...string) *CodeAuthUpdateOne {
-	cauo.fields = append([]string{field}, fields...)
-	return cauo
+func (_u *CodeAuthUpdateOne) Select(field string, fields ...string) *CodeAuthUpdateOne {
+	_u.fields = append([]string{field}, fields...)
+	return _u
 }
 
 // Save executes the query and returns the updated CodeAuth entity.
-func (cauo *CodeAuthUpdateOne) Save(ctx context.Context) (*CodeAuth, error) {
-	cauo.defaults()
-	return withHooks(ctx, cauo.sqlSave, cauo.mutation, cauo.hooks)
+func (_u *CodeAuthUpdateOne) Save(ctx context.Context) (*CodeAuth, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (cauo *CodeAuthUpdateOne) SaveX(ctx context.Context) *CodeAuth {
-	node, err := cauo.Save(ctx)
+func (_u *CodeAuthUpdateOne) SaveX(ctx context.Context) *CodeAuth {
+	node, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -319,34 +319,34 @@ func (cauo *CodeAuthUpdateOne) SaveX(ctx context.Context) *CodeAuth {
 }
 
 // Exec executes the query on the entity.
-func (cauo *CodeAuthUpdateOne) Exec(ctx context.Context) error {
-	_, err := cauo.Save(ctx)
+func (_u *CodeAuthUpdateOne) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (cauo *CodeAuthUpdateOne) ExecX(ctx context.Context) {
-	if err := cauo.Exec(ctx); err != nil {
+func (_u *CodeAuthUpdateOne) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (cauo *CodeAuthUpdateOne) defaults() {
-	if _, ok := cauo.mutation.UpdatedAt(); !ok && !cauo.mutation.UpdatedAtCleared() {
+func (_u *CodeAuthUpdateOne) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := codeauth.UpdateDefaultUpdatedAt()
-		cauo.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (cauo *CodeAuthUpdateOne) sqlSave(ctx context.Context) (_node *CodeAuth, err error) {
+func (_u *CodeAuthUpdateOne) sqlSave(ctx context.Context) (_node *CodeAuth, err error) {
 	_spec := sqlgraph.NewUpdateSpec(codeauth.Table, codeauth.Columns, sqlgraph.NewFieldSpec(codeauth.FieldID, field.TypeString))
-	id, ok := cauo.mutation.ID()
+	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "CodeAuth.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
-	if fields := cauo.fields; len(fields) > 0 {
+	if fields := _u.fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, codeauth.FieldID)
 		for _, f := range fields {
@@ -358,47 +358,47 @@ func (cauo *CodeAuthUpdateOne) sqlSave(ctx context.Context) (_node *CodeAuth, er
 			}
 		}
 	}
-	if ps := cauo.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := cauo.mutation.Code(); ok {
+	if value, ok := _u.mutation.Code(); ok {
 		_spec.SetField(codeauth.FieldCode, field.TypeString, value)
 	}
-	if cauo.mutation.CodeCleared() {
+	if _u.mutation.CodeCleared() {
 		_spec.ClearField(codeauth.FieldCode, field.TypeString)
 	}
-	if value, ok := cauo.mutation.Email(); ok {
+	if value, ok := _u.mutation.Email(); ok {
 		_spec.SetField(codeauth.FieldEmail, field.TypeString, value)
 	}
-	if cauo.mutation.EmailCleared() {
+	if _u.mutation.EmailCleared() {
 		_spec.ClearField(codeauth.FieldEmail, field.TypeString)
 	}
-	if value, ok := cauo.mutation.Logged(); ok {
+	if value, ok := _u.mutation.Logged(); ok {
 		_spec.SetField(codeauth.FieldLogged, field.TypeBool, value)
 	}
-	if cauo.mutation.LoggedCleared() {
+	if _u.mutation.LoggedCleared() {
 		_spec.ClearField(codeauth.FieldLogged, field.TypeBool)
 	}
-	if cauo.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(codeauth.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := cauo.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(codeauth.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := cauo.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(codeauth.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if cauo.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(codeauth.FieldUpdatedAt, field.TypeInt64)
 	}
-	_node = &CodeAuth{config: cauo.config}
+	_node = &CodeAuth{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues
-	if err = sqlgraph.UpdateNode(ctx, cauo.driver, _spec); err != nil {
+	if err = sqlgraph.UpdateNode(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{codeauth.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -406,6 +406,6 @@ func (cauo *CodeAuthUpdateOne) sqlSave(ctx context.Context) (_node *CodeAuth, er
 		}
 		return nil, err
 	}
-	cauo.mutation.done = true
+	_u.mutation.done = true
 	return _node, nil
 }

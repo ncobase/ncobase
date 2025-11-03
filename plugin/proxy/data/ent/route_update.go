@@ -22,321 +22,321 @@ type RouteUpdate struct {
 }
 
 // Where appends a list predicates to the RouteUpdate builder.
-func (ru *RouteUpdate) Where(ps ...predicate.Route) *RouteUpdate {
-	ru.mutation.Where(ps...)
-	return ru
+func (_u *RouteUpdate) Where(ps ...predicate.Route) *RouteUpdate {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // SetName sets the "name" field.
-func (ru *RouteUpdate) SetName(s string) *RouteUpdate {
-	ru.mutation.SetName(s)
-	return ru
+func (_u *RouteUpdate) SetName(v string) *RouteUpdate {
+	_u.mutation.SetName(v)
+	return _u
 }
 
 // SetNillableName sets the "name" field if the given value is not nil.
-func (ru *RouteUpdate) SetNillableName(s *string) *RouteUpdate {
-	if s != nil {
-		ru.SetName(*s)
+func (_u *RouteUpdate) SetNillableName(v *string) *RouteUpdate {
+	if v != nil {
+		_u.SetName(*v)
 	}
-	return ru
+	return _u
 }
 
 // ClearName clears the value of the "name" field.
-func (ru *RouteUpdate) ClearName() *RouteUpdate {
-	ru.mutation.ClearName()
-	return ru
+func (_u *RouteUpdate) ClearName() *RouteUpdate {
+	_u.mutation.ClearName()
+	return _u
 }
 
 // SetDescription sets the "description" field.
-func (ru *RouteUpdate) SetDescription(s string) *RouteUpdate {
-	ru.mutation.SetDescription(s)
-	return ru
+func (_u *RouteUpdate) SetDescription(v string) *RouteUpdate {
+	_u.mutation.SetDescription(v)
+	return _u
 }
 
 // SetNillableDescription sets the "description" field if the given value is not nil.
-func (ru *RouteUpdate) SetNillableDescription(s *string) *RouteUpdate {
-	if s != nil {
-		ru.SetDescription(*s)
+func (_u *RouteUpdate) SetNillableDescription(v *string) *RouteUpdate {
+	if v != nil {
+		_u.SetDescription(*v)
 	}
-	return ru
+	return _u
 }
 
 // ClearDescription clears the value of the "description" field.
-func (ru *RouteUpdate) ClearDescription() *RouteUpdate {
-	ru.mutation.ClearDescription()
-	return ru
+func (_u *RouteUpdate) ClearDescription() *RouteUpdate {
+	_u.mutation.ClearDescription()
+	return _u
 }
 
 // SetDisabled sets the "disabled" field.
-func (ru *RouteUpdate) SetDisabled(b bool) *RouteUpdate {
-	ru.mutation.SetDisabled(b)
-	return ru
+func (_u *RouteUpdate) SetDisabled(v bool) *RouteUpdate {
+	_u.mutation.SetDisabled(v)
+	return _u
 }
 
 // SetNillableDisabled sets the "disabled" field if the given value is not nil.
-func (ru *RouteUpdate) SetNillableDisabled(b *bool) *RouteUpdate {
-	if b != nil {
-		ru.SetDisabled(*b)
+func (_u *RouteUpdate) SetNillableDisabled(v *bool) *RouteUpdate {
+	if v != nil {
+		_u.SetDisabled(*v)
 	}
-	return ru
+	return _u
 }
 
 // ClearDisabled clears the value of the "disabled" field.
-func (ru *RouteUpdate) ClearDisabled() *RouteUpdate {
-	ru.mutation.ClearDisabled()
-	return ru
+func (_u *RouteUpdate) ClearDisabled() *RouteUpdate {
+	_u.mutation.ClearDisabled()
+	return _u
 }
 
 // SetExtras sets the "extras" field.
-func (ru *RouteUpdate) SetExtras(m map[string]interface{}) *RouteUpdate {
-	ru.mutation.SetExtras(m)
-	return ru
+func (_u *RouteUpdate) SetExtras(v map[string]interface{}) *RouteUpdate {
+	_u.mutation.SetExtras(v)
+	return _u
 }
 
 // ClearExtras clears the value of the "extras" field.
-func (ru *RouteUpdate) ClearExtras() *RouteUpdate {
-	ru.mutation.ClearExtras()
-	return ru
+func (_u *RouteUpdate) ClearExtras() *RouteUpdate {
+	_u.mutation.ClearExtras()
+	return _u
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (ru *RouteUpdate) SetCreatedBy(s string) *RouteUpdate {
-	ru.mutation.SetCreatedBy(s)
-	return ru
+func (_u *RouteUpdate) SetCreatedBy(v string) *RouteUpdate {
+	_u.mutation.SetCreatedBy(v)
+	return _u
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (ru *RouteUpdate) SetNillableCreatedBy(s *string) *RouteUpdate {
-	if s != nil {
-		ru.SetCreatedBy(*s)
+func (_u *RouteUpdate) SetNillableCreatedBy(v *string) *RouteUpdate {
+	if v != nil {
+		_u.SetCreatedBy(*v)
 	}
-	return ru
+	return _u
 }
 
 // ClearCreatedBy clears the value of the "created_by" field.
-func (ru *RouteUpdate) ClearCreatedBy() *RouteUpdate {
-	ru.mutation.ClearCreatedBy()
-	return ru
+func (_u *RouteUpdate) ClearCreatedBy() *RouteUpdate {
+	_u.mutation.ClearCreatedBy()
+	return _u
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (ru *RouteUpdate) SetUpdatedBy(s string) *RouteUpdate {
-	ru.mutation.SetUpdatedBy(s)
-	return ru
+func (_u *RouteUpdate) SetUpdatedBy(v string) *RouteUpdate {
+	_u.mutation.SetUpdatedBy(v)
+	return _u
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (ru *RouteUpdate) SetNillableUpdatedBy(s *string) *RouteUpdate {
-	if s != nil {
-		ru.SetUpdatedBy(*s)
+func (_u *RouteUpdate) SetNillableUpdatedBy(v *string) *RouteUpdate {
+	if v != nil {
+		_u.SetUpdatedBy(*v)
 	}
-	return ru
+	return _u
 }
 
 // ClearUpdatedBy clears the value of the "updated_by" field.
-func (ru *RouteUpdate) ClearUpdatedBy() *RouteUpdate {
-	ru.mutation.ClearUpdatedBy()
-	return ru
+func (_u *RouteUpdate) ClearUpdatedBy() *RouteUpdate {
+	_u.mutation.ClearUpdatedBy()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (ru *RouteUpdate) SetUpdatedAt(i int64) *RouteUpdate {
-	ru.mutation.ResetUpdatedAt()
-	ru.mutation.SetUpdatedAt(i)
-	return ru
+func (_u *RouteUpdate) SetUpdatedAt(v int64) *RouteUpdate {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (ru *RouteUpdate) AddUpdatedAt(i int64) *RouteUpdate {
-	ru.mutation.AddUpdatedAt(i)
-	return ru
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *RouteUpdate) AddUpdatedAt(v int64) *RouteUpdate {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (ru *RouteUpdate) ClearUpdatedAt() *RouteUpdate {
-	ru.mutation.ClearUpdatedAt()
-	return ru
+func (_u *RouteUpdate) ClearUpdatedAt() *RouteUpdate {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // SetEndpointID sets the "endpoint_id" field.
-func (ru *RouteUpdate) SetEndpointID(s string) *RouteUpdate {
-	ru.mutation.SetEndpointID(s)
-	return ru
+func (_u *RouteUpdate) SetEndpointID(v string) *RouteUpdate {
+	_u.mutation.SetEndpointID(v)
+	return _u
 }
 
 // SetNillableEndpointID sets the "endpoint_id" field if the given value is not nil.
-func (ru *RouteUpdate) SetNillableEndpointID(s *string) *RouteUpdate {
-	if s != nil {
-		ru.SetEndpointID(*s)
+func (_u *RouteUpdate) SetNillableEndpointID(v *string) *RouteUpdate {
+	if v != nil {
+		_u.SetEndpointID(*v)
 	}
-	return ru
+	return _u
 }
 
 // SetPathPattern sets the "path_pattern" field.
-func (ru *RouteUpdate) SetPathPattern(s string) *RouteUpdate {
-	ru.mutation.SetPathPattern(s)
-	return ru
+func (_u *RouteUpdate) SetPathPattern(v string) *RouteUpdate {
+	_u.mutation.SetPathPattern(v)
+	return _u
 }
 
 // SetNillablePathPattern sets the "path_pattern" field if the given value is not nil.
-func (ru *RouteUpdate) SetNillablePathPattern(s *string) *RouteUpdate {
-	if s != nil {
-		ru.SetPathPattern(*s)
+func (_u *RouteUpdate) SetNillablePathPattern(v *string) *RouteUpdate {
+	if v != nil {
+		_u.SetPathPattern(*v)
 	}
-	return ru
+	return _u
 }
 
 // SetTargetPath sets the "target_path" field.
-func (ru *RouteUpdate) SetTargetPath(s string) *RouteUpdate {
-	ru.mutation.SetTargetPath(s)
-	return ru
+func (_u *RouteUpdate) SetTargetPath(v string) *RouteUpdate {
+	_u.mutation.SetTargetPath(v)
+	return _u
 }
 
 // SetNillableTargetPath sets the "target_path" field if the given value is not nil.
-func (ru *RouteUpdate) SetNillableTargetPath(s *string) *RouteUpdate {
-	if s != nil {
-		ru.SetTargetPath(*s)
+func (_u *RouteUpdate) SetNillableTargetPath(v *string) *RouteUpdate {
+	if v != nil {
+		_u.SetTargetPath(*v)
 	}
-	return ru
+	return _u
 }
 
 // SetMethod sets the "method" field.
-func (ru *RouteUpdate) SetMethod(s string) *RouteUpdate {
-	ru.mutation.SetMethod(s)
-	return ru
+func (_u *RouteUpdate) SetMethod(v string) *RouteUpdate {
+	_u.mutation.SetMethod(v)
+	return _u
 }
 
 // SetNillableMethod sets the "method" field if the given value is not nil.
-func (ru *RouteUpdate) SetNillableMethod(s *string) *RouteUpdate {
-	if s != nil {
-		ru.SetMethod(*s)
+func (_u *RouteUpdate) SetNillableMethod(v *string) *RouteUpdate {
+	if v != nil {
+		_u.SetMethod(*v)
 	}
-	return ru
+	return _u
 }
 
 // SetInputTransformerID sets the "input_transformer_id" field.
-func (ru *RouteUpdate) SetInputTransformerID(s string) *RouteUpdate {
-	ru.mutation.SetInputTransformerID(s)
-	return ru
+func (_u *RouteUpdate) SetInputTransformerID(v string) *RouteUpdate {
+	_u.mutation.SetInputTransformerID(v)
+	return _u
 }
 
 // SetNillableInputTransformerID sets the "input_transformer_id" field if the given value is not nil.
-func (ru *RouteUpdate) SetNillableInputTransformerID(s *string) *RouteUpdate {
-	if s != nil {
-		ru.SetInputTransformerID(*s)
+func (_u *RouteUpdate) SetNillableInputTransformerID(v *string) *RouteUpdate {
+	if v != nil {
+		_u.SetInputTransformerID(*v)
 	}
-	return ru
+	return _u
 }
 
 // ClearInputTransformerID clears the value of the "input_transformer_id" field.
-func (ru *RouteUpdate) ClearInputTransformerID() *RouteUpdate {
-	ru.mutation.ClearInputTransformerID()
-	return ru
+func (_u *RouteUpdate) ClearInputTransformerID() *RouteUpdate {
+	_u.mutation.ClearInputTransformerID()
+	return _u
 }
 
 // SetOutputTransformerID sets the "output_transformer_id" field.
-func (ru *RouteUpdate) SetOutputTransformerID(s string) *RouteUpdate {
-	ru.mutation.SetOutputTransformerID(s)
-	return ru
+func (_u *RouteUpdate) SetOutputTransformerID(v string) *RouteUpdate {
+	_u.mutation.SetOutputTransformerID(v)
+	return _u
 }
 
 // SetNillableOutputTransformerID sets the "output_transformer_id" field if the given value is not nil.
-func (ru *RouteUpdate) SetNillableOutputTransformerID(s *string) *RouteUpdate {
-	if s != nil {
-		ru.SetOutputTransformerID(*s)
+func (_u *RouteUpdate) SetNillableOutputTransformerID(v *string) *RouteUpdate {
+	if v != nil {
+		_u.SetOutputTransformerID(*v)
 	}
-	return ru
+	return _u
 }
 
 // ClearOutputTransformerID clears the value of the "output_transformer_id" field.
-func (ru *RouteUpdate) ClearOutputTransformerID() *RouteUpdate {
-	ru.mutation.ClearOutputTransformerID()
-	return ru
+func (_u *RouteUpdate) ClearOutputTransformerID() *RouteUpdate {
+	_u.mutation.ClearOutputTransformerID()
+	return _u
 }
 
 // SetCacheEnabled sets the "cache_enabled" field.
-func (ru *RouteUpdate) SetCacheEnabled(b bool) *RouteUpdate {
-	ru.mutation.SetCacheEnabled(b)
-	return ru
+func (_u *RouteUpdate) SetCacheEnabled(v bool) *RouteUpdate {
+	_u.mutation.SetCacheEnabled(v)
+	return _u
 }
 
 // SetNillableCacheEnabled sets the "cache_enabled" field if the given value is not nil.
-func (ru *RouteUpdate) SetNillableCacheEnabled(b *bool) *RouteUpdate {
-	if b != nil {
-		ru.SetCacheEnabled(*b)
+func (_u *RouteUpdate) SetNillableCacheEnabled(v *bool) *RouteUpdate {
+	if v != nil {
+		_u.SetCacheEnabled(*v)
 	}
-	return ru
+	return _u
 }
 
 // SetCacheTTL sets the "cache_ttl" field.
-func (ru *RouteUpdate) SetCacheTTL(i int) *RouteUpdate {
-	ru.mutation.ResetCacheTTL()
-	ru.mutation.SetCacheTTL(i)
-	return ru
+func (_u *RouteUpdate) SetCacheTTL(v int) *RouteUpdate {
+	_u.mutation.ResetCacheTTL()
+	_u.mutation.SetCacheTTL(v)
+	return _u
 }
 
 // SetNillableCacheTTL sets the "cache_ttl" field if the given value is not nil.
-func (ru *RouteUpdate) SetNillableCacheTTL(i *int) *RouteUpdate {
-	if i != nil {
-		ru.SetCacheTTL(*i)
+func (_u *RouteUpdate) SetNillableCacheTTL(v *int) *RouteUpdate {
+	if v != nil {
+		_u.SetCacheTTL(*v)
 	}
-	return ru
+	return _u
 }
 
-// AddCacheTTL adds i to the "cache_ttl" field.
-func (ru *RouteUpdate) AddCacheTTL(i int) *RouteUpdate {
-	ru.mutation.AddCacheTTL(i)
-	return ru
+// AddCacheTTL adds value to the "cache_ttl" field.
+func (_u *RouteUpdate) AddCacheTTL(v int) *RouteUpdate {
+	_u.mutation.AddCacheTTL(v)
+	return _u
 }
 
 // SetRateLimit sets the "rate_limit" field.
-func (ru *RouteUpdate) SetRateLimit(s string) *RouteUpdate {
-	ru.mutation.SetRateLimit(s)
-	return ru
+func (_u *RouteUpdate) SetRateLimit(v string) *RouteUpdate {
+	_u.mutation.SetRateLimit(v)
+	return _u
 }
 
 // SetNillableRateLimit sets the "rate_limit" field if the given value is not nil.
-func (ru *RouteUpdate) SetNillableRateLimit(s *string) *RouteUpdate {
-	if s != nil {
-		ru.SetRateLimit(*s)
+func (_u *RouteUpdate) SetNillableRateLimit(v *string) *RouteUpdate {
+	if v != nil {
+		_u.SetRateLimit(*v)
 	}
-	return ru
+	return _u
 }
 
 // ClearRateLimit clears the value of the "rate_limit" field.
-func (ru *RouteUpdate) ClearRateLimit() *RouteUpdate {
-	ru.mutation.ClearRateLimit()
-	return ru
+func (_u *RouteUpdate) ClearRateLimit() *RouteUpdate {
+	_u.mutation.ClearRateLimit()
+	return _u
 }
 
 // SetStripAuthHeader sets the "strip_auth_header" field.
-func (ru *RouteUpdate) SetStripAuthHeader(b bool) *RouteUpdate {
-	ru.mutation.SetStripAuthHeader(b)
-	return ru
+func (_u *RouteUpdate) SetStripAuthHeader(v bool) *RouteUpdate {
+	_u.mutation.SetStripAuthHeader(v)
+	return _u
 }
 
 // SetNillableStripAuthHeader sets the "strip_auth_header" field if the given value is not nil.
-func (ru *RouteUpdate) SetNillableStripAuthHeader(b *bool) *RouteUpdate {
-	if b != nil {
-		ru.SetStripAuthHeader(*b)
+func (_u *RouteUpdate) SetNillableStripAuthHeader(v *bool) *RouteUpdate {
+	if v != nil {
+		_u.SetStripAuthHeader(*v)
 	}
-	return ru
+	return _u
 }
 
 // Mutation returns the RouteMutation object of the builder.
-func (ru *RouteUpdate) Mutation() *RouteMutation {
-	return ru.mutation
+func (_u *RouteUpdate) Mutation() *RouteMutation {
+	return _u.mutation
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
-func (ru *RouteUpdate) Save(ctx context.Context) (int, error) {
-	ru.defaults()
-	return withHooks(ctx, ru.sqlSave, ru.mutation, ru.hooks)
+func (_u *RouteUpdate) Save(ctx context.Context) (int, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (ru *RouteUpdate) SaveX(ctx context.Context) int {
-	affected, err := ru.Save(ctx)
+func (_u *RouteUpdate) SaveX(ctx context.Context) int {
+	affected, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -344,34 +344,34 @@ func (ru *RouteUpdate) SaveX(ctx context.Context) int {
 }
 
 // Exec executes the query.
-func (ru *RouteUpdate) Exec(ctx context.Context) error {
-	_, err := ru.Save(ctx)
+func (_u *RouteUpdate) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (ru *RouteUpdate) ExecX(ctx context.Context) {
-	if err := ru.Exec(ctx); err != nil {
+func (_u *RouteUpdate) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (ru *RouteUpdate) defaults() {
-	if _, ok := ru.mutation.UpdatedAt(); !ok && !ru.mutation.UpdatedAtCleared() {
+func (_u *RouteUpdate) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := route.UpdateDefaultUpdatedAt()
-		ru.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (ru *RouteUpdate) check() error {
-	if v, ok := ru.mutation.PathPattern(); ok {
+func (_u *RouteUpdate) check() error {
+	if v, ok := _u.mutation.PathPattern(); ok {
 		if err := route.PathPatternValidator(v); err != nil {
 			return &ValidationError{Name: "path_pattern", err: fmt.Errorf(`ent: validator failed for field "Route.path_pattern": %w`, err)}
 		}
 	}
-	if v, ok := ru.mutation.TargetPath(); ok {
+	if v, ok := _u.mutation.TargetPath(); ok {
 		if err := route.TargetPathValidator(v); err != nil {
 			return &ValidationError{Name: "target_path", err: fmt.Errorf(`ent: validator failed for field "Route.target_path": %w`, err)}
 		}
@@ -379,109 +379,109 @@ func (ru *RouteUpdate) check() error {
 	return nil
 }
 
-func (ru *RouteUpdate) sqlSave(ctx context.Context) (n int, err error) {
-	if err := ru.check(); err != nil {
-		return n, err
+func (_u *RouteUpdate) sqlSave(ctx context.Context) (_node int, err error) {
+	if err := _u.check(); err != nil {
+		return _node, err
 	}
 	_spec := sqlgraph.NewUpdateSpec(route.Table, route.Columns, sqlgraph.NewFieldSpec(route.FieldID, field.TypeString))
-	if ps := ru.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := ru.mutation.Name(); ok {
+	if value, ok := _u.mutation.Name(); ok {
 		_spec.SetField(route.FieldName, field.TypeString, value)
 	}
-	if ru.mutation.NameCleared() {
+	if _u.mutation.NameCleared() {
 		_spec.ClearField(route.FieldName, field.TypeString)
 	}
-	if value, ok := ru.mutation.Description(); ok {
+	if value, ok := _u.mutation.Description(); ok {
 		_spec.SetField(route.FieldDescription, field.TypeString, value)
 	}
-	if ru.mutation.DescriptionCleared() {
+	if _u.mutation.DescriptionCleared() {
 		_spec.ClearField(route.FieldDescription, field.TypeString)
 	}
-	if value, ok := ru.mutation.Disabled(); ok {
+	if value, ok := _u.mutation.Disabled(); ok {
 		_spec.SetField(route.FieldDisabled, field.TypeBool, value)
 	}
-	if ru.mutation.DisabledCleared() {
+	if _u.mutation.DisabledCleared() {
 		_spec.ClearField(route.FieldDisabled, field.TypeBool)
 	}
-	if value, ok := ru.mutation.Extras(); ok {
+	if value, ok := _u.mutation.Extras(); ok {
 		_spec.SetField(route.FieldExtras, field.TypeJSON, value)
 	}
-	if ru.mutation.ExtrasCleared() {
+	if _u.mutation.ExtrasCleared() {
 		_spec.ClearField(route.FieldExtras, field.TypeJSON)
 	}
-	if value, ok := ru.mutation.CreatedBy(); ok {
+	if value, ok := _u.mutation.CreatedBy(); ok {
 		_spec.SetField(route.FieldCreatedBy, field.TypeString, value)
 	}
-	if ru.mutation.CreatedByCleared() {
+	if _u.mutation.CreatedByCleared() {
 		_spec.ClearField(route.FieldCreatedBy, field.TypeString)
 	}
-	if value, ok := ru.mutation.UpdatedBy(); ok {
+	if value, ok := _u.mutation.UpdatedBy(); ok {
 		_spec.SetField(route.FieldUpdatedBy, field.TypeString, value)
 	}
-	if ru.mutation.UpdatedByCleared() {
+	if _u.mutation.UpdatedByCleared() {
 		_spec.ClearField(route.FieldUpdatedBy, field.TypeString)
 	}
-	if ru.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(route.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := ru.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(route.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := ru.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(route.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if ru.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(route.FieldUpdatedAt, field.TypeInt64)
 	}
-	if value, ok := ru.mutation.EndpointID(); ok {
+	if value, ok := _u.mutation.EndpointID(); ok {
 		_spec.SetField(route.FieldEndpointID, field.TypeString, value)
 	}
-	if value, ok := ru.mutation.PathPattern(); ok {
+	if value, ok := _u.mutation.PathPattern(); ok {
 		_spec.SetField(route.FieldPathPattern, field.TypeString, value)
 	}
-	if value, ok := ru.mutation.TargetPath(); ok {
+	if value, ok := _u.mutation.TargetPath(); ok {
 		_spec.SetField(route.FieldTargetPath, field.TypeString, value)
 	}
-	if value, ok := ru.mutation.Method(); ok {
+	if value, ok := _u.mutation.Method(); ok {
 		_spec.SetField(route.FieldMethod, field.TypeString, value)
 	}
-	if value, ok := ru.mutation.InputTransformerID(); ok {
+	if value, ok := _u.mutation.InputTransformerID(); ok {
 		_spec.SetField(route.FieldInputTransformerID, field.TypeString, value)
 	}
-	if ru.mutation.InputTransformerIDCleared() {
+	if _u.mutation.InputTransformerIDCleared() {
 		_spec.ClearField(route.FieldInputTransformerID, field.TypeString)
 	}
-	if value, ok := ru.mutation.OutputTransformerID(); ok {
+	if value, ok := _u.mutation.OutputTransformerID(); ok {
 		_spec.SetField(route.FieldOutputTransformerID, field.TypeString, value)
 	}
-	if ru.mutation.OutputTransformerIDCleared() {
+	if _u.mutation.OutputTransformerIDCleared() {
 		_spec.ClearField(route.FieldOutputTransformerID, field.TypeString)
 	}
-	if value, ok := ru.mutation.CacheEnabled(); ok {
+	if value, ok := _u.mutation.CacheEnabled(); ok {
 		_spec.SetField(route.FieldCacheEnabled, field.TypeBool, value)
 	}
-	if value, ok := ru.mutation.CacheTTL(); ok {
+	if value, ok := _u.mutation.CacheTTL(); ok {
 		_spec.SetField(route.FieldCacheTTL, field.TypeInt, value)
 	}
-	if value, ok := ru.mutation.AddedCacheTTL(); ok {
+	if value, ok := _u.mutation.AddedCacheTTL(); ok {
 		_spec.AddField(route.FieldCacheTTL, field.TypeInt, value)
 	}
-	if value, ok := ru.mutation.RateLimit(); ok {
+	if value, ok := _u.mutation.RateLimit(); ok {
 		_spec.SetField(route.FieldRateLimit, field.TypeString, value)
 	}
-	if ru.mutation.RateLimitCleared() {
+	if _u.mutation.RateLimitCleared() {
 		_spec.ClearField(route.FieldRateLimit, field.TypeString)
 	}
-	if value, ok := ru.mutation.StripAuthHeader(); ok {
+	if value, ok := _u.mutation.StripAuthHeader(); ok {
 		_spec.SetField(route.FieldStripAuthHeader, field.TypeBool, value)
 	}
-	if n, err = sqlgraph.UpdateNodes(ctx, ru.driver, _spec); err != nil {
+	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{route.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -489,8 +489,8 @@ func (ru *RouteUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		return 0, err
 	}
-	ru.mutation.done = true
-	return n, nil
+	_u.mutation.done = true
+	return _node, nil
 }
 
 // RouteUpdateOne is the builder for updating a single Route entity.
@@ -502,328 +502,328 @@ type RouteUpdateOne struct {
 }
 
 // SetName sets the "name" field.
-func (ruo *RouteUpdateOne) SetName(s string) *RouteUpdateOne {
-	ruo.mutation.SetName(s)
-	return ruo
+func (_u *RouteUpdateOne) SetName(v string) *RouteUpdateOne {
+	_u.mutation.SetName(v)
+	return _u
 }
 
 // SetNillableName sets the "name" field if the given value is not nil.
-func (ruo *RouteUpdateOne) SetNillableName(s *string) *RouteUpdateOne {
-	if s != nil {
-		ruo.SetName(*s)
+func (_u *RouteUpdateOne) SetNillableName(v *string) *RouteUpdateOne {
+	if v != nil {
+		_u.SetName(*v)
 	}
-	return ruo
+	return _u
 }
 
 // ClearName clears the value of the "name" field.
-func (ruo *RouteUpdateOne) ClearName() *RouteUpdateOne {
-	ruo.mutation.ClearName()
-	return ruo
+func (_u *RouteUpdateOne) ClearName() *RouteUpdateOne {
+	_u.mutation.ClearName()
+	return _u
 }
 
 // SetDescription sets the "description" field.
-func (ruo *RouteUpdateOne) SetDescription(s string) *RouteUpdateOne {
-	ruo.mutation.SetDescription(s)
-	return ruo
+func (_u *RouteUpdateOne) SetDescription(v string) *RouteUpdateOne {
+	_u.mutation.SetDescription(v)
+	return _u
 }
 
 // SetNillableDescription sets the "description" field if the given value is not nil.
-func (ruo *RouteUpdateOne) SetNillableDescription(s *string) *RouteUpdateOne {
-	if s != nil {
-		ruo.SetDescription(*s)
+func (_u *RouteUpdateOne) SetNillableDescription(v *string) *RouteUpdateOne {
+	if v != nil {
+		_u.SetDescription(*v)
 	}
-	return ruo
+	return _u
 }
 
 // ClearDescription clears the value of the "description" field.
-func (ruo *RouteUpdateOne) ClearDescription() *RouteUpdateOne {
-	ruo.mutation.ClearDescription()
-	return ruo
+func (_u *RouteUpdateOne) ClearDescription() *RouteUpdateOne {
+	_u.mutation.ClearDescription()
+	return _u
 }
 
 // SetDisabled sets the "disabled" field.
-func (ruo *RouteUpdateOne) SetDisabled(b bool) *RouteUpdateOne {
-	ruo.mutation.SetDisabled(b)
-	return ruo
+func (_u *RouteUpdateOne) SetDisabled(v bool) *RouteUpdateOne {
+	_u.mutation.SetDisabled(v)
+	return _u
 }
 
 // SetNillableDisabled sets the "disabled" field if the given value is not nil.
-func (ruo *RouteUpdateOne) SetNillableDisabled(b *bool) *RouteUpdateOne {
-	if b != nil {
-		ruo.SetDisabled(*b)
+func (_u *RouteUpdateOne) SetNillableDisabled(v *bool) *RouteUpdateOne {
+	if v != nil {
+		_u.SetDisabled(*v)
 	}
-	return ruo
+	return _u
 }
 
 // ClearDisabled clears the value of the "disabled" field.
-func (ruo *RouteUpdateOne) ClearDisabled() *RouteUpdateOne {
-	ruo.mutation.ClearDisabled()
-	return ruo
+func (_u *RouteUpdateOne) ClearDisabled() *RouteUpdateOne {
+	_u.mutation.ClearDisabled()
+	return _u
 }
 
 // SetExtras sets the "extras" field.
-func (ruo *RouteUpdateOne) SetExtras(m map[string]interface{}) *RouteUpdateOne {
-	ruo.mutation.SetExtras(m)
-	return ruo
+func (_u *RouteUpdateOne) SetExtras(v map[string]interface{}) *RouteUpdateOne {
+	_u.mutation.SetExtras(v)
+	return _u
 }
 
 // ClearExtras clears the value of the "extras" field.
-func (ruo *RouteUpdateOne) ClearExtras() *RouteUpdateOne {
-	ruo.mutation.ClearExtras()
-	return ruo
+func (_u *RouteUpdateOne) ClearExtras() *RouteUpdateOne {
+	_u.mutation.ClearExtras()
+	return _u
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (ruo *RouteUpdateOne) SetCreatedBy(s string) *RouteUpdateOne {
-	ruo.mutation.SetCreatedBy(s)
-	return ruo
+func (_u *RouteUpdateOne) SetCreatedBy(v string) *RouteUpdateOne {
+	_u.mutation.SetCreatedBy(v)
+	return _u
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (ruo *RouteUpdateOne) SetNillableCreatedBy(s *string) *RouteUpdateOne {
-	if s != nil {
-		ruo.SetCreatedBy(*s)
+func (_u *RouteUpdateOne) SetNillableCreatedBy(v *string) *RouteUpdateOne {
+	if v != nil {
+		_u.SetCreatedBy(*v)
 	}
-	return ruo
+	return _u
 }
 
 // ClearCreatedBy clears the value of the "created_by" field.
-func (ruo *RouteUpdateOne) ClearCreatedBy() *RouteUpdateOne {
-	ruo.mutation.ClearCreatedBy()
-	return ruo
+func (_u *RouteUpdateOne) ClearCreatedBy() *RouteUpdateOne {
+	_u.mutation.ClearCreatedBy()
+	return _u
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (ruo *RouteUpdateOne) SetUpdatedBy(s string) *RouteUpdateOne {
-	ruo.mutation.SetUpdatedBy(s)
-	return ruo
+func (_u *RouteUpdateOne) SetUpdatedBy(v string) *RouteUpdateOne {
+	_u.mutation.SetUpdatedBy(v)
+	return _u
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (ruo *RouteUpdateOne) SetNillableUpdatedBy(s *string) *RouteUpdateOne {
-	if s != nil {
-		ruo.SetUpdatedBy(*s)
+func (_u *RouteUpdateOne) SetNillableUpdatedBy(v *string) *RouteUpdateOne {
+	if v != nil {
+		_u.SetUpdatedBy(*v)
 	}
-	return ruo
+	return _u
 }
 
 // ClearUpdatedBy clears the value of the "updated_by" field.
-func (ruo *RouteUpdateOne) ClearUpdatedBy() *RouteUpdateOne {
-	ruo.mutation.ClearUpdatedBy()
-	return ruo
+func (_u *RouteUpdateOne) ClearUpdatedBy() *RouteUpdateOne {
+	_u.mutation.ClearUpdatedBy()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (ruo *RouteUpdateOne) SetUpdatedAt(i int64) *RouteUpdateOne {
-	ruo.mutation.ResetUpdatedAt()
-	ruo.mutation.SetUpdatedAt(i)
-	return ruo
+func (_u *RouteUpdateOne) SetUpdatedAt(v int64) *RouteUpdateOne {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (ruo *RouteUpdateOne) AddUpdatedAt(i int64) *RouteUpdateOne {
-	ruo.mutation.AddUpdatedAt(i)
-	return ruo
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *RouteUpdateOne) AddUpdatedAt(v int64) *RouteUpdateOne {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (ruo *RouteUpdateOne) ClearUpdatedAt() *RouteUpdateOne {
-	ruo.mutation.ClearUpdatedAt()
-	return ruo
+func (_u *RouteUpdateOne) ClearUpdatedAt() *RouteUpdateOne {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // SetEndpointID sets the "endpoint_id" field.
-func (ruo *RouteUpdateOne) SetEndpointID(s string) *RouteUpdateOne {
-	ruo.mutation.SetEndpointID(s)
-	return ruo
+func (_u *RouteUpdateOne) SetEndpointID(v string) *RouteUpdateOne {
+	_u.mutation.SetEndpointID(v)
+	return _u
 }
 
 // SetNillableEndpointID sets the "endpoint_id" field if the given value is not nil.
-func (ruo *RouteUpdateOne) SetNillableEndpointID(s *string) *RouteUpdateOne {
-	if s != nil {
-		ruo.SetEndpointID(*s)
+func (_u *RouteUpdateOne) SetNillableEndpointID(v *string) *RouteUpdateOne {
+	if v != nil {
+		_u.SetEndpointID(*v)
 	}
-	return ruo
+	return _u
 }
 
 // SetPathPattern sets the "path_pattern" field.
-func (ruo *RouteUpdateOne) SetPathPattern(s string) *RouteUpdateOne {
-	ruo.mutation.SetPathPattern(s)
-	return ruo
+func (_u *RouteUpdateOne) SetPathPattern(v string) *RouteUpdateOne {
+	_u.mutation.SetPathPattern(v)
+	return _u
 }
 
 // SetNillablePathPattern sets the "path_pattern" field if the given value is not nil.
-func (ruo *RouteUpdateOne) SetNillablePathPattern(s *string) *RouteUpdateOne {
-	if s != nil {
-		ruo.SetPathPattern(*s)
+func (_u *RouteUpdateOne) SetNillablePathPattern(v *string) *RouteUpdateOne {
+	if v != nil {
+		_u.SetPathPattern(*v)
 	}
-	return ruo
+	return _u
 }
 
 // SetTargetPath sets the "target_path" field.
-func (ruo *RouteUpdateOne) SetTargetPath(s string) *RouteUpdateOne {
-	ruo.mutation.SetTargetPath(s)
-	return ruo
+func (_u *RouteUpdateOne) SetTargetPath(v string) *RouteUpdateOne {
+	_u.mutation.SetTargetPath(v)
+	return _u
 }
 
 // SetNillableTargetPath sets the "target_path" field if the given value is not nil.
-func (ruo *RouteUpdateOne) SetNillableTargetPath(s *string) *RouteUpdateOne {
-	if s != nil {
-		ruo.SetTargetPath(*s)
+func (_u *RouteUpdateOne) SetNillableTargetPath(v *string) *RouteUpdateOne {
+	if v != nil {
+		_u.SetTargetPath(*v)
 	}
-	return ruo
+	return _u
 }
 
 // SetMethod sets the "method" field.
-func (ruo *RouteUpdateOne) SetMethod(s string) *RouteUpdateOne {
-	ruo.mutation.SetMethod(s)
-	return ruo
+func (_u *RouteUpdateOne) SetMethod(v string) *RouteUpdateOne {
+	_u.mutation.SetMethod(v)
+	return _u
 }
 
 // SetNillableMethod sets the "method" field if the given value is not nil.
-func (ruo *RouteUpdateOne) SetNillableMethod(s *string) *RouteUpdateOne {
-	if s != nil {
-		ruo.SetMethod(*s)
+func (_u *RouteUpdateOne) SetNillableMethod(v *string) *RouteUpdateOne {
+	if v != nil {
+		_u.SetMethod(*v)
 	}
-	return ruo
+	return _u
 }
 
 // SetInputTransformerID sets the "input_transformer_id" field.
-func (ruo *RouteUpdateOne) SetInputTransformerID(s string) *RouteUpdateOne {
-	ruo.mutation.SetInputTransformerID(s)
-	return ruo
+func (_u *RouteUpdateOne) SetInputTransformerID(v string) *RouteUpdateOne {
+	_u.mutation.SetInputTransformerID(v)
+	return _u
 }
 
 // SetNillableInputTransformerID sets the "input_transformer_id" field if the given value is not nil.
-func (ruo *RouteUpdateOne) SetNillableInputTransformerID(s *string) *RouteUpdateOne {
-	if s != nil {
-		ruo.SetInputTransformerID(*s)
+func (_u *RouteUpdateOne) SetNillableInputTransformerID(v *string) *RouteUpdateOne {
+	if v != nil {
+		_u.SetInputTransformerID(*v)
 	}
-	return ruo
+	return _u
 }
 
 // ClearInputTransformerID clears the value of the "input_transformer_id" field.
-func (ruo *RouteUpdateOne) ClearInputTransformerID() *RouteUpdateOne {
-	ruo.mutation.ClearInputTransformerID()
-	return ruo
+func (_u *RouteUpdateOne) ClearInputTransformerID() *RouteUpdateOne {
+	_u.mutation.ClearInputTransformerID()
+	return _u
 }
 
 // SetOutputTransformerID sets the "output_transformer_id" field.
-func (ruo *RouteUpdateOne) SetOutputTransformerID(s string) *RouteUpdateOne {
-	ruo.mutation.SetOutputTransformerID(s)
-	return ruo
+func (_u *RouteUpdateOne) SetOutputTransformerID(v string) *RouteUpdateOne {
+	_u.mutation.SetOutputTransformerID(v)
+	return _u
 }
 
 // SetNillableOutputTransformerID sets the "output_transformer_id" field if the given value is not nil.
-func (ruo *RouteUpdateOne) SetNillableOutputTransformerID(s *string) *RouteUpdateOne {
-	if s != nil {
-		ruo.SetOutputTransformerID(*s)
+func (_u *RouteUpdateOne) SetNillableOutputTransformerID(v *string) *RouteUpdateOne {
+	if v != nil {
+		_u.SetOutputTransformerID(*v)
 	}
-	return ruo
+	return _u
 }
 
 // ClearOutputTransformerID clears the value of the "output_transformer_id" field.
-func (ruo *RouteUpdateOne) ClearOutputTransformerID() *RouteUpdateOne {
-	ruo.mutation.ClearOutputTransformerID()
-	return ruo
+func (_u *RouteUpdateOne) ClearOutputTransformerID() *RouteUpdateOne {
+	_u.mutation.ClearOutputTransformerID()
+	return _u
 }
 
 // SetCacheEnabled sets the "cache_enabled" field.
-func (ruo *RouteUpdateOne) SetCacheEnabled(b bool) *RouteUpdateOne {
-	ruo.mutation.SetCacheEnabled(b)
-	return ruo
+func (_u *RouteUpdateOne) SetCacheEnabled(v bool) *RouteUpdateOne {
+	_u.mutation.SetCacheEnabled(v)
+	return _u
 }
 
 // SetNillableCacheEnabled sets the "cache_enabled" field if the given value is not nil.
-func (ruo *RouteUpdateOne) SetNillableCacheEnabled(b *bool) *RouteUpdateOne {
-	if b != nil {
-		ruo.SetCacheEnabled(*b)
+func (_u *RouteUpdateOne) SetNillableCacheEnabled(v *bool) *RouteUpdateOne {
+	if v != nil {
+		_u.SetCacheEnabled(*v)
 	}
-	return ruo
+	return _u
 }
 
 // SetCacheTTL sets the "cache_ttl" field.
-func (ruo *RouteUpdateOne) SetCacheTTL(i int) *RouteUpdateOne {
-	ruo.mutation.ResetCacheTTL()
-	ruo.mutation.SetCacheTTL(i)
-	return ruo
+func (_u *RouteUpdateOne) SetCacheTTL(v int) *RouteUpdateOne {
+	_u.mutation.ResetCacheTTL()
+	_u.mutation.SetCacheTTL(v)
+	return _u
 }
 
 // SetNillableCacheTTL sets the "cache_ttl" field if the given value is not nil.
-func (ruo *RouteUpdateOne) SetNillableCacheTTL(i *int) *RouteUpdateOne {
-	if i != nil {
-		ruo.SetCacheTTL(*i)
+func (_u *RouteUpdateOne) SetNillableCacheTTL(v *int) *RouteUpdateOne {
+	if v != nil {
+		_u.SetCacheTTL(*v)
 	}
-	return ruo
+	return _u
 }
 
-// AddCacheTTL adds i to the "cache_ttl" field.
-func (ruo *RouteUpdateOne) AddCacheTTL(i int) *RouteUpdateOne {
-	ruo.mutation.AddCacheTTL(i)
-	return ruo
+// AddCacheTTL adds value to the "cache_ttl" field.
+func (_u *RouteUpdateOne) AddCacheTTL(v int) *RouteUpdateOne {
+	_u.mutation.AddCacheTTL(v)
+	return _u
 }
 
 // SetRateLimit sets the "rate_limit" field.
-func (ruo *RouteUpdateOne) SetRateLimit(s string) *RouteUpdateOne {
-	ruo.mutation.SetRateLimit(s)
-	return ruo
+func (_u *RouteUpdateOne) SetRateLimit(v string) *RouteUpdateOne {
+	_u.mutation.SetRateLimit(v)
+	return _u
 }
 
 // SetNillableRateLimit sets the "rate_limit" field if the given value is not nil.
-func (ruo *RouteUpdateOne) SetNillableRateLimit(s *string) *RouteUpdateOne {
-	if s != nil {
-		ruo.SetRateLimit(*s)
+func (_u *RouteUpdateOne) SetNillableRateLimit(v *string) *RouteUpdateOne {
+	if v != nil {
+		_u.SetRateLimit(*v)
 	}
-	return ruo
+	return _u
 }
 
 // ClearRateLimit clears the value of the "rate_limit" field.
-func (ruo *RouteUpdateOne) ClearRateLimit() *RouteUpdateOne {
-	ruo.mutation.ClearRateLimit()
-	return ruo
+func (_u *RouteUpdateOne) ClearRateLimit() *RouteUpdateOne {
+	_u.mutation.ClearRateLimit()
+	return _u
 }
 
 // SetStripAuthHeader sets the "strip_auth_header" field.
-func (ruo *RouteUpdateOne) SetStripAuthHeader(b bool) *RouteUpdateOne {
-	ruo.mutation.SetStripAuthHeader(b)
-	return ruo
+func (_u *RouteUpdateOne) SetStripAuthHeader(v bool) *RouteUpdateOne {
+	_u.mutation.SetStripAuthHeader(v)
+	return _u
 }
 
 // SetNillableStripAuthHeader sets the "strip_auth_header" field if the given value is not nil.
-func (ruo *RouteUpdateOne) SetNillableStripAuthHeader(b *bool) *RouteUpdateOne {
-	if b != nil {
-		ruo.SetStripAuthHeader(*b)
+func (_u *RouteUpdateOne) SetNillableStripAuthHeader(v *bool) *RouteUpdateOne {
+	if v != nil {
+		_u.SetStripAuthHeader(*v)
 	}
-	return ruo
+	return _u
 }
 
 // Mutation returns the RouteMutation object of the builder.
-func (ruo *RouteUpdateOne) Mutation() *RouteMutation {
-	return ruo.mutation
+func (_u *RouteUpdateOne) Mutation() *RouteMutation {
+	return _u.mutation
 }
 
 // Where appends a list predicates to the RouteUpdate builder.
-func (ruo *RouteUpdateOne) Where(ps ...predicate.Route) *RouteUpdateOne {
-	ruo.mutation.Where(ps...)
-	return ruo
+func (_u *RouteUpdateOne) Where(ps ...predicate.Route) *RouteUpdateOne {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // Select allows selecting one or more fields (columns) of the returned entity.
 // The default is selecting all fields defined in the entity schema.
-func (ruo *RouteUpdateOne) Select(field string, fields ...string) *RouteUpdateOne {
-	ruo.fields = append([]string{field}, fields...)
-	return ruo
+func (_u *RouteUpdateOne) Select(field string, fields ...string) *RouteUpdateOne {
+	_u.fields = append([]string{field}, fields...)
+	return _u
 }
 
 // Save executes the query and returns the updated Route entity.
-func (ruo *RouteUpdateOne) Save(ctx context.Context) (*Route, error) {
-	ruo.defaults()
-	return withHooks(ctx, ruo.sqlSave, ruo.mutation, ruo.hooks)
+func (_u *RouteUpdateOne) Save(ctx context.Context) (*Route, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (ruo *RouteUpdateOne) SaveX(ctx context.Context) *Route {
-	node, err := ruo.Save(ctx)
+func (_u *RouteUpdateOne) SaveX(ctx context.Context) *Route {
+	node, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -831,34 +831,34 @@ func (ruo *RouteUpdateOne) SaveX(ctx context.Context) *Route {
 }
 
 // Exec executes the query on the entity.
-func (ruo *RouteUpdateOne) Exec(ctx context.Context) error {
-	_, err := ruo.Save(ctx)
+func (_u *RouteUpdateOne) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (ruo *RouteUpdateOne) ExecX(ctx context.Context) {
-	if err := ruo.Exec(ctx); err != nil {
+func (_u *RouteUpdateOne) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (ruo *RouteUpdateOne) defaults() {
-	if _, ok := ruo.mutation.UpdatedAt(); !ok && !ruo.mutation.UpdatedAtCleared() {
+func (_u *RouteUpdateOne) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := route.UpdateDefaultUpdatedAt()
-		ruo.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (ruo *RouteUpdateOne) check() error {
-	if v, ok := ruo.mutation.PathPattern(); ok {
+func (_u *RouteUpdateOne) check() error {
+	if v, ok := _u.mutation.PathPattern(); ok {
 		if err := route.PathPatternValidator(v); err != nil {
 			return &ValidationError{Name: "path_pattern", err: fmt.Errorf(`ent: validator failed for field "Route.path_pattern": %w`, err)}
 		}
 	}
-	if v, ok := ruo.mutation.TargetPath(); ok {
+	if v, ok := _u.mutation.TargetPath(); ok {
 		if err := route.TargetPathValidator(v); err != nil {
 			return &ValidationError{Name: "target_path", err: fmt.Errorf(`ent: validator failed for field "Route.target_path": %w`, err)}
 		}
@@ -866,17 +866,17 @@ func (ruo *RouteUpdateOne) check() error {
 	return nil
 }
 
-func (ruo *RouteUpdateOne) sqlSave(ctx context.Context) (_node *Route, err error) {
-	if err := ruo.check(); err != nil {
+func (_u *RouteUpdateOne) sqlSave(ctx context.Context) (_node *Route, err error) {
+	if err := _u.check(); err != nil {
 		return _node, err
 	}
 	_spec := sqlgraph.NewUpdateSpec(route.Table, route.Columns, sqlgraph.NewFieldSpec(route.FieldID, field.TypeString))
-	id, ok := ruo.mutation.ID()
+	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "Route.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
-	if fields := ruo.fields; len(fields) > 0 {
+	if fields := _u.fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, route.FieldID)
 		for _, f := range fields {
@@ -888,107 +888,107 @@ func (ruo *RouteUpdateOne) sqlSave(ctx context.Context) (_node *Route, err error
 			}
 		}
 	}
-	if ps := ruo.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := ruo.mutation.Name(); ok {
+	if value, ok := _u.mutation.Name(); ok {
 		_spec.SetField(route.FieldName, field.TypeString, value)
 	}
-	if ruo.mutation.NameCleared() {
+	if _u.mutation.NameCleared() {
 		_spec.ClearField(route.FieldName, field.TypeString)
 	}
-	if value, ok := ruo.mutation.Description(); ok {
+	if value, ok := _u.mutation.Description(); ok {
 		_spec.SetField(route.FieldDescription, field.TypeString, value)
 	}
-	if ruo.mutation.DescriptionCleared() {
+	if _u.mutation.DescriptionCleared() {
 		_spec.ClearField(route.FieldDescription, field.TypeString)
 	}
-	if value, ok := ruo.mutation.Disabled(); ok {
+	if value, ok := _u.mutation.Disabled(); ok {
 		_spec.SetField(route.FieldDisabled, field.TypeBool, value)
 	}
-	if ruo.mutation.DisabledCleared() {
+	if _u.mutation.DisabledCleared() {
 		_spec.ClearField(route.FieldDisabled, field.TypeBool)
 	}
-	if value, ok := ruo.mutation.Extras(); ok {
+	if value, ok := _u.mutation.Extras(); ok {
 		_spec.SetField(route.FieldExtras, field.TypeJSON, value)
 	}
-	if ruo.mutation.ExtrasCleared() {
+	if _u.mutation.ExtrasCleared() {
 		_spec.ClearField(route.FieldExtras, field.TypeJSON)
 	}
-	if value, ok := ruo.mutation.CreatedBy(); ok {
+	if value, ok := _u.mutation.CreatedBy(); ok {
 		_spec.SetField(route.FieldCreatedBy, field.TypeString, value)
 	}
-	if ruo.mutation.CreatedByCleared() {
+	if _u.mutation.CreatedByCleared() {
 		_spec.ClearField(route.FieldCreatedBy, field.TypeString)
 	}
-	if value, ok := ruo.mutation.UpdatedBy(); ok {
+	if value, ok := _u.mutation.UpdatedBy(); ok {
 		_spec.SetField(route.FieldUpdatedBy, field.TypeString, value)
 	}
-	if ruo.mutation.UpdatedByCleared() {
+	if _u.mutation.UpdatedByCleared() {
 		_spec.ClearField(route.FieldUpdatedBy, field.TypeString)
 	}
-	if ruo.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(route.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := ruo.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(route.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := ruo.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(route.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if ruo.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(route.FieldUpdatedAt, field.TypeInt64)
 	}
-	if value, ok := ruo.mutation.EndpointID(); ok {
+	if value, ok := _u.mutation.EndpointID(); ok {
 		_spec.SetField(route.FieldEndpointID, field.TypeString, value)
 	}
-	if value, ok := ruo.mutation.PathPattern(); ok {
+	if value, ok := _u.mutation.PathPattern(); ok {
 		_spec.SetField(route.FieldPathPattern, field.TypeString, value)
 	}
-	if value, ok := ruo.mutation.TargetPath(); ok {
+	if value, ok := _u.mutation.TargetPath(); ok {
 		_spec.SetField(route.FieldTargetPath, field.TypeString, value)
 	}
-	if value, ok := ruo.mutation.Method(); ok {
+	if value, ok := _u.mutation.Method(); ok {
 		_spec.SetField(route.FieldMethod, field.TypeString, value)
 	}
-	if value, ok := ruo.mutation.InputTransformerID(); ok {
+	if value, ok := _u.mutation.InputTransformerID(); ok {
 		_spec.SetField(route.FieldInputTransformerID, field.TypeString, value)
 	}
-	if ruo.mutation.InputTransformerIDCleared() {
+	if _u.mutation.InputTransformerIDCleared() {
 		_spec.ClearField(route.FieldInputTransformerID, field.TypeString)
 	}
-	if value, ok := ruo.mutation.OutputTransformerID(); ok {
+	if value, ok := _u.mutation.OutputTransformerID(); ok {
 		_spec.SetField(route.FieldOutputTransformerID, field.TypeString, value)
 	}
-	if ruo.mutation.OutputTransformerIDCleared() {
+	if _u.mutation.OutputTransformerIDCleared() {
 		_spec.ClearField(route.FieldOutputTransformerID, field.TypeString)
 	}
-	if value, ok := ruo.mutation.CacheEnabled(); ok {
+	if value, ok := _u.mutation.CacheEnabled(); ok {
 		_spec.SetField(route.FieldCacheEnabled, field.TypeBool, value)
 	}
-	if value, ok := ruo.mutation.CacheTTL(); ok {
+	if value, ok := _u.mutation.CacheTTL(); ok {
 		_spec.SetField(route.FieldCacheTTL, field.TypeInt, value)
 	}
-	if value, ok := ruo.mutation.AddedCacheTTL(); ok {
+	if value, ok := _u.mutation.AddedCacheTTL(); ok {
 		_spec.AddField(route.FieldCacheTTL, field.TypeInt, value)
 	}
-	if value, ok := ruo.mutation.RateLimit(); ok {
+	if value, ok := _u.mutation.RateLimit(); ok {
 		_spec.SetField(route.FieldRateLimit, field.TypeString, value)
 	}
-	if ruo.mutation.RateLimitCleared() {
+	if _u.mutation.RateLimitCleared() {
 		_spec.ClearField(route.FieldRateLimit, field.TypeString)
 	}
-	if value, ok := ruo.mutation.StripAuthHeader(); ok {
+	if value, ok := _u.mutation.StripAuthHeader(); ok {
 		_spec.SetField(route.FieldStripAuthHeader, field.TypeBool, value)
 	}
-	_node = &Route{config: ruo.config}
+	_node = &Route{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues
-	if err = sqlgraph.UpdateNode(ctx, ruo.driver, _spec); err != nil {
+	if err = sqlgraph.UpdateNode(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{route.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -996,6 +996,6 @@ func (ruo *RouteUpdateOne) sqlSave(ctx context.Context) (_node *Route, err error
 		}
 		return nil, err
 	}
-	ruo.mutation.done = true
+	_u.mutation.done = true
 	return _node, nil
 }

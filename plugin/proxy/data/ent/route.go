@@ -79,7 +79,7 @@ func (*Route) scanValues(columns []string) ([]any, error) {
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
 // to the Route fields.
-func (r *Route) assignValues(columns []string, values []any) error {
+func (_m *Route) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
@@ -89,31 +89,31 @@ func (r *Route) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field id", values[i])
 			} else if value.Valid {
-				r.ID = value.String
+				_m.ID = value.String
 			}
 		case route.FieldName:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field name", values[i])
 			} else if value.Valid {
-				r.Name = value.String
+				_m.Name = value.String
 			}
 		case route.FieldDescription:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field description", values[i])
 			} else if value.Valid {
-				r.Description = value.String
+				_m.Description = value.String
 			}
 		case route.FieldDisabled:
 			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field disabled", values[i])
 			} else if value.Valid {
-				r.Disabled = value.Bool
+				_m.Disabled = value.Bool
 			}
 		case route.FieldExtras:
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field extras", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &r.Extras); err != nil {
+				if err := json.Unmarshal(*value, &_m.Extras); err != nil {
 					return fmt.Errorf("unmarshal field extras: %w", err)
 				}
 			}
@@ -121,88 +121,88 @@ func (r *Route) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field created_by", values[i])
 			} else if value.Valid {
-				r.CreatedBy = value.String
+				_m.CreatedBy = value.String
 			}
 		case route.FieldUpdatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_by", values[i])
 			} else if value.Valid {
-				r.UpdatedBy = value.String
+				_m.UpdatedBy = value.String
 			}
 		case route.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field created_at", values[i])
 			} else if value.Valid {
-				r.CreatedAt = value.Int64
+				_m.CreatedAt = value.Int64
 			}
 		case route.FieldUpdatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_at", values[i])
 			} else if value.Valid {
-				r.UpdatedAt = value.Int64
+				_m.UpdatedAt = value.Int64
 			}
 		case route.FieldEndpointID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field endpoint_id", values[i])
 			} else if value.Valid {
-				r.EndpointID = value.String
+				_m.EndpointID = value.String
 			}
 		case route.FieldPathPattern:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field path_pattern", values[i])
 			} else if value.Valid {
-				r.PathPattern = value.String
+				_m.PathPattern = value.String
 			}
 		case route.FieldTargetPath:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field target_path", values[i])
 			} else if value.Valid {
-				r.TargetPath = value.String
+				_m.TargetPath = value.String
 			}
 		case route.FieldMethod:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field method", values[i])
 			} else if value.Valid {
-				r.Method = value.String
+				_m.Method = value.String
 			}
 		case route.FieldInputTransformerID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field input_transformer_id", values[i])
 			} else if value.Valid {
-				r.InputTransformerID = value.String
+				_m.InputTransformerID = value.String
 			}
 		case route.FieldOutputTransformerID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field output_transformer_id", values[i])
 			} else if value.Valid {
-				r.OutputTransformerID = value.String
+				_m.OutputTransformerID = value.String
 			}
 		case route.FieldCacheEnabled:
 			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field cache_enabled", values[i])
 			} else if value.Valid {
-				r.CacheEnabled = value.Bool
+				_m.CacheEnabled = value.Bool
 			}
 		case route.FieldCacheTTL:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field cache_ttl", values[i])
 			} else if value.Valid {
-				r.CacheTTL = int(value.Int64)
+				_m.CacheTTL = int(value.Int64)
 			}
 		case route.FieldRateLimit:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field rate_limit", values[i])
 			} else if value.Valid {
-				r.RateLimit = value.String
+				_m.RateLimit = value.String
 			}
 		case route.FieldStripAuthHeader:
 			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field strip_auth_header", values[i])
 			} else if value.Valid {
-				r.StripAuthHeader = value.Bool
+				_m.StripAuthHeader = value.Bool
 			}
 		default:
-			r.selectValues.Set(columns[i], values[i])
+			_m.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
@@ -210,86 +210,86 @@ func (r *Route) assignValues(columns []string, values []any) error {
 
 // Value returns the ent.Value that was dynamically selected and assigned to the Route.
 // This includes values selected through modifiers, order, etc.
-func (r *Route) Value(name string) (ent.Value, error) {
-	return r.selectValues.Get(name)
+func (_m *Route) Value(name string) (ent.Value, error) {
+	return _m.selectValues.Get(name)
 }
 
 // Update returns a builder for updating this Route.
 // Note that you need to call Route.Unwrap() before calling this method if this Route
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (r *Route) Update() *RouteUpdateOne {
-	return NewRouteClient(r.config).UpdateOne(r)
+func (_m *Route) Update() *RouteUpdateOne {
+	return NewRouteClient(_m.config).UpdateOne(_m)
 }
 
 // Unwrap unwraps the Route entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (r *Route) Unwrap() *Route {
-	_tx, ok := r.config.driver.(*txDriver)
+func (_m *Route) Unwrap() *Route {
+	_tx, ok := _m.config.driver.(*txDriver)
 	if !ok {
 		panic("ent: Route is not a transactional entity")
 	}
-	r.config.driver = _tx.drv
-	return r
+	_m.config.driver = _tx.drv
+	return _m
 }
 
 // String implements the fmt.Stringer.
-func (r *Route) String() string {
+func (_m *Route) String() string {
 	var builder strings.Builder
 	builder.WriteString("Route(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", r.ID))
+	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
 	builder.WriteString("name=")
-	builder.WriteString(r.Name)
+	builder.WriteString(_m.Name)
 	builder.WriteString(", ")
 	builder.WriteString("description=")
-	builder.WriteString(r.Description)
+	builder.WriteString(_m.Description)
 	builder.WriteString(", ")
 	builder.WriteString("disabled=")
-	builder.WriteString(fmt.Sprintf("%v", r.Disabled))
+	builder.WriteString(fmt.Sprintf("%v", _m.Disabled))
 	builder.WriteString(", ")
 	builder.WriteString("extras=")
-	builder.WriteString(fmt.Sprintf("%v", r.Extras))
+	builder.WriteString(fmt.Sprintf("%v", _m.Extras))
 	builder.WriteString(", ")
 	builder.WriteString("created_by=")
-	builder.WriteString(r.CreatedBy)
+	builder.WriteString(_m.CreatedBy)
 	builder.WriteString(", ")
 	builder.WriteString("updated_by=")
-	builder.WriteString(r.UpdatedBy)
+	builder.WriteString(_m.UpdatedBy)
 	builder.WriteString(", ")
 	builder.WriteString("created_at=")
-	builder.WriteString(fmt.Sprintf("%v", r.CreatedAt))
+	builder.WriteString(fmt.Sprintf("%v", _m.CreatedAt))
 	builder.WriteString(", ")
 	builder.WriteString("updated_at=")
-	builder.WriteString(fmt.Sprintf("%v", r.UpdatedAt))
+	builder.WriteString(fmt.Sprintf("%v", _m.UpdatedAt))
 	builder.WriteString(", ")
 	builder.WriteString("endpoint_id=")
-	builder.WriteString(r.EndpointID)
+	builder.WriteString(_m.EndpointID)
 	builder.WriteString(", ")
 	builder.WriteString("path_pattern=")
-	builder.WriteString(r.PathPattern)
+	builder.WriteString(_m.PathPattern)
 	builder.WriteString(", ")
 	builder.WriteString("target_path=")
-	builder.WriteString(r.TargetPath)
+	builder.WriteString(_m.TargetPath)
 	builder.WriteString(", ")
 	builder.WriteString("method=")
-	builder.WriteString(r.Method)
+	builder.WriteString(_m.Method)
 	builder.WriteString(", ")
 	builder.WriteString("input_transformer_id=")
-	builder.WriteString(r.InputTransformerID)
+	builder.WriteString(_m.InputTransformerID)
 	builder.WriteString(", ")
 	builder.WriteString("output_transformer_id=")
-	builder.WriteString(r.OutputTransformerID)
+	builder.WriteString(_m.OutputTransformerID)
 	builder.WriteString(", ")
 	builder.WriteString("cache_enabled=")
-	builder.WriteString(fmt.Sprintf("%v", r.CacheEnabled))
+	builder.WriteString(fmt.Sprintf("%v", _m.CacheEnabled))
 	builder.WriteString(", ")
 	builder.WriteString("cache_ttl=")
-	builder.WriteString(fmt.Sprintf("%v", r.CacheTTL))
+	builder.WriteString(fmt.Sprintf("%v", _m.CacheTTL))
 	builder.WriteString(", ")
 	builder.WriteString("rate_limit=")
-	builder.WriteString(r.RateLimit)
+	builder.WriteString(_m.RateLimit)
 	builder.WriteString(", ")
 	builder.WriteString("strip_auth_header=")
-	builder.WriteString(fmt.Sprintf("%v", r.StripAuthHeader))
+	builder.WriteString(fmt.Sprintf("%v", _m.StripAuthHeader))
 	builder.WriteByte(')')
 	return builder.String()
 }

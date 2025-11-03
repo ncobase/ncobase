@@ -20,56 +20,56 @@ type UserOrganizationDelete struct {
 }
 
 // Where appends a list predicates to the UserOrganizationDelete builder.
-func (uod *UserOrganizationDelete) Where(ps ...predicate.UserOrganization) *UserOrganizationDelete {
-	uod.mutation.Where(ps...)
-	return uod
+func (_d *UserOrganizationDelete) Where(ps ...predicate.UserOrganization) *UserOrganizationDelete {
+	_d.mutation.Where(ps...)
+	return _d
 }
 
 // Exec executes the deletion query and returns how many vertices were deleted.
-func (uod *UserOrganizationDelete) Exec(ctx context.Context) (int, error) {
-	return withHooks(ctx, uod.sqlExec, uod.mutation, uod.hooks)
+func (_d *UserOrganizationDelete) Exec(ctx context.Context) (int, error) {
+	return withHooks(ctx, _d.sqlExec, _d.mutation, _d.hooks)
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (uod *UserOrganizationDelete) ExecX(ctx context.Context) int {
-	n, err := uod.Exec(ctx)
+func (_d *UserOrganizationDelete) ExecX(ctx context.Context) int {
+	n, err := _d.Exec(ctx)
 	if err != nil {
 		panic(err)
 	}
 	return n
 }
 
-func (uod *UserOrganizationDelete) sqlExec(ctx context.Context) (int, error) {
+func (_d *UserOrganizationDelete) sqlExec(ctx context.Context) (int, error) {
 	_spec := sqlgraph.NewDeleteSpec(userorganization.Table, sqlgraph.NewFieldSpec(userorganization.FieldID, field.TypeString))
-	if ps := uod.mutation.predicates; len(ps) > 0 {
+	if ps := _d.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	affected, err := sqlgraph.DeleteNodes(ctx, uod.driver, _spec)
+	affected, err := sqlgraph.DeleteNodes(ctx, _d.driver, _spec)
 	if err != nil && sqlgraph.IsConstraintError(err) {
 		err = &ConstraintError{msg: err.Error(), wrap: err}
 	}
-	uod.mutation.done = true
+	_d.mutation.done = true
 	return affected, err
 }
 
 // UserOrganizationDeleteOne is the builder for deleting a single UserOrganization entity.
 type UserOrganizationDeleteOne struct {
-	uod *UserOrganizationDelete
+	_d *UserOrganizationDelete
 }
 
 // Where appends a list predicates to the UserOrganizationDelete builder.
-func (uodo *UserOrganizationDeleteOne) Where(ps ...predicate.UserOrganization) *UserOrganizationDeleteOne {
-	uodo.uod.mutation.Where(ps...)
-	return uodo
+func (_d *UserOrganizationDeleteOne) Where(ps ...predicate.UserOrganization) *UserOrganizationDeleteOne {
+	_d._d.mutation.Where(ps...)
+	return _d
 }
 
 // Exec executes the deletion query.
-func (uodo *UserOrganizationDeleteOne) Exec(ctx context.Context) error {
-	n, err := uodo.uod.Exec(ctx)
+func (_d *UserOrganizationDeleteOne) Exec(ctx context.Context) error {
+	n, err := _d._d.Exec(ctx)
 	switch {
 	case err != nil:
 		return err
@@ -81,8 +81,8 @@ func (uodo *UserOrganizationDeleteOne) Exec(ctx context.Context) error {
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (uodo *UserOrganizationDeleteOne) ExecX(ctx context.Context) {
-	if err := uodo.Exec(ctx); err != nil {
+func (_d *UserOrganizationDeleteOne) ExecX(ctx context.Context) {
+	if err := _d.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

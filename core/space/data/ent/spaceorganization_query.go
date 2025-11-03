@@ -28,40 +28,40 @@ type SpaceOrganizationQuery struct {
 }
 
 // Where adds a new predicate for the SpaceOrganizationQuery builder.
-func (soq *SpaceOrganizationQuery) Where(ps ...predicate.SpaceOrganization) *SpaceOrganizationQuery {
-	soq.predicates = append(soq.predicates, ps...)
-	return soq
+func (_q *SpaceOrganizationQuery) Where(ps ...predicate.SpaceOrganization) *SpaceOrganizationQuery {
+	_q.predicates = append(_q.predicates, ps...)
+	return _q
 }
 
 // Limit the number of records to be returned by this query.
-func (soq *SpaceOrganizationQuery) Limit(limit int) *SpaceOrganizationQuery {
-	soq.ctx.Limit = &limit
-	return soq
+func (_q *SpaceOrganizationQuery) Limit(limit int) *SpaceOrganizationQuery {
+	_q.ctx.Limit = &limit
+	return _q
 }
 
 // Offset to start from.
-func (soq *SpaceOrganizationQuery) Offset(offset int) *SpaceOrganizationQuery {
-	soq.ctx.Offset = &offset
-	return soq
+func (_q *SpaceOrganizationQuery) Offset(offset int) *SpaceOrganizationQuery {
+	_q.ctx.Offset = &offset
+	return _q
 }
 
 // Unique configures the query builder to filter duplicate records on query.
 // By default, unique is set to true, and can be disabled using this method.
-func (soq *SpaceOrganizationQuery) Unique(unique bool) *SpaceOrganizationQuery {
-	soq.ctx.Unique = &unique
-	return soq
+func (_q *SpaceOrganizationQuery) Unique(unique bool) *SpaceOrganizationQuery {
+	_q.ctx.Unique = &unique
+	return _q
 }
 
 // Order specifies how the records should be ordered.
-func (soq *SpaceOrganizationQuery) Order(o ...spaceorganization.OrderOption) *SpaceOrganizationQuery {
-	soq.order = append(soq.order, o...)
-	return soq
+func (_q *SpaceOrganizationQuery) Order(o ...spaceorganization.OrderOption) *SpaceOrganizationQuery {
+	_q.order = append(_q.order, o...)
+	return _q
 }
 
 // First returns the first SpaceOrganization entity from the query.
 // Returns a *NotFoundError when no SpaceOrganization was found.
-func (soq *SpaceOrganizationQuery) First(ctx context.Context) (*SpaceOrganization, error) {
-	nodes, err := soq.Limit(1).All(setContextOp(ctx, soq.ctx, ent.OpQueryFirst))
+func (_q *SpaceOrganizationQuery) First(ctx context.Context) (*SpaceOrganization, error) {
+	nodes, err := _q.Limit(1).All(setContextOp(ctx, _q.ctx, ent.OpQueryFirst))
 	if err != nil {
 		return nil, err
 	}
@@ -72,8 +72,8 @@ func (soq *SpaceOrganizationQuery) First(ctx context.Context) (*SpaceOrganizatio
 }
 
 // FirstX is like First, but panics if an error occurs.
-func (soq *SpaceOrganizationQuery) FirstX(ctx context.Context) *SpaceOrganization {
-	node, err := soq.First(ctx)
+func (_q *SpaceOrganizationQuery) FirstX(ctx context.Context) *SpaceOrganization {
+	node, err := _q.First(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
 	}
@@ -82,9 +82,9 @@ func (soq *SpaceOrganizationQuery) FirstX(ctx context.Context) *SpaceOrganizatio
 
 // FirstID returns the first SpaceOrganization ID from the query.
 // Returns a *NotFoundError when no SpaceOrganization ID was found.
-func (soq *SpaceOrganizationQuery) FirstID(ctx context.Context) (id string, err error) {
+func (_q *SpaceOrganizationQuery) FirstID(ctx context.Context) (id string, err error) {
 	var ids []string
-	if ids, err = soq.Limit(1).IDs(setContextOp(ctx, soq.ctx, ent.OpQueryFirstID)); err != nil {
+	if ids, err = _q.Limit(1).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryFirstID)); err != nil {
 		return
 	}
 	if len(ids) == 0 {
@@ -95,8 +95,8 @@ func (soq *SpaceOrganizationQuery) FirstID(ctx context.Context) (id string, err 
 }
 
 // FirstIDX is like FirstID, but panics if an error occurs.
-func (soq *SpaceOrganizationQuery) FirstIDX(ctx context.Context) string {
-	id, err := soq.FirstID(ctx)
+func (_q *SpaceOrganizationQuery) FirstIDX(ctx context.Context) string {
+	id, err := _q.FirstID(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
 	}
@@ -106,8 +106,8 @@ func (soq *SpaceOrganizationQuery) FirstIDX(ctx context.Context) string {
 // Only returns a single SpaceOrganization entity found by the query, ensuring it only returns one.
 // Returns a *NotSingularError when more than one SpaceOrganization entity is found.
 // Returns a *NotFoundError when no SpaceOrganization entities are found.
-func (soq *SpaceOrganizationQuery) Only(ctx context.Context) (*SpaceOrganization, error) {
-	nodes, err := soq.Limit(2).All(setContextOp(ctx, soq.ctx, ent.OpQueryOnly))
+func (_q *SpaceOrganizationQuery) Only(ctx context.Context) (*SpaceOrganization, error) {
+	nodes, err := _q.Limit(2).All(setContextOp(ctx, _q.ctx, ent.OpQueryOnly))
 	if err != nil {
 		return nil, err
 	}
@@ -122,8 +122,8 @@ func (soq *SpaceOrganizationQuery) Only(ctx context.Context) (*SpaceOrganization
 }
 
 // OnlyX is like Only, but panics if an error occurs.
-func (soq *SpaceOrganizationQuery) OnlyX(ctx context.Context) *SpaceOrganization {
-	node, err := soq.Only(ctx)
+func (_q *SpaceOrganizationQuery) OnlyX(ctx context.Context) *SpaceOrganization {
+	node, err := _q.Only(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -133,9 +133,9 @@ func (soq *SpaceOrganizationQuery) OnlyX(ctx context.Context) *SpaceOrganization
 // OnlyID is like Only, but returns the only SpaceOrganization ID in the query.
 // Returns a *NotSingularError when more than one SpaceOrganization ID is found.
 // Returns a *NotFoundError when no entities are found.
-func (soq *SpaceOrganizationQuery) OnlyID(ctx context.Context) (id string, err error) {
+func (_q *SpaceOrganizationQuery) OnlyID(ctx context.Context) (id string, err error) {
 	var ids []string
-	if ids, err = soq.Limit(2).IDs(setContextOp(ctx, soq.ctx, ent.OpQueryOnlyID)); err != nil {
+	if ids, err = _q.Limit(2).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryOnlyID)); err != nil {
 		return
 	}
 	switch len(ids) {
@@ -150,8 +150,8 @@ func (soq *SpaceOrganizationQuery) OnlyID(ctx context.Context) (id string, err e
 }
 
 // OnlyIDX is like OnlyID, but panics if an error occurs.
-func (soq *SpaceOrganizationQuery) OnlyIDX(ctx context.Context) string {
-	id, err := soq.OnlyID(ctx)
+func (_q *SpaceOrganizationQuery) OnlyIDX(ctx context.Context) string {
+	id, err := _q.OnlyID(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -159,18 +159,18 @@ func (soq *SpaceOrganizationQuery) OnlyIDX(ctx context.Context) string {
 }
 
 // All executes the query and returns a list of SpaceOrganizations.
-func (soq *SpaceOrganizationQuery) All(ctx context.Context) ([]*SpaceOrganization, error) {
-	ctx = setContextOp(ctx, soq.ctx, ent.OpQueryAll)
-	if err := soq.prepareQuery(ctx); err != nil {
+func (_q *SpaceOrganizationQuery) All(ctx context.Context) ([]*SpaceOrganization, error) {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryAll)
+	if err := _q.prepareQuery(ctx); err != nil {
 		return nil, err
 	}
 	qr := querierAll[[]*SpaceOrganization, *SpaceOrganizationQuery]()
-	return withInterceptors[[]*SpaceOrganization](ctx, soq, qr, soq.inters)
+	return withInterceptors[[]*SpaceOrganization](ctx, _q, qr, _q.inters)
 }
 
 // AllX is like All, but panics if an error occurs.
-func (soq *SpaceOrganizationQuery) AllX(ctx context.Context) []*SpaceOrganization {
-	nodes, err := soq.All(ctx)
+func (_q *SpaceOrganizationQuery) AllX(ctx context.Context) []*SpaceOrganization {
+	nodes, err := _q.All(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -178,20 +178,20 @@ func (soq *SpaceOrganizationQuery) AllX(ctx context.Context) []*SpaceOrganizatio
 }
 
 // IDs executes the query and returns a list of SpaceOrganization IDs.
-func (soq *SpaceOrganizationQuery) IDs(ctx context.Context) (ids []string, err error) {
-	if soq.ctx.Unique == nil && soq.path != nil {
-		soq.Unique(true)
+func (_q *SpaceOrganizationQuery) IDs(ctx context.Context) (ids []string, err error) {
+	if _q.ctx.Unique == nil && _q.path != nil {
+		_q.Unique(true)
 	}
-	ctx = setContextOp(ctx, soq.ctx, ent.OpQueryIDs)
-	if err = soq.Select(spaceorganization.FieldID).Scan(ctx, &ids); err != nil {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryIDs)
+	if err = _q.Select(spaceorganization.FieldID).Scan(ctx, &ids); err != nil {
 		return nil, err
 	}
 	return ids, nil
 }
 
 // IDsX is like IDs, but panics if an error occurs.
-func (soq *SpaceOrganizationQuery) IDsX(ctx context.Context) []string {
-	ids, err := soq.IDs(ctx)
+func (_q *SpaceOrganizationQuery) IDsX(ctx context.Context) []string {
+	ids, err := _q.IDs(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -199,17 +199,17 @@ func (soq *SpaceOrganizationQuery) IDsX(ctx context.Context) []string {
 }
 
 // Count returns the count of the given query.
-func (soq *SpaceOrganizationQuery) Count(ctx context.Context) (int, error) {
-	ctx = setContextOp(ctx, soq.ctx, ent.OpQueryCount)
-	if err := soq.prepareQuery(ctx); err != nil {
+func (_q *SpaceOrganizationQuery) Count(ctx context.Context) (int, error) {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryCount)
+	if err := _q.prepareQuery(ctx); err != nil {
 		return 0, err
 	}
-	return withInterceptors[int](ctx, soq, querierCount[*SpaceOrganizationQuery](), soq.inters)
+	return withInterceptors[int](ctx, _q, querierCount[*SpaceOrganizationQuery](), _q.inters)
 }
 
 // CountX is like Count, but panics if an error occurs.
-func (soq *SpaceOrganizationQuery) CountX(ctx context.Context) int {
-	count, err := soq.Count(ctx)
+func (_q *SpaceOrganizationQuery) CountX(ctx context.Context) int {
+	count, err := _q.Count(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -217,9 +217,9 @@ func (soq *SpaceOrganizationQuery) CountX(ctx context.Context) int {
 }
 
 // Exist returns true if the query has elements in the graph.
-func (soq *SpaceOrganizationQuery) Exist(ctx context.Context) (bool, error) {
-	ctx = setContextOp(ctx, soq.ctx, ent.OpQueryExist)
-	switch _, err := soq.FirstID(ctx); {
+func (_q *SpaceOrganizationQuery) Exist(ctx context.Context) (bool, error) {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryExist)
+	switch _, err := _q.FirstID(ctx); {
 	case IsNotFound(err):
 		return false, nil
 	case err != nil:
@@ -230,8 +230,8 @@ func (soq *SpaceOrganizationQuery) Exist(ctx context.Context) (bool, error) {
 }
 
 // ExistX is like Exist, but panics if an error occurs.
-func (soq *SpaceOrganizationQuery) ExistX(ctx context.Context) bool {
-	exist, err := soq.Exist(ctx)
+func (_q *SpaceOrganizationQuery) ExistX(ctx context.Context) bool {
+	exist, err := _q.Exist(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -240,19 +240,19 @@ func (soq *SpaceOrganizationQuery) ExistX(ctx context.Context) bool {
 
 // Clone returns a duplicate of the SpaceOrganizationQuery builder, including all associated steps. It can be
 // used to prepare common query builders and use them differently after the clone is made.
-func (soq *SpaceOrganizationQuery) Clone() *SpaceOrganizationQuery {
-	if soq == nil {
+func (_q *SpaceOrganizationQuery) Clone() *SpaceOrganizationQuery {
+	if _q == nil {
 		return nil
 	}
 	return &SpaceOrganizationQuery{
-		config:     soq.config,
-		ctx:        soq.ctx.Clone(),
-		order:      append([]spaceorganization.OrderOption{}, soq.order...),
-		inters:     append([]Interceptor{}, soq.inters...),
-		predicates: append([]predicate.SpaceOrganization{}, soq.predicates...),
+		config:     _q.config,
+		ctx:        _q.ctx.Clone(),
+		order:      append([]spaceorganization.OrderOption{}, _q.order...),
+		inters:     append([]Interceptor{}, _q.inters...),
+		predicates: append([]predicate.SpaceOrganization{}, _q.predicates...),
 		// clone intermediate query.
-		sql:  soq.sql.Clone(),
-		path: soq.path,
+		sql:  _q.sql.Clone(),
+		path: _q.path,
 	}
 }
 
@@ -270,10 +270,10 @@ func (soq *SpaceOrganizationQuery) Clone() *SpaceOrganizationQuery {
 //		GroupBy(spaceorganization.FieldSpaceID).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
-func (soq *SpaceOrganizationQuery) GroupBy(field string, fields ...string) *SpaceOrganizationGroupBy {
-	soq.ctx.Fields = append([]string{field}, fields...)
-	grbuild := &SpaceOrganizationGroupBy{build: soq}
-	grbuild.flds = &soq.ctx.Fields
+func (_q *SpaceOrganizationQuery) GroupBy(field string, fields ...string) *SpaceOrganizationGroupBy {
+	_q.ctx.Fields = append([]string{field}, fields...)
+	grbuild := &SpaceOrganizationGroupBy{build: _q}
+	grbuild.flds = &_q.ctx.Fields
 	grbuild.label = spaceorganization.Label
 	grbuild.scan = grbuild.Scan
 	return grbuild
@@ -291,62 +291,62 @@ func (soq *SpaceOrganizationQuery) GroupBy(field string, fields ...string) *Spac
 //	client.SpaceOrganization.Query().
 //		Select(spaceorganization.FieldSpaceID).
 //		Scan(ctx, &v)
-func (soq *SpaceOrganizationQuery) Select(fields ...string) *SpaceOrganizationSelect {
-	soq.ctx.Fields = append(soq.ctx.Fields, fields...)
-	sbuild := &SpaceOrganizationSelect{SpaceOrganizationQuery: soq}
+func (_q *SpaceOrganizationQuery) Select(fields ...string) *SpaceOrganizationSelect {
+	_q.ctx.Fields = append(_q.ctx.Fields, fields...)
+	sbuild := &SpaceOrganizationSelect{SpaceOrganizationQuery: _q}
 	sbuild.label = spaceorganization.Label
-	sbuild.flds, sbuild.scan = &soq.ctx.Fields, sbuild.Scan
+	sbuild.flds, sbuild.scan = &_q.ctx.Fields, sbuild.Scan
 	return sbuild
 }
 
 // Aggregate returns a SpaceOrganizationSelect configured with the given aggregations.
-func (soq *SpaceOrganizationQuery) Aggregate(fns ...AggregateFunc) *SpaceOrganizationSelect {
-	return soq.Select().Aggregate(fns...)
+func (_q *SpaceOrganizationQuery) Aggregate(fns ...AggregateFunc) *SpaceOrganizationSelect {
+	return _q.Select().Aggregate(fns...)
 }
 
-func (soq *SpaceOrganizationQuery) prepareQuery(ctx context.Context) error {
-	for _, inter := range soq.inters {
+func (_q *SpaceOrganizationQuery) prepareQuery(ctx context.Context) error {
+	for _, inter := range _q.inters {
 		if inter == nil {
 			return fmt.Errorf("ent: uninitialized interceptor (forgotten import ent/runtime?)")
 		}
 		if trv, ok := inter.(Traverser); ok {
-			if err := trv.Traverse(ctx, soq); err != nil {
+			if err := trv.Traverse(ctx, _q); err != nil {
 				return err
 			}
 		}
 	}
-	for _, f := range soq.ctx.Fields {
+	for _, f := range _q.ctx.Fields {
 		if !spaceorganization.ValidColumn(f) {
 			return &ValidationError{Name: f, err: fmt.Errorf("ent: invalid field %q for query", f)}
 		}
 	}
-	if soq.path != nil {
-		prev, err := soq.path(ctx)
+	if _q.path != nil {
+		prev, err := _q.path(ctx)
 		if err != nil {
 			return err
 		}
-		soq.sql = prev
+		_q.sql = prev
 	}
 	return nil
 }
 
-func (soq *SpaceOrganizationQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*SpaceOrganization, error) {
+func (_q *SpaceOrganizationQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*SpaceOrganization, error) {
 	var (
 		nodes = []*SpaceOrganization{}
-		_spec = soq.querySpec()
+		_spec = _q.querySpec()
 	)
 	_spec.ScanValues = func(columns []string) ([]any, error) {
 		return (*SpaceOrganization).scanValues(nil, columns)
 	}
 	_spec.Assign = func(columns []string, values []any) error {
-		node := &SpaceOrganization{config: soq.config}
+		node := &SpaceOrganization{config: _q.config}
 		nodes = append(nodes, node)
 		return node.assignValues(columns, values)
 	}
 	for i := range hooks {
 		hooks[i](ctx, _spec)
 	}
-	if err := sqlgraph.QueryNodes(ctx, soq.driver, _spec); err != nil {
+	if err := sqlgraph.QueryNodes(ctx, _q.driver, _spec); err != nil {
 		return nil, err
 	}
 	if len(nodes) == 0 {
@@ -355,24 +355,24 @@ func (soq *SpaceOrganizationQuery) sqlAll(ctx context.Context, hooks ...queryHoo
 	return nodes, nil
 }
 
-func (soq *SpaceOrganizationQuery) sqlCount(ctx context.Context) (int, error) {
-	_spec := soq.querySpec()
-	_spec.Node.Columns = soq.ctx.Fields
-	if len(soq.ctx.Fields) > 0 {
-		_spec.Unique = soq.ctx.Unique != nil && *soq.ctx.Unique
+func (_q *SpaceOrganizationQuery) sqlCount(ctx context.Context) (int, error) {
+	_spec := _q.querySpec()
+	_spec.Node.Columns = _q.ctx.Fields
+	if len(_q.ctx.Fields) > 0 {
+		_spec.Unique = _q.ctx.Unique != nil && *_q.ctx.Unique
 	}
-	return sqlgraph.CountNodes(ctx, soq.driver, _spec)
+	return sqlgraph.CountNodes(ctx, _q.driver, _spec)
 }
 
-func (soq *SpaceOrganizationQuery) querySpec() *sqlgraph.QuerySpec {
+func (_q *SpaceOrganizationQuery) querySpec() *sqlgraph.QuerySpec {
 	_spec := sqlgraph.NewQuerySpec(spaceorganization.Table, spaceorganization.Columns, sqlgraph.NewFieldSpec(spaceorganization.FieldID, field.TypeString))
-	_spec.From = soq.sql
-	if unique := soq.ctx.Unique; unique != nil {
+	_spec.From = _q.sql
+	if unique := _q.ctx.Unique; unique != nil {
 		_spec.Unique = *unique
-	} else if soq.path != nil {
+	} else if _q.path != nil {
 		_spec.Unique = true
 	}
-	if fields := soq.ctx.Fields; len(fields) > 0 {
+	if fields := _q.ctx.Fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, spaceorganization.FieldID)
 		for i := range fields {
@@ -381,20 +381,20 @@ func (soq *SpaceOrganizationQuery) querySpec() *sqlgraph.QuerySpec {
 			}
 		}
 	}
-	if ps := soq.predicates; len(ps) > 0 {
+	if ps := _q.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if limit := soq.ctx.Limit; limit != nil {
+	if limit := _q.ctx.Limit; limit != nil {
 		_spec.Limit = *limit
 	}
-	if offset := soq.ctx.Offset; offset != nil {
+	if offset := _q.ctx.Offset; offset != nil {
 		_spec.Offset = *offset
 	}
-	if ps := soq.order; len(ps) > 0 {
+	if ps := _q.order; len(ps) > 0 {
 		_spec.Order = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
@@ -404,33 +404,33 @@ func (soq *SpaceOrganizationQuery) querySpec() *sqlgraph.QuerySpec {
 	return _spec
 }
 
-func (soq *SpaceOrganizationQuery) sqlQuery(ctx context.Context) *sql.Selector {
-	builder := sql.Dialect(soq.driver.Dialect())
+func (_q *SpaceOrganizationQuery) sqlQuery(ctx context.Context) *sql.Selector {
+	builder := sql.Dialect(_q.driver.Dialect())
 	t1 := builder.Table(spaceorganization.Table)
-	columns := soq.ctx.Fields
+	columns := _q.ctx.Fields
 	if len(columns) == 0 {
 		columns = spaceorganization.Columns
 	}
 	selector := builder.Select(t1.Columns(columns...)...).From(t1)
-	if soq.sql != nil {
-		selector = soq.sql
+	if _q.sql != nil {
+		selector = _q.sql
 		selector.Select(selector.Columns(columns...)...)
 	}
-	if soq.ctx.Unique != nil && *soq.ctx.Unique {
+	if _q.ctx.Unique != nil && *_q.ctx.Unique {
 		selector.Distinct()
 	}
-	for _, p := range soq.predicates {
+	for _, p := range _q.predicates {
 		p(selector)
 	}
-	for _, p := range soq.order {
+	for _, p := range _q.order {
 		p(selector)
 	}
-	if offset := soq.ctx.Offset; offset != nil {
+	if offset := _q.ctx.Offset; offset != nil {
 		// limit is mandatory for offset clause. We start
 		// with default value, and override it below if needed.
 		selector.Offset(*offset).Limit(math.MaxInt32)
 	}
-	if limit := soq.ctx.Limit; limit != nil {
+	if limit := _q.ctx.Limit; limit != nil {
 		selector.Limit(*limit)
 	}
 	return selector
@@ -443,41 +443,41 @@ type SpaceOrganizationGroupBy struct {
 }
 
 // Aggregate adds the given aggregation functions to the group-by query.
-func (sogb *SpaceOrganizationGroupBy) Aggregate(fns ...AggregateFunc) *SpaceOrganizationGroupBy {
-	sogb.fns = append(sogb.fns, fns...)
-	return sogb
+func (_g *SpaceOrganizationGroupBy) Aggregate(fns ...AggregateFunc) *SpaceOrganizationGroupBy {
+	_g.fns = append(_g.fns, fns...)
+	return _g
 }
 
 // Scan applies the selector query and scans the result into the given value.
-func (sogb *SpaceOrganizationGroupBy) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, sogb.build.ctx, ent.OpQueryGroupBy)
-	if err := sogb.build.prepareQuery(ctx); err != nil {
+func (_g *SpaceOrganizationGroupBy) Scan(ctx context.Context, v any) error {
+	ctx = setContextOp(ctx, _g.build.ctx, ent.OpQueryGroupBy)
+	if err := _g.build.prepareQuery(ctx); err != nil {
 		return err
 	}
-	return scanWithInterceptors[*SpaceOrganizationQuery, *SpaceOrganizationGroupBy](ctx, sogb.build, sogb, sogb.build.inters, v)
+	return scanWithInterceptors[*SpaceOrganizationQuery, *SpaceOrganizationGroupBy](ctx, _g.build, _g, _g.build.inters, v)
 }
 
-func (sogb *SpaceOrganizationGroupBy) sqlScan(ctx context.Context, root *SpaceOrganizationQuery, v any) error {
+func (_g *SpaceOrganizationGroupBy) sqlScan(ctx context.Context, root *SpaceOrganizationQuery, v any) error {
 	selector := root.sqlQuery(ctx).Select()
-	aggregation := make([]string, 0, len(sogb.fns))
-	for _, fn := range sogb.fns {
+	aggregation := make([]string, 0, len(_g.fns))
+	for _, fn := range _g.fns {
 		aggregation = append(aggregation, fn(selector))
 	}
 	if len(selector.SelectedColumns()) == 0 {
-		columns := make([]string, 0, len(*sogb.flds)+len(sogb.fns))
-		for _, f := range *sogb.flds {
+		columns := make([]string, 0, len(*_g.flds)+len(_g.fns))
+		for _, f := range *_g.flds {
 			columns = append(columns, selector.C(f))
 		}
 		columns = append(columns, aggregation...)
 		selector.Select(columns...)
 	}
-	selector.GroupBy(selector.Columns(*sogb.flds...)...)
+	selector.GroupBy(selector.Columns(*_g.flds...)...)
 	if err := selector.Err(); err != nil {
 		return err
 	}
 	rows := &sql.Rows{}
 	query, args := selector.Query()
-	if err := sogb.build.driver.Query(ctx, query, args, rows); err != nil {
+	if err := _g.build.driver.Query(ctx, query, args, rows); err != nil {
 		return err
 	}
 	defer rows.Close()
@@ -491,27 +491,27 @@ type SpaceOrganizationSelect struct {
 }
 
 // Aggregate adds the given aggregation functions to the selector query.
-func (sos *SpaceOrganizationSelect) Aggregate(fns ...AggregateFunc) *SpaceOrganizationSelect {
-	sos.fns = append(sos.fns, fns...)
-	return sos
+func (_s *SpaceOrganizationSelect) Aggregate(fns ...AggregateFunc) *SpaceOrganizationSelect {
+	_s.fns = append(_s.fns, fns...)
+	return _s
 }
 
 // Scan applies the selector query and scans the result into the given value.
-func (sos *SpaceOrganizationSelect) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, sos.ctx, ent.OpQuerySelect)
-	if err := sos.prepareQuery(ctx); err != nil {
+func (_s *SpaceOrganizationSelect) Scan(ctx context.Context, v any) error {
+	ctx = setContextOp(ctx, _s.ctx, ent.OpQuerySelect)
+	if err := _s.prepareQuery(ctx); err != nil {
 		return err
 	}
-	return scanWithInterceptors[*SpaceOrganizationQuery, *SpaceOrganizationSelect](ctx, sos.SpaceOrganizationQuery, sos, sos.inters, v)
+	return scanWithInterceptors[*SpaceOrganizationQuery, *SpaceOrganizationSelect](ctx, _s.SpaceOrganizationQuery, _s, _s.inters, v)
 }
 
-func (sos *SpaceOrganizationSelect) sqlScan(ctx context.Context, root *SpaceOrganizationQuery, v any) error {
+func (_s *SpaceOrganizationSelect) sqlScan(ctx context.Context, root *SpaceOrganizationQuery, v any) error {
 	selector := root.sqlQuery(ctx)
-	aggregation := make([]string, 0, len(sos.fns))
-	for _, fn := range sos.fns {
+	aggregation := make([]string, 0, len(_s.fns))
+	for _, fn := range _s.fns {
 		aggregation = append(aggregation, fn(selector))
 	}
-	switch n := len(*sos.selector.flds); {
+	switch n := len(*_s.selector.flds); {
 	case n == 0 && len(aggregation) > 0:
 		selector.Select(aggregation...)
 	case n != 0 && len(aggregation) > 0:
@@ -519,7 +519,7 @@ func (sos *SpaceOrganizationSelect) sqlScan(ctx context.Context, root *SpaceOrga
 	}
 	rows := &sql.Rows{}
 	query, args := selector.Query()
-	if err := sos.driver.Query(ctx, query, args, rows); err != nil {
+	if err := _s.driver.Query(ctx, query, args, rows); err != nil {
 		return err
 	}
 	defer rows.Close()

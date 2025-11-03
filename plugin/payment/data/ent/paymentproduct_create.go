@@ -21,234 +21,234 @@ type PaymentProductCreate struct {
 }
 
 // SetName sets the "name" field.
-func (ppc *PaymentProductCreate) SetName(s string) *PaymentProductCreate {
-	ppc.mutation.SetName(s)
-	return ppc
+func (_c *PaymentProductCreate) SetName(v string) *PaymentProductCreate {
+	_c.mutation.SetName(v)
+	return _c
 }
 
 // SetNillableName sets the "name" field if the given value is not nil.
-func (ppc *PaymentProductCreate) SetNillableName(s *string) *PaymentProductCreate {
-	if s != nil {
-		ppc.SetName(*s)
+func (_c *PaymentProductCreate) SetNillableName(v *string) *PaymentProductCreate {
+	if v != nil {
+		_c.SetName(*v)
 	}
-	return ppc
+	return _c
 }
 
 // SetDescription sets the "description" field.
-func (ppc *PaymentProductCreate) SetDescription(s string) *PaymentProductCreate {
-	ppc.mutation.SetDescription(s)
-	return ppc
+func (_c *PaymentProductCreate) SetDescription(v string) *PaymentProductCreate {
+	_c.mutation.SetDescription(v)
+	return _c
 }
 
 // SetNillableDescription sets the "description" field if the given value is not nil.
-func (ppc *PaymentProductCreate) SetNillableDescription(s *string) *PaymentProductCreate {
-	if s != nil {
-		ppc.SetDescription(*s)
+func (_c *PaymentProductCreate) SetNillableDescription(v *string) *PaymentProductCreate {
+	if v != nil {
+		_c.SetDescription(*v)
 	}
-	return ppc
+	return _c
 }
 
 // SetExtras sets the "extras" field.
-func (ppc *PaymentProductCreate) SetExtras(m map[string]interface{}) *PaymentProductCreate {
-	ppc.mutation.SetExtras(m)
-	return ppc
+func (_c *PaymentProductCreate) SetExtras(v map[string]interface{}) *PaymentProductCreate {
+	_c.mutation.SetExtras(v)
+	return _c
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (ppc *PaymentProductCreate) SetCreatedBy(s string) *PaymentProductCreate {
-	ppc.mutation.SetCreatedBy(s)
-	return ppc
+func (_c *PaymentProductCreate) SetCreatedBy(v string) *PaymentProductCreate {
+	_c.mutation.SetCreatedBy(v)
+	return _c
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (ppc *PaymentProductCreate) SetNillableCreatedBy(s *string) *PaymentProductCreate {
-	if s != nil {
-		ppc.SetCreatedBy(*s)
+func (_c *PaymentProductCreate) SetNillableCreatedBy(v *string) *PaymentProductCreate {
+	if v != nil {
+		_c.SetCreatedBy(*v)
 	}
-	return ppc
+	return _c
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (ppc *PaymentProductCreate) SetUpdatedBy(s string) *PaymentProductCreate {
-	ppc.mutation.SetUpdatedBy(s)
-	return ppc
+func (_c *PaymentProductCreate) SetUpdatedBy(v string) *PaymentProductCreate {
+	_c.mutation.SetUpdatedBy(v)
+	return _c
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (ppc *PaymentProductCreate) SetNillableUpdatedBy(s *string) *PaymentProductCreate {
-	if s != nil {
-		ppc.SetUpdatedBy(*s)
+func (_c *PaymentProductCreate) SetNillableUpdatedBy(v *string) *PaymentProductCreate {
+	if v != nil {
+		_c.SetUpdatedBy(*v)
 	}
-	return ppc
+	return _c
 }
 
 // SetCreatedAt sets the "created_at" field.
-func (ppc *PaymentProductCreate) SetCreatedAt(i int64) *PaymentProductCreate {
-	ppc.mutation.SetCreatedAt(i)
-	return ppc
+func (_c *PaymentProductCreate) SetCreatedAt(v int64) *PaymentProductCreate {
+	_c.mutation.SetCreatedAt(v)
+	return _c
 }
 
 // SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
-func (ppc *PaymentProductCreate) SetNillableCreatedAt(i *int64) *PaymentProductCreate {
-	if i != nil {
-		ppc.SetCreatedAt(*i)
+func (_c *PaymentProductCreate) SetNillableCreatedAt(v *int64) *PaymentProductCreate {
+	if v != nil {
+		_c.SetCreatedAt(*v)
 	}
-	return ppc
+	return _c
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (ppc *PaymentProductCreate) SetUpdatedAt(i int64) *PaymentProductCreate {
-	ppc.mutation.SetUpdatedAt(i)
-	return ppc
+func (_c *PaymentProductCreate) SetUpdatedAt(v int64) *PaymentProductCreate {
+	_c.mutation.SetUpdatedAt(v)
+	return _c
 }
 
 // SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
-func (ppc *PaymentProductCreate) SetNillableUpdatedAt(i *int64) *PaymentProductCreate {
-	if i != nil {
-		ppc.SetUpdatedAt(*i)
+func (_c *PaymentProductCreate) SetNillableUpdatedAt(v *int64) *PaymentProductCreate {
+	if v != nil {
+		_c.SetUpdatedAt(*v)
 	}
-	return ppc
+	return _c
 }
 
 // SetStatus sets the "status" field.
-func (ppc *PaymentProductCreate) SetStatus(s string) *PaymentProductCreate {
-	ppc.mutation.SetStatus(s)
-	return ppc
+func (_c *PaymentProductCreate) SetStatus(v string) *PaymentProductCreate {
+	_c.mutation.SetStatus(v)
+	return _c
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (ppc *PaymentProductCreate) SetNillableStatus(s *string) *PaymentProductCreate {
-	if s != nil {
-		ppc.SetStatus(*s)
+func (_c *PaymentProductCreate) SetNillableStatus(v *string) *PaymentProductCreate {
+	if v != nil {
+		_c.SetStatus(*v)
 	}
-	return ppc
+	return _c
 }
 
 // SetPricingType sets the "pricing_type" field.
-func (ppc *PaymentProductCreate) SetPricingType(s string) *PaymentProductCreate {
-	ppc.mutation.SetPricingType(s)
-	return ppc
+func (_c *PaymentProductCreate) SetPricingType(v string) *PaymentProductCreate {
+	_c.mutation.SetPricingType(v)
+	return _c
 }
 
 // SetNillablePricingType sets the "pricing_type" field if the given value is not nil.
-func (ppc *PaymentProductCreate) SetNillablePricingType(s *string) *PaymentProductCreate {
-	if s != nil {
-		ppc.SetPricingType(*s)
+func (_c *PaymentProductCreate) SetNillablePricingType(v *string) *PaymentProductCreate {
+	if v != nil {
+		_c.SetPricingType(*v)
 	}
-	return ppc
+	return _c
 }
 
 // SetPrice sets the "price" field.
-func (ppc *PaymentProductCreate) SetPrice(f float64) *PaymentProductCreate {
-	ppc.mutation.SetPrice(f)
-	return ppc
+func (_c *PaymentProductCreate) SetPrice(v float64) *PaymentProductCreate {
+	_c.mutation.SetPrice(v)
+	return _c
 }
 
 // SetCurrency sets the "currency" field.
-func (ppc *PaymentProductCreate) SetCurrency(s string) *PaymentProductCreate {
-	ppc.mutation.SetCurrency(s)
-	return ppc
+func (_c *PaymentProductCreate) SetCurrency(v string) *PaymentProductCreate {
+	_c.mutation.SetCurrency(v)
+	return _c
 }
 
 // SetNillableCurrency sets the "currency" field if the given value is not nil.
-func (ppc *PaymentProductCreate) SetNillableCurrency(s *string) *PaymentProductCreate {
-	if s != nil {
-		ppc.SetCurrency(*s)
+func (_c *PaymentProductCreate) SetNillableCurrency(v *string) *PaymentProductCreate {
+	if v != nil {
+		_c.SetCurrency(*v)
 	}
-	return ppc
+	return _c
 }
 
 // SetBillingInterval sets the "billing_interval" field.
-func (ppc *PaymentProductCreate) SetBillingInterval(s string) *PaymentProductCreate {
-	ppc.mutation.SetBillingInterval(s)
-	return ppc
+func (_c *PaymentProductCreate) SetBillingInterval(v string) *PaymentProductCreate {
+	_c.mutation.SetBillingInterval(v)
+	return _c
 }
 
 // SetNillableBillingInterval sets the "billing_interval" field if the given value is not nil.
-func (ppc *PaymentProductCreate) SetNillableBillingInterval(s *string) *PaymentProductCreate {
-	if s != nil {
-		ppc.SetBillingInterval(*s)
+func (_c *PaymentProductCreate) SetNillableBillingInterval(v *string) *PaymentProductCreate {
+	if v != nil {
+		_c.SetBillingInterval(*v)
 	}
-	return ppc
+	return _c
 }
 
 // SetTrialDays sets the "trial_days" field.
-func (ppc *PaymentProductCreate) SetTrialDays(i int) *PaymentProductCreate {
-	ppc.mutation.SetTrialDays(i)
-	return ppc
+func (_c *PaymentProductCreate) SetTrialDays(v int) *PaymentProductCreate {
+	_c.mutation.SetTrialDays(v)
+	return _c
 }
 
 // SetNillableTrialDays sets the "trial_days" field if the given value is not nil.
-func (ppc *PaymentProductCreate) SetNillableTrialDays(i *int) *PaymentProductCreate {
-	if i != nil {
-		ppc.SetTrialDays(*i)
+func (_c *PaymentProductCreate) SetNillableTrialDays(v *int) *PaymentProductCreate {
+	if v != nil {
+		_c.SetTrialDays(*v)
 	}
-	return ppc
+	return _c
 }
 
 // SetFeatures sets the "features" field.
-func (ppc *PaymentProductCreate) SetFeatures(s []string) *PaymentProductCreate {
-	ppc.mutation.SetFeatures(s)
-	return ppc
+func (_c *PaymentProductCreate) SetFeatures(v []string) *PaymentProductCreate {
+	_c.mutation.SetFeatures(v)
+	return _c
 }
 
 // SetSpaceID sets the "space_id" field.
-func (ppc *PaymentProductCreate) SetSpaceID(s string) *PaymentProductCreate {
-	ppc.mutation.SetSpaceID(s)
-	return ppc
+func (_c *PaymentProductCreate) SetSpaceID(v string) *PaymentProductCreate {
+	_c.mutation.SetSpaceID(v)
+	return _c
 }
 
 // SetNillableSpaceID sets the "space_id" field if the given value is not nil.
-func (ppc *PaymentProductCreate) SetNillableSpaceID(s *string) *PaymentProductCreate {
-	if s != nil {
-		ppc.SetSpaceID(*s)
+func (_c *PaymentProductCreate) SetNillableSpaceID(v *string) *PaymentProductCreate {
+	if v != nil {
+		_c.SetSpaceID(*v)
 	}
-	return ppc
+	return _c
 }
 
 // SetID sets the "id" field.
-func (ppc *PaymentProductCreate) SetID(s string) *PaymentProductCreate {
-	ppc.mutation.SetID(s)
-	return ppc
+func (_c *PaymentProductCreate) SetID(v string) *PaymentProductCreate {
+	_c.mutation.SetID(v)
+	return _c
 }
 
 // SetNillableID sets the "id" field if the given value is not nil.
-func (ppc *PaymentProductCreate) SetNillableID(s *string) *PaymentProductCreate {
-	if s != nil {
-		ppc.SetID(*s)
+func (_c *PaymentProductCreate) SetNillableID(v *string) *PaymentProductCreate {
+	if v != nil {
+		_c.SetID(*v)
 	}
-	return ppc
+	return _c
 }
 
 // AddSubscriptionIDs adds the "subscriptions" edge to the PaymentSubscription entity by IDs.
-func (ppc *PaymentProductCreate) AddSubscriptionIDs(ids ...string) *PaymentProductCreate {
-	ppc.mutation.AddSubscriptionIDs(ids...)
-	return ppc
+func (_c *PaymentProductCreate) AddSubscriptionIDs(ids ...string) *PaymentProductCreate {
+	_c.mutation.AddSubscriptionIDs(ids...)
+	return _c
 }
 
 // AddSubscriptions adds the "subscriptions" edges to the PaymentSubscription entity.
-func (ppc *PaymentProductCreate) AddSubscriptions(p ...*PaymentSubscription) *PaymentProductCreate {
-	ids := make([]string, len(p))
-	for i := range p {
-		ids[i] = p[i].ID
+func (_c *PaymentProductCreate) AddSubscriptions(v ...*PaymentSubscription) *PaymentProductCreate {
+	ids := make([]string, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return ppc.AddSubscriptionIDs(ids...)
+	return _c.AddSubscriptionIDs(ids...)
 }
 
 // Mutation returns the PaymentProductMutation object of the builder.
-func (ppc *PaymentProductCreate) Mutation() *PaymentProductMutation {
-	return ppc.mutation
+func (_c *PaymentProductCreate) Mutation() *PaymentProductMutation {
+	return _c.mutation
 }
 
 // Save creates the PaymentProduct in the database.
-func (ppc *PaymentProductCreate) Save(ctx context.Context) (*PaymentProduct, error) {
-	ppc.defaults()
-	return withHooks(ctx, ppc.sqlSave, ppc.mutation, ppc.hooks)
+func (_c *PaymentProductCreate) Save(ctx context.Context) (*PaymentProduct, error) {
+	_c.defaults()
+	return withHooks(ctx, _c.sqlSave, _c.mutation, _c.hooks)
 }
 
 // SaveX calls Save and panics if Save returns an error.
-func (ppc *PaymentProductCreate) SaveX(ctx context.Context) *PaymentProduct {
-	v, err := ppc.Save(ctx)
+func (_c *PaymentProductCreate) SaveX(ctx context.Context) *PaymentProduct {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -256,80 +256,80 @@ func (ppc *PaymentProductCreate) SaveX(ctx context.Context) *PaymentProduct {
 }
 
 // Exec executes the query.
-func (ppc *PaymentProductCreate) Exec(ctx context.Context) error {
-	_, err := ppc.Save(ctx)
+func (_c *PaymentProductCreate) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (ppc *PaymentProductCreate) ExecX(ctx context.Context) {
-	if err := ppc.Exec(ctx); err != nil {
+func (_c *PaymentProductCreate) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (ppc *PaymentProductCreate) defaults() {
-	if _, ok := ppc.mutation.Extras(); !ok {
+func (_c *PaymentProductCreate) defaults() {
+	if _, ok := _c.mutation.Extras(); !ok {
 		v := paymentproduct.DefaultExtras
-		ppc.mutation.SetExtras(v)
+		_c.mutation.SetExtras(v)
 	}
-	if _, ok := ppc.mutation.CreatedAt(); !ok {
+	if _, ok := _c.mutation.CreatedAt(); !ok {
 		v := paymentproduct.DefaultCreatedAt()
-		ppc.mutation.SetCreatedAt(v)
+		_c.mutation.SetCreatedAt(v)
 	}
-	if _, ok := ppc.mutation.UpdatedAt(); !ok {
+	if _, ok := _c.mutation.UpdatedAt(); !ok {
 		v := paymentproduct.DefaultUpdatedAt()
-		ppc.mutation.SetUpdatedAt(v)
+		_c.mutation.SetUpdatedAt(v)
 	}
-	if _, ok := ppc.mutation.Status(); !ok {
+	if _, ok := _c.mutation.Status(); !ok {
 		v := paymentproduct.DefaultStatus
-		ppc.mutation.SetStatus(v)
+		_c.mutation.SetStatus(v)
 	}
-	if _, ok := ppc.mutation.PricingType(); !ok {
+	if _, ok := _c.mutation.PricingType(); !ok {
 		v := paymentproduct.DefaultPricingType
-		ppc.mutation.SetPricingType(v)
+		_c.mutation.SetPricingType(v)
 	}
-	if _, ok := ppc.mutation.Currency(); !ok {
+	if _, ok := _c.mutation.Currency(); !ok {
 		v := paymentproduct.DefaultCurrency
-		ppc.mutation.SetCurrency(v)
+		_c.mutation.SetCurrency(v)
 	}
-	if _, ok := ppc.mutation.TrialDays(); !ok {
+	if _, ok := _c.mutation.TrialDays(); !ok {
 		v := paymentproduct.DefaultTrialDays
-		ppc.mutation.SetTrialDays(v)
+		_c.mutation.SetTrialDays(v)
 	}
-	if _, ok := ppc.mutation.ID(); !ok {
+	if _, ok := _c.mutation.ID(); !ok {
 		v := paymentproduct.DefaultID()
-		ppc.mutation.SetID(v)
+		_c.mutation.SetID(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (ppc *PaymentProductCreate) check() error {
-	if _, ok := ppc.mutation.Status(); !ok {
+func (_c *PaymentProductCreate) check() error {
+	if _, ok := _c.mutation.Status(); !ok {
 		return &ValidationError{Name: "status", err: errors.New(`ent: missing required field "PaymentProduct.status"`)}
 	}
-	if _, ok := ppc.mutation.PricingType(); !ok {
+	if _, ok := _c.mutation.PricingType(); !ok {
 		return &ValidationError{Name: "pricing_type", err: errors.New(`ent: missing required field "PaymentProduct.pricing_type"`)}
 	}
-	if _, ok := ppc.mutation.Price(); !ok {
+	if _, ok := _c.mutation.Price(); !ok {
 		return &ValidationError{Name: "price", err: errors.New(`ent: missing required field "PaymentProduct.price"`)}
 	}
-	if v, ok := ppc.mutation.Price(); ok {
+	if v, ok := _c.mutation.Price(); ok {
 		if err := paymentproduct.PriceValidator(v); err != nil {
 			return &ValidationError{Name: "price", err: fmt.Errorf(`ent: validator failed for field "PaymentProduct.price": %w`, err)}
 		}
 	}
-	if _, ok := ppc.mutation.Currency(); !ok {
+	if _, ok := _c.mutation.Currency(); !ok {
 		return &ValidationError{Name: "currency", err: errors.New(`ent: missing required field "PaymentProduct.currency"`)}
 	}
-	if _, ok := ppc.mutation.TrialDays(); !ok {
+	if _, ok := _c.mutation.TrialDays(); !ok {
 		return &ValidationError{Name: "trial_days", err: errors.New(`ent: missing required field "PaymentProduct.trial_days"`)}
 	}
-	if _, ok := ppc.mutation.Features(); !ok {
+	if _, ok := _c.mutation.Features(); !ok {
 		return &ValidationError{Name: "features", err: errors.New(`ent: missing required field "PaymentProduct.features"`)}
 	}
-	if v, ok := ppc.mutation.ID(); ok {
+	if v, ok := _c.mutation.ID(); ok {
 		if err := paymentproduct.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "PaymentProduct.id": %w`, err)}
 		}
@@ -337,12 +337,12 @@ func (ppc *PaymentProductCreate) check() error {
 	return nil
 }
 
-func (ppc *PaymentProductCreate) sqlSave(ctx context.Context) (*PaymentProduct, error) {
-	if err := ppc.check(); err != nil {
+func (_c *PaymentProductCreate) sqlSave(ctx context.Context) (*PaymentProduct, error) {
+	if err := _c.check(); err != nil {
 		return nil, err
 	}
-	_node, _spec := ppc.createSpec()
-	if err := sqlgraph.CreateNode(ctx, ppc.driver, _spec); err != nil {
+	_node, _spec := _c.createSpec()
+	if err := sqlgraph.CreateNode(ctx, _c.driver, _spec); err != nil {
 		if sqlgraph.IsConstraintError(err) {
 			err = &ConstraintError{msg: err.Error(), wrap: err}
 		}
@@ -355,81 +355,81 @@ func (ppc *PaymentProductCreate) sqlSave(ctx context.Context) (*PaymentProduct, 
 			return nil, fmt.Errorf("unexpected PaymentProduct.ID type: %T", _spec.ID.Value)
 		}
 	}
-	ppc.mutation.id = &_node.ID
-	ppc.mutation.done = true
+	_c.mutation.id = &_node.ID
+	_c.mutation.done = true
 	return _node, nil
 }
 
-func (ppc *PaymentProductCreate) createSpec() (*PaymentProduct, *sqlgraph.CreateSpec) {
+func (_c *PaymentProductCreate) createSpec() (*PaymentProduct, *sqlgraph.CreateSpec) {
 	var (
-		_node = &PaymentProduct{config: ppc.config}
+		_node = &PaymentProduct{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(paymentproduct.Table, sqlgraph.NewFieldSpec(paymentproduct.FieldID, field.TypeString))
 	)
-	if id, ok := ppc.mutation.ID(); ok {
+	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
 	}
-	if value, ok := ppc.mutation.Name(); ok {
+	if value, ok := _c.mutation.Name(); ok {
 		_spec.SetField(paymentproduct.FieldName, field.TypeString, value)
 		_node.Name = value
 	}
-	if value, ok := ppc.mutation.Description(); ok {
+	if value, ok := _c.mutation.Description(); ok {
 		_spec.SetField(paymentproduct.FieldDescription, field.TypeString, value)
 		_node.Description = value
 	}
-	if value, ok := ppc.mutation.Extras(); ok {
+	if value, ok := _c.mutation.Extras(); ok {
 		_spec.SetField(paymentproduct.FieldExtras, field.TypeJSON, value)
 		_node.Extras = value
 	}
-	if value, ok := ppc.mutation.CreatedBy(); ok {
+	if value, ok := _c.mutation.CreatedBy(); ok {
 		_spec.SetField(paymentproduct.FieldCreatedBy, field.TypeString, value)
 		_node.CreatedBy = value
 	}
-	if value, ok := ppc.mutation.UpdatedBy(); ok {
+	if value, ok := _c.mutation.UpdatedBy(); ok {
 		_spec.SetField(paymentproduct.FieldUpdatedBy, field.TypeString, value)
 		_node.UpdatedBy = value
 	}
-	if value, ok := ppc.mutation.CreatedAt(); ok {
+	if value, ok := _c.mutation.CreatedAt(); ok {
 		_spec.SetField(paymentproduct.FieldCreatedAt, field.TypeInt64, value)
 		_node.CreatedAt = value
 	}
-	if value, ok := ppc.mutation.UpdatedAt(); ok {
+	if value, ok := _c.mutation.UpdatedAt(); ok {
 		_spec.SetField(paymentproduct.FieldUpdatedAt, field.TypeInt64, value)
 		_node.UpdatedAt = value
 	}
-	if value, ok := ppc.mutation.Status(); ok {
+	if value, ok := _c.mutation.Status(); ok {
 		_spec.SetField(paymentproduct.FieldStatus, field.TypeString, value)
 		_node.Status = value
 	}
-	if value, ok := ppc.mutation.PricingType(); ok {
+	if value, ok := _c.mutation.PricingType(); ok {
 		_spec.SetField(paymentproduct.FieldPricingType, field.TypeString, value)
 		_node.PricingType = value
 	}
-	if value, ok := ppc.mutation.Price(); ok {
+	if value, ok := _c.mutation.Price(); ok {
 		_spec.SetField(paymentproduct.FieldPrice, field.TypeFloat64, value)
 		_node.Price = value
 	}
-	if value, ok := ppc.mutation.Currency(); ok {
+	if value, ok := _c.mutation.Currency(); ok {
 		_spec.SetField(paymentproduct.FieldCurrency, field.TypeString, value)
 		_node.Currency = value
 	}
-	if value, ok := ppc.mutation.BillingInterval(); ok {
+	if value, ok := _c.mutation.BillingInterval(); ok {
 		_spec.SetField(paymentproduct.FieldBillingInterval, field.TypeString, value)
 		_node.BillingInterval = value
 	}
-	if value, ok := ppc.mutation.TrialDays(); ok {
+	if value, ok := _c.mutation.TrialDays(); ok {
 		_spec.SetField(paymentproduct.FieldTrialDays, field.TypeInt, value)
 		_node.TrialDays = value
 	}
-	if value, ok := ppc.mutation.Features(); ok {
+	if value, ok := _c.mutation.Features(); ok {
 		_spec.SetField(paymentproduct.FieldFeatures, field.TypeJSON, value)
 		_node.Features = value
 	}
-	if value, ok := ppc.mutation.SpaceID(); ok {
+	if value, ok := _c.mutation.SpaceID(); ok {
 		_spec.SetField(paymentproduct.FieldSpaceID, field.TypeString, value)
 		_node.SpaceID = value
 	}
-	if nodes := ppc.mutation.SubscriptionsIDs(); len(nodes) > 0 {
+	if nodes := _c.mutation.SubscriptionsIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -456,16 +456,16 @@ type PaymentProductCreateBulk struct {
 }
 
 // Save creates the PaymentProduct entities in the database.
-func (ppcb *PaymentProductCreateBulk) Save(ctx context.Context) ([]*PaymentProduct, error) {
-	if ppcb.err != nil {
-		return nil, ppcb.err
+func (_c *PaymentProductCreateBulk) Save(ctx context.Context) ([]*PaymentProduct, error) {
+	if _c.err != nil {
+		return nil, _c.err
 	}
-	specs := make([]*sqlgraph.CreateSpec, len(ppcb.builders))
-	nodes := make([]*PaymentProduct, len(ppcb.builders))
-	mutators := make([]Mutator, len(ppcb.builders))
-	for i := range ppcb.builders {
+	specs := make([]*sqlgraph.CreateSpec, len(_c.builders))
+	nodes := make([]*PaymentProduct, len(_c.builders))
+	mutators := make([]Mutator, len(_c.builders))
+	for i := range _c.builders {
 		func(i int, root context.Context) {
-			builder := ppcb.builders[i]
+			builder := _c.builders[i]
 			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*PaymentProductMutation)
@@ -479,11 +479,11 @@ func (ppcb *PaymentProductCreateBulk) Save(ctx context.Context) ([]*PaymentProdu
 				var err error
 				nodes[i], specs[i] = builder.createSpec()
 				if i < len(mutators)-1 {
-					_, err = mutators[i+1].Mutate(root, ppcb.builders[i+1].mutation)
+					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
 					// Invoke the actual operation on the latest mutation in the chain.
-					if err = sqlgraph.BatchCreate(ctx, ppcb.driver, spec); err != nil {
+					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
 							err = &ConstraintError{msg: err.Error(), wrap: err}
 						}
@@ -503,7 +503,7 @@ func (ppcb *PaymentProductCreateBulk) Save(ctx context.Context) ([]*PaymentProdu
 		}(i, ctx)
 	}
 	if len(mutators) > 0 {
-		if _, err := mutators[0].Mutate(ctx, ppcb.builders[0].mutation); err != nil {
+		if _, err := mutators[0].Mutate(ctx, _c.builders[0].mutation); err != nil {
 			return nil, err
 		}
 	}
@@ -511,8 +511,8 @@ func (ppcb *PaymentProductCreateBulk) Save(ctx context.Context) ([]*PaymentProdu
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (ppcb *PaymentProductCreateBulk) SaveX(ctx context.Context) []*PaymentProduct {
-	v, err := ppcb.Save(ctx)
+func (_c *PaymentProductCreateBulk) SaveX(ctx context.Context) []*PaymentProduct {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -520,14 +520,14 @@ func (ppcb *PaymentProductCreateBulk) SaveX(ctx context.Context) []*PaymentProdu
 }
 
 // Exec executes the query.
-func (ppcb *PaymentProductCreateBulk) Exec(ctx context.Context) error {
-	_, err := ppcb.Save(ctx)
+func (_c *PaymentProductCreateBulk) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (ppcb *PaymentProductCreateBulk) ExecX(ctx context.Context) {
-	if err := ppcb.Exec(ctx); err != nil {
+func (_c *PaymentProductCreateBulk) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

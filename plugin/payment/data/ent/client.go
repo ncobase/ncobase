@@ -293,8 +293,8 @@ func (c *PaymentChannelClient) Update() *PaymentChannelUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *PaymentChannelClient) UpdateOne(pc *PaymentChannel) *PaymentChannelUpdateOne {
-	mutation := newPaymentChannelMutation(c.config, OpUpdateOne, withPaymentChannel(pc))
+func (c *PaymentChannelClient) UpdateOne(_m *PaymentChannel) *PaymentChannelUpdateOne {
+	mutation := newPaymentChannelMutation(c.config, OpUpdateOne, withPaymentChannel(_m))
 	return &PaymentChannelUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -311,8 +311,8 @@ func (c *PaymentChannelClient) Delete() *PaymentChannelDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *PaymentChannelClient) DeleteOne(pc *PaymentChannel) *PaymentChannelDeleteOne {
-	return c.DeleteOneID(pc.ID)
+func (c *PaymentChannelClient) DeleteOne(_m *PaymentChannel) *PaymentChannelDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -426,8 +426,8 @@ func (c *PaymentLogClient) Update() *PaymentLogUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *PaymentLogClient) UpdateOne(pl *PaymentLog) *PaymentLogUpdateOne {
-	mutation := newPaymentLogMutation(c.config, OpUpdateOne, withPaymentLog(pl))
+func (c *PaymentLogClient) UpdateOne(_m *PaymentLog) *PaymentLogUpdateOne {
+	mutation := newPaymentLogMutation(c.config, OpUpdateOne, withPaymentLog(_m))
 	return &PaymentLogUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -444,8 +444,8 @@ func (c *PaymentLogClient) Delete() *PaymentLogDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *PaymentLogClient) DeleteOne(pl *PaymentLog) *PaymentLogDeleteOne {
-	return c.DeleteOneID(pl.ID)
+func (c *PaymentLogClient) DeleteOne(_m *PaymentLog) *PaymentLogDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -480,16 +480,16 @@ func (c *PaymentLogClient) GetX(ctx context.Context, id string) *PaymentLog {
 }
 
 // QueryOrder queries the order edge of a PaymentLog.
-func (c *PaymentLogClient) QueryOrder(pl *PaymentLog) *PaymentOrderQuery {
+func (c *PaymentLogClient) QueryOrder(_m *PaymentLog) *PaymentOrderQuery {
 	query := (&PaymentOrderClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := pl.ID
+		id := _m.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(paymentlog.Table, paymentlog.FieldID, id),
 			sqlgraph.To(paymentorder.Table, paymentorder.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, paymentlog.OrderTable, paymentlog.OrderColumn),
 		)
-		fromV = sqlgraph.Neighbors(pl.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
@@ -575,8 +575,8 @@ func (c *PaymentOrderClient) Update() *PaymentOrderUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *PaymentOrderClient) UpdateOne(po *PaymentOrder) *PaymentOrderUpdateOne {
-	mutation := newPaymentOrderMutation(c.config, OpUpdateOne, withPaymentOrder(po))
+func (c *PaymentOrderClient) UpdateOne(_m *PaymentOrder) *PaymentOrderUpdateOne {
+	mutation := newPaymentOrderMutation(c.config, OpUpdateOne, withPaymentOrder(_m))
 	return &PaymentOrderUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -593,8 +593,8 @@ func (c *PaymentOrderClient) Delete() *PaymentOrderDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *PaymentOrderClient) DeleteOne(po *PaymentOrder) *PaymentOrderDeleteOne {
-	return c.DeleteOneID(po.ID)
+func (c *PaymentOrderClient) DeleteOne(_m *PaymentOrder) *PaymentOrderDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -629,16 +629,16 @@ func (c *PaymentOrderClient) GetX(ctx context.Context, id string) *PaymentOrder 
 }
 
 // QueryLogs queries the logs edge of a PaymentOrder.
-func (c *PaymentOrderClient) QueryLogs(po *PaymentOrder) *PaymentLogQuery {
+func (c *PaymentOrderClient) QueryLogs(_m *PaymentOrder) *PaymentLogQuery {
 	query := (&PaymentLogClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := po.ID
+		id := _m.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(paymentorder.Table, paymentorder.FieldID, id),
 			sqlgraph.To(paymentlog.Table, paymentlog.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, paymentorder.LogsTable, paymentorder.LogsColumn),
 		)
-		fromV = sqlgraph.Neighbors(po.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
@@ -724,8 +724,8 @@ func (c *PaymentProductClient) Update() *PaymentProductUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *PaymentProductClient) UpdateOne(pp *PaymentProduct) *PaymentProductUpdateOne {
-	mutation := newPaymentProductMutation(c.config, OpUpdateOne, withPaymentProduct(pp))
+func (c *PaymentProductClient) UpdateOne(_m *PaymentProduct) *PaymentProductUpdateOne {
+	mutation := newPaymentProductMutation(c.config, OpUpdateOne, withPaymentProduct(_m))
 	return &PaymentProductUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -742,8 +742,8 @@ func (c *PaymentProductClient) Delete() *PaymentProductDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *PaymentProductClient) DeleteOne(pp *PaymentProduct) *PaymentProductDeleteOne {
-	return c.DeleteOneID(pp.ID)
+func (c *PaymentProductClient) DeleteOne(_m *PaymentProduct) *PaymentProductDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -778,16 +778,16 @@ func (c *PaymentProductClient) GetX(ctx context.Context, id string) *PaymentProd
 }
 
 // QuerySubscriptions queries the subscriptions edge of a PaymentProduct.
-func (c *PaymentProductClient) QuerySubscriptions(pp *PaymentProduct) *PaymentSubscriptionQuery {
+func (c *PaymentProductClient) QuerySubscriptions(_m *PaymentProduct) *PaymentSubscriptionQuery {
 	query := (&PaymentSubscriptionClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := pp.ID
+		id := _m.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(paymentproduct.Table, paymentproduct.FieldID, id),
 			sqlgraph.To(paymentsubscription.Table, paymentsubscription.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, paymentproduct.SubscriptionsTable, paymentproduct.SubscriptionsColumn),
 		)
-		fromV = sqlgraph.Neighbors(pp.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
@@ -873,8 +873,8 @@ func (c *PaymentSubscriptionClient) Update() *PaymentSubscriptionUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *PaymentSubscriptionClient) UpdateOne(ps *PaymentSubscription) *PaymentSubscriptionUpdateOne {
-	mutation := newPaymentSubscriptionMutation(c.config, OpUpdateOne, withPaymentSubscription(ps))
+func (c *PaymentSubscriptionClient) UpdateOne(_m *PaymentSubscription) *PaymentSubscriptionUpdateOne {
+	mutation := newPaymentSubscriptionMutation(c.config, OpUpdateOne, withPaymentSubscription(_m))
 	return &PaymentSubscriptionUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -891,8 +891,8 @@ func (c *PaymentSubscriptionClient) Delete() *PaymentSubscriptionDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *PaymentSubscriptionClient) DeleteOne(ps *PaymentSubscription) *PaymentSubscriptionDeleteOne {
-	return c.DeleteOneID(ps.ID)
+func (c *PaymentSubscriptionClient) DeleteOne(_m *PaymentSubscription) *PaymentSubscriptionDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -927,16 +927,16 @@ func (c *PaymentSubscriptionClient) GetX(ctx context.Context, id string) *Paymen
 }
 
 // QueryProduct queries the product edge of a PaymentSubscription.
-func (c *PaymentSubscriptionClient) QueryProduct(ps *PaymentSubscription) *PaymentProductQuery {
+func (c *PaymentSubscriptionClient) QueryProduct(_m *PaymentSubscription) *PaymentProductQuery {
 	query := (&PaymentProductClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := ps.ID
+		id := _m.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(paymentsubscription.Table, paymentsubscription.FieldID, id),
 			sqlgraph.To(paymentproduct.Table, paymentproduct.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, paymentsubscription.ProductTable, paymentsubscription.ProductColumn),
 		)
-		fromV = sqlgraph.Neighbors(ps.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query

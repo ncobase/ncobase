@@ -282,8 +282,8 @@ func (c *ApiKeyClient) Update() *ApiKeyUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *ApiKeyClient) UpdateOne(ak *ApiKey) *ApiKeyUpdateOne {
-	mutation := newApiKeyMutation(c.config, OpUpdateOne, withApiKey(ak))
+func (c *ApiKeyClient) UpdateOne(_m *ApiKey) *ApiKeyUpdateOne {
+	mutation := newApiKeyMutation(c.config, OpUpdateOne, withApiKey(_m))
 	return &ApiKeyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -300,8 +300,8 @@ func (c *ApiKeyClient) Delete() *ApiKeyDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *ApiKeyClient) DeleteOne(ak *ApiKey) *ApiKeyDeleteOne {
-	return c.DeleteOneID(ak.ID)
+func (c *ApiKeyClient) DeleteOne(_m *ApiKey) *ApiKeyDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -415,8 +415,8 @@ func (c *EmployeeClient) Update() *EmployeeUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *EmployeeClient) UpdateOne(e *Employee) *EmployeeUpdateOne {
-	mutation := newEmployeeMutation(c.config, OpUpdateOne, withEmployee(e))
+func (c *EmployeeClient) UpdateOne(_m *Employee) *EmployeeUpdateOne {
+	mutation := newEmployeeMutation(c.config, OpUpdateOne, withEmployee(_m))
 	return &EmployeeUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -433,8 +433,8 @@ func (c *EmployeeClient) Delete() *EmployeeDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *EmployeeClient) DeleteOne(e *Employee) *EmployeeDeleteOne {
-	return c.DeleteOneID(e.ID)
+func (c *EmployeeClient) DeleteOne(_m *Employee) *EmployeeDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -548,8 +548,8 @@ func (c *UserClient) Update() *UserUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *UserClient) UpdateOne(u *User) *UserUpdateOne {
-	mutation := newUserMutation(c.config, OpUpdateOne, withUser(u))
+func (c *UserClient) UpdateOne(_m *User) *UserUpdateOne {
+	mutation := newUserMutation(c.config, OpUpdateOne, withUser(_m))
 	return &UserUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -566,8 +566,8 @@ func (c *UserClient) Delete() *UserDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *UserClient) DeleteOne(u *User) *UserDeleteOne {
-	return c.DeleteOneID(u.ID)
+func (c *UserClient) DeleteOne(_m *User) *UserDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -681,8 +681,8 @@ func (c *UserProfileClient) Update() *UserProfileUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *UserProfileClient) UpdateOne(up *UserProfile) *UserProfileUpdateOne {
-	mutation := newUserProfileMutation(c.config, OpUpdateOne, withUserProfile(up))
+func (c *UserProfileClient) UpdateOne(_m *UserProfile) *UserProfileUpdateOne {
+	mutation := newUserProfileMutation(c.config, OpUpdateOne, withUserProfile(_m))
 	return &UserProfileUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -699,8 +699,8 @@ func (c *UserProfileClient) Delete() *UserProfileDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *UserProfileClient) DeleteOne(up *UserProfile) *UserProfileDeleteOne {
-	return c.DeleteOneID(up.ID)
+func (c *UserProfileClient) DeleteOne(_m *UserProfile) *UserProfileDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.

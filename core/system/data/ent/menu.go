@@ -77,7 +77,7 @@ func (*Menu) scanValues(columns []string) ([]any, error) {
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
 // to the Menu fields.
-func (m *Menu) assignValues(columns []string, values []any) error {
+func (_m *Menu) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
@@ -87,79 +87,79 @@ func (m *Menu) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field id", values[i])
 			} else if value.Valid {
-				m.ID = value.String
+				_m.ID = value.String
 			}
 		case menu.FieldName:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field name", values[i])
 			} else if value.Valid {
-				m.Name = value.String
+				_m.Name = value.String
 			}
 		case menu.FieldLabel:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field label", values[i])
 			} else if value.Valid {
-				m.Label = value.String
+				_m.Label = value.String
 			}
 		case menu.FieldSlug:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field slug", values[i])
 			} else if value.Valid {
-				m.Slug = value.String
+				_m.Slug = value.String
 			}
 		case menu.FieldType:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field type", values[i])
 			} else if value.Valid {
-				m.Type = value.String
+				_m.Type = value.String
 			}
 		case menu.FieldPath:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field path", values[i])
 			} else if value.Valid {
-				m.Path = value.String
+				_m.Path = value.String
 			}
 		case menu.FieldTarget:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field target", values[i])
 			} else if value.Valid {
-				m.Target = value.String
+				_m.Target = value.String
 			}
 		case menu.FieldIcon:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field icon", values[i])
 			} else if value.Valid {
-				m.Icon = value.String
+				_m.Icon = value.String
 			}
 		case menu.FieldPerms:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field perms", values[i])
 			} else if value.Valid {
-				m.Perms = value.String
+				_m.Perms = value.String
 			}
 		case menu.FieldHidden:
 			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field hidden", values[i])
 			} else if value.Valid {
-				m.Hidden = value.Bool
+				_m.Hidden = value.Bool
 			}
 		case menu.FieldOrder:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field order", values[i])
 			} else if value.Valid {
-				m.Order = int(value.Int64)
+				_m.Order = int(value.Int64)
 			}
 		case menu.FieldDisabled:
 			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field disabled", values[i])
 			} else if value.Valid {
-				m.Disabled = value.Bool
+				_m.Disabled = value.Bool
 			}
 		case menu.FieldExtras:
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field extras", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &m.Extras); err != nil {
+				if err := json.Unmarshal(*value, &_m.Extras); err != nil {
 					return fmt.Errorf("unmarshal field extras: %w", err)
 				}
 			}
@@ -167,34 +167,34 @@ func (m *Menu) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field parent_id", values[i])
 			} else if value.Valid {
-				m.ParentID = value.String
+				_m.ParentID = value.String
 			}
 		case menu.FieldCreatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field created_by", values[i])
 			} else if value.Valid {
-				m.CreatedBy = value.String
+				_m.CreatedBy = value.String
 			}
 		case menu.FieldUpdatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_by", values[i])
 			} else if value.Valid {
-				m.UpdatedBy = value.String
+				_m.UpdatedBy = value.String
 			}
 		case menu.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field created_at", values[i])
 			} else if value.Valid {
-				m.CreatedAt = value.Int64
+				_m.CreatedAt = value.Int64
 			}
 		case menu.FieldUpdatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_at", values[i])
 			} else if value.Valid {
-				m.UpdatedAt = value.Int64
+				_m.UpdatedAt = value.Int64
 			}
 		default:
-			m.selectValues.Set(columns[i], values[i])
+			_m.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
@@ -202,83 +202,83 @@ func (m *Menu) assignValues(columns []string, values []any) error {
 
 // Value returns the ent.Value that was dynamically selected and assigned to the Menu.
 // This includes values selected through modifiers, order, etc.
-func (m *Menu) Value(name string) (ent.Value, error) {
-	return m.selectValues.Get(name)
+func (_m *Menu) Value(name string) (ent.Value, error) {
+	return _m.selectValues.Get(name)
 }
 
 // Update returns a builder for updating this Menu.
 // Note that you need to call Menu.Unwrap() before calling this method if this Menu
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (m *Menu) Update() *MenuUpdateOne {
-	return NewMenuClient(m.config).UpdateOne(m)
+func (_m *Menu) Update() *MenuUpdateOne {
+	return NewMenuClient(_m.config).UpdateOne(_m)
 }
 
 // Unwrap unwraps the Menu entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (m *Menu) Unwrap() *Menu {
-	_tx, ok := m.config.driver.(*txDriver)
+func (_m *Menu) Unwrap() *Menu {
+	_tx, ok := _m.config.driver.(*txDriver)
 	if !ok {
 		panic("ent: Menu is not a transactional entity")
 	}
-	m.config.driver = _tx.drv
-	return m
+	_m.config.driver = _tx.drv
+	return _m
 }
 
 // String implements the fmt.Stringer.
-func (m *Menu) String() string {
+func (_m *Menu) String() string {
 	var builder strings.Builder
 	builder.WriteString("Menu(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", m.ID))
+	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
 	builder.WriteString("name=")
-	builder.WriteString(m.Name)
+	builder.WriteString(_m.Name)
 	builder.WriteString(", ")
 	builder.WriteString("label=")
-	builder.WriteString(m.Label)
+	builder.WriteString(_m.Label)
 	builder.WriteString(", ")
 	builder.WriteString("slug=")
-	builder.WriteString(m.Slug)
+	builder.WriteString(_m.Slug)
 	builder.WriteString(", ")
 	builder.WriteString("type=")
-	builder.WriteString(m.Type)
+	builder.WriteString(_m.Type)
 	builder.WriteString(", ")
 	builder.WriteString("path=")
-	builder.WriteString(m.Path)
+	builder.WriteString(_m.Path)
 	builder.WriteString(", ")
 	builder.WriteString("target=")
-	builder.WriteString(m.Target)
+	builder.WriteString(_m.Target)
 	builder.WriteString(", ")
 	builder.WriteString("icon=")
-	builder.WriteString(m.Icon)
+	builder.WriteString(_m.Icon)
 	builder.WriteString(", ")
 	builder.WriteString("perms=")
-	builder.WriteString(m.Perms)
+	builder.WriteString(_m.Perms)
 	builder.WriteString(", ")
 	builder.WriteString("hidden=")
-	builder.WriteString(fmt.Sprintf("%v", m.Hidden))
+	builder.WriteString(fmt.Sprintf("%v", _m.Hidden))
 	builder.WriteString(", ")
 	builder.WriteString("order=")
-	builder.WriteString(fmt.Sprintf("%v", m.Order))
+	builder.WriteString(fmt.Sprintf("%v", _m.Order))
 	builder.WriteString(", ")
 	builder.WriteString("disabled=")
-	builder.WriteString(fmt.Sprintf("%v", m.Disabled))
+	builder.WriteString(fmt.Sprintf("%v", _m.Disabled))
 	builder.WriteString(", ")
 	builder.WriteString("extras=")
-	builder.WriteString(fmt.Sprintf("%v", m.Extras))
+	builder.WriteString(fmt.Sprintf("%v", _m.Extras))
 	builder.WriteString(", ")
 	builder.WriteString("parent_id=")
-	builder.WriteString(m.ParentID)
+	builder.WriteString(_m.ParentID)
 	builder.WriteString(", ")
 	builder.WriteString("created_by=")
-	builder.WriteString(m.CreatedBy)
+	builder.WriteString(_m.CreatedBy)
 	builder.WriteString(", ")
 	builder.WriteString("updated_by=")
-	builder.WriteString(m.UpdatedBy)
+	builder.WriteString(_m.UpdatedBy)
 	builder.WriteString(", ")
 	builder.WriteString("created_at=")
-	builder.WriteString(fmt.Sprintf("%v", m.CreatedAt))
+	builder.WriteString(fmt.Sprintf("%v", _m.CreatedAt))
 	builder.WriteString(", ")
 	builder.WriteString("updated_at=")
-	builder.WriteString(fmt.Sprintf("%v", m.UpdatedAt))
+	builder.WriteString(fmt.Sprintf("%v", _m.UpdatedAt))
 	builder.WriteByte(')')
 	return builder.String()
 }

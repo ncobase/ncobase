@@ -22,84 +22,84 @@ type AuthTokenUpdate struct {
 }
 
 // Where appends a list predicates to the AuthTokenUpdate builder.
-func (atu *AuthTokenUpdate) Where(ps ...predicate.AuthToken) *AuthTokenUpdate {
-	atu.mutation.Where(ps...)
-	return atu
+func (_u *AuthTokenUpdate) Where(ps ...predicate.AuthToken) *AuthTokenUpdate {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // SetDisabled sets the "disabled" field.
-func (atu *AuthTokenUpdate) SetDisabled(b bool) *AuthTokenUpdate {
-	atu.mutation.SetDisabled(b)
-	return atu
+func (_u *AuthTokenUpdate) SetDisabled(v bool) *AuthTokenUpdate {
+	_u.mutation.SetDisabled(v)
+	return _u
 }
 
 // SetNillableDisabled sets the "disabled" field if the given value is not nil.
-func (atu *AuthTokenUpdate) SetNillableDisabled(b *bool) *AuthTokenUpdate {
-	if b != nil {
-		atu.SetDisabled(*b)
+func (_u *AuthTokenUpdate) SetNillableDisabled(v *bool) *AuthTokenUpdate {
+	if v != nil {
+		_u.SetDisabled(*v)
 	}
-	return atu
+	return _u
 }
 
 // ClearDisabled clears the value of the "disabled" field.
-func (atu *AuthTokenUpdate) ClearDisabled() *AuthTokenUpdate {
-	atu.mutation.ClearDisabled()
-	return atu
+func (_u *AuthTokenUpdate) ClearDisabled() *AuthTokenUpdate {
+	_u.mutation.ClearDisabled()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (atu *AuthTokenUpdate) SetUpdatedAt(i int64) *AuthTokenUpdate {
-	atu.mutation.ResetUpdatedAt()
-	atu.mutation.SetUpdatedAt(i)
-	return atu
+func (_u *AuthTokenUpdate) SetUpdatedAt(v int64) *AuthTokenUpdate {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (atu *AuthTokenUpdate) AddUpdatedAt(i int64) *AuthTokenUpdate {
-	atu.mutation.AddUpdatedAt(i)
-	return atu
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *AuthTokenUpdate) AddUpdatedAt(v int64) *AuthTokenUpdate {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (atu *AuthTokenUpdate) ClearUpdatedAt() *AuthTokenUpdate {
-	atu.mutation.ClearUpdatedAt()
-	return atu
+func (_u *AuthTokenUpdate) ClearUpdatedAt() *AuthTokenUpdate {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // SetUserID sets the "user_id" field.
-func (atu *AuthTokenUpdate) SetUserID(s string) *AuthTokenUpdate {
-	atu.mutation.SetUserID(s)
-	return atu
+func (_u *AuthTokenUpdate) SetUserID(v string) *AuthTokenUpdate {
+	_u.mutation.SetUserID(v)
+	return _u
 }
 
 // SetNillableUserID sets the "user_id" field if the given value is not nil.
-func (atu *AuthTokenUpdate) SetNillableUserID(s *string) *AuthTokenUpdate {
-	if s != nil {
-		atu.SetUserID(*s)
+func (_u *AuthTokenUpdate) SetNillableUserID(v *string) *AuthTokenUpdate {
+	if v != nil {
+		_u.SetUserID(*v)
 	}
-	return atu
+	return _u
 }
 
 // ClearUserID clears the value of the "user_id" field.
-func (atu *AuthTokenUpdate) ClearUserID() *AuthTokenUpdate {
-	atu.mutation.ClearUserID()
-	return atu
+func (_u *AuthTokenUpdate) ClearUserID() *AuthTokenUpdate {
+	_u.mutation.ClearUserID()
+	return _u
 }
 
 // Mutation returns the AuthTokenMutation object of the builder.
-func (atu *AuthTokenUpdate) Mutation() *AuthTokenMutation {
-	return atu.mutation
+func (_u *AuthTokenUpdate) Mutation() *AuthTokenMutation {
+	return _u.mutation
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
-func (atu *AuthTokenUpdate) Save(ctx context.Context) (int, error) {
-	atu.defaults()
-	return withHooks(ctx, atu.sqlSave, atu.mutation, atu.hooks)
+func (_u *AuthTokenUpdate) Save(ctx context.Context) (int, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (atu *AuthTokenUpdate) SaveX(ctx context.Context) int {
-	affected, err := atu.Save(ctx)
+func (_u *AuthTokenUpdate) SaveX(ctx context.Context) int {
+	affected, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -107,60 +107,60 @@ func (atu *AuthTokenUpdate) SaveX(ctx context.Context) int {
 }
 
 // Exec executes the query.
-func (atu *AuthTokenUpdate) Exec(ctx context.Context) error {
-	_, err := atu.Save(ctx)
+func (_u *AuthTokenUpdate) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (atu *AuthTokenUpdate) ExecX(ctx context.Context) {
-	if err := atu.Exec(ctx); err != nil {
+func (_u *AuthTokenUpdate) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (atu *AuthTokenUpdate) defaults() {
-	if _, ok := atu.mutation.UpdatedAt(); !ok && !atu.mutation.UpdatedAtCleared() {
+func (_u *AuthTokenUpdate) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := authtoken.UpdateDefaultUpdatedAt()
-		atu.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (atu *AuthTokenUpdate) sqlSave(ctx context.Context) (n int, err error) {
+func (_u *AuthTokenUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	_spec := sqlgraph.NewUpdateSpec(authtoken.Table, authtoken.Columns, sqlgraph.NewFieldSpec(authtoken.FieldID, field.TypeString))
-	if ps := atu.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := atu.mutation.Disabled(); ok {
+	if value, ok := _u.mutation.Disabled(); ok {
 		_spec.SetField(authtoken.FieldDisabled, field.TypeBool, value)
 	}
-	if atu.mutation.DisabledCleared() {
+	if _u.mutation.DisabledCleared() {
 		_spec.ClearField(authtoken.FieldDisabled, field.TypeBool)
 	}
-	if atu.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(authtoken.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := atu.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(authtoken.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := atu.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(authtoken.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if atu.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(authtoken.FieldUpdatedAt, field.TypeInt64)
 	}
-	if value, ok := atu.mutation.UserID(); ok {
+	if value, ok := _u.mutation.UserID(); ok {
 		_spec.SetField(authtoken.FieldUserID, field.TypeString, value)
 	}
-	if atu.mutation.UserIDCleared() {
+	if _u.mutation.UserIDCleared() {
 		_spec.ClearField(authtoken.FieldUserID, field.TypeString)
 	}
-	if n, err = sqlgraph.UpdateNodes(ctx, atu.driver, _spec); err != nil {
+	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{authtoken.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -168,8 +168,8 @@ func (atu *AuthTokenUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		return 0, err
 	}
-	atu.mutation.done = true
-	return n, nil
+	_u.mutation.done = true
+	return _node, nil
 }
 
 // AuthTokenUpdateOne is the builder for updating a single AuthToken entity.
@@ -181,91 +181,91 @@ type AuthTokenUpdateOne struct {
 }
 
 // SetDisabled sets the "disabled" field.
-func (atuo *AuthTokenUpdateOne) SetDisabled(b bool) *AuthTokenUpdateOne {
-	atuo.mutation.SetDisabled(b)
-	return atuo
+func (_u *AuthTokenUpdateOne) SetDisabled(v bool) *AuthTokenUpdateOne {
+	_u.mutation.SetDisabled(v)
+	return _u
 }
 
 // SetNillableDisabled sets the "disabled" field if the given value is not nil.
-func (atuo *AuthTokenUpdateOne) SetNillableDisabled(b *bool) *AuthTokenUpdateOne {
-	if b != nil {
-		atuo.SetDisabled(*b)
+func (_u *AuthTokenUpdateOne) SetNillableDisabled(v *bool) *AuthTokenUpdateOne {
+	if v != nil {
+		_u.SetDisabled(*v)
 	}
-	return atuo
+	return _u
 }
 
 // ClearDisabled clears the value of the "disabled" field.
-func (atuo *AuthTokenUpdateOne) ClearDisabled() *AuthTokenUpdateOne {
-	atuo.mutation.ClearDisabled()
-	return atuo
+func (_u *AuthTokenUpdateOne) ClearDisabled() *AuthTokenUpdateOne {
+	_u.mutation.ClearDisabled()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (atuo *AuthTokenUpdateOne) SetUpdatedAt(i int64) *AuthTokenUpdateOne {
-	atuo.mutation.ResetUpdatedAt()
-	atuo.mutation.SetUpdatedAt(i)
-	return atuo
+func (_u *AuthTokenUpdateOne) SetUpdatedAt(v int64) *AuthTokenUpdateOne {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (atuo *AuthTokenUpdateOne) AddUpdatedAt(i int64) *AuthTokenUpdateOne {
-	atuo.mutation.AddUpdatedAt(i)
-	return atuo
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *AuthTokenUpdateOne) AddUpdatedAt(v int64) *AuthTokenUpdateOne {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (atuo *AuthTokenUpdateOne) ClearUpdatedAt() *AuthTokenUpdateOne {
-	atuo.mutation.ClearUpdatedAt()
-	return atuo
+func (_u *AuthTokenUpdateOne) ClearUpdatedAt() *AuthTokenUpdateOne {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // SetUserID sets the "user_id" field.
-func (atuo *AuthTokenUpdateOne) SetUserID(s string) *AuthTokenUpdateOne {
-	atuo.mutation.SetUserID(s)
-	return atuo
+func (_u *AuthTokenUpdateOne) SetUserID(v string) *AuthTokenUpdateOne {
+	_u.mutation.SetUserID(v)
+	return _u
 }
 
 // SetNillableUserID sets the "user_id" field if the given value is not nil.
-func (atuo *AuthTokenUpdateOne) SetNillableUserID(s *string) *AuthTokenUpdateOne {
-	if s != nil {
-		atuo.SetUserID(*s)
+func (_u *AuthTokenUpdateOne) SetNillableUserID(v *string) *AuthTokenUpdateOne {
+	if v != nil {
+		_u.SetUserID(*v)
 	}
-	return atuo
+	return _u
 }
 
 // ClearUserID clears the value of the "user_id" field.
-func (atuo *AuthTokenUpdateOne) ClearUserID() *AuthTokenUpdateOne {
-	atuo.mutation.ClearUserID()
-	return atuo
+func (_u *AuthTokenUpdateOne) ClearUserID() *AuthTokenUpdateOne {
+	_u.mutation.ClearUserID()
+	return _u
 }
 
 // Mutation returns the AuthTokenMutation object of the builder.
-func (atuo *AuthTokenUpdateOne) Mutation() *AuthTokenMutation {
-	return atuo.mutation
+func (_u *AuthTokenUpdateOne) Mutation() *AuthTokenMutation {
+	return _u.mutation
 }
 
 // Where appends a list predicates to the AuthTokenUpdate builder.
-func (atuo *AuthTokenUpdateOne) Where(ps ...predicate.AuthToken) *AuthTokenUpdateOne {
-	atuo.mutation.Where(ps...)
-	return atuo
+func (_u *AuthTokenUpdateOne) Where(ps ...predicate.AuthToken) *AuthTokenUpdateOne {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // Select allows selecting one or more fields (columns) of the returned entity.
 // The default is selecting all fields defined in the entity schema.
-func (atuo *AuthTokenUpdateOne) Select(field string, fields ...string) *AuthTokenUpdateOne {
-	atuo.fields = append([]string{field}, fields...)
-	return atuo
+func (_u *AuthTokenUpdateOne) Select(field string, fields ...string) *AuthTokenUpdateOne {
+	_u.fields = append([]string{field}, fields...)
+	return _u
 }
 
 // Save executes the query and returns the updated AuthToken entity.
-func (atuo *AuthTokenUpdateOne) Save(ctx context.Context) (*AuthToken, error) {
-	atuo.defaults()
-	return withHooks(ctx, atuo.sqlSave, atuo.mutation, atuo.hooks)
+func (_u *AuthTokenUpdateOne) Save(ctx context.Context) (*AuthToken, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (atuo *AuthTokenUpdateOne) SaveX(ctx context.Context) *AuthToken {
-	node, err := atuo.Save(ctx)
+func (_u *AuthTokenUpdateOne) SaveX(ctx context.Context) *AuthToken {
+	node, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -273,34 +273,34 @@ func (atuo *AuthTokenUpdateOne) SaveX(ctx context.Context) *AuthToken {
 }
 
 // Exec executes the query on the entity.
-func (atuo *AuthTokenUpdateOne) Exec(ctx context.Context) error {
-	_, err := atuo.Save(ctx)
+func (_u *AuthTokenUpdateOne) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (atuo *AuthTokenUpdateOne) ExecX(ctx context.Context) {
-	if err := atuo.Exec(ctx); err != nil {
+func (_u *AuthTokenUpdateOne) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (atuo *AuthTokenUpdateOne) defaults() {
-	if _, ok := atuo.mutation.UpdatedAt(); !ok && !atuo.mutation.UpdatedAtCleared() {
+func (_u *AuthTokenUpdateOne) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := authtoken.UpdateDefaultUpdatedAt()
-		atuo.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (atuo *AuthTokenUpdateOne) sqlSave(ctx context.Context) (_node *AuthToken, err error) {
+func (_u *AuthTokenUpdateOne) sqlSave(ctx context.Context) (_node *AuthToken, err error) {
 	_spec := sqlgraph.NewUpdateSpec(authtoken.Table, authtoken.Columns, sqlgraph.NewFieldSpec(authtoken.FieldID, field.TypeString))
-	id, ok := atuo.mutation.ID()
+	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "AuthToken.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
-	if fields := atuo.fields; len(fields) > 0 {
+	if fields := _u.fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, authtoken.FieldID)
 		for _, f := range fields {
@@ -312,41 +312,41 @@ func (atuo *AuthTokenUpdateOne) sqlSave(ctx context.Context) (_node *AuthToken, 
 			}
 		}
 	}
-	if ps := atuo.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := atuo.mutation.Disabled(); ok {
+	if value, ok := _u.mutation.Disabled(); ok {
 		_spec.SetField(authtoken.FieldDisabled, field.TypeBool, value)
 	}
-	if atuo.mutation.DisabledCleared() {
+	if _u.mutation.DisabledCleared() {
 		_spec.ClearField(authtoken.FieldDisabled, field.TypeBool)
 	}
-	if atuo.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(authtoken.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := atuo.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(authtoken.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := atuo.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(authtoken.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if atuo.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(authtoken.FieldUpdatedAt, field.TypeInt64)
 	}
-	if value, ok := atuo.mutation.UserID(); ok {
+	if value, ok := _u.mutation.UserID(); ok {
 		_spec.SetField(authtoken.FieldUserID, field.TypeString, value)
 	}
-	if atuo.mutation.UserIDCleared() {
+	if _u.mutation.UserIDCleared() {
 		_spec.ClearField(authtoken.FieldUserID, field.TypeString)
 	}
-	_node = &AuthToken{config: atuo.config}
+	_node = &AuthToken{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues
-	if err = sqlgraph.UpdateNode(ctx, atuo.driver, _spec); err != nil {
+	if err = sqlgraph.UpdateNode(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{authtoken.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -354,6 +354,6 @@ func (atuo *AuthTokenUpdateOne) sqlSave(ctx context.Context) (_node *AuthToken, 
 		}
 		return nil, err
 	}
-	atuo.mutation.done = true
+	_u.mutation.done = true
 	return _node, nil
 }

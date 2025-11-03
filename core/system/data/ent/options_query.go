@@ -28,40 +28,40 @@ type OptionsQuery struct {
 }
 
 // Where adds a new predicate for the OptionsQuery builder.
-func (oq *OptionsQuery) Where(ps ...predicate.Options) *OptionsQuery {
-	oq.predicates = append(oq.predicates, ps...)
-	return oq
+func (_q *OptionsQuery) Where(ps ...predicate.Options) *OptionsQuery {
+	_q.predicates = append(_q.predicates, ps...)
+	return _q
 }
 
 // Limit the number of records to be returned by this query.
-func (oq *OptionsQuery) Limit(limit int) *OptionsQuery {
-	oq.ctx.Limit = &limit
-	return oq
+func (_q *OptionsQuery) Limit(limit int) *OptionsQuery {
+	_q.ctx.Limit = &limit
+	return _q
 }
 
 // Offset to start from.
-func (oq *OptionsQuery) Offset(offset int) *OptionsQuery {
-	oq.ctx.Offset = &offset
-	return oq
+func (_q *OptionsQuery) Offset(offset int) *OptionsQuery {
+	_q.ctx.Offset = &offset
+	return _q
 }
 
 // Unique configures the query builder to filter duplicate records on query.
 // By default, unique is set to true, and can be disabled using this method.
-func (oq *OptionsQuery) Unique(unique bool) *OptionsQuery {
-	oq.ctx.Unique = &unique
-	return oq
+func (_q *OptionsQuery) Unique(unique bool) *OptionsQuery {
+	_q.ctx.Unique = &unique
+	return _q
 }
 
 // Order specifies how the records should be ordered.
-func (oq *OptionsQuery) Order(o ...options.OrderOption) *OptionsQuery {
-	oq.order = append(oq.order, o...)
-	return oq
+func (_q *OptionsQuery) Order(o ...options.OrderOption) *OptionsQuery {
+	_q.order = append(_q.order, o...)
+	return _q
 }
 
 // First returns the first Options entity from the query.
 // Returns a *NotFoundError when no Options was found.
-func (oq *OptionsQuery) First(ctx context.Context) (*Options, error) {
-	nodes, err := oq.Limit(1).All(setContextOp(ctx, oq.ctx, ent.OpQueryFirst))
+func (_q *OptionsQuery) First(ctx context.Context) (*Options, error) {
+	nodes, err := _q.Limit(1).All(setContextOp(ctx, _q.ctx, ent.OpQueryFirst))
 	if err != nil {
 		return nil, err
 	}
@@ -72,8 +72,8 @@ func (oq *OptionsQuery) First(ctx context.Context) (*Options, error) {
 }
 
 // FirstX is like First, but panics if an error occurs.
-func (oq *OptionsQuery) FirstX(ctx context.Context) *Options {
-	node, err := oq.First(ctx)
+func (_q *OptionsQuery) FirstX(ctx context.Context) *Options {
+	node, err := _q.First(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
 	}
@@ -82,9 +82,9 @@ func (oq *OptionsQuery) FirstX(ctx context.Context) *Options {
 
 // FirstID returns the first Options ID from the query.
 // Returns a *NotFoundError when no Options ID was found.
-func (oq *OptionsQuery) FirstID(ctx context.Context) (id string, err error) {
+func (_q *OptionsQuery) FirstID(ctx context.Context) (id string, err error) {
 	var ids []string
-	if ids, err = oq.Limit(1).IDs(setContextOp(ctx, oq.ctx, ent.OpQueryFirstID)); err != nil {
+	if ids, err = _q.Limit(1).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryFirstID)); err != nil {
 		return
 	}
 	if len(ids) == 0 {
@@ -95,8 +95,8 @@ func (oq *OptionsQuery) FirstID(ctx context.Context) (id string, err error) {
 }
 
 // FirstIDX is like FirstID, but panics if an error occurs.
-func (oq *OptionsQuery) FirstIDX(ctx context.Context) string {
-	id, err := oq.FirstID(ctx)
+func (_q *OptionsQuery) FirstIDX(ctx context.Context) string {
+	id, err := _q.FirstID(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
 	}
@@ -106,8 +106,8 @@ func (oq *OptionsQuery) FirstIDX(ctx context.Context) string {
 // Only returns a single Options entity found by the query, ensuring it only returns one.
 // Returns a *NotSingularError when more than one Options entity is found.
 // Returns a *NotFoundError when no Options entities are found.
-func (oq *OptionsQuery) Only(ctx context.Context) (*Options, error) {
-	nodes, err := oq.Limit(2).All(setContextOp(ctx, oq.ctx, ent.OpQueryOnly))
+func (_q *OptionsQuery) Only(ctx context.Context) (*Options, error) {
+	nodes, err := _q.Limit(2).All(setContextOp(ctx, _q.ctx, ent.OpQueryOnly))
 	if err != nil {
 		return nil, err
 	}
@@ -122,8 +122,8 @@ func (oq *OptionsQuery) Only(ctx context.Context) (*Options, error) {
 }
 
 // OnlyX is like Only, but panics if an error occurs.
-func (oq *OptionsQuery) OnlyX(ctx context.Context) *Options {
-	node, err := oq.Only(ctx)
+func (_q *OptionsQuery) OnlyX(ctx context.Context) *Options {
+	node, err := _q.Only(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -133,9 +133,9 @@ func (oq *OptionsQuery) OnlyX(ctx context.Context) *Options {
 // OnlyID is like Only, but returns the only Options ID in the query.
 // Returns a *NotSingularError when more than one Options ID is found.
 // Returns a *NotFoundError when no entities are found.
-func (oq *OptionsQuery) OnlyID(ctx context.Context) (id string, err error) {
+func (_q *OptionsQuery) OnlyID(ctx context.Context) (id string, err error) {
 	var ids []string
-	if ids, err = oq.Limit(2).IDs(setContextOp(ctx, oq.ctx, ent.OpQueryOnlyID)); err != nil {
+	if ids, err = _q.Limit(2).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryOnlyID)); err != nil {
 		return
 	}
 	switch len(ids) {
@@ -150,8 +150,8 @@ func (oq *OptionsQuery) OnlyID(ctx context.Context) (id string, err error) {
 }
 
 // OnlyIDX is like OnlyID, but panics if an error occurs.
-func (oq *OptionsQuery) OnlyIDX(ctx context.Context) string {
-	id, err := oq.OnlyID(ctx)
+func (_q *OptionsQuery) OnlyIDX(ctx context.Context) string {
+	id, err := _q.OnlyID(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -159,18 +159,18 @@ func (oq *OptionsQuery) OnlyIDX(ctx context.Context) string {
 }
 
 // All executes the query and returns a list of OptionsSlice.
-func (oq *OptionsQuery) All(ctx context.Context) ([]*Options, error) {
-	ctx = setContextOp(ctx, oq.ctx, ent.OpQueryAll)
-	if err := oq.prepareQuery(ctx); err != nil {
+func (_q *OptionsQuery) All(ctx context.Context) ([]*Options, error) {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryAll)
+	if err := _q.prepareQuery(ctx); err != nil {
 		return nil, err
 	}
 	qr := querierAll[[]*Options, *OptionsQuery]()
-	return withInterceptors[[]*Options](ctx, oq, qr, oq.inters)
+	return withInterceptors[[]*Options](ctx, _q, qr, _q.inters)
 }
 
 // AllX is like All, but panics if an error occurs.
-func (oq *OptionsQuery) AllX(ctx context.Context) []*Options {
-	nodes, err := oq.All(ctx)
+func (_q *OptionsQuery) AllX(ctx context.Context) []*Options {
+	nodes, err := _q.All(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -178,20 +178,20 @@ func (oq *OptionsQuery) AllX(ctx context.Context) []*Options {
 }
 
 // IDs executes the query and returns a list of Options IDs.
-func (oq *OptionsQuery) IDs(ctx context.Context) (ids []string, err error) {
-	if oq.ctx.Unique == nil && oq.path != nil {
-		oq.Unique(true)
+func (_q *OptionsQuery) IDs(ctx context.Context) (ids []string, err error) {
+	if _q.ctx.Unique == nil && _q.path != nil {
+		_q.Unique(true)
 	}
-	ctx = setContextOp(ctx, oq.ctx, ent.OpQueryIDs)
-	if err = oq.Select(options.FieldID).Scan(ctx, &ids); err != nil {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryIDs)
+	if err = _q.Select(options.FieldID).Scan(ctx, &ids); err != nil {
 		return nil, err
 	}
 	return ids, nil
 }
 
 // IDsX is like IDs, but panics if an error occurs.
-func (oq *OptionsQuery) IDsX(ctx context.Context) []string {
-	ids, err := oq.IDs(ctx)
+func (_q *OptionsQuery) IDsX(ctx context.Context) []string {
+	ids, err := _q.IDs(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -199,17 +199,17 @@ func (oq *OptionsQuery) IDsX(ctx context.Context) []string {
 }
 
 // Count returns the count of the given query.
-func (oq *OptionsQuery) Count(ctx context.Context) (int, error) {
-	ctx = setContextOp(ctx, oq.ctx, ent.OpQueryCount)
-	if err := oq.prepareQuery(ctx); err != nil {
+func (_q *OptionsQuery) Count(ctx context.Context) (int, error) {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryCount)
+	if err := _q.prepareQuery(ctx); err != nil {
 		return 0, err
 	}
-	return withInterceptors[int](ctx, oq, querierCount[*OptionsQuery](), oq.inters)
+	return withInterceptors[int](ctx, _q, querierCount[*OptionsQuery](), _q.inters)
 }
 
 // CountX is like Count, but panics if an error occurs.
-func (oq *OptionsQuery) CountX(ctx context.Context) int {
-	count, err := oq.Count(ctx)
+func (_q *OptionsQuery) CountX(ctx context.Context) int {
+	count, err := _q.Count(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -217,9 +217,9 @@ func (oq *OptionsQuery) CountX(ctx context.Context) int {
 }
 
 // Exist returns true if the query has elements in the graph.
-func (oq *OptionsQuery) Exist(ctx context.Context) (bool, error) {
-	ctx = setContextOp(ctx, oq.ctx, ent.OpQueryExist)
-	switch _, err := oq.FirstID(ctx); {
+func (_q *OptionsQuery) Exist(ctx context.Context) (bool, error) {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryExist)
+	switch _, err := _q.FirstID(ctx); {
 	case IsNotFound(err):
 		return false, nil
 	case err != nil:
@@ -230,8 +230,8 @@ func (oq *OptionsQuery) Exist(ctx context.Context) (bool, error) {
 }
 
 // ExistX is like Exist, but panics if an error occurs.
-func (oq *OptionsQuery) ExistX(ctx context.Context) bool {
-	exist, err := oq.Exist(ctx)
+func (_q *OptionsQuery) ExistX(ctx context.Context) bool {
+	exist, err := _q.Exist(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -240,19 +240,19 @@ func (oq *OptionsQuery) ExistX(ctx context.Context) bool {
 
 // Clone returns a duplicate of the OptionsQuery builder, including all associated steps. It can be
 // used to prepare common query builders and use them differently after the clone is made.
-func (oq *OptionsQuery) Clone() *OptionsQuery {
-	if oq == nil {
+func (_q *OptionsQuery) Clone() *OptionsQuery {
+	if _q == nil {
 		return nil
 	}
 	return &OptionsQuery{
-		config:     oq.config,
-		ctx:        oq.ctx.Clone(),
-		order:      append([]options.OrderOption{}, oq.order...),
-		inters:     append([]Interceptor{}, oq.inters...),
-		predicates: append([]predicate.Options{}, oq.predicates...),
+		config:     _q.config,
+		ctx:        _q.ctx.Clone(),
+		order:      append([]options.OrderOption{}, _q.order...),
+		inters:     append([]Interceptor{}, _q.inters...),
+		predicates: append([]predicate.Options{}, _q.predicates...),
 		// clone intermediate query.
-		sql:  oq.sql.Clone(),
-		path: oq.path,
+		sql:  _q.sql.Clone(),
+		path: _q.path,
 	}
 }
 
@@ -270,10 +270,10 @@ func (oq *OptionsQuery) Clone() *OptionsQuery {
 //		GroupBy(options.FieldName).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
-func (oq *OptionsQuery) GroupBy(field string, fields ...string) *OptionsGroupBy {
-	oq.ctx.Fields = append([]string{field}, fields...)
-	grbuild := &OptionsGroupBy{build: oq}
-	grbuild.flds = &oq.ctx.Fields
+func (_q *OptionsQuery) GroupBy(field string, fields ...string) *OptionsGroupBy {
+	_q.ctx.Fields = append([]string{field}, fields...)
+	grbuild := &OptionsGroupBy{build: _q}
+	grbuild.flds = &_q.ctx.Fields
 	grbuild.label = options.Label
 	grbuild.scan = grbuild.Scan
 	return grbuild
@@ -291,62 +291,62 @@ func (oq *OptionsQuery) GroupBy(field string, fields ...string) *OptionsGroupBy 
 //	client.Options.Query().
 //		Select(options.FieldName).
 //		Scan(ctx, &v)
-func (oq *OptionsQuery) Select(fields ...string) *OptionsSelect {
-	oq.ctx.Fields = append(oq.ctx.Fields, fields...)
-	sbuild := &OptionsSelect{OptionsQuery: oq}
+func (_q *OptionsQuery) Select(fields ...string) *OptionsSelect {
+	_q.ctx.Fields = append(_q.ctx.Fields, fields...)
+	sbuild := &OptionsSelect{OptionsQuery: _q}
 	sbuild.label = options.Label
-	sbuild.flds, sbuild.scan = &oq.ctx.Fields, sbuild.Scan
+	sbuild.flds, sbuild.scan = &_q.ctx.Fields, sbuild.Scan
 	return sbuild
 }
 
 // Aggregate returns a OptionsSelect configured with the given aggregations.
-func (oq *OptionsQuery) Aggregate(fns ...AggregateFunc) *OptionsSelect {
-	return oq.Select().Aggregate(fns...)
+func (_q *OptionsQuery) Aggregate(fns ...AggregateFunc) *OptionsSelect {
+	return _q.Select().Aggregate(fns...)
 }
 
-func (oq *OptionsQuery) prepareQuery(ctx context.Context) error {
-	for _, inter := range oq.inters {
+func (_q *OptionsQuery) prepareQuery(ctx context.Context) error {
+	for _, inter := range _q.inters {
 		if inter == nil {
 			return fmt.Errorf("ent: uninitialized interceptor (forgotten import ent/runtime?)")
 		}
 		if trv, ok := inter.(Traverser); ok {
-			if err := trv.Traverse(ctx, oq); err != nil {
+			if err := trv.Traverse(ctx, _q); err != nil {
 				return err
 			}
 		}
 	}
-	for _, f := range oq.ctx.Fields {
+	for _, f := range _q.ctx.Fields {
 		if !options.ValidColumn(f) {
 			return &ValidationError{Name: f, err: fmt.Errorf("ent: invalid field %q for query", f)}
 		}
 	}
-	if oq.path != nil {
-		prev, err := oq.path(ctx)
+	if _q.path != nil {
+		prev, err := _q.path(ctx)
 		if err != nil {
 			return err
 		}
-		oq.sql = prev
+		_q.sql = prev
 	}
 	return nil
 }
 
-func (oq *OptionsQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*Options, error) {
+func (_q *OptionsQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*Options, error) {
 	var (
 		nodes = []*Options{}
-		_spec = oq.querySpec()
+		_spec = _q.querySpec()
 	)
 	_spec.ScanValues = func(columns []string) ([]any, error) {
 		return (*Options).scanValues(nil, columns)
 	}
 	_spec.Assign = func(columns []string, values []any) error {
-		node := &Options{config: oq.config}
+		node := &Options{config: _q.config}
 		nodes = append(nodes, node)
 		return node.assignValues(columns, values)
 	}
 	for i := range hooks {
 		hooks[i](ctx, _spec)
 	}
-	if err := sqlgraph.QueryNodes(ctx, oq.driver, _spec); err != nil {
+	if err := sqlgraph.QueryNodes(ctx, _q.driver, _spec); err != nil {
 		return nil, err
 	}
 	if len(nodes) == 0 {
@@ -355,24 +355,24 @@ func (oq *OptionsQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*Opti
 	return nodes, nil
 }
 
-func (oq *OptionsQuery) sqlCount(ctx context.Context) (int, error) {
-	_spec := oq.querySpec()
-	_spec.Node.Columns = oq.ctx.Fields
-	if len(oq.ctx.Fields) > 0 {
-		_spec.Unique = oq.ctx.Unique != nil && *oq.ctx.Unique
+func (_q *OptionsQuery) sqlCount(ctx context.Context) (int, error) {
+	_spec := _q.querySpec()
+	_spec.Node.Columns = _q.ctx.Fields
+	if len(_q.ctx.Fields) > 0 {
+		_spec.Unique = _q.ctx.Unique != nil && *_q.ctx.Unique
 	}
-	return sqlgraph.CountNodes(ctx, oq.driver, _spec)
+	return sqlgraph.CountNodes(ctx, _q.driver, _spec)
 }
 
-func (oq *OptionsQuery) querySpec() *sqlgraph.QuerySpec {
+func (_q *OptionsQuery) querySpec() *sqlgraph.QuerySpec {
 	_spec := sqlgraph.NewQuerySpec(options.Table, options.Columns, sqlgraph.NewFieldSpec(options.FieldID, field.TypeString))
-	_spec.From = oq.sql
-	if unique := oq.ctx.Unique; unique != nil {
+	_spec.From = _q.sql
+	if unique := _q.ctx.Unique; unique != nil {
 		_spec.Unique = *unique
-	} else if oq.path != nil {
+	} else if _q.path != nil {
 		_spec.Unique = true
 	}
-	if fields := oq.ctx.Fields; len(fields) > 0 {
+	if fields := _q.ctx.Fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, options.FieldID)
 		for i := range fields {
@@ -381,20 +381,20 @@ func (oq *OptionsQuery) querySpec() *sqlgraph.QuerySpec {
 			}
 		}
 	}
-	if ps := oq.predicates; len(ps) > 0 {
+	if ps := _q.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if limit := oq.ctx.Limit; limit != nil {
+	if limit := _q.ctx.Limit; limit != nil {
 		_spec.Limit = *limit
 	}
-	if offset := oq.ctx.Offset; offset != nil {
+	if offset := _q.ctx.Offset; offset != nil {
 		_spec.Offset = *offset
 	}
-	if ps := oq.order; len(ps) > 0 {
+	if ps := _q.order; len(ps) > 0 {
 		_spec.Order = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
@@ -404,33 +404,33 @@ func (oq *OptionsQuery) querySpec() *sqlgraph.QuerySpec {
 	return _spec
 }
 
-func (oq *OptionsQuery) sqlQuery(ctx context.Context) *sql.Selector {
-	builder := sql.Dialect(oq.driver.Dialect())
+func (_q *OptionsQuery) sqlQuery(ctx context.Context) *sql.Selector {
+	builder := sql.Dialect(_q.driver.Dialect())
 	t1 := builder.Table(options.Table)
-	columns := oq.ctx.Fields
+	columns := _q.ctx.Fields
 	if len(columns) == 0 {
 		columns = options.Columns
 	}
 	selector := builder.Select(t1.Columns(columns...)...).From(t1)
-	if oq.sql != nil {
-		selector = oq.sql
+	if _q.sql != nil {
+		selector = _q.sql
 		selector.Select(selector.Columns(columns...)...)
 	}
-	if oq.ctx.Unique != nil && *oq.ctx.Unique {
+	if _q.ctx.Unique != nil && *_q.ctx.Unique {
 		selector.Distinct()
 	}
-	for _, p := range oq.predicates {
+	for _, p := range _q.predicates {
 		p(selector)
 	}
-	for _, p := range oq.order {
+	for _, p := range _q.order {
 		p(selector)
 	}
-	if offset := oq.ctx.Offset; offset != nil {
+	if offset := _q.ctx.Offset; offset != nil {
 		// limit is mandatory for offset clause. We start
 		// with default value, and override it below if needed.
 		selector.Offset(*offset).Limit(math.MaxInt32)
 	}
-	if limit := oq.ctx.Limit; limit != nil {
+	if limit := _q.ctx.Limit; limit != nil {
 		selector.Limit(*limit)
 	}
 	return selector
@@ -443,41 +443,41 @@ type OptionsGroupBy struct {
 }
 
 // Aggregate adds the given aggregation functions to the group-by query.
-func (ogb *OptionsGroupBy) Aggregate(fns ...AggregateFunc) *OptionsGroupBy {
-	ogb.fns = append(ogb.fns, fns...)
-	return ogb
+func (_g *OptionsGroupBy) Aggregate(fns ...AggregateFunc) *OptionsGroupBy {
+	_g.fns = append(_g.fns, fns...)
+	return _g
 }
 
 // Scan applies the selector query and scans the result into the given value.
-func (ogb *OptionsGroupBy) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, ogb.build.ctx, ent.OpQueryGroupBy)
-	if err := ogb.build.prepareQuery(ctx); err != nil {
+func (_g *OptionsGroupBy) Scan(ctx context.Context, v any) error {
+	ctx = setContextOp(ctx, _g.build.ctx, ent.OpQueryGroupBy)
+	if err := _g.build.prepareQuery(ctx); err != nil {
 		return err
 	}
-	return scanWithInterceptors[*OptionsQuery, *OptionsGroupBy](ctx, ogb.build, ogb, ogb.build.inters, v)
+	return scanWithInterceptors[*OptionsQuery, *OptionsGroupBy](ctx, _g.build, _g, _g.build.inters, v)
 }
 
-func (ogb *OptionsGroupBy) sqlScan(ctx context.Context, root *OptionsQuery, v any) error {
+func (_g *OptionsGroupBy) sqlScan(ctx context.Context, root *OptionsQuery, v any) error {
 	selector := root.sqlQuery(ctx).Select()
-	aggregation := make([]string, 0, len(ogb.fns))
-	for _, fn := range ogb.fns {
+	aggregation := make([]string, 0, len(_g.fns))
+	for _, fn := range _g.fns {
 		aggregation = append(aggregation, fn(selector))
 	}
 	if len(selector.SelectedColumns()) == 0 {
-		columns := make([]string, 0, len(*ogb.flds)+len(ogb.fns))
-		for _, f := range *ogb.flds {
+		columns := make([]string, 0, len(*_g.flds)+len(_g.fns))
+		for _, f := range *_g.flds {
 			columns = append(columns, selector.C(f))
 		}
 		columns = append(columns, aggregation...)
 		selector.Select(columns...)
 	}
-	selector.GroupBy(selector.Columns(*ogb.flds...)...)
+	selector.GroupBy(selector.Columns(*_g.flds...)...)
 	if err := selector.Err(); err != nil {
 		return err
 	}
 	rows := &sql.Rows{}
 	query, args := selector.Query()
-	if err := ogb.build.driver.Query(ctx, query, args, rows); err != nil {
+	if err := _g.build.driver.Query(ctx, query, args, rows); err != nil {
 		return err
 	}
 	defer rows.Close()
@@ -491,27 +491,27 @@ type OptionsSelect struct {
 }
 
 // Aggregate adds the given aggregation functions to the selector query.
-func (os *OptionsSelect) Aggregate(fns ...AggregateFunc) *OptionsSelect {
-	os.fns = append(os.fns, fns...)
-	return os
+func (_s *OptionsSelect) Aggregate(fns ...AggregateFunc) *OptionsSelect {
+	_s.fns = append(_s.fns, fns...)
+	return _s
 }
 
 // Scan applies the selector query and scans the result into the given value.
-func (os *OptionsSelect) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, os.ctx, ent.OpQuerySelect)
-	if err := os.prepareQuery(ctx); err != nil {
+func (_s *OptionsSelect) Scan(ctx context.Context, v any) error {
+	ctx = setContextOp(ctx, _s.ctx, ent.OpQuerySelect)
+	if err := _s.prepareQuery(ctx); err != nil {
 		return err
 	}
-	return scanWithInterceptors[*OptionsQuery, *OptionsSelect](ctx, os.OptionsQuery, os, os.inters, v)
+	return scanWithInterceptors[*OptionsQuery, *OptionsSelect](ctx, _s.OptionsQuery, _s, _s.inters, v)
 }
 
-func (os *OptionsSelect) sqlScan(ctx context.Context, root *OptionsQuery, v any) error {
+func (_s *OptionsSelect) sqlScan(ctx context.Context, root *OptionsQuery, v any) error {
 	selector := root.sqlQuery(ctx)
-	aggregation := make([]string, 0, len(os.fns))
-	for _, fn := range os.fns {
+	aggregation := make([]string, 0, len(_s.fns))
+	for _, fn := range _s.fns {
 		aggregation = append(aggregation, fn(selector))
 	}
-	switch n := len(*os.selector.flds); {
+	switch n := len(*_s.selector.flds); {
 	case n == 0 && len(aggregation) > 0:
 		selector.Select(aggregation...)
 	case n != 0 && len(aggregation) > 0:
@@ -519,7 +519,7 @@ func (os *OptionsSelect) sqlScan(ctx context.Context, root *OptionsQuery, v any)
 	}
 	rows := &sql.Rows{}
 	query, args := selector.Query()
-	if err := os.driver.Query(ctx, query, args, rows); err != nil {
+	if err := _s.driver.Query(ctx, query, args, rows); err != nil {
 		return err
 	}
 	defer rows.Close()

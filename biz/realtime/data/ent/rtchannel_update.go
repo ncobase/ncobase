@@ -22,137 +22,137 @@ type RTChannelUpdate struct {
 }
 
 // Where appends a list predicates to the RTChannelUpdate builder.
-func (rcu *RTChannelUpdate) Where(ps ...predicate.RTChannel) *RTChannelUpdate {
-	rcu.mutation.Where(ps...)
-	return rcu
+func (_u *RTChannelUpdate) Where(ps ...predicate.RTChannel) *RTChannelUpdate {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // SetName sets the "name" field.
-func (rcu *RTChannelUpdate) SetName(s string) *RTChannelUpdate {
-	rcu.mutation.SetName(s)
-	return rcu
+func (_u *RTChannelUpdate) SetName(v string) *RTChannelUpdate {
+	_u.mutation.SetName(v)
+	return _u
 }
 
 // SetNillableName sets the "name" field if the given value is not nil.
-func (rcu *RTChannelUpdate) SetNillableName(s *string) *RTChannelUpdate {
-	if s != nil {
-		rcu.SetName(*s)
+func (_u *RTChannelUpdate) SetNillableName(v *string) *RTChannelUpdate {
+	if v != nil {
+		_u.SetName(*v)
 	}
-	return rcu
+	return _u
 }
 
 // ClearName clears the value of the "name" field.
-func (rcu *RTChannelUpdate) ClearName() *RTChannelUpdate {
-	rcu.mutation.ClearName()
-	return rcu
+func (_u *RTChannelUpdate) ClearName() *RTChannelUpdate {
+	_u.mutation.ClearName()
+	return _u
 }
 
 // SetDescription sets the "description" field.
-func (rcu *RTChannelUpdate) SetDescription(s string) *RTChannelUpdate {
-	rcu.mutation.SetDescription(s)
-	return rcu
+func (_u *RTChannelUpdate) SetDescription(v string) *RTChannelUpdate {
+	_u.mutation.SetDescription(v)
+	return _u
 }
 
 // SetNillableDescription sets the "description" field if the given value is not nil.
-func (rcu *RTChannelUpdate) SetNillableDescription(s *string) *RTChannelUpdate {
-	if s != nil {
-		rcu.SetDescription(*s)
+func (_u *RTChannelUpdate) SetNillableDescription(v *string) *RTChannelUpdate {
+	if v != nil {
+		_u.SetDescription(*v)
 	}
-	return rcu
+	return _u
 }
 
 // ClearDescription clears the value of the "description" field.
-func (rcu *RTChannelUpdate) ClearDescription() *RTChannelUpdate {
-	rcu.mutation.ClearDescription()
-	return rcu
+func (_u *RTChannelUpdate) ClearDescription() *RTChannelUpdate {
+	_u.mutation.ClearDescription()
+	return _u
 }
 
 // SetType sets the "type" field.
-func (rcu *RTChannelUpdate) SetType(s string) *RTChannelUpdate {
-	rcu.mutation.SetType(s)
-	return rcu
+func (_u *RTChannelUpdate) SetType(v string) *RTChannelUpdate {
+	_u.mutation.SetType(v)
+	return _u
 }
 
 // SetNillableType sets the "type" field if the given value is not nil.
-func (rcu *RTChannelUpdate) SetNillableType(s *string) *RTChannelUpdate {
-	if s != nil {
-		rcu.SetType(*s)
+func (_u *RTChannelUpdate) SetNillableType(v *string) *RTChannelUpdate {
+	if v != nil {
+		_u.SetType(*v)
 	}
-	return rcu
+	return _u
 }
 
 // ClearType clears the value of the "type" field.
-func (rcu *RTChannelUpdate) ClearType() *RTChannelUpdate {
-	rcu.mutation.ClearType()
-	return rcu
+func (_u *RTChannelUpdate) ClearType() *RTChannelUpdate {
+	_u.mutation.ClearType()
+	return _u
 }
 
 // SetStatus sets the "status" field.
-func (rcu *RTChannelUpdate) SetStatus(i int) *RTChannelUpdate {
-	rcu.mutation.ResetStatus()
-	rcu.mutation.SetStatus(i)
-	return rcu
+func (_u *RTChannelUpdate) SetStatus(v int) *RTChannelUpdate {
+	_u.mutation.ResetStatus()
+	_u.mutation.SetStatus(v)
+	return _u
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (rcu *RTChannelUpdate) SetNillableStatus(i *int) *RTChannelUpdate {
-	if i != nil {
-		rcu.SetStatus(*i)
+func (_u *RTChannelUpdate) SetNillableStatus(v *int) *RTChannelUpdate {
+	if v != nil {
+		_u.SetStatus(*v)
 	}
-	return rcu
+	return _u
 }
 
-// AddStatus adds i to the "status" field.
-func (rcu *RTChannelUpdate) AddStatus(i int) *RTChannelUpdate {
-	rcu.mutation.AddStatus(i)
-	return rcu
+// AddStatus adds value to the "status" field.
+func (_u *RTChannelUpdate) AddStatus(v int) *RTChannelUpdate {
+	_u.mutation.AddStatus(v)
+	return _u
 }
 
 // SetExtras sets the "extras" field.
-func (rcu *RTChannelUpdate) SetExtras(m map[string]interface{}) *RTChannelUpdate {
-	rcu.mutation.SetExtras(m)
-	return rcu
+func (_u *RTChannelUpdate) SetExtras(v map[string]interface{}) *RTChannelUpdate {
+	_u.mutation.SetExtras(v)
+	return _u
 }
 
 // ClearExtras clears the value of the "extras" field.
-func (rcu *RTChannelUpdate) ClearExtras() *RTChannelUpdate {
-	rcu.mutation.ClearExtras()
-	return rcu
+func (_u *RTChannelUpdate) ClearExtras() *RTChannelUpdate {
+	_u.mutation.ClearExtras()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (rcu *RTChannelUpdate) SetUpdatedAt(i int64) *RTChannelUpdate {
-	rcu.mutation.ResetUpdatedAt()
-	rcu.mutation.SetUpdatedAt(i)
-	return rcu
+func (_u *RTChannelUpdate) SetUpdatedAt(v int64) *RTChannelUpdate {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (rcu *RTChannelUpdate) AddUpdatedAt(i int64) *RTChannelUpdate {
-	rcu.mutation.AddUpdatedAt(i)
-	return rcu
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *RTChannelUpdate) AddUpdatedAt(v int64) *RTChannelUpdate {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (rcu *RTChannelUpdate) ClearUpdatedAt() *RTChannelUpdate {
-	rcu.mutation.ClearUpdatedAt()
-	return rcu
+func (_u *RTChannelUpdate) ClearUpdatedAt() *RTChannelUpdate {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // Mutation returns the RTChannelMutation object of the builder.
-func (rcu *RTChannelUpdate) Mutation() *RTChannelMutation {
-	return rcu.mutation
+func (_u *RTChannelUpdate) Mutation() *RTChannelMutation {
+	return _u.mutation
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
-func (rcu *RTChannelUpdate) Save(ctx context.Context) (int, error) {
-	rcu.defaults()
-	return withHooks(ctx, rcu.sqlSave, rcu.mutation, rcu.hooks)
+func (_u *RTChannelUpdate) Save(ctx context.Context) (int, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (rcu *RTChannelUpdate) SaveX(ctx context.Context) int {
-	affected, err := rcu.Save(ctx)
+func (_u *RTChannelUpdate) SaveX(ctx context.Context) int {
+	affected, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -160,78 +160,78 @@ func (rcu *RTChannelUpdate) SaveX(ctx context.Context) int {
 }
 
 // Exec executes the query.
-func (rcu *RTChannelUpdate) Exec(ctx context.Context) error {
-	_, err := rcu.Save(ctx)
+func (_u *RTChannelUpdate) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (rcu *RTChannelUpdate) ExecX(ctx context.Context) {
-	if err := rcu.Exec(ctx); err != nil {
+func (_u *RTChannelUpdate) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (rcu *RTChannelUpdate) defaults() {
-	if _, ok := rcu.mutation.UpdatedAt(); !ok && !rcu.mutation.UpdatedAtCleared() {
+func (_u *RTChannelUpdate) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := rtchannel.UpdateDefaultUpdatedAt()
-		rcu.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (rcu *RTChannelUpdate) sqlSave(ctx context.Context) (n int, err error) {
+func (_u *RTChannelUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	_spec := sqlgraph.NewUpdateSpec(rtchannel.Table, rtchannel.Columns, sqlgraph.NewFieldSpec(rtchannel.FieldID, field.TypeString))
-	if ps := rcu.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := rcu.mutation.Name(); ok {
+	if value, ok := _u.mutation.Name(); ok {
 		_spec.SetField(rtchannel.FieldName, field.TypeString, value)
 	}
-	if rcu.mutation.NameCleared() {
+	if _u.mutation.NameCleared() {
 		_spec.ClearField(rtchannel.FieldName, field.TypeString)
 	}
-	if value, ok := rcu.mutation.Description(); ok {
+	if value, ok := _u.mutation.Description(); ok {
 		_spec.SetField(rtchannel.FieldDescription, field.TypeString, value)
 	}
-	if rcu.mutation.DescriptionCleared() {
+	if _u.mutation.DescriptionCleared() {
 		_spec.ClearField(rtchannel.FieldDescription, field.TypeString)
 	}
-	if value, ok := rcu.mutation.GetType(); ok {
+	if value, ok := _u.mutation.GetType(); ok {
 		_spec.SetField(rtchannel.FieldType, field.TypeString, value)
 	}
-	if rcu.mutation.TypeCleared() {
+	if _u.mutation.TypeCleared() {
 		_spec.ClearField(rtchannel.FieldType, field.TypeString)
 	}
-	if value, ok := rcu.mutation.Status(); ok {
+	if value, ok := _u.mutation.Status(); ok {
 		_spec.SetField(rtchannel.FieldStatus, field.TypeInt, value)
 	}
-	if value, ok := rcu.mutation.AddedStatus(); ok {
+	if value, ok := _u.mutation.AddedStatus(); ok {
 		_spec.AddField(rtchannel.FieldStatus, field.TypeInt, value)
 	}
-	if value, ok := rcu.mutation.Extras(); ok {
+	if value, ok := _u.mutation.Extras(); ok {
 		_spec.SetField(rtchannel.FieldExtras, field.TypeJSON, value)
 	}
-	if rcu.mutation.ExtrasCleared() {
+	if _u.mutation.ExtrasCleared() {
 		_spec.ClearField(rtchannel.FieldExtras, field.TypeJSON)
 	}
-	if rcu.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(rtchannel.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := rcu.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(rtchannel.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := rcu.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(rtchannel.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if rcu.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(rtchannel.FieldUpdatedAt, field.TypeInt64)
 	}
-	if n, err = sqlgraph.UpdateNodes(ctx, rcu.driver, _spec); err != nil {
+	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{rtchannel.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -239,8 +239,8 @@ func (rcu *RTChannelUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		return 0, err
 	}
-	rcu.mutation.done = true
-	return n, nil
+	_u.mutation.done = true
+	return _node, nil
 }
 
 // RTChannelUpdateOne is the builder for updating a single RTChannel entity.
@@ -252,144 +252,144 @@ type RTChannelUpdateOne struct {
 }
 
 // SetName sets the "name" field.
-func (rcuo *RTChannelUpdateOne) SetName(s string) *RTChannelUpdateOne {
-	rcuo.mutation.SetName(s)
-	return rcuo
+func (_u *RTChannelUpdateOne) SetName(v string) *RTChannelUpdateOne {
+	_u.mutation.SetName(v)
+	return _u
 }
 
 // SetNillableName sets the "name" field if the given value is not nil.
-func (rcuo *RTChannelUpdateOne) SetNillableName(s *string) *RTChannelUpdateOne {
-	if s != nil {
-		rcuo.SetName(*s)
+func (_u *RTChannelUpdateOne) SetNillableName(v *string) *RTChannelUpdateOne {
+	if v != nil {
+		_u.SetName(*v)
 	}
-	return rcuo
+	return _u
 }
 
 // ClearName clears the value of the "name" field.
-func (rcuo *RTChannelUpdateOne) ClearName() *RTChannelUpdateOne {
-	rcuo.mutation.ClearName()
-	return rcuo
+func (_u *RTChannelUpdateOne) ClearName() *RTChannelUpdateOne {
+	_u.mutation.ClearName()
+	return _u
 }
 
 // SetDescription sets the "description" field.
-func (rcuo *RTChannelUpdateOne) SetDescription(s string) *RTChannelUpdateOne {
-	rcuo.mutation.SetDescription(s)
-	return rcuo
+func (_u *RTChannelUpdateOne) SetDescription(v string) *RTChannelUpdateOne {
+	_u.mutation.SetDescription(v)
+	return _u
 }
 
 // SetNillableDescription sets the "description" field if the given value is not nil.
-func (rcuo *RTChannelUpdateOne) SetNillableDescription(s *string) *RTChannelUpdateOne {
-	if s != nil {
-		rcuo.SetDescription(*s)
+func (_u *RTChannelUpdateOne) SetNillableDescription(v *string) *RTChannelUpdateOne {
+	if v != nil {
+		_u.SetDescription(*v)
 	}
-	return rcuo
+	return _u
 }
 
 // ClearDescription clears the value of the "description" field.
-func (rcuo *RTChannelUpdateOne) ClearDescription() *RTChannelUpdateOne {
-	rcuo.mutation.ClearDescription()
-	return rcuo
+func (_u *RTChannelUpdateOne) ClearDescription() *RTChannelUpdateOne {
+	_u.mutation.ClearDescription()
+	return _u
 }
 
 // SetType sets the "type" field.
-func (rcuo *RTChannelUpdateOne) SetType(s string) *RTChannelUpdateOne {
-	rcuo.mutation.SetType(s)
-	return rcuo
+func (_u *RTChannelUpdateOne) SetType(v string) *RTChannelUpdateOne {
+	_u.mutation.SetType(v)
+	return _u
 }
 
 // SetNillableType sets the "type" field if the given value is not nil.
-func (rcuo *RTChannelUpdateOne) SetNillableType(s *string) *RTChannelUpdateOne {
-	if s != nil {
-		rcuo.SetType(*s)
+func (_u *RTChannelUpdateOne) SetNillableType(v *string) *RTChannelUpdateOne {
+	if v != nil {
+		_u.SetType(*v)
 	}
-	return rcuo
+	return _u
 }
 
 // ClearType clears the value of the "type" field.
-func (rcuo *RTChannelUpdateOne) ClearType() *RTChannelUpdateOne {
-	rcuo.mutation.ClearType()
-	return rcuo
+func (_u *RTChannelUpdateOne) ClearType() *RTChannelUpdateOne {
+	_u.mutation.ClearType()
+	return _u
 }
 
 // SetStatus sets the "status" field.
-func (rcuo *RTChannelUpdateOne) SetStatus(i int) *RTChannelUpdateOne {
-	rcuo.mutation.ResetStatus()
-	rcuo.mutation.SetStatus(i)
-	return rcuo
+func (_u *RTChannelUpdateOne) SetStatus(v int) *RTChannelUpdateOne {
+	_u.mutation.ResetStatus()
+	_u.mutation.SetStatus(v)
+	return _u
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (rcuo *RTChannelUpdateOne) SetNillableStatus(i *int) *RTChannelUpdateOne {
-	if i != nil {
-		rcuo.SetStatus(*i)
+func (_u *RTChannelUpdateOne) SetNillableStatus(v *int) *RTChannelUpdateOne {
+	if v != nil {
+		_u.SetStatus(*v)
 	}
-	return rcuo
+	return _u
 }
 
-// AddStatus adds i to the "status" field.
-func (rcuo *RTChannelUpdateOne) AddStatus(i int) *RTChannelUpdateOne {
-	rcuo.mutation.AddStatus(i)
-	return rcuo
+// AddStatus adds value to the "status" field.
+func (_u *RTChannelUpdateOne) AddStatus(v int) *RTChannelUpdateOne {
+	_u.mutation.AddStatus(v)
+	return _u
 }
 
 // SetExtras sets the "extras" field.
-func (rcuo *RTChannelUpdateOne) SetExtras(m map[string]interface{}) *RTChannelUpdateOne {
-	rcuo.mutation.SetExtras(m)
-	return rcuo
+func (_u *RTChannelUpdateOne) SetExtras(v map[string]interface{}) *RTChannelUpdateOne {
+	_u.mutation.SetExtras(v)
+	return _u
 }
 
 // ClearExtras clears the value of the "extras" field.
-func (rcuo *RTChannelUpdateOne) ClearExtras() *RTChannelUpdateOne {
-	rcuo.mutation.ClearExtras()
-	return rcuo
+func (_u *RTChannelUpdateOne) ClearExtras() *RTChannelUpdateOne {
+	_u.mutation.ClearExtras()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (rcuo *RTChannelUpdateOne) SetUpdatedAt(i int64) *RTChannelUpdateOne {
-	rcuo.mutation.ResetUpdatedAt()
-	rcuo.mutation.SetUpdatedAt(i)
-	return rcuo
+func (_u *RTChannelUpdateOne) SetUpdatedAt(v int64) *RTChannelUpdateOne {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (rcuo *RTChannelUpdateOne) AddUpdatedAt(i int64) *RTChannelUpdateOne {
-	rcuo.mutation.AddUpdatedAt(i)
-	return rcuo
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *RTChannelUpdateOne) AddUpdatedAt(v int64) *RTChannelUpdateOne {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (rcuo *RTChannelUpdateOne) ClearUpdatedAt() *RTChannelUpdateOne {
-	rcuo.mutation.ClearUpdatedAt()
-	return rcuo
+func (_u *RTChannelUpdateOne) ClearUpdatedAt() *RTChannelUpdateOne {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // Mutation returns the RTChannelMutation object of the builder.
-func (rcuo *RTChannelUpdateOne) Mutation() *RTChannelMutation {
-	return rcuo.mutation
+func (_u *RTChannelUpdateOne) Mutation() *RTChannelMutation {
+	return _u.mutation
 }
 
 // Where appends a list predicates to the RTChannelUpdate builder.
-func (rcuo *RTChannelUpdateOne) Where(ps ...predicate.RTChannel) *RTChannelUpdateOne {
-	rcuo.mutation.Where(ps...)
-	return rcuo
+func (_u *RTChannelUpdateOne) Where(ps ...predicate.RTChannel) *RTChannelUpdateOne {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // Select allows selecting one or more fields (columns) of the returned entity.
 // The default is selecting all fields defined in the entity schema.
-func (rcuo *RTChannelUpdateOne) Select(field string, fields ...string) *RTChannelUpdateOne {
-	rcuo.fields = append([]string{field}, fields...)
-	return rcuo
+func (_u *RTChannelUpdateOne) Select(field string, fields ...string) *RTChannelUpdateOne {
+	_u.fields = append([]string{field}, fields...)
+	return _u
 }
 
 // Save executes the query and returns the updated RTChannel entity.
-func (rcuo *RTChannelUpdateOne) Save(ctx context.Context) (*RTChannel, error) {
-	rcuo.defaults()
-	return withHooks(ctx, rcuo.sqlSave, rcuo.mutation, rcuo.hooks)
+func (_u *RTChannelUpdateOne) Save(ctx context.Context) (*RTChannel, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (rcuo *RTChannelUpdateOne) SaveX(ctx context.Context) *RTChannel {
-	node, err := rcuo.Save(ctx)
+func (_u *RTChannelUpdateOne) SaveX(ctx context.Context) *RTChannel {
+	node, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -397,34 +397,34 @@ func (rcuo *RTChannelUpdateOne) SaveX(ctx context.Context) *RTChannel {
 }
 
 // Exec executes the query on the entity.
-func (rcuo *RTChannelUpdateOne) Exec(ctx context.Context) error {
-	_, err := rcuo.Save(ctx)
+func (_u *RTChannelUpdateOne) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (rcuo *RTChannelUpdateOne) ExecX(ctx context.Context) {
-	if err := rcuo.Exec(ctx); err != nil {
+func (_u *RTChannelUpdateOne) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (rcuo *RTChannelUpdateOne) defaults() {
-	if _, ok := rcuo.mutation.UpdatedAt(); !ok && !rcuo.mutation.UpdatedAtCleared() {
+func (_u *RTChannelUpdateOne) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := rtchannel.UpdateDefaultUpdatedAt()
-		rcuo.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (rcuo *RTChannelUpdateOne) sqlSave(ctx context.Context) (_node *RTChannel, err error) {
+func (_u *RTChannelUpdateOne) sqlSave(ctx context.Context) (_node *RTChannel, err error) {
 	_spec := sqlgraph.NewUpdateSpec(rtchannel.Table, rtchannel.Columns, sqlgraph.NewFieldSpec(rtchannel.FieldID, field.TypeString))
-	id, ok := rcuo.mutation.ID()
+	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "RTChannel.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
-	if fields := rcuo.fields; len(fields) > 0 {
+	if fields := _u.fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, rtchannel.FieldID)
 		for _, f := range fields {
@@ -436,59 +436,59 @@ func (rcuo *RTChannelUpdateOne) sqlSave(ctx context.Context) (_node *RTChannel, 
 			}
 		}
 	}
-	if ps := rcuo.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := rcuo.mutation.Name(); ok {
+	if value, ok := _u.mutation.Name(); ok {
 		_spec.SetField(rtchannel.FieldName, field.TypeString, value)
 	}
-	if rcuo.mutation.NameCleared() {
+	if _u.mutation.NameCleared() {
 		_spec.ClearField(rtchannel.FieldName, field.TypeString)
 	}
-	if value, ok := rcuo.mutation.Description(); ok {
+	if value, ok := _u.mutation.Description(); ok {
 		_spec.SetField(rtchannel.FieldDescription, field.TypeString, value)
 	}
-	if rcuo.mutation.DescriptionCleared() {
+	if _u.mutation.DescriptionCleared() {
 		_spec.ClearField(rtchannel.FieldDescription, field.TypeString)
 	}
-	if value, ok := rcuo.mutation.GetType(); ok {
+	if value, ok := _u.mutation.GetType(); ok {
 		_spec.SetField(rtchannel.FieldType, field.TypeString, value)
 	}
-	if rcuo.mutation.TypeCleared() {
+	if _u.mutation.TypeCleared() {
 		_spec.ClearField(rtchannel.FieldType, field.TypeString)
 	}
-	if value, ok := rcuo.mutation.Status(); ok {
+	if value, ok := _u.mutation.Status(); ok {
 		_spec.SetField(rtchannel.FieldStatus, field.TypeInt, value)
 	}
-	if value, ok := rcuo.mutation.AddedStatus(); ok {
+	if value, ok := _u.mutation.AddedStatus(); ok {
 		_spec.AddField(rtchannel.FieldStatus, field.TypeInt, value)
 	}
-	if value, ok := rcuo.mutation.Extras(); ok {
+	if value, ok := _u.mutation.Extras(); ok {
 		_spec.SetField(rtchannel.FieldExtras, field.TypeJSON, value)
 	}
-	if rcuo.mutation.ExtrasCleared() {
+	if _u.mutation.ExtrasCleared() {
 		_spec.ClearField(rtchannel.FieldExtras, field.TypeJSON)
 	}
-	if rcuo.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(rtchannel.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := rcuo.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(rtchannel.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := rcuo.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(rtchannel.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if rcuo.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(rtchannel.FieldUpdatedAt, field.TypeInt64)
 	}
-	_node = &RTChannel{config: rcuo.config}
+	_node = &RTChannel{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues
-	if err = sqlgraph.UpdateNode(ctx, rcuo.driver, _spec); err != nil {
+	if err = sqlgraph.UpdateNode(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{rtchannel.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -496,6 +496,6 @@ func (rcuo *RTChannelUpdateOne) sqlSave(ctx context.Context) (_node *RTChannel, 
 		}
 		return nil, err
 	}
-	rcuo.mutation.done = true
+	_u.mutation.done = true
 	return _node, nil
 }

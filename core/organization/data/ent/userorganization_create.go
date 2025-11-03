@@ -20,131 +20,131 @@ type UserOrganizationCreate struct {
 }
 
 // SetUserID sets the "user_id" field.
-func (uoc *UserOrganizationCreate) SetUserID(s string) *UserOrganizationCreate {
-	uoc.mutation.SetUserID(s)
-	return uoc
+func (_c *UserOrganizationCreate) SetUserID(v string) *UserOrganizationCreate {
+	_c.mutation.SetUserID(v)
+	return _c
 }
 
 // SetNillableUserID sets the "user_id" field if the given value is not nil.
-func (uoc *UserOrganizationCreate) SetNillableUserID(s *string) *UserOrganizationCreate {
-	if s != nil {
-		uoc.SetUserID(*s)
+func (_c *UserOrganizationCreate) SetNillableUserID(v *string) *UserOrganizationCreate {
+	if v != nil {
+		_c.SetUserID(*v)
 	}
-	return uoc
+	return _c
 }
 
 // SetOrgID sets the "org_id" field.
-func (uoc *UserOrganizationCreate) SetOrgID(s string) *UserOrganizationCreate {
-	uoc.mutation.SetOrgID(s)
-	return uoc
+func (_c *UserOrganizationCreate) SetOrgID(v string) *UserOrganizationCreate {
+	_c.mutation.SetOrgID(v)
+	return _c
 }
 
 // SetNillableOrgID sets the "org_id" field if the given value is not nil.
-func (uoc *UserOrganizationCreate) SetNillableOrgID(s *string) *UserOrganizationCreate {
-	if s != nil {
-		uoc.SetOrgID(*s)
+func (_c *UserOrganizationCreate) SetNillableOrgID(v *string) *UserOrganizationCreate {
+	if v != nil {
+		_c.SetOrgID(*v)
 	}
-	return uoc
+	return _c
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (uoc *UserOrganizationCreate) SetCreatedBy(s string) *UserOrganizationCreate {
-	uoc.mutation.SetCreatedBy(s)
-	return uoc
+func (_c *UserOrganizationCreate) SetCreatedBy(v string) *UserOrganizationCreate {
+	_c.mutation.SetCreatedBy(v)
+	return _c
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (uoc *UserOrganizationCreate) SetNillableCreatedBy(s *string) *UserOrganizationCreate {
-	if s != nil {
-		uoc.SetCreatedBy(*s)
+func (_c *UserOrganizationCreate) SetNillableCreatedBy(v *string) *UserOrganizationCreate {
+	if v != nil {
+		_c.SetCreatedBy(*v)
 	}
-	return uoc
+	return _c
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (uoc *UserOrganizationCreate) SetUpdatedBy(s string) *UserOrganizationCreate {
-	uoc.mutation.SetUpdatedBy(s)
-	return uoc
+func (_c *UserOrganizationCreate) SetUpdatedBy(v string) *UserOrganizationCreate {
+	_c.mutation.SetUpdatedBy(v)
+	return _c
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (uoc *UserOrganizationCreate) SetNillableUpdatedBy(s *string) *UserOrganizationCreate {
-	if s != nil {
-		uoc.SetUpdatedBy(*s)
+func (_c *UserOrganizationCreate) SetNillableUpdatedBy(v *string) *UserOrganizationCreate {
+	if v != nil {
+		_c.SetUpdatedBy(*v)
 	}
-	return uoc
+	return _c
 }
 
 // SetCreatedAt sets the "created_at" field.
-func (uoc *UserOrganizationCreate) SetCreatedAt(i int64) *UserOrganizationCreate {
-	uoc.mutation.SetCreatedAt(i)
-	return uoc
+func (_c *UserOrganizationCreate) SetCreatedAt(v int64) *UserOrganizationCreate {
+	_c.mutation.SetCreatedAt(v)
+	return _c
 }
 
 // SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
-func (uoc *UserOrganizationCreate) SetNillableCreatedAt(i *int64) *UserOrganizationCreate {
-	if i != nil {
-		uoc.SetCreatedAt(*i)
+func (_c *UserOrganizationCreate) SetNillableCreatedAt(v *int64) *UserOrganizationCreate {
+	if v != nil {
+		_c.SetCreatedAt(*v)
 	}
-	return uoc
+	return _c
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (uoc *UserOrganizationCreate) SetUpdatedAt(i int64) *UserOrganizationCreate {
-	uoc.mutation.SetUpdatedAt(i)
-	return uoc
+func (_c *UserOrganizationCreate) SetUpdatedAt(v int64) *UserOrganizationCreate {
+	_c.mutation.SetUpdatedAt(v)
+	return _c
 }
 
 // SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
-func (uoc *UserOrganizationCreate) SetNillableUpdatedAt(i *int64) *UserOrganizationCreate {
-	if i != nil {
-		uoc.SetUpdatedAt(*i)
+func (_c *UserOrganizationCreate) SetNillableUpdatedAt(v *int64) *UserOrganizationCreate {
+	if v != nil {
+		_c.SetUpdatedAt(*v)
 	}
-	return uoc
+	return _c
 }
 
 // SetRole sets the "role" field.
-func (uoc *UserOrganizationCreate) SetRole(s string) *UserOrganizationCreate {
-	uoc.mutation.SetRole(s)
-	return uoc
+func (_c *UserOrganizationCreate) SetRole(v string) *UserOrganizationCreate {
+	_c.mutation.SetRole(v)
+	return _c
 }
 
 // SetNillableRole sets the "role" field if the given value is not nil.
-func (uoc *UserOrganizationCreate) SetNillableRole(s *string) *UserOrganizationCreate {
-	if s != nil {
-		uoc.SetRole(*s)
+func (_c *UserOrganizationCreate) SetNillableRole(v *string) *UserOrganizationCreate {
+	if v != nil {
+		_c.SetRole(*v)
 	}
-	return uoc
+	return _c
 }
 
 // SetID sets the "id" field.
-func (uoc *UserOrganizationCreate) SetID(s string) *UserOrganizationCreate {
-	uoc.mutation.SetID(s)
-	return uoc
+func (_c *UserOrganizationCreate) SetID(v string) *UserOrganizationCreate {
+	_c.mutation.SetID(v)
+	return _c
 }
 
 // SetNillableID sets the "id" field if the given value is not nil.
-func (uoc *UserOrganizationCreate) SetNillableID(s *string) *UserOrganizationCreate {
-	if s != nil {
-		uoc.SetID(*s)
+func (_c *UserOrganizationCreate) SetNillableID(v *string) *UserOrganizationCreate {
+	if v != nil {
+		_c.SetID(*v)
 	}
-	return uoc
+	return _c
 }
 
 // Mutation returns the UserOrganizationMutation object of the builder.
-func (uoc *UserOrganizationCreate) Mutation() *UserOrganizationMutation {
-	return uoc.mutation
+func (_c *UserOrganizationCreate) Mutation() *UserOrganizationMutation {
+	return _c.mutation
 }
 
 // Save creates the UserOrganization in the database.
-func (uoc *UserOrganizationCreate) Save(ctx context.Context) (*UserOrganization, error) {
-	uoc.defaults()
-	return withHooks(ctx, uoc.sqlSave, uoc.mutation, uoc.hooks)
+func (_c *UserOrganizationCreate) Save(ctx context.Context) (*UserOrganization, error) {
+	_c.defaults()
+	return withHooks(ctx, _c.sqlSave, _c.mutation, _c.hooks)
 }
 
 // SaveX calls Save and panics if Save returns an error.
-func (uoc *UserOrganizationCreate) SaveX(ctx context.Context) *UserOrganization {
-	v, err := uoc.Save(ctx)
+func (_c *UserOrganizationCreate) SaveX(ctx context.Context) *UserOrganization {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -152,49 +152,49 @@ func (uoc *UserOrganizationCreate) SaveX(ctx context.Context) *UserOrganization 
 }
 
 // Exec executes the query.
-func (uoc *UserOrganizationCreate) Exec(ctx context.Context) error {
-	_, err := uoc.Save(ctx)
+func (_c *UserOrganizationCreate) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (uoc *UserOrganizationCreate) ExecX(ctx context.Context) {
-	if err := uoc.Exec(ctx); err != nil {
+func (_c *UserOrganizationCreate) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (uoc *UserOrganizationCreate) defaults() {
-	if _, ok := uoc.mutation.CreatedAt(); !ok {
+func (_c *UserOrganizationCreate) defaults() {
+	if _, ok := _c.mutation.CreatedAt(); !ok {
 		v := userorganization.DefaultCreatedAt()
-		uoc.mutation.SetCreatedAt(v)
+		_c.mutation.SetCreatedAt(v)
 	}
-	if _, ok := uoc.mutation.UpdatedAt(); !ok {
+	if _, ok := _c.mutation.UpdatedAt(); !ok {
 		v := userorganization.DefaultUpdatedAt()
-		uoc.mutation.SetUpdatedAt(v)
+		_c.mutation.SetUpdatedAt(v)
 	}
-	if _, ok := uoc.mutation.Role(); !ok {
+	if _, ok := _c.mutation.Role(); !ok {
 		v := userorganization.DefaultRole
-		uoc.mutation.SetRole(v)
+		_c.mutation.SetRole(v)
 	}
-	if _, ok := uoc.mutation.ID(); !ok {
+	if _, ok := _c.mutation.ID(); !ok {
 		v := userorganization.DefaultID()
-		uoc.mutation.SetID(v)
+		_c.mutation.SetID(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (uoc *UserOrganizationCreate) check() error {
-	if _, ok := uoc.mutation.Role(); !ok {
+func (_c *UserOrganizationCreate) check() error {
+	if _, ok := _c.mutation.Role(); !ok {
 		return &ValidationError{Name: "role", err: errors.New(`ent: missing required field "UserOrganization.role"`)}
 	}
-	if v, ok := uoc.mutation.Role(); ok {
+	if v, ok := _c.mutation.Role(); ok {
 		if err := userorganization.RoleValidator(v); err != nil {
 			return &ValidationError{Name: "role", err: fmt.Errorf(`ent: validator failed for field "UserOrganization.role": %w`, err)}
 		}
 	}
-	if v, ok := uoc.mutation.ID(); ok {
+	if v, ok := _c.mutation.ID(); ok {
 		if err := userorganization.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "UserOrganization.id": %w`, err)}
 		}
@@ -202,12 +202,12 @@ func (uoc *UserOrganizationCreate) check() error {
 	return nil
 }
 
-func (uoc *UserOrganizationCreate) sqlSave(ctx context.Context) (*UserOrganization, error) {
-	if err := uoc.check(); err != nil {
+func (_c *UserOrganizationCreate) sqlSave(ctx context.Context) (*UserOrganization, error) {
+	if err := _c.check(); err != nil {
 		return nil, err
 	}
-	_node, _spec := uoc.createSpec()
-	if err := sqlgraph.CreateNode(ctx, uoc.driver, _spec); err != nil {
+	_node, _spec := _c.createSpec()
+	if err := sqlgraph.CreateNode(ctx, _c.driver, _spec); err != nil {
 		if sqlgraph.IsConstraintError(err) {
 			err = &ConstraintError{msg: err.Error(), wrap: err}
 		}
@@ -220,45 +220,45 @@ func (uoc *UserOrganizationCreate) sqlSave(ctx context.Context) (*UserOrganizati
 			return nil, fmt.Errorf("unexpected UserOrganization.ID type: %T", _spec.ID.Value)
 		}
 	}
-	uoc.mutation.id = &_node.ID
-	uoc.mutation.done = true
+	_c.mutation.id = &_node.ID
+	_c.mutation.done = true
 	return _node, nil
 }
 
-func (uoc *UserOrganizationCreate) createSpec() (*UserOrganization, *sqlgraph.CreateSpec) {
+func (_c *UserOrganizationCreate) createSpec() (*UserOrganization, *sqlgraph.CreateSpec) {
 	var (
-		_node = &UserOrganization{config: uoc.config}
+		_node = &UserOrganization{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(userorganization.Table, sqlgraph.NewFieldSpec(userorganization.FieldID, field.TypeString))
 	)
-	if id, ok := uoc.mutation.ID(); ok {
+	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
 	}
-	if value, ok := uoc.mutation.UserID(); ok {
+	if value, ok := _c.mutation.UserID(); ok {
 		_spec.SetField(userorganization.FieldUserID, field.TypeString, value)
 		_node.UserID = value
 	}
-	if value, ok := uoc.mutation.OrgID(); ok {
+	if value, ok := _c.mutation.OrgID(); ok {
 		_spec.SetField(userorganization.FieldOrgID, field.TypeString, value)
 		_node.OrgID = value
 	}
-	if value, ok := uoc.mutation.CreatedBy(); ok {
+	if value, ok := _c.mutation.CreatedBy(); ok {
 		_spec.SetField(userorganization.FieldCreatedBy, field.TypeString, value)
 		_node.CreatedBy = value
 	}
-	if value, ok := uoc.mutation.UpdatedBy(); ok {
+	if value, ok := _c.mutation.UpdatedBy(); ok {
 		_spec.SetField(userorganization.FieldUpdatedBy, field.TypeString, value)
 		_node.UpdatedBy = value
 	}
-	if value, ok := uoc.mutation.CreatedAt(); ok {
+	if value, ok := _c.mutation.CreatedAt(); ok {
 		_spec.SetField(userorganization.FieldCreatedAt, field.TypeInt64, value)
 		_node.CreatedAt = value
 	}
-	if value, ok := uoc.mutation.UpdatedAt(); ok {
+	if value, ok := _c.mutation.UpdatedAt(); ok {
 		_spec.SetField(userorganization.FieldUpdatedAt, field.TypeInt64, value)
 		_node.UpdatedAt = value
 	}
-	if value, ok := uoc.mutation.Role(); ok {
+	if value, ok := _c.mutation.Role(); ok {
 		_spec.SetField(userorganization.FieldRole, field.TypeString, value)
 		_node.Role = value
 	}
@@ -273,16 +273,16 @@ type UserOrganizationCreateBulk struct {
 }
 
 // Save creates the UserOrganization entities in the database.
-func (uocb *UserOrganizationCreateBulk) Save(ctx context.Context) ([]*UserOrganization, error) {
-	if uocb.err != nil {
-		return nil, uocb.err
+func (_c *UserOrganizationCreateBulk) Save(ctx context.Context) ([]*UserOrganization, error) {
+	if _c.err != nil {
+		return nil, _c.err
 	}
-	specs := make([]*sqlgraph.CreateSpec, len(uocb.builders))
-	nodes := make([]*UserOrganization, len(uocb.builders))
-	mutators := make([]Mutator, len(uocb.builders))
-	for i := range uocb.builders {
+	specs := make([]*sqlgraph.CreateSpec, len(_c.builders))
+	nodes := make([]*UserOrganization, len(_c.builders))
+	mutators := make([]Mutator, len(_c.builders))
+	for i := range _c.builders {
 		func(i int, root context.Context) {
-			builder := uocb.builders[i]
+			builder := _c.builders[i]
 			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*UserOrganizationMutation)
@@ -296,11 +296,11 @@ func (uocb *UserOrganizationCreateBulk) Save(ctx context.Context) ([]*UserOrgani
 				var err error
 				nodes[i], specs[i] = builder.createSpec()
 				if i < len(mutators)-1 {
-					_, err = mutators[i+1].Mutate(root, uocb.builders[i+1].mutation)
+					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
 					// Invoke the actual operation on the latest mutation in the chain.
-					if err = sqlgraph.BatchCreate(ctx, uocb.driver, spec); err != nil {
+					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
 							err = &ConstraintError{msg: err.Error(), wrap: err}
 						}
@@ -320,7 +320,7 @@ func (uocb *UserOrganizationCreateBulk) Save(ctx context.Context) ([]*UserOrgani
 		}(i, ctx)
 	}
 	if len(mutators) > 0 {
-		if _, err := mutators[0].Mutate(ctx, uocb.builders[0].mutation); err != nil {
+		if _, err := mutators[0].Mutate(ctx, _c.builders[0].mutation); err != nil {
 			return nil, err
 		}
 	}
@@ -328,8 +328,8 @@ func (uocb *UserOrganizationCreateBulk) Save(ctx context.Context) ([]*UserOrgani
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (uocb *UserOrganizationCreateBulk) SaveX(ctx context.Context) []*UserOrganization {
-	v, err := uocb.Save(ctx)
+func (_c *UserOrganizationCreateBulk) SaveX(ctx context.Context) []*UserOrganization {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -337,14 +337,14 @@ func (uocb *UserOrganizationCreateBulk) SaveX(ctx context.Context) []*UserOrgani
 }
 
 // Exec executes the query.
-func (uocb *UserOrganizationCreateBulk) Exec(ctx context.Context) error {
-	_, err := uocb.Save(ctx)
+func (_c *UserOrganizationCreateBulk) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (uocb *UserOrganizationCreateBulk) ExecX(ctx context.Context) {
-	if err := uocb.Exec(ctx); err != nil {
+func (_c *UserOrganizationCreateBulk) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

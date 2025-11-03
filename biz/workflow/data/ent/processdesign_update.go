@@ -22,252 +22,252 @@ type ProcessDesignUpdate struct {
 }
 
 // Where appends a list predicates to the ProcessDesignUpdate builder.
-func (pdu *ProcessDesignUpdate) Where(ps ...predicate.ProcessDesign) *ProcessDesignUpdate {
-	pdu.mutation.Where(ps...)
-	return pdu
+func (_u *ProcessDesignUpdate) Where(ps ...predicate.ProcessDesign) *ProcessDesignUpdate {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // SetVersion sets the "version" field.
-func (pdu *ProcessDesignUpdate) SetVersion(s string) *ProcessDesignUpdate {
-	pdu.mutation.SetVersion(s)
-	return pdu
+func (_u *ProcessDesignUpdate) SetVersion(v string) *ProcessDesignUpdate {
+	_u.mutation.SetVersion(v)
+	return _u
 }
 
 // SetNillableVersion sets the "version" field if the given value is not nil.
-func (pdu *ProcessDesignUpdate) SetNillableVersion(s *string) *ProcessDesignUpdate {
-	if s != nil {
-		pdu.SetVersion(*s)
+func (_u *ProcessDesignUpdate) SetNillableVersion(v *string) *ProcessDesignUpdate {
+	if v != nil {
+		_u.SetVersion(*v)
 	}
-	return pdu
+	return _u
 }
 
 // ClearVersion clears the value of the "version" field.
-func (pdu *ProcessDesignUpdate) ClearVersion() *ProcessDesignUpdate {
-	pdu.mutation.ClearVersion()
-	return pdu
+func (_u *ProcessDesignUpdate) ClearVersion() *ProcessDesignUpdate {
+	_u.mutation.ClearVersion()
+	return _u
 }
 
 // SetDisabled sets the "disabled" field.
-func (pdu *ProcessDesignUpdate) SetDisabled(b bool) *ProcessDesignUpdate {
-	pdu.mutation.SetDisabled(b)
-	return pdu
+func (_u *ProcessDesignUpdate) SetDisabled(v bool) *ProcessDesignUpdate {
+	_u.mutation.SetDisabled(v)
+	return _u
 }
 
 // SetNillableDisabled sets the "disabled" field if the given value is not nil.
-func (pdu *ProcessDesignUpdate) SetNillableDisabled(b *bool) *ProcessDesignUpdate {
-	if b != nil {
-		pdu.SetDisabled(*b)
+func (_u *ProcessDesignUpdate) SetNillableDisabled(v *bool) *ProcessDesignUpdate {
+	if v != nil {
+		_u.SetDisabled(*v)
 	}
-	return pdu
+	return _u
 }
 
 // ClearDisabled clears the value of the "disabled" field.
-func (pdu *ProcessDesignUpdate) ClearDisabled() *ProcessDesignUpdate {
-	pdu.mutation.ClearDisabled()
-	return pdu
+func (_u *ProcessDesignUpdate) ClearDisabled() *ProcessDesignUpdate {
+	_u.mutation.ClearDisabled()
+	return _u
 }
 
 // SetExtras sets the "extras" field.
-func (pdu *ProcessDesignUpdate) SetExtras(m map[string]interface{}) *ProcessDesignUpdate {
-	pdu.mutation.SetExtras(m)
-	return pdu
+func (_u *ProcessDesignUpdate) SetExtras(v map[string]interface{}) *ProcessDesignUpdate {
+	_u.mutation.SetExtras(v)
+	return _u
 }
 
 // ClearExtras clears the value of the "extras" field.
-func (pdu *ProcessDesignUpdate) ClearExtras() *ProcessDesignUpdate {
-	pdu.mutation.ClearExtras()
-	return pdu
+func (_u *ProcessDesignUpdate) ClearExtras() *ProcessDesignUpdate {
+	_u.mutation.ClearExtras()
+	return _u
 }
 
 // SetSpaceID sets the "space_id" field.
-func (pdu *ProcessDesignUpdate) SetSpaceID(s string) *ProcessDesignUpdate {
-	pdu.mutation.SetSpaceID(s)
-	return pdu
+func (_u *ProcessDesignUpdate) SetSpaceID(v string) *ProcessDesignUpdate {
+	_u.mutation.SetSpaceID(v)
+	return _u
 }
 
 // SetNillableSpaceID sets the "space_id" field if the given value is not nil.
-func (pdu *ProcessDesignUpdate) SetNillableSpaceID(s *string) *ProcessDesignUpdate {
-	if s != nil {
-		pdu.SetSpaceID(*s)
+func (_u *ProcessDesignUpdate) SetNillableSpaceID(v *string) *ProcessDesignUpdate {
+	if v != nil {
+		_u.SetSpaceID(*v)
 	}
-	return pdu
+	return _u
 }
 
 // ClearSpaceID clears the value of the "space_id" field.
-func (pdu *ProcessDesignUpdate) ClearSpaceID() *ProcessDesignUpdate {
-	pdu.mutation.ClearSpaceID()
-	return pdu
+func (_u *ProcessDesignUpdate) ClearSpaceID() *ProcessDesignUpdate {
+	_u.mutation.ClearSpaceID()
+	return _u
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (pdu *ProcessDesignUpdate) SetCreatedBy(s string) *ProcessDesignUpdate {
-	pdu.mutation.SetCreatedBy(s)
-	return pdu
+func (_u *ProcessDesignUpdate) SetCreatedBy(v string) *ProcessDesignUpdate {
+	_u.mutation.SetCreatedBy(v)
+	return _u
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (pdu *ProcessDesignUpdate) SetNillableCreatedBy(s *string) *ProcessDesignUpdate {
-	if s != nil {
-		pdu.SetCreatedBy(*s)
+func (_u *ProcessDesignUpdate) SetNillableCreatedBy(v *string) *ProcessDesignUpdate {
+	if v != nil {
+		_u.SetCreatedBy(*v)
 	}
-	return pdu
+	return _u
 }
 
 // ClearCreatedBy clears the value of the "created_by" field.
-func (pdu *ProcessDesignUpdate) ClearCreatedBy() *ProcessDesignUpdate {
-	pdu.mutation.ClearCreatedBy()
-	return pdu
+func (_u *ProcessDesignUpdate) ClearCreatedBy() *ProcessDesignUpdate {
+	_u.mutation.ClearCreatedBy()
+	return _u
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (pdu *ProcessDesignUpdate) SetUpdatedBy(s string) *ProcessDesignUpdate {
-	pdu.mutation.SetUpdatedBy(s)
-	return pdu
+func (_u *ProcessDesignUpdate) SetUpdatedBy(v string) *ProcessDesignUpdate {
+	_u.mutation.SetUpdatedBy(v)
+	return _u
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (pdu *ProcessDesignUpdate) SetNillableUpdatedBy(s *string) *ProcessDesignUpdate {
-	if s != nil {
-		pdu.SetUpdatedBy(*s)
+func (_u *ProcessDesignUpdate) SetNillableUpdatedBy(v *string) *ProcessDesignUpdate {
+	if v != nil {
+		_u.SetUpdatedBy(*v)
 	}
-	return pdu
+	return _u
 }
 
 // ClearUpdatedBy clears the value of the "updated_by" field.
-func (pdu *ProcessDesignUpdate) ClearUpdatedBy() *ProcessDesignUpdate {
-	pdu.mutation.ClearUpdatedBy()
-	return pdu
+func (_u *ProcessDesignUpdate) ClearUpdatedBy() *ProcessDesignUpdate {
+	_u.mutation.ClearUpdatedBy()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (pdu *ProcessDesignUpdate) SetUpdatedAt(i int64) *ProcessDesignUpdate {
-	pdu.mutation.ResetUpdatedAt()
-	pdu.mutation.SetUpdatedAt(i)
-	return pdu
+func (_u *ProcessDesignUpdate) SetUpdatedAt(v int64) *ProcessDesignUpdate {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (pdu *ProcessDesignUpdate) AddUpdatedAt(i int64) *ProcessDesignUpdate {
-	pdu.mutation.AddUpdatedAt(i)
-	return pdu
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *ProcessDesignUpdate) AddUpdatedAt(v int64) *ProcessDesignUpdate {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (pdu *ProcessDesignUpdate) ClearUpdatedAt() *ProcessDesignUpdate {
-	pdu.mutation.ClearUpdatedAt()
-	return pdu
+func (_u *ProcessDesignUpdate) ClearUpdatedAt() *ProcessDesignUpdate {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // SetTemplateID sets the "template_id" field.
-func (pdu *ProcessDesignUpdate) SetTemplateID(s string) *ProcessDesignUpdate {
-	pdu.mutation.SetTemplateID(s)
-	return pdu
+func (_u *ProcessDesignUpdate) SetTemplateID(v string) *ProcessDesignUpdate {
+	_u.mutation.SetTemplateID(v)
+	return _u
 }
 
 // SetNillableTemplateID sets the "template_id" field if the given value is not nil.
-func (pdu *ProcessDesignUpdate) SetNillableTemplateID(s *string) *ProcessDesignUpdate {
-	if s != nil {
-		pdu.SetTemplateID(*s)
+func (_u *ProcessDesignUpdate) SetNillableTemplateID(v *string) *ProcessDesignUpdate {
+	if v != nil {
+		_u.SetTemplateID(*v)
 	}
-	return pdu
+	return _u
 }
 
 // SetGraphData sets the "graph_data" field.
-func (pdu *ProcessDesignUpdate) SetGraphData(m map[string]interface{}) *ProcessDesignUpdate {
-	pdu.mutation.SetGraphData(m)
-	return pdu
+func (_u *ProcessDesignUpdate) SetGraphData(v map[string]interface{}) *ProcessDesignUpdate {
+	_u.mutation.SetGraphData(v)
+	return _u
 }
 
 // ClearGraphData clears the value of the "graph_data" field.
-func (pdu *ProcessDesignUpdate) ClearGraphData() *ProcessDesignUpdate {
-	pdu.mutation.ClearGraphData()
-	return pdu
+func (_u *ProcessDesignUpdate) ClearGraphData() *ProcessDesignUpdate {
+	_u.mutation.ClearGraphData()
+	return _u
 }
 
 // SetNodeLayouts sets the "node_layouts" field.
-func (pdu *ProcessDesignUpdate) SetNodeLayouts(m map[string]interface{}) *ProcessDesignUpdate {
-	pdu.mutation.SetNodeLayouts(m)
-	return pdu
+func (_u *ProcessDesignUpdate) SetNodeLayouts(v map[string]interface{}) *ProcessDesignUpdate {
+	_u.mutation.SetNodeLayouts(v)
+	return _u
 }
 
 // ClearNodeLayouts clears the value of the "node_layouts" field.
-func (pdu *ProcessDesignUpdate) ClearNodeLayouts() *ProcessDesignUpdate {
-	pdu.mutation.ClearNodeLayouts()
-	return pdu
+func (_u *ProcessDesignUpdate) ClearNodeLayouts() *ProcessDesignUpdate {
+	_u.mutation.ClearNodeLayouts()
+	return _u
 }
 
 // SetProperties sets the "properties" field.
-func (pdu *ProcessDesignUpdate) SetProperties(m map[string]interface{}) *ProcessDesignUpdate {
-	pdu.mutation.SetProperties(m)
-	return pdu
+func (_u *ProcessDesignUpdate) SetProperties(v map[string]interface{}) *ProcessDesignUpdate {
+	_u.mutation.SetProperties(v)
+	return _u
 }
 
 // ClearProperties clears the value of the "properties" field.
-func (pdu *ProcessDesignUpdate) ClearProperties() *ProcessDesignUpdate {
-	pdu.mutation.ClearProperties()
-	return pdu
+func (_u *ProcessDesignUpdate) ClearProperties() *ProcessDesignUpdate {
+	_u.mutation.ClearProperties()
+	return _u
 }
 
 // SetValidationRules sets the "validation_rules" field.
-func (pdu *ProcessDesignUpdate) SetValidationRules(m map[string]interface{}) *ProcessDesignUpdate {
-	pdu.mutation.SetValidationRules(m)
-	return pdu
+func (_u *ProcessDesignUpdate) SetValidationRules(v map[string]interface{}) *ProcessDesignUpdate {
+	_u.mutation.SetValidationRules(v)
+	return _u
 }
 
 // ClearValidationRules clears the value of the "validation_rules" field.
-func (pdu *ProcessDesignUpdate) ClearValidationRules() *ProcessDesignUpdate {
-	pdu.mutation.ClearValidationRules()
-	return pdu
+func (_u *ProcessDesignUpdate) ClearValidationRules() *ProcessDesignUpdate {
+	_u.mutation.ClearValidationRules()
+	return _u
 }
 
 // SetIsDraft sets the "is_draft" field.
-func (pdu *ProcessDesignUpdate) SetIsDraft(b bool) *ProcessDesignUpdate {
-	pdu.mutation.SetIsDraft(b)
-	return pdu
+func (_u *ProcessDesignUpdate) SetIsDraft(v bool) *ProcessDesignUpdate {
+	_u.mutation.SetIsDraft(v)
+	return _u
 }
 
 // SetNillableIsDraft sets the "is_draft" field if the given value is not nil.
-func (pdu *ProcessDesignUpdate) SetNillableIsDraft(b *bool) *ProcessDesignUpdate {
-	if b != nil {
-		pdu.SetIsDraft(*b)
+func (_u *ProcessDesignUpdate) SetNillableIsDraft(v *bool) *ProcessDesignUpdate {
+	if v != nil {
+		_u.SetIsDraft(*v)
 	}
-	return pdu
+	return _u
 }
 
 // SetSourceVersion sets the "source_version" field.
-func (pdu *ProcessDesignUpdate) SetSourceVersion(s string) *ProcessDesignUpdate {
-	pdu.mutation.SetSourceVersion(s)
-	return pdu
+func (_u *ProcessDesignUpdate) SetSourceVersion(v string) *ProcessDesignUpdate {
+	_u.mutation.SetSourceVersion(v)
+	return _u
 }
 
 // SetNillableSourceVersion sets the "source_version" field if the given value is not nil.
-func (pdu *ProcessDesignUpdate) SetNillableSourceVersion(s *string) *ProcessDesignUpdate {
-	if s != nil {
-		pdu.SetSourceVersion(*s)
+func (_u *ProcessDesignUpdate) SetNillableSourceVersion(v *string) *ProcessDesignUpdate {
+	if v != nil {
+		_u.SetSourceVersion(*v)
 	}
-	return pdu
+	return _u
 }
 
 // ClearSourceVersion clears the value of the "source_version" field.
-func (pdu *ProcessDesignUpdate) ClearSourceVersion() *ProcessDesignUpdate {
-	pdu.mutation.ClearSourceVersion()
-	return pdu
+func (_u *ProcessDesignUpdate) ClearSourceVersion() *ProcessDesignUpdate {
+	_u.mutation.ClearSourceVersion()
+	return _u
 }
 
 // Mutation returns the ProcessDesignMutation object of the builder.
-func (pdu *ProcessDesignUpdate) Mutation() *ProcessDesignMutation {
-	return pdu.mutation
+func (_u *ProcessDesignUpdate) Mutation() *ProcessDesignMutation {
+	return _u.mutation
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
-func (pdu *ProcessDesignUpdate) Save(ctx context.Context) (int, error) {
-	pdu.defaults()
-	return withHooks(ctx, pdu.sqlSave, pdu.mutation, pdu.hooks)
+func (_u *ProcessDesignUpdate) Save(ctx context.Context) (int, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (pdu *ProcessDesignUpdate) SaveX(ctx context.Context) int {
-	affected, err := pdu.Save(ctx)
+func (_u *ProcessDesignUpdate) SaveX(ctx context.Context) int {
+	affected, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -275,120 +275,120 @@ func (pdu *ProcessDesignUpdate) SaveX(ctx context.Context) int {
 }
 
 // Exec executes the query.
-func (pdu *ProcessDesignUpdate) Exec(ctx context.Context) error {
-	_, err := pdu.Save(ctx)
+func (_u *ProcessDesignUpdate) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (pdu *ProcessDesignUpdate) ExecX(ctx context.Context) {
-	if err := pdu.Exec(ctx); err != nil {
+func (_u *ProcessDesignUpdate) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (pdu *ProcessDesignUpdate) defaults() {
-	if _, ok := pdu.mutation.UpdatedAt(); !ok && !pdu.mutation.UpdatedAtCleared() {
+func (_u *ProcessDesignUpdate) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := processdesign.UpdateDefaultUpdatedAt()
-		pdu.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (pdu *ProcessDesignUpdate) sqlSave(ctx context.Context) (n int, err error) {
+func (_u *ProcessDesignUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	_spec := sqlgraph.NewUpdateSpec(processdesign.Table, processdesign.Columns, sqlgraph.NewFieldSpec(processdesign.FieldID, field.TypeString))
-	if ps := pdu.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := pdu.mutation.Version(); ok {
+	if value, ok := _u.mutation.Version(); ok {
 		_spec.SetField(processdesign.FieldVersion, field.TypeString, value)
 	}
-	if pdu.mutation.VersionCleared() {
+	if _u.mutation.VersionCleared() {
 		_spec.ClearField(processdesign.FieldVersion, field.TypeString)
 	}
-	if value, ok := pdu.mutation.Disabled(); ok {
+	if value, ok := _u.mutation.Disabled(); ok {
 		_spec.SetField(processdesign.FieldDisabled, field.TypeBool, value)
 	}
-	if pdu.mutation.DisabledCleared() {
+	if _u.mutation.DisabledCleared() {
 		_spec.ClearField(processdesign.FieldDisabled, field.TypeBool)
 	}
-	if value, ok := pdu.mutation.Extras(); ok {
+	if value, ok := _u.mutation.Extras(); ok {
 		_spec.SetField(processdesign.FieldExtras, field.TypeJSON, value)
 	}
-	if pdu.mutation.ExtrasCleared() {
+	if _u.mutation.ExtrasCleared() {
 		_spec.ClearField(processdesign.FieldExtras, field.TypeJSON)
 	}
-	if value, ok := pdu.mutation.SpaceID(); ok {
+	if value, ok := _u.mutation.SpaceID(); ok {
 		_spec.SetField(processdesign.FieldSpaceID, field.TypeString, value)
 	}
-	if pdu.mutation.SpaceIDCleared() {
+	if _u.mutation.SpaceIDCleared() {
 		_spec.ClearField(processdesign.FieldSpaceID, field.TypeString)
 	}
-	if value, ok := pdu.mutation.CreatedBy(); ok {
+	if value, ok := _u.mutation.CreatedBy(); ok {
 		_spec.SetField(processdesign.FieldCreatedBy, field.TypeString, value)
 	}
-	if pdu.mutation.CreatedByCleared() {
+	if _u.mutation.CreatedByCleared() {
 		_spec.ClearField(processdesign.FieldCreatedBy, field.TypeString)
 	}
-	if value, ok := pdu.mutation.UpdatedBy(); ok {
+	if value, ok := _u.mutation.UpdatedBy(); ok {
 		_spec.SetField(processdesign.FieldUpdatedBy, field.TypeString, value)
 	}
-	if pdu.mutation.UpdatedByCleared() {
+	if _u.mutation.UpdatedByCleared() {
 		_spec.ClearField(processdesign.FieldUpdatedBy, field.TypeString)
 	}
-	if pdu.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(processdesign.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := pdu.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(processdesign.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := pdu.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(processdesign.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if pdu.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(processdesign.FieldUpdatedAt, field.TypeInt64)
 	}
-	if value, ok := pdu.mutation.TemplateID(); ok {
+	if value, ok := _u.mutation.TemplateID(); ok {
 		_spec.SetField(processdesign.FieldTemplateID, field.TypeString, value)
 	}
-	if value, ok := pdu.mutation.GraphData(); ok {
+	if value, ok := _u.mutation.GraphData(); ok {
 		_spec.SetField(processdesign.FieldGraphData, field.TypeJSON, value)
 	}
-	if pdu.mutation.GraphDataCleared() {
+	if _u.mutation.GraphDataCleared() {
 		_spec.ClearField(processdesign.FieldGraphData, field.TypeJSON)
 	}
-	if value, ok := pdu.mutation.NodeLayouts(); ok {
+	if value, ok := _u.mutation.NodeLayouts(); ok {
 		_spec.SetField(processdesign.FieldNodeLayouts, field.TypeJSON, value)
 	}
-	if pdu.mutation.NodeLayoutsCleared() {
+	if _u.mutation.NodeLayoutsCleared() {
 		_spec.ClearField(processdesign.FieldNodeLayouts, field.TypeJSON)
 	}
-	if value, ok := pdu.mutation.Properties(); ok {
+	if value, ok := _u.mutation.Properties(); ok {
 		_spec.SetField(processdesign.FieldProperties, field.TypeJSON, value)
 	}
-	if pdu.mutation.PropertiesCleared() {
+	if _u.mutation.PropertiesCleared() {
 		_spec.ClearField(processdesign.FieldProperties, field.TypeJSON)
 	}
-	if value, ok := pdu.mutation.ValidationRules(); ok {
+	if value, ok := _u.mutation.ValidationRules(); ok {
 		_spec.SetField(processdesign.FieldValidationRules, field.TypeJSON, value)
 	}
-	if pdu.mutation.ValidationRulesCleared() {
+	if _u.mutation.ValidationRulesCleared() {
 		_spec.ClearField(processdesign.FieldValidationRules, field.TypeJSON)
 	}
-	if value, ok := pdu.mutation.IsDraft(); ok {
+	if value, ok := _u.mutation.IsDraft(); ok {
 		_spec.SetField(processdesign.FieldIsDraft, field.TypeBool, value)
 	}
-	if value, ok := pdu.mutation.SourceVersion(); ok {
+	if value, ok := _u.mutation.SourceVersion(); ok {
 		_spec.SetField(processdesign.FieldSourceVersion, field.TypeString, value)
 	}
-	if pdu.mutation.SourceVersionCleared() {
+	if _u.mutation.SourceVersionCleared() {
 		_spec.ClearField(processdesign.FieldSourceVersion, field.TypeString)
 	}
-	if n, err = sqlgraph.UpdateNodes(ctx, pdu.driver, _spec); err != nil {
+	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{processdesign.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -396,8 +396,8 @@ func (pdu *ProcessDesignUpdate) sqlSave(ctx context.Context) (n int, err error) 
 		}
 		return 0, err
 	}
-	pdu.mutation.done = true
-	return n, nil
+	_u.mutation.done = true
+	return _node, nil
 }
 
 // ProcessDesignUpdateOne is the builder for updating a single ProcessDesign entity.
@@ -409,259 +409,259 @@ type ProcessDesignUpdateOne struct {
 }
 
 // SetVersion sets the "version" field.
-func (pduo *ProcessDesignUpdateOne) SetVersion(s string) *ProcessDesignUpdateOne {
-	pduo.mutation.SetVersion(s)
-	return pduo
+func (_u *ProcessDesignUpdateOne) SetVersion(v string) *ProcessDesignUpdateOne {
+	_u.mutation.SetVersion(v)
+	return _u
 }
 
 // SetNillableVersion sets the "version" field if the given value is not nil.
-func (pduo *ProcessDesignUpdateOne) SetNillableVersion(s *string) *ProcessDesignUpdateOne {
-	if s != nil {
-		pduo.SetVersion(*s)
+func (_u *ProcessDesignUpdateOne) SetNillableVersion(v *string) *ProcessDesignUpdateOne {
+	if v != nil {
+		_u.SetVersion(*v)
 	}
-	return pduo
+	return _u
 }
 
 // ClearVersion clears the value of the "version" field.
-func (pduo *ProcessDesignUpdateOne) ClearVersion() *ProcessDesignUpdateOne {
-	pduo.mutation.ClearVersion()
-	return pduo
+func (_u *ProcessDesignUpdateOne) ClearVersion() *ProcessDesignUpdateOne {
+	_u.mutation.ClearVersion()
+	return _u
 }
 
 // SetDisabled sets the "disabled" field.
-func (pduo *ProcessDesignUpdateOne) SetDisabled(b bool) *ProcessDesignUpdateOne {
-	pduo.mutation.SetDisabled(b)
-	return pduo
+func (_u *ProcessDesignUpdateOne) SetDisabled(v bool) *ProcessDesignUpdateOne {
+	_u.mutation.SetDisabled(v)
+	return _u
 }
 
 // SetNillableDisabled sets the "disabled" field if the given value is not nil.
-func (pduo *ProcessDesignUpdateOne) SetNillableDisabled(b *bool) *ProcessDesignUpdateOne {
-	if b != nil {
-		pduo.SetDisabled(*b)
+func (_u *ProcessDesignUpdateOne) SetNillableDisabled(v *bool) *ProcessDesignUpdateOne {
+	if v != nil {
+		_u.SetDisabled(*v)
 	}
-	return pduo
+	return _u
 }
 
 // ClearDisabled clears the value of the "disabled" field.
-func (pduo *ProcessDesignUpdateOne) ClearDisabled() *ProcessDesignUpdateOne {
-	pduo.mutation.ClearDisabled()
-	return pduo
+func (_u *ProcessDesignUpdateOne) ClearDisabled() *ProcessDesignUpdateOne {
+	_u.mutation.ClearDisabled()
+	return _u
 }
 
 // SetExtras sets the "extras" field.
-func (pduo *ProcessDesignUpdateOne) SetExtras(m map[string]interface{}) *ProcessDesignUpdateOne {
-	pduo.mutation.SetExtras(m)
-	return pduo
+func (_u *ProcessDesignUpdateOne) SetExtras(v map[string]interface{}) *ProcessDesignUpdateOne {
+	_u.mutation.SetExtras(v)
+	return _u
 }
 
 // ClearExtras clears the value of the "extras" field.
-func (pduo *ProcessDesignUpdateOne) ClearExtras() *ProcessDesignUpdateOne {
-	pduo.mutation.ClearExtras()
-	return pduo
+func (_u *ProcessDesignUpdateOne) ClearExtras() *ProcessDesignUpdateOne {
+	_u.mutation.ClearExtras()
+	return _u
 }
 
 // SetSpaceID sets the "space_id" field.
-func (pduo *ProcessDesignUpdateOne) SetSpaceID(s string) *ProcessDesignUpdateOne {
-	pduo.mutation.SetSpaceID(s)
-	return pduo
+func (_u *ProcessDesignUpdateOne) SetSpaceID(v string) *ProcessDesignUpdateOne {
+	_u.mutation.SetSpaceID(v)
+	return _u
 }
 
 // SetNillableSpaceID sets the "space_id" field if the given value is not nil.
-func (pduo *ProcessDesignUpdateOne) SetNillableSpaceID(s *string) *ProcessDesignUpdateOne {
-	if s != nil {
-		pduo.SetSpaceID(*s)
+func (_u *ProcessDesignUpdateOne) SetNillableSpaceID(v *string) *ProcessDesignUpdateOne {
+	if v != nil {
+		_u.SetSpaceID(*v)
 	}
-	return pduo
+	return _u
 }
 
 // ClearSpaceID clears the value of the "space_id" field.
-func (pduo *ProcessDesignUpdateOne) ClearSpaceID() *ProcessDesignUpdateOne {
-	pduo.mutation.ClearSpaceID()
-	return pduo
+func (_u *ProcessDesignUpdateOne) ClearSpaceID() *ProcessDesignUpdateOne {
+	_u.mutation.ClearSpaceID()
+	return _u
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (pduo *ProcessDesignUpdateOne) SetCreatedBy(s string) *ProcessDesignUpdateOne {
-	pduo.mutation.SetCreatedBy(s)
-	return pduo
+func (_u *ProcessDesignUpdateOne) SetCreatedBy(v string) *ProcessDesignUpdateOne {
+	_u.mutation.SetCreatedBy(v)
+	return _u
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (pduo *ProcessDesignUpdateOne) SetNillableCreatedBy(s *string) *ProcessDesignUpdateOne {
-	if s != nil {
-		pduo.SetCreatedBy(*s)
+func (_u *ProcessDesignUpdateOne) SetNillableCreatedBy(v *string) *ProcessDesignUpdateOne {
+	if v != nil {
+		_u.SetCreatedBy(*v)
 	}
-	return pduo
+	return _u
 }
 
 // ClearCreatedBy clears the value of the "created_by" field.
-func (pduo *ProcessDesignUpdateOne) ClearCreatedBy() *ProcessDesignUpdateOne {
-	pduo.mutation.ClearCreatedBy()
-	return pduo
+func (_u *ProcessDesignUpdateOne) ClearCreatedBy() *ProcessDesignUpdateOne {
+	_u.mutation.ClearCreatedBy()
+	return _u
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (pduo *ProcessDesignUpdateOne) SetUpdatedBy(s string) *ProcessDesignUpdateOne {
-	pduo.mutation.SetUpdatedBy(s)
-	return pduo
+func (_u *ProcessDesignUpdateOne) SetUpdatedBy(v string) *ProcessDesignUpdateOne {
+	_u.mutation.SetUpdatedBy(v)
+	return _u
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (pduo *ProcessDesignUpdateOne) SetNillableUpdatedBy(s *string) *ProcessDesignUpdateOne {
-	if s != nil {
-		pduo.SetUpdatedBy(*s)
+func (_u *ProcessDesignUpdateOne) SetNillableUpdatedBy(v *string) *ProcessDesignUpdateOne {
+	if v != nil {
+		_u.SetUpdatedBy(*v)
 	}
-	return pduo
+	return _u
 }
 
 // ClearUpdatedBy clears the value of the "updated_by" field.
-func (pduo *ProcessDesignUpdateOne) ClearUpdatedBy() *ProcessDesignUpdateOne {
-	pduo.mutation.ClearUpdatedBy()
-	return pduo
+func (_u *ProcessDesignUpdateOne) ClearUpdatedBy() *ProcessDesignUpdateOne {
+	_u.mutation.ClearUpdatedBy()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (pduo *ProcessDesignUpdateOne) SetUpdatedAt(i int64) *ProcessDesignUpdateOne {
-	pduo.mutation.ResetUpdatedAt()
-	pduo.mutation.SetUpdatedAt(i)
-	return pduo
+func (_u *ProcessDesignUpdateOne) SetUpdatedAt(v int64) *ProcessDesignUpdateOne {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (pduo *ProcessDesignUpdateOne) AddUpdatedAt(i int64) *ProcessDesignUpdateOne {
-	pduo.mutation.AddUpdatedAt(i)
-	return pduo
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *ProcessDesignUpdateOne) AddUpdatedAt(v int64) *ProcessDesignUpdateOne {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (pduo *ProcessDesignUpdateOne) ClearUpdatedAt() *ProcessDesignUpdateOne {
-	pduo.mutation.ClearUpdatedAt()
-	return pduo
+func (_u *ProcessDesignUpdateOne) ClearUpdatedAt() *ProcessDesignUpdateOne {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // SetTemplateID sets the "template_id" field.
-func (pduo *ProcessDesignUpdateOne) SetTemplateID(s string) *ProcessDesignUpdateOne {
-	pduo.mutation.SetTemplateID(s)
-	return pduo
+func (_u *ProcessDesignUpdateOne) SetTemplateID(v string) *ProcessDesignUpdateOne {
+	_u.mutation.SetTemplateID(v)
+	return _u
 }
 
 // SetNillableTemplateID sets the "template_id" field if the given value is not nil.
-func (pduo *ProcessDesignUpdateOne) SetNillableTemplateID(s *string) *ProcessDesignUpdateOne {
-	if s != nil {
-		pduo.SetTemplateID(*s)
+func (_u *ProcessDesignUpdateOne) SetNillableTemplateID(v *string) *ProcessDesignUpdateOne {
+	if v != nil {
+		_u.SetTemplateID(*v)
 	}
-	return pduo
+	return _u
 }
 
 // SetGraphData sets the "graph_data" field.
-func (pduo *ProcessDesignUpdateOne) SetGraphData(m map[string]interface{}) *ProcessDesignUpdateOne {
-	pduo.mutation.SetGraphData(m)
-	return pduo
+func (_u *ProcessDesignUpdateOne) SetGraphData(v map[string]interface{}) *ProcessDesignUpdateOne {
+	_u.mutation.SetGraphData(v)
+	return _u
 }
 
 // ClearGraphData clears the value of the "graph_data" field.
-func (pduo *ProcessDesignUpdateOne) ClearGraphData() *ProcessDesignUpdateOne {
-	pduo.mutation.ClearGraphData()
-	return pduo
+func (_u *ProcessDesignUpdateOne) ClearGraphData() *ProcessDesignUpdateOne {
+	_u.mutation.ClearGraphData()
+	return _u
 }
 
 // SetNodeLayouts sets the "node_layouts" field.
-func (pduo *ProcessDesignUpdateOne) SetNodeLayouts(m map[string]interface{}) *ProcessDesignUpdateOne {
-	pduo.mutation.SetNodeLayouts(m)
-	return pduo
+func (_u *ProcessDesignUpdateOne) SetNodeLayouts(v map[string]interface{}) *ProcessDesignUpdateOne {
+	_u.mutation.SetNodeLayouts(v)
+	return _u
 }
 
 // ClearNodeLayouts clears the value of the "node_layouts" field.
-func (pduo *ProcessDesignUpdateOne) ClearNodeLayouts() *ProcessDesignUpdateOne {
-	pduo.mutation.ClearNodeLayouts()
-	return pduo
+func (_u *ProcessDesignUpdateOne) ClearNodeLayouts() *ProcessDesignUpdateOne {
+	_u.mutation.ClearNodeLayouts()
+	return _u
 }
 
 // SetProperties sets the "properties" field.
-func (pduo *ProcessDesignUpdateOne) SetProperties(m map[string]interface{}) *ProcessDesignUpdateOne {
-	pduo.mutation.SetProperties(m)
-	return pduo
+func (_u *ProcessDesignUpdateOne) SetProperties(v map[string]interface{}) *ProcessDesignUpdateOne {
+	_u.mutation.SetProperties(v)
+	return _u
 }
 
 // ClearProperties clears the value of the "properties" field.
-func (pduo *ProcessDesignUpdateOne) ClearProperties() *ProcessDesignUpdateOne {
-	pduo.mutation.ClearProperties()
-	return pduo
+func (_u *ProcessDesignUpdateOne) ClearProperties() *ProcessDesignUpdateOne {
+	_u.mutation.ClearProperties()
+	return _u
 }
 
 // SetValidationRules sets the "validation_rules" field.
-func (pduo *ProcessDesignUpdateOne) SetValidationRules(m map[string]interface{}) *ProcessDesignUpdateOne {
-	pduo.mutation.SetValidationRules(m)
-	return pduo
+func (_u *ProcessDesignUpdateOne) SetValidationRules(v map[string]interface{}) *ProcessDesignUpdateOne {
+	_u.mutation.SetValidationRules(v)
+	return _u
 }
 
 // ClearValidationRules clears the value of the "validation_rules" field.
-func (pduo *ProcessDesignUpdateOne) ClearValidationRules() *ProcessDesignUpdateOne {
-	pduo.mutation.ClearValidationRules()
-	return pduo
+func (_u *ProcessDesignUpdateOne) ClearValidationRules() *ProcessDesignUpdateOne {
+	_u.mutation.ClearValidationRules()
+	return _u
 }
 
 // SetIsDraft sets the "is_draft" field.
-func (pduo *ProcessDesignUpdateOne) SetIsDraft(b bool) *ProcessDesignUpdateOne {
-	pduo.mutation.SetIsDraft(b)
-	return pduo
+func (_u *ProcessDesignUpdateOne) SetIsDraft(v bool) *ProcessDesignUpdateOne {
+	_u.mutation.SetIsDraft(v)
+	return _u
 }
 
 // SetNillableIsDraft sets the "is_draft" field if the given value is not nil.
-func (pduo *ProcessDesignUpdateOne) SetNillableIsDraft(b *bool) *ProcessDesignUpdateOne {
-	if b != nil {
-		pduo.SetIsDraft(*b)
+func (_u *ProcessDesignUpdateOne) SetNillableIsDraft(v *bool) *ProcessDesignUpdateOne {
+	if v != nil {
+		_u.SetIsDraft(*v)
 	}
-	return pduo
+	return _u
 }
 
 // SetSourceVersion sets the "source_version" field.
-func (pduo *ProcessDesignUpdateOne) SetSourceVersion(s string) *ProcessDesignUpdateOne {
-	pduo.mutation.SetSourceVersion(s)
-	return pduo
+func (_u *ProcessDesignUpdateOne) SetSourceVersion(v string) *ProcessDesignUpdateOne {
+	_u.mutation.SetSourceVersion(v)
+	return _u
 }
 
 // SetNillableSourceVersion sets the "source_version" field if the given value is not nil.
-func (pduo *ProcessDesignUpdateOne) SetNillableSourceVersion(s *string) *ProcessDesignUpdateOne {
-	if s != nil {
-		pduo.SetSourceVersion(*s)
+func (_u *ProcessDesignUpdateOne) SetNillableSourceVersion(v *string) *ProcessDesignUpdateOne {
+	if v != nil {
+		_u.SetSourceVersion(*v)
 	}
-	return pduo
+	return _u
 }
 
 // ClearSourceVersion clears the value of the "source_version" field.
-func (pduo *ProcessDesignUpdateOne) ClearSourceVersion() *ProcessDesignUpdateOne {
-	pduo.mutation.ClearSourceVersion()
-	return pduo
+func (_u *ProcessDesignUpdateOne) ClearSourceVersion() *ProcessDesignUpdateOne {
+	_u.mutation.ClearSourceVersion()
+	return _u
 }
 
 // Mutation returns the ProcessDesignMutation object of the builder.
-func (pduo *ProcessDesignUpdateOne) Mutation() *ProcessDesignMutation {
-	return pduo.mutation
+func (_u *ProcessDesignUpdateOne) Mutation() *ProcessDesignMutation {
+	return _u.mutation
 }
 
 // Where appends a list predicates to the ProcessDesignUpdate builder.
-func (pduo *ProcessDesignUpdateOne) Where(ps ...predicate.ProcessDesign) *ProcessDesignUpdateOne {
-	pduo.mutation.Where(ps...)
-	return pduo
+func (_u *ProcessDesignUpdateOne) Where(ps ...predicate.ProcessDesign) *ProcessDesignUpdateOne {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // Select allows selecting one or more fields (columns) of the returned entity.
 // The default is selecting all fields defined in the entity schema.
-func (pduo *ProcessDesignUpdateOne) Select(field string, fields ...string) *ProcessDesignUpdateOne {
-	pduo.fields = append([]string{field}, fields...)
-	return pduo
+func (_u *ProcessDesignUpdateOne) Select(field string, fields ...string) *ProcessDesignUpdateOne {
+	_u.fields = append([]string{field}, fields...)
+	return _u
 }
 
 // Save executes the query and returns the updated ProcessDesign entity.
-func (pduo *ProcessDesignUpdateOne) Save(ctx context.Context) (*ProcessDesign, error) {
-	pduo.defaults()
-	return withHooks(ctx, pduo.sqlSave, pduo.mutation, pduo.hooks)
+func (_u *ProcessDesignUpdateOne) Save(ctx context.Context) (*ProcessDesign, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (pduo *ProcessDesignUpdateOne) SaveX(ctx context.Context) *ProcessDesign {
-	node, err := pduo.Save(ctx)
+func (_u *ProcessDesignUpdateOne) SaveX(ctx context.Context) *ProcessDesign {
+	node, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -669,34 +669,34 @@ func (pduo *ProcessDesignUpdateOne) SaveX(ctx context.Context) *ProcessDesign {
 }
 
 // Exec executes the query on the entity.
-func (pduo *ProcessDesignUpdateOne) Exec(ctx context.Context) error {
-	_, err := pduo.Save(ctx)
+func (_u *ProcessDesignUpdateOne) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (pduo *ProcessDesignUpdateOne) ExecX(ctx context.Context) {
-	if err := pduo.Exec(ctx); err != nil {
+func (_u *ProcessDesignUpdateOne) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (pduo *ProcessDesignUpdateOne) defaults() {
-	if _, ok := pduo.mutation.UpdatedAt(); !ok && !pduo.mutation.UpdatedAtCleared() {
+func (_u *ProcessDesignUpdateOne) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := processdesign.UpdateDefaultUpdatedAt()
-		pduo.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (pduo *ProcessDesignUpdateOne) sqlSave(ctx context.Context) (_node *ProcessDesign, err error) {
+func (_u *ProcessDesignUpdateOne) sqlSave(ctx context.Context) (_node *ProcessDesign, err error) {
 	_spec := sqlgraph.NewUpdateSpec(processdesign.Table, processdesign.Columns, sqlgraph.NewFieldSpec(processdesign.FieldID, field.TypeString))
-	id, ok := pduo.mutation.ID()
+	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "ProcessDesign.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
-	if fields := pduo.fields; len(fields) > 0 {
+	if fields := _u.fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, processdesign.FieldID)
 		for _, f := range fields {
@@ -708,101 +708,101 @@ func (pduo *ProcessDesignUpdateOne) sqlSave(ctx context.Context) (_node *Process
 			}
 		}
 	}
-	if ps := pduo.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := pduo.mutation.Version(); ok {
+	if value, ok := _u.mutation.Version(); ok {
 		_spec.SetField(processdesign.FieldVersion, field.TypeString, value)
 	}
-	if pduo.mutation.VersionCleared() {
+	if _u.mutation.VersionCleared() {
 		_spec.ClearField(processdesign.FieldVersion, field.TypeString)
 	}
-	if value, ok := pduo.mutation.Disabled(); ok {
+	if value, ok := _u.mutation.Disabled(); ok {
 		_spec.SetField(processdesign.FieldDisabled, field.TypeBool, value)
 	}
-	if pduo.mutation.DisabledCleared() {
+	if _u.mutation.DisabledCleared() {
 		_spec.ClearField(processdesign.FieldDisabled, field.TypeBool)
 	}
-	if value, ok := pduo.mutation.Extras(); ok {
+	if value, ok := _u.mutation.Extras(); ok {
 		_spec.SetField(processdesign.FieldExtras, field.TypeJSON, value)
 	}
-	if pduo.mutation.ExtrasCleared() {
+	if _u.mutation.ExtrasCleared() {
 		_spec.ClearField(processdesign.FieldExtras, field.TypeJSON)
 	}
-	if value, ok := pduo.mutation.SpaceID(); ok {
+	if value, ok := _u.mutation.SpaceID(); ok {
 		_spec.SetField(processdesign.FieldSpaceID, field.TypeString, value)
 	}
-	if pduo.mutation.SpaceIDCleared() {
+	if _u.mutation.SpaceIDCleared() {
 		_spec.ClearField(processdesign.FieldSpaceID, field.TypeString)
 	}
-	if value, ok := pduo.mutation.CreatedBy(); ok {
+	if value, ok := _u.mutation.CreatedBy(); ok {
 		_spec.SetField(processdesign.FieldCreatedBy, field.TypeString, value)
 	}
-	if pduo.mutation.CreatedByCleared() {
+	if _u.mutation.CreatedByCleared() {
 		_spec.ClearField(processdesign.FieldCreatedBy, field.TypeString)
 	}
-	if value, ok := pduo.mutation.UpdatedBy(); ok {
+	if value, ok := _u.mutation.UpdatedBy(); ok {
 		_spec.SetField(processdesign.FieldUpdatedBy, field.TypeString, value)
 	}
-	if pduo.mutation.UpdatedByCleared() {
+	if _u.mutation.UpdatedByCleared() {
 		_spec.ClearField(processdesign.FieldUpdatedBy, field.TypeString)
 	}
-	if pduo.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(processdesign.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := pduo.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(processdesign.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := pduo.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(processdesign.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if pduo.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(processdesign.FieldUpdatedAt, field.TypeInt64)
 	}
-	if value, ok := pduo.mutation.TemplateID(); ok {
+	if value, ok := _u.mutation.TemplateID(); ok {
 		_spec.SetField(processdesign.FieldTemplateID, field.TypeString, value)
 	}
-	if value, ok := pduo.mutation.GraphData(); ok {
+	if value, ok := _u.mutation.GraphData(); ok {
 		_spec.SetField(processdesign.FieldGraphData, field.TypeJSON, value)
 	}
-	if pduo.mutation.GraphDataCleared() {
+	if _u.mutation.GraphDataCleared() {
 		_spec.ClearField(processdesign.FieldGraphData, field.TypeJSON)
 	}
-	if value, ok := pduo.mutation.NodeLayouts(); ok {
+	if value, ok := _u.mutation.NodeLayouts(); ok {
 		_spec.SetField(processdesign.FieldNodeLayouts, field.TypeJSON, value)
 	}
-	if pduo.mutation.NodeLayoutsCleared() {
+	if _u.mutation.NodeLayoutsCleared() {
 		_spec.ClearField(processdesign.FieldNodeLayouts, field.TypeJSON)
 	}
-	if value, ok := pduo.mutation.Properties(); ok {
+	if value, ok := _u.mutation.Properties(); ok {
 		_spec.SetField(processdesign.FieldProperties, field.TypeJSON, value)
 	}
-	if pduo.mutation.PropertiesCleared() {
+	if _u.mutation.PropertiesCleared() {
 		_spec.ClearField(processdesign.FieldProperties, field.TypeJSON)
 	}
-	if value, ok := pduo.mutation.ValidationRules(); ok {
+	if value, ok := _u.mutation.ValidationRules(); ok {
 		_spec.SetField(processdesign.FieldValidationRules, field.TypeJSON, value)
 	}
-	if pduo.mutation.ValidationRulesCleared() {
+	if _u.mutation.ValidationRulesCleared() {
 		_spec.ClearField(processdesign.FieldValidationRules, field.TypeJSON)
 	}
-	if value, ok := pduo.mutation.IsDraft(); ok {
+	if value, ok := _u.mutation.IsDraft(); ok {
 		_spec.SetField(processdesign.FieldIsDraft, field.TypeBool, value)
 	}
-	if value, ok := pduo.mutation.SourceVersion(); ok {
+	if value, ok := _u.mutation.SourceVersion(); ok {
 		_spec.SetField(processdesign.FieldSourceVersion, field.TypeString, value)
 	}
-	if pduo.mutation.SourceVersionCleared() {
+	if _u.mutation.SourceVersionCleared() {
 		_spec.ClearField(processdesign.FieldSourceVersion, field.TypeString)
 	}
-	_node = &ProcessDesign{config: pduo.config}
+	_node = &ProcessDesign{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues
-	if err = sqlgraph.UpdateNode(ctx, pduo.driver, _spec); err != nil {
+	if err = sqlgraph.UpdateNode(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{processdesign.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -810,6 +810,6 @@ func (pduo *ProcessDesignUpdateOne) sqlSave(ctx context.Context) (_node *Process
 		}
 		return nil, err
 	}
-	pduo.mutation.done = true
+	_u.mutation.done = true
 	return _node, nil
 }

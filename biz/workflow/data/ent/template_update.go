@@ -23,762 +23,762 @@ type TemplateUpdate struct {
 }
 
 // Where appends a list predicates to the TemplateUpdate builder.
-func (tu *TemplateUpdate) Where(ps ...predicate.Template) *TemplateUpdate {
-	tu.mutation.Where(ps...)
-	return tu
+func (_u *TemplateUpdate) Where(ps ...predicate.Template) *TemplateUpdate {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // SetName sets the "name" field.
-func (tu *TemplateUpdate) SetName(s string) *TemplateUpdate {
-	tu.mutation.SetName(s)
-	return tu
+func (_u *TemplateUpdate) SetName(v string) *TemplateUpdate {
+	_u.mutation.SetName(v)
+	return _u
 }
 
 // SetNillableName sets the "name" field if the given value is not nil.
-func (tu *TemplateUpdate) SetNillableName(s *string) *TemplateUpdate {
-	if s != nil {
-		tu.SetName(*s)
+func (_u *TemplateUpdate) SetNillableName(v *string) *TemplateUpdate {
+	if v != nil {
+		_u.SetName(*v)
 	}
-	return tu
+	return _u
 }
 
 // ClearName clears the value of the "name" field.
-func (tu *TemplateUpdate) ClearName() *TemplateUpdate {
-	tu.mutation.ClearName()
-	return tu
+func (_u *TemplateUpdate) ClearName() *TemplateUpdate {
+	_u.mutation.ClearName()
+	return _u
 }
 
 // SetCode sets the "code" field.
-func (tu *TemplateUpdate) SetCode(s string) *TemplateUpdate {
-	tu.mutation.SetCode(s)
-	return tu
+func (_u *TemplateUpdate) SetCode(v string) *TemplateUpdate {
+	_u.mutation.SetCode(v)
+	return _u
 }
 
 // SetNillableCode sets the "code" field if the given value is not nil.
-func (tu *TemplateUpdate) SetNillableCode(s *string) *TemplateUpdate {
-	if s != nil {
-		tu.SetCode(*s)
+func (_u *TemplateUpdate) SetNillableCode(v *string) *TemplateUpdate {
+	if v != nil {
+		_u.SetCode(*v)
 	}
-	return tu
+	return _u
 }
 
 // ClearCode clears the value of the "code" field.
-func (tu *TemplateUpdate) ClearCode() *TemplateUpdate {
-	tu.mutation.ClearCode()
-	return tu
+func (_u *TemplateUpdate) ClearCode() *TemplateUpdate {
+	_u.mutation.ClearCode()
+	return _u
 }
 
 // SetDescription sets the "description" field.
-func (tu *TemplateUpdate) SetDescription(s string) *TemplateUpdate {
-	tu.mutation.SetDescription(s)
-	return tu
+func (_u *TemplateUpdate) SetDescription(v string) *TemplateUpdate {
+	_u.mutation.SetDescription(v)
+	return _u
 }
 
 // SetNillableDescription sets the "description" field if the given value is not nil.
-func (tu *TemplateUpdate) SetNillableDescription(s *string) *TemplateUpdate {
-	if s != nil {
-		tu.SetDescription(*s)
+func (_u *TemplateUpdate) SetNillableDescription(v *string) *TemplateUpdate {
+	if v != nil {
+		_u.SetDescription(*v)
 	}
-	return tu
+	return _u
 }
 
 // ClearDescription clears the value of the "description" field.
-func (tu *TemplateUpdate) ClearDescription() *TemplateUpdate {
-	tu.mutation.ClearDescription()
-	return tu
+func (_u *TemplateUpdate) ClearDescription() *TemplateUpdate {
+	_u.mutation.ClearDescription()
+	return _u
 }
 
 // SetType sets the "type" field.
-func (tu *TemplateUpdate) SetType(s string) *TemplateUpdate {
-	tu.mutation.SetType(s)
-	return tu
+func (_u *TemplateUpdate) SetType(v string) *TemplateUpdate {
+	_u.mutation.SetType(v)
+	return _u
 }
 
 // SetNillableType sets the "type" field if the given value is not nil.
-func (tu *TemplateUpdate) SetNillableType(s *string) *TemplateUpdate {
-	if s != nil {
-		tu.SetType(*s)
+func (_u *TemplateUpdate) SetNillableType(v *string) *TemplateUpdate {
+	if v != nil {
+		_u.SetType(*v)
 	}
-	return tu
+	return _u
 }
 
 // ClearType clears the value of the "type" field.
-func (tu *TemplateUpdate) ClearType() *TemplateUpdate {
-	tu.mutation.ClearType()
-	return tu
+func (_u *TemplateUpdate) ClearType() *TemplateUpdate {
+	_u.mutation.ClearType()
+	return _u
 }
 
 // SetVersion sets the "version" field.
-func (tu *TemplateUpdate) SetVersion(s string) *TemplateUpdate {
-	tu.mutation.SetVersion(s)
-	return tu
+func (_u *TemplateUpdate) SetVersion(v string) *TemplateUpdate {
+	_u.mutation.SetVersion(v)
+	return _u
 }
 
 // SetNillableVersion sets the "version" field if the given value is not nil.
-func (tu *TemplateUpdate) SetNillableVersion(s *string) *TemplateUpdate {
-	if s != nil {
-		tu.SetVersion(*s)
+func (_u *TemplateUpdate) SetNillableVersion(v *string) *TemplateUpdate {
+	if v != nil {
+		_u.SetVersion(*v)
 	}
-	return tu
+	return _u
 }
 
 // ClearVersion clears the value of the "version" field.
-func (tu *TemplateUpdate) ClearVersion() *TemplateUpdate {
-	tu.mutation.ClearVersion()
-	return tu
+func (_u *TemplateUpdate) ClearVersion() *TemplateUpdate {
+	_u.mutation.ClearVersion()
+	return _u
 }
 
 // SetStatus sets the "status" field.
-func (tu *TemplateUpdate) SetStatus(s string) *TemplateUpdate {
-	tu.mutation.SetStatus(s)
-	return tu
+func (_u *TemplateUpdate) SetStatus(v string) *TemplateUpdate {
+	_u.mutation.SetStatus(v)
+	return _u
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (tu *TemplateUpdate) SetNillableStatus(s *string) *TemplateUpdate {
-	if s != nil {
-		tu.SetStatus(*s)
+func (_u *TemplateUpdate) SetNillableStatus(v *string) *TemplateUpdate {
+	if v != nil {
+		_u.SetStatus(*v)
 	}
-	return tu
+	return _u
 }
 
 // ClearStatus clears the value of the "status" field.
-func (tu *TemplateUpdate) ClearStatus() *TemplateUpdate {
-	tu.mutation.ClearStatus()
-	return tu
+func (_u *TemplateUpdate) ClearStatus() *TemplateUpdate {
+	_u.mutation.ClearStatus()
+	return _u
 }
 
 // SetDisabled sets the "disabled" field.
-func (tu *TemplateUpdate) SetDisabled(b bool) *TemplateUpdate {
-	tu.mutation.SetDisabled(b)
-	return tu
+func (_u *TemplateUpdate) SetDisabled(v bool) *TemplateUpdate {
+	_u.mutation.SetDisabled(v)
+	return _u
 }
 
 // SetNillableDisabled sets the "disabled" field if the given value is not nil.
-func (tu *TemplateUpdate) SetNillableDisabled(b *bool) *TemplateUpdate {
-	if b != nil {
-		tu.SetDisabled(*b)
+func (_u *TemplateUpdate) SetNillableDisabled(v *bool) *TemplateUpdate {
+	if v != nil {
+		_u.SetDisabled(*v)
 	}
-	return tu
+	return _u
 }
 
 // ClearDisabled clears the value of the "disabled" field.
-func (tu *TemplateUpdate) ClearDisabled() *TemplateUpdate {
-	tu.mutation.ClearDisabled()
-	return tu
+func (_u *TemplateUpdate) ClearDisabled() *TemplateUpdate {
+	_u.mutation.ClearDisabled()
+	return _u
 }
 
 // SetFormCode sets the "form_code" field.
-func (tu *TemplateUpdate) SetFormCode(s string) *TemplateUpdate {
-	tu.mutation.SetFormCode(s)
-	return tu
+func (_u *TemplateUpdate) SetFormCode(v string) *TemplateUpdate {
+	_u.mutation.SetFormCode(v)
+	return _u
 }
 
 // SetNillableFormCode sets the "form_code" field if the given value is not nil.
-func (tu *TemplateUpdate) SetNillableFormCode(s *string) *TemplateUpdate {
-	if s != nil {
-		tu.SetFormCode(*s)
+func (_u *TemplateUpdate) SetNillableFormCode(v *string) *TemplateUpdate {
+	if v != nil {
+		_u.SetFormCode(*v)
 	}
-	return tu
+	return _u
 }
 
 // SetFormVersion sets the "form_version" field.
-func (tu *TemplateUpdate) SetFormVersion(s string) *TemplateUpdate {
-	tu.mutation.SetFormVersion(s)
-	return tu
+func (_u *TemplateUpdate) SetFormVersion(v string) *TemplateUpdate {
+	_u.mutation.SetFormVersion(v)
+	return _u
 }
 
 // SetNillableFormVersion sets the "form_version" field if the given value is not nil.
-func (tu *TemplateUpdate) SetNillableFormVersion(s *string) *TemplateUpdate {
-	if s != nil {
-		tu.SetFormVersion(*s)
+func (_u *TemplateUpdate) SetNillableFormVersion(v *string) *TemplateUpdate {
+	if v != nil {
+		_u.SetFormVersion(*v)
 	}
-	return tu
+	return _u
 }
 
 // ClearFormVersion clears the value of the "form_version" field.
-func (tu *TemplateUpdate) ClearFormVersion() *TemplateUpdate {
-	tu.mutation.ClearFormVersion()
-	return tu
+func (_u *TemplateUpdate) ClearFormVersion() *TemplateUpdate {
+	_u.mutation.ClearFormVersion()
+	return _u
 }
 
 // SetFormConfig sets the "form_config" field.
-func (tu *TemplateUpdate) SetFormConfig(m map[string]interface{}) *TemplateUpdate {
-	tu.mutation.SetFormConfig(m)
-	return tu
+func (_u *TemplateUpdate) SetFormConfig(v map[string]interface{}) *TemplateUpdate {
+	_u.mutation.SetFormConfig(v)
+	return _u
 }
 
 // ClearFormConfig clears the value of the "form_config" field.
-func (tu *TemplateUpdate) ClearFormConfig() *TemplateUpdate {
-	tu.mutation.ClearFormConfig()
-	return tu
+func (_u *TemplateUpdate) ClearFormConfig() *TemplateUpdate {
+	_u.mutation.ClearFormConfig()
+	return _u
 }
 
 // SetFormPermissions sets the "form_permissions" field.
-func (tu *TemplateUpdate) SetFormPermissions(m map[string]interface{}) *TemplateUpdate {
-	tu.mutation.SetFormPermissions(m)
-	return tu
+func (_u *TemplateUpdate) SetFormPermissions(v map[string]interface{}) *TemplateUpdate {
+	_u.mutation.SetFormPermissions(v)
+	return _u
 }
 
 // ClearFormPermissions clears the value of the "form_permissions" field.
-func (tu *TemplateUpdate) ClearFormPermissions() *TemplateUpdate {
-	tu.mutation.ClearFormPermissions()
-	return tu
+func (_u *TemplateUpdate) ClearFormPermissions() *TemplateUpdate {
+	_u.mutation.ClearFormPermissions()
+	return _u
 }
 
 // SetFieldPermissions sets the "field_permissions" field.
-func (tu *TemplateUpdate) SetFieldPermissions(m map[string]interface{}) *TemplateUpdate {
-	tu.mutation.SetFieldPermissions(m)
-	return tu
+func (_u *TemplateUpdate) SetFieldPermissions(v map[string]interface{}) *TemplateUpdate {
+	_u.mutation.SetFieldPermissions(v)
+	return _u
 }
 
 // ClearFieldPermissions clears the value of the "field_permissions" field.
-func (tu *TemplateUpdate) ClearFieldPermissions() *TemplateUpdate {
-	tu.mutation.ClearFieldPermissions()
-	return tu
+func (_u *TemplateUpdate) ClearFieldPermissions() *TemplateUpdate {
+	_u.mutation.ClearFieldPermissions()
+	return _u
 }
 
 // SetNodeKey sets the "node_key" field.
-func (tu *TemplateUpdate) SetNodeKey(s string) *TemplateUpdate {
-	tu.mutation.SetNodeKey(s)
-	return tu
+func (_u *TemplateUpdate) SetNodeKey(v string) *TemplateUpdate {
+	_u.mutation.SetNodeKey(v)
+	return _u
 }
 
 // SetNillableNodeKey sets the "node_key" field if the given value is not nil.
-func (tu *TemplateUpdate) SetNillableNodeKey(s *string) *TemplateUpdate {
-	if s != nil {
-		tu.SetNodeKey(*s)
+func (_u *TemplateUpdate) SetNillableNodeKey(v *string) *TemplateUpdate {
+	if v != nil {
+		_u.SetNodeKey(*v)
 	}
-	return tu
+	return _u
 }
 
 // SetNodeType sets the "node_type" field.
-func (tu *TemplateUpdate) SetNodeType(s string) *TemplateUpdate {
-	tu.mutation.SetNodeType(s)
-	return tu
+func (_u *TemplateUpdate) SetNodeType(v string) *TemplateUpdate {
+	_u.mutation.SetNodeType(v)
+	return _u
 }
 
 // SetNillableNodeType sets the "node_type" field if the given value is not nil.
-func (tu *TemplateUpdate) SetNillableNodeType(s *string) *TemplateUpdate {
-	if s != nil {
-		tu.SetNodeType(*s)
+func (_u *TemplateUpdate) SetNillableNodeType(v *string) *TemplateUpdate {
+	if v != nil {
+		_u.SetNodeType(*v)
 	}
-	return tu
+	return _u
 }
 
 // SetNodeConfig sets the "node_config" field.
-func (tu *TemplateUpdate) SetNodeConfig(m map[string]interface{}) *TemplateUpdate {
-	tu.mutation.SetNodeConfig(m)
-	return tu
+func (_u *TemplateUpdate) SetNodeConfig(v map[string]interface{}) *TemplateUpdate {
+	_u.mutation.SetNodeConfig(v)
+	return _u
 }
 
 // ClearNodeConfig clears the value of the "node_config" field.
-func (tu *TemplateUpdate) ClearNodeConfig() *TemplateUpdate {
-	tu.mutation.ClearNodeConfig()
-	return tu
+func (_u *TemplateUpdate) ClearNodeConfig() *TemplateUpdate {
+	_u.mutation.ClearNodeConfig()
+	return _u
 }
 
 // SetNodeRules sets the "node_rules" field.
-func (tu *TemplateUpdate) SetNodeRules(m map[string]interface{}) *TemplateUpdate {
-	tu.mutation.SetNodeRules(m)
-	return tu
+func (_u *TemplateUpdate) SetNodeRules(v map[string]interface{}) *TemplateUpdate {
+	_u.mutation.SetNodeRules(v)
+	return _u
 }
 
 // ClearNodeRules clears the value of the "node_rules" field.
-func (tu *TemplateUpdate) ClearNodeRules() *TemplateUpdate {
-	tu.mutation.ClearNodeRules()
-	return tu
+func (_u *TemplateUpdate) ClearNodeRules() *TemplateUpdate {
+	_u.mutation.ClearNodeRules()
+	return _u
 }
 
 // SetNodeEvents sets the "node_events" field.
-func (tu *TemplateUpdate) SetNodeEvents(m map[string]interface{}) *TemplateUpdate {
-	tu.mutation.SetNodeEvents(m)
-	return tu
+func (_u *TemplateUpdate) SetNodeEvents(v map[string]interface{}) *TemplateUpdate {
+	_u.mutation.SetNodeEvents(v)
+	return _u
 }
 
 // ClearNodeEvents clears the value of the "node_events" field.
-func (tu *TemplateUpdate) ClearNodeEvents() *TemplateUpdate {
-	tu.mutation.ClearNodeEvents()
-	return tu
+func (_u *TemplateUpdate) ClearNodeEvents() *TemplateUpdate {
+	_u.mutation.ClearNodeEvents()
+	return _u
 }
 
 // SetBusinessTags sets the "business_tags" field.
-func (tu *TemplateUpdate) SetBusinessTags(s []string) *TemplateUpdate {
-	tu.mutation.SetBusinessTags(s)
-	return tu
+func (_u *TemplateUpdate) SetBusinessTags(v []string) *TemplateUpdate {
+	_u.mutation.SetBusinessTags(v)
+	return _u
 }
 
-// AppendBusinessTags appends s to the "business_tags" field.
-func (tu *TemplateUpdate) AppendBusinessTags(s []string) *TemplateUpdate {
-	tu.mutation.AppendBusinessTags(s)
-	return tu
+// AppendBusinessTags appends value to the "business_tags" field.
+func (_u *TemplateUpdate) AppendBusinessTags(v []string) *TemplateUpdate {
+	_u.mutation.AppendBusinessTags(v)
+	return _u
 }
 
 // ClearBusinessTags clears the value of the "business_tags" field.
-func (tu *TemplateUpdate) ClearBusinessTags() *TemplateUpdate {
-	tu.mutation.ClearBusinessTags()
-	return tu
+func (_u *TemplateUpdate) ClearBusinessTags() *TemplateUpdate {
+	_u.mutation.ClearBusinessTags()
+	return _u
 }
 
 // SetModuleCode sets the "module_code" field.
-func (tu *TemplateUpdate) SetModuleCode(s string) *TemplateUpdate {
-	tu.mutation.SetModuleCode(s)
-	return tu
+func (_u *TemplateUpdate) SetModuleCode(v string) *TemplateUpdate {
+	_u.mutation.SetModuleCode(v)
+	return _u
 }
 
 // SetNillableModuleCode sets the "module_code" field if the given value is not nil.
-func (tu *TemplateUpdate) SetNillableModuleCode(s *string) *TemplateUpdate {
-	if s != nil {
-		tu.SetModuleCode(*s)
+func (_u *TemplateUpdate) SetNillableModuleCode(v *string) *TemplateUpdate {
+	if v != nil {
+		_u.SetModuleCode(*v)
 	}
-	return tu
+	return _u
 }
 
 // SetCategory sets the "category" field.
-func (tu *TemplateUpdate) SetCategory(s string) *TemplateUpdate {
-	tu.mutation.SetCategory(s)
-	return tu
+func (_u *TemplateUpdate) SetCategory(v string) *TemplateUpdate {
+	_u.mutation.SetCategory(v)
+	return _u
 }
 
 // SetNillableCategory sets the "category" field if the given value is not nil.
-func (tu *TemplateUpdate) SetNillableCategory(s *string) *TemplateUpdate {
-	if s != nil {
-		tu.SetCategory(*s)
+func (_u *TemplateUpdate) SetNillableCategory(v *string) *TemplateUpdate {
+	if v != nil {
+		_u.SetCategory(*v)
 	}
-	return tu
+	return _u
 }
 
 // ClearCategory clears the value of the "category" field.
-func (tu *TemplateUpdate) ClearCategory() *TemplateUpdate {
-	tu.mutation.ClearCategory()
-	return tu
+func (_u *TemplateUpdate) ClearCategory() *TemplateUpdate {
+	_u.mutation.ClearCategory()
+	return _u
 }
 
 // SetAllowCancel sets the "allow_cancel" field.
-func (tu *TemplateUpdate) SetAllowCancel(b bool) *TemplateUpdate {
-	tu.mutation.SetAllowCancel(b)
-	return tu
+func (_u *TemplateUpdate) SetAllowCancel(v bool) *TemplateUpdate {
+	_u.mutation.SetAllowCancel(v)
+	return _u
 }
 
 // SetNillableAllowCancel sets the "allow_cancel" field if the given value is not nil.
-func (tu *TemplateUpdate) SetNillableAllowCancel(b *bool) *TemplateUpdate {
-	if b != nil {
-		tu.SetAllowCancel(*b)
+func (_u *TemplateUpdate) SetNillableAllowCancel(v *bool) *TemplateUpdate {
+	if v != nil {
+		_u.SetAllowCancel(*v)
 	}
-	return tu
+	return _u
 }
 
 // SetAllowUrge sets the "allow_urge" field.
-func (tu *TemplateUpdate) SetAllowUrge(b bool) *TemplateUpdate {
-	tu.mutation.SetAllowUrge(b)
-	return tu
+func (_u *TemplateUpdate) SetAllowUrge(v bool) *TemplateUpdate {
+	_u.mutation.SetAllowUrge(v)
+	return _u
 }
 
 // SetNillableAllowUrge sets the "allow_urge" field if the given value is not nil.
-func (tu *TemplateUpdate) SetNillableAllowUrge(b *bool) *TemplateUpdate {
-	if b != nil {
-		tu.SetAllowUrge(*b)
+func (_u *TemplateUpdate) SetNillableAllowUrge(v *bool) *TemplateUpdate {
+	if v != nil {
+		_u.SetAllowUrge(*v)
 	}
-	return tu
+	return _u
 }
 
 // SetAllowDelegate sets the "allow_delegate" field.
-func (tu *TemplateUpdate) SetAllowDelegate(b bool) *TemplateUpdate {
-	tu.mutation.SetAllowDelegate(b)
-	return tu
+func (_u *TemplateUpdate) SetAllowDelegate(v bool) *TemplateUpdate {
+	_u.mutation.SetAllowDelegate(v)
+	return _u
 }
 
 // SetNillableAllowDelegate sets the "allow_delegate" field if the given value is not nil.
-func (tu *TemplateUpdate) SetNillableAllowDelegate(b *bool) *TemplateUpdate {
-	if b != nil {
-		tu.SetAllowDelegate(*b)
+func (_u *TemplateUpdate) SetNillableAllowDelegate(v *bool) *TemplateUpdate {
+	if v != nil {
+		_u.SetAllowDelegate(*v)
 	}
-	return tu
+	return _u
 }
 
 // SetAllowTransfer sets the "allow_transfer" field.
-func (tu *TemplateUpdate) SetAllowTransfer(b bool) *TemplateUpdate {
-	tu.mutation.SetAllowTransfer(b)
-	return tu
+func (_u *TemplateUpdate) SetAllowTransfer(v bool) *TemplateUpdate {
+	_u.mutation.SetAllowTransfer(v)
+	return _u
 }
 
 // SetNillableAllowTransfer sets the "allow_transfer" field if the given value is not nil.
-func (tu *TemplateUpdate) SetNillableAllowTransfer(b *bool) *TemplateUpdate {
-	if b != nil {
-		tu.SetAllowTransfer(*b)
+func (_u *TemplateUpdate) SetNillableAllowTransfer(v *bool) *TemplateUpdate {
+	if v != nil {
+		_u.SetAllowTransfer(*v)
 	}
-	return tu
+	return _u
 }
 
 // SetIsDraftEnabled sets the "is_draft_enabled" field.
-func (tu *TemplateUpdate) SetIsDraftEnabled(b bool) *TemplateUpdate {
-	tu.mutation.SetIsDraftEnabled(b)
-	return tu
+func (_u *TemplateUpdate) SetIsDraftEnabled(v bool) *TemplateUpdate {
+	_u.mutation.SetIsDraftEnabled(v)
+	return _u
 }
 
 // SetNillableIsDraftEnabled sets the "is_draft_enabled" field if the given value is not nil.
-func (tu *TemplateUpdate) SetNillableIsDraftEnabled(b *bool) *TemplateUpdate {
-	if b != nil {
-		tu.SetIsDraftEnabled(*b)
+func (_u *TemplateUpdate) SetNillableIsDraftEnabled(v *bool) *TemplateUpdate {
+	if v != nil {
+		_u.SetIsDraftEnabled(*v)
 	}
-	return tu
+	return _u
 }
 
 // SetIsAutoStart sets the "is_auto_start" field.
-func (tu *TemplateUpdate) SetIsAutoStart(b bool) *TemplateUpdate {
-	tu.mutation.SetIsAutoStart(b)
-	return tu
+func (_u *TemplateUpdate) SetIsAutoStart(v bool) *TemplateUpdate {
+	_u.mutation.SetIsAutoStart(v)
+	return _u
 }
 
 // SetNillableIsAutoStart sets the "is_auto_start" field if the given value is not nil.
-func (tu *TemplateUpdate) SetNillableIsAutoStart(b *bool) *TemplateUpdate {
-	if b != nil {
-		tu.SetIsAutoStart(*b)
+func (_u *TemplateUpdate) SetNillableIsAutoStart(v *bool) *TemplateUpdate {
+	if v != nil {
+		_u.SetIsAutoStart(*v)
 	}
-	return tu
+	return _u
 }
 
 // SetStrictMode sets the "strict_mode" field.
-func (tu *TemplateUpdate) SetStrictMode(b bool) *TemplateUpdate {
-	tu.mutation.SetStrictMode(b)
-	return tu
+func (_u *TemplateUpdate) SetStrictMode(v bool) *TemplateUpdate {
+	_u.mutation.SetStrictMode(v)
+	return _u
 }
 
 // SetNillableStrictMode sets the "strict_mode" field if the given value is not nil.
-func (tu *TemplateUpdate) SetNillableStrictMode(b *bool) *TemplateUpdate {
-	if b != nil {
-		tu.SetStrictMode(*b)
+func (_u *TemplateUpdate) SetNillableStrictMode(v *bool) *TemplateUpdate {
+	if v != nil {
+		_u.SetStrictMode(*v)
 	}
-	return tu
+	return _u
 }
 
 // SetViewers sets the "viewers" field.
-func (tu *TemplateUpdate) SetViewers(s []string) *TemplateUpdate {
-	tu.mutation.SetViewers(s)
-	return tu
+func (_u *TemplateUpdate) SetViewers(v []string) *TemplateUpdate {
+	_u.mutation.SetViewers(v)
+	return _u
 }
 
-// AppendViewers appends s to the "viewers" field.
-func (tu *TemplateUpdate) AppendViewers(s []string) *TemplateUpdate {
-	tu.mutation.AppendViewers(s)
-	return tu
+// AppendViewers appends value to the "viewers" field.
+func (_u *TemplateUpdate) AppendViewers(v []string) *TemplateUpdate {
+	_u.mutation.AppendViewers(v)
+	return _u
 }
 
 // ClearViewers clears the value of the "viewers" field.
-func (tu *TemplateUpdate) ClearViewers() *TemplateUpdate {
-	tu.mutation.ClearViewers()
-	return tu
+func (_u *TemplateUpdate) ClearViewers() *TemplateUpdate {
+	_u.mutation.ClearViewers()
+	return _u
 }
 
 // SetEditors sets the "editors" field.
-func (tu *TemplateUpdate) SetEditors(s []string) *TemplateUpdate {
-	tu.mutation.SetEditors(s)
-	return tu
+func (_u *TemplateUpdate) SetEditors(v []string) *TemplateUpdate {
+	_u.mutation.SetEditors(v)
+	return _u
 }
 
-// AppendEditors appends s to the "editors" field.
-func (tu *TemplateUpdate) AppendEditors(s []string) *TemplateUpdate {
-	tu.mutation.AppendEditors(s)
-	return tu
+// AppendEditors appends value to the "editors" field.
+func (_u *TemplateUpdate) AppendEditors(v []string) *TemplateUpdate {
+	_u.mutation.AppendEditors(v)
+	return _u
 }
 
 // ClearEditors clears the value of the "editors" field.
-func (tu *TemplateUpdate) ClearEditors() *TemplateUpdate {
-	tu.mutation.ClearEditors()
-	return tu
+func (_u *TemplateUpdate) ClearEditors() *TemplateUpdate {
+	_u.mutation.ClearEditors()
+	return _u
 }
 
 // SetPermissionConfigs sets the "permission_configs" field.
-func (tu *TemplateUpdate) SetPermissionConfigs(m map[string]interface{}) *TemplateUpdate {
-	tu.mutation.SetPermissionConfigs(m)
-	return tu
+func (_u *TemplateUpdate) SetPermissionConfigs(v map[string]interface{}) *TemplateUpdate {
+	_u.mutation.SetPermissionConfigs(v)
+	return _u
 }
 
 // ClearPermissionConfigs clears the value of the "permission_configs" field.
-func (tu *TemplateUpdate) ClearPermissionConfigs() *TemplateUpdate {
-	tu.mutation.ClearPermissionConfigs()
-	return tu
+func (_u *TemplateUpdate) ClearPermissionConfigs() *TemplateUpdate {
+	_u.mutation.ClearPermissionConfigs()
+	return _u
 }
 
 // SetRoleConfigs sets the "role_configs" field.
-func (tu *TemplateUpdate) SetRoleConfigs(m map[string]interface{}) *TemplateUpdate {
-	tu.mutation.SetRoleConfigs(m)
-	return tu
+func (_u *TemplateUpdate) SetRoleConfigs(v map[string]interface{}) *TemplateUpdate {
+	_u.mutation.SetRoleConfigs(v)
+	return _u
 }
 
 // ClearRoleConfigs clears the value of the "role_configs" field.
-func (tu *TemplateUpdate) ClearRoleConfigs() *TemplateUpdate {
-	tu.mutation.ClearRoleConfigs()
-	return tu
+func (_u *TemplateUpdate) ClearRoleConfigs() *TemplateUpdate {
+	_u.mutation.ClearRoleConfigs()
+	return _u
 }
 
 // SetVisibleRange sets the "visible_range" field.
-func (tu *TemplateUpdate) SetVisibleRange(m map[string]interface{}) *TemplateUpdate {
-	tu.mutation.SetVisibleRange(m)
-	return tu
+func (_u *TemplateUpdate) SetVisibleRange(v map[string]interface{}) *TemplateUpdate {
+	_u.mutation.SetVisibleRange(v)
+	return _u
 }
 
 // ClearVisibleRange clears the value of the "visible_range" field.
-func (tu *TemplateUpdate) ClearVisibleRange() *TemplateUpdate {
-	tu.mutation.ClearVisibleRange()
-	return tu
+func (_u *TemplateUpdate) ClearVisibleRange() *TemplateUpdate {
+	_u.mutation.ClearVisibleRange()
+	return _u
 }
 
 // SetExtras sets the "extras" field.
-func (tu *TemplateUpdate) SetExtras(m map[string]interface{}) *TemplateUpdate {
-	tu.mutation.SetExtras(m)
-	return tu
+func (_u *TemplateUpdate) SetExtras(v map[string]interface{}) *TemplateUpdate {
+	_u.mutation.SetExtras(v)
+	return _u
 }
 
 // ClearExtras clears the value of the "extras" field.
-func (tu *TemplateUpdate) ClearExtras() *TemplateUpdate {
-	tu.mutation.ClearExtras()
-	return tu
+func (_u *TemplateUpdate) ClearExtras() *TemplateUpdate {
+	_u.mutation.ClearExtras()
+	return _u
 }
 
 // SetSpaceID sets the "space_id" field.
-func (tu *TemplateUpdate) SetSpaceID(s string) *TemplateUpdate {
-	tu.mutation.SetSpaceID(s)
-	return tu
+func (_u *TemplateUpdate) SetSpaceID(v string) *TemplateUpdate {
+	_u.mutation.SetSpaceID(v)
+	return _u
 }
 
 // SetNillableSpaceID sets the "space_id" field if the given value is not nil.
-func (tu *TemplateUpdate) SetNillableSpaceID(s *string) *TemplateUpdate {
-	if s != nil {
-		tu.SetSpaceID(*s)
+func (_u *TemplateUpdate) SetNillableSpaceID(v *string) *TemplateUpdate {
+	if v != nil {
+		_u.SetSpaceID(*v)
 	}
-	return tu
+	return _u
 }
 
 // ClearSpaceID clears the value of the "space_id" field.
-func (tu *TemplateUpdate) ClearSpaceID() *TemplateUpdate {
-	tu.mutation.ClearSpaceID()
-	return tu
+func (_u *TemplateUpdate) ClearSpaceID() *TemplateUpdate {
+	_u.mutation.ClearSpaceID()
+	return _u
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (tu *TemplateUpdate) SetCreatedBy(s string) *TemplateUpdate {
-	tu.mutation.SetCreatedBy(s)
-	return tu
+func (_u *TemplateUpdate) SetCreatedBy(v string) *TemplateUpdate {
+	_u.mutation.SetCreatedBy(v)
+	return _u
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (tu *TemplateUpdate) SetNillableCreatedBy(s *string) *TemplateUpdate {
-	if s != nil {
-		tu.SetCreatedBy(*s)
+func (_u *TemplateUpdate) SetNillableCreatedBy(v *string) *TemplateUpdate {
+	if v != nil {
+		_u.SetCreatedBy(*v)
 	}
-	return tu
+	return _u
 }
 
 // ClearCreatedBy clears the value of the "created_by" field.
-func (tu *TemplateUpdate) ClearCreatedBy() *TemplateUpdate {
-	tu.mutation.ClearCreatedBy()
-	return tu
+func (_u *TemplateUpdate) ClearCreatedBy() *TemplateUpdate {
+	_u.mutation.ClearCreatedBy()
+	return _u
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (tu *TemplateUpdate) SetUpdatedBy(s string) *TemplateUpdate {
-	tu.mutation.SetUpdatedBy(s)
-	return tu
+func (_u *TemplateUpdate) SetUpdatedBy(v string) *TemplateUpdate {
+	_u.mutation.SetUpdatedBy(v)
+	return _u
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (tu *TemplateUpdate) SetNillableUpdatedBy(s *string) *TemplateUpdate {
-	if s != nil {
-		tu.SetUpdatedBy(*s)
+func (_u *TemplateUpdate) SetNillableUpdatedBy(v *string) *TemplateUpdate {
+	if v != nil {
+		_u.SetUpdatedBy(*v)
 	}
-	return tu
+	return _u
 }
 
 // ClearUpdatedBy clears the value of the "updated_by" field.
-func (tu *TemplateUpdate) ClearUpdatedBy() *TemplateUpdate {
-	tu.mutation.ClearUpdatedBy()
-	return tu
+func (_u *TemplateUpdate) ClearUpdatedBy() *TemplateUpdate {
+	_u.mutation.ClearUpdatedBy()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (tu *TemplateUpdate) SetUpdatedAt(i int64) *TemplateUpdate {
-	tu.mutation.ResetUpdatedAt()
-	tu.mutation.SetUpdatedAt(i)
-	return tu
+func (_u *TemplateUpdate) SetUpdatedAt(v int64) *TemplateUpdate {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (tu *TemplateUpdate) AddUpdatedAt(i int64) *TemplateUpdate {
-	tu.mutation.AddUpdatedAt(i)
-	return tu
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *TemplateUpdate) AddUpdatedAt(v int64) *TemplateUpdate {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (tu *TemplateUpdate) ClearUpdatedAt() *TemplateUpdate {
-	tu.mutation.ClearUpdatedAt()
-	return tu
+func (_u *TemplateUpdate) ClearUpdatedAt() *TemplateUpdate {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // SetTemplateKey sets the "template_key" field.
-func (tu *TemplateUpdate) SetTemplateKey(s string) *TemplateUpdate {
-	tu.mutation.SetTemplateKey(s)
-	return tu
+func (_u *TemplateUpdate) SetTemplateKey(v string) *TemplateUpdate {
+	_u.mutation.SetTemplateKey(v)
+	return _u
 }
 
 // SetNillableTemplateKey sets the "template_key" field if the given value is not nil.
-func (tu *TemplateUpdate) SetNillableTemplateKey(s *string) *TemplateUpdate {
-	if s != nil {
-		tu.SetTemplateKey(*s)
+func (_u *TemplateUpdate) SetNillableTemplateKey(v *string) *TemplateUpdate {
+	if v != nil {
+		_u.SetTemplateKey(*v)
 	}
-	return tu
+	return _u
 }
 
 // SetProcessRules sets the "process_rules" field.
-func (tu *TemplateUpdate) SetProcessRules(m map[string]interface{}) *TemplateUpdate {
-	tu.mutation.SetProcessRules(m)
-	return tu
+func (_u *TemplateUpdate) SetProcessRules(v map[string]interface{}) *TemplateUpdate {
+	_u.mutation.SetProcessRules(v)
+	return _u
 }
 
 // ClearProcessRules clears the value of the "process_rules" field.
-func (tu *TemplateUpdate) ClearProcessRules() *TemplateUpdate {
-	tu.mutation.ClearProcessRules()
-	return tu
+func (_u *TemplateUpdate) ClearProcessRules() *TemplateUpdate {
+	_u.mutation.ClearProcessRules()
+	return _u
 }
 
 // SetTriggerConditions sets the "trigger_conditions" field.
-func (tu *TemplateUpdate) SetTriggerConditions(m map[string]interface{}) *TemplateUpdate {
-	tu.mutation.SetTriggerConditions(m)
-	return tu
+func (_u *TemplateUpdate) SetTriggerConditions(v map[string]interface{}) *TemplateUpdate {
+	_u.mutation.SetTriggerConditions(v)
+	return _u
 }
 
 // ClearTriggerConditions clears the value of the "trigger_conditions" field.
-func (tu *TemplateUpdate) ClearTriggerConditions() *TemplateUpdate {
-	tu.mutation.ClearTriggerConditions()
-	return tu
+func (_u *TemplateUpdate) ClearTriggerConditions() *TemplateUpdate {
+	_u.mutation.ClearTriggerConditions()
+	return _u
 }
 
 // SetTimeoutConfig sets the "timeout_config" field.
-func (tu *TemplateUpdate) SetTimeoutConfig(m map[string]interface{}) *TemplateUpdate {
-	tu.mutation.SetTimeoutConfig(m)
-	return tu
+func (_u *TemplateUpdate) SetTimeoutConfig(v map[string]interface{}) *TemplateUpdate {
+	_u.mutation.SetTimeoutConfig(v)
+	return _u
 }
 
 // ClearTimeoutConfig clears the value of the "timeout_config" field.
-func (tu *TemplateUpdate) ClearTimeoutConfig() *TemplateUpdate {
-	tu.mutation.ClearTimeoutConfig()
-	return tu
+func (_u *TemplateUpdate) ClearTimeoutConfig() *TemplateUpdate {
+	_u.mutation.ClearTimeoutConfig()
+	return _u
 }
 
 // SetReminderConfig sets the "reminder_config" field.
-func (tu *TemplateUpdate) SetReminderConfig(m map[string]interface{}) *TemplateUpdate {
-	tu.mutation.SetReminderConfig(m)
-	return tu
+func (_u *TemplateUpdate) SetReminderConfig(v map[string]interface{}) *TemplateUpdate {
+	_u.mutation.SetReminderConfig(v)
+	return _u
 }
 
 // ClearReminderConfig clears the value of the "reminder_config" field.
-func (tu *TemplateUpdate) ClearReminderConfig() *TemplateUpdate {
-	tu.mutation.ClearReminderConfig()
-	return tu
+func (_u *TemplateUpdate) ClearReminderConfig() *TemplateUpdate {
+	_u.mutation.ClearReminderConfig()
+	return _u
 }
 
 // SetSourceVersion sets the "source_version" field.
-func (tu *TemplateUpdate) SetSourceVersion(s string) *TemplateUpdate {
-	tu.mutation.SetSourceVersion(s)
-	return tu
+func (_u *TemplateUpdate) SetSourceVersion(v string) *TemplateUpdate {
+	_u.mutation.SetSourceVersion(v)
+	return _u
 }
 
 // SetNillableSourceVersion sets the "source_version" field if the given value is not nil.
-func (tu *TemplateUpdate) SetNillableSourceVersion(s *string) *TemplateUpdate {
-	if s != nil {
-		tu.SetSourceVersion(*s)
+func (_u *TemplateUpdate) SetNillableSourceVersion(v *string) *TemplateUpdate {
+	if v != nil {
+		_u.SetSourceVersion(*v)
 	}
-	return tu
+	return _u
 }
 
 // ClearSourceVersion clears the value of the "source_version" field.
-func (tu *TemplateUpdate) ClearSourceVersion() *TemplateUpdate {
-	tu.mutation.ClearSourceVersion()
-	return tu
+func (_u *TemplateUpdate) ClearSourceVersion() *TemplateUpdate {
+	_u.mutation.ClearSourceVersion()
+	return _u
 }
 
 // SetIsLatest sets the "is_latest" field.
-func (tu *TemplateUpdate) SetIsLatest(b bool) *TemplateUpdate {
-	tu.mutation.SetIsLatest(b)
-	return tu
+func (_u *TemplateUpdate) SetIsLatest(v bool) *TemplateUpdate {
+	_u.mutation.SetIsLatest(v)
+	return _u
 }
 
 // SetNillableIsLatest sets the "is_latest" field if the given value is not nil.
-func (tu *TemplateUpdate) SetNillableIsLatest(b *bool) *TemplateUpdate {
-	if b != nil {
-		tu.SetIsLatest(*b)
+func (_u *TemplateUpdate) SetNillableIsLatest(v *bool) *TemplateUpdate {
+	if v != nil {
+		_u.SetIsLatest(*v)
 	}
-	return tu
+	return _u
 }
 
 // SetEffectiveTime sets the "effective_time" field.
-func (tu *TemplateUpdate) SetEffectiveTime(i int64) *TemplateUpdate {
-	tu.mutation.ResetEffectiveTime()
-	tu.mutation.SetEffectiveTime(i)
-	return tu
+func (_u *TemplateUpdate) SetEffectiveTime(v int64) *TemplateUpdate {
+	_u.mutation.ResetEffectiveTime()
+	_u.mutation.SetEffectiveTime(v)
+	return _u
 }
 
 // SetNillableEffectiveTime sets the "effective_time" field if the given value is not nil.
-func (tu *TemplateUpdate) SetNillableEffectiveTime(i *int64) *TemplateUpdate {
-	if i != nil {
-		tu.SetEffectiveTime(*i)
+func (_u *TemplateUpdate) SetNillableEffectiveTime(v *int64) *TemplateUpdate {
+	if v != nil {
+		_u.SetEffectiveTime(*v)
 	}
-	return tu
+	return _u
 }
 
-// AddEffectiveTime adds i to the "effective_time" field.
-func (tu *TemplateUpdate) AddEffectiveTime(i int64) *TemplateUpdate {
-	tu.mutation.AddEffectiveTime(i)
-	return tu
+// AddEffectiveTime adds value to the "effective_time" field.
+func (_u *TemplateUpdate) AddEffectiveTime(v int64) *TemplateUpdate {
+	_u.mutation.AddEffectiveTime(v)
+	return _u
 }
 
 // ClearEffectiveTime clears the value of the "effective_time" field.
-func (tu *TemplateUpdate) ClearEffectiveTime() *TemplateUpdate {
-	tu.mutation.ClearEffectiveTime()
-	return tu
+func (_u *TemplateUpdate) ClearEffectiveTime() *TemplateUpdate {
+	_u.mutation.ClearEffectiveTime()
+	return _u
 }
 
 // SetExpireTime sets the "expire_time" field.
-func (tu *TemplateUpdate) SetExpireTime(i int64) *TemplateUpdate {
-	tu.mutation.ResetExpireTime()
-	tu.mutation.SetExpireTime(i)
-	return tu
+func (_u *TemplateUpdate) SetExpireTime(v int64) *TemplateUpdate {
+	_u.mutation.ResetExpireTime()
+	_u.mutation.SetExpireTime(v)
+	return _u
 }
 
 // SetNillableExpireTime sets the "expire_time" field if the given value is not nil.
-func (tu *TemplateUpdate) SetNillableExpireTime(i *int64) *TemplateUpdate {
-	if i != nil {
-		tu.SetExpireTime(*i)
+func (_u *TemplateUpdate) SetNillableExpireTime(v *int64) *TemplateUpdate {
+	if v != nil {
+		_u.SetExpireTime(*v)
 	}
-	return tu
+	return _u
 }
 
-// AddExpireTime adds i to the "expire_time" field.
-func (tu *TemplateUpdate) AddExpireTime(i int64) *TemplateUpdate {
-	tu.mutation.AddExpireTime(i)
-	return tu
+// AddExpireTime adds value to the "expire_time" field.
+func (_u *TemplateUpdate) AddExpireTime(v int64) *TemplateUpdate {
+	_u.mutation.AddExpireTime(v)
+	return _u
 }
 
 // ClearExpireTime clears the value of the "expire_time" field.
-func (tu *TemplateUpdate) ClearExpireTime() *TemplateUpdate {
-	tu.mutation.ClearExpireTime()
-	return tu
+func (_u *TemplateUpdate) ClearExpireTime() *TemplateUpdate {
+	_u.mutation.ClearExpireTime()
+	return _u
 }
 
 // Mutation returns the TemplateMutation object of the builder.
-func (tu *TemplateUpdate) Mutation() *TemplateMutation {
-	return tu.mutation
+func (_u *TemplateUpdate) Mutation() *TemplateMutation {
+	return _u.mutation
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
-func (tu *TemplateUpdate) Save(ctx context.Context) (int, error) {
-	tu.defaults()
-	return withHooks(ctx, tu.sqlSave, tu.mutation, tu.hooks)
+func (_u *TemplateUpdate) Save(ctx context.Context) (int, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (tu *TemplateUpdate) SaveX(ctx context.Context) int {
-	affected, err := tu.Save(ctx)
+func (_u *TemplateUpdate) SaveX(ctx context.Context) int {
+	affected, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -786,300 +786,300 @@ func (tu *TemplateUpdate) SaveX(ctx context.Context) int {
 }
 
 // Exec executes the query.
-func (tu *TemplateUpdate) Exec(ctx context.Context) error {
-	_, err := tu.Save(ctx)
+func (_u *TemplateUpdate) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (tu *TemplateUpdate) ExecX(ctx context.Context) {
-	if err := tu.Exec(ctx); err != nil {
+func (_u *TemplateUpdate) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (tu *TemplateUpdate) defaults() {
-	if _, ok := tu.mutation.UpdatedAt(); !ok && !tu.mutation.UpdatedAtCleared() {
+func (_u *TemplateUpdate) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := template.UpdateDefaultUpdatedAt()
-		tu.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (tu *TemplateUpdate) sqlSave(ctx context.Context) (n int, err error) {
+func (_u *TemplateUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	_spec := sqlgraph.NewUpdateSpec(template.Table, template.Columns, sqlgraph.NewFieldSpec(template.FieldID, field.TypeString))
-	if ps := tu.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := tu.mutation.Name(); ok {
+	if value, ok := _u.mutation.Name(); ok {
 		_spec.SetField(template.FieldName, field.TypeString, value)
 	}
-	if tu.mutation.NameCleared() {
+	if _u.mutation.NameCleared() {
 		_spec.ClearField(template.FieldName, field.TypeString)
 	}
-	if value, ok := tu.mutation.Code(); ok {
+	if value, ok := _u.mutation.Code(); ok {
 		_spec.SetField(template.FieldCode, field.TypeString, value)
 	}
-	if tu.mutation.CodeCleared() {
+	if _u.mutation.CodeCleared() {
 		_spec.ClearField(template.FieldCode, field.TypeString)
 	}
-	if value, ok := tu.mutation.Description(); ok {
+	if value, ok := _u.mutation.Description(); ok {
 		_spec.SetField(template.FieldDescription, field.TypeString, value)
 	}
-	if tu.mutation.DescriptionCleared() {
+	if _u.mutation.DescriptionCleared() {
 		_spec.ClearField(template.FieldDescription, field.TypeString)
 	}
-	if value, ok := tu.mutation.GetType(); ok {
+	if value, ok := _u.mutation.GetType(); ok {
 		_spec.SetField(template.FieldType, field.TypeString, value)
 	}
-	if tu.mutation.TypeCleared() {
+	if _u.mutation.TypeCleared() {
 		_spec.ClearField(template.FieldType, field.TypeString)
 	}
-	if value, ok := tu.mutation.Version(); ok {
+	if value, ok := _u.mutation.Version(); ok {
 		_spec.SetField(template.FieldVersion, field.TypeString, value)
 	}
-	if tu.mutation.VersionCleared() {
+	if _u.mutation.VersionCleared() {
 		_spec.ClearField(template.FieldVersion, field.TypeString)
 	}
-	if value, ok := tu.mutation.Status(); ok {
+	if value, ok := _u.mutation.Status(); ok {
 		_spec.SetField(template.FieldStatus, field.TypeString, value)
 	}
-	if tu.mutation.StatusCleared() {
+	if _u.mutation.StatusCleared() {
 		_spec.ClearField(template.FieldStatus, field.TypeString)
 	}
-	if value, ok := tu.mutation.Disabled(); ok {
+	if value, ok := _u.mutation.Disabled(); ok {
 		_spec.SetField(template.FieldDisabled, field.TypeBool, value)
 	}
-	if tu.mutation.DisabledCleared() {
+	if _u.mutation.DisabledCleared() {
 		_spec.ClearField(template.FieldDisabled, field.TypeBool)
 	}
-	if value, ok := tu.mutation.FormCode(); ok {
+	if value, ok := _u.mutation.FormCode(); ok {
 		_spec.SetField(template.FieldFormCode, field.TypeString, value)
 	}
-	if value, ok := tu.mutation.FormVersion(); ok {
+	if value, ok := _u.mutation.FormVersion(); ok {
 		_spec.SetField(template.FieldFormVersion, field.TypeString, value)
 	}
-	if tu.mutation.FormVersionCleared() {
+	if _u.mutation.FormVersionCleared() {
 		_spec.ClearField(template.FieldFormVersion, field.TypeString)
 	}
-	if value, ok := tu.mutation.FormConfig(); ok {
+	if value, ok := _u.mutation.FormConfig(); ok {
 		_spec.SetField(template.FieldFormConfig, field.TypeJSON, value)
 	}
-	if tu.mutation.FormConfigCleared() {
+	if _u.mutation.FormConfigCleared() {
 		_spec.ClearField(template.FieldFormConfig, field.TypeJSON)
 	}
-	if value, ok := tu.mutation.FormPermissions(); ok {
+	if value, ok := _u.mutation.FormPermissions(); ok {
 		_spec.SetField(template.FieldFormPermissions, field.TypeJSON, value)
 	}
-	if tu.mutation.FormPermissionsCleared() {
+	if _u.mutation.FormPermissionsCleared() {
 		_spec.ClearField(template.FieldFormPermissions, field.TypeJSON)
 	}
-	if value, ok := tu.mutation.FieldPermissions(); ok {
+	if value, ok := _u.mutation.FieldPermissions(); ok {
 		_spec.SetField(template.FieldFieldPermissions, field.TypeJSON, value)
 	}
-	if tu.mutation.FieldPermissionsCleared() {
+	if _u.mutation.FieldPermissionsCleared() {
 		_spec.ClearField(template.FieldFieldPermissions, field.TypeJSON)
 	}
-	if value, ok := tu.mutation.NodeKey(); ok {
+	if value, ok := _u.mutation.NodeKey(); ok {
 		_spec.SetField(template.FieldNodeKey, field.TypeString, value)
 	}
-	if value, ok := tu.mutation.NodeType(); ok {
+	if value, ok := _u.mutation.NodeType(); ok {
 		_spec.SetField(template.FieldNodeType, field.TypeString, value)
 	}
-	if value, ok := tu.mutation.NodeConfig(); ok {
+	if value, ok := _u.mutation.NodeConfig(); ok {
 		_spec.SetField(template.FieldNodeConfig, field.TypeJSON, value)
 	}
-	if tu.mutation.NodeConfigCleared() {
+	if _u.mutation.NodeConfigCleared() {
 		_spec.ClearField(template.FieldNodeConfig, field.TypeJSON)
 	}
-	if value, ok := tu.mutation.NodeRules(); ok {
+	if value, ok := _u.mutation.NodeRules(); ok {
 		_spec.SetField(template.FieldNodeRules, field.TypeJSON, value)
 	}
-	if tu.mutation.NodeRulesCleared() {
+	if _u.mutation.NodeRulesCleared() {
 		_spec.ClearField(template.FieldNodeRules, field.TypeJSON)
 	}
-	if value, ok := tu.mutation.NodeEvents(); ok {
+	if value, ok := _u.mutation.NodeEvents(); ok {
 		_spec.SetField(template.FieldNodeEvents, field.TypeJSON, value)
 	}
-	if tu.mutation.NodeEventsCleared() {
+	if _u.mutation.NodeEventsCleared() {
 		_spec.ClearField(template.FieldNodeEvents, field.TypeJSON)
 	}
-	if value, ok := tu.mutation.BusinessTags(); ok {
+	if value, ok := _u.mutation.BusinessTags(); ok {
 		_spec.SetField(template.FieldBusinessTags, field.TypeJSON, value)
 	}
-	if value, ok := tu.mutation.AppendedBusinessTags(); ok {
+	if value, ok := _u.mutation.AppendedBusinessTags(); ok {
 		_spec.AddModifier(func(u *sql.UpdateBuilder) {
 			sqljson.Append(u, template.FieldBusinessTags, value)
 		})
 	}
-	if tu.mutation.BusinessTagsCleared() {
+	if _u.mutation.BusinessTagsCleared() {
 		_spec.ClearField(template.FieldBusinessTags, field.TypeJSON)
 	}
-	if value, ok := tu.mutation.ModuleCode(); ok {
+	if value, ok := _u.mutation.ModuleCode(); ok {
 		_spec.SetField(template.FieldModuleCode, field.TypeString, value)
 	}
-	if value, ok := tu.mutation.Category(); ok {
+	if value, ok := _u.mutation.Category(); ok {
 		_spec.SetField(template.FieldCategory, field.TypeString, value)
 	}
-	if tu.mutation.CategoryCleared() {
+	if _u.mutation.CategoryCleared() {
 		_spec.ClearField(template.FieldCategory, field.TypeString)
 	}
-	if value, ok := tu.mutation.AllowCancel(); ok {
+	if value, ok := _u.mutation.AllowCancel(); ok {
 		_spec.SetField(template.FieldAllowCancel, field.TypeBool, value)
 	}
-	if value, ok := tu.mutation.AllowUrge(); ok {
+	if value, ok := _u.mutation.AllowUrge(); ok {
 		_spec.SetField(template.FieldAllowUrge, field.TypeBool, value)
 	}
-	if value, ok := tu.mutation.AllowDelegate(); ok {
+	if value, ok := _u.mutation.AllowDelegate(); ok {
 		_spec.SetField(template.FieldAllowDelegate, field.TypeBool, value)
 	}
-	if value, ok := tu.mutation.AllowTransfer(); ok {
+	if value, ok := _u.mutation.AllowTransfer(); ok {
 		_spec.SetField(template.FieldAllowTransfer, field.TypeBool, value)
 	}
-	if value, ok := tu.mutation.IsDraftEnabled(); ok {
+	if value, ok := _u.mutation.IsDraftEnabled(); ok {
 		_spec.SetField(template.FieldIsDraftEnabled, field.TypeBool, value)
 	}
-	if value, ok := tu.mutation.IsAutoStart(); ok {
+	if value, ok := _u.mutation.IsAutoStart(); ok {
 		_spec.SetField(template.FieldIsAutoStart, field.TypeBool, value)
 	}
-	if value, ok := tu.mutation.StrictMode(); ok {
+	if value, ok := _u.mutation.StrictMode(); ok {
 		_spec.SetField(template.FieldStrictMode, field.TypeBool, value)
 	}
-	if value, ok := tu.mutation.Viewers(); ok {
+	if value, ok := _u.mutation.Viewers(); ok {
 		_spec.SetField(template.FieldViewers, field.TypeJSON, value)
 	}
-	if value, ok := tu.mutation.AppendedViewers(); ok {
+	if value, ok := _u.mutation.AppendedViewers(); ok {
 		_spec.AddModifier(func(u *sql.UpdateBuilder) {
 			sqljson.Append(u, template.FieldViewers, value)
 		})
 	}
-	if tu.mutation.ViewersCleared() {
+	if _u.mutation.ViewersCleared() {
 		_spec.ClearField(template.FieldViewers, field.TypeJSON)
 	}
-	if value, ok := tu.mutation.Editors(); ok {
+	if value, ok := _u.mutation.Editors(); ok {
 		_spec.SetField(template.FieldEditors, field.TypeJSON, value)
 	}
-	if value, ok := tu.mutation.AppendedEditors(); ok {
+	if value, ok := _u.mutation.AppendedEditors(); ok {
 		_spec.AddModifier(func(u *sql.UpdateBuilder) {
 			sqljson.Append(u, template.FieldEditors, value)
 		})
 	}
-	if tu.mutation.EditorsCleared() {
+	if _u.mutation.EditorsCleared() {
 		_spec.ClearField(template.FieldEditors, field.TypeJSON)
 	}
-	if value, ok := tu.mutation.PermissionConfigs(); ok {
+	if value, ok := _u.mutation.PermissionConfigs(); ok {
 		_spec.SetField(template.FieldPermissionConfigs, field.TypeJSON, value)
 	}
-	if tu.mutation.PermissionConfigsCleared() {
+	if _u.mutation.PermissionConfigsCleared() {
 		_spec.ClearField(template.FieldPermissionConfigs, field.TypeJSON)
 	}
-	if value, ok := tu.mutation.RoleConfigs(); ok {
+	if value, ok := _u.mutation.RoleConfigs(); ok {
 		_spec.SetField(template.FieldRoleConfigs, field.TypeJSON, value)
 	}
-	if tu.mutation.RoleConfigsCleared() {
+	if _u.mutation.RoleConfigsCleared() {
 		_spec.ClearField(template.FieldRoleConfigs, field.TypeJSON)
 	}
-	if value, ok := tu.mutation.VisibleRange(); ok {
+	if value, ok := _u.mutation.VisibleRange(); ok {
 		_spec.SetField(template.FieldVisibleRange, field.TypeJSON, value)
 	}
-	if tu.mutation.VisibleRangeCleared() {
+	if _u.mutation.VisibleRangeCleared() {
 		_spec.ClearField(template.FieldVisibleRange, field.TypeJSON)
 	}
-	if value, ok := tu.mutation.Extras(); ok {
+	if value, ok := _u.mutation.Extras(); ok {
 		_spec.SetField(template.FieldExtras, field.TypeJSON, value)
 	}
-	if tu.mutation.ExtrasCleared() {
+	if _u.mutation.ExtrasCleared() {
 		_spec.ClearField(template.FieldExtras, field.TypeJSON)
 	}
-	if value, ok := tu.mutation.SpaceID(); ok {
+	if value, ok := _u.mutation.SpaceID(); ok {
 		_spec.SetField(template.FieldSpaceID, field.TypeString, value)
 	}
-	if tu.mutation.SpaceIDCleared() {
+	if _u.mutation.SpaceIDCleared() {
 		_spec.ClearField(template.FieldSpaceID, field.TypeString)
 	}
-	if value, ok := tu.mutation.CreatedBy(); ok {
+	if value, ok := _u.mutation.CreatedBy(); ok {
 		_spec.SetField(template.FieldCreatedBy, field.TypeString, value)
 	}
-	if tu.mutation.CreatedByCleared() {
+	if _u.mutation.CreatedByCleared() {
 		_spec.ClearField(template.FieldCreatedBy, field.TypeString)
 	}
-	if value, ok := tu.mutation.UpdatedBy(); ok {
+	if value, ok := _u.mutation.UpdatedBy(); ok {
 		_spec.SetField(template.FieldUpdatedBy, field.TypeString, value)
 	}
-	if tu.mutation.UpdatedByCleared() {
+	if _u.mutation.UpdatedByCleared() {
 		_spec.ClearField(template.FieldUpdatedBy, field.TypeString)
 	}
-	if tu.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(template.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := tu.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(template.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := tu.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(template.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if tu.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(template.FieldUpdatedAt, field.TypeInt64)
 	}
-	if value, ok := tu.mutation.TemplateKey(); ok {
+	if value, ok := _u.mutation.TemplateKey(); ok {
 		_spec.SetField(template.FieldTemplateKey, field.TypeString, value)
 	}
-	if value, ok := tu.mutation.ProcessRules(); ok {
+	if value, ok := _u.mutation.ProcessRules(); ok {
 		_spec.SetField(template.FieldProcessRules, field.TypeJSON, value)
 	}
-	if tu.mutation.ProcessRulesCleared() {
+	if _u.mutation.ProcessRulesCleared() {
 		_spec.ClearField(template.FieldProcessRules, field.TypeJSON)
 	}
-	if value, ok := tu.mutation.TriggerConditions(); ok {
+	if value, ok := _u.mutation.TriggerConditions(); ok {
 		_spec.SetField(template.FieldTriggerConditions, field.TypeJSON, value)
 	}
-	if tu.mutation.TriggerConditionsCleared() {
+	if _u.mutation.TriggerConditionsCleared() {
 		_spec.ClearField(template.FieldTriggerConditions, field.TypeJSON)
 	}
-	if value, ok := tu.mutation.TimeoutConfig(); ok {
+	if value, ok := _u.mutation.TimeoutConfig(); ok {
 		_spec.SetField(template.FieldTimeoutConfig, field.TypeJSON, value)
 	}
-	if tu.mutation.TimeoutConfigCleared() {
+	if _u.mutation.TimeoutConfigCleared() {
 		_spec.ClearField(template.FieldTimeoutConfig, field.TypeJSON)
 	}
-	if value, ok := tu.mutation.ReminderConfig(); ok {
+	if value, ok := _u.mutation.ReminderConfig(); ok {
 		_spec.SetField(template.FieldReminderConfig, field.TypeJSON, value)
 	}
-	if tu.mutation.ReminderConfigCleared() {
+	if _u.mutation.ReminderConfigCleared() {
 		_spec.ClearField(template.FieldReminderConfig, field.TypeJSON)
 	}
-	if value, ok := tu.mutation.SourceVersion(); ok {
+	if value, ok := _u.mutation.SourceVersion(); ok {
 		_spec.SetField(template.FieldSourceVersion, field.TypeString, value)
 	}
-	if tu.mutation.SourceVersionCleared() {
+	if _u.mutation.SourceVersionCleared() {
 		_spec.ClearField(template.FieldSourceVersion, field.TypeString)
 	}
-	if value, ok := tu.mutation.IsLatest(); ok {
+	if value, ok := _u.mutation.IsLatest(); ok {
 		_spec.SetField(template.FieldIsLatest, field.TypeBool, value)
 	}
-	if value, ok := tu.mutation.EffectiveTime(); ok {
+	if value, ok := _u.mutation.EffectiveTime(); ok {
 		_spec.SetField(template.FieldEffectiveTime, field.TypeInt64, value)
 	}
-	if value, ok := tu.mutation.AddedEffectiveTime(); ok {
+	if value, ok := _u.mutation.AddedEffectiveTime(); ok {
 		_spec.AddField(template.FieldEffectiveTime, field.TypeInt64, value)
 	}
-	if tu.mutation.EffectiveTimeCleared() {
+	if _u.mutation.EffectiveTimeCleared() {
 		_spec.ClearField(template.FieldEffectiveTime, field.TypeInt64)
 	}
-	if value, ok := tu.mutation.ExpireTime(); ok {
+	if value, ok := _u.mutation.ExpireTime(); ok {
 		_spec.SetField(template.FieldExpireTime, field.TypeInt64, value)
 	}
-	if value, ok := tu.mutation.AddedExpireTime(); ok {
+	if value, ok := _u.mutation.AddedExpireTime(); ok {
 		_spec.AddField(template.FieldExpireTime, field.TypeInt64, value)
 	}
-	if tu.mutation.ExpireTimeCleared() {
+	if _u.mutation.ExpireTimeCleared() {
 		_spec.ClearField(template.FieldExpireTime, field.TypeInt64)
 	}
-	if n, err = sqlgraph.UpdateNodes(ctx, tu.driver, _spec); err != nil {
+	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{template.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -1087,8 +1087,8 @@ func (tu *TemplateUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		return 0, err
 	}
-	tu.mutation.done = true
-	return n, nil
+	_u.mutation.done = true
+	return _node, nil
 }
 
 // TemplateUpdateOne is the builder for updating a single Template entity.
@@ -1100,769 +1100,769 @@ type TemplateUpdateOne struct {
 }
 
 // SetName sets the "name" field.
-func (tuo *TemplateUpdateOne) SetName(s string) *TemplateUpdateOne {
-	tuo.mutation.SetName(s)
-	return tuo
+func (_u *TemplateUpdateOne) SetName(v string) *TemplateUpdateOne {
+	_u.mutation.SetName(v)
+	return _u
 }
 
 // SetNillableName sets the "name" field if the given value is not nil.
-func (tuo *TemplateUpdateOne) SetNillableName(s *string) *TemplateUpdateOne {
-	if s != nil {
-		tuo.SetName(*s)
+func (_u *TemplateUpdateOne) SetNillableName(v *string) *TemplateUpdateOne {
+	if v != nil {
+		_u.SetName(*v)
 	}
-	return tuo
+	return _u
 }
 
 // ClearName clears the value of the "name" field.
-func (tuo *TemplateUpdateOne) ClearName() *TemplateUpdateOne {
-	tuo.mutation.ClearName()
-	return tuo
+func (_u *TemplateUpdateOne) ClearName() *TemplateUpdateOne {
+	_u.mutation.ClearName()
+	return _u
 }
 
 // SetCode sets the "code" field.
-func (tuo *TemplateUpdateOne) SetCode(s string) *TemplateUpdateOne {
-	tuo.mutation.SetCode(s)
-	return tuo
+func (_u *TemplateUpdateOne) SetCode(v string) *TemplateUpdateOne {
+	_u.mutation.SetCode(v)
+	return _u
 }
 
 // SetNillableCode sets the "code" field if the given value is not nil.
-func (tuo *TemplateUpdateOne) SetNillableCode(s *string) *TemplateUpdateOne {
-	if s != nil {
-		tuo.SetCode(*s)
+func (_u *TemplateUpdateOne) SetNillableCode(v *string) *TemplateUpdateOne {
+	if v != nil {
+		_u.SetCode(*v)
 	}
-	return tuo
+	return _u
 }
 
 // ClearCode clears the value of the "code" field.
-func (tuo *TemplateUpdateOne) ClearCode() *TemplateUpdateOne {
-	tuo.mutation.ClearCode()
-	return tuo
+func (_u *TemplateUpdateOne) ClearCode() *TemplateUpdateOne {
+	_u.mutation.ClearCode()
+	return _u
 }
 
 // SetDescription sets the "description" field.
-func (tuo *TemplateUpdateOne) SetDescription(s string) *TemplateUpdateOne {
-	tuo.mutation.SetDescription(s)
-	return tuo
+func (_u *TemplateUpdateOne) SetDescription(v string) *TemplateUpdateOne {
+	_u.mutation.SetDescription(v)
+	return _u
 }
 
 // SetNillableDescription sets the "description" field if the given value is not nil.
-func (tuo *TemplateUpdateOne) SetNillableDescription(s *string) *TemplateUpdateOne {
-	if s != nil {
-		tuo.SetDescription(*s)
+func (_u *TemplateUpdateOne) SetNillableDescription(v *string) *TemplateUpdateOne {
+	if v != nil {
+		_u.SetDescription(*v)
 	}
-	return tuo
+	return _u
 }
 
 // ClearDescription clears the value of the "description" field.
-func (tuo *TemplateUpdateOne) ClearDescription() *TemplateUpdateOne {
-	tuo.mutation.ClearDescription()
-	return tuo
+func (_u *TemplateUpdateOne) ClearDescription() *TemplateUpdateOne {
+	_u.mutation.ClearDescription()
+	return _u
 }
 
 // SetType sets the "type" field.
-func (tuo *TemplateUpdateOne) SetType(s string) *TemplateUpdateOne {
-	tuo.mutation.SetType(s)
-	return tuo
+func (_u *TemplateUpdateOne) SetType(v string) *TemplateUpdateOne {
+	_u.mutation.SetType(v)
+	return _u
 }
 
 // SetNillableType sets the "type" field if the given value is not nil.
-func (tuo *TemplateUpdateOne) SetNillableType(s *string) *TemplateUpdateOne {
-	if s != nil {
-		tuo.SetType(*s)
+func (_u *TemplateUpdateOne) SetNillableType(v *string) *TemplateUpdateOne {
+	if v != nil {
+		_u.SetType(*v)
 	}
-	return tuo
+	return _u
 }
 
 // ClearType clears the value of the "type" field.
-func (tuo *TemplateUpdateOne) ClearType() *TemplateUpdateOne {
-	tuo.mutation.ClearType()
-	return tuo
+func (_u *TemplateUpdateOne) ClearType() *TemplateUpdateOne {
+	_u.mutation.ClearType()
+	return _u
 }
 
 // SetVersion sets the "version" field.
-func (tuo *TemplateUpdateOne) SetVersion(s string) *TemplateUpdateOne {
-	tuo.mutation.SetVersion(s)
-	return tuo
+func (_u *TemplateUpdateOne) SetVersion(v string) *TemplateUpdateOne {
+	_u.mutation.SetVersion(v)
+	return _u
 }
 
 // SetNillableVersion sets the "version" field if the given value is not nil.
-func (tuo *TemplateUpdateOne) SetNillableVersion(s *string) *TemplateUpdateOne {
-	if s != nil {
-		tuo.SetVersion(*s)
+func (_u *TemplateUpdateOne) SetNillableVersion(v *string) *TemplateUpdateOne {
+	if v != nil {
+		_u.SetVersion(*v)
 	}
-	return tuo
+	return _u
 }
 
 // ClearVersion clears the value of the "version" field.
-func (tuo *TemplateUpdateOne) ClearVersion() *TemplateUpdateOne {
-	tuo.mutation.ClearVersion()
-	return tuo
+func (_u *TemplateUpdateOne) ClearVersion() *TemplateUpdateOne {
+	_u.mutation.ClearVersion()
+	return _u
 }
 
 // SetStatus sets the "status" field.
-func (tuo *TemplateUpdateOne) SetStatus(s string) *TemplateUpdateOne {
-	tuo.mutation.SetStatus(s)
-	return tuo
+func (_u *TemplateUpdateOne) SetStatus(v string) *TemplateUpdateOne {
+	_u.mutation.SetStatus(v)
+	return _u
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (tuo *TemplateUpdateOne) SetNillableStatus(s *string) *TemplateUpdateOne {
-	if s != nil {
-		tuo.SetStatus(*s)
+func (_u *TemplateUpdateOne) SetNillableStatus(v *string) *TemplateUpdateOne {
+	if v != nil {
+		_u.SetStatus(*v)
 	}
-	return tuo
+	return _u
 }
 
 // ClearStatus clears the value of the "status" field.
-func (tuo *TemplateUpdateOne) ClearStatus() *TemplateUpdateOne {
-	tuo.mutation.ClearStatus()
-	return tuo
+func (_u *TemplateUpdateOne) ClearStatus() *TemplateUpdateOne {
+	_u.mutation.ClearStatus()
+	return _u
 }
 
 // SetDisabled sets the "disabled" field.
-func (tuo *TemplateUpdateOne) SetDisabled(b bool) *TemplateUpdateOne {
-	tuo.mutation.SetDisabled(b)
-	return tuo
+func (_u *TemplateUpdateOne) SetDisabled(v bool) *TemplateUpdateOne {
+	_u.mutation.SetDisabled(v)
+	return _u
 }
 
 // SetNillableDisabled sets the "disabled" field if the given value is not nil.
-func (tuo *TemplateUpdateOne) SetNillableDisabled(b *bool) *TemplateUpdateOne {
-	if b != nil {
-		tuo.SetDisabled(*b)
+func (_u *TemplateUpdateOne) SetNillableDisabled(v *bool) *TemplateUpdateOne {
+	if v != nil {
+		_u.SetDisabled(*v)
 	}
-	return tuo
+	return _u
 }
 
 // ClearDisabled clears the value of the "disabled" field.
-func (tuo *TemplateUpdateOne) ClearDisabled() *TemplateUpdateOne {
-	tuo.mutation.ClearDisabled()
-	return tuo
+func (_u *TemplateUpdateOne) ClearDisabled() *TemplateUpdateOne {
+	_u.mutation.ClearDisabled()
+	return _u
 }
 
 // SetFormCode sets the "form_code" field.
-func (tuo *TemplateUpdateOne) SetFormCode(s string) *TemplateUpdateOne {
-	tuo.mutation.SetFormCode(s)
-	return tuo
+func (_u *TemplateUpdateOne) SetFormCode(v string) *TemplateUpdateOne {
+	_u.mutation.SetFormCode(v)
+	return _u
 }
 
 // SetNillableFormCode sets the "form_code" field if the given value is not nil.
-func (tuo *TemplateUpdateOne) SetNillableFormCode(s *string) *TemplateUpdateOne {
-	if s != nil {
-		tuo.SetFormCode(*s)
+func (_u *TemplateUpdateOne) SetNillableFormCode(v *string) *TemplateUpdateOne {
+	if v != nil {
+		_u.SetFormCode(*v)
 	}
-	return tuo
+	return _u
 }
 
 // SetFormVersion sets the "form_version" field.
-func (tuo *TemplateUpdateOne) SetFormVersion(s string) *TemplateUpdateOne {
-	tuo.mutation.SetFormVersion(s)
-	return tuo
+func (_u *TemplateUpdateOne) SetFormVersion(v string) *TemplateUpdateOne {
+	_u.mutation.SetFormVersion(v)
+	return _u
 }
 
 // SetNillableFormVersion sets the "form_version" field if the given value is not nil.
-func (tuo *TemplateUpdateOne) SetNillableFormVersion(s *string) *TemplateUpdateOne {
-	if s != nil {
-		tuo.SetFormVersion(*s)
+func (_u *TemplateUpdateOne) SetNillableFormVersion(v *string) *TemplateUpdateOne {
+	if v != nil {
+		_u.SetFormVersion(*v)
 	}
-	return tuo
+	return _u
 }
 
 // ClearFormVersion clears the value of the "form_version" field.
-func (tuo *TemplateUpdateOne) ClearFormVersion() *TemplateUpdateOne {
-	tuo.mutation.ClearFormVersion()
-	return tuo
+func (_u *TemplateUpdateOne) ClearFormVersion() *TemplateUpdateOne {
+	_u.mutation.ClearFormVersion()
+	return _u
 }
 
 // SetFormConfig sets the "form_config" field.
-func (tuo *TemplateUpdateOne) SetFormConfig(m map[string]interface{}) *TemplateUpdateOne {
-	tuo.mutation.SetFormConfig(m)
-	return tuo
+func (_u *TemplateUpdateOne) SetFormConfig(v map[string]interface{}) *TemplateUpdateOne {
+	_u.mutation.SetFormConfig(v)
+	return _u
 }
 
 // ClearFormConfig clears the value of the "form_config" field.
-func (tuo *TemplateUpdateOne) ClearFormConfig() *TemplateUpdateOne {
-	tuo.mutation.ClearFormConfig()
-	return tuo
+func (_u *TemplateUpdateOne) ClearFormConfig() *TemplateUpdateOne {
+	_u.mutation.ClearFormConfig()
+	return _u
 }
 
 // SetFormPermissions sets the "form_permissions" field.
-func (tuo *TemplateUpdateOne) SetFormPermissions(m map[string]interface{}) *TemplateUpdateOne {
-	tuo.mutation.SetFormPermissions(m)
-	return tuo
+func (_u *TemplateUpdateOne) SetFormPermissions(v map[string]interface{}) *TemplateUpdateOne {
+	_u.mutation.SetFormPermissions(v)
+	return _u
 }
 
 // ClearFormPermissions clears the value of the "form_permissions" field.
-func (tuo *TemplateUpdateOne) ClearFormPermissions() *TemplateUpdateOne {
-	tuo.mutation.ClearFormPermissions()
-	return tuo
+func (_u *TemplateUpdateOne) ClearFormPermissions() *TemplateUpdateOne {
+	_u.mutation.ClearFormPermissions()
+	return _u
 }
 
 // SetFieldPermissions sets the "field_permissions" field.
-func (tuo *TemplateUpdateOne) SetFieldPermissions(m map[string]interface{}) *TemplateUpdateOne {
-	tuo.mutation.SetFieldPermissions(m)
-	return tuo
+func (_u *TemplateUpdateOne) SetFieldPermissions(v map[string]interface{}) *TemplateUpdateOne {
+	_u.mutation.SetFieldPermissions(v)
+	return _u
 }
 
 // ClearFieldPermissions clears the value of the "field_permissions" field.
-func (tuo *TemplateUpdateOne) ClearFieldPermissions() *TemplateUpdateOne {
-	tuo.mutation.ClearFieldPermissions()
-	return tuo
+func (_u *TemplateUpdateOne) ClearFieldPermissions() *TemplateUpdateOne {
+	_u.mutation.ClearFieldPermissions()
+	return _u
 }
 
 // SetNodeKey sets the "node_key" field.
-func (tuo *TemplateUpdateOne) SetNodeKey(s string) *TemplateUpdateOne {
-	tuo.mutation.SetNodeKey(s)
-	return tuo
+func (_u *TemplateUpdateOne) SetNodeKey(v string) *TemplateUpdateOne {
+	_u.mutation.SetNodeKey(v)
+	return _u
 }
 
 // SetNillableNodeKey sets the "node_key" field if the given value is not nil.
-func (tuo *TemplateUpdateOne) SetNillableNodeKey(s *string) *TemplateUpdateOne {
-	if s != nil {
-		tuo.SetNodeKey(*s)
+func (_u *TemplateUpdateOne) SetNillableNodeKey(v *string) *TemplateUpdateOne {
+	if v != nil {
+		_u.SetNodeKey(*v)
 	}
-	return tuo
+	return _u
 }
 
 // SetNodeType sets the "node_type" field.
-func (tuo *TemplateUpdateOne) SetNodeType(s string) *TemplateUpdateOne {
-	tuo.mutation.SetNodeType(s)
-	return tuo
+func (_u *TemplateUpdateOne) SetNodeType(v string) *TemplateUpdateOne {
+	_u.mutation.SetNodeType(v)
+	return _u
 }
 
 // SetNillableNodeType sets the "node_type" field if the given value is not nil.
-func (tuo *TemplateUpdateOne) SetNillableNodeType(s *string) *TemplateUpdateOne {
-	if s != nil {
-		tuo.SetNodeType(*s)
+func (_u *TemplateUpdateOne) SetNillableNodeType(v *string) *TemplateUpdateOne {
+	if v != nil {
+		_u.SetNodeType(*v)
 	}
-	return tuo
+	return _u
 }
 
 // SetNodeConfig sets the "node_config" field.
-func (tuo *TemplateUpdateOne) SetNodeConfig(m map[string]interface{}) *TemplateUpdateOne {
-	tuo.mutation.SetNodeConfig(m)
-	return tuo
+func (_u *TemplateUpdateOne) SetNodeConfig(v map[string]interface{}) *TemplateUpdateOne {
+	_u.mutation.SetNodeConfig(v)
+	return _u
 }
 
 // ClearNodeConfig clears the value of the "node_config" field.
-func (tuo *TemplateUpdateOne) ClearNodeConfig() *TemplateUpdateOne {
-	tuo.mutation.ClearNodeConfig()
-	return tuo
+func (_u *TemplateUpdateOne) ClearNodeConfig() *TemplateUpdateOne {
+	_u.mutation.ClearNodeConfig()
+	return _u
 }
 
 // SetNodeRules sets the "node_rules" field.
-func (tuo *TemplateUpdateOne) SetNodeRules(m map[string]interface{}) *TemplateUpdateOne {
-	tuo.mutation.SetNodeRules(m)
-	return tuo
+func (_u *TemplateUpdateOne) SetNodeRules(v map[string]interface{}) *TemplateUpdateOne {
+	_u.mutation.SetNodeRules(v)
+	return _u
 }
 
 // ClearNodeRules clears the value of the "node_rules" field.
-func (tuo *TemplateUpdateOne) ClearNodeRules() *TemplateUpdateOne {
-	tuo.mutation.ClearNodeRules()
-	return tuo
+func (_u *TemplateUpdateOne) ClearNodeRules() *TemplateUpdateOne {
+	_u.mutation.ClearNodeRules()
+	return _u
 }
 
 // SetNodeEvents sets the "node_events" field.
-func (tuo *TemplateUpdateOne) SetNodeEvents(m map[string]interface{}) *TemplateUpdateOne {
-	tuo.mutation.SetNodeEvents(m)
-	return tuo
+func (_u *TemplateUpdateOne) SetNodeEvents(v map[string]interface{}) *TemplateUpdateOne {
+	_u.mutation.SetNodeEvents(v)
+	return _u
 }
 
 // ClearNodeEvents clears the value of the "node_events" field.
-func (tuo *TemplateUpdateOne) ClearNodeEvents() *TemplateUpdateOne {
-	tuo.mutation.ClearNodeEvents()
-	return tuo
+func (_u *TemplateUpdateOne) ClearNodeEvents() *TemplateUpdateOne {
+	_u.mutation.ClearNodeEvents()
+	return _u
 }
 
 // SetBusinessTags sets the "business_tags" field.
-func (tuo *TemplateUpdateOne) SetBusinessTags(s []string) *TemplateUpdateOne {
-	tuo.mutation.SetBusinessTags(s)
-	return tuo
+func (_u *TemplateUpdateOne) SetBusinessTags(v []string) *TemplateUpdateOne {
+	_u.mutation.SetBusinessTags(v)
+	return _u
 }
 
-// AppendBusinessTags appends s to the "business_tags" field.
-func (tuo *TemplateUpdateOne) AppendBusinessTags(s []string) *TemplateUpdateOne {
-	tuo.mutation.AppendBusinessTags(s)
-	return tuo
+// AppendBusinessTags appends value to the "business_tags" field.
+func (_u *TemplateUpdateOne) AppendBusinessTags(v []string) *TemplateUpdateOne {
+	_u.mutation.AppendBusinessTags(v)
+	return _u
 }
 
 // ClearBusinessTags clears the value of the "business_tags" field.
-func (tuo *TemplateUpdateOne) ClearBusinessTags() *TemplateUpdateOne {
-	tuo.mutation.ClearBusinessTags()
-	return tuo
+func (_u *TemplateUpdateOne) ClearBusinessTags() *TemplateUpdateOne {
+	_u.mutation.ClearBusinessTags()
+	return _u
 }
 
 // SetModuleCode sets the "module_code" field.
-func (tuo *TemplateUpdateOne) SetModuleCode(s string) *TemplateUpdateOne {
-	tuo.mutation.SetModuleCode(s)
-	return tuo
+func (_u *TemplateUpdateOne) SetModuleCode(v string) *TemplateUpdateOne {
+	_u.mutation.SetModuleCode(v)
+	return _u
 }
 
 // SetNillableModuleCode sets the "module_code" field if the given value is not nil.
-func (tuo *TemplateUpdateOne) SetNillableModuleCode(s *string) *TemplateUpdateOne {
-	if s != nil {
-		tuo.SetModuleCode(*s)
+func (_u *TemplateUpdateOne) SetNillableModuleCode(v *string) *TemplateUpdateOne {
+	if v != nil {
+		_u.SetModuleCode(*v)
 	}
-	return tuo
+	return _u
 }
 
 // SetCategory sets the "category" field.
-func (tuo *TemplateUpdateOne) SetCategory(s string) *TemplateUpdateOne {
-	tuo.mutation.SetCategory(s)
-	return tuo
+func (_u *TemplateUpdateOne) SetCategory(v string) *TemplateUpdateOne {
+	_u.mutation.SetCategory(v)
+	return _u
 }
 
 // SetNillableCategory sets the "category" field if the given value is not nil.
-func (tuo *TemplateUpdateOne) SetNillableCategory(s *string) *TemplateUpdateOne {
-	if s != nil {
-		tuo.SetCategory(*s)
+func (_u *TemplateUpdateOne) SetNillableCategory(v *string) *TemplateUpdateOne {
+	if v != nil {
+		_u.SetCategory(*v)
 	}
-	return tuo
+	return _u
 }
 
 // ClearCategory clears the value of the "category" field.
-func (tuo *TemplateUpdateOne) ClearCategory() *TemplateUpdateOne {
-	tuo.mutation.ClearCategory()
-	return tuo
+func (_u *TemplateUpdateOne) ClearCategory() *TemplateUpdateOne {
+	_u.mutation.ClearCategory()
+	return _u
 }
 
 // SetAllowCancel sets the "allow_cancel" field.
-func (tuo *TemplateUpdateOne) SetAllowCancel(b bool) *TemplateUpdateOne {
-	tuo.mutation.SetAllowCancel(b)
-	return tuo
+func (_u *TemplateUpdateOne) SetAllowCancel(v bool) *TemplateUpdateOne {
+	_u.mutation.SetAllowCancel(v)
+	return _u
 }
 
 // SetNillableAllowCancel sets the "allow_cancel" field if the given value is not nil.
-func (tuo *TemplateUpdateOne) SetNillableAllowCancel(b *bool) *TemplateUpdateOne {
-	if b != nil {
-		tuo.SetAllowCancel(*b)
+func (_u *TemplateUpdateOne) SetNillableAllowCancel(v *bool) *TemplateUpdateOne {
+	if v != nil {
+		_u.SetAllowCancel(*v)
 	}
-	return tuo
+	return _u
 }
 
 // SetAllowUrge sets the "allow_urge" field.
-func (tuo *TemplateUpdateOne) SetAllowUrge(b bool) *TemplateUpdateOne {
-	tuo.mutation.SetAllowUrge(b)
-	return tuo
+func (_u *TemplateUpdateOne) SetAllowUrge(v bool) *TemplateUpdateOne {
+	_u.mutation.SetAllowUrge(v)
+	return _u
 }
 
 // SetNillableAllowUrge sets the "allow_urge" field if the given value is not nil.
-func (tuo *TemplateUpdateOne) SetNillableAllowUrge(b *bool) *TemplateUpdateOne {
-	if b != nil {
-		tuo.SetAllowUrge(*b)
+func (_u *TemplateUpdateOne) SetNillableAllowUrge(v *bool) *TemplateUpdateOne {
+	if v != nil {
+		_u.SetAllowUrge(*v)
 	}
-	return tuo
+	return _u
 }
 
 // SetAllowDelegate sets the "allow_delegate" field.
-func (tuo *TemplateUpdateOne) SetAllowDelegate(b bool) *TemplateUpdateOne {
-	tuo.mutation.SetAllowDelegate(b)
-	return tuo
+func (_u *TemplateUpdateOne) SetAllowDelegate(v bool) *TemplateUpdateOne {
+	_u.mutation.SetAllowDelegate(v)
+	return _u
 }
 
 // SetNillableAllowDelegate sets the "allow_delegate" field if the given value is not nil.
-func (tuo *TemplateUpdateOne) SetNillableAllowDelegate(b *bool) *TemplateUpdateOne {
-	if b != nil {
-		tuo.SetAllowDelegate(*b)
+func (_u *TemplateUpdateOne) SetNillableAllowDelegate(v *bool) *TemplateUpdateOne {
+	if v != nil {
+		_u.SetAllowDelegate(*v)
 	}
-	return tuo
+	return _u
 }
 
 // SetAllowTransfer sets the "allow_transfer" field.
-func (tuo *TemplateUpdateOne) SetAllowTransfer(b bool) *TemplateUpdateOne {
-	tuo.mutation.SetAllowTransfer(b)
-	return tuo
+func (_u *TemplateUpdateOne) SetAllowTransfer(v bool) *TemplateUpdateOne {
+	_u.mutation.SetAllowTransfer(v)
+	return _u
 }
 
 // SetNillableAllowTransfer sets the "allow_transfer" field if the given value is not nil.
-func (tuo *TemplateUpdateOne) SetNillableAllowTransfer(b *bool) *TemplateUpdateOne {
-	if b != nil {
-		tuo.SetAllowTransfer(*b)
+func (_u *TemplateUpdateOne) SetNillableAllowTransfer(v *bool) *TemplateUpdateOne {
+	if v != nil {
+		_u.SetAllowTransfer(*v)
 	}
-	return tuo
+	return _u
 }
 
 // SetIsDraftEnabled sets the "is_draft_enabled" field.
-func (tuo *TemplateUpdateOne) SetIsDraftEnabled(b bool) *TemplateUpdateOne {
-	tuo.mutation.SetIsDraftEnabled(b)
-	return tuo
+func (_u *TemplateUpdateOne) SetIsDraftEnabled(v bool) *TemplateUpdateOne {
+	_u.mutation.SetIsDraftEnabled(v)
+	return _u
 }
 
 // SetNillableIsDraftEnabled sets the "is_draft_enabled" field if the given value is not nil.
-func (tuo *TemplateUpdateOne) SetNillableIsDraftEnabled(b *bool) *TemplateUpdateOne {
-	if b != nil {
-		tuo.SetIsDraftEnabled(*b)
+func (_u *TemplateUpdateOne) SetNillableIsDraftEnabled(v *bool) *TemplateUpdateOne {
+	if v != nil {
+		_u.SetIsDraftEnabled(*v)
 	}
-	return tuo
+	return _u
 }
 
 // SetIsAutoStart sets the "is_auto_start" field.
-func (tuo *TemplateUpdateOne) SetIsAutoStart(b bool) *TemplateUpdateOne {
-	tuo.mutation.SetIsAutoStart(b)
-	return tuo
+func (_u *TemplateUpdateOne) SetIsAutoStart(v bool) *TemplateUpdateOne {
+	_u.mutation.SetIsAutoStart(v)
+	return _u
 }
 
 // SetNillableIsAutoStart sets the "is_auto_start" field if the given value is not nil.
-func (tuo *TemplateUpdateOne) SetNillableIsAutoStart(b *bool) *TemplateUpdateOne {
-	if b != nil {
-		tuo.SetIsAutoStart(*b)
+func (_u *TemplateUpdateOne) SetNillableIsAutoStart(v *bool) *TemplateUpdateOne {
+	if v != nil {
+		_u.SetIsAutoStart(*v)
 	}
-	return tuo
+	return _u
 }
 
 // SetStrictMode sets the "strict_mode" field.
-func (tuo *TemplateUpdateOne) SetStrictMode(b bool) *TemplateUpdateOne {
-	tuo.mutation.SetStrictMode(b)
-	return tuo
+func (_u *TemplateUpdateOne) SetStrictMode(v bool) *TemplateUpdateOne {
+	_u.mutation.SetStrictMode(v)
+	return _u
 }
 
 // SetNillableStrictMode sets the "strict_mode" field if the given value is not nil.
-func (tuo *TemplateUpdateOne) SetNillableStrictMode(b *bool) *TemplateUpdateOne {
-	if b != nil {
-		tuo.SetStrictMode(*b)
+func (_u *TemplateUpdateOne) SetNillableStrictMode(v *bool) *TemplateUpdateOne {
+	if v != nil {
+		_u.SetStrictMode(*v)
 	}
-	return tuo
+	return _u
 }
 
 // SetViewers sets the "viewers" field.
-func (tuo *TemplateUpdateOne) SetViewers(s []string) *TemplateUpdateOne {
-	tuo.mutation.SetViewers(s)
-	return tuo
+func (_u *TemplateUpdateOne) SetViewers(v []string) *TemplateUpdateOne {
+	_u.mutation.SetViewers(v)
+	return _u
 }
 
-// AppendViewers appends s to the "viewers" field.
-func (tuo *TemplateUpdateOne) AppendViewers(s []string) *TemplateUpdateOne {
-	tuo.mutation.AppendViewers(s)
-	return tuo
+// AppendViewers appends value to the "viewers" field.
+func (_u *TemplateUpdateOne) AppendViewers(v []string) *TemplateUpdateOne {
+	_u.mutation.AppendViewers(v)
+	return _u
 }
 
 // ClearViewers clears the value of the "viewers" field.
-func (tuo *TemplateUpdateOne) ClearViewers() *TemplateUpdateOne {
-	tuo.mutation.ClearViewers()
-	return tuo
+func (_u *TemplateUpdateOne) ClearViewers() *TemplateUpdateOne {
+	_u.mutation.ClearViewers()
+	return _u
 }
 
 // SetEditors sets the "editors" field.
-func (tuo *TemplateUpdateOne) SetEditors(s []string) *TemplateUpdateOne {
-	tuo.mutation.SetEditors(s)
-	return tuo
+func (_u *TemplateUpdateOne) SetEditors(v []string) *TemplateUpdateOne {
+	_u.mutation.SetEditors(v)
+	return _u
 }
 
-// AppendEditors appends s to the "editors" field.
-func (tuo *TemplateUpdateOne) AppendEditors(s []string) *TemplateUpdateOne {
-	tuo.mutation.AppendEditors(s)
-	return tuo
+// AppendEditors appends value to the "editors" field.
+func (_u *TemplateUpdateOne) AppendEditors(v []string) *TemplateUpdateOne {
+	_u.mutation.AppendEditors(v)
+	return _u
 }
 
 // ClearEditors clears the value of the "editors" field.
-func (tuo *TemplateUpdateOne) ClearEditors() *TemplateUpdateOne {
-	tuo.mutation.ClearEditors()
-	return tuo
+func (_u *TemplateUpdateOne) ClearEditors() *TemplateUpdateOne {
+	_u.mutation.ClearEditors()
+	return _u
 }
 
 // SetPermissionConfigs sets the "permission_configs" field.
-func (tuo *TemplateUpdateOne) SetPermissionConfigs(m map[string]interface{}) *TemplateUpdateOne {
-	tuo.mutation.SetPermissionConfigs(m)
-	return tuo
+func (_u *TemplateUpdateOne) SetPermissionConfigs(v map[string]interface{}) *TemplateUpdateOne {
+	_u.mutation.SetPermissionConfigs(v)
+	return _u
 }
 
 // ClearPermissionConfigs clears the value of the "permission_configs" field.
-func (tuo *TemplateUpdateOne) ClearPermissionConfigs() *TemplateUpdateOne {
-	tuo.mutation.ClearPermissionConfigs()
-	return tuo
+func (_u *TemplateUpdateOne) ClearPermissionConfigs() *TemplateUpdateOne {
+	_u.mutation.ClearPermissionConfigs()
+	return _u
 }
 
 // SetRoleConfigs sets the "role_configs" field.
-func (tuo *TemplateUpdateOne) SetRoleConfigs(m map[string]interface{}) *TemplateUpdateOne {
-	tuo.mutation.SetRoleConfigs(m)
-	return tuo
+func (_u *TemplateUpdateOne) SetRoleConfigs(v map[string]interface{}) *TemplateUpdateOne {
+	_u.mutation.SetRoleConfigs(v)
+	return _u
 }
 
 // ClearRoleConfigs clears the value of the "role_configs" field.
-func (tuo *TemplateUpdateOne) ClearRoleConfigs() *TemplateUpdateOne {
-	tuo.mutation.ClearRoleConfigs()
-	return tuo
+func (_u *TemplateUpdateOne) ClearRoleConfigs() *TemplateUpdateOne {
+	_u.mutation.ClearRoleConfigs()
+	return _u
 }
 
 // SetVisibleRange sets the "visible_range" field.
-func (tuo *TemplateUpdateOne) SetVisibleRange(m map[string]interface{}) *TemplateUpdateOne {
-	tuo.mutation.SetVisibleRange(m)
-	return tuo
+func (_u *TemplateUpdateOne) SetVisibleRange(v map[string]interface{}) *TemplateUpdateOne {
+	_u.mutation.SetVisibleRange(v)
+	return _u
 }
 
 // ClearVisibleRange clears the value of the "visible_range" field.
-func (tuo *TemplateUpdateOne) ClearVisibleRange() *TemplateUpdateOne {
-	tuo.mutation.ClearVisibleRange()
-	return tuo
+func (_u *TemplateUpdateOne) ClearVisibleRange() *TemplateUpdateOne {
+	_u.mutation.ClearVisibleRange()
+	return _u
 }
 
 // SetExtras sets the "extras" field.
-func (tuo *TemplateUpdateOne) SetExtras(m map[string]interface{}) *TemplateUpdateOne {
-	tuo.mutation.SetExtras(m)
-	return tuo
+func (_u *TemplateUpdateOne) SetExtras(v map[string]interface{}) *TemplateUpdateOne {
+	_u.mutation.SetExtras(v)
+	return _u
 }
 
 // ClearExtras clears the value of the "extras" field.
-func (tuo *TemplateUpdateOne) ClearExtras() *TemplateUpdateOne {
-	tuo.mutation.ClearExtras()
-	return tuo
+func (_u *TemplateUpdateOne) ClearExtras() *TemplateUpdateOne {
+	_u.mutation.ClearExtras()
+	return _u
 }
 
 // SetSpaceID sets the "space_id" field.
-func (tuo *TemplateUpdateOne) SetSpaceID(s string) *TemplateUpdateOne {
-	tuo.mutation.SetSpaceID(s)
-	return tuo
+func (_u *TemplateUpdateOne) SetSpaceID(v string) *TemplateUpdateOne {
+	_u.mutation.SetSpaceID(v)
+	return _u
 }
 
 // SetNillableSpaceID sets the "space_id" field if the given value is not nil.
-func (tuo *TemplateUpdateOne) SetNillableSpaceID(s *string) *TemplateUpdateOne {
-	if s != nil {
-		tuo.SetSpaceID(*s)
+func (_u *TemplateUpdateOne) SetNillableSpaceID(v *string) *TemplateUpdateOne {
+	if v != nil {
+		_u.SetSpaceID(*v)
 	}
-	return tuo
+	return _u
 }
 
 // ClearSpaceID clears the value of the "space_id" field.
-func (tuo *TemplateUpdateOne) ClearSpaceID() *TemplateUpdateOne {
-	tuo.mutation.ClearSpaceID()
-	return tuo
+func (_u *TemplateUpdateOne) ClearSpaceID() *TemplateUpdateOne {
+	_u.mutation.ClearSpaceID()
+	return _u
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (tuo *TemplateUpdateOne) SetCreatedBy(s string) *TemplateUpdateOne {
-	tuo.mutation.SetCreatedBy(s)
-	return tuo
+func (_u *TemplateUpdateOne) SetCreatedBy(v string) *TemplateUpdateOne {
+	_u.mutation.SetCreatedBy(v)
+	return _u
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (tuo *TemplateUpdateOne) SetNillableCreatedBy(s *string) *TemplateUpdateOne {
-	if s != nil {
-		tuo.SetCreatedBy(*s)
+func (_u *TemplateUpdateOne) SetNillableCreatedBy(v *string) *TemplateUpdateOne {
+	if v != nil {
+		_u.SetCreatedBy(*v)
 	}
-	return tuo
+	return _u
 }
 
 // ClearCreatedBy clears the value of the "created_by" field.
-func (tuo *TemplateUpdateOne) ClearCreatedBy() *TemplateUpdateOne {
-	tuo.mutation.ClearCreatedBy()
-	return tuo
+func (_u *TemplateUpdateOne) ClearCreatedBy() *TemplateUpdateOne {
+	_u.mutation.ClearCreatedBy()
+	return _u
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (tuo *TemplateUpdateOne) SetUpdatedBy(s string) *TemplateUpdateOne {
-	tuo.mutation.SetUpdatedBy(s)
-	return tuo
+func (_u *TemplateUpdateOne) SetUpdatedBy(v string) *TemplateUpdateOne {
+	_u.mutation.SetUpdatedBy(v)
+	return _u
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (tuo *TemplateUpdateOne) SetNillableUpdatedBy(s *string) *TemplateUpdateOne {
-	if s != nil {
-		tuo.SetUpdatedBy(*s)
+func (_u *TemplateUpdateOne) SetNillableUpdatedBy(v *string) *TemplateUpdateOne {
+	if v != nil {
+		_u.SetUpdatedBy(*v)
 	}
-	return tuo
+	return _u
 }
 
 // ClearUpdatedBy clears the value of the "updated_by" field.
-func (tuo *TemplateUpdateOne) ClearUpdatedBy() *TemplateUpdateOne {
-	tuo.mutation.ClearUpdatedBy()
-	return tuo
+func (_u *TemplateUpdateOne) ClearUpdatedBy() *TemplateUpdateOne {
+	_u.mutation.ClearUpdatedBy()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (tuo *TemplateUpdateOne) SetUpdatedAt(i int64) *TemplateUpdateOne {
-	tuo.mutation.ResetUpdatedAt()
-	tuo.mutation.SetUpdatedAt(i)
-	return tuo
+func (_u *TemplateUpdateOne) SetUpdatedAt(v int64) *TemplateUpdateOne {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (tuo *TemplateUpdateOne) AddUpdatedAt(i int64) *TemplateUpdateOne {
-	tuo.mutation.AddUpdatedAt(i)
-	return tuo
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *TemplateUpdateOne) AddUpdatedAt(v int64) *TemplateUpdateOne {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (tuo *TemplateUpdateOne) ClearUpdatedAt() *TemplateUpdateOne {
-	tuo.mutation.ClearUpdatedAt()
-	return tuo
+func (_u *TemplateUpdateOne) ClearUpdatedAt() *TemplateUpdateOne {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // SetTemplateKey sets the "template_key" field.
-func (tuo *TemplateUpdateOne) SetTemplateKey(s string) *TemplateUpdateOne {
-	tuo.mutation.SetTemplateKey(s)
-	return tuo
+func (_u *TemplateUpdateOne) SetTemplateKey(v string) *TemplateUpdateOne {
+	_u.mutation.SetTemplateKey(v)
+	return _u
 }
 
 // SetNillableTemplateKey sets the "template_key" field if the given value is not nil.
-func (tuo *TemplateUpdateOne) SetNillableTemplateKey(s *string) *TemplateUpdateOne {
-	if s != nil {
-		tuo.SetTemplateKey(*s)
+func (_u *TemplateUpdateOne) SetNillableTemplateKey(v *string) *TemplateUpdateOne {
+	if v != nil {
+		_u.SetTemplateKey(*v)
 	}
-	return tuo
+	return _u
 }
 
 // SetProcessRules sets the "process_rules" field.
-func (tuo *TemplateUpdateOne) SetProcessRules(m map[string]interface{}) *TemplateUpdateOne {
-	tuo.mutation.SetProcessRules(m)
-	return tuo
+func (_u *TemplateUpdateOne) SetProcessRules(v map[string]interface{}) *TemplateUpdateOne {
+	_u.mutation.SetProcessRules(v)
+	return _u
 }
 
 // ClearProcessRules clears the value of the "process_rules" field.
-func (tuo *TemplateUpdateOne) ClearProcessRules() *TemplateUpdateOne {
-	tuo.mutation.ClearProcessRules()
-	return tuo
+func (_u *TemplateUpdateOne) ClearProcessRules() *TemplateUpdateOne {
+	_u.mutation.ClearProcessRules()
+	return _u
 }
 
 // SetTriggerConditions sets the "trigger_conditions" field.
-func (tuo *TemplateUpdateOne) SetTriggerConditions(m map[string]interface{}) *TemplateUpdateOne {
-	tuo.mutation.SetTriggerConditions(m)
-	return tuo
+func (_u *TemplateUpdateOne) SetTriggerConditions(v map[string]interface{}) *TemplateUpdateOne {
+	_u.mutation.SetTriggerConditions(v)
+	return _u
 }
 
 // ClearTriggerConditions clears the value of the "trigger_conditions" field.
-func (tuo *TemplateUpdateOne) ClearTriggerConditions() *TemplateUpdateOne {
-	tuo.mutation.ClearTriggerConditions()
-	return tuo
+func (_u *TemplateUpdateOne) ClearTriggerConditions() *TemplateUpdateOne {
+	_u.mutation.ClearTriggerConditions()
+	return _u
 }
 
 // SetTimeoutConfig sets the "timeout_config" field.
-func (tuo *TemplateUpdateOne) SetTimeoutConfig(m map[string]interface{}) *TemplateUpdateOne {
-	tuo.mutation.SetTimeoutConfig(m)
-	return tuo
+func (_u *TemplateUpdateOne) SetTimeoutConfig(v map[string]interface{}) *TemplateUpdateOne {
+	_u.mutation.SetTimeoutConfig(v)
+	return _u
 }
 
 // ClearTimeoutConfig clears the value of the "timeout_config" field.
-func (tuo *TemplateUpdateOne) ClearTimeoutConfig() *TemplateUpdateOne {
-	tuo.mutation.ClearTimeoutConfig()
-	return tuo
+func (_u *TemplateUpdateOne) ClearTimeoutConfig() *TemplateUpdateOne {
+	_u.mutation.ClearTimeoutConfig()
+	return _u
 }
 
 // SetReminderConfig sets the "reminder_config" field.
-func (tuo *TemplateUpdateOne) SetReminderConfig(m map[string]interface{}) *TemplateUpdateOne {
-	tuo.mutation.SetReminderConfig(m)
-	return tuo
+func (_u *TemplateUpdateOne) SetReminderConfig(v map[string]interface{}) *TemplateUpdateOne {
+	_u.mutation.SetReminderConfig(v)
+	return _u
 }
 
 // ClearReminderConfig clears the value of the "reminder_config" field.
-func (tuo *TemplateUpdateOne) ClearReminderConfig() *TemplateUpdateOne {
-	tuo.mutation.ClearReminderConfig()
-	return tuo
+func (_u *TemplateUpdateOne) ClearReminderConfig() *TemplateUpdateOne {
+	_u.mutation.ClearReminderConfig()
+	return _u
 }
 
 // SetSourceVersion sets the "source_version" field.
-func (tuo *TemplateUpdateOne) SetSourceVersion(s string) *TemplateUpdateOne {
-	tuo.mutation.SetSourceVersion(s)
-	return tuo
+func (_u *TemplateUpdateOne) SetSourceVersion(v string) *TemplateUpdateOne {
+	_u.mutation.SetSourceVersion(v)
+	return _u
 }
 
 // SetNillableSourceVersion sets the "source_version" field if the given value is not nil.
-func (tuo *TemplateUpdateOne) SetNillableSourceVersion(s *string) *TemplateUpdateOne {
-	if s != nil {
-		tuo.SetSourceVersion(*s)
+func (_u *TemplateUpdateOne) SetNillableSourceVersion(v *string) *TemplateUpdateOne {
+	if v != nil {
+		_u.SetSourceVersion(*v)
 	}
-	return tuo
+	return _u
 }
 
 // ClearSourceVersion clears the value of the "source_version" field.
-func (tuo *TemplateUpdateOne) ClearSourceVersion() *TemplateUpdateOne {
-	tuo.mutation.ClearSourceVersion()
-	return tuo
+func (_u *TemplateUpdateOne) ClearSourceVersion() *TemplateUpdateOne {
+	_u.mutation.ClearSourceVersion()
+	return _u
 }
 
 // SetIsLatest sets the "is_latest" field.
-func (tuo *TemplateUpdateOne) SetIsLatest(b bool) *TemplateUpdateOne {
-	tuo.mutation.SetIsLatest(b)
-	return tuo
+func (_u *TemplateUpdateOne) SetIsLatest(v bool) *TemplateUpdateOne {
+	_u.mutation.SetIsLatest(v)
+	return _u
 }
 
 // SetNillableIsLatest sets the "is_latest" field if the given value is not nil.
-func (tuo *TemplateUpdateOne) SetNillableIsLatest(b *bool) *TemplateUpdateOne {
-	if b != nil {
-		tuo.SetIsLatest(*b)
+func (_u *TemplateUpdateOne) SetNillableIsLatest(v *bool) *TemplateUpdateOne {
+	if v != nil {
+		_u.SetIsLatest(*v)
 	}
-	return tuo
+	return _u
 }
 
 // SetEffectiveTime sets the "effective_time" field.
-func (tuo *TemplateUpdateOne) SetEffectiveTime(i int64) *TemplateUpdateOne {
-	tuo.mutation.ResetEffectiveTime()
-	tuo.mutation.SetEffectiveTime(i)
-	return tuo
+func (_u *TemplateUpdateOne) SetEffectiveTime(v int64) *TemplateUpdateOne {
+	_u.mutation.ResetEffectiveTime()
+	_u.mutation.SetEffectiveTime(v)
+	return _u
 }
 
 // SetNillableEffectiveTime sets the "effective_time" field if the given value is not nil.
-func (tuo *TemplateUpdateOne) SetNillableEffectiveTime(i *int64) *TemplateUpdateOne {
-	if i != nil {
-		tuo.SetEffectiveTime(*i)
+func (_u *TemplateUpdateOne) SetNillableEffectiveTime(v *int64) *TemplateUpdateOne {
+	if v != nil {
+		_u.SetEffectiveTime(*v)
 	}
-	return tuo
+	return _u
 }
 
-// AddEffectiveTime adds i to the "effective_time" field.
-func (tuo *TemplateUpdateOne) AddEffectiveTime(i int64) *TemplateUpdateOne {
-	tuo.mutation.AddEffectiveTime(i)
-	return tuo
+// AddEffectiveTime adds value to the "effective_time" field.
+func (_u *TemplateUpdateOne) AddEffectiveTime(v int64) *TemplateUpdateOne {
+	_u.mutation.AddEffectiveTime(v)
+	return _u
 }
 
 // ClearEffectiveTime clears the value of the "effective_time" field.
-func (tuo *TemplateUpdateOne) ClearEffectiveTime() *TemplateUpdateOne {
-	tuo.mutation.ClearEffectiveTime()
-	return tuo
+func (_u *TemplateUpdateOne) ClearEffectiveTime() *TemplateUpdateOne {
+	_u.mutation.ClearEffectiveTime()
+	return _u
 }
 
 // SetExpireTime sets the "expire_time" field.
-func (tuo *TemplateUpdateOne) SetExpireTime(i int64) *TemplateUpdateOne {
-	tuo.mutation.ResetExpireTime()
-	tuo.mutation.SetExpireTime(i)
-	return tuo
+func (_u *TemplateUpdateOne) SetExpireTime(v int64) *TemplateUpdateOne {
+	_u.mutation.ResetExpireTime()
+	_u.mutation.SetExpireTime(v)
+	return _u
 }
 
 // SetNillableExpireTime sets the "expire_time" field if the given value is not nil.
-func (tuo *TemplateUpdateOne) SetNillableExpireTime(i *int64) *TemplateUpdateOne {
-	if i != nil {
-		tuo.SetExpireTime(*i)
+func (_u *TemplateUpdateOne) SetNillableExpireTime(v *int64) *TemplateUpdateOne {
+	if v != nil {
+		_u.SetExpireTime(*v)
 	}
-	return tuo
+	return _u
 }
 
-// AddExpireTime adds i to the "expire_time" field.
-func (tuo *TemplateUpdateOne) AddExpireTime(i int64) *TemplateUpdateOne {
-	tuo.mutation.AddExpireTime(i)
-	return tuo
+// AddExpireTime adds value to the "expire_time" field.
+func (_u *TemplateUpdateOne) AddExpireTime(v int64) *TemplateUpdateOne {
+	_u.mutation.AddExpireTime(v)
+	return _u
 }
 
 // ClearExpireTime clears the value of the "expire_time" field.
-func (tuo *TemplateUpdateOne) ClearExpireTime() *TemplateUpdateOne {
-	tuo.mutation.ClearExpireTime()
-	return tuo
+func (_u *TemplateUpdateOne) ClearExpireTime() *TemplateUpdateOne {
+	_u.mutation.ClearExpireTime()
+	return _u
 }
 
 // Mutation returns the TemplateMutation object of the builder.
-func (tuo *TemplateUpdateOne) Mutation() *TemplateMutation {
-	return tuo.mutation
+func (_u *TemplateUpdateOne) Mutation() *TemplateMutation {
+	return _u.mutation
 }
 
 // Where appends a list predicates to the TemplateUpdate builder.
-func (tuo *TemplateUpdateOne) Where(ps ...predicate.Template) *TemplateUpdateOne {
-	tuo.mutation.Where(ps...)
-	return tuo
+func (_u *TemplateUpdateOne) Where(ps ...predicate.Template) *TemplateUpdateOne {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // Select allows selecting one or more fields (columns) of the returned entity.
 // The default is selecting all fields defined in the entity schema.
-func (tuo *TemplateUpdateOne) Select(field string, fields ...string) *TemplateUpdateOne {
-	tuo.fields = append([]string{field}, fields...)
-	return tuo
+func (_u *TemplateUpdateOne) Select(field string, fields ...string) *TemplateUpdateOne {
+	_u.fields = append([]string{field}, fields...)
+	return _u
 }
 
 // Save executes the query and returns the updated Template entity.
-func (tuo *TemplateUpdateOne) Save(ctx context.Context) (*Template, error) {
-	tuo.defaults()
-	return withHooks(ctx, tuo.sqlSave, tuo.mutation, tuo.hooks)
+func (_u *TemplateUpdateOne) Save(ctx context.Context) (*Template, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (tuo *TemplateUpdateOne) SaveX(ctx context.Context) *Template {
-	node, err := tuo.Save(ctx)
+func (_u *TemplateUpdateOne) SaveX(ctx context.Context) *Template {
+	node, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -1870,34 +1870,34 @@ func (tuo *TemplateUpdateOne) SaveX(ctx context.Context) *Template {
 }
 
 // Exec executes the query on the entity.
-func (tuo *TemplateUpdateOne) Exec(ctx context.Context) error {
-	_, err := tuo.Save(ctx)
+func (_u *TemplateUpdateOne) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (tuo *TemplateUpdateOne) ExecX(ctx context.Context) {
-	if err := tuo.Exec(ctx); err != nil {
+func (_u *TemplateUpdateOne) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (tuo *TemplateUpdateOne) defaults() {
-	if _, ok := tuo.mutation.UpdatedAt(); !ok && !tuo.mutation.UpdatedAtCleared() {
+func (_u *TemplateUpdateOne) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := template.UpdateDefaultUpdatedAt()
-		tuo.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (tuo *TemplateUpdateOne) sqlSave(ctx context.Context) (_node *Template, err error) {
+func (_u *TemplateUpdateOne) sqlSave(ctx context.Context) (_node *Template, err error) {
 	_spec := sqlgraph.NewUpdateSpec(template.Table, template.Columns, sqlgraph.NewFieldSpec(template.FieldID, field.TypeString))
-	id, ok := tuo.mutation.ID()
+	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "Template.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
-	if fields := tuo.fields; len(fields) > 0 {
+	if fields := _u.fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, template.FieldID)
 		for _, f := range fields {
@@ -1909,281 +1909,281 @@ func (tuo *TemplateUpdateOne) sqlSave(ctx context.Context) (_node *Template, err
 			}
 		}
 	}
-	if ps := tuo.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := tuo.mutation.Name(); ok {
+	if value, ok := _u.mutation.Name(); ok {
 		_spec.SetField(template.FieldName, field.TypeString, value)
 	}
-	if tuo.mutation.NameCleared() {
+	if _u.mutation.NameCleared() {
 		_spec.ClearField(template.FieldName, field.TypeString)
 	}
-	if value, ok := tuo.mutation.Code(); ok {
+	if value, ok := _u.mutation.Code(); ok {
 		_spec.SetField(template.FieldCode, field.TypeString, value)
 	}
-	if tuo.mutation.CodeCleared() {
+	if _u.mutation.CodeCleared() {
 		_spec.ClearField(template.FieldCode, field.TypeString)
 	}
-	if value, ok := tuo.mutation.Description(); ok {
+	if value, ok := _u.mutation.Description(); ok {
 		_spec.SetField(template.FieldDescription, field.TypeString, value)
 	}
-	if tuo.mutation.DescriptionCleared() {
+	if _u.mutation.DescriptionCleared() {
 		_spec.ClearField(template.FieldDescription, field.TypeString)
 	}
-	if value, ok := tuo.mutation.GetType(); ok {
+	if value, ok := _u.mutation.GetType(); ok {
 		_spec.SetField(template.FieldType, field.TypeString, value)
 	}
-	if tuo.mutation.TypeCleared() {
+	if _u.mutation.TypeCleared() {
 		_spec.ClearField(template.FieldType, field.TypeString)
 	}
-	if value, ok := tuo.mutation.Version(); ok {
+	if value, ok := _u.mutation.Version(); ok {
 		_spec.SetField(template.FieldVersion, field.TypeString, value)
 	}
-	if tuo.mutation.VersionCleared() {
+	if _u.mutation.VersionCleared() {
 		_spec.ClearField(template.FieldVersion, field.TypeString)
 	}
-	if value, ok := tuo.mutation.Status(); ok {
+	if value, ok := _u.mutation.Status(); ok {
 		_spec.SetField(template.FieldStatus, field.TypeString, value)
 	}
-	if tuo.mutation.StatusCleared() {
+	if _u.mutation.StatusCleared() {
 		_spec.ClearField(template.FieldStatus, field.TypeString)
 	}
-	if value, ok := tuo.mutation.Disabled(); ok {
+	if value, ok := _u.mutation.Disabled(); ok {
 		_spec.SetField(template.FieldDisabled, field.TypeBool, value)
 	}
-	if tuo.mutation.DisabledCleared() {
+	if _u.mutation.DisabledCleared() {
 		_spec.ClearField(template.FieldDisabled, field.TypeBool)
 	}
-	if value, ok := tuo.mutation.FormCode(); ok {
+	if value, ok := _u.mutation.FormCode(); ok {
 		_spec.SetField(template.FieldFormCode, field.TypeString, value)
 	}
-	if value, ok := tuo.mutation.FormVersion(); ok {
+	if value, ok := _u.mutation.FormVersion(); ok {
 		_spec.SetField(template.FieldFormVersion, field.TypeString, value)
 	}
-	if tuo.mutation.FormVersionCleared() {
+	if _u.mutation.FormVersionCleared() {
 		_spec.ClearField(template.FieldFormVersion, field.TypeString)
 	}
-	if value, ok := tuo.mutation.FormConfig(); ok {
+	if value, ok := _u.mutation.FormConfig(); ok {
 		_spec.SetField(template.FieldFormConfig, field.TypeJSON, value)
 	}
-	if tuo.mutation.FormConfigCleared() {
+	if _u.mutation.FormConfigCleared() {
 		_spec.ClearField(template.FieldFormConfig, field.TypeJSON)
 	}
-	if value, ok := tuo.mutation.FormPermissions(); ok {
+	if value, ok := _u.mutation.FormPermissions(); ok {
 		_spec.SetField(template.FieldFormPermissions, field.TypeJSON, value)
 	}
-	if tuo.mutation.FormPermissionsCleared() {
+	if _u.mutation.FormPermissionsCleared() {
 		_spec.ClearField(template.FieldFormPermissions, field.TypeJSON)
 	}
-	if value, ok := tuo.mutation.FieldPermissions(); ok {
+	if value, ok := _u.mutation.FieldPermissions(); ok {
 		_spec.SetField(template.FieldFieldPermissions, field.TypeJSON, value)
 	}
-	if tuo.mutation.FieldPermissionsCleared() {
+	if _u.mutation.FieldPermissionsCleared() {
 		_spec.ClearField(template.FieldFieldPermissions, field.TypeJSON)
 	}
-	if value, ok := tuo.mutation.NodeKey(); ok {
+	if value, ok := _u.mutation.NodeKey(); ok {
 		_spec.SetField(template.FieldNodeKey, field.TypeString, value)
 	}
-	if value, ok := tuo.mutation.NodeType(); ok {
+	if value, ok := _u.mutation.NodeType(); ok {
 		_spec.SetField(template.FieldNodeType, field.TypeString, value)
 	}
-	if value, ok := tuo.mutation.NodeConfig(); ok {
+	if value, ok := _u.mutation.NodeConfig(); ok {
 		_spec.SetField(template.FieldNodeConfig, field.TypeJSON, value)
 	}
-	if tuo.mutation.NodeConfigCleared() {
+	if _u.mutation.NodeConfigCleared() {
 		_spec.ClearField(template.FieldNodeConfig, field.TypeJSON)
 	}
-	if value, ok := tuo.mutation.NodeRules(); ok {
+	if value, ok := _u.mutation.NodeRules(); ok {
 		_spec.SetField(template.FieldNodeRules, field.TypeJSON, value)
 	}
-	if tuo.mutation.NodeRulesCleared() {
+	if _u.mutation.NodeRulesCleared() {
 		_spec.ClearField(template.FieldNodeRules, field.TypeJSON)
 	}
-	if value, ok := tuo.mutation.NodeEvents(); ok {
+	if value, ok := _u.mutation.NodeEvents(); ok {
 		_spec.SetField(template.FieldNodeEvents, field.TypeJSON, value)
 	}
-	if tuo.mutation.NodeEventsCleared() {
+	if _u.mutation.NodeEventsCleared() {
 		_spec.ClearField(template.FieldNodeEvents, field.TypeJSON)
 	}
-	if value, ok := tuo.mutation.BusinessTags(); ok {
+	if value, ok := _u.mutation.BusinessTags(); ok {
 		_spec.SetField(template.FieldBusinessTags, field.TypeJSON, value)
 	}
-	if value, ok := tuo.mutation.AppendedBusinessTags(); ok {
+	if value, ok := _u.mutation.AppendedBusinessTags(); ok {
 		_spec.AddModifier(func(u *sql.UpdateBuilder) {
 			sqljson.Append(u, template.FieldBusinessTags, value)
 		})
 	}
-	if tuo.mutation.BusinessTagsCleared() {
+	if _u.mutation.BusinessTagsCleared() {
 		_spec.ClearField(template.FieldBusinessTags, field.TypeJSON)
 	}
-	if value, ok := tuo.mutation.ModuleCode(); ok {
+	if value, ok := _u.mutation.ModuleCode(); ok {
 		_spec.SetField(template.FieldModuleCode, field.TypeString, value)
 	}
-	if value, ok := tuo.mutation.Category(); ok {
+	if value, ok := _u.mutation.Category(); ok {
 		_spec.SetField(template.FieldCategory, field.TypeString, value)
 	}
-	if tuo.mutation.CategoryCleared() {
+	if _u.mutation.CategoryCleared() {
 		_spec.ClearField(template.FieldCategory, field.TypeString)
 	}
-	if value, ok := tuo.mutation.AllowCancel(); ok {
+	if value, ok := _u.mutation.AllowCancel(); ok {
 		_spec.SetField(template.FieldAllowCancel, field.TypeBool, value)
 	}
-	if value, ok := tuo.mutation.AllowUrge(); ok {
+	if value, ok := _u.mutation.AllowUrge(); ok {
 		_spec.SetField(template.FieldAllowUrge, field.TypeBool, value)
 	}
-	if value, ok := tuo.mutation.AllowDelegate(); ok {
+	if value, ok := _u.mutation.AllowDelegate(); ok {
 		_spec.SetField(template.FieldAllowDelegate, field.TypeBool, value)
 	}
-	if value, ok := tuo.mutation.AllowTransfer(); ok {
+	if value, ok := _u.mutation.AllowTransfer(); ok {
 		_spec.SetField(template.FieldAllowTransfer, field.TypeBool, value)
 	}
-	if value, ok := tuo.mutation.IsDraftEnabled(); ok {
+	if value, ok := _u.mutation.IsDraftEnabled(); ok {
 		_spec.SetField(template.FieldIsDraftEnabled, field.TypeBool, value)
 	}
-	if value, ok := tuo.mutation.IsAutoStart(); ok {
+	if value, ok := _u.mutation.IsAutoStart(); ok {
 		_spec.SetField(template.FieldIsAutoStart, field.TypeBool, value)
 	}
-	if value, ok := tuo.mutation.StrictMode(); ok {
+	if value, ok := _u.mutation.StrictMode(); ok {
 		_spec.SetField(template.FieldStrictMode, field.TypeBool, value)
 	}
-	if value, ok := tuo.mutation.Viewers(); ok {
+	if value, ok := _u.mutation.Viewers(); ok {
 		_spec.SetField(template.FieldViewers, field.TypeJSON, value)
 	}
-	if value, ok := tuo.mutation.AppendedViewers(); ok {
+	if value, ok := _u.mutation.AppendedViewers(); ok {
 		_spec.AddModifier(func(u *sql.UpdateBuilder) {
 			sqljson.Append(u, template.FieldViewers, value)
 		})
 	}
-	if tuo.mutation.ViewersCleared() {
+	if _u.mutation.ViewersCleared() {
 		_spec.ClearField(template.FieldViewers, field.TypeJSON)
 	}
-	if value, ok := tuo.mutation.Editors(); ok {
+	if value, ok := _u.mutation.Editors(); ok {
 		_spec.SetField(template.FieldEditors, field.TypeJSON, value)
 	}
-	if value, ok := tuo.mutation.AppendedEditors(); ok {
+	if value, ok := _u.mutation.AppendedEditors(); ok {
 		_spec.AddModifier(func(u *sql.UpdateBuilder) {
 			sqljson.Append(u, template.FieldEditors, value)
 		})
 	}
-	if tuo.mutation.EditorsCleared() {
+	if _u.mutation.EditorsCleared() {
 		_spec.ClearField(template.FieldEditors, field.TypeJSON)
 	}
-	if value, ok := tuo.mutation.PermissionConfigs(); ok {
+	if value, ok := _u.mutation.PermissionConfigs(); ok {
 		_spec.SetField(template.FieldPermissionConfigs, field.TypeJSON, value)
 	}
-	if tuo.mutation.PermissionConfigsCleared() {
+	if _u.mutation.PermissionConfigsCleared() {
 		_spec.ClearField(template.FieldPermissionConfigs, field.TypeJSON)
 	}
-	if value, ok := tuo.mutation.RoleConfigs(); ok {
+	if value, ok := _u.mutation.RoleConfigs(); ok {
 		_spec.SetField(template.FieldRoleConfigs, field.TypeJSON, value)
 	}
-	if tuo.mutation.RoleConfigsCleared() {
+	if _u.mutation.RoleConfigsCleared() {
 		_spec.ClearField(template.FieldRoleConfigs, field.TypeJSON)
 	}
-	if value, ok := tuo.mutation.VisibleRange(); ok {
+	if value, ok := _u.mutation.VisibleRange(); ok {
 		_spec.SetField(template.FieldVisibleRange, field.TypeJSON, value)
 	}
-	if tuo.mutation.VisibleRangeCleared() {
+	if _u.mutation.VisibleRangeCleared() {
 		_spec.ClearField(template.FieldVisibleRange, field.TypeJSON)
 	}
-	if value, ok := tuo.mutation.Extras(); ok {
+	if value, ok := _u.mutation.Extras(); ok {
 		_spec.SetField(template.FieldExtras, field.TypeJSON, value)
 	}
-	if tuo.mutation.ExtrasCleared() {
+	if _u.mutation.ExtrasCleared() {
 		_spec.ClearField(template.FieldExtras, field.TypeJSON)
 	}
-	if value, ok := tuo.mutation.SpaceID(); ok {
+	if value, ok := _u.mutation.SpaceID(); ok {
 		_spec.SetField(template.FieldSpaceID, field.TypeString, value)
 	}
-	if tuo.mutation.SpaceIDCleared() {
+	if _u.mutation.SpaceIDCleared() {
 		_spec.ClearField(template.FieldSpaceID, field.TypeString)
 	}
-	if value, ok := tuo.mutation.CreatedBy(); ok {
+	if value, ok := _u.mutation.CreatedBy(); ok {
 		_spec.SetField(template.FieldCreatedBy, field.TypeString, value)
 	}
-	if tuo.mutation.CreatedByCleared() {
+	if _u.mutation.CreatedByCleared() {
 		_spec.ClearField(template.FieldCreatedBy, field.TypeString)
 	}
-	if value, ok := tuo.mutation.UpdatedBy(); ok {
+	if value, ok := _u.mutation.UpdatedBy(); ok {
 		_spec.SetField(template.FieldUpdatedBy, field.TypeString, value)
 	}
-	if tuo.mutation.UpdatedByCleared() {
+	if _u.mutation.UpdatedByCleared() {
 		_spec.ClearField(template.FieldUpdatedBy, field.TypeString)
 	}
-	if tuo.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(template.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := tuo.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(template.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := tuo.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(template.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if tuo.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(template.FieldUpdatedAt, field.TypeInt64)
 	}
-	if value, ok := tuo.mutation.TemplateKey(); ok {
+	if value, ok := _u.mutation.TemplateKey(); ok {
 		_spec.SetField(template.FieldTemplateKey, field.TypeString, value)
 	}
-	if value, ok := tuo.mutation.ProcessRules(); ok {
+	if value, ok := _u.mutation.ProcessRules(); ok {
 		_spec.SetField(template.FieldProcessRules, field.TypeJSON, value)
 	}
-	if tuo.mutation.ProcessRulesCleared() {
+	if _u.mutation.ProcessRulesCleared() {
 		_spec.ClearField(template.FieldProcessRules, field.TypeJSON)
 	}
-	if value, ok := tuo.mutation.TriggerConditions(); ok {
+	if value, ok := _u.mutation.TriggerConditions(); ok {
 		_spec.SetField(template.FieldTriggerConditions, field.TypeJSON, value)
 	}
-	if tuo.mutation.TriggerConditionsCleared() {
+	if _u.mutation.TriggerConditionsCleared() {
 		_spec.ClearField(template.FieldTriggerConditions, field.TypeJSON)
 	}
-	if value, ok := tuo.mutation.TimeoutConfig(); ok {
+	if value, ok := _u.mutation.TimeoutConfig(); ok {
 		_spec.SetField(template.FieldTimeoutConfig, field.TypeJSON, value)
 	}
-	if tuo.mutation.TimeoutConfigCleared() {
+	if _u.mutation.TimeoutConfigCleared() {
 		_spec.ClearField(template.FieldTimeoutConfig, field.TypeJSON)
 	}
-	if value, ok := tuo.mutation.ReminderConfig(); ok {
+	if value, ok := _u.mutation.ReminderConfig(); ok {
 		_spec.SetField(template.FieldReminderConfig, field.TypeJSON, value)
 	}
-	if tuo.mutation.ReminderConfigCleared() {
+	if _u.mutation.ReminderConfigCleared() {
 		_spec.ClearField(template.FieldReminderConfig, field.TypeJSON)
 	}
-	if value, ok := tuo.mutation.SourceVersion(); ok {
+	if value, ok := _u.mutation.SourceVersion(); ok {
 		_spec.SetField(template.FieldSourceVersion, field.TypeString, value)
 	}
-	if tuo.mutation.SourceVersionCleared() {
+	if _u.mutation.SourceVersionCleared() {
 		_spec.ClearField(template.FieldSourceVersion, field.TypeString)
 	}
-	if value, ok := tuo.mutation.IsLatest(); ok {
+	if value, ok := _u.mutation.IsLatest(); ok {
 		_spec.SetField(template.FieldIsLatest, field.TypeBool, value)
 	}
-	if value, ok := tuo.mutation.EffectiveTime(); ok {
+	if value, ok := _u.mutation.EffectiveTime(); ok {
 		_spec.SetField(template.FieldEffectiveTime, field.TypeInt64, value)
 	}
-	if value, ok := tuo.mutation.AddedEffectiveTime(); ok {
+	if value, ok := _u.mutation.AddedEffectiveTime(); ok {
 		_spec.AddField(template.FieldEffectiveTime, field.TypeInt64, value)
 	}
-	if tuo.mutation.EffectiveTimeCleared() {
+	if _u.mutation.EffectiveTimeCleared() {
 		_spec.ClearField(template.FieldEffectiveTime, field.TypeInt64)
 	}
-	if value, ok := tuo.mutation.ExpireTime(); ok {
+	if value, ok := _u.mutation.ExpireTime(); ok {
 		_spec.SetField(template.FieldExpireTime, field.TypeInt64, value)
 	}
-	if value, ok := tuo.mutation.AddedExpireTime(); ok {
+	if value, ok := _u.mutation.AddedExpireTime(); ok {
 		_spec.AddField(template.FieldExpireTime, field.TypeInt64, value)
 	}
-	if tuo.mutation.ExpireTimeCleared() {
+	if _u.mutation.ExpireTimeCleared() {
 		_spec.ClearField(template.FieldExpireTime, field.TypeInt64)
 	}
-	_node = &Template{config: tuo.config}
+	_node = &Template{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues
-	if err = sqlgraph.UpdateNode(ctx, tuo.driver, _spec); err != nil {
+	if err = sqlgraph.UpdateNode(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{template.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -2191,6 +2191,6 @@ func (tuo *TemplateUpdateOne) sqlSave(ctx context.Context) (_node *Template, err
 		}
 		return nil, err
 	}
-	tuo.mutation.done = true
+	_u.mutation.done = true
 	return _node, nil
 }

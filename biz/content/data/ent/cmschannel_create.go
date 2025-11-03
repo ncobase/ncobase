@@ -20,255 +20,255 @@ type CMSChannelCreate struct {
 }
 
 // SetName sets the "name" field.
-func (ccc *CMSChannelCreate) SetName(s string) *CMSChannelCreate {
-	ccc.mutation.SetName(s)
-	return ccc
+func (_c *CMSChannelCreate) SetName(v string) *CMSChannelCreate {
+	_c.mutation.SetName(v)
+	return _c
 }
 
 // SetNillableName sets the "name" field if the given value is not nil.
-func (ccc *CMSChannelCreate) SetNillableName(s *string) *CMSChannelCreate {
-	if s != nil {
-		ccc.SetName(*s)
+func (_c *CMSChannelCreate) SetNillableName(v *string) *CMSChannelCreate {
+	if v != nil {
+		_c.SetName(*v)
 	}
-	return ccc
+	return _c
 }
 
 // SetType sets the "type" field.
-func (ccc *CMSChannelCreate) SetType(s string) *CMSChannelCreate {
-	ccc.mutation.SetType(s)
-	return ccc
+func (_c *CMSChannelCreate) SetType(v string) *CMSChannelCreate {
+	_c.mutation.SetType(v)
+	return _c
 }
 
 // SetNillableType sets the "type" field if the given value is not nil.
-func (ccc *CMSChannelCreate) SetNillableType(s *string) *CMSChannelCreate {
-	if s != nil {
-		ccc.SetType(*s)
+func (_c *CMSChannelCreate) SetNillableType(v *string) *CMSChannelCreate {
+	if v != nil {
+		_c.SetType(*v)
 	}
-	return ccc
+	return _c
 }
 
 // SetSlug sets the "slug" field.
-func (ccc *CMSChannelCreate) SetSlug(s string) *CMSChannelCreate {
-	ccc.mutation.SetSlug(s)
-	return ccc
+func (_c *CMSChannelCreate) SetSlug(v string) *CMSChannelCreate {
+	_c.mutation.SetSlug(v)
+	return _c
 }
 
 // SetNillableSlug sets the "slug" field if the given value is not nil.
-func (ccc *CMSChannelCreate) SetNillableSlug(s *string) *CMSChannelCreate {
-	if s != nil {
-		ccc.SetSlug(*s)
+func (_c *CMSChannelCreate) SetNillableSlug(v *string) *CMSChannelCreate {
+	if v != nil {
+		_c.SetSlug(*v)
 	}
-	return ccc
+	return _c
 }
 
 // SetIcon sets the "icon" field.
-func (ccc *CMSChannelCreate) SetIcon(s string) *CMSChannelCreate {
-	ccc.mutation.SetIcon(s)
-	return ccc
+func (_c *CMSChannelCreate) SetIcon(v string) *CMSChannelCreate {
+	_c.mutation.SetIcon(v)
+	return _c
 }
 
 // SetNillableIcon sets the "icon" field if the given value is not nil.
-func (ccc *CMSChannelCreate) SetNillableIcon(s *string) *CMSChannelCreate {
-	if s != nil {
-		ccc.SetIcon(*s)
+func (_c *CMSChannelCreate) SetNillableIcon(v *string) *CMSChannelCreate {
+	if v != nil {
+		_c.SetIcon(*v)
 	}
-	return ccc
+	return _c
 }
 
 // SetStatus sets the "status" field.
-func (ccc *CMSChannelCreate) SetStatus(i int) *CMSChannelCreate {
-	ccc.mutation.SetStatus(i)
-	return ccc
+func (_c *CMSChannelCreate) SetStatus(v int) *CMSChannelCreate {
+	_c.mutation.SetStatus(v)
+	return _c
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (ccc *CMSChannelCreate) SetNillableStatus(i *int) *CMSChannelCreate {
-	if i != nil {
-		ccc.SetStatus(*i)
+func (_c *CMSChannelCreate) SetNillableStatus(v *int) *CMSChannelCreate {
+	if v != nil {
+		_c.SetStatus(*v)
 	}
-	return ccc
+	return _c
 }
 
 // SetExtras sets the "extras" field.
-func (ccc *CMSChannelCreate) SetExtras(m map[string]interface{}) *CMSChannelCreate {
-	ccc.mutation.SetExtras(m)
-	return ccc
+func (_c *CMSChannelCreate) SetExtras(v map[string]interface{}) *CMSChannelCreate {
+	_c.mutation.SetExtras(v)
+	return _c
 }
 
 // SetSpaceID sets the "space_id" field.
-func (ccc *CMSChannelCreate) SetSpaceID(s string) *CMSChannelCreate {
-	ccc.mutation.SetSpaceID(s)
-	return ccc
+func (_c *CMSChannelCreate) SetSpaceID(v string) *CMSChannelCreate {
+	_c.mutation.SetSpaceID(v)
+	return _c
 }
 
 // SetNillableSpaceID sets the "space_id" field if the given value is not nil.
-func (ccc *CMSChannelCreate) SetNillableSpaceID(s *string) *CMSChannelCreate {
-	if s != nil {
-		ccc.SetSpaceID(*s)
+func (_c *CMSChannelCreate) SetNillableSpaceID(v *string) *CMSChannelCreate {
+	if v != nil {
+		_c.SetSpaceID(*v)
 	}
-	return ccc
+	return _c
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (ccc *CMSChannelCreate) SetCreatedBy(s string) *CMSChannelCreate {
-	ccc.mutation.SetCreatedBy(s)
-	return ccc
+func (_c *CMSChannelCreate) SetCreatedBy(v string) *CMSChannelCreate {
+	_c.mutation.SetCreatedBy(v)
+	return _c
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (ccc *CMSChannelCreate) SetNillableCreatedBy(s *string) *CMSChannelCreate {
-	if s != nil {
-		ccc.SetCreatedBy(*s)
+func (_c *CMSChannelCreate) SetNillableCreatedBy(v *string) *CMSChannelCreate {
+	if v != nil {
+		_c.SetCreatedBy(*v)
 	}
-	return ccc
+	return _c
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (ccc *CMSChannelCreate) SetUpdatedBy(s string) *CMSChannelCreate {
-	ccc.mutation.SetUpdatedBy(s)
-	return ccc
+func (_c *CMSChannelCreate) SetUpdatedBy(v string) *CMSChannelCreate {
+	_c.mutation.SetUpdatedBy(v)
+	return _c
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (ccc *CMSChannelCreate) SetNillableUpdatedBy(s *string) *CMSChannelCreate {
-	if s != nil {
-		ccc.SetUpdatedBy(*s)
+func (_c *CMSChannelCreate) SetNillableUpdatedBy(v *string) *CMSChannelCreate {
+	if v != nil {
+		_c.SetUpdatedBy(*v)
 	}
-	return ccc
+	return _c
 }
 
 // SetCreatedAt sets the "created_at" field.
-func (ccc *CMSChannelCreate) SetCreatedAt(i int64) *CMSChannelCreate {
-	ccc.mutation.SetCreatedAt(i)
-	return ccc
+func (_c *CMSChannelCreate) SetCreatedAt(v int64) *CMSChannelCreate {
+	_c.mutation.SetCreatedAt(v)
+	return _c
 }
 
 // SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
-func (ccc *CMSChannelCreate) SetNillableCreatedAt(i *int64) *CMSChannelCreate {
-	if i != nil {
-		ccc.SetCreatedAt(*i)
+func (_c *CMSChannelCreate) SetNillableCreatedAt(v *int64) *CMSChannelCreate {
+	if v != nil {
+		_c.SetCreatedAt(*v)
 	}
-	return ccc
+	return _c
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (ccc *CMSChannelCreate) SetUpdatedAt(i int64) *CMSChannelCreate {
-	ccc.mutation.SetUpdatedAt(i)
-	return ccc
+func (_c *CMSChannelCreate) SetUpdatedAt(v int64) *CMSChannelCreate {
+	_c.mutation.SetUpdatedAt(v)
+	return _c
 }
 
 // SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
-func (ccc *CMSChannelCreate) SetNillableUpdatedAt(i *int64) *CMSChannelCreate {
-	if i != nil {
-		ccc.SetUpdatedAt(*i)
+func (_c *CMSChannelCreate) SetNillableUpdatedAt(v *int64) *CMSChannelCreate {
+	if v != nil {
+		_c.SetUpdatedAt(*v)
 	}
-	return ccc
+	return _c
 }
 
 // SetAllowedTypes sets the "allowed_types" field.
-func (ccc *CMSChannelCreate) SetAllowedTypes(s []string) *CMSChannelCreate {
-	ccc.mutation.SetAllowedTypes(s)
-	return ccc
+func (_c *CMSChannelCreate) SetAllowedTypes(v []string) *CMSChannelCreate {
+	_c.mutation.SetAllowedTypes(v)
+	return _c
 }
 
 // SetDescription sets the "description" field.
-func (ccc *CMSChannelCreate) SetDescription(s string) *CMSChannelCreate {
-	ccc.mutation.SetDescription(s)
-	return ccc
+func (_c *CMSChannelCreate) SetDescription(v string) *CMSChannelCreate {
+	_c.mutation.SetDescription(v)
+	return _c
 }
 
 // SetNillableDescription sets the "description" field if the given value is not nil.
-func (ccc *CMSChannelCreate) SetNillableDescription(s *string) *CMSChannelCreate {
-	if s != nil {
-		ccc.SetDescription(*s)
+func (_c *CMSChannelCreate) SetNillableDescription(v *string) *CMSChannelCreate {
+	if v != nil {
+		_c.SetDescription(*v)
 	}
-	return ccc
+	return _c
 }
 
 // SetLogo sets the "logo" field.
-func (ccc *CMSChannelCreate) SetLogo(s string) *CMSChannelCreate {
-	ccc.mutation.SetLogo(s)
-	return ccc
+func (_c *CMSChannelCreate) SetLogo(v string) *CMSChannelCreate {
+	_c.mutation.SetLogo(v)
+	return _c
 }
 
 // SetNillableLogo sets the "logo" field if the given value is not nil.
-func (ccc *CMSChannelCreate) SetNillableLogo(s *string) *CMSChannelCreate {
-	if s != nil {
-		ccc.SetLogo(*s)
+func (_c *CMSChannelCreate) SetNillableLogo(v *string) *CMSChannelCreate {
+	if v != nil {
+		_c.SetLogo(*v)
 	}
-	return ccc
+	return _c
 }
 
 // SetWebhookURL sets the "webhook_url" field.
-func (ccc *CMSChannelCreate) SetWebhookURL(s string) *CMSChannelCreate {
-	ccc.mutation.SetWebhookURL(s)
-	return ccc
+func (_c *CMSChannelCreate) SetWebhookURL(v string) *CMSChannelCreate {
+	_c.mutation.SetWebhookURL(v)
+	return _c
 }
 
 // SetNillableWebhookURL sets the "webhook_url" field if the given value is not nil.
-func (ccc *CMSChannelCreate) SetNillableWebhookURL(s *string) *CMSChannelCreate {
-	if s != nil {
-		ccc.SetWebhookURL(*s)
+func (_c *CMSChannelCreate) SetNillableWebhookURL(v *string) *CMSChannelCreate {
+	if v != nil {
+		_c.SetWebhookURL(*v)
 	}
-	return ccc
+	return _c
 }
 
 // SetAutoPublish sets the "auto_publish" field.
-func (ccc *CMSChannelCreate) SetAutoPublish(b bool) *CMSChannelCreate {
-	ccc.mutation.SetAutoPublish(b)
-	return ccc
+func (_c *CMSChannelCreate) SetAutoPublish(v bool) *CMSChannelCreate {
+	_c.mutation.SetAutoPublish(v)
+	return _c
 }
 
 // SetNillableAutoPublish sets the "auto_publish" field if the given value is not nil.
-func (ccc *CMSChannelCreate) SetNillableAutoPublish(b *bool) *CMSChannelCreate {
-	if b != nil {
-		ccc.SetAutoPublish(*b)
+func (_c *CMSChannelCreate) SetNillableAutoPublish(v *bool) *CMSChannelCreate {
+	if v != nil {
+		_c.SetAutoPublish(*v)
 	}
-	return ccc
+	return _c
 }
 
 // SetRequireReview sets the "require_review" field.
-func (ccc *CMSChannelCreate) SetRequireReview(b bool) *CMSChannelCreate {
-	ccc.mutation.SetRequireReview(b)
-	return ccc
+func (_c *CMSChannelCreate) SetRequireReview(v bool) *CMSChannelCreate {
+	_c.mutation.SetRequireReview(v)
+	return _c
 }
 
 // SetNillableRequireReview sets the "require_review" field if the given value is not nil.
-func (ccc *CMSChannelCreate) SetNillableRequireReview(b *bool) *CMSChannelCreate {
-	if b != nil {
-		ccc.SetRequireReview(*b)
+func (_c *CMSChannelCreate) SetNillableRequireReview(v *bool) *CMSChannelCreate {
+	if v != nil {
+		_c.SetRequireReview(*v)
 	}
-	return ccc
+	return _c
 }
 
 // SetID sets the "id" field.
-func (ccc *CMSChannelCreate) SetID(s string) *CMSChannelCreate {
-	ccc.mutation.SetID(s)
-	return ccc
+func (_c *CMSChannelCreate) SetID(v string) *CMSChannelCreate {
+	_c.mutation.SetID(v)
+	return _c
 }
 
 // SetNillableID sets the "id" field if the given value is not nil.
-func (ccc *CMSChannelCreate) SetNillableID(s *string) *CMSChannelCreate {
-	if s != nil {
-		ccc.SetID(*s)
+func (_c *CMSChannelCreate) SetNillableID(v *string) *CMSChannelCreate {
+	if v != nil {
+		_c.SetID(*v)
 	}
-	return ccc
+	return _c
 }
 
 // Mutation returns the CMSChannelMutation object of the builder.
-func (ccc *CMSChannelCreate) Mutation() *CMSChannelMutation {
-	return ccc.mutation
+func (_c *CMSChannelCreate) Mutation() *CMSChannelMutation {
+	return _c.mutation
 }
 
 // Save creates the CMSChannel in the database.
-func (ccc *CMSChannelCreate) Save(ctx context.Context) (*CMSChannel, error) {
-	ccc.defaults()
-	return withHooks(ctx, ccc.sqlSave, ccc.mutation, ccc.hooks)
+func (_c *CMSChannelCreate) Save(ctx context.Context) (*CMSChannel, error) {
+	_c.defaults()
+	return withHooks(ctx, _c.sqlSave, _c.mutation, _c.hooks)
 }
 
 // SaveX calls Save and panics if Save returns an error.
-func (ccc *CMSChannelCreate) SaveX(ctx context.Context) *CMSChannel {
-	v, err := ccc.Save(ctx)
+func (_c *CMSChannelCreate) SaveX(ctx context.Context) *CMSChannel {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -276,62 +276,62 @@ func (ccc *CMSChannelCreate) SaveX(ctx context.Context) *CMSChannel {
 }
 
 // Exec executes the query.
-func (ccc *CMSChannelCreate) Exec(ctx context.Context) error {
-	_, err := ccc.Save(ctx)
+func (_c *CMSChannelCreate) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (ccc *CMSChannelCreate) ExecX(ctx context.Context) {
-	if err := ccc.Exec(ctx); err != nil {
+func (_c *CMSChannelCreate) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (ccc *CMSChannelCreate) defaults() {
-	if _, ok := ccc.mutation.Status(); !ok {
+func (_c *CMSChannelCreate) defaults() {
+	if _, ok := _c.mutation.Status(); !ok {
 		v := cmschannel.DefaultStatus
-		ccc.mutation.SetStatus(v)
+		_c.mutation.SetStatus(v)
 	}
-	if _, ok := ccc.mutation.Extras(); !ok {
+	if _, ok := _c.mutation.Extras(); !ok {
 		v := cmschannel.DefaultExtras
-		ccc.mutation.SetExtras(v)
+		_c.mutation.SetExtras(v)
 	}
-	if _, ok := ccc.mutation.CreatedAt(); !ok {
+	if _, ok := _c.mutation.CreatedAt(); !ok {
 		v := cmschannel.DefaultCreatedAt()
-		ccc.mutation.SetCreatedAt(v)
+		_c.mutation.SetCreatedAt(v)
 	}
-	if _, ok := ccc.mutation.UpdatedAt(); !ok {
+	if _, ok := _c.mutation.UpdatedAt(); !ok {
 		v := cmschannel.DefaultUpdatedAt()
-		ccc.mutation.SetUpdatedAt(v)
+		_c.mutation.SetUpdatedAt(v)
 	}
-	if _, ok := ccc.mutation.AutoPublish(); !ok {
+	if _, ok := _c.mutation.AutoPublish(); !ok {
 		v := cmschannel.DefaultAutoPublish
-		ccc.mutation.SetAutoPublish(v)
+		_c.mutation.SetAutoPublish(v)
 	}
-	if _, ok := ccc.mutation.RequireReview(); !ok {
+	if _, ok := _c.mutation.RequireReview(); !ok {
 		v := cmschannel.DefaultRequireReview
-		ccc.mutation.SetRequireReview(v)
+		_c.mutation.SetRequireReview(v)
 	}
-	if _, ok := ccc.mutation.ID(); !ok {
+	if _, ok := _c.mutation.ID(); !ok {
 		v := cmschannel.DefaultID()
-		ccc.mutation.SetID(v)
+		_c.mutation.SetID(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (ccc *CMSChannelCreate) check() error {
-	if _, ok := ccc.mutation.Status(); !ok {
+func (_c *CMSChannelCreate) check() error {
+	if _, ok := _c.mutation.Status(); !ok {
 		return &ValidationError{Name: "status", err: errors.New(`ent: missing required field "CMSChannel.status"`)}
 	}
-	if _, ok := ccc.mutation.AutoPublish(); !ok {
+	if _, ok := _c.mutation.AutoPublish(); !ok {
 		return &ValidationError{Name: "auto_publish", err: errors.New(`ent: missing required field "CMSChannel.auto_publish"`)}
 	}
-	if _, ok := ccc.mutation.RequireReview(); !ok {
+	if _, ok := _c.mutation.RequireReview(); !ok {
 		return &ValidationError{Name: "require_review", err: errors.New(`ent: missing required field "CMSChannel.require_review"`)}
 	}
-	if v, ok := ccc.mutation.ID(); ok {
+	if v, ok := _c.mutation.ID(); ok {
 		if err := cmschannel.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "CMSChannel.id": %w`, err)}
 		}
@@ -339,12 +339,12 @@ func (ccc *CMSChannelCreate) check() error {
 	return nil
 }
 
-func (ccc *CMSChannelCreate) sqlSave(ctx context.Context) (*CMSChannel, error) {
-	if err := ccc.check(); err != nil {
+func (_c *CMSChannelCreate) sqlSave(ctx context.Context) (*CMSChannel, error) {
+	if err := _c.check(); err != nil {
 		return nil, err
 	}
-	_node, _spec := ccc.createSpec()
-	if err := sqlgraph.CreateNode(ctx, ccc.driver, _spec); err != nil {
+	_node, _spec := _c.createSpec()
+	if err := sqlgraph.CreateNode(ctx, _c.driver, _spec); err != nil {
 		if sqlgraph.IsConstraintError(err) {
 			err = &ConstraintError{msg: err.Error(), wrap: err}
 		}
@@ -357,85 +357,85 @@ func (ccc *CMSChannelCreate) sqlSave(ctx context.Context) (*CMSChannel, error) {
 			return nil, fmt.Errorf("unexpected CMSChannel.ID type: %T", _spec.ID.Value)
 		}
 	}
-	ccc.mutation.id = &_node.ID
-	ccc.mutation.done = true
+	_c.mutation.id = &_node.ID
+	_c.mutation.done = true
 	return _node, nil
 }
 
-func (ccc *CMSChannelCreate) createSpec() (*CMSChannel, *sqlgraph.CreateSpec) {
+func (_c *CMSChannelCreate) createSpec() (*CMSChannel, *sqlgraph.CreateSpec) {
 	var (
-		_node = &CMSChannel{config: ccc.config}
+		_node = &CMSChannel{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(cmschannel.Table, sqlgraph.NewFieldSpec(cmschannel.FieldID, field.TypeString))
 	)
-	if id, ok := ccc.mutation.ID(); ok {
+	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
 	}
-	if value, ok := ccc.mutation.Name(); ok {
+	if value, ok := _c.mutation.Name(); ok {
 		_spec.SetField(cmschannel.FieldName, field.TypeString, value)
 		_node.Name = value
 	}
-	if value, ok := ccc.mutation.GetType(); ok {
+	if value, ok := _c.mutation.GetType(); ok {
 		_spec.SetField(cmschannel.FieldType, field.TypeString, value)
 		_node.Type = value
 	}
-	if value, ok := ccc.mutation.Slug(); ok {
+	if value, ok := _c.mutation.Slug(); ok {
 		_spec.SetField(cmschannel.FieldSlug, field.TypeString, value)
 		_node.Slug = value
 	}
-	if value, ok := ccc.mutation.Icon(); ok {
+	if value, ok := _c.mutation.Icon(); ok {
 		_spec.SetField(cmschannel.FieldIcon, field.TypeString, value)
 		_node.Icon = value
 	}
-	if value, ok := ccc.mutation.Status(); ok {
+	if value, ok := _c.mutation.Status(); ok {
 		_spec.SetField(cmschannel.FieldStatus, field.TypeInt, value)
 		_node.Status = value
 	}
-	if value, ok := ccc.mutation.Extras(); ok {
+	if value, ok := _c.mutation.Extras(); ok {
 		_spec.SetField(cmschannel.FieldExtras, field.TypeJSON, value)
 		_node.Extras = value
 	}
-	if value, ok := ccc.mutation.SpaceID(); ok {
+	if value, ok := _c.mutation.SpaceID(); ok {
 		_spec.SetField(cmschannel.FieldSpaceID, field.TypeString, value)
 		_node.SpaceID = value
 	}
-	if value, ok := ccc.mutation.CreatedBy(); ok {
+	if value, ok := _c.mutation.CreatedBy(); ok {
 		_spec.SetField(cmschannel.FieldCreatedBy, field.TypeString, value)
 		_node.CreatedBy = value
 	}
-	if value, ok := ccc.mutation.UpdatedBy(); ok {
+	if value, ok := _c.mutation.UpdatedBy(); ok {
 		_spec.SetField(cmschannel.FieldUpdatedBy, field.TypeString, value)
 		_node.UpdatedBy = value
 	}
-	if value, ok := ccc.mutation.CreatedAt(); ok {
+	if value, ok := _c.mutation.CreatedAt(); ok {
 		_spec.SetField(cmschannel.FieldCreatedAt, field.TypeInt64, value)
 		_node.CreatedAt = value
 	}
-	if value, ok := ccc.mutation.UpdatedAt(); ok {
+	if value, ok := _c.mutation.UpdatedAt(); ok {
 		_spec.SetField(cmschannel.FieldUpdatedAt, field.TypeInt64, value)
 		_node.UpdatedAt = value
 	}
-	if value, ok := ccc.mutation.AllowedTypes(); ok {
+	if value, ok := _c.mutation.AllowedTypes(); ok {
 		_spec.SetField(cmschannel.FieldAllowedTypes, field.TypeJSON, value)
 		_node.AllowedTypes = value
 	}
-	if value, ok := ccc.mutation.Description(); ok {
+	if value, ok := _c.mutation.Description(); ok {
 		_spec.SetField(cmschannel.FieldDescription, field.TypeString, value)
 		_node.Description = value
 	}
-	if value, ok := ccc.mutation.Logo(); ok {
+	if value, ok := _c.mutation.Logo(); ok {
 		_spec.SetField(cmschannel.FieldLogo, field.TypeString, value)
 		_node.Logo = value
 	}
-	if value, ok := ccc.mutation.WebhookURL(); ok {
+	if value, ok := _c.mutation.WebhookURL(); ok {
 		_spec.SetField(cmschannel.FieldWebhookURL, field.TypeString, value)
 		_node.WebhookURL = value
 	}
-	if value, ok := ccc.mutation.AutoPublish(); ok {
+	if value, ok := _c.mutation.AutoPublish(); ok {
 		_spec.SetField(cmschannel.FieldAutoPublish, field.TypeBool, value)
 		_node.AutoPublish = value
 	}
-	if value, ok := ccc.mutation.RequireReview(); ok {
+	if value, ok := _c.mutation.RequireReview(); ok {
 		_spec.SetField(cmschannel.FieldRequireReview, field.TypeBool, value)
 		_node.RequireReview = value
 	}
@@ -450,16 +450,16 @@ type CMSChannelCreateBulk struct {
 }
 
 // Save creates the CMSChannel entities in the database.
-func (cccb *CMSChannelCreateBulk) Save(ctx context.Context) ([]*CMSChannel, error) {
-	if cccb.err != nil {
-		return nil, cccb.err
+func (_c *CMSChannelCreateBulk) Save(ctx context.Context) ([]*CMSChannel, error) {
+	if _c.err != nil {
+		return nil, _c.err
 	}
-	specs := make([]*sqlgraph.CreateSpec, len(cccb.builders))
-	nodes := make([]*CMSChannel, len(cccb.builders))
-	mutators := make([]Mutator, len(cccb.builders))
-	for i := range cccb.builders {
+	specs := make([]*sqlgraph.CreateSpec, len(_c.builders))
+	nodes := make([]*CMSChannel, len(_c.builders))
+	mutators := make([]Mutator, len(_c.builders))
+	for i := range _c.builders {
 		func(i int, root context.Context) {
-			builder := cccb.builders[i]
+			builder := _c.builders[i]
 			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*CMSChannelMutation)
@@ -473,11 +473,11 @@ func (cccb *CMSChannelCreateBulk) Save(ctx context.Context) ([]*CMSChannel, erro
 				var err error
 				nodes[i], specs[i] = builder.createSpec()
 				if i < len(mutators)-1 {
-					_, err = mutators[i+1].Mutate(root, cccb.builders[i+1].mutation)
+					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
 					// Invoke the actual operation on the latest mutation in the chain.
-					if err = sqlgraph.BatchCreate(ctx, cccb.driver, spec); err != nil {
+					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
 							err = &ConstraintError{msg: err.Error(), wrap: err}
 						}
@@ -497,7 +497,7 @@ func (cccb *CMSChannelCreateBulk) Save(ctx context.Context) ([]*CMSChannel, erro
 		}(i, ctx)
 	}
 	if len(mutators) > 0 {
-		if _, err := mutators[0].Mutate(ctx, cccb.builders[0].mutation); err != nil {
+		if _, err := mutators[0].Mutate(ctx, _c.builders[0].mutation); err != nil {
 			return nil, err
 		}
 	}
@@ -505,8 +505,8 @@ func (cccb *CMSChannelCreateBulk) Save(ctx context.Context) ([]*CMSChannel, erro
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (cccb *CMSChannelCreateBulk) SaveX(ctx context.Context) []*CMSChannel {
-	v, err := cccb.Save(ctx)
+func (_c *CMSChannelCreateBulk) SaveX(ctx context.Context) []*CMSChannel {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -514,14 +514,14 @@ func (cccb *CMSChannelCreateBulk) SaveX(ctx context.Context) []*CMSChannel {
 }
 
 // Exec executes the query.
-func (cccb *CMSChannelCreateBulk) Exec(ctx context.Context) error {
-	_, err := cccb.Save(ctx)
+func (_c *CMSChannelCreateBulk) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (cccb *CMSChannelCreateBulk) ExecX(ctx context.Context) {
-	if err := cccb.Exec(ctx); err != nil {
+func (_c *CMSChannelCreateBulk) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

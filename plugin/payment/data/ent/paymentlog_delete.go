@@ -20,56 +20,56 @@ type PaymentLogDelete struct {
 }
 
 // Where appends a list predicates to the PaymentLogDelete builder.
-func (pld *PaymentLogDelete) Where(ps ...predicate.PaymentLog) *PaymentLogDelete {
-	pld.mutation.Where(ps...)
-	return pld
+func (_d *PaymentLogDelete) Where(ps ...predicate.PaymentLog) *PaymentLogDelete {
+	_d.mutation.Where(ps...)
+	return _d
 }
 
 // Exec executes the deletion query and returns how many vertices were deleted.
-func (pld *PaymentLogDelete) Exec(ctx context.Context) (int, error) {
-	return withHooks(ctx, pld.sqlExec, pld.mutation, pld.hooks)
+func (_d *PaymentLogDelete) Exec(ctx context.Context) (int, error) {
+	return withHooks(ctx, _d.sqlExec, _d.mutation, _d.hooks)
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (pld *PaymentLogDelete) ExecX(ctx context.Context) int {
-	n, err := pld.Exec(ctx)
+func (_d *PaymentLogDelete) ExecX(ctx context.Context) int {
+	n, err := _d.Exec(ctx)
 	if err != nil {
 		panic(err)
 	}
 	return n
 }
 
-func (pld *PaymentLogDelete) sqlExec(ctx context.Context) (int, error) {
+func (_d *PaymentLogDelete) sqlExec(ctx context.Context) (int, error) {
 	_spec := sqlgraph.NewDeleteSpec(paymentlog.Table, sqlgraph.NewFieldSpec(paymentlog.FieldID, field.TypeString))
-	if ps := pld.mutation.predicates; len(ps) > 0 {
+	if ps := _d.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	affected, err := sqlgraph.DeleteNodes(ctx, pld.driver, _spec)
+	affected, err := sqlgraph.DeleteNodes(ctx, _d.driver, _spec)
 	if err != nil && sqlgraph.IsConstraintError(err) {
 		err = &ConstraintError{msg: err.Error(), wrap: err}
 	}
-	pld.mutation.done = true
+	_d.mutation.done = true
 	return affected, err
 }
 
 // PaymentLogDeleteOne is the builder for deleting a single PaymentLog entity.
 type PaymentLogDeleteOne struct {
-	pld *PaymentLogDelete
+	_d *PaymentLogDelete
 }
 
 // Where appends a list predicates to the PaymentLogDelete builder.
-func (pldo *PaymentLogDeleteOne) Where(ps ...predicate.PaymentLog) *PaymentLogDeleteOne {
-	pldo.pld.mutation.Where(ps...)
-	return pldo
+func (_d *PaymentLogDeleteOne) Where(ps ...predicate.PaymentLog) *PaymentLogDeleteOne {
+	_d._d.mutation.Where(ps...)
+	return _d
 }
 
 // Exec executes the deletion query.
-func (pldo *PaymentLogDeleteOne) Exec(ctx context.Context) error {
-	n, err := pldo.pld.Exec(ctx)
+func (_d *PaymentLogDeleteOne) Exec(ctx context.Context) error {
+	n, err := _d._d.Exec(ctx)
 	switch {
 	case err != nil:
 		return err
@@ -81,8 +81,8 @@ func (pldo *PaymentLogDeleteOne) Exec(ctx context.Context) error {
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (pldo *PaymentLogDeleteOne) ExecX(ctx context.Context) {
-	if err := pldo.Exec(ctx); err != nil {
+func (_d *PaymentLogDeleteOne) ExecX(ctx context.Context) {
+	if err := _d.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

@@ -20,195 +20,195 @@ type LogsCreate struct {
 }
 
 // SetCreatedAt sets the "created_at" field.
-func (lc *LogsCreate) SetCreatedAt(i int64) *LogsCreate {
-	lc.mutation.SetCreatedAt(i)
-	return lc
+func (_c *LogsCreate) SetCreatedAt(v int64) *LogsCreate {
+	_c.mutation.SetCreatedAt(v)
+	return _c
 }
 
 // SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
-func (lc *LogsCreate) SetNillableCreatedAt(i *int64) *LogsCreate {
-	if i != nil {
-		lc.SetCreatedAt(*i)
+func (_c *LogsCreate) SetNillableCreatedAt(v *int64) *LogsCreate {
+	if v != nil {
+		_c.SetCreatedAt(*v)
 	}
-	return lc
+	return _c
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (lc *LogsCreate) SetUpdatedAt(i int64) *LogsCreate {
-	lc.mutation.SetUpdatedAt(i)
-	return lc
+func (_c *LogsCreate) SetUpdatedAt(v int64) *LogsCreate {
+	_c.mutation.SetUpdatedAt(v)
+	return _c
 }
 
 // SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
-func (lc *LogsCreate) SetNillableUpdatedAt(i *int64) *LogsCreate {
-	if i != nil {
-		lc.SetUpdatedAt(*i)
+func (_c *LogsCreate) SetNillableUpdatedAt(v *int64) *LogsCreate {
+	if v != nil {
+		_c.SetUpdatedAt(*v)
 	}
-	return lc
+	return _c
 }
 
 // SetEndpointID sets the "endpoint_id" field.
-func (lc *LogsCreate) SetEndpointID(s string) *LogsCreate {
-	lc.mutation.SetEndpointID(s)
-	return lc
+func (_c *LogsCreate) SetEndpointID(v string) *LogsCreate {
+	_c.mutation.SetEndpointID(v)
+	return _c
 }
 
 // SetRouteID sets the "route_id" field.
-func (lc *LogsCreate) SetRouteID(s string) *LogsCreate {
-	lc.mutation.SetRouteID(s)
-	return lc
+func (_c *LogsCreate) SetRouteID(v string) *LogsCreate {
+	_c.mutation.SetRouteID(v)
+	return _c
 }
 
 // SetRequestMethod sets the "request_method" field.
-func (lc *LogsCreate) SetRequestMethod(s string) *LogsCreate {
-	lc.mutation.SetRequestMethod(s)
-	return lc
+func (_c *LogsCreate) SetRequestMethod(v string) *LogsCreate {
+	_c.mutation.SetRequestMethod(v)
+	return _c
 }
 
 // SetRequestPath sets the "request_path" field.
-func (lc *LogsCreate) SetRequestPath(s string) *LogsCreate {
-	lc.mutation.SetRequestPath(s)
-	return lc
+func (_c *LogsCreate) SetRequestPath(v string) *LogsCreate {
+	_c.mutation.SetRequestPath(v)
+	return _c
 }
 
 // SetRequestHeaders sets the "request_headers" field.
-func (lc *LogsCreate) SetRequestHeaders(s string) *LogsCreate {
-	lc.mutation.SetRequestHeaders(s)
-	return lc
+func (_c *LogsCreate) SetRequestHeaders(v string) *LogsCreate {
+	_c.mutation.SetRequestHeaders(v)
+	return _c
 }
 
 // SetNillableRequestHeaders sets the "request_headers" field if the given value is not nil.
-func (lc *LogsCreate) SetNillableRequestHeaders(s *string) *LogsCreate {
-	if s != nil {
-		lc.SetRequestHeaders(*s)
+func (_c *LogsCreate) SetNillableRequestHeaders(v *string) *LogsCreate {
+	if v != nil {
+		_c.SetRequestHeaders(*v)
 	}
-	return lc
+	return _c
 }
 
 // SetRequestBody sets the "request_body" field.
-func (lc *LogsCreate) SetRequestBody(s string) *LogsCreate {
-	lc.mutation.SetRequestBody(s)
-	return lc
+func (_c *LogsCreate) SetRequestBody(v string) *LogsCreate {
+	_c.mutation.SetRequestBody(v)
+	return _c
 }
 
 // SetNillableRequestBody sets the "request_body" field if the given value is not nil.
-func (lc *LogsCreate) SetNillableRequestBody(s *string) *LogsCreate {
-	if s != nil {
-		lc.SetRequestBody(*s)
+func (_c *LogsCreate) SetNillableRequestBody(v *string) *LogsCreate {
+	if v != nil {
+		_c.SetRequestBody(*v)
 	}
-	return lc
+	return _c
 }
 
 // SetStatusCode sets the "status_code" field.
-func (lc *LogsCreate) SetStatusCode(i int) *LogsCreate {
-	lc.mutation.SetStatusCode(i)
-	return lc
+func (_c *LogsCreate) SetStatusCode(v int) *LogsCreate {
+	_c.mutation.SetStatusCode(v)
+	return _c
 }
 
 // SetResponseHeaders sets the "response_headers" field.
-func (lc *LogsCreate) SetResponseHeaders(s string) *LogsCreate {
-	lc.mutation.SetResponseHeaders(s)
-	return lc
+func (_c *LogsCreate) SetResponseHeaders(v string) *LogsCreate {
+	_c.mutation.SetResponseHeaders(v)
+	return _c
 }
 
 // SetNillableResponseHeaders sets the "response_headers" field if the given value is not nil.
-func (lc *LogsCreate) SetNillableResponseHeaders(s *string) *LogsCreate {
-	if s != nil {
-		lc.SetResponseHeaders(*s)
+func (_c *LogsCreate) SetNillableResponseHeaders(v *string) *LogsCreate {
+	if v != nil {
+		_c.SetResponseHeaders(*v)
 	}
-	return lc
+	return _c
 }
 
 // SetResponseBody sets the "response_body" field.
-func (lc *LogsCreate) SetResponseBody(s string) *LogsCreate {
-	lc.mutation.SetResponseBody(s)
-	return lc
+func (_c *LogsCreate) SetResponseBody(v string) *LogsCreate {
+	_c.mutation.SetResponseBody(v)
+	return _c
 }
 
 // SetNillableResponseBody sets the "response_body" field if the given value is not nil.
-func (lc *LogsCreate) SetNillableResponseBody(s *string) *LogsCreate {
-	if s != nil {
-		lc.SetResponseBody(*s)
+func (_c *LogsCreate) SetNillableResponseBody(v *string) *LogsCreate {
+	if v != nil {
+		_c.SetResponseBody(*v)
 	}
-	return lc
+	return _c
 }
 
 // SetDuration sets the "duration" field.
-func (lc *LogsCreate) SetDuration(i int) *LogsCreate {
-	lc.mutation.SetDuration(i)
-	return lc
+func (_c *LogsCreate) SetDuration(v int) *LogsCreate {
+	_c.mutation.SetDuration(v)
+	return _c
 }
 
 // SetError sets the "error" field.
-func (lc *LogsCreate) SetError(s string) *LogsCreate {
-	lc.mutation.SetError(s)
-	return lc
+func (_c *LogsCreate) SetError(v string) *LogsCreate {
+	_c.mutation.SetError(v)
+	return _c
 }
 
 // SetNillableError sets the "error" field if the given value is not nil.
-func (lc *LogsCreate) SetNillableError(s *string) *LogsCreate {
-	if s != nil {
-		lc.SetError(*s)
+func (_c *LogsCreate) SetNillableError(v *string) *LogsCreate {
+	if v != nil {
+		_c.SetError(*v)
 	}
-	return lc
+	return _c
 }
 
 // SetClientIP sets the "client_ip" field.
-func (lc *LogsCreate) SetClientIP(s string) *LogsCreate {
-	lc.mutation.SetClientIP(s)
-	return lc
+func (_c *LogsCreate) SetClientIP(v string) *LogsCreate {
+	_c.mutation.SetClientIP(v)
+	return _c
 }
 
 // SetNillableClientIP sets the "client_ip" field if the given value is not nil.
-func (lc *LogsCreate) SetNillableClientIP(s *string) *LogsCreate {
-	if s != nil {
-		lc.SetClientIP(*s)
+func (_c *LogsCreate) SetNillableClientIP(v *string) *LogsCreate {
+	if v != nil {
+		_c.SetClientIP(*v)
 	}
-	return lc
+	return _c
 }
 
 // SetUserID sets the "user_id" field.
-func (lc *LogsCreate) SetUserID(s string) *LogsCreate {
-	lc.mutation.SetUserID(s)
-	return lc
+func (_c *LogsCreate) SetUserID(v string) *LogsCreate {
+	_c.mutation.SetUserID(v)
+	return _c
 }
 
 // SetNillableUserID sets the "user_id" field if the given value is not nil.
-func (lc *LogsCreate) SetNillableUserID(s *string) *LogsCreate {
-	if s != nil {
-		lc.SetUserID(*s)
+func (_c *LogsCreate) SetNillableUserID(v *string) *LogsCreate {
+	if v != nil {
+		_c.SetUserID(*v)
 	}
-	return lc
+	return _c
 }
 
 // SetID sets the "id" field.
-func (lc *LogsCreate) SetID(s string) *LogsCreate {
-	lc.mutation.SetID(s)
-	return lc
+func (_c *LogsCreate) SetID(v string) *LogsCreate {
+	_c.mutation.SetID(v)
+	return _c
 }
 
 // SetNillableID sets the "id" field if the given value is not nil.
-func (lc *LogsCreate) SetNillableID(s *string) *LogsCreate {
-	if s != nil {
-		lc.SetID(*s)
+func (_c *LogsCreate) SetNillableID(v *string) *LogsCreate {
+	if v != nil {
+		_c.SetID(*v)
 	}
-	return lc
+	return _c
 }
 
 // Mutation returns the LogsMutation object of the builder.
-func (lc *LogsCreate) Mutation() *LogsMutation {
-	return lc.mutation
+func (_c *LogsCreate) Mutation() *LogsMutation {
+	return _c.mutation
 }
 
 // Save creates the Logs in the database.
-func (lc *LogsCreate) Save(ctx context.Context) (*Logs, error) {
-	lc.defaults()
-	return withHooks(ctx, lc.sqlSave, lc.mutation, lc.hooks)
+func (_c *LogsCreate) Save(ctx context.Context) (*Logs, error) {
+	_c.defaults()
+	return withHooks(ctx, _c.sqlSave, _c.mutation, _c.hooks)
 }
 
 // SaveX calls Save and panics if Save returns an error.
-func (lc *LogsCreate) SaveX(ctx context.Context) *Logs {
-	v, err := lc.Save(ctx)
+func (_c *LogsCreate) SaveX(ctx context.Context) *Logs {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -216,55 +216,55 @@ func (lc *LogsCreate) SaveX(ctx context.Context) *Logs {
 }
 
 // Exec executes the query.
-func (lc *LogsCreate) Exec(ctx context.Context) error {
-	_, err := lc.Save(ctx)
+func (_c *LogsCreate) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (lc *LogsCreate) ExecX(ctx context.Context) {
-	if err := lc.Exec(ctx); err != nil {
+func (_c *LogsCreate) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (lc *LogsCreate) defaults() {
-	if _, ok := lc.mutation.CreatedAt(); !ok {
+func (_c *LogsCreate) defaults() {
+	if _, ok := _c.mutation.CreatedAt(); !ok {
 		v := logs.DefaultCreatedAt()
-		lc.mutation.SetCreatedAt(v)
+		_c.mutation.SetCreatedAt(v)
 	}
-	if _, ok := lc.mutation.UpdatedAt(); !ok {
+	if _, ok := _c.mutation.UpdatedAt(); !ok {
 		v := logs.DefaultUpdatedAt()
-		lc.mutation.SetUpdatedAt(v)
+		_c.mutation.SetUpdatedAt(v)
 	}
-	if _, ok := lc.mutation.ID(); !ok {
+	if _, ok := _c.mutation.ID(); !ok {
 		v := logs.DefaultID()
-		lc.mutation.SetID(v)
+		_c.mutation.SetID(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (lc *LogsCreate) check() error {
-	if _, ok := lc.mutation.EndpointID(); !ok {
+func (_c *LogsCreate) check() error {
+	if _, ok := _c.mutation.EndpointID(); !ok {
 		return &ValidationError{Name: "endpoint_id", err: errors.New(`ent: missing required field "Logs.endpoint_id"`)}
 	}
-	if _, ok := lc.mutation.RouteID(); !ok {
+	if _, ok := _c.mutation.RouteID(); !ok {
 		return &ValidationError{Name: "route_id", err: errors.New(`ent: missing required field "Logs.route_id"`)}
 	}
-	if _, ok := lc.mutation.RequestMethod(); !ok {
+	if _, ok := _c.mutation.RequestMethod(); !ok {
 		return &ValidationError{Name: "request_method", err: errors.New(`ent: missing required field "Logs.request_method"`)}
 	}
-	if _, ok := lc.mutation.RequestPath(); !ok {
+	if _, ok := _c.mutation.RequestPath(); !ok {
 		return &ValidationError{Name: "request_path", err: errors.New(`ent: missing required field "Logs.request_path"`)}
 	}
-	if _, ok := lc.mutation.StatusCode(); !ok {
+	if _, ok := _c.mutation.StatusCode(); !ok {
 		return &ValidationError{Name: "status_code", err: errors.New(`ent: missing required field "Logs.status_code"`)}
 	}
-	if _, ok := lc.mutation.Duration(); !ok {
+	if _, ok := _c.mutation.Duration(); !ok {
 		return &ValidationError{Name: "duration", err: errors.New(`ent: missing required field "Logs.duration"`)}
 	}
-	if v, ok := lc.mutation.ID(); ok {
+	if v, ok := _c.mutation.ID(); ok {
 		if err := logs.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "Logs.id": %w`, err)}
 		}
@@ -272,12 +272,12 @@ func (lc *LogsCreate) check() error {
 	return nil
 }
 
-func (lc *LogsCreate) sqlSave(ctx context.Context) (*Logs, error) {
-	if err := lc.check(); err != nil {
+func (_c *LogsCreate) sqlSave(ctx context.Context) (*Logs, error) {
+	if err := _c.check(); err != nil {
 		return nil, err
 	}
-	_node, _spec := lc.createSpec()
-	if err := sqlgraph.CreateNode(ctx, lc.driver, _spec); err != nil {
+	_node, _spec := _c.createSpec()
+	if err := sqlgraph.CreateNode(ctx, _c.driver, _spec); err != nil {
 		if sqlgraph.IsConstraintError(err) {
 			err = &ConstraintError{msg: err.Error(), wrap: err}
 		}
@@ -290,77 +290,77 @@ func (lc *LogsCreate) sqlSave(ctx context.Context) (*Logs, error) {
 			return nil, fmt.Errorf("unexpected Logs.ID type: %T", _spec.ID.Value)
 		}
 	}
-	lc.mutation.id = &_node.ID
-	lc.mutation.done = true
+	_c.mutation.id = &_node.ID
+	_c.mutation.done = true
 	return _node, nil
 }
 
-func (lc *LogsCreate) createSpec() (*Logs, *sqlgraph.CreateSpec) {
+func (_c *LogsCreate) createSpec() (*Logs, *sqlgraph.CreateSpec) {
 	var (
-		_node = &Logs{config: lc.config}
+		_node = &Logs{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(logs.Table, sqlgraph.NewFieldSpec(logs.FieldID, field.TypeString))
 	)
-	if id, ok := lc.mutation.ID(); ok {
+	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
 	}
-	if value, ok := lc.mutation.CreatedAt(); ok {
+	if value, ok := _c.mutation.CreatedAt(); ok {
 		_spec.SetField(logs.FieldCreatedAt, field.TypeInt64, value)
 		_node.CreatedAt = value
 	}
-	if value, ok := lc.mutation.UpdatedAt(); ok {
+	if value, ok := _c.mutation.UpdatedAt(); ok {
 		_spec.SetField(logs.FieldUpdatedAt, field.TypeInt64, value)
 		_node.UpdatedAt = value
 	}
-	if value, ok := lc.mutation.EndpointID(); ok {
+	if value, ok := _c.mutation.EndpointID(); ok {
 		_spec.SetField(logs.FieldEndpointID, field.TypeString, value)
 		_node.EndpointID = value
 	}
-	if value, ok := lc.mutation.RouteID(); ok {
+	if value, ok := _c.mutation.RouteID(); ok {
 		_spec.SetField(logs.FieldRouteID, field.TypeString, value)
 		_node.RouteID = value
 	}
-	if value, ok := lc.mutation.RequestMethod(); ok {
+	if value, ok := _c.mutation.RequestMethod(); ok {
 		_spec.SetField(logs.FieldRequestMethod, field.TypeString, value)
 		_node.RequestMethod = value
 	}
-	if value, ok := lc.mutation.RequestPath(); ok {
+	if value, ok := _c.mutation.RequestPath(); ok {
 		_spec.SetField(logs.FieldRequestPath, field.TypeString, value)
 		_node.RequestPath = value
 	}
-	if value, ok := lc.mutation.RequestHeaders(); ok {
+	if value, ok := _c.mutation.RequestHeaders(); ok {
 		_spec.SetField(logs.FieldRequestHeaders, field.TypeString, value)
 		_node.RequestHeaders = value
 	}
-	if value, ok := lc.mutation.RequestBody(); ok {
+	if value, ok := _c.mutation.RequestBody(); ok {
 		_spec.SetField(logs.FieldRequestBody, field.TypeString, value)
 		_node.RequestBody = value
 	}
-	if value, ok := lc.mutation.StatusCode(); ok {
+	if value, ok := _c.mutation.StatusCode(); ok {
 		_spec.SetField(logs.FieldStatusCode, field.TypeInt, value)
 		_node.StatusCode = value
 	}
-	if value, ok := lc.mutation.ResponseHeaders(); ok {
+	if value, ok := _c.mutation.ResponseHeaders(); ok {
 		_spec.SetField(logs.FieldResponseHeaders, field.TypeString, value)
 		_node.ResponseHeaders = value
 	}
-	if value, ok := lc.mutation.ResponseBody(); ok {
+	if value, ok := _c.mutation.ResponseBody(); ok {
 		_spec.SetField(logs.FieldResponseBody, field.TypeString, value)
 		_node.ResponseBody = value
 	}
-	if value, ok := lc.mutation.Duration(); ok {
+	if value, ok := _c.mutation.Duration(); ok {
 		_spec.SetField(logs.FieldDuration, field.TypeInt, value)
 		_node.Duration = value
 	}
-	if value, ok := lc.mutation.Error(); ok {
+	if value, ok := _c.mutation.Error(); ok {
 		_spec.SetField(logs.FieldError, field.TypeString, value)
 		_node.Error = value
 	}
-	if value, ok := lc.mutation.ClientIP(); ok {
+	if value, ok := _c.mutation.ClientIP(); ok {
 		_spec.SetField(logs.FieldClientIP, field.TypeString, value)
 		_node.ClientIP = value
 	}
-	if value, ok := lc.mutation.UserID(); ok {
+	if value, ok := _c.mutation.UserID(); ok {
 		_spec.SetField(logs.FieldUserID, field.TypeString, value)
 		_node.UserID = value
 	}
@@ -375,16 +375,16 @@ type LogsCreateBulk struct {
 }
 
 // Save creates the Logs entities in the database.
-func (lcb *LogsCreateBulk) Save(ctx context.Context) ([]*Logs, error) {
-	if lcb.err != nil {
-		return nil, lcb.err
+func (_c *LogsCreateBulk) Save(ctx context.Context) ([]*Logs, error) {
+	if _c.err != nil {
+		return nil, _c.err
 	}
-	specs := make([]*sqlgraph.CreateSpec, len(lcb.builders))
-	nodes := make([]*Logs, len(lcb.builders))
-	mutators := make([]Mutator, len(lcb.builders))
-	for i := range lcb.builders {
+	specs := make([]*sqlgraph.CreateSpec, len(_c.builders))
+	nodes := make([]*Logs, len(_c.builders))
+	mutators := make([]Mutator, len(_c.builders))
+	for i := range _c.builders {
 		func(i int, root context.Context) {
-			builder := lcb.builders[i]
+			builder := _c.builders[i]
 			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*LogsMutation)
@@ -398,11 +398,11 @@ func (lcb *LogsCreateBulk) Save(ctx context.Context) ([]*Logs, error) {
 				var err error
 				nodes[i], specs[i] = builder.createSpec()
 				if i < len(mutators)-1 {
-					_, err = mutators[i+1].Mutate(root, lcb.builders[i+1].mutation)
+					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
 					// Invoke the actual operation on the latest mutation in the chain.
-					if err = sqlgraph.BatchCreate(ctx, lcb.driver, spec); err != nil {
+					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
 							err = &ConstraintError{msg: err.Error(), wrap: err}
 						}
@@ -422,7 +422,7 @@ func (lcb *LogsCreateBulk) Save(ctx context.Context) ([]*Logs, error) {
 		}(i, ctx)
 	}
 	if len(mutators) > 0 {
-		if _, err := mutators[0].Mutate(ctx, lcb.builders[0].mutation); err != nil {
+		if _, err := mutators[0].Mutate(ctx, _c.builders[0].mutation); err != nil {
 			return nil, err
 		}
 	}
@@ -430,8 +430,8 @@ func (lcb *LogsCreateBulk) Save(ctx context.Context) ([]*Logs, error) {
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (lcb *LogsCreateBulk) SaveX(ctx context.Context) []*Logs {
-	v, err := lcb.Save(ctx)
+func (_c *LogsCreateBulk) SaveX(ctx context.Context) []*Logs {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -439,14 +439,14 @@ func (lcb *LogsCreateBulk) SaveX(ctx context.Context) []*Logs {
 }
 
 // Exec executes the query.
-func (lcb *LogsCreateBulk) Exec(ctx context.Context) error {
-	_, err := lcb.Save(ctx)
+func (_c *LogsCreateBulk) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (lcb *LogsCreateBulk) ExecX(ctx context.Context) {
-	if err := lcb.Exec(ctx); err != nil {
+func (_c *LogsCreateBulk) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

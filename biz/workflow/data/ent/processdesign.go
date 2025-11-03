@@ -73,7 +73,7 @@ func (*ProcessDesign) scanValues(columns []string) ([]any, error) {
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
 // to the ProcessDesign fields.
-func (pd *ProcessDesign) assignValues(columns []string, values []any) error {
+func (_m *ProcessDesign) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
@@ -83,25 +83,25 @@ func (pd *ProcessDesign) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field id", values[i])
 			} else if value.Valid {
-				pd.ID = value.String
+				_m.ID = value.String
 			}
 		case processdesign.FieldVersion:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field version", values[i])
 			} else if value.Valid {
-				pd.Version = value.String
+				_m.Version = value.String
 			}
 		case processdesign.FieldDisabled:
 			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field disabled", values[i])
 			} else if value.Valid {
-				pd.Disabled = value.Bool
+				_m.Disabled = value.Bool
 			}
 		case processdesign.FieldExtras:
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field extras", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &pd.Extras); err != nil {
+				if err := json.Unmarshal(*value, &_m.Extras); err != nil {
 					return fmt.Errorf("unmarshal field extras: %w", err)
 				}
 			}
@@ -109,43 +109,43 @@ func (pd *ProcessDesign) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field space_id", values[i])
 			} else if value.Valid {
-				pd.SpaceID = value.String
+				_m.SpaceID = value.String
 			}
 		case processdesign.FieldCreatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field created_by", values[i])
 			} else if value.Valid {
-				pd.CreatedBy = value.String
+				_m.CreatedBy = value.String
 			}
 		case processdesign.FieldUpdatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_by", values[i])
 			} else if value.Valid {
-				pd.UpdatedBy = value.String
+				_m.UpdatedBy = value.String
 			}
 		case processdesign.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field created_at", values[i])
 			} else if value.Valid {
-				pd.CreatedAt = value.Int64
+				_m.CreatedAt = value.Int64
 			}
 		case processdesign.FieldUpdatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_at", values[i])
 			} else if value.Valid {
-				pd.UpdatedAt = value.Int64
+				_m.UpdatedAt = value.Int64
 			}
 		case processdesign.FieldTemplateID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field template_id", values[i])
 			} else if value.Valid {
-				pd.TemplateID = value.String
+				_m.TemplateID = value.String
 			}
 		case processdesign.FieldGraphData:
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field graph_data", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &pd.GraphData); err != nil {
+				if err := json.Unmarshal(*value, &_m.GraphData); err != nil {
 					return fmt.Errorf("unmarshal field graph_data: %w", err)
 				}
 			}
@@ -153,7 +153,7 @@ func (pd *ProcessDesign) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field node_layouts", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &pd.NodeLayouts); err != nil {
+				if err := json.Unmarshal(*value, &_m.NodeLayouts); err != nil {
 					return fmt.Errorf("unmarshal field node_layouts: %w", err)
 				}
 			}
@@ -161,7 +161,7 @@ func (pd *ProcessDesign) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field properties", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &pd.Properties); err != nil {
+				if err := json.Unmarshal(*value, &_m.Properties); err != nil {
 					return fmt.Errorf("unmarshal field properties: %w", err)
 				}
 			}
@@ -169,7 +169,7 @@ func (pd *ProcessDesign) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field validation_rules", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &pd.ValidationRules); err != nil {
+				if err := json.Unmarshal(*value, &_m.ValidationRules); err != nil {
 					return fmt.Errorf("unmarshal field validation_rules: %w", err)
 				}
 			}
@@ -177,16 +177,16 @@ func (pd *ProcessDesign) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field is_draft", values[i])
 			} else if value.Valid {
-				pd.IsDraft = value.Bool
+				_m.IsDraft = value.Bool
 			}
 		case processdesign.FieldSourceVersion:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field source_version", values[i])
 			} else if value.Valid {
-				pd.SourceVersion = value.String
+				_m.SourceVersion = value.String
 			}
 		default:
-			pd.selectValues.Set(columns[i], values[i])
+			_m.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
@@ -194,77 +194,77 @@ func (pd *ProcessDesign) assignValues(columns []string, values []any) error {
 
 // Value returns the ent.Value that was dynamically selected and assigned to the ProcessDesign.
 // This includes values selected through modifiers, order, etc.
-func (pd *ProcessDesign) Value(name string) (ent.Value, error) {
-	return pd.selectValues.Get(name)
+func (_m *ProcessDesign) Value(name string) (ent.Value, error) {
+	return _m.selectValues.Get(name)
 }
 
 // Update returns a builder for updating this ProcessDesign.
 // Note that you need to call ProcessDesign.Unwrap() before calling this method if this ProcessDesign
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (pd *ProcessDesign) Update() *ProcessDesignUpdateOne {
-	return NewProcessDesignClient(pd.config).UpdateOne(pd)
+func (_m *ProcessDesign) Update() *ProcessDesignUpdateOne {
+	return NewProcessDesignClient(_m.config).UpdateOne(_m)
 }
 
 // Unwrap unwraps the ProcessDesign entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (pd *ProcessDesign) Unwrap() *ProcessDesign {
-	_tx, ok := pd.config.driver.(*txDriver)
+func (_m *ProcessDesign) Unwrap() *ProcessDesign {
+	_tx, ok := _m.config.driver.(*txDriver)
 	if !ok {
 		panic("ent: ProcessDesign is not a transactional entity")
 	}
-	pd.config.driver = _tx.drv
-	return pd
+	_m.config.driver = _tx.drv
+	return _m
 }
 
 // String implements the fmt.Stringer.
-func (pd *ProcessDesign) String() string {
+func (_m *ProcessDesign) String() string {
 	var builder strings.Builder
 	builder.WriteString("ProcessDesign(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", pd.ID))
+	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
 	builder.WriteString("version=")
-	builder.WriteString(pd.Version)
+	builder.WriteString(_m.Version)
 	builder.WriteString(", ")
 	builder.WriteString("disabled=")
-	builder.WriteString(fmt.Sprintf("%v", pd.Disabled))
+	builder.WriteString(fmt.Sprintf("%v", _m.Disabled))
 	builder.WriteString(", ")
 	builder.WriteString("extras=")
-	builder.WriteString(fmt.Sprintf("%v", pd.Extras))
+	builder.WriteString(fmt.Sprintf("%v", _m.Extras))
 	builder.WriteString(", ")
 	builder.WriteString("space_id=")
-	builder.WriteString(pd.SpaceID)
+	builder.WriteString(_m.SpaceID)
 	builder.WriteString(", ")
 	builder.WriteString("created_by=")
-	builder.WriteString(pd.CreatedBy)
+	builder.WriteString(_m.CreatedBy)
 	builder.WriteString(", ")
 	builder.WriteString("updated_by=")
-	builder.WriteString(pd.UpdatedBy)
+	builder.WriteString(_m.UpdatedBy)
 	builder.WriteString(", ")
 	builder.WriteString("created_at=")
-	builder.WriteString(fmt.Sprintf("%v", pd.CreatedAt))
+	builder.WriteString(fmt.Sprintf("%v", _m.CreatedAt))
 	builder.WriteString(", ")
 	builder.WriteString("updated_at=")
-	builder.WriteString(fmt.Sprintf("%v", pd.UpdatedAt))
+	builder.WriteString(fmt.Sprintf("%v", _m.UpdatedAt))
 	builder.WriteString(", ")
 	builder.WriteString("template_id=")
-	builder.WriteString(pd.TemplateID)
+	builder.WriteString(_m.TemplateID)
 	builder.WriteString(", ")
 	builder.WriteString("graph_data=")
-	builder.WriteString(fmt.Sprintf("%v", pd.GraphData))
+	builder.WriteString(fmt.Sprintf("%v", _m.GraphData))
 	builder.WriteString(", ")
 	builder.WriteString("node_layouts=")
-	builder.WriteString(fmt.Sprintf("%v", pd.NodeLayouts))
+	builder.WriteString(fmt.Sprintf("%v", _m.NodeLayouts))
 	builder.WriteString(", ")
 	builder.WriteString("properties=")
-	builder.WriteString(fmt.Sprintf("%v", pd.Properties))
+	builder.WriteString(fmt.Sprintf("%v", _m.Properties))
 	builder.WriteString(", ")
 	builder.WriteString("validation_rules=")
-	builder.WriteString(fmt.Sprintf("%v", pd.ValidationRules))
+	builder.WriteString(fmt.Sprintf("%v", _m.ValidationRules))
 	builder.WriteString(", ")
 	builder.WriteString("is_draft=")
-	builder.WriteString(fmt.Sprintf("%v", pd.IsDraft))
+	builder.WriteString(fmt.Sprintf("%v", _m.IsDraft))
 	builder.WriteString(", ")
 	builder.WriteString("source_version=")
-	builder.WriteString(pd.SourceVersion)
+	builder.WriteString(_m.SourceVersion)
 	builder.WriteByte(')')
 	return builder.String()
 }

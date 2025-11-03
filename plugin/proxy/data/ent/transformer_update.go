@@ -22,198 +22,198 @@ type TransformerUpdate struct {
 }
 
 // Where appends a list predicates to the TransformerUpdate builder.
-func (tu *TransformerUpdate) Where(ps ...predicate.Transformer) *TransformerUpdate {
-	tu.mutation.Where(ps...)
-	return tu
+func (_u *TransformerUpdate) Where(ps ...predicate.Transformer) *TransformerUpdate {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // SetName sets the "name" field.
-func (tu *TransformerUpdate) SetName(s string) *TransformerUpdate {
-	tu.mutation.SetName(s)
-	return tu
+func (_u *TransformerUpdate) SetName(v string) *TransformerUpdate {
+	_u.mutation.SetName(v)
+	return _u
 }
 
 // SetNillableName sets the "name" field if the given value is not nil.
-func (tu *TransformerUpdate) SetNillableName(s *string) *TransformerUpdate {
-	if s != nil {
-		tu.SetName(*s)
+func (_u *TransformerUpdate) SetNillableName(v *string) *TransformerUpdate {
+	if v != nil {
+		_u.SetName(*v)
 	}
-	return tu
+	return _u
 }
 
 // ClearName clears the value of the "name" field.
-func (tu *TransformerUpdate) ClearName() *TransformerUpdate {
-	tu.mutation.ClearName()
-	return tu
+func (_u *TransformerUpdate) ClearName() *TransformerUpdate {
+	_u.mutation.ClearName()
+	return _u
 }
 
 // SetDescription sets the "description" field.
-func (tu *TransformerUpdate) SetDescription(s string) *TransformerUpdate {
-	tu.mutation.SetDescription(s)
-	return tu
+func (_u *TransformerUpdate) SetDescription(v string) *TransformerUpdate {
+	_u.mutation.SetDescription(v)
+	return _u
 }
 
 // SetNillableDescription sets the "description" field if the given value is not nil.
-func (tu *TransformerUpdate) SetNillableDescription(s *string) *TransformerUpdate {
-	if s != nil {
-		tu.SetDescription(*s)
+func (_u *TransformerUpdate) SetNillableDescription(v *string) *TransformerUpdate {
+	if v != nil {
+		_u.SetDescription(*v)
 	}
-	return tu
+	return _u
 }
 
 // ClearDescription clears the value of the "description" field.
-func (tu *TransformerUpdate) ClearDescription() *TransformerUpdate {
-	tu.mutation.ClearDescription()
-	return tu
+func (_u *TransformerUpdate) ClearDescription() *TransformerUpdate {
+	_u.mutation.ClearDescription()
+	return _u
 }
 
 // SetDisabled sets the "disabled" field.
-func (tu *TransformerUpdate) SetDisabled(b bool) *TransformerUpdate {
-	tu.mutation.SetDisabled(b)
-	return tu
+func (_u *TransformerUpdate) SetDisabled(v bool) *TransformerUpdate {
+	_u.mutation.SetDisabled(v)
+	return _u
 }
 
 // SetNillableDisabled sets the "disabled" field if the given value is not nil.
-func (tu *TransformerUpdate) SetNillableDisabled(b *bool) *TransformerUpdate {
-	if b != nil {
-		tu.SetDisabled(*b)
+func (_u *TransformerUpdate) SetNillableDisabled(v *bool) *TransformerUpdate {
+	if v != nil {
+		_u.SetDisabled(*v)
 	}
-	return tu
+	return _u
 }
 
 // ClearDisabled clears the value of the "disabled" field.
-func (tu *TransformerUpdate) ClearDisabled() *TransformerUpdate {
-	tu.mutation.ClearDisabled()
-	return tu
+func (_u *TransformerUpdate) ClearDisabled() *TransformerUpdate {
+	_u.mutation.ClearDisabled()
+	return _u
 }
 
 // SetExtras sets the "extras" field.
-func (tu *TransformerUpdate) SetExtras(m map[string]interface{}) *TransformerUpdate {
-	tu.mutation.SetExtras(m)
-	return tu
+func (_u *TransformerUpdate) SetExtras(v map[string]interface{}) *TransformerUpdate {
+	_u.mutation.SetExtras(v)
+	return _u
 }
 
 // ClearExtras clears the value of the "extras" field.
-func (tu *TransformerUpdate) ClearExtras() *TransformerUpdate {
-	tu.mutation.ClearExtras()
-	return tu
+func (_u *TransformerUpdate) ClearExtras() *TransformerUpdate {
+	_u.mutation.ClearExtras()
+	return _u
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (tu *TransformerUpdate) SetCreatedBy(s string) *TransformerUpdate {
-	tu.mutation.SetCreatedBy(s)
-	return tu
+func (_u *TransformerUpdate) SetCreatedBy(v string) *TransformerUpdate {
+	_u.mutation.SetCreatedBy(v)
+	return _u
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (tu *TransformerUpdate) SetNillableCreatedBy(s *string) *TransformerUpdate {
-	if s != nil {
-		tu.SetCreatedBy(*s)
+func (_u *TransformerUpdate) SetNillableCreatedBy(v *string) *TransformerUpdate {
+	if v != nil {
+		_u.SetCreatedBy(*v)
 	}
-	return tu
+	return _u
 }
 
 // ClearCreatedBy clears the value of the "created_by" field.
-func (tu *TransformerUpdate) ClearCreatedBy() *TransformerUpdate {
-	tu.mutation.ClearCreatedBy()
-	return tu
+func (_u *TransformerUpdate) ClearCreatedBy() *TransformerUpdate {
+	_u.mutation.ClearCreatedBy()
+	return _u
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (tu *TransformerUpdate) SetUpdatedBy(s string) *TransformerUpdate {
-	tu.mutation.SetUpdatedBy(s)
-	return tu
+func (_u *TransformerUpdate) SetUpdatedBy(v string) *TransformerUpdate {
+	_u.mutation.SetUpdatedBy(v)
+	return _u
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (tu *TransformerUpdate) SetNillableUpdatedBy(s *string) *TransformerUpdate {
-	if s != nil {
-		tu.SetUpdatedBy(*s)
+func (_u *TransformerUpdate) SetNillableUpdatedBy(v *string) *TransformerUpdate {
+	if v != nil {
+		_u.SetUpdatedBy(*v)
 	}
-	return tu
+	return _u
 }
 
 // ClearUpdatedBy clears the value of the "updated_by" field.
-func (tu *TransformerUpdate) ClearUpdatedBy() *TransformerUpdate {
-	tu.mutation.ClearUpdatedBy()
-	return tu
+func (_u *TransformerUpdate) ClearUpdatedBy() *TransformerUpdate {
+	_u.mutation.ClearUpdatedBy()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (tu *TransformerUpdate) SetUpdatedAt(i int64) *TransformerUpdate {
-	tu.mutation.ResetUpdatedAt()
-	tu.mutation.SetUpdatedAt(i)
-	return tu
+func (_u *TransformerUpdate) SetUpdatedAt(v int64) *TransformerUpdate {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (tu *TransformerUpdate) AddUpdatedAt(i int64) *TransformerUpdate {
-	tu.mutation.AddUpdatedAt(i)
-	return tu
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *TransformerUpdate) AddUpdatedAt(v int64) *TransformerUpdate {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (tu *TransformerUpdate) ClearUpdatedAt() *TransformerUpdate {
-	tu.mutation.ClearUpdatedAt()
-	return tu
+func (_u *TransformerUpdate) ClearUpdatedAt() *TransformerUpdate {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // SetType sets the "type" field.
-func (tu *TransformerUpdate) SetType(s string) *TransformerUpdate {
-	tu.mutation.SetType(s)
-	return tu
+func (_u *TransformerUpdate) SetType(v string) *TransformerUpdate {
+	_u.mutation.SetType(v)
+	return _u
 }
 
 // SetNillableType sets the "type" field if the given value is not nil.
-func (tu *TransformerUpdate) SetNillableType(s *string) *TransformerUpdate {
-	if s != nil {
-		tu.SetType(*s)
+func (_u *TransformerUpdate) SetNillableType(v *string) *TransformerUpdate {
+	if v != nil {
+		_u.SetType(*v)
 	}
-	return tu
+	return _u
 }
 
 // SetContent sets the "content" field.
-func (tu *TransformerUpdate) SetContent(s string) *TransformerUpdate {
-	tu.mutation.SetContent(s)
-	return tu
+func (_u *TransformerUpdate) SetContent(v string) *TransformerUpdate {
+	_u.mutation.SetContent(v)
+	return _u
 }
 
 // SetNillableContent sets the "content" field if the given value is not nil.
-func (tu *TransformerUpdate) SetNillableContent(s *string) *TransformerUpdate {
-	if s != nil {
-		tu.SetContent(*s)
+func (_u *TransformerUpdate) SetNillableContent(v *string) *TransformerUpdate {
+	if v != nil {
+		_u.SetContent(*v)
 	}
-	return tu
+	return _u
 }
 
 // SetContentType sets the "content_type" field.
-func (tu *TransformerUpdate) SetContentType(s string) *TransformerUpdate {
-	tu.mutation.SetContentType(s)
-	return tu
+func (_u *TransformerUpdate) SetContentType(v string) *TransformerUpdate {
+	_u.mutation.SetContentType(v)
+	return _u
 }
 
 // SetNillableContentType sets the "content_type" field if the given value is not nil.
-func (tu *TransformerUpdate) SetNillableContentType(s *string) *TransformerUpdate {
-	if s != nil {
-		tu.SetContentType(*s)
+func (_u *TransformerUpdate) SetNillableContentType(v *string) *TransformerUpdate {
+	if v != nil {
+		_u.SetContentType(*v)
 	}
-	return tu
+	return _u
 }
 
 // Mutation returns the TransformerMutation object of the builder.
-func (tu *TransformerUpdate) Mutation() *TransformerMutation {
-	return tu.mutation
+func (_u *TransformerUpdate) Mutation() *TransformerMutation {
+	return _u.mutation
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
-func (tu *TransformerUpdate) Save(ctx context.Context) (int, error) {
-	tu.defaults()
-	return withHooks(ctx, tu.sqlSave, tu.mutation, tu.hooks)
+func (_u *TransformerUpdate) Save(ctx context.Context) (int, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (tu *TransformerUpdate) SaveX(ctx context.Context) int {
-	affected, err := tu.Save(ctx)
+func (_u *TransformerUpdate) SaveX(ctx context.Context) int {
+	affected, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -221,34 +221,34 @@ func (tu *TransformerUpdate) SaveX(ctx context.Context) int {
 }
 
 // Exec executes the query.
-func (tu *TransformerUpdate) Exec(ctx context.Context) error {
-	_, err := tu.Save(ctx)
+func (_u *TransformerUpdate) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (tu *TransformerUpdate) ExecX(ctx context.Context) {
-	if err := tu.Exec(ctx); err != nil {
+func (_u *TransformerUpdate) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (tu *TransformerUpdate) defaults() {
-	if _, ok := tu.mutation.UpdatedAt(); !ok && !tu.mutation.UpdatedAtCleared() {
+func (_u *TransformerUpdate) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := transformer.UpdateDefaultUpdatedAt()
-		tu.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (tu *TransformerUpdate) check() error {
-	if v, ok := tu.mutation.GetType(); ok {
+func (_u *TransformerUpdate) check() error {
+	if v, ok := _u.mutation.GetType(); ok {
 		if err := transformer.TypeValidator(v); err != nil {
 			return &ValidationError{Name: "type", err: fmt.Errorf(`ent: validator failed for field "Transformer.type": %w`, err)}
 		}
 	}
-	if v, ok := tu.mutation.Content(); ok {
+	if v, ok := _u.mutation.Content(); ok {
 		if err := transformer.ContentValidator(v); err != nil {
 			return &ValidationError{Name: "content", err: fmt.Errorf(`ent: validator failed for field "Transformer.content": %w`, err)}
 		}
@@ -256,76 +256,76 @@ func (tu *TransformerUpdate) check() error {
 	return nil
 }
 
-func (tu *TransformerUpdate) sqlSave(ctx context.Context) (n int, err error) {
-	if err := tu.check(); err != nil {
-		return n, err
+func (_u *TransformerUpdate) sqlSave(ctx context.Context) (_node int, err error) {
+	if err := _u.check(); err != nil {
+		return _node, err
 	}
 	_spec := sqlgraph.NewUpdateSpec(transformer.Table, transformer.Columns, sqlgraph.NewFieldSpec(transformer.FieldID, field.TypeString))
-	if ps := tu.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := tu.mutation.Name(); ok {
+	if value, ok := _u.mutation.Name(); ok {
 		_spec.SetField(transformer.FieldName, field.TypeString, value)
 	}
-	if tu.mutation.NameCleared() {
+	if _u.mutation.NameCleared() {
 		_spec.ClearField(transformer.FieldName, field.TypeString)
 	}
-	if value, ok := tu.mutation.Description(); ok {
+	if value, ok := _u.mutation.Description(); ok {
 		_spec.SetField(transformer.FieldDescription, field.TypeString, value)
 	}
-	if tu.mutation.DescriptionCleared() {
+	if _u.mutation.DescriptionCleared() {
 		_spec.ClearField(transformer.FieldDescription, field.TypeString)
 	}
-	if value, ok := tu.mutation.Disabled(); ok {
+	if value, ok := _u.mutation.Disabled(); ok {
 		_spec.SetField(transformer.FieldDisabled, field.TypeBool, value)
 	}
-	if tu.mutation.DisabledCleared() {
+	if _u.mutation.DisabledCleared() {
 		_spec.ClearField(transformer.FieldDisabled, field.TypeBool)
 	}
-	if value, ok := tu.mutation.Extras(); ok {
+	if value, ok := _u.mutation.Extras(); ok {
 		_spec.SetField(transformer.FieldExtras, field.TypeJSON, value)
 	}
-	if tu.mutation.ExtrasCleared() {
+	if _u.mutation.ExtrasCleared() {
 		_spec.ClearField(transformer.FieldExtras, field.TypeJSON)
 	}
-	if value, ok := tu.mutation.CreatedBy(); ok {
+	if value, ok := _u.mutation.CreatedBy(); ok {
 		_spec.SetField(transformer.FieldCreatedBy, field.TypeString, value)
 	}
-	if tu.mutation.CreatedByCleared() {
+	if _u.mutation.CreatedByCleared() {
 		_spec.ClearField(transformer.FieldCreatedBy, field.TypeString)
 	}
-	if value, ok := tu.mutation.UpdatedBy(); ok {
+	if value, ok := _u.mutation.UpdatedBy(); ok {
 		_spec.SetField(transformer.FieldUpdatedBy, field.TypeString, value)
 	}
-	if tu.mutation.UpdatedByCleared() {
+	if _u.mutation.UpdatedByCleared() {
 		_spec.ClearField(transformer.FieldUpdatedBy, field.TypeString)
 	}
-	if tu.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(transformer.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := tu.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(transformer.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := tu.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(transformer.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if tu.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(transformer.FieldUpdatedAt, field.TypeInt64)
 	}
-	if value, ok := tu.mutation.GetType(); ok {
+	if value, ok := _u.mutation.GetType(); ok {
 		_spec.SetField(transformer.FieldType, field.TypeString, value)
 	}
-	if value, ok := tu.mutation.Content(); ok {
+	if value, ok := _u.mutation.Content(); ok {
 		_spec.SetField(transformer.FieldContent, field.TypeString, value)
 	}
-	if value, ok := tu.mutation.ContentType(); ok {
+	if value, ok := _u.mutation.ContentType(); ok {
 		_spec.SetField(transformer.FieldContentType, field.TypeString, value)
 	}
-	if n, err = sqlgraph.UpdateNodes(ctx, tu.driver, _spec); err != nil {
+	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{transformer.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -333,8 +333,8 @@ func (tu *TransformerUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		return 0, err
 	}
-	tu.mutation.done = true
-	return n, nil
+	_u.mutation.done = true
+	return _node, nil
 }
 
 // TransformerUpdateOne is the builder for updating a single Transformer entity.
@@ -346,205 +346,205 @@ type TransformerUpdateOne struct {
 }
 
 // SetName sets the "name" field.
-func (tuo *TransformerUpdateOne) SetName(s string) *TransformerUpdateOne {
-	tuo.mutation.SetName(s)
-	return tuo
+func (_u *TransformerUpdateOne) SetName(v string) *TransformerUpdateOne {
+	_u.mutation.SetName(v)
+	return _u
 }
 
 // SetNillableName sets the "name" field if the given value is not nil.
-func (tuo *TransformerUpdateOne) SetNillableName(s *string) *TransformerUpdateOne {
-	if s != nil {
-		tuo.SetName(*s)
+func (_u *TransformerUpdateOne) SetNillableName(v *string) *TransformerUpdateOne {
+	if v != nil {
+		_u.SetName(*v)
 	}
-	return tuo
+	return _u
 }
 
 // ClearName clears the value of the "name" field.
-func (tuo *TransformerUpdateOne) ClearName() *TransformerUpdateOne {
-	tuo.mutation.ClearName()
-	return tuo
+func (_u *TransformerUpdateOne) ClearName() *TransformerUpdateOne {
+	_u.mutation.ClearName()
+	return _u
 }
 
 // SetDescription sets the "description" field.
-func (tuo *TransformerUpdateOne) SetDescription(s string) *TransformerUpdateOne {
-	tuo.mutation.SetDescription(s)
-	return tuo
+func (_u *TransformerUpdateOne) SetDescription(v string) *TransformerUpdateOne {
+	_u.mutation.SetDescription(v)
+	return _u
 }
 
 // SetNillableDescription sets the "description" field if the given value is not nil.
-func (tuo *TransformerUpdateOne) SetNillableDescription(s *string) *TransformerUpdateOne {
-	if s != nil {
-		tuo.SetDescription(*s)
+func (_u *TransformerUpdateOne) SetNillableDescription(v *string) *TransformerUpdateOne {
+	if v != nil {
+		_u.SetDescription(*v)
 	}
-	return tuo
+	return _u
 }
 
 // ClearDescription clears the value of the "description" field.
-func (tuo *TransformerUpdateOne) ClearDescription() *TransformerUpdateOne {
-	tuo.mutation.ClearDescription()
-	return tuo
+func (_u *TransformerUpdateOne) ClearDescription() *TransformerUpdateOne {
+	_u.mutation.ClearDescription()
+	return _u
 }
 
 // SetDisabled sets the "disabled" field.
-func (tuo *TransformerUpdateOne) SetDisabled(b bool) *TransformerUpdateOne {
-	tuo.mutation.SetDisabled(b)
-	return tuo
+func (_u *TransformerUpdateOne) SetDisabled(v bool) *TransformerUpdateOne {
+	_u.mutation.SetDisabled(v)
+	return _u
 }
 
 // SetNillableDisabled sets the "disabled" field if the given value is not nil.
-func (tuo *TransformerUpdateOne) SetNillableDisabled(b *bool) *TransformerUpdateOne {
-	if b != nil {
-		tuo.SetDisabled(*b)
+func (_u *TransformerUpdateOne) SetNillableDisabled(v *bool) *TransformerUpdateOne {
+	if v != nil {
+		_u.SetDisabled(*v)
 	}
-	return tuo
+	return _u
 }
 
 // ClearDisabled clears the value of the "disabled" field.
-func (tuo *TransformerUpdateOne) ClearDisabled() *TransformerUpdateOne {
-	tuo.mutation.ClearDisabled()
-	return tuo
+func (_u *TransformerUpdateOne) ClearDisabled() *TransformerUpdateOne {
+	_u.mutation.ClearDisabled()
+	return _u
 }
 
 // SetExtras sets the "extras" field.
-func (tuo *TransformerUpdateOne) SetExtras(m map[string]interface{}) *TransformerUpdateOne {
-	tuo.mutation.SetExtras(m)
-	return tuo
+func (_u *TransformerUpdateOne) SetExtras(v map[string]interface{}) *TransformerUpdateOne {
+	_u.mutation.SetExtras(v)
+	return _u
 }
 
 // ClearExtras clears the value of the "extras" field.
-func (tuo *TransformerUpdateOne) ClearExtras() *TransformerUpdateOne {
-	tuo.mutation.ClearExtras()
-	return tuo
+func (_u *TransformerUpdateOne) ClearExtras() *TransformerUpdateOne {
+	_u.mutation.ClearExtras()
+	return _u
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (tuo *TransformerUpdateOne) SetCreatedBy(s string) *TransformerUpdateOne {
-	tuo.mutation.SetCreatedBy(s)
-	return tuo
+func (_u *TransformerUpdateOne) SetCreatedBy(v string) *TransformerUpdateOne {
+	_u.mutation.SetCreatedBy(v)
+	return _u
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (tuo *TransformerUpdateOne) SetNillableCreatedBy(s *string) *TransformerUpdateOne {
-	if s != nil {
-		tuo.SetCreatedBy(*s)
+func (_u *TransformerUpdateOne) SetNillableCreatedBy(v *string) *TransformerUpdateOne {
+	if v != nil {
+		_u.SetCreatedBy(*v)
 	}
-	return tuo
+	return _u
 }
 
 // ClearCreatedBy clears the value of the "created_by" field.
-func (tuo *TransformerUpdateOne) ClearCreatedBy() *TransformerUpdateOne {
-	tuo.mutation.ClearCreatedBy()
-	return tuo
+func (_u *TransformerUpdateOne) ClearCreatedBy() *TransformerUpdateOne {
+	_u.mutation.ClearCreatedBy()
+	return _u
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (tuo *TransformerUpdateOne) SetUpdatedBy(s string) *TransformerUpdateOne {
-	tuo.mutation.SetUpdatedBy(s)
-	return tuo
+func (_u *TransformerUpdateOne) SetUpdatedBy(v string) *TransformerUpdateOne {
+	_u.mutation.SetUpdatedBy(v)
+	return _u
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (tuo *TransformerUpdateOne) SetNillableUpdatedBy(s *string) *TransformerUpdateOne {
-	if s != nil {
-		tuo.SetUpdatedBy(*s)
+func (_u *TransformerUpdateOne) SetNillableUpdatedBy(v *string) *TransformerUpdateOne {
+	if v != nil {
+		_u.SetUpdatedBy(*v)
 	}
-	return tuo
+	return _u
 }
 
 // ClearUpdatedBy clears the value of the "updated_by" field.
-func (tuo *TransformerUpdateOne) ClearUpdatedBy() *TransformerUpdateOne {
-	tuo.mutation.ClearUpdatedBy()
-	return tuo
+func (_u *TransformerUpdateOne) ClearUpdatedBy() *TransformerUpdateOne {
+	_u.mutation.ClearUpdatedBy()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (tuo *TransformerUpdateOne) SetUpdatedAt(i int64) *TransformerUpdateOne {
-	tuo.mutation.ResetUpdatedAt()
-	tuo.mutation.SetUpdatedAt(i)
-	return tuo
+func (_u *TransformerUpdateOne) SetUpdatedAt(v int64) *TransformerUpdateOne {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (tuo *TransformerUpdateOne) AddUpdatedAt(i int64) *TransformerUpdateOne {
-	tuo.mutation.AddUpdatedAt(i)
-	return tuo
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *TransformerUpdateOne) AddUpdatedAt(v int64) *TransformerUpdateOne {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (tuo *TransformerUpdateOne) ClearUpdatedAt() *TransformerUpdateOne {
-	tuo.mutation.ClearUpdatedAt()
-	return tuo
+func (_u *TransformerUpdateOne) ClearUpdatedAt() *TransformerUpdateOne {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // SetType sets the "type" field.
-func (tuo *TransformerUpdateOne) SetType(s string) *TransformerUpdateOne {
-	tuo.mutation.SetType(s)
-	return tuo
+func (_u *TransformerUpdateOne) SetType(v string) *TransformerUpdateOne {
+	_u.mutation.SetType(v)
+	return _u
 }
 
 // SetNillableType sets the "type" field if the given value is not nil.
-func (tuo *TransformerUpdateOne) SetNillableType(s *string) *TransformerUpdateOne {
-	if s != nil {
-		tuo.SetType(*s)
+func (_u *TransformerUpdateOne) SetNillableType(v *string) *TransformerUpdateOne {
+	if v != nil {
+		_u.SetType(*v)
 	}
-	return tuo
+	return _u
 }
 
 // SetContent sets the "content" field.
-func (tuo *TransformerUpdateOne) SetContent(s string) *TransformerUpdateOne {
-	tuo.mutation.SetContent(s)
-	return tuo
+func (_u *TransformerUpdateOne) SetContent(v string) *TransformerUpdateOne {
+	_u.mutation.SetContent(v)
+	return _u
 }
 
 // SetNillableContent sets the "content" field if the given value is not nil.
-func (tuo *TransformerUpdateOne) SetNillableContent(s *string) *TransformerUpdateOne {
-	if s != nil {
-		tuo.SetContent(*s)
+func (_u *TransformerUpdateOne) SetNillableContent(v *string) *TransformerUpdateOne {
+	if v != nil {
+		_u.SetContent(*v)
 	}
-	return tuo
+	return _u
 }
 
 // SetContentType sets the "content_type" field.
-func (tuo *TransformerUpdateOne) SetContentType(s string) *TransformerUpdateOne {
-	tuo.mutation.SetContentType(s)
-	return tuo
+func (_u *TransformerUpdateOne) SetContentType(v string) *TransformerUpdateOne {
+	_u.mutation.SetContentType(v)
+	return _u
 }
 
 // SetNillableContentType sets the "content_type" field if the given value is not nil.
-func (tuo *TransformerUpdateOne) SetNillableContentType(s *string) *TransformerUpdateOne {
-	if s != nil {
-		tuo.SetContentType(*s)
+func (_u *TransformerUpdateOne) SetNillableContentType(v *string) *TransformerUpdateOne {
+	if v != nil {
+		_u.SetContentType(*v)
 	}
-	return tuo
+	return _u
 }
 
 // Mutation returns the TransformerMutation object of the builder.
-func (tuo *TransformerUpdateOne) Mutation() *TransformerMutation {
-	return tuo.mutation
+func (_u *TransformerUpdateOne) Mutation() *TransformerMutation {
+	return _u.mutation
 }
 
 // Where appends a list predicates to the TransformerUpdate builder.
-func (tuo *TransformerUpdateOne) Where(ps ...predicate.Transformer) *TransformerUpdateOne {
-	tuo.mutation.Where(ps...)
-	return tuo
+func (_u *TransformerUpdateOne) Where(ps ...predicate.Transformer) *TransformerUpdateOne {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // Select allows selecting one or more fields (columns) of the returned entity.
 // The default is selecting all fields defined in the entity schema.
-func (tuo *TransformerUpdateOne) Select(field string, fields ...string) *TransformerUpdateOne {
-	tuo.fields = append([]string{field}, fields...)
-	return tuo
+func (_u *TransformerUpdateOne) Select(field string, fields ...string) *TransformerUpdateOne {
+	_u.fields = append([]string{field}, fields...)
+	return _u
 }
 
 // Save executes the query and returns the updated Transformer entity.
-func (tuo *TransformerUpdateOne) Save(ctx context.Context) (*Transformer, error) {
-	tuo.defaults()
-	return withHooks(ctx, tuo.sqlSave, tuo.mutation, tuo.hooks)
+func (_u *TransformerUpdateOne) Save(ctx context.Context) (*Transformer, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (tuo *TransformerUpdateOne) SaveX(ctx context.Context) *Transformer {
-	node, err := tuo.Save(ctx)
+func (_u *TransformerUpdateOne) SaveX(ctx context.Context) *Transformer {
+	node, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -552,34 +552,34 @@ func (tuo *TransformerUpdateOne) SaveX(ctx context.Context) *Transformer {
 }
 
 // Exec executes the query on the entity.
-func (tuo *TransformerUpdateOne) Exec(ctx context.Context) error {
-	_, err := tuo.Save(ctx)
+func (_u *TransformerUpdateOne) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (tuo *TransformerUpdateOne) ExecX(ctx context.Context) {
-	if err := tuo.Exec(ctx); err != nil {
+func (_u *TransformerUpdateOne) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (tuo *TransformerUpdateOne) defaults() {
-	if _, ok := tuo.mutation.UpdatedAt(); !ok && !tuo.mutation.UpdatedAtCleared() {
+func (_u *TransformerUpdateOne) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := transformer.UpdateDefaultUpdatedAt()
-		tuo.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (tuo *TransformerUpdateOne) check() error {
-	if v, ok := tuo.mutation.GetType(); ok {
+func (_u *TransformerUpdateOne) check() error {
+	if v, ok := _u.mutation.GetType(); ok {
 		if err := transformer.TypeValidator(v); err != nil {
 			return &ValidationError{Name: "type", err: fmt.Errorf(`ent: validator failed for field "Transformer.type": %w`, err)}
 		}
 	}
-	if v, ok := tuo.mutation.Content(); ok {
+	if v, ok := _u.mutation.Content(); ok {
 		if err := transformer.ContentValidator(v); err != nil {
 			return &ValidationError{Name: "content", err: fmt.Errorf(`ent: validator failed for field "Transformer.content": %w`, err)}
 		}
@@ -587,17 +587,17 @@ func (tuo *TransformerUpdateOne) check() error {
 	return nil
 }
 
-func (tuo *TransformerUpdateOne) sqlSave(ctx context.Context) (_node *Transformer, err error) {
-	if err := tuo.check(); err != nil {
+func (_u *TransformerUpdateOne) sqlSave(ctx context.Context) (_node *Transformer, err error) {
+	if err := _u.check(); err != nil {
 		return _node, err
 	}
 	_spec := sqlgraph.NewUpdateSpec(transformer.Table, transformer.Columns, sqlgraph.NewFieldSpec(transformer.FieldID, field.TypeString))
-	id, ok := tuo.mutation.ID()
+	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "Transformer.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
-	if fields := tuo.fields; len(fields) > 0 {
+	if fields := _u.fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, transformer.FieldID)
 		for _, f := range fields {
@@ -609,74 +609,74 @@ func (tuo *TransformerUpdateOne) sqlSave(ctx context.Context) (_node *Transforme
 			}
 		}
 	}
-	if ps := tuo.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := tuo.mutation.Name(); ok {
+	if value, ok := _u.mutation.Name(); ok {
 		_spec.SetField(transformer.FieldName, field.TypeString, value)
 	}
-	if tuo.mutation.NameCleared() {
+	if _u.mutation.NameCleared() {
 		_spec.ClearField(transformer.FieldName, field.TypeString)
 	}
-	if value, ok := tuo.mutation.Description(); ok {
+	if value, ok := _u.mutation.Description(); ok {
 		_spec.SetField(transformer.FieldDescription, field.TypeString, value)
 	}
-	if tuo.mutation.DescriptionCleared() {
+	if _u.mutation.DescriptionCleared() {
 		_spec.ClearField(transformer.FieldDescription, field.TypeString)
 	}
-	if value, ok := tuo.mutation.Disabled(); ok {
+	if value, ok := _u.mutation.Disabled(); ok {
 		_spec.SetField(transformer.FieldDisabled, field.TypeBool, value)
 	}
-	if tuo.mutation.DisabledCleared() {
+	if _u.mutation.DisabledCleared() {
 		_spec.ClearField(transformer.FieldDisabled, field.TypeBool)
 	}
-	if value, ok := tuo.mutation.Extras(); ok {
+	if value, ok := _u.mutation.Extras(); ok {
 		_spec.SetField(transformer.FieldExtras, field.TypeJSON, value)
 	}
-	if tuo.mutation.ExtrasCleared() {
+	if _u.mutation.ExtrasCleared() {
 		_spec.ClearField(transformer.FieldExtras, field.TypeJSON)
 	}
-	if value, ok := tuo.mutation.CreatedBy(); ok {
+	if value, ok := _u.mutation.CreatedBy(); ok {
 		_spec.SetField(transformer.FieldCreatedBy, field.TypeString, value)
 	}
-	if tuo.mutation.CreatedByCleared() {
+	if _u.mutation.CreatedByCleared() {
 		_spec.ClearField(transformer.FieldCreatedBy, field.TypeString)
 	}
-	if value, ok := tuo.mutation.UpdatedBy(); ok {
+	if value, ok := _u.mutation.UpdatedBy(); ok {
 		_spec.SetField(transformer.FieldUpdatedBy, field.TypeString, value)
 	}
-	if tuo.mutation.UpdatedByCleared() {
+	if _u.mutation.UpdatedByCleared() {
 		_spec.ClearField(transformer.FieldUpdatedBy, field.TypeString)
 	}
-	if tuo.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(transformer.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := tuo.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(transformer.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := tuo.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(transformer.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if tuo.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(transformer.FieldUpdatedAt, field.TypeInt64)
 	}
-	if value, ok := tuo.mutation.GetType(); ok {
+	if value, ok := _u.mutation.GetType(); ok {
 		_spec.SetField(transformer.FieldType, field.TypeString, value)
 	}
-	if value, ok := tuo.mutation.Content(); ok {
+	if value, ok := _u.mutation.Content(); ok {
 		_spec.SetField(transformer.FieldContent, field.TypeString, value)
 	}
-	if value, ok := tuo.mutation.ContentType(); ok {
+	if value, ok := _u.mutation.ContentType(); ok {
 		_spec.SetField(transformer.FieldContentType, field.TypeString, value)
 	}
-	_node = &Transformer{config: tuo.config}
+	_node = &Transformer{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues
-	if err = sqlgraph.UpdateNode(ctx, tuo.driver, _spec); err != nil {
+	if err = sqlgraph.UpdateNode(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{transformer.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -684,6 +684,6 @@ func (tuo *TransformerUpdateOne) sqlSave(ctx context.Context) (_node *Transforme
 		}
 		return nil, err
 	}
-	tuo.mutation.done = true
+	_u.mutation.done = true
 	return _node, nil
 }

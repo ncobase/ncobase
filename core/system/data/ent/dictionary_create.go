@@ -19,159 +19,159 @@ type DictionaryCreate struct {
 }
 
 // SetName sets the "name" field.
-func (dc *DictionaryCreate) SetName(s string) *DictionaryCreate {
-	dc.mutation.SetName(s)
-	return dc
+func (_c *DictionaryCreate) SetName(v string) *DictionaryCreate {
+	_c.mutation.SetName(v)
+	return _c
 }
 
 // SetNillableName sets the "name" field if the given value is not nil.
-func (dc *DictionaryCreate) SetNillableName(s *string) *DictionaryCreate {
-	if s != nil {
-		dc.SetName(*s)
+func (_c *DictionaryCreate) SetNillableName(v *string) *DictionaryCreate {
+	if v != nil {
+		_c.SetName(*v)
 	}
-	return dc
+	return _c
 }
 
 // SetSlug sets the "slug" field.
-func (dc *DictionaryCreate) SetSlug(s string) *DictionaryCreate {
-	dc.mutation.SetSlug(s)
-	return dc
+func (_c *DictionaryCreate) SetSlug(v string) *DictionaryCreate {
+	_c.mutation.SetSlug(v)
+	return _c
 }
 
 // SetNillableSlug sets the "slug" field if the given value is not nil.
-func (dc *DictionaryCreate) SetNillableSlug(s *string) *DictionaryCreate {
-	if s != nil {
-		dc.SetSlug(*s)
+func (_c *DictionaryCreate) SetNillableSlug(v *string) *DictionaryCreate {
+	if v != nil {
+		_c.SetSlug(*v)
 	}
-	return dc
+	return _c
 }
 
 // SetType sets the "type" field.
-func (dc *DictionaryCreate) SetType(s string) *DictionaryCreate {
-	dc.mutation.SetType(s)
-	return dc
+func (_c *DictionaryCreate) SetType(v string) *DictionaryCreate {
+	_c.mutation.SetType(v)
+	return _c
 }
 
 // SetNillableType sets the "type" field if the given value is not nil.
-func (dc *DictionaryCreate) SetNillableType(s *string) *DictionaryCreate {
-	if s != nil {
-		dc.SetType(*s)
+func (_c *DictionaryCreate) SetNillableType(v *string) *DictionaryCreate {
+	if v != nil {
+		_c.SetType(*v)
 	}
-	return dc
+	return _c
 }
 
 // SetValue sets the "value" field.
-func (dc *DictionaryCreate) SetValue(s string) *DictionaryCreate {
-	dc.mutation.SetValue(s)
-	return dc
+func (_c *DictionaryCreate) SetValue(v string) *DictionaryCreate {
+	_c.mutation.SetValue(v)
+	return _c
 }
 
 // SetNillableValue sets the "value" field if the given value is not nil.
-func (dc *DictionaryCreate) SetNillableValue(s *string) *DictionaryCreate {
-	if s != nil {
-		dc.SetValue(*s)
+func (_c *DictionaryCreate) SetNillableValue(v *string) *DictionaryCreate {
+	if v != nil {
+		_c.SetValue(*v)
 	}
-	return dc
+	return _c
 }
 
 // SetDescription sets the "description" field.
-func (dc *DictionaryCreate) SetDescription(s string) *DictionaryCreate {
-	dc.mutation.SetDescription(s)
-	return dc
+func (_c *DictionaryCreate) SetDescription(v string) *DictionaryCreate {
+	_c.mutation.SetDescription(v)
+	return _c
 }
 
 // SetNillableDescription sets the "description" field if the given value is not nil.
-func (dc *DictionaryCreate) SetNillableDescription(s *string) *DictionaryCreate {
-	if s != nil {
-		dc.SetDescription(*s)
+func (_c *DictionaryCreate) SetNillableDescription(v *string) *DictionaryCreate {
+	if v != nil {
+		_c.SetDescription(*v)
 	}
-	return dc
+	return _c
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (dc *DictionaryCreate) SetCreatedBy(s string) *DictionaryCreate {
-	dc.mutation.SetCreatedBy(s)
-	return dc
+func (_c *DictionaryCreate) SetCreatedBy(v string) *DictionaryCreate {
+	_c.mutation.SetCreatedBy(v)
+	return _c
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (dc *DictionaryCreate) SetNillableCreatedBy(s *string) *DictionaryCreate {
-	if s != nil {
-		dc.SetCreatedBy(*s)
+func (_c *DictionaryCreate) SetNillableCreatedBy(v *string) *DictionaryCreate {
+	if v != nil {
+		_c.SetCreatedBy(*v)
 	}
-	return dc
+	return _c
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (dc *DictionaryCreate) SetUpdatedBy(s string) *DictionaryCreate {
-	dc.mutation.SetUpdatedBy(s)
-	return dc
+func (_c *DictionaryCreate) SetUpdatedBy(v string) *DictionaryCreate {
+	_c.mutation.SetUpdatedBy(v)
+	return _c
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (dc *DictionaryCreate) SetNillableUpdatedBy(s *string) *DictionaryCreate {
-	if s != nil {
-		dc.SetUpdatedBy(*s)
+func (_c *DictionaryCreate) SetNillableUpdatedBy(v *string) *DictionaryCreate {
+	if v != nil {
+		_c.SetUpdatedBy(*v)
 	}
-	return dc
+	return _c
 }
 
 // SetCreatedAt sets the "created_at" field.
-func (dc *DictionaryCreate) SetCreatedAt(i int64) *DictionaryCreate {
-	dc.mutation.SetCreatedAt(i)
-	return dc
+func (_c *DictionaryCreate) SetCreatedAt(v int64) *DictionaryCreate {
+	_c.mutation.SetCreatedAt(v)
+	return _c
 }
 
 // SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
-func (dc *DictionaryCreate) SetNillableCreatedAt(i *int64) *DictionaryCreate {
-	if i != nil {
-		dc.SetCreatedAt(*i)
+func (_c *DictionaryCreate) SetNillableCreatedAt(v *int64) *DictionaryCreate {
+	if v != nil {
+		_c.SetCreatedAt(*v)
 	}
-	return dc
+	return _c
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (dc *DictionaryCreate) SetUpdatedAt(i int64) *DictionaryCreate {
-	dc.mutation.SetUpdatedAt(i)
-	return dc
+func (_c *DictionaryCreate) SetUpdatedAt(v int64) *DictionaryCreate {
+	_c.mutation.SetUpdatedAt(v)
+	return _c
 }
 
 // SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
-func (dc *DictionaryCreate) SetNillableUpdatedAt(i *int64) *DictionaryCreate {
-	if i != nil {
-		dc.SetUpdatedAt(*i)
+func (_c *DictionaryCreate) SetNillableUpdatedAt(v *int64) *DictionaryCreate {
+	if v != nil {
+		_c.SetUpdatedAt(*v)
 	}
-	return dc
+	return _c
 }
 
 // SetID sets the "id" field.
-func (dc *DictionaryCreate) SetID(s string) *DictionaryCreate {
-	dc.mutation.SetID(s)
-	return dc
+func (_c *DictionaryCreate) SetID(v string) *DictionaryCreate {
+	_c.mutation.SetID(v)
+	return _c
 }
 
 // SetNillableID sets the "id" field if the given value is not nil.
-func (dc *DictionaryCreate) SetNillableID(s *string) *DictionaryCreate {
-	if s != nil {
-		dc.SetID(*s)
+func (_c *DictionaryCreate) SetNillableID(v *string) *DictionaryCreate {
+	if v != nil {
+		_c.SetID(*v)
 	}
-	return dc
+	return _c
 }
 
 // Mutation returns the DictionaryMutation object of the builder.
-func (dc *DictionaryCreate) Mutation() *DictionaryMutation {
-	return dc.mutation
+func (_c *DictionaryCreate) Mutation() *DictionaryMutation {
+	return _c.mutation
 }
 
 // Save creates the Dictionary in the database.
-func (dc *DictionaryCreate) Save(ctx context.Context) (*Dictionary, error) {
-	dc.defaults()
-	return withHooks(ctx, dc.sqlSave, dc.mutation, dc.hooks)
+func (_c *DictionaryCreate) Save(ctx context.Context) (*Dictionary, error) {
+	_c.defaults()
+	return withHooks(ctx, _c.sqlSave, _c.mutation, _c.hooks)
 }
 
 // SaveX calls Save and panics if Save returns an error.
-func (dc *DictionaryCreate) SaveX(ctx context.Context) *Dictionary {
-	v, err := dc.Save(ctx)
+func (_c *DictionaryCreate) SaveX(ctx context.Context) *Dictionary {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -179,37 +179,37 @@ func (dc *DictionaryCreate) SaveX(ctx context.Context) *Dictionary {
 }
 
 // Exec executes the query.
-func (dc *DictionaryCreate) Exec(ctx context.Context) error {
-	_, err := dc.Save(ctx)
+func (_c *DictionaryCreate) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (dc *DictionaryCreate) ExecX(ctx context.Context) {
-	if err := dc.Exec(ctx); err != nil {
+func (_c *DictionaryCreate) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (dc *DictionaryCreate) defaults() {
-	if _, ok := dc.mutation.CreatedAt(); !ok {
+func (_c *DictionaryCreate) defaults() {
+	if _, ok := _c.mutation.CreatedAt(); !ok {
 		v := dictionary.DefaultCreatedAt()
-		dc.mutation.SetCreatedAt(v)
+		_c.mutation.SetCreatedAt(v)
 	}
-	if _, ok := dc.mutation.UpdatedAt(); !ok {
+	if _, ok := _c.mutation.UpdatedAt(); !ok {
 		v := dictionary.DefaultUpdatedAt()
-		dc.mutation.SetUpdatedAt(v)
+		_c.mutation.SetUpdatedAt(v)
 	}
-	if _, ok := dc.mutation.ID(); !ok {
+	if _, ok := _c.mutation.ID(); !ok {
 		v := dictionary.DefaultID()
-		dc.mutation.SetID(v)
+		_c.mutation.SetID(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (dc *DictionaryCreate) check() error {
-	if v, ok := dc.mutation.ID(); ok {
+func (_c *DictionaryCreate) check() error {
+	if v, ok := _c.mutation.ID(); ok {
 		if err := dictionary.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "Dictionary.id": %w`, err)}
 		}
@@ -217,12 +217,12 @@ func (dc *DictionaryCreate) check() error {
 	return nil
 }
 
-func (dc *DictionaryCreate) sqlSave(ctx context.Context) (*Dictionary, error) {
-	if err := dc.check(); err != nil {
+func (_c *DictionaryCreate) sqlSave(ctx context.Context) (*Dictionary, error) {
+	if err := _c.check(); err != nil {
 		return nil, err
 	}
-	_node, _spec := dc.createSpec()
-	if err := sqlgraph.CreateNode(ctx, dc.driver, _spec); err != nil {
+	_node, _spec := _c.createSpec()
+	if err := sqlgraph.CreateNode(ctx, _c.driver, _spec); err != nil {
 		if sqlgraph.IsConstraintError(err) {
 			err = &ConstraintError{msg: err.Error(), wrap: err}
 		}
@@ -235,53 +235,53 @@ func (dc *DictionaryCreate) sqlSave(ctx context.Context) (*Dictionary, error) {
 			return nil, fmt.Errorf("unexpected Dictionary.ID type: %T", _spec.ID.Value)
 		}
 	}
-	dc.mutation.id = &_node.ID
-	dc.mutation.done = true
+	_c.mutation.id = &_node.ID
+	_c.mutation.done = true
 	return _node, nil
 }
 
-func (dc *DictionaryCreate) createSpec() (*Dictionary, *sqlgraph.CreateSpec) {
+func (_c *DictionaryCreate) createSpec() (*Dictionary, *sqlgraph.CreateSpec) {
 	var (
-		_node = &Dictionary{config: dc.config}
+		_node = &Dictionary{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(dictionary.Table, sqlgraph.NewFieldSpec(dictionary.FieldID, field.TypeString))
 	)
-	if id, ok := dc.mutation.ID(); ok {
+	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
 	}
-	if value, ok := dc.mutation.Name(); ok {
+	if value, ok := _c.mutation.Name(); ok {
 		_spec.SetField(dictionary.FieldName, field.TypeString, value)
 		_node.Name = value
 	}
-	if value, ok := dc.mutation.Slug(); ok {
+	if value, ok := _c.mutation.Slug(); ok {
 		_spec.SetField(dictionary.FieldSlug, field.TypeString, value)
 		_node.Slug = value
 	}
-	if value, ok := dc.mutation.GetType(); ok {
+	if value, ok := _c.mutation.GetType(); ok {
 		_spec.SetField(dictionary.FieldType, field.TypeString, value)
 		_node.Type = value
 	}
-	if value, ok := dc.mutation.Value(); ok {
+	if value, ok := _c.mutation.Value(); ok {
 		_spec.SetField(dictionary.FieldValue, field.TypeString, value)
 		_node.Value = value
 	}
-	if value, ok := dc.mutation.Description(); ok {
+	if value, ok := _c.mutation.Description(); ok {
 		_spec.SetField(dictionary.FieldDescription, field.TypeString, value)
 		_node.Description = value
 	}
-	if value, ok := dc.mutation.CreatedBy(); ok {
+	if value, ok := _c.mutation.CreatedBy(); ok {
 		_spec.SetField(dictionary.FieldCreatedBy, field.TypeString, value)
 		_node.CreatedBy = value
 	}
-	if value, ok := dc.mutation.UpdatedBy(); ok {
+	if value, ok := _c.mutation.UpdatedBy(); ok {
 		_spec.SetField(dictionary.FieldUpdatedBy, field.TypeString, value)
 		_node.UpdatedBy = value
 	}
-	if value, ok := dc.mutation.CreatedAt(); ok {
+	if value, ok := _c.mutation.CreatedAt(); ok {
 		_spec.SetField(dictionary.FieldCreatedAt, field.TypeInt64, value)
 		_node.CreatedAt = value
 	}
-	if value, ok := dc.mutation.UpdatedAt(); ok {
+	if value, ok := _c.mutation.UpdatedAt(); ok {
 		_spec.SetField(dictionary.FieldUpdatedAt, field.TypeInt64, value)
 		_node.UpdatedAt = value
 	}
@@ -296,16 +296,16 @@ type DictionaryCreateBulk struct {
 }
 
 // Save creates the Dictionary entities in the database.
-func (dcb *DictionaryCreateBulk) Save(ctx context.Context) ([]*Dictionary, error) {
-	if dcb.err != nil {
-		return nil, dcb.err
+func (_c *DictionaryCreateBulk) Save(ctx context.Context) ([]*Dictionary, error) {
+	if _c.err != nil {
+		return nil, _c.err
 	}
-	specs := make([]*sqlgraph.CreateSpec, len(dcb.builders))
-	nodes := make([]*Dictionary, len(dcb.builders))
-	mutators := make([]Mutator, len(dcb.builders))
-	for i := range dcb.builders {
+	specs := make([]*sqlgraph.CreateSpec, len(_c.builders))
+	nodes := make([]*Dictionary, len(_c.builders))
+	mutators := make([]Mutator, len(_c.builders))
+	for i := range _c.builders {
 		func(i int, root context.Context) {
-			builder := dcb.builders[i]
+			builder := _c.builders[i]
 			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*DictionaryMutation)
@@ -319,11 +319,11 @@ func (dcb *DictionaryCreateBulk) Save(ctx context.Context) ([]*Dictionary, error
 				var err error
 				nodes[i], specs[i] = builder.createSpec()
 				if i < len(mutators)-1 {
-					_, err = mutators[i+1].Mutate(root, dcb.builders[i+1].mutation)
+					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
 					// Invoke the actual operation on the latest mutation in the chain.
-					if err = sqlgraph.BatchCreate(ctx, dcb.driver, spec); err != nil {
+					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
 							err = &ConstraintError{msg: err.Error(), wrap: err}
 						}
@@ -343,7 +343,7 @@ func (dcb *DictionaryCreateBulk) Save(ctx context.Context) ([]*Dictionary, error
 		}(i, ctx)
 	}
 	if len(mutators) > 0 {
-		if _, err := mutators[0].Mutate(ctx, dcb.builders[0].mutation); err != nil {
+		if _, err := mutators[0].Mutate(ctx, _c.builders[0].mutation); err != nil {
 			return nil, err
 		}
 	}
@@ -351,8 +351,8 @@ func (dcb *DictionaryCreateBulk) Save(ctx context.Context) ([]*Dictionary, error
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (dcb *DictionaryCreateBulk) SaveX(ctx context.Context) []*Dictionary {
-	v, err := dcb.Save(ctx)
+func (_c *DictionaryCreateBulk) SaveX(ctx context.Context) []*Dictionary {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -360,14 +360,14 @@ func (dcb *DictionaryCreateBulk) SaveX(ctx context.Context) []*Dictionary {
 }
 
 // Exec executes the query.
-func (dcb *DictionaryCreateBulk) Exec(ctx context.Context) error {
-	_, err := dcb.Save(ctx)
+func (_c *DictionaryCreateBulk) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (dcb *DictionaryCreateBulk) ExecX(ctx context.Context) {
-	if err := dcb.Exec(ctx); err != nil {
+func (_c *DictionaryCreateBulk) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

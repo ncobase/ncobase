@@ -19,117 +19,117 @@ type SpaceDictionaryCreate struct {
 }
 
 // SetSpaceID sets the "space_id" field.
-func (sdc *SpaceDictionaryCreate) SetSpaceID(s string) *SpaceDictionaryCreate {
-	sdc.mutation.SetSpaceID(s)
-	return sdc
+func (_c *SpaceDictionaryCreate) SetSpaceID(v string) *SpaceDictionaryCreate {
+	_c.mutation.SetSpaceID(v)
+	return _c
 }
 
 // SetNillableSpaceID sets the "space_id" field if the given value is not nil.
-func (sdc *SpaceDictionaryCreate) SetNillableSpaceID(s *string) *SpaceDictionaryCreate {
-	if s != nil {
-		sdc.SetSpaceID(*s)
+func (_c *SpaceDictionaryCreate) SetNillableSpaceID(v *string) *SpaceDictionaryCreate {
+	if v != nil {
+		_c.SetSpaceID(*v)
 	}
-	return sdc
+	return _c
 }
 
 // SetDictionaryID sets the "dictionary_id" field.
-func (sdc *SpaceDictionaryCreate) SetDictionaryID(s string) *SpaceDictionaryCreate {
-	sdc.mutation.SetDictionaryID(s)
-	return sdc
+func (_c *SpaceDictionaryCreate) SetDictionaryID(v string) *SpaceDictionaryCreate {
+	_c.mutation.SetDictionaryID(v)
+	return _c
 }
 
 // SetNillableDictionaryID sets the "dictionary_id" field if the given value is not nil.
-func (sdc *SpaceDictionaryCreate) SetNillableDictionaryID(s *string) *SpaceDictionaryCreate {
-	if s != nil {
-		sdc.SetDictionaryID(*s)
+func (_c *SpaceDictionaryCreate) SetNillableDictionaryID(v *string) *SpaceDictionaryCreate {
+	if v != nil {
+		_c.SetDictionaryID(*v)
 	}
-	return sdc
+	return _c
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (sdc *SpaceDictionaryCreate) SetCreatedBy(s string) *SpaceDictionaryCreate {
-	sdc.mutation.SetCreatedBy(s)
-	return sdc
+func (_c *SpaceDictionaryCreate) SetCreatedBy(v string) *SpaceDictionaryCreate {
+	_c.mutation.SetCreatedBy(v)
+	return _c
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (sdc *SpaceDictionaryCreate) SetNillableCreatedBy(s *string) *SpaceDictionaryCreate {
-	if s != nil {
-		sdc.SetCreatedBy(*s)
+func (_c *SpaceDictionaryCreate) SetNillableCreatedBy(v *string) *SpaceDictionaryCreate {
+	if v != nil {
+		_c.SetCreatedBy(*v)
 	}
-	return sdc
+	return _c
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (sdc *SpaceDictionaryCreate) SetUpdatedBy(s string) *SpaceDictionaryCreate {
-	sdc.mutation.SetUpdatedBy(s)
-	return sdc
+func (_c *SpaceDictionaryCreate) SetUpdatedBy(v string) *SpaceDictionaryCreate {
+	_c.mutation.SetUpdatedBy(v)
+	return _c
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (sdc *SpaceDictionaryCreate) SetNillableUpdatedBy(s *string) *SpaceDictionaryCreate {
-	if s != nil {
-		sdc.SetUpdatedBy(*s)
+func (_c *SpaceDictionaryCreate) SetNillableUpdatedBy(v *string) *SpaceDictionaryCreate {
+	if v != nil {
+		_c.SetUpdatedBy(*v)
 	}
-	return sdc
+	return _c
 }
 
 // SetCreatedAt sets the "created_at" field.
-func (sdc *SpaceDictionaryCreate) SetCreatedAt(i int64) *SpaceDictionaryCreate {
-	sdc.mutation.SetCreatedAt(i)
-	return sdc
+func (_c *SpaceDictionaryCreate) SetCreatedAt(v int64) *SpaceDictionaryCreate {
+	_c.mutation.SetCreatedAt(v)
+	return _c
 }
 
 // SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
-func (sdc *SpaceDictionaryCreate) SetNillableCreatedAt(i *int64) *SpaceDictionaryCreate {
-	if i != nil {
-		sdc.SetCreatedAt(*i)
+func (_c *SpaceDictionaryCreate) SetNillableCreatedAt(v *int64) *SpaceDictionaryCreate {
+	if v != nil {
+		_c.SetCreatedAt(*v)
 	}
-	return sdc
+	return _c
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (sdc *SpaceDictionaryCreate) SetUpdatedAt(i int64) *SpaceDictionaryCreate {
-	sdc.mutation.SetUpdatedAt(i)
-	return sdc
+func (_c *SpaceDictionaryCreate) SetUpdatedAt(v int64) *SpaceDictionaryCreate {
+	_c.mutation.SetUpdatedAt(v)
+	return _c
 }
 
 // SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
-func (sdc *SpaceDictionaryCreate) SetNillableUpdatedAt(i *int64) *SpaceDictionaryCreate {
-	if i != nil {
-		sdc.SetUpdatedAt(*i)
+func (_c *SpaceDictionaryCreate) SetNillableUpdatedAt(v *int64) *SpaceDictionaryCreate {
+	if v != nil {
+		_c.SetUpdatedAt(*v)
 	}
-	return sdc
+	return _c
 }
 
 // SetID sets the "id" field.
-func (sdc *SpaceDictionaryCreate) SetID(s string) *SpaceDictionaryCreate {
-	sdc.mutation.SetID(s)
-	return sdc
+func (_c *SpaceDictionaryCreate) SetID(v string) *SpaceDictionaryCreate {
+	_c.mutation.SetID(v)
+	return _c
 }
 
 // SetNillableID sets the "id" field if the given value is not nil.
-func (sdc *SpaceDictionaryCreate) SetNillableID(s *string) *SpaceDictionaryCreate {
-	if s != nil {
-		sdc.SetID(*s)
+func (_c *SpaceDictionaryCreate) SetNillableID(v *string) *SpaceDictionaryCreate {
+	if v != nil {
+		_c.SetID(*v)
 	}
-	return sdc
+	return _c
 }
 
 // Mutation returns the SpaceDictionaryMutation object of the builder.
-func (sdc *SpaceDictionaryCreate) Mutation() *SpaceDictionaryMutation {
-	return sdc.mutation
+func (_c *SpaceDictionaryCreate) Mutation() *SpaceDictionaryMutation {
+	return _c.mutation
 }
 
 // Save creates the SpaceDictionary in the database.
-func (sdc *SpaceDictionaryCreate) Save(ctx context.Context) (*SpaceDictionary, error) {
-	sdc.defaults()
-	return withHooks(ctx, sdc.sqlSave, sdc.mutation, sdc.hooks)
+func (_c *SpaceDictionaryCreate) Save(ctx context.Context) (*SpaceDictionary, error) {
+	_c.defaults()
+	return withHooks(ctx, _c.sqlSave, _c.mutation, _c.hooks)
 }
 
 // SaveX calls Save and panics if Save returns an error.
-func (sdc *SpaceDictionaryCreate) SaveX(ctx context.Context) *SpaceDictionary {
-	v, err := sdc.Save(ctx)
+func (_c *SpaceDictionaryCreate) SaveX(ctx context.Context) *SpaceDictionary {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -137,37 +137,37 @@ func (sdc *SpaceDictionaryCreate) SaveX(ctx context.Context) *SpaceDictionary {
 }
 
 // Exec executes the query.
-func (sdc *SpaceDictionaryCreate) Exec(ctx context.Context) error {
-	_, err := sdc.Save(ctx)
+func (_c *SpaceDictionaryCreate) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (sdc *SpaceDictionaryCreate) ExecX(ctx context.Context) {
-	if err := sdc.Exec(ctx); err != nil {
+func (_c *SpaceDictionaryCreate) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (sdc *SpaceDictionaryCreate) defaults() {
-	if _, ok := sdc.mutation.CreatedAt(); !ok {
+func (_c *SpaceDictionaryCreate) defaults() {
+	if _, ok := _c.mutation.CreatedAt(); !ok {
 		v := spacedictionary.DefaultCreatedAt()
-		sdc.mutation.SetCreatedAt(v)
+		_c.mutation.SetCreatedAt(v)
 	}
-	if _, ok := sdc.mutation.UpdatedAt(); !ok {
+	if _, ok := _c.mutation.UpdatedAt(); !ok {
 		v := spacedictionary.DefaultUpdatedAt()
-		sdc.mutation.SetUpdatedAt(v)
+		_c.mutation.SetUpdatedAt(v)
 	}
-	if _, ok := sdc.mutation.ID(); !ok {
+	if _, ok := _c.mutation.ID(); !ok {
 		v := spacedictionary.DefaultID()
-		sdc.mutation.SetID(v)
+		_c.mutation.SetID(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (sdc *SpaceDictionaryCreate) check() error {
-	if v, ok := sdc.mutation.ID(); ok {
+func (_c *SpaceDictionaryCreate) check() error {
+	if v, ok := _c.mutation.ID(); ok {
 		if err := spacedictionary.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "SpaceDictionary.id": %w`, err)}
 		}
@@ -175,12 +175,12 @@ func (sdc *SpaceDictionaryCreate) check() error {
 	return nil
 }
 
-func (sdc *SpaceDictionaryCreate) sqlSave(ctx context.Context) (*SpaceDictionary, error) {
-	if err := sdc.check(); err != nil {
+func (_c *SpaceDictionaryCreate) sqlSave(ctx context.Context) (*SpaceDictionary, error) {
+	if err := _c.check(); err != nil {
 		return nil, err
 	}
-	_node, _spec := sdc.createSpec()
-	if err := sqlgraph.CreateNode(ctx, sdc.driver, _spec); err != nil {
+	_node, _spec := _c.createSpec()
+	if err := sqlgraph.CreateNode(ctx, _c.driver, _spec); err != nil {
 		if sqlgraph.IsConstraintError(err) {
 			err = &ConstraintError{msg: err.Error(), wrap: err}
 		}
@@ -193,41 +193,41 @@ func (sdc *SpaceDictionaryCreate) sqlSave(ctx context.Context) (*SpaceDictionary
 			return nil, fmt.Errorf("unexpected SpaceDictionary.ID type: %T", _spec.ID.Value)
 		}
 	}
-	sdc.mutation.id = &_node.ID
-	sdc.mutation.done = true
+	_c.mutation.id = &_node.ID
+	_c.mutation.done = true
 	return _node, nil
 }
 
-func (sdc *SpaceDictionaryCreate) createSpec() (*SpaceDictionary, *sqlgraph.CreateSpec) {
+func (_c *SpaceDictionaryCreate) createSpec() (*SpaceDictionary, *sqlgraph.CreateSpec) {
 	var (
-		_node = &SpaceDictionary{config: sdc.config}
+		_node = &SpaceDictionary{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(spacedictionary.Table, sqlgraph.NewFieldSpec(spacedictionary.FieldID, field.TypeString))
 	)
-	if id, ok := sdc.mutation.ID(); ok {
+	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
 	}
-	if value, ok := sdc.mutation.SpaceID(); ok {
+	if value, ok := _c.mutation.SpaceID(); ok {
 		_spec.SetField(spacedictionary.FieldSpaceID, field.TypeString, value)
 		_node.SpaceID = value
 	}
-	if value, ok := sdc.mutation.DictionaryID(); ok {
+	if value, ok := _c.mutation.DictionaryID(); ok {
 		_spec.SetField(spacedictionary.FieldDictionaryID, field.TypeString, value)
 		_node.DictionaryID = value
 	}
-	if value, ok := sdc.mutation.CreatedBy(); ok {
+	if value, ok := _c.mutation.CreatedBy(); ok {
 		_spec.SetField(spacedictionary.FieldCreatedBy, field.TypeString, value)
 		_node.CreatedBy = value
 	}
-	if value, ok := sdc.mutation.UpdatedBy(); ok {
+	if value, ok := _c.mutation.UpdatedBy(); ok {
 		_spec.SetField(spacedictionary.FieldUpdatedBy, field.TypeString, value)
 		_node.UpdatedBy = value
 	}
-	if value, ok := sdc.mutation.CreatedAt(); ok {
+	if value, ok := _c.mutation.CreatedAt(); ok {
 		_spec.SetField(spacedictionary.FieldCreatedAt, field.TypeInt64, value)
 		_node.CreatedAt = value
 	}
-	if value, ok := sdc.mutation.UpdatedAt(); ok {
+	if value, ok := _c.mutation.UpdatedAt(); ok {
 		_spec.SetField(spacedictionary.FieldUpdatedAt, field.TypeInt64, value)
 		_node.UpdatedAt = value
 	}
@@ -242,16 +242,16 @@ type SpaceDictionaryCreateBulk struct {
 }
 
 // Save creates the SpaceDictionary entities in the database.
-func (sdcb *SpaceDictionaryCreateBulk) Save(ctx context.Context) ([]*SpaceDictionary, error) {
-	if sdcb.err != nil {
-		return nil, sdcb.err
+func (_c *SpaceDictionaryCreateBulk) Save(ctx context.Context) ([]*SpaceDictionary, error) {
+	if _c.err != nil {
+		return nil, _c.err
 	}
-	specs := make([]*sqlgraph.CreateSpec, len(sdcb.builders))
-	nodes := make([]*SpaceDictionary, len(sdcb.builders))
-	mutators := make([]Mutator, len(sdcb.builders))
-	for i := range sdcb.builders {
+	specs := make([]*sqlgraph.CreateSpec, len(_c.builders))
+	nodes := make([]*SpaceDictionary, len(_c.builders))
+	mutators := make([]Mutator, len(_c.builders))
+	for i := range _c.builders {
 		func(i int, root context.Context) {
-			builder := sdcb.builders[i]
+			builder := _c.builders[i]
 			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*SpaceDictionaryMutation)
@@ -265,11 +265,11 @@ func (sdcb *SpaceDictionaryCreateBulk) Save(ctx context.Context) ([]*SpaceDictio
 				var err error
 				nodes[i], specs[i] = builder.createSpec()
 				if i < len(mutators)-1 {
-					_, err = mutators[i+1].Mutate(root, sdcb.builders[i+1].mutation)
+					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
 					// Invoke the actual operation on the latest mutation in the chain.
-					if err = sqlgraph.BatchCreate(ctx, sdcb.driver, spec); err != nil {
+					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
 							err = &ConstraintError{msg: err.Error(), wrap: err}
 						}
@@ -289,7 +289,7 @@ func (sdcb *SpaceDictionaryCreateBulk) Save(ctx context.Context) ([]*SpaceDictio
 		}(i, ctx)
 	}
 	if len(mutators) > 0 {
-		if _, err := mutators[0].Mutate(ctx, sdcb.builders[0].mutation); err != nil {
+		if _, err := mutators[0].Mutate(ctx, _c.builders[0].mutation); err != nil {
 			return nil, err
 		}
 	}
@@ -297,8 +297,8 @@ func (sdcb *SpaceDictionaryCreateBulk) Save(ctx context.Context) ([]*SpaceDictio
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (sdcb *SpaceDictionaryCreateBulk) SaveX(ctx context.Context) []*SpaceDictionary {
-	v, err := sdcb.Save(ctx)
+func (_c *SpaceDictionaryCreateBulk) SaveX(ctx context.Context) []*SpaceDictionary {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -306,14 +306,14 @@ func (sdcb *SpaceDictionaryCreateBulk) SaveX(ctx context.Context) []*SpaceDictio
 }
 
 // Exec executes the query.
-func (sdcb *SpaceDictionaryCreateBulk) Exec(ctx context.Context) error {
-	_, err := sdcb.Save(ctx)
+func (_c *SpaceDictionaryCreateBulk) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (sdcb *SpaceDictionaryCreateBulk) ExecX(ctx context.Context) {
-	if err := sdcb.Exec(ctx); err != nil {
+func (_c *SpaceDictionaryCreateBulk) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

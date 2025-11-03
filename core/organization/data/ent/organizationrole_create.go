@@ -19,117 +19,117 @@ type OrganizationRoleCreate struct {
 }
 
 // SetOrgID sets the "org_id" field.
-func (orc *OrganizationRoleCreate) SetOrgID(s string) *OrganizationRoleCreate {
-	orc.mutation.SetOrgID(s)
-	return orc
+func (_c *OrganizationRoleCreate) SetOrgID(v string) *OrganizationRoleCreate {
+	_c.mutation.SetOrgID(v)
+	return _c
 }
 
 // SetNillableOrgID sets the "org_id" field if the given value is not nil.
-func (orc *OrganizationRoleCreate) SetNillableOrgID(s *string) *OrganizationRoleCreate {
-	if s != nil {
-		orc.SetOrgID(*s)
+func (_c *OrganizationRoleCreate) SetNillableOrgID(v *string) *OrganizationRoleCreate {
+	if v != nil {
+		_c.SetOrgID(*v)
 	}
-	return orc
+	return _c
 }
 
 // SetRoleID sets the "role_id" field.
-func (orc *OrganizationRoleCreate) SetRoleID(s string) *OrganizationRoleCreate {
-	orc.mutation.SetRoleID(s)
-	return orc
+func (_c *OrganizationRoleCreate) SetRoleID(v string) *OrganizationRoleCreate {
+	_c.mutation.SetRoleID(v)
+	return _c
 }
 
 // SetNillableRoleID sets the "role_id" field if the given value is not nil.
-func (orc *OrganizationRoleCreate) SetNillableRoleID(s *string) *OrganizationRoleCreate {
-	if s != nil {
-		orc.SetRoleID(*s)
+func (_c *OrganizationRoleCreate) SetNillableRoleID(v *string) *OrganizationRoleCreate {
+	if v != nil {
+		_c.SetRoleID(*v)
 	}
-	return orc
+	return _c
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (orc *OrganizationRoleCreate) SetCreatedBy(s string) *OrganizationRoleCreate {
-	orc.mutation.SetCreatedBy(s)
-	return orc
+func (_c *OrganizationRoleCreate) SetCreatedBy(v string) *OrganizationRoleCreate {
+	_c.mutation.SetCreatedBy(v)
+	return _c
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (orc *OrganizationRoleCreate) SetNillableCreatedBy(s *string) *OrganizationRoleCreate {
-	if s != nil {
-		orc.SetCreatedBy(*s)
+func (_c *OrganizationRoleCreate) SetNillableCreatedBy(v *string) *OrganizationRoleCreate {
+	if v != nil {
+		_c.SetCreatedBy(*v)
 	}
-	return orc
+	return _c
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (orc *OrganizationRoleCreate) SetUpdatedBy(s string) *OrganizationRoleCreate {
-	orc.mutation.SetUpdatedBy(s)
-	return orc
+func (_c *OrganizationRoleCreate) SetUpdatedBy(v string) *OrganizationRoleCreate {
+	_c.mutation.SetUpdatedBy(v)
+	return _c
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (orc *OrganizationRoleCreate) SetNillableUpdatedBy(s *string) *OrganizationRoleCreate {
-	if s != nil {
-		orc.SetUpdatedBy(*s)
+func (_c *OrganizationRoleCreate) SetNillableUpdatedBy(v *string) *OrganizationRoleCreate {
+	if v != nil {
+		_c.SetUpdatedBy(*v)
 	}
-	return orc
+	return _c
 }
 
 // SetCreatedAt sets the "created_at" field.
-func (orc *OrganizationRoleCreate) SetCreatedAt(i int64) *OrganizationRoleCreate {
-	orc.mutation.SetCreatedAt(i)
-	return orc
+func (_c *OrganizationRoleCreate) SetCreatedAt(v int64) *OrganizationRoleCreate {
+	_c.mutation.SetCreatedAt(v)
+	return _c
 }
 
 // SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
-func (orc *OrganizationRoleCreate) SetNillableCreatedAt(i *int64) *OrganizationRoleCreate {
-	if i != nil {
-		orc.SetCreatedAt(*i)
+func (_c *OrganizationRoleCreate) SetNillableCreatedAt(v *int64) *OrganizationRoleCreate {
+	if v != nil {
+		_c.SetCreatedAt(*v)
 	}
-	return orc
+	return _c
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (orc *OrganizationRoleCreate) SetUpdatedAt(i int64) *OrganizationRoleCreate {
-	orc.mutation.SetUpdatedAt(i)
-	return orc
+func (_c *OrganizationRoleCreate) SetUpdatedAt(v int64) *OrganizationRoleCreate {
+	_c.mutation.SetUpdatedAt(v)
+	return _c
 }
 
 // SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
-func (orc *OrganizationRoleCreate) SetNillableUpdatedAt(i *int64) *OrganizationRoleCreate {
-	if i != nil {
-		orc.SetUpdatedAt(*i)
+func (_c *OrganizationRoleCreate) SetNillableUpdatedAt(v *int64) *OrganizationRoleCreate {
+	if v != nil {
+		_c.SetUpdatedAt(*v)
 	}
-	return orc
+	return _c
 }
 
 // SetID sets the "id" field.
-func (orc *OrganizationRoleCreate) SetID(s string) *OrganizationRoleCreate {
-	orc.mutation.SetID(s)
-	return orc
+func (_c *OrganizationRoleCreate) SetID(v string) *OrganizationRoleCreate {
+	_c.mutation.SetID(v)
+	return _c
 }
 
 // SetNillableID sets the "id" field if the given value is not nil.
-func (orc *OrganizationRoleCreate) SetNillableID(s *string) *OrganizationRoleCreate {
-	if s != nil {
-		orc.SetID(*s)
+func (_c *OrganizationRoleCreate) SetNillableID(v *string) *OrganizationRoleCreate {
+	if v != nil {
+		_c.SetID(*v)
 	}
-	return orc
+	return _c
 }
 
 // Mutation returns the OrganizationRoleMutation object of the builder.
-func (orc *OrganizationRoleCreate) Mutation() *OrganizationRoleMutation {
-	return orc.mutation
+func (_c *OrganizationRoleCreate) Mutation() *OrganizationRoleMutation {
+	return _c.mutation
 }
 
 // Save creates the OrganizationRole in the database.
-func (orc *OrganizationRoleCreate) Save(ctx context.Context) (*OrganizationRole, error) {
-	orc.defaults()
-	return withHooks(ctx, orc.sqlSave, orc.mutation, orc.hooks)
+func (_c *OrganizationRoleCreate) Save(ctx context.Context) (*OrganizationRole, error) {
+	_c.defaults()
+	return withHooks(ctx, _c.sqlSave, _c.mutation, _c.hooks)
 }
 
 // SaveX calls Save and panics if Save returns an error.
-func (orc *OrganizationRoleCreate) SaveX(ctx context.Context) *OrganizationRole {
-	v, err := orc.Save(ctx)
+func (_c *OrganizationRoleCreate) SaveX(ctx context.Context) *OrganizationRole {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -137,37 +137,37 @@ func (orc *OrganizationRoleCreate) SaveX(ctx context.Context) *OrganizationRole 
 }
 
 // Exec executes the query.
-func (orc *OrganizationRoleCreate) Exec(ctx context.Context) error {
-	_, err := orc.Save(ctx)
+func (_c *OrganizationRoleCreate) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (orc *OrganizationRoleCreate) ExecX(ctx context.Context) {
-	if err := orc.Exec(ctx); err != nil {
+func (_c *OrganizationRoleCreate) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (orc *OrganizationRoleCreate) defaults() {
-	if _, ok := orc.mutation.CreatedAt(); !ok {
+func (_c *OrganizationRoleCreate) defaults() {
+	if _, ok := _c.mutation.CreatedAt(); !ok {
 		v := organizationrole.DefaultCreatedAt()
-		orc.mutation.SetCreatedAt(v)
+		_c.mutation.SetCreatedAt(v)
 	}
-	if _, ok := orc.mutation.UpdatedAt(); !ok {
+	if _, ok := _c.mutation.UpdatedAt(); !ok {
 		v := organizationrole.DefaultUpdatedAt()
-		orc.mutation.SetUpdatedAt(v)
+		_c.mutation.SetUpdatedAt(v)
 	}
-	if _, ok := orc.mutation.ID(); !ok {
+	if _, ok := _c.mutation.ID(); !ok {
 		v := organizationrole.DefaultID()
-		orc.mutation.SetID(v)
+		_c.mutation.SetID(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (orc *OrganizationRoleCreate) check() error {
-	if v, ok := orc.mutation.ID(); ok {
+func (_c *OrganizationRoleCreate) check() error {
+	if v, ok := _c.mutation.ID(); ok {
 		if err := organizationrole.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "OrganizationRole.id": %w`, err)}
 		}
@@ -175,12 +175,12 @@ func (orc *OrganizationRoleCreate) check() error {
 	return nil
 }
 
-func (orc *OrganizationRoleCreate) sqlSave(ctx context.Context) (*OrganizationRole, error) {
-	if err := orc.check(); err != nil {
+func (_c *OrganizationRoleCreate) sqlSave(ctx context.Context) (*OrganizationRole, error) {
+	if err := _c.check(); err != nil {
 		return nil, err
 	}
-	_node, _spec := orc.createSpec()
-	if err := sqlgraph.CreateNode(ctx, orc.driver, _spec); err != nil {
+	_node, _spec := _c.createSpec()
+	if err := sqlgraph.CreateNode(ctx, _c.driver, _spec); err != nil {
 		if sqlgraph.IsConstraintError(err) {
 			err = &ConstraintError{msg: err.Error(), wrap: err}
 		}
@@ -193,41 +193,41 @@ func (orc *OrganizationRoleCreate) sqlSave(ctx context.Context) (*OrganizationRo
 			return nil, fmt.Errorf("unexpected OrganizationRole.ID type: %T", _spec.ID.Value)
 		}
 	}
-	orc.mutation.id = &_node.ID
-	orc.mutation.done = true
+	_c.mutation.id = &_node.ID
+	_c.mutation.done = true
 	return _node, nil
 }
 
-func (orc *OrganizationRoleCreate) createSpec() (*OrganizationRole, *sqlgraph.CreateSpec) {
+func (_c *OrganizationRoleCreate) createSpec() (*OrganizationRole, *sqlgraph.CreateSpec) {
 	var (
-		_node = &OrganizationRole{config: orc.config}
+		_node = &OrganizationRole{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(organizationrole.Table, sqlgraph.NewFieldSpec(organizationrole.FieldID, field.TypeString))
 	)
-	if id, ok := orc.mutation.ID(); ok {
+	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
 	}
-	if value, ok := orc.mutation.OrgID(); ok {
+	if value, ok := _c.mutation.OrgID(); ok {
 		_spec.SetField(organizationrole.FieldOrgID, field.TypeString, value)
 		_node.OrgID = value
 	}
-	if value, ok := orc.mutation.RoleID(); ok {
+	if value, ok := _c.mutation.RoleID(); ok {
 		_spec.SetField(organizationrole.FieldRoleID, field.TypeString, value)
 		_node.RoleID = value
 	}
-	if value, ok := orc.mutation.CreatedBy(); ok {
+	if value, ok := _c.mutation.CreatedBy(); ok {
 		_spec.SetField(organizationrole.FieldCreatedBy, field.TypeString, value)
 		_node.CreatedBy = value
 	}
-	if value, ok := orc.mutation.UpdatedBy(); ok {
+	if value, ok := _c.mutation.UpdatedBy(); ok {
 		_spec.SetField(organizationrole.FieldUpdatedBy, field.TypeString, value)
 		_node.UpdatedBy = value
 	}
-	if value, ok := orc.mutation.CreatedAt(); ok {
+	if value, ok := _c.mutation.CreatedAt(); ok {
 		_spec.SetField(organizationrole.FieldCreatedAt, field.TypeInt64, value)
 		_node.CreatedAt = value
 	}
-	if value, ok := orc.mutation.UpdatedAt(); ok {
+	if value, ok := _c.mutation.UpdatedAt(); ok {
 		_spec.SetField(organizationrole.FieldUpdatedAt, field.TypeInt64, value)
 		_node.UpdatedAt = value
 	}
@@ -242,16 +242,16 @@ type OrganizationRoleCreateBulk struct {
 }
 
 // Save creates the OrganizationRole entities in the database.
-func (orcb *OrganizationRoleCreateBulk) Save(ctx context.Context) ([]*OrganizationRole, error) {
-	if orcb.err != nil {
-		return nil, orcb.err
+func (_c *OrganizationRoleCreateBulk) Save(ctx context.Context) ([]*OrganizationRole, error) {
+	if _c.err != nil {
+		return nil, _c.err
 	}
-	specs := make([]*sqlgraph.CreateSpec, len(orcb.builders))
-	nodes := make([]*OrganizationRole, len(orcb.builders))
-	mutators := make([]Mutator, len(orcb.builders))
-	for i := range orcb.builders {
+	specs := make([]*sqlgraph.CreateSpec, len(_c.builders))
+	nodes := make([]*OrganizationRole, len(_c.builders))
+	mutators := make([]Mutator, len(_c.builders))
+	for i := range _c.builders {
 		func(i int, root context.Context) {
-			builder := orcb.builders[i]
+			builder := _c.builders[i]
 			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*OrganizationRoleMutation)
@@ -265,11 +265,11 @@ func (orcb *OrganizationRoleCreateBulk) Save(ctx context.Context) ([]*Organizati
 				var err error
 				nodes[i], specs[i] = builder.createSpec()
 				if i < len(mutators)-1 {
-					_, err = mutators[i+1].Mutate(root, orcb.builders[i+1].mutation)
+					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
 					// Invoke the actual operation on the latest mutation in the chain.
-					if err = sqlgraph.BatchCreate(ctx, orcb.driver, spec); err != nil {
+					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
 							err = &ConstraintError{msg: err.Error(), wrap: err}
 						}
@@ -289,7 +289,7 @@ func (orcb *OrganizationRoleCreateBulk) Save(ctx context.Context) ([]*Organizati
 		}(i, ctx)
 	}
 	if len(mutators) > 0 {
-		if _, err := mutators[0].Mutate(ctx, orcb.builders[0].mutation); err != nil {
+		if _, err := mutators[0].Mutate(ctx, _c.builders[0].mutation); err != nil {
 			return nil, err
 		}
 	}
@@ -297,8 +297,8 @@ func (orcb *OrganizationRoleCreateBulk) Save(ctx context.Context) ([]*Organizati
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (orcb *OrganizationRoleCreateBulk) SaveX(ctx context.Context) []*OrganizationRole {
-	v, err := orcb.Save(ctx)
+func (_c *OrganizationRoleCreateBulk) SaveX(ctx context.Context) []*OrganizationRole {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -306,14 +306,14 @@ func (orcb *OrganizationRoleCreateBulk) SaveX(ctx context.Context) []*Organizati
 }
 
 // Exec executes the query.
-func (orcb *OrganizationRoleCreateBulk) Exec(ctx context.Context) error {
-	_, err := orcb.Save(ctx)
+func (_c *OrganizationRoleCreateBulk) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (orcb *OrganizationRoleCreateBulk) ExecX(ctx context.Context) {
-	if err := orcb.Exec(ctx); err != nil {
+func (_c *OrganizationRoleCreateBulk) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

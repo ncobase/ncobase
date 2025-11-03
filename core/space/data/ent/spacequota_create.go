@@ -20,183 +20,183 @@ type SpaceQuotaCreate struct {
 }
 
 // SetSpaceID sets the "space_id" field.
-func (sqc *SpaceQuotaCreate) SetSpaceID(s string) *SpaceQuotaCreate {
-	sqc.mutation.SetSpaceID(s)
-	return sqc
+func (_c *SpaceQuotaCreate) SetSpaceID(v string) *SpaceQuotaCreate {
+	_c.mutation.SetSpaceID(v)
+	return _c
 }
 
 // SetNillableSpaceID sets the "space_id" field if the given value is not nil.
-func (sqc *SpaceQuotaCreate) SetNillableSpaceID(s *string) *SpaceQuotaCreate {
-	if s != nil {
-		sqc.SetSpaceID(*s)
+func (_c *SpaceQuotaCreate) SetNillableSpaceID(v *string) *SpaceQuotaCreate {
+	if v != nil {
+		_c.SetSpaceID(*v)
 	}
-	return sqc
+	return _c
 }
 
 // SetDescription sets the "description" field.
-func (sqc *SpaceQuotaCreate) SetDescription(s string) *SpaceQuotaCreate {
-	sqc.mutation.SetDescription(s)
-	return sqc
+func (_c *SpaceQuotaCreate) SetDescription(v string) *SpaceQuotaCreate {
+	_c.mutation.SetDescription(v)
+	return _c
 }
 
 // SetNillableDescription sets the "description" field if the given value is not nil.
-func (sqc *SpaceQuotaCreate) SetNillableDescription(s *string) *SpaceQuotaCreate {
-	if s != nil {
-		sqc.SetDescription(*s)
+func (_c *SpaceQuotaCreate) SetNillableDescription(v *string) *SpaceQuotaCreate {
+	if v != nil {
+		_c.SetDescription(*v)
 	}
-	return sqc
+	return _c
 }
 
 // SetExtras sets the "extras" field.
-func (sqc *SpaceQuotaCreate) SetExtras(m map[string]interface{}) *SpaceQuotaCreate {
-	sqc.mutation.SetExtras(m)
-	return sqc
+func (_c *SpaceQuotaCreate) SetExtras(v map[string]interface{}) *SpaceQuotaCreate {
+	_c.mutation.SetExtras(v)
+	return _c
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (sqc *SpaceQuotaCreate) SetCreatedBy(s string) *SpaceQuotaCreate {
-	sqc.mutation.SetCreatedBy(s)
-	return sqc
+func (_c *SpaceQuotaCreate) SetCreatedBy(v string) *SpaceQuotaCreate {
+	_c.mutation.SetCreatedBy(v)
+	return _c
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (sqc *SpaceQuotaCreate) SetNillableCreatedBy(s *string) *SpaceQuotaCreate {
-	if s != nil {
-		sqc.SetCreatedBy(*s)
+func (_c *SpaceQuotaCreate) SetNillableCreatedBy(v *string) *SpaceQuotaCreate {
+	if v != nil {
+		_c.SetCreatedBy(*v)
 	}
-	return sqc
+	return _c
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (sqc *SpaceQuotaCreate) SetUpdatedBy(s string) *SpaceQuotaCreate {
-	sqc.mutation.SetUpdatedBy(s)
-	return sqc
+func (_c *SpaceQuotaCreate) SetUpdatedBy(v string) *SpaceQuotaCreate {
+	_c.mutation.SetUpdatedBy(v)
+	return _c
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (sqc *SpaceQuotaCreate) SetNillableUpdatedBy(s *string) *SpaceQuotaCreate {
-	if s != nil {
-		sqc.SetUpdatedBy(*s)
+func (_c *SpaceQuotaCreate) SetNillableUpdatedBy(v *string) *SpaceQuotaCreate {
+	if v != nil {
+		_c.SetUpdatedBy(*v)
 	}
-	return sqc
+	return _c
 }
 
 // SetCreatedAt sets the "created_at" field.
-func (sqc *SpaceQuotaCreate) SetCreatedAt(i int64) *SpaceQuotaCreate {
-	sqc.mutation.SetCreatedAt(i)
-	return sqc
+func (_c *SpaceQuotaCreate) SetCreatedAt(v int64) *SpaceQuotaCreate {
+	_c.mutation.SetCreatedAt(v)
+	return _c
 }
 
 // SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
-func (sqc *SpaceQuotaCreate) SetNillableCreatedAt(i *int64) *SpaceQuotaCreate {
-	if i != nil {
-		sqc.SetCreatedAt(*i)
+func (_c *SpaceQuotaCreate) SetNillableCreatedAt(v *int64) *SpaceQuotaCreate {
+	if v != nil {
+		_c.SetCreatedAt(*v)
 	}
-	return sqc
+	return _c
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (sqc *SpaceQuotaCreate) SetUpdatedAt(i int64) *SpaceQuotaCreate {
-	sqc.mutation.SetUpdatedAt(i)
-	return sqc
+func (_c *SpaceQuotaCreate) SetUpdatedAt(v int64) *SpaceQuotaCreate {
+	_c.mutation.SetUpdatedAt(v)
+	return _c
 }
 
 // SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
-func (sqc *SpaceQuotaCreate) SetNillableUpdatedAt(i *int64) *SpaceQuotaCreate {
-	if i != nil {
-		sqc.SetUpdatedAt(*i)
+func (_c *SpaceQuotaCreate) SetNillableUpdatedAt(v *int64) *SpaceQuotaCreate {
+	if v != nil {
+		_c.SetUpdatedAt(*v)
 	}
-	return sqc
+	return _c
 }
 
 // SetQuotaType sets the "quota_type" field.
-func (sqc *SpaceQuotaCreate) SetQuotaType(s string) *SpaceQuotaCreate {
-	sqc.mutation.SetQuotaType(s)
-	return sqc
+func (_c *SpaceQuotaCreate) SetQuotaType(v string) *SpaceQuotaCreate {
+	_c.mutation.SetQuotaType(v)
+	return _c
 }
 
 // SetQuotaName sets the "quota_name" field.
-func (sqc *SpaceQuotaCreate) SetQuotaName(s string) *SpaceQuotaCreate {
-	sqc.mutation.SetQuotaName(s)
-	return sqc
+func (_c *SpaceQuotaCreate) SetQuotaName(v string) *SpaceQuotaCreate {
+	_c.mutation.SetQuotaName(v)
+	return _c
 }
 
 // SetMaxValue sets the "max_value" field.
-func (sqc *SpaceQuotaCreate) SetMaxValue(i int64) *SpaceQuotaCreate {
-	sqc.mutation.SetMaxValue(i)
-	return sqc
+func (_c *SpaceQuotaCreate) SetMaxValue(v int64) *SpaceQuotaCreate {
+	_c.mutation.SetMaxValue(v)
+	return _c
 }
 
 // SetCurrentUsed sets the "current_used" field.
-func (sqc *SpaceQuotaCreate) SetCurrentUsed(i int64) *SpaceQuotaCreate {
-	sqc.mutation.SetCurrentUsed(i)
-	return sqc
+func (_c *SpaceQuotaCreate) SetCurrentUsed(v int64) *SpaceQuotaCreate {
+	_c.mutation.SetCurrentUsed(v)
+	return _c
 }
 
 // SetNillableCurrentUsed sets the "current_used" field if the given value is not nil.
-func (sqc *SpaceQuotaCreate) SetNillableCurrentUsed(i *int64) *SpaceQuotaCreate {
-	if i != nil {
-		sqc.SetCurrentUsed(*i)
+func (_c *SpaceQuotaCreate) SetNillableCurrentUsed(v *int64) *SpaceQuotaCreate {
+	if v != nil {
+		_c.SetCurrentUsed(*v)
 	}
-	return sqc
+	return _c
 }
 
 // SetUnit sets the "unit" field.
-func (sqc *SpaceQuotaCreate) SetUnit(s string) *SpaceQuotaCreate {
-	sqc.mutation.SetUnit(s)
-	return sqc
+func (_c *SpaceQuotaCreate) SetUnit(v string) *SpaceQuotaCreate {
+	_c.mutation.SetUnit(v)
+	return _c
 }
 
 // SetNillableUnit sets the "unit" field if the given value is not nil.
-func (sqc *SpaceQuotaCreate) SetNillableUnit(s *string) *SpaceQuotaCreate {
-	if s != nil {
-		sqc.SetUnit(*s)
+func (_c *SpaceQuotaCreate) SetNillableUnit(v *string) *SpaceQuotaCreate {
+	if v != nil {
+		_c.SetUnit(*v)
 	}
-	return sqc
+	return _c
 }
 
 // SetEnabled sets the "enabled" field.
-func (sqc *SpaceQuotaCreate) SetEnabled(b bool) *SpaceQuotaCreate {
-	sqc.mutation.SetEnabled(b)
-	return sqc
+func (_c *SpaceQuotaCreate) SetEnabled(v bool) *SpaceQuotaCreate {
+	_c.mutation.SetEnabled(v)
+	return _c
 }
 
 // SetNillableEnabled sets the "enabled" field if the given value is not nil.
-func (sqc *SpaceQuotaCreate) SetNillableEnabled(b *bool) *SpaceQuotaCreate {
-	if b != nil {
-		sqc.SetEnabled(*b)
+func (_c *SpaceQuotaCreate) SetNillableEnabled(v *bool) *SpaceQuotaCreate {
+	if v != nil {
+		_c.SetEnabled(*v)
 	}
-	return sqc
+	return _c
 }
 
 // SetID sets the "id" field.
-func (sqc *SpaceQuotaCreate) SetID(s string) *SpaceQuotaCreate {
-	sqc.mutation.SetID(s)
-	return sqc
+func (_c *SpaceQuotaCreate) SetID(v string) *SpaceQuotaCreate {
+	_c.mutation.SetID(v)
+	return _c
 }
 
 // SetNillableID sets the "id" field if the given value is not nil.
-func (sqc *SpaceQuotaCreate) SetNillableID(s *string) *SpaceQuotaCreate {
-	if s != nil {
-		sqc.SetID(*s)
+func (_c *SpaceQuotaCreate) SetNillableID(v *string) *SpaceQuotaCreate {
+	if v != nil {
+		_c.SetID(*v)
 	}
-	return sqc
+	return _c
 }
 
 // Mutation returns the SpaceQuotaMutation object of the builder.
-func (sqc *SpaceQuotaCreate) Mutation() *SpaceQuotaMutation {
-	return sqc.mutation
+func (_c *SpaceQuotaCreate) Mutation() *SpaceQuotaMutation {
+	return _c.mutation
 }
 
 // Save creates the SpaceQuota in the database.
-func (sqc *SpaceQuotaCreate) Save(ctx context.Context) (*SpaceQuota, error) {
-	sqc.defaults()
-	return withHooks(ctx, sqc.sqlSave, sqc.mutation, sqc.hooks)
+func (_c *SpaceQuotaCreate) Save(ctx context.Context) (*SpaceQuota, error) {
+	_c.defaults()
+	return withHooks(ctx, _c.sqlSave, _c.mutation, _c.hooks)
 }
 
 // SaveX calls Save and panics if Save returns an error.
-func (sqc *SpaceQuotaCreate) SaveX(ctx context.Context) *SpaceQuota {
-	v, err := sqc.Save(ctx)
+func (_c *SpaceQuotaCreate) SaveX(ctx context.Context) *SpaceQuota {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -204,91 +204,91 @@ func (sqc *SpaceQuotaCreate) SaveX(ctx context.Context) *SpaceQuota {
 }
 
 // Exec executes the query.
-func (sqc *SpaceQuotaCreate) Exec(ctx context.Context) error {
-	_, err := sqc.Save(ctx)
+func (_c *SpaceQuotaCreate) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (sqc *SpaceQuotaCreate) ExecX(ctx context.Context) {
-	if err := sqc.Exec(ctx); err != nil {
+func (_c *SpaceQuotaCreate) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (sqc *SpaceQuotaCreate) defaults() {
-	if _, ok := sqc.mutation.Extras(); !ok {
+func (_c *SpaceQuotaCreate) defaults() {
+	if _, ok := _c.mutation.Extras(); !ok {
 		v := spacequota.DefaultExtras
-		sqc.mutation.SetExtras(v)
+		_c.mutation.SetExtras(v)
 	}
-	if _, ok := sqc.mutation.CreatedAt(); !ok {
+	if _, ok := _c.mutation.CreatedAt(); !ok {
 		v := spacequota.DefaultCreatedAt()
-		sqc.mutation.SetCreatedAt(v)
+		_c.mutation.SetCreatedAt(v)
 	}
-	if _, ok := sqc.mutation.UpdatedAt(); !ok {
+	if _, ok := _c.mutation.UpdatedAt(); !ok {
 		v := spacequota.DefaultUpdatedAt()
-		sqc.mutation.SetUpdatedAt(v)
+		_c.mutation.SetUpdatedAt(v)
 	}
-	if _, ok := sqc.mutation.CurrentUsed(); !ok {
+	if _, ok := _c.mutation.CurrentUsed(); !ok {
 		v := spacequota.DefaultCurrentUsed
-		sqc.mutation.SetCurrentUsed(v)
+		_c.mutation.SetCurrentUsed(v)
 	}
-	if _, ok := sqc.mutation.Unit(); !ok {
+	if _, ok := _c.mutation.Unit(); !ok {
 		v := spacequota.DefaultUnit
-		sqc.mutation.SetUnit(v)
+		_c.mutation.SetUnit(v)
 	}
-	if _, ok := sqc.mutation.Enabled(); !ok {
+	if _, ok := _c.mutation.Enabled(); !ok {
 		v := spacequota.DefaultEnabled
-		sqc.mutation.SetEnabled(v)
+		_c.mutation.SetEnabled(v)
 	}
-	if _, ok := sqc.mutation.ID(); !ok {
+	if _, ok := _c.mutation.ID(); !ok {
 		v := spacequota.DefaultID()
-		sqc.mutation.SetID(v)
+		_c.mutation.SetID(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (sqc *SpaceQuotaCreate) check() error {
-	if _, ok := sqc.mutation.QuotaType(); !ok {
+func (_c *SpaceQuotaCreate) check() error {
+	if _, ok := _c.mutation.QuotaType(); !ok {
 		return &ValidationError{Name: "quota_type", err: errors.New(`ent: missing required field "SpaceQuota.quota_type"`)}
 	}
-	if v, ok := sqc.mutation.QuotaType(); ok {
+	if v, ok := _c.mutation.QuotaType(); ok {
 		if err := spacequota.QuotaTypeValidator(v); err != nil {
 			return &ValidationError{Name: "quota_type", err: fmt.Errorf(`ent: validator failed for field "SpaceQuota.quota_type": %w`, err)}
 		}
 	}
-	if _, ok := sqc.mutation.QuotaName(); !ok {
+	if _, ok := _c.mutation.QuotaName(); !ok {
 		return &ValidationError{Name: "quota_name", err: errors.New(`ent: missing required field "SpaceQuota.quota_name"`)}
 	}
-	if v, ok := sqc.mutation.QuotaName(); ok {
+	if v, ok := _c.mutation.QuotaName(); ok {
 		if err := spacequota.QuotaNameValidator(v); err != nil {
 			return &ValidationError{Name: "quota_name", err: fmt.Errorf(`ent: validator failed for field "SpaceQuota.quota_name": %w`, err)}
 		}
 	}
-	if _, ok := sqc.mutation.MaxValue(); !ok {
+	if _, ok := _c.mutation.MaxValue(); !ok {
 		return &ValidationError{Name: "max_value", err: errors.New(`ent: missing required field "SpaceQuota.max_value"`)}
 	}
-	if v, ok := sqc.mutation.MaxValue(); ok {
+	if v, ok := _c.mutation.MaxValue(); ok {
 		if err := spacequota.MaxValueValidator(v); err != nil {
 			return &ValidationError{Name: "max_value", err: fmt.Errorf(`ent: validator failed for field "SpaceQuota.max_value": %w`, err)}
 		}
 	}
-	if _, ok := sqc.mutation.CurrentUsed(); !ok {
+	if _, ok := _c.mutation.CurrentUsed(); !ok {
 		return &ValidationError{Name: "current_used", err: errors.New(`ent: missing required field "SpaceQuota.current_used"`)}
 	}
-	if v, ok := sqc.mutation.CurrentUsed(); ok {
+	if v, ok := _c.mutation.CurrentUsed(); ok {
 		if err := spacequota.CurrentUsedValidator(v); err != nil {
 			return &ValidationError{Name: "current_used", err: fmt.Errorf(`ent: validator failed for field "SpaceQuota.current_used": %w`, err)}
 		}
 	}
-	if _, ok := sqc.mutation.Unit(); !ok {
+	if _, ok := _c.mutation.Unit(); !ok {
 		return &ValidationError{Name: "unit", err: errors.New(`ent: missing required field "SpaceQuota.unit"`)}
 	}
-	if _, ok := sqc.mutation.Enabled(); !ok {
+	if _, ok := _c.mutation.Enabled(); !ok {
 		return &ValidationError{Name: "enabled", err: errors.New(`ent: missing required field "SpaceQuota.enabled"`)}
 	}
-	if v, ok := sqc.mutation.ID(); ok {
+	if v, ok := _c.mutation.ID(); ok {
 		if err := spacequota.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "SpaceQuota.id": %w`, err)}
 		}
@@ -296,12 +296,12 @@ func (sqc *SpaceQuotaCreate) check() error {
 	return nil
 }
 
-func (sqc *SpaceQuotaCreate) sqlSave(ctx context.Context) (*SpaceQuota, error) {
-	if err := sqc.check(); err != nil {
+func (_c *SpaceQuotaCreate) sqlSave(ctx context.Context) (*SpaceQuota, error) {
+	if err := _c.check(); err != nil {
 		return nil, err
 	}
-	_node, _spec := sqc.createSpec()
-	if err := sqlgraph.CreateNode(ctx, sqc.driver, _spec); err != nil {
+	_node, _spec := _c.createSpec()
+	if err := sqlgraph.CreateNode(ctx, _c.driver, _spec); err != nil {
 		if sqlgraph.IsConstraintError(err) {
 			err = &ConstraintError{msg: err.Error(), wrap: err}
 		}
@@ -314,69 +314,69 @@ func (sqc *SpaceQuotaCreate) sqlSave(ctx context.Context) (*SpaceQuota, error) {
 			return nil, fmt.Errorf("unexpected SpaceQuota.ID type: %T", _spec.ID.Value)
 		}
 	}
-	sqc.mutation.id = &_node.ID
-	sqc.mutation.done = true
+	_c.mutation.id = &_node.ID
+	_c.mutation.done = true
 	return _node, nil
 }
 
-func (sqc *SpaceQuotaCreate) createSpec() (*SpaceQuota, *sqlgraph.CreateSpec) {
+func (_c *SpaceQuotaCreate) createSpec() (*SpaceQuota, *sqlgraph.CreateSpec) {
 	var (
-		_node = &SpaceQuota{config: sqc.config}
+		_node = &SpaceQuota{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(spacequota.Table, sqlgraph.NewFieldSpec(spacequota.FieldID, field.TypeString))
 	)
-	if id, ok := sqc.mutation.ID(); ok {
+	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
 	}
-	if value, ok := sqc.mutation.SpaceID(); ok {
+	if value, ok := _c.mutation.SpaceID(); ok {
 		_spec.SetField(spacequota.FieldSpaceID, field.TypeString, value)
 		_node.SpaceID = value
 	}
-	if value, ok := sqc.mutation.Description(); ok {
+	if value, ok := _c.mutation.Description(); ok {
 		_spec.SetField(spacequota.FieldDescription, field.TypeString, value)
 		_node.Description = value
 	}
-	if value, ok := sqc.mutation.Extras(); ok {
+	if value, ok := _c.mutation.Extras(); ok {
 		_spec.SetField(spacequota.FieldExtras, field.TypeJSON, value)
 		_node.Extras = value
 	}
-	if value, ok := sqc.mutation.CreatedBy(); ok {
+	if value, ok := _c.mutation.CreatedBy(); ok {
 		_spec.SetField(spacequota.FieldCreatedBy, field.TypeString, value)
 		_node.CreatedBy = value
 	}
-	if value, ok := sqc.mutation.UpdatedBy(); ok {
+	if value, ok := _c.mutation.UpdatedBy(); ok {
 		_spec.SetField(spacequota.FieldUpdatedBy, field.TypeString, value)
 		_node.UpdatedBy = value
 	}
-	if value, ok := sqc.mutation.CreatedAt(); ok {
+	if value, ok := _c.mutation.CreatedAt(); ok {
 		_spec.SetField(spacequota.FieldCreatedAt, field.TypeInt64, value)
 		_node.CreatedAt = value
 	}
-	if value, ok := sqc.mutation.UpdatedAt(); ok {
+	if value, ok := _c.mutation.UpdatedAt(); ok {
 		_spec.SetField(spacequota.FieldUpdatedAt, field.TypeInt64, value)
 		_node.UpdatedAt = value
 	}
-	if value, ok := sqc.mutation.QuotaType(); ok {
+	if value, ok := _c.mutation.QuotaType(); ok {
 		_spec.SetField(spacequota.FieldQuotaType, field.TypeString, value)
 		_node.QuotaType = value
 	}
-	if value, ok := sqc.mutation.QuotaName(); ok {
+	if value, ok := _c.mutation.QuotaName(); ok {
 		_spec.SetField(spacequota.FieldQuotaName, field.TypeString, value)
 		_node.QuotaName = value
 	}
-	if value, ok := sqc.mutation.MaxValue(); ok {
+	if value, ok := _c.mutation.MaxValue(); ok {
 		_spec.SetField(spacequota.FieldMaxValue, field.TypeInt64, value)
 		_node.MaxValue = value
 	}
-	if value, ok := sqc.mutation.CurrentUsed(); ok {
+	if value, ok := _c.mutation.CurrentUsed(); ok {
 		_spec.SetField(spacequota.FieldCurrentUsed, field.TypeInt64, value)
 		_node.CurrentUsed = value
 	}
-	if value, ok := sqc.mutation.Unit(); ok {
+	if value, ok := _c.mutation.Unit(); ok {
 		_spec.SetField(spacequota.FieldUnit, field.TypeString, value)
 		_node.Unit = value
 	}
-	if value, ok := sqc.mutation.Enabled(); ok {
+	if value, ok := _c.mutation.Enabled(); ok {
 		_spec.SetField(spacequota.FieldEnabled, field.TypeBool, value)
 		_node.Enabled = value
 	}
@@ -391,16 +391,16 @@ type SpaceQuotaCreateBulk struct {
 }
 
 // Save creates the SpaceQuota entities in the database.
-func (sqcb *SpaceQuotaCreateBulk) Save(ctx context.Context) ([]*SpaceQuota, error) {
-	if sqcb.err != nil {
-		return nil, sqcb.err
+func (_c *SpaceQuotaCreateBulk) Save(ctx context.Context) ([]*SpaceQuota, error) {
+	if _c.err != nil {
+		return nil, _c.err
 	}
-	specs := make([]*sqlgraph.CreateSpec, len(sqcb.builders))
-	nodes := make([]*SpaceQuota, len(sqcb.builders))
-	mutators := make([]Mutator, len(sqcb.builders))
-	for i := range sqcb.builders {
+	specs := make([]*sqlgraph.CreateSpec, len(_c.builders))
+	nodes := make([]*SpaceQuota, len(_c.builders))
+	mutators := make([]Mutator, len(_c.builders))
+	for i := range _c.builders {
 		func(i int, root context.Context) {
-			builder := sqcb.builders[i]
+			builder := _c.builders[i]
 			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*SpaceQuotaMutation)
@@ -414,11 +414,11 @@ func (sqcb *SpaceQuotaCreateBulk) Save(ctx context.Context) ([]*SpaceQuota, erro
 				var err error
 				nodes[i], specs[i] = builder.createSpec()
 				if i < len(mutators)-1 {
-					_, err = mutators[i+1].Mutate(root, sqcb.builders[i+1].mutation)
+					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
 					// Invoke the actual operation on the latest mutation in the chain.
-					if err = sqlgraph.BatchCreate(ctx, sqcb.driver, spec); err != nil {
+					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
 							err = &ConstraintError{msg: err.Error(), wrap: err}
 						}
@@ -438,7 +438,7 @@ func (sqcb *SpaceQuotaCreateBulk) Save(ctx context.Context) ([]*SpaceQuota, erro
 		}(i, ctx)
 	}
 	if len(mutators) > 0 {
-		if _, err := mutators[0].Mutate(ctx, sqcb.builders[0].mutation); err != nil {
+		if _, err := mutators[0].Mutate(ctx, _c.builders[0].mutation); err != nil {
 			return nil, err
 		}
 	}
@@ -446,8 +446,8 @@ func (sqcb *SpaceQuotaCreateBulk) Save(ctx context.Context) ([]*SpaceQuota, erro
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (sqcb *SpaceQuotaCreateBulk) SaveX(ctx context.Context) []*SpaceQuota {
-	v, err := sqcb.Save(ctx)
+func (_c *SpaceQuotaCreateBulk) SaveX(ctx context.Context) []*SpaceQuota {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -455,14 +455,14 @@ func (sqcb *SpaceQuotaCreateBulk) SaveX(ctx context.Context) []*SpaceQuota {
 }
 
 // Exec executes the query.
-func (sqcb *SpaceQuotaCreateBulk) Exec(ctx context.Context) error {
-	_, err := sqcb.Save(ctx)
+func (_c *SpaceQuotaCreateBulk) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (sqcb *SpaceQuotaCreateBulk) ExecX(ctx context.Context) {
-	if err := sqcb.Exec(ctx); err != nil {
+func (_c *SpaceQuotaCreateBulk) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

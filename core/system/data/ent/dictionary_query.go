@@ -28,40 +28,40 @@ type DictionaryQuery struct {
 }
 
 // Where adds a new predicate for the DictionaryQuery builder.
-func (dq *DictionaryQuery) Where(ps ...predicate.Dictionary) *DictionaryQuery {
-	dq.predicates = append(dq.predicates, ps...)
-	return dq
+func (_q *DictionaryQuery) Where(ps ...predicate.Dictionary) *DictionaryQuery {
+	_q.predicates = append(_q.predicates, ps...)
+	return _q
 }
 
 // Limit the number of records to be returned by this query.
-func (dq *DictionaryQuery) Limit(limit int) *DictionaryQuery {
-	dq.ctx.Limit = &limit
-	return dq
+func (_q *DictionaryQuery) Limit(limit int) *DictionaryQuery {
+	_q.ctx.Limit = &limit
+	return _q
 }
 
 // Offset to start from.
-func (dq *DictionaryQuery) Offset(offset int) *DictionaryQuery {
-	dq.ctx.Offset = &offset
-	return dq
+func (_q *DictionaryQuery) Offset(offset int) *DictionaryQuery {
+	_q.ctx.Offset = &offset
+	return _q
 }
 
 // Unique configures the query builder to filter duplicate records on query.
 // By default, unique is set to true, and can be disabled using this method.
-func (dq *DictionaryQuery) Unique(unique bool) *DictionaryQuery {
-	dq.ctx.Unique = &unique
-	return dq
+func (_q *DictionaryQuery) Unique(unique bool) *DictionaryQuery {
+	_q.ctx.Unique = &unique
+	return _q
 }
 
 // Order specifies how the records should be ordered.
-func (dq *DictionaryQuery) Order(o ...dictionary.OrderOption) *DictionaryQuery {
-	dq.order = append(dq.order, o...)
-	return dq
+func (_q *DictionaryQuery) Order(o ...dictionary.OrderOption) *DictionaryQuery {
+	_q.order = append(_q.order, o...)
+	return _q
 }
 
 // First returns the first Dictionary entity from the query.
 // Returns a *NotFoundError when no Dictionary was found.
-func (dq *DictionaryQuery) First(ctx context.Context) (*Dictionary, error) {
-	nodes, err := dq.Limit(1).All(setContextOp(ctx, dq.ctx, ent.OpQueryFirst))
+func (_q *DictionaryQuery) First(ctx context.Context) (*Dictionary, error) {
+	nodes, err := _q.Limit(1).All(setContextOp(ctx, _q.ctx, ent.OpQueryFirst))
 	if err != nil {
 		return nil, err
 	}
@@ -72,8 +72,8 @@ func (dq *DictionaryQuery) First(ctx context.Context) (*Dictionary, error) {
 }
 
 // FirstX is like First, but panics if an error occurs.
-func (dq *DictionaryQuery) FirstX(ctx context.Context) *Dictionary {
-	node, err := dq.First(ctx)
+func (_q *DictionaryQuery) FirstX(ctx context.Context) *Dictionary {
+	node, err := _q.First(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
 	}
@@ -82,9 +82,9 @@ func (dq *DictionaryQuery) FirstX(ctx context.Context) *Dictionary {
 
 // FirstID returns the first Dictionary ID from the query.
 // Returns a *NotFoundError when no Dictionary ID was found.
-func (dq *DictionaryQuery) FirstID(ctx context.Context) (id string, err error) {
+func (_q *DictionaryQuery) FirstID(ctx context.Context) (id string, err error) {
 	var ids []string
-	if ids, err = dq.Limit(1).IDs(setContextOp(ctx, dq.ctx, ent.OpQueryFirstID)); err != nil {
+	if ids, err = _q.Limit(1).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryFirstID)); err != nil {
 		return
 	}
 	if len(ids) == 0 {
@@ -95,8 +95,8 @@ func (dq *DictionaryQuery) FirstID(ctx context.Context) (id string, err error) {
 }
 
 // FirstIDX is like FirstID, but panics if an error occurs.
-func (dq *DictionaryQuery) FirstIDX(ctx context.Context) string {
-	id, err := dq.FirstID(ctx)
+func (_q *DictionaryQuery) FirstIDX(ctx context.Context) string {
+	id, err := _q.FirstID(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
 	}
@@ -106,8 +106,8 @@ func (dq *DictionaryQuery) FirstIDX(ctx context.Context) string {
 // Only returns a single Dictionary entity found by the query, ensuring it only returns one.
 // Returns a *NotSingularError when more than one Dictionary entity is found.
 // Returns a *NotFoundError when no Dictionary entities are found.
-func (dq *DictionaryQuery) Only(ctx context.Context) (*Dictionary, error) {
-	nodes, err := dq.Limit(2).All(setContextOp(ctx, dq.ctx, ent.OpQueryOnly))
+func (_q *DictionaryQuery) Only(ctx context.Context) (*Dictionary, error) {
+	nodes, err := _q.Limit(2).All(setContextOp(ctx, _q.ctx, ent.OpQueryOnly))
 	if err != nil {
 		return nil, err
 	}
@@ -122,8 +122,8 @@ func (dq *DictionaryQuery) Only(ctx context.Context) (*Dictionary, error) {
 }
 
 // OnlyX is like Only, but panics if an error occurs.
-func (dq *DictionaryQuery) OnlyX(ctx context.Context) *Dictionary {
-	node, err := dq.Only(ctx)
+func (_q *DictionaryQuery) OnlyX(ctx context.Context) *Dictionary {
+	node, err := _q.Only(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -133,9 +133,9 @@ func (dq *DictionaryQuery) OnlyX(ctx context.Context) *Dictionary {
 // OnlyID is like Only, but returns the only Dictionary ID in the query.
 // Returns a *NotSingularError when more than one Dictionary ID is found.
 // Returns a *NotFoundError when no entities are found.
-func (dq *DictionaryQuery) OnlyID(ctx context.Context) (id string, err error) {
+func (_q *DictionaryQuery) OnlyID(ctx context.Context) (id string, err error) {
 	var ids []string
-	if ids, err = dq.Limit(2).IDs(setContextOp(ctx, dq.ctx, ent.OpQueryOnlyID)); err != nil {
+	if ids, err = _q.Limit(2).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryOnlyID)); err != nil {
 		return
 	}
 	switch len(ids) {
@@ -150,8 +150,8 @@ func (dq *DictionaryQuery) OnlyID(ctx context.Context) (id string, err error) {
 }
 
 // OnlyIDX is like OnlyID, but panics if an error occurs.
-func (dq *DictionaryQuery) OnlyIDX(ctx context.Context) string {
-	id, err := dq.OnlyID(ctx)
+func (_q *DictionaryQuery) OnlyIDX(ctx context.Context) string {
+	id, err := _q.OnlyID(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -159,18 +159,18 @@ func (dq *DictionaryQuery) OnlyIDX(ctx context.Context) string {
 }
 
 // All executes the query and returns a list of Dictionaries.
-func (dq *DictionaryQuery) All(ctx context.Context) ([]*Dictionary, error) {
-	ctx = setContextOp(ctx, dq.ctx, ent.OpQueryAll)
-	if err := dq.prepareQuery(ctx); err != nil {
+func (_q *DictionaryQuery) All(ctx context.Context) ([]*Dictionary, error) {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryAll)
+	if err := _q.prepareQuery(ctx); err != nil {
 		return nil, err
 	}
 	qr := querierAll[[]*Dictionary, *DictionaryQuery]()
-	return withInterceptors[[]*Dictionary](ctx, dq, qr, dq.inters)
+	return withInterceptors[[]*Dictionary](ctx, _q, qr, _q.inters)
 }
 
 // AllX is like All, but panics if an error occurs.
-func (dq *DictionaryQuery) AllX(ctx context.Context) []*Dictionary {
-	nodes, err := dq.All(ctx)
+func (_q *DictionaryQuery) AllX(ctx context.Context) []*Dictionary {
+	nodes, err := _q.All(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -178,20 +178,20 @@ func (dq *DictionaryQuery) AllX(ctx context.Context) []*Dictionary {
 }
 
 // IDs executes the query and returns a list of Dictionary IDs.
-func (dq *DictionaryQuery) IDs(ctx context.Context) (ids []string, err error) {
-	if dq.ctx.Unique == nil && dq.path != nil {
-		dq.Unique(true)
+func (_q *DictionaryQuery) IDs(ctx context.Context) (ids []string, err error) {
+	if _q.ctx.Unique == nil && _q.path != nil {
+		_q.Unique(true)
 	}
-	ctx = setContextOp(ctx, dq.ctx, ent.OpQueryIDs)
-	if err = dq.Select(dictionary.FieldID).Scan(ctx, &ids); err != nil {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryIDs)
+	if err = _q.Select(dictionary.FieldID).Scan(ctx, &ids); err != nil {
 		return nil, err
 	}
 	return ids, nil
 }
 
 // IDsX is like IDs, but panics if an error occurs.
-func (dq *DictionaryQuery) IDsX(ctx context.Context) []string {
-	ids, err := dq.IDs(ctx)
+func (_q *DictionaryQuery) IDsX(ctx context.Context) []string {
+	ids, err := _q.IDs(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -199,17 +199,17 @@ func (dq *DictionaryQuery) IDsX(ctx context.Context) []string {
 }
 
 // Count returns the count of the given query.
-func (dq *DictionaryQuery) Count(ctx context.Context) (int, error) {
-	ctx = setContextOp(ctx, dq.ctx, ent.OpQueryCount)
-	if err := dq.prepareQuery(ctx); err != nil {
+func (_q *DictionaryQuery) Count(ctx context.Context) (int, error) {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryCount)
+	if err := _q.prepareQuery(ctx); err != nil {
 		return 0, err
 	}
-	return withInterceptors[int](ctx, dq, querierCount[*DictionaryQuery](), dq.inters)
+	return withInterceptors[int](ctx, _q, querierCount[*DictionaryQuery](), _q.inters)
 }
 
 // CountX is like Count, but panics if an error occurs.
-func (dq *DictionaryQuery) CountX(ctx context.Context) int {
-	count, err := dq.Count(ctx)
+func (_q *DictionaryQuery) CountX(ctx context.Context) int {
+	count, err := _q.Count(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -217,9 +217,9 @@ func (dq *DictionaryQuery) CountX(ctx context.Context) int {
 }
 
 // Exist returns true if the query has elements in the graph.
-func (dq *DictionaryQuery) Exist(ctx context.Context) (bool, error) {
-	ctx = setContextOp(ctx, dq.ctx, ent.OpQueryExist)
-	switch _, err := dq.FirstID(ctx); {
+func (_q *DictionaryQuery) Exist(ctx context.Context) (bool, error) {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryExist)
+	switch _, err := _q.FirstID(ctx); {
 	case IsNotFound(err):
 		return false, nil
 	case err != nil:
@@ -230,8 +230,8 @@ func (dq *DictionaryQuery) Exist(ctx context.Context) (bool, error) {
 }
 
 // ExistX is like Exist, but panics if an error occurs.
-func (dq *DictionaryQuery) ExistX(ctx context.Context) bool {
-	exist, err := dq.Exist(ctx)
+func (_q *DictionaryQuery) ExistX(ctx context.Context) bool {
+	exist, err := _q.Exist(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -240,19 +240,19 @@ func (dq *DictionaryQuery) ExistX(ctx context.Context) bool {
 
 // Clone returns a duplicate of the DictionaryQuery builder, including all associated steps. It can be
 // used to prepare common query builders and use them differently after the clone is made.
-func (dq *DictionaryQuery) Clone() *DictionaryQuery {
-	if dq == nil {
+func (_q *DictionaryQuery) Clone() *DictionaryQuery {
+	if _q == nil {
 		return nil
 	}
 	return &DictionaryQuery{
-		config:     dq.config,
-		ctx:        dq.ctx.Clone(),
-		order:      append([]dictionary.OrderOption{}, dq.order...),
-		inters:     append([]Interceptor{}, dq.inters...),
-		predicates: append([]predicate.Dictionary{}, dq.predicates...),
+		config:     _q.config,
+		ctx:        _q.ctx.Clone(),
+		order:      append([]dictionary.OrderOption{}, _q.order...),
+		inters:     append([]Interceptor{}, _q.inters...),
+		predicates: append([]predicate.Dictionary{}, _q.predicates...),
 		// clone intermediate query.
-		sql:  dq.sql.Clone(),
-		path: dq.path,
+		sql:  _q.sql.Clone(),
+		path: _q.path,
 	}
 }
 
@@ -270,10 +270,10 @@ func (dq *DictionaryQuery) Clone() *DictionaryQuery {
 //		GroupBy(dictionary.FieldName).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
-func (dq *DictionaryQuery) GroupBy(field string, fields ...string) *DictionaryGroupBy {
-	dq.ctx.Fields = append([]string{field}, fields...)
-	grbuild := &DictionaryGroupBy{build: dq}
-	grbuild.flds = &dq.ctx.Fields
+func (_q *DictionaryQuery) GroupBy(field string, fields ...string) *DictionaryGroupBy {
+	_q.ctx.Fields = append([]string{field}, fields...)
+	grbuild := &DictionaryGroupBy{build: _q}
+	grbuild.flds = &_q.ctx.Fields
 	grbuild.label = dictionary.Label
 	grbuild.scan = grbuild.Scan
 	return grbuild
@@ -291,62 +291,62 @@ func (dq *DictionaryQuery) GroupBy(field string, fields ...string) *DictionaryGr
 //	client.Dictionary.Query().
 //		Select(dictionary.FieldName).
 //		Scan(ctx, &v)
-func (dq *DictionaryQuery) Select(fields ...string) *DictionarySelect {
-	dq.ctx.Fields = append(dq.ctx.Fields, fields...)
-	sbuild := &DictionarySelect{DictionaryQuery: dq}
+func (_q *DictionaryQuery) Select(fields ...string) *DictionarySelect {
+	_q.ctx.Fields = append(_q.ctx.Fields, fields...)
+	sbuild := &DictionarySelect{DictionaryQuery: _q}
 	sbuild.label = dictionary.Label
-	sbuild.flds, sbuild.scan = &dq.ctx.Fields, sbuild.Scan
+	sbuild.flds, sbuild.scan = &_q.ctx.Fields, sbuild.Scan
 	return sbuild
 }
 
 // Aggregate returns a DictionarySelect configured with the given aggregations.
-func (dq *DictionaryQuery) Aggregate(fns ...AggregateFunc) *DictionarySelect {
-	return dq.Select().Aggregate(fns...)
+func (_q *DictionaryQuery) Aggregate(fns ...AggregateFunc) *DictionarySelect {
+	return _q.Select().Aggregate(fns...)
 }
 
-func (dq *DictionaryQuery) prepareQuery(ctx context.Context) error {
-	for _, inter := range dq.inters {
+func (_q *DictionaryQuery) prepareQuery(ctx context.Context) error {
+	for _, inter := range _q.inters {
 		if inter == nil {
 			return fmt.Errorf("ent: uninitialized interceptor (forgotten import ent/runtime?)")
 		}
 		if trv, ok := inter.(Traverser); ok {
-			if err := trv.Traverse(ctx, dq); err != nil {
+			if err := trv.Traverse(ctx, _q); err != nil {
 				return err
 			}
 		}
 	}
-	for _, f := range dq.ctx.Fields {
+	for _, f := range _q.ctx.Fields {
 		if !dictionary.ValidColumn(f) {
 			return &ValidationError{Name: f, err: fmt.Errorf("ent: invalid field %q for query", f)}
 		}
 	}
-	if dq.path != nil {
-		prev, err := dq.path(ctx)
+	if _q.path != nil {
+		prev, err := _q.path(ctx)
 		if err != nil {
 			return err
 		}
-		dq.sql = prev
+		_q.sql = prev
 	}
 	return nil
 }
 
-func (dq *DictionaryQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*Dictionary, error) {
+func (_q *DictionaryQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*Dictionary, error) {
 	var (
 		nodes = []*Dictionary{}
-		_spec = dq.querySpec()
+		_spec = _q.querySpec()
 	)
 	_spec.ScanValues = func(columns []string) ([]any, error) {
 		return (*Dictionary).scanValues(nil, columns)
 	}
 	_spec.Assign = func(columns []string, values []any) error {
-		node := &Dictionary{config: dq.config}
+		node := &Dictionary{config: _q.config}
 		nodes = append(nodes, node)
 		return node.assignValues(columns, values)
 	}
 	for i := range hooks {
 		hooks[i](ctx, _spec)
 	}
-	if err := sqlgraph.QueryNodes(ctx, dq.driver, _spec); err != nil {
+	if err := sqlgraph.QueryNodes(ctx, _q.driver, _spec); err != nil {
 		return nil, err
 	}
 	if len(nodes) == 0 {
@@ -355,24 +355,24 @@ func (dq *DictionaryQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*D
 	return nodes, nil
 }
 
-func (dq *DictionaryQuery) sqlCount(ctx context.Context) (int, error) {
-	_spec := dq.querySpec()
-	_spec.Node.Columns = dq.ctx.Fields
-	if len(dq.ctx.Fields) > 0 {
-		_spec.Unique = dq.ctx.Unique != nil && *dq.ctx.Unique
+func (_q *DictionaryQuery) sqlCount(ctx context.Context) (int, error) {
+	_spec := _q.querySpec()
+	_spec.Node.Columns = _q.ctx.Fields
+	if len(_q.ctx.Fields) > 0 {
+		_spec.Unique = _q.ctx.Unique != nil && *_q.ctx.Unique
 	}
-	return sqlgraph.CountNodes(ctx, dq.driver, _spec)
+	return sqlgraph.CountNodes(ctx, _q.driver, _spec)
 }
 
-func (dq *DictionaryQuery) querySpec() *sqlgraph.QuerySpec {
+func (_q *DictionaryQuery) querySpec() *sqlgraph.QuerySpec {
 	_spec := sqlgraph.NewQuerySpec(dictionary.Table, dictionary.Columns, sqlgraph.NewFieldSpec(dictionary.FieldID, field.TypeString))
-	_spec.From = dq.sql
-	if unique := dq.ctx.Unique; unique != nil {
+	_spec.From = _q.sql
+	if unique := _q.ctx.Unique; unique != nil {
 		_spec.Unique = *unique
-	} else if dq.path != nil {
+	} else if _q.path != nil {
 		_spec.Unique = true
 	}
-	if fields := dq.ctx.Fields; len(fields) > 0 {
+	if fields := _q.ctx.Fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, dictionary.FieldID)
 		for i := range fields {
@@ -381,20 +381,20 @@ func (dq *DictionaryQuery) querySpec() *sqlgraph.QuerySpec {
 			}
 		}
 	}
-	if ps := dq.predicates; len(ps) > 0 {
+	if ps := _q.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if limit := dq.ctx.Limit; limit != nil {
+	if limit := _q.ctx.Limit; limit != nil {
 		_spec.Limit = *limit
 	}
-	if offset := dq.ctx.Offset; offset != nil {
+	if offset := _q.ctx.Offset; offset != nil {
 		_spec.Offset = *offset
 	}
-	if ps := dq.order; len(ps) > 0 {
+	if ps := _q.order; len(ps) > 0 {
 		_spec.Order = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
@@ -404,33 +404,33 @@ func (dq *DictionaryQuery) querySpec() *sqlgraph.QuerySpec {
 	return _spec
 }
 
-func (dq *DictionaryQuery) sqlQuery(ctx context.Context) *sql.Selector {
-	builder := sql.Dialect(dq.driver.Dialect())
+func (_q *DictionaryQuery) sqlQuery(ctx context.Context) *sql.Selector {
+	builder := sql.Dialect(_q.driver.Dialect())
 	t1 := builder.Table(dictionary.Table)
-	columns := dq.ctx.Fields
+	columns := _q.ctx.Fields
 	if len(columns) == 0 {
 		columns = dictionary.Columns
 	}
 	selector := builder.Select(t1.Columns(columns...)...).From(t1)
-	if dq.sql != nil {
-		selector = dq.sql
+	if _q.sql != nil {
+		selector = _q.sql
 		selector.Select(selector.Columns(columns...)...)
 	}
-	if dq.ctx.Unique != nil && *dq.ctx.Unique {
+	if _q.ctx.Unique != nil && *_q.ctx.Unique {
 		selector.Distinct()
 	}
-	for _, p := range dq.predicates {
+	for _, p := range _q.predicates {
 		p(selector)
 	}
-	for _, p := range dq.order {
+	for _, p := range _q.order {
 		p(selector)
 	}
-	if offset := dq.ctx.Offset; offset != nil {
+	if offset := _q.ctx.Offset; offset != nil {
 		// limit is mandatory for offset clause. We start
 		// with default value, and override it below if needed.
 		selector.Offset(*offset).Limit(math.MaxInt32)
 	}
-	if limit := dq.ctx.Limit; limit != nil {
+	if limit := _q.ctx.Limit; limit != nil {
 		selector.Limit(*limit)
 	}
 	return selector
@@ -443,41 +443,41 @@ type DictionaryGroupBy struct {
 }
 
 // Aggregate adds the given aggregation functions to the group-by query.
-func (dgb *DictionaryGroupBy) Aggregate(fns ...AggregateFunc) *DictionaryGroupBy {
-	dgb.fns = append(dgb.fns, fns...)
-	return dgb
+func (_g *DictionaryGroupBy) Aggregate(fns ...AggregateFunc) *DictionaryGroupBy {
+	_g.fns = append(_g.fns, fns...)
+	return _g
 }
 
 // Scan applies the selector query and scans the result into the given value.
-func (dgb *DictionaryGroupBy) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, dgb.build.ctx, ent.OpQueryGroupBy)
-	if err := dgb.build.prepareQuery(ctx); err != nil {
+func (_g *DictionaryGroupBy) Scan(ctx context.Context, v any) error {
+	ctx = setContextOp(ctx, _g.build.ctx, ent.OpQueryGroupBy)
+	if err := _g.build.prepareQuery(ctx); err != nil {
 		return err
 	}
-	return scanWithInterceptors[*DictionaryQuery, *DictionaryGroupBy](ctx, dgb.build, dgb, dgb.build.inters, v)
+	return scanWithInterceptors[*DictionaryQuery, *DictionaryGroupBy](ctx, _g.build, _g, _g.build.inters, v)
 }
 
-func (dgb *DictionaryGroupBy) sqlScan(ctx context.Context, root *DictionaryQuery, v any) error {
+func (_g *DictionaryGroupBy) sqlScan(ctx context.Context, root *DictionaryQuery, v any) error {
 	selector := root.sqlQuery(ctx).Select()
-	aggregation := make([]string, 0, len(dgb.fns))
-	for _, fn := range dgb.fns {
+	aggregation := make([]string, 0, len(_g.fns))
+	for _, fn := range _g.fns {
 		aggregation = append(aggregation, fn(selector))
 	}
 	if len(selector.SelectedColumns()) == 0 {
-		columns := make([]string, 0, len(*dgb.flds)+len(dgb.fns))
-		for _, f := range *dgb.flds {
+		columns := make([]string, 0, len(*_g.flds)+len(_g.fns))
+		for _, f := range *_g.flds {
 			columns = append(columns, selector.C(f))
 		}
 		columns = append(columns, aggregation...)
 		selector.Select(columns...)
 	}
-	selector.GroupBy(selector.Columns(*dgb.flds...)...)
+	selector.GroupBy(selector.Columns(*_g.flds...)...)
 	if err := selector.Err(); err != nil {
 		return err
 	}
 	rows := &sql.Rows{}
 	query, args := selector.Query()
-	if err := dgb.build.driver.Query(ctx, query, args, rows); err != nil {
+	if err := _g.build.driver.Query(ctx, query, args, rows); err != nil {
 		return err
 	}
 	defer rows.Close()
@@ -491,27 +491,27 @@ type DictionarySelect struct {
 }
 
 // Aggregate adds the given aggregation functions to the selector query.
-func (ds *DictionarySelect) Aggregate(fns ...AggregateFunc) *DictionarySelect {
-	ds.fns = append(ds.fns, fns...)
-	return ds
+func (_s *DictionarySelect) Aggregate(fns ...AggregateFunc) *DictionarySelect {
+	_s.fns = append(_s.fns, fns...)
+	return _s
 }
 
 // Scan applies the selector query and scans the result into the given value.
-func (ds *DictionarySelect) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, ds.ctx, ent.OpQuerySelect)
-	if err := ds.prepareQuery(ctx); err != nil {
+func (_s *DictionarySelect) Scan(ctx context.Context, v any) error {
+	ctx = setContextOp(ctx, _s.ctx, ent.OpQuerySelect)
+	if err := _s.prepareQuery(ctx); err != nil {
 		return err
 	}
-	return scanWithInterceptors[*DictionaryQuery, *DictionarySelect](ctx, ds.DictionaryQuery, ds, ds.inters, v)
+	return scanWithInterceptors[*DictionaryQuery, *DictionarySelect](ctx, _s.DictionaryQuery, _s, _s.inters, v)
 }
 
-func (ds *DictionarySelect) sqlScan(ctx context.Context, root *DictionaryQuery, v any) error {
+func (_s *DictionarySelect) sqlScan(ctx context.Context, root *DictionaryQuery, v any) error {
 	selector := root.sqlQuery(ctx)
-	aggregation := make([]string, 0, len(ds.fns))
-	for _, fn := range ds.fns {
+	aggregation := make([]string, 0, len(_s.fns))
+	for _, fn := range _s.fns {
 		aggregation = append(aggregation, fn(selector))
 	}
-	switch n := len(*ds.selector.flds); {
+	switch n := len(*_s.selector.flds); {
 	case n == 0 && len(aggregation) > 0:
 		selector.Select(aggregation...)
 	case n != 0 && len(aggregation) > 0:
@@ -519,7 +519,7 @@ func (ds *DictionarySelect) sqlScan(ctx context.Context, root *DictionaryQuery, 
 	}
 	rows := &sql.Rows{}
 	query, args := selector.Query()
-	if err := ds.driver.Query(ctx, query, args, rows); err != nil {
+	if err := _s.driver.Query(ctx, query, args, rows); err != nil {
 		return err
 	}
 	defer rows.Close()

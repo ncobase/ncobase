@@ -22,118 +22,118 @@ type OAuthUserUpdate struct {
 }
 
 // Where appends a list predicates to the OAuthUserUpdate builder.
-func (ouu *OAuthUserUpdate) Where(ps ...predicate.OAuthUser) *OAuthUserUpdate {
-	ouu.mutation.Where(ps...)
-	return ouu
+func (_u *OAuthUserUpdate) Where(ps ...predicate.OAuthUser) *OAuthUserUpdate {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // SetOauthID sets the "oauth_id" field.
-func (ouu *OAuthUserUpdate) SetOauthID(s string) *OAuthUserUpdate {
-	ouu.mutation.SetOauthID(s)
-	return ouu
+func (_u *OAuthUserUpdate) SetOauthID(v string) *OAuthUserUpdate {
+	_u.mutation.SetOauthID(v)
+	return _u
 }
 
 // SetNillableOauthID sets the "oauth_id" field if the given value is not nil.
-func (ouu *OAuthUserUpdate) SetNillableOauthID(s *string) *OAuthUserUpdate {
-	if s != nil {
-		ouu.SetOauthID(*s)
+func (_u *OAuthUserUpdate) SetNillableOauthID(v *string) *OAuthUserUpdate {
+	if v != nil {
+		_u.SetOauthID(*v)
 	}
-	return ouu
+	return _u
 }
 
 // ClearOauthID clears the value of the "oauth_id" field.
-func (ouu *OAuthUserUpdate) ClearOauthID() *OAuthUserUpdate {
-	ouu.mutation.ClearOauthID()
-	return ouu
+func (_u *OAuthUserUpdate) ClearOauthID() *OAuthUserUpdate {
+	_u.mutation.ClearOauthID()
+	return _u
 }
 
 // SetAccessToken sets the "access_token" field.
-func (ouu *OAuthUserUpdate) SetAccessToken(s string) *OAuthUserUpdate {
-	ouu.mutation.SetAccessToken(s)
-	return ouu
+func (_u *OAuthUserUpdate) SetAccessToken(v string) *OAuthUserUpdate {
+	_u.mutation.SetAccessToken(v)
+	return _u
 }
 
 // SetNillableAccessToken sets the "access_token" field if the given value is not nil.
-func (ouu *OAuthUserUpdate) SetNillableAccessToken(s *string) *OAuthUserUpdate {
-	if s != nil {
-		ouu.SetAccessToken(*s)
+func (_u *OAuthUserUpdate) SetNillableAccessToken(v *string) *OAuthUserUpdate {
+	if v != nil {
+		_u.SetAccessToken(*v)
 	}
-	return ouu
+	return _u
 }
 
 // SetProvider sets the "provider" field.
-func (ouu *OAuthUserUpdate) SetProvider(s string) *OAuthUserUpdate {
-	ouu.mutation.SetProvider(s)
-	return ouu
+func (_u *OAuthUserUpdate) SetProvider(v string) *OAuthUserUpdate {
+	_u.mutation.SetProvider(v)
+	return _u
 }
 
 // SetNillableProvider sets the "provider" field if the given value is not nil.
-func (ouu *OAuthUserUpdate) SetNillableProvider(s *string) *OAuthUserUpdate {
-	if s != nil {
-		ouu.SetProvider(*s)
+func (_u *OAuthUserUpdate) SetNillableProvider(v *string) *OAuthUserUpdate {
+	if v != nil {
+		_u.SetProvider(*v)
 	}
-	return ouu
+	return _u
 }
 
 // ClearProvider clears the value of the "provider" field.
-func (ouu *OAuthUserUpdate) ClearProvider() *OAuthUserUpdate {
-	ouu.mutation.ClearProvider()
-	return ouu
+func (_u *OAuthUserUpdate) ClearProvider() *OAuthUserUpdate {
+	_u.mutation.ClearProvider()
+	return _u
 }
 
 // SetUserID sets the "user_id" field.
-func (ouu *OAuthUserUpdate) SetUserID(s string) *OAuthUserUpdate {
-	ouu.mutation.SetUserID(s)
-	return ouu
+func (_u *OAuthUserUpdate) SetUserID(v string) *OAuthUserUpdate {
+	_u.mutation.SetUserID(v)
+	return _u
 }
 
 // SetNillableUserID sets the "user_id" field if the given value is not nil.
-func (ouu *OAuthUserUpdate) SetNillableUserID(s *string) *OAuthUserUpdate {
-	if s != nil {
-		ouu.SetUserID(*s)
+func (_u *OAuthUserUpdate) SetNillableUserID(v *string) *OAuthUserUpdate {
+	if v != nil {
+		_u.SetUserID(*v)
 	}
-	return ouu
+	return _u
 }
 
 // ClearUserID clears the value of the "user_id" field.
-func (ouu *OAuthUserUpdate) ClearUserID() *OAuthUserUpdate {
-	ouu.mutation.ClearUserID()
-	return ouu
+func (_u *OAuthUserUpdate) ClearUserID() *OAuthUserUpdate {
+	_u.mutation.ClearUserID()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (ouu *OAuthUserUpdate) SetUpdatedAt(i int64) *OAuthUserUpdate {
-	ouu.mutation.ResetUpdatedAt()
-	ouu.mutation.SetUpdatedAt(i)
-	return ouu
+func (_u *OAuthUserUpdate) SetUpdatedAt(v int64) *OAuthUserUpdate {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (ouu *OAuthUserUpdate) AddUpdatedAt(i int64) *OAuthUserUpdate {
-	ouu.mutation.AddUpdatedAt(i)
-	return ouu
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *OAuthUserUpdate) AddUpdatedAt(v int64) *OAuthUserUpdate {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (ouu *OAuthUserUpdate) ClearUpdatedAt() *OAuthUserUpdate {
-	ouu.mutation.ClearUpdatedAt()
-	return ouu
+func (_u *OAuthUserUpdate) ClearUpdatedAt() *OAuthUserUpdate {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // Mutation returns the OAuthUserMutation object of the builder.
-func (ouu *OAuthUserUpdate) Mutation() *OAuthUserMutation {
-	return ouu.mutation
+func (_u *OAuthUserUpdate) Mutation() *OAuthUserMutation {
+	return _u.mutation
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
-func (ouu *OAuthUserUpdate) Save(ctx context.Context) (int, error) {
-	ouu.defaults()
-	return withHooks(ctx, ouu.sqlSave, ouu.mutation, ouu.hooks)
+func (_u *OAuthUserUpdate) Save(ctx context.Context) (int, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (ouu *OAuthUserUpdate) SaveX(ctx context.Context) int {
-	affected, err := ouu.Save(ctx)
+func (_u *OAuthUserUpdate) SaveX(ctx context.Context) int {
+	affected, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -141,29 +141,29 @@ func (ouu *OAuthUserUpdate) SaveX(ctx context.Context) int {
 }
 
 // Exec executes the query.
-func (ouu *OAuthUserUpdate) Exec(ctx context.Context) error {
-	_, err := ouu.Save(ctx)
+func (_u *OAuthUserUpdate) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (ouu *OAuthUserUpdate) ExecX(ctx context.Context) {
-	if err := ouu.Exec(ctx); err != nil {
+func (_u *OAuthUserUpdate) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (ouu *OAuthUserUpdate) defaults() {
-	if _, ok := ouu.mutation.UpdatedAt(); !ok && !ouu.mutation.UpdatedAtCleared() {
+func (_u *OAuthUserUpdate) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := oauthuser.UpdateDefaultUpdatedAt()
-		ouu.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (ouu *OAuthUserUpdate) check() error {
-	if v, ok := ouu.mutation.AccessToken(); ok {
+func (_u *OAuthUserUpdate) check() error {
+	if v, ok := _u.mutation.AccessToken(); ok {
 		if err := oauthuser.AccessTokenValidator(v); err != nil {
 			return &ValidationError{Name: "access_token", err: fmt.Errorf(`ent: validator failed for field "OAuthUser.access_token": %w`, err)}
 		}
@@ -171,52 +171,52 @@ func (ouu *OAuthUserUpdate) check() error {
 	return nil
 }
 
-func (ouu *OAuthUserUpdate) sqlSave(ctx context.Context) (n int, err error) {
-	if err := ouu.check(); err != nil {
-		return n, err
+func (_u *OAuthUserUpdate) sqlSave(ctx context.Context) (_node int, err error) {
+	if err := _u.check(); err != nil {
+		return _node, err
 	}
 	_spec := sqlgraph.NewUpdateSpec(oauthuser.Table, oauthuser.Columns, sqlgraph.NewFieldSpec(oauthuser.FieldID, field.TypeString))
-	if ps := ouu.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := ouu.mutation.OauthID(); ok {
+	if value, ok := _u.mutation.OauthID(); ok {
 		_spec.SetField(oauthuser.FieldOauthID, field.TypeString, value)
 	}
-	if ouu.mutation.OauthIDCleared() {
+	if _u.mutation.OauthIDCleared() {
 		_spec.ClearField(oauthuser.FieldOauthID, field.TypeString)
 	}
-	if value, ok := ouu.mutation.AccessToken(); ok {
+	if value, ok := _u.mutation.AccessToken(); ok {
 		_spec.SetField(oauthuser.FieldAccessToken, field.TypeString, value)
 	}
-	if value, ok := ouu.mutation.Provider(); ok {
+	if value, ok := _u.mutation.Provider(); ok {
 		_spec.SetField(oauthuser.FieldProvider, field.TypeString, value)
 	}
-	if ouu.mutation.ProviderCleared() {
+	if _u.mutation.ProviderCleared() {
 		_spec.ClearField(oauthuser.FieldProvider, field.TypeString)
 	}
-	if value, ok := ouu.mutation.UserID(); ok {
+	if value, ok := _u.mutation.UserID(); ok {
 		_spec.SetField(oauthuser.FieldUserID, field.TypeString, value)
 	}
-	if ouu.mutation.UserIDCleared() {
+	if _u.mutation.UserIDCleared() {
 		_spec.ClearField(oauthuser.FieldUserID, field.TypeString)
 	}
-	if ouu.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(oauthuser.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := ouu.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(oauthuser.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := ouu.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(oauthuser.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if ouu.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(oauthuser.FieldUpdatedAt, field.TypeInt64)
 	}
-	if n, err = sqlgraph.UpdateNodes(ctx, ouu.driver, _spec); err != nil {
+	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{oauthuser.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -224,8 +224,8 @@ func (ouu *OAuthUserUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		return 0, err
 	}
-	ouu.mutation.done = true
-	return n, nil
+	_u.mutation.done = true
+	return _node, nil
 }
 
 // OAuthUserUpdateOne is the builder for updating a single OAuthUser entity.
@@ -237,125 +237,125 @@ type OAuthUserUpdateOne struct {
 }
 
 // SetOauthID sets the "oauth_id" field.
-func (ouuo *OAuthUserUpdateOne) SetOauthID(s string) *OAuthUserUpdateOne {
-	ouuo.mutation.SetOauthID(s)
-	return ouuo
+func (_u *OAuthUserUpdateOne) SetOauthID(v string) *OAuthUserUpdateOne {
+	_u.mutation.SetOauthID(v)
+	return _u
 }
 
 // SetNillableOauthID sets the "oauth_id" field if the given value is not nil.
-func (ouuo *OAuthUserUpdateOne) SetNillableOauthID(s *string) *OAuthUserUpdateOne {
-	if s != nil {
-		ouuo.SetOauthID(*s)
+func (_u *OAuthUserUpdateOne) SetNillableOauthID(v *string) *OAuthUserUpdateOne {
+	if v != nil {
+		_u.SetOauthID(*v)
 	}
-	return ouuo
+	return _u
 }
 
 // ClearOauthID clears the value of the "oauth_id" field.
-func (ouuo *OAuthUserUpdateOne) ClearOauthID() *OAuthUserUpdateOne {
-	ouuo.mutation.ClearOauthID()
-	return ouuo
+func (_u *OAuthUserUpdateOne) ClearOauthID() *OAuthUserUpdateOne {
+	_u.mutation.ClearOauthID()
+	return _u
 }
 
 // SetAccessToken sets the "access_token" field.
-func (ouuo *OAuthUserUpdateOne) SetAccessToken(s string) *OAuthUserUpdateOne {
-	ouuo.mutation.SetAccessToken(s)
-	return ouuo
+func (_u *OAuthUserUpdateOne) SetAccessToken(v string) *OAuthUserUpdateOne {
+	_u.mutation.SetAccessToken(v)
+	return _u
 }
 
 // SetNillableAccessToken sets the "access_token" field if the given value is not nil.
-func (ouuo *OAuthUserUpdateOne) SetNillableAccessToken(s *string) *OAuthUserUpdateOne {
-	if s != nil {
-		ouuo.SetAccessToken(*s)
+func (_u *OAuthUserUpdateOne) SetNillableAccessToken(v *string) *OAuthUserUpdateOne {
+	if v != nil {
+		_u.SetAccessToken(*v)
 	}
-	return ouuo
+	return _u
 }
 
 // SetProvider sets the "provider" field.
-func (ouuo *OAuthUserUpdateOne) SetProvider(s string) *OAuthUserUpdateOne {
-	ouuo.mutation.SetProvider(s)
-	return ouuo
+func (_u *OAuthUserUpdateOne) SetProvider(v string) *OAuthUserUpdateOne {
+	_u.mutation.SetProvider(v)
+	return _u
 }
 
 // SetNillableProvider sets the "provider" field if the given value is not nil.
-func (ouuo *OAuthUserUpdateOne) SetNillableProvider(s *string) *OAuthUserUpdateOne {
-	if s != nil {
-		ouuo.SetProvider(*s)
+func (_u *OAuthUserUpdateOne) SetNillableProvider(v *string) *OAuthUserUpdateOne {
+	if v != nil {
+		_u.SetProvider(*v)
 	}
-	return ouuo
+	return _u
 }
 
 // ClearProvider clears the value of the "provider" field.
-func (ouuo *OAuthUserUpdateOne) ClearProvider() *OAuthUserUpdateOne {
-	ouuo.mutation.ClearProvider()
-	return ouuo
+func (_u *OAuthUserUpdateOne) ClearProvider() *OAuthUserUpdateOne {
+	_u.mutation.ClearProvider()
+	return _u
 }
 
 // SetUserID sets the "user_id" field.
-func (ouuo *OAuthUserUpdateOne) SetUserID(s string) *OAuthUserUpdateOne {
-	ouuo.mutation.SetUserID(s)
-	return ouuo
+func (_u *OAuthUserUpdateOne) SetUserID(v string) *OAuthUserUpdateOne {
+	_u.mutation.SetUserID(v)
+	return _u
 }
 
 // SetNillableUserID sets the "user_id" field if the given value is not nil.
-func (ouuo *OAuthUserUpdateOne) SetNillableUserID(s *string) *OAuthUserUpdateOne {
-	if s != nil {
-		ouuo.SetUserID(*s)
+func (_u *OAuthUserUpdateOne) SetNillableUserID(v *string) *OAuthUserUpdateOne {
+	if v != nil {
+		_u.SetUserID(*v)
 	}
-	return ouuo
+	return _u
 }
 
 // ClearUserID clears the value of the "user_id" field.
-func (ouuo *OAuthUserUpdateOne) ClearUserID() *OAuthUserUpdateOne {
-	ouuo.mutation.ClearUserID()
-	return ouuo
+func (_u *OAuthUserUpdateOne) ClearUserID() *OAuthUserUpdateOne {
+	_u.mutation.ClearUserID()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (ouuo *OAuthUserUpdateOne) SetUpdatedAt(i int64) *OAuthUserUpdateOne {
-	ouuo.mutation.ResetUpdatedAt()
-	ouuo.mutation.SetUpdatedAt(i)
-	return ouuo
+func (_u *OAuthUserUpdateOne) SetUpdatedAt(v int64) *OAuthUserUpdateOne {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (ouuo *OAuthUserUpdateOne) AddUpdatedAt(i int64) *OAuthUserUpdateOne {
-	ouuo.mutation.AddUpdatedAt(i)
-	return ouuo
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *OAuthUserUpdateOne) AddUpdatedAt(v int64) *OAuthUserUpdateOne {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (ouuo *OAuthUserUpdateOne) ClearUpdatedAt() *OAuthUserUpdateOne {
-	ouuo.mutation.ClearUpdatedAt()
-	return ouuo
+func (_u *OAuthUserUpdateOne) ClearUpdatedAt() *OAuthUserUpdateOne {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // Mutation returns the OAuthUserMutation object of the builder.
-func (ouuo *OAuthUserUpdateOne) Mutation() *OAuthUserMutation {
-	return ouuo.mutation
+func (_u *OAuthUserUpdateOne) Mutation() *OAuthUserMutation {
+	return _u.mutation
 }
 
 // Where appends a list predicates to the OAuthUserUpdate builder.
-func (ouuo *OAuthUserUpdateOne) Where(ps ...predicate.OAuthUser) *OAuthUserUpdateOne {
-	ouuo.mutation.Where(ps...)
-	return ouuo
+func (_u *OAuthUserUpdateOne) Where(ps ...predicate.OAuthUser) *OAuthUserUpdateOne {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // Select allows selecting one or more fields (columns) of the returned entity.
 // The default is selecting all fields defined in the entity schema.
-func (ouuo *OAuthUserUpdateOne) Select(field string, fields ...string) *OAuthUserUpdateOne {
-	ouuo.fields = append([]string{field}, fields...)
-	return ouuo
+func (_u *OAuthUserUpdateOne) Select(field string, fields ...string) *OAuthUserUpdateOne {
+	_u.fields = append([]string{field}, fields...)
+	return _u
 }
 
 // Save executes the query and returns the updated OAuthUser entity.
-func (ouuo *OAuthUserUpdateOne) Save(ctx context.Context) (*OAuthUser, error) {
-	ouuo.defaults()
-	return withHooks(ctx, ouuo.sqlSave, ouuo.mutation, ouuo.hooks)
+func (_u *OAuthUserUpdateOne) Save(ctx context.Context) (*OAuthUser, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (ouuo *OAuthUserUpdateOne) SaveX(ctx context.Context) *OAuthUser {
-	node, err := ouuo.Save(ctx)
+func (_u *OAuthUserUpdateOne) SaveX(ctx context.Context) *OAuthUser {
+	node, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -363,29 +363,29 @@ func (ouuo *OAuthUserUpdateOne) SaveX(ctx context.Context) *OAuthUser {
 }
 
 // Exec executes the query on the entity.
-func (ouuo *OAuthUserUpdateOne) Exec(ctx context.Context) error {
-	_, err := ouuo.Save(ctx)
+func (_u *OAuthUserUpdateOne) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (ouuo *OAuthUserUpdateOne) ExecX(ctx context.Context) {
-	if err := ouuo.Exec(ctx); err != nil {
+func (_u *OAuthUserUpdateOne) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (ouuo *OAuthUserUpdateOne) defaults() {
-	if _, ok := ouuo.mutation.UpdatedAt(); !ok && !ouuo.mutation.UpdatedAtCleared() {
+func (_u *OAuthUserUpdateOne) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := oauthuser.UpdateDefaultUpdatedAt()
-		ouuo.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (ouuo *OAuthUserUpdateOne) check() error {
-	if v, ok := ouuo.mutation.AccessToken(); ok {
+func (_u *OAuthUserUpdateOne) check() error {
+	if v, ok := _u.mutation.AccessToken(); ok {
 		if err := oauthuser.AccessTokenValidator(v); err != nil {
 			return &ValidationError{Name: "access_token", err: fmt.Errorf(`ent: validator failed for field "OAuthUser.access_token": %w`, err)}
 		}
@@ -393,17 +393,17 @@ func (ouuo *OAuthUserUpdateOne) check() error {
 	return nil
 }
 
-func (ouuo *OAuthUserUpdateOne) sqlSave(ctx context.Context) (_node *OAuthUser, err error) {
-	if err := ouuo.check(); err != nil {
+func (_u *OAuthUserUpdateOne) sqlSave(ctx context.Context) (_node *OAuthUser, err error) {
+	if err := _u.check(); err != nil {
 		return _node, err
 	}
 	_spec := sqlgraph.NewUpdateSpec(oauthuser.Table, oauthuser.Columns, sqlgraph.NewFieldSpec(oauthuser.FieldID, field.TypeString))
-	id, ok := ouuo.mutation.ID()
+	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "OAuthUser.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
-	if fields := ouuo.fields; len(fields) > 0 {
+	if fields := _u.fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, oauthuser.FieldID)
 		for _, f := range fields {
@@ -415,50 +415,50 @@ func (ouuo *OAuthUserUpdateOne) sqlSave(ctx context.Context) (_node *OAuthUser, 
 			}
 		}
 	}
-	if ps := ouuo.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := ouuo.mutation.OauthID(); ok {
+	if value, ok := _u.mutation.OauthID(); ok {
 		_spec.SetField(oauthuser.FieldOauthID, field.TypeString, value)
 	}
-	if ouuo.mutation.OauthIDCleared() {
+	if _u.mutation.OauthIDCleared() {
 		_spec.ClearField(oauthuser.FieldOauthID, field.TypeString)
 	}
-	if value, ok := ouuo.mutation.AccessToken(); ok {
+	if value, ok := _u.mutation.AccessToken(); ok {
 		_spec.SetField(oauthuser.FieldAccessToken, field.TypeString, value)
 	}
-	if value, ok := ouuo.mutation.Provider(); ok {
+	if value, ok := _u.mutation.Provider(); ok {
 		_spec.SetField(oauthuser.FieldProvider, field.TypeString, value)
 	}
-	if ouuo.mutation.ProviderCleared() {
+	if _u.mutation.ProviderCleared() {
 		_spec.ClearField(oauthuser.FieldProvider, field.TypeString)
 	}
-	if value, ok := ouuo.mutation.UserID(); ok {
+	if value, ok := _u.mutation.UserID(); ok {
 		_spec.SetField(oauthuser.FieldUserID, field.TypeString, value)
 	}
-	if ouuo.mutation.UserIDCleared() {
+	if _u.mutation.UserIDCleared() {
 		_spec.ClearField(oauthuser.FieldUserID, field.TypeString)
 	}
-	if ouuo.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(oauthuser.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := ouuo.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(oauthuser.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := ouuo.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(oauthuser.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if ouuo.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(oauthuser.FieldUpdatedAt, field.TypeInt64)
 	}
-	_node = &OAuthUser{config: ouuo.config}
+	_node = &OAuthUser{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues
-	if err = sqlgraph.UpdateNode(ctx, ouuo.driver, _spec); err != nil {
+	if err = sqlgraph.UpdateNode(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{oauthuser.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -466,6 +466,6 @@ func (ouuo *OAuthUserUpdateOne) sqlSave(ctx context.Context) (_node *OAuthUser, 
 		}
 		return nil, err
 	}
-	ouuo.mutation.done = true
+	_u.mutation.done = true
 	return _node, nil
 }

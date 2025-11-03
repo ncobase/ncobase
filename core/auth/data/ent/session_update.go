@@ -22,238 +22,238 @@ type SessionUpdate struct {
 }
 
 // Where appends a list predicates to the SessionUpdate builder.
-func (su *SessionUpdate) Where(ps ...predicate.Session) *SessionUpdate {
-	su.mutation.Where(ps...)
-	return su
+func (_u *SessionUpdate) Where(ps ...predicate.Session) *SessionUpdate {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // SetUserID sets the "user_id" field.
-func (su *SessionUpdate) SetUserID(s string) *SessionUpdate {
-	su.mutation.SetUserID(s)
-	return su
+func (_u *SessionUpdate) SetUserID(v string) *SessionUpdate {
+	_u.mutation.SetUserID(v)
+	return _u
 }
 
 // SetNillableUserID sets the "user_id" field if the given value is not nil.
-func (su *SessionUpdate) SetNillableUserID(s *string) *SessionUpdate {
-	if s != nil {
-		su.SetUserID(*s)
+func (_u *SessionUpdate) SetNillableUserID(v *string) *SessionUpdate {
+	if v != nil {
+		_u.SetUserID(*v)
 	}
-	return su
+	return _u
 }
 
 // ClearUserID clears the value of the "user_id" field.
-func (su *SessionUpdate) ClearUserID() *SessionUpdate {
-	su.mutation.ClearUserID()
-	return su
+func (_u *SessionUpdate) ClearUserID() *SessionUpdate {
+	_u.mutation.ClearUserID()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (su *SessionUpdate) SetUpdatedAt(i int64) *SessionUpdate {
-	su.mutation.ResetUpdatedAt()
-	su.mutation.SetUpdatedAt(i)
-	return su
+func (_u *SessionUpdate) SetUpdatedAt(v int64) *SessionUpdate {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (su *SessionUpdate) AddUpdatedAt(i int64) *SessionUpdate {
-	su.mutation.AddUpdatedAt(i)
-	return su
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *SessionUpdate) AddUpdatedAt(v int64) *SessionUpdate {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (su *SessionUpdate) ClearUpdatedAt() *SessionUpdate {
-	su.mutation.ClearUpdatedAt()
-	return su
+func (_u *SessionUpdate) ClearUpdatedAt() *SessionUpdate {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // SetTokenID sets the "token_id" field.
-func (su *SessionUpdate) SetTokenID(s string) *SessionUpdate {
-	su.mutation.SetTokenID(s)
-	return su
+func (_u *SessionUpdate) SetTokenID(v string) *SessionUpdate {
+	_u.mutation.SetTokenID(v)
+	return _u
 }
 
 // SetNillableTokenID sets the "token_id" field if the given value is not nil.
-func (su *SessionUpdate) SetNillableTokenID(s *string) *SessionUpdate {
-	if s != nil {
-		su.SetTokenID(*s)
+func (_u *SessionUpdate) SetNillableTokenID(v *string) *SessionUpdate {
+	if v != nil {
+		_u.SetTokenID(*v)
 	}
-	return su
+	return _u
 }
 
 // SetDeviceInfo sets the "device_info" field.
-func (su *SessionUpdate) SetDeviceInfo(m map[string]interface{}) *SessionUpdate {
-	su.mutation.SetDeviceInfo(m)
-	return su
+func (_u *SessionUpdate) SetDeviceInfo(v map[string]interface{}) *SessionUpdate {
+	_u.mutation.SetDeviceInfo(v)
+	return _u
 }
 
 // ClearDeviceInfo clears the value of the "device_info" field.
-func (su *SessionUpdate) ClearDeviceInfo() *SessionUpdate {
-	su.mutation.ClearDeviceInfo()
-	return su
+func (_u *SessionUpdate) ClearDeviceInfo() *SessionUpdate {
+	_u.mutation.ClearDeviceInfo()
+	return _u
 }
 
 // SetIPAddress sets the "ip_address" field.
-func (su *SessionUpdate) SetIPAddress(s string) *SessionUpdate {
-	su.mutation.SetIPAddress(s)
-	return su
+func (_u *SessionUpdate) SetIPAddress(v string) *SessionUpdate {
+	_u.mutation.SetIPAddress(v)
+	return _u
 }
 
 // SetNillableIPAddress sets the "ip_address" field if the given value is not nil.
-func (su *SessionUpdate) SetNillableIPAddress(s *string) *SessionUpdate {
-	if s != nil {
-		su.SetIPAddress(*s)
+func (_u *SessionUpdate) SetNillableIPAddress(v *string) *SessionUpdate {
+	if v != nil {
+		_u.SetIPAddress(*v)
 	}
-	return su
+	return _u
 }
 
 // ClearIPAddress clears the value of the "ip_address" field.
-func (su *SessionUpdate) ClearIPAddress() *SessionUpdate {
-	su.mutation.ClearIPAddress()
-	return su
+func (_u *SessionUpdate) ClearIPAddress() *SessionUpdate {
+	_u.mutation.ClearIPAddress()
+	return _u
 }
 
 // SetUserAgent sets the "user_agent" field.
-func (su *SessionUpdate) SetUserAgent(s string) *SessionUpdate {
-	su.mutation.SetUserAgent(s)
-	return su
+func (_u *SessionUpdate) SetUserAgent(v string) *SessionUpdate {
+	_u.mutation.SetUserAgent(v)
+	return _u
 }
 
 // SetNillableUserAgent sets the "user_agent" field if the given value is not nil.
-func (su *SessionUpdate) SetNillableUserAgent(s *string) *SessionUpdate {
-	if s != nil {
-		su.SetUserAgent(*s)
+func (_u *SessionUpdate) SetNillableUserAgent(v *string) *SessionUpdate {
+	if v != nil {
+		_u.SetUserAgent(*v)
 	}
-	return su
+	return _u
 }
 
 // ClearUserAgent clears the value of the "user_agent" field.
-func (su *SessionUpdate) ClearUserAgent() *SessionUpdate {
-	su.mutation.ClearUserAgent()
-	return su
+func (_u *SessionUpdate) ClearUserAgent() *SessionUpdate {
+	_u.mutation.ClearUserAgent()
+	return _u
 }
 
 // SetLocation sets the "location" field.
-func (su *SessionUpdate) SetLocation(s string) *SessionUpdate {
-	su.mutation.SetLocation(s)
-	return su
+func (_u *SessionUpdate) SetLocation(v string) *SessionUpdate {
+	_u.mutation.SetLocation(v)
+	return _u
 }
 
 // SetNillableLocation sets the "location" field if the given value is not nil.
-func (su *SessionUpdate) SetNillableLocation(s *string) *SessionUpdate {
-	if s != nil {
-		su.SetLocation(*s)
+func (_u *SessionUpdate) SetNillableLocation(v *string) *SessionUpdate {
+	if v != nil {
+		_u.SetLocation(*v)
 	}
-	return su
+	return _u
 }
 
 // ClearLocation clears the value of the "location" field.
-func (su *SessionUpdate) ClearLocation() *SessionUpdate {
-	su.mutation.ClearLocation()
-	return su
+func (_u *SessionUpdate) ClearLocation() *SessionUpdate {
+	_u.mutation.ClearLocation()
+	return _u
 }
 
 // SetLoginMethod sets the "login_method" field.
-func (su *SessionUpdate) SetLoginMethod(s string) *SessionUpdate {
-	su.mutation.SetLoginMethod(s)
-	return su
+func (_u *SessionUpdate) SetLoginMethod(v string) *SessionUpdate {
+	_u.mutation.SetLoginMethod(v)
+	return _u
 }
 
 // SetNillableLoginMethod sets the "login_method" field if the given value is not nil.
-func (su *SessionUpdate) SetNillableLoginMethod(s *string) *SessionUpdate {
-	if s != nil {
-		su.SetLoginMethod(*s)
+func (_u *SessionUpdate) SetNillableLoginMethod(v *string) *SessionUpdate {
+	if v != nil {
+		_u.SetLoginMethod(*v)
 	}
-	return su
+	return _u
 }
 
 // ClearLoginMethod clears the value of the "login_method" field.
-func (su *SessionUpdate) ClearLoginMethod() *SessionUpdate {
-	su.mutation.ClearLoginMethod()
-	return su
+func (_u *SessionUpdate) ClearLoginMethod() *SessionUpdate {
+	_u.mutation.ClearLoginMethod()
+	return _u
 }
 
 // SetIsActive sets the "is_active" field.
-func (su *SessionUpdate) SetIsActive(b bool) *SessionUpdate {
-	su.mutation.SetIsActive(b)
-	return su
+func (_u *SessionUpdate) SetIsActive(v bool) *SessionUpdate {
+	_u.mutation.SetIsActive(v)
+	return _u
 }
 
 // SetNillableIsActive sets the "is_active" field if the given value is not nil.
-func (su *SessionUpdate) SetNillableIsActive(b *bool) *SessionUpdate {
-	if b != nil {
-		su.SetIsActive(*b)
+func (_u *SessionUpdate) SetNillableIsActive(v *bool) *SessionUpdate {
+	if v != nil {
+		_u.SetIsActive(*v)
 	}
-	return su
+	return _u
 }
 
 // SetLastAccessAt sets the "last_access_at" field.
-func (su *SessionUpdate) SetLastAccessAt(i int64) *SessionUpdate {
-	su.mutation.ResetLastAccessAt()
-	su.mutation.SetLastAccessAt(i)
-	return su
+func (_u *SessionUpdate) SetLastAccessAt(v int64) *SessionUpdate {
+	_u.mutation.ResetLastAccessAt()
+	_u.mutation.SetLastAccessAt(v)
+	return _u
 }
 
 // SetNillableLastAccessAt sets the "last_access_at" field if the given value is not nil.
-func (su *SessionUpdate) SetNillableLastAccessAt(i *int64) *SessionUpdate {
-	if i != nil {
-		su.SetLastAccessAt(*i)
+func (_u *SessionUpdate) SetNillableLastAccessAt(v *int64) *SessionUpdate {
+	if v != nil {
+		_u.SetLastAccessAt(*v)
 	}
-	return su
+	return _u
 }
 
-// AddLastAccessAt adds i to the "last_access_at" field.
-func (su *SessionUpdate) AddLastAccessAt(i int64) *SessionUpdate {
-	su.mutation.AddLastAccessAt(i)
-	return su
+// AddLastAccessAt adds value to the "last_access_at" field.
+func (_u *SessionUpdate) AddLastAccessAt(v int64) *SessionUpdate {
+	_u.mutation.AddLastAccessAt(v)
+	return _u
 }
 
 // ClearLastAccessAt clears the value of the "last_access_at" field.
-func (su *SessionUpdate) ClearLastAccessAt() *SessionUpdate {
-	su.mutation.ClearLastAccessAt()
-	return su
+func (_u *SessionUpdate) ClearLastAccessAt() *SessionUpdate {
+	_u.mutation.ClearLastAccessAt()
+	return _u
 }
 
 // SetExpiresAt sets the "expires_at" field.
-func (su *SessionUpdate) SetExpiresAt(i int64) *SessionUpdate {
-	su.mutation.ResetExpiresAt()
-	su.mutation.SetExpiresAt(i)
-	return su
+func (_u *SessionUpdate) SetExpiresAt(v int64) *SessionUpdate {
+	_u.mutation.ResetExpiresAt()
+	_u.mutation.SetExpiresAt(v)
+	return _u
 }
 
 // SetNillableExpiresAt sets the "expires_at" field if the given value is not nil.
-func (su *SessionUpdate) SetNillableExpiresAt(i *int64) *SessionUpdate {
-	if i != nil {
-		su.SetExpiresAt(*i)
+func (_u *SessionUpdate) SetNillableExpiresAt(v *int64) *SessionUpdate {
+	if v != nil {
+		_u.SetExpiresAt(*v)
 	}
-	return su
+	return _u
 }
 
-// AddExpiresAt adds i to the "expires_at" field.
-func (su *SessionUpdate) AddExpiresAt(i int64) *SessionUpdate {
-	su.mutation.AddExpiresAt(i)
-	return su
+// AddExpiresAt adds value to the "expires_at" field.
+func (_u *SessionUpdate) AddExpiresAt(v int64) *SessionUpdate {
+	_u.mutation.AddExpiresAt(v)
+	return _u
 }
 
 // ClearExpiresAt clears the value of the "expires_at" field.
-func (su *SessionUpdate) ClearExpiresAt() *SessionUpdate {
-	su.mutation.ClearExpiresAt()
-	return su
+func (_u *SessionUpdate) ClearExpiresAt() *SessionUpdate {
+	_u.mutation.ClearExpiresAt()
+	return _u
 }
 
 // Mutation returns the SessionMutation object of the builder.
-func (su *SessionUpdate) Mutation() *SessionMutation {
-	return su.mutation
+func (_u *SessionUpdate) Mutation() *SessionMutation {
+	return _u.mutation
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
-func (su *SessionUpdate) Save(ctx context.Context) (int, error) {
-	su.defaults()
-	return withHooks(ctx, su.sqlSave, su.mutation, su.hooks)
+func (_u *SessionUpdate) Save(ctx context.Context) (int, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (su *SessionUpdate) SaveX(ctx context.Context) int {
-	affected, err := su.Save(ctx)
+func (_u *SessionUpdate) SaveX(ctx context.Context) int {
+	affected, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -261,108 +261,108 @@ func (su *SessionUpdate) SaveX(ctx context.Context) int {
 }
 
 // Exec executes the query.
-func (su *SessionUpdate) Exec(ctx context.Context) error {
-	_, err := su.Save(ctx)
+func (_u *SessionUpdate) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (su *SessionUpdate) ExecX(ctx context.Context) {
-	if err := su.Exec(ctx); err != nil {
+func (_u *SessionUpdate) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (su *SessionUpdate) defaults() {
-	if _, ok := su.mutation.UpdatedAt(); !ok && !su.mutation.UpdatedAtCleared() {
+func (_u *SessionUpdate) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := session.UpdateDefaultUpdatedAt()
-		su.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (su *SessionUpdate) sqlSave(ctx context.Context) (n int, err error) {
+func (_u *SessionUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	_spec := sqlgraph.NewUpdateSpec(session.Table, session.Columns, sqlgraph.NewFieldSpec(session.FieldID, field.TypeString))
-	if ps := su.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := su.mutation.UserID(); ok {
+	if value, ok := _u.mutation.UserID(); ok {
 		_spec.SetField(session.FieldUserID, field.TypeString, value)
 	}
-	if su.mutation.UserIDCleared() {
+	if _u.mutation.UserIDCleared() {
 		_spec.ClearField(session.FieldUserID, field.TypeString)
 	}
-	if su.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(session.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := su.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(session.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := su.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(session.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if su.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(session.FieldUpdatedAt, field.TypeInt64)
 	}
-	if value, ok := su.mutation.TokenID(); ok {
+	if value, ok := _u.mutation.TokenID(); ok {
 		_spec.SetField(session.FieldTokenID, field.TypeString, value)
 	}
-	if value, ok := su.mutation.DeviceInfo(); ok {
+	if value, ok := _u.mutation.DeviceInfo(); ok {
 		_spec.SetField(session.FieldDeviceInfo, field.TypeJSON, value)
 	}
-	if su.mutation.DeviceInfoCleared() {
+	if _u.mutation.DeviceInfoCleared() {
 		_spec.ClearField(session.FieldDeviceInfo, field.TypeJSON)
 	}
-	if value, ok := su.mutation.IPAddress(); ok {
+	if value, ok := _u.mutation.IPAddress(); ok {
 		_spec.SetField(session.FieldIPAddress, field.TypeString, value)
 	}
-	if su.mutation.IPAddressCleared() {
+	if _u.mutation.IPAddressCleared() {
 		_spec.ClearField(session.FieldIPAddress, field.TypeString)
 	}
-	if value, ok := su.mutation.UserAgent(); ok {
+	if value, ok := _u.mutation.UserAgent(); ok {
 		_spec.SetField(session.FieldUserAgent, field.TypeString, value)
 	}
-	if su.mutation.UserAgentCleared() {
+	if _u.mutation.UserAgentCleared() {
 		_spec.ClearField(session.FieldUserAgent, field.TypeString)
 	}
-	if value, ok := su.mutation.Location(); ok {
+	if value, ok := _u.mutation.Location(); ok {
 		_spec.SetField(session.FieldLocation, field.TypeString, value)
 	}
-	if su.mutation.LocationCleared() {
+	if _u.mutation.LocationCleared() {
 		_spec.ClearField(session.FieldLocation, field.TypeString)
 	}
-	if value, ok := su.mutation.LoginMethod(); ok {
+	if value, ok := _u.mutation.LoginMethod(); ok {
 		_spec.SetField(session.FieldLoginMethod, field.TypeString, value)
 	}
-	if su.mutation.LoginMethodCleared() {
+	if _u.mutation.LoginMethodCleared() {
 		_spec.ClearField(session.FieldLoginMethod, field.TypeString)
 	}
-	if value, ok := su.mutation.IsActive(); ok {
+	if value, ok := _u.mutation.IsActive(); ok {
 		_spec.SetField(session.FieldIsActive, field.TypeBool, value)
 	}
-	if value, ok := su.mutation.LastAccessAt(); ok {
+	if value, ok := _u.mutation.LastAccessAt(); ok {
 		_spec.SetField(session.FieldLastAccessAt, field.TypeInt64, value)
 	}
-	if value, ok := su.mutation.AddedLastAccessAt(); ok {
+	if value, ok := _u.mutation.AddedLastAccessAt(); ok {
 		_spec.AddField(session.FieldLastAccessAt, field.TypeInt64, value)
 	}
-	if su.mutation.LastAccessAtCleared() {
+	if _u.mutation.LastAccessAtCleared() {
 		_spec.ClearField(session.FieldLastAccessAt, field.TypeInt64)
 	}
-	if value, ok := su.mutation.ExpiresAt(); ok {
+	if value, ok := _u.mutation.ExpiresAt(); ok {
 		_spec.SetField(session.FieldExpiresAt, field.TypeInt64, value)
 	}
-	if value, ok := su.mutation.AddedExpiresAt(); ok {
+	if value, ok := _u.mutation.AddedExpiresAt(); ok {
 		_spec.AddField(session.FieldExpiresAt, field.TypeInt64, value)
 	}
-	if su.mutation.ExpiresAtCleared() {
+	if _u.mutation.ExpiresAtCleared() {
 		_spec.ClearField(session.FieldExpiresAt, field.TypeInt64)
 	}
-	if n, err = sqlgraph.UpdateNodes(ctx, su.driver, _spec); err != nil {
+	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{session.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -370,8 +370,8 @@ func (su *SessionUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		return 0, err
 	}
-	su.mutation.done = true
-	return n, nil
+	_u.mutation.done = true
+	return _node, nil
 }
 
 // SessionUpdateOne is the builder for updating a single Session entity.
@@ -383,245 +383,245 @@ type SessionUpdateOne struct {
 }
 
 // SetUserID sets the "user_id" field.
-func (suo *SessionUpdateOne) SetUserID(s string) *SessionUpdateOne {
-	suo.mutation.SetUserID(s)
-	return suo
+func (_u *SessionUpdateOne) SetUserID(v string) *SessionUpdateOne {
+	_u.mutation.SetUserID(v)
+	return _u
 }
 
 // SetNillableUserID sets the "user_id" field if the given value is not nil.
-func (suo *SessionUpdateOne) SetNillableUserID(s *string) *SessionUpdateOne {
-	if s != nil {
-		suo.SetUserID(*s)
+func (_u *SessionUpdateOne) SetNillableUserID(v *string) *SessionUpdateOne {
+	if v != nil {
+		_u.SetUserID(*v)
 	}
-	return suo
+	return _u
 }
 
 // ClearUserID clears the value of the "user_id" field.
-func (suo *SessionUpdateOne) ClearUserID() *SessionUpdateOne {
-	suo.mutation.ClearUserID()
-	return suo
+func (_u *SessionUpdateOne) ClearUserID() *SessionUpdateOne {
+	_u.mutation.ClearUserID()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (suo *SessionUpdateOne) SetUpdatedAt(i int64) *SessionUpdateOne {
-	suo.mutation.ResetUpdatedAt()
-	suo.mutation.SetUpdatedAt(i)
-	return suo
+func (_u *SessionUpdateOne) SetUpdatedAt(v int64) *SessionUpdateOne {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (suo *SessionUpdateOne) AddUpdatedAt(i int64) *SessionUpdateOne {
-	suo.mutation.AddUpdatedAt(i)
-	return suo
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *SessionUpdateOne) AddUpdatedAt(v int64) *SessionUpdateOne {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (suo *SessionUpdateOne) ClearUpdatedAt() *SessionUpdateOne {
-	suo.mutation.ClearUpdatedAt()
-	return suo
+func (_u *SessionUpdateOne) ClearUpdatedAt() *SessionUpdateOne {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // SetTokenID sets the "token_id" field.
-func (suo *SessionUpdateOne) SetTokenID(s string) *SessionUpdateOne {
-	suo.mutation.SetTokenID(s)
-	return suo
+func (_u *SessionUpdateOne) SetTokenID(v string) *SessionUpdateOne {
+	_u.mutation.SetTokenID(v)
+	return _u
 }
 
 // SetNillableTokenID sets the "token_id" field if the given value is not nil.
-func (suo *SessionUpdateOne) SetNillableTokenID(s *string) *SessionUpdateOne {
-	if s != nil {
-		suo.SetTokenID(*s)
+func (_u *SessionUpdateOne) SetNillableTokenID(v *string) *SessionUpdateOne {
+	if v != nil {
+		_u.SetTokenID(*v)
 	}
-	return suo
+	return _u
 }
 
 // SetDeviceInfo sets the "device_info" field.
-func (suo *SessionUpdateOne) SetDeviceInfo(m map[string]interface{}) *SessionUpdateOne {
-	suo.mutation.SetDeviceInfo(m)
-	return suo
+func (_u *SessionUpdateOne) SetDeviceInfo(v map[string]interface{}) *SessionUpdateOne {
+	_u.mutation.SetDeviceInfo(v)
+	return _u
 }
 
 // ClearDeviceInfo clears the value of the "device_info" field.
-func (suo *SessionUpdateOne) ClearDeviceInfo() *SessionUpdateOne {
-	suo.mutation.ClearDeviceInfo()
-	return suo
+func (_u *SessionUpdateOne) ClearDeviceInfo() *SessionUpdateOne {
+	_u.mutation.ClearDeviceInfo()
+	return _u
 }
 
 // SetIPAddress sets the "ip_address" field.
-func (suo *SessionUpdateOne) SetIPAddress(s string) *SessionUpdateOne {
-	suo.mutation.SetIPAddress(s)
-	return suo
+func (_u *SessionUpdateOne) SetIPAddress(v string) *SessionUpdateOne {
+	_u.mutation.SetIPAddress(v)
+	return _u
 }
 
 // SetNillableIPAddress sets the "ip_address" field if the given value is not nil.
-func (suo *SessionUpdateOne) SetNillableIPAddress(s *string) *SessionUpdateOne {
-	if s != nil {
-		suo.SetIPAddress(*s)
+func (_u *SessionUpdateOne) SetNillableIPAddress(v *string) *SessionUpdateOne {
+	if v != nil {
+		_u.SetIPAddress(*v)
 	}
-	return suo
+	return _u
 }
 
 // ClearIPAddress clears the value of the "ip_address" field.
-func (suo *SessionUpdateOne) ClearIPAddress() *SessionUpdateOne {
-	suo.mutation.ClearIPAddress()
-	return suo
+func (_u *SessionUpdateOne) ClearIPAddress() *SessionUpdateOne {
+	_u.mutation.ClearIPAddress()
+	return _u
 }
 
 // SetUserAgent sets the "user_agent" field.
-func (suo *SessionUpdateOne) SetUserAgent(s string) *SessionUpdateOne {
-	suo.mutation.SetUserAgent(s)
-	return suo
+func (_u *SessionUpdateOne) SetUserAgent(v string) *SessionUpdateOne {
+	_u.mutation.SetUserAgent(v)
+	return _u
 }
 
 // SetNillableUserAgent sets the "user_agent" field if the given value is not nil.
-func (suo *SessionUpdateOne) SetNillableUserAgent(s *string) *SessionUpdateOne {
-	if s != nil {
-		suo.SetUserAgent(*s)
+func (_u *SessionUpdateOne) SetNillableUserAgent(v *string) *SessionUpdateOne {
+	if v != nil {
+		_u.SetUserAgent(*v)
 	}
-	return suo
+	return _u
 }
 
 // ClearUserAgent clears the value of the "user_agent" field.
-func (suo *SessionUpdateOne) ClearUserAgent() *SessionUpdateOne {
-	suo.mutation.ClearUserAgent()
-	return suo
+func (_u *SessionUpdateOne) ClearUserAgent() *SessionUpdateOne {
+	_u.mutation.ClearUserAgent()
+	return _u
 }
 
 // SetLocation sets the "location" field.
-func (suo *SessionUpdateOne) SetLocation(s string) *SessionUpdateOne {
-	suo.mutation.SetLocation(s)
-	return suo
+func (_u *SessionUpdateOne) SetLocation(v string) *SessionUpdateOne {
+	_u.mutation.SetLocation(v)
+	return _u
 }
 
 // SetNillableLocation sets the "location" field if the given value is not nil.
-func (suo *SessionUpdateOne) SetNillableLocation(s *string) *SessionUpdateOne {
-	if s != nil {
-		suo.SetLocation(*s)
+func (_u *SessionUpdateOne) SetNillableLocation(v *string) *SessionUpdateOne {
+	if v != nil {
+		_u.SetLocation(*v)
 	}
-	return suo
+	return _u
 }
 
 // ClearLocation clears the value of the "location" field.
-func (suo *SessionUpdateOne) ClearLocation() *SessionUpdateOne {
-	suo.mutation.ClearLocation()
-	return suo
+func (_u *SessionUpdateOne) ClearLocation() *SessionUpdateOne {
+	_u.mutation.ClearLocation()
+	return _u
 }
 
 // SetLoginMethod sets the "login_method" field.
-func (suo *SessionUpdateOne) SetLoginMethod(s string) *SessionUpdateOne {
-	suo.mutation.SetLoginMethod(s)
-	return suo
+func (_u *SessionUpdateOne) SetLoginMethod(v string) *SessionUpdateOne {
+	_u.mutation.SetLoginMethod(v)
+	return _u
 }
 
 // SetNillableLoginMethod sets the "login_method" field if the given value is not nil.
-func (suo *SessionUpdateOne) SetNillableLoginMethod(s *string) *SessionUpdateOne {
-	if s != nil {
-		suo.SetLoginMethod(*s)
+func (_u *SessionUpdateOne) SetNillableLoginMethod(v *string) *SessionUpdateOne {
+	if v != nil {
+		_u.SetLoginMethod(*v)
 	}
-	return suo
+	return _u
 }
 
 // ClearLoginMethod clears the value of the "login_method" field.
-func (suo *SessionUpdateOne) ClearLoginMethod() *SessionUpdateOne {
-	suo.mutation.ClearLoginMethod()
-	return suo
+func (_u *SessionUpdateOne) ClearLoginMethod() *SessionUpdateOne {
+	_u.mutation.ClearLoginMethod()
+	return _u
 }
 
 // SetIsActive sets the "is_active" field.
-func (suo *SessionUpdateOne) SetIsActive(b bool) *SessionUpdateOne {
-	suo.mutation.SetIsActive(b)
-	return suo
+func (_u *SessionUpdateOne) SetIsActive(v bool) *SessionUpdateOne {
+	_u.mutation.SetIsActive(v)
+	return _u
 }
 
 // SetNillableIsActive sets the "is_active" field if the given value is not nil.
-func (suo *SessionUpdateOne) SetNillableIsActive(b *bool) *SessionUpdateOne {
-	if b != nil {
-		suo.SetIsActive(*b)
+func (_u *SessionUpdateOne) SetNillableIsActive(v *bool) *SessionUpdateOne {
+	if v != nil {
+		_u.SetIsActive(*v)
 	}
-	return suo
+	return _u
 }
 
 // SetLastAccessAt sets the "last_access_at" field.
-func (suo *SessionUpdateOne) SetLastAccessAt(i int64) *SessionUpdateOne {
-	suo.mutation.ResetLastAccessAt()
-	suo.mutation.SetLastAccessAt(i)
-	return suo
+func (_u *SessionUpdateOne) SetLastAccessAt(v int64) *SessionUpdateOne {
+	_u.mutation.ResetLastAccessAt()
+	_u.mutation.SetLastAccessAt(v)
+	return _u
 }
 
 // SetNillableLastAccessAt sets the "last_access_at" field if the given value is not nil.
-func (suo *SessionUpdateOne) SetNillableLastAccessAt(i *int64) *SessionUpdateOne {
-	if i != nil {
-		suo.SetLastAccessAt(*i)
+func (_u *SessionUpdateOne) SetNillableLastAccessAt(v *int64) *SessionUpdateOne {
+	if v != nil {
+		_u.SetLastAccessAt(*v)
 	}
-	return suo
+	return _u
 }
 
-// AddLastAccessAt adds i to the "last_access_at" field.
-func (suo *SessionUpdateOne) AddLastAccessAt(i int64) *SessionUpdateOne {
-	suo.mutation.AddLastAccessAt(i)
-	return suo
+// AddLastAccessAt adds value to the "last_access_at" field.
+func (_u *SessionUpdateOne) AddLastAccessAt(v int64) *SessionUpdateOne {
+	_u.mutation.AddLastAccessAt(v)
+	return _u
 }
 
 // ClearLastAccessAt clears the value of the "last_access_at" field.
-func (suo *SessionUpdateOne) ClearLastAccessAt() *SessionUpdateOne {
-	suo.mutation.ClearLastAccessAt()
-	return suo
+func (_u *SessionUpdateOne) ClearLastAccessAt() *SessionUpdateOne {
+	_u.mutation.ClearLastAccessAt()
+	return _u
 }
 
 // SetExpiresAt sets the "expires_at" field.
-func (suo *SessionUpdateOne) SetExpiresAt(i int64) *SessionUpdateOne {
-	suo.mutation.ResetExpiresAt()
-	suo.mutation.SetExpiresAt(i)
-	return suo
+func (_u *SessionUpdateOne) SetExpiresAt(v int64) *SessionUpdateOne {
+	_u.mutation.ResetExpiresAt()
+	_u.mutation.SetExpiresAt(v)
+	return _u
 }
 
 // SetNillableExpiresAt sets the "expires_at" field if the given value is not nil.
-func (suo *SessionUpdateOne) SetNillableExpiresAt(i *int64) *SessionUpdateOne {
-	if i != nil {
-		suo.SetExpiresAt(*i)
+func (_u *SessionUpdateOne) SetNillableExpiresAt(v *int64) *SessionUpdateOne {
+	if v != nil {
+		_u.SetExpiresAt(*v)
 	}
-	return suo
+	return _u
 }
 
-// AddExpiresAt adds i to the "expires_at" field.
-func (suo *SessionUpdateOne) AddExpiresAt(i int64) *SessionUpdateOne {
-	suo.mutation.AddExpiresAt(i)
-	return suo
+// AddExpiresAt adds value to the "expires_at" field.
+func (_u *SessionUpdateOne) AddExpiresAt(v int64) *SessionUpdateOne {
+	_u.mutation.AddExpiresAt(v)
+	return _u
 }
 
 // ClearExpiresAt clears the value of the "expires_at" field.
-func (suo *SessionUpdateOne) ClearExpiresAt() *SessionUpdateOne {
-	suo.mutation.ClearExpiresAt()
-	return suo
+func (_u *SessionUpdateOne) ClearExpiresAt() *SessionUpdateOne {
+	_u.mutation.ClearExpiresAt()
+	return _u
 }
 
 // Mutation returns the SessionMutation object of the builder.
-func (suo *SessionUpdateOne) Mutation() *SessionMutation {
-	return suo.mutation
+func (_u *SessionUpdateOne) Mutation() *SessionMutation {
+	return _u.mutation
 }
 
 // Where appends a list predicates to the SessionUpdate builder.
-func (suo *SessionUpdateOne) Where(ps ...predicate.Session) *SessionUpdateOne {
-	suo.mutation.Where(ps...)
-	return suo
+func (_u *SessionUpdateOne) Where(ps ...predicate.Session) *SessionUpdateOne {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // Select allows selecting one or more fields (columns) of the returned entity.
 // The default is selecting all fields defined in the entity schema.
-func (suo *SessionUpdateOne) Select(field string, fields ...string) *SessionUpdateOne {
-	suo.fields = append([]string{field}, fields...)
-	return suo
+func (_u *SessionUpdateOne) Select(field string, fields ...string) *SessionUpdateOne {
+	_u.fields = append([]string{field}, fields...)
+	return _u
 }
 
 // Save executes the query and returns the updated Session entity.
-func (suo *SessionUpdateOne) Save(ctx context.Context) (*Session, error) {
-	suo.defaults()
-	return withHooks(ctx, suo.sqlSave, suo.mutation, suo.hooks)
+func (_u *SessionUpdateOne) Save(ctx context.Context) (*Session, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (suo *SessionUpdateOne) SaveX(ctx context.Context) *Session {
-	node, err := suo.Save(ctx)
+func (_u *SessionUpdateOne) SaveX(ctx context.Context) *Session {
+	node, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -629,34 +629,34 @@ func (suo *SessionUpdateOne) SaveX(ctx context.Context) *Session {
 }
 
 // Exec executes the query on the entity.
-func (suo *SessionUpdateOne) Exec(ctx context.Context) error {
-	_, err := suo.Save(ctx)
+func (_u *SessionUpdateOne) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (suo *SessionUpdateOne) ExecX(ctx context.Context) {
-	if err := suo.Exec(ctx); err != nil {
+func (_u *SessionUpdateOne) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (suo *SessionUpdateOne) defaults() {
-	if _, ok := suo.mutation.UpdatedAt(); !ok && !suo.mutation.UpdatedAtCleared() {
+func (_u *SessionUpdateOne) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := session.UpdateDefaultUpdatedAt()
-		suo.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (suo *SessionUpdateOne) sqlSave(ctx context.Context) (_node *Session, err error) {
+func (_u *SessionUpdateOne) sqlSave(ctx context.Context) (_node *Session, err error) {
 	_spec := sqlgraph.NewUpdateSpec(session.Table, session.Columns, sqlgraph.NewFieldSpec(session.FieldID, field.TypeString))
-	id, ok := suo.mutation.ID()
+	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "Session.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
-	if fields := suo.fields; len(fields) > 0 {
+	if fields := _u.fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, session.FieldID)
 		for _, f := range fields {
@@ -668,89 +668,89 @@ func (suo *SessionUpdateOne) sqlSave(ctx context.Context) (_node *Session, err e
 			}
 		}
 	}
-	if ps := suo.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := suo.mutation.UserID(); ok {
+	if value, ok := _u.mutation.UserID(); ok {
 		_spec.SetField(session.FieldUserID, field.TypeString, value)
 	}
-	if suo.mutation.UserIDCleared() {
+	if _u.mutation.UserIDCleared() {
 		_spec.ClearField(session.FieldUserID, field.TypeString)
 	}
-	if suo.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(session.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := suo.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(session.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := suo.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(session.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if suo.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(session.FieldUpdatedAt, field.TypeInt64)
 	}
-	if value, ok := suo.mutation.TokenID(); ok {
+	if value, ok := _u.mutation.TokenID(); ok {
 		_spec.SetField(session.FieldTokenID, field.TypeString, value)
 	}
-	if value, ok := suo.mutation.DeviceInfo(); ok {
+	if value, ok := _u.mutation.DeviceInfo(); ok {
 		_spec.SetField(session.FieldDeviceInfo, field.TypeJSON, value)
 	}
-	if suo.mutation.DeviceInfoCleared() {
+	if _u.mutation.DeviceInfoCleared() {
 		_spec.ClearField(session.FieldDeviceInfo, field.TypeJSON)
 	}
-	if value, ok := suo.mutation.IPAddress(); ok {
+	if value, ok := _u.mutation.IPAddress(); ok {
 		_spec.SetField(session.FieldIPAddress, field.TypeString, value)
 	}
-	if suo.mutation.IPAddressCleared() {
+	if _u.mutation.IPAddressCleared() {
 		_spec.ClearField(session.FieldIPAddress, field.TypeString)
 	}
-	if value, ok := suo.mutation.UserAgent(); ok {
+	if value, ok := _u.mutation.UserAgent(); ok {
 		_spec.SetField(session.FieldUserAgent, field.TypeString, value)
 	}
-	if suo.mutation.UserAgentCleared() {
+	if _u.mutation.UserAgentCleared() {
 		_spec.ClearField(session.FieldUserAgent, field.TypeString)
 	}
-	if value, ok := suo.mutation.Location(); ok {
+	if value, ok := _u.mutation.Location(); ok {
 		_spec.SetField(session.FieldLocation, field.TypeString, value)
 	}
-	if suo.mutation.LocationCleared() {
+	if _u.mutation.LocationCleared() {
 		_spec.ClearField(session.FieldLocation, field.TypeString)
 	}
-	if value, ok := suo.mutation.LoginMethod(); ok {
+	if value, ok := _u.mutation.LoginMethod(); ok {
 		_spec.SetField(session.FieldLoginMethod, field.TypeString, value)
 	}
-	if suo.mutation.LoginMethodCleared() {
+	if _u.mutation.LoginMethodCleared() {
 		_spec.ClearField(session.FieldLoginMethod, field.TypeString)
 	}
-	if value, ok := suo.mutation.IsActive(); ok {
+	if value, ok := _u.mutation.IsActive(); ok {
 		_spec.SetField(session.FieldIsActive, field.TypeBool, value)
 	}
-	if value, ok := suo.mutation.LastAccessAt(); ok {
+	if value, ok := _u.mutation.LastAccessAt(); ok {
 		_spec.SetField(session.FieldLastAccessAt, field.TypeInt64, value)
 	}
-	if value, ok := suo.mutation.AddedLastAccessAt(); ok {
+	if value, ok := _u.mutation.AddedLastAccessAt(); ok {
 		_spec.AddField(session.FieldLastAccessAt, field.TypeInt64, value)
 	}
-	if suo.mutation.LastAccessAtCleared() {
+	if _u.mutation.LastAccessAtCleared() {
 		_spec.ClearField(session.FieldLastAccessAt, field.TypeInt64)
 	}
-	if value, ok := suo.mutation.ExpiresAt(); ok {
+	if value, ok := _u.mutation.ExpiresAt(); ok {
 		_spec.SetField(session.FieldExpiresAt, field.TypeInt64, value)
 	}
-	if value, ok := suo.mutation.AddedExpiresAt(); ok {
+	if value, ok := _u.mutation.AddedExpiresAt(); ok {
 		_spec.AddField(session.FieldExpiresAt, field.TypeInt64, value)
 	}
-	if suo.mutation.ExpiresAtCleared() {
+	if _u.mutation.ExpiresAtCleared() {
 		_spec.ClearField(session.FieldExpiresAt, field.TypeInt64)
 	}
-	_node = &Session{config: suo.config}
+	_node = &Session{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues
-	if err = sqlgraph.UpdateNode(ctx, suo.driver, _spec); err != nil {
+	if err = sqlgraph.UpdateNode(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{session.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -758,6 +758,6 @@ func (suo *SessionUpdateOne) sqlSave(ctx context.Context) (_node *Session, err e
 		}
 		return nil, err
 	}
-	suo.mutation.done = true
+	_u.mutation.done = true
 	return _node, nil
 }

@@ -50,7 +50,7 @@ func (*UserRole) scanValues(columns []string) ([]any, error) {
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
 // to the UserRole fields.
-func (ur *UserRole) assignValues(columns []string, values []any) error {
+func (_m *UserRole) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
@@ -60,46 +60,46 @@ func (ur *UserRole) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field id", values[i])
 			} else if value.Valid {
-				ur.ID = value.String
+				_m.ID = value.String
 			}
 		case userrole.FieldUserID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field user_id", values[i])
 			} else if value.Valid {
-				ur.UserID = value.String
+				_m.UserID = value.String
 			}
 		case userrole.FieldRoleID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field role_id", values[i])
 			} else if value.Valid {
-				ur.RoleID = value.String
+				_m.RoleID = value.String
 			}
 		case userrole.FieldCreatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field created_by", values[i])
 			} else if value.Valid {
-				ur.CreatedBy = value.String
+				_m.CreatedBy = value.String
 			}
 		case userrole.FieldUpdatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_by", values[i])
 			} else if value.Valid {
-				ur.UpdatedBy = value.String
+				_m.UpdatedBy = value.String
 			}
 		case userrole.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field created_at", values[i])
 			} else if value.Valid {
-				ur.CreatedAt = value.Int64
+				_m.CreatedAt = value.Int64
 			}
 		case userrole.FieldUpdatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_at", values[i])
 			} else if value.Valid {
-				ur.UpdatedAt = value.Int64
+				_m.UpdatedAt = value.Int64
 			}
 		default:
-			ur.selectValues.Set(columns[i], values[i])
+			_m.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
@@ -107,50 +107,50 @@ func (ur *UserRole) assignValues(columns []string, values []any) error {
 
 // Value returns the ent.Value that was dynamically selected and assigned to the UserRole.
 // This includes values selected through modifiers, order, etc.
-func (ur *UserRole) Value(name string) (ent.Value, error) {
-	return ur.selectValues.Get(name)
+func (_m *UserRole) Value(name string) (ent.Value, error) {
+	return _m.selectValues.Get(name)
 }
 
 // Update returns a builder for updating this UserRole.
 // Note that you need to call UserRole.Unwrap() before calling this method if this UserRole
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (ur *UserRole) Update() *UserRoleUpdateOne {
-	return NewUserRoleClient(ur.config).UpdateOne(ur)
+func (_m *UserRole) Update() *UserRoleUpdateOne {
+	return NewUserRoleClient(_m.config).UpdateOne(_m)
 }
 
 // Unwrap unwraps the UserRole entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (ur *UserRole) Unwrap() *UserRole {
-	_tx, ok := ur.config.driver.(*txDriver)
+func (_m *UserRole) Unwrap() *UserRole {
+	_tx, ok := _m.config.driver.(*txDriver)
 	if !ok {
 		panic("ent: UserRole is not a transactional entity")
 	}
-	ur.config.driver = _tx.drv
-	return ur
+	_m.config.driver = _tx.drv
+	return _m
 }
 
 // String implements the fmt.Stringer.
-func (ur *UserRole) String() string {
+func (_m *UserRole) String() string {
 	var builder strings.Builder
 	builder.WriteString("UserRole(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", ur.ID))
+	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
 	builder.WriteString("user_id=")
-	builder.WriteString(ur.UserID)
+	builder.WriteString(_m.UserID)
 	builder.WriteString(", ")
 	builder.WriteString("role_id=")
-	builder.WriteString(ur.RoleID)
+	builder.WriteString(_m.RoleID)
 	builder.WriteString(", ")
 	builder.WriteString("created_by=")
-	builder.WriteString(ur.CreatedBy)
+	builder.WriteString(_m.CreatedBy)
 	builder.WriteString(", ")
 	builder.WriteString("updated_by=")
-	builder.WriteString(ur.UpdatedBy)
+	builder.WriteString(_m.UpdatedBy)
 	builder.WriteString(", ")
 	builder.WriteString("created_at=")
-	builder.WriteString(fmt.Sprintf("%v", ur.CreatedAt))
+	builder.WriteString(fmt.Sprintf("%v", _m.CreatedAt))
 	builder.WriteString(", ")
 	builder.WriteString("updated_at=")
-	builder.WriteString(fmt.Sprintf("%v", ur.UpdatedAt))
+	builder.WriteString(fmt.Sprintf("%v", _m.UpdatedAt))
 	builder.WriteByte(')')
 	return builder.String()
 }

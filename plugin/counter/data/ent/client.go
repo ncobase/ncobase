@@ -252,8 +252,8 @@ func (c *CounterClient) Update() *CounterUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *CounterClient) UpdateOne(co *Counter) *CounterUpdateOne {
-	mutation := newCounterMutation(c.config, OpUpdateOne, withCounter(co))
+func (c *CounterClient) UpdateOne(_m *Counter) *CounterUpdateOne {
+	mutation := newCounterMutation(c.config, OpUpdateOne, withCounter(_m))
 	return &CounterUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -270,8 +270,8 @@ func (c *CounterClient) Delete() *CounterDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *CounterClient) DeleteOne(co *Counter) *CounterDeleteOne {
-	return c.DeleteOneID(co.ID)
+func (c *CounterClient) DeleteOne(_m *Counter) *CounterDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.

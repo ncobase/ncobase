@@ -22,184 +22,184 @@ type DictionaryUpdate struct {
 }
 
 // Where appends a list predicates to the DictionaryUpdate builder.
-func (du *DictionaryUpdate) Where(ps ...predicate.Dictionary) *DictionaryUpdate {
-	du.mutation.Where(ps...)
-	return du
+func (_u *DictionaryUpdate) Where(ps ...predicate.Dictionary) *DictionaryUpdate {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // SetName sets the "name" field.
-func (du *DictionaryUpdate) SetName(s string) *DictionaryUpdate {
-	du.mutation.SetName(s)
-	return du
+func (_u *DictionaryUpdate) SetName(v string) *DictionaryUpdate {
+	_u.mutation.SetName(v)
+	return _u
 }
 
 // SetNillableName sets the "name" field if the given value is not nil.
-func (du *DictionaryUpdate) SetNillableName(s *string) *DictionaryUpdate {
-	if s != nil {
-		du.SetName(*s)
+func (_u *DictionaryUpdate) SetNillableName(v *string) *DictionaryUpdate {
+	if v != nil {
+		_u.SetName(*v)
 	}
-	return du
+	return _u
 }
 
 // ClearName clears the value of the "name" field.
-func (du *DictionaryUpdate) ClearName() *DictionaryUpdate {
-	du.mutation.ClearName()
-	return du
+func (_u *DictionaryUpdate) ClearName() *DictionaryUpdate {
+	_u.mutation.ClearName()
+	return _u
 }
 
 // SetSlug sets the "slug" field.
-func (du *DictionaryUpdate) SetSlug(s string) *DictionaryUpdate {
-	du.mutation.SetSlug(s)
-	return du
+func (_u *DictionaryUpdate) SetSlug(v string) *DictionaryUpdate {
+	_u.mutation.SetSlug(v)
+	return _u
 }
 
 // SetNillableSlug sets the "slug" field if the given value is not nil.
-func (du *DictionaryUpdate) SetNillableSlug(s *string) *DictionaryUpdate {
-	if s != nil {
-		du.SetSlug(*s)
+func (_u *DictionaryUpdate) SetNillableSlug(v *string) *DictionaryUpdate {
+	if v != nil {
+		_u.SetSlug(*v)
 	}
-	return du
+	return _u
 }
 
 // ClearSlug clears the value of the "slug" field.
-func (du *DictionaryUpdate) ClearSlug() *DictionaryUpdate {
-	du.mutation.ClearSlug()
-	return du
+func (_u *DictionaryUpdate) ClearSlug() *DictionaryUpdate {
+	_u.mutation.ClearSlug()
+	return _u
 }
 
 // SetType sets the "type" field.
-func (du *DictionaryUpdate) SetType(s string) *DictionaryUpdate {
-	du.mutation.SetType(s)
-	return du
+func (_u *DictionaryUpdate) SetType(v string) *DictionaryUpdate {
+	_u.mutation.SetType(v)
+	return _u
 }
 
 // SetNillableType sets the "type" field if the given value is not nil.
-func (du *DictionaryUpdate) SetNillableType(s *string) *DictionaryUpdate {
-	if s != nil {
-		du.SetType(*s)
+func (_u *DictionaryUpdate) SetNillableType(v *string) *DictionaryUpdate {
+	if v != nil {
+		_u.SetType(*v)
 	}
-	return du
+	return _u
 }
 
 // ClearType clears the value of the "type" field.
-func (du *DictionaryUpdate) ClearType() *DictionaryUpdate {
-	du.mutation.ClearType()
-	return du
+func (_u *DictionaryUpdate) ClearType() *DictionaryUpdate {
+	_u.mutation.ClearType()
+	return _u
 }
 
 // SetValue sets the "value" field.
-func (du *DictionaryUpdate) SetValue(s string) *DictionaryUpdate {
-	du.mutation.SetValue(s)
-	return du
+func (_u *DictionaryUpdate) SetValue(v string) *DictionaryUpdate {
+	_u.mutation.SetValue(v)
+	return _u
 }
 
 // SetNillableValue sets the "value" field if the given value is not nil.
-func (du *DictionaryUpdate) SetNillableValue(s *string) *DictionaryUpdate {
-	if s != nil {
-		du.SetValue(*s)
+func (_u *DictionaryUpdate) SetNillableValue(v *string) *DictionaryUpdate {
+	if v != nil {
+		_u.SetValue(*v)
 	}
-	return du
+	return _u
 }
 
 // ClearValue clears the value of the "value" field.
-func (du *DictionaryUpdate) ClearValue() *DictionaryUpdate {
-	du.mutation.ClearValue()
-	return du
+func (_u *DictionaryUpdate) ClearValue() *DictionaryUpdate {
+	_u.mutation.ClearValue()
+	return _u
 }
 
 // SetDescription sets the "description" field.
-func (du *DictionaryUpdate) SetDescription(s string) *DictionaryUpdate {
-	du.mutation.SetDescription(s)
-	return du
+func (_u *DictionaryUpdate) SetDescription(v string) *DictionaryUpdate {
+	_u.mutation.SetDescription(v)
+	return _u
 }
 
 // SetNillableDescription sets the "description" field if the given value is not nil.
-func (du *DictionaryUpdate) SetNillableDescription(s *string) *DictionaryUpdate {
-	if s != nil {
-		du.SetDescription(*s)
+func (_u *DictionaryUpdate) SetNillableDescription(v *string) *DictionaryUpdate {
+	if v != nil {
+		_u.SetDescription(*v)
 	}
-	return du
+	return _u
 }
 
 // ClearDescription clears the value of the "description" field.
-func (du *DictionaryUpdate) ClearDescription() *DictionaryUpdate {
-	du.mutation.ClearDescription()
-	return du
+func (_u *DictionaryUpdate) ClearDescription() *DictionaryUpdate {
+	_u.mutation.ClearDescription()
+	return _u
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (du *DictionaryUpdate) SetCreatedBy(s string) *DictionaryUpdate {
-	du.mutation.SetCreatedBy(s)
-	return du
+func (_u *DictionaryUpdate) SetCreatedBy(v string) *DictionaryUpdate {
+	_u.mutation.SetCreatedBy(v)
+	return _u
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (du *DictionaryUpdate) SetNillableCreatedBy(s *string) *DictionaryUpdate {
-	if s != nil {
-		du.SetCreatedBy(*s)
+func (_u *DictionaryUpdate) SetNillableCreatedBy(v *string) *DictionaryUpdate {
+	if v != nil {
+		_u.SetCreatedBy(*v)
 	}
-	return du
+	return _u
 }
 
 // ClearCreatedBy clears the value of the "created_by" field.
-func (du *DictionaryUpdate) ClearCreatedBy() *DictionaryUpdate {
-	du.mutation.ClearCreatedBy()
-	return du
+func (_u *DictionaryUpdate) ClearCreatedBy() *DictionaryUpdate {
+	_u.mutation.ClearCreatedBy()
+	return _u
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (du *DictionaryUpdate) SetUpdatedBy(s string) *DictionaryUpdate {
-	du.mutation.SetUpdatedBy(s)
-	return du
+func (_u *DictionaryUpdate) SetUpdatedBy(v string) *DictionaryUpdate {
+	_u.mutation.SetUpdatedBy(v)
+	return _u
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (du *DictionaryUpdate) SetNillableUpdatedBy(s *string) *DictionaryUpdate {
-	if s != nil {
-		du.SetUpdatedBy(*s)
+func (_u *DictionaryUpdate) SetNillableUpdatedBy(v *string) *DictionaryUpdate {
+	if v != nil {
+		_u.SetUpdatedBy(*v)
 	}
-	return du
+	return _u
 }
 
 // ClearUpdatedBy clears the value of the "updated_by" field.
-func (du *DictionaryUpdate) ClearUpdatedBy() *DictionaryUpdate {
-	du.mutation.ClearUpdatedBy()
-	return du
+func (_u *DictionaryUpdate) ClearUpdatedBy() *DictionaryUpdate {
+	_u.mutation.ClearUpdatedBy()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (du *DictionaryUpdate) SetUpdatedAt(i int64) *DictionaryUpdate {
-	du.mutation.ResetUpdatedAt()
-	du.mutation.SetUpdatedAt(i)
-	return du
+func (_u *DictionaryUpdate) SetUpdatedAt(v int64) *DictionaryUpdate {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (du *DictionaryUpdate) AddUpdatedAt(i int64) *DictionaryUpdate {
-	du.mutation.AddUpdatedAt(i)
-	return du
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *DictionaryUpdate) AddUpdatedAt(v int64) *DictionaryUpdate {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (du *DictionaryUpdate) ClearUpdatedAt() *DictionaryUpdate {
-	du.mutation.ClearUpdatedAt()
-	return du
+func (_u *DictionaryUpdate) ClearUpdatedAt() *DictionaryUpdate {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // Mutation returns the DictionaryMutation object of the builder.
-func (du *DictionaryUpdate) Mutation() *DictionaryMutation {
-	return du.mutation
+func (_u *DictionaryUpdate) Mutation() *DictionaryMutation {
+	return _u.mutation
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
-func (du *DictionaryUpdate) Save(ctx context.Context) (int, error) {
-	du.defaults()
-	return withHooks(ctx, du.sqlSave, du.mutation, du.hooks)
+func (_u *DictionaryUpdate) Save(ctx context.Context) (int, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (du *DictionaryUpdate) SaveX(ctx context.Context) int {
-	affected, err := du.Save(ctx)
+func (_u *DictionaryUpdate) SaveX(ctx context.Context) int {
+	affected, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -207,90 +207,90 @@ func (du *DictionaryUpdate) SaveX(ctx context.Context) int {
 }
 
 // Exec executes the query.
-func (du *DictionaryUpdate) Exec(ctx context.Context) error {
-	_, err := du.Save(ctx)
+func (_u *DictionaryUpdate) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (du *DictionaryUpdate) ExecX(ctx context.Context) {
-	if err := du.Exec(ctx); err != nil {
+func (_u *DictionaryUpdate) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (du *DictionaryUpdate) defaults() {
-	if _, ok := du.mutation.UpdatedAt(); !ok && !du.mutation.UpdatedAtCleared() {
+func (_u *DictionaryUpdate) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := dictionary.UpdateDefaultUpdatedAt()
-		du.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (du *DictionaryUpdate) sqlSave(ctx context.Context) (n int, err error) {
+func (_u *DictionaryUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	_spec := sqlgraph.NewUpdateSpec(dictionary.Table, dictionary.Columns, sqlgraph.NewFieldSpec(dictionary.FieldID, field.TypeString))
-	if ps := du.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := du.mutation.Name(); ok {
+	if value, ok := _u.mutation.Name(); ok {
 		_spec.SetField(dictionary.FieldName, field.TypeString, value)
 	}
-	if du.mutation.NameCleared() {
+	if _u.mutation.NameCleared() {
 		_spec.ClearField(dictionary.FieldName, field.TypeString)
 	}
-	if value, ok := du.mutation.Slug(); ok {
+	if value, ok := _u.mutation.Slug(); ok {
 		_spec.SetField(dictionary.FieldSlug, field.TypeString, value)
 	}
-	if du.mutation.SlugCleared() {
+	if _u.mutation.SlugCleared() {
 		_spec.ClearField(dictionary.FieldSlug, field.TypeString)
 	}
-	if value, ok := du.mutation.GetType(); ok {
+	if value, ok := _u.mutation.GetType(); ok {
 		_spec.SetField(dictionary.FieldType, field.TypeString, value)
 	}
-	if du.mutation.TypeCleared() {
+	if _u.mutation.TypeCleared() {
 		_spec.ClearField(dictionary.FieldType, field.TypeString)
 	}
-	if value, ok := du.mutation.Value(); ok {
+	if value, ok := _u.mutation.Value(); ok {
 		_spec.SetField(dictionary.FieldValue, field.TypeString, value)
 	}
-	if du.mutation.ValueCleared() {
+	if _u.mutation.ValueCleared() {
 		_spec.ClearField(dictionary.FieldValue, field.TypeString)
 	}
-	if value, ok := du.mutation.Description(); ok {
+	if value, ok := _u.mutation.Description(); ok {
 		_spec.SetField(dictionary.FieldDescription, field.TypeString, value)
 	}
-	if du.mutation.DescriptionCleared() {
+	if _u.mutation.DescriptionCleared() {
 		_spec.ClearField(dictionary.FieldDescription, field.TypeString)
 	}
-	if value, ok := du.mutation.CreatedBy(); ok {
+	if value, ok := _u.mutation.CreatedBy(); ok {
 		_spec.SetField(dictionary.FieldCreatedBy, field.TypeString, value)
 	}
-	if du.mutation.CreatedByCleared() {
+	if _u.mutation.CreatedByCleared() {
 		_spec.ClearField(dictionary.FieldCreatedBy, field.TypeString)
 	}
-	if value, ok := du.mutation.UpdatedBy(); ok {
+	if value, ok := _u.mutation.UpdatedBy(); ok {
 		_spec.SetField(dictionary.FieldUpdatedBy, field.TypeString, value)
 	}
-	if du.mutation.UpdatedByCleared() {
+	if _u.mutation.UpdatedByCleared() {
 		_spec.ClearField(dictionary.FieldUpdatedBy, field.TypeString)
 	}
-	if du.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(dictionary.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := du.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(dictionary.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := du.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(dictionary.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if du.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(dictionary.FieldUpdatedAt, field.TypeInt64)
 	}
-	if n, err = sqlgraph.UpdateNodes(ctx, du.driver, _spec); err != nil {
+	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{dictionary.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -298,8 +298,8 @@ func (du *DictionaryUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		return 0, err
 	}
-	du.mutation.done = true
-	return n, nil
+	_u.mutation.done = true
+	return _node, nil
 }
 
 // DictionaryUpdateOne is the builder for updating a single Dictionary entity.
@@ -311,191 +311,191 @@ type DictionaryUpdateOne struct {
 }
 
 // SetName sets the "name" field.
-func (duo *DictionaryUpdateOne) SetName(s string) *DictionaryUpdateOne {
-	duo.mutation.SetName(s)
-	return duo
+func (_u *DictionaryUpdateOne) SetName(v string) *DictionaryUpdateOne {
+	_u.mutation.SetName(v)
+	return _u
 }
 
 // SetNillableName sets the "name" field if the given value is not nil.
-func (duo *DictionaryUpdateOne) SetNillableName(s *string) *DictionaryUpdateOne {
-	if s != nil {
-		duo.SetName(*s)
+func (_u *DictionaryUpdateOne) SetNillableName(v *string) *DictionaryUpdateOne {
+	if v != nil {
+		_u.SetName(*v)
 	}
-	return duo
+	return _u
 }
 
 // ClearName clears the value of the "name" field.
-func (duo *DictionaryUpdateOne) ClearName() *DictionaryUpdateOne {
-	duo.mutation.ClearName()
-	return duo
+func (_u *DictionaryUpdateOne) ClearName() *DictionaryUpdateOne {
+	_u.mutation.ClearName()
+	return _u
 }
 
 // SetSlug sets the "slug" field.
-func (duo *DictionaryUpdateOne) SetSlug(s string) *DictionaryUpdateOne {
-	duo.mutation.SetSlug(s)
-	return duo
+func (_u *DictionaryUpdateOne) SetSlug(v string) *DictionaryUpdateOne {
+	_u.mutation.SetSlug(v)
+	return _u
 }
 
 // SetNillableSlug sets the "slug" field if the given value is not nil.
-func (duo *DictionaryUpdateOne) SetNillableSlug(s *string) *DictionaryUpdateOne {
-	if s != nil {
-		duo.SetSlug(*s)
+func (_u *DictionaryUpdateOne) SetNillableSlug(v *string) *DictionaryUpdateOne {
+	if v != nil {
+		_u.SetSlug(*v)
 	}
-	return duo
+	return _u
 }
 
 // ClearSlug clears the value of the "slug" field.
-func (duo *DictionaryUpdateOne) ClearSlug() *DictionaryUpdateOne {
-	duo.mutation.ClearSlug()
-	return duo
+func (_u *DictionaryUpdateOne) ClearSlug() *DictionaryUpdateOne {
+	_u.mutation.ClearSlug()
+	return _u
 }
 
 // SetType sets the "type" field.
-func (duo *DictionaryUpdateOne) SetType(s string) *DictionaryUpdateOne {
-	duo.mutation.SetType(s)
-	return duo
+func (_u *DictionaryUpdateOne) SetType(v string) *DictionaryUpdateOne {
+	_u.mutation.SetType(v)
+	return _u
 }
 
 // SetNillableType sets the "type" field if the given value is not nil.
-func (duo *DictionaryUpdateOne) SetNillableType(s *string) *DictionaryUpdateOne {
-	if s != nil {
-		duo.SetType(*s)
+func (_u *DictionaryUpdateOne) SetNillableType(v *string) *DictionaryUpdateOne {
+	if v != nil {
+		_u.SetType(*v)
 	}
-	return duo
+	return _u
 }
 
 // ClearType clears the value of the "type" field.
-func (duo *DictionaryUpdateOne) ClearType() *DictionaryUpdateOne {
-	duo.mutation.ClearType()
-	return duo
+func (_u *DictionaryUpdateOne) ClearType() *DictionaryUpdateOne {
+	_u.mutation.ClearType()
+	return _u
 }
 
 // SetValue sets the "value" field.
-func (duo *DictionaryUpdateOne) SetValue(s string) *DictionaryUpdateOne {
-	duo.mutation.SetValue(s)
-	return duo
+func (_u *DictionaryUpdateOne) SetValue(v string) *DictionaryUpdateOne {
+	_u.mutation.SetValue(v)
+	return _u
 }
 
 // SetNillableValue sets the "value" field if the given value is not nil.
-func (duo *DictionaryUpdateOne) SetNillableValue(s *string) *DictionaryUpdateOne {
-	if s != nil {
-		duo.SetValue(*s)
+func (_u *DictionaryUpdateOne) SetNillableValue(v *string) *DictionaryUpdateOne {
+	if v != nil {
+		_u.SetValue(*v)
 	}
-	return duo
+	return _u
 }
 
 // ClearValue clears the value of the "value" field.
-func (duo *DictionaryUpdateOne) ClearValue() *DictionaryUpdateOne {
-	duo.mutation.ClearValue()
-	return duo
+func (_u *DictionaryUpdateOne) ClearValue() *DictionaryUpdateOne {
+	_u.mutation.ClearValue()
+	return _u
 }
 
 // SetDescription sets the "description" field.
-func (duo *DictionaryUpdateOne) SetDescription(s string) *DictionaryUpdateOne {
-	duo.mutation.SetDescription(s)
-	return duo
+func (_u *DictionaryUpdateOne) SetDescription(v string) *DictionaryUpdateOne {
+	_u.mutation.SetDescription(v)
+	return _u
 }
 
 // SetNillableDescription sets the "description" field if the given value is not nil.
-func (duo *DictionaryUpdateOne) SetNillableDescription(s *string) *DictionaryUpdateOne {
-	if s != nil {
-		duo.SetDescription(*s)
+func (_u *DictionaryUpdateOne) SetNillableDescription(v *string) *DictionaryUpdateOne {
+	if v != nil {
+		_u.SetDescription(*v)
 	}
-	return duo
+	return _u
 }
 
 // ClearDescription clears the value of the "description" field.
-func (duo *DictionaryUpdateOne) ClearDescription() *DictionaryUpdateOne {
-	duo.mutation.ClearDescription()
-	return duo
+func (_u *DictionaryUpdateOne) ClearDescription() *DictionaryUpdateOne {
+	_u.mutation.ClearDescription()
+	return _u
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (duo *DictionaryUpdateOne) SetCreatedBy(s string) *DictionaryUpdateOne {
-	duo.mutation.SetCreatedBy(s)
-	return duo
+func (_u *DictionaryUpdateOne) SetCreatedBy(v string) *DictionaryUpdateOne {
+	_u.mutation.SetCreatedBy(v)
+	return _u
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (duo *DictionaryUpdateOne) SetNillableCreatedBy(s *string) *DictionaryUpdateOne {
-	if s != nil {
-		duo.SetCreatedBy(*s)
+func (_u *DictionaryUpdateOne) SetNillableCreatedBy(v *string) *DictionaryUpdateOne {
+	if v != nil {
+		_u.SetCreatedBy(*v)
 	}
-	return duo
+	return _u
 }
 
 // ClearCreatedBy clears the value of the "created_by" field.
-func (duo *DictionaryUpdateOne) ClearCreatedBy() *DictionaryUpdateOne {
-	duo.mutation.ClearCreatedBy()
-	return duo
+func (_u *DictionaryUpdateOne) ClearCreatedBy() *DictionaryUpdateOne {
+	_u.mutation.ClearCreatedBy()
+	return _u
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (duo *DictionaryUpdateOne) SetUpdatedBy(s string) *DictionaryUpdateOne {
-	duo.mutation.SetUpdatedBy(s)
-	return duo
+func (_u *DictionaryUpdateOne) SetUpdatedBy(v string) *DictionaryUpdateOne {
+	_u.mutation.SetUpdatedBy(v)
+	return _u
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (duo *DictionaryUpdateOne) SetNillableUpdatedBy(s *string) *DictionaryUpdateOne {
-	if s != nil {
-		duo.SetUpdatedBy(*s)
+func (_u *DictionaryUpdateOne) SetNillableUpdatedBy(v *string) *DictionaryUpdateOne {
+	if v != nil {
+		_u.SetUpdatedBy(*v)
 	}
-	return duo
+	return _u
 }
 
 // ClearUpdatedBy clears the value of the "updated_by" field.
-func (duo *DictionaryUpdateOne) ClearUpdatedBy() *DictionaryUpdateOne {
-	duo.mutation.ClearUpdatedBy()
-	return duo
+func (_u *DictionaryUpdateOne) ClearUpdatedBy() *DictionaryUpdateOne {
+	_u.mutation.ClearUpdatedBy()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (duo *DictionaryUpdateOne) SetUpdatedAt(i int64) *DictionaryUpdateOne {
-	duo.mutation.ResetUpdatedAt()
-	duo.mutation.SetUpdatedAt(i)
-	return duo
+func (_u *DictionaryUpdateOne) SetUpdatedAt(v int64) *DictionaryUpdateOne {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (duo *DictionaryUpdateOne) AddUpdatedAt(i int64) *DictionaryUpdateOne {
-	duo.mutation.AddUpdatedAt(i)
-	return duo
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *DictionaryUpdateOne) AddUpdatedAt(v int64) *DictionaryUpdateOne {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (duo *DictionaryUpdateOne) ClearUpdatedAt() *DictionaryUpdateOne {
-	duo.mutation.ClearUpdatedAt()
-	return duo
+func (_u *DictionaryUpdateOne) ClearUpdatedAt() *DictionaryUpdateOne {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // Mutation returns the DictionaryMutation object of the builder.
-func (duo *DictionaryUpdateOne) Mutation() *DictionaryMutation {
-	return duo.mutation
+func (_u *DictionaryUpdateOne) Mutation() *DictionaryMutation {
+	return _u.mutation
 }
 
 // Where appends a list predicates to the DictionaryUpdate builder.
-func (duo *DictionaryUpdateOne) Where(ps ...predicate.Dictionary) *DictionaryUpdateOne {
-	duo.mutation.Where(ps...)
-	return duo
+func (_u *DictionaryUpdateOne) Where(ps ...predicate.Dictionary) *DictionaryUpdateOne {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // Select allows selecting one or more fields (columns) of the returned entity.
 // The default is selecting all fields defined in the entity schema.
-func (duo *DictionaryUpdateOne) Select(field string, fields ...string) *DictionaryUpdateOne {
-	duo.fields = append([]string{field}, fields...)
-	return duo
+func (_u *DictionaryUpdateOne) Select(field string, fields ...string) *DictionaryUpdateOne {
+	_u.fields = append([]string{field}, fields...)
+	return _u
 }
 
 // Save executes the query and returns the updated Dictionary entity.
-func (duo *DictionaryUpdateOne) Save(ctx context.Context) (*Dictionary, error) {
-	duo.defaults()
-	return withHooks(ctx, duo.sqlSave, duo.mutation, duo.hooks)
+func (_u *DictionaryUpdateOne) Save(ctx context.Context) (*Dictionary, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (duo *DictionaryUpdateOne) SaveX(ctx context.Context) *Dictionary {
-	node, err := duo.Save(ctx)
+func (_u *DictionaryUpdateOne) SaveX(ctx context.Context) *Dictionary {
+	node, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -503,34 +503,34 @@ func (duo *DictionaryUpdateOne) SaveX(ctx context.Context) *Dictionary {
 }
 
 // Exec executes the query on the entity.
-func (duo *DictionaryUpdateOne) Exec(ctx context.Context) error {
-	_, err := duo.Save(ctx)
+func (_u *DictionaryUpdateOne) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (duo *DictionaryUpdateOne) ExecX(ctx context.Context) {
-	if err := duo.Exec(ctx); err != nil {
+func (_u *DictionaryUpdateOne) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (duo *DictionaryUpdateOne) defaults() {
-	if _, ok := duo.mutation.UpdatedAt(); !ok && !duo.mutation.UpdatedAtCleared() {
+func (_u *DictionaryUpdateOne) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := dictionary.UpdateDefaultUpdatedAt()
-		duo.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (duo *DictionaryUpdateOne) sqlSave(ctx context.Context) (_node *Dictionary, err error) {
+func (_u *DictionaryUpdateOne) sqlSave(ctx context.Context) (_node *Dictionary, err error) {
 	_spec := sqlgraph.NewUpdateSpec(dictionary.Table, dictionary.Columns, sqlgraph.NewFieldSpec(dictionary.FieldID, field.TypeString))
-	id, ok := duo.mutation.ID()
+	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "Dictionary.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
-	if fields := duo.fields; len(fields) > 0 {
+	if fields := _u.fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, dictionary.FieldID)
 		for _, f := range fields {
@@ -542,71 +542,71 @@ func (duo *DictionaryUpdateOne) sqlSave(ctx context.Context) (_node *Dictionary,
 			}
 		}
 	}
-	if ps := duo.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := duo.mutation.Name(); ok {
+	if value, ok := _u.mutation.Name(); ok {
 		_spec.SetField(dictionary.FieldName, field.TypeString, value)
 	}
-	if duo.mutation.NameCleared() {
+	if _u.mutation.NameCleared() {
 		_spec.ClearField(dictionary.FieldName, field.TypeString)
 	}
-	if value, ok := duo.mutation.Slug(); ok {
+	if value, ok := _u.mutation.Slug(); ok {
 		_spec.SetField(dictionary.FieldSlug, field.TypeString, value)
 	}
-	if duo.mutation.SlugCleared() {
+	if _u.mutation.SlugCleared() {
 		_spec.ClearField(dictionary.FieldSlug, field.TypeString)
 	}
-	if value, ok := duo.mutation.GetType(); ok {
+	if value, ok := _u.mutation.GetType(); ok {
 		_spec.SetField(dictionary.FieldType, field.TypeString, value)
 	}
-	if duo.mutation.TypeCleared() {
+	if _u.mutation.TypeCleared() {
 		_spec.ClearField(dictionary.FieldType, field.TypeString)
 	}
-	if value, ok := duo.mutation.Value(); ok {
+	if value, ok := _u.mutation.Value(); ok {
 		_spec.SetField(dictionary.FieldValue, field.TypeString, value)
 	}
-	if duo.mutation.ValueCleared() {
+	if _u.mutation.ValueCleared() {
 		_spec.ClearField(dictionary.FieldValue, field.TypeString)
 	}
-	if value, ok := duo.mutation.Description(); ok {
+	if value, ok := _u.mutation.Description(); ok {
 		_spec.SetField(dictionary.FieldDescription, field.TypeString, value)
 	}
-	if duo.mutation.DescriptionCleared() {
+	if _u.mutation.DescriptionCleared() {
 		_spec.ClearField(dictionary.FieldDescription, field.TypeString)
 	}
-	if value, ok := duo.mutation.CreatedBy(); ok {
+	if value, ok := _u.mutation.CreatedBy(); ok {
 		_spec.SetField(dictionary.FieldCreatedBy, field.TypeString, value)
 	}
-	if duo.mutation.CreatedByCleared() {
+	if _u.mutation.CreatedByCleared() {
 		_spec.ClearField(dictionary.FieldCreatedBy, field.TypeString)
 	}
-	if value, ok := duo.mutation.UpdatedBy(); ok {
+	if value, ok := _u.mutation.UpdatedBy(); ok {
 		_spec.SetField(dictionary.FieldUpdatedBy, field.TypeString, value)
 	}
-	if duo.mutation.UpdatedByCleared() {
+	if _u.mutation.UpdatedByCleared() {
 		_spec.ClearField(dictionary.FieldUpdatedBy, field.TypeString)
 	}
-	if duo.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(dictionary.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := duo.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(dictionary.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := duo.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(dictionary.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if duo.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(dictionary.FieldUpdatedAt, field.TypeInt64)
 	}
-	_node = &Dictionary{config: duo.config}
+	_node = &Dictionary{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues
-	if err = sqlgraph.UpdateNode(ctx, duo.driver, _spec); err != nil {
+	if err = sqlgraph.UpdateNode(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{dictionary.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -614,6 +614,6 @@ func (duo *DictionaryUpdateOne) sqlSave(ctx context.Context) (_node *Dictionary,
 		}
 		return nil, err
 	}
-	duo.mutation.done = true
+	_u.mutation.done = true
 	return _node, nil
 }

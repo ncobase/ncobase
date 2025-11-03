@@ -80,7 +80,7 @@ func (*Employee) scanValues(columns []string) ([]any, error) {
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
 // to the Employee fields.
-func (e *Employee) assignValues(columns []string, values []any) error {
+func (_m *Employee) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
@@ -90,92 +90,92 @@ func (e *Employee) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field id", values[i])
 			} else if value.Valid {
-				e.ID = value.String
+				_m.ID = value.String
 			}
 		case employee.FieldSpaceID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field space_id", values[i])
 			} else if value.Valid {
-				e.SpaceID = value.String
+				_m.SpaceID = value.String
 			}
 		case employee.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field created_at", values[i])
 			} else if value.Valid {
-				e.CreatedAt = value.Int64
+				_m.CreatedAt = value.Int64
 			}
 		case employee.FieldUpdatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_at", values[i])
 			} else if value.Valid {
-				e.UpdatedAt = value.Int64
+				_m.UpdatedAt = value.Int64
 			}
 		case employee.FieldEmployeeID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field employee_id", values[i])
 			} else if value.Valid {
-				e.EmployeeID = value.String
+				_m.EmployeeID = value.String
 			}
 		case employee.FieldDepartment:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field department", values[i])
 			} else if value.Valid {
-				e.Department = value.String
+				_m.Department = value.String
 			}
 		case employee.FieldPosition:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field position", values[i])
 			} else if value.Valid {
-				e.Position = value.String
+				_m.Position = value.String
 			}
 		case employee.FieldManagerID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field manager_id", values[i])
 			} else if value.Valid {
-				e.ManagerID = value.String
+				_m.ManagerID = value.String
 			}
 		case employee.FieldHireDate:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field hire_date", values[i])
 			} else if value.Valid {
-				e.HireDate = value.Time
+				_m.HireDate = value.Time
 			}
 		case employee.FieldTerminationDate:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field termination_date", values[i])
 			} else if value.Valid {
-				e.TerminationDate = new(time.Time)
-				*e.TerminationDate = value.Time
+				_m.TerminationDate = new(time.Time)
+				*_m.TerminationDate = value.Time
 			}
 		case employee.FieldEmploymentType:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field employment_type", values[i])
 			} else if value.Valid {
-				e.EmploymentType = employee.EmploymentType(value.String)
+				_m.EmploymentType = employee.EmploymentType(value.String)
 			}
 		case employee.FieldStatus:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field status", values[i])
 			} else if value.Valid {
-				e.Status = employee.Status(value.String)
+				_m.Status = employee.Status(value.String)
 			}
 		case employee.FieldSalary:
 			if value, ok := values[i].(*sql.NullFloat64); !ok {
 				return fmt.Errorf("unexpected type %T for field salary", values[i])
 			} else if value.Valid {
-				e.Salary = value.Float64
+				_m.Salary = value.Float64
 			}
 		case employee.FieldWorkLocation:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field work_location", values[i])
 			} else if value.Valid {
-				e.WorkLocation = value.String
+				_m.WorkLocation = value.String
 			}
 		case employee.FieldContactInfo:
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field contact_info", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &e.ContactInfo); err != nil {
+				if err := json.Unmarshal(*value, &_m.ContactInfo); err != nil {
 					return fmt.Errorf("unmarshal field contact_info: %w", err)
 				}
 			}
@@ -183,7 +183,7 @@ func (e *Employee) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field skills", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &e.Skills); err != nil {
+				if err := json.Unmarshal(*value, &_m.Skills); err != nil {
 					return fmt.Errorf("unmarshal field skills: %w", err)
 				}
 			}
@@ -191,7 +191,7 @@ func (e *Employee) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field certifications", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &e.Certifications); err != nil {
+				if err := json.Unmarshal(*value, &_m.Certifications); err != nil {
 					return fmt.Errorf("unmarshal field certifications: %w", err)
 				}
 			}
@@ -199,12 +199,12 @@ func (e *Employee) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field extras", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &e.Extras); err != nil {
+				if err := json.Unmarshal(*value, &_m.Extras); err != nil {
 					return fmt.Errorf("unmarshal field extras: %w", err)
 				}
 			}
 		default:
-			e.selectValues.Set(columns[i], values[i])
+			_m.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
@@ -212,85 +212,85 @@ func (e *Employee) assignValues(columns []string, values []any) error {
 
 // Value returns the ent.Value that was dynamically selected and assigned to the Employee.
 // This includes values selected through modifiers, order, etc.
-func (e *Employee) Value(name string) (ent.Value, error) {
-	return e.selectValues.Get(name)
+func (_m *Employee) Value(name string) (ent.Value, error) {
+	return _m.selectValues.Get(name)
 }
 
 // Update returns a builder for updating this Employee.
 // Note that you need to call Employee.Unwrap() before calling this method if this Employee
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (e *Employee) Update() *EmployeeUpdateOne {
-	return NewEmployeeClient(e.config).UpdateOne(e)
+func (_m *Employee) Update() *EmployeeUpdateOne {
+	return NewEmployeeClient(_m.config).UpdateOne(_m)
 }
 
 // Unwrap unwraps the Employee entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (e *Employee) Unwrap() *Employee {
-	_tx, ok := e.config.driver.(*txDriver)
+func (_m *Employee) Unwrap() *Employee {
+	_tx, ok := _m.config.driver.(*txDriver)
 	if !ok {
 		panic("ent: Employee is not a transactional entity")
 	}
-	e.config.driver = _tx.drv
-	return e
+	_m.config.driver = _tx.drv
+	return _m
 }
 
 // String implements the fmt.Stringer.
-func (e *Employee) String() string {
+func (_m *Employee) String() string {
 	var builder strings.Builder
 	builder.WriteString("Employee(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", e.ID))
+	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
 	builder.WriteString("space_id=")
-	builder.WriteString(e.SpaceID)
+	builder.WriteString(_m.SpaceID)
 	builder.WriteString(", ")
 	builder.WriteString("created_at=")
-	builder.WriteString(fmt.Sprintf("%v", e.CreatedAt))
+	builder.WriteString(fmt.Sprintf("%v", _m.CreatedAt))
 	builder.WriteString(", ")
 	builder.WriteString("updated_at=")
-	builder.WriteString(fmt.Sprintf("%v", e.UpdatedAt))
+	builder.WriteString(fmt.Sprintf("%v", _m.UpdatedAt))
 	builder.WriteString(", ")
 	builder.WriteString("employee_id=")
-	builder.WriteString(e.EmployeeID)
+	builder.WriteString(_m.EmployeeID)
 	builder.WriteString(", ")
 	builder.WriteString("department=")
-	builder.WriteString(e.Department)
+	builder.WriteString(_m.Department)
 	builder.WriteString(", ")
 	builder.WriteString("position=")
-	builder.WriteString(e.Position)
+	builder.WriteString(_m.Position)
 	builder.WriteString(", ")
 	builder.WriteString("manager_id=")
-	builder.WriteString(e.ManagerID)
+	builder.WriteString(_m.ManagerID)
 	builder.WriteString(", ")
 	builder.WriteString("hire_date=")
-	builder.WriteString(e.HireDate.Format(time.ANSIC))
+	builder.WriteString(_m.HireDate.Format(time.ANSIC))
 	builder.WriteString(", ")
-	if v := e.TerminationDate; v != nil {
+	if v := _m.TerminationDate; v != nil {
 		builder.WriteString("termination_date=")
 		builder.WriteString(v.Format(time.ANSIC))
 	}
 	builder.WriteString(", ")
 	builder.WriteString("employment_type=")
-	builder.WriteString(fmt.Sprintf("%v", e.EmploymentType))
+	builder.WriteString(fmt.Sprintf("%v", _m.EmploymentType))
 	builder.WriteString(", ")
 	builder.WriteString("status=")
-	builder.WriteString(fmt.Sprintf("%v", e.Status))
+	builder.WriteString(fmt.Sprintf("%v", _m.Status))
 	builder.WriteString(", ")
 	builder.WriteString("salary=")
-	builder.WriteString(fmt.Sprintf("%v", e.Salary))
+	builder.WriteString(fmt.Sprintf("%v", _m.Salary))
 	builder.WriteString(", ")
 	builder.WriteString("work_location=")
-	builder.WriteString(e.WorkLocation)
+	builder.WriteString(_m.WorkLocation)
 	builder.WriteString(", ")
 	builder.WriteString("contact_info=")
-	builder.WriteString(fmt.Sprintf("%v", e.ContactInfo))
+	builder.WriteString(fmt.Sprintf("%v", _m.ContactInfo))
 	builder.WriteString(", ")
 	builder.WriteString("skills=")
-	builder.WriteString(fmt.Sprintf("%v", e.Skills))
+	builder.WriteString(fmt.Sprintf("%v", _m.Skills))
 	builder.WriteString(", ")
 	builder.WriteString("certifications=")
-	builder.WriteString(fmt.Sprintf("%v", e.Certifications))
+	builder.WriteString(fmt.Sprintf("%v", _m.Certifications))
 	builder.WriteString(", ")
 	builder.WriteString("extras=")
-	builder.WriteString(fmt.Sprintf("%v", e.Extras))
+	builder.WriteString(fmt.Sprintf("%v", _m.Extras))
 	builder.WriteByte(')')
 	return builder.String()
 }

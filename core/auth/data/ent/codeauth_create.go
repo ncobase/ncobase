@@ -19,103 +19,103 @@ type CodeAuthCreate struct {
 }
 
 // SetCode sets the "code" field.
-func (cac *CodeAuthCreate) SetCode(s string) *CodeAuthCreate {
-	cac.mutation.SetCode(s)
-	return cac
+func (_c *CodeAuthCreate) SetCode(v string) *CodeAuthCreate {
+	_c.mutation.SetCode(v)
+	return _c
 }
 
 // SetNillableCode sets the "code" field if the given value is not nil.
-func (cac *CodeAuthCreate) SetNillableCode(s *string) *CodeAuthCreate {
-	if s != nil {
-		cac.SetCode(*s)
+func (_c *CodeAuthCreate) SetNillableCode(v *string) *CodeAuthCreate {
+	if v != nil {
+		_c.SetCode(*v)
 	}
-	return cac
+	return _c
 }
 
 // SetEmail sets the "email" field.
-func (cac *CodeAuthCreate) SetEmail(s string) *CodeAuthCreate {
-	cac.mutation.SetEmail(s)
-	return cac
+func (_c *CodeAuthCreate) SetEmail(v string) *CodeAuthCreate {
+	_c.mutation.SetEmail(v)
+	return _c
 }
 
 // SetNillableEmail sets the "email" field if the given value is not nil.
-func (cac *CodeAuthCreate) SetNillableEmail(s *string) *CodeAuthCreate {
-	if s != nil {
-		cac.SetEmail(*s)
+func (_c *CodeAuthCreate) SetNillableEmail(v *string) *CodeAuthCreate {
+	if v != nil {
+		_c.SetEmail(*v)
 	}
-	return cac
+	return _c
 }
 
 // SetLogged sets the "logged" field.
-func (cac *CodeAuthCreate) SetLogged(b bool) *CodeAuthCreate {
-	cac.mutation.SetLogged(b)
-	return cac
+func (_c *CodeAuthCreate) SetLogged(v bool) *CodeAuthCreate {
+	_c.mutation.SetLogged(v)
+	return _c
 }
 
 // SetNillableLogged sets the "logged" field if the given value is not nil.
-func (cac *CodeAuthCreate) SetNillableLogged(b *bool) *CodeAuthCreate {
-	if b != nil {
-		cac.SetLogged(*b)
+func (_c *CodeAuthCreate) SetNillableLogged(v *bool) *CodeAuthCreate {
+	if v != nil {
+		_c.SetLogged(*v)
 	}
-	return cac
+	return _c
 }
 
 // SetCreatedAt sets the "created_at" field.
-func (cac *CodeAuthCreate) SetCreatedAt(i int64) *CodeAuthCreate {
-	cac.mutation.SetCreatedAt(i)
-	return cac
+func (_c *CodeAuthCreate) SetCreatedAt(v int64) *CodeAuthCreate {
+	_c.mutation.SetCreatedAt(v)
+	return _c
 }
 
 // SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
-func (cac *CodeAuthCreate) SetNillableCreatedAt(i *int64) *CodeAuthCreate {
-	if i != nil {
-		cac.SetCreatedAt(*i)
+func (_c *CodeAuthCreate) SetNillableCreatedAt(v *int64) *CodeAuthCreate {
+	if v != nil {
+		_c.SetCreatedAt(*v)
 	}
-	return cac
+	return _c
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (cac *CodeAuthCreate) SetUpdatedAt(i int64) *CodeAuthCreate {
-	cac.mutation.SetUpdatedAt(i)
-	return cac
+func (_c *CodeAuthCreate) SetUpdatedAt(v int64) *CodeAuthCreate {
+	_c.mutation.SetUpdatedAt(v)
+	return _c
 }
 
 // SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
-func (cac *CodeAuthCreate) SetNillableUpdatedAt(i *int64) *CodeAuthCreate {
-	if i != nil {
-		cac.SetUpdatedAt(*i)
+func (_c *CodeAuthCreate) SetNillableUpdatedAt(v *int64) *CodeAuthCreate {
+	if v != nil {
+		_c.SetUpdatedAt(*v)
 	}
-	return cac
+	return _c
 }
 
 // SetID sets the "id" field.
-func (cac *CodeAuthCreate) SetID(s string) *CodeAuthCreate {
-	cac.mutation.SetID(s)
-	return cac
+func (_c *CodeAuthCreate) SetID(v string) *CodeAuthCreate {
+	_c.mutation.SetID(v)
+	return _c
 }
 
 // SetNillableID sets the "id" field if the given value is not nil.
-func (cac *CodeAuthCreate) SetNillableID(s *string) *CodeAuthCreate {
-	if s != nil {
-		cac.SetID(*s)
+func (_c *CodeAuthCreate) SetNillableID(v *string) *CodeAuthCreate {
+	if v != nil {
+		_c.SetID(*v)
 	}
-	return cac
+	return _c
 }
 
 // Mutation returns the CodeAuthMutation object of the builder.
-func (cac *CodeAuthCreate) Mutation() *CodeAuthMutation {
-	return cac.mutation
+func (_c *CodeAuthCreate) Mutation() *CodeAuthMutation {
+	return _c.mutation
 }
 
 // Save creates the CodeAuth in the database.
-func (cac *CodeAuthCreate) Save(ctx context.Context) (*CodeAuth, error) {
-	cac.defaults()
-	return withHooks(ctx, cac.sqlSave, cac.mutation, cac.hooks)
+func (_c *CodeAuthCreate) Save(ctx context.Context) (*CodeAuth, error) {
+	_c.defaults()
+	return withHooks(ctx, _c.sqlSave, _c.mutation, _c.hooks)
 }
 
 // SaveX calls Save and panics if Save returns an error.
-func (cac *CodeAuthCreate) SaveX(ctx context.Context) *CodeAuth {
-	v, err := cac.Save(ctx)
+func (_c *CodeAuthCreate) SaveX(ctx context.Context) *CodeAuth {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -123,41 +123,41 @@ func (cac *CodeAuthCreate) SaveX(ctx context.Context) *CodeAuth {
 }
 
 // Exec executes the query.
-func (cac *CodeAuthCreate) Exec(ctx context.Context) error {
-	_, err := cac.Save(ctx)
+func (_c *CodeAuthCreate) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (cac *CodeAuthCreate) ExecX(ctx context.Context) {
-	if err := cac.Exec(ctx); err != nil {
+func (_c *CodeAuthCreate) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (cac *CodeAuthCreate) defaults() {
-	if _, ok := cac.mutation.Logged(); !ok {
+func (_c *CodeAuthCreate) defaults() {
+	if _, ok := _c.mutation.Logged(); !ok {
 		v := codeauth.DefaultLogged
-		cac.mutation.SetLogged(v)
+		_c.mutation.SetLogged(v)
 	}
-	if _, ok := cac.mutation.CreatedAt(); !ok {
+	if _, ok := _c.mutation.CreatedAt(); !ok {
 		v := codeauth.DefaultCreatedAt()
-		cac.mutation.SetCreatedAt(v)
+		_c.mutation.SetCreatedAt(v)
 	}
-	if _, ok := cac.mutation.UpdatedAt(); !ok {
+	if _, ok := _c.mutation.UpdatedAt(); !ok {
 		v := codeauth.DefaultUpdatedAt()
-		cac.mutation.SetUpdatedAt(v)
+		_c.mutation.SetUpdatedAt(v)
 	}
-	if _, ok := cac.mutation.ID(); !ok {
+	if _, ok := _c.mutation.ID(); !ok {
 		v := codeauth.DefaultID()
-		cac.mutation.SetID(v)
+		_c.mutation.SetID(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (cac *CodeAuthCreate) check() error {
-	if v, ok := cac.mutation.ID(); ok {
+func (_c *CodeAuthCreate) check() error {
+	if v, ok := _c.mutation.ID(); ok {
 		if err := codeauth.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "CodeAuth.id": %w`, err)}
 		}
@@ -165,12 +165,12 @@ func (cac *CodeAuthCreate) check() error {
 	return nil
 }
 
-func (cac *CodeAuthCreate) sqlSave(ctx context.Context) (*CodeAuth, error) {
-	if err := cac.check(); err != nil {
+func (_c *CodeAuthCreate) sqlSave(ctx context.Context) (*CodeAuth, error) {
+	if err := _c.check(); err != nil {
 		return nil, err
 	}
-	_node, _spec := cac.createSpec()
-	if err := sqlgraph.CreateNode(ctx, cac.driver, _spec); err != nil {
+	_node, _spec := _c.createSpec()
+	if err := sqlgraph.CreateNode(ctx, _c.driver, _spec); err != nil {
 		if sqlgraph.IsConstraintError(err) {
 			err = &ConstraintError{msg: err.Error(), wrap: err}
 		}
@@ -183,37 +183,37 @@ func (cac *CodeAuthCreate) sqlSave(ctx context.Context) (*CodeAuth, error) {
 			return nil, fmt.Errorf("unexpected CodeAuth.ID type: %T", _spec.ID.Value)
 		}
 	}
-	cac.mutation.id = &_node.ID
-	cac.mutation.done = true
+	_c.mutation.id = &_node.ID
+	_c.mutation.done = true
 	return _node, nil
 }
 
-func (cac *CodeAuthCreate) createSpec() (*CodeAuth, *sqlgraph.CreateSpec) {
+func (_c *CodeAuthCreate) createSpec() (*CodeAuth, *sqlgraph.CreateSpec) {
 	var (
-		_node = &CodeAuth{config: cac.config}
+		_node = &CodeAuth{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(codeauth.Table, sqlgraph.NewFieldSpec(codeauth.FieldID, field.TypeString))
 	)
-	if id, ok := cac.mutation.ID(); ok {
+	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
 	}
-	if value, ok := cac.mutation.Code(); ok {
+	if value, ok := _c.mutation.Code(); ok {
 		_spec.SetField(codeauth.FieldCode, field.TypeString, value)
 		_node.Code = value
 	}
-	if value, ok := cac.mutation.Email(); ok {
+	if value, ok := _c.mutation.Email(); ok {
 		_spec.SetField(codeauth.FieldEmail, field.TypeString, value)
 		_node.Email = value
 	}
-	if value, ok := cac.mutation.Logged(); ok {
+	if value, ok := _c.mutation.Logged(); ok {
 		_spec.SetField(codeauth.FieldLogged, field.TypeBool, value)
 		_node.Logged = value
 	}
-	if value, ok := cac.mutation.CreatedAt(); ok {
+	if value, ok := _c.mutation.CreatedAt(); ok {
 		_spec.SetField(codeauth.FieldCreatedAt, field.TypeInt64, value)
 		_node.CreatedAt = value
 	}
-	if value, ok := cac.mutation.UpdatedAt(); ok {
+	if value, ok := _c.mutation.UpdatedAt(); ok {
 		_spec.SetField(codeauth.FieldUpdatedAt, field.TypeInt64, value)
 		_node.UpdatedAt = value
 	}
@@ -228,16 +228,16 @@ type CodeAuthCreateBulk struct {
 }
 
 // Save creates the CodeAuth entities in the database.
-func (cacb *CodeAuthCreateBulk) Save(ctx context.Context) ([]*CodeAuth, error) {
-	if cacb.err != nil {
-		return nil, cacb.err
+func (_c *CodeAuthCreateBulk) Save(ctx context.Context) ([]*CodeAuth, error) {
+	if _c.err != nil {
+		return nil, _c.err
 	}
-	specs := make([]*sqlgraph.CreateSpec, len(cacb.builders))
-	nodes := make([]*CodeAuth, len(cacb.builders))
-	mutators := make([]Mutator, len(cacb.builders))
-	for i := range cacb.builders {
+	specs := make([]*sqlgraph.CreateSpec, len(_c.builders))
+	nodes := make([]*CodeAuth, len(_c.builders))
+	mutators := make([]Mutator, len(_c.builders))
+	for i := range _c.builders {
 		func(i int, root context.Context) {
-			builder := cacb.builders[i]
+			builder := _c.builders[i]
 			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*CodeAuthMutation)
@@ -251,11 +251,11 @@ func (cacb *CodeAuthCreateBulk) Save(ctx context.Context) ([]*CodeAuth, error) {
 				var err error
 				nodes[i], specs[i] = builder.createSpec()
 				if i < len(mutators)-1 {
-					_, err = mutators[i+1].Mutate(root, cacb.builders[i+1].mutation)
+					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
 					// Invoke the actual operation on the latest mutation in the chain.
-					if err = sqlgraph.BatchCreate(ctx, cacb.driver, spec); err != nil {
+					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
 							err = &ConstraintError{msg: err.Error(), wrap: err}
 						}
@@ -275,7 +275,7 @@ func (cacb *CodeAuthCreateBulk) Save(ctx context.Context) ([]*CodeAuth, error) {
 		}(i, ctx)
 	}
 	if len(mutators) > 0 {
-		if _, err := mutators[0].Mutate(ctx, cacb.builders[0].mutation); err != nil {
+		if _, err := mutators[0].Mutate(ctx, _c.builders[0].mutation); err != nil {
 			return nil, err
 		}
 	}
@@ -283,8 +283,8 @@ func (cacb *CodeAuthCreateBulk) Save(ctx context.Context) ([]*CodeAuth, error) {
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (cacb *CodeAuthCreateBulk) SaveX(ctx context.Context) []*CodeAuth {
-	v, err := cacb.Save(ctx)
+func (_c *CodeAuthCreateBulk) SaveX(ctx context.Context) []*CodeAuth {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -292,14 +292,14 @@ func (cacb *CodeAuthCreateBulk) SaveX(ctx context.Context) []*CodeAuth {
 }
 
 // Exec executes the query.
-func (cacb *CodeAuthCreateBulk) Exec(ctx context.Context) error {
-	_, err := cacb.Save(ctx)
+func (_c *CodeAuthCreateBulk) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (cacb *CodeAuthCreateBulk) ExecX(ctx context.Context) {
-	if err := cacb.Exec(ctx); err != nil {
+func (_c *CodeAuthCreateBulk) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

@@ -87,7 +87,7 @@ func (*History) scanValues(columns []string) ([]any, error) {
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
 // to the History fields.
-func (h *History) assignValues(columns []string, values []any) error {
+func (_m *History) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
@@ -97,49 +97,49 @@ func (h *History) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field id", values[i])
 			} else if value.Valid {
-				h.ID = value.String
+				_m.ID = value.String
 			}
 		case history.FieldType:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field type", values[i])
 			} else if value.Valid {
-				h.Type = value.String
+				_m.Type = value.String
 			}
 		case history.FieldProcessID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field process_id", values[i])
 			} else if value.Valid {
-				h.ProcessID = value.String
+				_m.ProcessID = value.String
 			}
 		case history.FieldTemplateID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field template_id", values[i])
 			} else if value.Valid {
-				h.TemplateID = value.String
+				_m.TemplateID = value.String
 			}
 		case history.FieldBusinessKey:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field business_key", values[i])
 			} else if value.Valid {
-				h.BusinessKey = value.String
+				_m.BusinessKey = value.String
 			}
 		case history.FieldNodeKey:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field node_key", values[i])
 			} else if value.Valid {
-				h.NodeKey = value.String
+				_m.NodeKey = value.String
 			}
 		case history.FieldNodeType:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field node_type", values[i])
 			} else if value.Valid {
-				h.NodeType = value.String
+				_m.NodeType = value.String
 			}
 		case history.FieldNodeConfig:
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field node_config", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &h.NodeConfig); err != nil {
+				if err := json.Unmarshal(*value, &_m.NodeConfig); err != nil {
 					return fmt.Errorf("unmarshal field node_config: %w", err)
 				}
 			}
@@ -147,7 +147,7 @@ func (h *History) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field node_rules", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &h.NodeRules); err != nil {
+				if err := json.Unmarshal(*value, &_m.NodeRules); err != nil {
 					return fmt.Errorf("unmarshal field node_rules: %w", err)
 				}
 			}
@@ -155,7 +155,7 @@ func (h *History) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field node_events", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &h.NodeEvents); err != nil {
+				if err := json.Unmarshal(*value, &_m.NodeEvents); err != nil {
 					return fmt.Errorf("unmarshal field node_events: %w", err)
 				}
 			}
@@ -163,61 +163,61 @@ func (h *History) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field space_id", values[i])
 			} else if value.Valid {
-				h.SpaceID = value.String
+				_m.SpaceID = value.String
 			}
 		case history.FieldCreatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field created_by", values[i])
 			} else if value.Valid {
-				h.CreatedBy = value.String
+				_m.CreatedBy = value.String
 			}
 		case history.FieldUpdatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_by", values[i])
 			} else if value.Valid {
-				h.UpdatedBy = value.String
+				_m.UpdatedBy = value.String
 			}
 		case history.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field created_at", values[i])
 			} else if value.Valid {
-				h.CreatedAt = value.Int64
+				_m.CreatedAt = value.Int64
 			}
 		case history.FieldUpdatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_at", values[i])
 			} else if value.Valid {
-				h.UpdatedAt = value.Int64
+				_m.UpdatedAt = value.Int64
 			}
 		case history.FieldNodeName:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field node_name", values[i])
 			} else if value.Valid {
-				h.NodeName = value.String
+				_m.NodeName = value.String
 			}
 		case history.FieldOperator:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field operator", values[i])
 			} else if value.Valid {
-				h.Operator = value.String
+				_m.Operator = value.String
 			}
 		case history.FieldOperatorDept:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field operator_dept", values[i])
 			} else if value.Valid {
-				h.OperatorDept = value.String
+				_m.OperatorDept = value.String
 			}
 		case history.FieldTaskID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field task_id", values[i])
 			} else if value.Valid {
-				h.TaskID = value.String
+				_m.TaskID = value.String
 			}
 		case history.FieldVariables:
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field variables", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &h.Variables); err != nil {
+				if err := json.Unmarshal(*value, &_m.Variables); err != nil {
 					return fmt.Errorf("unmarshal field variables: %w", err)
 				}
 			}
@@ -225,7 +225,7 @@ func (h *History) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field form_data", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &h.FormData); err != nil {
+				if err := json.Unmarshal(*value, &_m.FormData); err != nil {
 					return fmt.Errorf("unmarshal field form_data: %w", err)
 				}
 			}
@@ -233,24 +233,24 @@ func (h *History) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field action", values[i])
 			} else if value.Valid {
-				h.Action = value.String
+				_m.Action = value.String
 			}
 		case history.FieldComment:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field comment", values[i])
 			} else if value.Valid {
-				h.Comment = value.String
+				_m.Comment = value.String
 			}
 		case history.FieldDetails:
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field details", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &h.Details); err != nil {
+				if err := json.Unmarshal(*value, &_m.Details); err != nil {
 					return fmt.Errorf("unmarshal field details: %w", err)
 				}
 			}
 		default:
-			h.selectValues.Set(columns[i], values[i])
+			_m.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
@@ -258,101 +258,101 @@ func (h *History) assignValues(columns []string, values []any) error {
 
 // Value returns the ent.Value that was dynamically selected and assigned to the History.
 // This includes values selected through modifiers, order, etc.
-func (h *History) Value(name string) (ent.Value, error) {
-	return h.selectValues.Get(name)
+func (_m *History) Value(name string) (ent.Value, error) {
+	return _m.selectValues.Get(name)
 }
 
 // Update returns a builder for updating this History.
 // Note that you need to call History.Unwrap() before calling this method if this History
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (h *History) Update() *HistoryUpdateOne {
-	return NewHistoryClient(h.config).UpdateOne(h)
+func (_m *History) Update() *HistoryUpdateOne {
+	return NewHistoryClient(_m.config).UpdateOne(_m)
 }
 
 // Unwrap unwraps the History entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (h *History) Unwrap() *History {
-	_tx, ok := h.config.driver.(*txDriver)
+func (_m *History) Unwrap() *History {
+	_tx, ok := _m.config.driver.(*txDriver)
 	if !ok {
 		panic("ent: History is not a transactional entity")
 	}
-	h.config.driver = _tx.drv
-	return h
+	_m.config.driver = _tx.drv
+	return _m
 }
 
 // String implements the fmt.Stringer.
-func (h *History) String() string {
+func (_m *History) String() string {
 	var builder strings.Builder
 	builder.WriteString("History(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", h.ID))
+	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
 	builder.WriteString("type=")
-	builder.WriteString(h.Type)
+	builder.WriteString(_m.Type)
 	builder.WriteString(", ")
 	builder.WriteString("process_id=")
-	builder.WriteString(h.ProcessID)
+	builder.WriteString(_m.ProcessID)
 	builder.WriteString(", ")
 	builder.WriteString("template_id=")
-	builder.WriteString(h.TemplateID)
+	builder.WriteString(_m.TemplateID)
 	builder.WriteString(", ")
 	builder.WriteString("business_key=")
-	builder.WriteString(h.BusinessKey)
+	builder.WriteString(_m.BusinessKey)
 	builder.WriteString(", ")
 	builder.WriteString("node_key=")
-	builder.WriteString(h.NodeKey)
+	builder.WriteString(_m.NodeKey)
 	builder.WriteString(", ")
 	builder.WriteString("node_type=")
-	builder.WriteString(h.NodeType)
+	builder.WriteString(_m.NodeType)
 	builder.WriteString(", ")
 	builder.WriteString("node_config=")
-	builder.WriteString(fmt.Sprintf("%v", h.NodeConfig))
+	builder.WriteString(fmt.Sprintf("%v", _m.NodeConfig))
 	builder.WriteString(", ")
 	builder.WriteString("node_rules=")
-	builder.WriteString(fmt.Sprintf("%v", h.NodeRules))
+	builder.WriteString(fmt.Sprintf("%v", _m.NodeRules))
 	builder.WriteString(", ")
 	builder.WriteString("node_events=")
-	builder.WriteString(fmt.Sprintf("%v", h.NodeEvents))
+	builder.WriteString(fmt.Sprintf("%v", _m.NodeEvents))
 	builder.WriteString(", ")
 	builder.WriteString("space_id=")
-	builder.WriteString(h.SpaceID)
+	builder.WriteString(_m.SpaceID)
 	builder.WriteString(", ")
 	builder.WriteString("created_by=")
-	builder.WriteString(h.CreatedBy)
+	builder.WriteString(_m.CreatedBy)
 	builder.WriteString(", ")
 	builder.WriteString("updated_by=")
-	builder.WriteString(h.UpdatedBy)
+	builder.WriteString(_m.UpdatedBy)
 	builder.WriteString(", ")
 	builder.WriteString("created_at=")
-	builder.WriteString(fmt.Sprintf("%v", h.CreatedAt))
+	builder.WriteString(fmt.Sprintf("%v", _m.CreatedAt))
 	builder.WriteString(", ")
 	builder.WriteString("updated_at=")
-	builder.WriteString(fmt.Sprintf("%v", h.UpdatedAt))
+	builder.WriteString(fmt.Sprintf("%v", _m.UpdatedAt))
 	builder.WriteString(", ")
 	builder.WriteString("node_name=")
-	builder.WriteString(h.NodeName)
+	builder.WriteString(_m.NodeName)
 	builder.WriteString(", ")
 	builder.WriteString("operator=")
-	builder.WriteString(h.Operator)
+	builder.WriteString(_m.Operator)
 	builder.WriteString(", ")
 	builder.WriteString("operator_dept=")
-	builder.WriteString(h.OperatorDept)
+	builder.WriteString(_m.OperatorDept)
 	builder.WriteString(", ")
 	builder.WriteString("task_id=")
-	builder.WriteString(h.TaskID)
+	builder.WriteString(_m.TaskID)
 	builder.WriteString(", ")
 	builder.WriteString("variables=")
-	builder.WriteString(fmt.Sprintf("%v", h.Variables))
+	builder.WriteString(fmt.Sprintf("%v", _m.Variables))
 	builder.WriteString(", ")
 	builder.WriteString("form_data=")
-	builder.WriteString(fmt.Sprintf("%v", h.FormData))
+	builder.WriteString(fmt.Sprintf("%v", _m.FormData))
 	builder.WriteString(", ")
 	builder.WriteString("action=")
-	builder.WriteString(h.Action)
+	builder.WriteString(_m.Action)
 	builder.WriteString(", ")
 	builder.WriteString("comment=")
-	builder.WriteString(h.Comment)
+	builder.WriteString(_m.Comment)
 	builder.WriteString(", ")
 	builder.WriteString("details=")
-	builder.WriteString(fmt.Sprintf("%v", h.Details))
+	builder.WriteString(fmt.Sprintf("%v", _m.Details))
 	builder.WriteByte(')')
 	return builder.String()
 }

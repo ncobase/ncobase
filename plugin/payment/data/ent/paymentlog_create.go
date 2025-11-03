@@ -21,202 +21,202 @@ type PaymentLogCreate struct {
 }
 
 // SetExtras sets the "extras" field.
-func (plc *PaymentLogCreate) SetExtras(m map[string]interface{}) *PaymentLogCreate {
-	plc.mutation.SetExtras(m)
-	return plc
+func (_c *PaymentLogCreate) SetExtras(v map[string]interface{}) *PaymentLogCreate {
+	_c.mutation.SetExtras(v)
+	return _c
 }
 
 // SetCreatedAt sets the "created_at" field.
-func (plc *PaymentLogCreate) SetCreatedAt(i int64) *PaymentLogCreate {
-	plc.mutation.SetCreatedAt(i)
-	return plc
+func (_c *PaymentLogCreate) SetCreatedAt(v int64) *PaymentLogCreate {
+	_c.mutation.SetCreatedAt(v)
+	return _c
 }
 
 // SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
-func (plc *PaymentLogCreate) SetNillableCreatedAt(i *int64) *PaymentLogCreate {
-	if i != nil {
-		plc.SetCreatedAt(*i)
+func (_c *PaymentLogCreate) SetNillableCreatedAt(v *int64) *PaymentLogCreate {
+	if v != nil {
+		_c.SetCreatedAt(*v)
 	}
-	return plc
+	return _c
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (plc *PaymentLogCreate) SetUpdatedAt(i int64) *PaymentLogCreate {
-	plc.mutation.SetUpdatedAt(i)
-	return plc
+func (_c *PaymentLogCreate) SetUpdatedAt(v int64) *PaymentLogCreate {
+	_c.mutation.SetUpdatedAt(v)
+	return _c
 }
 
 // SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
-func (plc *PaymentLogCreate) SetNillableUpdatedAt(i *int64) *PaymentLogCreate {
-	if i != nil {
-		plc.SetUpdatedAt(*i)
+func (_c *PaymentLogCreate) SetNillableUpdatedAt(v *int64) *PaymentLogCreate {
+	if v != nil {
+		_c.SetUpdatedAt(*v)
 	}
-	return plc
+	return _c
 }
 
 // SetOrderID sets the "order_id" field.
-func (plc *PaymentLogCreate) SetOrderID(s string) *PaymentLogCreate {
-	plc.mutation.SetOrderID(s)
-	return plc
+func (_c *PaymentLogCreate) SetOrderID(v string) *PaymentLogCreate {
+	_c.mutation.SetOrderID(v)
+	return _c
 }
 
 // SetChannelID sets the "channel_id" field.
-func (plc *PaymentLogCreate) SetChannelID(s string) *PaymentLogCreate {
-	plc.mutation.SetChannelID(s)
-	return plc
+func (_c *PaymentLogCreate) SetChannelID(v string) *PaymentLogCreate {
+	_c.mutation.SetChannelID(v)
+	return _c
 }
 
 // SetType sets the "type" field.
-func (plc *PaymentLogCreate) SetType(s string) *PaymentLogCreate {
-	plc.mutation.SetType(s)
-	return plc
+func (_c *PaymentLogCreate) SetType(v string) *PaymentLogCreate {
+	_c.mutation.SetType(v)
+	return _c
 }
 
 // SetStatusBefore sets the "status_before" field.
-func (plc *PaymentLogCreate) SetStatusBefore(s string) *PaymentLogCreate {
-	plc.mutation.SetStatusBefore(s)
-	return plc
+func (_c *PaymentLogCreate) SetStatusBefore(v string) *PaymentLogCreate {
+	_c.mutation.SetStatusBefore(v)
+	return _c
 }
 
 // SetNillableStatusBefore sets the "status_before" field if the given value is not nil.
-func (plc *PaymentLogCreate) SetNillableStatusBefore(s *string) *PaymentLogCreate {
-	if s != nil {
-		plc.SetStatusBefore(*s)
+func (_c *PaymentLogCreate) SetNillableStatusBefore(v *string) *PaymentLogCreate {
+	if v != nil {
+		_c.SetStatusBefore(*v)
 	}
-	return plc
+	return _c
 }
 
 // SetStatusAfter sets the "status_after" field.
-func (plc *PaymentLogCreate) SetStatusAfter(s string) *PaymentLogCreate {
-	plc.mutation.SetStatusAfter(s)
-	return plc
+func (_c *PaymentLogCreate) SetStatusAfter(v string) *PaymentLogCreate {
+	_c.mutation.SetStatusAfter(v)
+	return _c
 }
 
 // SetNillableStatusAfter sets the "status_after" field if the given value is not nil.
-func (plc *PaymentLogCreate) SetNillableStatusAfter(s *string) *PaymentLogCreate {
-	if s != nil {
-		plc.SetStatusAfter(*s)
+func (_c *PaymentLogCreate) SetNillableStatusAfter(v *string) *PaymentLogCreate {
+	if v != nil {
+		_c.SetStatusAfter(*v)
 	}
-	return plc
+	return _c
 }
 
 // SetRequestData sets the "request_data" field.
-func (plc *PaymentLogCreate) SetRequestData(s string) *PaymentLogCreate {
-	plc.mutation.SetRequestData(s)
-	return plc
+func (_c *PaymentLogCreate) SetRequestData(v string) *PaymentLogCreate {
+	_c.mutation.SetRequestData(v)
+	return _c
 }
 
 // SetNillableRequestData sets the "request_data" field if the given value is not nil.
-func (plc *PaymentLogCreate) SetNillableRequestData(s *string) *PaymentLogCreate {
-	if s != nil {
-		plc.SetRequestData(*s)
+func (_c *PaymentLogCreate) SetNillableRequestData(v *string) *PaymentLogCreate {
+	if v != nil {
+		_c.SetRequestData(*v)
 	}
-	return plc
+	return _c
 }
 
 // SetResponseData sets the "response_data" field.
-func (plc *PaymentLogCreate) SetResponseData(s string) *PaymentLogCreate {
-	plc.mutation.SetResponseData(s)
-	return plc
+func (_c *PaymentLogCreate) SetResponseData(v string) *PaymentLogCreate {
+	_c.mutation.SetResponseData(v)
+	return _c
 }
 
 // SetNillableResponseData sets the "response_data" field if the given value is not nil.
-func (plc *PaymentLogCreate) SetNillableResponseData(s *string) *PaymentLogCreate {
-	if s != nil {
-		plc.SetResponseData(*s)
+func (_c *PaymentLogCreate) SetNillableResponseData(v *string) *PaymentLogCreate {
+	if v != nil {
+		_c.SetResponseData(*v)
 	}
-	return plc
+	return _c
 }
 
 // SetIP sets the "ip" field.
-func (plc *PaymentLogCreate) SetIP(s string) *PaymentLogCreate {
-	plc.mutation.SetIP(s)
-	return plc
+func (_c *PaymentLogCreate) SetIP(v string) *PaymentLogCreate {
+	_c.mutation.SetIP(v)
+	return _c
 }
 
 // SetNillableIP sets the "ip" field if the given value is not nil.
-func (plc *PaymentLogCreate) SetNillableIP(s *string) *PaymentLogCreate {
-	if s != nil {
-		plc.SetIP(*s)
+func (_c *PaymentLogCreate) SetNillableIP(v *string) *PaymentLogCreate {
+	if v != nil {
+		_c.SetIP(*v)
 	}
-	return plc
+	return _c
 }
 
 // SetUserAgent sets the "user_agent" field.
-func (plc *PaymentLogCreate) SetUserAgent(s string) *PaymentLogCreate {
-	plc.mutation.SetUserAgent(s)
-	return plc
+func (_c *PaymentLogCreate) SetUserAgent(v string) *PaymentLogCreate {
+	_c.mutation.SetUserAgent(v)
+	return _c
 }
 
 // SetNillableUserAgent sets the "user_agent" field if the given value is not nil.
-func (plc *PaymentLogCreate) SetNillableUserAgent(s *string) *PaymentLogCreate {
-	if s != nil {
-		plc.SetUserAgent(*s)
+func (_c *PaymentLogCreate) SetNillableUserAgent(v *string) *PaymentLogCreate {
+	if v != nil {
+		_c.SetUserAgent(*v)
 	}
-	return plc
+	return _c
 }
 
 // SetUserID sets the "user_id" field.
-func (plc *PaymentLogCreate) SetUserID(s string) *PaymentLogCreate {
-	plc.mutation.SetUserID(s)
-	return plc
+func (_c *PaymentLogCreate) SetUserID(v string) *PaymentLogCreate {
+	_c.mutation.SetUserID(v)
+	return _c
 }
 
 // SetNillableUserID sets the "user_id" field if the given value is not nil.
-func (plc *PaymentLogCreate) SetNillableUserID(s *string) *PaymentLogCreate {
-	if s != nil {
-		plc.SetUserID(*s)
+func (_c *PaymentLogCreate) SetNillableUserID(v *string) *PaymentLogCreate {
+	if v != nil {
+		_c.SetUserID(*v)
 	}
-	return plc
+	return _c
 }
 
 // SetError sets the "error" field.
-func (plc *PaymentLogCreate) SetError(s string) *PaymentLogCreate {
-	plc.mutation.SetError(s)
-	return plc
+func (_c *PaymentLogCreate) SetError(v string) *PaymentLogCreate {
+	_c.mutation.SetError(v)
+	return _c
 }
 
 // SetNillableError sets the "error" field if the given value is not nil.
-func (plc *PaymentLogCreate) SetNillableError(s *string) *PaymentLogCreate {
-	if s != nil {
-		plc.SetError(*s)
+func (_c *PaymentLogCreate) SetNillableError(v *string) *PaymentLogCreate {
+	if v != nil {
+		_c.SetError(*v)
 	}
-	return plc
+	return _c
 }
 
 // SetID sets the "id" field.
-func (plc *PaymentLogCreate) SetID(s string) *PaymentLogCreate {
-	plc.mutation.SetID(s)
-	return plc
+func (_c *PaymentLogCreate) SetID(v string) *PaymentLogCreate {
+	_c.mutation.SetID(v)
+	return _c
 }
 
 // SetNillableID sets the "id" field if the given value is not nil.
-func (plc *PaymentLogCreate) SetNillableID(s *string) *PaymentLogCreate {
-	if s != nil {
-		plc.SetID(*s)
+func (_c *PaymentLogCreate) SetNillableID(v *string) *PaymentLogCreate {
+	if v != nil {
+		_c.SetID(*v)
 	}
-	return plc
+	return _c
 }
 
 // SetOrder sets the "order" edge to the PaymentOrder entity.
-func (plc *PaymentLogCreate) SetOrder(p *PaymentOrder) *PaymentLogCreate {
-	return plc.SetOrderID(p.ID)
+func (_c *PaymentLogCreate) SetOrder(v *PaymentOrder) *PaymentLogCreate {
+	return _c.SetOrderID(v.ID)
 }
 
 // Mutation returns the PaymentLogMutation object of the builder.
-func (plc *PaymentLogCreate) Mutation() *PaymentLogMutation {
-	return plc.mutation
+func (_c *PaymentLogCreate) Mutation() *PaymentLogMutation {
+	return _c.mutation
 }
 
 // Save creates the PaymentLog in the database.
-func (plc *PaymentLogCreate) Save(ctx context.Context) (*PaymentLog, error) {
-	plc.defaults()
-	return withHooks(ctx, plc.sqlSave, plc.mutation, plc.hooks)
+func (_c *PaymentLogCreate) Save(ctx context.Context) (*PaymentLog, error) {
+	_c.defaults()
+	return withHooks(ctx, _c.sqlSave, _c.mutation, _c.hooks)
 }
 
 // SaveX calls Save and panics if Save returns an error.
-func (plc *PaymentLogCreate) SaveX(ctx context.Context) *PaymentLog {
-	v, err := plc.Save(ctx)
+func (_c *PaymentLogCreate) SaveX(ctx context.Context) *PaymentLog {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -224,81 +224,81 @@ func (plc *PaymentLogCreate) SaveX(ctx context.Context) *PaymentLog {
 }
 
 // Exec executes the query.
-func (plc *PaymentLogCreate) Exec(ctx context.Context) error {
-	_, err := plc.Save(ctx)
+func (_c *PaymentLogCreate) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (plc *PaymentLogCreate) ExecX(ctx context.Context) {
-	if err := plc.Exec(ctx); err != nil {
+func (_c *PaymentLogCreate) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (plc *PaymentLogCreate) defaults() {
-	if _, ok := plc.mutation.Extras(); !ok {
+func (_c *PaymentLogCreate) defaults() {
+	if _, ok := _c.mutation.Extras(); !ok {
 		v := paymentlog.DefaultExtras
-		plc.mutation.SetExtras(v)
+		_c.mutation.SetExtras(v)
 	}
-	if _, ok := plc.mutation.CreatedAt(); !ok {
+	if _, ok := _c.mutation.CreatedAt(); !ok {
 		v := paymentlog.DefaultCreatedAt()
-		plc.mutation.SetCreatedAt(v)
+		_c.mutation.SetCreatedAt(v)
 	}
-	if _, ok := plc.mutation.UpdatedAt(); !ok {
+	if _, ok := _c.mutation.UpdatedAt(); !ok {
 		v := paymentlog.DefaultUpdatedAt()
-		plc.mutation.SetUpdatedAt(v)
+		_c.mutation.SetUpdatedAt(v)
 	}
-	if _, ok := plc.mutation.ID(); !ok {
+	if _, ok := _c.mutation.ID(); !ok {
 		v := paymentlog.DefaultID()
-		plc.mutation.SetID(v)
+		_c.mutation.SetID(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (plc *PaymentLogCreate) check() error {
-	if _, ok := plc.mutation.OrderID(); !ok {
+func (_c *PaymentLogCreate) check() error {
+	if _, ok := _c.mutation.OrderID(); !ok {
 		return &ValidationError{Name: "order_id", err: errors.New(`ent: missing required field "PaymentLog.order_id"`)}
 	}
-	if v, ok := plc.mutation.OrderID(); ok {
+	if v, ok := _c.mutation.OrderID(); ok {
 		if err := paymentlog.OrderIDValidator(v); err != nil {
 			return &ValidationError{Name: "order_id", err: fmt.Errorf(`ent: validator failed for field "PaymentLog.order_id": %w`, err)}
 		}
 	}
-	if _, ok := plc.mutation.ChannelID(); !ok {
+	if _, ok := _c.mutation.ChannelID(); !ok {
 		return &ValidationError{Name: "channel_id", err: errors.New(`ent: missing required field "PaymentLog.channel_id"`)}
 	}
-	if v, ok := plc.mutation.ChannelID(); ok {
+	if v, ok := _c.mutation.ChannelID(); ok {
 		if err := paymentlog.ChannelIDValidator(v); err != nil {
 			return &ValidationError{Name: "channel_id", err: fmt.Errorf(`ent: validator failed for field "PaymentLog.channel_id": %w`, err)}
 		}
 	}
-	if _, ok := plc.mutation.GetType(); !ok {
+	if _, ok := _c.mutation.GetType(); !ok {
 		return &ValidationError{Name: "type", err: errors.New(`ent: missing required field "PaymentLog.type"`)}
 	}
-	if v, ok := plc.mutation.GetType(); ok {
+	if v, ok := _c.mutation.GetType(); ok {
 		if err := paymentlog.TypeValidator(v); err != nil {
 			return &ValidationError{Name: "type", err: fmt.Errorf(`ent: validator failed for field "PaymentLog.type": %w`, err)}
 		}
 	}
-	if v, ok := plc.mutation.ID(); ok {
+	if v, ok := _c.mutation.ID(); ok {
 		if err := paymentlog.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "PaymentLog.id": %w`, err)}
 		}
 	}
-	if len(plc.mutation.OrderIDs()) == 0 {
+	if len(_c.mutation.OrderIDs()) == 0 {
 		return &ValidationError{Name: "order", err: errors.New(`ent: missing required edge "PaymentLog.order"`)}
 	}
 	return nil
 }
 
-func (plc *PaymentLogCreate) sqlSave(ctx context.Context) (*PaymentLog, error) {
-	if err := plc.check(); err != nil {
+func (_c *PaymentLogCreate) sqlSave(ctx context.Context) (*PaymentLog, error) {
+	if err := _c.check(); err != nil {
 		return nil, err
 	}
-	_node, _spec := plc.createSpec()
-	if err := sqlgraph.CreateNode(ctx, plc.driver, _spec); err != nil {
+	_node, _spec := _c.createSpec()
+	if err := sqlgraph.CreateNode(ctx, _c.driver, _spec); err != nil {
 		if sqlgraph.IsConstraintError(err) {
 			err = &ConstraintError{msg: err.Error(), wrap: err}
 		}
@@ -311,73 +311,73 @@ func (plc *PaymentLogCreate) sqlSave(ctx context.Context) (*PaymentLog, error) {
 			return nil, fmt.Errorf("unexpected PaymentLog.ID type: %T", _spec.ID.Value)
 		}
 	}
-	plc.mutation.id = &_node.ID
-	plc.mutation.done = true
+	_c.mutation.id = &_node.ID
+	_c.mutation.done = true
 	return _node, nil
 }
 
-func (plc *PaymentLogCreate) createSpec() (*PaymentLog, *sqlgraph.CreateSpec) {
+func (_c *PaymentLogCreate) createSpec() (*PaymentLog, *sqlgraph.CreateSpec) {
 	var (
-		_node = &PaymentLog{config: plc.config}
+		_node = &PaymentLog{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(paymentlog.Table, sqlgraph.NewFieldSpec(paymentlog.FieldID, field.TypeString))
 	)
-	if id, ok := plc.mutation.ID(); ok {
+	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
 	}
-	if value, ok := plc.mutation.Extras(); ok {
+	if value, ok := _c.mutation.Extras(); ok {
 		_spec.SetField(paymentlog.FieldExtras, field.TypeJSON, value)
 		_node.Extras = value
 	}
-	if value, ok := plc.mutation.CreatedAt(); ok {
+	if value, ok := _c.mutation.CreatedAt(); ok {
 		_spec.SetField(paymentlog.FieldCreatedAt, field.TypeInt64, value)
 		_node.CreatedAt = value
 	}
-	if value, ok := plc.mutation.UpdatedAt(); ok {
+	if value, ok := _c.mutation.UpdatedAt(); ok {
 		_spec.SetField(paymentlog.FieldUpdatedAt, field.TypeInt64, value)
 		_node.UpdatedAt = value
 	}
-	if value, ok := plc.mutation.ChannelID(); ok {
+	if value, ok := _c.mutation.ChannelID(); ok {
 		_spec.SetField(paymentlog.FieldChannelID, field.TypeString, value)
 		_node.ChannelID = value
 	}
-	if value, ok := plc.mutation.GetType(); ok {
+	if value, ok := _c.mutation.GetType(); ok {
 		_spec.SetField(paymentlog.FieldType, field.TypeString, value)
 		_node.Type = value
 	}
-	if value, ok := plc.mutation.StatusBefore(); ok {
+	if value, ok := _c.mutation.StatusBefore(); ok {
 		_spec.SetField(paymentlog.FieldStatusBefore, field.TypeString, value)
 		_node.StatusBefore = value
 	}
-	if value, ok := plc.mutation.StatusAfter(); ok {
+	if value, ok := _c.mutation.StatusAfter(); ok {
 		_spec.SetField(paymentlog.FieldStatusAfter, field.TypeString, value)
 		_node.StatusAfter = value
 	}
-	if value, ok := plc.mutation.RequestData(); ok {
+	if value, ok := _c.mutation.RequestData(); ok {
 		_spec.SetField(paymentlog.FieldRequestData, field.TypeString, value)
 		_node.RequestData = value
 	}
-	if value, ok := plc.mutation.ResponseData(); ok {
+	if value, ok := _c.mutation.ResponseData(); ok {
 		_spec.SetField(paymentlog.FieldResponseData, field.TypeString, value)
 		_node.ResponseData = value
 	}
-	if value, ok := plc.mutation.IP(); ok {
+	if value, ok := _c.mutation.IP(); ok {
 		_spec.SetField(paymentlog.FieldIP, field.TypeString, value)
 		_node.IP = value
 	}
-	if value, ok := plc.mutation.UserAgent(); ok {
+	if value, ok := _c.mutation.UserAgent(); ok {
 		_spec.SetField(paymentlog.FieldUserAgent, field.TypeString, value)
 		_node.UserAgent = value
 	}
-	if value, ok := plc.mutation.UserID(); ok {
+	if value, ok := _c.mutation.UserID(); ok {
 		_spec.SetField(paymentlog.FieldUserID, field.TypeString, value)
 		_node.UserID = value
 	}
-	if value, ok := plc.mutation.Error(); ok {
+	if value, ok := _c.mutation.Error(); ok {
 		_spec.SetField(paymentlog.FieldError, field.TypeString, value)
 		_node.Error = value
 	}
-	if nodes := plc.mutation.OrderIDs(); len(nodes) > 0 {
+	if nodes := _c.mutation.OrderIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -405,16 +405,16 @@ type PaymentLogCreateBulk struct {
 }
 
 // Save creates the PaymentLog entities in the database.
-func (plcb *PaymentLogCreateBulk) Save(ctx context.Context) ([]*PaymentLog, error) {
-	if plcb.err != nil {
-		return nil, plcb.err
+func (_c *PaymentLogCreateBulk) Save(ctx context.Context) ([]*PaymentLog, error) {
+	if _c.err != nil {
+		return nil, _c.err
 	}
-	specs := make([]*sqlgraph.CreateSpec, len(plcb.builders))
-	nodes := make([]*PaymentLog, len(plcb.builders))
-	mutators := make([]Mutator, len(plcb.builders))
-	for i := range plcb.builders {
+	specs := make([]*sqlgraph.CreateSpec, len(_c.builders))
+	nodes := make([]*PaymentLog, len(_c.builders))
+	mutators := make([]Mutator, len(_c.builders))
+	for i := range _c.builders {
 		func(i int, root context.Context) {
-			builder := plcb.builders[i]
+			builder := _c.builders[i]
 			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*PaymentLogMutation)
@@ -428,11 +428,11 @@ func (plcb *PaymentLogCreateBulk) Save(ctx context.Context) ([]*PaymentLog, erro
 				var err error
 				nodes[i], specs[i] = builder.createSpec()
 				if i < len(mutators)-1 {
-					_, err = mutators[i+1].Mutate(root, plcb.builders[i+1].mutation)
+					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
 					// Invoke the actual operation on the latest mutation in the chain.
-					if err = sqlgraph.BatchCreate(ctx, plcb.driver, spec); err != nil {
+					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
 							err = &ConstraintError{msg: err.Error(), wrap: err}
 						}
@@ -452,7 +452,7 @@ func (plcb *PaymentLogCreateBulk) Save(ctx context.Context) ([]*PaymentLog, erro
 		}(i, ctx)
 	}
 	if len(mutators) > 0 {
-		if _, err := mutators[0].Mutate(ctx, plcb.builders[0].mutation); err != nil {
+		if _, err := mutators[0].Mutate(ctx, _c.builders[0].mutation); err != nil {
 			return nil, err
 		}
 	}
@@ -460,8 +460,8 @@ func (plcb *PaymentLogCreateBulk) Save(ctx context.Context) ([]*PaymentLog, erro
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (plcb *PaymentLogCreateBulk) SaveX(ctx context.Context) []*PaymentLog {
-	v, err := plcb.Save(ctx)
+func (_c *PaymentLogCreateBulk) SaveX(ctx context.Context) []*PaymentLog {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -469,14 +469,14 @@ func (plcb *PaymentLogCreateBulk) SaveX(ctx context.Context) []*PaymentLog {
 }
 
 // Exec executes the query.
-func (plcb *PaymentLogCreateBulk) Exec(ctx context.Context) error {
-	_, err := plcb.Save(ctx)
+func (_c *PaymentLogCreateBulk) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (plcb *PaymentLogCreateBulk) ExecX(ctx context.Context) {
-	if err := plcb.Exec(ctx); err != nil {
+func (_c *PaymentLogCreateBulk) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

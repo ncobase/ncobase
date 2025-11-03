@@ -22,357 +22,357 @@ type TaxonomyUpdate struct {
 }
 
 // Where appends a list predicates to the TaxonomyUpdate builder.
-func (tu *TaxonomyUpdate) Where(ps ...predicate.Taxonomy) *TaxonomyUpdate {
-	tu.mutation.Where(ps...)
-	return tu
+func (_u *TaxonomyUpdate) Where(ps ...predicate.Taxonomy) *TaxonomyUpdate {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // SetName sets the "name" field.
-func (tu *TaxonomyUpdate) SetName(s string) *TaxonomyUpdate {
-	tu.mutation.SetName(s)
-	return tu
+func (_u *TaxonomyUpdate) SetName(v string) *TaxonomyUpdate {
+	_u.mutation.SetName(v)
+	return _u
 }
 
 // SetNillableName sets the "name" field if the given value is not nil.
-func (tu *TaxonomyUpdate) SetNillableName(s *string) *TaxonomyUpdate {
-	if s != nil {
-		tu.SetName(*s)
+func (_u *TaxonomyUpdate) SetNillableName(v *string) *TaxonomyUpdate {
+	if v != nil {
+		_u.SetName(*v)
 	}
-	return tu
+	return _u
 }
 
 // ClearName clears the value of the "name" field.
-func (tu *TaxonomyUpdate) ClearName() *TaxonomyUpdate {
-	tu.mutation.ClearName()
-	return tu
+func (_u *TaxonomyUpdate) ClearName() *TaxonomyUpdate {
+	_u.mutation.ClearName()
+	return _u
 }
 
 // SetType sets the "type" field.
-func (tu *TaxonomyUpdate) SetType(s string) *TaxonomyUpdate {
-	tu.mutation.SetType(s)
-	return tu
+func (_u *TaxonomyUpdate) SetType(v string) *TaxonomyUpdate {
+	_u.mutation.SetType(v)
+	return _u
 }
 
 // SetNillableType sets the "type" field if the given value is not nil.
-func (tu *TaxonomyUpdate) SetNillableType(s *string) *TaxonomyUpdate {
-	if s != nil {
-		tu.SetType(*s)
+func (_u *TaxonomyUpdate) SetNillableType(v *string) *TaxonomyUpdate {
+	if v != nil {
+		_u.SetType(*v)
 	}
-	return tu
+	return _u
 }
 
 // ClearType clears the value of the "type" field.
-func (tu *TaxonomyUpdate) ClearType() *TaxonomyUpdate {
-	tu.mutation.ClearType()
-	return tu
+func (_u *TaxonomyUpdate) ClearType() *TaxonomyUpdate {
+	_u.mutation.ClearType()
+	return _u
 }
 
 // SetSlug sets the "slug" field.
-func (tu *TaxonomyUpdate) SetSlug(s string) *TaxonomyUpdate {
-	tu.mutation.SetSlug(s)
-	return tu
+func (_u *TaxonomyUpdate) SetSlug(v string) *TaxonomyUpdate {
+	_u.mutation.SetSlug(v)
+	return _u
 }
 
 // SetNillableSlug sets the "slug" field if the given value is not nil.
-func (tu *TaxonomyUpdate) SetNillableSlug(s *string) *TaxonomyUpdate {
-	if s != nil {
-		tu.SetSlug(*s)
+func (_u *TaxonomyUpdate) SetNillableSlug(v *string) *TaxonomyUpdate {
+	if v != nil {
+		_u.SetSlug(*v)
 	}
-	return tu
+	return _u
 }
 
 // ClearSlug clears the value of the "slug" field.
-func (tu *TaxonomyUpdate) ClearSlug() *TaxonomyUpdate {
-	tu.mutation.ClearSlug()
-	return tu
+func (_u *TaxonomyUpdate) ClearSlug() *TaxonomyUpdate {
+	_u.mutation.ClearSlug()
+	return _u
 }
 
 // SetCover sets the "cover" field.
-func (tu *TaxonomyUpdate) SetCover(s string) *TaxonomyUpdate {
-	tu.mutation.SetCover(s)
-	return tu
+func (_u *TaxonomyUpdate) SetCover(v string) *TaxonomyUpdate {
+	_u.mutation.SetCover(v)
+	return _u
 }
 
 // SetNillableCover sets the "cover" field if the given value is not nil.
-func (tu *TaxonomyUpdate) SetNillableCover(s *string) *TaxonomyUpdate {
-	if s != nil {
-		tu.SetCover(*s)
+func (_u *TaxonomyUpdate) SetNillableCover(v *string) *TaxonomyUpdate {
+	if v != nil {
+		_u.SetCover(*v)
 	}
-	return tu
+	return _u
 }
 
 // ClearCover clears the value of the "cover" field.
-func (tu *TaxonomyUpdate) ClearCover() *TaxonomyUpdate {
-	tu.mutation.ClearCover()
-	return tu
+func (_u *TaxonomyUpdate) ClearCover() *TaxonomyUpdate {
+	_u.mutation.ClearCover()
+	return _u
 }
 
 // SetThumbnail sets the "thumbnail" field.
-func (tu *TaxonomyUpdate) SetThumbnail(s string) *TaxonomyUpdate {
-	tu.mutation.SetThumbnail(s)
-	return tu
+func (_u *TaxonomyUpdate) SetThumbnail(v string) *TaxonomyUpdate {
+	_u.mutation.SetThumbnail(v)
+	return _u
 }
 
 // SetNillableThumbnail sets the "thumbnail" field if the given value is not nil.
-func (tu *TaxonomyUpdate) SetNillableThumbnail(s *string) *TaxonomyUpdate {
-	if s != nil {
-		tu.SetThumbnail(*s)
+func (_u *TaxonomyUpdate) SetNillableThumbnail(v *string) *TaxonomyUpdate {
+	if v != nil {
+		_u.SetThumbnail(*v)
 	}
-	return tu
+	return _u
 }
 
 // ClearThumbnail clears the value of the "thumbnail" field.
-func (tu *TaxonomyUpdate) ClearThumbnail() *TaxonomyUpdate {
-	tu.mutation.ClearThumbnail()
-	return tu
+func (_u *TaxonomyUpdate) ClearThumbnail() *TaxonomyUpdate {
+	_u.mutation.ClearThumbnail()
+	return _u
 }
 
 // SetColor sets the "color" field.
-func (tu *TaxonomyUpdate) SetColor(s string) *TaxonomyUpdate {
-	tu.mutation.SetColor(s)
-	return tu
+func (_u *TaxonomyUpdate) SetColor(v string) *TaxonomyUpdate {
+	_u.mutation.SetColor(v)
+	return _u
 }
 
 // SetNillableColor sets the "color" field if the given value is not nil.
-func (tu *TaxonomyUpdate) SetNillableColor(s *string) *TaxonomyUpdate {
-	if s != nil {
-		tu.SetColor(*s)
+func (_u *TaxonomyUpdate) SetNillableColor(v *string) *TaxonomyUpdate {
+	if v != nil {
+		_u.SetColor(*v)
 	}
-	return tu
+	return _u
 }
 
 // ClearColor clears the value of the "color" field.
-func (tu *TaxonomyUpdate) ClearColor() *TaxonomyUpdate {
-	tu.mutation.ClearColor()
-	return tu
+func (_u *TaxonomyUpdate) ClearColor() *TaxonomyUpdate {
+	_u.mutation.ClearColor()
+	return _u
 }
 
 // SetIcon sets the "icon" field.
-func (tu *TaxonomyUpdate) SetIcon(s string) *TaxonomyUpdate {
-	tu.mutation.SetIcon(s)
-	return tu
+func (_u *TaxonomyUpdate) SetIcon(v string) *TaxonomyUpdate {
+	_u.mutation.SetIcon(v)
+	return _u
 }
 
 // SetNillableIcon sets the "icon" field if the given value is not nil.
-func (tu *TaxonomyUpdate) SetNillableIcon(s *string) *TaxonomyUpdate {
-	if s != nil {
-		tu.SetIcon(*s)
+func (_u *TaxonomyUpdate) SetNillableIcon(v *string) *TaxonomyUpdate {
+	if v != nil {
+		_u.SetIcon(*v)
 	}
-	return tu
+	return _u
 }
 
 // ClearIcon clears the value of the "icon" field.
-func (tu *TaxonomyUpdate) ClearIcon() *TaxonomyUpdate {
-	tu.mutation.ClearIcon()
-	return tu
+func (_u *TaxonomyUpdate) ClearIcon() *TaxonomyUpdate {
+	_u.mutation.ClearIcon()
+	return _u
 }
 
 // SetURL sets the "url" field.
-func (tu *TaxonomyUpdate) SetURL(s string) *TaxonomyUpdate {
-	tu.mutation.SetURL(s)
-	return tu
+func (_u *TaxonomyUpdate) SetURL(v string) *TaxonomyUpdate {
+	_u.mutation.SetURL(v)
+	return _u
 }
 
 // SetNillableURL sets the "url" field if the given value is not nil.
-func (tu *TaxonomyUpdate) SetNillableURL(s *string) *TaxonomyUpdate {
-	if s != nil {
-		tu.SetURL(*s)
+func (_u *TaxonomyUpdate) SetNillableURL(v *string) *TaxonomyUpdate {
+	if v != nil {
+		_u.SetURL(*v)
 	}
-	return tu
+	return _u
 }
 
 // ClearURL clears the value of the "url" field.
-func (tu *TaxonomyUpdate) ClearURL() *TaxonomyUpdate {
-	tu.mutation.ClearURL()
-	return tu
+func (_u *TaxonomyUpdate) ClearURL() *TaxonomyUpdate {
+	_u.mutation.ClearURL()
+	return _u
 }
 
 // SetKeywords sets the "keywords" field.
-func (tu *TaxonomyUpdate) SetKeywords(s string) *TaxonomyUpdate {
-	tu.mutation.SetKeywords(s)
-	return tu
+func (_u *TaxonomyUpdate) SetKeywords(v string) *TaxonomyUpdate {
+	_u.mutation.SetKeywords(v)
+	return _u
 }
 
 // SetNillableKeywords sets the "keywords" field if the given value is not nil.
-func (tu *TaxonomyUpdate) SetNillableKeywords(s *string) *TaxonomyUpdate {
-	if s != nil {
-		tu.SetKeywords(*s)
+func (_u *TaxonomyUpdate) SetNillableKeywords(v *string) *TaxonomyUpdate {
+	if v != nil {
+		_u.SetKeywords(*v)
 	}
-	return tu
+	return _u
 }
 
 // ClearKeywords clears the value of the "keywords" field.
-func (tu *TaxonomyUpdate) ClearKeywords() *TaxonomyUpdate {
-	tu.mutation.ClearKeywords()
-	return tu
+func (_u *TaxonomyUpdate) ClearKeywords() *TaxonomyUpdate {
+	_u.mutation.ClearKeywords()
+	return _u
 }
 
 // SetDescription sets the "description" field.
-func (tu *TaxonomyUpdate) SetDescription(s string) *TaxonomyUpdate {
-	tu.mutation.SetDescription(s)
-	return tu
+func (_u *TaxonomyUpdate) SetDescription(v string) *TaxonomyUpdate {
+	_u.mutation.SetDescription(v)
+	return _u
 }
 
 // SetNillableDescription sets the "description" field if the given value is not nil.
-func (tu *TaxonomyUpdate) SetNillableDescription(s *string) *TaxonomyUpdate {
-	if s != nil {
-		tu.SetDescription(*s)
+func (_u *TaxonomyUpdate) SetNillableDescription(v *string) *TaxonomyUpdate {
+	if v != nil {
+		_u.SetDescription(*v)
 	}
-	return tu
+	return _u
 }
 
 // ClearDescription clears the value of the "description" field.
-func (tu *TaxonomyUpdate) ClearDescription() *TaxonomyUpdate {
-	tu.mutation.ClearDescription()
-	return tu
+func (_u *TaxonomyUpdate) ClearDescription() *TaxonomyUpdate {
+	_u.mutation.ClearDescription()
+	return _u
 }
 
 // SetStatus sets the "status" field.
-func (tu *TaxonomyUpdate) SetStatus(i int) *TaxonomyUpdate {
-	tu.mutation.ResetStatus()
-	tu.mutation.SetStatus(i)
-	return tu
+func (_u *TaxonomyUpdate) SetStatus(v int) *TaxonomyUpdate {
+	_u.mutation.ResetStatus()
+	_u.mutation.SetStatus(v)
+	return _u
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (tu *TaxonomyUpdate) SetNillableStatus(i *int) *TaxonomyUpdate {
-	if i != nil {
-		tu.SetStatus(*i)
+func (_u *TaxonomyUpdate) SetNillableStatus(v *int) *TaxonomyUpdate {
+	if v != nil {
+		_u.SetStatus(*v)
 	}
-	return tu
+	return _u
 }
 
-// AddStatus adds i to the "status" field.
-func (tu *TaxonomyUpdate) AddStatus(i int) *TaxonomyUpdate {
-	tu.mutation.AddStatus(i)
-	return tu
+// AddStatus adds value to the "status" field.
+func (_u *TaxonomyUpdate) AddStatus(v int) *TaxonomyUpdate {
+	_u.mutation.AddStatus(v)
+	return _u
 }
 
 // SetExtras sets the "extras" field.
-func (tu *TaxonomyUpdate) SetExtras(m map[string]interface{}) *TaxonomyUpdate {
-	tu.mutation.SetExtras(m)
-	return tu
+func (_u *TaxonomyUpdate) SetExtras(v map[string]interface{}) *TaxonomyUpdate {
+	_u.mutation.SetExtras(v)
+	return _u
 }
 
 // ClearExtras clears the value of the "extras" field.
-func (tu *TaxonomyUpdate) ClearExtras() *TaxonomyUpdate {
-	tu.mutation.ClearExtras()
-	return tu
+func (_u *TaxonomyUpdate) ClearExtras() *TaxonomyUpdate {
+	_u.mutation.ClearExtras()
+	return _u
 }
 
 // SetParentID sets the "parent_id" field.
-func (tu *TaxonomyUpdate) SetParentID(s string) *TaxonomyUpdate {
-	tu.mutation.SetParentID(s)
-	return tu
+func (_u *TaxonomyUpdate) SetParentID(v string) *TaxonomyUpdate {
+	_u.mutation.SetParentID(v)
+	return _u
 }
 
 // SetNillableParentID sets the "parent_id" field if the given value is not nil.
-func (tu *TaxonomyUpdate) SetNillableParentID(s *string) *TaxonomyUpdate {
-	if s != nil {
-		tu.SetParentID(*s)
+func (_u *TaxonomyUpdate) SetNillableParentID(v *string) *TaxonomyUpdate {
+	if v != nil {
+		_u.SetParentID(*v)
 	}
-	return tu
+	return _u
 }
 
 // ClearParentID clears the value of the "parent_id" field.
-func (tu *TaxonomyUpdate) ClearParentID() *TaxonomyUpdate {
-	tu.mutation.ClearParentID()
-	return tu
+func (_u *TaxonomyUpdate) ClearParentID() *TaxonomyUpdate {
+	_u.mutation.ClearParentID()
+	return _u
 }
 
 // SetSpaceID sets the "space_id" field.
-func (tu *TaxonomyUpdate) SetSpaceID(s string) *TaxonomyUpdate {
-	tu.mutation.SetSpaceID(s)
-	return tu
+func (_u *TaxonomyUpdate) SetSpaceID(v string) *TaxonomyUpdate {
+	_u.mutation.SetSpaceID(v)
+	return _u
 }
 
 // SetNillableSpaceID sets the "space_id" field if the given value is not nil.
-func (tu *TaxonomyUpdate) SetNillableSpaceID(s *string) *TaxonomyUpdate {
-	if s != nil {
-		tu.SetSpaceID(*s)
+func (_u *TaxonomyUpdate) SetNillableSpaceID(v *string) *TaxonomyUpdate {
+	if v != nil {
+		_u.SetSpaceID(*v)
 	}
-	return tu
+	return _u
 }
 
 // ClearSpaceID clears the value of the "space_id" field.
-func (tu *TaxonomyUpdate) ClearSpaceID() *TaxonomyUpdate {
-	tu.mutation.ClearSpaceID()
-	return tu
+func (_u *TaxonomyUpdate) ClearSpaceID() *TaxonomyUpdate {
+	_u.mutation.ClearSpaceID()
+	return _u
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (tu *TaxonomyUpdate) SetCreatedBy(s string) *TaxonomyUpdate {
-	tu.mutation.SetCreatedBy(s)
-	return tu
+func (_u *TaxonomyUpdate) SetCreatedBy(v string) *TaxonomyUpdate {
+	_u.mutation.SetCreatedBy(v)
+	return _u
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (tu *TaxonomyUpdate) SetNillableCreatedBy(s *string) *TaxonomyUpdate {
-	if s != nil {
-		tu.SetCreatedBy(*s)
+func (_u *TaxonomyUpdate) SetNillableCreatedBy(v *string) *TaxonomyUpdate {
+	if v != nil {
+		_u.SetCreatedBy(*v)
 	}
-	return tu
+	return _u
 }
 
 // ClearCreatedBy clears the value of the "created_by" field.
-func (tu *TaxonomyUpdate) ClearCreatedBy() *TaxonomyUpdate {
-	tu.mutation.ClearCreatedBy()
-	return tu
+func (_u *TaxonomyUpdate) ClearCreatedBy() *TaxonomyUpdate {
+	_u.mutation.ClearCreatedBy()
+	return _u
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (tu *TaxonomyUpdate) SetUpdatedBy(s string) *TaxonomyUpdate {
-	tu.mutation.SetUpdatedBy(s)
-	return tu
+func (_u *TaxonomyUpdate) SetUpdatedBy(v string) *TaxonomyUpdate {
+	_u.mutation.SetUpdatedBy(v)
+	return _u
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (tu *TaxonomyUpdate) SetNillableUpdatedBy(s *string) *TaxonomyUpdate {
-	if s != nil {
-		tu.SetUpdatedBy(*s)
+func (_u *TaxonomyUpdate) SetNillableUpdatedBy(v *string) *TaxonomyUpdate {
+	if v != nil {
+		_u.SetUpdatedBy(*v)
 	}
-	return tu
+	return _u
 }
 
 // ClearUpdatedBy clears the value of the "updated_by" field.
-func (tu *TaxonomyUpdate) ClearUpdatedBy() *TaxonomyUpdate {
-	tu.mutation.ClearUpdatedBy()
-	return tu
+func (_u *TaxonomyUpdate) ClearUpdatedBy() *TaxonomyUpdate {
+	_u.mutation.ClearUpdatedBy()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (tu *TaxonomyUpdate) SetUpdatedAt(i int64) *TaxonomyUpdate {
-	tu.mutation.ResetUpdatedAt()
-	tu.mutation.SetUpdatedAt(i)
-	return tu
+func (_u *TaxonomyUpdate) SetUpdatedAt(v int64) *TaxonomyUpdate {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (tu *TaxonomyUpdate) AddUpdatedAt(i int64) *TaxonomyUpdate {
-	tu.mutation.AddUpdatedAt(i)
-	return tu
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *TaxonomyUpdate) AddUpdatedAt(v int64) *TaxonomyUpdate {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (tu *TaxonomyUpdate) ClearUpdatedAt() *TaxonomyUpdate {
-	tu.mutation.ClearUpdatedAt()
-	return tu
+func (_u *TaxonomyUpdate) ClearUpdatedAt() *TaxonomyUpdate {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // Mutation returns the TaxonomyMutation object of the builder.
-func (tu *TaxonomyUpdate) Mutation() *TaxonomyMutation {
-	return tu.mutation
+func (_u *TaxonomyUpdate) Mutation() *TaxonomyMutation {
+	return _u.mutation
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
-func (tu *TaxonomyUpdate) Save(ctx context.Context) (int, error) {
-	tu.defaults()
-	return withHooks(ctx, tu.sqlSave, tu.mutation, tu.hooks)
+func (_u *TaxonomyUpdate) Save(ctx context.Context) (int, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (tu *TaxonomyUpdate) SaveX(ctx context.Context) int {
-	affected, err := tu.Save(ctx)
+func (_u *TaxonomyUpdate) SaveX(ctx context.Context) int {
+	affected, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -380,144 +380,144 @@ func (tu *TaxonomyUpdate) SaveX(ctx context.Context) int {
 }
 
 // Exec executes the query.
-func (tu *TaxonomyUpdate) Exec(ctx context.Context) error {
-	_, err := tu.Save(ctx)
+func (_u *TaxonomyUpdate) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (tu *TaxonomyUpdate) ExecX(ctx context.Context) {
-	if err := tu.Exec(ctx); err != nil {
+func (_u *TaxonomyUpdate) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (tu *TaxonomyUpdate) defaults() {
-	if _, ok := tu.mutation.UpdatedAt(); !ok && !tu.mutation.UpdatedAtCleared() {
+func (_u *TaxonomyUpdate) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := taxonomy.UpdateDefaultUpdatedAt()
-		tu.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (tu *TaxonomyUpdate) sqlSave(ctx context.Context) (n int, err error) {
+func (_u *TaxonomyUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	_spec := sqlgraph.NewUpdateSpec(taxonomy.Table, taxonomy.Columns, sqlgraph.NewFieldSpec(taxonomy.FieldID, field.TypeString))
-	if ps := tu.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := tu.mutation.Name(); ok {
+	if value, ok := _u.mutation.Name(); ok {
 		_spec.SetField(taxonomy.FieldName, field.TypeString, value)
 	}
-	if tu.mutation.NameCleared() {
+	if _u.mutation.NameCleared() {
 		_spec.ClearField(taxonomy.FieldName, field.TypeString)
 	}
-	if value, ok := tu.mutation.GetType(); ok {
+	if value, ok := _u.mutation.GetType(); ok {
 		_spec.SetField(taxonomy.FieldType, field.TypeString, value)
 	}
-	if tu.mutation.TypeCleared() {
+	if _u.mutation.TypeCleared() {
 		_spec.ClearField(taxonomy.FieldType, field.TypeString)
 	}
-	if value, ok := tu.mutation.Slug(); ok {
+	if value, ok := _u.mutation.Slug(); ok {
 		_spec.SetField(taxonomy.FieldSlug, field.TypeString, value)
 	}
-	if tu.mutation.SlugCleared() {
+	if _u.mutation.SlugCleared() {
 		_spec.ClearField(taxonomy.FieldSlug, field.TypeString)
 	}
-	if value, ok := tu.mutation.Cover(); ok {
+	if value, ok := _u.mutation.Cover(); ok {
 		_spec.SetField(taxonomy.FieldCover, field.TypeString, value)
 	}
-	if tu.mutation.CoverCleared() {
+	if _u.mutation.CoverCleared() {
 		_spec.ClearField(taxonomy.FieldCover, field.TypeString)
 	}
-	if value, ok := tu.mutation.Thumbnail(); ok {
+	if value, ok := _u.mutation.Thumbnail(); ok {
 		_spec.SetField(taxonomy.FieldThumbnail, field.TypeString, value)
 	}
-	if tu.mutation.ThumbnailCleared() {
+	if _u.mutation.ThumbnailCleared() {
 		_spec.ClearField(taxonomy.FieldThumbnail, field.TypeString)
 	}
-	if value, ok := tu.mutation.Color(); ok {
+	if value, ok := _u.mutation.Color(); ok {
 		_spec.SetField(taxonomy.FieldColor, field.TypeString, value)
 	}
-	if tu.mutation.ColorCleared() {
+	if _u.mutation.ColorCleared() {
 		_spec.ClearField(taxonomy.FieldColor, field.TypeString)
 	}
-	if value, ok := tu.mutation.Icon(); ok {
+	if value, ok := _u.mutation.Icon(); ok {
 		_spec.SetField(taxonomy.FieldIcon, field.TypeString, value)
 	}
-	if tu.mutation.IconCleared() {
+	if _u.mutation.IconCleared() {
 		_spec.ClearField(taxonomy.FieldIcon, field.TypeString)
 	}
-	if value, ok := tu.mutation.URL(); ok {
+	if value, ok := _u.mutation.URL(); ok {
 		_spec.SetField(taxonomy.FieldURL, field.TypeString, value)
 	}
-	if tu.mutation.URLCleared() {
+	if _u.mutation.URLCleared() {
 		_spec.ClearField(taxonomy.FieldURL, field.TypeString)
 	}
-	if value, ok := tu.mutation.Keywords(); ok {
+	if value, ok := _u.mutation.Keywords(); ok {
 		_spec.SetField(taxonomy.FieldKeywords, field.TypeString, value)
 	}
-	if tu.mutation.KeywordsCleared() {
+	if _u.mutation.KeywordsCleared() {
 		_spec.ClearField(taxonomy.FieldKeywords, field.TypeString)
 	}
-	if value, ok := tu.mutation.Description(); ok {
+	if value, ok := _u.mutation.Description(); ok {
 		_spec.SetField(taxonomy.FieldDescription, field.TypeString, value)
 	}
-	if tu.mutation.DescriptionCleared() {
+	if _u.mutation.DescriptionCleared() {
 		_spec.ClearField(taxonomy.FieldDescription, field.TypeString)
 	}
-	if value, ok := tu.mutation.Status(); ok {
+	if value, ok := _u.mutation.Status(); ok {
 		_spec.SetField(taxonomy.FieldStatus, field.TypeInt, value)
 	}
-	if value, ok := tu.mutation.AddedStatus(); ok {
+	if value, ok := _u.mutation.AddedStatus(); ok {
 		_spec.AddField(taxonomy.FieldStatus, field.TypeInt, value)
 	}
-	if value, ok := tu.mutation.Extras(); ok {
+	if value, ok := _u.mutation.Extras(); ok {
 		_spec.SetField(taxonomy.FieldExtras, field.TypeJSON, value)
 	}
-	if tu.mutation.ExtrasCleared() {
+	if _u.mutation.ExtrasCleared() {
 		_spec.ClearField(taxonomy.FieldExtras, field.TypeJSON)
 	}
-	if value, ok := tu.mutation.ParentID(); ok {
+	if value, ok := _u.mutation.ParentID(); ok {
 		_spec.SetField(taxonomy.FieldParentID, field.TypeString, value)
 	}
-	if tu.mutation.ParentIDCleared() {
+	if _u.mutation.ParentIDCleared() {
 		_spec.ClearField(taxonomy.FieldParentID, field.TypeString)
 	}
-	if value, ok := tu.mutation.SpaceID(); ok {
+	if value, ok := _u.mutation.SpaceID(); ok {
 		_spec.SetField(taxonomy.FieldSpaceID, field.TypeString, value)
 	}
-	if tu.mutation.SpaceIDCleared() {
+	if _u.mutation.SpaceIDCleared() {
 		_spec.ClearField(taxonomy.FieldSpaceID, field.TypeString)
 	}
-	if value, ok := tu.mutation.CreatedBy(); ok {
+	if value, ok := _u.mutation.CreatedBy(); ok {
 		_spec.SetField(taxonomy.FieldCreatedBy, field.TypeString, value)
 	}
-	if tu.mutation.CreatedByCleared() {
+	if _u.mutation.CreatedByCleared() {
 		_spec.ClearField(taxonomy.FieldCreatedBy, field.TypeString)
 	}
-	if value, ok := tu.mutation.UpdatedBy(); ok {
+	if value, ok := _u.mutation.UpdatedBy(); ok {
 		_spec.SetField(taxonomy.FieldUpdatedBy, field.TypeString, value)
 	}
-	if tu.mutation.UpdatedByCleared() {
+	if _u.mutation.UpdatedByCleared() {
 		_spec.ClearField(taxonomy.FieldUpdatedBy, field.TypeString)
 	}
-	if tu.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(taxonomy.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := tu.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(taxonomy.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := tu.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(taxonomy.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if tu.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(taxonomy.FieldUpdatedAt, field.TypeInt64)
 	}
-	if n, err = sqlgraph.UpdateNodes(ctx, tu.driver, _spec); err != nil {
+	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{taxonomy.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -525,8 +525,8 @@ func (tu *TaxonomyUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		return 0, err
 	}
-	tu.mutation.done = true
-	return n, nil
+	_u.mutation.done = true
+	return _node, nil
 }
 
 // TaxonomyUpdateOne is the builder for updating a single Taxonomy entity.
@@ -538,364 +538,364 @@ type TaxonomyUpdateOne struct {
 }
 
 // SetName sets the "name" field.
-func (tuo *TaxonomyUpdateOne) SetName(s string) *TaxonomyUpdateOne {
-	tuo.mutation.SetName(s)
-	return tuo
+func (_u *TaxonomyUpdateOne) SetName(v string) *TaxonomyUpdateOne {
+	_u.mutation.SetName(v)
+	return _u
 }
 
 // SetNillableName sets the "name" field if the given value is not nil.
-func (tuo *TaxonomyUpdateOne) SetNillableName(s *string) *TaxonomyUpdateOne {
-	if s != nil {
-		tuo.SetName(*s)
+func (_u *TaxonomyUpdateOne) SetNillableName(v *string) *TaxonomyUpdateOne {
+	if v != nil {
+		_u.SetName(*v)
 	}
-	return tuo
+	return _u
 }
 
 // ClearName clears the value of the "name" field.
-func (tuo *TaxonomyUpdateOne) ClearName() *TaxonomyUpdateOne {
-	tuo.mutation.ClearName()
-	return tuo
+func (_u *TaxonomyUpdateOne) ClearName() *TaxonomyUpdateOne {
+	_u.mutation.ClearName()
+	return _u
 }
 
 // SetType sets the "type" field.
-func (tuo *TaxonomyUpdateOne) SetType(s string) *TaxonomyUpdateOne {
-	tuo.mutation.SetType(s)
-	return tuo
+func (_u *TaxonomyUpdateOne) SetType(v string) *TaxonomyUpdateOne {
+	_u.mutation.SetType(v)
+	return _u
 }
 
 // SetNillableType sets the "type" field if the given value is not nil.
-func (tuo *TaxonomyUpdateOne) SetNillableType(s *string) *TaxonomyUpdateOne {
-	if s != nil {
-		tuo.SetType(*s)
+func (_u *TaxonomyUpdateOne) SetNillableType(v *string) *TaxonomyUpdateOne {
+	if v != nil {
+		_u.SetType(*v)
 	}
-	return tuo
+	return _u
 }
 
 // ClearType clears the value of the "type" field.
-func (tuo *TaxonomyUpdateOne) ClearType() *TaxonomyUpdateOne {
-	tuo.mutation.ClearType()
-	return tuo
+func (_u *TaxonomyUpdateOne) ClearType() *TaxonomyUpdateOne {
+	_u.mutation.ClearType()
+	return _u
 }
 
 // SetSlug sets the "slug" field.
-func (tuo *TaxonomyUpdateOne) SetSlug(s string) *TaxonomyUpdateOne {
-	tuo.mutation.SetSlug(s)
-	return tuo
+func (_u *TaxonomyUpdateOne) SetSlug(v string) *TaxonomyUpdateOne {
+	_u.mutation.SetSlug(v)
+	return _u
 }
 
 // SetNillableSlug sets the "slug" field if the given value is not nil.
-func (tuo *TaxonomyUpdateOne) SetNillableSlug(s *string) *TaxonomyUpdateOne {
-	if s != nil {
-		tuo.SetSlug(*s)
+func (_u *TaxonomyUpdateOne) SetNillableSlug(v *string) *TaxonomyUpdateOne {
+	if v != nil {
+		_u.SetSlug(*v)
 	}
-	return tuo
+	return _u
 }
 
 // ClearSlug clears the value of the "slug" field.
-func (tuo *TaxonomyUpdateOne) ClearSlug() *TaxonomyUpdateOne {
-	tuo.mutation.ClearSlug()
-	return tuo
+func (_u *TaxonomyUpdateOne) ClearSlug() *TaxonomyUpdateOne {
+	_u.mutation.ClearSlug()
+	return _u
 }
 
 // SetCover sets the "cover" field.
-func (tuo *TaxonomyUpdateOne) SetCover(s string) *TaxonomyUpdateOne {
-	tuo.mutation.SetCover(s)
-	return tuo
+func (_u *TaxonomyUpdateOne) SetCover(v string) *TaxonomyUpdateOne {
+	_u.mutation.SetCover(v)
+	return _u
 }
 
 // SetNillableCover sets the "cover" field if the given value is not nil.
-func (tuo *TaxonomyUpdateOne) SetNillableCover(s *string) *TaxonomyUpdateOne {
-	if s != nil {
-		tuo.SetCover(*s)
+func (_u *TaxonomyUpdateOne) SetNillableCover(v *string) *TaxonomyUpdateOne {
+	if v != nil {
+		_u.SetCover(*v)
 	}
-	return tuo
+	return _u
 }
 
 // ClearCover clears the value of the "cover" field.
-func (tuo *TaxonomyUpdateOne) ClearCover() *TaxonomyUpdateOne {
-	tuo.mutation.ClearCover()
-	return tuo
+func (_u *TaxonomyUpdateOne) ClearCover() *TaxonomyUpdateOne {
+	_u.mutation.ClearCover()
+	return _u
 }
 
 // SetThumbnail sets the "thumbnail" field.
-func (tuo *TaxonomyUpdateOne) SetThumbnail(s string) *TaxonomyUpdateOne {
-	tuo.mutation.SetThumbnail(s)
-	return tuo
+func (_u *TaxonomyUpdateOne) SetThumbnail(v string) *TaxonomyUpdateOne {
+	_u.mutation.SetThumbnail(v)
+	return _u
 }
 
 // SetNillableThumbnail sets the "thumbnail" field if the given value is not nil.
-func (tuo *TaxonomyUpdateOne) SetNillableThumbnail(s *string) *TaxonomyUpdateOne {
-	if s != nil {
-		tuo.SetThumbnail(*s)
+func (_u *TaxonomyUpdateOne) SetNillableThumbnail(v *string) *TaxonomyUpdateOne {
+	if v != nil {
+		_u.SetThumbnail(*v)
 	}
-	return tuo
+	return _u
 }
 
 // ClearThumbnail clears the value of the "thumbnail" field.
-func (tuo *TaxonomyUpdateOne) ClearThumbnail() *TaxonomyUpdateOne {
-	tuo.mutation.ClearThumbnail()
-	return tuo
+func (_u *TaxonomyUpdateOne) ClearThumbnail() *TaxonomyUpdateOne {
+	_u.mutation.ClearThumbnail()
+	return _u
 }
 
 // SetColor sets the "color" field.
-func (tuo *TaxonomyUpdateOne) SetColor(s string) *TaxonomyUpdateOne {
-	tuo.mutation.SetColor(s)
-	return tuo
+func (_u *TaxonomyUpdateOne) SetColor(v string) *TaxonomyUpdateOne {
+	_u.mutation.SetColor(v)
+	return _u
 }
 
 // SetNillableColor sets the "color" field if the given value is not nil.
-func (tuo *TaxonomyUpdateOne) SetNillableColor(s *string) *TaxonomyUpdateOne {
-	if s != nil {
-		tuo.SetColor(*s)
+func (_u *TaxonomyUpdateOne) SetNillableColor(v *string) *TaxonomyUpdateOne {
+	if v != nil {
+		_u.SetColor(*v)
 	}
-	return tuo
+	return _u
 }
 
 // ClearColor clears the value of the "color" field.
-func (tuo *TaxonomyUpdateOne) ClearColor() *TaxonomyUpdateOne {
-	tuo.mutation.ClearColor()
-	return tuo
+func (_u *TaxonomyUpdateOne) ClearColor() *TaxonomyUpdateOne {
+	_u.mutation.ClearColor()
+	return _u
 }
 
 // SetIcon sets the "icon" field.
-func (tuo *TaxonomyUpdateOne) SetIcon(s string) *TaxonomyUpdateOne {
-	tuo.mutation.SetIcon(s)
-	return tuo
+func (_u *TaxonomyUpdateOne) SetIcon(v string) *TaxonomyUpdateOne {
+	_u.mutation.SetIcon(v)
+	return _u
 }
 
 // SetNillableIcon sets the "icon" field if the given value is not nil.
-func (tuo *TaxonomyUpdateOne) SetNillableIcon(s *string) *TaxonomyUpdateOne {
-	if s != nil {
-		tuo.SetIcon(*s)
+func (_u *TaxonomyUpdateOne) SetNillableIcon(v *string) *TaxonomyUpdateOne {
+	if v != nil {
+		_u.SetIcon(*v)
 	}
-	return tuo
+	return _u
 }
 
 // ClearIcon clears the value of the "icon" field.
-func (tuo *TaxonomyUpdateOne) ClearIcon() *TaxonomyUpdateOne {
-	tuo.mutation.ClearIcon()
-	return tuo
+func (_u *TaxonomyUpdateOne) ClearIcon() *TaxonomyUpdateOne {
+	_u.mutation.ClearIcon()
+	return _u
 }
 
 // SetURL sets the "url" field.
-func (tuo *TaxonomyUpdateOne) SetURL(s string) *TaxonomyUpdateOne {
-	tuo.mutation.SetURL(s)
-	return tuo
+func (_u *TaxonomyUpdateOne) SetURL(v string) *TaxonomyUpdateOne {
+	_u.mutation.SetURL(v)
+	return _u
 }
 
 // SetNillableURL sets the "url" field if the given value is not nil.
-func (tuo *TaxonomyUpdateOne) SetNillableURL(s *string) *TaxonomyUpdateOne {
-	if s != nil {
-		tuo.SetURL(*s)
+func (_u *TaxonomyUpdateOne) SetNillableURL(v *string) *TaxonomyUpdateOne {
+	if v != nil {
+		_u.SetURL(*v)
 	}
-	return tuo
+	return _u
 }
 
 // ClearURL clears the value of the "url" field.
-func (tuo *TaxonomyUpdateOne) ClearURL() *TaxonomyUpdateOne {
-	tuo.mutation.ClearURL()
-	return tuo
+func (_u *TaxonomyUpdateOne) ClearURL() *TaxonomyUpdateOne {
+	_u.mutation.ClearURL()
+	return _u
 }
 
 // SetKeywords sets the "keywords" field.
-func (tuo *TaxonomyUpdateOne) SetKeywords(s string) *TaxonomyUpdateOne {
-	tuo.mutation.SetKeywords(s)
-	return tuo
+func (_u *TaxonomyUpdateOne) SetKeywords(v string) *TaxonomyUpdateOne {
+	_u.mutation.SetKeywords(v)
+	return _u
 }
 
 // SetNillableKeywords sets the "keywords" field if the given value is not nil.
-func (tuo *TaxonomyUpdateOne) SetNillableKeywords(s *string) *TaxonomyUpdateOne {
-	if s != nil {
-		tuo.SetKeywords(*s)
+func (_u *TaxonomyUpdateOne) SetNillableKeywords(v *string) *TaxonomyUpdateOne {
+	if v != nil {
+		_u.SetKeywords(*v)
 	}
-	return tuo
+	return _u
 }
 
 // ClearKeywords clears the value of the "keywords" field.
-func (tuo *TaxonomyUpdateOne) ClearKeywords() *TaxonomyUpdateOne {
-	tuo.mutation.ClearKeywords()
-	return tuo
+func (_u *TaxonomyUpdateOne) ClearKeywords() *TaxonomyUpdateOne {
+	_u.mutation.ClearKeywords()
+	return _u
 }
 
 // SetDescription sets the "description" field.
-func (tuo *TaxonomyUpdateOne) SetDescription(s string) *TaxonomyUpdateOne {
-	tuo.mutation.SetDescription(s)
-	return tuo
+func (_u *TaxonomyUpdateOne) SetDescription(v string) *TaxonomyUpdateOne {
+	_u.mutation.SetDescription(v)
+	return _u
 }
 
 // SetNillableDescription sets the "description" field if the given value is not nil.
-func (tuo *TaxonomyUpdateOne) SetNillableDescription(s *string) *TaxonomyUpdateOne {
-	if s != nil {
-		tuo.SetDescription(*s)
+func (_u *TaxonomyUpdateOne) SetNillableDescription(v *string) *TaxonomyUpdateOne {
+	if v != nil {
+		_u.SetDescription(*v)
 	}
-	return tuo
+	return _u
 }
 
 // ClearDescription clears the value of the "description" field.
-func (tuo *TaxonomyUpdateOne) ClearDescription() *TaxonomyUpdateOne {
-	tuo.mutation.ClearDescription()
-	return tuo
+func (_u *TaxonomyUpdateOne) ClearDescription() *TaxonomyUpdateOne {
+	_u.mutation.ClearDescription()
+	return _u
 }
 
 // SetStatus sets the "status" field.
-func (tuo *TaxonomyUpdateOne) SetStatus(i int) *TaxonomyUpdateOne {
-	tuo.mutation.ResetStatus()
-	tuo.mutation.SetStatus(i)
-	return tuo
+func (_u *TaxonomyUpdateOne) SetStatus(v int) *TaxonomyUpdateOne {
+	_u.mutation.ResetStatus()
+	_u.mutation.SetStatus(v)
+	return _u
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (tuo *TaxonomyUpdateOne) SetNillableStatus(i *int) *TaxonomyUpdateOne {
-	if i != nil {
-		tuo.SetStatus(*i)
+func (_u *TaxonomyUpdateOne) SetNillableStatus(v *int) *TaxonomyUpdateOne {
+	if v != nil {
+		_u.SetStatus(*v)
 	}
-	return tuo
+	return _u
 }
 
-// AddStatus adds i to the "status" field.
-func (tuo *TaxonomyUpdateOne) AddStatus(i int) *TaxonomyUpdateOne {
-	tuo.mutation.AddStatus(i)
-	return tuo
+// AddStatus adds value to the "status" field.
+func (_u *TaxonomyUpdateOne) AddStatus(v int) *TaxonomyUpdateOne {
+	_u.mutation.AddStatus(v)
+	return _u
 }
 
 // SetExtras sets the "extras" field.
-func (tuo *TaxonomyUpdateOne) SetExtras(m map[string]interface{}) *TaxonomyUpdateOne {
-	tuo.mutation.SetExtras(m)
-	return tuo
+func (_u *TaxonomyUpdateOne) SetExtras(v map[string]interface{}) *TaxonomyUpdateOne {
+	_u.mutation.SetExtras(v)
+	return _u
 }
 
 // ClearExtras clears the value of the "extras" field.
-func (tuo *TaxonomyUpdateOne) ClearExtras() *TaxonomyUpdateOne {
-	tuo.mutation.ClearExtras()
-	return tuo
+func (_u *TaxonomyUpdateOne) ClearExtras() *TaxonomyUpdateOne {
+	_u.mutation.ClearExtras()
+	return _u
 }
 
 // SetParentID sets the "parent_id" field.
-func (tuo *TaxonomyUpdateOne) SetParentID(s string) *TaxonomyUpdateOne {
-	tuo.mutation.SetParentID(s)
-	return tuo
+func (_u *TaxonomyUpdateOne) SetParentID(v string) *TaxonomyUpdateOne {
+	_u.mutation.SetParentID(v)
+	return _u
 }
 
 // SetNillableParentID sets the "parent_id" field if the given value is not nil.
-func (tuo *TaxonomyUpdateOne) SetNillableParentID(s *string) *TaxonomyUpdateOne {
-	if s != nil {
-		tuo.SetParentID(*s)
+func (_u *TaxonomyUpdateOne) SetNillableParentID(v *string) *TaxonomyUpdateOne {
+	if v != nil {
+		_u.SetParentID(*v)
 	}
-	return tuo
+	return _u
 }
 
 // ClearParentID clears the value of the "parent_id" field.
-func (tuo *TaxonomyUpdateOne) ClearParentID() *TaxonomyUpdateOne {
-	tuo.mutation.ClearParentID()
-	return tuo
+func (_u *TaxonomyUpdateOne) ClearParentID() *TaxonomyUpdateOne {
+	_u.mutation.ClearParentID()
+	return _u
 }
 
 // SetSpaceID sets the "space_id" field.
-func (tuo *TaxonomyUpdateOne) SetSpaceID(s string) *TaxonomyUpdateOne {
-	tuo.mutation.SetSpaceID(s)
-	return tuo
+func (_u *TaxonomyUpdateOne) SetSpaceID(v string) *TaxonomyUpdateOne {
+	_u.mutation.SetSpaceID(v)
+	return _u
 }
 
 // SetNillableSpaceID sets the "space_id" field if the given value is not nil.
-func (tuo *TaxonomyUpdateOne) SetNillableSpaceID(s *string) *TaxonomyUpdateOne {
-	if s != nil {
-		tuo.SetSpaceID(*s)
+func (_u *TaxonomyUpdateOne) SetNillableSpaceID(v *string) *TaxonomyUpdateOne {
+	if v != nil {
+		_u.SetSpaceID(*v)
 	}
-	return tuo
+	return _u
 }
 
 // ClearSpaceID clears the value of the "space_id" field.
-func (tuo *TaxonomyUpdateOne) ClearSpaceID() *TaxonomyUpdateOne {
-	tuo.mutation.ClearSpaceID()
-	return tuo
+func (_u *TaxonomyUpdateOne) ClearSpaceID() *TaxonomyUpdateOne {
+	_u.mutation.ClearSpaceID()
+	return _u
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (tuo *TaxonomyUpdateOne) SetCreatedBy(s string) *TaxonomyUpdateOne {
-	tuo.mutation.SetCreatedBy(s)
-	return tuo
+func (_u *TaxonomyUpdateOne) SetCreatedBy(v string) *TaxonomyUpdateOne {
+	_u.mutation.SetCreatedBy(v)
+	return _u
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (tuo *TaxonomyUpdateOne) SetNillableCreatedBy(s *string) *TaxonomyUpdateOne {
-	if s != nil {
-		tuo.SetCreatedBy(*s)
+func (_u *TaxonomyUpdateOne) SetNillableCreatedBy(v *string) *TaxonomyUpdateOne {
+	if v != nil {
+		_u.SetCreatedBy(*v)
 	}
-	return tuo
+	return _u
 }
 
 // ClearCreatedBy clears the value of the "created_by" field.
-func (tuo *TaxonomyUpdateOne) ClearCreatedBy() *TaxonomyUpdateOne {
-	tuo.mutation.ClearCreatedBy()
-	return tuo
+func (_u *TaxonomyUpdateOne) ClearCreatedBy() *TaxonomyUpdateOne {
+	_u.mutation.ClearCreatedBy()
+	return _u
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (tuo *TaxonomyUpdateOne) SetUpdatedBy(s string) *TaxonomyUpdateOne {
-	tuo.mutation.SetUpdatedBy(s)
-	return tuo
+func (_u *TaxonomyUpdateOne) SetUpdatedBy(v string) *TaxonomyUpdateOne {
+	_u.mutation.SetUpdatedBy(v)
+	return _u
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (tuo *TaxonomyUpdateOne) SetNillableUpdatedBy(s *string) *TaxonomyUpdateOne {
-	if s != nil {
-		tuo.SetUpdatedBy(*s)
+func (_u *TaxonomyUpdateOne) SetNillableUpdatedBy(v *string) *TaxonomyUpdateOne {
+	if v != nil {
+		_u.SetUpdatedBy(*v)
 	}
-	return tuo
+	return _u
 }
 
 // ClearUpdatedBy clears the value of the "updated_by" field.
-func (tuo *TaxonomyUpdateOne) ClearUpdatedBy() *TaxonomyUpdateOne {
-	tuo.mutation.ClearUpdatedBy()
-	return tuo
+func (_u *TaxonomyUpdateOne) ClearUpdatedBy() *TaxonomyUpdateOne {
+	_u.mutation.ClearUpdatedBy()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (tuo *TaxonomyUpdateOne) SetUpdatedAt(i int64) *TaxonomyUpdateOne {
-	tuo.mutation.ResetUpdatedAt()
-	tuo.mutation.SetUpdatedAt(i)
-	return tuo
+func (_u *TaxonomyUpdateOne) SetUpdatedAt(v int64) *TaxonomyUpdateOne {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (tuo *TaxonomyUpdateOne) AddUpdatedAt(i int64) *TaxonomyUpdateOne {
-	tuo.mutation.AddUpdatedAt(i)
-	return tuo
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *TaxonomyUpdateOne) AddUpdatedAt(v int64) *TaxonomyUpdateOne {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (tuo *TaxonomyUpdateOne) ClearUpdatedAt() *TaxonomyUpdateOne {
-	tuo.mutation.ClearUpdatedAt()
-	return tuo
+func (_u *TaxonomyUpdateOne) ClearUpdatedAt() *TaxonomyUpdateOne {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // Mutation returns the TaxonomyMutation object of the builder.
-func (tuo *TaxonomyUpdateOne) Mutation() *TaxonomyMutation {
-	return tuo.mutation
+func (_u *TaxonomyUpdateOne) Mutation() *TaxonomyMutation {
+	return _u.mutation
 }
 
 // Where appends a list predicates to the TaxonomyUpdate builder.
-func (tuo *TaxonomyUpdateOne) Where(ps ...predicate.Taxonomy) *TaxonomyUpdateOne {
-	tuo.mutation.Where(ps...)
-	return tuo
+func (_u *TaxonomyUpdateOne) Where(ps ...predicate.Taxonomy) *TaxonomyUpdateOne {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // Select allows selecting one or more fields (columns) of the returned entity.
 // The default is selecting all fields defined in the entity schema.
-func (tuo *TaxonomyUpdateOne) Select(field string, fields ...string) *TaxonomyUpdateOne {
-	tuo.fields = append([]string{field}, fields...)
-	return tuo
+func (_u *TaxonomyUpdateOne) Select(field string, fields ...string) *TaxonomyUpdateOne {
+	_u.fields = append([]string{field}, fields...)
+	return _u
 }
 
 // Save executes the query and returns the updated Taxonomy entity.
-func (tuo *TaxonomyUpdateOne) Save(ctx context.Context) (*Taxonomy, error) {
-	tuo.defaults()
-	return withHooks(ctx, tuo.sqlSave, tuo.mutation, tuo.hooks)
+func (_u *TaxonomyUpdateOne) Save(ctx context.Context) (*Taxonomy, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (tuo *TaxonomyUpdateOne) SaveX(ctx context.Context) *Taxonomy {
-	node, err := tuo.Save(ctx)
+func (_u *TaxonomyUpdateOne) SaveX(ctx context.Context) *Taxonomy {
+	node, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -903,34 +903,34 @@ func (tuo *TaxonomyUpdateOne) SaveX(ctx context.Context) *Taxonomy {
 }
 
 // Exec executes the query on the entity.
-func (tuo *TaxonomyUpdateOne) Exec(ctx context.Context) error {
-	_, err := tuo.Save(ctx)
+func (_u *TaxonomyUpdateOne) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (tuo *TaxonomyUpdateOne) ExecX(ctx context.Context) {
-	if err := tuo.Exec(ctx); err != nil {
+func (_u *TaxonomyUpdateOne) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (tuo *TaxonomyUpdateOne) defaults() {
-	if _, ok := tuo.mutation.UpdatedAt(); !ok && !tuo.mutation.UpdatedAtCleared() {
+func (_u *TaxonomyUpdateOne) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := taxonomy.UpdateDefaultUpdatedAt()
-		tuo.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (tuo *TaxonomyUpdateOne) sqlSave(ctx context.Context) (_node *Taxonomy, err error) {
+func (_u *TaxonomyUpdateOne) sqlSave(ctx context.Context) (_node *Taxonomy, err error) {
 	_spec := sqlgraph.NewUpdateSpec(taxonomy.Table, taxonomy.Columns, sqlgraph.NewFieldSpec(taxonomy.FieldID, field.TypeString))
-	id, ok := tuo.mutation.ID()
+	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "Taxonomy.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
-	if fields := tuo.fields; len(fields) > 0 {
+	if fields := _u.fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, taxonomy.FieldID)
 		for _, f := range fields {
@@ -942,125 +942,125 @@ func (tuo *TaxonomyUpdateOne) sqlSave(ctx context.Context) (_node *Taxonomy, err
 			}
 		}
 	}
-	if ps := tuo.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := tuo.mutation.Name(); ok {
+	if value, ok := _u.mutation.Name(); ok {
 		_spec.SetField(taxonomy.FieldName, field.TypeString, value)
 	}
-	if tuo.mutation.NameCleared() {
+	if _u.mutation.NameCleared() {
 		_spec.ClearField(taxonomy.FieldName, field.TypeString)
 	}
-	if value, ok := tuo.mutation.GetType(); ok {
+	if value, ok := _u.mutation.GetType(); ok {
 		_spec.SetField(taxonomy.FieldType, field.TypeString, value)
 	}
-	if tuo.mutation.TypeCleared() {
+	if _u.mutation.TypeCleared() {
 		_spec.ClearField(taxonomy.FieldType, field.TypeString)
 	}
-	if value, ok := tuo.mutation.Slug(); ok {
+	if value, ok := _u.mutation.Slug(); ok {
 		_spec.SetField(taxonomy.FieldSlug, field.TypeString, value)
 	}
-	if tuo.mutation.SlugCleared() {
+	if _u.mutation.SlugCleared() {
 		_spec.ClearField(taxonomy.FieldSlug, field.TypeString)
 	}
-	if value, ok := tuo.mutation.Cover(); ok {
+	if value, ok := _u.mutation.Cover(); ok {
 		_spec.SetField(taxonomy.FieldCover, field.TypeString, value)
 	}
-	if tuo.mutation.CoverCleared() {
+	if _u.mutation.CoverCleared() {
 		_spec.ClearField(taxonomy.FieldCover, field.TypeString)
 	}
-	if value, ok := tuo.mutation.Thumbnail(); ok {
+	if value, ok := _u.mutation.Thumbnail(); ok {
 		_spec.SetField(taxonomy.FieldThumbnail, field.TypeString, value)
 	}
-	if tuo.mutation.ThumbnailCleared() {
+	if _u.mutation.ThumbnailCleared() {
 		_spec.ClearField(taxonomy.FieldThumbnail, field.TypeString)
 	}
-	if value, ok := tuo.mutation.Color(); ok {
+	if value, ok := _u.mutation.Color(); ok {
 		_spec.SetField(taxonomy.FieldColor, field.TypeString, value)
 	}
-	if tuo.mutation.ColorCleared() {
+	if _u.mutation.ColorCleared() {
 		_spec.ClearField(taxonomy.FieldColor, field.TypeString)
 	}
-	if value, ok := tuo.mutation.Icon(); ok {
+	if value, ok := _u.mutation.Icon(); ok {
 		_spec.SetField(taxonomy.FieldIcon, field.TypeString, value)
 	}
-	if tuo.mutation.IconCleared() {
+	if _u.mutation.IconCleared() {
 		_spec.ClearField(taxonomy.FieldIcon, field.TypeString)
 	}
-	if value, ok := tuo.mutation.URL(); ok {
+	if value, ok := _u.mutation.URL(); ok {
 		_spec.SetField(taxonomy.FieldURL, field.TypeString, value)
 	}
-	if tuo.mutation.URLCleared() {
+	if _u.mutation.URLCleared() {
 		_spec.ClearField(taxonomy.FieldURL, field.TypeString)
 	}
-	if value, ok := tuo.mutation.Keywords(); ok {
+	if value, ok := _u.mutation.Keywords(); ok {
 		_spec.SetField(taxonomy.FieldKeywords, field.TypeString, value)
 	}
-	if tuo.mutation.KeywordsCleared() {
+	if _u.mutation.KeywordsCleared() {
 		_spec.ClearField(taxonomy.FieldKeywords, field.TypeString)
 	}
-	if value, ok := tuo.mutation.Description(); ok {
+	if value, ok := _u.mutation.Description(); ok {
 		_spec.SetField(taxonomy.FieldDescription, field.TypeString, value)
 	}
-	if tuo.mutation.DescriptionCleared() {
+	if _u.mutation.DescriptionCleared() {
 		_spec.ClearField(taxonomy.FieldDescription, field.TypeString)
 	}
-	if value, ok := tuo.mutation.Status(); ok {
+	if value, ok := _u.mutation.Status(); ok {
 		_spec.SetField(taxonomy.FieldStatus, field.TypeInt, value)
 	}
-	if value, ok := tuo.mutation.AddedStatus(); ok {
+	if value, ok := _u.mutation.AddedStatus(); ok {
 		_spec.AddField(taxonomy.FieldStatus, field.TypeInt, value)
 	}
-	if value, ok := tuo.mutation.Extras(); ok {
+	if value, ok := _u.mutation.Extras(); ok {
 		_spec.SetField(taxonomy.FieldExtras, field.TypeJSON, value)
 	}
-	if tuo.mutation.ExtrasCleared() {
+	if _u.mutation.ExtrasCleared() {
 		_spec.ClearField(taxonomy.FieldExtras, field.TypeJSON)
 	}
-	if value, ok := tuo.mutation.ParentID(); ok {
+	if value, ok := _u.mutation.ParentID(); ok {
 		_spec.SetField(taxonomy.FieldParentID, field.TypeString, value)
 	}
-	if tuo.mutation.ParentIDCleared() {
+	if _u.mutation.ParentIDCleared() {
 		_spec.ClearField(taxonomy.FieldParentID, field.TypeString)
 	}
-	if value, ok := tuo.mutation.SpaceID(); ok {
+	if value, ok := _u.mutation.SpaceID(); ok {
 		_spec.SetField(taxonomy.FieldSpaceID, field.TypeString, value)
 	}
-	if tuo.mutation.SpaceIDCleared() {
+	if _u.mutation.SpaceIDCleared() {
 		_spec.ClearField(taxonomy.FieldSpaceID, field.TypeString)
 	}
-	if value, ok := tuo.mutation.CreatedBy(); ok {
+	if value, ok := _u.mutation.CreatedBy(); ok {
 		_spec.SetField(taxonomy.FieldCreatedBy, field.TypeString, value)
 	}
-	if tuo.mutation.CreatedByCleared() {
+	if _u.mutation.CreatedByCleared() {
 		_spec.ClearField(taxonomy.FieldCreatedBy, field.TypeString)
 	}
-	if value, ok := tuo.mutation.UpdatedBy(); ok {
+	if value, ok := _u.mutation.UpdatedBy(); ok {
 		_spec.SetField(taxonomy.FieldUpdatedBy, field.TypeString, value)
 	}
-	if tuo.mutation.UpdatedByCleared() {
+	if _u.mutation.UpdatedByCleared() {
 		_spec.ClearField(taxonomy.FieldUpdatedBy, field.TypeString)
 	}
-	if tuo.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(taxonomy.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := tuo.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(taxonomy.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := tuo.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(taxonomy.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if tuo.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(taxonomy.FieldUpdatedAt, field.TypeInt64)
 	}
-	_node = &Taxonomy{config: tuo.config}
+	_node = &Taxonomy{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues
-	if err = sqlgraph.UpdateNode(ctx, tuo.driver, _spec); err != nil {
+	if err = sqlgraph.UpdateNode(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{taxonomy.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -1068,6 +1068,6 @@ func (tuo *TaxonomyUpdateOne) sqlSave(ctx context.Context) (_node *Taxonomy, err
 		}
 		return nil, err
 	}
-	tuo.mutation.done = true
+	_u.mutation.done = true
 	return _node, nil
 }

@@ -20,381 +20,381 @@ type TopicCreate struct {
 }
 
 // SetName sets the "name" field.
-func (tc *TopicCreate) SetName(s string) *TopicCreate {
-	tc.mutation.SetName(s)
-	return tc
+func (_c *TopicCreate) SetName(v string) *TopicCreate {
+	_c.mutation.SetName(v)
+	return _c
 }
 
 // SetNillableName sets the "name" field if the given value is not nil.
-func (tc *TopicCreate) SetNillableName(s *string) *TopicCreate {
-	if s != nil {
-		tc.SetName(*s)
+func (_c *TopicCreate) SetNillableName(v *string) *TopicCreate {
+	if v != nil {
+		_c.SetName(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetTitle sets the "title" field.
-func (tc *TopicCreate) SetTitle(s string) *TopicCreate {
-	tc.mutation.SetTitle(s)
-	return tc
+func (_c *TopicCreate) SetTitle(v string) *TopicCreate {
+	_c.mutation.SetTitle(v)
+	return _c
 }
 
 // SetNillableTitle sets the "title" field if the given value is not nil.
-func (tc *TopicCreate) SetNillableTitle(s *string) *TopicCreate {
-	if s != nil {
-		tc.SetTitle(*s)
+func (_c *TopicCreate) SetNillableTitle(v *string) *TopicCreate {
+	if v != nil {
+		_c.SetTitle(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetSlug sets the "slug" field.
-func (tc *TopicCreate) SetSlug(s string) *TopicCreate {
-	tc.mutation.SetSlug(s)
-	return tc
+func (_c *TopicCreate) SetSlug(v string) *TopicCreate {
+	_c.mutation.SetSlug(v)
+	return _c
 }
 
 // SetNillableSlug sets the "slug" field if the given value is not nil.
-func (tc *TopicCreate) SetNillableSlug(s *string) *TopicCreate {
-	if s != nil {
-		tc.SetSlug(*s)
+func (_c *TopicCreate) SetNillableSlug(v *string) *TopicCreate {
+	if v != nil {
+		_c.SetSlug(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetContent sets the "content" field.
-func (tc *TopicCreate) SetContent(s string) *TopicCreate {
-	tc.mutation.SetContent(s)
-	return tc
+func (_c *TopicCreate) SetContent(v string) *TopicCreate {
+	_c.mutation.SetContent(v)
+	return _c
 }
 
 // SetNillableContent sets the "content" field if the given value is not nil.
-func (tc *TopicCreate) SetNillableContent(s *string) *TopicCreate {
-	if s != nil {
-		tc.SetContent(*s)
+func (_c *TopicCreate) SetNillableContent(v *string) *TopicCreate {
+	if v != nil {
+		_c.SetContent(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetThumbnail sets the "thumbnail" field.
-func (tc *TopicCreate) SetThumbnail(s string) *TopicCreate {
-	tc.mutation.SetThumbnail(s)
-	return tc
+func (_c *TopicCreate) SetThumbnail(v string) *TopicCreate {
+	_c.mutation.SetThumbnail(v)
+	return _c
 }
 
 // SetNillableThumbnail sets the "thumbnail" field if the given value is not nil.
-func (tc *TopicCreate) SetNillableThumbnail(s *string) *TopicCreate {
-	if s != nil {
-		tc.SetThumbnail(*s)
+func (_c *TopicCreate) SetNillableThumbnail(v *string) *TopicCreate {
+	if v != nil {
+		_c.SetThumbnail(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetTemp sets the "temp" field.
-func (tc *TopicCreate) SetTemp(b bool) *TopicCreate {
-	tc.mutation.SetTemp(b)
-	return tc
+func (_c *TopicCreate) SetTemp(v bool) *TopicCreate {
+	_c.mutation.SetTemp(v)
+	return _c
 }
 
 // SetNillableTemp sets the "temp" field if the given value is not nil.
-func (tc *TopicCreate) SetNillableTemp(b *bool) *TopicCreate {
-	if b != nil {
-		tc.SetTemp(*b)
+func (_c *TopicCreate) SetNillableTemp(v *bool) *TopicCreate {
+	if v != nil {
+		_c.SetTemp(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetMarkdown sets the "markdown" field.
-func (tc *TopicCreate) SetMarkdown(b bool) *TopicCreate {
-	tc.mutation.SetMarkdown(b)
-	return tc
+func (_c *TopicCreate) SetMarkdown(v bool) *TopicCreate {
+	_c.mutation.SetMarkdown(v)
+	return _c
 }
 
 // SetNillableMarkdown sets the "markdown" field if the given value is not nil.
-func (tc *TopicCreate) SetNillableMarkdown(b *bool) *TopicCreate {
-	if b != nil {
-		tc.SetMarkdown(*b)
+func (_c *TopicCreate) SetNillableMarkdown(v *bool) *TopicCreate {
+	if v != nil {
+		_c.SetMarkdown(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetPrivate sets the "private" field.
-func (tc *TopicCreate) SetPrivate(b bool) *TopicCreate {
-	tc.mutation.SetPrivate(b)
-	return tc
+func (_c *TopicCreate) SetPrivate(v bool) *TopicCreate {
+	_c.mutation.SetPrivate(v)
+	return _c
 }
 
 // SetNillablePrivate sets the "private" field if the given value is not nil.
-func (tc *TopicCreate) SetNillablePrivate(b *bool) *TopicCreate {
-	if b != nil {
-		tc.SetPrivate(*b)
+func (_c *TopicCreate) SetNillablePrivate(v *bool) *TopicCreate {
+	if v != nil {
+		_c.SetPrivate(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetStatus sets the "status" field.
-func (tc *TopicCreate) SetStatus(i int) *TopicCreate {
-	tc.mutation.SetStatus(i)
-	return tc
+func (_c *TopicCreate) SetStatus(v int) *TopicCreate {
+	_c.mutation.SetStatus(v)
+	return _c
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (tc *TopicCreate) SetNillableStatus(i *int) *TopicCreate {
-	if i != nil {
-		tc.SetStatus(*i)
+func (_c *TopicCreate) SetNillableStatus(v *int) *TopicCreate {
+	if v != nil {
+		_c.SetStatus(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetReleased sets the "released" field.
-func (tc *TopicCreate) SetReleased(i int64) *TopicCreate {
-	tc.mutation.SetReleased(i)
-	return tc
+func (_c *TopicCreate) SetReleased(v int64) *TopicCreate {
+	_c.mutation.SetReleased(v)
+	return _c
 }
 
 // SetNillableReleased sets the "released" field if the given value is not nil.
-func (tc *TopicCreate) SetNillableReleased(i *int64) *TopicCreate {
-	if i != nil {
-		tc.SetReleased(*i)
+func (_c *TopicCreate) SetNillableReleased(v *int64) *TopicCreate {
+	if v != nil {
+		_c.SetReleased(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetTaxonomyID sets the "taxonomy_id" field.
-func (tc *TopicCreate) SetTaxonomyID(s string) *TopicCreate {
-	tc.mutation.SetTaxonomyID(s)
-	return tc
+func (_c *TopicCreate) SetTaxonomyID(v string) *TopicCreate {
+	_c.mutation.SetTaxonomyID(v)
+	return _c
 }
 
 // SetNillableTaxonomyID sets the "taxonomy_id" field if the given value is not nil.
-func (tc *TopicCreate) SetNillableTaxonomyID(s *string) *TopicCreate {
-	if s != nil {
-		tc.SetTaxonomyID(*s)
+func (_c *TopicCreate) SetNillableTaxonomyID(v *string) *TopicCreate {
+	if v != nil {
+		_c.SetTaxonomyID(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetSpaceID sets the "space_id" field.
-func (tc *TopicCreate) SetSpaceID(s string) *TopicCreate {
-	tc.mutation.SetSpaceID(s)
-	return tc
+func (_c *TopicCreate) SetSpaceID(v string) *TopicCreate {
+	_c.mutation.SetSpaceID(v)
+	return _c
 }
 
 // SetNillableSpaceID sets the "space_id" field if the given value is not nil.
-func (tc *TopicCreate) SetNillableSpaceID(s *string) *TopicCreate {
-	if s != nil {
-		tc.SetSpaceID(*s)
+func (_c *TopicCreate) SetNillableSpaceID(v *string) *TopicCreate {
+	if v != nil {
+		_c.SetSpaceID(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetExtras sets the "extras" field.
-func (tc *TopicCreate) SetExtras(m map[string]interface{}) *TopicCreate {
-	tc.mutation.SetExtras(m)
-	return tc
+func (_c *TopicCreate) SetExtras(v map[string]interface{}) *TopicCreate {
+	_c.mutation.SetExtras(v)
+	return _c
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (tc *TopicCreate) SetCreatedBy(s string) *TopicCreate {
-	tc.mutation.SetCreatedBy(s)
-	return tc
+func (_c *TopicCreate) SetCreatedBy(v string) *TopicCreate {
+	_c.mutation.SetCreatedBy(v)
+	return _c
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (tc *TopicCreate) SetNillableCreatedBy(s *string) *TopicCreate {
-	if s != nil {
-		tc.SetCreatedBy(*s)
+func (_c *TopicCreate) SetNillableCreatedBy(v *string) *TopicCreate {
+	if v != nil {
+		_c.SetCreatedBy(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (tc *TopicCreate) SetUpdatedBy(s string) *TopicCreate {
-	tc.mutation.SetUpdatedBy(s)
-	return tc
+func (_c *TopicCreate) SetUpdatedBy(v string) *TopicCreate {
+	_c.mutation.SetUpdatedBy(v)
+	return _c
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (tc *TopicCreate) SetNillableUpdatedBy(s *string) *TopicCreate {
-	if s != nil {
-		tc.SetUpdatedBy(*s)
+func (_c *TopicCreate) SetNillableUpdatedBy(v *string) *TopicCreate {
+	if v != nil {
+		_c.SetUpdatedBy(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetCreatedAt sets the "created_at" field.
-func (tc *TopicCreate) SetCreatedAt(i int64) *TopicCreate {
-	tc.mutation.SetCreatedAt(i)
-	return tc
+func (_c *TopicCreate) SetCreatedAt(v int64) *TopicCreate {
+	_c.mutation.SetCreatedAt(v)
+	return _c
 }
 
 // SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
-func (tc *TopicCreate) SetNillableCreatedAt(i *int64) *TopicCreate {
-	if i != nil {
-		tc.SetCreatedAt(*i)
+func (_c *TopicCreate) SetNillableCreatedAt(v *int64) *TopicCreate {
+	if v != nil {
+		_c.SetCreatedAt(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (tc *TopicCreate) SetUpdatedAt(i int64) *TopicCreate {
-	tc.mutation.SetUpdatedAt(i)
-	return tc
+func (_c *TopicCreate) SetUpdatedAt(v int64) *TopicCreate {
+	_c.mutation.SetUpdatedAt(v)
+	return _c
 }
 
 // SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
-func (tc *TopicCreate) SetNillableUpdatedAt(i *int64) *TopicCreate {
-	if i != nil {
-		tc.SetUpdatedAt(*i)
+func (_c *TopicCreate) SetNillableUpdatedAt(v *int64) *TopicCreate {
+	if v != nil {
+		_c.SetUpdatedAt(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetVersion sets the "version" field.
-func (tc *TopicCreate) SetVersion(i int) *TopicCreate {
-	tc.mutation.SetVersion(i)
-	return tc
+func (_c *TopicCreate) SetVersion(v int) *TopicCreate {
+	_c.mutation.SetVersion(v)
+	return _c
 }
 
 // SetNillableVersion sets the "version" field if the given value is not nil.
-func (tc *TopicCreate) SetNillableVersion(i *int) *TopicCreate {
-	if i != nil {
-		tc.SetVersion(*i)
+func (_c *TopicCreate) SetNillableVersion(v *int) *TopicCreate {
+	if v != nil {
+		_c.SetVersion(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetContentType sets the "content_type" field.
-func (tc *TopicCreate) SetContentType(s string) *TopicCreate {
-	tc.mutation.SetContentType(s)
-	return tc
+func (_c *TopicCreate) SetContentType(v string) *TopicCreate {
+	_c.mutation.SetContentType(v)
+	return _c
 }
 
 // SetNillableContentType sets the "content_type" field if the given value is not nil.
-func (tc *TopicCreate) SetNillableContentType(s *string) *TopicCreate {
-	if s != nil {
-		tc.SetContentType(*s)
+func (_c *TopicCreate) SetNillableContentType(v *string) *TopicCreate {
+	if v != nil {
+		_c.SetContentType(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetSeoTitle sets the "seo_title" field.
-func (tc *TopicCreate) SetSeoTitle(s string) *TopicCreate {
-	tc.mutation.SetSeoTitle(s)
-	return tc
+func (_c *TopicCreate) SetSeoTitle(v string) *TopicCreate {
+	_c.mutation.SetSeoTitle(v)
+	return _c
 }
 
 // SetNillableSeoTitle sets the "seo_title" field if the given value is not nil.
-func (tc *TopicCreate) SetNillableSeoTitle(s *string) *TopicCreate {
-	if s != nil {
-		tc.SetSeoTitle(*s)
+func (_c *TopicCreate) SetNillableSeoTitle(v *string) *TopicCreate {
+	if v != nil {
+		_c.SetSeoTitle(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetSeoDescription sets the "seo_description" field.
-func (tc *TopicCreate) SetSeoDescription(s string) *TopicCreate {
-	tc.mutation.SetSeoDescription(s)
-	return tc
+func (_c *TopicCreate) SetSeoDescription(v string) *TopicCreate {
+	_c.mutation.SetSeoDescription(v)
+	return _c
 }
 
 // SetNillableSeoDescription sets the "seo_description" field if the given value is not nil.
-func (tc *TopicCreate) SetNillableSeoDescription(s *string) *TopicCreate {
-	if s != nil {
-		tc.SetSeoDescription(*s)
+func (_c *TopicCreate) SetNillableSeoDescription(v *string) *TopicCreate {
+	if v != nil {
+		_c.SetSeoDescription(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetSeoKeywords sets the "seo_keywords" field.
-func (tc *TopicCreate) SetSeoKeywords(s string) *TopicCreate {
-	tc.mutation.SetSeoKeywords(s)
-	return tc
+func (_c *TopicCreate) SetSeoKeywords(v string) *TopicCreate {
+	_c.mutation.SetSeoKeywords(v)
+	return _c
 }
 
 // SetNillableSeoKeywords sets the "seo_keywords" field if the given value is not nil.
-func (tc *TopicCreate) SetNillableSeoKeywords(s *string) *TopicCreate {
-	if s != nil {
-		tc.SetSeoKeywords(*s)
+func (_c *TopicCreate) SetNillableSeoKeywords(v *string) *TopicCreate {
+	if v != nil {
+		_c.SetSeoKeywords(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetExcerptAuto sets the "excerpt_auto" field.
-func (tc *TopicCreate) SetExcerptAuto(b bool) *TopicCreate {
-	tc.mutation.SetExcerptAuto(b)
-	return tc
+func (_c *TopicCreate) SetExcerptAuto(v bool) *TopicCreate {
+	_c.mutation.SetExcerptAuto(v)
+	return _c
 }
 
 // SetNillableExcerptAuto sets the "excerpt_auto" field if the given value is not nil.
-func (tc *TopicCreate) SetNillableExcerptAuto(b *bool) *TopicCreate {
-	if b != nil {
-		tc.SetExcerptAuto(*b)
+func (_c *TopicCreate) SetNillableExcerptAuto(v *bool) *TopicCreate {
+	if v != nil {
+		_c.SetExcerptAuto(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetExcerpt sets the "excerpt" field.
-func (tc *TopicCreate) SetExcerpt(s string) *TopicCreate {
-	tc.mutation.SetExcerpt(s)
-	return tc
+func (_c *TopicCreate) SetExcerpt(v string) *TopicCreate {
+	_c.mutation.SetExcerpt(v)
+	return _c
 }
 
 // SetNillableExcerpt sets the "excerpt" field if the given value is not nil.
-func (tc *TopicCreate) SetNillableExcerpt(s *string) *TopicCreate {
-	if s != nil {
-		tc.SetExcerpt(*s)
+func (_c *TopicCreate) SetNillableExcerpt(v *string) *TopicCreate {
+	if v != nil {
+		_c.SetExcerpt(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetFeaturedMedia sets the "featured_media" field.
-func (tc *TopicCreate) SetFeaturedMedia(s string) *TopicCreate {
-	tc.mutation.SetFeaturedMedia(s)
-	return tc
+func (_c *TopicCreate) SetFeaturedMedia(v string) *TopicCreate {
+	_c.mutation.SetFeaturedMedia(v)
+	return _c
 }
 
 // SetNillableFeaturedMedia sets the "featured_media" field if the given value is not nil.
-func (tc *TopicCreate) SetNillableFeaturedMedia(s *string) *TopicCreate {
-	if s != nil {
-		tc.SetFeaturedMedia(*s)
+func (_c *TopicCreate) SetNillableFeaturedMedia(v *string) *TopicCreate {
+	if v != nil {
+		_c.SetFeaturedMedia(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetTags sets the "tags" field.
-func (tc *TopicCreate) SetTags(s []string) *TopicCreate {
-	tc.mutation.SetTags(s)
-	return tc
+func (_c *TopicCreate) SetTags(v []string) *TopicCreate {
+	_c.mutation.SetTags(v)
+	return _c
 }
 
 // SetID sets the "id" field.
-func (tc *TopicCreate) SetID(s string) *TopicCreate {
-	tc.mutation.SetID(s)
-	return tc
+func (_c *TopicCreate) SetID(v string) *TopicCreate {
+	_c.mutation.SetID(v)
+	return _c
 }
 
 // SetNillableID sets the "id" field if the given value is not nil.
-func (tc *TopicCreate) SetNillableID(s *string) *TopicCreate {
-	if s != nil {
-		tc.SetID(*s)
+func (_c *TopicCreate) SetNillableID(v *string) *TopicCreate {
+	if v != nil {
+		_c.SetID(*v)
 	}
-	return tc
+	return _c
 }
 
 // Mutation returns the TopicMutation object of the builder.
-func (tc *TopicCreate) Mutation() *TopicMutation {
-	return tc.mutation
+func (_c *TopicCreate) Mutation() *TopicMutation {
+	return _c.mutation
 }
 
 // Save creates the Topic in the database.
-func (tc *TopicCreate) Save(ctx context.Context) (*Topic, error) {
-	tc.defaults()
-	return withHooks(ctx, tc.sqlSave, tc.mutation, tc.hooks)
+func (_c *TopicCreate) Save(ctx context.Context) (*Topic, error) {
+	_c.defaults()
+	return withHooks(ctx, _c.sqlSave, _c.mutation, _c.hooks)
 }
 
 // SaveX calls Save and panics if Save returns an error.
-func (tc *TopicCreate) SaveX(ctx context.Context) *Topic {
-	v, err := tc.Save(ctx)
+func (_c *TopicCreate) SaveX(ctx context.Context) *Topic {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -402,81 +402,81 @@ func (tc *TopicCreate) SaveX(ctx context.Context) *Topic {
 }
 
 // Exec executes the query.
-func (tc *TopicCreate) Exec(ctx context.Context) error {
-	_, err := tc.Save(ctx)
+func (_c *TopicCreate) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (tc *TopicCreate) ExecX(ctx context.Context) {
-	if err := tc.Exec(ctx); err != nil {
+func (_c *TopicCreate) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (tc *TopicCreate) defaults() {
-	if _, ok := tc.mutation.Temp(); !ok {
+func (_c *TopicCreate) defaults() {
+	if _, ok := _c.mutation.Temp(); !ok {
 		v := topic.DefaultTemp
-		tc.mutation.SetTemp(v)
+		_c.mutation.SetTemp(v)
 	}
-	if _, ok := tc.mutation.Markdown(); !ok {
+	if _, ok := _c.mutation.Markdown(); !ok {
 		v := topic.DefaultMarkdown
-		tc.mutation.SetMarkdown(v)
+		_c.mutation.SetMarkdown(v)
 	}
-	if _, ok := tc.mutation.Private(); !ok {
+	if _, ok := _c.mutation.Private(); !ok {
 		v := topic.DefaultPrivate
-		tc.mutation.SetPrivate(v)
+		_c.mutation.SetPrivate(v)
 	}
-	if _, ok := tc.mutation.Status(); !ok {
+	if _, ok := _c.mutation.Status(); !ok {
 		v := topic.DefaultStatus
-		tc.mutation.SetStatus(v)
+		_c.mutation.SetStatus(v)
 	}
-	if _, ok := tc.mutation.Extras(); !ok {
+	if _, ok := _c.mutation.Extras(); !ok {
 		v := topic.DefaultExtras
-		tc.mutation.SetExtras(v)
+		_c.mutation.SetExtras(v)
 	}
-	if _, ok := tc.mutation.CreatedAt(); !ok {
+	if _, ok := _c.mutation.CreatedAt(); !ok {
 		v := topic.DefaultCreatedAt()
-		tc.mutation.SetCreatedAt(v)
+		_c.mutation.SetCreatedAt(v)
 	}
-	if _, ok := tc.mutation.UpdatedAt(); !ok {
+	if _, ok := _c.mutation.UpdatedAt(); !ok {
 		v := topic.DefaultUpdatedAt()
-		tc.mutation.SetUpdatedAt(v)
+		_c.mutation.SetUpdatedAt(v)
 	}
-	if _, ok := tc.mutation.Version(); !ok {
+	if _, ok := _c.mutation.Version(); !ok {
 		v := topic.DefaultVersion
-		tc.mutation.SetVersion(v)
+		_c.mutation.SetVersion(v)
 	}
-	if _, ok := tc.mutation.ContentType(); !ok {
+	if _, ok := _c.mutation.ContentType(); !ok {
 		v := topic.DefaultContentType
-		tc.mutation.SetContentType(v)
+		_c.mutation.SetContentType(v)
 	}
-	if _, ok := tc.mutation.ExcerptAuto(); !ok {
+	if _, ok := _c.mutation.ExcerptAuto(); !ok {
 		v := topic.DefaultExcerptAuto
-		tc.mutation.SetExcerptAuto(v)
+		_c.mutation.SetExcerptAuto(v)
 	}
-	if _, ok := tc.mutation.ID(); !ok {
+	if _, ok := _c.mutation.ID(); !ok {
 		v := topic.DefaultID()
-		tc.mutation.SetID(v)
+		_c.mutation.SetID(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (tc *TopicCreate) check() error {
-	if _, ok := tc.mutation.Status(); !ok {
+func (_c *TopicCreate) check() error {
+	if _, ok := _c.mutation.Status(); !ok {
 		return &ValidationError{Name: "status", err: errors.New(`ent: missing required field "Topic.status"`)}
 	}
-	if _, ok := tc.mutation.Version(); !ok {
+	if _, ok := _c.mutation.Version(); !ok {
 		return &ValidationError{Name: "version", err: errors.New(`ent: missing required field "Topic.version"`)}
 	}
-	if _, ok := tc.mutation.ContentType(); !ok {
+	if _, ok := _c.mutation.ContentType(); !ok {
 		return &ValidationError{Name: "content_type", err: errors.New(`ent: missing required field "Topic.content_type"`)}
 	}
-	if _, ok := tc.mutation.ExcerptAuto(); !ok {
+	if _, ok := _c.mutation.ExcerptAuto(); !ok {
 		return &ValidationError{Name: "excerpt_auto", err: errors.New(`ent: missing required field "Topic.excerpt_auto"`)}
 	}
-	if v, ok := tc.mutation.ID(); ok {
+	if v, ok := _c.mutation.ID(); ok {
 		if err := topic.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "Topic.id": %w`, err)}
 		}
@@ -484,12 +484,12 @@ func (tc *TopicCreate) check() error {
 	return nil
 }
 
-func (tc *TopicCreate) sqlSave(ctx context.Context) (*Topic, error) {
-	if err := tc.check(); err != nil {
+func (_c *TopicCreate) sqlSave(ctx context.Context) (*Topic, error) {
+	if err := _c.check(); err != nil {
 		return nil, err
 	}
-	_node, _spec := tc.createSpec()
-	if err := sqlgraph.CreateNode(ctx, tc.driver, _spec); err != nil {
+	_node, _spec := _c.createSpec()
+	if err := sqlgraph.CreateNode(ctx, _c.driver, _spec); err != nil {
 		if sqlgraph.IsConstraintError(err) {
 			err = &ConstraintError{msg: err.Error(), wrap: err}
 		}
@@ -502,121 +502,121 @@ func (tc *TopicCreate) sqlSave(ctx context.Context) (*Topic, error) {
 			return nil, fmt.Errorf("unexpected Topic.ID type: %T", _spec.ID.Value)
 		}
 	}
-	tc.mutation.id = &_node.ID
-	tc.mutation.done = true
+	_c.mutation.id = &_node.ID
+	_c.mutation.done = true
 	return _node, nil
 }
 
-func (tc *TopicCreate) createSpec() (*Topic, *sqlgraph.CreateSpec) {
+func (_c *TopicCreate) createSpec() (*Topic, *sqlgraph.CreateSpec) {
 	var (
-		_node = &Topic{config: tc.config}
+		_node = &Topic{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(topic.Table, sqlgraph.NewFieldSpec(topic.FieldID, field.TypeString))
 	)
-	if id, ok := tc.mutation.ID(); ok {
+	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
 	}
-	if value, ok := tc.mutation.Name(); ok {
+	if value, ok := _c.mutation.Name(); ok {
 		_spec.SetField(topic.FieldName, field.TypeString, value)
 		_node.Name = value
 	}
-	if value, ok := tc.mutation.Title(); ok {
+	if value, ok := _c.mutation.Title(); ok {
 		_spec.SetField(topic.FieldTitle, field.TypeString, value)
 		_node.Title = value
 	}
-	if value, ok := tc.mutation.Slug(); ok {
+	if value, ok := _c.mutation.Slug(); ok {
 		_spec.SetField(topic.FieldSlug, field.TypeString, value)
 		_node.Slug = value
 	}
-	if value, ok := tc.mutation.Content(); ok {
+	if value, ok := _c.mutation.Content(); ok {
 		_spec.SetField(topic.FieldContent, field.TypeString, value)
 		_node.Content = value
 	}
-	if value, ok := tc.mutation.Thumbnail(); ok {
+	if value, ok := _c.mutation.Thumbnail(); ok {
 		_spec.SetField(topic.FieldThumbnail, field.TypeString, value)
 		_node.Thumbnail = value
 	}
-	if value, ok := tc.mutation.Temp(); ok {
+	if value, ok := _c.mutation.Temp(); ok {
 		_spec.SetField(topic.FieldTemp, field.TypeBool, value)
 		_node.Temp = value
 	}
-	if value, ok := tc.mutation.Markdown(); ok {
+	if value, ok := _c.mutation.Markdown(); ok {
 		_spec.SetField(topic.FieldMarkdown, field.TypeBool, value)
 		_node.Markdown = value
 	}
-	if value, ok := tc.mutation.Private(); ok {
+	if value, ok := _c.mutation.Private(); ok {
 		_spec.SetField(topic.FieldPrivate, field.TypeBool, value)
 		_node.Private = value
 	}
-	if value, ok := tc.mutation.Status(); ok {
+	if value, ok := _c.mutation.Status(); ok {
 		_spec.SetField(topic.FieldStatus, field.TypeInt, value)
 		_node.Status = value
 	}
-	if value, ok := tc.mutation.Released(); ok {
+	if value, ok := _c.mutation.Released(); ok {
 		_spec.SetField(topic.FieldReleased, field.TypeInt64, value)
 		_node.Released = value
 	}
-	if value, ok := tc.mutation.TaxonomyID(); ok {
+	if value, ok := _c.mutation.TaxonomyID(); ok {
 		_spec.SetField(topic.FieldTaxonomyID, field.TypeString, value)
 		_node.TaxonomyID = value
 	}
-	if value, ok := tc.mutation.SpaceID(); ok {
+	if value, ok := _c.mutation.SpaceID(); ok {
 		_spec.SetField(topic.FieldSpaceID, field.TypeString, value)
 		_node.SpaceID = value
 	}
-	if value, ok := tc.mutation.Extras(); ok {
+	if value, ok := _c.mutation.Extras(); ok {
 		_spec.SetField(topic.FieldExtras, field.TypeJSON, value)
 		_node.Extras = value
 	}
-	if value, ok := tc.mutation.CreatedBy(); ok {
+	if value, ok := _c.mutation.CreatedBy(); ok {
 		_spec.SetField(topic.FieldCreatedBy, field.TypeString, value)
 		_node.CreatedBy = value
 	}
-	if value, ok := tc.mutation.UpdatedBy(); ok {
+	if value, ok := _c.mutation.UpdatedBy(); ok {
 		_spec.SetField(topic.FieldUpdatedBy, field.TypeString, value)
 		_node.UpdatedBy = value
 	}
-	if value, ok := tc.mutation.CreatedAt(); ok {
+	if value, ok := _c.mutation.CreatedAt(); ok {
 		_spec.SetField(topic.FieldCreatedAt, field.TypeInt64, value)
 		_node.CreatedAt = value
 	}
-	if value, ok := tc.mutation.UpdatedAt(); ok {
+	if value, ok := _c.mutation.UpdatedAt(); ok {
 		_spec.SetField(topic.FieldUpdatedAt, field.TypeInt64, value)
 		_node.UpdatedAt = value
 	}
-	if value, ok := tc.mutation.Version(); ok {
+	if value, ok := _c.mutation.Version(); ok {
 		_spec.SetField(topic.FieldVersion, field.TypeInt, value)
 		_node.Version = value
 	}
-	if value, ok := tc.mutation.ContentType(); ok {
+	if value, ok := _c.mutation.ContentType(); ok {
 		_spec.SetField(topic.FieldContentType, field.TypeString, value)
 		_node.ContentType = value
 	}
-	if value, ok := tc.mutation.SeoTitle(); ok {
+	if value, ok := _c.mutation.SeoTitle(); ok {
 		_spec.SetField(topic.FieldSeoTitle, field.TypeString, value)
 		_node.SeoTitle = value
 	}
-	if value, ok := tc.mutation.SeoDescription(); ok {
+	if value, ok := _c.mutation.SeoDescription(); ok {
 		_spec.SetField(topic.FieldSeoDescription, field.TypeString, value)
 		_node.SeoDescription = value
 	}
-	if value, ok := tc.mutation.SeoKeywords(); ok {
+	if value, ok := _c.mutation.SeoKeywords(); ok {
 		_spec.SetField(topic.FieldSeoKeywords, field.TypeString, value)
 		_node.SeoKeywords = value
 	}
-	if value, ok := tc.mutation.ExcerptAuto(); ok {
+	if value, ok := _c.mutation.ExcerptAuto(); ok {
 		_spec.SetField(topic.FieldExcerptAuto, field.TypeBool, value)
 		_node.ExcerptAuto = value
 	}
-	if value, ok := tc.mutation.Excerpt(); ok {
+	if value, ok := _c.mutation.Excerpt(); ok {
 		_spec.SetField(topic.FieldExcerpt, field.TypeString, value)
 		_node.Excerpt = value
 	}
-	if value, ok := tc.mutation.FeaturedMedia(); ok {
+	if value, ok := _c.mutation.FeaturedMedia(); ok {
 		_spec.SetField(topic.FieldFeaturedMedia, field.TypeString, value)
 		_node.FeaturedMedia = value
 	}
-	if value, ok := tc.mutation.Tags(); ok {
+	if value, ok := _c.mutation.Tags(); ok {
 		_spec.SetField(topic.FieldTags, field.TypeJSON, value)
 		_node.Tags = value
 	}
@@ -631,16 +631,16 @@ type TopicCreateBulk struct {
 }
 
 // Save creates the Topic entities in the database.
-func (tcb *TopicCreateBulk) Save(ctx context.Context) ([]*Topic, error) {
-	if tcb.err != nil {
-		return nil, tcb.err
+func (_c *TopicCreateBulk) Save(ctx context.Context) ([]*Topic, error) {
+	if _c.err != nil {
+		return nil, _c.err
 	}
-	specs := make([]*sqlgraph.CreateSpec, len(tcb.builders))
-	nodes := make([]*Topic, len(tcb.builders))
-	mutators := make([]Mutator, len(tcb.builders))
-	for i := range tcb.builders {
+	specs := make([]*sqlgraph.CreateSpec, len(_c.builders))
+	nodes := make([]*Topic, len(_c.builders))
+	mutators := make([]Mutator, len(_c.builders))
+	for i := range _c.builders {
 		func(i int, root context.Context) {
-			builder := tcb.builders[i]
+			builder := _c.builders[i]
 			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*TopicMutation)
@@ -654,11 +654,11 @@ func (tcb *TopicCreateBulk) Save(ctx context.Context) ([]*Topic, error) {
 				var err error
 				nodes[i], specs[i] = builder.createSpec()
 				if i < len(mutators)-1 {
-					_, err = mutators[i+1].Mutate(root, tcb.builders[i+1].mutation)
+					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
 					// Invoke the actual operation on the latest mutation in the chain.
-					if err = sqlgraph.BatchCreate(ctx, tcb.driver, spec); err != nil {
+					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
 							err = &ConstraintError{msg: err.Error(), wrap: err}
 						}
@@ -678,7 +678,7 @@ func (tcb *TopicCreateBulk) Save(ctx context.Context) ([]*Topic, error) {
 		}(i, ctx)
 	}
 	if len(mutators) > 0 {
-		if _, err := mutators[0].Mutate(ctx, tcb.builders[0].mutation); err != nil {
+		if _, err := mutators[0].Mutate(ctx, _c.builders[0].mutation); err != nil {
 			return nil, err
 		}
 	}
@@ -686,8 +686,8 @@ func (tcb *TopicCreateBulk) Save(ctx context.Context) ([]*Topic, error) {
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (tcb *TopicCreateBulk) SaveX(ctx context.Context) []*Topic {
-	v, err := tcb.Save(ctx)
+func (_c *TopicCreateBulk) SaveX(ctx context.Context) []*Topic {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -695,14 +695,14 @@ func (tcb *TopicCreateBulk) SaveX(ctx context.Context) []*Topic {
 }
 
 // Exec executes the query.
-func (tcb *TopicCreateBulk) Exec(ctx context.Context) error {
-	_, err := tcb.Save(ctx)
+func (_c *TopicCreateBulk) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (tcb *TopicCreateBulk) ExecX(ctx context.Context) {
-	if err := tcb.Exec(ctx); err != nil {
+func (_c *TopicCreateBulk) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

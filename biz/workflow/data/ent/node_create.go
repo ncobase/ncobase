@@ -20,639 +20,639 @@ type NodeCreate struct {
 }
 
 // SetName sets the "name" field.
-func (nc *NodeCreate) SetName(s string) *NodeCreate {
-	nc.mutation.SetName(s)
-	return nc
+func (_c *NodeCreate) SetName(v string) *NodeCreate {
+	_c.mutation.SetName(v)
+	return _c
 }
 
 // SetNillableName sets the "name" field if the given value is not nil.
-func (nc *NodeCreate) SetNillableName(s *string) *NodeCreate {
-	if s != nil {
-		nc.SetName(*s)
+func (_c *NodeCreate) SetNillableName(v *string) *NodeCreate {
+	if v != nil {
+		_c.SetName(*v)
 	}
-	return nc
+	return _c
 }
 
 // SetDescription sets the "description" field.
-func (nc *NodeCreate) SetDescription(s string) *NodeCreate {
-	nc.mutation.SetDescription(s)
-	return nc
+func (_c *NodeCreate) SetDescription(v string) *NodeCreate {
+	_c.mutation.SetDescription(v)
+	return _c
 }
 
 // SetNillableDescription sets the "description" field if the given value is not nil.
-func (nc *NodeCreate) SetNillableDescription(s *string) *NodeCreate {
-	if s != nil {
-		nc.SetDescription(*s)
+func (_c *NodeCreate) SetNillableDescription(v *string) *NodeCreate {
+	if v != nil {
+		_c.SetDescription(*v)
 	}
-	return nc
+	return _c
 }
 
 // SetType sets the "type" field.
-func (nc *NodeCreate) SetType(s string) *NodeCreate {
-	nc.mutation.SetType(s)
-	return nc
+func (_c *NodeCreate) SetType(v string) *NodeCreate {
+	_c.mutation.SetType(v)
+	return _c
 }
 
 // SetNillableType sets the "type" field if the given value is not nil.
-func (nc *NodeCreate) SetNillableType(s *string) *NodeCreate {
-	if s != nil {
-		nc.SetType(*s)
+func (_c *NodeCreate) SetNillableType(v *string) *NodeCreate {
+	if v != nil {
+		_c.SetType(*v)
 	}
-	return nc
+	return _c
 }
 
 // SetStatus sets the "status" field.
-func (nc *NodeCreate) SetStatus(s string) *NodeCreate {
-	nc.mutation.SetStatus(s)
-	return nc
+func (_c *NodeCreate) SetStatus(v string) *NodeCreate {
+	_c.mutation.SetStatus(v)
+	return _c
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (nc *NodeCreate) SetNillableStatus(s *string) *NodeCreate {
-	if s != nil {
-		nc.SetStatus(*s)
+func (_c *NodeCreate) SetNillableStatus(v *string) *NodeCreate {
+	if v != nil {
+		_c.SetStatus(*v)
 	}
-	return nc
+	return _c
 }
 
 // SetNodeKey sets the "node_key" field.
-func (nc *NodeCreate) SetNodeKey(s string) *NodeCreate {
-	nc.mutation.SetNodeKey(s)
-	return nc
+func (_c *NodeCreate) SetNodeKey(v string) *NodeCreate {
+	_c.mutation.SetNodeKey(v)
+	return _c
 }
 
 // SetNodeType sets the "node_type" field.
-func (nc *NodeCreate) SetNodeType(s string) *NodeCreate {
-	nc.mutation.SetNodeType(s)
-	return nc
+func (_c *NodeCreate) SetNodeType(v string) *NodeCreate {
+	_c.mutation.SetNodeType(v)
+	return _c
 }
 
 // SetNodeConfig sets the "node_config" field.
-func (nc *NodeCreate) SetNodeConfig(m map[string]interface{}) *NodeCreate {
-	nc.mutation.SetNodeConfig(m)
-	return nc
+func (_c *NodeCreate) SetNodeConfig(v map[string]interface{}) *NodeCreate {
+	_c.mutation.SetNodeConfig(v)
+	return _c
 }
 
 // SetNodeRules sets the "node_rules" field.
-func (nc *NodeCreate) SetNodeRules(m map[string]interface{}) *NodeCreate {
-	nc.mutation.SetNodeRules(m)
-	return nc
+func (_c *NodeCreate) SetNodeRules(v map[string]interface{}) *NodeCreate {
+	_c.mutation.SetNodeRules(v)
+	return _c
 }
 
 // SetNodeEvents sets the "node_events" field.
-func (nc *NodeCreate) SetNodeEvents(m map[string]interface{}) *NodeCreate {
-	nc.mutation.SetNodeEvents(m)
-	return nc
+func (_c *NodeCreate) SetNodeEvents(v map[string]interface{}) *NodeCreate {
+	_c.mutation.SetNodeEvents(v)
+	return _c
 }
 
 // SetFormCode sets the "form_code" field.
-func (nc *NodeCreate) SetFormCode(s string) *NodeCreate {
-	nc.mutation.SetFormCode(s)
-	return nc
+func (_c *NodeCreate) SetFormCode(v string) *NodeCreate {
+	_c.mutation.SetFormCode(v)
+	return _c
 }
 
 // SetFormVersion sets the "form_version" field.
-func (nc *NodeCreate) SetFormVersion(s string) *NodeCreate {
-	nc.mutation.SetFormVersion(s)
-	return nc
+func (_c *NodeCreate) SetFormVersion(v string) *NodeCreate {
+	_c.mutation.SetFormVersion(v)
+	return _c
 }
 
 // SetNillableFormVersion sets the "form_version" field if the given value is not nil.
-func (nc *NodeCreate) SetNillableFormVersion(s *string) *NodeCreate {
-	if s != nil {
-		nc.SetFormVersion(*s)
+func (_c *NodeCreate) SetNillableFormVersion(v *string) *NodeCreate {
+	if v != nil {
+		_c.SetFormVersion(*v)
 	}
-	return nc
+	return _c
 }
 
 // SetFormConfig sets the "form_config" field.
-func (nc *NodeCreate) SetFormConfig(m map[string]interface{}) *NodeCreate {
-	nc.mutation.SetFormConfig(m)
-	return nc
+func (_c *NodeCreate) SetFormConfig(v map[string]interface{}) *NodeCreate {
+	_c.mutation.SetFormConfig(v)
+	return _c
 }
 
 // SetFormPermissions sets the "form_permissions" field.
-func (nc *NodeCreate) SetFormPermissions(m map[string]interface{}) *NodeCreate {
-	nc.mutation.SetFormPermissions(m)
-	return nc
+func (_c *NodeCreate) SetFormPermissions(v map[string]interface{}) *NodeCreate {
+	_c.mutation.SetFormPermissions(v)
+	return _c
 }
 
 // SetFieldPermissions sets the "field_permissions" field.
-func (nc *NodeCreate) SetFieldPermissions(m map[string]interface{}) *NodeCreate {
-	nc.mutation.SetFieldPermissions(m)
-	return nc
+func (_c *NodeCreate) SetFieldPermissions(v map[string]interface{}) *NodeCreate {
+	_c.mutation.SetFieldPermissions(v)
+	return _c
 }
 
 // SetAssignees sets the "assignees" field.
-func (nc *NodeCreate) SetAssignees(s []string) *NodeCreate {
-	nc.mutation.SetAssignees(s)
-	return nc
+func (_c *NodeCreate) SetAssignees(v []string) *NodeCreate {
+	_c.mutation.SetAssignees(v)
+	return _c
 }
 
 // SetCandidates sets the "candidates" field.
-func (nc *NodeCreate) SetCandidates(s []string) *NodeCreate {
-	nc.mutation.SetCandidates(s)
-	return nc
+func (_c *NodeCreate) SetCandidates(v []string) *NodeCreate {
+	_c.mutation.SetCandidates(v)
+	return _c
 }
 
 // SetDelegatedFrom sets the "delegated_from" field.
-func (nc *NodeCreate) SetDelegatedFrom(s string) *NodeCreate {
-	nc.mutation.SetDelegatedFrom(s)
-	return nc
+func (_c *NodeCreate) SetDelegatedFrom(v string) *NodeCreate {
+	_c.mutation.SetDelegatedFrom(v)
+	return _c
 }
 
 // SetNillableDelegatedFrom sets the "delegated_from" field if the given value is not nil.
-func (nc *NodeCreate) SetNillableDelegatedFrom(s *string) *NodeCreate {
-	if s != nil {
-		nc.SetDelegatedFrom(*s)
+func (_c *NodeCreate) SetNillableDelegatedFrom(v *string) *NodeCreate {
+	if v != nil {
+		_c.SetDelegatedFrom(*v)
 	}
-	return nc
+	return _c
 }
 
 // SetDelegatedReason sets the "delegated_reason" field.
-func (nc *NodeCreate) SetDelegatedReason(s string) *NodeCreate {
-	nc.mutation.SetDelegatedReason(s)
-	return nc
+func (_c *NodeCreate) SetDelegatedReason(v string) *NodeCreate {
+	_c.mutation.SetDelegatedReason(v)
+	return _c
 }
 
 // SetNillableDelegatedReason sets the "delegated_reason" field if the given value is not nil.
-func (nc *NodeCreate) SetNillableDelegatedReason(s *string) *NodeCreate {
-	if s != nil {
-		nc.SetDelegatedReason(*s)
+func (_c *NodeCreate) SetNillableDelegatedReason(v *string) *NodeCreate {
+	if v != nil {
+		_c.SetDelegatedReason(*v)
 	}
-	return nc
+	return _c
 }
 
 // SetIsDelegated sets the "is_delegated" field.
-func (nc *NodeCreate) SetIsDelegated(b bool) *NodeCreate {
-	nc.mutation.SetIsDelegated(b)
-	return nc
+func (_c *NodeCreate) SetIsDelegated(v bool) *NodeCreate {
+	_c.mutation.SetIsDelegated(v)
+	return _c
 }
 
 // SetNillableIsDelegated sets the "is_delegated" field if the given value is not nil.
-func (nc *NodeCreate) SetNillableIsDelegated(b *bool) *NodeCreate {
-	if b != nil {
-		nc.SetIsDelegated(*b)
+func (_c *NodeCreate) SetNillableIsDelegated(v *bool) *NodeCreate {
+	if v != nil {
+		_c.SetIsDelegated(*v)
 	}
-	return nc
+	return _c
 }
 
 // SetIsTransferred sets the "is_transferred" field.
-func (nc *NodeCreate) SetIsTransferred(b bool) *NodeCreate {
-	nc.mutation.SetIsTransferred(b)
-	return nc
+func (_c *NodeCreate) SetIsTransferred(v bool) *NodeCreate {
+	_c.mutation.SetIsTransferred(v)
+	return _c
 }
 
 // SetNillableIsTransferred sets the "is_transferred" field if the given value is not nil.
-func (nc *NodeCreate) SetNillableIsTransferred(b *bool) *NodeCreate {
-	if b != nil {
-		nc.SetIsTransferred(*b)
+func (_c *NodeCreate) SetNillableIsTransferred(v *bool) *NodeCreate {
+	if v != nil {
+		_c.SetIsTransferred(*v)
 	}
-	return nc
+	return _c
 }
 
 // SetAllowCancel sets the "allow_cancel" field.
-func (nc *NodeCreate) SetAllowCancel(b bool) *NodeCreate {
-	nc.mutation.SetAllowCancel(b)
-	return nc
+func (_c *NodeCreate) SetAllowCancel(v bool) *NodeCreate {
+	_c.mutation.SetAllowCancel(v)
+	return _c
 }
 
 // SetNillableAllowCancel sets the "allow_cancel" field if the given value is not nil.
-func (nc *NodeCreate) SetNillableAllowCancel(b *bool) *NodeCreate {
-	if b != nil {
-		nc.SetAllowCancel(*b)
+func (_c *NodeCreate) SetNillableAllowCancel(v *bool) *NodeCreate {
+	if v != nil {
+		_c.SetAllowCancel(*v)
 	}
-	return nc
+	return _c
 }
 
 // SetAllowUrge sets the "allow_urge" field.
-func (nc *NodeCreate) SetAllowUrge(b bool) *NodeCreate {
-	nc.mutation.SetAllowUrge(b)
-	return nc
+func (_c *NodeCreate) SetAllowUrge(v bool) *NodeCreate {
+	_c.mutation.SetAllowUrge(v)
+	return _c
 }
 
 // SetNillableAllowUrge sets the "allow_urge" field if the given value is not nil.
-func (nc *NodeCreate) SetNillableAllowUrge(b *bool) *NodeCreate {
-	if b != nil {
-		nc.SetAllowUrge(*b)
+func (_c *NodeCreate) SetNillableAllowUrge(v *bool) *NodeCreate {
+	if v != nil {
+		_c.SetAllowUrge(*v)
 	}
-	return nc
+	return _c
 }
 
 // SetAllowDelegate sets the "allow_delegate" field.
-func (nc *NodeCreate) SetAllowDelegate(b bool) *NodeCreate {
-	nc.mutation.SetAllowDelegate(b)
-	return nc
+func (_c *NodeCreate) SetAllowDelegate(v bool) *NodeCreate {
+	_c.mutation.SetAllowDelegate(v)
+	return _c
 }
 
 // SetNillableAllowDelegate sets the "allow_delegate" field if the given value is not nil.
-func (nc *NodeCreate) SetNillableAllowDelegate(b *bool) *NodeCreate {
-	if b != nil {
-		nc.SetAllowDelegate(*b)
+func (_c *NodeCreate) SetNillableAllowDelegate(v *bool) *NodeCreate {
+	if v != nil {
+		_c.SetAllowDelegate(*v)
 	}
-	return nc
+	return _c
 }
 
 // SetAllowTransfer sets the "allow_transfer" field.
-func (nc *NodeCreate) SetAllowTransfer(b bool) *NodeCreate {
-	nc.mutation.SetAllowTransfer(b)
-	return nc
+func (_c *NodeCreate) SetAllowTransfer(v bool) *NodeCreate {
+	_c.mutation.SetAllowTransfer(v)
+	return _c
 }
 
 // SetNillableAllowTransfer sets the "allow_transfer" field if the given value is not nil.
-func (nc *NodeCreate) SetNillableAllowTransfer(b *bool) *NodeCreate {
-	if b != nil {
-		nc.SetAllowTransfer(*b)
+func (_c *NodeCreate) SetNillableAllowTransfer(v *bool) *NodeCreate {
+	if v != nil {
+		_c.SetAllowTransfer(*v)
 	}
-	return nc
+	return _c
 }
 
 // SetIsDraftEnabled sets the "is_draft_enabled" field.
-func (nc *NodeCreate) SetIsDraftEnabled(b bool) *NodeCreate {
-	nc.mutation.SetIsDraftEnabled(b)
-	return nc
+func (_c *NodeCreate) SetIsDraftEnabled(v bool) *NodeCreate {
+	_c.mutation.SetIsDraftEnabled(v)
+	return _c
 }
 
 // SetNillableIsDraftEnabled sets the "is_draft_enabled" field if the given value is not nil.
-func (nc *NodeCreate) SetNillableIsDraftEnabled(b *bool) *NodeCreate {
-	if b != nil {
-		nc.SetIsDraftEnabled(*b)
+func (_c *NodeCreate) SetNillableIsDraftEnabled(v *bool) *NodeCreate {
+	if v != nil {
+		_c.SetIsDraftEnabled(*v)
 	}
-	return nc
+	return _c
 }
 
 // SetIsAutoStart sets the "is_auto_start" field.
-func (nc *NodeCreate) SetIsAutoStart(b bool) *NodeCreate {
-	nc.mutation.SetIsAutoStart(b)
-	return nc
+func (_c *NodeCreate) SetIsAutoStart(v bool) *NodeCreate {
+	_c.mutation.SetIsAutoStart(v)
+	return _c
 }
 
 // SetNillableIsAutoStart sets the "is_auto_start" field if the given value is not nil.
-func (nc *NodeCreate) SetNillableIsAutoStart(b *bool) *NodeCreate {
-	if b != nil {
-		nc.SetIsAutoStart(*b)
+func (_c *NodeCreate) SetNillableIsAutoStart(v *bool) *NodeCreate {
+	if v != nil {
+		_c.SetIsAutoStart(*v)
 	}
-	return nc
+	return _c
 }
 
 // SetStrictMode sets the "strict_mode" field.
-func (nc *NodeCreate) SetStrictMode(b bool) *NodeCreate {
-	nc.mutation.SetStrictMode(b)
-	return nc
+func (_c *NodeCreate) SetStrictMode(v bool) *NodeCreate {
+	_c.mutation.SetStrictMode(v)
+	return _c
 }
 
 // SetNillableStrictMode sets the "strict_mode" field if the given value is not nil.
-func (nc *NodeCreate) SetNillableStrictMode(b *bool) *NodeCreate {
-	if b != nil {
-		nc.SetStrictMode(*b)
+func (_c *NodeCreate) SetNillableStrictMode(v *bool) *NodeCreate {
+	if v != nil {
+		_c.SetStrictMode(*v)
 	}
-	return nc
+	return _c
 }
 
 // SetStartTime sets the "start_time" field.
-func (nc *NodeCreate) SetStartTime(i int64) *NodeCreate {
-	nc.mutation.SetStartTime(i)
-	return nc
+func (_c *NodeCreate) SetStartTime(v int64) *NodeCreate {
+	_c.mutation.SetStartTime(v)
+	return _c
 }
 
 // SetNillableStartTime sets the "start_time" field if the given value is not nil.
-func (nc *NodeCreate) SetNillableStartTime(i *int64) *NodeCreate {
-	if i != nil {
-		nc.SetStartTime(*i)
+func (_c *NodeCreate) SetNillableStartTime(v *int64) *NodeCreate {
+	if v != nil {
+		_c.SetStartTime(*v)
 	}
-	return nc
+	return _c
 }
 
 // SetEndTime sets the "end_time" field.
-func (nc *NodeCreate) SetEndTime(i int64) *NodeCreate {
-	nc.mutation.SetEndTime(i)
-	return nc
+func (_c *NodeCreate) SetEndTime(v int64) *NodeCreate {
+	_c.mutation.SetEndTime(v)
+	return _c
 }
 
 // SetNillableEndTime sets the "end_time" field if the given value is not nil.
-func (nc *NodeCreate) SetNillableEndTime(i *int64) *NodeCreate {
-	if i != nil {
-		nc.SetEndTime(*i)
+func (_c *NodeCreate) SetNillableEndTime(v *int64) *NodeCreate {
+	if v != nil {
+		_c.SetEndTime(*v)
 	}
-	return nc
+	return _c
 }
 
 // SetDueTime sets the "due_time" field.
-func (nc *NodeCreate) SetDueTime(i int64) *NodeCreate {
-	nc.mutation.SetDueTime(i)
-	return nc
+func (_c *NodeCreate) SetDueTime(v int64) *NodeCreate {
+	_c.mutation.SetDueTime(v)
+	return _c
 }
 
 // SetNillableDueTime sets the "due_time" field if the given value is not nil.
-func (nc *NodeCreate) SetNillableDueTime(i *int64) *NodeCreate {
-	if i != nil {
-		nc.SetDueTime(*i)
+func (_c *NodeCreate) SetNillableDueTime(v *int64) *NodeCreate {
+	if v != nil {
+		_c.SetDueTime(*v)
 	}
-	return nc
+	return _c
 }
 
 // SetDuration sets the "duration" field.
-func (nc *NodeCreate) SetDuration(i int) *NodeCreate {
-	nc.mutation.SetDuration(i)
-	return nc
+func (_c *NodeCreate) SetDuration(v int) *NodeCreate {
+	_c.mutation.SetDuration(v)
+	return _c
 }
 
 // SetNillableDuration sets the "duration" field if the given value is not nil.
-func (nc *NodeCreate) SetNillableDuration(i *int) *NodeCreate {
-	if i != nil {
-		nc.SetDuration(*i)
+func (_c *NodeCreate) SetNillableDuration(v *int) *NodeCreate {
+	if v != nil {
+		_c.SetDuration(*v)
 	}
-	return nc
+	return _c
 }
 
 // SetPriority sets the "priority" field.
-func (nc *NodeCreate) SetPriority(i int) *NodeCreate {
-	nc.mutation.SetPriority(i)
-	return nc
+func (_c *NodeCreate) SetPriority(v int) *NodeCreate {
+	_c.mutation.SetPriority(v)
+	return _c
 }
 
 // SetNillablePriority sets the "priority" field if the given value is not nil.
-func (nc *NodeCreate) SetNillablePriority(i *int) *NodeCreate {
-	if i != nil {
-		nc.SetPriority(*i)
+func (_c *NodeCreate) SetNillablePriority(v *int) *NodeCreate {
+	if v != nil {
+		_c.SetPriority(*v)
 	}
-	return nc
+	return _c
 }
 
 // SetIsTimeout sets the "is_timeout" field.
-func (nc *NodeCreate) SetIsTimeout(b bool) *NodeCreate {
-	nc.mutation.SetIsTimeout(b)
-	return nc
+func (_c *NodeCreate) SetIsTimeout(v bool) *NodeCreate {
+	_c.mutation.SetIsTimeout(v)
+	return _c
 }
 
 // SetNillableIsTimeout sets the "is_timeout" field if the given value is not nil.
-func (nc *NodeCreate) SetNillableIsTimeout(b *bool) *NodeCreate {
-	if b != nil {
-		nc.SetIsTimeout(*b)
+func (_c *NodeCreate) SetNillableIsTimeout(v *bool) *NodeCreate {
+	if v != nil {
+		_c.SetIsTimeout(*v)
 	}
-	return nc
+	return _c
 }
 
 // SetReminderCount sets the "reminder_count" field.
-func (nc *NodeCreate) SetReminderCount(i int) *NodeCreate {
-	nc.mutation.SetReminderCount(i)
-	return nc
+func (_c *NodeCreate) SetReminderCount(v int) *NodeCreate {
+	_c.mutation.SetReminderCount(v)
+	return _c
 }
 
 // SetNillableReminderCount sets the "reminder_count" field if the given value is not nil.
-func (nc *NodeCreate) SetNillableReminderCount(i *int) *NodeCreate {
-	if i != nil {
-		nc.SetReminderCount(*i)
+func (_c *NodeCreate) SetNillableReminderCount(v *int) *NodeCreate {
+	if v != nil {
+		_c.SetReminderCount(*v)
 	}
-	return nc
+	return _c
 }
 
 // SetExtras sets the "extras" field.
-func (nc *NodeCreate) SetExtras(m map[string]interface{}) *NodeCreate {
-	nc.mutation.SetExtras(m)
-	return nc
+func (_c *NodeCreate) SetExtras(v map[string]interface{}) *NodeCreate {
+	_c.mutation.SetExtras(v)
+	return _c
 }
 
 // SetSpaceID sets the "space_id" field.
-func (nc *NodeCreate) SetSpaceID(s string) *NodeCreate {
-	nc.mutation.SetSpaceID(s)
-	return nc
+func (_c *NodeCreate) SetSpaceID(v string) *NodeCreate {
+	_c.mutation.SetSpaceID(v)
+	return _c
 }
 
 // SetNillableSpaceID sets the "space_id" field if the given value is not nil.
-func (nc *NodeCreate) SetNillableSpaceID(s *string) *NodeCreate {
-	if s != nil {
-		nc.SetSpaceID(*s)
+func (_c *NodeCreate) SetNillableSpaceID(v *string) *NodeCreate {
+	if v != nil {
+		_c.SetSpaceID(*v)
 	}
-	return nc
+	return _c
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (nc *NodeCreate) SetCreatedBy(s string) *NodeCreate {
-	nc.mutation.SetCreatedBy(s)
-	return nc
+func (_c *NodeCreate) SetCreatedBy(v string) *NodeCreate {
+	_c.mutation.SetCreatedBy(v)
+	return _c
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (nc *NodeCreate) SetNillableCreatedBy(s *string) *NodeCreate {
-	if s != nil {
-		nc.SetCreatedBy(*s)
+func (_c *NodeCreate) SetNillableCreatedBy(v *string) *NodeCreate {
+	if v != nil {
+		_c.SetCreatedBy(*v)
 	}
-	return nc
+	return _c
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (nc *NodeCreate) SetUpdatedBy(s string) *NodeCreate {
-	nc.mutation.SetUpdatedBy(s)
-	return nc
+func (_c *NodeCreate) SetUpdatedBy(v string) *NodeCreate {
+	_c.mutation.SetUpdatedBy(v)
+	return _c
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (nc *NodeCreate) SetNillableUpdatedBy(s *string) *NodeCreate {
-	if s != nil {
-		nc.SetUpdatedBy(*s)
+func (_c *NodeCreate) SetNillableUpdatedBy(v *string) *NodeCreate {
+	if v != nil {
+		_c.SetUpdatedBy(*v)
 	}
-	return nc
+	return _c
 }
 
 // SetCreatedAt sets the "created_at" field.
-func (nc *NodeCreate) SetCreatedAt(i int64) *NodeCreate {
-	nc.mutation.SetCreatedAt(i)
-	return nc
+func (_c *NodeCreate) SetCreatedAt(v int64) *NodeCreate {
+	_c.mutation.SetCreatedAt(v)
+	return _c
 }
 
 // SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
-func (nc *NodeCreate) SetNillableCreatedAt(i *int64) *NodeCreate {
-	if i != nil {
-		nc.SetCreatedAt(*i)
+func (_c *NodeCreate) SetNillableCreatedAt(v *int64) *NodeCreate {
+	if v != nil {
+		_c.SetCreatedAt(*v)
 	}
-	return nc
+	return _c
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (nc *NodeCreate) SetUpdatedAt(i int64) *NodeCreate {
-	nc.mutation.SetUpdatedAt(i)
-	return nc
+func (_c *NodeCreate) SetUpdatedAt(v int64) *NodeCreate {
+	_c.mutation.SetUpdatedAt(v)
+	return _c
 }
 
 // SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
-func (nc *NodeCreate) SetNillableUpdatedAt(i *int64) *NodeCreate {
-	if i != nil {
-		nc.SetUpdatedAt(*i)
+func (_c *NodeCreate) SetNillableUpdatedAt(v *int64) *NodeCreate {
+	if v != nil {
+		_c.SetUpdatedAt(*v)
 	}
-	return nc
+	return _c
 }
 
 // SetProcessID sets the "process_id" field.
-func (nc *NodeCreate) SetProcessID(s string) *NodeCreate {
-	nc.mutation.SetProcessID(s)
-	return nc
+func (_c *NodeCreate) SetProcessID(v string) *NodeCreate {
+	_c.mutation.SetProcessID(v)
+	return _c
 }
 
 // SetPermissions sets the "permissions" field.
-func (nc *NodeCreate) SetPermissions(m map[string]interface{}) *NodeCreate {
-	nc.mutation.SetPermissions(m)
-	return nc
+func (_c *NodeCreate) SetPermissions(v map[string]interface{}) *NodeCreate {
+	_c.mutation.SetPermissions(v)
+	return _c
 }
 
 // SetPrevNodes sets the "prev_nodes" field.
-func (nc *NodeCreate) SetPrevNodes(s []string) *NodeCreate {
-	nc.mutation.SetPrevNodes(s)
-	return nc
+func (_c *NodeCreate) SetPrevNodes(v []string) *NodeCreate {
+	_c.mutation.SetPrevNodes(v)
+	return _c
 }
 
 // SetNextNodes sets the "next_nodes" field.
-func (nc *NodeCreate) SetNextNodes(s []string) *NodeCreate {
-	nc.mutation.SetNextNodes(s)
-	return nc
+func (_c *NodeCreate) SetNextNodes(v []string) *NodeCreate {
+	_c.mutation.SetNextNodes(v)
+	return _c
 }
 
 // SetParallelNodes sets the "parallel_nodes" field.
-func (nc *NodeCreate) SetParallelNodes(s []string) *NodeCreate {
-	nc.mutation.SetParallelNodes(s)
-	return nc
+func (_c *NodeCreate) SetParallelNodes(v []string) *NodeCreate {
+	_c.mutation.SetParallelNodes(v)
+	return _c
 }
 
 // SetBranchNodes sets the "branch_nodes" field.
-func (nc *NodeCreate) SetBranchNodes(s []string) *NodeCreate {
-	nc.mutation.SetBranchNodes(s)
-	return nc
+func (_c *NodeCreate) SetBranchNodes(v []string) *NodeCreate {
+	_c.mutation.SetBranchNodes(v)
+	return _c
 }
 
 // SetConditions sets the "conditions" field.
-func (nc *NodeCreate) SetConditions(s []string) *NodeCreate {
-	nc.mutation.SetConditions(s)
-	return nc
+func (_c *NodeCreate) SetConditions(v []string) *NodeCreate {
+	_c.mutation.SetConditions(v)
+	return _c
 }
 
 // SetProperties sets the "properties" field.
-func (nc *NodeCreate) SetProperties(m map[string]interface{}) *NodeCreate {
-	nc.mutation.SetProperties(m)
-	return nc
+func (_c *NodeCreate) SetProperties(v map[string]interface{}) *NodeCreate {
+	_c.mutation.SetProperties(v)
+	return _c
 }
 
 // SetIsCountersign sets the "is_countersign" field.
-func (nc *NodeCreate) SetIsCountersign(b bool) *NodeCreate {
-	nc.mutation.SetIsCountersign(b)
-	return nc
+func (_c *NodeCreate) SetIsCountersign(v bool) *NodeCreate {
+	_c.mutation.SetIsCountersign(v)
+	return _c
 }
 
 // SetNillableIsCountersign sets the "is_countersign" field if the given value is not nil.
-func (nc *NodeCreate) SetNillableIsCountersign(b *bool) *NodeCreate {
-	if b != nil {
-		nc.SetIsCountersign(*b)
+func (_c *NodeCreate) SetNillableIsCountersign(v *bool) *NodeCreate {
+	if v != nil {
+		_c.SetIsCountersign(*v)
 	}
-	return nc
+	return _c
 }
 
 // SetCountersignRule sets the "countersign_rule" field.
-func (nc *NodeCreate) SetCountersignRule(s string) *NodeCreate {
-	nc.mutation.SetCountersignRule(s)
-	return nc
+func (_c *NodeCreate) SetCountersignRule(v string) *NodeCreate {
+	_c.mutation.SetCountersignRule(v)
+	return _c
 }
 
 // SetNillableCountersignRule sets the "countersign_rule" field if the given value is not nil.
-func (nc *NodeCreate) SetNillableCountersignRule(s *string) *NodeCreate {
-	if s != nil {
-		nc.SetCountersignRule(*s)
+func (_c *NodeCreate) SetNillableCountersignRule(v *string) *NodeCreate {
+	if v != nil {
+		_c.SetCountersignRule(*v)
 	}
-	return nc
+	return _c
 }
 
 // SetHandlers sets the "handlers" field.
-func (nc *NodeCreate) SetHandlers(m map[string]interface{}) *NodeCreate {
-	nc.mutation.SetHandlers(m)
-	return nc
+func (_c *NodeCreate) SetHandlers(v map[string]interface{}) *NodeCreate {
+	_c.mutation.SetHandlers(v)
+	return _c
 }
 
 // SetListeners sets the "listeners" field.
-func (nc *NodeCreate) SetListeners(m map[string]interface{}) *NodeCreate {
-	nc.mutation.SetListeners(m)
-	return nc
+func (_c *NodeCreate) SetListeners(v map[string]interface{}) *NodeCreate {
+	_c.mutation.SetListeners(v)
+	return _c
 }
 
 // SetHooks sets the "hooks" field.
-func (nc *NodeCreate) SetHooks(m map[string]interface{}) *NodeCreate {
-	nc.mutation.SetHooks(m)
-	return nc
+func (_c *NodeCreate) SetHooks(v map[string]interface{}) *NodeCreate {
+	_c.mutation.SetHooks(v)
+	return _c
 }
 
 // SetVariables sets the "variables" field.
-func (nc *NodeCreate) SetVariables(m map[string]interface{}) *NodeCreate {
-	nc.mutation.SetVariables(m)
-	return nc
+func (_c *NodeCreate) SetVariables(v map[string]interface{}) *NodeCreate {
+	_c.mutation.SetVariables(v)
+	return _c
 }
 
 // SetRetryTimes sets the "retry_times" field.
-func (nc *NodeCreate) SetRetryTimes(i int) *NodeCreate {
-	nc.mutation.SetRetryTimes(i)
-	return nc
+func (_c *NodeCreate) SetRetryTimes(v int) *NodeCreate {
+	_c.mutation.SetRetryTimes(v)
+	return _c
 }
 
 // SetNillableRetryTimes sets the "retry_times" field if the given value is not nil.
-func (nc *NodeCreate) SetNillableRetryTimes(i *int) *NodeCreate {
-	if i != nil {
-		nc.SetRetryTimes(*i)
+func (_c *NodeCreate) SetNillableRetryTimes(v *int) *NodeCreate {
+	if v != nil {
+		_c.SetRetryTimes(*v)
 	}
-	return nc
+	return _c
 }
 
 // SetRetryInterval sets the "retry_interval" field.
-func (nc *NodeCreate) SetRetryInterval(i int) *NodeCreate {
-	nc.mutation.SetRetryInterval(i)
-	return nc
+func (_c *NodeCreate) SetRetryInterval(v int) *NodeCreate {
+	_c.mutation.SetRetryInterval(v)
+	return _c
 }
 
 // SetNillableRetryInterval sets the "retry_interval" field if the given value is not nil.
-func (nc *NodeCreate) SetNillableRetryInterval(i *int) *NodeCreate {
-	if i != nil {
-		nc.SetRetryInterval(*i)
+func (_c *NodeCreate) SetNillableRetryInterval(v *int) *NodeCreate {
+	if v != nil {
+		_c.SetRetryInterval(*v)
 	}
-	return nc
+	return _c
 }
 
 // SetIsWorkingDay sets the "is_working_day" field.
-func (nc *NodeCreate) SetIsWorkingDay(b bool) *NodeCreate {
-	nc.mutation.SetIsWorkingDay(b)
-	return nc
+func (_c *NodeCreate) SetIsWorkingDay(v bool) *NodeCreate {
+	_c.mutation.SetIsWorkingDay(v)
+	return _c
 }
 
 // SetNillableIsWorkingDay sets the "is_working_day" field if the given value is not nil.
-func (nc *NodeCreate) SetNillableIsWorkingDay(b *bool) *NodeCreate {
-	if b != nil {
-		nc.SetIsWorkingDay(*b)
+func (_c *NodeCreate) SetNillableIsWorkingDay(v *bool) *NodeCreate {
+	if v != nil {
+		_c.SetIsWorkingDay(*v)
 	}
-	return nc
+	return _c
 }
 
 // SetID sets the "id" field.
-func (nc *NodeCreate) SetID(s string) *NodeCreate {
-	nc.mutation.SetID(s)
-	return nc
+func (_c *NodeCreate) SetID(v string) *NodeCreate {
+	_c.mutation.SetID(v)
+	return _c
 }
 
 // SetNillableID sets the "id" field if the given value is not nil.
-func (nc *NodeCreate) SetNillableID(s *string) *NodeCreate {
-	if s != nil {
-		nc.SetID(*s)
+func (_c *NodeCreate) SetNillableID(v *string) *NodeCreate {
+	if v != nil {
+		_c.SetID(*v)
 	}
-	return nc
+	return _c
 }
 
 // Mutation returns the NodeMutation object of the builder.
-func (nc *NodeCreate) Mutation() *NodeMutation {
-	return nc.mutation
+func (_c *NodeCreate) Mutation() *NodeMutation {
+	return _c.mutation
 }
 
 // Save creates the Node in the database.
-func (nc *NodeCreate) Save(ctx context.Context) (*Node, error) {
-	nc.defaults()
-	return withHooks(ctx, nc.sqlSave, nc.mutation, nc.hooks)
+func (_c *NodeCreate) Save(ctx context.Context) (*Node, error) {
+	_c.defaults()
+	return withHooks(ctx, _c.sqlSave, _c.mutation, _c.hooks)
 }
 
 // SaveX calls Save and panics if Save returns an error.
-func (nc *NodeCreate) SaveX(ctx context.Context) *Node {
-	v, err := nc.Save(ctx)
+func (_c *NodeCreate) SaveX(ctx context.Context) *Node {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -660,175 +660,175 @@ func (nc *NodeCreate) SaveX(ctx context.Context) *Node {
 }
 
 // Exec executes the query.
-func (nc *NodeCreate) Exec(ctx context.Context) error {
-	_, err := nc.Save(ctx)
+func (_c *NodeCreate) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (nc *NodeCreate) ExecX(ctx context.Context) {
-	if err := nc.Exec(ctx); err != nil {
+func (_c *NodeCreate) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (nc *NodeCreate) defaults() {
-	if _, ok := nc.mutation.IsDelegated(); !ok {
+func (_c *NodeCreate) defaults() {
+	if _, ok := _c.mutation.IsDelegated(); !ok {
 		v := node.DefaultIsDelegated
-		nc.mutation.SetIsDelegated(v)
+		_c.mutation.SetIsDelegated(v)
 	}
-	if _, ok := nc.mutation.IsTransferred(); !ok {
+	if _, ok := _c.mutation.IsTransferred(); !ok {
 		v := node.DefaultIsTransferred
-		nc.mutation.SetIsTransferred(v)
+		_c.mutation.SetIsTransferred(v)
 	}
-	if _, ok := nc.mutation.AllowCancel(); !ok {
+	if _, ok := _c.mutation.AllowCancel(); !ok {
 		v := node.DefaultAllowCancel
-		nc.mutation.SetAllowCancel(v)
+		_c.mutation.SetAllowCancel(v)
 	}
-	if _, ok := nc.mutation.AllowUrge(); !ok {
+	if _, ok := _c.mutation.AllowUrge(); !ok {
 		v := node.DefaultAllowUrge
-		nc.mutation.SetAllowUrge(v)
+		_c.mutation.SetAllowUrge(v)
 	}
-	if _, ok := nc.mutation.AllowDelegate(); !ok {
+	if _, ok := _c.mutation.AllowDelegate(); !ok {
 		v := node.DefaultAllowDelegate
-		nc.mutation.SetAllowDelegate(v)
+		_c.mutation.SetAllowDelegate(v)
 	}
-	if _, ok := nc.mutation.AllowTransfer(); !ok {
+	if _, ok := _c.mutation.AllowTransfer(); !ok {
 		v := node.DefaultAllowTransfer
-		nc.mutation.SetAllowTransfer(v)
+		_c.mutation.SetAllowTransfer(v)
 	}
-	if _, ok := nc.mutation.IsDraftEnabled(); !ok {
+	if _, ok := _c.mutation.IsDraftEnabled(); !ok {
 		v := node.DefaultIsDraftEnabled
-		nc.mutation.SetIsDraftEnabled(v)
+		_c.mutation.SetIsDraftEnabled(v)
 	}
-	if _, ok := nc.mutation.IsAutoStart(); !ok {
+	if _, ok := _c.mutation.IsAutoStart(); !ok {
 		v := node.DefaultIsAutoStart
-		nc.mutation.SetIsAutoStart(v)
+		_c.mutation.SetIsAutoStart(v)
 	}
-	if _, ok := nc.mutation.StrictMode(); !ok {
+	if _, ok := _c.mutation.StrictMode(); !ok {
 		v := node.DefaultStrictMode
-		nc.mutation.SetStrictMode(v)
+		_c.mutation.SetStrictMode(v)
 	}
-	if _, ok := nc.mutation.StartTime(); !ok {
+	if _, ok := _c.mutation.StartTime(); !ok {
 		v := node.DefaultStartTime()
-		nc.mutation.SetStartTime(v)
+		_c.mutation.SetStartTime(v)
 	}
-	if _, ok := nc.mutation.Priority(); !ok {
+	if _, ok := _c.mutation.Priority(); !ok {
 		v := node.DefaultPriority
-		nc.mutation.SetPriority(v)
+		_c.mutation.SetPriority(v)
 	}
-	if _, ok := nc.mutation.IsTimeout(); !ok {
+	if _, ok := _c.mutation.IsTimeout(); !ok {
 		v := node.DefaultIsTimeout
-		nc.mutation.SetIsTimeout(v)
+		_c.mutation.SetIsTimeout(v)
 	}
-	if _, ok := nc.mutation.ReminderCount(); !ok {
+	if _, ok := _c.mutation.ReminderCount(); !ok {
 		v := node.DefaultReminderCount
-		nc.mutation.SetReminderCount(v)
+		_c.mutation.SetReminderCount(v)
 	}
-	if _, ok := nc.mutation.Extras(); !ok {
+	if _, ok := _c.mutation.Extras(); !ok {
 		v := node.DefaultExtras
-		nc.mutation.SetExtras(v)
+		_c.mutation.SetExtras(v)
 	}
-	if _, ok := nc.mutation.CreatedAt(); !ok {
+	if _, ok := _c.mutation.CreatedAt(); !ok {
 		v := node.DefaultCreatedAt()
-		nc.mutation.SetCreatedAt(v)
+		_c.mutation.SetCreatedAt(v)
 	}
-	if _, ok := nc.mutation.UpdatedAt(); !ok {
+	if _, ok := _c.mutation.UpdatedAt(); !ok {
 		v := node.DefaultUpdatedAt()
-		nc.mutation.SetUpdatedAt(v)
+		_c.mutation.SetUpdatedAt(v)
 	}
-	if _, ok := nc.mutation.IsCountersign(); !ok {
+	if _, ok := _c.mutation.IsCountersign(); !ok {
 		v := node.DefaultIsCountersign
-		nc.mutation.SetIsCountersign(v)
+		_c.mutation.SetIsCountersign(v)
 	}
-	if _, ok := nc.mutation.RetryTimes(); !ok {
+	if _, ok := _c.mutation.RetryTimes(); !ok {
 		v := node.DefaultRetryTimes
-		nc.mutation.SetRetryTimes(v)
+		_c.mutation.SetRetryTimes(v)
 	}
-	if _, ok := nc.mutation.RetryInterval(); !ok {
+	if _, ok := _c.mutation.RetryInterval(); !ok {
 		v := node.DefaultRetryInterval
-		nc.mutation.SetRetryInterval(v)
+		_c.mutation.SetRetryInterval(v)
 	}
-	if _, ok := nc.mutation.IsWorkingDay(); !ok {
+	if _, ok := _c.mutation.IsWorkingDay(); !ok {
 		v := node.DefaultIsWorkingDay
-		nc.mutation.SetIsWorkingDay(v)
+		_c.mutation.SetIsWorkingDay(v)
 	}
-	if _, ok := nc.mutation.ID(); !ok {
+	if _, ok := _c.mutation.ID(); !ok {
 		v := node.DefaultID()
-		nc.mutation.SetID(v)
+		_c.mutation.SetID(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (nc *NodeCreate) check() error {
-	if _, ok := nc.mutation.NodeKey(); !ok {
+func (_c *NodeCreate) check() error {
+	if _, ok := _c.mutation.NodeKey(); !ok {
 		return &ValidationError{Name: "node_key", err: errors.New(`ent: missing required field "Node.node_key"`)}
 	}
-	if _, ok := nc.mutation.NodeType(); !ok {
+	if _, ok := _c.mutation.NodeType(); !ok {
 		return &ValidationError{Name: "node_type", err: errors.New(`ent: missing required field "Node.node_type"`)}
 	}
-	if _, ok := nc.mutation.FormCode(); !ok {
+	if _, ok := _c.mutation.FormCode(); !ok {
 		return &ValidationError{Name: "form_code", err: errors.New(`ent: missing required field "Node.form_code"`)}
 	}
-	if _, ok := nc.mutation.Assignees(); !ok {
+	if _, ok := _c.mutation.Assignees(); !ok {
 		return &ValidationError{Name: "assignees", err: errors.New(`ent: missing required field "Node.assignees"`)}
 	}
-	if _, ok := nc.mutation.Candidates(); !ok {
+	if _, ok := _c.mutation.Candidates(); !ok {
 		return &ValidationError{Name: "candidates", err: errors.New(`ent: missing required field "Node.candidates"`)}
 	}
-	if _, ok := nc.mutation.IsDelegated(); !ok {
+	if _, ok := _c.mutation.IsDelegated(); !ok {
 		return &ValidationError{Name: "is_delegated", err: errors.New(`ent: missing required field "Node.is_delegated"`)}
 	}
-	if _, ok := nc.mutation.IsTransferred(); !ok {
+	if _, ok := _c.mutation.IsTransferred(); !ok {
 		return &ValidationError{Name: "is_transferred", err: errors.New(`ent: missing required field "Node.is_transferred"`)}
 	}
-	if _, ok := nc.mutation.AllowCancel(); !ok {
+	if _, ok := _c.mutation.AllowCancel(); !ok {
 		return &ValidationError{Name: "allow_cancel", err: errors.New(`ent: missing required field "Node.allow_cancel"`)}
 	}
-	if _, ok := nc.mutation.AllowUrge(); !ok {
+	if _, ok := _c.mutation.AllowUrge(); !ok {
 		return &ValidationError{Name: "allow_urge", err: errors.New(`ent: missing required field "Node.allow_urge"`)}
 	}
-	if _, ok := nc.mutation.AllowDelegate(); !ok {
+	if _, ok := _c.mutation.AllowDelegate(); !ok {
 		return &ValidationError{Name: "allow_delegate", err: errors.New(`ent: missing required field "Node.allow_delegate"`)}
 	}
-	if _, ok := nc.mutation.AllowTransfer(); !ok {
+	if _, ok := _c.mutation.AllowTransfer(); !ok {
 		return &ValidationError{Name: "allow_transfer", err: errors.New(`ent: missing required field "Node.allow_transfer"`)}
 	}
-	if _, ok := nc.mutation.IsDraftEnabled(); !ok {
+	if _, ok := _c.mutation.IsDraftEnabled(); !ok {
 		return &ValidationError{Name: "is_draft_enabled", err: errors.New(`ent: missing required field "Node.is_draft_enabled"`)}
 	}
-	if _, ok := nc.mutation.IsAutoStart(); !ok {
+	if _, ok := _c.mutation.IsAutoStart(); !ok {
 		return &ValidationError{Name: "is_auto_start", err: errors.New(`ent: missing required field "Node.is_auto_start"`)}
 	}
-	if _, ok := nc.mutation.StrictMode(); !ok {
+	if _, ok := _c.mutation.StrictMode(); !ok {
 		return &ValidationError{Name: "strict_mode", err: errors.New(`ent: missing required field "Node.strict_mode"`)}
 	}
-	if _, ok := nc.mutation.StartTime(); !ok {
+	if _, ok := _c.mutation.StartTime(); !ok {
 		return &ValidationError{Name: "start_time", err: errors.New(`ent: missing required field "Node.start_time"`)}
 	}
-	if _, ok := nc.mutation.Priority(); !ok {
+	if _, ok := _c.mutation.Priority(); !ok {
 		return &ValidationError{Name: "priority", err: errors.New(`ent: missing required field "Node.priority"`)}
 	}
-	if _, ok := nc.mutation.IsTimeout(); !ok {
+	if _, ok := _c.mutation.IsTimeout(); !ok {
 		return &ValidationError{Name: "is_timeout", err: errors.New(`ent: missing required field "Node.is_timeout"`)}
 	}
-	if _, ok := nc.mutation.ReminderCount(); !ok {
+	if _, ok := _c.mutation.ReminderCount(); !ok {
 		return &ValidationError{Name: "reminder_count", err: errors.New(`ent: missing required field "Node.reminder_count"`)}
 	}
-	if _, ok := nc.mutation.ProcessID(); !ok {
+	if _, ok := _c.mutation.ProcessID(); !ok {
 		return &ValidationError{Name: "process_id", err: errors.New(`ent: missing required field "Node.process_id"`)}
 	}
-	if _, ok := nc.mutation.Permissions(); !ok {
+	if _, ok := _c.mutation.Permissions(); !ok {
 		return &ValidationError{Name: "permissions", err: errors.New(`ent: missing required field "Node.permissions"`)}
 	}
-	if _, ok := nc.mutation.IsCountersign(); !ok {
+	if _, ok := _c.mutation.IsCountersign(); !ok {
 		return &ValidationError{Name: "is_countersign", err: errors.New(`ent: missing required field "Node.is_countersign"`)}
 	}
-	if _, ok := nc.mutation.IsWorkingDay(); !ok {
+	if _, ok := _c.mutation.IsWorkingDay(); !ok {
 		return &ValidationError{Name: "is_working_day", err: errors.New(`ent: missing required field "Node.is_working_day"`)}
 	}
-	if v, ok := nc.mutation.ID(); ok {
+	if v, ok := _c.mutation.ID(); ok {
 		if err := node.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "Node.id": %w`, err)}
 		}
@@ -836,12 +836,12 @@ func (nc *NodeCreate) check() error {
 	return nil
 }
 
-func (nc *NodeCreate) sqlSave(ctx context.Context) (*Node, error) {
-	if err := nc.check(); err != nil {
+func (_c *NodeCreate) sqlSave(ctx context.Context) (*Node, error) {
+	if err := _c.check(); err != nil {
 		return nil, err
 	}
-	_node, _spec := nc.createSpec()
-	if err := sqlgraph.CreateNode(ctx, nc.driver, _spec); err != nil {
+	_node, _spec := _c.createSpec()
+	if err := sqlgraph.CreateNode(ctx, _c.driver, _spec); err != nil {
 		if sqlgraph.IsConstraintError(err) {
 			err = &ConstraintError{msg: err.Error(), wrap: err}
 		}
@@ -854,245 +854,245 @@ func (nc *NodeCreate) sqlSave(ctx context.Context) (*Node, error) {
 			return nil, fmt.Errorf("unexpected Node.ID type: %T", _spec.ID.Value)
 		}
 	}
-	nc.mutation.id = &_node.ID
-	nc.mutation.done = true
+	_c.mutation.id = &_node.ID
+	_c.mutation.done = true
 	return _node, nil
 }
 
-func (nc *NodeCreate) createSpec() (*Node, *sqlgraph.CreateSpec) {
+func (_c *NodeCreate) createSpec() (*Node, *sqlgraph.CreateSpec) {
 	var (
-		_node = &Node{config: nc.config}
+		_node = &Node{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(node.Table, sqlgraph.NewFieldSpec(node.FieldID, field.TypeString))
 	)
-	if id, ok := nc.mutation.ID(); ok {
+	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
 	}
-	if value, ok := nc.mutation.Name(); ok {
+	if value, ok := _c.mutation.Name(); ok {
 		_spec.SetField(node.FieldName, field.TypeString, value)
 		_node.Name = value
 	}
-	if value, ok := nc.mutation.Description(); ok {
+	if value, ok := _c.mutation.Description(); ok {
 		_spec.SetField(node.FieldDescription, field.TypeString, value)
 		_node.Description = value
 	}
-	if value, ok := nc.mutation.GetType(); ok {
+	if value, ok := _c.mutation.GetType(); ok {
 		_spec.SetField(node.FieldType, field.TypeString, value)
 		_node.Type = value
 	}
-	if value, ok := nc.mutation.Status(); ok {
+	if value, ok := _c.mutation.Status(); ok {
 		_spec.SetField(node.FieldStatus, field.TypeString, value)
 		_node.Status = value
 	}
-	if value, ok := nc.mutation.NodeKey(); ok {
+	if value, ok := _c.mutation.NodeKey(); ok {
 		_spec.SetField(node.FieldNodeKey, field.TypeString, value)
 		_node.NodeKey = value
 	}
-	if value, ok := nc.mutation.NodeType(); ok {
+	if value, ok := _c.mutation.NodeType(); ok {
 		_spec.SetField(node.FieldNodeType, field.TypeString, value)
 		_node.NodeType = value
 	}
-	if value, ok := nc.mutation.NodeConfig(); ok {
+	if value, ok := _c.mutation.NodeConfig(); ok {
 		_spec.SetField(node.FieldNodeConfig, field.TypeJSON, value)
 		_node.NodeConfig = value
 	}
-	if value, ok := nc.mutation.NodeRules(); ok {
+	if value, ok := _c.mutation.NodeRules(); ok {
 		_spec.SetField(node.FieldNodeRules, field.TypeJSON, value)
 		_node.NodeRules = value
 	}
-	if value, ok := nc.mutation.NodeEvents(); ok {
+	if value, ok := _c.mutation.NodeEvents(); ok {
 		_spec.SetField(node.FieldNodeEvents, field.TypeJSON, value)
 		_node.NodeEvents = value
 	}
-	if value, ok := nc.mutation.FormCode(); ok {
+	if value, ok := _c.mutation.FormCode(); ok {
 		_spec.SetField(node.FieldFormCode, field.TypeString, value)
 		_node.FormCode = value
 	}
-	if value, ok := nc.mutation.FormVersion(); ok {
+	if value, ok := _c.mutation.FormVersion(); ok {
 		_spec.SetField(node.FieldFormVersion, field.TypeString, value)
 		_node.FormVersion = value
 	}
-	if value, ok := nc.mutation.FormConfig(); ok {
+	if value, ok := _c.mutation.FormConfig(); ok {
 		_spec.SetField(node.FieldFormConfig, field.TypeJSON, value)
 		_node.FormConfig = value
 	}
-	if value, ok := nc.mutation.FormPermissions(); ok {
+	if value, ok := _c.mutation.FormPermissions(); ok {
 		_spec.SetField(node.FieldFormPermissions, field.TypeJSON, value)
 		_node.FormPermissions = value
 	}
-	if value, ok := nc.mutation.FieldPermissions(); ok {
+	if value, ok := _c.mutation.FieldPermissions(); ok {
 		_spec.SetField(node.FieldFieldPermissions, field.TypeJSON, value)
 		_node.FieldPermissions = value
 	}
-	if value, ok := nc.mutation.Assignees(); ok {
+	if value, ok := _c.mutation.Assignees(); ok {
 		_spec.SetField(node.FieldAssignees, field.TypeJSON, value)
 		_node.Assignees = value
 	}
-	if value, ok := nc.mutation.Candidates(); ok {
+	if value, ok := _c.mutation.Candidates(); ok {
 		_spec.SetField(node.FieldCandidates, field.TypeJSON, value)
 		_node.Candidates = value
 	}
-	if value, ok := nc.mutation.DelegatedFrom(); ok {
+	if value, ok := _c.mutation.DelegatedFrom(); ok {
 		_spec.SetField(node.FieldDelegatedFrom, field.TypeString, value)
 		_node.DelegatedFrom = value
 	}
-	if value, ok := nc.mutation.DelegatedReason(); ok {
+	if value, ok := _c.mutation.DelegatedReason(); ok {
 		_spec.SetField(node.FieldDelegatedReason, field.TypeString, value)
 		_node.DelegatedReason = value
 	}
-	if value, ok := nc.mutation.IsDelegated(); ok {
+	if value, ok := _c.mutation.IsDelegated(); ok {
 		_spec.SetField(node.FieldIsDelegated, field.TypeBool, value)
 		_node.IsDelegated = value
 	}
-	if value, ok := nc.mutation.IsTransferred(); ok {
+	if value, ok := _c.mutation.IsTransferred(); ok {
 		_spec.SetField(node.FieldIsTransferred, field.TypeBool, value)
 		_node.IsTransferred = value
 	}
-	if value, ok := nc.mutation.AllowCancel(); ok {
+	if value, ok := _c.mutation.AllowCancel(); ok {
 		_spec.SetField(node.FieldAllowCancel, field.TypeBool, value)
 		_node.AllowCancel = value
 	}
-	if value, ok := nc.mutation.AllowUrge(); ok {
+	if value, ok := _c.mutation.AllowUrge(); ok {
 		_spec.SetField(node.FieldAllowUrge, field.TypeBool, value)
 		_node.AllowUrge = value
 	}
-	if value, ok := nc.mutation.AllowDelegate(); ok {
+	if value, ok := _c.mutation.AllowDelegate(); ok {
 		_spec.SetField(node.FieldAllowDelegate, field.TypeBool, value)
 		_node.AllowDelegate = value
 	}
-	if value, ok := nc.mutation.AllowTransfer(); ok {
+	if value, ok := _c.mutation.AllowTransfer(); ok {
 		_spec.SetField(node.FieldAllowTransfer, field.TypeBool, value)
 		_node.AllowTransfer = value
 	}
-	if value, ok := nc.mutation.IsDraftEnabled(); ok {
+	if value, ok := _c.mutation.IsDraftEnabled(); ok {
 		_spec.SetField(node.FieldIsDraftEnabled, field.TypeBool, value)
 		_node.IsDraftEnabled = value
 	}
-	if value, ok := nc.mutation.IsAutoStart(); ok {
+	if value, ok := _c.mutation.IsAutoStart(); ok {
 		_spec.SetField(node.FieldIsAutoStart, field.TypeBool, value)
 		_node.IsAutoStart = value
 	}
-	if value, ok := nc.mutation.StrictMode(); ok {
+	if value, ok := _c.mutation.StrictMode(); ok {
 		_spec.SetField(node.FieldStrictMode, field.TypeBool, value)
 		_node.StrictMode = value
 	}
-	if value, ok := nc.mutation.StartTime(); ok {
+	if value, ok := _c.mutation.StartTime(); ok {
 		_spec.SetField(node.FieldStartTime, field.TypeInt64, value)
 		_node.StartTime = value
 	}
-	if value, ok := nc.mutation.EndTime(); ok {
+	if value, ok := _c.mutation.EndTime(); ok {
 		_spec.SetField(node.FieldEndTime, field.TypeInt64, value)
 		_node.EndTime = &value
 	}
-	if value, ok := nc.mutation.DueTime(); ok {
+	if value, ok := _c.mutation.DueTime(); ok {
 		_spec.SetField(node.FieldDueTime, field.TypeInt64, value)
 		_node.DueTime = &value
 	}
-	if value, ok := nc.mutation.Duration(); ok {
+	if value, ok := _c.mutation.Duration(); ok {
 		_spec.SetField(node.FieldDuration, field.TypeInt, value)
 		_node.Duration = value
 	}
-	if value, ok := nc.mutation.Priority(); ok {
+	if value, ok := _c.mutation.Priority(); ok {
 		_spec.SetField(node.FieldPriority, field.TypeInt, value)
 		_node.Priority = value
 	}
-	if value, ok := nc.mutation.IsTimeout(); ok {
+	if value, ok := _c.mutation.IsTimeout(); ok {
 		_spec.SetField(node.FieldIsTimeout, field.TypeBool, value)
 		_node.IsTimeout = value
 	}
-	if value, ok := nc.mutation.ReminderCount(); ok {
+	if value, ok := _c.mutation.ReminderCount(); ok {
 		_spec.SetField(node.FieldReminderCount, field.TypeInt, value)
 		_node.ReminderCount = value
 	}
-	if value, ok := nc.mutation.Extras(); ok {
+	if value, ok := _c.mutation.Extras(); ok {
 		_spec.SetField(node.FieldExtras, field.TypeJSON, value)
 		_node.Extras = value
 	}
-	if value, ok := nc.mutation.SpaceID(); ok {
+	if value, ok := _c.mutation.SpaceID(); ok {
 		_spec.SetField(node.FieldSpaceID, field.TypeString, value)
 		_node.SpaceID = value
 	}
-	if value, ok := nc.mutation.CreatedBy(); ok {
+	if value, ok := _c.mutation.CreatedBy(); ok {
 		_spec.SetField(node.FieldCreatedBy, field.TypeString, value)
 		_node.CreatedBy = value
 	}
-	if value, ok := nc.mutation.UpdatedBy(); ok {
+	if value, ok := _c.mutation.UpdatedBy(); ok {
 		_spec.SetField(node.FieldUpdatedBy, field.TypeString, value)
 		_node.UpdatedBy = value
 	}
-	if value, ok := nc.mutation.CreatedAt(); ok {
+	if value, ok := _c.mutation.CreatedAt(); ok {
 		_spec.SetField(node.FieldCreatedAt, field.TypeInt64, value)
 		_node.CreatedAt = value
 	}
-	if value, ok := nc.mutation.UpdatedAt(); ok {
+	if value, ok := _c.mutation.UpdatedAt(); ok {
 		_spec.SetField(node.FieldUpdatedAt, field.TypeInt64, value)
 		_node.UpdatedAt = value
 	}
-	if value, ok := nc.mutation.ProcessID(); ok {
+	if value, ok := _c.mutation.ProcessID(); ok {
 		_spec.SetField(node.FieldProcessID, field.TypeString, value)
 		_node.ProcessID = value
 	}
-	if value, ok := nc.mutation.Permissions(); ok {
+	if value, ok := _c.mutation.Permissions(); ok {
 		_spec.SetField(node.FieldPermissions, field.TypeJSON, value)
 		_node.Permissions = value
 	}
-	if value, ok := nc.mutation.PrevNodes(); ok {
+	if value, ok := _c.mutation.PrevNodes(); ok {
 		_spec.SetField(node.FieldPrevNodes, field.TypeJSON, value)
 		_node.PrevNodes = value
 	}
-	if value, ok := nc.mutation.NextNodes(); ok {
+	if value, ok := _c.mutation.NextNodes(); ok {
 		_spec.SetField(node.FieldNextNodes, field.TypeJSON, value)
 		_node.NextNodes = value
 	}
-	if value, ok := nc.mutation.ParallelNodes(); ok {
+	if value, ok := _c.mutation.ParallelNodes(); ok {
 		_spec.SetField(node.FieldParallelNodes, field.TypeJSON, value)
 		_node.ParallelNodes = value
 	}
-	if value, ok := nc.mutation.BranchNodes(); ok {
+	if value, ok := _c.mutation.BranchNodes(); ok {
 		_spec.SetField(node.FieldBranchNodes, field.TypeJSON, value)
 		_node.BranchNodes = value
 	}
-	if value, ok := nc.mutation.Conditions(); ok {
+	if value, ok := _c.mutation.Conditions(); ok {
 		_spec.SetField(node.FieldConditions, field.TypeJSON, value)
 		_node.Conditions = value
 	}
-	if value, ok := nc.mutation.Properties(); ok {
+	if value, ok := _c.mutation.Properties(); ok {
 		_spec.SetField(node.FieldProperties, field.TypeJSON, value)
 		_node.Properties = value
 	}
-	if value, ok := nc.mutation.IsCountersign(); ok {
+	if value, ok := _c.mutation.IsCountersign(); ok {
 		_spec.SetField(node.FieldIsCountersign, field.TypeBool, value)
 		_node.IsCountersign = value
 	}
-	if value, ok := nc.mutation.CountersignRule(); ok {
+	if value, ok := _c.mutation.CountersignRule(); ok {
 		_spec.SetField(node.FieldCountersignRule, field.TypeString, value)
 		_node.CountersignRule = value
 	}
-	if value, ok := nc.mutation.Handlers(); ok {
+	if value, ok := _c.mutation.Handlers(); ok {
 		_spec.SetField(node.FieldHandlers, field.TypeJSON, value)
 		_node.Handlers = value
 	}
-	if value, ok := nc.mutation.Listeners(); ok {
+	if value, ok := _c.mutation.Listeners(); ok {
 		_spec.SetField(node.FieldListeners, field.TypeJSON, value)
 		_node.Listeners = value
 	}
-	if value, ok := nc.mutation.Hooks(); ok {
+	if value, ok := _c.mutation.Hooks(); ok {
 		_spec.SetField(node.FieldHooks, field.TypeJSON, value)
 		_node.Hooks = value
 	}
-	if value, ok := nc.mutation.Variables(); ok {
+	if value, ok := _c.mutation.Variables(); ok {
 		_spec.SetField(node.FieldVariables, field.TypeJSON, value)
 		_node.Variables = value
 	}
-	if value, ok := nc.mutation.RetryTimes(); ok {
+	if value, ok := _c.mutation.RetryTimes(); ok {
 		_spec.SetField(node.FieldRetryTimes, field.TypeInt, value)
 		_node.RetryTimes = value
 	}
-	if value, ok := nc.mutation.RetryInterval(); ok {
+	if value, ok := _c.mutation.RetryInterval(); ok {
 		_spec.SetField(node.FieldRetryInterval, field.TypeInt, value)
 		_node.RetryInterval = value
 	}
-	if value, ok := nc.mutation.IsWorkingDay(); ok {
+	if value, ok := _c.mutation.IsWorkingDay(); ok {
 		_spec.SetField(node.FieldIsWorkingDay, field.TypeBool, value)
 		_node.IsWorkingDay = value
 	}
@@ -1107,16 +1107,16 @@ type NodeCreateBulk struct {
 }
 
 // Save creates the Node entities in the database.
-func (ncb *NodeCreateBulk) Save(ctx context.Context) ([]*Node, error) {
-	if ncb.err != nil {
-		return nil, ncb.err
+func (_c *NodeCreateBulk) Save(ctx context.Context) ([]*Node, error) {
+	if _c.err != nil {
+		return nil, _c.err
 	}
-	specs := make([]*sqlgraph.CreateSpec, len(ncb.builders))
-	nodes := make([]*Node, len(ncb.builders))
-	mutators := make([]Mutator, len(ncb.builders))
-	for i := range ncb.builders {
+	specs := make([]*sqlgraph.CreateSpec, len(_c.builders))
+	nodes := make([]*Node, len(_c.builders))
+	mutators := make([]Mutator, len(_c.builders))
+	for i := range _c.builders {
 		func(i int, root context.Context) {
-			builder := ncb.builders[i]
+			builder := _c.builders[i]
 			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*NodeMutation)
@@ -1130,11 +1130,11 @@ func (ncb *NodeCreateBulk) Save(ctx context.Context) ([]*Node, error) {
 				var err error
 				nodes[i], specs[i] = builder.createSpec()
 				if i < len(mutators)-1 {
-					_, err = mutators[i+1].Mutate(root, ncb.builders[i+1].mutation)
+					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
 					// Invoke the actual operation on the latest mutation in the chain.
-					if err = sqlgraph.BatchCreate(ctx, ncb.driver, spec); err != nil {
+					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
 							err = &ConstraintError{msg: err.Error(), wrap: err}
 						}
@@ -1154,7 +1154,7 @@ func (ncb *NodeCreateBulk) Save(ctx context.Context) ([]*Node, error) {
 		}(i, ctx)
 	}
 	if len(mutators) > 0 {
-		if _, err := mutators[0].Mutate(ctx, ncb.builders[0].mutation); err != nil {
+		if _, err := mutators[0].Mutate(ctx, _c.builders[0].mutation); err != nil {
 			return nil, err
 		}
 	}
@@ -1162,8 +1162,8 @@ func (ncb *NodeCreateBulk) Save(ctx context.Context) ([]*Node, error) {
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (ncb *NodeCreateBulk) SaveX(ctx context.Context) []*Node {
-	v, err := ncb.Save(ctx)
+func (_c *NodeCreateBulk) SaveX(ctx context.Context) []*Node {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -1171,14 +1171,14 @@ func (ncb *NodeCreateBulk) SaveX(ctx context.Context) []*Node {
 }
 
 // Exec executes the query.
-func (ncb *NodeCreateBulk) Exec(ctx context.Context) error {
-	_, err := ncb.Save(ctx)
+func (_c *NodeCreateBulk) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (ncb *NodeCreateBulk) ExecX(ctx context.Context) {
-	if err := ncb.Exec(ctx); err != nil {
+func (_c *NodeCreateBulk) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

@@ -83,7 +83,7 @@ func (*Rule) scanValues(columns []string) ([]any, error) {
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
 // to the Rule fields.
-func (r *Rule) assignValues(columns []string, values []any) error {
+func (_m *Rule) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
@@ -93,43 +93,43 @@ func (r *Rule) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field id", values[i])
 			} else if value.Valid {
-				r.ID = value.String
+				_m.ID = value.String
 			}
 		case rule.FieldName:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field name", values[i])
 			} else if value.Valid {
-				r.Name = value.String
+				_m.Name = value.String
 			}
 		case rule.FieldCode:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field code", values[i])
 			} else if value.Valid {
-				r.Code = value.String
+				_m.Code = value.String
 			}
 		case rule.FieldDescription:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field description", values[i])
 			} else if value.Valid {
-				r.Description = value.String
+				_m.Description = value.String
 			}
 		case rule.FieldType:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field type", values[i])
 			} else if value.Valid {
-				r.Type = value.String
+				_m.Type = value.String
 			}
 		case rule.FieldStatus:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field status", values[i])
 			} else if value.Valid {
-				r.Status = value.String
+				_m.Status = value.String
 			}
 		case rule.FieldExtras:
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field extras", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &r.Extras); err != nil {
+				if err := json.Unmarshal(*value, &_m.Extras); err != nil {
 					return fmt.Errorf("unmarshal field extras: %w", err)
 				}
 			}
@@ -137,55 +137,55 @@ func (r *Rule) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field space_id", values[i])
 			} else if value.Valid {
-				r.SpaceID = value.String
+				_m.SpaceID = value.String
 			}
 		case rule.FieldCreatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field created_by", values[i])
 			} else if value.Valid {
-				r.CreatedBy = value.String
+				_m.CreatedBy = value.String
 			}
 		case rule.FieldUpdatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_by", values[i])
 			} else if value.Valid {
-				r.UpdatedBy = value.String
+				_m.UpdatedBy = value.String
 			}
 		case rule.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field created_at", values[i])
 			} else if value.Valid {
-				r.CreatedAt = value.Int64
+				_m.CreatedAt = value.Int64
 			}
 		case rule.FieldUpdatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_at", values[i])
 			} else if value.Valid {
-				r.UpdatedAt = value.Int64
+				_m.UpdatedAt = value.Int64
 			}
 		case rule.FieldRuleKey:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field rule_key", values[i])
 			} else if value.Valid {
-				r.RuleKey = value.String
+				_m.RuleKey = value.String
 			}
 		case rule.FieldTemplateID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field template_id", values[i])
 			} else if value.Valid {
-				r.TemplateID = value.String
+				_m.TemplateID = value.String
 			}
 		case rule.FieldNodeKey:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field node_key", values[i])
 			} else if value.Valid {
-				r.NodeKey = value.String
+				_m.NodeKey = value.String
 			}
 		case rule.FieldConditions:
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field conditions", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &r.Conditions); err != nil {
+				if err := json.Unmarshal(*value, &_m.Conditions); err != nil {
 					return fmt.Errorf("unmarshal field conditions: %w", err)
 				}
 			}
@@ -193,7 +193,7 @@ func (r *Rule) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field actions", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &r.Actions); err != nil {
+				if err := json.Unmarshal(*value, &_m.Actions); err != nil {
 					return fmt.Errorf("unmarshal field actions: %w", err)
 				}
 			}
@@ -201,28 +201,28 @@ func (r *Rule) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field priority", values[i])
 			} else if value.Valid {
-				r.Priority = int(value.Int64)
+				_m.Priority = int(value.Int64)
 			}
 		case rule.FieldIsEnabled:
 			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field is_enabled", values[i])
 			} else if value.Valid {
-				r.IsEnabled = value.Bool
+				_m.IsEnabled = value.Bool
 			}
 		case rule.FieldEffectiveTime:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field effective_time", values[i])
 			} else if value.Valid {
-				r.EffectiveTime = value.Int64
+				_m.EffectiveTime = value.Int64
 			}
 		case rule.FieldExpireTime:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field expire_time", values[i])
 			} else if value.Valid {
-				r.ExpireTime = value.Int64
+				_m.ExpireTime = value.Int64
 			}
 		default:
-			r.selectValues.Set(columns[i], values[i])
+			_m.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
@@ -230,92 +230,92 @@ func (r *Rule) assignValues(columns []string, values []any) error {
 
 // Value returns the ent.Value that was dynamically selected and assigned to the Rule.
 // This includes values selected through modifiers, order, etc.
-func (r *Rule) Value(name string) (ent.Value, error) {
-	return r.selectValues.Get(name)
+func (_m *Rule) Value(name string) (ent.Value, error) {
+	return _m.selectValues.Get(name)
 }
 
 // Update returns a builder for updating this Rule.
 // Note that you need to call Rule.Unwrap() before calling this method if this Rule
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (r *Rule) Update() *RuleUpdateOne {
-	return NewRuleClient(r.config).UpdateOne(r)
+func (_m *Rule) Update() *RuleUpdateOne {
+	return NewRuleClient(_m.config).UpdateOne(_m)
 }
 
 // Unwrap unwraps the Rule entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (r *Rule) Unwrap() *Rule {
-	_tx, ok := r.config.driver.(*txDriver)
+func (_m *Rule) Unwrap() *Rule {
+	_tx, ok := _m.config.driver.(*txDriver)
 	if !ok {
 		panic("ent: Rule is not a transactional entity")
 	}
-	r.config.driver = _tx.drv
-	return r
+	_m.config.driver = _tx.drv
+	return _m
 }
 
 // String implements the fmt.Stringer.
-func (r *Rule) String() string {
+func (_m *Rule) String() string {
 	var builder strings.Builder
 	builder.WriteString("Rule(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", r.ID))
+	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
 	builder.WriteString("name=")
-	builder.WriteString(r.Name)
+	builder.WriteString(_m.Name)
 	builder.WriteString(", ")
 	builder.WriteString("code=")
-	builder.WriteString(r.Code)
+	builder.WriteString(_m.Code)
 	builder.WriteString(", ")
 	builder.WriteString("description=")
-	builder.WriteString(r.Description)
+	builder.WriteString(_m.Description)
 	builder.WriteString(", ")
 	builder.WriteString("type=")
-	builder.WriteString(r.Type)
+	builder.WriteString(_m.Type)
 	builder.WriteString(", ")
 	builder.WriteString("status=")
-	builder.WriteString(r.Status)
+	builder.WriteString(_m.Status)
 	builder.WriteString(", ")
 	builder.WriteString("extras=")
-	builder.WriteString(fmt.Sprintf("%v", r.Extras))
+	builder.WriteString(fmt.Sprintf("%v", _m.Extras))
 	builder.WriteString(", ")
 	builder.WriteString("space_id=")
-	builder.WriteString(r.SpaceID)
+	builder.WriteString(_m.SpaceID)
 	builder.WriteString(", ")
 	builder.WriteString("created_by=")
-	builder.WriteString(r.CreatedBy)
+	builder.WriteString(_m.CreatedBy)
 	builder.WriteString(", ")
 	builder.WriteString("updated_by=")
-	builder.WriteString(r.UpdatedBy)
+	builder.WriteString(_m.UpdatedBy)
 	builder.WriteString(", ")
 	builder.WriteString("created_at=")
-	builder.WriteString(fmt.Sprintf("%v", r.CreatedAt))
+	builder.WriteString(fmt.Sprintf("%v", _m.CreatedAt))
 	builder.WriteString(", ")
 	builder.WriteString("updated_at=")
-	builder.WriteString(fmt.Sprintf("%v", r.UpdatedAt))
+	builder.WriteString(fmt.Sprintf("%v", _m.UpdatedAt))
 	builder.WriteString(", ")
 	builder.WriteString("rule_key=")
-	builder.WriteString(r.RuleKey)
+	builder.WriteString(_m.RuleKey)
 	builder.WriteString(", ")
 	builder.WriteString("template_id=")
-	builder.WriteString(r.TemplateID)
+	builder.WriteString(_m.TemplateID)
 	builder.WriteString(", ")
 	builder.WriteString("node_key=")
-	builder.WriteString(r.NodeKey)
+	builder.WriteString(_m.NodeKey)
 	builder.WriteString(", ")
 	builder.WriteString("conditions=")
-	builder.WriteString(fmt.Sprintf("%v", r.Conditions))
+	builder.WriteString(fmt.Sprintf("%v", _m.Conditions))
 	builder.WriteString(", ")
 	builder.WriteString("actions=")
-	builder.WriteString(fmt.Sprintf("%v", r.Actions))
+	builder.WriteString(fmt.Sprintf("%v", _m.Actions))
 	builder.WriteString(", ")
 	builder.WriteString("priority=")
-	builder.WriteString(fmt.Sprintf("%v", r.Priority))
+	builder.WriteString(fmt.Sprintf("%v", _m.Priority))
 	builder.WriteString(", ")
 	builder.WriteString("is_enabled=")
-	builder.WriteString(fmt.Sprintf("%v", r.IsEnabled))
+	builder.WriteString(fmt.Sprintf("%v", _m.IsEnabled))
 	builder.WriteString(", ")
 	builder.WriteString("effective_time=")
-	builder.WriteString(fmt.Sprintf("%v", r.EffectiveTime))
+	builder.WriteString(fmt.Sprintf("%v", _m.EffectiveTime))
 	builder.WriteString(", ")
 	builder.WriteString("expire_time=")
-	builder.WriteString(fmt.Sprintf("%v", r.ExpireTime))
+	builder.WriteString(fmt.Sprintf("%v", _m.ExpireTime))
 	builder.WriteByte(')')
 	return builder.String()
 }

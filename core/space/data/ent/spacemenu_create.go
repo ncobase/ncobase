@@ -19,117 +19,117 @@ type SpaceMenuCreate struct {
 }
 
 // SetSpaceID sets the "space_id" field.
-func (smc *SpaceMenuCreate) SetSpaceID(s string) *SpaceMenuCreate {
-	smc.mutation.SetSpaceID(s)
-	return smc
+func (_c *SpaceMenuCreate) SetSpaceID(v string) *SpaceMenuCreate {
+	_c.mutation.SetSpaceID(v)
+	return _c
 }
 
 // SetNillableSpaceID sets the "space_id" field if the given value is not nil.
-func (smc *SpaceMenuCreate) SetNillableSpaceID(s *string) *SpaceMenuCreate {
-	if s != nil {
-		smc.SetSpaceID(*s)
+func (_c *SpaceMenuCreate) SetNillableSpaceID(v *string) *SpaceMenuCreate {
+	if v != nil {
+		_c.SetSpaceID(*v)
 	}
-	return smc
+	return _c
 }
 
 // SetMenuID sets the "menu_id" field.
-func (smc *SpaceMenuCreate) SetMenuID(s string) *SpaceMenuCreate {
-	smc.mutation.SetMenuID(s)
-	return smc
+func (_c *SpaceMenuCreate) SetMenuID(v string) *SpaceMenuCreate {
+	_c.mutation.SetMenuID(v)
+	return _c
 }
 
 // SetNillableMenuID sets the "menu_id" field if the given value is not nil.
-func (smc *SpaceMenuCreate) SetNillableMenuID(s *string) *SpaceMenuCreate {
-	if s != nil {
-		smc.SetMenuID(*s)
+func (_c *SpaceMenuCreate) SetNillableMenuID(v *string) *SpaceMenuCreate {
+	if v != nil {
+		_c.SetMenuID(*v)
 	}
-	return smc
+	return _c
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (smc *SpaceMenuCreate) SetCreatedBy(s string) *SpaceMenuCreate {
-	smc.mutation.SetCreatedBy(s)
-	return smc
+func (_c *SpaceMenuCreate) SetCreatedBy(v string) *SpaceMenuCreate {
+	_c.mutation.SetCreatedBy(v)
+	return _c
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (smc *SpaceMenuCreate) SetNillableCreatedBy(s *string) *SpaceMenuCreate {
-	if s != nil {
-		smc.SetCreatedBy(*s)
+func (_c *SpaceMenuCreate) SetNillableCreatedBy(v *string) *SpaceMenuCreate {
+	if v != nil {
+		_c.SetCreatedBy(*v)
 	}
-	return smc
+	return _c
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (smc *SpaceMenuCreate) SetUpdatedBy(s string) *SpaceMenuCreate {
-	smc.mutation.SetUpdatedBy(s)
-	return smc
+func (_c *SpaceMenuCreate) SetUpdatedBy(v string) *SpaceMenuCreate {
+	_c.mutation.SetUpdatedBy(v)
+	return _c
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (smc *SpaceMenuCreate) SetNillableUpdatedBy(s *string) *SpaceMenuCreate {
-	if s != nil {
-		smc.SetUpdatedBy(*s)
+func (_c *SpaceMenuCreate) SetNillableUpdatedBy(v *string) *SpaceMenuCreate {
+	if v != nil {
+		_c.SetUpdatedBy(*v)
 	}
-	return smc
+	return _c
 }
 
 // SetCreatedAt sets the "created_at" field.
-func (smc *SpaceMenuCreate) SetCreatedAt(i int64) *SpaceMenuCreate {
-	smc.mutation.SetCreatedAt(i)
-	return smc
+func (_c *SpaceMenuCreate) SetCreatedAt(v int64) *SpaceMenuCreate {
+	_c.mutation.SetCreatedAt(v)
+	return _c
 }
 
 // SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
-func (smc *SpaceMenuCreate) SetNillableCreatedAt(i *int64) *SpaceMenuCreate {
-	if i != nil {
-		smc.SetCreatedAt(*i)
+func (_c *SpaceMenuCreate) SetNillableCreatedAt(v *int64) *SpaceMenuCreate {
+	if v != nil {
+		_c.SetCreatedAt(*v)
 	}
-	return smc
+	return _c
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (smc *SpaceMenuCreate) SetUpdatedAt(i int64) *SpaceMenuCreate {
-	smc.mutation.SetUpdatedAt(i)
-	return smc
+func (_c *SpaceMenuCreate) SetUpdatedAt(v int64) *SpaceMenuCreate {
+	_c.mutation.SetUpdatedAt(v)
+	return _c
 }
 
 // SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
-func (smc *SpaceMenuCreate) SetNillableUpdatedAt(i *int64) *SpaceMenuCreate {
-	if i != nil {
-		smc.SetUpdatedAt(*i)
+func (_c *SpaceMenuCreate) SetNillableUpdatedAt(v *int64) *SpaceMenuCreate {
+	if v != nil {
+		_c.SetUpdatedAt(*v)
 	}
-	return smc
+	return _c
 }
 
 // SetID sets the "id" field.
-func (smc *SpaceMenuCreate) SetID(s string) *SpaceMenuCreate {
-	smc.mutation.SetID(s)
-	return smc
+func (_c *SpaceMenuCreate) SetID(v string) *SpaceMenuCreate {
+	_c.mutation.SetID(v)
+	return _c
 }
 
 // SetNillableID sets the "id" field if the given value is not nil.
-func (smc *SpaceMenuCreate) SetNillableID(s *string) *SpaceMenuCreate {
-	if s != nil {
-		smc.SetID(*s)
+func (_c *SpaceMenuCreate) SetNillableID(v *string) *SpaceMenuCreate {
+	if v != nil {
+		_c.SetID(*v)
 	}
-	return smc
+	return _c
 }
 
 // Mutation returns the SpaceMenuMutation object of the builder.
-func (smc *SpaceMenuCreate) Mutation() *SpaceMenuMutation {
-	return smc.mutation
+func (_c *SpaceMenuCreate) Mutation() *SpaceMenuMutation {
+	return _c.mutation
 }
 
 // Save creates the SpaceMenu in the database.
-func (smc *SpaceMenuCreate) Save(ctx context.Context) (*SpaceMenu, error) {
-	smc.defaults()
-	return withHooks(ctx, smc.sqlSave, smc.mutation, smc.hooks)
+func (_c *SpaceMenuCreate) Save(ctx context.Context) (*SpaceMenu, error) {
+	_c.defaults()
+	return withHooks(ctx, _c.sqlSave, _c.mutation, _c.hooks)
 }
 
 // SaveX calls Save and panics if Save returns an error.
-func (smc *SpaceMenuCreate) SaveX(ctx context.Context) *SpaceMenu {
-	v, err := smc.Save(ctx)
+func (_c *SpaceMenuCreate) SaveX(ctx context.Context) *SpaceMenu {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -137,37 +137,37 @@ func (smc *SpaceMenuCreate) SaveX(ctx context.Context) *SpaceMenu {
 }
 
 // Exec executes the query.
-func (smc *SpaceMenuCreate) Exec(ctx context.Context) error {
-	_, err := smc.Save(ctx)
+func (_c *SpaceMenuCreate) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (smc *SpaceMenuCreate) ExecX(ctx context.Context) {
-	if err := smc.Exec(ctx); err != nil {
+func (_c *SpaceMenuCreate) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (smc *SpaceMenuCreate) defaults() {
-	if _, ok := smc.mutation.CreatedAt(); !ok {
+func (_c *SpaceMenuCreate) defaults() {
+	if _, ok := _c.mutation.CreatedAt(); !ok {
 		v := spacemenu.DefaultCreatedAt()
-		smc.mutation.SetCreatedAt(v)
+		_c.mutation.SetCreatedAt(v)
 	}
-	if _, ok := smc.mutation.UpdatedAt(); !ok {
+	if _, ok := _c.mutation.UpdatedAt(); !ok {
 		v := spacemenu.DefaultUpdatedAt()
-		smc.mutation.SetUpdatedAt(v)
+		_c.mutation.SetUpdatedAt(v)
 	}
-	if _, ok := smc.mutation.ID(); !ok {
+	if _, ok := _c.mutation.ID(); !ok {
 		v := spacemenu.DefaultID()
-		smc.mutation.SetID(v)
+		_c.mutation.SetID(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (smc *SpaceMenuCreate) check() error {
-	if v, ok := smc.mutation.ID(); ok {
+func (_c *SpaceMenuCreate) check() error {
+	if v, ok := _c.mutation.ID(); ok {
 		if err := spacemenu.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "SpaceMenu.id": %w`, err)}
 		}
@@ -175,12 +175,12 @@ func (smc *SpaceMenuCreate) check() error {
 	return nil
 }
 
-func (smc *SpaceMenuCreate) sqlSave(ctx context.Context) (*SpaceMenu, error) {
-	if err := smc.check(); err != nil {
+func (_c *SpaceMenuCreate) sqlSave(ctx context.Context) (*SpaceMenu, error) {
+	if err := _c.check(); err != nil {
 		return nil, err
 	}
-	_node, _spec := smc.createSpec()
-	if err := sqlgraph.CreateNode(ctx, smc.driver, _spec); err != nil {
+	_node, _spec := _c.createSpec()
+	if err := sqlgraph.CreateNode(ctx, _c.driver, _spec); err != nil {
 		if sqlgraph.IsConstraintError(err) {
 			err = &ConstraintError{msg: err.Error(), wrap: err}
 		}
@@ -193,41 +193,41 @@ func (smc *SpaceMenuCreate) sqlSave(ctx context.Context) (*SpaceMenu, error) {
 			return nil, fmt.Errorf("unexpected SpaceMenu.ID type: %T", _spec.ID.Value)
 		}
 	}
-	smc.mutation.id = &_node.ID
-	smc.mutation.done = true
+	_c.mutation.id = &_node.ID
+	_c.mutation.done = true
 	return _node, nil
 }
 
-func (smc *SpaceMenuCreate) createSpec() (*SpaceMenu, *sqlgraph.CreateSpec) {
+func (_c *SpaceMenuCreate) createSpec() (*SpaceMenu, *sqlgraph.CreateSpec) {
 	var (
-		_node = &SpaceMenu{config: smc.config}
+		_node = &SpaceMenu{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(spacemenu.Table, sqlgraph.NewFieldSpec(spacemenu.FieldID, field.TypeString))
 	)
-	if id, ok := smc.mutation.ID(); ok {
+	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
 	}
-	if value, ok := smc.mutation.SpaceID(); ok {
+	if value, ok := _c.mutation.SpaceID(); ok {
 		_spec.SetField(spacemenu.FieldSpaceID, field.TypeString, value)
 		_node.SpaceID = value
 	}
-	if value, ok := smc.mutation.MenuID(); ok {
+	if value, ok := _c.mutation.MenuID(); ok {
 		_spec.SetField(spacemenu.FieldMenuID, field.TypeString, value)
 		_node.MenuID = value
 	}
-	if value, ok := smc.mutation.CreatedBy(); ok {
+	if value, ok := _c.mutation.CreatedBy(); ok {
 		_spec.SetField(spacemenu.FieldCreatedBy, field.TypeString, value)
 		_node.CreatedBy = value
 	}
-	if value, ok := smc.mutation.UpdatedBy(); ok {
+	if value, ok := _c.mutation.UpdatedBy(); ok {
 		_spec.SetField(spacemenu.FieldUpdatedBy, field.TypeString, value)
 		_node.UpdatedBy = value
 	}
-	if value, ok := smc.mutation.CreatedAt(); ok {
+	if value, ok := _c.mutation.CreatedAt(); ok {
 		_spec.SetField(spacemenu.FieldCreatedAt, field.TypeInt64, value)
 		_node.CreatedAt = value
 	}
-	if value, ok := smc.mutation.UpdatedAt(); ok {
+	if value, ok := _c.mutation.UpdatedAt(); ok {
 		_spec.SetField(spacemenu.FieldUpdatedAt, field.TypeInt64, value)
 		_node.UpdatedAt = value
 	}
@@ -242,16 +242,16 @@ type SpaceMenuCreateBulk struct {
 }
 
 // Save creates the SpaceMenu entities in the database.
-func (smcb *SpaceMenuCreateBulk) Save(ctx context.Context) ([]*SpaceMenu, error) {
-	if smcb.err != nil {
-		return nil, smcb.err
+func (_c *SpaceMenuCreateBulk) Save(ctx context.Context) ([]*SpaceMenu, error) {
+	if _c.err != nil {
+		return nil, _c.err
 	}
-	specs := make([]*sqlgraph.CreateSpec, len(smcb.builders))
-	nodes := make([]*SpaceMenu, len(smcb.builders))
-	mutators := make([]Mutator, len(smcb.builders))
-	for i := range smcb.builders {
+	specs := make([]*sqlgraph.CreateSpec, len(_c.builders))
+	nodes := make([]*SpaceMenu, len(_c.builders))
+	mutators := make([]Mutator, len(_c.builders))
+	for i := range _c.builders {
 		func(i int, root context.Context) {
-			builder := smcb.builders[i]
+			builder := _c.builders[i]
 			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*SpaceMenuMutation)
@@ -265,11 +265,11 @@ func (smcb *SpaceMenuCreateBulk) Save(ctx context.Context) ([]*SpaceMenu, error)
 				var err error
 				nodes[i], specs[i] = builder.createSpec()
 				if i < len(mutators)-1 {
-					_, err = mutators[i+1].Mutate(root, smcb.builders[i+1].mutation)
+					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
 					// Invoke the actual operation on the latest mutation in the chain.
-					if err = sqlgraph.BatchCreate(ctx, smcb.driver, spec); err != nil {
+					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
 							err = &ConstraintError{msg: err.Error(), wrap: err}
 						}
@@ -289,7 +289,7 @@ func (smcb *SpaceMenuCreateBulk) Save(ctx context.Context) ([]*SpaceMenu, error)
 		}(i, ctx)
 	}
 	if len(mutators) > 0 {
-		if _, err := mutators[0].Mutate(ctx, smcb.builders[0].mutation); err != nil {
+		if _, err := mutators[0].Mutate(ctx, _c.builders[0].mutation); err != nil {
 			return nil, err
 		}
 	}
@@ -297,8 +297,8 @@ func (smcb *SpaceMenuCreateBulk) Save(ctx context.Context) ([]*SpaceMenu, error)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (smcb *SpaceMenuCreateBulk) SaveX(ctx context.Context) []*SpaceMenu {
-	v, err := smcb.Save(ctx)
+func (_c *SpaceMenuCreateBulk) SaveX(ctx context.Context) []*SpaceMenu {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -306,14 +306,14 @@ func (smcb *SpaceMenuCreateBulk) SaveX(ctx context.Context) []*SpaceMenu {
 }
 
 // Exec executes the query.
-func (smcb *SpaceMenuCreateBulk) Exec(ctx context.Context) error {
-	_, err := smcb.Save(ctx)
+func (_c *SpaceMenuCreateBulk) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (smcb *SpaceMenuCreateBulk) ExecX(ctx context.Context) {
-	if err := smcb.Exec(ctx); err != nil {
+func (_c *SpaceMenuCreateBulk) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

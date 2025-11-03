@@ -139,7 +139,7 @@ func (*Process) scanValues(columns []string) ([]any, error) {
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
 // to the Process fields.
-func (pr *Process) assignValues(columns []string, values []any) error {
+func (_m *Process) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
@@ -149,49 +149,49 @@ func (pr *Process) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field id", values[i])
 			} else if value.Valid {
-				pr.ID = value.String
+				_m.ID = value.String
 			}
 		case process.FieldStatus:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field status", values[i])
 			} else if value.Valid {
-				pr.Status = value.String
+				_m.Status = value.String
 			}
 		case process.FieldProcessID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field process_id", values[i])
 			} else if value.Valid {
-				pr.ProcessID = value.String
+				_m.ProcessID = value.String
 			}
 		case process.FieldTemplateID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field template_id", values[i])
 			} else if value.Valid {
-				pr.TemplateID = value.String
+				_m.TemplateID = value.String
 			}
 		case process.FieldBusinessKey:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field business_key", values[i])
 			} else if value.Valid {
-				pr.BusinessKey = value.String
+				_m.BusinessKey = value.String
 			}
 		case process.FieldFormCode:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field form_code", values[i])
 			} else if value.Valid {
-				pr.FormCode = value.String
+				_m.FormCode = value.String
 			}
 		case process.FieldFormVersion:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field form_version", values[i])
 			} else if value.Valid {
-				pr.FormVersion = value.String
+				_m.FormVersion = value.String
 			}
 		case process.FieldFormConfig:
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field form_config", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &pr.FormConfig); err != nil {
+				if err := json.Unmarshal(*value, &_m.FormConfig); err != nil {
 					return fmt.Errorf("unmarshal field form_config: %w", err)
 				}
 			}
@@ -199,7 +199,7 @@ func (pr *Process) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field form_permissions", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &pr.FormPermissions); err != nil {
+				if err := json.Unmarshal(*value, &_m.FormPermissions); err != nil {
 					return fmt.Errorf("unmarshal field form_permissions: %w", err)
 				}
 			}
@@ -207,7 +207,7 @@ func (pr *Process) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field field_permissions", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &pr.FieldPermissions); err != nil {
+				if err := json.Unmarshal(*value, &_m.FieldPermissions); err != nil {
 					return fmt.Errorf("unmarshal field field_permissions: %w", err)
 				}
 			}
@@ -215,7 +215,7 @@ func (pr *Process) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field business_tags", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &pr.BusinessTags); err != nil {
+				if err := json.Unmarshal(*value, &_m.BusinessTags); err != nil {
 					return fmt.Errorf("unmarshal field business_tags: %w", err)
 				}
 			}
@@ -223,25 +223,25 @@ func (pr *Process) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field module_code", values[i])
 			} else if value.Valid {
-				pr.ModuleCode = value.String
+				_m.ModuleCode = value.String
 			}
 		case process.FieldCategory:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field category", values[i])
 			} else if value.Valid {
-				pr.Category = value.String
+				_m.Category = value.String
 			}
 		case process.FieldFlowStatus:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field flow_status", values[i])
 			} else if value.Valid {
-				pr.FlowStatus = value.String
+				_m.FlowStatus = value.String
 			}
 		case process.FieldFlowVariables:
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field flow_variables", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &pr.FlowVariables); err != nil {
+				if err := json.Unmarshal(*value, &_m.FlowVariables); err != nil {
 					return fmt.Errorf("unmarshal field flow_variables: %w", err)
 				}
 			}
@@ -249,117 +249,117 @@ func (pr *Process) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field is_draft", values[i])
 			} else if value.Valid {
-				pr.IsDraft = value.Bool
+				_m.IsDraft = value.Bool
 			}
 		case process.FieldIsTerminated:
 			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field is_terminated", values[i])
 			} else if value.Valid {
-				pr.IsTerminated = value.Bool
+				_m.IsTerminated = value.Bool
 			}
 		case process.FieldIsSuspended:
 			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field is_suspended", values[i])
 			} else if value.Valid {
-				pr.IsSuspended = value.Bool
+				_m.IsSuspended = value.Bool
 			}
 		case process.FieldSuspendReason:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field suspend_reason", values[i])
 			} else if value.Valid {
-				pr.SuspendReason = value.String
+				_m.SuspendReason = value.String
 			}
 		case process.FieldStartTime:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field start_time", values[i])
 			} else if value.Valid {
-				pr.StartTime = value.Int64
+				_m.StartTime = value.Int64
 			}
 		case process.FieldEndTime:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field end_time", values[i])
 			} else if value.Valid {
-				pr.EndTime = new(int64)
-				*pr.EndTime = value.Int64
+				_m.EndTime = new(int64)
+				*_m.EndTime = value.Int64
 			}
 		case process.FieldDueTime:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field due_time", values[i])
 			} else if value.Valid {
-				pr.DueTime = new(int64)
-				*pr.DueTime = value.Int64
+				_m.DueTime = new(int64)
+				*_m.DueTime = value.Int64
 			}
 		case process.FieldDuration:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field duration", values[i])
 			} else if value.Valid {
-				pr.Duration = int(value.Int64)
+				_m.Duration = int(value.Int64)
 			}
 		case process.FieldPriority:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field priority", values[i])
 			} else if value.Valid {
-				pr.Priority = int(value.Int64)
+				_m.Priority = int(value.Int64)
 			}
 		case process.FieldIsTimeout:
 			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field is_timeout", values[i])
 			} else if value.Valid {
-				pr.IsTimeout = value.Bool
+				_m.IsTimeout = value.Bool
 			}
 		case process.FieldReminderCount:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field reminder_count", values[i])
 			} else if value.Valid {
-				pr.ReminderCount = int(value.Int64)
+				_m.ReminderCount = int(value.Int64)
 			}
 		case process.FieldAllowCancel:
 			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field allow_cancel", values[i])
 			} else if value.Valid {
-				pr.AllowCancel = value.Bool
+				_m.AllowCancel = value.Bool
 			}
 		case process.FieldAllowUrge:
 			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field allow_urge", values[i])
 			} else if value.Valid {
-				pr.AllowUrge = value.Bool
+				_m.AllowUrge = value.Bool
 			}
 		case process.FieldAllowDelegate:
 			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field allow_delegate", values[i])
 			} else if value.Valid {
-				pr.AllowDelegate = value.Bool
+				_m.AllowDelegate = value.Bool
 			}
 		case process.FieldAllowTransfer:
 			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field allow_transfer", values[i])
 			} else if value.Valid {
-				pr.AllowTransfer = value.Bool
+				_m.AllowTransfer = value.Bool
 			}
 		case process.FieldIsDraftEnabled:
 			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field is_draft_enabled", values[i])
 			} else if value.Valid {
-				pr.IsDraftEnabled = value.Bool
+				_m.IsDraftEnabled = value.Bool
 			}
 		case process.FieldIsAutoStart:
 			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field is_auto_start", values[i])
 			} else if value.Valid {
-				pr.IsAutoStart = value.Bool
+				_m.IsAutoStart = value.Bool
 			}
 		case process.FieldStrictMode:
 			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field strict_mode", values[i])
 			} else if value.Valid {
-				pr.StrictMode = value.Bool
+				_m.StrictMode = value.Bool
 			}
 		case process.FieldExtras:
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field extras", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &pr.Extras); err != nil {
+				if err := json.Unmarshal(*value, &_m.Extras); err != nil {
 					return fmt.Errorf("unmarshal field extras: %w", err)
 				}
 			}
@@ -367,61 +367,61 @@ func (pr *Process) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field space_id", values[i])
 			} else if value.Valid {
-				pr.SpaceID = value.String
+				_m.SpaceID = value.String
 			}
 		case process.FieldCreatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field created_by", values[i])
 			} else if value.Valid {
-				pr.CreatedBy = value.String
+				_m.CreatedBy = value.String
 			}
 		case process.FieldUpdatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_by", values[i])
 			} else if value.Valid {
-				pr.UpdatedBy = value.String
+				_m.UpdatedBy = value.String
 			}
 		case process.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field created_at", values[i])
 			} else if value.Valid {
-				pr.CreatedAt = value.Int64
+				_m.CreatedAt = value.Int64
 			}
 		case process.FieldUpdatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_at", values[i])
 			} else if value.Valid {
-				pr.UpdatedAt = value.Int64
+				_m.UpdatedAt = value.Int64
 			}
 		case process.FieldProcessKey:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field process_key", values[i])
 			} else if value.Valid {
-				pr.ProcessKey = value.String
+				_m.ProcessKey = value.String
 			}
 		case process.FieldInitiator:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field initiator", values[i])
 			} else if value.Valid {
-				pr.Initiator = value.String
+				_m.Initiator = value.String
 			}
 		case process.FieldInitiatorDept:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field initiator_dept", values[i])
 			} else if value.Valid {
-				pr.InitiatorDept = value.String
+				_m.InitiatorDept = value.String
 			}
 		case process.FieldProcessCode:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field process_code", values[i])
 			} else if value.Valid {
-				pr.ProcessCode = value.String
+				_m.ProcessCode = value.String
 			}
 		case process.FieldVariables:
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field variables", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &pr.Variables); err != nil {
+				if err := json.Unmarshal(*value, &_m.Variables); err != nil {
 					return fmt.Errorf("unmarshal field variables: %w", err)
 				}
 			}
@@ -429,13 +429,13 @@ func (pr *Process) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field current_node", values[i])
 			} else if value.Valid {
-				pr.CurrentNode = value.String
+				_m.CurrentNode = value.String
 			}
 		case process.FieldActiveNodes:
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field active_nodes", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &pr.ActiveNodes); err != nil {
+				if err := json.Unmarshal(*value, &_m.ActiveNodes); err != nil {
 					return fmt.Errorf("unmarshal field active_nodes: %w", err)
 				}
 			}
@@ -443,7 +443,7 @@ func (pr *Process) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field process_snapshot", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &pr.ProcessSnapshot); err != nil {
+				if err := json.Unmarshal(*value, &_m.ProcessSnapshot); err != nil {
 					return fmt.Errorf("unmarshal field process_snapshot: %w", err)
 				}
 			}
@@ -451,7 +451,7 @@ func (pr *Process) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field form_snapshot", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &pr.FormSnapshot); err != nil {
+				if err := json.Unmarshal(*value, &_m.FormSnapshot); err != nil {
 					return fmt.Errorf("unmarshal field form_snapshot: %w", err)
 				}
 			}
@@ -459,10 +459,10 @@ func (pr *Process) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field urge_count", values[i])
 			} else if value.Valid {
-				pr.UrgeCount = int(value.Int64)
+				_m.UrgeCount = int(value.Int64)
 			}
 		default:
-			pr.selectValues.Set(columns[i], values[i])
+			_m.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
@@ -470,180 +470,180 @@ func (pr *Process) assignValues(columns []string, values []any) error {
 
 // Value returns the ent.Value that was dynamically selected and assigned to the Process.
 // This includes values selected through modifiers, order, etc.
-func (pr *Process) Value(name string) (ent.Value, error) {
-	return pr.selectValues.Get(name)
+func (_m *Process) Value(name string) (ent.Value, error) {
+	return _m.selectValues.Get(name)
 }
 
 // Update returns a builder for updating this Process.
 // Note that you need to call Process.Unwrap() before calling this method if this Process
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (pr *Process) Update() *ProcessUpdateOne {
-	return NewProcessClient(pr.config).UpdateOne(pr)
+func (_m *Process) Update() *ProcessUpdateOne {
+	return NewProcessClient(_m.config).UpdateOne(_m)
 }
 
 // Unwrap unwraps the Process entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (pr *Process) Unwrap() *Process {
-	_tx, ok := pr.config.driver.(*txDriver)
+func (_m *Process) Unwrap() *Process {
+	_tx, ok := _m.config.driver.(*txDriver)
 	if !ok {
 		panic("ent: Process is not a transactional entity")
 	}
-	pr.config.driver = _tx.drv
-	return pr
+	_m.config.driver = _tx.drv
+	return _m
 }
 
 // String implements the fmt.Stringer.
-func (pr *Process) String() string {
+func (_m *Process) String() string {
 	var builder strings.Builder
 	builder.WriteString("Process(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", pr.ID))
+	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
 	builder.WriteString("status=")
-	builder.WriteString(pr.Status)
+	builder.WriteString(_m.Status)
 	builder.WriteString(", ")
 	builder.WriteString("process_id=")
-	builder.WriteString(pr.ProcessID)
+	builder.WriteString(_m.ProcessID)
 	builder.WriteString(", ")
 	builder.WriteString("template_id=")
-	builder.WriteString(pr.TemplateID)
+	builder.WriteString(_m.TemplateID)
 	builder.WriteString(", ")
 	builder.WriteString("business_key=")
-	builder.WriteString(pr.BusinessKey)
+	builder.WriteString(_m.BusinessKey)
 	builder.WriteString(", ")
 	builder.WriteString("form_code=")
-	builder.WriteString(pr.FormCode)
+	builder.WriteString(_m.FormCode)
 	builder.WriteString(", ")
 	builder.WriteString("form_version=")
-	builder.WriteString(pr.FormVersion)
+	builder.WriteString(_m.FormVersion)
 	builder.WriteString(", ")
 	builder.WriteString("form_config=")
-	builder.WriteString(fmt.Sprintf("%v", pr.FormConfig))
+	builder.WriteString(fmt.Sprintf("%v", _m.FormConfig))
 	builder.WriteString(", ")
 	builder.WriteString("form_permissions=")
-	builder.WriteString(fmt.Sprintf("%v", pr.FormPermissions))
+	builder.WriteString(fmt.Sprintf("%v", _m.FormPermissions))
 	builder.WriteString(", ")
 	builder.WriteString("field_permissions=")
-	builder.WriteString(fmt.Sprintf("%v", pr.FieldPermissions))
+	builder.WriteString(fmt.Sprintf("%v", _m.FieldPermissions))
 	builder.WriteString(", ")
 	builder.WriteString("business_tags=")
-	builder.WriteString(fmt.Sprintf("%v", pr.BusinessTags))
+	builder.WriteString(fmt.Sprintf("%v", _m.BusinessTags))
 	builder.WriteString(", ")
 	builder.WriteString("module_code=")
-	builder.WriteString(pr.ModuleCode)
+	builder.WriteString(_m.ModuleCode)
 	builder.WriteString(", ")
 	builder.WriteString("category=")
-	builder.WriteString(pr.Category)
+	builder.WriteString(_m.Category)
 	builder.WriteString(", ")
 	builder.WriteString("flow_status=")
-	builder.WriteString(pr.FlowStatus)
+	builder.WriteString(_m.FlowStatus)
 	builder.WriteString(", ")
 	builder.WriteString("flow_variables=")
-	builder.WriteString(fmt.Sprintf("%v", pr.FlowVariables))
+	builder.WriteString(fmt.Sprintf("%v", _m.FlowVariables))
 	builder.WriteString(", ")
 	builder.WriteString("is_draft=")
-	builder.WriteString(fmt.Sprintf("%v", pr.IsDraft))
+	builder.WriteString(fmt.Sprintf("%v", _m.IsDraft))
 	builder.WriteString(", ")
 	builder.WriteString("is_terminated=")
-	builder.WriteString(fmt.Sprintf("%v", pr.IsTerminated))
+	builder.WriteString(fmt.Sprintf("%v", _m.IsTerminated))
 	builder.WriteString(", ")
 	builder.WriteString("is_suspended=")
-	builder.WriteString(fmt.Sprintf("%v", pr.IsSuspended))
+	builder.WriteString(fmt.Sprintf("%v", _m.IsSuspended))
 	builder.WriteString(", ")
 	builder.WriteString("suspend_reason=")
-	builder.WriteString(pr.SuspendReason)
+	builder.WriteString(_m.SuspendReason)
 	builder.WriteString(", ")
 	builder.WriteString("start_time=")
-	builder.WriteString(fmt.Sprintf("%v", pr.StartTime))
+	builder.WriteString(fmt.Sprintf("%v", _m.StartTime))
 	builder.WriteString(", ")
-	if v := pr.EndTime; v != nil {
+	if v := _m.EndTime; v != nil {
 		builder.WriteString("end_time=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
-	if v := pr.DueTime; v != nil {
+	if v := _m.DueTime; v != nil {
 		builder.WriteString("due_time=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
 	builder.WriteString("duration=")
-	builder.WriteString(fmt.Sprintf("%v", pr.Duration))
+	builder.WriteString(fmt.Sprintf("%v", _m.Duration))
 	builder.WriteString(", ")
 	builder.WriteString("priority=")
-	builder.WriteString(fmt.Sprintf("%v", pr.Priority))
+	builder.WriteString(fmt.Sprintf("%v", _m.Priority))
 	builder.WriteString(", ")
 	builder.WriteString("is_timeout=")
-	builder.WriteString(fmt.Sprintf("%v", pr.IsTimeout))
+	builder.WriteString(fmt.Sprintf("%v", _m.IsTimeout))
 	builder.WriteString(", ")
 	builder.WriteString("reminder_count=")
-	builder.WriteString(fmt.Sprintf("%v", pr.ReminderCount))
+	builder.WriteString(fmt.Sprintf("%v", _m.ReminderCount))
 	builder.WriteString(", ")
 	builder.WriteString("allow_cancel=")
-	builder.WriteString(fmt.Sprintf("%v", pr.AllowCancel))
+	builder.WriteString(fmt.Sprintf("%v", _m.AllowCancel))
 	builder.WriteString(", ")
 	builder.WriteString("allow_urge=")
-	builder.WriteString(fmt.Sprintf("%v", pr.AllowUrge))
+	builder.WriteString(fmt.Sprintf("%v", _m.AllowUrge))
 	builder.WriteString(", ")
 	builder.WriteString("allow_delegate=")
-	builder.WriteString(fmt.Sprintf("%v", pr.AllowDelegate))
+	builder.WriteString(fmt.Sprintf("%v", _m.AllowDelegate))
 	builder.WriteString(", ")
 	builder.WriteString("allow_transfer=")
-	builder.WriteString(fmt.Sprintf("%v", pr.AllowTransfer))
+	builder.WriteString(fmt.Sprintf("%v", _m.AllowTransfer))
 	builder.WriteString(", ")
 	builder.WriteString("is_draft_enabled=")
-	builder.WriteString(fmt.Sprintf("%v", pr.IsDraftEnabled))
+	builder.WriteString(fmt.Sprintf("%v", _m.IsDraftEnabled))
 	builder.WriteString(", ")
 	builder.WriteString("is_auto_start=")
-	builder.WriteString(fmt.Sprintf("%v", pr.IsAutoStart))
+	builder.WriteString(fmt.Sprintf("%v", _m.IsAutoStart))
 	builder.WriteString(", ")
 	builder.WriteString("strict_mode=")
-	builder.WriteString(fmt.Sprintf("%v", pr.StrictMode))
+	builder.WriteString(fmt.Sprintf("%v", _m.StrictMode))
 	builder.WriteString(", ")
 	builder.WriteString("extras=")
-	builder.WriteString(fmt.Sprintf("%v", pr.Extras))
+	builder.WriteString(fmt.Sprintf("%v", _m.Extras))
 	builder.WriteString(", ")
 	builder.WriteString("space_id=")
-	builder.WriteString(pr.SpaceID)
+	builder.WriteString(_m.SpaceID)
 	builder.WriteString(", ")
 	builder.WriteString("created_by=")
-	builder.WriteString(pr.CreatedBy)
+	builder.WriteString(_m.CreatedBy)
 	builder.WriteString(", ")
 	builder.WriteString("updated_by=")
-	builder.WriteString(pr.UpdatedBy)
+	builder.WriteString(_m.UpdatedBy)
 	builder.WriteString(", ")
 	builder.WriteString("created_at=")
-	builder.WriteString(fmt.Sprintf("%v", pr.CreatedAt))
+	builder.WriteString(fmt.Sprintf("%v", _m.CreatedAt))
 	builder.WriteString(", ")
 	builder.WriteString("updated_at=")
-	builder.WriteString(fmt.Sprintf("%v", pr.UpdatedAt))
+	builder.WriteString(fmt.Sprintf("%v", _m.UpdatedAt))
 	builder.WriteString(", ")
 	builder.WriteString("process_key=")
-	builder.WriteString(pr.ProcessKey)
+	builder.WriteString(_m.ProcessKey)
 	builder.WriteString(", ")
 	builder.WriteString("initiator=")
-	builder.WriteString(pr.Initiator)
+	builder.WriteString(_m.Initiator)
 	builder.WriteString(", ")
 	builder.WriteString("initiator_dept=")
-	builder.WriteString(pr.InitiatorDept)
+	builder.WriteString(_m.InitiatorDept)
 	builder.WriteString(", ")
 	builder.WriteString("process_code=")
-	builder.WriteString(pr.ProcessCode)
+	builder.WriteString(_m.ProcessCode)
 	builder.WriteString(", ")
 	builder.WriteString("variables=")
-	builder.WriteString(fmt.Sprintf("%v", pr.Variables))
+	builder.WriteString(fmt.Sprintf("%v", _m.Variables))
 	builder.WriteString(", ")
 	builder.WriteString("current_node=")
-	builder.WriteString(pr.CurrentNode)
+	builder.WriteString(_m.CurrentNode)
 	builder.WriteString(", ")
 	builder.WriteString("active_nodes=")
-	builder.WriteString(fmt.Sprintf("%v", pr.ActiveNodes))
+	builder.WriteString(fmt.Sprintf("%v", _m.ActiveNodes))
 	builder.WriteString(", ")
 	builder.WriteString("process_snapshot=")
-	builder.WriteString(fmt.Sprintf("%v", pr.ProcessSnapshot))
+	builder.WriteString(fmt.Sprintf("%v", _m.ProcessSnapshot))
 	builder.WriteString(", ")
 	builder.WriteString("form_snapshot=")
-	builder.WriteString(fmt.Sprintf("%v", pr.FormSnapshot))
+	builder.WriteString(fmt.Sprintf("%v", _m.FormSnapshot))
 	builder.WriteString(", ")
 	builder.WriteString("urge_count=")
-	builder.WriteString(fmt.Sprintf("%v", pr.UrgeCount))
+	builder.WriteString(fmt.Sprintf("%v", _m.UrgeCount))
 	builder.WriteByte(')')
 	return builder.String()
 }

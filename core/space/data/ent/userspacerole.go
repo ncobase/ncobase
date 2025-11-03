@@ -52,7 +52,7 @@ func (*UserSpaceRole) scanValues(columns []string) ([]any, error) {
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
 // to the UserSpaceRole fields.
-func (usr *UserSpaceRole) assignValues(columns []string, values []any) error {
+func (_m *UserSpaceRole) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
@@ -62,52 +62,52 @@ func (usr *UserSpaceRole) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field id", values[i])
 			} else if value.Valid {
-				usr.ID = value.String
+				_m.ID = value.String
 			}
 		case userspacerole.FieldUserID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field user_id", values[i])
 			} else if value.Valid {
-				usr.UserID = value.String
+				_m.UserID = value.String
 			}
 		case userspacerole.FieldSpaceID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field space_id", values[i])
 			} else if value.Valid {
-				usr.SpaceID = value.String
+				_m.SpaceID = value.String
 			}
 		case userspacerole.FieldRoleID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field role_id", values[i])
 			} else if value.Valid {
-				usr.RoleID = value.String
+				_m.RoleID = value.String
 			}
 		case userspacerole.FieldCreatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field created_by", values[i])
 			} else if value.Valid {
-				usr.CreatedBy = value.String
+				_m.CreatedBy = value.String
 			}
 		case userspacerole.FieldUpdatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_by", values[i])
 			} else if value.Valid {
-				usr.UpdatedBy = value.String
+				_m.UpdatedBy = value.String
 			}
 		case userspacerole.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field created_at", values[i])
 			} else if value.Valid {
-				usr.CreatedAt = value.Int64
+				_m.CreatedAt = value.Int64
 			}
 		case userspacerole.FieldUpdatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_at", values[i])
 			} else if value.Valid {
-				usr.UpdatedAt = value.Int64
+				_m.UpdatedAt = value.Int64
 			}
 		default:
-			usr.selectValues.Set(columns[i], values[i])
+			_m.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
@@ -115,53 +115,53 @@ func (usr *UserSpaceRole) assignValues(columns []string, values []any) error {
 
 // Value returns the ent.Value that was dynamically selected and assigned to the UserSpaceRole.
 // This includes values selected through modifiers, order, etc.
-func (usr *UserSpaceRole) Value(name string) (ent.Value, error) {
-	return usr.selectValues.Get(name)
+func (_m *UserSpaceRole) Value(name string) (ent.Value, error) {
+	return _m.selectValues.Get(name)
 }
 
 // Update returns a builder for updating this UserSpaceRole.
 // Note that you need to call UserSpaceRole.Unwrap() before calling this method if this UserSpaceRole
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (usr *UserSpaceRole) Update() *UserSpaceRoleUpdateOne {
-	return NewUserSpaceRoleClient(usr.config).UpdateOne(usr)
+func (_m *UserSpaceRole) Update() *UserSpaceRoleUpdateOne {
+	return NewUserSpaceRoleClient(_m.config).UpdateOne(_m)
 }
 
 // Unwrap unwraps the UserSpaceRole entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (usr *UserSpaceRole) Unwrap() *UserSpaceRole {
-	_tx, ok := usr.config.driver.(*txDriver)
+func (_m *UserSpaceRole) Unwrap() *UserSpaceRole {
+	_tx, ok := _m.config.driver.(*txDriver)
 	if !ok {
 		panic("ent: UserSpaceRole is not a transactional entity")
 	}
-	usr.config.driver = _tx.drv
-	return usr
+	_m.config.driver = _tx.drv
+	return _m
 }
 
 // String implements the fmt.Stringer.
-func (usr *UserSpaceRole) String() string {
+func (_m *UserSpaceRole) String() string {
 	var builder strings.Builder
 	builder.WriteString("UserSpaceRole(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", usr.ID))
+	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
 	builder.WriteString("user_id=")
-	builder.WriteString(usr.UserID)
+	builder.WriteString(_m.UserID)
 	builder.WriteString(", ")
 	builder.WriteString("space_id=")
-	builder.WriteString(usr.SpaceID)
+	builder.WriteString(_m.SpaceID)
 	builder.WriteString(", ")
 	builder.WriteString("role_id=")
-	builder.WriteString(usr.RoleID)
+	builder.WriteString(_m.RoleID)
 	builder.WriteString(", ")
 	builder.WriteString("created_by=")
-	builder.WriteString(usr.CreatedBy)
+	builder.WriteString(_m.CreatedBy)
 	builder.WriteString(", ")
 	builder.WriteString("updated_by=")
-	builder.WriteString(usr.UpdatedBy)
+	builder.WriteString(_m.UpdatedBy)
 	builder.WriteString(", ")
 	builder.WriteString("created_at=")
-	builder.WriteString(fmt.Sprintf("%v", usr.CreatedAt))
+	builder.WriteString(fmt.Sprintf("%v", _m.CreatedAt))
 	builder.WriteString(", ")
 	builder.WriteString("updated_at=")
-	builder.WriteString(fmt.Sprintf("%v", usr.UpdatedAt))
+	builder.WriteString(fmt.Sprintf("%v", _m.UpdatedAt))
 	builder.WriteByte(')')
 	return builder.String()
 }

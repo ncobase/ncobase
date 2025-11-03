@@ -50,7 +50,7 @@ func (*ApiKey) scanValues(columns []string) ([]any, error) {
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
 // to the ApiKey fields.
-func (ak *ApiKey) assignValues(columns []string, values []any) error {
+func (_m *ApiKey) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
@@ -60,46 +60,46 @@ func (ak *ApiKey) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field id", values[i])
 			} else if value.Valid {
-				ak.ID = value.String
+				_m.ID = value.String
 			}
 		case apikey.FieldName:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field name", values[i])
 			} else if value.Valid {
-				ak.Name = value.String
+				_m.Name = value.String
 			}
 		case apikey.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field created_at", values[i])
 			} else if value.Valid {
-				ak.CreatedAt = value.Int64
+				_m.CreatedAt = value.Int64
 			}
 		case apikey.FieldUpdatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_at", values[i])
 			} else if value.Valid {
-				ak.UpdatedAt = value.Int64
+				_m.UpdatedAt = value.Int64
 			}
 		case apikey.FieldUserID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field user_id", values[i])
 			} else if value.Valid {
-				ak.UserID = value.String
+				_m.UserID = value.String
 			}
 		case apikey.FieldKey:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field key", values[i])
 			} else if value.Valid {
-				ak.Key = value.String
+				_m.Key = value.String
 			}
 		case apikey.FieldLastUsed:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field last_used", values[i])
 			} else if value.Valid {
-				ak.LastUsed = value.Int64
+				_m.LastUsed = value.Int64
 			}
 		default:
-			ak.selectValues.Set(columns[i], values[i])
+			_m.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
@@ -107,50 +107,50 @@ func (ak *ApiKey) assignValues(columns []string, values []any) error {
 
 // Value returns the ent.Value that was dynamically selected and assigned to the ApiKey.
 // This includes values selected through modifiers, order, etc.
-func (ak *ApiKey) Value(name string) (ent.Value, error) {
-	return ak.selectValues.Get(name)
+func (_m *ApiKey) Value(name string) (ent.Value, error) {
+	return _m.selectValues.Get(name)
 }
 
 // Update returns a builder for updating this ApiKey.
 // Note that you need to call ApiKey.Unwrap() before calling this method if this ApiKey
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (ak *ApiKey) Update() *ApiKeyUpdateOne {
-	return NewApiKeyClient(ak.config).UpdateOne(ak)
+func (_m *ApiKey) Update() *ApiKeyUpdateOne {
+	return NewApiKeyClient(_m.config).UpdateOne(_m)
 }
 
 // Unwrap unwraps the ApiKey entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (ak *ApiKey) Unwrap() *ApiKey {
-	_tx, ok := ak.config.driver.(*txDriver)
+func (_m *ApiKey) Unwrap() *ApiKey {
+	_tx, ok := _m.config.driver.(*txDriver)
 	if !ok {
 		panic("ent: ApiKey is not a transactional entity")
 	}
-	ak.config.driver = _tx.drv
-	return ak
+	_m.config.driver = _tx.drv
+	return _m
 }
 
 // String implements the fmt.Stringer.
-func (ak *ApiKey) String() string {
+func (_m *ApiKey) String() string {
 	var builder strings.Builder
 	builder.WriteString("ApiKey(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", ak.ID))
+	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
 	builder.WriteString("name=")
-	builder.WriteString(ak.Name)
+	builder.WriteString(_m.Name)
 	builder.WriteString(", ")
 	builder.WriteString("created_at=")
-	builder.WriteString(fmt.Sprintf("%v", ak.CreatedAt))
+	builder.WriteString(fmt.Sprintf("%v", _m.CreatedAt))
 	builder.WriteString(", ")
 	builder.WriteString("updated_at=")
-	builder.WriteString(fmt.Sprintf("%v", ak.UpdatedAt))
+	builder.WriteString(fmt.Sprintf("%v", _m.UpdatedAt))
 	builder.WriteString(", ")
 	builder.WriteString("user_id=")
-	builder.WriteString(ak.UserID)
+	builder.WriteString(_m.UserID)
 	builder.WriteString(", ")
 	builder.WriteString("key=")
-	builder.WriteString(ak.Key)
+	builder.WriteString(_m.Key)
 	builder.WriteString(", ")
 	builder.WriteString("last_used=")
-	builder.WriteString(fmt.Sprintf("%v", ak.LastUsed))
+	builder.WriteString(fmt.Sprintf("%v", _m.LastUsed))
 	builder.WriteByte(')')
 	return builder.String()
 }

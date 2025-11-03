@@ -23,828 +23,828 @@ type TaskUpdate struct {
 }
 
 // Where appends a list predicates to the TaskUpdate builder.
-func (tu *TaskUpdate) Where(ps ...predicate.Task) *TaskUpdate {
-	tu.mutation.Where(ps...)
-	return tu
+func (_u *TaskUpdate) Where(ps ...predicate.Task) *TaskUpdate {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // SetName sets the "name" field.
-func (tu *TaskUpdate) SetName(s string) *TaskUpdate {
-	tu.mutation.SetName(s)
-	return tu
+func (_u *TaskUpdate) SetName(v string) *TaskUpdate {
+	_u.mutation.SetName(v)
+	return _u
 }
 
 // SetNillableName sets the "name" field if the given value is not nil.
-func (tu *TaskUpdate) SetNillableName(s *string) *TaskUpdate {
-	if s != nil {
-		tu.SetName(*s)
+func (_u *TaskUpdate) SetNillableName(v *string) *TaskUpdate {
+	if v != nil {
+		_u.SetName(*v)
 	}
-	return tu
+	return _u
 }
 
 // ClearName clears the value of the "name" field.
-func (tu *TaskUpdate) ClearName() *TaskUpdate {
-	tu.mutation.ClearName()
-	return tu
+func (_u *TaskUpdate) ClearName() *TaskUpdate {
+	_u.mutation.ClearName()
+	return _u
 }
 
 // SetDescription sets the "description" field.
-func (tu *TaskUpdate) SetDescription(s string) *TaskUpdate {
-	tu.mutation.SetDescription(s)
-	return tu
+func (_u *TaskUpdate) SetDescription(v string) *TaskUpdate {
+	_u.mutation.SetDescription(v)
+	return _u
 }
 
 // SetNillableDescription sets the "description" field if the given value is not nil.
-func (tu *TaskUpdate) SetNillableDescription(s *string) *TaskUpdate {
-	if s != nil {
-		tu.SetDescription(*s)
+func (_u *TaskUpdate) SetNillableDescription(v *string) *TaskUpdate {
+	if v != nil {
+		_u.SetDescription(*v)
 	}
-	return tu
+	return _u
 }
 
 // ClearDescription clears the value of the "description" field.
-func (tu *TaskUpdate) ClearDescription() *TaskUpdate {
-	tu.mutation.ClearDescription()
-	return tu
+func (_u *TaskUpdate) ClearDescription() *TaskUpdate {
+	_u.mutation.ClearDescription()
+	return _u
 }
 
 // SetStatus sets the "status" field.
-func (tu *TaskUpdate) SetStatus(s string) *TaskUpdate {
-	tu.mutation.SetStatus(s)
-	return tu
+func (_u *TaskUpdate) SetStatus(v string) *TaskUpdate {
+	_u.mutation.SetStatus(v)
+	return _u
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (tu *TaskUpdate) SetNillableStatus(s *string) *TaskUpdate {
-	if s != nil {
-		tu.SetStatus(*s)
+func (_u *TaskUpdate) SetNillableStatus(v *string) *TaskUpdate {
+	if v != nil {
+		_u.SetStatus(*v)
 	}
-	return tu
+	return _u
 }
 
 // ClearStatus clears the value of the "status" field.
-func (tu *TaskUpdate) ClearStatus() *TaskUpdate {
-	tu.mutation.ClearStatus()
-	return tu
+func (_u *TaskUpdate) ClearStatus() *TaskUpdate {
+	_u.mutation.ClearStatus()
+	return _u
 }
 
 // SetProcessID sets the "process_id" field.
-func (tu *TaskUpdate) SetProcessID(s string) *TaskUpdate {
-	tu.mutation.SetProcessID(s)
-	return tu
+func (_u *TaskUpdate) SetProcessID(v string) *TaskUpdate {
+	_u.mutation.SetProcessID(v)
+	return _u
 }
 
 // SetNillableProcessID sets the "process_id" field if the given value is not nil.
-func (tu *TaskUpdate) SetNillableProcessID(s *string) *TaskUpdate {
-	if s != nil {
-		tu.SetProcessID(*s)
+func (_u *TaskUpdate) SetNillableProcessID(v *string) *TaskUpdate {
+	if v != nil {
+		_u.SetProcessID(*v)
 	}
-	return tu
+	return _u
 }
 
 // SetTemplateID sets the "template_id" field.
-func (tu *TaskUpdate) SetTemplateID(s string) *TaskUpdate {
-	tu.mutation.SetTemplateID(s)
-	return tu
+func (_u *TaskUpdate) SetTemplateID(v string) *TaskUpdate {
+	_u.mutation.SetTemplateID(v)
+	return _u
 }
 
 // SetNillableTemplateID sets the "template_id" field if the given value is not nil.
-func (tu *TaskUpdate) SetNillableTemplateID(s *string) *TaskUpdate {
-	if s != nil {
-		tu.SetTemplateID(*s)
+func (_u *TaskUpdate) SetNillableTemplateID(v *string) *TaskUpdate {
+	if v != nil {
+		_u.SetTemplateID(*v)
 	}
-	return tu
+	return _u
 }
 
 // SetBusinessKey sets the "business_key" field.
-func (tu *TaskUpdate) SetBusinessKey(s string) *TaskUpdate {
-	tu.mutation.SetBusinessKey(s)
-	return tu
+func (_u *TaskUpdate) SetBusinessKey(v string) *TaskUpdate {
+	_u.mutation.SetBusinessKey(v)
+	return _u
 }
 
 // SetNillableBusinessKey sets the "business_key" field if the given value is not nil.
-func (tu *TaskUpdate) SetNillableBusinessKey(s *string) *TaskUpdate {
-	if s != nil {
-		tu.SetBusinessKey(*s)
+func (_u *TaskUpdate) SetNillableBusinessKey(v *string) *TaskUpdate {
+	if v != nil {
+		_u.SetBusinessKey(*v)
 	}
-	return tu
+	return _u
 }
 
 // SetNodeKey sets the "node_key" field.
-func (tu *TaskUpdate) SetNodeKey(s string) *TaskUpdate {
-	tu.mutation.SetNodeKey(s)
-	return tu
+func (_u *TaskUpdate) SetNodeKey(v string) *TaskUpdate {
+	_u.mutation.SetNodeKey(v)
+	return _u
 }
 
 // SetNillableNodeKey sets the "node_key" field if the given value is not nil.
-func (tu *TaskUpdate) SetNillableNodeKey(s *string) *TaskUpdate {
-	if s != nil {
-		tu.SetNodeKey(*s)
+func (_u *TaskUpdate) SetNillableNodeKey(v *string) *TaskUpdate {
+	if v != nil {
+		_u.SetNodeKey(*v)
 	}
-	return tu
+	return _u
 }
 
 // SetNodeType sets the "node_type" field.
-func (tu *TaskUpdate) SetNodeType(s string) *TaskUpdate {
-	tu.mutation.SetNodeType(s)
-	return tu
+func (_u *TaskUpdate) SetNodeType(v string) *TaskUpdate {
+	_u.mutation.SetNodeType(v)
+	return _u
 }
 
 // SetNillableNodeType sets the "node_type" field if the given value is not nil.
-func (tu *TaskUpdate) SetNillableNodeType(s *string) *TaskUpdate {
-	if s != nil {
-		tu.SetNodeType(*s)
+func (_u *TaskUpdate) SetNillableNodeType(v *string) *TaskUpdate {
+	if v != nil {
+		_u.SetNodeType(*v)
 	}
-	return tu
+	return _u
 }
 
 // SetNodeConfig sets the "node_config" field.
-func (tu *TaskUpdate) SetNodeConfig(m map[string]interface{}) *TaskUpdate {
-	tu.mutation.SetNodeConfig(m)
-	return tu
+func (_u *TaskUpdate) SetNodeConfig(v map[string]interface{}) *TaskUpdate {
+	_u.mutation.SetNodeConfig(v)
+	return _u
 }
 
 // ClearNodeConfig clears the value of the "node_config" field.
-func (tu *TaskUpdate) ClearNodeConfig() *TaskUpdate {
-	tu.mutation.ClearNodeConfig()
-	return tu
+func (_u *TaskUpdate) ClearNodeConfig() *TaskUpdate {
+	_u.mutation.ClearNodeConfig()
+	return _u
 }
 
 // SetNodeRules sets the "node_rules" field.
-func (tu *TaskUpdate) SetNodeRules(m map[string]interface{}) *TaskUpdate {
-	tu.mutation.SetNodeRules(m)
-	return tu
+func (_u *TaskUpdate) SetNodeRules(v map[string]interface{}) *TaskUpdate {
+	_u.mutation.SetNodeRules(v)
+	return _u
 }
 
 // ClearNodeRules clears the value of the "node_rules" field.
-func (tu *TaskUpdate) ClearNodeRules() *TaskUpdate {
-	tu.mutation.ClearNodeRules()
-	return tu
+func (_u *TaskUpdate) ClearNodeRules() *TaskUpdate {
+	_u.mutation.ClearNodeRules()
+	return _u
 }
 
 // SetNodeEvents sets the "node_events" field.
-func (tu *TaskUpdate) SetNodeEvents(m map[string]interface{}) *TaskUpdate {
-	tu.mutation.SetNodeEvents(m)
-	return tu
+func (_u *TaskUpdate) SetNodeEvents(v map[string]interface{}) *TaskUpdate {
+	_u.mutation.SetNodeEvents(v)
+	return _u
 }
 
 // ClearNodeEvents clears the value of the "node_events" field.
-func (tu *TaskUpdate) ClearNodeEvents() *TaskUpdate {
-	tu.mutation.ClearNodeEvents()
-	return tu
+func (_u *TaskUpdate) ClearNodeEvents() *TaskUpdate {
+	_u.mutation.ClearNodeEvents()
+	return _u
 }
 
 // SetAssignees sets the "assignees" field.
-func (tu *TaskUpdate) SetAssignees(s []string) *TaskUpdate {
-	tu.mutation.SetAssignees(s)
-	return tu
+func (_u *TaskUpdate) SetAssignees(v []string) *TaskUpdate {
+	_u.mutation.SetAssignees(v)
+	return _u
 }
 
-// AppendAssignees appends s to the "assignees" field.
-func (tu *TaskUpdate) AppendAssignees(s []string) *TaskUpdate {
-	tu.mutation.AppendAssignees(s)
-	return tu
+// AppendAssignees appends value to the "assignees" field.
+func (_u *TaskUpdate) AppendAssignees(v []string) *TaskUpdate {
+	_u.mutation.AppendAssignees(v)
+	return _u
 }
 
 // SetCandidates sets the "candidates" field.
-func (tu *TaskUpdate) SetCandidates(s []string) *TaskUpdate {
-	tu.mutation.SetCandidates(s)
-	return tu
+func (_u *TaskUpdate) SetCandidates(v []string) *TaskUpdate {
+	_u.mutation.SetCandidates(v)
+	return _u
 }
 
-// AppendCandidates appends s to the "candidates" field.
-func (tu *TaskUpdate) AppendCandidates(s []string) *TaskUpdate {
-	tu.mutation.AppendCandidates(s)
-	return tu
+// AppendCandidates appends value to the "candidates" field.
+func (_u *TaskUpdate) AppendCandidates(v []string) *TaskUpdate {
+	_u.mutation.AppendCandidates(v)
+	return _u
 }
 
 // SetDelegatedFrom sets the "delegated_from" field.
-func (tu *TaskUpdate) SetDelegatedFrom(s string) *TaskUpdate {
-	tu.mutation.SetDelegatedFrom(s)
-	return tu
+func (_u *TaskUpdate) SetDelegatedFrom(v string) *TaskUpdate {
+	_u.mutation.SetDelegatedFrom(v)
+	return _u
 }
 
 // SetNillableDelegatedFrom sets the "delegated_from" field if the given value is not nil.
-func (tu *TaskUpdate) SetNillableDelegatedFrom(s *string) *TaskUpdate {
-	if s != nil {
-		tu.SetDelegatedFrom(*s)
+func (_u *TaskUpdate) SetNillableDelegatedFrom(v *string) *TaskUpdate {
+	if v != nil {
+		_u.SetDelegatedFrom(*v)
 	}
-	return tu
+	return _u
 }
 
 // ClearDelegatedFrom clears the value of the "delegated_from" field.
-func (tu *TaskUpdate) ClearDelegatedFrom() *TaskUpdate {
-	tu.mutation.ClearDelegatedFrom()
-	return tu
+func (_u *TaskUpdate) ClearDelegatedFrom() *TaskUpdate {
+	_u.mutation.ClearDelegatedFrom()
+	return _u
 }
 
 // SetDelegatedReason sets the "delegated_reason" field.
-func (tu *TaskUpdate) SetDelegatedReason(s string) *TaskUpdate {
-	tu.mutation.SetDelegatedReason(s)
-	return tu
+func (_u *TaskUpdate) SetDelegatedReason(v string) *TaskUpdate {
+	_u.mutation.SetDelegatedReason(v)
+	return _u
 }
 
 // SetNillableDelegatedReason sets the "delegated_reason" field if the given value is not nil.
-func (tu *TaskUpdate) SetNillableDelegatedReason(s *string) *TaskUpdate {
-	if s != nil {
-		tu.SetDelegatedReason(*s)
+func (_u *TaskUpdate) SetNillableDelegatedReason(v *string) *TaskUpdate {
+	if v != nil {
+		_u.SetDelegatedReason(*v)
 	}
-	return tu
+	return _u
 }
 
 // ClearDelegatedReason clears the value of the "delegated_reason" field.
-func (tu *TaskUpdate) ClearDelegatedReason() *TaskUpdate {
-	tu.mutation.ClearDelegatedReason()
-	return tu
+func (_u *TaskUpdate) ClearDelegatedReason() *TaskUpdate {
+	_u.mutation.ClearDelegatedReason()
+	return _u
 }
 
 // SetIsDelegated sets the "is_delegated" field.
-func (tu *TaskUpdate) SetIsDelegated(b bool) *TaskUpdate {
-	tu.mutation.SetIsDelegated(b)
-	return tu
+func (_u *TaskUpdate) SetIsDelegated(v bool) *TaskUpdate {
+	_u.mutation.SetIsDelegated(v)
+	return _u
 }
 
 // SetNillableIsDelegated sets the "is_delegated" field if the given value is not nil.
-func (tu *TaskUpdate) SetNillableIsDelegated(b *bool) *TaskUpdate {
-	if b != nil {
-		tu.SetIsDelegated(*b)
+func (_u *TaskUpdate) SetNillableIsDelegated(v *bool) *TaskUpdate {
+	if v != nil {
+		_u.SetIsDelegated(*v)
 	}
-	return tu
+	return _u
 }
 
 // SetIsTransferred sets the "is_transferred" field.
-func (tu *TaskUpdate) SetIsTransferred(b bool) *TaskUpdate {
-	tu.mutation.SetIsTransferred(b)
-	return tu
+func (_u *TaskUpdate) SetIsTransferred(v bool) *TaskUpdate {
+	_u.mutation.SetIsTransferred(v)
+	return _u
 }
 
 // SetNillableIsTransferred sets the "is_transferred" field if the given value is not nil.
-func (tu *TaskUpdate) SetNillableIsTransferred(b *bool) *TaskUpdate {
-	if b != nil {
-		tu.SetIsTransferred(*b)
+func (_u *TaskUpdate) SetNillableIsTransferred(v *bool) *TaskUpdate {
+	if v != nil {
+		_u.SetIsTransferred(*v)
 	}
-	return tu
+	return _u
 }
 
 // SetStartTime sets the "start_time" field.
-func (tu *TaskUpdate) SetStartTime(i int64) *TaskUpdate {
-	tu.mutation.ResetStartTime()
-	tu.mutation.SetStartTime(i)
-	return tu
+func (_u *TaskUpdate) SetStartTime(v int64) *TaskUpdate {
+	_u.mutation.ResetStartTime()
+	_u.mutation.SetStartTime(v)
+	return _u
 }
 
 // SetNillableStartTime sets the "start_time" field if the given value is not nil.
-func (tu *TaskUpdate) SetNillableStartTime(i *int64) *TaskUpdate {
-	if i != nil {
-		tu.SetStartTime(*i)
+func (_u *TaskUpdate) SetNillableStartTime(v *int64) *TaskUpdate {
+	if v != nil {
+		_u.SetStartTime(*v)
 	}
-	return tu
+	return _u
 }
 
-// AddStartTime adds i to the "start_time" field.
-func (tu *TaskUpdate) AddStartTime(i int64) *TaskUpdate {
-	tu.mutation.AddStartTime(i)
-	return tu
+// AddStartTime adds value to the "start_time" field.
+func (_u *TaskUpdate) AddStartTime(v int64) *TaskUpdate {
+	_u.mutation.AddStartTime(v)
+	return _u
 }
 
 // SetEndTime sets the "end_time" field.
-func (tu *TaskUpdate) SetEndTime(i int64) *TaskUpdate {
-	tu.mutation.ResetEndTime()
-	tu.mutation.SetEndTime(i)
-	return tu
+func (_u *TaskUpdate) SetEndTime(v int64) *TaskUpdate {
+	_u.mutation.ResetEndTime()
+	_u.mutation.SetEndTime(v)
+	return _u
 }
 
 // SetNillableEndTime sets the "end_time" field if the given value is not nil.
-func (tu *TaskUpdate) SetNillableEndTime(i *int64) *TaskUpdate {
-	if i != nil {
-		tu.SetEndTime(*i)
+func (_u *TaskUpdate) SetNillableEndTime(v *int64) *TaskUpdate {
+	if v != nil {
+		_u.SetEndTime(*v)
 	}
-	return tu
+	return _u
 }
 
-// AddEndTime adds i to the "end_time" field.
-func (tu *TaskUpdate) AddEndTime(i int64) *TaskUpdate {
-	tu.mutation.AddEndTime(i)
-	return tu
+// AddEndTime adds value to the "end_time" field.
+func (_u *TaskUpdate) AddEndTime(v int64) *TaskUpdate {
+	_u.mutation.AddEndTime(v)
+	return _u
 }
 
 // ClearEndTime clears the value of the "end_time" field.
-func (tu *TaskUpdate) ClearEndTime() *TaskUpdate {
-	tu.mutation.ClearEndTime()
-	return tu
+func (_u *TaskUpdate) ClearEndTime() *TaskUpdate {
+	_u.mutation.ClearEndTime()
+	return _u
 }
 
 // SetDueTime sets the "due_time" field.
-func (tu *TaskUpdate) SetDueTime(i int64) *TaskUpdate {
-	tu.mutation.ResetDueTime()
-	tu.mutation.SetDueTime(i)
-	return tu
+func (_u *TaskUpdate) SetDueTime(v int64) *TaskUpdate {
+	_u.mutation.ResetDueTime()
+	_u.mutation.SetDueTime(v)
+	return _u
 }
 
 // SetNillableDueTime sets the "due_time" field if the given value is not nil.
-func (tu *TaskUpdate) SetNillableDueTime(i *int64) *TaskUpdate {
-	if i != nil {
-		tu.SetDueTime(*i)
+func (_u *TaskUpdate) SetNillableDueTime(v *int64) *TaskUpdate {
+	if v != nil {
+		_u.SetDueTime(*v)
 	}
-	return tu
+	return _u
 }
 
-// AddDueTime adds i to the "due_time" field.
-func (tu *TaskUpdate) AddDueTime(i int64) *TaskUpdate {
-	tu.mutation.AddDueTime(i)
-	return tu
+// AddDueTime adds value to the "due_time" field.
+func (_u *TaskUpdate) AddDueTime(v int64) *TaskUpdate {
+	_u.mutation.AddDueTime(v)
+	return _u
 }
 
 // ClearDueTime clears the value of the "due_time" field.
-func (tu *TaskUpdate) ClearDueTime() *TaskUpdate {
-	tu.mutation.ClearDueTime()
-	return tu
+func (_u *TaskUpdate) ClearDueTime() *TaskUpdate {
+	_u.mutation.ClearDueTime()
+	return _u
 }
 
 // SetDuration sets the "duration" field.
-func (tu *TaskUpdate) SetDuration(i int) *TaskUpdate {
-	tu.mutation.ResetDuration()
-	tu.mutation.SetDuration(i)
-	return tu
+func (_u *TaskUpdate) SetDuration(v int) *TaskUpdate {
+	_u.mutation.ResetDuration()
+	_u.mutation.SetDuration(v)
+	return _u
 }
 
 // SetNillableDuration sets the "duration" field if the given value is not nil.
-func (tu *TaskUpdate) SetNillableDuration(i *int) *TaskUpdate {
-	if i != nil {
-		tu.SetDuration(*i)
+func (_u *TaskUpdate) SetNillableDuration(v *int) *TaskUpdate {
+	if v != nil {
+		_u.SetDuration(*v)
 	}
-	return tu
+	return _u
 }
 
-// AddDuration adds i to the "duration" field.
-func (tu *TaskUpdate) AddDuration(i int) *TaskUpdate {
-	tu.mutation.AddDuration(i)
-	return tu
+// AddDuration adds value to the "duration" field.
+func (_u *TaskUpdate) AddDuration(v int) *TaskUpdate {
+	_u.mutation.AddDuration(v)
+	return _u
 }
 
 // ClearDuration clears the value of the "duration" field.
-func (tu *TaskUpdate) ClearDuration() *TaskUpdate {
-	tu.mutation.ClearDuration()
-	return tu
+func (_u *TaskUpdate) ClearDuration() *TaskUpdate {
+	_u.mutation.ClearDuration()
+	return _u
 }
 
 // SetPriority sets the "priority" field.
-func (tu *TaskUpdate) SetPriority(i int) *TaskUpdate {
-	tu.mutation.ResetPriority()
-	tu.mutation.SetPriority(i)
-	return tu
+func (_u *TaskUpdate) SetPriority(v int) *TaskUpdate {
+	_u.mutation.ResetPriority()
+	_u.mutation.SetPriority(v)
+	return _u
 }
 
 // SetNillablePriority sets the "priority" field if the given value is not nil.
-func (tu *TaskUpdate) SetNillablePriority(i *int) *TaskUpdate {
-	if i != nil {
-		tu.SetPriority(*i)
+func (_u *TaskUpdate) SetNillablePriority(v *int) *TaskUpdate {
+	if v != nil {
+		_u.SetPriority(*v)
 	}
-	return tu
+	return _u
 }
 
-// AddPriority adds i to the "priority" field.
-func (tu *TaskUpdate) AddPriority(i int) *TaskUpdate {
-	tu.mutation.AddPriority(i)
-	return tu
+// AddPriority adds value to the "priority" field.
+func (_u *TaskUpdate) AddPriority(v int) *TaskUpdate {
+	_u.mutation.AddPriority(v)
+	return _u
 }
 
 // SetIsTimeout sets the "is_timeout" field.
-func (tu *TaskUpdate) SetIsTimeout(b bool) *TaskUpdate {
-	tu.mutation.SetIsTimeout(b)
-	return tu
+func (_u *TaskUpdate) SetIsTimeout(v bool) *TaskUpdate {
+	_u.mutation.SetIsTimeout(v)
+	return _u
 }
 
 // SetNillableIsTimeout sets the "is_timeout" field if the given value is not nil.
-func (tu *TaskUpdate) SetNillableIsTimeout(b *bool) *TaskUpdate {
-	if b != nil {
-		tu.SetIsTimeout(*b)
+func (_u *TaskUpdate) SetNillableIsTimeout(v *bool) *TaskUpdate {
+	if v != nil {
+		_u.SetIsTimeout(*v)
 	}
-	return tu
+	return _u
 }
 
 // SetReminderCount sets the "reminder_count" field.
-func (tu *TaskUpdate) SetReminderCount(i int) *TaskUpdate {
-	tu.mutation.ResetReminderCount()
-	tu.mutation.SetReminderCount(i)
-	return tu
+func (_u *TaskUpdate) SetReminderCount(v int) *TaskUpdate {
+	_u.mutation.ResetReminderCount()
+	_u.mutation.SetReminderCount(v)
+	return _u
 }
 
 // SetNillableReminderCount sets the "reminder_count" field if the given value is not nil.
-func (tu *TaskUpdate) SetNillableReminderCount(i *int) *TaskUpdate {
-	if i != nil {
-		tu.SetReminderCount(*i)
+func (_u *TaskUpdate) SetNillableReminderCount(v *int) *TaskUpdate {
+	if v != nil {
+		_u.SetReminderCount(*v)
 	}
-	return tu
+	return _u
 }
 
-// AddReminderCount adds i to the "reminder_count" field.
-func (tu *TaskUpdate) AddReminderCount(i int) *TaskUpdate {
-	tu.mutation.AddReminderCount(i)
-	return tu
+// AddReminderCount adds value to the "reminder_count" field.
+func (_u *TaskUpdate) AddReminderCount(v int) *TaskUpdate {
+	_u.mutation.AddReminderCount(v)
+	return _u
 }
 
 // SetAllowCancel sets the "allow_cancel" field.
-func (tu *TaskUpdate) SetAllowCancel(b bool) *TaskUpdate {
-	tu.mutation.SetAllowCancel(b)
-	return tu
+func (_u *TaskUpdate) SetAllowCancel(v bool) *TaskUpdate {
+	_u.mutation.SetAllowCancel(v)
+	return _u
 }
 
 // SetNillableAllowCancel sets the "allow_cancel" field if the given value is not nil.
-func (tu *TaskUpdate) SetNillableAllowCancel(b *bool) *TaskUpdate {
-	if b != nil {
-		tu.SetAllowCancel(*b)
+func (_u *TaskUpdate) SetNillableAllowCancel(v *bool) *TaskUpdate {
+	if v != nil {
+		_u.SetAllowCancel(*v)
 	}
-	return tu
+	return _u
 }
 
 // SetAllowUrge sets the "allow_urge" field.
-func (tu *TaskUpdate) SetAllowUrge(b bool) *TaskUpdate {
-	tu.mutation.SetAllowUrge(b)
-	return tu
+func (_u *TaskUpdate) SetAllowUrge(v bool) *TaskUpdate {
+	_u.mutation.SetAllowUrge(v)
+	return _u
 }
 
 // SetNillableAllowUrge sets the "allow_urge" field if the given value is not nil.
-func (tu *TaskUpdate) SetNillableAllowUrge(b *bool) *TaskUpdate {
-	if b != nil {
-		tu.SetAllowUrge(*b)
+func (_u *TaskUpdate) SetNillableAllowUrge(v *bool) *TaskUpdate {
+	if v != nil {
+		_u.SetAllowUrge(*v)
 	}
-	return tu
+	return _u
 }
 
 // SetAllowDelegate sets the "allow_delegate" field.
-func (tu *TaskUpdate) SetAllowDelegate(b bool) *TaskUpdate {
-	tu.mutation.SetAllowDelegate(b)
-	return tu
+func (_u *TaskUpdate) SetAllowDelegate(v bool) *TaskUpdate {
+	_u.mutation.SetAllowDelegate(v)
+	return _u
 }
 
 // SetNillableAllowDelegate sets the "allow_delegate" field if the given value is not nil.
-func (tu *TaskUpdate) SetNillableAllowDelegate(b *bool) *TaskUpdate {
-	if b != nil {
-		tu.SetAllowDelegate(*b)
+func (_u *TaskUpdate) SetNillableAllowDelegate(v *bool) *TaskUpdate {
+	if v != nil {
+		_u.SetAllowDelegate(*v)
 	}
-	return tu
+	return _u
 }
 
 // SetAllowTransfer sets the "allow_transfer" field.
-func (tu *TaskUpdate) SetAllowTransfer(b bool) *TaskUpdate {
-	tu.mutation.SetAllowTransfer(b)
-	return tu
+func (_u *TaskUpdate) SetAllowTransfer(v bool) *TaskUpdate {
+	_u.mutation.SetAllowTransfer(v)
+	return _u
 }
 
 // SetNillableAllowTransfer sets the "allow_transfer" field if the given value is not nil.
-func (tu *TaskUpdate) SetNillableAllowTransfer(b *bool) *TaskUpdate {
-	if b != nil {
-		tu.SetAllowTransfer(*b)
+func (_u *TaskUpdate) SetNillableAllowTransfer(v *bool) *TaskUpdate {
+	if v != nil {
+		_u.SetAllowTransfer(*v)
 	}
-	return tu
+	return _u
 }
 
 // SetIsDraftEnabled sets the "is_draft_enabled" field.
-func (tu *TaskUpdate) SetIsDraftEnabled(b bool) *TaskUpdate {
-	tu.mutation.SetIsDraftEnabled(b)
-	return tu
+func (_u *TaskUpdate) SetIsDraftEnabled(v bool) *TaskUpdate {
+	_u.mutation.SetIsDraftEnabled(v)
+	return _u
 }
 
 // SetNillableIsDraftEnabled sets the "is_draft_enabled" field if the given value is not nil.
-func (tu *TaskUpdate) SetNillableIsDraftEnabled(b *bool) *TaskUpdate {
-	if b != nil {
-		tu.SetIsDraftEnabled(*b)
+func (_u *TaskUpdate) SetNillableIsDraftEnabled(v *bool) *TaskUpdate {
+	if v != nil {
+		_u.SetIsDraftEnabled(*v)
 	}
-	return tu
+	return _u
 }
 
 // SetIsAutoStart sets the "is_auto_start" field.
-func (tu *TaskUpdate) SetIsAutoStart(b bool) *TaskUpdate {
-	tu.mutation.SetIsAutoStart(b)
-	return tu
+func (_u *TaskUpdate) SetIsAutoStart(v bool) *TaskUpdate {
+	_u.mutation.SetIsAutoStart(v)
+	return _u
 }
 
 // SetNillableIsAutoStart sets the "is_auto_start" field if the given value is not nil.
-func (tu *TaskUpdate) SetNillableIsAutoStart(b *bool) *TaskUpdate {
-	if b != nil {
-		tu.SetIsAutoStart(*b)
+func (_u *TaskUpdate) SetNillableIsAutoStart(v *bool) *TaskUpdate {
+	if v != nil {
+		_u.SetIsAutoStart(*v)
 	}
-	return tu
+	return _u
 }
 
 // SetStrictMode sets the "strict_mode" field.
-func (tu *TaskUpdate) SetStrictMode(b bool) *TaskUpdate {
-	tu.mutation.SetStrictMode(b)
-	return tu
+func (_u *TaskUpdate) SetStrictMode(v bool) *TaskUpdate {
+	_u.mutation.SetStrictMode(v)
+	return _u
 }
 
 // SetNillableStrictMode sets the "strict_mode" field if the given value is not nil.
-func (tu *TaskUpdate) SetNillableStrictMode(b *bool) *TaskUpdate {
-	if b != nil {
-		tu.SetStrictMode(*b)
+func (_u *TaskUpdate) SetNillableStrictMode(v *bool) *TaskUpdate {
+	if v != nil {
+		_u.SetStrictMode(*v)
 	}
-	return tu
+	return _u
 }
 
 // SetExtras sets the "extras" field.
-func (tu *TaskUpdate) SetExtras(m map[string]interface{}) *TaskUpdate {
-	tu.mutation.SetExtras(m)
-	return tu
+func (_u *TaskUpdate) SetExtras(v map[string]interface{}) *TaskUpdate {
+	_u.mutation.SetExtras(v)
+	return _u
 }
 
 // ClearExtras clears the value of the "extras" field.
-func (tu *TaskUpdate) ClearExtras() *TaskUpdate {
-	tu.mutation.ClearExtras()
-	return tu
+func (_u *TaskUpdate) ClearExtras() *TaskUpdate {
+	_u.mutation.ClearExtras()
+	return _u
 }
 
 // SetSpaceID sets the "space_id" field.
-func (tu *TaskUpdate) SetSpaceID(s string) *TaskUpdate {
-	tu.mutation.SetSpaceID(s)
-	return tu
+func (_u *TaskUpdate) SetSpaceID(v string) *TaskUpdate {
+	_u.mutation.SetSpaceID(v)
+	return _u
 }
 
 // SetNillableSpaceID sets the "space_id" field if the given value is not nil.
-func (tu *TaskUpdate) SetNillableSpaceID(s *string) *TaskUpdate {
-	if s != nil {
-		tu.SetSpaceID(*s)
+func (_u *TaskUpdate) SetNillableSpaceID(v *string) *TaskUpdate {
+	if v != nil {
+		_u.SetSpaceID(*v)
 	}
-	return tu
+	return _u
 }
 
 // ClearSpaceID clears the value of the "space_id" field.
-func (tu *TaskUpdate) ClearSpaceID() *TaskUpdate {
-	tu.mutation.ClearSpaceID()
-	return tu
+func (_u *TaskUpdate) ClearSpaceID() *TaskUpdate {
+	_u.mutation.ClearSpaceID()
+	return _u
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (tu *TaskUpdate) SetCreatedBy(s string) *TaskUpdate {
-	tu.mutation.SetCreatedBy(s)
-	return tu
+func (_u *TaskUpdate) SetCreatedBy(v string) *TaskUpdate {
+	_u.mutation.SetCreatedBy(v)
+	return _u
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (tu *TaskUpdate) SetNillableCreatedBy(s *string) *TaskUpdate {
-	if s != nil {
-		tu.SetCreatedBy(*s)
+func (_u *TaskUpdate) SetNillableCreatedBy(v *string) *TaskUpdate {
+	if v != nil {
+		_u.SetCreatedBy(*v)
 	}
-	return tu
+	return _u
 }
 
 // ClearCreatedBy clears the value of the "created_by" field.
-func (tu *TaskUpdate) ClearCreatedBy() *TaskUpdate {
-	tu.mutation.ClearCreatedBy()
-	return tu
+func (_u *TaskUpdate) ClearCreatedBy() *TaskUpdate {
+	_u.mutation.ClearCreatedBy()
+	return _u
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (tu *TaskUpdate) SetUpdatedBy(s string) *TaskUpdate {
-	tu.mutation.SetUpdatedBy(s)
-	return tu
+func (_u *TaskUpdate) SetUpdatedBy(v string) *TaskUpdate {
+	_u.mutation.SetUpdatedBy(v)
+	return _u
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (tu *TaskUpdate) SetNillableUpdatedBy(s *string) *TaskUpdate {
-	if s != nil {
-		tu.SetUpdatedBy(*s)
+func (_u *TaskUpdate) SetNillableUpdatedBy(v *string) *TaskUpdate {
+	if v != nil {
+		_u.SetUpdatedBy(*v)
 	}
-	return tu
+	return _u
 }
 
 // ClearUpdatedBy clears the value of the "updated_by" field.
-func (tu *TaskUpdate) ClearUpdatedBy() *TaskUpdate {
-	tu.mutation.ClearUpdatedBy()
-	return tu
+func (_u *TaskUpdate) ClearUpdatedBy() *TaskUpdate {
+	_u.mutation.ClearUpdatedBy()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (tu *TaskUpdate) SetUpdatedAt(i int64) *TaskUpdate {
-	tu.mutation.ResetUpdatedAt()
-	tu.mutation.SetUpdatedAt(i)
-	return tu
+func (_u *TaskUpdate) SetUpdatedAt(v int64) *TaskUpdate {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (tu *TaskUpdate) AddUpdatedAt(i int64) *TaskUpdate {
-	tu.mutation.AddUpdatedAt(i)
-	return tu
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *TaskUpdate) AddUpdatedAt(v int64) *TaskUpdate {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (tu *TaskUpdate) ClearUpdatedAt() *TaskUpdate {
-	tu.mutation.ClearUpdatedAt()
-	return tu
+func (_u *TaskUpdate) ClearUpdatedAt() *TaskUpdate {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // SetTaskKey sets the "task_key" field.
-func (tu *TaskUpdate) SetTaskKey(s string) *TaskUpdate {
-	tu.mutation.SetTaskKey(s)
-	return tu
+func (_u *TaskUpdate) SetTaskKey(v string) *TaskUpdate {
+	_u.mutation.SetTaskKey(v)
+	return _u
 }
 
 // SetNillableTaskKey sets the "task_key" field if the given value is not nil.
-func (tu *TaskUpdate) SetNillableTaskKey(s *string) *TaskUpdate {
-	if s != nil {
-		tu.SetTaskKey(*s)
+func (_u *TaskUpdate) SetNillableTaskKey(v *string) *TaskUpdate {
+	if v != nil {
+		_u.SetTaskKey(*v)
 	}
-	return tu
+	return _u
 }
 
 // SetParentID sets the "parent_id" field.
-func (tu *TaskUpdate) SetParentID(s string) *TaskUpdate {
-	tu.mutation.SetParentID(s)
-	return tu
+func (_u *TaskUpdate) SetParentID(v string) *TaskUpdate {
+	_u.mutation.SetParentID(v)
+	return _u
 }
 
 // SetNillableParentID sets the "parent_id" field if the given value is not nil.
-func (tu *TaskUpdate) SetNillableParentID(s *string) *TaskUpdate {
-	if s != nil {
-		tu.SetParentID(*s)
+func (_u *TaskUpdate) SetNillableParentID(v *string) *TaskUpdate {
+	if v != nil {
+		_u.SetParentID(*v)
 	}
-	return tu
+	return _u
 }
 
 // ClearParentID clears the value of the "parent_id" field.
-func (tu *TaskUpdate) ClearParentID() *TaskUpdate {
-	tu.mutation.ClearParentID()
-	return tu
+func (_u *TaskUpdate) ClearParentID() *TaskUpdate {
+	_u.mutation.ClearParentID()
+	return _u
 }
 
 // SetChildIds sets the "child_ids" field.
-func (tu *TaskUpdate) SetChildIds(s []string) *TaskUpdate {
-	tu.mutation.SetChildIds(s)
-	return tu
+func (_u *TaskUpdate) SetChildIds(v []string) *TaskUpdate {
+	_u.mutation.SetChildIds(v)
+	return _u
 }
 
-// AppendChildIds appends s to the "child_ids" field.
-func (tu *TaskUpdate) AppendChildIds(s []string) *TaskUpdate {
-	tu.mutation.AppendChildIds(s)
-	return tu
+// AppendChildIds appends value to the "child_ids" field.
+func (_u *TaskUpdate) AppendChildIds(v []string) *TaskUpdate {
+	_u.mutation.AppendChildIds(v)
+	return _u
 }
 
 // SetAction sets the "action" field.
-func (tu *TaskUpdate) SetAction(s string) *TaskUpdate {
-	tu.mutation.SetAction(s)
-	return tu
+func (_u *TaskUpdate) SetAction(v string) *TaskUpdate {
+	_u.mutation.SetAction(v)
+	return _u
 }
 
 // SetNillableAction sets the "action" field if the given value is not nil.
-func (tu *TaskUpdate) SetNillableAction(s *string) *TaskUpdate {
-	if s != nil {
-		tu.SetAction(*s)
+func (_u *TaskUpdate) SetNillableAction(v *string) *TaskUpdate {
+	if v != nil {
+		_u.SetAction(*v)
 	}
-	return tu
+	return _u
 }
 
 // ClearAction clears the value of the "action" field.
-func (tu *TaskUpdate) ClearAction() *TaskUpdate {
-	tu.mutation.ClearAction()
-	return tu
+func (_u *TaskUpdate) ClearAction() *TaskUpdate {
+	_u.mutation.ClearAction()
+	return _u
 }
 
 // SetComment sets the "comment" field.
-func (tu *TaskUpdate) SetComment(s string) *TaskUpdate {
-	tu.mutation.SetComment(s)
-	return tu
+func (_u *TaskUpdate) SetComment(v string) *TaskUpdate {
+	_u.mutation.SetComment(v)
+	return _u
 }
 
 // SetNillableComment sets the "comment" field if the given value is not nil.
-func (tu *TaskUpdate) SetNillableComment(s *string) *TaskUpdate {
-	if s != nil {
-		tu.SetComment(*s)
+func (_u *TaskUpdate) SetNillableComment(v *string) *TaskUpdate {
+	if v != nil {
+		_u.SetComment(*v)
 	}
-	return tu
+	return _u
 }
 
 // ClearComment clears the value of the "comment" field.
-func (tu *TaskUpdate) ClearComment() *TaskUpdate {
-	tu.mutation.ClearComment()
-	return tu
+func (_u *TaskUpdate) ClearComment() *TaskUpdate {
+	_u.mutation.ClearComment()
+	return _u
 }
 
 // SetAttachments sets the "attachments" field.
-func (tu *TaskUpdate) SetAttachments(m map[string]interface{}) *TaskUpdate {
-	tu.mutation.SetAttachments(m)
-	return tu
+func (_u *TaskUpdate) SetAttachments(v map[string]interface{}) *TaskUpdate {
+	_u.mutation.SetAttachments(v)
+	return _u
 }
 
 // ClearAttachments clears the value of the "attachments" field.
-func (tu *TaskUpdate) ClearAttachments() *TaskUpdate {
-	tu.mutation.ClearAttachments()
-	return tu
+func (_u *TaskUpdate) ClearAttachments() *TaskUpdate {
+	_u.mutation.ClearAttachments()
+	return _u
 }
 
 // SetFormData sets the "form_data" field.
-func (tu *TaskUpdate) SetFormData(m map[string]interface{}) *TaskUpdate {
-	tu.mutation.SetFormData(m)
-	return tu
+func (_u *TaskUpdate) SetFormData(v map[string]interface{}) *TaskUpdate {
+	_u.mutation.SetFormData(v)
+	return _u
 }
 
 // ClearFormData clears the value of the "form_data" field.
-func (tu *TaskUpdate) ClearFormData() *TaskUpdate {
-	tu.mutation.ClearFormData()
-	return tu
+func (_u *TaskUpdate) ClearFormData() *TaskUpdate {
+	_u.mutation.ClearFormData()
+	return _u
 }
 
 // SetVariables sets the "variables" field.
-func (tu *TaskUpdate) SetVariables(m map[string]interface{}) *TaskUpdate {
-	tu.mutation.SetVariables(m)
-	return tu
+func (_u *TaskUpdate) SetVariables(v map[string]interface{}) *TaskUpdate {
+	_u.mutation.SetVariables(v)
+	return _u
 }
 
 // ClearVariables clears the value of the "variables" field.
-func (tu *TaskUpdate) ClearVariables() *TaskUpdate {
-	tu.mutation.ClearVariables()
-	return tu
+func (_u *TaskUpdate) ClearVariables() *TaskUpdate {
+	_u.mutation.ClearVariables()
+	return _u
 }
 
 // SetIsResubmit sets the "is_resubmit" field.
-func (tu *TaskUpdate) SetIsResubmit(b bool) *TaskUpdate {
-	tu.mutation.SetIsResubmit(b)
-	return tu
+func (_u *TaskUpdate) SetIsResubmit(v bool) *TaskUpdate {
+	_u.mutation.SetIsResubmit(v)
+	return _u
 }
 
 // SetNillableIsResubmit sets the "is_resubmit" field if the given value is not nil.
-func (tu *TaskUpdate) SetNillableIsResubmit(b *bool) *TaskUpdate {
-	if b != nil {
-		tu.SetIsResubmit(*b)
+func (_u *TaskUpdate) SetNillableIsResubmit(v *bool) *TaskUpdate {
+	if v != nil {
+		_u.SetIsResubmit(*v)
 	}
-	return tu
+	return _u
 }
 
 // SetClaimTime sets the "claim_time" field.
-func (tu *TaskUpdate) SetClaimTime(i int64) *TaskUpdate {
-	tu.mutation.ResetClaimTime()
-	tu.mutation.SetClaimTime(i)
-	return tu
+func (_u *TaskUpdate) SetClaimTime(v int64) *TaskUpdate {
+	_u.mutation.ResetClaimTime()
+	_u.mutation.SetClaimTime(v)
+	return _u
 }
 
 // SetNillableClaimTime sets the "claim_time" field if the given value is not nil.
-func (tu *TaskUpdate) SetNillableClaimTime(i *int64) *TaskUpdate {
-	if i != nil {
-		tu.SetClaimTime(*i)
+func (_u *TaskUpdate) SetNillableClaimTime(v *int64) *TaskUpdate {
+	if v != nil {
+		_u.SetClaimTime(*v)
 	}
-	return tu
+	return _u
 }
 
-// AddClaimTime adds i to the "claim_time" field.
-func (tu *TaskUpdate) AddClaimTime(i int64) *TaskUpdate {
-	tu.mutation.AddClaimTime(i)
-	return tu
+// AddClaimTime adds value to the "claim_time" field.
+func (_u *TaskUpdate) AddClaimTime(v int64) *TaskUpdate {
+	_u.mutation.AddClaimTime(v)
+	return _u
 }
 
 // ClearClaimTime clears the value of the "claim_time" field.
-func (tu *TaskUpdate) ClearClaimTime() *TaskUpdate {
-	tu.mutation.ClearClaimTime()
-	return tu
+func (_u *TaskUpdate) ClearClaimTime() *TaskUpdate {
+	_u.mutation.ClearClaimTime()
+	return _u
 }
 
 // SetIsUrged sets the "is_urged" field.
-func (tu *TaskUpdate) SetIsUrged(b bool) *TaskUpdate {
-	tu.mutation.SetIsUrged(b)
-	return tu
+func (_u *TaskUpdate) SetIsUrged(v bool) *TaskUpdate {
+	_u.mutation.SetIsUrged(v)
+	return _u
 }
 
 // SetNillableIsUrged sets the "is_urged" field if the given value is not nil.
-func (tu *TaskUpdate) SetNillableIsUrged(b *bool) *TaskUpdate {
-	if b != nil {
-		tu.SetIsUrged(*b)
+func (_u *TaskUpdate) SetNillableIsUrged(v *bool) *TaskUpdate {
+	if v != nil {
+		_u.SetIsUrged(*v)
 	}
-	return tu
+	return _u
 }
 
 // SetUrgeCount sets the "urge_count" field.
-func (tu *TaskUpdate) SetUrgeCount(i int) *TaskUpdate {
-	tu.mutation.ResetUrgeCount()
-	tu.mutation.SetUrgeCount(i)
-	return tu
+func (_u *TaskUpdate) SetUrgeCount(v int) *TaskUpdate {
+	_u.mutation.ResetUrgeCount()
+	_u.mutation.SetUrgeCount(v)
+	return _u
 }
 
 // SetNillableUrgeCount sets the "urge_count" field if the given value is not nil.
-func (tu *TaskUpdate) SetNillableUrgeCount(i *int) *TaskUpdate {
-	if i != nil {
-		tu.SetUrgeCount(*i)
+func (_u *TaskUpdate) SetNillableUrgeCount(v *int) *TaskUpdate {
+	if v != nil {
+		_u.SetUrgeCount(*v)
 	}
-	return tu
+	return _u
 }
 
-// AddUrgeCount adds i to the "urge_count" field.
-func (tu *TaskUpdate) AddUrgeCount(i int) *TaskUpdate {
-	tu.mutation.AddUrgeCount(i)
-	return tu
+// AddUrgeCount adds value to the "urge_count" field.
+func (_u *TaskUpdate) AddUrgeCount(v int) *TaskUpdate {
+	_u.mutation.AddUrgeCount(v)
+	return _u
 }
 
 // Mutation returns the TaskMutation object of the builder.
-func (tu *TaskUpdate) Mutation() *TaskMutation {
-	return tu.mutation
+func (_u *TaskUpdate) Mutation() *TaskMutation {
+	return _u.mutation
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
-func (tu *TaskUpdate) Save(ctx context.Context) (int, error) {
-	tu.defaults()
-	return withHooks(ctx, tu.sqlSave, tu.mutation, tu.hooks)
+func (_u *TaskUpdate) Save(ctx context.Context) (int, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (tu *TaskUpdate) SaveX(ctx context.Context) int {
-	affected, err := tu.Save(ctx)
+func (_u *TaskUpdate) SaveX(ctx context.Context) int {
+	affected, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -852,294 +852,294 @@ func (tu *TaskUpdate) SaveX(ctx context.Context) int {
 }
 
 // Exec executes the query.
-func (tu *TaskUpdate) Exec(ctx context.Context) error {
-	_, err := tu.Save(ctx)
+func (_u *TaskUpdate) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (tu *TaskUpdate) ExecX(ctx context.Context) {
-	if err := tu.Exec(ctx); err != nil {
+func (_u *TaskUpdate) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (tu *TaskUpdate) defaults() {
-	if _, ok := tu.mutation.UpdatedAt(); !ok && !tu.mutation.UpdatedAtCleared() {
+func (_u *TaskUpdate) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := task.UpdateDefaultUpdatedAt()
-		tu.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (tu *TaskUpdate) sqlSave(ctx context.Context) (n int, err error) {
+func (_u *TaskUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	_spec := sqlgraph.NewUpdateSpec(task.Table, task.Columns, sqlgraph.NewFieldSpec(task.FieldID, field.TypeString))
-	if ps := tu.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := tu.mutation.Name(); ok {
+	if value, ok := _u.mutation.Name(); ok {
 		_spec.SetField(task.FieldName, field.TypeString, value)
 	}
-	if tu.mutation.NameCleared() {
+	if _u.mutation.NameCleared() {
 		_spec.ClearField(task.FieldName, field.TypeString)
 	}
-	if value, ok := tu.mutation.Description(); ok {
+	if value, ok := _u.mutation.Description(); ok {
 		_spec.SetField(task.FieldDescription, field.TypeString, value)
 	}
-	if tu.mutation.DescriptionCleared() {
+	if _u.mutation.DescriptionCleared() {
 		_spec.ClearField(task.FieldDescription, field.TypeString)
 	}
-	if value, ok := tu.mutation.Status(); ok {
+	if value, ok := _u.mutation.Status(); ok {
 		_spec.SetField(task.FieldStatus, field.TypeString, value)
 	}
-	if tu.mutation.StatusCleared() {
+	if _u.mutation.StatusCleared() {
 		_spec.ClearField(task.FieldStatus, field.TypeString)
 	}
-	if value, ok := tu.mutation.ProcessID(); ok {
+	if value, ok := _u.mutation.ProcessID(); ok {
 		_spec.SetField(task.FieldProcessID, field.TypeString, value)
 	}
-	if value, ok := tu.mutation.TemplateID(); ok {
+	if value, ok := _u.mutation.TemplateID(); ok {
 		_spec.SetField(task.FieldTemplateID, field.TypeString, value)
 	}
-	if value, ok := tu.mutation.BusinessKey(); ok {
+	if value, ok := _u.mutation.BusinessKey(); ok {
 		_spec.SetField(task.FieldBusinessKey, field.TypeString, value)
 	}
-	if value, ok := tu.mutation.NodeKey(); ok {
+	if value, ok := _u.mutation.NodeKey(); ok {
 		_spec.SetField(task.FieldNodeKey, field.TypeString, value)
 	}
-	if value, ok := tu.mutation.NodeType(); ok {
+	if value, ok := _u.mutation.NodeType(); ok {
 		_spec.SetField(task.FieldNodeType, field.TypeString, value)
 	}
-	if value, ok := tu.mutation.NodeConfig(); ok {
+	if value, ok := _u.mutation.NodeConfig(); ok {
 		_spec.SetField(task.FieldNodeConfig, field.TypeJSON, value)
 	}
-	if tu.mutation.NodeConfigCleared() {
+	if _u.mutation.NodeConfigCleared() {
 		_spec.ClearField(task.FieldNodeConfig, field.TypeJSON)
 	}
-	if value, ok := tu.mutation.NodeRules(); ok {
+	if value, ok := _u.mutation.NodeRules(); ok {
 		_spec.SetField(task.FieldNodeRules, field.TypeJSON, value)
 	}
-	if tu.mutation.NodeRulesCleared() {
+	if _u.mutation.NodeRulesCleared() {
 		_spec.ClearField(task.FieldNodeRules, field.TypeJSON)
 	}
-	if value, ok := tu.mutation.NodeEvents(); ok {
+	if value, ok := _u.mutation.NodeEvents(); ok {
 		_spec.SetField(task.FieldNodeEvents, field.TypeJSON, value)
 	}
-	if tu.mutation.NodeEventsCleared() {
+	if _u.mutation.NodeEventsCleared() {
 		_spec.ClearField(task.FieldNodeEvents, field.TypeJSON)
 	}
-	if value, ok := tu.mutation.Assignees(); ok {
+	if value, ok := _u.mutation.Assignees(); ok {
 		_spec.SetField(task.FieldAssignees, field.TypeJSON, value)
 	}
-	if value, ok := tu.mutation.AppendedAssignees(); ok {
+	if value, ok := _u.mutation.AppendedAssignees(); ok {
 		_spec.AddModifier(func(u *sql.UpdateBuilder) {
 			sqljson.Append(u, task.FieldAssignees, value)
 		})
 	}
-	if value, ok := tu.mutation.Candidates(); ok {
+	if value, ok := _u.mutation.Candidates(); ok {
 		_spec.SetField(task.FieldCandidates, field.TypeJSON, value)
 	}
-	if value, ok := tu.mutation.AppendedCandidates(); ok {
+	if value, ok := _u.mutation.AppendedCandidates(); ok {
 		_spec.AddModifier(func(u *sql.UpdateBuilder) {
 			sqljson.Append(u, task.FieldCandidates, value)
 		})
 	}
-	if value, ok := tu.mutation.DelegatedFrom(); ok {
+	if value, ok := _u.mutation.DelegatedFrom(); ok {
 		_spec.SetField(task.FieldDelegatedFrom, field.TypeString, value)
 	}
-	if tu.mutation.DelegatedFromCleared() {
+	if _u.mutation.DelegatedFromCleared() {
 		_spec.ClearField(task.FieldDelegatedFrom, field.TypeString)
 	}
-	if value, ok := tu.mutation.DelegatedReason(); ok {
+	if value, ok := _u.mutation.DelegatedReason(); ok {
 		_spec.SetField(task.FieldDelegatedReason, field.TypeString, value)
 	}
-	if tu.mutation.DelegatedReasonCleared() {
+	if _u.mutation.DelegatedReasonCleared() {
 		_spec.ClearField(task.FieldDelegatedReason, field.TypeString)
 	}
-	if value, ok := tu.mutation.IsDelegated(); ok {
+	if value, ok := _u.mutation.IsDelegated(); ok {
 		_spec.SetField(task.FieldIsDelegated, field.TypeBool, value)
 	}
-	if value, ok := tu.mutation.IsTransferred(); ok {
+	if value, ok := _u.mutation.IsTransferred(); ok {
 		_spec.SetField(task.FieldIsTransferred, field.TypeBool, value)
 	}
-	if value, ok := tu.mutation.StartTime(); ok {
+	if value, ok := _u.mutation.StartTime(); ok {
 		_spec.SetField(task.FieldStartTime, field.TypeInt64, value)
 	}
-	if value, ok := tu.mutation.AddedStartTime(); ok {
+	if value, ok := _u.mutation.AddedStartTime(); ok {
 		_spec.AddField(task.FieldStartTime, field.TypeInt64, value)
 	}
-	if value, ok := tu.mutation.EndTime(); ok {
+	if value, ok := _u.mutation.EndTime(); ok {
 		_spec.SetField(task.FieldEndTime, field.TypeInt64, value)
 	}
-	if value, ok := tu.mutation.AddedEndTime(); ok {
+	if value, ok := _u.mutation.AddedEndTime(); ok {
 		_spec.AddField(task.FieldEndTime, field.TypeInt64, value)
 	}
-	if tu.mutation.EndTimeCleared() {
+	if _u.mutation.EndTimeCleared() {
 		_spec.ClearField(task.FieldEndTime, field.TypeInt64)
 	}
-	if value, ok := tu.mutation.DueTime(); ok {
+	if value, ok := _u.mutation.DueTime(); ok {
 		_spec.SetField(task.FieldDueTime, field.TypeInt64, value)
 	}
-	if value, ok := tu.mutation.AddedDueTime(); ok {
+	if value, ok := _u.mutation.AddedDueTime(); ok {
 		_spec.AddField(task.FieldDueTime, field.TypeInt64, value)
 	}
-	if tu.mutation.DueTimeCleared() {
+	if _u.mutation.DueTimeCleared() {
 		_spec.ClearField(task.FieldDueTime, field.TypeInt64)
 	}
-	if value, ok := tu.mutation.Duration(); ok {
+	if value, ok := _u.mutation.Duration(); ok {
 		_spec.SetField(task.FieldDuration, field.TypeInt, value)
 	}
-	if value, ok := tu.mutation.AddedDuration(); ok {
+	if value, ok := _u.mutation.AddedDuration(); ok {
 		_spec.AddField(task.FieldDuration, field.TypeInt, value)
 	}
-	if tu.mutation.DurationCleared() {
+	if _u.mutation.DurationCleared() {
 		_spec.ClearField(task.FieldDuration, field.TypeInt)
 	}
-	if value, ok := tu.mutation.Priority(); ok {
+	if value, ok := _u.mutation.Priority(); ok {
 		_spec.SetField(task.FieldPriority, field.TypeInt, value)
 	}
-	if value, ok := tu.mutation.AddedPriority(); ok {
+	if value, ok := _u.mutation.AddedPriority(); ok {
 		_spec.AddField(task.FieldPriority, field.TypeInt, value)
 	}
-	if value, ok := tu.mutation.IsTimeout(); ok {
+	if value, ok := _u.mutation.IsTimeout(); ok {
 		_spec.SetField(task.FieldIsTimeout, field.TypeBool, value)
 	}
-	if value, ok := tu.mutation.ReminderCount(); ok {
+	if value, ok := _u.mutation.ReminderCount(); ok {
 		_spec.SetField(task.FieldReminderCount, field.TypeInt, value)
 	}
-	if value, ok := tu.mutation.AddedReminderCount(); ok {
+	if value, ok := _u.mutation.AddedReminderCount(); ok {
 		_spec.AddField(task.FieldReminderCount, field.TypeInt, value)
 	}
-	if value, ok := tu.mutation.AllowCancel(); ok {
+	if value, ok := _u.mutation.AllowCancel(); ok {
 		_spec.SetField(task.FieldAllowCancel, field.TypeBool, value)
 	}
-	if value, ok := tu.mutation.AllowUrge(); ok {
+	if value, ok := _u.mutation.AllowUrge(); ok {
 		_spec.SetField(task.FieldAllowUrge, field.TypeBool, value)
 	}
-	if value, ok := tu.mutation.AllowDelegate(); ok {
+	if value, ok := _u.mutation.AllowDelegate(); ok {
 		_spec.SetField(task.FieldAllowDelegate, field.TypeBool, value)
 	}
-	if value, ok := tu.mutation.AllowTransfer(); ok {
+	if value, ok := _u.mutation.AllowTransfer(); ok {
 		_spec.SetField(task.FieldAllowTransfer, field.TypeBool, value)
 	}
-	if value, ok := tu.mutation.IsDraftEnabled(); ok {
+	if value, ok := _u.mutation.IsDraftEnabled(); ok {
 		_spec.SetField(task.FieldIsDraftEnabled, field.TypeBool, value)
 	}
-	if value, ok := tu.mutation.IsAutoStart(); ok {
+	if value, ok := _u.mutation.IsAutoStart(); ok {
 		_spec.SetField(task.FieldIsAutoStart, field.TypeBool, value)
 	}
-	if value, ok := tu.mutation.StrictMode(); ok {
+	if value, ok := _u.mutation.StrictMode(); ok {
 		_spec.SetField(task.FieldStrictMode, field.TypeBool, value)
 	}
-	if value, ok := tu.mutation.Extras(); ok {
+	if value, ok := _u.mutation.Extras(); ok {
 		_spec.SetField(task.FieldExtras, field.TypeJSON, value)
 	}
-	if tu.mutation.ExtrasCleared() {
+	if _u.mutation.ExtrasCleared() {
 		_spec.ClearField(task.FieldExtras, field.TypeJSON)
 	}
-	if value, ok := tu.mutation.SpaceID(); ok {
+	if value, ok := _u.mutation.SpaceID(); ok {
 		_spec.SetField(task.FieldSpaceID, field.TypeString, value)
 	}
-	if tu.mutation.SpaceIDCleared() {
+	if _u.mutation.SpaceIDCleared() {
 		_spec.ClearField(task.FieldSpaceID, field.TypeString)
 	}
-	if value, ok := tu.mutation.CreatedBy(); ok {
+	if value, ok := _u.mutation.CreatedBy(); ok {
 		_spec.SetField(task.FieldCreatedBy, field.TypeString, value)
 	}
-	if tu.mutation.CreatedByCleared() {
+	if _u.mutation.CreatedByCleared() {
 		_spec.ClearField(task.FieldCreatedBy, field.TypeString)
 	}
-	if value, ok := tu.mutation.UpdatedBy(); ok {
+	if value, ok := _u.mutation.UpdatedBy(); ok {
 		_spec.SetField(task.FieldUpdatedBy, field.TypeString, value)
 	}
-	if tu.mutation.UpdatedByCleared() {
+	if _u.mutation.UpdatedByCleared() {
 		_spec.ClearField(task.FieldUpdatedBy, field.TypeString)
 	}
-	if tu.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(task.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := tu.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(task.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := tu.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(task.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if tu.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(task.FieldUpdatedAt, field.TypeInt64)
 	}
-	if value, ok := tu.mutation.TaskKey(); ok {
+	if value, ok := _u.mutation.TaskKey(); ok {
 		_spec.SetField(task.FieldTaskKey, field.TypeString, value)
 	}
-	if value, ok := tu.mutation.ParentID(); ok {
+	if value, ok := _u.mutation.ParentID(); ok {
 		_spec.SetField(task.FieldParentID, field.TypeString, value)
 	}
-	if tu.mutation.ParentIDCleared() {
+	if _u.mutation.ParentIDCleared() {
 		_spec.ClearField(task.FieldParentID, field.TypeString)
 	}
-	if value, ok := tu.mutation.ChildIds(); ok {
+	if value, ok := _u.mutation.ChildIds(); ok {
 		_spec.SetField(task.FieldChildIds, field.TypeJSON, value)
 	}
-	if value, ok := tu.mutation.AppendedChildIds(); ok {
+	if value, ok := _u.mutation.AppendedChildIds(); ok {
 		_spec.AddModifier(func(u *sql.UpdateBuilder) {
 			sqljson.Append(u, task.FieldChildIds, value)
 		})
 	}
-	if value, ok := tu.mutation.Action(); ok {
+	if value, ok := _u.mutation.Action(); ok {
 		_spec.SetField(task.FieldAction, field.TypeString, value)
 	}
-	if tu.mutation.ActionCleared() {
+	if _u.mutation.ActionCleared() {
 		_spec.ClearField(task.FieldAction, field.TypeString)
 	}
-	if value, ok := tu.mutation.Comment(); ok {
+	if value, ok := _u.mutation.Comment(); ok {
 		_spec.SetField(task.FieldComment, field.TypeString, value)
 	}
-	if tu.mutation.CommentCleared() {
+	if _u.mutation.CommentCleared() {
 		_spec.ClearField(task.FieldComment, field.TypeString)
 	}
-	if value, ok := tu.mutation.Attachments(); ok {
+	if value, ok := _u.mutation.Attachments(); ok {
 		_spec.SetField(task.FieldAttachments, field.TypeJSON, value)
 	}
-	if tu.mutation.AttachmentsCleared() {
+	if _u.mutation.AttachmentsCleared() {
 		_spec.ClearField(task.FieldAttachments, field.TypeJSON)
 	}
-	if value, ok := tu.mutation.FormData(); ok {
+	if value, ok := _u.mutation.FormData(); ok {
 		_spec.SetField(task.FieldFormData, field.TypeJSON, value)
 	}
-	if tu.mutation.FormDataCleared() {
+	if _u.mutation.FormDataCleared() {
 		_spec.ClearField(task.FieldFormData, field.TypeJSON)
 	}
-	if value, ok := tu.mutation.Variables(); ok {
+	if value, ok := _u.mutation.Variables(); ok {
 		_spec.SetField(task.FieldVariables, field.TypeJSON, value)
 	}
-	if tu.mutation.VariablesCleared() {
+	if _u.mutation.VariablesCleared() {
 		_spec.ClearField(task.FieldVariables, field.TypeJSON)
 	}
-	if value, ok := tu.mutation.IsResubmit(); ok {
+	if value, ok := _u.mutation.IsResubmit(); ok {
 		_spec.SetField(task.FieldIsResubmit, field.TypeBool, value)
 	}
-	if value, ok := tu.mutation.ClaimTime(); ok {
+	if value, ok := _u.mutation.ClaimTime(); ok {
 		_spec.SetField(task.FieldClaimTime, field.TypeInt64, value)
 	}
-	if value, ok := tu.mutation.AddedClaimTime(); ok {
+	if value, ok := _u.mutation.AddedClaimTime(); ok {
 		_spec.AddField(task.FieldClaimTime, field.TypeInt64, value)
 	}
-	if tu.mutation.ClaimTimeCleared() {
+	if _u.mutation.ClaimTimeCleared() {
 		_spec.ClearField(task.FieldClaimTime, field.TypeInt64)
 	}
-	if value, ok := tu.mutation.IsUrged(); ok {
+	if value, ok := _u.mutation.IsUrged(); ok {
 		_spec.SetField(task.FieldIsUrged, field.TypeBool, value)
 	}
-	if value, ok := tu.mutation.UrgeCount(); ok {
+	if value, ok := _u.mutation.UrgeCount(); ok {
 		_spec.SetField(task.FieldUrgeCount, field.TypeInt, value)
 	}
-	if value, ok := tu.mutation.AddedUrgeCount(); ok {
+	if value, ok := _u.mutation.AddedUrgeCount(); ok {
 		_spec.AddField(task.FieldUrgeCount, field.TypeInt, value)
 	}
-	if n, err = sqlgraph.UpdateNodes(ctx, tu.driver, _spec); err != nil {
+	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{task.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -1147,8 +1147,8 @@ func (tu *TaskUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		return 0, err
 	}
-	tu.mutation.done = true
-	return n, nil
+	_u.mutation.done = true
+	return _node, nil
 }
 
 // TaskUpdateOne is the builder for updating a single Task entity.
@@ -1160,835 +1160,835 @@ type TaskUpdateOne struct {
 }
 
 // SetName sets the "name" field.
-func (tuo *TaskUpdateOne) SetName(s string) *TaskUpdateOne {
-	tuo.mutation.SetName(s)
-	return tuo
+func (_u *TaskUpdateOne) SetName(v string) *TaskUpdateOne {
+	_u.mutation.SetName(v)
+	return _u
 }
 
 // SetNillableName sets the "name" field if the given value is not nil.
-func (tuo *TaskUpdateOne) SetNillableName(s *string) *TaskUpdateOne {
-	if s != nil {
-		tuo.SetName(*s)
+func (_u *TaskUpdateOne) SetNillableName(v *string) *TaskUpdateOne {
+	if v != nil {
+		_u.SetName(*v)
 	}
-	return tuo
+	return _u
 }
 
 // ClearName clears the value of the "name" field.
-func (tuo *TaskUpdateOne) ClearName() *TaskUpdateOne {
-	tuo.mutation.ClearName()
-	return tuo
+func (_u *TaskUpdateOne) ClearName() *TaskUpdateOne {
+	_u.mutation.ClearName()
+	return _u
 }
 
 // SetDescription sets the "description" field.
-func (tuo *TaskUpdateOne) SetDescription(s string) *TaskUpdateOne {
-	tuo.mutation.SetDescription(s)
-	return tuo
+func (_u *TaskUpdateOne) SetDescription(v string) *TaskUpdateOne {
+	_u.mutation.SetDescription(v)
+	return _u
 }
 
 // SetNillableDescription sets the "description" field if the given value is not nil.
-func (tuo *TaskUpdateOne) SetNillableDescription(s *string) *TaskUpdateOne {
-	if s != nil {
-		tuo.SetDescription(*s)
+func (_u *TaskUpdateOne) SetNillableDescription(v *string) *TaskUpdateOne {
+	if v != nil {
+		_u.SetDescription(*v)
 	}
-	return tuo
+	return _u
 }
 
 // ClearDescription clears the value of the "description" field.
-func (tuo *TaskUpdateOne) ClearDescription() *TaskUpdateOne {
-	tuo.mutation.ClearDescription()
-	return tuo
+func (_u *TaskUpdateOne) ClearDescription() *TaskUpdateOne {
+	_u.mutation.ClearDescription()
+	return _u
 }
 
 // SetStatus sets the "status" field.
-func (tuo *TaskUpdateOne) SetStatus(s string) *TaskUpdateOne {
-	tuo.mutation.SetStatus(s)
-	return tuo
+func (_u *TaskUpdateOne) SetStatus(v string) *TaskUpdateOne {
+	_u.mutation.SetStatus(v)
+	return _u
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (tuo *TaskUpdateOne) SetNillableStatus(s *string) *TaskUpdateOne {
-	if s != nil {
-		tuo.SetStatus(*s)
+func (_u *TaskUpdateOne) SetNillableStatus(v *string) *TaskUpdateOne {
+	if v != nil {
+		_u.SetStatus(*v)
 	}
-	return tuo
+	return _u
 }
 
 // ClearStatus clears the value of the "status" field.
-func (tuo *TaskUpdateOne) ClearStatus() *TaskUpdateOne {
-	tuo.mutation.ClearStatus()
-	return tuo
+func (_u *TaskUpdateOne) ClearStatus() *TaskUpdateOne {
+	_u.mutation.ClearStatus()
+	return _u
 }
 
 // SetProcessID sets the "process_id" field.
-func (tuo *TaskUpdateOne) SetProcessID(s string) *TaskUpdateOne {
-	tuo.mutation.SetProcessID(s)
-	return tuo
+func (_u *TaskUpdateOne) SetProcessID(v string) *TaskUpdateOne {
+	_u.mutation.SetProcessID(v)
+	return _u
 }
 
 // SetNillableProcessID sets the "process_id" field if the given value is not nil.
-func (tuo *TaskUpdateOne) SetNillableProcessID(s *string) *TaskUpdateOne {
-	if s != nil {
-		tuo.SetProcessID(*s)
+func (_u *TaskUpdateOne) SetNillableProcessID(v *string) *TaskUpdateOne {
+	if v != nil {
+		_u.SetProcessID(*v)
 	}
-	return tuo
+	return _u
 }
 
 // SetTemplateID sets the "template_id" field.
-func (tuo *TaskUpdateOne) SetTemplateID(s string) *TaskUpdateOne {
-	tuo.mutation.SetTemplateID(s)
-	return tuo
+func (_u *TaskUpdateOne) SetTemplateID(v string) *TaskUpdateOne {
+	_u.mutation.SetTemplateID(v)
+	return _u
 }
 
 // SetNillableTemplateID sets the "template_id" field if the given value is not nil.
-func (tuo *TaskUpdateOne) SetNillableTemplateID(s *string) *TaskUpdateOne {
-	if s != nil {
-		tuo.SetTemplateID(*s)
+func (_u *TaskUpdateOne) SetNillableTemplateID(v *string) *TaskUpdateOne {
+	if v != nil {
+		_u.SetTemplateID(*v)
 	}
-	return tuo
+	return _u
 }
 
 // SetBusinessKey sets the "business_key" field.
-func (tuo *TaskUpdateOne) SetBusinessKey(s string) *TaskUpdateOne {
-	tuo.mutation.SetBusinessKey(s)
-	return tuo
+func (_u *TaskUpdateOne) SetBusinessKey(v string) *TaskUpdateOne {
+	_u.mutation.SetBusinessKey(v)
+	return _u
 }
 
 // SetNillableBusinessKey sets the "business_key" field if the given value is not nil.
-func (tuo *TaskUpdateOne) SetNillableBusinessKey(s *string) *TaskUpdateOne {
-	if s != nil {
-		tuo.SetBusinessKey(*s)
+func (_u *TaskUpdateOne) SetNillableBusinessKey(v *string) *TaskUpdateOne {
+	if v != nil {
+		_u.SetBusinessKey(*v)
 	}
-	return tuo
+	return _u
 }
 
 // SetNodeKey sets the "node_key" field.
-func (tuo *TaskUpdateOne) SetNodeKey(s string) *TaskUpdateOne {
-	tuo.mutation.SetNodeKey(s)
-	return tuo
+func (_u *TaskUpdateOne) SetNodeKey(v string) *TaskUpdateOne {
+	_u.mutation.SetNodeKey(v)
+	return _u
 }
 
 // SetNillableNodeKey sets the "node_key" field if the given value is not nil.
-func (tuo *TaskUpdateOne) SetNillableNodeKey(s *string) *TaskUpdateOne {
-	if s != nil {
-		tuo.SetNodeKey(*s)
+func (_u *TaskUpdateOne) SetNillableNodeKey(v *string) *TaskUpdateOne {
+	if v != nil {
+		_u.SetNodeKey(*v)
 	}
-	return tuo
+	return _u
 }
 
 // SetNodeType sets the "node_type" field.
-func (tuo *TaskUpdateOne) SetNodeType(s string) *TaskUpdateOne {
-	tuo.mutation.SetNodeType(s)
-	return tuo
+func (_u *TaskUpdateOne) SetNodeType(v string) *TaskUpdateOne {
+	_u.mutation.SetNodeType(v)
+	return _u
 }
 
 // SetNillableNodeType sets the "node_type" field if the given value is not nil.
-func (tuo *TaskUpdateOne) SetNillableNodeType(s *string) *TaskUpdateOne {
-	if s != nil {
-		tuo.SetNodeType(*s)
+func (_u *TaskUpdateOne) SetNillableNodeType(v *string) *TaskUpdateOne {
+	if v != nil {
+		_u.SetNodeType(*v)
 	}
-	return tuo
+	return _u
 }
 
 // SetNodeConfig sets the "node_config" field.
-func (tuo *TaskUpdateOne) SetNodeConfig(m map[string]interface{}) *TaskUpdateOne {
-	tuo.mutation.SetNodeConfig(m)
-	return tuo
+func (_u *TaskUpdateOne) SetNodeConfig(v map[string]interface{}) *TaskUpdateOne {
+	_u.mutation.SetNodeConfig(v)
+	return _u
 }
 
 // ClearNodeConfig clears the value of the "node_config" field.
-func (tuo *TaskUpdateOne) ClearNodeConfig() *TaskUpdateOne {
-	tuo.mutation.ClearNodeConfig()
-	return tuo
+func (_u *TaskUpdateOne) ClearNodeConfig() *TaskUpdateOne {
+	_u.mutation.ClearNodeConfig()
+	return _u
 }
 
 // SetNodeRules sets the "node_rules" field.
-func (tuo *TaskUpdateOne) SetNodeRules(m map[string]interface{}) *TaskUpdateOne {
-	tuo.mutation.SetNodeRules(m)
-	return tuo
+func (_u *TaskUpdateOne) SetNodeRules(v map[string]interface{}) *TaskUpdateOne {
+	_u.mutation.SetNodeRules(v)
+	return _u
 }
 
 // ClearNodeRules clears the value of the "node_rules" field.
-func (tuo *TaskUpdateOne) ClearNodeRules() *TaskUpdateOne {
-	tuo.mutation.ClearNodeRules()
-	return tuo
+func (_u *TaskUpdateOne) ClearNodeRules() *TaskUpdateOne {
+	_u.mutation.ClearNodeRules()
+	return _u
 }
 
 // SetNodeEvents sets the "node_events" field.
-func (tuo *TaskUpdateOne) SetNodeEvents(m map[string]interface{}) *TaskUpdateOne {
-	tuo.mutation.SetNodeEvents(m)
-	return tuo
+func (_u *TaskUpdateOne) SetNodeEvents(v map[string]interface{}) *TaskUpdateOne {
+	_u.mutation.SetNodeEvents(v)
+	return _u
 }
 
 // ClearNodeEvents clears the value of the "node_events" field.
-func (tuo *TaskUpdateOne) ClearNodeEvents() *TaskUpdateOne {
-	tuo.mutation.ClearNodeEvents()
-	return tuo
+func (_u *TaskUpdateOne) ClearNodeEvents() *TaskUpdateOne {
+	_u.mutation.ClearNodeEvents()
+	return _u
 }
 
 // SetAssignees sets the "assignees" field.
-func (tuo *TaskUpdateOne) SetAssignees(s []string) *TaskUpdateOne {
-	tuo.mutation.SetAssignees(s)
-	return tuo
+func (_u *TaskUpdateOne) SetAssignees(v []string) *TaskUpdateOne {
+	_u.mutation.SetAssignees(v)
+	return _u
 }
 
-// AppendAssignees appends s to the "assignees" field.
-func (tuo *TaskUpdateOne) AppendAssignees(s []string) *TaskUpdateOne {
-	tuo.mutation.AppendAssignees(s)
-	return tuo
+// AppendAssignees appends value to the "assignees" field.
+func (_u *TaskUpdateOne) AppendAssignees(v []string) *TaskUpdateOne {
+	_u.mutation.AppendAssignees(v)
+	return _u
 }
 
 // SetCandidates sets the "candidates" field.
-func (tuo *TaskUpdateOne) SetCandidates(s []string) *TaskUpdateOne {
-	tuo.mutation.SetCandidates(s)
-	return tuo
+func (_u *TaskUpdateOne) SetCandidates(v []string) *TaskUpdateOne {
+	_u.mutation.SetCandidates(v)
+	return _u
 }
 
-// AppendCandidates appends s to the "candidates" field.
-func (tuo *TaskUpdateOne) AppendCandidates(s []string) *TaskUpdateOne {
-	tuo.mutation.AppendCandidates(s)
-	return tuo
+// AppendCandidates appends value to the "candidates" field.
+func (_u *TaskUpdateOne) AppendCandidates(v []string) *TaskUpdateOne {
+	_u.mutation.AppendCandidates(v)
+	return _u
 }
 
 // SetDelegatedFrom sets the "delegated_from" field.
-func (tuo *TaskUpdateOne) SetDelegatedFrom(s string) *TaskUpdateOne {
-	tuo.mutation.SetDelegatedFrom(s)
-	return tuo
+func (_u *TaskUpdateOne) SetDelegatedFrom(v string) *TaskUpdateOne {
+	_u.mutation.SetDelegatedFrom(v)
+	return _u
 }
 
 // SetNillableDelegatedFrom sets the "delegated_from" field if the given value is not nil.
-func (tuo *TaskUpdateOne) SetNillableDelegatedFrom(s *string) *TaskUpdateOne {
-	if s != nil {
-		tuo.SetDelegatedFrom(*s)
+func (_u *TaskUpdateOne) SetNillableDelegatedFrom(v *string) *TaskUpdateOne {
+	if v != nil {
+		_u.SetDelegatedFrom(*v)
 	}
-	return tuo
+	return _u
 }
 
 // ClearDelegatedFrom clears the value of the "delegated_from" field.
-func (tuo *TaskUpdateOne) ClearDelegatedFrom() *TaskUpdateOne {
-	tuo.mutation.ClearDelegatedFrom()
-	return tuo
+func (_u *TaskUpdateOne) ClearDelegatedFrom() *TaskUpdateOne {
+	_u.mutation.ClearDelegatedFrom()
+	return _u
 }
 
 // SetDelegatedReason sets the "delegated_reason" field.
-func (tuo *TaskUpdateOne) SetDelegatedReason(s string) *TaskUpdateOne {
-	tuo.mutation.SetDelegatedReason(s)
-	return tuo
+func (_u *TaskUpdateOne) SetDelegatedReason(v string) *TaskUpdateOne {
+	_u.mutation.SetDelegatedReason(v)
+	return _u
 }
 
 // SetNillableDelegatedReason sets the "delegated_reason" field if the given value is not nil.
-func (tuo *TaskUpdateOne) SetNillableDelegatedReason(s *string) *TaskUpdateOne {
-	if s != nil {
-		tuo.SetDelegatedReason(*s)
+func (_u *TaskUpdateOne) SetNillableDelegatedReason(v *string) *TaskUpdateOne {
+	if v != nil {
+		_u.SetDelegatedReason(*v)
 	}
-	return tuo
+	return _u
 }
 
 // ClearDelegatedReason clears the value of the "delegated_reason" field.
-func (tuo *TaskUpdateOne) ClearDelegatedReason() *TaskUpdateOne {
-	tuo.mutation.ClearDelegatedReason()
-	return tuo
+func (_u *TaskUpdateOne) ClearDelegatedReason() *TaskUpdateOne {
+	_u.mutation.ClearDelegatedReason()
+	return _u
 }
 
 // SetIsDelegated sets the "is_delegated" field.
-func (tuo *TaskUpdateOne) SetIsDelegated(b bool) *TaskUpdateOne {
-	tuo.mutation.SetIsDelegated(b)
-	return tuo
+func (_u *TaskUpdateOne) SetIsDelegated(v bool) *TaskUpdateOne {
+	_u.mutation.SetIsDelegated(v)
+	return _u
 }
 
 // SetNillableIsDelegated sets the "is_delegated" field if the given value is not nil.
-func (tuo *TaskUpdateOne) SetNillableIsDelegated(b *bool) *TaskUpdateOne {
-	if b != nil {
-		tuo.SetIsDelegated(*b)
+func (_u *TaskUpdateOne) SetNillableIsDelegated(v *bool) *TaskUpdateOne {
+	if v != nil {
+		_u.SetIsDelegated(*v)
 	}
-	return tuo
+	return _u
 }
 
 // SetIsTransferred sets the "is_transferred" field.
-func (tuo *TaskUpdateOne) SetIsTransferred(b bool) *TaskUpdateOne {
-	tuo.mutation.SetIsTransferred(b)
-	return tuo
+func (_u *TaskUpdateOne) SetIsTransferred(v bool) *TaskUpdateOne {
+	_u.mutation.SetIsTransferred(v)
+	return _u
 }
 
 // SetNillableIsTransferred sets the "is_transferred" field if the given value is not nil.
-func (tuo *TaskUpdateOne) SetNillableIsTransferred(b *bool) *TaskUpdateOne {
-	if b != nil {
-		tuo.SetIsTransferred(*b)
+func (_u *TaskUpdateOne) SetNillableIsTransferred(v *bool) *TaskUpdateOne {
+	if v != nil {
+		_u.SetIsTransferred(*v)
 	}
-	return tuo
+	return _u
 }
 
 // SetStartTime sets the "start_time" field.
-func (tuo *TaskUpdateOne) SetStartTime(i int64) *TaskUpdateOne {
-	tuo.mutation.ResetStartTime()
-	tuo.mutation.SetStartTime(i)
-	return tuo
+func (_u *TaskUpdateOne) SetStartTime(v int64) *TaskUpdateOne {
+	_u.mutation.ResetStartTime()
+	_u.mutation.SetStartTime(v)
+	return _u
 }
 
 // SetNillableStartTime sets the "start_time" field if the given value is not nil.
-func (tuo *TaskUpdateOne) SetNillableStartTime(i *int64) *TaskUpdateOne {
-	if i != nil {
-		tuo.SetStartTime(*i)
+func (_u *TaskUpdateOne) SetNillableStartTime(v *int64) *TaskUpdateOne {
+	if v != nil {
+		_u.SetStartTime(*v)
 	}
-	return tuo
+	return _u
 }
 
-// AddStartTime adds i to the "start_time" field.
-func (tuo *TaskUpdateOne) AddStartTime(i int64) *TaskUpdateOne {
-	tuo.mutation.AddStartTime(i)
-	return tuo
+// AddStartTime adds value to the "start_time" field.
+func (_u *TaskUpdateOne) AddStartTime(v int64) *TaskUpdateOne {
+	_u.mutation.AddStartTime(v)
+	return _u
 }
 
 // SetEndTime sets the "end_time" field.
-func (tuo *TaskUpdateOne) SetEndTime(i int64) *TaskUpdateOne {
-	tuo.mutation.ResetEndTime()
-	tuo.mutation.SetEndTime(i)
-	return tuo
+func (_u *TaskUpdateOne) SetEndTime(v int64) *TaskUpdateOne {
+	_u.mutation.ResetEndTime()
+	_u.mutation.SetEndTime(v)
+	return _u
 }
 
 // SetNillableEndTime sets the "end_time" field if the given value is not nil.
-func (tuo *TaskUpdateOne) SetNillableEndTime(i *int64) *TaskUpdateOne {
-	if i != nil {
-		tuo.SetEndTime(*i)
+func (_u *TaskUpdateOne) SetNillableEndTime(v *int64) *TaskUpdateOne {
+	if v != nil {
+		_u.SetEndTime(*v)
 	}
-	return tuo
+	return _u
 }
 
-// AddEndTime adds i to the "end_time" field.
-func (tuo *TaskUpdateOne) AddEndTime(i int64) *TaskUpdateOne {
-	tuo.mutation.AddEndTime(i)
-	return tuo
+// AddEndTime adds value to the "end_time" field.
+func (_u *TaskUpdateOne) AddEndTime(v int64) *TaskUpdateOne {
+	_u.mutation.AddEndTime(v)
+	return _u
 }
 
 // ClearEndTime clears the value of the "end_time" field.
-func (tuo *TaskUpdateOne) ClearEndTime() *TaskUpdateOne {
-	tuo.mutation.ClearEndTime()
-	return tuo
+func (_u *TaskUpdateOne) ClearEndTime() *TaskUpdateOne {
+	_u.mutation.ClearEndTime()
+	return _u
 }
 
 // SetDueTime sets the "due_time" field.
-func (tuo *TaskUpdateOne) SetDueTime(i int64) *TaskUpdateOne {
-	tuo.mutation.ResetDueTime()
-	tuo.mutation.SetDueTime(i)
-	return tuo
+func (_u *TaskUpdateOne) SetDueTime(v int64) *TaskUpdateOne {
+	_u.mutation.ResetDueTime()
+	_u.mutation.SetDueTime(v)
+	return _u
 }
 
 // SetNillableDueTime sets the "due_time" field if the given value is not nil.
-func (tuo *TaskUpdateOne) SetNillableDueTime(i *int64) *TaskUpdateOne {
-	if i != nil {
-		tuo.SetDueTime(*i)
+func (_u *TaskUpdateOne) SetNillableDueTime(v *int64) *TaskUpdateOne {
+	if v != nil {
+		_u.SetDueTime(*v)
 	}
-	return tuo
+	return _u
 }
 
-// AddDueTime adds i to the "due_time" field.
-func (tuo *TaskUpdateOne) AddDueTime(i int64) *TaskUpdateOne {
-	tuo.mutation.AddDueTime(i)
-	return tuo
+// AddDueTime adds value to the "due_time" field.
+func (_u *TaskUpdateOne) AddDueTime(v int64) *TaskUpdateOne {
+	_u.mutation.AddDueTime(v)
+	return _u
 }
 
 // ClearDueTime clears the value of the "due_time" field.
-func (tuo *TaskUpdateOne) ClearDueTime() *TaskUpdateOne {
-	tuo.mutation.ClearDueTime()
-	return tuo
+func (_u *TaskUpdateOne) ClearDueTime() *TaskUpdateOne {
+	_u.mutation.ClearDueTime()
+	return _u
 }
 
 // SetDuration sets the "duration" field.
-func (tuo *TaskUpdateOne) SetDuration(i int) *TaskUpdateOne {
-	tuo.mutation.ResetDuration()
-	tuo.mutation.SetDuration(i)
-	return tuo
+func (_u *TaskUpdateOne) SetDuration(v int) *TaskUpdateOne {
+	_u.mutation.ResetDuration()
+	_u.mutation.SetDuration(v)
+	return _u
 }
 
 // SetNillableDuration sets the "duration" field if the given value is not nil.
-func (tuo *TaskUpdateOne) SetNillableDuration(i *int) *TaskUpdateOne {
-	if i != nil {
-		tuo.SetDuration(*i)
+func (_u *TaskUpdateOne) SetNillableDuration(v *int) *TaskUpdateOne {
+	if v != nil {
+		_u.SetDuration(*v)
 	}
-	return tuo
+	return _u
 }
 
-// AddDuration adds i to the "duration" field.
-func (tuo *TaskUpdateOne) AddDuration(i int) *TaskUpdateOne {
-	tuo.mutation.AddDuration(i)
-	return tuo
+// AddDuration adds value to the "duration" field.
+func (_u *TaskUpdateOne) AddDuration(v int) *TaskUpdateOne {
+	_u.mutation.AddDuration(v)
+	return _u
 }
 
 // ClearDuration clears the value of the "duration" field.
-func (tuo *TaskUpdateOne) ClearDuration() *TaskUpdateOne {
-	tuo.mutation.ClearDuration()
-	return tuo
+func (_u *TaskUpdateOne) ClearDuration() *TaskUpdateOne {
+	_u.mutation.ClearDuration()
+	return _u
 }
 
 // SetPriority sets the "priority" field.
-func (tuo *TaskUpdateOne) SetPriority(i int) *TaskUpdateOne {
-	tuo.mutation.ResetPriority()
-	tuo.mutation.SetPriority(i)
-	return tuo
+func (_u *TaskUpdateOne) SetPriority(v int) *TaskUpdateOne {
+	_u.mutation.ResetPriority()
+	_u.mutation.SetPriority(v)
+	return _u
 }
 
 // SetNillablePriority sets the "priority" field if the given value is not nil.
-func (tuo *TaskUpdateOne) SetNillablePriority(i *int) *TaskUpdateOne {
-	if i != nil {
-		tuo.SetPriority(*i)
+func (_u *TaskUpdateOne) SetNillablePriority(v *int) *TaskUpdateOne {
+	if v != nil {
+		_u.SetPriority(*v)
 	}
-	return tuo
+	return _u
 }
 
-// AddPriority adds i to the "priority" field.
-func (tuo *TaskUpdateOne) AddPriority(i int) *TaskUpdateOne {
-	tuo.mutation.AddPriority(i)
-	return tuo
+// AddPriority adds value to the "priority" field.
+func (_u *TaskUpdateOne) AddPriority(v int) *TaskUpdateOne {
+	_u.mutation.AddPriority(v)
+	return _u
 }
 
 // SetIsTimeout sets the "is_timeout" field.
-func (tuo *TaskUpdateOne) SetIsTimeout(b bool) *TaskUpdateOne {
-	tuo.mutation.SetIsTimeout(b)
-	return tuo
+func (_u *TaskUpdateOne) SetIsTimeout(v bool) *TaskUpdateOne {
+	_u.mutation.SetIsTimeout(v)
+	return _u
 }
 
 // SetNillableIsTimeout sets the "is_timeout" field if the given value is not nil.
-func (tuo *TaskUpdateOne) SetNillableIsTimeout(b *bool) *TaskUpdateOne {
-	if b != nil {
-		tuo.SetIsTimeout(*b)
+func (_u *TaskUpdateOne) SetNillableIsTimeout(v *bool) *TaskUpdateOne {
+	if v != nil {
+		_u.SetIsTimeout(*v)
 	}
-	return tuo
+	return _u
 }
 
 // SetReminderCount sets the "reminder_count" field.
-func (tuo *TaskUpdateOne) SetReminderCount(i int) *TaskUpdateOne {
-	tuo.mutation.ResetReminderCount()
-	tuo.mutation.SetReminderCount(i)
-	return tuo
+func (_u *TaskUpdateOne) SetReminderCount(v int) *TaskUpdateOne {
+	_u.mutation.ResetReminderCount()
+	_u.mutation.SetReminderCount(v)
+	return _u
 }
 
 // SetNillableReminderCount sets the "reminder_count" field if the given value is not nil.
-func (tuo *TaskUpdateOne) SetNillableReminderCount(i *int) *TaskUpdateOne {
-	if i != nil {
-		tuo.SetReminderCount(*i)
+func (_u *TaskUpdateOne) SetNillableReminderCount(v *int) *TaskUpdateOne {
+	if v != nil {
+		_u.SetReminderCount(*v)
 	}
-	return tuo
+	return _u
 }
 
-// AddReminderCount adds i to the "reminder_count" field.
-func (tuo *TaskUpdateOne) AddReminderCount(i int) *TaskUpdateOne {
-	tuo.mutation.AddReminderCount(i)
-	return tuo
+// AddReminderCount adds value to the "reminder_count" field.
+func (_u *TaskUpdateOne) AddReminderCount(v int) *TaskUpdateOne {
+	_u.mutation.AddReminderCount(v)
+	return _u
 }
 
 // SetAllowCancel sets the "allow_cancel" field.
-func (tuo *TaskUpdateOne) SetAllowCancel(b bool) *TaskUpdateOne {
-	tuo.mutation.SetAllowCancel(b)
-	return tuo
+func (_u *TaskUpdateOne) SetAllowCancel(v bool) *TaskUpdateOne {
+	_u.mutation.SetAllowCancel(v)
+	return _u
 }
 
 // SetNillableAllowCancel sets the "allow_cancel" field if the given value is not nil.
-func (tuo *TaskUpdateOne) SetNillableAllowCancel(b *bool) *TaskUpdateOne {
-	if b != nil {
-		tuo.SetAllowCancel(*b)
+func (_u *TaskUpdateOne) SetNillableAllowCancel(v *bool) *TaskUpdateOne {
+	if v != nil {
+		_u.SetAllowCancel(*v)
 	}
-	return tuo
+	return _u
 }
 
 // SetAllowUrge sets the "allow_urge" field.
-func (tuo *TaskUpdateOne) SetAllowUrge(b bool) *TaskUpdateOne {
-	tuo.mutation.SetAllowUrge(b)
-	return tuo
+func (_u *TaskUpdateOne) SetAllowUrge(v bool) *TaskUpdateOne {
+	_u.mutation.SetAllowUrge(v)
+	return _u
 }
 
 // SetNillableAllowUrge sets the "allow_urge" field if the given value is not nil.
-func (tuo *TaskUpdateOne) SetNillableAllowUrge(b *bool) *TaskUpdateOne {
-	if b != nil {
-		tuo.SetAllowUrge(*b)
+func (_u *TaskUpdateOne) SetNillableAllowUrge(v *bool) *TaskUpdateOne {
+	if v != nil {
+		_u.SetAllowUrge(*v)
 	}
-	return tuo
+	return _u
 }
 
 // SetAllowDelegate sets the "allow_delegate" field.
-func (tuo *TaskUpdateOne) SetAllowDelegate(b bool) *TaskUpdateOne {
-	tuo.mutation.SetAllowDelegate(b)
-	return tuo
+func (_u *TaskUpdateOne) SetAllowDelegate(v bool) *TaskUpdateOne {
+	_u.mutation.SetAllowDelegate(v)
+	return _u
 }
 
 // SetNillableAllowDelegate sets the "allow_delegate" field if the given value is not nil.
-func (tuo *TaskUpdateOne) SetNillableAllowDelegate(b *bool) *TaskUpdateOne {
-	if b != nil {
-		tuo.SetAllowDelegate(*b)
+func (_u *TaskUpdateOne) SetNillableAllowDelegate(v *bool) *TaskUpdateOne {
+	if v != nil {
+		_u.SetAllowDelegate(*v)
 	}
-	return tuo
+	return _u
 }
 
 // SetAllowTransfer sets the "allow_transfer" field.
-func (tuo *TaskUpdateOne) SetAllowTransfer(b bool) *TaskUpdateOne {
-	tuo.mutation.SetAllowTransfer(b)
-	return tuo
+func (_u *TaskUpdateOne) SetAllowTransfer(v bool) *TaskUpdateOne {
+	_u.mutation.SetAllowTransfer(v)
+	return _u
 }
 
 // SetNillableAllowTransfer sets the "allow_transfer" field if the given value is not nil.
-func (tuo *TaskUpdateOne) SetNillableAllowTransfer(b *bool) *TaskUpdateOne {
-	if b != nil {
-		tuo.SetAllowTransfer(*b)
+func (_u *TaskUpdateOne) SetNillableAllowTransfer(v *bool) *TaskUpdateOne {
+	if v != nil {
+		_u.SetAllowTransfer(*v)
 	}
-	return tuo
+	return _u
 }
 
 // SetIsDraftEnabled sets the "is_draft_enabled" field.
-func (tuo *TaskUpdateOne) SetIsDraftEnabled(b bool) *TaskUpdateOne {
-	tuo.mutation.SetIsDraftEnabled(b)
-	return tuo
+func (_u *TaskUpdateOne) SetIsDraftEnabled(v bool) *TaskUpdateOne {
+	_u.mutation.SetIsDraftEnabled(v)
+	return _u
 }
 
 // SetNillableIsDraftEnabled sets the "is_draft_enabled" field if the given value is not nil.
-func (tuo *TaskUpdateOne) SetNillableIsDraftEnabled(b *bool) *TaskUpdateOne {
-	if b != nil {
-		tuo.SetIsDraftEnabled(*b)
+func (_u *TaskUpdateOne) SetNillableIsDraftEnabled(v *bool) *TaskUpdateOne {
+	if v != nil {
+		_u.SetIsDraftEnabled(*v)
 	}
-	return tuo
+	return _u
 }
 
 // SetIsAutoStart sets the "is_auto_start" field.
-func (tuo *TaskUpdateOne) SetIsAutoStart(b bool) *TaskUpdateOne {
-	tuo.mutation.SetIsAutoStart(b)
-	return tuo
+func (_u *TaskUpdateOne) SetIsAutoStart(v bool) *TaskUpdateOne {
+	_u.mutation.SetIsAutoStart(v)
+	return _u
 }
 
 // SetNillableIsAutoStart sets the "is_auto_start" field if the given value is not nil.
-func (tuo *TaskUpdateOne) SetNillableIsAutoStart(b *bool) *TaskUpdateOne {
-	if b != nil {
-		tuo.SetIsAutoStart(*b)
+func (_u *TaskUpdateOne) SetNillableIsAutoStart(v *bool) *TaskUpdateOne {
+	if v != nil {
+		_u.SetIsAutoStart(*v)
 	}
-	return tuo
+	return _u
 }
 
 // SetStrictMode sets the "strict_mode" field.
-func (tuo *TaskUpdateOne) SetStrictMode(b bool) *TaskUpdateOne {
-	tuo.mutation.SetStrictMode(b)
-	return tuo
+func (_u *TaskUpdateOne) SetStrictMode(v bool) *TaskUpdateOne {
+	_u.mutation.SetStrictMode(v)
+	return _u
 }
 
 // SetNillableStrictMode sets the "strict_mode" field if the given value is not nil.
-func (tuo *TaskUpdateOne) SetNillableStrictMode(b *bool) *TaskUpdateOne {
-	if b != nil {
-		tuo.SetStrictMode(*b)
+func (_u *TaskUpdateOne) SetNillableStrictMode(v *bool) *TaskUpdateOne {
+	if v != nil {
+		_u.SetStrictMode(*v)
 	}
-	return tuo
+	return _u
 }
 
 // SetExtras sets the "extras" field.
-func (tuo *TaskUpdateOne) SetExtras(m map[string]interface{}) *TaskUpdateOne {
-	tuo.mutation.SetExtras(m)
-	return tuo
+func (_u *TaskUpdateOne) SetExtras(v map[string]interface{}) *TaskUpdateOne {
+	_u.mutation.SetExtras(v)
+	return _u
 }
 
 // ClearExtras clears the value of the "extras" field.
-func (tuo *TaskUpdateOne) ClearExtras() *TaskUpdateOne {
-	tuo.mutation.ClearExtras()
-	return tuo
+func (_u *TaskUpdateOne) ClearExtras() *TaskUpdateOne {
+	_u.mutation.ClearExtras()
+	return _u
 }
 
 // SetSpaceID sets the "space_id" field.
-func (tuo *TaskUpdateOne) SetSpaceID(s string) *TaskUpdateOne {
-	tuo.mutation.SetSpaceID(s)
-	return tuo
+func (_u *TaskUpdateOne) SetSpaceID(v string) *TaskUpdateOne {
+	_u.mutation.SetSpaceID(v)
+	return _u
 }
 
 // SetNillableSpaceID sets the "space_id" field if the given value is not nil.
-func (tuo *TaskUpdateOne) SetNillableSpaceID(s *string) *TaskUpdateOne {
-	if s != nil {
-		tuo.SetSpaceID(*s)
+func (_u *TaskUpdateOne) SetNillableSpaceID(v *string) *TaskUpdateOne {
+	if v != nil {
+		_u.SetSpaceID(*v)
 	}
-	return tuo
+	return _u
 }
 
 // ClearSpaceID clears the value of the "space_id" field.
-func (tuo *TaskUpdateOne) ClearSpaceID() *TaskUpdateOne {
-	tuo.mutation.ClearSpaceID()
-	return tuo
+func (_u *TaskUpdateOne) ClearSpaceID() *TaskUpdateOne {
+	_u.mutation.ClearSpaceID()
+	return _u
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (tuo *TaskUpdateOne) SetCreatedBy(s string) *TaskUpdateOne {
-	tuo.mutation.SetCreatedBy(s)
-	return tuo
+func (_u *TaskUpdateOne) SetCreatedBy(v string) *TaskUpdateOne {
+	_u.mutation.SetCreatedBy(v)
+	return _u
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (tuo *TaskUpdateOne) SetNillableCreatedBy(s *string) *TaskUpdateOne {
-	if s != nil {
-		tuo.SetCreatedBy(*s)
+func (_u *TaskUpdateOne) SetNillableCreatedBy(v *string) *TaskUpdateOne {
+	if v != nil {
+		_u.SetCreatedBy(*v)
 	}
-	return tuo
+	return _u
 }
 
 // ClearCreatedBy clears the value of the "created_by" field.
-func (tuo *TaskUpdateOne) ClearCreatedBy() *TaskUpdateOne {
-	tuo.mutation.ClearCreatedBy()
-	return tuo
+func (_u *TaskUpdateOne) ClearCreatedBy() *TaskUpdateOne {
+	_u.mutation.ClearCreatedBy()
+	return _u
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (tuo *TaskUpdateOne) SetUpdatedBy(s string) *TaskUpdateOne {
-	tuo.mutation.SetUpdatedBy(s)
-	return tuo
+func (_u *TaskUpdateOne) SetUpdatedBy(v string) *TaskUpdateOne {
+	_u.mutation.SetUpdatedBy(v)
+	return _u
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (tuo *TaskUpdateOne) SetNillableUpdatedBy(s *string) *TaskUpdateOne {
-	if s != nil {
-		tuo.SetUpdatedBy(*s)
+func (_u *TaskUpdateOne) SetNillableUpdatedBy(v *string) *TaskUpdateOne {
+	if v != nil {
+		_u.SetUpdatedBy(*v)
 	}
-	return tuo
+	return _u
 }
 
 // ClearUpdatedBy clears the value of the "updated_by" field.
-func (tuo *TaskUpdateOne) ClearUpdatedBy() *TaskUpdateOne {
-	tuo.mutation.ClearUpdatedBy()
-	return tuo
+func (_u *TaskUpdateOne) ClearUpdatedBy() *TaskUpdateOne {
+	_u.mutation.ClearUpdatedBy()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (tuo *TaskUpdateOne) SetUpdatedAt(i int64) *TaskUpdateOne {
-	tuo.mutation.ResetUpdatedAt()
-	tuo.mutation.SetUpdatedAt(i)
-	return tuo
+func (_u *TaskUpdateOne) SetUpdatedAt(v int64) *TaskUpdateOne {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (tuo *TaskUpdateOne) AddUpdatedAt(i int64) *TaskUpdateOne {
-	tuo.mutation.AddUpdatedAt(i)
-	return tuo
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *TaskUpdateOne) AddUpdatedAt(v int64) *TaskUpdateOne {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (tuo *TaskUpdateOne) ClearUpdatedAt() *TaskUpdateOne {
-	tuo.mutation.ClearUpdatedAt()
-	return tuo
+func (_u *TaskUpdateOne) ClearUpdatedAt() *TaskUpdateOne {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // SetTaskKey sets the "task_key" field.
-func (tuo *TaskUpdateOne) SetTaskKey(s string) *TaskUpdateOne {
-	tuo.mutation.SetTaskKey(s)
-	return tuo
+func (_u *TaskUpdateOne) SetTaskKey(v string) *TaskUpdateOne {
+	_u.mutation.SetTaskKey(v)
+	return _u
 }
 
 // SetNillableTaskKey sets the "task_key" field if the given value is not nil.
-func (tuo *TaskUpdateOne) SetNillableTaskKey(s *string) *TaskUpdateOne {
-	if s != nil {
-		tuo.SetTaskKey(*s)
+func (_u *TaskUpdateOne) SetNillableTaskKey(v *string) *TaskUpdateOne {
+	if v != nil {
+		_u.SetTaskKey(*v)
 	}
-	return tuo
+	return _u
 }
 
 // SetParentID sets the "parent_id" field.
-func (tuo *TaskUpdateOne) SetParentID(s string) *TaskUpdateOne {
-	tuo.mutation.SetParentID(s)
-	return tuo
+func (_u *TaskUpdateOne) SetParentID(v string) *TaskUpdateOne {
+	_u.mutation.SetParentID(v)
+	return _u
 }
 
 // SetNillableParentID sets the "parent_id" field if the given value is not nil.
-func (tuo *TaskUpdateOne) SetNillableParentID(s *string) *TaskUpdateOne {
-	if s != nil {
-		tuo.SetParentID(*s)
+func (_u *TaskUpdateOne) SetNillableParentID(v *string) *TaskUpdateOne {
+	if v != nil {
+		_u.SetParentID(*v)
 	}
-	return tuo
+	return _u
 }
 
 // ClearParentID clears the value of the "parent_id" field.
-func (tuo *TaskUpdateOne) ClearParentID() *TaskUpdateOne {
-	tuo.mutation.ClearParentID()
-	return tuo
+func (_u *TaskUpdateOne) ClearParentID() *TaskUpdateOne {
+	_u.mutation.ClearParentID()
+	return _u
 }
 
 // SetChildIds sets the "child_ids" field.
-func (tuo *TaskUpdateOne) SetChildIds(s []string) *TaskUpdateOne {
-	tuo.mutation.SetChildIds(s)
-	return tuo
+func (_u *TaskUpdateOne) SetChildIds(v []string) *TaskUpdateOne {
+	_u.mutation.SetChildIds(v)
+	return _u
 }
 
-// AppendChildIds appends s to the "child_ids" field.
-func (tuo *TaskUpdateOne) AppendChildIds(s []string) *TaskUpdateOne {
-	tuo.mutation.AppendChildIds(s)
-	return tuo
+// AppendChildIds appends value to the "child_ids" field.
+func (_u *TaskUpdateOne) AppendChildIds(v []string) *TaskUpdateOne {
+	_u.mutation.AppendChildIds(v)
+	return _u
 }
 
 // SetAction sets the "action" field.
-func (tuo *TaskUpdateOne) SetAction(s string) *TaskUpdateOne {
-	tuo.mutation.SetAction(s)
-	return tuo
+func (_u *TaskUpdateOne) SetAction(v string) *TaskUpdateOne {
+	_u.mutation.SetAction(v)
+	return _u
 }
 
 // SetNillableAction sets the "action" field if the given value is not nil.
-func (tuo *TaskUpdateOne) SetNillableAction(s *string) *TaskUpdateOne {
-	if s != nil {
-		tuo.SetAction(*s)
+func (_u *TaskUpdateOne) SetNillableAction(v *string) *TaskUpdateOne {
+	if v != nil {
+		_u.SetAction(*v)
 	}
-	return tuo
+	return _u
 }
 
 // ClearAction clears the value of the "action" field.
-func (tuo *TaskUpdateOne) ClearAction() *TaskUpdateOne {
-	tuo.mutation.ClearAction()
-	return tuo
+func (_u *TaskUpdateOne) ClearAction() *TaskUpdateOne {
+	_u.mutation.ClearAction()
+	return _u
 }
 
 // SetComment sets the "comment" field.
-func (tuo *TaskUpdateOne) SetComment(s string) *TaskUpdateOne {
-	tuo.mutation.SetComment(s)
-	return tuo
+func (_u *TaskUpdateOne) SetComment(v string) *TaskUpdateOne {
+	_u.mutation.SetComment(v)
+	return _u
 }
 
 // SetNillableComment sets the "comment" field if the given value is not nil.
-func (tuo *TaskUpdateOne) SetNillableComment(s *string) *TaskUpdateOne {
-	if s != nil {
-		tuo.SetComment(*s)
+func (_u *TaskUpdateOne) SetNillableComment(v *string) *TaskUpdateOne {
+	if v != nil {
+		_u.SetComment(*v)
 	}
-	return tuo
+	return _u
 }
 
 // ClearComment clears the value of the "comment" field.
-func (tuo *TaskUpdateOne) ClearComment() *TaskUpdateOne {
-	tuo.mutation.ClearComment()
-	return tuo
+func (_u *TaskUpdateOne) ClearComment() *TaskUpdateOne {
+	_u.mutation.ClearComment()
+	return _u
 }
 
 // SetAttachments sets the "attachments" field.
-func (tuo *TaskUpdateOne) SetAttachments(m map[string]interface{}) *TaskUpdateOne {
-	tuo.mutation.SetAttachments(m)
-	return tuo
+func (_u *TaskUpdateOne) SetAttachments(v map[string]interface{}) *TaskUpdateOne {
+	_u.mutation.SetAttachments(v)
+	return _u
 }
 
 // ClearAttachments clears the value of the "attachments" field.
-func (tuo *TaskUpdateOne) ClearAttachments() *TaskUpdateOne {
-	tuo.mutation.ClearAttachments()
-	return tuo
+func (_u *TaskUpdateOne) ClearAttachments() *TaskUpdateOne {
+	_u.mutation.ClearAttachments()
+	return _u
 }
 
 // SetFormData sets the "form_data" field.
-func (tuo *TaskUpdateOne) SetFormData(m map[string]interface{}) *TaskUpdateOne {
-	tuo.mutation.SetFormData(m)
-	return tuo
+func (_u *TaskUpdateOne) SetFormData(v map[string]interface{}) *TaskUpdateOne {
+	_u.mutation.SetFormData(v)
+	return _u
 }
 
 // ClearFormData clears the value of the "form_data" field.
-func (tuo *TaskUpdateOne) ClearFormData() *TaskUpdateOne {
-	tuo.mutation.ClearFormData()
-	return tuo
+func (_u *TaskUpdateOne) ClearFormData() *TaskUpdateOne {
+	_u.mutation.ClearFormData()
+	return _u
 }
 
 // SetVariables sets the "variables" field.
-func (tuo *TaskUpdateOne) SetVariables(m map[string]interface{}) *TaskUpdateOne {
-	tuo.mutation.SetVariables(m)
-	return tuo
+func (_u *TaskUpdateOne) SetVariables(v map[string]interface{}) *TaskUpdateOne {
+	_u.mutation.SetVariables(v)
+	return _u
 }
 
 // ClearVariables clears the value of the "variables" field.
-func (tuo *TaskUpdateOne) ClearVariables() *TaskUpdateOne {
-	tuo.mutation.ClearVariables()
-	return tuo
+func (_u *TaskUpdateOne) ClearVariables() *TaskUpdateOne {
+	_u.mutation.ClearVariables()
+	return _u
 }
 
 // SetIsResubmit sets the "is_resubmit" field.
-func (tuo *TaskUpdateOne) SetIsResubmit(b bool) *TaskUpdateOne {
-	tuo.mutation.SetIsResubmit(b)
-	return tuo
+func (_u *TaskUpdateOne) SetIsResubmit(v bool) *TaskUpdateOne {
+	_u.mutation.SetIsResubmit(v)
+	return _u
 }
 
 // SetNillableIsResubmit sets the "is_resubmit" field if the given value is not nil.
-func (tuo *TaskUpdateOne) SetNillableIsResubmit(b *bool) *TaskUpdateOne {
-	if b != nil {
-		tuo.SetIsResubmit(*b)
+func (_u *TaskUpdateOne) SetNillableIsResubmit(v *bool) *TaskUpdateOne {
+	if v != nil {
+		_u.SetIsResubmit(*v)
 	}
-	return tuo
+	return _u
 }
 
 // SetClaimTime sets the "claim_time" field.
-func (tuo *TaskUpdateOne) SetClaimTime(i int64) *TaskUpdateOne {
-	tuo.mutation.ResetClaimTime()
-	tuo.mutation.SetClaimTime(i)
-	return tuo
+func (_u *TaskUpdateOne) SetClaimTime(v int64) *TaskUpdateOne {
+	_u.mutation.ResetClaimTime()
+	_u.mutation.SetClaimTime(v)
+	return _u
 }
 
 // SetNillableClaimTime sets the "claim_time" field if the given value is not nil.
-func (tuo *TaskUpdateOne) SetNillableClaimTime(i *int64) *TaskUpdateOne {
-	if i != nil {
-		tuo.SetClaimTime(*i)
+func (_u *TaskUpdateOne) SetNillableClaimTime(v *int64) *TaskUpdateOne {
+	if v != nil {
+		_u.SetClaimTime(*v)
 	}
-	return tuo
+	return _u
 }
 
-// AddClaimTime adds i to the "claim_time" field.
-func (tuo *TaskUpdateOne) AddClaimTime(i int64) *TaskUpdateOne {
-	tuo.mutation.AddClaimTime(i)
-	return tuo
+// AddClaimTime adds value to the "claim_time" field.
+func (_u *TaskUpdateOne) AddClaimTime(v int64) *TaskUpdateOne {
+	_u.mutation.AddClaimTime(v)
+	return _u
 }
 
 // ClearClaimTime clears the value of the "claim_time" field.
-func (tuo *TaskUpdateOne) ClearClaimTime() *TaskUpdateOne {
-	tuo.mutation.ClearClaimTime()
-	return tuo
+func (_u *TaskUpdateOne) ClearClaimTime() *TaskUpdateOne {
+	_u.mutation.ClearClaimTime()
+	return _u
 }
 
 // SetIsUrged sets the "is_urged" field.
-func (tuo *TaskUpdateOne) SetIsUrged(b bool) *TaskUpdateOne {
-	tuo.mutation.SetIsUrged(b)
-	return tuo
+func (_u *TaskUpdateOne) SetIsUrged(v bool) *TaskUpdateOne {
+	_u.mutation.SetIsUrged(v)
+	return _u
 }
 
 // SetNillableIsUrged sets the "is_urged" field if the given value is not nil.
-func (tuo *TaskUpdateOne) SetNillableIsUrged(b *bool) *TaskUpdateOne {
-	if b != nil {
-		tuo.SetIsUrged(*b)
+func (_u *TaskUpdateOne) SetNillableIsUrged(v *bool) *TaskUpdateOne {
+	if v != nil {
+		_u.SetIsUrged(*v)
 	}
-	return tuo
+	return _u
 }
 
 // SetUrgeCount sets the "urge_count" field.
-func (tuo *TaskUpdateOne) SetUrgeCount(i int) *TaskUpdateOne {
-	tuo.mutation.ResetUrgeCount()
-	tuo.mutation.SetUrgeCount(i)
-	return tuo
+func (_u *TaskUpdateOne) SetUrgeCount(v int) *TaskUpdateOne {
+	_u.mutation.ResetUrgeCount()
+	_u.mutation.SetUrgeCount(v)
+	return _u
 }
 
 // SetNillableUrgeCount sets the "urge_count" field if the given value is not nil.
-func (tuo *TaskUpdateOne) SetNillableUrgeCount(i *int) *TaskUpdateOne {
-	if i != nil {
-		tuo.SetUrgeCount(*i)
+func (_u *TaskUpdateOne) SetNillableUrgeCount(v *int) *TaskUpdateOne {
+	if v != nil {
+		_u.SetUrgeCount(*v)
 	}
-	return tuo
+	return _u
 }
 
-// AddUrgeCount adds i to the "urge_count" field.
-func (tuo *TaskUpdateOne) AddUrgeCount(i int) *TaskUpdateOne {
-	tuo.mutation.AddUrgeCount(i)
-	return tuo
+// AddUrgeCount adds value to the "urge_count" field.
+func (_u *TaskUpdateOne) AddUrgeCount(v int) *TaskUpdateOne {
+	_u.mutation.AddUrgeCount(v)
+	return _u
 }
 
 // Mutation returns the TaskMutation object of the builder.
-func (tuo *TaskUpdateOne) Mutation() *TaskMutation {
-	return tuo.mutation
+func (_u *TaskUpdateOne) Mutation() *TaskMutation {
+	return _u.mutation
 }
 
 // Where appends a list predicates to the TaskUpdate builder.
-func (tuo *TaskUpdateOne) Where(ps ...predicate.Task) *TaskUpdateOne {
-	tuo.mutation.Where(ps...)
-	return tuo
+func (_u *TaskUpdateOne) Where(ps ...predicate.Task) *TaskUpdateOne {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // Select allows selecting one or more fields (columns) of the returned entity.
 // The default is selecting all fields defined in the entity schema.
-func (tuo *TaskUpdateOne) Select(field string, fields ...string) *TaskUpdateOne {
-	tuo.fields = append([]string{field}, fields...)
-	return tuo
+func (_u *TaskUpdateOne) Select(field string, fields ...string) *TaskUpdateOne {
+	_u.fields = append([]string{field}, fields...)
+	return _u
 }
 
 // Save executes the query and returns the updated Task entity.
-func (tuo *TaskUpdateOne) Save(ctx context.Context) (*Task, error) {
-	tuo.defaults()
-	return withHooks(ctx, tuo.sqlSave, tuo.mutation, tuo.hooks)
+func (_u *TaskUpdateOne) Save(ctx context.Context) (*Task, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (tuo *TaskUpdateOne) SaveX(ctx context.Context) *Task {
-	node, err := tuo.Save(ctx)
+func (_u *TaskUpdateOne) SaveX(ctx context.Context) *Task {
+	node, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -1996,34 +1996,34 @@ func (tuo *TaskUpdateOne) SaveX(ctx context.Context) *Task {
 }
 
 // Exec executes the query on the entity.
-func (tuo *TaskUpdateOne) Exec(ctx context.Context) error {
-	_, err := tuo.Save(ctx)
+func (_u *TaskUpdateOne) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (tuo *TaskUpdateOne) ExecX(ctx context.Context) {
-	if err := tuo.Exec(ctx); err != nil {
+func (_u *TaskUpdateOne) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (tuo *TaskUpdateOne) defaults() {
-	if _, ok := tuo.mutation.UpdatedAt(); !ok && !tuo.mutation.UpdatedAtCleared() {
+func (_u *TaskUpdateOne) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := task.UpdateDefaultUpdatedAt()
-		tuo.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (tuo *TaskUpdateOne) sqlSave(ctx context.Context) (_node *Task, err error) {
+func (_u *TaskUpdateOne) sqlSave(ctx context.Context) (_node *Task, err error) {
 	_spec := sqlgraph.NewUpdateSpec(task.Table, task.Columns, sqlgraph.NewFieldSpec(task.FieldID, field.TypeString))
-	id, ok := tuo.mutation.ID()
+	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "Task.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
-	if fields := tuo.fields; len(fields) > 0 {
+	if fields := _u.fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, task.FieldID)
 		for _, f := range fields {
@@ -2035,275 +2035,275 @@ func (tuo *TaskUpdateOne) sqlSave(ctx context.Context) (_node *Task, err error) 
 			}
 		}
 	}
-	if ps := tuo.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := tuo.mutation.Name(); ok {
+	if value, ok := _u.mutation.Name(); ok {
 		_spec.SetField(task.FieldName, field.TypeString, value)
 	}
-	if tuo.mutation.NameCleared() {
+	if _u.mutation.NameCleared() {
 		_spec.ClearField(task.FieldName, field.TypeString)
 	}
-	if value, ok := tuo.mutation.Description(); ok {
+	if value, ok := _u.mutation.Description(); ok {
 		_spec.SetField(task.FieldDescription, field.TypeString, value)
 	}
-	if tuo.mutation.DescriptionCleared() {
+	if _u.mutation.DescriptionCleared() {
 		_spec.ClearField(task.FieldDescription, field.TypeString)
 	}
-	if value, ok := tuo.mutation.Status(); ok {
+	if value, ok := _u.mutation.Status(); ok {
 		_spec.SetField(task.FieldStatus, field.TypeString, value)
 	}
-	if tuo.mutation.StatusCleared() {
+	if _u.mutation.StatusCleared() {
 		_spec.ClearField(task.FieldStatus, field.TypeString)
 	}
-	if value, ok := tuo.mutation.ProcessID(); ok {
+	if value, ok := _u.mutation.ProcessID(); ok {
 		_spec.SetField(task.FieldProcessID, field.TypeString, value)
 	}
-	if value, ok := tuo.mutation.TemplateID(); ok {
+	if value, ok := _u.mutation.TemplateID(); ok {
 		_spec.SetField(task.FieldTemplateID, field.TypeString, value)
 	}
-	if value, ok := tuo.mutation.BusinessKey(); ok {
+	if value, ok := _u.mutation.BusinessKey(); ok {
 		_spec.SetField(task.FieldBusinessKey, field.TypeString, value)
 	}
-	if value, ok := tuo.mutation.NodeKey(); ok {
+	if value, ok := _u.mutation.NodeKey(); ok {
 		_spec.SetField(task.FieldNodeKey, field.TypeString, value)
 	}
-	if value, ok := tuo.mutation.NodeType(); ok {
+	if value, ok := _u.mutation.NodeType(); ok {
 		_spec.SetField(task.FieldNodeType, field.TypeString, value)
 	}
-	if value, ok := tuo.mutation.NodeConfig(); ok {
+	if value, ok := _u.mutation.NodeConfig(); ok {
 		_spec.SetField(task.FieldNodeConfig, field.TypeJSON, value)
 	}
-	if tuo.mutation.NodeConfigCleared() {
+	if _u.mutation.NodeConfigCleared() {
 		_spec.ClearField(task.FieldNodeConfig, field.TypeJSON)
 	}
-	if value, ok := tuo.mutation.NodeRules(); ok {
+	if value, ok := _u.mutation.NodeRules(); ok {
 		_spec.SetField(task.FieldNodeRules, field.TypeJSON, value)
 	}
-	if tuo.mutation.NodeRulesCleared() {
+	if _u.mutation.NodeRulesCleared() {
 		_spec.ClearField(task.FieldNodeRules, field.TypeJSON)
 	}
-	if value, ok := tuo.mutation.NodeEvents(); ok {
+	if value, ok := _u.mutation.NodeEvents(); ok {
 		_spec.SetField(task.FieldNodeEvents, field.TypeJSON, value)
 	}
-	if tuo.mutation.NodeEventsCleared() {
+	if _u.mutation.NodeEventsCleared() {
 		_spec.ClearField(task.FieldNodeEvents, field.TypeJSON)
 	}
-	if value, ok := tuo.mutation.Assignees(); ok {
+	if value, ok := _u.mutation.Assignees(); ok {
 		_spec.SetField(task.FieldAssignees, field.TypeJSON, value)
 	}
-	if value, ok := tuo.mutation.AppendedAssignees(); ok {
+	if value, ok := _u.mutation.AppendedAssignees(); ok {
 		_spec.AddModifier(func(u *sql.UpdateBuilder) {
 			sqljson.Append(u, task.FieldAssignees, value)
 		})
 	}
-	if value, ok := tuo.mutation.Candidates(); ok {
+	if value, ok := _u.mutation.Candidates(); ok {
 		_spec.SetField(task.FieldCandidates, field.TypeJSON, value)
 	}
-	if value, ok := tuo.mutation.AppendedCandidates(); ok {
+	if value, ok := _u.mutation.AppendedCandidates(); ok {
 		_spec.AddModifier(func(u *sql.UpdateBuilder) {
 			sqljson.Append(u, task.FieldCandidates, value)
 		})
 	}
-	if value, ok := tuo.mutation.DelegatedFrom(); ok {
+	if value, ok := _u.mutation.DelegatedFrom(); ok {
 		_spec.SetField(task.FieldDelegatedFrom, field.TypeString, value)
 	}
-	if tuo.mutation.DelegatedFromCleared() {
+	if _u.mutation.DelegatedFromCleared() {
 		_spec.ClearField(task.FieldDelegatedFrom, field.TypeString)
 	}
-	if value, ok := tuo.mutation.DelegatedReason(); ok {
+	if value, ok := _u.mutation.DelegatedReason(); ok {
 		_spec.SetField(task.FieldDelegatedReason, field.TypeString, value)
 	}
-	if tuo.mutation.DelegatedReasonCleared() {
+	if _u.mutation.DelegatedReasonCleared() {
 		_spec.ClearField(task.FieldDelegatedReason, field.TypeString)
 	}
-	if value, ok := tuo.mutation.IsDelegated(); ok {
+	if value, ok := _u.mutation.IsDelegated(); ok {
 		_spec.SetField(task.FieldIsDelegated, field.TypeBool, value)
 	}
-	if value, ok := tuo.mutation.IsTransferred(); ok {
+	if value, ok := _u.mutation.IsTransferred(); ok {
 		_spec.SetField(task.FieldIsTransferred, field.TypeBool, value)
 	}
-	if value, ok := tuo.mutation.StartTime(); ok {
+	if value, ok := _u.mutation.StartTime(); ok {
 		_spec.SetField(task.FieldStartTime, field.TypeInt64, value)
 	}
-	if value, ok := tuo.mutation.AddedStartTime(); ok {
+	if value, ok := _u.mutation.AddedStartTime(); ok {
 		_spec.AddField(task.FieldStartTime, field.TypeInt64, value)
 	}
-	if value, ok := tuo.mutation.EndTime(); ok {
+	if value, ok := _u.mutation.EndTime(); ok {
 		_spec.SetField(task.FieldEndTime, field.TypeInt64, value)
 	}
-	if value, ok := tuo.mutation.AddedEndTime(); ok {
+	if value, ok := _u.mutation.AddedEndTime(); ok {
 		_spec.AddField(task.FieldEndTime, field.TypeInt64, value)
 	}
-	if tuo.mutation.EndTimeCleared() {
+	if _u.mutation.EndTimeCleared() {
 		_spec.ClearField(task.FieldEndTime, field.TypeInt64)
 	}
-	if value, ok := tuo.mutation.DueTime(); ok {
+	if value, ok := _u.mutation.DueTime(); ok {
 		_spec.SetField(task.FieldDueTime, field.TypeInt64, value)
 	}
-	if value, ok := tuo.mutation.AddedDueTime(); ok {
+	if value, ok := _u.mutation.AddedDueTime(); ok {
 		_spec.AddField(task.FieldDueTime, field.TypeInt64, value)
 	}
-	if tuo.mutation.DueTimeCleared() {
+	if _u.mutation.DueTimeCleared() {
 		_spec.ClearField(task.FieldDueTime, field.TypeInt64)
 	}
-	if value, ok := tuo.mutation.Duration(); ok {
+	if value, ok := _u.mutation.Duration(); ok {
 		_spec.SetField(task.FieldDuration, field.TypeInt, value)
 	}
-	if value, ok := tuo.mutation.AddedDuration(); ok {
+	if value, ok := _u.mutation.AddedDuration(); ok {
 		_spec.AddField(task.FieldDuration, field.TypeInt, value)
 	}
-	if tuo.mutation.DurationCleared() {
+	if _u.mutation.DurationCleared() {
 		_spec.ClearField(task.FieldDuration, field.TypeInt)
 	}
-	if value, ok := tuo.mutation.Priority(); ok {
+	if value, ok := _u.mutation.Priority(); ok {
 		_spec.SetField(task.FieldPriority, field.TypeInt, value)
 	}
-	if value, ok := tuo.mutation.AddedPriority(); ok {
+	if value, ok := _u.mutation.AddedPriority(); ok {
 		_spec.AddField(task.FieldPriority, field.TypeInt, value)
 	}
-	if value, ok := tuo.mutation.IsTimeout(); ok {
+	if value, ok := _u.mutation.IsTimeout(); ok {
 		_spec.SetField(task.FieldIsTimeout, field.TypeBool, value)
 	}
-	if value, ok := tuo.mutation.ReminderCount(); ok {
+	if value, ok := _u.mutation.ReminderCount(); ok {
 		_spec.SetField(task.FieldReminderCount, field.TypeInt, value)
 	}
-	if value, ok := tuo.mutation.AddedReminderCount(); ok {
+	if value, ok := _u.mutation.AddedReminderCount(); ok {
 		_spec.AddField(task.FieldReminderCount, field.TypeInt, value)
 	}
-	if value, ok := tuo.mutation.AllowCancel(); ok {
+	if value, ok := _u.mutation.AllowCancel(); ok {
 		_spec.SetField(task.FieldAllowCancel, field.TypeBool, value)
 	}
-	if value, ok := tuo.mutation.AllowUrge(); ok {
+	if value, ok := _u.mutation.AllowUrge(); ok {
 		_spec.SetField(task.FieldAllowUrge, field.TypeBool, value)
 	}
-	if value, ok := tuo.mutation.AllowDelegate(); ok {
+	if value, ok := _u.mutation.AllowDelegate(); ok {
 		_spec.SetField(task.FieldAllowDelegate, field.TypeBool, value)
 	}
-	if value, ok := tuo.mutation.AllowTransfer(); ok {
+	if value, ok := _u.mutation.AllowTransfer(); ok {
 		_spec.SetField(task.FieldAllowTransfer, field.TypeBool, value)
 	}
-	if value, ok := tuo.mutation.IsDraftEnabled(); ok {
+	if value, ok := _u.mutation.IsDraftEnabled(); ok {
 		_spec.SetField(task.FieldIsDraftEnabled, field.TypeBool, value)
 	}
-	if value, ok := tuo.mutation.IsAutoStart(); ok {
+	if value, ok := _u.mutation.IsAutoStart(); ok {
 		_spec.SetField(task.FieldIsAutoStart, field.TypeBool, value)
 	}
-	if value, ok := tuo.mutation.StrictMode(); ok {
+	if value, ok := _u.mutation.StrictMode(); ok {
 		_spec.SetField(task.FieldStrictMode, field.TypeBool, value)
 	}
-	if value, ok := tuo.mutation.Extras(); ok {
+	if value, ok := _u.mutation.Extras(); ok {
 		_spec.SetField(task.FieldExtras, field.TypeJSON, value)
 	}
-	if tuo.mutation.ExtrasCleared() {
+	if _u.mutation.ExtrasCleared() {
 		_spec.ClearField(task.FieldExtras, field.TypeJSON)
 	}
-	if value, ok := tuo.mutation.SpaceID(); ok {
+	if value, ok := _u.mutation.SpaceID(); ok {
 		_spec.SetField(task.FieldSpaceID, field.TypeString, value)
 	}
-	if tuo.mutation.SpaceIDCleared() {
+	if _u.mutation.SpaceIDCleared() {
 		_spec.ClearField(task.FieldSpaceID, field.TypeString)
 	}
-	if value, ok := tuo.mutation.CreatedBy(); ok {
+	if value, ok := _u.mutation.CreatedBy(); ok {
 		_spec.SetField(task.FieldCreatedBy, field.TypeString, value)
 	}
-	if tuo.mutation.CreatedByCleared() {
+	if _u.mutation.CreatedByCleared() {
 		_spec.ClearField(task.FieldCreatedBy, field.TypeString)
 	}
-	if value, ok := tuo.mutation.UpdatedBy(); ok {
+	if value, ok := _u.mutation.UpdatedBy(); ok {
 		_spec.SetField(task.FieldUpdatedBy, field.TypeString, value)
 	}
-	if tuo.mutation.UpdatedByCleared() {
+	if _u.mutation.UpdatedByCleared() {
 		_spec.ClearField(task.FieldUpdatedBy, field.TypeString)
 	}
-	if tuo.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(task.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := tuo.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(task.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := tuo.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(task.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if tuo.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(task.FieldUpdatedAt, field.TypeInt64)
 	}
-	if value, ok := tuo.mutation.TaskKey(); ok {
+	if value, ok := _u.mutation.TaskKey(); ok {
 		_spec.SetField(task.FieldTaskKey, field.TypeString, value)
 	}
-	if value, ok := tuo.mutation.ParentID(); ok {
+	if value, ok := _u.mutation.ParentID(); ok {
 		_spec.SetField(task.FieldParentID, field.TypeString, value)
 	}
-	if tuo.mutation.ParentIDCleared() {
+	if _u.mutation.ParentIDCleared() {
 		_spec.ClearField(task.FieldParentID, field.TypeString)
 	}
-	if value, ok := tuo.mutation.ChildIds(); ok {
+	if value, ok := _u.mutation.ChildIds(); ok {
 		_spec.SetField(task.FieldChildIds, field.TypeJSON, value)
 	}
-	if value, ok := tuo.mutation.AppendedChildIds(); ok {
+	if value, ok := _u.mutation.AppendedChildIds(); ok {
 		_spec.AddModifier(func(u *sql.UpdateBuilder) {
 			sqljson.Append(u, task.FieldChildIds, value)
 		})
 	}
-	if value, ok := tuo.mutation.Action(); ok {
+	if value, ok := _u.mutation.Action(); ok {
 		_spec.SetField(task.FieldAction, field.TypeString, value)
 	}
-	if tuo.mutation.ActionCleared() {
+	if _u.mutation.ActionCleared() {
 		_spec.ClearField(task.FieldAction, field.TypeString)
 	}
-	if value, ok := tuo.mutation.Comment(); ok {
+	if value, ok := _u.mutation.Comment(); ok {
 		_spec.SetField(task.FieldComment, field.TypeString, value)
 	}
-	if tuo.mutation.CommentCleared() {
+	if _u.mutation.CommentCleared() {
 		_spec.ClearField(task.FieldComment, field.TypeString)
 	}
-	if value, ok := tuo.mutation.Attachments(); ok {
+	if value, ok := _u.mutation.Attachments(); ok {
 		_spec.SetField(task.FieldAttachments, field.TypeJSON, value)
 	}
-	if tuo.mutation.AttachmentsCleared() {
+	if _u.mutation.AttachmentsCleared() {
 		_spec.ClearField(task.FieldAttachments, field.TypeJSON)
 	}
-	if value, ok := tuo.mutation.FormData(); ok {
+	if value, ok := _u.mutation.FormData(); ok {
 		_spec.SetField(task.FieldFormData, field.TypeJSON, value)
 	}
-	if tuo.mutation.FormDataCleared() {
+	if _u.mutation.FormDataCleared() {
 		_spec.ClearField(task.FieldFormData, field.TypeJSON)
 	}
-	if value, ok := tuo.mutation.Variables(); ok {
+	if value, ok := _u.mutation.Variables(); ok {
 		_spec.SetField(task.FieldVariables, field.TypeJSON, value)
 	}
-	if tuo.mutation.VariablesCleared() {
+	if _u.mutation.VariablesCleared() {
 		_spec.ClearField(task.FieldVariables, field.TypeJSON)
 	}
-	if value, ok := tuo.mutation.IsResubmit(); ok {
+	if value, ok := _u.mutation.IsResubmit(); ok {
 		_spec.SetField(task.FieldIsResubmit, field.TypeBool, value)
 	}
-	if value, ok := tuo.mutation.ClaimTime(); ok {
+	if value, ok := _u.mutation.ClaimTime(); ok {
 		_spec.SetField(task.FieldClaimTime, field.TypeInt64, value)
 	}
-	if value, ok := tuo.mutation.AddedClaimTime(); ok {
+	if value, ok := _u.mutation.AddedClaimTime(); ok {
 		_spec.AddField(task.FieldClaimTime, field.TypeInt64, value)
 	}
-	if tuo.mutation.ClaimTimeCleared() {
+	if _u.mutation.ClaimTimeCleared() {
 		_spec.ClearField(task.FieldClaimTime, field.TypeInt64)
 	}
-	if value, ok := tuo.mutation.IsUrged(); ok {
+	if value, ok := _u.mutation.IsUrged(); ok {
 		_spec.SetField(task.FieldIsUrged, field.TypeBool, value)
 	}
-	if value, ok := tuo.mutation.UrgeCount(); ok {
+	if value, ok := _u.mutation.UrgeCount(); ok {
 		_spec.SetField(task.FieldUrgeCount, field.TypeInt, value)
 	}
-	if value, ok := tuo.mutation.AddedUrgeCount(); ok {
+	if value, ok := _u.mutation.AddedUrgeCount(); ok {
 		_spec.AddField(task.FieldUrgeCount, field.TypeInt, value)
 	}
-	_node = &Task{config: tuo.config}
+	_node = &Task{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues
-	if err = sqlgraph.UpdateNode(ctx, tuo.driver, _spec); err != nil {
+	if err = sqlgraph.UpdateNode(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{task.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -2311,6 +2311,6 @@ func (tuo *TaskUpdateOne) sqlSave(ctx context.Context) (_node *Task, err error) 
 		}
 		return nil, err
 	}
-	tuo.mutation.done = true
+	_u.mutation.done = true
 	return _node, nil
 }

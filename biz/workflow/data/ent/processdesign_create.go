@@ -20,195 +20,195 @@ type ProcessDesignCreate struct {
 }
 
 // SetVersion sets the "version" field.
-func (pdc *ProcessDesignCreate) SetVersion(s string) *ProcessDesignCreate {
-	pdc.mutation.SetVersion(s)
-	return pdc
+func (_c *ProcessDesignCreate) SetVersion(v string) *ProcessDesignCreate {
+	_c.mutation.SetVersion(v)
+	return _c
 }
 
 // SetNillableVersion sets the "version" field if the given value is not nil.
-func (pdc *ProcessDesignCreate) SetNillableVersion(s *string) *ProcessDesignCreate {
-	if s != nil {
-		pdc.SetVersion(*s)
+func (_c *ProcessDesignCreate) SetNillableVersion(v *string) *ProcessDesignCreate {
+	if v != nil {
+		_c.SetVersion(*v)
 	}
-	return pdc
+	return _c
 }
 
 // SetDisabled sets the "disabled" field.
-func (pdc *ProcessDesignCreate) SetDisabled(b bool) *ProcessDesignCreate {
-	pdc.mutation.SetDisabled(b)
-	return pdc
+func (_c *ProcessDesignCreate) SetDisabled(v bool) *ProcessDesignCreate {
+	_c.mutation.SetDisabled(v)
+	return _c
 }
 
 // SetNillableDisabled sets the "disabled" field if the given value is not nil.
-func (pdc *ProcessDesignCreate) SetNillableDisabled(b *bool) *ProcessDesignCreate {
-	if b != nil {
-		pdc.SetDisabled(*b)
+func (_c *ProcessDesignCreate) SetNillableDisabled(v *bool) *ProcessDesignCreate {
+	if v != nil {
+		_c.SetDisabled(*v)
 	}
-	return pdc
+	return _c
 }
 
 // SetExtras sets the "extras" field.
-func (pdc *ProcessDesignCreate) SetExtras(m map[string]interface{}) *ProcessDesignCreate {
-	pdc.mutation.SetExtras(m)
-	return pdc
+func (_c *ProcessDesignCreate) SetExtras(v map[string]interface{}) *ProcessDesignCreate {
+	_c.mutation.SetExtras(v)
+	return _c
 }
 
 // SetSpaceID sets the "space_id" field.
-func (pdc *ProcessDesignCreate) SetSpaceID(s string) *ProcessDesignCreate {
-	pdc.mutation.SetSpaceID(s)
-	return pdc
+func (_c *ProcessDesignCreate) SetSpaceID(v string) *ProcessDesignCreate {
+	_c.mutation.SetSpaceID(v)
+	return _c
 }
 
 // SetNillableSpaceID sets the "space_id" field if the given value is not nil.
-func (pdc *ProcessDesignCreate) SetNillableSpaceID(s *string) *ProcessDesignCreate {
-	if s != nil {
-		pdc.SetSpaceID(*s)
+func (_c *ProcessDesignCreate) SetNillableSpaceID(v *string) *ProcessDesignCreate {
+	if v != nil {
+		_c.SetSpaceID(*v)
 	}
-	return pdc
+	return _c
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (pdc *ProcessDesignCreate) SetCreatedBy(s string) *ProcessDesignCreate {
-	pdc.mutation.SetCreatedBy(s)
-	return pdc
+func (_c *ProcessDesignCreate) SetCreatedBy(v string) *ProcessDesignCreate {
+	_c.mutation.SetCreatedBy(v)
+	return _c
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (pdc *ProcessDesignCreate) SetNillableCreatedBy(s *string) *ProcessDesignCreate {
-	if s != nil {
-		pdc.SetCreatedBy(*s)
+func (_c *ProcessDesignCreate) SetNillableCreatedBy(v *string) *ProcessDesignCreate {
+	if v != nil {
+		_c.SetCreatedBy(*v)
 	}
-	return pdc
+	return _c
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (pdc *ProcessDesignCreate) SetUpdatedBy(s string) *ProcessDesignCreate {
-	pdc.mutation.SetUpdatedBy(s)
-	return pdc
+func (_c *ProcessDesignCreate) SetUpdatedBy(v string) *ProcessDesignCreate {
+	_c.mutation.SetUpdatedBy(v)
+	return _c
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (pdc *ProcessDesignCreate) SetNillableUpdatedBy(s *string) *ProcessDesignCreate {
-	if s != nil {
-		pdc.SetUpdatedBy(*s)
+func (_c *ProcessDesignCreate) SetNillableUpdatedBy(v *string) *ProcessDesignCreate {
+	if v != nil {
+		_c.SetUpdatedBy(*v)
 	}
-	return pdc
+	return _c
 }
 
 // SetCreatedAt sets the "created_at" field.
-func (pdc *ProcessDesignCreate) SetCreatedAt(i int64) *ProcessDesignCreate {
-	pdc.mutation.SetCreatedAt(i)
-	return pdc
+func (_c *ProcessDesignCreate) SetCreatedAt(v int64) *ProcessDesignCreate {
+	_c.mutation.SetCreatedAt(v)
+	return _c
 }
 
 // SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
-func (pdc *ProcessDesignCreate) SetNillableCreatedAt(i *int64) *ProcessDesignCreate {
-	if i != nil {
-		pdc.SetCreatedAt(*i)
+func (_c *ProcessDesignCreate) SetNillableCreatedAt(v *int64) *ProcessDesignCreate {
+	if v != nil {
+		_c.SetCreatedAt(*v)
 	}
-	return pdc
+	return _c
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (pdc *ProcessDesignCreate) SetUpdatedAt(i int64) *ProcessDesignCreate {
-	pdc.mutation.SetUpdatedAt(i)
-	return pdc
+func (_c *ProcessDesignCreate) SetUpdatedAt(v int64) *ProcessDesignCreate {
+	_c.mutation.SetUpdatedAt(v)
+	return _c
 }
 
 // SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
-func (pdc *ProcessDesignCreate) SetNillableUpdatedAt(i *int64) *ProcessDesignCreate {
-	if i != nil {
-		pdc.SetUpdatedAt(*i)
+func (_c *ProcessDesignCreate) SetNillableUpdatedAt(v *int64) *ProcessDesignCreate {
+	if v != nil {
+		_c.SetUpdatedAt(*v)
 	}
-	return pdc
+	return _c
 }
 
 // SetTemplateID sets the "template_id" field.
-func (pdc *ProcessDesignCreate) SetTemplateID(s string) *ProcessDesignCreate {
-	pdc.mutation.SetTemplateID(s)
-	return pdc
+func (_c *ProcessDesignCreate) SetTemplateID(v string) *ProcessDesignCreate {
+	_c.mutation.SetTemplateID(v)
+	return _c
 }
 
 // SetGraphData sets the "graph_data" field.
-func (pdc *ProcessDesignCreate) SetGraphData(m map[string]interface{}) *ProcessDesignCreate {
-	pdc.mutation.SetGraphData(m)
-	return pdc
+func (_c *ProcessDesignCreate) SetGraphData(v map[string]interface{}) *ProcessDesignCreate {
+	_c.mutation.SetGraphData(v)
+	return _c
 }
 
 // SetNodeLayouts sets the "node_layouts" field.
-func (pdc *ProcessDesignCreate) SetNodeLayouts(m map[string]interface{}) *ProcessDesignCreate {
-	pdc.mutation.SetNodeLayouts(m)
-	return pdc
+func (_c *ProcessDesignCreate) SetNodeLayouts(v map[string]interface{}) *ProcessDesignCreate {
+	_c.mutation.SetNodeLayouts(v)
+	return _c
 }
 
 // SetProperties sets the "properties" field.
-func (pdc *ProcessDesignCreate) SetProperties(m map[string]interface{}) *ProcessDesignCreate {
-	pdc.mutation.SetProperties(m)
-	return pdc
+func (_c *ProcessDesignCreate) SetProperties(v map[string]interface{}) *ProcessDesignCreate {
+	_c.mutation.SetProperties(v)
+	return _c
 }
 
 // SetValidationRules sets the "validation_rules" field.
-func (pdc *ProcessDesignCreate) SetValidationRules(m map[string]interface{}) *ProcessDesignCreate {
-	pdc.mutation.SetValidationRules(m)
-	return pdc
+func (_c *ProcessDesignCreate) SetValidationRules(v map[string]interface{}) *ProcessDesignCreate {
+	_c.mutation.SetValidationRules(v)
+	return _c
 }
 
 // SetIsDraft sets the "is_draft" field.
-func (pdc *ProcessDesignCreate) SetIsDraft(b bool) *ProcessDesignCreate {
-	pdc.mutation.SetIsDraft(b)
-	return pdc
+func (_c *ProcessDesignCreate) SetIsDraft(v bool) *ProcessDesignCreate {
+	_c.mutation.SetIsDraft(v)
+	return _c
 }
 
 // SetNillableIsDraft sets the "is_draft" field if the given value is not nil.
-func (pdc *ProcessDesignCreate) SetNillableIsDraft(b *bool) *ProcessDesignCreate {
-	if b != nil {
-		pdc.SetIsDraft(*b)
+func (_c *ProcessDesignCreate) SetNillableIsDraft(v *bool) *ProcessDesignCreate {
+	if v != nil {
+		_c.SetIsDraft(*v)
 	}
-	return pdc
+	return _c
 }
 
 // SetSourceVersion sets the "source_version" field.
-func (pdc *ProcessDesignCreate) SetSourceVersion(s string) *ProcessDesignCreate {
-	pdc.mutation.SetSourceVersion(s)
-	return pdc
+func (_c *ProcessDesignCreate) SetSourceVersion(v string) *ProcessDesignCreate {
+	_c.mutation.SetSourceVersion(v)
+	return _c
 }
 
 // SetNillableSourceVersion sets the "source_version" field if the given value is not nil.
-func (pdc *ProcessDesignCreate) SetNillableSourceVersion(s *string) *ProcessDesignCreate {
-	if s != nil {
-		pdc.SetSourceVersion(*s)
+func (_c *ProcessDesignCreate) SetNillableSourceVersion(v *string) *ProcessDesignCreate {
+	if v != nil {
+		_c.SetSourceVersion(*v)
 	}
-	return pdc
+	return _c
 }
 
 // SetID sets the "id" field.
-func (pdc *ProcessDesignCreate) SetID(s string) *ProcessDesignCreate {
-	pdc.mutation.SetID(s)
-	return pdc
+func (_c *ProcessDesignCreate) SetID(v string) *ProcessDesignCreate {
+	_c.mutation.SetID(v)
+	return _c
 }
 
 // SetNillableID sets the "id" field if the given value is not nil.
-func (pdc *ProcessDesignCreate) SetNillableID(s *string) *ProcessDesignCreate {
-	if s != nil {
-		pdc.SetID(*s)
+func (_c *ProcessDesignCreate) SetNillableID(v *string) *ProcessDesignCreate {
+	if v != nil {
+		_c.SetID(*v)
 	}
-	return pdc
+	return _c
 }
 
 // Mutation returns the ProcessDesignMutation object of the builder.
-func (pdc *ProcessDesignCreate) Mutation() *ProcessDesignMutation {
-	return pdc.mutation
+func (_c *ProcessDesignCreate) Mutation() *ProcessDesignMutation {
+	return _c.mutation
 }
 
 // Save creates the ProcessDesign in the database.
-func (pdc *ProcessDesignCreate) Save(ctx context.Context) (*ProcessDesign, error) {
-	pdc.defaults()
-	return withHooks(ctx, pdc.sqlSave, pdc.mutation, pdc.hooks)
+func (_c *ProcessDesignCreate) Save(ctx context.Context) (*ProcessDesign, error) {
+	_c.defaults()
+	return withHooks(ctx, _c.sqlSave, _c.mutation, _c.hooks)
 }
 
 // SaveX calls Save and panics if Save returns an error.
-func (pdc *ProcessDesignCreate) SaveX(ctx context.Context) *ProcessDesign {
-	v, err := pdc.Save(ctx)
+func (_c *ProcessDesignCreate) SaveX(ctx context.Context) *ProcessDesign {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -216,55 +216,55 @@ func (pdc *ProcessDesignCreate) SaveX(ctx context.Context) *ProcessDesign {
 }
 
 // Exec executes the query.
-func (pdc *ProcessDesignCreate) Exec(ctx context.Context) error {
-	_, err := pdc.Save(ctx)
+func (_c *ProcessDesignCreate) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (pdc *ProcessDesignCreate) ExecX(ctx context.Context) {
-	if err := pdc.Exec(ctx); err != nil {
+func (_c *ProcessDesignCreate) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (pdc *ProcessDesignCreate) defaults() {
-	if _, ok := pdc.mutation.Disabled(); !ok {
+func (_c *ProcessDesignCreate) defaults() {
+	if _, ok := _c.mutation.Disabled(); !ok {
 		v := processdesign.DefaultDisabled
-		pdc.mutation.SetDisabled(v)
+		_c.mutation.SetDisabled(v)
 	}
-	if _, ok := pdc.mutation.Extras(); !ok {
+	if _, ok := _c.mutation.Extras(); !ok {
 		v := processdesign.DefaultExtras
-		pdc.mutation.SetExtras(v)
+		_c.mutation.SetExtras(v)
 	}
-	if _, ok := pdc.mutation.CreatedAt(); !ok {
+	if _, ok := _c.mutation.CreatedAt(); !ok {
 		v := processdesign.DefaultCreatedAt()
-		pdc.mutation.SetCreatedAt(v)
+		_c.mutation.SetCreatedAt(v)
 	}
-	if _, ok := pdc.mutation.UpdatedAt(); !ok {
+	if _, ok := _c.mutation.UpdatedAt(); !ok {
 		v := processdesign.DefaultUpdatedAt()
-		pdc.mutation.SetUpdatedAt(v)
+		_c.mutation.SetUpdatedAt(v)
 	}
-	if _, ok := pdc.mutation.IsDraft(); !ok {
+	if _, ok := _c.mutation.IsDraft(); !ok {
 		v := processdesign.DefaultIsDraft
-		pdc.mutation.SetIsDraft(v)
+		_c.mutation.SetIsDraft(v)
 	}
-	if _, ok := pdc.mutation.ID(); !ok {
+	if _, ok := _c.mutation.ID(); !ok {
 		v := processdesign.DefaultID()
-		pdc.mutation.SetID(v)
+		_c.mutation.SetID(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (pdc *ProcessDesignCreate) check() error {
-	if _, ok := pdc.mutation.TemplateID(); !ok {
+func (_c *ProcessDesignCreate) check() error {
+	if _, ok := _c.mutation.TemplateID(); !ok {
 		return &ValidationError{Name: "template_id", err: errors.New(`ent: missing required field "ProcessDesign.template_id"`)}
 	}
-	if _, ok := pdc.mutation.IsDraft(); !ok {
+	if _, ok := _c.mutation.IsDraft(); !ok {
 		return &ValidationError{Name: "is_draft", err: errors.New(`ent: missing required field "ProcessDesign.is_draft"`)}
 	}
-	if v, ok := pdc.mutation.ID(); ok {
+	if v, ok := _c.mutation.ID(); ok {
 		if err := processdesign.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "ProcessDesign.id": %w`, err)}
 		}
@@ -272,12 +272,12 @@ func (pdc *ProcessDesignCreate) check() error {
 	return nil
 }
 
-func (pdc *ProcessDesignCreate) sqlSave(ctx context.Context) (*ProcessDesign, error) {
-	if err := pdc.check(); err != nil {
+func (_c *ProcessDesignCreate) sqlSave(ctx context.Context) (*ProcessDesign, error) {
+	if err := _c.check(); err != nil {
 		return nil, err
 	}
-	_node, _spec := pdc.createSpec()
-	if err := sqlgraph.CreateNode(ctx, pdc.driver, _spec); err != nil {
+	_node, _spec := _c.createSpec()
+	if err := sqlgraph.CreateNode(ctx, _c.driver, _spec); err != nil {
 		if sqlgraph.IsConstraintError(err) {
 			err = &ConstraintError{msg: err.Error(), wrap: err}
 		}
@@ -290,77 +290,77 @@ func (pdc *ProcessDesignCreate) sqlSave(ctx context.Context) (*ProcessDesign, er
 			return nil, fmt.Errorf("unexpected ProcessDesign.ID type: %T", _spec.ID.Value)
 		}
 	}
-	pdc.mutation.id = &_node.ID
-	pdc.mutation.done = true
+	_c.mutation.id = &_node.ID
+	_c.mutation.done = true
 	return _node, nil
 }
 
-func (pdc *ProcessDesignCreate) createSpec() (*ProcessDesign, *sqlgraph.CreateSpec) {
+func (_c *ProcessDesignCreate) createSpec() (*ProcessDesign, *sqlgraph.CreateSpec) {
 	var (
-		_node = &ProcessDesign{config: pdc.config}
+		_node = &ProcessDesign{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(processdesign.Table, sqlgraph.NewFieldSpec(processdesign.FieldID, field.TypeString))
 	)
-	if id, ok := pdc.mutation.ID(); ok {
+	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
 	}
-	if value, ok := pdc.mutation.Version(); ok {
+	if value, ok := _c.mutation.Version(); ok {
 		_spec.SetField(processdesign.FieldVersion, field.TypeString, value)
 		_node.Version = value
 	}
-	if value, ok := pdc.mutation.Disabled(); ok {
+	if value, ok := _c.mutation.Disabled(); ok {
 		_spec.SetField(processdesign.FieldDisabled, field.TypeBool, value)
 		_node.Disabled = value
 	}
-	if value, ok := pdc.mutation.Extras(); ok {
+	if value, ok := _c.mutation.Extras(); ok {
 		_spec.SetField(processdesign.FieldExtras, field.TypeJSON, value)
 		_node.Extras = value
 	}
-	if value, ok := pdc.mutation.SpaceID(); ok {
+	if value, ok := _c.mutation.SpaceID(); ok {
 		_spec.SetField(processdesign.FieldSpaceID, field.TypeString, value)
 		_node.SpaceID = value
 	}
-	if value, ok := pdc.mutation.CreatedBy(); ok {
+	if value, ok := _c.mutation.CreatedBy(); ok {
 		_spec.SetField(processdesign.FieldCreatedBy, field.TypeString, value)
 		_node.CreatedBy = value
 	}
-	if value, ok := pdc.mutation.UpdatedBy(); ok {
+	if value, ok := _c.mutation.UpdatedBy(); ok {
 		_spec.SetField(processdesign.FieldUpdatedBy, field.TypeString, value)
 		_node.UpdatedBy = value
 	}
-	if value, ok := pdc.mutation.CreatedAt(); ok {
+	if value, ok := _c.mutation.CreatedAt(); ok {
 		_spec.SetField(processdesign.FieldCreatedAt, field.TypeInt64, value)
 		_node.CreatedAt = value
 	}
-	if value, ok := pdc.mutation.UpdatedAt(); ok {
+	if value, ok := _c.mutation.UpdatedAt(); ok {
 		_spec.SetField(processdesign.FieldUpdatedAt, field.TypeInt64, value)
 		_node.UpdatedAt = value
 	}
-	if value, ok := pdc.mutation.TemplateID(); ok {
+	if value, ok := _c.mutation.TemplateID(); ok {
 		_spec.SetField(processdesign.FieldTemplateID, field.TypeString, value)
 		_node.TemplateID = value
 	}
-	if value, ok := pdc.mutation.GraphData(); ok {
+	if value, ok := _c.mutation.GraphData(); ok {
 		_spec.SetField(processdesign.FieldGraphData, field.TypeJSON, value)
 		_node.GraphData = value
 	}
-	if value, ok := pdc.mutation.NodeLayouts(); ok {
+	if value, ok := _c.mutation.NodeLayouts(); ok {
 		_spec.SetField(processdesign.FieldNodeLayouts, field.TypeJSON, value)
 		_node.NodeLayouts = value
 	}
-	if value, ok := pdc.mutation.Properties(); ok {
+	if value, ok := _c.mutation.Properties(); ok {
 		_spec.SetField(processdesign.FieldProperties, field.TypeJSON, value)
 		_node.Properties = value
 	}
-	if value, ok := pdc.mutation.ValidationRules(); ok {
+	if value, ok := _c.mutation.ValidationRules(); ok {
 		_spec.SetField(processdesign.FieldValidationRules, field.TypeJSON, value)
 		_node.ValidationRules = value
 	}
-	if value, ok := pdc.mutation.IsDraft(); ok {
+	if value, ok := _c.mutation.IsDraft(); ok {
 		_spec.SetField(processdesign.FieldIsDraft, field.TypeBool, value)
 		_node.IsDraft = value
 	}
-	if value, ok := pdc.mutation.SourceVersion(); ok {
+	if value, ok := _c.mutation.SourceVersion(); ok {
 		_spec.SetField(processdesign.FieldSourceVersion, field.TypeString, value)
 		_node.SourceVersion = value
 	}
@@ -375,16 +375,16 @@ type ProcessDesignCreateBulk struct {
 }
 
 // Save creates the ProcessDesign entities in the database.
-func (pdcb *ProcessDesignCreateBulk) Save(ctx context.Context) ([]*ProcessDesign, error) {
-	if pdcb.err != nil {
-		return nil, pdcb.err
+func (_c *ProcessDesignCreateBulk) Save(ctx context.Context) ([]*ProcessDesign, error) {
+	if _c.err != nil {
+		return nil, _c.err
 	}
-	specs := make([]*sqlgraph.CreateSpec, len(pdcb.builders))
-	nodes := make([]*ProcessDesign, len(pdcb.builders))
-	mutators := make([]Mutator, len(pdcb.builders))
-	for i := range pdcb.builders {
+	specs := make([]*sqlgraph.CreateSpec, len(_c.builders))
+	nodes := make([]*ProcessDesign, len(_c.builders))
+	mutators := make([]Mutator, len(_c.builders))
+	for i := range _c.builders {
 		func(i int, root context.Context) {
-			builder := pdcb.builders[i]
+			builder := _c.builders[i]
 			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*ProcessDesignMutation)
@@ -398,11 +398,11 @@ func (pdcb *ProcessDesignCreateBulk) Save(ctx context.Context) ([]*ProcessDesign
 				var err error
 				nodes[i], specs[i] = builder.createSpec()
 				if i < len(mutators)-1 {
-					_, err = mutators[i+1].Mutate(root, pdcb.builders[i+1].mutation)
+					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
 					// Invoke the actual operation on the latest mutation in the chain.
-					if err = sqlgraph.BatchCreate(ctx, pdcb.driver, spec); err != nil {
+					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
 							err = &ConstraintError{msg: err.Error(), wrap: err}
 						}
@@ -422,7 +422,7 @@ func (pdcb *ProcessDesignCreateBulk) Save(ctx context.Context) ([]*ProcessDesign
 		}(i, ctx)
 	}
 	if len(mutators) > 0 {
-		if _, err := mutators[0].Mutate(ctx, pdcb.builders[0].mutation); err != nil {
+		if _, err := mutators[0].Mutate(ctx, _c.builders[0].mutation); err != nil {
 			return nil, err
 		}
 	}
@@ -430,8 +430,8 @@ func (pdcb *ProcessDesignCreateBulk) Save(ctx context.Context) ([]*ProcessDesign
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (pdcb *ProcessDesignCreateBulk) SaveX(ctx context.Context) []*ProcessDesign {
-	v, err := pdcb.Save(ctx)
+func (_c *ProcessDesignCreateBulk) SaveX(ctx context.Context) []*ProcessDesign {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -439,14 +439,14 @@ func (pdcb *ProcessDesignCreateBulk) SaveX(ctx context.Context) []*ProcessDesign
 }
 
 // Exec executes the query.
-func (pdcb *ProcessDesignCreateBulk) Exec(ctx context.Context) error {
-	_, err := pdcb.Save(ctx)
+func (_c *ProcessDesignCreateBulk) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (pdcb *ProcessDesignCreateBulk) ExecX(ctx context.Context) {
-	if err := pdcb.Exec(ctx); err != nil {
+func (_c *ProcessDesignCreateBulk) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

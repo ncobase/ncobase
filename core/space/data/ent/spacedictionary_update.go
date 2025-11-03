@@ -22,124 +22,124 @@ type SpaceDictionaryUpdate struct {
 }
 
 // Where appends a list predicates to the SpaceDictionaryUpdate builder.
-func (sdu *SpaceDictionaryUpdate) Where(ps ...predicate.SpaceDictionary) *SpaceDictionaryUpdate {
-	sdu.mutation.Where(ps...)
-	return sdu
+func (_u *SpaceDictionaryUpdate) Where(ps ...predicate.SpaceDictionary) *SpaceDictionaryUpdate {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // SetSpaceID sets the "space_id" field.
-func (sdu *SpaceDictionaryUpdate) SetSpaceID(s string) *SpaceDictionaryUpdate {
-	sdu.mutation.SetSpaceID(s)
-	return sdu
+func (_u *SpaceDictionaryUpdate) SetSpaceID(v string) *SpaceDictionaryUpdate {
+	_u.mutation.SetSpaceID(v)
+	return _u
 }
 
 // SetNillableSpaceID sets the "space_id" field if the given value is not nil.
-func (sdu *SpaceDictionaryUpdate) SetNillableSpaceID(s *string) *SpaceDictionaryUpdate {
-	if s != nil {
-		sdu.SetSpaceID(*s)
+func (_u *SpaceDictionaryUpdate) SetNillableSpaceID(v *string) *SpaceDictionaryUpdate {
+	if v != nil {
+		_u.SetSpaceID(*v)
 	}
-	return sdu
+	return _u
 }
 
 // ClearSpaceID clears the value of the "space_id" field.
-func (sdu *SpaceDictionaryUpdate) ClearSpaceID() *SpaceDictionaryUpdate {
-	sdu.mutation.ClearSpaceID()
-	return sdu
+func (_u *SpaceDictionaryUpdate) ClearSpaceID() *SpaceDictionaryUpdate {
+	_u.mutation.ClearSpaceID()
+	return _u
 }
 
 // SetDictionaryID sets the "dictionary_id" field.
-func (sdu *SpaceDictionaryUpdate) SetDictionaryID(s string) *SpaceDictionaryUpdate {
-	sdu.mutation.SetDictionaryID(s)
-	return sdu
+func (_u *SpaceDictionaryUpdate) SetDictionaryID(v string) *SpaceDictionaryUpdate {
+	_u.mutation.SetDictionaryID(v)
+	return _u
 }
 
 // SetNillableDictionaryID sets the "dictionary_id" field if the given value is not nil.
-func (sdu *SpaceDictionaryUpdate) SetNillableDictionaryID(s *string) *SpaceDictionaryUpdate {
-	if s != nil {
-		sdu.SetDictionaryID(*s)
+func (_u *SpaceDictionaryUpdate) SetNillableDictionaryID(v *string) *SpaceDictionaryUpdate {
+	if v != nil {
+		_u.SetDictionaryID(*v)
 	}
-	return sdu
+	return _u
 }
 
 // ClearDictionaryID clears the value of the "dictionary_id" field.
-func (sdu *SpaceDictionaryUpdate) ClearDictionaryID() *SpaceDictionaryUpdate {
-	sdu.mutation.ClearDictionaryID()
-	return sdu
+func (_u *SpaceDictionaryUpdate) ClearDictionaryID() *SpaceDictionaryUpdate {
+	_u.mutation.ClearDictionaryID()
+	return _u
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (sdu *SpaceDictionaryUpdate) SetCreatedBy(s string) *SpaceDictionaryUpdate {
-	sdu.mutation.SetCreatedBy(s)
-	return sdu
+func (_u *SpaceDictionaryUpdate) SetCreatedBy(v string) *SpaceDictionaryUpdate {
+	_u.mutation.SetCreatedBy(v)
+	return _u
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (sdu *SpaceDictionaryUpdate) SetNillableCreatedBy(s *string) *SpaceDictionaryUpdate {
-	if s != nil {
-		sdu.SetCreatedBy(*s)
+func (_u *SpaceDictionaryUpdate) SetNillableCreatedBy(v *string) *SpaceDictionaryUpdate {
+	if v != nil {
+		_u.SetCreatedBy(*v)
 	}
-	return sdu
+	return _u
 }
 
 // ClearCreatedBy clears the value of the "created_by" field.
-func (sdu *SpaceDictionaryUpdate) ClearCreatedBy() *SpaceDictionaryUpdate {
-	sdu.mutation.ClearCreatedBy()
-	return sdu
+func (_u *SpaceDictionaryUpdate) ClearCreatedBy() *SpaceDictionaryUpdate {
+	_u.mutation.ClearCreatedBy()
+	return _u
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (sdu *SpaceDictionaryUpdate) SetUpdatedBy(s string) *SpaceDictionaryUpdate {
-	sdu.mutation.SetUpdatedBy(s)
-	return sdu
+func (_u *SpaceDictionaryUpdate) SetUpdatedBy(v string) *SpaceDictionaryUpdate {
+	_u.mutation.SetUpdatedBy(v)
+	return _u
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (sdu *SpaceDictionaryUpdate) SetNillableUpdatedBy(s *string) *SpaceDictionaryUpdate {
-	if s != nil {
-		sdu.SetUpdatedBy(*s)
+func (_u *SpaceDictionaryUpdate) SetNillableUpdatedBy(v *string) *SpaceDictionaryUpdate {
+	if v != nil {
+		_u.SetUpdatedBy(*v)
 	}
-	return sdu
+	return _u
 }
 
 // ClearUpdatedBy clears the value of the "updated_by" field.
-func (sdu *SpaceDictionaryUpdate) ClearUpdatedBy() *SpaceDictionaryUpdate {
-	sdu.mutation.ClearUpdatedBy()
-	return sdu
+func (_u *SpaceDictionaryUpdate) ClearUpdatedBy() *SpaceDictionaryUpdate {
+	_u.mutation.ClearUpdatedBy()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (sdu *SpaceDictionaryUpdate) SetUpdatedAt(i int64) *SpaceDictionaryUpdate {
-	sdu.mutation.ResetUpdatedAt()
-	sdu.mutation.SetUpdatedAt(i)
-	return sdu
+func (_u *SpaceDictionaryUpdate) SetUpdatedAt(v int64) *SpaceDictionaryUpdate {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (sdu *SpaceDictionaryUpdate) AddUpdatedAt(i int64) *SpaceDictionaryUpdate {
-	sdu.mutation.AddUpdatedAt(i)
-	return sdu
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *SpaceDictionaryUpdate) AddUpdatedAt(v int64) *SpaceDictionaryUpdate {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (sdu *SpaceDictionaryUpdate) ClearUpdatedAt() *SpaceDictionaryUpdate {
-	sdu.mutation.ClearUpdatedAt()
-	return sdu
+func (_u *SpaceDictionaryUpdate) ClearUpdatedAt() *SpaceDictionaryUpdate {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // Mutation returns the SpaceDictionaryMutation object of the builder.
-func (sdu *SpaceDictionaryUpdate) Mutation() *SpaceDictionaryMutation {
-	return sdu.mutation
+func (_u *SpaceDictionaryUpdate) Mutation() *SpaceDictionaryMutation {
+	return _u.mutation
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
-func (sdu *SpaceDictionaryUpdate) Save(ctx context.Context) (int, error) {
-	sdu.defaults()
-	return withHooks(ctx, sdu.sqlSave, sdu.mutation, sdu.hooks)
+func (_u *SpaceDictionaryUpdate) Save(ctx context.Context) (int, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (sdu *SpaceDictionaryUpdate) SaveX(ctx context.Context) int {
-	affected, err := sdu.Save(ctx)
+func (_u *SpaceDictionaryUpdate) SaveX(ctx context.Context) int {
+	affected, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -147,72 +147,72 @@ func (sdu *SpaceDictionaryUpdate) SaveX(ctx context.Context) int {
 }
 
 // Exec executes the query.
-func (sdu *SpaceDictionaryUpdate) Exec(ctx context.Context) error {
-	_, err := sdu.Save(ctx)
+func (_u *SpaceDictionaryUpdate) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (sdu *SpaceDictionaryUpdate) ExecX(ctx context.Context) {
-	if err := sdu.Exec(ctx); err != nil {
+func (_u *SpaceDictionaryUpdate) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (sdu *SpaceDictionaryUpdate) defaults() {
-	if _, ok := sdu.mutation.UpdatedAt(); !ok && !sdu.mutation.UpdatedAtCleared() {
+func (_u *SpaceDictionaryUpdate) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := spacedictionary.UpdateDefaultUpdatedAt()
-		sdu.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (sdu *SpaceDictionaryUpdate) sqlSave(ctx context.Context) (n int, err error) {
+func (_u *SpaceDictionaryUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	_spec := sqlgraph.NewUpdateSpec(spacedictionary.Table, spacedictionary.Columns, sqlgraph.NewFieldSpec(spacedictionary.FieldID, field.TypeString))
-	if ps := sdu.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := sdu.mutation.SpaceID(); ok {
+	if value, ok := _u.mutation.SpaceID(); ok {
 		_spec.SetField(spacedictionary.FieldSpaceID, field.TypeString, value)
 	}
-	if sdu.mutation.SpaceIDCleared() {
+	if _u.mutation.SpaceIDCleared() {
 		_spec.ClearField(spacedictionary.FieldSpaceID, field.TypeString)
 	}
-	if value, ok := sdu.mutation.DictionaryID(); ok {
+	if value, ok := _u.mutation.DictionaryID(); ok {
 		_spec.SetField(spacedictionary.FieldDictionaryID, field.TypeString, value)
 	}
-	if sdu.mutation.DictionaryIDCleared() {
+	if _u.mutation.DictionaryIDCleared() {
 		_spec.ClearField(spacedictionary.FieldDictionaryID, field.TypeString)
 	}
-	if value, ok := sdu.mutation.CreatedBy(); ok {
+	if value, ok := _u.mutation.CreatedBy(); ok {
 		_spec.SetField(spacedictionary.FieldCreatedBy, field.TypeString, value)
 	}
-	if sdu.mutation.CreatedByCleared() {
+	if _u.mutation.CreatedByCleared() {
 		_spec.ClearField(spacedictionary.FieldCreatedBy, field.TypeString)
 	}
-	if value, ok := sdu.mutation.UpdatedBy(); ok {
+	if value, ok := _u.mutation.UpdatedBy(); ok {
 		_spec.SetField(spacedictionary.FieldUpdatedBy, field.TypeString, value)
 	}
-	if sdu.mutation.UpdatedByCleared() {
+	if _u.mutation.UpdatedByCleared() {
 		_spec.ClearField(spacedictionary.FieldUpdatedBy, field.TypeString)
 	}
-	if sdu.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(spacedictionary.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := sdu.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(spacedictionary.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := sdu.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(spacedictionary.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if sdu.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(spacedictionary.FieldUpdatedAt, field.TypeInt64)
 	}
-	if n, err = sqlgraph.UpdateNodes(ctx, sdu.driver, _spec); err != nil {
+	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{spacedictionary.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -220,8 +220,8 @@ func (sdu *SpaceDictionaryUpdate) sqlSave(ctx context.Context) (n int, err error
 		}
 		return 0, err
 	}
-	sdu.mutation.done = true
-	return n, nil
+	_u.mutation.done = true
+	return _node, nil
 }
 
 // SpaceDictionaryUpdateOne is the builder for updating a single SpaceDictionary entity.
@@ -233,131 +233,131 @@ type SpaceDictionaryUpdateOne struct {
 }
 
 // SetSpaceID sets the "space_id" field.
-func (sduo *SpaceDictionaryUpdateOne) SetSpaceID(s string) *SpaceDictionaryUpdateOne {
-	sduo.mutation.SetSpaceID(s)
-	return sduo
+func (_u *SpaceDictionaryUpdateOne) SetSpaceID(v string) *SpaceDictionaryUpdateOne {
+	_u.mutation.SetSpaceID(v)
+	return _u
 }
 
 // SetNillableSpaceID sets the "space_id" field if the given value is not nil.
-func (sduo *SpaceDictionaryUpdateOne) SetNillableSpaceID(s *string) *SpaceDictionaryUpdateOne {
-	if s != nil {
-		sduo.SetSpaceID(*s)
+func (_u *SpaceDictionaryUpdateOne) SetNillableSpaceID(v *string) *SpaceDictionaryUpdateOne {
+	if v != nil {
+		_u.SetSpaceID(*v)
 	}
-	return sduo
+	return _u
 }
 
 // ClearSpaceID clears the value of the "space_id" field.
-func (sduo *SpaceDictionaryUpdateOne) ClearSpaceID() *SpaceDictionaryUpdateOne {
-	sduo.mutation.ClearSpaceID()
-	return sduo
+func (_u *SpaceDictionaryUpdateOne) ClearSpaceID() *SpaceDictionaryUpdateOne {
+	_u.mutation.ClearSpaceID()
+	return _u
 }
 
 // SetDictionaryID sets the "dictionary_id" field.
-func (sduo *SpaceDictionaryUpdateOne) SetDictionaryID(s string) *SpaceDictionaryUpdateOne {
-	sduo.mutation.SetDictionaryID(s)
-	return sduo
+func (_u *SpaceDictionaryUpdateOne) SetDictionaryID(v string) *SpaceDictionaryUpdateOne {
+	_u.mutation.SetDictionaryID(v)
+	return _u
 }
 
 // SetNillableDictionaryID sets the "dictionary_id" field if the given value is not nil.
-func (sduo *SpaceDictionaryUpdateOne) SetNillableDictionaryID(s *string) *SpaceDictionaryUpdateOne {
-	if s != nil {
-		sduo.SetDictionaryID(*s)
+func (_u *SpaceDictionaryUpdateOne) SetNillableDictionaryID(v *string) *SpaceDictionaryUpdateOne {
+	if v != nil {
+		_u.SetDictionaryID(*v)
 	}
-	return sduo
+	return _u
 }
 
 // ClearDictionaryID clears the value of the "dictionary_id" field.
-func (sduo *SpaceDictionaryUpdateOne) ClearDictionaryID() *SpaceDictionaryUpdateOne {
-	sduo.mutation.ClearDictionaryID()
-	return sduo
+func (_u *SpaceDictionaryUpdateOne) ClearDictionaryID() *SpaceDictionaryUpdateOne {
+	_u.mutation.ClearDictionaryID()
+	return _u
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (sduo *SpaceDictionaryUpdateOne) SetCreatedBy(s string) *SpaceDictionaryUpdateOne {
-	sduo.mutation.SetCreatedBy(s)
-	return sduo
+func (_u *SpaceDictionaryUpdateOne) SetCreatedBy(v string) *SpaceDictionaryUpdateOne {
+	_u.mutation.SetCreatedBy(v)
+	return _u
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (sduo *SpaceDictionaryUpdateOne) SetNillableCreatedBy(s *string) *SpaceDictionaryUpdateOne {
-	if s != nil {
-		sduo.SetCreatedBy(*s)
+func (_u *SpaceDictionaryUpdateOne) SetNillableCreatedBy(v *string) *SpaceDictionaryUpdateOne {
+	if v != nil {
+		_u.SetCreatedBy(*v)
 	}
-	return sduo
+	return _u
 }
 
 // ClearCreatedBy clears the value of the "created_by" field.
-func (sduo *SpaceDictionaryUpdateOne) ClearCreatedBy() *SpaceDictionaryUpdateOne {
-	sduo.mutation.ClearCreatedBy()
-	return sduo
+func (_u *SpaceDictionaryUpdateOne) ClearCreatedBy() *SpaceDictionaryUpdateOne {
+	_u.mutation.ClearCreatedBy()
+	return _u
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (sduo *SpaceDictionaryUpdateOne) SetUpdatedBy(s string) *SpaceDictionaryUpdateOne {
-	sduo.mutation.SetUpdatedBy(s)
-	return sduo
+func (_u *SpaceDictionaryUpdateOne) SetUpdatedBy(v string) *SpaceDictionaryUpdateOne {
+	_u.mutation.SetUpdatedBy(v)
+	return _u
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (sduo *SpaceDictionaryUpdateOne) SetNillableUpdatedBy(s *string) *SpaceDictionaryUpdateOne {
-	if s != nil {
-		sduo.SetUpdatedBy(*s)
+func (_u *SpaceDictionaryUpdateOne) SetNillableUpdatedBy(v *string) *SpaceDictionaryUpdateOne {
+	if v != nil {
+		_u.SetUpdatedBy(*v)
 	}
-	return sduo
+	return _u
 }
 
 // ClearUpdatedBy clears the value of the "updated_by" field.
-func (sduo *SpaceDictionaryUpdateOne) ClearUpdatedBy() *SpaceDictionaryUpdateOne {
-	sduo.mutation.ClearUpdatedBy()
-	return sduo
+func (_u *SpaceDictionaryUpdateOne) ClearUpdatedBy() *SpaceDictionaryUpdateOne {
+	_u.mutation.ClearUpdatedBy()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (sduo *SpaceDictionaryUpdateOne) SetUpdatedAt(i int64) *SpaceDictionaryUpdateOne {
-	sduo.mutation.ResetUpdatedAt()
-	sduo.mutation.SetUpdatedAt(i)
-	return sduo
+func (_u *SpaceDictionaryUpdateOne) SetUpdatedAt(v int64) *SpaceDictionaryUpdateOne {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (sduo *SpaceDictionaryUpdateOne) AddUpdatedAt(i int64) *SpaceDictionaryUpdateOne {
-	sduo.mutation.AddUpdatedAt(i)
-	return sduo
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *SpaceDictionaryUpdateOne) AddUpdatedAt(v int64) *SpaceDictionaryUpdateOne {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (sduo *SpaceDictionaryUpdateOne) ClearUpdatedAt() *SpaceDictionaryUpdateOne {
-	sduo.mutation.ClearUpdatedAt()
-	return sduo
+func (_u *SpaceDictionaryUpdateOne) ClearUpdatedAt() *SpaceDictionaryUpdateOne {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // Mutation returns the SpaceDictionaryMutation object of the builder.
-func (sduo *SpaceDictionaryUpdateOne) Mutation() *SpaceDictionaryMutation {
-	return sduo.mutation
+func (_u *SpaceDictionaryUpdateOne) Mutation() *SpaceDictionaryMutation {
+	return _u.mutation
 }
 
 // Where appends a list predicates to the SpaceDictionaryUpdate builder.
-func (sduo *SpaceDictionaryUpdateOne) Where(ps ...predicate.SpaceDictionary) *SpaceDictionaryUpdateOne {
-	sduo.mutation.Where(ps...)
-	return sduo
+func (_u *SpaceDictionaryUpdateOne) Where(ps ...predicate.SpaceDictionary) *SpaceDictionaryUpdateOne {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // Select allows selecting one or more fields (columns) of the returned entity.
 // The default is selecting all fields defined in the entity schema.
-func (sduo *SpaceDictionaryUpdateOne) Select(field string, fields ...string) *SpaceDictionaryUpdateOne {
-	sduo.fields = append([]string{field}, fields...)
-	return sduo
+func (_u *SpaceDictionaryUpdateOne) Select(field string, fields ...string) *SpaceDictionaryUpdateOne {
+	_u.fields = append([]string{field}, fields...)
+	return _u
 }
 
 // Save executes the query and returns the updated SpaceDictionary entity.
-func (sduo *SpaceDictionaryUpdateOne) Save(ctx context.Context) (*SpaceDictionary, error) {
-	sduo.defaults()
-	return withHooks(ctx, sduo.sqlSave, sduo.mutation, sduo.hooks)
+func (_u *SpaceDictionaryUpdateOne) Save(ctx context.Context) (*SpaceDictionary, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (sduo *SpaceDictionaryUpdateOne) SaveX(ctx context.Context) *SpaceDictionary {
-	node, err := sduo.Save(ctx)
+func (_u *SpaceDictionaryUpdateOne) SaveX(ctx context.Context) *SpaceDictionary {
+	node, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -365,34 +365,34 @@ func (sduo *SpaceDictionaryUpdateOne) SaveX(ctx context.Context) *SpaceDictionar
 }
 
 // Exec executes the query on the entity.
-func (sduo *SpaceDictionaryUpdateOne) Exec(ctx context.Context) error {
-	_, err := sduo.Save(ctx)
+func (_u *SpaceDictionaryUpdateOne) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (sduo *SpaceDictionaryUpdateOne) ExecX(ctx context.Context) {
-	if err := sduo.Exec(ctx); err != nil {
+func (_u *SpaceDictionaryUpdateOne) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (sduo *SpaceDictionaryUpdateOne) defaults() {
-	if _, ok := sduo.mutation.UpdatedAt(); !ok && !sduo.mutation.UpdatedAtCleared() {
+func (_u *SpaceDictionaryUpdateOne) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := spacedictionary.UpdateDefaultUpdatedAt()
-		sduo.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (sduo *SpaceDictionaryUpdateOne) sqlSave(ctx context.Context) (_node *SpaceDictionary, err error) {
+func (_u *SpaceDictionaryUpdateOne) sqlSave(ctx context.Context) (_node *SpaceDictionary, err error) {
 	_spec := sqlgraph.NewUpdateSpec(spacedictionary.Table, spacedictionary.Columns, sqlgraph.NewFieldSpec(spacedictionary.FieldID, field.TypeString))
-	id, ok := sduo.mutation.ID()
+	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "SpaceDictionary.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
-	if fields := sduo.fields; len(fields) > 0 {
+	if fields := _u.fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, spacedictionary.FieldID)
 		for _, f := range fields {
@@ -404,53 +404,53 @@ func (sduo *SpaceDictionaryUpdateOne) sqlSave(ctx context.Context) (_node *Space
 			}
 		}
 	}
-	if ps := sduo.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := sduo.mutation.SpaceID(); ok {
+	if value, ok := _u.mutation.SpaceID(); ok {
 		_spec.SetField(spacedictionary.FieldSpaceID, field.TypeString, value)
 	}
-	if sduo.mutation.SpaceIDCleared() {
+	if _u.mutation.SpaceIDCleared() {
 		_spec.ClearField(spacedictionary.FieldSpaceID, field.TypeString)
 	}
-	if value, ok := sduo.mutation.DictionaryID(); ok {
+	if value, ok := _u.mutation.DictionaryID(); ok {
 		_spec.SetField(spacedictionary.FieldDictionaryID, field.TypeString, value)
 	}
-	if sduo.mutation.DictionaryIDCleared() {
+	if _u.mutation.DictionaryIDCleared() {
 		_spec.ClearField(spacedictionary.FieldDictionaryID, field.TypeString)
 	}
-	if value, ok := sduo.mutation.CreatedBy(); ok {
+	if value, ok := _u.mutation.CreatedBy(); ok {
 		_spec.SetField(spacedictionary.FieldCreatedBy, field.TypeString, value)
 	}
-	if sduo.mutation.CreatedByCleared() {
+	if _u.mutation.CreatedByCleared() {
 		_spec.ClearField(spacedictionary.FieldCreatedBy, field.TypeString)
 	}
-	if value, ok := sduo.mutation.UpdatedBy(); ok {
+	if value, ok := _u.mutation.UpdatedBy(); ok {
 		_spec.SetField(spacedictionary.FieldUpdatedBy, field.TypeString, value)
 	}
-	if sduo.mutation.UpdatedByCleared() {
+	if _u.mutation.UpdatedByCleared() {
 		_spec.ClearField(spacedictionary.FieldUpdatedBy, field.TypeString)
 	}
-	if sduo.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(spacedictionary.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := sduo.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(spacedictionary.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := sduo.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(spacedictionary.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if sduo.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(spacedictionary.FieldUpdatedAt, field.TypeInt64)
 	}
-	_node = &SpaceDictionary{config: sduo.config}
+	_node = &SpaceDictionary{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues
-	if err = sqlgraph.UpdateNode(ctx, sduo.driver, _spec); err != nil {
+	if err = sqlgraph.UpdateNode(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{spacedictionary.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -458,6 +458,6 @@ func (sduo *SpaceDictionaryUpdateOne) sqlSave(ctx context.Context) (_node *Space
 		}
 		return nil, err
 	}
-	sduo.mutation.done = true
+	_u.mutation.done = true
 	return _node, nil
 }

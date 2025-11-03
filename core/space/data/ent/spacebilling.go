@@ -79,7 +79,7 @@ func (*SpaceBilling) scanValues(columns []string) ([]any, error) {
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
 // to the SpaceBilling fields.
-func (sb *SpaceBilling) assignValues(columns []string, values []any) error {
+func (_m *SpaceBilling) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
@@ -89,25 +89,25 @@ func (sb *SpaceBilling) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field id", values[i])
 			} else if value.Valid {
-				sb.ID = value.String
+				_m.ID = value.String
 			}
 		case spacebilling.FieldSpaceID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field space_id", values[i])
 			} else if value.Valid {
-				sb.SpaceID = value.String
+				_m.SpaceID = value.String
 			}
 		case spacebilling.FieldDescription:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field description", values[i])
 			} else if value.Valid {
-				sb.Description = value.String
+				_m.Description = value.String
 			}
 		case spacebilling.FieldExtras:
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field extras", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &sb.Extras); err != nil {
+				if err := json.Unmarshal(*value, &_m.Extras); err != nil {
 					return fmt.Errorf("unmarshal field extras: %w", err)
 				}
 			}
@@ -115,96 +115,96 @@ func (sb *SpaceBilling) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field created_by", values[i])
 			} else if value.Valid {
-				sb.CreatedBy = value.String
+				_m.CreatedBy = value.String
 			}
 		case spacebilling.FieldUpdatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_by", values[i])
 			} else if value.Valid {
-				sb.UpdatedBy = value.String
+				_m.UpdatedBy = value.String
 			}
 		case spacebilling.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field created_at", values[i])
 			} else if value.Valid {
-				sb.CreatedAt = value.Int64
+				_m.CreatedAt = value.Int64
 			}
 		case spacebilling.FieldUpdatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_at", values[i])
 			} else if value.Valid {
-				sb.UpdatedAt = value.Int64
+				_m.UpdatedAt = value.Int64
 			}
 		case spacebilling.FieldBillingPeriod:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field billing_period", values[i])
 			} else if value.Valid {
-				sb.BillingPeriod = value.String
+				_m.BillingPeriod = value.String
 			}
 		case spacebilling.FieldPeriodStart:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field period_start", values[i])
 			} else if value.Valid {
-				sb.PeriodStart = value.Int64
+				_m.PeriodStart = value.Int64
 			}
 		case spacebilling.FieldPeriodEnd:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field period_end", values[i])
 			} else if value.Valid {
-				sb.PeriodEnd = value.Int64
+				_m.PeriodEnd = value.Int64
 			}
 		case spacebilling.FieldAmount:
 			if value, ok := values[i].(*sql.NullFloat64); !ok {
 				return fmt.Errorf("unexpected type %T for field amount", values[i])
 			} else if value.Valid {
-				sb.Amount = value.Float64
+				_m.Amount = value.Float64
 			}
 		case spacebilling.FieldCurrency:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field currency", values[i])
 			} else if value.Valid {
-				sb.Currency = value.String
+				_m.Currency = value.String
 			}
 		case spacebilling.FieldStatus:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field status", values[i])
 			} else if value.Valid {
-				sb.Status = value.String
+				_m.Status = value.String
 			}
 		case spacebilling.FieldInvoiceNumber:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field invoice_number", values[i])
 			} else if value.Valid {
-				sb.InvoiceNumber = value.String
+				_m.InvoiceNumber = value.String
 			}
 		case spacebilling.FieldPaymentMethod:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field payment_method", values[i])
 			} else if value.Valid {
-				sb.PaymentMethod = value.String
+				_m.PaymentMethod = value.String
 			}
 		case spacebilling.FieldPaidAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field paid_at", values[i])
 			} else if value.Valid {
-				sb.PaidAt = value.Int64
+				_m.PaidAt = value.Int64
 			}
 		case spacebilling.FieldDueDate:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field due_date", values[i])
 			} else if value.Valid {
-				sb.DueDate = value.Int64
+				_m.DueDate = value.Int64
 			}
 		case spacebilling.FieldUsageDetails:
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field usage_details", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &sb.UsageDetails); err != nil {
+				if err := json.Unmarshal(*value, &_m.UsageDetails); err != nil {
 					return fmt.Errorf("unmarshal field usage_details: %w", err)
 				}
 			}
 		default:
-			sb.selectValues.Set(columns[i], values[i])
+			_m.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
@@ -212,86 +212,86 @@ func (sb *SpaceBilling) assignValues(columns []string, values []any) error {
 
 // Value returns the ent.Value that was dynamically selected and assigned to the SpaceBilling.
 // This includes values selected through modifiers, order, etc.
-func (sb *SpaceBilling) Value(name string) (ent.Value, error) {
-	return sb.selectValues.Get(name)
+func (_m *SpaceBilling) Value(name string) (ent.Value, error) {
+	return _m.selectValues.Get(name)
 }
 
 // Update returns a builder for updating this SpaceBilling.
 // Note that you need to call SpaceBilling.Unwrap() before calling this method if this SpaceBilling
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (sb *SpaceBilling) Update() *SpaceBillingUpdateOne {
-	return NewSpaceBillingClient(sb.config).UpdateOne(sb)
+func (_m *SpaceBilling) Update() *SpaceBillingUpdateOne {
+	return NewSpaceBillingClient(_m.config).UpdateOne(_m)
 }
 
 // Unwrap unwraps the SpaceBilling entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (sb *SpaceBilling) Unwrap() *SpaceBilling {
-	_tx, ok := sb.config.driver.(*txDriver)
+func (_m *SpaceBilling) Unwrap() *SpaceBilling {
+	_tx, ok := _m.config.driver.(*txDriver)
 	if !ok {
 		panic("ent: SpaceBilling is not a transactional entity")
 	}
-	sb.config.driver = _tx.drv
-	return sb
+	_m.config.driver = _tx.drv
+	return _m
 }
 
 // String implements the fmt.Stringer.
-func (sb *SpaceBilling) String() string {
+func (_m *SpaceBilling) String() string {
 	var builder strings.Builder
 	builder.WriteString("SpaceBilling(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", sb.ID))
+	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
 	builder.WriteString("space_id=")
-	builder.WriteString(sb.SpaceID)
+	builder.WriteString(_m.SpaceID)
 	builder.WriteString(", ")
 	builder.WriteString("description=")
-	builder.WriteString(sb.Description)
+	builder.WriteString(_m.Description)
 	builder.WriteString(", ")
 	builder.WriteString("extras=")
-	builder.WriteString(fmt.Sprintf("%v", sb.Extras))
+	builder.WriteString(fmt.Sprintf("%v", _m.Extras))
 	builder.WriteString(", ")
 	builder.WriteString("created_by=")
-	builder.WriteString(sb.CreatedBy)
+	builder.WriteString(_m.CreatedBy)
 	builder.WriteString(", ")
 	builder.WriteString("updated_by=")
-	builder.WriteString(sb.UpdatedBy)
+	builder.WriteString(_m.UpdatedBy)
 	builder.WriteString(", ")
 	builder.WriteString("created_at=")
-	builder.WriteString(fmt.Sprintf("%v", sb.CreatedAt))
+	builder.WriteString(fmt.Sprintf("%v", _m.CreatedAt))
 	builder.WriteString(", ")
 	builder.WriteString("updated_at=")
-	builder.WriteString(fmt.Sprintf("%v", sb.UpdatedAt))
+	builder.WriteString(fmt.Sprintf("%v", _m.UpdatedAt))
 	builder.WriteString(", ")
 	builder.WriteString("billing_period=")
-	builder.WriteString(sb.BillingPeriod)
+	builder.WriteString(_m.BillingPeriod)
 	builder.WriteString(", ")
 	builder.WriteString("period_start=")
-	builder.WriteString(fmt.Sprintf("%v", sb.PeriodStart))
+	builder.WriteString(fmt.Sprintf("%v", _m.PeriodStart))
 	builder.WriteString(", ")
 	builder.WriteString("period_end=")
-	builder.WriteString(fmt.Sprintf("%v", sb.PeriodEnd))
+	builder.WriteString(fmt.Sprintf("%v", _m.PeriodEnd))
 	builder.WriteString(", ")
 	builder.WriteString("amount=")
-	builder.WriteString(fmt.Sprintf("%v", sb.Amount))
+	builder.WriteString(fmt.Sprintf("%v", _m.Amount))
 	builder.WriteString(", ")
 	builder.WriteString("currency=")
-	builder.WriteString(sb.Currency)
+	builder.WriteString(_m.Currency)
 	builder.WriteString(", ")
 	builder.WriteString("status=")
-	builder.WriteString(sb.Status)
+	builder.WriteString(_m.Status)
 	builder.WriteString(", ")
 	builder.WriteString("invoice_number=")
-	builder.WriteString(sb.InvoiceNumber)
+	builder.WriteString(_m.InvoiceNumber)
 	builder.WriteString(", ")
 	builder.WriteString("payment_method=")
-	builder.WriteString(sb.PaymentMethod)
+	builder.WriteString(_m.PaymentMethod)
 	builder.WriteString(", ")
 	builder.WriteString("paid_at=")
-	builder.WriteString(fmt.Sprintf("%v", sb.PaidAt))
+	builder.WriteString(fmt.Sprintf("%v", _m.PaidAt))
 	builder.WriteString(", ")
 	builder.WriteString("due_date=")
-	builder.WriteString(fmt.Sprintf("%v", sb.DueDate))
+	builder.WriteString(fmt.Sprintf("%v", _m.DueDate))
 	builder.WriteString(", ")
 	builder.WriteString("usage_details=")
-	builder.WriteString(fmt.Sprintf("%v", sb.UsageDetails))
+	builder.WriteString(fmt.Sprintf("%v", _m.UsageDetails))
 	builder.WriteByte(')')
 	return builder.String()
 }

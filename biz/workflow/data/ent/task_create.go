@@ -20,591 +20,591 @@ type TaskCreate struct {
 }
 
 // SetName sets the "name" field.
-func (tc *TaskCreate) SetName(s string) *TaskCreate {
-	tc.mutation.SetName(s)
-	return tc
+func (_c *TaskCreate) SetName(v string) *TaskCreate {
+	_c.mutation.SetName(v)
+	return _c
 }
 
 // SetNillableName sets the "name" field if the given value is not nil.
-func (tc *TaskCreate) SetNillableName(s *string) *TaskCreate {
-	if s != nil {
-		tc.SetName(*s)
+func (_c *TaskCreate) SetNillableName(v *string) *TaskCreate {
+	if v != nil {
+		_c.SetName(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetDescription sets the "description" field.
-func (tc *TaskCreate) SetDescription(s string) *TaskCreate {
-	tc.mutation.SetDescription(s)
-	return tc
+func (_c *TaskCreate) SetDescription(v string) *TaskCreate {
+	_c.mutation.SetDescription(v)
+	return _c
 }
 
 // SetNillableDescription sets the "description" field if the given value is not nil.
-func (tc *TaskCreate) SetNillableDescription(s *string) *TaskCreate {
-	if s != nil {
-		tc.SetDescription(*s)
+func (_c *TaskCreate) SetNillableDescription(v *string) *TaskCreate {
+	if v != nil {
+		_c.SetDescription(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetStatus sets the "status" field.
-func (tc *TaskCreate) SetStatus(s string) *TaskCreate {
-	tc.mutation.SetStatus(s)
-	return tc
+func (_c *TaskCreate) SetStatus(v string) *TaskCreate {
+	_c.mutation.SetStatus(v)
+	return _c
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (tc *TaskCreate) SetNillableStatus(s *string) *TaskCreate {
-	if s != nil {
-		tc.SetStatus(*s)
+func (_c *TaskCreate) SetNillableStatus(v *string) *TaskCreate {
+	if v != nil {
+		_c.SetStatus(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetProcessID sets the "process_id" field.
-func (tc *TaskCreate) SetProcessID(s string) *TaskCreate {
-	tc.mutation.SetProcessID(s)
-	return tc
+func (_c *TaskCreate) SetProcessID(v string) *TaskCreate {
+	_c.mutation.SetProcessID(v)
+	return _c
 }
 
 // SetTemplateID sets the "template_id" field.
-func (tc *TaskCreate) SetTemplateID(s string) *TaskCreate {
-	tc.mutation.SetTemplateID(s)
-	return tc
+func (_c *TaskCreate) SetTemplateID(v string) *TaskCreate {
+	_c.mutation.SetTemplateID(v)
+	return _c
 }
 
 // SetBusinessKey sets the "business_key" field.
-func (tc *TaskCreate) SetBusinessKey(s string) *TaskCreate {
-	tc.mutation.SetBusinessKey(s)
-	return tc
+func (_c *TaskCreate) SetBusinessKey(v string) *TaskCreate {
+	_c.mutation.SetBusinessKey(v)
+	return _c
 }
 
 // SetNodeKey sets the "node_key" field.
-func (tc *TaskCreate) SetNodeKey(s string) *TaskCreate {
-	tc.mutation.SetNodeKey(s)
-	return tc
+func (_c *TaskCreate) SetNodeKey(v string) *TaskCreate {
+	_c.mutation.SetNodeKey(v)
+	return _c
 }
 
 // SetNodeType sets the "node_type" field.
-func (tc *TaskCreate) SetNodeType(s string) *TaskCreate {
-	tc.mutation.SetNodeType(s)
-	return tc
+func (_c *TaskCreate) SetNodeType(v string) *TaskCreate {
+	_c.mutation.SetNodeType(v)
+	return _c
 }
 
 // SetNodeConfig sets the "node_config" field.
-func (tc *TaskCreate) SetNodeConfig(m map[string]interface{}) *TaskCreate {
-	tc.mutation.SetNodeConfig(m)
-	return tc
+func (_c *TaskCreate) SetNodeConfig(v map[string]interface{}) *TaskCreate {
+	_c.mutation.SetNodeConfig(v)
+	return _c
 }
 
 // SetNodeRules sets the "node_rules" field.
-func (tc *TaskCreate) SetNodeRules(m map[string]interface{}) *TaskCreate {
-	tc.mutation.SetNodeRules(m)
-	return tc
+func (_c *TaskCreate) SetNodeRules(v map[string]interface{}) *TaskCreate {
+	_c.mutation.SetNodeRules(v)
+	return _c
 }
 
 // SetNodeEvents sets the "node_events" field.
-func (tc *TaskCreate) SetNodeEvents(m map[string]interface{}) *TaskCreate {
-	tc.mutation.SetNodeEvents(m)
-	return tc
+func (_c *TaskCreate) SetNodeEvents(v map[string]interface{}) *TaskCreate {
+	_c.mutation.SetNodeEvents(v)
+	return _c
 }
 
 // SetAssignees sets the "assignees" field.
-func (tc *TaskCreate) SetAssignees(s []string) *TaskCreate {
-	tc.mutation.SetAssignees(s)
-	return tc
+func (_c *TaskCreate) SetAssignees(v []string) *TaskCreate {
+	_c.mutation.SetAssignees(v)
+	return _c
 }
 
 // SetCandidates sets the "candidates" field.
-func (tc *TaskCreate) SetCandidates(s []string) *TaskCreate {
-	tc.mutation.SetCandidates(s)
-	return tc
+func (_c *TaskCreate) SetCandidates(v []string) *TaskCreate {
+	_c.mutation.SetCandidates(v)
+	return _c
 }
 
 // SetDelegatedFrom sets the "delegated_from" field.
-func (tc *TaskCreate) SetDelegatedFrom(s string) *TaskCreate {
-	tc.mutation.SetDelegatedFrom(s)
-	return tc
+func (_c *TaskCreate) SetDelegatedFrom(v string) *TaskCreate {
+	_c.mutation.SetDelegatedFrom(v)
+	return _c
 }
 
 // SetNillableDelegatedFrom sets the "delegated_from" field if the given value is not nil.
-func (tc *TaskCreate) SetNillableDelegatedFrom(s *string) *TaskCreate {
-	if s != nil {
-		tc.SetDelegatedFrom(*s)
+func (_c *TaskCreate) SetNillableDelegatedFrom(v *string) *TaskCreate {
+	if v != nil {
+		_c.SetDelegatedFrom(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetDelegatedReason sets the "delegated_reason" field.
-func (tc *TaskCreate) SetDelegatedReason(s string) *TaskCreate {
-	tc.mutation.SetDelegatedReason(s)
-	return tc
+func (_c *TaskCreate) SetDelegatedReason(v string) *TaskCreate {
+	_c.mutation.SetDelegatedReason(v)
+	return _c
 }
 
 // SetNillableDelegatedReason sets the "delegated_reason" field if the given value is not nil.
-func (tc *TaskCreate) SetNillableDelegatedReason(s *string) *TaskCreate {
-	if s != nil {
-		tc.SetDelegatedReason(*s)
+func (_c *TaskCreate) SetNillableDelegatedReason(v *string) *TaskCreate {
+	if v != nil {
+		_c.SetDelegatedReason(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetIsDelegated sets the "is_delegated" field.
-func (tc *TaskCreate) SetIsDelegated(b bool) *TaskCreate {
-	tc.mutation.SetIsDelegated(b)
-	return tc
+func (_c *TaskCreate) SetIsDelegated(v bool) *TaskCreate {
+	_c.mutation.SetIsDelegated(v)
+	return _c
 }
 
 // SetNillableIsDelegated sets the "is_delegated" field if the given value is not nil.
-func (tc *TaskCreate) SetNillableIsDelegated(b *bool) *TaskCreate {
-	if b != nil {
-		tc.SetIsDelegated(*b)
+func (_c *TaskCreate) SetNillableIsDelegated(v *bool) *TaskCreate {
+	if v != nil {
+		_c.SetIsDelegated(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetIsTransferred sets the "is_transferred" field.
-func (tc *TaskCreate) SetIsTransferred(b bool) *TaskCreate {
-	tc.mutation.SetIsTransferred(b)
-	return tc
+func (_c *TaskCreate) SetIsTransferred(v bool) *TaskCreate {
+	_c.mutation.SetIsTransferred(v)
+	return _c
 }
 
 // SetNillableIsTransferred sets the "is_transferred" field if the given value is not nil.
-func (tc *TaskCreate) SetNillableIsTransferred(b *bool) *TaskCreate {
-	if b != nil {
-		tc.SetIsTransferred(*b)
+func (_c *TaskCreate) SetNillableIsTransferred(v *bool) *TaskCreate {
+	if v != nil {
+		_c.SetIsTransferred(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetStartTime sets the "start_time" field.
-func (tc *TaskCreate) SetStartTime(i int64) *TaskCreate {
-	tc.mutation.SetStartTime(i)
-	return tc
+func (_c *TaskCreate) SetStartTime(v int64) *TaskCreate {
+	_c.mutation.SetStartTime(v)
+	return _c
 }
 
 // SetNillableStartTime sets the "start_time" field if the given value is not nil.
-func (tc *TaskCreate) SetNillableStartTime(i *int64) *TaskCreate {
-	if i != nil {
-		tc.SetStartTime(*i)
+func (_c *TaskCreate) SetNillableStartTime(v *int64) *TaskCreate {
+	if v != nil {
+		_c.SetStartTime(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetEndTime sets the "end_time" field.
-func (tc *TaskCreate) SetEndTime(i int64) *TaskCreate {
-	tc.mutation.SetEndTime(i)
-	return tc
+func (_c *TaskCreate) SetEndTime(v int64) *TaskCreate {
+	_c.mutation.SetEndTime(v)
+	return _c
 }
 
 // SetNillableEndTime sets the "end_time" field if the given value is not nil.
-func (tc *TaskCreate) SetNillableEndTime(i *int64) *TaskCreate {
-	if i != nil {
-		tc.SetEndTime(*i)
+func (_c *TaskCreate) SetNillableEndTime(v *int64) *TaskCreate {
+	if v != nil {
+		_c.SetEndTime(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetDueTime sets the "due_time" field.
-func (tc *TaskCreate) SetDueTime(i int64) *TaskCreate {
-	tc.mutation.SetDueTime(i)
-	return tc
+func (_c *TaskCreate) SetDueTime(v int64) *TaskCreate {
+	_c.mutation.SetDueTime(v)
+	return _c
 }
 
 // SetNillableDueTime sets the "due_time" field if the given value is not nil.
-func (tc *TaskCreate) SetNillableDueTime(i *int64) *TaskCreate {
-	if i != nil {
-		tc.SetDueTime(*i)
+func (_c *TaskCreate) SetNillableDueTime(v *int64) *TaskCreate {
+	if v != nil {
+		_c.SetDueTime(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetDuration sets the "duration" field.
-func (tc *TaskCreate) SetDuration(i int) *TaskCreate {
-	tc.mutation.SetDuration(i)
-	return tc
+func (_c *TaskCreate) SetDuration(v int) *TaskCreate {
+	_c.mutation.SetDuration(v)
+	return _c
 }
 
 // SetNillableDuration sets the "duration" field if the given value is not nil.
-func (tc *TaskCreate) SetNillableDuration(i *int) *TaskCreate {
-	if i != nil {
-		tc.SetDuration(*i)
+func (_c *TaskCreate) SetNillableDuration(v *int) *TaskCreate {
+	if v != nil {
+		_c.SetDuration(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetPriority sets the "priority" field.
-func (tc *TaskCreate) SetPriority(i int) *TaskCreate {
-	tc.mutation.SetPriority(i)
-	return tc
+func (_c *TaskCreate) SetPriority(v int) *TaskCreate {
+	_c.mutation.SetPriority(v)
+	return _c
 }
 
 // SetNillablePriority sets the "priority" field if the given value is not nil.
-func (tc *TaskCreate) SetNillablePriority(i *int) *TaskCreate {
-	if i != nil {
-		tc.SetPriority(*i)
+func (_c *TaskCreate) SetNillablePriority(v *int) *TaskCreate {
+	if v != nil {
+		_c.SetPriority(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetIsTimeout sets the "is_timeout" field.
-func (tc *TaskCreate) SetIsTimeout(b bool) *TaskCreate {
-	tc.mutation.SetIsTimeout(b)
-	return tc
+func (_c *TaskCreate) SetIsTimeout(v bool) *TaskCreate {
+	_c.mutation.SetIsTimeout(v)
+	return _c
 }
 
 // SetNillableIsTimeout sets the "is_timeout" field if the given value is not nil.
-func (tc *TaskCreate) SetNillableIsTimeout(b *bool) *TaskCreate {
-	if b != nil {
-		tc.SetIsTimeout(*b)
+func (_c *TaskCreate) SetNillableIsTimeout(v *bool) *TaskCreate {
+	if v != nil {
+		_c.SetIsTimeout(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetReminderCount sets the "reminder_count" field.
-func (tc *TaskCreate) SetReminderCount(i int) *TaskCreate {
-	tc.mutation.SetReminderCount(i)
-	return tc
+func (_c *TaskCreate) SetReminderCount(v int) *TaskCreate {
+	_c.mutation.SetReminderCount(v)
+	return _c
 }
 
 // SetNillableReminderCount sets the "reminder_count" field if the given value is not nil.
-func (tc *TaskCreate) SetNillableReminderCount(i *int) *TaskCreate {
-	if i != nil {
-		tc.SetReminderCount(*i)
+func (_c *TaskCreate) SetNillableReminderCount(v *int) *TaskCreate {
+	if v != nil {
+		_c.SetReminderCount(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetAllowCancel sets the "allow_cancel" field.
-func (tc *TaskCreate) SetAllowCancel(b bool) *TaskCreate {
-	tc.mutation.SetAllowCancel(b)
-	return tc
+func (_c *TaskCreate) SetAllowCancel(v bool) *TaskCreate {
+	_c.mutation.SetAllowCancel(v)
+	return _c
 }
 
 // SetNillableAllowCancel sets the "allow_cancel" field if the given value is not nil.
-func (tc *TaskCreate) SetNillableAllowCancel(b *bool) *TaskCreate {
-	if b != nil {
-		tc.SetAllowCancel(*b)
+func (_c *TaskCreate) SetNillableAllowCancel(v *bool) *TaskCreate {
+	if v != nil {
+		_c.SetAllowCancel(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetAllowUrge sets the "allow_urge" field.
-func (tc *TaskCreate) SetAllowUrge(b bool) *TaskCreate {
-	tc.mutation.SetAllowUrge(b)
-	return tc
+func (_c *TaskCreate) SetAllowUrge(v bool) *TaskCreate {
+	_c.mutation.SetAllowUrge(v)
+	return _c
 }
 
 // SetNillableAllowUrge sets the "allow_urge" field if the given value is not nil.
-func (tc *TaskCreate) SetNillableAllowUrge(b *bool) *TaskCreate {
-	if b != nil {
-		tc.SetAllowUrge(*b)
+func (_c *TaskCreate) SetNillableAllowUrge(v *bool) *TaskCreate {
+	if v != nil {
+		_c.SetAllowUrge(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetAllowDelegate sets the "allow_delegate" field.
-func (tc *TaskCreate) SetAllowDelegate(b bool) *TaskCreate {
-	tc.mutation.SetAllowDelegate(b)
-	return tc
+func (_c *TaskCreate) SetAllowDelegate(v bool) *TaskCreate {
+	_c.mutation.SetAllowDelegate(v)
+	return _c
 }
 
 // SetNillableAllowDelegate sets the "allow_delegate" field if the given value is not nil.
-func (tc *TaskCreate) SetNillableAllowDelegate(b *bool) *TaskCreate {
-	if b != nil {
-		tc.SetAllowDelegate(*b)
+func (_c *TaskCreate) SetNillableAllowDelegate(v *bool) *TaskCreate {
+	if v != nil {
+		_c.SetAllowDelegate(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetAllowTransfer sets the "allow_transfer" field.
-func (tc *TaskCreate) SetAllowTransfer(b bool) *TaskCreate {
-	tc.mutation.SetAllowTransfer(b)
-	return tc
+func (_c *TaskCreate) SetAllowTransfer(v bool) *TaskCreate {
+	_c.mutation.SetAllowTransfer(v)
+	return _c
 }
 
 // SetNillableAllowTransfer sets the "allow_transfer" field if the given value is not nil.
-func (tc *TaskCreate) SetNillableAllowTransfer(b *bool) *TaskCreate {
-	if b != nil {
-		tc.SetAllowTransfer(*b)
+func (_c *TaskCreate) SetNillableAllowTransfer(v *bool) *TaskCreate {
+	if v != nil {
+		_c.SetAllowTransfer(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetIsDraftEnabled sets the "is_draft_enabled" field.
-func (tc *TaskCreate) SetIsDraftEnabled(b bool) *TaskCreate {
-	tc.mutation.SetIsDraftEnabled(b)
-	return tc
+func (_c *TaskCreate) SetIsDraftEnabled(v bool) *TaskCreate {
+	_c.mutation.SetIsDraftEnabled(v)
+	return _c
 }
 
 // SetNillableIsDraftEnabled sets the "is_draft_enabled" field if the given value is not nil.
-func (tc *TaskCreate) SetNillableIsDraftEnabled(b *bool) *TaskCreate {
-	if b != nil {
-		tc.SetIsDraftEnabled(*b)
+func (_c *TaskCreate) SetNillableIsDraftEnabled(v *bool) *TaskCreate {
+	if v != nil {
+		_c.SetIsDraftEnabled(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetIsAutoStart sets the "is_auto_start" field.
-func (tc *TaskCreate) SetIsAutoStart(b bool) *TaskCreate {
-	tc.mutation.SetIsAutoStart(b)
-	return tc
+func (_c *TaskCreate) SetIsAutoStart(v bool) *TaskCreate {
+	_c.mutation.SetIsAutoStart(v)
+	return _c
 }
 
 // SetNillableIsAutoStart sets the "is_auto_start" field if the given value is not nil.
-func (tc *TaskCreate) SetNillableIsAutoStart(b *bool) *TaskCreate {
-	if b != nil {
-		tc.SetIsAutoStart(*b)
+func (_c *TaskCreate) SetNillableIsAutoStart(v *bool) *TaskCreate {
+	if v != nil {
+		_c.SetIsAutoStart(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetStrictMode sets the "strict_mode" field.
-func (tc *TaskCreate) SetStrictMode(b bool) *TaskCreate {
-	tc.mutation.SetStrictMode(b)
-	return tc
+func (_c *TaskCreate) SetStrictMode(v bool) *TaskCreate {
+	_c.mutation.SetStrictMode(v)
+	return _c
 }
 
 // SetNillableStrictMode sets the "strict_mode" field if the given value is not nil.
-func (tc *TaskCreate) SetNillableStrictMode(b *bool) *TaskCreate {
-	if b != nil {
-		tc.SetStrictMode(*b)
+func (_c *TaskCreate) SetNillableStrictMode(v *bool) *TaskCreate {
+	if v != nil {
+		_c.SetStrictMode(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetExtras sets the "extras" field.
-func (tc *TaskCreate) SetExtras(m map[string]interface{}) *TaskCreate {
-	tc.mutation.SetExtras(m)
-	return tc
+func (_c *TaskCreate) SetExtras(v map[string]interface{}) *TaskCreate {
+	_c.mutation.SetExtras(v)
+	return _c
 }
 
 // SetSpaceID sets the "space_id" field.
-func (tc *TaskCreate) SetSpaceID(s string) *TaskCreate {
-	tc.mutation.SetSpaceID(s)
-	return tc
+func (_c *TaskCreate) SetSpaceID(v string) *TaskCreate {
+	_c.mutation.SetSpaceID(v)
+	return _c
 }
 
 // SetNillableSpaceID sets the "space_id" field if the given value is not nil.
-func (tc *TaskCreate) SetNillableSpaceID(s *string) *TaskCreate {
-	if s != nil {
-		tc.SetSpaceID(*s)
+func (_c *TaskCreate) SetNillableSpaceID(v *string) *TaskCreate {
+	if v != nil {
+		_c.SetSpaceID(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (tc *TaskCreate) SetCreatedBy(s string) *TaskCreate {
-	tc.mutation.SetCreatedBy(s)
-	return tc
+func (_c *TaskCreate) SetCreatedBy(v string) *TaskCreate {
+	_c.mutation.SetCreatedBy(v)
+	return _c
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (tc *TaskCreate) SetNillableCreatedBy(s *string) *TaskCreate {
-	if s != nil {
-		tc.SetCreatedBy(*s)
+func (_c *TaskCreate) SetNillableCreatedBy(v *string) *TaskCreate {
+	if v != nil {
+		_c.SetCreatedBy(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (tc *TaskCreate) SetUpdatedBy(s string) *TaskCreate {
-	tc.mutation.SetUpdatedBy(s)
-	return tc
+func (_c *TaskCreate) SetUpdatedBy(v string) *TaskCreate {
+	_c.mutation.SetUpdatedBy(v)
+	return _c
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (tc *TaskCreate) SetNillableUpdatedBy(s *string) *TaskCreate {
-	if s != nil {
-		tc.SetUpdatedBy(*s)
+func (_c *TaskCreate) SetNillableUpdatedBy(v *string) *TaskCreate {
+	if v != nil {
+		_c.SetUpdatedBy(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetCreatedAt sets the "created_at" field.
-func (tc *TaskCreate) SetCreatedAt(i int64) *TaskCreate {
-	tc.mutation.SetCreatedAt(i)
-	return tc
+func (_c *TaskCreate) SetCreatedAt(v int64) *TaskCreate {
+	_c.mutation.SetCreatedAt(v)
+	return _c
 }
 
 // SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
-func (tc *TaskCreate) SetNillableCreatedAt(i *int64) *TaskCreate {
-	if i != nil {
-		tc.SetCreatedAt(*i)
+func (_c *TaskCreate) SetNillableCreatedAt(v *int64) *TaskCreate {
+	if v != nil {
+		_c.SetCreatedAt(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (tc *TaskCreate) SetUpdatedAt(i int64) *TaskCreate {
-	tc.mutation.SetUpdatedAt(i)
-	return tc
+func (_c *TaskCreate) SetUpdatedAt(v int64) *TaskCreate {
+	_c.mutation.SetUpdatedAt(v)
+	return _c
 }
 
 // SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
-func (tc *TaskCreate) SetNillableUpdatedAt(i *int64) *TaskCreate {
-	if i != nil {
-		tc.SetUpdatedAt(*i)
+func (_c *TaskCreate) SetNillableUpdatedAt(v *int64) *TaskCreate {
+	if v != nil {
+		_c.SetUpdatedAt(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetTaskKey sets the "task_key" field.
-func (tc *TaskCreate) SetTaskKey(s string) *TaskCreate {
-	tc.mutation.SetTaskKey(s)
-	return tc
+func (_c *TaskCreate) SetTaskKey(v string) *TaskCreate {
+	_c.mutation.SetTaskKey(v)
+	return _c
 }
 
 // SetParentID sets the "parent_id" field.
-func (tc *TaskCreate) SetParentID(s string) *TaskCreate {
-	tc.mutation.SetParentID(s)
-	return tc
+func (_c *TaskCreate) SetParentID(v string) *TaskCreate {
+	_c.mutation.SetParentID(v)
+	return _c
 }
 
 // SetNillableParentID sets the "parent_id" field if the given value is not nil.
-func (tc *TaskCreate) SetNillableParentID(s *string) *TaskCreate {
-	if s != nil {
-		tc.SetParentID(*s)
+func (_c *TaskCreate) SetNillableParentID(v *string) *TaskCreate {
+	if v != nil {
+		_c.SetParentID(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetChildIds sets the "child_ids" field.
-func (tc *TaskCreate) SetChildIds(s []string) *TaskCreate {
-	tc.mutation.SetChildIds(s)
-	return tc
+func (_c *TaskCreate) SetChildIds(v []string) *TaskCreate {
+	_c.mutation.SetChildIds(v)
+	return _c
 }
 
 // SetAction sets the "action" field.
-func (tc *TaskCreate) SetAction(s string) *TaskCreate {
-	tc.mutation.SetAction(s)
-	return tc
+func (_c *TaskCreate) SetAction(v string) *TaskCreate {
+	_c.mutation.SetAction(v)
+	return _c
 }
 
 // SetNillableAction sets the "action" field if the given value is not nil.
-func (tc *TaskCreate) SetNillableAction(s *string) *TaskCreate {
-	if s != nil {
-		tc.SetAction(*s)
+func (_c *TaskCreate) SetNillableAction(v *string) *TaskCreate {
+	if v != nil {
+		_c.SetAction(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetComment sets the "comment" field.
-func (tc *TaskCreate) SetComment(s string) *TaskCreate {
-	tc.mutation.SetComment(s)
-	return tc
+func (_c *TaskCreate) SetComment(v string) *TaskCreate {
+	_c.mutation.SetComment(v)
+	return _c
 }
 
 // SetNillableComment sets the "comment" field if the given value is not nil.
-func (tc *TaskCreate) SetNillableComment(s *string) *TaskCreate {
-	if s != nil {
-		tc.SetComment(*s)
+func (_c *TaskCreate) SetNillableComment(v *string) *TaskCreate {
+	if v != nil {
+		_c.SetComment(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetAttachments sets the "attachments" field.
-func (tc *TaskCreate) SetAttachments(m map[string]interface{}) *TaskCreate {
-	tc.mutation.SetAttachments(m)
-	return tc
+func (_c *TaskCreate) SetAttachments(v map[string]interface{}) *TaskCreate {
+	_c.mutation.SetAttachments(v)
+	return _c
 }
 
 // SetFormData sets the "form_data" field.
-func (tc *TaskCreate) SetFormData(m map[string]interface{}) *TaskCreate {
-	tc.mutation.SetFormData(m)
-	return tc
+func (_c *TaskCreate) SetFormData(v map[string]interface{}) *TaskCreate {
+	_c.mutation.SetFormData(v)
+	return _c
 }
 
 // SetVariables sets the "variables" field.
-func (tc *TaskCreate) SetVariables(m map[string]interface{}) *TaskCreate {
-	tc.mutation.SetVariables(m)
-	return tc
+func (_c *TaskCreate) SetVariables(v map[string]interface{}) *TaskCreate {
+	_c.mutation.SetVariables(v)
+	return _c
 }
 
 // SetIsResubmit sets the "is_resubmit" field.
-func (tc *TaskCreate) SetIsResubmit(b bool) *TaskCreate {
-	tc.mutation.SetIsResubmit(b)
-	return tc
+func (_c *TaskCreate) SetIsResubmit(v bool) *TaskCreate {
+	_c.mutation.SetIsResubmit(v)
+	return _c
 }
 
 // SetNillableIsResubmit sets the "is_resubmit" field if the given value is not nil.
-func (tc *TaskCreate) SetNillableIsResubmit(b *bool) *TaskCreate {
-	if b != nil {
-		tc.SetIsResubmit(*b)
+func (_c *TaskCreate) SetNillableIsResubmit(v *bool) *TaskCreate {
+	if v != nil {
+		_c.SetIsResubmit(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetClaimTime sets the "claim_time" field.
-func (tc *TaskCreate) SetClaimTime(i int64) *TaskCreate {
-	tc.mutation.SetClaimTime(i)
-	return tc
+func (_c *TaskCreate) SetClaimTime(v int64) *TaskCreate {
+	_c.mutation.SetClaimTime(v)
+	return _c
 }
 
 // SetNillableClaimTime sets the "claim_time" field if the given value is not nil.
-func (tc *TaskCreate) SetNillableClaimTime(i *int64) *TaskCreate {
-	if i != nil {
-		tc.SetClaimTime(*i)
+func (_c *TaskCreate) SetNillableClaimTime(v *int64) *TaskCreate {
+	if v != nil {
+		_c.SetClaimTime(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetIsUrged sets the "is_urged" field.
-func (tc *TaskCreate) SetIsUrged(b bool) *TaskCreate {
-	tc.mutation.SetIsUrged(b)
-	return tc
+func (_c *TaskCreate) SetIsUrged(v bool) *TaskCreate {
+	_c.mutation.SetIsUrged(v)
+	return _c
 }
 
 // SetNillableIsUrged sets the "is_urged" field if the given value is not nil.
-func (tc *TaskCreate) SetNillableIsUrged(b *bool) *TaskCreate {
-	if b != nil {
-		tc.SetIsUrged(*b)
+func (_c *TaskCreate) SetNillableIsUrged(v *bool) *TaskCreate {
+	if v != nil {
+		_c.SetIsUrged(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetUrgeCount sets the "urge_count" field.
-func (tc *TaskCreate) SetUrgeCount(i int) *TaskCreate {
-	tc.mutation.SetUrgeCount(i)
-	return tc
+func (_c *TaskCreate) SetUrgeCount(v int) *TaskCreate {
+	_c.mutation.SetUrgeCount(v)
+	return _c
 }
 
 // SetNillableUrgeCount sets the "urge_count" field if the given value is not nil.
-func (tc *TaskCreate) SetNillableUrgeCount(i *int) *TaskCreate {
-	if i != nil {
-		tc.SetUrgeCount(*i)
+func (_c *TaskCreate) SetNillableUrgeCount(v *int) *TaskCreate {
+	if v != nil {
+		_c.SetUrgeCount(*v)
 	}
-	return tc
+	return _c
 }
 
 // SetID sets the "id" field.
-func (tc *TaskCreate) SetID(s string) *TaskCreate {
-	tc.mutation.SetID(s)
-	return tc
+func (_c *TaskCreate) SetID(v string) *TaskCreate {
+	_c.mutation.SetID(v)
+	return _c
 }
 
 // SetNillableID sets the "id" field if the given value is not nil.
-func (tc *TaskCreate) SetNillableID(s *string) *TaskCreate {
-	if s != nil {
-		tc.SetID(*s)
+func (_c *TaskCreate) SetNillableID(v *string) *TaskCreate {
+	if v != nil {
+		_c.SetID(*v)
 	}
-	return tc
+	return _c
 }
 
 // Mutation returns the TaskMutation object of the builder.
-func (tc *TaskCreate) Mutation() *TaskMutation {
-	return tc.mutation
+func (_c *TaskCreate) Mutation() *TaskMutation {
+	return _c.mutation
 }
 
 // Save creates the Task in the database.
-func (tc *TaskCreate) Save(ctx context.Context) (*Task, error) {
-	tc.defaults()
-	return withHooks(ctx, tc.sqlSave, tc.mutation, tc.hooks)
+func (_c *TaskCreate) Save(ctx context.Context) (*Task, error) {
+	_c.defaults()
+	return withHooks(ctx, _c.sqlSave, _c.mutation, _c.hooks)
 }
 
 // SaveX calls Save and panics if Save returns an error.
-func (tc *TaskCreate) SaveX(ctx context.Context) *Task {
-	v, err := tc.Save(ctx)
+func (_c *TaskCreate) SaveX(ctx context.Context) *Task {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -612,184 +612,184 @@ func (tc *TaskCreate) SaveX(ctx context.Context) *Task {
 }
 
 // Exec executes the query.
-func (tc *TaskCreate) Exec(ctx context.Context) error {
-	_, err := tc.Save(ctx)
+func (_c *TaskCreate) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (tc *TaskCreate) ExecX(ctx context.Context) {
-	if err := tc.Exec(ctx); err != nil {
+func (_c *TaskCreate) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (tc *TaskCreate) defaults() {
-	if _, ok := tc.mutation.IsDelegated(); !ok {
+func (_c *TaskCreate) defaults() {
+	if _, ok := _c.mutation.IsDelegated(); !ok {
 		v := task.DefaultIsDelegated
-		tc.mutation.SetIsDelegated(v)
+		_c.mutation.SetIsDelegated(v)
 	}
-	if _, ok := tc.mutation.IsTransferred(); !ok {
+	if _, ok := _c.mutation.IsTransferred(); !ok {
 		v := task.DefaultIsTransferred
-		tc.mutation.SetIsTransferred(v)
+		_c.mutation.SetIsTransferred(v)
 	}
-	if _, ok := tc.mutation.StartTime(); !ok {
+	if _, ok := _c.mutation.StartTime(); !ok {
 		v := task.DefaultStartTime()
-		tc.mutation.SetStartTime(v)
+		_c.mutation.SetStartTime(v)
 	}
-	if _, ok := tc.mutation.Priority(); !ok {
+	if _, ok := _c.mutation.Priority(); !ok {
 		v := task.DefaultPriority
-		tc.mutation.SetPriority(v)
+		_c.mutation.SetPriority(v)
 	}
-	if _, ok := tc.mutation.IsTimeout(); !ok {
+	if _, ok := _c.mutation.IsTimeout(); !ok {
 		v := task.DefaultIsTimeout
-		tc.mutation.SetIsTimeout(v)
+		_c.mutation.SetIsTimeout(v)
 	}
-	if _, ok := tc.mutation.ReminderCount(); !ok {
+	if _, ok := _c.mutation.ReminderCount(); !ok {
 		v := task.DefaultReminderCount
-		tc.mutation.SetReminderCount(v)
+		_c.mutation.SetReminderCount(v)
 	}
-	if _, ok := tc.mutation.AllowCancel(); !ok {
+	if _, ok := _c.mutation.AllowCancel(); !ok {
 		v := task.DefaultAllowCancel
-		tc.mutation.SetAllowCancel(v)
+		_c.mutation.SetAllowCancel(v)
 	}
-	if _, ok := tc.mutation.AllowUrge(); !ok {
+	if _, ok := _c.mutation.AllowUrge(); !ok {
 		v := task.DefaultAllowUrge
-		tc.mutation.SetAllowUrge(v)
+		_c.mutation.SetAllowUrge(v)
 	}
-	if _, ok := tc.mutation.AllowDelegate(); !ok {
+	if _, ok := _c.mutation.AllowDelegate(); !ok {
 		v := task.DefaultAllowDelegate
-		tc.mutation.SetAllowDelegate(v)
+		_c.mutation.SetAllowDelegate(v)
 	}
-	if _, ok := tc.mutation.AllowTransfer(); !ok {
+	if _, ok := _c.mutation.AllowTransfer(); !ok {
 		v := task.DefaultAllowTransfer
-		tc.mutation.SetAllowTransfer(v)
+		_c.mutation.SetAllowTransfer(v)
 	}
-	if _, ok := tc.mutation.IsDraftEnabled(); !ok {
+	if _, ok := _c.mutation.IsDraftEnabled(); !ok {
 		v := task.DefaultIsDraftEnabled
-		tc.mutation.SetIsDraftEnabled(v)
+		_c.mutation.SetIsDraftEnabled(v)
 	}
-	if _, ok := tc.mutation.IsAutoStart(); !ok {
+	if _, ok := _c.mutation.IsAutoStart(); !ok {
 		v := task.DefaultIsAutoStart
-		tc.mutation.SetIsAutoStart(v)
+		_c.mutation.SetIsAutoStart(v)
 	}
-	if _, ok := tc.mutation.StrictMode(); !ok {
+	if _, ok := _c.mutation.StrictMode(); !ok {
 		v := task.DefaultStrictMode
-		tc.mutation.SetStrictMode(v)
+		_c.mutation.SetStrictMode(v)
 	}
-	if _, ok := tc.mutation.Extras(); !ok {
+	if _, ok := _c.mutation.Extras(); !ok {
 		v := task.DefaultExtras
-		tc.mutation.SetExtras(v)
+		_c.mutation.SetExtras(v)
 	}
-	if _, ok := tc.mutation.CreatedAt(); !ok {
+	if _, ok := _c.mutation.CreatedAt(); !ok {
 		v := task.DefaultCreatedAt()
-		tc.mutation.SetCreatedAt(v)
+		_c.mutation.SetCreatedAt(v)
 	}
-	if _, ok := tc.mutation.UpdatedAt(); !ok {
+	if _, ok := _c.mutation.UpdatedAt(); !ok {
 		v := task.DefaultUpdatedAt()
-		tc.mutation.SetUpdatedAt(v)
+		_c.mutation.SetUpdatedAt(v)
 	}
-	if _, ok := tc.mutation.ChildIds(); !ok {
+	if _, ok := _c.mutation.ChildIds(); !ok {
 		v := task.DefaultChildIds
-		tc.mutation.SetChildIds(v)
+		_c.mutation.SetChildIds(v)
 	}
-	if _, ok := tc.mutation.IsResubmit(); !ok {
+	if _, ok := _c.mutation.IsResubmit(); !ok {
 		v := task.DefaultIsResubmit
-		tc.mutation.SetIsResubmit(v)
+		_c.mutation.SetIsResubmit(v)
 	}
-	if _, ok := tc.mutation.IsUrged(); !ok {
+	if _, ok := _c.mutation.IsUrged(); !ok {
 		v := task.DefaultIsUrged
-		tc.mutation.SetIsUrged(v)
+		_c.mutation.SetIsUrged(v)
 	}
-	if _, ok := tc.mutation.UrgeCount(); !ok {
+	if _, ok := _c.mutation.UrgeCount(); !ok {
 		v := task.DefaultUrgeCount
-		tc.mutation.SetUrgeCount(v)
+		_c.mutation.SetUrgeCount(v)
 	}
-	if _, ok := tc.mutation.ID(); !ok {
+	if _, ok := _c.mutation.ID(); !ok {
 		v := task.DefaultID()
-		tc.mutation.SetID(v)
+		_c.mutation.SetID(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (tc *TaskCreate) check() error {
-	if _, ok := tc.mutation.ProcessID(); !ok {
+func (_c *TaskCreate) check() error {
+	if _, ok := _c.mutation.ProcessID(); !ok {
 		return &ValidationError{Name: "process_id", err: errors.New(`ent: missing required field "Task.process_id"`)}
 	}
-	if _, ok := tc.mutation.TemplateID(); !ok {
+	if _, ok := _c.mutation.TemplateID(); !ok {
 		return &ValidationError{Name: "template_id", err: errors.New(`ent: missing required field "Task.template_id"`)}
 	}
-	if _, ok := tc.mutation.BusinessKey(); !ok {
+	if _, ok := _c.mutation.BusinessKey(); !ok {
 		return &ValidationError{Name: "business_key", err: errors.New(`ent: missing required field "Task.business_key"`)}
 	}
-	if _, ok := tc.mutation.NodeKey(); !ok {
+	if _, ok := _c.mutation.NodeKey(); !ok {
 		return &ValidationError{Name: "node_key", err: errors.New(`ent: missing required field "Task.node_key"`)}
 	}
-	if _, ok := tc.mutation.NodeType(); !ok {
+	if _, ok := _c.mutation.NodeType(); !ok {
 		return &ValidationError{Name: "node_type", err: errors.New(`ent: missing required field "Task.node_type"`)}
 	}
-	if _, ok := tc.mutation.Assignees(); !ok {
+	if _, ok := _c.mutation.Assignees(); !ok {
 		return &ValidationError{Name: "assignees", err: errors.New(`ent: missing required field "Task.assignees"`)}
 	}
-	if _, ok := tc.mutation.Candidates(); !ok {
+	if _, ok := _c.mutation.Candidates(); !ok {
 		return &ValidationError{Name: "candidates", err: errors.New(`ent: missing required field "Task.candidates"`)}
 	}
-	if _, ok := tc.mutation.IsDelegated(); !ok {
+	if _, ok := _c.mutation.IsDelegated(); !ok {
 		return &ValidationError{Name: "is_delegated", err: errors.New(`ent: missing required field "Task.is_delegated"`)}
 	}
-	if _, ok := tc.mutation.IsTransferred(); !ok {
+	if _, ok := _c.mutation.IsTransferred(); !ok {
 		return &ValidationError{Name: "is_transferred", err: errors.New(`ent: missing required field "Task.is_transferred"`)}
 	}
-	if _, ok := tc.mutation.StartTime(); !ok {
+	if _, ok := _c.mutation.StartTime(); !ok {
 		return &ValidationError{Name: "start_time", err: errors.New(`ent: missing required field "Task.start_time"`)}
 	}
-	if _, ok := tc.mutation.Priority(); !ok {
+	if _, ok := _c.mutation.Priority(); !ok {
 		return &ValidationError{Name: "priority", err: errors.New(`ent: missing required field "Task.priority"`)}
 	}
-	if _, ok := tc.mutation.IsTimeout(); !ok {
+	if _, ok := _c.mutation.IsTimeout(); !ok {
 		return &ValidationError{Name: "is_timeout", err: errors.New(`ent: missing required field "Task.is_timeout"`)}
 	}
-	if _, ok := tc.mutation.ReminderCount(); !ok {
+	if _, ok := _c.mutation.ReminderCount(); !ok {
 		return &ValidationError{Name: "reminder_count", err: errors.New(`ent: missing required field "Task.reminder_count"`)}
 	}
-	if _, ok := tc.mutation.AllowCancel(); !ok {
+	if _, ok := _c.mutation.AllowCancel(); !ok {
 		return &ValidationError{Name: "allow_cancel", err: errors.New(`ent: missing required field "Task.allow_cancel"`)}
 	}
-	if _, ok := tc.mutation.AllowUrge(); !ok {
+	if _, ok := _c.mutation.AllowUrge(); !ok {
 		return &ValidationError{Name: "allow_urge", err: errors.New(`ent: missing required field "Task.allow_urge"`)}
 	}
-	if _, ok := tc.mutation.AllowDelegate(); !ok {
+	if _, ok := _c.mutation.AllowDelegate(); !ok {
 		return &ValidationError{Name: "allow_delegate", err: errors.New(`ent: missing required field "Task.allow_delegate"`)}
 	}
-	if _, ok := tc.mutation.AllowTransfer(); !ok {
+	if _, ok := _c.mutation.AllowTransfer(); !ok {
 		return &ValidationError{Name: "allow_transfer", err: errors.New(`ent: missing required field "Task.allow_transfer"`)}
 	}
-	if _, ok := tc.mutation.IsDraftEnabled(); !ok {
+	if _, ok := _c.mutation.IsDraftEnabled(); !ok {
 		return &ValidationError{Name: "is_draft_enabled", err: errors.New(`ent: missing required field "Task.is_draft_enabled"`)}
 	}
-	if _, ok := tc.mutation.IsAutoStart(); !ok {
+	if _, ok := _c.mutation.IsAutoStart(); !ok {
 		return &ValidationError{Name: "is_auto_start", err: errors.New(`ent: missing required field "Task.is_auto_start"`)}
 	}
-	if _, ok := tc.mutation.StrictMode(); !ok {
+	if _, ok := _c.mutation.StrictMode(); !ok {
 		return &ValidationError{Name: "strict_mode", err: errors.New(`ent: missing required field "Task.strict_mode"`)}
 	}
-	if _, ok := tc.mutation.TaskKey(); !ok {
+	if _, ok := _c.mutation.TaskKey(); !ok {
 		return &ValidationError{Name: "task_key", err: errors.New(`ent: missing required field "Task.task_key"`)}
 	}
-	if _, ok := tc.mutation.ChildIds(); !ok {
+	if _, ok := _c.mutation.ChildIds(); !ok {
 		return &ValidationError{Name: "child_ids", err: errors.New(`ent: missing required field "Task.child_ids"`)}
 	}
-	if _, ok := tc.mutation.IsResubmit(); !ok {
+	if _, ok := _c.mutation.IsResubmit(); !ok {
 		return &ValidationError{Name: "is_resubmit", err: errors.New(`ent: missing required field "Task.is_resubmit"`)}
 	}
-	if _, ok := tc.mutation.IsUrged(); !ok {
+	if _, ok := _c.mutation.IsUrged(); !ok {
 		return &ValidationError{Name: "is_urged", err: errors.New(`ent: missing required field "Task.is_urged"`)}
 	}
-	if _, ok := tc.mutation.UrgeCount(); !ok {
+	if _, ok := _c.mutation.UrgeCount(); !ok {
 		return &ValidationError{Name: "urge_count", err: errors.New(`ent: missing required field "Task.urge_count"`)}
 	}
-	if v, ok := tc.mutation.ID(); ok {
+	if v, ok := _c.mutation.ID(); ok {
 		if err := task.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "Task.id": %w`, err)}
 		}
@@ -797,12 +797,12 @@ func (tc *TaskCreate) check() error {
 	return nil
 }
 
-func (tc *TaskCreate) sqlSave(ctx context.Context) (*Task, error) {
-	if err := tc.check(); err != nil {
+func (_c *TaskCreate) sqlSave(ctx context.Context) (*Task, error) {
+	if err := _c.check(); err != nil {
 		return nil, err
 	}
-	_node, _spec := tc.createSpec()
-	if err := sqlgraph.CreateNode(ctx, tc.driver, _spec); err != nil {
+	_node, _spec := _c.createSpec()
+	if err := sqlgraph.CreateNode(ctx, _c.driver, _spec); err != nil {
 		if sqlgraph.IsConstraintError(err) {
 			err = &ConstraintError{msg: err.Error(), wrap: err}
 		}
@@ -815,213 +815,213 @@ func (tc *TaskCreate) sqlSave(ctx context.Context) (*Task, error) {
 			return nil, fmt.Errorf("unexpected Task.ID type: %T", _spec.ID.Value)
 		}
 	}
-	tc.mutation.id = &_node.ID
-	tc.mutation.done = true
+	_c.mutation.id = &_node.ID
+	_c.mutation.done = true
 	return _node, nil
 }
 
-func (tc *TaskCreate) createSpec() (*Task, *sqlgraph.CreateSpec) {
+func (_c *TaskCreate) createSpec() (*Task, *sqlgraph.CreateSpec) {
 	var (
-		_node = &Task{config: tc.config}
+		_node = &Task{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(task.Table, sqlgraph.NewFieldSpec(task.FieldID, field.TypeString))
 	)
-	if id, ok := tc.mutation.ID(); ok {
+	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
 	}
-	if value, ok := tc.mutation.Name(); ok {
+	if value, ok := _c.mutation.Name(); ok {
 		_spec.SetField(task.FieldName, field.TypeString, value)
 		_node.Name = value
 	}
-	if value, ok := tc.mutation.Description(); ok {
+	if value, ok := _c.mutation.Description(); ok {
 		_spec.SetField(task.FieldDescription, field.TypeString, value)
 		_node.Description = value
 	}
-	if value, ok := tc.mutation.Status(); ok {
+	if value, ok := _c.mutation.Status(); ok {
 		_spec.SetField(task.FieldStatus, field.TypeString, value)
 		_node.Status = value
 	}
-	if value, ok := tc.mutation.ProcessID(); ok {
+	if value, ok := _c.mutation.ProcessID(); ok {
 		_spec.SetField(task.FieldProcessID, field.TypeString, value)
 		_node.ProcessID = value
 	}
-	if value, ok := tc.mutation.TemplateID(); ok {
+	if value, ok := _c.mutation.TemplateID(); ok {
 		_spec.SetField(task.FieldTemplateID, field.TypeString, value)
 		_node.TemplateID = value
 	}
-	if value, ok := tc.mutation.BusinessKey(); ok {
+	if value, ok := _c.mutation.BusinessKey(); ok {
 		_spec.SetField(task.FieldBusinessKey, field.TypeString, value)
 		_node.BusinessKey = value
 	}
-	if value, ok := tc.mutation.NodeKey(); ok {
+	if value, ok := _c.mutation.NodeKey(); ok {
 		_spec.SetField(task.FieldNodeKey, field.TypeString, value)
 		_node.NodeKey = value
 	}
-	if value, ok := tc.mutation.NodeType(); ok {
+	if value, ok := _c.mutation.NodeType(); ok {
 		_spec.SetField(task.FieldNodeType, field.TypeString, value)
 		_node.NodeType = value
 	}
-	if value, ok := tc.mutation.NodeConfig(); ok {
+	if value, ok := _c.mutation.NodeConfig(); ok {
 		_spec.SetField(task.FieldNodeConfig, field.TypeJSON, value)
 		_node.NodeConfig = value
 	}
-	if value, ok := tc.mutation.NodeRules(); ok {
+	if value, ok := _c.mutation.NodeRules(); ok {
 		_spec.SetField(task.FieldNodeRules, field.TypeJSON, value)
 		_node.NodeRules = value
 	}
-	if value, ok := tc.mutation.NodeEvents(); ok {
+	if value, ok := _c.mutation.NodeEvents(); ok {
 		_spec.SetField(task.FieldNodeEvents, field.TypeJSON, value)
 		_node.NodeEvents = value
 	}
-	if value, ok := tc.mutation.Assignees(); ok {
+	if value, ok := _c.mutation.Assignees(); ok {
 		_spec.SetField(task.FieldAssignees, field.TypeJSON, value)
 		_node.Assignees = value
 	}
-	if value, ok := tc.mutation.Candidates(); ok {
+	if value, ok := _c.mutation.Candidates(); ok {
 		_spec.SetField(task.FieldCandidates, field.TypeJSON, value)
 		_node.Candidates = value
 	}
-	if value, ok := tc.mutation.DelegatedFrom(); ok {
+	if value, ok := _c.mutation.DelegatedFrom(); ok {
 		_spec.SetField(task.FieldDelegatedFrom, field.TypeString, value)
 		_node.DelegatedFrom = value
 	}
-	if value, ok := tc.mutation.DelegatedReason(); ok {
+	if value, ok := _c.mutation.DelegatedReason(); ok {
 		_spec.SetField(task.FieldDelegatedReason, field.TypeString, value)
 		_node.DelegatedReason = value
 	}
-	if value, ok := tc.mutation.IsDelegated(); ok {
+	if value, ok := _c.mutation.IsDelegated(); ok {
 		_spec.SetField(task.FieldIsDelegated, field.TypeBool, value)
 		_node.IsDelegated = value
 	}
-	if value, ok := tc.mutation.IsTransferred(); ok {
+	if value, ok := _c.mutation.IsTransferred(); ok {
 		_spec.SetField(task.FieldIsTransferred, field.TypeBool, value)
 		_node.IsTransferred = value
 	}
-	if value, ok := tc.mutation.StartTime(); ok {
+	if value, ok := _c.mutation.StartTime(); ok {
 		_spec.SetField(task.FieldStartTime, field.TypeInt64, value)
 		_node.StartTime = value
 	}
-	if value, ok := tc.mutation.EndTime(); ok {
+	if value, ok := _c.mutation.EndTime(); ok {
 		_spec.SetField(task.FieldEndTime, field.TypeInt64, value)
 		_node.EndTime = &value
 	}
-	if value, ok := tc.mutation.DueTime(); ok {
+	if value, ok := _c.mutation.DueTime(); ok {
 		_spec.SetField(task.FieldDueTime, field.TypeInt64, value)
 		_node.DueTime = &value
 	}
-	if value, ok := tc.mutation.Duration(); ok {
+	if value, ok := _c.mutation.Duration(); ok {
 		_spec.SetField(task.FieldDuration, field.TypeInt, value)
 		_node.Duration = value
 	}
-	if value, ok := tc.mutation.Priority(); ok {
+	if value, ok := _c.mutation.Priority(); ok {
 		_spec.SetField(task.FieldPriority, field.TypeInt, value)
 		_node.Priority = value
 	}
-	if value, ok := tc.mutation.IsTimeout(); ok {
+	if value, ok := _c.mutation.IsTimeout(); ok {
 		_spec.SetField(task.FieldIsTimeout, field.TypeBool, value)
 		_node.IsTimeout = value
 	}
-	if value, ok := tc.mutation.ReminderCount(); ok {
+	if value, ok := _c.mutation.ReminderCount(); ok {
 		_spec.SetField(task.FieldReminderCount, field.TypeInt, value)
 		_node.ReminderCount = value
 	}
-	if value, ok := tc.mutation.AllowCancel(); ok {
+	if value, ok := _c.mutation.AllowCancel(); ok {
 		_spec.SetField(task.FieldAllowCancel, field.TypeBool, value)
 		_node.AllowCancel = value
 	}
-	if value, ok := tc.mutation.AllowUrge(); ok {
+	if value, ok := _c.mutation.AllowUrge(); ok {
 		_spec.SetField(task.FieldAllowUrge, field.TypeBool, value)
 		_node.AllowUrge = value
 	}
-	if value, ok := tc.mutation.AllowDelegate(); ok {
+	if value, ok := _c.mutation.AllowDelegate(); ok {
 		_spec.SetField(task.FieldAllowDelegate, field.TypeBool, value)
 		_node.AllowDelegate = value
 	}
-	if value, ok := tc.mutation.AllowTransfer(); ok {
+	if value, ok := _c.mutation.AllowTransfer(); ok {
 		_spec.SetField(task.FieldAllowTransfer, field.TypeBool, value)
 		_node.AllowTransfer = value
 	}
-	if value, ok := tc.mutation.IsDraftEnabled(); ok {
+	if value, ok := _c.mutation.IsDraftEnabled(); ok {
 		_spec.SetField(task.FieldIsDraftEnabled, field.TypeBool, value)
 		_node.IsDraftEnabled = value
 	}
-	if value, ok := tc.mutation.IsAutoStart(); ok {
+	if value, ok := _c.mutation.IsAutoStart(); ok {
 		_spec.SetField(task.FieldIsAutoStart, field.TypeBool, value)
 		_node.IsAutoStart = value
 	}
-	if value, ok := tc.mutation.StrictMode(); ok {
+	if value, ok := _c.mutation.StrictMode(); ok {
 		_spec.SetField(task.FieldStrictMode, field.TypeBool, value)
 		_node.StrictMode = value
 	}
-	if value, ok := tc.mutation.Extras(); ok {
+	if value, ok := _c.mutation.Extras(); ok {
 		_spec.SetField(task.FieldExtras, field.TypeJSON, value)
 		_node.Extras = value
 	}
-	if value, ok := tc.mutation.SpaceID(); ok {
+	if value, ok := _c.mutation.SpaceID(); ok {
 		_spec.SetField(task.FieldSpaceID, field.TypeString, value)
 		_node.SpaceID = value
 	}
-	if value, ok := tc.mutation.CreatedBy(); ok {
+	if value, ok := _c.mutation.CreatedBy(); ok {
 		_spec.SetField(task.FieldCreatedBy, field.TypeString, value)
 		_node.CreatedBy = value
 	}
-	if value, ok := tc.mutation.UpdatedBy(); ok {
+	if value, ok := _c.mutation.UpdatedBy(); ok {
 		_spec.SetField(task.FieldUpdatedBy, field.TypeString, value)
 		_node.UpdatedBy = value
 	}
-	if value, ok := tc.mutation.CreatedAt(); ok {
+	if value, ok := _c.mutation.CreatedAt(); ok {
 		_spec.SetField(task.FieldCreatedAt, field.TypeInt64, value)
 		_node.CreatedAt = value
 	}
-	if value, ok := tc.mutation.UpdatedAt(); ok {
+	if value, ok := _c.mutation.UpdatedAt(); ok {
 		_spec.SetField(task.FieldUpdatedAt, field.TypeInt64, value)
 		_node.UpdatedAt = value
 	}
-	if value, ok := tc.mutation.TaskKey(); ok {
+	if value, ok := _c.mutation.TaskKey(); ok {
 		_spec.SetField(task.FieldTaskKey, field.TypeString, value)
 		_node.TaskKey = value
 	}
-	if value, ok := tc.mutation.ParentID(); ok {
+	if value, ok := _c.mutation.ParentID(); ok {
 		_spec.SetField(task.FieldParentID, field.TypeString, value)
 		_node.ParentID = value
 	}
-	if value, ok := tc.mutation.ChildIds(); ok {
+	if value, ok := _c.mutation.ChildIds(); ok {
 		_spec.SetField(task.FieldChildIds, field.TypeJSON, value)
 		_node.ChildIds = value
 	}
-	if value, ok := tc.mutation.Action(); ok {
+	if value, ok := _c.mutation.Action(); ok {
 		_spec.SetField(task.FieldAction, field.TypeString, value)
 		_node.Action = value
 	}
-	if value, ok := tc.mutation.Comment(); ok {
+	if value, ok := _c.mutation.Comment(); ok {
 		_spec.SetField(task.FieldComment, field.TypeString, value)
 		_node.Comment = value
 	}
-	if value, ok := tc.mutation.Attachments(); ok {
+	if value, ok := _c.mutation.Attachments(); ok {
 		_spec.SetField(task.FieldAttachments, field.TypeJSON, value)
 		_node.Attachments = value
 	}
-	if value, ok := tc.mutation.FormData(); ok {
+	if value, ok := _c.mutation.FormData(); ok {
 		_spec.SetField(task.FieldFormData, field.TypeJSON, value)
 		_node.FormData = value
 	}
-	if value, ok := tc.mutation.Variables(); ok {
+	if value, ok := _c.mutation.Variables(); ok {
 		_spec.SetField(task.FieldVariables, field.TypeJSON, value)
 		_node.Variables = value
 	}
-	if value, ok := tc.mutation.IsResubmit(); ok {
+	if value, ok := _c.mutation.IsResubmit(); ok {
 		_spec.SetField(task.FieldIsResubmit, field.TypeBool, value)
 		_node.IsResubmit = value
 	}
-	if value, ok := tc.mutation.ClaimTime(); ok {
+	if value, ok := _c.mutation.ClaimTime(); ok {
 		_spec.SetField(task.FieldClaimTime, field.TypeInt64, value)
 		_node.ClaimTime = &value
 	}
-	if value, ok := tc.mutation.IsUrged(); ok {
+	if value, ok := _c.mutation.IsUrged(); ok {
 		_spec.SetField(task.FieldIsUrged, field.TypeBool, value)
 		_node.IsUrged = value
 	}
-	if value, ok := tc.mutation.UrgeCount(); ok {
+	if value, ok := _c.mutation.UrgeCount(); ok {
 		_spec.SetField(task.FieldUrgeCount, field.TypeInt, value)
 		_node.UrgeCount = value
 	}
@@ -1036,16 +1036,16 @@ type TaskCreateBulk struct {
 }
 
 // Save creates the Task entities in the database.
-func (tcb *TaskCreateBulk) Save(ctx context.Context) ([]*Task, error) {
-	if tcb.err != nil {
-		return nil, tcb.err
+func (_c *TaskCreateBulk) Save(ctx context.Context) ([]*Task, error) {
+	if _c.err != nil {
+		return nil, _c.err
 	}
-	specs := make([]*sqlgraph.CreateSpec, len(tcb.builders))
-	nodes := make([]*Task, len(tcb.builders))
-	mutators := make([]Mutator, len(tcb.builders))
-	for i := range tcb.builders {
+	specs := make([]*sqlgraph.CreateSpec, len(_c.builders))
+	nodes := make([]*Task, len(_c.builders))
+	mutators := make([]Mutator, len(_c.builders))
+	for i := range _c.builders {
 		func(i int, root context.Context) {
-			builder := tcb.builders[i]
+			builder := _c.builders[i]
 			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*TaskMutation)
@@ -1059,11 +1059,11 @@ func (tcb *TaskCreateBulk) Save(ctx context.Context) ([]*Task, error) {
 				var err error
 				nodes[i], specs[i] = builder.createSpec()
 				if i < len(mutators)-1 {
-					_, err = mutators[i+1].Mutate(root, tcb.builders[i+1].mutation)
+					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
 					// Invoke the actual operation on the latest mutation in the chain.
-					if err = sqlgraph.BatchCreate(ctx, tcb.driver, spec); err != nil {
+					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
 							err = &ConstraintError{msg: err.Error(), wrap: err}
 						}
@@ -1083,7 +1083,7 @@ func (tcb *TaskCreateBulk) Save(ctx context.Context) ([]*Task, error) {
 		}(i, ctx)
 	}
 	if len(mutators) > 0 {
-		if _, err := mutators[0].Mutate(ctx, tcb.builders[0].mutation); err != nil {
+		if _, err := mutators[0].Mutate(ctx, _c.builders[0].mutation); err != nil {
 			return nil, err
 		}
 	}
@@ -1091,8 +1091,8 @@ func (tcb *TaskCreateBulk) Save(ctx context.Context) ([]*Task, error) {
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (tcb *TaskCreateBulk) SaveX(ctx context.Context) []*Task {
-	v, err := tcb.Save(ctx)
+func (_c *TaskCreateBulk) SaveX(ctx context.Context) []*Task {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -1100,14 +1100,14 @@ func (tcb *TaskCreateBulk) SaveX(ctx context.Context) []*Task {
 }
 
 // Exec executes the query.
-func (tcb *TaskCreateBulk) Exec(ctx context.Context) error {
-	_, err := tcb.Save(ctx)
+func (_c *TaskCreateBulk) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (tcb *TaskCreateBulk) ExecX(ctx context.Context) {
-	if err := tcb.Exec(ctx); err != nil {
+func (_c *TaskCreateBulk) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

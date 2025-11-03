@@ -300,8 +300,8 @@ func (c *ActivityClient) Update() *ActivityUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *ActivityClient) UpdateOne(a *Activity) *ActivityUpdateOne {
-	mutation := newActivityMutation(c.config, OpUpdateOne, withActivity(a))
+func (c *ActivityClient) UpdateOne(_m *Activity) *ActivityUpdateOne {
+	mutation := newActivityMutation(c.config, OpUpdateOne, withActivity(_m))
 	return &ActivityUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -318,8 +318,8 @@ func (c *ActivityClient) Delete() *ActivityDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *ActivityClient) DeleteOne(a *Activity) *ActivityDeleteOne {
-	return c.DeleteOneID(a.ID)
+func (c *ActivityClient) DeleteOne(_m *Activity) *ActivityDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -433,8 +433,8 @@ func (c *CasbinRuleClient) Update() *CasbinRuleUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *CasbinRuleClient) UpdateOne(cr *CasbinRule) *CasbinRuleUpdateOne {
-	mutation := newCasbinRuleMutation(c.config, OpUpdateOne, withCasbinRule(cr))
+func (c *CasbinRuleClient) UpdateOne(_m *CasbinRule) *CasbinRuleUpdateOne {
+	mutation := newCasbinRuleMutation(c.config, OpUpdateOne, withCasbinRule(_m))
 	return &CasbinRuleUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -451,8 +451,8 @@ func (c *CasbinRuleClient) Delete() *CasbinRuleDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *CasbinRuleClient) DeleteOne(cr *CasbinRule) *CasbinRuleDeleteOne {
-	return c.DeleteOneID(cr.ID)
+func (c *CasbinRuleClient) DeleteOne(_m *CasbinRule) *CasbinRuleDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -566,8 +566,8 @@ func (c *PermissionClient) Update() *PermissionUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *PermissionClient) UpdateOne(pe *Permission) *PermissionUpdateOne {
-	mutation := newPermissionMutation(c.config, OpUpdateOne, withPermission(pe))
+func (c *PermissionClient) UpdateOne(_m *Permission) *PermissionUpdateOne {
+	mutation := newPermissionMutation(c.config, OpUpdateOne, withPermission(_m))
 	return &PermissionUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -584,8 +584,8 @@ func (c *PermissionClient) Delete() *PermissionDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *PermissionClient) DeleteOne(pe *Permission) *PermissionDeleteOne {
-	return c.DeleteOneID(pe.ID)
+func (c *PermissionClient) DeleteOne(_m *Permission) *PermissionDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -699,8 +699,8 @@ func (c *RoleClient) Update() *RoleUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *RoleClient) UpdateOne(r *Role) *RoleUpdateOne {
-	mutation := newRoleMutation(c.config, OpUpdateOne, withRole(r))
+func (c *RoleClient) UpdateOne(_m *Role) *RoleUpdateOne {
+	mutation := newRoleMutation(c.config, OpUpdateOne, withRole(_m))
 	return &RoleUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -717,8 +717,8 @@ func (c *RoleClient) Delete() *RoleDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *RoleClient) DeleteOne(r *Role) *RoleDeleteOne {
-	return c.DeleteOneID(r.ID)
+func (c *RoleClient) DeleteOne(_m *Role) *RoleDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -832,8 +832,8 @@ func (c *RolePermissionClient) Update() *RolePermissionUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *RolePermissionClient) UpdateOne(rp *RolePermission) *RolePermissionUpdateOne {
-	mutation := newRolePermissionMutation(c.config, OpUpdateOne, withRolePermission(rp))
+func (c *RolePermissionClient) UpdateOne(_m *RolePermission) *RolePermissionUpdateOne {
+	mutation := newRolePermissionMutation(c.config, OpUpdateOne, withRolePermission(_m))
 	return &RolePermissionUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -850,8 +850,8 @@ func (c *RolePermissionClient) Delete() *RolePermissionDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *RolePermissionClient) DeleteOne(rp *RolePermission) *RolePermissionDeleteOne {
-	return c.DeleteOneID(rp.ID)
+func (c *RolePermissionClient) DeleteOne(_m *RolePermission) *RolePermissionDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -965,8 +965,8 @@ func (c *UserRoleClient) Update() *UserRoleUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *UserRoleClient) UpdateOne(ur *UserRole) *UserRoleUpdateOne {
-	mutation := newUserRoleMutation(c.config, OpUpdateOne, withUserRole(ur))
+func (c *UserRoleClient) UpdateOne(_m *UserRole) *UserRoleUpdateOne {
+	mutation := newUserRoleMutation(c.config, OpUpdateOne, withUserRole(_m))
 	return &UserRoleUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -983,8 +983,8 @@ func (c *UserRoleClient) Delete() *UserRoleDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *UserRoleClient) DeleteOne(ur *UserRole) *UserRoleDeleteOne {
-	return c.DeleteOneID(ur.ID)
+func (c *UserRoleClient) DeleteOne(_m *UserRole) *UserRoleDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.

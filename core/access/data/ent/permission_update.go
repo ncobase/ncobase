@@ -22,216 +22,216 @@ type PermissionUpdate struct {
 }
 
 // Where appends a list predicates to the PermissionUpdate builder.
-func (pu *PermissionUpdate) Where(ps ...predicate.Permission) *PermissionUpdate {
-	pu.mutation.Where(ps...)
-	return pu
+func (_u *PermissionUpdate) Where(ps ...predicate.Permission) *PermissionUpdate {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // SetName sets the "name" field.
-func (pu *PermissionUpdate) SetName(s string) *PermissionUpdate {
-	pu.mutation.SetName(s)
-	return pu
+func (_u *PermissionUpdate) SetName(v string) *PermissionUpdate {
+	_u.mutation.SetName(v)
+	return _u
 }
 
 // SetNillableName sets the "name" field if the given value is not nil.
-func (pu *PermissionUpdate) SetNillableName(s *string) *PermissionUpdate {
-	if s != nil {
-		pu.SetName(*s)
+func (_u *PermissionUpdate) SetNillableName(v *string) *PermissionUpdate {
+	if v != nil {
+		_u.SetName(*v)
 	}
-	return pu
+	return _u
 }
 
 // ClearName clears the value of the "name" field.
-func (pu *PermissionUpdate) ClearName() *PermissionUpdate {
-	pu.mutation.ClearName()
-	return pu
+func (_u *PermissionUpdate) ClearName() *PermissionUpdate {
+	_u.mutation.ClearName()
+	return _u
 }
 
 // SetAction sets the "action" field.
-func (pu *PermissionUpdate) SetAction(s string) *PermissionUpdate {
-	pu.mutation.SetAction(s)
-	return pu
+func (_u *PermissionUpdate) SetAction(v string) *PermissionUpdate {
+	_u.mutation.SetAction(v)
+	return _u
 }
 
 // SetNillableAction sets the "action" field if the given value is not nil.
-func (pu *PermissionUpdate) SetNillableAction(s *string) *PermissionUpdate {
-	if s != nil {
-		pu.SetAction(*s)
+func (_u *PermissionUpdate) SetNillableAction(v *string) *PermissionUpdate {
+	if v != nil {
+		_u.SetAction(*v)
 	}
-	return pu
+	return _u
 }
 
 // ClearAction clears the value of the "action" field.
-func (pu *PermissionUpdate) ClearAction() *PermissionUpdate {
-	pu.mutation.ClearAction()
-	return pu
+func (_u *PermissionUpdate) ClearAction() *PermissionUpdate {
+	_u.mutation.ClearAction()
+	return _u
 }
 
 // SetSubject sets the "subject" field.
-func (pu *PermissionUpdate) SetSubject(s string) *PermissionUpdate {
-	pu.mutation.SetSubject(s)
-	return pu
+func (_u *PermissionUpdate) SetSubject(v string) *PermissionUpdate {
+	_u.mutation.SetSubject(v)
+	return _u
 }
 
 // SetNillableSubject sets the "subject" field if the given value is not nil.
-func (pu *PermissionUpdate) SetNillableSubject(s *string) *PermissionUpdate {
-	if s != nil {
-		pu.SetSubject(*s)
+func (_u *PermissionUpdate) SetNillableSubject(v *string) *PermissionUpdate {
+	if v != nil {
+		_u.SetSubject(*v)
 	}
-	return pu
+	return _u
 }
 
 // ClearSubject clears the value of the "subject" field.
-func (pu *PermissionUpdate) ClearSubject() *PermissionUpdate {
-	pu.mutation.ClearSubject()
-	return pu
+func (_u *PermissionUpdate) ClearSubject() *PermissionUpdate {
+	_u.mutation.ClearSubject()
+	return _u
 }
 
 // SetDescription sets the "description" field.
-func (pu *PermissionUpdate) SetDescription(s string) *PermissionUpdate {
-	pu.mutation.SetDescription(s)
-	return pu
+func (_u *PermissionUpdate) SetDescription(v string) *PermissionUpdate {
+	_u.mutation.SetDescription(v)
+	return _u
 }
 
 // SetNillableDescription sets the "description" field if the given value is not nil.
-func (pu *PermissionUpdate) SetNillableDescription(s *string) *PermissionUpdate {
-	if s != nil {
-		pu.SetDescription(*s)
+func (_u *PermissionUpdate) SetNillableDescription(v *string) *PermissionUpdate {
+	if v != nil {
+		_u.SetDescription(*v)
 	}
-	return pu
+	return _u
 }
 
 // ClearDescription clears the value of the "description" field.
-func (pu *PermissionUpdate) ClearDescription() *PermissionUpdate {
-	pu.mutation.ClearDescription()
-	return pu
+func (_u *PermissionUpdate) ClearDescription() *PermissionUpdate {
+	_u.mutation.ClearDescription()
+	return _u
 }
 
 // SetDefault sets the "default" field.
-func (pu *PermissionUpdate) SetDefault(b bool) *PermissionUpdate {
-	pu.mutation.SetDefault(b)
-	return pu
+func (_u *PermissionUpdate) SetDefault(v bool) *PermissionUpdate {
+	_u.mutation.SetDefault(v)
+	return _u
 }
 
 // SetNillableDefault sets the "default" field if the given value is not nil.
-func (pu *PermissionUpdate) SetNillableDefault(b *bool) *PermissionUpdate {
-	if b != nil {
-		pu.SetDefault(*b)
+func (_u *PermissionUpdate) SetNillableDefault(v *bool) *PermissionUpdate {
+	if v != nil {
+		_u.SetDefault(*v)
 	}
-	return pu
+	return _u
 }
 
 // ClearDefault clears the value of the "default" field.
-func (pu *PermissionUpdate) ClearDefault() *PermissionUpdate {
-	pu.mutation.ClearDefault()
-	return pu
+func (_u *PermissionUpdate) ClearDefault() *PermissionUpdate {
+	_u.mutation.ClearDefault()
+	return _u
 }
 
 // SetDisabled sets the "disabled" field.
-func (pu *PermissionUpdate) SetDisabled(b bool) *PermissionUpdate {
-	pu.mutation.SetDisabled(b)
-	return pu
+func (_u *PermissionUpdate) SetDisabled(v bool) *PermissionUpdate {
+	_u.mutation.SetDisabled(v)
+	return _u
 }
 
 // SetNillableDisabled sets the "disabled" field if the given value is not nil.
-func (pu *PermissionUpdate) SetNillableDisabled(b *bool) *PermissionUpdate {
-	if b != nil {
-		pu.SetDisabled(*b)
+func (_u *PermissionUpdate) SetNillableDisabled(v *bool) *PermissionUpdate {
+	if v != nil {
+		_u.SetDisabled(*v)
 	}
-	return pu
+	return _u
 }
 
 // ClearDisabled clears the value of the "disabled" field.
-func (pu *PermissionUpdate) ClearDisabled() *PermissionUpdate {
-	pu.mutation.ClearDisabled()
-	return pu
+func (_u *PermissionUpdate) ClearDisabled() *PermissionUpdate {
+	_u.mutation.ClearDisabled()
+	return _u
 }
 
 // SetExtras sets the "extras" field.
-func (pu *PermissionUpdate) SetExtras(m map[string]interface{}) *PermissionUpdate {
-	pu.mutation.SetExtras(m)
-	return pu
+func (_u *PermissionUpdate) SetExtras(v map[string]interface{}) *PermissionUpdate {
+	_u.mutation.SetExtras(v)
+	return _u
 }
 
 // ClearExtras clears the value of the "extras" field.
-func (pu *PermissionUpdate) ClearExtras() *PermissionUpdate {
-	pu.mutation.ClearExtras()
-	return pu
+func (_u *PermissionUpdate) ClearExtras() *PermissionUpdate {
+	_u.mutation.ClearExtras()
+	return _u
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (pu *PermissionUpdate) SetCreatedBy(s string) *PermissionUpdate {
-	pu.mutation.SetCreatedBy(s)
-	return pu
+func (_u *PermissionUpdate) SetCreatedBy(v string) *PermissionUpdate {
+	_u.mutation.SetCreatedBy(v)
+	return _u
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (pu *PermissionUpdate) SetNillableCreatedBy(s *string) *PermissionUpdate {
-	if s != nil {
-		pu.SetCreatedBy(*s)
+func (_u *PermissionUpdate) SetNillableCreatedBy(v *string) *PermissionUpdate {
+	if v != nil {
+		_u.SetCreatedBy(*v)
 	}
-	return pu
+	return _u
 }
 
 // ClearCreatedBy clears the value of the "created_by" field.
-func (pu *PermissionUpdate) ClearCreatedBy() *PermissionUpdate {
-	pu.mutation.ClearCreatedBy()
-	return pu
+func (_u *PermissionUpdate) ClearCreatedBy() *PermissionUpdate {
+	_u.mutation.ClearCreatedBy()
+	return _u
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (pu *PermissionUpdate) SetUpdatedBy(s string) *PermissionUpdate {
-	pu.mutation.SetUpdatedBy(s)
-	return pu
+func (_u *PermissionUpdate) SetUpdatedBy(v string) *PermissionUpdate {
+	_u.mutation.SetUpdatedBy(v)
+	return _u
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (pu *PermissionUpdate) SetNillableUpdatedBy(s *string) *PermissionUpdate {
-	if s != nil {
-		pu.SetUpdatedBy(*s)
+func (_u *PermissionUpdate) SetNillableUpdatedBy(v *string) *PermissionUpdate {
+	if v != nil {
+		_u.SetUpdatedBy(*v)
 	}
-	return pu
+	return _u
 }
 
 // ClearUpdatedBy clears the value of the "updated_by" field.
-func (pu *PermissionUpdate) ClearUpdatedBy() *PermissionUpdate {
-	pu.mutation.ClearUpdatedBy()
-	return pu
+func (_u *PermissionUpdate) ClearUpdatedBy() *PermissionUpdate {
+	_u.mutation.ClearUpdatedBy()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (pu *PermissionUpdate) SetUpdatedAt(i int64) *PermissionUpdate {
-	pu.mutation.ResetUpdatedAt()
-	pu.mutation.SetUpdatedAt(i)
-	return pu
+func (_u *PermissionUpdate) SetUpdatedAt(v int64) *PermissionUpdate {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (pu *PermissionUpdate) AddUpdatedAt(i int64) *PermissionUpdate {
-	pu.mutation.AddUpdatedAt(i)
-	return pu
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *PermissionUpdate) AddUpdatedAt(v int64) *PermissionUpdate {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (pu *PermissionUpdate) ClearUpdatedAt() *PermissionUpdate {
-	pu.mutation.ClearUpdatedAt()
-	return pu
+func (_u *PermissionUpdate) ClearUpdatedAt() *PermissionUpdate {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // Mutation returns the PermissionMutation object of the builder.
-func (pu *PermissionUpdate) Mutation() *PermissionMutation {
-	return pu.mutation
+func (_u *PermissionUpdate) Mutation() *PermissionMutation {
+	return _u.mutation
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
-func (pu *PermissionUpdate) Save(ctx context.Context) (int, error) {
-	pu.defaults()
-	return withHooks(ctx, pu.sqlSave, pu.mutation, pu.hooks)
+func (_u *PermissionUpdate) Save(ctx context.Context) (int, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (pu *PermissionUpdate) SaveX(ctx context.Context) int {
-	affected, err := pu.Save(ctx)
+func (_u *PermissionUpdate) SaveX(ctx context.Context) int {
+	affected, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -239,102 +239,102 @@ func (pu *PermissionUpdate) SaveX(ctx context.Context) int {
 }
 
 // Exec executes the query.
-func (pu *PermissionUpdate) Exec(ctx context.Context) error {
-	_, err := pu.Save(ctx)
+func (_u *PermissionUpdate) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (pu *PermissionUpdate) ExecX(ctx context.Context) {
-	if err := pu.Exec(ctx); err != nil {
+func (_u *PermissionUpdate) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (pu *PermissionUpdate) defaults() {
-	if _, ok := pu.mutation.UpdatedAt(); !ok && !pu.mutation.UpdatedAtCleared() {
+func (_u *PermissionUpdate) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := permission.UpdateDefaultUpdatedAt()
-		pu.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (pu *PermissionUpdate) sqlSave(ctx context.Context) (n int, err error) {
+func (_u *PermissionUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	_spec := sqlgraph.NewUpdateSpec(permission.Table, permission.Columns, sqlgraph.NewFieldSpec(permission.FieldID, field.TypeString))
-	if ps := pu.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := pu.mutation.Name(); ok {
+	if value, ok := _u.mutation.Name(); ok {
 		_spec.SetField(permission.FieldName, field.TypeString, value)
 	}
-	if pu.mutation.NameCleared() {
+	if _u.mutation.NameCleared() {
 		_spec.ClearField(permission.FieldName, field.TypeString)
 	}
-	if value, ok := pu.mutation.Action(); ok {
+	if value, ok := _u.mutation.Action(); ok {
 		_spec.SetField(permission.FieldAction, field.TypeString, value)
 	}
-	if pu.mutation.ActionCleared() {
+	if _u.mutation.ActionCleared() {
 		_spec.ClearField(permission.FieldAction, field.TypeString)
 	}
-	if value, ok := pu.mutation.Subject(); ok {
+	if value, ok := _u.mutation.Subject(); ok {
 		_spec.SetField(permission.FieldSubject, field.TypeString, value)
 	}
-	if pu.mutation.SubjectCleared() {
+	if _u.mutation.SubjectCleared() {
 		_spec.ClearField(permission.FieldSubject, field.TypeString)
 	}
-	if value, ok := pu.mutation.Description(); ok {
+	if value, ok := _u.mutation.Description(); ok {
 		_spec.SetField(permission.FieldDescription, field.TypeString, value)
 	}
-	if pu.mutation.DescriptionCleared() {
+	if _u.mutation.DescriptionCleared() {
 		_spec.ClearField(permission.FieldDescription, field.TypeString)
 	}
-	if value, ok := pu.mutation.Default(); ok {
+	if value, ok := _u.mutation.Default(); ok {
 		_spec.SetField(permission.FieldDefault, field.TypeBool, value)
 	}
-	if pu.mutation.DefaultCleared() {
+	if _u.mutation.DefaultCleared() {
 		_spec.ClearField(permission.FieldDefault, field.TypeBool)
 	}
-	if value, ok := pu.mutation.Disabled(); ok {
+	if value, ok := _u.mutation.Disabled(); ok {
 		_spec.SetField(permission.FieldDisabled, field.TypeBool, value)
 	}
-	if pu.mutation.DisabledCleared() {
+	if _u.mutation.DisabledCleared() {
 		_spec.ClearField(permission.FieldDisabled, field.TypeBool)
 	}
-	if value, ok := pu.mutation.Extras(); ok {
+	if value, ok := _u.mutation.Extras(); ok {
 		_spec.SetField(permission.FieldExtras, field.TypeJSON, value)
 	}
-	if pu.mutation.ExtrasCleared() {
+	if _u.mutation.ExtrasCleared() {
 		_spec.ClearField(permission.FieldExtras, field.TypeJSON)
 	}
-	if value, ok := pu.mutation.CreatedBy(); ok {
+	if value, ok := _u.mutation.CreatedBy(); ok {
 		_spec.SetField(permission.FieldCreatedBy, field.TypeString, value)
 	}
-	if pu.mutation.CreatedByCleared() {
+	if _u.mutation.CreatedByCleared() {
 		_spec.ClearField(permission.FieldCreatedBy, field.TypeString)
 	}
-	if value, ok := pu.mutation.UpdatedBy(); ok {
+	if value, ok := _u.mutation.UpdatedBy(); ok {
 		_spec.SetField(permission.FieldUpdatedBy, field.TypeString, value)
 	}
-	if pu.mutation.UpdatedByCleared() {
+	if _u.mutation.UpdatedByCleared() {
 		_spec.ClearField(permission.FieldUpdatedBy, field.TypeString)
 	}
-	if pu.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(permission.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := pu.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(permission.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := pu.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(permission.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if pu.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(permission.FieldUpdatedAt, field.TypeInt64)
 	}
-	if n, err = sqlgraph.UpdateNodes(ctx, pu.driver, _spec); err != nil {
+	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{permission.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -342,8 +342,8 @@ func (pu *PermissionUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		return 0, err
 	}
-	pu.mutation.done = true
-	return n, nil
+	_u.mutation.done = true
+	return _node, nil
 }
 
 // PermissionUpdateOne is the builder for updating a single Permission entity.
@@ -355,223 +355,223 @@ type PermissionUpdateOne struct {
 }
 
 // SetName sets the "name" field.
-func (puo *PermissionUpdateOne) SetName(s string) *PermissionUpdateOne {
-	puo.mutation.SetName(s)
-	return puo
+func (_u *PermissionUpdateOne) SetName(v string) *PermissionUpdateOne {
+	_u.mutation.SetName(v)
+	return _u
 }
 
 // SetNillableName sets the "name" field if the given value is not nil.
-func (puo *PermissionUpdateOne) SetNillableName(s *string) *PermissionUpdateOne {
-	if s != nil {
-		puo.SetName(*s)
+func (_u *PermissionUpdateOne) SetNillableName(v *string) *PermissionUpdateOne {
+	if v != nil {
+		_u.SetName(*v)
 	}
-	return puo
+	return _u
 }
 
 // ClearName clears the value of the "name" field.
-func (puo *PermissionUpdateOne) ClearName() *PermissionUpdateOne {
-	puo.mutation.ClearName()
-	return puo
+func (_u *PermissionUpdateOne) ClearName() *PermissionUpdateOne {
+	_u.mutation.ClearName()
+	return _u
 }
 
 // SetAction sets the "action" field.
-func (puo *PermissionUpdateOne) SetAction(s string) *PermissionUpdateOne {
-	puo.mutation.SetAction(s)
-	return puo
+func (_u *PermissionUpdateOne) SetAction(v string) *PermissionUpdateOne {
+	_u.mutation.SetAction(v)
+	return _u
 }
 
 // SetNillableAction sets the "action" field if the given value is not nil.
-func (puo *PermissionUpdateOne) SetNillableAction(s *string) *PermissionUpdateOne {
-	if s != nil {
-		puo.SetAction(*s)
+func (_u *PermissionUpdateOne) SetNillableAction(v *string) *PermissionUpdateOne {
+	if v != nil {
+		_u.SetAction(*v)
 	}
-	return puo
+	return _u
 }
 
 // ClearAction clears the value of the "action" field.
-func (puo *PermissionUpdateOne) ClearAction() *PermissionUpdateOne {
-	puo.mutation.ClearAction()
-	return puo
+func (_u *PermissionUpdateOne) ClearAction() *PermissionUpdateOne {
+	_u.mutation.ClearAction()
+	return _u
 }
 
 // SetSubject sets the "subject" field.
-func (puo *PermissionUpdateOne) SetSubject(s string) *PermissionUpdateOne {
-	puo.mutation.SetSubject(s)
-	return puo
+func (_u *PermissionUpdateOne) SetSubject(v string) *PermissionUpdateOne {
+	_u.mutation.SetSubject(v)
+	return _u
 }
 
 // SetNillableSubject sets the "subject" field if the given value is not nil.
-func (puo *PermissionUpdateOne) SetNillableSubject(s *string) *PermissionUpdateOne {
-	if s != nil {
-		puo.SetSubject(*s)
+func (_u *PermissionUpdateOne) SetNillableSubject(v *string) *PermissionUpdateOne {
+	if v != nil {
+		_u.SetSubject(*v)
 	}
-	return puo
+	return _u
 }
 
 // ClearSubject clears the value of the "subject" field.
-func (puo *PermissionUpdateOne) ClearSubject() *PermissionUpdateOne {
-	puo.mutation.ClearSubject()
-	return puo
+func (_u *PermissionUpdateOne) ClearSubject() *PermissionUpdateOne {
+	_u.mutation.ClearSubject()
+	return _u
 }
 
 // SetDescription sets the "description" field.
-func (puo *PermissionUpdateOne) SetDescription(s string) *PermissionUpdateOne {
-	puo.mutation.SetDescription(s)
-	return puo
+func (_u *PermissionUpdateOne) SetDescription(v string) *PermissionUpdateOne {
+	_u.mutation.SetDescription(v)
+	return _u
 }
 
 // SetNillableDescription sets the "description" field if the given value is not nil.
-func (puo *PermissionUpdateOne) SetNillableDescription(s *string) *PermissionUpdateOne {
-	if s != nil {
-		puo.SetDescription(*s)
+func (_u *PermissionUpdateOne) SetNillableDescription(v *string) *PermissionUpdateOne {
+	if v != nil {
+		_u.SetDescription(*v)
 	}
-	return puo
+	return _u
 }
 
 // ClearDescription clears the value of the "description" field.
-func (puo *PermissionUpdateOne) ClearDescription() *PermissionUpdateOne {
-	puo.mutation.ClearDescription()
-	return puo
+func (_u *PermissionUpdateOne) ClearDescription() *PermissionUpdateOne {
+	_u.mutation.ClearDescription()
+	return _u
 }
 
 // SetDefault sets the "default" field.
-func (puo *PermissionUpdateOne) SetDefault(b bool) *PermissionUpdateOne {
-	puo.mutation.SetDefault(b)
-	return puo
+func (_u *PermissionUpdateOne) SetDefault(v bool) *PermissionUpdateOne {
+	_u.mutation.SetDefault(v)
+	return _u
 }
 
 // SetNillableDefault sets the "default" field if the given value is not nil.
-func (puo *PermissionUpdateOne) SetNillableDefault(b *bool) *PermissionUpdateOne {
-	if b != nil {
-		puo.SetDefault(*b)
+func (_u *PermissionUpdateOne) SetNillableDefault(v *bool) *PermissionUpdateOne {
+	if v != nil {
+		_u.SetDefault(*v)
 	}
-	return puo
+	return _u
 }
 
 // ClearDefault clears the value of the "default" field.
-func (puo *PermissionUpdateOne) ClearDefault() *PermissionUpdateOne {
-	puo.mutation.ClearDefault()
-	return puo
+func (_u *PermissionUpdateOne) ClearDefault() *PermissionUpdateOne {
+	_u.mutation.ClearDefault()
+	return _u
 }
 
 // SetDisabled sets the "disabled" field.
-func (puo *PermissionUpdateOne) SetDisabled(b bool) *PermissionUpdateOne {
-	puo.mutation.SetDisabled(b)
-	return puo
+func (_u *PermissionUpdateOne) SetDisabled(v bool) *PermissionUpdateOne {
+	_u.mutation.SetDisabled(v)
+	return _u
 }
 
 // SetNillableDisabled sets the "disabled" field if the given value is not nil.
-func (puo *PermissionUpdateOne) SetNillableDisabled(b *bool) *PermissionUpdateOne {
-	if b != nil {
-		puo.SetDisabled(*b)
+func (_u *PermissionUpdateOne) SetNillableDisabled(v *bool) *PermissionUpdateOne {
+	if v != nil {
+		_u.SetDisabled(*v)
 	}
-	return puo
+	return _u
 }
 
 // ClearDisabled clears the value of the "disabled" field.
-func (puo *PermissionUpdateOne) ClearDisabled() *PermissionUpdateOne {
-	puo.mutation.ClearDisabled()
-	return puo
+func (_u *PermissionUpdateOne) ClearDisabled() *PermissionUpdateOne {
+	_u.mutation.ClearDisabled()
+	return _u
 }
 
 // SetExtras sets the "extras" field.
-func (puo *PermissionUpdateOne) SetExtras(m map[string]interface{}) *PermissionUpdateOne {
-	puo.mutation.SetExtras(m)
-	return puo
+func (_u *PermissionUpdateOne) SetExtras(v map[string]interface{}) *PermissionUpdateOne {
+	_u.mutation.SetExtras(v)
+	return _u
 }
 
 // ClearExtras clears the value of the "extras" field.
-func (puo *PermissionUpdateOne) ClearExtras() *PermissionUpdateOne {
-	puo.mutation.ClearExtras()
-	return puo
+func (_u *PermissionUpdateOne) ClearExtras() *PermissionUpdateOne {
+	_u.mutation.ClearExtras()
+	return _u
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (puo *PermissionUpdateOne) SetCreatedBy(s string) *PermissionUpdateOne {
-	puo.mutation.SetCreatedBy(s)
-	return puo
+func (_u *PermissionUpdateOne) SetCreatedBy(v string) *PermissionUpdateOne {
+	_u.mutation.SetCreatedBy(v)
+	return _u
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (puo *PermissionUpdateOne) SetNillableCreatedBy(s *string) *PermissionUpdateOne {
-	if s != nil {
-		puo.SetCreatedBy(*s)
+func (_u *PermissionUpdateOne) SetNillableCreatedBy(v *string) *PermissionUpdateOne {
+	if v != nil {
+		_u.SetCreatedBy(*v)
 	}
-	return puo
+	return _u
 }
 
 // ClearCreatedBy clears the value of the "created_by" field.
-func (puo *PermissionUpdateOne) ClearCreatedBy() *PermissionUpdateOne {
-	puo.mutation.ClearCreatedBy()
-	return puo
+func (_u *PermissionUpdateOne) ClearCreatedBy() *PermissionUpdateOne {
+	_u.mutation.ClearCreatedBy()
+	return _u
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (puo *PermissionUpdateOne) SetUpdatedBy(s string) *PermissionUpdateOne {
-	puo.mutation.SetUpdatedBy(s)
-	return puo
+func (_u *PermissionUpdateOne) SetUpdatedBy(v string) *PermissionUpdateOne {
+	_u.mutation.SetUpdatedBy(v)
+	return _u
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (puo *PermissionUpdateOne) SetNillableUpdatedBy(s *string) *PermissionUpdateOne {
-	if s != nil {
-		puo.SetUpdatedBy(*s)
+func (_u *PermissionUpdateOne) SetNillableUpdatedBy(v *string) *PermissionUpdateOne {
+	if v != nil {
+		_u.SetUpdatedBy(*v)
 	}
-	return puo
+	return _u
 }
 
 // ClearUpdatedBy clears the value of the "updated_by" field.
-func (puo *PermissionUpdateOne) ClearUpdatedBy() *PermissionUpdateOne {
-	puo.mutation.ClearUpdatedBy()
-	return puo
+func (_u *PermissionUpdateOne) ClearUpdatedBy() *PermissionUpdateOne {
+	_u.mutation.ClearUpdatedBy()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (puo *PermissionUpdateOne) SetUpdatedAt(i int64) *PermissionUpdateOne {
-	puo.mutation.ResetUpdatedAt()
-	puo.mutation.SetUpdatedAt(i)
-	return puo
+func (_u *PermissionUpdateOne) SetUpdatedAt(v int64) *PermissionUpdateOne {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (puo *PermissionUpdateOne) AddUpdatedAt(i int64) *PermissionUpdateOne {
-	puo.mutation.AddUpdatedAt(i)
-	return puo
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *PermissionUpdateOne) AddUpdatedAt(v int64) *PermissionUpdateOne {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (puo *PermissionUpdateOne) ClearUpdatedAt() *PermissionUpdateOne {
-	puo.mutation.ClearUpdatedAt()
-	return puo
+func (_u *PermissionUpdateOne) ClearUpdatedAt() *PermissionUpdateOne {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // Mutation returns the PermissionMutation object of the builder.
-func (puo *PermissionUpdateOne) Mutation() *PermissionMutation {
-	return puo.mutation
+func (_u *PermissionUpdateOne) Mutation() *PermissionMutation {
+	return _u.mutation
 }
 
 // Where appends a list predicates to the PermissionUpdate builder.
-func (puo *PermissionUpdateOne) Where(ps ...predicate.Permission) *PermissionUpdateOne {
-	puo.mutation.Where(ps...)
-	return puo
+func (_u *PermissionUpdateOne) Where(ps ...predicate.Permission) *PermissionUpdateOne {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // Select allows selecting one or more fields (columns) of the returned entity.
 // The default is selecting all fields defined in the entity schema.
-func (puo *PermissionUpdateOne) Select(field string, fields ...string) *PermissionUpdateOne {
-	puo.fields = append([]string{field}, fields...)
-	return puo
+func (_u *PermissionUpdateOne) Select(field string, fields ...string) *PermissionUpdateOne {
+	_u.fields = append([]string{field}, fields...)
+	return _u
 }
 
 // Save executes the query and returns the updated Permission entity.
-func (puo *PermissionUpdateOne) Save(ctx context.Context) (*Permission, error) {
-	puo.defaults()
-	return withHooks(ctx, puo.sqlSave, puo.mutation, puo.hooks)
+func (_u *PermissionUpdateOne) Save(ctx context.Context) (*Permission, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (puo *PermissionUpdateOne) SaveX(ctx context.Context) *Permission {
-	node, err := puo.Save(ctx)
+func (_u *PermissionUpdateOne) SaveX(ctx context.Context) *Permission {
+	node, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -579,34 +579,34 @@ func (puo *PermissionUpdateOne) SaveX(ctx context.Context) *Permission {
 }
 
 // Exec executes the query on the entity.
-func (puo *PermissionUpdateOne) Exec(ctx context.Context) error {
-	_, err := puo.Save(ctx)
+func (_u *PermissionUpdateOne) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (puo *PermissionUpdateOne) ExecX(ctx context.Context) {
-	if err := puo.Exec(ctx); err != nil {
+func (_u *PermissionUpdateOne) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (puo *PermissionUpdateOne) defaults() {
-	if _, ok := puo.mutation.UpdatedAt(); !ok && !puo.mutation.UpdatedAtCleared() {
+func (_u *PermissionUpdateOne) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := permission.UpdateDefaultUpdatedAt()
-		puo.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (puo *PermissionUpdateOne) sqlSave(ctx context.Context) (_node *Permission, err error) {
+func (_u *PermissionUpdateOne) sqlSave(ctx context.Context) (_node *Permission, err error) {
 	_spec := sqlgraph.NewUpdateSpec(permission.Table, permission.Columns, sqlgraph.NewFieldSpec(permission.FieldID, field.TypeString))
-	id, ok := puo.mutation.ID()
+	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "Permission.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
-	if fields := puo.fields; len(fields) > 0 {
+	if fields := _u.fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, permission.FieldID)
 		for _, f := range fields {
@@ -618,83 +618,83 @@ func (puo *PermissionUpdateOne) sqlSave(ctx context.Context) (_node *Permission,
 			}
 		}
 	}
-	if ps := puo.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := puo.mutation.Name(); ok {
+	if value, ok := _u.mutation.Name(); ok {
 		_spec.SetField(permission.FieldName, field.TypeString, value)
 	}
-	if puo.mutation.NameCleared() {
+	if _u.mutation.NameCleared() {
 		_spec.ClearField(permission.FieldName, field.TypeString)
 	}
-	if value, ok := puo.mutation.Action(); ok {
+	if value, ok := _u.mutation.Action(); ok {
 		_spec.SetField(permission.FieldAction, field.TypeString, value)
 	}
-	if puo.mutation.ActionCleared() {
+	if _u.mutation.ActionCleared() {
 		_spec.ClearField(permission.FieldAction, field.TypeString)
 	}
-	if value, ok := puo.mutation.Subject(); ok {
+	if value, ok := _u.mutation.Subject(); ok {
 		_spec.SetField(permission.FieldSubject, field.TypeString, value)
 	}
-	if puo.mutation.SubjectCleared() {
+	if _u.mutation.SubjectCleared() {
 		_spec.ClearField(permission.FieldSubject, field.TypeString)
 	}
-	if value, ok := puo.mutation.Description(); ok {
+	if value, ok := _u.mutation.Description(); ok {
 		_spec.SetField(permission.FieldDescription, field.TypeString, value)
 	}
-	if puo.mutation.DescriptionCleared() {
+	if _u.mutation.DescriptionCleared() {
 		_spec.ClearField(permission.FieldDescription, field.TypeString)
 	}
-	if value, ok := puo.mutation.Default(); ok {
+	if value, ok := _u.mutation.Default(); ok {
 		_spec.SetField(permission.FieldDefault, field.TypeBool, value)
 	}
-	if puo.mutation.DefaultCleared() {
+	if _u.mutation.DefaultCleared() {
 		_spec.ClearField(permission.FieldDefault, field.TypeBool)
 	}
-	if value, ok := puo.mutation.Disabled(); ok {
+	if value, ok := _u.mutation.Disabled(); ok {
 		_spec.SetField(permission.FieldDisabled, field.TypeBool, value)
 	}
-	if puo.mutation.DisabledCleared() {
+	if _u.mutation.DisabledCleared() {
 		_spec.ClearField(permission.FieldDisabled, field.TypeBool)
 	}
-	if value, ok := puo.mutation.Extras(); ok {
+	if value, ok := _u.mutation.Extras(); ok {
 		_spec.SetField(permission.FieldExtras, field.TypeJSON, value)
 	}
-	if puo.mutation.ExtrasCleared() {
+	if _u.mutation.ExtrasCleared() {
 		_spec.ClearField(permission.FieldExtras, field.TypeJSON)
 	}
-	if value, ok := puo.mutation.CreatedBy(); ok {
+	if value, ok := _u.mutation.CreatedBy(); ok {
 		_spec.SetField(permission.FieldCreatedBy, field.TypeString, value)
 	}
-	if puo.mutation.CreatedByCleared() {
+	if _u.mutation.CreatedByCleared() {
 		_spec.ClearField(permission.FieldCreatedBy, field.TypeString)
 	}
-	if value, ok := puo.mutation.UpdatedBy(); ok {
+	if value, ok := _u.mutation.UpdatedBy(); ok {
 		_spec.SetField(permission.FieldUpdatedBy, field.TypeString, value)
 	}
-	if puo.mutation.UpdatedByCleared() {
+	if _u.mutation.UpdatedByCleared() {
 		_spec.ClearField(permission.FieldUpdatedBy, field.TypeString)
 	}
-	if puo.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(permission.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := puo.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(permission.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := puo.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(permission.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if puo.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(permission.FieldUpdatedAt, field.TypeInt64)
 	}
-	_node = &Permission{config: puo.config}
+	_node = &Permission{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues
-	if err = sqlgraph.UpdateNode(ctx, puo.driver, _spec); err != nil {
+	if err = sqlgraph.UpdateNode(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{permission.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -702,6 +702,6 @@ func (puo *PermissionUpdateOne) sqlSave(ctx context.Context) (_node *Permission,
 		}
 		return nil, err
 	}
-	puo.mutation.done = true
+	_u.mutation.done = true
 	return _node, nil
 }

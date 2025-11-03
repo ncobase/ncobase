@@ -50,7 +50,7 @@ func (*UserSpace) scanValues(columns []string) ([]any, error) {
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
 // to the UserSpace fields.
-func (us *UserSpace) assignValues(columns []string, values []any) error {
+func (_m *UserSpace) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
@@ -60,46 +60,46 @@ func (us *UserSpace) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field id", values[i])
 			} else if value.Valid {
-				us.ID = value.String
+				_m.ID = value.String
 			}
 		case userspace.FieldUserID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field user_id", values[i])
 			} else if value.Valid {
-				us.UserID = value.String
+				_m.UserID = value.String
 			}
 		case userspace.FieldSpaceID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field space_id", values[i])
 			} else if value.Valid {
-				us.SpaceID = value.String
+				_m.SpaceID = value.String
 			}
 		case userspace.FieldCreatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field created_by", values[i])
 			} else if value.Valid {
-				us.CreatedBy = value.String
+				_m.CreatedBy = value.String
 			}
 		case userspace.FieldUpdatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_by", values[i])
 			} else if value.Valid {
-				us.UpdatedBy = value.String
+				_m.UpdatedBy = value.String
 			}
 		case userspace.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field created_at", values[i])
 			} else if value.Valid {
-				us.CreatedAt = value.Int64
+				_m.CreatedAt = value.Int64
 			}
 		case userspace.FieldUpdatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_at", values[i])
 			} else if value.Valid {
-				us.UpdatedAt = value.Int64
+				_m.UpdatedAt = value.Int64
 			}
 		default:
-			us.selectValues.Set(columns[i], values[i])
+			_m.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
@@ -107,50 +107,50 @@ func (us *UserSpace) assignValues(columns []string, values []any) error {
 
 // Value returns the ent.Value that was dynamically selected and assigned to the UserSpace.
 // This includes values selected through modifiers, order, etc.
-func (us *UserSpace) Value(name string) (ent.Value, error) {
-	return us.selectValues.Get(name)
+func (_m *UserSpace) Value(name string) (ent.Value, error) {
+	return _m.selectValues.Get(name)
 }
 
 // Update returns a builder for updating this UserSpace.
 // Note that you need to call UserSpace.Unwrap() before calling this method if this UserSpace
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (us *UserSpace) Update() *UserSpaceUpdateOne {
-	return NewUserSpaceClient(us.config).UpdateOne(us)
+func (_m *UserSpace) Update() *UserSpaceUpdateOne {
+	return NewUserSpaceClient(_m.config).UpdateOne(_m)
 }
 
 // Unwrap unwraps the UserSpace entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (us *UserSpace) Unwrap() *UserSpace {
-	_tx, ok := us.config.driver.(*txDriver)
+func (_m *UserSpace) Unwrap() *UserSpace {
+	_tx, ok := _m.config.driver.(*txDriver)
 	if !ok {
 		panic("ent: UserSpace is not a transactional entity")
 	}
-	us.config.driver = _tx.drv
-	return us
+	_m.config.driver = _tx.drv
+	return _m
 }
 
 // String implements the fmt.Stringer.
-func (us *UserSpace) String() string {
+func (_m *UserSpace) String() string {
 	var builder strings.Builder
 	builder.WriteString("UserSpace(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", us.ID))
+	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
 	builder.WriteString("user_id=")
-	builder.WriteString(us.UserID)
+	builder.WriteString(_m.UserID)
 	builder.WriteString(", ")
 	builder.WriteString("space_id=")
-	builder.WriteString(us.SpaceID)
+	builder.WriteString(_m.SpaceID)
 	builder.WriteString(", ")
 	builder.WriteString("created_by=")
-	builder.WriteString(us.CreatedBy)
+	builder.WriteString(_m.CreatedBy)
 	builder.WriteString(", ")
 	builder.WriteString("updated_by=")
-	builder.WriteString(us.UpdatedBy)
+	builder.WriteString(_m.UpdatedBy)
 	builder.WriteString(", ")
 	builder.WriteString("created_at=")
-	builder.WriteString(fmt.Sprintf("%v", us.CreatedAt))
+	builder.WriteString(fmt.Sprintf("%v", _m.CreatedAt))
 	builder.WriteString(", ")
 	builder.WriteString("updated_at=")
-	builder.WriteString(fmt.Sprintf("%v", us.UpdatedAt))
+	builder.WriteString(fmt.Sprintf("%v", _m.UpdatedAt))
 	builder.WriteByte(')')
 	return builder.String()
 }

@@ -23,511 +23,511 @@ type TopicUpdate struct {
 }
 
 // Where appends a list predicates to the TopicUpdate builder.
-func (tu *TopicUpdate) Where(ps ...predicate.Topic) *TopicUpdate {
-	tu.mutation.Where(ps...)
-	return tu
+func (_u *TopicUpdate) Where(ps ...predicate.Topic) *TopicUpdate {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // SetName sets the "name" field.
-func (tu *TopicUpdate) SetName(s string) *TopicUpdate {
-	tu.mutation.SetName(s)
-	return tu
+func (_u *TopicUpdate) SetName(v string) *TopicUpdate {
+	_u.mutation.SetName(v)
+	return _u
 }
 
 // SetNillableName sets the "name" field if the given value is not nil.
-func (tu *TopicUpdate) SetNillableName(s *string) *TopicUpdate {
-	if s != nil {
-		tu.SetName(*s)
+func (_u *TopicUpdate) SetNillableName(v *string) *TopicUpdate {
+	if v != nil {
+		_u.SetName(*v)
 	}
-	return tu
+	return _u
 }
 
 // ClearName clears the value of the "name" field.
-func (tu *TopicUpdate) ClearName() *TopicUpdate {
-	tu.mutation.ClearName()
-	return tu
+func (_u *TopicUpdate) ClearName() *TopicUpdate {
+	_u.mutation.ClearName()
+	return _u
 }
 
 // SetTitle sets the "title" field.
-func (tu *TopicUpdate) SetTitle(s string) *TopicUpdate {
-	tu.mutation.SetTitle(s)
-	return tu
+func (_u *TopicUpdate) SetTitle(v string) *TopicUpdate {
+	_u.mutation.SetTitle(v)
+	return _u
 }
 
 // SetNillableTitle sets the "title" field if the given value is not nil.
-func (tu *TopicUpdate) SetNillableTitle(s *string) *TopicUpdate {
-	if s != nil {
-		tu.SetTitle(*s)
+func (_u *TopicUpdate) SetNillableTitle(v *string) *TopicUpdate {
+	if v != nil {
+		_u.SetTitle(*v)
 	}
-	return tu
+	return _u
 }
 
 // ClearTitle clears the value of the "title" field.
-func (tu *TopicUpdate) ClearTitle() *TopicUpdate {
-	tu.mutation.ClearTitle()
-	return tu
+func (_u *TopicUpdate) ClearTitle() *TopicUpdate {
+	_u.mutation.ClearTitle()
+	return _u
 }
 
 // SetSlug sets the "slug" field.
-func (tu *TopicUpdate) SetSlug(s string) *TopicUpdate {
-	tu.mutation.SetSlug(s)
-	return tu
+func (_u *TopicUpdate) SetSlug(v string) *TopicUpdate {
+	_u.mutation.SetSlug(v)
+	return _u
 }
 
 // SetNillableSlug sets the "slug" field if the given value is not nil.
-func (tu *TopicUpdate) SetNillableSlug(s *string) *TopicUpdate {
-	if s != nil {
-		tu.SetSlug(*s)
+func (_u *TopicUpdate) SetNillableSlug(v *string) *TopicUpdate {
+	if v != nil {
+		_u.SetSlug(*v)
 	}
-	return tu
+	return _u
 }
 
 // ClearSlug clears the value of the "slug" field.
-func (tu *TopicUpdate) ClearSlug() *TopicUpdate {
-	tu.mutation.ClearSlug()
-	return tu
+func (_u *TopicUpdate) ClearSlug() *TopicUpdate {
+	_u.mutation.ClearSlug()
+	return _u
 }
 
 // SetContent sets the "content" field.
-func (tu *TopicUpdate) SetContent(s string) *TopicUpdate {
-	tu.mutation.SetContent(s)
-	return tu
+func (_u *TopicUpdate) SetContent(v string) *TopicUpdate {
+	_u.mutation.SetContent(v)
+	return _u
 }
 
 // SetNillableContent sets the "content" field if the given value is not nil.
-func (tu *TopicUpdate) SetNillableContent(s *string) *TopicUpdate {
-	if s != nil {
-		tu.SetContent(*s)
+func (_u *TopicUpdate) SetNillableContent(v *string) *TopicUpdate {
+	if v != nil {
+		_u.SetContent(*v)
 	}
-	return tu
+	return _u
 }
 
 // ClearContent clears the value of the "content" field.
-func (tu *TopicUpdate) ClearContent() *TopicUpdate {
-	tu.mutation.ClearContent()
-	return tu
+func (_u *TopicUpdate) ClearContent() *TopicUpdate {
+	_u.mutation.ClearContent()
+	return _u
 }
 
 // SetThumbnail sets the "thumbnail" field.
-func (tu *TopicUpdate) SetThumbnail(s string) *TopicUpdate {
-	tu.mutation.SetThumbnail(s)
-	return tu
+func (_u *TopicUpdate) SetThumbnail(v string) *TopicUpdate {
+	_u.mutation.SetThumbnail(v)
+	return _u
 }
 
 // SetNillableThumbnail sets the "thumbnail" field if the given value is not nil.
-func (tu *TopicUpdate) SetNillableThumbnail(s *string) *TopicUpdate {
-	if s != nil {
-		tu.SetThumbnail(*s)
+func (_u *TopicUpdate) SetNillableThumbnail(v *string) *TopicUpdate {
+	if v != nil {
+		_u.SetThumbnail(*v)
 	}
-	return tu
+	return _u
 }
 
 // ClearThumbnail clears the value of the "thumbnail" field.
-func (tu *TopicUpdate) ClearThumbnail() *TopicUpdate {
-	tu.mutation.ClearThumbnail()
-	return tu
+func (_u *TopicUpdate) ClearThumbnail() *TopicUpdate {
+	_u.mutation.ClearThumbnail()
+	return _u
 }
 
 // SetTemp sets the "temp" field.
-func (tu *TopicUpdate) SetTemp(b bool) *TopicUpdate {
-	tu.mutation.SetTemp(b)
-	return tu
+func (_u *TopicUpdate) SetTemp(v bool) *TopicUpdate {
+	_u.mutation.SetTemp(v)
+	return _u
 }
 
 // SetNillableTemp sets the "temp" field if the given value is not nil.
-func (tu *TopicUpdate) SetNillableTemp(b *bool) *TopicUpdate {
-	if b != nil {
-		tu.SetTemp(*b)
+func (_u *TopicUpdate) SetNillableTemp(v *bool) *TopicUpdate {
+	if v != nil {
+		_u.SetTemp(*v)
 	}
-	return tu
+	return _u
 }
 
 // ClearTemp clears the value of the "temp" field.
-func (tu *TopicUpdate) ClearTemp() *TopicUpdate {
-	tu.mutation.ClearTemp()
-	return tu
+func (_u *TopicUpdate) ClearTemp() *TopicUpdate {
+	_u.mutation.ClearTemp()
+	return _u
 }
 
 // SetMarkdown sets the "markdown" field.
-func (tu *TopicUpdate) SetMarkdown(b bool) *TopicUpdate {
-	tu.mutation.SetMarkdown(b)
-	return tu
+func (_u *TopicUpdate) SetMarkdown(v bool) *TopicUpdate {
+	_u.mutation.SetMarkdown(v)
+	return _u
 }
 
 // SetNillableMarkdown sets the "markdown" field if the given value is not nil.
-func (tu *TopicUpdate) SetNillableMarkdown(b *bool) *TopicUpdate {
-	if b != nil {
-		tu.SetMarkdown(*b)
+func (_u *TopicUpdate) SetNillableMarkdown(v *bool) *TopicUpdate {
+	if v != nil {
+		_u.SetMarkdown(*v)
 	}
-	return tu
+	return _u
 }
 
 // ClearMarkdown clears the value of the "markdown" field.
-func (tu *TopicUpdate) ClearMarkdown() *TopicUpdate {
-	tu.mutation.ClearMarkdown()
-	return tu
+func (_u *TopicUpdate) ClearMarkdown() *TopicUpdate {
+	_u.mutation.ClearMarkdown()
+	return _u
 }
 
 // SetPrivate sets the "private" field.
-func (tu *TopicUpdate) SetPrivate(b bool) *TopicUpdate {
-	tu.mutation.SetPrivate(b)
-	return tu
+func (_u *TopicUpdate) SetPrivate(v bool) *TopicUpdate {
+	_u.mutation.SetPrivate(v)
+	return _u
 }
 
 // SetNillablePrivate sets the "private" field if the given value is not nil.
-func (tu *TopicUpdate) SetNillablePrivate(b *bool) *TopicUpdate {
-	if b != nil {
-		tu.SetPrivate(*b)
+func (_u *TopicUpdate) SetNillablePrivate(v *bool) *TopicUpdate {
+	if v != nil {
+		_u.SetPrivate(*v)
 	}
-	return tu
+	return _u
 }
 
 // ClearPrivate clears the value of the "private" field.
-func (tu *TopicUpdate) ClearPrivate() *TopicUpdate {
-	tu.mutation.ClearPrivate()
-	return tu
+func (_u *TopicUpdate) ClearPrivate() *TopicUpdate {
+	_u.mutation.ClearPrivate()
+	return _u
 }
 
 // SetStatus sets the "status" field.
-func (tu *TopicUpdate) SetStatus(i int) *TopicUpdate {
-	tu.mutation.ResetStatus()
-	tu.mutation.SetStatus(i)
-	return tu
+func (_u *TopicUpdate) SetStatus(v int) *TopicUpdate {
+	_u.mutation.ResetStatus()
+	_u.mutation.SetStatus(v)
+	return _u
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (tu *TopicUpdate) SetNillableStatus(i *int) *TopicUpdate {
-	if i != nil {
-		tu.SetStatus(*i)
+func (_u *TopicUpdate) SetNillableStatus(v *int) *TopicUpdate {
+	if v != nil {
+		_u.SetStatus(*v)
 	}
-	return tu
+	return _u
 }
 
-// AddStatus adds i to the "status" field.
-func (tu *TopicUpdate) AddStatus(i int) *TopicUpdate {
-	tu.mutation.AddStatus(i)
-	return tu
+// AddStatus adds value to the "status" field.
+func (_u *TopicUpdate) AddStatus(v int) *TopicUpdate {
+	_u.mutation.AddStatus(v)
+	return _u
 }
 
 // SetReleased sets the "released" field.
-func (tu *TopicUpdate) SetReleased(i int64) *TopicUpdate {
-	tu.mutation.ResetReleased()
-	tu.mutation.SetReleased(i)
-	return tu
+func (_u *TopicUpdate) SetReleased(v int64) *TopicUpdate {
+	_u.mutation.ResetReleased()
+	_u.mutation.SetReleased(v)
+	return _u
 }
 
 // SetNillableReleased sets the "released" field if the given value is not nil.
-func (tu *TopicUpdate) SetNillableReleased(i *int64) *TopicUpdate {
-	if i != nil {
-		tu.SetReleased(*i)
+func (_u *TopicUpdate) SetNillableReleased(v *int64) *TopicUpdate {
+	if v != nil {
+		_u.SetReleased(*v)
 	}
-	return tu
+	return _u
 }
 
-// AddReleased adds i to the "released" field.
-func (tu *TopicUpdate) AddReleased(i int64) *TopicUpdate {
-	tu.mutation.AddReleased(i)
-	return tu
+// AddReleased adds value to the "released" field.
+func (_u *TopicUpdate) AddReleased(v int64) *TopicUpdate {
+	_u.mutation.AddReleased(v)
+	return _u
 }
 
 // ClearReleased clears the value of the "released" field.
-func (tu *TopicUpdate) ClearReleased() *TopicUpdate {
-	tu.mutation.ClearReleased()
-	return tu
+func (_u *TopicUpdate) ClearReleased() *TopicUpdate {
+	_u.mutation.ClearReleased()
+	return _u
 }
 
 // SetTaxonomyID sets the "taxonomy_id" field.
-func (tu *TopicUpdate) SetTaxonomyID(s string) *TopicUpdate {
-	tu.mutation.SetTaxonomyID(s)
-	return tu
+func (_u *TopicUpdate) SetTaxonomyID(v string) *TopicUpdate {
+	_u.mutation.SetTaxonomyID(v)
+	return _u
 }
 
 // SetNillableTaxonomyID sets the "taxonomy_id" field if the given value is not nil.
-func (tu *TopicUpdate) SetNillableTaxonomyID(s *string) *TopicUpdate {
-	if s != nil {
-		tu.SetTaxonomyID(*s)
+func (_u *TopicUpdate) SetNillableTaxonomyID(v *string) *TopicUpdate {
+	if v != nil {
+		_u.SetTaxonomyID(*v)
 	}
-	return tu
+	return _u
 }
 
 // ClearTaxonomyID clears the value of the "taxonomy_id" field.
-func (tu *TopicUpdate) ClearTaxonomyID() *TopicUpdate {
-	tu.mutation.ClearTaxonomyID()
-	return tu
+func (_u *TopicUpdate) ClearTaxonomyID() *TopicUpdate {
+	_u.mutation.ClearTaxonomyID()
+	return _u
 }
 
 // SetSpaceID sets the "space_id" field.
-func (tu *TopicUpdate) SetSpaceID(s string) *TopicUpdate {
-	tu.mutation.SetSpaceID(s)
-	return tu
+func (_u *TopicUpdate) SetSpaceID(v string) *TopicUpdate {
+	_u.mutation.SetSpaceID(v)
+	return _u
 }
 
 // SetNillableSpaceID sets the "space_id" field if the given value is not nil.
-func (tu *TopicUpdate) SetNillableSpaceID(s *string) *TopicUpdate {
-	if s != nil {
-		tu.SetSpaceID(*s)
+func (_u *TopicUpdate) SetNillableSpaceID(v *string) *TopicUpdate {
+	if v != nil {
+		_u.SetSpaceID(*v)
 	}
-	return tu
+	return _u
 }
 
 // ClearSpaceID clears the value of the "space_id" field.
-func (tu *TopicUpdate) ClearSpaceID() *TopicUpdate {
-	tu.mutation.ClearSpaceID()
-	return tu
+func (_u *TopicUpdate) ClearSpaceID() *TopicUpdate {
+	_u.mutation.ClearSpaceID()
+	return _u
 }
 
 // SetExtras sets the "extras" field.
-func (tu *TopicUpdate) SetExtras(m map[string]interface{}) *TopicUpdate {
-	tu.mutation.SetExtras(m)
-	return tu
+func (_u *TopicUpdate) SetExtras(v map[string]interface{}) *TopicUpdate {
+	_u.mutation.SetExtras(v)
+	return _u
 }
 
 // ClearExtras clears the value of the "extras" field.
-func (tu *TopicUpdate) ClearExtras() *TopicUpdate {
-	tu.mutation.ClearExtras()
-	return tu
+func (_u *TopicUpdate) ClearExtras() *TopicUpdate {
+	_u.mutation.ClearExtras()
+	return _u
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (tu *TopicUpdate) SetCreatedBy(s string) *TopicUpdate {
-	tu.mutation.SetCreatedBy(s)
-	return tu
+func (_u *TopicUpdate) SetCreatedBy(v string) *TopicUpdate {
+	_u.mutation.SetCreatedBy(v)
+	return _u
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (tu *TopicUpdate) SetNillableCreatedBy(s *string) *TopicUpdate {
-	if s != nil {
-		tu.SetCreatedBy(*s)
+func (_u *TopicUpdate) SetNillableCreatedBy(v *string) *TopicUpdate {
+	if v != nil {
+		_u.SetCreatedBy(*v)
 	}
-	return tu
+	return _u
 }
 
 // ClearCreatedBy clears the value of the "created_by" field.
-func (tu *TopicUpdate) ClearCreatedBy() *TopicUpdate {
-	tu.mutation.ClearCreatedBy()
-	return tu
+func (_u *TopicUpdate) ClearCreatedBy() *TopicUpdate {
+	_u.mutation.ClearCreatedBy()
+	return _u
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (tu *TopicUpdate) SetUpdatedBy(s string) *TopicUpdate {
-	tu.mutation.SetUpdatedBy(s)
-	return tu
+func (_u *TopicUpdate) SetUpdatedBy(v string) *TopicUpdate {
+	_u.mutation.SetUpdatedBy(v)
+	return _u
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (tu *TopicUpdate) SetNillableUpdatedBy(s *string) *TopicUpdate {
-	if s != nil {
-		tu.SetUpdatedBy(*s)
+func (_u *TopicUpdate) SetNillableUpdatedBy(v *string) *TopicUpdate {
+	if v != nil {
+		_u.SetUpdatedBy(*v)
 	}
-	return tu
+	return _u
 }
 
 // ClearUpdatedBy clears the value of the "updated_by" field.
-func (tu *TopicUpdate) ClearUpdatedBy() *TopicUpdate {
-	tu.mutation.ClearUpdatedBy()
-	return tu
+func (_u *TopicUpdate) ClearUpdatedBy() *TopicUpdate {
+	_u.mutation.ClearUpdatedBy()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (tu *TopicUpdate) SetUpdatedAt(i int64) *TopicUpdate {
-	tu.mutation.ResetUpdatedAt()
-	tu.mutation.SetUpdatedAt(i)
-	return tu
+func (_u *TopicUpdate) SetUpdatedAt(v int64) *TopicUpdate {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (tu *TopicUpdate) AddUpdatedAt(i int64) *TopicUpdate {
-	tu.mutation.AddUpdatedAt(i)
-	return tu
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *TopicUpdate) AddUpdatedAt(v int64) *TopicUpdate {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (tu *TopicUpdate) ClearUpdatedAt() *TopicUpdate {
-	tu.mutation.ClearUpdatedAt()
-	return tu
+func (_u *TopicUpdate) ClearUpdatedAt() *TopicUpdate {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // SetVersion sets the "version" field.
-func (tu *TopicUpdate) SetVersion(i int) *TopicUpdate {
-	tu.mutation.ResetVersion()
-	tu.mutation.SetVersion(i)
-	return tu
+func (_u *TopicUpdate) SetVersion(v int) *TopicUpdate {
+	_u.mutation.ResetVersion()
+	_u.mutation.SetVersion(v)
+	return _u
 }
 
 // SetNillableVersion sets the "version" field if the given value is not nil.
-func (tu *TopicUpdate) SetNillableVersion(i *int) *TopicUpdate {
-	if i != nil {
-		tu.SetVersion(*i)
+func (_u *TopicUpdate) SetNillableVersion(v *int) *TopicUpdate {
+	if v != nil {
+		_u.SetVersion(*v)
 	}
-	return tu
+	return _u
 }
 
-// AddVersion adds i to the "version" field.
-func (tu *TopicUpdate) AddVersion(i int) *TopicUpdate {
-	tu.mutation.AddVersion(i)
-	return tu
+// AddVersion adds value to the "version" field.
+func (_u *TopicUpdate) AddVersion(v int) *TopicUpdate {
+	_u.mutation.AddVersion(v)
+	return _u
 }
 
 // SetContentType sets the "content_type" field.
-func (tu *TopicUpdate) SetContentType(s string) *TopicUpdate {
-	tu.mutation.SetContentType(s)
-	return tu
+func (_u *TopicUpdate) SetContentType(v string) *TopicUpdate {
+	_u.mutation.SetContentType(v)
+	return _u
 }
 
 // SetNillableContentType sets the "content_type" field if the given value is not nil.
-func (tu *TopicUpdate) SetNillableContentType(s *string) *TopicUpdate {
-	if s != nil {
-		tu.SetContentType(*s)
+func (_u *TopicUpdate) SetNillableContentType(v *string) *TopicUpdate {
+	if v != nil {
+		_u.SetContentType(*v)
 	}
-	return tu
+	return _u
 }
 
 // SetSeoTitle sets the "seo_title" field.
-func (tu *TopicUpdate) SetSeoTitle(s string) *TopicUpdate {
-	tu.mutation.SetSeoTitle(s)
-	return tu
+func (_u *TopicUpdate) SetSeoTitle(v string) *TopicUpdate {
+	_u.mutation.SetSeoTitle(v)
+	return _u
 }
 
 // SetNillableSeoTitle sets the "seo_title" field if the given value is not nil.
-func (tu *TopicUpdate) SetNillableSeoTitle(s *string) *TopicUpdate {
-	if s != nil {
-		tu.SetSeoTitle(*s)
+func (_u *TopicUpdate) SetNillableSeoTitle(v *string) *TopicUpdate {
+	if v != nil {
+		_u.SetSeoTitle(*v)
 	}
-	return tu
+	return _u
 }
 
 // ClearSeoTitle clears the value of the "seo_title" field.
-func (tu *TopicUpdate) ClearSeoTitle() *TopicUpdate {
-	tu.mutation.ClearSeoTitle()
-	return tu
+func (_u *TopicUpdate) ClearSeoTitle() *TopicUpdate {
+	_u.mutation.ClearSeoTitle()
+	return _u
 }
 
 // SetSeoDescription sets the "seo_description" field.
-func (tu *TopicUpdate) SetSeoDescription(s string) *TopicUpdate {
-	tu.mutation.SetSeoDescription(s)
-	return tu
+func (_u *TopicUpdate) SetSeoDescription(v string) *TopicUpdate {
+	_u.mutation.SetSeoDescription(v)
+	return _u
 }
 
 // SetNillableSeoDescription sets the "seo_description" field if the given value is not nil.
-func (tu *TopicUpdate) SetNillableSeoDescription(s *string) *TopicUpdate {
-	if s != nil {
-		tu.SetSeoDescription(*s)
+func (_u *TopicUpdate) SetNillableSeoDescription(v *string) *TopicUpdate {
+	if v != nil {
+		_u.SetSeoDescription(*v)
 	}
-	return tu
+	return _u
 }
 
 // ClearSeoDescription clears the value of the "seo_description" field.
-func (tu *TopicUpdate) ClearSeoDescription() *TopicUpdate {
-	tu.mutation.ClearSeoDescription()
-	return tu
+func (_u *TopicUpdate) ClearSeoDescription() *TopicUpdate {
+	_u.mutation.ClearSeoDescription()
+	return _u
 }
 
 // SetSeoKeywords sets the "seo_keywords" field.
-func (tu *TopicUpdate) SetSeoKeywords(s string) *TopicUpdate {
-	tu.mutation.SetSeoKeywords(s)
-	return tu
+func (_u *TopicUpdate) SetSeoKeywords(v string) *TopicUpdate {
+	_u.mutation.SetSeoKeywords(v)
+	return _u
 }
 
 // SetNillableSeoKeywords sets the "seo_keywords" field if the given value is not nil.
-func (tu *TopicUpdate) SetNillableSeoKeywords(s *string) *TopicUpdate {
-	if s != nil {
-		tu.SetSeoKeywords(*s)
+func (_u *TopicUpdate) SetNillableSeoKeywords(v *string) *TopicUpdate {
+	if v != nil {
+		_u.SetSeoKeywords(*v)
 	}
-	return tu
+	return _u
 }
 
 // ClearSeoKeywords clears the value of the "seo_keywords" field.
-func (tu *TopicUpdate) ClearSeoKeywords() *TopicUpdate {
-	tu.mutation.ClearSeoKeywords()
-	return tu
+func (_u *TopicUpdate) ClearSeoKeywords() *TopicUpdate {
+	_u.mutation.ClearSeoKeywords()
+	return _u
 }
 
 // SetExcerptAuto sets the "excerpt_auto" field.
-func (tu *TopicUpdate) SetExcerptAuto(b bool) *TopicUpdate {
-	tu.mutation.SetExcerptAuto(b)
-	return tu
+func (_u *TopicUpdate) SetExcerptAuto(v bool) *TopicUpdate {
+	_u.mutation.SetExcerptAuto(v)
+	return _u
 }
 
 // SetNillableExcerptAuto sets the "excerpt_auto" field if the given value is not nil.
-func (tu *TopicUpdate) SetNillableExcerptAuto(b *bool) *TopicUpdate {
-	if b != nil {
-		tu.SetExcerptAuto(*b)
+func (_u *TopicUpdate) SetNillableExcerptAuto(v *bool) *TopicUpdate {
+	if v != nil {
+		_u.SetExcerptAuto(*v)
 	}
-	return tu
+	return _u
 }
 
 // SetExcerpt sets the "excerpt" field.
-func (tu *TopicUpdate) SetExcerpt(s string) *TopicUpdate {
-	tu.mutation.SetExcerpt(s)
-	return tu
+func (_u *TopicUpdate) SetExcerpt(v string) *TopicUpdate {
+	_u.mutation.SetExcerpt(v)
+	return _u
 }
 
 // SetNillableExcerpt sets the "excerpt" field if the given value is not nil.
-func (tu *TopicUpdate) SetNillableExcerpt(s *string) *TopicUpdate {
-	if s != nil {
-		tu.SetExcerpt(*s)
+func (_u *TopicUpdate) SetNillableExcerpt(v *string) *TopicUpdate {
+	if v != nil {
+		_u.SetExcerpt(*v)
 	}
-	return tu
+	return _u
 }
 
 // ClearExcerpt clears the value of the "excerpt" field.
-func (tu *TopicUpdate) ClearExcerpt() *TopicUpdate {
-	tu.mutation.ClearExcerpt()
-	return tu
+func (_u *TopicUpdate) ClearExcerpt() *TopicUpdate {
+	_u.mutation.ClearExcerpt()
+	return _u
 }
 
 // SetFeaturedMedia sets the "featured_media" field.
-func (tu *TopicUpdate) SetFeaturedMedia(s string) *TopicUpdate {
-	tu.mutation.SetFeaturedMedia(s)
-	return tu
+func (_u *TopicUpdate) SetFeaturedMedia(v string) *TopicUpdate {
+	_u.mutation.SetFeaturedMedia(v)
+	return _u
 }
 
 // SetNillableFeaturedMedia sets the "featured_media" field if the given value is not nil.
-func (tu *TopicUpdate) SetNillableFeaturedMedia(s *string) *TopicUpdate {
-	if s != nil {
-		tu.SetFeaturedMedia(*s)
+func (_u *TopicUpdate) SetNillableFeaturedMedia(v *string) *TopicUpdate {
+	if v != nil {
+		_u.SetFeaturedMedia(*v)
 	}
-	return tu
+	return _u
 }
 
 // ClearFeaturedMedia clears the value of the "featured_media" field.
-func (tu *TopicUpdate) ClearFeaturedMedia() *TopicUpdate {
-	tu.mutation.ClearFeaturedMedia()
-	return tu
+func (_u *TopicUpdate) ClearFeaturedMedia() *TopicUpdate {
+	_u.mutation.ClearFeaturedMedia()
+	return _u
 }
 
 // SetTags sets the "tags" field.
-func (tu *TopicUpdate) SetTags(s []string) *TopicUpdate {
-	tu.mutation.SetTags(s)
-	return tu
+func (_u *TopicUpdate) SetTags(v []string) *TopicUpdate {
+	_u.mutation.SetTags(v)
+	return _u
 }
 
-// AppendTags appends s to the "tags" field.
-func (tu *TopicUpdate) AppendTags(s []string) *TopicUpdate {
-	tu.mutation.AppendTags(s)
-	return tu
+// AppendTags appends value to the "tags" field.
+func (_u *TopicUpdate) AppendTags(v []string) *TopicUpdate {
+	_u.mutation.AppendTags(v)
+	return _u
 }
 
 // ClearTags clears the value of the "tags" field.
-func (tu *TopicUpdate) ClearTags() *TopicUpdate {
-	tu.mutation.ClearTags()
-	return tu
+func (_u *TopicUpdate) ClearTags() *TopicUpdate {
+	_u.mutation.ClearTags()
+	return _u
 }
 
 // Mutation returns the TopicMutation object of the builder.
-func (tu *TopicUpdate) Mutation() *TopicMutation {
-	return tu.mutation
+func (_u *TopicUpdate) Mutation() *TopicMutation {
+	return _u.mutation
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
-func (tu *TopicUpdate) Save(ctx context.Context) (int, error) {
-	tu.defaults()
-	return withHooks(ctx, tu.sqlSave, tu.mutation, tu.hooks)
+func (_u *TopicUpdate) Save(ctx context.Context) (int, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (tu *TopicUpdate) SaveX(ctx context.Context) int {
-	affected, err := tu.Save(ctx)
+func (_u *TopicUpdate) SaveX(ctx context.Context) int {
+	affected, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -535,194 +535,194 @@ func (tu *TopicUpdate) SaveX(ctx context.Context) int {
 }
 
 // Exec executes the query.
-func (tu *TopicUpdate) Exec(ctx context.Context) error {
-	_, err := tu.Save(ctx)
+func (_u *TopicUpdate) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (tu *TopicUpdate) ExecX(ctx context.Context) {
-	if err := tu.Exec(ctx); err != nil {
+func (_u *TopicUpdate) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (tu *TopicUpdate) defaults() {
-	if _, ok := tu.mutation.UpdatedAt(); !ok && !tu.mutation.UpdatedAtCleared() {
+func (_u *TopicUpdate) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := topic.UpdateDefaultUpdatedAt()
-		tu.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (tu *TopicUpdate) sqlSave(ctx context.Context) (n int, err error) {
+func (_u *TopicUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	_spec := sqlgraph.NewUpdateSpec(topic.Table, topic.Columns, sqlgraph.NewFieldSpec(topic.FieldID, field.TypeString))
-	if ps := tu.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := tu.mutation.Name(); ok {
+	if value, ok := _u.mutation.Name(); ok {
 		_spec.SetField(topic.FieldName, field.TypeString, value)
 	}
-	if tu.mutation.NameCleared() {
+	if _u.mutation.NameCleared() {
 		_spec.ClearField(topic.FieldName, field.TypeString)
 	}
-	if value, ok := tu.mutation.Title(); ok {
+	if value, ok := _u.mutation.Title(); ok {
 		_spec.SetField(topic.FieldTitle, field.TypeString, value)
 	}
-	if tu.mutation.TitleCleared() {
+	if _u.mutation.TitleCleared() {
 		_spec.ClearField(topic.FieldTitle, field.TypeString)
 	}
-	if value, ok := tu.mutation.Slug(); ok {
+	if value, ok := _u.mutation.Slug(); ok {
 		_spec.SetField(topic.FieldSlug, field.TypeString, value)
 	}
-	if tu.mutation.SlugCleared() {
+	if _u.mutation.SlugCleared() {
 		_spec.ClearField(topic.FieldSlug, field.TypeString)
 	}
-	if value, ok := tu.mutation.Content(); ok {
+	if value, ok := _u.mutation.Content(); ok {
 		_spec.SetField(topic.FieldContent, field.TypeString, value)
 	}
-	if tu.mutation.ContentCleared() {
+	if _u.mutation.ContentCleared() {
 		_spec.ClearField(topic.FieldContent, field.TypeString)
 	}
-	if value, ok := tu.mutation.Thumbnail(); ok {
+	if value, ok := _u.mutation.Thumbnail(); ok {
 		_spec.SetField(topic.FieldThumbnail, field.TypeString, value)
 	}
-	if tu.mutation.ThumbnailCleared() {
+	if _u.mutation.ThumbnailCleared() {
 		_spec.ClearField(topic.FieldThumbnail, field.TypeString)
 	}
-	if value, ok := tu.mutation.Temp(); ok {
+	if value, ok := _u.mutation.Temp(); ok {
 		_spec.SetField(topic.FieldTemp, field.TypeBool, value)
 	}
-	if tu.mutation.TempCleared() {
+	if _u.mutation.TempCleared() {
 		_spec.ClearField(topic.FieldTemp, field.TypeBool)
 	}
-	if value, ok := tu.mutation.Markdown(); ok {
+	if value, ok := _u.mutation.Markdown(); ok {
 		_spec.SetField(topic.FieldMarkdown, field.TypeBool, value)
 	}
-	if tu.mutation.MarkdownCleared() {
+	if _u.mutation.MarkdownCleared() {
 		_spec.ClearField(topic.FieldMarkdown, field.TypeBool)
 	}
-	if value, ok := tu.mutation.Private(); ok {
+	if value, ok := _u.mutation.Private(); ok {
 		_spec.SetField(topic.FieldPrivate, field.TypeBool, value)
 	}
-	if tu.mutation.PrivateCleared() {
+	if _u.mutation.PrivateCleared() {
 		_spec.ClearField(topic.FieldPrivate, field.TypeBool)
 	}
-	if value, ok := tu.mutation.Status(); ok {
+	if value, ok := _u.mutation.Status(); ok {
 		_spec.SetField(topic.FieldStatus, field.TypeInt, value)
 	}
-	if value, ok := tu.mutation.AddedStatus(); ok {
+	if value, ok := _u.mutation.AddedStatus(); ok {
 		_spec.AddField(topic.FieldStatus, field.TypeInt, value)
 	}
-	if value, ok := tu.mutation.Released(); ok {
+	if value, ok := _u.mutation.Released(); ok {
 		_spec.SetField(topic.FieldReleased, field.TypeInt64, value)
 	}
-	if value, ok := tu.mutation.AddedReleased(); ok {
+	if value, ok := _u.mutation.AddedReleased(); ok {
 		_spec.AddField(topic.FieldReleased, field.TypeInt64, value)
 	}
-	if tu.mutation.ReleasedCleared() {
+	if _u.mutation.ReleasedCleared() {
 		_spec.ClearField(topic.FieldReleased, field.TypeInt64)
 	}
-	if value, ok := tu.mutation.TaxonomyID(); ok {
+	if value, ok := _u.mutation.TaxonomyID(); ok {
 		_spec.SetField(topic.FieldTaxonomyID, field.TypeString, value)
 	}
-	if tu.mutation.TaxonomyIDCleared() {
+	if _u.mutation.TaxonomyIDCleared() {
 		_spec.ClearField(topic.FieldTaxonomyID, field.TypeString)
 	}
-	if value, ok := tu.mutation.SpaceID(); ok {
+	if value, ok := _u.mutation.SpaceID(); ok {
 		_spec.SetField(topic.FieldSpaceID, field.TypeString, value)
 	}
-	if tu.mutation.SpaceIDCleared() {
+	if _u.mutation.SpaceIDCleared() {
 		_spec.ClearField(topic.FieldSpaceID, field.TypeString)
 	}
-	if value, ok := tu.mutation.Extras(); ok {
+	if value, ok := _u.mutation.Extras(); ok {
 		_spec.SetField(topic.FieldExtras, field.TypeJSON, value)
 	}
-	if tu.mutation.ExtrasCleared() {
+	if _u.mutation.ExtrasCleared() {
 		_spec.ClearField(topic.FieldExtras, field.TypeJSON)
 	}
-	if value, ok := tu.mutation.CreatedBy(); ok {
+	if value, ok := _u.mutation.CreatedBy(); ok {
 		_spec.SetField(topic.FieldCreatedBy, field.TypeString, value)
 	}
-	if tu.mutation.CreatedByCleared() {
+	if _u.mutation.CreatedByCleared() {
 		_spec.ClearField(topic.FieldCreatedBy, field.TypeString)
 	}
-	if value, ok := tu.mutation.UpdatedBy(); ok {
+	if value, ok := _u.mutation.UpdatedBy(); ok {
 		_spec.SetField(topic.FieldUpdatedBy, field.TypeString, value)
 	}
-	if tu.mutation.UpdatedByCleared() {
+	if _u.mutation.UpdatedByCleared() {
 		_spec.ClearField(topic.FieldUpdatedBy, field.TypeString)
 	}
-	if tu.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(topic.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := tu.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(topic.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := tu.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(topic.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if tu.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(topic.FieldUpdatedAt, field.TypeInt64)
 	}
-	if value, ok := tu.mutation.Version(); ok {
+	if value, ok := _u.mutation.Version(); ok {
 		_spec.SetField(topic.FieldVersion, field.TypeInt, value)
 	}
-	if value, ok := tu.mutation.AddedVersion(); ok {
+	if value, ok := _u.mutation.AddedVersion(); ok {
 		_spec.AddField(topic.FieldVersion, field.TypeInt, value)
 	}
-	if value, ok := tu.mutation.ContentType(); ok {
+	if value, ok := _u.mutation.ContentType(); ok {
 		_spec.SetField(topic.FieldContentType, field.TypeString, value)
 	}
-	if value, ok := tu.mutation.SeoTitle(); ok {
+	if value, ok := _u.mutation.SeoTitle(); ok {
 		_spec.SetField(topic.FieldSeoTitle, field.TypeString, value)
 	}
-	if tu.mutation.SeoTitleCleared() {
+	if _u.mutation.SeoTitleCleared() {
 		_spec.ClearField(topic.FieldSeoTitle, field.TypeString)
 	}
-	if value, ok := tu.mutation.SeoDescription(); ok {
+	if value, ok := _u.mutation.SeoDescription(); ok {
 		_spec.SetField(topic.FieldSeoDescription, field.TypeString, value)
 	}
-	if tu.mutation.SeoDescriptionCleared() {
+	if _u.mutation.SeoDescriptionCleared() {
 		_spec.ClearField(topic.FieldSeoDescription, field.TypeString)
 	}
-	if value, ok := tu.mutation.SeoKeywords(); ok {
+	if value, ok := _u.mutation.SeoKeywords(); ok {
 		_spec.SetField(topic.FieldSeoKeywords, field.TypeString, value)
 	}
-	if tu.mutation.SeoKeywordsCleared() {
+	if _u.mutation.SeoKeywordsCleared() {
 		_spec.ClearField(topic.FieldSeoKeywords, field.TypeString)
 	}
-	if value, ok := tu.mutation.ExcerptAuto(); ok {
+	if value, ok := _u.mutation.ExcerptAuto(); ok {
 		_spec.SetField(topic.FieldExcerptAuto, field.TypeBool, value)
 	}
-	if value, ok := tu.mutation.Excerpt(); ok {
+	if value, ok := _u.mutation.Excerpt(); ok {
 		_spec.SetField(topic.FieldExcerpt, field.TypeString, value)
 	}
-	if tu.mutation.ExcerptCleared() {
+	if _u.mutation.ExcerptCleared() {
 		_spec.ClearField(topic.FieldExcerpt, field.TypeString)
 	}
-	if value, ok := tu.mutation.FeaturedMedia(); ok {
+	if value, ok := _u.mutation.FeaturedMedia(); ok {
 		_spec.SetField(topic.FieldFeaturedMedia, field.TypeString, value)
 	}
-	if tu.mutation.FeaturedMediaCleared() {
+	if _u.mutation.FeaturedMediaCleared() {
 		_spec.ClearField(topic.FieldFeaturedMedia, field.TypeString)
 	}
-	if value, ok := tu.mutation.Tags(); ok {
+	if value, ok := _u.mutation.Tags(); ok {
 		_spec.SetField(topic.FieldTags, field.TypeJSON, value)
 	}
-	if value, ok := tu.mutation.AppendedTags(); ok {
+	if value, ok := _u.mutation.AppendedTags(); ok {
 		_spec.AddModifier(func(u *sql.UpdateBuilder) {
 			sqljson.Append(u, topic.FieldTags, value)
 		})
 	}
-	if tu.mutation.TagsCleared() {
+	if _u.mutation.TagsCleared() {
 		_spec.ClearField(topic.FieldTags, field.TypeJSON)
 	}
-	if n, err = sqlgraph.UpdateNodes(ctx, tu.driver, _spec); err != nil {
+	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{topic.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -730,8 +730,8 @@ func (tu *TopicUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		return 0, err
 	}
-	tu.mutation.done = true
-	return n, nil
+	_u.mutation.done = true
+	return _node, nil
 }
 
 // TopicUpdateOne is the builder for updating a single Topic entity.
@@ -743,518 +743,518 @@ type TopicUpdateOne struct {
 }
 
 // SetName sets the "name" field.
-func (tuo *TopicUpdateOne) SetName(s string) *TopicUpdateOne {
-	tuo.mutation.SetName(s)
-	return tuo
+func (_u *TopicUpdateOne) SetName(v string) *TopicUpdateOne {
+	_u.mutation.SetName(v)
+	return _u
 }
 
 // SetNillableName sets the "name" field if the given value is not nil.
-func (tuo *TopicUpdateOne) SetNillableName(s *string) *TopicUpdateOne {
-	if s != nil {
-		tuo.SetName(*s)
+func (_u *TopicUpdateOne) SetNillableName(v *string) *TopicUpdateOne {
+	if v != nil {
+		_u.SetName(*v)
 	}
-	return tuo
+	return _u
 }
 
 // ClearName clears the value of the "name" field.
-func (tuo *TopicUpdateOne) ClearName() *TopicUpdateOne {
-	tuo.mutation.ClearName()
-	return tuo
+func (_u *TopicUpdateOne) ClearName() *TopicUpdateOne {
+	_u.mutation.ClearName()
+	return _u
 }
 
 // SetTitle sets the "title" field.
-func (tuo *TopicUpdateOne) SetTitle(s string) *TopicUpdateOne {
-	tuo.mutation.SetTitle(s)
-	return tuo
+func (_u *TopicUpdateOne) SetTitle(v string) *TopicUpdateOne {
+	_u.mutation.SetTitle(v)
+	return _u
 }
 
 // SetNillableTitle sets the "title" field if the given value is not nil.
-func (tuo *TopicUpdateOne) SetNillableTitle(s *string) *TopicUpdateOne {
-	if s != nil {
-		tuo.SetTitle(*s)
+func (_u *TopicUpdateOne) SetNillableTitle(v *string) *TopicUpdateOne {
+	if v != nil {
+		_u.SetTitle(*v)
 	}
-	return tuo
+	return _u
 }
 
 // ClearTitle clears the value of the "title" field.
-func (tuo *TopicUpdateOne) ClearTitle() *TopicUpdateOne {
-	tuo.mutation.ClearTitle()
-	return tuo
+func (_u *TopicUpdateOne) ClearTitle() *TopicUpdateOne {
+	_u.mutation.ClearTitle()
+	return _u
 }
 
 // SetSlug sets the "slug" field.
-func (tuo *TopicUpdateOne) SetSlug(s string) *TopicUpdateOne {
-	tuo.mutation.SetSlug(s)
-	return tuo
+func (_u *TopicUpdateOne) SetSlug(v string) *TopicUpdateOne {
+	_u.mutation.SetSlug(v)
+	return _u
 }
 
 // SetNillableSlug sets the "slug" field if the given value is not nil.
-func (tuo *TopicUpdateOne) SetNillableSlug(s *string) *TopicUpdateOne {
-	if s != nil {
-		tuo.SetSlug(*s)
+func (_u *TopicUpdateOne) SetNillableSlug(v *string) *TopicUpdateOne {
+	if v != nil {
+		_u.SetSlug(*v)
 	}
-	return tuo
+	return _u
 }
 
 // ClearSlug clears the value of the "slug" field.
-func (tuo *TopicUpdateOne) ClearSlug() *TopicUpdateOne {
-	tuo.mutation.ClearSlug()
-	return tuo
+func (_u *TopicUpdateOne) ClearSlug() *TopicUpdateOne {
+	_u.mutation.ClearSlug()
+	return _u
 }
 
 // SetContent sets the "content" field.
-func (tuo *TopicUpdateOne) SetContent(s string) *TopicUpdateOne {
-	tuo.mutation.SetContent(s)
-	return tuo
+func (_u *TopicUpdateOne) SetContent(v string) *TopicUpdateOne {
+	_u.mutation.SetContent(v)
+	return _u
 }
 
 // SetNillableContent sets the "content" field if the given value is not nil.
-func (tuo *TopicUpdateOne) SetNillableContent(s *string) *TopicUpdateOne {
-	if s != nil {
-		tuo.SetContent(*s)
+func (_u *TopicUpdateOne) SetNillableContent(v *string) *TopicUpdateOne {
+	if v != nil {
+		_u.SetContent(*v)
 	}
-	return tuo
+	return _u
 }
 
 // ClearContent clears the value of the "content" field.
-func (tuo *TopicUpdateOne) ClearContent() *TopicUpdateOne {
-	tuo.mutation.ClearContent()
-	return tuo
+func (_u *TopicUpdateOne) ClearContent() *TopicUpdateOne {
+	_u.mutation.ClearContent()
+	return _u
 }
 
 // SetThumbnail sets the "thumbnail" field.
-func (tuo *TopicUpdateOne) SetThumbnail(s string) *TopicUpdateOne {
-	tuo.mutation.SetThumbnail(s)
-	return tuo
+func (_u *TopicUpdateOne) SetThumbnail(v string) *TopicUpdateOne {
+	_u.mutation.SetThumbnail(v)
+	return _u
 }
 
 // SetNillableThumbnail sets the "thumbnail" field if the given value is not nil.
-func (tuo *TopicUpdateOne) SetNillableThumbnail(s *string) *TopicUpdateOne {
-	if s != nil {
-		tuo.SetThumbnail(*s)
+func (_u *TopicUpdateOne) SetNillableThumbnail(v *string) *TopicUpdateOne {
+	if v != nil {
+		_u.SetThumbnail(*v)
 	}
-	return tuo
+	return _u
 }
 
 // ClearThumbnail clears the value of the "thumbnail" field.
-func (tuo *TopicUpdateOne) ClearThumbnail() *TopicUpdateOne {
-	tuo.mutation.ClearThumbnail()
-	return tuo
+func (_u *TopicUpdateOne) ClearThumbnail() *TopicUpdateOne {
+	_u.mutation.ClearThumbnail()
+	return _u
 }
 
 // SetTemp sets the "temp" field.
-func (tuo *TopicUpdateOne) SetTemp(b bool) *TopicUpdateOne {
-	tuo.mutation.SetTemp(b)
-	return tuo
+func (_u *TopicUpdateOne) SetTemp(v bool) *TopicUpdateOne {
+	_u.mutation.SetTemp(v)
+	return _u
 }
 
 // SetNillableTemp sets the "temp" field if the given value is not nil.
-func (tuo *TopicUpdateOne) SetNillableTemp(b *bool) *TopicUpdateOne {
-	if b != nil {
-		tuo.SetTemp(*b)
+func (_u *TopicUpdateOne) SetNillableTemp(v *bool) *TopicUpdateOne {
+	if v != nil {
+		_u.SetTemp(*v)
 	}
-	return tuo
+	return _u
 }
 
 // ClearTemp clears the value of the "temp" field.
-func (tuo *TopicUpdateOne) ClearTemp() *TopicUpdateOne {
-	tuo.mutation.ClearTemp()
-	return tuo
+func (_u *TopicUpdateOne) ClearTemp() *TopicUpdateOne {
+	_u.mutation.ClearTemp()
+	return _u
 }
 
 // SetMarkdown sets the "markdown" field.
-func (tuo *TopicUpdateOne) SetMarkdown(b bool) *TopicUpdateOne {
-	tuo.mutation.SetMarkdown(b)
-	return tuo
+func (_u *TopicUpdateOne) SetMarkdown(v bool) *TopicUpdateOne {
+	_u.mutation.SetMarkdown(v)
+	return _u
 }
 
 // SetNillableMarkdown sets the "markdown" field if the given value is not nil.
-func (tuo *TopicUpdateOne) SetNillableMarkdown(b *bool) *TopicUpdateOne {
-	if b != nil {
-		tuo.SetMarkdown(*b)
+func (_u *TopicUpdateOne) SetNillableMarkdown(v *bool) *TopicUpdateOne {
+	if v != nil {
+		_u.SetMarkdown(*v)
 	}
-	return tuo
+	return _u
 }
 
 // ClearMarkdown clears the value of the "markdown" field.
-func (tuo *TopicUpdateOne) ClearMarkdown() *TopicUpdateOne {
-	tuo.mutation.ClearMarkdown()
-	return tuo
+func (_u *TopicUpdateOne) ClearMarkdown() *TopicUpdateOne {
+	_u.mutation.ClearMarkdown()
+	return _u
 }
 
 // SetPrivate sets the "private" field.
-func (tuo *TopicUpdateOne) SetPrivate(b bool) *TopicUpdateOne {
-	tuo.mutation.SetPrivate(b)
-	return tuo
+func (_u *TopicUpdateOne) SetPrivate(v bool) *TopicUpdateOne {
+	_u.mutation.SetPrivate(v)
+	return _u
 }
 
 // SetNillablePrivate sets the "private" field if the given value is not nil.
-func (tuo *TopicUpdateOne) SetNillablePrivate(b *bool) *TopicUpdateOne {
-	if b != nil {
-		tuo.SetPrivate(*b)
+func (_u *TopicUpdateOne) SetNillablePrivate(v *bool) *TopicUpdateOne {
+	if v != nil {
+		_u.SetPrivate(*v)
 	}
-	return tuo
+	return _u
 }
 
 // ClearPrivate clears the value of the "private" field.
-func (tuo *TopicUpdateOne) ClearPrivate() *TopicUpdateOne {
-	tuo.mutation.ClearPrivate()
-	return tuo
+func (_u *TopicUpdateOne) ClearPrivate() *TopicUpdateOne {
+	_u.mutation.ClearPrivate()
+	return _u
 }
 
 // SetStatus sets the "status" field.
-func (tuo *TopicUpdateOne) SetStatus(i int) *TopicUpdateOne {
-	tuo.mutation.ResetStatus()
-	tuo.mutation.SetStatus(i)
-	return tuo
+func (_u *TopicUpdateOne) SetStatus(v int) *TopicUpdateOne {
+	_u.mutation.ResetStatus()
+	_u.mutation.SetStatus(v)
+	return _u
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (tuo *TopicUpdateOne) SetNillableStatus(i *int) *TopicUpdateOne {
-	if i != nil {
-		tuo.SetStatus(*i)
+func (_u *TopicUpdateOne) SetNillableStatus(v *int) *TopicUpdateOne {
+	if v != nil {
+		_u.SetStatus(*v)
 	}
-	return tuo
+	return _u
 }
 
-// AddStatus adds i to the "status" field.
-func (tuo *TopicUpdateOne) AddStatus(i int) *TopicUpdateOne {
-	tuo.mutation.AddStatus(i)
-	return tuo
+// AddStatus adds value to the "status" field.
+func (_u *TopicUpdateOne) AddStatus(v int) *TopicUpdateOne {
+	_u.mutation.AddStatus(v)
+	return _u
 }
 
 // SetReleased sets the "released" field.
-func (tuo *TopicUpdateOne) SetReleased(i int64) *TopicUpdateOne {
-	tuo.mutation.ResetReleased()
-	tuo.mutation.SetReleased(i)
-	return tuo
+func (_u *TopicUpdateOne) SetReleased(v int64) *TopicUpdateOne {
+	_u.mutation.ResetReleased()
+	_u.mutation.SetReleased(v)
+	return _u
 }
 
 // SetNillableReleased sets the "released" field if the given value is not nil.
-func (tuo *TopicUpdateOne) SetNillableReleased(i *int64) *TopicUpdateOne {
-	if i != nil {
-		tuo.SetReleased(*i)
+func (_u *TopicUpdateOne) SetNillableReleased(v *int64) *TopicUpdateOne {
+	if v != nil {
+		_u.SetReleased(*v)
 	}
-	return tuo
+	return _u
 }
 
-// AddReleased adds i to the "released" field.
-func (tuo *TopicUpdateOne) AddReleased(i int64) *TopicUpdateOne {
-	tuo.mutation.AddReleased(i)
-	return tuo
+// AddReleased adds value to the "released" field.
+func (_u *TopicUpdateOne) AddReleased(v int64) *TopicUpdateOne {
+	_u.mutation.AddReleased(v)
+	return _u
 }
 
 // ClearReleased clears the value of the "released" field.
-func (tuo *TopicUpdateOne) ClearReleased() *TopicUpdateOne {
-	tuo.mutation.ClearReleased()
-	return tuo
+func (_u *TopicUpdateOne) ClearReleased() *TopicUpdateOne {
+	_u.mutation.ClearReleased()
+	return _u
 }
 
 // SetTaxonomyID sets the "taxonomy_id" field.
-func (tuo *TopicUpdateOne) SetTaxonomyID(s string) *TopicUpdateOne {
-	tuo.mutation.SetTaxonomyID(s)
-	return tuo
+func (_u *TopicUpdateOne) SetTaxonomyID(v string) *TopicUpdateOne {
+	_u.mutation.SetTaxonomyID(v)
+	return _u
 }
 
 // SetNillableTaxonomyID sets the "taxonomy_id" field if the given value is not nil.
-func (tuo *TopicUpdateOne) SetNillableTaxonomyID(s *string) *TopicUpdateOne {
-	if s != nil {
-		tuo.SetTaxonomyID(*s)
+func (_u *TopicUpdateOne) SetNillableTaxonomyID(v *string) *TopicUpdateOne {
+	if v != nil {
+		_u.SetTaxonomyID(*v)
 	}
-	return tuo
+	return _u
 }
 
 // ClearTaxonomyID clears the value of the "taxonomy_id" field.
-func (tuo *TopicUpdateOne) ClearTaxonomyID() *TopicUpdateOne {
-	tuo.mutation.ClearTaxonomyID()
-	return tuo
+func (_u *TopicUpdateOne) ClearTaxonomyID() *TopicUpdateOne {
+	_u.mutation.ClearTaxonomyID()
+	return _u
 }
 
 // SetSpaceID sets the "space_id" field.
-func (tuo *TopicUpdateOne) SetSpaceID(s string) *TopicUpdateOne {
-	tuo.mutation.SetSpaceID(s)
-	return tuo
+func (_u *TopicUpdateOne) SetSpaceID(v string) *TopicUpdateOne {
+	_u.mutation.SetSpaceID(v)
+	return _u
 }
 
 // SetNillableSpaceID sets the "space_id" field if the given value is not nil.
-func (tuo *TopicUpdateOne) SetNillableSpaceID(s *string) *TopicUpdateOne {
-	if s != nil {
-		tuo.SetSpaceID(*s)
+func (_u *TopicUpdateOne) SetNillableSpaceID(v *string) *TopicUpdateOne {
+	if v != nil {
+		_u.SetSpaceID(*v)
 	}
-	return tuo
+	return _u
 }
 
 // ClearSpaceID clears the value of the "space_id" field.
-func (tuo *TopicUpdateOne) ClearSpaceID() *TopicUpdateOne {
-	tuo.mutation.ClearSpaceID()
-	return tuo
+func (_u *TopicUpdateOne) ClearSpaceID() *TopicUpdateOne {
+	_u.mutation.ClearSpaceID()
+	return _u
 }
 
 // SetExtras sets the "extras" field.
-func (tuo *TopicUpdateOne) SetExtras(m map[string]interface{}) *TopicUpdateOne {
-	tuo.mutation.SetExtras(m)
-	return tuo
+func (_u *TopicUpdateOne) SetExtras(v map[string]interface{}) *TopicUpdateOne {
+	_u.mutation.SetExtras(v)
+	return _u
 }
 
 // ClearExtras clears the value of the "extras" field.
-func (tuo *TopicUpdateOne) ClearExtras() *TopicUpdateOne {
-	tuo.mutation.ClearExtras()
-	return tuo
+func (_u *TopicUpdateOne) ClearExtras() *TopicUpdateOne {
+	_u.mutation.ClearExtras()
+	return _u
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (tuo *TopicUpdateOne) SetCreatedBy(s string) *TopicUpdateOne {
-	tuo.mutation.SetCreatedBy(s)
-	return tuo
+func (_u *TopicUpdateOne) SetCreatedBy(v string) *TopicUpdateOne {
+	_u.mutation.SetCreatedBy(v)
+	return _u
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (tuo *TopicUpdateOne) SetNillableCreatedBy(s *string) *TopicUpdateOne {
-	if s != nil {
-		tuo.SetCreatedBy(*s)
+func (_u *TopicUpdateOne) SetNillableCreatedBy(v *string) *TopicUpdateOne {
+	if v != nil {
+		_u.SetCreatedBy(*v)
 	}
-	return tuo
+	return _u
 }
 
 // ClearCreatedBy clears the value of the "created_by" field.
-func (tuo *TopicUpdateOne) ClearCreatedBy() *TopicUpdateOne {
-	tuo.mutation.ClearCreatedBy()
-	return tuo
+func (_u *TopicUpdateOne) ClearCreatedBy() *TopicUpdateOne {
+	_u.mutation.ClearCreatedBy()
+	return _u
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (tuo *TopicUpdateOne) SetUpdatedBy(s string) *TopicUpdateOne {
-	tuo.mutation.SetUpdatedBy(s)
-	return tuo
+func (_u *TopicUpdateOne) SetUpdatedBy(v string) *TopicUpdateOne {
+	_u.mutation.SetUpdatedBy(v)
+	return _u
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (tuo *TopicUpdateOne) SetNillableUpdatedBy(s *string) *TopicUpdateOne {
-	if s != nil {
-		tuo.SetUpdatedBy(*s)
+func (_u *TopicUpdateOne) SetNillableUpdatedBy(v *string) *TopicUpdateOne {
+	if v != nil {
+		_u.SetUpdatedBy(*v)
 	}
-	return tuo
+	return _u
 }
 
 // ClearUpdatedBy clears the value of the "updated_by" field.
-func (tuo *TopicUpdateOne) ClearUpdatedBy() *TopicUpdateOne {
-	tuo.mutation.ClearUpdatedBy()
-	return tuo
+func (_u *TopicUpdateOne) ClearUpdatedBy() *TopicUpdateOne {
+	_u.mutation.ClearUpdatedBy()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (tuo *TopicUpdateOne) SetUpdatedAt(i int64) *TopicUpdateOne {
-	tuo.mutation.ResetUpdatedAt()
-	tuo.mutation.SetUpdatedAt(i)
-	return tuo
+func (_u *TopicUpdateOne) SetUpdatedAt(v int64) *TopicUpdateOne {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (tuo *TopicUpdateOne) AddUpdatedAt(i int64) *TopicUpdateOne {
-	tuo.mutation.AddUpdatedAt(i)
-	return tuo
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *TopicUpdateOne) AddUpdatedAt(v int64) *TopicUpdateOne {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (tuo *TopicUpdateOne) ClearUpdatedAt() *TopicUpdateOne {
-	tuo.mutation.ClearUpdatedAt()
-	return tuo
+func (_u *TopicUpdateOne) ClearUpdatedAt() *TopicUpdateOne {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // SetVersion sets the "version" field.
-func (tuo *TopicUpdateOne) SetVersion(i int) *TopicUpdateOne {
-	tuo.mutation.ResetVersion()
-	tuo.mutation.SetVersion(i)
-	return tuo
+func (_u *TopicUpdateOne) SetVersion(v int) *TopicUpdateOne {
+	_u.mutation.ResetVersion()
+	_u.mutation.SetVersion(v)
+	return _u
 }
 
 // SetNillableVersion sets the "version" field if the given value is not nil.
-func (tuo *TopicUpdateOne) SetNillableVersion(i *int) *TopicUpdateOne {
-	if i != nil {
-		tuo.SetVersion(*i)
+func (_u *TopicUpdateOne) SetNillableVersion(v *int) *TopicUpdateOne {
+	if v != nil {
+		_u.SetVersion(*v)
 	}
-	return tuo
+	return _u
 }
 
-// AddVersion adds i to the "version" field.
-func (tuo *TopicUpdateOne) AddVersion(i int) *TopicUpdateOne {
-	tuo.mutation.AddVersion(i)
-	return tuo
+// AddVersion adds value to the "version" field.
+func (_u *TopicUpdateOne) AddVersion(v int) *TopicUpdateOne {
+	_u.mutation.AddVersion(v)
+	return _u
 }
 
 // SetContentType sets the "content_type" field.
-func (tuo *TopicUpdateOne) SetContentType(s string) *TopicUpdateOne {
-	tuo.mutation.SetContentType(s)
-	return tuo
+func (_u *TopicUpdateOne) SetContentType(v string) *TopicUpdateOne {
+	_u.mutation.SetContentType(v)
+	return _u
 }
 
 // SetNillableContentType sets the "content_type" field if the given value is not nil.
-func (tuo *TopicUpdateOne) SetNillableContentType(s *string) *TopicUpdateOne {
-	if s != nil {
-		tuo.SetContentType(*s)
+func (_u *TopicUpdateOne) SetNillableContentType(v *string) *TopicUpdateOne {
+	if v != nil {
+		_u.SetContentType(*v)
 	}
-	return tuo
+	return _u
 }
 
 // SetSeoTitle sets the "seo_title" field.
-func (tuo *TopicUpdateOne) SetSeoTitle(s string) *TopicUpdateOne {
-	tuo.mutation.SetSeoTitle(s)
-	return tuo
+func (_u *TopicUpdateOne) SetSeoTitle(v string) *TopicUpdateOne {
+	_u.mutation.SetSeoTitle(v)
+	return _u
 }
 
 // SetNillableSeoTitle sets the "seo_title" field if the given value is not nil.
-func (tuo *TopicUpdateOne) SetNillableSeoTitle(s *string) *TopicUpdateOne {
-	if s != nil {
-		tuo.SetSeoTitle(*s)
+func (_u *TopicUpdateOne) SetNillableSeoTitle(v *string) *TopicUpdateOne {
+	if v != nil {
+		_u.SetSeoTitle(*v)
 	}
-	return tuo
+	return _u
 }
 
 // ClearSeoTitle clears the value of the "seo_title" field.
-func (tuo *TopicUpdateOne) ClearSeoTitle() *TopicUpdateOne {
-	tuo.mutation.ClearSeoTitle()
-	return tuo
+func (_u *TopicUpdateOne) ClearSeoTitle() *TopicUpdateOne {
+	_u.mutation.ClearSeoTitle()
+	return _u
 }
 
 // SetSeoDescription sets the "seo_description" field.
-func (tuo *TopicUpdateOne) SetSeoDescription(s string) *TopicUpdateOne {
-	tuo.mutation.SetSeoDescription(s)
-	return tuo
+func (_u *TopicUpdateOne) SetSeoDescription(v string) *TopicUpdateOne {
+	_u.mutation.SetSeoDescription(v)
+	return _u
 }
 
 // SetNillableSeoDescription sets the "seo_description" field if the given value is not nil.
-func (tuo *TopicUpdateOne) SetNillableSeoDescription(s *string) *TopicUpdateOne {
-	if s != nil {
-		tuo.SetSeoDescription(*s)
+func (_u *TopicUpdateOne) SetNillableSeoDescription(v *string) *TopicUpdateOne {
+	if v != nil {
+		_u.SetSeoDescription(*v)
 	}
-	return tuo
+	return _u
 }
 
 // ClearSeoDescription clears the value of the "seo_description" field.
-func (tuo *TopicUpdateOne) ClearSeoDescription() *TopicUpdateOne {
-	tuo.mutation.ClearSeoDescription()
-	return tuo
+func (_u *TopicUpdateOne) ClearSeoDescription() *TopicUpdateOne {
+	_u.mutation.ClearSeoDescription()
+	return _u
 }
 
 // SetSeoKeywords sets the "seo_keywords" field.
-func (tuo *TopicUpdateOne) SetSeoKeywords(s string) *TopicUpdateOne {
-	tuo.mutation.SetSeoKeywords(s)
-	return tuo
+func (_u *TopicUpdateOne) SetSeoKeywords(v string) *TopicUpdateOne {
+	_u.mutation.SetSeoKeywords(v)
+	return _u
 }
 
 // SetNillableSeoKeywords sets the "seo_keywords" field if the given value is not nil.
-func (tuo *TopicUpdateOne) SetNillableSeoKeywords(s *string) *TopicUpdateOne {
-	if s != nil {
-		tuo.SetSeoKeywords(*s)
+func (_u *TopicUpdateOne) SetNillableSeoKeywords(v *string) *TopicUpdateOne {
+	if v != nil {
+		_u.SetSeoKeywords(*v)
 	}
-	return tuo
+	return _u
 }
 
 // ClearSeoKeywords clears the value of the "seo_keywords" field.
-func (tuo *TopicUpdateOne) ClearSeoKeywords() *TopicUpdateOne {
-	tuo.mutation.ClearSeoKeywords()
-	return tuo
+func (_u *TopicUpdateOne) ClearSeoKeywords() *TopicUpdateOne {
+	_u.mutation.ClearSeoKeywords()
+	return _u
 }
 
 // SetExcerptAuto sets the "excerpt_auto" field.
-func (tuo *TopicUpdateOne) SetExcerptAuto(b bool) *TopicUpdateOne {
-	tuo.mutation.SetExcerptAuto(b)
-	return tuo
+func (_u *TopicUpdateOne) SetExcerptAuto(v bool) *TopicUpdateOne {
+	_u.mutation.SetExcerptAuto(v)
+	return _u
 }
 
 // SetNillableExcerptAuto sets the "excerpt_auto" field if the given value is not nil.
-func (tuo *TopicUpdateOne) SetNillableExcerptAuto(b *bool) *TopicUpdateOne {
-	if b != nil {
-		tuo.SetExcerptAuto(*b)
+func (_u *TopicUpdateOne) SetNillableExcerptAuto(v *bool) *TopicUpdateOne {
+	if v != nil {
+		_u.SetExcerptAuto(*v)
 	}
-	return tuo
+	return _u
 }
 
 // SetExcerpt sets the "excerpt" field.
-func (tuo *TopicUpdateOne) SetExcerpt(s string) *TopicUpdateOne {
-	tuo.mutation.SetExcerpt(s)
-	return tuo
+func (_u *TopicUpdateOne) SetExcerpt(v string) *TopicUpdateOne {
+	_u.mutation.SetExcerpt(v)
+	return _u
 }
 
 // SetNillableExcerpt sets the "excerpt" field if the given value is not nil.
-func (tuo *TopicUpdateOne) SetNillableExcerpt(s *string) *TopicUpdateOne {
-	if s != nil {
-		tuo.SetExcerpt(*s)
+func (_u *TopicUpdateOne) SetNillableExcerpt(v *string) *TopicUpdateOne {
+	if v != nil {
+		_u.SetExcerpt(*v)
 	}
-	return tuo
+	return _u
 }
 
 // ClearExcerpt clears the value of the "excerpt" field.
-func (tuo *TopicUpdateOne) ClearExcerpt() *TopicUpdateOne {
-	tuo.mutation.ClearExcerpt()
-	return tuo
+func (_u *TopicUpdateOne) ClearExcerpt() *TopicUpdateOne {
+	_u.mutation.ClearExcerpt()
+	return _u
 }
 
 // SetFeaturedMedia sets the "featured_media" field.
-func (tuo *TopicUpdateOne) SetFeaturedMedia(s string) *TopicUpdateOne {
-	tuo.mutation.SetFeaturedMedia(s)
-	return tuo
+func (_u *TopicUpdateOne) SetFeaturedMedia(v string) *TopicUpdateOne {
+	_u.mutation.SetFeaturedMedia(v)
+	return _u
 }
 
 // SetNillableFeaturedMedia sets the "featured_media" field if the given value is not nil.
-func (tuo *TopicUpdateOne) SetNillableFeaturedMedia(s *string) *TopicUpdateOne {
-	if s != nil {
-		tuo.SetFeaturedMedia(*s)
+func (_u *TopicUpdateOne) SetNillableFeaturedMedia(v *string) *TopicUpdateOne {
+	if v != nil {
+		_u.SetFeaturedMedia(*v)
 	}
-	return tuo
+	return _u
 }
 
 // ClearFeaturedMedia clears the value of the "featured_media" field.
-func (tuo *TopicUpdateOne) ClearFeaturedMedia() *TopicUpdateOne {
-	tuo.mutation.ClearFeaturedMedia()
-	return tuo
+func (_u *TopicUpdateOne) ClearFeaturedMedia() *TopicUpdateOne {
+	_u.mutation.ClearFeaturedMedia()
+	return _u
 }
 
 // SetTags sets the "tags" field.
-func (tuo *TopicUpdateOne) SetTags(s []string) *TopicUpdateOne {
-	tuo.mutation.SetTags(s)
-	return tuo
+func (_u *TopicUpdateOne) SetTags(v []string) *TopicUpdateOne {
+	_u.mutation.SetTags(v)
+	return _u
 }
 
-// AppendTags appends s to the "tags" field.
-func (tuo *TopicUpdateOne) AppendTags(s []string) *TopicUpdateOne {
-	tuo.mutation.AppendTags(s)
-	return tuo
+// AppendTags appends value to the "tags" field.
+func (_u *TopicUpdateOne) AppendTags(v []string) *TopicUpdateOne {
+	_u.mutation.AppendTags(v)
+	return _u
 }
 
 // ClearTags clears the value of the "tags" field.
-func (tuo *TopicUpdateOne) ClearTags() *TopicUpdateOne {
-	tuo.mutation.ClearTags()
-	return tuo
+func (_u *TopicUpdateOne) ClearTags() *TopicUpdateOne {
+	_u.mutation.ClearTags()
+	return _u
 }
 
 // Mutation returns the TopicMutation object of the builder.
-func (tuo *TopicUpdateOne) Mutation() *TopicMutation {
-	return tuo.mutation
+func (_u *TopicUpdateOne) Mutation() *TopicMutation {
+	return _u.mutation
 }
 
 // Where appends a list predicates to the TopicUpdate builder.
-func (tuo *TopicUpdateOne) Where(ps ...predicate.Topic) *TopicUpdateOne {
-	tuo.mutation.Where(ps...)
-	return tuo
+func (_u *TopicUpdateOne) Where(ps ...predicate.Topic) *TopicUpdateOne {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // Select allows selecting one or more fields (columns) of the returned entity.
 // The default is selecting all fields defined in the entity schema.
-func (tuo *TopicUpdateOne) Select(field string, fields ...string) *TopicUpdateOne {
-	tuo.fields = append([]string{field}, fields...)
-	return tuo
+func (_u *TopicUpdateOne) Select(field string, fields ...string) *TopicUpdateOne {
+	_u.fields = append([]string{field}, fields...)
+	return _u
 }
 
 // Save executes the query and returns the updated Topic entity.
-func (tuo *TopicUpdateOne) Save(ctx context.Context) (*Topic, error) {
-	tuo.defaults()
-	return withHooks(ctx, tuo.sqlSave, tuo.mutation, tuo.hooks)
+func (_u *TopicUpdateOne) Save(ctx context.Context) (*Topic, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (tuo *TopicUpdateOne) SaveX(ctx context.Context) *Topic {
-	node, err := tuo.Save(ctx)
+func (_u *TopicUpdateOne) SaveX(ctx context.Context) *Topic {
+	node, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -1262,34 +1262,34 @@ func (tuo *TopicUpdateOne) SaveX(ctx context.Context) *Topic {
 }
 
 // Exec executes the query on the entity.
-func (tuo *TopicUpdateOne) Exec(ctx context.Context) error {
-	_, err := tuo.Save(ctx)
+func (_u *TopicUpdateOne) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (tuo *TopicUpdateOne) ExecX(ctx context.Context) {
-	if err := tuo.Exec(ctx); err != nil {
+func (_u *TopicUpdateOne) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (tuo *TopicUpdateOne) defaults() {
-	if _, ok := tuo.mutation.UpdatedAt(); !ok && !tuo.mutation.UpdatedAtCleared() {
+func (_u *TopicUpdateOne) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := topic.UpdateDefaultUpdatedAt()
-		tuo.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (tuo *TopicUpdateOne) sqlSave(ctx context.Context) (_node *Topic, err error) {
+func (_u *TopicUpdateOne) sqlSave(ctx context.Context) (_node *Topic, err error) {
 	_spec := sqlgraph.NewUpdateSpec(topic.Table, topic.Columns, sqlgraph.NewFieldSpec(topic.FieldID, field.TypeString))
-	id, ok := tuo.mutation.ID()
+	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "Topic.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
-	if fields := tuo.fields; len(fields) > 0 {
+	if fields := _u.fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, topic.FieldID)
 		for _, f := range fields {
@@ -1301,175 +1301,175 @@ func (tuo *TopicUpdateOne) sqlSave(ctx context.Context) (_node *Topic, err error
 			}
 		}
 	}
-	if ps := tuo.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := tuo.mutation.Name(); ok {
+	if value, ok := _u.mutation.Name(); ok {
 		_spec.SetField(topic.FieldName, field.TypeString, value)
 	}
-	if tuo.mutation.NameCleared() {
+	if _u.mutation.NameCleared() {
 		_spec.ClearField(topic.FieldName, field.TypeString)
 	}
-	if value, ok := tuo.mutation.Title(); ok {
+	if value, ok := _u.mutation.Title(); ok {
 		_spec.SetField(topic.FieldTitle, field.TypeString, value)
 	}
-	if tuo.mutation.TitleCleared() {
+	if _u.mutation.TitleCleared() {
 		_spec.ClearField(topic.FieldTitle, field.TypeString)
 	}
-	if value, ok := tuo.mutation.Slug(); ok {
+	if value, ok := _u.mutation.Slug(); ok {
 		_spec.SetField(topic.FieldSlug, field.TypeString, value)
 	}
-	if tuo.mutation.SlugCleared() {
+	if _u.mutation.SlugCleared() {
 		_spec.ClearField(topic.FieldSlug, field.TypeString)
 	}
-	if value, ok := tuo.mutation.Content(); ok {
+	if value, ok := _u.mutation.Content(); ok {
 		_spec.SetField(topic.FieldContent, field.TypeString, value)
 	}
-	if tuo.mutation.ContentCleared() {
+	if _u.mutation.ContentCleared() {
 		_spec.ClearField(topic.FieldContent, field.TypeString)
 	}
-	if value, ok := tuo.mutation.Thumbnail(); ok {
+	if value, ok := _u.mutation.Thumbnail(); ok {
 		_spec.SetField(topic.FieldThumbnail, field.TypeString, value)
 	}
-	if tuo.mutation.ThumbnailCleared() {
+	if _u.mutation.ThumbnailCleared() {
 		_spec.ClearField(topic.FieldThumbnail, field.TypeString)
 	}
-	if value, ok := tuo.mutation.Temp(); ok {
+	if value, ok := _u.mutation.Temp(); ok {
 		_spec.SetField(topic.FieldTemp, field.TypeBool, value)
 	}
-	if tuo.mutation.TempCleared() {
+	if _u.mutation.TempCleared() {
 		_spec.ClearField(topic.FieldTemp, field.TypeBool)
 	}
-	if value, ok := tuo.mutation.Markdown(); ok {
+	if value, ok := _u.mutation.Markdown(); ok {
 		_spec.SetField(topic.FieldMarkdown, field.TypeBool, value)
 	}
-	if tuo.mutation.MarkdownCleared() {
+	if _u.mutation.MarkdownCleared() {
 		_spec.ClearField(topic.FieldMarkdown, field.TypeBool)
 	}
-	if value, ok := tuo.mutation.Private(); ok {
+	if value, ok := _u.mutation.Private(); ok {
 		_spec.SetField(topic.FieldPrivate, field.TypeBool, value)
 	}
-	if tuo.mutation.PrivateCleared() {
+	if _u.mutation.PrivateCleared() {
 		_spec.ClearField(topic.FieldPrivate, field.TypeBool)
 	}
-	if value, ok := tuo.mutation.Status(); ok {
+	if value, ok := _u.mutation.Status(); ok {
 		_spec.SetField(topic.FieldStatus, field.TypeInt, value)
 	}
-	if value, ok := tuo.mutation.AddedStatus(); ok {
+	if value, ok := _u.mutation.AddedStatus(); ok {
 		_spec.AddField(topic.FieldStatus, field.TypeInt, value)
 	}
-	if value, ok := tuo.mutation.Released(); ok {
+	if value, ok := _u.mutation.Released(); ok {
 		_spec.SetField(topic.FieldReleased, field.TypeInt64, value)
 	}
-	if value, ok := tuo.mutation.AddedReleased(); ok {
+	if value, ok := _u.mutation.AddedReleased(); ok {
 		_spec.AddField(topic.FieldReleased, field.TypeInt64, value)
 	}
-	if tuo.mutation.ReleasedCleared() {
+	if _u.mutation.ReleasedCleared() {
 		_spec.ClearField(topic.FieldReleased, field.TypeInt64)
 	}
-	if value, ok := tuo.mutation.TaxonomyID(); ok {
+	if value, ok := _u.mutation.TaxonomyID(); ok {
 		_spec.SetField(topic.FieldTaxonomyID, field.TypeString, value)
 	}
-	if tuo.mutation.TaxonomyIDCleared() {
+	if _u.mutation.TaxonomyIDCleared() {
 		_spec.ClearField(topic.FieldTaxonomyID, field.TypeString)
 	}
-	if value, ok := tuo.mutation.SpaceID(); ok {
+	if value, ok := _u.mutation.SpaceID(); ok {
 		_spec.SetField(topic.FieldSpaceID, field.TypeString, value)
 	}
-	if tuo.mutation.SpaceIDCleared() {
+	if _u.mutation.SpaceIDCleared() {
 		_spec.ClearField(topic.FieldSpaceID, field.TypeString)
 	}
-	if value, ok := tuo.mutation.Extras(); ok {
+	if value, ok := _u.mutation.Extras(); ok {
 		_spec.SetField(topic.FieldExtras, field.TypeJSON, value)
 	}
-	if tuo.mutation.ExtrasCleared() {
+	if _u.mutation.ExtrasCleared() {
 		_spec.ClearField(topic.FieldExtras, field.TypeJSON)
 	}
-	if value, ok := tuo.mutation.CreatedBy(); ok {
+	if value, ok := _u.mutation.CreatedBy(); ok {
 		_spec.SetField(topic.FieldCreatedBy, field.TypeString, value)
 	}
-	if tuo.mutation.CreatedByCleared() {
+	if _u.mutation.CreatedByCleared() {
 		_spec.ClearField(topic.FieldCreatedBy, field.TypeString)
 	}
-	if value, ok := tuo.mutation.UpdatedBy(); ok {
+	if value, ok := _u.mutation.UpdatedBy(); ok {
 		_spec.SetField(topic.FieldUpdatedBy, field.TypeString, value)
 	}
-	if tuo.mutation.UpdatedByCleared() {
+	if _u.mutation.UpdatedByCleared() {
 		_spec.ClearField(topic.FieldUpdatedBy, field.TypeString)
 	}
-	if tuo.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(topic.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := tuo.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(topic.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := tuo.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(topic.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if tuo.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(topic.FieldUpdatedAt, field.TypeInt64)
 	}
-	if value, ok := tuo.mutation.Version(); ok {
+	if value, ok := _u.mutation.Version(); ok {
 		_spec.SetField(topic.FieldVersion, field.TypeInt, value)
 	}
-	if value, ok := tuo.mutation.AddedVersion(); ok {
+	if value, ok := _u.mutation.AddedVersion(); ok {
 		_spec.AddField(topic.FieldVersion, field.TypeInt, value)
 	}
-	if value, ok := tuo.mutation.ContentType(); ok {
+	if value, ok := _u.mutation.ContentType(); ok {
 		_spec.SetField(topic.FieldContentType, field.TypeString, value)
 	}
-	if value, ok := tuo.mutation.SeoTitle(); ok {
+	if value, ok := _u.mutation.SeoTitle(); ok {
 		_spec.SetField(topic.FieldSeoTitle, field.TypeString, value)
 	}
-	if tuo.mutation.SeoTitleCleared() {
+	if _u.mutation.SeoTitleCleared() {
 		_spec.ClearField(topic.FieldSeoTitle, field.TypeString)
 	}
-	if value, ok := tuo.mutation.SeoDescription(); ok {
+	if value, ok := _u.mutation.SeoDescription(); ok {
 		_spec.SetField(topic.FieldSeoDescription, field.TypeString, value)
 	}
-	if tuo.mutation.SeoDescriptionCleared() {
+	if _u.mutation.SeoDescriptionCleared() {
 		_spec.ClearField(topic.FieldSeoDescription, field.TypeString)
 	}
-	if value, ok := tuo.mutation.SeoKeywords(); ok {
+	if value, ok := _u.mutation.SeoKeywords(); ok {
 		_spec.SetField(topic.FieldSeoKeywords, field.TypeString, value)
 	}
-	if tuo.mutation.SeoKeywordsCleared() {
+	if _u.mutation.SeoKeywordsCleared() {
 		_spec.ClearField(topic.FieldSeoKeywords, field.TypeString)
 	}
-	if value, ok := tuo.mutation.ExcerptAuto(); ok {
+	if value, ok := _u.mutation.ExcerptAuto(); ok {
 		_spec.SetField(topic.FieldExcerptAuto, field.TypeBool, value)
 	}
-	if value, ok := tuo.mutation.Excerpt(); ok {
+	if value, ok := _u.mutation.Excerpt(); ok {
 		_spec.SetField(topic.FieldExcerpt, field.TypeString, value)
 	}
-	if tuo.mutation.ExcerptCleared() {
+	if _u.mutation.ExcerptCleared() {
 		_spec.ClearField(topic.FieldExcerpt, field.TypeString)
 	}
-	if value, ok := tuo.mutation.FeaturedMedia(); ok {
+	if value, ok := _u.mutation.FeaturedMedia(); ok {
 		_spec.SetField(topic.FieldFeaturedMedia, field.TypeString, value)
 	}
-	if tuo.mutation.FeaturedMediaCleared() {
+	if _u.mutation.FeaturedMediaCleared() {
 		_spec.ClearField(topic.FieldFeaturedMedia, field.TypeString)
 	}
-	if value, ok := tuo.mutation.Tags(); ok {
+	if value, ok := _u.mutation.Tags(); ok {
 		_spec.SetField(topic.FieldTags, field.TypeJSON, value)
 	}
-	if value, ok := tuo.mutation.AppendedTags(); ok {
+	if value, ok := _u.mutation.AppendedTags(); ok {
 		_spec.AddModifier(func(u *sql.UpdateBuilder) {
 			sqljson.Append(u, topic.FieldTags, value)
 		})
 	}
-	if tuo.mutation.TagsCleared() {
+	if _u.mutation.TagsCleared() {
 		_spec.ClearField(topic.FieldTags, field.TypeJSON)
 	}
-	_node = &Topic{config: tuo.config}
+	_node = &Topic{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues
-	if err = sqlgraph.UpdateNode(ctx, tuo.driver, _spec); err != nil {
+	if err = sqlgraph.UpdateNode(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{topic.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -1477,6 +1477,6 @@ func (tuo *TopicUpdateOne) sqlSave(ctx context.Context) (_node *Topic, err error
 		}
 		return nil, err
 	}
-	tuo.mutation.done = true
+	_u.mutation.done = true
 	return _node, nil
 }

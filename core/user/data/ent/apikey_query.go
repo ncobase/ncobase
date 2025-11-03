@@ -28,40 +28,40 @@ type ApiKeyQuery struct {
 }
 
 // Where adds a new predicate for the ApiKeyQuery builder.
-func (akq *ApiKeyQuery) Where(ps ...predicate.ApiKey) *ApiKeyQuery {
-	akq.predicates = append(akq.predicates, ps...)
-	return akq
+func (_q *ApiKeyQuery) Where(ps ...predicate.ApiKey) *ApiKeyQuery {
+	_q.predicates = append(_q.predicates, ps...)
+	return _q
 }
 
 // Limit the number of records to be returned by this query.
-func (akq *ApiKeyQuery) Limit(limit int) *ApiKeyQuery {
-	akq.ctx.Limit = &limit
-	return akq
+func (_q *ApiKeyQuery) Limit(limit int) *ApiKeyQuery {
+	_q.ctx.Limit = &limit
+	return _q
 }
 
 // Offset to start from.
-func (akq *ApiKeyQuery) Offset(offset int) *ApiKeyQuery {
-	akq.ctx.Offset = &offset
-	return akq
+func (_q *ApiKeyQuery) Offset(offset int) *ApiKeyQuery {
+	_q.ctx.Offset = &offset
+	return _q
 }
 
 // Unique configures the query builder to filter duplicate records on query.
 // By default, unique is set to true, and can be disabled using this method.
-func (akq *ApiKeyQuery) Unique(unique bool) *ApiKeyQuery {
-	akq.ctx.Unique = &unique
-	return akq
+func (_q *ApiKeyQuery) Unique(unique bool) *ApiKeyQuery {
+	_q.ctx.Unique = &unique
+	return _q
 }
 
 // Order specifies how the records should be ordered.
-func (akq *ApiKeyQuery) Order(o ...apikey.OrderOption) *ApiKeyQuery {
-	akq.order = append(akq.order, o...)
-	return akq
+func (_q *ApiKeyQuery) Order(o ...apikey.OrderOption) *ApiKeyQuery {
+	_q.order = append(_q.order, o...)
+	return _q
 }
 
 // First returns the first ApiKey entity from the query.
 // Returns a *NotFoundError when no ApiKey was found.
-func (akq *ApiKeyQuery) First(ctx context.Context) (*ApiKey, error) {
-	nodes, err := akq.Limit(1).All(setContextOp(ctx, akq.ctx, ent.OpQueryFirst))
+func (_q *ApiKeyQuery) First(ctx context.Context) (*ApiKey, error) {
+	nodes, err := _q.Limit(1).All(setContextOp(ctx, _q.ctx, ent.OpQueryFirst))
 	if err != nil {
 		return nil, err
 	}
@@ -72,8 +72,8 @@ func (akq *ApiKeyQuery) First(ctx context.Context) (*ApiKey, error) {
 }
 
 // FirstX is like First, but panics if an error occurs.
-func (akq *ApiKeyQuery) FirstX(ctx context.Context) *ApiKey {
-	node, err := akq.First(ctx)
+func (_q *ApiKeyQuery) FirstX(ctx context.Context) *ApiKey {
+	node, err := _q.First(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
 	}
@@ -82,9 +82,9 @@ func (akq *ApiKeyQuery) FirstX(ctx context.Context) *ApiKey {
 
 // FirstID returns the first ApiKey ID from the query.
 // Returns a *NotFoundError when no ApiKey ID was found.
-func (akq *ApiKeyQuery) FirstID(ctx context.Context) (id string, err error) {
+func (_q *ApiKeyQuery) FirstID(ctx context.Context) (id string, err error) {
 	var ids []string
-	if ids, err = akq.Limit(1).IDs(setContextOp(ctx, akq.ctx, ent.OpQueryFirstID)); err != nil {
+	if ids, err = _q.Limit(1).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryFirstID)); err != nil {
 		return
 	}
 	if len(ids) == 0 {
@@ -95,8 +95,8 @@ func (akq *ApiKeyQuery) FirstID(ctx context.Context) (id string, err error) {
 }
 
 // FirstIDX is like FirstID, but panics if an error occurs.
-func (akq *ApiKeyQuery) FirstIDX(ctx context.Context) string {
-	id, err := akq.FirstID(ctx)
+func (_q *ApiKeyQuery) FirstIDX(ctx context.Context) string {
+	id, err := _q.FirstID(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
 	}
@@ -106,8 +106,8 @@ func (akq *ApiKeyQuery) FirstIDX(ctx context.Context) string {
 // Only returns a single ApiKey entity found by the query, ensuring it only returns one.
 // Returns a *NotSingularError when more than one ApiKey entity is found.
 // Returns a *NotFoundError when no ApiKey entities are found.
-func (akq *ApiKeyQuery) Only(ctx context.Context) (*ApiKey, error) {
-	nodes, err := akq.Limit(2).All(setContextOp(ctx, akq.ctx, ent.OpQueryOnly))
+func (_q *ApiKeyQuery) Only(ctx context.Context) (*ApiKey, error) {
+	nodes, err := _q.Limit(2).All(setContextOp(ctx, _q.ctx, ent.OpQueryOnly))
 	if err != nil {
 		return nil, err
 	}
@@ -122,8 +122,8 @@ func (akq *ApiKeyQuery) Only(ctx context.Context) (*ApiKey, error) {
 }
 
 // OnlyX is like Only, but panics if an error occurs.
-func (akq *ApiKeyQuery) OnlyX(ctx context.Context) *ApiKey {
-	node, err := akq.Only(ctx)
+func (_q *ApiKeyQuery) OnlyX(ctx context.Context) *ApiKey {
+	node, err := _q.Only(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -133,9 +133,9 @@ func (akq *ApiKeyQuery) OnlyX(ctx context.Context) *ApiKey {
 // OnlyID is like Only, but returns the only ApiKey ID in the query.
 // Returns a *NotSingularError when more than one ApiKey ID is found.
 // Returns a *NotFoundError when no entities are found.
-func (akq *ApiKeyQuery) OnlyID(ctx context.Context) (id string, err error) {
+func (_q *ApiKeyQuery) OnlyID(ctx context.Context) (id string, err error) {
 	var ids []string
-	if ids, err = akq.Limit(2).IDs(setContextOp(ctx, akq.ctx, ent.OpQueryOnlyID)); err != nil {
+	if ids, err = _q.Limit(2).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryOnlyID)); err != nil {
 		return
 	}
 	switch len(ids) {
@@ -150,8 +150,8 @@ func (akq *ApiKeyQuery) OnlyID(ctx context.Context) (id string, err error) {
 }
 
 // OnlyIDX is like OnlyID, but panics if an error occurs.
-func (akq *ApiKeyQuery) OnlyIDX(ctx context.Context) string {
-	id, err := akq.OnlyID(ctx)
+func (_q *ApiKeyQuery) OnlyIDX(ctx context.Context) string {
+	id, err := _q.OnlyID(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -159,18 +159,18 @@ func (akq *ApiKeyQuery) OnlyIDX(ctx context.Context) string {
 }
 
 // All executes the query and returns a list of ApiKeys.
-func (akq *ApiKeyQuery) All(ctx context.Context) ([]*ApiKey, error) {
-	ctx = setContextOp(ctx, akq.ctx, ent.OpQueryAll)
-	if err := akq.prepareQuery(ctx); err != nil {
+func (_q *ApiKeyQuery) All(ctx context.Context) ([]*ApiKey, error) {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryAll)
+	if err := _q.prepareQuery(ctx); err != nil {
 		return nil, err
 	}
 	qr := querierAll[[]*ApiKey, *ApiKeyQuery]()
-	return withInterceptors[[]*ApiKey](ctx, akq, qr, akq.inters)
+	return withInterceptors[[]*ApiKey](ctx, _q, qr, _q.inters)
 }
 
 // AllX is like All, but panics if an error occurs.
-func (akq *ApiKeyQuery) AllX(ctx context.Context) []*ApiKey {
-	nodes, err := akq.All(ctx)
+func (_q *ApiKeyQuery) AllX(ctx context.Context) []*ApiKey {
+	nodes, err := _q.All(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -178,20 +178,20 @@ func (akq *ApiKeyQuery) AllX(ctx context.Context) []*ApiKey {
 }
 
 // IDs executes the query and returns a list of ApiKey IDs.
-func (akq *ApiKeyQuery) IDs(ctx context.Context) (ids []string, err error) {
-	if akq.ctx.Unique == nil && akq.path != nil {
-		akq.Unique(true)
+func (_q *ApiKeyQuery) IDs(ctx context.Context) (ids []string, err error) {
+	if _q.ctx.Unique == nil && _q.path != nil {
+		_q.Unique(true)
 	}
-	ctx = setContextOp(ctx, akq.ctx, ent.OpQueryIDs)
-	if err = akq.Select(apikey.FieldID).Scan(ctx, &ids); err != nil {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryIDs)
+	if err = _q.Select(apikey.FieldID).Scan(ctx, &ids); err != nil {
 		return nil, err
 	}
 	return ids, nil
 }
 
 // IDsX is like IDs, but panics if an error occurs.
-func (akq *ApiKeyQuery) IDsX(ctx context.Context) []string {
-	ids, err := akq.IDs(ctx)
+func (_q *ApiKeyQuery) IDsX(ctx context.Context) []string {
+	ids, err := _q.IDs(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -199,17 +199,17 @@ func (akq *ApiKeyQuery) IDsX(ctx context.Context) []string {
 }
 
 // Count returns the count of the given query.
-func (akq *ApiKeyQuery) Count(ctx context.Context) (int, error) {
-	ctx = setContextOp(ctx, akq.ctx, ent.OpQueryCount)
-	if err := akq.prepareQuery(ctx); err != nil {
+func (_q *ApiKeyQuery) Count(ctx context.Context) (int, error) {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryCount)
+	if err := _q.prepareQuery(ctx); err != nil {
 		return 0, err
 	}
-	return withInterceptors[int](ctx, akq, querierCount[*ApiKeyQuery](), akq.inters)
+	return withInterceptors[int](ctx, _q, querierCount[*ApiKeyQuery](), _q.inters)
 }
 
 // CountX is like Count, but panics if an error occurs.
-func (akq *ApiKeyQuery) CountX(ctx context.Context) int {
-	count, err := akq.Count(ctx)
+func (_q *ApiKeyQuery) CountX(ctx context.Context) int {
+	count, err := _q.Count(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -217,9 +217,9 @@ func (akq *ApiKeyQuery) CountX(ctx context.Context) int {
 }
 
 // Exist returns true if the query has elements in the graph.
-func (akq *ApiKeyQuery) Exist(ctx context.Context) (bool, error) {
-	ctx = setContextOp(ctx, akq.ctx, ent.OpQueryExist)
-	switch _, err := akq.FirstID(ctx); {
+func (_q *ApiKeyQuery) Exist(ctx context.Context) (bool, error) {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryExist)
+	switch _, err := _q.FirstID(ctx); {
 	case IsNotFound(err):
 		return false, nil
 	case err != nil:
@@ -230,8 +230,8 @@ func (akq *ApiKeyQuery) Exist(ctx context.Context) (bool, error) {
 }
 
 // ExistX is like Exist, but panics if an error occurs.
-func (akq *ApiKeyQuery) ExistX(ctx context.Context) bool {
-	exist, err := akq.Exist(ctx)
+func (_q *ApiKeyQuery) ExistX(ctx context.Context) bool {
+	exist, err := _q.Exist(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -240,19 +240,19 @@ func (akq *ApiKeyQuery) ExistX(ctx context.Context) bool {
 
 // Clone returns a duplicate of the ApiKeyQuery builder, including all associated steps. It can be
 // used to prepare common query builders and use them differently after the clone is made.
-func (akq *ApiKeyQuery) Clone() *ApiKeyQuery {
-	if akq == nil {
+func (_q *ApiKeyQuery) Clone() *ApiKeyQuery {
+	if _q == nil {
 		return nil
 	}
 	return &ApiKeyQuery{
-		config:     akq.config,
-		ctx:        akq.ctx.Clone(),
-		order:      append([]apikey.OrderOption{}, akq.order...),
-		inters:     append([]Interceptor{}, akq.inters...),
-		predicates: append([]predicate.ApiKey{}, akq.predicates...),
+		config:     _q.config,
+		ctx:        _q.ctx.Clone(),
+		order:      append([]apikey.OrderOption{}, _q.order...),
+		inters:     append([]Interceptor{}, _q.inters...),
+		predicates: append([]predicate.ApiKey{}, _q.predicates...),
 		// clone intermediate query.
-		sql:  akq.sql.Clone(),
-		path: akq.path,
+		sql:  _q.sql.Clone(),
+		path: _q.path,
 	}
 }
 
@@ -270,10 +270,10 @@ func (akq *ApiKeyQuery) Clone() *ApiKeyQuery {
 //		GroupBy(apikey.FieldName).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
-func (akq *ApiKeyQuery) GroupBy(field string, fields ...string) *ApiKeyGroupBy {
-	akq.ctx.Fields = append([]string{field}, fields...)
-	grbuild := &ApiKeyGroupBy{build: akq}
-	grbuild.flds = &akq.ctx.Fields
+func (_q *ApiKeyQuery) GroupBy(field string, fields ...string) *ApiKeyGroupBy {
+	_q.ctx.Fields = append([]string{field}, fields...)
+	grbuild := &ApiKeyGroupBy{build: _q}
+	grbuild.flds = &_q.ctx.Fields
 	grbuild.label = apikey.Label
 	grbuild.scan = grbuild.Scan
 	return grbuild
@@ -291,62 +291,62 @@ func (akq *ApiKeyQuery) GroupBy(field string, fields ...string) *ApiKeyGroupBy {
 //	client.ApiKey.Query().
 //		Select(apikey.FieldName).
 //		Scan(ctx, &v)
-func (akq *ApiKeyQuery) Select(fields ...string) *ApiKeySelect {
-	akq.ctx.Fields = append(akq.ctx.Fields, fields...)
-	sbuild := &ApiKeySelect{ApiKeyQuery: akq}
+func (_q *ApiKeyQuery) Select(fields ...string) *ApiKeySelect {
+	_q.ctx.Fields = append(_q.ctx.Fields, fields...)
+	sbuild := &ApiKeySelect{ApiKeyQuery: _q}
 	sbuild.label = apikey.Label
-	sbuild.flds, sbuild.scan = &akq.ctx.Fields, sbuild.Scan
+	sbuild.flds, sbuild.scan = &_q.ctx.Fields, sbuild.Scan
 	return sbuild
 }
 
 // Aggregate returns a ApiKeySelect configured with the given aggregations.
-func (akq *ApiKeyQuery) Aggregate(fns ...AggregateFunc) *ApiKeySelect {
-	return akq.Select().Aggregate(fns...)
+func (_q *ApiKeyQuery) Aggregate(fns ...AggregateFunc) *ApiKeySelect {
+	return _q.Select().Aggregate(fns...)
 }
 
-func (akq *ApiKeyQuery) prepareQuery(ctx context.Context) error {
-	for _, inter := range akq.inters {
+func (_q *ApiKeyQuery) prepareQuery(ctx context.Context) error {
+	for _, inter := range _q.inters {
 		if inter == nil {
 			return fmt.Errorf("ent: uninitialized interceptor (forgotten import ent/runtime?)")
 		}
 		if trv, ok := inter.(Traverser); ok {
-			if err := trv.Traverse(ctx, akq); err != nil {
+			if err := trv.Traverse(ctx, _q); err != nil {
 				return err
 			}
 		}
 	}
-	for _, f := range akq.ctx.Fields {
+	for _, f := range _q.ctx.Fields {
 		if !apikey.ValidColumn(f) {
 			return &ValidationError{Name: f, err: fmt.Errorf("ent: invalid field %q for query", f)}
 		}
 	}
-	if akq.path != nil {
-		prev, err := akq.path(ctx)
+	if _q.path != nil {
+		prev, err := _q.path(ctx)
 		if err != nil {
 			return err
 		}
-		akq.sql = prev
+		_q.sql = prev
 	}
 	return nil
 }
 
-func (akq *ApiKeyQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*ApiKey, error) {
+func (_q *ApiKeyQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*ApiKey, error) {
 	var (
 		nodes = []*ApiKey{}
-		_spec = akq.querySpec()
+		_spec = _q.querySpec()
 	)
 	_spec.ScanValues = func(columns []string) ([]any, error) {
 		return (*ApiKey).scanValues(nil, columns)
 	}
 	_spec.Assign = func(columns []string, values []any) error {
-		node := &ApiKey{config: akq.config}
+		node := &ApiKey{config: _q.config}
 		nodes = append(nodes, node)
 		return node.assignValues(columns, values)
 	}
 	for i := range hooks {
 		hooks[i](ctx, _spec)
 	}
-	if err := sqlgraph.QueryNodes(ctx, akq.driver, _spec); err != nil {
+	if err := sqlgraph.QueryNodes(ctx, _q.driver, _spec); err != nil {
 		return nil, err
 	}
 	if len(nodes) == 0 {
@@ -355,24 +355,24 @@ func (akq *ApiKeyQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*ApiK
 	return nodes, nil
 }
 
-func (akq *ApiKeyQuery) sqlCount(ctx context.Context) (int, error) {
-	_spec := akq.querySpec()
-	_spec.Node.Columns = akq.ctx.Fields
-	if len(akq.ctx.Fields) > 0 {
-		_spec.Unique = akq.ctx.Unique != nil && *akq.ctx.Unique
+func (_q *ApiKeyQuery) sqlCount(ctx context.Context) (int, error) {
+	_spec := _q.querySpec()
+	_spec.Node.Columns = _q.ctx.Fields
+	if len(_q.ctx.Fields) > 0 {
+		_spec.Unique = _q.ctx.Unique != nil && *_q.ctx.Unique
 	}
-	return sqlgraph.CountNodes(ctx, akq.driver, _spec)
+	return sqlgraph.CountNodes(ctx, _q.driver, _spec)
 }
 
-func (akq *ApiKeyQuery) querySpec() *sqlgraph.QuerySpec {
+func (_q *ApiKeyQuery) querySpec() *sqlgraph.QuerySpec {
 	_spec := sqlgraph.NewQuerySpec(apikey.Table, apikey.Columns, sqlgraph.NewFieldSpec(apikey.FieldID, field.TypeString))
-	_spec.From = akq.sql
-	if unique := akq.ctx.Unique; unique != nil {
+	_spec.From = _q.sql
+	if unique := _q.ctx.Unique; unique != nil {
 		_spec.Unique = *unique
-	} else if akq.path != nil {
+	} else if _q.path != nil {
 		_spec.Unique = true
 	}
-	if fields := akq.ctx.Fields; len(fields) > 0 {
+	if fields := _q.ctx.Fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, apikey.FieldID)
 		for i := range fields {
@@ -381,20 +381,20 @@ func (akq *ApiKeyQuery) querySpec() *sqlgraph.QuerySpec {
 			}
 		}
 	}
-	if ps := akq.predicates; len(ps) > 0 {
+	if ps := _q.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if limit := akq.ctx.Limit; limit != nil {
+	if limit := _q.ctx.Limit; limit != nil {
 		_spec.Limit = *limit
 	}
-	if offset := akq.ctx.Offset; offset != nil {
+	if offset := _q.ctx.Offset; offset != nil {
 		_spec.Offset = *offset
 	}
-	if ps := akq.order; len(ps) > 0 {
+	if ps := _q.order; len(ps) > 0 {
 		_spec.Order = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
@@ -404,33 +404,33 @@ func (akq *ApiKeyQuery) querySpec() *sqlgraph.QuerySpec {
 	return _spec
 }
 
-func (akq *ApiKeyQuery) sqlQuery(ctx context.Context) *sql.Selector {
-	builder := sql.Dialect(akq.driver.Dialect())
+func (_q *ApiKeyQuery) sqlQuery(ctx context.Context) *sql.Selector {
+	builder := sql.Dialect(_q.driver.Dialect())
 	t1 := builder.Table(apikey.Table)
-	columns := akq.ctx.Fields
+	columns := _q.ctx.Fields
 	if len(columns) == 0 {
 		columns = apikey.Columns
 	}
 	selector := builder.Select(t1.Columns(columns...)...).From(t1)
-	if akq.sql != nil {
-		selector = akq.sql
+	if _q.sql != nil {
+		selector = _q.sql
 		selector.Select(selector.Columns(columns...)...)
 	}
-	if akq.ctx.Unique != nil && *akq.ctx.Unique {
+	if _q.ctx.Unique != nil && *_q.ctx.Unique {
 		selector.Distinct()
 	}
-	for _, p := range akq.predicates {
+	for _, p := range _q.predicates {
 		p(selector)
 	}
-	for _, p := range akq.order {
+	for _, p := range _q.order {
 		p(selector)
 	}
-	if offset := akq.ctx.Offset; offset != nil {
+	if offset := _q.ctx.Offset; offset != nil {
 		// limit is mandatory for offset clause. We start
 		// with default value, and override it below if needed.
 		selector.Offset(*offset).Limit(math.MaxInt32)
 	}
-	if limit := akq.ctx.Limit; limit != nil {
+	if limit := _q.ctx.Limit; limit != nil {
 		selector.Limit(*limit)
 	}
 	return selector
@@ -443,41 +443,41 @@ type ApiKeyGroupBy struct {
 }
 
 // Aggregate adds the given aggregation functions to the group-by query.
-func (akgb *ApiKeyGroupBy) Aggregate(fns ...AggregateFunc) *ApiKeyGroupBy {
-	akgb.fns = append(akgb.fns, fns...)
-	return akgb
+func (_g *ApiKeyGroupBy) Aggregate(fns ...AggregateFunc) *ApiKeyGroupBy {
+	_g.fns = append(_g.fns, fns...)
+	return _g
 }
 
 // Scan applies the selector query and scans the result into the given value.
-func (akgb *ApiKeyGroupBy) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, akgb.build.ctx, ent.OpQueryGroupBy)
-	if err := akgb.build.prepareQuery(ctx); err != nil {
+func (_g *ApiKeyGroupBy) Scan(ctx context.Context, v any) error {
+	ctx = setContextOp(ctx, _g.build.ctx, ent.OpQueryGroupBy)
+	if err := _g.build.prepareQuery(ctx); err != nil {
 		return err
 	}
-	return scanWithInterceptors[*ApiKeyQuery, *ApiKeyGroupBy](ctx, akgb.build, akgb, akgb.build.inters, v)
+	return scanWithInterceptors[*ApiKeyQuery, *ApiKeyGroupBy](ctx, _g.build, _g, _g.build.inters, v)
 }
 
-func (akgb *ApiKeyGroupBy) sqlScan(ctx context.Context, root *ApiKeyQuery, v any) error {
+func (_g *ApiKeyGroupBy) sqlScan(ctx context.Context, root *ApiKeyQuery, v any) error {
 	selector := root.sqlQuery(ctx).Select()
-	aggregation := make([]string, 0, len(akgb.fns))
-	for _, fn := range akgb.fns {
+	aggregation := make([]string, 0, len(_g.fns))
+	for _, fn := range _g.fns {
 		aggregation = append(aggregation, fn(selector))
 	}
 	if len(selector.SelectedColumns()) == 0 {
-		columns := make([]string, 0, len(*akgb.flds)+len(akgb.fns))
-		for _, f := range *akgb.flds {
+		columns := make([]string, 0, len(*_g.flds)+len(_g.fns))
+		for _, f := range *_g.flds {
 			columns = append(columns, selector.C(f))
 		}
 		columns = append(columns, aggregation...)
 		selector.Select(columns...)
 	}
-	selector.GroupBy(selector.Columns(*akgb.flds...)...)
+	selector.GroupBy(selector.Columns(*_g.flds...)...)
 	if err := selector.Err(); err != nil {
 		return err
 	}
 	rows := &sql.Rows{}
 	query, args := selector.Query()
-	if err := akgb.build.driver.Query(ctx, query, args, rows); err != nil {
+	if err := _g.build.driver.Query(ctx, query, args, rows); err != nil {
 		return err
 	}
 	defer rows.Close()
@@ -491,27 +491,27 @@ type ApiKeySelect struct {
 }
 
 // Aggregate adds the given aggregation functions to the selector query.
-func (aks *ApiKeySelect) Aggregate(fns ...AggregateFunc) *ApiKeySelect {
-	aks.fns = append(aks.fns, fns...)
-	return aks
+func (_s *ApiKeySelect) Aggregate(fns ...AggregateFunc) *ApiKeySelect {
+	_s.fns = append(_s.fns, fns...)
+	return _s
 }
 
 // Scan applies the selector query and scans the result into the given value.
-func (aks *ApiKeySelect) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, aks.ctx, ent.OpQuerySelect)
-	if err := aks.prepareQuery(ctx); err != nil {
+func (_s *ApiKeySelect) Scan(ctx context.Context, v any) error {
+	ctx = setContextOp(ctx, _s.ctx, ent.OpQuerySelect)
+	if err := _s.prepareQuery(ctx); err != nil {
 		return err
 	}
-	return scanWithInterceptors[*ApiKeyQuery, *ApiKeySelect](ctx, aks.ApiKeyQuery, aks, aks.inters, v)
+	return scanWithInterceptors[*ApiKeyQuery, *ApiKeySelect](ctx, _s.ApiKeyQuery, _s, _s.inters, v)
 }
 
-func (aks *ApiKeySelect) sqlScan(ctx context.Context, root *ApiKeyQuery, v any) error {
+func (_s *ApiKeySelect) sqlScan(ctx context.Context, root *ApiKeyQuery, v any) error {
 	selector := root.sqlQuery(ctx)
-	aggregation := make([]string, 0, len(aks.fns))
-	for _, fn := range aks.fns {
+	aggregation := make([]string, 0, len(_s.fns))
+	for _, fn := range _s.fns {
 		aggregation = append(aggregation, fn(selector))
 	}
-	switch n := len(*aks.selector.flds); {
+	switch n := len(*_s.selector.flds); {
 	case n == 0 && len(aggregation) > 0:
 		selector.Select(aggregation...)
 	case n != 0 && len(aggregation) > 0:
@@ -519,7 +519,7 @@ func (aks *ApiKeySelect) sqlScan(ctx context.Context, root *ApiKeyQuery, v any) 
 	}
 	rows := &sql.Rows{}
 	query, args := selector.Query()
-	if err := aks.driver.Query(ctx, query, args, rows); err != nil {
+	if err := _s.driver.Query(ctx, query, args, rows); err != nil {
 		return err
 	}
 	defer rows.Close()

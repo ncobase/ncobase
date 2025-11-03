@@ -77,7 +77,7 @@ func (*CMSChannel) scanValues(columns []string) ([]any, error) {
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
 // to the CMSChannel fields.
-func (cc *CMSChannel) assignValues(columns []string, values []any) error {
+func (_m *CMSChannel) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
@@ -87,43 +87,43 @@ func (cc *CMSChannel) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field id", values[i])
 			} else if value.Valid {
-				cc.ID = value.String
+				_m.ID = value.String
 			}
 		case cmschannel.FieldName:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field name", values[i])
 			} else if value.Valid {
-				cc.Name = value.String
+				_m.Name = value.String
 			}
 		case cmschannel.FieldType:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field type", values[i])
 			} else if value.Valid {
-				cc.Type = value.String
+				_m.Type = value.String
 			}
 		case cmschannel.FieldSlug:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field slug", values[i])
 			} else if value.Valid {
-				cc.Slug = value.String
+				_m.Slug = value.String
 			}
 		case cmschannel.FieldIcon:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field icon", values[i])
 			} else if value.Valid {
-				cc.Icon = value.String
+				_m.Icon = value.String
 			}
 		case cmschannel.FieldStatus:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field status", values[i])
 			} else if value.Valid {
-				cc.Status = int(value.Int64)
+				_m.Status = int(value.Int64)
 			}
 		case cmschannel.FieldExtras:
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field extras", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &cc.Extras); err != nil {
+				if err := json.Unmarshal(*value, &_m.Extras); err != nil {
 					return fmt.Errorf("unmarshal field extras: %w", err)
 				}
 			}
@@ -131,37 +131,37 @@ func (cc *CMSChannel) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field space_id", values[i])
 			} else if value.Valid {
-				cc.SpaceID = value.String
+				_m.SpaceID = value.String
 			}
 		case cmschannel.FieldCreatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field created_by", values[i])
 			} else if value.Valid {
-				cc.CreatedBy = value.String
+				_m.CreatedBy = value.String
 			}
 		case cmschannel.FieldUpdatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_by", values[i])
 			} else if value.Valid {
-				cc.UpdatedBy = value.String
+				_m.UpdatedBy = value.String
 			}
 		case cmschannel.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field created_at", values[i])
 			} else if value.Valid {
-				cc.CreatedAt = value.Int64
+				_m.CreatedAt = value.Int64
 			}
 		case cmschannel.FieldUpdatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_at", values[i])
 			} else if value.Valid {
-				cc.UpdatedAt = value.Int64
+				_m.UpdatedAt = value.Int64
 			}
 		case cmschannel.FieldAllowedTypes:
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field allowed_types", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &cc.AllowedTypes); err != nil {
+				if err := json.Unmarshal(*value, &_m.AllowedTypes); err != nil {
 					return fmt.Errorf("unmarshal field allowed_types: %w", err)
 				}
 			}
@@ -169,34 +169,34 @@ func (cc *CMSChannel) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field description", values[i])
 			} else if value.Valid {
-				cc.Description = value.String
+				_m.Description = value.String
 			}
 		case cmschannel.FieldLogo:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field logo", values[i])
 			} else if value.Valid {
-				cc.Logo = value.String
+				_m.Logo = value.String
 			}
 		case cmschannel.FieldWebhookURL:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field webhook_url", values[i])
 			} else if value.Valid {
-				cc.WebhookURL = value.String
+				_m.WebhookURL = value.String
 			}
 		case cmschannel.FieldAutoPublish:
 			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field auto_publish", values[i])
 			} else if value.Valid {
-				cc.AutoPublish = value.Bool
+				_m.AutoPublish = value.Bool
 			}
 		case cmschannel.FieldRequireReview:
 			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field require_review", values[i])
 			} else if value.Valid {
-				cc.RequireReview = value.Bool
+				_m.RequireReview = value.Bool
 			}
 		default:
-			cc.selectValues.Set(columns[i], values[i])
+			_m.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
@@ -204,83 +204,83 @@ func (cc *CMSChannel) assignValues(columns []string, values []any) error {
 
 // Value returns the ent.Value that was dynamically selected and assigned to the CMSChannel.
 // This includes values selected through modifiers, order, etc.
-func (cc *CMSChannel) Value(name string) (ent.Value, error) {
-	return cc.selectValues.Get(name)
+func (_m *CMSChannel) Value(name string) (ent.Value, error) {
+	return _m.selectValues.Get(name)
 }
 
 // Update returns a builder for updating this CMSChannel.
 // Note that you need to call CMSChannel.Unwrap() before calling this method if this CMSChannel
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (cc *CMSChannel) Update() *CMSChannelUpdateOne {
-	return NewCMSChannelClient(cc.config).UpdateOne(cc)
+func (_m *CMSChannel) Update() *CMSChannelUpdateOne {
+	return NewCMSChannelClient(_m.config).UpdateOne(_m)
 }
 
 // Unwrap unwraps the CMSChannel entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (cc *CMSChannel) Unwrap() *CMSChannel {
-	_tx, ok := cc.config.driver.(*txDriver)
+func (_m *CMSChannel) Unwrap() *CMSChannel {
+	_tx, ok := _m.config.driver.(*txDriver)
 	if !ok {
 		panic("ent: CMSChannel is not a transactional entity")
 	}
-	cc.config.driver = _tx.drv
-	return cc
+	_m.config.driver = _tx.drv
+	return _m
 }
 
 // String implements the fmt.Stringer.
-func (cc *CMSChannel) String() string {
+func (_m *CMSChannel) String() string {
 	var builder strings.Builder
 	builder.WriteString("CMSChannel(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", cc.ID))
+	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
 	builder.WriteString("name=")
-	builder.WriteString(cc.Name)
+	builder.WriteString(_m.Name)
 	builder.WriteString(", ")
 	builder.WriteString("type=")
-	builder.WriteString(cc.Type)
+	builder.WriteString(_m.Type)
 	builder.WriteString(", ")
 	builder.WriteString("slug=")
-	builder.WriteString(cc.Slug)
+	builder.WriteString(_m.Slug)
 	builder.WriteString(", ")
 	builder.WriteString("icon=")
-	builder.WriteString(cc.Icon)
+	builder.WriteString(_m.Icon)
 	builder.WriteString(", ")
 	builder.WriteString("status=")
-	builder.WriteString(fmt.Sprintf("%v", cc.Status))
+	builder.WriteString(fmt.Sprintf("%v", _m.Status))
 	builder.WriteString(", ")
 	builder.WriteString("extras=")
-	builder.WriteString(fmt.Sprintf("%v", cc.Extras))
+	builder.WriteString(fmt.Sprintf("%v", _m.Extras))
 	builder.WriteString(", ")
 	builder.WriteString("space_id=")
-	builder.WriteString(cc.SpaceID)
+	builder.WriteString(_m.SpaceID)
 	builder.WriteString(", ")
 	builder.WriteString("created_by=")
-	builder.WriteString(cc.CreatedBy)
+	builder.WriteString(_m.CreatedBy)
 	builder.WriteString(", ")
 	builder.WriteString("updated_by=")
-	builder.WriteString(cc.UpdatedBy)
+	builder.WriteString(_m.UpdatedBy)
 	builder.WriteString(", ")
 	builder.WriteString("created_at=")
-	builder.WriteString(fmt.Sprintf("%v", cc.CreatedAt))
+	builder.WriteString(fmt.Sprintf("%v", _m.CreatedAt))
 	builder.WriteString(", ")
 	builder.WriteString("updated_at=")
-	builder.WriteString(fmt.Sprintf("%v", cc.UpdatedAt))
+	builder.WriteString(fmt.Sprintf("%v", _m.UpdatedAt))
 	builder.WriteString(", ")
 	builder.WriteString("allowed_types=")
-	builder.WriteString(fmt.Sprintf("%v", cc.AllowedTypes))
+	builder.WriteString(fmt.Sprintf("%v", _m.AllowedTypes))
 	builder.WriteString(", ")
 	builder.WriteString("description=")
-	builder.WriteString(cc.Description)
+	builder.WriteString(_m.Description)
 	builder.WriteString(", ")
 	builder.WriteString("logo=")
-	builder.WriteString(cc.Logo)
+	builder.WriteString(_m.Logo)
 	builder.WriteString(", ")
 	builder.WriteString("webhook_url=")
-	builder.WriteString(cc.WebhookURL)
+	builder.WriteString(_m.WebhookURL)
 	builder.WriteString(", ")
 	builder.WriteString("auto_publish=")
-	builder.WriteString(fmt.Sprintf("%v", cc.AutoPublish))
+	builder.WriteString(fmt.Sprintf("%v", _m.AutoPublish))
 	builder.WriteString(", ")
 	builder.WriteString("require_review=")
-	builder.WriteString(fmt.Sprintf("%v", cc.RequireReview))
+	builder.WriteString(fmt.Sprintf("%v", _m.RequireReview))
 	builder.WriteByte(')')
 	return builder.String()
 }

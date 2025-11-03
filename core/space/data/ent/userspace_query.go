@@ -28,40 +28,40 @@ type UserSpaceQuery struct {
 }
 
 // Where adds a new predicate for the UserSpaceQuery builder.
-func (usq *UserSpaceQuery) Where(ps ...predicate.UserSpace) *UserSpaceQuery {
-	usq.predicates = append(usq.predicates, ps...)
-	return usq
+func (_q *UserSpaceQuery) Where(ps ...predicate.UserSpace) *UserSpaceQuery {
+	_q.predicates = append(_q.predicates, ps...)
+	return _q
 }
 
 // Limit the number of records to be returned by this query.
-func (usq *UserSpaceQuery) Limit(limit int) *UserSpaceQuery {
-	usq.ctx.Limit = &limit
-	return usq
+func (_q *UserSpaceQuery) Limit(limit int) *UserSpaceQuery {
+	_q.ctx.Limit = &limit
+	return _q
 }
 
 // Offset to start from.
-func (usq *UserSpaceQuery) Offset(offset int) *UserSpaceQuery {
-	usq.ctx.Offset = &offset
-	return usq
+func (_q *UserSpaceQuery) Offset(offset int) *UserSpaceQuery {
+	_q.ctx.Offset = &offset
+	return _q
 }
 
 // Unique configures the query builder to filter duplicate records on query.
 // By default, unique is set to true, and can be disabled using this method.
-func (usq *UserSpaceQuery) Unique(unique bool) *UserSpaceQuery {
-	usq.ctx.Unique = &unique
-	return usq
+func (_q *UserSpaceQuery) Unique(unique bool) *UserSpaceQuery {
+	_q.ctx.Unique = &unique
+	return _q
 }
 
 // Order specifies how the records should be ordered.
-func (usq *UserSpaceQuery) Order(o ...userspace.OrderOption) *UserSpaceQuery {
-	usq.order = append(usq.order, o...)
-	return usq
+func (_q *UserSpaceQuery) Order(o ...userspace.OrderOption) *UserSpaceQuery {
+	_q.order = append(_q.order, o...)
+	return _q
 }
 
 // First returns the first UserSpace entity from the query.
 // Returns a *NotFoundError when no UserSpace was found.
-func (usq *UserSpaceQuery) First(ctx context.Context) (*UserSpace, error) {
-	nodes, err := usq.Limit(1).All(setContextOp(ctx, usq.ctx, ent.OpQueryFirst))
+func (_q *UserSpaceQuery) First(ctx context.Context) (*UserSpace, error) {
+	nodes, err := _q.Limit(1).All(setContextOp(ctx, _q.ctx, ent.OpQueryFirst))
 	if err != nil {
 		return nil, err
 	}
@@ -72,8 +72,8 @@ func (usq *UserSpaceQuery) First(ctx context.Context) (*UserSpace, error) {
 }
 
 // FirstX is like First, but panics if an error occurs.
-func (usq *UserSpaceQuery) FirstX(ctx context.Context) *UserSpace {
-	node, err := usq.First(ctx)
+func (_q *UserSpaceQuery) FirstX(ctx context.Context) *UserSpace {
+	node, err := _q.First(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
 	}
@@ -82,9 +82,9 @@ func (usq *UserSpaceQuery) FirstX(ctx context.Context) *UserSpace {
 
 // FirstID returns the first UserSpace ID from the query.
 // Returns a *NotFoundError when no UserSpace ID was found.
-func (usq *UserSpaceQuery) FirstID(ctx context.Context) (id string, err error) {
+func (_q *UserSpaceQuery) FirstID(ctx context.Context) (id string, err error) {
 	var ids []string
-	if ids, err = usq.Limit(1).IDs(setContextOp(ctx, usq.ctx, ent.OpQueryFirstID)); err != nil {
+	if ids, err = _q.Limit(1).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryFirstID)); err != nil {
 		return
 	}
 	if len(ids) == 0 {
@@ -95,8 +95,8 @@ func (usq *UserSpaceQuery) FirstID(ctx context.Context) (id string, err error) {
 }
 
 // FirstIDX is like FirstID, but panics if an error occurs.
-func (usq *UserSpaceQuery) FirstIDX(ctx context.Context) string {
-	id, err := usq.FirstID(ctx)
+func (_q *UserSpaceQuery) FirstIDX(ctx context.Context) string {
+	id, err := _q.FirstID(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
 	}
@@ -106,8 +106,8 @@ func (usq *UserSpaceQuery) FirstIDX(ctx context.Context) string {
 // Only returns a single UserSpace entity found by the query, ensuring it only returns one.
 // Returns a *NotSingularError when more than one UserSpace entity is found.
 // Returns a *NotFoundError when no UserSpace entities are found.
-func (usq *UserSpaceQuery) Only(ctx context.Context) (*UserSpace, error) {
-	nodes, err := usq.Limit(2).All(setContextOp(ctx, usq.ctx, ent.OpQueryOnly))
+func (_q *UserSpaceQuery) Only(ctx context.Context) (*UserSpace, error) {
+	nodes, err := _q.Limit(2).All(setContextOp(ctx, _q.ctx, ent.OpQueryOnly))
 	if err != nil {
 		return nil, err
 	}
@@ -122,8 +122,8 @@ func (usq *UserSpaceQuery) Only(ctx context.Context) (*UserSpace, error) {
 }
 
 // OnlyX is like Only, but panics if an error occurs.
-func (usq *UserSpaceQuery) OnlyX(ctx context.Context) *UserSpace {
-	node, err := usq.Only(ctx)
+func (_q *UserSpaceQuery) OnlyX(ctx context.Context) *UserSpace {
+	node, err := _q.Only(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -133,9 +133,9 @@ func (usq *UserSpaceQuery) OnlyX(ctx context.Context) *UserSpace {
 // OnlyID is like Only, but returns the only UserSpace ID in the query.
 // Returns a *NotSingularError when more than one UserSpace ID is found.
 // Returns a *NotFoundError when no entities are found.
-func (usq *UserSpaceQuery) OnlyID(ctx context.Context) (id string, err error) {
+func (_q *UserSpaceQuery) OnlyID(ctx context.Context) (id string, err error) {
 	var ids []string
-	if ids, err = usq.Limit(2).IDs(setContextOp(ctx, usq.ctx, ent.OpQueryOnlyID)); err != nil {
+	if ids, err = _q.Limit(2).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryOnlyID)); err != nil {
 		return
 	}
 	switch len(ids) {
@@ -150,8 +150,8 @@ func (usq *UserSpaceQuery) OnlyID(ctx context.Context) (id string, err error) {
 }
 
 // OnlyIDX is like OnlyID, but panics if an error occurs.
-func (usq *UserSpaceQuery) OnlyIDX(ctx context.Context) string {
-	id, err := usq.OnlyID(ctx)
+func (_q *UserSpaceQuery) OnlyIDX(ctx context.Context) string {
+	id, err := _q.OnlyID(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -159,18 +159,18 @@ func (usq *UserSpaceQuery) OnlyIDX(ctx context.Context) string {
 }
 
 // All executes the query and returns a list of UserSpaces.
-func (usq *UserSpaceQuery) All(ctx context.Context) ([]*UserSpace, error) {
-	ctx = setContextOp(ctx, usq.ctx, ent.OpQueryAll)
-	if err := usq.prepareQuery(ctx); err != nil {
+func (_q *UserSpaceQuery) All(ctx context.Context) ([]*UserSpace, error) {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryAll)
+	if err := _q.prepareQuery(ctx); err != nil {
 		return nil, err
 	}
 	qr := querierAll[[]*UserSpace, *UserSpaceQuery]()
-	return withInterceptors[[]*UserSpace](ctx, usq, qr, usq.inters)
+	return withInterceptors[[]*UserSpace](ctx, _q, qr, _q.inters)
 }
 
 // AllX is like All, but panics if an error occurs.
-func (usq *UserSpaceQuery) AllX(ctx context.Context) []*UserSpace {
-	nodes, err := usq.All(ctx)
+func (_q *UserSpaceQuery) AllX(ctx context.Context) []*UserSpace {
+	nodes, err := _q.All(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -178,20 +178,20 @@ func (usq *UserSpaceQuery) AllX(ctx context.Context) []*UserSpace {
 }
 
 // IDs executes the query and returns a list of UserSpace IDs.
-func (usq *UserSpaceQuery) IDs(ctx context.Context) (ids []string, err error) {
-	if usq.ctx.Unique == nil && usq.path != nil {
-		usq.Unique(true)
+func (_q *UserSpaceQuery) IDs(ctx context.Context) (ids []string, err error) {
+	if _q.ctx.Unique == nil && _q.path != nil {
+		_q.Unique(true)
 	}
-	ctx = setContextOp(ctx, usq.ctx, ent.OpQueryIDs)
-	if err = usq.Select(userspace.FieldID).Scan(ctx, &ids); err != nil {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryIDs)
+	if err = _q.Select(userspace.FieldID).Scan(ctx, &ids); err != nil {
 		return nil, err
 	}
 	return ids, nil
 }
 
 // IDsX is like IDs, but panics if an error occurs.
-func (usq *UserSpaceQuery) IDsX(ctx context.Context) []string {
-	ids, err := usq.IDs(ctx)
+func (_q *UserSpaceQuery) IDsX(ctx context.Context) []string {
+	ids, err := _q.IDs(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -199,17 +199,17 @@ func (usq *UserSpaceQuery) IDsX(ctx context.Context) []string {
 }
 
 // Count returns the count of the given query.
-func (usq *UserSpaceQuery) Count(ctx context.Context) (int, error) {
-	ctx = setContextOp(ctx, usq.ctx, ent.OpQueryCount)
-	if err := usq.prepareQuery(ctx); err != nil {
+func (_q *UserSpaceQuery) Count(ctx context.Context) (int, error) {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryCount)
+	if err := _q.prepareQuery(ctx); err != nil {
 		return 0, err
 	}
-	return withInterceptors[int](ctx, usq, querierCount[*UserSpaceQuery](), usq.inters)
+	return withInterceptors[int](ctx, _q, querierCount[*UserSpaceQuery](), _q.inters)
 }
 
 // CountX is like Count, but panics if an error occurs.
-func (usq *UserSpaceQuery) CountX(ctx context.Context) int {
-	count, err := usq.Count(ctx)
+func (_q *UserSpaceQuery) CountX(ctx context.Context) int {
+	count, err := _q.Count(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -217,9 +217,9 @@ func (usq *UserSpaceQuery) CountX(ctx context.Context) int {
 }
 
 // Exist returns true if the query has elements in the graph.
-func (usq *UserSpaceQuery) Exist(ctx context.Context) (bool, error) {
-	ctx = setContextOp(ctx, usq.ctx, ent.OpQueryExist)
-	switch _, err := usq.FirstID(ctx); {
+func (_q *UserSpaceQuery) Exist(ctx context.Context) (bool, error) {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryExist)
+	switch _, err := _q.FirstID(ctx); {
 	case IsNotFound(err):
 		return false, nil
 	case err != nil:
@@ -230,8 +230,8 @@ func (usq *UserSpaceQuery) Exist(ctx context.Context) (bool, error) {
 }
 
 // ExistX is like Exist, but panics if an error occurs.
-func (usq *UserSpaceQuery) ExistX(ctx context.Context) bool {
-	exist, err := usq.Exist(ctx)
+func (_q *UserSpaceQuery) ExistX(ctx context.Context) bool {
+	exist, err := _q.Exist(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -240,19 +240,19 @@ func (usq *UserSpaceQuery) ExistX(ctx context.Context) bool {
 
 // Clone returns a duplicate of the UserSpaceQuery builder, including all associated steps. It can be
 // used to prepare common query builders and use them differently after the clone is made.
-func (usq *UserSpaceQuery) Clone() *UserSpaceQuery {
-	if usq == nil {
+func (_q *UserSpaceQuery) Clone() *UserSpaceQuery {
+	if _q == nil {
 		return nil
 	}
 	return &UserSpaceQuery{
-		config:     usq.config,
-		ctx:        usq.ctx.Clone(),
-		order:      append([]userspace.OrderOption{}, usq.order...),
-		inters:     append([]Interceptor{}, usq.inters...),
-		predicates: append([]predicate.UserSpace{}, usq.predicates...),
+		config:     _q.config,
+		ctx:        _q.ctx.Clone(),
+		order:      append([]userspace.OrderOption{}, _q.order...),
+		inters:     append([]Interceptor{}, _q.inters...),
+		predicates: append([]predicate.UserSpace{}, _q.predicates...),
 		// clone intermediate query.
-		sql:  usq.sql.Clone(),
-		path: usq.path,
+		sql:  _q.sql.Clone(),
+		path: _q.path,
 	}
 }
 
@@ -270,10 +270,10 @@ func (usq *UserSpaceQuery) Clone() *UserSpaceQuery {
 //		GroupBy(userspace.FieldUserID).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
-func (usq *UserSpaceQuery) GroupBy(field string, fields ...string) *UserSpaceGroupBy {
-	usq.ctx.Fields = append([]string{field}, fields...)
-	grbuild := &UserSpaceGroupBy{build: usq}
-	grbuild.flds = &usq.ctx.Fields
+func (_q *UserSpaceQuery) GroupBy(field string, fields ...string) *UserSpaceGroupBy {
+	_q.ctx.Fields = append([]string{field}, fields...)
+	grbuild := &UserSpaceGroupBy{build: _q}
+	grbuild.flds = &_q.ctx.Fields
 	grbuild.label = userspace.Label
 	grbuild.scan = grbuild.Scan
 	return grbuild
@@ -291,62 +291,62 @@ func (usq *UserSpaceQuery) GroupBy(field string, fields ...string) *UserSpaceGro
 //	client.UserSpace.Query().
 //		Select(userspace.FieldUserID).
 //		Scan(ctx, &v)
-func (usq *UserSpaceQuery) Select(fields ...string) *UserSpaceSelect {
-	usq.ctx.Fields = append(usq.ctx.Fields, fields...)
-	sbuild := &UserSpaceSelect{UserSpaceQuery: usq}
+func (_q *UserSpaceQuery) Select(fields ...string) *UserSpaceSelect {
+	_q.ctx.Fields = append(_q.ctx.Fields, fields...)
+	sbuild := &UserSpaceSelect{UserSpaceQuery: _q}
 	sbuild.label = userspace.Label
-	sbuild.flds, sbuild.scan = &usq.ctx.Fields, sbuild.Scan
+	sbuild.flds, sbuild.scan = &_q.ctx.Fields, sbuild.Scan
 	return sbuild
 }
 
 // Aggregate returns a UserSpaceSelect configured with the given aggregations.
-func (usq *UserSpaceQuery) Aggregate(fns ...AggregateFunc) *UserSpaceSelect {
-	return usq.Select().Aggregate(fns...)
+func (_q *UserSpaceQuery) Aggregate(fns ...AggregateFunc) *UserSpaceSelect {
+	return _q.Select().Aggregate(fns...)
 }
 
-func (usq *UserSpaceQuery) prepareQuery(ctx context.Context) error {
-	for _, inter := range usq.inters {
+func (_q *UserSpaceQuery) prepareQuery(ctx context.Context) error {
+	for _, inter := range _q.inters {
 		if inter == nil {
 			return fmt.Errorf("ent: uninitialized interceptor (forgotten import ent/runtime?)")
 		}
 		if trv, ok := inter.(Traverser); ok {
-			if err := trv.Traverse(ctx, usq); err != nil {
+			if err := trv.Traverse(ctx, _q); err != nil {
 				return err
 			}
 		}
 	}
-	for _, f := range usq.ctx.Fields {
+	for _, f := range _q.ctx.Fields {
 		if !userspace.ValidColumn(f) {
 			return &ValidationError{Name: f, err: fmt.Errorf("ent: invalid field %q for query", f)}
 		}
 	}
-	if usq.path != nil {
-		prev, err := usq.path(ctx)
+	if _q.path != nil {
+		prev, err := _q.path(ctx)
 		if err != nil {
 			return err
 		}
-		usq.sql = prev
+		_q.sql = prev
 	}
 	return nil
 }
 
-func (usq *UserSpaceQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*UserSpace, error) {
+func (_q *UserSpaceQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*UserSpace, error) {
 	var (
 		nodes = []*UserSpace{}
-		_spec = usq.querySpec()
+		_spec = _q.querySpec()
 	)
 	_spec.ScanValues = func(columns []string) ([]any, error) {
 		return (*UserSpace).scanValues(nil, columns)
 	}
 	_spec.Assign = func(columns []string, values []any) error {
-		node := &UserSpace{config: usq.config}
+		node := &UserSpace{config: _q.config}
 		nodes = append(nodes, node)
 		return node.assignValues(columns, values)
 	}
 	for i := range hooks {
 		hooks[i](ctx, _spec)
 	}
-	if err := sqlgraph.QueryNodes(ctx, usq.driver, _spec); err != nil {
+	if err := sqlgraph.QueryNodes(ctx, _q.driver, _spec); err != nil {
 		return nil, err
 	}
 	if len(nodes) == 0 {
@@ -355,24 +355,24 @@ func (usq *UserSpaceQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*U
 	return nodes, nil
 }
 
-func (usq *UserSpaceQuery) sqlCount(ctx context.Context) (int, error) {
-	_spec := usq.querySpec()
-	_spec.Node.Columns = usq.ctx.Fields
-	if len(usq.ctx.Fields) > 0 {
-		_spec.Unique = usq.ctx.Unique != nil && *usq.ctx.Unique
+func (_q *UserSpaceQuery) sqlCount(ctx context.Context) (int, error) {
+	_spec := _q.querySpec()
+	_spec.Node.Columns = _q.ctx.Fields
+	if len(_q.ctx.Fields) > 0 {
+		_spec.Unique = _q.ctx.Unique != nil && *_q.ctx.Unique
 	}
-	return sqlgraph.CountNodes(ctx, usq.driver, _spec)
+	return sqlgraph.CountNodes(ctx, _q.driver, _spec)
 }
 
-func (usq *UserSpaceQuery) querySpec() *sqlgraph.QuerySpec {
+func (_q *UserSpaceQuery) querySpec() *sqlgraph.QuerySpec {
 	_spec := sqlgraph.NewQuerySpec(userspace.Table, userspace.Columns, sqlgraph.NewFieldSpec(userspace.FieldID, field.TypeString))
-	_spec.From = usq.sql
-	if unique := usq.ctx.Unique; unique != nil {
+	_spec.From = _q.sql
+	if unique := _q.ctx.Unique; unique != nil {
 		_spec.Unique = *unique
-	} else if usq.path != nil {
+	} else if _q.path != nil {
 		_spec.Unique = true
 	}
-	if fields := usq.ctx.Fields; len(fields) > 0 {
+	if fields := _q.ctx.Fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, userspace.FieldID)
 		for i := range fields {
@@ -381,20 +381,20 @@ func (usq *UserSpaceQuery) querySpec() *sqlgraph.QuerySpec {
 			}
 		}
 	}
-	if ps := usq.predicates; len(ps) > 0 {
+	if ps := _q.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if limit := usq.ctx.Limit; limit != nil {
+	if limit := _q.ctx.Limit; limit != nil {
 		_spec.Limit = *limit
 	}
-	if offset := usq.ctx.Offset; offset != nil {
+	if offset := _q.ctx.Offset; offset != nil {
 		_spec.Offset = *offset
 	}
-	if ps := usq.order; len(ps) > 0 {
+	if ps := _q.order; len(ps) > 0 {
 		_spec.Order = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
@@ -404,33 +404,33 @@ func (usq *UserSpaceQuery) querySpec() *sqlgraph.QuerySpec {
 	return _spec
 }
 
-func (usq *UserSpaceQuery) sqlQuery(ctx context.Context) *sql.Selector {
-	builder := sql.Dialect(usq.driver.Dialect())
+func (_q *UserSpaceQuery) sqlQuery(ctx context.Context) *sql.Selector {
+	builder := sql.Dialect(_q.driver.Dialect())
 	t1 := builder.Table(userspace.Table)
-	columns := usq.ctx.Fields
+	columns := _q.ctx.Fields
 	if len(columns) == 0 {
 		columns = userspace.Columns
 	}
 	selector := builder.Select(t1.Columns(columns...)...).From(t1)
-	if usq.sql != nil {
-		selector = usq.sql
+	if _q.sql != nil {
+		selector = _q.sql
 		selector.Select(selector.Columns(columns...)...)
 	}
-	if usq.ctx.Unique != nil && *usq.ctx.Unique {
+	if _q.ctx.Unique != nil && *_q.ctx.Unique {
 		selector.Distinct()
 	}
-	for _, p := range usq.predicates {
+	for _, p := range _q.predicates {
 		p(selector)
 	}
-	for _, p := range usq.order {
+	for _, p := range _q.order {
 		p(selector)
 	}
-	if offset := usq.ctx.Offset; offset != nil {
+	if offset := _q.ctx.Offset; offset != nil {
 		// limit is mandatory for offset clause. We start
 		// with default value, and override it below if needed.
 		selector.Offset(*offset).Limit(math.MaxInt32)
 	}
-	if limit := usq.ctx.Limit; limit != nil {
+	if limit := _q.ctx.Limit; limit != nil {
 		selector.Limit(*limit)
 	}
 	return selector
@@ -443,41 +443,41 @@ type UserSpaceGroupBy struct {
 }
 
 // Aggregate adds the given aggregation functions to the group-by query.
-func (usgb *UserSpaceGroupBy) Aggregate(fns ...AggregateFunc) *UserSpaceGroupBy {
-	usgb.fns = append(usgb.fns, fns...)
-	return usgb
+func (_g *UserSpaceGroupBy) Aggregate(fns ...AggregateFunc) *UserSpaceGroupBy {
+	_g.fns = append(_g.fns, fns...)
+	return _g
 }
 
 // Scan applies the selector query and scans the result into the given value.
-func (usgb *UserSpaceGroupBy) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, usgb.build.ctx, ent.OpQueryGroupBy)
-	if err := usgb.build.prepareQuery(ctx); err != nil {
+func (_g *UserSpaceGroupBy) Scan(ctx context.Context, v any) error {
+	ctx = setContextOp(ctx, _g.build.ctx, ent.OpQueryGroupBy)
+	if err := _g.build.prepareQuery(ctx); err != nil {
 		return err
 	}
-	return scanWithInterceptors[*UserSpaceQuery, *UserSpaceGroupBy](ctx, usgb.build, usgb, usgb.build.inters, v)
+	return scanWithInterceptors[*UserSpaceQuery, *UserSpaceGroupBy](ctx, _g.build, _g, _g.build.inters, v)
 }
 
-func (usgb *UserSpaceGroupBy) sqlScan(ctx context.Context, root *UserSpaceQuery, v any) error {
+func (_g *UserSpaceGroupBy) sqlScan(ctx context.Context, root *UserSpaceQuery, v any) error {
 	selector := root.sqlQuery(ctx).Select()
-	aggregation := make([]string, 0, len(usgb.fns))
-	for _, fn := range usgb.fns {
+	aggregation := make([]string, 0, len(_g.fns))
+	for _, fn := range _g.fns {
 		aggregation = append(aggregation, fn(selector))
 	}
 	if len(selector.SelectedColumns()) == 0 {
-		columns := make([]string, 0, len(*usgb.flds)+len(usgb.fns))
-		for _, f := range *usgb.flds {
+		columns := make([]string, 0, len(*_g.flds)+len(_g.fns))
+		for _, f := range *_g.flds {
 			columns = append(columns, selector.C(f))
 		}
 		columns = append(columns, aggregation...)
 		selector.Select(columns...)
 	}
-	selector.GroupBy(selector.Columns(*usgb.flds...)...)
+	selector.GroupBy(selector.Columns(*_g.flds...)...)
 	if err := selector.Err(); err != nil {
 		return err
 	}
 	rows := &sql.Rows{}
 	query, args := selector.Query()
-	if err := usgb.build.driver.Query(ctx, query, args, rows); err != nil {
+	if err := _g.build.driver.Query(ctx, query, args, rows); err != nil {
 		return err
 	}
 	defer rows.Close()
@@ -491,27 +491,27 @@ type UserSpaceSelect struct {
 }
 
 // Aggregate adds the given aggregation functions to the selector query.
-func (uss *UserSpaceSelect) Aggregate(fns ...AggregateFunc) *UserSpaceSelect {
-	uss.fns = append(uss.fns, fns...)
-	return uss
+func (_s *UserSpaceSelect) Aggregate(fns ...AggregateFunc) *UserSpaceSelect {
+	_s.fns = append(_s.fns, fns...)
+	return _s
 }
 
 // Scan applies the selector query and scans the result into the given value.
-func (uss *UserSpaceSelect) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, uss.ctx, ent.OpQuerySelect)
-	if err := uss.prepareQuery(ctx); err != nil {
+func (_s *UserSpaceSelect) Scan(ctx context.Context, v any) error {
+	ctx = setContextOp(ctx, _s.ctx, ent.OpQuerySelect)
+	if err := _s.prepareQuery(ctx); err != nil {
 		return err
 	}
-	return scanWithInterceptors[*UserSpaceQuery, *UserSpaceSelect](ctx, uss.UserSpaceQuery, uss, uss.inters, v)
+	return scanWithInterceptors[*UserSpaceQuery, *UserSpaceSelect](ctx, _s.UserSpaceQuery, _s, _s.inters, v)
 }
 
-func (uss *UserSpaceSelect) sqlScan(ctx context.Context, root *UserSpaceQuery, v any) error {
+func (_s *UserSpaceSelect) sqlScan(ctx context.Context, root *UserSpaceQuery, v any) error {
 	selector := root.sqlQuery(ctx)
-	aggregation := make([]string, 0, len(uss.fns))
-	for _, fn := range uss.fns {
+	aggregation := make([]string, 0, len(_s.fns))
+	for _, fn := range _s.fns {
 		aggregation = append(aggregation, fn(selector))
 	}
-	switch n := len(*uss.selector.flds); {
+	switch n := len(*_s.selector.flds); {
 	case n == 0 && len(aggregation) > 0:
 		selector.Select(aggregation...)
 	case n != 0 && len(aggregation) > 0:
@@ -519,7 +519,7 @@ func (uss *UserSpaceSelect) sqlScan(ctx context.Context, root *UserSpaceQuery, v
 	}
 	rows := &sql.Rows{}
 	query, args := selector.Query()
-	if err := uss.driver.Query(ctx, query, args, rows); err != nil {
+	if err := _s.driver.Query(ctx, query, args, rows); err != nil {
 		return err
 	}
 	defer rows.Close()

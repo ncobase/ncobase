@@ -24,301 +24,301 @@ type DistributionUpdate struct {
 }
 
 // Where appends a list predicates to the DistributionUpdate builder.
-func (du *DistributionUpdate) Where(ps ...predicate.Distribution) *DistributionUpdate {
-	du.mutation.Where(ps...)
-	return du
+func (_u *DistributionUpdate) Where(ps ...predicate.Distribution) *DistributionUpdate {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // SetExtras sets the "extras" field.
-func (du *DistributionUpdate) SetExtras(m map[string]interface{}) *DistributionUpdate {
-	du.mutation.SetExtras(m)
-	return du
+func (_u *DistributionUpdate) SetExtras(v map[string]interface{}) *DistributionUpdate {
+	_u.mutation.SetExtras(v)
+	return _u
 }
 
 // ClearExtras clears the value of the "extras" field.
-func (du *DistributionUpdate) ClearExtras() *DistributionUpdate {
-	du.mutation.ClearExtras()
-	return du
+func (_u *DistributionUpdate) ClearExtras() *DistributionUpdate {
+	_u.mutation.ClearExtras()
+	return _u
 }
 
 // SetSpaceID sets the "space_id" field.
-func (du *DistributionUpdate) SetSpaceID(s string) *DistributionUpdate {
-	du.mutation.SetSpaceID(s)
-	return du
+func (_u *DistributionUpdate) SetSpaceID(v string) *DistributionUpdate {
+	_u.mutation.SetSpaceID(v)
+	return _u
 }
 
 // SetNillableSpaceID sets the "space_id" field if the given value is not nil.
-func (du *DistributionUpdate) SetNillableSpaceID(s *string) *DistributionUpdate {
-	if s != nil {
-		du.SetSpaceID(*s)
+func (_u *DistributionUpdate) SetNillableSpaceID(v *string) *DistributionUpdate {
+	if v != nil {
+		_u.SetSpaceID(*v)
 	}
-	return du
+	return _u
 }
 
 // ClearSpaceID clears the value of the "space_id" field.
-func (du *DistributionUpdate) ClearSpaceID() *DistributionUpdate {
-	du.mutation.ClearSpaceID()
-	return du
+func (_u *DistributionUpdate) ClearSpaceID() *DistributionUpdate {
+	_u.mutation.ClearSpaceID()
+	return _u
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (du *DistributionUpdate) SetCreatedBy(s string) *DistributionUpdate {
-	du.mutation.SetCreatedBy(s)
-	return du
+func (_u *DistributionUpdate) SetCreatedBy(v string) *DistributionUpdate {
+	_u.mutation.SetCreatedBy(v)
+	return _u
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (du *DistributionUpdate) SetNillableCreatedBy(s *string) *DistributionUpdate {
-	if s != nil {
-		du.SetCreatedBy(*s)
+func (_u *DistributionUpdate) SetNillableCreatedBy(v *string) *DistributionUpdate {
+	if v != nil {
+		_u.SetCreatedBy(*v)
 	}
-	return du
+	return _u
 }
 
 // ClearCreatedBy clears the value of the "created_by" field.
-func (du *DistributionUpdate) ClearCreatedBy() *DistributionUpdate {
-	du.mutation.ClearCreatedBy()
-	return du
+func (_u *DistributionUpdate) ClearCreatedBy() *DistributionUpdate {
+	_u.mutation.ClearCreatedBy()
+	return _u
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (du *DistributionUpdate) SetUpdatedBy(s string) *DistributionUpdate {
-	du.mutation.SetUpdatedBy(s)
-	return du
+func (_u *DistributionUpdate) SetUpdatedBy(v string) *DistributionUpdate {
+	_u.mutation.SetUpdatedBy(v)
+	return _u
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (du *DistributionUpdate) SetNillableUpdatedBy(s *string) *DistributionUpdate {
-	if s != nil {
-		du.SetUpdatedBy(*s)
+func (_u *DistributionUpdate) SetNillableUpdatedBy(v *string) *DistributionUpdate {
+	if v != nil {
+		_u.SetUpdatedBy(*v)
 	}
-	return du
+	return _u
 }
 
 // ClearUpdatedBy clears the value of the "updated_by" field.
-func (du *DistributionUpdate) ClearUpdatedBy() *DistributionUpdate {
-	du.mutation.ClearUpdatedBy()
-	return du
+func (_u *DistributionUpdate) ClearUpdatedBy() *DistributionUpdate {
+	_u.mutation.ClearUpdatedBy()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (du *DistributionUpdate) SetUpdatedAt(i int64) *DistributionUpdate {
-	du.mutation.ResetUpdatedAt()
-	du.mutation.SetUpdatedAt(i)
-	return du
+func (_u *DistributionUpdate) SetUpdatedAt(v int64) *DistributionUpdate {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (du *DistributionUpdate) AddUpdatedAt(i int64) *DistributionUpdate {
-	du.mutation.AddUpdatedAt(i)
-	return du
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *DistributionUpdate) AddUpdatedAt(v int64) *DistributionUpdate {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (du *DistributionUpdate) ClearUpdatedAt() *DistributionUpdate {
-	du.mutation.ClearUpdatedAt()
-	return du
+func (_u *DistributionUpdate) ClearUpdatedAt() *DistributionUpdate {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // SetTopicID sets the "topic_id" field.
-func (du *DistributionUpdate) SetTopicID(s string) *DistributionUpdate {
-	du.mutation.SetTopicID(s)
-	return du
+func (_u *DistributionUpdate) SetTopicID(v string) *DistributionUpdate {
+	_u.mutation.SetTopicID(v)
+	return _u
 }
 
 // SetNillableTopicID sets the "topic_id" field if the given value is not nil.
-func (du *DistributionUpdate) SetNillableTopicID(s *string) *DistributionUpdate {
-	if s != nil {
-		du.SetTopicID(*s)
+func (_u *DistributionUpdate) SetNillableTopicID(v *string) *DistributionUpdate {
+	if v != nil {
+		_u.SetTopicID(*v)
 	}
-	return du
+	return _u
 }
 
 // SetChannelID sets the "channel_id" field.
-func (du *DistributionUpdate) SetChannelID(s string) *DistributionUpdate {
-	du.mutation.SetChannelID(s)
-	return du
+func (_u *DistributionUpdate) SetChannelID(v string) *DistributionUpdate {
+	_u.mutation.SetChannelID(v)
+	return _u
 }
 
 // SetNillableChannelID sets the "channel_id" field if the given value is not nil.
-func (du *DistributionUpdate) SetNillableChannelID(s *string) *DistributionUpdate {
-	if s != nil {
-		du.SetChannelID(*s)
+func (_u *DistributionUpdate) SetNillableChannelID(v *string) *DistributionUpdate {
+	if v != nil {
+		_u.SetChannelID(*v)
 	}
-	return du
+	return _u
 }
 
 // SetStatus sets the "status" field.
-func (du *DistributionUpdate) SetStatus(i int) *DistributionUpdate {
-	du.mutation.ResetStatus()
-	du.mutation.SetStatus(i)
-	return du
+func (_u *DistributionUpdate) SetStatus(v int) *DistributionUpdate {
+	_u.mutation.ResetStatus()
+	_u.mutation.SetStatus(v)
+	return _u
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (du *DistributionUpdate) SetNillableStatus(i *int) *DistributionUpdate {
-	if i != nil {
-		du.SetStatus(*i)
+func (_u *DistributionUpdate) SetNillableStatus(v *int) *DistributionUpdate {
+	if v != nil {
+		_u.SetStatus(*v)
 	}
-	return du
+	return _u
 }
 
-// AddStatus adds i to the "status" field.
-func (du *DistributionUpdate) AddStatus(i int) *DistributionUpdate {
-	du.mutation.AddStatus(i)
-	return du
+// AddStatus adds value to the "status" field.
+func (_u *DistributionUpdate) AddStatus(v int) *DistributionUpdate {
+	_u.mutation.AddStatus(v)
+	return _u
 }
 
 // SetScheduledAt sets the "scheduled_at" field.
-func (du *DistributionUpdate) SetScheduledAt(i int64) *DistributionUpdate {
-	du.mutation.ResetScheduledAt()
-	du.mutation.SetScheduledAt(i)
-	return du
+func (_u *DistributionUpdate) SetScheduledAt(v int64) *DistributionUpdate {
+	_u.mutation.ResetScheduledAt()
+	_u.mutation.SetScheduledAt(v)
+	return _u
 }
 
 // SetNillableScheduledAt sets the "scheduled_at" field if the given value is not nil.
-func (du *DistributionUpdate) SetNillableScheduledAt(i *int64) *DistributionUpdate {
-	if i != nil {
-		du.SetScheduledAt(*i)
+func (_u *DistributionUpdate) SetNillableScheduledAt(v *int64) *DistributionUpdate {
+	if v != nil {
+		_u.SetScheduledAt(*v)
 	}
-	return du
+	return _u
 }
 
-// AddScheduledAt adds i to the "scheduled_at" field.
-func (du *DistributionUpdate) AddScheduledAt(i int64) *DistributionUpdate {
-	du.mutation.AddScheduledAt(i)
-	return du
+// AddScheduledAt adds value to the "scheduled_at" field.
+func (_u *DistributionUpdate) AddScheduledAt(v int64) *DistributionUpdate {
+	_u.mutation.AddScheduledAt(v)
+	return _u
 }
 
 // ClearScheduledAt clears the value of the "scheduled_at" field.
-func (du *DistributionUpdate) ClearScheduledAt() *DistributionUpdate {
-	du.mutation.ClearScheduledAt()
-	return du
+func (_u *DistributionUpdate) ClearScheduledAt() *DistributionUpdate {
+	_u.mutation.ClearScheduledAt()
+	return _u
 }
 
 // SetPublishedAt sets the "published_at" field.
-func (du *DistributionUpdate) SetPublishedAt(i int64) *DistributionUpdate {
-	du.mutation.ResetPublishedAt()
-	du.mutation.SetPublishedAt(i)
-	return du
+func (_u *DistributionUpdate) SetPublishedAt(v int64) *DistributionUpdate {
+	_u.mutation.ResetPublishedAt()
+	_u.mutation.SetPublishedAt(v)
+	return _u
 }
 
 // SetNillablePublishedAt sets the "published_at" field if the given value is not nil.
-func (du *DistributionUpdate) SetNillablePublishedAt(i *int64) *DistributionUpdate {
-	if i != nil {
-		du.SetPublishedAt(*i)
+func (_u *DistributionUpdate) SetNillablePublishedAt(v *int64) *DistributionUpdate {
+	if v != nil {
+		_u.SetPublishedAt(*v)
 	}
-	return du
+	return _u
 }
 
-// AddPublishedAt adds i to the "published_at" field.
-func (du *DistributionUpdate) AddPublishedAt(i int64) *DistributionUpdate {
-	du.mutation.AddPublishedAt(i)
-	return du
+// AddPublishedAt adds value to the "published_at" field.
+func (_u *DistributionUpdate) AddPublishedAt(v int64) *DistributionUpdate {
+	_u.mutation.AddPublishedAt(v)
+	return _u
 }
 
 // ClearPublishedAt clears the value of the "published_at" field.
-func (du *DistributionUpdate) ClearPublishedAt() *DistributionUpdate {
-	du.mutation.ClearPublishedAt()
-	return du
+func (_u *DistributionUpdate) ClearPublishedAt() *DistributionUpdate {
+	_u.mutation.ClearPublishedAt()
+	return _u
 }
 
 // SetExternalID sets the "external_id" field.
-func (du *DistributionUpdate) SetExternalID(s string) *DistributionUpdate {
-	du.mutation.SetExternalID(s)
-	return du
+func (_u *DistributionUpdate) SetExternalID(v string) *DistributionUpdate {
+	_u.mutation.SetExternalID(v)
+	return _u
 }
 
 // SetNillableExternalID sets the "external_id" field if the given value is not nil.
-func (du *DistributionUpdate) SetNillableExternalID(s *string) *DistributionUpdate {
-	if s != nil {
-		du.SetExternalID(*s)
+func (_u *DistributionUpdate) SetNillableExternalID(v *string) *DistributionUpdate {
+	if v != nil {
+		_u.SetExternalID(*v)
 	}
-	return du
+	return _u
 }
 
 // ClearExternalID clears the value of the "external_id" field.
-func (du *DistributionUpdate) ClearExternalID() *DistributionUpdate {
-	du.mutation.ClearExternalID()
-	return du
+func (_u *DistributionUpdate) ClearExternalID() *DistributionUpdate {
+	_u.mutation.ClearExternalID()
+	return _u
 }
 
 // SetExternalURL sets the "external_url" field.
-func (du *DistributionUpdate) SetExternalURL(s string) *DistributionUpdate {
-	du.mutation.SetExternalURL(s)
-	return du
+func (_u *DistributionUpdate) SetExternalURL(v string) *DistributionUpdate {
+	_u.mutation.SetExternalURL(v)
+	return _u
 }
 
 // SetNillableExternalURL sets the "external_url" field if the given value is not nil.
-func (du *DistributionUpdate) SetNillableExternalURL(s *string) *DistributionUpdate {
-	if s != nil {
-		du.SetExternalURL(*s)
+func (_u *DistributionUpdate) SetNillableExternalURL(v *string) *DistributionUpdate {
+	if v != nil {
+		_u.SetExternalURL(*v)
 	}
-	return du
+	return _u
 }
 
 // ClearExternalURL clears the value of the "external_url" field.
-func (du *DistributionUpdate) ClearExternalURL() *DistributionUpdate {
-	du.mutation.ClearExternalURL()
-	return du
+func (_u *DistributionUpdate) ClearExternalURL() *DistributionUpdate {
+	_u.mutation.ClearExternalURL()
+	return _u
 }
 
 // SetErrorDetails sets the "error_details" field.
-func (du *DistributionUpdate) SetErrorDetails(s string) *DistributionUpdate {
-	du.mutation.SetErrorDetails(s)
-	return du
+func (_u *DistributionUpdate) SetErrorDetails(v string) *DistributionUpdate {
+	_u.mutation.SetErrorDetails(v)
+	return _u
 }
 
 // SetNillableErrorDetails sets the "error_details" field if the given value is not nil.
-func (du *DistributionUpdate) SetNillableErrorDetails(s *string) *DistributionUpdate {
-	if s != nil {
-		du.SetErrorDetails(*s)
+func (_u *DistributionUpdate) SetNillableErrorDetails(v *string) *DistributionUpdate {
+	if v != nil {
+		_u.SetErrorDetails(*v)
 	}
-	return du
+	return _u
 }
 
 // ClearErrorDetails clears the value of the "error_details" field.
-func (du *DistributionUpdate) ClearErrorDetails() *DistributionUpdate {
-	du.mutation.ClearErrorDetails()
-	return du
+func (_u *DistributionUpdate) ClearErrorDetails() *DistributionUpdate {
+	_u.mutation.ClearErrorDetails()
+	return _u
 }
 
 // SetTopic sets the "topic" edge to the Topic entity.
-func (du *DistributionUpdate) SetTopic(t *Topic) *DistributionUpdate {
-	return du.SetTopicID(t.ID)
+func (_u *DistributionUpdate) SetTopic(v *Topic) *DistributionUpdate {
+	return _u.SetTopicID(v.ID)
 }
 
 // SetChannel sets the "channel" edge to the CMSChannel entity.
-func (du *DistributionUpdate) SetChannel(c *CMSChannel) *DistributionUpdate {
-	return du.SetChannelID(c.ID)
+func (_u *DistributionUpdate) SetChannel(v *CMSChannel) *DistributionUpdate {
+	return _u.SetChannelID(v.ID)
 }
 
 // Mutation returns the DistributionMutation object of the builder.
-func (du *DistributionUpdate) Mutation() *DistributionMutation {
-	return du.mutation
+func (_u *DistributionUpdate) Mutation() *DistributionMutation {
+	return _u.mutation
 }
 
 // ClearTopic clears the "topic" edge to the Topic entity.
-func (du *DistributionUpdate) ClearTopic() *DistributionUpdate {
-	du.mutation.ClearTopic()
-	return du
+func (_u *DistributionUpdate) ClearTopic() *DistributionUpdate {
+	_u.mutation.ClearTopic()
+	return _u
 }
 
 // ClearChannel clears the "channel" edge to the CMSChannel entity.
-func (du *DistributionUpdate) ClearChannel() *DistributionUpdate {
-	du.mutation.ClearChannel()
-	return du
+func (_u *DistributionUpdate) ClearChannel() *DistributionUpdate {
+	_u.mutation.ClearChannel()
+	return _u
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
-func (du *DistributionUpdate) Save(ctx context.Context) (int, error) {
-	du.defaults()
-	return withHooks(ctx, du.sqlSave, du.mutation, du.hooks)
+func (_u *DistributionUpdate) Save(ctx context.Context) (int, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (du *DistributionUpdate) SaveX(ctx context.Context) int {
-	affected, err := du.Save(ctx)
+func (_u *DistributionUpdate) SaveX(ctx context.Context) int {
+	affected, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -326,138 +326,138 @@ func (du *DistributionUpdate) SaveX(ctx context.Context) int {
 }
 
 // Exec executes the query.
-func (du *DistributionUpdate) Exec(ctx context.Context) error {
-	_, err := du.Save(ctx)
+func (_u *DistributionUpdate) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (du *DistributionUpdate) ExecX(ctx context.Context) {
-	if err := du.Exec(ctx); err != nil {
+func (_u *DistributionUpdate) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (du *DistributionUpdate) defaults() {
-	if _, ok := du.mutation.UpdatedAt(); !ok && !du.mutation.UpdatedAtCleared() {
+func (_u *DistributionUpdate) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := distribution.UpdateDefaultUpdatedAt()
-		du.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (du *DistributionUpdate) check() error {
-	if v, ok := du.mutation.TopicID(); ok {
+func (_u *DistributionUpdate) check() error {
+	if v, ok := _u.mutation.TopicID(); ok {
 		if err := distribution.TopicIDValidator(v); err != nil {
 			return &ValidationError{Name: "topic_id", err: fmt.Errorf(`ent: validator failed for field "Distribution.topic_id": %w`, err)}
 		}
 	}
-	if v, ok := du.mutation.ChannelID(); ok {
+	if v, ok := _u.mutation.ChannelID(); ok {
 		if err := distribution.ChannelIDValidator(v); err != nil {
 			return &ValidationError{Name: "channel_id", err: fmt.Errorf(`ent: validator failed for field "Distribution.channel_id": %w`, err)}
 		}
 	}
-	if du.mutation.TopicCleared() && len(du.mutation.TopicIDs()) > 0 {
+	if _u.mutation.TopicCleared() && len(_u.mutation.TopicIDs()) > 0 {
 		return errors.New(`ent: clearing a required unique edge "Distribution.topic"`)
 	}
-	if du.mutation.ChannelCleared() && len(du.mutation.ChannelIDs()) > 0 {
+	if _u.mutation.ChannelCleared() && len(_u.mutation.ChannelIDs()) > 0 {
 		return errors.New(`ent: clearing a required unique edge "Distribution.channel"`)
 	}
 	return nil
 }
 
-func (du *DistributionUpdate) sqlSave(ctx context.Context) (n int, err error) {
-	if err := du.check(); err != nil {
-		return n, err
+func (_u *DistributionUpdate) sqlSave(ctx context.Context) (_node int, err error) {
+	if err := _u.check(); err != nil {
+		return _node, err
 	}
 	_spec := sqlgraph.NewUpdateSpec(distribution.Table, distribution.Columns, sqlgraph.NewFieldSpec(distribution.FieldID, field.TypeString))
-	if ps := du.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := du.mutation.Extras(); ok {
+	if value, ok := _u.mutation.Extras(); ok {
 		_spec.SetField(distribution.FieldExtras, field.TypeJSON, value)
 	}
-	if du.mutation.ExtrasCleared() {
+	if _u.mutation.ExtrasCleared() {
 		_spec.ClearField(distribution.FieldExtras, field.TypeJSON)
 	}
-	if value, ok := du.mutation.SpaceID(); ok {
+	if value, ok := _u.mutation.SpaceID(); ok {
 		_spec.SetField(distribution.FieldSpaceID, field.TypeString, value)
 	}
-	if du.mutation.SpaceIDCleared() {
+	if _u.mutation.SpaceIDCleared() {
 		_spec.ClearField(distribution.FieldSpaceID, field.TypeString)
 	}
-	if value, ok := du.mutation.CreatedBy(); ok {
+	if value, ok := _u.mutation.CreatedBy(); ok {
 		_spec.SetField(distribution.FieldCreatedBy, field.TypeString, value)
 	}
-	if du.mutation.CreatedByCleared() {
+	if _u.mutation.CreatedByCleared() {
 		_spec.ClearField(distribution.FieldCreatedBy, field.TypeString)
 	}
-	if value, ok := du.mutation.UpdatedBy(); ok {
+	if value, ok := _u.mutation.UpdatedBy(); ok {
 		_spec.SetField(distribution.FieldUpdatedBy, field.TypeString, value)
 	}
-	if du.mutation.UpdatedByCleared() {
+	if _u.mutation.UpdatedByCleared() {
 		_spec.ClearField(distribution.FieldUpdatedBy, field.TypeString)
 	}
-	if du.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(distribution.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := du.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(distribution.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := du.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(distribution.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if du.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(distribution.FieldUpdatedAt, field.TypeInt64)
 	}
-	if value, ok := du.mutation.Status(); ok {
+	if value, ok := _u.mutation.Status(); ok {
 		_spec.SetField(distribution.FieldStatus, field.TypeInt, value)
 	}
-	if value, ok := du.mutation.AddedStatus(); ok {
+	if value, ok := _u.mutation.AddedStatus(); ok {
 		_spec.AddField(distribution.FieldStatus, field.TypeInt, value)
 	}
-	if value, ok := du.mutation.ScheduledAt(); ok {
+	if value, ok := _u.mutation.ScheduledAt(); ok {
 		_spec.SetField(distribution.FieldScheduledAt, field.TypeInt64, value)
 	}
-	if value, ok := du.mutation.AddedScheduledAt(); ok {
+	if value, ok := _u.mutation.AddedScheduledAt(); ok {
 		_spec.AddField(distribution.FieldScheduledAt, field.TypeInt64, value)
 	}
-	if du.mutation.ScheduledAtCleared() {
+	if _u.mutation.ScheduledAtCleared() {
 		_spec.ClearField(distribution.FieldScheduledAt, field.TypeInt64)
 	}
-	if value, ok := du.mutation.PublishedAt(); ok {
+	if value, ok := _u.mutation.PublishedAt(); ok {
 		_spec.SetField(distribution.FieldPublishedAt, field.TypeInt64, value)
 	}
-	if value, ok := du.mutation.AddedPublishedAt(); ok {
+	if value, ok := _u.mutation.AddedPublishedAt(); ok {
 		_spec.AddField(distribution.FieldPublishedAt, field.TypeInt64, value)
 	}
-	if du.mutation.PublishedAtCleared() {
+	if _u.mutation.PublishedAtCleared() {
 		_spec.ClearField(distribution.FieldPublishedAt, field.TypeInt64)
 	}
-	if value, ok := du.mutation.ExternalID(); ok {
+	if value, ok := _u.mutation.ExternalID(); ok {
 		_spec.SetField(distribution.FieldExternalID, field.TypeString, value)
 	}
-	if du.mutation.ExternalIDCleared() {
+	if _u.mutation.ExternalIDCleared() {
 		_spec.ClearField(distribution.FieldExternalID, field.TypeString)
 	}
-	if value, ok := du.mutation.ExternalURL(); ok {
+	if value, ok := _u.mutation.ExternalURL(); ok {
 		_spec.SetField(distribution.FieldExternalURL, field.TypeString, value)
 	}
-	if du.mutation.ExternalURLCleared() {
+	if _u.mutation.ExternalURLCleared() {
 		_spec.ClearField(distribution.FieldExternalURL, field.TypeString)
 	}
-	if value, ok := du.mutation.ErrorDetails(); ok {
+	if value, ok := _u.mutation.ErrorDetails(); ok {
 		_spec.SetField(distribution.FieldErrorDetails, field.TypeString, value)
 	}
-	if du.mutation.ErrorDetailsCleared() {
+	if _u.mutation.ErrorDetailsCleared() {
 		_spec.ClearField(distribution.FieldErrorDetails, field.TypeString)
 	}
-	if du.mutation.TopicCleared() {
+	if _u.mutation.TopicCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: false,
@@ -470,7 +470,7 @@ func (du *DistributionUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := du.mutation.TopicIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.TopicIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: false,
@@ -486,7 +486,7 @@ func (du *DistributionUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if du.mutation.ChannelCleared() {
+	if _u.mutation.ChannelCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: false,
@@ -499,7 +499,7 @@ func (du *DistributionUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := du.mutation.ChannelIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.ChannelIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: false,
@@ -515,7 +515,7 @@ func (du *DistributionUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if n, err = sqlgraph.UpdateNodes(ctx, du.driver, _spec); err != nil {
+	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{distribution.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -523,8 +523,8 @@ func (du *DistributionUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		return 0, err
 	}
-	du.mutation.done = true
-	return n, nil
+	_u.mutation.done = true
+	return _node, nil
 }
 
 // DistributionUpdateOne is the builder for updating a single Distribution entity.
@@ -536,308 +536,308 @@ type DistributionUpdateOne struct {
 }
 
 // SetExtras sets the "extras" field.
-func (duo *DistributionUpdateOne) SetExtras(m map[string]interface{}) *DistributionUpdateOne {
-	duo.mutation.SetExtras(m)
-	return duo
+func (_u *DistributionUpdateOne) SetExtras(v map[string]interface{}) *DistributionUpdateOne {
+	_u.mutation.SetExtras(v)
+	return _u
 }
 
 // ClearExtras clears the value of the "extras" field.
-func (duo *DistributionUpdateOne) ClearExtras() *DistributionUpdateOne {
-	duo.mutation.ClearExtras()
-	return duo
+func (_u *DistributionUpdateOne) ClearExtras() *DistributionUpdateOne {
+	_u.mutation.ClearExtras()
+	return _u
 }
 
 // SetSpaceID sets the "space_id" field.
-func (duo *DistributionUpdateOne) SetSpaceID(s string) *DistributionUpdateOne {
-	duo.mutation.SetSpaceID(s)
-	return duo
+func (_u *DistributionUpdateOne) SetSpaceID(v string) *DistributionUpdateOne {
+	_u.mutation.SetSpaceID(v)
+	return _u
 }
 
 // SetNillableSpaceID sets the "space_id" field if the given value is not nil.
-func (duo *DistributionUpdateOne) SetNillableSpaceID(s *string) *DistributionUpdateOne {
-	if s != nil {
-		duo.SetSpaceID(*s)
+func (_u *DistributionUpdateOne) SetNillableSpaceID(v *string) *DistributionUpdateOne {
+	if v != nil {
+		_u.SetSpaceID(*v)
 	}
-	return duo
+	return _u
 }
 
 // ClearSpaceID clears the value of the "space_id" field.
-func (duo *DistributionUpdateOne) ClearSpaceID() *DistributionUpdateOne {
-	duo.mutation.ClearSpaceID()
-	return duo
+func (_u *DistributionUpdateOne) ClearSpaceID() *DistributionUpdateOne {
+	_u.mutation.ClearSpaceID()
+	return _u
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (duo *DistributionUpdateOne) SetCreatedBy(s string) *DistributionUpdateOne {
-	duo.mutation.SetCreatedBy(s)
-	return duo
+func (_u *DistributionUpdateOne) SetCreatedBy(v string) *DistributionUpdateOne {
+	_u.mutation.SetCreatedBy(v)
+	return _u
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (duo *DistributionUpdateOne) SetNillableCreatedBy(s *string) *DistributionUpdateOne {
-	if s != nil {
-		duo.SetCreatedBy(*s)
+func (_u *DistributionUpdateOne) SetNillableCreatedBy(v *string) *DistributionUpdateOne {
+	if v != nil {
+		_u.SetCreatedBy(*v)
 	}
-	return duo
+	return _u
 }
 
 // ClearCreatedBy clears the value of the "created_by" field.
-func (duo *DistributionUpdateOne) ClearCreatedBy() *DistributionUpdateOne {
-	duo.mutation.ClearCreatedBy()
-	return duo
+func (_u *DistributionUpdateOne) ClearCreatedBy() *DistributionUpdateOne {
+	_u.mutation.ClearCreatedBy()
+	return _u
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (duo *DistributionUpdateOne) SetUpdatedBy(s string) *DistributionUpdateOne {
-	duo.mutation.SetUpdatedBy(s)
-	return duo
+func (_u *DistributionUpdateOne) SetUpdatedBy(v string) *DistributionUpdateOne {
+	_u.mutation.SetUpdatedBy(v)
+	return _u
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (duo *DistributionUpdateOne) SetNillableUpdatedBy(s *string) *DistributionUpdateOne {
-	if s != nil {
-		duo.SetUpdatedBy(*s)
+func (_u *DistributionUpdateOne) SetNillableUpdatedBy(v *string) *DistributionUpdateOne {
+	if v != nil {
+		_u.SetUpdatedBy(*v)
 	}
-	return duo
+	return _u
 }
 
 // ClearUpdatedBy clears the value of the "updated_by" field.
-func (duo *DistributionUpdateOne) ClearUpdatedBy() *DistributionUpdateOne {
-	duo.mutation.ClearUpdatedBy()
-	return duo
+func (_u *DistributionUpdateOne) ClearUpdatedBy() *DistributionUpdateOne {
+	_u.mutation.ClearUpdatedBy()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (duo *DistributionUpdateOne) SetUpdatedAt(i int64) *DistributionUpdateOne {
-	duo.mutation.ResetUpdatedAt()
-	duo.mutation.SetUpdatedAt(i)
-	return duo
+func (_u *DistributionUpdateOne) SetUpdatedAt(v int64) *DistributionUpdateOne {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (duo *DistributionUpdateOne) AddUpdatedAt(i int64) *DistributionUpdateOne {
-	duo.mutation.AddUpdatedAt(i)
-	return duo
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *DistributionUpdateOne) AddUpdatedAt(v int64) *DistributionUpdateOne {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (duo *DistributionUpdateOne) ClearUpdatedAt() *DistributionUpdateOne {
-	duo.mutation.ClearUpdatedAt()
-	return duo
+func (_u *DistributionUpdateOne) ClearUpdatedAt() *DistributionUpdateOne {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // SetTopicID sets the "topic_id" field.
-func (duo *DistributionUpdateOne) SetTopicID(s string) *DistributionUpdateOne {
-	duo.mutation.SetTopicID(s)
-	return duo
+func (_u *DistributionUpdateOne) SetTopicID(v string) *DistributionUpdateOne {
+	_u.mutation.SetTopicID(v)
+	return _u
 }
 
 // SetNillableTopicID sets the "topic_id" field if the given value is not nil.
-func (duo *DistributionUpdateOne) SetNillableTopicID(s *string) *DistributionUpdateOne {
-	if s != nil {
-		duo.SetTopicID(*s)
+func (_u *DistributionUpdateOne) SetNillableTopicID(v *string) *DistributionUpdateOne {
+	if v != nil {
+		_u.SetTopicID(*v)
 	}
-	return duo
+	return _u
 }
 
 // SetChannelID sets the "channel_id" field.
-func (duo *DistributionUpdateOne) SetChannelID(s string) *DistributionUpdateOne {
-	duo.mutation.SetChannelID(s)
-	return duo
+func (_u *DistributionUpdateOne) SetChannelID(v string) *DistributionUpdateOne {
+	_u.mutation.SetChannelID(v)
+	return _u
 }
 
 // SetNillableChannelID sets the "channel_id" field if the given value is not nil.
-func (duo *DistributionUpdateOne) SetNillableChannelID(s *string) *DistributionUpdateOne {
-	if s != nil {
-		duo.SetChannelID(*s)
+func (_u *DistributionUpdateOne) SetNillableChannelID(v *string) *DistributionUpdateOne {
+	if v != nil {
+		_u.SetChannelID(*v)
 	}
-	return duo
+	return _u
 }
 
 // SetStatus sets the "status" field.
-func (duo *DistributionUpdateOne) SetStatus(i int) *DistributionUpdateOne {
-	duo.mutation.ResetStatus()
-	duo.mutation.SetStatus(i)
-	return duo
+func (_u *DistributionUpdateOne) SetStatus(v int) *DistributionUpdateOne {
+	_u.mutation.ResetStatus()
+	_u.mutation.SetStatus(v)
+	return _u
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (duo *DistributionUpdateOne) SetNillableStatus(i *int) *DistributionUpdateOne {
-	if i != nil {
-		duo.SetStatus(*i)
+func (_u *DistributionUpdateOne) SetNillableStatus(v *int) *DistributionUpdateOne {
+	if v != nil {
+		_u.SetStatus(*v)
 	}
-	return duo
+	return _u
 }
 
-// AddStatus adds i to the "status" field.
-func (duo *DistributionUpdateOne) AddStatus(i int) *DistributionUpdateOne {
-	duo.mutation.AddStatus(i)
-	return duo
+// AddStatus adds value to the "status" field.
+func (_u *DistributionUpdateOne) AddStatus(v int) *DistributionUpdateOne {
+	_u.mutation.AddStatus(v)
+	return _u
 }
 
 // SetScheduledAt sets the "scheduled_at" field.
-func (duo *DistributionUpdateOne) SetScheduledAt(i int64) *DistributionUpdateOne {
-	duo.mutation.ResetScheduledAt()
-	duo.mutation.SetScheduledAt(i)
-	return duo
+func (_u *DistributionUpdateOne) SetScheduledAt(v int64) *DistributionUpdateOne {
+	_u.mutation.ResetScheduledAt()
+	_u.mutation.SetScheduledAt(v)
+	return _u
 }
 
 // SetNillableScheduledAt sets the "scheduled_at" field if the given value is not nil.
-func (duo *DistributionUpdateOne) SetNillableScheduledAt(i *int64) *DistributionUpdateOne {
-	if i != nil {
-		duo.SetScheduledAt(*i)
+func (_u *DistributionUpdateOne) SetNillableScheduledAt(v *int64) *DistributionUpdateOne {
+	if v != nil {
+		_u.SetScheduledAt(*v)
 	}
-	return duo
+	return _u
 }
 
-// AddScheduledAt adds i to the "scheduled_at" field.
-func (duo *DistributionUpdateOne) AddScheduledAt(i int64) *DistributionUpdateOne {
-	duo.mutation.AddScheduledAt(i)
-	return duo
+// AddScheduledAt adds value to the "scheduled_at" field.
+func (_u *DistributionUpdateOne) AddScheduledAt(v int64) *DistributionUpdateOne {
+	_u.mutation.AddScheduledAt(v)
+	return _u
 }
 
 // ClearScheduledAt clears the value of the "scheduled_at" field.
-func (duo *DistributionUpdateOne) ClearScheduledAt() *DistributionUpdateOne {
-	duo.mutation.ClearScheduledAt()
-	return duo
+func (_u *DistributionUpdateOne) ClearScheduledAt() *DistributionUpdateOne {
+	_u.mutation.ClearScheduledAt()
+	return _u
 }
 
 // SetPublishedAt sets the "published_at" field.
-func (duo *DistributionUpdateOne) SetPublishedAt(i int64) *DistributionUpdateOne {
-	duo.mutation.ResetPublishedAt()
-	duo.mutation.SetPublishedAt(i)
-	return duo
+func (_u *DistributionUpdateOne) SetPublishedAt(v int64) *DistributionUpdateOne {
+	_u.mutation.ResetPublishedAt()
+	_u.mutation.SetPublishedAt(v)
+	return _u
 }
 
 // SetNillablePublishedAt sets the "published_at" field if the given value is not nil.
-func (duo *DistributionUpdateOne) SetNillablePublishedAt(i *int64) *DistributionUpdateOne {
-	if i != nil {
-		duo.SetPublishedAt(*i)
+func (_u *DistributionUpdateOne) SetNillablePublishedAt(v *int64) *DistributionUpdateOne {
+	if v != nil {
+		_u.SetPublishedAt(*v)
 	}
-	return duo
+	return _u
 }
 
-// AddPublishedAt adds i to the "published_at" field.
-func (duo *DistributionUpdateOne) AddPublishedAt(i int64) *DistributionUpdateOne {
-	duo.mutation.AddPublishedAt(i)
-	return duo
+// AddPublishedAt adds value to the "published_at" field.
+func (_u *DistributionUpdateOne) AddPublishedAt(v int64) *DistributionUpdateOne {
+	_u.mutation.AddPublishedAt(v)
+	return _u
 }
 
 // ClearPublishedAt clears the value of the "published_at" field.
-func (duo *DistributionUpdateOne) ClearPublishedAt() *DistributionUpdateOne {
-	duo.mutation.ClearPublishedAt()
-	return duo
+func (_u *DistributionUpdateOne) ClearPublishedAt() *DistributionUpdateOne {
+	_u.mutation.ClearPublishedAt()
+	return _u
 }
 
 // SetExternalID sets the "external_id" field.
-func (duo *DistributionUpdateOne) SetExternalID(s string) *DistributionUpdateOne {
-	duo.mutation.SetExternalID(s)
-	return duo
+func (_u *DistributionUpdateOne) SetExternalID(v string) *DistributionUpdateOne {
+	_u.mutation.SetExternalID(v)
+	return _u
 }
 
 // SetNillableExternalID sets the "external_id" field if the given value is not nil.
-func (duo *DistributionUpdateOne) SetNillableExternalID(s *string) *DistributionUpdateOne {
-	if s != nil {
-		duo.SetExternalID(*s)
+func (_u *DistributionUpdateOne) SetNillableExternalID(v *string) *DistributionUpdateOne {
+	if v != nil {
+		_u.SetExternalID(*v)
 	}
-	return duo
+	return _u
 }
 
 // ClearExternalID clears the value of the "external_id" field.
-func (duo *DistributionUpdateOne) ClearExternalID() *DistributionUpdateOne {
-	duo.mutation.ClearExternalID()
-	return duo
+func (_u *DistributionUpdateOne) ClearExternalID() *DistributionUpdateOne {
+	_u.mutation.ClearExternalID()
+	return _u
 }
 
 // SetExternalURL sets the "external_url" field.
-func (duo *DistributionUpdateOne) SetExternalURL(s string) *DistributionUpdateOne {
-	duo.mutation.SetExternalURL(s)
-	return duo
+func (_u *DistributionUpdateOne) SetExternalURL(v string) *DistributionUpdateOne {
+	_u.mutation.SetExternalURL(v)
+	return _u
 }
 
 // SetNillableExternalURL sets the "external_url" field if the given value is not nil.
-func (duo *DistributionUpdateOne) SetNillableExternalURL(s *string) *DistributionUpdateOne {
-	if s != nil {
-		duo.SetExternalURL(*s)
+func (_u *DistributionUpdateOne) SetNillableExternalURL(v *string) *DistributionUpdateOne {
+	if v != nil {
+		_u.SetExternalURL(*v)
 	}
-	return duo
+	return _u
 }
 
 // ClearExternalURL clears the value of the "external_url" field.
-func (duo *DistributionUpdateOne) ClearExternalURL() *DistributionUpdateOne {
-	duo.mutation.ClearExternalURL()
-	return duo
+func (_u *DistributionUpdateOne) ClearExternalURL() *DistributionUpdateOne {
+	_u.mutation.ClearExternalURL()
+	return _u
 }
 
 // SetErrorDetails sets the "error_details" field.
-func (duo *DistributionUpdateOne) SetErrorDetails(s string) *DistributionUpdateOne {
-	duo.mutation.SetErrorDetails(s)
-	return duo
+func (_u *DistributionUpdateOne) SetErrorDetails(v string) *DistributionUpdateOne {
+	_u.mutation.SetErrorDetails(v)
+	return _u
 }
 
 // SetNillableErrorDetails sets the "error_details" field if the given value is not nil.
-func (duo *DistributionUpdateOne) SetNillableErrorDetails(s *string) *DistributionUpdateOne {
-	if s != nil {
-		duo.SetErrorDetails(*s)
+func (_u *DistributionUpdateOne) SetNillableErrorDetails(v *string) *DistributionUpdateOne {
+	if v != nil {
+		_u.SetErrorDetails(*v)
 	}
-	return duo
+	return _u
 }
 
 // ClearErrorDetails clears the value of the "error_details" field.
-func (duo *DistributionUpdateOne) ClearErrorDetails() *DistributionUpdateOne {
-	duo.mutation.ClearErrorDetails()
-	return duo
+func (_u *DistributionUpdateOne) ClearErrorDetails() *DistributionUpdateOne {
+	_u.mutation.ClearErrorDetails()
+	return _u
 }
 
 // SetTopic sets the "topic" edge to the Topic entity.
-func (duo *DistributionUpdateOne) SetTopic(t *Topic) *DistributionUpdateOne {
-	return duo.SetTopicID(t.ID)
+func (_u *DistributionUpdateOne) SetTopic(v *Topic) *DistributionUpdateOne {
+	return _u.SetTopicID(v.ID)
 }
 
 // SetChannel sets the "channel" edge to the CMSChannel entity.
-func (duo *DistributionUpdateOne) SetChannel(c *CMSChannel) *DistributionUpdateOne {
-	return duo.SetChannelID(c.ID)
+func (_u *DistributionUpdateOne) SetChannel(v *CMSChannel) *DistributionUpdateOne {
+	return _u.SetChannelID(v.ID)
 }
 
 // Mutation returns the DistributionMutation object of the builder.
-func (duo *DistributionUpdateOne) Mutation() *DistributionMutation {
-	return duo.mutation
+func (_u *DistributionUpdateOne) Mutation() *DistributionMutation {
+	return _u.mutation
 }
 
 // ClearTopic clears the "topic" edge to the Topic entity.
-func (duo *DistributionUpdateOne) ClearTopic() *DistributionUpdateOne {
-	duo.mutation.ClearTopic()
-	return duo
+func (_u *DistributionUpdateOne) ClearTopic() *DistributionUpdateOne {
+	_u.mutation.ClearTopic()
+	return _u
 }
 
 // ClearChannel clears the "channel" edge to the CMSChannel entity.
-func (duo *DistributionUpdateOne) ClearChannel() *DistributionUpdateOne {
-	duo.mutation.ClearChannel()
-	return duo
+func (_u *DistributionUpdateOne) ClearChannel() *DistributionUpdateOne {
+	_u.mutation.ClearChannel()
+	return _u
 }
 
 // Where appends a list predicates to the DistributionUpdate builder.
-func (duo *DistributionUpdateOne) Where(ps ...predicate.Distribution) *DistributionUpdateOne {
-	duo.mutation.Where(ps...)
-	return duo
+func (_u *DistributionUpdateOne) Where(ps ...predicate.Distribution) *DistributionUpdateOne {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // Select allows selecting one or more fields (columns) of the returned entity.
 // The default is selecting all fields defined in the entity schema.
-func (duo *DistributionUpdateOne) Select(field string, fields ...string) *DistributionUpdateOne {
-	duo.fields = append([]string{field}, fields...)
-	return duo
+func (_u *DistributionUpdateOne) Select(field string, fields ...string) *DistributionUpdateOne {
+	_u.fields = append([]string{field}, fields...)
+	return _u
 }
 
 // Save executes the query and returns the updated Distribution entity.
-func (duo *DistributionUpdateOne) Save(ctx context.Context) (*Distribution, error) {
-	duo.defaults()
-	return withHooks(ctx, duo.sqlSave, duo.mutation, duo.hooks)
+func (_u *DistributionUpdateOne) Save(ctx context.Context) (*Distribution, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (duo *DistributionUpdateOne) SaveX(ctx context.Context) *Distribution {
-	node, err := duo.Save(ctx)
+func (_u *DistributionUpdateOne) SaveX(ctx context.Context) *Distribution {
+	node, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -845,58 +845,58 @@ func (duo *DistributionUpdateOne) SaveX(ctx context.Context) *Distribution {
 }
 
 // Exec executes the query on the entity.
-func (duo *DistributionUpdateOne) Exec(ctx context.Context) error {
-	_, err := duo.Save(ctx)
+func (_u *DistributionUpdateOne) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (duo *DistributionUpdateOne) ExecX(ctx context.Context) {
-	if err := duo.Exec(ctx); err != nil {
+func (_u *DistributionUpdateOne) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (duo *DistributionUpdateOne) defaults() {
-	if _, ok := duo.mutation.UpdatedAt(); !ok && !duo.mutation.UpdatedAtCleared() {
+func (_u *DistributionUpdateOne) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := distribution.UpdateDefaultUpdatedAt()
-		duo.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (duo *DistributionUpdateOne) check() error {
-	if v, ok := duo.mutation.TopicID(); ok {
+func (_u *DistributionUpdateOne) check() error {
+	if v, ok := _u.mutation.TopicID(); ok {
 		if err := distribution.TopicIDValidator(v); err != nil {
 			return &ValidationError{Name: "topic_id", err: fmt.Errorf(`ent: validator failed for field "Distribution.topic_id": %w`, err)}
 		}
 	}
-	if v, ok := duo.mutation.ChannelID(); ok {
+	if v, ok := _u.mutation.ChannelID(); ok {
 		if err := distribution.ChannelIDValidator(v); err != nil {
 			return &ValidationError{Name: "channel_id", err: fmt.Errorf(`ent: validator failed for field "Distribution.channel_id": %w`, err)}
 		}
 	}
-	if duo.mutation.TopicCleared() && len(duo.mutation.TopicIDs()) > 0 {
+	if _u.mutation.TopicCleared() && len(_u.mutation.TopicIDs()) > 0 {
 		return errors.New(`ent: clearing a required unique edge "Distribution.topic"`)
 	}
-	if duo.mutation.ChannelCleared() && len(duo.mutation.ChannelIDs()) > 0 {
+	if _u.mutation.ChannelCleared() && len(_u.mutation.ChannelIDs()) > 0 {
 		return errors.New(`ent: clearing a required unique edge "Distribution.channel"`)
 	}
 	return nil
 }
 
-func (duo *DistributionUpdateOne) sqlSave(ctx context.Context) (_node *Distribution, err error) {
-	if err := duo.check(); err != nil {
+func (_u *DistributionUpdateOne) sqlSave(ctx context.Context) (_node *Distribution, err error) {
+	if err := _u.check(); err != nil {
 		return _node, err
 	}
 	_spec := sqlgraph.NewUpdateSpec(distribution.Table, distribution.Columns, sqlgraph.NewFieldSpec(distribution.FieldID, field.TypeString))
-	id, ok := duo.mutation.ID()
+	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "Distribution.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
-	if fields := duo.fields; len(fields) > 0 {
+	if fields := _u.fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, distribution.FieldID)
 		for _, f := range fields {
@@ -908,92 +908,92 @@ func (duo *DistributionUpdateOne) sqlSave(ctx context.Context) (_node *Distribut
 			}
 		}
 	}
-	if ps := duo.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := duo.mutation.Extras(); ok {
+	if value, ok := _u.mutation.Extras(); ok {
 		_spec.SetField(distribution.FieldExtras, field.TypeJSON, value)
 	}
-	if duo.mutation.ExtrasCleared() {
+	if _u.mutation.ExtrasCleared() {
 		_spec.ClearField(distribution.FieldExtras, field.TypeJSON)
 	}
-	if value, ok := duo.mutation.SpaceID(); ok {
+	if value, ok := _u.mutation.SpaceID(); ok {
 		_spec.SetField(distribution.FieldSpaceID, field.TypeString, value)
 	}
-	if duo.mutation.SpaceIDCleared() {
+	if _u.mutation.SpaceIDCleared() {
 		_spec.ClearField(distribution.FieldSpaceID, field.TypeString)
 	}
-	if value, ok := duo.mutation.CreatedBy(); ok {
+	if value, ok := _u.mutation.CreatedBy(); ok {
 		_spec.SetField(distribution.FieldCreatedBy, field.TypeString, value)
 	}
-	if duo.mutation.CreatedByCleared() {
+	if _u.mutation.CreatedByCleared() {
 		_spec.ClearField(distribution.FieldCreatedBy, field.TypeString)
 	}
-	if value, ok := duo.mutation.UpdatedBy(); ok {
+	if value, ok := _u.mutation.UpdatedBy(); ok {
 		_spec.SetField(distribution.FieldUpdatedBy, field.TypeString, value)
 	}
-	if duo.mutation.UpdatedByCleared() {
+	if _u.mutation.UpdatedByCleared() {
 		_spec.ClearField(distribution.FieldUpdatedBy, field.TypeString)
 	}
-	if duo.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(distribution.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := duo.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(distribution.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := duo.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(distribution.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if duo.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(distribution.FieldUpdatedAt, field.TypeInt64)
 	}
-	if value, ok := duo.mutation.Status(); ok {
+	if value, ok := _u.mutation.Status(); ok {
 		_spec.SetField(distribution.FieldStatus, field.TypeInt, value)
 	}
-	if value, ok := duo.mutation.AddedStatus(); ok {
+	if value, ok := _u.mutation.AddedStatus(); ok {
 		_spec.AddField(distribution.FieldStatus, field.TypeInt, value)
 	}
-	if value, ok := duo.mutation.ScheduledAt(); ok {
+	if value, ok := _u.mutation.ScheduledAt(); ok {
 		_spec.SetField(distribution.FieldScheduledAt, field.TypeInt64, value)
 	}
-	if value, ok := duo.mutation.AddedScheduledAt(); ok {
+	if value, ok := _u.mutation.AddedScheduledAt(); ok {
 		_spec.AddField(distribution.FieldScheduledAt, field.TypeInt64, value)
 	}
-	if duo.mutation.ScheduledAtCleared() {
+	if _u.mutation.ScheduledAtCleared() {
 		_spec.ClearField(distribution.FieldScheduledAt, field.TypeInt64)
 	}
-	if value, ok := duo.mutation.PublishedAt(); ok {
+	if value, ok := _u.mutation.PublishedAt(); ok {
 		_spec.SetField(distribution.FieldPublishedAt, field.TypeInt64, value)
 	}
-	if value, ok := duo.mutation.AddedPublishedAt(); ok {
+	if value, ok := _u.mutation.AddedPublishedAt(); ok {
 		_spec.AddField(distribution.FieldPublishedAt, field.TypeInt64, value)
 	}
-	if duo.mutation.PublishedAtCleared() {
+	if _u.mutation.PublishedAtCleared() {
 		_spec.ClearField(distribution.FieldPublishedAt, field.TypeInt64)
 	}
-	if value, ok := duo.mutation.ExternalID(); ok {
+	if value, ok := _u.mutation.ExternalID(); ok {
 		_spec.SetField(distribution.FieldExternalID, field.TypeString, value)
 	}
-	if duo.mutation.ExternalIDCleared() {
+	if _u.mutation.ExternalIDCleared() {
 		_spec.ClearField(distribution.FieldExternalID, field.TypeString)
 	}
-	if value, ok := duo.mutation.ExternalURL(); ok {
+	if value, ok := _u.mutation.ExternalURL(); ok {
 		_spec.SetField(distribution.FieldExternalURL, field.TypeString, value)
 	}
-	if duo.mutation.ExternalURLCleared() {
+	if _u.mutation.ExternalURLCleared() {
 		_spec.ClearField(distribution.FieldExternalURL, field.TypeString)
 	}
-	if value, ok := duo.mutation.ErrorDetails(); ok {
+	if value, ok := _u.mutation.ErrorDetails(); ok {
 		_spec.SetField(distribution.FieldErrorDetails, field.TypeString, value)
 	}
-	if duo.mutation.ErrorDetailsCleared() {
+	if _u.mutation.ErrorDetailsCleared() {
 		_spec.ClearField(distribution.FieldErrorDetails, field.TypeString)
 	}
-	if duo.mutation.TopicCleared() {
+	if _u.mutation.TopicCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: false,
@@ -1006,7 +1006,7 @@ func (duo *DistributionUpdateOne) sqlSave(ctx context.Context) (_node *Distribut
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := duo.mutation.TopicIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.TopicIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: false,
@@ -1022,7 +1022,7 @@ func (duo *DistributionUpdateOne) sqlSave(ctx context.Context) (_node *Distribut
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if duo.mutation.ChannelCleared() {
+	if _u.mutation.ChannelCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: false,
@@ -1035,7 +1035,7 @@ func (duo *DistributionUpdateOne) sqlSave(ctx context.Context) (_node *Distribut
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := duo.mutation.ChannelIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.ChannelIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: false,
@@ -1051,10 +1051,10 @@ func (duo *DistributionUpdateOne) sqlSave(ctx context.Context) (_node *Distribut
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	_node = &Distribution{config: duo.config}
+	_node = &Distribution{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues
-	if err = sqlgraph.UpdateNode(ctx, duo.driver, _spec); err != nil {
+	if err = sqlgraph.UpdateNode(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{distribution.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -1062,6 +1062,6 @@ func (duo *DistributionUpdateOne) sqlSave(ctx context.Context) (_node *Distribut
 		}
 		return nil, err
 	}
-	duo.mutation.done = true
+	_u.mutation.done = true
 	return _node, nil
 }

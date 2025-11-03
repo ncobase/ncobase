@@ -92,7 +92,7 @@ func (*TopicMedia) scanValues(columns []string) ([]any, error) {
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
 // to the TopicMedia fields.
-func (tm *TopicMedia) assignValues(columns []string, values []any) error {
+func (_m *TopicMedia) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
@@ -102,58 +102,58 @@ func (tm *TopicMedia) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field id", values[i])
 			} else if value.Valid {
-				tm.ID = value.String
+				_m.ID = value.String
 			}
 		case topicmedia.FieldType:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field type", values[i])
 			} else if value.Valid {
-				tm.Type = value.String
+				_m.Type = value.String
 			}
 		case topicmedia.FieldOrder:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field order", values[i])
 			} else if value.Valid {
-				tm.Order = int(value.Int64)
+				_m.Order = int(value.Int64)
 			}
 		case topicmedia.FieldCreatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field created_by", values[i])
 			} else if value.Valid {
-				tm.CreatedBy = value.String
+				_m.CreatedBy = value.String
 			}
 		case topicmedia.FieldUpdatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_by", values[i])
 			} else if value.Valid {
-				tm.UpdatedBy = value.String
+				_m.UpdatedBy = value.String
 			}
 		case topicmedia.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field created_at", values[i])
 			} else if value.Valid {
-				tm.CreatedAt = value.Int64
+				_m.CreatedAt = value.Int64
 			}
 		case topicmedia.FieldUpdatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_at", values[i])
 			} else if value.Valid {
-				tm.UpdatedAt = value.Int64
+				_m.UpdatedAt = value.Int64
 			}
 		case topicmedia.FieldTopicID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field topic_id", values[i])
 			} else if value.Valid {
-				tm.TopicID = value.String
+				_m.TopicID = value.String
 			}
 		case topicmedia.FieldMediaID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field media_id", values[i])
 			} else if value.Valid {
-				tm.MediaID = value.String
+				_m.MediaID = value.String
 			}
 		default:
-			tm.selectValues.Set(columns[i], values[i])
+			_m.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
@@ -161,66 +161,66 @@ func (tm *TopicMedia) assignValues(columns []string, values []any) error {
 
 // Value returns the ent.Value that was dynamically selected and assigned to the TopicMedia.
 // This includes values selected through modifiers, order, etc.
-func (tm *TopicMedia) Value(name string) (ent.Value, error) {
-	return tm.selectValues.Get(name)
+func (_m *TopicMedia) Value(name string) (ent.Value, error) {
+	return _m.selectValues.Get(name)
 }
 
 // QueryMedia queries the "media" edge of the TopicMedia entity.
-func (tm *TopicMedia) QueryMedia() *MediaQuery {
-	return NewTopicMediaClient(tm.config).QueryMedia(tm)
+func (_m *TopicMedia) QueryMedia() *MediaQuery {
+	return NewTopicMediaClient(_m.config).QueryMedia(_m)
 }
 
 // QueryTopic queries the "topic" edge of the TopicMedia entity.
-func (tm *TopicMedia) QueryTopic() *TopicQuery {
-	return NewTopicMediaClient(tm.config).QueryTopic(tm)
+func (_m *TopicMedia) QueryTopic() *TopicQuery {
+	return NewTopicMediaClient(_m.config).QueryTopic(_m)
 }
 
 // Update returns a builder for updating this TopicMedia.
 // Note that you need to call TopicMedia.Unwrap() before calling this method if this TopicMedia
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (tm *TopicMedia) Update() *TopicMediaUpdateOne {
-	return NewTopicMediaClient(tm.config).UpdateOne(tm)
+func (_m *TopicMedia) Update() *TopicMediaUpdateOne {
+	return NewTopicMediaClient(_m.config).UpdateOne(_m)
 }
 
 // Unwrap unwraps the TopicMedia entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (tm *TopicMedia) Unwrap() *TopicMedia {
-	_tx, ok := tm.config.driver.(*txDriver)
+func (_m *TopicMedia) Unwrap() *TopicMedia {
+	_tx, ok := _m.config.driver.(*txDriver)
 	if !ok {
 		panic("ent: TopicMedia is not a transactional entity")
 	}
-	tm.config.driver = _tx.drv
-	return tm
+	_m.config.driver = _tx.drv
+	return _m
 }
 
 // String implements the fmt.Stringer.
-func (tm *TopicMedia) String() string {
+func (_m *TopicMedia) String() string {
 	var builder strings.Builder
 	builder.WriteString("TopicMedia(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", tm.ID))
+	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
 	builder.WriteString("type=")
-	builder.WriteString(tm.Type)
+	builder.WriteString(_m.Type)
 	builder.WriteString(", ")
 	builder.WriteString("order=")
-	builder.WriteString(fmt.Sprintf("%v", tm.Order))
+	builder.WriteString(fmt.Sprintf("%v", _m.Order))
 	builder.WriteString(", ")
 	builder.WriteString("created_by=")
-	builder.WriteString(tm.CreatedBy)
+	builder.WriteString(_m.CreatedBy)
 	builder.WriteString(", ")
 	builder.WriteString("updated_by=")
-	builder.WriteString(tm.UpdatedBy)
+	builder.WriteString(_m.UpdatedBy)
 	builder.WriteString(", ")
 	builder.WriteString("created_at=")
-	builder.WriteString(fmt.Sprintf("%v", tm.CreatedAt))
+	builder.WriteString(fmt.Sprintf("%v", _m.CreatedAt))
 	builder.WriteString(", ")
 	builder.WriteString("updated_at=")
-	builder.WriteString(fmt.Sprintf("%v", tm.UpdatedAt))
+	builder.WriteString(fmt.Sprintf("%v", _m.UpdatedAt))
 	builder.WriteString(", ")
 	builder.WriteString("topic_id=")
-	builder.WriteString(tm.TopicID)
+	builder.WriteString(_m.TopicID)
 	builder.WriteString(", ")
 	builder.WriteString("media_id=")
-	builder.WriteString(tm.MediaID)
+	builder.WriteString(_m.MediaID)
 	builder.WriteByte(')')
 	return builder.String()
 }

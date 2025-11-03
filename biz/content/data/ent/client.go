@@ -311,8 +311,8 @@ func (c *CMSChannelClient) Update() *CMSChannelUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *CMSChannelClient) UpdateOne(cc *CMSChannel) *CMSChannelUpdateOne {
-	mutation := newCMSChannelMutation(c.config, OpUpdateOne, withCMSChannel(cc))
+func (c *CMSChannelClient) UpdateOne(_m *CMSChannel) *CMSChannelUpdateOne {
+	mutation := newCMSChannelMutation(c.config, OpUpdateOne, withCMSChannel(_m))
 	return &CMSChannelUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -329,8 +329,8 @@ func (c *CMSChannelClient) Delete() *CMSChannelDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *CMSChannelClient) DeleteOne(cc *CMSChannel) *CMSChannelDeleteOne {
-	return c.DeleteOneID(cc.ID)
+func (c *CMSChannelClient) DeleteOne(_m *CMSChannel) *CMSChannelDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -444,8 +444,8 @@ func (c *DistributionClient) Update() *DistributionUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *DistributionClient) UpdateOne(d *Distribution) *DistributionUpdateOne {
-	mutation := newDistributionMutation(c.config, OpUpdateOne, withDistribution(d))
+func (c *DistributionClient) UpdateOne(_m *Distribution) *DistributionUpdateOne {
+	mutation := newDistributionMutation(c.config, OpUpdateOne, withDistribution(_m))
 	return &DistributionUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -462,8 +462,8 @@ func (c *DistributionClient) Delete() *DistributionDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *DistributionClient) DeleteOne(d *Distribution) *DistributionDeleteOne {
-	return c.DeleteOneID(d.ID)
+func (c *DistributionClient) DeleteOne(_m *Distribution) *DistributionDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -498,32 +498,32 @@ func (c *DistributionClient) GetX(ctx context.Context, id string) *Distribution 
 }
 
 // QueryTopic queries the topic edge of a Distribution.
-func (c *DistributionClient) QueryTopic(d *Distribution) *TopicQuery {
+func (c *DistributionClient) QueryTopic(_m *Distribution) *TopicQuery {
 	query := (&TopicClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := d.ID
+		id := _m.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(distribution.Table, distribution.FieldID, id),
 			sqlgraph.To(topic.Table, topic.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, false, distribution.TopicTable, distribution.TopicColumn),
 		)
-		fromV = sqlgraph.Neighbors(d.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
 }
 
 // QueryChannel queries the channel edge of a Distribution.
-func (c *DistributionClient) QueryChannel(d *Distribution) *CMSChannelQuery {
+func (c *DistributionClient) QueryChannel(_m *Distribution) *CMSChannelQuery {
 	query := (&CMSChannelClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := d.ID
+		id := _m.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(distribution.Table, distribution.FieldID, id),
 			sqlgraph.To(cmschannel.Table, cmschannel.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, false, distribution.ChannelTable, distribution.ChannelColumn),
 		)
-		fromV = sqlgraph.Neighbors(d.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
@@ -609,8 +609,8 @@ func (c *MediaClient) Update() *MediaUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *MediaClient) UpdateOne(m *Media) *MediaUpdateOne {
-	mutation := newMediaMutation(c.config, OpUpdateOne, withMedia(m))
+func (c *MediaClient) UpdateOne(_m *Media) *MediaUpdateOne {
+	mutation := newMediaMutation(c.config, OpUpdateOne, withMedia(_m))
 	return &MediaUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -627,8 +627,8 @@ func (c *MediaClient) Delete() *MediaDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *MediaClient) DeleteOne(m *Media) *MediaDeleteOne {
-	return c.DeleteOneID(m.ID)
+func (c *MediaClient) DeleteOne(_m *Media) *MediaDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -742,8 +742,8 @@ func (c *TaxonomyClient) Update() *TaxonomyUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *TaxonomyClient) UpdateOne(t *Taxonomy) *TaxonomyUpdateOne {
-	mutation := newTaxonomyMutation(c.config, OpUpdateOne, withTaxonomy(t))
+func (c *TaxonomyClient) UpdateOne(_m *Taxonomy) *TaxonomyUpdateOne {
+	mutation := newTaxonomyMutation(c.config, OpUpdateOne, withTaxonomy(_m))
 	return &TaxonomyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -760,8 +760,8 @@ func (c *TaxonomyClient) Delete() *TaxonomyDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *TaxonomyClient) DeleteOne(t *Taxonomy) *TaxonomyDeleteOne {
-	return c.DeleteOneID(t.ID)
+func (c *TaxonomyClient) DeleteOne(_m *Taxonomy) *TaxonomyDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -875,8 +875,8 @@ func (c *TaxonomyRelationClient) Update() *TaxonomyRelationUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *TaxonomyRelationClient) UpdateOne(tr *TaxonomyRelation) *TaxonomyRelationUpdateOne {
-	mutation := newTaxonomyRelationMutation(c.config, OpUpdateOne, withTaxonomyRelation(tr))
+func (c *TaxonomyRelationClient) UpdateOne(_m *TaxonomyRelation) *TaxonomyRelationUpdateOne {
+	mutation := newTaxonomyRelationMutation(c.config, OpUpdateOne, withTaxonomyRelation(_m))
 	return &TaxonomyRelationUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -893,8 +893,8 @@ func (c *TaxonomyRelationClient) Delete() *TaxonomyRelationDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *TaxonomyRelationClient) DeleteOne(tr *TaxonomyRelation) *TaxonomyRelationDeleteOne {
-	return c.DeleteOneID(tr.ID)
+func (c *TaxonomyRelationClient) DeleteOne(_m *TaxonomyRelation) *TaxonomyRelationDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -1008,8 +1008,8 @@ func (c *TopicClient) Update() *TopicUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *TopicClient) UpdateOne(t *Topic) *TopicUpdateOne {
-	mutation := newTopicMutation(c.config, OpUpdateOne, withTopic(t))
+func (c *TopicClient) UpdateOne(_m *Topic) *TopicUpdateOne {
+	mutation := newTopicMutation(c.config, OpUpdateOne, withTopic(_m))
 	return &TopicUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -1026,8 +1026,8 @@ func (c *TopicClient) Delete() *TopicDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *TopicClient) DeleteOne(t *Topic) *TopicDeleteOne {
-	return c.DeleteOneID(t.ID)
+func (c *TopicClient) DeleteOne(_m *Topic) *TopicDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -1141,8 +1141,8 @@ func (c *TopicMediaClient) Update() *TopicMediaUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *TopicMediaClient) UpdateOne(tm *TopicMedia) *TopicMediaUpdateOne {
-	mutation := newTopicMediaMutation(c.config, OpUpdateOne, withTopicMedia(tm))
+func (c *TopicMediaClient) UpdateOne(_m *TopicMedia) *TopicMediaUpdateOne {
+	mutation := newTopicMediaMutation(c.config, OpUpdateOne, withTopicMedia(_m))
 	return &TopicMediaUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -1159,8 +1159,8 @@ func (c *TopicMediaClient) Delete() *TopicMediaDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *TopicMediaClient) DeleteOne(tm *TopicMedia) *TopicMediaDeleteOne {
-	return c.DeleteOneID(tm.ID)
+func (c *TopicMediaClient) DeleteOne(_m *TopicMedia) *TopicMediaDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -1195,32 +1195,32 @@ func (c *TopicMediaClient) GetX(ctx context.Context, id string) *TopicMedia {
 }
 
 // QueryMedia queries the media edge of a TopicMedia.
-func (c *TopicMediaClient) QueryMedia(tm *TopicMedia) *MediaQuery {
+func (c *TopicMediaClient) QueryMedia(_m *TopicMedia) *MediaQuery {
 	query := (&MediaClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := tm.ID
+		id := _m.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(topicmedia.Table, topicmedia.FieldID, id),
 			sqlgraph.To(media.Table, media.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, false, topicmedia.MediaTable, topicmedia.MediaColumn),
 		)
-		fromV = sqlgraph.Neighbors(tm.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
 }
 
 // QueryTopic queries the topic edge of a TopicMedia.
-func (c *TopicMediaClient) QueryTopic(tm *TopicMedia) *TopicQuery {
+func (c *TopicMediaClient) QueryTopic(_m *TopicMedia) *TopicQuery {
 	query := (&TopicClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := tm.ID
+		id := _m.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(topicmedia.Table, topicmedia.FieldID, id),
 			sqlgraph.To(topic.Table, topic.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, false, topicmedia.TopicTable, topicmedia.TopicColumn),
 		)
-		fromV = sqlgraph.Neighbors(tm.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query

@@ -19,117 +19,117 @@ type UserRoleCreate struct {
 }
 
 // SetUserID sets the "user_id" field.
-func (urc *UserRoleCreate) SetUserID(s string) *UserRoleCreate {
-	urc.mutation.SetUserID(s)
-	return urc
+func (_c *UserRoleCreate) SetUserID(v string) *UserRoleCreate {
+	_c.mutation.SetUserID(v)
+	return _c
 }
 
 // SetNillableUserID sets the "user_id" field if the given value is not nil.
-func (urc *UserRoleCreate) SetNillableUserID(s *string) *UserRoleCreate {
-	if s != nil {
-		urc.SetUserID(*s)
+func (_c *UserRoleCreate) SetNillableUserID(v *string) *UserRoleCreate {
+	if v != nil {
+		_c.SetUserID(*v)
 	}
-	return urc
+	return _c
 }
 
 // SetRoleID sets the "role_id" field.
-func (urc *UserRoleCreate) SetRoleID(s string) *UserRoleCreate {
-	urc.mutation.SetRoleID(s)
-	return urc
+func (_c *UserRoleCreate) SetRoleID(v string) *UserRoleCreate {
+	_c.mutation.SetRoleID(v)
+	return _c
 }
 
 // SetNillableRoleID sets the "role_id" field if the given value is not nil.
-func (urc *UserRoleCreate) SetNillableRoleID(s *string) *UserRoleCreate {
-	if s != nil {
-		urc.SetRoleID(*s)
+func (_c *UserRoleCreate) SetNillableRoleID(v *string) *UserRoleCreate {
+	if v != nil {
+		_c.SetRoleID(*v)
 	}
-	return urc
+	return _c
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (urc *UserRoleCreate) SetCreatedBy(s string) *UserRoleCreate {
-	urc.mutation.SetCreatedBy(s)
-	return urc
+func (_c *UserRoleCreate) SetCreatedBy(v string) *UserRoleCreate {
+	_c.mutation.SetCreatedBy(v)
+	return _c
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (urc *UserRoleCreate) SetNillableCreatedBy(s *string) *UserRoleCreate {
-	if s != nil {
-		urc.SetCreatedBy(*s)
+func (_c *UserRoleCreate) SetNillableCreatedBy(v *string) *UserRoleCreate {
+	if v != nil {
+		_c.SetCreatedBy(*v)
 	}
-	return urc
+	return _c
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (urc *UserRoleCreate) SetUpdatedBy(s string) *UserRoleCreate {
-	urc.mutation.SetUpdatedBy(s)
-	return urc
+func (_c *UserRoleCreate) SetUpdatedBy(v string) *UserRoleCreate {
+	_c.mutation.SetUpdatedBy(v)
+	return _c
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (urc *UserRoleCreate) SetNillableUpdatedBy(s *string) *UserRoleCreate {
-	if s != nil {
-		urc.SetUpdatedBy(*s)
+func (_c *UserRoleCreate) SetNillableUpdatedBy(v *string) *UserRoleCreate {
+	if v != nil {
+		_c.SetUpdatedBy(*v)
 	}
-	return urc
+	return _c
 }
 
 // SetCreatedAt sets the "created_at" field.
-func (urc *UserRoleCreate) SetCreatedAt(i int64) *UserRoleCreate {
-	urc.mutation.SetCreatedAt(i)
-	return urc
+func (_c *UserRoleCreate) SetCreatedAt(v int64) *UserRoleCreate {
+	_c.mutation.SetCreatedAt(v)
+	return _c
 }
 
 // SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
-func (urc *UserRoleCreate) SetNillableCreatedAt(i *int64) *UserRoleCreate {
-	if i != nil {
-		urc.SetCreatedAt(*i)
+func (_c *UserRoleCreate) SetNillableCreatedAt(v *int64) *UserRoleCreate {
+	if v != nil {
+		_c.SetCreatedAt(*v)
 	}
-	return urc
+	return _c
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (urc *UserRoleCreate) SetUpdatedAt(i int64) *UserRoleCreate {
-	urc.mutation.SetUpdatedAt(i)
-	return urc
+func (_c *UserRoleCreate) SetUpdatedAt(v int64) *UserRoleCreate {
+	_c.mutation.SetUpdatedAt(v)
+	return _c
 }
 
 // SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
-func (urc *UserRoleCreate) SetNillableUpdatedAt(i *int64) *UserRoleCreate {
-	if i != nil {
-		urc.SetUpdatedAt(*i)
+func (_c *UserRoleCreate) SetNillableUpdatedAt(v *int64) *UserRoleCreate {
+	if v != nil {
+		_c.SetUpdatedAt(*v)
 	}
-	return urc
+	return _c
 }
 
 // SetID sets the "id" field.
-func (urc *UserRoleCreate) SetID(s string) *UserRoleCreate {
-	urc.mutation.SetID(s)
-	return urc
+func (_c *UserRoleCreate) SetID(v string) *UserRoleCreate {
+	_c.mutation.SetID(v)
+	return _c
 }
 
 // SetNillableID sets the "id" field if the given value is not nil.
-func (urc *UserRoleCreate) SetNillableID(s *string) *UserRoleCreate {
-	if s != nil {
-		urc.SetID(*s)
+func (_c *UserRoleCreate) SetNillableID(v *string) *UserRoleCreate {
+	if v != nil {
+		_c.SetID(*v)
 	}
-	return urc
+	return _c
 }
 
 // Mutation returns the UserRoleMutation object of the builder.
-func (urc *UserRoleCreate) Mutation() *UserRoleMutation {
-	return urc.mutation
+func (_c *UserRoleCreate) Mutation() *UserRoleMutation {
+	return _c.mutation
 }
 
 // Save creates the UserRole in the database.
-func (urc *UserRoleCreate) Save(ctx context.Context) (*UserRole, error) {
-	urc.defaults()
-	return withHooks(ctx, urc.sqlSave, urc.mutation, urc.hooks)
+func (_c *UserRoleCreate) Save(ctx context.Context) (*UserRole, error) {
+	_c.defaults()
+	return withHooks(ctx, _c.sqlSave, _c.mutation, _c.hooks)
 }
 
 // SaveX calls Save and panics if Save returns an error.
-func (urc *UserRoleCreate) SaveX(ctx context.Context) *UserRole {
-	v, err := urc.Save(ctx)
+func (_c *UserRoleCreate) SaveX(ctx context.Context) *UserRole {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -137,37 +137,37 @@ func (urc *UserRoleCreate) SaveX(ctx context.Context) *UserRole {
 }
 
 // Exec executes the query.
-func (urc *UserRoleCreate) Exec(ctx context.Context) error {
-	_, err := urc.Save(ctx)
+func (_c *UserRoleCreate) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (urc *UserRoleCreate) ExecX(ctx context.Context) {
-	if err := urc.Exec(ctx); err != nil {
+func (_c *UserRoleCreate) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (urc *UserRoleCreate) defaults() {
-	if _, ok := urc.mutation.CreatedAt(); !ok {
+func (_c *UserRoleCreate) defaults() {
+	if _, ok := _c.mutation.CreatedAt(); !ok {
 		v := userrole.DefaultCreatedAt()
-		urc.mutation.SetCreatedAt(v)
+		_c.mutation.SetCreatedAt(v)
 	}
-	if _, ok := urc.mutation.UpdatedAt(); !ok {
+	if _, ok := _c.mutation.UpdatedAt(); !ok {
 		v := userrole.DefaultUpdatedAt()
-		urc.mutation.SetUpdatedAt(v)
+		_c.mutation.SetUpdatedAt(v)
 	}
-	if _, ok := urc.mutation.ID(); !ok {
+	if _, ok := _c.mutation.ID(); !ok {
 		v := userrole.DefaultID()
-		urc.mutation.SetID(v)
+		_c.mutation.SetID(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (urc *UserRoleCreate) check() error {
-	if v, ok := urc.mutation.ID(); ok {
+func (_c *UserRoleCreate) check() error {
+	if v, ok := _c.mutation.ID(); ok {
 		if err := userrole.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "UserRole.id": %w`, err)}
 		}
@@ -175,12 +175,12 @@ func (urc *UserRoleCreate) check() error {
 	return nil
 }
 
-func (urc *UserRoleCreate) sqlSave(ctx context.Context) (*UserRole, error) {
-	if err := urc.check(); err != nil {
+func (_c *UserRoleCreate) sqlSave(ctx context.Context) (*UserRole, error) {
+	if err := _c.check(); err != nil {
 		return nil, err
 	}
-	_node, _spec := urc.createSpec()
-	if err := sqlgraph.CreateNode(ctx, urc.driver, _spec); err != nil {
+	_node, _spec := _c.createSpec()
+	if err := sqlgraph.CreateNode(ctx, _c.driver, _spec); err != nil {
 		if sqlgraph.IsConstraintError(err) {
 			err = &ConstraintError{msg: err.Error(), wrap: err}
 		}
@@ -193,41 +193,41 @@ func (urc *UserRoleCreate) sqlSave(ctx context.Context) (*UserRole, error) {
 			return nil, fmt.Errorf("unexpected UserRole.ID type: %T", _spec.ID.Value)
 		}
 	}
-	urc.mutation.id = &_node.ID
-	urc.mutation.done = true
+	_c.mutation.id = &_node.ID
+	_c.mutation.done = true
 	return _node, nil
 }
 
-func (urc *UserRoleCreate) createSpec() (*UserRole, *sqlgraph.CreateSpec) {
+func (_c *UserRoleCreate) createSpec() (*UserRole, *sqlgraph.CreateSpec) {
 	var (
-		_node = &UserRole{config: urc.config}
+		_node = &UserRole{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(userrole.Table, sqlgraph.NewFieldSpec(userrole.FieldID, field.TypeString))
 	)
-	if id, ok := urc.mutation.ID(); ok {
+	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
 	}
-	if value, ok := urc.mutation.UserID(); ok {
+	if value, ok := _c.mutation.UserID(); ok {
 		_spec.SetField(userrole.FieldUserID, field.TypeString, value)
 		_node.UserID = value
 	}
-	if value, ok := urc.mutation.RoleID(); ok {
+	if value, ok := _c.mutation.RoleID(); ok {
 		_spec.SetField(userrole.FieldRoleID, field.TypeString, value)
 		_node.RoleID = value
 	}
-	if value, ok := urc.mutation.CreatedBy(); ok {
+	if value, ok := _c.mutation.CreatedBy(); ok {
 		_spec.SetField(userrole.FieldCreatedBy, field.TypeString, value)
 		_node.CreatedBy = value
 	}
-	if value, ok := urc.mutation.UpdatedBy(); ok {
+	if value, ok := _c.mutation.UpdatedBy(); ok {
 		_spec.SetField(userrole.FieldUpdatedBy, field.TypeString, value)
 		_node.UpdatedBy = value
 	}
-	if value, ok := urc.mutation.CreatedAt(); ok {
+	if value, ok := _c.mutation.CreatedAt(); ok {
 		_spec.SetField(userrole.FieldCreatedAt, field.TypeInt64, value)
 		_node.CreatedAt = value
 	}
-	if value, ok := urc.mutation.UpdatedAt(); ok {
+	if value, ok := _c.mutation.UpdatedAt(); ok {
 		_spec.SetField(userrole.FieldUpdatedAt, field.TypeInt64, value)
 		_node.UpdatedAt = value
 	}
@@ -242,16 +242,16 @@ type UserRoleCreateBulk struct {
 }
 
 // Save creates the UserRole entities in the database.
-func (urcb *UserRoleCreateBulk) Save(ctx context.Context) ([]*UserRole, error) {
-	if urcb.err != nil {
-		return nil, urcb.err
+func (_c *UserRoleCreateBulk) Save(ctx context.Context) ([]*UserRole, error) {
+	if _c.err != nil {
+		return nil, _c.err
 	}
-	specs := make([]*sqlgraph.CreateSpec, len(urcb.builders))
-	nodes := make([]*UserRole, len(urcb.builders))
-	mutators := make([]Mutator, len(urcb.builders))
-	for i := range urcb.builders {
+	specs := make([]*sqlgraph.CreateSpec, len(_c.builders))
+	nodes := make([]*UserRole, len(_c.builders))
+	mutators := make([]Mutator, len(_c.builders))
+	for i := range _c.builders {
 		func(i int, root context.Context) {
-			builder := urcb.builders[i]
+			builder := _c.builders[i]
 			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*UserRoleMutation)
@@ -265,11 +265,11 @@ func (urcb *UserRoleCreateBulk) Save(ctx context.Context) ([]*UserRole, error) {
 				var err error
 				nodes[i], specs[i] = builder.createSpec()
 				if i < len(mutators)-1 {
-					_, err = mutators[i+1].Mutate(root, urcb.builders[i+1].mutation)
+					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
 					// Invoke the actual operation on the latest mutation in the chain.
-					if err = sqlgraph.BatchCreate(ctx, urcb.driver, spec); err != nil {
+					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
 							err = &ConstraintError{msg: err.Error(), wrap: err}
 						}
@@ -289,7 +289,7 @@ func (urcb *UserRoleCreateBulk) Save(ctx context.Context) ([]*UserRole, error) {
 		}(i, ctx)
 	}
 	if len(mutators) > 0 {
-		if _, err := mutators[0].Mutate(ctx, urcb.builders[0].mutation); err != nil {
+		if _, err := mutators[0].Mutate(ctx, _c.builders[0].mutation); err != nil {
 			return nil, err
 		}
 	}
@@ -297,8 +297,8 @@ func (urcb *UserRoleCreateBulk) Save(ctx context.Context) ([]*UserRole, error) {
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (urcb *UserRoleCreateBulk) SaveX(ctx context.Context) []*UserRole {
-	v, err := urcb.Save(ctx)
+func (_c *UserRoleCreateBulk) SaveX(ctx context.Context) []*UserRole {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -306,14 +306,14 @@ func (urcb *UserRoleCreateBulk) SaveX(ctx context.Context) []*UserRole {
 }
 
 // Exec executes the query.
-func (urcb *UserRoleCreateBulk) Exec(ctx context.Context) error {
-	_, err := urcb.Save(ctx)
+func (_c *UserRoleCreateBulk) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (urcb *UserRoleCreateBulk) ExecX(ctx context.Context) {
-	if err := urcb.Exec(ctx); err != nil {
+func (_c *UserRoleCreateBulk) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

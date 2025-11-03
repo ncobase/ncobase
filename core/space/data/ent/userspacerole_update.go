@@ -22,144 +22,144 @@ type UserSpaceRoleUpdate struct {
 }
 
 // Where appends a list predicates to the UserSpaceRoleUpdate builder.
-func (usru *UserSpaceRoleUpdate) Where(ps ...predicate.UserSpaceRole) *UserSpaceRoleUpdate {
-	usru.mutation.Where(ps...)
-	return usru
+func (_u *UserSpaceRoleUpdate) Where(ps ...predicate.UserSpaceRole) *UserSpaceRoleUpdate {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // SetUserID sets the "user_id" field.
-func (usru *UserSpaceRoleUpdate) SetUserID(s string) *UserSpaceRoleUpdate {
-	usru.mutation.SetUserID(s)
-	return usru
+func (_u *UserSpaceRoleUpdate) SetUserID(v string) *UserSpaceRoleUpdate {
+	_u.mutation.SetUserID(v)
+	return _u
 }
 
 // SetNillableUserID sets the "user_id" field if the given value is not nil.
-func (usru *UserSpaceRoleUpdate) SetNillableUserID(s *string) *UserSpaceRoleUpdate {
-	if s != nil {
-		usru.SetUserID(*s)
+func (_u *UserSpaceRoleUpdate) SetNillableUserID(v *string) *UserSpaceRoleUpdate {
+	if v != nil {
+		_u.SetUserID(*v)
 	}
-	return usru
+	return _u
 }
 
 // ClearUserID clears the value of the "user_id" field.
-func (usru *UserSpaceRoleUpdate) ClearUserID() *UserSpaceRoleUpdate {
-	usru.mutation.ClearUserID()
-	return usru
+func (_u *UserSpaceRoleUpdate) ClearUserID() *UserSpaceRoleUpdate {
+	_u.mutation.ClearUserID()
+	return _u
 }
 
 // SetSpaceID sets the "space_id" field.
-func (usru *UserSpaceRoleUpdate) SetSpaceID(s string) *UserSpaceRoleUpdate {
-	usru.mutation.SetSpaceID(s)
-	return usru
+func (_u *UserSpaceRoleUpdate) SetSpaceID(v string) *UserSpaceRoleUpdate {
+	_u.mutation.SetSpaceID(v)
+	return _u
 }
 
 // SetNillableSpaceID sets the "space_id" field if the given value is not nil.
-func (usru *UserSpaceRoleUpdate) SetNillableSpaceID(s *string) *UserSpaceRoleUpdate {
-	if s != nil {
-		usru.SetSpaceID(*s)
+func (_u *UserSpaceRoleUpdate) SetNillableSpaceID(v *string) *UserSpaceRoleUpdate {
+	if v != nil {
+		_u.SetSpaceID(*v)
 	}
-	return usru
+	return _u
 }
 
 // ClearSpaceID clears the value of the "space_id" field.
-func (usru *UserSpaceRoleUpdate) ClearSpaceID() *UserSpaceRoleUpdate {
-	usru.mutation.ClearSpaceID()
-	return usru
+func (_u *UserSpaceRoleUpdate) ClearSpaceID() *UserSpaceRoleUpdate {
+	_u.mutation.ClearSpaceID()
+	return _u
 }
 
 // SetRoleID sets the "role_id" field.
-func (usru *UserSpaceRoleUpdate) SetRoleID(s string) *UserSpaceRoleUpdate {
-	usru.mutation.SetRoleID(s)
-	return usru
+func (_u *UserSpaceRoleUpdate) SetRoleID(v string) *UserSpaceRoleUpdate {
+	_u.mutation.SetRoleID(v)
+	return _u
 }
 
 // SetNillableRoleID sets the "role_id" field if the given value is not nil.
-func (usru *UserSpaceRoleUpdate) SetNillableRoleID(s *string) *UserSpaceRoleUpdate {
-	if s != nil {
-		usru.SetRoleID(*s)
+func (_u *UserSpaceRoleUpdate) SetNillableRoleID(v *string) *UserSpaceRoleUpdate {
+	if v != nil {
+		_u.SetRoleID(*v)
 	}
-	return usru
+	return _u
 }
 
 // ClearRoleID clears the value of the "role_id" field.
-func (usru *UserSpaceRoleUpdate) ClearRoleID() *UserSpaceRoleUpdate {
-	usru.mutation.ClearRoleID()
-	return usru
+func (_u *UserSpaceRoleUpdate) ClearRoleID() *UserSpaceRoleUpdate {
+	_u.mutation.ClearRoleID()
+	return _u
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (usru *UserSpaceRoleUpdate) SetCreatedBy(s string) *UserSpaceRoleUpdate {
-	usru.mutation.SetCreatedBy(s)
-	return usru
+func (_u *UserSpaceRoleUpdate) SetCreatedBy(v string) *UserSpaceRoleUpdate {
+	_u.mutation.SetCreatedBy(v)
+	return _u
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (usru *UserSpaceRoleUpdate) SetNillableCreatedBy(s *string) *UserSpaceRoleUpdate {
-	if s != nil {
-		usru.SetCreatedBy(*s)
+func (_u *UserSpaceRoleUpdate) SetNillableCreatedBy(v *string) *UserSpaceRoleUpdate {
+	if v != nil {
+		_u.SetCreatedBy(*v)
 	}
-	return usru
+	return _u
 }
 
 // ClearCreatedBy clears the value of the "created_by" field.
-func (usru *UserSpaceRoleUpdate) ClearCreatedBy() *UserSpaceRoleUpdate {
-	usru.mutation.ClearCreatedBy()
-	return usru
+func (_u *UserSpaceRoleUpdate) ClearCreatedBy() *UserSpaceRoleUpdate {
+	_u.mutation.ClearCreatedBy()
+	return _u
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (usru *UserSpaceRoleUpdate) SetUpdatedBy(s string) *UserSpaceRoleUpdate {
-	usru.mutation.SetUpdatedBy(s)
-	return usru
+func (_u *UserSpaceRoleUpdate) SetUpdatedBy(v string) *UserSpaceRoleUpdate {
+	_u.mutation.SetUpdatedBy(v)
+	return _u
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (usru *UserSpaceRoleUpdate) SetNillableUpdatedBy(s *string) *UserSpaceRoleUpdate {
-	if s != nil {
-		usru.SetUpdatedBy(*s)
+func (_u *UserSpaceRoleUpdate) SetNillableUpdatedBy(v *string) *UserSpaceRoleUpdate {
+	if v != nil {
+		_u.SetUpdatedBy(*v)
 	}
-	return usru
+	return _u
 }
 
 // ClearUpdatedBy clears the value of the "updated_by" field.
-func (usru *UserSpaceRoleUpdate) ClearUpdatedBy() *UserSpaceRoleUpdate {
-	usru.mutation.ClearUpdatedBy()
-	return usru
+func (_u *UserSpaceRoleUpdate) ClearUpdatedBy() *UserSpaceRoleUpdate {
+	_u.mutation.ClearUpdatedBy()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (usru *UserSpaceRoleUpdate) SetUpdatedAt(i int64) *UserSpaceRoleUpdate {
-	usru.mutation.ResetUpdatedAt()
-	usru.mutation.SetUpdatedAt(i)
-	return usru
+func (_u *UserSpaceRoleUpdate) SetUpdatedAt(v int64) *UserSpaceRoleUpdate {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (usru *UserSpaceRoleUpdate) AddUpdatedAt(i int64) *UserSpaceRoleUpdate {
-	usru.mutation.AddUpdatedAt(i)
-	return usru
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *UserSpaceRoleUpdate) AddUpdatedAt(v int64) *UserSpaceRoleUpdate {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (usru *UserSpaceRoleUpdate) ClearUpdatedAt() *UserSpaceRoleUpdate {
-	usru.mutation.ClearUpdatedAt()
-	return usru
+func (_u *UserSpaceRoleUpdate) ClearUpdatedAt() *UserSpaceRoleUpdate {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // Mutation returns the UserSpaceRoleMutation object of the builder.
-func (usru *UserSpaceRoleUpdate) Mutation() *UserSpaceRoleMutation {
-	return usru.mutation
+func (_u *UserSpaceRoleUpdate) Mutation() *UserSpaceRoleMutation {
+	return _u.mutation
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
-func (usru *UserSpaceRoleUpdate) Save(ctx context.Context) (int, error) {
-	usru.defaults()
-	return withHooks(ctx, usru.sqlSave, usru.mutation, usru.hooks)
+func (_u *UserSpaceRoleUpdate) Save(ctx context.Context) (int, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (usru *UserSpaceRoleUpdate) SaveX(ctx context.Context) int {
-	affected, err := usru.Save(ctx)
+func (_u *UserSpaceRoleUpdate) SaveX(ctx context.Context) int {
+	affected, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -167,78 +167,78 @@ func (usru *UserSpaceRoleUpdate) SaveX(ctx context.Context) int {
 }
 
 // Exec executes the query.
-func (usru *UserSpaceRoleUpdate) Exec(ctx context.Context) error {
-	_, err := usru.Save(ctx)
+func (_u *UserSpaceRoleUpdate) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (usru *UserSpaceRoleUpdate) ExecX(ctx context.Context) {
-	if err := usru.Exec(ctx); err != nil {
+func (_u *UserSpaceRoleUpdate) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (usru *UserSpaceRoleUpdate) defaults() {
-	if _, ok := usru.mutation.UpdatedAt(); !ok && !usru.mutation.UpdatedAtCleared() {
+func (_u *UserSpaceRoleUpdate) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := userspacerole.UpdateDefaultUpdatedAt()
-		usru.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (usru *UserSpaceRoleUpdate) sqlSave(ctx context.Context) (n int, err error) {
+func (_u *UserSpaceRoleUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	_spec := sqlgraph.NewUpdateSpec(userspacerole.Table, userspacerole.Columns, sqlgraph.NewFieldSpec(userspacerole.FieldID, field.TypeString))
-	if ps := usru.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := usru.mutation.UserID(); ok {
+	if value, ok := _u.mutation.UserID(); ok {
 		_spec.SetField(userspacerole.FieldUserID, field.TypeString, value)
 	}
-	if usru.mutation.UserIDCleared() {
+	if _u.mutation.UserIDCleared() {
 		_spec.ClearField(userspacerole.FieldUserID, field.TypeString)
 	}
-	if value, ok := usru.mutation.SpaceID(); ok {
+	if value, ok := _u.mutation.SpaceID(); ok {
 		_spec.SetField(userspacerole.FieldSpaceID, field.TypeString, value)
 	}
-	if usru.mutation.SpaceIDCleared() {
+	if _u.mutation.SpaceIDCleared() {
 		_spec.ClearField(userspacerole.FieldSpaceID, field.TypeString)
 	}
-	if value, ok := usru.mutation.RoleID(); ok {
+	if value, ok := _u.mutation.RoleID(); ok {
 		_spec.SetField(userspacerole.FieldRoleID, field.TypeString, value)
 	}
-	if usru.mutation.RoleIDCleared() {
+	if _u.mutation.RoleIDCleared() {
 		_spec.ClearField(userspacerole.FieldRoleID, field.TypeString)
 	}
-	if value, ok := usru.mutation.CreatedBy(); ok {
+	if value, ok := _u.mutation.CreatedBy(); ok {
 		_spec.SetField(userspacerole.FieldCreatedBy, field.TypeString, value)
 	}
-	if usru.mutation.CreatedByCleared() {
+	if _u.mutation.CreatedByCleared() {
 		_spec.ClearField(userspacerole.FieldCreatedBy, field.TypeString)
 	}
-	if value, ok := usru.mutation.UpdatedBy(); ok {
+	if value, ok := _u.mutation.UpdatedBy(); ok {
 		_spec.SetField(userspacerole.FieldUpdatedBy, field.TypeString, value)
 	}
-	if usru.mutation.UpdatedByCleared() {
+	if _u.mutation.UpdatedByCleared() {
 		_spec.ClearField(userspacerole.FieldUpdatedBy, field.TypeString)
 	}
-	if usru.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(userspacerole.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := usru.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(userspacerole.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := usru.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(userspacerole.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if usru.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(userspacerole.FieldUpdatedAt, field.TypeInt64)
 	}
-	if n, err = sqlgraph.UpdateNodes(ctx, usru.driver, _spec); err != nil {
+	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{userspacerole.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -246,8 +246,8 @@ func (usru *UserSpaceRoleUpdate) sqlSave(ctx context.Context) (n int, err error)
 		}
 		return 0, err
 	}
-	usru.mutation.done = true
-	return n, nil
+	_u.mutation.done = true
+	return _node, nil
 }
 
 // UserSpaceRoleUpdateOne is the builder for updating a single UserSpaceRole entity.
@@ -259,151 +259,151 @@ type UserSpaceRoleUpdateOne struct {
 }
 
 // SetUserID sets the "user_id" field.
-func (usruo *UserSpaceRoleUpdateOne) SetUserID(s string) *UserSpaceRoleUpdateOne {
-	usruo.mutation.SetUserID(s)
-	return usruo
+func (_u *UserSpaceRoleUpdateOne) SetUserID(v string) *UserSpaceRoleUpdateOne {
+	_u.mutation.SetUserID(v)
+	return _u
 }
 
 // SetNillableUserID sets the "user_id" field if the given value is not nil.
-func (usruo *UserSpaceRoleUpdateOne) SetNillableUserID(s *string) *UserSpaceRoleUpdateOne {
-	if s != nil {
-		usruo.SetUserID(*s)
+func (_u *UserSpaceRoleUpdateOne) SetNillableUserID(v *string) *UserSpaceRoleUpdateOne {
+	if v != nil {
+		_u.SetUserID(*v)
 	}
-	return usruo
+	return _u
 }
 
 // ClearUserID clears the value of the "user_id" field.
-func (usruo *UserSpaceRoleUpdateOne) ClearUserID() *UserSpaceRoleUpdateOne {
-	usruo.mutation.ClearUserID()
-	return usruo
+func (_u *UserSpaceRoleUpdateOne) ClearUserID() *UserSpaceRoleUpdateOne {
+	_u.mutation.ClearUserID()
+	return _u
 }
 
 // SetSpaceID sets the "space_id" field.
-func (usruo *UserSpaceRoleUpdateOne) SetSpaceID(s string) *UserSpaceRoleUpdateOne {
-	usruo.mutation.SetSpaceID(s)
-	return usruo
+func (_u *UserSpaceRoleUpdateOne) SetSpaceID(v string) *UserSpaceRoleUpdateOne {
+	_u.mutation.SetSpaceID(v)
+	return _u
 }
 
 // SetNillableSpaceID sets the "space_id" field if the given value is not nil.
-func (usruo *UserSpaceRoleUpdateOne) SetNillableSpaceID(s *string) *UserSpaceRoleUpdateOne {
-	if s != nil {
-		usruo.SetSpaceID(*s)
+func (_u *UserSpaceRoleUpdateOne) SetNillableSpaceID(v *string) *UserSpaceRoleUpdateOne {
+	if v != nil {
+		_u.SetSpaceID(*v)
 	}
-	return usruo
+	return _u
 }
 
 // ClearSpaceID clears the value of the "space_id" field.
-func (usruo *UserSpaceRoleUpdateOne) ClearSpaceID() *UserSpaceRoleUpdateOne {
-	usruo.mutation.ClearSpaceID()
-	return usruo
+func (_u *UserSpaceRoleUpdateOne) ClearSpaceID() *UserSpaceRoleUpdateOne {
+	_u.mutation.ClearSpaceID()
+	return _u
 }
 
 // SetRoleID sets the "role_id" field.
-func (usruo *UserSpaceRoleUpdateOne) SetRoleID(s string) *UserSpaceRoleUpdateOne {
-	usruo.mutation.SetRoleID(s)
-	return usruo
+func (_u *UserSpaceRoleUpdateOne) SetRoleID(v string) *UserSpaceRoleUpdateOne {
+	_u.mutation.SetRoleID(v)
+	return _u
 }
 
 // SetNillableRoleID sets the "role_id" field if the given value is not nil.
-func (usruo *UserSpaceRoleUpdateOne) SetNillableRoleID(s *string) *UserSpaceRoleUpdateOne {
-	if s != nil {
-		usruo.SetRoleID(*s)
+func (_u *UserSpaceRoleUpdateOne) SetNillableRoleID(v *string) *UserSpaceRoleUpdateOne {
+	if v != nil {
+		_u.SetRoleID(*v)
 	}
-	return usruo
+	return _u
 }
 
 // ClearRoleID clears the value of the "role_id" field.
-func (usruo *UserSpaceRoleUpdateOne) ClearRoleID() *UserSpaceRoleUpdateOne {
-	usruo.mutation.ClearRoleID()
-	return usruo
+func (_u *UserSpaceRoleUpdateOne) ClearRoleID() *UserSpaceRoleUpdateOne {
+	_u.mutation.ClearRoleID()
+	return _u
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (usruo *UserSpaceRoleUpdateOne) SetCreatedBy(s string) *UserSpaceRoleUpdateOne {
-	usruo.mutation.SetCreatedBy(s)
-	return usruo
+func (_u *UserSpaceRoleUpdateOne) SetCreatedBy(v string) *UserSpaceRoleUpdateOne {
+	_u.mutation.SetCreatedBy(v)
+	return _u
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (usruo *UserSpaceRoleUpdateOne) SetNillableCreatedBy(s *string) *UserSpaceRoleUpdateOne {
-	if s != nil {
-		usruo.SetCreatedBy(*s)
+func (_u *UserSpaceRoleUpdateOne) SetNillableCreatedBy(v *string) *UserSpaceRoleUpdateOne {
+	if v != nil {
+		_u.SetCreatedBy(*v)
 	}
-	return usruo
+	return _u
 }
 
 // ClearCreatedBy clears the value of the "created_by" field.
-func (usruo *UserSpaceRoleUpdateOne) ClearCreatedBy() *UserSpaceRoleUpdateOne {
-	usruo.mutation.ClearCreatedBy()
-	return usruo
+func (_u *UserSpaceRoleUpdateOne) ClearCreatedBy() *UserSpaceRoleUpdateOne {
+	_u.mutation.ClearCreatedBy()
+	return _u
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (usruo *UserSpaceRoleUpdateOne) SetUpdatedBy(s string) *UserSpaceRoleUpdateOne {
-	usruo.mutation.SetUpdatedBy(s)
-	return usruo
+func (_u *UserSpaceRoleUpdateOne) SetUpdatedBy(v string) *UserSpaceRoleUpdateOne {
+	_u.mutation.SetUpdatedBy(v)
+	return _u
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (usruo *UserSpaceRoleUpdateOne) SetNillableUpdatedBy(s *string) *UserSpaceRoleUpdateOne {
-	if s != nil {
-		usruo.SetUpdatedBy(*s)
+func (_u *UserSpaceRoleUpdateOne) SetNillableUpdatedBy(v *string) *UserSpaceRoleUpdateOne {
+	if v != nil {
+		_u.SetUpdatedBy(*v)
 	}
-	return usruo
+	return _u
 }
 
 // ClearUpdatedBy clears the value of the "updated_by" field.
-func (usruo *UserSpaceRoleUpdateOne) ClearUpdatedBy() *UserSpaceRoleUpdateOne {
-	usruo.mutation.ClearUpdatedBy()
-	return usruo
+func (_u *UserSpaceRoleUpdateOne) ClearUpdatedBy() *UserSpaceRoleUpdateOne {
+	_u.mutation.ClearUpdatedBy()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (usruo *UserSpaceRoleUpdateOne) SetUpdatedAt(i int64) *UserSpaceRoleUpdateOne {
-	usruo.mutation.ResetUpdatedAt()
-	usruo.mutation.SetUpdatedAt(i)
-	return usruo
+func (_u *UserSpaceRoleUpdateOne) SetUpdatedAt(v int64) *UserSpaceRoleUpdateOne {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (usruo *UserSpaceRoleUpdateOne) AddUpdatedAt(i int64) *UserSpaceRoleUpdateOne {
-	usruo.mutation.AddUpdatedAt(i)
-	return usruo
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *UserSpaceRoleUpdateOne) AddUpdatedAt(v int64) *UserSpaceRoleUpdateOne {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (usruo *UserSpaceRoleUpdateOne) ClearUpdatedAt() *UserSpaceRoleUpdateOne {
-	usruo.mutation.ClearUpdatedAt()
-	return usruo
+func (_u *UserSpaceRoleUpdateOne) ClearUpdatedAt() *UserSpaceRoleUpdateOne {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // Mutation returns the UserSpaceRoleMutation object of the builder.
-func (usruo *UserSpaceRoleUpdateOne) Mutation() *UserSpaceRoleMutation {
-	return usruo.mutation
+func (_u *UserSpaceRoleUpdateOne) Mutation() *UserSpaceRoleMutation {
+	return _u.mutation
 }
 
 // Where appends a list predicates to the UserSpaceRoleUpdate builder.
-func (usruo *UserSpaceRoleUpdateOne) Where(ps ...predicate.UserSpaceRole) *UserSpaceRoleUpdateOne {
-	usruo.mutation.Where(ps...)
-	return usruo
+func (_u *UserSpaceRoleUpdateOne) Where(ps ...predicate.UserSpaceRole) *UserSpaceRoleUpdateOne {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // Select allows selecting one or more fields (columns) of the returned entity.
 // The default is selecting all fields defined in the entity schema.
-func (usruo *UserSpaceRoleUpdateOne) Select(field string, fields ...string) *UserSpaceRoleUpdateOne {
-	usruo.fields = append([]string{field}, fields...)
-	return usruo
+func (_u *UserSpaceRoleUpdateOne) Select(field string, fields ...string) *UserSpaceRoleUpdateOne {
+	_u.fields = append([]string{field}, fields...)
+	return _u
 }
 
 // Save executes the query and returns the updated UserSpaceRole entity.
-func (usruo *UserSpaceRoleUpdateOne) Save(ctx context.Context) (*UserSpaceRole, error) {
-	usruo.defaults()
-	return withHooks(ctx, usruo.sqlSave, usruo.mutation, usruo.hooks)
+func (_u *UserSpaceRoleUpdateOne) Save(ctx context.Context) (*UserSpaceRole, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (usruo *UserSpaceRoleUpdateOne) SaveX(ctx context.Context) *UserSpaceRole {
-	node, err := usruo.Save(ctx)
+func (_u *UserSpaceRoleUpdateOne) SaveX(ctx context.Context) *UserSpaceRole {
+	node, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -411,34 +411,34 @@ func (usruo *UserSpaceRoleUpdateOne) SaveX(ctx context.Context) *UserSpaceRole {
 }
 
 // Exec executes the query on the entity.
-func (usruo *UserSpaceRoleUpdateOne) Exec(ctx context.Context) error {
-	_, err := usruo.Save(ctx)
+func (_u *UserSpaceRoleUpdateOne) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (usruo *UserSpaceRoleUpdateOne) ExecX(ctx context.Context) {
-	if err := usruo.Exec(ctx); err != nil {
+func (_u *UserSpaceRoleUpdateOne) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (usruo *UserSpaceRoleUpdateOne) defaults() {
-	if _, ok := usruo.mutation.UpdatedAt(); !ok && !usruo.mutation.UpdatedAtCleared() {
+func (_u *UserSpaceRoleUpdateOne) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := userspacerole.UpdateDefaultUpdatedAt()
-		usruo.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (usruo *UserSpaceRoleUpdateOne) sqlSave(ctx context.Context) (_node *UserSpaceRole, err error) {
+func (_u *UserSpaceRoleUpdateOne) sqlSave(ctx context.Context) (_node *UserSpaceRole, err error) {
 	_spec := sqlgraph.NewUpdateSpec(userspacerole.Table, userspacerole.Columns, sqlgraph.NewFieldSpec(userspacerole.FieldID, field.TypeString))
-	id, ok := usruo.mutation.ID()
+	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "UserSpaceRole.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
-	if fields := usruo.fields; len(fields) > 0 {
+	if fields := _u.fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, userspacerole.FieldID)
 		for _, f := range fields {
@@ -450,59 +450,59 @@ func (usruo *UserSpaceRoleUpdateOne) sqlSave(ctx context.Context) (_node *UserSp
 			}
 		}
 	}
-	if ps := usruo.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := usruo.mutation.UserID(); ok {
+	if value, ok := _u.mutation.UserID(); ok {
 		_spec.SetField(userspacerole.FieldUserID, field.TypeString, value)
 	}
-	if usruo.mutation.UserIDCleared() {
+	if _u.mutation.UserIDCleared() {
 		_spec.ClearField(userspacerole.FieldUserID, field.TypeString)
 	}
-	if value, ok := usruo.mutation.SpaceID(); ok {
+	if value, ok := _u.mutation.SpaceID(); ok {
 		_spec.SetField(userspacerole.FieldSpaceID, field.TypeString, value)
 	}
-	if usruo.mutation.SpaceIDCleared() {
+	if _u.mutation.SpaceIDCleared() {
 		_spec.ClearField(userspacerole.FieldSpaceID, field.TypeString)
 	}
-	if value, ok := usruo.mutation.RoleID(); ok {
+	if value, ok := _u.mutation.RoleID(); ok {
 		_spec.SetField(userspacerole.FieldRoleID, field.TypeString, value)
 	}
-	if usruo.mutation.RoleIDCleared() {
+	if _u.mutation.RoleIDCleared() {
 		_spec.ClearField(userspacerole.FieldRoleID, field.TypeString)
 	}
-	if value, ok := usruo.mutation.CreatedBy(); ok {
+	if value, ok := _u.mutation.CreatedBy(); ok {
 		_spec.SetField(userspacerole.FieldCreatedBy, field.TypeString, value)
 	}
-	if usruo.mutation.CreatedByCleared() {
+	if _u.mutation.CreatedByCleared() {
 		_spec.ClearField(userspacerole.FieldCreatedBy, field.TypeString)
 	}
-	if value, ok := usruo.mutation.UpdatedBy(); ok {
+	if value, ok := _u.mutation.UpdatedBy(); ok {
 		_spec.SetField(userspacerole.FieldUpdatedBy, field.TypeString, value)
 	}
-	if usruo.mutation.UpdatedByCleared() {
+	if _u.mutation.UpdatedByCleared() {
 		_spec.ClearField(userspacerole.FieldUpdatedBy, field.TypeString)
 	}
-	if usruo.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(userspacerole.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := usruo.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(userspacerole.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := usruo.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(userspacerole.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if usruo.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(userspacerole.FieldUpdatedAt, field.TypeInt64)
 	}
-	_node = &UserSpaceRole{config: usruo.config}
+	_node = &UserSpaceRole{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues
-	if err = sqlgraph.UpdateNode(ctx, usruo.driver, _spec); err != nil {
+	if err = sqlgraph.UpdateNode(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{userspacerole.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -510,6 +510,6 @@ func (usruo *UserSpaceRoleUpdateOne) sqlSave(ctx context.Context) (_node *UserSp
 		}
 		return nil, err
 	}
-	usruo.mutation.done = true
+	_u.mutation.done = true
 	return _node, nil
 }

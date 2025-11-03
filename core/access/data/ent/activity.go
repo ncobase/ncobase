@@ -53,7 +53,7 @@ func (*Activity) scanValues(columns []string) ([]any, error) {
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
 // to the Activity fields.
-func (a *Activity) assignValues(columns []string, values []any) error {
+func (_m *Activity) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
@@ -63,31 +63,31 @@ func (a *Activity) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field id", values[i])
 			} else if value.Valid {
-				a.ID = value.String
+				_m.ID = value.String
 			}
 		case activity.FieldType:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field type", values[i])
 			} else if value.Valid {
-				a.Type = value.String
+				_m.Type = value.String
 			}
 		case activity.FieldUserID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field user_id", values[i])
 			} else if value.Valid {
-				a.UserID = value.String
+				_m.UserID = value.String
 			}
 		case activity.FieldDetails:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field details", values[i])
 			} else if value.Valid {
-				a.Details = value.String
+				_m.Details = value.String
 			}
 		case activity.FieldMetadata:
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field metadata", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &a.Metadata); err != nil {
+				if err := json.Unmarshal(*value, &_m.Metadata); err != nil {
 					return fmt.Errorf("unmarshal field metadata: %w", err)
 				}
 			}
@@ -95,16 +95,16 @@ func (a *Activity) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field created_at", values[i])
 			} else if value.Valid {
-				a.CreatedAt = value.Int64
+				_m.CreatedAt = value.Int64
 			}
 		case activity.FieldUpdatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_at", values[i])
 			} else if value.Valid {
-				a.UpdatedAt = value.Int64
+				_m.UpdatedAt = value.Int64
 			}
 		default:
-			a.selectValues.Set(columns[i], values[i])
+			_m.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
@@ -112,50 +112,50 @@ func (a *Activity) assignValues(columns []string, values []any) error {
 
 // Value returns the ent.Value that was dynamically selected and assigned to the Activity.
 // This includes values selected through modifiers, order, etc.
-func (a *Activity) Value(name string) (ent.Value, error) {
-	return a.selectValues.Get(name)
+func (_m *Activity) Value(name string) (ent.Value, error) {
+	return _m.selectValues.Get(name)
 }
 
 // Update returns a builder for updating this Activity.
 // Note that you need to call Activity.Unwrap() before calling this method if this Activity
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (a *Activity) Update() *ActivityUpdateOne {
-	return NewActivityClient(a.config).UpdateOne(a)
+func (_m *Activity) Update() *ActivityUpdateOne {
+	return NewActivityClient(_m.config).UpdateOne(_m)
 }
 
 // Unwrap unwraps the Activity entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (a *Activity) Unwrap() *Activity {
-	_tx, ok := a.config.driver.(*txDriver)
+func (_m *Activity) Unwrap() *Activity {
+	_tx, ok := _m.config.driver.(*txDriver)
 	if !ok {
 		panic("ent: Activity is not a transactional entity")
 	}
-	a.config.driver = _tx.drv
-	return a
+	_m.config.driver = _tx.drv
+	return _m
 }
 
 // String implements the fmt.Stringer.
-func (a *Activity) String() string {
+func (_m *Activity) String() string {
 	var builder strings.Builder
 	builder.WriteString("Activity(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", a.ID))
+	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
 	builder.WriteString("type=")
-	builder.WriteString(a.Type)
+	builder.WriteString(_m.Type)
 	builder.WriteString(", ")
 	builder.WriteString("user_id=")
-	builder.WriteString(a.UserID)
+	builder.WriteString(_m.UserID)
 	builder.WriteString(", ")
 	builder.WriteString("details=")
-	builder.WriteString(a.Details)
+	builder.WriteString(_m.Details)
 	builder.WriteString(", ")
 	builder.WriteString("metadata=")
-	builder.WriteString(fmt.Sprintf("%v", a.Metadata))
+	builder.WriteString(fmt.Sprintf("%v", _m.Metadata))
 	builder.WriteString(", ")
 	builder.WriteString("created_at=")
-	builder.WriteString(fmt.Sprintf("%v", a.CreatedAt))
+	builder.WriteString(fmt.Sprintf("%v", _m.CreatedAt))
 	builder.WriteString(", ")
 	builder.WriteString("updated_at=")
-	builder.WriteString(fmt.Sprintf("%v", a.UpdatedAt))
+	builder.WriteString(fmt.Sprintf("%v", _m.UpdatedAt))
 	builder.WriteByte(')')
 	return builder.String()
 }

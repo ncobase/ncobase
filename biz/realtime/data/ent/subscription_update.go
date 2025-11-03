@@ -22,105 +22,105 @@ type SubscriptionUpdate struct {
 }
 
 // Where appends a list predicates to the SubscriptionUpdate builder.
-func (su *SubscriptionUpdate) Where(ps ...predicate.Subscription) *SubscriptionUpdate {
-	su.mutation.Where(ps...)
-	return su
+func (_u *SubscriptionUpdate) Where(ps ...predicate.Subscription) *SubscriptionUpdate {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // SetUserID sets the "user_id" field.
-func (su *SubscriptionUpdate) SetUserID(s string) *SubscriptionUpdate {
-	su.mutation.SetUserID(s)
-	return su
+func (_u *SubscriptionUpdate) SetUserID(v string) *SubscriptionUpdate {
+	_u.mutation.SetUserID(v)
+	return _u
 }
 
 // SetNillableUserID sets the "user_id" field if the given value is not nil.
-func (su *SubscriptionUpdate) SetNillableUserID(s *string) *SubscriptionUpdate {
-	if s != nil {
-		su.SetUserID(*s)
+func (_u *SubscriptionUpdate) SetNillableUserID(v *string) *SubscriptionUpdate {
+	if v != nil {
+		_u.SetUserID(*v)
 	}
-	return su
+	return _u
 }
 
 // ClearUserID clears the value of the "user_id" field.
-func (su *SubscriptionUpdate) ClearUserID() *SubscriptionUpdate {
-	su.mutation.ClearUserID()
-	return su
+func (_u *SubscriptionUpdate) ClearUserID() *SubscriptionUpdate {
+	_u.mutation.ClearUserID()
+	return _u
 }
 
 // SetChannelID sets the "channel_id" field.
-func (su *SubscriptionUpdate) SetChannelID(s string) *SubscriptionUpdate {
-	su.mutation.SetChannelID(s)
-	return su
+func (_u *SubscriptionUpdate) SetChannelID(v string) *SubscriptionUpdate {
+	_u.mutation.SetChannelID(v)
+	return _u
 }
 
 // SetNillableChannelID sets the "channel_id" field if the given value is not nil.
-func (su *SubscriptionUpdate) SetNillableChannelID(s *string) *SubscriptionUpdate {
-	if s != nil {
-		su.SetChannelID(*s)
+func (_u *SubscriptionUpdate) SetNillableChannelID(v *string) *SubscriptionUpdate {
+	if v != nil {
+		_u.SetChannelID(*v)
 	}
-	return su
+	return _u
 }
 
 // ClearChannelID clears the value of the "channel_id" field.
-func (su *SubscriptionUpdate) ClearChannelID() *SubscriptionUpdate {
-	su.mutation.ClearChannelID()
-	return su
+func (_u *SubscriptionUpdate) ClearChannelID() *SubscriptionUpdate {
+	_u.mutation.ClearChannelID()
+	return _u
 }
 
 // SetStatus sets the "status" field.
-func (su *SubscriptionUpdate) SetStatus(i int) *SubscriptionUpdate {
-	su.mutation.ResetStatus()
-	su.mutation.SetStatus(i)
-	return su
+func (_u *SubscriptionUpdate) SetStatus(v int) *SubscriptionUpdate {
+	_u.mutation.ResetStatus()
+	_u.mutation.SetStatus(v)
+	return _u
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (su *SubscriptionUpdate) SetNillableStatus(i *int) *SubscriptionUpdate {
-	if i != nil {
-		su.SetStatus(*i)
+func (_u *SubscriptionUpdate) SetNillableStatus(v *int) *SubscriptionUpdate {
+	if v != nil {
+		_u.SetStatus(*v)
 	}
-	return su
+	return _u
 }
 
-// AddStatus adds i to the "status" field.
-func (su *SubscriptionUpdate) AddStatus(i int) *SubscriptionUpdate {
-	su.mutation.AddStatus(i)
-	return su
+// AddStatus adds value to the "status" field.
+func (_u *SubscriptionUpdate) AddStatus(v int) *SubscriptionUpdate {
+	_u.mutation.AddStatus(v)
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (su *SubscriptionUpdate) SetUpdatedAt(i int64) *SubscriptionUpdate {
-	su.mutation.ResetUpdatedAt()
-	su.mutation.SetUpdatedAt(i)
-	return su
+func (_u *SubscriptionUpdate) SetUpdatedAt(v int64) *SubscriptionUpdate {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (su *SubscriptionUpdate) AddUpdatedAt(i int64) *SubscriptionUpdate {
-	su.mutation.AddUpdatedAt(i)
-	return su
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *SubscriptionUpdate) AddUpdatedAt(v int64) *SubscriptionUpdate {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (su *SubscriptionUpdate) ClearUpdatedAt() *SubscriptionUpdate {
-	su.mutation.ClearUpdatedAt()
-	return su
+func (_u *SubscriptionUpdate) ClearUpdatedAt() *SubscriptionUpdate {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // Mutation returns the SubscriptionMutation object of the builder.
-func (su *SubscriptionUpdate) Mutation() *SubscriptionMutation {
-	return su.mutation
+func (_u *SubscriptionUpdate) Mutation() *SubscriptionMutation {
+	return _u.mutation
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
-func (su *SubscriptionUpdate) Save(ctx context.Context) (int, error) {
-	su.defaults()
-	return withHooks(ctx, su.sqlSave, su.mutation, su.hooks)
+func (_u *SubscriptionUpdate) Save(ctx context.Context) (int, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (su *SubscriptionUpdate) SaveX(ctx context.Context) int {
-	affected, err := su.Save(ctx)
+func (_u *SubscriptionUpdate) SaveX(ctx context.Context) int {
+	affected, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -128,66 +128,66 @@ func (su *SubscriptionUpdate) SaveX(ctx context.Context) int {
 }
 
 // Exec executes the query.
-func (su *SubscriptionUpdate) Exec(ctx context.Context) error {
-	_, err := su.Save(ctx)
+func (_u *SubscriptionUpdate) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (su *SubscriptionUpdate) ExecX(ctx context.Context) {
-	if err := su.Exec(ctx); err != nil {
+func (_u *SubscriptionUpdate) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (su *SubscriptionUpdate) defaults() {
-	if _, ok := su.mutation.UpdatedAt(); !ok && !su.mutation.UpdatedAtCleared() {
+func (_u *SubscriptionUpdate) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := subscription.UpdateDefaultUpdatedAt()
-		su.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (su *SubscriptionUpdate) sqlSave(ctx context.Context) (n int, err error) {
+func (_u *SubscriptionUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	_spec := sqlgraph.NewUpdateSpec(subscription.Table, subscription.Columns, sqlgraph.NewFieldSpec(subscription.FieldID, field.TypeString))
-	if ps := su.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := su.mutation.UserID(); ok {
+	if value, ok := _u.mutation.UserID(); ok {
 		_spec.SetField(subscription.FieldUserID, field.TypeString, value)
 	}
-	if su.mutation.UserIDCleared() {
+	if _u.mutation.UserIDCleared() {
 		_spec.ClearField(subscription.FieldUserID, field.TypeString)
 	}
-	if value, ok := su.mutation.ChannelID(); ok {
+	if value, ok := _u.mutation.ChannelID(); ok {
 		_spec.SetField(subscription.FieldChannelID, field.TypeString, value)
 	}
-	if su.mutation.ChannelIDCleared() {
+	if _u.mutation.ChannelIDCleared() {
 		_spec.ClearField(subscription.FieldChannelID, field.TypeString)
 	}
-	if value, ok := su.mutation.Status(); ok {
+	if value, ok := _u.mutation.Status(); ok {
 		_spec.SetField(subscription.FieldStatus, field.TypeInt, value)
 	}
-	if value, ok := su.mutation.AddedStatus(); ok {
+	if value, ok := _u.mutation.AddedStatus(); ok {
 		_spec.AddField(subscription.FieldStatus, field.TypeInt, value)
 	}
-	if su.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(subscription.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := su.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(subscription.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := su.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(subscription.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if su.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(subscription.FieldUpdatedAt, field.TypeInt64)
 	}
-	if n, err = sqlgraph.UpdateNodes(ctx, su.driver, _spec); err != nil {
+	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{subscription.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -195,8 +195,8 @@ func (su *SubscriptionUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		return 0, err
 	}
-	su.mutation.done = true
-	return n, nil
+	_u.mutation.done = true
+	return _node, nil
 }
 
 // SubscriptionUpdateOne is the builder for updating a single Subscription entity.
@@ -208,112 +208,112 @@ type SubscriptionUpdateOne struct {
 }
 
 // SetUserID sets the "user_id" field.
-func (suo *SubscriptionUpdateOne) SetUserID(s string) *SubscriptionUpdateOne {
-	suo.mutation.SetUserID(s)
-	return suo
+func (_u *SubscriptionUpdateOne) SetUserID(v string) *SubscriptionUpdateOne {
+	_u.mutation.SetUserID(v)
+	return _u
 }
 
 // SetNillableUserID sets the "user_id" field if the given value is not nil.
-func (suo *SubscriptionUpdateOne) SetNillableUserID(s *string) *SubscriptionUpdateOne {
-	if s != nil {
-		suo.SetUserID(*s)
+func (_u *SubscriptionUpdateOne) SetNillableUserID(v *string) *SubscriptionUpdateOne {
+	if v != nil {
+		_u.SetUserID(*v)
 	}
-	return suo
+	return _u
 }
 
 // ClearUserID clears the value of the "user_id" field.
-func (suo *SubscriptionUpdateOne) ClearUserID() *SubscriptionUpdateOne {
-	suo.mutation.ClearUserID()
-	return suo
+func (_u *SubscriptionUpdateOne) ClearUserID() *SubscriptionUpdateOne {
+	_u.mutation.ClearUserID()
+	return _u
 }
 
 // SetChannelID sets the "channel_id" field.
-func (suo *SubscriptionUpdateOne) SetChannelID(s string) *SubscriptionUpdateOne {
-	suo.mutation.SetChannelID(s)
-	return suo
+func (_u *SubscriptionUpdateOne) SetChannelID(v string) *SubscriptionUpdateOne {
+	_u.mutation.SetChannelID(v)
+	return _u
 }
 
 // SetNillableChannelID sets the "channel_id" field if the given value is not nil.
-func (suo *SubscriptionUpdateOne) SetNillableChannelID(s *string) *SubscriptionUpdateOne {
-	if s != nil {
-		suo.SetChannelID(*s)
+func (_u *SubscriptionUpdateOne) SetNillableChannelID(v *string) *SubscriptionUpdateOne {
+	if v != nil {
+		_u.SetChannelID(*v)
 	}
-	return suo
+	return _u
 }
 
 // ClearChannelID clears the value of the "channel_id" field.
-func (suo *SubscriptionUpdateOne) ClearChannelID() *SubscriptionUpdateOne {
-	suo.mutation.ClearChannelID()
-	return suo
+func (_u *SubscriptionUpdateOne) ClearChannelID() *SubscriptionUpdateOne {
+	_u.mutation.ClearChannelID()
+	return _u
 }
 
 // SetStatus sets the "status" field.
-func (suo *SubscriptionUpdateOne) SetStatus(i int) *SubscriptionUpdateOne {
-	suo.mutation.ResetStatus()
-	suo.mutation.SetStatus(i)
-	return suo
+func (_u *SubscriptionUpdateOne) SetStatus(v int) *SubscriptionUpdateOne {
+	_u.mutation.ResetStatus()
+	_u.mutation.SetStatus(v)
+	return _u
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (suo *SubscriptionUpdateOne) SetNillableStatus(i *int) *SubscriptionUpdateOne {
-	if i != nil {
-		suo.SetStatus(*i)
+func (_u *SubscriptionUpdateOne) SetNillableStatus(v *int) *SubscriptionUpdateOne {
+	if v != nil {
+		_u.SetStatus(*v)
 	}
-	return suo
+	return _u
 }
 
-// AddStatus adds i to the "status" field.
-func (suo *SubscriptionUpdateOne) AddStatus(i int) *SubscriptionUpdateOne {
-	suo.mutation.AddStatus(i)
-	return suo
+// AddStatus adds value to the "status" field.
+func (_u *SubscriptionUpdateOne) AddStatus(v int) *SubscriptionUpdateOne {
+	_u.mutation.AddStatus(v)
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (suo *SubscriptionUpdateOne) SetUpdatedAt(i int64) *SubscriptionUpdateOne {
-	suo.mutation.ResetUpdatedAt()
-	suo.mutation.SetUpdatedAt(i)
-	return suo
+func (_u *SubscriptionUpdateOne) SetUpdatedAt(v int64) *SubscriptionUpdateOne {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (suo *SubscriptionUpdateOne) AddUpdatedAt(i int64) *SubscriptionUpdateOne {
-	suo.mutation.AddUpdatedAt(i)
-	return suo
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *SubscriptionUpdateOne) AddUpdatedAt(v int64) *SubscriptionUpdateOne {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (suo *SubscriptionUpdateOne) ClearUpdatedAt() *SubscriptionUpdateOne {
-	suo.mutation.ClearUpdatedAt()
-	return suo
+func (_u *SubscriptionUpdateOne) ClearUpdatedAt() *SubscriptionUpdateOne {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // Mutation returns the SubscriptionMutation object of the builder.
-func (suo *SubscriptionUpdateOne) Mutation() *SubscriptionMutation {
-	return suo.mutation
+func (_u *SubscriptionUpdateOne) Mutation() *SubscriptionMutation {
+	return _u.mutation
 }
 
 // Where appends a list predicates to the SubscriptionUpdate builder.
-func (suo *SubscriptionUpdateOne) Where(ps ...predicate.Subscription) *SubscriptionUpdateOne {
-	suo.mutation.Where(ps...)
-	return suo
+func (_u *SubscriptionUpdateOne) Where(ps ...predicate.Subscription) *SubscriptionUpdateOne {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // Select allows selecting one or more fields (columns) of the returned entity.
 // The default is selecting all fields defined in the entity schema.
-func (suo *SubscriptionUpdateOne) Select(field string, fields ...string) *SubscriptionUpdateOne {
-	suo.fields = append([]string{field}, fields...)
-	return suo
+func (_u *SubscriptionUpdateOne) Select(field string, fields ...string) *SubscriptionUpdateOne {
+	_u.fields = append([]string{field}, fields...)
+	return _u
 }
 
 // Save executes the query and returns the updated Subscription entity.
-func (suo *SubscriptionUpdateOne) Save(ctx context.Context) (*Subscription, error) {
-	suo.defaults()
-	return withHooks(ctx, suo.sqlSave, suo.mutation, suo.hooks)
+func (_u *SubscriptionUpdateOne) Save(ctx context.Context) (*Subscription, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (suo *SubscriptionUpdateOne) SaveX(ctx context.Context) *Subscription {
-	node, err := suo.Save(ctx)
+func (_u *SubscriptionUpdateOne) SaveX(ctx context.Context) *Subscription {
+	node, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -321,34 +321,34 @@ func (suo *SubscriptionUpdateOne) SaveX(ctx context.Context) *Subscription {
 }
 
 // Exec executes the query on the entity.
-func (suo *SubscriptionUpdateOne) Exec(ctx context.Context) error {
-	_, err := suo.Save(ctx)
+func (_u *SubscriptionUpdateOne) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (suo *SubscriptionUpdateOne) ExecX(ctx context.Context) {
-	if err := suo.Exec(ctx); err != nil {
+func (_u *SubscriptionUpdateOne) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (suo *SubscriptionUpdateOne) defaults() {
-	if _, ok := suo.mutation.UpdatedAt(); !ok && !suo.mutation.UpdatedAtCleared() {
+func (_u *SubscriptionUpdateOne) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := subscription.UpdateDefaultUpdatedAt()
-		suo.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (suo *SubscriptionUpdateOne) sqlSave(ctx context.Context) (_node *Subscription, err error) {
+func (_u *SubscriptionUpdateOne) sqlSave(ctx context.Context) (_node *Subscription, err error) {
 	_spec := sqlgraph.NewUpdateSpec(subscription.Table, subscription.Columns, sqlgraph.NewFieldSpec(subscription.FieldID, field.TypeString))
-	id, ok := suo.mutation.ID()
+	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "Subscription.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
-	if fields := suo.fields; len(fields) > 0 {
+	if fields := _u.fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, subscription.FieldID)
 		for _, f := range fields {
@@ -360,47 +360,47 @@ func (suo *SubscriptionUpdateOne) sqlSave(ctx context.Context) (_node *Subscript
 			}
 		}
 	}
-	if ps := suo.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := suo.mutation.UserID(); ok {
+	if value, ok := _u.mutation.UserID(); ok {
 		_spec.SetField(subscription.FieldUserID, field.TypeString, value)
 	}
-	if suo.mutation.UserIDCleared() {
+	if _u.mutation.UserIDCleared() {
 		_spec.ClearField(subscription.FieldUserID, field.TypeString)
 	}
-	if value, ok := suo.mutation.ChannelID(); ok {
+	if value, ok := _u.mutation.ChannelID(); ok {
 		_spec.SetField(subscription.FieldChannelID, field.TypeString, value)
 	}
-	if suo.mutation.ChannelIDCleared() {
+	if _u.mutation.ChannelIDCleared() {
 		_spec.ClearField(subscription.FieldChannelID, field.TypeString)
 	}
-	if value, ok := suo.mutation.Status(); ok {
+	if value, ok := _u.mutation.Status(); ok {
 		_spec.SetField(subscription.FieldStatus, field.TypeInt, value)
 	}
-	if value, ok := suo.mutation.AddedStatus(); ok {
+	if value, ok := _u.mutation.AddedStatus(); ok {
 		_spec.AddField(subscription.FieldStatus, field.TypeInt, value)
 	}
-	if suo.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(subscription.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := suo.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(subscription.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := suo.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(subscription.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if suo.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(subscription.FieldUpdatedAt, field.TypeInt64)
 	}
-	_node = &Subscription{config: suo.config}
+	_node = &Subscription{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues
-	if err = sqlgraph.UpdateNode(ctx, suo.driver, _spec); err != nil {
+	if err = sqlgraph.UpdateNode(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{subscription.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -408,6 +408,6 @@ func (suo *SubscriptionUpdateOne) sqlSave(ctx context.Context) (_node *Subscript
 		}
 		return nil, err
 	}
-	suo.mutation.done = true
+	_u.mutation.done = true
 	return _node, nil
 }

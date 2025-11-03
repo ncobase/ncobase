@@ -20,56 +20,56 @@ type SpaceOrganizationDelete struct {
 }
 
 // Where appends a list predicates to the SpaceOrganizationDelete builder.
-func (sod *SpaceOrganizationDelete) Where(ps ...predicate.SpaceOrganization) *SpaceOrganizationDelete {
-	sod.mutation.Where(ps...)
-	return sod
+func (_d *SpaceOrganizationDelete) Where(ps ...predicate.SpaceOrganization) *SpaceOrganizationDelete {
+	_d.mutation.Where(ps...)
+	return _d
 }
 
 // Exec executes the deletion query and returns how many vertices were deleted.
-func (sod *SpaceOrganizationDelete) Exec(ctx context.Context) (int, error) {
-	return withHooks(ctx, sod.sqlExec, sod.mutation, sod.hooks)
+func (_d *SpaceOrganizationDelete) Exec(ctx context.Context) (int, error) {
+	return withHooks(ctx, _d.sqlExec, _d.mutation, _d.hooks)
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (sod *SpaceOrganizationDelete) ExecX(ctx context.Context) int {
-	n, err := sod.Exec(ctx)
+func (_d *SpaceOrganizationDelete) ExecX(ctx context.Context) int {
+	n, err := _d.Exec(ctx)
 	if err != nil {
 		panic(err)
 	}
 	return n
 }
 
-func (sod *SpaceOrganizationDelete) sqlExec(ctx context.Context) (int, error) {
+func (_d *SpaceOrganizationDelete) sqlExec(ctx context.Context) (int, error) {
 	_spec := sqlgraph.NewDeleteSpec(spaceorganization.Table, sqlgraph.NewFieldSpec(spaceorganization.FieldID, field.TypeString))
-	if ps := sod.mutation.predicates; len(ps) > 0 {
+	if ps := _d.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	affected, err := sqlgraph.DeleteNodes(ctx, sod.driver, _spec)
+	affected, err := sqlgraph.DeleteNodes(ctx, _d.driver, _spec)
 	if err != nil && sqlgraph.IsConstraintError(err) {
 		err = &ConstraintError{msg: err.Error(), wrap: err}
 	}
-	sod.mutation.done = true
+	_d.mutation.done = true
 	return affected, err
 }
 
 // SpaceOrganizationDeleteOne is the builder for deleting a single SpaceOrganization entity.
 type SpaceOrganizationDeleteOne struct {
-	sod *SpaceOrganizationDelete
+	_d *SpaceOrganizationDelete
 }
 
 // Where appends a list predicates to the SpaceOrganizationDelete builder.
-func (sodo *SpaceOrganizationDeleteOne) Where(ps ...predicate.SpaceOrganization) *SpaceOrganizationDeleteOne {
-	sodo.sod.mutation.Where(ps...)
-	return sodo
+func (_d *SpaceOrganizationDeleteOne) Where(ps ...predicate.SpaceOrganization) *SpaceOrganizationDeleteOne {
+	_d._d.mutation.Where(ps...)
+	return _d
 }
 
 // Exec executes the deletion query.
-func (sodo *SpaceOrganizationDeleteOne) Exec(ctx context.Context) error {
-	n, err := sodo.sod.Exec(ctx)
+func (_d *SpaceOrganizationDeleteOne) Exec(ctx context.Context) error {
+	n, err := _d._d.Exec(ctx)
 	switch {
 	case err != nil:
 		return err
@@ -81,8 +81,8 @@ func (sodo *SpaceOrganizationDeleteOne) Exec(ctx context.Context) error {
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (sodo *SpaceOrganizationDeleteOne) ExecX(ctx context.Context) {
-	if err := sodo.Exec(ctx); err != nil {
+func (_d *SpaceOrganizationDeleteOne) ExecX(ctx context.Context) {
+	if err := _d.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

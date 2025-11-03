@@ -282,8 +282,8 @@ func (c *EventClient) Update() *EventUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *EventClient) UpdateOne(e *Event) *EventUpdateOne {
-	mutation := newEventMutation(c.config, OpUpdateOne, withEvent(e))
+func (c *EventClient) UpdateOne(_m *Event) *EventUpdateOne {
+	mutation := newEventMutation(c.config, OpUpdateOne, withEvent(_m))
 	return &EventUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -300,8 +300,8 @@ func (c *EventClient) Delete() *EventDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *EventClient) DeleteOne(e *Event) *EventDeleteOne {
-	return c.DeleteOneID(e.ID)
+func (c *EventClient) DeleteOne(_m *Event) *EventDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -415,8 +415,8 @@ func (c *NotificationClient) Update() *NotificationUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *NotificationClient) UpdateOne(n *Notification) *NotificationUpdateOne {
-	mutation := newNotificationMutation(c.config, OpUpdateOne, withNotification(n))
+func (c *NotificationClient) UpdateOne(_m *Notification) *NotificationUpdateOne {
+	mutation := newNotificationMutation(c.config, OpUpdateOne, withNotification(_m))
 	return &NotificationUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -433,8 +433,8 @@ func (c *NotificationClient) Delete() *NotificationDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *NotificationClient) DeleteOne(n *Notification) *NotificationDeleteOne {
-	return c.DeleteOneID(n.ID)
+func (c *NotificationClient) DeleteOne(_m *Notification) *NotificationDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -548,8 +548,8 @@ func (c *RTChannelClient) Update() *RTChannelUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *RTChannelClient) UpdateOne(rc *RTChannel) *RTChannelUpdateOne {
-	mutation := newRTChannelMutation(c.config, OpUpdateOne, withRTChannel(rc))
+func (c *RTChannelClient) UpdateOne(_m *RTChannel) *RTChannelUpdateOne {
+	mutation := newRTChannelMutation(c.config, OpUpdateOne, withRTChannel(_m))
 	return &RTChannelUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -566,8 +566,8 @@ func (c *RTChannelClient) Delete() *RTChannelDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *RTChannelClient) DeleteOne(rc *RTChannel) *RTChannelDeleteOne {
-	return c.DeleteOneID(rc.ID)
+func (c *RTChannelClient) DeleteOne(_m *RTChannel) *RTChannelDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -681,8 +681,8 @@ func (c *SubscriptionClient) Update() *SubscriptionUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *SubscriptionClient) UpdateOne(s *Subscription) *SubscriptionUpdateOne {
-	mutation := newSubscriptionMutation(c.config, OpUpdateOne, withSubscription(s))
+func (c *SubscriptionClient) UpdateOne(_m *Subscription) *SubscriptionUpdateOne {
+	mutation := newSubscriptionMutation(c.config, OpUpdateOne, withSubscription(_m))
 	return &SubscriptionUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -699,8 +699,8 @@ func (c *SubscriptionClient) Delete() *SubscriptionDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *SubscriptionClient) DeleteOne(s *Subscription) *SubscriptionDeleteOne {
-	return c.DeleteOneID(s.ID)
+func (c *SubscriptionClient) DeleteOne(_m *Subscription) *SubscriptionDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.

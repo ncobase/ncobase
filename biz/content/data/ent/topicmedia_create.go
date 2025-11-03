@@ -22,139 +22,139 @@ type TopicMediaCreate struct {
 }
 
 // SetType sets the "type" field.
-func (tmc *TopicMediaCreate) SetType(s string) *TopicMediaCreate {
-	tmc.mutation.SetType(s)
-	return tmc
+func (_c *TopicMediaCreate) SetType(v string) *TopicMediaCreate {
+	_c.mutation.SetType(v)
+	return _c
 }
 
 // SetNillableType sets the "type" field if the given value is not nil.
-func (tmc *TopicMediaCreate) SetNillableType(s *string) *TopicMediaCreate {
-	if s != nil {
-		tmc.SetType(*s)
+func (_c *TopicMediaCreate) SetNillableType(v *string) *TopicMediaCreate {
+	if v != nil {
+		_c.SetType(*v)
 	}
-	return tmc
+	return _c
 }
 
 // SetOrder sets the "order" field.
-func (tmc *TopicMediaCreate) SetOrder(i int) *TopicMediaCreate {
-	tmc.mutation.SetOrder(i)
-	return tmc
+func (_c *TopicMediaCreate) SetOrder(v int) *TopicMediaCreate {
+	_c.mutation.SetOrder(v)
+	return _c
 }
 
 // SetNillableOrder sets the "order" field if the given value is not nil.
-func (tmc *TopicMediaCreate) SetNillableOrder(i *int) *TopicMediaCreate {
-	if i != nil {
-		tmc.SetOrder(*i)
+func (_c *TopicMediaCreate) SetNillableOrder(v *int) *TopicMediaCreate {
+	if v != nil {
+		_c.SetOrder(*v)
 	}
-	return tmc
+	return _c
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (tmc *TopicMediaCreate) SetCreatedBy(s string) *TopicMediaCreate {
-	tmc.mutation.SetCreatedBy(s)
-	return tmc
+func (_c *TopicMediaCreate) SetCreatedBy(v string) *TopicMediaCreate {
+	_c.mutation.SetCreatedBy(v)
+	return _c
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (tmc *TopicMediaCreate) SetNillableCreatedBy(s *string) *TopicMediaCreate {
-	if s != nil {
-		tmc.SetCreatedBy(*s)
+func (_c *TopicMediaCreate) SetNillableCreatedBy(v *string) *TopicMediaCreate {
+	if v != nil {
+		_c.SetCreatedBy(*v)
 	}
-	return tmc
+	return _c
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (tmc *TopicMediaCreate) SetUpdatedBy(s string) *TopicMediaCreate {
-	tmc.mutation.SetUpdatedBy(s)
-	return tmc
+func (_c *TopicMediaCreate) SetUpdatedBy(v string) *TopicMediaCreate {
+	_c.mutation.SetUpdatedBy(v)
+	return _c
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (tmc *TopicMediaCreate) SetNillableUpdatedBy(s *string) *TopicMediaCreate {
-	if s != nil {
-		tmc.SetUpdatedBy(*s)
+func (_c *TopicMediaCreate) SetNillableUpdatedBy(v *string) *TopicMediaCreate {
+	if v != nil {
+		_c.SetUpdatedBy(*v)
 	}
-	return tmc
+	return _c
 }
 
 // SetCreatedAt sets the "created_at" field.
-func (tmc *TopicMediaCreate) SetCreatedAt(i int64) *TopicMediaCreate {
-	tmc.mutation.SetCreatedAt(i)
-	return tmc
+func (_c *TopicMediaCreate) SetCreatedAt(v int64) *TopicMediaCreate {
+	_c.mutation.SetCreatedAt(v)
+	return _c
 }
 
 // SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
-func (tmc *TopicMediaCreate) SetNillableCreatedAt(i *int64) *TopicMediaCreate {
-	if i != nil {
-		tmc.SetCreatedAt(*i)
+func (_c *TopicMediaCreate) SetNillableCreatedAt(v *int64) *TopicMediaCreate {
+	if v != nil {
+		_c.SetCreatedAt(*v)
 	}
-	return tmc
+	return _c
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (tmc *TopicMediaCreate) SetUpdatedAt(i int64) *TopicMediaCreate {
-	tmc.mutation.SetUpdatedAt(i)
-	return tmc
+func (_c *TopicMediaCreate) SetUpdatedAt(v int64) *TopicMediaCreate {
+	_c.mutation.SetUpdatedAt(v)
+	return _c
 }
 
 // SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
-func (tmc *TopicMediaCreate) SetNillableUpdatedAt(i *int64) *TopicMediaCreate {
-	if i != nil {
-		tmc.SetUpdatedAt(*i)
+func (_c *TopicMediaCreate) SetNillableUpdatedAt(v *int64) *TopicMediaCreate {
+	if v != nil {
+		_c.SetUpdatedAt(*v)
 	}
-	return tmc
+	return _c
 }
 
 // SetTopicID sets the "topic_id" field.
-func (tmc *TopicMediaCreate) SetTopicID(s string) *TopicMediaCreate {
-	tmc.mutation.SetTopicID(s)
-	return tmc
+func (_c *TopicMediaCreate) SetTopicID(v string) *TopicMediaCreate {
+	_c.mutation.SetTopicID(v)
+	return _c
 }
 
 // SetMediaID sets the "media_id" field.
-func (tmc *TopicMediaCreate) SetMediaID(s string) *TopicMediaCreate {
-	tmc.mutation.SetMediaID(s)
-	return tmc
+func (_c *TopicMediaCreate) SetMediaID(v string) *TopicMediaCreate {
+	_c.mutation.SetMediaID(v)
+	return _c
 }
 
 // SetID sets the "id" field.
-func (tmc *TopicMediaCreate) SetID(s string) *TopicMediaCreate {
-	tmc.mutation.SetID(s)
-	return tmc
+func (_c *TopicMediaCreate) SetID(v string) *TopicMediaCreate {
+	_c.mutation.SetID(v)
+	return _c
 }
 
 // SetNillableID sets the "id" field if the given value is not nil.
-func (tmc *TopicMediaCreate) SetNillableID(s *string) *TopicMediaCreate {
-	if s != nil {
-		tmc.SetID(*s)
+func (_c *TopicMediaCreate) SetNillableID(v *string) *TopicMediaCreate {
+	if v != nil {
+		_c.SetID(*v)
 	}
-	return tmc
+	return _c
 }
 
 // SetMedia sets the "media" edge to the Media entity.
-func (tmc *TopicMediaCreate) SetMedia(m *Media) *TopicMediaCreate {
-	return tmc.SetMediaID(m.ID)
+func (_c *TopicMediaCreate) SetMedia(v *Media) *TopicMediaCreate {
+	return _c.SetMediaID(v.ID)
 }
 
 // SetTopic sets the "topic" edge to the Topic entity.
-func (tmc *TopicMediaCreate) SetTopic(t *Topic) *TopicMediaCreate {
-	return tmc.SetTopicID(t.ID)
+func (_c *TopicMediaCreate) SetTopic(v *Topic) *TopicMediaCreate {
+	return _c.SetTopicID(v.ID)
 }
 
 // Mutation returns the TopicMediaMutation object of the builder.
-func (tmc *TopicMediaCreate) Mutation() *TopicMediaMutation {
-	return tmc.mutation
+func (_c *TopicMediaCreate) Mutation() *TopicMediaMutation {
+	return _c.mutation
 }
 
 // Save creates the TopicMedia in the database.
-func (tmc *TopicMediaCreate) Save(ctx context.Context) (*TopicMedia, error) {
-	tmc.defaults()
-	return withHooks(ctx, tmc.sqlSave, tmc.mutation, tmc.hooks)
+func (_c *TopicMediaCreate) Save(ctx context.Context) (*TopicMedia, error) {
+	_c.defaults()
+	return withHooks(ctx, _c.sqlSave, _c.mutation, _c.hooks)
 }
 
 // SaveX calls Save and panics if Save returns an error.
-func (tmc *TopicMediaCreate) SaveX(ctx context.Context) *TopicMedia {
-	v, err := tmc.Save(ctx)
+func (_c *TopicMediaCreate) SaveX(ctx context.Context) *TopicMedia {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -162,79 +162,79 @@ func (tmc *TopicMediaCreate) SaveX(ctx context.Context) *TopicMedia {
 }
 
 // Exec executes the query.
-func (tmc *TopicMediaCreate) Exec(ctx context.Context) error {
-	_, err := tmc.Save(ctx)
+func (_c *TopicMediaCreate) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (tmc *TopicMediaCreate) ExecX(ctx context.Context) {
-	if err := tmc.Exec(ctx); err != nil {
+func (_c *TopicMediaCreate) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (tmc *TopicMediaCreate) defaults() {
-	if _, ok := tmc.mutation.Order(); !ok {
+func (_c *TopicMediaCreate) defaults() {
+	if _, ok := _c.mutation.Order(); !ok {
 		v := topicmedia.DefaultOrder
-		tmc.mutation.SetOrder(v)
+		_c.mutation.SetOrder(v)
 	}
-	if _, ok := tmc.mutation.CreatedAt(); !ok {
+	if _, ok := _c.mutation.CreatedAt(); !ok {
 		v := topicmedia.DefaultCreatedAt()
-		tmc.mutation.SetCreatedAt(v)
+		_c.mutation.SetCreatedAt(v)
 	}
-	if _, ok := tmc.mutation.UpdatedAt(); !ok {
+	if _, ok := _c.mutation.UpdatedAt(); !ok {
 		v := topicmedia.DefaultUpdatedAt()
-		tmc.mutation.SetUpdatedAt(v)
+		_c.mutation.SetUpdatedAt(v)
 	}
-	if _, ok := tmc.mutation.ID(); !ok {
+	if _, ok := _c.mutation.ID(); !ok {
 		v := topicmedia.DefaultID()
-		tmc.mutation.SetID(v)
+		_c.mutation.SetID(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (tmc *TopicMediaCreate) check() error {
-	if _, ok := tmc.mutation.Order(); !ok {
+func (_c *TopicMediaCreate) check() error {
+	if _, ok := _c.mutation.Order(); !ok {
 		return &ValidationError{Name: "order", err: errors.New(`ent: missing required field "TopicMedia.order"`)}
 	}
-	if _, ok := tmc.mutation.TopicID(); !ok {
+	if _, ok := _c.mutation.TopicID(); !ok {
 		return &ValidationError{Name: "topic_id", err: errors.New(`ent: missing required field "TopicMedia.topic_id"`)}
 	}
-	if v, ok := tmc.mutation.TopicID(); ok {
+	if v, ok := _c.mutation.TopicID(); ok {
 		if err := topicmedia.TopicIDValidator(v); err != nil {
 			return &ValidationError{Name: "topic_id", err: fmt.Errorf(`ent: validator failed for field "TopicMedia.topic_id": %w`, err)}
 		}
 	}
-	if _, ok := tmc.mutation.MediaID(); !ok {
+	if _, ok := _c.mutation.MediaID(); !ok {
 		return &ValidationError{Name: "media_id", err: errors.New(`ent: missing required field "TopicMedia.media_id"`)}
 	}
-	if v, ok := tmc.mutation.MediaID(); ok {
+	if v, ok := _c.mutation.MediaID(); ok {
 		if err := topicmedia.MediaIDValidator(v); err != nil {
 			return &ValidationError{Name: "media_id", err: fmt.Errorf(`ent: validator failed for field "TopicMedia.media_id": %w`, err)}
 		}
 	}
-	if v, ok := tmc.mutation.ID(); ok {
+	if v, ok := _c.mutation.ID(); ok {
 		if err := topicmedia.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "TopicMedia.id": %w`, err)}
 		}
 	}
-	if len(tmc.mutation.MediaIDs()) == 0 {
+	if len(_c.mutation.MediaIDs()) == 0 {
 		return &ValidationError{Name: "media", err: errors.New(`ent: missing required edge "TopicMedia.media"`)}
 	}
-	if len(tmc.mutation.TopicIDs()) == 0 {
+	if len(_c.mutation.TopicIDs()) == 0 {
 		return &ValidationError{Name: "topic", err: errors.New(`ent: missing required edge "TopicMedia.topic"`)}
 	}
 	return nil
 }
 
-func (tmc *TopicMediaCreate) sqlSave(ctx context.Context) (*TopicMedia, error) {
-	if err := tmc.check(); err != nil {
+func (_c *TopicMediaCreate) sqlSave(ctx context.Context) (*TopicMedia, error) {
+	if err := _c.check(); err != nil {
 		return nil, err
 	}
-	_node, _spec := tmc.createSpec()
-	if err := sqlgraph.CreateNode(ctx, tmc.driver, _spec); err != nil {
+	_node, _spec := _c.createSpec()
+	if err := sqlgraph.CreateNode(ctx, _c.driver, _spec); err != nil {
 		if sqlgraph.IsConstraintError(err) {
 			err = &ConstraintError{msg: err.Error(), wrap: err}
 		}
@@ -247,45 +247,45 @@ func (tmc *TopicMediaCreate) sqlSave(ctx context.Context) (*TopicMedia, error) {
 			return nil, fmt.Errorf("unexpected TopicMedia.ID type: %T", _spec.ID.Value)
 		}
 	}
-	tmc.mutation.id = &_node.ID
-	tmc.mutation.done = true
+	_c.mutation.id = &_node.ID
+	_c.mutation.done = true
 	return _node, nil
 }
 
-func (tmc *TopicMediaCreate) createSpec() (*TopicMedia, *sqlgraph.CreateSpec) {
+func (_c *TopicMediaCreate) createSpec() (*TopicMedia, *sqlgraph.CreateSpec) {
 	var (
-		_node = &TopicMedia{config: tmc.config}
+		_node = &TopicMedia{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(topicmedia.Table, sqlgraph.NewFieldSpec(topicmedia.FieldID, field.TypeString))
 	)
-	if id, ok := tmc.mutation.ID(); ok {
+	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
 	}
-	if value, ok := tmc.mutation.GetType(); ok {
+	if value, ok := _c.mutation.GetType(); ok {
 		_spec.SetField(topicmedia.FieldType, field.TypeString, value)
 		_node.Type = value
 	}
-	if value, ok := tmc.mutation.Order(); ok {
+	if value, ok := _c.mutation.Order(); ok {
 		_spec.SetField(topicmedia.FieldOrder, field.TypeInt, value)
 		_node.Order = value
 	}
-	if value, ok := tmc.mutation.CreatedBy(); ok {
+	if value, ok := _c.mutation.CreatedBy(); ok {
 		_spec.SetField(topicmedia.FieldCreatedBy, field.TypeString, value)
 		_node.CreatedBy = value
 	}
-	if value, ok := tmc.mutation.UpdatedBy(); ok {
+	if value, ok := _c.mutation.UpdatedBy(); ok {
 		_spec.SetField(topicmedia.FieldUpdatedBy, field.TypeString, value)
 		_node.UpdatedBy = value
 	}
-	if value, ok := tmc.mutation.CreatedAt(); ok {
+	if value, ok := _c.mutation.CreatedAt(); ok {
 		_spec.SetField(topicmedia.FieldCreatedAt, field.TypeInt64, value)
 		_node.CreatedAt = value
 	}
-	if value, ok := tmc.mutation.UpdatedAt(); ok {
+	if value, ok := _c.mutation.UpdatedAt(); ok {
 		_spec.SetField(topicmedia.FieldUpdatedAt, field.TypeInt64, value)
 		_node.UpdatedAt = value
 	}
-	if nodes := tmc.mutation.MediaIDs(); len(nodes) > 0 {
+	if nodes := _c.mutation.MediaIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: false,
@@ -302,7 +302,7 @@ func (tmc *TopicMediaCreate) createSpec() (*TopicMedia, *sqlgraph.CreateSpec) {
 		_node.MediaID = nodes[0]
 		_spec.Edges = append(_spec.Edges, edge)
 	}
-	if nodes := tmc.mutation.TopicIDs(); len(nodes) > 0 {
+	if nodes := _c.mutation.TopicIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: false,
@@ -330,16 +330,16 @@ type TopicMediaCreateBulk struct {
 }
 
 // Save creates the TopicMedia entities in the database.
-func (tmcb *TopicMediaCreateBulk) Save(ctx context.Context) ([]*TopicMedia, error) {
-	if tmcb.err != nil {
-		return nil, tmcb.err
+func (_c *TopicMediaCreateBulk) Save(ctx context.Context) ([]*TopicMedia, error) {
+	if _c.err != nil {
+		return nil, _c.err
 	}
-	specs := make([]*sqlgraph.CreateSpec, len(tmcb.builders))
-	nodes := make([]*TopicMedia, len(tmcb.builders))
-	mutators := make([]Mutator, len(tmcb.builders))
-	for i := range tmcb.builders {
+	specs := make([]*sqlgraph.CreateSpec, len(_c.builders))
+	nodes := make([]*TopicMedia, len(_c.builders))
+	mutators := make([]Mutator, len(_c.builders))
+	for i := range _c.builders {
 		func(i int, root context.Context) {
-			builder := tmcb.builders[i]
+			builder := _c.builders[i]
 			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*TopicMediaMutation)
@@ -353,11 +353,11 @@ func (tmcb *TopicMediaCreateBulk) Save(ctx context.Context) ([]*TopicMedia, erro
 				var err error
 				nodes[i], specs[i] = builder.createSpec()
 				if i < len(mutators)-1 {
-					_, err = mutators[i+1].Mutate(root, tmcb.builders[i+1].mutation)
+					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
 					// Invoke the actual operation on the latest mutation in the chain.
-					if err = sqlgraph.BatchCreate(ctx, tmcb.driver, spec); err != nil {
+					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
 							err = &ConstraintError{msg: err.Error(), wrap: err}
 						}
@@ -377,7 +377,7 @@ func (tmcb *TopicMediaCreateBulk) Save(ctx context.Context) ([]*TopicMedia, erro
 		}(i, ctx)
 	}
 	if len(mutators) > 0 {
-		if _, err := mutators[0].Mutate(ctx, tmcb.builders[0].mutation); err != nil {
+		if _, err := mutators[0].Mutate(ctx, _c.builders[0].mutation); err != nil {
 			return nil, err
 		}
 	}
@@ -385,8 +385,8 @@ func (tmcb *TopicMediaCreateBulk) Save(ctx context.Context) ([]*TopicMedia, erro
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (tmcb *TopicMediaCreateBulk) SaveX(ctx context.Context) []*TopicMedia {
-	v, err := tmcb.Save(ctx)
+func (_c *TopicMediaCreateBulk) SaveX(ctx context.Context) []*TopicMedia {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -394,14 +394,14 @@ func (tmcb *TopicMediaCreateBulk) SaveX(ctx context.Context) []*TopicMedia {
 }
 
 // Exec executes the query.
-func (tmcb *TopicMediaCreateBulk) Exec(ctx context.Context) error {
-	_, err := tmcb.Save(ctx)
+func (_c *TopicMediaCreateBulk) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (tmcb *TopicMediaCreateBulk) ExecX(ctx context.Context) {
-	if err := tmcb.Exec(ctx); err != nil {
+func (_c *TopicMediaCreateBulk) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

@@ -23,194 +23,194 @@ type UserProfileUpdate struct {
 }
 
 // Where appends a list predicates to the UserProfileUpdate builder.
-func (upu *UserProfileUpdate) Where(ps ...predicate.UserProfile) *UserProfileUpdate {
-	upu.mutation.Where(ps...)
-	return upu
+func (_u *UserProfileUpdate) Where(ps ...predicate.UserProfile) *UserProfileUpdate {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // SetDisplayName sets the "display_name" field.
-func (upu *UserProfileUpdate) SetDisplayName(s string) *UserProfileUpdate {
-	upu.mutation.SetDisplayName(s)
-	return upu
+func (_u *UserProfileUpdate) SetDisplayName(v string) *UserProfileUpdate {
+	_u.mutation.SetDisplayName(v)
+	return _u
 }
 
 // SetNillableDisplayName sets the "display_name" field if the given value is not nil.
-func (upu *UserProfileUpdate) SetNillableDisplayName(s *string) *UserProfileUpdate {
-	if s != nil {
-		upu.SetDisplayName(*s)
+func (_u *UserProfileUpdate) SetNillableDisplayName(v *string) *UserProfileUpdate {
+	if v != nil {
+		_u.SetDisplayName(*v)
 	}
-	return upu
+	return _u
 }
 
 // ClearDisplayName clears the value of the "display_name" field.
-func (upu *UserProfileUpdate) ClearDisplayName() *UserProfileUpdate {
-	upu.mutation.ClearDisplayName()
-	return upu
+func (_u *UserProfileUpdate) ClearDisplayName() *UserProfileUpdate {
+	_u.mutation.ClearDisplayName()
+	return _u
 }
 
 // SetFirstName sets the "first_name" field.
-func (upu *UserProfileUpdate) SetFirstName(s string) *UserProfileUpdate {
-	upu.mutation.SetFirstName(s)
-	return upu
+func (_u *UserProfileUpdate) SetFirstName(v string) *UserProfileUpdate {
+	_u.mutation.SetFirstName(v)
+	return _u
 }
 
 // SetNillableFirstName sets the "first_name" field if the given value is not nil.
-func (upu *UserProfileUpdate) SetNillableFirstName(s *string) *UserProfileUpdate {
-	if s != nil {
-		upu.SetFirstName(*s)
+func (_u *UserProfileUpdate) SetNillableFirstName(v *string) *UserProfileUpdate {
+	if v != nil {
+		_u.SetFirstName(*v)
 	}
-	return upu
+	return _u
 }
 
 // ClearFirstName clears the value of the "first_name" field.
-func (upu *UserProfileUpdate) ClearFirstName() *UserProfileUpdate {
-	upu.mutation.ClearFirstName()
-	return upu
+func (_u *UserProfileUpdate) ClearFirstName() *UserProfileUpdate {
+	_u.mutation.ClearFirstName()
+	return _u
 }
 
 // SetLastName sets the "last_name" field.
-func (upu *UserProfileUpdate) SetLastName(s string) *UserProfileUpdate {
-	upu.mutation.SetLastName(s)
-	return upu
+func (_u *UserProfileUpdate) SetLastName(v string) *UserProfileUpdate {
+	_u.mutation.SetLastName(v)
+	return _u
 }
 
 // SetNillableLastName sets the "last_name" field if the given value is not nil.
-func (upu *UserProfileUpdate) SetNillableLastName(s *string) *UserProfileUpdate {
-	if s != nil {
-		upu.SetLastName(*s)
+func (_u *UserProfileUpdate) SetNillableLastName(v *string) *UserProfileUpdate {
+	if v != nil {
+		_u.SetLastName(*v)
 	}
-	return upu
+	return _u
 }
 
 // ClearLastName clears the value of the "last_name" field.
-func (upu *UserProfileUpdate) ClearLastName() *UserProfileUpdate {
-	upu.mutation.ClearLastName()
-	return upu
+func (_u *UserProfileUpdate) ClearLastName() *UserProfileUpdate {
+	_u.mutation.ClearLastName()
+	return _u
 }
 
 // SetTitle sets the "title" field.
-func (upu *UserProfileUpdate) SetTitle(s string) *UserProfileUpdate {
-	upu.mutation.SetTitle(s)
-	return upu
+func (_u *UserProfileUpdate) SetTitle(v string) *UserProfileUpdate {
+	_u.mutation.SetTitle(v)
+	return _u
 }
 
 // SetNillableTitle sets the "title" field if the given value is not nil.
-func (upu *UserProfileUpdate) SetNillableTitle(s *string) *UserProfileUpdate {
-	if s != nil {
-		upu.SetTitle(*s)
+func (_u *UserProfileUpdate) SetNillableTitle(v *string) *UserProfileUpdate {
+	if v != nil {
+		_u.SetTitle(*v)
 	}
-	return upu
+	return _u
 }
 
 // ClearTitle clears the value of the "title" field.
-func (upu *UserProfileUpdate) ClearTitle() *UserProfileUpdate {
-	upu.mutation.ClearTitle()
-	return upu
+func (_u *UserProfileUpdate) ClearTitle() *UserProfileUpdate {
+	_u.mutation.ClearTitle()
+	return _u
 }
 
 // SetShortBio sets the "short_bio" field.
-func (upu *UserProfileUpdate) SetShortBio(s string) *UserProfileUpdate {
-	upu.mutation.SetShortBio(s)
-	return upu
+func (_u *UserProfileUpdate) SetShortBio(v string) *UserProfileUpdate {
+	_u.mutation.SetShortBio(v)
+	return _u
 }
 
 // SetNillableShortBio sets the "short_bio" field if the given value is not nil.
-func (upu *UserProfileUpdate) SetNillableShortBio(s *string) *UserProfileUpdate {
-	if s != nil {
-		upu.SetShortBio(*s)
+func (_u *UserProfileUpdate) SetNillableShortBio(v *string) *UserProfileUpdate {
+	if v != nil {
+		_u.SetShortBio(*v)
 	}
-	return upu
+	return _u
 }
 
 // ClearShortBio clears the value of the "short_bio" field.
-func (upu *UserProfileUpdate) ClearShortBio() *UserProfileUpdate {
-	upu.mutation.ClearShortBio()
-	return upu
+func (_u *UserProfileUpdate) ClearShortBio() *UserProfileUpdate {
+	_u.mutation.ClearShortBio()
+	return _u
 }
 
 // SetAbout sets the "about" field.
-func (upu *UserProfileUpdate) SetAbout(s string) *UserProfileUpdate {
-	upu.mutation.SetAbout(s)
-	return upu
+func (_u *UserProfileUpdate) SetAbout(v string) *UserProfileUpdate {
+	_u.mutation.SetAbout(v)
+	return _u
 }
 
 // SetNillableAbout sets the "about" field if the given value is not nil.
-func (upu *UserProfileUpdate) SetNillableAbout(s *string) *UserProfileUpdate {
-	if s != nil {
-		upu.SetAbout(*s)
+func (_u *UserProfileUpdate) SetNillableAbout(v *string) *UserProfileUpdate {
+	if v != nil {
+		_u.SetAbout(*v)
 	}
-	return upu
+	return _u
 }
 
 // ClearAbout clears the value of the "about" field.
-func (upu *UserProfileUpdate) ClearAbout() *UserProfileUpdate {
-	upu.mutation.ClearAbout()
-	return upu
+func (_u *UserProfileUpdate) ClearAbout() *UserProfileUpdate {
+	_u.mutation.ClearAbout()
+	return _u
 }
 
 // SetLinks sets the "links" field.
-func (upu *UserProfileUpdate) SetLinks(m []map[string]interface{}) *UserProfileUpdate {
-	upu.mutation.SetLinks(m)
-	return upu
+func (_u *UserProfileUpdate) SetLinks(v []map[string]interface{}) *UserProfileUpdate {
+	_u.mutation.SetLinks(v)
+	return _u
 }
 
-// AppendLinks appends m to the "links" field.
-func (upu *UserProfileUpdate) AppendLinks(m []map[string]interface{}) *UserProfileUpdate {
-	upu.mutation.AppendLinks(m)
-	return upu
+// AppendLinks appends value to the "links" field.
+func (_u *UserProfileUpdate) AppendLinks(v []map[string]interface{}) *UserProfileUpdate {
+	_u.mutation.AppendLinks(v)
+	return _u
 }
 
 // ClearLinks clears the value of the "links" field.
-func (upu *UserProfileUpdate) ClearLinks() *UserProfileUpdate {
-	upu.mutation.ClearLinks()
-	return upu
+func (_u *UserProfileUpdate) ClearLinks() *UserProfileUpdate {
+	_u.mutation.ClearLinks()
+	return _u
 }
 
 // SetThumbnail sets the "thumbnail" field.
-func (upu *UserProfileUpdate) SetThumbnail(s string) *UserProfileUpdate {
-	upu.mutation.SetThumbnail(s)
-	return upu
+func (_u *UserProfileUpdate) SetThumbnail(v string) *UserProfileUpdate {
+	_u.mutation.SetThumbnail(v)
+	return _u
 }
 
 // SetNillableThumbnail sets the "thumbnail" field if the given value is not nil.
-func (upu *UserProfileUpdate) SetNillableThumbnail(s *string) *UserProfileUpdate {
-	if s != nil {
-		upu.SetThumbnail(*s)
+func (_u *UserProfileUpdate) SetNillableThumbnail(v *string) *UserProfileUpdate {
+	if v != nil {
+		_u.SetThumbnail(*v)
 	}
-	return upu
+	return _u
 }
 
 // ClearThumbnail clears the value of the "thumbnail" field.
-func (upu *UserProfileUpdate) ClearThumbnail() *UserProfileUpdate {
-	upu.mutation.ClearThumbnail()
-	return upu
+func (_u *UserProfileUpdate) ClearThumbnail() *UserProfileUpdate {
+	_u.mutation.ClearThumbnail()
+	return _u
 }
 
 // SetExtras sets the "extras" field.
-func (upu *UserProfileUpdate) SetExtras(m map[string]interface{}) *UserProfileUpdate {
-	upu.mutation.SetExtras(m)
-	return upu
+func (_u *UserProfileUpdate) SetExtras(v map[string]interface{}) *UserProfileUpdate {
+	_u.mutation.SetExtras(v)
+	return _u
 }
 
 // ClearExtras clears the value of the "extras" field.
-func (upu *UserProfileUpdate) ClearExtras() *UserProfileUpdate {
-	upu.mutation.ClearExtras()
-	return upu
+func (_u *UserProfileUpdate) ClearExtras() *UserProfileUpdate {
+	_u.mutation.ClearExtras()
+	return _u
 }
 
 // Mutation returns the UserProfileMutation object of the builder.
-func (upu *UserProfileUpdate) Mutation() *UserProfileMutation {
-	return upu.mutation
+func (_u *UserProfileUpdate) Mutation() *UserProfileMutation {
+	return _u.mutation
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
-func (upu *UserProfileUpdate) Save(ctx context.Context) (int, error) {
-	return withHooks(ctx, upu.sqlSave, upu.mutation, upu.hooks)
+func (_u *UserProfileUpdate) Save(ctx context.Context) (int, error) {
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (upu *UserProfileUpdate) SaveX(ctx context.Context) int {
-	affected, err := upu.Save(ctx)
+func (_u *UserProfileUpdate) SaveX(ctx context.Context) int {
+	affected, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -218,87 +218,87 @@ func (upu *UserProfileUpdate) SaveX(ctx context.Context) int {
 }
 
 // Exec executes the query.
-func (upu *UserProfileUpdate) Exec(ctx context.Context) error {
-	_, err := upu.Save(ctx)
+func (_u *UserProfileUpdate) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (upu *UserProfileUpdate) ExecX(ctx context.Context) {
-	if err := upu.Exec(ctx); err != nil {
+func (_u *UserProfileUpdate) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
-func (upu *UserProfileUpdate) sqlSave(ctx context.Context) (n int, err error) {
+func (_u *UserProfileUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	_spec := sqlgraph.NewUpdateSpec(userprofile.Table, userprofile.Columns, sqlgraph.NewFieldSpec(userprofile.FieldID, field.TypeString))
-	if ps := upu.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := upu.mutation.DisplayName(); ok {
+	if value, ok := _u.mutation.DisplayName(); ok {
 		_spec.SetField(userprofile.FieldDisplayName, field.TypeString, value)
 	}
-	if upu.mutation.DisplayNameCleared() {
+	if _u.mutation.DisplayNameCleared() {
 		_spec.ClearField(userprofile.FieldDisplayName, field.TypeString)
 	}
-	if value, ok := upu.mutation.FirstName(); ok {
+	if value, ok := _u.mutation.FirstName(); ok {
 		_spec.SetField(userprofile.FieldFirstName, field.TypeString, value)
 	}
-	if upu.mutation.FirstNameCleared() {
+	if _u.mutation.FirstNameCleared() {
 		_spec.ClearField(userprofile.FieldFirstName, field.TypeString)
 	}
-	if value, ok := upu.mutation.LastName(); ok {
+	if value, ok := _u.mutation.LastName(); ok {
 		_spec.SetField(userprofile.FieldLastName, field.TypeString, value)
 	}
-	if upu.mutation.LastNameCleared() {
+	if _u.mutation.LastNameCleared() {
 		_spec.ClearField(userprofile.FieldLastName, field.TypeString)
 	}
-	if value, ok := upu.mutation.Title(); ok {
+	if value, ok := _u.mutation.Title(); ok {
 		_spec.SetField(userprofile.FieldTitle, field.TypeString, value)
 	}
-	if upu.mutation.TitleCleared() {
+	if _u.mutation.TitleCleared() {
 		_spec.ClearField(userprofile.FieldTitle, field.TypeString)
 	}
-	if value, ok := upu.mutation.ShortBio(); ok {
+	if value, ok := _u.mutation.ShortBio(); ok {
 		_spec.SetField(userprofile.FieldShortBio, field.TypeString, value)
 	}
-	if upu.mutation.ShortBioCleared() {
+	if _u.mutation.ShortBioCleared() {
 		_spec.ClearField(userprofile.FieldShortBio, field.TypeString)
 	}
-	if value, ok := upu.mutation.About(); ok {
+	if value, ok := _u.mutation.About(); ok {
 		_spec.SetField(userprofile.FieldAbout, field.TypeString, value)
 	}
-	if upu.mutation.AboutCleared() {
+	if _u.mutation.AboutCleared() {
 		_spec.ClearField(userprofile.FieldAbout, field.TypeString)
 	}
-	if value, ok := upu.mutation.Links(); ok {
+	if value, ok := _u.mutation.Links(); ok {
 		_spec.SetField(userprofile.FieldLinks, field.TypeJSON, value)
 	}
-	if value, ok := upu.mutation.AppendedLinks(); ok {
+	if value, ok := _u.mutation.AppendedLinks(); ok {
 		_spec.AddModifier(func(u *sql.UpdateBuilder) {
 			sqljson.Append(u, userprofile.FieldLinks, value)
 		})
 	}
-	if upu.mutation.LinksCleared() {
+	if _u.mutation.LinksCleared() {
 		_spec.ClearField(userprofile.FieldLinks, field.TypeJSON)
 	}
-	if value, ok := upu.mutation.Thumbnail(); ok {
+	if value, ok := _u.mutation.Thumbnail(); ok {
 		_spec.SetField(userprofile.FieldThumbnail, field.TypeString, value)
 	}
-	if upu.mutation.ThumbnailCleared() {
+	if _u.mutation.ThumbnailCleared() {
 		_spec.ClearField(userprofile.FieldThumbnail, field.TypeString)
 	}
-	if value, ok := upu.mutation.Extras(); ok {
+	if value, ok := _u.mutation.Extras(); ok {
 		_spec.SetField(userprofile.FieldExtras, field.TypeJSON, value)
 	}
-	if upu.mutation.ExtrasCleared() {
+	if _u.mutation.ExtrasCleared() {
 		_spec.ClearField(userprofile.FieldExtras, field.TypeJSON)
 	}
-	if n, err = sqlgraph.UpdateNodes(ctx, upu.driver, _spec); err != nil {
+	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{userprofile.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -306,8 +306,8 @@ func (upu *UserProfileUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		return 0, err
 	}
-	upu.mutation.done = true
-	return n, nil
+	_u.mutation.done = true
+	return _node, nil
 }
 
 // UserProfileUpdateOne is the builder for updating a single UserProfile entity.
@@ -319,201 +319,201 @@ type UserProfileUpdateOne struct {
 }
 
 // SetDisplayName sets the "display_name" field.
-func (upuo *UserProfileUpdateOne) SetDisplayName(s string) *UserProfileUpdateOne {
-	upuo.mutation.SetDisplayName(s)
-	return upuo
+func (_u *UserProfileUpdateOne) SetDisplayName(v string) *UserProfileUpdateOne {
+	_u.mutation.SetDisplayName(v)
+	return _u
 }
 
 // SetNillableDisplayName sets the "display_name" field if the given value is not nil.
-func (upuo *UserProfileUpdateOne) SetNillableDisplayName(s *string) *UserProfileUpdateOne {
-	if s != nil {
-		upuo.SetDisplayName(*s)
+func (_u *UserProfileUpdateOne) SetNillableDisplayName(v *string) *UserProfileUpdateOne {
+	if v != nil {
+		_u.SetDisplayName(*v)
 	}
-	return upuo
+	return _u
 }
 
 // ClearDisplayName clears the value of the "display_name" field.
-func (upuo *UserProfileUpdateOne) ClearDisplayName() *UserProfileUpdateOne {
-	upuo.mutation.ClearDisplayName()
-	return upuo
+func (_u *UserProfileUpdateOne) ClearDisplayName() *UserProfileUpdateOne {
+	_u.mutation.ClearDisplayName()
+	return _u
 }
 
 // SetFirstName sets the "first_name" field.
-func (upuo *UserProfileUpdateOne) SetFirstName(s string) *UserProfileUpdateOne {
-	upuo.mutation.SetFirstName(s)
-	return upuo
+func (_u *UserProfileUpdateOne) SetFirstName(v string) *UserProfileUpdateOne {
+	_u.mutation.SetFirstName(v)
+	return _u
 }
 
 // SetNillableFirstName sets the "first_name" field if the given value is not nil.
-func (upuo *UserProfileUpdateOne) SetNillableFirstName(s *string) *UserProfileUpdateOne {
-	if s != nil {
-		upuo.SetFirstName(*s)
+func (_u *UserProfileUpdateOne) SetNillableFirstName(v *string) *UserProfileUpdateOne {
+	if v != nil {
+		_u.SetFirstName(*v)
 	}
-	return upuo
+	return _u
 }
 
 // ClearFirstName clears the value of the "first_name" field.
-func (upuo *UserProfileUpdateOne) ClearFirstName() *UserProfileUpdateOne {
-	upuo.mutation.ClearFirstName()
-	return upuo
+func (_u *UserProfileUpdateOne) ClearFirstName() *UserProfileUpdateOne {
+	_u.mutation.ClearFirstName()
+	return _u
 }
 
 // SetLastName sets the "last_name" field.
-func (upuo *UserProfileUpdateOne) SetLastName(s string) *UserProfileUpdateOne {
-	upuo.mutation.SetLastName(s)
-	return upuo
+func (_u *UserProfileUpdateOne) SetLastName(v string) *UserProfileUpdateOne {
+	_u.mutation.SetLastName(v)
+	return _u
 }
 
 // SetNillableLastName sets the "last_name" field if the given value is not nil.
-func (upuo *UserProfileUpdateOne) SetNillableLastName(s *string) *UserProfileUpdateOne {
-	if s != nil {
-		upuo.SetLastName(*s)
+func (_u *UserProfileUpdateOne) SetNillableLastName(v *string) *UserProfileUpdateOne {
+	if v != nil {
+		_u.SetLastName(*v)
 	}
-	return upuo
+	return _u
 }
 
 // ClearLastName clears the value of the "last_name" field.
-func (upuo *UserProfileUpdateOne) ClearLastName() *UserProfileUpdateOne {
-	upuo.mutation.ClearLastName()
-	return upuo
+func (_u *UserProfileUpdateOne) ClearLastName() *UserProfileUpdateOne {
+	_u.mutation.ClearLastName()
+	return _u
 }
 
 // SetTitle sets the "title" field.
-func (upuo *UserProfileUpdateOne) SetTitle(s string) *UserProfileUpdateOne {
-	upuo.mutation.SetTitle(s)
-	return upuo
+func (_u *UserProfileUpdateOne) SetTitle(v string) *UserProfileUpdateOne {
+	_u.mutation.SetTitle(v)
+	return _u
 }
 
 // SetNillableTitle sets the "title" field if the given value is not nil.
-func (upuo *UserProfileUpdateOne) SetNillableTitle(s *string) *UserProfileUpdateOne {
-	if s != nil {
-		upuo.SetTitle(*s)
+func (_u *UserProfileUpdateOne) SetNillableTitle(v *string) *UserProfileUpdateOne {
+	if v != nil {
+		_u.SetTitle(*v)
 	}
-	return upuo
+	return _u
 }
 
 // ClearTitle clears the value of the "title" field.
-func (upuo *UserProfileUpdateOne) ClearTitle() *UserProfileUpdateOne {
-	upuo.mutation.ClearTitle()
-	return upuo
+func (_u *UserProfileUpdateOne) ClearTitle() *UserProfileUpdateOne {
+	_u.mutation.ClearTitle()
+	return _u
 }
 
 // SetShortBio sets the "short_bio" field.
-func (upuo *UserProfileUpdateOne) SetShortBio(s string) *UserProfileUpdateOne {
-	upuo.mutation.SetShortBio(s)
-	return upuo
+func (_u *UserProfileUpdateOne) SetShortBio(v string) *UserProfileUpdateOne {
+	_u.mutation.SetShortBio(v)
+	return _u
 }
 
 // SetNillableShortBio sets the "short_bio" field if the given value is not nil.
-func (upuo *UserProfileUpdateOne) SetNillableShortBio(s *string) *UserProfileUpdateOne {
-	if s != nil {
-		upuo.SetShortBio(*s)
+func (_u *UserProfileUpdateOne) SetNillableShortBio(v *string) *UserProfileUpdateOne {
+	if v != nil {
+		_u.SetShortBio(*v)
 	}
-	return upuo
+	return _u
 }
 
 // ClearShortBio clears the value of the "short_bio" field.
-func (upuo *UserProfileUpdateOne) ClearShortBio() *UserProfileUpdateOne {
-	upuo.mutation.ClearShortBio()
-	return upuo
+func (_u *UserProfileUpdateOne) ClearShortBio() *UserProfileUpdateOne {
+	_u.mutation.ClearShortBio()
+	return _u
 }
 
 // SetAbout sets the "about" field.
-func (upuo *UserProfileUpdateOne) SetAbout(s string) *UserProfileUpdateOne {
-	upuo.mutation.SetAbout(s)
-	return upuo
+func (_u *UserProfileUpdateOne) SetAbout(v string) *UserProfileUpdateOne {
+	_u.mutation.SetAbout(v)
+	return _u
 }
 
 // SetNillableAbout sets the "about" field if the given value is not nil.
-func (upuo *UserProfileUpdateOne) SetNillableAbout(s *string) *UserProfileUpdateOne {
-	if s != nil {
-		upuo.SetAbout(*s)
+func (_u *UserProfileUpdateOne) SetNillableAbout(v *string) *UserProfileUpdateOne {
+	if v != nil {
+		_u.SetAbout(*v)
 	}
-	return upuo
+	return _u
 }
 
 // ClearAbout clears the value of the "about" field.
-func (upuo *UserProfileUpdateOne) ClearAbout() *UserProfileUpdateOne {
-	upuo.mutation.ClearAbout()
-	return upuo
+func (_u *UserProfileUpdateOne) ClearAbout() *UserProfileUpdateOne {
+	_u.mutation.ClearAbout()
+	return _u
 }
 
 // SetLinks sets the "links" field.
-func (upuo *UserProfileUpdateOne) SetLinks(m []map[string]interface{}) *UserProfileUpdateOne {
-	upuo.mutation.SetLinks(m)
-	return upuo
+func (_u *UserProfileUpdateOne) SetLinks(v []map[string]interface{}) *UserProfileUpdateOne {
+	_u.mutation.SetLinks(v)
+	return _u
 }
 
-// AppendLinks appends m to the "links" field.
-func (upuo *UserProfileUpdateOne) AppendLinks(m []map[string]interface{}) *UserProfileUpdateOne {
-	upuo.mutation.AppendLinks(m)
-	return upuo
+// AppendLinks appends value to the "links" field.
+func (_u *UserProfileUpdateOne) AppendLinks(v []map[string]interface{}) *UserProfileUpdateOne {
+	_u.mutation.AppendLinks(v)
+	return _u
 }
 
 // ClearLinks clears the value of the "links" field.
-func (upuo *UserProfileUpdateOne) ClearLinks() *UserProfileUpdateOne {
-	upuo.mutation.ClearLinks()
-	return upuo
+func (_u *UserProfileUpdateOne) ClearLinks() *UserProfileUpdateOne {
+	_u.mutation.ClearLinks()
+	return _u
 }
 
 // SetThumbnail sets the "thumbnail" field.
-func (upuo *UserProfileUpdateOne) SetThumbnail(s string) *UserProfileUpdateOne {
-	upuo.mutation.SetThumbnail(s)
-	return upuo
+func (_u *UserProfileUpdateOne) SetThumbnail(v string) *UserProfileUpdateOne {
+	_u.mutation.SetThumbnail(v)
+	return _u
 }
 
 // SetNillableThumbnail sets the "thumbnail" field if the given value is not nil.
-func (upuo *UserProfileUpdateOne) SetNillableThumbnail(s *string) *UserProfileUpdateOne {
-	if s != nil {
-		upuo.SetThumbnail(*s)
+func (_u *UserProfileUpdateOne) SetNillableThumbnail(v *string) *UserProfileUpdateOne {
+	if v != nil {
+		_u.SetThumbnail(*v)
 	}
-	return upuo
+	return _u
 }
 
 // ClearThumbnail clears the value of the "thumbnail" field.
-func (upuo *UserProfileUpdateOne) ClearThumbnail() *UserProfileUpdateOne {
-	upuo.mutation.ClearThumbnail()
-	return upuo
+func (_u *UserProfileUpdateOne) ClearThumbnail() *UserProfileUpdateOne {
+	_u.mutation.ClearThumbnail()
+	return _u
 }
 
 // SetExtras sets the "extras" field.
-func (upuo *UserProfileUpdateOne) SetExtras(m map[string]interface{}) *UserProfileUpdateOne {
-	upuo.mutation.SetExtras(m)
-	return upuo
+func (_u *UserProfileUpdateOne) SetExtras(v map[string]interface{}) *UserProfileUpdateOne {
+	_u.mutation.SetExtras(v)
+	return _u
 }
 
 // ClearExtras clears the value of the "extras" field.
-func (upuo *UserProfileUpdateOne) ClearExtras() *UserProfileUpdateOne {
-	upuo.mutation.ClearExtras()
-	return upuo
+func (_u *UserProfileUpdateOne) ClearExtras() *UserProfileUpdateOne {
+	_u.mutation.ClearExtras()
+	return _u
 }
 
 // Mutation returns the UserProfileMutation object of the builder.
-func (upuo *UserProfileUpdateOne) Mutation() *UserProfileMutation {
-	return upuo.mutation
+func (_u *UserProfileUpdateOne) Mutation() *UserProfileMutation {
+	return _u.mutation
 }
 
 // Where appends a list predicates to the UserProfileUpdate builder.
-func (upuo *UserProfileUpdateOne) Where(ps ...predicate.UserProfile) *UserProfileUpdateOne {
-	upuo.mutation.Where(ps...)
-	return upuo
+func (_u *UserProfileUpdateOne) Where(ps ...predicate.UserProfile) *UserProfileUpdateOne {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // Select allows selecting one or more fields (columns) of the returned entity.
 // The default is selecting all fields defined in the entity schema.
-func (upuo *UserProfileUpdateOne) Select(field string, fields ...string) *UserProfileUpdateOne {
-	upuo.fields = append([]string{field}, fields...)
-	return upuo
+func (_u *UserProfileUpdateOne) Select(field string, fields ...string) *UserProfileUpdateOne {
+	_u.fields = append([]string{field}, fields...)
+	return _u
 }
 
 // Save executes the query and returns the updated UserProfile entity.
-func (upuo *UserProfileUpdateOne) Save(ctx context.Context) (*UserProfile, error) {
-	return withHooks(ctx, upuo.sqlSave, upuo.mutation, upuo.hooks)
+func (_u *UserProfileUpdateOne) Save(ctx context.Context) (*UserProfile, error) {
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (upuo *UserProfileUpdateOne) SaveX(ctx context.Context) *UserProfile {
-	node, err := upuo.Save(ctx)
+func (_u *UserProfileUpdateOne) SaveX(ctx context.Context) *UserProfile {
+	node, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -521,26 +521,26 @@ func (upuo *UserProfileUpdateOne) SaveX(ctx context.Context) *UserProfile {
 }
 
 // Exec executes the query on the entity.
-func (upuo *UserProfileUpdateOne) Exec(ctx context.Context) error {
-	_, err := upuo.Save(ctx)
+func (_u *UserProfileUpdateOne) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (upuo *UserProfileUpdateOne) ExecX(ctx context.Context) {
-	if err := upuo.Exec(ctx); err != nil {
+func (_u *UserProfileUpdateOne) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
-func (upuo *UserProfileUpdateOne) sqlSave(ctx context.Context) (_node *UserProfile, err error) {
+func (_u *UserProfileUpdateOne) sqlSave(ctx context.Context) (_node *UserProfile, err error) {
 	_spec := sqlgraph.NewUpdateSpec(userprofile.Table, userprofile.Columns, sqlgraph.NewFieldSpec(userprofile.FieldID, field.TypeString))
-	id, ok := upuo.mutation.ID()
+	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "UserProfile.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
-	if fields := upuo.fields; len(fields) > 0 {
+	if fields := _u.fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, userprofile.FieldID)
 		for _, f := range fields {
@@ -552,76 +552,76 @@ func (upuo *UserProfileUpdateOne) sqlSave(ctx context.Context) (_node *UserProfi
 			}
 		}
 	}
-	if ps := upuo.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := upuo.mutation.DisplayName(); ok {
+	if value, ok := _u.mutation.DisplayName(); ok {
 		_spec.SetField(userprofile.FieldDisplayName, field.TypeString, value)
 	}
-	if upuo.mutation.DisplayNameCleared() {
+	if _u.mutation.DisplayNameCleared() {
 		_spec.ClearField(userprofile.FieldDisplayName, field.TypeString)
 	}
-	if value, ok := upuo.mutation.FirstName(); ok {
+	if value, ok := _u.mutation.FirstName(); ok {
 		_spec.SetField(userprofile.FieldFirstName, field.TypeString, value)
 	}
-	if upuo.mutation.FirstNameCleared() {
+	if _u.mutation.FirstNameCleared() {
 		_spec.ClearField(userprofile.FieldFirstName, field.TypeString)
 	}
-	if value, ok := upuo.mutation.LastName(); ok {
+	if value, ok := _u.mutation.LastName(); ok {
 		_spec.SetField(userprofile.FieldLastName, field.TypeString, value)
 	}
-	if upuo.mutation.LastNameCleared() {
+	if _u.mutation.LastNameCleared() {
 		_spec.ClearField(userprofile.FieldLastName, field.TypeString)
 	}
-	if value, ok := upuo.mutation.Title(); ok {
+	if value, ok := _u.mutation.Title(); ok {
 		_spec.SetField(userprofile.FieldTitle, field.TypeString, value)
 	}
-	if upuo.mutation.TitleCleared() {
+	if _u.mutation.TitleCleared() {
 		_spec.ClearField(userprofile.FieldTitle, field.TypeString)
 	}
-	if value, ok := upuo.mutation.ShortBio(); ok {
+	if value, ok := _u.mutation.ShortBio(); ok {
 		_spec.SetField(userprofile.FieldShortBio, field.TypeString, value)
 	}
-	if upuo.mutation.ShortBioCleared() {
+	if _u.mutation.ShortBioCleared() {
 		_spec.ClearField(userprofile.FieldShortBio, field.TypeString)
 	}
-	if value, ok := upuo.mutation.About(); ok {
+	if value, ok := _u.mutation.About(); ok {
 		_spec.SetField(userprofile.FieldAbout, field.TypeString, value)
 	}
-	if upuo.mutation.AboutCleared() {
+	if _u.mutation.AboutCleared() {
 		_spec.ClearField(userprofile.FieldAbout, field.TypeString)
 	}
-	if value, ok := upuo.mutation.Links(); ok {
+	if value, ok := _u.mutation.Links(); ok {
 		_spec.SetField(userprofile.FieldLinks, field.TypeJSON, value)
 	}
-	if value, ok := upuo.mutation.AppendedLinks(); ok {
+	if value, ok := _u.mutation.AppendedLinks(); ok {
 		_spec.AddModifier(func(u *sql.UpdateBuilder) {
 			sqljson.Append(u, userprofile.FieldLinks, value)
 		})
 	}
-	if upuo.mutation.LinksCleared() {
+	if _u.mutation.LinksCleared() {
 		_spec.ClearField(userprofile.FieldLinks, field.TypeJSON)
 	}
-	if value, ok := upuo.mutation.Thumbnail(); ok {
+	if value, ok := _u.mutation.Thumbnail(); ok {
 		_spec.SetField(userprofile.FieldThumbnail, field.TypeString, value)
 	}
-	if upuo.mutation.ThumbnailCleared() {
+	if _u.mutation.ThumbnailCleared() {
 		_spec.ClearField(userprofile.FieldThumbnail, field.TypeString)
 	}
-	if value, ok := upuo.mutation.Extras(); ok {
+	if value, ok := _u.mutation.Extras(); ok {
 		_spec.SetField(userprofile.FieldExtras, field.TypeJSON, value)
 	}
-	if upuo.mutation.ExtrasCleared() {
+	if _u.mutation.ExtrasCleared() {
 		_spec.ClearField(userprofile.FieldExtras, field.TypeJSON)
 	}
-	_node = &UserProfile{config: upuo.config}
+	_node = &UserProfile{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues
-	if err = sqlgraph.UpdateNode(ctx, upuo.driver, _spec); err != nil {
+	if err = sqlgraph.UpdateNode(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{userprofile.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -629,6 +629,6 @@ func (upuo *UserProfileUpdateOne) sqlSave(ctx context.Context) (_node *UserProfi
 		}
 		return nil, err
 	}
-	upuo.mutation.done = true
+	_u.mutation.done = true
 	return _node, nil
 }

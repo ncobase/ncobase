@@ -95,7 +95,7 @@ func (*Topic) scanValues(columns []string) ([]any, error) {
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
 // to the Topic fields.
-func (t *Topic) assignValues(columns []string, values []any) error {
+func (_m *Topic) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
@@ -105,85 +105,85 @@ func (t *Topic) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field id", values[i])
 			} else if value.Valid {
-				t.ID = value.String
+				_m.ID = value.String
 			}
 		case topic.FieldName:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field name", values[i])
 			} else if value.Valid {
-				t.Name = value.String
+				_m.Name = value.String
 			}
 		case topic.FieldTitle:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field title", values[i])
 			} else if value.Valid {
-				t.Title = value.String
+				_m.Title = value.String
 			}
 		case topic.FieldSlug:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field slug", values[i])
 			} else if value.Valid {
-				t.Slug = value.String
+				_m.Slug = value.String
 			}
 		case topic.FieldContent:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field content", values[i])
 			} else if value.Valid {
-				t.Content = value.String
+				_m.Content = value.String
 			}
 		case topic.FieldThumbnail:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field thumbnail", values[i])
 			} else if value.Valid {
-				t.Thumbnail = value.String
+				_m.Thumbnail = value.String
 			}
 		case topic.FieldTemp:
 			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field temp", values[i])
 			} else if value.Valid {
-				t.Temp = value.Bool
+				_m.Temp = value.Bool
 			}
 		case topic.FieldMarkdown:
 			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field markdown", values[i])
 			} else if value.Valid {
-				t.Markdown = value.Bool
+				_m.Markdown = value.Bool
 			}
 		case topic.FieldPrivate:
 			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field private", values[i])
 			} else if value.Valid {
-				t.Private = value.Bool
+				_m.Private = value.Bool
 			}
 		case topic.FieldStatus:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field status", values[i])
 			} else if value.Valid {
-				t.Status = int(value.Int64)
+				_m.Status = int(value.Int64)
 			}
 		case topic.FieldReleased:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field released", values[i])
 			} else if value.Valid {
-				t.Released = value.Int64
+				_m.Released = value.Int64
 			}
 		case topic.FieldTaxonomyID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field taxonomy_id", values[i])
 			} else if value.Valid {
-				t.TaxonomyID = value.String
+				_m.TaxonomyID = value.String
 			}
 		case topic.FieldSpaceID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field space_id", values[i])
 			} else if value.Valid {
-				t.SpaceID = value.String
+				_m.SpaceID = value.String
 			}
 		case topic.FieldExtras:
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field extras", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &t.Extras); err != nil {
+				if err := json.Unmarshal(*value, &_m.Extras); err != nil {
 					return fmt.Errorf("unmarshal field extras: %w", err)
 				}
 			}
@@ -191,84 +191,84 @@ func (t *Topic) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field created_by", values[i])
 			} else if value.Valid {
-				t.CreatedBy = value.String
+				_m.CreatedBy = value.String
 			}
 		case topic.FieldUpdatedBy:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_by", values[i])
 			} else if value.Valid {
-				t.UpdatedBy = value.String
+				_m.UpdatedBy = value.String
 			}
 		case topic.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field created_at", values[i])
 			} else if value.Valid {
-				t.CreatedAt = value.Int64
+				_m.CreatedAt = value.Int64
 			}
 		case topic.FieldUpdatedAt:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_at", values[i])
 			} else if value.Valid {
-				t.UpdatedAt = value.Int64
+				_m.UpdatedAt = value.Int64
 			}
 		case topic.FieldVersion:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field version", values[i])
 			} else if value.Valid {
-				t.Version = int(value.Int64)
+				_m.Version = int(value.Int64)
 			}
 		case topic.FieldContentType:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field content_type", values[i])
 			} else if value.Valid {
-				t.ContentType = value.String
+				_m.ContentType = value.String
 			}
 		case topic.FieldSeoTitle:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field seo_title", values[i])
 			} else if value.Valid {
-				t.SeoTitle = value.String
+				_m.SeoTitle = value.String
 			}
 		case topic.FieldSeoDescription:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field seo_description", values[i])
 			} else if value.Valid {
-				t.SeoDescription = value.String
+				_m.SeoDescription = value.String
 			}
 		case topic.FieldSeoKeywords:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field seo_keywords", values[i])
 			} else if value.Valid {
-				t.SeoKeywords = value.String
+				_m.SeoKeywords = value.String
 			}
 		case topic.FieldExcerptAuto:
 			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field excerpt_auto", values[i])
 			} else if value.Valid {
-				t.ExcerptAuto = value.Bool
+				_m.ExcerptAuto = value.Bool
 			}
 		case topic.FieldExcerpt:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field excerpt", values[i])
 			} else if value.Valid {
-				t.Excerpt = value.String
+				_m.Excerpt = value.String
 			}
 		case topic.FieldFeaturedMedia:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field featured_media", values[i])
 			} else if value.Valid {
-				t.FeaturedMedia = value.String
+				_m.FeaturedMedia = value.String
 			}
 		case topic.FieldTags:
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field tags", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &t.Tags); err != nil {
+				if err := json.Unmarshal(*value, &_m.Tags); err != nil {
 					return fmt.Errorf("unmarshal field tags: %w", err)
 				}
 			}
 		default:
-			t.selectValues.Set(columns[i], values[i])
+			_m.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
@@ -276,110 +276,110 @@ func (t *Topic) assignValues(columns []string, values []any) error {
 
 // Value returns the ent.Value that was dynamically selected and assigned to the Topic.
 // This includes values selected through modifiers, order, etc.
-func (t *Topic) Value(name string) (ent.Value, error) {
-	return t.selectValues.Get(name)
+func (_m *Topic) Value(name string) (ent.Value, error) {
+	return _m.selectValues.Get(name)
 }
 
 // Update returns a builder for updating this Topic.
 // Note that you need to call Topic.Unwrap() before calling this method if this Topic
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (t *Topic) Update() *TopicUpdateOne {
-	return NewTopicClient(t.config).UpdateOne(t)
+func (_m *Topic) Update() *TopicUpdateOne {
+	return NewTopicClient(_m.config).UpdateOne(_m)
 }
 
 // Unwrap unwraps the Topic entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (t *Topic) Unwrap() *Topic {
-	_tx, ok := t.config.driver.(*txDriver)
+func (_m *Topic) Unwrap() *Topic {
+	_tx, ok := _m.config.driver.(*txDriver)
 	if !ok {
 		panic("ent: Topic is not a transactional entity")
 	}
-	t.config.driver = _tx.drv
-	return t
+	_m.config.driver = _tx.drv
+	return _m
 }
 
 // String implements the fmt.Stringer.
-func (t *Topic) String() string {
+func (_m *Topic) String() string {
 	var builder strings.Builder
 	builder.WriteString("Topic(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", t.ID))
+	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
 	builder.WriteString("name=")
-	builder.WriteString(t.Name)
+	builder.WriteString(_m.Name)
 	builder.WriteString(", ")
 	builder.WriteString("title=")
-	builder.WriteString(t.Title)
+	builder.WriteString(_m.Title)
 	builder.WriteString(", ")
 	builder.WriteString("slug=")
-	builder.WriteString(t.Slug)
+	builder.WriteString(_m.Slug)
 	builder.WriteString(", ")
 	builder.WriteString("content=")
-	builder.WriteString(t.Content)
+	builder.WriteString(_m.Content)
 	builder.WriteString(", ")
 	builder.WriteString("thumbnail=")
-	builder.WriteString(t.Thumbnail)
+	builder.WriteString(_m.Thumbnail)
 	builder.WriteString(", ")
 	builder.WriteString("temp=")
-	builder.WriteString(fmt.Sprintf("%v", t.Temp))
+	builder.WriteString(fmt.Sprintf("%v", _m.Temp))
 	builder.WriteString(", ")
 	builder.WriteString("markdown=")
-	builder.WriteString(fmt.Sprintf("%v", t.Markdown))
+	builder.WriteString(fmt.Sprintf("%v", _m.Markdown))
 	builder.WriteString(", ")
 	builder.WriteString("private=")
-	builder.WriteString(fmt.Sprintf("%v", t.Private))
+	builder.WriteString(fmt.Sprintf("%v", _m.Private))
 	builder.WriteString(", ")
 	builder.WriteString("status=")
-	builder.WriteString(fmt.Sprintf("%v", t.Status))
+	builder.WriteString(fmt.Sprintf("%v", _m.Status))
 	builder.WriteString(", ")
 	builder.WriteString("released=")
-	builder.WriteString(fmt.Sprintf("%v", t.Released))
+	builder.WriteString(fmt.Sprintf("%v", _m.Released))
 	builder.WriteString(", ")
 	builder.WriteString("taxonomy_id=")
-	builder.WriteString(t.TaxonomyID)
+	builder.WriteString(_m.TaxonomyID)
 	builder.WriteString(", ")
 	builder.WriteString("space_id=")
-	builder.WriteString(t.SpaceID)
+	builder.WriteString(_m.SpaceID)
 	builder.WriteString(", ")
 	builder.WriteString("extras=")
-	builder.WriteString(fmt.Sprintf("%v", t.Extras))
+	builder.WriteString(fmt.Sprintf("%v", _m.Extras))
 	builder.WriteString(", ")
 	builder.WriteString("created_by=")
-	builder.WriteString(t.CreatedBy)
+	builder.WriteString(_m.CreatedBy)
 	builder.WriteString(", ")
 	builder.WriteString("updated_by=")
-	builder.WriteString(t.UpdatedBy)
+	builder.WriteString(_m.UpdatedBy)
 	builder.WriteString(", ")
 	builder.WriteString("created_at=")
-	builder.WriteString(fmt.Sprintf("%v", t.CreatedAt))
+	builder.WriteString(fmt.Sprintf("%v", _m.CreatedAt))
 	builder.WriteString(", ")
 	builder.WriteString("updated_at=")
-	builder.WriteString(fmt.Sprintf("%v", t.UpdatedAt))
+	builder.WriteString(fmt.Sprintf("%v", _m.UpdatedAt))
 	builder.WriteString(", ")
 	builder.WriteString("version=")
-	builder.WriteString(fmt.Sprintf("%v", t.Version))
+	builder.WriteString(fmt.Sprintf("%v", _m.Version))
 	builder.WriteString(", ")
 	builder.WriteString("content_type=")
-	builder.WriteString(t.ContentType)
+	builder.WriteString(_m.ContentType)
 	builder.WriteString(", ")
 	builder.WriteString("seo_title=")
-	builder.WriteString(t.SeoTitle)
+	builder.WriteString(_m.SeoTitle)
 	builder.WriteString(", ")
 	builder.WriteString("seo_description=")
-	builder.WriteString(t.SeoDescription)
+	builder.WriteString(_m.SeoDescription)
 	builder.WriteString(", ")
 	builder.WriteString("seo_keywords=")
-	builder.WriteString(t.SeoKeywords)
+	builder.WriteString(_m.SeoKeywords)
 	builder.WriteString(", ")
 	builder.WriteString("excerpt_auto=")
-	builder.WriteString(fmt.Sprintf("%v", t.ExcerptAuto))
+	builder.WriteString(fmt.Sprintf("%v", _m.ExcerptAuto))
 	builder.WriteString(", ")
 	builder.WriteString("excerpt=")
-	builder.WriteString(t.Excerpt)
+	builder.WriteString(_m.Excerpt)
 	builder.WriteString(", ")
 	builder.WriteString("featured_media=")
-	builder.WriteString(t.FeaturedMedia)
+	builder.WriteString(_m.FeaturedMedia)
 	builder.WriteString(", ")
 	builder.WriteString("tags=")
-	builder.WriteString(fmt.Sprintf("%v", t.Tags))
+	builder.WriteString(fmt.Sprintf("%v", _m.Tags))
 	builder.WriteByte(')')
 	return builder.String()
 }

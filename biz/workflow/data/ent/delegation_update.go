@@ -23,278 +23,278 @@ type DelegationUpdate struct {
 }
 
 // Where appends a list predicates to the DelegationUpdate builder.
-func (du *DelegationUpdate) Where(ps ...predicate.Delegation) *DelegationUpdate {
-	du.mutation.Where(ps...)
-	return du
+func (_u *DelegationUpdate) Where(ps ...predicate.Delegation) *DelegationUpdate {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // SetStatus sets the "status" field.
-func (du *DelegationUpdate) SetStatus(s string) *DelegationUpdate {
-	du.mutation.SetStatus(s)
-	return du
+func (_u *DelegationUpdate) SetStatus(v string) *DelegationUpdate {
+	_u.mutation.SetStatus(v)
+	return _u
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (du *DelegationUpdate) SetNillableStatus(s *string) *DelegationUpdate {
-	if s != nil {
-		du.SetStatus(*s)
+func (_u *DelegationUpdate) SetNillableStatus(v *string) *DelegationUpdate {
+	if v != nil {
+		_u.SetStatus(*v)
 	}
-	return du
+	return _u
 }
 
 // ClearStatus clears the value of the "status" field.
-func (du *DelegationUpdate) ClearStatus() *DelegationUpdate {
-	du.mutation.ClearStatus()
-	return du
+func (_u *DelegationUpdate) ClearStatus() *DelegationUpdate {
+	_u.mutation.ClearStatus()
+	return _u
 }
 
 // SetExtras sets the "extras" field.
-func (du *DelegationUpdate) SetExtras(m map[string]interface{}) *DelegationUpdate {
-	du.mutation.SetExtras(m)
-	return du
+func (_u *DelegationUpdate) SetExtras(v map[string]interface{}) *DelegationUpdate {
+	_u.mutation.SetExtras(v)
+	return _u
 }
 
 // ClearExtras clears the value of the "extras" field.
-func (du *DelegationUpdate) ClearExtras() *DelegationUpdate {
-	du.mutation.ClearExtras()
-	return du
+func (_u *DelegationUpdate) ClearExtras() *DelegationUpdate {
+	_u.mutation.ClearExtras()
+	return _u
 }
 
 // SetSpaceID sets the "space_id" field.
-func (du *DelegationUpdate) SetSpaceID(s string) *DelegationUpdate {
-	du.mutation.SetSpaceID(s)
-	return du
+func (_u *DelegationUpdate) SetSpaceID(v string) *DelegationUpdate {
+	_u.mutation.SetSpaceID(v)
+	return _u
 }
 
 // SetNillableSpaceID sets the "space_id" field if the given value is not nil.
-func (du *DelegationUpdate) SetNillableSpaceID(s *string) *DelegationUpdate {
-	if s != nil {
-		du.SetSpaceID(*s)
+func (_u *DelegationUpdate) SetNillableSpaceID(v *string) *DelegationUpdate {
+	if v != nil {
+		_u.SetSpaceID(*v)
 	}
-	return du
+	return _u
 }
 
 // ClearSpaceID clears the value of the "space_id" field.
-func (du *DelegationUpdate) ClearSpaceID() *DelegationUpdate {
-	du.mutation.ClearSpaceID()
-	return du
+func (_u *DelegationUpdate) ClearSpaceID() *DelegationUpdate {
+	_u.mutation.ClearSpaceID()
+	return _u
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (du *DelegationUpdate) SetCreatedBy(s string) *DelegationUpdate {
-	du.mutation.SetCreatedBy(s)
-	return du
+func (_u *DelegationUpdate) SetCreatedBy(v string) *DelegationUpdate {
+	_u.mutation.SetCreatedBy(v)
+	return _u
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (du *DelegationUpdate) SetNillableCreatedBy(s *string) *DelegationUpdate {
-	if s != nil {
-		du.SetCreatedBy(*s)
+func (_u *DelegationUpdate) SetNillableCreatedBy(v *string) *DelegationUpdate {
+	if v != nil {
+		_u.SetCreatedBy(*v)
 	}
-	return du
+	return _u
 }
 
 // ClearCreatedBy clears the value of the "created_by" field.
-func (du *DelegationUpdate) ClearCreatedBy() *DelegationUpdate {
-	du.mutation.ClearCreatedBy()
-	return du
+func (_u *DelegationUpdate) ClearCreatedBy() *DelegationUpdate {
+	_u.mutation.ClearCreatedBy()
+	return _u
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (du *DelegationUpdate) SetUpdatedBy(s string) *DelegationUpdate {
-	du.mutation.SetUpdatedBy(s)
-	return du
+func (_u *DelegationUpdate) SetUpdatedBy(v string) *DelegationUpdate {
+	_u.mutation.SetUpdatedBy(v)
+	return _u
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (du *DelegationUpdate) SetNillableUpdatedBy(s *string) *DelegationUpdate {
-	if s != nil {
-		du.SetUpdatedBy(*s)
+func (_u *DelegationUpdate) SetNillableUpdatedBy(v *string) *DelegationUpdate {
+	if v != nil {
+		_u.SetUpdatedBy(*v)
 	}
-	return du
+	return _u
 }
 
 // ClearUpdatedBy clears the value of the "updated_by" field.
-func (du *DelegationUpdate) ClearUpdatedBy() *DelegationUpdate {
-	du.mutation.ClearUpdatedBy()
-	return du
+func (_u *DelegationUpdate) ClearUpdatedBy() *DelegationUpdate {
+	_u.mutation.ClearUpdatedBy()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (du *DelegationUpdate) SetUpdatedAt(i int64) *DelegationUpdate {
-	du.mutation.ResetUpdatedAt()
-	du.mutation.SetUpdatedAt(i)
-	return du
+func (_u *DelegationUpdate) SetUpdatedAt(v int64) *DelegationUpdate {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (du *DelegationUpdate) AddUpdatedAt(i int64) *DelegationUpdate {
-	du.mutation.AddUpdatedAt(i)
-	return du
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *DelegationUpdate) AddUpdatedAt(v int64) *DelegationUpdate {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (du *DelegationUpdate) ClearUpdatedAt() *DelegationUpdate {
-	du.mutation.ClearUpdatedAt()
-	return du
+func (_u *DelegationUpdate) ClearUpdatedAt() *DelegationUpdate {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // SetDelegatorID sets the "delegator_id" field.
-func (du *DelegationUpdate) SetDelegatorID(s string) *DelegationUpdate {
-	du.mutation.SetDelegatorID(s)
-	return du
+func (_u *DelegationUpdate) SetDelegatorID(v string) *DelegationUpdate {
+	_u.mutation.SetDelegatorID(v)
+	return _u
 }
 
 // SetNillableDelegatorID sets the "delegator_id" field if the given value is not nil.
-func (du *DelegationUpdate) SetNillableDelegatorID(s *string) *DelegationUpdate {
-	if s != nil {
-		du.SetDelegatorID(*s)
+func (_u *DelegationUpdate) SetNillableDelegatorID(v *string) *DelegationUpdate {
+	if v != nil {
+		_u.SetDelegatorID(*v)
 	}
-	return du
+	return _u
 }
 
 // SetDelegateeID sets the "delegatee_id" field.
-func (du *DelegationUpdate) SetDelegateeID(s string) *DelegationUpdate {
-	du.mutation.SetDelegateeID(s)
-	return du
+func (_u *DelegationUpdate) SetDelegateeID(v string) *DelegationUpdate {
+	_u.mutation.SetDelegateeID(v)
+	return _u
 }
 
 // SetNillableDelegateeID sets the "delegatee_id" field if the given value is not nil.
-func (du *DelegationUpdate) SetNillableDelegateeID(s *string) *DelegationUpdate {
-	if s != nil {
-		du.SetDelegateeID(*s)
+func (_u *DelegationUpdate) SetNillableDelegateeID(v *string) *DelegationUpdate {
+	if v != nil {
+		_u.SetDelegateeID(*v)
 	}
-	return du
+	return _u
 }
 
 // SetTemplateID sets the "template_id" field.
-func (du *DelegationUpdate) SetTemplateID(s string) *DelegationUpdate {
-	du.mutation.SetTemplateID(s)
-	return du
+func (_u *DelegationUpdate) SetTemplateID(v string) *DelegationUpdate {
+	_u.mutation.SetTemplateID(v)
+	return _u
 }
 
 // SetNillableTemplateID sets the "template_id" field if the given value is not nil.
-func (du *DelegationUpdate) SetNillableTemplateID(s *string) *DelegationUpdate {
-	if s != nil {
-		du.SetTemplateID(*s)
+func (_u *DelegationUpdate) SetNillableTemplateID(v *string) *DelegationUpdate {
+	if v != nil {
+		_u.SetTemplateID(*v)
 	}
-	return du
+	return _u
 }
 
 // ClearTemplateID clears the value of the "template_id" field.
-func (du *DelegationUpdate) ClearTemplateID() *DelegationUpdate {
-	du.mutation.ClearTemplateID()
-	return du
+func (_u *DelegationUpdate) ClearTemplateID() *DelegationUpdate {
+	_u.mutation.ClearTemplateID()
+	return _u
 }
 
 // SetNodeType sets the "node_type" field.
-func (du *DelegationUpdate) SetNodeType(s string) *DelegationUpdate {
-	du.mutation.SetNodeType(s)
-	return du
+func (_u *DelegationUpdate) SetNodeType(v string) *DelegationUpdate {
+	_u.mutation.SetNodeType(v)
+	return _u
 }
 
 // SetNillableNodeType sets the "node_type" field if the given value is not nil.
-func (du *DelegationUpdate) SetNillableNodeType(s *string) *DelegationUpdate {
-	if s != nil {
-		du.SetNodeType(*s)
+func (_u *DelegationUpdate) SetNillableNodeType(v *string) *DelegationUpdate {
+	if v != nil {
+		_u.SetNodeType(*v)
 	}
-	return du
+	return _u
 }
 
 // ClearNodeType clears the value of the "node_type" field.
-func (du *DelegationUpdate) ClearNodeType() *DelegationUpdate {
-	du.mutation.ClearNodeType()
-	return du
+func (_u *DelegationUpdate) ClearNodeType() *DelegationUpdate {
+	_u.mutation.ClearNodeType()
+	return _u
 }
 
 // SetConditions sets the "conditions" field.
-func (du *DelegationUpdate) SetConditions(s []string) *DelegationUpdate {
-	du.mutation.SetConditions(s)
-	return du
+func (_u *DelegationUpdate) SetConditions(v []string) *DelegationUpdate {
+	_u.mutation.SetConditions(v)
+	return _u
 }
 
-// AppendConditions appends s to the "conditions" field.
-func (du *DelegationUpdate) AppendConditions(s []string) *DelegationUpdate {
-	du.mutation.AppendConditions(s)
-	return du
+// AppendConditions appends value to the "conditions" field.
+func (_u *DelegationUpdate) AppendConditions(v []string) *DelegationUpdate {
+	_u.mutation.AppendConditions(v)
+	return _u
 }
 
 // ClearConditions clears the value of the "conditions" field.
-func (du *DelegationUpdate) ClearConditions() *DelegationUpdate {
-	du.mutation.ClearConditions()
-	return du
+func (_u *DelegationUpdate) ClearConditions() *DelegationUpdate {
+	_u.mutation.ClearConditions()
+	return _u
 }
 
 // SetStartTime sets the "start_time" field.
-func (du *DelegationUpdate) SetStartTime(i int64) *DelegationUpdate {
-	du.mutation.ResetStartTime()
-	du.mutation.SetStartTime(i)
-	return du
+func (_u *DelegationUpdate) SetStartTime(v int64) *DelegationUpdate {
+	_u.mutation.ResetStartTime()
+	_u.mutation.SetStartTime(v)
+	return _u
 }
 
 // SetNillableStartTime sets the "start_time" field if the given value is not nil.
-func (du *DelegationUpdate) SetNillableStartTime(i *int64) *DelegationUpdate {
-	if i != nil {
-		du.SetStartTime(*i)
+func (_u *DelegationUpdate) SetNillableStartTime(v *int64) *DelegationUpdate {
+	if v != nil {
+		_u.SetStartTime(*v)
 	}
-	return du
+	return _u
 }
 
-// AddStartTime adds i to the "start_time" field.
-func (du *DelegationUpdate) AddStartTime(i int64) *DelegationUpdate {
-	du.mutation.AddStartTime(i)
-	return du
+// AddStartTime adds value to the "start_time" field.
+func (_u *DelegationUpdate) AddStartTime(v int64) *DelegationUpdate {
+	_u.mutation.AddStartTime(v)
+	return _u
 }
 
 // SetEndTime sets the "end_time" field.
-func (du *DelegationUpdate) SetEndTime(i int64) *DelegationUpdate {
-	du.mutation.ResetEndTime()
-	du.mutation.SetEndTime(i)
-	return du
+func (_u *DelegationUpdate) SetEndTime(v int64) *DelegationUpdate {
+	_u.mutation.ResetEndTime()
+	_u.mutation.SetEndTime(v)
+	return _u
 }
 
 // SetNillableEndTime sets the "end_time" field if the given value is not nil.
-func (du *DelegationUpdate) SetNillableEndTime(i *int64) *DelegationUpdate {
-	if i != nil {
-		du.SetEndTime(*i)
+func (_u *DelegationUpdate) SetNillableEndTime(v *int64) *DelegationUpdate {
+	if v != nil {
+		_u.SetEndTime(*v)
 	}
-	return du
+	return _u
 }
 
-// AddEndTime adds i to the "end_time" field.
-func (du *DelegationUpdate) AddEndTime(i int64) *DelegationUpdate {
-	du.mutation.AddEndTime(i)
-	return du
+// AddEndTime adds value to the "end_time" field.
+func (_u *DelegationUpdate) AddEndTime(v int64) *DelegationUpdate {
+	_u.mutation.AddEndTime(v)
+	return _u
 }
 
 // SetIsEnabled sets the "is_enabled" field.
-func (du *DelegationUpdate) SetIsEnabled(b bool) *DelegationUpdate {
-	du.mutation.SetIsEnabled(b)
-	return du
+func (_u *DelegationUpdate) SetIsEnabled(v bool) *DelegationUpdate {
+	_u.mutation.SetIsEnabled(v)
+	return _u
 }
 
 // SetNillableIsEnabled sets the "is_enabled" field if the given value is not nil.
-func (du *DelegationUpdate) SetNillableIsEnabled(b *bool) *DelegationUpdate {
-	if b != nil {
-		du.SetIsEnabled(*b)
+func (_u *DelegationUpdate) SetNillableIsEnabled(v *bool) *DelegationUpdate {
+	if v != nil {
+		_u.SetIsEnabled(*v)
 	}
-	return du
+	return _u
 }
 
 // Mutation returns the DelegationMutation object of the builder.
-func (du *DelegationUpdate) Mutation() *DelegationMutation {
-	return du.mutation
+func (_u *DelegationUpdate) Mutation() *DelegationMutation {
+	return _u.mutation
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
-func (du *DelegationUpdate) Save(ctx context.Context) (int, error) {
-	du.defaults()
-	return withHooks(ctx, du.sqlSave, du.mutation, du.hooks)
+func (_u *DelegationUpdate) Save(ctx context.Context) (int, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (du *DelegationUpdate) SaveX(ctx context.Context) int {
-	affected, err := du.Save(ctx)
+func (_u *DelegationUpdate) SaveX(ctx context.Context) int {
+	affected, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -302,122 +302,122 @@ func (du *DelegationUpdate) SaveX(ctx context.Context) int {
 }
 
 // Exec executes the query.
-func (du *DelegationUpdate) Exec(ctx context.Context) error {
-	_, err := du.Save(ctx)
+func (_u *DelegationUpdate) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (du *DelegationUpdate) ExecX(ctx context.Context) {
-	if err := du.Exec(ctx); err != nil {
+func (_u *DelegationUpdate) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (du *DelegationUpdate) defaults() {
-	if _, ok := du.mutation.UpdatedAt(); !ok && !du.mutation.UpdatedAtCleared() {
+func (_u *DelegationUpdate) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := delegation.UpdateDefaultUpdatedAt()
-		du.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (du *DelegationUpdate) sqlSave(ctx context.Context) (n int, err error) {
+func (_u *DelegationUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	_spec := sqlgraph.NewUpdateSpec(delegation.Table, delegation.Columns, sqlgraph.NewFieldSpec(delegation.FieldID, field.TypeString))
-	if ps := du.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := du.mutation.Status(); ok {
+	if value, ok := _u.mutation.Status(); ok {
 		_spec.SetField(delegation.FieldStatus, field.TypeString, value)
 	}
-	if du.mutation.StatusCleared() {
+	if _u.mutation.StatusCleared() {
 		_spec.ClearField(delegation.FieldStatus, field.TypeString)
 	}
-	if value, ok := du.mutation.Extras(); ok {
+	if value, ok := _u.mutation.Extras(); ok {
 		_spec.SetField(delegation.FieldExtras, field.TypeJSON, value)
 	}
-	if du.mutation.ExtrasCleared() {
+	if _u.mutation.ExtrasCleared() {
 		_spec.ClearField(delegation.FieldExtras, field.TypeJSON)
 	}
-	if value, ok := du.mutation.SpaceID(); ok {
+	if value, ok := _u.mutation.SpaceID(); ok {
 		_spec.SetField(delegation.FieldSpaceID, field.TypeString, value)
 	}
-	if du.mutation.SpaceIDCleared() {
+	if _u.mutation.SpaceIDCleared() {
 		_spec.ClearField(delegation.FieldSpaceID, field.TypeString)
 	}
-	if value, ok := du.mutation.CreatedBy(); ok {
+	if value, ok := _u.mutation.CreatedBy(); ok {
 		_spec.SetField(delegation.FieldCreatedBy, field.TypeString, value)
 	}
-	if du.mutation.CreatedByCleared() {
+	if _u.mutation.CreatedByCleared() {
 		_spec.ClearField(delegation.FieldCreatedBy, field.TypeString)
 	}
-	if value, ok := du.mutation.UpdatedBy(); ok {
+	if value, ok := _u.mutation.UpdatedBy(); ok {
 		_spec.SetField(delegation.FieldUpdatedBy, field.TypeString, value)
 	}
-	if du.mutation.UpdatedByCleared() {
+	if _u.mutation.UpdatedByCleared() {
 		_spec.ClearField(delegation.FieldUpdatedBy, field.TypeString)
 	}
-	if du.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(delegation.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := du.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(delegation.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := du.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(delegation.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if du.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(delegation.FieldUpdatedAt, field.TypeInt64)
 	}
-	if value, ok := du.mutation.DelegatorID(); ok {
+	if value, ok := _u.mutation.DelegatorID(); ok {
 		_spec.SetField(delegation.FieldDelegatorID, field.TypeString, value)
 	}
-	if value, ok := du.mutation.DelegateeID(); ok {
+	if value, ok := _u.mutation.DelegateeID(); ok {
 		_spec.SetField(delegation.FieldDelegateeID, field.TypeString, value)
 	}
-	if value, ok := du.mutation.TemplateID(); ok {
+	if value, ok := _u.mutation.TemplateID(); ok {
 		_spec.SetField(delegation.FieldTemplateID, field.TypeString, value)
 	}
-	if du.mutation.TemplateIDCleared() {
+	if _u.mutation.TemplateIDCleared() {
 		_spec.ClearField(delegation.FieldTemplateID, field.TypeString)
 	}
-	if value, ok := du.mutation.NodeType(); ok {
+	if value, ok := _u.mutation.NodeType(); ok {
 		_spec.SetField(delegation.FieldNodeType, field.TypeString, value)
 	}
-	if du.mutation.NodeTypeCleared() {
+	if _u.mutation.NodeTypeCleared() {
 		_spec.ClearField(delegation.FieldNodeType, field.TypeString)
 	}
-	if value, ok := du.mutation.Conditions(); ok {
+	if value, ok := _u.mutation.Conditions(); ok {
 		_spec.SetField(delegation.FieldConditions, field.TypeJSON, value)
 	}
-	if value, ok := du.mutation.AppendedConditions(); ok {
+	if value, ok := _u.mutation.AppendedConditions(); ok {
 		_spec.AddModifier(func(u *sql.UpdateBuilder) {
 			sqljson.Append(u, delegation.FieldConditions, value)
 		})
 	}
-	if du.mutation.ConditionsCleared() {
+	if _u.mutation.ConditionsCleared() {
 		_spec.ClearField(delegation.FieldConditions, field.TypeJSON)
 	}
-	if value, ok := du.mutation.StartTime(); ok {
+	if value, ok := _u.mutation.StartTime(); ok {
 		_spec.SetField(delegation.FieldStartTime, field.TypeInt64, value)
 	}
-	if value, ok := du.mutation.AddedStartTime(); ok {
+	if value, ok := _u.mutation.AddedStartTime(); ok {
 		_spec.AddField(delegation.FieldStartTime, field.TypeInt64, value)
 	}
-	if value, ok := du.mutation.EndTime(); ok {
+	if value, ok := _u.mutation.EndTime(); ok {
 		_spec.SetField(delegation.FieldEndTime, field.TypeInt64, value)
 	}
-	if value, ok := du.mutation.AddedEndTime(); ok {
+	if value, ok := _u.mutation.AddedEndTime(); ok {
 		_spec.AddField(delegation.FieldEndTime, field.TypeInt64, value)
 	}
-	if value, ok := du.mutation.IsEnabled(); ok {
+	if value, ok := _u.mutation.IsEnabled(); ok {
 		_spec.SetField(delegation.FieldIsEnabled, field.TypeBool, value)
 	}
-	if n, err = sqlgraph.UpdateNodes(ctx, du.driver, _spec); err != nil {
+	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{delegation.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -425,8 +425,8 @@ func (du *DelegationUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		return 0, err
 	}
-	du.mutation.done = true
-	return n, nil
+	_u.mutation.done = true
+	return _node, nil
 }
 
 // DelegationUpdateOne is the builder for updating a single Delegation entity.
@@ -438,285 +438,285 @@ type DelegationUpdateOne struct {
 }
 
 // SetStatus sets the "status" field.
-func (duo *DelegationUpdateOne) SetStatus(s string) *DelegationUpdateOne {
-	duo.mutation.SetStatus(s)
-	return duo
+func (_u *DelegationUpdateOne) SetStatus(v string) *DelegationUpdateOne {
+	_u.mutation.SetStatus(v)
+	return _u
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (duo *DelegationUpdateOne) SetNillableStatus(s *string) *DelegationUpdateOne {
-	if s != nil {
-		duo.SetStatus(*s)
+func (_u *DelegationUpdateOne) SetNillableStatus(v *string) *DelegationUpdateOne {
+	if v != nil {
+		_u.SetStatus(*v)
 	}
-	return duo
+	return _u
 }
 
 // ClearStatus clears the value of the "status" field.
-func (duo *DelegationUpdateOne) ClearStatus() *DelegationUpdateOne {
-	duo.mutation.ClearStatus()
-	return duo
+func (_u *DelegationUpdateOne) ClearStatus() *DelegationUpdateOne {
+	_u.mutation.ClearStatus()
+	return _u
 }
 
 // SetExtras sets the "extras" field.
-func (duo *DelegationUpdateOne) SetExtras(m map[string]interface{}) *DelegationUpdateOne {
-	duo.mutation.SetExtras(m)
-	return duo
+func (_u *DelegationUpdateOne) SetExtras(v map[string]interface{}) *DelegationUpdateOne {
+	_u.mutation.SetExtras(v)
+	return _u
 }
 
 // ClearExtras clears the value of the "extras" field.
-func (duo *DelegationUpdateOne) ClearExtras() *DelegationUpdateOne {
-	duo.mutation.ClearExtras()
-	return duo
+func (_u *DelegationUpdateOne) ClearExtras() *DelegationUpdateOne {
+	_u.mutation.ClearExtras()
+	return _u
 }
 
 // SetSpaceID sets the "space_id" field.
-func (duo *DelegationUpdateOne) SetSpaceID(s string) *DelegationUpdateOne {
-	duo.mutation.SetSpaceID(s)
-	return duo
+func (_u *DelegationUpdateOne) SetSpaceID(v string) *DelegationUpdateOne {
+	_u.mutation.SetSpaceID(v)
+	return _u
 }
 
 // SetNillableSpaceID sets the "space_id" field if the given value is not nil.
-func (duo *DelegationUpdateOne) SetNillableSpaceID(s *string) *DelegationUpdateOne {
-	if s != nil {
-		duo.SetSpaceID(*s)
+func (_u *DelegationUpdateOne) SetNillableSpaceID(v *string) *DelegationUpdateOne {
+	if v != nil {
+		_u.SetSpaceID(*v)
 	}
-	return duo
+	return _u
 }
 
 // ClearSpaceID clears the value of the "space_id" field.
-func (duo *DelegationUpdateOne) ClearSpaceID() *DelegationUpdateOne {
-	duo.mutation.ClearSpaceID()
-	return duo
+func (_u *DelegationUpdateOne) ClearSpaceID() *DelegationUpdateOne {
+	_u.mutation.ClearSpaceID()
+	return _u
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (duo *DelegationUpdateOne) SetCreatedBy(s string) *DelegationUpdateOne {
-	duo.mutation.SetCreatedBy(s)
-	return duo
+func (_u *DelegationUpdateOne) SetCreatedBy(v string) *DelegationUpdateOne {
+	_u.mutation.SetCreatedBy(v)
+	return _u
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (duo *DelegationUpdateOne) SetNillableCreatedBy(s *string) *DelegationUpdateOne {
-	if s != nil {
-		duo.SetCreatedBy(*s)
+func (_u *DelegationUpdateOne) SetNillableCreatedBy(v *string) *DelegationUpdateOne {
+	if v != nil {
+		_u.SetCreatedBy(*v)
 	}
-	return duo
+	return _u
 }
 
 // ClearCreatedBy clears the value of the "created_by" field.
-func (duo *DelegationUpdateOne) ClearCreatedBy() *DelegationUpdateOne {
-	duo.mutation.ClearCreatedBy()
-	return duo
+func (_u *DelegationUpdateOne) ClearCreatedBy() *DelegationUpdateOne {
+	_u.mutation.ClearCreatedBy()
+	return _u
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (duo *DelegationUpdateOne) SetUpdatedBy(s string) *DelegationUpdateOne {
-	duo.mutation.SetUpdatedBy(s)
-	return duo
+func (_u *DelegationUpdateOne) SetUpdatedBy(v string) *DelegationUpdateOne {
+	_u.mutation.SetUpdatedBy(v)
+	return _u
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (duo *DelegationUpdateOne) SetNillableUpdatedBy(s *string) *DelegationUpdateOne {
-	if s != nil {
-		duo.SetUpdatedBy(*s)
+func (_u *DelegationUpdateOne) SetNillableUpdatedBy(v *string) *DelegationUpdateOne {
+	if v != nil {
+		_u.SetUpdatedBy(*v)
 	}
-	return duo
+	return _u
 }
 
 // ClearUpdatedBy clears the value of the "updated_by" field.
-func (duo *DelegationUpdateOne) ClearUpdatedBy() *DelegationUpdateOne {
-	duo.mutation.ClearUpdatedBy()
-	return duo
+func (_u *DelegationUpdateOne) ClearUpdatedBy() *DelegationUpdateOne {
+	_u.mutation.ClearUpdatedBy()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (duo *DelegationUpdateOne) SetUpdatedAt(i int64) *DelegationUpdateOne {
-	duo.mutation.ResetUpdatedAt()
-	duo.mutation.SetUpdatedAt(i)
-	return duo
+func (_u *DelegationUpdateOne) SetUpdatedAt(v int64) *DelegationUpdateOne {
+	_u.mutation.ResetUpdatedAt()
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
-// AddUpdatedAt adds i to the "updated_at" field.
-func (duo *DelegationUpdateOne) AddUpdatedAt(i int64) *DelegationUpdateOne {
-	duo.mutation.AddUpdatedAt(i)
-	return duo
+// AddUpdatedAt adds value to the "updated_at" field.
+func (_u *DelegationUpdateOne) AddUpdatedAt(v int64) *DelegationUpdateOne {
+	_u.mutation.AddUpdatedAt(v)
+	return _u
 }
 
 // ClearUpdatedAt clears the value of the "updated_at" field.
-func (duo *DelegationUpdateOne) ClearUpdatedAt() *DelegationUpdateOne {
-	duo.mutation.ClearUpdatedAt()
-	return duo
+func (_u *DelegationUpdateOne) ClearUpdatedAt() *DelegationUpdateOne {
+	_u.mutation.ClearUpdatedAt()
+	return _u
 }
 
 // SetDelegatorID sets the "delegator_id" field.
-func (duo *DelegationUpdateOne) SetDelegatorID(s string) *DelegationUpdateOne {
-	duo.mutation.SetDelegatorID(s)
-	return duo
+func (_u *DelegationUpdateOne) SetDelegatorID(v string) *DelegationUpdateOne {
+	_u.mutation.SetDelegatorID(v)
+	return _u
 }
 
 // SetNillableDelegatorID sets the "delegator_id" field if the given value is not nil.
-func (duo *DelegationUpdateOne) SetNillableDelegatorID(s *string) *DelegationUpdateOne {
-	if s != nil {
-		duo.SetDelegatorID(*s)
+func (_u *DelegationUpdateOne) SetNillableDelegatorID(v *string) *DelegationUpdateOne {
+	if v != nil {
+		_u.SetDelegatorID(*v)
 	}
-	return duo
+	return _u
 }
 
 // SetDelegateeID sets the "delegatee_id" field.
-func (duo *DelegationUpdateOne) SetDelegateeID(s string) *DelegationUpdateOne {
-	duo.mutation.SetDelegateeID(s)
-	return duo
+func (_u *DelegationUpdateOne) SetDelegateeID(v string) *DelegationUpdateOne {
+	_u.mutation.SetDelegateeID(v)
+	return _u
 }
 
 // SetNillableDelegateeID sets the "delegatee_id" field if the given value is not nil.
-func (duo *DelegationUpdateOne) SetNillableDelegateeID(s *string) *DelegationUpdateOne {
-	if s != nil {
-		duo.SetDelegateeID(*s)
+func (_u *DelegationUpdateOne) SetNillableDelegateeID(v *string) *DelegationUpdateOne {
+	if v != nil {
+		_u.SetDelegateeID(*v)
 	}
-	return duo
+	return _u
 }
 
 // SetTemplateID sets the "template_id" field.
-func (duo *DelegationUpdateOne) SetTemplateID(s string) *DelegationUpdateOne {
-	duo.mutation.SetTemplateID(s)
-	return duo
+func (_u *DelegationUpdateOne) SetTemplateID(v string) *DelegationUpdateOne {
+	_u.mutation.SetTemplateID(v)
+	return _u
 }
 
 // SetNillableTemplateID sets the "template_id" field if the given value is not nil.
-func (duo *DelegationUpdateOne) SetNillableTemplateID(s *string) *DelegationUpdateOne {
-	if s != nil {
-		duo.SetTemplateID(*s)
+func (_u *DelegationUpdateOne) SetNillableTemplateID(v *string) *DelegationUpdateOne {
+	if v != nil {
+		_u.SetTemplateID(*v)
 	}
-	return duo
+	return _u
 }
 
 // ClearTemplateID clears the value of the "template_id" field.
-func (duo *DelegationUpdateOne) ClearTemplateID() *DelegationUpdateOne {
-	duo.mutation.ClearTemplateID()
-	return duo
+func (_u *DelegationUpdateOne) ClearTemplateID() *DelegationUpdateOne {
+	_u.mutation.ClearTemplateID()
+	return _u
 }
 
 // SetNodeType sets the "node_type" field.
-func (duo *DelegationUpdateOne) SetNodeType(s string) *DelegationUpdateOne {
-	duo.mutation.SetNodeType(s)
-	return duo
+func (_u *DelegationUpdateOne) SetNodeType(v string) *DelegationUpdateOne {
+	_u.mutation.SetNodeType(v)
+	return _u
 }
 
 // SetNillableNodeType sets the "node_type" field if the given value is not nil.
-func (duo *DelegationUpdateOne) SetNillableNodeType(s *string) *DelegationUpdateOne {
-	if s != nil {
-		duo.SetNodeType(*s)
+func (_u *DelegationUpdateOne) SetNillableNodeType(v *string) *DelegationUpdateOne {
+	if v != nil {
+		_u.SetNodeType(*v)
 	}
-	return duo
+	return _u
 }
 
 // ClearNodeType clears the value of the "node_type" field.
-func (duo *DelegationUpdateOne) ClearNodeType() *DelegationUpdateOne {
-	duo.mutation.ClearNodeType()
-	return duo
+func (_u *DelegationUpdateOne) ClearNodeType() *DelegationUpdateOne {
+	_u.mutation.ClearNodeType()
+	return _u
 }
 
 // SetConditions sets the "conditions" field.
-func (duo *DelegationUpdateOne) SetConditions(s []string) *DelegationUpdateOne {
-	duo.mutation.SetConditions(s)
-	return duo
+func (_u *DelegationUpdateOne) SetConditions(v []string) *DelegationUpdateOne {
+	_u.mutation.SetConditions(v)
+	return _u
 }
 
-// AppendConditions appends s to the "conditions" field.
-func (duo *DelegationUpdateOne) AppendConditions(s []string) *DelegationUpdateOne {
-	duo.mutation.AppendConditions(s)
-	return duo
+// AppendConditions appends value to the "conditions" field.
+func (_u *DelegationUpdateOne) AppendConditions(v []string) *DelegationUpdateOne {
+	_u.mutation.AppendConditions(v)
+	return _u
 }
 
 // ClearConditions clears the value of the "conditions" field.
-func (duo *DelegationUpdateOne) ClearConditions() *DelegationUpdateOne {
-	duo.mutation.ClearConditions()
-	return duo
+func (_u *DelegationUpdateOne) ClearConditions() *DelegationUpdateOne {
+	_u.mutation.ClearConditions()
+	return _u
 }
 
 // SetStartTime sets the "start_time" field.
-func (duo *DelegationUpdateOne) SetStartTime(i int64) *DelegationUpdateOne {
-	duo.mutation.ResetStartTime()
-	duo.mutation.SetStartTime(i)
-	return duo
+func (_u *DelegationUpdateOne) SetStartTime(v int64) *DelegationUpdateOne {
+	_u.mutation.ResetStartTime()
+	_u.mutation.SetStartTime(v)
+	return _u
 }
 
 // SetNillableStartTime sets the "start_time" field if the given value is not nil.
-func (duo *DelegationUpdateOne) SetNillableStartTime(i *int64) *DelegationUpdateOne {
-	if i != nil {
-		duo.SetStartTime(*i)
+func (_u *DelegationUpdateOne) SetNillableStartTime(v *int64) *DelegationUpdateOne {
+	if v != nil {
+		_u.SetStartTime(*v)
 	}
-	return duo
+	return _u
 }
 
-// AddStartTime adds i to the "start_time" field.
-func (duo *DelegationUpdateOne) AddStartTime(i int64) *DelegationUpdateOne {
-	duo.mutation.AddStartTime(i)
-	return duo
+// AddStartTime adds value to the "start_time" field.
+func (_u *DelegationUpdateOne) AddStartTime(v int64) *DelegationUpdateOne {
+	_u.mutation.AddStartTime(v)
+	return _u
 }
 
 // SetEndTime sets the "end_time" field.
-func (duo *DelegationUpdateOne) SetEndTime(i int64) *DelegationUpdateOne {
-	duo.mutation.ResetEndTime()
-	duo.mutation.SetEndTime(i)
-	return duo
+func (_u *DelegationUpdateOne) SetEndTime(v int64) *DelegationUpdateOne {
+	_u.mutation.ResetEndTime()
+	_u.mutation.SetEndTime(v)
+	return _u
 }
 
 // SetNillableEndTime sets the "end_time" field if the given value is not nil.
-func (duo *DelegationUpdateOne) SetNillableEndTime(i *int64) *DelegationUpdateOne {
-	if i != nil {
-		duo.SetEndTime(*i)
+func (_u *DelegationUpdateOne) SetNillableEndTime(v *int64) *DelegationUpdateOne {
+	if v != nil {
+		_u.SetEndTime(*v)
 	}
-	return duo
+	return _u
 }
 
-// AddEndTime adds i to the "end_time" field.
-func (duo *DelegationUpdateOne) AddEndTime(i int64) *DelegationUpdateOne {
-	duo.mutation.AddEndTime(i)
-	return duo
+// AddEndTime adds value to the "end_time" field.
+func (_u *DelegationUpdateOne) AddEndTime(v int64) *DelegationUpdateOne {
+	_u.mutation.AddEndTime(v)
+	return _u
 }
 
 // SetIsEnabled sets the "is_enabled" field.
-func (duo *DelegationUpdateOne) SetIsEnabled(b bool) *DelegationUpdateOne {
-	duo.mutation.SetIsEnabled(b)
-	return duo
+func (_u *DelegationUpdateOne) SetIsEnabled(v bool) *DelegationUpdateOne {
+	_u.mutation.SetIsEnabled(v)
+	return _u
 }
 
 // SetNillableIsEnabled sets the "is_enabled" field if the given value is not nil.
-func (duo *DelegationUpdateOne) SetNillableIsEnabled(b *bool) *DelegationUpdateOne {
-	if b != nil {
-		duo.SetIsEnabled(*b)
+func (_u *DelegationUpdateOne) SetNillableIsEnabled(v *bool) *DelegationUpdateOne {
+	if v != nil {
+		_u.SetIsEnabled(*v)
 	}
-	return duo
+	return _u
 }
 
 // Mutation returns the DelegationMutation object of the builder.
-func (duo *DelegationUpdateOne) Mutation() *DelegationMutation {
-	return duo.mutation
+func (_u *DelegationUpdateOne) Mutation() *DelegationMutation {
+	return _u.mutation
 }
 
 // Where appends a list predicates to the DelegationUpdate builder.
-func (duo *DelegationUpdateOne) Where(ps ...predicate.Delegation) *DelegationUpdateOne {
-	duo.mutation.Where(ps...)
-	return duo
+func (_u *DelegationUpdateOne) Where(ps ...predicate.Delegation) *DelegationUpdateOne {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // Select allows selecting one or more fields (columns) of the returned entity.
 // The default is selecting all fields defined in the entity schema.
-func (duo *DelegationUpdateOne) Select(field string, fields ...string) *DelegationUpdateOne {
-	duo.fields = append([]string{field}, fields...)
-	return duo
+func (_u *DelegationUpdateOne) Select(field string, fields ...string) *DelegationUpdateOne {
+	_u.fields = append([]string{field}, fields...)
+	return _u
 }
 
 // Save executes the query and returns the updated Delegation entity.
-func (duo *DelegationUpdateOne) Save(ctx context.Context) (*Delegation, error) {
-	duo.defaults()
-	return withHooks(ctx, duo.sqlSave, duo.mutation, duo.hooks)
+func (_u *DelegationUpdateOne) Save(ctx context.Context) (*Delegation, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (duo *DelegationUpdateOne) SaveX(ctx context.Context) *Delegation {
-	node, err := duo.Save(ctx)
+func (_u *DelegationUpdateOne) SaveX(ctx context.Context) *Delegation {
+	node, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -724,34 +724,34 @@ func (duo *DelegationUpdateOne) SaveX(ctx context.Context) *Delegation {
 }
 
 // Exec executes the query on the entity.
-func (duo *DelegationUpdateOne) Exec(ctx context.Context) error {
-	_, err := duo.Save(ctx)
+func (_u *DelegationUpdateOne) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (duo *DelegationUpdateOne) ExecX(ctx context.Context) {
-	if err := duo.Exec(ctx); err != nil {
+func (_u *DelegationUpdateOne) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (duo *DelegationUpdateOne) defaults() {
-	if _, ok := duo.mutation.UpdatedAt(); !ok && !duo.mutation.UpdatedAtCleared() {
+func (_u *DelegationUpdateOne) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok && !_u.mutation.UpdatedAtCleared() {
 		v := delegation.UpdateDefaultUpdatedAt()
-		duo.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (duo *DelegationUpdateOne) sqlSave(ctx context.Context) (_node *Delegation, err error) {
+func (_u *DelegationUpdateOne) sqlSave(ctx context.Context) (_node *Delegation, err error) {
 	_spec := sqlgraph.NewUpdateSpec(delegation.Table, delegation.Columns, sqlgraph.NewFieldSpec(delegation.FieldID, field.TypeString))
-	id, ok := duo.mutation.ID()
+	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "Delegation.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
-	if fields := duo.fields; len(fields) > 0 {
+	if fields := _u.fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, delegation.FieldID)
 		for _, f := range fields {
@@ -763,103 +763,103 @@ func (duo *DelegationUpdateOne) sqlSave(ctx context.Context) (_node *Delegation,
 			}
 		}
 	}
-	if ps := duo.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := duo.mutation.Status(); ok {
+	if value, ok := _u.mutation.Status(); ok {
 		_spec.SetField(delegation.FieldStatus, field.TypeString, value)
 	}
-	if duo.mutation.StatusCleared() {
+	if _u.mutation.StatusCleared() {
 		_spec.ClearField(delegation.FieldStatus, field.TypeString)
 	}
-	if value, ok := duo.mutation.Extras(); ok {
+	if value, ok := _u.mutation.Extras(); ok {
 		_spec.SetField(delegation.FieldExtras, field.TypeJSON, value)
 	}
-	if duo.mutation.ExtrasCleared() {
+	if _u.mutation.ExtrasCleared() {
 		_spec.ClearField(delegation.FieldExtras, field.TypeJSON)
 	}
-	if value, ok := duo.mutation.SpaceID(); ok {
+	if value, ok := _u.mutation.SpaceID(); ok {
 		_spec.SetField(delegation.FieldSpaceID, field.TypeString, value)
 	}
-	if duo.mutation.SpaceIDCleared() {
+	if _u.mutation.SpaceIDCleared() {
 		_spec.ClearField(delegation.FieldSpaceID, field.TypeString)
 	}
-	if value, ok := duo.mutation.CreatedBy(); ok {
+	if value, ok := _u.mutation.CreatedBy(); ok {
 		_spec.SetField(delegation.FieldCreatedBy, field.TypeString, value)
 	}
-	if duo.mutation.CreatedByCleared() {
+	if _u.mutation.CreatedByCleared() {
 		_spec.ClearField(delegation.FieldCreatedBy, field.TypeString)
 	}
-	if value, ok := duo.mutation.UpdatedBy(); ok {
+	if value, ok := _u.mutation.UpdatedBy(); ok {
 		_spec.SetField(delegation.FieldUpdatedBy, field.TypeString, value)
 	}
-	if duo.mutation.UpdatedByCleared() {
+	if _u.mutation.UpdatedByCleared() {
 		_spec.ClearField(delegation.FieldUpdatedBy, field.TypeString)
 	}
-	if duo.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(delegation.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := duo.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(delegation.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if value, ok := duo.mutation.AddedUpdatedAt(); ok {
+	if value, ok := _u.mutation.AddedUpdatedAt(); ok {
 		_spec.AddField(delegation.FieldUpdatedAt, field.TypeInt64, value)
 	}
-	if duo.mutation.UpdatedAtCleared() {
+	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(delegation.FieldUpdatedAt, field.TypeInt64)
 	}
-	if value, ok := duo.mutation.DelegatorID(); ok {
+	if value, ok := _u.mutation.DelegatorID(); ok {
 		_spec.SetField(delegation.FieldDelegatorID, field.TypeString, value)
 	}
-	if value, ok := duo.mutation.DelegateeID(); ok {
+	if value, ok := _u.mutation.DelegateeID(); ok {
 		_spec.SetField(delegation.FieldDelegateeID, field.TypeString, value)
 	}
-	if value, ok := duo.mutation.TemplateID(); ok {
+	if value, ok := _u.mutation.TemplateID(); ok {
 		_spec.SetField(delegation.FieldTemplateID, field.TypeString, value)
 	}
-	if duo.mutation.TemplateIDCleared() {
+	if _u.mutation.TemplateIDCleared() {
 		_spec.ClearField(delegation.FieldTemplateID, field.TypeString)
 	}
-	if value, ok := duo.mutation.NodeType(); ok {
+	if value, ok := _u.mutation.NodeType(); ok {
 		_spec.SetField(delegation.FieldNodeType, field.TypeString, value)
 	}
-	if duo.mutation.NodeTypeCleared() {
+	if _u.mutation.NodeTypeCleared() {
 		_spec.ClearField(delegation.FieldNodeType, field.TypeString)
 	}
-	if value, ok := duo.mutation.Conditions(); ok {
+	if value, ok := _u.mutation.Conditions(); ok {
 		_spec.SetField(delegation.FieldConditions, field.TypeJSON, value)
 	}
-	if value, ok := duo.mutation.AppendedConditions(); ok {
+	if value, ok := _u.mutation.AppendedConditions(); ok {
 		_spec.AddModifier(func(u *sql.UpdateBuilder) {
 			sqljson.Append(u, delegation.FieldConditions, value)
 		})
 	}
-	if duo.mutation.ConditionsCleared() {
+	if _u.mutation.ConditionsCleared() {
 		_spec.ClearField(delegation.FieldConditions, field.TypeJSON)
 	}
-	if value, ok := duo.mutation.StartTime(); ok {
+	if value, ok := _u.mutation.StartTime(); ok {
 		_spec.SetField(delegation.FieldStartTime, field.TypeInt64, value)
 	}
-	if value, ok := duo.mutation.AddedStartTime(); ok {
+	if value, ok := _u.mutation.AddedStartTime(); ok {
 		_spec.AddField(delegation.FieldStartTime, field.TypeInt64, value)
 	}
-	if value, ok := duo.mutation.EndTime(); ok {
+	if value, ok := _u.mutation.EndTime(); ok {
 		_spec.SetField(delegation.FieldEndTime, field.TypeInt64, value)
 	}
-	if value, ok := duo.mutation.AddedEndTime(); ok {
+	if value, ok := _u.mutation.AddedEndTime(); ok {
 		_spec.AddField(delegation.FieldEndTime, field.TypeInt64, value)
 	}
-	if value, ok := duo.mutation.IsEnabled(); ok {
+	if value, ok := _u.mutation.IsEnabled(); ok {
 		_spec.SetField(delegation.FieldIsEnabled, field.TypeBool, value)
 	}
-	_node = &Delegation{config: duo.config}
+	_node = &Delegation{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues
-	if err = sqlgraph.UpdateNode(ctx, duo.driver, _spec); err != nil {
+	if err = sqlgraph.UpdateNode(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{delegation.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -867,6 +867,6 @@ func (duo *DelegationUpdateOne) sqlSave(ctx context.Context) (_node *Delegation,
 		}
 		return nil, err
 	}
-	duo.mutation.done = true
+	_u.mutation.done = true
 	return _node, nil
 }

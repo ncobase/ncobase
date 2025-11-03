@@ -20,109 +20,109 @@ type OAuthUserCreate struct {
 }
 
 // SetOauthID sets the "oauth_id" field.
-func (ouc *OAuthUserCreate) SetOauthID(s string) *OAuthUserCreate {
-	ouc.mutation.SetOauthID(s)
-	return ouc
+func (_c *OAuthUserCreate) SetOauthID(v string) *OAuthUserCreate {
+	_c.mutation.SetOauthID(v)
+	return _c
 }
 
 // SetNillableOauthID sets the "oauth_id" field if the given value is not nil.
-func (ouc *OAuthUserCreate) SetNillableOauthID(s *string) *OAuthUserCreate {
-	if s != nil {
-		ouc.SetOauthID(*s)
+func (_c *OAuthUserCreate) SetNillableOauthID(v *string) *OAuthUserCreate {
+	if v != nil {
+		_c.SetOauthID(*v)
 	}
-	return ouc
+	return _c
 }
 
 // SetAccessToken sets the "access_token" field.
-func (ouc *OAuthUserCreate) SetAccessToken(s string) *OAuthUserCreate {
-	ouc.mutation.SetAccessToken(s)
-	return ouc
+func (_c *OAuthUserCreate) SetAccessToken(v string) *OAuthUserCreate {
+	_c.mutation.SetAccessToken(v)
+	return _c
 }
 
 // SetProvider sets the "provider" field.
-func (ouc *OAuthUserCreate) SetProvider(s string) *OAuthUserCreate {
-	ouc.mutation.SetProvider(s)
-	return ouc
+func (_c *OAuthUserCreate) SetProvider(v string) *OAuthUserCreate {
+	_c.mutation.SetProvider(v)
+	return _c
 }
 
 // SetNillableProvider sets the "provider" field if the given value is not nil.
-func (ouc *OAuthUserCreate) SetNillableProvider(s *string) *OAuthUserCreate {
-	if s != nil {
-		ouc.SetProvider(*s)
+func (_c *OAuthUserCreate) SetNillableProvider(v *string) *OAuthUserCreate {
+	if v != nil {
+		_c.SetProvider(*v)
 	}
-	return ouc
+	return _c
 }
 
 // SetUserID sets the "user_id" field.
-func (ouc *OAuthUserCreate) SetUserID(s string) *OAuthUserCreate {
-	ouc.mutation.SetUserID(s)
-	return ouc
+func (_c *OAuthUserCreate) SetUserID(v string) *OAuthUserCreate {
+	_c.mutation.SetUserID(v)
+	return _c
 }
 
 // SetNillableUserID sets the "user_id" field if the given value is not nil.
-func (ouc *OAuthUserCreate) SetNillableUserID(s *string) *OAuthUserCreate {
-	if s != nil {
-		ouc.SetUserID(*s)
+func (_c *OAuthUserCreate) SetNillableUserID(v *string) *OAuthUserCreate {
+	if v != nil {
+		_c.SetUserID(*v)
 	}
-	return ouc
+	return _c
 }
 
 // SetCreatedAt sets the "created_at" field.
-func (ouc *OAuthUserCreate) SetCreatedAt(i int64) *OAuthUserCreate {
-	ouc.mutation.SetCreatedAt(i)
-	return ouc
+func (_c *OAuthUserCreate) SetCreatedAt(v int64) *OAuthUserCreate {
+	_c.mutation.SetCreatedAt(v)
+	return _c
 }
 
 // SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
-func (ouc *OAuthUserCreate) SetNillableCreatedAt(i *int64) *OAuthUserCreate {
-	if i != nil {
-		ouc.SetCreatedAt(*i)
+func (_c *OAuthUserCreate) SetNillableCreatedAt(v *int64) *OAuthUserCreate {
+	if v != nil {
+		_c.SetCreatedAt(*v)
 	}
-	return ouc
+	return _c
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (ouc *OAuthUserCreate) SetUpdatedAt(i int64) *OAuthUserCreate {
-	ouc.mutation.SetUpdatedAt(i)
-	return ouc
+func (_c *OAuthUserCreate) SetUpdatedAt(v int64) *OAuthUserCreate {
+	_c.mutation.SetUpdatedAt(v)
+	return _c
 }
 
 // SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
-func (ouc *OAuthUserCreate) SetNillableUpdatedAt(i *int64) *OAuthUserCreate {
-	if i != nil {
-		ouc.SetUpdatedAt(*i)
+func (_c *OAuthUserCreate) SetNillableUpdatedAt(v *int64) *OAuthUserCreate {
+	if v != nil {
+		_c.SetUpdatedAt(*v)
 	}
-	return ouc
+	return _c
 }
 
 // SetID sets the "id" field.
-func (ouc *OAuthUserCreate) SetID(s string) *OAuthUserCreate {
-	ouc.mutation.SetID(s)
-	return ouc
+func (_c *OAuthUserCreate) SetID(v string) *OAuthUserCreate {
+	_c.mutation.SetID(v)
+	return _c
 }
 
 // SetNillableID sets the "id" field if the given value is not nil.
-func (ouc *OAuthUserCreate) SetNillableID(s *string) *OAuthUserCreate {
-	if s != nil {
-		ouc.SetID(*s)
+func (_c *OAuthUserCreate) SetNillableID(v *string) *OAuthUserCreate {
+	if v != nil {
+		_c.SetID(*v)
 	}
-	return ouc
+	return _c
 }
 
 // Mutation returns the OAuthUserMutation object of the builder.
-func (ouc *OAuthUserCreate) Mutation() *OAuthUserMutation {
-	return ouc.mutation
+func (_c *OAuthUserCreate) Mutation() *OAuthUserMutation {
+	return _c.mutation
 }
 
 // Save creates the OAuthUser in the database.
-func (ouc *OAuthUserCreate) Save(ctx context.Context) (*OAuthUser, error) {
-	ouc.defaults()
-	return withHooks(ctx, ouc.sqlSave, ouc.mutation, ouc.hooks)
+func (_c *OAuthUserCreate) Save(ctx context.Context) (*OAuthUser, error) {
+	_c.defaults()
+	return withHooks(ctx, _c.sqlSave, _c.mutation, _c.hooks)
 }
 
 // SaveX calls Save and panics if Save returns an error.
-func (ouc *OAuthUserCreate) SaveX(ctx context.Context) *OAuthUser {
-	v, err := ouc.Save(ctx)
+func (_c *OAuthUserCreate) SaveX(ctx context.Context) *OAuthUser {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -130,45 +130,45 @@ func (ouc *OAuthUserCreate) SaveX(ctx context.Context) *OAuthUser {
 }
 
 // Exec executes the query.
-func (ouc *OAuthUserCreate) Exec(ctx context.Context) error {
-	_, err := ouc.Save(ctx)
+func (_c *OAuthUserCreate) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (ouc *OAuthUserCreate) ExecX(ctx context.Context) {
-	if err := ouc.Exec(ctx); err != nil {
+func (_c *OAuthUserCreate) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (ouc *OAuthUserCreate) defaults() {
-	if _, ok := ouc.mutation.CreatedAt(); !ok {
+func (_c *OAuthUserCreate) defaults() {
+	if _, ok := _c.mutation.CreatedAt(); !ok {
 		v := oauthuser.DefaultCreatedAt()
-		ouc.mutation.SetCreatedAt(v)
+		_c.mutation.SetCreatedAt(v)
 	}
-	if _, ok := ouc.mutation.UpdatedAt(); !ok {
+	if _, ok := _c.mutation.UpdatedAt(); !ok {
 		v := oauthuser.DefaultUpdatedAt()
-		ouc.mutation.SetUpdatedAt(v)
+		_c.mutation.SetUpdatedAt(v)
 	}
-	if _, ok := ouc.mutation.ID(); !ok {
+	if _, ok := _c.mutation.ID(); !ok {
 		v := oauthuser.DefaultID()
-		ouc.mutation.SetID(v)
+		_c.mutation.SetID(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (ouc *OAuthUserCreate) check() error {
-	if _, ok := ouc.mutation.AccessToken(); !ok {
+func (_c *OAuthUserCreate) check() error {
+	if _, ok := _c.mutation.AccessToken(); !ok {
 		return &ValidationError{Name: "access_token", err: errors.New(`ent: missing required field "OAuthUser.access_token"`)}
 	}
-	if v, ok := ouc.mutation.AccessToken(); ok {
+	if v, ok := _c.mutation.AccessToken(); ok {
 		if err := oauthuser.AccessTokenValidator(v); err != nil {
 			return &ValidationError{Name: "access_token", err: fmt.Errorf(`ent: validator failed for field "OAuthUser.access_token": %w`, err)}
 		}
 	}
-	if v, ok := ouc.mutation.ID(); ok {
+	if v, ok := _c.mutation.ID(); ok {
 		if err := oauthuser.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "OAuthUser.id": %w`, err)}
 		}
@@ -176,12 +176,12 @@ func (ouc *OAuthUserCreate) check() error {
 	return nil
 }
 
-func (ouc *OAuthUserCreate) sqlSave(ctx context.Context) (*OAuthUser, error) {
-	if err := ouc.check(); err != nil {
+func (_c *OAuthUserCreate) sqlSave(ctx context.Context) (*OAuthUser, error) {
+	if err := _c.check(); err != nil {
 		return nil, err
 	}
-	_node, _spec := ouc.createSpec()
-	if err := sqlgraph.CreateNode(ctx, ouc.driver, _spec); err != nil {
+	_node, _spec := _c.createSpec()
+	if err := sqlgraph.CreateNode(ctx, _c.driver, _spec); err != nil {
 		if sqlgraph.IsConstraintError(err) {
 			err = &ConstraintError{msg: err.Error(), wrap: err}
 		}
@@ -194,41 +194,41 @@ func (ouc *OAuthUserCreate) sqlSave(ctx context.Context) (*OAuthUser, error) {
 			return nil, fmt.Errorf("unexpected OAuthUser.ID type: %T", _spec.ID.Value)
 		}
 	}
-	ouc.mutation.id = &_node.ID
-	ouc.mutation.done = true
+	_c.mutation.id = &_node.ID
+	_c.mutation.done = true
 	return _node, nil
 }
 
-func (ouc *OAuthUserCreate) createSpec() (*OAuthUser, *sqlgraph.CreateSpec) {
+func (_c *OAuthUserCreate) createSpec() (*OAuthUser, *sqlgraph.CreateSpec) {
 	var (
-		_node = &OAuthUser{config: ouc.config}
+		_node = &OAuthUser{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(oauthuser.Table, sqlgraph.NewFieldSpec(oauthuser.FieldID, field.TypeString))
 	)
-	if id, ok := ouc.mutation.ID(); ok {
+	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
 	}
-	if value, ok := ouc.mutation.OauthID(); ok {
+	if value, ok := _c.mutation.OauthID(); ok {
 		_spec.SetField(oauthuser.FieldOauthID, field.TypeString, value)
 		_node.OauthID = value
 	}
-	if value, ok := ouc.mutation.AccessToken(); ok {
+	if value, ok := _c.mutation.AccessToken(); ok {
 		_spec.SetField(oauthuser.FieldAccessToken, field.TypeString, value)
 		_node.AccessToken = value
 	}
-	if value, ok := ouc.mutation.Provider(); ok {
+	if value, ok := _c.mutation.Provider(); ok {
 		_spec.SetField(oauthuser.FieldProvider, field.TypeString, value)
 		_node.Provider = value
 	}
-	if value, ok := ouc.mutation.UserID(); ok {
+	if value, ok := _c.mutation.UserID(); ok {
 		_spec.SetField(oauthuser.FieldUserID, field.TypeString, value)
 		_node.UserID = value
 	}
-	if value, ok := ouc.mutation.CreatedAt(); ok {
+	if value, ok := _c.mutation.CreatedAt(); ok {
 		_spec.SetField(oauthuser.FieldCreatedAt, field.TypeInt64, value)
 		_node.CreatedAt = value
 	}
-	if value, ok := ouc.mutation.UpdatedAt(); ok {
+	if value, ok := _c.mutation.UpdatedAt(); ok {
 		_spec.SetField(oauthuser.FieldUpdatedAt, field.TypeInt64, value)
 		_node.UpdatedAt = value
 	}
@@ -243,16 +243,16 @@ type OAuthUserCreateBulk struct {
 }
 
 // Save creates the OAuthUser entities in the database.
-func (oucb *OAuthUserCreateBulk) Save(ctx context.Context) ([]*OAuthUser, error) {
-	if oucb.err != nil {
-		return nil, oucb.err
+func (_c *OAuthUserCreateBulk) Save(ctx context.Context) ([]*OAuthUser, error) {
+	if _c.err != nil {
+		return nil, _c.err
 	}
-	specs := make([]*sqlgraph.CreateSpec, len(oucb.builders))
-	nodes := make([]*OAuthUser, len(oucb.builders))
-	mutators := make([]Mutator, len(oucb.builders))
-	for i := range oucb.builders {
+	specs := make([]*sqlgraph.CreateSpec, len(_c.builders))
+	nodes := make([]*OAuthUser, len(_c.builders))
+	mutators := make([]Mutator, len(_c.builders))
+	for i := range _c.builders {
 		func(i int, root context.Context) {
-			builder := oucb.builders[i]
+			builder := _c.builders[i]
 			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*OAuthUserMutation)
@@ -266,11 +266,11 @@ func (oucb *OAuthUserCreateBulk) Save(ctx context.Context) ([]*OAuthUser, error)
 				var err error
 				nodes[i], specs[i] = builder.createSpec()
 				if i < len(mutators)-1 {
-					_, err = mutators[i+1].Mutate(root, oucb.builders[i+1].mutation)
+					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
 					// Invoke the actual operation on the latest mutation in the chain.
-					if err = sqlgraph.BatchCreate(ctx, oucb.driver, spec); err != nil {
+					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
 							err = &ConstraintError{msg: err.Error(), wrap: err}
 						}
@@ -290,7 +290,7 @@ func (oucb *OAuthUserCreateBulk) Save(ctx context.Context) ([]*OAuthUser, error)
 		}(i, ctx)
 	}
 	if len(mutators) > 0 {
-		if _, err := mutators[0].Mutate(ctx, oucb.builders[0].mutation); err != nil {
+		if _, err := mutators[0].Mutate(ctx, _c.builders[0].mutation); err != nil {
 			return nil, err
 		}
 	}
@@ -298,8 +298,8 @@ func (oucb *OAuthUserCreateBulk) Save(ctx context.Context) ([]*OAuthUser, error)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (oucb *OAuthUserCreateBulk) SaveX(ctx context.Context) []*OAuthUser {
-	v, err := oucb.Save(ctx)
+func (_c *OAuthUserCreateBulk) SaveX(ctx context.Context) []*OAuthUser {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -307,14 +307,14 @@ func (oucb *OAuthUserCreateBulk) SaveX(ctx context.Context) []*OAuthUser {
 }
 
 // Exec executes the query.
-func (oucb *OAuthUserCreateBulk) Exec(ctx context.Context) error {
-	_, err := oucb.Save(ctx)
+func (_c *OAuthUserCreateBulk) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (oucb *OAuthUserCreateBulk) ExecX(ctx context.Context) {
-	if err := oucb.Exec(ctx); err != nil {
+func (_c *OAuthUserCreateBulk) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

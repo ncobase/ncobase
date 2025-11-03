@@ -20,56 +20,56 @@ type CMSChannelDelete struct {
 }
 
 // Where appends a list predicates to the CMSChannelDelete builder.
-func (ccd *CMSChannelDelete) Where(ps ...predicate.CMSChannel) *CMSChannelDelete {
-	ccd.mutation.Where(ps...)
-	return ccd
+func (_d *CMSChannelDelete) Where(ps ...predicate.CMSChannel) *CMSChannelDelete {
+	_d.mutation.Where(ps...)
+	return _d
 }
 
 // Exec executes the deletion query and returns how many vertices were deleted.
-func (ccd *CMSChannelDelete) Exec(ctx context.Context) (int, error) {
-	return withHooks(ctx, ccd.sqlExec, ccd.mutation, ccd.hooks)
+func (_d *CMSChannelDelete) Exec(ctx context.Context) (int, error) {
+	return withHooks(ctx, _d.sqlExec, _d.mutation, _d.hooks)
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (ccd *CMSChannelDelete) ExecX(ctx context.Context) int {
-	n, err := ccd.Exec(ctx)
+func (_d *CMSChannelDelete) ExecX(ctx context.Context) int {
+	n, err := _d.Exec(ctx)
 	if err != nil {
 		panic(err)
 	}
 	return n
 }
 
-func (ccd *CMSChannelDelete) sqlExec(ctx context.Context) (int, error) {
+func (_d *CMSChannelDelete) sqlExec(ctx context.Context) (int, error) {
 	_spec := sqlgraph.NewDeleteSpec(cmschannel.Table, sqlgraph.NewFieldSpec(cmschannel.FieldID, field.TypeString))
-	if ps := ccd.mutation.predicates; len(ps) > 0 {
+	if ps := _d.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	affected, err := sqlgraph.DeleteNodes(ctx, ccd.driver, _spec)
+	affected, err := sqlgraph.DeleteNodes(ctx, _d.driver, _spec)
 	if err != nil && sqlgraph.IsConstraintError(err) {
 		err = &ConstraintError{msg: err.Error(), wrap: err}
 	}
-	ccd.mutation.done = true
+	_d.mutation.done = true
 	return affected, err
 }
 
 // CMSChannelDeleteOne is the builder for deleting a single CMSChannel entity.
 type CMSChannelDeleteOne struct {
-	ccd *CMSChannelDelete
+	_d *CMSChannelDelete
 }
 
 // Where appends a list predicates to the CMSChannelDelete builder.
-func (ccdo *CMSChannelDeleteOne) Where(ps ...predicate.CMSChannel) *CMSChannelDeleteOne {
-	ccdo.ccd.mutation.Where(ps...)
-	return ccdo
+func (_d *CMSChannelDeleteOne) Where(ps ...predicate.CMSChannel) *CMSChannelDeleteOne {
+	_d._d.mutation.Where(ps...)
+	return _d
 }
 
 // Exec executes the deletion query.
-func (ccdo *CMSChannelDeleteOne) Exec(ctx context.Context) error {
-	n, err := ccdo.ccd.Exec(ctx)
+func (_d *CMSChannelDeleteOne) Exec(ctx context.Context) error {
+	n, err := _d._d.Exec(ctx)
 	switch {
 	case err != nil:
 		return err
@@ -81,8 +81,8 @@ func (ccdo *CMSChannelDeleteOne) Exec(ctx context.Context) error {
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (ccdo *CMSChannelDeleteOne) ExecX(ctx context.Context) {
-	if err := ccdo.Exec(ctx); err != nil {
+func (_d *CMSChannelDeleteOne) ExecX(ctx context.Context) {
+	if err := _d.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

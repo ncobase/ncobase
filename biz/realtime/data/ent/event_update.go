@@ -22,178 +22,178 @@ type EventUpdate struct {
 }
 
 // Where appends a list predicates to the EventUpdate builder.
-func (eu *EventUpdate) Where(ps ...predicate.Event) *EventUpdate {
-	eu.mutation.Where(ps...)
-	return eu
+func (_u *EventUpdate) Where(ps ...predicate.Event) *EventUpdate {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // SetType sets the "type" field.
-func (eu *EventUpdate) SetType(s string) *EventUpdate {
-	eu.mutation.SetType(s)
-	return eu
+func (_u *EventUpdate) SetType(v string) *EventUpdate {
+	_u.mutation.SetType(v)
+	return _u
 }
 
 // SetNillableType sets the "type" field if the given value is not nil.
-func (eu *EventUpdate) SetNillableType(s *string) *EventUpdate {
-	if s != nil {
-		eu.SetType(*s)
+func (_u *EventUpdate) SetNillableType(v *string) *EventUpdate {
+	if v != nil {
+		_u.SetType(*v)
 	}
-	return eu
+	return _u
 }
 
 // ClearType clears the value of the "type" field.
-func (eu *EventUpdate) ClearType() *EventUpdate {
-	eu.mutation.ClearType()
-	return eu
+func (_u *EventUpdate) ClearType() *EventUpdate {
+	_u.mutation.ClearType()
+	return _u
 }
 
 // SetPayload sets the "payload" field.
-func (eu *EventUpdate) SetPayload(m map[string]interface{}) *EventUpdate {
-	eu.mutation.SetPayload(m)
-	return eu
+func (_u *EventUpdate) SetPayload(v map[string]interface{}) *EventUpdate {
+	_u.mutation.SetPayload(v)
+	return _u
 }
 
 // ClearPayload clears the value of the "payload" field.
-func (eu *EventUpdate) ClearPayload() *EventUpdate {
-	eu.mutation.ClearPayload()
-	return eu
+func (_u *EventUpdate) ClearPayload() *EventUpdate {
+	_u.mutation.ClearPayload()
+	return _u
 }
 
 // SetSource sets the "source" field.
-func (eu *EventUpdate) SetSource(s string) *EventUpdate {
-	eu.mutation.SetSource(s)
-	return eu
+func (_u *EventUpdate) SetSource(v string) *EventUpdate {
+	_u.mutation.SetSource(v)
+	return _u
 }
 
 // SetNillableSource sets the "source" field if the given value is not nil.
-func (eu *EventUpdate) SetNillableSource(s *string) *EventUpdate {
-	if s != nil {
-		eu.SetSource(*s)
+func (_u *EventUpdate) SetNillableSource(v *string) *EventUpdate {
+	if v != nil {
+		_u.SetSource(*v)
 	}
-	return eu
+	return _u
 }
 
 // ClearSource clears the value of the "source" field.
-func (eu *EventUpdate) ClearSource() *EventUpdate {
-	eu.mutation.ClearSource()
-	return eu
+func (_u *EventUpdate) ClearSource() *EventUpdate {
+	_u.mutation.ClearSource()
+	return _u
 }
 
 // SetStatus sets the "status" field.
-func (eu *EventUpdate) SetStatus(s string) *EventUpdate {
-	eu.mutation.SetStatus(s)
-	return eu
+func (_u *EventUpdate) SetStatus(v string) *EventUpdate {
+	_u.mutation.SetStatus(v)
+	return _u
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (eu *EventUpdate) SetNillableStatus(s *string) *EventUpdate {
-	if s != nil {
-		eu.SetStatus(*s)
+func (_u *EventUpdate) SetNillableStatus(v *string) *EventUpdate {
+	if v != nil {
+		_u.SetStatus(*v)
 	}
-	return eu
+	return _u
 }
 
 // SetPriority sets the "priority" field.
-func (eu *EventUpdate) SetPriority(s string) *EventUpdate {
-	eu.mutation.SetPriority(s)
-	return eu
+func (_u *EventUpdate) SetPriority(v string) *EventUpdate {
+	_u.mutation.SetPriority(v)
+	return _u
 }
 
 // SetNillablePriority sets the "priority" field if the given value is not nil.
-func (eu *EventUpdate) SetNillablePriority(s *string) *EventUpdate {
-	if s != nil {
-		eu.SetPriority(*s)
+func (_u *EventUpdate) SetNillablePriority(v *string) *EventUpdate {
+	if v != nil {
+		_u.SetPriority(*v)
 	}
-	return eu
+	return _u
 }
 
 // ClearPriority clears the value of the "priority" field.
-func (eu *EventUpdate) ClearPriority() *EventUpdate {
-	eu.mutation.ClearPriority()
-	return eu
+func (_u *EventUpdate) ClearPriority() *EventUpdate {
+	_u.mutation.ClearPriority()
+	return _u
 }
 
 // SetProcessedAt sets the "processed_at" field.
-func (eu *EventUpdate) SetProcessedAt(i int64) *EventUpdate {
-	eu.mutation.ResetProcessedAt()
-	eu.mutation.SetProcessedAt(i)
-	return eu
+func (_u *EventUpdate) SetProcessedAt(v int64) *EventUpdate {
+	_u.mutation.ResetProcessedAt()
+	_u.mutation.SetProcessedAt(v)
+	return _u
 }
 
 // SetNillableProcessedAt sets the "processed_at" field if the given value is not nil.
-func (eu *EventUpdate) SetNillableProcessedAt(i *int64) *EventUpdate {
-	if i != nil {
-		eu.SetProcessedAt(*i)
+func (_u *EventUpdate) SetNillableProcessedAt(v *int64) *EventUpdate {
+	if v != nil {
+		_u.SetProcessedAt(*v)
 	}
-	return eu
+	return _u
 }
 
-// AddProcessedAt adds i to the "processed_at" field.
-func (eu *EventUpdate) AddProcessedAt(i int64) *EventUpdate {
-	eu.mutation.AddProcessedAt(i)
-	return eu
+// AddProcessedAt adds value to the "processed_at" field.
+func (_u *EventUpdate) AddProcessedAt(v int64) *EventUpdate {
+	_u.mutation.AddProcessedAt(v)
+	return _u
 }
 
 // ClearProcessedAt clears the value of the "processed_at" field.
-func (eu *EventUpdate) ClearProcessedAt() *EventUpdate {
-	eu.mutation.ClearProcessedAt()
-	return eu
+func (_u *EventUpdate) ClearProcessedAt() *EventUpdate {
+	_u.mutation.ClearProcessedAt()
+	return _u
 }
 
 // SetRetryCount sets the "retry_count" field.
-func (eu *EventUpdate) SetRetryCount(i int) *EventUpdate {
-	eu.mutation.ResetRetryCount()
-	eu.mutation.SetRetryCount(i)
-	return eu
+func (_u *EventUpdate) SetRetryCount(v int) *EventUpdate {
+	_u.mutation.ResetRetryCount()
+	_u.mutation.SetRetryCount(v)
+	return _u
 }
 
 // SetNillableRetryCount sets the "retry_count" field if the given value is not nil.
-func (eu *EventUpdate) SetNillableRetryCount(i *int) *EventUpdate {
-	if i != nil {
-		eu.SetRetryCount(*i)
+func (_u *EventUpdate) SetNillableRetryCount(v *int) *EventUpdate {
+	if v != nil {
+		_u.SetRetryCount(*v)
 	}
-	return eu
+	return _u
 }
 
-// AddRetryCount adds i to the "retry_count" field.
-func (eu *EventUpdate) AddRetryCount(i int) *EventUpdate {
-	eu.mutation.AddRetryCount(i)
-	return eu
+// AddRetryCount adds value to the "retry_count" field.
+func (_u *EventUpdate) AddRetryCount(v int) *EventUpdate {
+	_u.mutation.AddRetryCount(v)
+	return _u
 }
 
 // SetErrorMessage sets the "error_message" field.
-func (eu *EventUpdate) SetErrorMessage(s string) *EventUpdate {
-	eu.mutation.SetErrorMessage(s)
-	return eu
+func (_u *EventUpdate) SetErrorMessage(v string) *EventUpdate {
+	_u.mutation.SetErrorMessage(v)
+	return _u
 }
 
 // SetNillableErrorMessage sets the "error_message" field if the given value is not nil.
-func (eu *EventUpdate) SetNillableErrorMessage(s *string) *EventUpdate {
-	if s != nil {
-		eu.SetErrorMessage(*s)
+func (_u *EventUpdate) SetNillableErrorMessage(v *string) *EventUpdate {
+	if v != nil {
+		_u.SetErrorMessage(*v)
 	}
-	return eu
+	return _u
 }
 
 // ClearErrorMessage clears the value of the "error_message" field.
-func (eu *EventUpdate) ClearErrorMessage() *EventUpdate {
-	eu.mutation.ClearErrorMessage()
-	return eu
+func (_u *EventUpdate) ClearErrorMessage() *EventUpdate {
+	_u.mutation.ClearErrorMessage()
+	return _u
 }
 
 // Mutation returns the EventMutation object of the builder.
-func (eu *EventUpdate) Mutation() *EventMutation {
-	return eu.mutation
+func (_u *EventUpdate) Mutation() *EventMutation {
+	return _u.mutation
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
-func (eu *EventUpdate) Save(ctx context.Context) (int, error) {
-	return withHooks(ctx, eu.sqlSave, eu.mutation, eu.hooks)
+func (_u *EventUpdate) Save(ctx context.Context) (int, error) {
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (eu *EventUpdate) SaveX(ctx context.Context) int {
-	affected, err := eu.Save(ctx)
+func (_u *EventUpdate) SaveX(ctx context.Context) int {
+	affected, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -201,79 +201,79 @@ func (eu *EventUpdate) SaveX(ctx context.Context) int {
 }
 
 // Exec executes the query.
-func (eu *EventUpdate) Exec(ctx context.Context) error {
-	_, err := eu.Save(ctx)
+func (_u *EventUpdate) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (eu *EventUpdate) ExecX(ctx context.Context) {
-	if err := eu.Exec(ctx); err != nil {
+func (_u *EventUpdate) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
-func (eu *EventUpdate) sqlSave(ctx context.Context) (n int, err error) {
+func (_u *EventUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	_spec := sqlgraph.NewUpdateSpec(event.Table, event.Columns, sqlgraph.NewFieldSpec(event.FieldID, field.TypeString))
-	if ps := eu.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := eu.mutation.GetType(); ok {
+	if value, ok := _u.mutation.GetType(); ok {
 		_spec.SetField(event.FieldType, field.TypeString, value)
 	}
-	if eu.mutation.TypeCleared() {
+	if _u.mutation.TypeCleared() {
 		_spec.ClearField(event.FieldType, field.TypeString)
 	}
-	if value, ok := eu.mutation.Payload(); ok {
+	if value, ok := _u.mutation.Payload(); ok {
 		_spec.SetField(event.FieldPayload, field.TypeJSON, value)
 	}
-	if eu.mutation.PayloadCleared() {
+	if _u.mutation.PayloadCleared() {
 		_spec.ClearField(event.FieldPayload, field.TypeJSON)
 	}
-	if eu.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(event.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := eu.mutation.Source(); ok {
+	if value, ok := _u.mutation.Source(); ok {
 		_spec.SetField(event.FieldSource, field.TypeString, value)
 	}
-	if eu.mutation.SourceCleared() {
+	if _u.mutation.SourceCleared() {
 		_spec.ClearField(event.FieldSource, field.TypeString)
 	}
-	if value, ok := eu.mutation.Status(); ok {
+	if value, ok := _u.mutation.Status(); ok {
 		_spec.SetField(event.FieldStatus, field.TypeString, value)
 	}
-	if value, ok := eu.mutation.Priority(); ok {
+	if value, ok := _u.mutation.Priority(); ok {
 		_spec.SetField(event.FieldPriority, field.TypeString, value)
 	}
-	if eu.mutation.PriorityCleared() {
+	if _u.mutation.PriorityCleared() {
 		_spec.ClearField(event.FieldPriority, field.TypeString)
 	}
-	if value, ok := eu.mutation.ProcessedAt(); ok {
+	if value, ok := _u.mutation.ProcessedAt(); ok {
 		_spec.SetField(event.FieldProcessedAt, field.TypeInt64, value)
 	}
-	if value, ok := eu.mutation.AddedProcessedAt(); ok {
+	if value, ok := _u.mutation.AddedProcessedAt(); ok {
 		_spec.AddField(event.FieldProcessedAt, field.TypeInt64, value)
 	}
-	if eu.mutation.ProcessedAtCleared() {
+	if _u.mutation.ProcessedAtCleared() {
 		_spec.ClearField(event.FieldProcessedAt, field.TypeInt64)
 	}
-	if value, ok := eu.mutation.RetryCount(); ok {
+	if value, ok := _u.mutation.RetryCount(); ok {
 		_spec.SetField(event.FieldRetryCount, field.TypeInt, value)
 	}
-	if value, ok := eu.mutation.AddedRetryCount(); ok {
+	if value, ok := _u.mutation.AddedRetryCount(); ok {
 		_spec.AddField(event.FieldRetryCount, field.TypeInt, value)
 	}
-	if value, ok := eu.mutation.ErrorMessage(); ok {
+	if value, ok := _u.mutation.ErrorMessage(); ok {
 		_spec.SetField(event.FieldErrorMessage, field.TypeString, value)
 	}
-	if eu.mutation.ErrorMessageCleared() {
+	if _u.mutation.ErrorMessageCleared() {
 		_spec.ClearField(event.FieldErrorMessage, field.TypeString)
 	}
-	if n, err = sqlgraph.UpdateNodes(ctx, eu.driver, _spec); err != nil {
+	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{event.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -281,8 +281,8 @@ func (eu *EventUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		return 0, err
 	}
-	eu.mutation.done = true
-	return n, nil
+	_u.mutation.done = true
+	return _node, nil
 }
 
 // EventUpdateOne is the builder for updating a single Event entity.
@@ -294,185 +294,185 @@ type EventUpdateOne struct {
 }
 
 // SetType sets the "type" field.
-func (euo *EventUpdateOne) SetType(s string) *EventUpdateOne {
-	euo.mutation.SetType(s)
-	return euo
+func (_u *EventUpdateOne) SetType(v string) *EventUpdateOne {
+	_u.mutation.SetType(v)
+	return _u
 }
 
 // SetNillableType sets the "type" field if the given value is not nil.
-func (euo *EventUpdateOne) SetNillableType(s *string) *EventUpdateOne {
-	if s != nil {
-		euo.SetType(*s)
+func (_u *EventUpdateOne) SetNillableType(v *string) *EventUpdateOne {
+	if v != nil {
+		_u.SetType(*v)
 	}
-	return euo
+	return _u
 }
 
 // ClearType clears the value of the "type" field.
-func (euo *EventUpdateOne) ClearType() *EventUpdateOne {
-	euo.mutation.ClearType()
-	return euo
+func (_u *EventUpdateOne) ClearType() *EventUpdateOne {
+	_u.mutation.ClearType()
+	return _u
 }
 
 // SetPayload sets the "payload" field.
-func (euo *EventUpdateOne) SetPayload(m map[string]interface{}) *EventUpdateOne {
-	euo.mutation.SetPayload(m)
-	return euo
+func (_u *EventUpdateOne) SetPayload(v map[string]interface{}) *EventUpdateOne {
+	_u.mutation.SetPayload(v)
+	return _u
 }
 
 // ClearPayload clears the value of the "payload" field.
-func (euo *EventUpdateOne) ClearPayload() *EventUpdateOne {
-	euo.mutation.ClearPayload()
-	return euo
+func (_u *EventUpdateOne) ClearPayload() *EventUpdateOne {
+	_u.mutation.ClearPayload()
+	return _u
 }
 
 // SetSource sets the "source" field.
-func (euo *EventUpdateOne) SetSource(s string) *EventUpdateOne {
-	euo.mutation.SetSource(s)
-	return euo
+func (_u *EventUpdateOne) SetSource(v string) *EventUpdateOne {
+	_u.mutation.SetSource(v)
+	return _u
 }
 
 // SetNillableSource sets the "source" field if the given value is not nil.
-func (euo *EventUpdateOne) SetNillableSource(s *string) *EventUpdateOne {
-	if s != nil {
-		euo.SetSource(*s)
+func (_u *EventUpdateOne) SetNillableSource(v *string) *EventUpdateOne {
+	if v != nil {
+		_u.SetSource(*v)
 	}
-	return euo
+	return _u
 }
 
 // ClearSource clears the value of the "source" field.
-func (euo *EventUpdateOne) ClearSource() *EventUpdateOne {
-	euo.mutation.ClearSource()
-	return euo
+func (_u *EventUpdateOne) ClearSource() *EventUpdateOne {
+	_u.mutation.ClearSource()
+	return _u
 }
 
 // SetStatus sets the "status" field.
-func (euo *EventUpdateOne) SetStatus(s string) *EventUpdateOne {
-	euo.mutation.SetStatus(s)
-	return euo
+func (_u *EventUpdateOne) SetStatus(v string) *EventUpdateOne {
+	_u.mutation.SetStatus(v)
+	return _u
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (euo *EventUpdateOne) SetNillableStatus(s *string) *EventUpdateOne {
-	if s != nil {
-		euo.SetStatus(*s)
+func (_u *EventUpdateOne) SetNillableStatus(v *string) *EventUpdateOne {
+	if v != nil {
+		_u.SetStatus(*v)
 	}
-	return euo
+	return _u
 }
 
 // SetPriority sets the "priority" field.
-func (euo *EventUpdateOne) SetPriority(s string) *EventUpdateOne {
-	euo.mutation.SetPriority(s)
-	return euo
+func (_u *EventUpdateOne) SetPriority(v string) *EventUpdateOne {
+	_u.mutation.SetPriority(v)
+	return _u
 }
 
 // SetNillablePriority sets the "priority" field if the given value is not nil.
-func (euo *EventUpdateOne) SetNillablePriority(s *string) *EventUpdateOne {
-	if s != nil {
-		euo.SetPriority(*s)
+func (_u *EventUpdateOne) SetNillablePriority(v *string) *EventUpdateOne {
+	if v != nil {
+		_u.SetPriority(*v)
 	}
-	return euo
+	return _u
 }
 
 // ClearPriority clears the value of the "priority" field.
-func (euo *EventUpdateOne) ClearPriority() *EventUpdateOne {
-	euo.mutation.ClearPriority()
-	return euo
+func (_u *EventUpdateOne) ClearPriority() *EventUpdateOne {
+	_u.mutation.ClearPriority()
+	return _u
 }
 
 // SetProcessedAt sets the "processed_at" field.
-func (euo *EventUpdateOne) SetProcessedAt(i int64) *EventUpdateOne {
-	euo.mutation.ResetProcessedAt()
-	euo.mutation.SetProcessedAt(i)
-	return euo
+func (_u *EventUpdateOne) SetProcessedAt(v int64) *EventUpdateOne {
+	_u.mutation.ResetProcessedAt()
+	_u.mutation.SetProcessedAt(v)
+	return _u
 }
 
 // SetNillableProcessedAt sets the "processed_at" field if the given value is not nil.
-func (euo *EventUpdateOne) SetNillableProcessedAt(i *int64) *EventUpdateOne {
-	if i != nil {
-		euo.SetProcessedAt(*i)
+func (_u *EventUpdateOne) SetNillableProcessedAt(v *int64) *EventUpdateOne {
+	if v != nil {
+		_u.SetProcessedAt(*v)
 	}
-	return euo
+	return _u
 }
 
-// AddProcessedAt adds i to the "processed_at" field.
-func (euo *EventUpdateOne) AddProcessedAt(i int64) *EventUpdateOne {
-	euo.mutation.AddProcessedAt(i)
-	return euo
+// AddProcessedAt adds value to the "processed_at" field.
+func (_u *EventUpdateOne) AddProcessedAt(v int64) *EventUpdateOne {
+	_u.mutation.AddProcessedAt(v)
+	return _u
 }
 
 // ClearProcessedAt clears the value of the "processed_at" field.
-func (euo *EventUpdateOne) ClearProcessedAt() *EventUpdateOne {
-	euo.mutation.ClearProcessedAt()
-	return euo
+func (_u *EventUpdateOne) ClearProcessedAt() *EventUpdateOne {
+	_u.mutation.ClearProcessedAt()
+	return _u
 }
 
 // SetRetryCount sets the "retry_count" field.
-func (euo *EventUpdateOne) SetRetryCount(i int) *EventUpdateOne {
-	euo.mutation.ResetRetryCount()
-	euo.mutation.SetRetryCount(i)
-	return euo
+func (_u *EventUpdateOne) SetRetryCount(v int) *EventUpdateOne {
+	_u.mutation.ResetRetryCount()
+	_u.mutation.SetRetryCount(v)
+	return _u
 }
 
 // SetNillableRetryCount sets the "retry_count" field if the given value is not nil.
-func (euo *EventUpdateOne) SetNillableRetryCount(i *int) *EventUpdateOne {
-	if i != nil {
-		euo.SetRetryCount(*i)
+func (_u *EventUpdateOne) SetNillableRetryCount(v *int) *EventUpdateOne {
+	if v != nil {
+		_u.SetRetryCount(*v)
 	}
-	return euo
+	return _u
 }
 
-// AddRetryCount adds i to the "retry_count" field.
-func (euo *EventUpdateOne) AddRetryCount(i int) *EventUpdateOne {
-	euo.mutation.AddRetryCount(i)
-	return euo
+// AddRetryCount adds value to the "retry_count" field.
+func (_u *EventUpdateOne) AddRetryCount(v int) *EventUpdateOne {
+	_u.mutation.AddRetryCount(v)
+	return _u
 }
 
 // SetErrorMessage sets the "error_message" field.
-func (euo *EventUpdateOne) SetErrorMessage(s string) *EventUpdateOne {
-	euo.mutation.SetErrorMessage(s)
-	return euo
+func (_u *EventUpdateOne) SetErrorMessage(v string) *EventUpdateOne {
+	_u.mutation.SetErrorMessage(v)
+	return _u
 }
 
 // SetNillableErrorMessage sets the "error_message" field if the given value is not nil.
-func (euo *EventUpdateOne) SetNillableErrorMessage(s *string) *EventUpdateOne {
-	if s != nil {
-		euo.SetErrorMessage(*s)
+func (_u *EventUpdateOne) SetNillableErrorMessage(v *string) *EventUpdateOne {
+	if v != nil {
+		_u.SetErrorMessage(*v)
 	}
-	return euo
+	return _u
 }
 
 // ClearErrorMessage clears the value of the "error_message" field.
-func (euo *EventUpdateOne) ClearErrorMessage() *EventUpdateOne {
-	euo.mutation.ClearErrorMessage()
-	return euo
+func (_u *EventUpdateOne) ClearErrorMessage() *EventUpdateOne {
+	_u.mutation.ClearErrorMessage()
+	return _u
 }
 
 // Mutation returns the EventMutation object of the builder.
-func (euo *EventUpdateOne) Mutation() *EventMutation {
-	return euo.mutation
+func (_u *EventUpdateOne) Mutation() *EventMutation {
+	return _u.mutation
 }
 
 // Where appends a list predicates to the EventUpdate builder.
-func (euo *EventUpdateOne) Where(ps ...predicate.Event) *EventUpdateOne {
-	euo.mutation.Where(ps...)
-	return euo
+func (_u *EventUpdateOne) Where(ps ...predicate.Event) *EventUpdateOne {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // Select allows selecting one or more fields (columns) of the returned entity.
 // The default is selecting all fields defined in the entity schema.
-func (euo *EventUpdateOne) Select(field string, fields ...string) *EventUpdateOne {
-	euo.fields = append([]string{field}, fields...)
-	return euo
+func (_u *EventUpdateOne) Select(field string, fields ...string) *EventUpdateOne {
+	_u.fields = append([]string{field}, fields...)
+	return _u
 }
 
 // Save executes the query and returns the updated Event entity.
-func (euo *EventUpdateOne) Save(ctx context.Context) (*Event, error) {
-	return withHooks(ctx, euo.sqlSave, euo.mutation, euo.hooks)
+func (_u *EventUpdateOne) Save(ctx context.Context) (*Event, error) {
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (euo *EventUpdateOne) SaveX(ctx context.Context) *Event {
-	node, err := euo.Save(ctx)
+func (_u *EventUpdateOne) SaveX(ctx context.Context) *Event {
+	node, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -480,26 +480,26 @@ func (euo *EventUpdateOne) SaveX(ctx context.Context) *Event {
 }
 
 // Exec executes the query on the entity.
-func (euo *EventUpdateOne) Exec(ctx context.Context) error {
-	_, err := euo.Save(ctx)
+func (_u *EventUpdateOne) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (euo *EventUpdateOne) ExecX(ctx context.Context) {
-	if err := euo.Exec(ctx); err != nil {
+func (_u *EventUpdateOne) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
-func (euo *EventUpdateOne) sqlSave(ctx context.Context) (_node *Event, err error) {
+func (_u *EventUpdateOne) sqlSave(ctx context.Context) (_node *Event, err error) {
 	_spec := sqlgraph.NewUpdateSpec(event.Table, event.Columns, sqlgraph.NewFieldSpec(event.FieldID, field.TypeString))
-	id, ok := euo.mutation.ID()
+	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "Event.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
-	if fields := euo.fields; len(fields) > 0 {
+	if fields := _u.fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, event.FieldID)
 		for _, f := range fields {
@@ -511,68 +511,68 @@ func (euo *EventUpdateOne) sqlSave(ctx context.Context) (_node *Event, err error
 			}
 		}
 	}
-	if ps := euo.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := euo.mutation.GetType(); ok {
+	if value, ok := _u.mutation.GetType(); ok {
 		_spec.SetField(event.FieldType, field.TypeString, value)
 	}
-	if euo.mutation.TypeCleared() {
+	if _u.mutation.TypeCleared() {
 		_spec.ClearField(event.FieldType, field.TypeString)
 	}
-	if value, ok := euo.mutation.Payload(); ok {
+	if value, ok := _u.mutation.Payload(); ok {
 		_spec.SetField(event.FieldPayload, field.TypeJSON, value)
 	}
-	if euo.mutation.PayloadCleared() {
+	if _u.mutation.PayloadCleared() {
 		_spec.ClearField(event.FieldPayload, field.TypeJSON)
 	}
-	if euo.mutation.CreatedAtCleared() {
+	if _u.mutation.CreatedAtCleared() {
 		_spec.ClearField(event.FieldCreatedAt, field.TypeInt64)
 	}
-	if value, ok := euo.mutation.Source(); ok {
+	if value, ok := _u.mutation.Source(); ok {
 		_spec.SetField(event.FieldSource, field.TypeString, value)
 	}
-	if euo.mutation.SourceCleared() {
+	if _u.mutation.SourceCleared() {
 		_spec.ClearField(event.FieldSource, field.TypeString)
 	}
-	if value, ok := euo.mutation.Status(); ok {
+	if value, ok := _u.mutation.Status(); ok {
 		_spec.SetField(event.FieldStatus, field.TypeString, value)
 	}
-	if value, ok := euo.mutation.Priority(); ok {
+	if value, ok := _u.mutation.Priority(); ok {
 		_spec.SetField(event.FieldPriority, field.TypeString, value)
 	}
-	if euo.mutation.PriorityCleared() {
+	if _u.mutation.PriorityCleared() {
 		_spec.ClearField(event.FieldPriority, field.TypeString)
 	}
-	if value, ok := euo.mutation.ProcessedAt(); ok {
+	if value, ok := _u.mutation.ProcessedAt(); ok {
 		_spec.SetField(event.FieldProcessedAt, field.TypeInt64, value)
 	}
-	if value, ok := euo.mutation.AddedProcessedAt(); ok {
+	if value, ok := _u.mutation.AddedProcessedAt(); ok {
 		_spec.AddField(event.FieldProcessedAt, field.TypeInt64, value)
 	}
-	if euo.mutation.ProcessedAtCleared() {
+	if _u.mutation.ProcessedAtCleared() {
 		_spec.ClearField(event.FieldProcessedAt, field.TypeInt64)
 	}
-	if value, ok := euo.mutation.RetryCount(); ok {
+	if value, ok := _u.mutation.RetryCount(); ok {
 		_spec.SetField(event.FieldRetryCount, field.TypeInt, value)
 	}
-	if value, ok := euo.mutation.AddedRetryCount(); ok {
+	if value, ok := _u.mutation.AddedRetryCount(); ok {
 		_spec.AddField(event.FieldRetryCount, field.TypeInt, value)
 	}
-	if value, ok := euo.mutation.ErrorMessage(); ok {
+	if value, ok := _u.mutation.ErrorMessage(); ok {
 		_spec.SetField(event.FieldErrorMessage, field.TypeString, value)
 	}
-	if euo.mutation.ErrorMessageCleared() {
+	if _u.mutation.ErrorMessageCleared() {
 		_spec.ClearField(event.FieldErrorMessage, field.TypeString)
 	}
-	_node = &Event{config: euo.config}
+	_node = &Event{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues
-	if err = sqlgraph.UpdateNode(ctx, euo.driver, _spec); err != nil {
+	if err = sqlgraph.UpdateNode(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{event.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -580,6 +580,6 @@ func (euo *EventUpdateOne) sqlSave(ctx context.Context) (_node *Event, err error
 		}
 		return nil, err
 	}
-	euo.mutation.done = true
+	_u.mutation.done = true
 	return _node, nil
 }
