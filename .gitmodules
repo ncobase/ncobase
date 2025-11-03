@@ -1,6 +1,0 @@
-[submodule "front"]
-	path = front
-	url = git@github.com:ncobase/frontend.git
-[submodule "ncore"]
-	path = ncore
-	url = git@github.com:ncobase/ncore.git
