@@ -63,9 +63,9 @@ extension:
   # Security configuration
   security:
     enable_sandbox: false
-    allowed_paths: []
-    blocked_extensions: [".exe", ".bat"]
-    trusted_sources: []
+    allowed_paths: [ ]
+    blocked_extensions: [ ".exe", ".bat" ]
+    trusted_sources: [ ]
     require_signature: false
     allow_unsafe: true # Allow in development
 
@@ -89,7 +89,7 @@ extension:
   # Plugin-specific configuration
   plugin_config:
     auth_plugin:
-      oauth_providers: ["google", "github"]
+      oauth_providers: [ "google", "github" ]
     logger_plugin:
       log_level: "info"
     storage_plugin:

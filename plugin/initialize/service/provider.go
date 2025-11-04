@@ -15,9 +15,10 @@ import (
 	userStructs "ncobase/user/structs"
 	"time"
 
+	"ncobase/internal/version"
+
 	ext "github.com/ncobase/ncore/extension/types"
 	"github.com/ncobase/ncore/logging/logger"
-	"github.com/ncobase/ncore/version"
 )
 
 // State option key for persistence

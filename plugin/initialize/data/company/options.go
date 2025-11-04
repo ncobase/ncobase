@@ -3,7 +3,7 @@ package company
 import (
 	systemStructs "ncobase/system/structs"
 
-	"github.com/ncobase/ncore/version"
+	"ncobase/internal/version"
 )
 
 // SystemDefaultOptions defines core system configuration options

@@ -11,21 +11,6 @@ use (
 	./core/space
 	./core/system
 	./core/user
-	./ncore/concurrency
-	./ncore/config
-	./ncore/consts
-	./ncore/ctxutil
-	./ncore/data
-	./ncore/ecode
-	./ncore/extension
-	./ncore/logging
-	./ncore/messaging
-	./ncore/net
-	./ncore/security
-	./ncore/types
-	./ncore/utils
-	./ncore/validation
-	./ncore/version
 	./plugin/counter
 	./plugin/initialize
 	./plugin/payment

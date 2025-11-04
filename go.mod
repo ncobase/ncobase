@@ -28,25 +28,6 @@ replace (
 	ncobase/resource => ./plugin/resource
 )
 
-// ncore
-replace (
-	github.com/ncobase/ncore/concurrency => ./ncore/concurrency
-	github.com/ncobase/ncore/config => ./ncore/config
-	github.com/ncobase/ncore/consts => ./ncore/consts
-	github.com/ncobase/ncore/ctxutil => ./ncore/ctxutil
-	github.com/ncobase/ncore/data => ./ncore/data
-	github.com/ncobase/ncore/ecode => ./ncore/ecode
-	github.com/ncobase/ncore/extension => ./ncore/extension
-	github.com/ncobase/ncore/logging => ./ncore/logging
-	github.com/ncobase/ncore/messaging => ./ncore/messaging
-	github.com/ncobase/ncore/net => ./ncore/net
-	github.com/ncobase/ncore/security => ./ncore/security
-	github.com/ncobase/ncore/types => ./ncore/types
-	github.com/ncobase/ncore/utils => ./ncore/utils
-	github.com/ncobase/ncore/validation => ./ncore/validation
-	github.com/ncobase/ncore/version => ./ncore/version
-)
-
 require (
 	github.com/casbin/casbin/v2 v2.106.0
 	github.com/gin-gonic/gin v1.11.0
@@ -62,7 +43,6 @@ require (
 	github.com/ncobase/ncore/types v0.1.19
 	github.com/ncobase/ncore/utils v0.1.19
 	github.com/ncobase/ncore/validation v0.1.19
-	github.com/ncobase/ncore/version v0.0.0-00010101000000-000000000000
 	github.com/sirupsen/logrus v1.9.3
 	github.com/swaggo/files v1.0.1
 	github.com/swaggo/gin-swagger v1.6.0

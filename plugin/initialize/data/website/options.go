@@ -3,7 +3,7 @@ package website
 import (
 	systemStructs "ncobase/system/structs"
 
-	"github.com/ncobase/ncore/version"
+	"ncobase/internal/version"
 )
 
 // SystemDefaultOptions for regular websites
