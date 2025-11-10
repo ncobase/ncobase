@@ -16,7 +16,7 @@ require (
 	github.com/gin-gonic/gin v1.11.0
 	github.com/ncobase/ncore/config v0.1.19
 	github.com/ncobase/ncore/ctxutil v0.1.19
-	github.com/ncobase/ncore/data v0.1.19
+	github.com/ncobase/ncore/data v0.1.20
 	github.com/ncobase/ncore/ecode v0.1.19
 	github.com/ncobase/ncore/extension v0.1.19
 	github.com/ncobase/ncore/logging v0.1.19
@@ -189,8 +189,8 @@ require (
 	golang.org/x/mod v0.29.0 // indirect
 	golang.org/x/net v0.46.0 // indirect
 	golang.org/x/oauth2 v0.32.0 // indirect
-	golang.org/x/sync v0.17.0 // indirect
-	golang.org/x/sys v0.37.0 // indirect
+	golang.org/x/sync v0.18.0 // indirect
+	golang.org/x/sys v0.38.0 // indirect
 	golang.org/x/text v0.30.0 // indirect
 	golang.org/x/time v0.14.0 // indirect
 	golang.org/x/tools v0.38.0 // indirect
