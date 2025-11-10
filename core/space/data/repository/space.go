@@ -25,6 +25,7 @@ type SpaceRepositoryInterface interface {
 	GetBySlug(ctx context.Context, slug string) (*ent.Space, error)
 	GetByUser(ctx context.Context, user string) (*ent.Space, error)
 	GetIDByUser(ctx context.Context, user string) (string, error)
+	GetByIDs(ctx context.Context, ids []string) ([]*ent.Space, error)
 	Update(ctx context.Context, slug string, updates types.JSON) (*ent.Space, error)
 	List(ctx context.Context, params *structs.ListSpaceParams) ([]*ent.Space, error)
 	Delete(ctx context.Context, id string) error
@@ -173,6 +174,48 @@ func (r *spaceRepository) GetIDByUser(ctx context.Context, userID string) (strin
 	}()
 
 	return id, nil
+}
+
+// GetByIDs retrieves multiple spaces by their IDs in a single query
+// This prevents N+1 query issues when loading spaces for multiple user-space relationships
+func (r *spaceRepository) GetByIDs(ctx context.Context, ids []string) ([]*ent.Space, error) {
+	if len(ids) == 0 {
+		return []*ent.Space{}, nil
+	}
+
+	// Remove duplicates
+	uniqueIDs := make(map[string]bool)
+	cleanIDs := make([]string, 0, len(ids))
+	for _, id := range ids {
+		if id != "" && !uniqueIDs[id] {
+			uniqueIDs[id] = true
+			cleanIDs = append(cleanIDs, id)
+		}
+	}
+
+	if len(cleanIDs) == 0 {
+		return []*ent.Space{}, nil
+	}
+
+	// Query all spaces in a single database call
+	spaces, err := r.ec.Space.
+		Query().
+		Where(spaceEnt.IDIn(cleanIDs...)).
+		All(ctx)
+
+	if err != nil {
+		logger.Errorf(ctx, "spaceRepo.GetByIDs error: %v", err)
+		return nil, err
+	}
+
+	// Cache each space
+	go func() {
+		for _, space := range spaces {
+			r.cacheSpace(context.Background(), space)
+		}
+	}()
+
+	return spaces, nil
 }
 
 // Update update space

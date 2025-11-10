@@ -72,13 +72,22 @@ func (s *userSpaceService) UserBelongSpaces(ctx context.Context, uid string) ([]
 		return nil, err
 	}
 
-	var spaces []*structs.ReadSpace
+	// N+1 QUERY FIX: Collect all space IDs first
+	spaceIDs := make([]string, 0, len(userSpaces))
 	for _, userSpace := range userSpaces {
-		space, err := s.ts.Find(ctx, userSpace.ID)
-		if err != nil {
-			return nil, errors.New("space not found")
+		if userSpace.ID != "" {
+			spaceIDs = append(spaceIDs, userSpace.ID)
 		}
-		spaces = append(spaces, space)
+	}
+
+	// Batch load all spaces in a single query instead of N queries
+	if len(spaceIDs) == 0 {
+		return []*structs.ReadSpace{}, nil
+	}
+
+	spaces, err := s.ts.GetByIDs(ctx, spaceIDs)
+	if err != nil {
+		return nil, errors.New("failed to load spaces")
 	}
 
 	return spaces, nil

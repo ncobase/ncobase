@@ -72,8 +72,13 @@ func (s *codeAuthService) CodeAuth(ctx context.Context, code string) (*AuthRespo
 			return nil, err
 		}
 
+		registerToken, err := safeGetStringFromResult(*registerResult, "register_token")
+		if err != nil {
+			return nil, errors.New("failed to extract register token: " + err.Error())
+		}
+
 		return &AuthResponse{
-			AccessToken: (*registerResult)["register_token"].(string),
+			AccessToken: registerToken,
 			TokenType:   "Register",
 		}, nil
 	}
@@ -211,4 +216,23 @@ func (s *codeAuthService) markCodeAsUsed(ctx context.Context, codeID string) err
 	client := s.d.GetMasterEntClient()
 	_, err := client.CodeAuth.UpdateOneID(codeID).SetLogged(true).Save(ctx)
 	return err
+}
+
+// safeGetStringFromResult safely extracts a string value from a result map with type checking
+func safeGetStringFromResult(data types.JSON, key string) (string, error) {
+	val, exists := data[key]
+	if !exists {
+		return "", errors.New("missing required field: " + key)
+	}
+
+	str, ok := val.(string)
+	if !ok {
+		return "", errors.New("field " + key + " is not a string")
+	}
+
+	if str == "" {
+		return "", errors.New("field " + key + " cannot be empty")
+	}
+
+	return str, nil
 }

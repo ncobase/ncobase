@@ -176,7 +176,7 @@ func checkPermission(ctx context.Context, enforcer *casbin.Enforcer,
 
 // checkBasicPermission provides fallback permission check when Casbin is unavailable
 func checkBasicPermission(ctx context.Context, roles, permissions []string, isAdmin bool) bool {
-	logger.Debugf(ctx, "Using basic permission check (Casbin unavailable)")
+	logger.Warnf(ctx, "Using basic permission check (Casbin unavailable) - falling back to restrictive mode")
 
 	// Admin users have all permissions
 	if isAdmin {
@@ -188,11 +188,13 @@ func checkBasicPermission(ctx context.Context, roles, permissions []string, isAd
 		return true
 	}
 
-	// Basic role-based check
+	// Basic role-based check - only admin roles allowed when Casbin is down
 	if hasAdminRole(roles) {
 		return true
 	}
 
-	// If user has any roles or permissions, allow access (very permissive fallback)
-	return len(roles) > 0 || len(permissions) > 0
+	// SECURITY FIX: Deny access by default when Casbin is unavailable
+	// This prevents unauthorized access if the authorization service fails
+	logger.Warnf(ctx, "Access denied due to Casbin unavailability (user has roles: %v, permissions: %v)", roles, permissions)
+	return false
 }
