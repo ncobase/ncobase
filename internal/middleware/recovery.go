@@ -5,7 +5,6 @@ import (
 	"runtime/debug"
 
 	"github.com/ncobase/ncore/ctxutil"
-	"github.com/ncobase/ncore/ecode"
 	"github.com/ncobase/ncore/logging/logger"
 	"github.com/ncobase/ncore/net/resp"
 
@@ -43,10 +42,7 @@ func Recovery() gin.HandlerFunc {
 				// Check if response was already written
 				if !c.Writer.Written() {
 					// Return error response
-					resp.Fail(c.Writer, resp.Response{
-						Code:    ecode.InternalServerError,
-						Message: "Internal server error. The issue has been logged and will be investigated.",
-					})
+					resp.Fail(c.Writer, resp.InternalServer("Internal server error. The issue has been logged and will be investigated."))
 				}
 
 				// Abort the request
@@ -99,10 +95,7 @@ func safeHandler(handler gin.HandlerFunc) gin.HandlerFunc {
 
 				// Return error
 				if !c.Writer.Written() {
-					resp.Fail(c.Writer, resp.Response{
-						Code:    ecode.InternalServerError,
-						Message: fmt.Sprintf("Handler error: %v", err),
-					})
+					resp.Fail(c.Writer, resp.InternalServer(fmt.Sprintf("Handler error: %v", err)))
 				}
 
 				c.Abort()
