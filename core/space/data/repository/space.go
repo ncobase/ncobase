@@ -177,7 +177,6 @@ func (r *spaceRepository) GetIDByUser(ctx context.Context, userID string) (strin
 }
 
 // GetByIDs retrieves multiple spaces by their IDs in a single query
-// This prevents N+1 query issues when loading spaces for multiple user-space relationships
 func (r *spaceRepository) GetByIDs(ctx context.Context, ids []string) ([]*ent.Space, error) {
 	if len(ids) == 0 {
 		return []*ent.Space{}, nil

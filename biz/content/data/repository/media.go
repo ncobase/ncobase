@@ -112,7 +112,6 @@ func (r *mediaRepository) GetByID(ctx context.Context, id string) (*ent.Media, e
 }
 
 // GetByIDs retrieves multiple media by their IDs in a single query
-// This prevents N+1 query issues when loading media for multiple topic-media relationships
 func (r *mediaRepository) GetByIDs(ctx context.Context, ids []string) ([]*ent.Media, error) {
 	if len(ids) == 0 {
 		return []*ent.Media{}, nil

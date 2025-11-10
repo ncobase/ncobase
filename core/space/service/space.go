@@ -191,7 +191,6 @@ func (s *spaceService) GetByUser(ctx context.Context, uid string) (*structs.Read
 }
 
 // GetByIDs retrieves multiple spaces by their IDs
-// This method prevents N+1 queries when loading spaces for multiple users
 func (s *spaceService) GetByIDs(ctx context.Context, ids []string) ([]*structs.ReadSpace, error) {
 	if len(ids) == 0 {
 		return []*structs.ReadSpace{}, nil

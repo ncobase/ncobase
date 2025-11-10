@@ -161,7 +161,7 @@ func (s *topicMediaService) List(ctx context.Context, params *structs.ListTopicM
 			return nil, 0, err
 		}
 
-		// N+1 QUERY FIX: Collect all media IDs first
+		// Collect all media IDs
 		mediaIDs := make([]string, 0, len(rows))
 		for _, row := range rows {
 			if row.MediaID != "" {
@@ -169,7 +169,7 @@ func (s *topicMediaService) List(ctx context.Context, params *structs.ListTopicM
 			}
 		}
 
-		// Batch load all media in a single query
+		// Batch load media
 		mediaMap := make(map[string]*ent.Media)
 		if len(mediaIDs) > 0 {
 			mediaList, err := s.m.GetByIDs(ctx, mediaIDs)

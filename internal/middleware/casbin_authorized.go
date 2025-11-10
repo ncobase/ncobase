@@ -188,13 +188,12 @@ func checkBasicPermission(ctx context.Context, roles, permissions []string, isAd
 		return true
 	}
 
-	// Basic role-based check - only admin roles allowed when Casbin is down
+	// Only admin roles are permitted when Casbin is unavailable
 	if hasAdminRole(roles) {
 		return true
 	}
 
-	// SECURITY FIX: Deny access by default when Casbin is unavailable
-	// This prevents unauthorized access if the authorization service fails
+	// Deny access by default to prevent unauthorized access
 	logger.Warnf(ctx, "Access denied due to Casbin unavailability (user has roles: %v, permissions: %v)", roles, permissions)
 	return false
 }
