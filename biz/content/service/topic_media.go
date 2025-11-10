@@ -161,15 +161,34 @@ func (s *topicMediaService) List(ctx context.Context, params *structs.ListTopicM
 			return nil, 0, err
 		}
 
-		// Load media for each relation
-		result := make([]*structs.ReadTopicMedia, 0, len(rows))
+		// N+1 QUERY FIX: Collect all media IDs first
+		mediaIDs := make([]string, 0, len(rows))
 		for _, row := range rows {
-			topicMedia, err := s.loadMediaForTopicMedia(ctx, row)
+			if row.MediaID != "" {
+				mediaIDs = append(mediaIDs, row.MediaID)
+			}
+		}
+
+		// Batch load all media in a single query
+		mediaMap := make(map[string]*ent.Media)
+		if len(mediaIDs) > 0 {
+			mediaList, err := s.m.GetByIDs(ctx, mediaIDs)
 			if err != nil {
-				logger.Warnf(ctx, "Error loading media for topic media relation %s: %v", row.ID, err)
-				// Continue with next item even if one fails
-				result = append(result, s.serialize(row))
-				continue
+				logger.Warnf(ctx, "Error batch loading media: %v", err)
+			} else {
+				for _, media := range mediaList {
+					mediaMap[media.ID] = media
+				}
+			}
+		}
+
+		// Build result with loaded media
+		result := make([]*structs.ReadTopicMedia, 0, len(rows))
+		mediaService := &mediaService{r: s.m}
+		for _, row := range rows {
+			topicMedia := s.serialize(row)
+			if media, ok := mediaMap[row.MediaID]; ok {
+				topicMedia.Media = mediaService.serialize(ctx, media)
 			}
 			result = append(result, topicMedia)
 		}

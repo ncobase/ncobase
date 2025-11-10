@@ -23,6 +23,7 @@ import (
 type MediaRepositoryInterface interface {
 	Create(ctx context.Context, body *structs.CreateMediaBody) (*ent.Media, error)
 	GetByID(ctx context.Context, id string) (*ent.Media, error)
+	GetByIDs(ctx context.Context, ids []string) ([]*ent.Media, error)
 	Update(ctx context.Context, id string, updates types.JSON) (*ent.Media, error)
 	List(ctx context.Context, params *structs.ListMediaParams) ([]*ent.Media, error)
 	Count(ctx context.Context, params *structs.ListMediaParams) (int, error)
@@ -108,6 +109,76 @@ func (r *mediaRepository) GetByID(ctx context.Context, id string) (*ent.Media, e
 	}
 
 	return row, nil
+}
+
+// GetByIDs retrieves multiple media by their IDs in a single query
+// This prevents N+1 query issues when loading media for multiple topic-media relationships
+func (r *mediaRepository) GetByIDs(ctx context.Context, ids []string) ([]*ent.Media, error) {
+	if len(ids) == 0 {
+		return []*ent.Media{}, nil
+	}
+
+	// Remove duplicates and empty strings
+	uniqueIDs := make(map[string]bool)
+	cleanIDs := make([]string, 0, len(ids))
+	for _, id := range ids {
+		if id != "" && !uniqueIDs[id] {
+			uniqueIDs[id] = true
+			cleanIDs = append(cleanIDs, id)
+		}
+	}
+
+	if len(cleanIDs) == 0 {
+		return []*ent.Media{}, nil
+	}
+
+	// Try cache first for all IDs
+	mediaMap := make(map[string]*ent.Media)
+	uncachedIDs := make([]string, 0)
+
+	for _, id := range cleanIDs {
+		cacheKey := fmt.Sprintf("%s", id)
+		if cached, err := r.c.Get(ctx, cacheKey); err == nil && cached != nil {
+			mediaMap[id] = cached
+		} else {
+			uncachedIDs = append(uncachedIDs, id)
+		}
+	}
+
+	// Fetch uncached media from database in a single query
+	if len(uncachedIDs) > 0 {
+		mediaList, err := r.ecr.Media.
+			Query().
+			Where(mediaEnt.IDIn(uncachedIDs...)).
+			All(ctx)
+
+		if err != nil {
+			logger.Errorf(ctx, "mediaRepo.GetByIDs error: %v", err)
+			return nil, err
+		}
+
+		// Cache each fetched media and add to map
+		for _, media := range mediaList {
+			mediaMap[media.ID] = media
+			// Cache asynchronously
+			go func(m *ent.Media) {
+				cacheKey := fmt.Sprintf("%s", m.ID)
+				if err := r.c.Set(context.Background(), cacheKey, m); err != nil {
+					logger.Debugf(context.Background(), "Failed to cache media %s: %v", m.ID, err)
+				}
+			}(media)
+		}
+	}
+
+	// Return media in the same order as requested IDs
+	result := make([]*ent.Media, 0, len(cleanIDs))
+	for _, id := range cleanIDs {
+		if media, ok := mediaMap[id]; ok {
+			result = append(result, media)
+		}
+	}
+
+	return result, nil
 }
 
 // Update updates media
