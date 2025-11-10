@@ -3,6 +3,7 @@ package middleware
 import (
 	"context"
 	"strings"
+	"sync"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -10,6 +11,12 @@ import (
 	ext "github.com/ncobase/ncore/extension/types"
 	"github.com/ncobase/ncore/logging/logger"
 	"github.com/ncobase/ncore/security/jwt"
+)
+
+var (
+	sessionUpdateCache      = sync.Map{}
+	sessionUpdateInterval   = 5 * time.Minute
+	sessionUpdateCacheMutex = sync.RWMutex{}
 )
 
 // SessionMiddleware handles session tracking and updates
@@ -163,10 +170,26 @@ func getTokenIDFromJWT(tokenString string, jtm *jwt.TokenManager) string {
 }
 
 func updateSessionAccess(asw *AuthServiceWrapper, tokenID string) {
+	now := time.Now()
+
+	// Check if session was recently updated
+	if lastUpdate, ok := sessionUpdateCache.Load(tokenID); ok {
+		if lastUpdateTime, ok := lastUpdate.(time.Time); ok {
+			if now.Sub(lastUpdateTime) < sessionUpdateInterval {
+				return
+			}
+		}
+	}
+
+	// Update database
 	ctx := context.Background()
 	if err := asw.UpdateSessionLastAccess(ctx, tokenID); err != nil {
 		logger.Warnf(ctx, "Failed to update session last access: %v", err)
+		return
 	}
+
+	// Update cache
+	sessionUpdateCache.Store(tokenID, now)
 }
 
 func deactivateExpiredSession(asw *AuthServiceWrapper, tokenID string) {

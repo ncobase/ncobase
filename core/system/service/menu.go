@@ -177,15 +177,14 @@ func (s *menuService) GetMenusByTypes(ctx context.Context, types []string, opts 
 		return []*structs.ReadMenu{}, nil
 	}
 
-	// N+1 QUERY FIX: Query all types in a single database call
-	// Instead of N queries (one per type), we fetch all menus and filter in-memory
+	// Query all menus in a single database call and filter by type
 	params := &structs.ListMenuParams{
-		Type:     "", // Empty to get all types
+		Type:     "",
 		Parent:   opts.ParentID,
 		Perms:    opts.Perms,
 		Children: opts.Children,
 		SortBy:   s.getDefaultSort(opts.SortBy),
-		Limit:    10000, // Large limit to get all menus
+		Limit:    10000,
 	}
 
 	result, err := s.List(ctx, params)
