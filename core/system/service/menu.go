@@ -173,18 +173,47 @@ func (s *menuService) GetMenus(ctx context.Context, opts structs.MenuQueryParams
 
 // GetMenusByTypes retrieves and merges menus from multiple types, with optional tree building
 func (s *menuService) GetMenusByTypes(ctx context.Context, types []string, opts structs.MenuQueryParams) ([]*structs.ReadMenu, error) {
-	var allMenus []*structs.ReadMenu
+	if len(types) == 0 {
+		return []*structs.ReadMenu{}, nil
+	}
 
-	for _, menuType := range types {
-		typeOpts := opts
-		typeOpts.Type = menuType
+	// N+1 QUERY FIX: Query all types in a single database call
+	// Instead of N queries (one per type), we fetch all menus and filter in-memory
+	params := &structs.ListMenuParams{
+		Type:     "", // Empty to get all types
+		Parent:   opts.ParentID,
+		Perms:    opts.Perms,
+		Children: opts.Children,
+		SortBy:   s.getDefaultSort(opts.SortBy),
+		Limit:    10000, // Large limit to get all menus
+	}
 
-		menus, err := s.GetMenus(ctx, typeOpts)
-		if err != nil {
-			logger.Warnf(ctx, "Failed to get %s menus: %v", menuType, err)
-			continue
+	result, err := s.List(ctx, params)
+	if err != nil {
+		return nil, err
+	}
+
+	// Filter menus by requested types
+	typeSet := make(map[string]bool)
+	for _, t := range types {
+		typeSet[t] = true
+	}
+
+	allMenus := make([]*structs.ReadMenu, 0)
+	for _, menu := range result.Items {
+		if typeSet[menu.Type] {
+			allMenus = append(allMenus, menu)
 		}
-		allMenus = append(allMenus, menus...)
+	}
+
+	// Apply path filter if specified
+	if opts.Path != "" {
+		allMenus = s.filterByPath(allMenus, opts.Path)
+	}
+
+	// Apply active filter if specified
+	if opts.ActiveOnly {
+		allMenus = s.filterActiveMenus(allMenus)
 	}
 
 	// Build tree structure if requested
