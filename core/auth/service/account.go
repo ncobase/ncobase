@@ -100,8 +100,13 @@ func (s *accountService) Login(ctx context.Context, body *structs.LoginBody) (*A
 				return nil, err
 			}
 
+			registered, err := safeGetBool(*codeResult, "registered")
+			if err != nil {
+				return nil, fmt.Errorf("failed to extract registered field: %w", err)
+			}
+
 			return &AuthResponse{
-				Registered: (*codeResult)["registered"].(bool),
+				Registered: registered,
 			}, nil
 		}
 	case error:
@@ -257,10 +262,22 @@ func (s *accountService) Register(ctx context.Context, body *structs.RegisterBod
 		return nil, errors.New("register token decode failed")
 	}
 
+	// Extract email from payload with type checking
+	email, err := safeGetString(payload, "email")
+	if err != nil {
+		return nil, fmt.Errorf("invalid register token payload: %w", err)
+	}
+
+	// Extract code auth ID from payload with type checking
+	codeAuthID, err := safeGetString(payload, "id")
+	if err != nil {
+		return nil, fmt.Errorf("invalid register token payload: %w", err)
+	}
+
 	// Check user existence
 	existedUser, err := s.usw.FindUser(ctx, &userStructs.FindUser{
 		Username: body.Username,
-		Email:    payload["email"].(string),
+		Email:    email,
 		Phone:    body.Phone,
 	})
 	if err != nil && existedUser != nil {
@@ -272,7 +289,7 @@ func (s *accountService) Register(ctx context.Context, body *structs.RegisterBod
 	}
 
 	// Disable verification code
-	if err = disableCodeAuth(ctx, client, payload["id"].(string)); err != nil {
+	if err = disableCodeAuth(ctx, client, codeAuthID); err != nil {
 		return nil, err
 	}
 
@@ -468,9 +485,15 @@ func disableCodeAuth(ctx context.Context, client *ent.Client, id string) error {
 }
 
 func createUserAndProfile(ctx context.Context, svc *accountService, body *structs.RegisterBody, payload types.JSON) (types.JSON, error) {
+	// Extract email from payload with type checking
+	email, err := safeGetString(payload, "email")
+	if err != nil {
+		return nil, fmt.Errorf("invalid payload: %w", err)
+	}
+
 	user, err := svc.usw.CreateUser(ctx, &userStructs.UserBody{
 		Username: body.Username,
-		Email:    payload["email"].(string),
+		Email:    email,
 		Phone:    body.Phone,
 	})
 	if err != nil {
@@ -608,4 +631,38 @@ func (s *accountService) getFallbackRoles(ctx context.Context, userID string) []
 	}
 
 	return roleSlugs
+}
+
+// safeGetString safely extracts a string value from a map with type checking
+func safeGetString(data types.JSON, key string) (string, error) {
+	val, exists := data[key]
+	if !exists {
+		return "", fmt.Errorf("missing required field: %s", key)
+	}
+
+	str, ok := val.(string)
+	if !ok {
+		return "", fmt.Errorf("field %s is not a string (got %T)", key, val)
+	}
+
+	if str == "" {
+		return "", fmt.Errorf("field %s cannot be empty", key)
+	}
+
+	return str, nil
+}
+
+// safeGetBool safely extracts a boolean value from a map with type checking
+func safeGetBool(data types.JSON, key string) (bool, error) {
+	val, exists := data[key]
+	if !exists {
+		return false, fmt.Errorf("missing required field: %s", key)
+	}
+
+	b, ok := val.(bool)
+	if !ok {
+		return false, fmt.Errorf("field %s is not a boolean (got %T)", key, val)
+	}
+
+	return b, nil
 }

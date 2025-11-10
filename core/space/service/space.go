@@ -25,6 +25,7 @@ type SpaceServiceInterface interface {
 	Get(ctx context.Context, id string) (*structs.ReadSpace, error)
 	GetBySlug(ctx context.Context, id string) (*structs.ReadSpace, error)
 	GetByUser(ctx context.Context, uid string) (*structs.ReadSpace, error)
+	GetByIDs(ctx context.Context, ids []string) ([]*structs.ReadSpace, error)
 	Find(ctx context.Context, id string) (*structs.ReadSpace, error)
 	Delete(ctx context.Context, id string) error
 	CountX(ctx context.Context, params *structs.ListSpaceParams) int
@@ -187,6 +188,22 @@ func (s *spaceService) GetByUser(ctx context.Context, uid string) (*structs.Read
 		return nil, err
 	}
 	return s.Serialize(space), nil
+}
+
+// GetByIDs retrieves multiple spaces by their IDs
+// This method prevents N+1 queries when loading spaces for multiple users
+func (s *spaceService) GetByIDs(ctx context.Context, ids []string) ([]*structs.ReadSpace, error) {
+	if len(ids) == 0 {
+		return []*structs.ReadSpace{}, nil
+	}
+
+	spaces, err := s.space.GetByIDs(ctx, ids)
+	if err != nil {
+		logger.Errorf(ctx, "Failed to get spaces by IDs: %v", err)
+		return nil, err
+	}
+
+	return s.Serializes(spaces), nil
 }
 
 // Find finds space service.

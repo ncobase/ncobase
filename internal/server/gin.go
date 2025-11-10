@@ -28,6 +28,9 @@ func ginServer(conf *config.Config, em ext.ManagerInterface) (*gin.Engine, error
 
 	// Initialize middleware in correct order
 
+	// 0. Panic recovery (MUST be first to catch all panics)
+	engine.Use(middleware.Recovery())
+
 	// 1. Basic infrastructure
 	engine.Use(middleware.CORSHandler)
 	engine.Use(middleware.Trace)
