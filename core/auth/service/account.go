@@ -25,6 +25,7 @@ import (
 // AccountServiceInterface is the interface for the service.
 type AccountServiceInterface interface {
 	Login(ctx context.Context, body *structs.LoginBody) (*AuthResponse, error)
+	LoginMFA(ctx context.Context, body *structs.MFALoginVerifyBody) (*AuthResponse, error)
 	Register(ctx context.Context, body *structs.RegisterBody) (*AuthResponse, error)
 	GetMe(ctx context.Context) (*structs.AccountMeshes, error)
 	UpdatePassword(ctx context.Context, body *userStructs.UserPassword) error
@@ -42,6 +43,7 @@ type accountService struct {
 	cas CodeAuthServiceInterface
 	ats AuthSpaceServiceInterface
 	ss  SessionServiceInterface
+	mfa MFAServiceInterface
 
 	usw  *wrapper.UserServiceWrapper
 	tsw  *wrapper.SpaceServiceWrapper
@@ -50,7 +52,7 @@ type accountService struct {
 }
 
 // NewAccountService creates a new service.
-func NewAccountService(d *data.Data, jtm *jwt.TokenManager, ep event.PublisherInterface, cas CodeAuthServiceInterface, ats AuthSpaceServiceInterface, ss SessionServiceInterface,
+func NewAccountService(d *data.Data, jtm *jwt.TokenManager, ep event.PublisherInterface, cas CodeAuthServiceInterface, ats AuthSpaceServiceInterface, ss SessionServiceInterface, mfa MFAServiceInterface,
 	usw *wrapper.UserServiceWrapper,
 	tsw *wrapper.SpaceServiceWrapper,
 	asw *wrapper.AccessServiceWrapper,
@@ -63,6 +65,7 @@ func NewAccountService(d *data.Data, jtm *jwt.TokenManager, ep event.PublisherIn
 		cas:  cas,
 		ats:  ats,
 		ss:   ss,
+		mfa:  mfa,
 		usw:  usw,
 		tsw:  tsw,
 		asw:  asw,
@@ -111,6 +114,21 @@ func (s *accountService) Login(ctx context.Context, body *structs.LoginBody) (*A
 		}
 	case error:
 		return nil, v
+	}
+
+	// MFA challenge
+	if enabled, err := s.mfaEnabled(ctx, user.ID); err != nil {
+		return nil, err
+	} else if enabled {
+		mfaToken, methods, err := s.createMfaChallenge(ctx, user.ID)
+		if err != nil {
+			return nil, err
+		}
+		return &AuthResponse{
+			MFARequired: true,
+			MFAToken:    mfaToken,
+			MFAMethods:  methods,
+		}, nil
 	}
 
 	// Get user spaces
@@ -168,6 +186,37 @@ func (s *accountService) Login(ctx context.Context, body *structs.LoginBody) (*A
 	}
 
 	return authResp, nil
+}
+
+func (s *accountService) LoginMFA(ctx context.Context, body *structs.MFALoginVerifyBody) (*AuthResponse, error) {
+	if body == nil {
+		return nil, errors.New("invalid request")
+	}
+	if validator.IsEmpty(body.MFAToken) {
+		return nil, errors.New("mfa_token is required")
+	}
+	return s.mfaVerify(ctx, body.MFAToken, body.Code, body.RecoveryCode)
+}
+
+func (s *accountService) mfaEnabled(ctx context.Context, userID string) (bool, error) {
+	if s.mfa == nil {
+		return false, nil
+	}
+	return s.mfa.IsEnabled(ctx, userID)
+}
+
+func (s *accountService) createMfaChallenge(ctx context.Context, userID string) (string, []string, error) {
+	if s.mfa == nil {
+		return "", nil, errors.New("mfa service not available")
+	}
+	return s.mfa.CreateLoginChallenge(ctx, userID)
+}
+
+func (s *accountService) mfaVerify(ctx context.Context, token string, code string, recoveryCode string) (*AuthResponse, error) {
+	if s.mfa == nil {
+		return nil, errors.New("mfa service not available")
+	}
+	return s.mfa.VerifyLoginChallenge(ctx, token, code, recoveryCode)
 }
 
 // RefreshToken refreshes access token using refresh token

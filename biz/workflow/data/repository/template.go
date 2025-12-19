@@ -8,11 +8,12 @@ import (
 	"ncobase/workflow/structs"
 
 	"github.com/ncobase/ncore/data/databases/cache"
-	"github.com/ncobase/ncore/data/search/meili"
 	"github.com/ncobase/ncore/logging/logger"
 	"github.com/ncobase/ncore/validation/validator"
 
 	"github.com/redis/go-redis/v9"
+
+	"github.com/ncobase/ncore/data/search"
 )
 
 type TemplateRepositoryInterface interface {
@@ -29,21 +30,20 @@ type TemplateRepositoryInterface interface {
 }
 
 type templateRepository struct {
-	ec *ent.Client
-	rc *redis.Client
-	ms *meili.Client
-	c  *cache.Cache[ent.Template]
+	data *data.Data
+	ec   *ent.Client
+	rc   *redis.Client
+	c    *cache.Cache[ent.Template]
 }
 
 func NewTemplateRepository(d *data.Data) TemplateRepositoryInterface {
 	ec := d.GetMasterEntClient()
 	rc := d.GetRedis()
-	ms := d.GetMeilisearch()
 	return &templateRepository{
-		ec: ec,
-		rc: rc,
-		ms: ms,
-		c:  cache.NewCache[ent.Template](rc, "workflow_template", false),
+		data: d,
+		ec:   ec,
+		rc:   rc,
+		c:    cache.NewCache[ent.Template](rc, "workflow_template", false),
 	}
 }
 
@@ -127,7 +127,7 @@ func (r *templateRepository) Create(ctx context.Context, body *structs.TemplateB
 	}
 
 	// Index in Meilisearch
-	if err = r.ms.IndexDocuments("templates", row); err != nil {
+	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "templates", Document: row}); err != nil {
 		logger.Errorf(ctx, "templateRepo.Create error creating Meilisearch index: %v", err)
 	}
 
@@ -213,19 +213,45 @@ func (r *templateRepository) Update(ctx context.Context, body *structs.UpdateTem
 		builder.SetExtras(body.Extras)
 	}
 
-	return builder.Save(ctx)
+	row, err := builder.Save(ctx)
+	if err != nil {
+		logger.Errorf(ctx, "templateRepo.Update error: %v", err)
+		return nil, err
+	}
+
+	// Update Meilisearch index
+	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "templates", Document: row, DocumentID: row.ID}); err != nil {
+		logger.Errorf(ctx, "templateRepo.Update error updating Meilisearch index: %v", err)
+	}
+
+	return row, nil
 }
 
 // Delete deletes a template
 func (r *templateRepository) Delete(ctx context.Context, params *structs.FindTemplateParams) error {
 	builder := r.ec.Template.Delete()
 
+	var targetID string
 	if params.Code != "" {
+		if row, err := r.ec.Template.Query().Where(templateEnt.CodeEQ(params.Code)).First(ctx); err == nil && row != nil {
+			targetID = row.ID
+		}
 		builder.Where(templateEnt.CodeEQ(params.Code))
 	}
 
 	_, err := builder.Exec(ctx)
-	return err
+	if err != nil {
+		return err
+	}
+
+	// Delete from Meilisearch
+	if targetID != "" {
+		if err = r.data.DeleteDocument(ctx, "templates", targetID); err != nil {
+			logger.Errorf(ctx, "templateRepo.Delete error deleting Meilisearch index: %v", err)
+		}
+	}
+
+	return nil
 }
 
 // List returns a list of templates

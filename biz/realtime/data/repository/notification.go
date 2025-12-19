@@ -15,6 +15,8 @@ import (
 	"github.com/ncobase/ncore/validation/validator"
 
 	"github.com/redis/go-redis/v9"
+
+	"github.com/ncobase/ncore/data/search"
 )
 
 // NotificationRepositoryInterface represents the notification repository interface
@@ -37,18 +39,20 @@ type NotificationRepositoryInterface interface {
 }
 
 type notificationRepository struct {
-	ec *ent.Client
-	rc *redis.Client
-	c  *cache.Cache[ent.Notification]
+	data *data.Data
+	ec   *ent.Client
+	rc   *redis.Client
+	c    *cache.Cache[ent.Notification]
 }
 
 func NewNotificationRepository(d *data.Data) NotificationRepositoryInterface {
 	ec := d.GetMasterEntClient()
 	rc := d.GetRedis()
 	return &notificationRepository{
-		ec: ec,
-		rc: rc,
-		c:  cache.NewCache[ent.Notification](rc, "rt_notification"),
+		data: d,
+		ec:   ec,
+		rc:   rc,
+		c:    cache.NewCache[ent.Notification](rc, "rt_notification"),
 	}
 }
 
@@ -59,6 +63,12 @@ func (r *notificationRepository) Create(ctx context.Context, notification *ent.N
 		logger.Errorf(ctx, "notificationRepo.Create error: %v", err)
 		return nil, err
 	}
+
+	// Index in Meilisearch
+	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "realtime_notifications", Document: row}); err != nil {
+		logger.Errorf(ctx, "notificationRepo.Create error creating Meilisearch index: %v", err)
+	}
+
 	return row, nil
 }
 
@@ -92,6 +102,11 @@ func (r *notificationRepository) Update(ctx context.Context, id string, notifica
 		return nil, err
 	}
 
+	// Update Meilisearch index
+	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "realtime_notifications", Document: row, DocumentID: row.ID}); err != nil {
+		logger.Errorf(ctx, "notificationRepo.Update error updating Meilisearch index: %v", err)
+	}
+
 	// Invalidate cache
 	cacheKey := fmt.Sprintf("notification:%s", id)
 	if err := r.c.Delete(ctx, cacheKey); err != nil {
@@ -107,6 +122,11 @@ func (r *notificationRepository) Delete(ctx context.Context, id string) error {
 	if err != nil {
 		logger.Errorf(ctx, "notificationRepo.Delete error: %v", err)
 		return err
+	}
+
+	// Delete from Meilisearch
+	if err = r.data.DeleteDocument(ctx, "realtime_notifications", id); err != nil {
+		logger.Errorf(ctx, "notificationRepo.Delete error deleting Meilisearch index: %v", err)
 	}
 
 	// Invalidate cache
@@ -201,12 +221,16 @@ func (r *notificationRepository) CountX(ctx context.Context, params *structs.Lis
 
 // UpdateStatus updates a notification's status
 func (r *notificationRepository) UpdateStatus(ctx context.Context, id string, status int) error {
-	err := r.ec.Notification.UpdateOneID(id).
+	row, err := r.ec.Notification.UpdateOneID(id).
 		SetStatus(status).
-		Exec(ctx)
+		Save(ctx)
 
 	if err != nil {
 		return err
+	}
+
+	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "realtime_notifications", Document: row, DocumentID: row.ID}); err != nil {
+		logger.Errorf(ctx, "notificationRepo.UpdateStatus error updating Meilisearch index: %v", err)
 	}
 
 	// Invalidate cache
@@ -251,6 +275,12 @@ func (r *notificationRepository) CreateBatch(ctx context.Context, notifications 
 		return nil, err
 	}
 
+	for _, row := range results {
+		if msErr := r.data.IndexDocument(ctx, &search.IndexRequest{Index: "realtime_notifications", Document: row}); msErr != nil {
+			logger.Errorf(ctx, "notificationRepo.CreateBatch error creating Meilisearch index: %v", msErr)
+		}
+	}
+
 	return results, nil
 }
 
@@ -280,7 +310,17 @@ func (r *notificationRepository) DeleteBatch(ctx context.Context, ids []string) 
 	}
 
 	// Commit transaction
-	return tx.Commit()
+	if err := tx.Commit(); err != nil {
+		return err
+	}
+
+	for _, id := range ids {
+		if msErr := r.data.DeleteDocument(ctx, "realtime_notifications", id); msErr != nil {
+			logger.Errorf(ctx, "notificationRepo.DeleteBatch error deleting Meilisearch index: %v", msErr)
+		}
+	}
+
+	return nil
 }
 
 // UpdateStatusBatch updates status for multiple notifications of a user

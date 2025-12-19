@@ -15,6 +15,8 @@ import (
 	"github.com/ncobase/ncore/types"
 	"github.com/ncobase/ncore/utils/convert"
 	"github.com/ncobase/ncore/validation/validator"
+
+	"github.com/ncobase/ncore/data/search"
 )
 
 // OrganizationRepositoryInterface represents the organization repository interface.
@@ -35,6 +37,7 @@ type OrganizationRepositoryInterface interface {
 
 // organizationRepository implements the OrganizationRepositoryInterface.
 type organizationRepository struct {
+	data              *data.Data
 	ec                *ent.Client
 	organizationCache cache.ICache[ent.Organization]
 	slugMappingCache  cache.ICache[string] // Maps slug to organization ID
@@ -46,6 +49,7 @@ func NewOrganizationRepository(d *data.Data) OrganizationRepositoryInterface {
 	redisClient := d.GetRedis()
 
 	return &organizationRepository{
+		data:              d,
 		ec:                d.GetMasterEntClient(),
 		organizationCache: cache.NewCache[ent.Organization](redisClient, "ncse_organization:organizations"),
 		slugMappingCache:  cache.NewCache[string](redisClient, "ncse_organization:organization_mappings"),
@@ -76,6 +80,11 @@ func (r *organizationRepository) Create(ctx context.Context, body *structs.Creat
 	if err != nil {
 		logger.Errorf(ctx, "organizationRepo.Create error: %v", err)
 		return nil, err
+	}
+
+	// Index in Meilisearch
+	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "organizations", Document: organization}); err != nil {
+		logger.Errorf(ctx, "organizationRepo.Create error creating Meilisearch index: %v", err)
 	}
 
 	// Cache the organization
@@ -191,6 +200,11 @@ func (r *organizationRepository) Update(ctx context.Context, slug string, update
 	if err != nil {
 		logger.Errorf(ctx, "organizationRepo.Update error: %v", err)
 		return nil, err
+	}
+
+	// Update Meilisearch index
+	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "organizations", Document: updatedOrganization, DocumentID: updatedOrganization.ID}); err != nil {
+		logger.Errorf(ctx, "organizationRepo.Update error updating Meilisearch index: %v", err)
 	}
 
 	// Invalidate and re-cache
@@ -311,6 +325,11 @@ func (r *organizationRepository) Delete(ctx context.Context, slug string) error 
 	if _, err = builder.Where(organizationEnt.IDEQ(organization.ID)).Exec(ctx); err != nil {
 		logger.Errorf(ctx, "organizationRepo.Delete error: %v", err)
 		return err
+	}
+
+	// Delete from Meilisearch
+	if err = r.data.DeleteDocument(ctx, "organizations", organization.ID); err != nil {
+		logger.Errorf(ctx, "organizationRepo.Delete error deleting Meilisearch index: %v", err)
 	}
 
 	// Invalidate cache

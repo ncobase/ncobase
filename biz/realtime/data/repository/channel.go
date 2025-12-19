@@ -16,6 +16,8 @@ import (
 	"github.com/ncobase/ncore/validation/validator"
 
 	"github.com/redis/go-redis/v9"
+
+	"github.com/ncobase/ncore/data/search"
 )
 
 // ChannelRepositoryInterface defines channel repository operations
@@ -39,16 +41,18 @@ type ChannelRepositoryInterface interface {
 }
 
 type channelRepository struct {
-	ec *ent.Client
-	rc *redis.Client
-	c  *cache.Cache[ent.RTChannel]
+	data *data.Data
+	ec   *ent.Client
+	rc   *redis.Client
+	c    *cache.Cache[ent.RTChannel]
 }
 
 func NewChannelRepository(d *data.Data) ChannelRepositoryInterface {
 	return &channelRepository{
-		ec: d.GetMasterEntClient(),
-		rc: d.GetRedis(),
-		c:  cache.NewCache[ent.RTChannel](d.GetRedis(), "rt_channel"),
+		data: d,
+		ec:   d.GetMasterEntClient(),
+		rc:   d.GetRedis(),
+		c:    cache.NewCache[ent.RTChannel](d.GetRedis(), "rt_channel"),
 	}
 }
 
@@ -59,6 +63,12 @@ func (r *channelRepository) Create(ctx context.Context, channel *ent.RTChannelCr
 		logger.Errorf(ctx, "channelRepo.Create error: %v", err)
 		return nil, err
 	}
+
+	// Index in Meilisearch
+	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "realtime_channels", Document: row}); err != nil {
+		logger.Errorf(ctx, "channelRepo.Create error creating Meilisearch index: %v", err)
+	}
+
 	return row, nil
 }
 
@@ -103,6 +113,11 @@ func (r *channelRepository) Update(ctx context.Context, id string, channel *ent.
 		return nil, err
 	}
 
+	// Update Meilisearch index
+	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "realtime_channels", Document: row, DocumentID: row.ID}); err != nil {
+		logger.Errorf(ctx, "channelRepo.Update error updating Meilisearch index: %v", err)
+	}
+
 	cacheKey := fmt.Sprintf("channel:%s", id)
 	if err := r.c.Delete(ctx, cacheKey); err != nil {
 		logger.Warnf(ctx, "Failed to delete channel cache: %v", err)
@@ -144,6 +159,11 @@ func (r *channelRepository) Delete(ctx context.Context, id string) error {
 	// Commit transaction
 	if err := tx.Commit(); err != nil {
 		return err
+	}
+
+	// Delete from Meilisearch
+	if err = r.data.DeleteDocument(ctx, "realtime_channels", id); err != nil {
+		logger.Errorf(ctx, "channelRepo.Delete error deleting Meilisearch index: %v", err)
 	}
 
 	// Clear cache
@@ -291,16 +311,31 @@ func (r *channelRepository) DeleteBatch(ctx context.Context, ids []string) error
 		return err
 	}
 
-	return tx.Commit()
+	if err := tx.Commit(); err != nil {
+		return err
+	}
+
+	// Delete from Meilisearch
+	for _, id := range ids {
+		if msErr := r.data.DeleteDocument(ctx, "realtime_channels", id); msErr != nil {
+			logger.Errorf(ctx, "channelRepo.DeleteBatch error deleting Meilisearch index: %v", msErr)
+		}
+	}
+
+	return nil
 }
 
 // UpdateStatus updates a channel's status
 func (r *channelRepository) UpdateStatus(ctx context.Context, id string, status int) error {
-	err := r.ec.RTChannel.UpdateOneID(id).
+	row, err := r.ec.RTChannel.UpdateOneID(id).
 		SetStatus(status).
-		Exec(ctx)
+		Save(ctx)
 	if err != nil {
 		return err
+	}
+
+	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "realtime_channels", Document: row, DocumentID: row.ID}); err != nil {
+		logger.Errorf(ctx, "channelRepo.UpdateStatus error updating Meilisearch index: %v", err)
 	}
 
 	cacheKey := fmt.Sprintf("channel:%s", id)
@@ -333,7 +368,19 @@ func (r *channelRepository) UpdateStatusBatch(ctx context.Context, ids []string,
 		return err
 	}
 
-	return tx.Commit()
+	if err := tx.Commit(); err != nil {
+		return err
+	}
+
+	for _, id := range ids {
+		if row, err := r.ec.RTChannel.Get(ctx, id); err == nil && row != nil {
+			if msErr := r.data.IndexDocument(ctx, &search.IndexRequest{Index: "realtime_channels", Document: row, DocumentID: row.ID}); msErr != nil {
+				logger.Errorf(ctx, "channelRepo.UpdateStatusBatch error updating Meilisearch index: %v", msErr)
+			}
+		}
+	}
+
+	return nil
 }
 
 // buildQuery creates list builder.

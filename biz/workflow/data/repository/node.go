@@ -9,11 +9,12 @@ import (
 	"ncobase/workflow/structs"
 
 	"github.com/ncobase/ncore/data/databases/cache"
-	"github.com/ncobase/ncore/data/search/meili"
 	"github.com/ncobase/ncore/logging/logger"
 	"github.com/ncobase/ncore/validation/validator"
 
 	"github.com/redis/go-redis/v9"
+
+	"github.com/ncobase/ncore/data/search"
 )
 
 // NodeRelations represents the relations between nodes
@@ -42,21 +43,20 @@ type NodeRepositoryInterface interface {
 }
 
 type nodeRepository struct {
-	ec *ent.Client
-	rc *redis.Client
-	ms *meili.Client
-	c  *cache.Cache[ent.Node]
+	data *data.Data
+	ec   *ent.Client
+	rc   *redis.Client
+	c    *cache.Cache[ent.Node]
 }
 
 func NewNodeRepository(d *data.Data) NodeRepositoryInterface {
 	ec := d.GetMasterEntClient()
 	rc := d.GetRedis()
-	ms := d.GetMeilisearch()
 	return &nodeRepository{
-		ec: ec,
-		rc: rc,
-		ms: ms,
-		c:  cache.NewCache[ent.Node](rc, "workflow_node", false),
+		data: d,
+		ec:   ec,
+		rc:   rc,
+		c:    cache.NewCache[ent.Node](rc, "workflow_node", false),
 	}
 }
 
@@ -123,7 +123,7 @@ func (r *nodeRepository) Create(ctx context.Context, body *structs.NodeBody) (*e
 	}
 
 	// Index in Meilisearch
-	if err = r.ms.IndexDocuments("nodes", row); err != nil {
+	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "nodes", Document: row}); err != nil {
 		logger.Errorf(ctx, "nodeRepo.Create error creating Meilisearch index: %v", err)
 	}
 
@@ -182,12 +182,34 @@ func (r *nodeRepository) Update(ctx context.Context, body *structs.UpdateNodeBod
 		builder.SetExtras(body.Extras)
 	}
 
-	return builder.Save(ctx)
+	row, err := builder.Save(ctx)
+	if err != nil {
+		logger.Errorf(ctx, "nodeRepo.Update error: %v", err)
+		return nil, err
+	}
+
+	// Update Meilisearch index
+	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "nodes", Document: row, DocumentID: row.ID}); err != nil {
+		logger.Errorf(ctx, "nodeRepo.Update error updating Meilisearch index: %v", err)
+	}
+
+	return row, nil
 }
 
 // Delete deletes a node
 func (r *nodeRepository) Delete(ctx context.Context, params *structs.FindNodeParams) error {
 	builder := r.ec.Node.Delete()
+
+	var targetID string
+	if params.NodeKey != "" {
+		query := r.ec.Node.Query().Where(nodeEnt.NodeKeyEQ(params.NodeKey))
+		if params.ProcessID != "" {
+			query = query.Where(nodeEnt.ProcessIDEQ(params.ProcessID))
+		}
+		if row, err := query.First(ctx); err == nil && row != nil {
+			targetID = row.ID
+		}
+	}
 
 	if params.ProcessID != "" {
 		builder.Where(nodeEnt.ProcessIDEQ(params.ProcessID))
@@ -197,7 +219,18 @@ func (r *nodeRepository) Delete(ctx context.Context, params *structs.FindNodePar
 	}
 
 	_, err := builder.Exec(ctx)
-	return err
+	if err != nil {
+		return err
+	}
+
+	// Delete from Meilisearch
+	if targetID != "" {
+		if err = r.data.DeleteDocument(ctx, "nodes", targetID); err != nil {
+			logger.Errorf(ctx, "nodeRepo.Delete error deleting Meilisearch index: %v", err)
+		}
+	}
+
+	return nil
 }
 
 // List returns a list of nodes
@@ -469,9 +502,18 @@ func (r *nodeRepository) ValidateNodeRelations(ctx context.Context, nodeID strin
 
 // UpdateStatus updates the status of a node
 func (r *nodeRepository) UpdateStatus(ctx context.Context, nodeID string, status string) error {
-	return r.ec.Node.UpdateOneID(nodeID).
+	row, err := r.ec.Node.UpdateOneID(nodeID).
 		SetStatus(status).
-		Exec(ctx)
+		Save(ctx)
+	if err != nil {
+		return err
+	}
+
+	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "nodes", Document: row, DocumentID: row.ID}); err != nil {
+		logger.Errorf(ctx, "nodeRepo.UpdateStatus error updating Meilisearch index: %v", err)
+	}
+
+	return nil
 }
 
 // GetNodesByProcessID returns all nodes for a specific process

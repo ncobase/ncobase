@@ -10,7 +10,6 @@ import (
 
 	"github.com/ncobase/ncore/data/databases/cache"
 	"github.com/ncobase/ncore/data/paging"
-	"github.com/ncobase/ncore/data/search/meili"
 	"github.com/ncobase/ncore/logging/logger"
 	"github.com/ncobase/ncore/types"
 	"github.com/ncobase/ncore/utils/convert"
@@ -18,6 +17,8 @@ import (
 	"github.com/ncobase/ncore/validation/validator"
 
 	"github.com/redis/go-redis/v9"
+
+	"github.com/ncobase/ncore/data/search"
 )
 
 // CounterRepositoryInterface represents the counter repository interface.
@@ -35,18 +36,22 @@ type CounterRepositoryInterface interface {
 
 // counterRepository implements the CounterRepositoryInterface.
 type counterRepository struct {
-	ec *ent.Client
-	rc *redis.Client
-	ms *meili.Client
-	c  *cache.Cache[ent.Counter]
+	data *data.Data
+	ec   *ent.Client
+	rc   *redis.Client
+	c    *cache.Cache[ent.Counter]
 }
 
 // NewCounterRepository creates a new counter repository.
 func NewCounterRepository(d *data.Data) CounterRepositoryInterface {
 	ec := d.GetMasterEntClient()
 	rc := d.GetRedis()
-	ms := d.GetMeilisearch()
-	return &counterRepository{ec, rc, ms, cache.NewCache[ent.Counter](rc, "ncse_counter")}
+	return &counterRepository{
+		data: d,
+		ec:   ec,
+		rc:   rc,
+		c:    cache.NewCache[ent.Counter](rc, "ncse_counter"),
+	}
 }
 
 // Create creates a new counter.
@@ -101,7 +106,7 @@ func (r *counterRepository) Create(ctx context.Context, body *structs.CreateCoun
 	}
 
 	// Create the counter in Meilisearch index
-	if err = r.ms.IndexDocuments("counters", row); err != nil {
+	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "counters", Document: row}); err != nil {
 		logger.Errorf(context.Background(), "counterRepo.Create error creating Meilisearch index: %v", err)
 		// return nil, err
 	}
@@ -210,11 +215,11 @@ func (r *counterRepository) Update(ctx context.Context, slug string, updates typ
 	}
 
 	// Update the counter in Meilisearch index
-	if err = r.ms.DeleteDocuments("counters", slug); err != nil {
+	if err = r.data.DeleteDocument(ctx, "counters", slug); err != nil {
 		logger.Errorf(context.Background(), "counterRepo.Update error deleting Meilisearch index: %v", err)
 		// return nil, err
 	}
-	if err = r.ms.IndexDocuments("counters", row); err != nil {
+	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "counters", Document: row, DocumentID: row.ID}); err != nil {
 		logger.Errorf(context.Background(), "counterRepo.Update error updating Meilisearch index: %v", err)
 		// return nil, err
 	}
@@ -310,7 +315,7 @@ func (r *counterRepository) Delete(ctx context.Context, slug string) error {
 	}
 
 	// delete from Meilisearch index
-	if err = r.ms.DeleteDocuments("counters", counter.ID); err != nil {
+	if err = r.data.DeleteDocument(ctx, "counters", counter.ID); err != nil {
 		logger.Errorf(context.Background(), "counterRepo.Delete index error: %v", err)
 		// return nil, err
 	}

@@ -164,12 +164,56 @@ var (
 			},
 		},
 	}
+	// NcseUserMfaColumns holds the columns for the "ncse_user_mfa" table.
+	NcseUserMfaColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
+		{Name: "user_id", Type: field.TypeString, Nullable: true, Comment: "user id"},
+		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
+		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
+		{Name: "enabled", Type: field.TypeBool, Comment: "Whether MFA is enabled for the user", Default: false},
+		{Name: "totp_secret", Type: field.TypeString, Nullable: true, Comment: "Encrypted TOTP secret"},
+		{Name: "verified_at", Type: field.TypeInt64, Nullable: true, Comment: "TOTP verified timestamp"},
+		{Name: "last_used_at", Type: field.TypeInt64, Nullable: true, Comment: "Last successful MFA timestamp"},
+		{Name: "recovery_code_hashes", Type: field.TypeJSON, Nullable: true, Comment: "SHA-256 hashes of recovery codes"},
+		{Name: "recovery_codes_generated_at", Type: field.TypeInt64, Nullable: true, Comment: "Recovery codes generation timestamp"},
+		{Name: "failed_attempts", Type: field.TypeInt, Comment: "Consecutive failed verification attempts", Default: 0},
+		{Name: "locked_until", Type: field.TypeInt64, Nullable: true, Comment: "MFA verification lock timestamp"},
+	}
+	// NcseUserMfaTable holds the schema information for the "ncse_user_mfa" table.
+	NcseUserMfaTable = &schema.Table{
+		Name:       "ncse_user_mfa",
+		Columns:    NcseUserMfaColumns,
+		PrimaryKey: []*schema.Column{NcseUserMfaColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "usermfa_id",
+				Unique:  true,
+				Columns: []*schema.Column{NcseUserMfaColumns[0]},
+			},
+			{
+				Name:    "usermfa_user_id",
+				Unique:  false,
+				Columns: []*schema.Column{NcseUserMfaColumns[1]},
+			},
+			{
+				Name:    "usermfa_id_created_at",
+				Unique:  true,
+				Columns: []*schema.Column{NcseUserMfaColumns[0], NcseUserMfaColumns[2]},
+			},
+			{
+				Name:    "usermfa_enabled",
+				Unique:  false,
+				Columns: []*schema.Column{NcseUserMfaColumns[4]},
+			},
+		},
+	}
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
 		NcseAuthTokenTable,
 		NcseCodeAuthTable,
 		NcseOauthUserTable,
 		NcseUserSessionTable,
+		NcseUserMfaTable,
 	}
 )
 
@@ -185,5 +229,8 @@ func init() {
 	}
 	NcseUserSessionTable.Annotation = &entsql.Annotation{
 		Table: "ncse_user_session",
+	}
+	NcseUserMfaTable.Annotation = &entsql.Annotation{
+		Table: "ncse_user_mfa",
 	}
 }

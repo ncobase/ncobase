@@ -160,6 +160,24 @@ func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 		options.DELETE("/:option", middleware.HasPermission("manage:system"), m.h.Option.Delete)
 		options.DELETE("/prefix", middleware.HasPermission("manage:system"), m.h.Option.DeleteByPrefix)
 	}
+
+	// Admin endpoints - requires admin permission
+	admin := sysGroup.Group("/admin", middleware.HasPermission("admin:system"))
+	{
+		admin.GET("/health", m.h.Admin.GetSystemHealth)
+		admin.GET("/metrics", m.h.Admin.GetSystemMetrics)
+		admin.GET("/logs", m.h.Admin.GetSystemLogs)
+
+		admin.GET("/config", m.h.Admin.GetSystemConfig)
+		admin.PUT("/config", m.h.Admin.UpdateSystemConfig)
+
+		admin.GET("/dashboard/stats", m.h.Admin.GetDashboardStats)
+		admin.GET("/activity", m.h.Admin.GetUserActivity)
+
+		admin.GET("/users", m.h.Admin.ManageUsers)
+		admin.GET("/users/:user_id", m.h.Admin.GetUserDetails)
+		admin.PUT("/users/:user_id/status", m.h.Admin.UpdateUserStatus)
+	}
 }
 
 // GetHandlers returns the handlers for the module

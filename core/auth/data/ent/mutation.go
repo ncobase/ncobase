@@ -11,6 +11,7 @@ import (
 	"ncobase/auth/data/ent/oauthuser"
 	"ncobase/auth/data/ent/predicate"
 	"ncobase/auth/data/ent/session"
+	"ncobase/auth/data/ent/usermfa"
 	"sync"
 
 	"entgo.io/ent"
@@ -30,6 +31,7 @@ const (
 	TypeCodeAuth  = "CodeAuth"
 	TypeOAuthUser = "OAuthUser"
 	TypeSession   = "Session"
+	TypeUserMFA   = "UserMFA"
 )
 
 // AuthTokenMutation represents an operation that mutates the AuthToken nodes in the graph.
@@ -3420,4 +3422,1307 @@ func (m *SessionMutation) ClearEdge(name string) error {
 // It returns an error if the edge is not defined in the schema.
 func (m *SessionMutation) ResetEdge(name string) error {
 	return fmt.Errorf("unknown Session edge %s", name)
+}
+
+// UserMFAMutation represents an operation that mutates the UserMFA nodes in the graph.
+type UserMFAMutation struct {
+	config
+	op                             Op
+	typ                            string
+	id                             *string
+	user_id                        *string
+	created_at                     *int64
+	addcreated_at                  *int64
+	updated_at                     *int64
+	addupdated_at                  *int64
+	enabled                        *bool
+	totp_secret                    *string
+	verified_at                    *int64
+	addverified_at                 *int64
+	last_used_at                   *int64
+	addlast_used_at                *int64
+	recovery_code_hashes           *[]string
+	appendrecovery_code_hashes     []string
+	recovery_codes_generated_at    *int64
+	addrecovery_codes_generated_at *int64
+	failed_attempts                *int
+	addfailed_attempts             *int
+	locked_until                   *int64
+	addlocked_until                *int64
+	clearedFields                  map[string]struct{}
+	done                           bool
+	oldValue                       func(context.Context) (*UserMFA, error)
+	predicates                     []predicate.UserMFA
+}
+
+var _ ent.Mutation = (*UserMFAMutation)(nil)
+
+// usermfaOption allows management of the mutation configuration using functional options.
+type usermfaOption func(*UserMFAMutation)
+
+// newUserMFAMutation creates new mutation for the UserMFA entity.
+func newUserMFAMutation(c config, op Op, opts ...usermfaOption) *UserMFAMutation {
+	m := &UserMFAMutation{
+		config:        c,
+		op:            op,
+		typ:           TypeUserMFA,
+		clearedFields: make(map[string]struct{}),
+	}
+	for _, opt := range opts {
+		opt(m)
+	}
+	return m
+}
+
+// withUserMFAID sets the ID field of the mutation.
+func withUserMFAID(id string) usermfaOption {
+	return func(m *UserMFAMutation) {
+		var (
+			err   error
+			once  sync.Once
+			value *UserMFA
+		)
+		m.oldValue = func(ctx context.Context) (*UserMFA, error) {
+			once.Do(func() {
+				if m.done {
+					err = errors.New("querying old values post mutation is not allowed")
+				} else {
+					value, err = m.Client().UserMFA.Get(ctx, id)
+				}
+			})
+			return value, err
+		}
+		m.id = &id
+	}
+}
+
+// withUserMFA sets the old UserMFA of the mutation.
+func withUserMFA(node *UserMFA) usermfaOption {
+	return func(m *UserMFAMutation) {
+		m.oldValue = func(context.Context) (*UserMFA, error) {
+			return node, nil
+		}
+		m.id = &node.ID
+	}
+}
+
+// Client returns a new `ent.Client` from the mutation. If the mutation was
+// executed in a transaction (ent.Tx), a transactional client is returned.
+func (m UserMFAMutation) Client() *Client {
+	client := &Client{config: m.config}
+	client.init()
+	return client
+}
+
+// Tx returns an `ent.Tx` for mutations that were executed in transactions;
+// it returns an error otherwise.
+func (m UserMFAMutation) Tx() (*Tx, error) {
+	if _, ok := m.driver.(*txDriver); !ok {
+		return nil, errors.New("ent: mutation is not running in a transaction")
+	}
+	tx := &Tx{config: m.config}
+	tx.init()
+	return tx, nil
+}
+
+// SetID sets the value of the id field. Note that this
+// operation is only accepted on creation of UserMFA entities.
+func (m *UserMFAMutation) SetID(id string) {
+	m.id = &id
+}
+
+// ID returns the ID value in the mutation. Note that the ID is only available
+// if it was provided to the builder or after it was returned from the database.
+func (m *UserMFAMutation) ID() (id string, exists bool) {
+	if m.id == nil {
+		return
+	}
+	return *m.id, true
+}
+
+// IDs queries the database and returns the entity ids that match the mutation's predicate.
+// That means, if the mutation is applied within a transaction with an isolation level such
+// as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
+// or updated by the mutation.
+func (m *UserMFAMutation) IDs(ctx context.Context) ([]string, error) {
+	switch {
+	case m.op.Is(OpUpdateOne | OpDeleteOne):
+		id, exists := m.ID()
+		if exists {
+			return []string{id}, nil
+		}
+		fallthrough
+	case m.op.Is(OpUpdate | OpDelete):
+		return m.Client().UserMFA.Query().Where(m.predicates...).IDs(ctx)
+	default:
+		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
+	}
+}
+
+// SetUserID sets the "user_id" field.
+func (m *UserMFAMutation) SetUserID(s string) {
+	m.user_id = &s
+}
+
+// UserID returns the value of the "user_id" field in the mutation.
+func (m *UserMFAMutation) UserID() (r string, exists bool) {
+	v := m.user_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldUserID returns the old "user_id" field's value of the UserMFA entity.
+// If the UserMFA object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *UserMFAMutation) OldUserID(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldUserID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldUserID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldUserID: %w", err)
+	}
+	return oldValue.UserID, nil
+}
+
+// ClearUserID clears the value of the "user_id" field.
+func (m *UserMFAMutation) ClearUserID() {
+	m.user_id = nil
+	m.clearedFields[usermfa.FieldUserID] = struct{}{}
+}
+
+// UserIDCleared returns if the "user_id" field was cleared in this mutation.
+func (m *UserMFAMutation) UserIDCleared() bool {
+	_, ok := m.clearedFields[usermfa.FieldUserID]
+	return ok
+}
+
+// ResetUserID resets all changes to the "user_id" field.
+func (m *UserMFAMutation) ResetUserID() {
+	m.user_id = nil
+	delete(m.clearedFields, usermfa.FieldUserID)
+}
+
+// SetCreatedAt sets the "created_at" field.
+func (m *UserMFAMutation) SetCreatedAt(i int64) {
+	m.created_at = &i
+	m.addcreated_at = nil
+}
+
+// CreatedAt returns the value of the "created_at" field in the mutation.
+func (m *UserMFAMutation) CreatedAt() (r int64, exists bool) {
+	v := m.created_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCreatedAt returns the old "created_at" field's value of the UserMFA entity.
+// If the UserMFA object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *UserMFAMutation) OldCreatedAt(ctx context.Context) (v int64, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCreatedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCreatedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCreatedAt: %w", err)
+	}
+	return oldValue.CreatedAt, nil
+}
+
+// AddCreatedAt adds i to the "created_at" field.
+func (m *UserMFAMutation) AddCreatedAt(i int64) {
+	if m.addcreated_at != nil {
+		*m.addcreated_at += i
+	} else {
+		m.addcreated_at = &i
+	}
+}
+
+// AddedCreatedAt returns the value that was added to the "created_at" field in this mutation.
+func (m *UserMFAMutation) AddedCreatedAt() (r int64, exists bool) {
+	v := m.addcreated_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearCreatedAt clears the value of the "created_at" field.
+func (m *UserMFAMutation) ClearCreatedAt() {
+	m.created_at = nil
+	m.addcreated_at = nil
+	m.clearedFields[usermfa.FieldCreatedAt] = struct{}{}
+}
+
+// CreatedAtCleared returns if the "created_at" field was cleared in this mutation.
+func (m *UserMFAMutation) CreatedAtCleared() bool {
+	_, ok := m.clearedFields[usermfa.FieldCreatedAt]
+	return ok
+}
+
+// ResetCreatedAt resets all changes to the "created_at" field.
+func (m *UserMFAMutation) ResetCreatedAt() {
+	m.created_at = nil
+	m.addcreated_at = nil
+	delete(m.clearedFields, usermfa.FieldCreatedAt)
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (m *UserMFAMutation) SetUpdatedAt(i int64) {
+	m.updated_at = &i
+	m.addupdated_at = nil
+}
+
+// UpdatedAt returns the value of the "updated_at" field in the mutation.
+func (m *UserMFAMutation) UpdatedAt() (r int64, exists bool) {
+	v := m.updated_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldUpdatedAt returns the old "updated_at" field's value of the UserMFA entity.
+// If the UserMFA object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *UserMFAMutation) OldUpdatedAt(ctx context.Context) (v int64, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldUpdatedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldUpdatedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldUpdatedAt: %w", err)
+	}
+	return oldValue.UpdatedAt, nil
+}
+
+// AddUpdatedAt adds i to the "updated_at" field.
+func (m *UserMFAMutation) AddUpdatedAt(i int64) {
+	if m.addupdated_at != nil {
+		*m.addupdated_at += i
+	} else {
+		m.addupdated_at = &i
+	}
+}
+
+// AddedUpdatedAt returns the value that was added to the "updated_at" field in this mutation.
+func (m *UserMFAMutation) AddedUpdatedAt() (r int64, exists bool) {
+	v := m.addupdated_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (m *UserMFAMutation) ClearUpdatedAt() {
+	m.updated_at = nil
+	m.addupdated_at = nil
+	m.clearedFields[usermfa.FieldUpdatedAt] = struct{}{}
+}
+
+// UpdatedAtCleared returns if the "updated_at" field was cleared in this mutation.
+func (m *UserMFAMutation) UpdatedAtCleared() bool {
+	_, ok := m.clearedFields[usermfa.FieldUpdatedAt]
+	return ok
+}
+
+// ResetUpdatedAt resets all changes to the "updated_at" field.
+func (m *UserMFAMutation) ResetUpdatedAt() {
+	m.updated_at = nil
+	m.addupdated_at = nil
+	delete(m.clearedFields, usermfa.FieldUpdatedAt)
+}
+
+// SetEnabled sets the "enabled" field.
+func (m *UserMFAMutation) SetEnabled(b bool) {
+	m.enabled = &b
+}
+
+// Enabled returns the value of the "enabled" field in the mutation.
+func (m *UserMFAMutation) Enabled() (r bool, exists bool) {
+	v := m.enabled
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldEnabled returns the old "enabled" field's value of the UserMFA entity.
+// If the UserMFA object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *UserMFAMutation) OldEnabled(ctx context.Context) (v bool, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldEnabled is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldEnabled requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldEnabled: %w", err)
+	}
+	return oldValue.Enabled, nil
+}
+
+// ResetEnabled resets all changes to the "enabled" field.
+func (m *UserMFAMutation) ResetEnabled() {
+	m.enabled = nil
+}
+
+// SetTotpSecret sets the "totp_secret" field.
+func (m *UserMFAMutation) SetTotpSecret(s string) {
+	m.totp_secret = &s
+}
+
+// TotpSecret returns the value of the "totp_secret" field in the mutation.
+func (m *UserMFAMutation) TotpSecret() (r string, exists bool) {
+	v := m.totp_secret
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldTotpSecret returns the old "totp_secret" field's value of the UserMFA entity.
+// If the UserMFA object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *UserMFAMutation) OldTotpSecret(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldTotpSecret is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldTotpSecret requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldTotpSecret: %w", err)
+	}
+	return oldValue.TotpSecret, nil
+}
+
+// ClearTotpSecret clears the value of the "totp_secret" field.
+func (m *UserMFAMutation) ClearTotpSecret() {
+	m.totp_secret = nil
+	m.clearedFields[usermfa.FieldTotpSecret] = struct{}{}
+}
+
+// TotpSecretCleared returns if the "totp_secret" field was cleared in this mutation.
+func (m *UserMFAMutation) TotpSecretCleared() bool {
+	_, ok := m.clearedFields[usermfa.FieldTotpSecret]
+	return ok
+}
+
+// ResetTotpSecret resets all changes to the "totp_secret" field.
+func (m *UserMFAMutation) ResetTotpSecret() {
+	m.totp_secret = nil
+	delete(m.clearedFields, usermfa.FieldTotpSecret)
+}
+
+// SetVerifiedAt sets the "verified_at" field.
+func (m *UserMFAMutation) SetVerifiedAt(i int64) {
+	m.verified_at = &i
+	m.addverified_at = nil
+}
+
+// VerifiedAt returns the value of the "verified_at" field in the mutation.
+func (m *UserMFAMutation) VerifiedAt() (r int64, exists bool) {
+	v := m.verified_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldVerifiedAt returns the old "verified_at" field's value of the UserMFA entity.
+// If the UserMFA object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *UserMFAMutation) OldVerifiedAt(ctx context.Context) (v int64, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldVerifiedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldVerifiedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldVerifiedAt: %w", err)
+	}
+	return oldValue.VerifiedAt, nil
+}
+
+// AddVerifiedAt adds i to the "verified_at" field.
+func (m *UserMFAMutation) AddVerifiedAt(i int64) {
+	if m.addverified_at != nil {
+		*m.addverified_at += i
+	} else {
+		m.addverified_at = &i
+	}
+}
+
+// AddedVerifiedAt returns the value that was added to the "verified_at" field in this mutation.
+func (m *UserMFAMutation) AddedVerifiedAt() (r int64, exists bool) {
+	v := m.addverified_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearVerifiedAt clears the value of the "verified_at" field.
+func (m *UserMFAMutation) ClearVerifiedAt() {
+	m.verified_at = nil
+	m.addverified_at = nil
+	m.clearedFields[usermfa.FieldVerifiedAt] = struct{}{}
+}
+
+// VerifiedAtCleared returns if the "verified_at" field was cleared in this mutation.
+func (m *UserMFAMutation) VerifiedAtCleared() bool {
+	_, ok := m.clearedFields[usermfa.FieldVerifiedAt]
+	return ok
+}
+
+// ResetVerifiedAt resets all changes to the "verified_at" field.
+func (m *UserMFAMutation) ResetVerifiedAt() {
+	m.verified_at = nil
+	m.addverified_at = nil
+	delete(m.clearedFields, usermfa.FieldVerifiedAt)
+}
+
+// SetLastUsedAt sets the "last_used_at" field.
+func (m *UserMFAMutation) SetLastUsedAt(i int64) {
+	m.last_used_at = &i
+	m.addlast_used_at = nil
+}
+
+// LastUsedAt returns the value of the "last_used_at" field in the mutation.
+func (m *UserMFAMutation) LastUsedAt() (r int64, exists bool) {
+	v := m.last_used_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldLastUsedAt returns the old "last_used_at" field's value of the UserMFA entity.
+// If the UserMFA object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *UserMFAMutation) OldLastUsedAt(ctx context.Context) (v int64, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldLastUsedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldLastUsedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldLastUsedAt: %w", err)
+	}
+	return oldValue.LastUsedAt, nil
+}
+
+// AddLastUsedAt adds i to the "last_used_at" field.
+func (m *UserMFAMutation) AddLastUsedAt(i int64) {
+	if m.addlast_used_at != nil {
+		*m.addlast_used_at += i
+	} else {
+		m.addlast_used_at = &i
+	}
+}
+
+// AddedLastUsedAt returns the value that was added to the "last_used_at" field in this mutation.
+func (m *UserMFAMutation) AddedLastUsedAt() (r int64, exists bool) {
+	v := m.addlast_used_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearLastUsedAt clears the value of the "last_used_at" field.
+func (m *UserMFAMutation) ClearLastUsedAt() {
+	m.last_used_at = nil
+	m.addlast_used_at = nil
+	m.clearedFields[usermfa.FieldLastUsedAt] = struct{}{}
+}
+
+// LastUsedAtCleared returns if the "last_used_at" field was cleared in this mutation.
+func (m *UserMFAMutation) LastUsedAtCleared() bool {
+	_, ok := m.clearedFields[usermfa.FieldLastUsedAt]
+	return ok
+}
+
+// ResetLastUsedAt resets all changes to the "last_used_at" field.
+func (m *UserMFAMutation) ResetLastUsedAt() {
+	m.last_used_at = nil
+	m.addlast_used_at = nil
+	delete(m.clearedFields, usermfa.FieldLastUsedAt)
+}
+
+// SetRecoveryCodeHashes sets the "recovery_code_hashes" field.
+func (m *UserMFAMutation) SetRecoveryCodeHashes(s []string) {
+	m.recovery_code_hashes = &s
+	m.appendrecovery_code_hashes = nil
+}
+
+// RecoveryCodeHashes returns the value of the "recovery_code_hashes" field in the mutation.
+func (m *UserMFAMutation) RecoveryCodeHashes() (r []string, exists bool) {
+	v := m.recovery_code_hashes
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldRecoveryCodeHashes returns the old "recovery_code_hashes" field's value of the UserMFA entity.
+// If the UserMFA object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *UserMFAMutation) OldRecoveryCodeHashes(ctx context.Context) (v []string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldRecoveryCodeHashes is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldRecoveryCodeHashes requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldRecoveryCodeHashes: %w", err)
+	}
+	return oldValue.RecoveryCodeHashes, nil
+}
+
+// AppendRecoveryCodeHashes adds s to the "recovery_code_hashes" field.
+func (m *UserMFAMutation) AppendRecoveryCodeHashes(s []string) {
+	m.appendrecovery_code_hashes = append(m.appendrecovery_code_hashes, s...)
+}
+
+// AppendedRecoveryCodeHashes returns the list of values that were appended to the "recovery_code_hashes" field in this mutation.
+func (m *UserMFAMutation) AppendedRecoveryCodeHashes() ([]string, bool) {
+	if len(m.appendrecovery_code_hashes) == 0 {
+		return nil, false
+	}
+	return m.appendrecovery_code_hashes, true
+}
+
+// ClearRecoveryCodeHashes clears the value of the "recovery_code_hashes" field.
+func (m *UserMFAMutation) ClearRecoveryCodeHashes() {
+	m.recovery_code_hashes = nil
+	m.appendrecovery_code_hashes = nil
+	m.clearedFields[usermfa.FieldRecoveryCodeHashes] = struct{}{}
+}
+
+// RecoveryCodeHashesCleared returns if the "recovery_code_hashes" field was cleared in this mutation.
+func (m *UserMFAMutation) RecoveryCodeHashesCleared() bool {
+	_, ok := m.clearedFields[usermfa.FieldRecoveryCodeHashes]
+	return ok
+}
+
+// ResetRecoveryCodeHashes resets all changes to the "recovery_code_hashes" field.
+func (m *UserMFAMutation) ResetRecoveryCodeHashes() {
+	m.recovery_code_hashes = nil
+	m.appendrecovery_code_hashes = nil
+	delete(m.clearedFields, usermfa.FieldRecoveryCodeHashes)
+}
+
+// SetRecoveryCodesGeneratedAt sets the "recovery_codes_generated_at" field.
+func (m *UserMFAMutation) SetRecoveryCodesGeneratedAt(i int64) {
+	m.recovery_codes_generated_at = &i
+	m.addrecovery_codes_generated_at = nil
+}
+
+// RecoveryCodesGeneratedAt returns the value of the "recovery_codes_generated_at" field in the mutation.
+func (m *UserMFAMutation) RecoveryCodesGeneratedAt() (r int64, exists bool) {
+	v := m.recovery_codes_generated_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldRecoveryCodesGeneratedAt returns the old "recovery_codes_generated_at" field's value of the UserMFA entity.
+// If the UserMFA object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *UserMFAMutation) OldRecoveryCodesGeneratedAt(ctx context.Context) (v int64, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldRecoveryCodesGeneratedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldRecoveryCodesGeneratedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldRecoveryCodesGeneratedAt: %w", err)
+	}
+	return oldValue.RecoveryCodesGeneratedAt, nil
+}
+
+// AddRecoveryCodesGeneratedAt adds i to the "recovery_codes_generated_at" field.
+func (m *UserMFAMutation) AddRecoveryCodesGeneratedAt(i int64) {
+	if m.addrecovery_codes_generated_at != nil {
+		*m.addrecovery_codes_generated_at += i
+	} else {
+		m.addrecovery_codes_generated_at = &i
+	}
+}
+
+// AddedRecoveryCodesGeneratedAt returns the value that was added to the "recovery_codes_generated_at" field in this mutation.
+func (m *UserMFAMutation) AddedRecoveryCodesGeneratedAt() (r int64, exists bool) {
+	v := m.addrecovery_codes_generated_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearRecoveryCodesGeneratedAt clears the value of the "recovery_codes_generated_at" field.
+func (m *UserMFAMutation) ClearRecoveryCodesGeneratedAt() {
+	m.recovery_codes_generated_at = nil
+	m.addrecovery_codes_generated_at = nil
+	m.clearedFields[usermfa.FieldRecoveryCodesGeneratedAt] = struct{}{}
+}
+
+// RecoveryCodesGeneratedAtCleared returns if the "recovery_codes_generated_at" field was cleared in this mutation.
+func (m *UserMFAMutation) RecoveryCodesGeneratedAtCleared() bool {
+	_, ok := m.clearedFields[usermfa.FieldRecoveryCodesGeneratedAt]
+	return ok
+}
+
+// ResetRecoveryCodesGeneratedAt resets all changes to the "recovery_codes_generated_at" field.
+func (m *UserMFAMutation) ResetRecoveryCodesGeneratedAt() {
+	m.recovery_codes_generated_at = nil
+	m.addrecovery_codes_generated_at = nil
+	delete(m.clearedFields, usermfa.FieldRecoveryCodesGeneratedAt)
+}
+
+// SetFailedAttempts sets the "failed_attempts" field.
+func (m *UserMFAMutation) SetFailedAttempts(i int) {
+	m.failed_attempts = &i
+	m.addfailed_attempts = nil
+}
+
+// FailedAttempts returns the value of the "failed_attempts" field in the mutation.
+func (m *UserMFAMutation) FailedAttempts() (r int, exists bool) {
+	v := m.failed_attempts
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldFailedAttempts returns the old "failed_attempts" field's value of the UserMFA entity.
+// If the UserMFA object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *UserMFAMutation) OldFailedAttempts(ctx context.Context) (v int, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldFailedAttempts is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldFailedAttempts requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldFailedAttempts: %w", err)
+	}
+	return oldValue.FailedAttempts, nil
+}
+
+// AddFailedAttempts adds i to the "failed_attempts" field.
+func (m *UserMFAMutation) AddFailedAttempts(i int) {
+	if m.addfailed_attempts != nil {
+		*m.addfailed_attempts += i
+	} else {
+		m.addfailed_attempts = &i
+	}
+}
+
+// AddedFailedAttempts returns the value that was added to the "failed_attempts" field in this mutation.
+func (m *UserMFAMutation) AddedFailedAttempts() (r int, exists bool) {
+	v := m.addfailed_attempts
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetFailedAttempts resets all changes to the "failed_attempts" field.
+func (m *UserMFAMutation) ResetFailedAttempts() {
+	m.failed_attempts = nil
+	m.addfailed_attempts = nil
+}
+
+// SetLockedUntil sets the "locked_until" field.
+func (m *UserMFAMutation) SetLockedUntil(i int64) {
+	m.locked_until = &i
+	m.addlocked_until = nil
+}
+
+// LockedUntil returns the value of the "locked_until" field in the mutation.
+func (m *UserMFAMutation) LockedUntil() (r int64, exists bool) {
+	v := m.locked_until
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldLockedUntil returns the old "locked_until" field's value of the UserMFA entity.
+// If the UserMFA object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *UserMFAMutation) OldLockedUntil(ctx context.Context) (v int64, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldLockedUntil is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldLockedUntil requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldLockedUntil: %w", err)
+	}
+	return oldValue.LockedUntil, nil
+}
+
+// AddLockedUntil adds i to the "locked_until" field.
+func (m *UserMFAMutation) AddLockedUntil(i int64) {
+	if m.addlocked_until != nil {
+		*m.addlocked_until += i
+	} else {
+		m.addlocked_until = &i
+	}
+}
+
+// AddedLockedUntil returns the value that was added to the "locked_until" field in this mutation.
+func (m *UserMFAMutation) AddedLockedUntil() (r int64, exists bool) {
+	v := m.addlocked_until
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearLockedUntil clears the value of the "locked_until" field.
+func (m *UserMFAMutation) ClearLockedUntil() {
+	m.locked_until = nil
+	m.addlocked_until = nil
+	m.clearedFields[usermfa.FieldLockedUntil] = struct{}{}
+}
+
+// LockedUntilCleared returns if the "locked_until" field was cleared in this mutation.
+func (m *UserMFAMutation) LockedUntilCleared() bool {
+	_, ok := m.clearedFields[usermfa.FieldLockedUntil]
+	return ok
+}
+
+// ResetLockedUntil resets all changes to the "locked_until" field.
+func (m *UserMFAMutation) ResetLockedUntil() {
+	m.locked_until = nil
+	m.addlocked_until = nil
+	delete(m.clearedFields, usermfa.FieldLockedUntil)
+}
+
+// Where appends a list predicates to the UserMFAMutation builder.
+func (m *UserMFAMutation) Where(ps ...predicate.UserMFA) {
+	m.predicates = append(m.predicates, ps...)
+}
+
+// WhereP appends storage-level predicates to the UserMFAMutation builder. Using this method,
+// users can use type-assertion to append predicates that do not depend on any generated package.
+func (m *UserMFAMutation) WhereP(ps ...func(*sql.Selector)) {
+	p := make([]predicate.UserMFA, len(ps))
+	for i := range ps {
+		p[i] = ps[i]
+	}
+	m.Where(p...)
+}
+
+// Op returns the operation name.
+func (m *UserMFAMutation) Op() Op {
+	return m.op
+}
+
+// SetOp allows setting the mutation operation.
+func (m *UserMFAMutation) SetOp(op Op) {
+	m.op = op
+}
+
+// Type returns the node type of this mutation (UserMFA).
+func (m *UserMFAMutation) Type() string {
+	return m.typ
+}
+
+// Fields returns all fields that were changed during this mutation. Note that in
+// order to get all numeric fields that were incremented/decremented, call
+// AddedFields().
+func (m *UserMFAMutation) Fields() []string {
+	fields := make([]string, 0, 11)
+	if m.user_id != nil {
+		fields = append(fields, usermfa.FieldUserID)
+	}
+	if m.created_at != nil {
+		fields = append(fields, usermfa.FieldCreatedAt)
+	}
+	if m.updated_at != nil {
+		fields = append(fields, usermfa.FieldUpdatedAt)
+	}
+	if m.enabled != nil {
+		fields = append(fields, usermfa.FieldEnabled)
+	}
+	if m.totp_secret != nil {
+		fields = append(fields, usermfa.FieldTotpSecret)
+	}
+	if m.verified_at != nil {
+		fields = append(fields, usermfa.FieldVerifiedAt)
+	}
+	if m.last_used_at != nil {
+		fields = append(fields, usermfa.FieldLastUsedAt)
+	}
+	if m.recovery_code_hashes != nil {
+		fields = append(fields, usermfa.FieldRecoveryCodeHashes)
+	}
+	if m.recovery_codes_generated_at != nil {
+		fields = append(fields, usermfa.FieldRecoveryCodesGeneratedAt)
+	}
+	if m.failed_attempts != nil {
+		fields = append(fields, usermfa.FieldFailedAttempts)
+	}
+	if m.locked_until != nil {
+		fields = append(fields, usermfa.FieldLockedUntil)
+	}
+	return fields
+}
+
+// Field returns the value of a field with the given name. The second boolean
+// return value indicates that this field was not set, or was not defined in the
+// schema.
+func (m *UserMFAMutation) Field(name string) (ent.Value, bool) {
+	switch name {
+	case usermfa.FieldUserID:
+		return m.UserID()
+	case usermfa.FieldCreatedAt:
+		return m.CreatedAt()
+	case usermfa.FieldUpdatedAt:
+		return m.UpdatedAt()
+	case usermfa.FieldEnabled:
+		return m.Enabled()
+	case usermfa.FieldTotpSecret:
+		return m.TotpSecret()
+	case usermfa.FieldVerifiedAt:
+		return m.VerifiedAt()
+	case usermfa.FieldLastUsedAt:
+		return m.LastUsedAt()
+	case usermfa.FieldRecoveryCodeHashes:
+		return m.RecoveryCodeHashes()
+	case usermfa.FieldRecoveryCodesGeneratedAt:
+		return m.RecoveryCodesGeneratedAt()
+	case usermfa.FieldFailedAttempts:
+		return m.FailedAttempts()
+	case usermfa.FieldLockedUntil:
+		return m.LockedUntil()
+	}
+	return nil, false
+}
+
+// OldField returns the old value of the field from the database. An error is
+// returned if the mutation operation is not UpdateOne, or the query to the
+// database failed.
+func (m *UserMFAMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
+	switch name {
+	case usermfa.FieldUserID:
+		return m.OldUserID(ctx)
+	case usermfa.FieldCreatedAt:
+		return m.OldCreatedAt(ctx)
+	case usermfa.FieldUpdatedAt:
+		return m.OldUpdatedAt(ctx)
+	case usermfa.FieldEnabled:
+		return m.OldEnabled(ctx)
+	case usermfa.FieldTotpSecret:
+		return m.OldTotpSecret(ctx)
+	case usermfa.FieldVerifiedAt:
+		return m.OldVerifiedAt(ctx)
+	case usermfa.FieldLastUsedAt:
+		return m.OldLastUsedAt(ctx)
+	case usermfa.FieldRecoveryCodeHashes:
+		return m.OldRecoveryCodeHashes(ctx)
+	case usermfa.FieldRecoveryCodesGeneratedAt:
+		return m.OldRecoveryCodesGeneratedAt(ctx)
+	case usermfa.FieldFailedAttempts:
+		return m.OldFailedAttempts(ctx)
+	case usermfa.FieldLockedUntil:
+		return m.OldLockedUntil(ctx)
+	}
+	return nil, fmt.Errorf("unknown UserMFA field %s", name)
+}
+
+// SetField sets the value of a field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *UserMFAMutation) SetField(name string, value ent.Value) error {
+	switch name {
+	case usermfa.FieldUserID:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetUserID(v)
+		return nil
+	case usermfa.FieldCreatedAt:
+		v, ok := value.(int64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCreatedAt(v)
+		return nil
+	case usermfa.FieldUpdatedAt:
+		v, ok := value.(int64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetUpdatedAt(v)
+		return nil
+	case usermfa.FieldEnabled:
+		v, ok := value.(bool)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetEnabled(v)
+		return nil
+	case usermfa.FieldTotpSecret:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetTotpSecret(v)
+		return nil
+	case usermfa.FieldVerifiedAt:
+		v, ok := value.(int64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetVerifiedAt(v)
+		return nil
+	case usermfa.FieldLastUsedAt:
+		v, ok := value.(int64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetLastUsedAt(v)
+		return nil
+	case usermfa.FieldRecoveryCodeHashes:
+		v, ok := value.([]string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetRecoveryCodeHashes(v)
+		return nil
+	case usermfa.FieldRecoveryCodesGeneratedAt:
+		v, ok := value.(int64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetRecoveryCodesGeneratedAt(v)
+		return nil
+	case usermfa.FieldFailedAttempts:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetFailedAttempts(v)
+		return nil
+	case usermfa.FieldLockedUntil:
+		v, ok := value.(int64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetLockedUntil(v)
+		return nil
+	}
+	return fmt.Errorf("unknown UserMFA field %s", name)
+}
+
+// AddedFields returns all numeric fields that were incremented/decremented during
+// this mutation.
+func (m *UserMFAMutation) AddedFields() []string {
+	var fields []string
+	if m.addcreated_at != nil {
+		fields = append(fields, usermfa.FieldCreatedAt)
+	}
+	if m.addupdated_at != nil {
+		fields = append(fields, usermfa.FieldUpdatedAt)
+	}
+	if m.addverified_at != nil {
+		fields = append(fields, usermfa.FieldVerifiedAt)
+	}
+	if m.addlast_used_at != nil {
+		fields = append(fields, usermfa.FieldLastUsedAt)
+	}
+	if m.addrecovery_codes_generated_at != nil {
+		fields = append(fields, usermfa.FieldRecoveryCodesGeneratedAt)
+	}
+	if m.addfailed_attempts != nil {
+		fields = append(fields, usermfa.FieldFailedAttempts)
+	}
+	if m.addlocked_until != nil {
+		fields = append(fields, usermfa.FieldLockedUntil)
+	}
+	return fields
+}
+
+// AddedField returns the numeric value that was incremented/decremented on a field
+// with the given name. The second boolean return value indicates that this field
+// was not set, or was not defined in the schema.
+func (m *UserMFAMutation) AddedField(name string) (ent.Value, bool) {
+	switch name {
+	case usermfa.FieldCreatedAt:
+		return m.AddedCreatedAt()
+	case usermfa.FieldUpdatedAt:
+		return m.AddedUpdatedAt()
+	case usermfa.FieldVerifiedAt:
+		return m.AddedVerifiedAt()
+	case usermfa.FieldLastUsedAt:
+		return m.AddedLastUsedAt()
+	case usermfa.FieldRecoveryCodesGeneratedAt:
+		return m.AddedRecoveryCodesGeneratedAt()
+	case usermfa.FieldFailedAttempts:
+		return m.AddedFailedAttempts()
+	case usermfa.FieldLockedUntil:
+		return m.AddedLockedUntil()
+	}
+	return nil, false
+}
+
+// AddField adds the value to the field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *UserMFAMutation) AddField(name string, value ent.Value) error {
+	switch name {
+	case usermfa.FieldCreatedAt:
+		v, ok := value.(int64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddCreatedAt(v)
+		return nil
+	case usermfa.FieldUpdatedAt:
+		v, ok := value.(int64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddUpdatedAt(v)
+		return nil
+	case usermfa.FieldVerifiedAt:
+		v, ok := value.(int64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddVerifiedAt(v)
+		return nil
+	case usermfa.FieldLastUsedAt:
+		v, ok := value.(int64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddLastUsedAt(v)
+		return nil
+	case usermfa.FieldRecoveryCodesGeneratedAt:
+		v, ok := value.(int64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddRecoveryCodesGeneratedAt(v)
+		return nil
+	case usermfa.FieldFailedAttempts:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddFailedAttempts(v)
+		return nil
+	case usermfa.FieldLockedUntil:
+		v, ok := value.(int64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddLockedUntil(v)
+		return nil
+	}
+	return fmt.Errorf("unknown UserMFA numeric field %s", name)
+}
+
+// ClearedFields returns all nullable fields that were cleared during this
+// mutation.
+func (m *UserMFAMutation) ClearedFields() []string {
+	var fields []string
+	if m.FieldCleared(usermfa.FieldUserID) {
+		fields = append(fields, usermfa.FieldUserID)
+	}
+	if m.FieldCleared(usermfa.FieldCreatedAt) {
+		fields = append(fields, usermfa.FieldCreatedAt)
+	}
+	if m.FieldCleared(usermfa.FieldUpdatedAt) {
+		fields = append(fields, usermfa.FieldUpdatedAt)
+	}
+	if m.FieldCleared(usermfa.FieldTotpSecret) {
+		fields = append(fields, usermfa.FieldTotpSecret)
+	}
+	if m.FieldCleared(usermfa.FieldVerifiedAt) {
+		fields = append(fields, usermfa.FieldVerifiedAt)
+	}
+	if m.FieldCleared(usermfa.FieldLastUsedAt) {
+		fields = append(fields, usermfa.FieldLastUsedAt)
+	}
+	if m.FieldCleared(usermfa.FieldRecoveryCodeHashes) {
+		fields = append(fields, usermfa.FieldRecoveryCodeHashes)
+	}
+	if m.FieldCleared(usermfa.FieldRecoveryCodesGeneratedAt) {
+		fields = append(fields, usermfa.FieldRecoveryCodesGeneratedAt)
+	}
+	if m.FieldCleared(usermfa.FieldLockedUntil) {
+		fields = append(fields, usermfa.FieldLockedUntil)
+	}
+	return fields
+}
+
+// FieldCleared returns a boolean indicating if a field with the given name was
+// cleared in this mutation.
+func (m *UserMFAMutation) FieldCleared(name string) bool {
+	_, ok := m.clearedFields[name]
+	return ok
+}
+
+// ClearField clears the value of the field with the given name. It returns an
+// error if the field is not defined in the schema.
+func (m *UserMFAMutation) ClearField(name string) error {
+	switch name {
+	case usermfa.FieldUserID:
+		m.ClearUserID()
+		return nil
+	case usermfa.FieldCreatedAt:
+		m.ClearCreatedAt()
+		return nil
+	case usermfa.FieldUpdatedAt:
+		m.ClearUpdatedAt()
+		return nil
+	case usermfa.FieldTotpSecret:
+		m.ClearTotpSecret()
+		return nil
+	case usermfa.FieldVerifiedAt:
+		m.ClearVerifiedAt()
+		return nil
+	case usermfa.FieldLastUsedAt:
+		m.ClearLastUsedAt()
+		return nil
+	case usermfa.FieldRecoveryCodeHashes:
+		m.ClearRecoveryCodeHashes()
+		return nil
+	case usermfa.FieldRecoveryCodesGeneratedAt:
+		m.ClearRecoveryCodesGeneratedAt()
+		return nil
+	case usermfa.FieldLockedUntil:
+		m.ClearLockedUntil()
+		return nil
+	}
+	return fmt.Errorf("unknown UserMFA nullable field %s", name)
+}
+
+// ResetField resets all changes in the mutation for the field with the given name.
+// It returns an error if the field is not defined in the schema.
+func (m *UserMFAMutation) ResetField(name string) error {
+	switch name {
+	case usermfa.FieldUserID:
+		m.ResetUserID()
+		return nil
+	case usermfa.FieldCreatedAt:
+		m.ResetCreatedAt()
+		return nil
+	case usermfa.FieldUpdatedAt:
+		m.ResetUpdatedAt()
+		return nil
+	case usermfa.FieldEnabled:
+		m.ResetEnabled()
+		return nil
+	case usermfa.FieldTotpSecret:
+		m.ResetTotpSecret()
+		return nil
+	case usermfa.FieldVerifiedAt:
+		m.ResetVerifiedAt()
+		return nil
+	case usermfa.FieldLastUsedAt:
+		m.ResetLastUsedAt()
+		return nil
+	case usermfa.FieldRecoveryCodeHashes:
+		m.ResetRecoveryCodeHashes()
+		return nil
+	case usermfa.FieldRecoveryCodesGeneratedAt:
+		m.ResetRecoveryCodesGeneratedAt()
+		return nil
+	case usermfa.FieldFailedAttempts:
+		m.ResetFailedAttempts()
+		return nil
+	case usermfa.FieldLockedUntil:
+		m.ResetLockedUntil()
+		return nil
+	}
+	return fmt.Errorf("unknown UserMFA field %s", name)
+}
+
+// AddedEdges returns all edge names that were set/added in this mutation.
+func (m *UserMFAMutation) AddedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// AddedIDs returns all IDs (to other nodes) that were added for the given edge
+// name in this mutation.
+func (m *UserMFAMutation) AddedIDs(name string) []ent.Value {
+	return nil
+}
+
+// RemovedEdges returns all edge names that were removed in this mutation.
+func (m *UserMFAMutation) RemovedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// RemovedIDs returns all IDs (to other nodes) that were removed for the edge with
+// the given name in this mutation.
+func (m *UserMFAMutation) RemovedIDs(name string) []ent.Value {
+	return nil
+}
+
+// ClearedEdges returns all edge names that were cleared in this mutation.
+func (m *UserMFAMutation) ClearedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// EdgeCleared returns a boolean which indicates if the edge with the given name
+// was cleared in this mutation.
+func (m *UserMFAMutation) EdgeCleared(name string) bool {
+	return false
+}
+
+// ClearEdge clears the value of the edge with the given name. It returns an error
+// if that edge is not defined in the schema.
+func (m *UserMFAMutation) ClearEdge(name string) error {
+	return fmt.Errorf("unknown UserMFA unique edge %s", name)
+}
+
+// ResetEdge resets all changes to the edge with the given name in this mutation.
+// It returns an error if the edge is not defined in the schema.
+func (m *UserMFAMutation) ResetEdge(name string) error {
+	return fmt.Errorf("unknown UserMFA edge %s", name)
 }

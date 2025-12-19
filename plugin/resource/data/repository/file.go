@@ -13,13 +13,14 @@ import (
 	"entgo.io/ent/dialect/sql/sqljson"
 	"github.com/ncobase/ncore/data/databases/cache"
 	"github.com/ncobase/ncore/data/paging"
-	"github.com/ncobase/ncore/data/search/meili"
 	"github.com/ncobase/ncore/logging/logger"
 	"github.com/ncobase/ncore/types"
 	"github.com/ncobase/ncore/utils/nanoid"
 	"github.com/ncobase/ncore/validation/validator"
 
 	"github.com/redis/go-redis/v9"
+
+	"github.com/ncobase/ncore/data/search"
 )
 
 type FileRepositoryInterface interface {
@@ -37,19 +38,24 @@ type FileRepositoryInterface interface {
 }
 
 type fileRepository struct {
-	ec  *ent.Client
-	ecr *ent.Client
-	rc  *redis.Client
-	ms  *meili.Client
-	c   *cache.Cache[ent.File]
+	data *data.Data
+	ec   *ent.Client
+	ecr  *ent.Client
+	rc   *redis.Client
+	c    *cache.Cache[ent.File]
 }
 
 func NewFileRepository(d *data.Data) FileRepositoryInterface {
 	ec := d.GetMasterEntClient()
 	ecr := d.GetSlaveEntClient()
 	rc := d.GetRedis()
-	ms := d.GetMeilisearch()
-	return &fileRepository{ec, ecr, rc, ms, cache.NewCache[ent.File](rc, "ncse_file")}
+	return &fileRepository{
+		data: d,
+		ec:   ec,
+		ecr:  ecr,
+		rc:   rc,
+		c:    cache.NewCache[ent.File](rc, "ncse_file"),
+	}
 }
 
 // Create creates a file with complete field mapping
@@ -161,10 +167,8 @@ func (r *fileRepository) Create(ctx context.Context, body *structs.CreateFileBod
 	}
 
 	// Index in Meilisearch
-	if r.ms != nil {
-		if err = r.ms.IndexDocuments("files", row); err != nil {
-			logger.Errorf(ctx, "fileRepo.Create index error: %v", err)
-		}
+	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "files", Document: row}); err != nil {
+		logger.Errorf(ctx, "fileRepo.Create index error: %v", err)
 	}
 
 	return row, nil
@@ -292,10 +296,8 @@ func (r *fileRepository) Update(ctx context.Context, slug string, updates types.
 	}
 
 	// Update in Meilisearch
-	if r.ms != nil {
-		if err = r.ms.UpdateDocuments("files", row, row.ID); err != nil {
-			logger.Errorf(ctx, "fileRepo.Update index error: %v", err)
-		}
+	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "files", Document: row, DocumentID: row.ID}); err != nil {
+		logger.Errorf(ctx, "fileRepo.Update index error: %v", err)
 	}
 
 	return row, nil
@@ -366,10 +368,8 @@ func (r *fileRepository) Delete(ctx context.Context, slug string) error {
 	}
 
 	// Delete from Meilisearch
-	if r.ms != nil {
-		if err = r.ms.DeleteDocuments("files", file.ID); err != nil {
-			logger.Errorf(ctx, "fileRepo.Delete index error: %v", err)
-		}
+	if err = r.data.DeleteDocument(ctx, "files", file.ID); err != nil {
+		logger.Errorf(ctx, "fileRepo.Delete index error: %v", err)
 	}
 
 	return nil

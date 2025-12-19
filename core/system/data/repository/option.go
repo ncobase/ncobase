@@ -11,10 +11,11 @@ import (
 
 	"github.com/ncobase/ncore/data/databases/cache"
 	"github.com/ncobase/ncore/data/paging"
-	"github.com/ncobase/ncore/data/search/meili"
 	"github.com/ncobase/ncore/logging/logger"
 	"github.com/ncobase/ncore/utils/nanoid"
 	"github.com/ncobase/ncore/validation/validator"
+
+	"github.com/ncobase/ncore/data/search"
 )
 
 // OptionRepositoryInterface represents the option repository interface.
@@ -32,7 +33,6 @@ type OptionRepositoryInterface interface {
 // optionRepository implements the OptionRepositoryInterface.
 type optionRepository struct {
 	data             *data.Data
-	ms               *meili.Client
 	optionsCache     cache.ICache[ent.Options]
 	nameMappingCache cache.ICache[string] // Maps name to option ID
 	optionsTTL       time.Duration
@@ -44,7 +44,6 @@ func NewOptionRepository(d *data.Data) OptionRepositoryInterface {
 
 	return &optionRepository{
 		data:             d,
-		ms:               d.GetMeilisearch(),
 		optionsCache:     cache.NewCache[ent.Options](redisClient, "ncse_system:options"),
 		nameMappingCache: cache.NewCache[string](redisClient, "ncse_system:option_mappings"),
 		optionsTTL:       time.Hour * 6, // 6 hours cache TTL
@@ -79,7 +78,7 @@ func (r *optionRepository) Create(ctx context.Context, body *structs.OptionBody)
 	}
 
 	// Create in Meilisearch index
-	if err = r.ms.IndexDocuments("options", row); err != nil {
+	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "options", Document: row}); err != nil {
 		logger.Errorf(ctx, "optionsRepo.Create error creating Meilisearch index: %v", err)
 	}
 
@@ -151,7 +150,7 @@ func (r *optionRepository) Update(ctx context.Context, body *structs.UpdateOptio
 	}
 
 	// Update Meilisearch index
-	if err = r.ms.UpdateDocuments("options", row, row.ID); err != nil {
+	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "options", Document: row, DocumentID: row.ID}); err != nil {
 		logger.Errorf(ctx, "optionsRepo.Update error updating Meilisearch index: %v", err)
 	}
 
@@ -186,7 +185,7 @@ func (r *optionRepository) Delete(ctx context.Context, params *structs.FindOptio
 	}
 
 	// Delete from Meilisearch index
-	if err = r.ms.DeleteDocuments("options", option.ID); err != nil {
+	if err = r.data.DeleteDocument(ctx, "options", option.ID); err != nil {
 		logger.Errorf(ctx, "optionsRepo.Delete index error: %v", err)
 	}
 

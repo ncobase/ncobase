@@ -11,10 +11,11 @@ import (
 
 	"github.com/ncobase/ncore/data/databases/cache"
 	"github.com/ncobase/ncore/data/paging"
-	"github.com/ncobase/ncore/data/search/meili"
 	"github.com/ncobase/ncore/logging/logger"
 	"github.com/ncobase/ncore/utils/nanoid"
 	"github.com/ncobase/ncore/validation/validator"
+
+	"github.com/ncobase/ncore/data/search"
 )
 
 // MenuRepositoryInterface represents the menu repository interface.
@@ -32,7 +33,6 @@ type MenuRepositoryInterface interface {
 // menuRepository implements the MenuRepositoryInterface.
 type menuRepository struct {
 	data             *data.Data
-	ms               *meili.Client
 	menuCache        cache.ICache[ent.Menu]
 	slugMappingCache cache.ICache[string]     // Maps slug to menu ID
 	menuTreeCache    cache.ICache[[]ent.Menu] // Cache menu trees
@@ -45,7 +45,6 @@ func NewMenuRepository(d *data.Data) MenuRepositoryInterface {
 
 	return &menuRepository{
 		data:             d,
-		ms:               d.GetMeilisearch(),
 		menuCache:        cache.NewCache[ent.Menu](redisClient, "ncse_system:menus"),
 		slugMappingCache: cache.NewCache[string](redisClient, "ncse_system:menu_mappings"),
 		menuTreeCache:    cache.NewCache[[]ent.Menu](redisClient, "ncse_system:menu_trees"),
@@ -109,7 +108,7 @@ func (r *menuRepository) Create(ctx context.Context, body *structs.MenuBody) (*e
 	}
 
 	// Create the menu in Meilisearch index
-	if err = r.ms.IndexDocuments("menus", menu); err != nil {
+	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "menus", Document: menu}); err != nil {
 		logger.Errorf(ctx, "menuRepo.Create error creating Meilisearch index: %v", err)
 	}
 
@@ -262,7 +261,7 @@ func (r *menuRepository) Update(ctx context.Context, body *structs.UpdateMenuBod
 	}
 
 	// Update Meilisearch index
-	if err = r.ms.UpdateDocuments("menus", updatedMenu, updatedMenu.ID); err != nil {
+	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "menus", Document: updatedMenu, DocumentID: updatedMenu.ID}); err != nil {
 		logger.Errorf(ctx, "menuRepo.Update error updating Meilisearch index: %v", err)
 	}
 
@@ -302,7 +301,7 @@ func (r *menuRepository) Delete(ctx context.Context, params *structs.FindMenu) e
 	}
 
 	// Delete from Meilisearch index
-	if err = r.ms.DeleteDocuments("menus", menu.ID); err != nil {
+	if err = r.data.DeleteDocument(ctx, "menus", menu.ID); err != nil {
 		logger.Errorf(ctx, "menuRepo.Delete index error: %v", err)
 	}
 

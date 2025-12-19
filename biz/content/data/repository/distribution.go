@@ -17,6 +17,8 @@ import (
 	"github.com/ncobase/ncore/validation/validator"
 
 	"github.com/redis/go-redis/v9"
+
+	"github.com/ncobase/ncore/data/search"
 )
 
 // DistributionRepositoryInterface represents the distribution repository interface.
@@ -36,10 +38,11 @@ type DistributionRepositoryInterface interface {
 
 // distributionRepository implements the DistributionRepositoryInterface.
 type distributionRepository struct {
-	ec  *ent.Client
-	ecr *ent.Client
-	rc  *redis.Client
-	c   *cache.Cache[ent.Distribution]
+	data *data.Data
+	ec   *ent.Client
+	ecr  *ent.Client
+	rc   *redis.Client
+	c    *cache.Cache[ent.Distribution]
 }
 
 // NewDistributionRepository creates a new distribution repository.
@@ -47,7 +50,13 @@ func NewDistributionRepository(d *data.Data) DistributionRepositoryInterface {
 	ec := d.GetMasterEntClient()
 	ecr := d.GetSlaveEntClient()
 	rc := d.GetRedis()
-	return &distributionRepository{ec, ecr, rc, cache.NewCache[ent.Distribution](rc, "ncse_distribution")}
+	return &distributionRepository{
+		data: d,
+		ec:   ec,
+		ecr:  ecr,
+		rc:   rc,
+		c:    cache.NewCache[ent.Distribution](rc, "ncse_distribution"),
+	}
 }
 
 // Create creates a new distribution.
@@ -82,6 +91,11 @@ func (r *distributionRepository) Create(ctx context.Context, body *structs.Creat
 	if err != nil {
 		logger.Errorf(ctx, "distributionRepo.Create error: %v", err)
 		return nil, err
+	}
+
+	// Index in Meilisearch
+	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "content_distributions", Document: row}); err != nil {
+		logger.Errorf(ctx, "distributionRepo.Create error creating Meilisearch index: %v", err)
 	}
 
 	return row, nil
@@ -156,6 +170,11 @@ func (r *distributionRepository) Update(ctx context.Context, id string, updates 
 	if err != nil {
 		logger.Errorf(ctx, "distributionRepo.Update error: %v", err)
 		return nil, err
+	}
+
+	// Update Meilisearch index
+	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "content_distributions", Document: row, DocumentID: row.ID}); err != nil {
+		logger.Errorf(ctx, "distributionRepo.Update error updating Meilisearch index: %v", err)
 	}
 
 	// remove from cache
@@ -310,6 +329,11 @@ func (r *distributionRepository) Delete(ctx context.Context, id string) error {
 	if err != nil {
 		logger.Errorf(ctx, "distributionRepo.Delete error: %v", err)
 		return err
+	}
+
+	// Delete from Meilisearch
+	if err = r.data.DeleteDocument(ctx, "content_distributions", id); err != nil {
+		logger.Errorf(ctx, "distributionRepo.Delete error deleting Meilisearch index: %v", err)
 	}
 
 	// remove from cache

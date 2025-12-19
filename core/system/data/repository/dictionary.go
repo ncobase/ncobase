@@ -11,10 +11,11 @@ import (
 
 	"github.com/ncobase/ncore/data/databases/cache"
 	"github.com/ncobase/ncore/data/paging"
-	"github.com/ncobase/ncore/data/search/meili"
 	"github.com/ncobase/ncore/logging/logger"
 	"github.com/ncobase/ncore/utils/nanoid"
 	"github.com/ncobase/ncore/validation/validator"
+
+	"github.com/ncobase/ncore/data/search"
 )
 
 // DictionaryRepositoryInterface represents the dictionary repository interface.
@@ -30,7 +31,6 @@ type DictionaryRepositoryInterface interface {
 // dictionaryRepository implements the DictionaryRepositoryInterface.
 type dictionaryRepository struct {
 	data             *data.Data
-	ms               *meili.Client
 	dictionaryCache  cache.ICache[ent.Dictionary]
 	slugMappingCache cache.ICache[string] // Maps slug to dictionary ID
 	dictionaryTTL    time.Duration
@@ -42,7 +42,6 @@ func NewDictionaryRepository(d *data.Data) DictionaryRepositoryInterface {
 
 	return &dictionaryRepository{
 		data:             d,
-		ms:               d.GetMeilisearch(),
 		dictionaryCache:  cache.NewCache[ent.Dictionary](redisClient, "ncse_system:dictionaries"),
 		slugMappingCache: cache.NewCache[string](redisClient, "ncse_system:dict_mappings"),
 		dictionaryTTL:    time.Hour * 4, // 4 hours cache TTL
@@ -81,7 +80,7 @@ func (r *dictionaryRepository) Create(ctx context.Context, body *structs.Diction
 	}
 
 	// Create the dictionary in Meilisearch index
-	if err = r.ms.IndexDocuments("dictionaries", row); err != nil {
+	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "dictionaries", Document: row}); err != nil {
 		logger.Errorf(ctx, "dictionaryRepo.Create error creating Meilisearch index: %v", err)
 	}
 
@@ -157,7 +156,7 @@ func (r *dictionaryRepository) Update(ctx context.Context, body *structs.UpdateD
 	}
 
 	// Update Meilisearch index
-	if err = r.ms.UpdateDocuments("dictionaries", row, row.ID); err != nil {
+	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "dictionaries", Document: row, DocumentID: row.ID}); err != nil {
 		logger.Errorf(ctx, "dictionaryRepo.Update error updating Meilisearch index: %v", err)
 	}
 
@@ -194,7 +193,7 @@ func (r *dictionaryRepository) Delete(ctx context.Context, params *structs.FindD
 	}
 
 	// Delete from Meilisearch index
-	if err = r.ms.DeleteDocuments("dictionaries", dict.ID); err != nil {
+	if err = r.data.DeleteDocument(ctx, "dictionaries", dict.ID); err != nil {
 		logger.Errorf(ctx, "dictionaryRepo.Delete index error: %v", err)
 	}
 

@@ -9,11 +9,12 @@ import (
 	"time"
 
 	"github.com/ncobase/ncore/data/databases/cache"
-	"github.com/ncobase/ncore/data/search/meili"
 	"github.com/ncobase/ncore/logging/logger"
 	"github.com/ncobase/ncore/validation/validator"
 
 	"github.com/redis/go-redis/v9"
+
+	"github.com/ncobase/ncore/data/search"
 )
 
 type DelegationRepositoryInterface interface {
@@ -29,21 +30,20 @@ type DelegationRepositoryInterface interface {
 }
 
 type delegationRepository struct {
-	ec *ent.Client
-	rc *redis.Client
-	ms *meili.Client
-	c  *cache.Cache[ent.Delegation]
+	data *data.Data
+	ec   *ent.Client
+	rc   *redis.Client
+	c    *cache.Cache[ent.Delegation]
 }
 
 func NewDelegationRepository(d *data.Data) DelegationRepositoryInterface {
 	ec := d.GetMasterEntClient()
 	rc := d.GetRedis()
-	ms := d.GetMeilisearch()
 	return &delegationRepository{
-		ec: ec,
-		rc: rc,
-		ms: ms,
-		c:  cache.NewCache[ent.Delegation](rc, "workflow_delegation", false),
+		data: d,
+		ec:   ec,
+		rc:   rc,
+		c:    cache.NewCache[ent.Delegation](rc, "workflow_delegation", false),
 	}
 }
 
@@ -85,7 +85,7 @@ func (r *delegationRepository) Create(ctx context.Context, body *structs.Delegat
 	}
 
 	// Index in Meilisearch
-	if err = r.ms.IndexDocuments("delegations", row); err != nil {
+	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "delegations", Document: row}); err != nil {
 		logger.Errorf(ctx, "delegationRepo.Create error creating Meilisearch index: %v", err)
 	}
 
@@ -152,7 +152,18 @@ func (r *delegationRepository) Update(ctx context.Context, body *structs.UpdateD
 		builder.SetExtras(body.Extras)
 	}
 
-	return builder.Save(ctx)
+	row, err := builder.Save(ctx)
+	if err != nil {
+		logger.Errorf(ctx, "delegationRepo.Update error: %v", err)
+		return nil, err
+	}
+
+	// Update Meilisearch index
+	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "delegations", Document: row, DocumentID: row.ID}); err != nil {
+		logger.Errorf(ctx, "delegationRepo.Update error updating Meilisearch index: %v", err)
+	}
+
+	return row, nil
 }
 
 // List returns a list of delegations
@@ -183,7 +194,16 @@ func (r *delegationRepository) List(ctx context.Context, params *structs.ListDel
 
 // Delete deletes a delegation
 func (r *delegationRepository) Delete(ctx context.Context, id string) error {
-	return r.ec.Delegation.DeleteOneID(id).Exec(ctx)
+	if err := r.ec.Delegation.DeleteOneID(id).Exec(ctx); err != nil {
+		return err
+	}
+
+	// Delete from Meilisearch
+	if err := r.data.DeleteDocument(ctx, "delegations", id); err != nil {
+		logger.Errorf(ctx, "delegationRepo.Delete error deleting Meilisearch index: %v", err)
+	}
+
+	return nil
 }
 
 // EnableDelegation enables a delegation

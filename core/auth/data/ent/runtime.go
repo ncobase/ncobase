@@ -7,6 +7,7 @@ import (
 	"ncobase/auth/data/ent/codeauth"
 	"ncobase/auth/data/ent/oauthuser"
 	"ncobase/auth/data/ent/session"
+	"ncobase/auth/data/ent/usermfa"
 	"ncobase/auth/data/schema"
 )
 
@@ -130,4 +131,35 @@ func init() {
 	session.DefaultID = sessionDescID.Default.(func() string)
 	// session.IDValidator is a validator for the "id" field. It is called by the builders before save.
 	session.IDValidator = sessionDescID.Validators[0].(func(string) error)
+	usermfaMixin := schema.UserMFA{}.Mixin()
+	usermfaMixinFields0 := usermfaMixin[0].Fields()
+	_ = usermfaMixinFields0
+	usermfaMixinFields2 := usermfaMixin[2].Fields()
+	_ = usermfaMixinFields2
+	usermfaFields := schema.UserMFA{}.Fields()
+	_ = usermfaFields
+	// usermfaDescCreatedAt is the schema descriptor for created_at field.
+	usermfaDescCreatedAt := usermfaMixinFields2[0].Descriptor()
+	// usermfa.DefaultCreatedAt holds the default value on creation for the created_at field.
+	usermfa.DefaultCreatedAt = usermfaDescCreatedAt.Default.(func() int64)
+	// usermfaDescUpdatedAt is the schema descriptor for updated_at field.
+	usermfaDescUpdatedAt := usermfaMixinFields2[1].Descriptor()
+	// usermfa.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	usermfa.DefaultUpdatedAt = usermfaDescUpdatedAt.Default.(func() int64)
+	// usermfa.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	usermfa.UpdateDefaultUpdatedAt = usermfaDescUpdatedAt.UpdateDefault.(func() int64)
+	// usermfaDescEnabled is the schema descriptor for enabled field.
+	usermfaDescEnabled := usermfaFields[0].Descriptor()
+	// usermfa.DefaultEnabled holds the default value on creation for the enabled field.
+	usermfa.DefaultEnabled = usermfaDescEnabled.Default.(bool)
+	// usermfaDescFailedAttempts is the schema descriptor for failed_attempts field.
+	usermfaDescFailedAttempts := usermfaFields[6].Descriptor()
+	// usermfa.DefaultFailedAttempts holds the default value on creation for the failed_attempts field.
+	usermfa.DefaultFailedAttempts = usermfaDescFailedAttempts.Default.(int)
+	// usermfaDescID is the schema descriptor for id field.
+	usermfaDescID := usermfaMixinFields0[0].Descriptor()
+	// usermfa.DefaultID holds the default value on creation for the id field.
+	usermfa.DefaultID = usermfaDescID.Default.(func() string)
+	// usermfa.IDValidator is a validator for the "id" field. It is called by the builders before save.
+	usermfa.IDValidator = usermfaDescID.Validators[0].(func(string) error)
 }

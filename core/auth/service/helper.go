@@ -33,6 +33,9 @@ type AuthResponse struct {
 	ExpiresIn    int64       `json:"expires_in,omitempty"`
 	SpaceIDs     []string    `json:"space_ids,omitempty"`
 	DefaultSpace *types.JSON `json:"default_space,omitempty"`
+	MFARequired  bool        `json:"mfa_required,omitempty"`
+	MFAToken     string      `json:"mfa_token,omitempty"`
+	MFAMethods   []string    `json:"mfa_methods,omitempty"`
 }
 
 // GetUserSpacesRolesPermissions retrieves user roles and permissions
@@ -44,6 +47,15 @@ func GetUserSpacesRolesPermissions(
 ) (spaceID string, roleSlugs []string, permissionCodes []string, isAdmin bool, err error) {
 	spaceID = ctxutil.GetSpaceID(ctx)
 	logger.Debugf(ctx, "Getting permissions for user %s, space %s", userID, spaceID)
+
+	// Ensure we have a space context (domain) for space-specific roles and Casbin checks.
+	// Login flow often has no space_id in context yet.
+	if spaceID == "" {
+		if defaultSpace, spaceErr := tsw.GetUserSpace(ctx, userID); spaceErr == nil && defaultSpace != nil {
+			spaceID = defaultSpace.ID
+			ctx = ctxutil.SetSpaceID(ctx, spaceID)
+		}
+	}
 
 	// Get global roles first
 	globalRoles, err := asw.GetUserRoles(ctx, userID)

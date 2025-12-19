@@ -10,6 +10,7 @@ import (
 	"ncobase/auth/data/ent/codeauth"
 	"ncobase/auth/data/ent/oauthuser"
 	"ncobase/auth/data/ent/session"
+	"ncobase/auth/data/ent/usermfa"
 	"reflect"
 	"sync"
 
@@ -80,6 +81,7 @@ func checkColumn(t, c string) error {
 			codeauth.Table:  codeauth.ValidColumn,
 			oauthuser.Table: oauthuser.ValidColumn,
 			session.Table:   session.ValidColumn,
+			usermfa.Table:   usermfa.ValidColumn,
 		})
 	})
 	return columnCheck(t, c)

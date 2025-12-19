@@ -11,12 +11,12 @@ import (
 
 // Service represents the auth service.
 type Service struct {
-	Account  AccountServiceInterface
-	CodeAuth CodeAuthServiceInterface
-	// OAuth    OAuthServiceInterface
+	Account   AccountServiceInterface
+	CodeAuth  CodeAuthServiceInterface
 	Captcha   CaptchaServiceInterface
 	AuthSpace AuthSpaceServiceInterface
 	Session   SessionServiceInterface
+	MFA       MFAServiceInterface
 
 	usw  *wrapper.UserServiceWrapper
 	tsw  *wrapper.SpaceServiceWrapper
@@ -36,17 +36,19 @@ func New(d *data.Data, jtm *jwt.TokenManager, em ext.ManagerInterface) *Service 
 	cas := NewCodeAuthService(d, jtm, ep, usw, tsw, asw)
 	ats := NewAuthSpaceService(d, usw, tsw, asw)
 	ss := NewSessionService(d)
+	mfa := NewMFAService(d, jtm, usw, asw, tsw, ss)
+
 	return &Service{
-		Account:   NewAccountService(d, jtm, ep, cas, ats, ss, usw, tsw, asw, ugsw),
+		Account:   NewAccountService(d, jtm, ep, cas, ats, ss, mfa, usw, tsw, asw, ugsw),
 		AuthSpace: ats,
 		CodeAuth:  cas,
 		Captcha:   NewCaptchaService(d),
 		Session:   ss,
-		// OAuth:    NewOAuthService(d),
-		usw:  usw,
-		tsw:  tsw,
-		asw:  asw,
-		ugsw: ugsw,
+		MFA:       mfa,
+		usw:       usw,
+		tsw:       tsw,
+		asw:       asw,
+		ugsw:      ugsw,
 	}
 }
 

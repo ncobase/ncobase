@@ -17,6 +17,8 @@ import (
 	"github.com/ncobase/ncore/validation/validator"
 
 	"github.com/redis/go-redis/v9"
+
+	"github.com/ncobase/ncore/data/search"
 )
 
 // MediaRepositoryInterface for media repository operations
@@ -33,10 +35,11 @@ type MediaRepositoryInterface interface {
 }
 
 type mediaRepository struct {
-	ec  *ent.Client
-	ecr *ent.Client
-	rc  *redis.Client
-	c   *cache.Cache[ent.Media]
+	data *data.Data
+	ec   *ent.Client
+	ecr  *ent.Client
+	rc   *redis.Client
+	c    *cache.Cache[ent.Media]
 }
 
 // NewMediaRepository creates new media repository
@@ -44,7 +47,13 @@ func NewMediaRepository(d *data.Data) MediaRepositoryInterface {
 	ec := d.GetMasterEntClient()
 	ecr := d.GetSlaveEntClient()
 	rc := d.GetRedis()
-	return &mediaRepository{ec, ecr, rc, cache.NewCache[ent.Media](rc, "ncse_media")}
+	return &mediaRepository{
+		data: d,
+		ec:   ec,
+		ecr:  ecr,
+		rc:   rc,
+		c:    cache.NewCache[ent.Media](rc, "ncse_media"),
+	}
 }
 
 // Create creates new media
@@ -85,6 +94,11 @@ func (r *mediaRepository) Create(ctx context.Context, body *structs.CreateMediaB
 	if err != nil {
 		logger.Errorf(ctx, "mediaRepo.Create error: %v", err)
 		return nil, err
+	}
+
+	// Index in Meilisearch
+	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "media", Document: row}); err != nil {
+		logger.Errorf(ctx, "mediaRepo.Create error creating Meilisearch index: %v", err)
 	}
 
 	return row, nil
@@ -226,6 +240,11 @@ func (r *mediaRepository) Update(ctx context.Context, id string, updates types.J
 		return nil, err
 	}
 
+	// Update Meilisearch index
+	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "media", Document: row, DocumentID: row.ID}); err != nil {
+		logger.Errorf(ctx, "mediaRepo.Update error updating Meilisearch index: %v", err)
+	}
+
 	// Remove from cache
 	cacheKey := fmt.Sprintf("%s", media.ID)
 	err = r.c.Delete(ctx, cacheKey)
@@ -356,6 +375,11 @@ func (r *mediaRepository) Delete(ctx context.Context, id string) error {
 	if err != nil {
 		logger.Errorf(ctx, "mediaRepo.Delete error: %v", err)
 		return err
+	}
+
+	// Delete from Meilisearch
+	if err = r.data.DeleteDocument(ctx, "media", id); err != nil {
+		logger.Errorf(ctx, "mediaRepo.Delete error deleting Meilisearch index: %v", err)
 	}
 
 	cacheKey := fmt.Sprintf("%s", id)

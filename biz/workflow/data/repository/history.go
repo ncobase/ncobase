@@ -8,10 +8,11 @@ import (
 	"ncobase/workflow/structs"
 
 	"github.com/ncobase/ncore/data/databases/cache"
-	"github.com/ncobase/ncore/data/search/meili"
 	"github.com/ncobase/ncore/logging/logger"
 
 	"github.com/redis/go-redis/v9"
+
+	"github.com/ncobase/ncore/data/search"
 )
 
 type HistoryRepositoryInterface interface {
@@ -22,21 +23,20 @@ type HistoryRepositoryInterface interface {
 }
 
 type historyRepository struct {
-	ec *ent.Client
-	rc *redis.Client
-	ms *meili.Client
-	c  *cache.Cache[ent.History]
+	data *data.Data
+	ec   *ent.Client
+	rc   *redis.Client
+	c    *cache.Cache[ent.History]
 }
 
 func NewHistoryRepository(d *data.Data) HistoryRepositoryInterface {
 	ec := d.GetMasterEntClient()
 	rc := d.GetRedis()
-	ms := d.GetMeilisearch()
 	return &historyRepository{
-		ec: ec,
-		rc: rc,
-		ms: ms,
-		c:  cache.NewCache[ent.History](rc, "workflow_history", false),
+		data: d,
+		ec:   ec,
+		rc:   rc,
+		c:    cache.NewCache[ent.History](rc, "workflow_history", false),
 	}
 }
 
@@ -88,7 +88,7 @@ func (r *historyRepository) Create(ctx context.Context, body *structs.HistoryBod
 	}
 
 	// Index in Meilisearch
-	if err = r.ms.IndexDocuments("histories", row); err != nil {
+	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "histories", Document: row}); err != nil {
 		logger.Errorf(ctx, "historyRepo.Create error creating Meilisearch index: %v", err)
 	}
 

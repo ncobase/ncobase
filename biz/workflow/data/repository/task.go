@@ -9,11 +9,12 @@ import (
 	"ncobase/workflow/structs"
 
 	"github.com/ncobase/ncore/data/databases/cache"
-	"github.com/ncobase/ncore/data/search/meili"
 	"github.com/ncobase/ncore/logging/logger"
 	"github.com/ncobase/ncore/validation/validator"
 
 	"github.com/redis/go-redis/v9"
+
+	"github.com/ncobase/ncore/data/search"
 )
 
 type TaskRepositoryInterface interface {
@@ -38,21 +39,20 @@ type TaskRepositoryInterface interface {
 }
 
 type taskRepository struct {
-	ec *ent.Client
-	rc *redis.Client
-	ms *meili.Client
-	c  *cache.Cache[ent.Task]
+	data *data.Data
+	ec   *ent.Client
+	rc   *redis.Client
+	c    *cache.Cache[ent.Task]
 }
 
 func NewTaskRepository(d *data.Data) TaskRepositoryInterface {
 	ec := d.GetMasterEntClient()
 	rc := d.GetRedis()
-	ms := d.GetMeilisearch()
 	return &taskRepository{
-		ec: ec,
-		rc: rc,
-		ms: ms,
-		c:  cache.NewCache[ent.Task](rc, "workflow_task", false),
+		data: d,
+		ec:   ec,
+		rc:   rc,
+		c:    cache.NewCache[ent.Task](rc, "workflow_task", false),
 	}
 }
 
@@ -112,7 +112,7 @@ func (r *taskRepository) Create(ctx context.Context, body *structs.TaskBody) (*e
 	}
 
 	// Index in Meilisearch
-	if err = r.ms.IndexDocuments("tasks", row); err != nil {
+	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "tasks", Document: row}); err != nil {
 		logger.Errorf(ctx, "taskRepo.Create error creating Meilisearch index: %v", err)
 	}
 
@@ -169,12 +169,37 @@ func (r *taskRepository) Update(ctx context.Context, body *structs.UpdateTaskBod
 		builder.SetExtras(body.Extras)
 	}
 
-	return builder.Save(ctx)
+	row, err := builder.Save(ctx)
+	if err != nil {
+		logger.Errorf(ctx, "taskRepo.Update error: %v", err)
+		return nil, err
+	}
+
+	// Update Meilisearch index
+	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "tasks", Document: row, DocumentID: row.ID}); err != nil {
+		logger.Errorf(ctx, "taskRepo.Update error updating Meilisearch index: %v", err)
+	}
+
+	return row, nil
 }
 
 // Delete deletes a task
 func (r *taskRepository) Delete(ctx context.Context, params *structs.FindTaskParams) error {
 	builder := r.ec.Task.Delete()
+
+	var targetID string
+	if params.ID != "" {
+		targetID = params.ID
+	}
+	if targetID == "" && params.NodeKey != "" {
+		query := r.ec.Task.Query().Where(taskEnt.NodeKeyEQ(params.NodeKey))
+		if params.ProcessID != "" {
+			query = query.Where(taskEnt.ProcessIDEQ(params.ProcessID))
+		}
+		if row, err := query.First(ctx); err == nil && row != nil {
+			targetID = row.ID
+		}
+	}
 
 	if params.ProcessID != "" {
 		builder.Where(taskEnt.ProcessIDEQ(params.ProcessID))
@@ -184,7 +209,18 @@ func (r *taskRepository) Delete(ctx context.Context, params *structs.FindTaskPar
 	}
 
 	_, err := builder.Exec(ctx)
-	return err
+	if err != nil {
+		return err
+	}
+
+	// Delete from Meilisearch
+	if targetID != "" {
+		if err = r.data.DeleteDocument(ctx, "tasks", targetID); err != nil {
+			logger.Errorf(ctx, "taskRepo.Delete error deleting Meilisearch index: %v", err)
+		}
+	}
+
+	return nil
 }
 
 // List returns a list of tasks
@@ -519,9 +555,18 @@ func (r *taskRepository) RemoveChildTask(ctx context.Context, parentID string, c
 
 // UpdateStatus updates task status
 func (r *taskRepository) UpdateStatus(ctx context.Context, taskID string, status string) error {
-	return r.ec.Task.UpdateOneID(taskID).
+	row, err := r.ec.Task.UpdateOneID(taskID).
 		SetStatus(status).
-		Exec(ctx)
+		Save(ctx)
+	if err != nil {
+		return err
+	}
+
+	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "tasks", Document: row, DocumentID: row.ID}); err != nil {
+		logger.Errorf(ctx, "taskRepo.UpdateStatus error updating Meilisearch index: %v", err)
+	}
+
+	return nil
 }
 
 // UpdateAssignee updates task assignee
@@ -532,20 +577,47 @@ func (r *taskRepository) UpdateAssignee(ctx context.Context, taskID string, assi
 		builder.SetAssignees(assignees)
 	}
 
-	return builder.Exec(ctx)
+	row, err := builder.Save(ctx)
+	if err != nil {
+		return err
+	}
+
+	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "tasks", Document: row, DocumentID: row.ID}); err != nil {
+		logger.Errorf(ctx, "taskRepo.UpdateAssignee error updating Meilisearch index: %v", err)
+	}
+
+	return nil
 }
 
 // IncreaseUrgeCount increases the urge count
 func (r *taskRepository) IncreaseUrgeCount(ctx context.Context, taskID string) error {
-	return r.ec.Task.UpdateOneID(taskID).
+	row, err := r.ec.Task.UpdateOneID(taskID).
 		AddUrgeCount(1).
 		SetIsUrged(true).
-		Exec(ctx)
+		Save(ctx)
+	if err != nil {
+		return err
+	}
+
+	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "tasks", Document: row, DocumentID: row.ID}); err != nil {
+		logger.Errorf(ctx, "taskRepo.IncreaseUrgeCount error updating Meilisearch index: %v", err)
+	}
+
+	return nil
 }
 
 // MarkTimeout marks a task as timeout
 func (r *taskRepository) MarkTimeout(ctx context.Context, taskID string) error {
-	return r.ec.Task.UpdateOneID(taskID).
+	row, err := r.ec.Task.UpdateOneID(taskID).
 		SetIsTimeout(true).
-		Exec(ctx)
+		Save(ctx)
+	if err != nil {
+		return err
+	}
+
+	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "tasks", Document: row, DocumentID: row.ID}); err != nil {
+		logger.Errorf(ctx, "taskRepo.MarkTimeout error updating Meilisearch index: %v", err)
+	}
+
+	return nil
 }

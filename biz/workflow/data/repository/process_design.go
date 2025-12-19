@@ -8,11 +8,12 @@ import (
 	"ncobase/workflow/structs"
 
 	"github.com/ncobase/ncore/data/databases/cache"
-	"github.com/ncobase/ncore/data/search/meili"
 	"github.com/ncobase/ncore/logging/logger"
 	"github.com/ncobase/ncore/types"
 
 	"github.com/redis/go-redis/v9"
+
+	"github.com/ncobase/ncore/data/search"
 )
 
 type ProcessDesignRepositoryInterface interface {
@@ -27,21 +28,20 @@ type ProcessDesignRepositoryInterface interface {
 }
 
 type processDesignRepository struct {
-	ec *ent.Client
-	rc *redis.Client
-	ms *meili.Client
-	c  *cache.Cache[ent.ProcessDesign]
+	data *data.Data
+	ec   *ent.Client
+	rc   *redis.Client
+	c    *cache.Cache[ent.ProcessDesign]
 }
 
 func NewProcessDesignRepository(d *data.Data) ProcessDesignRepositoryInterface {
 	ec := d.GetMasterEntClient()
 	rc := d.GetRedis()
-	ms := d.GetMeilisearch()
 	return &processDesignRepository{
-		ec: ec,
-		rc: rc,
-		ms: ms,
-		c:  cache.NewCache[ent.ProcessDesign](rc, "workflow_process_design", false),
+		data: d,
+		ec:   ec,
+		rc:   rc,
+		c:    cache.NewCache[ent.ProcessDesign](rc, "workflow_process_design", false),
 	}
 }
 
@@ -84,7 +84,7 @@ func (r *processDesignRepository) Create(ctx context.Context, body *structs.Proc
 	}
 
 	// Index in Meilisearch
-	if err = r.ms.IndexDocuments("process_designs", row); err != nil {
+	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "process_designs", Document: row}); err != nil {
 		logger.Errorf(ctx, "processDesignRepo.Create error creating Meilisearch index: %v", err)
 	}
 
@@ -139,7 +139,18 @@ func (r *processDesignRepository) Update(ctx context.Context, body *structs.Upda
 		builder.SetExtras(body.Extras)
 	}
 
-	return builder.Save(ctx)
+	row, err := builder.Save(ctx)
+	if err != nil {
+		logger.Errorf(ctx, "processDesignRepo.Update error: %v", err)
+		return nil, err
+	}
+
+	// Update Meilisearch index
+	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "process_designs", Document: row, DocumentID: row.ID}); err != nil {
+		logger.Errorf(ctx, "processDesignRepo.Update error updating Meilisearch index: %v", err)
+	}
+
+	return row, nil
 }
 
 // List returns a list of process designs
@@ -161,7 +172,16 @@ func (r *processDesignRepository) List(ctx context.Context, params *structs.List
 
 // Delete deletes a process design
 func (r *processDesignRepository) Delete(ctx context.Context, id string) error {
-	return r.ec.ProcessDesign.DeleteOneID(id).Exec(ctx)
+	if err := r.ec.ProcessDesign.DeleteOneID(id).Exec(ctx); err != nil {
+		return err
+	}
+
+	// Delete from Meilisearch
+	if err := r.data.DeleteDocument(ctx, "process_designs", id); err != nil {
+		logger.Errorf(ctx, "processDesignRepo.Delete error deleting Meilisearch index: %v", err)
+	}
+
+	return nil
 }
 
 // SaveDraft saves process design as draft

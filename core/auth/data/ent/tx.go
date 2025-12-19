@@ -20,6 +20,8 @@ type Tx struct {
 	OAuthUser *OAuthUserClient
 	// Session is the client for interacting with the Session builders.
 	Session *SessionClient
+	// UserMFA is the client for interacting with the UserMFA builders.
+	UserMFA *UserMFAClient
 
 	// lazily loaded.
 	client     *Client
@@ -155,6 +157,7 @@ func (tx *Tx) init() {
 	tx.CodeAuth = NewCodeAuthClient(tx.config)
 	tx.OAuthUser = NewOAuthUserClient(tx.config)
 	tx.Session = NewSessionClient(tx.config)
+	tx.UserMFA = NewUserMFAClient(tx.config)
 }
 
 // txDriver wraps the given dialect.Tx with a nop dialect.Driver implementation.

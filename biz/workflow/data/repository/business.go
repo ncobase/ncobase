@@ -8,12 +8,13 @@ import (
 	"ncobase/workflow/structs"
 
 	"github.com/ncobase/ncore/data/databases/cache"
-	"github.com/ncobase/ncore/data/search/meili"
 	"github.com/ncobase/ncore/logging/logger"
 	"github.com/ncobase/ncore/types"
 	"github.com/ncobase/ncore/validation/validator"
 
 	"github.com/redis/go-redis/v9"
+
+	"github.com/ncobase/ncore/data/search"
 )
 
 type BusinessRepositoryInterface interface {
@@ -28,21 +29,20 @@ type BusinessRepositoryInterface interface {
 }
 
 type businessRepository struct {
-	ec *ent.Client
-	rc *redis.Client
-	ms *meili.Client
-	c  *cache.Cache[ent.Business]
+	data *data.Data
+	ec   *ent.Client
+	rc   *redis.Client
+	c    *cache.Cache[ent.Business]
 }
 
 func NewBusinessRepository(d *data.Data) BusinessRepositoryInterface {
 	ec := d.GetMasterEntClient()
 	rc := d.GetRedis()
-	ms := d.GetMeilisearch()
 	return &businessRepository{
-		ec: ec,
-		rc: rc,
-		ms: ms,
-		c:  cache.NewCache[ent.Business](rc, "workflow_business", false),
+		data: d,
+		ec:   ec,
+		rc:   rc,
+		c:    cache.NewCache[ent.Business](rc, "workflow_business", false),
 	}
 }
 
@@ -103,7 +103,7 @@ func (r *businessRepository) Create(ctx context.Context, body *structs.BusinessB
 	}
 
 	// Index in Meilisearch
-	if err = r.ms.IndexDocuments("businesses", row); err != nil {
+	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "businesses", Document: row}); err != nil {
 		logger.Errorf(ctx, "businessRepo.Create error creating Meilisearch index: %v", err)
 	}
 
@@ -168,12 +168,37 @@ func (r *businessRepository) Update(ctx context.Context, body *structs.UpdateBus
 		builder.SetExtras(body.Extras)
 	}
 
-	return builder.Save(ctx)
+	row, err := builder.Save(ctx)
+	if err != nil {
+		logger.Errorf(ctx, "businessRepo.Update error: %v", err)
+		return nil, err
+	}
+
+	// Update Meilisearch index
+	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "businesses", Document: row, DocumentID: row.ID}); err != nil {
+		logger.Errorf(ctx, "businessRepo.Update error updating Meilisearch index: %v", err)
+	}
+
+	return row, nil
 }
 
 // Delete deletes a business record
 func (r *businessRepository) Delete(ctx context.Context, params *structs.FindBusinessParams) error {
 	builder := r.ec.Business.Delete()
+
+	var targetID string
+	if params.Code != "" || params.ProcessID != "" {
+		query := r.ec.Business.Query()
+		if params.ProcessID != "" {
+			query = query.Where(businessEnt.ProcessIDEQ(params.ProcessID))
+		}
+		if params.Code != "" {
+			query = query.Where(businessEnt.CodeEQ(params.Code))
+		}
+		if row, err := query.First(ctx); err == nil && row != nil {
+			targetID = row.ID
+		}
+	}
 
 	if params.ProcessID != "" {
 		builder.Where(businessEnt.ProcessIDEQ(params.ProcessID))
@@ -183,7 +208,18 @@ func (r *businessRepository) Delete(ctx context.Context, params *structs.FindBus
 	}
 
 	_, err := builder.Exec(ctx)
-	return err
+	if err != nil {
+		return err
+	}
+
+	// Delete from Meilisearch
+	if targetID != "" {
+		if err = r.data.DeleteDocument(ctx, "businesses", targetID); err != nil {
+			logger.Errorf(ctx, "businessRepo.Delete error deleting Meilisearch index: %v", err)
+		}
+	}
+
+	return nil
 }
 
 // List returns a list of business records
@@ -236,14 +272,32 @@ func (r *businessRepository) CountX(ctx context.Context, params *structs.ListBus
 
 // UpdateFlowStatus updates the flow status of a business record
 func (r *businessRepository) UpdateFlowStatus(ctx context.Context, businessID string, status string) error {
-	return r.ec.Business.UpdateOneID(businessID).
+	row, err := r.ec.Business.UpdateOneID(businessID).
 		SetFlowStatus(status).
-		Exec(ctx)
+		Save(ctx)
+	if err != nil {
+		return err
+	}
+
+	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "businesses", Document: row, DocumentID: row.ID}); err != nil {
+		logger.Errorf(ctx, "businessRepo.UpdateFlowStatus error updating Meilisearch index: %v", err)
+	}
+
+	return nil
 }
 
 // UpdateBusinessData updates the business data
 func (r *businessRepository) UpdateBusinessData(ctx context.Context, businessID string, data types.JSON) error {
-	return r.ec.Business.UpdateOneID(businessID).
+	row, err := r.ec.Business.UpdateOneID(businessID).
 		SetCurrentData(data).
-		Exec(ctx)
+		Save(ctx)
+	if err != nil {
+		return err
+	}
+
+	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "businesses", Document: row, DocumentID: row.ID}); err != nil {
+		logger.Errorf(ctx, "businessRepo.UpdateBusinessData error updating Meilisearch index: %v", err)
+	}
+
+	return nil
 }

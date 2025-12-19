@@ -124,6 +124,7 @@ func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 
 	// Authentication endpoints
 	authGroup.POST("/login", m.h.Account.Login)
+	authGroup.POST("/login/mfa", m.h.MFA.LoginMFA)
 	authGroup.POST("/register", m.h.Account.Register)
 	authGroup.POST("/logout", m.h.Account.Logout)
 
@@ -149,6 +150,16 @@ func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 		account.PUT("/password", m.h.Account.UpdatePassword)
 		account.GET("/space", m.h.Account.Space)
 		account.GET("/spaces", m.h.Account.Spaces)
+
+		twoFactor := account.Group("/2fa")
+		{
+			twoFactor.GET("/status", m.h.MFA.GetTwoFactorStatus)
+			twoFactor.POST("/setup", m.h.MFA.SetupTwoFactor)
+			twoFactor.POST("/verify", m.h.MFA.VerifyTwoFactor)
+			twoFactor.POST("/disable", m.h.MFA.DisableTwoFactor)
+			twoFactor.GET("/backup-codes", m.h.MFA.GetBackupCodes)
+			twoFactor.POST("/backup-codes/regenerate", m.h.MFA.RegenerateBackupCodes)
+		}
 	}
 
 	// Token endpoints

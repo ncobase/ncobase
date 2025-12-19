@@ -15,6 +15,8 @@ import (
 	"github.com/ncobase/ncore/security/crypto"
 	"github.com/ncobase/ncore/types"
 	"github.com/ncobase/ncore/utils/nanoid"
+
+	"github.com/ncobase/ncore/data/search"
 )
 
 // UserRepositoryInterface defines user repository operations
@@ -78,6 +80,11 @@ func (r *userRepository) Create(ctx context.Context, body *structs.UserBody) (*e
 	user, err := builder.Save(ctx)
 	if err != nil {
 		return nil, err
+	}
+
+	// Index in Meilisearch
+	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "users", Document: user}); err != nil {
+		logger.Errorf(ctx, "userRepo.Create error creating Meilisearch index: %v", err)
 	}
 
 	// Cache the user
@@ -196,6 +203,11 @@ func (r *userRepository) Update(ctx context.Context, id string, updates types.JS
 		return nil, err
 	}
 
+	// Update Meilisearch index
+	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "users", Document: user, DocumentID: user.ID}); err != nil {
+		logger.Errorf(ctx, "userRepo.Update error updating Meilisearch index: %v", err)
+	}
+
 	// Invalidate old cache and cache new data
 	go func() {
 		r.invalidateUserCache(context.Background(), originalUser)
@@ -217,6 +229,11 @@ func (r *userRepository) Delete(ctx context.Context, id string) error {
 	err = client.User.DeleteOneID(id).Exec(ctx)
 	if err != nil {
 		return err
+	}
+
+	// Delete from Meilisearch
+	if err = r.data.DeleteDocument(ctx, "users", id); err != nil {
+		logger.Errorf(ctx, "userRepo.Delete error deleting Meilisearch index: %v", err)
 	}
 
 	// Invalidate cache

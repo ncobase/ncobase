@@ -12,6 +12,8 @@ type Service struct {
 	Menu       MenuServiceInterface
 	Dictionary DictionaryServiceInterface
 	Option     OptionServiceInterface
+	Admin      AdminServiceInterface
+	d          *data.Data
 	em         ext.ManagerInterface
 }
 
@@ -19,10 +21,16 @@ type Service struct {
 func New(d *data.Data, em ext.ManagerInterface) *Service {
 	tsw := wrapper.NewSpaceServiceWrapper(em)
 
-	return &Service{
+	s := &Service{
 		Menu:       NewMenuService(d, em, tsw),
 		Dictionary: NewDictionaryService(d),
 		Option:     NewOptionService(d),
+		d:          d,
 		em:         em,
 	}
+
+	// Initialize admin service with reference to the main service
+	s.Admin = newAdminService(s)
+
+	return s
 }

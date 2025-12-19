@@ -15,6 +15,8 @@ import (
 	"github.com/ncobase/ncore/validation/validator"
 
 	"github.com/redis/go-redis/v9"
+
+	"github.com/ncobase/ncore/data/search"
 )
 
 // TaxonomyRelationsRepositoryInterface represents the taxonomy relations repository interface.
@@ -31,10 +33,11 @@ type TaxonomyRelationsRepositoryInterface interface {
 
 // taxonomyRelationsRepository implements the TaxonomyRelationsRepositoryInterface.
 type taxonomyRelationsRepository struct {
-	ec  *ent.Client
-	ecr *ent.Client
-	rc  *redis.Client
-	c   *cache.Cache[ent.TaxonomyRelation]
+	data *data.Data
+	ec   *ent.Client
+	ecr  *ent.Client
+	rc   *redis.Client
+	c    *cache.Cache[ent.TaxonomyRelation]
 }
 
 // NewTaxonomyRelationsRepository creates a new taxonomy relations repository.
@@ -42,7 +45,13 @@ func NewTaxonomyRelationsRepository(d *data.Data) TaxonomyRelationsRepositoryInt
 	ec := d.GetMasterEntClient()
 	ecr := d.GetSlaveEntClient()
 	rc := d.GetRedis()
-	return &taxonomyRelationsRepository{ec, ecr, rc, cache.NewCache[ent.TaxonomyRelation](rc, "ncse_taxonomy_relations")}
+	return &taxonomyRelationsRepository{
+		data: d,
+		ec:   ec,
+		ecr:  ecr,
+		rc:   rc,
+		c:    cache.NewCache[ent.TaxonomyRelation](rc, "ncse_taxonomy_relations"),
+	}
 }
 
 // Create creates a new taxonomy relation.
@@ -59,6 +68,11 @@ func (r *taxonomyRelationsRepository) Create(ctx context.Context, body *structs.
 	if err != nil {
 		logger.Errorf(ctx, "taxonomyRelationsRepo.Create error: %v", err)
 		return nil, err
+	}
+
+	// Index in Meilisearch
+	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "content_taxonomy_relations", Document: row}); err != nil {
+		logger.Errorf(ctx, "taxonomyRelationsRepo.Create error creating Meilisearch index: %v", err)
 	}
 
 	return row, nil
@@ -107,6 +121,11 @@ func (r *taxonomyRelationsRepository) Update(ctx context.Context, body *structs.
 	if err != nil {
 		logger.Errorf(ctx, "taxonomyRelationsRepo.Update error: %v", err)
 		return nil, err
+	}
+
+	// Update Meilisearch index
+	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "content_taxonomy_relations", Document: row, DocumentID: row.ID}); err != nil {
+		logger.Errorf(ctx, "taxonomyRelationsRepo.Update error updating Meilisearch index: %v", err)
 	}
 
 	// remove from cache
@@ -191,6 +210,11 @@ func (r *taxonomyRelationsRepository) Delete(ctx context.Context, object string)
 		Exec(ctx)
 
 	if err == nil {
+		// Delete from Meilisearch
+		if msErr := r.data.DeleteDocument(ctx, "content_taxonomy_relations", object); msErr != nil {
+			logger.Errorf(ctx, "taxonomyRelationsRepo.Delete error deleting Meilisearch index: %v", msErr)
+		}
+
 		// remove from cache
 		cacheKey := fmt.Sprintf("%s", object)
 		err = r.c.Delete(ctx, cacheKey)

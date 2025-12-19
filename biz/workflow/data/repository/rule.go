@@ -8,11 +8,12 @@ import (
 	"ncobase/workflow/structs"
 
 	"github.com/ncobase/ncore/data/databases/cache"
-	"github.com/ncobase/ncore/data/search/meili"
 	"github.com/ncobase/ncore/logging/logger"
 	"github.com/ncobase/ncore/validation/validator"
 
 	"github.com/redis/go-redis/v9"
+
+	"github.com/ncobase/ncore/data/search"
 )
 
 type RuleRepositoryInterface interface {
@@ -29,21 +30,20 @@ type RuleRepositoryInterface interface {
 }
 
 type ruleRepository struct {
-	ec *ent.Client
-	rc *redis.Client
-	ms *meili.Client
-	c  *cache.Cache[ent.Rule]
+	data *data.Data
+	ec   *ent.Client
+	rc   *redis.Client
+	c    *cache.Cache[ent.Rule]
 }
 
 func NewRuleRepository(d *data.Data) RuleRepositoryInterface {
 	ec := d.GetMasterEntClient()
 	rc := d.GetRedis()
-	ms := d.GetMeilisearch()
 	return &ruleRepository{
-		ec: ec,
-		rc: rc,
-		ms: ms,
-		c:  cache.NewCache[ent.Rule](rc, "workflow_rule", false),
+		data: d,
+		ec:   ec,
+		rc:   rc,
+		c:    cache.NewCache[ent.Rule](rc, "workflow_rule", false),
 	}
 }
 
@@ -102,7 +102,7 @@ func (r *ruleRepository) Create(ctx context.Context, body *structs.RuleBody) (*e
 	}
 
 	// Index in Meilisearch
-	if err = r.ms.IndexDocuments("rules", row); err != nil {
+	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "rules", Document: row}); err != nil {
 		logger.Errorf(ctx, "ruleRepo.Create error creating Meilisearch index: %v", err)
 	}
 
@@ -168,7 +168,18 @@ func (r *ruleRepository) Update(ctx context.Context, body *structs.UpdateRuleBod
 		builder.SetExtras(body.Extras)
 	}
 
-	return builder.Save(ctx)
+	row, err := builder.Save(ctx)
+	if err != nil {
+		logger.Errorf(ctx, "ruleRepo.Update error: %v", err)
+		return nil, err
+	}
+
+	// Update Meilisearch index
+	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "rules", Document: row, DocumentID: row.ID}); err != nil {
+		logger.Errorf(ctx, "ruleRepo.Update error updating Meilisearch index: %v", err)
+	}
+
+	return row, nil
 }
 
 // List returns a list of rules
@@ -199,7 +210,16 @@ func (r *ruleRepository) List(ctx context.Context, params *structs.ListRuleParam
 
 // Delete deletes a rule
 func (r *ruleRepository) Delete(ctx context.Context, id string) error {
-	return r.ec.Rule.DeleteOneID(id).Exec(ctx)
+	if err := r.ec.Rule.DeleteOneID(id).Exec(ctx); err != nil {
+		return err
+	}
+
+	// Delete from Meilisearch
+	if err := r.data.DeleteDocument(ctx, "rules", id); err != nil {
+		logger.Errorf(ctx, "ruleRepo.Delete error deleting Meilisearch index: %v", err)
+	}
+
+	return nil
 }
 
 // EnableRule enables a rule

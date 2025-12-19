@@ -14,11 +14,12 @@ import (
 	"time"
 
 	"github.com/ncobase/ncore/data/databases/cache"
-	"github.com/ncobase/ncore/data/search/meili"
 	"github.com/ncobase/ncore/logging/logger"
 	"github.com/ncobase/ncore/validation/validator"
 
 	"github.com/redis/go-redis/v9"
+
+	"github.com/ncobase/ncore/data/search"
 )
 
 type ProcessRepositoryInterface interface {
@@ -36,21 +37,20 @@ type ProcessRepositoryInterface interface {
 }
 
 type processRepository struct {
-	ec *ent.Client
-	rc *redis.Client
-	ms *meili.Client
-	c  *cache.Cache[ent.Process]
+	data *data.Data
+	ec   *ent.Client
+	rc   *redis.Client
+	c    *cache.Cache[ent.Process]
 }
 
 func NewProcessRepository(d *data.Data) ProcessRepositoryInterface {
 	ec := d.GetMasterEntClient()
 	rc := d.GetRedis()
-	ms := d.GetMeilisearch()
 	return &processRepository{
-		ec: ec,
-		rc: rc,
-		ms: ms,
-		c:  cache.NewCache[ent.Process](rc, "workflow_process", false),
+		data: d,
+		ec:   ec,
+		rc:   rc,
+		c:    cache.NewCache[ent.Process](rc, "workflow_process", false),
 	}
 }
 
@@ -118,7 +118,7 @@ func (r *processRepository) Create(ctx context.Context, body *structs.ProcessBod
 	}
 
 	// Index in Meilisearch
-	if err = r.ms.IndexDocuments("processes", row); err != nil {
+	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "processes", Document: row}); err != nil {
 		logger.Errorf(ctx, "processRepo.Create error creating Meilisearch index: %v", err)
 	}
 
@@ -182,19 +182,45 @@ func (r *processRepository) Update(ctx context.Context, body *structs.UpdateProc
 		builder.SetExtras(body.Extras)
 	}
 
-	return builder.Save(ctx)
+	row, err := builder.Save(ctx)
+	if err != nil {
+		logger.Errorf(ctx, "processRepo.Update error: %v", err)
+		return nil, err
+	}
+
+	// Update Meilisearch index
+	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "processes", Document: row, DocumentID: row.ID}); err != nil {
+		logger.Errorf(ctx, "processRepo.Update error updating Meilisearch index: %v", err)
+	}
+
+	return row, nil
 }
 
 // Delete deletes a process
 func (r *processRepository) Delete(ctx context.Context, params *structs.FindProcessParams) error {
 	builder := r.ec.Process.Delete()
 
+	var targetID string
 	if params.ProcessKey != "" {
+		if row, err := r.ec.Process.Query().Where(processEnt.ProcessKeyEQ(params.ProcessKey)).First(ctx); err == nil && row != nil {
+			targetID = row.ID
+		}
 		builder.Where(processEnt.ProcessKeyEQ(params.ProcessKey))
 	}
 
 	_, err := builder.Exec(ctx)
-	return err
+	if err != nil {
+		return err
+	}
+
+	// Delete from Meilisearch
+	if targetID != "" {
+		if err = r.data.DeleteDocument(ctx, "processes", targetID); err != nil {
+			logger.Errorf(ctx, "processRepo.Delete error deleting Meilisearch index: %v", err)
+		}
+	}
+
+	return nil
 }
 
 // List returns a list of processes

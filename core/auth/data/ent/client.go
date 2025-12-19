@@ -15,6 +15,7 @@ import (
 	"ncobase/auth/data/ent/codeauth"
 	"ncobase/auth/data/ent/oauthuser"
 	"ncobase/auth/data/ent/session"
+	"ncobase/auth/data/ent/usermfa"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect"
@@ -34,6 +35,8 @@ type Client struct {
 	OAuthUser *OAuthUserClient
 	// Session is the client for interacting with the Session builders.
 	Session *SessionClient
+	// UserMFA is the client for interacting with the UserMFA builders.
+	UserMFA *UserMFAClient
 }
 
 // NewClient creates a new client configured with the given options.
@@ -49,6 +52,7 @@ func (c *Client) init() {
 	c.CodeAuth = NewCodeAuthClient(c.config)
 	c.OAuthUser = NewOAuthUserClient(c.config)
 	c.Session = NewSessionClient(c.config)
+	c.UserMFA = NewUserMFAClient(c.config)
 }
 
 type (
@@ -145,6 +149,7 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 		CodeAuth:  NewCodeAuthClient(cfg),
 		OAuthUser: NewOAuthUserClient(cfg),
 		Session:   NewSessionClient(cfg),
+		UserMFA:   NewUserMFAClient(cfg),
 	}, nil
 }
 
@@ -168,6 +173,7 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 		CodeAuth:  NewCodeAuthClient(cfg),
 		OAuthUser: NewOAuthUserClient(cfg),
 		Session:   NewSessionClient(cfg),
+		UserMFA:   NewUserMFAClient(cfg),
 	}, nil
 }
 
@@ -200,6 +206,7 @@ func (c *Client) Use(hooks ...Hook) {
 	c.CodeAuth.Use(hooks...)
 	c.OAuthUser.Use(hooks...)
 	c.Session.Use(hooks...)
+	c.UserMFA.Use(hooks...)
 }
 
 // Intercept adds the query interceptors to all the entity clients.
@@ -209,6 +216,7 @@ func (c *Client) Intercept(interceptors ...Interceptor) {
 	c.CodeAuth.Intercept(interceptors...)
 	c.OAuthUser.Intercept(interceptors...)
 	c.Session.Intercept(interceptors...)
+	c.UserMFA.Intercept(interceptors...)
 }
 
 // Mutate implements the ent.Mutator interface.
@@ -222,6 +230,8 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 		return c.OAuthUser.mutate(ctx, m)
 	case *SessionMutation:
 		return c.Session.mutate(ctx, m)
+	case *UserMFAMutation:
+		return c.UserMFA.mutate(ctx, m)
 	default:
 		return nil, fmt.Errorf("ent: unknown mutation type %T", m)
 	}
@@ -759,12 +769,145 @@ func (c *SessionClient) mutate(ctx context.Context, m *SessionMutation) (Value, 
 	}
 }
 
+// UserMFAClient is a client for the UserMFA schema.
+type UserMFAClient struct {
+	config
+}
+
+// NewUserMFAClient returns a client for the UserMFA from the given config.
+func NewUserMFAClient(c config) *UserMFAClient {
+	return &UserMFAClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `usermfa.Hooks(f(g(h())))`.
+func (c *UserMFAClient) Use(hooks ...Hook) {
+	c.hooks.UserMFA = append(c.hooks.UserMFA, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `usermfa.Intercept(f(g(h())))`.
+func (c *UserMFAClient) Intercept(interceptors ...Interceptor) {
+	c.inters.UserMFA = append(c.inters.UserMFA, interceptors...)
+}
+
+// Create returns a builder for creating a UserMFA entity.
+func (c *UserMFAClient) Create() *UserMFACreate {
+	mutation := newUserMFAMutation(c.config, OpCreate)
+	return &UserMFACreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of UserMFA entities.
+func (c *UserMFAClient) CreateBulk(builders ...*UserMFACreate) *UserMFACreateBulk {
+	return &UserMFACreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *UserMFAClient) MapCreateBulk(slice any, setFunc func(*UserMFACreate, int)) *UserMFACreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &UserMFACreateBulk{err: fmt.Errorf("calling to UserMFAClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*UserMFACreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &UserMFACreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for UserMFA.
+func (c *UserMFAClient) Update() *UserMFAUpdate {
+	mutation := newUserMFAMutation(c.config, OpUpdate)
+	return &UserMFAUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *UserMFAClient) UpdateOne(_m *UserMFA) *UserMFAUpdateOne {
+	mutation := newUserMFAMutation(c.config, OpUpdateOne, withUserMFA(_m))
+	return &UserMFAUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *UserMFAClient) UpdateOneID(id string) *UserMFAUpdateOne {
+	mutation := newUserMFAMutation(c.config, OpUpdateOne, withUserMFAID(id))
+	return &UserMFAUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for UserMFA.
+func (c *UserMFAClient) Delete() *UserMFADelete {
+	mutation := newUserMFAMutation(c.config, OpDelete)
+	return &UserMFADelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *UserMFAClient) DeleteOne(_m *UserMFA) *UserMFADeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *UserMFAClient) DeleteOneID(id string) *UserMFADeleteOne {
+	builder := c.Delete().Where(usermfa.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &UserMFADeleteOne{builder}
+}
+
+// Query returns a query builder for UserMFA.
+func (c *UserMFAClient) Query() *UserMFAQuery {
+	return &UserMFAQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeUserMFA},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a UserMFA entity by its id.
+func (c *UserMFAClient) Get(ctx context.Context, id string) (*UserMFA, error) {
+	return c.Query().Where(usermfa.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *UserMFAClient) GetX(ctx context.Context, id string) *UserMFA {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *UserMFAClient) Hooks() []Hook {
+	return c.hooks.UserMFA
+}
+
+// Interceptors returns the client interceptors.
+func (c *UserMFAClient) Interceptors() []Interceptor {
+	return c.inters.UserMFA
+}
+
+func (c *UserMFAClient) mutate(ctx context.Context, m *UserMFAMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&UserMFACreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&UserMFAUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&UserMFAUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&UserMFADelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown UserMFA mutation op: %q", m.Op())
+	}
+}
+
 // hooks and interceptors per client, for fast access.
 type (
 	hooks struct {
-		AuthToken, CodeAuth, OAuthUser, Session []ent.Hook
+		AuthToken, CodeAuth, OAuthUser, Session, UserMFA []ent.Hook
 	}
 	inters struct {
-		AuthToken, CodeAuth, OAuthUser, Session []ent.Interceptor
+		AuthToken, CodeAuth, OAuthUser, Session, UserMFA []ent.Interceptor
 	}
 )

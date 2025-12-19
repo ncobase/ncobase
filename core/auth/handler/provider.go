@@ -10,7 +10,7 @@ type Handler struct {
 	CodeAuth CodeAuthHandlerInterface
 	Captcha  CaptchaHandlerInterface
 	Session  SessionHandlerInterface
-	// OAuth    OAuthHandlerInterface
+	MFA      MFAHandlerInterface
 }
 
 // New creates a new auth handler.
@@ -20,6 +20,6 @@ func New(svc *service.Service) *Handler {
 		CodeAuth: NewCodeAuthHandler(svc),
 		Captcha:  NewCaptchaHandler(svc),
 		Session:  NewSessionHandler(svc),
-		// OAuth:    NewOAuthHandler(svc),
+		MFA:      NewMFAHandler(svc),
 	}
 }

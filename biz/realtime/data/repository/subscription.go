@@ -11,6 +11,8 @@ import (
 	"github.com/ncobase/ncore/logging/logger"
 
 	"github.com/redis/go-redis/v9"
+
+	"github.com/ncobase/ncore/data/search"
 )
 
 // SubscriptionRepositoryInterface defines subscription repository operations
@@ -38,16 +40,18 @@ type SubscriptionRepositoryInterface interface {
 }
 
 type subscriptionRepository struct {
-	ec *ent.Client
-	rc *redis.Client
-	c  *cache.Cache[ent.Subscription]
+	data *data.Data
+	ec   *ent.Client
+	rc   *redis.Client
+	c    *cache.Cache[ent.Subscription]
 }
 
 func NewSubscriptionRepository(d *data.Data) SubscriptionRepositoryInterface {
 	return &subscriptionRepository{
-		ec: d.GetMasterEntClient(),
-		rc: d.GetRedis(),
-		c:  cache.NewCache[ent.Subscription](d.GetRedis(), "rt_subscription"),
+		data: d,
+		ec:   d.GetMasterEntClient(),
+		rc:   d.GetRedis(),
+		c:    cache.NewCache[ent.Subscription](d.GetRedis(), "rt_subscription"),
 	}
 }
 
@@ -76,6 +80,12 @@ func (r *subscriptionRepository) Create(ctx context.Context, subscription *ent.S
 		logger.Errorf(ctx, "subscriptionRepo.Create error: %v", err)
 		return nil, err
 	}
+
+	// Index in Meilisearch
+	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "realtime_subscriptions", Document: row}); err != nil {
+		logger.Errorf(ctx, "subscriptionRepo.Create error creating Meilisearch index: %v", err)
+	}
+
 	return row, nil
 }
 
@@ -106,6 +116,11 @@ func (r *subscriptionRepository) Update(ctx context.Context, id string, subscrip
 		return nil, err
 	}
 
+	// Update Meilisearch index
+	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "realtime_subscriptions", Document: row, DocumentID: row.ID}); err != nil {
+		logger.Errorf(ctx, "subscriptionRepo.Update error updating Meilisearch index: %v", err)
+	}
+
 	cacheKey := fmt.Sprintf("subscription:%s", id)
 	if err := r.c.Delete(ctx, cacheKey); err != nil {
 		logger.Warnf(ctx, "Failed to delete subscription cache: %v", err)
@@ -119,6 +134,11 @@ func (r *subscriptionRepository) Delete(ctx context.Context, id string) error {
 	err := r.ec.Subscription.DeleteOneID(id).Exec(ctx)
 	if err != nil {
 		return err
+	}
+
+	// Delete from Meilisearch
+	if err = r.data.DeleteDocument(ctx, "realtime_subscriptions", id); err != nil {
+		logger.Errorf(ctx, "subscriptionRepo.Delete error deleting Meilisearch index: %v", err)
 	}
 
 	cacheKey := fmt.Sprintf("subscription:%s", id)
@@ -193,6 +213,12 @@ func (r *subscriptionRepository) CreateBatch(ctx context.Context, subscriptions 
 		return nil, err
 	}
 
+	for _, row := range results {
+		if msErr := r.data.IndexDocument(ctx, &search.IndexRequest{Index: "realtime_subscriptions", Document: row}); msErr != nil {
+			logger.Errorf(ctx, "subscriptionRepo.CreateBatch error creating Meilisearch index: %v", msErr)
+		}
+	}
+
 	return results, nil
 }
 
@@ -217,7 +243,17 @@ func (r *subscriptionRepository) DeleteBatch(ctx context.Context, ids []string) 
 		return err
 	}
 
-	return tx.Commit()
+	if err := tx.Commit(); err != nil {
+		return err
+	}
+
+	for _, id := range ids {
+		if msErr := r.data.DeleteDocument(ctx, "realtime_subscriptions", id); msErr != nil {
+			logger.Errorf(ctx, "subscriptionRepo.DeleteBatch error deleting Meilisearch index: %v", msErr)
+		}
+	}
+
+	return nil
 }
 
 // GetUserSubscriptions gets all subscriptions for a user
@@ -242,11 +278,15 @@ func (r *subscriptionRepository) GetChannelSubscribers(ctx context.Context, chan
 
 // UpdateStatus updates a subscription's status
 func (r *subscriptionRepository) UpdateStatus(ctx context.Context, id string, status int) error {
-	err := r.ec.Subscription.UpdateOneID(id).
+	row, err := r.ec.Subscription.UpdateOneID(id).
 		SetStatus(status).
-		Exec(ctx)
+		Save(ctx)
 	if err != nil {
 		return err
+	}
+
+	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "realtime_subscriptions", Document: row, DocumentID: row.ID}); err != nil {
+		logger.Errorf(ctx, "subscriptionRepo.UpdateStatus error updating Meilisearch index: %v", err)
 	}
 
 	cacheKey := fmt.Sprintf("subscription:%s", id)
@@ -278,37 +318,87 @@ func (r *subscriptionRepository) UpdateStatusBatch(ctx context.Context, ids []st
 		tx.Rollback()
 		return err
 	}
+	if err := tx.Commit(); err != nil {
+		return err
+	}
 
-	return tx.Commit()
+	for _, id := range ids {
+		if row, err := r.ec.Subscription.Get(ctx, id); err == nil && row != nil {
+			if msErr := r.data.IndexDocument(ctx, &search.IndexRequest{Index: "realtime_subscriptions", Document: row, DocumentID: row.ID}); msErr != nil {
+				logger.Errorf(ctx, "subscriptionRepo.UpdateStatusBatch error updating Meilisearch index: %v", msErr)
+			}
+		}
+	}
+
+	return nil
 }
 
 // DeleteByUserAndChannel deletes a subscription by user ID and channel ID
 func (r *subscriptionRepository) DeleteByUserAndChannel(ctx context.Context, userID, channelID string) error {
+	var targetID string
+	if row, err := r.ec.Subscription.Query().
+		Where(
+			subscriptionEnt.UserID(userID),
+			subscriptionEnt.ChannelID(channelID),
+		).First(ctx); err == nil && row != nil {
+		targetID = row.ID
+	}
+
 	_, err := r.ec.Subscription.Delete().
 		Where(
 			subscriptionEnt.UserID(userID),
 			subscriptionEnt.ChannelID(channelID),
 		).
 		Exec(ctx)
+	if err != nil {
+		return err
+	}
 
-	return err
+	if targetID != "" {
+		if err = r.data.DeleteDocument(ctx, "realtime_subscriptions", targetID); err != nil {
+			logger.Errorf(ctx, "subscriptionRepo.DeleteByUserAndChannel error deleting Meilisearch index: %v", err)
+		}
+	}
+
+	return nil
 }
 
 // DeleteByChannel deletes all subscriptions for a channel
 func (r *subscriptionRepository) DeleteByChannel(ctx context.Context, channelID string) error {
+	rows, _ := r.ec.Subscription.Query().Where(subscriptionEnt.ChannelID(channelID)).All(ctx)
 	_, err := r.ec.Subscription.Delete().
 		Where(subscriptionEnt.ChannelID(channelID)).
 		Exec(ctx)
-	return err
+	if err != nil {
+		return err
+	}
+
+	for _, row := range rows {
+		if msErr := r.data.DeleteDocument(ctx, "realtime_subscriptions", row.ID); msErr != nil {
+			logger.Errorf(ctx, "subscriptionRepo.DeleteByChannel error deleting Meilisearch index: %v", msErr)
+		}
+	}
+
+	return nil
 }
 
 // DeleteByUser deletes all subscriptions for a user
 func (r *subscriptionRepository) DeleteByUser(ctx context.Context, userID string) error {
+	rows, _ := r.ec.Subscription.Query().Where(subscriptionEnt.UserID(userID)).All(ctx)
 	_, err := r.ec.Subscription.Delete().
 		Where(subscriptionEnt.UserID(userID)).
 		Exec(ctx)
+	if err != nil {
+		return err
+	}
 
-	return err
+	for _, row := range rows {
+		if msErr := r.data.DeleteDocument(ctx, "realtime_subscriptions", row.ID); msErr != nil {
+			logger.Errorf(ctx, "subscriptionRepo.DeleteByUser error deleting Meilisearch index: %v", msErr)
+		}
+	}
+
+	return nil
 }
 
 // buildQuery builds a query with filters
