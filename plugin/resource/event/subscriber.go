@@ -17,10 +17,10 @@ type subscriber struct {
 	handler HandlerInterface
 }
 
-// NewSubscriber creates new event subscriber
-func NewSubscriber() SubscriberInterface {
+// NewSubscriber creates new event subscriber.
+func NewSubscriber(em ext.ManagerInterface, notifier NotifierInterface) SubscriberInterface {
 	return &subscriber{
-		handler: NewHandler(),
+		handler: NewHandler(em, notifier),
 	}
 }
 

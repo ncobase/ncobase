@@ -26,6 +26,7 @@ import (
 type FileRepositoryInterface interface {
 	Create(ctx context.Context, body *structs.CreateFileBody) (*ent.File, error)
 	GetByID(ctx context.Context, slug string) (*ent.File, error)
+	GetByHash(ctx context.Context, ownerID, hash string) (*ent.File, error)
 	Update(ctx context.Context, slug string, updates types.JSON) (*ent.File, error)
 	Delete(ctx context.Context, slug string) error
 	List(ctx context.Context, params *structs.ListFileParams) ([]*ent.File, error)
@@ -172,6 +173,20 @@ func (r *fileRepository) Create(ctx context.Context, body *structs.CreateFileBod
 	}
 
 	return row, nil
+}
+
+// GetByHash returns a file for the given owner and hash.
+func (r *fileRepository) GetByHash(ctx context.Context, ownerID, hash string) (*ent.File, error) {
+	if ownerID == "" || hash == "" {
+		return nil, fmt.Errorf("ownerID and hash are required")
+	}
+
+	return r.ec.File.Query().
+		Where(
+			fileEnt.OwnerIDEQ(ownerID),
+			fileEnt.HashEQ(hash),
+		).
+		Only(ctx)
 }
 
 // Update updates file by ID with complete field mapping

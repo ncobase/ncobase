@@ -127,7 +127,7 @@ func (p *Plugin) PostInit() error {
 	p.h = handler.New(p.s)
 
 	// Create event subscriber
-	p.eventSubscriber = event.NewSubscriber()
+	p.eventSubscriber = event.NewSubscriber(p.em, event.NewNotifier(p.em))
 
 	// Set quota updater for event handler
 	p.eventSubscriber.SetQuotaUpdater(p.s.Quota)

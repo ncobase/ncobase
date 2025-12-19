@@ -7,7 +7,9 @@ import (
 	"ncobase/realtime/data/ent"
 	eventEnt "ncobase/realtime/data/ent/event"
 	"ncobase/realtime/structs"
+	"time"
 
+	"entgo.io/ent"
 	"github.com/ncobase/ncore/data/databases/cache"
 	"github.com/ncobase/ncore/data/paging"
 	"github.com/ncobase/ncore/logging/logger"
@@ -42,6 +44,10 @@ type EventRepositoryInterface interface {
 	GetEventsByTimeRange(ctx context.Context, start, end int64) ([]*ent.Event, error)
 	GetEventsBySource(ctx context.Context, source string, limit int) ([]*ent.Event, error)
 	GetEventsByType(ctx context.Context, eventType string, limit int) ([]*ent.Event, error)
+	ListProcessedByTimeRange(ctx context.Context, start, end int64, limit int) ([]*ent.Event, error)
+	CountByStatus(ctx context.Context) (map[string]int, error)
+	CountByType(ctx context.Context) (map[string]int, error)
+	CountBySource(ctx context.Context) (map[string]int, error)
 
 	GetStatsData(ctx context.Context, params *structs.StatsParams) (map[string]any, error)
 	GetEventCounts(ctx context.Context, timeRange *structs.TimeRange) (map[string]int64, error)
@@ -289,7 +295,11 @@ func (r *eventRepository) UpdateStatus(ctx context.Context, id string, status st
 	}
 
 	if status == "processed" {
-		update = update.SetProcessedAt(ctx.Value("timestamp").(int64))
+		processedAt := time.Now().UnixMilli()
+		if ts, ok := ctx.Value("timestamp").(int64); ok && ts > 0 {
+			processedAt = ts
+		}
+		update = update.SetProcessedAt(processedAt)
 	}
 
 	err := update.Exec(ctx)
@@ -422,6 +432,73 @@ func (r *eventRepository) GetEventsByType(ctx context.Context, eventType string,
 		All(ctx)
 }
 
+// ListProcessedByTimeRange returns processed events within the given time range.
+func (r *eventRepository) ListProcessedByTimeRange(ctx context.Context, start, end int64, limit int) ([]*ent.Event, error) {
+	builder := r.ec.Event.Query().
+		Where(eventEnt.ProcessedAtGT(0))
+
+	if start > 0 && end > 0 {
+		builder = builder.Where(
+			eventEnt.CreatedAtGTE(start),
+			eventEnt.CreatedAtLTE(end),
+		)
+	}
+
+	if limit > 0 {
+		builder = builder.Limit(limit)
+	}
+
+	return builder.All(ctx)
+}
+
+// CountByStatus returns counts grouped by status.
+func (r *eventRepository) CountByStatus(ctx context.Context) (map[string]int, error) {
+	type row struct {
+		Status string `json:"status"`
+		Count  int    `json:"count"`
+	}
+	var rows []row
+	if err := r.ec.Event.Query().
+		GroupBy(eventEnt.FieldStatus).
+		Aggregate(ent.Count()).
+		Scan(ctx, &rows); err != nil {
+		return nil, err
+	}
+	return toCountMap(rows, func(r row) string { return r.Status }, func(r row) int { return r.Count }), nil
+}
+
+// CountByType returns counts grouped by type.
+func (r *eventRepository) CountByType(ctx context.Context) (map[string]int, error) {
+	type row struct {
+		Type  string `json:"type"`
+		Count int    `json:"count"`
+	}
+	var rows []row
+	if err := r.ec.Event.Query().
+		GroupBy(eventEnt.FieldType).
+		Aggregate(ent.Count()).
+		Scan(ctx, &rows); err != nil {
+		return nil, err
+	}
+	return toCountMap(rows, func(r row) string { return r.Type }, func(r row) int { return r.Count }), nil
+}
+
+// CountBySource returns counts grouped by source.
+func (r *eventRepository) CountBySource(ctx context.Context) (map[string]int, error) {
+	type row struct {
+		Source string `json:"source"`
+		Count  int    `json:"count"`
+	}
+	var rows []row
+	if err := r.ec.Event.Query().
+		GroupBy(eventEnt.FieldSource).
+		Aggregate(ent.Count()).
+		Scan(ctx, &rows); err != nil {
+		return nil, err
+	}
+	return toCountMap(rows, func(r row) string { return r.Source }, func(r row) int { return r.Count }), nil
+}
+
 // GetStatsData gets statistics data for real-time stats
 func (r *eventRepository) GetStatsData(ctx context.Context, params *structs.StatsParams) (map[string]any, error) {
 	stats := make(map[string]any)
@@ -454,6 +531,14 @@ func (r *eventRepository) GetStatsData(ctx context.Context, params *structs.Stat
 	stats["by_type"] = typeCounts
 
 	return stats, nil
+}
+
+func toCountMap[T any](rows []T, keyFn func(T) string, countFn func(T) int) map[string]int {
+	result := make(map[string]int, len(rows))
+	for _, item := range rows {
+		result[keyFn(item)] = countFn(item)
+	}
+	return result
 }
 
 // GetEventCounts gets event counts within time range

@@ -65,6 +65,14 @@ func NewFileService(
 	}
 }
 
+func (s *fileService) findFileByHash(ctx context.Context, ownerID, hash string) (*ent.File, error) {
+	file, err := s.fileRepo.GetByHash(ctx, ownerID, hash)
+	if ent.IsNotFound(err) {
+		return nil, nil
+	}
+	return file, err
+}
+
 // Create creates a new file
 func (s *fileService) Create(ctx context.Context, body *structs.CreateFileBody) (*structs.ReadFile, error) {
 	// Get ownerID from context if not provided
@@ -109,12 +117,11 @@ func (s *fileService) Create(ctx context.Context, body *structs.CreateFileBody) 
 	// Calculate file hash for deduplication
 	hash := calculateFileHash(fileBytes)
 
-	// Check for existing file with same hash (optional deduplication)
+	// Check for existing file with same hash (optional deduplication).
 	if body.OwnerID != "" && hash != "" {
-		existing, err := findFileByHash(ctx, body.OwnerID, hash)
+		existing, err := s.findFileByHash(ctx, body.OwnerID, hash)
 		if err == nil && existing != nil {
 			logger.Infof(ctx, "File with same hash already exists: %s", existing.ID)
-			// Could return existing file or continue with new upload based on business logic
 		}
 	}
 

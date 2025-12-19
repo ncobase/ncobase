@@ -50,13 +50,6 @@ func calculateFileHash(content []byte) string {
 	return fmt.Sprintf("sha256:%x", hash)
 }
 
-// findFileByHash finds existing file by hash for deduplication
-func findFileByHash(ctx context.Context, ownerID, hash string) (*ent.File, error) {
-	// This would require a repository method to find by hash
-	// For now, return nil (no deduplication)
-	return nil, fmt.Errorf("not implemented")
-}
-
 // getExtrasFromFile returns the extras from the file
 func getExtrasFromFile(file *ent.File) types.JSON {
 	if file == nil || file.Extras == nil {

@@ -3,6 +3,7 @@ package event
 import (
 	"context"
 
+	ext "github.com/ncobase/ncore/extension/types"
 	"github.com/ncobase/ncore/logging/logger"
 )
 
@@ -29,12 +30,17 @@ type HandlerInterface interface {
 type handler struct {
 	quotaUpdater QuotaUpdaterInterface
 	notifier     NotifierInterface
+	em           ext.ManagerInterface
 }
 
 // NewHandler creates new event handler
-func NewHandler() HandlerInterface {
+func NewHandler(em ext.ManagerInterface, notifier NotifierInterface) HandlerInterface {
+	if notifier == nil {
+		notifier = NewNotifier(em)
+	}
 	return &handler{
-		notifier: NewNotifier(), // Default notifier implementation
+		em:       em,
+		notifier: notifier,
 	}
 }
 
@@ -193,16 +199,23 @@ func (h *handler) HandleBatchUploadFailed(data any) {
 // Additional processing
 
 func (h *handler) handleFileIndexUpdate(eventData *FileEventData) {
-	// TODO: Update search index, invalidate caches, etc.
 	logger.Debugf(context.Background(), "Updating file index for: %s", eventData.ID)
+	if h.em != nil {
+		h.em.PublishEvent(FileIndexUpdateRequested, eventData)
+	}
 }
 
 func (h *handler) updateAccessAnalytics(eventData *FileEventData) {
-	// TODO: Update access statistics, popular files tracking, etc.
 	logger.Debugf(context.Background(), "Updating access analytics for: %s", eventData.ID)
+	if h.em != nil {
+		h.em.PublishEvent(FileAccessAnalyticsUpdated, eventData)
+	}
 }
 
 func (h *handler) trackBatchOperation(eventData *BatchOperationEventData, status string) {
-	// TODO: Track batch operation metrics, success rates, etc.
+	eventData.Status = status
 	logger.Debugf(context.Background(), "Tracking batch operation %s: %s", eventData.OperationID, status)
+	if h.em != nil {
+		h.em.PublishEvent(BatchOperationTracked, eventData)
+	}
 }

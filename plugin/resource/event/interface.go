@@ -26,6 +26,16 @@ const (
 
 	StorageQuotaWarning  = "resource.storage.quota.warning"
 	StorageQuotaExceeded = "resource.storage.quota.exceeded"
+
+	// Notification events
+
+	ResourceNotification = "resource.notification"
+
+	// Internal processing events
+
+	FileIndexUpdateRequested   = "resource.file.index.update"
+	FileAccessAnalyticsUpdated = "resource.file.access.analytics"
+	BatchOperationTracked      = "resource.batch.operation.tracked"
 )
 
 // PublisherInterface defines methods to publish resource-related events

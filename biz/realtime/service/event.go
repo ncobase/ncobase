@@ -229,9 +229,8 @@ func (s *eventService) GetRealtimeStats(ctx context.Context, params *structs.Sta
 		metrics["total_events"] = total
 	}
 
-	// Events per second (simplified calculation)
-	// In production, this would use time-series data
-	metrics["events_per_second"] = s.calculateEventsPerSecond(ctx, params.Interval)
+	interval := normalizeInterval(params.Interval)
+	metrics["events_per_second"] = s.calculateEventsPerSecond(ctx, interval)
 
 	// Error rate
 	if statusCounts, ok := statsData["by_status"].(map[string]int); ok {
@@ -250,8 +249,7 @@ func (s *eventService) GetRealtimeStats(ctx context.Context, params *structs.Sta
 		}
 	}
 
-	// Average processing time (placeholder)
-	metrics["avg_processing_time_ms"] = 45.0
+	metrics["avg_processing_time_ms"] = s.calculateAvgProcessingTime(ctx, interval)
 
 	breakdown := make(map[string]map[string]any)
 	if statusCounts, ok := statsData["by_status"]; ok {
@@ -423,14 +421,14 @@ func (s *eventService) broadcastEvent(e *structs.ReadEvent) {
 
 // processEvent processes a single event
 func (s *eventService) processEvent(ctx context.Context, event *ent.Event) error {
-	// Implement event processing logic here
-	// This is where you'd add business logic for different event types
+	if event.Type == "" {
+		return fmt.Errorf("event type is required")
+	}
+	if event.Source == "" {
+		return fmt.Errorf("event source is required")
+	}
 
 	logger.Infof(ctx, "Processing event %s of type %s", event.ID, event.Type)
-
-	// Simulate processing
-	time.Sleep(10 * time.Millisecond)
-
 	return nil
 }
 
@@ -474,26 +472,88 @@ func (s *eventService) scheduleRetry(ctx context.Context, eventID string, schedu
 }
 
 // calculateEventsPerSecond calculates events per second
-func (s *eventService) calculateEventsPerSecond(ctx context.Context, interval string) float64 {
-	// Simplified calculation - in production, use time-series data
-	// This would query events from the last minute and calculate rate
-	return 1250.0 // placeholder
+func (s *eventService) calculateEventsPerSecond(ctx context.Context, interval time.Duration) float64 {
+	if interval <= 0 {
+		return 0
+	}
+
+	end := time.Now().UnixMilli()
+	start := end - interval.Milliseconds()
+	count, err := s.eventRepo.Count(ctx, &structs.ListEventParams{
+		TimeRange: []int64{start, end},
+	})
+	if err != nil || interval.Seconds() == 0 {
+		return 0
+	}
+
+	return float64(count) / interval.Seconds()
 }
 
 // performAggregations performs aggregations on search results
 func (s *eventService) performAggregations(ctx context.Context, aggregations map[string]any) map[string]any {
-	// Simplified aggregation - in production, use Elasticsearch aggregations
+	if aggregations == nil || len(aggregations) == 0 {
+		return nil
+	}
+
 	result := make(map[string]any)
 
-	// Placeholder aggregation results
-	result["event_trends"] = map[string]any{
-		"buckets": []map[string]any{
-			{"key": "2025-08-03T10:00:00Z", "doc_count": 100},
-			{"key": "2025-08-03T11:00:00Z", "doc_count": 150},
-		},
+	if _, ok := aggregations["by_status"]; ok {
+		if counts, err := s.eventRepo.CountByStatus(ctx); err == nil {
+			result["by_status"] = counts
+		}
+	}
+
+	if _, ok := aggregations["by_type"]; ok {
+		if counts, err := s.eventRepo.CountByType(ctx); err == nil {
+			result["by_type"] = counts
+		}
+	}
+
+	if _, ok := aggregations["by_source"]; ok {
+		if counts, err := s.eventRepo.CountBySource(ctx); err == nil {
+			result["by_source"] = counts
+		}
 	}
 
 	return result
+}
+
+func (s *eventService) calculateAvgProcessingTime(ctx context.Context, interval time.Duration) float64 {
+	if interval <= 0 {
+		return 0
+	}
+
+	end := time.Now().UnixMilli()
+	start := end - interval.Milliseconds()
+	events, err := s.eventRepo.ListProcessedByTimeRange(ctx, start, end, 1000)
+	if err != nil || len(events) == 0 {
+		return 0
+	}
+
+	var total int64
+	var count int64
+	for _, event := range events {
+		if event.ProcessedAt > 0 && event.CreatedAt > 0 && event.ProcessedAt >= event.CreatedAt {
+			total += event.ProcessedAt - event.CreatedAt
+			count++
+		}
+	}
+	if count == 0 {
+		return 0
+	}
+
+	return float64(total) / float64(count)
+}
+
+func normalizeInterval(interval string) time.Duration {
+	if interval == "" {
+		return time.Minute
+	}
+	duration, err := time.ParseDuration(interval)
+	if err != nil || duration <= 0 {
+		return time.Minute
+	}
+	return duration
 }
 
 // getStringFromFilters gets string value from filters map
