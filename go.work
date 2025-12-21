@@ -4,7 +4,6 @@ use (
 	.
 	./biz/content
 	./biz/realtime
-	./biz/workflow
 	./core/access
 	./core/auth
 	./core/organization
