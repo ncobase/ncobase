@@ -14,7 +14,6 @@ package ncobase
 // Generate business components
 //go:generate go generate ./biz/content
 //go:generate go generate ./biz/realtime
-//go:generate go generate ./biz/workflow
 
 // Generate plugins
 //go:generate go generate ./plugin/counter
