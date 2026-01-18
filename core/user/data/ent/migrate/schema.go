@@ -9,8 +9,8 @@ import (
 )
 
 var (
-	// NcseSysUserAPIKeyColumns holds the columns for the "ncse_sys_user_api_key" table.
-	NcseSysUserAPIKeyColumns = []*schema.Column{
+	// NcseUserAPIKeyColumns holds the columns for the "ncse_user_api_key" table.
+	NcseUserAPIKeyColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
 		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "name"},
 		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
@@ -19,41 +19,41 @@ var (
 		{Name: "key", Type: field.TypeString, Unique: true},
 		{Name: "last_used", Type: field.TypeInt64, Nullable: true},
 	}
-	// NcseSysUserAPIKeyTable holds the schema information for the "ncse_sys_user_api_key" table.
-	NcseSysUserAPIKeyTable = &schema.Table{
-		Name:       "ncse_sys_user_api_key",
-		Columns:    NcseSysUserAPIKeyColumns,
-		PrimaryKey: []*schema.Column{NcseSysUserAPIKeyColumns[0]},
+	// NcseUserAPIKeyTable holds the schema information for the "ncse_user_api_key" table.
+	NcseUserAPIKeyTable = &schema.Table{
+		Name:       "ncse_user_api_key",
+		Columns:    NcseUserAPIKeyColumns,
+		PrimaryKey: []*schema.Column{NcseUserAPIKeyColumns[0]},
 		Indexes: []*schema.Index{
 			{
 				Name:    "apikey_id",
 				Unique:  true,
-				Columns: []*schema.Column{NcseSysUserAPIKeyColumns[0]},
+				Columns: []*schema.Column{NcseUserAPIKeyColumns[0]},
 			},
 			{
 				Name:    "apikey_user_id",
 				Unique:  false,
-				Columns: []*schema.Column{NcseSysUserAPIKeyColumns[4]},
+				Columns: []*schema.Column{NcseUserAPIKeyColumns[4]},
 			},
 			{
 				Name:    "apikey_id_created_at",
 				Unique:  true,
-				Columns: []*schema.Column{NcseSysUserAPIKeyColumns[0], NcseSysUserAPIKeyColumns[2]},
+				Columns: []*schema.Column{NcseUserAPIKeyColumns[0], NcseUserAPIKeyColumns[2]},
 			},
 			{
 				Name:    "apikey_user_id_created_at",
 				Unique:  false,
-				Columns: []*schema.Column{NcseSysUserAPIKeyColumns[4], NcseSysUserAPIKeyColumns[2]},
+				Columns: []*schema.Column{NcseUserAPIKeyColumns[4], NcseUserAPIKeyColumns[2]},
 			},
 			{
 				Name:    "apikey_key",
 				Unique:  true,
-				Columns: []*schema.Column{NcseSysUserAPIKeyColumns[5]},
+				Columns: []*schema.Column{NcseUserAPIKeyColumns[5]},
 			},
 		},
 	}
-	// NcseSysEmployeeColumns holds the columns for the "ncse_sys_employee" table.
-	NcseSysEmployeeColumns = []*schema.Column{
+	// NcseUserEmployeeColumns holds the columns for the "ncse_user_employee" table.
+	NcseUserEmployeeColumns = []*schema.Column{
 		{Name: "user_id", Type: field.TypeString, Unique: true, Comment: "user primary key alias"},
 		{Name: "space_id", Type: field.TypeString, Nullable: true, Comment: "space id, e.g. space id, organization id, store id"},
 		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
@@ -73,51 +73,51 @@ var (
 		{Name: "certifications", Type: field.TypeJSON, Nullable: true, Comment: "Professional certifications"},
 		{Name: "extras", Type: field.TypeJSON, Nullable: true, Comment: "Additional employee data"},
 	}
-	// NcseSysEmployeeTable holds the schema information for the "ncse_sys_employee" table.
-	NcseSysEmployeeTable = &schema.Table{
-		Name:       "ncse_sys_employee",
-		Columns:    NcseSysEmployeeColumns,
-		PrimaryKey: []*schema.Column{NcseSysEmployeeColumns[0]},
+	// NcseUserEmployeeTable holds the schema information for the "ncse_user_employee" table.
+	NcseUserEmployeeTable = &schema.Table{
+		Name:       "ncse_user_employee",
+		Columns:    NcseUserEmployeeColumns,
+		PrimaryKey: []*schema.Column{NcseUserEmployeeColumns[0]},
 		Indexes: []*schema.Index{
 			{
 				Name:    "employee_user_id",
 				Unique:  false,
-				Columns: []*schema.Column{NcseSysEmployeeColumns[0]},
+				Columns: []*schema.Column{NcseUserEmployeeColumns[0]},
 			},
 			{
 				Name:    "employee_space_id",
 				Unique:  false,
-				Columns: []*schema.Column{NcseSysEmployeeColumns[1]},
+				Columns: []*schema.Column{NcseUserEmployeeColumns[1]},
 			},
 			{
 				Name:    "employee_user_id_space_id",
 				Unique:  true,
-				Columns: []*schema.Column{NcseSysEmployeeColumns[0], NcseSysEmployeeColumns[1]},
+				Columns: []*schema.Column{NcseUserEmployeeColumns[0], NcseUserEmployeeColumns[1]},
 			},
 			{
 				Name:    "employee_employee_id",
 				Unique:  false,
-				Columns: []*schema.Column{NcseSysEmployeeColumns[4]},
+				Columns: []*schema.Column{NcseUserEmployeeColumns[4]},
 			},
 			{
 				Name:    "employee_department",
 				Unique:  false,
-				Columns: []*schema.Column{NcseSysEmployeeColumns[5]},
+				Columns: []*schema.Column{NcseUserEmployeeColumns[5]},
 			},
 			{
 				Name:    "employee_manager_id",
 				Unique:  false,
-				Columns: []*schema.Column{NcseSysEmployeeColumns[7]},
+				Columns: []*schema.Column{NcseUserEmployeeColumns[7]},
 			},
 			{
 				Name:    "employee_status",
 				Unique:  false,
-				Columns: []*schema.Column{NcseSysEmployeeColumns[11]},
+				Columns: []*schema.Column{NcseUserEmployeeColumns[11]},
 			},
 		},
 	}
-	// NcseSysUserColumns holds the columns for the "ncse_sys_user" table.
-	NcseSysUserColumns = []*schema.Column{
+	// NcseUserColumns holds the columns for the "ncse_user" table.
+	NcseUserColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
 		{Name: "username", Type: field.TypeString, Unique: true, Nullable: true, Size: 50, Comment: "username"},
 		{Name: "password", Type: field.TypeString, Nullable: true, Comment: "password"},
@@ -130,31 +130,31 @@ var (
 		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
 		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
 	}
-	// NcseSysUserTable holds the schema information for the "ncse_sys_user" table.
-	NcseSysUserTable = &schema.Table{
-		Name:       "ncse_sys_user",
-		Columns:    NcseSysUserColumns,
-		PrimaryKey: []*schema.Column{NcseSysUserColumns[0]},
+	// NcseUserTable holds the schema information for the "ncse_user" table.
+	NcseUserTable = &schema.Table{
+		Name:       "ncse_user",
+		Columns:    NcseUserColumns,
+		PrimaryKey: []*schema.Column{NcseUserColumns[0]},
 		Indexes: []*schema.Index{
 			{
 				Name:    "user_id",
 				Unique:  true,
-				Columns: []*schema.Column{NcseSysUserColumns[0]},
+				Columns: []*schema.Column{NcseUserColumns[0]},
 			},
 			{
 				Name:    "user_username",
 				Unique:  true,
-				Columns: []*schema.Column{NcseSysUserColumns[1]},
+				Columns: []*schema.Column{NcseUserColumns[1]},
 			},
 			{
 				Name:    "user_id_created_at",
 				Unique:  true,
-				Columns: []*schema.Column{NcseSysUserColumns[0], NcseSysUserColumns[9]},
+				Columns: []*schema.Column{NcseUserColumns[0], NcseUserColumns[9]},
 			},
 		},
 	}
-	// NcseSysUserProfileColumns holds the columns for the "ncse_sys_user_profile" table.
-	NcseSysUserProfileColumns = []*schema.Column{
+	// NcseUserProfileColumns holds the columns for the "ncse_user_profile" table.
+	NcseUserProfileColumns = []*schema.Column{
 		{Name: "user_id", Type: field.TypeString, Unique: true, Comment: "user primary key alias"},
 		{Name: "display_name", Type: field.TypeString, Nullable: true, Comment: "display name"},
 		{Name: "first_name", Type: field.TypeString, Nullable: true, Comment: "first name"},
@@ -166,39 +166,39 @@ var (
 		{Name: "thumbnail", Type: field.TypeString, Nullable: true, Comment: "thumbnail"},
 		{Name: "extras", Type: field.TypeJSON, Nullable: true, Comment: "Extend properties"},
 	}
-	// NcseSysUserProfileTable holds the schema information for the "ncse_sys_user_profile" table.
-	NcseSysUserProfileTable = &schema.Table{
-		Name:       "ncse_sys_user_profile",
-		Columns:    NcseSysUserProfileColumns,
-		PrimaryKey: []*schema.Column{NcseSysUserProfileColumns[0]},
+	// NcseUserProfileTable holds the schema information for the "ncse_user_profile" table.
+	NcseUserProfileTable = &schema.Table{
+		Name:       "ncse_user_profile",
+		Columns:    NcseUserProfileColumns,
+		PrimaryKey: []*schema.Column{NcseUserProfileColumns[0]},
 		Indexes: []*schema.Index{
 			{
 				Name:    "userprofile_user_id",
 				Unique:  false,
-				Columns: []*schema.Column{NcseSysUserProfileColumns[0]},
+				Columns: []*schema.Column{NcseUserProfileColumns[0]},
 			},
 		},
 	}
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
-		NcseSysUserAPIKeyTable,
-		NcseSysEmployeeTable,
-		NcseSysUserTable,
-		NcseSysUserProfileTable,
+		NcseUserAPIKeyTable,
+		NcseUserEmployeeTable,
+		NcseUserTable,
+		NcseUserProfileTable,
 	}
 )
 
 func init() {
-	NcseSysUserAPIKeyTable.Annotation = &entsql.Annotation{
-		Table: "ncse_sys_user_api_key",
+	NcseUserAPIKeyTable.Annotation = &entsql.Annotation{
+		Table: "ncse_user_api_key",
 	}
-	NcseSysEmployeeTable.Annotation = &entsql.Annotation{
-		Table: "ncse_sys_employee",
+	NcseUserEmployeeTable.Annotation = &entsql.Annotation{
+		Table: "ncse_user_employee",
 	}
-	NcseSysUserTable.Annotation = &entsql.Annotation{
-		Table: "ncse_sys_user",
+	NcseUserTable.Annotation = &entsql.Annotation{
+		Table: "ncse_user",
 	}
-	NcseSysUserProfileTable.Annotation = &entsql.Annotation{
-		Table: "ncse_sys_user_profile",
+	NcseUserProfileTable.Annotation = &entsql.Annotation{
+		Table: "ncse_user_profile",
 	}
 }

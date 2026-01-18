@@ -18,7 +18,7 @@ type SpaceDictionary struct {
 
 // Annotations of the SpaceDictionary.
 func (SpaceDictionary) Annotations() []schema.Annotation {
-	table := strings.Join([]string{"ncse", "sys", "space_dictionary"}, "_")
+	table := strings.Join([]string{"ncse", "space", "dictionary"}, "_")
 	return []schema.Annotation{
 		entsql.Annotation{Table: table},
 		entsql.WithComments(true),

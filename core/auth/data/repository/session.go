@@ -1,7 +1,6 @@
 package repository
 
 import (
-	"github.com/redis/go-redis/v9"
 	"context"
 	"fmt"
 	"ncobase/core/auth/data"
@@ -9,6 +8,8 @@ import (
 	sessionEnt "ncobase/core/auth/data/ent/session"
 	"ncobase/core/auth/structs"
 	"time"
+
+	"github.com/redis/go-redis/v9"
 
 	"github.com/ncobase/ncore/data/cache"
 	"github.com/ncobase/ncore/data/paging"

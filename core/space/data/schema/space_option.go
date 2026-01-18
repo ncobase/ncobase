@@ -18,7 +18,7 @@ type SpaceOption struct {
 
 // Annotations of the SpaceOption.
 func (SpaceOption) Annotations() []schema.Annotation {
-	table := strings.Join([]string{"ncse", "sys", "space_option"}, "_")
+	table := strings.Join([]string{"ncse", "space", "option"}, "_")
 	return []schema.Annotation{
 		entsql.Annotation{Table: table},
 		entsql.WithComments(true),

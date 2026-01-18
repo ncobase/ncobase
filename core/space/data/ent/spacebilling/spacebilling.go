@@ -48,7 +48,7 @@ const (
 	// FieldUsageDetails holds the string denoting the usage_details field in the database.
 	FieldUsageDetails = "usage_details"
 	// Table holds the table name of the spacebilling in the database.
-	Table = "ncse_sys_space_billing"
+	Table = "ncse_space_billing"
 )
 
 // Columns holds all SQL columns for spacebilling fields.

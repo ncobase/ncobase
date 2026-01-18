@@ -24,7 +24,7 @@ const (
 	// FieldUpdatedAt holds the string denoting the updated_at field in the database.
 	FieldUpdatedAt = "updated_at"
 	// Table holds the table name of the spaceoption in the database.
-	Table = "ncse_sys_space_option"
+	Table = "ncse_space_option"
 )
 
 // Columns holds all SQL columns for spaceoption fields.

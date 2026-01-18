@@ -9,8 +9,8 @@ import (
 )
 
 var (
-	// NcseTbpEndpointColumns holds the columns for the "ncse_tbp_endpoint" table.
-	NcseTbpEndpointColumns = []*schema.Column{
+	// NcseProxyEndpointColumns holds the columns for the "ncse_proxy_endpoint" table.
+	NcseProxyEndpointColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
 		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "name"},
 		{Name: "description", Type: field.TypeString, Nullable: true, Size: 2147483647, Comment: "description"},
@@ -31,26 +31,26 @@ var (
 		{Name: "log_requests", Type: field.TypeBool, Comment: "Whether to log request details", Default: true},
 		{Name: "log_responses", Type: field.TypeBool, Comment: "Whether to log response details", Default: true},
 	}
-	// NcseTbpEndpointTable holds the schema information for the "ncse_tbp_endpoint" table.
-	NcseTbpEndpointTable = &schema.Table{
-		Name:       "ncse_tbp_endpoint",
-		Columns:    NcseTbpEndpointColumns,
-		PrimaryKey: []*schema.Column{NcseTbpEndpointColumns[0]},
+	// NcseProxyEndpointTable holds the schema information for the "ncse_proxy_endpoint" table.
+	NcseProxyEndpointTable = &schema.Table{
+		Name:       "ncse_proxy_endpoint",
+		Columns:    NcseProxyEndpointColumns,
+		PrimaryKey: []*schema.Column{NcseProxyEndpointColumns[0]},
 		Indexes: []*schema.Index{
 			{
 				Name:    "endpoint_id",
 				Unique:  true,
-				Columns: []*schema.Column{NcseTbpEndpointColumns[0]},
+				Columns: []*schema.Column{NcseProxyEndpointColumns[0]},
 			},
 			{
 				Name:    "endpoint_name",
 				Unique:  true,
-				Columns: []*schema.Column{NcseTbpEndpointColumns[1]},
+				Columns: []*schema.Column{NcseProxyEndpointColumns[1]},
 			},
 		},
 	}
-	// NcseTbpLogColumns holds the columns for the "ncse_tbp_log" table.
-	NcseTbpLogColumns = []*schema.Column{
+	// NcseProxyLogColumns holds the columns for the "ncse_proxy_log" table.
+	NcseProxyLogColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
 		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
 		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
@@ -68,36 +68,36 @@ var (
 		{Name: "client_ip", Type: field.TypeString, Nullable: true, Comment: "IP address of the client"},
 		{Name: "user_id", Type: field.TypeString, Nullable: true, Comment: "ID of the user who made the request"},
 	}
-	// NcseTbpLogTable holds the schema information for the "ncse_tbp_log" table.
-	NcseTbpLogTable = &schema.Table{
-		Name:       "ncse_tbp_log",
-		Columns:    NcseTbpLogColumns,
-		PrimaryKey: []*schema.Column{NcseTbpLogColumns[0]},
+	// NcseProxyLogTable holds the schema information for the "ncse_proxy_log" table.
+	NcseProxyLogTable = &schema.Table{
+		Name:       "ncse_proxy_log",
+		Columns:    NcseProxyLogColumns,
+		PrimaryKey: []*schema.Column{NcseProxyLogColumns[0]},
 		Indexes: []*schema.Index{
 			{
 				Name:    "logs_id",
 				Unique:  true,
-				Columns: []*schema.Column{NcseTbpLogColumns[0]},
+				Columns: []*schema.Column{NcseProxyLogColumns[0]},
 			},
 			{
 				Name:    "logs_endpoint_id",
 				Unique:  false,
-				Columns: []*schema.Column{NcseTbpLogColumns[3]},
+				Columns: []*schema.Column{NcseProxyLogColumns[3]},
 			},
 			{
 				Name:    "logs_route_id",
 				Unique:  false,
-				Columns: []*schema.Column{NcseTbpLogColumns[4]},
+				Columns: []*schema.Column{NcseProxyLogColumns[4]},
 			},
 			{
 				Name:    "logs_created_at",
 				Unique:  false,
-				Columns: []*schema.Column{NcseTbpLogColumns[1]},
+				Columns: []*schema.Column{NcseProxyLogColumns[1]},
 			},
 		},
 	}
-	// NcseTbpRouteColumns holds the columns for the "ncse_tbp_route" table.
-	NcseTbpRouteColumns = []*schema.Column{
+	// NcseProxyRouteColumns holds the columns for the "ncse_proxy_route" table.
+	NcseProxyRouteColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
 		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "name"},
 		{Name: "description", Type: field.TypeString, Nullable: true, Size: 2147483647, Comment: "description"},
@@ -118,26 +118,26 @@ var (
 		{Name: "rate_limit", Type: field.TypeString, Nullable: true, Comment: "Rate limit expression (e.g., 100/minute)"},
 		{Name: "strip_auth_header", Type: field.TypeBool, Comment: "Whether to strip authentication header when forwarding", Default: false},
 	}
-	// NcseTbpRouteTable holds the schema information for the "ncse_tbp_route" table.
-	NcseTbpRouteTable = &schema.Table{
-		Name:       "ncse_tbp_route",
-		Columns:    NcseTbpRouteColumns,
-		PrimaryKey: []*schema.Column{NcseTbpRouteColumns[0]},
+	// NcseProxyRouteTable holds the schema information for the "ncse_proxy_route" table.
+	NcseProxyRouteTable = &schema.Table{
+		Name:       "ncse_proxy_route",
+		Columns:    NcseProxyRouteColumns,
+		PrimaryKey: []*schema.Column{NcseProxyRouteColumns[0]},
 		Indexes: []*schema.Index{
 			{
 				Name:    "route_id",
 				Unique:  true,
-				Columns: []*schema.Column{NcseTbpRouteColumns[0]},
+				Columns: []*schema.Column{NcseProxyRouteColumns[0]},
 			},
 			{
 				Name:    "route_endpoint_id_path_pattern_method",
 				Unique:  true,
-				Columns: []*schema.Column{NcseTbpRouteColumns[9], NcseTbpRouteColumns[10], NcseTbpRouteColumns[12]},
+				Columns: []*schema.Column{NcseProxyRouteColumns[9], NcseProxyRouteColumns[10], NcseProxyRouteColumns[12]},
 			},
 		},
 	}
-	// NcseTbpTransformerColumns holds the columns for the "ncse_tbp_transformer" table.
-	NcseTbpTransformerColumns = []*schema.Column{
+	// NcseProxyTransformerColumns holds the columns for the "ncse_proxy_transformer" table.
+	NcseProxyTransformerColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
 		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "name"},
 		{Name: "description", Type: field.TypeString, Nullable: true, Size: 2147483647, Comment: "description"},
@@ -151,44 +151,44 @@ var (
 		{Name: "content", Type: field.TypeString, Size: 2147483647, Comment: "Transformer content (template, script or mapping definition)"},
 		{Name: "content_type", Type: field.TypeString, Comment: "Content type (text/javascript, application/json, text/template)", Default: "application/json"},
 	}
-	// NcseTbpTransformerTable holds the schema information for the "ncse_tbp_transformer" table.
-	NcseTbpTransformerTable = &schema.Table{
-		Name:       "ncse_tbp_transformer",
-		Columns:    NcseTbpTransformerColumns,
-		PrimaryKey: []*schema.Column{NcseTbpTransformerColumns[0]},
+	// NcseProxyTransformerTable holds the schema information for the "ncse_proxy_transformer" table.
+	NcseProxyTransformerTable = &schema.Table{
+		Name:       "ncse_proxy_transformer",
+		Columns:    NcseProxyTransformerColumns,
+		PrimaryKey: []*schema.Column{NcseProxyTransformerColumns[0]},
 		Indexes: []*schema.Index{
 			{
 				Name:    "transformer_id",
 				Unique:  true,
-				Columns: []*schema.Column{NcseTbpTransformerColumns[0]},
+				Columns: []*schema.Column{NcseProxyTransformerColumns[0]},
 			},
 			{
 				Name:    "transformer_name",
 				Unique:  true,
-				Columns: []*schema.Column{NcseTbpTransformerColumns[1]},
+				Columns: []*schema.Column{NcseProxyTransformerColumns[1]},
 			},
 		},
 	}
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
-		NcseTbpEndpointTable,
-		NcseTbpLogTable,
-		NcseTbpRouteTable,
-		NcseTbpTransformerTable,
+		NcseProxyEndpointTable,
+		NcseProxyLogTable,
+		NcseProxyRouteTable,
+		NcseProxyTransformerTable,
 	}
 )
 
 func init() {
-	NcseTbpEndpointTable.Annotation = &entsql.Annotation{
-		Table: "ncse_tbp_endpoint",
+	NcseProxyEndpointTable.Annotation = &entsql.Annotation{
+		Table: "ncse_proxy_endpoint",
 	}
-	NcseTbpLogTable.Annotation = &entsql.Annotation{
-		Table: "ncse_tbp_log",
+	NcseProxyLogTable.Annotation = &entsql.Annotation{
+		Table: "ncse_proxy_log",
 	}
-	NcseTbpRouteTable.Annotation = &entsql.Annotation{
-		Table: "ncse_tbp_route",
+	NcseProxyRouteTable.Annotation = &entsql.Annotation{
+		Table: "ncse_proxy_route",
 	}
-	NcseTbpTransformerTable.Annotation = &entsql.Annotation{
-		Table: "ncse_tbp_transformer",
+	NcseProxyTransformerTable.Annotation = &entsql.Annotation{
+		Table: "ncse_proxy_transformer",
 	}
 }

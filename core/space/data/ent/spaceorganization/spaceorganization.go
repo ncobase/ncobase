@@ -26,7 +26,7 @@ const (
 	// FieldRelationType holds the string denoting the relation_type field in the database.
 	FieldRelationType = "relation_type"
 	// Table holds the table name of the spaceorganization in the database.
-	Table = "ncse_sys_space_organization"
+	Table = "ncse_space_organization"
 )
 
 // Columns holds all SQL columns for spaceorganization fields.

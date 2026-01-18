@@ -32,18 +32,18 @@ func (File) Annotations() []schema.Annotation {
 // Mixin for File
 func (File) Mixin() []ent.Mixin {
 	return []ent.Mixin{
-		mixin.PrimaryKey,   // id field
-		mixin.NameUnique,   // name field (unique per owner)
-		mixin.Path,         // path field (storage path)
-		mixin.Type,         // type field (content type)
-		mixin.Size,         // size field (file size in bytes)
-		mixin.Storage,      // storage field (storage provider)
-		mixin.Bucket,       // bucket field (storage bucket)
-		mixin.Endpoint,     // endpoint field (storage endpoint)
-		mixin.OwnerID,      // owner_id field (file owner)
-		mixin.ExtraProps,   // extras field (additional properties)
-		mixin.OperatorBy{}, // created_by, updated_by fields
-		mixin.TimeAt{},     // created_at, updated_at fields
+		mixin.PrimaryKey,
+		mixin.Name,
+		mixin.Path,
+		mixin.Type,
+		mixin.Size,
+		mixin.Storage,
+		mixin.Bucket,
+		mixin.Endpoint,
+		mixin.OwnerID,
+		mixin.ExtraProps,
+		mixin.OperatorBy{},
+		mixin.TimeAt{},
 	}
 }
 
@@ -112,7 +112,7 @@ func (File) Indexes() []ent.Index {
 		index.Fields("access_level"),
 		index.Fields("storage"),
 		index.Fields("type"),
-		index.Fields("hash"), // For deduplication queries
+		index.Fields("hash"),
 
 		// Composite indexes for filtered queries
 		index.Fields("owner_id", "category"),
@@ -122,7 +122,6 @@ func (File) Indexes() []ent.Index {
 		index.Fields("created_by", "created_at"),
 
 		// Search and filtering indexes
-		index.Fields("name"),
 		index.Fields("original_name"),
 		index.Fields("path"),
 

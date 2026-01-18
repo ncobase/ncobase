@@ -18,7 +18,7 @@ ncobase/
 ## Tech Stack
 
 | Category       | Technologies                               |
-| -------------- | ------------------------------------------ |
+|----------------|--------------------------------------------|
 | Runtime        | Go 1.24+, Gin                              |
 | Database       | PostgreSQL/MySQL (Ent ORM), MongoDB, Redis |
 | Search         | Elasticsearch, OpenSearch, Meilisearch     |
@@ -29,7 +29,7 @@ ncobase/
 ## Modules
 
 | Type     | Location  | Modules                                         |
-| -------- | --------- | ----------------------------------------------- |
+|----------|-----------|-------------------------------------------------|
 | Core     | `core/`   | access, auth, organization, space, system, user |
 | Business | `biz/`    | content, realtime                               |
 | Plugin   | `plugin/` | counter, payment, proxy, resource, sample       |

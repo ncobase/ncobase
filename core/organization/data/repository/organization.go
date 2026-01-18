@@ -43,7 +43,7 @@ type organizationRepository struct {
 	organizationCache cache.ICache[ent.Organization]
 	slugMappingCache  cache.ICache[string]
 	organizationTTL   time.Duration
-	searchClient      *search.Client
+	sc                *search.Client
 }
 
 // NewOrganizationRepository creates a new organization repository.
@@ -59,7 +59,7 @@ func NewOrganizationRepository(d *data.Data) OrganizationRepositoryInterface {
 		organizationCache: cache.NewCache[ent.Organization](redisClient, "ncse_organization:organizations"),
 		slugMappingCache:  cache.NewCache[string](redisClient, "ncse_organization:organization_mappings"),
 		organizationTTL:   time.Hour * 2,
-		searchClient:      nd.NewSearchClient(d.Data),
+		sc:                nd.NewSearchClient(d.Data),
 	}
 }
 
@@ -89,8 +89,10 @@ func (r *organizationRepository) Create(ctx context.Context, body *structs.Creat
 	}
 
 	// Index in search engine
-	if err = r.searchClient.Index(ctx, &search.IndexRequest{Index: "organizations", Document: organization}); err != nil {
-		logger.Errorf(ctx, "organizationRepo.Create error creating search index: %v", err)
+	if r.sc != nil {
+		if err = r.sc.Index(ctx, &search.IndexRequest{Index: "organizations", Document: organization}); err != nil {
+			logger.Errorf(ctx, "organizationRepo.Create error creating search index: %v", err)
+		}
 	}
 
 	// Cache of organization
@@ -209,8 +211,10 @@ func (r *organizationRepository) Update(ctx context.Context, slug string, update
 	}
 
 	// Update Meilisearch index
-	if err = r.searchClient.Index(ctx, &search.IndexRequest{Index: "organizations", Document: updatedOrganization, DocumentID: updatedOrganization.ID}); err != nil {
-		logger.Errorf(ctx, "organizationRepo.Update error updating Meilisearch index: %v", err)
+	if r.sc != nil {
+		if err = r.sc.Index(ctx, &search.IndexRequest{Index: "organizations", Document: updatedOrganization, DocumentID: updatedOrganization.ID}); err != nil {
+			logger.Errorf(ctx, "organizationRepo.Update error updating Meilisearch index: %v", err)
+		}
 	}
 
 	// Invalidate and re-cache
@@ -334,8 +338,10 @@ func (r *organizationRepository) Delete(ctx context.Context, slug string) error 
 	}
 
 	// Delete from search engine
-	if err = r.searchClient.Delete(ctx, "organizations", organization.ID); err != nil {
-		logger.Errorf(ctx, "organizationRepo.Delete error deleting from search: %v", err)
+	if r.sc != nil {
+		if err = r.sc.Delete(ctx, "organizations", organization.ID); err != nil {
+			logger.Errorf(ctx, "organizationRepo.Delete error deleting from search: %v", err)
+		}
 	}
 
 	// Invalidate cache

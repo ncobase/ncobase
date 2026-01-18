@@ -48,7 +48,7 @@ const (
 	// FieldExtras holds the string denoting the extras field in the database.
 	FieldExtras = "extras"
 	// Table holds the table name of the employee in the database.
-	Table = "ncse_sys_employee"
+	Table = "ncse_user_employee"
 )
 
 // Columns holds all SQL columns for employee fields.

@@ -7,7 +7,7 @@ API specifications for migrating ncobase from ncore v0.1.x to v0.2.0.
 v0.2.0 replaces direct internal field access with unified public APIs:
 
 | Resource          | v0.1.x                   | v0.2.0                                     |
-| ----------------- | ------------------------ | ------------------------------------------ |
+|-------------------|--------------------------|--------------------------------------------|
 | **SQL Database**  | `d.Conn.DBM.Master()`    | `d.GetMasterDB()`                          |
 |                   | `d.Conn.DBM.Slave()`     | `d.GetSlaveDB()`                           |
 | **Redis**         | `d.Conn.RC`              | `d.GetRedis()`                             |
@@ -16,8 +16,8 @@ v0.2.0 replaces direct internal field access with unified public APIs:
 | **Elasticsearch** | `d.Conn.ES`              | `d.GetElasticsearch()`                     |
 | **OpenSearch**    | `d.Conn.OS`              | `d.GetOpenSearch()`                        |
 | **Meilisearch**   | `d.Conn.MS`              | `d.GetMeilisearch()`                       |
-| **Search**        | `r.data.Search()`        | `r.searchClient.Search()`                  |
-| **Index**         | `r.data.IndexDocument()` | `r.searchClient.Index()`                   |
+| **Search**        | `r.data.Search()`        | `r.sc.Search()`                            |
+| **Index**         | `r.data.IndexDocument()` | `r.sc.Index()`                             |
 
 ## Data Layer Patterns
 
@@ -85,14 +85,14 @@ if mgm, ok := mongoManager.(interface{ Master() *mongo.Client }); ok {
 ### Search Engine
 
 ```go
-searchClient := ncoredata.NewSearchClient(d.Data)
+sc := nd.NewSearchClient(d.Data)
 
 // Check nil before use
-if searchClient != nil {
-    engines := searchClient.GetAvailableEngines()
+if sc != nil {
+    engines := sc.GetAvailableEngines()
     if len(engines) > 0 {
-        searchClient.Index(ctx, &search.IndexRequest{Index: "users", Document: user})
-        searchClient.Search(ctx, &search.SearchRequest{Index: "users", Query: "John"})
+        sc.Index(ctx, &search.IndexRequest{Index: "users", Document: user})
+        sc.Search(ctx, &search.SearchRequest{Index: "users", Query: "John"})
     }
 }
 ```
@@ -102,14 +102,14 @@ if searchClient != nil {
 ```go
 type userRepository struct {
     data         *data.Data
-    searchClient *search.Client
+    sc *search.Client
     redisClient  *redis.Client
 }
 
 func NewUserRepository(d *data.Data) UserRepositoryInterface {
     return &userRepository{
         data:         d,
-        searchClient: ncoredata.NewSearchClient(d.Data),
+        sc: nd.NewSearchClient(d.Data),
         redisClient:  d.GetRedis().(*redis.Client),
     }
 }
@@ -119,8 +119,8 @@ func (r *userRepository) Create(ctx context.Context, body *structs.CreateUserBod
     if err != nil {
         return nil, err
     }
-    if r.searchClient != nil {
-        r.searchClient.Index(ctx, &search.IndexRequest{Index: "users", Document: user})
+    if r.sc != nil {
+        r.sc.Index(ctx, &search.IndexRequest{Index: "users", Document: user})
     }
     return user, nil
 }
@@ -140,6 +140,6 @@ func (r *userRepository) Get(ctx context.Context, id string) (*ent.User, error) 
 
 - [ ] Replace `d.Conn.*` with corresponding `d.Get*()` methods
 - [ ] Add type assertion `(*redis.Client)` for Redis
-- [ ] Add `searchClient` field to repositories and initialize
+- [ ] Add `sc` field to repositories and initialize
 - [ ] Add nil check before SearchClient calls
 - [ ] Update import path from `data/databases/cache` to `data/cache`

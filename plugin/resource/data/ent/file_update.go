@@ -440,20 +440,7 @@ func (_u *FileUpdate) defaults() {
 	}
 }
 
-// check runs all checks and user-defined validators on the builder.
-func (_u *FileUpdate) check() error {
-	if v, ok := _u.mutation.Name(); ok {
-		if err := file.NameValidator(v); err != nil {
-			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "File.name": %w`, err)}
-		}
-	}
-	return nil
-}
-
 func (_u *FileUpdate) sqlSave(ctx context.Context) (_node int, err error) {
-	if err := _u.check(); err != nil {
-		return _node, err
-	}
 	_spec := sqlgraph.NewUpdateSpec(file.Table, file.Columns, sqlgraph.NewFieldSpec(file.FieldID, field.TypeString))
 	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
@@ -1032,20 +1019,7 @@ func (_u *FileUpdateOne) defaults() {
 	}
 }
 
-// check runs all checks and user-defined validators on the builder.
-func (_u *FileUpdateOne) check() error {
-	if v, ok := _u.mutation.Name(); ok {
-		if err := file.NameValidator(v); err != nil {
-			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "File.name": %w`, err)}
-		}
-	}
-	return nil
-}
-
 func (_u *FileUpdateOne) sqlSave(ctx context.Context) (_node *File, err error) {
-	if err := _u.check(); err != nil {
-		return _node, err
-	}
 	_spec := sqlgraph.NewUpdateSpec(file.Table, file.Columns, sqlgraph.NewFieldSpec(file.FieldID, field.TypeString))
 	id, ok := _u.mutation.ID()
 	if !ok {

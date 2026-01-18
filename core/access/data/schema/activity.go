@@ -19,7 +19,7 @@ type Activity struct {
 
 // Annotations of the Activity
 func (Activity) Annotations() []schema.Annotation {
-	table := strings.Join([]string{"ncse", "sys", "activity"}, "_")
+	table := strings.Join([]string{"ncse", "access", "activity"}, "_")
 	return []schema.Annotation{
 		entsql.Annotation{Table: table},
 		entgql.Mutations(entgql.MutationCreate(), entgql.MutationUpdate()),

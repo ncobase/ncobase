@@ -36,7 +36,7 @@ const (
 	// FieldExpiresAt holds the string denoting the expires_at field in the database.
 	FieldExpiresAt = "expires_at"
 	// Table holds the table name of the session in the database.
-	Table = "ncse_sys_user_session"
+	Table = "ncse_auth_user_session"
 )
 
 // Columns holds all SQL columns for session fields.

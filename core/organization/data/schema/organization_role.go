@@ -19,7 +19,7 @@ type OrganizationRole struct {
 
 // Annotations of the OrganizationRole.
 func (OrganizationRole) Annotations() []schema.Annotation {
-	table := strings.Join([]string{"ncse", "sys", "organization_role"}, "_")
+	table := strings.Join([]string{"ncse", "org", "organization_role"}, "_")
 	return []schema.Annotation{
 		entsql.Annotation{Table: table},
 		entgql.Mutations(entgql.MutationCreate(), entgql.MutationUpdate()),

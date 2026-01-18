@@ -18,7 +18,7 @@ type SpaceQuota struct {
 
 // Annotations of the SpaceQuota
 func (SpaceQuota) Annotations() []schema.Annotation {
-	table := strings.Join([]string{"ncse", "sys", "space_quota"}, "_")
+	table := strings.Join([]string{"ncse", "space", "quota"}, "_")
 	return []schema.Annotation{
 		entsql.Annotation{Table: table},
 		entsql.WithComments(true),

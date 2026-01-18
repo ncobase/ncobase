@@ -19,7 +19,7 @@ type UserMFA struct {
 
 // Annotations of the UserMFA.
 func (UserMFA) Annotations() []schema.Annotation {
-	table := strings.Join([]string{"ncse", "sys", "user_mfa"}, "_")
+	table := strings.Join([]string{"ncse", "auth", "user_mfa"}, "_")
 	return []schema.Annotation{
 		entsql.Annotation{Table: table},
 		entsql.WithComments(true),

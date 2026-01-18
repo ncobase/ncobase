@@ -7,6 +7,7 @@ import (
 	"ncobase/core/user/data/ent"
 	"ncobase/core/user/structs"
 	"time"
+
 	"github.com/redis/go-redis/v9"
 
 	"github.com/ncobase/ncore/data/cache"

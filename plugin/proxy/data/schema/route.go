@@ -19,7 +19,7 @@ type Route struct {
 
 // Annotations of the Route.
 func (Route) Annotations() []schema.Annotation {
-	table := strings.Join([]string{"ncse", "tbp", "route"}, "_")
+	table := strings.Join([]string{"ncse", "proxy", "route"}, "_")
 	return []schema.Annotation{
 		entsql.Annotation{Table: table},
 		entgql.Mutations(entgql.MutationCreate(), entgql.MutationUpdate()),

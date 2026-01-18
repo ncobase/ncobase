@@ -5,7 +5,7 @@ Guide for developing modules and plugins in ncobase using the ncore extension sy
 ## Extension Types
 
 | Type     | Location  | Registration               | Use Case                    |
-| -------- | --------- | -------------------------- | --------------------------- |
+|----------|-----------|----------------------------|-----------------------------|
 | Module   | `core/`   | `registry.RegisterToGroup` | Core system functionality   |
 | Business | `biz/`    | `registry.RegisterToGroup` | Business logic modules      |
 | Plugin   | `plugin/` | `plugin.RegisterPlugin`    | Optional/pluggable features |
@@ -337,7 +337,7 @@ consul:
 ## Lifecycle Methods
 
 | Method       | When Called               | Purpose                     |
-| ------------ | ------------------------- | --------------------------- |
+|--------------|---------------------------|-----------------------------|
 | `PreInit`    | Before Init               | Pre-initialization setup    |
 | `Init`       | During startup            | Initialize resources        |
 | `PostInit`   | After all extensions init | Cross-extension setup       |

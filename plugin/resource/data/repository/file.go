@@ -41,7 +41,7 @@ type FileRepositoryInterface interface {
 
 type fileRepository struct {
 	data *data.Data
-	searchClient *search.Client
+	sc   *search.Client
 	ec   *ent.Client
 	ecr  *ent.Client
 	rc   *redis.Client
@@ -52,10 +52,10 @@ func NewFileRepository(d *data.Data) FileRepositoryInterface {
 	ec := d.GetMasterEntClient()
 	ecr := d.GetSlaveEntClient()
 	rc := d.GetRedis().(*redis.Client)
-	searchClient := nd.NewSearchClient(d.Data)
+	sc := nd.NewSearchClient(d.Data)
 	return &fileRepository{
 		data: d,
-		searchClient: searchClient,
+		sc:   sc,
 		ec:   ec,
 		ecr:  ecr,
 		rc:   rc,
@@ -172,8 +172,10 @@ func (r *fileRepository) Create(ctx context.Context, body *structs.CreateFileBod
 	}
 
 	// Index in Meilisearch
-	if err = r.searchClient.Index(ctx, &search.IndexRequest{Index: "files", Document: row}); err != nil {
-		logger.Errorf(ctx, "fileRepo.Create index error: %v", err)
+	if r.sc != nil {
+		if err = r.sc.Index(ctx, &search.IndexRequest{Index: "files", Document: row}); err != nil {
+			logger.Errorf(ctx, "fileRepo.Create index error: %v", err)
+		}
 	}
 
 	return row, nil
@@ -315,8 +317,10 @@ func (r *fileRepository) Update(ctx context.Context, slug string, updates types.
 	}
 
 	// Update in Meilisearch
-	if err = r.searchClient.Index(ctx, &search.IndexRequest{Index: "files", Document: row, DocumentID: row.ID}); err != nil {
-		logger.Errorf(ctx, "fileRepo.Update index error: %v", err)
+	if r.sc != nil {
+		if err = r.sc.Index(ctx, &search.IndexRequest{Index: "files", Document: row, DocumentID: row.ID}); err != nil {
+			logger.Errorf(ctx, "fileRepo.Update index error: %v", err)
+		}
 	}
 
 	return row, nil
@@ -387,8 +391,10 @@ func (r *fileRepository) Delete(ctx context.Context, slug string) error {
 	}
 
 	// Delete from Meilisearch
-	if err = r.searchClient.Delete(ctx, "files", file.ID); err != nil {
-		logger.Errorf(ctx, "fileRepo.Delete index error: %v", err)
+	if r.sc != nil {
+		if err = r.sc.Delete(ctx, "files", file.ID); err != nil {
+			logger.Errorf(ctx, "fileRepo.Delete index error: %v", err)
+		}
 	}
 
 	return nil

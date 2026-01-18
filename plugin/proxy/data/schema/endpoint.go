@@ -20,7 +20,7 @@ type Endpoint struct {
 
 // Annotations of the Endpoint.
 func (Endpoint) Annotations() []schema.Annotation {
-	table := strings.Join([]string{"ncse", "tbp", "endpoint"}, "_")
+	table := strings.Join([]string{"ncse", "proxy", "endpoint"}, "_")
 	return []schema.Annotation{
 		entsql.Annotation{Table: table},
 		entgql.Mutations(entgql.MutationCreate(), entgql.MutationUpdate()),

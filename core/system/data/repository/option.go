@@ -35,7 +35,7 @@ type OptionRepositoryInterface interface {
 // optionRepository implements the OptionRepositoryInterface.
 type optionRepository struct {
 	data             *data.Data
-	searchClient     *search.Client
+	sc               *search.Client
 	optionsCache     cache.ICache[ent.Options]
 	nameMappingCache cache.ICache[string] // Maps name to option ID
 	optionsTTL       time.Duration
@@ -44,11 +44,11 @@ type optionRepository struct {
 // NewOptionRepository creates a new option repository.
 func NewOptionRepository(d *data.Data) OptionRepositoryInterface {
 	redisClient := d.GetRedis().(*redis.Client)
-	searchClient := nd.NewSearchClient(d.Data)
+	sc := nd.NewSearchClient(d.Data)
 
 	return &optionRepository{
 		data:             d,
-		searchClient:     searchClient,
+		sc:               sc,
 		optionsCache:     cache.NewCache[ent.Options](redisClient, "ncse_system:options"),
 		nameMappingCache: cache.NewCache[string](redisClient, "ncse_system:option_mappings"),
 		optionsTTL:       time.Hour * 6, // 6 hours cache TTL
@@ -83,8 +83,10 @@ func (r *optionRepository) Create(ctx context.Context, body *structs.OptionBody)
 	}
 
 	// Create in Meilisearch index
-	if err = r.searchClient.Index(ctx, &search.IndexRequest{Index: "options", Document: row}); err != nil {
-		logger.Errorf(ctx, "optionsRepo.Create error creating Meilisearch index: %v", err)
+	if r.sc != nil {
+		if err = r.sc.Index(ctx, &search.IndexRequest{Index: "options", Document: row}); err != nil {
+			logger.Errorf(ctx, "optionsRepo.Create error creating Meilisearch index: %v", err)
+		}
 	}
 
 	// Cache the option
@@ -155,8 +157,10 @@ func (r *optionRepository) Update(ctx context.Context, body *structs.UpdateOptio
 	}
 
 	// Update Meilisearch index
-	if err = r.searchClient.Index(ctx, &search.IndexRequest{Index: "options", Document: row, DocumentID: row.ID}); err != nil {
-		logger.Errorf(ctx, "optionsRepo.Update error updating Meilisearch index: %v", err)
+	if r.sc != nil {
+		if err = r.sc.Index(ctx, &search.IndexRequest{Index: "options", Document: row, DocumentID: row.ID}); err != nil {
+			logger.Errorf(ctx, "optionsRepo.Update error updating Meilisearch index: %v", err)
+		}
 	}
 
 	// Invalidate and re-cache
@@ -189,8 +193,10 @@ func (r *optionRepository) Delete(ctx context.Context, params *structs.FindOptio
 		return err
 	}
 
-	if err = r.searchClient.Delete(ctx, "options", option.ID); err != nil {
-		logger.Errorf(ctx, "optionRepo.Delete index error: %v", err)
+	if r.sc != nil {
+		if err = r.sc.Delete(ctx, "options", option.ID); err != nil {
+			logger.Errorf(ctx, "optionRepo.Delete index error: %v", err)
+		}
 	}
 
 	// Invalidate cache

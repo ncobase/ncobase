@@ -33,12 +33,12 @@ type TaxonomyRelationsRepositoryInterface interface {
 
 // taxonomyRelationsRepository implements the TaxonomyRelationsRepositoryInterface.
 type taxonomyRelationsRepository struct {
-	data         *data.Data
-	searchClient *search.Client
-	ec           *ent.Client
-	ecr          *ent.Client
-	rc           *redis.Client
-	c            *cache.Cache[ent.TaxonomyRelation]
+	data *data.Data
+	sc   *search.Client
+	ec   *ent.Client
+	ecr  *ent.Client
+	rc   *redis.Client
+	c    *cache.Cache[ent.TaxonomyRelation]
 }
 
 // NewTaxonomyRelationsRepository creates a new taxonomy relations repository.
@@ -46,15 +46,15 @@ func NewTaxonomyRelationsRepository(d *data.Data) TaxonomyRelationsRepositoryInt
 	ec := d.GetMasterEntClient()
 	ecr := d.GetSlaveEntClient()
 	rc := d.GetRedis().(*redis.Client)
-	searchClient := nd.NewSearchClient(d.Data)
+	sc := nd.NewSearchClient(d.Data)
 
 	return &taxonomyRelationsRepository{
-		data:         d,
-		searchClient: searchClient,
-		ec:           ec,
-		ecr:          ecr,
-		rc:           rc,
-		c:            cache.NewCache[ent.TaxonomyRelation](rc, "ncse_taxonomy_relations"),
+		data: d,
+		sc:   sc,
+		ec:   ec,
+		ecr:  ecr,
+		rc:   rc,
+		c:    cache.NewCache[ent.TaxonomyRelation](rc, "ncse_taxonomy_relations"),
 	}
 }
 
@@ -75,8 +75,10 @@ func (r *taxonomyRelationsRepository) Create(ctx context.Context, body *structs.
 	}
 
 	// Index in Meilisearch
-	if err = r.searchClient.Index(ctx, &search.IndexRequest{Index: "content_taxonomy_relations", Document: row}); err != nil {
-		logger.Errorf(ctx, "taxonomyRelationsRepo.Create error creating Meilisearch index: %v", err)
+	if r.sc != nil {
+		if err = r.sc.Index(ctx, &search.IndexRequest{Index: "content_taxonomy_relations", Document: row}); err != nil {
+			logger.Errorf(ctx, "taxonomyRelationsRepo.Create error creating Meilisearch index: %v", err)
+		}
 	}
 
 	return row, nil
@@ -128,8 +130,10 @@ func (r *taxonomyRelationsRepository) Update(ctx context.Context, body *structs.
 	}
 
 	// Update Meilisearch index
-	if err = r.searchClient.Index(ctx, &search.IndexRequest{Index: "content_taxonomy_relations", Document: row, DocumentID: row.ID}); err != nil {
-		logger.Errorf(ctx, "taxonomyRelationsRepo.Update error updating Meilisearch index: %v", err)
+	if r.sc != nil {
+		if err = r.sc.Index(ctx, &search.IndexRequest{Index: "content_taxonomy_relations", Document: row, DocumentID: row.ID}); err != nil {
+			logger.Errorf(ctx, "taxonomyRelationsRepo.Update error updating Meilisearch index: %v", err)
+		}
 	}
 
 	// remove from cache
@@ -215,8 +219,10 @@ func (r *taxonomyRelationsRepository) Delete(ctx context.Context, object string)
 
 	if err == nil {
 		// Delete from Meilisearch
-		if msErr := r.searchClient.Delete(ctx, "content_taxonomy_relations", object); msErr != nil {
-			logger.Errorf(ctx, "taxonomyRelationsRepo.Delete error deleting Meilisearch index: %v", msErr)
+		if r.sc != nil {
+			if msErr := r.sc.Delete(ctx, "content_taxonomy_relations", object); msErr != nil {
+				logger.Errorf(ctx, "taxonomyRelationsRepo.Delete error deleting Meilisearch index: %v", msErr)
+			}
 		}
 
 		// remove from cache

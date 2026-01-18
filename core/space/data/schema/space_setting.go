@@ -18,7 +18,7 @@ type SpaceSetting struct {
 
 // Annotations of the SpaceSetting
 func (SpaceSetting) Annotations() []schema.Annotation {
-	table := strings.Join([]string{"ncse", "sys", "space_setting"}, "_")
+	table := strings.Join([]string{"ncse", "space", "setting"}, "_")
 	return []schema.Annotation{
 		entsql.Annotation{Table: table},
 		entsql.WithComments(true),

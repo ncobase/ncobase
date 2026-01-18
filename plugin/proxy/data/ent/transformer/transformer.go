@@ -34,7 +34,7 @@ const (
 	// FieldContentType holds the string denoting the content_type field in the database.
 	FieldContentType = "content_type"
 	// Table holds the table name of the transformer in the database.
-	Table = "ncse_tbp_transformer"
+	Table = "ncse_proxy_transformer"
 )
 
 // Columns holds all SQL columns for transformer fields.

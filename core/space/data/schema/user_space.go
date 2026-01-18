@@ -18,7 +18,7 @@ type UserSpace struct {
 
 // Annotations of the UserSpace.
 func (UserSpace) Annotations() []schema.Annotation {
-	table := strings.Join([]string{"ncse", "sys", "user_space"}, "_")
+	table := strings.Join([]string{"ncse", "space", "user"}, "_")
 	return []schema.Annotation{
 		entsql.Annotation{Table: table},
 		entsql.WithComments(true),

@@ -19,7 +19,7 @@ type Transformer struct {
 
 // Annotations of the Transformer.
 func (Transformer) Annotations() []schema.Annotation {
-	table := strings.Join([]string{"ncse", "tbp", "transformer"}, "_")
+	table := strings.Join([]string{"ncse", "proxy", "transformer"}, "_")
 	return []schema.Annotation{
 		entsql.Annotation{Table: table},
 		entgql.Mutations(entgql.MutationCreate(), entgql.MutationUpdate()),

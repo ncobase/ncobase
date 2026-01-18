@@ -254,9 +254,9 @@ clean:
 		rm -rf $(OUT) && \
 		echo "✓ Build artifacts cleaned" || \
 		(echo "Error: Failed to clean build artifacts" && exit 1); \
-	else \
-		echo "• Nothing to clean"; \
 	fi
+	@find . -type d -path "*/data/ent" -exec rm -rf {} + 2>/dev/null || true
+	@echo "✓ Ent cleaned"
 
 # Show version information
 version:

@@ -26,6 +26,8 @@ import (
 	_ "github.com/ncobase/ncore/data/postgres"
 	_ "github.com/ncobase/ncore/data/rabbitmq"
 	_ "github.com/ncobase/ncore/data/redis"
+
+	_ "github.com/ncobase/ncore/logging/hooks/meilisearch"
 )
 
 const (

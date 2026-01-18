@@ -8,6 +8,7 @@ import (
 	userSpaceRoleEnt "ncobase/core/space/data/ent/userspacerole"
 	"ncobase/core/space/structs"
 	"time"
+
 	"github.com/redis/go-redis/v9"
 
 	"github.com/ncobase/ncore/data/cache"
@@ -34,7 +35,7 @@ type UserSpaceRoleRepositoryInterface interface {
 // userSpaceRoleRepository implements the UserSpaceRoleRepositoryInterface.
 type userSpaceRoleRepository struct {
 	data                *data.Data
-	rc   *redis.Client
+	rc                  *redis.Client
 	userSpaceRoleCache  cache.ICache[ent.UserSpaceRole]
 	userSpaceRolesCache cache.ICache[[]string] // Maps user:space to role IDs
 	spaceUserRolesCache cache.ICache[[]string] // Maps space to user:role pairs
@@ -48,10 +49,10 @@ func NewUserSpaceRoleRepository(d *data.Data) UserSpaceRoleRepositoryInterface {
 
 	return &userSpaceRoleRepository{
 		data:                d,
-		userSpaceRoleCache:  cache.NewCache[ent.UserSpaceRole](redis, ")ncse_access:user_space_roles"),
-		userSpaceRolesCache: cache.NewCache[[]string](redis, ")ncse_access:user_space_role_mappings"),
-		spaceUserRolesCache: cache.NewCache[[]string](redis, ")ncse_access:space_user_role_mappings"),
-		roleUserSpacesCache: cache.NewCache[[]string](redis, ")ncse_access:role_user_space_mappings"),
+		userSpaceRoleCache:  cache.NewCache[ent.UserSpaceRole](redis, "ncse_access:user_space_roles"),
+		userSpaceRolesCache: cache.NewCache[[]string](redis, "ncse_access:user_space_role_mappings"),
+		spaceUserRolesCache: cache.NewCache[[]string](redis, "ncse_access:space_user_role_mappings"),
+		roleUserSpacesCache: cache.NewCache[[]string](redis, "ncse_access:role_user_space_mappings"),
 		relationshipTTL:     time.Hour * 2, // 2 hours cache TTL
 	}
 }

@@ -18,7 +18,7 @@ type AuthToken struct {
 
 // Annotations of the AuthToken.
 func (AuthToken) Annotations() []schema.Annotation {
-	table := strings.Join([]string{"ncse", "sys_user", "auth_token"}, "_")
+	table := strings.Join([]string{"ncse", "auth", "token"}, "_")
 	return []schema.Annotation{
 		entsql.Annotation{Table: table},
 		entgql.Mutations(entgql.MutationCreate(), entgql.MutationUpdate()),

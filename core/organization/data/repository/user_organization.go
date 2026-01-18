@@ -8,6 +8,7 @@ import (
 	userOrganizationEnt "ncobase/core/organization/data/ent/userorganization"
 	"ncobase/core/organization/structs"
 	"time"
+
 	"github.com/redis/go-redis/v9"
 
 	"github.com/ncobase/ncore/data/cache"

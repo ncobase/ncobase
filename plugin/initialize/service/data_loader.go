@@ -2,12 +2,12 @@ package service
 
 import (
 	accessStructs "ncobase/core/access/structs"
-	companyData "ncobase/plugin/initialize/data/company"
-	enterpriseData "ncobase/plugin/initialize/data/enterprise"
-	websiteData "ncobase/plugin/initialize/data/website"
 	spaceStructs "ncobase/core/space/structs"
 	systemStructs "ncobase/core/system/structs"
 	userStructs "ncobase/core/user/structs"
+	companyData "ncobase/plugin/initialize/data/company"
+	enterpriseData "ncobase/plugin/initialize/data/enterprise"
+	websiteData "ncobase/plugin/initialize/data/website"
 )
 
 // DataLoader interface for mode-specific data
