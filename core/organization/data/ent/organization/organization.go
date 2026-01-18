@@ -36,7 +36,7 @@ const (
 	// FieldUpdatedAt holds the string denoting the updated_at field in the database.
 	FieldUpdatedAt = "updated_at"
 	// Table holds the table name of the organization in the database.
-	Table = "ncse_org_organization"
+	Table = "ncse_organization"
 )
 
 // Columns holds all SQL columns for organization fields.

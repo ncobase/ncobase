@@ -19,7 +19,7 @@ type UserOrganization struct {
 
 // Annotations of the UserOrganization.
 func (UserOrganization) Annotations() []schema.Annotation {
-	table := strings.Join([]string{"ncse", "org", "user_organization"}, "_")
+	table := strings.Join([]string{"ncse", "organization", "user"}, "_")
 	return []schema.Annotation{
 		entsql.Annotation{Table: table},
 		entsql.WithComments(true),

@@ -9,8 +9,8 @@ import (
 )
 
 var (
-	// NcseOrgOrganizationColumns holds the columns for the "ncse_org_organization" table.
-	NcseOrgOrganizationColumns = []*schema.Column{
+	// NcseOrganizationColumns holds the columns for the "ncse_organization" table.
+	NcseOrganizationColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
 		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "name"},
 		{Name: "slug", Type: field.TypeString, Unique: true, Nullable: true, Comment: "slug / alias"},
@@ -25,36 +25,36 @@ var (
 		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
 		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
 	}
-	// NcseOrgOrganizationTable holds the schema information for the "ncse_org_organization" table.
-	NcseOrgOrganizationTable = &schema.Table{
-		Name:       "ncse_org_organization",
-		Columns:    NcseOrgOrganizationColumns,
-		PrimaryKey: []*schema.Column{NcseOrgOrganizationColumns[0]},
+	// NcseOrganizationTable holds the schema information for the "ncse_organization" table.
+	NcseOrganizationTable = &schema.Table{
+		Name:       "ncse_organization",
+		Columns:    NcseOrganizationColumns,
+		PrimaryKey: []*schema.Column{NcseOrganizationColumns[0]},
 		Indexes: []*schema.Index{
 			{
 				Name:    "organization_id",
 				Unique:  true,
-				Columns: []*schema.Column{NcseOrgOrganizationColumns[0]},
+				Columns: []*schema.Column{NcseOrganizationColumns[0]},
 			},
 			{
 				Name:    "organization_slug",
 				Unique:  true,
-				Columns: []*schema.Column{NcseOrgOrganizationColumns[2]},
+				Columns: []*schema.Column{NcseOrganizationColumns[2]},
 			},
 			{
 				Name:    "organization_parent_id",
 				Unique:  false,
-				Columns: []*schema.Column{NcseOrgOrganizationColumns[8]},
+				Columns: []*schema.Column{NcseOrganizationColumns[8]},
 			},
 			{
 				Name:    "organization_id_created_at",
 				Unique:  true,
-				Columns: []*schema.Column{NcseOrgOrganizationColumns[0], NcseOrgOrganizationColumns[11]},
+				Columns: []*schema.Column{NcseOrganizationColumns[0], NcseOrganizationColumns[11]},
 			},
 		},
 	}
-	// NcseOrgOrganizationRoleColumns holds the columns for the "ncse_org_organization_role" table.
-	NcseOrgOrganizationRoleColumns = []*schema.Column{
+	// NcseOrganizationRoleColumns holds the columns for the "ncse_organization_role" table.
+	NcseOrganizationRoleColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
 		{Name: "org_id", Type: field.TypeString, Nullable: true, Comment: "organization id"},
 		{Name: "role_id", Type: field.TypeString, Nullable: true, Comment: "role id"},
@@ -63,41 +63,41 @@ var (
 		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
 		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
 	}
-	// NcseOrgOrganizationRoleTable holds the schema information for the "ncse_org_organization_role" table.
-	NcseOrgOrganizationRoleTable = &schema.Table{
-		Name:       "ncse_org_organization_role",
-		Columns:    NcseOrgOrganizationRoleColumns,
-		PrimaryKey: []*schema.Column{NcseOrgOrganizationRoleColumns[0]},
+	// NcseOrganizationRoleTable holds the schema information for the "ncse_organization_role" table.
+	NcseOrganizationRoleTable = &schema.Table{
+		Name:       "ncse_organization_role",
+		Columns:    NcseOrganizationRoleColumns,
+		PrimaryKey: []*schema.Column{NcseOrganizationRoleColumns[0]},
 		Indexes: []*schema.Index{
 			{
 				Name:    "organizationrole_id",
 				Unique:  true,
-				Columns: []*schema.Column{NcseOrgOrganizationRoleColumns[0]},
+				Columns: []*schema.Column{NcseOrganizationRoleColumns[0]},
 			},
 			{
 				Name:    "organizationrole_org_id",
 				Unique:  false,
-				Columns: []*schema.Column{NcseOrgOrganizationRoleColumns[1]},
+				Columns: []*schema.Column{NcseOrganizationRoleColumns[1]},
 			},
 			{
 				Name:    "organizationrole_role_id",
 				Unique:  false,
-				Columns: []*schema.Column{NcseOrgOrganizationRoleColumns[2]},
+				Columns: []*schema.Column{NcseOrganizationRoleColumns[2]},
 			},
 			{
 				Name:    "organizationrole_id_created_at",
 				Unique:  true,
-				Columns: []*schema.Column{NcseOrgOrganizationRoleColumns[0], NcseOrgOrganizationRoleColumns[5]},
+				Columns: []*schema.Column{NcseOrganizationRoleColumns[0], NcseOrganizationRoleColumns[5]},
 			},
 			{
 				Name:    "organizationrole_org_id_role_id",
 				Unique:  false,
-				Columns: []*schema.Column{NcseOrgOrganizationRoleColumns[1], NcseOrgOrganizationRoleColumns[2]},
+				Columns: []*schema.Column{NcseOrganizationRoleColumns[1], NcseOrganizationRoleColumns[2]},
 			},
 		},
 	}
-	// NcseOrgUserOrganizationColumns holds the columns for the "ncse_org_user_organization" table.
-	NcseOrgUserOrganizationColumns = []*schema.Column{
+	// NcseOrganizationUserColumns holds the columns for the "ncse_organization_user" table.
+	NcseOrganizationUserColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
 		{Name: "user_id", Type: field.TypeString, Nullable: true, Comment: "user id"},
 		{Name: "org_id", Type: field.TypeString, Nullable: true, Comment: "organization id"},
@@ -107,65 +107,65 @@ var (
 		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
 		{Name: "role", Type: field.TypeString, Comment: "Role of the user in the organization", Default: "member"},
 	}
-	// NcseOrgUserOrganizationTable holds the schema information for the "ncse_org_user_organization" table.
-	NcseOrgUserOrganizationTable = &schema.Table{
-		Name:       "ncse_org_user_organization",
-		Columns:    NcseOrgUserOrganizationColumns,
-		PrimaryKey: []*schema.Column{NcseOrgUserOrganizationColumns[0]},
+	// NcseOrganizationUserTable holds the schema information for the "ncse_organization_user" table.
+	NcseOrganizationUserTable = &schema.Table{
+		Name:       "ncse_organization_user",
+		Columns:    NcseOrganizationUserColumns,
+		PrimaryKey: []*schema.Column{NcseOrganizationUserColumns[0]},
 		Indexes: []*schema.Index{
 			{
 				Name:    "userorganization_id",
 				Unique:  true,
-				Columns: []*schema.Column{NcseOrgUserOrganizationColumns[0]},
+				Columns: []*schema.Column{NcseOrganizationUserColumns[0]},
 			},
 			{
 				Name:    "userorganization_user_id",
 				Unique:  false,
-				Columns: []*schema.Column{NcseOrgUserOrganizationColumns[1]},
+				Columns: []*schema.Column{NcseOrganizationUserColumns[1]},
 			},
 			{
 				Name:    "userorganization_org_id",
 				Unique:  false,
-				Columns: []*schema.Column{NcseOrgUserOrganizationColumns[2]},
+				Columns: []*schema.Column{NcseOrganizationUserColumns[2]},
 			},
 			{
 				Name:    "userorganization_id_created_at",
 				Unique:  true,
-				Columns: []*schema.Column{NcseOrgUserOrganizationColumns[0], NcseOrgUserOrganizationColumns[5]},
+				Columns: []*schema.Column{NcseOrganizationUserColumns[0], NcseOrganizationUserColumns[5]},
 			},
 			{
 				Name:    "userorganization_user_id_org_id",
 				Unique:  true,
-				Columns: []*schema.Column{NcseOrgUserOrganizationColumns[1], NcseOrgUserOrganizationColumns[2]},
+				Columns: []*schema.Column{NcseOrganizationUserColumns[1], NcseOrganizationUserColumns[2]},
 			},
 			{
 				Name:    "userorganization_user_id_role",
 				Unique:  false,
-				Columns: []*schema.Column{NcseOrgUserOrganizationColumns[1], NcseOrgUserOrganizationColumns[7]},
+				Columns: []*schema.Column{NcseOrganizationUserColumns[1], NcseOrganizationUserColumns[7]},
 			},
 			{
 				Name:    "userorganization_org_id_role",
 				Unique:  false,
-				Columns: []*schema.Column{NcseOrgUserOrganizationColumns[2], NcseOrgUserOrganizationColumns[7]},
+				Columns: []*schema.Column{NcseOrganizationUserColumns[2], NcseOrganizationUserColumns[7]},
 			},
 		},
 	}
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
-		NcseOrgOrganizationTable,
-		NcseOrgOrganizationRoleTable,
-		NcseOrgUserOrganizationTable,
+		NcseOrganizationTable,
+		NcseOrganizationRoleTable,
+		NcseOrganizationUserTable,
 	}
 )
 
 func init() {
-	NcseOrgOrganizationTable.Annotation = &entsql.Annotation{
-		Table: "ncse_org_organization",
+	NcseOrganizationTable.Annotation = &entsql.Annotation{
+		Table: "ncse_organization",
 	}
-	NcseOrgOrganizationRoleTable.Annotation = &entsql.Annotation{
-		Table: "ncse_org_organization_role",
+	NcseOrganizationRoleTable.Annotation = &entsql.Annotation{
+		Table: "ncse_organization_role",
 	}
-	NcseOrgUserOrganizationTable.Annotation = &entsql.Annotation{
-		Table: "ncse_org_user_organization",
+	NcseOrganizationUserTable.Annotation = &entsql.Annotation{
+		Table: "ncse_organization_user",
 	}
 }
