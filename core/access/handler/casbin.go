@@ -1,8 +1,8 @@
 package handler
 
 import (
-	"ncobase/access/service"
-	"ncobase/access/structs"
+	"ncobase/core/access/service"
+	"ncobase/core/access/structs"
 
 	"github.com/ncobase/ncore/ecode"
 	"github.com/ncobase/ncore/net/resp"

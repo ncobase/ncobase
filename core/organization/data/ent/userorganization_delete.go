@@ -4,8 +4,8 @@ package ent
 
 import (
 	"context"
-	"ncobase/organization/data/ent/predicate"
-	"ncobase/organization/data/ent/userorganization"
+	"ncobase/core/organization/data/ent/predicate"
+	"ncobase/core/organization/data/ent/userorganization"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"

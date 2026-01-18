@@ -1,9 +1,9 @@
 package plugin
 
 import (
-	_ "ncobase/counter"
-	_ "ncobase/initialize"
-	_ "ncobase/payment"
-	_ "ncobase/proxy"
-	_ "ncobase/resource"
+	_ "ncobase/plugin/counter"
+	_ "ncobase/plugin/initialize"
+	_ "ncobase/plugin/payment"
+	_ "ncobase/plugin/proxy"
+	_ "ncobase/plugin/resource"
 )

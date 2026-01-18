@@ -3,10 +3,10 @@ package service
 import (
 	"context"
 	"fmt"
-	"ncobase/resource/data"
-	"ncobase/resource/data/ent"
-	"ncobase/resource/data/repository"
-	"ncobase/resource/structs"
+	"ncobase/plugin/resource/data"
+	"ncobase/plugin/resource/data/ent"
+	"ncobase/plugin/resource/data/repository"
+	"ncobase/plugin/resource/structs"
 	"time"
 
 	"github.com/google/uuid"

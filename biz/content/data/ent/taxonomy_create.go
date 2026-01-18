@@ -6,8 +6,10 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"ncobase/content/data/ent/taxonomy"
+	"ncobase/biz/content/data/ent/taxonomy"
 
+	"entgo.io/ent/dialect"
+	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
 )
@@ -17,6 +19,7 @@ type TaxonomyCreate struct {
 	config
 	mutation *TaxonomyMutation
 	hooks    []Hook
+	conflict []sql.ConflictOption
 }
 
 // SetName sets the "name" field.
@@ -375,6 +378,7 @@ func (_c *TaxonomyCreate) createSpec() (*Taxonomy, *sqlgraph.CreateSpec) {
 		_node = &Taxonomy{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(taxonomy.Table, sqlgraph.NewFieldSpec(taxonomy.FieldID, field.TypeString))
 	)
+	_spec.OnConflict = _c.conflict
 	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
@@ -454,11 +458,826 @@ func (_c *TaxonomyCreate) createSpec() (*Taxonomy, *sqlgraph.CreateSpec) {
 	return _node, _spec
 }
 
+// OnConflict allows configuring the `ON CONFLICT` / `ON DUPLICATE KEY` clause
+// of the `INSERT` statement. For example:
+//
+//	client.Taxonomy.Create().
+//		SetName(v).
+//		OnConflict(
+//			// Update the row with the new values
+//			// the was proposed for insertion.
+//			sql.ResolveWithNewValues(),
+//		).
+//		// Override some of the fields with custom
+//		// update values.
+//		Update(func(u *ent.TaxonomyUpsert) {
+//			SetName(v+v).
+//		}).
+//		Exec(ctx)
+func (_c *TaxonomyCreate) OnConflict(opts ...sql.ConflictOption) *TaxonomyUpsertOne {
+	_c.conflict = opts
+	return &TaxonomyUpsertOne{
+		create: _c,
+	}
+}
+
+// OnConflictColumns calls `OnConflict` and configures the columns
+// as conflict target. Using this option is equivalent to using:
+//
+//	client.Taxonomy.Create().
+//		OnConflict(sql.ConflictColumns(columns...)).
+//		Exec(ctx)
+func (_c *TaxonomyCreate) OnConflictColumns(columns ...string) *TaxonomyUpsertOne {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
+	return &TaxonomyUpsertOne{
+		create: _c,
+	}
+}
+
+type (
+	// TaxonomyUpsertOne is the builder for "upsert"-ing
+	//  one Taxonomy node.
+	TaxonomyUpsertOne struct {
+		create *TaxonomyCreate
+	}
+
+	// TaxonomyUpsert is the "OnConflict" setter.
+	TaxonomyUpsert struct {
+		*sql.UpdateSet
+	}
+)
+
+// SetName sets the "name" field.
+func (u *TaxonomyUpsert) SetName(v string) *TaxonomyUpsert {
+	u.Set(taxonomy.FieldName, v)
+	return u
+}
+
+// UpdateName sets the "name" field to the value that was provided on create.
+func (u *TaxonomyUpsert) UpdateName() *TaxonomyUpsert {
+	u.SetExcluded(taxonomy.FieldName)
+	return u
+}
+
+// ClearName clears the value of the "name" field.
+func (u *TaxonomyUpsert) ClearName() *TaxonomyUpsert {
+	u.SetNull(taxonomy.FieldName)
+	return u
+}
+
+// SetType sets the "type" field.
+func (u *TaxonomyUpsert) SetType(v string) *TaxonomyUpsert {
+	u.Set(taxonomy.FieldType, v)
+	return u
+}
+
+// UpdateType sets the "type" field to the value that was provided on create.
+func (u *TaxonomyUpsert) UpdateType() *TaxonomyUpsert {
+	u.SetExcluded(taxonomy.FieldType)
+	return u
+}
+
+// ClearType clears the value of the "type" field.
+func (u *TaxonomyUpsert) ClearType() *TaxonomyUpsert {
+	u.SetNull(taxonomy.FieldType)
+	return u
+}
+
+// SetSlug sets the "slug" field.
+func (u *TaxonomyUpsert) SetSlug(v string) *TaxonomyUpsert {
+	u.Set(taxonomy.FieldSlug, v)
+	return u
+}
+
+// UpdateSlug sets the "slug" field to the value that was provided on create.
+func (u *TaxonomyUpsert) UpdateSlug() *TaxonomyUpsert {
+	u.SetExcluded(taxonomy.FieldSlug)
+	return u
+}
+
+// ClearSlug clears the value of the "slug" field.
+func (u *TaxonomyUpsert) ClearSlug() *TaxonomyUpsert {
+	u.SetNull(taxonomy.FieldSlug)
+	return u
+}
+
+// SetCover sets the "cover" field.
+func (u *TaxonomyUpsert) SetCover(v string) *TaxonomyUpsert {
+	u.Set(taxonomy.FieldCover, v)
+	return u
+}
+
+// UpdateCover sets the "cover" field to the value that was provided on create.
+func (u *TaxonomyUpsert) UpdateCover() *TaxonomyUpsert {
+	u.SetExcluded(taxonomy.FieldCover)
+	return u
+}
+
+// ClearCover clears the value of the "cover" field.
+func (u *TaxonomyUpsert) ClearCover() *TaxonomyUpsert {
+	u.SetNull(taxonomy.FieldCover)
+	return u
+}
+
+// SetThumbnail sets the "thumbnail" field.
+func (u *TaxonomyUpsert) SetThumbnail(v string) *TaxonomyUpsert {
+	u.Set(taxonomy.FieldThumbnail, v)
+	return u
+}
+
+// UpdateThumbnail sets the "thumbnail" field to the value that was provided on create.
+func (u *TaxonomyUpsert) UpdateThumbnail() *TaxonomyUpsert {
+	u.SetExcluded(taxonomy.FieldThumbnail)
+	return u
+}
+
+// ClearThumbnail clears the value of the "thumbnail" field.
+func (u *TaxonomyUpsert) ClearThumbnail() *TaxonomyUpsert {
+	u.SetNull(taxonomy.FieldThumbnail)
+	return u
+}
+
+// SetColor sets the "color" field.
+func (u *TaxonomyUpsert) SetColor(v string) *TaxonomyUpsert {
+	u.Set(taxonomy.FieldColor, v)
+	return u
+}
+
+// UpdateColor sets the "color" field to the value that was provided on create.
+func (u *TaxonomyUpsert) UpdateColor() *TaxonomyUpsert {
+	u.SetExcluded(taxonomy.FieldColor)
+	return u
+}
+
+// ClearColor clears the value of the "color" field.
+func (u *TaxonomyUpsert) ClearColor() *TaxonomyUpsert {
+	u.SetNull(taxonomy.FieldColor)
+	return u
+}
+
+// SetIcon sets the "icon" field.
+func (u *TaxonomyUpsert) SetIcon(v string) *TaxonomyUpsert {
+	u.Set(taxonomy.FieldIcon, v)
+	return u
+}
+
+// UpdateIcon sets the "icon" field to the value that was provided on create.
+func (u *TaxonomyUpsert) UpdateIcon() *TaxonomyUpsert {
+	u.SetExcluded(taxonomy.FieldIcon)
+	return u
+}
+
+// ClearIcon clears the value of the "icon" field.
+func (u *TaxonomyUpsert) ClearIcon() *TaxonomyUpsert {
+	u.SetNull(taxonomy.FieldIcon)
+	return u
+}
+
+// SetURL sets the "url" field.
+func (u *TaxonomyUpsert) SetURL(v string) *TaxonomyUpsert {
+	u.Set(taxonomy.FieldURL, v)
+	return u
+}
+
+// UpdateURL sets the "url" field to the value that was provided on create.
+func (u *TaxonomyUpsert) UpdateURL() *TaxonomyUpsert {
+	u.SetExcluded(taxonomy.FieldURL)
+	return u
+}
+
+// ClearURL clears the value of the "url" field.
+func (u *TaxonomyUpsert) ClearURL() *TaxonomyUpsert {
+	u.SetNull(taxonomy.FieldURL)
+	return u
+}
+
+// SetKeywords sets the "keywords" field.
+func (u *TaxonomyUpsert) SetKeywords(v string) *TaxonomyUpsert {
+	u.Set(taxonomy.FieldKeywords, v)
+	return u
+}
+
+// UpdateKeywords sets the "keywords" field to the value that was provided on create.
+func (u *TaxonomyUpsert) UpdateKeywords() *TaxonomyUpsert {
+	u.SetExcluded(taxonomy.FieldKeywords)
+	return u
+}
+
+// ClearKeywords clears the value of the "keywords" field.
+func (u *TaxonomyUpsert) ClearKeywords() *TaxonomyUpsert {
+	u.SetNull(taxonomy.FieldKeywords)
+	return u
+}
+
+// SetDescription sets the "description" field.
+func (u *TaxonomyUpsert) SetDescription(v string) *TaxonomyUpsert {
+	u.Set(taxonomy.FieldDescription, v)
+	return u
+}
+
+// UpdateDescription sets the "description" field to the value that was provided on create.
+func (u *TaxonomyUpsert) UpdateDescription() *TaxonomyUpsert {
+	u.SetExcluded(taxonomy.FieldDescription)
+	return u
+}
+
+// ClearDescription clears the value of the "description" field.
+func (u *TaxonomyUpsert) ClearDescription() *TaxonomyUpsert {
+	u.SetNull(taxonomy.FieldDescription)
+	return u
+}
+
+// SetStatus sets the "status" field.
+func (u *TaxonomyUpsert) SetStatus(v int) *TaxonomyUpsert {
+	u.Set(taxonomy.FieldStatus, v)
+	return u
+}
+
+// UpdateStatus sets the "status" field to the value that was provided on create.
+func (u *TaxonomyUpsert) UpdateStatus() *TaxonomyUpsert {
+	u.SetExcluded(taxonomy.FieldStatus)
+	return u
+}
+
+// AddStatus adds v to the "status" field.
+func (u *TaxonomyUpsert) AddStatus(v int) *TaxonomyUpsert {
+	u.Add(taxonomy.FieldStatus, v)
+	return u
+}
+
+// SetExtras sets the "extras" field.
+func (u *TaxonomyUpsert) SetExtras(v map[string]interface{}) *TaxonomyUpsert {
+	u.Set(taxonomy.FieldExtras, v)
+	return u
+}
+
+// UpdateExtras sets the "extras" field to the value that was provided on create.
+func (u *TaxonomyUpsert) UpdateExtras() *TaxonomyUpsert {
+	u.SetExcluded(taxonomy.FieldExtras)
+	return u
+}
+
+// ClearExtras clears the value of the "extras" field.
+func (u *TaxonomyUpsert) ClearExtras() *TaxonomyUpsert {
+	u.SetNull(taxonomy.FieldExtras)
+	return u
+}
+
+// SetParentID sets the "parent_id" field.
+func (u *TaxonomyUpsert) SetParentID(v string) *TaxonomyUpsert {
+	u.Set(taxonomy.FieldParentID, v)
+	return u
+}
+
+// UpdateParentID sets the "parent_id" field to the value that was provided on create.
+func (u *TaxonomyUpsert) UpdateParentID() *TaxonomyUpsert {
+	u.SetExcluded(taxonomy.FieldParentID)
+	return u
+}
+
+// ClearParentID clears the value of the "parent_id" field.
+func (u *TaxonomyUpsert) ClearParentID() *TaxonomyUpsert {
+	u.SetNull(taxonomy.FieldParentID)
+	return u
+}
+
+// SetSpaceID sets the "space_id" field.
+func (u *TaxonomyUpsert) SetSpaceID(v string) *TaxonomyUpsert {
+	u.Set(taxonomy.FieldSpaceID, v)
+	return u
+}
+
+// UpdateSpaceID sets the "space_id" field to the value that was provided on create.
+func (u *TaxonomyUpsert) UpdateSpaceID() *TaxonomyUpsert {
+	u.SetExcluded(taxonomy.FieldSpaceID)
+	return u
+}
+
+// ClearSpaceID clears the value of the "space_id" field.
+func (u *TaxonomyUpsert) ClearSpaceID() *TaxonomyUpsert {
+	u.SetNull(taxonomy.FieldSpaceID)
+	return u
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (u *TaxonomyUpsert) SetCreatedBy(v string) *TaxonomyUpsert {
+	u.Set(taxonomy.FieldCreatedBy, v)
+	return u
+}
+
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *TaxonomyUpsert) UpdateCreatedBy() *TaxonomyUpsert {
+	u.SetExcluded(taxonomy.FieldCreatedBy)
+	return u
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *TaxonomyUpsert) ClearCreatedBy() *TaxonomyUpsert {
+	u.SetNull(taxonomy.FieldCreatedBy)
+	return u
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (u *TaxonomyUpsert) SetUpdatedBy(v string) *TaxonomyUpsert {
+	u.Set(taxonomy.FieldUpdatedBy, v)
+	return u
+}
+
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *TaxonomyUpsert) UpdateUpdatedBy() *TaxonomyUpsert {
+	u.SetExcluded(taxonomy.FieldUpdatedBy)
+	return u
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *TaxonomyUpsert) ClearUpdatedBy() *TaxonomyUpsert {
+	u.SetNull(taxonomy.FieldUpdatedBy)
+	return u
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *TaxonomyUpsert) SetUpdatedAt(v int64) *TaxonomyUpsert {
+	u.Set(taxonomy.FieldUpdatedAt, v)
+	return u
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *TaxonomyUpsert) UpdateUpdatedAt() *TaxonomyUpsert {
+	u.SetExcluded(taxonomy.FieldUpdatedAt)
+	return u
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *TaxonomyUpsert) AddUpdatedAt(v int64) *TaxonomyUpsert {
+	u.Add(taxonomy.FieldUpdatedAt, v)
+	return u
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *TaxonomyUpsert) ClearUpdatedAt() *TaxonomyUpsert {
+	u.SetNull(taxonomy.FieldUpdatedAt)
+	return u
+}
+
+// UpdateNewValues updates the mutable fields using the new values that were set on create except the ID field.
+// Using this option is equivalent to using:
+//
+//	client.Taxonomy.Create().
+//		OnConflict(
+//			sql.ResolveWithNewValues(),
+//			sql.ResolveWith(func(u *sql.UpdateSet) {
+//				u.SetIgnore(taxonomy.FieldID)
+//			}),
+//		).
+//		Exec(ctx)
+func (u *TaxonomyUpsertOne) UpdateNewValues() *TaxonomyUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithNewValues())
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(s *sql.UpdateSet) {
+		if _, exists := u.create.mutation.ID(); exists {
+			s.SetIgnore(taxonomy.FieldID)
+		}
+		if _, exists := u.create.mutation.CreatedAt(); exists {
+			s.SetIgnore(taxonomy.FieldCreatedAt)
+		}
+	}))
+	return u
+}
+
+// Ignore sets each column to itself in case of conflict.
+// Using this option is equivalent to using:
+//
+//	client.Taxonomy.Create().
+//	    OnConflict(sql.ResolveWithIgnore()).
+//	    Exec(ctx)
+func (u *TaxonomyUpsertOne) Ignore() *TaxonomyUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithIgnore())
+	return u
+}
+
+// DoNothing configures the conflict_action to `DO NOTHING`.
+// Supported only by SQLite and PostgreSQL.
+func (u *TaxonomyUpsertOne) DoNothing() *TaxonomyUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.DoNothing())
+	return u
+}
+
+// Update allows overriding fields `UPDATE` values. See the TaxonomyCreate.OnConflict
+// documentation for more info.
+func (u *TaxonomyUpsertOne) Update(set func(*TaxonomyUpsert)) *TaxonomyUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(update *sql.UpdateSet) {
+		set(&TaxonomyUpsert{UpdateSet: update})
+	}))
+	return u
+}
+
+// SetName sets the "name" field.
+func (u *TaxonomyUpsertOne) SetName(v string) *TaxonomyUpsertOne {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.SetName(v)
+	})
+}
+
+// UpdateName sets the "name" field to the value that was provided on create.
+func (u *TaxonomyUpsertOne) UpdateName() *TaxonomyUpsertOne {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.UpdateName()
+	})
+}
+
+// ClearName clears the value of the "name" field.
+func (u *TaxonomyUpsertOne) ClearName() *TaxonomyUpsertOne {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.ClearName()
+	})
+}
+
+// SetType sets the "type" field.
+func (u *TaxonomyUpsertOne) SetType(v string) *TaxonomyUpsertOne {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.SetType(v)
+	})
+}
+
+// UpdateType sets the "type" field to the value that was provided on create.
+func (u *TaxonomyUpsertOne) UpdateType() *TaxonomyUpsertOne {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.UpdateType()
+	})
+}
+
+// ClearType clears the value of the "type" field.
+func (u *TaxonomyUpsertOne) ClearType() *TaxonomyUpsertOne {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.ClearType()
+	})
+}
+
+// SetSlug sets the "slug" field.
+func (u *TaxonomyUpsertOne) SetSlug(v string) *TaxonomyUpsertOne {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.SetSlug(v)
+	})
+}
+
+// UpdateSlug sets the "slug" field to the value that was provided on create.
+func (u *TaxonomyUpsertOne) UpdateSlug() *TaxonomyUpsertOne {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.UpdateSlug()
+	})
+}
+
+// ClearSlug clears the value of the "slug" field.
+func (u *TaxonomyUpsertOne) ClearSlug() *TaxonomyUpsertOne {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.ClearSlug()
+	})
+}
+
+// SetCover sets the "cover" field.
+func (u *TaxonomyUpsertOne) SetCover(v string) *TaxonomyUpsertOne {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.SetCover(v)
+	})
+}
+
+// UpdateCover sets the "cover" field to the value that was provided on create.
+func (u *TaxonomyUpsertOne) UpdateCover() *TaxonomyUpsertOne {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.UpdateCover()
+	})
+}
+
+// ClearCover clears the value of the "cover" field.
+func (u *TaxonomyUpsertOne) ClearCover() *TaxonomyUpsertOne {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.ClearCover()
+	})
+}
+
+// SetThumbnail sets the "thumbnail" field.
+func (u *TaxonomyUpsertOne) SetThumbnail(v string) *TaxonomyUpsertOne {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.SetThumbnail(v)
+	})
+}
+
+// UpdateThumbnail sets the "thumbnail" field to the value that was provided on create.
+func (u *TaxonomyUpsertOne) UpdateThumbnail() *TaxonomyUpsertOne {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.UpdateThumbnail()
+	})
+}
+
+// ClearThumbnail clears the value of the "thumbnail" field.
+func (u *TaxonomyUpsertOne) ClearThumbnail() *TaxonomyUpsertOne {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.ClearThumbnail()
+	})
+}
+
+// SetColor sets the "color" field.
+func (u *TaxonomyUpsertOne) SetColor(v string) *TaxonomyUpsertOne {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.SetColor(v)
+	})
+}
+
+// UpdateColor sets the "color" field to the value that was provided on create.
+func (u *TaxonomyUpsertOne) UpdateColor() *TaxonomyUpsertOne {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.UpdateColor()
+	})
+}
+
+// ClearColor clears the value of the "color" field.
+func (u *TaxonomyUpsertOne) ClearColor() *TaxonomyUpsertOne {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.ClearColor()
+	})
+}
+
+// SetIcon sets the "icon" field.
+func (u *TaxonomyUpsertOne) SetIcon(v string) *TaxonomyUpsertOne {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.SetIcon(v)
+	})
+}
+
+// UpdateIcon sets the "icon" field to the value that was provided on create.
+func (u *TaxonomyUpsertOne) UpdateIcon() *TaxonomyUpsertOne {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.UpdateIcon()
+	})
+}
+
+// ClearIcon clears the value of the "icon" field.
+func (u *TaxonomyUpsertOne) ClearIcon() *TaxonomyUpsertOne {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.ClearIcon()
+	})
+}
+
+// SetURL sets the "url" field.
+func (u *TaxonomyUpsertOne) SetURL(v string) *TaxonomyUpsertOne {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.SetURL(v)
+	})
+}
+
+// UpdateURL sets the "url" field to the value that was provided on create.
+func (u *TaxonomyUpsertOne) UpdateURL() *TaxonomyUpsertOne {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.UpdateURL()
+	})
+}
+
+// ClearURL clears the value of the "url" field.
+func (u *TaxonomyUpsertOne) ClearURL() *TaxonomyUpsertOne {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.ClearURL()
+	})
+}
+
+// SetKeywords sets the "keywords" field.
+func (u *TaxonomyUpsertOne) SetKeywords(v string) *TaxonomyUpsertOne {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.SetKeywords(v)
+	})
+}
+
+// UpdateKeywords sets the "keywords" field to the value that was provided on create.
+func (u *TaxonomyUpsertOne) UpdateKeywords() *TaxonomyUpsertOne {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.UpdateKeywords()
+	})
+}
+
+// ClearKeywords clears the value of the "keywords" field.
+func (u *TaxonomyUpsertOne) ClearKeywords() *TaxonomyUpsertOne {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.ClearKeywords()
+	})
+}
+
+// SetDescription sets the "description" field.
+func (u *TaxonomyUpsertOne) SetDescription(v string) *TaxonomyUpsertOne {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.SetDescription(v)
+	})
+}
+
+// UpdateDescription sets the "description" field to the value that was provided on create.
+func (u *TaxonomyUpsertOne) UpdateDescription() *TaxonomyUpsertOne {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.UpdateDescription()
+	})
+}
+
+// ClearDescription clears the value of the "description" field.
+func (u *TaxonomyUpsertOne) ClearDescription() *TaxonomyUpsertOne {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.ClearDescription()
+	})
+}
+
+// SetStatus sets the "status" field.
+func (u *TaxonomyUpsertOne) SetStatus(v int) *TaxonomyUpsertOne {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.SetStatus(v)
+	})
+}
+
+// AddStatus adds v to the "status" field.
+func (u *TaxonomyUpsertOne) AddStatus(v int) *TaxonomyUpsertOne {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.AddStatus(v)
+	})
+}
+
+// UpdateStatus sets the "status" field to the value that was provided on create.
+func (u *TaxonomyUpsertOne) UpdateStatus() *TaxonomyUpsertOne {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.UpdateStatus()
+	})
+}
+
+// SetExtras sets the "extras" field.
+func (u *TaxonomyUpsertOne) SetExtras(v map[string]interface{}) *TaxonomyUpsertOne {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.SetExtras(v)
+	})
+}
+
+// UpdateExtras sets the "extras" field to the value that was provided on create.
+func (u *TaxonomyUpsertOne) UpdateExtras() *TaxonomyUpsertOne {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.UpdateExtras()
+	})
+}
+
+// ClearExtras clears the value of the "extras" field.
+func (u *TaxonomyUpsertOne) ClearExtras() *TaxonomyUpsertOne {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.ClearExtras()
+	})
+}
+
+// SetParentID sets the "parent_id" field.
+func (u *TaxonomyUpsertOne) SetParentID(v string) *TaxonomyUpsertOne {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.SetParentID(v)
+	})
+}
+
+// UpdateParentID sets the "parent_id" field to the value that was provided on create.
+func (u *TaxonomyUpsertOne) UpdateParentID() *TaxonomyUpsertOne {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.UpdateParentID()
+	})
+}
+
+// ClearParentID clears the value of the "parent_id" field.
+func (u *TaxonomyUpsertOne) ClearParentID() *TaxonomyUpsertOne {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.ClearParentID()
+	})
+}
+
+// SetSpaceID sets the "space_id" field.
+func (u *TaxonomyUpsertOne) SetSpaceID(v string) *TaxonomyUpsertOne {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.SetSpaceID(v)
+	})
+}
+
+// UpdateSpaceID sets the "space_id" field to the value that was provided on create.
+func (u *TaxonomyUpsertOne) UpdateSpaceID() *TaxonomyUpsertOne {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.UpdateSpaceID()
+	})
+}
+
+// ClearSpaceID clears the value of the "space_id" field.
+func (u *TaxonomyUpsertOne) ClearSpaceID() *TaxonomyUpsertOne {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.ClearSpaceID()
+	})
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (u *TaxonomyUpsertOne) SetCreatedBy(v string) *TaxonomyUpsertOne {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.SetCreatedBy(v)
+	})
+}
+
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *TaxonomyUpsertOne) UpdateCreatedBy() *TaxonomyUpsertOne {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.UpdateCreatedBy()
+	})
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *TaxonomyUpsertOne) ClearCreatedBy() *TaxonomyUpsertOne {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.ClearCreatedBy()
+	})
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (u *TaxonomyUpsertOne) SetUpdatedBy(v string) *TaxonomyUpsertOne {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.SetUpdatedBy(v)
+	})
+}
+
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *TaxonomyUpsertOne) UpdateUpdatedBy() *TaxonomyUpsertOne {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.UpdateUpdatedBy()
+	})
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *TaxonomyUpsertOne) ClearUpdatedBy() *TaxonomyUpsertOne {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.ClearUpdatedBy()
+	})
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *TaxonomyUpsertOne) SetUpdatedAt(v int64) *TaxonomyUpsertOne {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.SetUpdatedAt(v)
+	})
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *TaxonomyUpsertOne) AddUpdatedAt(v int64) *TaxonomyUpsertOne {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.AddUpdatedAt(v)
+	})
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *TaxonomyUpsertOne) UpdateUpdatedAt() *TaxonomyUpsertOne {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.UpdateUpdatedAt()
+	})
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *TaxonomyUpsertOne) ClearUpdatedAt() *TaxonomyUpsertOne {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.ClearUpdatedAt()
+	})
+}
+
+// Exec executes the query.
+func (u *TaxonomyUpsertOne) Exec(ctx context.Context) error {
+	if len(u.create.conflict) == 0 {
+		return errors.New("ent: missing options for TaxonomyCreate.OnConflict")
+	}
+	return u.create.Exec(ctx)
+}
+
+// ExecX is like Exec, but panics if an error occurs.
+func (u *TaxonomyUpsertOne) ExecX(ctx context.Context) {
+	if err := u.create.Exec(ctx); err != nil {
+		panic(err)
+	}
+}
+
+// Exec executes the UPSERT query and returns the inserted/updated ID.
+func (u *TaxonomyUpsertOne) ID(ctx context.Context) (id string, err error) {
+	if u.create.driver.Dialect() == dialect.MySQL {
+		// In case of "ON CONFLICT", there is no way to get back non-numeric ID
+		// fields from the database since MySQL does not support the RETURNING clause.
+		return id, errors.New("ent: TaxonomyUpsertOne.ID is not supported by MySQL driver. Use TaxonomyUpsertOne.Exec instead")
+	}
+	node, err := u.create.Save(ctx)
+	if err != nil {
+		return id, err
+	}
+	return node.ID, nil
+}
+
+// IDX is like ID, but panics if an error occurs.
+func (u *TaxonomyUpsertOne) IDX(ctx context.Context) string {
+	id, err := u.ID(ctx)
+	if err != nil {
+		panic(err)
+	}
+	return id
+}
+
 // TaxonomyCreateBulk is the builder for creating many Taxonomy entities in bulk.
 type TaxonomyCreateBulk struct {
 	config
 	err      error
 	builders []*TaxonomyCreate
+	conflict []sql.ConflictOption
 }
 
 // Save creates the Taxonomy entities in the database.
@@ -488,6 +1307,7 @@ func (_c *TaxonomyCreateBulk) Save(ctx context.Context) ([]*Taxonomy, error) {
 					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
+					spec.OnConflict = _c.conflict
 					// Invoke the actual operation on the latest mutation in the chain.
 					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
@@ -534,6 +1354,487 @@ func (_c *TaxonomyCreateBulk) Exec(ctx context.Context) error {
 // ExecX is like Exec, but panics if an error occurs.
 func (_c *TaxonomyCreateBulk) ExecX(ctx context.Context) {
 	if err := _c.Exec(ctx); err != nil {
+		panic(err)
+	}
+}
+
+// OnConflict allows configuring the `ON CONFLICT` / `ON DUPLICATE KEY` clause
+// of the `INSERT` statement. For example:
+//
+//	client.Taxonomy.CreateBulk(builders...).
+//		OnConflict(
+//			// Update the row with the new values
+//			// the was proposed for insertion.
+//			sql.ResolveWithNewValues(),
+//		).
+//		// Override some of the fields with custom
+//		// update values.
+//		Update(func(u *ent.TaxonomyUpsert) {
+//			SetName(v+v).
+//		}).
+//		Exec(ctx)
+func (_c *TaxonomyCreateBulk) OnConflict(opts ...sql.ConflictOption) *TaxonomyUpsertBulk {
+	_c.conflict = opts
+	return &TaxonomyUpsertBulk{
+		create: _c,
+	}
+}
+
+// OnConflictColumns calls `OnConflict` and configures the columns
+// as conflict target. Using this option is equivalent to using:
+//
+//	client.Taxonomy.Create().
+//		OnConflict(sql.ConflictColumns(columns...)).
+//		Exec(ctx)
+func (_c *TaxonomyCreateBulk) OnConflictColumns(columns ...string) *TaxonomyUpsertBulk {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
+	return &TaxonomyUpsertBulk{
+		create: _c,
+	}
+}
+
+// TaxonomyUpsertBulk is the builder for "upsert"-ing
+// a bulk of Taxonomy nodes.
+type TaxonomyUpsertBulk struct {
+	create *TaxonomyCreateBulk
+}
+
+// UpdateNewValues updates the mutable fields using the new values that
+// were set on create. Using this option is equivalent to using:
+//
+//	client.Taxonomy.Create().
+//		OnConflict(
+//			sql.ResolveWithNewValues(),
+//			sql.ResolveWith(func(u *sql.UpdateSet) {
+//				u.SetIgnore(taxonomy.FieldID)
+//			}),
+//		).
+//		Exec(ctx)
+func (u *TaxonomyUpsertBulk) UpdateNewValues() *TaxonomyUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithNewValues())
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(s *sql.UpdateSet) {
+		for _, b := range u.create.builders {
+			if _, exists := b.mutation.ID(); exists {
+				s.SetIgnore(taxonomy.FieldID)
+			}
+			if _, exists := b.mutation.CreatedAt(); exists {
+				s.SetIgnore(taxonomy.FieldCreatedAt)
+			}
+		}
+	}))
+	return u
+}
+
+// Ignore sets each column to itself in case of conflict.
+// Using this option is equivalent to using:
+//
+//	client.Taxonomy.Create().
+//		OnConflict(sql.ResolveWithIgnore()).
+//		Exec(ctx)
+func (u *TaxonomyUpsertBulk) Ignore() *TaxonomyUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithIgnore())
+	return u
+}
+
+// DoNothing configures the conflict_action to `DO NOTHING`.
+// Supported only by SQLite and PostgreSQL.
+func (u *TaxonomyUpsertBulk) DoNothing() *TaxonomyUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.DoNothing())
+	return u
+}
+
+// Update allows overriding fields `UPDATE` values. See the TaxonomyCreateBulk.OnConflict
+// documentation for more info.
+func (u *TaxonomyUpsertBulk) Update(set func(*TaxonomyUpsert)) *TaxonomyUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(update *sql.UpdateSet) {
+		set(&TaxonomyUpsert{UpdateSet: update})
+	}))
+	return u
+}
+
+// SetName sets the "name" field.
+func (u *TaxonomyUpsertBulk) SetName(v string) *TaxonomyUpsertBulk {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.SetName(v)
+	})
+}
+
+// UpdateName sets the "name" field to the value that was provided on create.
+func (u *TaxonomyUpsertBulk) UpdateName() *TaxonomyUpsertBulk {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.UpdateName()
+	})
+}
+
+// ClearName clears the value of the "name" field.
+func (u *TaxonomyUpsertBulk) ClearName() *TaxonomyUpsertBulk {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.ClearName()
+	})
+}
+
+// SetType sets the "type" field.
+func (u *TaxonomyUpsertBulk) SetType(v string) *TaxonomyUpsertBulk {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.SetType(v)
+	})
+}
+
+// UpdateType sets the "type" field to the value that was provided on create.
+func (u *TaxonomyUpsertBulk) UpdateType() *TaxonomyUpsertBulk {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.UpdateType()
+	})
+}
+
+// ClearType clears the value of the "type" field.
+func (u *TaxonomyUpsertBulk) ClearType() *TaxonomyUpsertBulk {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.ClearType()
+	})
+}
+
+// SetSlug sets the "slug" field.
+func (u *TaxonomyUpsertBulk) SetSlug(v string) *TaxonomyUpsertBulk {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.SetSlug(v)
+	})
+}
+
+// UpdateSlug sets the "slug" field to the value that was provided on create.
+func (u *TaxonomyUpsertBulk) UpdateSlug() *TaxonomyUpsertBulk {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.UpdateSlug()
+	})
+}
+
+// ClearSlug clears the value of the "slug" field.
+func (u *TaxonomyUpsertBulk) ClearSlug() *TaxonomyUpsertBulk {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.ClearSlug()
+	})
+}
+
+// SetCover sets the "cover" field.
+func (u *TaxonomyUpsertBulk) SetCover(v string) *TaxonomyUpsertBulk {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.SetCover(v)
+	})
+}
+
+// UpdateCover sets the "cover" field to the value that was provided on create.
+func (u *TaxonomyUpsertBulk) UpdateCover() *TaxonomyUpsertBulk {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.UpdateCover()
+	})
+}
+
+// ClearCover clears the value of the "cover" field.
+func (u *TaxonomyUpsertBulk) ClearCover() *TaxonomyUpsertBulk {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.ClearCover()
+	})
+}
+
+// SetThumbnail sets the "thumbnail" field.
+func (u *TaxonomyUpsertBulk) SetThumbnail(v string) *TaxonomyUpsertBulk {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.SetThumbnail(v)
+	})
+}
+
+// UpdateThumbnail sets the "thumbnail" field to the value that was provided on create.
+func (u *TaxonomyUpsertBulk) UpdateThumbnail() *TaxonomyUpsertBulk {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.UpdateThumbnail()
+	})
+}
+
+// ClearThumbnail clears the value of the "thumbnail" field.
+func (u *TaxonomyUpsertBulk) ClearThumbnail() *TaxonomyUpsertBulk {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.ClearThumbnail()
+	})
+}
+
+// SetColor sets the "color" field.
+func (u *TaxonomyUpsertBulk) SetColor(v string) *TaxonomyUpsertBulk {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.SetColor(v)
+	})
+}
+
+// UpdateColor sets the "color" field to the value that was provided on create.
+func (u *TaxonomyUpsertBulk) UpdateColor() *TaxonomyUpsertBulk {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.UpdateColor()
+	})
+}
+
+// ClearColor clears the value of the "color" field.
+func (u *TaxonomyUpsertBulk) ClearColor() *TaxonomyUpsertBulk {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.ClearColor()
+	})
+}
+
+// SetIcon sets the "icon" field.
+func (u *TaxonomyUpsertBulk) SetIcon(v string) *TaxonomyUpsertBulk {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.SetIcon(v)
+	})
+}
+
+// UpdateIcon sets the "icon" field to the value that was provided on create.
+func (u *TaxonomyUpsertBulk) UpdateIcon() *TaxonomyUpsertBulk {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.UpdateIcon()
+	})
+}
+
+// ClearIcon clears the value of the "icon" field.
+func (u *TaxonomyUpsertBulk) ClearIcon() *TaxonomyUpsertBulk {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.ClearIcon()
+	})
+}
+
+// SetURL sets the "url" field.
+func (u *TaxonomyUpsertBulk) SetURL(v string) *TaxonomyUpsertBulk {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.SetURL(v)
+	})
+}
+
+// UpdateURL sets the "url" field to the value that was provided on create.
+func (u *TaxonomyUpsertBulk) UpdateURL() *TaxonomyUpsertBulk {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.UpdateURL()
+	})
+}
+
+// ClearURL clears the value of the "url" field.
+func (u *TaxonomyUpsertBulk) ClearURL() *TaxonomyUpsertBulk {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.ClearURL()
+	})
+}
+
+// SetKeywords sets the "keywords" field.
+func (u *TaxonomyUpsertBulk) SetKeywords(v string) *TaxonomyUpsertBulk {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.SetKeywords(v)
+	})
+}
+
+// UpdateKeywords sets the "keywords" field to the value that was provided on create.
+func (u *TaxonomyUpsertBulk) UpdateKeywords() *TaxonomyUpsertBulk {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.UpdateKeywords()
+	})
+}
+
+// ClearKeywords clears the value of the "keywords" field.
+func (u *TaxonomyUpsertBulk) ClearKeywords() *TaxonomyUpsertBulk {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.ClearKeywords()
+	})
+}
+
+// SetDescription sets the "description" field.
+func (u *TaxonomyUpsertBulk) SetDescription(v string) *TaxonomyUpsertBulk {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.SetDescription(v)
+	})
+}
+
+// UpdateDescription sets the "description" field to the value that was provided on create.
+func (u *TaxonomyUpsertBulk) UpdateDescription() *TaxonomyUpsertBulk {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.UpdateDescription()
+	})
+}
+
+// ClearDescription clears the value of the "description" field.
+func (u *TaxonomyUpsertBulk) ClearDescription() *TaxonomyUpsertBulk {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.ClearDescription()
+	})
+}
+
+// SetStatus sets the "status" field.
+func (u *TaxonomyUpsertBulk) SetStatus(v int) *TaxonomyUpsertBulk {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.SetStatus(v)
+	})
+}
+
+// AddStatus adds v to the "status" field.
+func (u *TaxonomyUpsertBulk) AddStatus(v int) *TaxonomyUpsertBulk {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.AddStatus(v)
+	})
+}
+
+// UpdateStatus sets the "status" field to the value that was provided on create.
+func (u *TaxonomyUpsertBulk) UpdateStatus() *TaxonomyUpsertBulk {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.UpdateStatus()
+	})
+}
+
+// SetExtras sets the "extras" field.
+func (u *TaxonomyUpsertBulk) SetExtras(v map[string]interface{}) *TaxonomyUpsertBulk {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.SetExtras(v)
+	})
+}
+
+// UpdateExtras sets the "extras" field to the value that was provided on create.
+func (u *TaxonomyUpsertBulk) UpdateExtras() *TaxonomyUpsertBulk {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.UpdateExtras()
+	})
+}
+
+// ClearExtras clears the value of the "extras" field.
+func (u *TaxonomyUpsertBulk) ClearExtras() *TaxonomyUpsertBulk {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.ClearExtras()
+	})
+}
+
+// SetParentID sets the "parent_id" field.
+func (u *TaxonomyUpsertBulk) SetParentID(v string) *TaxonomyUpsertBulk {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.SetParentID(v)
+	})
+}
+
+// UpdateParentID sets the "parent_id" field to the value that was provided on create.
+func (u *TaxonomyUpsertBulk) UpdateParentID() *TaxonomyUpsertBulk {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.UpdateParentID()
+	})
+}
+
+// ClearParentID clears the value of the "parent_id" field.
+func (u *TaxonomyUpsertBulk) ClearParentID() *TaxonomyUpsertBulk {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.ClearParentID()
+	})
+}
+
+// SetSpaceID sets the "space_id" field.
+func (u *TaxonomyUpsertBulk) SetSpaceID(v string) *TaxonomyUpsertBulk {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.SetSpaceID(v)
+	})
+}
+
+// UpdateSpaceID sets the "space_id" field to the value that was provided on create.
+func (u *TaxonomyUpsertBulk) UpdateSpaceID() *TaxonomyUpsertBulk {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.UpdateSpaceID()
+	})
+}
+
+// ClearSpaceID clears the value of the "space_id" field.
+func (u *TaxonomyUpsertBulk) ClearSpaceID() *TaxonomyUpsertBulk {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.ClearSpaceID()
+	})
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (u *TaxonomyUpsertBulk) SetCreatedBy(v string) *TaxonomyUpsertBulk {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.SetCreatedBy(v)
+	})
+}
+
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *TaxonomyUpsertBulk) UpdateCreatedBy() *TaxonomyUpsertBulk {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.UpdateCreatedBy()
+	})
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *TaxonomyUpsertBulk) ClearCreatedBy() *TaxonomyUpsertBulk {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.ClearCreatedBy()
+	})
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (u *TaxonomyUpsertBulk) SetUpdatedBy(v string) *TaxonomyUpsertBulk {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.SetUpdatedBy(v)
+	})
+}
+
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *TaxonomyUpsertBulk) UpdateUpdatedBy() *TaxonomyUpsertBulk {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.UpdateUpdatedBy()
+	})
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *TaxonomyUpsertBulk) ClearUpdatedBy() *TaxonomyUpsertBulk {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.ClearUpdatedBy()
+	})
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *TaxonomyUpsertBulk) SetUpdatedAt(v int64) *TaxonomyUpsertBulk {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.SetUpdatedAt(v)
+	})
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *TaxonomyUpsertBulk) AddUpdatedAt(v int64) *TaxonomyUpsertBulk {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.AddUpdatedAt(v)
+	})
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *TaxonomyUpsertBulk) UpdateUpdatedAt() *TaxonomyUpsertBulk {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.UpdateUpdatedAt()
+	})
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *TaxonomyUpsertBulk) ClearUpdatedAt() *TaxonomyUpsertBulk {
+	return u.Update(func(s *TaxonomyUpsert) {
+		s.ClearUpdatedAt()
+	})
+}
+
+// Exec executes the query.
+func (u *TaxonomyUpsertBulk) Exec(ctx context.Context) error {
+	if u.create.err != nil {
+		return u.create.err
+	}
+	for i, b := range u.create.builders {
+		if len(b.conflict) != 0 {
+			return fmt.Errorf("ent: OnConflict was set for builder %d. Set it on the TaxonomyCreateBulk instead", i)
+		}
+	}
+	if len(u.create.conflict) == 0 {
+		return errors.New("ent: missing options for TaxonomyCreateBulk.OnConflict")
+	}
+	return u.create.Exec(ctx)
+}
+
+// ExecX is like Exec, but panics if an error occurs.
+func (u *TaxonomyUpsertBulk) ExecX(ctx context.Context) {
+	if err := u.create.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

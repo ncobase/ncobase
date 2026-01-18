@@ -3,9 +3,9 @@ package service
 import (
 	"context"
 	"fmt"
-	"ncobase/access/data"
-	"ncobase/access/data/repository"
-	"ncobase/access/structs"
+	"ncobase/core/access/data"
+	"ncobase/core/access/data/repository"
+	"ncobase/core/access/structs"
 	"os"
 	"strings"
 

@@ -3,17 +3,17 @@
 package ent
 
 import (
-	"ncobase/space/data/ent/space"
-	"ncobase/space/data/ent/spacebilling"
-	"ncobase/space/data/ent/spacedictionary"
-	"ncobase/space/data/ent/spacemenu"
-	"ncobase/space/data/ent/spaceoption"
-	"ncobase/space/data/ent/spaceorganization"
-	"ncobase/space/data/ent/spacequota"
-	"ncobase/space/data/ent/spacesetting"
-	"ncobase/space/data/ent/userspace"
-	"ncobase/space/data/ent/userspacerole"
-	"ncobase/space/data/schema"
+	"ncobase/core/space/data/ent/space"
+	"ncobase/core/space/data/ent/spacebilling"
+	"ncobase/core/space/data/ent/spacedictionary"
+	"ncobase/core/space/data/ent/spacemenu"
+	"ncobase/core/space/data/ent/spaceoption"
+	"ncobase/core/space/data/ent/spaceorganization"
+	"ncobase/core/space/data/ent/spacequota"
+	"ncobase/core/space/data/ent/spacesetting"
+	"ncobase/core/space/data/ent/userspace"
+	"ncobase/core/space/data/ent/userspacerole"
+	"ncobase/core/space/data/schema"
 )
 
 // The init function reads all schema descriptors with runtime code

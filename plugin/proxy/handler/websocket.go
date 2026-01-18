@@ -2,8 +2,8 @@ package handler
 
 import (
 	"context"
-	"ncobase/proxy/service"
-	"ncobase/proxy/structs"
+	"ncobase/plugin/proxy/service"
+	"ncobase/plugin/proxy/structs"
 	"net/http"
 	"net/url"
 	"strings"

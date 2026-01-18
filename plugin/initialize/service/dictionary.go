@@ -2,7 +2,7 @@ package service
 
 import (
 	"context"
-	systemStructs "ncobase/system/structs"
+	systemStructs "ncobase/core/system/structs"
 
 	"github.com/ncobase/ncore/logging/logger"
 )

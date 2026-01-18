@@ -2,10 +2,10 @@ package counter
 
 import (
 	"fmt"
-	"ncobase/counter/data"
-	"ncobase/counter/data/repository"
-	"ncobase/counter/handler"
-	"ncobase/counter/service"
+	"ncobase/plugin/counter/data"
+	"ncobase/plugin/counter/data/repository"
+	"ncobase/plugin/counter/handler"
+	"ncobase/plugin/counter/service"
 	"ncobase/internal/middleware"
 	"sync"
 

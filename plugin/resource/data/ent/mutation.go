@@ -6,8 +6,8 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"ncobase/resource/data/ent/file"
-	"ncobase/resource/data/ent/predicate"
+	"ncobase/plugin/resource/data/ent/file"
+	"ncobase/plugin/resource/data/ent/predicate"
 	"sync"
 
 	"entgo.io/ent"

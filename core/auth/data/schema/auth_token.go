@@ -8,7 +8,7 @@ import (
 	"entgo.io/ent/dialect/entsql"
 	"entgo.io/ent/schema"
 	"entgo.io/ent/schema/index"
-	"github.com/ncobase/ncore/data/databases/entgo/mixin"
+	"github.com/ncobase/ncore/data/entgo/mixin"
 )
 
 // AuthToken holds the schema definition for the AuthToken entity.
@@ -18,7 +18,7 @@ type AuthToken struct {
 
 // Annotations of the AuthToken.
 func (AuthToken) Annotations() []schema.Annotation {
-	table := strings.Join([]string{"ncse", "auth_token"}, "_")
+	table := strings.Join([]string{"ncse", "sys_user", "auth_token"}, "_")
 	return []schema.Annotation{
 		entsql.Annotation{Table: table},
 		entgql.Mutations(entgql.MutationCreate(), entgql.MutationUpdate()),

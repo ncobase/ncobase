@@ -1,9 +1,9 @@
 package structs
 
 import (
-	orgStructs "ncobase/organization/structs"
-	spaceStructs "ncobase/space/structs"
-	userStructs "ncobase/user/structs"
+	orgStructs "ncobase/core/organization/structs"
+	spaceStructs "ncobase/core/space/structs"
+	userStructs "ncobase/core/user/structs"
 
 	"github.com/ncobase/ncore/security/oauth"
 )

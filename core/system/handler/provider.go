@@ -1,6 +1,6 @@
 package handler
 
-import "ncobase/system/service"
+import "ncobase/core/system/service"
 
 // Handler represents the system handler.
 type Handler struct {

@@ -2,9 +2,9 @@ package auth
 
 import (
 	"fmt"
-	"ncobase/auth/data"
-	"ncobase/auth/handler"
-	"ncobase/auth/service"
+	"ncobase/core/auth/data"
+	"ncobase/core/auth/handler"
+	"ncobase/core/auth/service"
 	"ncobase/internal/middleware"
 	"sync"
 

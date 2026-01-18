@@ -4,7 +4,7 @@ package ent
 
 import (
 	"fmt"
-	"ncobase/access/data/ent/casbinrule"
+	"ncobase/core/access/data/ent/casbinrule"
 	"strings"
 
 	"entgo.io/ent"

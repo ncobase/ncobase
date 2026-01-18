@@ -4,8 +4,8 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
-	"ncobase/payment/data/ent"
-	"ncobase/payment/data/ent/migrate"
+	"ncobase/plugin/payment/data/ent"
+	"ncobase/plugin/payment/data/ent/migrate"
 
 	"entgo.io/ent/dialect"
 	entsql "entgo.io/ent/dialect/sql"

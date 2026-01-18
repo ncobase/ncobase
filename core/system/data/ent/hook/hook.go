@@ -5,7 +5,7 @@ package hook
 import (
 	"context"
 	"fmt"
-	"ncobase/system/data/ent"
+	"ncobase/core/system/data/ent"
 )
 
 // The DictionaryFunc type is an adapter to allow the use of ordinary

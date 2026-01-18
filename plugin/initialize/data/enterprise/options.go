@@ -1,7 +1,7 @@
 package enterprise
 
 import (
-	"ncobase/system/structs"
+	"ncobase/core/system/structs"
 
 	"ncobase/internal/version"
 )

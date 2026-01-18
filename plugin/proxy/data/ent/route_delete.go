@@ -4,8 +4,8 @@ package ent
 
 import (
 	"context"
-	"ncobase/proxy/data/ent/predicate"
-	"ncobase/proxy/data/ent/route"
+	"ncobase/plugin/proxy/data/ent/predicate"
+	"ncobase/plugin/proxy/data/ent/route"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"

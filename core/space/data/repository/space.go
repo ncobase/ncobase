@@ -3,13 +3,15 @@ package repository
 import (
 	"context"
 	"fmt"
-	"ncobase/space/data"
-	"ncobase/space/data/ent"
-	spaceEnt "ncobase/space/data/ent/space"
-	"ncobase/space/structs"
+	"ncobase/core/space/data"
+	"ncobase/core/space/data/ent"
+	spaceEnt "ncobase/core/space/data/ent/space"
+	"ncobase/core/space/structs"
 	"time"
 
-	"github.com/ncobase/ncore/data/databases/cache"
+	"github.com/redis/go-redis/v9"
+
+	"github.com/ncobase/ncore/data/cache"
 	"github.com/ncobase/ncore/data/paging"
 	"github.com/ncobase/ncore/logging/logger"
 	"github.com/ncobase/ncore/types"
@@ -17,6 +19,7 @@ import (
 	"github.com/ncobase/ncore/utils/nanoid"
 	"github.com/ncobase/ncore/validation/validator"
 
+	nd "github.com/ncobase/ncore/data"
 	"github.com/ncobase/ncore/data/search"
 )
 
@@ -37,6 +40,7 @@ type SpaceRepositoryInterface interface {
 // spaceRepository implements the SpaceRepositoryInterface.
 type spaceRepository struct {
 	data             *data.Data
+	searchClient     *search.Client
 	ec               *ent.Client
 	spaceCache       cache.ICache[ent.Space]
 	slugMappingCache cache.ICache[string] // Maps slug to space ID
@@ -46,10 +50,12 @@ type spaceRepository struct {
 
 // NewSpaceRepository creates a new space repository.
 func NewSpaceRepository(d *data.Data) SpaceRepositoryInterface {
-	redisClient := d.GetRedis()
+	redisClient := d.GetRedis().(*redis.Client)
+	searchClient := nd.NewSearchClient(d.Data)
 
 	return &spaceRepository{
 		data:             d,
+		searchClient:     searchClient,
 		ec:               d.GetMasterEntClient(),
 		spaceCache:       cache.NewCache[ent.Space](redisClient, "ncse_space:spaces"),
 		slugMappingCache: cache.NewCache[string](redisClient, "ncse_space:slug_mappings"),
@@ -90,7 +96,7 @@ func (r *spaceRepository) Create(ctx context.Context, body *structs.CreateSpaceB
 	}
 
 	// Create the space in Meilisearch index
-	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "spaces", Document: space}); err != nil {
+	if err = r.searchClient.Index(ctx, &search.IndexRequest{Index: "spaces", Document: space}); err != nil {
 		logger.Errorf(ctx, "spaceRepo.Create error creating Meilisearch index: %v", err)
 	}
 
@@ -271,7 +277,7 @@ func (r *spaceRepository) Update(ctx context.Context, slug string, updates types
 	}
 
 	// Update Meilisearch index
-	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "spaces", Document: updatedSpace, DocumentID: updatedSpace.ID}); err != nil {
+	if err = r.searchClient.Index(ctx, &search.IndexRequest{Index: "spaces", Document: updatedSpace, DocumentID: updatedSpace.ID}); err != nil {
 		logger.Errorf(ctx, "spaceRepo.Update error updating Meilisearch index: %v", err)
 	}
 
@@ -365,7 +371,7 @@ func (r *spaceRepository) Delete(ctx context.Context, id string) error {
 	}
 
 	// Delete from Meilisearch index
-	if err = r.data.DeleteDocument(ctx, "spaces", space.ID); err != nil {
+	if err = r.searchClient.Delete(ctx, "spaces", space.ID); err != nil {
 		logger.Errorf(ctx, "spaceRepo.Delete index error: %v", err)
 	}
 
@@ -390,7 +396,7 @@ func (r *spaceRepository) DeleteByUser(ctx context.Context, userID string) error
 	}
 
 	// Delete from Meilisearch index
-	if err = r.data.DeleteDocument(ctx, "spaces", space.ID); err != nil {
+	if err = r.searchClient.Delete(ctx, "spaces", space.ID); err != nil {
 		logger.Errorf(ctx, "spaceRepo.DeleteByUser index error: %v", err)
 	}
 

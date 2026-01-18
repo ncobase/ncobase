@@ -1,6 +1,6 @@
 package enterprise
 
-import spaceStructs "ncobase/space/structs"
+import spaceStructs "ncobase/core/space/structs"
 
 // SystemDefaultSpaceQuotas defines default quotas for enterprise spaces
 var SystemDefaultSpaceQuotas = []spaceStructs.CreateSpaceQuotaBody{

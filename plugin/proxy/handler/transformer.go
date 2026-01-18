@@ -1,8 +1,8 @@
 package handler
 
 import (
-	"ncobase/proxy/service"
-	"ncobase/proxy/structs"
+	"ncobase/plugin/proxy/service"
+	"ncobase/plugin/proxy/structs"
 
 	"github.com/ncobase/ncore/ecode"
 	"github.com/ncobase/ncore/net/resp"

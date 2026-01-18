@@ -5,7 +5,7 @@ package hook
 import (
 	"context"
 	"fmt"
-	"ncobase/user/data/ent"
+	"ncobase/core/user/data/ent"
 )
 
 // The ApiKeyFunc type is an adapter to allow the use of ordinary

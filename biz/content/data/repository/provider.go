@@ -1,7 +1,7 @@
 package repository
 
 import (
-	"ncobase/content/data"
+	"ncobase/biz/content/data"
 )
 
 // Repository represents the content repository.

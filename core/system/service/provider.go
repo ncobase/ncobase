@@ -1,8 +1,8 @@
 package service
 
 import (
-	"ncobase/system/data"
-	"ncobase/system/wrapper"
+	"ncobase/core/system/data"
+	"ncobase/core/system/wrapper"
 
 	ext "github.com/ncobase/ncore/extension/types"
 )

@@ -3,13 +3,14 @@ package repository
 import (
 	"context"
 	"fmt"
-	"ncobase/space/data"
-	"ncobase/space/data/ent"
-	spaceSettingEnt "ncobase/space/data/ent/spacesetting"
-	"ncobase/space/structs"
+	"ncobase/core/space/data"
+	"ncobase/core/space/data/ent"
+	spaceSettingEnt "ncobase/core/space/data/ent/spacesetting"
+	"ncobase/core/space/structs"
 	"time"
+	"github.com/redis/go-redis/v9"
 
-	"github.com/ncobase/ncore/data/databases/cache"
+	"github.com/ncobase/ncore/data/cache"
 	"github.com/ncobase/ncore/data/paging"
 	"github.com/ncobase/ncore/logging/logger"
 	"github.com/ncobase/ncore/types"
@@ -44,7 +45,7 @@ type spaceSettingRepository struct {
 
 // NewSpaceSettingRepository creates a new space setting repository
 func NewSpaceSettingRepository(d *data.Data) SpaceSettingRepositoryInterface {
-	redisClient := d.GetRedis()
+	redisClient := d.GetRedis().(*redis.Client)
 
 	return &spaceSettingRepository{
 		data:                  d,

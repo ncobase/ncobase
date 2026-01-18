@@ -6,8 +6,10 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"ncobase/space/data/ent/spacesetting"
+	"ncobase/core/space/data/ent/spacesetting"
 
+	"entgo.io/ent/dialect"
+	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
 )
@@ -17,6 +19,7 @@ type SpaceSettingCreate struct {
 	config
 	mutation *SpaceSettingMutation
 	hooks    []Hook
+	conflict []sql.ConflictOption
 }
 
 // SetSpaceID sets the "space_id" field.
@@ -402,6 +405,7 @@ func (_c *SpaceSettingCreate) createSpec() (*SpaceSetting, *sqlgraph.CreateSpec)
 		_node = &SpaceSetting{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(spacesetting.Table, sqlgraph.NewFieldSpec(spacesetting.FieldID, field.TypeString))
 	)
+	_spec.OnConflict = _c.conflict
 	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
@@ -481,11 +485,722 @@ func (_c *SpaceSettingCreate) createSpec() (*SpaceSetting, *sqlgraph.CreateSpec)
 	return _node, _spec
 }
 
+// OnConflict allows configuring the `ON CONFLICT` / `ON DUPLICATE KEY` clause
+// of the `INSERT` statement. For example:
+//
+//	client.SpaceSetting.Create().
+//		SetSpaceID(v).
+//		OnConflict(
+//			// Update the row with the new values
+//			// the was proposed for insertion.
+//			sql.ResolveWithNewValues(),
+//		).
+//		// Override some of the fields with custom
+//		// update values.
+//		Update(func(u *ent.SpaceSettingUpsert) {
+//			SetSpaceID(v+v).
+//		}).
+//		Exec(ctx)
+func (_c *SpaceSettingCreate) OnConflict(opts ...sql.ConflictOption) *SpaceSettingUpsertOne {
+	_c.conflict = opts
+	return &SpaceSettingUpsertOne{
+		create: _c,
+	}
+}
+
+// OnConflictColumns calls `OnConflict` and configures the columns
+// as conflict target. Using this option is equivalent to using:
+//
+//	client.SpaceSetting.Create().
+//		OnConflict(sql.ConflictColumns(columns...)).
+//		Exec(ctx)
+func (_c *SpaceSettingCreate) OnConflictColumns(columns ...string) *SpaceSettingUpsertOne {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
+	return &SpaceSettingUpsertOne{
+		create: _c,
+	}
+}
+
+type (
+	// SpaceSettingUpsertOne is the builder for "upsert"-ing
+	//  one SpaceSetting node.
+	SpaceSettingUpsertOne struct {
+		create *SpaceSettingCreate
+	}
+
+	// SpaceSettingUpsert is the "OnConflict" setter.
+	SpaceSettingUpsert struct {
+		*sql.UpdateSet
+	}
+)
+
+// SetSpaceID sets the "space_id" field.
+func (u *SpaceSettingUpsert) SetSpaceID(v string) *SpaceSettingUpsert {
+	u.Set(spacesetting.FieldSpaceID, v)
+	return u
+}
+
+// UpdateSpaceID sets the "space_id" field to the value that was provided on create.
+func (u *SpaceSettingUpsert) UpdateSpaceID() *SpaceSettingUpsert {
+	u.SetExcluded(spacesetting.FieldSpaceID)
+	return u
+}
+
+// ClearSpaceID clears the value of the "space_id" field.
+func (u *SpaceSettingUpsert) ClearSpaceID() *SpaceSettingUpsert {
+	u.SetNull(spacesetting.FieldSpaceID)
+	return u
+}
+
+// SetDescription sets the "description" field.
+func (u *SpaceSettingUpsert) SetDescription(v string) *SpaceSettingUpsert {
+	u.Set(spacesetting.FieldDescription, v)
+	return u
+}
+
+// UpdateDescription sets the "description" field to the value that was provided on create.
+func (u *SpaceSettingUpsert) UpdateDescription() *SpaceSettingUpsert {
+	u.SetExcluded(spacesetting.FieldDescription)
+	return u
+}
+
+// ClearDescription clears the value of the "description" field.
+func (u *SpaceSettingUpsert) ClearDescription() *SpaceSettingUpsert {
+	u.SetNull(spacesetting.FieldDescription)
+	return u
+}
+
+// SetExtras sets the "extras" field.
+func (u *SpaceSettingUpsert) SetExtras(v map[string]interface{}) *SpaceSettingUpsert {
+	u.Set(spacesetting.FieldExtras, v)
+	return u
+}
+
+// UpdateExtras sets the "extras" field to the value that was provided on create.
+func (u *SpaceSettingUpsert) UpdateExtras() *SpaceSettingUpsert {
+	u.SetExcluded(spacesetting.FieldExtras)
+	return u
+}
+
+// ClearExtras clears the value of the "extras" field.
+func (u *SpaceSettingUpsert) ClearExtras() *SpaceSettingUpsert {
+	u.SetNull(spacesetting.FieldExtras)
+	return u
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (u *SpaceSettingUpsert) SetCreatedBy(v string) *SpaceSettingUpsert {
+	u.Set(spacesetting.FieldCreatedBy, v)
+	return u
+}
+
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *SpaceSettingUpsert) UpdateCreatedBy() *SpaceSettingUpsert {
+	u.SetExcluded(spacesetting.FieldCreatedBy)
+	return u
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *SpaceSettingUpsert) ClearCreatedBy() *SpaceSettingUpsert {
+	u.SetNull(spacesetting.FieldCreatedBy)
+	return u
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (u *SpaceSettingUpsert) SetUpdatedBy(v string) *SpaceSettingUpsert {
+	u.Set(spacesetting.FieldUpdatedBy, v)
+	return u
+}
+
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *SpaceSettingUpsert) UpdateUpdatedBy() *SpaceSettingUpsert {
+	u.SetExcluded(spacesetting.FieldUpdatedBy)
+	return u
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *SpaceSettingUpsert) ClearUpdatedBy() *SpaceSettingUpsert {
+	u.SetNull(spacesetting.FieldUpdatedBy)
+	return u
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *SpaceSettingUpsert) SetUpdatedAt(v int64) *SpaceSettingUpsert {
+	u.Set(spacesetting.FieldUpdatedAt, v)
+	return u
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *SpaceSettingUpsert) UpdateUpdatedAt() *SpaceSettingUpsert {
+	u.SetExcluded(spacesetting.FieldUpdatedAt)
+	return u
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *SpaceSettingUpsert) AddUpdatedAt(v int64) *SpaceSettingUpsert {
+	u.Add(spacesetting.FieldUpdatedAt, v)
+	return u
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *SpaceSettingUpsert) ClearUpdatedAt() *SpaceSettingUpsert {
+	u.SetNull(spacesetting.FieldUpdatedAt)
+	return u
+}
+
+// SetSettingKey sets the "setting_key" field.
+func (u *SpaceSettingUpsert) SetSettingKey(v string) *SpaceSettingUpsert {
+	u.Set(spacesetting.FieldSettingKey, v)
+	return u
+}
+
+// UpdateSettingKey sets the "setting_key" field to the value that was provided on create.
+func (u *SpaceSettingUpsert) UpdateSettingKey() *SpaceSettingUpsert {
+	u.SetExcluded(spacesetting.FieldSettingKey)
+	return u
+}
+
+// SetSettingName sets the "setting_name" field.
+func (u *SpaceSettingUpsert) SetSettingName(v string) *SpaceSettingUpsert {
+	u.Set(spacesetting.FieldSettingName, v)
+	return u
+}
+
+// UpdateSettingName sets the "setting_name" field to the value that was provided on create.
+func (u *SpaceSettingUpsert) UpdateSettingName() *SpaceSettingUpsert {
+	u.SetExcluded(spacesetting.FieldSettingName)
+	return u
+}
+
+// SetSettingValue sets the "setting_value" field.
+func (u *SpaceSettingUpsert) SetSettingValue(v string) *SpaceSettingUpsert {
+	u.Set(spacesetting.FieldSettingValue, v)
+	return u
+}
+
+// UpdateSettingValue sets the "setting_value" field to the value that was provided on create.
+func (u *SpaceSettingUpsert) UpdateSettingValue() *SpaceSettingUpsert {
+	u.SetExcluded(spacesetting.FieldSettingValue)
+	return u
+}
+
+// ClearSettingValue clears the value of the "setting_value" field.
+func (u *SpaceSettingUpsert) ClearSettingValue() *SpaceSettingUpsert {
+	u.SetNull(spacesetting.FieldSettingValue)
+	return u
+}
+
+// SetDefaultValue sets the "default_value" field.
+func (u *SpaceSettingUpsert) SetDefaultValue(v string) *SpaceSettingUpsert {
+	u.Set(spacesetting.FieldDefaultValue, v)
+	return u
+}
+
+// UpdateDefaultValue sets the "default_value" field to the value that was provided on create.
+func (u *SpaceSettingUpsert) UpdateDefaultValue() *SpaceSettingUpsert {
+	u.SetExcluded(spacesetting.FieldDefaultValue)
+	return u
+}
+
+// ClearDefaultValue clears the value of the "default_value" field.
+func (u *SpaceSettingUpsert) ClearDefaultValue() *SpaceSettingUpsert {
+	u.SetNull(spacesetting.FieldDefaultValue)
+	return u
+}
+
+// SetSettingType sets the "setting_type" field.
+func (u *SpaceSettingUpsert) SetSettingType(v string) *SpaceSettingUpsert {
+	u.Set(spacesetting.FieldSettingType, v)
+	return u
+}
+
+// UpdateSettingType sets the "setting_type" field to the value that was provided on create.
+func (u *SpaceSettingUpsert) UpdateSettingType() *SpaceSettingUpsert {
+	u.SetExcluded(spacesetting.FieldSettingType)
+	return u
+}
+
+// SetScope sets the "scope" field.
+func (u *SpaceSettingUpsert) SetScope(v string) *SpaceSettingUpsert {
+	u.Set(spacesetting.FieldScope, v)
+	return u
+}
+
+// UpdateScope sets the "scope" field to the value that was provided on create.
+func (u *SpaceSettingUpsert) UpdateScope() *SpaceSettingUpsert {
+	u.SetExcluded(spacesetting.FieldScope)
+	return u
+}
+
+// SetCategory sets the "category" field.
+func (u *SpaceSettingUpsert) SetCategory(v string) *SpaceSettingUpsert {
+	u.Set(spacesetting.FieldCategory, v)
+	return u
+}
+
+// UpdateCategory sets the "category" field to the value that was provided on create.
+func (u *SpaceSettingUpsert) UpdateCategory() *SpaceSettingUpsert {
+	u.SetExcluded(spacesetting.FieldCategory)
+	return u
+}
+
+// SetIsPublic sets the "is_public" field.
+func (u *SpaceSettingUpsert) SetIsPublic(v bool) *SpaceSettingUpsert {
+	u.Set(spacesetting.FieldIsPublic, v)
+	return u
+}
+
+// UpdateIsPublic sets the "is_public" field to the value that was provided on create.
+func (u *SpaceSettingUpsert) UpdateIsPublic() *SpaceSettingUpsert {
+	u.SetExcluded(spacesetting.FieldIsPublic)
+	return u
+}
+
+// SetIsRequired sets the "is_required" field.
+func (u *SpaceSettingUpsert) SetIsRequired(v bool) *SpaceSettingUpsert {
+	u.Set(spacesetting.FieldIsRequired, v)
+	return u
+}
+
+// UpdateIsRequired sets the "is_required" field to the value that was provided on create.
+func (u *SpaceSettingUpsert) UpdateIsRequired() *SpaceSettingUpsert {
+	u.SetExcluded(spacesetting.FieldIsRequired)
+	return u
+}
+
+// SetIsReadonly sets the "is_readonly" field.
+func (u *SpaceSettingUpsert) SetIsReadonly(v bool) *SpaceSettingUpsert {
+	u.Set(spacesetting.FieldIsReadonly, v)
+	return u
+}
+
+// UpdateIsReadonly sets the "is_readonly" field to the value that was provided on create.
+func (u *SpaceSettingUpsert) UpdateIsReadonly() *SpaceSettingUpsert {
+	u.SetExcluded(spacesetting.FieldIsReadonly)
+	return u
+}
+
+// SetValidation sets the "validation" field.
+func (u *SpaceSettingUpsert) SetValidation(v map[string]interface{}) *SpaceSettingUpsert {
+	u.Set(spacesetting.FieldValidation, v)
+	return u
+}
+
+// UpdateValidation sets the "validation" field to the value that was provided on create.
+func (u *SpaceSettingUpsert) UpdateValidation() *SpaceSettingUpsert {
+	u.SetExcluded(spacesetting.FieldValidation)
+	return u
+}
+
+// ClearValidation clears the value of the "validation" field.
+func (u *SpaceSettingUpsert) ClearValidation() *SpaceSettingUpsert {
+	u.SetNull(spacesetting.FieldValidation)
+	return u
+}
+
+// UpdateNewValues updates the mutable fields using the new values that were set on create except the ID field.
+// Using this option is equivalent to using:
+//
+//	client.SpaceSetting.Create().
+//		OnConflict(
+//			sql.ResolveWithNewValues(),
+//			sql.ResolveWith(func(u *sql.UpdateSet) {
+//				u.SetIgnore(spacesetting.FieldID)
+//			}),
+//		).
+//		Exec(ctx)
+func (u *SpaceSettingUpsertOne) UpdateNewValues() *SpaceSettingUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithNewValues())
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(s *sql.UpdateSet) {
+		if _, exists := u.create.mutation.ID(); exists {
+			s.SetIgnore(spacesetting.FieldID)
+		}
+		if _, exists := u.create.mutation.CreatedAt(); exists {
+			s.SetIgnore(spacesetting.FieldCreatedAt)
+		}
+	}))
+	return u
+}
+
+// Ignore sets each column to itself in case of conflict.
+// Using this option is equivalent to using:
+//
+//	client.SpaceSetting.Create().
+//	    OnConflict(sql.ResolveWithIgnore()).
+//	    Exec(ctx)
+func (u *SpaceSettingUpsertOne) Ignore() *SpaceSettingUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithIgnore())
+	return u
+}
+
+// DoNothing configures the conflict_action to `DO NOTHING`.
+// Supported only by SQLite and PostgreSQL.
+func (u *SpaceSettingUpsertOne) DoNothing() *SpaceSettingUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.DoNothing())
+	return u
+}
+
+// Update allows overriding fields `UPDATE` values. See the SpaceSettingCreate.OnConflict
+// documentation for more info.
+func (u *SpaceSettingUpsertOne) Update(set func(*SpaceSettingUpsert)) *SpaceSettingUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(update *sql.UpdateSet) {
+		set(&SpaceSettingUpsert{UpdateSet: update})
+	}))
+	return u
+}
+
+// SetSpaceID sets the "space_id" field.
+func (u *SpaceSettingUpsertOne) SetSpaceID(v string) *SpaceSettingUpsertOne {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.SetSpaceID(v)
+	})
+}
+
+// UpdateSpaceID sets the "space_id" field to the value that was provided on create.
+func (u *SpaceSettingUpsertOne) UpdateSpaceID() *SpaceSettingUpsertOne {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.UpdateSpaceID()
+	})
+}
+
+// ClearSpaceID clears the value of the "space_id" field.
+func (u *SpaceSettingUpsertOne) ClearSpaceID() *SpaceSettingUpsertOne {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.ClearSpaceID()
+	})
+}
+
+// SetDescription sets the "description" field.
+func (u *SpaceSettingUpsertOne) SetDescription(v string) *SpaceSettingUpsertOne {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.SetDescription(v)
+	})
+}
+
+// UpdateDescription sets the "description" field to the value that was provided on create.
+func (u *SpaceSettingUpsertOne) UpdateDescription() *SpaceSettingUpsertOne {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.UpdateDescription()
+	})
+}
+
+// ClearDescription clears the value of the "description" field.
+func (u *SpaceSettingUpsertOne) ClearDescription() *SpaceSettingUpsertOne {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.ClearDescription()
+	})
+}
+
+// SetExtras sets the "extras" field.
+func (u *SpaceSettingUpsertOne) SetExtras(v map[string]interface{}) *SpaceSettingUpsertOne {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.SetExtras(v)
+	})
+}
+
+// UpdateExtras sets the "extras" field to the value that was provided on create.
+func (u *SpaceSettingUpsertOne) UpdateExtras() *SpaceSettingUpsertOne {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.UpdateExtras()
+	})
+}
+
+// ClearExtras clears the value of the "extras" field.
+func (u *SpaceSettingUpsertOne) ClearExtras() *SpaceSettingUpsertOne {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.ClearExtras()
+	})
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (u *SpaceSettingUpsertOne) SetCreatedBy(v string) *SpaceSettingUpsertOne {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.SetCreatedBy(v)
+	})
+}
+
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *SpaceSettingUpsertOne) UpdateCreatedBy() *SpaceSettingUpsertOne {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.UpdateCreatedBy()
+	})
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *SpaceSettingUpsertOne) ClearCreatedBy() *SpaceSettingUpsertOne {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.ClearCreatedBy()
+	})
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (u *SpaceSettingUpsertOne) SetUpdatedBy(v string) *SpaceSettingUpsertOne {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.SetUpdatedBy(v)
+	})
+}
+
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *SpaceSettingUpsertOne) UpdateUpdatedBy() *SpaceSettingUpsertOne {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.UpdateUpdatedBy()
+	})
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *SpaceSettingUpsertOne) ClearUpdatedBy() *SpaceSettingUpsertOne {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.ClearUpdatedBy()
+	})
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *SpaceSettingUpsertOne) SetUpdatedAt(v int64) *SpaceSettingUpsertOne {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.SetUpdatedAt(v)
+	})
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *SpaceSettingUpsertOne) AddUpdatedAt(v int64) *SpaceSettingUpsertOne {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.AddUpdatedAt(v)
+	})
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *SpaceSettingUpsertOne) UpdateUpdatedAt() *SpaceSettingUpsertOne {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.UpdateUpdatedAt()
+	})
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *SpaceSettingUpsertOne) ClearUpdatedAt() *SpaceSettingUpsertOne {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.ClearUpdatedAt()
+	})
+}
+
+// SetSettingKey sets the "setting_key" field.
+func (u *SpaceSettingUpsertOne) SetSettingKey(v string) *SpaceSettingUpsertOne {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.SetSettingKey(v)
+	})
+}
+
+// UpdateSettingKey sets the "setting_key" field to the value that was provided on create.
+func (u *SpaceSettingUpsertOne) UpdateSettingKey() *SpaceSettingUpsertOne {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.UpdateSettingKey()
+	})
+}
+
+// SetSettingName sets the "setting_name" field.
+func (u *SpaceSettingUpsertOne) SetSettingName(v string) *SpaceSettingUpsertOne {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.SetSettingName(v)
+	})
+}
+
+// UpdateSettingName sets the "setting_name" field to the value that was provided on create.
+func (u *SpaceSettingUpsertOne) UpdateSettingName() *SpaceSettingUpsertOne {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.UpdateSettingName()
+	})
+}
+
+// SetSettingValue sets the "setting_value" field.
+func (u *SpaceSettingUpsertOne) SetSettingValue(v string) *SpaceSettingUpsertOne {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.SetSettingValue(v)
+	})
+}
+
+// UpdateSettingValue sets the "setting_value" field to the value that was provided on create.
+func (u *SpaceSettingUpsertOne) UpdateSettingValue() *SpaceSettingUpsertOne {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.UpdateSettingValue()
+	})
+}
+
+// ClearSettingValue clears the value of the "setting_value" field.
+func (u *SpaceSettingUpsertOne) ClearSettingValue() *SpaceSettingUpsertOne {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.ClearSettingValue()
+	})
+}
+
+// SetDefaultValue sets the "default_value" field.
+func (u *SpaceSettingUpsertOne) SetDefaultValue(v string) *SpaceSettingUpsertOne {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.SetDefaultValue(v)
+	})
+}
+
+// UpdateDefaultValue sets the "default_value" field to the value that was provided on create.
+func (u *SpaceSettingUpsertOne) UpdateDefaultValue() *SpaceSettingUpsertOne {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.UpdateDefaultValue()
+	})
+}
+
+// ClearDefaultValue clears the value of the "default_value" field.
+func (u *SpaceSettingUpsertOne) ClearDefaultValue() *SpaceSettingUpsertOne {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.ClearDefaultValue()
+	})
+}
+
+// SetSettingType sets the "setting_type" field.
+func (u *SpaceSettingUpsertOne) SetSettingType(v string) *SpaceSettingUpsertOne {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.SetSettingType(v)
+	})
+}
+
+// UpdateSettingType sets the "setting_type" field to the value that was provided on create.
+func (u *SpaceSettingUpsertOne) UpdateSettingType() *SpaceSettingUpsertOne {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.UpdateSettingType()
+	})
+}
+
+// SetScope sets the "scope" field.
+func (u *SpaceSettingUpsertOne) SetScope(v string) *SpaceSettingUpsertOne {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.SetScope(v)
+	})
+}
+
+// UpdateScope sets the "scope" field to the value that was provided on create.
+func (u *SpaceSettingUpsertOne) UpdateScope() *SpaceSettingUpsertOne {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.UpdateScope()
+	})
+}
+
+// SetCategory sets the "category" field.
+func (u *SpaceSettingUpsertOne) SetCategory(v string) *SpaceSettingUpsertOne {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.SetCategory(v)
+	})
+}
+
+// UpdateCategory sets the "category" field to the value that was provided on create.
+func (u *SpaceSettingUpsertOne) UpdateCategory() *SpaceSettingUpsertOne {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.UpdateCategory()
+	})
+}
+
+// SetIsPublic sets the "is_public" field.
+func (u *SpaceSettingUpsertOne) SetIsPublic(v bool) *SpaceSettingUpsertOne {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.SetIsPublic(v)
+	})
+}
+
+// UpdateIsPublic sets the "is_public" field to the value that was provided on create.
+func (u *SpaceSettingUpsertOne) UpdateIsPublic() *SpaceSettingUpsertOne {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.UpdateIsPublic()
+	})
+}
+
+// SetIsRequired sets the "is_required" field.
+func (u *SpaceSettingUpsertOne) SetIsRequired(v bool) *SpaceSettingUpsertOne {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.SetIsRequired(v)
+	})
+}
+
+// UpdateIsRequired sets the "is_required" field to the value that was provided on create.
+func (u *SpaceSettingUpsertOne) UpdateIsRequired() *SpaceSettingUpsertOne {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.UpdateIsRequired()
+	})
+}
+
+// SetIsReadonly sets the "is_readonly" field.
+func (u *SpaceSettingUpsertOne) SetIsReadonly(v bool) *SpaceSettingUpsertOne {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.SetIsReadonly(v)
+	})
+}
+
+// UpdateIsReadonly sets the "is_readonly" field to the value that was provided on create.
+func (u *SpaceSettingUpsertOne) UpdateIsReadonly() *SpaceSettingUpsertOne {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.UpdateIsReadonly()
+	})
+}
+
+// SetValidation sets the "validation" field.
+func (u *SpaceSettingUpsertOne) SetValidation(v map[string]interface{}) *SpaceSettingUpsertOne {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.SetValidation(v)
+	})
+}
+
+// UpdateValidation sets the "validation" field to the value that was provided on create.
+func (u *SpaceSettingUpsertOne) UpdateValidation() *SpaceSettingUpsertOne {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.UpdateValidation()
+	})
+}
+
+// ClearValidation clears the value of the "validation" field.
+func (u *SpaceSettingUpsertOne) ClearValidation() *SpaceSettingUpsertOne {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.ClearValidation()
+	})
+}
+
+// Exec executes the query.
+func (u *SpaceSettingUpsertOne) Exec(ctx context.Context) error {
+	if len(u.create.conflict) == 0 {
+		return errors.New("ent: missing options for SpaceSettingCreate.OnConflict")
+	}
+	return u.create.Exec(ctx)
+}
+
+// ExecX is like Exec, but panics if an error occurs.
+func (u *SpaceSettingUpsertOne) ExecX(ctx context.Context) {
+	if err := u.create.Exec(ctx); err != nil {
+		panic(err)
+	}
+}
+
+// Exec executes the UPSERT query and returns the inserted/updated ID.
+func (u *SpaceSettingUpsertOne) ID(ctx context.Context) (id string, err error) {
+	if u.create.driver.Dialect() == dialect.MySQL {
+		// In case of "ON CONFLICT", there is no way to get back non-numeric ID
+		// fields from the database since MySQL does not support the RETURNING clause.
+		return id, errors.New("ent: SpaceSettingUpsertOne.ID is not supported by MySQL driver. Use SpaceSettingUpsertOne.Exec instead")
+	}
+	node, err := u.create.Save(ctx)
+	if err != nil {
+		return id, err
+	}
+	return node.ID, nil
+}
+
+// IDX is like ID, but panics if an error occurs.
+func (u *SpaceSettingUpsertOne) IDX(ctx context.Context) string {
+	id, err := u.ID(ctx)
+	if err != nil {
+		panic(err)
+	}
+	return id
+}
+
 // SpaceSettingCreateBulk is the builder for creating many SpaceSetting entities in bulk.
 type SpaceSettingCreateBulk struct {
 	config
 	err      error
 	builders []*SpaceSettingCreate
+	conflict []sql.ConflictOption
 }
 
 // Save creates the SpaceSetting entities in the database.
@@ -515,6 +1230,7 @@ func (_c *SpaceSettingCreateBulk) Save(ctx context.Context) ([]*SpaceSetting, er
 					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
+					spec.OnConflict = _c.conflict
 					// Invoke the actual operation on the latest mutation in the chain.
 					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
@@ -561,6 +1277,431 @@ func (_c *SpaceSettingCreateBulk) Exec(ctx context.Context) error {
 // ExecX is like Exec, but panics if an error occurs.
 func (_c *SpaceSettingCreateBulk) ExecX(ctx context.Context) {
 	if err := _c.Exec(ctx); err != nil {
+		panic(err)
+	}
+}
+
+// OnConflict allows configuring the `ON CONFLICT` / `ON DUPLICATE KEY` clause
+// of the `INSERT` statement. For example:
+//
+//	client.SpaceSetting.CreateBulk(builders...).
+//		OnConflict(
+//			// Update the row with the new values
+//			// the was proposed for insertion.
+//			sql.ResolveWithNewValues(),
+//		).
+//		// Override some of the fields with custom
+//		// update values.
+//		Update(func(u *ent.SpaceSettingUpsert) {
+//			SetSpaceID(v+v).
+//		}).
+//		Exec(ctx)
+func (_c *SpaceSettingCreateBulk) OnConflict(opts ...sql.ConflictOption) *SpaceSettingUpsertBulk {
+	_c.conflict = opts
+	return &SpaceSettingUpsertBulk{
+		create: _c,
+	}
+}
+
+// OnConflictColumns calls `OnConflict` and configures the columns
+// as conflict target. Using this option is equivalent to using:
+//
+//	client.SpaceSetting.Create().
+//		OnConflict(sql.ConflictColumns(columns...)).
+//		Exec(ctx)
+func (_c *SpaceSettingCreateBulk) OnConflictColumns(columns ...string) *SpaceSettingUpsertBulk {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
+	return &SpaceSettingUpsertBulk{
+		create: _c,
+	}
+}
+
+// SpaceSettingUpsertBulk is the builder for "upsert"-ing
+// a bulk of SpaceSetting nodes.
+type SpaceSettingUpsertBulk struct {
+	create *SpaceSettingCreateBulk
+}
+
+// UpdateNewValues updates the mutable fields using the new values that
+// were set on create. Using this option is equivalent to using:
+//
+//	client.SpaceSetting.Create().
+//		OnConflict(
+//			sql.ResolveWithNewValues(),
+//			sql.ResolveWith(func(u *sql.UpdateSet) {
+//				u.SetIgnore(spacesetting.FieldID)
+//			}),
+//		).
+//		Exec(ctx)
+func (u *SpaceSettingUpsertBulk) UpdateNewValues() *SpaceSettingUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithNewValues())
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(s *sql.UpdateSet) {
+		for _, b := range u.create.builders {
+			if _, exists := b.mutation.ID(); exists {
+				s.SetIgnore(spacesetting.FieldID)
+			}
+			if _, exists := b.mutation.CreatedAt(); exists {
+				s.SetIgnore(spacesetting.FieldCreatedAt)
+			}
+		}
+	}))
+	return u
+}
+
+// Ignore sets each column to itself in case of conflict.
+// Using this option is equivalent to using:
+//
+//	client.SpaceSetting.Create().
+//		OnConflict(sql.ResolveWithIgnore()).
+//		Exec(ctx)
+func (u *SpaceSettingUpsertBulk) Ignore() *SpaceSettingUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithIgnore())
+	return u
+}
+
+// DoNothing configures the conflict_action to `DO NOTHING`.
+// Supported only by SQLite and PostgreSQL.
+func (u *SpaceSettingUpsertBulk) DoNothing() *SpaceSettingUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.DoNothing())
+	return u
+}
+
+// Update allows overriding fields `UPDATE` values. See the SpaceSettingCreateBulk.OnConflict
+// documentation for more info.
+func (u *SpaceSettingUpsertBulk) Update(set func(*SpaceSettingUpsert)) *SpaceSettingUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(update *sql.UpdateSet) {
+		set(&SpaceSettingUpsert{UpdateSet: update})
+	}))
+	return u
+}
+
+// SetSpaceID sets the "space_id" field.
+func (u *SpaceSettingUpsertBulk) SetSpaceID(v string) *SpaceSettingUpsertBulk {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.SetSpaceID(v)
+	})
+}
+
+// UpdateSpaceID sets the "space_id" field to the value that was provided on create.
+func (u *SpaceSettingUpsertBulk) UpdateSpaceID() *SpaceSettingUpsertBulk {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.UpdateSpaceID()
+	})
+}
+
+// ClearSpaceID clears the value of the "space_id" field.
+func (u *SpaceSettingUpsertBulk) ClearSpaceID() *SpaceSettingUpsertBulk {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.ClearSpaceID()
+	})
+}
+
+// SetDescription sets the "description" field.
+func (u *SpaceSettingUpsertBulk) SetDescription(v string) *SpaceSettingUpsertBulk {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.SetDescription(v)
+	})
+}
+
+// UpdateDescription sets the "description" field to the value that was provided on create.
+func (u *SpaceSettingUpsertBulk) UpdateDescription() *SpaceSettingUpsertBulk {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.UpdateDescription()
+	})
+}
+
+// ClearDescription clears the value of the "description" field.
+func (u *SpaceSettingUpsertBulk) ClearDescription() *SpaceSettingUpsertBulk {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.ClearDescription()
+	})
+}
+
+// SetExtras sets the "extras" field.
+func (u *SpaceSettingUpsertBulk) SetExtras(v map[string]interface{}) *SpaceSettingUpsertBulk {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.SetExtras(v)
+	})
+}
+
+// UpdateExtras sets the "extras" field to the value that was provided on create.
+func (u *SpaceSettingUpsertBulk) UpdateExtras() *SpaceSettingUpsertBulk {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.UpdateExtras()
+	})
+}
+
+// ClearExtras clears the value of the "extras" field.
+func (u *SpaceSettingUpsertBulk) ClearExtras() *SpaceSettingUpsertBulk {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.ClearExtras()
+	})
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (u *SpaceSettingUpsertBulk) SetCreatedBy(v string) *SpaceSettingUpsertBulk {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.SetCreatedBy(v)
+	})
+}
+
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *SpaceSettingUpsertBulk) UpdateCreatedBy() *SpaceSettingUpsertBulk {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.UpdateCreatedBy()
+	})
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *SpaceSettingUpsertBulk) ClearCreatedBy() *SpaceSettingUpsertBulk {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.ClearCreatedBy()
+	})
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (u *SpaceSettingUpsertBulk) SetUpdatedBy(v string) *SpaceSettingUpsertBulk {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.SetUpdatedBy(v)
+	})
+}
+
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *SpaceSettingUpsertBulk) UpdateUpdatedBy() *SpaceSettingUpsertBulk {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.UpdateUpdatedBy()
+	})
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *SpaceSettingUpsertBulk) ClearUpdatedBy() *SpaceSettingUpsertBulk {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.ClearUpdatedBy()
+	})
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *SpaceSettingUpsertBulk) SetUpdatedAt(v int64) *SpaceSettingUpsertBulk {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.SetUpdatedAt(v)
+	})
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *SpaceSettingUpsertBulk) AddUpdatedAt(v int64) *SpaceSettingUpsertBulk {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.AddUpdatedAt(v)
+	})
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *SpaceSettingUpsertBulk) UpdateUpdatedAt() *SpaceSettingUpsertBulk {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.UpdateUpdatedAt()
+	})
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *SpaceSettingUpsertBulk) ClearUpdatedAt() *SpaceSettingUpsertBulk {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.ClearUpdatedAt()
+	})
+}
+
+// SetSettingKey sets the "setting_key" field.
+func (u *SpaceSettingUpsertBulk) SetSettingKey(v string) *SpaceSettingUpsertBulk {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.SetSettingKey(v)
+	})
+}
+
+// UpdateSettingKey sets the "setting_key" field to the value that was provided on create.
+func (u *SpaceSettingUpsertBulk) UpdateSettingKey() *SpaceSettingUpsertBulk {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.UpdateSettingKey()
+	})
+}
+
+// SetSettingName sets the "setting_name" field.
+func (u *SpaceSettingUpsertBulk) SetSettingName(v string) *SpaceSettingUpsertBulk {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.SetSettingName(v)
+	})
+}
+
+// UpdateSettingName sets the "setting_name" field to the value that was provided on create.
+func (u *SpaceSettingUpsertBulk) UpdateSettingName() *SpaceSettingUpsertBulk {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.UpdateSettingName()
+	})
+}
+
+// SetSettingValue sets the "setting_value" field.
+func (u *SpaceSettingUpsertBulk) SetSettingValue(v string) *SpaceSettingUpsertBulk {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.SetSettingValue(v)
+	})
+}
+
+// UpdateSettingValue sets the "setting_value" field to the value that was provided on create.
+func (u *SpaceSettingUpsertBulk) UpdateSettingValue() *SpaceSettingUpsertBulk {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.UpdateSettingValue()
+	})
+}
+
+// ClearSettingValue clears the value of the "setting_value" field.
+func (u *SpaceSettingUpsertBulk) ClearSettingValue() *SpaceSettingUpsertBulk {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.ClearSettingValue()
+	})
+}
+
+// SetDefaultValue sets the "default_value" field.
+func (u *SpaceSettingUpsertBulk) SetDefaultValue(v string) *SpaceSettingUpsertBulk {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.SetDefaultValue(v)
+	})
+}
+
+// UpdateDefaultValue sets the "default_value" field to the value that was provided on create.
+func (u *SpaceSettingUpsertBulk) UpdateDefaultValue() *SpaceSettingUpsertBulk {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.UpdateDefaultValue()
+	})
+}
+
+// ClearDefaultValue clears the value of the "default_value" field.
+func (u *SpaceSettingUpsertBulk) ClearDefaultValue() *SpaceSettingUpsertBulk {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.ClearDefaultValue()
+	})
+}
+
+// SetSettingType sets the "setting_type" field.
+func (u *SpaceSettingUpsertBulk) SetSettingType(v string) *SpaceSettingUpsertBulk {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.SetSettingType(v)
+	})
+}
+
+// UpdateSettingType sets the "setting_type" field to the value that was provided on create.
+func (u *SpaceSettingUpsertBulk) UpdateSettingType() *SpaceSettingUpsertBulk {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.UpdateSettingType()
+	})
+}
+
+// SetScope sets the "scope" field.
+func (u *SpaceSettingUpsertBulk) SetScope(v string) *SpaceSettingUpsertBulk {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.SetScope(v)
+	})
+}
+
+// UpdateScope sets the "scope" field to the value that was provided on create.
+func (u *SpaceSettingUpsertBulk) UpdateScope() *SpaceSettingUpsertBulk {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.UpdateScope()
+	})
+}
+
+// SetCategory sets the "category" field.
+func (u *SpaceSettingUpsertBulk) SetCategory(v string) *SpaceSettingUpsertBulk {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.SetCategory(v)
+	})
+}
+
+// UpdateCategory sets the "category" field to the value that was provided on create.
+func (u *SpaceSettingUpsertBulk) UpdateCategory() *SpaceSettingUpsertBulk {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.UpdateCategory()
+	})
+}
+
+// SetIsPublic sets the "is_public" field.
+func (u *SpaceSettingUpsertBulk) SetIsPublic(v bool) *SpaceSettingUpsertBulk {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.SetIsPublic(v)
+	})
+}
+
+// UpdateIsPublic sets the "is_public" field to the value that was provided on create.
+func (u *SpaceSettingUpsertBulk) UpdateIsPublic() *SpaceSettingUpsertBulk {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.UpdateIsPublic()
+	})
+}
+
+// SetIsRequired sets the "is_required" field.
+func (u *SpaceSettingUpsertBulk) SetIsRequired(v bool) *SpaceSettingUpsertBulk {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.SetIsRequired(v)
+	})
+}
+
+// UpdateIsRequired sets the "is_required" field to the value that was provided on create.
+func (u *SpaceSettingUpsertBulk) UpdateIsRequired() *SpaceSettingUpsertBulk {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.UpdateIsRequired()
+	})
+}
+
+// SetIsReadonly sets the "is_readonly" field.
+func (u *SpaceSettingUpsertBulk) SetIsReadonly(v bool) *SpaceSettingUpsertBulk {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.SetIsReadonly(v)
+	})
+}
+
+// UpdateIsReadonly sets the "is_readonly" field to the value that was provided on create.
+func (u *SpaceSettingUpsertBulk) UpdateIsReadonly() *SpaceSettingUpsertBulk {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.UpdateIsReadonly()
+	})
+}
+
+// SetValidation sets the "validation" field.
+func (u *SpaceSettingUpsertBulk) SetValidation(v map[string]interface{}) *SpaceSettingUpsertBulk {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.SetValidation(v)
+	})
+}
+
+// UpdateValidation sets the "validation" field to the value that was provided on create.
+func (u *SpaceSettingUpsertBulk) UpdateValidation() *SpaceSettingUpsertBulk {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.UpdateValidation()
+	})
+}
+
+// ClearValidation clears the value of the "validation" field.
+func (u *SpaceSettingUpsertBulk) ClearValidation() *SpaceSettingUpsertBulk {
+	return u.Update(func(s *SpaceSettingUpsert) {
+		s.ClearValidation()
+	})
+}
+
+// Exec executes the query.
+func (u *SpaceSettingUpsertBulk) Exec(ctx context.Context) error {
+	if u.create.err != nil {
+		return u.create.err
+	}
+	for i, b := range u.create.builders {
+		if len(b.conflict) != 0 {
+			return fmt.Errorf("ent: OnConflict was set for builder %d. Set it on the SpaceSettingCreateBulk instead", i)
+		}
+	}
+	if len(u.create.conflict) == 0 {
+		return errors.New("ent: missing options for SpaceSettingCreateBulk.OnConflict")
+	}
+	return u.create.Exec(ctx)
+}
+
+// ExecX is like Exec, but panics if an error occurs.
+func (u *SpaceSettingUpsertBulk) ExecX(ctx context.Context) {
+	if err := u.create.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

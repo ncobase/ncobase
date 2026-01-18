@@ -5,7 +5,7 @@ package ent
 import (
 	"encoding/json"
 	"fmt"
-	"ncobase/user/data/ent/employee"
+	"ncobase/core/user/data/ent/employee"
 	"strings"
 	"time"
 

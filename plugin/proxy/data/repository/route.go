@@ -3,13 +3,13 @@ package repository
 import (
 	"context"
 	"fmt"
-	"ncobase/proxy/data"
-	"ncobase/proxy/data/ent"
-	routeEnt "ncobase/proxy/data/ent/route"
-	"ncobase/proxy/structs"
+	"ncobase/plugin/proxy/data"
+	"ncobase/plugin/proxy/data/ent"
+	routeEnt "ncobase/plugin/proxy/data/ent/route"
+	"ncobase/plugin/proxy/structs"
 	"strings"
 
-	"github.com/ncobase/ncore/data/databases/cache"
+	"github.com/ncobase/ncore/data/cache"
 	"github.com/ncobase/ncore/data/paging"
 	"github.com/ncobase/ncore/logging/logger"
 	"github.com/ncobase/ncore/types"
@@ -42,7 +42,7 @@ type routeRepository struct {
 // NewRouteRepository creates a new route repository.
 func NewRouteRepository(d *data.Data) RouteRepositoryInterface {
 	ec := d.GetMasterEntClient()
-	rc := d.GetRedis()
+	rc := d.GetRedis().(*redis.Client)
 	return &routeRepository{ec, rc, cache.NewCache[ent.Route](rc, "ncse_proxy_route")}
 }
 

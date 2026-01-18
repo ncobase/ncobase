@@ -6,8 +6,10 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"ncobase/content/data/ent/topic"
+	"ncobase/biz/content/data/ent/topic"
 
+	"entgo.io/ent/dialect"
+	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
 )
@@ -17,6 +19,7 @@ type TopicCreate struct {
 	config
 	mutation *TopicMutation
 	hooks    []Hook
+	conflict []sql.ConflictOption
 }
 
 // SetName sets the "name" field.
@@ -512,6 +515,7 @@ func (_c *TopicCreate) createSpec() (*Topic, *sqlgraph.CreateSpec) {
 		_node = &Topic{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(topic.Table, sqlgraph.NewFieldSpec(topic.FieldID, field.TypeString))
 	)
+	_spec.OnConflict = _c.conflict
 	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
@@ -623,11 +627,1125 @@ func (_c *TopicCreate) createSpec() (*Topic, *sqlgraph.CreateSpec) {
 	return _node, _spec
 }
 
+// OnConflict allows configuring the `ON CONFLICT` / `ON DUPLICATE KEY` clause
+// of the `INSERT` statement. For example:
+//
+//	client.Topic.Create().
+//		SetName(v).
+//		OnConflict(
+//			// Update the row with the new values
+//			// the was proposed for insertion.
+//			sql.ResolveWithNewValues(),
+//		).
+//		// Override some of the fields with custom
+//		// update values.
+//		Update(func(u *ent.TopicUpsert) {
+//			SetName(v+v).
+//		}).
+//		Exec(ctx)
+func (_c *TopicCreate) OnConflict(opts ...sql.ConflictOption) *TopicUpsertOne {
+	_c.conflict = opts
+	return &TopicUpsertOne{
+		create: _c,
+	}
+}
+
+// OnConflictColumns calls `OnConflict` and configures the columns
+// as conflict target. Using this option is equivalent to using:
+//
+//	client.Topic.Create().
+//		OnConflict(sql.ConflictColumns(columns...)).
+//		Exec(ctx)
+func (_c *TopicCreate) OnConflictColumns(columns ...string) *TopicUpsertOne {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
+	return &TopicUpsertOne{
+		create: _c,
+	}
+}
+
+type (
+	// TopicUpsertOne is the builder for "upsert"-ing
+	//  one Topic node.
+	TopicUpsertOne struct {
+		create *TopicCreate
+	}
+
+	// TopicUpsert is the "OnConflict" setter.
+	TopicUpsert struct {
+		*sql.UpdateSet
+	}
+)
+
+// SetName sets the "name" field.
+func (u *TopicUpsert) SetName(v string) *TopicUpsert {
+	u.Set(topic.FieldName, v)
+	return u
+}
+
+// UpdateName sets the "name" field to the value that was provided on create.
+func (u *TopicUpsert) UpdateName() *TopicUpsert {
+	u.SetExcluded(topic.FieldName)
+	return u
+}
+
+// ClearName clears the value of the "name" field.
+func (u *TopicUpsert) ClearName() *TopicUpsert {
+	u.SetNull(topic.FieldName)
+	return u
+}
+
+// SetTitle sets the "title" field.
+func (u *TopicUpsert) SetTitle(v string) *TopicUpsert {
+	u.Set(topic.FieldTitle, v)
+	return u
+}
+
+// UpdateTitle sets the "title" field to the value that was provided on create.
+func (u *TopicUpsert) UpdateTitle() *TopicUpsert {
+	u.SetExcluded(topic.FieldTitle)
+	return u
+}
+
+// ClearTitle clears the value of the "title" field.
+func (u *TopicUpsert) ClearTitle() *TopicUpsert {
+	u.SetNull(topic.FieldTitle)
+	return u
+}
+
+// SetSlug sets the "slug" field.
+func (u *TopicUpsert) SetSlug(v string) *TopicUpsert {
+	u.Set(topic.FieldSlug, v)
+	return u
+}
+
+// UpdateSlug sets the "slug" field to the value that was provided on create.
+func (u *TopicUpsert) UpdateSlug() *TopicUpsert {
+	u.SetExcluded(topic.FieldSlug)
+	return u
+}
+
+// ClearSlug clears the value of the "slug" field.
+func (u *TopicUpsert) ClearSlug() *TopicUpsert {
+	u.SetNull(topic.FieldSlug)
+	return u
+}
+
+// SetContent sets the "content" field.
+func (u *TopicUpsert) SetContent(v string) *TopicUpsert {
+	u.Set(topic.FieldContent, v)
+	return u
+}
+
+// UpdateContent sets the "content" field to the value that was provided on create.
+func (u *TopicUpsert) UpdateContent() *TopicUpsert {
+	u.SetExcluded(topic.FieldContent)
+	return u
+}
+
+// ClearContent clears the value of the "content" field.
+func (u *TopicUpsert) ClearContent() *TopicUpsert {
+	u.SetNull(topic.FieldContent)
+	return u
+}
+
+// SetThumbnail sets the "thumbnail" field.
+func (u *TopicUpsert) SetThumbnail(v string) *TopicUpsert {
+	u.Set(topic.FieldThumbnail, v)
+	return u
+}
+
+// UpdateThumbnail sets the "thumbnail" field to the value that was provided on create.
+func (u *TopicUpsert) UpdateThumbnail() *TopicUpsert {
+	u.SetExcluded(topic.FieldThumbnail)
+	return u
+}
+
+// ClearThumbnail clears the value of the "thumbnail" field.
+func (u *TopicUpsert) ClearThumbnail() *TopicUpsert {
+	u.SetNull(topic.FieldThumbnail)
+	return u
+}
+
+// SetTemp sets the "temp" field.
+func (u *TopicUpsert) SetTemp(v bool) *TopicUpsert {
+	u.Set(topic.FieldTemp, v)
+	return u
+}
+
+// UpdateTemp sets the "temp" field to the value that was provided on create.
+func (u *TopicUpsert) UpdateTemp() *TopicUpsert {
+	u.SetExcluded(topic.FieldTemp)
+	return u
+}
+
+// ClearTemp clears the value of the "temp" field.
+func (u *TopicUpsert) ClearTemp() *TopicUpsert {
+	u.SetNull(topic.FieldTemp)
+	return u
+}
+
+// SetMarkdown sets the "markdown" field.
+func (u *TopicUpsert) SetMarkdown(v bool) *TopicUpsert {
+	u.Set(topic.FieldMarkdown, v)
+	return u
+}
+
+// UpdateMarkdown sets the "markdown" field to the value that was provided on create.
+func (u *TopicUpsert) UpdateMarkdown() *TopicUpsert {
+	u.SetExcluded(topic.FieldMarkdown)
+	return u
+}
+
+// ClearMarkdown clears the value of the "markdown" field.
+func (u *TopicUpsert) ClearMarkdown() *TopicUpsert {
+	u.SetNull(topic.FieldMarkdown)
+	return u
+}
+
+// SetPrivate sets the "private" field.
+func (u *TopicUpsert) SetPrivate(v bool) *TopicUpsert {
+	u.Set(topic.FieldPrivate, v)
+	return u
+}
+
+// UpdatePrivate sets the "private" field to the value that was provided on create.
+func (u *TopicUpsert) UpdatePrivate() *TopicUpsert {
+	u.SetExcluded(topic.FieldPrivate)
+	return u
+}
+
+// ClearPrivate clears the value of the "private" field.
+func (u *TopicUpsert) ClearPrivate() *TopicUpsert {
+	u.SetNull(topic.FieldPrivate)
+	return u
+}
+
+// SetStatus sets the "status" field.
+func (u *TopicUpsert) SetStatus(v int) *TopicUpsert {
+	u.Set(topic.FieldStatus, v)
+	return u
+}
+
+// UpdateStatus sets the "status" field to the value that was provided on create.
+func (u *TopicUpsert) UpdateStatus() *TopicUpsert {
+	u.SetExcluded(topic.FieldStatus)
+	return u
+}
+
+// AddStatus adds v to the "status" field.
+func (u *TopicUpsert) AddStatus(v int) *TopicUpsert {
+	u.Add(topic.FieldStatus, v)
+	return u
+}
+
+// SetReleased sets the "released" field.
+func (u *TopicUpsert) SetReleased(v int64) *TopicUpsert {
+	u.Set(topic.FieldReleased, v)
+	return u
+}
+
+// UpdateReleased sets the "released" field to the value that was provided on create.
+func (u *TopicUpsert) UpdateReleased() *TopicUpsert {
+	u.SetExcluded(topic.FieldReleased)
+	return u
+}
+
+// AddReleased adds v to the "released" field.
+func (u *TopicUpsert) AddReleased(v int64) *TopicUpsert {
+	u.Add(topic.FieldReleased, v)
+	return u
+}
+
+// ClearReleased clears the value of the "released" field.
+func (u *TopicUpsert) ClearReleased() *TopicUpsert {
+	u.SetNull(topic.FieldReleased)
+	return u
+}
+
+// SetTaxonomyID sets the "taxonomy_id" field.
+func (u *TopicUpsert) SetTaxonomyID(v string) *TopicUpsert {
+	u.Set(topic.FieldTaxonomyID, v)
+	return u
+}
+
+// UpdateTaxonomyID sets the "taxonomy_id" field to the value that was provided on create.
+func (u *TopicUpsert) UpdateTaxonomyID() *TopicUpsert {
+	u.SetExcluded(topic.FieldTaxonomyID)
+	return u
+}
+
+// ClearTaxonomyID clears the value of the "taxonomy_id" field.
+func (u *TopicUpsert) ClearTaxonomyID() *TopicUpsert {
+	u.SetNull(topic.FieldTaxonomyID)
+	return u
+}
+
+// SetSpaceID sets the "space_id" field.
+func (u *TopicUpsert) SetSpaceID(v string) *TopicUpsert {
+	u.Set(topic.FieldSpaceID, v)
+	return u
+}
+
+// UpdateSpaceID sets the "space_id" field to the value that was provided on create.
+func (u *TopicUpsert) UpdateSpaceID() *TopicUpsert {
+	u.SetExcluded(topic.FieldSpaceID)
+	return u
+}
+
+// ClearSpaceID clears the value of the "space_id" field.
+func (u *TopicUpsert) ClearSpaceID() *TopicUpsert {
+	u.SetNull(topic.FieldSpaceID)
+	return u
+}
+
+// SetExtras sets the "extras" field.
+func (u *TopicUpsert) SetExtras(v map[string]interface{}) *TopicUpsert {
+	u.Set(topic.FieldExtras, v)
+	return u
+}
+
+// UpdateExtras sets the "extras" field to the value that was provided on create.
+func (u *TopicUpsert) UpdateExtras() *TopicUpsert {
+	u.SetExcluded(topic.FieldExtras)
+	return u
+}
+
+// ClearExtras clears the value of the "extras" field.
+func (u *TopicUpsert) ClearExtras() *TopicUpsert {
+	u.SetNull(topic.FieldExtras)
+	return u
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (u *TopicUpsert) SetCreatedBy(v string) *TopicUpsert {
+	u.Set(topic.FieldCreatedBy, v)
+	return u
+}
+
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *TopicUpsert) UpdateCreatedBy() *TopicUpsert {
+	u.SetExcluded(topic.FieldCreatedBy)
+	return u
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *TopicUpsert) ClearCreatedBy() *TopicUpsert {
+	u.SetNull(topic.FieldCreatedBy)
+	return u
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (u *TopicUpsert) SetUpdatedBy(v string) *TopicUpsert {
+	u.Set(topic.FieldUpdatedBy, v)
+	return u
+}
+
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *TopicUpsert) UpdateUpdatedBy() *TopicUpsert {
+	u.SetExcluded(topic.FieldUpdatedBy)
+	return u
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *TopicUpsert) ClearUpdatedBy() *TopicUpsert {
+	u.SetNull(topic.FieldUpdatedBy)
+	return u
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *TopicUpsert) SetUpdatedAt(v int64) *TopicUpsert {
+	u.Set(topic.FieldUpdatedAt, v)
+	return u
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *TopicUpsert) UpdateUpdatedAt() *TopicUpsert {
+	u.SetExcluded(topic.FieldUpdatedAt)
+	return u
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *TopicUpsert) AddUpdatedAt(v int64) *TopicUpsert {
+	u.Add(topic.FieldUpdatedAt, v)
+	return u
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *TopicUpsert) ClearUpdatedAt() *TopicUpsert {
+	u.SetNull(topic.FieldUpdatedAt)
+	return u
+}
+
+// SetVersion sets the "version" field.
+func (u *TopicUpsert) SetVersion(v int) *TopicUpsert {
+	u.Set(topic.FieldVersion, v)
+	return u
+}
+
+// UpdateVersion sets the "version" field to the value that was provided on create.
+func (u *TopicUpsert) UpdateVersion() *TopicUpsert {
+	u.SetExcluded(topic.FieldVersion)
+	return u
+}
+
+// AddVersion adds v to the "version" field.
+func (u *TopicUpsert) AddVersion(v int) *TopicUpsert {
+	u.Add(topic.FieldVersion, v)
+	return u
+}
+
+// SetContentType sets the "content_type" field.
+func (u *TopicUpsert) SetContentType(v string) *TopicUpsert {
+	u.Set(topic.FieldContentType, v)
+	return u
+}
+
+// UpdateContentType sets the "content_type" field to the value that was provided on create.
+func (u *TopicUpsert) UpdateContentType() *TopicUpsert {
+	u.SetExcluded(topic.FieldContentType)
+	return u
+}
+
+// SetSeoTitle sets the "seo_title" field.
+func (u *TopicUpsert) SetSeoTitle(v string) *TopicUpsert {
+	u.Set(topic.FieldSeoTitle, v)
+	return u
+}
+
+// UpdateSeoTitle sets the "seo_title" field to the value that was provided on create.
+func (u *TopicUpsert) UpdateSeoTitle() *TopicUpsert {
+	u.SetExcluded(topic.FieldSeoTitle)
+	return u
+}
+
+// ClearSeoTitle clears the value of the "seo_title" field.
+func (u *TopicUpsert) ClearSeoTitle() *TopicUpsert {
+	u.SetNull(topic.FieldSeoTitle)
+	return u
+}
+
+// SetSeoDescription sets the "seo_description" field.
+func (u *TopicUpsert) SetSeoDescription(v string) *TopicUpsert {
+	u.Set(topic.FieldSeoDescription, v)
+	return u
+}
+
+// UpdateSeoDescription sets the "seo_description" field to the value that was provided on create.
+func (u *TopicUpsert) UpdateSeoDescription() *TopicUpsert {
+	u.SetExcluded(topic.FieldSeoDescription)
+	return u
+}
+
+// ClearSeoDescription clears the value of the "seo_description" field.
+func (u *TopicUpsert) ClearSeoDescription() *TopicUpsert {
+	u.SetNull(topic.FieldSeoDescription)
+	return u
+}
+
+// SetSeoKeywords sets the "seo_keywords" field.
+func (u *TopicUpsert) SetSeoKeywords(v string) *TopicUpsert {
+	u.Set(topic.FieldSeoKeywords, v)
+	return u
+}
+
+// UpdateSeoKeywords sets the "seo_keywords" field to the value that was provided on create.
+func (u *TopicUpsert) UpdateSeoKeywords() *TopicUpsert {
+	u.SetExcluded(topic.FieldSeoKeywords)
+	return u
+}
+
+// ClearSeoKeywords clears the value of the "seo_keywords" field.
+func (u *TopicUpsert) ClearSeoKeywords() *TopicUpsert {
+	u.SetNull(topic.FieldSeoKeywords)
+	return u
+}
+
+// SetExcerptAuto sets the "excerpt_auto" field.
+func (u *TopicUpsert) SetExcerptAuto(v bool) *TopicUpsert {
+	u.Set(topic.FieldExcerptAuto, v)
+	return u
+}
+
+// UpdateExcerptAuto sets the "excerpt_auto" field to the value that was provided on create.
+func (u *TopicUpsert) UpdateExcerptAuto() *TopicUpsert {
+	u.SetExcluded(topic.FieldExcerptAuto)
+	return u
+}
+
+// SetExcerpt sets the "excerpt" field.
+func (u *TopicUpsert) SetExcerpt(v string) *TopicUpsert {
+	u.Set(topic.FieldExcerpt, v)
+	return u
+}
+
+// UpdateExcerpt sets the "excerpt" field to the value that was provided on create.
+func (u *TopicUpsert) UpdateExcerpt() *TopicUpsert {
+	u.SetExcluded(topic.FieldExcerpt)
+	return u
+}
+
+// ClearExcerpt clears the value of the "excerpt" field.
+func (u *TopicUpsert) ClearExcerpt() *TopicUpsert {
+	u.SetNull(topic.FieldExcerpt)
+	return u
+}
+
+// SetFeaturedMedia sets the "featured_media" field.
+func (u *TopicUpsert) SetFeaturedMedia(v string) *TopicUpsert {
+	u.Set(topic.FieldFeaturedMedia, v)
+	return u
+}
+
+// UpdateFeaturedMedia sets the "featured_media" field to the value that was provided on create.
+func (u *TopicUpsert) UpdateFeaturedMedia() *TopicUpsert {
+	u.SetExcluded(topic.FieldFeaturedMedia)
+	return u
+}
+
+// ClearFeaturedMedia clears the value of the "featured_media" field.
+func (u *TopicUpsert) ClearFeaturedMedia() *TopicUpsert {
+	u.SetNull(topic.FieldFeaturedMedia)
+	return u
+}
+
+// SetTags sets the "tags" field.
+func (u *TopicUpsert) SetTags(v []string) *TopicUpsert {
+	u.Set(topic.FieldTags, v)
+	return u
+}
+
+// UpdateTags sets the "tags" field to the value that was provided on create.
+func (u *TopicUpsert) UpdateTags() *TopicUpsert {
+	u.SetExcluded(topic.FieldTags)
+	return u
+}
+
+// ClearTags clears the value of the "tags" field.
+func (u *TopicUpsert) ClearTags() *TopicUpsert {
+	u.SetNull(topic.FieldTags)
+	return u
+}
+
+// UpdateNewValues updates the mutable fields using the new values that were set on create except the ID field.
+// Using this option is equivalent to using:
+//
+//	client.Topic.Create().
+//		OnConflict(
+//			sql.ResolveWithNewValues(),
+//			sql.ResolveWith(func(u *sql.UpdateSet) {
+//				u.SetIgnore(topic.FieldID)
+//			}),
+//		).
+//		Exec(ctx)
+func (u *TopicUpsertOne) UpdateNewValues() *TopicUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithNewValues())
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(s *sql.UpdateSet) {
+		if _, exists := u.create.mutation.ID(); exists {
+			s.SetIgnore(topic.FieldID)
+		}
+		if _, exists := u.create.mutation.CreatedAt(); exists {
+			s.SetIgnore(topic.FieldCreatedAt)
+		}
+	}))
+	return u
+}
+
+// Ignore sets each column to itself in case of conflict.
+// Using this option is equivalent to using:
+//
+//	client.Topic.Create().
+//	    OnConflict(sql.ResolveWithIgnore()).
+//	    Exec(ctx)
+func (u *TopicUpsertOne) Ignore() *TopicUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithIgnore())
+	return u
+}
+
+// DoNothing configures the conflict_action to `DO NOTHING`.
+// Supported only by SQLite and PostgreSQL.
+func (u *TopicUpsertOne) DoNothing() *TopicUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.DoNothing())
+	return u
+}
+
+// Update allows overriding fields `UPDATE` values. See the TopicCreate.OnConflict
+// documentation for more info.
+func (u *TopicUpsertOne) Update(set func(*TopicUpsert)) *TopicUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(update *sql.UpdateSet) {
+		set(&TopicUpsert{UpdateSet: update})
+	}))
+	return u
+}
+
+// SetName sets the "name" field.
+func (u *TopicUpsertOne) SetName(v string) *TopicUpsertOne {
+	return u.Update(func(s *TopicUpsert) {
+		s.SetName(v)
+	})
+}
+
+// UpdateName sets the "name" field to the value that was provided on create.
+func (u *TopicUpsertOne) UpdateName() *TopicUpsertOne {
+	return u.Update(func(s *TopicUpsert) {
+		s.UpdateName()
+	})
+}
+
+// ClearName clears the value of the "name" field.
+func (u *TopicUpsertOne) ClearName() *TopicUpsertOne {
+	return u.Update(func(s *TopicUpsert) {
+		s.ClearName()
+	})
+}
+
+// SetTitle sets the "title" field.
+func (u *TopicUpsertOne) SetTitle(v string) *TopicUpsertOne {
+	return u.Update(func(s *TopicUpsert) {
+		s.SetTitle(v)
+	})
+}
+
+// UpdateTitle sets the "title" field to the value that was provided on create.
+func (u *TopicUpsertOne) UpdateTitle() *TopicUpsertOne {
+	return u.Update(func(s *TopicUpsert) {
+		s.UpdateTitle()
+	})
+}
+
+// ClearTitle clears the value of the "title" field.
+func (u *TopicUpsertOne) ClearTitle() *TopicUpsertOne {
+	return u.Update(func(s *TopicUpsert) {
+		s.ClearTitle()
+	})
+}
+
+// SetSlug sets the "slug" field.
+func (u *TopicUpsertOne) SetSlug(v string) *TopicUpsertOne {
+	return u.Update(func(s *TopicUpsert) {
+		s.SetSlug(v)
+	})
+}
+
+// UpdateSlug sets the "slug" field to the value that was provided on create.
+func (u *TopicUpsertOne) UpdateSlug() *TopicUpsertOne {
+	return u.Update(func(s *TopicUpsert) {
+		s.UpdateSlug()
+	})
+}
+
+// ClearSlug clears the value of the "slug" field.
+func (u *TopicUpsertOne) ClearSlug() *TopicUpsertOne {
+	return u.Update(func(s *TopicUpsert) {
+		s.ClearSlug()
+	})
+}
+
+// SetContent sets the "content" field.
+func (u *TopicUpsertOne) SetContent(v string) *TopicUpsertOne {
+	return u.Update(func(s *TopicUpsert) {
+		s.SetContent(v)
+	})
+}
+
+// UpdateContent sets the "content" field to the value that was provided on create.
+func (u *TopicUpsertOne) UpdateContent() *TopicUpsertOne {
+	return u.Update(func(s *TopicUpsert) {
+		s.UpdateContent()
+	})
+}
+
+// ClearContent clears the value of the "content" field.
+func (u *TopicUpsertOne) ClearContent() *TopicUpsertOne {
+	return u.Update(func(s *TopicUpsert) {
+		s.ClearContent()
+	})
+}
+
+// SetThumbnail sets the "thumbnail" field.
+func (u *TopicUpsertOne) SetThumbnail(v string) *TopicUpsertOne {
+	return u.Update(func(s *TopicUpsert) {
+		s.SetThumbnail(v)
+	})
+}
+
+// UpdateThumbnail sets the "thumbnail" field to the value that was provided on create.
+func (u *TopicUpsertOne) UpdateThumbnail() *TopicUpsertOne {
+	return u.Update(func(s *TopicUpsert) {
+		s.UpdateThumbnail()
+	})
+}
+
+// ClearThumbnail clears the value of the "thumbnail" field.
+func (u *TopicUpsertOne) ClearThumbnail() *TopicUpsertOne {
+	return u.Update(func(s *TopicUpsert) {
+		s.ClearThumbnail()
+	})
+}
+
+// SetTemp sets the "temp" field.
+func (u *TopicUpsertOne) SetTemp(v bool) *TopicUpsertOne {
+	return u.Update(func(s *TopicUpsert) {
+		s.SetTemp(v)
+	})
+}
+
+// UpdateTemp sets the "temp" field to the value that was provided on create.
+func (u *TopicUpsertOne) UpdateTemp() *TopicUpsertOne {
+	return u.Update(func(s *TopicUpsert) {
+		s.UpdateTemp()
+	})
+}
+
+// ClearTemp clears the value of the "temp" field.
+func (u *TopicUpsertOne) ClearTemp() *TopicUpsertOne {
+	return u.Update(func(s *TopicUpsert) {
+		s.ClearTemp()
+	})
+}
+
+// SetMarkdown sets the "markdown" field.
+func (u *TopicUpsertOne) SetMarkdown(v bool) *TopicUpsertOne {
+	return u.Update(func(s *TopicUpsert) {
+		s.SetMarkdown(v)
+	})
+}
+
+// UpdateMarkdown sets the "markdown" field to the value that was provided on create.
+func (u *TopicUpsertOne) UpdateMarkdown() *TopicUpsertOne {
+	return u.Update(func(s *TopicUpsert) {
+		s.UpdateMarkdown()
+	})
+}
+
+// ClearMarkdown clears the value of the "markdown" field.
+func (u *TopicUpsertOne) ClearMarkdown() *TopicUpsertOne {
+	return u.Update(func(s *TopicUpsert) {
+		s.ClearMarkdown()
+	})
+}
+
+// SetPrivate sets the "private" field.
+func (u *TopicUpsertOne) SetPrivate(v bool) *TopicUpsertOne {
+	return u.Update(func(s *TopicUpsert) {
+		s.SetPrivate(v)
+	})
+}
+
+// UpdatePrivate sets the "private" field to the value that was provided on create.
+func (u *TopicUpsertOne) UpdatePrivate() *TopicUpsertOne {
+	return u.Update(func(s *TopicUpsert) {
+		s.UpdatePrivate()
+	})
+}
+
+// ClearPrivate clears the value of the "private" field.
+func (u *TopicUpsertOne) ClearPrivate() *TopicUpsertOne {
+	return u.Update(func(s *TopicUpsert) {
+		s.ClearPrivate()
+	})
+}
+
+// SetStatus sets the "status" field.
+func (u *TopicUpsertOne) SetStatus(v int) *TopicUpsertOne {
+	return u.Update(func(s *TopicUpsert) {
+		s.SetStatus(v)
+	})
+}
+
+// AddStatus adds v to the "status" field.
+func (u *TopicUpsertOne) AddStatus(v int) *TopicUpsertOne {
+	return u.Update(func(s *TopicUpsert) {
+		s.AddStatus(v)
+	})
+}
+
+// UpdateStatus sets the "status" field to the value that was provided on create.
+func (u *TopicUpsertOne) UpdateStatus() *TopicUpsertOne {
+	return u.Update(func(s *TopicUpsert) {
+		s.UpdateStatus()
+	})
+}
+
+// SetReleased sets the "released" field.
+func (u *TopicUpsertOne) SetReleased(v int64) *TopicUpsertOne {
+	return u.Update(func(s *TopicUpsert) {
+		s.SetReleased(v)
+	})
+}
+
+// AddReleased adds v to the "released" field.
+func (u *TopicUpsertOne) AddReleased(v int64) *TopicUpsertOne {
+	return u.Update(func(s *TopicUpsert) {
+		s.AddReleased(v)
+	})
+}
+
+// UpdateReleased sets the "released" field to the value that was provided on create.
+func (u *TopicUpsertOne) UpdateReleased() *TopicUpsertOne {
+	return u.Update(func(s *TopicUpsert) {
+		s.UpdateReleased()
+	})
+}
+
+// ClearReleased clears the value of the "released" field.
+func (u *TopicUpsertOne) ClearReleased() *TopicUpsertOne {
+	return u.Update(func(s *TopicUpsert) {
+		s.ClearReleased()
+	})
+}
+
+// SetTaxonomyID sets the "taxonomy_id" field.
+func (u *TopicUpsertOne) SetTaxonomyID(v string) *TopicUpsertOne {
+	return u.Update(func(s *TopicUpsert) {
+		s.SetTaxonomyID(v)
+	})
+}
+
+// UpdateTaxonomyID sets the "taxonomy_id" field to the value that was provided on create.
+func (u *TopicUpsertOne) UpdateTaxonomyID() *TopicUpsertOne {
+	return u.Update(func(s *TopicUpsert) {
+		s.UpdateTaxonomyID()
+	})
+}
+
+// ClearTaxonomyID clears the value of the "taxonomy_id" field.
+func (u *TopicUpsertOne) ClearTaxonomyID() *TopicUpsertOne {
+	return u.Update(func(s *TopicUpsert) {
+		s.ClearTaxonomyID()
+	})
+}
+
+// SetSpaceID sets the "space_id" field.
+func (u *TopicUpsertOne) SetSpaceID(v string) *TopicUpsertOne {
+	return u.Update(func(s *TopicUpsert) {
+		s.SetSpaceID(v)
+	})
+}
+
+// UpdateSpaceID sets the "space_id" field to the value that was provided on create.
+func (u *TopicUpsertOne) UpdateSpaceID() *TopicUpsertOne {
+	return u.Update(func(s *TopicUpsert) {
+		s.UpdateSpaceID()
+	})
+}
+
+// ClearSpaceID clears the value of the "space_id" field.
+func (u *TopicUpsertOne) ClearSpaceID() *TopicUpsertOne {
+	return u.Update(func(s *TopicUpsert) {
+		s.ClearSpaceID()
+	})
+}
+
+// SetExtras sets the "extras" field.
+func (u *TopicUpsertOne) SetExtras(v map[string]interface{}) *TopicUpsertOne {
+	return u.Update(func(s *TopicUpsert) {
+		s.SetExtras(v)
+	})
+}
+
+// UpdateExtras sets the "extras" field to the value that was provided on create.
+func (u *TopicUpsertOne) UpdateExtras() *TopicUpsertOne {
+	return u.Update(func(s *TopicUpsert) {
+		s.UpdateExtras()
+	})
+}
+
+// ClearExtras clears the value of the "extras" field.
+func (u *TopicUpsertOne) ClearExtras() *TopicUpsertOne {
+	return u.Update(func(s *TopicUpsert) {
+		s.ClearExtras()
+	})
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (u *TopicUpsertOne) SetCreatedBy(v string) *TopicUpsertOne {
+	return u.Update(func(s *TopicUpsert) {
+		s.SetCreatedBy(v)
+	})
+}
+
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *TopicUpsertOne) UpdateCreatedBy() *TopicUpsertOne {
+	return u.Update(func(s *TopicUpsert) {
+		s.UpdateCreatedBy()
+	})
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *TopicUpsertOne) ClearCreatedBy() *TopicUpsertOne {
+	return u.Update(func(s *TopicUpsert) {
+		s.ClearCreatedBy()
+	})
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (u *TopicUpsertOne) SetUpdatedBy(v string) *TopicUpsertOne {
+	return u.Update(func(s *TopicUpsert) {
+		s.SetUpdatedBy(v)
+	})
+}
+
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *TopicUpsertOne) UpdateUpdatedBy() *TopicUpsertOne {
+	return u.Update(func(s *TopicUpsert) {
+		s.UpdateUpdatedBy()
+	})
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *TopicUpsertOne) ClearUpdatedBy() *TopicUpsertOne {
+	return u.Update(func(s *TopicUpsert) {
+		s.ClearUpdatedBy()
+	})
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *TopicUpsertOne) SetUpdatedAt(v int64) *TopicUpsertOne {
+	return u.Update(func(s *TopicUpsert) {
+		s.SetUpdatedAt(v)
+	})
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *TopicUpsertOne) AddUpdatedAt(v int64) *TopicUpsertOne {
+	return u.Update(func(s *TopicUpsert) {
+		s.AddUpdatedAt(v)
+	})
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *TopicUpsertOne) UpdateUpdatedAt() *TopicUpsertOne {
+	return u.Update(func(s *TopicUpsert) {
+		s.UpdateUpdatedAt()
+	})
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *TopicUpsertOne) ClearUpdatedAt() *TopicUpsertOne {
+	return u.Update(func(s *TopicUpsert) {
+		s.ClearUpdatedAt()
+	})
+}
+
+// SetVersion sets the "version" field.
+func (u *TopicUpsertOne) SetVersion(v int) *TopicUpsertOne {
+	return u.Update(func(s *TopicUpsert) {
+		s.SetVersion(v)
+	})
+}
+
+// AddVersion adds v to the "version" field.
+func (u *TopicUpsertOne) AddVersion(v int) *TopicUpsertOne {
+	return u.Update(func(s *TopicUpsert) {
+		s.AddVersion(v)
+	})
+}
+
+// UpdateVersion sets the "version" field to the value that was provided on create.
+func (u *TopicUpsertOne) UpdateVersion() *TopicUpsertOne {
+	return u.Update(func(s *TopicUpsert) {
+		s.UpdateVersion()
+	})
+}
+
+// SetContentType sets the "content_type" field.
+func (u *TopicUpsertOne) SetContentType(v string) *TopicUpsertOne {
+	return u.Update(func(s *TopicUpsert) {
+		s.SetContentType(v)
+	})
+}
+
+// UpdateContentType sets the "content_type" field to the value that was provided on create.
+func (u *TopicUpsertOne) UpdateContentType() *TopicUpsertOne {
+	return u.Update(func(s *TopicUpsert) {
+		s.UpdateContentType()
+	})
+}
+
+// SetSeoTitle sets the "seo_title" field.
+func (u *TopicUpsertOne) SetSeoTitle(v string) *TopicUpsertOne {
+	return u.Update(func(s *TopicUpsert) {
+		s.SetSeoTitle(v)
+	})
+}
+
+// UpdateSeoTitle sets the "seo_title" field to the value that was provided on create.
+func (u *TopicUpsertOne) UpdateSeoTitle() *TopicUpsertOne {
+	return u.Update(func(s *TopicUpsert) {
+		s.UpdateSeoTitle()
+	})
+}
+
+// ClearSeoTitle clears the value of the "seo_title" field.
+func (u *TopicUpsertOne) ClearSeoTitle() *TopicUpsertOne {
+	return u.Update(func(s *TopicUpsert) {
+		s.ClearSeoTitle()
+	})
+}
+
+// SetSeoDescription sets the "seo_description" field.
+func (u *TopicUpsertOne) SetSeoDescription(v string) *TopicUpsertOne {
+	return u.Update(func(s *TopicUpsert) {
+		s.SetSeoDescription(v)
+	})
+}
+
+// UpdateSeoDescription sets the "seo_description" field to the value that was provided on create.
+func (u *TopicUpsertOne) UpdateSeoDescription() *TopicUpsertOne {
+	return u.Update(func(s *TopicUpsert) {
+		s.UpdateSeoDescription()
+	})
+}
+
+// ClearSeoDescription clears the value of the "seo_description" field.
+func (u *TopicUpsertOne) ClearSeoDescription() *TopicUpsertOne {
+	return u.Update(func(s *TopicUpsert) {
+		s.ClearSeoDescription()
+	})
+}
+
+// SetSeoKeywords sets the "seo_keywords" field.
+func (u *TopicUpsertOne) SetSeoKeywords(v string) *TopicUpsertOne {
+	return u.Update(func(s *TopicUpsert) {
+		s.SetSeoKeywords(v)
+	})
+}
+
+// UpdateSeoKeywords sets the "seo_keywords" field to the value that was provided on create.
+func (u *TopicUpsertOne) UpdateSeoKeywords() *TopicUpsertOne {
+	return u.Update(func(s *TopicUpsert) {
+		s.UpdateSeoKeywords()
+	})
+}
+
+// ClearSeoKeywords clears the value of the "seo_keywords" field.
+func (u *TopicUpsertOne) ClearSeoKeywords() *TopicUpsertOne {
+	return u.Update(func(s *TopicUpsert) {
+		s.ClearSeoKeywords()
+	})
+}
+
+// SetExcerptAuto sets the "excerpt_auto" field.
+func (u *TopicUpsertOne) SetExcerptAuto(v bool) *TopicUpsertOne {
+	return u.Update(func(s *TopicUpsert) {
+		s.SetExcerptAuto(v)
+	})
+}
+
+// UpdateExcerptAuto sets the "excerpt_auto" field to the value that was provided on create.
+func (u *TopicUpsertOne) UpdateExcerptAuto() *TopicUpsertOne {
+	return u.Update(func(s *TopicUpsert) {
+		s.UpdateExcerptAuto()
+	})
+}
+
+// SetExcerpt sets the "excerpt" field.
+func (u *TopicUpsertOne) SetExcerpt(v string) *TopicUpsertOne {
+	return u.Update(func(s *TopicUpsert) {
+		s.SetExcerpt(v)
+	})
+}
+
+// UpdateExcerpt sets the "excerpt" field to the value that was provided on create.
+func (u *TopicUpsertOne) UpdateExcerpt() *TopicUpsertOne {
+	return u.Update(func(s *TopicUpsert) {
+		s.UpdateExcerpt()
+	})
+}
+
+// ClearExcerpt clears the value of the "excerpt" field.
+func (u *TopicUpsertOne) ClearExcerpt() *TopicUpsertOne {
+	return u.Update(func(s *TopicUpsert) {
+		s.ClearExcerpt()
+	})
+}
+
+// SetFeaturedMedia sets the "featured_media" field.
+func (u *TopicUpsertOne) SetFeaturedMedia(v string) *TopicUpsertOne {
+	return u.Update(func(s *TopicUpsert) {
+		s.SetFeaturedMedia(v)
+	})
+}
+
+// UpdateFeaturedMedia sets the "featured_media" field to the value that was provided on create.
+func (u *TopicUpsertOne) UpdateFeaturedMedia() *TopicUpsertOne {
+	return u.Update(func(s *TopicUpsert) {
+		s.UpdateFeaturedMedia()
+	})
+}
+
+// ClearFeaturedMedia clears the value of the "featured_media" field.
+func (u *TopicUpsertOne) ClearFeaturedMedia() *TopicUpsertOne {
+	return u.Update(func(s *TopicUpsert) {
+		s.ClearFeaturedMedia()
+	})
+}
+
+// SetTags sets the "tags" field.
+func (u *TopicUpsertOne) SetTags(v []string) *TopicUpsertOne {
+	return u.Update(func(s *TopicUpsert) {
+		s.SetTags(v)
+	})
+}
+
+// UpdateTags sets the "tags" field to the value that was provided on create.
+func (u *TopicUpsertOne) UpdateTags() *TopicUpsertOne {
+	return u.Update(func(s *TopicUpsert) {
+		s.UpdateTags()
+	})
+}
+
+// ClearTags clears the value of the "tags" field.
+func (u *TopicUpsertOne) ClearTags() *TopicUpsertOne {
+	return u.Update(func(s *TopicUpsert) {
+		s.ClearTags()
+	})
+}
+
+// Exec executes the query.
+func (u *TopicUpsertOne) Exec(ctx context.Context) error {
+	if len(u.create.conflict) == 0 {
+		return errors.New("ent: missing options for TopicCreate.OnConflict")
+	}
+	return u.create.Exec(ctx)
+}
+
+// ExecX is like Exec, but panics if an error occurs.
+func (u *TopicUpsertOne) ExecX(ctx context.Context) {
+	if err := u.create.Exec(ctx); err != nil {
+		panic(err)
+	}
+}
+
+// Exec executes the UPSERT query and returns the inserted/updated ID.
+func (u *TopicUpsertOne) ID(ctx context.Context) (id string, err error) {
+	if u.create.driver.Dialect() == dialect.MySQL {
+		// In case of "ON CONFLICT", there is no way to get back non-numeric ID
+		// fields from the database since MySQL does not support the RETURNING clause.
+		return id, errors.New("ent: TopicUpsertOne.ID is not supported by MySQL driver. Use TopicUpsertOne.Exec instead")
+	}
+	node, err := u.create.Save(ctx)
+	if err != nil {
+		return id, err
+	}
+	return node.ID, nil
+}
+
+// IDX is like ID, but panics if an error occurs.
+func (u *TopicUpsertOne) IDX(ctx context.Context) string {
+	id, err := u.ID(ctx)
+	if err != nil {
+		panic(err)
+	}
+	return id
+}
+
 // TopicCreateBulk is the builder for creating many Topic entities in bulk.
 type TopicCreateBulk struct {
 	config
 	err      error
 	builders []*TopicCreate
+	conflict []sql.ConflictOption
 }
 
 // Save creates the Topic entities in the database.
@@ -657,6 +1775,7 @@ func (_c *TopicCreateBulk) Save(ctx context.Context) ([]*Topic, error) {
 					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
+					spec.OnConflict = _c.conflict
 					// Invoke the actual operation on the latest mutation in the chain.
 					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
@@ -703,6 +1822,648 @@ func (_c *TopicCreateBulk) Exec(ctx context.Context) error {
 // ExecX is like Exec, but panics if an error occurs.
 func (_c *TopicCreateBulk) ExecX(ctx context.Context) {
 	if err := _c.Exec(ctx); err != nil {
+		panic(err)
+	}
+}
+
+// OnConflict allows configuring the `ON CONFLICT` / `ON DUPLICATE KEY` clause
+// of the `INSERT` statement. For example:
+//
+//	client.Topic.CreateBulk(builders...).
+//		OnConflict(
+//			// Update the row with the new values
+//			// the was proposed for insertion.
+//			sql.ResolveWithNewValues(),
+//		).
+//		// Override some of the fields with custom
+//		// update values.
+//		Update(func(u *ent.TopicUpsert) {
+//			SetName(v+v).
+//		}).
+//		Exec(ctx)
+func (_c *TopicCreateBulk) OnConflict(opts ...sql.ConflictOption) *TopicUpsertBulk {
+	_c.conflict = opts
+	return &TopicUpsertBulk{
+		create: _c,
+	}
+}
+
+// OnConflictColumns calls `OnConflict` and configures the columns
+// as conflict target. Using this option is equivalent to using:
+//
+//	client.Topic.Create().
+//		OnConflict(sql.ConflictColumns(columns...)).
+//		Exec(ctx)
+func (_c *TopicCreateBulk) OnConflictColumns(columns ...string) *TopicUpsertBulk {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
+	return &TopicUpsertBulk{
+		create: _c,
+	}
+}
+
+// TopicUpsertBulk is the builder for "upsert"-ing
+// a bulk of Topic nodes.
+type TopicUpsertBulk struct {
+	create *TopicCreateBulk
+}
+
+// UpdateNewValues updates the mutable fields using the new values that
+// were set on create. Using this option is equivalent to using:
+//
+//	client.Topic.Create().
+//		OnConflict(
+//			sql.ResolveWithNewValues(),
+//			sql.ResolveWith(func(u *sql.UpdateSet) {
+//				u.SetIgnore(topic.FieldID)
+//			}),
+//		).
+//		Exec(ctx)
+func (u *TopicUpsertBulk) UpdateNewValues() *TopicUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithNewValues())
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(s *sql.UpdateSet) {
+		for _, b := range u.create.builders {
+			if _, exists := b.mutation.ID(); exists {
+				s.SetIgnore(topic.FieldID)
+			}
+			if _, exists := b.mutation.CreatedAt(); exists {
+				s.SetIgnore(topic.FieldCreatedAt)
+			}
+		}
+	}))
+	return u
+}
+
+// Ignore sets each column to itself in case of conflict.
+// Using this option is equivalent to using:
+//
+//	client.Topic.Create().
+//		OnConflict(sql.ResolveWithIgnore()).
+//		Exec(ctx)
+func (u *TopicUpsertBulk) Ignore() *TopicUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithIgnore())
+	return u
+}
+
+// DoNothing configures the conflict_action to `DO NOTHING`.
+// Supported only by SQLite and PostgreSQL.
+func (u *TopicUpsertBulk) DoNothing() *TopicUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.DoNothing())
+	return u
+}
+
+// Update allows overriding fields `UPDATE` values. See the TopicCreateBulk.OnConflict
+// documentation for more info.
+func (u *TopicUpsertBulk) Update(set func(*TopicUpsert)) *TopicUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(update *sql.UpdateSet) {
+		set(&TopicUpsert{UpdateSet: update})
+	}))
+	return u
+}
+
+// SetName sets the "name" field.
+func (u *TopicUpsertBulk) SetName(v string) *TopicUpsertBulk {
+	return u.Update(func(s *TopicUpsert) {
+		s.SetName(v)
+	})
+}
+
+// UpdateName sets the "name" field to the value that was provided on create.
+func (u *TopicUpsertBulk) UpdateName() *TopicUpsertBulk {
+	return u.Update(func(s *TopicUpsert) {
+		s.UpdateName()
+	})
+}
+
+// ClearName clears the value of the "name" field.
+func (u *TopicUpsertBulk) ClearName() *TopicUpsertBulk {
+	return u.Update(func(s *TopicUpsert) {
+		s.ClearName()
+	})
+}
+
+// SetTitle sets the "title" field.
+func (u *TopicUpsertBulk) SetTitle(v string) *TopicUpsertBulk {
+	return u.Update(func(s *TopicUpsert) {
+		s.SetTitle(v)
+	})
+}
+
+// UpdateTitle sets the "title" field to the value that was provided on create.
+func (u *TopicUpsertBulk) UpdateTitle() *TopicUpsertBulk {
+	return u.Update(func(s *TopicUpsert) {
+		s.UpdateTitle()
+	})
+}
+
+// ClearTitle clears the value of the "title" field.
+func (u *TopicUpsertBulk) ClearTitle() *TopicUpsertBulk {
+	return u.Update(func(s *TopicUpsert) {
+		s.ClearTitle()
+	})
+}
+
+// SetSlug sets the "slug" field.
+func (u *TopicUpsertBulk) SetSlug(v string) *TopicUpsertBulk {
+	return u.Update(func(s *TopicUpsert) {
+		s.SetSlug(v)
+	})
+}
+
+// UpdateSlug sets the "slug" field to the value that was provided on create.
+func (u *TopicUpsertBulk) UpdateSlug() *TopicUpsertBulk {
+	return u.Update(func(s *TopicUpsert) {
+		s.UpdateSlug()
+	})
+}
+
+// ClearSlug clears the value of the "slug" field.
+func (u *TopicUpsertBulk) ClearSlug() *TopicUpsertBulk {
+	return u.Update(func(s *TopicUpsert) {
+		s.ClearSlug()
+	})
+}
+
+// SetContent sets the "content" field.
+func (u *TopicUpsertBulk) SetContent(v string) *TopicUpsertBulk {
+	return u.Update(func(s *TopicUpsert) {
+		s.SetContent(v)
+	})
+}
+
+// UpdateContent sets the "content" field to the value that was provided on create.
+func (u *TopicUpsertBulk) UpdateContent() *TopicUpsertBulk {
+	return u.Update(func(s *TopicUpsert) {
+		s.UpdateContent()
+	})
+}
+
+// ClearContent clears the value of the "content" field.
+func (u *TopicUpsertBulk) ClearContent() *TopicUpsertBulk {
+	return u.Update(func(s *TopicUpsert) {
+		s.ClearContent()
+	})
+}
+
+// SetThumbnail sets the "thumbnail" field.
+func (u *TopicUpsertBulk) SetThumbnail(v string) *TopicUpsertBulk {
+	return u.Update(func(s *TopicUpsert) {
+		s.SetThumbnail(v)
+	})
+}
+
+// UpdateThumbnail sets the "thumbnail" field to the value that was provided on create.
+func (u *TopicUpsertBulk) UpdateThumbnail() *TopicUpsertBulk {
+	return u.Update(func(s *TopicUpsert) {
+		s.UpdateThumbnail()
+	})
+}
+
+// ClearThumbnail clears the value of the "thumbnail" field.
+func (u *TopicUpsertBulk) ClearThumbnail() *TopicUpsertBulk {
+	return u.Update(func(s *TopicUpsert) {
+		s.ClearThumbnail()
+	})
+}
+
+// SetTemp sets the "temp" field.
+func (u *TopicUpsertBulk) SetTemp(v bool) *TopicUpsertBulk {
+	return u.Update(func(s *TopicUpsert) {
+		s.SetTemp(v)
+	})
+}
+
+// UpdateTemp sets the "temp" field to the value that was provided on create.
+func (u *TopicUpsertBulk) UpdateTemp() *TopicUpsertBulk {
+	return u.Update(func(s *TopicUpsert) {
+		s.UpdateTemp()
+	})
+}
+
+// ClearTemp clears the value of the "temp" field.
+func (u *TopicUpsertBulk) ClearTemp() *TopicUpsertBulk {
+	return u.Update(func(s *TopicUpsert) {
+		s.ClearTemp()
+	})
+}
+
+// SetMarkdown sets the "markdown" field.
+func (u *TopicUpsertBulk) SetMarkdown(v bool) *TopicUpsertBulk {
+	return u.Update(func(s *TopicUpsert) {
+		s.SetMarkdown(v)
+	})
+}
+
+// UpdateMarkdown sets the "markdown" field to the value that was provided on create.
+func (u *TopicUpsertBulk) UpdateMarkdown() *TopicUpsertBulk {
+	return u.Update(func(s *TopicUpsert) {
+		s.UpdateMarkdown()
+	})
+}
+
+// ClearMarkdown clears the value of the "markdown" field.
+func (u *TopicUpsertBulk) ClearMarkdown() *TopicUpsertBulk {
+	return u.Update(func(s *TopicUpsert) {
+		s.ClearMarkdown()
+	})
+}
+
+// SetPrivate sets the "private" field.
+func (u *TopicUpsertBulk) SetPrivate(v bool) *TopicUpsertBulk {
+	return u.Update(func(s *TopicUpsert) {
+		s.SetPrivate(v)
+	})
+}
+
+// UpdatePrivate sets the "private" field to the value that was provided on create.
+func (u *TopicUpsertBulk) UpdatePrivate() *TopicUpsertBulk {
+	return u.Update(func(s *TopicUpsert) {
+		s.UpdatePrivate()
+	})
+}
+
+// ClearPrivate clears the value of the "private" field.
+func (u *TopicUpsertBulk) ClearPrivate() *TopicUpsertBulk {
+	return u.Update(func(s *TopicUpsert) {
+		s.ClearPrivate()
+	})
+}
+
+// SetStatus sets the "status" field.
+func (u *TopicUpsertBulk) SetStatus(v int) *TopicUpsertBulk {
+	return u.Update(func(s *TopicUpsert) {
+		s.SetStatus(v)
+	})
+}
+
+// AddStatus adds v to the "status" field.
+func (u *TopicUpsertBulk) AddStatus(v int) *TopicUpsertBulk {
+	return u.Update(func(s *TopicUpsert) {
+		s.AddStatus(v)
+	})
+}
+
+// UpdateStatus sets the "status" field to the value that was provided on create.
+func (u *TopicUpsertBulk) UpdateStatus() *TopicUpsertBulk {
+	return u.Update(func(s *TopicUpsert) {
+		s.UpdateStatus()
+	})
+}
+
+// SetReleased sets the "released" field.
+func (u *TopicUpsertBulk) SetReleased(v int64) *TopicUpsertBulk {
+	return u.Update(func(s *TopicUpsert) {
+		s.SetReleased(v)
+	})
+}
+
+// AddReleased adds v to the "released" field.
+func (u *TopicUpsertBulk) AddReleased(v int64) *TopicUpsertBulk {
+	return u.Update(func(s *TopicUpsert) {
+		s.AddReleased(v)
+	})
+}
+
+// UpdateReleased sets the "released" field to the value that was provided on create.
+func (u *TopicUpsertBulk) UpdateReleased() *TopicUpsertBulk {
+	return u.Update(func(s *TopicUpsert) {
+		s.UpdateReleased()
+	})
+}
+
+// ClearReleased clears the value of the "released" field.
+func (u *TopicUpsertBulk) ClearReleased() *TopicUpsertBulk {
+	return u.Update(func(s *TopicUpsert) {
+		s.ClearReleased()
+	})
+}
+
+// SetTaxonomyID sets the "taxonomy_id" field.
+func (u *TopicUpsertBulk) SetTaxonomyID(v string) *TopicUpsertBulk {
+	return u.Update(func(s *TopicUpsert) {
+		s.SetTaxonomyID(v)
+	})
+}
+
+// UpdateTaxonomyID sets the "taxonomy_id" field to the value that was provided on create.
+func (u *TopicUpsertBulk) UpdateTaxonomyID() *TopicUpsertBulk {
+	return u.Update(func(s *TopicUpsert) {
+		s.UpdateTaxonomyID()
+	})
+}
+
+// ClearTaxonomyID clears the value of the "taxonomy_id" field.
+func (u *TopicUpsertBulk) ClearTaxonomyID() *TopicUpsertBulk {
+	return u.Update(func(s *TopicUpsert) {
+		s.ClearTaxonomyID()
+	})
+}
+
+// SetSpaceID sets the "space_id" field.
+func (u *TopicUpsertBulk) SetSpaceID(v string) *TopicUpsertBulk {
+	return u.Update(func(s *TopicUpsert) {
+		s.SetSpaceID(v)
+	})
+}
+
+// UpdateSpaceID sets the "space_id" field to the value that was provided on create.
+func (u *TopicUpsertBulk) UpdateSpaceID() *TopicUpsertBulk {
+	return u.Update(func(s *TopicUpsert) {
+		s.UpdateSpaceID()
+	})
+}
+
+// ClearSpaceID clears the value of the "space_id" field.
+func (u *TopicUpsertBulk) ClearSpaceID() *TopicUpsertBulk {
+	return u.Update(func(s *TopicUpsert) {
+		s.ClearSpaceID()
+	})
+}
+
+// SetExtras sets the "extras" field.
+func (u *TopicUpsertBulk) SetExtras(v map[string]interface{}) *TopicUpsertBulk {
+	return u.Update(func(s *TopicUpsert) {
+		s.SetExtras(v)
+	})
+}
+
+// UpdateExtras sets the "extras" field to the value that was provided on create.
+func (u *TopicUpsertBulk) UpdateExtras() *TopicUpsertBulk {
+	return u.Update(func(s *TopicUpsert) {
+		s.UpdateExtras()
+	})
+}
+
+// ClearExtras clears the value of the "extras" field.
+func (u *TopicUpsertBulk) ClearExtras() *TopicUpsertBulk {
+	return u.Update(func(s *TopicUpsert) {
+		s.ClearExtras()
+	})
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (u *TopicUpsertBulk) SetCreatedBy(v string) *TopicUpsertBulk {
+	return u.Update(func(s *TopicUpsert) {
+		s.SetCreatedBy(v)
+	})
+}
+
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *TopicUpsertBulk) UpdateCreatedBy() *TopicUpsertBulk {
+	return u.Update(func(s *TopicUpsert) {
+		s.UpdateCreatedBy()
+	})
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *TopicUpsertBulk) ClearCreatedBy() *TopicUpsertBulk {
+	return u.Update(func(s *TopicUpsert) {
+		s.ClearCreatedBy()
+	})
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (u *TopicUpsertBulk) SetUpdatedBy(v string) *TopicUpsertBulk {
+	return u.Update(func(s *TopicUpsert) {
+		s.SetUpdatedBy(v)
+	})
+}
+
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *TopicUpsertBulk) UpdateUpdatedBy() *TopicUpsertBulk {
+	return u.Update(func(s *TopicUpsert) {
+		s.UpdateUpdatedBy()
+	})
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *TopicUpsertBulk) ClearUpdatedBy() *TopicUpsertBulk {
+	return u.Update(func(s *TopicUpsert) {
+		s.ClearUpdatedBy()
+	})
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *TopicUpsertBulk) SetUpdatedAt(v int64) *TopicUpsertBulk {
+	return u.Update(func(s *TopicUpsert) {
+		s.SetUpdatedAt(v)
+	})
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *TopicUpsertBulk) AddUpdatedAt(v int64) *TopicUpsertBulk {
+	return u.Update(func(s *TopicUpsert) {
+		s.AddUpdatedAt(v)
+	})
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *TopicUpsertBulk) UpdateUpdatedAt() *TopicUpsertBulk {
+	return u.Update(func(s *TopicUpsert) {
+		s.UpdateUpdatedAt()
+	})
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *TopicUpsertBulk) ClearUpdatedAt() *TopicUpsertBulk {
+	return u.Update(func(s *TopicUpsert) {
+		s.ClearUpdatedAt()
+	})
+}
+
+// SetVersion sets the "version" field.
+func (u *TopicUpsertBulk) SetVersion(v int) *TopicUpsertBulk {
+	return u.Update(func(s *TopicUpsert) {
+		s.SetVersion(v)
+	})
+}
+
+// AddVersion adds v to the "version" field.
+func (u *TopicUpsertBulk) AddVersion(v int) *TopicUpsertBulk {
+	return u.Update(func(s *TopicUpsert) {
+		s.AddVersion(v)
+	})
+}
+
+// UpdateVersion sets the "version" field to the value that was provided on create.
+func (u *TopicUpsertBulk) UpdateVersion() *TopicUpsertBulk {
+	return u.Update(func(s *TopicUpsert) {
+		s.UpdateVersion()
+	})
+}
+
+// SetContentType sets the "content_type" field.
+func (u *TopicUpsertBulk) SetContentType(v string) *TopicUpsertBulk {
+	return u.Update(func(s *TopicUpsert) {
+		s.SetContentType(v)
+	})
+}
+
+// UpdateContentType sets the "content_type" field to the value that was provided on create.
+func (u *TopicUpsertBulk) UpdateContentType() *TopicUpsertBulk {
+	return u.Update(func(s *TopicUpsert) {
+		s.UpdateContentType()
+	})
+}
+
+// SetSeoTitle sets the "seo_title" field.
+func (u *TopicUpsertBulk) SetSeoTitle(v string) *TopicUpsertBulk {
+	return u.Update(func(s *TopicUpsert) {
+		s.SetSeoTitle(v)
+	})
+}
+
+// UpdateSeoTitle sets the "seo_title" field to the value that was provided on create.
+func (u *TopicUpsertBulk) UpdateSeoTitle() *TopicUpsertBulk {
+	return u.Update(func(s *TopicUpsert) {
+		s.UpdateSeoTitle()
+	})
+}
+
+// ClearSeoTitle clears the value of the "seo_title" field.
+func (u *TopicUpsertBulk) ClearSeoTitle() *TopicUpsertBulk {
+	return u.Update(func(s *TopicUpsert) {
+		s.ClearSeoTitle()
+	})
+}
+
+// SetSeoDescription sets the "seo_description" field.
+func (u *TopicUpsertBulk) SetSeoDescription(v string) *TopicUpsertBulk {
+	return u.Update(func(s *TopicUpsert) {
+		s.SetSeoDescription(v)
+	})
+}
+
+// UpdateSeoDescription sets the "seo_description" field to the value that was provided on create.
+func (u *TopicUpsertBulk) UpdateSeoDescription() *TopicUpsertBulk {
+	return u.Update(func(s *TopicUpsert) {
+		s.UpdateSeoDescription()
+	})
+}
+
+// ClearSeoDescription clears the value of the "seo_description" field.
+func (u *TopicUpsertBulk) ClearSeoDescription() *TopicUpsertBulk {
+	return u.Update(func(s *TopicUpsert) {
+		s.ClearSeoDescription()
+	})
+}
+
+// SetSeoKeywords sets the "seo_keywords" field.
+func (u *TopicUpsertBulk) SetSeoKeywords(v string) *TopicUpsertBulk {
+	return u.Update(func(s *TopicUpsert) {
+		s.SetSeoKeywords(v)
+	})
+}
+
+// UpdateSeoKeywords sets the "seo_keywords" field to the value that was provided on create.
+func (u *TopicUpsertBulk) UpdateSeoKeywords() *TopicUpsertBulk {
+	return u.Update(func(s *TopicUpsert) {
+		s.UpdateSeoKeywords()
+	})
+}
+
+// ClearSeoKeywords clears the value of the "seo_keywords" field.
+func (u *TopicUpsertBulk) ClearSeoKeywords() *TopicUpsertBulk {
+	return u.Update(func(s *TopicUpsert) {
+		s.ClearSeoKeywords()
+	})
+}
+
+// SetExcerptAuto sets the "excerpt_auto" field.
+func (u *TopicUpsertBulk) SetExcerptAuto(v bool) *TopicUpsertBulk {
+	return u.Update(func(s *TopicUpsert) {
+		s.SetExcerptAuto(v)
+	})
+}
+
+// UpdateExcerptAuto sets the "excerpt_auto" field to the value that was provided on create.
+func (u *TopicUpsertBulk) UpdateExcerptAuto() *TopicUpsertBulk {
+	return u.Update(func(s *TopicUpsert) {
+		s.UpdateExcerptAuto()
+	})
+}
+
+// SetExcerpt sets the "excerpt" field.
+func (u *TopicUpsertBulk) SetExcerpt(v string) *TopicUpsertBulk {
+	return u.Update(func(s *TopicUpsert) {
+		s.SetExcerpt(v)
+	})
+}
+
+// UpdateExcerpt sets the "excerpt" field to the value that was provided on create.
+func (u *TopicUpsertBulk) UpdateExcerpt() *TopicUpsertBulk {
+	return u.Update(func(s *TopicUpsert) {
+		s.UpdateExcerpt()
+	})
+}
+
+// ClearExcerpt clears the value of the "excerpt" field.
+func (u *TopicUpsertBulk) ClearExcerpt() *TopicUpsertBulk {
+	return u.Update(func(s *TopicUpsert) {
+		s.ClearExcerpt()
+	})
+}
+
+// SetFeaturedMedia sets the "featured_media" field.
+func (u *TopicUpsertBulk) SetFeaturedMedia(v string) *TopicUpsertBulk {
+	return u.Update(func(s *TopicUpsert) {
+		s.SetFeaturedMedia(v)
+	})
+}
+
+// UpdateFeaturedMedia sets the "featured_media" field to the value that was provided on create.
+func (u *TopicUpsertBulk) UpdateFeaturedMedia() *TopicUpsertBulk {
+	return u.Update(func(s *TopicUpsert) {
+		s.UpdateFeaturedMedia()
+	})
+}
+
+// ClearFeaturedMedia clears the value of the "featured_media" field.
+func (u *TopicUpsertBulk) ClearFeaturedMedia() *TopicUpsertBulk {
+	return u.Update(func(s *TopicUpsert) {
+		s.ClearFeaturedMedia()
+	})
+}
+
+// SetTags sets the "tags" field.
+func (u *TopicUpsertBulk) SetTags(v []string) *TopicUpsertBulk {
+	return u.Update(func(s *TopicUpsert) {
+		s.SetTags(v)
+	})
+}
+
+// UpdateTags sets the "tags" field to the value that was provided on create.
+func (u *TopicUpsertBulk) UpdateTags() *TopicUpsertBulk {
+	return u.Update(func(s *TopicUpsert) {
+		s.UpdateTags()
+	})
+}
+
+// ClearTags clears the value of the "tags" field.
+func (u *TopicUpsertBulk) ClearTags() *TopicUpsertBulk {
+	return u.Update(func(s *TopicUpsert) {
+		s.ClearTags()
+	})
+}
+
+// Exec executes the query.
+func (u *TopicUpsertBulk) Exec(ctx context.Context) error {
+	if u.create.err != nil {
+		return u.create.err
+	}
+	for i, b := range u.create.builders {
+		if len(b.conflict) != 0 {
+			return fmt.Errorf("ent: OnConflict was set for builder %d. Set it on the TopicCreateBulk instead", i)
+		}
+	}
+	if len(u.create.conflict) == 0 {
+		return errors.New("ent: missing options for TopicCreateBulk.OnConflict")
+	}
+	return u.create.Exec(ctx)
+}
+
+// ExecX is like Exec, but panics if an error occurs.
+func (u *TopicUpsertBulk) ExecX(ctx context.Context) {
+	if err := u.create.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

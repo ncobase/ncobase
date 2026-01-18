@@ -3,7 +3,7 @@ package schema
 import (
 	"strings"
 
-	"github.com/ncobase/ncore/data/databases/entgo/mixin"
+	"github.com/ncobase/ncore/data/entgo/mixin"
 
 	"entgo.io/contrib/entgql"
 	"entgo.io/ent"
@@ -19,7 +19,7 @@ type OAuthUser struct {
 
 // Annotations of the OAuthUser.
 func (OAuthUser) Annotations() []schema.Annotation {
-	table := strings.Join([]string{"ncse", "oauth_user"}, "_")
+	table := strings.Join([]string{"ncse", "sys", "oauth_user"}, "_")
 	return []schema.Annotation{
 		entsql.Annotation{Table: table},
 		entgql.Mutations(entgql.MutationCreate(), entgql.MutationUpdate()),

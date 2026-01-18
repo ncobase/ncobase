@@ -34,7 +34,7 @@ const (
 	// FieldLockedUntil holds the string denoting the locked_until field in the database.
 	FieldLockedUntil = "locked_until"
 	// Table holds the table name of the usermfa in the database.
-	Table = "ncse_user_mfa"
+	Table = "ncse_sys_user_mfa"
 )
 
 // Columns holds all SQL columns for usermfa fields.

@@ -1,6 +1,6 @@
 package website
 
-import accessStructs "ncobase/access/structs"
+import accessStructs "ncobase/core/access/structs"
 
 // SystemDefaultPermissions for regular websites
 var SystemDefaultPermissions = []accessStructs.CreatePermissionBody{

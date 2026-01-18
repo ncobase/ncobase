@@ -6,8 +6,10 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"ncobase/counter/data/ent/counter"
+	"ncobase/plugin/counter/data/ent/counter"
 
+	"entgo.io/ent/dialect"
+	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
 )
@@ -17,6 +19,7 @@ type CounterCreate struct {
 	config
 	mutation *CounterMutation
 	hooks    []Hook
+	conflict []sql.ConflictOption
 }
 
 // SetIdentifier sets the "identifier" field.
@@ -364,6 +367,7 @@ func (_c *CounterCreate) createSpec() (*Counter, *sqlgraph.CreateSpec) {
 		_node = &Counter{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(counter.Table, sqlgraph.NewFieldSpec(counter.FieldID, field.TypeString))
 	)
+	_spec.OnConflict = _c.conflict
 	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
@@ -431,11 +435,709 @@ func (_c *CounterCreate) createSpec() (*Counter, *sqlgraph.CreateSpec) {
 	return _node, _spec
 }
 
+// OnConflict allows configuring the `ON CONFLICT` / `ON DUPLICATE KEY` clause
+// of the `INSERT` statement. For example:
+//
+//	client.Counter.Create().
+//		SetIdentifier(v).
+//		OnConflict(
+//			// Update the row with the new values
+//			// the was proposed for insertion.
+//			sql.ResolveWithNewValues(),
+//		).
+//		// Override some of the fields with custom
+//		// update values.
+//		Update(func(u *ent.CounterUpsert) {
+//			SetIdentifier(v+v).
+//		}).
+//		Exec(ctx)
+func (_c *CounterCreate) OnConflict(opts ...sql.ConflictOption) *CounterUpsertOne {
+	_c.conflict = opts
+	return &CounterUpsertOne{
+		create: _c,
+	}
+}
+
+// OnConflictColumns calls `OnConflict` and configures the columns
+// as conflict target. Using this option is equivalent to using:
+//
+//	client.Counter.Create().
+//		OnConflict(sql.ConflictColumns(columns...)).
+//		Exec(ctx)
+func (_c *CounterCreate) OnConflictColumns(columns ...string) *CounterUpsertOne {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
+	return &CounterUpsertOne{
+		create: _c,
+	}
+}
+
+type (
+	// CounterUpsertOne is the builder for "upsert"-ing
+	//  one Counter node.
+	CounterUpsertOne struct {
+		create *CounterCreate
+	}
+
+	// CounterUpsert is the "OnConflict" setter.
+	CounterUpsert struct {
+		*sql.UpdateSet
+	}
+)
+
+// SetIdentifier sets the "identifier" field.
+func (u *CounterUpsert) SetIdentifier(v string) *CounterUpsert {
+	u.Set(counter.FieldIdentifier, v)
+	return u
+}
+
+// UpdateIdentifier sets the "identifier" field to the value that was provided on create.
+func (u *CounterUpsert) UpdateIdentifier() *CounterUpsert {
+	u.SetExcluded(counter.FieldIdentifier)
+	return u
+}
+
+// ClearIdentifier clears the value of the "identifier" field.
+func (u *CounterUpsert) ClearIdentifier() *CounterUpsert {
+	u.SetNull(counter.FieldIdentifier)
+	return u
+}
+
+// SetName sets the "name" field.
+func (u *CounterUpsert) SetName(v string) *CounterUpsert {
+	u.Set(counter.FieldName, v)
+	return u
+}
+
+// UpdateName sets the "name" field to the value that was provided on create.
+func (u *CounterUpsert) UpdateName() *CounterUpsert {
+	u.SetExcluded(counter.FieldName)
+	return u
+}
+
+// ClearName clears the value of the "name" field.
+func (u *CounterUpsert) ClearName() *CounterUpsert {
+	u.SetNull(counter.FieldName)
+	return u
+}
+
+// SetPrefix sets the "prefix" field.
+func (u *CounterUpsert) SetPrefix(v string) *CounterUpsert {
+	u.Set(counter.FieldPrefix, v)
+	return u
+}
+
+// UpdatePrefix sets the "prefix" field to the value that was provided on create.
+func (u *CounterUpsert) UpdatePrefix() *CounterUpsert {
+	u.SetExcluded(counter.FieldPrefix)
+	return u
+}
+
+// ClearPrefix clears the value of the "prefix" field.
+func (u *CounterUpsert) ClearPrefix() *CounterUpsert {
+	u.SetNull(counter.FieldPrefix)
+	return u
+}
+
+// SetSuffix sets the "suffix" field.
+func (u *CounterUpsert) SetSuffix(v string) *CounterUpsert {
+	u.Set(counter.FieldSuffix, v)
+	return u
+}
+
+// UpdateSuffix sets the "suffix" field to the value that was provided on create.
+func (u *CounterUpsert) UpdateSuffix() *CounterUpsert {
+	u.SetExcluded(counter.FieldSuffix)
+	return u
+}
+
+// ClearSuffix clears the value of the "suffix" field.
+func (u *CounterUpsert) ClearSuffix() *CounterUpsert {
+	u.SetNull(counter.FieldSuffix)
+	return u
+}
+
+// SetStartValue sets the "start_value" field.
+func (u *CounterUpsert) SetStartValue(v int) *CounterUpsert {
+	u.Set(counter.FieldStartValue, v)
+	return u
+}
+
+// UpdateStartValue sets the "start_value" field to the value that was provided on create.
+func (u *CounterUpsert) UpdateStartValue() *CounterUpsert {
+	u.SetExcluded(counter.FieldStartValue)
+	return u
+}
+
+// AddStartValue adds v to the "start_value" field.
+func (u *CounterUpsert) AddStartValue(v int) *CounterUpsert {
+	u.Add(counter.FieldStartValue, v)
+	return u
+}
+
+// SetIncrementStep sets the "increment_step" field.
+func (u *CounterUpsert) SetIncrementStep(v int) *CounterUpsert {
+	u.Set(counter.FieldIncrementStep, v)
+	return u
+}
+
+// UpdateIncrementStep sets the "increment_step" field to the value that was provided on create.
+func (u *CounterUpsert) UpdateIncrementStep() *CounterUpsert {
+	u.SetExcluded(counter.FieldIncrementStep)
+	return u
+}
+
+// AddIncrementStep adds v to the "increment_step" field.
+func (u *CounterUpsert) AddIncrementStep(v int) *CounterUpsert {
+	u.Add(counter.FieldIncrementStep, v)
+	return u
+}
+
+// SetDateFormat sets the "date_format" field.
+func (u *CounterUpsert) SetDateFormat(v string) *CounterUpsert {
+	u.Set(counter.FieldDateFormat, v)
+	return u
+}
+
+// UpdateDateFormat sets the "date_format" field to the value that was provided on create.
+func (u *CounterUpsert) UpdateDateFormat() *CounterUpsert {
+	u.SetExcluded(counter.FieldDateFormat)
+	return u
+}
+
+// ClearDateFormat clears the value of the "date_format" field.
+func (u *CounterUpsert) ClearDateFormat() *CounterUpsert {
+	u.SetNull(counter.FieldDateFormat)
+	return u
+}
+
+// SetCurrentValue sets the "current_value" field.
+func (u *CounterUpsert) SetCurrentValue(v int) *CounterUpsert {
+	u.Set(counter.FieldCurrentValue, v)
+	return u
+}
+
+// UpdateCurrentValue sets the "current_value" field to the value that was provided on create.
+func (u *CounterUpsert) UpdateCurrentValue() *CounterUpsert {
+	u.SetExcluded(counter.FieldCurrentValue)
+	return u
+}
+
+// AddCurrentValue adds v to the "current_value" field.
+func (u *CounterUpsert) AddCurrentValue(v int) *CounterUpsert {
+	u.Add(counter.FieldCurrentValue, v)
+	return u
+}
+
+// SetDisabled sets the "disabled" field.
+func (u *CounterUpsert) SetDisabled(v bool) *CounterUpsert {
+	u.Set(counter.FieldDisabled, v)
+	return u
+}
+
+// UpdateDisabled sets the "disabled" field to the value that was provided on create.
+func (u *CounterUpsert) UpdateDisabled() *CounterUpsert {
+	u.SetExcluded(counter.FieldDisabled)
+	return u
+}
+
+// ClearDisabled clears the value of the "disabled" field.
+func (u *CounterUpsert) ClearDisabled() *CounterUpsert {
+	u.SetNull(counter.FieldDisabled)
+	return u
+}
+
+// SetDescription sets the "description" field.
+func (u *CounterUpsert) SetDescription(v string) *CounterUpsert {
+	u.Set(counter.FieldDescription, v)
+	return u
+}
+
+// UpdateDescription sets the "description" field to the value that was provided on create.
+func (u *CounterUpsert) UpdateDescription() *CounterUpsert {
+	u.SetExcluded(counter.FieldDescription)
+	return u
+}
+
+// ClearDescription clears the value of the "description" field.
+func (u *CounterUpsert) ClearDescription() *CounterUpsert {
+	u.SetNull(counter.FieldDescription)
+	return u
+}
+
+// SetSpaceID sets the "space_id" field.
+func (u *CounterUpsert) SetSpaceID(v string) *CounterUpsert {
+	u.Set(counter.FieldSpaceID, v)
+	return u
+}
+
+// UpdateSpaceID sets the "space_id" field to the value that was provided on create.
+func (u *CounterUpsert) UpdateSpaceID() *CounterUpsert {
+	u.SetExcluded(counter.FieldSpaceID)
+	return u
+}
+
+// ClearSpaceID clears the value of the "space_id" field.
+func (u *CounterUpsert) ClearSpaceID() *CounterUpsert {
+	u.SetNull(counter.FieldSpaceID)
+	return u
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (u *CounterUpsert) SetCreatedBy(v string) *CounterUpsert {
+	u.Set(counter.FieldCreatedBy, v)
+	return u
+}
+
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *CounterUpsert) UpdateCreatedBy() *CounterUpsert {
+	u.SetExcluded(counter.FieldCreatedBy)
+	return u
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *CounterUpsert) ClearCreatedBy() *CounterUpsert {
+	u.SetNull(counter.FieldCreatedBy)
+	return u
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (u *CounterUpsert) SetUpdatedBy(v string) *CounterUpsert {
+	u.Set(counter.FieldUpdatedBy, v)
+	return u
+}
+
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *CounterUpsert) UpdateUpdatedBy() *CounterUpsert {
+	u.SetExcluded(counter.FieldUpdatedBy)
+	return u
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *CounterUpsert) ClearUpdatedBy() *CounterUpsert {
+	u.SetNull(counter.FieldUpdatedBy)
+	return u
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *CounterUpsert) SetUpdatedAt(v int64) *CounterUpsert {
+	u.Set(counter.FieldUpdatedAt, v)
+	return u
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *CounterUpsert) UpdateUpdatedAt() *CounterUpsert {
+	u.SetExcluded(counter.FieldUpdatedAt)
+	return u
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *CounterUpsert) AddUpdatedAt(v int64) *CounterUpsert {
+	u.Add(counter.FieldUpdatedAt, v)
+	return u
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *CounterUpsert) ClearUpdatedAt() *CounterUpsert {
+	u.SetNull(counter.FieldUpdatedAt)
+	return u
+}
+
+// UpdateNewValues updates the mutable fields using the new values that were set on create except the ID field.
+// Using this option is equivalent to using:
+//
+//	client.Counter.Create().
+//		OnConflict(
+//			sql.ResolveWithNewValues(),
+//			sql.ResolveWith(func(u *sql.UpdateSet) {
+//				u.SetIgnore(counter.FieldID)
+//			}),
+//		).
+//		Exec(ctx)
+func (u *CounterUpsertOne) UpdateNewValues() *CounterUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithNewValues())
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(s *sql.UpdateSet) {
+		if _, exists := u.create.mutation.ID(); exists {
+			s.SetIgnore(counter.FieldID)
+		}
+		if _, exists := u.create.mutation.CreatedAt(); exists {
+			s.SetIgnore(counter.FieldCreatedAt)
+		}
+	}))
+	return u
+}
+
+// Ignore sets each column to itself in case of conflict.
+// Using this option is equivalent to using:
+//
+//	client.Counter.Create().
+//	    OnConflict(sql.ResolveWithIgnore()).
+//	    Exec(ctx)
+func (u *CounterUpsertOne) Ignore() *CounterUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithIgnore())
+	return u
+}
+
+// DoNothing configures the conflict_action to `DO NOTHING`.
+// Supported only by SQLite and PostgreSQL.
+func (u *CounterUpsertOne) DoNothing() *CounterUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.DoNothing())
+	return u
+}
+
+// Update allows overriding fields `UPDATE` values. See the CounterCreate.OnConflict
+// documentation for more info.
+func (u *CounterUpsertOne) Update(set func(*CounterUpsert)) *CounterUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(update *sql.UpdateSet) {
+		set(&CounterUpsert{UpdateSet: update})
+	}))
+	return u
+}
+
+// SetIdentifier sets the "identifier" field.
+func (u *CounterUpsertOne) SetIdentifier(v string) *CounterUpsertOne {
+	return u.Update(func(s *CounterUpsert) {
+		s.SetIdentifier(v)
+	})
+}
+
+// UpdateIdentifier sets the "identifier" field to the value that was provided on create.
+func (u *CounterUpsertOne) UpdateIdentifier() *CounterUpsertOne {
+	return u.Update(func(s *CounterUpsert) {
+		s.UpdateIdentifier()
+	})
+}
+
+// ClearIdentifier clears the value of the "identifier" field.
+func (u *CounterUpsertOne) ClearIdentifier() *CounterUpsertOne {
+	return u.Update(func(s *CounterUpsert) {
+		s.ClearIdentifier()
+	})
+}
+
+// SetName sets the "name" field.
+func (u *CounterUpsertOne) SetName(v string) *CounterUpsertOne {
+	return u.Update(func(s *CounterUpsert) {
+		s.SetName(v)
+	})
+}
+
+// UpdateName sets the "name" field to the value that was provided on create.
+func (u *CounterUpsertOne) UpdateName() *CounterUpsertOne {
+	return u.Update(func(s *CounterUpsert) {
+		s.UpdateName()
+	})
+}
+
+// ClearName clears the value of the "name" field.
+func (u *CounterUpsertOne) ClearName() *CounterUpsertOne {
+	return u.Update(func(s *CounterUpsert) {
+		s.ClearName()
+	})
+}
+
+// SetPrefix sets the "prefix" field.
+func (u *CounterUpsertOne) SetPrefix(v string) *CounterUpsertOne {
+	return u.Update(func(s *CounterUpsert) {
+		s.SetPrefix(v)
+	})
+}
+
+// UpdatePrefix sets the "prefix" field to the value that was provided on create.
+func (u *CounterUpsertOne) UpdatePrefix() *CounterUpsertOne {
+	return u.Update(func(s *CounterUpsert) {
+		s.UpdatePrefix()
+	})
+}
+
+// ClearPrefix clears the value of the "prefix" field.
+func (u *CounterUpsertOne) ClearPrefix() *CounterUpsertOne {
+	return u.Update(func(s *CounterUpsert) {
+		s.ClearPrefix()
+	})
+}
+
+// SetSuffix sets the "suffix" field.
+func (u *CounterUpsertOne) SetSuffix(v string) *CounterUpsertOne {
+	return u.Update(func(s *CounterUpsert) {
+		s.SetSuffix(v)
+	})
+}
+
+// UpdateSuffix sets the "suffix" field to the value that was provided on create.
+func (u *CounterUpsertOne) UpdateSuffix() *CounterUpsertOne {
+	return u.Update(func(s *CounterUpsert) {
+		s.UpdateSuffix()
+	})
+}
+
+// ClearSuffix clears the value of the "suffix" field.
+func (u *CounterUpsertOne) ClearSuffix() *CounterUpsertOne {
+	return u.Update(func(s *CounterUpsert) {
+		s.ClearSuffix()
+	})
+}
+
+// SetStartValue sets the "start_value" field.
+func (u *CounterUpsertOne) SetStartValue(v int) *CounterUpsertOne {
+	return u.Update(func(s *CounterUpsert) {
+		s.SetStartValue(v)
+	})
+}
+
+// AddStartValue adds v to the "start_value" field.
+func (u *CounterUpsertOne) AddStartValue(v int) *CounterUpsertOne {
+	return u.Update(func(s *CounterUpsert) {
+		s.AddStartValue(v)
+	})
+}
+
+// UpdateStartValue sets the "start_value" field to the value that was provided on create.
+func (u *CounterUpsertOne) UpdateStartValue() *CounterUpsertOne {
+	return u.Update(func(s *CounterUpsert) {
+		s.UpdateStartValue()
+	})
+}
+
+// SetIncrementStep sets the "increment_step" field.
+func (u *CounterUpsertOne) SetIncrementStep(v int) *CounterUpsertOne {
+	return u.Update(func(s *CounterUpsert) {
+		s.SetIncrementStep(v)
+	})
+}
+
+// AddIncrementStep adds v to the "increment_step" field.
+func (u *CounterUpsertOne) AddIncrementStep(v int) *CounterUpsertOne {
+	return u.Update(func(s *CounterUpsert) {
+		s.AddIncrementStep(v)
+	})
+}
+
+// UpdateIncrementStep sets the "increment_step" field to the value that was provided on create.
+func (u *CounterUpsertOne) UpdateIncrementStep() *CounterUpsertOne {
+	return u.Update(func(s *CounterUpsert) {
+		s.UpdateIncrementStep()
+	})
+}
+
+// SetDateFormat sets the "date_format" field.
+func (u *CounterUpsertOne) SetDateFormat(v string) *CounterUpsertOne {
+	return u.Update(func(s *CounterUpsert) {
+		s.SetDateFormat(v)
+	})
+}
+
+// UpdateDateFormat sets the "date_format" field to the value that was provided on create.
+func (u *CounterUpsertOne) UpdateDateFormat() *CounterUpsertOne {
+	return u.Update(func(s *CounterUpsert) {
+		s.UpdateDateFormat()
+	})
+}
+
+// ClearDateFormat clears the value of the "date_format" field.
+func (u *CounterUpsertOne) ClearDateFormat() *CounterUpsertOne {
+	return u.Update(func(s *CounterUpsert) {
+		s.ClearDateFormat()
+	})
+}
+
+// SetCurrentValue sets the "current_value" field.
+func (u *CounterUpsertOne) SetCurrentValue(v int) *CounterUpsertOne {
+	return u.Update(func(s *CounterUpsert) {
+		s.SetCurrentValue(v)
+	})
+}
+
+// AddCurrentValue adds v to the "current_value" field.
+func (u *CounterUpsertOne) AddCurrentValue(v int) *CounterUpsertOne {
+	return u.Update(func(s *CounterUpsert) {
+		s.AddCurrentValue(v)
+	})
+}
+
+// UpdateCurrentValue sets the "current_value" field to the value that was provided on create.
+func (u *CounterUpsertOne) UpdateCurrentValue() *CounterUpsertOne {
+	return u.Update(func(s *CounterUpsert) {
+		s.UpdateCurrentValue()
+	})
+}
+
+// SetDisabled sets the "disabled" field.
+func (u *CounterUpsertOne) SetDisabled(v bool) *CounterUpsertOne {
+	return u.Update(func(s *CounterUpsert) {
+		s.SetDisabled(v)
+	})
+}
+
+// UpdateDisabled sets the "disabled" field to the value that was provided on create.
+func (u *CounterUpsertOne) UpdateDisabled() *CounterUpsertOne {
+	return u.Update(func(s *CounterUpsert) {
+		s.UpdateDisabled()
+	})
+}
+
+// ClearDisabled clears the value of the "disabled" field.
+func (u *CounterUpsertOne) ClearDisabled() *CounterUpsertOne {
+	return u.Update(func(s *CounterUpsert) {
+		s.ClearDisabled()
+	})
+}
+
+// SetDescription sets the "description" field.
+func (u *CounterUpsertOne) SetDescription(v string) *CounterUpsertOne {
+	return u.Update(func(s *CounterUpsert) {
+		s.SetDescription(v)
+	})
+}
+
+// UpdateDescription sets the "description" field to the value that was provided on create.
+func (u *CounterUpsertOne) UpdateDescription() *CounterUpsertOne {
+	return u.Update(func(s *CounterUpsert) {
+		s.UpdateDescription()
+	})
+}
+
+// ClearDescription clears the value of the "description" field.
+func (u *CounterUpsertOne) ClearDescription() *CounterUpsertOne {
+	return u.Update(func(s *CounterUpsert) {
+		s.ClearDescription()
+	})
+}
+
+// SetSpaceID sets the "space_id" field.
+func (u *CounterUpsertOne) SetSpaceID(v string) *CounterUpsertOne {
+	return u.Update(func(s *CounterUpsert) {
+		s.SetSpaceID(v)
+	})
+}
+
+// UpdateSpaceID sets the "space_id" field to the value that was provided on create.
+func (u *CounterUpsertOne) UpdateSpaceID() *CounterUpsertOne {
+	return u.Update(func(s *CounterUpsert) {
+		s.UpdateSpaceID()
+	})
+}
+
+// ClearSpaceID clears the value of the "space_id" field.
+func (u *CounterUpsertOne) ClearSpaceID() *CounterUpsertOne {
+	return u.Update(func(s *CounterUpsert) {
+		s.ClearSpaceID()
+	})
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (u *CounterUpsertOne) SetCreatedBy(v string) *CounterUpsertOne {
+	return u.Update(func(s *CounterUpsert) {
+		s.SetCreatedBy(v)
+	})
+}
+
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *CounterUpsertOne) UpdateCreatedBy() *CounterUpsertOne {
+	return u.Update(func(s *CounterUpsert) {
+		s.UpdateCreatedBy()
+	})
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *CounterUpsertOne) ClearCreatedBy() *CounterUpsertOne {
+	return u.Update(func(s *CounterUpsert) {
+		s.ClearCreatedBy()
+	})
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (u *CounterUpsertOne) SetUpdatedBy(v string) *CounterUpsertOne {
+	return u.Update(func(s *CounterUpsert) {
+		s.SetUpdatedBy(v)
+	})
+}
+
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *CounterUpsertOne) UpdateUpdatedBy() *CounterUpsertOne {
+	return u.Update(func(s *CounterUpsert) {
+		s.UpdateUpdatedBy()
+	})
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *CounterUpsertOne) ClearUpdatedBy() *CounterUpsertOne {
+	return u.Update(func(s *CounterUpsert) {
+		s.ClearUpdatedBy()
+	})
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *CounterUpsertOne) SetUpdatedAt(v int64) *CounterUpsertOne {
+	return u.Update(func(s *CounterUpsert) {
+		s.SetUpdatedAt(v)
+	})
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *CounterUpsertOne) AddUpdatedAt(v int64) *CounterUpsertOne {
+	return u.Update(func(s *CounterUpsert) {
+		s.AddUpdatedAt(v)
+	})
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *CounterUpsertOne) UpdateUpdatedAt() *CounterUpsertOne {
+	return u.Update(func(s *CounterUpsert) {
+		s.UpdateUpdatedAt()
+	})
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *CounterUpsertOne) ClearUpdatedAt() *CounterUpsertOne {
+	return u.Update(func(s *CounterUpsert) {
+		s.ClearUpdatedAt()
+	})
+}
+
+// Exec executes the query.
+func (u *CounterUpsertOne) Exec(ctx context.Context) error {
+	if len(u.create.conflict) == 0 {
+		return errors.New("ent: missing options for CounterCreate.OnConflict")
+	}
+	return u.create.Exec(ctx)
+}
+
+// ExecX is like Exec, but panics if an error occurs.
+func (u *CounterUpsertOne) ExecX(ctx context.Context) {
+	if err := u.create.Exec(ctx); err != nil {
+		panic(err)
+	}
+}
+
+// Exec executes the UPSERT query and returns the inserted/updated ID.
+func (u *CounterUpsertOne) ID(ctx context.Context) (id string, err error) {
+	if u.create.driver.Dialect() == dialect.MySQL {
+		// In case of "ON CONFLICT", there is no way to get back non-numeric ID
+		// fields from the database since MySQL does not support the RETURNING clause.
+		return id, errors.New("ent: CounterUpsertOne.ID is not supported by MySQL driver. Use CounterUpsertOne.Exec instead")
+	}
+	node, err := u.create.Save(ctx)
+	if err != nil {
+		return id, err
+	}
+	return node.ID, nil
+}
+
+// IDX is like ID, but panics if an error occurs.
+func (u *CounterUpsertOne) IDX(ctx context.Context) string {
+	id, err := u.ID(ctx)
+	if err != nil {
+		panic(err)
+	}
+	return id
+}
+
 // CounterCreateBulk is the builder for creating many Counter entities in bulk.
 type CounterCreateBulk struct {
 	config
 	err      error
 	builders []*CounterCreate
+	conflict []sql.ConflictOption
 }
 
 // Save creates the Counter entities in the database.
@@ -465,6 +1167,7 @@ func (_c *CounterCreateBulk) Save(ctx context.Context) ([]*Counter, error) {
 					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
+					spec.OnConflict = _c.conflict
 					// Invoke the actual operation on the latest mutation in the chain.
 					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
@@ -511,6 +1214,424 @@ func (_c *CounterCreateBulk) Exec(ctx context.Context) error {
 // ExecX is like Exec, but panics if an error occurs.
 func (_c *CounterCreateBulk) ExecX(ctx context.Context) {
 	if err := _c.Exec(ctx); err != nil {
+		panic(err)
+	}
+}
+
+// OnConflict allows configuring the `ON CONFLICT` / `ON DUPLICATE KEY` clause
+// of the `INSERT` statement. For example:
+//
+//	client.Counter.CreateBulk(builders...).
+//		OnConflict(
+//			// Update the row with the new values
+//			// the was proposed for insertion.
+//			sql.ResolveWithNewValues(),
+//		).
+//		// Override some of the fields with custom
+//		// update values.
+//		Update(func(u *ent.CounterUpsert) {
+//			SetIdentifier(v+v).
+//		}).
+//		Exec(ctx)
+func (_c *CounterCreateBulk) OnConflict(opts ...sql.ConflictOption) *CounterUpsertBulk {
+	_c.conflict = opts
+	return &CounterUpsertBulk{
+		create: _c,
+	}
+}
+
+// OnConflictColumns calls `OnConflict` and configures the columns
+// as conflict target. Using this option is equivalent to using:
+//
+//	client.Counter.Create().
+//		OnConflict(sql.ConflictColumns(columns...)).
+//		Exec(ctx)
+func (_c *CounterCreateBulk) OnConflictColumns(columns ...string) *CounterUpsertBulk {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
+	return &CounterUpsertBulk{
+		create: _c,
+	}
+}
+
+// CounterUpsertBulk is the builder for "upsert"-ing
+// a bulk of Counter nodes.
+type CounterUpsertBulk struct {
+	create *CounterCreateBulk
+}
+
+// UpdateNewValues updates the mutable fields using the new values that
+// were set on create. Using this option is equivalent to using:
+//
+//	client.Counter.Create().
+//		OnConflict(
+//			sql.ResolveWithNewValues(),
+//			sql.ResolveWith(func(u *sql.UpdateSet) {
+//				u.SetIgnore(counter.FieldID)
+//			}),
+//		).
+//		Exec(ctx)
+func (u *CounterUpsertBulk) UpdateNewValues() *CounterUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithNewValues())
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(s *sql.UpdateSet) {
+		for _, b := range u.create.builders {
+			if _, exists := b.mutation.ID(); exists {
+				s.SetIgnore(counter.FieldID)
+			}
+			if _, exists := b.mutation.CreatedAt(); exists {
+				s.SetIgnore(counter.FieldCreatedAt)
+			}
+		}
+	}))
+	return u
+}
+
+// Ignore sets each column to itself in case of conflict.
+// Using this option is equivalent to using:
+//
+//	client.Counter.Create().
+//		OnConflict(sql.ResolveWithIgnore()).
+//		Exec(ctx)
+func (u *CounterUpsertBulk) Ignore() *CounterUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithIgnore())
+	return u
+}
+
+// DoNothing configures the conflict_action to `DO NOTHING`.
+// Supported only by SQLite and PostgreSQL.
+func (u *CounterUpsertBulk) DoNothing() *CounterUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.DoNothing())
+	return u
+}
+
+// Update allows overriding fields `UPDATE` values. See the CounterCreateBulk.OnConflict
+// documentation for more info.
+func (u *CounterUpsertBulk) Update(set func(*CounterUpsert)) *CounterUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(update *sql.UpdateSet) {
+		set(&CounterUpsert{UpdateSet: update})
+	}))
+	return u
+}
+
+// SetIdentifier sets the "identifier" field.
+func (u *CounterUpsertBulk) SetIdentifier(v string) *CounterUpsertBulk {
+	return u.Update(func(s *CounterUpsert) {
+		s.SetIdentifier(v)
+	})
+}
+
+// UpdateIdentifier sets the "identifier" field to the value that was provided on create.
+func (u *CounterUpsertBulk) UpdateIdentifier() *CounterUpsertBulk {
+	return u.Update(func(s *CounterUpsert) {
+		s.UpdateIdentifier()
+	})
+}
+
+// ClearIdentifier clears the value of the "identifier" field.
+func (u *CounterUpsertBulk) ClearIdentifier() *CounterUpsertBulk {
+	return u.Update(func(s *CounterUpsert) {
+		s.ClearIdentifier()
+	})
+}
+
+// SetName sets the "name" field.
+func (u *CounterUpsertBulk) SetName(v string) *CounterUpsertBulk {
+	return u.Update(func(s *CounterUpsert) {
+		s.SetName(v)
+	})
+}
+
+// UpdateName sets the "name" field to the value that was provided on create.
+func (u *CounterUpsertBulk) UpdateName() *CounterUpsertBulk {
+	return u.Update(func(s *CounterUpsert) {
+		s.UpdateName()
+	})
+}
+
+// ClearName clears the value of the "name" field.
+func (u *CounterUpsertBulk) ClearName() *CounterUpsertBulk {
+	return u.Update(func(s *CounterUpsert) {
+		s.ClearName()
+	})
+}
+
+// SetPrefix sets the "prefix" field.
+func (u *CounterUpsertBulk) SetPrefix(v string) *CounterUpsertBulk {
+	return u.Update(func(s *CounterUpsert) {
+		s.SetPrefix(v)
+	})
+}
+
+// UpdatePrefix sets the "prefix" field to the value that was provided on create.
+func (u *CounterUpsertBulk) UpdatePrefix() *CounterUpsertBulk {
+	return u.Update(func(s *CounterUpsert) {
+		s.UpdatePrefix()
+	})
+}
+
+// ClearPrefix clears the value of the "prefix" field.
+func (u *CounterUpsertBulk) ClearPrefix() *CounterUpsertBulk {
+	return u.Update(func(s *CounterUpsert) {
+		s.ClearPrefix()
+	})
+}
+
+// SetSuffix sets the "suffix" field.
+func (u *CounterUpsertBulk) SetSuffix(v string) *CounterUpsertBulk {
+	return u.Update(func(s *CounterUpsert) {
+		s.SetSuffix(v)
+	})
+}
+
+// UpdateSuffix sets the "suffix" field to the value that was provided on create.
+func (u *CounterUpsertBulk) UpdateSuffix() *CounterUpsertBulk {
+	return u.Update(func(s *CounterUpsert) {
+		s.UpdateSuffix()
+	})
+}
+
+// ClearSuffix clears the value of the "suffix" field.
+func (u *CounterUpsertBulk) ClearSuffix() *CounterUpsertBulk {
+	return u.Update(func(s *CounterUpsert) {
+		s.ClearSuffix()
+	})
+}
+
+// SetStartValue sets the "start_value" field.
+func (u *CounterUpsertBulk) SetStartValue(v int) *CounterUpsertBulk {
+	return u.Update(func(s *CounterUpsert) {
+		s.SetStartValue(v)
+	})
+}
+
+// AddStartValue adds v to the "start_value" field.
+func (u *CounterUpsertBulk) AddStartValue(v int) *CounterUpsertBulk {
+	return u.Update(func(s *CounterUpsert) {
+		s.AddStartValue(v)
+	})
+}
+
+// UpdateStartValue sets the "start_value" field to the value that was provided on create.
+func (u *CounterUpsertBulk) UpdateStartValue() *CounterUpsertBulk {
+	return u.Update(func(s *CounterUpsert) {
+		s.UpdateStartValue()
+	})
+}
+
+// SetIncrementStep sets the "increment_step" field.
+func (u *CounterUpsertBulk) SetIncrementStep(v int) *CounterUpsertBulk {
+	return u.Update(func(s *CounterUpsert) {
+		s.SetIncrementStep(v)
+	})
+}
+
+// AddIncrementStep adds v to the "increment_step" field.
+func (u *CounterUpsertBulk) AddIncrementStep(v int) *CounterUpsertBulk {
+	return u.Update(func(s *CounterUpsert) {
+		s.AddIncrementStep(v)
+	})
+}
+
+// UpdateIncrementStep sets the "increment_step" field to the value that was provided on create.
+func (u *CounterUpsertBulk) UpdateIncrementStep() *CounterUpsertBulk {
+	return u.Update(func(s *CounterUpsert) {
+		s.UpdateIncrementStep()
+	})
+}
+
+// SetDateFormat sets the "date_format" field.
+func (u *CounterUpsertBulk) SetDateFormat(v string) *CounterUpsertBulk {
+	return u.Update(func(s *CounterUpsert) {
+		s.SetDateFormat(v)
+	})
+}
+
+// UpdateDateFormat sets the "date_format" field to the value that was provided on create.
+func (u *CounterUpsertBulk) UpdateDateFormat() *CounterUpsertBulk {
+	return u.Update(func(s *CounterUpsert) {
+		s.UpdateDateFormat()
+	})
+}
+
+// ClearDateFormat clears the value of the "date_format" field.
+func (u *CounterUpsertBulk) ClearDateFormat() *CounterUpsertBulk {
+	return u.Update(func(s *CounterUpsert) {
+		s.ClearDateFormat()
+	})
+}
+
+// SetCurrentValue sets the "current_value" field.
+func (u *CounterUpsertBulk) SetCurrentValue(v int) *CounterUpsertBulk {
+	return u.Update(func(s *CounterUpsert) {
+		s.SetCurrentValue(v)
+	})
+}
+
+// AddCurrentValue adds v to the "current_value" field.
+func (u *CounterUpsertBulk) AddCurrentValue(v int) *CounterUpsertBulk {
+	return u.Update(func(s *CounterUpsert) {
+		s.AddCurrentValue(v)
+	})
+}
+
+// UpdateCurrentValue sets the "current_value" field to the value that was provided on create.
+func (u *CounterUpsertBulk) UpdateCurrentValue() *CounterUpsertBulk {
+	return u.Update(func(s *CounterUpsert) {
+		s.UpdateCurrentValue()
+	})
+}
+
+// SetDisabled sets the "disabled" field.
+func (u *CounterUpsertBulk) SetDisabled(v bool) *CounterUpsertBulk {
+	return u.Update(func(s *CounterUpsert) {
+		s.SetDisabled(v)
+	})
+}
+
+// UpdateDisabled sets the "disabled" field to the value that was provided on create.
+func (u *CounterUpsertBulk) UpdateDisabled() *CounterUpsertBulk {
+	return u.Update(func(s *CounterUpsert) {
+		s.UpdateDisabled()
+	})
+}
+
+// ClearDisabled clears the value of the "disabled" field.
+func (u *CounterUpsertBulk) ClearDisabled() *CounterUpsertBulk {
+	return u.Update(func(s *CounterUpsert) {
+		s.ClearDisabled()
+	})
+}
+
+// SetDescription sets the "description" field.
+func (u *CounterUpsertBulk) SetDescription(v string) *CounterUpsertBulk {
+	return u.Update(func(s *CounterUpsert) {
+		s.SetDescription(v)
+	})
+}
+
+// UpdateDescription sets the "description" field to the value that was provided on create.
+func (u *CounterUpsertBulk) UpdateDescription() *CounterUpsertBulk {
+	return u.Update(func(s *CounterUpsert) {
+		s.UpdateDescription()
+	})
+}
+
+// ClearDescription clears the value of the "description" field.
+func (u *CounterUpsertBulk) ClearDescription() *CounterUpsertBulk {
+	return u.Update(func(s *CounterUpsert) {
+		s.ClearDescription()
+	})
+}
+
+// SetSpaceID sets the "space_id" field.
+func (u *CounterUpsertBulk) SetSpaceID(v string) *CounterUpsertBulk {
+	return u.Update(func(s *CounterUpsert) {
+		s.SetSpaceID(v)
+	})
+}
+
+// UpdateSpaceID sets the "space_id" field to the value that was provided on create.
+func (u *CounterUpsertBulk) UpdateSpaceID() *CounterUpsertBulk {
+	return u.Update(func(s *CounterUpsert) {
+		s.UpdateSpaceID()
+	})
+}
+
+// ClearSpaceID clears the value of the "space_id" field.
+func (u *CounterUpsertBulk) ClearSpaceID() *CounterUpsertBulk {
+	return u.Update(func(s *CounterUpsert) {
+		s.ClearSpaceID()
+	})
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (u *CounterUpsertBulk) SetCreatedBy(v string) *CounterUpsertBulk {
+	return u.Update(func(s *CounterUpsert) {
+		s.SetCreatedBy(v)
+	})
+}
+
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *CounterUpsertBulk) UpdateCreatedBy() *CounterUpsertBulk {
+	return u.Update(func(s *CounterUpsert) {
+		s.UpdateCreatedBy()
+	})
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *CounterUpsertBulk) ClearCreatedBy() *CounterUpsertBulk {
+	return u.Update(func(s *CounterUpsert) {
+		s.ClearCreatedBy()
+	})
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (u *CounterUpsertBulk) SetUpdatedBy(v string) *CounterUpsertBulk {
+	return u.Update(func(s *CounterUpsert) {
+		s.SetUpdatedBy(v)
+	})
+}
+
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *CounterUpsertBulk) UpdateUpdatedBy() *CounterUpsertBulk {
+	return u.Update(func(s *CounterUpsert) {
+		s.UpdateUpdatedBy()
+	})
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *CounterUpsertBulk) ClearUpdatedBy() *CounterUpsertBulk {
+	return u.Update(func(s *CounterUpsert) {
+		s.ClearUpdatedBy()
+	})
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *CounterUpsertBulk) SetUpdatedAt(v int64) *CounterUpsertBulk {
+	return u.Update(func(s *CounterUpsert) {
+		s.SetUpdatedAt(v)
+	})
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *CounterUpsertBulk) AddUpdatedAt(v int64) *CounterUpsertBulk {
+	return u.Update(func(s *CounterUpsert) {
+		s.AddUpdatedAt(v)
+	})
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *CounterUpsertBulk) UpdateUpdatedAt() *CounterUpsertBulk {
+	return u.Update(func(s *CounterUpsert) {
+		s.UpdateUpdatedAt()
+	})
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *CounterUpsertBulk) ClearUpdatedAt() *CounterUpsertBulk {
+	return u.Update(func(s *CounterUpsert) {
+		s.ClearUpdatedAt()
+	})
+}
+
+// Exec executes the query.
+func (u *CounterUpsertBulk) Exec(ctx context.Context) error {
+	if u.create.err != nil {
+		return u.create.err
+	}
+	for i, b := range u.create.builders {
+		if len(b.conflict) != 0 {
+			return fmt.Errorf("ent: OnConflict was set for builder %d. Set it on the CounterCreateBulk instead", i)
+		}
+	}
+	if len(u.create.conflict) == 0 {
+		return errors.New("ent: missing options for CounterCreateBulk.OnConflict")
+	}
+	return u.create.Exec(ctx)
+}
+
+// ExecX is like Exec, but panics if an error occurs.
+func (u *CounterUpsertBulk) ExecX(ctx context.Context) {
+	if err := u.create.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

@@ -2,7 +2,7 @@ package service
 
 import (
 	"context"
-	accessStructs "ncobase/access/structs"
+	accessStructs "ncobase/core/access/structs"
 
 	"github.com/ncobase/ncore/logging/logger"
 	"github.com/ncobase/ncore/utils/convert"

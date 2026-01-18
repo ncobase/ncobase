@@ -6,9 +6,9 @@ import (
 	"context"
 	"fmt"
 	"math"
-	"ncobase/payment/data/ent/paymentproduct"
-	"ncobase/payment/data/ent/paymentsubscription"
-	"ncobase/payment/data/ent/predicate"
+	"ncobase/plugin/payment/data/ent/paymentproduct"
+	"ncobase/plugin/payment/data/ent/paymentsubscription"
+	"ncobase/plugin/payment/data/ent/predicate"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"

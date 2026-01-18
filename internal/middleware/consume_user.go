@@ -3,7 +3,7 @@ package middleware
 import (
 	"context"
 	"fmt"
-	authStructs "ncobase/auth/structs"
+	authStructs "ncobase/core/auth/structs"
 	"strings"
 	"time"
 

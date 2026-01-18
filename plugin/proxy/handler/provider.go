@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"ncobase/proxy/service"
+	"ncobase/plugin/proxy/service"
 )
 
 // Handler represents the proxy handler.

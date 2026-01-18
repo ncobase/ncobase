@@ -3,9 +3,9 @@ package service
 import (
 	"context"
 	"fmt"
-	"ncobase/resource/data"
-	"ncobase/resource/data/repository"
-	"ncobase/resource/event"
+	"ncobase/plugin/resource/data"
+	"ncobase/plugin/resource/data/repository"
+	"ncobase/plugin/resource/event"
 	"sync"
 	"time"
 
@@ -56,7 +56,7 @@ func NewQuotaService(d *data.Data, publisher event.PublisherInterface, config *Q
 
 	return &quotaService{
 		fileRepo:   repository.NewFileRepository(d),
-		redis:      d.GetRedis(),
+		redis:      d.GetRedis().(*redis.Client),
 		config:     config,
 		publisher:  publisher,
 		quotaCache: make(map[string]int64),

@@ -1,10 +1,10 @@
 package core
 
 import (
-	_ "ncobase/access"
-	_ "ncobase/auth"
-	_ "ncobase/organization"
-	_ "ncobase/space"
-	_ "ncobase/system"
-	_ "ncobase/user"
+	_ "ncobase/core/access"
+	_ "ncobase/core/auth"
+	_ "ncobase/core/organization"
+	_ "ncobase/core/space"
+	_ "ncobase/core/system"
+	_ "ncobase/core/user"
 )

@@ -4,9 +4,12 @@ package ent
 
 import (
 	"context"
+	"errors"
 	"fmt"
-	"ncobase/user/data/ent/userprofile"
+	"ncobase/core/user/data/ent/userprofile"
 
+	"entgo.io/ent/dialect"
+	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
 )
@@ -16,6 +19,7 @@ type UserProfileCreate struct {
 	config
 	mutation *UserProfileMutation
 	hooks    []Hook
+	conflict []sql.ConflictOption
 }
 
 // SetDisplayName sets the "display_name" field.
@@ -224,6 +228,7 @@ func (_c *UserProfileCreate) createSpec() (*UserProfile, *sqlgraph.CreateSpec) {
 		_node = &UserProfile{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(userprofile.Table, sqlgraph.NewFieldSpec(userprofile.FieldID, field.TypeString))
 	)
+	_spec.OnConflict = _c.conflict
 	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
@@ -267,11 +272,498 @@ func (_c *UserProfileCreate) createSpec() (*UserProfile, *sqlgraph.CreateSpec) {
 	return _node, _spec
 }
 
+// OnConflict allows configuring the `ON CONFLICT` / `ON DUPLICATE KEY` clause
+// of the `INSERT` statement. For example:
+//
+//	client.UserProfile.Create().
+//		SetDisplayName(v).
+//		OnConflict(
+//			// Update the row with the new values
+//			// the was proposed for insertion.
+//			sql.ResolveWithNewValues(),
+//		).
+//		// Override some of the fields with custom
+//		// update values.
+//		Update(func(u *ent.UserProfileUpsert) {
+//			SetDisplayName(v+v).
+//		}).
+//		Exec(ctx)
+func (_c *UserProfileCreate) OnConflict(opts ...sql.ConflictOption) *UserProfileUpsertOne {
+	_c.conflict = opts
+	return &UserProfileUpsertOne{
+		create: _c,
+	}
+}
+
+// OnConflictColumns calls `OnConflict` and configures the columns
+// as conflict target. Using this option is equivalent to using:
+//
+//	client.UserProfile.Create().
+//		OnConflict(sql.ConflictColumns(columns...)).
+//		Exec(ctx)
+func (_c *UserProfileCreate) OnConflictColumns(columns ...string) *UserProfileUpsertOne {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
+	return &UserProfileUpsertOne{
+		create: _c,
+	}
+}
+
+type (
+	// UserProfileUpsertOne is the builder for "upsert"-ing
+	//  one UserProfile node.
+	UserProfileUpsertOne struct {
+		create *UserProfileCreate
+	}
+
+	// UserProfileUpsert is the "OnConflict" setter.
+	UserProfileUpsert struct {
+		*sql.UpdateSet
+	}
+)
+
+// SetDisplayName sets the "display_name" field.
+func (u *UserProfileUpsert) SetDisplayName(v string) *UserProfileUpsert {
+	u.Set(userprofile.FieldDisplayName, v)
+	return u
+}
+
+// UpdateDisplayName sets the "display_name" field to the value that was provided on create.
+func (u *UserProfileUpsert) UpdateDisplayName() *UserProfileUpsert {
+	u.SetExcluded(userprofile.FieldDisplayName)
+	return u
+}
+
+// ClearDisplayName clears the value of the "display_name" field.
+func (u *UserProfileUpsert) ClearDisplayName() *UserProfileUpsert {
+	u.SetNull(userprofile.FieldDisplayName)
+	return u
+}
+
+// SetFirstName sets the "first_name" field.
+func (u *UserProfileUpsert) SetFirstName(v string) *UserProfileUpsert {
+	u.Set(userprofile.FieldFirstName, v)
+	return u
+}
+
+// UpdateFirstName sets the "first_name" field to the value that was provided on create.
+func (u *UserProfileUpsert) UpdateFirstName() *UserProfileUpsert {
+	u.SetExcluded(userprofile.FieldFirstName)
+	return u
+}
+
+// ClearFirstName clears the value of the "first_name" field.
+func (u *UserProfileUpsert) ClearFirstName() *UserProfileUpsert {
+	u.SetNull(userprofile.FieldFirstName)
+	return u
+}
+
+// SetLastName sets the "last_name" field.
+func (u *UserProfileUpsert) SetLastName(v string) *UserProfileUpsert {
+	u.Set(userprofile.FieldLastName, v)
+	return u
+}
+
+// UpdateLastName sets the "last_name" field to the value that was provided on create.
+func (u *UserProfileUpsert) UpdateLastName() *UserProfileUpsert {
+	u.SetExcluded(userprofile.FieldLastName)
+	return u
+}
+
+// ClearLastName clears the value of the "last_name" field.
+func (u *UserProfileUpsert) ClearLastName() *UserProfileUpsert {
+	u.SetNull(userprofile.FieldLastName)
+	return u
+}
+
+// SetTitle sets the "title" field.
+func (u *UserProfileUpsert) SetTitle(v string) *UserProfileUpsert {
+	u.Set(userprofile.FieldTitle, v)
+	return u
+}
+
+// UpdateTitle sets the "title" field to the value that was provided on create.
+func (u *UserProfileUpsert) UpdateTitle() *UserProfileUpsert {
+	u.SetExcluded(userprofile.FieldTitle)
+	return u
+}
+
+// ClearTitle clears the value of the "title" field.
+func (u *UserProfileUpsert) ClearTitle() *UserProfileUpsert {
+	u.SetNull(userprofile.FieldTitle)
+	return u
+}
+
+// SetShortBio sets the "short_bio" field.
+func (u *UserProfileUpsert) SetShortBio(v string) *UserProfileUpsert {
+	u.Set(userprofile.FieldShortBio, v)
+	return u
+}
+
+// UpdateShortBio sets the "short_bio" field to the value that was provided on create.
+func (u *UserProfileUpsert) UpdateShortBio() *UserProfileUpsert {
+	u.SetExcluded(userprofile.FieldShortBio)
+	return u
+}
+
+// ClearShortBio clears the value of the "short_bio" field.
+func (u *UserProfileUpsert) ClearShortBio() *UserProfileUpsert {
+	u.SetNull(userprofile.FieldShortBio)
+	return u
+}
+
+// SetAbout sets the "about" field.
+func (u *UserProfileUpsert) SetAbout(v string) *UserProfileUpsert {
+	u.Set(userprofile.FieldAbout, v)
+	return u
+}
+
+// UpdateAbout sets the "about" field to the value that was provided on create.
+func (u *UserProfileUpsert) UpdateAbout() *UserProfileUpsert {
+	u.SetExcluded(userprofile.FieldAbout)
+	return u
+}
+
+// ClearAbout clears the value of the "about" field.
+func (u *UserProfileUpsert) ClearAbout() *UserProfileUpsert {
+	u.SetNull(userprofile.FieldAbout)
+	return u
+}
+
+// SetLinks sets the "links" field.
+func (u *UserProfileUpsert) SetLinks(v []map[string]interface{}) *UserProfileUpsert {
+	u.Set(userprofile.FieldLinks, v)
+	return u
+}
+
+// UpdateLinks sets the "links" field to the value that was provided on create.
+func (u *UserProfileUpsert) UpdateLinks() *UserProfileUpsert {
+	u.SetExcluded(userprofile.FieldLinks)
+	return u
+}
+
+// ClearLinks clears the value of the "links" field.
+func (u *UserProfileUpsert) ClearLinks() *UserProfileUpsert {
+	u.SetNull(userprofile.FieldLinks)
+	return u
+}
+
+// SetThumbnail sets the "thumbnail" field.
+func (u *UserProfileUpsert) SetThumbnail(v string) *UserProfileUpsert {
+	u.Set(userprofile.FieldThumbnail, v)
+	return u
+}
+
+// UpdateThumbnail sets the "thumbnail" field to the value that was provided on create.
+func (u *UserProfileUpsert) UpdateThumbnail() *UserProfileUpsert {
+	u.SetExcluded(userprofile.FieldThumbnail)
+	return u
+}
+
+// ClearThumbnail clears the value of the "thumbnail" field.
+func (u *UserProfileUpsert) ClearThumbnail() *UserProfileUpsert {
+	u.SetNull(userprofile.FieldThumbnail)
+	return u
+}
+
+// SetExtras sets the "extras" field.
+func (u *UserProfileUpsert) SetExtras(v map[string]interface{}) *UserProfileUpsert {
+	u.Set(userprofile.FieldExtras, v)
+	return u
+}
+
+// UpdateExtras sets the "extras" field to the value that was provided on create.
+func (u *UserProfileUpsert) UpdateExtras() *UserProfileUpsert {
+	u.SetExcluded(userprofile.FieldExtras)
+	return u
+}
+
+// ClearExtras clears the value of the "extras" field.
+func (u *UserProfileUpsert) ClearExtras() *UserProfileUpsert {
+	u.SetNull(userprofile.FieldExtras)
+	return u
+}
+
+// UpdateNewValues updates the mutable fields using the new values that were set on create except the ID field.
+// Using this option is equivalent to using:
+//
+//	client.UserProfile.Create().
+//		OnConflict(
+//			sql.ResolveWithNewValues(),
+//			sql.ResolveWith(func(u *sql.UpdateSet) {
+//				u.SetIgnore(userprofile.FieldID)
+//			}),
+//		).
+//		Exec(ctx)
+func (u *UserProfileUpsertOne) UpdateNewValues() *UserProfileUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithNewValues())
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(s *sql.UpdateSet) {
+		if _, exists := u.create.mutation.ID(); exists {
+			s.SetIgnore(userprofile.FieldID)
+		}
+	}))
+	return u
+}
+
+// Ignore sets each column to itself in case of conflict.
+// Using this option is equivalent to using:
+//
+//	client.UserProfile.Create().
+//	    OnConflict(sql.ResolveWithIgnore()).
+//	    Exec(ctx)
+func (u *UserProfileUpsertOne) Ignore() *UserProfileUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithIgnore())
+	return u
+}
+
+// DoNothing configures the conflict_action to `DO NOTHING`.
+// Supported only by SQLite and PostgreSQL.
+func (u *UserProfileUpsertOne) DoNothing() *UserProfileUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.DoNothing())
+	return u
+}
+
+// Update allows overriding fields `UPDATE` values. See the UserProfileCreate.OnConflict
+// documentation for more info.
+func (u *UserProfileUpsertOne) Update(set func(*UserProfileUpsert)) *UserProfileUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(update *sql.UpdateSet) {
+		set(&UserProfileUpsert{UpdateSet: update})
+	}))
+	return u
+}
+
+// SetDisplayName sets the "display_name" field.
+func (u *UserProfileUpsertOne) SetDisplayName(v string) *UserProfileUpsertOne {
+	return u.Update(func(s *UserProfileUpsert) {
+		s.SetDisplayName(v)
+	})
+}
+
+// UpdateDisplayName sets the "display_name" field to the value that was provided on create.
+func (u *UserProfileUpsertOne) UpdateDisplayName() *UserProfileUpsertOne {
+	return u.Update(func(s *UserProfileUpsert) {
+		s.UpdateDisplayName()
+	})
+}
+
+// ClearDisplayName clears the value of the "display_name" field.
+func (u *UserProfileUpsertOne) ClearDisplayName() *UserProfileUpsertOne {
+	return u.Update(func(s *UserProfileUpsert) {
+		s.ClearDisplayName()
+	})
+}
+
+// SetFirstName sets the "first_name" field.
+func (u *UserProfileUpsertOne) SetFirstName(v string) *UserProfileUpsertOne {
+	return u.Update(func(s *UserProfileUpsert) {
+		s.SetFirstName(v)
+	})
+}
+
+// UpdateFirstName sets the "first_name" field to the value that was provided on create.
+func (u *UserProfileUpsertOne) UpdateFirstName() *UserProfileUpsertOne {
+	return u.Update(func(s *UserProfileUpsert) {
+		s.UpdateFirstName()
+	})
+}
+
+// ClearFirstName clears the value of the "first_name" field.
+func (u *UserProfileUpsertOne) ClearFirstName() *UserProfileUpsertOne {
+	return u.Update(func(s *UserProfileUpsert) {
+		s.ClearFirstName()
+	})
+}
+
+// SetLastName sets the "last_name" field.
+func (u *UserProfileUpsertOne) SetLastName(v string) *UserProfileUpsertOne {
+	return u.Update(func(s *UserProfileUpsert) {
+		s.SetLastName(v)
+	})
+}
+
+// UpdateLastName sets the "last_name" field to the value that was provided on create.
+func (u *UserProfileUpsertOne) UpdateLastName() *UserProfileUpsertOne {
+	return u.Update(func(s *UserProfileUpsert) {
+		s.UpdateLastName()
+	})
+}
+
+// ClearLastName clears the value of the "last_name" field.
+func (u *UserProfileUpsertOne) ClearLastName() *UserProfileUpsertOne {
+	return u.Update(func(s *UserProfileUpsert) {
+		s.ClearLastName()
+	})
+}
+
+// SetTitle sets the "title" field.
+func (u *UserProfileUpsertOne) SetTitle(v string) *UserProfileUpsertOne {
+	return u.Update(func(s *UserProfileUpsert) {
+		s.SetTitle(v)
+	})
+}
+
+// UpdateTitle sets the "title" field to the value that was provided on create.
+func (u *UserProfileUpsertOne) UpdateTitle() *UserProfileUpsertOne {
+	return u.Update(func(s *UserProfileUpsert) {
+		s.UpdateTitle()
+	})
+}
+
+// ClearTitle clears the value of the "title" field.
+func (u *UserProfileUpsertOne) ClearTitle() *UserProfileUpsertOne {
+	return u.Update(func(s *UserProfileUpsert) {
+		s.ClearTitle()
+	})
+}
+
+// SetShortBio sets the "short_bio" field.
+func (u *UserProfileUpsertOne) SetShortBio(v string) *UserProfileUpsertOne {
+	return u.Update(func(s *UserProfileUpsert) {
+		s.SetShortBio(v)
+	})
+}
+
+// UpdateShortBio sets the "short_bio" field to the value that was provided on create.
+func (u *UserProfileUpsertOne) UpdateShortBio() *UserProfileUpsertOne {
+	return u.Update(func(s *UserProfileUpsert) {
+		s.UpdateShortBio()
+	})
+}
+
+// ClearShortBio clears the value of the "short_bio" field.
+func (u *UserProfileUpsertOne) ClearShortBio() *UserProfileUpsertOne {
+	return u.Update(func(s *UserProfileUpsert) {
+		s.ClearShortBio()
+	})
+}
+
+// SetAbout sets the "about" field.
+func (u *UserProfileUpsertOne) SetAbout(v string) *UserProfileUpsertOne {
+	return u.Update(func(s *UserProfileUpsert) {
+		s.SetAbout(v)
+	})
+}
+
+// UpdateAbout sets the "about" field to the value that was provided on create.
+func (u *UserProfileUpsertOne) UpdateAbout() *UserProfileUpsertOne {
+	return u.Update(func(s *UserProfileUpsert) {
+		s.UpdateAbout()
+	})
+}
+
+// ClearAbout clears the value of the "about" field.
+func (u *UserProfileUpsertOne) ClearAbout() *UserProfileUpsertOne {
+	return u.Update(func(s *UserProfileUpsert) {
+		s.ClearAbout()
+	})
+}
+
+// SetLinks sets the "links" field.
+func (u *UserProfileUpsertOne) SetLinks(v []map[string]interface{}) *UserProfileUpsertOne {
+	return u.Update(func(s *UserProfileUpsert) {
+		s.SetLinks(v)
+	})
+}
+
+// UpdateLinks sets the "links" field to the value that was provided on create.
+func (u *UserProfileUpsertOne) UpdateLinks() *UserProfileUpsertOne {
+	return u.Update(func(s *UserProfileUpsert) {
+		s.UpdateLinks()
+	})
+}
+
+// ClearLinks clears the value of the "links" field.
+func (u *UserProfileUpsertOne) ClearLinks() *UserProfileUpsertOne {
+	return u.Update(func(s *UserProfileUpsert) {
+		s.ClearLinks()
+	})
+}
+
+// SetThumbnail sets the "thumbnail" field.
+func (u *UserProfileUpsertOne) SetThumbnail(v string) *UserProfileUpsertOne {
+	return u.Update(func(s *UserProfileUpsert) {
+		s.SetThumbnail(v)
+	})
+}
+
+// UpdateThumbnail sets the "thumbnail" field to the value that was provided on create.
+func (u *UserProfileUpsertOne) UpdateThumbnail() *UserProfileUpsertOne {
+	return u.Update(func(s *UserProfileUpsert) {
+		s.UpdateThumbnail()
+	})
+}
+
+// ClearThumbnail clears the value of the "thumbnail" field.
+func (u *UserProfileUpsertOne) ClearThumbnail() *UserProfileUpsertOne {
+	return u.Update(func(s *UserProfileUpsert) {
+		s.ClearThumbnail()
+	})
+}
+
+// SetExtras sets the "extras" field.
+func (u *UserProfileUpsertOne) SetExtras(v map[string]interface{}) *UserProfileUpsertOne {
+	return u.Update(func(s *UserProfileUpsert) {
+		s.SetExtras(v)
+	})
+}
+
+// UpdateExtras sets the "extras" field to the value that was provided on create.
+func (u *UserProfileUpsertOne) UpdateExtras() *UserProfileUpsertOne {
+	return u.Update(func(s *UserProfileUpsert) {
+		s.UpdateExtras()
+	})
+}
+
+// ClearExtras clears the value of the "extras" field.
+func (u *UserProfileUpsertOne) ClearExtras() *UserProfileUpsertOne {
+	return u.Update(func(s *UserProfileUpsert) {
+		s.ClearExtras()
+	})
+}
+
+// Exec executes the query.
+func (u *UserProfileUpsertOne) Exec(ctx context.Context) error {
+	if len(u.create.conflict) == 0 {
+		return errors.New("ent: missing options for UserProfileCreate.OnConflict")
+	}
+	return u.create.Exec(ctx)
+}
+
+// ExecX is like Exec, but panics if an error occurs.
+func (u *UserProfileUpsertOne) ExecX(ctx context.Context) {
+	if err := u.create.Exec(ctx); err != nil {
+		panic(err)
+	}
+}
+
+// Exec executes the UPSERT query and returns the inserted/updated ID.
+func (u *UserProfileUpsertOne) ID(ctx context.Context) (id string, err error) {
+	if u.create.driver.Dialect() == dialect.MySQL {
+		// In case of "ON CONFLICT", there is no way to get back non-numeric ID
+		// fields from the database since MySQL does not support the RETURNING clause.
+		return id, errors.New("ent: UserProfileUpsertOne.ID is not supported by MySQL driver. Use UserProfileUpsertOne.Exec instead")
+	}
+	node, err := u.create.Save(ctx)
+	if err != nil {
+		return id, err
+	}
+	return node.ID, nil
+}
+
+// IDX is like ID, but panics if an error occurs.
+func (u *UserProfileUpsertOne) IDX(ctx context.Context) string {
+	id, err := u.ID(ctx)
+	if err != nil {
+		panic(err)
+	}
+	return id
+}
+
 // UserProfileCreateBulk is the builder for creating many UserProfile entities in bulk.
 type UserProfileCreateBulk struct {
 	config
 	err      error
 	builders []*UserProfileCreate
+	conflict []sql.ConflictOption
 }
 
 // Save creates the UserProfile entities in the database.
@@ -301,6 +793,7 @@ func (_c *UserProfileCreateBulk) Save(ctx context.Context) ([]*UserProfile, erro
 					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
+					spec.OnConflict = _c.conflict
 					// Invoke the actual operation on the latest mutation in the chain.
 					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
@@ -347,6 +840,309 @@ func (_c *UserProfileCreateBulk) Exec(ctx context.Context) error {
 // ExecX is like Exec, but panics if an error occurs.
 func (_c *UserProfileCreateBulk) ExecX(ctx context.Context) {
 	if err := _c.Exec(ctx); err != nil {
+		panic(err)
+	}
+}
+
+// OnConflict allows configuring the `ON CONFLICT` / `ON DUPLICATE KEY` clause
+// of the `INSERT` statement. For example:
+//
+//	client.UserProfile.CreateBulk(builders...).
+//		OnConflict(
+//			// Update the row with the new values
+//			// the was proposed for insertion.
+//			sql.ResolveWithNewValues(),
+//		).
+//		// Override some of the fields with custom
+//		// update values.
+//		Update(func(u *ent.UserProfileUpsert) {
+//			SetDisplayName(v+v).
+//		}).
+//		Exec(ctx)
+func (_c *UserProfileCreateBulk) OnConflict(opts ...sql.ConflictOption) *UserProfileUpsertBulk {
+	_c.conflict = opts
+	return &UserProfileUpsertBulk{
+		create: _c,
+	}
+}
+
+// OnConflictColumns calls `OnConflict` and configures the columns
+// as conflict target. Using this option is equivalent to using:
+//
+//	client.UserProfile.Create().
+//		OnConflict(sql.ConflictColumns(columns...)).
+//		Exec(ctx)
+func (_c *UserProfileCreateBulk) OnConflictColumns(columns ...string) *UserProfileUpsertBulk {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
+	return &UserProfileUpsertBulk{
+		create: _c,
+	}
+}
+
+// UserProfileUpsertBulk is the builder for "upsert"-ing
+// a bulk of UserProfile nodes.
+type UserProfileUpsertBulk struct {
+	create *UserProfileCreateBulk
+}
+
+// UpdateNewValues updates the mutable fields using the new values that
+// were set on create. Using this option is equivalent to using:
+//
+//	client.UserProfile.Create().
+//		OnConflict(
+//			sql.ResolveWithNewValues(),
+//			sql.ResolveWith(func(u *sql.UpdateSet) {
+//				u.SetIgnore(userprofile.FieldID)
+//			}),
+//		).
+//		Exec(ctx)
+func (u *UserProfileUpsertBulk) UpdateNewValues() *UserProfileUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithNewValues())
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(s *sql.UpdateSet) {
+		for _, b := range u.create.builders {
+			if _, exists := b.mutation.ID(); exists {
+				s.SetIgnore(userprofile.FieldID)
+			}
+		}
+	}))
+	return u
+}
+
+// Ignore sets each column to itself in case of conflict.
+// Using this option is equivalent to using:
+//
+//	client.UserProfile.Create().
+//		OnConflict(sql.ResolveWithIgnore()).
+//		Exec(ctx)
+func (u *UserProfileUpsertBulk) Ignore() *UserProfileUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithIgnore())
+	return u
+}
+
+// DoNothing configures the conflict_action to `DO NOTHING`.
+// Supported only by SQLite and PostgreSQL.
+func (u *UserProfileUpsertBulk) DoNothing() *UserProfileUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.DoNothing())
+	return u
+}
+
+// Update allows overriding fields `UPDATE` values. See the UserProfileCreateBulk.OnConflict
+// documentation for more info.
+func (u *UserProfileUpsertBulk) Update(set func(*UserProfileUpsert)) *UserProfileUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(update *sql.UpdateSet) {
+		set(&UserProfileUpsert{UpdateSet: update})
+	}))
+	return u
+}
+
+// SetDisplayName sets the "display_name" field.
+func (u *UserProfileUpsertBulk) SetDisplayName(v string) *UserProfileUpsertBulk {
+	return u.Update(func(s *UserProfileUpsert) {
+		s.SetDisplayName(v)
+	})
+}
+
+// UpdateDisplayName sets the "display_name" field to the value that was provided on create.
+func (u *UserProfileUpsertBulk) UpdateDisplayName() *UserProfileUpsertBulk {
+	return u.Update(func(s *UserProfileUpsert) {
+		s.UpdateDisplayName()
+	})
+}
+
+// ClearDisplayName clears the value of the "display_name" field.
+func (u *UserProfileUpsertBulk) ClearDisplayName() *UserProfileUpsertBulk {
+	return u.Update(func(s *UserProfileUpsert) {
+		s.ClearDisplayName()
+	})
+}
+
+// SetFirstName sets the "first_name" field.
+func (u *UserProfileUpsertBulk) SetFirstName(v string) *UserProfileUpsertBulk {
+	return u.Update(func(s *UserProfileUpsert) {
+		s.SetFirstName(v)
+	})
+}
+
+// UpdateFirstName sets the "first_name" field to the value that was provided on create.
+func (u *UserProfileUpsertBulk) UpdateFirstName() *UserProfileUpsertBulk {
+	return u.Update(func(s *UserProfileUpsert) {
+		s.UpdateFirstName()
+	})
+}
+
+// ClearFirstName clears the value of the "first_name" field.
+func (u *UserProfileUpsertBulk) ClearFirstName() *UserProfileUpsertBulk {
+	return u.Update(func(s *UserProfileUpsert) {
+		s.ClearFirstName()
+	})
+}
+
+// SetLastName sets the "last_name" field.
+func (u *UserProfileUpsertBulk) SetLastName(v string) *UserProfileUpsertBulk {
+	return u.Update(func(s *UserProfileUpsert) {
+		s.SetLastName(v)
+	})
+}
+
+// UpdateLastName sets the "last_name" field to the value that was provided on create.
+func (u *UserProfileUpsertBulk) UpdateLastName() *UserProfileUpsertBulk {
+	return u.Update(func(s *UserProfileUpsert) {
+		s.UpdateLastName()
+	})
+}
+
+// ClearLastName clears the value of the "last_name" field.
+func (u *UserProfileUpsertBulk) ClearLastName() *UserProfileUpsertBulk {
+	return u.Update(func(s *UserProfileUpsert) {
+		s.ClearLastName()
+	})
+}
+
+// SetTitle sets the "title" field.
+func (u *UserProfileUpsertBulk) SetTitle(v string) *UserProfileUpsertBulk {
+	return u.Update(func(s *UserProfileUpsert) {
+		s.SetTitle(v)
+	})
+}
+
+// UpdateTitle sets the "title" field to the value that was provided on create.
+func (u *UserProfileUpsertBulk) UpdateTitle() *UserProfileUpsertBulk {
+	return u.Update(func(s *UserProfileUpsert) {
+		s.UpdateTitle()
+	})
+}
+
+// ClearTitle clears the value of the "title" field.
+func (u *UserProfileUpsertBulk) ClearTitle() *UserProfileUpsertBulk {
+	return u.Update(func(s *UserProfileUpsert) {
+		s.ClearTitle()
+	})
+}
+
+// SetShortBio sets the "short_bio" field.
+func (u *UserProfileUpsertBulk) SetShortBio(v string) *UserProfileUpsertBulk {
+	return u.Update(func(s *UserProfileUpsert) {
+		s.SetShortBio(v)
+	})
+}
+
+// UpdateShortBio sets the "short_bio" field to the value that was provided on create.
+func (u *UserProfileUpsertBulk) UpdateShortBio() *UserProfileUpsertBulk {
+	return u.Update(func(s *UserProfileUpsert) {
+		s.UpdateShortBio()
+	})
+}
+
+// ClearShortBio clears the value of the "short_bio" field.
+func (u *UserProfileUpsertBulk) ClearShortBio() *UserProfileUpsertBulk {
+	return u.Update(func(s *UserProfileUpsert) {
+		s.ClearShortBio()
+	})
+}
+
+// SetAbout sets the "about" field.
+func (u *UserProfileUpsertBulk) SetAbout(v string) *UserProfileUpsertBulk {
+	return u.Update(func(s *UserProfileUpsert) {
+		s.SetAbout(v)
+	})
+}
+
+// UpdateAbout sets the "about" field to the value that was provided on create.
+func (u *UserProfileUpsertBulk) UpdateAbout() *UserProfileUpsertBulk {
+	return u.Update(func(s *UserProfileUpsert) {
+		s.UpdateAbout()
+	})
+}
+
+// ClearAbout clears the value of the "about" field.
+func (u *UserProfileUpsertBulk) ClearAbout() *UserProfileUpsertBulk {
+	return u.Update(func(s *UserProfileUpsert) {
+		s.ClearAbout()
+	})
+}
+
+// SetLinks sets the "links" field.
+func (u *UserProfileUpsertBulk) SetLinks(v []map[string]interface{}) *UserProfileUpsertBulk {
+	return u.Update(func(s *UserProfileUpsert) {
+		s.SetLinks(v)
+	})
+}
+
+// UpdateLinks sets the "links" field to the value that was provided on create.
+func (u *UserProfileUpsertBulk) UpdateLinks() *UserProfileUpsertBulk {
+	return u.Update(func(s *UserProfileUpsert) {
+		s.UpdateLinks()
+	})
+}
+
+// ClearLinks clears the value of the "links" field.
+func (u *UserProfileUpsertBulk) ClearLinks() *UserProfileUpsertBulk {
+	return u.Update(func(s *UserProfileUpsert) {
+		s.ClearLinks()
+	})
+}
+
+// SetThumbnail sets the "thumbnail" field.
+func (u *UserProfileUpsertBulk) SetThumbnail(v string) *UserProfileUpsertBulk {
+	return u.Update(func(s *UserProfileUpsert) {
+		s.SetThumbnail(v)
+	})
+}
+
+// UpdateThumbnail sets the "thumbnail" field to the value that was provided on create.
+func (u *UserProfileUpsertBulk) UpdateThumbnail() *UserProfileUpsertBulk {
+	return u.Update(func(s *UserProfileUpsert) {
+		s.UpdateThumbnail()
+	})
+}
+
+// ClearThumbnail clears the value of the "thumbnail" field.
+func (u *UserProfileUpsertBulk) ClearThumbnail() *UserProfileUpsertBulk {
+	return u.Update(func(s *UserProfileUpsert) {
+		s.ClearThumbnail()
+	})
+}
+
+// SetExtras sets the "extras" field.
+func (u *UserProfileUpsertBulk) SetExtras(v map[string]interface{}) *UserProfileUpsertBulk {
+	return u.Update(func(s *UserProfileUpsert) {
+		s.SetExtras(v)
+	})
+}
+
+// UpdateExtras sets the "extras" field to the value that was provided on create.
+func (u *UserProfileUpsertBulk) UpdateExtras() *UserProfileUpsertBulk {
+	return u.Update(func(s *UserProfileUpsert) {
+		s.UpdateExtras()
+	})
+}
+
+// ClearExtras clears the value of the "extras" field.
+func (u *UserProfileUpsertBulk) ClearExtras() *UserProfileUpsertBulk {
+	return u.Update(func(s *UserProfileUpsert) {
+		s.ClearExtras()
+	})
+}
+
+// Exec executes the query.
+func (u *UserProfileUpsertBulk) Exec(ctx context.Context) error {
+	if u.create.err != nil {
+		return u.create.err
+	}
+	for i, b := range u.create.builders {
+		if len(b.conflict) != 0 {
+			return fmt.Errorf("ent: OnConflict was set for builder %d. Set it on the UserProfileCreateBulk instead", i)
+		}
+	}
+	if len(u.create.conflict) == 0 {
+		return errors.New("ent: missing options for UserProfileCreateBulk.OnConflict")
+	}
+	return u.create.Exec(ctx)
+}
+
+// ExecX is like Exec, but panics if an error occurs.
+func (u *UserProfileUpsertBulk) ExecX(ctx context.Context) {
+	if err := u.create.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

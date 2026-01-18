@@ -1,6 +1,6 @@
 package enterprise
 
-import accessStructs "ncobase/access/structs"
+import accessStructs "ncobase/core/access/structs"
 
 // SystemDefaultPermissions defines simplified enterprise permissions
 var SystemDefaultPermissions = []accessStructs.CreatePermissionBody{

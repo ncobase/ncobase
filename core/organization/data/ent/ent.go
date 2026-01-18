@@ -6,9 +6,9 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"ncobase/organization/data/ent/organization"
-	"ncobase/organization/data/ent/organizationrole"
-	"ncobase/organization/data/ent/userorganization"
+	"ncobase/core/organization/data/ent/organization"
+	"ncobase/core/organization/data/ent/organizationrole"
+	"ncobase/core/organization/data/ent/userorganization"
 	"reflect"
 	"sync"
 

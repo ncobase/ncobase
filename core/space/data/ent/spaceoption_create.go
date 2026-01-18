@@ -4,9 +4,12 @@ package ent
 
 import (
 	"context"
+	"errors"
 	"fmt"
-	"ncobase/space/data/ent/spaceoption"
+	"ncobase/core/space/data/ent/spaceoption"
 
+	"entgo.io/ent/dialect"
+	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
 )
@@ -16,6 +19,7 @@ type SpaceOptionCreate struct {
 	config
 	mutation *SpaceOptionMutation
 	hooks    []Hook
+	conflict []sql.ConflictOption
 }
 
 // SetSpaceID sets the "space_id" field.
@@ -203,6 +207,7 @@ func (_c *SpaceOptionCreate) createSpec() (*SpaceOption, *sqlgraph.CreateSpec) {
 		_node = &SpaceOption{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(spaceoption.Table, sqlgraph.NewFieldSpec(spaceoption.FieldID, field.TypeString))
 	)
+	_spec.OnConflict = _c.conflict
 	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
@@ -234,11 +239,358 @@ func (_c *SpaceOptionCreate) createSpec() (*SpaceOption, *sqlgraph.CreateSpec) {
 	return _node, _spec
 }
 
+// OnConflict allows configuring the `ON CONFLICT` / `ON DUPLICATE KEY` clause
+// of the `INSERT` statement. For example:
+//
+//	client.SpaceOption.Create().
+//		SetSpaceID(v).
+//		OnConflict(
+//			// Update the row with the new values
+//			// the was proposed for insertion.
+//			sql.ResolveWithNewValues(),
+//		).
+//		// Override some of the fields with custom
+//		// update values.
+//		Update(func(u *ent.SpaceOptionUpsert) {
+//			SetSpaceID(v+v).
+//		}).
+//		Exec(ctx)
+func (_c *SpaceOptionCreate) OnConflict(opts ...sql.ConflictOption) *SpaceOptionUpsertOne {
+	_c.conflict = opts
+	return &SpaceOptionUpsertOne{
+		create: _c,
+	}
+}
+
+// OnConflictColumns calls `OnConflict` and configures the columns
+// as conflict target. Using this option is equivalent to using:
+//
+//	client.SpaceOption.Create().
+//		OnConflict(sql.ConflictColumns(columns...)).
+//		Exec(ctx)
+func (_c *SpaceOptionCreate) OnConflictColumns(columns ...string) *SpaceOptionUpsertOne {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
+	return &SpaceOptionUpsertOne{
+		create: _c,
+	}
+}
+
+type (
+	// SpaceOptionUpsertOne is the builder for "upsert"-ing
+	//  one SpaceOption node.
+	SpaceOptionUpsertOne struct {
+		create *SpaceOptionCreate
+	}
+
+	// SpaceOptionUpsert is the "OnConflict" setter.
+	SpaceOptionUpsert struct {
+		*sql.UpdateSet
+	}
+)
+
+// SetSpaceID sets the "space_id" field.
+func (u *SpaceOptionUpsert) SetSpaceID(v string) *SpaceOptionUpsert {
+	u.Set(spaceoption.FieldSpaceID, v)
+	return u
+}
+
+// UpdateSpaceID sets the "space_id" field to the value that was provided on create.
+func (u *SpaceOptionUpsert) UpdateSpaceID() *SpaceOptionUpsert {
+	u.SetExcluded(spaceoption.FieldSpaceID)
+	return u
+}
+
+// ClearSpaceID clears the value of the "space_id" field.
+func (u *SpaceOptionUpsert) ClearSpaceID() *SpaceOptionUpsert {
+	u.SetNull(spaceoption.FieldSpaceID)
+	return u
+}
+
+// SetOptionID sets the "option_id" field.
+func (u *SpaceOptionUpsert) SetOptionID(v string) *SpaceOptionUpsert {
+	u.Set(spaceoption.FieldOptionID, v)
+	return u
+}
+
+// UpdateOptionID sets the "option_id" field to the value that was provided on create.
+func (u *SpaceOptionUpsert) UpdateOptionID() *SpaceOptionUpsert {
+	u.SetExcluded(spaceoption.FieldOptionID)
+	return u
+}
+
+// ClearOptionID clears the value of the "option_id" field.
+func (u *SpaceOptionUpsert) ClearOptionID() *SpaceOptionUpsert {
+	u.SetNull(spaceoption.FieldOptionID)
+	return u
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (u *SpaceOptionUpsert) SetCreatedBy(v string) *SpaceOptionUpsert {
+	u.Set(spaceoption.FieldCreatedBy, v)
+	return u
+}
+
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *SpaceOptionUpsert) UpdateCreatedBy() *SpaceOptionUpsert {
+	u.SetExcluded(spaceoption.FieldCreatedBy)
+	return u
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *SpaceOptionUpsert) ClearCreatedBy() *SpaceOptionUpsert {
+	u.SetNull(spaceoption.FieldCreatedBy)
+	return u
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (u *SpaceOptionUpsert) SetUpdatedBy(v string) *SpaceOptionUpsert {
+	u.Set(spaceoption.FieldUpdatedBy, v)
+	return u
+}
+
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *SpaceOptionUpsert) UpdateUpdatedBy() *SpaceOptionUpsert {
+	u.SetExcluded(spaceoption.FieldUpdatedBy)
+	return u
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *SpaceOptionUpsert) ClearUpdatedBy() *SpaceOptionUpsert {
+	u.SetNull(spaceoption.FieldUpdatedBy)
+	return u
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *SpaceOptionUpsert) SetUpdatedAt(v int64) *SpaceOptionUpsert {
+	u.Set(spaceoption.FieldUpdatedAt, v)
+	return u
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *SpaceOptionUpsert) UpdateUpdatedAt() *SpaceOptionUpsert {
+	u.SetExcluded(spaceoption.FieldUpdatedAt)
+	return u
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *SpaceOptionUpsert) AddUpdatedAt(v int64) *SpaceOptionUpsert {
+	u.Add(spaceoption.FieldUpdatedAt, v)
+	return u
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *SpaceOptionUpsert) ClearUpdatedAt() *SpaceOptionUpsert {
+	u.SetNull(spaceoption.FieldUpdatedAt)
+	return u
+}
+
+// UpdateNewValues updates the mutable fields using the new values that were set on create except the ID field.
+// Using this option is equivalent to using:
+//
+//	client.SpaceOption.Create().
+//		OnConflict(
+//			sql.ResolveWithNewValues(),
+//			sql.ResolveWith(func(u *sql.UpdateSet) {
+//				u.SetIgnore(spaceoption.FieldID)
+//			}),
+//		).
+//		Exec(ctx)
+func (u *SpaceOptionUpsertOne) UpdateNewValues() *SpaceOptionUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithNewValues())
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(s *sql.UpdateSet) {
+		if _, exists := u.create.mutation.ID(); exists {
+			s.SetIgnore(spaceoption.FieldID)
+		}
+		if _, exists := u.create.mutation.CreatedAt(); exists {
+			s.SetIgnore(spaceoption.FieldCreatedAt)
+		}
+	}))
+	return u
+}
+
+// Ignore sets each column to itself in case of conflict.
+// Using this option is equivalent to using:
+//
+//	client.SpaceOption.Create().
+//	    OnConflict(sql.ResolveWithIgnore()).
+//	    Exec(ctx)
+func (u *SpaceOptionUpsertOne) Ignore() *SpaceOptionUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithIgnore())
+	return u
+}
+
+// DoNothing configures the conflict_action to `DO NOTHING`.
+// Supported only by SQLite and PostgreSQL.
+func (u *SpaceOptionUpsertOne) DoNothing() *SpaceOptionUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.DoNothing())
+	return u
+}
+
+// Update allows overriding fields `UPDATE` values. See the SpaceOptionCreate.OnConflict
+// documentation for more info.
+func (u *SpaceOptionUpsertOne) Update(set func(*SpaceOptionUpsert)) *SpaceOptionUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(update *sql.UpdateSet) {
+		set(&SpaceOptionUpsert{UpdateSet: update})
+	}))
+	return u
+}
+
+// SetSpaceID sets the "space_id" field.
+func (u *SpaceOptionUpsertOne) SetSpaceID(v string) *SpaceOptionUpsertOne {
+	return u.Update(func(s *SpaceOptionUpsert) {
+		s.SetSpaceID(v)
+	})
+}
+
+// UpdateSpaceID sets the "space_id" field to the value that was provided on create.
+func (u *SpaceOptionUpsertOne) UpdateSpaceID() *SpaceOptionUpsertOne {
+	return u.Update(func(s *SpaceOptionUpsert) {
+		s.UpdateSpaceID()
+	})
+}
+
+// ClearSpaceID clears the value of the "space_id" field.
+func (u *SpaceOptionUpsertOne) ClearSpaceID() *SpaceOptionUpsertOne {
+	return u.Update(func(s *SpaceOptionUpsert) {
+		s.ClearSpaceID()
+	})
+}
+
+// SetOptionID sets the "option_id" field.
+func (u *SpaceOptionUpsertOne) SetOptionID(v string) *SpaceOptionUpsertOne {
+	return u.Update(func(s *SpaceOptionUpsert) {
+		s.SetOptionID(v)
+	})
+}
+
+// UpdateOptionID sets the "option_id" field to the value that was provided on create.
+func (u *SpaceOptionUpsertOne) UpdateOptionID() *SpaceOptionUpsertOne {
+	return u.Update(func(s *SpaceOptionUpsert) {
+		s.UpdateOptionID()
+	})
+}
+
+// ClearOptionID clears the value of the "option_id" field.
+func (u *SpaceOptionUpsertOne) ClearOptionID() *SpaceOptionUpsertOne {
+	return u.Update(func(s *SpaceOptionUpsert) {
+		s.ClearOptionID()
+	})
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (u *SpaceOptionUpsertOne) SetCreatedBy(v string) *SpaceOptionUpsertOne {
+	return u.Update(func(s *SpaceOptionUpsert) {
+		s.SetCreatedBy(v)
+	})
+}
+
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *SpaceOptionUpsertOne) UpdateCreatedBy() *SpaceOptionUpsertOne {
+	return u.Update(func(s *SpaceOptionUpsert) {
+		s.UpdateCreatedBy()
+	})
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *SpaceOptionUpsertOne) ClearCreatedBy() *SpaceOptionUpsertOne {
+	return u.Update(func(s *SpaceOptionUpsert) {
+		s.ClearCreatedBy()
+	})
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (u *SpaceOptionUpsertOne) SetUpdatedBy(v string) *SpaceOptionUpsertOne {
+	return u.Update(func(s *SpaceOptionUpsert) {
+		s.SetUpdatedBy(v)
+	})
+}
+
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *SpaceOptionUpsertOne) UpdateUpdatedBy() *SpaceOptionUpsertOne {
+	return u.Update(func(s *SpaceOptionUpsert) {
+		s.UpdateUpdatedBy()
+	})
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *SpaceOptionUpsertOne) ClearUpdatedBy() *SpaceOptionUpsertOne {
+	return u.Update(func(s *SpaceOptionUpsert) {
+		s.ClearUpdatedBy()
+	})
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *SpaceOptionUpsertOne) SetUpdatedAt(v int64) *SpaceOptionUpsertOne {
+	return u.Update(func(s *SpaceOptionUpsert) {
+		s.SetUpdatedAt(v)
+	})
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *SpaceOptionUpsertOne) AddUpdatedAt(v int64) *SpaceOptionUpsertOne {
+	return u.Update(func(s *SpaceOptionUpsert) {
+		s.AddUpdatedAt(v)
+	})
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *SpaceOptionUpsertOne) UpdateUpdatedAt() *SpaceOptionUpsertOne {
+	return u.Update(func(s *SpaceOptionUpsert) {
+		s.UpdateUpdatedAt()
+	})
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *SpaceOptionUpsertOne) ClearUpdatedAt() *SpaceOptionUpsertOne {
+	return u.Update(func(s *SpaceOptionUpsert) {
+		s.ClearUpdatedAt()
+	})
+}
+
+// Exec executes the query.
+func (u *SpaceOptionUpsertOne) Exec(ctx context.Context) error {
+	if len(u.create.conflict) == 0 {
+		return errors.New("ent: missing options for SpaceOptionCreate.OnConflict")
+	}
+	return u.create.Exec(ctx)
+}
+
+// ExecX is like Exec, but panics if an error occurs.
+func (u *SpaceOptionUpsertOne) ExecX(ctx context.Context) {
+	if err := u.create.Exec(ctx); err != nil {
+		panic(err)
+	}
+}
+
+// Exec executes the UPSERT query and returns the inserted/updated ID.
+func (u *SpaceOptionUpsertOne) ID(ctx context.Context) (id string, err error) {
+	if u.create.driver.Dialect() == dialect.MySQL {
+		// In case of "ON CONFLICT", there is no way to get back non-numeric ID
+		// fields from the database since MySQL does not support the RETURNING clause.
+		return id, errors.New("ent: SpaceOptionUpsertOne.ID is not supported by MySQL driver. Use SpaceOptionUpsertOne.Exec instead")
+	}
+	node, err := u.create.Save(ctx)
+	if err != nil {
+		return id, err
+	}
+	return node.ID, nil
+}
+
+// IDX is like ID, but panics if an error occurs.
+func (u *SpaceOptionUpsertOne) IDX(ctx context.Context) string {
+	id, err := u.ID(ctx)
+	if err != nil {
+		panic(err)
+	}
+	return id
+}
+
 // SpaceOptionCreateBulk is the builder for creating many SpaceOption entities in bulk.
 type SpaceOptionCreateBulk struct {
 	config
 	err      error
 	builders []*SpaceOptionCreate
+	conflict []sql.ConflictOption
 }
 
 // Save creates the SpaceOption entities in the database.
@@ -268,6 +620,7 @@ func (_c *SpaceOptionCreateBulk) Save(ctx context.Context) ([]*SpaceOption, erro
 					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
+					spec.OnConflict = _c.conflict
 					// Invoke the actual operation on the latest mutation in the chain.
 					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
@@ -314,6 +667,235 @@ func (_c *SpaceOptionCreateBulk) Exec(ctx context.Context) error {
 // ExecX is like Exec, but panics if an error occurs.
 func (_c *SpaceOptionCreateBulk) ExecX(ctx context.Context) {
 	if err := _c.Exec(ctx); err != nil {
+		panic(err)
+	}
+}
+
+// OnConflict allows configuring the `ON CONFLICT` / `ON DUPLICATE KEY` clause
+// of the `INSERT` statement. For example:
+//
+//	client.SpaceOption.CreateBulk(builders...).
+//		OnConflict(
+//			// Update the row with the new values
+//			// the was proposed for insertion.
+//			sql.ResolveWithNewValues(),
+//		).
+//		// Override some of the fields with custom
+//		// update values.
+//		Update(func(u *ent.SpaceOptionUpsert) {
+//			SetSpaceID(v+v).
+//		}).
+//		Exec(ctx)
+func (_c *SpaceOptionCreateBulk) OnConflict(opts ...sql.ConflictOption) *SpaceOptionUpsertBulk {
+	_c.conflict = opts
+	return &SpaceOptionUpsertBulk{
+		create: _c,
+	}
+}
+
+// OnConflictColumns calls `OnConflict` and configures the columns
+// as conflict target. Using this option is equivalent to using:
+//
+//	client.SpaceOption.Create().
+//		OnConflict(sql.ConflictColumns(columns...)).
+//		Exec(ctx)
+func (_c *SpaceOptionCreateBulk) OnConflictColumns(columns ...string) *SpaceOptionUpsertBulk {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
+	return &SpaceOptionUpsertBulk{
+		create: _c,
+	}
+}
+
+// SpaceOptionUpsertBulk is the builder for "upsert"-ing
+// a bulk of SpaceOption nodes.
+type SpaceOptionUpsertBulk struct {
+	create *SpaceOptionCreateBulk
+}
+
+// UpdateNewValues updates the mutable fields using the new values that
+// were set on create. Using this option is equivalent to using:
+//
+//	client.SpaceOption.Create().
+//		OnConflict(
+//			sql.ResolveWithNewValues(),
+//			sql.ResolveWith(func(u *sql.UpdateSet) {
+//				u.SetIgnore(spaceoption.FieldID)
+//			}),
+//		).
+//		Exec(ctx)
+func (u *SpaceOptionUpsertBulk) UpdateNewValues() *SpaceOptionUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithNewValues())
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(s *sql.UpdateSet) {
+		for _, b := range u.create.builders {
+			if _, exists := b.mutation.ID(); exists {
+				s.SetIgnore(spaceoption.FieldID)
+			}
+			if _, exists := b.mutation.CreatedAt(); exists {
+				s.SetIgnore(spaceoption.FieldCreatedAt)
+			}
+		}
+	}))
+	return u
+}
+
+// Ignore sets each column to itself in case of conflict.
+// Using this option is equivalent to using:
+//
+//	client.SpaceOption.Create().
+//		OnConflict(sql.ResolveWithIgnore()).
+//		Exec(ctx)
+func (u *SpaceOptionUpsertBulk) Ignore() *SpaceOptionUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithIgnore())
+	return u
+}
+
+// DoNothing configures the conflict_action to `DO NOTHING`.
+// Supported only by SQLite and PostgreSQL.
+func (u *SpaceOptionUpsertBulk) DoNothing() *SpaceOptionUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.DoNothing())
+	return u
+}
+
+// Update allows overriding fields `UPDATE` values. See the SpaceOptionCreateBulk.OnConflict
+// documentation for more info.
+func (u *SpaceOptionUpsertBulk) Update(set func(*SpaceOptionUpsert)) *SpaceOptionUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(update *sql.UpdateSet) {
+		set(&SpaceOptionUpsert{UpdateSet: update})
+	}))
+	return u
+}
+
+// SetSpaceID sets the "space_id" field.
+func (u *SpaceOptionUpsertBulk) SetSpaceID(v string) *SpaceOptionUpsertBulk {
+	return u.Update(func(s *SpaceOptionUpsert) {
+		s.SetSpaceID(v)
+	})
+}
+
+// UpdateSpaceID sets the "space_id" field to the value that was provided on create.
+func (u *SpaceOptionUpsertBulk) UpdateSpaceID() *SpaceOptionUpsertBulk {
+	return u.Update(func(s *SpaceOptionUpsert) {
+		s.UpdateSpaceID()
+	})
+}
+
+// ClearSpaceID clears the value of the "space_id" field.
+func (u *SpaceOptionUpsertBulk) ClearSpaceID() *SpaceOptionUpsertBulk {
+	return u.Update(func(s *SpaceOptionUpsert) {
+		s.ClearSpaceID()
+	})
+}
+
+// SetOptionID sets the "option_id" field.
+func (u *SpaceOptionUpsertBulk) SetOptionID(v string) *SpaceOptionUpsertBulk {
+	return u.Update(func(s *SpaceOptionUpsert) {
+		s.SetOptionID(v)
+	})
+}
+
+// UpdateOptionID sets the "option_id" field to the value that was provided on create.
+func (u *SpaceOptionUpsertBulk) UpdateOptionID() *SpaceOptionUpsertBulk {
+	return u.Update(func(s *SpaceOptionUpsert) {
+		s.UpdateOptionID()
+	})
+}
+
+// ClearOptionID clears the value of the "option_id" field.
+func (u *SpaceOptionUpsertBulk) ClearOptionID() *SpaceOptionUpsertBulk {
+	return u.Update(func(s *SpaceOptionUpsert) {
+		s.ClearOptionID()
+	})
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (u *SpaceOptionUpsertBulk) SetCreatedBy(v string) *SpaceOptionUpsertBulk {
+	return u.Update(func(s *SpaceOptionUpsert) {
+		s.SetCreatedBy(v)
+	})
+}
+
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *SpaceOptionUpsertBulk) UpdateCreatedBy() *SpaceOptionUpsertBulk {
+	return u.Update(func(s *SpaceOptionUpsert) {
+		s.UpdateCreatedBy()
+	})
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *SpaceOptionUpsertBulk) ClearCreatedBy() *SpaceOptionUpsertBulk {
+	return u.Update(func(s *SpaceOptionUpsert) {
+		s.ClearCreatedBy()
+	})
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (u *SpaceOptionUpsertBulk) SetUpdatedBy(v string) *SpaceOptionUpsertBulk {
+	return u.Update(func(s *SpaceOptionUpsert) {
+		s.SetUpdatedBy(v)
+	})
+}
+
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *SpaceOptionUpsertBulk) UpdateUpdatedBy() *SpaceOptionUpsertBulk {
+	return u.Update(func(s *SpaceOptionUpsert) {
+		s.UpdateUpdatedBy()
+	})
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *SpaceOptionUpsertBulk) ClearUpdatedBy() *SpaceOptionUpsertBulk {
+	return u.Update(func(s *SpaceOptionUpsert) {
+		s.ClearUpdatedBy()
+	})
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *SpaceOptionUpsertBulk) SetUpdatedAt(v int64) *SpaceOptionUpsertBulk {
+	return u.Update(func(s *SpaceOptionUpsert) {
+		s.SetUpdatedAt(v)
+	})
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *SpaceOptionUpsertBulk) AddUpdatedAt(v int64) *SpaceOptionUpsertBulk {
+	return u.Update(func(s *SpaceOptionUpsert) {
+		s.AddUpdatedAt(v)
+	})
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *SpaceOptionUpsertBulk) UpdateUpdatedAt() *SpaceOptionUpsertBulk {
+	return u.Update(func(s *SpaceOptionUpsert) {
+		s.UpdateUpdatedAt()
+	})
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *SpaceOptionUpsertBulk) ClearUpdatedAt() *SpaceOptionUpsertBulk {
+	return u.Update(func(s *SpaceOptionUpsert) {
+		s.ClearUpdatedAt()
+	})
+}
+
+// Exec executes the query.
+func (u *SpaceOptionUpsertBulk) Exec(ctx context.Context) error {
+	if u.create.err != nil {
+		return u.create.err
+	}
+	for i, b := range u.create.builders {
+		if len(b.conflict) != 0 {
+			return fmt.Errorf("ent: OnConflict was set for builder %d. Set it on the SpaceOptionCreateBulk instead", i)
+		}
+	}
+	if len(u.create.conflict) == 0 {
+		return errors.New("ent: missing options for SpaceOptionCreateBulk.OnConflict")
+	}
+	return u.create.Exec(ctx)
+}
+
+// ExecX is like Exec, but panics if an error occurs.
+func (u *SpaceOptionUpsertBulk) ExecX(ctx context.Context) {
+	if err := u.create.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

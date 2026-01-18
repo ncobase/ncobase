@@ -3,10 +3,10 @@ package service
 import (
 	"context"
 	"errors"
-	"ncobase/counter/data"
-	"ncobase/counter/data/ent"
-	"ncobase/counter/data/repository"
-	"ncobase/counter/structs"
+	"ncobase/plugin/counter/data"
+	"ncobase/plugin/counter/data/ent"
+	"ncobase/plugin/counter/data/repository"
+	"ncobase/plugin/counter/structs"
 
 	"github.com/ncobase/ncore/data/paging"
 	"github.com/ncobase/ncore/ecode"

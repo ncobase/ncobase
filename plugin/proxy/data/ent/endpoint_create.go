@@ -6,8 +6,10 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"ncobase/proxy/data/ent/endpoint"
+	"ncobase/plugin/proxy/data/ent/endpoint"
 
+	"entgo.io/ent/dialect"
+	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
 )
@@ -17,6 +19,7 @@ type EndpointCreate struct {
 	config
 	mutation *EndpointMutation
 	hooks    []Hook
+	conflict []sql.ConflictOption
 }
 
 // SetName sets the "name" field.
@@ -428,6 +431,7 @@ func (_c *EndpointCreate) createSpec() (*Endpoint, *sqlgraph.CreateSpec) {
 		_node = &Endpoint{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(endpoint.Table, sqlgraph.NewFieldSpec(endpoint.FieldID, field.TypeString))
 	)
+	_spec.OnConflict = _c.conflict
 	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
@@ -507,11 +511,735 @@ func (_c *EndpointCreate) createSpec() (*Endpoint, *sqlgraph.CreateSpec) {
 	return _node, _spec
 }
 
+// OnConflict allows configuring the `ON CONFLICT` / `ON DUPLICATE KEY` clause
+// of the `INSERT` statement. For example:
+//
+//	client.Endpoint.Create().
+//		SetName(v).
+//		OnConflict(
+//			// Update the row with the new values
+//			// the was proposed for insertion.
+//			sql.ResolveWithNewValues(),
+//		).
+//		// Override some of the fields with custom
+//		// update values.
+//		Update(func(u *ent.EndpointUpsert) {
+//			SetName(v+v).
+//		}).
+//		Exec(ctx)
+func (_c *EndpointCreate) OnConflict(opts ...sql.ConflictOption) *EndpointUpsertOne {
+	_c.conflict = opts
+	return &EndpointUpsertOne{
+		create: _c,
+	}
+}
+
+// OnConflictColumns calls `OnConflict` and configures the columns
+// as conflict target. Using this option is equivalent to using:
+//
+//	client.Endpoint.Create().
+//		OnConflict(sql.ConflictColumns(columns...)).
+//		Exec(ctx)
+func (_c *EndpointCreate) OnConflictColumns(columns ...string) *EndpointUpsertOne {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
+	return &EndpointUpsertOne{
+		create: _c,
+	}
+}
+
+type (
+	// EndpointUpsertOne is the builder for "upsert"-ing
+	//  one Endpoint node.
+	EndpointUpsertOne struct {
+		create *EndpointCreate
+	}
+
+	// EndpointUpsert is the "OnConflict" setter.
+	EndpointUpsert struct {
+		*sql.UpdateSet
+	}
+)
+
+// SetName sets the "name" field.
+func (u *EndpointUpsert) SetName(v string) *EndpointUpsert {
+	u.Set(endpoint.FieldName, v)
+	return u
+}
+
+// UpdateName sets the "name" field to the value that was provided on create.
+func (u *EndpointUpsert) UpdateName() *EndpointUpsert {
+	u.SetExcluded(endpoint.FieldName)
+	return u
+}
+
+// ClearName clears the value of the "name" field.
+func (u *EndpointUpsert) ClearName() *EndpointUpsert {
+	u.SetNull(endpoint.FieldName)
+	return u
+}
+
+// SetDescription sets the "description" field.
+func (u *EndpointUpsert) SetDescription(v string) *EndpointUpsert {
+	u.Set(endpoint.FieldDescription, v)
+	return u
+}
+
+// UpdateDescription sets the "description" field to the value that was provided on create.
+func (u *EndpointUpsert) UpdateDescription() *EndpointUpsert {
+	u.SetExcluded(endpoint.FieldDescription)
+	return u
+}
+
+// ClearDescription clears the value of the "description" field.
+func (u *EndpointUpsert) ClearDescription() *EndpointUpsert {
+	u.SetNull(endpoint.FieldDescription)
+	return u
+}
+
+// SetDisabled sets the "disabled" field.
+func (u *EndpointUpsert) SetDisabled(v bool) *EndpointUpsert {
+	u.Set(endpoint.FieldDisabled, v)
+	return u
+}
+
+// UpdateDisabled sets the "disabled" field to the value that was provided on create.
+func (u *EndpointUpsert) UpdateDisabled() *EndpointUpsert {
+	u.SetExcluded(endpoint.FieldDisabled)
+	return u
+}
+
+// ClearDisabled clears the value of the "disabled" field.
+func (u *EndpointUpsert) ClearDisabled() *EndpointUpsert {
+	u.SetNull(endpoint.FieldDisabled)
+	return u
+}
+
+// SetExtras sets the "extras" field.
+func (u *EndpointUpsert) SetExtras(v map[string]interface{}) *EndpointUpsert {
+	u.Set(endpoint.FieldExtras, v)
+	return u
+}
+
+// UpdateExtras sets the "extras" field to the value that was provided on create.
+func (u *EndpointUpsert) UpdateExtras() *EndpointUpsert {
+	u.SetExcluded(endpoint.FieldExtras)
+	return u
+}
+
+// ClearExtras clears the value of the "extras" field.
+func (u *EndpointUpsert) ClearExtras() *EndpointUpsert {
+	u.SetNull(endpoint.FieldExtras)
+	return u
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (u *EndpointUpsert) SetCreatedBy(v string) *EndpointUpsert {
+	u.Set(endpoint.FieldCreatedBy, v)
+	return u
+}
+
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *EndpointUpsert) UpdateCreatedBy() *EndpointUpsert {
+	u.SetExcluded(endpoint.FieldCreatedBy)
+	return u
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *EndpointUpsert) ClearCreatedBy() *EndpointUpsert {
+	u.SetNull(endpoint.FieldCreatedBy)
+	return u
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (u *EndpointUpsert) SetUpdatedBy(v string) *EndpointUpsert {
+	u.Set(endpoint.FieldUpdatedBy, v)
+	return u
+}
+
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *EndpointUpsert) UpdateUpdatedBy() *EndpointUpsert {
+	u.SetExcluded(endpoint.FieldUpdatedBy)
+	return u
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *EndpointUpsert) ClearUpdatedBy() *EndpointUpsert {
+	u.SetNull(endpoint.FieldUpdatedBy)
+	return u
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *EndpointUpsert) SetUpdatedAt(v int64) *EndpointUpsert {
+	u.Set(endpoint.FieldUpdatedAt, v)
+	return u
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *EndpointUpsert) UpdateUpdatedAt() *EndpointUpsert {
+	u.SetExcluded(endpoint.FieldUpdatedAt)
+	return u
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *EndpointUpsert) AddUpdatedAt(v int64) *EndpointUpsert {
+	u.Add(endpoint.FieldUpdatedAt, v)
+	return u
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *EndpointUpsert) ClearUpdatedAt() *EndpointUpsert {
+	u.SetNull(endpoint.FieldUpdatedAt)
+	return u
+}
+
+// SetBaseURL sets the "base_url" field.
+func (u *EndpointUpsert) SetBaseURL(v string) *EndpointUpsert {
+	u.Set(endpoint.FieldBaseURL, v)
+	return u
+}
+
+// UpdateBaseURL sets the "base_url" field to the value that was provided on create.
+func (u *EndpointUpsert) UpdateBaseURL() *EndpointUpsert {
+	u.SetExcluded(endpoint.FieldBaseURL)
+	return u
+}
+
+// SetProtocol sets the "protocol" field.
+func (u *EndpointUpsert) SetProtocol(v string) *EndpointUpsert {
+	u.Set(endpoint.FieldProtocol, v)
+	return u
+}
+
+// UpdateProtocol sets the "protocol" field to the value that was provided on create.
+func (u *EndpointUpsert) UpdateProtocol() *EndpointUpsert {
+	u.SetExcluded(endpoint.FieldProtocol)
+	return u
+}
+
+// SetAuthType sets the "auth_type" field.
+func (u *EndpointUpsert) SetAuthType(v string) *EndpointUpsert {
+	u.Set(endpoint.FieldAuthType, v)
+	return u
+}
+
+// UpdateAuthType sets the "auth_type" field to the value that was provided on create.
+func (u *EndpointUpsert) UpdateAuthType() *EndpointUpsert {
+	u.SetExcluded(endpoint.FieldAuthType)
+	return u
+}
+
+// SetAuthConfig sets the "auth_config" field.
+func (u *EndpointUpsert) SetAuthConfig(v string) *EndpointUpsert {
+	u.Set(endpoint.FieldAuthConfig, v)
+	return u
+}
+
+// UpdateAuthConfig sets the "auth_config" field to the value that was provided on create.
+func (u *EndpointUpsert) UpdateAuthConfig() *EndpointUpsert {
+	u.SetExcluded(endpoint.FieldAuthConfig)
+	return u
+}
+
+// ClearAuthConfig clears the value of the "auth_config" field.
+func (u *EndpointUpsert) ClearAuthConfig() *EndpointUpsert {
+	u.SetNull(endpoint.FieldAuthConfig)
+	return u
+}
+
+// SetTimeout sets the "timeout" field.
+func (u *EndpointUpsert) SetTimeout(v int) *EndpointUpsert {
+	u.Set(endpoint.FieldTimeout, v)
+	return u
+}
+
+// UpdateTimeout sets the "timeout" field to the value that was provided on create.
+func (u *EndpointUpsert) UpdateTimeout() *EndpointUpsert {
+	u.SetExcluded(endpoint.FieldTimeout)
+	return u
+}
+
+// AddTimeout adds v to the "timeout" field.
+func (u *EndpointUpsert) AddTimeout(v int) *EndpointUpsert {
+	u.Add(endpoint.FieldTimeout, v)
+	return u
+}
+
+// SetUseCircuitBreaker sets the "use_circuit_breaker" field.
+func (u *EndpointUpsert) SetUseCircuitBreaker(v bool) *EndpointUpsert {
+	u.Set(endpoint.FieldUseCircuitBreaker, v)
+	return u
+}
+
+// UpdateUseCircuitBreaker sets the "use_circuit_breaker" field to the value that was provided on create.
+func (u *EndpointUpsert) UpdateUseCircuitBreaker() *EndpointUpsert {
+	u.SetExcluded(endpoint.FieldUseCircuitBreaker)
+	return u
+}
+
+// SetRetryCount sets the "retry_count" field.
+func (u *EndpointUpsert) SetRetryCount(v int) *EndpointUpsert {
+	u.Set(endpoint.FieldRetryCount, v)
+	return u
+}
+
+// UpdateRetryCount sets the "retry_count" field to the value that was provided on create.
+func (u *EndpointUpsert) UpdateRetryCount() *EndpointUpsert {
+	u.SetExcluded(endpoint.FieldRetryCount)
+	return u
+}
+
+// AddRetryCount adds v to the "retry_count" field.
+func (u *EndpointUpsert) AddRetryCount(v int) *EndpointUpsert {
+	u.Add(endpoint.FieldRetryCount, v)
+	return u
+}
+
+// SetValidateSsl sets the "validate_ssl" field.
+func (u *EndpointUpsert) SetValidateSsl(v bool) *EndpointUpsert {
+	u.Set(endpoint.FieldValidateSsl, v)
+	return u
+}
+
+// UpdateValidateSsl sets the "validate_ssl" field to the value that was provided on create.
+func (u *EndpointUpsert) UpdateValidateSsl() *EndpointUpsert {
+	u.SetExcluded(endpoint.FieldValidateSsl)
+	return u
+}
+
+// SetLogRequests sets the "log_requests" field.
+func (u *EndpointUpsert) SetLogRequests(v bool) *EndpointUpsert {
+	u.Set(endpoint.FieldLogRequests, v)
+	return u
+}
+
+// UpdateLogRequests sets the "log_requests" field to the value that was provided on create.
+func (u *EndpointUpsert) UpdateLogRequests() *EndpointUpsert {
+	u.SetExcluded(endpoint.FieldLogRequests)
+	return u
+}
+
+// SetLogResponses sets the "log_responses" field.
+func (u *EndpointUpsert) SetLogResponses(v bool) *EndpointUpsert {
+	u.Set(endpoint.FieldLogResponses, v)
+	return u
+}
+
+// UpdateLogResponses sets the "log_responses" field to the value that was provided on create.
+func (u *EndpointUpsert) UpdateLogResponses() *EndpointUpsert {
+	u.SetExcluded(endpoint.FieldLogResponses)
+	return u
+}
+
+// UpdateNewValues updates the mutable fields using the new values that were set on create except the ID field.
+// Using this option is equivalent to using:
+//
+//	client.Endpoint.Create().
+//		OnConflict(
+//			sql.ResolveWithNewValues(),
+//			sql.ResolveWith(func(u *sql.UpdateSet) {
+//				u.SetIgnore(endpoint.FieldID)
+//			}),
+//		).
+//		Exec(ctx)
+func (u *EndpointUpsertOne) UpdateNewValues() *EndpointUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithNewValues())
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(s *sql.UpdateSet) {
+		if _, exists := u.create.mutation.ID(); exists {
+			s.SetIgnore(endpoint.FieldID)
+		}
+		if _, exists := u.create.mutation.CreatedAt(); exists {
+			s.SetIgnore(endpoint.FieldCreatedAt)
+		}
+	}))
+	return u
+}
+
+// Ignore sets each column to itself in case of conflict.
+// Using this option is equivalent to using:
+//
+//	client.Endpoint.Create().
+//	    OnConflict(sql.ResolveWithIgnore()).
+//	    Exec(ctx)
+func (u *EndpointUpsertOne) Ignore() *EndpointUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithIgnore())
+	return u
+}
+
+// DoNothing configures the conflict_action to `DO NOTHING`.
+// Supported only by SQLite and PostgreSQL.
+func (u *EndpointUpsertOne) DoNothing() *EndpointUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.DoNothing())
+	return u
+}
+
+// Update allows overriding fields `UPDATE` values. See the EndpointCreate.OnConflict
+// documentation for more info.
+func (u *EndpointUpsertOne) Update(set func(*EndpointUpsert)) *EndpointUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(update *sql.UpdateSet) {
+		set(&EndpointUpsert{UpdateSet: update})
+	}))
+	return u
+}
+
+// SetName sets the "name" field.
+func (u *EndpointUpsertOne) SetName(v string) *EndpointUpsertOne {
+	return u.Update(func(s *EndpointUpsert) {
+		s.SetName(v)
+	})
+}
+
+// UpdateName sets the "name" field to the value that was provided on create.
+func (u *EndpointUpsertOne) UpdateName() *EndpointUpsertOne {
+	return u.Update(func(s *EndpointUpsert) {
+		s.UpdateName()
+	})
+}
+
+// ClearName clears the value of the "name" field.
+func (u *EndpointUpsertOne) ClearName() *EndpointUpsertOne {
+	return u.Update(func(s *EndpointUpsert) {
+		s.ClearName()
+	})
+}
+
+// SetDescription sets the "description" field.
+func (u *EndpointUpsertOne) SetDescription(v string) *EndpointUpsertOne {
+	return u.Update(func(s *EndpointUpsert) {
+		s.SetDescription(v)
+	})
+}
+
+// UpdateDescription sets the "description" field to the value that was provided on create.
+func (u *EndpointUpsertOne) UpdateDescription() *EndpointUpsertOne {
+	return u.Update(func(s *EndpointUpsert) {
+		s.UpdateDescription()
+	})
+}
+
+// ClearDescription clears the value of the "description" field.
+func (u *EndpointUpsertOne) ClearDescription() *EndpointUpsertOne {
+	return u.Update(func(s *EndpointUpsert) {
+		s.ClearDescription()
+	})
+}
+
+// SetDisabled sets the "disabled" field.
+func (u *EndpointUpsertOne) SetDisabled(v bool) *EndpointUpsertOne {
+	return u.Update(func(s *EndpointUpsert) {
+		s.SetDisabled(v)
+	})
+}
+
+// UpdateDisabled sets the "disabled" field to the value that was provided on create.
+func (u *EndpointUpsertOne) UpdateDisabled() *EndpointUpsertOne {
+	return u.Update(func(s *EndpointUpsert) {
+		s.UpdateDisabled()
+	})
+}
+
+// ClearDisabled clears the value of the "disabled" field.
+func (u *EndpointUpsertOne) ClearDisabled() *EndpointUpsertOne {
+	return u.Update(func(s *EndpointUpsert) {
+		s.ClearDisabled()
+	})
+}
+
+// SetExtras sets the "extras" field.
+func (u *EndpointUpsertOne) SetExtras(v map[string]interface{}) *EndpointUpsertOne {
+	return u.Update(func(s *EndpointUpsert) {
+		s.SetExtras(v)
+	})
+}
+
+// UpdateExtras sets the "extras" field to the value that was provided on create.
+func (u *EndpointUpsertOne) UpdateExtras() *EndpointUpsertOne {
+	return u.Update(func(s *EndpointUpsert) {
+		s.UpdateExtras()
+	})
+}
+
+// ClearExtras clears the value of the "extras" field.
+func (u *EndpointUpsertOne) ClearExtras() *EndpointUpsertOne {
+	return u.Update(func(s *EndpointUpsert) {
+		s.ClearExtras()
+	})
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (u *EndpointUpsertOne) SetCreatedBy(v string) *EndpointUpsertOne {
+	return u.Update(func(s *EndpointUpsert) {
+		s.SetCreatedBy(v)
+	})
+}
+
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *EndpointUpsertOne) UpdateCreatedBy() *EndpointUpsertOne {
+	return u.Update(func(s *EndpointUpsert) {
+		s.UpdateCreatedBy()
+	})
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *EndpointUpsertOne) ClearCreatedBy() *EndpointUpsertOne {
+	return u.Update(func(s *EndpointUpsert) {
+		s.ClearCreatedBy()
+	})
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (u *EndpointUpsertOne) SetUpdatedBy(v string) *EndpointUpsertOne {
+	return u.Update(func(s *EndpointUpsert) {
+		s.SetUpdatedBy(v)
+	})
+}
+
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *EndpointUpsertOne) UpdateUpdatedBy() *EndpointUpsertOne {
+	return u.Update(func(s *EndpointUpsert) {
+		s.UpdateUpdatedBy()
+	})
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *EndpointUpsertOne) ClearUpdatedBy() *EndpointUpsertOne {
+	return u.Update(func(s *EndpointUpsert) {
+		s.ClearUpdatedBy()
+	})
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *EndpointUpsertOne) SetUpdatedAt(v int64) *EndpointUpsertOne {
+	return u.Update(func(s *EndpointUpsert) {
+		s.SetUpdatedAt(v)
+	})
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *EndpointUpsertOne) AddUpdatedAt(v int64) *EndpointUpsertOne {
+	return u.Update(func(s *EndpointUpsert) {
+		s.AddUpdatedAt(v)
+	})
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *EndpointUpsertOne) UpdateUpdatedAt() *EndpointUpsertOne {
+	return u.Update(func(s *EndpointUpsert) {
+		s.UpdateUpdatedAt()
+	})
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *EndpointUpsertOne) ClearUpdatedAt() *EndpointUpsertOne {
+	return u.Update(func(s *EndpointUpsert) {
+		s.ClearUpdatedAt()
+	})
+}
+
+// SetBaseURL sets the "base_url" field.
+func (u *EndpointUpsertOne) SetBaseURL(v string) *EndpointUpsertOne {
+	return u.Update(func(s *EndpointUpsert) {
+		s.SetBaseURL(v)
+	})
+}
+
+// UpdateBaseURL sets the "base_url" field to the value that was provided on create.
+func (u *EndpointUpsertOne) UpdateBaseURL() *EndpointUpsertOne {
+	return u.Update(func(s *EndpointUpsert) {
+		s.UpdateBaseURL()
+	})
+}
+
+// SetProtocol sets the "protocol" field.
+func (u *EndpointUpsertOne) SetProtocol(v string) *EndpointUpsertOne {
+	return u.Update(func(s *EndpointUpsert) {
+		s.SetProtocol(v)
+	})
+}
+
+// UpdateProtocol sets the "protocol" field to the value that was provided on create.
+func (u *EndpointUpsertOne) UpdateProtocol() *EndpointUpsertOne {
+	return u.Update(func(s *EndpointUpsert) {
+		s.UpdateProtocol()
+	})
+}
+
+// SetAuthType sets the "auth_type" field.
+func (u *EndpointUpsertOne) SetAuthType(v string) *EndpointUpsertOne {
+	return u.Update(func(s *EndpointUpsert) {
+		s.SetAuthType(v)
+	})
+}
+
+// UpdateAuthType sets the "auth_type" field to the value that was provided on create.
+func (u *EndpointUpsertOne) UpdateAuthType() *EndpointUpsertOne {
+	return u.Update(func(s *EndpointUpsert) {
+		s.UpdateAuthType()
+	})
+}
+
+// SetAuthConfig sets the "auth_config" field.
+func (u *EndpointUpsertOne) SetAuthConfig(v string) *EndpointUpsertOne {
+	return u.Update(func(s *EndpointUpsert) {
+		s.SetAuthConfig(v)
+	})
+}
+
+// UpdateAuthConfig sets the "auth_config" field to the value that was provided on create.
+func (u *EndpointUpsertOne) UpdateAuthConfig() *EndpointUpsertOne {
+	return u.Update(func(s *EndpointUpsert) {
+		s.UpdateAuthConfig()
+	})
+}
+
+// ClearAuthConfig clears the value of the "auth_config" field.
+func (u *EndpointUpsertOne) ClearAuthConfig() *EndpointUpsertOne {
+	return u.Update(func(s *EndpointUpsert) {
+		s.ClearAuthConfig()
+	})
+}
+
+// SetTimeout sets the "timeout" field.
+func (u *EndpointUpsertOne) SetTimeout(v int) *EndpointUpsertOne {
+	return u.Update(func(s *EndpointUpsert) {
+		s.SetTimeout(v)
+	})
+}
+
+// AddTimeout adds v to the "timeout" field.
+func (u *EndpointUpsertOne) AddTimeout(v int) *EndpointUpsertOne {
+	return u.Update(func(s *EndpointUpsert) {
+		s.AddTimeout(v)
+	})
+}
+
+// UpdateTimeout sets the "timeout" field to the value that was provided on create.
+func (u *EndpointUpsertOne) UpdateTimeout() *EndpointUpsertOne {
+	return u.Update(func(s *EndpointUpsert) {
+		s.UpdateTimeout()
+	})
+}
+
+// SetUseCircuitBreaker sets the "use_circuit_breaker" field.
+func (u *EndpointUpsertOne) SetUseCircuitBreaker(v bool) *EndpointUpsertOne {
+	return u.Update(func(s *EndpointUpsert) {
+		s.SetUseCircuitBreaker(v)
+	})
+}
+
+// UpdateUseCircuitBreaker sets the "use_circuit_breaker" field to the value that was provided on create.
+func (u *EndpointUpsertOne) UpdateUseCircuitBreaker() *EndpointUpsertOne {
+	return u.Update(func(s *EndpointUpsert) {
+		s.UpdateUseCircuitBreaker()
+	})
+}
+
+// SetRetryCount sets the "retry_count" field.
+func (u *EndpointUpsertOne) SetRetryCount(v int) *EndpointUpsertOne {
+	return u.Update(func(s *EndpointUpsert) {
+		s.SetRetryCount(v)
+	})
+}
+
+// AddRetryCount adds v to the "retry_count" field.
+func (u *EndpointUpsertOne) AddRetryCount(v int) *EndpointUpsertOne {
+	return u.Update(func(s *EndpointUpsert) {
+		s.AddRetryCount(v)
+	})
+}
+
+// UpdateRetryCount sets the "retry_count" field to the value that was provided on create.
+func (u *EndpointUpsertOne) UpdateRetryCount() *EndpointUpsertOne {
+	return u.Update(func(s *EndpointUpsert) {
+		s.UpdateRetryCount()
+	})
+}
+
+// SetValidateSsl sets the "validate_ssl" field.
+func (u *EndpointUpsertOne) SetValidateSsl(v bool) *EndpointUpsertOne {
+	return u.Update(func(s *EndpointUpsert) {
+		s.SetValidateSsl(v)
+	})
+}
+
+// UpdateValidateSsl sets the "validate_ssl" field to the value that was provided on create.
+func (u *EndpointUpsertOne) UpdateValidateSsl() *EndpointUpsertOne {
+	return u.Update(func(s *EndpointUpsert) {
+		s.UpdateValidateSsl()
+	})
+}
+
+// SetLogRequests sets the "log_requests" field.
+func (u *EndpointUpsertOne) SetLogRequests(v bool) *EndpointUpsertOne {
+	return u.Update(func(s *EndpointUpsert) {
+		s.SetLogRequests(v)
+	})
+}
+
+// UpdateLogRequests sets the "log_requests" field to the value that was provided on create.
+func (u *EndpointUpsertOne) UpdateLogRequests() *EndpointUpsertOne {
+	return u.Update(func(s *EndpointUpsert) {
+		s.UpdateLogRequests()
+	})
+}
+
+// SetLogResponses sets the "log_responses" field.
+func (u *EndpointUpsertOne) SetLogResponses(v bool) *EndpointUpsertOne {
+	return u.Update(func(s *EndpointUpsert) {
+		s.SetLogResponses(v)
+	})
+}
+
+// UpdateLogResponses sets the "log_responses" field to the value that was provided on create.
+func (u *EndpointUpsertOne) UpdateLogResponses() *EndpointUpsertOne {
+	return u.Update(func(s *EndpointUpsert) {
+		s.UpdateLogResponses()
+	})
+}
+
+// Exec executes the query.
+func (u *EndpointUpsertOne) Exec(ctx context.Context) error {
+	if len(u.create.conflict) == 0 {
+		return errors.New("ent: missing options for EndpointCreate.OnConflict")
+	}
+	return u.create.Exec(ctx)
+}
+
+// ExecX is like Exec, but panics if an error occurs.
+func (u *EndpointUpsertOne) ExecX(ctx context.Context) {
+	if err := u.create.Exec(ctx); err != nil {
+		panic(err)
+	}
+}
+
+// Exec executes the UPSERT query and returns the inserted/updated ID.
+func (u *EndpointUpsertOne) ID(ctx context.Context) (id string, err error) {
+	if u.create.driver.Dialect() == dialect.MySQL {
+		// In case of "ON CONFLICT", there is no way to get back non-numeric ID
+		// fields from the database since MySQL does not support the RETURNING clause.
+		return id, errors.New("ent: EndpointUpsertOne.ID is not supported by MySQL driver. Use EndpointUpsertOne.Exec instead")
+	}
+	node, err := u.create.Save(ctx)
+	if err != nil {
+		return id, err
+	}
+	return node.ID, nil
+}
+
+// IDX is like ID, but panics if an error occurs.
+func (u *EndpointUpsertOne) IDX(ctx context.Context) string {
+	id, err := u.ID(ctx)
+	if err != nil {
+		panic(err)
+	}
+	return id
+}
+
 // EndpointCreateBulk is the builder for creating many Endpoint entities in bulk.
 type EndpointCreateBulk struct {
 	config
 	err      error
 	builders []*EndpointCreate
+	conflict []sql.ConflictOption
 }
 
 // Save creates the Endpoint entities in the database.
@@ -541,6 +1269,7 @@ func (_c *EndpointCreateBulk) Save(ctx context.Context) ([]*Endpoint, error) {
 					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
+					spec.OnConflict = _c.conflict
 					// Invoke the actual operation on the latest mutation in the chain.
 					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
@@ -587,6 +1316,438 @@ func (_c *EndpointCreateBulk) Exec(ctx context.Context) error {
 // ExecX is like Exec, but panics if an error occurs.
 func (_c *EndpointCreateBulk) ExecX(ctx context.Context) {
 	if err := _c.Exec(ctx); err != nil {
+		panic(err)
+	}
+}
+
+// OnConflict allows configuring the `ON CONFLICT` / `ON DUPLICATE KEY` clause
+// of the `INSERT` statement. For example:
+//
+//	client.Endpoint.CreateBulk(builders...).
+//		OnConflict(
+//			// Update the row with the new values
+//			// the was proposed for insertion.
+//			sql.ResolveWithNewValues(),
+//		).
+//		// Override some of the fields with custom
+//		// update values.
+//		Update(func(u *ent.EndpointUpsert) {
+//			SetName(v+v).
+//		}).
+//		Exec(ctx)
+func (_c *EndpointCreateBulk) OnConflict(opts ...sql.ConflictOption) *EndpointUpsertBulk {
+	_c.conflict = opts
+	return &EndpointUpsertBulk{
+		create: _c,
+	}
+}
+
+// OnConflictColumns calls `OnConflict` and configures the columns
+// as conflict target. Using this option is equivalent to using:
+//
+//	client.Endpoint.Create().
+//		OnConflict(sql.ConflictColumns(columns...)).
+//		Exec(ctx)
+func (_c *EndpointCreateBulk) OnConflictColumns(columns ...string) *EndpointUpsertBulk {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
+	return &EndpointUpsertBulk{
+		create: _c,
+	}
+}
+
+// EndpointUpsertBulk is the builder for "upsert"-ing
+// a bulk of Endpoint nodes.
+type EndpointUpsertBulk struct {
+	create *EndpointCreateBulk
+}
+
+// UpdateNewValues updates the mutable fields using the new values that
+// were set on create. Using this option is equivalent to using:
+//
+//	client.Endpoint.Create().
+//		OnConflict(
+//			sql.ResolveWithNewValues(),
+//			sql.ResolveWith(func(u *sql.UpdateSet) {
+//				u.SetIgnore(endpoint.FieldID)
+//			}),
+//		).
+//		Exec(ctx)
+func (u *EndpointUpsertBulk) UpdateNewValues() *EndpointUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithNewValues())
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(s *sql.UpdateSet) {
+		for _, b := range u.create.builders {
+			if _, exists := b.mutation.ID(); exists {
+				s.SetIgnore(endpoint.FieldID)
+			}
+			if _, exists := b.mutation.CreatedAt(); exists {
+				s.SetIgnore(endpoint.FieldCreatedAt)
+			}
+		}
+	}))
+	return u
+}
+
+// Ignore sets each column to itself in case of conflict.
+// Using this option is equivalent to using:
+//
+//	client.Endpoint.Create().
+//		OnConflict(sql.ResolveWithIgnore()).
+//		Exec(ctx)
+func (u *EndpointUpsertBulk) Ignore() *EndpointUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithIgnore())
+	return u
+}
+
+// DoNothing configures the conflict_action to `DO NOTHING`.
+// Supported only by SQLite and PostgreSQL.
+func (u *EndpointUpsertBulk) DoNothing() *EndpointUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.DoNothing())
+	return u
+}
+
+// Update allows overriding fields `UPDATE` values. See the EndpointCreateBulk.OnConflict
+// documentation for more info.
+func (u *EndpointUpsertBulk) Update(set func(*EndpointUpsert)) *EndpointUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(update *sql.UpdateSet) {
+		set(&EndpointUpsert{UpdateSet: update})
+	}))
+	return u
+}
+
+// SetName sets the "name" field.
+func (u *EndpointUpsertBulk) SetName(v string) *EndpointUpsertBulk {
+	return u.Update(func(s *EndpointUpsert) {
+		s.SetName(v)
+	})
+}
+
+// UpdateName sets the "name" field to the value that was provided on create.
+func (u *EndpointUpsertBulk) UpdateName() *EndpointUpsertBulk {
+	return u.Update(func(s *EndpointUpsert) {
+		s.UpdateName()
+	})
+}
+
+// ClearName clears the value of the "name" field.
+func (u *EndpointUpsertBulk) ClearName() *EndpointUpsertBulk {
+	return u.Update(func(s *EndpointUpsert) {
+		s.ClearName()
+	})
+}
+
+// SetDescription sets the "description" field.
+func (u *EndpointUpsertBulk) SetDescription(v string) *EndpointUpsertBulk {
+	return u.Update(func(s *EndpointUpsert) {
+		s.SetDescription(v)
+	})
+}
+
+// UpdateDescription sets the "description" field to the value that was provided on create.
+func (u *EndpointUpsertBulk) UpdateDescription() *EndpointUpsertBulk {
+	return u.Update(func(s *EndpointUpsert) {
+		s.UpdateDescription()
+	})
+}
+
+// ClearDescription clears the value of the "description" field.
+func (u *EndpointUpsertBulk) ClearDescription() *EndpointUpsertBulk {
+	return u.Update(func(s *EndpointUpsert) {
+		s.ClearDescription()
+	})
+}
+
+// SetDisabled sets the "disabled" field.
+func (u *EndpointUpsertBulk) SetDisabled(v bool) *EndpointUpsertBulk {
+	return u.Update(func(s *EndpointUpsert) {
+		s.SetDisabled(v)
+	})
+}
+
+// UpdateDisabled sets the "disabled" field to the value that was provided on create.
+func (u *EndpointUpsertBulk) UpdateDisabled() *EndpointUpsertBulk {
+	return u.Update(func(s *EndpointUpsert) {
+		s.UpdateDisabled()
+	})
+}
+
+// ClearDisabled clears the value of the "disabled" field.
+func (u *EndpointUpsertBulk) ClearDisabled() *EndpointUpsertBulk {
+	return u.Update(func(s *EndpointUpsert) {
+		s.ClearDisabled()
+	})
+}
+
+// SetExtras sets the "extras" field.
+func (u *EndpointUpsertBulk) SetExtras(v map[string]interface{}) *EndpointUpsertBulk {
+	return u.Update(func(s *EndpointUpsert) {
+		s.SetExtras(v)
+	})
+}
+
+// UpdateExtras sets the "extras" field to the value that was provided on create.
+func (u *EndpointUpsertBulk) UpdateExtras() *EndpointUpsertBulk {
+	return u.Update(func(s *EndpointUpsert) {
+		s.UpdateExtras()
+	})
+}
+
+// ClearExtras clears the value of the "extras" field.
+func (u *EndpointUpsertBulk) ClearExtras() *EndpointUpsertBulk {
+	return u.Update(func(s *EndpointUpsert) {
+		s.ClearExtras()
+	})
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (u *EndpointUpsertBulk) SetCreatedBy(v string) *EndpointUpsertBulk {
+	return u.Update(func(s *EndpointUpsert) {
+		s.SetCreatedBy(v)
+	})
+}
+
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *EndpointUpsertBulk) UpdateCreatedBy() *EndpointUpsertBulk {
+	return u.Update(func(s *EndpointUpsert) {
+		s.UpdateCreatedBy()
+	})
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *EndpointUpsertBulk) ClearCreatedBy() *EndpointUpsertBulk {
+	return u.Update(func(s *EndpointUpsert) {
+		s.ClearCreatedBy()
+	})
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (u *EndpointUpsertBulk) SetUpdatedBy(v string) *EndpointUpsertBulk {
+	return u.Update(func(s *EndpointUpsert) {
+		s.SetUpdatedBy(v)
+	})
+}
+
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *EndpointUpsertBulk) UpdateUpdatedBy() *EndpointUpsertBulk {
+	return u.Update(func(s *EndpointUpsert) {
+		s.UpdateUpdatedBy()
+	})
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *EndpointUpsertBulk) ClearUpdatedBy() *EndpointUpsertBulk {
+	return u.Update(func(s *EndpointUpsert) {
+		s.ClearUpdatedBy()
+	})
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *EndpointUpsertBulk) SetUpdatedAt(v int64) *EndpointUpsertBulk {
+	return u.Update(func(s *EndpointUpsert) {
+		s.SetUpdatedAt(v)
+	})
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *EndpointUpsertBulk) AddUpdatedAt(v int64) *EndpointUpsertBulk {
+	return u.Update(func(s *EndpointUpsert) {
+		s.AddUpdatedAt(v)
+	})
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *EndpointUpsertBulk) UpdateUpdatedAt() *EndpointUpsertBulk {
+	return u.Update(func(s *EndpointUpsert) {
+		s.UpdateUpdatedAt()
+	})
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *EndpointUpsertBulk) ClearUpdatedAt() *EndpointUpsertBulk {
+	return u.Update(func(s *EndpointUpsert) {
+		s.ClearUpdatedAt()
+	})
+}
+
+// SetBaseURL sets the "base_url" field.
+func (u *EndpointUpsertBulk) SetBaseURL(v string) *EndpointUpsertBulk {
+	return u.Update(func(s *EndpointUpsert) {
+		s.SetBaseURL(v)
+	})
+}
+
+// UpdateBaseURL sets the "base_url" field to the value that was provided on create.
+func (u *EndpointUpsertBulk) UpdateBaseURL() *EndpointUpsertBulk {
+	return u.Update(func(s *EndpointUpsert) {
+		s.UpdateBaseURL()
+	})
+}
+
+// SetProtocol sets the "protocol" field.
+func (u *EndpointUpsertBulk) SetProtocol(v string) *EndpointUpsertBulk {
+	return u.Update(func(s *EndpointUpsert) {
+		s.SetProtocol(v)
+	})
+}
+
+// UpdateProtocol sets the "protocol" field to the value that was provided on create.
+func (u *EndpointUpsertBulk) UpdateProtocol() *EndpointUpsertBulk {
+	return u.Update(func(s *EndpointUpsert) {
+		s.UpdateProtocol()
+	})
+}
+
+// SetAuthType sets the "auth_type" field.
+func (u *EndpointUpsertBulk) SetAuthType(v string) *EndpointUpsertBulk {
+	return u.Update(func(s *EndpointUpsert) {
+		s.SetAuthType(v)
+	})
+}
+
+// UpdateAuthType sets the "auth_type" field to the value that was provided on create.
+func (u *EndpointUpsertBulk) UpdateAuthType() *EndpointUpsertBulk {
+	return u.Update(func(s *EndpointUpsert) {
+		s.UpdateAuthType()
+	})
+}
+
+// SetAuthConfig sets the "auth_config" field.
+func (u *EndpointUpsertBulk) SetAuthConfig(v string) *EndpointUpsertBulk {
+	return u.Update(func(s *EndpointUpsert) {
+		s.SetAuthConfig(v)
+	})
+}
+
+// UpdateAuthConfig sets the "auth_config" field to the value that was provided on create.
+func (u *EndpointUpsertBulk) UpdateAuthConfig() *EndpointUpsertBulk {
+	return u.Update(func(s *EndpointUpsert) {
+		s.UpdateAuthConfig()
+	})
+}
+
+// ClearAuthConfig clears the value of the "auth_config" field.
+func (u *EndpointUpsertBulk) ClearAuthConfig() *EndpointUpsertBulk {
+	return u.Update(func(s *EndpointUpsert) {
+		s.ClearAuthConfig()
+	})
+}
+
+// SetTimeout sets the "timeout" field.
+func (u *EndpointUpsertBulk) SetTimeout(v int) *EndpointUpsertBulk {
+	return u.Update(func(s *EndpointUpsert) {
+		s.SetTimeout(v)
+	})
+}
+
+// AddTimeout adds v to the "timeout" field.
+func (u *EndpointUpsertBulk) AddTimeout(v int) *EndpointUpsertBulk {
+	return u.Update(func(s *EndpointUpsert) {
+		s.AddTimeout(v)
+	})
+}
+
+// UpdateTimeout sets the "timeout" field to the value that was provided on create.
+func (u *EndpointUpsertBulk) UpdateTimeout() *EndpointUpsertBulk {
+	return u.Update(func(s *EndpointUpsert) {
+		s.UpdateTimeout()
+	})
+}
+
+// SetUseCircuitBreaker sets the "use_circuit_breaker" field.
+func (u *EndpointUpsertBulk) SetUseCircuitBreaker(v bool) *EndpointUpsertBulk {
+	return u.Update(func(s *EndpointUpsert) {
+		s.SetUseCircuitBreaker(v)
+	})
+}
+
+// UpdateUseCircuitBreaker sets the "use_circuit_breaker" field to the value that was provided on create.
+func (u *EndpointUpsertBulk) UpdateUseCircuitBreaker() *EndpointUpsertBulk {
+	return u.Update(func(s *EndpointUpsert) {
+		s.UpdateUseCircuitBreaker()
+	})
+}
+
+// SetRetryCount sets the "retry_count" field.
+func (u *EndpointUpsertBulk) SetRetryCount(v int) *EndpointUpsertBulk {
+	return u.Update(func(s *EndpointUpsert) {
+		s.SetRetryCount(v)
+	})
+}
+
+// AddRetryCount adds v to the "retry_count" field.
+func (u *EndpointUpsertBulk) AddRetryCount(v int) *EndpointUpsertBulk {
+	return u.Update(func(s *EndpointUpsert) {
+		s.AddRetryCount(v)
+	})
+}
+
+// UpdateRetryCount sets the "retry_count" field to the value that was provided on create.
+func (u *EndpointUpsertBulk) UpdateRetryCount() *EndpointUpsertBulk {
+	return u.Update(func(s *EndpointUpsert) {
+		s.UpdateRetryCount()
+	})
+}
+
+// SetValidateSsl sets the "validate_ssl" field.
+func (u *EndpointUpsertBulk) SetValidateSsl(v bool) *EndpointUpsertBulk {
+	return u.Update(func(s *EndpointUpsert) {
+		s.SetValidateSsl(v)
+	})
+}
+
+// UpdateValidateSsl sets the "validate_ssl" field to the value that was provided on create.
+func (u *EndpointUpsertBulk) UpdateValidateSsl() *EndpointUpsertBulk {
+	return u.Update(func(s *EndpointUpsert) {
+		s.UpdateValidateSsl()
+	})
+}
+
+// SetLogRequests sets the "log_requests" field.
+func (u *EndpointUpsertBulk) SetLogRequests(v bool) *EndpointUpsertBulk {
+	return u.Update(func(s *EndpointUpsert) {
+		s.SetLogRequests(v)
+	})
+}
+
+// UpdateLogRequests sets the "log_requests" field to the value that was provided on create.
+func (u *EndpointUpsertBulk) UpdateLogRequests() *EndpointUpsertBulk {
+	return u.Update(func(s *EndpointUpsert) {
+		s.UpdateLogRequests()
+	})
+}
+
+// SetLogResponses sets the "log_responses" field.
+func (u *EndpointUpsertBulk) SetLogResponses(v bool) *EndpointUpsertBulk {
+	return u.Update(func(s *EndpointUpsert) {
+		s.SetLogResponses(v)
+	})
+}
+
+// UpdateLogResponses sets the "log_responses" field to the value that was provided on create.
+func (u *EndpointUpsertBulk) UpdateLogResponses() *EndpointUpsertBulk {
+	return u.Update(func(s *EndpointUpsert) {
+		s.UpdateLogResponses()
+	})
+}
+
+// Exec executes the query.
+func (u *EndpointUpsertBulk) Exec(ctx context.Context) error {
+	if u.create.err != nil {
+		return u.create.err
+	}
+	for i, b := range u.create.builders {
+		if len(b.conflict) != 0 {
+			return fmt.Errorf("ent: OnConflict was set for builder %d. Set it on the EndpointCreateBulk instead", i)
+		}
+	}
+	if len(u.create.conflict) == 0 {
+		return errors.New("ent: missing options for EndpointCreateBulk.OnConflict")
+	}
+	return u.create.Exec(ctx)
+}
+
+// ExecX is like Exec, but panics if an error occurs.
+func (u *EndpointUpsertBulk) ExecX(ctx context.Context) {
+	if err := u.create.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

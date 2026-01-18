@@ -3,7 +3,7 @@
 package subscription
 
 import (
-	"ncobase/realtime/data/ent/predicate"
+	"ncobase/biz/realtime/data/ent/predicate"
 
 	"entgo.io/ent/dialect/sql"
 )

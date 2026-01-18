@@ -3,12 +3,12 @@ package repository
 import (
 	"context"
 	"fmt"
-	"ncobase/content/data"
-	"ncobase/content/data/ent"
-	distributionEnt "ncobase/content/data/ent/distribution"
-	"ncobase/content/structs"
+	"ncobase/biz/content/data"
+	"ncobase/biz/content/data/ent"
+	distributionEnt "ncobase/biz/content/data/ent/distribution"
+	"ncobase/biz/content/structs"
 
-	"github.com/ncobase/ncore/data/databases/cache"
+	"github.com/ncobase/ncore/data/cache"
 	"github.com/ncobase/ncore/data/paging"
 	"github.com/ncobase/ncore/logging/logger"
 	"github.com/ncobase/ncore/types"
@@ -39,6 +39,7 @@ type DistributionRepositoryInterface interface {
 // distributionRepository implements the DistributionRepositoryInterface.
 type distributionRepository struct {
 	data *data.Data
+	searchClient *search.Client
 	ec   *ent.Client
 	ecr  *ent.Client
 	rc   *redis.Client
@@ -49,7 +50,7 @@ type distributionRepository struct {
 func NewDistributionRepository(d *data.Data) DistributionRepositoryInterface {
 	ec := d.GetMasterEntClient()
 	ecr := d.GetSlaveEntClient()
-	rc := d.GetRedis()
+	rc := d.GetRedis().(*redis.Client)
 	return &distributionRepository{
 		data: d,
 		ec:   ec,
@@ -94,7 +95,7 @@ func (r *distributionRepository) Create(ctx context.Context, body *structs.Creat
 	}
 
 	// Index in Meilisearch
-	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "content_distributions", Document: row}); err != nil {
+	if err = r.searchClient.Index(ctx, &search.IndexRequest{Index: "content_distributions", Document: row}); err != nil {
 		logger.Errorf(ctx, "distributionRepo.Create error creating Meilisearch index: %v", err)
 	}
 
@@ -173,7 +174,7 @@ func (r *distributionRepository) Update(ctx context.Context, id string, updates 
 	}
 
 	// Update Meilisearch index
-	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "content_distributions", Document: row, DocumentID: row.ID}); err != nil {
+	if err = r.searchClient.Index(ctx, &search.IndexRequest{Index: "content_distributions", Document: row, DocumentID: row.ID}); err != nil {
 		logger.Errorf(ctx, "distributionRepo.Update error updating Meilisearch index: %v", err)
 	}
 
@@ -332,7 +333,7 @@ func (r *distributionRepository) Delete(ctx context.Context, id string) error {
 	}
 
 	// Delete from Meilisearch
-	if err = r.data.DeleteDocument(ctx, "content_distributions", id); err != nil {
+	if err = r.searchClient.Delete(ctx, "content_distributions", id); err != nil {
 		logger.Errorf(ctx, "distributionRepo.Delete error deleting Meilisearch index: %v", err)
 	}
 

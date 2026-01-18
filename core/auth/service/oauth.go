@@ -5,14 +5,14 @@ package service
 // 	"context"
 // 	"errors"
 // 	"fmt"
-// 	"ncobase/auth/data"
-// 	"ncobase/auth/data/ent"
-// 	oauthUserEnt "ncobase/auth/data/ent/oauthuser"
-// 	"ncobase/auth/middleware"
-// 	authStructs "ncobase/auth/structs"
-// 	spaceStructs "ncobase/space/structs"
-// 	userEnt "ncobase/user/data/ent/user"
-// 	userStructs "ncobase/user/structs"
+// 	"ncobase/core/auth/data"
+// 	"ncobase/core/auth/data/ent"
+// 	oauthUserEnt "ncobase/core/auth/data/ent/oauthuser"
+// 	"ncobase/core/auth/middleware"
+// 	authStructs "ncobase/core/auth/structs"
+// 	spaceStructs "ncobase/core/space/structs"
+// 	ent "ncobase/core/user/data/ent/user"
+// 	userStructs "ncobase/core/user/structs"
 // 	"ncobase/helper"
 // 	"net/http"
 //
@@ -94,9 +94,9 @@ package service
 // func (svc *oAuthService) checkUserExistence(tx *ent.Tx, username, email string) (string, error) {
 // 	exists, err := tx.User.
 // 		Query().
-// 		Where(userEnt.Or(
-// 			userEnt.UsernameEQ(username),
-// 			userEnt.EmailEQ(email),
+// 		Where(ent.Or(
+// 			ent.UsernameEQ(username),
+// 			ent.EmailEQ(email),
 // 		)).
 // 		Only(context.Background())
 //
@@ -261,7 +261,7 @@ package service
 // // Handle existing OAuth user
 // func (svc *oAuthService) handleExistingOAuthUser(ctx context.Context, tx *ent.Tx, oauthUser *ent.OAuthUser) (*types.JSON, error) {
 // 	conf := helper.GetConfig(ctx)
-// 	user, err := tx.User.Query().Where(userEnt.IDEQ(oauthUser.UserID)).Only(context.Background())
+// 	user, err := tx.User.Query().Where(ent.IDEQ(oauthUser.UserID)).Only(context.Background())
 // 	if ent.IsNotFound(err) {
 // 		return resp.NotFound("User is missing"), nil
 // 	}

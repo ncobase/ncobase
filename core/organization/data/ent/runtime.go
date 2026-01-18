@@ -3,10 +3,10 @@
 package ent
 
 import (
-	"ncobase/organization/data/ent/organization"
-	"ncobase/organization/data/ent/organizationrole"
-	"ncobase/organization/data/ent/userorganization"
-	"ncobase/organization/data/schema"
+	"ncobase/core/organization/data/ent/organization"
+	"ncobase/core/organization/data/ent/organizationrole"
+	"ncobase/core/organization/data/ent/userorganization"
+	"ncobase/core/organization/data/schema"
 )
 
 // The init function reads all schema descriptors with runtime code

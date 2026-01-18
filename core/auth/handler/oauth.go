@@ -3,8 +3,8 @@ package handler
 //
 // import (
 // 	"github.com/ncobase/ncore/net/cookie"
-// 	"ncobase/auth/service"
-// 	"ncobase/auth/structs"
+// 	"ncobase/core/auth/service"
+// 	"ncobase/core/auth/structs"
 // 	"ncobase/helper"
 // 	"net/http"
 //

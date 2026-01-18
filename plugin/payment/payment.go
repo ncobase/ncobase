@@ -2,10 +2,10 @@ package payment
 
 import (
 	"fmt"
-	"ncobase/payment/data"
-	"ncobase/payment/event"
-	"ncobase/payment/handler"
-	"ncobase/payment/service"
+	"ncobase/plugin/payment/data"
+	"ncobase/plugin/payment/event"
+	"ncobase/plugin/payment/handler"
+	"ncobase/plugin/payment/service"
 	"sync"
 
 	"github.com/gin-gonic/gin"

@@ -1,6 +1,6 @@
 package repository
 
-import "ncobase/system/data"
+import "ncobase/core/system/data"
 
 // Repository represents the system repository.
 type Repository struct {

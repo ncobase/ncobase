@@ -1,8 +1,8 @@
 package handler
 
 import (
-	"ncobase/payment/event"
-	"ncobase/payment/service"
+	"ncobase/plugin/payment/event"
+	"ncobase/plugin/payment/service"
 
 	ext "github.com/ncobase/ncore/extension/types"
 )

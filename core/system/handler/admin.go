@@ -8,8 +8,8 @@ import (
 	"github.com/ncobase/ncore/net/resp"
 	"github.com/ncobase/ncore/validation"
 
-	"ncobase/system/service"
-	"ncobase/system/structs"
+	"ncobase/core/system/service"
+	"ncobase/core/system/structs"
 )
 
 // AdminHandlerInterface defines admin panel operations

@@ -3,7 +3,7 @@ package schema
 import (
 	"strings"
 
-	"github.com/ncobase/ncore/data/databases/entgo/mixin"
+	"github.com/ncobase/ncore/data/entgo/mixin"
 
 	"entgo.io/contrib/entgql"
 	"entgo.io/ent"

@@ -1,7 +1,7 @@
 package repository
 
 import (
-	"ncobase/payment/data"
+	"ncobase/plugin/payment/data"
 )
 
 // Repository represents the payment repository collection

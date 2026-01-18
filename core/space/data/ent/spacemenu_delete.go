@@ -4,8 +4,8 @@ package ent
 
 import (
 	"context"
-	"ncobase/space/data/ent/predicate"
-	"ncobase/space/data/ent/spacemenu"
+	"ncobase/core/space/data/ent/predicate"
+	"ncobase/core/space/data/ent/spacemenu"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"

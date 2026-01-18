@@ -4,9 +4,12 @@ package ent
 
 import (
 	"context"
+	"errors"
 	"fmt"
-	"ncobase/access/data/ent/activity"
+	"ncobase/core/access/data/ent/activity"
 
+	"entgo.io/ent/dialect"
+	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
 )
@@ -16,6 +19,7 @@ type ActivityCreate struct {
 	config
 	mutation *ActivityMutation
 	hooks    []Hook
+	conflict []sql.ConflictOption
 }
 
 // SetType sets the "type" field.
@@ -199,6 +203,7 @@ func (_c *ActivityCreate) createSpec() (*Activity, *sqlgraph.CreateSpec) {
 		_node = &Activity{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(activity.Table, sqlgraph.NewFieldSpec(activity.FieldID, field.TypeString))
 	)
+	_spec.OnConflict = _c.conflict
 	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
@@ -230,11 +235,358 @@ func (_c *ActivityCreate) createSpec() (*Activity, *sqlgraph.CreateSpec) {
 	return _node, _spec
 }
 
+// OnConflict allows configuring the `ON CONFLICT` / `ON DUPLICATE KEY` clause
+// of the `INSERT` statement. For example:
+//
+//	client.Activity.Create().
+//		SetType(v).
+//		OnConflict(
+//			// Update the row with the new values
+//			// the was proposed for insertion.
+//			sql.ResolveWithNewValues(),
+//		).
+//		// Override some of the fields with custom
+//		// update values.
+//		Update(func(u *ent.ActivityUpsert) {
+//			SetType(v+v).
+//		}).
+//		Exec(ctx)
+func (_c *ActivityCreate) OnConflict(opts ...sql.ConflictOption) *ActivityUpsertOne {
+	_c.conflict = opts
+	return &ActivityUpsertOne{
+		create: _c,
+	}
+}
+
+// OnConflictColumns calls `OnConflict` and configures the columns
+// as conflict target. Using this option is equivalent to using:
+//
+//	client.Activity.Create().
+//		OnConflict(sql.ConflictColumns(columns...)).
+//		Exec(ctx)
+func (_c *ActivityCreate) OnConflictColumns(columns ...string) *ActivityUpsertOne {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
+	return &ActivityUpsertOne{
+		create: _c,
+	}
+}
+
+type (
+	// ActivityUpsertOne is the builder for "upsert"-ing
+	//  one Activity node.
+	ActivityUpsertOne struct {
+		create *ActivityCreate
+	}
+
+	// ActivityUpsert is the "OnConflict" setter.
+	ActivityUpsert struct {
+		*sql.UpdateSet
+	}
+)
+
+// SetType sets the "type" field.
+func (u *ActivityUpsert) SetType(v string) *ActivityUpsert {
+	u.Set(activity.FieldType, v)
+	return u
+}
+
+// UpdateType sets the "type" field to the value that was provided on create.
+func (u *ActivityUpsert) UpdateType() *ActivityUpsert {
+	u.SetExcluded(activity.FieldType)
+	return u
+}
+
+// ClearType clears the value of the "type" field.
+func (u *ActivityUpsert) ClearType() *ActivityUpsert {
+	u.SetNull(activity.FieldType)
+	return u
+}
+
+// SetUserID sets the "user_id" field.
+func (u *ActivityUpsert) SetUserID(v string) *ActivityUpsert {
+	u.Set(activity.FieldUserID, v)
+	return u
+}
+
+// UpdateUserID sets the "user_id" field to the value that was provided on create.
+func (u *ActivityUpsert) UpdateUserID() *ActivityUpsert {
+	u.SetExcluded(activity.FieldUserID)
+	return u
+}
+
+// ClearUserID clears the value of the "user_id" field.
+func (u *ActivityUpsert) ClearUserID() *ActivityUpsert {
+	u.SetNull(activity.FieldUserID)
+	return u
+}
+
+// SetDetails sets the "details" field.
+func (u *ActivityUpsert) SetDetails(v string) *ActivityUpsert {
+	u.Set(activity.FieldDetails, v)
+	return u
+}
+
+// UpdateDetails sets the "details" field to the value that was provided on create.
+func (u *ActivityUpsert) UpdateDetails() *ActivityUpsert {
+	u.SetExcluded(activity.FieldDetails)
+	return u
+}
+
+// ClearDetails clears the value of the "details" field.
+func (u *ActivityUpsert) ClearDetails() *ActivityUpsert {
+	u.SetNull(activity.FieldDetails)
+	return u
+}
+
+// SetMetadata sets the "metadata" field.
+func (u *ActivityUpsert) SetMetadata(v map[string]interface{}) *ActivityUpsert {
+	u.Set(activity.FieldMetadata, v)
+	return u
+}
+
+// UpdateMetadata sets the "metadata" field to the value that was provided on create.
+func (u *ActivityUpsert) UpdateMetadata() *ActivityUpsert {
+	u.SetExcluded(activity.FieldMetadata)
+	return u
+}
+
+// ClearMetadata clears the value of the "metadata" field.
+func (u *ActivityUpsert) ClearMetadata() *ActivityUpsert {
+	u.SetNull(activity.FieldMetadata)
+	return u
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *ActivityUpsert) SetUpdatedAt(v int64) *ActivityUpsert {
+	u.Set(activity.FieldUpdatedAt, v)
+	return u
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *ActivityUpsert) UpdateUpdatedAt() *ActivityUpsert {
+	u.SetExcluded(activity.FieldUpdatedAt)
+	return u
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *ActivityUpsert) AddUpdatedAt(v int64) *ActivityUpsert {
+	u.Add(activity.FieldUpdatedAt, v)
+	return u
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *ActivityUpsert) ClearUpdatedAt() *ActivityUpsert {
+	u.SetNull(activity.FieldUpdatedAt)
+	return u
+}
+
+// UpdateNewValues updates the mutable fields using the new values that were set on create except the ID field.
+// Using this option is equivalent to using:
+//
+//	client.Activity.Create().
+//		OnConflict(
+//			sql.ResolveWithNewValues(),
+//			sql.ResolveWith(func(u *sql.UpdateSet) {
+//				u.SetIgnore(activity.FieldID)
+//			}),
+//		).
+//		Exec(ctx)
+func (u *ActivityUpsertOne) UpdateNewValues() *ActivityUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithNewValues())
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(s *sql.UpdateSet) {
+		if _, exists := u.create.mutation.ID(); exists {
+			s.SetIgnore(activity.FieldID)
+		}
+		if _, exists := u.create.mutation.CreatedAt(); exists {
+			s.SetIgnore(activity.FieldCreatedAt)
+		}
+	}))
+	return u
+}
+
+// Ignore sets each column to itself in case of conflict.
+// Using this option is equivalent to using:
+//
+//	client.Activity.Create().
+//	    OnConflict(sql.ResolveWithIgnore()).
+//	    Exec(ctx)
+func (u *ActivityUpsertOne) Ignore() *ActivityUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithIgnore())
+	return u
+}
+
+// DoNothing configures the conflict_action to `DO NOTHING`.
+// Supported only by SQLite and PostgreSQL.
+func (u *ActivityUpsertOne) DoNothing() *ActivityUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.DoNothing())
+	return u
+}
+
+// Update allows overriding fields `UPDATE` values. See the ActivityCreate.OnConflict
+// documentation for more info.
+func (u *ActivityUpsertOne) Update(set func(*ActivityUpsert)) *ActivityUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(update *sql.UpdateSet) {
+		set(&ActivityUpsert{UpdateSet: update})
+	}))
+	return u
+}
+
+// SetType sets the "type" field.
+func (u *ActivityUpsertOne) SetType(v string) *ActivityUpsertOne {
+	return u.Update(func(s *ActivityUpsert) {
+		s.SetType(v)
+	})
+}
+
+// UpdateType sets the "type" field to the value that was provided on create.
+func (u *ActivityUpsertOne) UpdateType() *ActivityUpsertOne {
+	return u.Update(func(s *ActivityUpsert) {
+		s.UpdateType()
+	})
+}
+
+// ClearType clears the value of the "type" field.
+func (u *ActivityUpsertOne) ClearType() *ActivityUpsertOne {
+	return u.Update(func(s *ActivityUpsert) {
+		s.ClearType()
+	})
+}
+
+// SetUserID sets the "user_id" field.
+func (u *ActivityUpsertOne) SetUserID(v string) *ActivityUpsertOne {
+	return u.Update(func(s *ActivityUpsert) {
+		s.SetUserID(v)
+	})
+}
+
+// UpdateUserID sets the "user_id" field to the value that was provided on create.
+func (u *ActivityUpsertOne) UpdateUserID() *ActivityUpsertOne {
+	return u.Update(func(s *ActivityUpsert) {
+		s.UpdateUserID()
+	})
+}
+
+// ClearUserID clears the value of the "user_id" field.
+func (u *ActivityUpsertOne) ClearUserID() *ActivityUpsertOne {
+	return u.Update(func(s *ActivityUpsert) {
+		s.ClearUserID()
+	})
+}
+
+// SetDetails sets the "details" field.
+func (u *ActivityUpsertOne) SetDetails(v string) *ActivityUpsertOne {
+	return u.Update(func(s *ActivityUpsert) {
+		s.SetDetails(v)
+	})
+}
+
+// UpdateDetails sets the "details" field to the value that was provided on create.
+func (u *ActivityUpsertOne) UpdateDetails() *ActivityUpsertOne {
+	return u.Update(func(s *ActivityUpsert) {
+		s.UpdateDetails()
+	})
+}
+
+// ClearDetails clears the value of the "details" field.
+func (u *ActivityUpsertOne) ClearDetails() *ActivityUpsertOne {
+	return u.Update(func(s *ActivityUpsert) {
+		s.ClearDetails()
+	})
+}
+
+// SetMetadata sets the "metadata" field.
+func (u *ActivityUpsertOne) SetMetadata(v map[string]interface{}) *ActivityUpsertOne {
+	return u.Update(func(s *ActivityUpsert) {
+		s.SetMetadata(v)
+	})
+}
+
+// UpdateMetadata sets the "metadata" field to the value that was provided on create.
+func (u *ActivityUpsertOne) UpdateMetadata() *ActivityUpsertOne {
+	return u.Update(func(s *ActivityUpsert) {
+		s.UpdateMetadata()
+	})
+}
+
+// ClearMetadata clears the value of the "metadata" field.
+func (u *ActivityUpsertOne) ClearMetadata() *ActivityUpsertOne {
+	return u.Update(func(s *ActivityUpsert) {
+		s.ClearMetadata()
+	})
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *ActivityUpsertOne) SetUpdatedAt(v int64) *ActivityUpsertOne {
+	return u.Update(func(s *ActivityUpsert) {
+		s.SetUpdatedAt(v)
+	})
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *ActivityUpsertOne) AddUpdatedAt(v int64) *ActivityUpsertOne {
+	return u.Update(func(s *ActivityUpsert) {
+		s.AddUpdatedAt(v)
+	})
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *ActivityUpsertOne) UpdateUpdatedAt() *ActivityUpsertOne {
+	return u.Update(func(s *ActivityUpsert) {
+		s.UpdateUpdatedAt()
+	})
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *ActivityUpsertOne) ClearUpdatedAt() *ActivityUpsertOne {
+	return u.Update(func(s *ActivityUpsert) {
+		s.ClearUpdatedAt()
+	})
+}
+
+// Exec executes the query.
+func (u *ActivityUpsertOne) Exec(ctx context.Context) error {
+	if len(u.create.conflict) == 0 {
+		return errors.New("ent: missing options for ActivityCreate.OnConflict")
+	}
+	return u.create.Exec(ctx)
+}
+
+// ExecX is like Exec, but panics if an error occurs.
+func (u *ActivityUpsertOne) ExecX(ctx context.Context) {
+	if err := u.create.Exec(ctx); err != nil {
+		panic(err)
+	}
+}
+
+// Exec executes the UPSERT query and returns the inserted/updated ID.
+func (u *ActivityUpsertOne) ID(ctx context.Context) (id string, err error) {
+	if u.create.driver.Dialect() == dialect.MySQL {
+		// In case of "ON CONFLICT", there is no way to get back non-numeric ID
+		// fields from the database since MySQL does not support the RETURNING clause.
+		return id, errors.New("ent: ActivityUpsertOne.ID is not supported by MySQL driver. Use ActivityUpsertOne.Exec instead")
+	}
+	node, err := u.create.Save(ctx)
+	if err != nil {
+		return id, err
+	}
+	return node.ID, nil
+}
+
+// IDX is like ID, but panics if an error occurs.
+func (u *ActivityUpsertOne) IDX(ctx context.Context) string {
+	id, err := u.ID(ctx)
+	if err != nil {
+		panic(err)
+	}
+	return id
+}
+
 // ActivityCreateBulk is the builder for creating many Activity entities in bulk.
 type ActivityCreateBulk struct {
 	config
 	err      error
 	builders []*ActivityCreate
+	conflict []sql.ConflictOption
 }
 
 // Save creates the Activity entities in the database.
@@ -264,6 +616,7 @@ func (_c *ActivityCreateBulk) Save(ctx context.Context) ([]*Activity, error) {
 					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
+					spec.OnConflict = _c.conflict
 					// Invoke the actual operation on the latest mutation in the chain.
 					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
@@ -310,6 +663,235 @@ func (_c *ActivityCreateBulk) Exec(ctx context.Context) error {
 // ExecX is like Exec, but panics if an error occurs.
 func (_c *ActivityCreateBulk) ExecX(ctx context.Context) {
 	if err := _c.Exec(ctx); err != nil {
+		panic(err)
+	}
+}
+
+// OnConflict allows configuring the `ON CONFLICT` / `ON DUPLICATE KEY` clause
+// of the `INSERT` statement. For example:
+//
+//	client.Activity.CreateBulk(builders...).
+//		OnConflict(
+//			// Update the row with the new values
+//			// the was proposed for insertion.
+//			sql.ResolveWithNewValues(),
+//		).
+//		// Override some of the fields with custom
+//		// update values.
+//		Update(func(u *ent.ActivityUpsert) {
+//			SetType(v+v).
+//		}).
+//		Exec(ctx)
+func (_c *ActivityCreateBulk) OnConflict(opts ...sql.ConflictOption) *ActivityUpsertBulk {
+	_c.conflict = opts
+	return &ActivityUpsertBulk{
+		create: _c,
+	}
+}
+
+// OnConflictColumns calls `OnConflict` and configures the columns
+// as conflict target. Using this option is equivalent to using:
+//
+//	client.Activity.Create().
+//		OnConflict(sql.ConflictColumns(columns...)).
+//		Exec(ctx)
+func (_c *ActivityCreateBulk) OnConflictColumns(columns ...string) *ActivityUpsertBulk {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
+	return &ActivityUpsertBulk{
+		create: _c,
+	}
+}
+
+// ActivityUpsertBulk is the builder for "upsert"-ing
+// a bulk of Activity nodes.
+type ActivityUpsertBulk struct {
+	create *ActivityCreateBulk
+}
+
+// UpdateNewValues updates the mutable fields using the new values that
+// were set on create. Using this option is equivalent to using:
+//
+//	client.Activity.Create().
+//		OnConflict(
+//			sql.ResolveWithNewValues(),
+//			sql.ResolveWith(func(u *sql.UpdateSet) {
+//				u.SetIgnore(activity.FieldID)
+//			}),
+//		).
+//		Exec(ctx)
+func (u *ActivityUpsertBulk) UpdateNewValues() *ActivityUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithNewValues())
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(s *sql.UpdateSet) {
+		for _, b := range u.create.builders {
+			if _, exists := b.mutation.ID(); exists {
+				s.SetIgnore(activity.FieldID)
+			}
+			if _, exists := b.mutation.CreatedAt(); exists {
+				s.SetIgnore(activity.FieldCreatedAt)
+			}
+		}
+	}))
+	return u
+}
+
+// Ignore sets each column to itself in case of conflict.
+// Using this option is equivalent to using:
+//
+//	client.Activity.Create().
+//		OnConflict(sql.ResolveWithIgnore()).
+//		Exec(ctx)
+func (u *ActivityUpsertBulk) Ignore() *ActivityUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithIgnore())
+	return u
+}
+
+// DoNothing configures the conflict_action to `DO NOTHING`.
+// Supported only by SQLite and PostgreSQL.
+func (u *ActivityUpsertBulk) DoNothing() *ActivityUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.DoNothing())
+	return u
+}
+
+// Update allows overriding fields `UPDATE` values. See the ActivityCreateBulk.OnConflict
+// documentation for more info.
+func (u *ActivityUpsertBulk) Update(set func(*ActivityUpsert)) *ActivityUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(update *sql.UpdateSet) {
+		set(&ActivityUpsert{UpdateSet: update})
+	}))
+	return u
+}
+
+// SetType sets the "type" field.
+func (u *ActivityUpsertBulk) SetType(v string) *ActivityUpsertBulk {
+	return u.Update(func(s *ActivityUpsert) {
+		s.SetType(v)
+	})
+}
+
+// UpdateType sets the "type" field to the value that was provided on create.
+func (u *ActivityUpsertBulk) UpdateType() *ActivityUpsertBulk {
+	return u.Update(func(s *ActivityUpsert) {
+		s.UpdateType()
+	})
+}
+
+// ClearType clears the value of the "type" field.
+func (u *ActivityUpsertBulk) ClearType() *ActivityUpsertBulk {
+	return u.Update(func(s *ActivityUpsert) {
+		s.ClearType()
+	})
+}
+
+// SetUserID sets the "user_id" field.
+func (u *ActivityUpsertBulk) SetUserID(v string) *ActivityUpsertBulk {
+	return u.Update(func(s *ActivityUpsert) {
+		s.SetUserID(v)
+	})
+}
+
+// UpdateUserID sets the "user_id" field to the value that was provided on create.
+func (u *ActivityUpsertBulk) UpdateUserID() *ActivityUpsertBulk {
+	return u.Update(func(s *ActivityUpsert) {
+		s.UpdateUserID()
+	})
+}
+
+// ClearUserID clears the value of the "user_id" field.
+func (u *ActivityUpsertBulk) ClearUserID() *ActivityUpsertBulk {
+	return u.Update(func(s *ActivityUpsert) {
+		s.ClearUserID()
+	})
+}
+
+// SetDetails sets the "details" field.
+func (u *ActivityUpsertBulk) SetDetails(v string) *ActivityUpsertBulk {
+	return u.Update(func(s *ActivityUpsert) {
+		s.SetDetails(v)
+	})
+}
+
+// UpdateDetails sets the "details" field to the value that was provided on create.
+func (u *ActivityUpsertBulk) UpdateDetails() *ActivityUpsertBulk {
+	return u.Update(func(s *ActivityUpsert) {
+		s.UpdateDetails()
+	})
+}
+
+// ClearDetails clears the value of the "details" field.
+func (u *ActivityUpsertBulk) ClearDetails() *ActivityUpsertBulk {
+	return u.Update(func(s *ActivityUpsert) {
+		s.ClearDetails()
+	})
+}
+
+// SetMetadata sets the "metadata" field.
+func (u *ActivityUpsertBulk) SetMetadata(v map[string]interface{}) *ActivityUpsertBulk {
+	return u.Update(func(s *ActivityUpsert) {
+		s.SetMetadata(v)
+	})
+}
+
+// UpdateMetadata sets the "metadata" field to the value that was provided on create.
+func (u *ActivityUpsertBulk) UpdateMetadata() *ActivityUpsertBulk {
+	return u.Update(func(s *ActivityUpsert) {
+		s.UpdateMetadata()
+	})
+}
+
+// ClearMetadata clears the value of the "metadata" field.
+func (u *ActivityUpsertBulk) ClearMetadata() *ActivityUpsertBulk {
+	return u.Update(func(s *ActivityUpsert) {
+		s.ClearMetadata()
+	})
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *ActivityUpsertBulk) SetUpdatedAt(v int64) *ActivityUpsertBulk {
+	return u.Update(func(s *ActivityUpsert) {
+		s.SetUpdatedAt(v)
+	})
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *ActivityUpsertBulk) AddUpdatedAt(v int64) *ActivityUpsertBulk {
+	return u.Update(func(s *ActivityUpsert) {
+		s.AddUpdatedAt(v)
+	})
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *ActivityUpsertBulk) UpdateUpdatedAt() *ActivityUpsertBulk {
+	return u.Update(func(s *ActivityUpsert) {
+		s.UpdateUpdatedAt()
+	})
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *ActivityUpsertBulk) ClearUpdatedAt() *ActivityUpsertBulk {
+	return u.Update(func(s *ActivityUpsert) {
+		s.ClearUpdatedAt()
+	})
+}
+
+// Exec executes the query.
+func (u *ActivityUpsertBulk) Exec(ctx context.Context) error {
+	if u.create.err != nil {
+		return u.create.err
+	}
+	for i, b := range u.create.builders {
+		if len(b.conflict) != 0 {
+			return fmt.Errorf("ent: OnConflict was set for builder %d. Set it on the ActivityCreateBulk instead", i)
+		}
+	}
+	if len(u.create.conflict) == 0 {
+		return errors.New("ent: missing options for ActivityCreateBulk.OnConflict")
+	}
+	return u.create.Exec(ctx)
+}
+
+// ExecX is like Exec, but panics if an error occurs.
+func (u *ActivityUpsertBulk) ExecX(ctx context.Context) {
+	if err := u.create.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

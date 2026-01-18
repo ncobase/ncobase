@@ -3,7 +3,7 @@ package schema
 import (
 	"strings"
 
-	"github.com/ncobase/ncore/data/databases/entgo/mixin"
+	"github.com/ncobase/ncore/data/entgo/mixin"
 	"github.com/ncobase/ncore/utils/nanoid"
 
 	"entgo.io/contrib/entgql"
@@ -21,7 +21,7 @@ type Session struct {
 
 // Annotations of the Session.
 func (Session) Annotations() []schema.Annotation {
-	table := strings.Join([]string{"ncse", "user_session"}, "_")
+	table := strings.Join([]string{"ncse", "sys", "user_session"}, "_")
 	return []schema.Annotation{
 		entsql.Annotation{Table: table},
 		entgql.Mutations(entgql.MutationCreate(), entgql.MutationUpdate()),

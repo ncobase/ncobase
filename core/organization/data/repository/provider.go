@@ -1,7 +1,7 @@
 package repository
 
 import (
-	"ncobase/organization/data"
+	"ncobase/core/organization/data"
 )
 
 // Repository represents the organization repository.

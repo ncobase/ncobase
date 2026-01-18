@@ -3,7 +3,7 @@ package wrapper
 import (
 	"context"
 	"fmt"
-	accessStructs "ncobase/access/structs"
+	accessStructs "ncobase/core/access/structs"
 
 	ext "github.com/ncobase/ncore/extension/types"
 )

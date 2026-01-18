@@ -3,11 +3,11 @@ package repository
 import (
 	"context"
 	"fmt"
-	"ncobase/payment/data"
-	"ncobase/payment/data/ent"
-	paymentChannelEnt "ncobase/payment/data/ent/paymentchannel"
-	paymentOrderEnt "ncobase/payment/data/ent/paymentorder"
-	"ncobase/payment/structs"
+	"ncobase/plugin/payment/data"
+	"ncobase/plugin/payment/data/ent"
+	paymentChannelEnt "ncobase/plugin/payment/data/ent/paymentchannel"
+	paymentOrderEnt "ncobase/plugin/payment/data/ent/paymentorder"
+	"ncobase/plugin/payment/structs"
 
 	"github.com/ncobase/ncore/data/paging"
 	"github.com/ncobase/ncore/logging/logger"

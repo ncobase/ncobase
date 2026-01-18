@@ -4,7 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	systemStructs "ncobase/system/structs"
+	systemStructs "ncobase/core/system/structs"
 	"time"
 
 	"github.com/ncobase/ncore/logging/logger"

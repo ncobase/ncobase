@@ -4,9 +4,12 @@ package ent
 
 import (
 	"context"
+	"errors"
 	"fmt"
-	"ncobase/space/data/ent/spacedictionary"
+	"ncobase/core/space/data/ent/spacedictionary"
 
+	"entgo.io/ent/dialect"
+	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
 )
@@ -16,6 +19,7 @@ type SpaceDictionaryCreate struct {
 	config
 	mutation *SpaceDictionaryMutation
 	hooks    []Hook
+	conflict []sql.ConflictOption
 }
 
 // SetSpaceID sets the "space_id" field.
@@ -203,6 +207,7 @@ func (_c *SpaceDictionaryCreate) createSpec() (*SpaceDictionary, *sqlgraph.Creat
 		_node = &SpaceDictionary{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(spacedictionary.Table, sqlgraph.NewFieldSpec(spacedictionary.FieldID, field.TypeString))
 	)
+	_spec.OnConflict = _c.conflict
 	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
@@ -234,11 +239,358 @@ func (_c *SpaceDictionaryCreate) createSpec() (*SpaceDictionary, *sqlgraph.Creat
 	return _node, _spec
 }
 
+// OnConflict allows configuring the `ON CONFLICT` / `ON DUPLICATE KEY` clause
+// of the `INSERT` statement. For example:
+//
+//	client.SpaceDictionary.Create().
+//		SetSpaceID(v).
+//		OnConflict(
+//			// Update the row with the new values
+//			// the was proposed for insertion.
+//			sql.ResolveWithNewValues(),
+//		).
+//		// Override some of the fields with custom
+//		// update values.
+//		Update(func(u *ent.SpaceDictionaryUpsert) {
+//			SetSpaceID(v+v).
+//		}).
+//		Exec(ctx)
+func (_c *SpaceDictionaryCreate) OnConflict(opts ...sql.ConflictOption) *SpaceDictionaryUpsertOne {
+	_c.conflict = opts
+	return &SpaceDictionaryUpsertOne{
+		create: _c,
+	}
+}
+
+// OnConflictColumns calls `OnConflict` and configures the columns
+// as conflict target. Using this option is equivalent to using:
+//
+//	client.SpaceDictionary.Create().
+//		OnConflict(sql.ConflictColumns(columns...)).
+//		Exec(ctx)
+func (_c *SpaceDictionaryCreate) OnConflictColumns(columns ...string) *SpaceDictionaryUpsertOne {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
+	return &SpaceDictionaryUpsertOne{
+		create: _c,
+	}
+}
+
+type (
+	// SpaceDictionaryUpsertOne is the builder for "upsert"-ing
+	//  one SpaceDictionary node.
+	SpaceDictionaryUpsertOne struct {
+		create *SpaceDictionaryCreate
+	}
+
+	// SpaceDictionaryUpsert is the "OnConflict" setter.
+	SpaceDictionaryUpsert struct {
+		*sql.UpdateSet
+	}
+)
+
+// SetSpaceID sets the "space_id" field.
+func (u *SpaceDictionaryUpsert) SetSpaceID(v string) *SpaceDictionaryUpsert {
+	u.Set(spacedictionary.FieldSpaceID, v)
+	return u
+}
+
+// UpdateSpaceID sets the "space_id" field to the value that was provided on create.
+func (u *SpaceDictionaryUpsert) UpdateSpaceID() *SpaceDictionaryUpsert {
+	u.SetExcluded(spacedictionary.FieldSpaceID)
+	return u
+}
+
+// ClearSpaceID clears the value of the "space_id" field.
+func (u *SpaceDictionaryUpsert) ClearSpaceID() *SpaceDictionaryUpsert {
+	u.SetNull(spacedictionary.FieldSpaceID)
+	return u
+}
+
+// SetDictionaryID sets the "dictionary_id" field.
+func (u *SpaceDictionaryUpsert) SetDictionaryID(v string) *SpaceDictionaryUpsert {
+	u.Set(spacedictionary.FieldDictionaryID, v)
+	return u
+}
+
+// UpdateDictionaryID sets the "dictionary_id" field to the value that was provided on create.
+func (u *SpaceDictionaryUpsert) UpdateDictionaryID() *SpaceDictionaryUpsert {
+	u.SetExcluded(spacedictionary.FieldDictionaryID)
+	return u
+}
+
+// ClearDictionaryID clears the value of the "dictionary_id" field.
+func (u *SpaceDictionaryUpsert) ClearDictionaryID() *SpaceDictionaryUpsert {
+	u.SetNull(spacedictionary.FieldDictionaryID)
+	return u
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (u *SpaceDictionaryUpsert) SetCreatedBy(v string) *SpaceDictionaryUpsert {
+	u.Set(spacedictionary.FieldCreatedBy, v)
+	return u
+}
+
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *SpaceDictionaryUpsert) UpdateCreatedBy() *SpaceDictionaryUpsert {
+	u.SetExcluded(spacedictionary.FieldCreatedBy)
+	return u
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *SpaceDictionaryUpsert) ClearCreatedBy() *SpaceDictionaryUpsert {
+	u.SetNull(spacedictionary.FieldCreatedBy)
+	return u
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (u *SpaceDictionaryUpsert) SetUpdatedBy(v string) *SpaceDictionaryUpsert {
+	u.Set(spacedictionary.FieldUpdatedBy, v)
+	return u
+}
+
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *SpaceDictionaryUpsert) UpdateUpdatedBy() *SpaceDictionaryUpsert {
+	u.SetExcluded(spacedictionary.FieldUpdatedBy)
+	return u
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *SpaceDictionaryUpsert) ClearUpdatedBy() *SpaceDictionaryUpsert {
+	u.SetNull(spacedictionary.FieldUpdatedBy)
+	return u
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *SpaceDictionaryUpsert) SetUpdatedAt(v int64) *SpaceDictionaryUpsert {
+	u.Set(spacedictionary.FieldUpdatedAt, v)
+	return u
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *SpaceDictionaryUpsert) UpdateUpdatedAt() *SpaceDictionaryUpsert {
+	u.SetExcluded(spacedictionary.FieldUpdatedAt)
+	return u
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *SpaceDictionaryUpsert) AddUpdatedAt(v int64) *SpaceDictionaryUpsert {
+	u.Add(spacedictionary.FieldUpdatedAt, v)
+	return u
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *SpaceDictionaryUpsert) ClearUpdatedAt() *SpaceDictionaryUpsert {
+	u.SetNull(spacedictionary.FieldUpdatedAt)
+	return u
+}
+
+// UpdateNewValues updates the mutable fields using the new values that were set on create except the ID field.
+// Using this option is equivalent to using:
+//
+//	client.SpaceDictionary.Create().
+//		OnConflict(
+//			sql.ResolveWithNewValues(),
+//			sql.ResolveWith(func(u *sql.UpdateSet) {
+//				u.SetIgnore(spacedictionary.FieldID)
+//			}),
+//		).
+//		Exec(ctx)
+func (u *SpaceDictionaryUpsertOne) UpdateNewValues() *SpaceDictionaryUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithNewValues())
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(s *sql.UpdateSet) {
+		if _, exists := u.create.mutation.ID(); exists {
+			s.SetIgnore(spacedictionary.FieldID)
+		}
+		if _, exists := u.create.mutation.CreatedAt(); exists {
+			s.SetIgnore(spacedictionary.FieldCreatedAt)
+		}
+	}))
+	return u
+}
+
+// Ignore sets each column to itself in case of conflict.
+// Using this option is equivalent to using:
+//
+//	client.SpaceDictionary.Create().
+//	    OnConflict(sql.ResolveWithIgnore()).
+//	    Exec(ctx)
+func (u *SpaceDictionaryUpsertOne) Ignore() *SpaceDictionaryUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithIgnore())
+	return u
+}
+
+// DoNothing configures the conflict_action to `DO NOTHING`.
+// Supported only by SQLite and PostgreSQL.
+func (u *SpaceDictionaryUpsertOne) DoNothing() *SpaceDictionaryUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.DoNothing())
+	return u
+}
+
+// Update allows overriding fields `UPDATE` values. See the SpaceDictionaryCreate.OnConflict
+// documentation for more info.
+func (u *SpaceDictionaryUpsertOne) Update(set func(*SpaceDictionaryUpsert)) *SpaceDictionaryUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(update *sql.UpdateSet) {
+		set(&SpaceDictionaryUpsert{UpdateSet: update})
+	}))
+	return u
+}
+
+// SetSpaceID sets the "space_id" field.
+func (u *SpaceDictionaryUpsertOne) SetSpaceID(v string) *SpaceDictionaryUpsertOne {
+	return u.Update(func(s *SpaceDictionaryUpsert) {
+		s.SetSpaceID(v)
+	})
+}
+
+// UpdateSpaceID sets the "space_id" field to the value that was provided on create.
+func (u *SpaceDictionaryUpsertOne) UpdateSpaceID() *SpaceDictionaryUpsertOne {
+	return u.Update(func(s *SpaceDictionaryUpsert) {
+		s.UpdateSpaceID()
+	})
+}
+
+// ClearSpaceID clears the value of the "space_id" field.
+func (u *SpaceDictionaryUpsertOne) ClearSpaceID() *SpaceDictionaryUpsertOne {
+	return u.Update(func(s *SpaceDictionaryUpsert) {
+		s.ClearSpaceID()
+	})
+}
+
+// SetDictionaryID sets the "dictionary_id" field.
+func (u *SpaceDictionaryUpsertOne) SetDictionaryID(v string) *SpaceDictionaryUpsertOne {
+	return u.Update(func(s *SpaceDictionaryUpsert) {
+		s.SetDictionaryID(v)
+	})
+}
+
+// UpdateDictionaryID sets the "dictionary_id" field to the value that was provided on create.
+func (u *SpaceDictionaryUpsertOne) UpdateDictionaryID() *SpaceDictionaryUpsertOne {
+	return u.Update(func(s *SpaceDictionaryUpsert) {
+		s.UpdateDictionaryID()
+	})
+}
+
+// ClearDictionaryID clears the value of the "dictionary_id" field.
+func (u *SpaceDictionaryUpsertOne) ClearDictionaryID() *SpaceDictionaryUpsertOne {
+	return u.Update(func(s *SpaceDictionaryUpsert) {
+		s.ClearDictionaryID()
+	})
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (u *SpaceDictionaryUpsertOne) SetCreatedBy(v string) *SpaceDictionaryUpsertOne {
+	return u.Update(func(s *SpaceDictionaryUpsert) {
+		s.SetCreatedBy(v)
+	})
+}
+
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *SpaceDictionaryUpsertOne) UpdateCreatedBy() *SpaceDictionaryUpsertOne {
+	return u.Update(func(s *SpaceDictionaryUpsert) {
+		s.UpdateCreatedBy()
+	})
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *SpaceDictionaryUpsertOne) ClearCreatedBy() *SpaceDictionaryUpsertOne {
+	return u.Update(func(s *SpaceDictionaryUpsert) {
+		s.ClearCreatedBy()
+	})
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (u *SpaceDictionaryUpsertOne) SetUpdatedBy(v string) *SpaceDictionaryUpsertOne {
+	return u.Update(func(s *SpaceDictionaryUpsert) {
+		s.SetUpdatedBy(v)
+	})
+}
+
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *SpaceDictionaryUpsertOne) UpdateUpdatedBy() *SpaceDictionaryUpsertOne {
+	return u.Update(func(s *SpaceDictionaryUpsert) {
+		s.UpdateUpdatedBy()
+	})
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *SpaceDictionaryUpsertOne) ClearUpdatedBy() *SpaceDictionaryUpsertOne {
+	return u.Update(func(s *SpaceDictionaryUpsert) {
+		s.ClearUpdatedBy()
+	})
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *SpaceDictionaryUpsertOne) SetUpdatedAt(v int64) *SpaceDictionaryUpsertOne {
+	return u.Update(func(s *SpaceDictionaryUpsert) {
+		s.SetUpdatedAt(v)
+	})
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *SpaceDictionaryUpsertOne) AddUpdatedAt(v int64) *SpaceDictionaryUpsertOne {
+	return u.Update(func(s *SpaceDictionaryUpsert) {
+		s.AddUpdatedAt(v)
+	})
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *SpaceDictionaryUpsertOne) UpdateUpdatedAt() *SpaceDictionaryUpsertOne {
+	return u.Update(func(s *SpaceDictionaryUpsert) {
+		s.UpdateUpdatedAt()
+	})
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *SpaceDictionaryUpsertOne) ClearUpdatedAt() *SpaceDictionaryUpsertOne {
+	return u.Update(func(s *SpaceDictionaryUpsert) {
+		s.ClearUpdatedAt()
+	})
+}
+
+// Exec executes the query.
+func (u *SpaceDictionaryUpsertOne) Exec(ctx context.Context) error {
+	if len(u.create.conflict) == 0 {
+		return errors.New("ent: missing options for SpaceDictionaryCreate.OnConflict")
+	}
+	return u.create.Exec(ctx)
+}
+
+// ExecX is like Exec, but panics if an error occurs.
+func (u *SpaceDictionaryUpsertOne) ExecX(ctx context.Context) {
+	if err := u.create.Exec(ctx); err != nil {
+		panic(err)
+	}
+}
+
+// Exec executes the UPSERT query and returns the inserted/updated ID.
+func (u *SpaceDictionaryUpsertOne) ID(ctx context.Context) (id string, err error) {
+	if u.create.driver.Dialect() == dialect.MySQL {
+		// In case of "ON CONFLICT", there is no way to get back non-numeric ID
+		// fields from the database since MySQL does not support the RETURNING clause.
+		return id, errors.New("ent: SpaceDictionaryUpsertOne.ID is not supported by MySQL driver. Use SpaceDictionaryUpsertOne.Exec instead")
+	}
+	node, err := u.create.Save(ctx)
+	if err != nil {
+		return id, err
+	}
+	return node.ID, nil
+}
+
+// IDX is like ID, but panics if an error occurs.
+func (u *SpaceDictionaryUpsertOne) IDX(ctx context.Context) string {
+	id, err := u.ID(ctx)
+	if err != nil {
+		panic(err)
+	}
+	return id
+}
+
 // SpaceDictionaryCreateBulk is the builder for creating many SpaceDictionary entities in bulk.
 type SpaceDictionaryCreateBulk struct {
 	config
 	err      error
 	builders []*SpaceDictionaryCreate
+	conflict []sql.ConflictOption
 }
 
 // Save creates the SpaceDictionary entities in the database.
@@ -268,6 +620,7 @@ func (_c *SpaceDictionaryCreateBulk) Save(ctx context.Context) ([]*SpaceDictiona
 					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
+					spec.OnConflict = _c.conflict
 					// Invoke the actual operation on the latest mutation in the chain.
 					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
@@ -314,6 +667,235 @@ func (_c *SpaceDictionaryCreateBulk) Exec(ctx context.Context) error {
 // ExecX is like Exec, but panics if an error occurs.
 func (_c *SpaceDictionaryCreateBulk) ExecX(ctx context.Context) {
 	if err := _c.Exec(ctx); err != nil {
+		panic(err)
+	}
+}
+
+// OnConflict allows configuring the `ON CONFLICT` / `ON DUPLICATE KEY` clause
+// of the `INSERT` statement. For example:
+//
+//	client.SpaceDictionary.CreateBulk(builders...).
+//		OnConflict(
+//			// Update the row with the new values
+//			// the was proposed for insertion.
+//			sql.ResolveWithNewValues(),
+//		).
+//		// Override some of the fields with custom
+//		// update values.
+//		Update(func(u *ent.SpaceDictionaryUpsert) {
+//			SetSpaceID(v+v).
+//		}).
+//		Exec(ctx)
+func (_c *SpaceDictionaryCreateBulk) OnConflict(opts ...sql.ConflictOption) *SpaceDictionaryUpsertBulk {
+	_c.conflict = opts
+	return &SpaceDictionaryUpsertBulk{
+		create: _c,
+	}
+}
+
+// OnConflictColumns calls `OnConflict` and configures the columns
+// as conflict target. Using this option is equivalent to using:
+//
+//	client.SpaceDictionary.Create().
+//		OnConflict(sql.ConflictColumns(columns...)).
+//		Exec(ctx)
+func (_c *SpaceDictionaryCreateBulk) OnConflictColumns(columns ...string) *SpaceDictionaryUpsertBulk {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
+	return &SpaceDictionaryUpsertBulk{
+		create: _c,
+	}
+}
+
+// SpaceDictionaryUpsertBulk is the builder for "upsert"-ing
+// a bulk of SpaceDictionary nodes.
+type SpaceDictionaryUpsertBulk struct {
+	create *SpaceDictionaryCreateBulk
+}
+
+// UpdateNewValues updates the mutable fields using the new values that
+// were set on create. Using this option is equivalent to using:
+//
+//	client.SpaceDictionary.Create().
+//		OnConflict(
+//			sql.ResolveWithNewValues(),
+//			sql.ResolveWith(func(u *sql.UpdateSet) {
+//				u.SetIgnore(spacedictionary.FieldID)
+//			}),
+//		).
+//		Exec(ctx)
+func (u *SpaceDictionaryUpsertBulk) UpdateNewValues() *SpaceDictionaryUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithNewValues())
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(s *sql.UpdateSet) {
+		for _, b := range u.create.builders {
+			if _, exists := b.mutation.ID(); exists {
+				s.SetIgnore(spacedictionary.FieldID)
+			}
+			if _, exists := b.mutation.CreatedAt(); exists {
+				s.SetIgnore(spacedictionary.FieldCreatedAt)
+			}
+		}
+	}))
+	return u
+}
+
+// Ignore sets each column to itself in case of conflict.
+// Using this option is equivalent to using:
+//
+//	client.SpaceDictionary.Create().
+//		OnConflict(sql.ResolveWithIgnore()).
+//		Exec(ctx)
+func (u *SpaceDictionaryUpsertBulk) Ignore() *SpaceDictionaryUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithIgnore())
+	return u
+}
+
+// DoNothing configures the conflict_action to `DO NOTHING`.
+// Supported only by SQLite and PostgreSQL.
+func (u *SpaceDictionaryUpsertBulk) DoNothing() *SpaceDictionaryUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.DoNothing())
+	return u
+}
+
+// Update allows overriding fields `UPDATE` values. See the SpaceDictionaryCreateBulk.OnConflict
+// documentation for more info.
+func (u *SpaceDictionaryUpsertBulk) Update(set func(*SpaceDictionaryUpsert)) *SpaceDictionaryUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(update *sql.UpdateSet) {
+		set(&SpaceDictionaryUpsert{UpdateSet: update})
+	}))
+	return u
+}
+
+// SetSpaceID sets the "space_id" field.
+func (u *SpaceDictionaryUpsertBulk) SetSpaceID(v string) *SpaceDictionaryUpsertBulk {
+	return u.Update(func(s *SpaceDictionaryUpsert) {
+		s.SetSpaceID(v)
+	})
+}
+
+// UpdateSpaceID sets the "space_id" field to the value that was provided on create.
+func (u *SpaceDictionaryUpsertBulk) UpdateSpaceID() *SpaceDictionaryUpsertBulk {
+	return u.Update(func(s *SpaceDictionaryUpsert) {
+		s.UpdateSpaceID()
+	})
+}
+
+// ClearSpaceID clears the value of the "space_id" field.
+func (u *SpaceDictionaryUpsertBulk) ClearSpaceID() *SpaceDictionaryUpsertBulk {
+	return u.Update(func(s *SpaceDictionaryUpsert) {
+		s.ClearSpaceID()
+	})
+}
+
+// SetDictionaryID sets the "dictionary_id" field.
+func (u *SpaceDictionaryUpsertBulk) SetDictionaryID(v string) *SpaceDictionaryUpsertBulk {
+	return u.Update(func(s *SpaceDictionaryUpsert) {
+		s.SetDictionaryID(v)
+	})
+}
+
+// UpdateDictionaryID sets the "dictionary_id" field to the value that was provided on create.
+func (u *SpaceDictionaryUpsertBulk) UpdateDictionaryID() *SpaceDictionaryUpsertBulk {
+	return u.Update(func(s *SpaceDictionaryUpsert) {
+		s.UpdateDictionaryID()
+	})
+}
+
+// ClearDictionaryID clears the value of the "dictionary_id" field.
+func (u *SpaceDictionaryUpsertBulk) ClearDictionaryID() *SpaceDictionaryUpsertBulk {
+	return u.Update(func(s *SpaceDictionaryUpsert) {
+		s.ClearDictionaryID()
+	})
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (u *SpaceDictionaryUpsertBulk) SetCreatedBy(v string) *SpaceDictionaryUpsertBulk {
+	return u.Update(func(s *SpaceDictionaryUpsert) {
+		s.SetCreatedBy(v)
+	})
+}
+
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *SpaceDictionaryUpsertBulk) UpdateCreatedBy() *SpaceDictionaryUpsertBulk {
+	return u.Update(func(s *SpaceDictionaryUpsert) {
+		s.UpdateCreatedBy()
+	})
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *SpaceDictionaryUpsertBulk) ClearCreatedBy() *SpaceDictionaryUpsertBulk {
+	return u.Update(func(s *SpaceDictionaryUpsert) {
+		s.ClearCreatedBy()
+	})
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (u *SpaceDictionaryUpsertBulk) SetUpdatedBy(v string) *SpaceDictionaryUpsertBulk {
+	return u.Update(func(s *SpaceDictionaryUpsert) {
+		s.SetUpdatedBy(v)
+	})
+}
+
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *SpaceDictionaryUpsertBulk) UpdateUpdatedBy() *SpaceDictionaryUpsertBulk {
+	return u.Update(func(s *SpaceDictionaryUpsert) {
+		s.UpdateUpdatedBy()
+	})
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *SpaceDictionaryUpsertBulk) ClearUpdatedBy() *SpaceDictionaryUpsertBulk {
+	return u.Update(func(s *SpaceDictionaryUpsert) {
+		s.ClearUpdatedBy()
+	})
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *SpaceDictionaryUpsertBulk) SetUpdatedAt(v int64) *SpaceDictionaryUpsertBulk {
+	return u.Update(func(s *SpaceDictionaryUpsert) {
+		s.SetUpdatedAt(v)
+	})
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *SpaceDictionaryUpsertBulk) AddUpdatedAt(v int64) *SpaceDictionaryUpsertBulk {
+	return u.Update(func(s *SpaceDictionaryUpsert) {
+		s.AddUpdatedAt(v)
+	})
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *SpaceDictionaryUpsertBulk) UpdateUpdatedAt() *SpaceDictionaryUpsertBulk {
+	return u.Update(func(s *SpaceDictionaryUpsert) {
+		s.UpdateUpdatedAt()
+	})
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *SpaceDictionaryUpsertBulk) ClearUpdatedAt() *SpaceDictionaryUpsertBulk {
+	return u.Update(func(s *SpaceDictionaryUpsert) {
+		s.ClearUpdatedAt()
+	})
+}
+
+// Exec executes the query.
+func (u *SpaceDictionaryUpsertBulk) Exec(ctx context.Context) error {
+	if u.create.err != nil {
+		return u.create.err
+	}
+	for i, b := range u.create.builders {
+		if len(b.conflict) != 0 {
+			return fmt.Errorf("ent: OnConflict was set for builder %d. Set it on the SpaceDictionaryCreateBulk instead", i)
+		}
+	}
+	if len(u.create.conflict) == 0 {
+		return errors.New("ent: missing options for SpaceDictionaryCreateBulk.OnConflict")
+	}
+	return u.create.Exec(ctx)
+}
+
+// ExecX is like Exec, but panics if an error occurs.
+func (u *SpaceDictionaryUpsertBulk) ExecX(ctx context.Context) {
+	if err := u.create.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

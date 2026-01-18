@@ -1,8 +1,8 @@
 package handler
 
 import (
-	"ncobase/content/service"
-	"ncobase/content/structs"
+	"ncobase/biz/content/service"
+	"ncobase/biz/content/structs"
 
 	"github.com/ncobase/ncore/validation"
 

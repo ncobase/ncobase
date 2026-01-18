@@ -3,13 +3,14 @@ package repository
 import (
 	"context"
 	"fmt"
-	"ncobase/access/data"
-	"ncobase/access/data/ent"
-	casbinRuleEnt "ncobase/access/data/ent/casbinrule"
-	"ncobase/access/structs"
+	"ncobase/core/access/data"
+	"ncobase/core/access/data/ent"
+	casbinRuleEnt "ncobase/core/access/data/ent/casbinrule"
+	"ncobase/core/access/structs"
 	"time"
+	"github.com/redis/go-redis/v9"
 
-	"github.com/ncobase/ncore/data/databases/cache"
+	"github.com/ncobase/ncore/data/cache"
 	"github.com/ncobase/ncore/data/paging"
 	"github.com/ncobase/ncore/logging/logger"
 	"github.com/ncobase/ncore/types"
@@ -40,7 +41,7 @@ type casbinRuleRepository struct {
 
 // NewCasbinRule creates a new Casbin rule repository.
 func NewCasbinRule(d *data.Data) CasbinRuleRepositoryInterface {
-	redisClient := d.GetRedis()
+	redisClient := d.GetRedis().(*redis.Client)
 
 	return &casbinRuleRepository{
 		data:            d,

@@ -3,15 +3,15 @@ package repository
 import (
 	"context"
 	"fmt"
-	"ncobase/resource/data"
-	"ncobase/resource/data/ent"
-	fileEnt "ncobase/resource/data/ent/file"
-	"ncobase/resource/structs"
+	"ncobase/plugin/resource/data"
+	"ncobase/plugin/resource/data/ent"
+	fileEnt "ncobase/plugin/resource/data/ent/file"
+	"ncobase/plugin/resource/structs"
 	"strings"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqljson"
-	"github.com/ncobase/ncore/data/databases/cache"
+	"github.com/ncobase/ncore/data/cache"
 	"github.com/ncobase/ncore/data/paging"
 	"github.com/ncobase/ncore/logging/logger"
 	"github.com/ncobase/ncore/types"
@@ -20,6 +20,7 @@ import (
 
 	"github.com/redis/go-redis/v9"
 
+	nd "github.com/ncobase/ncore/data"
 	"github.com/ncobase/ncore/data/search"
 )
 
@@ -40,6 +41,7 @@ type FileRepositoryInterface interface {
 
 type fileRepository struct {
 	data *data.Data
+	searchClient *search.Client
 	ec   *ent.Client
 	ecr  *ent.Client
 	rc   *redis.Client
@@ -49,9 +51,11 @@ type fileRepository struct {
 func NewFileRepository(d *data.Data) FileRepositoryInterface {
 	ec := d.GetMasterEntClient()
 	ecr := d.GetSlaveEntClient()
-	rc := d.GetRedis()
+	rc := d.GetRedis().(*redis.Client)
+	searchClient := nd.NewSearchClient(d.Data)
 	return &fileRepository{
 		data: d,
+		searchClient: searchClient,
 		ec:   ec,
 		ecr:  ecr,
 		rc:   rc,
@@ -168,7 +172,7 @@ func (r *fileRepository) Create(ctx context.Context, body *structs.CreateFileBod
 	}
 
 	// Index in Meilisearch
-	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "files", Document: row}); err != nil {
+	if err = r.searchClient.Index(ctx, &search.IndexRequest{Index: "files", Document: row}); err != nil {
 		logger.Errorf(ctx, "fileRepo.Create index error: %v", err)
 	}
 
@@ -311,7 +315,7 @@ func (r *fileRepository) Update(ctx context.Context, slug string, updates types.
 	}
 
 	// Update in Meilisearch
-	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "files", Document: row, DocumentID: row.ID}); err != nil {
+	if err = r.searchClient.Index(ctx, &search.IndexRequest{Index: "files", Document: row, DocumentID: row.ID}); err != nil {
 		logger.Errorf(ctx, "fileRepo.Update index error: %v", err)
 	}
 
@@ -383,7 +387,7 @@ func (r *fileRepository) Delete(ctx context.Context, slug string) error {
 	}
 
 	// Delete from Meilisearch
-	if err = r.data.DeleteDocument(ctx, "files", file.ID); err != nil {
+	if err = r.searchClient.Delete(ctx, "files", file.ID); err != nil {
 		logger.Errorf(ctx, "fileRepo.Delete index error: %v", err)
 	}
 

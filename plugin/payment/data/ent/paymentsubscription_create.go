@@ -6,10 +6,12 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"ncobase/payment/data/ent/paymentproduct"
-	"ncobase/payment/data/ent/paymentsubscription"
+	"ncobase/plugin/payment/data/ent/paymentproduct"
+	"ncobase/plugin/payment/data/ent/paymentsubscription"
 	"time"
 
+	"entgo.io/ent/dialect"
+	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
 )
@@ -19,6 +21,7 @@ type PaymentSubscriptionCreate struct {
 	config
 	mutation *PaymentSubscriptionMutation
 	hooks    []Hook
+	conflict []sql.ConflictOption
 }
 
 // SetExtras sets the "extras" field.
@@ -361,6 +364,7 @@ func (_c *PaymentSubscriptionCreate) createSpec() (*PaymentSubscription, *sqlgra
 		_node = &PaymentSubscription{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(paymentsubscription.Table, sqlgraph.NewFieldSpec(paymentsubscription.FieldID, field.TypeString))
 	)
+	_spec.OnConflict = _c.conflict
 	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
@@ -449,11 +453,709 @@ func (_c *PaymentSubscriptionCreate) createSpec() (*PaymentSubscription, *sqlgra
 	return _node, _spec
 }
 
+// OnConflict allows configuring the `ON CONFLICT` / `ON DUPLICATE KEY` clause
+// of the `INSERT` statement. For example:
+//
+//	client.PaymentSubscription.Create().
+//		SetExtras(v).
+//		OnConflict(
+//			// Update the row with the new values
+//			// the was proposed for insertion.
+//			sql.ResolveWithNewValues(),
+//		).
+//		// Override some of the fields with custom
+//		// update values.
+//		Update(func(u *ent.PaymentSubscriptionUpsert) {
+//			SetExtras(v+v).
+//		}).
+//		Exec(ctx)
+func (_c *PaymentSubscriptionCreate) OnConflict(opts ...sql.ConflictOption) *PaymentSubscriptionUpsertOne {
+	_c.conflict = opts
+	return &PaymentSubscriptionUpsertOne{
+		create: _c,
+	}
+}
+
+// OnConflictColumns calls `OnConflict` and configures the columns
+// as conflict target. Using this option is equivalent to using:
+//
+//	client.PaymentSubscription.Create().
+//		OnConflict(sql.ConflictColumns(columns...)).
+//		Exec(ctx)
+func (_c *PaymentSubscriptionCreate) OnConflictColumns(columns ...string) *PaymentSubscriptionUpsertOne {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
+	return &PaymentSubscriptionUpsertOne{
+		create: _c,
+	}
+}
+
+type (
+	// PaymentSubscriptionUpsertOne is the builder for "upsert"-ing
+	//  one PaymentSubscription node.
+	PaymentSubscriptionUpsertOne struct {
+		create *PaymentSubscriptionCreate
+	}
+
+	// PaymentSubscriptionUpsert is the "OnConflict" setter.
+	PaymentSubscriptionUpsert struct {
+		*sql.UpdateSet
+	}
+)
+
+// SetExtras sets the "extras" field.
+func (u *PaymentSubscriptionUpsert) SetExtras(v map[string]interface{}) *PaymentSubscriptionUpsert {
+	u.Set(paymentsubscription.FieldExtras, v)
+	return u
+}
+
+// UpdateExtras sets the "extras" field to the value that was provided on create.
+func (u *PaymentSubscriptionUpsert) UpdateExtras() *PaymentSubscriptionUpsert {
+	u.SetExcluded(paymentsubscription.FieldExtras)
+	return u
+}
+
+// ClearExtras clears the value of the "extras" field.
+func (u *PaymentSubscriptionUpsert) ClearExtras() *PaymentSubscriptionUpsert {
+	u.SetNull(paymentsubscription.FieldExtras)
+	return u
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (u *PaymentSubscriptionUpsert) SetCreatedBy(v string) *PaymentSubscriptionUpsert {
+	u.Set(paymentsubscription.FieldCreatedBy, v)
+	return u
+}
+
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *PaymentSubscriptionUpsert) UpdateCreatedBy() *PaymentSubscriptionUpsert {
+	u.SetExcluded(paymentsubscription.FieldCreatedBy)
+	return u
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *PaymentSubscriptionUpsert) ClearCreatedBy() *PaymentSubscriptionUpsert {
+	u.SetNull(paymentsubscription.FieldCreatedBy)
+	return u
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (u *PaymentSubscriptionUpsert) SetUpdatedBy(v string) *PaymentSubscriptionUpsert {
+	u.Set(paymentsubscription.FieldUpdatedBy, v)
+	return u
+}
+
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *PaymentSubscriptionUpsert) UpdateUpdatedBy() *PaymentSubscriptionUpsert {
+	u.SetExcluded(paymentsubscription.FieldUpdatedBy)
+	return u
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *PaymentSubscriptionUpsert) ClearUpdatedBy() *PaymentSubscriptionUpsert {
+	u.SetNull(paymentsubscription.FieldUpdatedBy)
+	return u
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *PaymentSubscriptionUpsert) SetUpdatedAt(v int64) *PaymentSubscriptionUpsert {
+	u.Set(paymentsubscription.FieldUpdatedAt, v)
+	return u
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *PaymentSubscriptionUpsert) UpdateUpdatedAt() *PaymentSubscriptionUpsert {
+	u.SetExcluded(paymentsubscription.FieldUpdatedAt)
+	return u
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *PaymentSubscriptionUpsert) AddUpdatedAt(v int64) *PaymentSubscriptionUpsert {
+	u.Add(paymentsubscription.FieldUpdatedAt, v)
+	return u
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *PaymentSubscriptionUpsert) ClearUpdatedAt() *PaymentSubscriptionUpsert {
+	u.SetNull(paymentsubscription.FieldUpdatedAt)
+	return u
+}
+
+// SetStatus sets the "status" field.
+func (u *PaymentSubscriptionUpsert) SetStatus(v string) *PaymentSubscriptionUpsert {
+	u.Set(paymentsubscription.FieldStatus, v)
+	return u
+}
+
+// UpdateStatus sets the "status" field to the value that was provided on create.
+func (u *PaymentSubscriptionUpsert) UpdateStatus() *PaymentSubscriptionUpsert {
+	u.SetExcluded(paymentsubscription.FieldStatus)
+	return u
+}
+
+// SetUserID sets the "user_id" field.
+func (u *PaymentSubscriptionUpsert) SetUserID(v string) *PaymentSubscriptionUpsert {
+	u.Set(paymentsubscription.FieldUserID, v)
+	return u
+}
+
+// UpdateUserID sets the "user_id" field to the value that was provided on create.
+func (u *PaymentSubscriptionUpsert) UpdateUserID() *PaymentSubscriptionUpsert {
+	u.SetExcluded(paymentsubscription.FieldUserID)
+	return u
+}
+
+// SetSpaceID sets the "space_id" field.
+func (u *PaymentSubscriptionUpsert) SetSpaceID(v string) *PaymentSubscriptionUpsert {
+	u.Set(paymentsubscription.FieldSpaceID, v)
+	return u
+}
+
+// UpdateSpaceID sets the "space_id" field to the value that was provided on create.
+func (u *PaymentSubscriptionUpsert) UpdateSpaceID() *PaymentSubscriptionUpsert {
+	u.SetExcluded(paymentsubscription.FieldSpaceID)
+	return u
+}
+
+// ClearSpaceID clears the value of the "space_id" field.
+func (u *PaymentSubscriptionUpsert) ClearSpaceID() *PaymentSubscriptionUpsert {
+	u.SetNull(paymentsubscription.FieldSpaceID)
+	return u
+}
+
+// SetProductID sets the "product_id" field.
+func (u *PaymentSubscriptionUpsert) SetProductID(v string) *PaymentSubscriptionUpsert {
+	u.Set(paymentsubscription.FieldProductID, v)
+	return u
+}
+
+// UpdateProductID sets the "product_id" field to the value that was provided on create.
+func (u *PaymentSubscriptionUpsert) UpdateProductID() *PaymentSubscriptionUpsert {
+	u.SetExcluded(paymentsubscription.FieldProductID)
+	return u
+}
+
+// SetChannelID sets the "channel_id" field.
+func (u *PaymentSubscriptionUpsert) SetChannelID(v string) *PaymentSubscriptionUpsert {
+	u.Set(paymentsubscription.FieldChannelID, v)
+	return u
+}
+
+// UpdateChannelID sets the "channel_id" field to the value that was provided on create.
+func (u *PaymentSubscriptionUpsert) UpdateChannelID() *PaymentSubscriptionUpsert {
+	u.SetExcluded(paymentsubscription.FieldChannelID)
+	return u
+}
+
+// SetCurrentPeriodStart sets the "current_period_start" field.
+func (u *PaymentSubscriptionUpsert) SetCurrentPeriodStart(v time.Time) *PaymentSubscriptionUpsert {
+	u.Set(paymentsubscription.FieldCurrentPeriodStart, v)
+	return u
+}
+
+// UpdateCurrentPeriodStart sets the "current_period_start" field to the value that was provided on create.
+func (u *PaymentSubscriptionUpsert) UpdateCurrentPeriodStart() *PaymentSubscriptionUpsert {
+	u.SetExcluded(paymentsubscription.FieldCurrentPeriodStart)
+	return u
+}
+
+// SetCurrentPeriodEnd sets the "current_period_end" field.
+func (u *PaymentSubscriptionUpsert) SetCurrentPeriodEnd(v time.Time) *PaymentSubscriptionUpsert {
+	u.Set(paymentsubscription.FieldCurrentPeriodEnd, v)
+	return u
+}
+
+// UpdateCurrentPeriodEnd sets the "current_period_end" field to the value that was provided on create.
+func (u *PaymentSubscriptionUpsert) UpdateCurrentPeriodEnd() *PaymentSubscriptionUpsert {
+	u.SetExcluded(paymentsubscription.FieldCurrentPeriodEnd)
+	return u
+}
+
+// SetCancelAt sets the "cancel_at" field.
+func (u *PaymentSubscriptionUpsert) SetCancelAt(v time.Time) *PaymentSubscriptionUpsert {
+	u.Set(paymentsubscription.FieldCancelAt, v)
+	return u
+}
+
+// UpdateCancelAt sets the "cancel_at" field to the value that was provided on create.
+func (u *PaymentSubscriptionUpsert) UpdateCancelAt() *PaymentSubscriptionUpsert {
+	u.SetExcluded(paymentsubscription.FieldCancelAt)
+	return u
+}
+
+// ClearCancelAt clears the value of the "cancel_at" field.
+func (u *PaymentSubscriptionUpsert) ClearCancelAt() *PaymentSubscriptionUpsert {
+	u.SetNull(paymentsubscription.FieldCancelAt)
+	return u
+}
+
+// SetCancelledAt sets the "cancelled_at" field.
+func (u *PaymentSubscriptionUpsert) SetCancelledAt(v time.Time) *PaymentSubscriptionUpsert {
+	u.Set(paymentsubscription.FieldCancelledAt, v)
+	return u
+}
+
+// UpdateCancelledAt sets the "cancelled_at" field to the value that was provided on create.
+func (u *PaymentSubscriptionUpsert) UpdateCancelledAt() *PaymentSubscriptionUpsert {
+	u.SetExcluded(paymentsubscription.FieldCancelledAt)
+	return u
+}
+
+// ClearCancelledAt clears the value of the "cancelled_at" field.
+func (u *PaymentSubscriptionUpsert) ClearCancelledAt() *PaymentSubscriptionUpsert {
+	u.SetNull(paymentsubscription.FieldCancelledAt)
+	return u
+}
+
+// SetTrialStart sets the "trial_start" field.
+func (u *PaymentSubscriptionUpsert) SetTrialStart(v time.Time) *PaymentSubscriptionUpsert {
+	u.Set(paymentsubscription.FieldTrialStart, v)
+	return u
+}
+
+// UpdateTrialStart sets the "trial_start" field to the value that was provided on create.
+func (u *PaymentSubscriptionUpsert) UpdateTrialStart() *PaymentSubscriptionUpsert {
+	u.SetExcluded(paymentsubscription.FieldTrialStart)
+	return u
+}
+
+// ClearTrialStart clears the value of the "trial_start" field.
+func (u *PaymentSubscriptionUpsert) ClearTrialStart() *PaymentSubscriptionUpsert {
+	u.SetNull(paymentsubscription.FieldTrialStart)
+	return u
+}
+
+// SetTrialEnd sets the "trial_end" field.
+func (u *PaymentSubscriptionUpsert) SetTrialEnd(v time.Time) *PaymentSubscriptionUpsert {
+	u.Set(paymentsubscription.FieldTrialEnd, v)
+	return u
+}
+
+// UpdateTrialEnd sets the "trial_end" field to the value that was provided on create.
+func (u *PaymentSubscriptionUpsert) UpdateTrialEnd() *PaymentSubscriptionUpsert {
+	u.SetExcluded(paymentsubscription.FieldTrialEnd)
+	return u
+}
+
+// ClearTrialEnd clears the value of the "trial_end" field.
+func (u *PaymentSubscriptionUpsert) ClearTrialEnd() *PaymentSubscriptionUpsert {
+	u.SetNull(paymentsubscription.FieldTrialEnd)
+	return u
+}
+
+// SetProviderRef sets the "provider_ref" field.
+func (u *PaymentSubscriptionUpsert) SetProviderRef(v string) *PaymentSubscriptionUpsert {
+	u.Set(paymentsubscription.FieldProviderRef, v)
+	return u
+}
+
+// UpdateProviderRef sets the "provider_ref" field to the value that was provided on create.
+func (u *PaymentSubscriptionUpsert) UpdateProviderRef() *PaymentSubscriptionUpsert {
+	u.SetExcluded(paymentsubscription.FieldProviderRef)
+	return u
+}
+
+// ClearProviderRef clears the value of the "provider_ref" field.
+func (u *PaymentSubscriptionUpsert) ClearProviderRef() *PaymentSubscriptionUpsert {
+	u.SetNull(paymentsubscription.FieldProviderRef)
+	return u
+}
+
+// UpdateNewValues updates the mutable fields using the new values that were set on create except the ID field.
+// Using this option is equivalent to using:
+//
+//	client.PaymentSubscription.Create().
+//		OnConflict(
+//			sql.ResolveWithNewValues(),
+//			sql.ResolveWith(func(u *sql.UpdateSet) {
+//				u.SetIgnore(paymentsubscription.FieldID)
+//			}),
+//		).
+//		Exec(ctx)
+func (u *PaymentSubscriptionUpsertOne) UpdateNewValues() *PaymentSubscriptionUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithNewValues())
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(s *sql.UpdateSet) {
+		if _, exists := u.create.mutation.ID(); exists {
+			s.SetIgnore(paymentsubscription.FieldID)
+		}
+		if _, exists := u.create.mutation.CreatedAt(); exists {
+			s.SetIgnore(paymentsubscription.FieldCreatedAt)
+		}
+	}))
+	return u
+}
+
+// Ignore sets each column to itself in case of conflict.
+// Using this option is equivalent to using:
+//
+//	client.PaymentSubscription.Create().
+//	    OnConflict(sql.ResolveWithIgnore()).
+//	    Exec(ctx)
+func (u *PaymentSubscriptionUpsertOne) Ignore() *PaymentSubscriptionUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithIgnore())
+	return u
+}
+
+// DoNothing configures the conflict_action to `DO NOTHING`.
+// Supported only by SQLite and PostgreSQL.
+func (u *PaymentSubscriptionUpsertOne) DoNothing() *PaymentSubscriptionUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.DoNothing())
+	return u
+}
+
+// Update allows overriding fields `UPDATE` values. See the PaymentSubscriptionCreate.OnConflict
+// documentation for more info.
+func (u *PaymentSubscriptionUpsertOne) Update(set func(*PaymentSubscriptionUpsert)) *PaymentSubscriptionUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(update *sql.UpdateSet) {
+		set(&PaymentSubscriptionUpsert{UpdateSet: update})
+	}))
+	return u
+}
+
+// SetExtras sets the "extras" field.
+func (u *PaymentSubscriptionUpsertOne) SetExtras(v map[string]interface{}) *PaymentSubscriptionUpsertOne {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.SetExtras(v)
+	})
+}
+
+// UpdateExtras sets the "extras" field to the value that was provided on create.
+func (u *PaymentSubscriptionUpsertOne) UpdateExtras() *PaymentSubscriptionUpsertOne {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.UpdateExtras()
+	})
+}
+
+// ClearExtras clears the value of the "extras" field.
+func (u *PaymentSubscriptionUpsertOne) ClearExtras() *PaymentSubscriptionUpsertOne {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.ClearExtras()
+	})
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (u *PaymentSubscriptionUpsertOne) SetCreatedBy(v string) *PaymentSubscriptionUpsertOne {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.SetCreatedBy(v)
+	})
+}
+
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *PaymentSubscriptionUpsertOne) UpdateCreatedBy() *PaymentSubscriptionUpsertOne {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.UpdateCreatedBy()
+	})
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *PaymentSubscriptionUpsertOne) ClearCreatedBy() *PaymentSubscriptionUpsertOne {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.ClearCreatedBy()
+	})
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (u *PaymentSubscriptionUpsertOne) SetUpdatedBy(v string) *PaymentSubscriptionUpsertOne {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.SetUpdatedBy(v)
+	})
+}
+
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *PaymentSubscriptionUpsertOne) UpdateUpdatedBy() *PaymentSubscriptionUpsertOne {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.UpdateUpdatedBy()
+	})
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *PaymentSubscriptionUpsertOne) ClearUpdatedBy() *PaymentSubscriptionUpsertOne {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.ClearUpdatedBy()
+	})
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *PaymentSubscriptionUpsertOne) SetUpdatedAt(v int64) *PaymentSubscriptionUpsertOne {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.SetUpdatedAt(v)
+	})
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *PaymentSubscriptionUpsertOne) AddUpdatedAt(v int64) *PaymentSubscriptionUpsertOne {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.AddUpdatedAt(v)
+	})
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *PaymentSubscriptionUpsertOne) UpdateUpdatedAt() *PaymentSubscriptionUpsertOne {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.UpdateUpdatedAt()
+	})
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *PaymentSubscriptionUpsertOne) ClearUpdatedAt() *PaymentSubscriptionUpsertOne {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.ClearUpdatedAt()
+	})
+}
+
+// SetStatus sets the "status" field.
+func (u *PaymentSubscriptionUpsertOne) SetStatus(v string) *PaymentSubscriptionUpsertOne {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.SetStatus(v)
+	})
+}
+
+// UpdateStatus sets the "status" field to the value that was provided on create.
+func (u *PaymentSubscriptionUpsertOne) UpdateStatus() *PaymentSubscriptionUpsertOne {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.UpdateStatus()
+	})
+}
+
+// SetUserID sets the "user_id" field.
+func (u *PaymentSubscriptionUpsertOne) SetUserID(v string) *PaymentSubscriptionUpsertOne {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.SetUserID(v)
+	})
+}
+
+// UpdateUserID sets the "user_id" field to the value that was provided on create.
+func (u *PaymentSubscriptionUpsertOne) UpdateUserID() *PaymentSubscriptionUpsertOne {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.UpdateUserID()
+	})
+}
+
+// SetSpaceID sets the "space_id" field.
+func (u *PaymentSubscriptionUpsertOne) SetSpaceID(v string) *PaymentSubscriptionUpsertOne {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.SetSpaceID(v)
+	})
+}
+
+// UpdateSpaceID sets the "space_id" field to the value that was provided on create.
+func (u *PaymentSubscriptionUpsertOne) UpdateSpaceID() *PaymentSubscriptionUpsertOne {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.UpdateSpaceID()
+	})
+}
+
+// ClearSpaceID clears the value of the "space_id" field.
+func (u *PaymentSubscriptionUpsertOne) ClearSpaceID() *PaymentSubscriptionUpsertOne {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.ClearSpaceID()
+	})
+}
+
+// SetProductID sets the "product_id" field.
+func (u *PaymentSubscriptionUpsertOne) SetProductID(v string) *PaymentSubscriptionUpsertOne {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.SetProductID(v)
+	})
+}
+
+// UpdateProductID sets the "product_id" field to the value that was provided on create.
+func (u *PaymentSubscriptionUpsertOne) UpdateProductID() *PaymentSubscriptionUpsertOne {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.UpdateProductID()
+	})
+}
+
+// SetChannelID sets the "channel_id" field.
+func (u *PaymentSubscriptionUpsertOne) SetChannelID(v string) *PaymentSubscriptionUpsertOne {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.SetChannelID(v)
+	})
+}
+
+// UpdateChannelID sets the "channel_id" field to the value that was provided on create.
+func (u *PaymentSubscriptionUpsertOne) UpdateChannelID() *PaymentSubscriptionUpsertOne {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.UpdateChannelID()
+	})
+}
+
+// SetCurrentPeriodStart sets the "current_period_start" field.
+func (u *PaymentSubscriptionUpsertOne) SetCurrentPeriodStart(v time.Time) *PaymentSubscriptionUpsertOne {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.SetCurrentPeriodStart(v)
+	})
+}
+
+// UpdateCurrentPeriodStart sets the "current_period_start" field to the value that was provided on create.
+func (u *PaymentSubscriptionUpsertOne) UpdateCurrentPeriodStart() *PaymentSubscriptionUpsertOne {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.UpdateCurrentPeriodStart()
+	})
+}
+
+// SetCurrentPeriodEnd sets the "current_period_end" field.
+func (u *PaymentSubscriptionUpsertOne) SetCurrentPeriodEnd(v time.Time) *PaymentSubscriptionUpsertOne {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.SetCurrentPeriodEnd(v)
+	})
+}
+
+// UpdateCurrentPeriodEnd sets the "current_period_end" field to the value that was provided on create.
+func (u *PaymentSubscriptionUpsertOne) UpdateCurrentPeriodEnd() *PaymentSubscriptionUpsertOne {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.UpdateCurrentPeriodEnd()
+	})
+}
+
+// SetCancelAt sets the "cancel_at" field.
+func (u *PaymentSubscriptionUpsertOne) SetCancelAt(v time.Time) *PaymentSubscriptionUpsertOne {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.SetCancelAt(v)
+	})
+}
+
+// UpdateCancelAt sets the "cancel_at" field to the value that was provided on create.
+func (u *PaymentSubscriptionUpsertOne) UpdateCancelAt() *PaymentSubscriptionUpsertOne {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.UpdateCancelAt()
+	})
+}
+
+// ClearCancelAt clears the value of the "cancel_at" field.
+func (u *PaymentSubscriptionUpsertOne) ClearCancelAt() *PaymentSubscriptionUpsertOne {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.ClearCancelAt()
+	})
+}
+
+// SetCancelledAt sets the "cancelled_at" field.
+func (u *PaymentSubscriptionUpsertOne) SetCancelledAt(v time.Time) *PaymentSubscriptionUpsertOne {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.SetCancelledAt(v)
+	})
+}
+
+// UpdateCancelledAt sets the "cancelled_at" field to the value that was provided on create.
+func (u *PaymentSubscriptionUpsertOne) UpdateCancelledAt() *PaymentSubscriptionUpsertOne {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.UpdateCancelledAt()
+	})
+}
+
+// ClearCancelledAt clears the value of the "cancelled_at" field.
+func (u *PaymentSubscriptionUpsertOne) ClearCancelledAt() *PaymentSubscriptionUpsertOne {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.ClearCancelledAt()
+	})
+}
+
+// SetTrialStart sets the "trial_start" field.
+func (u *PaymentSubscriptionUpsertOne) SetTrialStart(v time.Time) *PaymentSubscriptionUpsertOne {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.SetTrialStart(v)
+	})
+}
+
+// UpdateTrialStart sets the "trial_start" field to the value that was provided on create.
+func (u *PaymentSubscriptionUpsertOne) UpdateTrialStart() *PaymentSubscriptionUpsertOne {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.UpdateTrialStart()
+	})
+}
+
+// ClearTrialStart clears the value of the "trial_start" field.
+func (u *PaymentSubscriptionUpsertOne) ClearTrialStart() *PaymentSubscriptionUpsertOne {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.ClearTrialStart()
+	})
+}
+
+// SetTrialEnd sets the "trial_end" field.
+func (u *PaymentSubscriptionUpsertOne) SetTrialEnd(v time.Time) *PaymentSubscriptionUpsertOne {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.SetTrialEnd(v)
+	})
+}
+
+// UpdateTrialEnd sets the "trial_end" field to the value that was provided on create.
+func (u *PaymentSubscriptionUpsertOne) UpdateTrialEnd() *PaymentSubscriptionUpsertOne {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.UpdateTrialEnd()
+	})
+}
+
+// ClearTrialEnd clears the value of the "trial_end" field.
+func (u *PaymentSubscriptionUpsertOne) ClearTrialEnd() *PaymentSubscriptionUpsertOne {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.ClearTrialEnd()
+	})
+}
+
+// SetProviderRef sets the "provider_ref" field.
+func (u *PaymentSubscriptionUpsertOne) SetProviderRef(v string) *PaymentSubscriptionUpsertOne {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.SetProviderRef(v)
+	})
+}
+
+// UpdateProviderRef sets the "provider_ref" field to the value that was provided on create.
+func (u *PaymentSubscriptionUpsertOne) UpdateProviderRef() *PaymentSubscriptionUpsertOne {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.UpdateProviderRef()
+	})
+}
+
+// ClearProviderRef clears the value of the "provider_ref" field.
+func (u *PaymentSubscriptionUpsertOne) ClearProviderRef() *PaymentSubscriptionUpsertOne {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.ClearProviderRef()
+	})
+}
+
+// Exec executes the query.
+func (u *PaymentSubscriptionUpsertOne) Exec(ctx context.Context) error {
+	if len(u.create.conflict) == 0 {
+		return errors.New("ent: missing options for PaymentSubscriptionCreate.OnConflict")
+	}
+	return u.create.Exec(ctx)
+}
+
+// ExecX is like Exec, but panics if an error occurs.
+func (u *PaymentSubscriptionUpsertOne) ExecX(ctx context.Context) {
+	if err := u.create.Exec(ctx); err != nil {
+		panic(err)
+	}
+}
+
+// Exec executes the UPSERT query and returns the inserted/updated ID.
+func (u *PaymentSubscriptionUpsertOne) ID(ctx context.Context) (id string, err error) {
+	if u.create.driver.Dialect() == dialect.MySQL {
+		// In case of "ON CONFLICT", there is no way to get back non-numeric ID
+		// fields from the database since MySQL does not support the RETURNING clause.
+		return id, errors.New("ent: PaymentSubscriptionUpsertOne.ID is not supported by MySQL driver. Use PaymentSubscriptionUpsertOne.Exec instead")
+	}
+	node, err := u.create.Save(ctx)
+	if err != nil {
+		return id, err
+	}
+	return node.ID, nil
+}
+
+// IDX is like ID, but panics if an error occurs.
+func (u *PaymentSubscriptionUpsertOne) IDX(ctx context.Context) string {
+	id, err := u.ID(ctx)
+	if err != nil {
+		panic(err)
+	}
+	return id
+}
+
 // PaymentSubscriptionCreateBulk is the builder for creating many PaymentSubscription entities in bulk.
 type PaymentSubscriptionCreateBulk struct {
 	config
 	err      error
 	builders []*PaymentSubscriptionCreate
+	conflict []sql.ConflictOption
 }
 
 // Save creates the PaymentSubscription entities in the database.
@@ -483,6 +1185,7 @@ func (_c *PaymentSubscriptionCreateBulk) Save(ctx context.Context) ([]*PaymentSu
 					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
+					spec.OnConflict = _c.conflict
 					// Invoke the actual operation on the latest mutation in the chain.
 					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
@@ -529,6 +1232,424 @@ func (_c *PaymentSubscriptionCreateBulk) Exec(ctx context.Context) error {
 // ExecX is like Exec, but panics if an error occurs.
 func (_c *PaymentSubscriptionCreateBulk) ExecX(ctx context.Context) {
 	if err := _c.Exec(ctx); err != nil {
+		panic(err)
+	}
+}
+
+// OnConflict allows configuring the `ON CONFLICT` / `ON DUPLICATE KEY` clause
+// of the `INSERT` statement. For example:
+//
+//	client.PaymentSubscription.CreateBulk(builders...).
+//		OnConflict(
+//			// Update the row with the new values
+//			// the was proposed for insertion.
+//			sql.ResolveWithNewValues(),
+//		).
+//		// Override some of the fields with custom
+//		// update values.
+//		Update(func(u *ent.PaymentSubscriptionUpsert) {
+//			SetExtras(v+v).
+//		}).
+//		Exec(ctx)
+func (_c *PaymentSubscriptionCreateBulk) OnConflict(opts ...sql.ConflictOption) *PaymentSubscriptionUpsertBulk {
+	_c.conflict = opts
+	return &PaymentSubscriptionUpsertBulk{
+		create: _c,
+	}
+}
+
+// OnConflictColumns calls `OnConflict` and configures the columns
+// as conflict target. Using this option is equivalent to using:
+//
+//	client.PaymentSubscription.Create().
+//		OnConflict(sql.ConflictColumns(columns...)).
+//		Exec(ctx)
+func (_c *PaymentSubscriptionCreateBulk) OnConflictColumns(columns ...string) *PaymentSubscriptionUpsertBulk {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
+	return &PaymentSubscriptionUpsertBulk{
+		create: _c,
+	}
+}
+
+// PaymentSubscriptionUpsertBulk is the builder for "upsert"-ing
+// a bulk of PaymentSubscription nodes.
+type PaymentSubscriptionUpsertBulk struct {
+	create *PaymentSubscriptionCreateBulk
+}
+
+// UpdateNewValues updates the mutable fields using the new values that
+// were set on create. Using this option is equivalent to using:
+//
+//	client.PaymentSubscription.Create().
+//		OnConflict(
+//			sql.ResolveWithNewValues(),
+//			sql.ResolveWith(func(u *sql.UpdateSet) {
+//				u.SetIgnore(paymentsubscription.FieldID)
+//			}),
+//		).
+//		Exec(ctx)
+func (u *PaymentSubscriptionUpsertBulk) UpdateNewValues() *PaymentSubscriptionUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithNewValues())
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(s *sql.UpdateSet) {
+		for _, b := range u.create.builders {
+			if _, exists := b.mutation.ID(); exists {
+				s.SetIgnore(paymentsubscription.FieldID)
+			}
+			if _, exists := b.mutation.CreatedAt(); exists {
+				s.SetIgnore(paymentsubscription.FieldCreatedAt)
+			}
+		}
+	}))
+	return u
+}
+
+// Ignore sets each column to itself in case of conflict.
+// Using this option is equivalent to using:
+//
+//	client.PaymentSubscription.Create().
+//		OnConflict(sql.ResolveWithIgnore()).
+//		Exec(ctx)
+func (u *PaymentSubscriptionUpsertBulk) Ignore() *PaymentSubscriptionUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithIgnore())
+	return u
+}
+
+// DoNothing configures the conflict_action to `DO NOTHING`.
+// Supported only by SQLite and PostgreSQL.
+func (u *PaymentSubscriptionUpsertBulk) DoNothing() *PaymentSubscriptionUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.DoNothing())
+	return u
+}
+
+// Update allows overriding fields `UPDATE` values. See the PaymentSubscriptionCreateBulk.OnConflict
+// documentation for more info.
+func (u *PaymentSubscriptionUpsertBulk) Update(set func(*PaymentSubscriptionUpsert)) *PaymentSubscriptionUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(update *sql.UpdateSet) {
+		set(&PaymentSubscriptionUpsert{UpdateSet: update})
+	}))
+	return u
+}
+
+// SetExtras sets the "extras" field.
+func (u *PaymentSubscriptionUpsertBulk) SetExtras(v map[string]interface{}) *PaymentSubscriptionUpsertBulk {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.SetExtras(v)
+	})
+}
+
+// UpdateExtras sets the "extras" field to the value that was provided on create.
+func (u *PaymentSubscriptionUpsertBulk) UpdateExtras() *PaymentSubscriptionUpsertBulk {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.UpdateExtras()
+	})
+}
+
+// ClearExtras clears the value of the "extras" field.
+func (u *PaymentSubscriptionUpsertBulk) ClearExtras() *PaymentSubscriptionUpsertBulk {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.ClearExtras()
+	})
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (u *PaymentSubscriptionUpsertBulk) SetCreatedBy(v string) *PaymentSubscriptionUpsertBulk {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.SetCreatedBy(v)
+	})
+}
+
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *PaymentSubscriptionUpsertBulk) UpdateCreatedBy() *PaymentSubscriptionUpsertBulk {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.UpdateCreatedBy()
+	})
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *PaymentSubscriptionUpsertBulk) ClearCreatedBy() *PaymentSubscriptionUpsertBulk {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.ClearCreatedBy()
+	})
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (u *PaymentSubscriptionUpsertBulk) SetUpdatedBy(v string) *PaymentSubscriptionUpsertBulk {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.SetUpdatedBy(v)
+	})
+}
+
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *PaymentSubscriptionUpsertBulk) UpdateUpdatedBy() *PaymentSubscriptionUpsertBulk {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.UpdateUpdatedBy()
+	})
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *PaymentSubscriptionUpsertBulk) ClearUpdatedBy() *PaymentSubscriptionUpsertBulk {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.ClearUpdatedBy()
+	})
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *PaymentSubscriptionUpsertBulk) SetUpdatedAt(v int64) *PaymentSubscriptionUpsertBulk {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.SetUpdatedAt(v)
+	})
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *PaymentSubscriptionUpsertBulk) AddUpdatedAt(v int64) *PaymentSubscriptionUpsertBulk {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.AddUpdatedAt(v)
+	})
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *PaymentSubscriptionUpsertBulk) UpdateUpdatedAt() *PaymentSubscriptionUpsertBulk {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.UpdateUpdatedAt()
+	})
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *PaymentSubscriptionUpsertBulk) ClearUpdatedAt() *PaymentSubscriptionUpsertBulk {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.ClearUpdatedAt()
+	})
+}
+
+// SetStatus sets the "status" field.
+func (u *PaymentSubscriptionUpsertBulk) SetStatus(v string) *PaymentSubscriptionUpsertBulk {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.SetStatus(v)
+	})
+}
+
+// UpdateStatus sets the "status" field to the value that was provided on create.
+func (u *PaymentSubscriptionUpsertBulk) UpdateStatus() *PaymentSubscriptionUpsertBulk {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.UpdateStatus()
+	})
+}
+
+// SetUserID sets the "user_id" field.
+func (u *PaymentSubscriptionUpsertBulk) SetUserID(v string) *PaymentSubscriptionUpsertBulk {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.SetUserID(v)
+	})
+}
+
+// UpdateUserID sets the "user_id" field to the value that was provided on create.
+func (u *PaymentSubscriptionUpsertBulk) UpdateUserID() *PaymentSubscriptionUpsertBulk {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.UpdateUserID()
+	})
+}
+
+// SetSpaceID sets the "space_id" field.
+func (u *PaymentSubscriptionUpsertBulk) SetSpaceID(v string) *PaymentSubscriptionUpsertBulk {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.SetSpaceID(v)
+	})
+}
+
+// UpdateSpaceID sets the "space_id" field to the value that was provided on create.
+func (u *PaymentSubscriptionUpsertBulk) UpdateSpaceID() *PaymentSubscriptionUpsertBulk {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.UpdateSpaceID()
+	})
+}
+
+// ClearSpaceID clears the value of the "space_id" field.
+func (u *PaymentSubscriptionUpsertBulk) ClearSpaceID() *PaymentSubscriptionUpsertBulk {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.ClearSpaceID()
+	})
+}
+
+// SetProductID sets the "product_id" field.
+func (u *PaymentSubscriptionUpsertBulk) SetProductID(v string) *PaymentSubscriptionUpsertBulk {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.SetProductID(v)
+	})
+}
+
+// UpdateProductID sets the "product_id" field to the value that was provided on create.
+func (u *PaymentSubscriptionUpsertBulk) UpdateProductID() *PaymentSubscriptionUpsertBulk {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.UpdateProductID()
+	})
+}
+
+// SetChannelID sets the "channel_id" field.
+func (u *PaymentSubscriptionUpsertBulk) SetChannelID(v string) *PaymentSubscriptionUpsertBulk {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.SetChannelID(v)
+	})
+}
+
+// UpdateChannelID sets the "channel_id" field to the value that was provided on create.
+func (u *PaymentSubscriptionUpsertBulk) UpdateChannelID() *PaymentSubscriptionUpsertBulk {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.UpdateChannelID()
+	})
+}
+
+// SetCurrentPeriodStart sets the "current_period_start" field.
+func (u *PaymentSubscriptionUpsertBulk) SetCurrentPeriodStart(v time.Time) *PaymentSubscriptionUpsertBulk {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.SetCurrentPeriodStart(v)
+	})
+}
+
+// UpdateCurrentPeriodStart sets the "current_period_start" field to the value that was provided on create.
+func (u *PaymentSubscriptionUpsertBulk) UpdateCurrentPeriodStart() *PaymentSubscriptionUpsertBulk {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.UpdateCurrentPeriodStart()
+	})
+}
+
+// SetCurrentPeriodEnd sets the "current_period_end" field.
+func (u *PaymentSubscriptionUpsertBulk) SetCurrentPeriodEnd(v time.Time) *PaymentSubscriptionUpsertBulk {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.SetCurrentPeriodEnd(v)
+	})
+}
+
+// UpdateCurrentPeriodEnd sets the "current_period_end" field to the value that was provided on create.
+func (u *PaymentSubscriptionUpsertBulk) UpdateCurrentPeriodEnd() *PaymentSubscriptionUpsertBulk {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.UpdateCurrentPeriodEnd()
+	})
+}
+
+// SetCancelAt sets the "cancel_at" field.
+func (u *PaymentSubscriptionUpsertBulk) SetCancelAt(v time.Time) *PaymentSubscriptionUpsertBulk {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.SetCancelAt(v)
+	})
+}
+
+// UpdateCancelAt sets the "cancel_at" field to the value that was provided on create.
+func (u *PaymentSubscriptionUpsertBulk) UpdateCancelAt() *PaymentSubscriptionUpsertBulk {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.UpdateCancelAt()
+	})
+}
+
+// ClearCancelAt clears the value of the "cancel_at" field.
+func (u *PaymentSubscriptionUpsertBulk) ClearCancelAt() *PaymentSubscriptionUpsertBulk {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.ClearCancelAt()
+	})
+}
+
+// SetCancelledAt sets the "cancelled_at" field.
+func (u *PaymentSubscriptionUpsertBulk) SetCancelledAt(v time.Time) *PaymentSubscriptionUpsertBulk {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.SetCancelledAt(v)
+	})
+}
+
+// UpdateCancelledAt sets the "cancelled_at" field to the value that was provided on create.
+func (u *PaymentSubscriptionUpsertBulk) UpdateCancelledAt() *PaymentSubscriptionUpsertBulk {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.UpdateCancelledAt()
+	})
+}
+
+// ClearCancelledAt clears the value of the "cancelled_at" field.
+func (u *PaymentSubscriptionUpsertBulk) ClearCancelledAt() *PaymentSubscriptionUpsertBulk {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.ClearCancelledAt()
+	})
+}
+
+// SetTrialStart sets the "trial_start" field.
+func (u *PaymentSubscriptionUpsertBulk) SetTrialStart(v time.Time) *PaymentSubscriptionUpsertBulk {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.SetTrialStart(v)
+	})
+}
+
+// UpdateTrialStart sets the "trial_start" field to the value that was provided on create.
+func (u *PaymentSubscriptionUpsertBulk) UpdateTrialStart() *PaymentSubscriptionUpsertBulk {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.UpdateTrialStart()
+	})
+}
+
+// ClearTrialStart clears the value of the "trial_start" field.
+func (u *PaymentSubscriptionUpsertBulk) ClearTrialStart() *PaymentSubscriptionUpsertBulk {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.ClearTrialStart()
+	})
+}
+
+// SetTrialEnd sets the "trial_end" field.
+func (u *PaymentSubscriptionUpsertBulk) SetTrialEnd(v time.Time) *PaymentSubscriptionUpsertBulk {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.SetTrialEnd(v)
+	})
+}
+
+// UpdateTrialEnd sets the "trial_end" field to the value that was provided on create.
+func (u *PaymentSubscriptionUpsertBulk) UpdateTrialEnd() *PaymentSubscriptionUpsertBulk {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.UpdateTrialEnd()
+	})
+}
+
+// ClearTrialEnd clears the value of the "trial_end" field.
+func (u *PaymentSubscriptionUpsertBulk) ClearTrialEnd() *PaymentSubscriptionUpsertBulk {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.ClearTrialEnd()
+	})
+}
+
+// SetProviderRef sets the "provider_ref" field.
+func (u *PaymentSubscriptionUpsertBulk) SetProviderRef(v string) *PaymentSubscriptionUpsertBulk {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.SetProviderRef(v)
+	})
+}
+
+// UpdateProviderRef sets the "provider_ref" field to the value that was provided on create.
+func (u *PaymentSubscriptionUpsertBulk) UpdateProviderRef() *PaymentSubscriptionUpsertBulk {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.UpdateProviderRef()
+	})
+}
+
+// ClearProviderRef clears the value of the "provider_ref" field.
+func (u *PaymentSubscriptionUpsertBulk) ClearProviderRef() *PaymentSubscriptionUpsertBulk {
+	return u.Update(func(s *PaymentSubscriptionUpsert) {
+		s.ClearProviderRef()
+	})
+}
+
+// Exec executes the query.
+func (u *PaymentSubscriptionUpsertBulk) Exec(ctx context.Context) error {
+	if u.create.err != nil {
+		return u.create.err
+	}
+	for i, b := range u.create.builders {
+		if len(b.conflict) != 0 {
+			return fmt.Errorf("ent: OnConflict was set for builder %d. Set it on the PaymentSubscriptionCreateBulk instead", i)
+		}
+	}
+	if len(u.create.conflict) == 0 {
+		return errors.New("ent: missing options for PaymentSubscriptionCreateBulk.OnConflict")
+	}
+	return u.create.Exec(ctx)
+}
+
+// ExecX is like Exec, but panics if an error occurs.
+func (u *PaymentSubscriptionUpsertBulk) ExecX(ctx context.Context) {
+	if err := u.create.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

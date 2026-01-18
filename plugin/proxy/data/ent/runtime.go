@@ -3,11 +3,11 @@
 package ent
 
 import (
-	"ncobase/proxy/data/ent/endpoint"
-	"ncobase/proxy/data/ent/logs"
-	"ncobase/proxy/data/ent/route"
-	"ncobase/proxy/data/ent/transformer"
-	"ncobase/proxy/data/schema"
+	"ncobase/plugin/proxy/data/ent/endpoint"
+	"ncobase/plugin/proxy/data/ent/logs"
+	"ncobase/plugin/proxy/data/ent/route"
+	"ncobase/plugin/proxy/data/ent/transformer"
+	"ncobase/plugin/proxy/data/schema"
 )
 
 // The init function reads all schema descriptors with runtime code

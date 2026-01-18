@@ -4,7 +4,7 @@ package ent
 
 import (
 	"fmt"
-	"ncobase/proxy/data/ent/logs"
+	"ncobase/plugin/proxy/data/ent/logs"
 	"strings"
 
 	"entgo.io/ent"

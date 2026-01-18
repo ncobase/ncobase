@@ -3,12 +3,13 @@ package repository
 import (
 	"context"
 	"fmt"
-	"ncobase/user/data"
-	"ncobase/user/data/ent"
-	"ncobase/user/structs"
+	"ncobase/core/user/data"
+	"ncobase/core/user/data/ent"
+	"ncobase/core/user/structs"
 	"time"
+	"github.com/redis/go-redis/v9"
 
-	"github.com/ncobase/ncore/data/databases/cache"
+	"github.com/ncobase/ncore/data/cache"
 	"github.com/ncobase/ncore/logging/logger"
 	"github.com/ncobase/ncore/types"
 )
@@ -30,7 +31,7 @@ type userProfileRepository struct {
 
 // NewUserProfileRepository creates a new user profile repository
 func NewUserProfileRepository(d *data.Data) UserProfileRepositoryInterface {
-	redisClient := d.GetRedis()
+	redisClient := d.GetRedis().(*redis.Client)
 
 	return &userProfileRepository{
 		data:         d,

@@ -6,10 +6,12 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"ncobase/content/data/ent/cmschannel"
-	"ncobase/content/data/ent/distribution"
-	"ncobase/content/data/ent/topic"
+	"ncobase/biz/content/data/ent/cmschannel"
+	"ncobase/biz/content/data/ent/distribution"
+	"ncobase/biz/content/data/ent/topic"
 
+	"entgo.io/ent/dialect"
+	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
 )
@@ -19,6 +21,7 @@ type DistributionCreate struct {
 	config
 	mutation *DistributionMutation
 	hooks    []Hook
+	conflict []sql.ConflictOption
 }
 
 // SetExtras sets the "extras" field.
@@ -337,6 +340,7 @@ func (_c *DistributionCreate) createSpec() (*Distribution, *sqlgraph.CreateSpec)
 		_node = &Distribution{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(distribution.Table, sqlgraph.NewFieldSpec(distribution.FieldID, field.TypeString))
 	)
+	_spec.OnConflict = _c.conflict
 	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
@@ -426,11 +430,670 @@ func (_c *DistributionCreate) createSpec() (*Distribution, *sqlgraph.CreateSpec)
 	return _node, _spec
 }
 
+// OnConflict allows configuring the `ON CONFLICT` / `ON DUPLICATE KEY` clause
+// of the `INSERT` statement. For example:
+//
+//	client.Distribution.Create().
+//		SetExtras(v).
+//		OnConflict(
+//			// Update the row with the new values
+//			// the was proposed for insertion.
+//			sql.ResolveWithNewValues(),
+//		).
+//		// Override some of the fields with custom
+//		// update values.
+//		Update(func(u *ent.DistributionUpsert) {
+//			SetExtras(v+v).
+//		}).
+//		Exec(ctx)
+func (_c *DistributionCreate) OnConflict(opts ...sql.ConflictOption) *DistributionUpsertOne {
+	_c.conflict = opts
+	return &DistributionUpsertOne{
+		create: _c,
+	}
+}
+
+// OnConflictColumns calls `OnConflict` and configures the columns
+// as conflict target. Using this option is equivalent to using:
+//
+//	client.Distribution.Create().
+//		OnConflict(sql.ConflictColumns(columns...)).
+//		Exec(ctx)
+func (_c *DistributionCreate) OnConflictColumns(columns ...string) *DistributionUpsertOne {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
+	return &DistributionUpsertOne{
+		create: _c,
+	}
+}
+
+type (
+	// DistributionUpsertOne is the builder for "upsert"-ing
+	//  one Distribution node.
+	DistributionUpsertOne struct {
+		create *DistributionCreate
+	}
+
+	// DistributionUpsert is the "OnConflict" setter.
+	DistributionUpsert struct {
+		*sql.UpdateSet
+	}
+)
+
+// SetExtras sets the "extras" field.
+func (u *DistributionUpsert) SetExtras(v map[string]interface{}) *DistributionUpsert {
+	u.Set(distribution.FieldExtras, v)
+	return u
+}
+
+// UpdateExtras sets the "extras" field to the value that was provided on create.
+func (u *DistributionUpsert) UpdateExtras() *DistributionUpsert {
+	u.SetExcluded(distribution.FieldExtras)
+	return u
+}
+
+// ClearExtras clears the value of the "extras" field.
+func (u *DistributionUpsert) ClearExtras() *DistributionUpsert {
+	u.SetNull(distribution.FieldExtras)
+	return u
+}
+
+// SetSpaceID sets the "space_id" field.
+func (u *DistributionUpsert) SetSpaceID(v string) *DistributionUpsert {
+	u.Set(distribution.FieldSpaceID, v)
+	return u
+}
+
+// UpdateSpaceID sets the "space_id" field to the value that was provided on create.
+func (u *DistributionUpsert) UpdateSpaceID() *DistributionUpsert {
+	u.SetExcluded(distribution.FieldSpaceID)
+	return u
+}
+
+// ClearSpaceID clears the value of the "space_id" field.
+func (u *DistributionUpsert) ClearSpaceID() *DistributionUpsert {
+	u.SetNull(distribution.FieldSpaceID)
+	return u
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (u *DistributionUpsert) SetCreatedBy(v string) *DistributionUpsert {
+	u.Set(distribution.FieldCreatedBy, v)
+	return u
+}
+
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *DistributionUpsert) UpdateCreatedBy() *DistributionUpsert {
+	u.SetExcluded(distribution.FieldCreatedBy)
+	return u
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *DistributionUpsert) ClearCreatedBy() *DistributionUpsert {
+	u.SetNull(distribution.FieldCreatedBy)
+	return u
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (u *DistributionUpsert) SetUpdatedBy(v string) *DistributionUpsert {
+	u.Set(distribution.FieldUpdatedBy, v)
+	return u
+}
+
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *DistributionUpsert) UpdateUpdatedBy() *DistributionUpsert {
+	u.SetExcluded(distribution.FieldUpdatedBy)
+	return u
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *DistributionUpsert) ClearUpdatedBy() *DistributionUpsert {
+	u.SetNull(distribution.FieldUpdatedBy)
+	return u
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *DistributionUpsert) SetUpdatedAt(v int64) *DistributionUpsert {
+	u.Set(distribution.FieldUpdatedAt, v)
+	return u
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *DistributionUpsert) UpdateUpdatedAt() *DistributionUpsert {
+	u.SetExcluded(distribution.FieldUpdatedAt)
+	return u
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *DistributionUpsert) AddUpdatedAt(v int64) *DistributionUpsert {
+	u.Add(distribution.FieldUpdatedAt, v)
+	return u
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *DistributionUpsert) ClearUpdatedAt() *DistributionUpsert {
+	u.SetNull(distribution.FieldUpdatedAt)
+	return u
+}
+
+// SetTopicID sets the "topic_id" field.
+func (u *DistributionUpsert) SetTopicID(v string) *DistributionUpsert {
+	u.Set(distribution.FieldTopicID, v)
+	return u
+}
+
+// UpdateTopicID sets the "topic_id" field to the value that was provided on create.
+func (u *DistributionUpsert) UpdateTopicID() *DistributionUpsert {
+	u.SetExcluded(distribution.FieldTopicID)
+	return u
+}
+
+// SetChannelID sets the "channel_id" field.
+func (u *DistributionUpsert) SetChannelID(v string) *DistributionUpsert {
+	u.Set(distribution.FieldChannelID, v)
+	return u
+}
+
+// UpdateChannelID sets the "channel_id" field to the value that was provided on create.
+func (u *DistributionUpsert) UpdateChannelID() *DistributionUpsert {
+	u.SetExcluded(distribution.FieldChannelID)
+	return u
+}
+
+// SetStatus sets the "status" field.
+func (u *DistributionUpsert) SetStatus(v int) *DistributionUpsert {
+	u.Set(distribution.FieldStatus, v)
+	return u
+}
+
+// UpdateStatus sets the "status" field to the value that was provided on create.
+func (u *DistributionUpsert) UpdateStatus() *DistributionUpsert {
+	u.SetExcluded(distribution.FieldStatus)
+	return u
+}
+
+// AddStatus adds v to the "status" field.
+func (u *DistributionUpsert) AddStatus(v int) *DistributionUpsert {
+	u.Add(distribution.FieldStatus, v)
+	return u
+}
+
+// SetScheduledAt sets the "scheduled_at" field.
+func (u *DistributionUpsert) SetScheduledAt(v int64) *DistributionUpsert {
+	u.Set(distribution.FieldScheduledAt, v)
+	return u
+}
+
+// UpdateScheduledAt sets the "scheduled_at" field to the value that was provided on create.
+func (u *DistributionUpsert) UpdateScheduledAt() *DistributionUpsert {
+	u.SetExcluded(distribution.FieldScheduledAt)
+	return u
+}
+
+// AddScheduledAt adds v to the "scheduled_at" field.
+func (u *DistributionUpsert) AddScheduledAt(v int64) *DistributionUpsert {
+	u.Add(distribution.FieldScheduledAt, v)
+	return u
+}
+
+// ClearScheduledAt clears the value of the "scheduled_at" field.
+func (u *DistributionUpsert) ClearScheduledAt() *DistributionUpsert {
+	u.SetNull(distribution.FieldScheduledAt)
+	return u
+}
+
+// SetPublishedAt sets the "published_at" field.
+func (u *DistributionUpsert) SetPublishedAt(v int64) *DistributionUpsert {
+	u.Set(distribution.FieldPublishedAt, v)
+	return u
+}
+
+// UpdatePublishedAt sets the "published_at" field to the value that was provided on create.
+func (u *DistributionUpsert) UpdatePublishedAt() *DistributionUpsert {
+	u.SetExcluded(distribution.FieldPublishedAt)
+	return u
+}
+
+// AddPublishedAt adds v to the "published_at" field.
+func (u *DistributionUpsert) AddPublishedAt(v int64) *DistributionUpsert {
+	u.Add(distribution.FieldPublishedAt, v)
+	return u
+}
+
+// ClearPublishedAt clears the value of the "published_at" field.
+func (u *DistributionUpsert) ClearPublishedAt() *DistributionUpsert {
+	u.SetNull(distribution.FieldPublishedAt)
+	return u
+}
+
+// SetExternalID sets the "external_id" field.
+func (u *DistributionUpsert) SetExternalID(v string) *DistributionUpsert {
+	u.Set(distribution.FieldExternalID, v)
+	return u
+}
+
+// UpdateExternalID sets the "external_id" field to the value that was provided on create.
+func (u *DistributionUpsert) UpdateExternalID() *DistributionUpsert {
+	u.SetExcluded(distribution.FieldExternalID)
+	return u
+}
+
+// ClearExternalID clears the value of the "external_id" field.
+func (u *DistributionUpsert) ClearExternalID() *DistributionUpsert {
+	u.SetNull(distribution.FieldExternalID)
+	return u
+}
+
+// SetExternalURL sets the "external_url" field.
+func (u *DistributionUpsert) SetExternalURL(v string) *DistributionUpsert {
+	u.Set(distribution.FieldExternalURL, v)
+	return u
+}
+
+// UpdateExternalURL sets the "external_url" field to the value that was provided on create.
+func (u *DistributionUpsert) UpdateExternalURL() *DistributionUpsert {
+	u.SetExcluded(distribution.FieldExternalURL)
+	return u
+}
+
+// ClearExternalURL clears the value of the "external_url" field.
+func (u *DistributionUpsert) ClearExternalURL() *DistributionUpsert {
+	u.SetNull(distribution.FieldExternalURL)
+	return u
+}
+
+// SetErrorDetails sets the "error_details" field.
+func (u *DistributionUpsert) SetErrorDetails(v string) *DistributionUpsert {
+	u.Set(distribution.FieldErrorDetails, v)
+	return u
+}
+
+// UpdateErrorDetails sets the "error_details" field to the value that was provided on create.
+func (u *DistributionUpsert) UpdateErrorDetails() *DistributionUpsert {
+	u.SetExcluded(distribution.FieldErrorDetails)
+	return u
+}
+
+// ClearErrorDetails clears the value of the "error_details" field.
+func (u *DistributionUpsert) ClearErrorDetails() *DistributionUpsert {
+	u.SetNull(distribution.FieldErrorDetails)
+	return u
+}
+
+// UpdateNewValues updates the mutable fields using the new values that were set on create except the ID field.
+// Using this option is equivalent to using:
+//
+//	client.Distribution.Create().
+//		OnConflict(
+//			sql.ResolveWithNewValues(),
+//			sql.ResolveWith(func(u *sql.UpdateSet) {
+//				u.SetIgnore(distribution.FieldID)
+//			}),
+//		).
+//		Exec(ctx)
+func (u *DistributionUpsertOne) UpdateNewValues() *DistributionUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithNewValues())
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(s *sql.UpdateSet) {
+		if _, exists := u.create.mutation.ID(); exists {
+			s.SetIgnore(distribution.FieldID)
+		}
+		if _, exists := u.create.mutation.CreatedAt(); exists {
+			s.SetIgnore(distribution.FieldCreatedAt)
+		}
+	}))
+	return u
+}
+
+// Ignore sets each column to itself in case of conflict.
+// Using this option is equivalent to using:
+//
+//	client.Distribution.Create().
+//	    OnConflict(sql.ResolveWithIgnore()).
+//	    Exec(ctx)
+func (u *DistributionUpsertOne) Ignore() *DistributionUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithIgnore())
+	return u
+}
+
+// DoNothing configures the conflict_action to `DO NOTHING`.
+// Supported only by SQLite and PostgreSQL.
+func (u *DistributionUpsertOne) DoNothing() *DistributionUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.DoNothing())
+	return u
+}
+
+// Update allows overriding fields `UPDATE` values. See the DistributionCreate.OnConflict
+// documentation for more info.
+func (u *DistributionUpsertOne) Update(set func(*DistributionUpsert)) *DistributionUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(update *sql.UpdateSet) {
+		set(&DistributionUpsert{UpdateSet: update})
+	}))
+	return u
+}
+
+// SetExtras sets the "extras" field.
+func (u *DistributionUpsertOne) SetExtras(v map[string]interface{}) *DistributionUpsertOne {
+	return u.Update(func(s *DistributionUpsert) {
+		s.SetExtras(v)
+	})
+}
+
+// UpdateExtras sets the "extras" field to the value that was provided on create.
+func (u *DistributionUpsertOne) UpdateExtras() *DistributionUpsertOne {
+	return u.Update(func(s *DistributionUpsert) {
+		s.UpdateExtras()
+	})
+}
+
+// ClearExtras clears the value of the "extras" field.
+func (u *DistributionUpsertOne) ClearExtras() *DistributionUpsertOne {
+	return u.Update(func(s *DistributionUpsert) {
+		s.ClearExtras()
+	})
+}
+
+// SetSpaceID sets the "space_id" field.
+func (u *DistributionUpsertOne) SetSpaceID(v string) *DistributionUpsertOne {
+	return u.Update(func(s *DistributionUpsert) {
+		s.SetSpaceID(v)
+	})
+}
+
+// UpdateSpaceID sets the "space_id" field to the value that was provided on create.
+func (u *DistributionUpsertOne) UpdateSpaceID() *DistributionUpsertOne {
+	return u.Update(func(s *DistributionUpsert) {
+		s.UpdateSpaceID()
+	})
+}
+
+// ClearSpaceID clears the value of the "space_id" field.
+func (u *DistributionUpsertOne) ClearSpaceID() *DistributionUpsertOne {
+	return u.Update(func(s *DistributionUpsert) {
+		s.ClearSpaceID()
+	})
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (u *DistributionUpsertOne) SetCreatedBy(v string) *DistributionUpsertOne {
+	return u.Update(func(s *DistributionUpsert) {
+		s.SetCreatedBy(v)
+	})
+}
+
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *DistributionUpsertOne) UpdateCreatedBy() *DistributionUpsertOne {
+	return u.Update(func(s *DistributionUpsert) {
+		s.UpdateCreatedBy()
+	})
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *DistributionUpsertOne) ClearCreatedBy() *DistributionUpsertOne {
+	return u.Update(func(s *DistributionUpsert) {
+		s.ClearCreatedBy()
+	})
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (u *DistributionUpsertOne) SetUpdatedBy(v string) *DistributionUpsertOne {
+	return u.Update(func(s *DistributionUpsert) {
+		s.SetUpdatedBy(v)
+	})
+}
+
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *DistributionUpsertOne) UpdateUpdatedBy() *DistributionUpsertOne {
+	return u.Update(func(s *DistributionUpsert) {
+		s.UpdateUpdatedBy()
+	})
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *DistributionUpsertOne) ClearUpdatedBy() *DistributionUpsertOne {
+	return u.Update(func(s *DistributionUpsert) {
+		s.ClearUpdatedBy()
+	})
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *DistributionUpsertOne) SetUpdatedAt(v int64) *DistributionUpsertOne {
+	return u.Update(func(s *DistributionUpsert) {
+		s.SetUpdatedAt(v)
+	})
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *DistributionUpsertOne) AddUpdatedAt(v int64) *DistributionUpsertOne {
+	return u.Update(func(s *DistributionUpsert) {
+		s.AddUpdatedAt(v)
+	})
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *DistributionUpsertOne) UpdateUpdatedAt() *DistributionUpsertOne {
+	return u.Update(func(s *DistributionUpsert) {
+		s.UpdateUpdatedAt()
+	})
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *DistributionUpsertOne) ClearUpdatedAt() *DistributionUpsertOne {
+	return u.Update(func(s *DistributionUpsert) {
+		s.ClearUpdatedAt()
+	})
+}
+
+// SetTopicID sets the "topic_id" field.
+func (u *DistributionUpsertOne) SetTopicID(v string) *DistributionUpsertOne {
+	return u.Update(func(s *DistributionUpsert) {
+		s.SetTopicID(v)
+	})
+}
+
+// UpdateTopicID sets the "topic_id" field to the value that was provided on create.
+func (u *DistributionUpsertOne) UpdateTopicID() *DistributionUpsertOne {
+	return u.Update(func(s *DistributionUpsert) {
+		s.UpdateTopicID()
+	})
+}
+
+// SetChannelID sets the "channel_id" field.
+func (u *DistributionUpsertOne) SetChannelID(v string) *DistributionUpsertOne {
+	return u.Update(func(s *DistributionUpsert) {
+		s.SetChannelID(v)
+	})
+}
+
+// UpdateChannelID sets the "channel_id" field to the value that was provided on create.
+func (u *DistributionUpsertOne) UpdateChannelID() *DistributionUpsertOne {
+	return u.Update(func(s *DistributionUpsert) {
+		s.UpdateChannelID()
+	})
+}
+
+// SetStatus sets the "status" field.
+func (u *DistributionUpsertOne) SetStatus(v int) *DistributionUpsertOne {
+	return u.Update(func(s *DistributionUpsert) {
+		s.SetStatus(v)
+	})
+}
+
+// AddStatus adds v to the "status" field.
+func (u *DistributionUpsertOne) AddStatus(v int) *DistributionUpsertOne {
+	return u.Update(func(s *DistributionUpsert) {
+		s.AddStatus(v)
+	})
+}
+
+// UpdateStatus sets the "status" field to the value that was provided on create.
+func (u *DistributionUpsertOne) UpdateStatus() *DistributionUpsertOne {
+	return u.Update(func(s *DistributionUpsert) {
+		s.UpdateStatus()
+	})
+}
+
+// SetScheduledAt sets the "scheduled_at" field.
+func (u *DistributionUpsertOne) SetScheduledAt(v int64) *DistributionUpsertOne {
+	return u.Update(func(s *DistributionUpsert) {
+		s.SetScheduledAt(v)
+	})
+}
+
+// AddScheduledAt adds v to the "scheduled_at" field.
+func (u *DistributionUpsertOne) AddScheduledAt(v int64) *DistributionUpsertOne {
+	return u.Update(func(s *DistributionUpsert) {
+		s.AddScheduledAt(v)
+	})
+}
+
+// UpdateScheduledAt sets the "scheduled_at" field to the value that was provided on create.
+func (u *DistributionUpsertOne) UpdateScheduledAt() *DistributionUpsertOne {
+	return u.Update(func(s *DistributionUpsert) {
+		s.UpdateScheduledAt()
+	})
+}
+
+// ClearScheduledAt clears the value of the "scheduled_at" field.
+func (u *DistributionUpsertOne) ClearScheduledAt() *DistributionUpsertOne {
+	return u.Update(func(s *DistributionUpsert) {
+		s.ClearScheduledAt()
+	})
+}
+
+// SetPublishedAt sets the "published_at" field.
+func (u *DistributionUpsertOne) SetPublishedAt(v int64) *DistributionUpsertOne {
+	return u.Update(func(s *DistributionUpsert) {
+		s.SetPublishedAt(v)
+	})
+}
+
+// AddPublishedAt adds v to the "published_at" field.
+func (u *DistributionUpsertOne) AddPublishedAt(v int64) *DistributionUpsertOne {
+	return u.Update(func(s *DistributionUpsert) {
+		s.AddPublishedAt(v)
+	})
+}
+
+// UpdatePublishedAt sets the "published_at" field to the value that was provided on create.
+func (u *DistributionUpsertOne) UpdatePublishedAt() *DistributionUpsertOne {
+	return u.Update(func(s *DistributionUpsert) {
+		s.UpdatePublishedAt()
+	})
+}
+
+// ClearPublishedAt clears the value of the "published_at" field.
+func (u *DistributionUpsertOne) ClearPublishedAt() *DistributionUpsertOne {
+	return u.Update(func(s *DistributionUpsert) {
+		s.ClearPublishedAt()
+	})
+}
+
+// SetExternalID sets the "external_id" field.
+func (u *DistributionUpsertOne) SetExternalID(v string) *DistributionUpsertOne {
+	return u.Update(func(s *DistributionUpsert) {
+		s.SetExternalID(v)
+	})
+}
+
+// UpdateExternalID sets the "external_id" field to the value that was provided on create.
+func (u *DistributionUpsertOne) UpdateExternalID() *DistributionUpsertOne {
+	return u.Update(func(s *DistributionUpsert) {
+		s.UpdateExternalID()
+	})
+}
+
+// ClearExternalID clears the value of the "external_id" field.
+func (u *DistributionUpsertOne) ClearExternalID() *DistributionUpsertOne {
+	return u.Update(func(s *DistributionUpsert) {
+		s.ClearExternalID()
+	})
+}
+
+// SetExternalURL sets the "external_url" field.
+func (u *DistributionUpsertOne) SetExternalURL(v string) *DistributionUpsertOne {
+	return u.Update(func(s *DistributionUpsert) {
+		s.SetExternalURL(v)
+	})
+}
+
+// UpdateExternalURL sets the "external_url" field to the value that was provided on create.
+func (u *DistributionUpsertOne) UpdateExternalURL() *DistributionUpsertOne {
+	return u.Update(func(s *DistributionUpsert) {
+		s.UpdateExternalURL()
+	})
+}
+
+// ClearExternalURL clears the value of the "external_url" field.
+func (u *DistributionUpsertOne) ClearExternalURL() *DistributionUpsertOne {
+	return u.Update(func(s *DistributionUpsert) {
+		s.ClearExternalURL()
+	})
+}
+
+// SetErrorDetails sets the "error_details" field.
+func (u *DistributionUpsertOne) SetErrorDetails(v string) *DistributionUpsertOne {
+	return u.Update(func(s *DistributionUpsert) {
+		s.SetErrorDetails(v)
+	})
+}
+
+// UpdateErrorDetails sets the "error_details" field to the value that was provided on create.
+func (u *DistributionUpsertOne) UpdateErrorDetails() *DistributionUpsertOne {
+	return u.Update(func(s *DistributionUpsert) {
+		s.UpdateErrorDetails()
+	})
+}
+
+// ClearErrorDetails clears the value of the "error_details" field.
+func (u *DistributionUpsertOne) ClearErrorDetails() *DistributionUpsertOne {
+	return u.Update(func(s *DistributionUpsert) {
+		s.ClearErrorDetails()
+	})
+}
+
+// Exec executes the query.
+func (u *DistributionUpsertOne) Exec(ctx context.Context) error {
+	if len(u.create.conflict) == 0 {
+		return errors.New("ent: missing options for DistributionCreate.OnConflict")
+	}
+	return u.create.Exec(ctx)
+}
+
+// ExecX is like Exec, but panics if an error occurs.
+func (u *DistributionUpsertOne) ExecX(ctx context.Context) {
+	if err := u.create.Exec(ctx); err != nil {
+		panic(err)
+	}
+}
+
+// Exec executes the UPSERT query and returns the inserted/updated ID.
+func (u *DistributionUpsertOne) ID(ctx context.Context) (id string, err error) {
+	if u.create.driver.Dialect() == dialect.MySQL {
+		// In case of "ON CONFLICT", there is no way to get back non-numeric ID
+		// fields from the database since MySQL does not support the RETURNING clause.
+		return id, errors.New("ent: DistributionUpsertOne.ID is not supported by MySQL driver. Use DistributionUpsertOne.Exec instead")
+	}
+	node, err := u.create.Save(ctx)
+	if err != nil {
+		return id, err
+	}
+	return node.ID, nil
+}
+
+// IDX is like ID, but panics if an error occurs.
+func (u *DistributionUpsertOne) IDX(ctx context.Context) string {
+	id, err := u.ID(ctx)
+	if err != nil {
+		panic(err)
+	}
+	return id
+}
+
 // DistributionCreateBulk is the builder for creating many Distribution entities in bulk.
 type DistributionCreateBulk struct {
 	config
 	err      error
 	builders []*DistributionCreate
+	conflict []sql.ConflictOption
 }
 
 // Save creates the Distribution entities in the database.
@@ -460,6 +1123,7 @@ func (_c *DistributionCreateBulk) Save(ctx context.Context) ([]*Distribution, er
 					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
+					spec.OnConflict = _c.conflict
 					// Invoke the actual operation on the latest mutation in the chain.
 					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
@@ -506,6 +1170,403 @@ func (_c *DistributionCreateBulk) Exec(ctx context.Context) error {
 // ExecX is like Exec, but panics if an error occurs.
 func (_c *DistributionCreateBulk) ExecX(ctx context.Context) {
 	if err := _c.Exec(ctx); err != nil {
+		panic(err)
+	}
+}
+
+// OnConflict allows configuring the `ON CONFLICT` / `ON DUPLICATE KEY` clause
+// of the `INSERT` statement. For example:
+//
+//	client.Distribution.CreateBulk(builders...).
+//		OnConflict(
+//			// Update the row with the new values
+//			// the was proposed for insertion.
+//			sql.ResolveWithNewValues(),
+//		).
+//		// Override some of the fields with custom
+//		// update values.
+//		Update(func(u *ent.DistributionUpsert) {
+//			SetExtras(v+v).
+//		}).
+//		Exec(ctx)
+func (_c *DistributionCreateBulk) OnConflict(opts ...sql.ConflictOption) *DistributionUpsertBulk {
+	_c.conflict = opts
+	return &DistributionUpsertBulk{
+		create: _c,
+	}
+}
+
+// OnConflictColumns calls `OnConflict` and configures the columns
+// as conflict target. Using this option is equivalent to using:
+//
+//	client.Distribution.Create().
+//		OnConflict(sql.ConflictColumns(columns...)).
+//		Exec(ctx)
+func (_c *DistributionCreateBulk) OnConflictColumns(columns ...string) *DistributionUpsertBulk {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
+	return &DistributionUpsertBulk{
+		create: _c,
+	}
+}
+
+// DistributionUpsertBulk is the builder for "upsert"-ing
+// a bulk of Distribution nodes.
+type DistributionUpsertBulk struct {
+	create *DistributionCreateBulk
+}
+
+// UpdateNewValues updates the mutable fields using the new values that
+// were set on create. Using this option is equivalent to using:
+//
+//	client.Distribution.Create().
+//		OnConflict(
+//			sql.ResolveWithNewValues(),
+//			sql.ResolveWith(func(u *sql.UpdateSet) {
+//				u.SetIgnore(distribution.FieldID)
+//			}),
+//		).
+//		Exec(ctx)
+func (u *DistributionUpsertBulk) UpdateNewValues() *DistributionUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithNewValues())
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(s *sql.UpdateSet) {
+		for _, b := range u.create.builders {
+			if _, exists := b.mutation.ID(); exists {
+				s.SetIgnore(distribution.FieldID)
+			}
+			if _, exists := b.mutation.CreatedAt(); exists {
+				s.SetIgnore(distribution.FieldCreatedAt)
+			}
+		}
+	}))
+	return u
+}
+
+// Ignore sets each column to itself in case of conflict.
+// Using this option is equivalent to using:
+//
+//	client.Distribution.Create().
+//		OnConflict(sql.ResolveWithIgnore()).
+//		Exec(ctx)
+func (u *DistributionUpsertBulk) Ignore() *DistributionUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithIgnore())
+	return u
+}
+
+// DoNothing configures the conflict_action to `DO NOTHING`.
+// Supported only by SQLite and PostgreSQL.
+func (u *DistributionUpsertBulk) DoNothing() *DistributionUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.DoNothing())
+	return u
+}
+
+// Update allows overriding fields `UPDATE` values. See the DistributionCreateBulk.OnConflict
+// documentation for more info.
+func (u *DistributionUpsertBulk) Update(set func(*DistributionUpsert)) *DistributionUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(update *sql.UpdateSet) {
+		set(&DistributionUpsert{UpdateSet: update})
+	}))
+	return u
+}
+
+// SetExtras sets the "extras" field.
+func (u *DistributionUpsertBulk) SetExtras(v map[string]interface{}) *DistributionUpsertBulk {
+	return u.Update(func(s *DistributionUpsert) {
+		s.SetExtras(v)
+	})
+}
+
+// UpdateExtras sets the "extras" field to the value that was provided on create.
+func (u *DistributionUpsertBulk) UpdateExtras() *DistributionUpsertBulk {
+	return u.Update(func(s *DistributionUpsert) {
+		s.UpdateExtras()
+	})
+}
+
+// ClearExtras clears the value of the "extras" field.
+func (u *DistributionUpsertBulk) ClearExtras() *DistributionUpsertBulk {
+	return u.Update(func(s *DistributionUpsert) {
+		s.ClearExtras()
+	})
+}
+
+// SetSpaceID sets the "space_id" field.
+func (u *DistributionUpsertBulk) SetSpaceID(v string) *DistributionUpsertBulk {
+	return u.Update(func(s *DistributionUpsert) {
+		s.SetSpaceID(v)
+	})
+}
+
+// UpdateSpaceID sets the "space_id" field to the value that was provided on create.
+func (u *DistributionUpsertBulk) UpdateSpaceID() *DistributionUpsertBulk {
+	return u.Update(func(s *DistributionUpsert) {
+		s.UpdateSpaceID()
+	})
+}
+
+// ClearSpaceID clears the value of the "space_id" field.
+func (u *DistributionUpsertBulk) ClearSpaceID() *DistributionUpsertBulk {
+	return u.Update(func(s *DistributionUpsert) {
+		s.ClearSpaceID()
+	})
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (u *DistributionUpsertBulk) SetCreatedBy(v string) *DistributionUpsertBulk {
+	return u.Update(func(s *DistributionUpsert) {
+		s.SetCreatedBy(v)
+	})
+}
+
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *DistributionUpsertBulk) UpdateCreatedBy() *DistributionUpsertBulk {
+	return u.Update(func(s *DistributionUpsert) {
+		s.UpdateCreatedBy()
+	})
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *DistributionUpsertBulk) ClearCreatedBy() *DistributionUpsertBulk {
+	return u.Update(func(s *DistributionUpsert) {
+		s.ClearCreatedBy()
+	})
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (u *DistributionUpsertBulk) SetUpdatedBy(v string) *DistributionUpsertBulk {
+	return u.Update(func(s *DistributionUpsert) {
+		s.SetUpdatedBy(v)
+	})
+}
+
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *DistributionUpsertBulk) UpdateUpdatedBy() *DistributionUpsertBulk {
+	return u.Update(func(s *DistributionUpsert) {
+		s.UpdateUpdatedBy()
+	})
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *DistributionUpsertBulk) ClearUpdatedBy() *DistributionUpsertBulk {
+	return u.Update(func(s *DistributionUpsert) {
+		s.ClearUpdatedBy()
+	})
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *DistributionUpsertBulk) SetUpdatedAt(v int64) *DistributionUpsertBulk {
+	return u.Update(func(s *DistributionUpsert) {
+		s.SetUpdatedAt(v)
+	})
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *DistributionUpsertBulk) AddUpdatedAt(v int64) *DistributionUpsertBulk {
+	return u.Update(func(s *DistributionUpsert) {
+		s.AddUpdatedAt(v)
+	})
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *DistributionUpsertBulk) UpdateUpdatedAt() *DistributionUpsertBulk {
+	return u.Update(func(s *DistributionUpsert) {
+		s.UpdateUpdatedAt()
+	})
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *DistributionUpsertBulk) ClearUpdatedAt() *DistributionUpsertBulk {
+	return u.Update(func(s *DistributionUpsert) {
+		s.ClearUpdatedAt()
+	})
+}
+
+// SetTopicID sets the "topic_id" field.
+func (u *DistributionUpsertBulk) SetTopicID(v string) *DistributionUpsertBulk {
+	return u.Update(func(s *DistributionUpsert) {
+		s.SetTopicID(v)
+	})
+}
+
+// UpdateTopicID sets the "topic_id" field to the value that was provided on create.
+func (u *DistributionUpsertBulk) UpdateTopicID() *DistributionUpsertBulk {
+	return u.Update(func(s *DistributionUpsert) {
+		s.UpdateTopicID()
+	})
+}
+
+// SetChannelID sets the "channel_id" field.
+func (u *DistributionUpsertBulk) SetChannelID(v string) *DistributionUpsertBulk {
+	return u.Update(func(s *DistributionUpsert) {
+		s.SetChannelID(v)
+	})
+}
+
+// UpdateChannelID sets the "channel_id" field to the value that was provided on create.
+func (u *DistributionUpsertBulk) UpdateChannelID() *DistributionUpsertBulk {
+	return u.Update(func(s *DistributionUpsert) {
+		s.UpdateChannelID()
+	})
+}
+
+// SetStatus sets the "status" field.
+func (u *DistributionUpsertBulk) SetStatus(v int) *DistributionUpsertBulk {
+	return u.Update(func(s *DistributionUpsert) {
+		s.SetStatus(v)
+	})
+}
+
+// AddStatus adds v to the "status" field.
+func (u *DistributionUpsertBulk) AddStatus(v int) *DistributionUpsertBulk {
+	return u.Update(func(s *DistributionUpsert) {
+		s.AddStatus(v)
+	})
+}
+
+// UpdateStatus sets the "status" field to the value that was provided on create.
+func (u *DistributionUpsertBulk) UpdateStatus() *DistributionUpsertBulk {
+	return u.Update(func(s *DistributionUpsert) {
+		s.UpdateStatus()
+	})
+}
+
+// SetScheduledAt sets the "scheduled_at" field.
+func (u *DistributionUpsertBulk) SetScheduledAt(v int64) *DistributionUpsertBulk {
+	return u.Update(func(s *DistributionUpsert) {
+		s.SetScheduledAt(v)
+	})
+}
+
+// AddScheduledAt adds v to the "scheduled_at" field.
+func (u *DistributionUpsertBulk) AddScheduledAt(v int64) *DistributionUpsertBulk {
+	return u.Update(func(s *DistributionUpsert) {
+		s.AddScheduledAt(v)
+	})
+}
+
+// UpdateScheduledAt sets the "scheduled_at" field to the value that was provided on create.
+func (u *DistributionUpsertBulk) UpdateScheduledAt() *DistributionUpsertBulk {
+	return u.Update(func(s *DistributionUpsert) {
+		s.UpdateScheduledAt()
+	})
+}
+
+// ClearScheduledAt clears the value of the "scheduled_at" field.
+func (u *DistributionUpsertBulk) ClearScheduledAt() *DistributionUpsertBulk {
+	return u.Update(func(s *DistributionUpsert) {
+		s.ClearScheduledAt()
+	})
+}
+
+// SetPublishedAt sets the "published_at" field.
+func (u *DistributionUpsertBulk) SetPublishedAt(v int64) *DistributionUpsertBulk {
+	return u.Update(func(s *DistributionUpsert) {
+		s.SetPublishedAt(v)
+	})
+}
+
+// AddPublishedAt adds v to the "published_at" field.
+func (u *DistributionUpsertBulk) AddPublishedAt(v int64) *DistributionUpsertBulk {
+	return u.Update(func(s *DistributionUpsert) {
+		s.AddPublishedAt(v)
+	})
+}
+
+// UpdatePublishedAt sets the "published_at" field to the value that was provided on create.
+func (u *DistributionUpsertBulk) UpdatePublishedAt() *DistributionUpsertBulk {
+	return u.Update(func(s *DistributionUpsert) {
+		s.UpdatePublishedAt()
+	})
+}
+
+// ClearPublishedAt clears the value of the "published_at" field.
+func (u *DistributionUpsertBulk) ClearPublishedAt() *DistributionUpsertBulk {
+	return u.Update(func(s *DistributionUpsert) {
+		s.ClearPublishedAt()
+	})
+}
+
+// SetExternalID sets the "external_id" field.
+func (u *DistributionUpsertBulk) SetExternalID(v string) *DistributionUpsertBulk {
+	return u.Update(func(s *DistributionUpsert) {
+		s.SetExternalID(v)
+	})
+}
+
+// UpdateExternalID sets the "external_id" field to the value that was provided on create.
+func (u *DistributionUpsertBulk) UpdateExternalID() *DistributionUpsertBulk {
+	return u.Update(func(s *DistributionUpsert) {
+		s.UpdateExternalID()
+	})
+}
+
+// ClearExternalID clears the value of the "external_id" field.
+func (u *DistributionUpsertBulk) ClearExternalID() *DistributionUpsertBulk {
+	return u.Update(func(s *DistributionUpsert) {
+		s.ClearExternalID()
+	})
+}
+
+// SetExternalURL sets the "external_url" field.
+func (u *DistributionUpsertBulk) SetExternalURL(v string) *DistributionUpsertBulk {
+	return u.Update(func(s *DistributionUpsert) {
+		s.SetExternalURL(v)
+	})
+}
+
+// UpdateExternalURL sets the "external_url" field to the value that was provided on create.
+func (u *DistributionUpsertBulk) UpdateExternalURL() *DistributionUpsertBulk {
+	return u.Update(func(s *DistributionUpsert) {
+		s.UpdateExternalURL()
+	})
+}
+
+// ClearExternalURL clears the value of the "external_url" field.
+func (u *DistributionUpsertBulk) ClearExternalURL() *DistributionUpsertBulk {
+	return u.Update(func(s *DistributionUpsert) {
+		s.ClearExternalURL()
+	})
+}
+
+// SetErrorDetails sets the "error_details" field.
+func (u *DistributionUpsertBulk) SetErrorDetails(v string) *DistributionUpsertBulk {
+	return u.Update(func(s *DistributionUpsert) {
+		s.SetErrorDetails(v)
+	})
+}
+
+// UpdateErrorDetails sets the "error_details" field to the value that was provided on create.
+func (u *DistributionUpsertBulk) UpdateErrorDetails() *DistributionUpsertBulk {
+	return u.Update(func(s *DistributionUpsert) {
+		s.UpdateErrorDetails()
+	})
+}
+
+// ClearErrorDetails clears the value of the "error_details" field.
+func (u *DistributionUpsertBulk) ClearErrorDetails() *DistributionUpsertBulk {
+	return u.Update(func(s *DistributionUpsert) {
+		s.ClearErrorDetails()
+	})
+}
+
+// Exec executes the query.
+func (u *DistributionUpsertBulk) Exec(ctx context.Context) error {
+	if u.create.err != nil {
+		return u.create.err
+	}
+	for i, b := range u.create.builders {
+		if len(b.conflict) != 0 {
+			return fmt.Errorf("ent: OnConflict was set for builder %d. Set it on the DistributionCreateBulk instead", i)
+		}
+	}
+	if len(u.create.conflict) == 0 {
+		return errors.New("ent: missing options for DistributionCreateBulk.OnConflict")
+	}
+	return u.create.Exec(ctx)
+}
+
+// ExecX is like Exec, but panics if an error occurs.
+func (u *DistributionUpsertBulk) ExecX(ctx context.Context) {
+	if err := u.create.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

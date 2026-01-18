@@ -2,12 +2,12 @@ package initialize
 
 import (
 	"fmt"
-	accessService "ncobase/access/service"
-	authService "ncobase/auth/service"
-	orgService "ncobase/organization/service"
-	spaceService "ncobase/space/service"
-	systemService "ncobase/system/service"
-	userService "ncobase/user/service"
+	accessService "ncobase/core/access/service"
+	authService "ncobase/core/auth/service"
+	orgService "ncobase/core/organization/service"
+	spaceService "ncobase/core/space/service"
+	systemService "ncobase/core/system/service"
+	userService "ncobase/core/user/service"
 )
 
 // GetUserService returns the user service

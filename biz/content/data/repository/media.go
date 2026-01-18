@@ -3,12 +3,12 @@ package repository
 import (
 	"context"
 	"fmt"
-	"ncobase/content/data"
-	"ncobase/content/data/ent"
-	mediaEnt "ncobase/content/data/ent/media"
-	"ncobase/content/structs"
+	"ncobase/biz/content/data"
+	"ncobase/biz/content/data/ent"
+	mediaEnt "ncobase/biz/content/data/ent/media"
+	"ncobase/biz/content/structs"
 
-	"github.com/ncobase/ncore/data/databases/cache"
+	"github.com/ncobase/ncore/data/cache"
 	"github.com/ncobase/ncore/data/paging"
 	"github.com/ncobase/ncore/logging/logger"
 	"github.com/ncobase/ncore/types"
@@ -36,6 +36,7 @@ type MediaRepositoryInterface interface {
 
 type mediaRepository struct {
 	data *data.Data
+	searchClient *search.Client
 	ec   *ent.Client
 	ecr  *ent.Client
 	rc   *redis.Client
@@ -46,7 +47,7 @@ type mediaRepository struct {
 func NewMediaRepository(d *data.Data) MediaRepositoryInterface {
 	ec := d.GetMasterEntClient()
 	ecr := d.GetSlaveEntClient()
-	rc := d.GetRedis()
+	rc := d.GetRedis().(*redis.Client)
 	return &mediaRepository{
 		data: d,
 		ec:   ec,
@@ -97,7 +98,7 @@ func (r *mediaRepository) Create(ctx context.Context, body *structs.CreateMediaB
 	}
 
 	// Index in Meilisearch
-	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "media", Document: row}); err != nil {
+	if err = r.searchClient.Index(ctx, &search.IndexRequest{Index: "media", Document: row}); err != nil {
 		logger.Errorf(ctx, "mediaRepo.Create error creating Meilisearch index: %v", err)
 	}
 
@@ -241,7 +242,7 @@ func (r *mediaRepository) Update(ctx context.Context, id string, updates types.J
 	}
 
 	// Update Meilisearch index
-	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "media", Document: row, DocumentID: row.ID}); err != nil {
+	if err = r.searchClient.Index(ctx, &search.IndexRequest{Index: "media", Document: row, DocumentID: row.ID}); err != nil {
 		logger.Errorf(ctx, "mediaRepo.Update error updating Meilisearch index: %v", err)
 	}
 
@@ -378,7 +379,7 @@ func (r *mediaRepository) Delete(ctx context.Context, id string) error {
 	}
 
 	// Delete from Meilisearch
-	if err = r.data.DeleteDocument(ctx, "media", id); err != nil {
+	if err = r.searchClient.Delete(ctx, "media", id); err != nil {
 		logger.Errorf(ctx, "mediaRepo.Delete error deleting Meilisearch index: %v", err)
 	}
 

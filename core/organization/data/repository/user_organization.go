@@ -3,13 +3,14 @@ package repository
 import (
 	"context"
 	"fmt"
-	"ncobase/organization/data"
-	"ncobase/organization/data/ent"
-	userOrganizationEnt "ncobase/organization/data/ent/userorganization"
-	"ncobase/organization/structs"
+	"ncobase/core/organization/data"
+	"ncobase/core/organization/data/ent"
+	userOrganizationEnt "ncobase/core/organization/data/ent/userorganization"
+	"ncobase/core/organization/structs"
 	"time"
+	"github.com/redis/go-redis/v9"
 
-	"github.com/ncobase/ncore/data/databases/cache"
+	"github.com/ncobase/ncore/data/cache"
 	"github.com/ncobase/ncore/logging/logger"
 )
 
@@ -43,7 +44,7 @@ type userOrganizationRepository struct {
 
 // NewUserOrganizationRepository creates a new user organization repository.
 func NewUserOrganizationRepository(d *data.Data) UserOrganizationRepositoryInterface {
-	redisClient := d.GetRedis()
+	redisClient := d.GetRedis().(*redis.Client)
 
 	return &userOrganizationRepository{
 		data:                       d,

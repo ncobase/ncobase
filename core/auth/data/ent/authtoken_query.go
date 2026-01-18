@@ -6,8 +6,8 @@ import (
 	"context"
 	"fmt"
 	"math"
-	"ncobase/auth/data/ent/authtoken"
-	"ncobase/auth/data/ent/predicate"
+	"ncobase/core/auth/data/ent/authtoken"
+	"ncobase/core/auth/data/ent/predicate"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"

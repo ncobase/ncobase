@@ -8,7 +8,7 @@ import (
 	"strings"
 	"time"
 
-	"ncobase/system/structs"
+	"ncobase/core/system/structs"
 
 	"github.com/ncobase/ncore/logging/logger"
 )

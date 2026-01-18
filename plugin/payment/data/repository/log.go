@@ -3,10 +3,10 @@ package repository
 import (
 	"context"
 	"fmt"
-	"ncobase/payment/data"
-	"ncobase/payment/data/ent"
-	paymentLogEnt "ncobase/payment/data/ent/paymentlog"
-	"ncobase/payment/structs"
+	"ncobase/plugin/payment/data"
+	"ncobase/plugin/payment/data/ent"
+	paymentLogEnt "ncobase/plugin/payment/data/ent/paymentlog"
+	"ncobase/plugin/payment/structs"
 
 	"github.com/ncobase/ncore/data/paging"
 	"github.com/ncobase/ncore/utils/nanoid"

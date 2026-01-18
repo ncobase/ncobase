@@ -1,7 +1,7 @@
 package repository
 
 import (
-	"ncobase/access/data"
+	"ncobase/core/access/data"
 )
 
 // Repository represents the access repository.

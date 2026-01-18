@@ -1,8 +1,8 @@
 package service
 
 import (
-	"ncobase/resource/data"
-	"ncobase/resource/event"
+	"ncobase/plugin/resource/data"
+	"ncobase/plugin/resource/event"
 
 	ext "github.com/ncobase/ncore/extension/types"
 )

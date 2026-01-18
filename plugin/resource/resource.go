@@ -3,12 +3,12 @@ package resource
 import (
 	"context"
 	"fmt"
-	rConfig "ncobase/resource/config"
-	"ncobase/resource/data"
-	"ncobase/resource/event"
-	"ncobase/resource/handler"
-	"ncobase/resource/router"
-	"ncobase/resource/service"
+	rConfig "ncobase/plugin/resource/config"
+	"ncobase/plugin/resource/data"
+	"ncobase/plugin/resource/event"
+	"ncobase/plugin/resource/handler"
+	"ncobase/plugin/resource/router"
+	"ncobase/plugin/resource/service"
 	"sync"
 	"time"
 

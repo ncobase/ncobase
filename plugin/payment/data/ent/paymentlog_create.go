@@ -6,9 +6,11 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"ncobase/payment/data/ent/paymentlog"
-	"ncobase/payment/data/ent/paymentorder"
+	"ncobase/plugin/payment/data/ent/paymentlog"
+	"ncobase/plugin/payment/data/ent/paymentorder"
 
+	"entgo.io/ent/dialect"
+	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
 )
@@ -18,6 +20,7 @@ type PaymentLogCreate struct {
 	config
 	mutation *PaymentLogMutation
 	hooks    []Hook
+	conflict []sql.ConflictOption
 }
 
 // SetExtras sets the "extras" field.
@@ -321,6 +324,7 @@ func (_c *PaymentLogCreate) createSpec() (*PaymentLog, *sqlgraph.CreateSpec) {
 		_node = &PaymentLog{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(paymentlog.Table, sqlgraph.NewFieldSpec(paymentlog.FieldID, field.TypeString))
 	)
+	_spec.OnConflict = _c.conflict
 	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
@@ -397,11 +401,631 @@ func (_c *PaymentLogCreate) createSpec() (*PaymentLog, *sqlgraph.CreateSpec) {
 	return _node, _spec
 }
 
+// OnConflict allows configuring the `ON CONFLICT` / `ON DUPLICATE KEY` clause
+// of the `INSERT` statement. For example:
+//
+//	client.PaymentLog.Create().
+//		SetExtras(v).
+//		OnConflict(
+//			// Update the row with the new values
+//			// the was proposed for insertion.
+//			sql.ResolveWithNewValues(),
+//		).
+//		// Override some of the fields with custom
+//		// update values.
+//		Update(func(u *ent.PaymentLogUpsert) {
+//			SetExtras(v+v).
+//		}).
+//		Exec(ctx)
+func (_c *PaymentLogCreate) OnConflict(opts ...sql.ConflictOption) *PaymentLogUpsertOne {
+	_c.conflict = opts
+	return &PaymentLogUpsertOne{
+		create: _c,
+	}
+}
+
+// OnConflictColumns calls `OnConflict` and configures the columns
+// as conflict target. Using this option is equivalent to using:
+//
+//	client.PaymentLog.Create().
+//		OnConflict(sql.ConflictColumns(columns...)).
+//		Exec(ctx)
+func (_c *PaymentLogCreate) OnConflictColumns(columns ...string) *PaymentLogUpsertOne {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
+	return &PaymentLogUpsertOne{
+		create: _c,
+	}
+}
+
+type (
+	// PaymentLogUpsertOne is the builder for "upsert"-ing
+	//  one PaymentLog node.
+	PaymentLogUpsertOne struct {
+		create *PaymentLogCreate
+	}
+
+	// PaymentLogUpsert is the "OnConflict" setter.
+	PaymentLogUpsert struct {
+		*sql.UpdateSet
+	}
+)
+
+// SetExtras sets the "extras" field.
+func (u *PaymentLogUpsert) SetExtras(v map[string]interface{}) *PaymentLogUpsert {
+	u.Set(paymentlog.FieldExtras, v)
+	return u
+}
+
+// UpdateExtras sets the "extras" field to the value that was provided on create.
+func (u *PaymentLogUpsert) UpdateExtras() *PaymentLogUpsert {
+	u.SetExcluded(paymentlog.FieldExtras)
+	return u
+}
+
+// ClearExtras clears the value of the "extras" field.
+func (u *PaymentLogUpsert) ClearExtras() *PaymentLogUpsert {
+	u.SetNull(paymentlog.FieldExtras)
+	return u
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *PaymentLogUpsert) SetUpdatedAt(v int64) *PaymentLogUpsert {
+	u.Set(paymentlog.FieldUpdatedAt, v)
+	return u
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *PaymentLogUpsert) UpdateUpdatedAt() *PaymentLogUpsert {
+	u.SetExcluded(paymentlog.FieldUpdatedAt)
+	return u
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *PaymentLogUpsert) AddUpdatedAt(v int64) *PaymentLogUpsert {
+	u.Add(paymentlog.FieldUpdatedAt, v)
+	return u
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *PaymentLogUpsert) ClearUpdatedAt() *PaymentLogUpsert {
+	u.SetNull(paymentlog.FieldUpdatedAt)
+	return u
+}
+
+// SetOrderID sets the "order_id" field.
+func (u *PaymentLogUpsert) SetOrderID(v string) *PaymentLogUpsert {
+	u.Set(paymentlog.FieldOrderID, v)
+	return u
+}
+
+// UpdateOrderID sets the "order_id" field to the value that was provided on create.
+func (u *PaymentLogUpsert) UpdateOrderID() *PaymentLogUpsert {
+	u.SetExcluded(paymentlog.FieldOrderID)
+	return u
+}
+
+// SetChannelID sets the "channel_id" field.
+func (u *PaymentLogUpsert) SetChannelID(v string) *PaymentLogUpsert {
+	u.Set(paymentlog.FieldChannelID, v)
+	return u
+}
+
+// UpdateChannelID sets the "channel_id" field to the value that was provided on create.
+func (u *PaymentLogUpsert) UpdateChannelID() *PaymentLogUpsert {
+	u.SetExcluded(paymentlog.FieldChannelID)
+	return u
+}
+
+// SetType sets the "type" field.
+func (u *PaymentLogUpsert) SetType(v string) *PaymentLogUpsert {
+	u.Set(paymentlog.FieldType, v)
+	return u
+}
+
+// UpdateType sets the "type" field to the value that was provided on create.
+func (u *PaymentLogUpsert) UpdateType() *PaymentLogUpsert {
+	u.SetExcluded(paymentlog.FieldType)
+	return u
+}
+
+// SetStatusBefore sets the "status_before" field.
+func (u *PaymentLogUpsert) SetStatusBefore(v string) *PaymentLogUpsert {
+	u.Set(paymentlog.FieldStatusBefore, v)
+	return u
+}
+
+// UpdateStatusBefore sets the "status_before" field to the value that was provided on create.
+func (u *PaymentLogUpsert) UpdateStatusBefore() *PaymentLogUpsert {
+	u.SetExcluded(paymentlog.FieldStatusBefore)
+	return u
+}
+
+// ClearStatusBefore clears the value of the "status_before" field.
+func (u *PaymentLogUpsert) ClearStatusBefore() *PaymentLogUpsert {
+	u.SetNull(paymentlog.FieldStatusBefore)
+	return u
+}
+
+// SetStatusAfter sets the "status_after" field.
+func (u *PaymentLogUpsert) SetStatusAfter(v string) *PaymentLogUpsert {
+	u.Set(paymentlog.FieldStatusAfter, v)
+	return u
+}
+
+// UpdateStatusAfter sets the "status_after" field to the value that was provided on create.
+func (u *PaymentLogUpsert) UpdateStatusAfter() *PaymentLogUpsert {
+	u.SetExcluded(paymentlog.FieldStatusAfter)
+	return u
+}
+
+// ClearStatusAfter clears the value of the "status_after" field.
+func (u *PaymentLogUpsert) ClearStatusAfter() *PaymentLogUpsert {
+	u.SetNull(paymentlog.FieldStatusAfter)
+	return u
+}
+
+// SetRequestData sets the "request_data" field.
+func (u *PaymentLogUpsert) SetRequestData(v string) *PaymentLogUpsert {
+	u.Set(paymentlog.FieldRequestData, v)
+	return u
+}
+
+// UpdateRequestData sets the "request_data" field to the value that was provided on create.
+func (u *PaymentLogUpsert) UpdateRequestData() *PaymentLogUpsert {
+	u.SetExcluded(paymentlog.FieldRequestData)
+	return u
+}
+
+// ClearRequestData clears the value of the "request_data" field.
+func (u *PaymentLogUpsert) ClearRequestData() *PaymentLogUpsert {
+	u.SetNull(paymentlog.FieldRequestData)
+	return u
+}
+
+// SetResponseData sets the "response_data" field.
+func (u *PaymentLogUpsert) SetResponseData(v string) *PaymentLogUpsert {
+	u.Set(paymentlog.FieldResponseData, v)
+	return u
+}
+
+// UpdateResponseData sets the "response_data" field to the value that was provided on create.
+func (u *PaymentLogUpsert) UpdateResponseData() *PaymentLogUpsert {
+	u.SetExcluded(paymentlog.FieldResponseData)
+	return u
+}
+
+// ClearResponseData clears the value of the "response_data" field.
+func (u *PaymentLogUpsert) ClearResponseData() *PaymentLogUpsert {
+	u.SetNull(paymentlog.FieldResponseData)
+	return u
+}
+
+// SetIP sets the "ip" field.
+func (u *PaymentLogUpsert) SetIP(v string) *PaymentLogUpsert {
+	u.Set(paymentlog.FieldIP, v)
+	return u
+}
+
+// UpdateIP sets the "ip" field to the value that was provided on create.
+func (u *PaymentLogUpsert) UpdateIP() *PaymentLogUpsert {
+	u.SetExcluded(paymentlog.FieldIP)
+	return u
+}
+
+// ClearIP clears the value of the "ip" field.
+func (u *PaymentLogUpsert) ClearIP() *PaymentLogUpsert {
+	u.SetNull(paymentlog.FieldIP)
+	return u
+}
+
+// SetUserAgent sets the "user_agent" field.
+func (u *PaymentLogUpsert) SetUserAgent(v string) *PaymentLogUpsert {
+	u.Set(paymentlog.FieldUserAgent, v)
+	return u
+}
+
+// UpdateUserAgent sets the "user_agent" field to the value that was provided on create.
+func (u *PaymentLogUpsert) UpdateUserAgent() *PaymentLogUpsert {
+	u.SetExcluded(paymentlog.FieldUserAgent)
+	return u
+}
+
+// ClearUserAgent clears the value of the "user_agent" field.
+func (u *PaymentLogUpsert) ClearUserAgent() *PaymentLogUpsert {
+	u.SetNull(paymentlog.FieldUserAgent)
+	return u
+}
+
+// SetUserID sets the "user_id" field.
+func (u *PaymentLogUpsert) SetUserID(v string) *PaymentLogUpsert {
+	u.Set(paymentlog.FieldUserID, v)
+	return u
+}
+
+// UpdateUserID sets the "user_id" field to the value that was provided on create.
+func (u *PaymentLogUpsert) UpdateUserID() *PaymentLogUpsert {
+	u.SetExcluded(paymentlog.FieldUserID)
+	return u
+}
+
+// ClearUserID clears the value of the "user_id" field.
+func (u *PaymentLogUpsert) ClearUserID() *PaymentLogUpsert {
+	u.SetNull(paymentlog.FieldUserID)
+	return u
+}
+
+// SetError sets the "error" field.
+func (u *PaymentLogUpsert) SetError(v string) *PaymentLogUpsert {
+	u.Set(paymentlog.FieldError, v)
+	return u
+}
+
+// UpdateError sets the "error" field to the value that was provided on create.
+func (u *PaymentLogUpsert) UpdateError() *PaymentLogUpsert {
+	u.SetExcluded(paymentlog.FieldError)
+	return u
+}
+
+// ClearError clears the value of the "error" field.
+func (u *PaymentLogUpsert) ClearError() *PaymentLogUpsert {
+	u.SetNull(paymentlog.FieldError)
+	return u
+}
+
+// UpdateNewValues updates the mutable fields using the new values that were set on create except the ID field.
+// Using this option is equivalent to using:
+//
+//	client.PaymentLog.Create().
+//		OnConflict(
+//			sql.ResolveWithNewValues(),
+//			sql.ResolveWith(func(u *sql.UpdateSet) {
+//				u.SetIgnore(paymentlog.FieldID)
+//			}),
+//		).
+//		Exec(ctx)
+func (u *PaymentLogUpsertOne) UpdateNewValues() *PaymentLogUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithNewValues())
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(s *sql.UpdateSet) {
+		if _, exists := u.create.mutation.ID(); exists {
+			s.SetIgnore(paymentlog.FieldID)
+		}
+		if _, exists := u.create.mutation.CreatedAt(); exists {
+			s.SetIgnore(paymentlog.FieldCreatedAt)
+		}
+	}))
+	return u
+}
+
+// Ignore sets each column to itself in case of conflict.
+// Using this option is equivalent to using:
+//
+//	client.PaymentLog.Create().
+//	    OnConflict(sql.ResolveWithIgnore()).
+//	    Exec(ctx)
+func (u *PaymentLogUpsertOne) Ignore() *PaymentLogUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithIgnore())
+	return u
+}
+
+// DoNothing configures the conflict_action to `DO NOTHING`.
+// Supported only by SQLite and PostgreSQL.
+func (u *PaymentLogUpsertOne) DoNothing() *PaymentLogUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.DoNothing())
+	return u
+}
+
+// Update allows overriding fields `UPDATE` values. See the PaymentLogCreate.OnConflict
+// documentation for more info.
+func (u *PaymentLogUpsertOne) Update(set func(*PaymentLogUpsert)) *PaymentLogUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(update *sql.UpdateSet) {
+		set(&PaymentLogUpsert{UpdateSet: update})
+	}))
+	return u
+}
+
+// SetExtras sets the "extras" field.
+func (u *PaymentLogUpsertOne) SetExtras(v map[string]interface{}) *PaymentLogUpsertOne {
+	return u.Update(func(s *PaymentLogUpsert) {
+		s.SetExtras(v)
+	})
+}
+
+// UpdateExtras sets the "extras" field to the value that was provided on create.
+func (u *PaymentLogUpsertOne) UpdateExtras() *PaymentLogUpsertOne {
+	return u.Update(func(s *PaymentLogUpsert) {
+		s.UpdateExtras()
+	})
+}
+
+// ClearExtras clears the value of the "extras" field.
+func (u *PaymentLogUpsertOne) ClearExtras() *PaymentLogUpsertOne {
+	return u.Update(func(s *PaymentLogUpsert) {
+		s.ClearExtras()
+	})
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *PaymentLogUpsertOne) SetUpdatedAt(v int64) *PaymentLogUpsertOne {
+	return u.Update(func(s *PaymentLogUpsert) {
+		s.SetUpdatedAt(v)
+	})
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *PaymentLogUpsertOne) AddUpdatedAt(v int64) *PaymentLogUpsertOne {
+	return u.Update(func(s *PaymentLogUpsert) {
+		s.AddUpdatedAt(v)
+	})
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *PaymentLogUpsertOne) UpdateUpdatedAt() *PaymentLogUpsertOne {
+	return u.Update(func(s *PaymentLogUpsert) {
+		s.UpdateUpdatedAt()
+	})
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *PaymentLogUpsertOne) ClearUpdatedAt() *PaymentLogUpsertOne {
+	return u.Update(func(s *PaymentLogUpsert) {
+		s.ClearUpdatedAt()
+	})
+}
+
+// SetOrderID sets the "order_id" field.
+func (u *PaymentLogUpsertOne) SetOrderID(v string) *PaymentLogUpsertOne {
+	return u.Update(func(s *PaymentLogUpsert) {
+		s.SetOrderID(v)
+	})
+}
+
+// UpdateOrderID sets the "order_id" field to the value that was provided on create.
+func (u *PaymentLogUpsertOne) UpdateOrderID() *PaymentLogUpsertOne {
+	return u.Update(func(s *PaymentLogUpsert) {
+		s.UpdateOrderID()
+	})
+}
+
+// SetChannelID sets the "channel_id" field.
+func (u *PaymentLogUpsertOne) SetChannelID(v string) *PaymentLogUpsertOne {
+	return u.Update(func(s *PaymentLogUpsert) {
+		s.SetChannelID(v)
+	})
+}
+
+// UpdateChannelID sets the "channel_id" field to the value that was provided on create.
+func (u *PaymentLogUpsertOne) UpdateChannelID() *PaymentLogUpsertOne {
+	return u.Update(func(s *PaymentLogUpsert) {
+		s.UpdateChannelID()
+	})
+}
+
+// SetType sets the "type" field.
+func (u *PaymentLogUpsertOne) SetType(v string) *PaymentLogUpsertOne {
+	return u.Update(func(s *PaymentLogUpsert) {
+		s.SetType(v)
+	})
+}
+
+// UpdateType sets the "type" field to the value that was provided on create.
+func (u *PaymentLogUpsertOne) UpdateType() *PaymentLogUpsertOne {
+	return u.Update(func(s *PaymentLogUpsert) {
+		s.UpdateType()
+	})
+}
+
+// SetStatusBefore sets the "status_before" field.
+func (u *PaymentLogUpsertOne) SetStatusBefore(v string) *PaymentLogUpsertOne {
+	return u.Update(func(s *PaymentLogUpsert) {
+		s.SetStatusBefore(v)
+	})
+}
+
+// UpdateStatusBefore sets the "status_before" field to the value that was provided on create.
+func (u *PaymentLogUpsertOne) UpdateStatusBefore() *PaymentLogUpsertOne {
+	return u.Update(func(s *PaymentLogUpsert) {
+		s.UpdateStatusBefore()
+	})
+}
+
+// ClearStatusBefore clears the value of the "status_before" field.
+func (u *PaymentLogUpsertOne) ClearStatusBefore() *PaymentLogUpsertOne {
+	return u.Update(func(s *PaymentLogUpsert) {
+		s.ClearStatusBefore()
+	})
+}
+
+// SetStatusAfter sets the "status_after" field.
+func (u *PaymentLogUpsertOne) SetStatusAfter(v string) *PaymentLogUpsertOne {
+	return u.Update(func(s *PaymentLogUpsert) {
+		s.SetStatusAfter(v)
+	})
+}
+
+// UpdateStatusAfter sets the "status_after" field to the value that was provided on create.
+func (u *PaymentLogUpsertOne) UpdateStatusAfter() *PaymentLogUpsertOne {
+	return u.Update(func(s *PaymentLogUpsert) {
+		s.UpdateStatusAfter()
+	})
+}
+
+// ClearStatusAfter clears the value of the "status_after" field.
+func (u *PaymentLogUpsertOne) ClearStatusAfter() *PaymentLogUpsertOne {
+	return u.Update(func(s *PaymentLogUpsert) {
+		s.ClearStatusAfter()
+	})
+}
+
+// SetRequestData sets the "request_data" field.
+func (u *PaymentLogUpsertOne) SetRequestData(v string) *PaymentLogUpsertOne {
+	return u.Update(func(s *PaymentLogUpsert) {
+		s.SetRequestData(v)
+	})
+}
+
+// UpdateRequestData sets the "request_data" field to the value that was provided on create.
+func (u *PaymentLogUpsertOne) UpdateRequestData() *PaymentLogUpsertOne {
+	return u.Update(func(s *PaymentLogUpsert) {
+		s.UpdateRequestData()
+	})
+}
+
+// ClearRequestData clears the value of the "request_data" field.
+func (u *PaymentLogUpsertOne) ClearRequestData() *PaymentLogUpsertOne {
+	return u.Update(func(s *PaymentLogUpsert) {
+		s.ClearRequestData()
+	})
+}
+
+// SetResponseData sets the "response_data" field.
+func (u *PaymentLogUpsertOne) SetResponseData(v string) *PaymentLogUpsertOne {
+	return u.Update(func(s *PaymentLogUpsert) {
+		s.SetResponseData(v)
+	})
+}
+
+// UpdateResponseData sets the "response_data" field to the value that was provided on create.
+func (u *PaymentLogUpsertOne) UpdateResponseData() *PaymentLogUpsertOne {
+	return u.Update(func(s *PaymentLogUpsert) {
+		s.UpdateResponseData()
+	})
+}
+
+// ClearResponseData clears the value of the "response_data" field.
+func (u *PaymentLogUpsertOne) ClearResponseData() *PaymentLogUpsertOne {
+	return u.Update(func(s *PaymentLogUpsert) {
+		s.ClearResponseData()
+	})
+}
+
+// SetIP sets the "ip" field.
+func (u *PaymentLogUpsertOne) SetIP(v string) *PaymentLogUpsertOne {
+	return u.Update(func(s *PaymentLogUpsert) {
+		s.SetIP(v)
+	})
+}
+
+// UpdateIP sets the "ip" field to the value that was provided on create.
+func (u *PaymentLogUpsertOne) UpdateIP() *PaymentLogUpsertOne {
+	return u.Update(func(s *PaymentLogUpsert) {
+		s.UpdateIP()
+	})
+}
+
+// ClearIP clears the value of the "ip" field.
+func (u *PaymentLogUpsertOne) ClearIP() *PaymentLogUpsertOne {
+	return u.Update(func(s *PaymentLogUpsert) {
+		s.ClearIP()
+	})
+}
+
+// SetUserAgent sets the "user_agent" field.
+func (u *PaymentLogUpsertOne) SetUserAgent(v string) *PaymentLogUpsertOne {
+	return u.Update(func(s *PaymentLogUpsert) {
+		s.SetUserAgent(v)
+	})
+}
+
+// UpdateUserAgent sets the "user_agent" field to the value that was provided on create.
+func (u *PaymentLogUpsertOne) UpdateUserAgent() *PaymentLogUpsertOne {
+	return u.Update(func(s *PaymentLogUpsert) {
+		s.UpdateUserAgent()
+	})
+}
+
+// ClearUserAgent clears the value of the "user_agent" field.
+func (u *PaymentLogUpsertOne) ClearUserAgent() *PaymentLogUpsertOne {
+	return u.Update(func(s *PaymentLogUpsert) {
+		s.ClearUserAgent()
+	})
+}
+
+// SetUserID sets the "user_id" field.
+func (u *PaymentLogUpsertOne) SetUserID(v string) *PaymentLogUpsertOne {
+	return u.Update(func(s *PaymentLogUpsert) {
+		s.SetUserID(v)
+	})
+}
+
+// UpdateUserID sets the "user_id" field to the value that was provided on create.
+func (u *PaymentLogUpsertOne) UpdateUserID() *PaymentLogUpsertOne {
+	return u.Update(func(s *PaymentLogUpsert) {
+		s.UpdateUserID()
+	})
+}
+
+// ClearUserID clears the value of the "user_id" field.
+func (u *PaymentLogUpsertOne) ClearUserID() *PaymentLogUpsertOne {
+	return u.Update(func(s *PaymentLogUpsert) {
+		s.ClearUserID()
+	})
+}
+
+// SetError sets the "error" field.
+func (u *PaymentLogUpsertOne) SetError(v string) *PaymentLogUpsertOne {
+	return u.Update(func(s *PaymentLogUpsert) {
+		s.SetError(v)
+	})
+}
+
+// UpdateError sets the "error" field to the value that was provided on create.
+func (u *PaymentLogUpsertOne) UpdateError() *PaymentLogUpsertOne {
+	return u.Update(func(s *PaymentLogUpsert) {
+		s.UpdateError()
+	})
+}
+
+// ClearError clears the value of the "error" field.
+func (u *PaymentLogUpsertOne) ClearError() *PaymentLogUpsertOne {
+	return u.Update(func(s *PaymentLogUpsert) {
+		s.ClearError()
+	})
+}
+
+// Exec executes the query.
+func (u *PaymentLogUpsertOne) Exec(ctx context.Context) error {
+	if len(u.create.conflict) == 0 {
+		return errors.New("ent: missing options for PaymentLogCreate.OnConflict")
+	}
+	return u.create.Exec(ctx)
+}
+
+// ExecX is like Exec, but panics if an error occurs.
+func (u *PaymentLogUpsertOne) ExecX(ctx context.Context) {
+	if err := u.create.Exec(ctx); err != nil {
+		panic(err)
+	}
+}
+
+// Exec executes the UPSERT query and returns the inserted/updated ID.
+func (u *PaymentLogUpsertOne) ID(ctx context.Context) (id string, err error) {
+	if u.create.driver.Dialect() == dialect.MySQL {
+		// In case of "ON CONFLICT", there is no way to get back non-numeric ID
+		// fields from the database since MySQL does not support the RETURNING clause.
+		return id, errors.New("ent: PaymentLogUpsertOne.ID is not supported by MySQL driver. Use PaymentLogUpsertOne.Exec instead")
+	}
+	node, err := u.create.Save(ctx)
+	if err != nil {
+		return id, err
+	}
+	return node.ID, nil
+}
+
+// IDX is like ID, but panics if an error occurs.
+func (u *PaymentLogUpsertOne) IDX(ctx context.Context) string {
+	id, err := u.ID(ctx)
+	if err != nil {
+		panic(err)
+	}
+	return id
+}
+
 // PaymentLogCreateBulk is the builder for creating many PaymentLog entities in bulk.
 type PaymentLogCreateBulk struct {
 	config
 	err      error
 	builders []*PaymentLogCreate
+	conflict []sql.ConflictOption
 }
 
 // Save creates the PaymentLog entities in the database.
@@ -431,6 +1055,7 @@ func (_c *PaymentLogCreateBulk) Save(ctx context.Context) ([]*PaymentLog, error)
 					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
+					spec.OnConflict = _c.conflict
 					// Invoke the actual operation on the latest mutation in the chain.
 					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
@@ -477,6 +1102,382 @@ func (_c *PaymentLogCreateBulk) Exec(ctx context.Context) error {
 // ExecX is like Exec, but panics if an error occurs.
 func (_c *PaymentLogCreateBulk) ExecX(ctx context.Context) {
 	if err := _c.Exec(ctx); err != nil {
+		panic(err)
+	}
+}
+
+// OnConflict allows configuring the `ON CONFLICT` / `ON DUPLICATE KEY` clause
+// of the `INSERT` statement. For example:
+//
+//	client.PaymentLog.CreateBulk(builders...).
+//		OnConflict(
+//			// Update the row with the new values
+//			// the was proposed for insertion.
+//			sql.ResolveWithNewValues(),
+//		).
+//		// Override some of the fields with custom
+//		// update values.
+//		Update(func(u *ent.PaymentLogUpsert) {
+//			SetExtras(v+v).
+//		}).
+//		Exec(ctx)
+func (_c *PaymentLogCreateBulk) OnConflict(opts ...sql.ConflictOption) *PaymentLogUpsertBulk {
+	_c.conflict = opts
+	return &PaymentLogUpsertBulk{
+		create: _c,
+	}
+}
+
+// OnConflictColumns calls `OnConflict` and configures the columns
+// as conflict target. Using this option is equivalent to using:
+//
+//	client.PaymentLog.Create().
+//		OnConflict(sql.ConflictColumns(columns...)).
+//		Exec(ctx)
+func (_c *PaymentLogCreateBulk) OnConflictColumns(columns ...string) *PaymentLogUpsertBulk {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
+	return &PaymentLogUpsertBulk{
+		create: _c,
+	}
+}
+
+// PaymentLogUpsertBulk is the builder for "upsert"-ing
+// a bulk of PaymentLog nodes.
+type PaymentLogUpsertBulk struct {
+	create *PaymentLogCreateBulk
+}
+
+// UpdateNewValues updates the mutable fields using the new values that
+// were set on create. Using this option is equivalent to using:
+//
+//	client.PaymentLog.Create().
+//		OnConflict(
+//			sql.ResolveWithNewValues(),
+//			sql.ResolveWith(func(u *sql.UpdateSet) {
+//				u.SetIgnore(paymentlog.FieldID)
+//			}),
+//		).
+//		Exec(ctx)
+func (u *PaymentLogUpsertBulk) UpdateNewValues() *PaymentLogUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithNewValues())
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(s *sql.UpdateSet) {
+		for _, b := range u.create.builders {
+			if _, exists := b.mutation.ID(); exists {
+				s.SetIgnore(paymentlog.FieldID)
+			}
+			if _, exists := b.mutation.CreatedAt(); exists {
+				s.SetIgnore(paymentlog.FieldCreatedAt)
+			}
+		}
+	}))
+	return u
+}
+
+// Ignore sets each column to itself in case of conflict.
+// Using this option is equivalent to using:
+//
+//	client.PaymentLog.Create().
+//		OnConflict(sql.ResolveWithIgnore()).
+//		Exec(ctx)
+func (u *PaymentLogUpsertBulk) Ignore() *PaymentLogUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithIgnore())
+	return u
+}
+
+// DoNothing configures the conflict_action to `DO NOTHING`.
+// Supported only by SQLite and PostgreSQL.
+func (u *PaymentLogUpsertBulk) DoNothing() *PaymentLogUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.DoNothing())
+	return u
+}
+
+// Update allows overriding fields `UPDATE` values. See the PaymentLogCreateBulk.OnConflict
+// documentation for more info.
+func (u *PaymentLogUpsertBulk) Update(set func(*PaymentLogUpsert)) *PaymentLogUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(update *sql.UpdateSet) {
+		set(&PaymentLogUpsert{UpdateSet: update})
+	}))
+	return u
+}
+
+// SetExtras sets the "extras" field.
+func (u *PaymentLogUpsertBulk) SetExtras(v map[string]interface{}) *PaymentLogUpsertBulk {
+	return u.Update(func(s *PaymentLogUpsert) {
+		s.SetExtras(v)
+	})
+}
+
+// UpdateExtras sets the "extras" field to the value that was provided on create.
+func (u *PaymentLogUpsertBulk) UpdateExtras() *PaymentLogUpsertBulk {
+	return u.Update(func(s *PaymentLogUpsert) {
+		s.UpdateExtras()
+	})
+}
+
+// ClearExtras clears the value of the "extras" field.
+func (u *PaymentLogUpsertBulk) ClearExtras() *PaymentLogUpsertBulk {
+	return u.Update(func(s *PaymentLogUpsert) {
+		s.ClearExtras()
+	})
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *PaymentLogUpsertBulk) SetUpdatedAt(v int64) *PaymentLogUpsertBulk {
+	return u.Update(func(s *PaymentLogUpsert) {
+		s.SetUpdatedAt(v)
+	})
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *PaymentLogUpsertBulk) AddUpdatedAt(v int64) *PaymentLogUpsertBulk {
+	return u.Update(func(s *PaymentLogUpsert) {
+		s.AddUpdatedAt(v)
+	})
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *PaymentLogUpsertBulk) UpdateUpdatedAt() *PaymentLogUpsertBulk {
+	return u.Update(func(s *PaymentLogUpsert) {
+		s.UpdateUpdatedAt()
+	})
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *PaymentLogUpsertBulk) ClearUpdatedAt() *PaymentLogUpsertBulk {
+	return u.Update(func(s *PaymentLogUpsert) {
+		s.ClearUpdatedAt()
+	})
+}
+
+// SetOrderID sets the "order_id" field.
+func (u *PaymentLogUpsertBulk) SetOrderID(v string) *PaymentLogUpsertBulk {
+	return u.Update(func(s *PaymentLogUpsert) {
+		s.SetOrderID(v)
+	})
+}
+
+// UpdateOrderID sets the "order_id" field to the value that was provided on create.
+func (u *PaymentLogUpsertBulk) UpdateOrderID() *PaymentLogUpsertBulk {
+	return u.Update(func(s *PaymentLogUpsert) {
+		s.UpdateOrderID()
+	})
+}
+
+// SetChannelID sets the "channel_id" field.
+func (u *PaymentLogUpsertBulk) SetChannelID(v string) *PaymentLogUpsertBulk {
+	return u.Update(func(s *PaymentLogUpsert) {
+		s.SetChannelID(v)
+	})
+}
+
+// UpdateChannelID sets the "channel_id" field to the value that was provided on create.
+func (u *PaymentLogUpsertBulk) UpdateChannelID() *PaymentLogUpsertBulk {
+	return u.Update(func(s *PaymentLogUpsert) {
+		s.UpdateChannelID()
+	})
+}
+
+// SetType sets the "type" field.
+func (u *PaymentLogUpsertBulk) SetType(v string) *PaymentLogUpsertBulk {
+	return u.Update(func(s *PaymentLogUpsert) {
+		s.SetType(v)
+	})
+}
+
+// UpdateType sets the "type" field to the value that was provided on create.
+func (u *PaymentLogUpsertBulk) UpdateType() *PaymentLogUpsertBulk {
+	return u.Update(func(s *PaymentLogUpsert) {
+		s.UpdateType()
+	})
+}
+
+// SetStatusBefore sets the "status_before" field.
+func (u *PaymentLogUpsertBulk) SetStatusBefore(v string) *PaymentLogUpsertBulk {
+	return u.Update(func(s *PaymentLogUpsert) {
+		s.SetStatusBefore(v)
+	})
+}
+
+// UpdateStatusBefore sets the "status_before" field to the value that was provided on create.
+func (u *PaymentLogUpsertBulk) UpdateStatusBefore() *PaymentLogUpsertBulk {
+	return u.Update(func(s *PaymentLogUpsert) {
+		s.UpdateStatusBefore()
+	})
+}
+
+// ClearStatusBefore clears the value of the "status_before" field.
+func (u *PaymentLogUpsertBulk) ClearStatusBefore() *PaymentLogUpsertBulk {
+	return u.Update(func(s *PaymentLogUpsert) {
+		s.ClearStatusBefore()
+	})
+}
+
+// SetStatusAfter sets the "status_after" field.
+func (u *PaymentLogUpsertBulk) SetStatusAfter(v string) *PaymentLogUpsertBulk {
+	return u.Update(func(s *PaymentLogUpsert) {
+		s.SetStatusAfter(v)
+	})
+}
+
+// UpdateStatusAfter sets the "status_after" field to the value that was provided on create.
+func (u *PaymentLogUpsertBulk) UpdateStatusAfter() *PaymentLogUpsertBulk {
+	return u.Update(func(s *PaymentLogUpsert) {
+		s.UpdateStatusAfter()
+	})
+}
+
+// ClearStatusAfter clears the value of the "status_after" field.
+func (u *PaymentLogUpsertBulk) ClearStatusAfter() *PaymentLogUpsertBulk {
+	return u.Update(func(s *PaymentLogUpsert) {
+		s.ClearStatusAfter()
+	})
+}
+
+// SetRequestData sets the "request_data" field.
+func (u *PaymentLogUpsertBulk) SetRequestData(v string) *PaymentLogUpsertBulk {
+	return u.Update(func(s *PaymentLogUpsert) {
+		s.SetRequestData(v)
+	})
+}
+
+// UpdateRequestData sets the "request_data" field to the value that was provided on create.
+func (u *PaymentLogUpsertBulk) UpdateRequestData() *PaymentLogUpsertBulk {
+	return u.Update(func(s *PaymentLogUpsert) {
+		s.UpdateRequestData()
+	})
+}
+
+// ClearRequestData clears the value of the "request_data" field.
+func (u *PaymentLogUpsertBulk) ClearRequestData() *PaymentLogUpsertBulk {
+	return u.Update(func(s *PaymentLogUpsert) {
+		s.ClearRequestData()
+	})
+}
+
+// SetResponseData sets the "response_data" field.
+func (u *PaymentLogUpsertBulk) SetResponseData(v string) *PaymentLogUpsertBulk {
+	return u.Update(func(s *PaymentLogUpsert) {
+		s.SetResponseData(v)
+	})
+}
+
+// UpdateResponseData sets the "response_data" field to the value that was provided on create.
+func (u *PaymentLogUpsertBulk) UpdateResponseData() *PaymentLogUpsertBulk {
+	return u.Update(func(s *PaymentLogUpsert) {
+		s.UpdateResponseData()
+	})
+}
+
+// ClearResponseData clears the value of the "response_data" field.
+func (u *PaymentLogUpsertBulk) ClearResponseData() *PaymentLogUpsertBulk {
+	return u.Update(func(s *PaymentLogUpsert) {
+		s.ClearResponseData()
+	})
+}
+
+// SetIP sets the "ip" field.
+func (u *PaymentLogUpsertBulk) SetIP(v string) *PaymentLogUpsertBulk {
+	return u.Update(func(s *PaymentLogUpsert) {
+		s.SetIP(v)
+	})
+}
+
+// UpdateIP sets the "ip" field to the value that was provided on create.
+func (u *PaymentLogUpsertBulk) UpdateIP() *PaymentLogUpsertBulk {
+	return u.Update(func(s *PaymentLogUpsert) {
+		s.UpdateIP()
+	})
+}
+
+// ClearIP clears the value of the "ip" field.
+func (u *PaymentLogUpsertBulk) ClearIP() *PaymentLogUpsertBulk {
+	return u.Update(func(s *PaymentLogUpsert) {
+		s.ClearIP()
+	})
+}
+
+// SetUserAgent sets the "user_agent" field.
+func (u *PaymentLogUpsertBulk) SetUserAgent(v string) *PaymentLogUpsertBulk {
+	return u.Update(func(s *PaymentLogUpsert) {
+		s.SetUserAgent(v)
+	})
+}
+
+// UpdateUserAgent sets the "user_agent" field to the value that was provided on create.
+func (u *PaymentLogUpsertBulk) UpdateUserAgent() *PaymentLogUpsertBulk {
+	return u.Update(func(s *PaymentLogUpsert) {
+		s.UpdateUserAgent()
+	})
+}
+
+// ClearUserAgent clears the value of the "user_agent" field.
+func (u *PaymentLogUpsertBulk) ClearUserAgent() *PaymentLogUpsertBulk {
+	return u.Update(func(s *PaymentLogUpsert) {
+		s.ClearUserAgent()
+	})
+}
+
+// SetUserID sets the "user_id" field.
+func (u *PaymentLogUpsertBulk) SetUserID(v string) *PaymentLogUpsertBulk {
+	return u.Update(func(s *PaymentLogUpsert) {
+		s.SetUserID(v)
+	})
+}
+
+// UpdateUserID sets the "user_id" field to the value that was provided on create.
+func (u *PaymentLogUpsertBulk) UpdateUserID() *PaymentLogUpsertBulk {
+	return u.Update(func(s *PaymentLogUpsert) {
+		s.UpdateUserID()
+	})
+}
+
+// ClearUserID clears the value of the "user_id" field.
+func (u *PaymentLogUpsertBulk) ClearUserID() *PaymentLogUpsertBulk {
+	return u.Update(func(s *PaymentLogUpsert) {
+		s.ClearUserID()
+	})
+}
+
+// SetError sets the "error" field.
+func (u *PaymentLogUpsertBulk) SetError(v string) *PaymentLogUpsertBulk {
+	return u.Update(func(s *PaymentLogUpsert) {
+		s.SetError(v)
+	})
+}
+
+// UpdateError sets the "error" field to the value that was provided on create.
+func (u *PaymentLogUpsertBulk) UpdateError() *PaymentLogUpsertBulk {
+	return u.Update(func(s *PaymentLogUpsert) {
+		s.UpdateError()
+	})
+}
+
+// ClearError clears the value of the "error" field.
+func (u *PaymentLogUpsertBulk) ClearError() *PaymentLogUpsertBulk {
+	return u.Update(func(s *PaymentLogUpsert) {
+		s.ClearError()
+	})
+}
+
+// Exec executes the query.
+func (u *PaymentLogUpsertBulk) Exec(ctx context.Context) error {
+	if u.create.err != nil {
+		return u.create.err
+	}
+	for i, b := range u.create.builders {
+		if len(b.conflict) != 0 {
+			return fmt.Errorf("ent: OnConflict was set for builder %d. Set it on the PaymentLogCreateBulk instead", i)
+		}
+	}
+	if len(u.create.conflict) == 0 {
+		return errors.New("ent: missing options for PaymentLogCreateBulk.OnConflict")
+	}
+	return u.create.Exec(ctx)
+}
+
+// ExecX is like Exec, but panics if an error occurs.
+func (u *PaymentLogUpsertBulk) ExecX(ctx context.Context) {
+	if err := u.create.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

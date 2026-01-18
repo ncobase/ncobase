@@ -1,6 +1,6 @@
 package enterprise
 
-import "ncobase/space/structs"
+import "ncobase/core/space/structs"
 
 // SystemDefaultSpaces defines enterprise spaces
 var SystemDefaultSpaces = []structs.CreateSpaceBody{

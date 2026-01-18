@@ -4,9 +4,12 @@ package ent
 
 import (
 	"context"
+	"errors"
 	"fmt"
-	"ncobase/space/data/ent/spacemenu"
+	"ncobase/core/space/data/ent/spacemenu"
 
+	"entgo.io/ent/dialect"
+	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
 )
@@ -16,6 +19,7 @@ type SpaceMenuCreate struct {
 	config
 	mutation *SpaceMenuMutation
 	hooks    []Hook
+	conflict []sql.ConflictOption
 }
 
 // SetSpaceID sets the "space_id" field.
@@ -203,6 +207,7 @@ func (_c *SpaceMenuCreate) createSpec() (*SpaceMenu, *sqlgraph.CreateSpec) {
 		_node = &SpaceMenu{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(spacemenu.Table, sqlgraph.NewFieldSpec(spacemenu.FieldID, field.TypeString))
 	)
+	_spec.OnConflict = _c.conflict
 	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
@@ -234,11 +239,358 @@ func (_c *SpaceMenuCreate) createSpec() (*SpaceMenu, *sqlgraph.CreateSpec) {
 	return _node, _spec
 }
 
+// OnConflict allows configuring the `ON CONFLICT` / `ON DUPLICATE KEY` clause
+// of the `INSERT` statement. For example:
+//
+//	client.SpaceMenu.Create().
+//		SetSpaceID(v).
+//		OnConflict(
+//			// Update the row with the new values
+//			// the was proposed for insertion.
+//			sql.ResolveWithNewValues(),
+//		).
+//		// Override some of the fields with custom
+//		// update values.
+//		Update(func(u *ent.SpaceMenuUpsert) {
+//			SetSpaceID(v+v).
+//		}).
+//		Exec(ctx)
+func (_c *SpaceMenuCreate) OnConflict(opts ...sql.ConflictOption) *SpaceMenuUpsertOne {
+	_c.conflict = opts
+	return &SpaceMenuUpsertOne{
+		create: _c,
+	}
+}
+
+// OnConflictColumns calls `OnConflict` and configures the columns
+// as conflict target. Using this option is equivalent to using:
+//
+//	client.SpaceMenu.Create().
+//		OnConflict(sql.ConflictColumns(columns...)).
+//		Exec(ctx)
+func (_c *SpaceMenuCreate) OnConflictColumns(columns ...string) *SpaceMenuUpsertOne {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
+	return &SpaceMenuUpsertOne{
+		create: _c,
+	}
+}
+
+type (
+	// SpaceMenuUpsertOne is the builder for "upsert"-ing
+	//  one SpaceMenu node.
+	SpaceMenuUpsertOne struct {
+		create *SpaceMenuCreate
+	}
+
+	// SpaceMenuUpsert is the "OnConflict" setter.
+	SpaceMenuUpsert struct {
+		*sql.UpdateSet
+	}
+)
+
+// SetSpaceID sets the "space_id" field.
+func (u *SpaceMenuUpsert) SetSpaceID(v string) *SpaceMenuUpsert {
+	u.Set(spacemenu.FieldSpaceID, v)
+	return u
+}
+
+// UpdateSpaceID sets the "space_id" field to the value that was provided on create.
+func (u *SpaceMenuUpsert) UpdateSpaceID() *SpaceMenuUpsert {
+	u.SetExcluded(spacemenu.FieldSpaceID)
+	return u
+}
+
+// ClearSpaceID clears the value of the "space_id" field.
+func (u *SpaceMenuUpsert) ClearSpaceID() *SpaceMenuUpsert {
+	u.SetNull(spacemenu.FieldSpaceID)
+	return u
+}
+
+// SetMenuID sets the "menu_id" field.
+func (u *SpaceMenuUpsert) SetMenuID(v string) *SpaceMenuUpsert {
+	u.Set(spacemenu.FieldMenuID, v)
+	return u
+}
+
+// UpdateMenuID sets the "menu_id" field to the value that was provided on create.
+func (u *SpaceMenuUpsert) UpdateMenuID() *SpaceMenuUpsert {
+	u.SetExcluded(spacemenu.FieldMenuID)
+	return u
+}
+
+// ClearMenuID clears the value of the "menu_id" field.
+func (u *SpaceMenuUpsert) ClearMenuID() *SpaceMenuUpsert {
+	u.SetNull(spacemenu.FieldMenuID)
+	return u
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (u *SpaceMenuUpsert) SetCreatedBy(v string) *SpaceMenuUpsert {
+	u.Set(spacemenu.FieldCreatedBy, v)
+	return u
+}
+
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *SpaceMenuUpsert) UpdateCreatedBy() *SpaceMenuUpsert {
+	u.SetExcluded(spacemenu.FieldCreatedBy)
+	return u
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *SpaceMenuUpsert) ClearCreatedBy() *SpaceMenuUpsert {
+	u.SetNull(spacemenu.FieldCreatedBy)
+	return u
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (u *SpaceMenuUpsert) SetUpdatedBy(v string) *SpaceMenuUpsert {
+	u.Set(spacemenu.FieldUpdatedBy, v)
+	return u
+}
+
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *SpaceMenuUpsert) UpdateUpdatedBy() *SpaceMenuUpsert {
+	u.SetExcluded(spacemenu.FieldUpdatedBy)
+	return u
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *SpaceMenuUpsert) ClearUpdatedBy() *SpaceMenuUpsert {
+	u.SetNull(spacemenu.FieldUpdatedBy)
+	return u
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *SpaceMenuUpsert) SetUpdatedAt(v int64) *SpaceMenuUpsert {
+	u.Set(spacemenu.FieldUpdatedAt, v)
+	return u
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *SpaceMenuUpsert) UpdateUpdatedAt() *SpaceMenuUpsert {
+	u.SetExcluded(spacemenu.FieldUpdatedAt)
+	return u
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *SpaceMenuUpsert) AddUpdatedAt(v int64) *SpaceMenuUpsert {
+	u.Add(spacemenu.FieldUpdatedAt, v)
+	return u
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *SpaceMenuUpsert) ClearUpdatedAt() *SpaceMenuUpsert {
+	u.SetNull(spacemenu.FieldUpdatedAt)
+	return u
+}
+
+// UpdateNewValues updates the mutable fields using the new values that were set on create except the ID field.
+// Using this option is equivalent to using:
+//
+//	client.SpaceMenu.Create().
+//		OnConflict(
+//			sql.ResolveWithNewValues(),
+//			sql.ResolveWith(func(u *sql.UpdateSet) {
+//				u.SetIgnore(spacemenu.FieldID)
+//			}),
+//		).
+//		Exec(ctx)
+func (u *SpaceMenuUpsertOne) UpdateNewValues() *SpaceMenuUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithNewValues())
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(s *sql.UpdateSet) {
+		if _, exists := u.create.mutation.ID(); exists {
+			s.SetIgnore(spacemenu.FieldID)
+		}
+		if _, exists := u.create.mutation.CreatedAt(); exists {
+			s.SetIgnore(spacemenu.FieldCreatedAt)
+		}
+	}))
+	return u
+}
+
+// Ignore sets each column to itself in case of conflict.
+// Using this option is equivalent to using:
+//
+//	client.SpaceMenu.Create().
+//	    OnConflict(sql.ResolveWithIgnore()).
+//	    Exec(ctx)
+func (u *SpaceMenuUpsertOne) Ignore() *SpaceMenuUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithIgnore())
+	return u
+}
+
+// DoNothing configures the conflict_action to `DO NOTHING`.
+// Supported only by SQLite and PostgreSQL.
+func (u *SpaceMenuUpsertOne) DoNothing() *SpaceMenuUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.DoNothing())
+	return u
+}
+
+// Update allows overriding fields `UPDATE` values. See the SpaceMenuCreate.OnConflict
+// documentation for more info.
+func (u *SpaceMenuUpsertOne) Update(set func(*SpaceMenuUpsert)) *SpaceMenuUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(update *sql.UpdateSet) {
+		set(&SpaceMenuUpsert{UpdateSet: update})
+	}))
+	return u
+}
+
+// SetSpaceID sets the "space_id" field.
+func (u *SpaceMenuUpsertOne) SetSpaceID(v string) *SpaceMenuUpsertOne {
+	return u.Update(func(s *SpaceMenuUpsert) {
+		s.SetSpaceID(v)
+	})
+}
+
+// UpdateSpaceID sets the "space_id" field to the value that was provided on create.
+func (u *SpaceMenuUpsertOne) UpdateSpaceID() *SpaceMenuUpsertOne {
+	return u.Update(func(s *SpaceMenuUpsert) {
+		s.UpdateSpaceID()
+	})
+}
+
+// ClearSpaceID clears the value of the "space_id" field.
+func (u *SpaceMenuUpsertOne) ClearSpaceID() *SpaceMenuUpsertOne {
+	return u.Update(func(s *SpaceMenuUpsert) {
+		s.ClearSpaceID()
+	})
+}
+
+// SetMenuID sets the "menu_id" field.
+func (u *SpaceMenuUpsertOne) SetMenuID(v string) *SpaceMenuUpsertOne {
+	return u.Update(func(s *SpaceMenuUpsert) {
+		s.SetMenuID(v)
+	})
+}
+
+// UpdateMenuID sets the "menu_id" field to the value that was provided on create.
+func (u *SpaceMenuUpsertOne) UpdateMenuID() *SpaceMenuUpsertOne {
+	return u.Update(func(s *SpaceMenuUpsert) {
+		s.UpdateMenuID()
+	})
+}
+
+// ClearMenuID clears the value of the "menu_id" field.
+func (u *SpaceMenuUpsertOne) ClearMenuID() *SpaceMenuUpsertOne {
+	return u.Update(func(s *SpaceMenuUpsert) {
+		s.ClearMenuID()
+	})
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (u *SpaceMenuUpsertOne) SetCreatedBy(v string) *SpaceMenuUpsertOne {
+	return u.Update(func(s *SpaceMenuUpsert) {
+		s.SetCreatedBy(v)
+	})
+}
+
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *SpaceMenuUpsertOne) UpdateCreatedBy() *SpaceMenuUpsertOne {
+	return u.Update(func(s *SpaceMenuUpsert) {
+		s.UpdateCreatedBy()
+	})
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *SpaceMenuUpsertOne) ClearCreatedBy() *SpaceMenuUpsertOne {
+	return u.Update(func(s *SpaceMenuUpsert) {
+		s.ClearCreatedBy()
+	})
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (u *SpaceMenuUpsertOne) SetUpdatedBy(v string) *SpaceMenuUpsertOne {
+	return u.Update(func(s *SpaceMenuUpsert) {
+		s.SetUpdatedBy(v)
+	})
+}
+
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *SpaceMenuUpsertOne) UpdateUpdatedBy() *SpaceMenuUpsertOne {
+	return u.Update(func(s *SpaceMenuUpsert) {
+		s.UpdateUpdatedBy()
+	})
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *SpaceMenuUpsertOne) ClearUpdatedBy() *SpaceMenuUpsertOne {
+	return u.Update(func(s *SpaceMenuUpsert) {
+		s.ClearUpdatedBy()
+	})
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *SpaceMenuUpsertOne) SetUpdatedAt(v int64) *SpaceMenuUpsertOne {
+	return u.Update(func(s *SpaceMenuUpsert) {
+		s.SetUpdatedAt(v)
+	})
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *SpaceMenuUpsertOne) AddUpdatedAt(v int64) *SpaceMenuUpsertOne {
+	return u.Update(func(s *SpaceMenuUpsert) {
+		s.AddUpdatedAt(v)
+	})
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *SpaceMenuUpsertOne) UpdateUpdatedAt() *SpaceMenuUpsertOne {
+	return u.Update(func(s *SpaceMenuUpsert) {
+		s.UpdateUpdatedAt()
+	})
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *SpaceMenuUpsertOne) ClearUpdatedAt() *SpaceMenuUpsertOne {
+	return u.Update(func(s *SpaceMenuUpsert) {
+		s.ClearUpdatedAt()
+	})
+}
+
+// Exec executes the query.
+func (u *SpaceMenuUpsertOne) Exec(ctx context.Context) error {
+	if len(u.create.conflict) == 0 {
+		return errors.New("ent: missing options for SpaceMenuCreate.OnConflict")
+	}
+	return u.create.Exec(ctx)
+}
+
+// ExecX is like Exec, but panics if an error occurs.
+func (u *SpaceMenuUpsertOne) ExecX(ctx context.Context) {
+	if err := u.create.Exec(ctx); err != nil {
+		panic(err)
+	}
+}
+
+// Exec executes the UPSERT query and returns the inserted/updated ID.
+func (u *SpaceMenuUpsertOne) ID(ctx context.Context) (id string, err error) {
+	if u.create.driver.Dialect() == dialect.MySQL {
+		// In case of "ON CONFLICT", there is no way to get back non-numeric ID
+		// fields from the database since MySQL does not support the RETURNING clause.
+		return id, errors.New("ent: SpaceMenuUpsertOne.ID is not supported by MySQL driver. Use SpaceMenuUpsertOne.Exec instead")
+	}
+	node, err := u.create.Save(ctx)
+	if err != nil {
+		return id, err
+	}
+	return node.ID, nil
+}
+
+// IDX is like ID, but panics if an error occurs.
+func (u *SpaceMenuUpsertOne) IDX(ctx context.Context) string {
+	id, err := u.ID(ctx)
+	if err != nil {
+		panic(err)
+	}
+	return id
+}
+
 // SpaceMenuCreateBulk is the builder for creating many SpaceMenu entities in bulk.
 type SpaceMenuCreateBulk struct {
 	config
 	err      error
 	builders []*SpaceMenuCreate
+	conflict []sql.ConflictOption
 }
 
 // Save creates the SpaceMenu entities in the database.
@@ -268,6 +620,7 @@ func (_c *SpaceMenuCreateBulk) Save(ctx context.Context) ([]*SpaceMenu, error) {
 					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
+					spec.OnConflict = _c.conflict
 					// Invoke the actual operation on the latest mutation in the chain.
 					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
@@ -314,6 +667,235 @@ func (_c *SpaceMenuCreateBulk) Exec(ctx context.Context) error {
 // ExecX is like Exec, but panics if an error occurs.
 func (_c *SpaceMenuCreateBulk) ExecX(ctx context.Context) {
 	if err := _c.Exec(ctx); err != nil {
+		panic(err)
+	}
+}
+
+// OnConflict allows configuring the `ON CONFLICT` / `ON DUPLICATE KEY` clause
+// of the `INSERT` statement. For example:
+//
+//	client.SpaceMenu.CreateBulk(builders...).
+//		OnConflict(
+//			// Update the row with the new values
+//			// the was proposed for insertion.
+//			sql.ResolveWithNewValues(),
+//		).
+//		// Override some of the fields with custom
+//		// update values.
+//		Update(func(u *ent.SpaceMenuUpsert) {
+//			SetSpaceID(v+v).
+//		}).
+//		Exec(ctx)
+func (_c *SpaceMenuCreateBulk) OnConflict(opts ...sql.ConflictOption) *SpaceMenuUpsertBulk {
+	_c.conflict = opts
+	return &SpaceMenuUpsertBulk{
+		create: _c,
+	}
+}
+
+// OnConflictColumns calls `OnConflict` and configures the columns
+// as conflict target. Using this option is equivalent to using:
+//
+//	client.SpaceMenu.Create().
+//		OnConflict(sql.ConflictColumns(columns...)).
+//		Exec(ctx)
+func (_c *SpaceMenuCreateBulk) OnConflictColumns(columns ...string) *SpaceMenuUpsertBulk {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
+	return &SpaceMenuUpsertBulk{
+		create: _c,
+	}
+}
+
+// SpaceMenuUpsertBulk is the builder for "upsert"-ing
+// a bulk of SpaceMenu nodes.
+type SpaceMenuUpsertBulk struct {
+	create *SpaceMenuCreateBulk
+}
+
+// UpdateNewValues updates the mutable fields using the new values that
+// were set on create. Using this option is equivalent to using:
+//
+//	client.SpaceMenu.Create().
+//		OnConflict(
+//			sql.ResolveWithNewValues(),
+//			sql.ResolveWith(func(u *sql.UpdateSet) {
+//				u.SetIgnore(spacemenu.FieldID)
+//			}),
+//		).
+//		Exec(ctx)
+func (u *SpaceMenuUpsertBulk) UpdateNewValues() *SpaceMenuUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithNewValues())
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(s *sql.UpdateSet) {
+		for _, b := range u.create.builders {
+			if _, exists := b.mutation.ID(); exists {
+				s.SetIgnore(spacemenu.FieldID)
+			}
+			if _, exists := b.mutation.CreatedAt(); exists {
+				s.SetIgnore(spacemenu.FieldCreatedAt)
+			}
+		}
+	}))
+	return u
+}
+
+// Ignore sets each column to itself in case of conflict.
+// Using this option is equivalent to using:
+//
+//	client.SpaceMenu.Create().
+//		OnConflict(sql.ResolveWithIgnore()).
+//		Exec(ctx)
+func (u *SpaceMenuUpsertBulk) Ignore() *SpaceMenuUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithIgnore())
+	return u
+}
+
+// DoNothing configures the conflict_action to `DO NOTHING`.
+// Supported only by SQLite and PostgreSQL.
+func (u *SpaceMenuUpsertBulk) DoNothing() *SpaceMenuUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.DoNothing())
+	return u
+}
+
+// Update allows overriding fields `UPDATE` values. See the SpaceMenuCreateBulk.OnConflict
+// documentation for more info.
+func (u *SpaceMenuUpsertBulk) Update(set func(*SpaceMenuUpsert)) *SpaceMenuUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(update *sql.UpdateSet) {
+		set(&SpaceMenuUpsert{UpdateSet: update})
+	}))
+	return u
+}
+
+// SetSpaceID sets the "space_id" field.
+func (u *SpaceMenuUpsertBulk) SetSpaceID(v string) *SpaceMenuUpsertBulk {
+	return u.Update(func(s *SpaceMenuUpsert) {
+		s.SetSpaceID(v)
+	})
+}
+
+// UpdateSpaceID sets the "space_id" field to the value that was provided on create.
+func (u *SpaceMenuUpsertBulk) UpdateSpaceID() *SpaceMenuUpsertBulk {
+	return u.Update(func(s *SpaceMenuUpsert) {
+		s.UpdateSpaceID()
+	})
+}
+
+// ClearSpaceID clears the value of the "space_id" field.
+func (u *SpaceMenuUpsertBulk) ClearSpaceID() *SpaceMenuUpsertBulk {
+	return u.Update(func(s *SpaceMenuUpsert) {
+		s.ClearSpaceID()
+	})
+}
+
+// SetMenuID sets the "menu_id" field.
+func (u *SpaceMenuUpsertBulk) SetMenuID(v string) *SpaceMenuUpsertBulk {
+	return u.Update(func(s *SpaceMenuUpsert) {
+		s.SetMenuID(v)
+	})
+}
+
+// UpdateMenuID sets the "menu_id" field to the value that was provided on create.
+func (u *SpaceMenuUpsertBulk) UpdateMenuID() *SpaceMenuUpsertBulk {
+	return u.Update(func(s *SpaceMenuUpsert) {
+		s.UpdateMenuID()
+	})
+}
+
+// ClearMenuID clears the value of the "menu_id" field.
+func (u *SpaceMenuUpsertBulk) ClearMenuID() *SpaceMenuUpsertBulk {
+	return u.Update(func(s *SpaceMenuUpsert) {
+		s.ClearMenuID()
+	})
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (u *SpaceMenuUpsertBulk) SetCreatedBy(v string) *SpaceMenuUpsertBulk {
+	return u.Update(func(s *SpaceMenuUpsert) {
+		s.SetCreatedBy(v)
+	})
+}
+
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *SpaceMenuUpsertBulk) UpdateCreatedBy() *SpaceMenuUpsertBulk {
+	return u.Update(func(s *SpaceMenuUpsert) {
+		s.UpdateCreatedBy()
+	})
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *SpaceMenuUpsertBulk) ClearCreatedBy() *SpaceMenuUpsertBulk {
+	return u.Update(func(s *SpaceMenuUpsert) {
+		s.ClearCreatedBy()
+	})
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (u *SpaceMenuUpsertBulk) SetUpdatedBy(v string) *SpaceMenuUpsertBulk {
+	return u.Update(func(s *SpaceMenuUpsert) {
+		s.SetUpdatedBy(v)
+	})
+}
+
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *SpaceMenuUpsertBulk) UpdateUpdatedBy() *SpaceMenuUpsertBulk {
+	return u.Update(func(s *SpaceMenuUpsert) {
+		s.UpdateUpdatedBy()
+	})
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *SpaceMenuUpsertBulk) ClearUpdatedBy() *SpaceMenuUpsertBulk {
+	return u.Update(func(s *SpaceMenuUpsert) {
+		s.ClearUpdatedBy()
+	})
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *SpaceMenuUpsertBulk) SetUpdatedAt(v int64) *SpaceMenuUpsertBulk {
+	return u.Update(func(s *SpaceMenuUpsert) {
+		s.SetUpdatedAt(v)
+	})
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *SpaceMenuUpsertBulk) AddUpdatedAt(v int64) *SpaceMenuUpsertBulk {
+	return u.Update(func(s *SpaceMenuUpsert) {
+		s.AddUpdatedAt(v)
+	})
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *SpaceMenuUpsertBulk) UpdateUpdatedAt() *SpaceMenuUpsertBulk {
+	return u.Update(func(s *SpaceMenuUpsert) {
+		s.UpdateUpdatedAt()
+	})
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *SpaceMenuUpsertBulk) ClearUpdatedAt() *SpaceMenuUpsertBulk {
+	return u.Update(func(s *SpaceMenuUpsert) {
+		s.ClearUpdatedAt()
+	})
+}
+
+// Exec executes the query.
+func (u *SpaceMenuUpsertBulk) Exec(ctx context.Context) error {
+	if u.create.err != nil {
+		return u.create.err
+	}
+	for i, b := range u.create.builders {
+		if len(b.conflict) != 0 {
+			return fmt.Errorf("ent: OnConflict was set for builder %d. Set it on the SpaceMenuCreateBulk instead", i)
+		}
+	}
+	if len(u.create.conflict) == 0 {
+		return errors.New("ent: missing options for SpaceMenuCreateBulk.OnConflict")
+	}
+	return u.create.Exec(ctx)
+}
+
+// ExecX is like Exec, but panics if an error occurs.
+func (u *SpaceMenuUpsertBulk) ExecX(ctx context.Context) {
+	if err := u.create.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

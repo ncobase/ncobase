@@ -6,10 +6,12 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"ncobase/content/data/ent/media"
-	"ncobase/content/data/ent/topic"
-	"ncobase/content/data/ent/topicmedia"
+	"ncobase/biz/content/data/ent/media"
+	"ncobase/biz/content/data/ent/topic"
+	"ncobase/biz/content/data/ent/topicmedia"
 
+	"entgo.io/ent/dialect"
+	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
 )
@@ -19,6 +21,7 @@ type TopicMediaCreate struct {
 	config
 	mutation *TopicMediaMutation
 	hooks    []Hook
+	conflict []sql.ConflictOption
 }
 
 // SetType sets the "type" field.
@@ -257,6 +260,7 @@ func (_c *TopicMediaCreate) createSpec() (*TopicMedia, *sqlgraph.CreateSpec) {
 		_node = &TopicMedia{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(topicmedia.Table, sqlgraph.NewFieldSpec(topicmedia.FieldID, field.TypeString))
 	)
+	_spec.OnConflict = _c.conflict
 	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
@@ -322,11 +326,410 @@ func (_c *TopicMediaCreate) createSpec() (*TopicMedia, *sqlgraph.CreateSpec) {
 	return _node, _spec
 }
 
+// OnConflict allows configuring the `ON CONFLICT` / `ON DUPLICATE KEY` clause
+// of the `INSERT` statement. For example:
+//
+//	client.TopicMedia.Create().
+//		SetType(v).
+//		OnConflict(
+//			// Update the row with the new values
+//			// the was proposed for insertion.
+//			sql.ResolveWithNewValues(),
+//		).
+//		// Override some of the fields with custom
+//		// update values.
+//		Update(func(u *ent.TopicMediaUpsert) {
+//			SetType(v+v).
+//		}).
+//		Exec(ctx)
+func (_c *TopicMediaCreate) OnConflict(opts ...sql.ConflictOption) *TopicMediaUpsertOne {
+	_c.conflict = opts
+	return &TopicMediaUpsertOne{
+		create: _c,
+	}
+}
+
+// OnConflictColumns calls `OnConflict` and configures the columns
+// as conflict target. Using this option is equivalent to using:
+//
+//	client.TopicMedia.Create().
+//		OnConflict(sql.ConflictColumns(columns...)).
+//		Exec(ctx)
+func (_c *TopicMediaCreate) OnConflictColumns(columns ...string) *TopicMediaUpsertOne {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
+	return &TopicMediaUpsertOne{
+		create: _c,
+	}
+}
+
+type (
+	// TopicMediaUpsertOne is the builder for "upsert"-ing
+	//  one TopicMedia node.
+	TopicMediaUpsertOne struct {
+		create *TopicMediaCreate
+	}
+
+	// TopicMediaUpsert is the "OnConflict" setter.
+	TopicMediaUpsert struct {
+		*sql.UpdateSet
+	}
+)
+
+// SetType sets the "type" field.
+func (u *TopicMediaUpsert) SetType(v string) *TopicMediaUpsert {
+	u.Set(topicmedia.FieldType, v)
+	return u
+}
+
+// UpdateType sets the "type" field to the value that was provided on create.
+func (u *TopicMediaUpsert) UpdateType() *TopicMediaUpsert {
+	u.SetExcluded(topicmedia.FieldType)
+	return u
+}
+
+// ClearType clears the value of the "type" field.
+func (u *TopicMediaUpsert) ClearType() *TopicMediaUpsert {
+	u.SetNull(topicmedia.FieldType)
+	return u
+}
+
+// SetOrder sets the "order" field.
+func (u *TopicMediaUpsert) SetOrder(v int) *TopicMediaUpsert {
+	u.Set(topicmedia.FieldOrder, v)
+	return u
+}
+
+// UpdateOrder sets the "order" field to the value that was provided on create.
+func (u *TopicMediaUpsert) UpdateOrder() *TopicMediaUpsert {
+	u.SetExcluded(topicmedia.FieldOrder)
+	return u
+}
+
+// AddOrder adds v to the "order" field.
+func (u *TopicMediaUpsert) AddOrder(v int) *TopicMediaUpsert {
+	u.Add(topicmedia.FieldOrder, v)
+	return u
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (u *TopicMediaUpsert) SetCreatedBy(v string) *TopicMediaUpsert {
+	u.Set(topicmedia.FieldCreatedBy, v)
+	return u
+}
+
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *TopicMediaUpsert) UpdateCreatedBy() *TopicMediaUpsert {
+	u.SetExcluded(topicmedia.FieldCreatedBy)
+	return u
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *TopicMediaUpsert) ClearCreatedBy() *TopicMediaUpsert {
+	u.SetNull(topicmedia.FieldCreatedBy)
+	return u
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (u *TopicMediaUpsert) SetUpdatedBy(v string) *TopicMediaUpsert {
+	u.Set(topicmedia.FieldUpdatedBy, v)
+	return u
+}
+
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *TopicMediaUpsert) UpdateUpdatedBy() *TopicMediaUpsert {
+	u.SetExcluded(topicmedia.FieldUpdatedBy)
+	return u
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *TopicMediaUpsert) ClearUpdatedBy() *TopicMediaUpsert {
+	u.SetNull(topicmedia.FieldUpdatedBy)
+	return u
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *TopicMediaUpsert) SetUpdatedAt(v int64) *TopicMediaUpsert {
+	u.Set(topicmedia.FieldUpdatedAt, v)
+	return u
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *TopicMediaUpsert) UpdateUpdatedAt() *TopicMediaUpsert {
+	u.SetExcluded(topicmedia.FieldUpdatedAt)
+	return u
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *TopicMediaUpsert) AddUpdatedAt(v int64) *TopicMediaUpsert {
+	u.Add(topicmedia.FieldUpdatedAt, v)
+	return u
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *TopicMediaUpsert) ClearUpdatedAt() *TopicMediaUpsert {
+	u.SetNull(topicmedia.FieldUpdatedAt)
+	return u
+}
+
+// SetTopicID sets the "topic_id" field.
+func (u *TopicMediaUpsert) SetTopicID(v string) *TopicMediaUpsert {
+	u.Set(topicmedia.FieldTopicID, v)
+	return u
+}
+
+// UpdateTopicID sets the "topic_id" field to the value that was provided on create.
+func (u *TopicMediaUpsert) UpdateTopicID() *TopicMediaUpsert {
+	u.SetExcluded(topicmedia.FieldTopicID)
+	return u
+}
+
+// SetMediaID sets the "media_id" field.
+func (u *TopicMediaUpsert) SetMediaID(v string) *TopicMediaUpsert {
+	u.Set(topicmedia.FieldMediaID, v)
+	return u
+}
+
+// UpdateMediaID sets the "media_id" field to the value that was provided on create.
+func (u *TopicMediaUpsert) UpdateMediaID() *TopicMediaUpsert {
+	u.SetExcluded(topicmedia.FieldMediaID)
+	return u
+}
+
+// UpdateNewValues updates the mutable fields using the new values that were set on create except the ID field.
+// Using this option is equivalent to using:
+//
+//	client.TopicMedia.Create().
+//		OnConflict(
+//			sql.ResolveWithNewValues(),
+//			sql.ResolveWith(func(u *sql.UpdateSet) {
+//				u.SetIgnore(topicmedia.FieldID)
+//			}),
+//		).
+//		Exec(ctx)
+func (u *TopicMediaUpsertOne) UpdateNewValues() *TopicMediaUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithNewValues())
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(s *sql.UpdateSet) {
+		if _, exists := u.create.mutation.ID(); exists {
+			s.SetIgnore(topicmedia.FieldID)
+		}
+		if _, exists := u.create.mutation.CreatedAt(); exists {
+			s.SetIgnore(topicmedia.FieldCreatedAt)
+		}
+	}))
+	return u
+}
+
+// Ignore sets each column to itself in case of conflict.
+// Using this option is equivalent to using:
+//
+//	client.TopicMedia.Create().
+//	    OnConflict(sql.ResolveWithIgnore()).
+//	    Exec(ctx)
+func (u *TopicMediaUpsertOne) Ignore() *TopicMediaUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithIgnore())
+	return u
+}
+
+// DoNothing configures the conflict_action to `DO NOTHING`.
+// Supported only by SQLite and PostgreSQL.
+func (u *TopicMediaUpsertOne) DoNothing() *TopicMediaUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.DoNothing())
+	return u
+}
+
+// Update allows overriding fields `UPDATE` values. See the TopicMediaCreate.OnConflict
+// documentation for more info.
+func (u *TopicMediaUpsertOne) Update(set func(*TopicMediaUpsert)) *TopicMediaUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(update *sql.UpdateSet) {
+		set(&TopicMediaUpsert{UpdateSet: update})
+	}))
+	return u
+}
+
+// SetType sets the "type" field.
+func (u *TopicMediaUpsertOne) SetType(v string) *TopicMediaUpsertOne {
+	return u.Update(func(s *TopicMediaUpsert) {
+		s.SetType(v)
+	})
+}
+
+// UpdateType sets the "type" field to the value that was provided on create.
+func (u *TopicMediaUpsertOne) UpdateType() *TopicMediaUpsertOne {
+	return u.Update(func(s *TopicMediaUpsert) {
+		s.UpdateType()
+	})
+}
+
+// ClearType clears the value of the "type" field.
+func (u *TopicMediaUpsertOne) ClearType() *TopicMediaUpsertOne {
+	return u.Update(func(s *TopicMediaUpsert) {
+		s.ClearType()
+	})
+}
+
+// SetOrder sets the "order" field.
+func (u *TopicMediaUpsertOne) SetOrder(v int) *TopicMediaUpsertOne {
+	return u.Update(func(s *TopicMediaUpsert) {
+		s.SetOrder(v)
+	})
+}
+
+// AddOrder adds v to the "order" field.
+func (u *TopicMediaUpsertOne) AddOrder(v int) *TopicMediaUpsertOne {
+	return u.Update(func(s *TopicMediaUpsert) {
+		s.AddOrder(v)
+	})
+}
+
+// UpdateOrder sets the "order" field to the value that was provided on create.
+func (u *TopicMediaUpsertOne) UpdateOrder() *TopicMediaUpsertOne {
+	return u.Update(func(s *TopicMediaUpsert) {
+		s.UpdateOrder()
+	})
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (u *TopicMediaUpsertOne) SetCreatedBy(v string) *TopicMediaUpsertOne {
+	return u.Update(func(s *TopicMediaUpsert) {
+		s.SetCreatedBy(v)
+	})
+}
+
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *TopicMediaUpsertOne) UpdateCreatedBy() *TopicMediaUpsertOne {
+	return u.Update(func(s *TopicMediaUpsert) {
+		s.UpdateCreatedBy()
+	})
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *TopicMediaUpsertOne) ClearCreatedBy() *TopicMediaUpsertOne {
+	return u.Update(func(s *TopicMediaUpsert) {
+		s.ClearCreatedBy()
+	})
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (u *TopicMediaUpsertOne) SetUpdatedBy(v string) *TopicMediaUpsertOne {
+	return u.Update(func(s *TopicMediaUpsert) {
+		s.SetUpdatedBy(v)
+	})
+}
+
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *TopicMediaUpsertOne) UpdateUpdatedBy() *TopicMediaUpsertOne {
+	return u.Update(func(s *TopicMediaUpsert) {
+		s.UpdateUpdatedBy()
+	})
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *TopicMediaUpsertOne) ClearUpdatedBy() *TopicMediaUpsertOne {
+	return u.Update(func(s *TopicMediaUpsert) {
+		s.ClearUpdatedBy()
+	})
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *TopicMediaUpsertOne) SetUpdatedAt(v int64) *TopicMediaUpsertOne {
+	return u.Update(func(s *TopicMediaUpsert) {
+		s.SetUpdatedAt(v)
+	})
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *TopicMediaUpsertOne) AddUpdatedAt(v int64) *TopicMediaUpsertOne {
+	return u.Update(func(s *TopicMediaUpsert) {
+		s.AddUpdatedAt(v)
+	})
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *TopicMediaUpsertOne) UpdateUpdatedAt() *TopicMediaUpsertOne {
+	return u.Update(func(s *TopicMediaUpsert) {
+		s.UpdateUpdatedAt()
+	})
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *TopicMediaUpsertOne) ClearUpdatedAt() *TopicMediaUpsertOne {
+	return u.Update(func(s *TopicMediaUpsert) {
+		s.ClearUpdatedAt()
+	})
+}
+
+// SetTopicID sets the "topic_id" field.
+func (u *TopicMediaUpsertOne) SetTopicID(v string) *TopicMediaUpsertOne {
+	return u.Update(func(s *TopicMediaUpsert) {
+		s.SetTopicID(v)
+	})
+}
+
+// UpdateTopicID sets the "topic_id" field to the value that was provided on create.
+func (u *TopicMediaUpsertOne) UpdateTopicID() *TopicMediaUpsertOne {
+	return u.Update(func(s *TopicMediaUpsert) {
+		s.UpdateTopicID()
+	})
+}
+
+// SetMediaID sets the "media_id" field.
+func (u *TopicMediaUpsertOne) SetMediaID(v string) *TopicMediaUpsertOne {
+	return u.Update(func(s *TopicMediaUpsert) {
+		s.SetMediaID(v)
+	})
+}
+
+// UpdateMediaID sets the "media_id" field to the value that was provided on create.
+func (u *TopicMediaUpsertOne) UpdateMediaID() *TopicMediaUpsertOne {
+	return u.Update(func(s *TopicMediaUpsert) {
+		s.UpdateMediaID()
+	})
+}
+
+// Exec executes the query.
+func (u *TopicMediaUpsertOne) Exec(ctx context.Context) error {
+	if len(u.create.conflict) == 0 {
+		return errors.New("ent: missing options for TopicMediaCreate.OnConflict")
+	}
+	return u.create.Exec(ctx)
+}
+
+// ExecX is like Exec, but panics if an error occurs.
+func (u *TopicMediaUpsertOne) ExecX(ctx context.Context) {
+	if err := u.create.Exec(ctx); err != nil {
+		panic(err)
+	}
+}
+
+// Exec executes the UPSERT query and returns the inserted/updated ID.
+func (u *TopicMediaUpsertOne) ID(ctx context.Context) (id string, err error) {
+	if u.create.driver.Dialect() == dialect.MySQL {
+		// In case of "ON CONFLICT", there is no way to get back non-numeric ID
+		// fields from the database since MySQL does not support the RETURNING clause.
+		return id, errors.New("ent: TopicMediaUpsertOne.ID is not supported by MySQL driver. Use TopicMediaUpsertOne.Exec instead")
+	}
+	node, err := u.create.Save(ctx)
+	if err != nil {
+		return id, err
+	}
+	return node.ID, nil
+}
+
+// IDX is like ID, but panics if an error occurs.
+func (u *TopicMediaUpsertOne) IDX(ctx context.Context) string {
+	id, err := u.ID(ctx)
+	if err != nil {
+		panic(err)
+	}
+	return id
+}
+
 // TopicMediaCreateBulk is the builder for creating many TopicMedia entities in bulk.
 type TopicMediaCreateBulk struct {
 	config
 	err      error
 	builders []*TopicMediaCreate
+	conflict []sql.ConflictOption
 }
 
 // Save creates the TopicMedia entities in the database.
@@ -356,6 +759,7 @@ func (_c *TopicMediaCreateBulk) Save(ctx context.Context) ([]*TopicMedia, error)
 					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
+					spec.OnConflict = _c.conflict
 					// Invoke the actual operation on the latest mutation in the chain.
 					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
@@ -402,6 +806,263 @@ func (_c *TopicMediaCreateBulk) Exec(ctx context.Context) error {
 // ExecX is like Exec, but panics if an error occurs.
 func (_c *TopicMediaCreateBulk) ExecX(ctx context.Context) {
 	if err := _c.Exec(ctx); err != nil {
+		panic(err)
+	}
+}
+
+// OnConflict allows configuring the `ON CONFLICT` / `ON DUPLICATE KEY` clause
+// of the `INSERT` statement. For example:
+//
+//	client.TopicMedia.CreateBulk(builders...).
+//		OnConflict(
+//			// Update the row with the new values
+//			// the was proposed for insertion.
+//			sql.ResolveWithNewValues(),
+//		).
+//		// Override some of the fields with custom
+//		// update values.
+//		Update(func(u *ent.TopicMediaUpsert) {
+//			SetType(v+v).
+//		}).
+//		Exec(ctx)
+func (_c *TopicMediaCreateBulk) OnConflict(opts ...sql.ConflictOption) *TopicMediaUpsertBulk {
+	_c.conflict = opts
+	return &TopicMediaUpsertBulk{
+		create: _c,
+	}
+}
+
+// OnConflictColumns calls `OnConflict` and configures the columns
+// as conflict target. Using this option is equivalent to using:
+//
+//	client.TopicMedia.Create().
+//		OnConflict(sql.ConflictColumns(columns...)).
+//		Exec(ctx)
+func (_c *TopicMediaCreateBulk) OnConflictColumns(columns ...string) *TopicMediaUpsertBulk {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
+	return &TopicMediaUpsertBulk{
+		create: _c,
+	}
+}
+
+// TopicMediaUpsertBulk is the builder for "upsert"-ing
+// a bulk of TopicMedia nodes.
+type TopicMediaUpsertBulk struct {
+	create *TopicMediaCreateBulk
+}
+
+// UpdateNewValues updates the mutable fields using the new values that
+// were set on create. Using this option is equivalent to using:
+//
+//	client.TopicMedia.Create().
+//		OnConflict(
+//			sql.ResolveWithNewValues(),
+//			sql.ResolveWith(func(u *sql.UpdateSet) {
+//				u.SetIgnore(topicmedia.FieldID)
+//			}),
+//		).
+//		Exec(ctx)
+func (u *TopicMediaUpsertBulk) UpdateNewValues() *TopicMediaUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithNewValues())
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(s *sql.UpdateSet) {
+		for _, b := range u.create.builders {
+			if _, exists := b.mutation.ID(); exists {
+				s.SetIgnore(topicmedia.FieldID)
+			}
+			if _, exists := b.mutation.CreatedAt(); exists {
+				s.SetIgnore(topicmedia.FieldCreatedAt)
+			}
+		}
+	}))
+	return u
+}
+
+// Ignore sets each column to itself in case of conflict.
+// Using this option is equivalent to using:
+//
+//	client.TopicMedia.Create().
+//		OnConflict(sql.ResolveWithIgnore()).
+//		Exec(ctx)
+func (u *TopicMediaUpsertBulk) Ignore() *TopicMediaUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithIgnore())
+	return u
+}
+
+// DoNothing configures the conflict_action to `DO NOTHING`.
+// Supported only by SQLite and PostgreSQL.
+func (u *TopicMediaUpsertBulk) DoNothing() *TopicMediaUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.DoNothing())
+	return u
+}
+
+// Update allows overriding fields `UPDATE` values. See the TopicMediaCreateBulk.OnConflict
+// documentation for more info.
+func (u *TopicMediaUpsertBulk) Update(set func(*TopicMediaUpsert)) *TopicMediaUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(update *sql.UpdateSet) {
+		set(&TopicMediaUpsert{UpdateSet: update})
+	}))
+	return u
+}
+
+// SetType sets the "type" field.
+func (u *TopicMediaUpsertBulk) SetType(v string) *TopicMediaUpsertBulk {
+	return u.Update(func(s *TopicMediaUpsert) {
+		s.SetType(v)
+	})
+}
+
+// UpdateType sets the "type" field to the value that was provided on create.
+func (u *TopicMediaUpsertBulk) UpdateType() *TopicMediaUpsertBulk {
+	return u.Update(func(s *TopicMediaUpsert) {
+		s.UpdateType()
+	})
+}
+
+// ClearType clears the value of the "type" field.
+func (u *TopicMediaUpsertBulk) ClearType() *TopicMediaUpsertBulk {
+	return u.Update(func(s *TopicMediaUpsert) {
+		s.ClearType()
+	})
+}
+
+// SetOrder sets the "order" field.
+func (u *TopicMediaUpsertBulk) SetOrder(v int) *TopicMediaUpsertBulk {
+	return u.Update(func(s *TopicMediaUpsert) {
+		s.SetOrder(v)
+	})
+}
+
+// AddOrder adds v to the "order" field.
+func (u *TopicMediaUpsertBulk) AddOrder(v int) *TopicMediaUpsertBulk {
+	return u.Update(func(s *TopicMediaUpsert) {
+		s.AddOrder(v)
+	})
+}
+
+// UpdateOrder sets the "order" field to the value that was provided on create.
+func (u *TopicMediaUpsertBulk) UpdateOrder() *TopicMediaUpsertBulk {
+	return u.Update(func(s *TopicMediaUpsert) {
+		s.UpdateOrder()
+	})
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (u *TopicMediaUpsertBulk) SetCreatedBy(v string) *TopicMediaUpsertBulk {
+	return u.Update(func(s *TopicMediaUpsert) {
+		s.SetCreatedBy(v)
+	})
+}
+
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *TopicMediaUpsertBulk) UpdateCreatedBy() *TopicMediaUpsertBulk {
+	return u.Update(func(s *TopicMediaUpsert) {
+		s.UpdateCreatedBy()
+	})
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *TopicMediaUpsertBulk) ClearCreatedBy() *TopicMediaUpsertBulk {
+	return u.Update(func(s *TopicMediaUpsert) {
+		s.ClearCreatedBy()
+	})
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (u *TopicMediaUpsertBulk) SetUpdatedBy(v string) *TopicMediaUpsertBulk {
+	return u.Update(func(s *TopicMediaUpsert) {
+		s.SetUpdatedBy(v)
+	})
+}
+
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *TopicMediaUpsertBulk) UpdateUpdatedBy() *TopicMediaUpsertBulk {
+	return u.Update(func(s *TopicMediaUpsert) {
+		s.UpdateUpdatedBy()
+	})
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *TopicMediaUpsertBulk) ClearUpdatedBy() *TopicMediaUpsertBulk {
+	return u.Update(func(s *TopicMediaUpsert) {
+		s.ClearUpdatedBy()
+	})
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *TopicMediaUpsertBulk) SetUpdatedAt(v int64) *TopicMediaUpsertBulk {
+	return u.Update(func(s *TopicMediaUpsert) {
+		s.SetUpdatedAt(v)
+	})
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *TopicMediaUpsertBulk) AddUpdatedAt(v int64) *TopicMediaUpsertBulk {
+	return u.Update(func(s *TopicMediaUpsert) {
+		s.AddUpdatedAt(v)
+	})
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *TopicMediaUpsertBulk) UpdateUpdatedAt() *TopicMediaUpsertBulk {
+	return u.Update(func(s *TopicMediaUpsert) {
+		s.UpdateUpdatedAt()
+	})
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *TopicMediaUpsertBulk) ClearUpdatedAt() *TopicMediaUpsertBulk {
+	return u.Update(func(s *TopicMediaUpsert) {
+		s.ClearUpdatedAt()
+	})
+}
+
+// SetTopicID sets the "topic_id" field.
+func (u *TopicMediaUpsertBulk) SetTopicID(v string) *TopicMediaUpsertBulk {
+	return u.Update(func(s *TopicMediaUpsert) {
+		s.SetTopicID(v)
+	})
+}
+
+// UpdateTopicID sets the "topic_id" field to the value that was provided on create.
+func (u *TopicMediaUpsertBulk) UpdateTopicID() *TopicMediaUpsertBulk {
+	return u.Update(func(s *TopicMediaUpsert) {
+		s.UpdateTopicID()
+	})
+}
+
+// SetMediaID sets the "media_id" field.
+func (u *TopicMediaUpsertBulk) SetMediaID(v string) *TopicMediaUpsertBulk {
+	return u.Update(func(s *TopicMediaUpsert) {
+		s.SetMediaID(v)
+	})
+}
+
+// UpdateMediaID sets the "media_id" field to the value that was provided on create.
+func (u *TopicMediaUpsertBulk) UpdateMediaID() *TopicMediaUpsertBulk {
+	return u.Update(func(s *TopicMediaUpsert) {
+		s.UpdateMediaID()
+	})
+}
+
+// Exec executes the query.
+func (u *TopicMediaUpsertBulk) Exec(ctx context.Context) error {
+	if u.create.err != nil {
+		return u.create.err
+	}
+	for i, b := range u.create.builders {
+		if len(b.conflict) != 0 {
+			return fmt.Errorf("ent: OnConflict was set for builder %d. Set it on the TopicMediaCreateBulk instead", i)
+		}
+	}
+	if len(u.create.conflict) == 0 {
+		return errors.New("ent: missing options for TopicMediaCreateBulk.OnConflict")
+	}
+	return u.create.Exec(ctx)
+}
+
+// ExecX is like Exec, but panics if an error occurs.
+func (u *TopicMediaUpsertBulk) ExecX(ctx context.Context) {
+	if err := u.create.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

@@ -6,8 +6,10 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"ncobase/realtime/data/ent/rtchannel"
+	"ncobase/biz/realtime/data/ent/rtchannel"
 
+	"entgo.io/ent/dialect"
+	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
 )
@@ -17,6 +19,7 @@ type RTChannelCreate struct {
 	config
 	mutation *RTChannelMutation
 	hooks    []Hook
+	conflict []sql.ConflictOption
 }
 
 // SetName sets the "name" field.
@@ -221,6 +224,7 @@ func (_c *RTChannelCreate) createSpec() (*RTChannel, *sqlgraph.CreateSpec) {
 		_node = &RTChannel{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(rtchannel.Table, sqlgraph.NewFieldSpec(rtchannel.FieldID, field.TypeString))
 	)
+	_spec.OnConflict = _c.conflict
 	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
@@ -256,11 +260,397 @@ func (_c *RTChannelCreate) createSpec() (*RTChannel, *sqlgraph.CreateSpec) {
 	return _node, _spec
 }
 
+// OnConflict allows configuring the `ON CONFLICT` / `ON DUPLICATE KEY` clause
+// of the `INSERT` statement. For example:
+//
+//	client.RTChannel.Create().
+//		SetName(v).
+//		OnConflict(
+//			// Update the row with the new values
+//			// the was proposed for insertion.
+//			sql.ResolveWithNewValues(),
+//		).
+//		// Override some of the fields with custom
+//		// update values.
+//		Update(func(u *ent.RTChannelUpsert) {
+//			SetName(v+v).
+//		}).
+//		Exec(ctx)
+func (_c *RTChannelCreate) OnConflict(opts ...sql.ConflictOption) *RTChannelUpsertOne {
+	_c.conflict = opts
+	return &RTChannelUpsertOne{
+		create: _c,
+	}
+}
+
+// OnConflictColumns calls `OnConflict` and configures the columns
+// as conflict target. Using this option is equivalent to using:
+//
+//	client.RTChannel.Create().
+//		OnConflict(sql.ConflictColumns(columns...)).
+//		Exec(ctx)
+func (_c *RTChannelCreate) OnConflictColumns(columns ...string) *RTChannelUpsertOne {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
+	return &RTChannelUpsertOne{
+		create: _c,
+	}
+}
+
+type (
+	// RTChannelUpsertOne is the builder for "upsert"-ing
+	//  one RTChannel node.
+	RTChannelUpsertOne struct {
+		create *RTChannelCreate
+	}
+
+	// RTChannelUpsert is the "OnConflict" setter.
+	RTChannelUpsert struct {
+		*sql.UpdateSet
+	}
+)
+
+// SetName sets the "name" field.
+func (u *RTChannelUpsert) SetName(v string) *RTChannelUpsert {
+	u.Set(rtchannel.FieldName, v)
+	return u
+}
+
+// UpdateName sets the "name" field to the value that was provided on create.
+func (u *RTChannelUpsert) UpdateName() *RTChannelUpsert {
+	u.SetExcluded(rtchannel.FieldName)
+	return u
+}
+
+// ClearName clears the value of the "name" field.
+func (u *RTChannelUpsert) ClearName() *RTChannelUpsert {
+	u.SetNull(rtchannel.FieldName)
+	return u
+}
+
+// SetDescription sets the "description" field.
+func (u *RTChannelUpsert) SetDescription(v string) *RTChannelUpsert {
+	u.Set(rtchannel.FieldDescription, v)
+	return u
+}
+
+// UpdateDescription sets the "description" field to the value that was provided on create.
+func (u *RTChannelUpsert) UpdateDescription() *RTChannelUpsert {
+	u.SetExcluded(rtchannel.FieldDescription)
+	return u
+}
+
+// ClearDescription clears the value of the "description" field.
+func (u *RTChannelUpsert) ClearDescription() *RTChannelUpsert {
+	u.SetNull(rtchannel.FieldDescription)
+	return u
+}
+
+// SetType sets the "type" field.
+func (u *RTChannelUpsert) SetType(v string) *RTChannelUpsert {
+	u.Set(rtchannel.FieldType, v)
+	return u
+}
+
+// UpdateType sets the "type" field to the value that was provided on create.
+func (u *RTChannelUpsert) UpdateType() *RTChannelUpsert {
+	u.SetExcluded(rtchannel.FieldType)
+	return u
+}
+
+// ClearType clears the value of the "type" field.
+func (u *RTChannelUpsert) ClearType() *RTChannelUpsert {
+	u.SetNull(rtchannel.FieldType)
+	return u
+}
+
+// SetStatus sets the "status" field.
+func (u *RTChannelUpsert) SetStatus(v int) *RTChannelUpsert {
+	u.Set(rtchannel.FieldStatus, v)
+	return u
+}
+
+// UpdateStatus sets the "status" field to the value that was provided on create.
+func (u *RTChannelUpsert) UpdateStatus() *RTChannelUpsert {
+	u.SetExcluded(rtchannel.FieldStatus)
+	return u
+}
+
+// AddStatus adds v to the "status" field.
+func (u *RTChannelUpsert) AddStatus(v int) *RTChannelUpsert {
+	u.Add(rtchannel.FieldStatus, v)
+	return u
+}
+
+// SetExtras sets the "extras" field.
+func (u *RTChannelUpsert) SetExtras(v map[string]interface{}) *RTChannelUpsert {
+	u.Set(rtchannel.FieldExtras, v)
+	return u
+}
+
+// UpdateExtras sets the "extras" field to the value that was provided on create.
+func (u *RTChannelUpsert) UpdateExtras() *RTChannelUpsert {
+	u.SetExcluded(rtchannel.FieldExtras)
+	return u
+}
+
+// ClearExtras clears the value of the "extras" field.
+func (u *RTChannelUpsert) ClearExtras() *RTChannelUpsert {
+	u.SetNull(rtchannel.FieldExtras)
+	return u
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *RTChannelUpsert) SetUpdatedAt(v int64) *RTChannelUpsert {
+	u.Set(rtchannel.FieldUpdatedAt, v)
+	return u
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *RTChannelUpsert) UpdateUpdatedAt() *RTChannelUpsert {
+	u.SetExcluded(rtchannel.FieldUpdatedAt)
+	return u
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *RTChannelUpsert) AddUpdatedAt(v int64) *RTChannelUpsert {
+	u.Add(rtchannel.FieldUpdatedAt, v)
+	return u
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *RTChannelUpsert) ClearUpdatedAt() *RTChannelUpsert {
+	u.SetNull(rtchannel.FieldUpdatedAt)
+	return u
+}
+
+// UpdateNewValues updates the mutable fields using the new values that were set on create except the ID field.
+// Using this option is equivalent to using:
+//
+//	client.RTChannel.Create().
+//		OnConflict(
+//			sql.ResolveWithNewValues(),
+//			sql.ResolveWith(func(u *sql.UpdateSet) {
+//				u.SetIgnore(rtchannel.FieldID)
+//			}),
+//		).
+//		Exec(ctx)
+func (u *RTChannelUpsertOne) UpdateNewValues() *RTChannelUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithNewValues())
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(s *sql.UpdateSet) {
+		if _, exists := u.create.mutation.ID(); exists {
+			s.SetIgnore(rtchannel.FieldID)
+		}
+		if _, exists := u.create.mutation.CreatedAt(); exists {
+			s.SetIgnore(rtchannel.FieldCreatedAt)
+		}
+	}))
+	return u
+}
+
+// Ignore sets each column to itself in case of conflict.
+// Using this option is equivalent to using:
+//
+//	client.RTChannel.Create().
+//	    OnConflict(sql.ResolveWithIgnore()).
+//	    Exec(ctx)
+func (u *RTChannelUpsertOne) Ignore() *RTChannelUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithIgnore())
+	return u
+}
+
+// DoNothing configures the conflict_action to `DO NOTHING`.
+// Supported only by SQLite and PostgreSQL.
+func (u *RTChannelUpsertOne) DoNothing() *RTChannelUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.DoNothing())
+	return u
+}
+
+// Update allows overriding fields `UPDATE` values. See the RTChannelCreate.OnConflict
+// documentation for more info.
+func (u *RTChannelUpsertOne) Update(set func(*RTChannelUpsert)) *RTChannelUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(update *sql.UpdateSet) {
+		set(&RTChannelUpsert{UpdateSet: update})
+	}))
+	return u
+}
+
+// SetName sets the "name" field.
+func (u *RTChannelUpsertOne) SetName(v string) *RTChannelUpsertOne {
+	return u.Update(func(s *RTChannelUpsert) {
+		s.SetName(v)
+	})
+}
+
+// UpdateName sets the "name" field to the value that was provided on create.
+func (u *RTChannelUpsertOne) UpdateName() *RTChannelUpsertOne {
+	return u.Update(func(s *RTChannelUpsert) {
+		s.UpdateName()
+	})
+}
+
+// ClearName clears the value of the "name" field.
+func (u *RTChannelUpsertOne) ClearName() *RTChannelUpsertOne {
+	return u.Update(func(s *RTChannelUpsert) {
+		s.ClearName()
+	})
+}
+
+// SetDescription sets the "description" field.
+func (u *RTChannelUpsertOne) SetDescription(v string) *RTChannelUpsertOne {
+	return u.Update(func(s *RTChannelUpsert) {
+		s.SetDescription(v)
+	})
+}
+
+// UpdateDescription sets the "description" field to the value that was provided on create.
+func (u *RTChannelUpsertOne) UpdateDescription() *RTChannelUpsertOne {
+	return u.Update(func(s *RTChannelUpsert) {
+		s.UpdateDescription()
+	})
+}
+
+// ClearDescription clears the value of the "description" field.
+func (u *RTChannelUpsertOne) ClearDescription() *RTChannelUpsertOne {
+	return u.Update(func(s *RTChannelUpsert) {
+		s.ClearDescription()
+	})
+}
+
+// SetType sets the "type" field.
+func (u *RTChannelUpsertOne) SetType(v string) *RTChannelUpsertOne {
+	return u.Update(func(s *RTChannelUpsert) {
+		s.SetType(v)
+	})
+}
+
+// UpdateType sets the "type" field to the value that was provided on create.
+func (u *RTChannelUpsertOne) UpdateType() *RTChannelUpsertOne {
+	return u.Update(func(s *RTChannelUpsert) {
+		s.UpdateType()
+	})
+}
+
+// ClearType clears the value of the "type" field.
+func (u *RTChannelUpsertOne) ClearType() *RTChannelUpsertOne {
+	return u.Update(func(s *RTChannelUpsert) {
+		s.ClearType()
+	})
+}
+
+// SetStatus sets the "status" field.
+func (u *RTChannelUpsertOne) SetStatus(v int) *RTChannelUpsertOne {
+	return u.Update(func(s *RTChannelUpsert) {
+		s.SetStatus(v)
+	})
+}
+
+// AddStatus adds v to the "status" field.
+func (u *RTChannelUpsertOne) AddStatus(v int) *RTChannelUpsertOne {
+	return u.Update(func(s *RTChannelUpsert) {
+		s.AddStatus(v)
+	})
+}
+
+// UpdateStatus sets the "status" field to the value that was provided on create.
+func (u *RTChannelUpsertOne) UpdateStatus() *RTChannelUpsertOne {
+	return u.Update(func(s *RTChannelUpsert) {
+		s.UpdateStatus()
+	})
+}
+
+// SetExtras sets the "extras" field.
+func (u *RTChannelUpsertOne) SetExtras(v map[string]interface{}) *RTChannelUpsertOne {
+	return u.Update(func(s *RTChannelUpsert) {
+		s.SetExtras(v)
+	})
+}
+
+// UpdateExtras sets the "extras" field to the value that was provided on create.
+func (u *RTChannelUpsertOne) UpdateExtras() *RTChannelUpsertOne {
+	return u.Update(func(s *RTChannelUpsert) {
+		s.UpdateExtras()
+	})
+}
+
+// ClearExtras clears the value of the "extras" field.
+func (u *RTChannelUpsertOne) ClearExtras() *RTChannelUpsertOne {
+	return u.Update(func(s *RTChannelUpsert) {
+		s.ClearExtras()
+	})
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *RTChannelUpsertOne) SetUpdatedAt(v int64) *RTChannelUpsertOne {
+	return u.Update(func(s *RTChannelUpsert) {
+		s.SetUpdatedAt(v)
+	})
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *RTChannelUpsertOne) AddUpdatedAt(v int64) *RTChannelUpsertOne {
+	return u.Update(func(s *RTChannelUpsert) {
+		s.AddUpdatedAt(v)
+	})
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *RTChannelUpsertOne) UpdateUpdatedAt() *RTChannelUpsertOne {
+	return u.Update(func(s *RTChannelUpsert) {
+		s.UpdateUpdatedAt()
+	})
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *RTChannelUpsertOne) ClearUpdatedAt() *RTChannelUpsertOne {
+	return u.Update(func(s *RTChannelUpsert) {
+		s.ClearUpdatedAt()
+	})
+}
+
+// Exec executes the query.
+func (u *RTChannelUpsertOne) Exec(ctx context.Context) error {
+	if len(u.create.conflict) == 0 {
+		return errors.New("ent: missing options for RTChannelCreate.OnConflict")
+	}
+	return u.create.Exec(ctx)
+}
+
+// ExecX is like Exec, but panics if an error occurs.
+func (u *RTChannelUpsertOne) ExecX(ctx context.Context) {
+	if err := u.create.Exec(ctx); err != nil {
+		panic(err)
+	}
+}
+
+// Exec executes the UPSERT query and returns the inserted/updated ID.
+func (u *RTChannelUpsertOne) ID(ctx context.Context) (id string, err error) {
+	if u.create.driver.Dialect() == dialect.MySQL {
+		// In case of "ON CONFLICT", there is no way to get back non-numeric ID
+		// fields from the database since MySQL does not support the RETURNING clause.
+		return id, errors.New("ent: RTChannelUpsertOne.ID is not supported by MySQL driver. Use RTChannelUpsertOne.Exec instead")
+	}
+	node, err := u.create.Save(ctx)
+	if err != nil {
+		return id, err
+	}
+	return node.ID, nil
+}
+
+// IDX is like ID, but panics if an error occurs.
+func (u *RTChannelUpsertOne) IDX(ctx context.Context) string {
+	id, err := u.ID(ctx)
+	if err != nil {
+		panic(err)
+	}
+	return id
+}
+
 // RTChannelCreateBulk is the builder for creating many RTChannel entities in bulk.
 type RTChannelCreateBulk struct {
 	config
 	err      error
 	builders []*RTChannelCreate
+	conflict []sql.ConflictOption
 }
 
 // Save creates the RTChannel entities in the database.
@@ -290,6 +680,7 @@ func (_c *RTChannelCreateBulk) Save(ctx context.Context) ([]*RTChannel, error) {
 					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
+					spec.OnConflict = _c.conflict
 					// Invoke the actual operation on the latest mutation in the chain.
 					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
@@ -336,6 +727,256 @@ func (_c *RTChannelCreateBulk) Exec(ctx context.Context) error {
 // ExecX is like Exec, but panics if an error occurs.
 func (_c *RTChannelCreateBulk) ExecX(ctx context.Context) {
 	if err := _c.Exec(ctx); err != nil {
+		panic(err)
+	}
+}
+
+// OnConflict allows configuring the `ON CONFLICT` / `ON DUPLICATE KEY` clause
+// of the `INSERT` statement. For example:
+//
+//	client.RTChannel.CreateBulk(builders...).
+//		OnConflict(
+//			// Update the row with the new values
+//			// the was proposed for insertion.
+//			sql.ResolveWithNewValues(),
+//		).
+//		// Override some of the fields with custom
+//		// update values.
+//		Update(func(u *ent.RTChannelUpsert) {
+//			SetName(v+v).
+//		}).
+//		Exec(ctx)
+func (_c *RTChannelCreateBulk) OnConflict(opts ...sql.ConflictOption) *RTChannelUpsertBulk {
+	_c.conflict = opts
+	return &RTChannelUpsertBulk{
+		create: _c,
+	}
+}
+
+// OnConflictColumns calls `OnConflict` and configures the columns
+// as conflict target. Using this option is equivalent to using:
+//
+//	client.RTChannel.Create().
+//		OnConflict(sql.ConflictColumns(columns...)).
+//		Exec(ctx)
+func (_c *RTChannelCreateBulk) OnConflictColumns(columns ...string) *RTChannelUpsertBulk {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
+	return &RTChannelUpsertBulk{
+		create: _c,
+	}
+}
+
+// RTChannelUpsertBulk is the builder for "upsert"-ing
+// a bulk of RTChannel nodes.
+type RTChannelUpsertBulk struct {
+	create *RTChannelCreateBulk
+}
+
+// UpdateNewValues updates the mutable fields using the new values that
+// were set on create. Using this option is equivalent to using:
+//
+//	client.RTChannel.Create().
+//		OnConflict(
+//			sql.ResolveWithNewValues(),
+//			sql.ResolveWith(func(u *sql.UpdateSet) {
+//				u.SetIgnore(rtchannel.FieldID)
+//			}),
+//		).
+//		Exec(ctx)
+func (u *RTChannelUpsertBulk) UpdateNewValues() *RTChannelUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithNewValues())
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(s *sql.UpdateSet) {
+		for _, b := range u.create.builders {
+			if _, exists := b.mutation.ID(); exists {
+				s.SetIgnore(rtchannel.FieldID)
+			}
+			if _, exists := b.mutation.CreatedAt(); exists {
+				s.SetIgnore(rtchannel.FieldCreatedAt)
+			}
+		}
+	}))
+	return u
+}
+
+// Ignore sets each column to itself in case of conflict.
+// Using this option is equivalent to using:
+//
+//	client.RTChannel.Create().
+//		OnConflict(sql.ResolveWithIgnore()).
+//		Exec(ctx)
+func (u *RTChannelUpsertBulk) Ignore() *RTChannelUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithIgnore())
+	return u
+}
+
+// DoNothing configures the conflict_action to `DO NOTHING`.
+// Supported only by SQLite and PostgreSQL.
+func (u *RTChannelUpsertBulk) DoNothing() *RTChannelUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.DoNothing())
+	return u
+}
+
+// Update allows overriding fields `UPDATE` values. See the RTChannelCreateBulk.OnConflict
+// documentation for more info.
+func (u *RTChannelUpsertBulk) Update(set func(*RTChannelUpsert)) *RTChannelUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(update *sql.UpdateSet) {
+		set(&RTChannelUpsert{UpdateSet: update})
+	}))
+	return u
+}
+
+// SetName sets the "name" field.
+func (u *RTChannelUpsertBulk) SetName(v string) *RTChannelUpsertBulk {
+	return u.Update(func(s *RTChannelUpsert) {
+		s.SetName(v)
+	})
+}
+
+// UpdateName sets the "name" field to the value that was provided on create.
+func (u *RTChannelUpsertBulk) UpdateName() *RTChannelUpsertBulk {
+	return u.Update(func(s *RTChannelUpsert) {
+		s.UpdateName()
+	})
+}
+
+// ClearName clears the value of the "name" field.
+func (u *RTChannelUpsertBulk) ClearName() *RTChannelUpsertBulk {
+	return u.Update(func(s *RTChannelUpsert) {
+		s.ClearName()
+	})
+}
+
+// SetDescription sets the "description" field.
+func (u *RTChannelUpsertBulk) SetDescription(v string) *RTChannelUpsertBulk {
+	return u.Update(func(s *RTChannelUpsert) {
+		s.SetDescription(v)
+	})
+}
+
+// UpdateDescription sets the "description" field to the value that was provided on create.
+func (u *RTChannelUpsertBulk) UpdateDescription() *RTChannelUpsertBulk {
+	return u.Update(func(s *RTChannelUpsert) {
+		s.UpdateDescription()
+	})
+}
+
+// ClearDescription clears the value of the "description" field.
+func (u *RTChannelUpsertBulk) ClearDescription() *RTChannelUpsertBulk {
+	return u.Update(func(s *RTChannelUpsert) {
+		s.ClearDescription()
+	})
+}
+
+// SetType sets the "type" field.
+func (u *RTChannelUpsertBulk) SetType(v string) *RTChannelUpsertBulk {
+	return u.Update(func(s *RTChannelUpsert) {
+		s.SetType(v)
+	})
+}
+
+// UpdateType sets the "type" field to the value that was provided on create.
+func (u *RTChannelUpsertBulk) UpdateType() *RTChannelUpsertBulk {
+	return u.Update(func(s *RTChannelUpsert) {
+		s.UpdateType()
+	})
+}
+
+// ClearType clears the value of the "type" field.
+func (u *RTChannelUpsertBulk) ClearType() *RTChannelUpsertBulk {
+	return u.Update(func(s *RTChannelUpsert) {
+		s.ClearType()
+	})
+}
+
+// SetStatus sets the "status" field.
+func (u *RTChannelUpsertBulk) SetStatus(v int) *RTChannelUpsertBulk {
+	return u.Update(func(s *RTChannelUpsert) {
+		s.SetStatus(v)
+	})
+}
+
+// AddStatus adds v to the "status" field.
+func (u *RTChannelUpsertBulk) AddStatus(v int) *RTChannelUpsertBulk {
+	return u.Update(func(s *RTChannelUpsert) {
+		s.AddStatus(v)
+	})
+}
+
+// UpdateStatus sets the "status" field to the value that was provided on create.
+func (u *RTChannelUpsertBulk) UpdateStatus() *RTChannelUpsertBulk {
+	return u.Update(func(s *RTChannelUpsert) {
+		s.UpdateStatus()
+	})
+}
+
+// SetExtras sets the "extras" field.
+func (u *RTChannelUpsertBulk) SetExtras(v map[string]interface{}) *RTChannelUpsertBulk {
+	return u.Update(func(s *RTChannelUpsert) {
+		s.SetExtras(v)
+	})
+}
+
+// UpdateExtras sets the "extras" field to the value that was provided on create.
+func (u *RTChannelUpsertBulk) UpdateExtras() *RTChannelUpsertBulk {
+	return u.Update(func(s *RTChannelUpsert) {
+		s.UpdateExtras()
+	})
+}
+
+// ClearExtras clears the value of the "extras" field.
+func (u *RTChannelUpsertBulk) ClearExtras() *RTChannelUpsertBulk {
+	return u.Update(func(s *RTChannelUpsert) {
+		s.ClearExtras()
+	})
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *RTChannelUpsertBulk) SetUpdatedAt(v int64) *RTChannelUpsertBulk {
+	return u.Update(func(s *RTChannelUpsert) {
+		s.SetUpdatedAt(v)
+	})
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *RTChannelUpsertBulk) AddUpdatedAt(v int64) *RTChannelUpsertBulk {
+	return u.Update(func(s *RTChannelUpsert) {
+		s.AddUpdatedAt(v)
+	})
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *RTChannelUpsertBulk) UpdateUpdatedAt() *RTChannelUpsertBulk {
+	return u.Update(func(s *RTChannelUpsert) {
+		s.UpdateUpdatedAt()
+	})
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *RTChannelUpsertBulk) ClearUpdatedAt() *RTChannelUpsertBulk {
+	return u.Update(func(s *RTChannelUpsert) {
+		s.ClearUpdatedAt()
+	})
+}
+
+// Exec executes the query.
+func (u *RTChannelUpsertBulk) Exec(ctx context.Context) error {
+	if u.create.err != nil {
+		return u.create.err
+	}
+	for i, b := range u.create.builders {
+		if len(b.conflict) != 0 {
+			return fmt.Errorf("ent: OnConflict was set for builder %d. Set it on the RTChannelCreateBulk instead", i)
+		}
+	}
+	if len(u.create.conflict) == 0 {
+		return errors.New("ent: missing options for RTChannelCreateBulk.OnConflict")
+	}
+	return u.create.Exec(ctx)
+}
+
+// ExecX is like Exec, but panics if an error occurs.
+func (u *RTChannelUpsertBulk) ExecX(ctx context.Context) {
+	if err := u.create.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

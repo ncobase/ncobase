@@ -4,8 +4,8 @@ package ent
 
 import (
 	"context"
-	"ncobase/access/data/ent/predicate"
-	"ncobase/access/data/ent/rolepermission"
+	"ncobase/core/access/data/ent/predicate"
+	"ncobase/core/access/data/ent/rolepermission"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"

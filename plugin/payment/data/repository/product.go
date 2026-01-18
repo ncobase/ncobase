@@ -3,12 +3,12 @@ package repository
 import (
 	"context"
 	"fmt"
-	"ncobase/payment/data"
-	"ncobase/payment/data/ent"
-	paymentOrderEnt "ncobase/payment/data/ent/paymentorder"
-	paymentProductEnt "ncobase/payment/data/ent/paymentproduct"
-	paymentSubscriptionEnt "ncobase/payment/data/ent/paymentsubscription"
-	"ncobase/payment/structs"
+	"ncobase/plugin/payment/data"
+	"ncobase/plugin/payment/data/ent"
+	paymentOrderEnt "ncobase/plugin/payment/data/ent/paymentorder"
+	paymentProductEnt "ncobase/plugin/payment/data/ent/paymentproduct"
+	paymentSubscriptionEnt "ncobase/plugin/payment/data/ent/paymentsubscription"
+	"ncobase/plugin/payment/structs"
 
 	"github.com/ncobase/ncore/data/paging"
 	"github.com/ncobase/ncore/utils/nanoid"

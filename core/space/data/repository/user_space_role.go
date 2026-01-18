@@ -3,13 +3,14 @@ package repository
 import (
 	"context"
 	"fmt"
-	"ncobase/space/data"
-	"ncobase/space/data/ent"
-	userSpaceRoleEnt "ncobase/space/data/ent/userspacerole"
-	"ncobase/space/structs"
+	"ncobase/core/space/data"
+	"ncobase/core/space/data/ent"
+	userSpaceRoleEnt "ncobase/core/space/data/ent/userspacerole"
+	"ncobase/core/space/structs"
 	"time"
+	"github.com/redis/go-redis/v9"
 
-	"github.com/ncobase/ncore/data/databases/cache"
+	"github.com/ncobase/ncore/data/cache"
 	"github.com/ncobase/ncore/logging/logger"
 )
 
@@ -33,6 +34,7 @@ type UserSpaceRoleRepositoryInterface interface {
 // userSpaceRoleRepository implements the UserSpaceRoleRepositoryInterface.
 type userSpaceRoleRepository struct {
 	data                *data.Data
+	rc   *redis.Client
 	userSpaceRoleCache  cache.ICache[ent.UserSpaceRole]
 	userSpaceRolesCache cache.ICache[[]string] // Maps user:space to role IDs
 	spaceUserRolesCache cache.ICache[[]string] // Maps space to user:role pairs
@@ -42,14 +44,14 @@ type userSpaceRoleRepository struct {
 
 // NewUserSpaceRoleRepository creates a new user space role repository.
 func NewUserSpaceRoleRepository(d *data.Data) UserSpaceRoleRepositoryInterface {
-	redisClient := d.GetRedis()
+	redis := d.GetRedis().(*redis.Client)
 
 	return &userSpaceRoleRepository{
 		data:                d,
-		userSpaceRoleCache:  cache.NewCache[ent.UserSpaceRole](redisClient, "ncse_access:user_space_roles"),
-		userSpaceRolesCache: cache.NewCache[[]string](redisClient, "ncse_access:user_space_role_mappings"),
-		spaceUserRolesCache: cache.NewCache[[]string](redisClient, "ncse_access:space_user_role_mappings"),
-		roleUserSpacesCache: cache.NewCache[[]string](redisClient, "ncse_access:role_user_space_mappings"),
+		userSpaceRoleCache:  cache.NewCache[ent.UserSpaceRole](redis, ")ncse_access:user_space_roles"),
+		userSpaceRolesCache: cache.NewCache[[]string](redis, ")ncse_access:user_space_role_mappings"),
+		spaceUserRolesCache: cache.NewCache[[]string](redis, ")ncse_access:space_user_role_mappings"),
+		roleUserSpacesCache: cache.NewCache[[]string](redis, ")ncse_access:role_user_space_mappings"),
 		relationshipTTL:     time.Hour * 2, // 2 hours cache TTL
 	}
 }

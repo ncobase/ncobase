@@ -9,20 +9,22 @@ import (
 	"log"
 	"reflect"
 
-	"ncobase/content/data/ent/migrate"
+	"ncobase/biz/content/data/ent/migrate"
 
-	"ncobase/content/data/ent/cmschannel"
-	"ncobase/content/data/ent/distribution"
-	"ncobase/content/data/ent/media"
-	"ncobase/content/data/ent/taxonomy"
-	"ncobase/content/data/ent/taxonomyrelation"
-	"ncobase/content/data/ent/topic"
-	"ncobase/content/data/ent/topicmedia"
+	"ncobase/biz/content/data/ent/cmschannel"
+	"ncobase/biz/content/data/ent/distribution"
+	"ncobase/biz/content/data/ent/media"
+	"ncobase/biz/content/data/ent/taxonomy"
+	"ncobase/biz/content/data/ent/taxonomyrelation"
+	"ncobase/biz/content/data/ent/topic"
+	"ncobase/biz/content/data/ent/topicmedia"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect"
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
+
+	stdsql "database/sql"
 )
 
 // Client is the client that holds all ent builders.
@@ -1262,3 +1264,27 @@ type (
 		TopicMedia []ent.Interceptor
 	}
 )
+
+// ExecContext allows calling the underlying ExecContext method of the driver if it is supported by it.
+// See, database/sql#DB.ExecContext for more information.
+func (c *config) ExecContext(ctx context.Context, query string, args ...any) (stdsql.Result, error) {
+	ex, ok := c.driver.(interface {
+		ExecContext(context.Context, string, ...any) (stdsql.Result, error)
+	})
+	if !ok {
+		return nil, fmt.Errorf("Driver.ExecContext is not supported")
+	}
+	return ex.ExecContext(ctx, query, args...)
+}
+
+// QueryContext allows calling the underlying QueryContext method of the driver if it is supported by it.
+// See, database/sql#DB.QueryContext for more information.
+func (c *config) QueryContext(ctx context.Context, query string, args ...any) (*stdsql.Rows, error) {
+	q, ok := c.driver.(interface {
+		QueryContext(context.Context, string, ...any) (*stdsql.Rows, error)
+	})
+	if !ok {
+		return nil, fmt.Errorf("Driver.QueryContext is not supported")
+	}
+	return q.QueryContext(ctx, query, args...)
+}

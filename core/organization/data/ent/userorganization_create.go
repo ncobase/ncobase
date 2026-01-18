@@ -6,8 +6,10 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"ncobase/organization/data/ent/userorganization"
+	"ncobase/core/organization/data/ent/userorganization"
 
+	"entgo.io/ent/dialect"
+	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
 )
@@ -17,6 +19,7 @@ type UserOrganizationCreate struct {
 	config
 	mutation *UserOrganizationMutation
 	hooks    []Hook
+	conflict []sql.ConflictOption
 }
 
 // SetUserID sets the "user_id" field.
@@ -230,6 +233,7 @@ func (_c *UserOrganizationCreate) createSpec() (*UserOrganization, *sqlgraph.Cre
 		_node = &UserOrganization{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(userorganization.Table, sqlgraph.NewFieldSpec(userorganization.FieldID, field.TypeString))
 	)
+	_spec.OnConflict = _c.conflict
 	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
@@ -265,11 +269,384 @@ func (_c *UserOrganizationCreate) createSpec() (*UserOrganization, *sqlgraph.Cre
 	return _node, _spec
 }
 
+// OnConflict allows configuring the `ON CONFLICT` / `ON DUPLICATE KEY` clause
+// of the `INSERT` statement. For example:
+//
+//	client.UserOrganization.Create().
+//		SetUserID(v).
+//		OnConflict(
+//			// Update the row with the new values
+//			// the was proposed for insertion.
+//			sql.ResolveWithNewValues(),
+//		).
+//		// Override some of the fields with custom
+//		// update values.
+//		Update(func(u *ent.UserOrganizationUpsert) {
+//			SetUserID(v+v).
+//		}).
+//		Exec(ctx)
+func (_c *UserOrganizationCreate) OnConflict(opts ...sql.ConflictOption) *UserOrganizationUpsertOne {
+	_c.conflict = opts
+	return &UserOrganizationUpsertOne{
+		create: _c,
+	}
+}
+
+// OnConflictColumns calls `OnConflict` and configures the columns
+// as conflict target. Using this option is equivalent to using:
+//
+//	client.UserOrganization.Create().
+//		OnConflict(sql.ConflictColumns(columns...)).
+//		Exec(ctx)
+func (_c *UserOrganizationCreate) OnConflictColumns(columns ...string) *UserOrganizationUpsertOne {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
+	return &UserOrganizationUpsertOne{
+		create: _c,
+	}
+}
+
+type (
+	// UserOrganizationUpsertOne is the builder for "upsert"-ing
+	//  one UserOrganization node.
+	UserOrganizationUpsertOne struct {
+		create *UserOrganizationCreate
+	}
+
+	// UserOrganizationUpsert is the "OnConflict" setter.
+	UserOrganizationUpsert struct {
+		*sql.UpdateSet
+	}
+)
+
+// SetUserID sets the "user_id" field.
+func (u *UserOrganizationUpsert) SetUserID(v string) *UserOrganizationUpsert {
+	u.Set(userorganization.FieldUserID, v)
+	return u
+}
+
+// UpdateUserID sets the "user_id" field to the value that was provided on create.
+func (u *UserOrganizationUpsert) UpdateUserID() *UserOrganizationUpsert {
+	u.SetExcluded(userorganization.FieldUserID)
+	return u
+}
+
+// ClearUserID clears the value of the "user_id" field.
+func (u *UserOrganizationUpsert) ClearUserID() *UserOrganizationUpsert {
+	u.SetNull(userorganization.FieldUserID)
+	return u
+}
+
+// SetOrgID sets the "org_id" field.
+func (u *UserOrganizationUpsert) SetOrgID(v string) *UserOrganizationUpsert {
+	u.Set(userorganization.FieldOrgID, v)
+	return u
+}
+
+// UpdateOrgID sets the "org_id" field to the value that was provided on create.
+func (u *UserOrganizationUpsert) UpdateOrgID() *UserOrganizationUpsert {
+	u.SetExcluded(userorganization.FieldOrgID)
+	return u
+}
+
+// ClearOrgID clears the value of the "org_id" field.
+func (u *UserOrganizationUpsert) ClearOrgID() *UserOrganizationUpsert {
+	u.SetNull(userorganization.FieldOrgID)
+	return u
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (u *UserOrganizationUpsert) SetCreatedBy(v string) *UserOrganizationUpsert {
+	u.Set(userorganization.FieldCreatedBy, v)
+	return u
+}
+
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *UserOrganizationUpsert) UpdateCreatedBy() *UserOrganizationUpsert {
+	u.SetExcluded(userorganization.FieldCreatedBy)
+	return u
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *UserOrganizationUpsert) ClearCreatedBy() *UserOrganizationUpsert {
+	u.SetNull(userorganization.FieldCreatedBy)
+	return u
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (u *UserOrganizationUpsert) SetUpdatedBy(v string) *UserOrganizationUpsert {
+	u.Set(userorganization.FieldUpdatedBy, v)
+	return u
+}
+
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *UserOrganizationUpsert) UpdateUpdatedBy() *UserOrganizationUpsert {
+	u.SetExcluded(userorganization.FieldUpdatedBy)
+	return u
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *UserOrganizationUpsert) ClearUpdatedBy() *UserOrganizationUpsert {
+	u.SetNull(userorganization.FieldUpdatedBy)
+	return u
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *UserOrganizationUpsert) SetUpdatedAt(v int64) *UserOrganizationUpsert {
+	u.Set(userorganization.FieldUpdatedAt, v)
+	return u
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *UserOrganizationUpsert) UpdateUpdatedAt() *UserOrganizationUpsert {
+	u.SetExcluded(userorganization.FieldUpdatedAt)
+	return u
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *UserOrganizationUpsert) AddUpdatedAt(v int64) *UserOrganizationUpsert {
+	u.Add(userorganization.FieldUpdatedAt, v)
+	return u
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *UserOrganizationUpsert) ClearUpdatedAt() *UserOrganizationUpsert {
+	u.SetNull(userorganization.FieldUpdatedAt)
+	return u
+}
+
+// SetRole sets the "role" field.
+func (u *UserOrganizationUpsert) SetRole(v string) *UserOrganizationUpsert {
+	u.Set(userorganization.FieldRole, v)
+	return u
+}
+
+// UpdateRole sets the "role" field to the value that was provided on create.
+func (u *UserOrganizationUpsert) UpdateRole() *UserOrganizationUpsert {
+	u.SetExcluded(userorganization.FieldRole)
+	return u
+}
+
+// UpdateNewValues updates the mutable fields using the new values that were set on create except the ID field.
+// Using this option is equivalent to using:
+//
+//	client.UserOrganization.Create().
+//		OnConflict(
+//			sql.ResolveWithNewValues(),
+//			sql.ResolveWith(func(u *sql.UpdateSet) {
+//				u.SetIgnore(userorganization.FieldID)
+//			}),
+//		).
+//		Exec(ctx)
+func (u *UserOrganizationUpsertOne) UpdateNewValues() *UserOrganizationUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithNewValues())
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(s *sql.UpdateSet) {
+		if _, exists := u.create.mutation.ID(); exists {
+			s.SetIgnore(userorganization.FieldID)
+		}
+		if _, exists := u.create.mutation.CreatedAt(); exists {
+			s.SetIgnore(userorganization.FieldCreatedAt)
+		}
+	}))
+	return u
+}
+
+// Ignore sets each column to itself in case of conflict.
+// Using this option is equivalent to using:
+//
+//	client.UserOrganization.Create().
+//	    OnConflict(sql.ResolveWithIgnore()).
+//	    Exec(ctx)
+func (u *UserOrganizationUpsertOne) Ignore() *UserOrganizationUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithIgnore())
+	return u
+}
+
+// DoNothing configures the conflict_action to `DO NOTHING`.
+// Supported only by SQLite and PostgreSQL.
+func (u *UserOrganizationUpsertOne) DoNothing() *UserOrganizationUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.DoNothing())
+	return u
+}
+
+// Update allows overriding fields `UPDATE` values. See the UserOrganizationCreate.OnConflict
+// documentation for more info.
+func (u *UserOrganizationUpsertOne) Update(set func(*UserOrganizationUpsert)) *UserOrganizationUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(update *sql.UpdateSet) {
+		set(&UserOrganizationUpsert{UpdateSet: update})
+	}))
+	return u
+}
+
+// SetUserID sets the "user_id" field.
+func (u *UserOrganizationUpsertOne) SetUserID(v string) *UserOrganizationUpsertOne {
+	return u.Update(func(s *UserOrganizationUpsert) {
+		s.SetUserID(v)
+	})
+}
+
+// UpdateUserID sets the "user_id" field to the value that was provided on create.
+func (u *UserOrganizationUpsertOne) UpdateUserID() *UserOrganizationUpsertOne {
+	return u.Update(func(s *UserOrganizationUpsert) {
+		s.UpdateUserID()
+	})
+}
+
+// ClearUserID clears the value of the "user_id" field.
+func (u *UserOrganizationUpsertOne) ClearUserID() *UserOrganizationUpsertOne {
+	return u.Update(func(s *UserOrganizationUpsert) {
+		s.ClearUserID()
+	})
+}
+
+// SetOrgID sets the "org_id" field.
+func (u *UserOrganizationUpsertOne) SetOrgID(v string) *UserOrganizationUpsertOne {
+	return u.Update(func(s *UserOrganizationUpsert) {
+		s.SetOrgID(v)
+	})
+}
+
+// UpdateOrgID sets the "org_id" field to the value that was provided on create.
+func (u *UserOrganizationUpsertOne) UpdateOrgID() *UserOrganizationUpsertOne {
+	return u.Update(func(s *UserOrganizationUpsert) {
+		s.UpdateOrgID()
+	})
+}
+
+// ClearOrgID clears the value of the "org_id" field.
+func (u *UserOrganizationUpsertOne) ClearOrgID() *UserOrganizationUpsertOne {
+	return u.Update(func(s *UserOrganizationUpsert) {
+		s.ClearOrgID()
+	})
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (u *UserOrganizationUpsertOne) SetCreatedBy(v string) *UserOrganizationUpsertOne {
+	return u.Update(func(s *UserOrganizationUpsert) {
+		s.SetCreatedBy(v)
+	})
+}
+
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *UserOrganizationUpsertOne) UpdateCreatedBy() *UserOrganizationUpsertOne {
+	return u.Update(func(s *UserOrganizationUpsert) {
+		s.UpdateCreatedBy()
+	})
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *UserOrganizationUpsertOne) ClearCreatedBy() *UserOrganizationUpsertOne {
+	return u.Update(func(s *UserOrganizationUpsert) {
+		s.ClearCreatedBy()
+	})
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (u *UserOrganizationUpsertOne) SetUpdatedBy(v string) *UserOrganizationUpsertOne {
+	return u.Update(func(s *UserOrganizationUpsert) {
+		s.SetUpdatedBy(v)
+	})
+}
+
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *UserOrganizationUpsertOne) UpdateUpdatedBy() *UserOrganizationUpsertOne {
+	return u.Update(func(s *UserOrganizationUpsert) {
+		s.UpdateUpdatedBy()
+	})
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *UserOrganizationUpsertOne) ClearUpdatedBy() *UserOrganizationUpsertOne {
+	return u.Update(func(s *UserOrganizationUpsert) {
+		s.ClearUpdatedBy()
+	})
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *UserOrganizationUpsertOne) SetUpdatedAt(v int64) *UserOrganizationUpsertOne {
+	return u.Update(func(s *UserOrganizationUpsert) {
+		s.SetUpdatedAt(v)
+	})
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *UserOrganizationUpsertOne) AddUpdatedAt(v int64) *UserOrganizationUpsertOne {
+	return u.Update(func(s *UserOrganizationUpsert) {
+		s.AddUpdatedAt(v)
+	})
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *UserOrganizationUpsertOne) UpdateUpdatedAt() *UserOrganizationUpsertOne {
+	return u.Update(func(s *UserOrganizationUpsert) {
+		s.UpdateUpdatedAt()
+	})
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *UserOrganizationUpsertOne) ClearUpdatedAt() *UserOrganizationUpsertOne {
+	return u.Update(func(s *UserOrganizationUpsert) {
+		s.ClearUpdatedAt()
+	})
+}
+
+// SetRole sets the "role" field.
+func (u *UserOrganizationUpsertOne) SetRole(v string) *UserOrganizationUpsertOne {
+	return u.Update(func(s *UserOrganizationUpsert) {
+		s.SetRole(v)
+	})
+}
+
+// UpdateRole sets the "role" field to the value that was provided on create.
+func (u *UserOrganizationUpsertOne) UpdateRole() *UserOrganizationUpsertOne {
+	return u.Update(func(s *UserOrganizationUpsert) {
+		s.UpdateRole()
+	})
+}
+
+// Exec executes the query.
+func (u *UserOrganizationUpsertOne) Exec(ctx context.Context) error {
+	if len(u.create.conflict) == 0 {
+		return errors.New("ent: missing options for UserOrganizationCreate.OnConflict")
+	}
+	return u.create.Exec(ctx)
+}
+
+// ExecX is like Exec, but panics if an error occurs.
+func (u *UserOrganizationUpsertOne) ExecX(ctx context.Context) {
+	if err := u.create.Exec(ctx); err != nil {
+		panic(err)
+	}
+}
+
+// Exec executes the UPSERT query and returns the inserted/updated ID.
+func (u *UserOrganizationUpsertOne) ID(ctx context.Context) (id string, err error) {
+	if u.create.driver.Dialect() == dialect.MySQL {
+		// In case of "ON CONFLICT", there is no way to get back non-numeric ID
+		// fields from the database since MySQL does not support the RETURNING clause.
+		return id, errors.New("ent: UserOrganizationUpsertOne.ID is not supported by MySQL driver. Use UserOrganizationUpsertOne.Exec instead")
+	}
+	node, err := u.create.Save(ctx)
+	if err != nil {
+		return id, err
+	}
+	return node.ID, nil
+}
+
+// IDX is like ID, but panics if an error occurs.
+func (u *UserOrganizationUpsertOne) IDX(ctx context.Context) string {
+	id, err := u.ID(ctx)
+	if err != nil {
+		panic(err)
+	}
+	return id
+}
+
 // UserOrganizationCreateBulk is the builder for creating many UserOrganization entities in bulk.
 type UserOrganizationCreateBulk struct {
 	config
 	err      error
 	builders []*UserOrganizationCreate
+	conflict []sql.ConflictOption
 }
 
 // Save creates the UserOrganization entities in the database.
@@ -299,6 +676,7 @@ func (_c *UserOrganizationCreateBulk) Save(ctx context.Context) ([]*UserOrganiza
 					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
+					spec.OnConflict = _c.conflict
 					// Invoke the actual operation on the latest mutation in the chain.
 					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
@@ -345,6 +723,249 @@ func (_c *UserOrganizationCreateBulk) Exec(ctx context.Context) error {
 // ExecX is like Exec, but panics if an error occurs.
 func (_c *UserOrganizationCreateBulk) ExecX(ctx context.Context) {
 	if err := _c.Exec(ctx); err != nil {
+		panic(err)
+	}
+}
+
+// OnConflict allows configuring the `ON CONFLICT` / `ON DUPLICATE KEY` clause
+// of the `INSERT` statement. For example:
+//
+//	client.UserOrganization.CreateBulk(builders...).
+//		OnConflict(
+//			// Update the row with the new values
+//			// the was proposed for insertion.
+//			sql.ResolveWithNewValues(),
+//		).
+//		// Override some of the fields with custom
+//		// update values.
+//		Update(func(u *ent.UserOrganizationUpsert) {
+//			SetUserID(v+v).
+//		}).
+//		Exec(ctx)
+func (_c *UserOrganizationCreateBulk) OnConflict(opts ...sql.ConflictOption) *UserOrganizationUpsertBulk {
+	_c.conflict = opts
+	return &UserOrganizationUpsertBulk{
+		create: _c,
+	}
+}
+
+// OnConflictColumns calls `OnConflict` and configures the columns
+// as conflict target. Using this option is equivalent to using:
+//
+//	client.UserOrganization.Create().
+//		OnConflict(sql.ConflictColumns(columns...)).
+//		Exec(ctx)
+func (_c *UserOrganizationCreateBulk) OnConflictColumns(columns ...string) *UserOrganizationUpsertBulk {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
+	return &UserOrganizationUpsertBulk{
+		create: _c,
+	}
+}
+
+// UserOrganizationUpsertBulk is the builder for "upsert"-ing
+// a bulk of UserOrganization nodes.
+type UserOrganizationUpsertBulk struct {
+	create *UserOrganizationCreateBulk
+}
+
+// UpdateNewValues updates the mutable fields using the new values that
+// were set on create. Using this option is equivalent to using:
+//
+//	client.UserOrganization.Create().
+//		OnConflict(
+//			sql.ResolveWithNewValues(),
+//			sql.ResolveWith(func(u *sql.UpdateSet) {
+//				u.SetIgnore(userorganization.FieldID)
+//			}),
+//		).
+//		Exec(ctx)
+func (u *UserOrganizationUpsertBulk) UpdateNewValues() *UserOrganizationUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithNewValues())
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(s *sql.UpdateSet) {
+		for _, b := range u.create.builders {
+			if _, exists := b.mutation.ID(); exists {
+				s.SetIgnore(userorganization.FieldID)
+			}
+			if _, exists := b.mutation.CreatedAt(); exists {
+				s.SetIgnore(userorganization.FieldCreatedAt)
+			}
+		}
+	}))
+	return u
+}
+
+// Ignore sets each column to itself in case of conflict.
+// Using this option is equivalent to using:
+//
+//	client.UserOrganization.Create().
+//		OnConflict(sql.ResolveWithIgnore()).
+//		Exec(ctx)
+func (u *UserOrganizationUpsertBulk) Ignore() *UserOrganizationUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithIgnore())
+	return u
+}
+
+// DoNothing configures the conflict_action to `DO NOTHING`.
+// Supported only by SQLite and PostgreSQL.
+func (u *UserOrganizationUpsertBulk) DoNothing() *UserOrganizationUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.DoNothing())
+	return u
+}
+
+// Update allows overriding fields `UPDATE` values. See the UserOrganizationCreateBulk.OnConflict
+// documentation for more info.
+func (u *UserOrganizationUpsertBulk) Update(set func(*UserOrganizationUpsert)) *UserOrganizationUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(update *sql.UpdateSet) {
+		set(&UserOrganizationUpsert{UpdateSet: update})
+	}))
+	return u
+}
+
+// SetUserID sets the "user_id" field.
+func (u *UserOrganizationUpsertBulk) SetUserID(v string) *UserOrganizationUpsertBulk {
+	return u.Update(func(s *UserOrganizationUpsert) {
+		s.SetUserID(v)
+	})
+}
+
+// UpdateUserID sets the "user_id" field to the value that was provided on create.
+func (u *UserOrganizationUpsertBulk) UpdateUserID() *UserOrganizationUpsertBulk {
+	return u.Update(func(s *UserOrganizationUpsert) {
+		s.UpdateUserID()
+	})
+}
+
+// ClearUserID clears the value of the "user_id" field.
+func (u *UserOrganizationUpsertBulk) ClearUserID() *UserOrganizationUpsertBulk {
+	return u.Update(func(s *UserOrganizationUpsert) {
+		s.ClearUserID()
+	})
+}
+
+// SetOrgID sets the "org_id" field.
+func (u *UserOrganizationUpsertBulk) SetOrgID(v string) *UserOrganizationUpsertBulk {
+	return u.Update(func(s *UserOrganizationUpsert) {
+		s.SetOrgID(v)
+	})
+}
+
+// UpdateOrgID sets the "org_id" field to the value that was provided on create.
+func (u *UserOrganizationUpsertBulk) UpdateOrgID() *UserOrganizationUpsertBulk {
+	return u.Update(func(s *UserOrganizationUpsert) {
+		s.UpdateOrgID()
+	})
+}
+
+// ClearOrgID clears the value of the "org_id" field.
+func (u *UserOrganizationUpsertBulk) ClearOrgID() *UserOrganizationUpsertBulk {
+	return u.Update(func(s *UserOrganizationUpsert) {
+		s.ClearOrgID()
+	})
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (u *UserOrganizationUpsertBulk) SetCreatedBy(v string) *UserOrganizationUpsertBulk {
+	return u.Update(func(s *UserOrganizationUpsert) {
+		s.SetCreatedBy(v)
+	})
+}
+
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *UserOrganizationUpsertBulk) UpdateCreatedBy() *UserOrganizationUpsertBulk {
+	return u.Update(func(s *UserOrganizationUpsert) {
+		s.UpdateCreatedBy()
+	})
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *UserOrganizationUpsertBulk) ClearCreatedBy() *UserOrganizationUpsertBulk {
+	return u.Update(func(s *UserOrganizationUpsert) {
+		s.ClearCreatedBy()
+	})
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (u *UserOrganizationUpsertBulk) SetUpdatedBy(v string) *UserOrganizationUpsertBulk {
+	return u.Update(func(s *UserOrganizationUpsert) {
+		s.SetUpdatedBy(v)
+	})
+}
+
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *UserOrganizationUpsertBulk) UpdateUpdatedBy() *UserOrganizationUpsertBulk {
+	return u.Update(func(s *UserOrganizationUpsert) {
+		s.UpdateUpdatedBy()
+	})
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *UserOrganizationUpsertBulk) ClearUpdatedBy() *UserOrganizationUpsertBulk {
+	return u.Update(func(s *UserOrganizationUpsert) {
+		s.ClearUpdatedBy()
+	})
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *UserOrganizationUpsertBulk) SetUpdatedAt(v int64) *UserOrganizationUpsertBulk {
+	return u.Update(func(s *UserOrganizationUpsert) {
+		s.SetUpdatedAt(v)
+	})
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *UserOrganizationUpsertBulk) AddUpdatedAt(v int64) *UserOrganizationUpsertBulk {
+	return u.Update(func(s *UserOrganizationUpsert) {
+		s.AddUpdatedAt(v)
+	})
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *UserOrganizationUpsertBulk) UpdateUpdatedAt() *UserOrganizationUpsertBulk {
+	return u.Update(func(s *UserOrganizationUpsert) {
+		s.UpdateUpdatedAt()
+	})
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *UserOrganizationUpsertBulk) ClearUpdatedAt() *UserOrganizationUpsertBulk {
+	return u.Update(func(s *UserOrganizationUpsert) {
+		s.ClearUpdatedAt()
+	})
+}
+
+// SetRole sets the "role" field.
+func (u *UserOrganizationUpsertBulk) SetRole(v string) *UserOrganizationUpsertBulk {
+	return u.Update(func(s *UserOrganizationUpsert) {
+		s.SetRole(v)
+	})
+}
+
+// UpdateRole sets the "role" field to the value that was provided on create.
+func (u *UserOrganizationUpsertBulk) UpdateRole() *UserOrganizationUpsertBulk {
+	return u.Update(func(s *UserOrganizationUpsert) {
+		s.UpdateRole()
+	})
+}
+
+// Exec executes the query.
+func (u *UserOrganizationUpsertBulk) Exec(ctx context.Context) error {
+	if u.create.err != nil {
+		return u.create.err
+	}
+	for i, b := range u.create.builders {
+		if len(b.conflict) != 0 {
+			return fmt.Errorf("ent: OnConflict was set for builder %d. Set it on the UserOrganizationCreateBulk instead", i)
+		}
+	}
+	if len(u.create.conflict) == 0 {
+		return errors.New("ent: missing options for UserOrganizationCreateBulk.OnConflict")
+	}
+	return u.create.Exec(ctx)
+}
+
+// ExecX is like Exec, but panics if an error occurs.
+func (u *UserOrganizationUpsertBulk) ExecX(ctx context.Context) {
+	if err := u.create.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

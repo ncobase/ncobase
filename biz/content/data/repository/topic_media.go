@@ -3,21 +3,21 @@ package repository
 import (
 	"context"
 	"fmt"
-	"ncobase/content/data"
-	"ncobase/content/data/ent"
-	mediaEnt "ncobase/content/data/ent/media"
-	topicMediaEnt "ncobase/content/data/ent/topicmedia"
-	"ncobase/content/structs"
+	"ncobase/biz/content/data"
+	"ncobase/biz/content/data/ent"
+	mediaEnt "ncobase/biz/content/data/ent/media"
+	topicMediaEnt "ncobase/biz/content/data/ent/topicmedia"
+	"ncobase/biz/content/structs"
 
-	"github.com/ncobase/ncore/data/databases/cache"
+	nd "github.com/ncobase/ncore/data"
+	"github.com/ncobase/ncore/data/cache"
 	"github.com/ncobase/ncore/data/paging"
 	"github.com/ncobase/ncore/logging/logger"
 	"github.com/ncobase/ncore/utils/nanoid"
 	"github.com/ncobase/ncore/validation/validator"
 
-	"github.com/redis/go-redis/v9"
-
 	"github.com/ncobase/ncore/data/search"
+	"github.com/redis/go-redis/v9"
 )
 
 // TopicMediaRepositoryInterface represents the topic media repository interface.
@@ -35,24 +35,28 @@ type TopicMediaRepositoryInterface interface {
 
 // topicMediaRepository implements the TopicMediaRepositoryInterface.
 type topicMediaRepository struct {
-	data *data.Data
-	ec   *ent.Client
-	ecr  *ent.Client
-	rc   *redis.Client
-	c    *cache.Cache[ent.TopicMedia]
+	data         *data.Data
+	searchClient *search.Client
+	ec           *ent.Client
+	ecr          *ent.Client
+	rc           *redis.Client
+	c            *cache.Cache[ent.TopicMedia]
 }
 
 // NewTopicMediaRepository creates a new topic media repository.
 func NewTopicMediaRepository(d *data.Data) TopicMediaRepositoryInterface {
 	ec := d.GetMasterEntClient()
 	ecr := d.GetSlaveEntClient()
-	rc := d.GetRedis()
+	rc := d.GetRedis().(*redis.Client)
+	searchClient := nd.NewSearchClient(d.Data)
+
 	return &topicMediaRepository{
-		data: d,
-		ec:   ec,
-		ecr:  ecr,
-		rc:   rc,
-		c:    cache.NewCache[ent.TopicMedia](rc, "ncse_topic_media"),
+		data:         d,
+		searchClient: searchClient,
+		ec:           ec,
+		ecr:          ecr,
+		rc:           rc,
+		c:            cache.NewCache[ent.TopicMedia](rc, "ncse_topic_media"),
 	}
 }
 
@@ -76,7 +80,7 @@ func (r *topicMediaRepository) Create(ctx context.Context, body *structs.CreateT
 	}
 
 	// Index in Meilisearch
-	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "content_topic_media", Document: row}); err != nil {
+	if err = r.searchClient.Index(ctx, &search.IndexRequest{Index: "content_topic_media", Document: row}); err != nil {
 		logger.Errorf(ctx, "topicMediaRepo.Create error creating Meilisearch index: %v", err)
 	}
 
@@ -142,7 +146,7 @@ func (r *topicMediaRepository) Update(ctx context.Context, id string, topicID st
 	}
 
 	// Update Meilisearch index
-	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "content_topic_media", Document: row, DocumentID: row.ID}); err != nil {
+	if err = r.searchClient.Index(ctx, &search.IndexRequest{Index: "content_topic_media", Document: row, DocumentID: row.ID}); err != nil {
 		logger.Errorf(ctx, "topicMediaRepo.Update error updating Meilisearch index: %v", err)
 	}
 
@@ -383,7 +387,7 @@ func (r *topicMediaRepository) Delete(ctx context.Context, id string) error {
 	}
 
 	// Delete from Meilisearch
-	if err = r.data.DeleteDocument(ctx, "content_topic_media", id); err != nil {
+	if err = r.searchClient.Delete(ctx, "content_topic_media", id); err != nil {
 		logger.Errorf(ctx, "topicMediaRepo.Delete error deleting Meilisearch index: %v", err)
 	}
 

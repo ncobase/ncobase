@@ -5,8 +5,8 @@ package ent
 import (
 	"encoding/json"
 	"fmt"
-	"ncobase/payment/data/ent/paymentlog"
-	"ncobase/payment/data/ent/paymentorder"
+	"ncobase/plugin/payment/data/ent/paymentlog"
+	"ncobase/plugin/payment/data/ent/paymentorder"
 	"strings"
 
 	"entgo.io/ent"

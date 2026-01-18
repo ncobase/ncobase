@@ -3,12 +3,12 @@
 package ent
 
 import (
-	"ncobase/payment/data/ent/paymentchannel"
-	"ncobase/payment/data/ent/paymentlog"
-	"ncobase/payment/data/ent/paymentorder"
-	"ncobase/payment/data/ent/paymentproduct"
-	"ncobase/payment/data/ent/paymentsubscription"
-	"ncobase/payment/data/schema"
+	"ncobase/plugin/payment/data/ent/paymentchannel"
+	"ncobase/plugin/payment/data/ent/paymentlog"
+	"ncobase/plugin/payment/data/ent/paymentorder"
+	"ncobase/plugin/payment/data/ent/paymentproduct"
+	"ncobase/plugin/payment/data/ent/paymentsubscription"
+	"ncobase/plugin/payment/data/schema"
 )
 
 // The init function reads all schema descriptors with runtime code

@@ -3,7 +3,7 @@
 package taxonomy
 
 import (
-	"ncobase/content/data/ent/predicate"
+	"ncobase/biz/content/data/ent/predicate"
 
 	"entgo.io/ent/dialect/sql"
 )

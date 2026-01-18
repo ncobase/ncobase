@@ -3,9 +3,9 @@ package system
 import (
 	"fmt"
 	"ncobase/internal/middleware"
-	"ncobase/system/data"
-	"ncobase/system/handler"
-	"ncobase/system/service"
+	"ncobase/core/system/data"
+	"ncobase/core/system/handler"
+	"ncobase/core/system/service"
 	"sync"
 
 	"github.com/gin-gonic/gin"

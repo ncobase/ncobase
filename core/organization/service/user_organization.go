@@ -2,11 +2,11 @@ package service
 
 import (
 	"context"
-	"ncobase/organization/data"
-	"ncobase/organization/data/ent"
-	"ncobase/organization/data/repository"
-	"ncobase/organization/structs"
-	"ncobase/organization/wrapper"
+	"ncobase/core/organization/data"
+	"ncobase/core/organization/data/ent"
+	"ncobase/core/organization/data/repository"
+	"ncobase/core/organization/structs"
+	"ncobase/core/organization/wrapper"
 	"time"
 )
 

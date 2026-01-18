@@ -6,7 +6,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"ncobase/resource/data/ent/file"
+	"ncobase/plugin/resource/data/ent/file"
 	"reflect"
 	"sync"
 

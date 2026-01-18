@@ -3,11 +3,11 @@ package service
 import (
 	"context"
 	"errors"
-	"ncobase/system/data"
-	"ncobase/system/data/ent"
-	"ncobase/system/data/repository"
-	"ncobase/system/structs"
-	"ncobase/system/wrapper"
+	"ncobase/core/system/data"
+	"ncobase/core/system/data/ent"
+	"ncobase/core/system/data/repository"
+	"ncobase/core/system/structs"
+	"ncobase/core/system/wrapper"
 	"sort"
 	"strings"
 

@@ -3,14 +3,15 @@ package repository
 import (
 	"context"
 	"fmt"
-	"ncobase/access/data"
-	"ncobase/access/data/ent"
-	roleEnt "ncobase/access/data/ent/role"
-	userRoleEnt "ncobase/access/data/ent/userrole"
-	"ncobase/access/structs"
+	"github.com/redis/go-redis/v9"
+	"ncobase/core/access/data"
+	"ncobase/core/access/data/ent"
+	roleEnt "ncobase/core/access/data/ent/role"
+	userRoleEnt "ncobase/core/access/data/ent/userrole"
+	"ncobase/core/access/structs"
 	"time"
 
-	"github.com/ncobase/ncore/data/databases/cache"
+	"github.com/ncobase/ncore/data/cache"
 	"github.com/ncobase/ncore/logging/logger"
 )
 
@@ -40,14 +41,14 @@ type userRoleRepository struct {
 
 // NewUserRoleRepository creates a new user role repository.
 func NewUserRoleRepository(d *data.Data) UserRoleRepositoryInterface {
-	redisClient := d.GetRedis()
+	redisClient := d.GetRedis().(*redis.Client)
 
 	return &userRoleRepository{
 		data:            d,
 		userRoleCache:   cache.NewCache[ent.UserRole](redisClient, "ncse_access:user_roles"),
 		userRolesCache:  cache.NewCache[[]string](redisClient, "ncse_access:user_role_mappings"),
 		roleUsersCache:  cache.NewCache[[]string](redisClient, "ncse_access:role_user_mappings"),
-		relationshipTTL: time.Hour * 2, // 2 hours cache TTL
+		relationshipTTL: time.Hour * 2,
 	}
 }
 

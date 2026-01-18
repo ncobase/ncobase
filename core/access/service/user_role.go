@@ -3,10 +3,10 @@ package service
 import (
 	"context"
 	"errors"
-	"ncobase/access/data"
-	"ncobase/access/data/ent"
-	"ncobase/access/data/repository"
-	"ncobase/access/structs"
+	"ncobase/core/access/data"
+	"ncobase/core/access/data/ent"
+	"ncobase/core/access/data/repository"
+	"ncobase/core/access/structs"
 
 	"github.com/ncobase/ncore/ecode"
 )

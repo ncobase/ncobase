@@ -4,7 +4,7 @@ package ent
 
 import (
 	"fmt"
-	"ncobase/realtime/data/ent/subscription"
+	"ncobase/biz/realtime/data/ent/subscription"
 	"strings"
 
 	"entgo.io/ent"

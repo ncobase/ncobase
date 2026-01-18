@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"encoding/xml"
 	"fmt"
-	"ncobase/payment/structs"
+	"ncobase/plugin/payment/structs"
 	"time"
 )
 

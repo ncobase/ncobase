@@ -3,13 +3,13 @@ package repository
 import (
 	"context"
 	"fmt"
-	"ncobase/proxy/data"
-	"ncobase/proxy/data/ent"
-	transformerEnt "ncobase/proxy/data/ent/transformer"
-	"ncobase/proxy/structs"
+	"ncobase/plugin/proxy/data"
+	"ncobase/plugin/proxy/data/ent"
+	transformerEnt "ncobase/plugin/proxy/data/ent/transformer"
+	"ncobase/plugin/proxy/structs"
 	"strings"
 
-	"github.com/ncobase/ncore/data/databases/cache"
+	"github.com/ncobase/ncore/data/cache"
 	"github.com/ncobase/ncore/data/paging"
 	"github.com/ncobase/ncore/logging/logger"
 	"github.com/ncobase/ncore/types"
@@ -41,7 +41,7 @@ type transformerRepository struct {
 // NewTransformerRepository creates a new transformer repository.
 func NewTransformerRepository(d *data.Data) TransformerRepositoryInterface {
 	ec := d.GetMasterEntClient()
-	rc := d.GetRedis()
+	rc := d.GetRedis().(*redis.Client)
 	return &transformerRepository{ec, rc, cache.NewCache[ent.Transformer](rc, "ncse_proxy_transformer")}
 }
 

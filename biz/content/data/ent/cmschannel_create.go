@@ -6,8 +6,10 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"ncobase/content/data/ent/cmschannel"
+	"ncobase/biz/content/data/ent/cmschannel"
 
+	"entgo.io/ent/dialect"
+	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
 )
@@ -17,6 +19,7 @@ type CMSChannelCreate struct {
 	config
 	mutation *CMSChannelMutation
 	hooks    []Hook
+	conflict []sql.ConflictOption
 }
 
 // SetName sets the "name" field.
@@ -367,6 +370,7 @@ func (_c *CMSChannelCreate) createSpec() (*CMSChannel, *sqlgraph.CreateSpec) {
 		_node = &CMSChannel{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(cmschannel.Table, sqlgraph.NewFieldSpec(cmschannel.FieldID, field.TypeString))
 	)
+	_spec.OnConflict = _c.conflict
 	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
@@ -442,11 +446,761 @@ func (_c *CMSChannelCreate) createSpec() (*CMSChannel, *sqlgraph.CreateSpec) {
 	return _node, _spec
 }
 
+// OnConflict allows configuring the `ON CONFLICT` / `ON DUPLICATE KEY` clause
+// of the `INSERT` statement. For example:
+//
+//	client.CMSChannel.Create().
+//		SetName(v).
+//		OnConflict(
+//			// Update the row with the new values
+//			// the was proposed for insertion.
+//			sql.ResolveWithNewValues(),
+//		).
+//		// Override some of the fields with custom
+//		// update values.
+//		Update(func(u *ent.CMSChannelUpsert) {
+//			SetName(v+v).
+//		}).
+//		Exec(ctx)
+func (_c *CMSChannelCreate) OnConflict(opts ...sql.ConflictOption) *CMSChannelUpsertOne {
+	_c.conflict = opts
+	return &CMSChannelUpsertOne{
+		create: _c,
+	}
+}
+
+// OnConflictColumns calls `OnConflict` and configures the columns
+// as conflict target. Using this option is equivalent to using:
+//
+//	client.CMSChannel.Create().
+//		OnConflict(sql.ConflictColumns(columns...)).
+//		Exec(ctx)
+func (_c *CMSChannelCreate) OnConflictColumns(columns ...string) *CMSChannelUpsertOne {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
+	return &CMSChannelUpsertOne{
+		create: _c,
+	}
+}
+
+type (
+	// CMSChannelUpsertOne is the builder for "upsert"-ing
+	//  one CMSChannel node.
+	CMSChannelUpsertOne struct {
+		create *CMSChannelCreate
+	}
+
+	// CMSChannelUpsert is the "OnConflict" setter.
+	CMSChannelUpsert struct {
+		*sql.UpdateSet
+	}
+)
+
+// SetName sets the "name" field.
+func (u *CMSChannelUpsert) SetName(v string) *CMSChannelUpsert {
+	u.Set(cmschannel.FieldName, v)
+	return u
+}
+
+// UpdateName sets the "name" field to the value that was provided on create.
+func (u *CMSChannelUpsert) UpdateName() *CMSChannelUpsert {
+	u.SetExcluded(cmschannel.FieldName)
+	return u
+}
+
+// ClearName clears the value of the "name" field.
+func (u *CMSChannelUpsert) ClearName() *CMSChannelUpsert {
+	u.SetNull(cmschannel.FieldName)
+	return u
+}
+
+// SetType sets the "type" field.
+func (u *CMSChannelUpsert) SetType(v string) *CMSChannelUpsert {
+	u.Set(cmschannel.FieldType, v)
+	return u
+}
+
+// UpdateType sets the "type" field to the value that was provided on create.
+func (u *CMSChannelUpsert) UpdateType() *CMSChannelUpsert {
+	u.SetExcluded(cmschannel.FieldType)
+	return u
+}
+
+// ClearType clears the value of the "type" field.
+func (u *CMSChannelUpsert) ClearType() *CMSChannelUpsert {
+	u.SetNull(cmschannel.FieldType)
+	return u
+}
+
+// SetSlug sets the "slug" field.
+func (u *CMSChannelUpsert) SetSlug(v string) *CMSChannelUpsert {
+	u.Set(cmschannel.FieldSlug, v)
+	return u
+}
+
+// UpdateSlug sets the "slug" field to the value that was provided on create.
+func (u *CMSChannelUpsert) UpdateSlug() *CMSChannelUpsert {
+	u.SetExcluded(cmschannel.FieldSlug)
+	return u
+}
+
+// ClearSlug clears the value of the "slug" field.
+func (u *CMSChannelUpsert) ClearSlug() *CMSChannelUpsert {
+	u.SetNull(cmschannel.FieldSlug)
+	return u
+}
+
+// SetIcon sets the "icon" field.
+func (u *CMSChannelUpsert) SetIcon(v string) *CMSChannelUpsert {
+	u.Set(cmschannel.FieldIcon, v)
+	return u
+}
+
+// UpdateIcon sets the "icon" field to the value that was provided on create.
+func (u *CMSChannelUpsert) UpdateIcon() *CMSChannelUpsert {
+	u.SetExcluded(cmschannel.FieldIcon)
+	return u
+}
+
+// ClearIcon clears the value of the "icon" field.
+func (u *CMSChannelUpsert) ClearIcon() *CMSChannelUpsert {
+	u.SetNull(cmschannel.FieldIcon)
+	return u
+}
+
+// SetStatus sets the "status" field.
+func (u *CMSChannelUpsert) SetStatus(v int) *CMSChannelUpsert {
+	u.Set(cmschannel.FieldStatus, v)
+	return u
+}
+
+// UpdateStatus sets the "status" field to the value that was provided on create.
+func (u *CMSChannelUpsert) UpdateStatus() *CMSChannelUpsert {
+	u.SetExcluded(cmschannel.FieldStatus)
+	return u
+}
+
+// AddStatus adds v to the "status" field.
+func (u *CMSChannelUpsert) AddStatus(v int) *CMSChannelUpsert {
+	u.Add(cmschannel.FieldStatus, v)
+	return u
+}
+
+// SetExtras sets the "extras" field.
+func (u *CMSChannelUpsert) SetExtras(v map[string]interface{}) *CMSChannelUpsert {
+	u.Set(cmschannel.FieldExtras, v)
+	return u
+}
+
+// UpdateExtras sets the "extras" field to the value that was provided on create.
+func (u *CMSChannelUpsert) UpdateExtras() *CMSChannelUpsert {
+	u.SetExcluded(cmschannel.FieldExtras)
+	return u
+}
+
+// ClearExtras clears the value of the "extras" field.
+func (u *CMSChannelUpsert) ClearExtras() *CMSChannelUpsert {
+	u.SetNull(cmschannel.FieldExtras)
+	return u
+}
+
+// SetSpaceID sets the "space_id" field.
+func (u *CMSChannelUpsert) SetSpaceID(v string) *CMSChannelUpsert {
+	u.Set(cmschannel.FieldSpaceID, v)
+	return u
+}
+
+// UpdateSpaceID sets the "space_id" field to the value that was provided on create.
+func (u *CMSChannelUpsert) UpdateSpaceID() *CMSChannelUpsert {
+	u.SetExcluded(cmschannel.FieldSpaceID)
+	return u
+}
+
+// ClearSpaceID clears the value of the "space_id" field.
+func (u *CMSChannelUpsert) ClearSpaceID() *CMSChannelUpsert {
+	u.SetNull(cmschannel.FieldSpaceID)
+	return u
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (u *CMSChannelUpsert) SetCreatedBy(v string) *CMSChannelUpsert {
+	u.Set(cmschannel.FieldCreatedBy, v)
+	return u
+}
+
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *CMSChannelUpsert) UpdateCreatedBy() *CMSChannelUpsert {
+	u.SetExcluded(cmschannel.FieldCreatedBy)
+	return u
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *CMSChannelUpsert) ClearCreatedBy() *CMSChannelUpsert {
+	u.SetNull(cmschannel.FieldCreatedBy)
+	return u
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (u *CMSChannelUpsert) SetUpdatedBy(v string) *CMSChannelUpsert {
+	u.Set(cmschannel.FieldUpdatedBy, v)
+	return u
+}
+
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *CMSChannelUpsert) UpdateUpdatedBy() *CMSChannelUpsert {
+	u.SetExcluded(cmschannel.FieldUpdatedBy)
+	return u
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *CMSChannelUpsert) ClearUpdatedBy() *CMSChannelUpsert {
+	u.SetNull(cmschannel.FieldUpdatedBy)
+	return u
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *CMSChannelUpsert) SetUpdatedAt(v int64) *CMSChannelUpsert {
+	u.Set(cmschannel.FieldUpdatedAt, v)
+	return u
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *CMSChannelUpsert) UpdateUpdatedAt() *CMSChannelUpsert {
+	u.SetExcluded(cmschannel.FieldUpdatedAt)
+	return u
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *CMSChannelUpsert) AddUpdatedAt(v int64) *CMSChannelUpsert {
+	u.Add(cmschannel.FieldUpdatedAt, v)
+	return u
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *CMSChannelUpsert) ClearUpdatedAt() *CMSChannelUpsert {
+	u.SetNull(cmschannel.FieldUpdatedAt)
+	return u
+}
+
+// SetAllowedTypes sets the "allowed_types" field.
+func (u *CMSChannelUpsert) SetAllowedTypes(v []string) *CMSChannelUpsert {
+	u.Set(cmschannel.FieldAllowedTypes, v)
+	return u
+}
+
+// UpdateAllowedTypes sets the "allowed_types" field to the value that was provided on create.
+func (u *CMSChannelUpsert) UpdateAllowedTypes() *CMSChannelUpsert {
+	u.SetExcluded(cmschannel.FieldAllowedTypes)
+	return u
+}
+
+// ClearAllowedTypes clears the value of the "allowed_types" field.
+func (u *CMSChannelUpsert) ClearAllowedTypes() *CMSChannelUpsert {
+	u.SetNull(cmschannel.FieldAllowedTypes)
+	return u
+}
+
+// SetDescription sets the "description" field.
+func (u *CMSChannelUpsert) SetDescription(v string) *CMSChannelUpsert {
+	u.Set(cmschannel.FieldDescription, v)
+	return u
+}
+
+// UpdateDescription sets the "description" field to the value that was provided on create.
+func (u *CMSChannelUpsert) UpdateDescription() *CMSChannelUpsert {
+	u.SetExcluded(cmschannel.FieldDescription)
+	return u
+}
+
+// ClearDescription clears the value of the "description" field.
+func (u *CMSChannelUpsert) ClearDescription() *CMSChannelUpsert {
+	u.SetNull(cmschannel.FieldDescription)
+	return u
+}
+
+// SetLogo sets the "logo" field.
+func (u *CMSChannelUpsert) SetLogo(v string) *CMSChannelUpsert {
+	u.Set(cmschannel.FieldLogo, v)
+	return u
+}
+
+// UpdateLogo sets the "logo" field to the value that was provided on create.
+func (u *CMSChannelUpsert) UpdateLogo() *CMSChannelUpsert {
+	u.SetExcluded(cmschannel.FieldLogo)
+	return u
+}
+
+// ClearLogo clears the value of the "logo" field.
+func (u *CMSChannelUpsert) ClearLogo() *CMSChannelUpsert {
+	u.SetNull(cmschannel.FieldLogo)
+	return u
+}
+
+// SetWebhookURL sets the "webhook_url" field.
+func (u *CMSChannelUpsert) SetWebhookURL(v string) *CMSChannelUpsert {
+	u.Set(cmschannel.FieldWebhookURL, v)
+	return u
+}
+
+// UpdateWebhookURL sets the "webhook_url" field to the value that was provided on create.
+func (u *CMSChannelUpsert) UpdateWebhookURL() *CMSChannelUpsert {
+	u.SetExcluded(cmschannel.FieldWebhookURL)
+	return u
+}
+
+// ClearWebhookURL clears the value of the "webhook_url" field.
+func (u *CMSChannelUpsert) ClearWebhookURL() *CMSChannelUpsert {
+	u.SetNull(cmschannel.FieldWebhookURL)
+	return u
+}
+
+// SetAutoPublish sets the "auto_publish" field.
+func (u *CMSChannelUpsert) SetAutoPublish(v bool) *CMSChannelUpsert {
+	u.Set(cmschannel.FieldAutoPublish, v)
+	return u
+}
+
+// UpdateAutoPublish sets the "auto_publish" field to the value that was provided on create.
+func (u *CMSChannelUpsert) UpdateAutoPublish() *CMSChannelUpsert {
+	u.SetExcluded(cmschannel.FieldAutoPublish)
+	return u
+}
+
+// SetRequireReview sets the "require_review" field.
+func (u *CMSChannelUpsert) SetRequireReview(v bool) *CMSChannelUpsert {
+	u.Set(cmschannel.FieldRequireReview, v)
+	return u
+}
+
+// UpdateRequireReview sets the "require_review" field to the value that was provided on create.
+func (u *CMSChannelUpsert) UpdateRequireReview() *CMSChannelUpsert {
+	u.SetExcluded(cmschannel.FieldRequireReview)
+	return u
+}
+
+// UpdateNewValues updates the mutable fields using the new values that were set on create except the ID field.
+// Using this option is equivalent to using:
+//
+//	client.CMSChannel.Create().
+//		OnConflict(
+//			sql.ResolveWithNewValues(),
+//			sql.ResolveWith(func(u *sql.UpdateSet) {
+//				u.SetIgnore(cmschannel.FieldID)
+//			}),
+//		).
+//		Exec(ctx)
+func (u *CMSChannelUpsertOne) UpdateNewValues() *CMSChannelUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithNewValues())
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(s *sql.UpdateSet) {
+		if _, exists := u.create.mutation.ID(); exists {
+			s.SetIgnore(cmschannel.FieldID)
+		}
+		if _, exists := u.create.mutation.CreatedAt(); exists {
+			s.SetIgnore(cmschannel.FieldCreatedAt)
+		}
+	}))
+	return u
+}
+
+// Ignore sets each column to itself in case of conflict.
+// Using this option is equivalent to using:
+//
+//	client.CMSChannel.Create().
+//	    OnConflict(sql.ResolveWithIgnore()).
+//	    Exec(ctx)
+func (u *CMSChannelUpsertOne) Ignore() *CMSChannelUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithIgnore())
+	return u
+}
+
+// DoNothing configures the conflict_action to `DO NOTHING`.
+// Supported only by SQLite and PostgreSQL.
+func (u *CMSChannelUpsertOne) DoNothing() *CMSChannelUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.DoNothing())
+	return u
+}
+
+// Update allows overriding fields `UPDATE` values. See the CMSChannelCreate.OnConflict
+// documentation for more info.
+func (u *CMSChannelUpsertOne) Update(set func(*CMSChannelUpsert)) *CMSChannelUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(update *sql.UpdateSet) {
+		set(&CMSChannelUpsert{UpdateSet: update})
+	}))
+	return u
+}
+
+// SetName sets the "name" field.
+func (u *CMSChannelUpsertOne) SetName(v string) *CMSChannelUpsertOne {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.SetName(v)
+	})
+}
+
+// UpdateName sets the "name" field to the value that was provided on create.
+func (u *CMSChannelUpsertOne) UpdateName() *CMSChannelUpsertOne {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.UpdateName()
+	})
+}
+
+// ClearName clears the value of the "name" field.
+func (u *CMSChannelUpsertOne) ClearName() *CMSChannelUpsertOne {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.ClearName()
+	})
+}
+
+// SetType sets the "type" field.
+func (u *CMSChannelUpsertOne) SetType(v string) *CMSChannelUpsertOne {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.SetType(v)
+	})
+}
+
+// UpdateType sets the "type" field to the value that was provided on create.
+func (u *CMSChannelUpsertOne) UpdateType() *CMSChannelUpsertOne {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.UpdateType()
+	})
+}
+
+// ClearType clears the value of the "type" field.
+func (u *CMSChannelUpsertOne) ClearType() *CMSChannelUpsertOne {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.ClearType()
+	})
+}
+
+// SetSlug sets the "slug" field.
+func (u *CMSChannelUpsertOne) SetSlug(v string) *CMSChannelUpsertOne {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.SetSlug(v)
+	})
+}
+
+// UpdateSlug sets the "slug" field to the value that was provided on create.
+func (u *CMSChannelUpsertOne) UpdateSlug() *CMSChannelUpsertOne {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.UpdateSlug()
+	})
+}
+
+// ClearSlug clears the value of the "slug" field.
+func (u *CMSChannelUpsertOne) ClearSlug() *CMSChannelUpsertOne {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.ClearSlug()
+	})
+}
+
+// SetIcon sets the "icon" field.
+func (u *CMSChannelUpsertOne) SetIcon(v string) *CMSChannelUpsertOne {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.SetIcon(v)
+	})
+}
+
+// UpdateIcon sets the "icon" field to the value that was provided on create.
+func (u *CMSChannelUpsertOne) UpdateIcon() *CMSChannelUpsertOne {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.UpdateIcon()
+	})
+}
+
+// ClearIcon clears the value of the "icon" field.
+func (u *CMSChannelUpsertOne) ClearIcon() *CMSChannelUpsertOne {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.ClearIcon()
+	})
+}
+
+// SetStatus sets the "status" field.
+func (u *CMSChannelUpsertOne) SetStatus(v int) *CMSChannelUpsertOne {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.SetStatus(v)
+	})
+}
+
+// AddStatus adds v to the "status" field.
+func (u *CMSChannelUpsertOne) AddStatus(v int) *CMSChannelUpsertOne {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.AddStatus(v)
+	})
+}
+
+// UpdateStatus sets the "status" field to the value that was provided on create.
+func (u *CMSChannelUpsertOne) UpdateStatus() *CMSChannelUpsertOne {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.UpdateStatus()
+	})
+}
+
+// SetExtras sets the "extras" field.
+func (u *CMSChannelUpsertOne) SetExtras(v map[string]interface{}) *CMSChannelUpsertOne {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.SetExtras(v)
+	})
+}
+
+// UpdateExtras sets the "extras" field to the value that was provided on create.
+func (u *CMSChannelUpsertOne) UpdateExtras() *CMSChannelUpsertOne {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.UpdateExtras()
+	})
+}
+
+// ClearExtras clears the value of the "extras" field.
+func (u *CMSChannelUpsertOne) ClearExtras() *CMSChannelUpsertOne {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.ClearExtras()
+	})
+}
+
+// SetSpaceID sets the "space_id" field.
+func (u *CMSChannelUpsertOne) SetSpaceID(v string) *CMSChannelUpsertOne {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.SetSpaceID(v)
+	})
+}
+
+// UpdateSpaceID sets the "space_id" field to the value that was provided on create.
+func (u *CMSChannelUpsertOne) UpdateSpaceID() *CMSChannelUpsertOne {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.UpdateSpaceID()
+	})
+}
+
+// ClearSpaceID clears the value of the "space_id" field.
+func (u *CMSChannelUpsertOne) ClearSpaceID() *CMSChannelUpsertOne {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.ClearSpaceID()
+	})
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (u *CMSChannelUpsertOne) SetCreatedBy(v string) *CMSChannelUpsertOne {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.SetCreatedBy(v)
+	})
+}
+
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *CMSChannelUpsertOne) UpdateCreatedBy() *CMSChannelUpsertOne {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.UpdateCreatedBy()
+	})
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *CMSChannelUpsertOne) ClearCreatedBy() *CMSChannelUpsertOne {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.ClearCreatedBy()
+	})
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (u *CMSChannelUpsertOne) SetUpdatedBy(v string) *CMSChannelUpsertOne {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.SetUpdatedBy(v)
+	})
+}
+
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *CMSChannelUpsertOne) UpdateUpdatedBy() *CMSChannelUpsertOne {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.UpdateUpdatedBy()
+	})
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *CMSChannelUpsertOne) ClearUpdatedBy() *CMSChannelUpsertOne {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.ClearUpdatedBy()
+	})
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *CMSChannelUpsertOne) SetUpdatedAt(v int64) *CMSChannelUpsertOne {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.SetUpdatedAt(v)
+	})
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *CMSChannelUpsertOne) AddUpdatedAt(v int64) *CMSChannelUpsertOne {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.AddUpdatedAt(v)
+	})
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *CMSChannelUpsertOne) UpdateUpdatedAt() *CMSChannelUpsertOne {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.UpdateUpdatedAt()
+	})
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *CMSChannelUpsertOne) ClearUpdatedAt() *CMSChannelUpsertOne {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.ClearUpdatedAt()
+	})
+}
+
+// SetAllowedTypes sets the "allowed_types" field.
+func (u *CMSChannelUpsertOne) SetAllowedTypes(v []string) *CMSChannelUpsertOne {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.SetAllowedTypes(v)
+	})
+}
+
+// UpdateAllowedTypes sets the "allowed_types" field to the value that was provided on create.
+func (u *CMSChannelUpsertOne) UpdateAllowedTypes() *CMSChannelUpsertOne {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.UpdateAllowedTypes()
+	})
+}
+
+// ClearAllowedTypes clears the value of the "allowed_types" field.
+func (u *CMSChannelUpsertOne) ClearAllowedTypes() *CMSChannelUpsertOne {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.ClearAllowedTypes()
+	})
+}
+
+// SetDescription sets the "description" field.
+func (u *CMSChannelUpsertOne) SetDescription(v string) *CMSChannelUpsertOne {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.SetDescription(v)
+	})
+}
+
+// UpdateDescription sets the "description" field to the value that was provided on create.
+func (u *CMSChannelUpsertOne) UpdateDescription() *CMSChannelUpsertOne {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.UpdateDescription()
+	})
+}
+
+// ClearDescription clears the value of the "description" field.
+func (u *CMSChannelUpsertOne) ClearDescription() *CMSChannelUpsertOne {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.ClearDescription()
+	})
+}
+
+// SetLogo sets the "logo" field.
+func (u *CMSChannelUpsertOne) SetLogo(v string) *CMSChannelUpsertOne {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.SetLogo(v)
+	})
+}
+
+// UpdateLogo sets the "logo" field to the value that was provided on create.
+func (u *CMSChannelUpsertOne) UpdateLogo() *CMSChannelUpsertOne {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.UpdateLogo()
+	})
+}
+
+// ClearLogo clears the value of the "logo" field.
+func (u *CMSChannelUpsertOne) ClearLogo() *CMSChannelUpsertOne {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.ClearLogo()
+	})
+}
+
+// SetWebhookURL sets the "webhook_url" field.
+func (u *CMSChannelUpsertOne) SetWebhookURL(v string) *CMSChannelUpsertOne {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.SetWebhookURL(v)
+	})
+}
+
+// UpdateWebhookURL sets the "webhook_url" field to the value that was provided on create.
+func (u *CMSChannelUpsertOne) UpdateWebhookURL() *CMSChannelUpsertOne {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.UpdateWebhookURL()
+	})
+}
+
+// ClearWebhookURL clears the value of the "webhook_url" field.
+func (u *CMSChannelUpsertOne) ClearWebhookURL() *CMSChannelUpsertOne {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.ClearWebhookURL()
+	})
+}
+
+// SetAutoPublish sets the "auto_publish" field.
+func (u *CMSChannelUpsertOne) SetAutoPublish(v bool) *CMSChannelUpsertOne {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.SetAutoPublish(v)
+	})
+}
+
+// UpdateAutoPublish sets the "auto_publish" field to the value that was provided on create.
+func (u *CMSChannelUpsertOne) UpdateAutoPublish() *CMSChannelUpsertOne {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.UpdateAutoPublish()
+	})
+}
+
+// SetRequireReview sets the "require_review" field.
+func (u *CMSChannelUpsertOne) SetRequireReview(v bool) *CMSChannelUpsertOne {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.SetRequireReview(v)
+	})
+}
+
+// UpdateRequireReview sets the "require_review" field to the value that was provided on create.
+func (u *CMSChannelUpsertOne) UpdateRequireReview() *CMSChannelUpsertOne {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.UpdateRequireReview()
+	})
+}
+
+// Exec executes the query.
+func (u *CMSChannelUpsertOne) Exec(ctx context.Context) error {
+	if len(u.create.conflict) == 0 {
+		return errors.New("ent: missing options for CMSChannelCreate.OnConflict")
+	}
+	return u.create.Exec(ctx)
+}
+
+// ExecX is like Exec, but panics if an error occurs.
+func (u *CMSChannelUpsertOne) ExecX(ctx context.Context) {
+	if err := u.create.Exec(ctx); err != nil {
+		panic(err)
+	}
+}
+
+// Exec executes the UPSERT query and returns the inserted/updated ID.
+func (u *CMSChannelUpsertOne) ID(ctx context.Context) (id string, err error) {
+	if u.create.driver.Dialect() == dialect.MySQL {
+		// In case of "ON CONFLICT", there is no way to get back non-numeric ID
+		// fields from the database since MySQL does not support the RETURNING clause.
+		return id, errors.New("ent: CMSChannelUpsertOne.ID is not supported by MySQL driver. Use CMSChannelUpsertOne.Exec instead")
+	}
+	node, err := u.create.Save(ctx)
+	if err != nil {
+		return id, err
+	}
+	return node.ID, nil
+}
+
+// IDX is like ID, but panics if an error occurs.
+func (u *CMSChannelUpsertOne) IDX(ctx context.Context) string {
+	id, err := u.ID(ctx)
+	if err != nil {
+		panic(err)
+	}
+	return id
+}
+
 // CMSChannelCreateBulk is the builder for creating many CMSChannel entities in bulk.
 type CMSChannelCreateBulk struct {
 	config
 	err      error
 	builders []*CMSChannelCreate
+	conflict []sql.ConflictOption
 }
 
 // Save creates the CMSChannel entities in the database.
@@ -476,6 +1230,7 @@ func (_c *CMSChannelCreateBulk) Save(ctx context.Context) ([]*CMSChannel, error)
 					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
+					spec.OnConflict = _c.conflict
 					// Invoke the actual operation on the latest mutation in the chain.
 					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
@@ -522,6 +1277,452 @@ func (_c *CMSChannelCreateBulk) Exec(ctx context.Context) error {
 // ExecX is like Exec, but panics if an error occurs.
 func (_c *CMSChannelCreateBulk) ExecX(ctx context.Context) {
 	if err := _c.Exec(ctx); err != nil {
+		panic(err)
+	}
+}
+
+// OnConflict allows configuring the `ON CONFLICT` / `ON DUPLICATE KEY` clause
+// of the `INSERT` statement. For example:
+//
+//	client.CMSChannel.CreateBulk(builders...).
+//		OnConflict(
+//			// Update the row with the new values
+//			// the was proposed for insertion.
+//			sql.ResolveWithNewValues(),
+//		).
+//		// Override some of the fields with custom
+//		// update values.
+//		Update(func(u *ent.CMSChannelUpsert) {
+//			SetName(v+v).
+//		}).
+//		Exec(ctx)
+func (_c *CMSChannelCreateBulk) OnConflict(opts ...sql.ConflictOption) *CMSChannelUpsertBulk {
+	_c.conflict = opts
+	return &CMSChannelUpsertBulk{
+		create: _c,
+	}
+}
+
+// OnConflictColumns calls `OnConflict` and configures the columns
+// as conflict target. Using this option is equivalent to using:
+//
+//	client.CMSChannel.Create().
+//		OnConflict(sql.ConflictColumns(columns...)).
+//		Exec(ctx)
+func (_c *CMSChannelCreateBulk) OnConflictColumns(columns ...string) *CMSChannelUpsertBulk {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
+	return &CMSChannelUpsertBulk{
+		create: _c,
+	}
+}
+
+// CMSChannelUpsertBulk is the builder for "upsert"-ing
+// a bulk of CMSChannel nodes.
+type CMSChannelUpsertBulk struct {
+	create *CMSChannelCreateBulk
+}
+
+// UpdateNewValues updates the mutable fields using the new values that
+// were set on create. Using this option is equivalent to using:
+//
+//	client.CMSChannel.Create().
+//		OnConflict(
+//			sql.ResolveWithNewValues(),
+//			sql.ResolveWith(func(u *sql.UpdateSet) {
+//				u.SetIgnore(cmschannel.FieldID)
+//			}),
+//		).
+//		Exec(ctx)
+func (u *CMSChannelUpsertBulk) UpdateNewValues() *CMSChannelUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithNewValues())
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(s *sql.UpdateSet) {
+		for _, b := range u.create.builders {
+			if _, exists := b.mutation.ID(); exists {
+				s.SetIgnore(cmschannel.FieldID)
+			}
+			if _, exists := b.mutation.CreatedAt(); exists {
+				s.SetIgnore(cmschannel.FieldCreatedAt)
+			}
+		}
+	}))
+	return u
+}
+
+// Ignore sets each column to itself in case of conflict.
+// Using this option is equivalent to using:
+//
+//	client.CMSChannel.Create().
+//		OnConflict(sql.ResolveWithIgnore()).
+//		Exec(ctx)
+func (u *CMSChannelUpsertBulk) Ignore() *CMSChannelUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithIgnore())
+	return u
+}
+
+// DoNothing configures the conflict_action to `DO NOTHING`.
+// Supported only by SQLite and PostgreSQL.
+func (u *CMSChannelUpsertBulk) DoNothing() *CMSChannelUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.DoNothing())
+	return u
+}
+
+// Update allows overriding fields `UPDATE` values. See the CMSChannelCreateBulk.OnConflict
+// documentation for more info.
+func (u *CMSChannelUpsertBulk) Update(set func(*CMSChannelUpsert)) *CMSChannelUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(update *sql.UpdateSet) {
+		set(&CMSChannelUpsert{UpdateSet: update})
+	}))
+	return u
+}
+
+// SetName sets the "name" field.
+func (u *CMSChannelUpsertBulk) SetName(v string) *CMSChannelUpsertBulk {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.SetName(v)
+	})
+}
+
+// UpdateName sets the "name" field to the value that was provided on create.
+func (u *CMSChannelUpsertBulk) UpdateName() *CMSChannelUpsertBulk {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.UpdateName()
+	})
+}
+
+// ClearName clears the value of the "name" field.
+func (u *CMSChannelUpsertBulk) ClearName() *CMSChannelUpsertBulk {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.ClearName()
+	})
+}
+
+// SetType sets the "type" field.
+func (u *CMSChannelUpsertBulk) SetType(v string) *CMSChannelUpsertBulk {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.SetType(v)
+	})
+}
+
+// UpdateType sets the "type" field to the value that was provided on create.
+func (u *CMSChannelUpsertBulk) UpdateType() *CMSChannelUpsertBulk {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.UpdateType()
+	})
+}
+
+// ClearType clears the value of the "type" field.
+func (u *CMSChannelUpsertBulk) ClearType() *CMSChannelUpsertBulk {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.ClearType()
+	})
+}
+
+// SetSlug sets the "slug" field.
+func (u *CMSChannelUpsertBulk) SetSlug(v string) *CMSChannelUpsertBulk {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.SetSlug(v)
+	})
+}
+
+// UpdateSlug sets the "slug" field to the value that was provided on create.
+func (u *CMSChannelUpsertBulk) UpdateSlug() *CMSChannelUpsertBulk {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.UpdateSlug()
+	})
+}
+
+// ClearSlug clears the value of the "slug" field.
+func (u *CMSChannelUpsertBulk) ClearSlug() *CMSChannelUpsertBulk {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.ClearSlug()
+	})
+}
+
+// SetIcon sets the "icon" field.
+func (u *CMSChannelUpsertBulk) SetIcon(v string) *CMSChannelUpsertBulk {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.SetIcon(v)
+	})
+}
+
+// UpdateIcon sets the "icon" field to the value that was provided on create.
+func (u *CMSChannelUpsertBulk) UpdateIcon() *CMSChannelUpsertBulk {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.UpdateIcon()
+	})
+}
+
+// ClearIcon clears the value of the "icon" field.
+func (u *CMSChannelUpsertBulk) ClearIcon() *CMSChannelUpsertBulk {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.ClearIcon()
+	})
+}
+
+// SetStatus sets the "status" field.
+func (u *CMSChannelUpsertBulk) SetStatus(v int) *CMSChannelUpsertBulk {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.SetStatus(v)
+	})
+}
+
+// AddStatus adds v to the "status" field.
+func (u *CMSChannelUpsertBulk) AddStatus(v int) *CMSChannelUpsertBulk {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.AddStatus(v)
+	})
+}
+
+// UpdateStatus sets the "status" field to the value that was provided on create.
+func (u *CMSChannelUpsertBulk) UpdateStatus() *CMSChannelUpsertBulk {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.UpdateStatus()
+	})
+}
+
+// SetExtras sets the "extras" field.
+func (u *CMSChannelUpsertBulk) SetExtras(v map[string]interface{}) *CMSChannelUpsertBulk {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.SetExtras(v)
+	})
+}
+
+// UpdateExtras sets the "extras" field to the value that was provided on create.
+func (u *CMSChannelUpsertBulk) UpdateExtras() *CMSChannelUpsertBulk {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.UpdateExtras()
+	})
+}
+
+// ClearExtras clears the value of the "extras" field.
+func (u *CMSChannelUpsertBulk) ClearExtras() *CMSChannelUpsertBulk {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.ClearExtras()
+	})
+}
+
+// SetSpaceID sets the "space_id" field.
+func (u *CMSChannelUpsertBulk) SetSpaceID(v string) *CMSChannelUpsertBulk {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.SetSpaceID(v)
+	})
+}
+
+// UpdateSpaceID sets the "space_id" field to the value that was provided on create.
+func (u *CMSChannelUpsertBulk) UpdateSpaceID() *CMSChannelUpsertBulk {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.UpdateSpaceID()
+	})
+}
+
+// ClearSpaceID clears the value of the "space_id" field.
+func (u *CMSChannelUpsertBulk) ClearSpaceID() *CMSChannelUpsertBulk {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.ClearSpaceID()
+	})
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (u *CMSChannelUpsertBulk) SetCreatedBy(v string) *CMSChannelUpsertBulk {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.SetCreatedBy(v)
+	})
+}
+
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *CMSChannelUpsertBulk) UpdateCreatedBy() *CMSChannelUpsertBulk {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.UpdateCreatedBy()
+	})
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *CMSChannelUpsertBulk) ClearCreatedBy() *CMSChannelUpsertBulk {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.ClearCreatedBy()
+	})
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (u *CMSChannelUpsertBulk) SetUpdatedBy(v string) *CMSChannelUpsertBulk {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.SetUpdatedBy(v)
+	})
+}
+
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *CMSChannelUpsertBulk) UpdateUpdatedBy() *CMSChannelUpsertBulk {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.UpdateUpdatedBy()
+	})
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *CMSChannelUpsertBulk) ClearUpdatedBy() *CMSChannelUpsertBulk {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.ClearUpdatedBy()
+	})
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *CMSChannelUpsertBulk) SetUpdatedAt(v int64) *CMSChannelUpsertBulk {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.SetUpdatedAt(v)
+	})
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *CMSChannelUpsertBulk) AddUpdatedAt(v int64) *CMSChannelUpsertBulk {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.AddUpdatedAt(v)
+	})
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *CMSChannelUpsertBulk) UpdateUpdatedAt() *CMSChannelUpsertBulk {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.UpdateUpdatedAt()
+	})
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *CMSChannelUpsertBulk) ClearUpdatedAt() *CMSChannelUpsertBulk {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.ClearUpdatedAt()
+	})
+}
+
+// SetAllowedTypes sets the "allowed_types" field.
+func (u *CMSChannelUpsertBulk) SetAllowedTypes(v []string) *CMSChannelUpsertBulk {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.SetAllowedTypes(v)
+	})
+}
+
+// UpdateAllowedTypes sets the "allowed_types" field to the value that was provided on create.
+func (u *CMSChannelUpsertBulk) UpdateAllowedTypes() *CMSChannelUpsertBulk {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.UpdateAllowedTypes()
+	})
+}
+
+// ClearAllowedTypes clears the value of the "allowed_types" field.
+func (u *CMSChannelUpsertBulk) ClearAllowedTypes() *CMSChannelUpsertBulk {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.ClearAllowedTypes()
+	})
+}
+
+// SetDescription sets the "description" field.
+func (u *CMSChannelUpsertBulk) SetDescription(v string) *CMSChannelUpsertBulk {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.SetDescription(v)
+	})
+}
+
+// UpdateDescription sets the "description" field to the value that was provided on create.
+func (u *CMSChannelUpsertBulk) UpdateDescription() *CMSChannelUpsertBulk {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.UpdateDescription()
+	})
+}
+
+// ClearDescription clears the value of the "description" field.
+func (u *CMSChannelUpsertBulk) ClearDescription() *CMSChannelUpsertBulk {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.ClearDescription()
+	})
+}
+
+// SetLogo sets the "logo" field.
+func (u *CMSChannelUpsertBulk) SetLogo(v string) *CMSChannelUpsertBulk {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.SetLogo(v)
+	})
+}
+
+// UpdateLogo sets the "logo" field to the value that was provided on create.
+func (u *CMSChannelUpsertBulk) UpdateLogo() *CMSChannelUpsertBulk {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.UpdateLogo()
+	})
+}
+
+// ClearLogo clears the value of the "logo" field.
+func (u *CMSChannelUpsertBulk) ClearLogo() *CMSChannelUpsertBulk {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.ClearLogo()
+	})
+}
+
+// SetWebhookURL sets the "webhook_url" field.
+func (u *CMSChannelUpsertBulk) SetWebhookURL(v string) *CMSChannelUpsertBulk {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.SetWebhookURL(v)
+	})
+}
+
+// UpdateWebhookURL sets the "webhook_url" field to the value that was provided on create.
+func (u *CMSChannelUpsertBulk) UpdateWebhookURL() *CMSChannelUpsertBulk {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.UpdateWebhookURL()
+	})
+}
+
+// ClearWebhookURL clears the value of the "webhook_url" field.
+func (u *CMSChannelUpsertBulk) ClearWebhookURL() *CMSChannelUpsertBulk {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.ClearWebhookURL()
+	})
+}
+
+// SetAutoPublish sets the "auto_publish" field.
+func (u *CMSChannelUpsertBulk) SetAutoPublish(v bool) *CMSChannelUpsertBulk {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.SetAutoPublish(v)
+	})
+}
+
+// UpdateAutoPublish sets the "auto_publish" field to the value that was provided on create.
+func (u *CMSChannelUpsertBulk) UpdateAutoPublish() *CMSChannelUpsertBulk {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.UpdateAutoPublish()
+	})
+}
+
+// SetRequireReview sets the "require_review" field.
+func (u *CMSChannelUpsertBulk) SetRequireReview(v bool) *CMSChannelUpsertBulk {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.SetRequireReview(v)
+	})
+}
+
+// UpdateRequireReview sets the "require_review" field to the value that was provided on create.
+func (u *CMSChannelUpsertBulk) UpdateRequireReview() *CMSChannelUpsertBulk {
+	return u.Update(func(s *CMSChannelUpsert) {
+		s.UpdateRequireReview()
+	})
+}
+
+// Exec executes the query.
+func (u *CMSChannelUpsertBulk) Exec(ctx context.Context) error {
+	if u.create.err != nil {
+		return u.create.err
+	}
+	for i, b := range u.create.builders {
+		if len(b.conflict) != 0 {
+			return fmt.Errorf("ent: OnConflict was set for builder %d. Set it on the CMSChannelCreateBulk instead", i)
+		}
+	}
+	if len(u.create.conflict) == 0 {
+		return errors.New("ent: missing options for CMSChannelCreateBulk.OnConflict")
+	}
+	return u.create.Exec(ctx)
+}
+
+// ExecX is like Exec, but panics if an error occurs.
+func (u *CMSChannelUpsertBulk) ExecX(ctx context.Context) {
+	if err := u.create.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

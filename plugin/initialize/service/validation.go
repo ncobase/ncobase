@@ -3,7 +3,7 @@ package service
 import (
 	"context"
 	"fmt"
-	menuData "ncobase/initialize/data"
+	menuData "ncobase/plugin/initialize/data"
 
 	"github.com/ncobase/ncore/logging/logger"
 )

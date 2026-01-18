@@ -1,8 +1,8 @@
 package handler
 
 import (
-	"ncobase/realtime/service"
-	"ncobase/realtime/structs"
+	"ncobase/biz/realtime/service"
+	"ncobase/biz/realtime/structs"
 	"strconv"
 
 	"github.com/ncobase/ncore/ecode"

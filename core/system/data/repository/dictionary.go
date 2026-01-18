@@ -3,19 +3,21 @@ package repository
 import (
 	"context"
 	"fmt"
-	"ncobase/system/data"
-	"ncobase/system/data/ent"
-	dictionaryEnt "ncobase/system/data/ent/dictionary"
-	"ncobase/system/structs"
+	"ncobase/core/system/data"
+	"ncobase/core/system/data/ent"
+	dictionaryEnt "ncobase/core/system/data/ent/dictionary"
+	"ncobase/core/system/structs"
 	"time"
 
-	"github.com/ncobase/ncore/data/databases/cache"
+	nd "github.com/ncobase/ncore/data"
+	"github.com/ncobase/ncore/data/cache"
 	"github.com/ncobase/ncore/data/paging"
 	"github.com/ncobase/ncore/logging/logger"
 	"github.com/ncobase/ncore/utils/nanoid"
 	"github.com/ncobase/ncore/validation/validator"
 
 	"github.com/ncobase/ncore/data/search"
+	"github.com/redis/go-redis/v9"
 )
 
 // DictionaryRepositoryInterface represents the dictionary repository interface.
@@ -31,6 +33,7 @@ type DictionaryRepositoryInterface interface {
 // dictionaryRepository implements the DictionaryRepositoryInterface.
 type dictionaryRepository struct {
 	data             *data.Data
+	searchClient     *search.Client
 	dictionaryCache  cache.ICache[ent.Dictionary]
 	slugMappingCache cache.ICache[string] // Maps slug to dictionary ID
 	dictionaryTTL    time.Duration
@@ -38,10 +41,12 @@ type dictionaryRepository struct {
 
 // NewDictionaryRepository creates a new dictionary repository.
 func NewDictionaryRepository(d *data.Data) DictionaryRepositoryInterface {
-	redisClient := d.GetRedis()
+	redisClient := d.GetRedis().(*redis.Client)
+	searchClient := nd.NewSearchClient(d.Data)
 
 	return &dictionaryRepository{
 		data:             d,
+		searchClient:     searchClient,
 		dictionaryCache:  cache.NewCache[ent.Dictionary](redisClient, "ncse_system:dictionaries"),
 		slugMappingCache: cache.NewCache[string](redisClient, "ncse_system:dict_mappings"),
 		dictionaryTTL:    time.Hour * 4, // 4 hours cache TTL
@@ -80,7 +85,7 @@ func (r *dictionaryRepository) Create(ctx context.Context, body *structs.Diction
 	}
 
 	// Create the dictionary in Meilisearch index
-	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "dictionaries", Document: row}); err != nil {
+	if err = r.searchClient.Index(ctx, &search.IndexRequest{Index: "dictionaries", Document: row}); err != nil {
 		logger.Errorf(ctx, "dictionaryRepo.Create error creating Meilisearch index: %v", err)
 	}
 
@@ -156,7 +161,7 @@ func (r *dictionaryRepository) Update(ctx context.Context, body *structs.UpdateD
 	}
 
 	// Update Meilisearch index
-	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "dictionaries", Document: row, DocumentID: row.ID}); err != nil {
+	if err = r.searchClient.Index(ctx, &search.IndexRequest{Index: "dictionaries", Document: row, DocumentID: row.ID}); err != nil {
 		logger.Errorf(ctx, "dictionaryRepo.Update error updating Meilisearch index: %v", err)
 	}
 
@@ -193,7 +198,7 @@ func (r *dictionaryRepository) Delete(ctx context.Context, params *structs.FindD
 	}
 
 	// Delete from Meilisearch index
-	if err = r.data.DeleteDocument(ctx, "dictionaries", dict.ID); err != nil {
+	if err = r.searchClient.Delete(ctx, "dictionaries", dict.ID); err != nil {
 		logger.Errorf(ctx, "dictionaryRepo.Delete index error: %v", err)
 	}
 

@@ -4,9 +4,12 @@ package ent
 
 import (
 	"context"
+	"errors"
 	"fmt"
-	"ncobase/access/data/ent/rolepermission"
+	"ncobase/core/access/data/ent/rolepermission"
 
+	"entgo.io/ent/dialect"
+	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
 )
@@ -16,6 +19,7 @@ type RolePermissionCreate struct {
 	config
 	mutation *RolePermissionMutation
 	hooks    []Hook
+	conflict []sql.ConflictOption
 }
 
 // SetRoleID sets the "role_id" field.
@@ -203,6 +207,7 @@ func (_c *RolePermissionCreate) createSpec() (*RolePermission, *sqlgraph.CreateS
 		_node = &RolePermission{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(rolepermission.Table, sqlgraph.NewFieldSpec(rolepermission.FieldID, field.TypeString))
 	)
+	_spec.OnConflict = _c.conflict
 	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
@@ -234,11 +239,358 @@ func (_c *RolePermissionCreate) createSpec() (*RolePermission, *sqlgraph.CreateS
 	return _node, _spec
 }
 
+// OnConflict allows configuring the `ON CONFLICT` / `ON DUPLICATE KEY` clause
+// of the `INSERT` statement. For example:
+//
+//	client.RolePermission.Create().
+//		SetRoleID(v).
+//		OnConflict(
+//			// Update the row with the new values
+//			// the was proposed for insertion.
+//			sql.ResolveWithNewValues(),
+//		).
+//		// Override some of the fields with custom
+//		// update values.
+//		Update(func(u *ent.RolePermissionUpsert) {
+//			SetRoleID(v+v).
+//		}).
+//		Exec(ctx)
+func (_c *RolePermissionCreate) OnConflict(opts ...sql.ConflictOption) *RolePermissionUpsertOne {
+	_c.conflict = opts
+	return &RolePermissionUpsertOne{
+		create: _c,
+	}
+}
+
+// OnConflictColumns calls `OnConflict` and configures the columns
+// as conflict target. Using this option is equivalent to using:
+//
+//	client.RolePermission.Create().
+//		OnConflict(sql.ConflictColumns(columns...)).
+//		Exec(ctx)
+func (_c *RolePermissionCreate) OnConflictColumns(columns ...string) *RolePermissionUpsertOne {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
+	return &RolePermissionUpsertOne{
+		create: _c,
+	}
+}
+
+type (
+	// RolePermissionUpsertOne is the builder for "upsert"-ing
+	//  one RolePermission node.
+	RolePermissionUpsertOne struct {
+		create *RolePermissionCreate
+	}
+
+	// RolePermissionUpsert is the "OnConflict" setter.
+	RolePermissionUpsert struct {
+		*sql.UpdateSet
+	}
+)
+
+// SetRoleID sets the "role_id" field.
+func (u *RolePermissionUpsert) SetRoleID(v string) *RolePermissionUpsert {
+	u.Set(rolepermission.FieldRoleID, v)
+	return u
+}
+
+// UpdateRoleID sets the "role_id" field to the value that was provided on create.
+func (u *RolePermissionUpsert) UpdateRoleID() *RolePermissionUpsert {
+	u.SetExcluded(rolepermission.FieldRoleID)
+	return u
+}
+
+// ClearRoleID clears the value of the "role_id" field.
+func (u *RolePermissionUpsert) ClearRoleID() *RolePermissionUpsert {
+	u.SetNull(rolepermission.FieldRoleID)
+	return u
+}
+
+// SetPermissionID sets the "permission_id" field.
+func (u *RolePermissionUpsert) SetPermissionID(v string) *RolePermissionUpsert {
+	u.Set(rolepermission.FieldPermissionID, v)
+	return u
+}
+
+// UpdatePermissionID sets the "permission_id" field to the value that was provided on create.
+func (u *RolePermissionUpsert) UpdatePermissionID() *RolePermissionUpsert {
+	u.SetExcluded(rolepermission.FieldPermissionID)
+	return u
+}
+
+// ClearPermissionID clears the value of the "permission_id" field.
+func (u *RolePermissionUpsert) ClearPermissionID() *RolePermissionUpsert {
+	u.SetNull(rolepermission.FieldPermissionID)
+	return u
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (u *RolePermissionUpsert) SetCreatedBy(v string) *RolePermissionUpsert {
+	u.Set(rolepermission.FieldCreatedBy, v)
+	return u
+}
+
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *RolePermissionUpsert) UpdateCreatedBy() *RolePermissionUpsert {
+	u.SetExcluded(rolepermission.FieldCreatedBy)
+	return u
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *RolePermissionUpsert) ClearCreatedBy() *RolePermissionUpsert {
+	u.SetNull(rolepermission.FieldCreatedBy)
+	return u
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (u *RolePermissionUpsert) SetUpdatedBy(v string) *RolePermissionUpsert {
+	u.Set(rolepermission.FieldUpdatedBy, v)
+	return u
+}
+
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *RolePermissionUpsert) UpdateUpdatedBy() *RolePermissionUpsert {
+	u.SetExcluded(rolepermission.FieldUpdatedBy)
+	return u
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *RolePermissionUpsert) ClearUpdatedBy() *RolePermissionUpsert {
+	u.SetNull(rolepermission.FieldUpdatedBy)
+	return u
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *RolePermissionUpsert) SetUpdatedAt(v int64) *RolePermissionUpsert {
+	u.Set(rolepermission.FieldUpdatedAt, v)
+	return u
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *RolePermissionUpsert) UpdateUpdatedAt() *RolePermissionUpsert {
+	u.SetExcluded(rolepermission.FieldUpdatedAt)
+	return u
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *RolePermissionUpsert) AddUpdatedAt(v int64) *RolePermissionUpsert {
+	u.Add(rolepermission.FieldUpdatedAt, v)
+	return u
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *RolePermissionUpsert) ClearUpdatedAt() *RolePermissionUpsert {
+	u.SetNull(rolepermission.FieldUpdatedAt)
+	return u
+}
+
+// UpdateNewValues updates the mutable fields using the new values that were set on create except the ID field.
+// Using this option is equivalent to using:
+//
+//	client.RolePermission.Create().
+//		OnConflict(
+//			sql.ResolveWithNewValues(),
+//			sql.ResolveWith(func(u *sql.UpdateSet) {
+//				u.SetIgnore(rolepermission.FieldID)
+//			}),
+//		).
+//		Exec(ctx)
+func (u *RolePermissionUpsertOne) UpdateNewValues() *RolePermissionUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithNewValues())
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(s *sql.UpdateSet) {
+		if _, exists := u.create.mutation.ID(); exists {
+			s.SetIgnore(rolepermission.FieldID)
+		}
+		if _, exists := u.create.mutation.CreatedAt(); exists {
+			s.SetIgnore(rolepermission.FieldCreatedAt)
+		}
+	}))
+	return u
+}
+
+// Ignore sets each column to itself in case of conflict.
+// Using this option is equivalent to using:
+//
+//	client.RolePermission.Create().
+//	    OnConflict(sql.ResolveWithIgnore()).
+//	    Exec(ctx)
+func (u *RolePermissionUpsertOne) Ignore() *RolePermissionUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithIgnore())
+	return u
+}
+
+// DoNothing configures the conflict_action to `DO NOTHING`.
+// Supported only by SQLite and PostgreSQL.
+func (u *RolePermissionUpsertOne) DoNothing() *RolePermissionUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.DoNothing())
+	return u
+}
+
+// Update allows overriding fields `UPDATE` values. See the RolePermissionCreate.OnConflict
+// documentation for more info.
+func (u *RolePermissionUpsertOne) Update(set func(*RolePermissionUpsert)) *RolePermissionUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(update *sql.UpdateSet) {
+		set(&RolePermissionUpsert{UpdateSet: update})
+	}))
+	return u
+}
+
+// SetRoleID sets the "role_id" field.
+func (u *RolePermissionUpsertOne) SetRoleID(v string) *RolePermissionUpsertOne {
+	return u.Update(func(s *RolePermissionUpsert) {
+		s.SetRoleID(v)
+	})
+}
+
+// UpdateRoleID sets the "role_id" field to the value that was provided on create.
+func (u *RolePermissionUpsertOne) UpdateRoleID() *RolePermissionUpsertOne {
+	return u.Update(func(s *RolePermissionUpsert) {
+		s.UpdateRoleID()
+	})
+}
+
+// ClearRoleID clears the value of the "role_id" field.
+func (u *RolePermissionUpsertOne) ClearRoleID() *RolePermissionUpsertOne {
+	return u.Update(func(s *RolePermissionUpsert) {
+		s.ClearRoleID()
+	})
+}
+
+// SetPermissionID sets the "permission_id" field.
+func (u *RolePermissionUpsertOne) SetPermissionID(v string) *RolePermissionUpsertOne {
+	return u.Update(func(s *RolePermissionUpsert) {
+		s.SetPermissionID(v)
+	})
+}
+
+// UpdatePermissionID sets the "permission_id" field to the value that was provided on create.
+func (u *RolePermissionUpsertOne) UpdatePermissionID() *RolePermissionUpsertOne {
+	return u.Update(func(s *RolePermissionUpsert) {
+		s.UpdatePermissionID()
+	})
+}
+
+// ClearPermissionID clears the value of the "permission_id" field.
+func (u *RolePermissionUpsertOne) ClearPermissionID() *RolePermissionUpsertOne {
+	return u.Update(func(s *RolePermissionUpsert) {
+		s.ClearPermissionID()
+	})
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (u *RolePermissionUpsertOne) SetCreatedBy(v string) *RolePermissionUpsertOne {
+	return u.Update(func(s *RolePermissionUpsert) {
+		s.SetCreatedBy(v)
+	})
+}
+
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *RolePermissionUpsertOne) UpdateCreatedBy() *RolePermissionUpsertOne {
+	return u.Update(func(s *RolePermissionUpsert) {
+		s.UpdateCreatedBy()
+	})
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *RolePermissionUpsertOne) ClearCreatedBy() *RolePermissionUpsertOne {
+	return u.Update(func(s *RolePermissionUpsert) {
+		s.ClearCreatedBy()
+	})
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (u *RolePermissionUpsertOne) SetUpdatedBy(v string) *RolePermissionUpsertOne {
+	return u.Update(func(s *RolePermissionUpsert) {
+		s.SetUpdatedBy(v)
+	})
+}
+
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *RolePermissionUpsertOne) UpdateUpdatedBy() *RolePermissionUpsertOne {
+	return u.Update(func(s *RolePermissionUpsert) {
+		s.UpdateUpdatedBy()
+	})
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *RolePermissionUpsertOne) ClearUpdatedBy() *RolePermissionUpsertOne {
+	return u.Update(func(s *RolePermissionUpsert) {
+		s.ClearUpdatedBy()
+	})
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *RolePermissionUpsertOne) SetUpdatedAt(v int64) *RolePermissionUpsertOne {
+	return u.Update(func(s *RolePermissionUpsert) {
+		s.SetUpdatedAt(v)
+	})
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *RolePermissionUpsertOne) AddUpdatedAt(v int64) *RolePermissionUpsertOne {
+	return u.Update(func(s *RolePermissionUpsert) {
+		s.AddUpdatedAt(v)
+	})
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *RolePermissionUpsertOne) UpdateUpdatedAt() *RolePermissionUpsertOne {
+	return u.Update(func(s *RolePermissionUpsert) {
+		s.UpdateUpdatedAt()
+	})
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *RolePermissionUpsertOne) ClearUpdatedAt() *RolePermissionUpsertOne {
+	return u.Update(func(s *RolePermissionUpsert) {
+		s.ClearUpdatedAt()
+	})
+}
+
+// Exec executes the query.
+func (u *RolePermissionUpsertOne) Exec(ctx context.Context) error {
+	if len(u.create.conflict) == 0 {
+		return errors.New("ent: missing options for RolePermissionCreate.OnConflict")
+	}
+	return u.create.Exec(ctx)
+}
+
+// ExecX is like Exec, but panics if an error occurs.
+func (u *RolePermissionUpsertOne) ExecX(ctx context.Context) {
+	if err := u.create.Exec(ctx); err != nil {
+		panic(err)
+	}
+}
+
+// Exec executes the UPSERT query and returns the inserted/updated ID.
+func (u *RolePermissionUpsertOne) ID(ctx context.Context) (id string, err error) {
+	if u.create.driver.Dialect() == dialect.MySQL {
+		// In case of "ON CONFLICT", there is no way to get back non-numeric ID
+		// fields from the database since MySQL does not support the RETURNING clause.
+		return id, errors.New("ent: RolePermissionUpsertOne.ID is not supported by MySQL driver. Use RolePermissionUpsertOne.Exec instead")
+	}
+	node, err := u.create.Save(ctx)
+	if err != nil {
+		return id, err
+	}
+	return node.ID, nil
+}
+
+// IDX is like ID, but panics if an error occurs.
+func (u *RolePermissionUpsertOne) IDX(ctx context.Context) string {
+	id, err := u.ID(ctx)
+	if err != nil {
+		panic(err)
+	}
+	return id
+}
+
 // RolePermissionCreateBulk is the builder for creating many RolePermission entities in bulk.
 type RolePermissionCreateBulk struct {
 	config
 	err      error
 	builders []*RolePermissionCreate
+	conflict []sql.ConflictOption
 }
 
 // Save creates the RolePermission entities in the database.
@@ -268,6 +620,7 @@ func (_c *RolePermissionCreateBulk) Save(ctx context.Context) ([]*RolePermission
 					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
+					spec.OnConflict = _c.conflict
 					// Invoke the actual operation on the latest mutation in the chain.
 					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
@@ -314,6 +667,235 @@ func (_c *RolePermissionCreateBulk) Exec(ctx context.Context) error {
 // ExecX is like Exec, but panics if an error occurs.
 func (_c *RolePermissionCreateBulk) ExecX(ctx context.Context) {
 	if err := _c.Exec(ctx); err != nil {
+		panic(err)
+	}
+}
+
+// OnConflict allows configuring the `ON CONFLICT` / `ON DUPLICATE KEY` clause
+// of the `INSERT` statement. For example:
+//
+//	client.RolePermission.CreateBulk(builders...).
+//		OnConflict(
+//			// Update the row with the new values
+//			// the was proposed for insertion.
+//			sql.ResolveWithNewValues(),
+//		).
+//		// Override some of the fields with custom
+//		// update values.
+//		Update(func(u *ent.RolePermissionUpsert) {
+//			SetRoleID(v+v).
+//		}).
+//		Exec(ctx)
+func (_c *RolePermissionCreateBulk) OnConflict(opts ...sql.ConflictOption) *RolePermissionUpsertBulk {
+	_c.conflict = opts
+	return &RolePermissionUpsertBulk{
+		create: _c,
+	}
+}
+
+// OnConflictColumns calls `OnConflict` and configures the columns
+// as conflict target. Using this option is equivalent to using:
+//
+//	client.RolePermission.Create().
+//		OnConflict(sql.ConflictColumns(columns...)).
+//		Exec(ctx)
+func (_c *RolePermissionCreateBulk) OnConflictColumns(columns ...string) *RolePermissionUpsertBulk {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
+	return &RolePermissionUpsertBulk{
+		create: _c,
+	}
+}
+
+// RolePermissionUpsertBulk is the builder for "upsert"-ing
+// a bulk of RolePermission nodes.
+type RolePermissionUpsertBulk struct {
+	create *RolePermissionCreateBulk
+}
+
+// UpdateNewValues updates the mutable fields using the new values that
+// were set on create. Using this option is equivalent to using:
+//
+//	client.RolePermission.Create().
+//		OnConflict(
+//			sql.ResolveWithNewValues(),
+//			sql.ResolveWith(func(u *sql.UpdateSet) {
+//				u.SetIgnore(rolepermission.FieldID)
+//			}),
+//		).
+//		Exec(ctx)
+func (u *RolePermissionUpsertBulk) UpdateNewValues() *RolePermissionUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithNewValues())
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(s *sql.UpdateSet) {
+		for _, b := range u.create.builders {
+			if _, exists := b.mutation.ID(); exists {
+				s.SetIgnore(rolepermission.FieldID)
+			}
+			if _, exists := b.mutation.CreatedAt(); exists {
+				s.SetIgnore(rolepermission.FieldCreatedAt)
+			}
+		}
+	}))
+	return u
+}
+
+// Ignore sets each column to itself in case of conflict.
+// Using this option is equivalent to using:
+//
+//	client.RolePermission.Create().
+//		OnConflict(sql.ResolveWithIgnore()).
+//		Exec(ctx)
+func (u *RolePermissionUpsertBulk) Ignore() *RolePermissionUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithIgnore())
+	return u
+}
+
+// DoNothing configures the conflict_action to `DO NOTHING`.
+// Supported only by SQLite and PostgreSQL.
+func (u *RolePermissionUpsertBulk) DoNothing() *RolePermissionUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.DoNothing())
+	return u
+}
+
+// Update allows overriding fields `UPDATE` values. See the RolePermissionCreateBulk.OnConflict
+// documentation for more info.
+func (u *RolePermissionUpsertBulk) Update(set func(*RolePermissionUpsert)) *RolePermissionUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(update *sql.UpdateSet) {
+		set(&RolePermissionUpsert{UpdateSet: update})
+	}))
+	return u
+}
+
+// SetRoleID sets the "role_id" field.
+func (u *RolePermissionUpsertBulk) SetRoleID(v string) *RolePermissionUpsertBulk {
+	return u.Update(func(s *RolePermissionUpsert) {
+		s.SetRoleID(v)
+	})
+}
+
+// UpdateRoleID sets the "role_id" field to the value that was provided on create.
+func (u *RolePermissionUpsertBulk) UpdateRoleID() *RolePermissionUpsertBulk {
+	return u.Update(func(s *RolePermissionUpsert) {
+		s.UpdateRoleID()
+	})
+}
+
+// ClearRoleID clears the value of the "role_id" field.
+func (u *RolePermissionUpsertBulk) ClearRoleID() *RolePermissionUpsertBulk {
+	return u.Update(func(s *RolePermissionUpsert) {
+		s.ClearRoleID()
+	})
+}
+
+// SetPermissionID sets the "permission_id" field.
+func (u *RolePermissionUpsertBulk) SetPermissionID(v string) *RolePermissionUpsertBulk {
+	return u.Update(func(s *RolePermissionUpsert) {
+		s.SetPermissionID(v)
+	})
+}
+
+// UpdatePermissionID sets the "permission_id" field to the value that was provided on create.
+func (u *RolePermissionUpsertBulk) UpdatePermissionID() *RolePermissionUpsertBulk {
+	return u.Update(func(s *RolePermissionUpsert) {
+		s.UpdatePermissionID()
+	})
+}
+
+// ClearPermissionID clears the value of the "permission_id" field.
+func (u *RolePermissionUpsertBulk) ClearPermissionID() *RolePermissionUpsertBulk {
+	return u.Update(func(s *RolePermissionUpsert) {
+		s.ClearPermissionID()
+	})
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (u *RolePermissionUpsertBulk) SetCreatedBy(v string) *RolePermissionUpsertBulk {
+	return u.Update(func(s *RolePermissionUpsert) {
+		s.SetCreatedBy(v)
+	})
+}
+
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *RolePermissionUpsertBulk) UpdateCreatedBy() *RolePermissionUpsertBulk {
+	return u.Update(func(s *RolePermissionUpsert) {
+		s.UpdateCreatedBy()
+	})
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *RolePermissionUpsertBulk) ClearCreatedBy() *RolePermissionUpsertBulk {
+	return u.Update(func(s *RolePermissionUpsert) {
+		s.ClearCreatedBy()
+	})
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (u *RolePermissionUpsertBulk) SetUpdatedBy(v string) *RolePermissionUpsertBulk {
+	return u.Update(func(s *RolePermissionUpsert) {
+		s.SetUpdatedBy(v)
+	})
+}
+
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *RolePermissionUpsertBulk) UpdateUpdatedBy() *RolePermissionUpsertBulk {
+	return u.Update(func(s *RolePermissionUpsert) {
+		s.UpdateUpdatedBy()
+	})
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *RolePermissionUpsertBulk) ClearUpdatedBy() *RolePermissionUpsertBulk {
+	return u.Update(func(s *RolePermissionUpsert) {
+		s.ClearUpdatedBy()
+	})
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *RolePermissionUpsertBulk) SetUpdatedAt(v int64) *RolePermissionUpsertBulk {
+	return u.Update(func(s *RolePermissionUpsert) {
+		s.SetUpdatedAt(v)
+	})
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *RolePermissionUpsertBulk) AddUpdatedAt(v int64) *RolePermissionUpsertBulk {
+	return u.Update(func(s *RolePermissionUpsert) {
+		s.AddUpdatedAt(v)
+	})
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *RolePermissionUpsertBulk) UpdateUpdatedAt() *RolePermissionUpsertBulk {
+	return u.Update(func(s *RolePermissionUpsert) {
+		s.UpdateUpdatedAt()
+	})
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *RolePermissionUpsertBulk) ClearUpdatedAt() *RolePermissionUpsertBulk {
+	return u.Update(func(s *RolePermissionUpsert) {
+		s.ClearUpdatedAt()
+	})
+}
+
+// Exec executes the query.
+func (u *RolePermissionUpsertBulk) Exec(ctx context.Context) error {
+	if u.create.err != nil {
+		return u.create.err
+	}
+	for i, b := range u.create.builders {
+		if len(b.conflict) != 0 {
+			return fmt.Errorf("ent: OnConflict was set for builder %d. Set it on the RolePermissionCreateBulk instead", i)
+		}
+	}
+	if len(u.create.conflict) == 0 {
+		return errors.New("ent: missing options for RolePermissionCreateBulk.OnConflict")
+	}
+	return u.create.Exec(ctx)
+}
+
+// ExecX is like Exec, but panics if an error occurs.
+func (u *RolePermissionUpsertBulk) ExecX(ctx context.Context) {
+	if err := u.create.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

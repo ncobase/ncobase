@@ -2,10 +2,10 @@ package service
 
 import (
 	"context"
-	"ncobase/organization/data"
-	"ncobase/organization/data/ent"
-	"ncobase/organization/data/repository"
-	"ncobase/organization/structs"
+	"ncobase/core/organization/data"
+	"ncobase/core/organization/data/ent"
+	"ncobase/core/organization/data/repository"
+	"ncobase/core/organization/structs"
 )
 
 // OrganizationRoleServiceInterface is the interface for the service.

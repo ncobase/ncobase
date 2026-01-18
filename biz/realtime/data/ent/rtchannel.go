@@ -5,7 +5,7 @@ package ent
 import (
 	"encoding/json"
 	"fmt"
-	"ncobase/realtime/data/ent/rtchannel"
+	"ncobase/biz/realtime/data/ent/rtchannel"
 	"strings"
 
 	"entgo.io/ent"

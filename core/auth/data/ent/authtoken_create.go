@@ -4,9 +4,12 @@ package ent
 
 import (
 	"context"
+	"errors"
 	"fmt"
-	"ncobase/auth/data/ent/authtoken"
+	"ncobase/core/auth/data/ent/authtoken"
 
+	"entgo.io/ent/dialect"
+	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
 )
@@ -16,6 +19,7 @@ type AuthTokenCreate struct {
 	config
 	mutation *AuthTokenMutation
 	hooks    []Hook
+	conflict []sql.ConflictOption
 }
 
 // SetDisabled sets the "disabled" field.
@@ -179,6 +183,7 @@ func (_c *AuthTokenCreate) createSpec() (*AuthToken, *sqlgraph.CreateSpec) {
 		_node = &AuthToken{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(authtoken.Table, sqlgraph.NewFieldSpec(authtoken.FieldID, field.TypeString))
 	)
+	_spec.OnConflict = _c.conflict
 	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
@@ -202,11 +207,280 @@ func (_c *AuthTokenCreate) createSpec() (*AuthToken, *sqlgraph.CreateSpec) {
 	return _node, _spec
 }
 
+// OnConflict allows configuring the `ON CONFLICT` / `ON DUPLICATE KEY` clause
+// of the `INSERT` statement. For example:
+//
+//	client.AuthToken.Create().
+//		SetDisabled(v).
+//		OnConflict(
+//			// Update the row with the new values
+//			// the was proposed for insertion.
+//			sql.ResolveWithNewValues(),
+//		).
+//		// Override some of the fields with custom
+//		// update values.
+//		Update(func(u *ent.AuthTokenUpsert) {
+//			SetDisabled(v+v).
+//		}).
+//		Exec(ctx)
+func (_c *AuthTokenCreate) OnConflict(opts ...sql.ConflictOption) *AuthTokenUpsertOne {
+	_c.conflict = opts
+	return &AuthTokenUpsertOne{
+		create: _c,
+	}
+}
+
+// OnConflictColumns calls `OnConflict` and configures the columns
+// as conflict target. Using this option is equivalent to using:
+//
+//	client.AuthToken.Create().
+//		OnConflict(sql.ConflictColumns(columns...)).
+//		Exec(ctx)
+func (_c *AuthTokenCreate) OnConflictColumns(columns ...string) *AuthTokenUpsertOne {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
+	return &AuthTokenUpsertOne{
+		create: _c,
+	}
+}
+
+type (
+	// AuthTokenUpsertOne is the builder for "upsert"-ing
+	//  one AuthToken node.
+	AuthTokenUpsertOne struct {
+		create *AuthTokenCreate
+	}
+
+	// AuthTokenUpsert is the "OnConflict" setter.
+	AuthTokenUpsert struct {
+		*sql.UpdateSet
+	}
+)
+
+// SetDisabled sets the "disabled" field.
+func (u *AuthTokenUpsert) SetDisabled(v bool) *AuthTokenUpsert {
+	u.Set(authtoken.FieldDisabled, v)
+	return u
+}
+
+// UpdateDisabled sets the "disabled" field to the value that was provided on create.
+func (u *AuthTokenUpsert) UpdateDisabled() *AuthTokenUpsert {
+	u.SetExcluded(authtoken.FieldDisabled)
+	return u
+}
+
+// ClearDisabled clears the value of the "disabled" field.
+func (u *AuthTokenUpsert) ClearDisabled() *AuthTokenUpsert {
+	u.SetNull(authtoken.FieldDisabled)
+	return u
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *AuthTokenUpsert) SetUpdatedAt(v int64) *AuthTokenUpsert {
+	u.Set(authtoken.FieldUpdatedAt, v)
+	return u
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *AuthTokenUpsert) UpdateUpdatedAt() *AuthTokenUpsert {
+	u.SetExcluded(authtoken.FieldUpdatedAt)
+	return u
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *AuthTokenUpsert) AddUpdatedAt(v int64) *AuthTokenUpsert {
+	u.Add(authtoken.FieldUpdatedAt, v)
+	return u
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *AuthTokenUpsert) ClearUpdatedAt() *AuthTokenUpsert {
+	u.SetNull(authtoken.FieldUpdatedAt)
+	return u
+}
+
+// SetUserID sets the "user_id" field.
+func (u *AuthTokenUpsert) SetUserID(v string) *AuthTokenUpsert {
+	u.Set(authtoken.FieldUserID, v)
+	return u
+}
+
+// UpdateUserID sets the "user_id" field to the value that was provided on create.
+func (u *AuthTokenUpsert) UpdateUserID() *AuthTokenUpsert {
+	u.SetExcluded(authtoken.FieldUserID)
+	return u
+}
+
+// ClearUserID clears the value of the "user_id" field.
+func (u *AuthTokenUpsert) ClearUserID() *AuthTokenUpsert {
+	u.SetNull(authtoken.FieldUserID)
+	return u
+}
+
+// UpdateNewValues updates the mutable fields using the new values that were set on create except the ID field.
+// Using this option is equivalent to using:
+//
+//	client.AuthToken.Create().
+//		OnConflict(
+//			sql.ResolveWithNewValues(),
+//			sql.ResolveWith(func(u *sql.UpdateSet) {
+//				u.SetIgnore(authtoken.FieldID)
+//			}),
+//		).
+//		Exec(ctx)
+func (u *AuthTokenUpsertOne) UpdateNewValues() *AuthTokenUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithNewValues())
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(s *sql.UpdateSet) {
+		if _, exists := u.create.mutation.ID(); exists {
+			s.SetIgnore(authtoken.FieldID)
+		}
+		if _, exists := u.create.mutation.CreatedAt(); exists {
+			s.SetIgnore(authtoken.FieldCreatedAt)
+		}
+	}))
+	return u
+}
+
+// Ignore sets each column to itself in case of conflict.
+// Using this option is equivalent to using:
+//
+//	client.AuthToken.Create().
+//	    OnConflict(sql.ResolveWithIgnore()).
+//	    Exec(ctx)
+func (u *AuthTokenUpsertOne) Ignore() *AuthTokenUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithIgnore())
+	return u
+}
+
+// DoNothing configures the conflict_action to `DO NOTHING`.
+// Supported only by SQLite and PostgreSQL.
+func (u *AuthTokenUpsertOne) DoNothing() *AuthTokenUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.DoNothing())
+	return u
+}
+
+// Update allows overriding fields `UPDATE` values. See the AuthTokenCreate.OnConflict
+// documentation for more info.
+func (u *AuthTokenUpsertOne) Update(set func(*AuthTokenUpsert)) *AuthTokenUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(update *sql.UpdateSet) {
+		set(&AuthTokenUpsert{UpdateSet: update})
+	}))
+	return u
+}
+
+// SetDisabled sets the "disabled" field.
+func (u *AuthTokenUpsertOne) SetDisabled(v bool) *AuthTokenUpsertOne {
+	return u.Update(func(s *AuthTokenUpsert) {
+		s.SetDisabled(v)
+	})
+}
+
+// UpdateDisabled sets the "disabled" field to the value that was provided on create.
+func (u *AuthTokenUpsertOne) UpdateDisabled() *AuthTokenUpsertOne {
+	return u.Update(func(s *AuthTokenUpsert) {
+		s.UpdateDisabled()
+	})
+}
+
+// ClearDisabled clears the value of the "disabled" field.
+func (u *AuthTokenUpsertOne) ClearDisabled() *AuthTokenUpsertOne {
+	return u.Update(func(s *AuthTokenUpsert) {
+		s.ClearDisabled()
+	})
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *AuthTokenUpsertOne) SetUpdatedAt(v int64) *AuthTokenUpsertOne {
+	return u.Update(func(s *AuthTokenUpsert) {
+		s.SetUpdatedAt(v)
+	})
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *AuthTokenUpsertOne) AddUpdatedAt(v int64) *AuthTokenUpsertOne {
+	return u.Update(func(s *AuthTokenUpsert) {
+		s.AddUpdatedAt(v)
+	})
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *AuthTokenUpsertOne) UpdateUpdatedAt() *AuthTokenUpsertOne {
+	return u.Update(func(s *AuthTokenUpsert) {
+		s.UpdateUpdatedAt()
+	})
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *AuthTokenUpsertOne) ClearUpdatedAt() *AuthTokenUpsertOne {
+	return u.Update(func(s *AuthTokenUpsert) {
+		s.ClearUpdatedAt()
+	})
+}
+
+// SetUserID sets the "user_id" field.
+func (u *AuthTokenUpsertOne) SetUserID(v string) *AuthTokenUpsertOne {
+	return u.Update(func(s *AuthTokenUpsert) {
+		s.SetUserID(v)
+	})
+}
+
+// UpdateUserID sets the "user_id" field to the value that was provided on create.
+func (u *AuthTokenUpsertOne) UpdateUserID() *AuthTokenUpsertOne {
+	return u.Update(func(s *AuthTokenUpsert) {
+		s.UpdateUserID()
+	})
+}
+
+// ClearUserID clears the value of the "user_id" field.
+func (u *AuthTokenUpsertOne) ClearUserID() *AuthTokenUpsertOne {
+	return u.Update(func(s *AuthTokenUpsert) {
+		s.ClearUserID()
+	})
+}
+
+// Exec executes the query.
+func (u *AuthTokenUpsertOne) Exec(ctx context.Context) error {
+	if len(u.create.conflict) == 0 {
+		return errors.New("ent: missing options for AuthTokenCreate.OnConflict")
+	}
+	return u.create.Exec(ctx)
+}
+
+// ExecX is like Exec, but panics if an error occurs.
+func (u *AuthTokenUpsertOne) ExecX(ctx context.Context) {
+	if err := u.create.Exec(ctx); err != nil {
+		panic(err)
+	}
+}
+
+// Exec executes the UPSERT query and returns the inserted/updated ID.
+func (u *AuthTokenUpsertOne) ID(ctx context.Context) (id string, err error) {
+	if u.create.driver.Dialect() == dialect.MySQL {
+		// In case of "ON CONFLICT", there is no way to get back non-numeric ID
+		// fields from the database since MySQL does not support the RETURNING clause.
+		return id, errors.New("ent: AuthTokenUpsertOne.ID is not supported by MySQL driver. Use AuthTokenUpsertOne.Exec instead")
+	}
+	node, err := u.create.Save(ctx)
+	if err != nil {
+		return id, err
+	}
+	return node.ID, nil
+}
+
+// IDX is like ID, but panics if an error occurs.
+func (u *AuthTokenUpsertOne) IDX(ctx context.Context) string {
+	id, err := u.ID(ctx)
+	if err != nil {
+		panic(err)
+	}
+	return id
+}
+
 // AuthTokenCreateBulk is the builder for creating many AuthToken entities in bulk.
 type AuthTokenCreateBulk struct {
 	config
 	err      error
 	builders []*AuthTokenCreate
+	conflict []sql.ConflictOption
 }
 
 // Save creates the AuthToken entities in the database.
@@ -236,6 +510,7 @@ func (_c *AuthTokenCreateBulk) Save(ctx context.Context) ([]*AuthToken, error) {
 					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
+					spec.OnConflict = _c.conflict
 					// Invoke the actual operation on the latest mutation in the chain.
 					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
@@ -282,6 +557,193 @@ func (_c *AuthTokenCreateBulk) Exec(ctx context.Context) error {
 // ExecX is like Exec, but panics if an error occurs.
 func (_c *AuthTokenCreateBulk) ExecX(ctx context.Context) {
 	if err := _c.Exec(ctx); err != nil {
+		panic(err)
+	}
+}
+
+// OnConflict allows configuring the `ON CONFLICT` / `ON DUPLICATE KEY` clause
+// of the `INSERT` statement. For example:
+//
+//	client.AuthToken.CreateBulk(builders...).
+//		OnConflict(
+//			// Update the row with the new values
+//			// the was proposed for insertion.
+//			sql.ResolveWithNewValues(),
+//		).
+//		// Override some of the fields with custom
+//		// update values.
+//		Update(func(u *ent.AuthTokenUpsert) {
+//			SetDisabled(v+v).
+//		}).
+//		Exec(ctx)
+func (_c *AuthTokenCreateBulk) OnConflict(opts ...sql.ConflictOption) *AuthTokenUpsertBulk {
+	_c.conflict = opts
+	return &AuthTokenUpsertBulk{
+		create: _c,
+	}
+}
+
+// OnConflictColumns calls `OnConflict` and configures the columns
+// as conflict target. Using this option is equivalent to using:
+//
+//	client.AuthToken.Create().
+//		OnConflict(sql.ConflictColumns(columns...)).
+//		Exec(ctx)
+func (_c *AuthTokenCreateBulk) OnConflictColumns(columns ...string) *AuthTokenUpsertBulk {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
+	return &AuthTokenUpsertBulk{
+		create: _c,
+	}
+}
+
+// AuthTokenUpsertBulk is the builder for "upsert"-ing
+// a bulk of AuthToken nodes.
+type AuthTokenUpsertBulk struct {
+	create *AuthTokenCreateBulk
+}
+
+// UpdateNewValues updates the mutable fields using the new values that
+// were set on create. Using this option is equivalent to using:
+//
+//	client.AuthToken.Create().
+//		OnConflict(
+//			sql.ResolveWithNewValues(),
+//			sql.ResolveWith(func(u *sql.UpdateSet) {
+//				u.SetIgnore(authtoken.FieldID)
+//			}),
+//		).
+//		Exec(ctx)
+func (u *AuthTokenUpsertBulk) UpdateNewValues() *AuthTokenUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithNewValues())
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(s *sql.UpdateSet) {
+		for _, b := range u.create.builders {
+			if _, exists := b.mutation.ID(); exists {
+				s.SetIgnore(authtoken.FieldID)
+			}
+			if _, exists := b.mutation.CreatedAt(); exists {
+				s.SetIgnore(authtoken.FieldCreatedAt)
+			}
+		}
+	}))
+	return u
+}
+
+// Ignore sets each column to itself in case of conflict.
+// Using this option is equivalent to using:
+//
+//	client.AuthToken.Create().
+//		OnConflict(sql.ResolveWithIgnore()).
+//		Exec(ctx)
+func (u *AuthTokenUpsertBulk) Ignore() *AuthTokenUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithIgnore())
+	return u
+}
+
+// DoNothing configures the conflict_action to `DO NOTHING`.
+// Supported only by SQLite and PostgreSQL.
+func (u *AuthTokenUpsertBulk) DoNothing() *AuthTokenUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.DoNothing())
+	return u
+}
+
+// Update allows overriding fields `UPDATE` values. See the AuthTokenCreateBulk.OnConflict
+// documentation for more info.
+func (u *AuthTokenUpsertBulk) Update(set func(*AuthTokenUpsert)) *AuthTokenUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(update *sql.UpdateSet) {
+		set(&AuthTokenUpsert{UpdateSet: update})
+	}))
+	return u
+}
+
+// SetDisabled sets the "disabled" field.
+func (u *AuthTokenUpsertBulk) SetDisabled(v bool) *AuthTokenUpsertBulk {
+	return u.Update(func(s *AuthTokenUpsert) {
+		s.SetDisabled(v)
+	})
+}
+
+// UpdateDisabled sets the "disabled" field to the value that was provided on create.
+func (u *AuthTokenUpsertBulk) UpdateDisabled() *AuthTokenUpsertBulk {
+	return u.Update(func(s *AuthTokenUpsert) {
+		s.UpdateDisabled()
+	})
+}
+
+// ClearDisabled clears the value of the "disabled" field.
+func (u *AuthTokenUpsertBulk) ClearDisabled() *AuthTokenUpsertBulk {
+	return u.Update(func(s *AuthTokenUpsert) {
+		s.ClearDisabled()
+	})
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *AuthTokenUpsertBulk) SetUpdatedAt(v int64) *AuthTokenUpsertBulk {
+	return u.Update(func(s *AuthTokenUpsert) {
+		s.SetUpdatedAt(v)
+	})
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *AuthTokenUpsertBulk) AddUpdatedAt(v int64) *AuthTokenUpsertBulk {
+	return u.Update(func(s *AuthTokenUpsert) {
+		s.AddUpdatedAt(v)
+	})
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *AuthTokenUpsertBulk) UpdateUpdatedAt() *AuthTokenUpsertBulk {
+	return u.Update(func(s *AuthTokenUpsert) {
+		s.UpdateUpdatedAt()
+	})
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *AuthTokenUpsertBulk) ClearUpdatedAt() *AuthTokenUpsertBulk {
+	return u.Update(func(s *AuthTokenUpsert) {
+		s.ClearUpdatedAt()
+	})
+}
+
+// SetUserID sets the "user_id" field.
+func (u *AuthTokenUpsertBulk) SetUserID(v string) *AuthTokenUpsertBulk {
+	return u.Update(func(s *AuthTokenUpsert) {
+		s.SetUserID(v)
+	})
+}
+
+// UpdateUserID sets the "user_id" field to the value that was provided on create.
+func (u *AuthTokenUpsertBulk) UpdateUserID() *AuthTokenUpsertBulk {
+	return u.Update(func(s *AuthTokenUpsert) {
+		s.UpdateUserID()
+	})
+}
+
+// ClearUserID clears the value of the "user_id" field.
+func (u *AuthTokenUpsertBulk) ClearUserID() *AuthTokenUpsertBulk {
+	return u.Update(func(s *AuthTokenUpsert) {
+		s.ClearUserID()
+	})
+}
+
+// Exec executes the query.
+func (u *AuthTokenUpsertBulk) Exec(ctx context.Context) error {
+	if u.create.err != nil {
+		return u.create.err
+	}
+	for i, b := range u.create.builders {
+		if len(b.conflict) != 0 {
+			return fmt.Errorf("ent: OnConflict was set for builder %d. Set it on the AuthTokenCreateBulk instead", i)
+		}
+	}
+	if len(u.create.conflict) == 0 {
+		return errors.New("ent: missing options for AuthTokenCreateBulk.OnConflict")
+	}
+	return u.create.Exec(ctx)
+}
+
+// ExecX is like Exec, but panics if an error occurs.
+func (u *AuthTokenUpsertBulk) ExecX(ctx context.Context) {
+	if err := u.create.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

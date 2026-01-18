@@ -5,7 +5,7 @@ package ent
 import (
 	"encoding/json"
 	"fmt"
-	"ncobase/space/data/ent/spacequota"
+	"ncobase/core/space/data/ent/spacequota"
 	"strings"
 
 	"entgo.io/ent"

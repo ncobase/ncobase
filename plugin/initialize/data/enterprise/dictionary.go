@@ -1,6 +1,6 @@
 package enterprise
 
-import "ncobase/system/structs"
+import "ncobase/core/system/structs"
 
 // SystemDefaultDictionaries defines system default dictionary data
 var SystemDefaultDictionaries = []structs.DictionaryBody{

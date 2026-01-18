@@ -3,8 +3,8 @@
 package ent
 
 import (
-	"ncobase/counter/data/ent/counter"
-	"ncobase/counter/data/schema"
+	"ncobase/plugin/counter/data/ent/counter"
+	"ncobase/plugin/counter/data/schema"
 )
 
 // The init function reads all schema descriptors with runtime code

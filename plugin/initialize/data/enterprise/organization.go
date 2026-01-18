@@ -1,8 +1,8 @@
 package enterprise
 
 import (
-	accessStructs "ncobase/access/structs"
-	"ncobase/organization/structs"
+	accessStructs "ncobase/core/access/structs"
+	"ncobase/core/organization/structs"
 )
 
 // OrganizationStructure defines the enterprise organizational hierarchy

@@ -6,9 +6,9 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"ncobase/system/data/ent/dictionary"
-	"ncobase/system/data/ent/menu"
-	"ncobase/system/data/ent/options"
+	"ncobase/core/system/data/ent/dictionary"
+	"ncobase/core/system/data/ent/menu"
+	"ncobase/core/system/data/ent/options"
 	"reflect"
 	"sync"
 

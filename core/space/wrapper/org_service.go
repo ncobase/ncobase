@@ -3,7 +3,7 @@ package wrapper
 import (
 	"context"
 	"fmt"
-	"ncobase/space/structs"
+	"ncobase/core/space/structs"
 
 	ext "github.com/ncobase/ncore/extension/types"
 )

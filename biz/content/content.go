@@ -3,9 +3,9 @@ package content
 import (
 	"context"
 	"fmt"
-	"ncobase/content/data"
-	"ncobase/content/handler"
-	"ncobase/content/service"
+	"ncobase/biz/content/data"
+	"ncobase/biz/content/handler"
+	"ncobase/biz/content/service"
 	"ncobase/internal/middleware"
 	"sync"
 
