@@ -19,7 +19,7 @@ type Logs struct {
 
 // Annotations of the Logs.
 func (Logs) Annotations() []schema.Annotation {
-	table := strings.Join([]string{"ncse", "tbp", "log"}, "_")
+	table := strings.Join([]string{"ncse", "proxy", "log"}, "_")
 	return []schema.Annotation{
 		entsql.Annotation{Table: table},
 		entgql.Mutations(entgql.MutationCreate(), entgql.MutationUpdate()),

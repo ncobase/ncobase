@@ -14,8 +14,6 @@ func init() {
 	fileMixin := schema.File{}.Mixin()
 	fileMixinFields0 := fileMixin[0].Fields()
 	_ = fileMixinFields0
-	fileMixinFields1 := fileMixin[1].Fields()
-	_ = fileMixinFields1
 	fileMixinFields4 := fileMixin[4].Fields()
 	_ = fileMixinFields4
 	fileMixinFields9 := fileMixin[9].Fields()
@@ -24,10 +22,6 @@ func init() {
 	_ = fileMixinFields11
 	fileFields := schema.File{}.Fields()
 	_ = fileFields
-	// fileDescName is the schema descriptor for name field.
-	fileDescName := fileMixinFields1[0].Descriptor()
-	// file.NameValidator is a validator for the "name" field. It is called by the builders before save.
-	file.NameValidator = fileDescName.Validators[0].(func(string) error)
 	// fileDescSize is the schema descriptor for size field.
 	fileDescSize := fileMixinFields4[0].Descriptor()
 	// file.DefaultSize holds the default value on creation for the size field.

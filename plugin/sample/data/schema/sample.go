@@ -20,7 +20,7 @@ type Sample struct {
 
 // Annotations of the Sample.
 func (Sample) Annotations() []schema.Annotation {
-	table := strings.Join([]string{"ncse", "sample"}, "_")
+	table := strings.Join([]string{"ncse", "smp"}, "_")
 	return []schema.Annotation{
 		entsql.Annotation{Table: table},
 		entgql.Mutations(entgql.MutationCreate(), entgql.MutationUpdate()),

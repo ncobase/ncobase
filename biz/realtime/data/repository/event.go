@@ -59,17 +59,17 @@ type EventRepositoryInterface interface {
 
 type eventRepository struct {
 	data *data.Data
-	searchClient *search.Client
+	sc   *search.Client
 	ec   *ent.Client
 	rc   *redis.Client
 	c    *cache.Cache[ent.Event]
 }
 
 func NewEventRepository(d *data.Data) EventRepositoryInterface {
-	searchClient := nd.NewSearchClient(d.Data)
+	sc := nd.NewSearchClient(d.Data)
 	return &eventRepository{
 		data: d,
-		searchClient: searchClient,
+		sc:   sc,
 		ec:   d.GetMasterEntClient(),
 		rc:   d.GetRedis().(*redis.Client),
 		c:    cache.NewCache[ent.Event](d.GetRedis().(*redis.Client), "rt_event"),
@@ -85,8 +85,10 @@ func (r *eventRepository) Create(ctx context.Context, event *ent.EventCreate) (*
 	}
 
 	// Index in Meilisearch
-	if err = r.searchClient.Index(ctx, &search.IndexRequest{Index: "realtime_events", Document: row}); err != nil {
-		logger.Errorf(ctx, "eventRepo.Create error creating Meilisearch index: %v", err)
+	if r.sc != nil {
+		if err = r.sc.Index(ctx, &search.IndexRequest{Index: "realtime_events", Document: row}); err != nil {
+			logger.Errorf(ctx, "eventRepo.Create error creating Meilisearch index: %v", err)
+		}
 	}
 
 	return row, nil
@@ -120,8 +122,10 @@ func (r *eventRepository) Update(ctx context.Context, id string, event *ent.Even
 	}
 
 	// Update Meilisearch index
-	if err = r.searchClient.Index(ctx, &search.IndexRequest{Index: "realtime_events", Document: row, DocumentID: row.ID}); err != nil {
-		logger.Errorf(ctx, "eventRepo.Update error updating Meilisearch index: %v", err)
+	if r.sc != nil {
+		if err = r.sc.Index(ctx, &search.IndexRequest{Index: "realtime_events", Document: row, DocumentID: row.ID}); err != nil {
+			logger.Errorf(ctx, "eventRepo.Update error updating Meilisearch index: %v", err)
+		}
 	}
 
 	cacheKey := fmt.Sprintf("event:%s", id)
@@ -140,8 +144,10 @@ func (r *eventRepository) Delete(ctx context.Context, id string) error {
 	}
 
 	// Delete from Meilisearch
-	if err = r.searchClient.Delete(ctx, "realtime_events", id); err != nil {
-		logger.Errorf(ctx, "eventRepo.Delete error deleting Meilisearch index: %v", err)
+	if r.sc != nil {
+		if err = r.sc.Delete(ctx, "realtime_events", id); err != nil {
+			logger.Errorf(ctx, "eventRepo.Delete error deleting Meilisearch index: %v", err)
+		}
 	}
 
 	cacheKey := fmt.Sprintf("event:%s", id)

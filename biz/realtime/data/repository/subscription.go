@@ -41,23 +41,23 @@ type SubscriptionRepositoryInterface interface {
 }
 
 type subscriptionRepository struct {
-	data         *data.Data
-	searchClient *search.Client
-	ec           *ent.Client
-	rc           *redis.Client
-	c            *cache.Cache[ent.Subscription]
+	data *data.Data
+	sc   *search.Client
+	ec   *ent.Client
+	rc   *redis.Client
+	c    *cache.Cache[ent.Subscription]
 }
 
 func NewSubscriptionRepository(d *data.Data) SubscriptionRepositoryInterface {
 	redisClient := d.GetRedis().(*redis.Client)
-	searchClient := nd.NewSearchClient(d.Data)
+	sc := nd.NewSearchClient(d.Data)
 
 	return &subscriptionRepository{
-		data:         d,
-		searchClient: searchClient,
-		ec:           d.GetMasterEntClient(),
-		rc:           redisClient,
-		c:            cache.NewCache[ent.Subscription](redisClient, "rt_subscription"),
+		data: d,
+		sc:   sc,
+		ec:   d.GetMasterEntClient(),
+		rc:   redisClient,
+		c:    cache.NewCache[ent.Subscription](redisClient, "rt_subscription"),
 	}
 }
 
@@ -88,8 +88,10 @@ func (r *subscriptionRepository) Create(ctx context.Context, subscription *ent.S
 	}
 
 	// Index in Meilisearch
-	if err = r.searchClient.Index(ctx, &search.IndexRequest{Index: "realtime_subscriptions", Document: row}); err != nil {
-		logger.Errorf(ctx, "subscriptionRepo.Create error creating Meilisearch index: %v", err)
+	if r.sc != nil {
+		if err = r.sc.Index(ctx, &search.IndexRequest{Index: "realtime_subscriptions", Document: row}); err != nil {
+			logger.Errorf(ctx, "subscriptionRepo.Create error creating Meilisearch index: %v", err)
+		}
 	}
 
 	return row, nil
@@ -123,8 +125,10 @@ func (r *subscriptionRepository) Update(ctx context.Context, id string, subscrip
 	}
 
 	// Update Meilisearch index
-	if err = r.searchClient.Index(ctx, &search.IndexRequest{Index: "realtime_subscriptions", Document: row, DocumentID: row.ID}); err != nil {
-		logger.Errorf(ctx, "subscriptionRepo.Update error updating Meilisearch index: %v", err)
+	if r.sc != nil {
+		if err = r.sc.Index(ctx, &search.IndexRequest{Index: "realtime_subscriptions", Document: row, DocumentID: row.ID}); err != nil {
+			logger.Errorf(ctx, "subscriptionRepo.Update error updating Meilisearch index: %v", err)
+		}
 	}
 
 	cacheKey := fmt.Sprintf("subscription:%s", id)
@@ -143,8 +147,10 @@ func (r *subscriptionRepository) Delete(ctx context.Context, id string) error {
 	}
 
 	// Delete from Meilisearch
-	if err = r.searchClient.Delete(ctx, "realtime_subscriptions", id); err != nil {
-		logger.Errorf(ctx, "subscriptionRepo.Delete error deleting Meilisearch index: %v", err)
+	if r.sc != nil {
+		if err = r.sc.Delete(ctx, "realtime_subscriptions", id); err != nil {
+			logger.Errorf(ctx, "subscriptionRepo.Delete error deleting Meilisearch index: %v", err)
+		}
 	}
 
 	cacheKey := fmt.Sprintf("subscription:%s", id)
@@ -220,8 +226,10 @@ func (r *subscriptionRepository) CreateBatch(ctx context.Context, subscriptions 
 	}
 
 	for _, row := range results {
-		if msErr := r.searchClient.Index(ctx, &search.IndexRequest{Index: "realtime_subscriptions", Document: row}); msErr != nil {
-			logger.Errorf(ctx, "subscriptionRepo.CreateBatch error creating Meilisearch index: %v", msErr)
+		if r.sc != nil {
+			if msErr := r.sc.Index(ctx, &search.IndexRequest{Index: "realtime_subscriptions", Document: row}); msErr != nil {
+				logger.Errorf(ctx, "subscriptionRepo.CreateBatch error creating Meilisearch index: %v", msErr)
+			}
 		}
 	}
 
@@ -254,8 +262,10 @@ func (r *subscriptionRepository) DeleteBatch(ctx context.Context, ids []string) 
 	}
 
 	for _, id := range ids {
-		if msErr := r.searchClient.Delete(ctx, "realtime_subscriptions", id); msErr != nil {
-			logger.Errorf(ctx, "subscriptionRepo.DeleteBatch error deleting Meilisearch index: %v", msErr)
+		if r.sc != nil {
+			if msErr := r.sc.Delete(ctx, "realtime_subscriptions", id); msErr != nil {
+				logger.Errorf(ctx, "subscriptionRepo.DeleteBatch error deleting Meilisearch index: %v", msErr)
+			}
 		}
 	}
 
@@ -291,8 +301,10 @@ func (r *subscriptionRepository) UpdateStatus(ctx context.Context, id string, st
 		return err
 	}
 
-	if err = r.searchClient.Index(ctx, &search.IndexRequest{Index: "realtime_subscriptions", Document: row, DocumentID: row.ID}); err != nil {
-		logger.Errorf(ctx, "subscriptionRepo.UpdateStatus error updating Meilisearch index: %v", err)
+	if r.sc != nil {
+		if err = r.sc.Index(ctx, &search.IndexRequest{Index: "realtime_subscriptions", Document: row, DocumentID: row.ID}); err != nil {
+			logger.Errorf(ctx, "subscriptionRepo.UpdateStatus error updating Meilisearch index: %v", err)
+		}
 	}
 
 	cacheKey := fmt.Sprintf("subscription:%s", id)
@@ -330,8 +342,10 @@ func (r *subscriptionRepository) UpdateStatusBatch(ctx context.Context, ids []st
 
 	for _, id := range ids {
 		if row, err := r.ec.Subscription.Get(ctx, id); err == nil && row != nil {
-			if msErr := r.searchClient.Index(ctx, &search.IndexRequest{Index: "realtime_subscriptions", Document: row, DocumentID: row.ID}); msErr != nil {
-				logger.Errorf(ctx, "subscriptionRepo.UpdateStatusBatch error updating Meilisearch index: %v", msErr)
+			if r.sc != nil {
+				if msErr := r.sc.Index(ctx, &search.IndexRequest{Index: "realtime_subscriptions", Document: row, DocumentID: row.ID}); msErr != nil {
+					logger.Errorf(ctx, "subscriptionRepo.UpdateStatusBatch error updating Meilisearch index: %v", msErr)
+				}
 			}
 		}
 	}
@@ -361,8 +375,10 @@ func (r *subscriptionRepository) DeleteByUserAndChannel(ctx context.Context, use
 	}
 
 	if targetID != "" {
-		if err = r.searchClient.Delete(ctx, "realtime_subscriptions", targetID); err != nil {
-			logger.Errorf(ctx, "subscriptionRepo.DeleteByUserAndChannel error deleting Meilisearch index: %v", err)
+		if r.sc != nil {
+			if err = r.sc.Delete(ctx, "realtime_subscriptions", targetID); err != nil {
+				logger.Errorf(ctx, "subscriptionRepo.DeleteByUserAndChannel error deleting Meilisearch index: %v", err)
+			}
 		}
 	}
 
@@ -380,8 +396,10 @@ func (r *subscriptionRepository) DeleteByChannel(ctx context.Context, channelID 
 	}
 
 	for _, row := range rows {
-		if msErr := r.searchClient.Delete(ctx, "realtime_subscriptions", row.ID); msErr != nil {
-			logger.Errorf(ctx, "subscriptionRepo.DeleteByChannel error deleting Meilisearch index: %v", msErr)
+		if r.sc != nil {
+			if msErr := r.sc.Delete(ctx, "realtime_subscriptions", row.ID); msErr != nil {
+				logger.Errorf(ctx, "subscriptionRepo.DeleteByChannel error deleting Meilisearch index: %v", msErr)
+			}
 		}
 	}
 
@@ -399,8 +417,10 @@ func (r *subscriptionRepository) DeleteByUser(ctx context.Context, userID string
 	}
 
 	for _, row := range rows {
-		if msErr := r.searchClient.Delete(ctx, "realtime_subscriptions", row.ID); msErr != nil {
-			logger.Errorf(ctx, "subscriptionRepo.DeleteByUser error deleting Meilisearch index: %v", msErr)
+		if r.sc != nil {
+			if msErr := r.sc.Delete(ctx, "realtime_subscriptions", row.ID); msErr != nil {
+				logger.Errorf(ctx, "subscriptionRepo.DeleteByUser error deleting Meilisearch index: %v", msErr)
+			}
 		}
 	}
 

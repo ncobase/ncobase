@@ -377,11 +377,6 @@ func (_c *FileCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (_c *FileCreate) check() error {
-	if v, ok := _c.mutation.Name(); ok {
-		if err := file.NameValidator(v); err != nil {
-			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "File.name": %w`, err)}
-		}
-	}
 	if _, ok := _c.mutation.Size(); !ok {
 		return &ValidationError{Name: "size", err: errors.New(`ent: missing required field "File.size"`)}
 	}

@@ -9,8 +9,8 @@ import (
 )
 
 var (
-	// NcseCounterColumns holds the columns for the "ncse_counter" table.
-	NcseCounterColumns = []*schema.Column{
+	// NcseCntColumns holds the columns for the "ncse_cnt" table.
+	NcseCntColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
 		{Name: "identifier", Type: field.TypeString, Nullable: true, Comment: "Identifier"},
 		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "name"},
@@ -28,37 +28,37 @@ var (
 		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
 		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
 	}
-	// NcseCounterTable holds the schema information for the "ncse_counter" table.
-	NcseCounterTable = &schema.Table{
-		Name:       "ncse_counter",
-		Columns:    NcseCounterColumns,
-		PrimaryKey: []*schema.Column{NcseCounterColumns[0]},
+	// NcseCntTable holds the schema information for the "ncse_cnt" table.
+	NcseCntTable = &schema.Table{
+		Name:       "ncse_cnt",
+		Columns:    NcseCntColumns,
+		PrimaryKey: []*schema.Column{NcseCntColumns[0]},
 		Indexes: []*schema.Index{
 			{
 				Name:    "counter_id",
 				Unique:  true,
-				Columns: []*schema.Column{NcseCounterColumns[0]},
+				Columns: []*schema.Column{NcseCntColumns[0]},
 			},
 			{
 				Name:    "counter_space_id",
 				Unique:  false,
-				Columns: []*schema.Column{NcseCounterColumns[11]},
+				Columns: []*schema.Column{NcseCntColumns[11]},
 			},
 			{
 				Name:    "counter_id_created_at",
 				Unique:  true,
-				Columns: []*schema.Column{NcseCounterColumns[0], NcseCounterColumns[14]},
+				Columns: []*schema.Column{NcseCntColumns[0], NcseCntColumns[14]},
 			},
 		},
 	}
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
-		NcseCounterTable,
+		NcseCntTable,
 	}
 )
 
 func init() {
-	NcseCounterTable.Annotation = &entsql.Annotation{
-		Table: "ncse_counter",
+	NcseCntTable.Annotation = &entsql.Annotation{
+		Table: "ncse_cnt",
 	}
 }

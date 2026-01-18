@@ -38,7 +38,7 @@ type UserRepositoryInterface interface {
 // userRepository implements UserRepositoryInterface
 type userRepository struct {
 	data                 *data.Data
-	searchClient         *search.Client
+	sc                   *search.Client
 	userCache            cache.ICache[ent.User]
 	usernameMappingCache cache.ICache[string] // Maps username to user ID
 	emailMappingCache    cache.ICache[string] // Maps email to user ID
@@ -48,11 +48,11 @@ type userRepository struct {
 // NewUserRepository creates a new user repository
 func NewUserRepository(d *data.Data) UserRepositoryInterface {
 	redisClient := d.GetRedis().(*redis.Client)
-	searchClient := nd.NewSearchClient(d.Data)
+	sc := nd.NewSearchClient(d.Data)
 
 	return &userRepository{
 		data:                 d,
-		searchClient:         searchClient,
+		sc:                   sc,
 		userCache:            cache.NewCache[ent.User](redisClient, "ncse_users"),
 		usernameMappingCache: cache.NewCache[string](redisClient, "ncse_user_mappings:username"),
 		emailMappingCache:    cache.NewCache[string](redisClient, "ncse_user_mappings:email"),
@@ -87,9 +87,11 @@ func (r *userRepository) Create(ctx context.Context, body *structs.UserBody) (*e
 		return nil, err
 	}
 
-	// Index in Meilisearch
-	if err = r.searchClient.Index(ctx, &search.IndexRequest{Index: "users", Document: user}); err != nil {
-		logger.Errorf(ctx, "userRepo.Create error creating Meilisearch index: %v", err)
+	// Index to search engine
+	if r.sc != nil {
+		if err = r.sc.Index(ctx, &search.IndexRequest{Index: "users", Document: user}); err != nil {
+			logger.Errorf(ctx, "userRepo.Create error creating search index: %v", err)
+		}
 	}
 
 	// Cache the user
@@ -208,9 +210,11 @@ func (r *userRepository) Update(ctx context.Context, id string, updates types.JS
 		return nil, err
 	}
 
-	// Update Meilisearch index
-	if err = r.searchClient.Index(ctx, &search.IndexRequest{Index: "users", Document: user, DocumentID: user.ID}); err != nil {
-		logger.Errorf(ctx, "userRepo.Update error updating Meilisearch index: %v", err)
+	// Update search index if client is available
+	if r.sc != nil {
+		if err = r.sc.Index(ctx, &search.IndexRequest{Index: "users", Document: user, DocumentID: user.ID}); err != nil {
+			logger.Errorf(ctx, "userRepo.Update error updating search index: %v", err)
+		}
 	}
 
 	// Invalidate old cache and cache new data
@@ -236,9 +240,11 @@ func (r *userRepository) Delete(ctx context.Context, id string) error {
 		return err
 	}
 
-	// Delete from Meilisearch
-	if err = r.searchClient.Delete(ctx, "users", id); err != nil {
-		logger.Errorf(ctx, "userRepo.Delete error deleting Meilisearch index: %v", err)
+	// Delete from search index if client is available
+	if r.sc != nil {
+		if err = r.sc.Delete(ctx, "users", id); err != nil {
+			logger.Errorf(ctx, "userRepo.Delete error deleting search index: %v", err)
+		}
 	}
 
 	// Invalidate cache

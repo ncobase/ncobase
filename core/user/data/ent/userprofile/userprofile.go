@@ -30,7 +30,7 @@ const (
 	// FieldExtras holds the string denoting the extras field in the database.
 	FieldExtras = "extras"
 	// Table holds the table name of the userprofile in the database.
-	Table = "ncse_sys_user_profile"
+	Table = "ncse_user_profile"
 )
 
 // Columns holds all SQL columns for userprofile fields.

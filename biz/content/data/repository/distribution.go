@@ -39,7 +39,7 @@ type DistributionRepositoryInterface interface {
 // distributionRepository implements the DistributionRepositoryInterface.
 type distributionRepository struct {
 	data *data.Data
-	searchClient *search.Client
+	sc   *search.Client
 	ec   *ent.Client
 	ecr  *ent.Client
 	rc   *redis.Client
@@ -95,8 +95,10 @@ func (r *distributionRepository) Create(ctx context.Context, body *structs.Creat
 	}
 
 	// Index in Meilisearch
-	if err = r.searchClient.Index(ctx, &search.IndexRequest{Index: "content_distributions", Document: row}); err != nil {
-		logger.Errorf(ctx, "distributionRepo.Create error creating Meilisearch index: %v", err)
+	if r.sc != nil {
+		if err = r.sc.Index(ctx, &search.IndexRequest{Index: "content_distributions", Document: row}); err != nil {
+			logger.Errorf(ctx, "distributionRepo.Create error creating Meilisearch index: %v", err)
+		}
 	}
 
 	return row, nil
@@ -174,8 +176,10 @@ func (r *distributionRepository) Update(ctx context.Context, id string, updates 
 	}
 
 	// Update Meilisearch index
-	if err = r.searchClient.Index(ctx, &search.IndexRequest{Index: "content_distributions", Document: row, DocumentID: row.ID}); err != nil {
-		logger.Errorf(ctx, "distributionRepo.Update error updating Meilisearch index: %v", err)
+	if r.sc != nil {
+		if err = r.sc.Index(ctx, &search.IndexRequest{Index: "content_distributions", Document: row, DocumentID: row.ID}); err != nil {
+			logger.Errorf(ctx, "distributionRepo.Update error updating Meilisearch index: %v", err)
+		}
 	}
 
 	// remove from cache
@@ -333,8 +337,10 @@ func (r *distributionRepository) Delete(ctx context.Context, id string) error {
 	}
 
 	// Delete from Meilisearch
-	if err = r.searchClient.Delete(ctx, "content_distributions", id); err != nil {
-		logger.Errorf(ctx, "distributionRepo.Delete error deleting Meilisearch index: %v", err)
+	if r.sc != nil {
+		if err = r.sc.Delete(ctx, "content_distributions", id); err != nil {
+			logger.Errorf(ctx, "distributionRepo.Delete error deleting Meilisearch index: %v", err)
+		}
 	}
 
 	// remove from cache

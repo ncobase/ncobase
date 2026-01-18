@@ -35,12 +35,12 @@ type TopicMediaRepositoryInterface interface {
 
 // topicMediaRepository implements the TopicMediaRepositoryInterface.
 type topicMediaRepository struct {
-	data         *data.Data
-	searchClient *search.Client
-	ec           *ent.Client
-	ecr          *ent.Client
-	rc           *redis.Client
-	c            *cache.Cache[ent.TopicMedia]
+	data *data.Data
+	sc   *search.Client
+	ec   *ent.Client
+	ecr  *ent.Client
+	rc   *redis.Client
+	c    *cache.Cache[ent.TopicMedia]
 }
 
 // NewTopicMediaRepository creates a new topic media repository.
@@ -48,15 +48,15 @@ func NewTopicMediaRepository(d *data.Data) TopicMediaRepositoryInterface {
 	ec := d.GetMasterEntClient()
 	ecr := d.GetSlaveEntClient()
 	rc := d.GetRedis().(*redis.Client)
-	searchClient := nd.NewSearchClient(d.Data)
+	sc := nd.NewSearchClient(d.Data)
 
 	return &topicMediaRepository{
-		data:         d,
-		searchClient: searchClient,
-		ec:           ec,
-		ecr:          ecr,
-		rc:           rc,
-		c:            cache.NewCache[ent.TopicMedia](rc, "ncse_topic_media"),
+		data: d,
+		sc:   sc,
+		ec:   ec,
+		ecr:  ecr,
+		rc:   rc,
+		c:    cache.NewCache[ent.TopicMedia](rc, "ncse_topic_media"),
 	}
 }
 
@@ -80,8 +80,10 @@ func (r *topicMediaRepository) Create(ctx context.Context, body *structs.CreateT
 	}
 
 	// Index in Meilisearch
-	if err = r.searchClient.Index(ctx, &search.IndexRequest{Index: "content_topic_media", Document: row}); err != nil {
-		logger.Errorf(ctx, "topicMediaRepo.Create error creating Meilisearch index: %v", err)
+	if r.sc != nil {
+		if err = r.sc.Index(ctx, &search.IndexRequest{Index: "content_topic_media", Document: row}); err != nil {
+			logger.Errorf(ctx, "topicMediaRepo.Create error creating Meilisearch index: %v", err)
+		}
 	}
 
 	return row, nil
@@ -146,8 +148,10 @@ func (r *topicMediaRepository) Update(ctx context.Context, id string, topicID st
 	}
 
 	// Update Meilisearch index
-	if err = r.searchClient.Index(ctx, &search.IndexRequest{Index: "content_topic_media", Document: row, DocumentID: row.ID}); err != nil {
-		logger.Errorf(ctx, "topicMediaRepo.Update error updating Meilisearch index: %v", err)
+	if r.sc != nil {
+		if err = r.sc.Index(ctx, &search.IndexRequest{Index: "content_topic_media", Document: row, DocumentID: row.ID}); err != nil {
+			logger.Errorf(ctx, "topicMediaRepo.Update error updating Meilisearch index: %v", err)
+		}
 	}
 
 	// remove from cache
@@ -387,8 +391,10 @@ func (r *topicMediaRepository) Delete(ctx context.Context, id string) error {
 	}
 
 	// Delete from Meilisearch
-	if err = r.searchClient.Delete(ctx, "content_topic_media", id); err != nil {
-		logger.Errorf(ctx, "topicMediaRepo.Delete error deleting Meilisearch index: %v", err)
+	if r.sc != nil {
+		if err = r.sc.Delete(ctx, "content_topic_media", id); err != nil {
+			logger.Errorf(ctx, "topicMediaRepo.Delete error deleting Meilisearch index: %v", err)
+		}
 	}
 
 	// remove from cache

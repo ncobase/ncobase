@@ -48,7 +48,7 @@ const (
 	// FieldUpdatedAt holds the string denoting the updated_at field in the database.
 	FieldUpdatedAt = "updated_at"
 	// Table holds the table name of the space in the database.
-	Table = "ncse_sys_space"
+	Table = "ncse_space"
 )
 
 // Columns holds all SQL columns for space fields.

@@ -12,7 +12,7 @@ var (
 	// NcseResFileColumns holds the columns for the "ncse_res_file" table.
 	NcseResFileColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
-		{Name: "name", Type: field.TypeString, Unique: true, Nullable: true, Comment: "name"},
+		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "name"},
 		{Name: "path", Type: field.TypeString, Nullable: true, Comment: "path"},
 		{Name: "type", Type: field.TypeString, Nullable: true, Comment: "type"},
 		{Name: "size", Type: field.TypeInt, Comment: "size in bytes", Default: 0},
@@ -44,11 +44,6 @@ var (
 				Name:    "file_id",
 				Unique:  true,
 				Columns: []*schema.Column{NcseResFileColumns[0]},
-			},
-			{
-				Name:    "file_name",
-				Unique:  true,
-				Columns: []*schema.Column{NcseResFileColumns[1]},
 			},
 			{
 				Name:    "file_owner_id",
@@ -124,11 +119,6 @@ var (
 				Name:    "file_created_by_created_at",
 				Unique:  false,
 				Columns: []*schema.Column{NcseResFileColumns[10], NcseResFileColumns[12]},
-			},
-			{
-				Name:    "file_name",
-				Unique:  false,
-				Columns: []*schema.Column{NcseResFileColumns[1]},
 			},
 			{
 				Name:    "file_original_name",

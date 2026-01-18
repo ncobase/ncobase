@@ -38,7 +38,7 @@ type ChannelRepositoryInterface interface {
 // channelRepository implements the ChannelRepositoryInterface.
 type channelRepository struct {
 	data *data.Data
-	searchClient *search.Client
+	sc   *search.Client
 	ec   *ent.Client
 	ecr  *ent.Client
 	rc   *redis.Client
@@ -102,8 +102,10 @@ func (r *channelRepository) Create(ctx context.Context, body *structs.CreateChan
 	}
 
 	// Index in Meilisearch
-	if err = r.searchClient.Index(ctx, &search.IndexRequest{Index: "content_channels", Document: row}); err != nil {
-		logger.Errorf(ctx, "channelRepo.Create error creating Meilisearch index: %v", err)
+	if r.sc != nil {
+		if err = r.sc.Index(ctx, &search.IndexRequest{Index: "content_channels", Document: row}); err != nil {
+			logger.Errorf(ctx, "channelRepo.Create error creating Meilisearch index: %v", err)
+		}
 	}
 
 	return row, nil
@@ -209,8 +211,10 @@ func (r *channelRepository) Update(ctx context.Context, slug string, updates typ
 	}
 
 	// Update Meilisearch index
-	if err = r.searchClient.Index(ctx, &search.IndexRequest{Index: "content_channels", Document: row, DocumentID: row.ID}); err != nil {
-		logger.Errorf(ctx, "channelRepo.Update error updating Meilisearch index: %v", err)
+	if r.sc != nil {
+		if err = r.sc.Index(ctx, &search.IndexRequest{Index: "content_channels", Document: row, DocumentID: row.ID}); err != nil {
+			logger.Errorf(ctx, "channelRepo.Update error updating Meilisearch index: %v", err)
+		}
 	}
 
 	// remove from cache
@@ -357,8 +361,10 @@ func (r *channelRepository) Delete(ctx context.Context, slug string) error {
 	}
 
 	// Delete from Meilisearch
-	if err = r.searchClient.Delete(ctx, "content_channels", channel.ID); err != nil {
-		logger.Errorf(ctx, "channelRepo.Delete error deleting Meilisearch index: %v", err)
+	if r.sc != nil {
+		if err = r.sc.Delete(ctx, "content_channels", channel.ID); err != nil {
+			logger.Errorf(ctx, "channelRepo.Delete error deleting Meilisearch index: %v", err)
+		}
 	}
 
 	// remove from cache

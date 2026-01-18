@@ -20,7 +20,7 @@ const (
 	// FieldUpdatedAt holds the string denoting the updated_at field in the database.
 	FieldUpdatedAt = "updated_at"
 	// Table holds the table name of the sample in the database.
-	Table = "ncse_sample"
+	Table = "ncse_smp"
 )
 
 // Columns holds all SQL columns for sample fields.

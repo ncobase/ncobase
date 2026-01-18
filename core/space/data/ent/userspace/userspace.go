@@ -24,7 +24,7 @@ const (
 	// FieldUpdatedAt holds the string denoting the updated_at field in the database.
 	FieldUpdatedAt = "updated_at"
 	// Table holds the table name of the userspace in the database.
-	Table = "ncse_sys_user_space"
+	Table = "ncse_space_user"
 )
 
 // Columns holds all SQL columns for userspace fields.

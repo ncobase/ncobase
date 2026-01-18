@@ -2,10 +2,10 @@ package organization
 
 import (
 	"fmt"
-	"ncobase/internal/middleware"
 	"ncobase/core/organization/data"
 	"ncobase/core/organization/handler"
 	"ncobase/core/organization/service"
+	"ncobase/internal/middleware"
 	"sync"
 
 	"github.com/gin-gonic/gin"

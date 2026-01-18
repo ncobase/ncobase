@@ -24,7 +24,8 @@ A comprehensive file management plugin for the ncore framework.
 
 ## Configuration
 
-The plugin supports various configuration options for storage, image processing, and quota management. See config.go for details.
+The plugin supports various configuration options for storage, image processing, and quota management. See config.go for
+details.
 
 ## API Endpoints
 

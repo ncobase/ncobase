@@ -20,7 +20,7 @@ type SpaceOrganization struct {
 // Annotations of the SpaceOrganization.
 func (SpaceOrganization) Annotations() []schema.Annotation {
 	// Keep the original table name to avoid migration issues
-	table := strings.Join([]string{"ncse", "sys", "space_organization"}, "_")
+	table := strings.Join([]string{"ncse", "space", "organization"}, "_")
 	return []schema.Annotation{
 		entsql.Annotation{Table: table},
 		entsql.WithComments(true),

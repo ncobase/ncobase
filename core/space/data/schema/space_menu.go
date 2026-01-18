@@ -18,7 +18,7 @@ type SpaceMenu struct {
 
 // Annotations of the SpaceMenu.
 func (SpaceMenu) Annotations() []schema.Annotation {
-	table := strings.Join([]string{"ncse", "sys", "space_menu"}, "_")
+	table := strings.Join([]string{"ncse", "space", "menu"}, "_")
 	return []schema.Annotation{
 		entsql.Annotation{Table: table},
 		entsql.WithComments(true),

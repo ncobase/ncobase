@@ -37,7 +37,7 @@ type TopicRepositoryInterface interface {
 // topicRepository implements the TopicRepositoryInterface.
 type topicRepository struct {
 	data *data.Data
-	searchClient *search.Client
+	sc   *search.Client
 	ec   *ent.Client
 	ecr  *ent.Client
 	rc   *redis.Client
@@ -86,9 +86,11 @@ func (r *topicRepository) Create(ctx context.Context, body *structs.CreateTopicB
 	}
 
 	// Create the topic in Meilisearch index
-	if err = r.searchClient.Index(ctx, &search.IndexRequest{Index: "topics", Document: row}); err != nil {
-		logger.Errorf(ctx, "topicRepo.Create error creating Meilisearch index: %v", err)
-		// return nil, err
+	if r.sc != nil {
+		if err = r.sc.Index(ctx, &search.IndexRequest{Index: "topics", Document: row}); err != nil {
+			logger.Errorf(ctx, "topicRepo.Create error creating Meilisearch index: %v", err)
+			// return nil, err
+		}
 	}
 
 	return row, nil
@@ -210,13 +212,17 @@ func (r *topicRepository) Update(ctx context.Context, slug string, updates types
 	}
 
 	// Update the topic in Meilisearch index
-	if err = r.searchClient.Delete(ctx, "topics", slug); err != nil {
-		logger.Errorf(ctx, "topicRepo.Update error deleting Meilisearch index: %v", err)
-		// return nil, err
+	if r.sc != nil {
+		if err = r.sc.Delete(ctx, "topics", slug); err != nil {
+			logger.Errorf(ctx, "topicRepo.Update error deleting Meilisearch index: %v", err)
+			// return nil, err
+		}
 	}
-	if err = r.searchClient.Index(ctx, &search.IndexRequest{Index: "topics", Document: row, DocumentID: row.ID}); err != nil {
-		logger.Errorf(ctx, "topicRepo.Update error updating Meilisearch index: %v", err)
-		// return nil, err
+	if r.sc != nil {
+		if err = r.sc.Index(ctx, &search.IndexRequest{Index: "topics", Document: row, DocumentID: row.ID}); err != nil {
+			logger.Errorf(ctx, "topicRepo.Update error updating Meilisearch index: %v", err)
+			// return nil, err
+		}
 	}
 
 	return row, nil
@@ -310,9 +316,11 @@ func (r *topicRepository) Delete(ctx context.Context, slug string) error {
 	}
 
 	// delete from Meilisearch index
-	if err = r.searchClient.Delete(ctx, "topics", topic.ID); err != nil {
-		logger.Errorf(ctx, "topicRepo.Delete index error: %v", err)
-		// return nil, err
+	if r.sc != nil {
+		if err = r.sc.Delete(ctx, "topics", topic.ID); err != nil {
+			logger.Errorf(ctx, "topicRepo.Delete index error: %v", err)
+			// return nil, err
+		}
 	}
 
 	return nil

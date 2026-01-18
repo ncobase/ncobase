@@ -37,7 +37,7 @@ type TaxonomyRepositoryInterface interface {
 // taxonomyRepository implements the TaxonomyRepositoryInterface.
 type taxonomyRepository struct {
 	data *data.Data
-	searchClient *search.Client
+	sc   *search.Client
 	ec   *ent.Client
 	ecr  *ent.Client
 	rc   *redis.Client
@@ -90,9 +90,11 @@ func (r *taxonomyRepository) Create(ctx context.Context, body *structs.CreateTax
 	}
 
 	// Create the taxonomy in Meilisearch index
-	if err = r.searchClient.Index(ctx, &search.IndexRequest{Index: "taxonomies", Document: row}); err != nil {
-		logger.Errorf(ctx, "taxonomyRepo.Create error creating Meilisearch index: %v", err)
-		// return nil, err
+	if r.sc != nil {
+		if err = r.sc.Index(ctx, &search.IndexRequest{Index: "taxonomies", Document: row}); err != nil {
+			logger.Errorf(ctx, "taxonomyRepo.Create error creating Meilisearch index: %v", err)
+			// return nil, err
+		}
 	}
 
 	return row, nil
@@ -238,13 +240,17 @@ func (r *taxonomyRepository) Update(ctx context.Context, slug string, updates ty
 	}
 
 	// Update the taxonomy in Meilisearch
-	if err = r.searchClient.Delete(ctx, "taxonomies", slug); err != nil {
-		logger.Errorf(ctx, "taxonomyRepo.Update error deleting Meilisearch index: %v", err)
-		// return nil, err
+	if r.sc != nil {
+		if err = r.sc.Delete(ctx, "taxonomies", slug); err != nil {
+			logger.Errorf(ctx, "taxonomyRepo.Update error deleting Meilisearch index: %v", err)
+			// return nil, err
+		}
 	}
-	if err = r.searchClient.Index(ctx, &search.IndexRequest{Index: "taxonomies", Document: row, DocumentID: row.ID}); err != nil {
-		logger.Errorf(ctx, "taxonomyRepo.Update error updating Meilisearch index: %v", err)
-		// return nil, err
+	if r.sc != nil {
+		if err = r.sc.Index(ctx, &search.IndexRequest{Index: "taxonomies", Document: row, DocumentID: row.ID}); err != nil {
+			logger.Errorf(ctx, "taxonomyRepo.Update error updating Meilisearch index: %v", err)
+			// return nil, err
+		}
 	}
 
 	return row, nil
@@ -372,9 +378,11 @@ func (r *taxonomyRepository) Delete(ctx context.Context, slug string) error {
 	}
 
 	// delete from Meilisearch index
-	if err = r.searchClient.Delete(ctx, "taxonomies", taxonomy.ID); err != nil {
-		logger.Errorf(ctx, "topicRepo.Delete index error: %v", err)
-		// return nil, err
+	if r.sc != nil {
+		if err = r.sc.Delete(ctx, "taxonomies", taxonomy.ID); err != nil {
+			logger.Errorf(ctx, "topicRepo.Delete index error: %v", err)
+			// return nil, err
+		}
 	}
 
 	return err

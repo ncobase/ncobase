@@ -42,7 +42,7 @@ const (
 	// FieldUserID holds the string denoting the user_id field in the database.
 	FieldUserID = "user_id"
 	// Table holds the table name of the logs in the database.
-	Table = "ncse_tbp_log"
+	Table = "ncse_proxy_log"
 )
 
 // Columns holds all SQL columns for logs fields.

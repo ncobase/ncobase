@@ -19,7 +19,7 @@ type Space struct {
 
 // Annotations of the Space.
 func (Space) Annotations() []schema.Annotation {
-	table := strings.Join([]string{"ncse", "sys", "space"}, "_")
+	table := strings.Join([]string{"ncse", "space"}, "_")
 	return []schema.Annotation{
 		entsql.Annotation{Table: table},
 		entgql.Mutations(entgql.MutationCreate(), entgql.MutationUpdate()),

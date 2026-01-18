@@ -2,10 +2,10 @@ package user
 
 import (
 	"fmt"
-	"ncobase/internal/middleware"
 	"ncobase/core/user/data"
 	"ncobase/core/user/handler"
 	"ncobase/core/user/service"
+	"ncobase/internal/middleware"
 	"sync"
 
 	"github.com/ncobase/ncore/config"

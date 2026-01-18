@@ -2,10 +2,10 @@ package system
 
 import (
 	"fmt"
-	"ncobase/internal/middleware"
 	"ncobase/core/system/data"
 	"ncobase/core/system/handler"
 	"ncobase/core/system/service"
+	"ncobase/internal/middleware"
 	"sync"
 
 	"github.com/gin-gonic/gin"

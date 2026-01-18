@@ -48,7 +48,7 @@ const (
 	// FieldValidation holds the string denoting the validation field in the database.
 	FieldValidation = "validation"
 	// Table holds the table name of the spacesetting in the database.
-	Table = "ncse_sys_space_setting"
+	Table = "ncse_space_setting"
 )
 
 // Columns holds all SQL columns for spacesetting fields.

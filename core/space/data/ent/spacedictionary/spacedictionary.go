@@ -24,7 +24,7 @@ const (
 	// FieldUpdatedAt holds the string denoting the updated_at field in the database.
 	FieldUpdatedAt = "updated_at"
 	// Table holds the table name of the spacedictionary in the database.
-	Table = "ncse_sys_space_dictionary"
+	Table = "ncse_space_dictionary"
 )
 
 // Columns holds all SQL columns for spacedictionary fields.

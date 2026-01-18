@@ -2,10 +2,10 @@ package realtime
 
 import (
 	"fmt"
-	"ncobase/internal/middleware"
 	"ncobase/biz/realtime/data"
 	"ncobase/biz/realtime/handler"
 	"ncobase/biz/realtime/service"
+	"ncobase/internal/middleware"
 	"sync"
 
 	"github.com/ncobase/ncore/config"

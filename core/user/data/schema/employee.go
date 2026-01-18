@@ -19,7 +19,7 @@ type Employee struct {
 
 // Annotations of the Employee.
 func (Employee) Annotations() []schema.Annotation {
-	table := strings.Join([]string{"ncse", "sys", "employee"}, "_")
+	table := strings.Join([]string{"ncse", "user", "employee"}, "_")
 	return []schema.Annotation{
 		entsql.Annotation{Table: table},
 		entgql.Mutations(entgql.MutationCreate(), entgql.MutationUpdate()),

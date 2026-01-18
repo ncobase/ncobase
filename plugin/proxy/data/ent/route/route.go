@@ -48,7 +48,7 @@ const (
 	// FieldStripAuthHeader holds the string denoting the strip_auth_header field in the database.
 	FieldStripAuthHeader = "strip_auth_header"
 	// Table holds the table name of the route in the database.
-	Table = "ncse_tbp_route"
+	Table = "ncse_proxy_route"
 )
 
 // Columns holds all SQL columns for route fields.

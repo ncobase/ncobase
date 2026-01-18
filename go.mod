@@ -11,6 +11,7 @@ replace (
 	github.com/ncobase/ncore/ctxutil => ../ncore/ctxutil
 	github.com/ncobase/ncore/data => ../ncore/data
 	github.com/ncobase/ncore/data/cache => ../ncore/data/cache
+	github.com/ncobase/ncore/data/entgo => ../ncore/data/entgo
 	github.com/ncobase/ncore/data/meilisearch => ../ncore/data/meilisearch
 	github.com/ncobase/ncore/data/postgres => ../ncore/data/postgres
 	github.com/ncobase/ncore/data/rabbitmq => ../ncore/data/rabbitmq
@@ -19,8 +20,10 @@ replace (
 	github.com/ncobase/ncore/ecode => ../ncore/ecode
 	github.com/ncobase/ncore/extension => ../ncore/extension
 	github.com/ncobase/ncore/logging => ../ncore/logging
+	github.com/ncobase/ncore/logging/hooks/meilisearch => ../ncore/logging/hooks/meilisearch
 	github.com/ncobase/ncore/messaging => ../ncore/messaging
 	github.com/ncobase/ncore/net => ../ncore/net
+	github.com/ncobase/ncore/oss => ../ncore/oss
 	github.com/ncobase/ncore/security => ../ncore/security
 	github.com/ncobase/ncore/types => ../ncore/types
 	github.com/ncobase/ncore/utils => ../ncore/utils
@@ -37,26 +40,27 @@ require (
 	github.com/gin-gonic/gin v1.11.0
 	github.com/google/uuid v1.6.0
 	github.com/gorilla/websocket v1.5.3
-	github.com/ncobase/ncore/config v0.2.0
-	github.com/ncobase/ncore/consts v0.2.0
-	github.com/ncobase/ncore/ctxutil v0.2.0
-	github.com/ncobase/ncore/data v0.2.0
+	github.com/ncobase/ncore/config v0.1.23
+	github.com/ncobase/ncore/consts v0.1.23
+	github.com/ncobase/ncore/ctxutil v0.1.23
+	github.com/ncobase/ncore/data v0.1.23
 	github.com/ncobase/ncore/data/cache v0.0.0-00010101000000-000000000000
-	github.com/ncobase/ncore/data/entgo v0.2.0
-	github.com/ncobase/ncore/data/meilisearch v0.2.0
-	github.com/ncobase/ncore/data/postgres v0.2.0
-	github.com/ncobase/ncore/data/rabbitmq v0.2.0
-	github.com/ncobase/ncore/data/redis v0.2.0
+	github.com/ncobase/ncore/data/entgo v0.0.0
+	github.com/ncobase/ncore/data/meilisearch v0.0.0
+	github.com/ncobase/ncore/data/postgres v0.0.0
+	github.com/ncobase/ncore/data/rabbitmq v0.0.0
+	github.com/ncobase/ncore/data/redis v0.0.0
 	github.com/ncobase/ncore/data/search v0.0.0
-	github.com/ncobase/ncore/ecode v0.2.0
-	github.com/ncobase/ncore/extension v0.2.0
-	github.com/ncobase/ncore/logging v0.2.0
-	github.com/ncobase/ncore/messaging v0.2.0
-	github.com/ncobase/ncore/net v0.2.0
-	github.com/ncobase/ncore/security v0.2.0
-	github.com/ncobase/ncore/types v0.2.0
-	github.com/ncobase/ncore/utils v0.2.0
-	github.com/ncobase/ncore/validation v0.2.0
+	github.com/ncobase/ncore/ecode v0.1.23
+	github.com/ncobase/ncore/extension v0.1.23
+	github.com/ncobase/ncore/logging v0.1.23
+	github.com/ncobase/ncore/logging/hooks/meilisearch v0.0.0
+	github.com/ncobase/ncore/messaging v0.1.23
+	github.com/ncobase/ncore/net v0.1.23
+	github.com/ncobase/ncore/security v0.1.23
+	github.com/ncobase/ncore/types v0.1.23
+	github.com/ncobase/ncore/utils v0.1.23
+	github.com/ncobase/ncore/validation v0.1.23
 	github.com/pquerna/otp v1.5.0
 	github.com/redis/go-redis/v9 v9.17.2
 	github.com/sirupsen/logrus v1.9.4
@@ -225,7 +229,7 @@ require (
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/montanaflynn/stats v0.7.1 // indirect
 	github.com/mozillazg/go-httpheader v0.4.0 // indirect
-	github.com/ncobase/ncore/oss v0.2.0 // indirect
+	github.com/ncobase/ncore/oss v0.0.0 // indirect
 	github.com/olekukonko/tablewriter v0.0.5 // indirect
 	github.com/pelletier/go-toml/v2 v2.2.4 // indirect
 	github.com/philhofer/fwd v1.2.0 // indirect

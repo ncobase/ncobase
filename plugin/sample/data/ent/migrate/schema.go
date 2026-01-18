@@ -9,40 +9,40 @@ import (
 )
 
 var (
-	// NcseSampleColumns holds the columns for the "ncse_sample" table.
-	NcseSampleColumns = []*schema.Column{
+	// NcseSmpColumns holds the columns for the "ncse_smp" table.
+	NcseSmpColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
 		{Name: "created_by", Type: field.TypeString, Nullable: true, Comment: "id of the creator"},
 		{Name: "updated_by", Type: field.TypeString, Nullable: true, Comment: "id of the last updater"},
 		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
 		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
 	}
-	// NcseSampleTable holds the schema information for the "ncse_sample" table.
-	NcseSampleTable = &schema.Table{
-		Name:       "ncse_sample",
-		Columns:    NcseSampleColumns,
-		PrimaryKey: []*schema.Column{NcseSampleColumns[0]},
+	// NcseSmpTable holds the schema information for the "ncse_smp" table.
+	NcseSmpTable = &schema.Table{
+		Name:       "ncse_smp",
+		Columns:    NcseSmpColumns,
+		PrimaryKey: []*schema.Column{NcseSmpColumns[0]},
 		Indexes: []*schema.Index{
 			{
 				Name:    "sample_id",
 				Unique:  true,
-				Columns: []*schema.Column{NcseSampleColumns[0]},
+				Columns: []*schema.Column{NcseSmpColumns[0]},
 			},
 			{
 				Name:    "sample_id_created_at",
 				Unique:  true,
-				Columns: []*schema.Column{NcseSampleColumns[0], NcseSampleColumns[3]},
+				Columns: []*schema.Column{NcseSmpColumns[0], NcseSmpColumns[3]},
 			},
 		},
 	}
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
-		NcseSampleTable,
+		NcseSmpTable,
 	}
 )
 
 func init() {
-	NcseSampleTable.Annotation = &entsql.Annotation{
-		Table: "ncse_sample",
+	NcseSmpTable.Annotation = &entsql.Annotation{
+		Table: "ncse_smp",
 	}
 }

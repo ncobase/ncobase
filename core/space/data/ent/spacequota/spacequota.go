@@ -38,7 +38,7 @@ const (
 	// FieldEnabled holds the string denoting the enabled field in the database.
 	FieldEnabled = "enabled"
 	// Table holds the table name of the spacequota in the database.
-	Table = "ncse_sys_space_quota"
+	Table = "ncse_space_quota"
 )
 
 // Columns holds all SQL columns for spacequota fields.

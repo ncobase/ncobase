@@ -35,7 +35,7 @@ type MenuRepositoryInterface interface {
 // menuRepository implements the MenuRepositoryInterface.
 type menuRepository struct {
 	data             *data.Data
-	searchClient     *search.Client
+	sc               *search.Client
 	menuCache        cache.ICache[ent.Menu]
 	slugMappingCache cache.ICache[string]     // Maps slug to menu ID
 	menuTreeCache    cache.ICache[[]ent.Menu] // Cache menu trees
@@ -45,11 +45,11 @@ type menuRepository struct {
 // NewMenuRepository creates a new menu repository.
 func NewMenuRepository(d *data.Data) MenuRepositoryInterface {
 	redisClient := d.GetRedis().(*redis.Client)
-	searchClient := nd.NewSearchClient(d.Data)
+	sc := nd.NewSearchClient(d.Data)
 
 	return &menuRepository{
 		data:             d,
-		searchClient:     searchClient,
+		sc:               sc,
 		menuCache:        cache.NewCache[ent.Menu](redisClient, "ncse_system:menus"),
 		slugMappingCache: cache.NewCache[string](redisClient, "ncse_system:menu_mappings"),
 		menuTreeCache:    cache.NewCache[[]ent.Menu](redisClient, "ncse_system:menu_trees"),
@@ -113,8 +113,10 @@ func (r *menuRepository) Create(ctx context.Context, body *structs.MenuBody) (*e
 	}
 
 	// Create the menu in Meilisearch index
-	if err = r.searchClient.Index(ctx, &search.IndexRequest{Index: "menus", Document: menu}); err != nil {
-		logger.Errorf(ctx, "menuRepo.Create error creating Meilisearch index: %v", err)
+	if r.sc != nil {
+		if err = r.sc.Index(ctx, &search.IndexRequest{Index: "menus", Document: menu}); err != nil {
+			logger.Errorf(ctx, "menuRepo.Create error creating Meilisearch index: %v", err)
+		}
 	}
 
 	// Cache the menu and invalidate tree cache
@@ -266,8 +268,10 @@ func (r *menuRepository) Update(ctx context.Context, body *structs.UpdateMenuBod
 	}
 
 	// Update Meilisearch index
-	if err = r.searchClient.Index(ctx, &search.IndexRequest{Index: "menus", Document: updatedMenu, DocumentID: updatedMenu.ID}); err != nil {
-		logger.Errorf(ctx, "menuRepo.Update error updating Meilisearch index: %v", err)
+	if r.sc != nil {
+		if err = r.sc.Index(ctx, &search.IndexRequest{Index: "menus", Document: updatedMenu, DocumentID: updatedMenu.ID}); err != nil {
+			logger.Errorf(ctx, "menuRepo.Update error updating Meilisearch index: %v", err)
+		}
 	}
 
 	// Invalidate and re-cache
@@ -305,8 +309,10 @@ func (r *menuRepository) Delete(ctx context.Context, params *structs.FindMenu) e
 		return err
 	}
 
-	if err = r.searchClient.Delete(ctx, "menus", menu.ID); err != nil {
-		logger.Errorf(ctx, "menuRepo.Delete index error: %v", err)
+	if r.sc != nil {
+		if err = r.sc.Delete(ctx, "menus", menu.ID); err != nil {
+			logger.Errorf(ctx, "menuRepo.Delete index error: %v", err)
+		}
 	}
 
 	// Invalidate cache

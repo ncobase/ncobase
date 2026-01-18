@@ -20,7 +20,7 @@ type ApiKey struct {
 
 // Annotations of the ApiKey
 func (ApiKey) Annotations() []schema.Annotation {
-	table := strings.Join([]string{"ncse", "sys_user", "api_key"}, "_")
+	table := strings.Join([]string{"ncse", "user", "api_key"}, "_")
 	return []schema.Annotation{
 		entsql.Annotation{Table: table},
 		entgql.Mutations(entgql.MutationCreate(), entgql.MutationUpdate()),

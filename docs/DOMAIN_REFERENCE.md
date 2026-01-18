@@ -7,7 +7,7 @@ API routing conventions and module organization for ncobase.
 ### Core Modules (`core/`)
 
 | Module         | Group | Description                                      |
-| -------------- | ----- | ------------------------------------------------ |
+|----------------|-------|--------------------------------------------------|
 | `access`       | sys   | Role-based access control, permissions, policies |
 | `auth`         | sys   | Authentication, sessions, MFA, captcha           |
 | `user`         | sys   | User management, profiles, API keys              |
@@ -18,14 +18,14 @@ API routing conventions and module organization for ncobase.
 ### Business Modules (`biz/`)
 
 | Module     | Group | Description                               |
-| ---------- | ----- | ----------------------------------------- |
+|------------|-------|-------------------------------------------|
 | `content`  | cms   | Articles, topics, media, taxonomies       |
 | `realtime` | msg   | Real-time events, notifications, channels |
 
 ### Plugins (`plugin/`)
 
 | Plugin     | Group | Description                             |
-| ---------- | ----- | --------------------------------------- |
+|------------|-------|-----------------------------------------|
 | `resource` | res   | File storage, uploads, quota management |
 | `proxy`    | api   | API gateway, routing, transformers      |
 | `payment`  | pay   | Payment processing, transactions        |
@@ -138,7 +138,7 @@ admin:system                # System administration
 ## Domain Groups
 
 | Group  | Description         | Examples                  |
-| ------ | ------------------- | ------------------------- |
+|--------|---------------------|---------------------------|
 | `sys`  | System management   | users, roles, permissions |
 | `auth` | Authentication      | login, mfa, sessions      |
 | `cms`  | Content management  | topics, media, taxonomies |

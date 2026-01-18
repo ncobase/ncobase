@@ -36,7 +36,7 @@ type MediaRepositoryInterface interface {
 
 type mediaRepository struct {
 	data *data.Data
-	searchClient *search.Client
+	sc   *search.Client
 	ec   *ent.Client
 	ecr  *ent.Client
 	rc   *redis.Client
@@ -98,8 +98,10 @@ func (r *mediaRepository) Create(ctx context.Context, body *structs.CreateMediaB
 	}
 
 	// Index in Meilisearch
-	if err = r.searchClient.Index(ctx, &search.IndexRequest{Index: "media", Document: row}); err != nil {
-		logger.Errorf(ctx, "mediaRepo.Create error creating Meilisearch index: %v", err)
+	if r.sc != nil {
+		if err = r.sc.Index(ctx, &search.IndexRequest{Index: "media", Document: row}); err != nil {
+			logger.Errorf(ctx, "mediaRepo.Create error creating Meilisearch index: %v", err)
+		}
 	}
 
 	return row, nil
@@ -242,8 +244,10 @@ func (r *mediaRepository) Update(ctx context.Context, id string, updates types.J
 	}
 
 	// Update Meilisearch index
-	if err = r.searchClient.Index(ctx, &search.IndexRequest{Index: "media", Document: row, DocumentID: row.ID}); err != nil {
-		logger.Errorf(ctx, "mediaRepo.Update error updating Meilisearch index: %v", err)
+	if r.sc != nil {
+		if err = r.sc.Index(ctx, &search.IndexRequest{Index: "media", Document: row, DocumentID: row.ID}); err != nil {
+			logger.Errorf(ctx, "mediaRepo.Update error updating Meilisearch index: %v", err)
+		}
 	}
 
 	// Remove from cache
@@ -379,8 +383,10 @@ func (r *mediaRepository) Delete(ctx context.Context, id string) error {
 	}
 
 	// Delete from Meilisearch
-	if err = r.searchClient.Delete(ctx, "media", id); err != nil {
-		logger.Errorf(ctx, "mediaRepo.Delete error deleting Meilisearch index: %v", err)
+	if r.sc != nil {
+		if err = r.sc.Delete(ctx, "media", id); err != nil {
+			logger.Errorf(ctx, "mediaRepo.Delete error deleting Meilisearch index: %v", err)
+		}
 	}
 
 	cacheKey := fmt.Sprintf("%s", id)

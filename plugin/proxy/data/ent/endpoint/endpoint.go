@@ -48,7 +48,7 @@ const (
 	// FieldLogResponses holds the string denoting the log_responses field in the database.
 	FieldLogResponses = "log_responses"
 	// Table holds the table name of the endpoint in the database.
-	Table = "ncse_tbp_endpoint"
+	Table = "ncse_proxy_endpoint"
 )
 
 // Columns holds all SQL columns for endpoint fields.

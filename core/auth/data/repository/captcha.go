@@ -1,11 +1,12 @@
 package repository
 
 import (
-	"github.com/redis/go-redis/v9"
 	"context"
 	"fmt"
 	"ncobase/core/auth/data"
 	"time"
+
+	"github.com/redis/go-redis/v9"
 
 	"github.com/ncobase/ncore/data/cache"
 	"github.com/ncobase/ncore/logging/logger"

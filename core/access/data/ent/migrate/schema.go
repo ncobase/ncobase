@@ -9,8 +9,8 @@ import (
 )
 
 var (
-	// NcseSysActivityColumns holds the columns for the "ncse_sys_activity" table.
-	NcseSysActivityColumns = []*schema.Column{
+	// NcseAccessActivityColumns holds the columns for the "ncse_access_activity" table.
+	NcseAccessActivityColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
 		{Name: "type", Type: field.TypeString, Nullable: true, Comment: "type"},
 		{Name: "user_id", Type: field.TypeString, Nullable: true, Comment: "user id"},
@@ -19,41 +19,41 @@ var (
 		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
 		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
 	}
-	// NcseSysActivityTable holds the schema information for the "ncse_sys_activity" table.
-	NcseSysActivityTable = &schema.Table{
-		Name:       "ncse_sys_activity",
-		Columns:    NcseSysActivityColumns,
-		PrimaryKey: []*schema.Column{NcseSysActivityColumns[0]},
+	// NcseAccessActivityTable holds the schema information for the "ncse_access_activity" table.
+	NcseAccessActivityTable = &schema.Table{
+		Name:       "ncse_access_activity",
+		Columns:    NcseAccessActivityColumns,
+		PrimaryKey: []*schema.Column{NcseAccessActivityColumns[0]},
 		Indexes: []*schema.Index{
 			{
 				Name:    "activity_id",
 				Unique:  true,
-				Columns: []*schema.Column{NcseSysActivityColumns[0]},
+				Columns: []*schema.Column{NcseAccessActivityColumns[0]},
 			},
 			{
 				Name:    "activity_user_id",
 				Unique:  false,
-				Columns: []*schema.Column{NcseSysActivityColumns[2]},
+				Columns: []*schema.Column{NcseAccessActivityColumns[2]},
 			},
 			{
 				Name:    "activity_id_created_at",
 				Unique:  true,
-				Columns: []*schema.Column{NcseSysActivityColumns[0], NcseSysActivityColumns[5]},
+				Columns: []*schema.Column{NcseAccessActivityColumns[0], NcseAccessActivityColumns[5]},
 			},
 			{
 				Name:    "activity_user_id_type",
 				Unique:  false,
-				Columns: []*schema.Column{NcseSysActivityColumns[2], NcseSysActivityColumns[1]},
+				Columns: []*schema.Column{NcseAccessActivityColumns[2], NcseAccessActivityColumns[1]},
 			},
 			{
 				Name:    "activity_user_id_created_at",
 				Unique:  false,
-				Columns: []*schema.Column{NcseSysActivityColumns[2], NcseSysActivityColumns[5]},
+				Columns: []*schema.Column{NcseAccessActivityColumns[2], NcseAccessActivityColumns[5]},
 			},
 		},
 	}
-	// NcseSysCasbinRuleColumns holds the columns for the "ncse_sys_casbin_rule" table.
-	NcseSysCasbinRuleColumns = []*schema.Column{
+	// NcseAccessCasbinRuleColumns holds the columns for the "ncse_access_casbin_rule" table.
+	NcseAccessCasbinRuleColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
 		{Name: "p_type", Type: field.TypeString, Nullable: true, Comment: "permission type"},
 		{Name: "v0", Type: field.TypeString, Nullable: true, Comment: "version 0"},
@@ -67,26 +67,26 @@ var (
 		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
 		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
 	}
-	// NcseSysCasbinRuleTable holds the schema information for the "ncse_sys_casbin_rule" table.
-	NcseSysCasbinRuleTable = &schema.Table{
-		Name:       "ncse_sys_casbin_rule",
-		Columns:    NcseSysCasbinRuleColumns,
-		PrimaryKey: []*schema.Column{NcseSysCasbinRuleColumns[0]},
+	// NcseAccessCasbinRuleTable holds the schema information for the "ncse_access_casbin_rule" table.
+	NcseAccessCasbinRuleTable = &schema.Table{
+		Name:       "ncse_access_casbin_rule",
+		Columns:    NcseAccessCasbinRuleColumns,
+		PrimaryKey: []*schema.Column{NcseAccessCasbinRuleColumns[0]},
 		Indexes: []*schema.Index{
 			{
 				Name:    "casbinrule_id",
 				Unique:  true,
-				Columns: []*schema.Column{NcseSysCasbinRuleColumns[0]},
+				Columns: []*schema.Column{NcseAccessCasbinRuleColumns[0]},
 			},
 			{
 				Name:    "casbinrule_id_created_at",
 				Unique:  true,
-				Columns: []*schema.Column{NcseSysCasbinRuleColumns[0], NcseSysCasbinRuleColumns[10]},
+				Columns: []*schema.Column{NcseAccessCasbinRuleColumns[0], NcseAccessCasbinRuleColumns[10]},
 			},
 		},
 	}
-	// NcseSysPermissionColumns holds the columns for the "ncse_sys_permission" table.
-	NcseSysPermissionColumns = []*schema.Column{
+	// NcseAccessPermissionColumns holds the columns for the "ncse_access_permission" table.
+	NcseAccessPermissionColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
 		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "name"},
 		{Name: "action", Type: field.TypeString, Nullable: true, Comment: "action"},
@@ -100,31 +100,31 @@ var (
 		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
 		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
 	}
-	// NcseSysPermissionTable holds the schema information for the "ncse_sys_permission" table.
-	NcseSysPermissionTable = &schema.Table{
-		Name:       "ncse_sys_permission",
-		Columns:    NcseSysPermissionColumns,
-		PrimaryKey: []*schema.Column{NcseSysPermissionColumns[0]},
+	// NcseAccessPermissionTable holds the schema information for the "ncse_access_permission" table.
+	NcseAccessPermissionTable = &schema.Table{
+		Name:       "ncse_access_permission",
+		Columns:    NcseAccessPermissionColumns,
+		PrimaryKey: []*schema.Column{NcseAccessPermissionColumns[0]},
 		Indexes: []*schema.Index{
 			{
 				Name:    "permission_id",
 				Unique:  true,
-				Columns: []*schema.Column{NcseSysPermissionColumns[0]},
+				Columns: []*schema.Column{NcseAccessPermissionColumns[0]},
 			},
 			{
 				Name:    "permission_id_created_at",
 				Unique:  true,
-				Columns: []*schema.Column{NcseSysPermissionColumns[0], NcseSysPermissionColumns[10]},
+				Columns: []*schema.Column{NcseAccessPermissionColumns[0], NcseAccessPermissionColumns[10]},
 			},
 			{
 				Name:    "permission_action_subject",
 				Unique:  false,
-				Columns: []*schema.Column{NcseSysPermissionColumns[2], NcseSysPermissionColumns[3]},
+				Columns: []*schema.Column{NcseAccessPermissionColumns[2], NcseAccessPermissionColumns[3]},
 			},
 		},
 	}
-	// NcseSysRoleColumns holds the columns for the "ncse_sys_role" table.
-	NcseSysRoleColumns = []*schema.Column{
+	// NcseAccessRoleColumns holds the columns for the "ncse_access_role" table.
+	NcseAccessRoleColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
 		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "name"},
 		{Name: "slug", Type: field.TypeString, Unique: true, Nullable: true, Comment: "slug / alias"},
@@ -136,31 +136,31 @@ var (
 		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
 		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
 	}
-	// NcseSysRoleTable holds the schema information for the "ncse_sys_role" table.
-	NcseSysRoleTable = &schema.Table{
-		Name:       "ncse_sys_role",
-		Columns:    NcseSysRoleColumns,
-		PrimaryKey: []*schema.Column{NcseSysRoleColumns[0]},
+	// NcseAccessRoleTable holds the schema information for the "ncse_access_role" table.
+	NcseAccessRoleTable = &schema.Table{
+		Name:       "ncse_access_role",
+		Columns:    NcseAccessRoleColumns,
+		PrimaryKey: []*schema.Column{NcseAccessRoleColumns[0]},
 		Indexes: []*schema.Index{
 			{
 				Name:    "role_id",
 				Unique:  true,
-				Columns: []*schema.Column{NcseSysRoleColumns[0]},
+				Columns: []*schema.Column{NcseAccessRoleColumns[0]},
 			},
 			{
 				Name:    "role_slug",
 				Unique:  true,
-				Columns: []*schema.Column{NcseSysRoleColumns[2]},
+				Columns: []*schema.Column{NcseAccessRoleColumns[2]},
 			},
 			{
 				Name:    "role_id_created_at",
 				Unique:  true,
-				Columns: []*schema.Column{NcseSysRoleColumns[0], NcseSysRoleColumns[8]},
+				Columns: []*schema.Column{NcseAccessRoleColumns[0], NcseAccessRoleColumns[8]},
 			},
 		},
 	}
-	// NcseSysRolePermissionColumns holds the columns for the "ncse_sys_role_permission" table.
-	NcseSysRolePermissionColumns = []*schema.Column{
+	// NcseAccessRolePermissionColumns holds the columns for the "ncse_access_role_permission" table.
+	NcseAccessRolePermissionColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
 		{Name: "role_id", Type: field.TypeString, Nullable: true, Comment: "role id"},
 		{Name: "permission_id", Type: field.TypeString, Nullable: true, Comment: "permission id"},
@@ -169,41 +169,41 @@ var (
 		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
 		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
 	}
-	// NcseSysRolePermissionTable holds the schema information for the "ncse_sys_role_permission" table.
-	NcseSysRolePermissionTable = &schema.Table{
-		Name:       "ncse_sys_role_permission",
-		Columns:    NcseSysRolePermissionColumns,
-		PrimaryKey: []*schema.Column{NcseSysRolePermissionColumns[0]},
+	// NcseAccessRolePermissionTable holds the schema information for the "ncse_access_role_permission" table.
+	NcseAccessRolePermissionTable = &schema.Table{
+		Name:       "ncse_access_role_permission",
+		Columns:    NcseAccessRolePermissionColumns,
+		PrimaryKey: []*schema.Column{NcseAccessRolePermissionColumns[0]},
 		Indexes: []*schema.Index{
 			{
 				Name:    "rolepermission_id",
 				Unique:  true,
-				Columns: []*schema.Column{NcseSysRolePermissionColumns[0]},
+				Columns: []*schema.Column{NcseAccessRolePermissionColumns[0]},
 			},
 			{
 				Name:    "rolepermission_role_id",
 				Unique:  false,
-				Columns: []*schema.Column{NcseSysRolePermissionColumns[1]},
+				Columns: []*schema.Column{NcseAccessRolePermissionColumns[1]},
 			},
 			{
 				Name:    "rolepermission_permission_id",
 				Unique:  false,
-				Columns: []*schema.Column{NcseSysRolePermissionColumns[2]},
+				Columns: []*schema.Column{NcseAccessRolePermissionColumns[2]},
 			},
 			{
 				Name:    "rolepermission_id_created_at",
 				Unique:  true,
-				Columns: []*schema.Column{NcseSysRolePermissionColumns[0], NcseSysRolePermissionColumns[5]},
+				Columns: []*schema.Column{NcseAccessRolePermissionColumns[0], NcseAccessRolePermissionColumns[5]},
 			},
 			{
 				Name:    "rolepermission_role_id_permission_id",
 				Unique:  false,
-				Columns: []*schema.Column{NcseSysRolePermissionColumns[1], NcseSysRolePermissionColumns[2]},
+				Columns: []*schema.Column{NcseAccessRolePermissionColumns[1], NcseAccessRolePermissionColumns[2]},
 			},
 		},
 	}
-	// NcseSysUserRoleColumns holds the columns for the "ncse_sys_user_role" table.
-	NcseSysUserRoleColumns = []*schema.Column{
+	// NcseAccessUserRoleColumns holds the columns for the "ncse_access_user_role" table.
+	NcseAccessUserRoleColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
 		{Name: "user_id", Type: field.TypeString, Nullable: true, Comment: "user id"},
 		{Name: "role_id", Type: field.TypeString, Nullable: true, Comment: "role id"},
@@ -212,67 +212,67 @@ var (
 		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
 		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
 	}
-	// NcseSysUserRoleTable holds the schema information for the "ncse_sys_user_role" table.
-	NcseSysUserRoleTable = &schema.Table{
-		Name:       "ncse_sys_user_role",
-		Columns:    NcseSysUserRoleColumns,
-		PrimaryKey: []*schema.Column{NcseSysUserRoleColumns[0]},
+	// NcseAccessUserRoleTable holds the schema information for the "ncse_access_user_role" table.
+	NcseAccessUserRoleTable = &schema.Table{
+		Name:       "ncse_access_user_role",
+		Columns:    NcseAccessUserRoleColumns,
+		PrimaryKey: []*schema.Column{NcseAccessUserRoleColumns[0]},
 		Indexes: []*schema.Index{
 			{
 				Name:    "userrole_id",
 				Unique:  true,
-				Columns: []*schema.Column{NcseSysUserRoleColumns[0]},
+				Columns: []*schema.Column{NcseAccessUserRoleColumns[0]},
 			},
 			{
 				Name:    "userrole_user_id",
 				Unique:  false,
-				Columns: []*schema.Column{NcseSysUserRoleColumns[1]},
+				Columns: []*schema.Column{NcseAccessUserRoleColumns[1]},
 			},
 			{
 				Name:    "userrole_role_id",
 				Unique:  false,
-				Columns: []*schema.Column{NcseSysUserRoleColumns[2]},
+				Columns: []*schema.Column{NcseAccessUserRoleColumns[2]},
 			},
 			{
 				Name:    "userrole_id_created_at",
 				Unique:  true,
-				Columns: []*schema.Column{NcseSysUserRoleColumns[0], NcseSysUserRoleColumns[5]},
+				Columns: []*schema.Column{NcseAccessUserRoleColumns[0], NcseAccessUserRoleColumns[5]},
 			},
 			{
 				Name:    "userrole_user_id_role_id",
 				Unique:  false,
-				Columns: []*schema.Column{NcseSysUserRoleColumns[1], NcseSysUserRoleColumns[2]},
+				Columns: []*schema.Column{NcseAccessUserRoleColumns[1], NcseAccessUserRoleColumns[2]},
 			},
 		},
 	}
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
-		NcseSysActivityTable,
-		NcseSysCasbinRuleTable,
-		NcseSysPermissionTable,
-		NcseSysRoleTable,
-		NcseSysRolePermissionTable,
-		NcseSysUserRoleTable,
+		NcseAccessActivityTable,
+		NcseAccessCasbinRuleTable,
+		NcseAccessPermissionTable,
+		NcseAccessRoleTable,
+		NcseAccessRolePermissionTable,
+		NcseAccessUserRoleTable,
 	}
 )
 
 func init() {
-	NcseSysActivityTable.Annotation = &entsql.Annotation{
-		Table: "ncse_sys_activity",
+	NcseAccessActivityTable.Annotation = &entsql.Annotation{
+		Table: "ncse_access_activity",
 	}
-	NcseSysCasbinRuleTable.Annotation = &entsql.Annotation{
-		Table: "ncse_sys_casbin_rule",
+	NcseAccessCasbinRuleTable.Annotation = &entsql.Annotation{
+		Table: "ncse_access_casbin_rule",
 	}
-	NcseSysPermissionTable.Annotation = &entsql.Annotation{
-		Table: "ncse_sys_permission",
+	NcseAccessPermissionTable.Annotation = &entsql.Annotation{
+		Table: "ncse_access_permission",
 	}
-	NcseSysRoleTable.Annotation = &entsql.Annotation{
-		Table: "ncse_sys_role",
+	NcseAccessRoleTable.Annotation = &entsql.Annotation{
+		Table: "ncse_access_role",
 	}
-	NcseSysRolePermissionTable.Annotation = &entsql.Annotation{
-		Table: "ncse_sys_role_permission",
+	NcseAccessRolePermissionTable.Annotation = &entsql.Annotation{
+		Table: "ncse_access_role_permission",
 	}
-	NcseSysUserRoleTable.Annotation = &entsql.Annotation{
-		Table: "ncse_sys_user_role",
+	NcseAccessUserRoleTable.Annotation = &entsql.Annotation{
+		Table: "ncse_access_user_role",
 	}
 }

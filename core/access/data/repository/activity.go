@@ -34,7 +34,7 @@ type ActivityRepositoryInterface interface {
 // activityRepository implements ActivityRepositoryInterface
 type activityRepository struct {
 	data          *data.Data
-	searchClient  *search.Client
+	sc            *search.Client
 	activityCache cache.ICache[structs.ActivityDocument]
 	userActCache  cache.ICache[[]structs.ActivityDocument] // Cache recent activities per user
 	activityTTL   time.Duration
@@ -69,8 +69,8 @@ func (r *activityRepository) Create(ctx context.Context, userID string, log *str
 
 	// Check if search engine is available
 	var searchAvailable bool
-	if r.searchClient != nil {
-		searchEngines := r.searchClient.GetAvailableEngines()
+	if r.sc != nil {
+		searchEngines := r.sc.GetAvailableEngines()
 		searchAvailable = len(searchEngines) > 0
 	}
 
@@ -120,8 +120,8 @@ func (r *activityRepository) GetByID(ctx context.Context, id string) (*structs.A
 	var doc *structs.ActivityDocument
 	var err error
 
-	if r.searchClient != nil {
-		searchEngines := r.searchClient.GetAvailableEngines()
+	if r.sc != nil {
+		searchEngines := r.sc.GetAvailableEngines()
 		if len(searchEngines) == 0 {
 			goto databaseFallback
 		}
@@ -159,8 +159,8 @@ func (r *activityRepository) List(ctx context.Context, params *structs.ListActiv
 		lp.Limit = limit
 		lp.Direction = direction
 
-		if r.searchClient != nil {
-			searchEngines := r.searchClient.GetAvailableEngines()
+		if r.sc != nil {
+			searchEngines := r.sc.GetAvailableEngines()
 			if len(searchEngines) == 0 {
 				goto listDatabaseFallback
 			}
@@ -225,12 +225,12 @@ func (r *activityRepository) GetRecentByUserID(ctx context.Context, userID strin
 
 // Search searches for activities
 func (r *activityRepository) Search(ctx context.Context, params *structs.SearchActivityParams) ([]*structs.ActivityDocument, int, error) {
-	if r.searchClient == nil {
+	if r.sc == nil {
 		logger.Warnf(ctx, "Search client not initialized, using database fallback")
 		return r.searchFallback(ctx, params)
 	}
 
-	searchEngines := r.searchClient.GetAvailableEngines()
+	searchEngines := r.sc.GetAvailableEngines()
 	if len(searchEngines) == 0 {
 		logger.Warnf(ctx, "No search engines available, using database fallback")
 		return r.searchFallback(ctx, params)
@@ -264,7 +264,7 @@ func (r *activityRepository) Search(ctx context.Context, params *structs.SearchA
 		}
 	}
 
-	resp, err := r.searchClient.Search(ctx, req)
+	resp, err := r.sc.Search(ctx, req)
 	if err != nil {
 		logger.Errorf(ctx, "Search engine query failed: %v", err)
 		return r.searchFallback(ctx, params)
@@ -288,8 +288,8 @@ func (r *activityRepository) Search(ctx context.Context, params *structs.SearchA
 
 // CountX counts the number of activities
 func (r *activityRepository) CountX(ctx context.Context, params *structs.ListActivityParams) int {
-	if r.searchClient != nil {
-		searchEngines := r.searchClient.GetAvailableEngines()
+	if r.sc != nil {
+		searchEngines := r.sc.GetAvailableEngines()
 		if len(searchEngines) == 0 {
 			goto countDatabaseFallback
 		}
@@ -300,7 +300,7 @@ func (r *activityRepository) CountX(ctx context.Context, params *structs.ListAct
 			Size:  0, // Only get count
 		}
 
-		if resp, err := r.searchClient.Search(ctx, req); err == nil {
+		if resp, err := r.sc.Search(ctx, req); err == nil {
 			return int(resp.Total)
 		}
 	}
@@ -345,7 +345,7 @@ func (r *activityRepository) indexToSearch(ctx context.Context, doc *structs.Act
 		Document:   indexDoc,
 	}
 
-	return r.searchClient.Index(ctx, req)
+	return r.sc.Index(ctx, req)
 }
 
 // storeInDatabase stores an activity in the database
@@ -377,7 +377,7 @@ func (r *activityRepository) getFromSearch(ctx context.Context, id string) (*str
 		Size:  1,
 	}
 
-	resp, err := r.searchClient.Search(ctx, req)
+	resp, err := r.sc.Search(ctx, req)
 	if err != nil {
 		return nil, err
 	}
@@ -433,7 +433,7 @@ func (r *activityRepository) listFromSearch(ctx context.Context, params *structs
 		req.Filter = filters
 	}
 
-	resp, err := r.searchClient.Search(ctx, req)
+	resp, err := r.sc.Search(ctx, req)
 	if err != nil {
 		return nil, 0, err
 	}

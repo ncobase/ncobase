@@ -18,7 +18,7 @@ type SpaceBilling struct {
 
 // Annotations of the SpaceBilling
 func (SpaceBilling) Annotations() []schema.Annotation {
-	table := strings.Join([]string{"ncse", "sys", "space_billing"}, "_")
+	table := strings.Join([]string{"ncse", "space", "billing"}, "_")
 	return []schema.Annotation{
 		entsql.Annotation{Table: table},
 		entsql.WithComments(true),
