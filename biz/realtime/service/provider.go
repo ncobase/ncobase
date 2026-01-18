@@ -1,7 +1,7 @@
 package service
 
 import (
-	"ncobase/realtime/data"
+	"ncobase/biz/realtime/data"
 
 	ext "github.com/ncobase/ncore/extension/types"
 )

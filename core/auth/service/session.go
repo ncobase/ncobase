@@ -2,10 +2,10 @@ package service
 
 import (
 	"context"
-	"ncobase/auth/data"
-	"ncobase/auth/data/ent"
-	"ncobase/auth/data/repository"
-	"ncobase/auth/structs"
+	"ncobase/core/auth/data"
+	"ncobase/core/auth/data/ent"
+	"ncobase/core/auth/data/repository"
+	"ncobase/core/auth/structs"
 
 	"github.com/ncobase/ncore/data/paging"
 	"github.com/ncobase/ncore/logging/logger"

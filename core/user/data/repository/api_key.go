@@ -3,13 +3,14 @@ package repository
 import (
 	"context"
 	"fmt"
-	"ncobase/user/data"
-	"ncobase/user/data/ent"
-	apiKeyEnt "ncobase/user/data/ent/apikey"
-	"ncobase/user/structs"
+	"ncobase/core/user/data"
+	"ncobase/core/user/data/ent"
+	apiKeyEnt "ncobase/core/user/data/ent/apikey"
+	"ncobase/core/user/structs"
 	"time"
+	"github.com/redis/go-redis/v9"
 
-	"github.com/ncobase/ncore/data/databases/cache"
+	"github.com/ncobase/ncore/data/cache"
 	"github.com/ncobase/ncore/logging/logger"
 	"github.com/ncobase/ncore/security/crypto"
 	"github.com/ncobase/ncore/utils/nanoid"
@@ -36,7 +37,7 @@ type apiKeyRepository struct {
 
 // NewApiKeyRepository creates a new API key repository
 func NewApiKeyRepository(d *data.Data) ApiKeyRepositoryInterface {
-	redisClient := d.GetRedis()
+	redisClient := d.GetRedis().(*redis.Client)
 
 	return &apiKeyRepository{
 		data:            d,

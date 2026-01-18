@@ -1,6 +1,6 @@
 package company
 
-import accessStructs "ncobase/access/structs"
+import accessStructs "ncobase/core/access/structs"
 
 // SystemDefaultPermissions defines system permissions
 var SystemDefaultPermissions = []accessStructs.CreatePermissionBody{

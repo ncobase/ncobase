@@ -5,7 +5,7 @@ package hook
 import (
 	"context"
 	"fmt"
-	"ncobase/space/data/ent"
+	"ncobase/core/space/data/ent"
 )
 
 // The SpaceFunc type is an adapter to allow the use of ordinary

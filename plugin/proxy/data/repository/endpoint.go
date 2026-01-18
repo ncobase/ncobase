@@ -3,10 +3,10 @@ package repository
 import (
 	"context"
 	"fmt"
-	"ncobase/proxy/data"
-	"ncobase/proxy/data/ent"
-	ednpointEnt "ncobase/proxy/data/ent/endpoint"
-	"ncobase/proxy/structs"
+	"ncobase/plugin/proxy/data"
+	"ncobase/plugin/proxy/data/ent"
+	ednpointEnt "ncobase/plugin/proxy/data/ent/endpoint"
+	"ncobase/plugin/proxy/structs"
 	"strings"
 
 	"github.com/ncobase/ncore/data/paging"
@@ -16,7 +16,7 @@ import (
 	"github.com/ncobase/ncore/utils/nanoid"
 	"github.com/ncobase/ncore/validation/validator"
 
-	"github.com/ncobase/ncore/data/databases/cache"
+	"github.com/ncobase/ncore/data/cache"
 	"github.com/redis/go-redis/v9"
 )
 
@@ -41,7 +41,7 @@ type endpointRepository struct {
 // NewEndpointRepository creates a new endpoint repository.
 func NewEndpointRepository(d *data.Data) EndpointRepositoryInterface {
 	ec := d.GetMasterEntClient()
-	rc := d.GetRedis()
+	rc := d.GetRedis().(*redis.Client)
 	return &endpointRepository{ec, rc, cache.NewCache[ent.Endpoint](rc, "ncse_proxy_endpoint")}
 }
 

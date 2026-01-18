@@ -5,7 +5,7 @@ package hook
 import (
 	"context"
 	"fmt"
-	"ncobase/organization/data/ent"
+	"ncobase/core/organization/data/ent"
 )
 
 // The OrganizationFunc type is an adapter to allow the use of ordinary

@@ -1,12 +1,13 @@
 package repository
 
 import (
+	"github.com/redis/go-redis/v9"
 	"context"
 	"fmt"
-	"ncobase/auth/data"
+	"ncobase/core/auth/data"
 	"time"
 
-	"github.com/ncobase/ncore/data/databases/cache"
+	"github.com/ncobase/ncore/data/cache"
 	"github.com/ncobase/ncore/logging/logger"
 	"github.com/ncobase/ncore/types"
 )
@@ -31,7 +32,7 @@ type captchaRepository struct {
 
 // NewCaptchaRepository creates a new captcha repository.
 func NewCaptchaRepository(d *data.Data) CaptchaRepositoryInterface {
-	redisClient := d.GetRedis()
+	redisClient := d.GetRedis().(*redis.Client)
 
 	return &captchaRepository{
 		captchaCache: cache.NewCache[types.JSON](redisClient, "ncse_auth:captchas"),

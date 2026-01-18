@@ -1,8 +1,8 @@
 package handler
 
 import (
-	"ncobase/resource/service"
-	"ncobase/resource/structs"
+	"ncobase/plugin/resource/service"
+	"ncobase/plugin/resource/structs"
 
 	"github.com/gin-gonic/gin"
 	"github.com/ncobase/ncore/net/resp"

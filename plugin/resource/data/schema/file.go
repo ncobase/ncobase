@@ -4,7 +4,7 @@ import (
 	"strings"
 
 	"entgo.io/ent/schema/field"
-	"github.com/ncobase/ncore/data/databases/entgo/mixin"
+	"github.com/ncobase/ncore/data/entgo/mixin"
 	"github.com/ncobase/ncore/types"
 
 	"entgo.io/contrib/entgql"

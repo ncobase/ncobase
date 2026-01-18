@@ -96,21 +96,29 @@ func New(conf *config.Data, env ...string) (*Data, func(name ...string), error) 
 		gormRead = gormClient
 	}
 
-	// get mongo master connection
-	mongoMaster := d.Conn.MGM.Master()
-	if mongoMaster == nil {
-		return nil, nil, fmt.Errorf("mongo master client is nil")
-	}
+	// MongoDB is optional - check if it's configured
+	var mongoMaster *mongo.Client
+	var mongoSlave *mongo.Client
 
-	// get mongo slave connection
-	mongoSlave, err := d.Conn.MGM.Slave()
-	if err != nil {
-		logger.Warnf(ctx, "Failed to get read-only mongo client: %v", err)
-	}
+	mongoManager := d.GetMongoManager()
+	if mongoManager != nil {
+		// Try to get master client through interface
+		if mgmInterface, ok := mongoManager.(interface{ Master() *mongo.Client }); ok {
+			mongoMaster = mgmInterface.Master()
 
-	// no slave, use master
-	if mongoSlave == nil {
-		mongoSlave = mongoMaster
+			// Try to get slave client
+			if slaveInterface, ok := mongoManager.(interface{ Slave() (*mongo.Client, error) }); ok {
+				mongoSlave, _ = slaveInterface.Slave()
+			}
+		} else if client, ok := mongoManager.(*mongo.Client); ok {
+			// If mongo manager is already a *mongo.Client, use it directly
+			mongoMaster = client
+		}
+
+		// Fallback slave to master if not available
+		if mongoSlave == nil {
+			mongoSlave = mongoMaster
+		}
 	}
 
 	return &Data{
@@ -366,12 +374,58 @@ func (d *Data) GetMongoClientRead() *mongo.Client {
 	return d.MC // Downgrade, use master
 }
 
-// GetMongoCollection returns a collection from master/slave client
-func (d *Data) GetMongoCollection(dbName, collName string, readOnly bool) *mongo.Collection {
-	if readOnly {
+// GetMongoDatabase returns a MongoDB database using ncore v0.2 API
+func (d *Data) GetMongoDatabase(dbName string, readOnly bool) (*mongo.Database, error) {
+	if d.Data == nil {
+		return nil, fmt.Errorf("base data layer is nil")
+	}
+
+	// Use ncore v0.2 unified API
+	db, err := d.Data.GetMongoDatabase(dbName, readOnly)
+	if err != nil {
+		return nil, err
+	}
+
+	// Type assert to *mongo.Database
+	mongoDb, ok := db.(*mongo.Database)
+	if !ok {
+		return nil, fmt.Errorf("unexpected mongo database type: %T", db)
+	}
+
+	return mongoDb, nil
+}
+
+// GetMongoCollection returns a collection using ncore v0.2 API
+func (d *Data) GetMongoCollection(dbName, collName string, readOnly bool) (*mongo.Collection, error) {
+	if d.Data == nil {
+		return nil, fmt.Errorf("base data layer is nil")
+	}
+
+	// Use ncore v0.2 unified API
+	coll, err := d.Data.GetMongoCollection(dbName, collName, readOnly)
+	if err != nil {
+		return nil, err
+	}
+
+	// Type assert to *mongo.Collection
+	mongoColl, ok := coll.(*mongo.Collection)
+	if !ok {
+		return nil, fmt.Errorf("unexpected mongo collection type: %T", coll)
+	}
+
+	return mongoColl, nil
+}
+
+// GetMongoCollectionDirect returns a collection from cached client (for backward compatibility)
+// Deprecated: Use GetMongoCollection instead for better error handling
+func (d *Data) GetMongoCollectionDirect(dbName, collName string, readOnly bool) *mongo.Collection {
+	if readOnly && d.MCRead != nil {
 		return d.MCRead.Database(dbName).Collection(collName)
 	}
-	return d.MC.Database(dbName).Collection(collName)
+	if d.MC != nil {
+		return d.MC.Database(dbName).Collection(collName)
+	}
+	return nil
 }
 
 // GetMongoTx retrieves mongo transaction from context
@@ -383,8 +437,25 @@ func GetMongoTx(ctx context.Context) (mongo.SessionContext, error) {
 	return session, nil
 }
 
-// WithMongoTx wraps a function within a mongo transaction
-func (d *Data) WithMongoTx(ctx context.Context, fn func(mongo.SessionContext) error) error {
+// WithMongoTx wraps a function within a mongo transaction using ncore v0.2 API
+func (d *Data) WithMongoTx(ctx context.Context, fn func(sessCtx mongo.SessionContext) error) error {
+	if d.Data == nil {
+		return fmt.Errorf("base data layer is nil")
+	}
+
+	// Use ncore v0.2 unified transaction API
+	return d.Data.WithMongoTransaction(ctx, func(sessCtx any) error {
+		mongoCtx, ok := sessCtx.(mongo.SessionContext)
+		if !ok {
+			return fmt.Errorf("unexpected session context type: %T", sessCtx)
+		}
+		return fn(mongoCtx)
+	})
+}
+
+// WithMongoTxDirect wraps a function within a mongo transaction using cached client
+// Deprecated: Use WithMongoTx for ncore v0.2 compatibility
+func (d *Data) WithMongoTxDirect(ctx context.Context, fn func(mongo.SessionContext) error) error {
 	if d.MC == nil {
 		return fmt.Errorf("mongo client is nil")
 	}
@@ -395,26 +466,6 @@ func (d *Data) WithMongoTx(ctx context.Context, fn func(mongo.SessionContext) er
 	}
 	defer session.EndSession(ctx)
 
-	_, err = session.WithTransaction(ctx, func(sessCtx mongo.SessionContext) (any, error) {
-		return nil, fn(sessCtx)
-	})
-	return err
-}
-
-// WithMongoTxRead wraps a function within a read-only mongo transaction
-func (d *Data) WithMongoTxRead(ctx context.Context, fn func(mongo.SessionContext) error) error {
-	client := d.GetMongoClientRead()
-	if client == nil {
-		return fmt.Errorf("mongo read client is nil")
-	}
-
-	session, err := client.StartSession()
-	if err != nil {
-		return err
-	}
-	defer session.EndSession(ctx)
-
-	// MongoDB does not support read-only transaction, so we downgrade to read-write
 	_, err = session.WithTransaction(ctx, func(sessCtx mongo.SessionContext) (any, error) {
 		return nil, fn(sessCtx)
 	})

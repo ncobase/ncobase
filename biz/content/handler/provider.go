@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"ncobase/content/service"
+	"ncobase/biz/content/service"
 )
 
 // Handler represents the content handler.

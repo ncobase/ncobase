@@ -3,12 +3,12 @@ package repository
 import (
 	"context"
 	"fmt"
-	"ncobase/content/data"
-	"ncobase/content/data/ent"
-	taxonomyEnt "ncobase/content/data/ent/taxonomy"
-	"ncobase/content/structs"
+	"ncobase/biz/content/data"
+	"ncobase/biz/content/data/ent"
+	taxonomyEnt "ncobase/biz/content/data/ent/taxonomy"
+	"ncobase/biz/content/structs"
 
-	"github.com/ncobase/ncore/data/databases/cache"
+	"github.com/ncobase/ncore/data/cache"
 	"github.com/ncobase/ncore/data/paging"
 	"github.com/ncobase/ncore/logging/logger"
 	"github.com/ncobase/ncore/types"
@@ -37,6 +37,7 @@ type TaxonomyRepositoryInterface interface {
 // taxonomyRepository implements the TaxonomyRepositoryInterface.
 type taxonomyRepository struct {
 	data *data.Data
+	searchClient *search.Client
 	ec   *ent.Client
 	ecr  *ent.Client
 	rc   *redis.Client
@@ -47,7 +48,7 @@ type taxonomyRepository struct {
 func NewTaxonomyRepository(d *data.Data) TaxonomyRepositoryInterface {
 	ec := d.GetMasterEntClient()
 	ecr := d.GetSlaveEntClient()
-	rc := d.GetRedis()
+	rc := d.GetRedis().(*redis.Client)
 	return &taxonomyRepository{
 		data: d,
 		ec:   ec,
@@ -89,7 +90,7 @@ func (r *taxonomyRepository) Create(ctx context.Context, body *structs.CreateTax
 	}
 
 	// Create the taxonomy in Meilisearch index
-	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "taxonomies", Document: row}); err != nil {
+	if err = r.searchClient.Index(ctx, &search.IndexRequest{Index: "taxonomies", Document: row}); err != nil {
 		logger.Errorf(ctx, "taxonomyRepo.Create error creating Meilisearch index: %v", err)
 		// return nil, err
 	}
@@ -237,11 +238,11 @@ func (r *taxonomyRepository) Update(ctx context.Context, slug string, updates ty
 	}
 
 	// Update the taxonomy in Meilisearch
-	if err = r.data.DeleteDocument(ctx, "taxonomies", slug); err != nil {
+	if err = r.searchClient.Delete(ctx, "taxonomies", slug); err != nil {
 		logger.Errorf(ctx, "taxonomyRepo.Update error deleting Meilisearch index: %v", err)
 		// return nil, err
 	}
-	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "taxonomies", Document: row, DocumentID: row.ID}); err != nil {
+	if err = r.searchClient.Index(ctx, &search.IndexRequest{Index: "taxonomies", Document: row, DocumentID: row.ID}); err != nil {
 		logger.Errorf(ctx, "taxonomyRepo.Update error updating Meilisearch index: %v", err)
 		// return nil, err
 	}
@@ -371,7 +372,7 @@ func (r *taxonomyRepository) Delete(ctx context.Context, slug string) error {
 	}
 
 	// delete from Meilisearch index
-	if err = r.data.DeleteDocument(ctx, "taxonomies", taxonomy.ID); err != nil {
+	if err = r.searchClient.Delete(ctx, "taxonomies", taxonomy.ID); err != nil {
 		logger.Errorf(ctx, "topicRepo.Delete index error: %v", err)
 		// return nil, err
 	}

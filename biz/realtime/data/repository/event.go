@@ -3,14 +3,15 @@ package repository
 import (
 	"context"
 	"fmt"
-	"ncobase/realtime/data"
-	"ncobase/realtime/data/ent"
-	eventEnt "ncobase/realtime/data/ent/event"
-	"ncobase/realtime/structs"
+	"ncobase/biz/realtime/data"
+	"ncobase/biz/realtime/data/ent"
+	eventEnt "ncobase/biz/realtime/data/ent/event"
+	"ncobase/biz/realtime/structs"
 	"time"
 
-	"entgo.io/ent"
-	"github.com/ncobase/ncore/data/databases/cache"
+	nd "github.com/ncobase/ncore/data"
+
+	"github.com/ncobase/ncore/data/cache"
 	"github.com/ncobase/ncore/data/paging"
 	"github.com/ncobase/ncore/logging/logger"
 	"github.com/ncobase/ncore/utils/nanoid"
@@ -58,17 +59,20 @@ type EventRepositoryInterface interface {
 
 type eventRepository struct {
 	data *data.Data
+	searchClient *search.Client
 	ec   *ent.Client
 	rc   *redis.Client
 	c    *cache.Cache[ent.Event]
 }
 
 func NewEventRepository(d *data.Data) EventRepositoryInterface {
+	searchClient := nd.NewSearchClient(d.Data)
 	return &eventRepository{
 		data: d,
+		searchClient: searchClient,
 		ec:   d.GetMasterEntClient(),
-		rc:   d.GetRedis(),
-		c:    cache.NewCache[ent.Event](d.GetRedis(), "rt_event"),
+		rc:   d.GetRedis().(*redis.Client),
+		c:    cache.NewCache[ent.Event](d.GetRedis().(*redis.Client), "rt_event"),
 	}
 }
 
@@ -81,7 +85,7 @@ func (r *eventRepository) Create(ctx context.Context, event *ent.EventCreate) (*
 	}
 
 	// Index in Meilisearch
-	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "realtime_events", Document: row}); err != nil {
+	if err = r.searchClient.Index(ctx, &search.IndexRequest{Index: "realtime_events", Document: row}); err != nil {
 		logger.Errorf(ctx, "eventRepo.Create error creating Meilisearch index: %v", err)
 	}
 
@@ -116,7 +120,7 @@ func (r *eventRepository) Update(ctx context.Context, id string, event *ent.Even
 	}
 
 	// Update Meilisearch index
-	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "realtime_events", Document: row, DocumentID: row.ID}); err != nil {
+	if err = r.searchClient.Index(ctx, &search.IndexRequest{Index: "realtime_events", Document: row, DocumentID: row.ID}); err != nil {
 		logger.Errorf(ctx, "eventRepo.Update error updating Meilisearch index: %v", err)
 	}
 
@@ -136,7 +140,7 @@ func (r *eventRepository) Delete(ctx context.Context, id string) error {
 	}
 
 	// Delete from Meilisearch
-	if err = r.data.DeleteDocument(ctx, "realtime_events", id); err != nil {
+	if err = r.searchClient.Delete(ctx, "realtime_events", id); err != nil {
 		logger.Errorf(ctx, "eventRepo.Delete error deleting Meilisearch index: %v", err)
 	}
 

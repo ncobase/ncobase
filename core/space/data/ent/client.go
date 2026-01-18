@@ -9,22 +9,24 @@ import (
 	"log"
 	"reflect"
 
-	"ncobase/space/data/ent/migrate"
+	"ncobase/core/space/data/ent/migrate"
 
-	"ncobase/space/data/ent/space"
-	"ncobase/space/data/ent/spacebilling"
-	"ncobase/space/data/ent/spacedictionary"
-	"ncobase/space/data/ent/spacemenu"
-	"ncobase/space/data/ent/spaceoption"
-	"ncobase/space/data/ent/spaceorganization"
-	"ncobase/space/data/ent/spacequota"
-	"ncobase/space/data/ent/spacesetting"
-	"ncobase/space/data/ent/userspace"
-	"ncobase/space/data/ent/userspacerole"
+	"ncobase/core/space/data/ent/space"
+	"ncobase/core/space/data/ent/spacebilling"
+	"ncobase/core/space/data/ent/spacedictionary"
+	"ncobase/core/space/data/ent/spacemenu"
+	"ncobase/core/space/data/ent/spaceoption"
+	"ncobase/core/space/data/ent/spaceorganization"
+	"ncobase/core/space/data/ent/spacequota"
+	"ncobase/core/space/data/ent/spacesetting"
+	"ncobase/core/space/data/ent/userspace"
+	"ncobase/core/space/data/ent/userspacerole"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect"
 	"entgo.io/ent/dialect/sql"
+
+	stdsql "database/sql"
 )
 
 // Client is the client that holds all ent builders.
@@ -1622,3 +1624,27 @@ type (
 		SpaceQuota, SpaceSetting, UserSpace, UserSpaceRole []ent.Interceptor
 	}
 )
+
+// ExecContext allows calling the underlying ExecContext method of the driver if it is supported by it.
+// See, database/sql#DB.ExecContext for more information.
+func (c *config) ExecContext(ctx context.Context, query string, args ...any) (stdsql.Result, error) {
+	ex, ok := c.driver.(interface {
+		ExecContext(context.Context, string, ...any) (stdsql.Result, error)
+	})
+	if !ok {
+		return nil, fmt.Errorf("Driver.ExecContext is not supported")
+	}
+	return ex.ExecContext(ctx, query, args...)
+}
+
+// QueryContext allows calling the underlying QueryContext method of the driver if it is supported by it.
+// See, database/sql#DB.QueryContext for more information.
+func (c *config) QueryContext(ctx context.Context, query string, args ...any) (*stdsql.Rows, error) {
+	q, ok := c.driver.(interface {
+		QueryContext(context.Context, string, ...any) (*stdsql.Rows, error)
+	})
+	if !ok {
+		return nil, fmt.Errorf("Driver.QueryContext is not supported")
+	}
+	return q.QueryContext(ctx, query, args...)
+}

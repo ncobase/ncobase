@@ -3,20 +3,21 @@ package repository
 import (
 	"context"
 	"fmt"
-	"ncobase/organization/data"
-	"ncobase/organization/data/ent"
-	organizationEnt "ncobase/organization/data/ent/organization"
-	"ncobase/organization/structs"
+	"ncobase/core/organization/data"
+	"ncobase/core/organization/data/ent"
+	organizationEnt "ncobase/core/organization/data/ent/organization"
+	"ncobase/core/organization/structs"
 	"time"
 
-	"github.com/ncobase/ncore/data/databases/cache"
+	nd "github.com/ncobase/ncore/data"
+	"github.com/ncobase/ncore/data/cache"
 	"github.com/ncobase/ncore/data/paging"
+	"github.com/ncobase/ncore/data/search"
 	"github.com/ncobase/ncore/logging/logger"
 	"github.com/ncobase/ncore/types"
 	"github.com/ncobase/ncore/utils/convert"
 	"github.com/ncobase/ncore/validation/validator"
-
-	"github.com/ncobase/ncore/data/search"
+	"github.com/redis/go-redis/v9"
 )
 
 // OrganizationRepositoryInterface represents the organization repository interface.
@@ -40,20 +41,25 @@ type organizationRepository struct {
 	data              *data.Data
 	ec                *ent.Client
 	organizationCache cache.ICache[ent.Organization]
-	slugMappingCache  cache.ICache[string] // Maps slug to organization ID
+	slugMappingCache  cache.ICache[string]
 	organizationTTL   time.Duration
+	searchClient      *search.Client
 }
 
 // NewOrganizationRepository creates a new organization repository.
 func NewOrganizationRepository(d *data.Data) OrganizationRepositoryInterface {
-	redisClient := d.GetRedis()
+	redisClient, ok := d.GetRedis().(*redis.Client)
+	if !ok || redisClient == nil {
+		logger.Warnf(context.Background(), "Redis client not available, organization cache will be disabled")
+	}
 
 	return &organizationRepository{
 		data:              d,
 		ec:                d.GetMasterEntClient(),
 		organizationCache: cache.NewCache[ent.Organization](redisClient, "ncse_organization:organizations"),
 		slugMappingCache:  cache.NewCache[string](redisClient, "ncse_organization:organization_mappings"),
-		organizationTTL:   time.Hour * 2, // 2 hours cache TTL
+		organizationTTL:   time.Hour * 2,
+		searchClient:      nd.NewSearchClient(d.Data),
 	}
 }
 
@@ -82,12 +88,12 @@ func (r *organizationRepository) Create(ctx context.Context, body *structs.Creat
 		return nil, err
 	}
 
-	// Index in Meilisearch
-	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "organizations", Document: organization}); err != nil {
-		logger.Errorf(ctx, "organizationRepo.Create error creating Meilisearch index: %v", err)
+	// Index in search engine
+	if err = r.searchClient.Index(ctx, &search.IndexRequest{Index: "organizations", Document: organization}); err != nil {
+		logger.Errorf(ctx, "organizationRepo.Create error creating search index: %v", err)
 	}
 
-	// Cache the organization
+	// Cache of organization
 	go r.cacheOrganization(context.Background(), organization)
 
 	return organization, nil
@@ -203,7 +209,7 @@ func (r *organizationRepository) Update(ctx context.Context, slug string, update
 	}
 
 	// Update Meilisearch index
-	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "organizations", Document: updatedOrganization, DocumentID: updatedOrganization.ID}); err != nil {
+	if err = r.searchClient.Index(ctx, &search.IndexRequest{Index: "organizations", Document: updatedOrganization, DocumentID: updatedOrganization.ID}); err != nil {
 		logger.Errorf(ctx, "organizationRepo.Update error updating Meilisearch index: %v", err)
 	}
 
@@ -327,9 +333,9 @@ func (r *organizationRepository) Delete(ctx context.Context, slug string) error 
 		return err
 	}
 
-	// Delete from Meilisearch
-	if err = r.data.DeleteDocument(ctx, "organizations", organization.ID); err != nil {
-		logger.Errorf(ctx, "organizationRepo.Delete error deleting Meilisearch index: %v", err)
+	// Delete from search engine
+	if err = r.searchClient.Delete(ctx, "organizations", organization.ID); err != nil {
+		logger.Errorf(ctx, "organizationRepo.Delete error deleting from search: %v", err)
 	}
 
 	// Invalidate cache

@@ -3,15 +3,16 @@ package repository
 import (
 	"context"
 	"fmt"
-	"ncobase/access/data"
-	"ncobase/access/data/ent"
-	permissionEnt "ncobase/access/data/ent/permission"
-	roleEnt "ncobase/access/data/ent/role"
-	rolePermissionEnt "ncobase/access/data/ent/rolepermission"
-	"ncobase/access/structs"
+	"ncobase/core/access/data"
+	"ncobase/core/access/data/ent"
+	permissionEnt "ncobase/core/access/data/ent/permission"
+	roleEnt "ncobase/core/access/data/ent/role"
+	rolePermissionEnt "ncobase/core/access/data/ent/rolepermission"
+	"ncobase/core/access/structs"
 	"time"
+	"github.com/redis/go-redis/v9"
 
-	"github.com/ncobase/ncore/data/databases/cache"
+	"github.com/ncobase/ncore/data/cache"
 	"github.com/ncobase/ncore/logging/logger"
 )
 
@@ -42,7 +43,7 @@ type rolePermissionRepository struct {
 
 // NewRolePermissionRepository creates a new role permission repository.
 func NewRolePermissionRepository(d *data.Data) RolePermissionRepositoryInterface {
-	redisClient := d.GetRedis()
+	redisClient := d.GetRedis().(*redis.Client)
 
 	return &rolePermissionRepository{
 		data:                 d,

@@ -5,7 +5,7 @@ import (
 	"errors"
 	"fmt"
 
-	"ncobase/realtime/structs"
+	"ncobase/biz/realtime/structs"
 
 	ext "github.com/ncobase/ncore/extension/types"
 	"github.com/ncobase/ncore/logging/logger"

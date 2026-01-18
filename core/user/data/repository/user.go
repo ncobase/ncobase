@@ -3,13 +3,14 @@ package repository
 import (
 	"context"
 	"fmt"
-	"ncobase/user/data"
-	"ncobase/user/data/ent"
-	userEnt "ncobase/user/data/ent/user"
-	"ncobase/user/structs"
+	"ncobase/core/user/data"
+	ent "ncobase/core/user/data/ent"
+	userEnt "ncobase/core/user/data/ent/user"
+	"ncobase/core/user/structs"
 	"time"
 
-	"github.com/ncobase/ncore/data/databases/cache"
+	nd "github.com/ncobase/ncore/data"
+	"github.com/ncobase/ncore/data/cache"
 	"github.com/ncobase/ncore/data/paging"
 	"github.com/ncobase/ncore/logging/logger"
 	"github.com/ncobase/ncore/security/crypto"
@@ -17,6 +18,7 @@ import (
 	"github.com/ncobase/ncore/utils/nanoid"
 
 	"github.com/ncobase/ncore/data/search"
+	"github.com/redis/go-redis/v9"
 )
 
 // UserRepositoryInterface defines user repository operations
@@ -36,6 +38,7 @@ type UserRepositoryInterface interface {
 // userRepository implements UserRepositoryInterface
 type userRepository struct {
 	data                 *data.Data
+	searchClient         *search.Client
 	userCache            cache.ICache[ent.User]
 	usernameMappingCache cache.ICache[string] // Maps username to user ID
 	emailMappingCache    cache.ICache[string] // Maps email to user ID
@@ -44,10 +47,12 @@ type userRepository struct {
 
 // NewUserRepository creates a new user repository
 func NewUserRepository(d *data.Data) UserRepositoryInterface {
-	redisClient := d.GetRedis()
+	redisClient := d.GetRedis().(*redis.Client)
+	searchClient := nd.NewSearchClient(d.Data)
 
 	return &userRepository{
 		data:                 d,
+		searchClient:         searchClient,
 		userCache:            cache.NewCache[ent.User](redisClient, "ncse_users"),
 		usernameMappingCache: cache.NewCache[string](redisClient, "ncse_user_mappings:username"),
 		emailMappingCache:    cache.NewCache[string](redisClient, "ncse_user_mappings:email"),
@@ -83,7 +88,7 @@ func (r *userRepository) Create(ctx context.Context, body *structs.UserBody) (*e
 	}
 
 	// Index in Meilisearch
-	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "users", Document: user}); err != nil {
+	if err = r.searchClient.Index(ctx, &search.IndexRequest{Index: "users", Document: user}); err != nil {
 		logger.Errorf(ctx, "userRepo.Create error creating Meilisearch index: %v", err)
 	}
 
@@ -204,7 +209,7 @@ func (r *userRepository) Update(ctx context.Context, id string, updates types.JS
 	}
 
 	// Update Meilisearch index
-	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "users", Document: user, DocumentID: user.ID}); err != nil {
+	if err = r.searchClient.Index(ctx, &search.IndexRequest{Index: "users", Document: user, DocumentID: user.ID}); err != nil {
 		logger.Errorf(ctx, "userRepo.Update error updating Meilisearch index: %v", err)
 	}
 
@@ -232,7 +237,7 @@ func (r *userRepository) Delete(ctx context.Context, id string) error {
 	}
 
 	// Delete from Meilisearch
-	if err = r.data.DeleteDocument(ctx, "users", id); err != nil {
+	if err = r.searchClient.Delete(ctx, "users", id); err != nil {
 		logger.Errorf(ctx, "userRepo.Delete error deleting Meilisearch index: %v", err)
 	}
 

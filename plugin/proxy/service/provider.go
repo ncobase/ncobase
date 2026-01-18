@@ -1,7 +1,7 @@
 package service
 
 import (
-	"ncobase/proxy/data"
+	"ncobase/plugin/proxy/data"
 )
 
 // Service represents the proxy service.

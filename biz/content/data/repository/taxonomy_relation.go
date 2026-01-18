@@ -3,20 +3,20 @@ package repository
 import (
 	"context"
 	"fmt"
-	"ncobase/content/data"
-	"ncobase/content/data/ent"
-	taxonomyRelationEnt "ncobase/content/data/ent/taxonomyrelation"
-	"ncobase/content/structs"
+	"ncobase/biz/content/data"
+	"ncobase/biz/content/data/ent"
+	taxonomyRelationEnt "ncobase/biz/content/data/ent/taxonomyrelation"
+	"ncobase/biz/content/structs"
 
-	"github.com/ncobase/ncore/data/databases/cache"
+	nd "github.com/ncobase/ncore/data"
+	"github.com/ncobase/ncore/data/cache"
 	"github.com/ncobase/ncore/data/paging"
 	"github.com/ncobase/ncore/logging/logger"
 	"github.com/ncobase/ncore/utils/nanoid"
 	"github.com/ncobase/ncore/validation/validator"
 
-	"github.com/redis/go-redis/v9"
-
 	"github.com/ncobase/ncore/data/search"
+	"github.com/redis/go-redis/v9"
 )
 
 // TaxonomyRelationsRepositoryInterface represents the taxonomy relations repository interface.
@@ -33,24 +33,28 @@ type TaxonomyRelationsRepositoryInterface interface {
 
 // taxonomyRelationsRepository implements the TaxonomyRelationsRepositoryInterface.
 type taxonomyRelationsRepository struct {
-	data *data.Data
-	ec   *ent.Client
-	ecr  *ent.Client
-	rc   *redis.Client
-	c    *cache.Cache[ent.TaxonomyRelation]
+	data         *data.Data
+	searchClient *search.Client
+	ec           *ent.Client
+	ecr          *ent.Client
+	rc           *redis.Client
+	c            *cache.Cache[ent.TaxonomyRelation]
 }
 
 // NewTaxonomyRelationsRepository creates a new taxonomy relations repository.
 func NewTaxonomyRelationsRepository(d *data.Data) TaxonomyRelationsRepositoryInterface {
 	ec := d.GetMasterEntClient()
 	ecr := d.GetSlaveEntClient()
-	rc := d.GetRedis()
+	rc := d.GetRedis().(*redis.Client)
+	searchClient := nd.NewSearchClient(d.Data)
+
 	return &taxonomyRelationsRepository{
-		data: d,
-		ec:   ec,
-		ecr:  ecr,
-		rc:   rc,
-		c:    cache.NewCache[ent.TaxonomyRelation](rc, "ncse_taxonomy_relations"),
+		data:         d,
+		searchClient: searchClient,
+		ec:           ec,
+		ecr:          ecr,
+		rc:           rc,
+		c:            cache.NewCache[ent.TaxonomyRelation](rc, "ncse_taxonomy_relations"),
 	}
 }
 
@@ -71,7 +75,7 @@ func (r *taxonomyRelationsRepository) Create(ctx context.Context, body *structs.
 	}
 
 	// Index in Meilisearch
-	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "content_taxonomy_relations", Document: row}); err != nil {
+	if err = r.searchClient.Index(ctx, &search.IndexRequest{Index: "content_taxonomy_relations", Document: row}); err != nil {
 		logger.Errorf(ctx, "taxonomyRelationsRepo.Create error creating Meilisearch index: %v", err)
 	}
 
@@ -124,7 +128,7 @@ func (r *taxonomyRelationsRepository) Update(ctx context.Context, body *structs.
 	}
 
 	// Update Meilisearch index
-	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "content_taxonomy_relations", Document: row, DocumentID: row.ID}); err != nil {
+	if err = r.searchClient.Index(ctx, &search.IndexRequest{Index: "content_taxonomy_relations", Document: row, DocumentID: row.ID}); err != nil {
 		logger.Errorf(ctx, "taxonomyRelationsRepo.Update error updating Meilisearch index: %v", err)
 	}
 
@@ -211,7 +215,7 @@ func (r *taxonomyRelationsRepository) Delete(ctx context.Context, object string)
 
 	if err == nil {
 		// Delete from Meilisearch
-		if msErr := r.data.DeleteDocument(ctx, "content_taxonomy_relations", object); msErr != nil {
+		if msErr := r.searchClient.Delete(ctx, "content_taxonomy_relations", object); msErr != nil {
 			logger.Errorf(ctx, "taxonomyRelationsRepo.Delete error deleting Meilisearch index: %v", msErr)
 		}
 

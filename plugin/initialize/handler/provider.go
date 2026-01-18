@@ -1,6 +1,6 @@
 package handler
 
-import "ncobase/initialize/service"
+import "ncobase/plugin/initialize/service"
 
 // Handler represents the initialize handler.
 type Handler struct {

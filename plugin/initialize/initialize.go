@@ -2,9 +2,9 @@ package initialize
 
 import (
 	"fmt"
-	initConfig "ncobase/initialize/config"
-	"ncobase/initialize/handler"
-	"ncobase/initialize/service"
+	initConfig "ncobase/plugin/initialize/config"
+	"ncobase/plugin/initialize/handler"
+	"ncobase/plugin/initialize/service"
 	"sync"
 
 	"github.com/gin-gonic/gin"

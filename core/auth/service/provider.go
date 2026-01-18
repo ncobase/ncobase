@@ -1,9 +1,9 @@
 package service
 
 import (
-	"ncobase/auth/data"
-	"ncobase/auth/event"
-	"ncobase/auth/wrapper"
+	"ncobase/core/auth/data"
+	"ncobase/core/auth/event"
+	"ncobase/core/auth/wrapper"
 
 	ext "github.com/ncobase/ncore/extension/types"
 	"github.com/ncobase/ncore/security/jwt"

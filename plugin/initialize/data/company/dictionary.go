@@ -1,6 +1,6 @@
 package company
 
-import systemStructs "ncobase/system/structs"
+import systemStructs "ncobase/core/system/structs"
 
 // SystemDefaultDictionaries defines core system dictionary data
 var SystemDefaultDictionaries = []systemStructs.DictionaryBody{

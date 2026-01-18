@@ -3,15 +3,17 @@ package repository
 import (
 	"context"
 	"fmt"
-	"ncobase/space/data"
-	"ncobase/space/data/ent"
-	spaceEnt "ncobase/space/data/ent/space"
-	userSpaceEnt "ncobase/space/data/ent/userspace"
-	"ncobase/space/structs"
+	"ncobase/core/space/data"
+	"ncobase/core/space/data/ent"
+	spaceEnt "ncobase/core/space/data/ent/space"
+	userSpaceEnt "ncobase/core/space/data/ent/userspace"
+	"ncobase/core/space/structs"
 	"time"
 
-	"github.com/ncobase/ncore/data/databases/cache"
+	"github.com/ncobase/ncore/data/cache"
 	"github.com/ncobase/ncore/logging/logger"
+
+	"github.com/redis/go-redis/v9"
 )
 
 // UserSpaceRepositoryInterface represents the user space repository interface.
@@ -39,7 +41,7 @@ type userSpaceRepository struct {
 
 // NewUserSpaceRepository creates a new user space repository.
 func NewUserSpaceRepository(d *data.Data) UserSpaceRepositoryInterface {
-	redisClient := d.GetRedis()
+	redisClient := d.GetRedis().(*redis.Client)
 
 	return &userSpaceRepository{
 		data:            d,

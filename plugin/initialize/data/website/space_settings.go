@@ -1,6 +1,6 @@
 package website
 
-import spaceStructs "ncobase/space/structs"
+import spaceStructs "ncobase/core/space/structs"
 
 // SystemDefaultSpaceSettings defines default settings for website spaces
 var SystemDefaultSpaceSettings = []spaceStructs.CreateSpaceSettingBody{

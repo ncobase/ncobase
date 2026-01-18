@@ -4,9 +4,12 @@ package ent
 
 import (
 	"context"
+	"errors"
 	"fmt"
-	"ncobase/space/data/ent/userspacerole"
+	"ncobase/core/space/data/ent/userspacerole"
 
+	"entgo.io/ent/dialect"
+	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
 )
@@ -16,6 +19,7 @@ type UserSpaceRoleCreate struct {
 	config
 	mutation *UserSpaceRoleMutation
 	hooks    []Hook
+	conflict []sql.ConflictOption
 }
 
 // SetUserID sets the "user_id" field.
@@ -217,6 +221,7 @@ func (_c *UserSpaceRoleCreate) createSpec() (*UserSpaceRole, *sqlgraph.CreateSpe
 		_node = &UserSpaceRole{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(userspacerole.Table, sqlgraph.NewFieldSpec(userspacerole.FieldID, field.TypeString))
 	)
+	_spec.OnConflict = _c.conflict
 	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
@@ -252,11 +257,397 @@ func (_c *UserSpaceRoleCreate) createSpec() (*UserSpaceRole, *sqlgraph.CreateSpe
 	return _node, _spec
 }
 
+// OnConflict allows configuring the `ON CONFLICT` / `ON DUPLICATE KEY` clause
+// of the `INSERT` statement. For example:
+//
+//	client.UserSpaceRole.Create().
+//		SetUserID(v).
+//		OnConflict(
+//			// Update the row with the new values
+//			// the was proposed for insertion.
+//			sql.ResolveWithNewValues(),
+//		).
+//		// Override some of the fields with custom
+//		// update values.
+//		Update(func(u *ent.UserSpaceRoleUpsert) {
+//			SetUserID(v+v).
+//		}).
+//		Exec(ctx)
+func (_c *UserSpaceRoleCreate) OnConflict(opts ...sql.ConflictOption) *UserSpaceRoleUpsertOne {
+	_c.conflict = opts
+	return &UserSpaceRoleUpsertOne{
+		create: _c,
+	}
+}
+
+// OnConflictColumns calls `OnConflict` and configures the columns
+// as conflict target. Using this option is equivalent to using:
+//
+//	client.UserSpaceRole.Create().
+//		OnConflict(sql.ConflictColumns(columns...)).
+//		Exec(ctx)
+func (_c *UserSpaceRoleCreate) OnConflictColumns(columns ...string) *UserSpaceRoleUpsertOne {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
+	return &UserSpaceRoleUpsertOne{
+		create: _c,
+	}
+}
+
+type (
+	// UserSpaceRoleUpsertOne is the builder for "upsert"-ing
+	//  one UserSpaceRole node.
+	UserSpaceRoleUpsertOne struct {
+		create *UserSpaceRoleCreate
+	}
+
+	// UserSpaceRoleUpsert is the "OnConflict" setter.
+	UserSpaceRoleUpsert struct {
+		*sql.UpdateSet
+	}
+)
+
+// SetUserID sets the "user_id" field.
+func (u *UserSpaceRoleUpsert) SetUserID(v string) *UserSpaceRoleUpsert {
+	u.Set(userspacerole.FieldUserID, v)
+	return u
+}
+
+// UpdateUserID sets the "user_id" field to the value that was provided on create.
+func (u *UserSpaceRoleUpsert) UpdateUserID() *UserSpaceRoleUpsert {
+	u.SetExcluded(userspacerole.FieldUserID)
+	return u
+}
+
+// ClearUserID clears the value of the "user_id" field.
+func (u *UserSpaceRoleUpsert) ClearUserID() *UserSpaceRoleUpsert {
+	u.SetNull(userspacerole.FieldUserID)
+	return u
+}
+
+// SetSpaceID sets the "space_id" field.
+func (u *UserSpaceRoleUpsert) SetSpaceID(v string) *UserSpaceRoleUpsert {
+	u.Set(userspacerole.FieldSpaceID, v)
+	return u
+}
+
+// UpdateSpaceID sets the "space_id" field to the value that was provided on create.
+func (u *UserSpaceRoleUpsert) UpdateSpaceID() *UserSpaceRoleUpsert {
+	u.SetExcluded(userspacerole.FieldSpaceID)
+	return u
+}
+
+// ClearSpaceID clears the value of the "space_id" field.
+func (u *UserSpaceRoleUpsert) ClearSpaceID() *UserSpaceRoleUpsert {
+	u.SetNull(userspacerole.FieldSpaceID)
+	return u
+}
+
+// SetRoleID sets the "role_id" field.
+func (u *UserSpaceRoleUpsert) SetRoleID(v string) *UserSpaceRoleUpsert {
+	u.Set(userspacerole.FieldRoleID, v)
+	return u
+}
+
+// UpdateRoleID sets the "role_id" field to the value that was provided on create.
+func (u *UserSpaceRoleUpsert) UpdateRoleID() *UserSpaceRoleUpsert {
+	u.SetExcluded(userspacerole.FieldRoleID)
+	return u
+}
+
+// ClearRoleID clears the value of the "role_id" field.
+func (u *UserSpaceRoleUpsert) ClearRoleID() *UserSpaceRoleUpsert {
+	u.SetNull(userspacerole.FieldRoleID)
+	return u
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (u *UserSpaceRoleUpsert) SetCreatedBy(v string) *UserSpaceRoleUpsert {
+	u.Set(userspacerole.FieldCreatedBy, v)
+	return u
+}
+
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *UserSpaceRoleUpsert) UpdateCreatedBy() *UserSpaceRoleUpsert {
+	u.SetExcluded(userspacerole.FieldCreatedBy)
+	return u
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *UserSpaceRoleUpsert) ClearCreatedBy() *UserSpaceRoleUpsert {
+	u.SetNull(userspacerole.FieldCreatedBy)
+	return u
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (u *UserSpaceRoleUpsert) SetUpdatedBy(v string) *UserSpaceRoleUpsert {
+	u.Set(userspacerole.FieldUpdatedBy, v)
+	return u
+}
+
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *UserSpaceRoleUpsert) UpdateUpdatedBy() *UserSpaceRoleUpsert {
+	u.SetExcluded(userspacerole.FieldUpdatedBy)
+	return u
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *UserSpaceRoleUpsert) ClearUpdatedBy() *UserSpaceRoleUpsert {
+	u.SetNull(userspacerole.FieldUpdatedBy)
+	return u
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *UserSpaceRoleUpsert) SetUpdatedAt(v int64) *UserSpaceRoleUpsert {
+	u.Set(userspacerole.FieldUpdatedAt, v)
+	return u
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *UserSpaceRoleUpsert) UpdateUpdatedAt() *UserSpaceRoleUpsert {
+	u.SetExcluded(userspacerole.FieldUpdatedAt)
+	return u
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *UserSpaceRoleUpsert) AddUpdatedAt(v int64) *UserSpaceRoleUpsert {
+	u.Add(userspacerole.FieldUpdatedAt, v)
+	return u
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *UserSpaceRoleUpsert) ClearUpdatedAt() *UserSpaceRoleUpsert {
+	u.SetNull(userspacerole.FieldUpdatedAt)
+	return u
+}
+
+// UpdateNewValues updates the mutable fields using the new values that were set on create except the ID field.
+// Using this option is equivalent to using:
+//
+//	client.UserSpaceRole.Create().
+//		OnConflict(
+//			sql.ResolveWithNewValues(),
+//			sql.ResolveWith(func(u *sql.UpdateSet) {
+//				u.SetIgnore(userspacerole.FieldID)
+//			}),
+//		).
+//		Exec(ctx)
+func (u *UserSpaceRoleUpsertOne) UpdateNewValues() *UserSpaceRoleUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithNewValues())
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(s *sql.UpdateSet) {
+		if _, exists := u.create.mutation.ID(); exists {
+			s.SetIgnore(userspacerole.FieldID)
+		}
+		if _, exists := u.create.mutation.CreatedAt(); exists {
+			s.SetIgnore(userspacerole.FieldCreatedAt)
+		}
+	}))
+	return u
+}
+
+// Ignore sets each column to itself in case of conflict.
+// Using this option is equivalent to using:
+//
+//	client.UserSpaceRole.Create().
+//	    OnConflict(sql.ResolveWithIgnore()).
+//	    Exec(ctx)
+func (u *UserSpaceRoleUpsertOne) Ignore() *UserSpaceRoleUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithIgnore())
+	return u
+}
+
+// DoNothing configures the conflict_action to `DO NOTHING`.
+// Supported only by SQLite and PostgreSQL.
+func (u *UserSpaceRoleUpsertOne) DoNothing() *UserSpaceRoleUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.DoNothing())
+	return u
+}
+
+// Update allows overriding fields `UPDATE` values. See the UserSpaceRoleCreate.OnConflict
+// documentation for more info.
+func (u *UserSpaceRoleUpsertOne) Update(set func(*UserSpaceRoleUpsert)) *UserSpaceRoleUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(update *sql.UpdateSet) {
+		set(&UserSpaceRoleUpsert{UpdateSet: update})
+	}))
+	return u
+}
+
+// SetUserID sets the "user_id" field.
+func (u *UserSpaceRoleUpsertOne) SetUserID(v string) *UserSpaceRoleUpsertOne {
+	return u.Update(func(s *UserSpaceRoleUpsert) {
+		s.SetUserID(v)
+	})
+}
+
+// UpdateUserID sets the "user_id" field to the value that was provided on create.
+func (u *UserSpaceRoleUpsertOne) UpdateUserID() *UserSpaceRoleUpsertOne {
+	return u.Update(func(s *UserSpaceRoleUpsert) {
+		s.UpdateUserID()
+	})
+}
+
+// ClearUserID clears the value of the "user_id" field.
+func (u *UserSpaceRoleUpsertOne) ClearUserID() *UserSpaceRoleUpsertOne {
+	return u.Update(func(s *UserSpaceRoleUpsert) {
+		s.ClearUserID()
+	})
+}
+
+// SetSpaceID sets the "space_id" field.
+func (u *UserSpaceRoleUpsertOne) SetSpaceID(v string) *UserSpaceRoleUpsertOne {
+	return u.Update(func(s *UserSpaceRoleUpsert) {
+		s.SetSpaceID(v)
+	})
+}
+
+// UpdateSpaceID sets the "space_id" field to the value that was provided on create.
+func (u *UserSpaceRoleUpsertOne) UpdateSpaceID() *UserSpaceRoleUpsertOne {
+	return u.Update(func(s *UserSpaceRoleUpsert) {
+		s.UpdateSpaceID()
+	})
+}
+
+// ClearSpaceID clears the value of the "space_id" field.
+func (u *UserSpaceRoleUpsertOne) ClearSpaceID() *UserSpaceRoleUpsertOne {
+	return u.Update(func(s *UserSpaceRoleUpsert) {
+		s.ClearSpaceID()
+	})
+}
+
+// SetRoleID sets the "role_id" field.
+func (u *UserSpaceRoleUpsertOne) SetRoleID(v string) *UserSpaceRoleUpsertOne {
+	return u.Update(func(s *UserSpaceRoleUpsert) {
+		s.SetRoleID(v)
+	})
+}
+
+// UpdateRoleID sets the "role_id" field to the value that was provided on create.
+func (u *UserSpaceRoleUpsertOne) UpdateRoleID() *UserSpaceRoleUpsertOne {
+	return u.Update(func(s *UserSpaceRoleUpsert) {
+		s.UpdateRoleID()
+	})
+}
+
+// ClearRoleID clears the value of the "role_id" field.
+func (u *UserSpaceRoleUpsertOne) ClearRoleID() *UserSpaceRoleUpsertOne {
+	return u.Update(func(s *UserSpaceRoleUpsert) {
+		s.ClearRoleID()
+	})
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (u *UserSpaceRoleUpsertOne) SetCreatedBy(v string) *UserSpaceRoleUpsertOne {
+	return u.Update(func(s *UserSpaceRoleUpsert) {
+		s.SetCreatedBy(v)
+	})
+}
+
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *UserSpaceRoleUpsertOne) UpdateCreatedBy() *UserSpaceRoleUpsertOne {
+	return u.Update(func(s *UserSpaceRoleUpsert) {
+		s.UpdateCreatedBy()
+	})
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *UserSpaceRoleUpsertOne) ClearCreatedBy() *UserSpaceRoleUpsertOne {
+	return u.Update(func(s *UserSpaceRoleUpsert) {
+		s.ClearCreatedBy()
+	})
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (u *UserSpaceRoleUpsertOne) SetUpdatedBy(v string) *UserSpaceRoleUpsertOne {
+	return u.Update(func(s *UserSpaceRoleUpsert) {
+		s.SetUpdatedBy(v)
+	})
+}
+
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *UserSpaceRoleUpsertOne) UpdateUpdatedBy() *UserSpaceRoleUpsertOne {
+	return u.Update(func(s *UserSpaceRoleUpsert) {
+		s.UpdateUpdatedBy()
+	})
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *UserSpaceRoleUpsertOne) ClearUpdatedBy() *UserSpaceRoleUpsertOne {
+	return u.Update(func(s *UserSpaceRoleUpsert) {
+		s.ClearUpdatedBy()
+	})
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *UserSpaceRoleUpsertOne) SetUpdatedAt(v int64) *UserSpaceRoleUpsertOne {
+	return u.Update(func(s *UserSpaceRoleUpsert) {
+		s.SetUpdatedAt(v)
+	})
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *UserSpaceRoleUpsertOne) AddUpdatedAt(v int64) *UserSpaceRoleUpsertOne {
+	return u.Update(func(s *UserSpaceRoleUpsert) {
+		s.AddUpdatedAt(v)
+	})
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *UserSpaceRoleUpsertOne) UpdateUpdatedAt() *UserSpaceRoleUpsertOne {
+	return u.Update(func(s *UserSpaceRoleUpsert) {
+		s.UpdateUpdatedAt()
+	})
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *UserSpaceRoleUpsertOne) ClearUpdatedAt() *UserSpaceRoleUpsertOne {
+	return u.Update(func(s *UserSpaceRoleUpsert) {
+		s.ClearUpdatedAt()
+	})
+}
+
+// Exec executes the query.
+func (u *UserSpaceRoleUpsertOne) Exec(ctx context.Context) error {
+	if len(u.create.conflict) == 0 {
+		return errors.New("ent: missing options for UserSpaceRoleCreate.OnConflict")
+	}
+	return u.create.Exec(ctx)
+}
+
+// ExecX is like Exec, but panics if an error occurs.
+func (u *UserSpaceRoleUpsertOne) ExecX(ctx context.Context) {
+	if err := u.create.Exec(ctx); err != nil {
+		panic(err)
+	}
+}
+
+// Exec executes the UPSERT query and returns the inserted/updated ID.
+func (u *UserSpaceRoleUpsertOne) ID(ctx context.Context) (id string, err error) {
+	if u.create.driver.Dialect() == dialect.MySQL {
+		// In case of "ON CONFLICT", there is no way to get back non-numeric ID
+		// fields from the database since MySQL does not support the RETURNING clause.
+		return id, errors.New("ent: UserSpaceRoleUpsertOne.ID is not supported by MySQL driver. Use UserSpaceRoleUpsertOne.Exec instead")
+	}
+	node, err := u.create.Save(ctx)
+	if err != nil {
+		return id, err
+	}
+	return node.ID, nil
+}
+
+// IDX is like ID, but panics if an error occurs.
+func (u *UserSpaceRoleUpsertOne) IDX(ctx context.Context) string {
+	id, err := u.ID(ctx)
+	if err != nil {
+		panic(err)
+	}
+	return id
+}
+
 // UserSpaceRoleCreateBulk is the builder for creating many UserSpaceRole entities in bulk.
 type UserSpaceRoleCreateBulk struct {
 	config
 	err      error
 	builders []*UserSpaceRoleCreate
+	conflict []sql.ConflictOption
 }
 
 // Save creates the UserSpaceRole entities in the database.
@@ -286,6 +677,7 @@ func (_c *UserSpaceRoleCreateBulk) Save(ctx context.Context) ([]*UserSpaceRole, 
 					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
+					spec.OnConflict = _c.conflict
 					// Invoke the actual operation on the latest mutation in the chain.
 					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
@@ -332,6 +724,256 @@ func (_c *UserSpaceRoleCreateBulk) Exec(ctx context.Context) error {
 // ExecX is like Exec, but panics if an error occurs.
 func (_c *UserSpaceRoleCreateBulk) ExecX(ctx context.Context) {
 	if err := _c.Exec(ctx); err != nil {
+		panic(err)
+	}
+}
+
+// OnConflict allows configuring the `ON CONFLICT` / `ON DUPLICATE KEY` clause
+// of the `INSERT` statement. For example:
+//
+//	client.UserSpaceRole.CreateBulk(builders...).
+//		OnConflict(
+//			// Update the row with the new values
+//			// the was proposed for insertion.
+//			sql.ResolveWithNewValues(),
+//		).
+//		// Override some of the fields with custom
+//		// update values.
+//		Update(func(u *ent.UserSpaceRoleUpsert) {
+//			SetUserID(v+v).
+//		}).
+//		Exec(ctx)
+func (_c *UserSpaceRoleCreateBulk) OnConflict(opts ...sql.ConflictOption) *UserSpaceRoleUpsertBulk {
+	_c.conflict = opts
+	return &UserSpaceRoleUpsertBulk{
+		create: _c,
+	}
+}
+
+// OnConflictColumns calls `OnConflict` and configures the columns
+// as conflict target. Using this option is equivalent to using:
+//
+//	client.UserSpaceRole.Create().
+//		OnConflict(sql.ConflictColumns(columns...)).
+//		Exec(ctx)
+func (_c *UserSpaceRoleCreateBulk) OnConflictColumns(columns ...string) *UserSpaceRoleUpsertBulk {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
+	return &UserSpaceRoleUpsertBulk{
+		create: _c,
+	}
+}
+
+// UserSpaceRoleUpsertBulk is the builder for "upsert"-ing
+// a bulk of UserSpaceRole nodes.
+type UserSpaceRoleUpsertBulk struct {
+	create *UserSpaceRoleCreateBulk
+}
+
+// UpdateNewValues updates the mutable fields using the new values that
+// were set on create. Using this option is equivalent to using:
+//
+//	client.UserSpaceRole.Create().
+//		OnConflict(
+//			sql.ResolveWithNewValues(),
+//			sql.ResolveWith(func(u *sql.UpdateSet) {
+//				u.SetIgnore(userspacerole.FieldID)
+//			}),
+//		).
+//		Exec(ctx)
+func (u *UserSpaceRoleUpsertBulk) UpdateNewValues() *UserSpaceRoleUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithNewValues())
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(s *sql.UpdateSet) {
+		for _, b := range u.create.builders {
+			if _, exists := b.mutation.ID(); exists {
+				s.SetIgnore(userspacerole.FieldID)
+			}
+			if _, exists := b.mutation.CreatedAt(); exists {
+				s.SetIgnore(userspacerole.FieldCreatedAt)
+			}
+		}
+	}))
+	return u
+}
+
+// Ignore sets each column to itself in case of conflict.
+// Using this option is equivalent to using:
+//
+//	client.UserSpaceRole.Create().
+//		OnConflict(sql.ResolveWithIgnore()).
+//		Exec(ctx)
+func (u *UserSpaceRoleUpsertBulk) Ignore() *UserSpaceRoleUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithIgnore())
+	return u
+}
+
+// DoNothing configures the conflict_action to `DO NOTHING`.
+// Supported only by SQLite and PostgreSQL.
+func (u *UserSpaceRoleUpsertBulk) DoNothing() *UserSpaceRoleUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.DoNothing())
+	return u
+}
+
+// Update allows overriding fields `UPDATE` values. See the UserSpaceRoleCreateBulk.OnConflict
+// documentation for more info.
+func (u *UserSpaceRoleUpsertBulk) Update(set func(*UserSpaceRoleUpsert)) *UserSpaceRoleUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(update *sql.UpdateSet) {
+		set(&UserSpaceRoleUpsert{UpdateSet: update})
+	}))
+	return u
+}
+
+// SetUserID sets the "user_id" field.
+func (u *UserSpaceRoleUpsertBulk) SetUserID(v string) *UserSpaceRoleUpsertBulk {
+	return u.Update(func(s *UserSpaceRoleUpsert) {
+		s.SetUserID(v)
+	})
+}
+
+// UpdateUserID sets the "user_id" field to the value that was provided on create.
+func (u *UserSpaceRoleUpsertBulk) UpdateUserID() *UserSpaceRoleUpsertBulk {
+	return u.Update(func(s *UserSpaceRoleUpsert) {
+		s.UpdateUserID()
+	})
+}
+
+// ClearUserID clears the value of the "user_id" field.
+func (u *UserSpaceRoleUpsertBulk) ClearUserID() *UserSpaceRoleUpsertBulk {
+	return u.Update(func(s *UserSpaceRoleUpsert) {
+		s.ClearUserID()
+	})
+}
+
+// SetSpaceID sets the "space_id" field.
+func (u *UserSpaceRoleUpsertBulk) SetSpaceID(v string) *UserSpaceRoleUpsertBulk {
+	return u.Update(func(s *UserSpaceRoleUpsert) {
+		s.SetSpaceID(v)
+	})
+}
+
+// UpdateSpaceID sets the "space_id" field to the value that was provided on create.
+func (u *UserSpaceRoleUpsertBulk) UpdateSpaceID() *UserSpaceRoleUpsertBulk {
+	return u.Update(func(s *UserSpaceRoleUpsert) {
+		s.UpdateSpaceID()
+	})
+}
+
+// ClearSpaceID clears the value of the "space_id" field.
+func (u *UserSpaceRoleUpsertBulk) ClearSpaceID() *UserSpaceRoleUpsertBulk {
+	return u.Update(func(s *UserSpaceRoleUpsert) {
+		s.ClearSpaceID()
+	})
+}
+
+// SetRoleID sets the "role_id" field.
+func (u *UserSpaceRoleUpsertBulk) SetRoleID(v string) *UserSpaceRoleUpsertBulk {
+	return u.Update(func(s *UserSpaceRoleUpsert) {
+		s.SetRoleID(v)
+	})
+}
+
+// UpdateRoleID sets the "role_id" field to the value that was provided on create.
+func (u *UserSpaceRoleUpsertBulk) UpdateRoleID() *UserSpaceRoleUpsertBulk {
+	return u.Update(func(s *UserSpaceRoleUpsert) {
+		s.UpdateRoleID()
+	})
+}
+
+// ClearRoleID clears the value of the "role_id" field.
+func (u *UserSpaceRoleUpsertBulk) ClearRoleID() *UserSpaceRoleUpsertBulk {
+	return u.Update(func(s *UserSpaceRoleUpsert) {
+		s.ClearRoleID()
+	})
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (u *UserSpaceRoleUpsertBulk) SetCreatedBy(v string) *UserSpaceRoleUpsertBulk {
+	return u.Update(func(s *UserSpaceRoleUpsert) {
+		s.SetCreatedBy(v)
+	})
+}
+
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *UserSpaceRoleUpsertBulk) UpdateCreatedBy() *UserSpaceRoleUpsertBulk {
+	return u.Update(func(s *UserSpaceRoleUpsert) {
+		s.UpdateCreatedBy()
+	})
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *UserSpaceRoleUpsertBulk) ClearCreatedBy() *UserSpaceRoleUpsertBulk {
+	return u.Update(func(s *UserSpaceRoleUpsert) {
+		s.ClearCreatedBy()
+	})
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (u *UserSpaceRoleUpsertBulk) SetUpdatedBy(v string) *UserSpaceRoleUpsertBulk {
+	return u.Update(func(s *UserSpaceRoleUpsert) {
+		s.SetUpdatedBy(v)
+	})
+}
+
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *UserSpaceRoleUpsertBulk) UpdateUpdatedBy() *UserSpaceRoleUpsertBulk {
+	return u.Update(func(s *UserSpaceRoleUpsert) {
+		s.UpdateUpdatedBy()
+	})
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *UserSpaceRoleUpsertBulk) ClearUpdatedBy() *UserSpaceRoleUpsertBulk {
+	return u.Update(func(s *UserSpaceRoleUpsert) {
+		s.ClearUpdatedBy()
+	})
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *UserSpaceRoleUpsertBulk) SetUpdatedAt(v int64) *UserSpaceRoleUpsertBulk {
+	return u.Update(func(s *UserSpaceRoleUpsert) {
+		s.SetUpdatedAt(v)
+	})
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *UserSpaceRoleUpsertBulk) AddUpdatedAt(v int64) *UserSpaceRoleUpsertBulk {
+	return u.Update(func(s *UserSpaceRoleUpsert) {
+		s.AddUpdatedAt(v)
+	})
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *UserSpaceRoleUpsertBulk) UpdateUpdatedAt() *UserSpaceRoleUpsertBulk {
+	return u.Update(func(s *UserSpaceRoleUpsert) {
+		s.UpdateUpdatedAt()
+	})
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *UserSpaceRoleUpsertBulk) ClearUpdatedAt() *UserSpaceRoleUpsertBulk {
+	return u.Update(func(s *UserSpaceRoleUpsert) {
+		s.ClearUpdatedAt()
+	})
+}
+
+// Exec executes the query.
+func (u *UserSpaceRoleUpsertBulk) Exec(ctx context.Context) error {
+	if u.create.err != nil {
+		return u.create.err
+	}
+	for i, b := range u.create.builders {
+		if len(b.conflict) != 0 {
+			return fmt.Errorf("ent: OnConflict was set for builder %d. Set it on the UserSpaceRoleCreateBulk instead", i)
+		}
+	}
+	if len(u.create.conflict) == 0 {
+		return errors.New("ent: missing options for UserSpaceRoleCreateBulk.OnConflict")
+	}
+	return u.create.Exec(ctx)
+}
+
+// ExecX is like Exec, but panics if an error occurs.
+func (u *UserSpaceRoleUpsertBulk) ExecX(ctx context.Context) {
+	if err := u.create.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

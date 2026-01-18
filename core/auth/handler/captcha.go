@@ -4,8 +4,8 @@ import (
 	"bytes"
 	"fmt"
 	"io"
-	"ncobase/auth/service"
-	"ncobase/auth/structs"
+	"ncobase/core/auth/service"
+	"ncobase/core/auth/structs"
 	"path/filepath"
 	"strings"
 

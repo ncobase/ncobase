@@ -5,7 +5,7 @@ package hook
 import (
 	"context"
 	"fmt"
-	"ncobase/payment/data/ent"
+	"ncobase/plugin/payment/data/ent"
 )
 
 // The PaymentChannelFunc type is an adapter to allow the use of ordinary

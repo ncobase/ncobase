@@ -4,9 +4,12 @@ package ent
 
 import (
 	"context"
+	"errors"
 	"fmt"
-	"ncobase/auth/data/ent/codeauth"
+	"ncobase/core/auth/data/ent/codeauth"
 
+	"entgo.io/ent/dialect"
+	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
 )
@@ -16,6 +19,7 @@ type CodeAuthCreate struct {
 	config
 	mutation *CodeAuthMutation
 	hooks    []Hook
+	conflict []sql.ConflictOption
 }
 
 // SetCode sets the "code" field.
@@ -193,6 +197,7 @@ func (_c *CodeAuthCreate) createSpec() (*CodeAuth, *sqlgraph.CreateSpec) {
 		_node = &CodeAuth{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(codeauth.Table, sqlgraph.NewFieldSpec(codeauth.FieldID, field.TypeString))
 	)
+	_spec.OnConflict = _c.conflict
 	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
@@ -220,11 +225,319 @@ func (_c *CodeAuthCreate) createSpec() (*CodeAuth, *sqlgraph.CreateSpec) {
 	return _node, _spec
 }
 
+// OnConflict allows configuring the `ON CONFLICT` / `ON DUPLICATE KEY` clause
+// of the `INSERT` statement. For example:
+//
+//	client.CodeAuth.Create().
+//		SetCode(v).
+//		OnConflict(
+//			// Update the row with the new values
+//			// the was proposed for insertion.
+//			sql.ResolveWithNewValues(),
+//		).
+//		// Override some of the fields with custom
+//		// update values.
+//		Update(func(u *ent.CodeAuthUpsert) {
+//			SetCode(v+v).
+//		}).
+//		Exec(ctx)
+func (_c *CodeAuthCreate) OnConflict(opts ...sql.ConflictOption) *CodeAuthUpsertOne {
+	_c.conflict = opts
+	return &CodeAuthUpsertOne{
+		create: _c,
+	}
+}
+
+// OnConflictColumns calls `OnConflict` and configures the columns
+// as conflict target. Using this option is equivalent to using:
+//
+//	client.CodeAuth.Create().
+//		OnConflict(sql.ConflictColumns(columns...)).
+//		Exec(ctx)
+func (_c *CodeAuthCreate) OnConflictColumns(columns ...string) *CodeAuthUpsertOne {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
+	return &CodeAuthUpsertOne{
+		create: _c,
+	}
+}
+
+type (
+	// CodeAuthUpsertOne is the builder for "upsert"-ing
+	//  one CodeAuth node.
+	CodeAuthUpsertOne struct {
+		create *CodeAuthCreate
+	}
+
+	// CodeAuthUpsert is the "OnConflict" setter.
+	CodeAuthUpsert struct {
+		*sql.UpdateSet
+	}
+)
+
+// SetCode sets the "code" field.
+func (u *CodeAuthUpsert) SetCode(v string) *CodeAuthUpsert {
+	u.Set(codeauth.FieldCode, v)
+	return u
+}
+
+// UpdateCode sets the "code" field to the value that was provided on create.
+func (u *CodeAuthUpsert) UpdateCode() *CodeAuthUpsert {
+	u.SetExcluded(codeauth.FieldCode)
+	return u
+}
+
+// ClearCode clears the value of the "code" field.
+func (u *CodeAuthUpsert) ClearCode() *CodeAuthUpsert {
+	u.SetNull(codeauth.FieldCode)
+	return u
+}
+
+// SetEmail sets the "email" field.
+func (u *CodeAuthUpsert) SetEmail(v string) *CodeAuthUpsert {
+	u.Set(codeauth.FieldEmail, v)
+	return u
+}
+
+// UpdateEmail sets the "email" field to the value that was provided on create.
+func (u *CodeAuthUpsert) UpdateEmail() *CodeAuthUpsert {
+	u.SetExcluded(codeauth.FieldEmail)
+	return u
+}
+
+// ClearEmail clears the value of the "email" field.
+func (u *CodeAuthUpsert) ClearEmail() *CodeAuthUpsert {
+	u.SetNull(codeauth.FieldEmail)
+	return u
+}
+
+// SetLogged sets the "logged" field.
+func (u *CodeAuthUpsert) SetLogged(v bool) *CodeAuthUpsert {
+	u.Set(codeauth.FieldLogged, v)
+	return u
+}
+
+// UpdateLogged sets the "logged" field to the value that was provided on create.
+func (u *CodeAuthUpsert) UpdateLogged() *CodeAuthUpsert {
+	u.SetExcluded(codeauth.FieldLogged)
+	return u
+}
+
+// ClearLogged clears the value of the "logged" field.
+func (u *CodeAuthUpsert) ClearLogged() *CodeAuthUpsert {
+	u.SetNull(codeauth.FieldLogged)
+	return u
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *CodeAuthUpsert) SetUpdatedAt(v int64) *CodeAuthUpsert {
+	u.Set(codeauth.FieldUpdatedAt, v)
+	return u
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *CodeAuthUpsert) UpdateUpdatedAt() *CodeAuthUpsert {
+	u.SetExcluded(codeauth.FieldUpdatedAt)
+	return u
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *CodeAuthUpsert) AddUpdatedAt(v int64) *CodeAuthUpsert {
+	u.Add(codeauth.FieldUpdatedAt, v)
+	return u
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *CodeAuthUpsert) ClearUpdatedAt() *CodeAuthUpsert {
+	u.SetNull(codeauth.FieldUpdatedAt)
+	return u
+}
+
+// UpdateNewValues updates the mutable fields using the new values that were set on create except the ID field.
+// Using this option is equivalent to using:
+//
+//	client.CodeAuth.Create().
+//		OnConflict(
+//			sql.ResolveWithNewValues(),
+//			sql.ResolveWith(func(u *sql.UpdateSet) {
+//				u.SetIgnore(codeauth.FieldID)
+//			}),
+//		).
+//		Exec(ctx)
+func (u *CodeAuthUpsertOne) UpdateNewValues() *CodeAuthUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithNewValues())
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(s *sql.UpdateSet) {
+		if _, exists := u.create.mutation.ID(); exists {
+			s.SetIgnore(codeauth.FieldID)
+		}
+		if _, exists := u.create.mutation.CreatedAt(); exists {
+			s.SetIgnore(codeauth.FieldCreatedAt)
+		}
+	}))
+	return u
+}
+
+// Ignore sets each column to itself in case of conflict.
+// Using this option is equivalent to using:
+//
+//	client.CodeAuth.Create().
+//	    OnConflict(sql.ResolveWithIgnore()).
+//	    Exec(ctx)
+func (u *CodeAuthUpsertOne) Ignore() *CodeAuthUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithIgnore())
+	return u
+}
+
+// DoNothing configures the conflict_action to `DO NOTHING`.
+// Supported only by SQLite and PostgreSQL.
+func (u *CodeAuthUpsertOne) DoNothing() *CodeAuthUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.DoNothing())
+	return u
+}
+
+// Update allows overriding fields `UPDATE` values. See the CodeAuthCreate.OnConflict
+// documentation for more info.
+func (u *CodeAuthUpsertOne) Update(set func(*CodeAuthUpsert)) *CodeAuthUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(update *sql.UpdateSet) {
+		set(&CodeAuthUpsert{UpdateSet: update})
+	}))
+	return u
+}
+
+// SetCode sets the "code" field.
+func (u *CodeAuthUpsertOne) SetCode(v string) *CodeAuthUpsertOne {
+	return u.Update(func(s *CodeAuthUpsert) {
+		s.SetCode(v)
+	})
+}
+
+// UpdateCode sets the "code" field to the value that was provided on create.
+func (u *CodeAuthUpsertOne) UpdateCode() *CodeAuthUpsertOne {
+	return u.Update(func(s *CodeAuthUpsert) {
+		s.UpdateCode()
+	})
+}
+
+// ClearCode clears the value of the "code" field.
+func (u *CodeAuthUpsertOne) ClearCode() *CodeAuthUpsertOne {
+	return u.Update(func(s *CodeAuthUpsert) {
+		s.ClearCode()
+	})
+}
+
+// SetEmail sets the "email" field.
+func (u *CodeAuthUpsertOne) SetEmail(v string) *CodeAuthUpsertOne {
+	return u.Update(func(s *CodeAuthUpsert) {
+		s.SetEmail(v)
+	})
+}
+
+// UpdateEmail sets the "email" field to the value that was provided on create.
+func (u *CodeAuthUpsertOne) UpdateEmail() *CodeAuthUpsertOne {
+	return u.Update(func(s *CodeAuthUpsert) {
+		s.UpdateEmail()
+	})
+}
+
+// ClearEmail clears the value of the "email" field.
+func (u *CodeAuthUpsertOne) ClearEmail() *CodeAuthUpsertOne {
+	return u.Update(func(s *CodeAuthUpsert) {
+		s.ClearEmail()
+	})
+}
+
+// SetLogged sets the "logged" field.
+func (u *CodeAuthUpsertOne) SetLogged(v bool) *CodeAuthUpsertOne {
+	return u.Update(func(s *CodeAuthUpsert) {
+		s.SetLogged(v)
+	})
+}
+
+// UpdateLogged sets the "logged" field to the value that was provided on create.
+func (u *CodeAuthUpsertOne) UpdateLogged() *CodeAuthUpsertOne {
+	return u.Update(func(s *CodeAuthUpsert) {
+		s.UpdateLogged()
+	})
+}
+
+// ClearLogged clears the value of the "logged" field.
+func (u *CodeAuthUpsertOne) ClearLogged() *CodeAuthUpsertOne {
+	return u.Update(func(s *CodeAuthUpsert) {
+		s.ClearLogged()
+	})
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *CodeAuthUpsertOne) SetUpdatedAt(v int64) *CodeAuthUpsertOne {
+	return u.Update(func(s *CodeAuthUpsert) {
+		s.SetUpdatedAt(v)
+	})
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *CodeAuthUpsertOne) AddUpdatedAt(v int64) *CodeAuthUpsertOne {
+	return u.Update(func(s *CodeAuthUpsert) {
+		s.AddUpdatedAt(v)
+	})
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *CodeAuthUpsertOne) UpdateUpdatedAt() *CodeAuthUpsertOne {
+	return u.Update(func(s *CodeAuthUpsert) {
+		s.UpdateUpdatedAt()
+	})
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *CodeAuthUpsertOne) ClearUpdatedAt() *CodeAuthUpsertOne {
+	return u.Update(func(s *CodeAuthUpsert) {
+		s.ClearUpdatedAt()
+	})
+}
+
+// Exec executes the query.
+func (u *CodeAuthUpsertOne) Exec(ctx context.Context) error {
+	if len(u.create.conflict) == 0 {
+		return errors.New("ent: missing options for CodeAuthCreate.OnConflict")
+	}
+	return u.create.Exec(ctx)
+}
+
+// ExecX is like Exec, but panics if an error occurs.
+func (u *CodeAuthUpsertOne) ExecX(ctx context.Context) {
+	if err := u.create.Exec(ctx); err != nil {
+		panic(err)
+	}
+}
+
+// Exec executes the UPSERT query and returns the inserted/updated ID.
+func (u *CodeAuthUpsertOne) ID(ctx context.Context) (id string, err error) {
+	if u.create.driver.Dialect() == dialect.MySQL {
+		// In case of "ON CONFLICT", there is no way to get back non-numeric ID
+		// fields from the database since MySQL does not support the RETURNING clause.
+		return id, errors.New("ent: CodeAuthUpsertOne.ID is not supported by MySQL driver. Use CodeAuthUpsertOne.Exec instead")
+	}
+	node, err := u.create.Save(ctx)
+	if err != nil {
+		return id, err
+	}
+	return node.ID, nil
+}
+
+// IDX is like ID, but panics if an error occurs.
+func (u *CodeAuthUpsertOne) IDX(ctx context.Context) string {
+	id, err := u.ID(ctx)
+	if err != nil {
+		panic(err)
+	}
+	return id
+}
+
 // CodeAuthCreateBulk is the builder for creating many CodeAuth entities in bulk.
 type CodeAuthCreateBulk struct {
 	config
 	err      error
 	builders []*CodeAuthCreate
+	conflict []sql.ConflictOption
 }
 
 // Save creates the CodeAuth entities in the database.
@@ -254,6 +567,7 @@ func (_c *CodeAuthCreateBulk) Save(ctx context.Context) ([]*CodeAuth, error) {
 					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
+					spec.OnConflict = _c.conflict
 					// Invoke the actual operation on the latest mutation in the chain.
 					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
@@ -300,6 +614,214 @@ func (_c *CodeAuthCreateBulk) Exec(ctx context.Context) error {
 // ExecX is like Exec, but panics if an error occurs.
 func (_c *CodeAuthCreateBulk) ExecX(ctx context.Context) {
 	if err := _c.Exec(ctx); err != nil {
+		panic(err)
+	}
+}
+
+// OnConflict allows configuring the `ON CONFLICT` / `ON DUPLICATE KEY` clause
+// of the `INSERT` statement. For example:
+//
+//	client.CodeAuth.CreateBulk(builders...).
+//		OnConflict(
+//			// Update the row with the new values
+//			// the was proposed for insertion.
+//			sql.ResolveWithNewValues(),
+//		).
+//		// Override some of the fields with custom
+//		// update values.
+//		Update(func(u *ent.CodeAuthUpsert) {
+//			SetCode(v+v).
+//		}).
+//		Exec(ctx)
+func (_c *CodeAuthCreateBulk) OnConflict(opts ...sql.ConflictOption) *CodeAuthUpsertBulk {
+	_c.conflict = opts
+	return &CodeAuthUpsertBulk{
+		create: _c,
+	}
+}
+
+// OnConflictColumns calls `OnConflict` and configures the columns
+// as conflict target. Using this option is equivalent to using:
+//
+//	client.CodeAuth.Create().
+//		OnConflict(sql.ConflictColumns(columns...)).
+//		Exec(ctx)
+func (_c *CodeAuthCreateBulk) OnConflictColumns(columns ...string) *CodeAuthUpsertBulk {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
+	return &CodeAuthUpsertBulk{
+		create: _c,
+	}
+}
+
+// CodeAuthUpsertBulk is the builder for "upsert"-ing
+// a bulk of CodeAuth nodes.
+type CodeAuthUpsertBulk struct {
+	create *CodeAuthCreateBulk
+}
+
+// UpdateNewValues updates the mutable fields using the new values that
+// were set on create. Using this option is equivalent to using:
+//
+//	client.CodeAuth.Create().
+//		OnConflict(
+//			sql.ResolveWithNewValues(),
+//			sql.ResolveWith(func(u *sql.UpdateSet) {
+//				u.SetIgnore(codeauth.FieldID)
+//			}),
+//		).
+//		Exec(ctx)
+func (u *CodeAuthUpsertBulk) UpdateNewValues() *CodeAuthUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithNewValues())
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(s *sql.UpdateSet) {
+		for _, b := range u.create.builders {
+			if _, exists := b.mutation.ID(); exists {
+				s.SetIgnore(codeauth.FieldID)
+			}
+			if _, exists := b.mutation.CreatedAt(); exists {
+				s.SetIgnore(codeauth.FieldCreatedAt)
+			}
+		}
+	}))
+	return u
+}
+
+// Ignore sets each column to itself in case of conflict.
+// Using this option is equivalent to using:
+//
+//	client.CodeAuth.Create().
+//		OnConflict(sql.ResolveWithIgnore()).
+//		Exec(ctx)
+func (u *CodeAuthUpsertBulk) Ignore() *CodeAuthUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithIgnore())
+	return u
+}
+
+// DoNothing configures the conflict_action to `DO NOTHING`.
+// Supported only by SQLite and PostgreSQL.
+func (u *CodeAuthUpsertBulk) DoNothing() *CodeAuthUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.DoNothing())
+	return u
+}
+
+// Update allows overriding fields `UPDATE` values. See the CodeAuthCreateBulk.OnConflict
+// documentation for more info.
+func (u *CodeAuthUpsertBulk) Update(set func(*CodeAuthUpsert)) *CodeAuthUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(update *sql.UpdateSet) {
+		set(&CodeAuthUpsert{UpdateSet: update})
+	}))
+	return u
+}
+
+// SetCode sets the "code" field.
+func (u *CodeAuthUpsertBulk) SetCode(v string) *CodeAuthUpsertBulk {
+	return u.Update(func(s *CodeAuthUpsert) {
+		s.SetCode(v)
+	})
+}
+
+// UpdateCode sets the "code" field to the value that was provided on create.
+func (u *CodeAuthUpsertBulk) UpdateCode() *CodeAuthUpsertBulk {
+	return u.Update(func(s *CodeAuthUpsert) {
+		s.UpdateCode()
+	})
+}
+
+// ClearCode clears the value of the "code" field.
+func (u *CodeAuthUpsertBulk) ClearCode() *CodeAuthUpsertBulk {
+	return u.Update(func(s *CodeAuthUpsert) {
+		s.ClearCode()
+	})
+}
+
+// SetEmail sets the "email" field.
+func (u *CodeAuthUpsertBulk) SetEmail(v string) *CodeAuthUpsertBulk {
+	return u.Update(func(s *CodeAuthUpsert) {
+		s.SetEmail(v)
+	})
+}
+
+// UpdateEmail sets the "email" field to the value that was provided on create.
+func (u *CodeAuthUpsertBulk) UpdateEmail() *CodeAuthUpsertBulk {
+	return u.Update(func(s *CodeAuthUpsert) {
+		s.UpdateEmail()
+	})
+}
+
+// ClearEmail clears the value of the "email" field.
+func (u *CodeAuthUpsertBulk) ClearEmail() *CodeAuthUpsertBulk {
+	return u.Update(func(s *CodeAuthUpsert) {
+		s.ClearEmail()
+	})
+}
+
+// SetLogged sets the "logged" field.
+func (u *CodeAuthUpsertBulk) SetLogged(v bool) *CodeAuthUpsertBulk {
+	return u.Update(func(s *CodeAuthUpsert) {
+		s.SetLogged(v)
+	})
+}
+
+// UpdateLogged sets the "logged" field to the value that was provided on create.
+func (u *CodeAuthUpsertBulk) UpdateLogged() *CodeAuthUpsertBulk {
+	return u.Update(func(s *CodeAuthUpsert) {
+		s.UpdateLogged()
+	})
+}
+
+// ClearLogged clears the value of the "logged" field.
+func (u *CodeAuthUpsertBulk) ClearLogged() *CodeAuthUpsertBulk {
+	return u.Update(func(s *CodeAuthUpsert) {
+		s.ClearLogged()
+	})
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *CodeAuthUpsertBulk) SetUpdatedAt(v int64) *CodeAuthUpsertBulk {
+	return u.Update(func(s *CodeAuthUpsert) {
+		s.SetUpdatedAt(v)
+	})
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *CodeAuthUpsertBulk) AddUpdatedAt(v int64) *CodeAuthUpsertBulk {
+	return u.Update(func(s *CodeAuthUpsert) {
+		s.AddUpdatedAt(v)
+	})
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *CodeAuthUpsertBulk) UpdateUpdatedAt() *CodeAuthUpsertBulk {
+	return u.Update(func(s *CodeAuthUpsert) {
+		s.UpdateUpdatedAt()
+	})
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *CodeAuthUpsertBulk) ClearUpdatedAt() *CodeAuthUpsertBulk {
+	return u.Update(func(s *CodeAuthUpsert) {
+		s.ClearUpdatedAt()
+	})
+}
+
+// Exec executes the query.
+func (u *CodeAuthUpsertBulk) Exec(ctx context.Context) error {
+	if u.create.err != nil {
+		return u.create.err
+	}
+	for i, b := range u.create.builders {
+		if len(b.conflict) != 0 {
+			return fmt.Errorf("ent: OnConflict was set for builder %d. Set it on the CodeAuthCreateBulk instead", i)
+		}
+	}
+	if len(u.create.conflict) == 0 {
+		return errors.New("ent: missing options for CodeAuthCreateBulk.OnConflict")
+	}
+	return u.create.Exec(ctx)
+}
+
+// ExecX is like Exec, but panics if an error occurs.
+func (u *CodeAuthUpsertBulk) ExecX(ctx context.Context) {
+	if err := u.create.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

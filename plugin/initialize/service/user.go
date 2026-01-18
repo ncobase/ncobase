@@ -3,8 +3,8 @@ package service
 import (
 	"context"
 	"fmt"
-	orgStructs "ncobase/organization/structs"
-	userStructs "ncobase/user/structs"
+	orgStructs "ncobase/core/organization/structs"
+	userStructs "ncobase/core/user/structs"
 	"strings"
 	"time"
 

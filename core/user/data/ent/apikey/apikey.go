@@ -24,7 +24,7 @@ const (
 	// FieldLastUsed holds the string denoting the last_used field in the database.
 	FieldLastUsed = "last_used"
 	// Table holds the table name of the apikey in the database.
-	Table = "ncse_sys_api_key"
+	Table = "ncse_sys_user_api_key"
 )
 
 // Columns holds all SQL columns for apikey fields.

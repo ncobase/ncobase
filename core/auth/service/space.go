@@ -3,11 +3,11 @@ package service
 import (
 	"context"
 	"errors"
-	accessStructs "ncobase/access/structs"
-	"ncobase/auth/data"
-	"ncobase/auth/wrapper"
-	spaceStructs "ncobase/space/structs"
-	userStructs "ncobase/user/structs"
+	accessStructs "ncobase/core/access/structs"
+	"ncobase/core/auth/data"
+	"ncobase/core/auth/wrapper"
+	spaceStructs "ncobase/core/space/structs"
+	userStructs "ncobase/core/user/structs"
 
 	"github.com/ncobase/ncore/logging/logger"
 	"github.com/ncobase/ncore/utils/slug"

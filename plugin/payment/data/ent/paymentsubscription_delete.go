@@ -4,8 +4,8 @@ package ent
 
 import (
 	"context"
-	"ncobase/payment/data/ent/paymentsubscription"
-	"ncobase/payment/data/ent/predicate"
+	"ncobase/plugin/payment/data/ent/paymentsubscription"
+	"ncobase/plugin/payment/data/ent/predicate"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"

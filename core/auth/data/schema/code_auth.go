@@ -3,7 +3,7 @@ package schema
 import (
 	"strings"
 
-	"github.com/ncobase/ncore/data/databases/entgo/mixin"
+	"github.com/ncobase/ncore/data/entgo/mixin"
 
 	"entgo.io/contrib/entgql"
 	"entgo.io/ent"
@@ -19,7 +19,7 @@ type CodeAuth struct {
 
 // Annotations of the CodeAuth.
 func (CodeAuth) Annotations() []schema.Annotation {
-	table := strings.Join([]string{"ncse", "code_auth"}, "_")
+	table := strings.Join([]string{"ncse", "sys_user", "code_auth"}, "_")
 	return []schema.Annotation{
 		entsql.Annotation{Table: table},
 		entgql.Mutations(entgql.MutationCreate(), entgql.MutationUpdate()),

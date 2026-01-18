@@ -2,9 +2,9 @@ package handler
 
 import (
 	"context"
-	"ncobase/payment/event"
-	"ncobase/payment/service"
-	"ncobase/payment/wrapper"
+	"ncobase/plugin/payment/event"
+	"ncobase/plugin/payment/service"
+	"ncobase/plugin/payment/wrapper"
 
 	ext "github.com/ncobase/ncore/extension/types"
 	"github.com/ncobase/ncore/logging/logger"

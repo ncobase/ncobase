@@ -6,8 +6,8 @@ import (
 	"context"
 	"fmt"
 	"math"
-	"ncobase/access/data/ent/casbinrule"
-	"ncobase/access/data/ent/predicate"
+	"ncobase/core/access/data/ent/casbinrule"
+	"ncobase/core/access/data/ent/predicate"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"

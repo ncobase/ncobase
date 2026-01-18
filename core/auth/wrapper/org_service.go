@@ -2,7 +2,7 @@ package wrapper
 
 import (
 	"context"
-	orgStructs "ncobase/organization/structs"
+	orgStructs "ncobase/core/organization/structs"
 
 	ext "github.com/ncobase/ncore/extension/types"
 )

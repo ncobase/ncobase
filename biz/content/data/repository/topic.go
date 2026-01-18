@@ -3,12 +3,12 @@ package repository
 import (
 	"context"
 	"fmt"
-	"ncobase/content/data"
-	"ncobase/content/data/ent"
-	topicEnt "ncobase/content/data/ent/topic"
-	"ncobase/content/structs"
+	"ncobase/biz/content/data"
+	"ncobase/biz/content/data/ent"
+	topicEnt "ncobase/biz/content/data/ent/topic"
+	"ncobase/biz/content/structs"
 
-	"github.com/ncobase/ncore/data/databases/cache"
+	"github.com/ncobase/ncore/data/cache"
 	"github.com/ncobase/ncore/data/paging"
 	"github.com/ncobase/ncore/logging/logger"
 	"github.com/ncobase/ncore/types"
@@ -37,6 +37,7 @@ type TopicRepositoryInterface interface {
 // topicRepository implements the TopicRepositoryInterface.
 type topicRepository struct {
 	data *data.Data
+	searchClient *search.Client
 	ec   *ent.Client
 	ecr  *ent.Client
 	rc   *redis.Client
@@ -47,7 +48,7 @@ type topicRepository struct {
 func NewTopicRepository(d *data.Data) TopicRepositoryInterface {
 	ec := d.GetMasterEntClient()
 	ecr := d.GetSlaveEntClient()
-	rc := d.GetRedis()
+	rc := d.GetRedis().(*redis.Client)
 	return &topicRepository{
 		data: d,
 		ec:   ec,
@@ -85,7 +86,7 @@ func (r *topicRepository) Create(ctx context.Context, body *structs.CreateTopicB
 	}
 
 	// Create the topic in Meilisearch index
-	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "topics", Document: row}); err != nil {
+	if err = r.searchClient.Index(ctx, &search.IndexRequest{Index: "topics", Document: row}); err != nil {
 		logger.Errorf(ctx, "topicRepo.Create error creating Meilisearch index: %v", err)
 		// return nil, err
 	}
@@ -209,11 +210,11 @@ func (r *topicRepository) Update(ctx context.Context, slug string, updates types
 	}
 
 	// Update the topic in Meilisearch index
-	if err = r.data.DeleteDocument(ctx, "topics", slug); err != nil {
+	if err = r.searchClient.Delete(ctx, "topics", slug); err != nil {
 		logger.Errorf(ctx, "topicRepo.Update error deleting Meilisearch index: %v", err)
 		// return nil, err
 	}
-	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "topics", Document: row, DocumentID: row.ID}); err != nil {
+	if err = r.searchClient.Index(ctx, &search.IndexRequest{Index: "topics", Document: row, DocumentID: row.ID}); err != nil {
 		logger.Errorf(ctx, "topicRepo.Update error updating Meilisearch index: %v", err)
 		// return nil, err
 	}
@@ -309,7 +310,7 @@ func (r *topicRepository) Delete(ctx context.Context, slug string) error {
 	}
 
 	// delete from Meilisearch index
-	if err = r.data.DeleteDocument(ctx, "topics", topic.ID); err != nil {
+	if err = r.searchClient.Delete(ctx, "topics", topic.ID); err != nil {
 		logger.Errorf(ctx, "topicRepo.Delete index error: %v", err)
 		// return nil, err
 	}

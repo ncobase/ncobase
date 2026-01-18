@@ -6,8 +6,10 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"ncobase/proxy/data/ent/transformer"
+	"ncobase/plugin/proxy/data/ent/transformer"
 
+	"entgo.io/ent/dialect"
+	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
 )
@@ -17,6 +19,7 @@ type TransformerCreate struct {
 	config
 	mutation *TransformerMutation
 	hooks    []Hook
+	conflict []sql.ConflictOption
 }
 
 // SetName sets the "name" field.
@@ -281,6 +284,7 @@ func (_c *TransformerCreate) createSpec() (*Transformer, *sqlgraph.CreateSpec) {
 		_node = &Transformer{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(transformer.Table, sqlgraph.NewFieldSpec(transformer.FieldID, field.TypeString))
 	)
+	_spec.OnConflict = _c.conflict
 	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
@@ -332,11 +336,514 @@ func (_c *TransformerCreate) createSpec() (*Transformer, *sqlgraph.CreateSpec) {
 	return _node, _spec
 }
 
+// OnConflict allows configuring the `ON CONFLICT` / `ON DUPLICATE KEY` clause
+// of the `INSERT` statement. For example:
+//
+//	client.Transformer.Create().
+//		SetName(v).
+//		OnConflict(
+//			// Update the row with the new values
+//			// the was proposed for insertion.
+//			sql.ResolveWithNewValues(),
+//		).
+//		// Override some of the fields with custom
+//		// update values.
+//		Update(func(u *ent.TransformerUpsert) {
+//			SetName(v+v).
+//		}).
+//		Exec(ctx)
+func (_c *TransformerCreate) OnConflict(opts ...sql.ConflictOption) *TransformerUpsertOne {
+	_c.conflict = opts
+	return &TransformerUpsertOne{
+		create: _c,
+	}
+}
+
+// OnConflictColumns calls `OnConflict` and configures the columns
+// as conflict target. Using this option is equivalent to using:
+//
+//	client.Transformer.Create().
+//		OnConflict(sql.ConflictColumns(columns...)).
+//		Exec(ctx)
+func (_c *TransformerCreate) OnConflictColumns(columns ...string) *TransformerUpsertOne {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
+	return &TransformerUpsertOne{
+		create: _c,
+	}
+}
+
+type (
+	// TransformerUpsertOne is the builder for "upsert"-ing
+	//  one Transformer node.
+	TransformerUpsertOne struct {
+		create *TransformerCreate
+	}
+
+	// TransformerUpsert is the "OnConflict" setter.
+	TransformerUpsert struct {
+		*sql.UpdateSet
+	}
+)
+
+// SetName sets the "name" field.
+func (u *TransformerUpsert) SetName(v string) *TransformerUpsert {
+	u.Set(transformer.FieldName, v)
+	return u
+}
+
+// UpdateName sets the "name" field to the value that was provided on create.
+func (u *TransformerUpsert) UpdateName() *TransformerUpsert {
+	u.SetExcluded(transformer.FieldName)
+	return u
+}
+
+// ClearName clears the value of the "name" field.
+func (u *TransformerUpsert) ClearName() *TransformerUpsert {
+	u.SetNull(transformer.FieldName)
+	return u
+}
+
+// SetDescription sets the "description" field.
+func (u *TransformerUpsert) SetDescription(v string) *TransformerUpsert {
+	u.Set(transformer.FieldDescription, v)
+	return u
+}
+
+// UpdateDescription sets the "description" field to the value that was provided on create.
+func (u *TransformerUpsert) UpdateDescription() *TransformerUpsert {
+	u.SetExcluded(transformer.FieldDescription)
+	return u
+}
+
+// ClearDescription clears the value of the "description" field.
+func (u *TransformerUpsert) ClearDescription() *TransformerUpsert {
+	u.SetNull(transformer.FieldDescription)
+	return u
+}
+
+// SetDisabled sets the "disabled" field.
+func (u *TransformerUpsert) SetDisabled(v bool) *TransformerUpsert {
+	u.Set(transformer.FieldDisabled, v)
+	return u
+}
+
+// UpdateDisabled sets the "disabled" field to the value that was provided on create.
+func (u *TransformerUpsert) UpdateDisabled() *TransformerUpsert {
+	u.SetExcluded(transformer.FieldDisabled)
+	return u
+}
+
+// ClearDisabled clears the value of the "disabled" field.
+func (u *TransformerUpsert) ClearDisabled() *TransformerUpsert {
+	u.SetNull(transformer.FieldDisabled)
+	return u
+}
+
+// SetExtras sets the "extras" field.
+func (u *TransformerUpsert) SetExtras(v map[string]interface{}) *TransformerUpsert {
+	u.Set(transformer.FieldExtras, v)
+	return u
+}
+
+// UpdateExtras sets the "extras" field to the value that was provided on create.
+func (u *TransformerUpsert) UpdateExtras() *TransformerUpsert {
+	u.SetExcluded(transformer.FieldExtras)
+	return u
+}
+
+// ClearExtras clears the value of the "extras" field.
+func (u *TransformerUpsert) ClearExtras() *TransformerUpsert {
+	u.SetNull(transformer.FieldExtras)
+	return u
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (u *TransformerUpsert) SetCreatedBy(v string) *TransformerUpsert {
+	u.Set(transformer.FieldCreatedBy, v)
+	return u
+}
+
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *TransformerUpsert) UpdateCreatedBy() *TransformerUpsert {
+	u.SetExcluded(transformer.FieldCreatedBy)
+	return u
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *TransformerUpsert) ClearCreatedBy() *TransformerUpsert {
+	u.SetNull(transformer.FieldCreatedBy)
+	return u
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (u *TransformerUpsert) SetUpdatedBy(v string) *TransformerUpsert {
+	u.Set(transformer.FieldUpdatedBy, v)
+	return u
+}
+
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *TransformerUpsert) UpdateUpdatedBy() *TransformerUpsert {
+	u.SetExcluded(transformer.FieldUpdatedBy)
+	return u
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *TransformerUpsert) ClearUpdatedBy() *TransformerUpsert {
+	u.SetNull(transformer.FieldUpdatedBy)
+	return u
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *TransformerUpsert) SetUpdatedAt(v int64) *TransformerUpsert {
+	u.Set(transformer.FieldUpdatedAt, v)
+	return u
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *TransformerUpsert) UpdateUpdatedAt() *TransformerUpsert {
+	u.SetExcluded(transformer.FieldUpdatedAt)
+	return u
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *TransformerUpsert) AddUpdatedAt(v int64) *TransformerUpsert {
+	u.Add(transformer.FieldUpdatedAt, v)
+	return u
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *TransformerUpsert) ClearUpdatedAt() *TransformerUpsert {
+	u.SetNull(transformer.FieldUpdatedAt)
+	return u
+}
+
+// SetType sets the "type" field.
+func (u *TransformerUpsert) SetType(v string) *TransformerUpsert {
+	u.Set(transformer.FieldType, v)
+	return u
+}
+
+// UpdateType sets the "type" field to the value that was provided on create.
+func (u *TransformerUpsert) UpdateType() *TransformerUpsert {
+	u.SetExcluded(transformer.FieldType)
+	return u
+}
+
+// SetContent sets the "content" field.
+func (u *TransformerUpsert) SetContent(v string) *TransformerUpsert {
+	u.Set(transformer.FieldContent, v)
+	return u
+}
+
+// UpdateContent sets the "content" field to the value that was provided on create.
+func (u *TransformerUpsert) UpdateContent() *TransformerUpsert {
+	u.SetExcluded(transformer.FieldContent)
+	return u
+}
+
+// SetContentType sets the "content_type" field.
+func (u *TransformerUpsert) SetContentType(v string) *TransformerUpsert {
+	u.Set(transformer.FieldContentType, v)
+	return u
+}
+
+// UpdateContentType sets the "content_type" field to the value that was provided on create.
+func (u *TransformerUpsert) UpdateContentType() *TransformerUpsert {
+	u.SetExcluded(transformer.FieldContentType)
+	return u
+}
+
+// UpdateNewValues updates the mutable fields using the new values that were set on create except the ID field.
+// Using this option is equivalent to using:
+//
+//	client.Transformer.Create().
+//		OnConflict(
+//			sql.ResolveWithNewValues(),
+//			sql.ResolveWith(func(u *sql.UpdateSet) {
+//				u.SetIgnore(transformer.FieldID)
+//			}),
+//		).
+//		Exec(ctx)
+func (u *TransformerUpsertOne) UpdateNewValues() *TransformerUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithNewValues())
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(s *sql.UpdateSet) {
+		if _, exists := u.create.mutation.ID(); exists {
+			s.SetIgnore(transformer.FieldID)
+		}
+		if _, exists := u.create.mutation.CreatedAt(); exists {
+			s.SetIgnore(transformer.FieldCreatedAt)
+		}
+	}))
+	return u
+}
+
+// Ignore sets each column to itself in case of conflict.
+// Using this option is equivalent to using:
+//
+//	client.Transformer.Create().
+//	    OnConflict(sql.ResolveWithIgnore()).
+//	    Exec(ctx)
+func (u *TransformerUpsertOne) Ignore() *TransformerUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithIgnore())
+	return u
+}
+
+// DoNothing configures the conflict_action to `DO NOTHING`.
+// Supported only by SQLite and PostgreSQL.
+func (u *TransformerUpsertOne) DoNothing() *TransformerUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.DoNothing())
+	return u
+}
+
+// Update allows overriding fields `UPDATE` values. See the TransformerCreate.OnConflict
+// documentation for more info.
+func (u *TransformerUpsertOne) Update(set func(*TransformerUpsert)) *TransformerUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(update *sql.UpdateSet) {
+		set(&TransformerUpsert{UpdateSet: update})
+	}))
+	return u
+}
+
+// SetName sets the "name" field.
+func (u *TransformerUpsertOne) SetName(v string) *TransformerUpsertOne {
+	return u.Update(func(s *TransformerUpsert) {
+		s.SetName(v)
+	})
+}
+
+// UpdateName sets the "name" field to the value that was provided on create.
+func (u *TransformerUpsertOne) UpdateName() *TransformerUpsertOne {
+	return u.Update(func(s *TransformerUpsert) {
+		s.UpdateName()
+	})
+}
+
+// ClearName clears the value of the "name" field.
+func (u *TransformerUpsertOne) ClearName() *TransformerUpsertOne {
+	return u.Update(func(s *TransformerUpsert) {
+		s.ClearName()
+	})
+}
+
+// SetDescription sets the "description" field.
+func (u *TransformerUpsertOne) SetDescription(v string) *TransformerUpsertOne {
+	return u.Update(func(s *TransformerUpsert) {
+		s.SetDescription(v)
+	})
+}
+
+// UpdateDescription sets the "description" field to the value that was provided on create.
+func (u *TransformerUpsertOne) UpdateDescription() *TransformerUpsertOne {
+	return u.Update(func(s *TransformerUpsert) {
+		s.UpdateDescription()
+	})
+}
+
+// ClearDescription clears the value of the "description" field.
+func (u *TransformerUpsertOne) ClearDescription() *TransformerUpsertOne {
+	return u.Update(func(s *TransformerUpsert) {
+		s.ClearDescription()
+	})
+}
+
+// SetDisabled sets the "disabled" field.
+func (u *TransformerUpsertOne) SetDisabled(v bool) *TransformerUpsertOne {
+	return u.Update(func(s *TransformerUpsert) {
+		s.SetDisabled(v)
+	})
+}
+
+// UpdateDisabled sets the "disabled" field to the value that was provided on create.
+func (u *TransformerUpsertOne) UpdateDisabled() *TransformerUpsertOne {
+	return u.Update(func(s *TransformerUpsert) {
+		s.UpdateDisabled()
+	})
+}
+
+// ClearDisabled clears the value of the "disabled" field.
+func (u *TransformerUpsertOne) ClearDisabled() *TransformerUpsertOne {
+	return u.Update(func(s *TransformerUpsert) {
+		s.ClearDisabled()
+	})
+}
+
+// SetExtras sets the "extras" field.
+func (u *TransformerUpsertOne) SetExtras(v map[string]interface{}) *TransformerUpsertOne {
+	return u.Update(func(s *TransformerUpsert) {
+		s.SetExtras(v)
+	})
+}
+
+// UpdateExtras sets the "extras" field to the value that was provided on create.
+func (u *TransformerUpsertOne) UpdateExtras() *TransformerUpsertOne {
+	return u.Update(func(s *TransformerUpsert) {
+		s.UpdateExtras()
+	})
+}
+
+// ClearExtras clears the value of the "extras" field.
+func (u *TransformerUpsertOne) ClearExtras() *TransformerUpsertOne {
+	return u.Update(func(s *TransformerUpsert) {
+		s.ClearExtras()
+	})
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (u *TransformerUpsertOne) SetCreatedBy(v string) *TransformerUpsertOne {
+	return u.Update(func(s *TransformerUpsert) {
+		s.SetCreatedBy(v)
+	})
+}
+
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *TransformerUpsertOne) UpdateCreatedBy() *TransformerUpsertOne {
+	return u.Update(func(s *TransformerUpsert) {
+		s.UpdateCreatedBy()
+	})
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *TransformerUpsertOne) ClearCreatedBy() *TransformerUpsertOne {
+	return u.Update(func(s *TransformerUpsert) {
+		s.ClearCreatedBy()
+	})
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (u *TransformerUpsertOne) SetUpdatedBy(v string) *TransformerUpsertOne {
+	return u.Update(func(s *TransformerUpsert) {
+		s.SetUpdatedBy(v)
+	})
+}
+
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *TransformerUpsertOne) UpdateUpdatedBy() *TransformerUpsertOne {
+	return u.Update(func(s *TransformerUpsert) {
+		s.UpdateUpdatedBy()
+	})
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *TransformerUpsertOne) ClearUpdatedBy() *TransformerUpsertOne {
+	return u.Update(func(s *TransformerUpsert) {
+		s.ClearUpdatedBy()
+	})
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *TransformerUpsertOne) SetUpdatedAt(v int64) *TransformerUpsertOne {
+	return u.Update(func(s *TransformerUpsert) {
+		s.SetUpdatedAt(v)
+	})
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *TransformerUpsertOne) AddUpdatedAt(v int64) *TransformerUpsertOne {
+	return u.Update(func(s *TransformerUpsert) {
+		s.AddUpdatedAt(v)
+	})
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *TransformerUpsertOne) UpdateUpdatedAt() *TransformerUpsertOne {
+	return u.Update(func(s *TransformerUpsert) {
+		s.UpdateUpdatedAt()
+	})
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *TransformerUpsertOne) ClearUpdatedAt() *TransformerUpsertOne {
+	return u.Update(func(s *TransformerUpsert) {
+		s.ClearUpdatedAt()
+	})
+}
+
+// SetType sets the "type" field.
+func (u *TransformerUpsertOne) SetType(v string) *TransformerUpsertOne {
+	return u.Update(func(s *TransformerUpsert) {
+		s.SetType(v)
+	})
+}
+
+// UpdateType sets the "type" field to the value that was provided on create.
+func (u *TransformerUpsertOne) UpdateType() *TransformerUpsertOne {
+	return u.Update(func(s *TransformerUpsert) {
+		s.UpdateType()
+	})
+}
+
+// SetContent sets the "content" field.
+func (u *TransformerUpsertOne) SetContent(v string) *TransformerUpsertOne {
+	return u.Update(func(s *TransformerUpsert) {
+		s.SetContent(v)
+	})
+}
+
+// UpdateContent sets the "content" field to the value that was provided on create.
+func (u *TransformerUpsertOne) UpdateContent() *TransformerUpsertOne {
+	return u.Update(func(s *TransformerUpsert) {
+		s.UpdateContent()
+	})
+}
+
+// SetContentType sets the "content_type" field.
+func (u *TransformerUpsertOne) SetContentType(v string) *TransformerUpsertOne {
+	return u.Update(func(s *TransformerUpsert) {
+		s.SetContentType(v)
+	})
+}
+
+// UpdateContentType sets the "content_type" field to the value that was provided on create.
+func (u *TransformerUpsertOne) UpdateContentType() *TransformerUpsertOne {
+	return u.Update(func(s *TransformerUpsert) {
+		s.UpdateContentType()
+	})
+}
+
+// Exec executes the query.
+func (u *TransformerUpsertOne) Exec(ctx context.Context) error {
+	if len(u.create.conflict) == 0 {
+		return errors.New("ent: missing options for TransformerCreate.OnConflict")
+	}
+	return u.create.Exec(ctx)
+}
+
+// ExecX is like Exec, but panics if an error occurs.
+func (u *TransformerUpsertOne) ExecX(ctx context.Context) {
+	if err := u.create.Exec(ctx); err != nil {
+		panic(err)
+	}
+}
+
+// Exec executes the UPSERT query and returns the inserted/updated ID.
+func (u *TransformerUpsertOne) ID(ctx context.Context) (id string, err error) {
+	if u.create.driver.Dialect() == dialect.MySQL {
+		// In case of "ON CONFLICT", there is no way to get back non-numeric ID
+		// fields from the database since MySQL does not support the RETURNING clause.
+		return id, errors.New("ent: TransformerUpsertOne.ID is not supported by MySQL driver. Use TransformerUpsertOne.Exec instead")
+	}
+	node, err := u.create.Save(ctx)
+	if err != nil {
+		return id, err
+	}
+	return node.ID, nil
+}
+
+// IDX is like ID, but panics if an error occurs.
+func (u *TransformerUpsertOne) IDX(ctx context.Context) string {
+	id, err := u.ID(ctx)
+	if err != nil {
+		panic(err)
+	}
+	return id
+}
+
 // TransformerCreateBulk is the builder for creating many Transformer entities in bulk.
 type TransformerCreateBulk struct {
 	config
 	err      error
 	builders []*TransformerCreate
+	conflict []sql.ConflictOption
 }
 
 // Save creates the Transformer entities in the database.
@@ -366,6 +873,7 @@ func (_c *TransformerCreateBulk) Save(ctx context.Context) ([]*Transformer, erro
 					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
+					spec.OnConflict = _c.conflict
 					// Invoke the actual operation on the latest mutation in the chain.
 					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
@@ -412,6 +920,319 @@ func (_c *TransformerCreateBulk) Exec(ctx context.Context) error {
 // ExecX is like Exec, but panics if an error occurs.
 func (_c *TransformerCreateBulk) ExecX(ctx context.Context) {
 	if err := _c.Exec(ctx); err != nil {
+		panic(err)
+	}
+}
+
+// OnConflict allows configuring the `ON CONFLICT` / `ON DUPLICATE KEY` clause
+// of the `INSERT` statement. For example:
+//
+//	client.Transformer.CreateBulk(builders...).
+//		OnConflict(
+//			// Update the row with the new values
+//			// the was proposed for insertion.
+//			sql.ResolveWithNewValues(),
+//		).
+//		// Override some of the fields with custom
+//		// update values.
+//		Update(func(u *ent.TransformerUpsert) {
+//			SetName(v+v).
+//		}).
+//		Exec(ctx)
+func (_c *TransformerCreateBulk) OnConflict(opts ...sql.ConflictOption) *TransformerUpsertBulk {
+	_c.conflict = opts
+	return &TransformerUpsertBulk{
+		create: _c,
+	}
+}
+
+// OnConflictColumns calls `OnConflict` and configures the columns
+// as conflict target. Using this option is equivalent to using:
+//
+//	client.Transformer.Create().
+//		OnConflict(sql.ConflictColumns(columns...)).
+//		Exec(ctx)
+func (_c *TransformerCreateBulk) OnConflictColumns(columns ...string) *TransformerUpsertBulk {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
+	return &TransformerUpsertBulk{
+		create: _c,
+	}
+}
+
+// TransformerUpsertBulk is the builder for "upsert"-ing
+// a bulk of Transformer nodes.
+type TransformerUpsertBulk struct {
+	create *TransformerCreateBulk
+}
+
+// UpdateNewValues updates the mutable fields using the new values that
+// were set on create. Using this option is equivalent to using:
+//
+//	client.Transformer.Create().
+//		OnConflict(
+//			sql.ResolveWithNewValues(),
+//			sql.ResolveWith(func(u *sql.UpdateSet) {
+//				u.SetIgnore(transformer.FieldID)
+//			}),
+//		).
+//		Exec(ctx)
+func (u *TransformerUpsertBulk) UpdateNewValues() *TransformerUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithNewValues())
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(s *sql.UpdateSet) {
+		for _, b := range u.create.builders {
+			if _, exists := b.mutation.ID(); exists {
+				s.SetIgnore(transformer.FieldID)
+			}
+			if _, exists := b.mutation.CreatedAt(); exists {
+				s.SetIgnore(transformer.FieldCreatedAt)
+			}
+		}
+	}))
+	return u
+}
+
+// Ignore sets each column to itself in case of conflict.
+// Using this option is equivalent to using:
+//
+//	client.Transformer.Create().
+//		OnConflict(sql.ResolveWithIgnore()).
+//		Exec(ctx)
+func (u *TransformerUpsertBulk) Ignore() *TransformerUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithIgnore())
+	return u
+}
+
+// DoNothing configures the conflict_action to `DO NOTHING`.
+// Supported only by SQLite and PostgreSQL.
+func (u *TransformerUpsertBulk) DoNothing() *TransformerUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.DoNothing())
+	return u
+}
+
+// Update allows overriding fields `UPDATE` values. See the TransformerCreateBulk.OnConflict
+// documentation for more info.
+func (u *TransformerUpsertBulk) Update(set func(*TransformerUpsert)) *TransformerUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(update *sql.UpdateSet) {
+		set(&TransformerUpsert{UpdateSet: update})
+	}))
+	return u
+}
+
+// SetName sets the "name" field.
+func (u *TransformerUpsertBulk) SetName(v string) *TransformerUpsertBulk {
+	return u.Update(func(s *TransformerUpsert) {
+		s.SetName(v)
+	})
+}
+
+// UpdateName sets the "name" field to the value that was provided on create.
+func (u *TransformerUpsertBulk) UpdateName() *TransformerUpsertBulk {
+	return u.Update(func(s *TransformerUpsert) {
+		s.UpdateName()
+	})
+}
+
+// ClearName clears the value of the "name" field.
+func (u *TransformerUpsertBulk) ClearName() *TransformerUpsertBulk {
+	return u.Update(func(s *TransformerUpsert) {
+		s.ClearName()
+	})
+}
+
+// SetDescription sets the "description" field.
+func (u *TransformerUpsertBulk) SetDescription(v string) *TransformerUpsertBulk {
+	return u.Update(func(s *TransformerUpsert) {
+		s.SetDescription(v)
+	})
+}
+
+// UpdateDescription sets the "description" field to the value that was provided on create.
+func (u *TransformerUpsertBulk) UpdateDescription() *TransformerUpsertBulk {
+	return u.Update(func(s *TransformerUpsert) {
+		s.UpdateDescription()
+	})
+}
+
+// ClearDescription clears the value of the "description" field.
+func (u *TransformerUpsertBulk) ClearDescription() *TransformerUpsertBulk {
+	return u.Update(func(s *TransformerUpsert) {
+		s.ClearDescription()
+	})
+}
+
+// SetDisabled sets the "disabled" field.
+func (u *TransformerUpsertBulk) SetDisabled(v bool) *TransformerUpsertBulk {
+	return u.Update(func(s *TransformerUpsert) {
+		s.SetDisabled(v)
+	})
+}
+
+// UpdateDisabled sets the "disabled" field to the value that was provided on create.
+func (u *TransformerUpsertBulk) UpdateDisabled() *TransformerUpsertBulk {
+	return u.Update(func(s *TransformerUpsert) {
+		s.UpdateDisabled()
+	})
+}
+
+// ClearDisabled clears the value of the "disabled" field.
+func (u *TransformerUpsertBulk) ClearDisabled() *TransformerUpsertBulk {
+	return u.Update(func(s *TransformerUpsert) {
+		s.ClearDisabled()
+	})
+}
+
+// SetExtras sets the "extras" field.
+func (u *TransformerUpsertBulk) SetExtras(v map[string]interface{}) *TransformerUpsertBulk {
+	return u.Update(func(s *TransformerUpsert) {
+		s.SetExtras(v)
+	})
+}
+
+// UpdateExtras sets the "extras" field to the value that was provided on create.
+func (u *TransformerUpsertBulk) UpdateExtras() *TransformerUpsertBulk {
+	return u.Update(func(s *TransformerUpsert) {
+		s.UpdateExtras()
+	})
+}
+
+// ClearExtras clears the value of the "extras" field.
+func (u *TransformerUpsertBulk) ClearExtras() *TransformerUpsertBulk {
+	return u.Update(func(s *TransformerUpsert) {
+		s.ClearExtras()
+	})
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (u *TransformerUpsertBulk) SetCreatedBy(v string) *TransformerUpsertBulk {
+	return u.Update(func(s *TransformerUpsert) {
+		s.SetCreatedBy(v)
+	})
+}
+
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *TransformerUpsertBulk) UpdateCreatedBy() *TransformerUpsertBulk {
+	return u.Update(func(s *TransformerUpsert) {
+		s.UpdateCreatedBy()
+	})
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *TransformerUpsertBulk) ClearCreatedBy() *TransformerUpsertBulk {
+	return u.Update(func(s *TransformerUpsert) {
+		s.ClearCreatedBy()
+	})
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (u *TransformerUpsertBulk) SetUpdatedBy(v string) *TransformerUpsertBulk {
+	return u.Update(func(s *TransformerUpsert) {
+		s.SetUpdatedBy(v)
+	})
+}
+
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *TransformerUpsertBulk) UpdateUpdatedBy() *TransformerUpsertBulk {
+	return u.Update(func(s *TransformerUpsert) {
+		s.UpdateUpdatedBy()
+	})
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *TransformerUpsertBulk) ClearUpdatedBy() *TransformerUpsertBulk {
+	return u.Update(func(s *TransformerUpsert) {
+		s.ClearUpdatedBy()
+	})
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *TransformerUpsertBulk) SetUpdatedAt(v int64) *TransformerUpsertBulk {
+	return u.Update(func(s *TransformerUpsert) {
+		s.SetUpdatedAt(v)
+	})
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *TransformerUpsertBulk) AddUpdatedAt(v int64) *TransformerUpsertBulk {
+	return u.Update(func(s *TransformerUpsert) {
+		s.AddUpdatedAt(v)
+	})
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *TransformerUpsertBulk) UpdateUpdatedAt() *TransformerUpsertBulk {
+	return u.Update(func(s *TransformerUpsert) {
+		s.UpdateUpdatedAt()
+	})
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *TransformerUpsertBulk) ClearUpdatedAt() *TransformerUpsertBulk {
+	return u.Update(func(s *TransformerUpsert) {
+		s.ClearUpdatedAt()
+	})
+}
+
+// SetType sets the "type" field.
+func (u *TransformerUpsertBulk) SetType(v string) *TransformerUpsertBulk {
+	return u.Update(func(s *TransformerUpsert) {
+		s.SetType(v)
+	})
+}
+
+// UpdateType sets the "type" field to the value that was provided on create.
+func (u *TransformerUpsertBulk) UpdateType() *TransformerUpsertBulk {
+	return u.Update(func(s *TransformerUpsert) {
+		s.UpdateType()
+	})
+}
+
+// SetContent sets the "content" field.
+func (u *TransformerUpsertBulk) SetContent(v string) *TransformerUpsertBulk {
+	return u.Update(func(s *TransformerUpsert) {
+		s.SetContent(v)
+	})
+}
+
+// UpdateContent sets the "content" field to the value that was provided on create.
+func (u *TransformerUpsertBulk) UpdateContent() *TransformerUpsertBulk {
+	return u.Update(func(s *TransformerUpsert) {
+		s.UpdateContent()
+	})
+}
+
+// SetContentType sets the "content_type" field.
+func (u *TransformerUpsertBulk) SetContentType(v string) *TransformerUpsertBulk {
+	return u.Update(func(s *TransformerUpsert) {
+		s.SetContentType(v)
+	})
+}
+
+// UpdateContentType sets the "content_type" field to the value that was provided on create.
+func (u *TransformerUpsertBulk) UpdateContentType() *TransformerUpsertBulk {
+	return u.Update(func(s *TransformerUpsert) {
+		s.UpdateContentType()
+	})
+}
+
+// Exec executes the query.
+func (u *TransformerUpsertBulk) Exec(ctx context.Context) error {
+	if u.create.err != nil {
+		return u.create.err
+	}
+	for i, b := range u.create.builders {
+		if len(b.conflict) != 0 {
+			return fmt.Errorf("ent: OnConflict was set for builder %d. Set it on the TransformerCreateBulk instead", i)
+		}
+	}
+	if len(u.create.conflict) == 0 {
+		return errors.New("ent: missing options for TransformerCreateBulk.OnConflict")
+	}
+	return u.create.Exec(ctx)
+}
+
+// ExecX is like Exec, but panics if an error occurs.
+func (u *TransformerUpsertBulk) ExecX(ctx context.Context) {
+	if err := u.create.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

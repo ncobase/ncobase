@@ -6,8 +6,8 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"ncobase/system/data/ent/menu"
-	"ncobase/system/data/ent/predicate"
+	"ncobase/core/system/data/ent/menu"
+	"ncobase/core/system/data/ent/predicate"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"

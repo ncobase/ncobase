@@ -6,8 +6,10 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"ncobase/space/data/ent/spacequota"
+	"ncobase/core/space/data/ent/spacequota"
 
+	"entgo.io/ent/dialect"
+	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
 )
@@ -17,6 +19,7 @@ type SpaceQuotaCreate struct {
 	config
 	mutation *SpaceQuotaMutation
 	hooks    []Hook
+	conflict []sql.ConflictOption
 }
 
 // SetSpaceID sets the "space_id" field.
@@ -324,6 +327,7 @@ func (_c *SpaceQuotaCreate) createSpec() (*SpaceQuota, *sqlgraph.CreateSpec) {
 		_node = &SpaceQuota{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(spacequota.Table, sqlgraph.NewFieldSpec(spacequota.FieldID, field.TypeString))
 	)
+	_spec.OnConflict = _c.conflict
 	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
@@ -383,11 +387,579 @@ func (_c *SpaceQuotaCreate) createSpec() (*SpaceQuota, *sqlgraph.CreateSpec) {
 	return _node, _spec
 }
 
+// OnConflict allows configuring the `ON CONFLICT` / `ON DUPLICATE KEY` clause
+// of the `INSERT` statement. For example:
+//
+//	client.SpaceQuota.Create().
+//		SetSpaceID(v).
+//		OnConflict(
+//			// Update the row with the new values
+//			// the was proposed for insertion.
+//			sql.ResolveWithNewValues(),
+//		).
+//		// Override some of the fields with custom
+//		// update values.
+//		Update(func(u *ent.SpaceQuotaUpsert) {
+//			SetSpaceID(v+v).
+//		}).
+//		Exec(ctx)
+func (_c *SpaceQuotaCreate) OnConflict(opts ...sql.ConflictOption) *SpaceQuotaUpsertOne {
+	_c.conflict = opts
+	return &SpaceQuotaUpsertOne{
+		create: _c,
+	}
+}
+
+// OnConflictColumns calls `OnConflict` and configures the columns
+// as conflict target. Using this option is equivalent to using:
+//
+//	client.SpaceQuota.Create().
+//		OnConflict(sql.ConflictColumns(columns...)).
+//		Exec(ctx)
+func (_c *SpaceQuotaCreate) OnConflictColumns(columns ...string) *SpaceQuotaUpsertOne {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
+	return &SpaceQuotaUpsertOne{
+		create: _c,
+	}
+}
+
+type (
+	// SpaceQuotaUpsertOne is the builder for "upsert"-ing
+	//  one SpaceQuota node.
+	SpaceQuotaUpsertOne struct {
+		create *SpaceQuotaCreate
+	}
+
+	// SpaceQuotaUpsert is the "OnConflict" setter.
+	SpaceQuotaUpsert struct {
+		*sql.UpdateSet
+	}
+)
+
+// SetSpaceID sets the "space_id" field.
+func (u *SpaceQuotaUpsert) SetSpaceID(v string) *SpaceQuotaUpsert {
+	u.Set(spacequota.FieldSpaceID, v)
+	return u
+}
+
+// UpdateSpaceID sets the "space_id" field to the value that was provided on create.
+func (u *SpaceQuotaUpsert) UpdateSpaceID() *SpaceQuotaUpsert {
+	u.SetExcluded(spacequota.FieldSpaceID)
+	return u
+}
+
+// ClearSpaceID clears the value of the "space_id" field.
+func (u *SpaceQuotaUpsert) ClearSpaceID() *SpaceQuotaUpsert {
+	u.SetNull(spacequota.FieldSpaceID)
+	return u
+}
+
+// SetDescription sets the "description" field.
+func (u *SpaceQuotaUpsert) SetDescription(v string) *SpaceQuotaUpsert {
+	u.Set(spacequota.FieldDescription, v)
+	return u
+}
+
+// UpdateDescription sets the "description" field to the value that was provided on create.
+func (u *SpaceQuotaUpsert) UpdateDescription() *SpaceQuotaUpsert {
+	u.SetExcluded(spacequota.FieldDescription)
+	return u
+}
+
+// ClearDescription clears the value of the "description" field.
+func (u *SpaceQuotaUpsert) ClearDescription() *SpaceQuotaUpsert {
+	u.SetNull(spacequota.FieldDescription)
+	return u
+}
+
+// SetExtras sets the "extras" field.
+func (u *SpaceQuotaUpsert) SetExtras(v map[string]interface{}) *SpaceQuotaUpsert {
+	u.Set(spacequota.FieldExtras, v)
+	return u
+}
+
+// UpdateExtras sets the "extras" field to the value that was provided on create.
+func (u *SpaceQuotaUpsert) UpdateExtras() *SpaceQuotaUpsert {
+	u.SetExcluded(spacequota.FieldExtras)
+	return u
+}
+
+// ClearExtras clears the value of the "extras" field.
+func (u *SpaceQuotaUpsert) ClearExtras() *SpaceQuotaUpsert {
+	u.SetNull(spacequota.FieldExtras)
+	return u
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (u *SpaceQuotaUpsert) SetCreatedBy(v string) *SpaceQuotaUpsert {
+	u.Set(spacequota.FieldCreatedBy, v)
+	return u
+}
+
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *SpaceQuotaUpsert) UpdateCreatedBy() *SpaceQuotaUpsert {
+	u.SetExcluded(spacequota.FieldCreatedBy)
+	return u
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *SpaceQuotaUpsert) ClearCreatedBy() *SpaceQuotaUpsert {
+	u.SetNull(spacequota.FieldCreatedBy)
+	return u
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (u *SpaceQuotaUpsert) SetUpdatedBy(v string) *SpaceQuotaUpsert {
+	u.Set(spacequota.FieldUpdatedBy, v)
+	return u
+}
+
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *SpaceQuotaUpsert) UpdateUpdatedBy() *SpaceQuotaUpsert {
+	u.SetExcluded(spacequota.FieldUpdatedBy)
+	return u
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *SpaceQuotaUpsert) ClearUpdatedBy() *SpaceQuotaUpsert {
+	u.SetNull(spacequota.FieldUpdatedBy)
+	return u
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *SpaceQuotaUpsert) SetUpdatedAt(v int64) *SpaceQuotaUpsert {
+	u.Set(spacequota.FieldUpdatedAt, v)
+	return u
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *SpaceQuotaUpsert) UpdateUpdatedAt() *SpaceQuotaUpsert {
+	u.SetExcluded(spacequota.FieldUpdatedAt)
+	return u
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *SpaceQuotaUpsert) AddUpdatedAt(v int64) *SpaceQuotaUpsert {
+	u.Add(spacequota.FieldUpdatedAt, v)
+	return u
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *SpaceQuotaUpsert) ClearUpdatedAt() *SpaceQuotaUpsert {
+	u.SetNull(spacequota.FieldUpdatedAt)
+	return u
+}
+
+// SetQuotaType sets the "quota_type" field.
+func (u *SpaceQuotaUpsert) SetQuotaType(v string) *SpaceQuotaUpsert {
+	u.Set(spacequota.FieldQuotaType, v)
+	return u
+}
+
+// UpdateQuotaType sets the "quota_type" field to the value that was provided on create.
+func (u *SpaceQuotaUpsert) UpdateQuotaType() *SpaceQuotaUpsert {
+	u.SetExcluded(spacequota.FieldQuotaType)
+	return u
+}
+
+// SetQuotaName sets the "quota_name" field.
+func (u *SpaceQuotaUpsert) SetQuotaName(v string) *SpaceQuotaUpsert {
+	u.Set(spacequota.FieldQuotaName, v)
+	return u
+}
+
+// UpdateQuotaName sets the "quota_name" field to the value that was provided on create.
+func (u *SpaceQuotaUpsert) UpdateQuotaName() *SpaceQuotaUpsert {
+	u.SetExcluded(spacequota.FieldQuotaName)
+	return u
+}
+
+// SetMaxValue sets the "max_value" field.
+func (u *SpaceQuotaUpsert) SetMaxValue(v int64) *SpaceQuotaUpsert {
+	u.Set(spacequota.FieldMaxValue, v)
+	return u
+}
+
+// UpdateMaxValue sets the "max_value" field to the value that was provided on create.
+func (u *SpaceQuotaUpsert) UpdateMaxValue() *SpaceQuotaUpsert {
+	u.SetExcluded(spacequota.FieldMaxValue)
+	return u
+}
+
+// AddMaxValue adds v to the "max_value" field.
+func (u *SpaceQuotaUpsert) AddMaxValue(v int64) *SpaceQuotaUpsert {
+	u.Add(spacequota.FieldMaxValue, v)
+	return u
+}
+
+// SetCurrentUsed sets the "current_used" field.
+func (u *SpaceQuotaUpsert) SetCurrentUsed(v int64) *SpaceQuotaUpsert {
+	u.Set(spacequota.FieldCurrentUsed, v)
+	return u
+}
+
+// UpdateCurrentUsed sets the "current_used" field to the value that was provided on create.
+func (u *SpaceQuotaUpsert) UpdateCurrentUsed() *SpaceQuotaUpsert {
+	u.SetExcluded(spacequota.FieldCurrentUsed)
+	return u
+}
+
+// AddCurrentUsed adds v to the "current_used" field.
+func (u *SpaceQuotaUpsert) AddCurrentUsed(v int64) *SpaceQuotaUpsert {
+	u.Add(spacequota.FieldCurrentUsed, v)
+	return u
+}
+
+// SetUnit sets the "unit" field.
+func (u *SpaceQuotaUpsert) SetUnit(v string) *SpaceQuotaUpsert {
+	u.Set(spacequota.FieldUnit, v)
+	return u
+}
+
+// UpdateUnit sets the "unit" field to the value that was provided on create.
+func (u *SpaceQuotaUpsert) UpdateUnit() *SpaceQuotaUpsert {
+	u.SetExcluded(spacequota.FieldUnit)
+	return u
+}
+
+// SetEnabled sets the "enabled" field.
+func (u *SpaceQuotaUpsert) SetEnabled(v bool) *SpaceQuotaUpsert {
+	u.Set(spacequota.FieldEnabled, v)
+	return u
+}
+
+// UpdateEnabled sets the "enabled" field to the value that was provided on create.
+func (u *SpaceQuotaUpsert) UpdateEnabled() *SpaceQuotaUpsert {
+	u.SetExcluded(spacequota.FieldEnabled)
+	return u
+}
+
+// UpdateNewValues updates the mutable fields using the new values that were set on create except the ID field.
+// Using this option is equivalent to using:
+//
+//	client.SpaceQuota.Create().
+//		OnConflict(
+//			sql.ResolveWithNewValues(),
+//			sql.ResolveWith(func(u *sql.UpdateSet) {
+//				u.SetIgnore(spacequota.FieldID)
+//			}),
+//		).
+//		Exec(ctx)
+func (u *SpaceQuotaUpsertOne) UpdateNewValues() *SpaceQuotaUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithNewValues())
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(s *sql.UpdateSet) {
+		if _, exists := u.create.mutation.ID(); exists {
+			s.SetIgnore(spacequota.FieldID)
+		}
+		if _, exists := u.create.mutation.CreatedAt(); exists {
+			s.SetIgnore(spacequota.FieldCreatedAt)
+		}
+	}))
+	return u
+}
+
+// Ignore sets each column to itself in case of conflict.
+// Using this option is equivalent to using:
+//
+//	client.SpaceQuota.Create().
+//	    OnConflict(sql.ResolveWithIgnore()).
+//	    Exec(ctx)
+func (u *SpaceQuotaUpsertOne) Ignore() *SpaceQuotaUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithIgnore())
+	return u
+}
+
+// DoNothing configures the conflict_action to `DO NOTHING`.
+// Supported only by SQLite and PostgreSQL.
+func (u *SpaceQuotaUpsertOne) DoNothing() *SpaceQuotaUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.DoNothing())
+	return u
+}
+
+// Update allows overriding fields `UPDATE` values. See the SpaceQuotaCreate.OnConflict
+// documentation for more info.
+func (u *SpaceQuotaUpsertOne) Update(set func(*SpaceQuotaUpsert)) *SpaceQuotaUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(update *sql.UpdateSet) {
+		set(&SpaceQuotaUpsert{UpdateSet: update})
+	}))
+	return u
+}
+
+// SetSpaceID sets the "space_id" field.
+func (u *SpaceQuotaUpsertOne) SetSpaceID(v string) *SpaceQuotaUpsertOne {
+	return u.Update(func(s *SpaceQuotaUpsert) {
+		s.SetSpaceID(v)
+	})
+}
+
+// UpdateSpaceID sets the "space_id" field to the value that was provided on create.
+func (u *SpaceQuotaUpsertOne) UpdateSpaceID() *SpaceQuotaUpsertOne {
+	return u.Update(func(s *SpaceQuotaUpsert) {
+		s.UpdateSpaceID()
+	})
+}
+
+// ClearSpaceID clears the value of the "space_id" field.
+func (u *SpaceQuotaUpsertOne) ClearSpaceID() *SpaceQuotaUpsertOne {
+	return u.Update(func(s *SpaceQuotaUpsert) {
+		s.ClearSpaceID()
+	})
+}
+
+// SetDescription sets the "description" field.
+func (u *SpaceQuotaUpsertOne) SetDescription(v string) *SpaceQuotaUpsertOne {
+	return u.Update(func(s *SpaceQuotaUpsert) {
+		s.SetDescription(v)
+	})
+}
+
+// UpdateDescription sets the "description" field to the value that was provided on create.
+func (u *SpaceQuotaUpsertOne) UpdateDescription() *SpaceQuotaUpsertOne {
+	return u.Update(func(s *SpaceQuotaUpsert) {
+		s.UpdateDescription()
+	})
+}
+
+// ClearDescription clears the value of the "description" field.
+func (u *SpaceQuotaUpsertOne) ClearDescription() *SpaceQuotaUpsertOne {
+	return u.Update(func(s *SpaceQuotaUpsert) {
+		s.ClearDescription()
+	})
+}
+
+// SetExtras sets the "extras" field.
+func (u *SpaceQuotaUpsertOne) SetExtras(v map[string]interface{}) *SpaceQuotaUpsertOne {
+	return u.Update(func(s *SpaceQuotaUpsert) {
+		s.SetExtras(v)
+	})
+}
+
+// UpdateExtras sets the "extras" field to the value that was provided on create.
+func (u *SpaceQuotaUpsertOne) UpdateExtras() *SpaceQuotaUpsertOne {
+	return u.Update(func(s *SpaceQuotaUpsert) {
+		s.UpdateExtras()
+	})
+}
+
+// ClearExtras clears the value of the "extras" field.
+func (u *SpaceQuotaUpsertOne) ClearExtras() *SpaceQuotaUpsertOne {
+	return u.Update(func(s *SpaceQuotaUpsert) {
+		s.ClearExtras()
+	})
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (u *SpaceQuotaUpsertOne) SetCreatedBy(v string) *SpaceQuotaUpsertOne {
+	return u.Update(func(s *SpaceQuotaUpsert) {
+		s.SetCreatedBy(v)
+	})
+}
+
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *SpaceQuotaUpsertOne) UpdateCreatedBy() *SpaceQuotaUpsertOne {
+	return u.Update(func(s *SpaceQuotaUpsert) {
+		s.UpdateCreatedBy()
+	})
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *SpaceQuotaUpsertOne) ClearCreatedBy() *SpaceQuotaUpsertOne {
+	return u.Update(func(s *SpaceQuotaUpsert) {
+		s.ClearCreatedBy()
+	})
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (u *SpaceQuotaUpsertOne) SetUpdatedBy(v string) *SpaceQuotaUpsertOne {
+	return u.Update(func(s *SpaceQuotaUpsert) {
+		s.SetUpdatedBy(v)
+	})
+}
+
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *SpaceQuotaUpsertOne) UpdateUpdatedBy() *SpaceQuotaUpsertOne {
+	return u.Update(func(s *SpaceQuotaUpsert) {
+		s.UpdateUpdatedBy()
+	})
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *SpaceQuotaUpsertOne) ClearUpdatedBy() *SpaceQuotaUpsertOne {
+	return u.Update(func(s *SpaceQuotaUpsert) {
+		s.ClearUpdatedBy()
+	})
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *SpaceQuotaUpsertOne) SetUpdatedAt(v int64) *SpaceQuotaUpsertOne {
+	return u.Update(func(s *SpaceQuotaUpsert) {
+		s.SetUpdatedAt(v)
+	})
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *SpaceQuotaUpsertOne) AddUpdatedAt(v int64) *SpaceQuotaUpsertOne {
+	return u.Update(func(s *SpaceQuotaUpsert) {
+		s.AddUpdatedAt(v)
+	})
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *SpaceQuotaUpsertOne) UpdateUpdatedAt() *SpaceQuotaUpsertOne {
+	return u.Update(func(s *SpaceQuotaUpsert) {
+		s.UpdateUpdatedAt()
+	})
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *SpaceQuotaUpsertOne) ClearUpdatedAt() *SpaceQuotaUpsertOne {
+	return u.Update(func(s *SpaceQuotaUpsert) {
+		s.ClearUpdatedAt()
+	})
+}
+
+// SetQuotaType sets the "quota_type" field.
+func (u *SpaceQuotaUpsertOne) SetQuotaType(v string) *SpaceQuotaUpsertOne {
+	return u.Update(func(s *SpaceQuotaUpsert) {
+		s.SetQuotaType(v)
+	})
+}
+
+// UpdateQuotaType sets the "quota_type" field to the value that was provided on create.
+func (u *SpaceQuotaUpsertOne) UpdateQuotaType() *SpaceQuotaUpsertOne {
+	return u.Update(func(s *SpaceQuotaUpsert) {
+		s.UpdateQuotaType()
+	})
+}
+
+// SetQuotaName sets the "quota_name" field.
+func (u *SpaceQuotaUpsertOne) SetQuotaName(v string) *SpaceQuotaUpsertOne {
+	return u.Update(func(s *SpaceQuotaUpsert) {
+		s.SetQuotaName(v)
+	})
+}
+
+// UpdateQuotaName sets the "quota_name" field to the value that was provided on create.
+func (u *SpaceQuotaUpsertOne) UpdateQuotaName() *SpaceQuotaUpsertOne {
+	return u.Update(func(s *SpaceQuotaUpsert) {
+		s.UpdateQuotaName()
+	})
+}
+
+// SetMaxValue sets the "max_value" field.
+func (u *SpaceQuotaUpsertOne) SetMaxValue(v int64) *SpaceQuotaUpsertOne {
+	return u.Update(func(s *SpaceQuotaUpsert) {
+		s.SetMaxValue(v)
+	})
+}
+
+// AddMaxValue adds v to the "max_value" field.
+func (u *SpaceQuotaUpsertOne) AddMaxValue(v int64) *SpaceQuotaUpsertOne {
+	return u.Update(func(s *SpaceQuotaUpsert) {
+		s.AddMaxValue(v)
+	})
+}
+
+// UpdateMaxValue sets the "max_value" field to the value that was provided on create.
+func (u *SpaceQuotaUpsertOne) UpdateMaxValue() *SpaceQuotaUpsertOne {
+	return u.Update(func(s *SpaceQuotaUpsert) {
+		s.UpdateMaxValue()
+	})
+}
+
+// SetCurrentUsed sets the "current_used" field.
+func (u *SpaceQuotaUpsertOne) SetCurrentUsed(v int64) *SpaceQuotaUpsertOne {
+	return u.Update(func(s *SpaceQuotaUpsert) {
+		s.SetCurrentUsed(v)
+	})
+}
+
+// AddCurrentUsed adds v to the "current_used" field.
+func (u *SpaceQuotaUpsertOne) AddCurrentUsed(v int64) *SpaceQuotaUpsertOne {
+	return u.Update(func(s *SpaceQuotaUpsert) {
+		s.AddCurrentUsed(v)
+	})
+}
+
+// UpdateCurrentUsed sets the "current_used" field to the value that was provided on create.
+func (u *SpaceQuotaUpsertOne) UpdateCurrentUsed() *SpaceQuotaUpsertOne {
+	return u.Update(func(s *SpaceQuotaUpsert) {
+		s.UpdateCurrentUsed()
+	})
+}
+
+// SetUnit sets the "unit" field.
+func (u *SpaceQuotaUpsertOne) SetUnit(v string) *SpaceQuotaUpsertOne {
+	return u.Update(func(s *SpaceQuotaUpsert) {
+		s.SetUnit(v)
+	})
+}
+
+// UpdateUnit sets the "unit" field to the value that was provided on create.
+func (u *SpaceQuotaUpsertOne) UpdateUnit() *SpaceQuotaUpsertOne {
+	return u.Update(func(s *SpaceQuotaUpsert) {
+		s.UpdateUnit()
+	})
+}
+
+// SetEnabled sets the "enabled" field.
+func (u *SpaceQuotaUpsertOne) SetEnabled(v bool) *SpaceQuotaUpsertOne {
+	return u.Update(func(s *SpaceQuotaUpsert) {
+		s.SetEnabled(v)
+	})
+}
+
+// UpdateEnabled sets the "enabled" field to the value that was provided on create.
+func (u *SpaceQuotaUpsertOne) UpdateEnabled() *SpaceQuotaUpsertOne {
+	return u.Update(func(s *SpaceQuotaUpsert) {
+		s.UpdateEnabled()
+	})
+}
+
+// Exec executes the query.
+func (u *SpaceQuotaUpsertOne) Exec(ctx context.Context) error {
+	if len(u.create.conflict) == 0 {
+		return errors.New("ent: missing options for SpaceQuotaCreate.OnConflict")
+	}
+	return u.create.Exec(ctx)
+}
+
+// ExecX is like Exec, but panics if an error occurs.
+func (u *SpaceQuotaUpsertOne) ExecX(ctx context.Context) {
+	if err := u.create.Exec(ctx); err != nil {
+		panic(err)
+	}
+}
+
+// Exec executes the UPSERT query and returns the inserted/updated ID.
+func (u *SpaceQuotaUpsertOne) ID(ctx context.Context) (id string, err error) {
+	if u.create.driver.Dialect() == dialect.MySQL {
+		// In case of "ON CONFLICT", there is no way to get back non-numeric ID
+		// fields from the database since MySQL does not support the RETURNING clause.
+		return id, errors.New("ent: SpaceQuotaUpsertOne.ID is not supported by MySQL driver. Use SpaceQuotaUpsertOne.Exec instead")
+	}
+	node, err := u.create.Save(ctx)
+	if err != nil {
+		return id, err
+	}
+	return node.ID, nil
+}
+
+// IDX is like ID, but panics if an error occurs.
+func (u *SpaceQuotaUpsertOne) IDX(ctx context.Context) string {
+	id, err := u.ID(ctx)
+	if err != nil {
+		panic(err)
+	}
+	return id
+}
+
 // SpaceQuotaCreateBulk is the builder for creating many SpaceQuota entities in bulk.
 type SpaceQuotaCreateBulk struct {
 	config
 	err      error
 	builders []*SpaceQuotaCreate
+	conflict []sql.ConflictOption
 }
 
 // Save creates the SpaceQuota entities in the database.
@@ -417,6 +989,7 @@ func (_c *SpaceQuotaCreateBulk) Save(ctx context.Context) ([]*SpaceQuota, error)
 					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
+					spec.OnConflict = _c.conflict
 					// Invoke the actual operation on the latest mutation in the chain.
 					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
@@ -463,6 +1036,354 @@ func (_c *SpaceQuotaCreateBulk) Exec(ctx context.Context) error {
 // ExecX is like Exec, but panics if an error occurs.
 func (_c *SpaceQuotaCreateBulk) ExecX(ctx context.Context) {
 	if err := _c.Exec(ctx); err != nil {
+		panic(err)
+	}
+}
+
+// OnConflict allows configuring the `ON CONFLICT` / `ON DUPLICATE KEY` clause
+// of the `INSERT` statement. For example:
+//
+//	client.SpaceQuota.CreateBulk(builders...).
+//		OnConflict(
+//			// Update the row with the new values
+//			// the was proposed for insertion.
+//			sql.ResolveWithNewValues(),
+//		).
+//		// Override some of the fields with custom
+//		// update values.
+//		Update(func(u *ent.SpaceQuotaUpsert) {
+//			SetSpaceID(v+v).
+//		}).
+//		Exec(ctx)
+func (_c *SpaceQuotaCreateBulk) OnConflict(opts ...sql.ConflictOption) *SpaceQuotaUpsertBulk {
+	_c.conflict = opts
+	return &SpaceQuotaUpsertBulk{
+		create: _c,
+	}
+}
+
+// OnConflictColumns calls `OnConflict` and configures the columns
+// as conflict target. Using this option is equivalent to using:
+//
+//	client.SpaceQuota.Create().
+//		OnConflict(sql.ConflictColumns(columns...)).
+//		Exec(ctx)
+func (_c *SpaceQuotaCreateBulk) OnConflictColumns(columns ...string) *SpaceQuotaUpsertBulk {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
+	return &SpaceQuotaUpsertBulk{
+		create: _c,
+	}
+}
+
+// SpaceQuotaUpsertBulk is the builder for "upsert"-ing
+// a bulk of SpaceQuota nodes.
+type SpaceQuotaUpsertBulk struct {
+	create *SpaceQuotaCreateBulk
+}
+
+// UpdateNewValues updates the mutable fields using the new values that
+// were set on create. Using this option is equivalent to using:
+//
+//	client.SpaceQuota.Create().
+//		OnConflict(
+//			sql.ResolveWithNewValues(),
+//			sql.ResolveWith(func(u *sql.UpdateSet) {
+//				u.SetIgnore(spacequota.FieldID)
+//			}),
+//		).
+//		Exec(ctx)
+func (u *SpaceQuotaUpsertBulk) UpdateNewValues() *SpaceQuotaUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithNewValues())
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(s *sql.UpdateSet) {
+		for _, b := range u.create.builders {
+			if _, exists := b.mutation.ID(); exists {
+				s.SetIgnore(spacequota.FieldID)
+			}
+			if _, exists := b.mutation.CreatedAt(); exists {
+				s.SetIgnore(spacequota.FieldCreatedAt)
+			}
+		}
+	}))
+	return u
+}
+
+// Ignore sets each column to itself in case of conflict.
+// Using this option is equivalent to using:
+//
+//	client.SpaceQuota.Create().
+//		OnConflict(sql.ResolveWithIgnore()).
+//		Exec(ctx)
+func (u *SpaceQuotaUpsertBulk) Ignore() *SpaceQuotaUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithIgnore())
+	return u
+}
+
+// DoNothing configures the conflict_action to `DO NOTHING`.
+// Supported only by SQLite and PostgreSQL.
+func (u *SpaceQuotaUpsertBulk) DoNothing() *SpaceQuotaUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.DoNothing())
+	return u
+}
+
+// Update allows overriding fields `UPDATE` values. See the SpaceQuotaCreateBulk.OnConflict
+// documentation for more info.
+func (u *SpaceQuotaUpsertBulk) Update(set func(*SpaceQuotaUpsert)) *SpaceQuotaUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(update *sql.UpdateSet) {
+		set(&SpaceQuotaUpsert{UpdateSet: update})
+	}))
+	return u
+}
+
+// SetSpaceID sets the "space_id" field.
+func (u *SpaceQuotaUpsertBulk) SetSpaceID(v string) *SpaceQuotaUpsertBulk {
+	return u.Update(func(s *SpaceQuotaUpsert) {
+		s.SetSpaceID(v)
+	})
+}
+
+// UpdateSpaceID sets the "space_id" field to the value that was provided on create.
+func (u *SpaceQuotaUpsertBulk) UpdateSpaceID() *SpaceQuotaUpsertBulk {
+	return u.Update(func(s *SpaceQuotaUpsert) {
+		s.UpdateSpaceID()
+	})
+}
+
+// ClearSpaceID clears the value of the "space_id" field.
+func (u *SpaceQuotaUpsertBulk) ClearSpaceID() *SpaceQuotaUpsertBulk {
+	return u.Update(func(s *SpaceQuotaUpsert) {
+		s.ClearSpaceID()
+	})
+}
+
+// SetDescription sets the "description" field.
+func (u *SpaceQuotaUpsertBulk) SetDescription(v string) *SpaceQuotaUpsertBulk {
+	return u.Update(func(s *SpaceQuotaUpsert) {
+		s.SetDescription(v)
+	})
+}
+
+// UpdateDescription sets the "description" field to the value that was provided on create.
+func (u *SpaceQuotaUpsertBulk) UpdateDescription() *SpaceQuotaUpsertBulk {
+	return u.Update(func(s *SpaceQuotaUpsert) {
+		s.UpdateDescription()
+	})
+}
+
+// ClearDescription clears the value of the "description" field.
+func (u *SpaceQuotaUpsertBulk) ClearDescription() *SpaceQuotaUpsertBulk {
+	return u.Update(func(s *SpaceQuotaUpsert) {
+		s.ClearDescription()
+	})
+}
+
+// SetExtras sets the "extras" field.
+func (u *SpaceQuotaUpsertBulk) SetExtras(v map[string]interface{}) *SpaceQuotaUpsertBulk {
+	return u.Update(func(s *SpaceQuotaUpsert) {
+		s.SetExtras(v)
+	})
+}
+
+// UpdateExtras sets the "extras" field to the value that was provided on create.
+func (u *SpaceQuotaUpsertBulk) UpdateExtras() *SpaceQuotaUpsertBulk {
+	return u.Update(func(s *SpaceQuotaUpsert) {
+		s.UpdateExtras()
+	})
+}
+
+// ClearExtras clears the value of the "extras" field.
+func (u *SpaceQuotaUpsertBulk) ClearExtras() *SpaceQuotaUpsertBulk {
+	return u.Update(func(s *SpaceQuotaUpsert) {
+		s.ClearExtras()
+	})
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (u *SpaceQuotaUpsertBulk) SetCreatedBy(v string) *SpaceQuotaUpsertBulk {
+	return u.Update(func(s *SpaceQuotaUpsert) {
+		s.SetCreatedBy(v)
+	})
+}
+
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *SpaceQuotaUpsertBulk) UpdateCreatedBy() *SpaceQuotaUpsertBulk {
+	return u.Update(func(s *SpaceQuotaUpsert) {
+		s.UpdateCreatedBy()
+	})
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *SpaceQuotaUpsertBulk) ClearCreatedBy() *SpaceQuotaUpsertBulk {
+	return u.Update(func(s *SpaceQuotaUpsert) {
+		s.ClearCreatedBy()
+	})
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (u *SpaceQuotaUpsertBulk) SetUpdatedBy(v string) *SpaceQuotaUpsertBulk {
+	return u.Update(func(s *SpaceQuotaUpsert) {
+		s.SetUpdatedBy(v)
+	})
+}
+
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *SpaceQuotaUpsertBulk) UpdateUpdatedBy() *SpaceQuotaUpsertBulk {
+	return u.Update(func(s *SpaceQuotaUpsert) {
+		s.UpdateUpdatedBy()
+	})
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *SpaceQuotaUpsertBulk) ClearUpdatedBy() *SpaceQuotaUpsertBulk {
+	return u.Update(func(s *SpaceQuotaUpsert) {
+		s.ClearUpdatedBy()
+	})
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *SpaceQuotaUpsertBulk) SetUpdatedAt(v int64) *SpaceQuotaUpsertBulk {
+	return u.Update(func(s *SpaceQuotaUpsert) {
+		s.SetUpdatedAt(v)
+	})
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *SpaceQuotaUpsertBulk) AddUpdatedAt(v int64) *SpaceQuotaUpsertBulk {
+	return u.Update(func(s *SpaceQuotaUpsert) {
+		s.AddUpdatedAt(v)
+	})
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *SpaceQuotaUpsertBulk) UpdateUpdatedAt() *SpaceQuotaUpsertBulk {
+	return u.Update(func(s *SpaceQuotaUpsert) {
+		s.UpdateUpdatedAt()
+	})
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *SpaceQuotaUpsertBulk) ClearUpdatedAt() *SpaceQuotaUpsertBulk {
+	return u.Update(func(s *SpaceQuotaUpsert) {
+		s.ClearUpdatedAt()
+	})
+}
+
+// SetQuotaType sets the "quota_type" field.
+func (u *SpaceQuotaUpsertBulk) SetQuotaType(v string) *SpaceQuotaUpsertBulk {
+	return u.Update(func(s *SpaceQuotaUpsert) {
+		s.SetQuotaType(v)
+	})
+}
+
+// UpdateQuotaType sets the "quota_type" field to the value that was provided on create.
+func (u *SpaceQuotaUpsertBulk) UpdateQuotaType() *SpaceQuotaUpsertBulk {
+	return u.Update(func(s *SpaceQuotaUpsert) {
+		s.UpdateQuotaType()
+	})
+}
+
+// SetQuotaName sets the "quota_name" field.
+func (u *SpaceQuotaUpsertBulk) SetQuotaName(v string) *SpaceQuotaUpsertBulk {
+	return u.Update(func(s *SpaceQuotaUpsert) {
+		s.SetQuotaName(v)
+	})
+}
+
+// UpdateQuotaName sets the "quota_name" field to the value that was provided on create.
+func (u *SpaceQuotaUpsertBulk) UpdateQuotaName() *SpaceQuotaUpsertBulk {
+	return u.Update(func(s *SpaceQuotaUpsert) {
+		s.UpdateQuotaName()
+	})
+}
+
+// SetMaxValue sets the "max_value" field.
+func (u *SpaceQuotaUpsertBulk) SetMaxValue(v int64) *SpaceQuotaUpsertBulk {
+	return u.Update(func(s *SpaceQuotaUpsert) {
+		s.SetMaxValue(v)
+	})
+}
+
+// AddMaxValue adds v to the "max_value" field.
+func (u *SpaceQuotaUpsertBulk) AddMaxValue(v int64) *SpaceQuotaUpsertBulk {
+	return u.Update(func(s *SpaceQuotaUpsert) {
+		s.AddMaxValue(v)
+	})
+}
+
+// UpdateMaxValue sets the "max_value" field to the value that was provided on create.
+func (u *SpaceQuotaUpsertBulk) UpdateMaxValue() *SpaceQuotaUpsertBulk {
+	return u.Update(func(s *SpaceQuotaUpsert) {
+		s.UpdateMaxValue()
+	})
+}
+
+// SetCurrentUsed sets the "current_used" field.
+func (u *SpaceQuotaUpsertBulk) SetCurrentUsed(v int64) *SpaceQuotaUpsertBulk {
+	return u.Update(func(s *SpaceQuotaUpsert) {
+		s.SetCurrentUsed(v)
+	})
+}
+
+// AddCurrentUsed adds v to the "current_used" field.
+func (u *SpaceQuotaUpsertBulk) AddCurrentUsed(v int64) *SpaceQuotaUpsertBulk {
+	return u.Update(func(s *SpaceQuotaUpsert) {
+		s.AddCurrentUsed(v)
+	})
+}
+
+// UpdateCurrentUsed sets the "current_used" field to the value that was provided on create.
+func (u *SpaceQuotaUpsertBulk) UpdateCurrentUsed() *SpaceQuotaUpsertBulk {
+	return u.Update(func(s *SpaceQuotaUpsert) {
+		s.UpdateCurrentUsed()
+	})
+}
+
+// SetUnit sets the "unit" field.
+func (u *SpaceQuotaUpsertBulk) SetUnit(v string) *SpaceQuotaUpsertBulk {
+	return u.Update(func(s *SpaceQuotaUpsert) {
+		s.SetUnit(v)
+	})
+}
+
+// UpdateUnit sets the "unit" field to the value that was provided on create.
+func (u *SpaceQuotaUpsertBulk) UpdateUnit() *SpaceQuotaUpsertBulk {
+	return u.Update(func(s *SpaceQuotaUpsert) {
+		s.UpdateUnit()
+	})
+}
+
+// SetEnabled sets the "enabled" field.
+func (u *SpaceQuotaUpsertBulk) SetEnabled(v bool) *SpaceQuotaUpsertBulk {
+	return u.Update(func(s *SpaceQuotaUpsert) {
+		s.SetEnabled(v)
+	})
+}
+
+// UpdateEnabled sets the "enabled" field to the value that was provided on create.
+func (u *SpaceQuotaUpsertBulk) UpdateEnabled() *SpaceQuotaUpsertBulk {
+	return u.Update(func(s *SpaceQuotaUpsert) {
+		s.UpdateEnabled()
+	})
+}
+
+// Exec executes the query.
+func (u *SpaceQuotaUpsertBulk) Exec(ctx context.Context) error {
+	if u.create.err != nil {
+		return u.create.err
+	}
+	for i, b := range u.create.builders {
+		if len(b.conflict) != 0 {
+			return fmt.Errorf("ent: OnConflict was set for builder %d. Set it on the SpaceQuotaCreateBulk instead", i)
+		}
+	}
+	if len(u.create.conflict) == 0 {
+		return errors.New("ent: missing options for SpaceQuotaCreateBulk.OnConflict")
+	}
+	return u.create.Exec(ctx)
+}
+
+// ExecX is like Exec, but panics if an error occurs.
+func (u *SpaceQuotaUpsertBulk) ExecX(ctx context.Context) {
+	if err := u.create.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

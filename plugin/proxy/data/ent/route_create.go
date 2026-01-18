@@ -6,8 +6,10 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"ncobase/proxy/data/ent/route"
+	"ncobase/plugin/proxy/data/ent/route"
 
+	"entgo.io/ent/dialect"
+	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
 )
@@ -17,6 +19,7 @@ type RouteCreate struct {
 	config
 	mutation *RouteMutation
 	hooks    []Hook
+	conflict []sql.ConflictOption
 }
 
 // SetName sets the "name" field.
@@ -395,6 +398,7 @@ func (_c *RouteCreate) createSpec() (*Route, *sqlgraph.CreateSpec) {
 		_node = &Route{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(route.Table, sqlgraph.NewFieldSpec(route.FieldID, field.TypeString))
 	)
+	_spec.OnConflict = _c.conflict
 	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
@@ -474,11 +478,748 @@ func (_c *RouteCreate) createSpec() (*Route, *sqlgraph.CreateSpec) {
 	return _node, _spec
 }
 
+// OnConflict allows configuring the `ON CONFLICT` / `ON DUPLICATE KEY` clause
+// of the `INSERT` statement. For example:
+//
+//	client.Route.Create().
+//		SetName(v).
+//		OnConflict(
+//			// Update the row with the new values
+//			// the was proposed for insertion.
+//			sql.ResolveWithNewValues(),
+//		).
+//		// Override some of the fields with custom
+//		// update values.
+//		Update(func(u *ent.RouteUpsert) {
+//			SetName(v+v).
+//		}).
+//		Exec(ctx)
+func (_c *RouteCreate) OnConflict(opts ...sql.ConflictOption) *RouteUpsertOne {
+	_c.conflict = opts
+	return &RouteUpsertOne{
+		create: _c,
+	}
+}
+
+// OnConflictColumns calls `OnConflict` and configures the columns
+// as conflict target. Using this option is equivalent to using:
+//
+//	client.Route.Create().
+//		OnConflict(sql.ConflictColumns(columns...)).
+//		Exec(ctx)
+func (_c *RouteCreate) OnConflictColumns(columns ...string) *RouteUpsertOne {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
+	return &RouteUpsertOne{
+		create: _c,
+	}
+}
+
+type (
+	// RouteUpsertOne is the builder for "upsert"-ing
+	//  one Route node.
+	RouteUpsertOne struct {
+		create *RouteCreate
+	}
+
+	// RouteUpsert is the "OnConflict" setter.
+	RouteUpsert struct {
+		*sql.UpdateSet
+	}
+)
+
+// SetName sets the "name" field.
+func (u *RouteUpsert) SetName(v string) *RouteUpsert {
+	u.Set(route.FieldName, v)
+	return u
+}
+
+// UpdateName sets the "name" field to the value that was provided on create.
+func (u *RouteUpsert) UpdateName() *RouteUpsert {
+	u.SetExcluded(route.FieldName)
+	return u
+}
+
+// ClearName clears the value of the "name" field.
+func (u *RouteUpsert) ClearName() *RouteUpsert {
+	u.SetNull(route.FieldName)
+	return u
+}
+
+// SetDescription sets the "description" field.
+func (u *RouteUpsert) SetDescription(v string) *RouteUpsert {
+	u.Set(route.FieldDescription, v)
+	return u
+}
+
+// UpdateDescription sets the "description" field to the value that was provided on create.
+func (u *RouteUpsert) UpdateDescription() *RouteUpsert {
+	u.SetExcluded(route.FieldDescription)
+	return u
+}
+
+// ClearDescription clears the value of the "description" field.
+func (u *RouteUpsert) ClearDescription() *RouteUpsert {
+	u.SetNull(route.FieldDescription)
+	return u
+}
+
+// SetDisabled sets the "disabled" field.
+func (u *RouteUpsert) SetDisabled(v bool) *RouteUpsert {
+	u.Set(route.FieldDisabled, v)
+	return u
+}
+
+// UpdateDisabled sets the "disabled" field to the value that was provided on create.
+func (u *RouteUpsert) UpdateDisabled() *RouteUpsert {
+	u.SetExcluded(route.FieldDisabled)
+	return u
+}
+
+// ClearDisabled clears the value of the "disabled" field.
+func (u *RouteUpsert) ClearDisabled() *RouteUpsert {
+	u.SetNull(route.FieldDisabled)
+	return u
+}
+
+// SetExtras sets the "extras" field.
+func (u *RouteUpsert) SetExtras(v map[string]interface{}) *RouteUpsert {
+	u.Set(route.FieldExtras, v)
+	return u
+}
+
+// UpdateExtras sets the "extras" field to the value that was provided on create.
+func (u *RouteUpsert) UpdateExtras() *RouteUpsert {
+	u.SetExcluded(route.FieldExtras)
+	return u
+}
+
+// ClearExtras clears the value of the "extras" field.
+func (u *RouteUpsert) ClearExtras() *RouteUpsert {
+	u.SetNull(route.FieldExtras)
+	return u
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (u *RouteUpsert) SetCreatedBy(v string) *RouteUpsert {
+	u.Set(route.FieldCreatedBy, v)
+	return u
+}
+
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *RouteUpsert) UpdateCreatedBy() *RouteUpsert {
+	u.SetExcluded(route.FieldCreatedBy)
+	return u
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *RouteUpsert) ClearCreatedBy() *RouteUpsert {
+	u.SetNull(route.FieldCreatedBy)
+	return u
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (u *RouteUpsert) SetUpdatedBy(v string) *RouteUpsert {
+	u.Set(route.FieldUpdatedBy, v)
+	return u
+}
+
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *RouteUpsert) UpdateUpdatedBy() *RouteUpsert {
+	u.SetExcluded(route.FieldUpdatedBy)
+	return u
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *RouteUpsert) ClearUpdatedBy() *RouteUpsert {
+	u.SetNull(route.FieldUpdatedBy)
+	return u
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *RouteUpsert) SetUpdatedAt(v int64) *RouteUpsert {
+	u.Set(route.FieldUpdatedAt, v)
+	return u
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *RouteUpsert) UpdateUpdatedAt() *RouteUpsert {
+	u.SetExcluded(route.FieldUpdatedAt)
+	return u
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *RouteUpsert) AddUpdatedAt(v int64) *RouteUpsert {
+	u.Add(route.FieldUpdatedAt, v)
+	return u
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *RouteUpsert) ClearUpdatedAt() *RouteUpsert {
+	u.SetNull(route.FieldUpdatedAt)
+	return u
+}
+
+// SetEndpointID sets the "endpoint_id" field.
+func (u *RouteUpsert) SetEndpointID(v string) *RouteUpsert {
+	u.Set(route.FieldEndpointID, v)
+	return u
+}
+
+// UpdateEndpointID sets the "endpoint_id" field to the value that was provided on create.
+func (u *RouteUpsert) UpdateEndpointID() *RouteUpsert {
+	u.SetExcluded(route.FieldEndpointID)
+	return u
+}
+
+// SetPathPattern sets the "path_pattern" field.
+func (u *RouteUpsert) SetPathPattern(v string) *RouteUpsert {
+	u.Set(route.FieldPathPattern, v)
+	return u
+}
+
+// UpdatePathPattern sets the "path_pattern" field to the value that was provided on create.
+func (u *RouteUpsert) UpdatePathPattern() *RouteUpsert {
+	u.SetExcluded(route.FieldPathPattern)
+	return u
+}
+
+// SetTargetPath sets the "target_path" field.
+func (u *RouteUpsert) SetTargetPath(v string) *RouteUpsert {
+	u.Set(route.FieldTargetPath, v)
+	return u
+}
+
+// UpdateTargetPath sets the "target_path" field to the value that was provided on create.
+func (u *RouteUpsert) UpdateTargetPath() *RouteUpsert {
+	u.SetExcluded(route.FieldTargetPath)
+	return u
+}
+
+// SetMethod sets the "method" field.
+func (u *RouteUpsert) SetMethod(v string) *RouteUpsert {
+	u.Set(route.FieldMethod, v)
+	return u
+}
+
+// UpdateMethod sets the "method" field to the value that was provided on create.
+func (u *RouteUpsert) UpdateMethod() *RouteUpsert {
+	u.SetExcluded(route.FieldMethod)
+	return u
+}
+
+// SetInputTransformerID sets the "input_transformer_id" field.
+func (u *RouteUpsert) SetInputTransformerID(v string) *RouteUpsert {
+	u.Set(route.FieldInputTransformerID, v)
+	return u
+}
+
+// UpdateInputTransformerID sets the "input_transformer_id" field to the value that was provided on create.
+func (u *RouteUpsert) UpdateInputTransformerID() *RouteUpsert {
+	u.SetExcluded(route.FieldInputTransformerID)
+	return u
+}
+
+// ClearInputTransformerID clears the value of the "input_transformer_id" field.
+func (u *RouteUpsert) ClearInputTransformerID() *RouteUpsert {
+	u.SetNull(route.FieldInputTransformerID)
+	return u
+}
+
+// SetOutputTransformerID sets the "output_transformer_id" field.
+func (u *RouteUpsert) SetOutputTransformerID(v string) *RouteUpsert {
+	u.Set(route.FieldOutputTransformerID, v)
+	return u
+}
+
+// UpdateOutputTransformerID sets the "output_transformer_id" field to the value that was provided on create.
+func (u *RouteUpsert) UpdateOutputTransformerID() *RouteUpsert {
+	u.SetExcluded(route.FieldOutputTransformerID)
+	return u
+}
+
+// ClearOutputTransformerID clears the value of the "output_transformer_id" field.
+func (u *RouteUpsert) ClearOutputTransformerID() *RouteUpsert {
+	u.SetNull(route.FieldOutputTransformerID)
+	return u
+}
+
+// SetCacheEnabled sets the "cache_enabled" field.
+func (u *RouteUpsert) SetCacheEnabled(v bool) *RouteUpsert {
+	u.Set(route.FieldCacheEnabled, v)
+	return u
+}
+
+// UpdateCacheEnabled sets the "cache_enabled" field to the value that was provided on create.
+func (u *RouteUpsert) UpdateCacheEnabled() *RouteUpsert {
+	u.SetExcluded(route.FieldCacheEnabled)
+	return u
+}
+
+// SetCacheTTL sets the "cache_ttl" field.
+func (u *RouteUpsert) SetCacheTTL(v int) *RouteUpsert {
+	u.Set(route.FieldCacheTTL, v)
+	return u
+}
+
+// UpdateCacheTTL sets the "cache_ttl" field to the value that was provided on create.
+func (u *RouteUpsert) UpdateCacheTTL() *RouteUpsert {
+	u.SetExcluded(route.FieldCacheTTL)
+	return u
+}
+
+// AddCacheTTL adds v to the "cache_ttl" field.
+func (u *RouteUpsert) AddCacheTTL(v int) *RouteUpsert {
+	u.Add(route.FieldCacheTTL, v)
+	return u
+}
+
+// SetRateLimit sets the "rate_limit" field.
+func (u *RouteUpsert) SetRateLimit(v string) *RouteUpsert {
+	u.Set(route.FieldRateLimit, v)
+	return u
+}
+
+// UpdateRateLimit sets the "rate_limit" field to the value that was provided on create.
+func (u *RouteUpsert) UpdateRateLimit() *RouteUpsert {
+	u.SetExcluded(route.FieldRateLimit)
+	return u
+}
+
+// ClearRateLimit clears the value of the "rate_limit" field.
+func (u *RouteUpsert) ClearRateLimit() *RouteUpsert {
+	u.SetNull(route.FieldRateLimit)
+	return u
+}
+
+// SetStripAuthHeader sets the "strip_auth_header" field.
+func (u *RouteUpsert) SetStripAuthHeader(v bool) *RouteUpsert {
+	u.Set(route.FieldStripAuthHeader, v)
+	return u
+}
+
+// UpdateStripAuthHeader sets the "strip_auth_header" field to the value that was provided on create.
+func (u *RouteUpsert) UpdateStripAuthHeader() *RouteUpsert {
+	u.SetExcluded(route.FieldStripAuthHeader)
+	return u
+}
+
+// UpdateNewValues updates the mutable fields using the new values that were set on create except the ID field.
+// Using this option is equivalent to using:
+//
+//	client.Route.Create().
+//		OnConflict(
+//			sql.ResolveWithNewValues(),
+//			sql.ResolveWith(func(u *sql.UpdateSet) {
+//				u.SetIgnore(route.FieldID)
+//			}),
+//		).
+//		Exec(ctx)
+func (u *RouteUpsertOne) UpdateNewValues() *RouteUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithNewValues())
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(s *sql.UpdateSet) {
+		if _, exists := u.create.mutation.ID(); exists {
+			s.SetIgnore(route.FieldID)
+		}
+		if _, exists := u.create.mutation.CreatedAt(); exists {
+			s.SetIgnore(route.FieldCreatedAt)
+		}
+	}))
+	return u
+}
+
+// Ignore sets each column to itself in case of conflict.
+// Using this option is equivalent to using:
+//
+//	client.Route.Create().
+//	    OnConflict(sql.ResolveWithIgnore()).
+//	    Exec(ctx)
+func (u *RouteUpsertOne) Ignore() *RouteUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithIgnore())
+	return u
+}
+
+// DoNothing configures the conflict_action to `DO NOTHING`.
+// Supported only by SQLite and PostgreSQL.
+func (u *RouteUpsertOne) DoNothing() *RouteUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.DoNothing())
+	return u
+}
+
+// Update allows overriding fields `UPDATE` values. See the RouteCreate.OnConflict
+// documentation for more info.
+func (u *RouteUpsertOne) Update(set func(*RouteUpsert)) *RouteUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(update *sql.UpdateSet) {
+		set(&RouteUpsert{UpdateSet: update})
+	}))
+	return u
+}
+
+// SetName sets the "name" field.
+func (u *RouteUpsertOne) SetName(v string) *RouteUpsertOne {
+	return u.Update(func(s *RouteUpsert) {
+		s.SetName(v)
+	})
+}
+
+// UpdateName sets the "name" field to the value that was provided on create.
+func (u *RouteUpsertOne) UpdateName() *RouteUpsertOne {
+	return u.Update(func(s *RouteUpsert) {
+		s.UpdateName()
+	})
+}
+
+// ClearName clears the value of the "name" field.
+func (u *RouteUpsertOne) ClearName() *RouteUpsertOne {
+	return u.Update(func(s *RouteUpsert) {
+		s.ClearName()
+	})
+}
+
+// SetDescription sets the "description" field.
+func (u *RouteUpsertOne) SetDescription(v string) *RouteUpsertOne {
+	return u.Update(func(s *RouteUpsert) {
+		s.SetDescription(v)
+	})
+}
+
+// UpdateDescription sets the "description" field to the value that was provided on create.
+func (u *RouteUpsertOne) UpdateDescription() *RouteUpsertOne {
+	return u.Update(func(s *RouteUpsert) {
+		s.UpdateDescription()
+	})
+}
+
+// ClearDescription clears the value of the "description" field.
+func (u *RouteUpsertOne) ClearDescription() *RouteUpsertOne {
+	return u.Update(func(s *RouteUpsert) {
+		s.ClearDescription()
+	})
+}
+
+// SetDisabled sets the "disabled" field.
+func (u *RouteUpsertOne) SetDisabled(v bool) *RouteUpsertOne {
+	return u.Update(func(s *RouteUpsert) {
+		s.SetDisabled(v)
+	})
+}
+
+// UpdateDisabled sets the "disabled" field to the value that was provided on create.
+func (u *RouteUpsertOne) UpdateDisabled() *RouteUpsertOne {
+	return u.Update(func(s *RouteUpsert) {
+		s.UpdateDisabled()
+	})
+}
+
+// ClearDisabled clears the value of the "disabled" field.
+func (u *RouteUpsertOne) ClearDisabled() *RouteUpsertOne {
+	return u.Update(func(s *RouteUpsert) {
+		s.ClearDisabled()
+	})
+}
+
+// SetExtras sets the "extras" field.
+func (u *RouteUpsertOne) SetExtras(v map[string]interface{}) *RouteUpsertOne {
+	return u.Update(func(s *RouteUpsert) {
+		s.SetExtras(v)
+	})
+}
+
+// UpdateExtras sets the "extras" field to the value that was provided on create.
+func (u *RouteUpsertOne) UpdateExtras() *RouteUpsertOne {
+	return u.Update(func(s *RouteUpsert) {
+		s.UpdateExtras()
+	})
+}
+
+// ClearExtras clears the value of the "extras" field.
+func (u *RouteUpsertOne) ClearExtras() *RouteUpsertOne {
+	return u.Update(func(s *RouteUpsert) {
+		s.ClearExtras()
+	})
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (u *RouteUpsertOne) SetCreatedBy(v string) *RouteUpsertOne {
+	return u.Update(func(s *RouteUpsert) {
+		s.SetCreatedBy(v)
+	})
+}
+
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *RouteUpsertOne) UpdateCreatedBy() *RouteUpsertOne {
+	return u.Update(func(s *RouteUpsert) {
+		s.UpdateCreatedBy()
+	})
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *RouteUpsertOne) ClearCreatedBy() *RouteUpsertOne {
+	return u.Update(func(s *RouteUpsert) {
+		s.ClearCreatedBy()
+	})
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (u *RouteUpsertOne) SetUpdatedBy(v string) *RouteUpsertOne {
+	return u.Update(func(s *RouteUpsert) {
+		s.SetUpdatedBy(v)
+	})
+}
+
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *RouteUpsertOne) UpdateUpdatedBy() *RouteUpsertOne {
+	return u.Update(func(s *RouteUpsert) {
+		s.UpdateUpdatedBy()
+	})
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *RouteUpsertOne) ClearUpdatedBy() *RouteUpsertOne {
+	return u.Update(func(s *RouteUpsert) {
+		s.ClearUpdatedBy()
+	})
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *RouteUpsertOne) SetUpdatedAt(v int64) *RouteUpsertOne {
+	return u.Update(func(s *RouteUpsert) {
+		s.SetUpdatedAt(v)
+	})
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *RouteUpsertOne) AddUpdatedAt(v int64) *RouteUpsertOne {
+	return u.Update(func(s *RouteUpsert) {
+		s.AddUpdatedAt(v)
+	})
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *RouteUpsertOne) UpdateUpdatedAt() *RouteUpsertOne {
+	return u.Update(func(s *RouteUpsert) {
+		s.UpdateUpdatedAt()
+	})
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *RouteUpsertOne) ClearUpdatedAt() *RouteUpsertOne {
+	return u.Update(func(s *RouteUpsert) {
+		s.ClearUpdatedAt()
+	})
+}
+
+// SetEndpointID sets the "endpoint_id" field.
+func (u *RouteUpsertOne) SetEndpointID(v string) *RouteUpsertOne {
+	return u.Update(func(s *RouteUpsert) {
+		s.SetEndpointID(v)
+	})
+}
+
+// UpdateEndpointID sets the "endpoint_id" field to the value that was provided on create.
+func (u *RouteUpsertOne) UpdateEndpointID() *RouteUpsertOne {
+	return u.Update(func(s *RouteUpsert) {
+		s.UpdateEndpointID()
+	})
+}
+
+// SetPathPattern sets the "path_pattern" field.
+func (u *RouteUpsertOne) SetPathPattern(v string) *RouteUpsertOne {
+	return u.Update(func(s *RouteUpsert) {
+		s.SetPathPattern(v)
+	})
+}
+
+// UpdatePathPattern sets the "path_pattern" field to the value that was provided on create.
+func (u *RouteUpsertOne) UpdatePathPattern() *RouteUpsertOne {
+	return u.Update(func(s *RouteUpsert) {
+		s.UpdatePathPattern()
+	})
+}
+
+// SetTargetPath sets the "target_path" field.
+func (u *RouteUpsertOne) SetTargetPath(v string) *RouteUpsertOne {
+	return u.Update(func(s *RouteUpsert) {
+		s.SetTargetPath(v)
+	})
+}
+
+// UpdateTargetPath sets the "target_path" field to the value that was provided on create.
+func (u *RouteUpsertOne) UpdateTargetPath() *RouteUpsertOne {
+	return u.Update(func(s *RouteUpsert) {
+		s.UpdateTargetPath()
+	})
+}
+
+// SetMethod sets the "method" field.
+func (u *RouteUpsertOne) SetMethod(v string) *RouteUpsertOne {
+	return u.Update(func(s *RouteUpsert) {
+		s.SetMethod(v)
+	})
+}
+
+// UpdateMethod sets the "method" field to the value that was provided on create.
+func (u *RouteUpsertOne) UpdateMethod() *RouteUpsertOne {
+	return u.Update(func(s *RouteUpsert) {
+		s.UpdateMethod()
+	})
+}
+
+// SetInputTransformerID sets the "input_transformer_id" field.
+func (u *RouteUpsertOne) SetInputTransformerID(v string) *RouteUpsertOne {
+	return u.Update(func(s *RouteUpsert) {
+		s.SetInputTransformerID(v)
+	})
+}
+
+// UpdateInputTransformerID sets the "input_transformer_id" field to the value that was provided on create.
+func (u *RouteUpsertOne) UpdateInputTransformerID() *RouteUpsertOne {
+	return u.Update(func(s *RouteUpsert) {
+		s.UpdateInputTransformerID()
+	})
+}
+
+// ClearInputTransformerID clears the value of the "input_transformer_id" field.
+func (u *RouteUpsertOne) ClearInputTransformerID() *RouteUpsertOne {
+	return u.Update(func(s *RouteUpsert) {
+		s.ClearInputTransformerID()
+	})
+}
+
+// SetOutputTransformerID sets the "output_transformer_id" field.
+func (u *RouteUpsertOne) SetOutputTransformerID(v string) *RouteUpsertOne {
+	return u.Update(func(s *RouteUpsert) {
+		s.SetOutputTransformerID(v)
+	})
+}
+
+// UpdateOutputTransformerID sets the "output_transformer_id" field to the value that was provided on create.
+func (u *RouteUpsertOne) UpdateOutputTransformerID() *RouteUpsertOne {
+	return u.Update(func(s *RouteUpsert) {
+		s.UpdateOutputTransformerID()
+	})
+}
+
+// ClearOutputTransformerID clears the value of the "output_transformer_id" field.
+func (u *RouteUpsertOne) ClearOutputTransformerID() *RouteUpsertOne {
+	return u.Update(func(s *RouteUpsert) {
+		s.ClearOutputTransformerID()
+	})
+}
+
+// SetCacheEnabled sets the "cache_enabled" field.
+func (u *RouteUpsertOne) SetCacheEnabled(v bool) *RouteUpsertOne {
+	return u.Update(func(s *RouteUpsert) {
+		s.SetCacheEnabled(v)
+	})
+}
+
+// UpdateCacheEnabled sets the "cache_enabled" field to the value that was provided on create.
+func (u *RouteUpsertOne) UpdateCacheEnabled() *RouteUpsertOne {
+	return u.Update(func(s *RouteUpsert) {
+		s.UpdateCacheEnabled()
+	})
+}
+
+// SetCacheTTL sets the "cache_ttl" field.
+func (u *RouteUpsertOne) SetCacheTTL(v int) *RouteUpsertOne {
+	return u.Update(func(s *RouteUpsert) {
+		s.SetCacheTTL(v)
+	})
+}
+
+// AddCacheTTL adds v to the "cache_ttl" field.
+func (u *RouteUpsertOne) AddCacheTTL(v int) *RouteUpsertOne {
+	return u.Update(func(s *RouteUpsert) {
+		s.AddCacheTTL(v)
+	})
+}
+
+// UpdateCacheTTL sets the "cache_ttl" field to the value that was provided on create.
+func (u *RouteUpsertOne) UpdateCacheTTL() *RouteUpsertOne {
+	return u.Update(func(s *RouteUpsert) {
+		s.UpdateCacheTTL()
+	})
+}
+
+// SetRateLimit sets the "rate_limit" field.
+func (u *RouteUpsertOne) SetRateLimit(v string) *RouteUpsertOne {
+	return u.Update(func(s *RouteUpsert) {
+		s.SetRateLimit(v)
+	})
+}
+
+// UpdateRateLimit sets the "rate_limit" field to the value that was provided on create.
+func (u *RouteUpsertOne) UpdateRateLimit() *RouteUpsertOne {
+	return u.Update(func(s *RouteUpsert) {
+		s.UpdateRateLimit()
+	})
+}
+
+// ClearRateLimit clears the value of the "rate_limit" field.
+func (u *RouteUpsertOne) ClearRateLimit() *RouteUpsertOne {
+	return u.Update(func(s *RouteUpsert) {
+		s.ClearRateLimit()
+	})
+}
+
+// SetStripAuthHeader sets the "strip_auth_header" field.
+func (u *RouteUpsertOne) SetStripAuthHeader(v bool) *RouteUpsertOne {
+	return u.Update(func(s *RouteUpsert) {
+		s.SetStripAuthHeader(v)
+	})
+}
+
+// UpdateStripAuthHeader sets the "strip_auth_header" field to the value that was provided on create.
+func (u *RouteUpsertOne) UpdateStripAuthHeader() *RouteUpsertOne {
+	return u.Update(func(s *RouteUpsert) {
+		s.UpdateStripAuthHeader()
+	})
+}
+
+// Exec executes the query.
+func (u *RouteUpsertOne) Exec(ctx context.Context) error {
+	if len(u.create.conflict) == 0 {
+		return errors.New("ent: missing options for RouteCreate.OnConflict")
+	}
+	return u.create.Exec(ctx)
+}
+
+// ExecX is like Exec, but panics if an error occurs.
+func (u *RouteUpsertOne) ExecX(ctx context.Context) {
+	if err := u.create.Exec(ctx); err != nil {
+		panic(err)
+	}
+}
+
+// Exec executes the UPSERT query and returns the inserted/updated ID.
+func (u *RouteUpsertOne) ID(ctx context.Context) (id string, err error) {
+	if u.create.driver.Dialect() == dialect.MySQL {
+		// In case of "ON CONFLICT", there is no way to get back non-numeric ID
+		// fields from the database since MySQL does not support the RETURNING clause.
+		return id, errors.New("ent: RouteUpsertOne.ID is not supported by MySQL driver. Use RouteUpsertOne.Exec instead")
+	}
+	node, err := u.create.Save(ctx)
+	if err != nil {
+		return id, err
+	}
+	return node.ID, nil
+}
+
+// IDX is like ID, but panics if an error occurs.
+func (u *RouteUpsertOne) IDX(ctx context.Context) string {
+	id, err := u.ID(ctx)
+	if err != nil {
+		panic(err)
+	}
+	return id
+}
+
 // RouteCreateBulk is the builder for creating many Route entities in bulk.
 type RouteCreateBulk struct {
 	config
 	err      error
 	builders []*RouteCreate
+	conflict []sql.ConflictOption
 }
 
 // Save creates the Route entities in the database.
@@ -508,6 +1249,7 @@ func (_c *RouteCreateBulk) Save(ctx context.Context) ([]*Route, error) {
 					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
+					spec.OnConflict = _c.conflict
 					// Invoke the actual operation on the latest mutation in the chain.
 					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
@@ -554,6 +1296,445 @@ func (_c *RouteCreateBulk) Exec(ctx context.Context) error {
 // ExecX is like Exec, but panics if an error occurs.
 func (_c *RouteCreateBulk) ExecX(ctx context.Context) {
 	if err := _c.Exec(ctx); err != nil {
+		panic(err)
+	}
+}
+
+// OnConflict allows configuring the `ON CONFLICT` / `ON DUPLICATE KEY` clause
+// of the `INSERT` statement. For example:
+//
+//	client.Route.CreateBulk(builders...).
+//		OnConflict(
+//			// Update the row with the new values
+//			// the was proposed for insertion.
+//			sql.ResolveWithNewValues(),
+//		).
+//		// Override some of the fields with custom
+//		// update values.
+//		Update(func(u *ent.RouteUpsert) {
+//			SetName(v+v).
+//		}).
+//		Exec(ctx)
+func (_c *RouteCreateBulk) OnConflict(opts ...sql.ConflictOption) *RouteUpsertBulk {
+	_c.conflict = opts
+	return &RouteUpsertBulk{
+		create: _c,
+	}
+}
+
+// OnConflictColumns calls `OnConflict` and configures the columns
+// as conflict target. Using this option is equivalent to using:
+//
+//	client.Route.Create().
+//		OnConflict(sql.ConflictColumns(columns...)).
+//		Exec(ctx)
+func (_c *RouteCreateBulk) OnConflictColumns(columns ...string) *RouteUpsertBulk {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
+	return &RouteUpsertBulk{
+		create: _c,
+	}
+}
+
+// RouteUpsertBulk is the builder for "upsert"-ing
+// a bulk of Route nodes.
+type RouteUpsertBulk struct {
+	create *RouteCreateBulk
+}
+
+// UpdateNewValues updates the mutable fields using the new values that
+// were set on create. Using this option is equivalent to using:
+//
+//	client.Route.Create().
+//		OnConflict(
+//			sql.ResolveWithNewValues(),
+//			sql.ResolveWith(func(u *sql.UpdateSet) {
+//				u.SetIgnore(route.FieldID)
+//			}),
+//		).
+//		Exec(ctx)
+func (u *RouteUpsertBulk) UpdateNewValues() *RouteUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithNewValues())
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(s *sql.UpdateSet) {
+		for _, b := range u.create.builders {
+			if _, exists := b.mutation.ID(); exists {
+				s.SetIgnore(route.FieldID)
+			}
+			if _, exists := b.mutation.CreatedAt(); exists {
+				s.SetIgnore(route.FieldCreatedAt)
+			}
+		}
+	}))
+	return u
+}
+
+// Ignore sets each column to itself in case of conflict.
+// Using this option is equivalent to using:
+//
+//	client.Route.Create().
+//		OnConflict(sql.ResolveWithIgnore()).
+//		Exec(ctx)
+func (u *RouteUpsertBulk) Ignore() *RouteUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithIgnore())
+	return u
+}
+
+// DoNothing configures the conflict_action to `DO NOTHING`.
+// Supported only by SQLite and PostgreSQL.
+func (u *RouteUpsertBulk) DoNothing() *RouteUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.DoNothing())
+	return u
+}
+
+// Update allows overriding fields `UPDATE` values. See the RouteCreateBulk.OnConflict
+// documentation for more info.
+func (u *RouteUpsertBulk) Update(set func(*RouteUpsert)) *RouteUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(update *sql.UpdateSet) {
+		set(&RouteUpsert{UpdateSet: update})
+	}))
+	return u
+}
+
+// SetName sets the "name" field.
+func (u *RouteUpsertBulk) SetName(v string) *RouteUpsertBulk {
+	return u.Update(func(s *RouteUpsert) {
+		s.SetName(v)
+	})
+}
+
+// UpdateName sets the "name" field to the value that was provided on create.
+func (u *RouteUpsertBulk) UpdateName() *RouteUpsertBulk {
+	return u.Update(func(s *RouteUpsert) {
+		s.UpdateName()
+	})
+}
+
+// ClearName clears the value of the "name" field.
+func (u *RouteUpsertBulk) ClearName() *RouteUpsertBulk {
+	return u.Update(func(s *RouteUpsert) {
+		s.ClearName()
+	})
+}
+
+// SetDescription sets the "description" field.
+func (u *RouteUpsertBulk) SetDescription(v string) *RouteUpsertBulk {
+	return u.Update(func(s *RouteUpsert) {
+		s.SetDescription(v)
+	})
+}
+
+// UpdateDescription sets the "description" field to the value that was provided on create.
+func (u *RouteUpsertBulk) UpdateDescription() *RouteUpsertBulk {
+	return u.Update(func(s *RouteUpsert) {
+		s.UpdateDescription()
+	})
+}
+
+// ClearDescription clears the value of the "description" field.
+func (u *RouteUpsertBulk) ClearDescription() *RouteUpsertBulk {
+	return u.Update(func(s *RouteUpsert) {
+		s.ClearDescription()
+	})
+}
+
+// SetDisabled sets the "disabled" field.
+func (u *RouteUpsertBulk) SetDisabled(v bool) *RouteUpsertBulk {
+	return u.Update(func(s *RouteUpsert) {
+		s.SetDisabled(v)
+	})
+}
+
+// UpdateDisabled sets the "disabled" field to the value that was provided on create.
+func (u *RouteUpsertBulk) UpdateDisabled() *RouteUpsertBulk {
+	return u.Update(func(s *RouteUpsert) {
+		s.UpdateDisabled()
+	})
+}
+
+// ClearDisabled clears the value of the "disabled" field.
+func (u *RouteUpsertBulk) ClearDisabled() *RouteUpsertBulk {
+	return u.Update(func(s *RouteUpsert) {
+		s.ClearDisabled()
+	})
+}
+
+// SetExtras sets the "extras" field.
+func (u *RouteUpsertBulk) SetExtras(v map[string]interface{}) *RouteUpsertBulk {
+	return u.Update(func(s *RouteUpsert) {
+		s.SetExtras(v)
+	})
+}
+
+// UpdateExtras sets the "extras" field to the value that was provided on create.
+func (u *RouteUpsertBulk) UpdateExtras() *RouteUpsertBulk {
+	return u.Update(func(s *RouteUpsert) {
+		s.UpdateExtras()
+	})
+}
+
+// ClearExtras clears the value of the "extras" field.
+func (u *RouteUpsertBulk) ClearExtras() *RouteUpsertBulk {
+	return u.Update(func(s *RouteUpsert) {
+		s.ClearExtras()
+	})
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (u *RouteUpsertBulk) SetCreatedBy(v string) *RouteUpsertBulk {
+	return u.Update(func(s *RouteUpsert) {
+		s.SetCreatedBy(v)
+	})
+}
+
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *RouteUpsertBulk) UpdateCreatedBy() *RouteUpsertBulk {
+	return u.Update(func(s *RouteUpsert) {
+		s.UpdateCreatedBy()
+	})
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *RouteUpsertBulk) ClearCreatedBy() *RouteUpsertBulk {
+	return u.Update(func(s *RouteUpsert) {
+		s.ClearCreatedBy()
+	})
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (u *RouteUpsertBulk) SetUpdatedBy(v string) *RouteUpsertBulk {
+	return u.Update(func(s *RouteUpsert) {
+		s.SetUpdatedBy(v)
+	})
+}
+
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *RouteUpsertBulk) UpdateUpdatedBy() *RouteUpsertBulk {
+	return u.Update(func(s *RouteUpsert) {
+		s.UpdateUpdatedBy()
+	})
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *RouteUpsertBulk) ClearUpdatedBy() *RouteUpsertBulk {
+	return u.Update(func(s *RouteUpsert) {
+		s.ClearUpdatedBy()
+	})
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *RouteUpsertBulk) SetUpdatedAt(v int64) *RouteUpsertBulk {
+	return u.Update(func(s *RouteUpsert) {
+		s.SetUpdatedAt(v)
+	})
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *RouteUpsertBulk) AddUpdatedAt(v int64) *RouteUpsertBulk {
+	return u.Update(func(s *RouteUpsert) {
+		s.AddUpdatedAt(v)
+	})
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *RouteUpsertBulk) UpdateUpdatedAt() *RouteUpsertBulk {
+	return u.Update(func(s *RouteUpsert) {
+		s.UpdateUpdatedAt()
+	})
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *RouteUpsertBulk) ClearUpdatedAt() *RouteUpsertBulk {
+	return u.Update(func(s *RouteUpsert) {
+		s.ClearUpdatedAt()
+	})
+}
+
+// SetEndpointID sets the "endpoint_id" field.
+func (u *RouteUpsertBulk) SetEndpointID(v string) *RouteUpsertBulk {
+	return u.Update(func(s *RouteUpsert) {
+		s.SetEndpointID(v)
+	})
+}
+
+// UpdateEndpointID sets the "endpoint_id" field to the value that was provided on create.
+func (u *RouteUpsertBulk) UpdateEndpointID() *RouteUpsertBulk {
+	return u.Update(func(s *RouteUpsert) {
+		s.UpdateEndpointID()
+	})
+}
+
+// SetPathPattern sets the "path_pattern" field.
+func (u *RouteUpsertBulk) SetPathPattern(v string) *RouteUpsertBulk {
+	return u.Update(func(s *RouteUpsert) {
+		s.SetPathPattern(v)
+	})
+}
+
+// UpdatePathPattern sets the "path_pattern" field to the value that was provided on create.
+func (u *RouteUpsertBulk) UpdatePathPattern() *RouteUpsertBulk {
+	return u.Update(func(s *RouteUpsert) {
+		s.UpdatePathPattern()
+	})
+}
+
+// SetTargetPath sets the "target_path" field.
+func (u *RouteUpsertBulk) SetTargetPath(v string) *RouteUpsertBulk {
+	return u.Update(func(s *RouteUpsert) {
+		s.SetTargetPath(v)
+	})
+}
+
+// UpdateTargetPath sets the "target_path" field to the value that was provided on create.
+func (u *RouteUpsertBulk) UpdateTargetPath() *RouteUpsertBulk {
+	return u.Update(func(s *RouteUpsert) {
+		s.UpdateTargetPath()
+	})
+}
+
+// SetMethod sets the "method" field.
+func (u *RouteUpsertBulk) SetMethod(v string) *RouteUpsertBulk {
+	return u.Update(func(s *RouteUpsert) {
+		s.SetMethod(v)
+	})
+}
+
+// UpdateMethod sets the "method" field to the value that was provided on create.
+func (u *RouteUpsertBulk) UpdateMethod() *RouteUpsertBulk {
+	return u.Update(func(s *RouteUpsert) {
+		s.UpdateMethod()
+	})
+}
+
+// SetInputTransformerID sets the "input_transformer_id" field.
+func (u *RouteUpsertBulk) SetInputTransformerID(v string) *RouteUpsertBulk {
+	return u.Update(func(s *RouteUpsert) {
+		s.SetInputTransformerID(v)
+	})
+}
+
+// UpdateInputTransformerID sets the "input_transformer_id" field to the value that was provided on create.
+func (u *RouteUpsertBulk) UpdateInputTransformerID() *RouteUpsertBulk {
+	return u.Update(func(s *RouteUpsert) {
+		s.UpdateInputTransformerID()
+	})
+}
+
+// ClearInputTransformerID clears the value of the "input_transformer_id" field.
+func (u *RouteUpsertBulk) ClearInputTransformerID() *RouteUpsertBulk {
+	return u.Update(func(s *RouteUpsert) {
+		s.ClearInputTransformerID()
+	})
+}
+
+// SetOutputTransformerID sets the "output_transformer_id" field.
+func (u *RouteUpsertBulk) SetOutputTransformerID(v string) *RouteUpsertBulk {
+	return u.Update(func(s *RouteUpsert) {
+		s.SetOutputTransformerID(v)
+	})
+}
+
+// UpdateOutputTransformerID sets the "output_transformer_id" field to the value that was provided on create.
+func (u *RouteUpsertBulk) UpdateOutputTransformerID() *RouteUpsertBulk {
+	return u.Update(func(s *RouteUpsert) {
+		s.UpdateOutputTransformerID()
+	})
+}
+
+// ClearOutputTransformerID clears the value of the "output_transformer_id" field.
+func (u *RouteUpsertBulk) ClearOutputTransformerID() *RouteUpsertBulk {
+	return u.Update(func(s *RouteUpsert) {
+		s.ClearOutputTransformerID()
+	})
+}
+
+// SetCacheEnabled sets the "cache_enabled" field.
+func (u *RouteUpsertBulk) SetCacheEnabled(v bool) *RouteUpsertBulk {
+	return u.Update(func(s *RouteUpsert) {
+		s.SetCacheEnabled(v)
+	})
+}
+
+// UpdateCacheEnabled sets the "cache_enabled" field to the value that was provided on create.
+func (u *RouteUpsertBulk) UpdateCacheEnabled() *RouteUpsertBulk {
+	return u.Update(func(s *RouteUpsert) {
+		s.UpdateCacheEnabled()
+	})
+}
+
+// SetCacheTTL sets the "cache_ttl" field.
+func (u *RouteUpsertBulk) SetCacheTTL(v int) *RouteUpsertBulk {
+	return u.Update(func(s *RouteUpsert) {
+		s.SetCacheTTL(v)
+	})
+}
+
+// AddCacheTTL adds v to the "cache_ttl" field.
+func (u *RouteUpsertBulk) AddCacheTTL(v int) *RouteUpsertBulk {
+	return u.Update(func(s *RouteUpsert) {
+		s.AddCacheTTL(v)
+	})
+}
+
+// UpdateCacheTTL sets the "cache_ttl" field to the value that was provided on create.
+func (u *RouteUpsertBulk) UpdateCacheTTL() *RouteUpsertBulk {
+	return u.Update(func(s *RouteUpsert) {
+		s.UpdateCacheTTL()
+	})
+}
+
+// SetRateLimit sets the "rate_limit" field.
+func (u *RouteUpsertBulk) SetRateLimit(v string) *RouteUpsertBulk {
+	return u.Update(func(s *RouteUpsert) {
+		s.SetRateLimit(v)
+	})
+}
+
+// UpdateRateLimit sets the "rate_limit" field to the value that was provided on create.
+func (u *RouteUpsertBulk) UpdateRateLimit() *RouteUpsertBulk {
+	return u.Update(func(s *RouteUpsert) {
+		s.UpdateRateLimit()
+	})
+}
+
+// ClearRateLimit clears the value of the "rate_limit" field.
+func (u *RouteUpsertBulk) ClearRateLimit() *RouteUpsertBulk {
+	return u.Update(func(s *RouteUpsert) {
+		s.ClearRateLimit()
+	})
+}
+
+// SetStripAuthHeader sets the "strip_auth_header" field.
+func (u *RouteUpsertBulk) SetStripAuthHeader(v bool) *RouteUpsertBulk {
+	return u.Update(func(s *RouteUpsert) {
+		s.SetStripAuthHeader(v)
+	})
+}
+
+// UpdateStripAuthHeader sets the "strip_auth_header" field to the value that was provided on create.
+func (u *RouteUpsertBulk) UpdateStripAuthHeader() *RouteUpsertBulk {
+	return u.Update(func(s *RouteUpsert) {
+		s.UpdateStripAuthHeader()
+	})
+}
+
+// Exec executes the query.
+func (u *RouteUpsertBulk) Exec(ctx context.Context) error {
+	if u.create.err != nil {
+		return u.create.err
+	}
+	for i, b := range u.create.builders {
+		if len(b.conflict) != 0 {
+			return fmt.Errorf("ent: OnConflict was set for builder %d. Set it on the RouteCreateBulk instead", i)
+		}
+	}
+	if len(u.create.conflict) == 0 {
+		return errors.New("ent: missing options for RouteCreateBulk.OnConflict")
+	}
+	return u.create.Exec(ctx)
+}
+
+// ExecX is like Exec, but panics if an error occurs.
+func (u *RouteUpsertBulk) ExecX(ctx context.Context) {
+	if err := u.create.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

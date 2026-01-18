@@ -2,7 +2,7 @@ package provider
 
 import (
 	"context"
-	"ncobase/payment/structs"
+	"ncobase/plugin/payment/structs"
 )
 
 // Provider defines the interface for payment providers

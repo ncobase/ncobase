@@ -1,6 +1,6 @@
 package service
 
-import "ncobase/counter/data"
+import "ncobase/plugin/counter/data"
 
 // Service represents the counter service.
 type Service struct {

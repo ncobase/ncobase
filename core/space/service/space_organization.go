@@ -2,11 +2,11 @@ package service
 
 import (
 	"context"
-	"ncobase/space/data"
-	"ncobase/space/data/ent"
-	"ncobase/space/data/repository"
-	"ncobase/space/structs"
-	"ncobase/space/wrapper"
+	"ncobase/core/space/data"
+	"ncobase/core/space/data/ent"
+	"ncobase/core/space/data/repository"
+	"ncobase/core/space/structs"
+	"ncobase/core/space/wrapper"
 	"time"
 
 	"github.com/ncobase/ncore/data/paging"

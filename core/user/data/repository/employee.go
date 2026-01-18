@@ -3,12 +3,12 @@ package repository
 import (
 	"context"
 	"fmt"
-	"ncobase/user/data"
-	"ncobase/user/data/ent"
-	employeeEnt "ncobase/user/data/ent/employee"
-	"ncobase/user/structs"
+	"ncobase/core/user/data"
+	"ncobase/core/user/data/ent"
+	employeeEnt "ncobase/core/user/data/ent/employee"
+	"ncobase/core/user/structs"
 
-	"github.com/ncobase/ncore/data/databases/cache"
+	"github.com/ncobase/ncore/data/cache"
 	"github.com/ncobase/ncore/data/paging"
 	"github.com/ncobase/ncore/logging/logger"
 	"github.com/ncobase/ncore/utils/nanoid"
@@ -38,7 +38,7 @@ type employeeRepository struct {
 // NewEmployeeRepository creates a new employee repository
 func NewEmployeeRepository(d *data.Data) EmployeeRepositoryInterface {
 	ec := d.GetMasterEntClient()
-	rc := d.GetRedis()
+	rc := d.GetRedis().(*redis.Client)
 	return &employeeRepository{ec, rc, cache.NewCache[ent.Employee](rc, "ncse_employee")}
 }
 

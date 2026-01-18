@@ -1,7 +1,7 @@
 package website
 
 import (
-	"ncobase/organization/structs"
+	"ncobase/core/organization/structs"
 )
 
 // OrganizationStructure for simple websites

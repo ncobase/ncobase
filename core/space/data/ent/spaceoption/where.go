@@ -3,7 +3,7 @@
 package spaceoption
 
 import (
-	"ncobase/space/data/ent/predicate"
+	"ncobase/core/space/data/ent/predicate"
 
 	"entgo.io/ent/dialect/sql"
 )

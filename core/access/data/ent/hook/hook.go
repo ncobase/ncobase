@@ -5,7 +5,7 @@ package hook
 import (
 	"context"
 	"fmt"
-	"ncobase/access/data/ent"
+	"ncobase/core/access/data/ent"
 )
 
 // The ActivityFunc type is an adapter to allow the use of ordinary

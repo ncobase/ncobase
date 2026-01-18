@@ -6,8 +6,8 @@ import (
 	"context"
 	"fmt"
 	"math"
-	"ncobase/proxy/data/ent/logs"
-	"ncobase/proxy/data/ent/predicate"
+	"ncobase/plugin/proxy/data/ent/logs"
+	"ncobase/plugin/proxy/data/ent/predicate"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"

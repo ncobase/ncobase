@@ -1,7 +1,7 @@
 package repository
 
 import (
-	"ncobase/proxy/data"
+	"ncobase/plugin/proxy/data"
 )
 
 // Repository represents the proxy repository.

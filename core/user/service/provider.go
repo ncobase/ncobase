@@ -1,9 +1,9 @@
 package service
 
 import (
-	"ncobase/user/data"
-	"ncobase/user/data/repository"
-	"ncobase/user/event"
+	"ncobase/core/user/data"
+	"ncobase/core/user/data/repository"
+	"ncobase/core/user/event"
 
 	ext "github.com/ncobase/ncore/extension/types"
 )

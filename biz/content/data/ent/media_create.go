@@ -6,8 +6,10 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"ncobase/content/data/ent/media"
+	"ncobase/biz/content/data/ent/media"
 
+	"entgo.io/ent/dialect"
+	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
 )
@@ -17,6 +19,7 @@ type MediaCreate struct {
 	config
 	mutation *MediaMutation
 	hooks    []Hook
+	conflict []sql.ConflictOption
 }
 
 // SetTitle sets the "title" field.
@@ -298,6 +301,7 @@ func (_c *MediaCreate) createSpec() (*Media, *sqlgraph.CreateSpec) {
 		_node = &Media{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(media.Table, sqlgraph.NewFieldSpec(media.FieldID, field.TypeString))
 	)
+	_spec.OnConflict = _c.conflict
 	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
@@ -357,11 +361,618 @@ func (_c *MediaCreate) createSpec() (*Media, *sqlgraph.CreateSpec) {
 	return _node, _spec
 }
 
+// OnConflict allows configuring the `ON CONFLICT` / `ON DUPLICATE KEY` clause
+// of the `INSERT` statement. For example:
+//
+//	client.Media.Create().
+//		SetTitle(v).
+//		OnConflict(
+//			// Update the row with the new values
+//			// the was proposed for insertion.
+//			sql.ResolveWithNewValues(),
+//		).
+//		// Override some of the fields with custom
+//		// update values.
+//		Update(func(u *ent.MediaUpsert) {
+//			SetTitle(v+v).
+//		}).
+//		Exec(ctx)
+func (_c *MediaCreate) OnConflict(opts ...sql.ConflictOption) *MediaUpsertOne {
+	_c.conflict = opts
+	return &MediaUpsertOne{
+		create: _c,
+	}
+}
+
+// OnConflictColumns calls `OnConflict` and configures the columns
+// as conflict target. Using this option is equivalent to using:
+//
+//	client.Media.Create().
+//		OnConflict(sql.ConflictColumns(columns...)).
+//		Exec(ctx)
+func (_c *MediaCreate) OnConflictColumns(columns ...string) *MediaUpsertOne {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
+	return &MediaUpsertOne{
+		create: _c,
+	}
+}
+
+type (
+	// MediaUpsertOne is the builder for "upsert"-ing
+	//  one Media node.
+	MediaUpsertOne struct {
+		create *MediaCreate
+	}
+
+	// MediaUpsert is the "OnConflict" setter.
+	MediaUpsert struct {
+		*sql.UpdateSet
+	}
+)
+
+// SetTitle sets the "title" field.
+func (u *MediaUpsert) SetTitle(v string) *MediaUpsert {
+	u.Set(media.FieldTitle, v)
+	return u
+}
+
+// UpdateTitle sets the "title" field to the value that was provided on create.
+func (u *MediaUpsert) UpdateTitle() *MediaUpsert {
+	u.SetExcluded(media.FieldTitle)
+	return u
+}
+
+// ClearTitle clears the value of the "title" field.
+func (u *MediaUpsert) ClearTitle() *MediaUpsert {
+	u.SetNull(media.FieldTitle)
+	return u
+}
+
+// SetType sets the "type" field.
+func (u *MediaUpsert) SetType(v string) *MediaUpsert {
+	u.Set(media.FieldType, v)
+	return u
+}
+
+// UpdateType sets the "type" field to the value that was provided on create.
+func (u *MediaUpsert) UpdateType() *MediaUpsert {
+	u.SetExcluded(media.FieldType)
+	return u
+}
+
+// ClearType clears the value of the "type" field.
+func (u *MediaUpsert) ClearType() *MediaUpsert {
+	u.SetNull(media.FieldType)
+	return u
+}
+
+// SetURL sets the "url" field.
+func (u *MediaUpsert) SetURL(v string) *MediaUpsert {
+	u.Set(media.FieldURL, v)
+	return u
+}
+
+// UpdateURL sets the "url" field to the value that was provided on create.
+func (u *MediaUpsert) UpdateURL() *MediaUpsert {
+	u.SetExcluded(media.FieldURL)
+	return u
+}
+
+// ClearURL clears the value of the "url" field.
+func (u *MediaUpsert) ClearURL() *MediaUpsert {
+	u.SetNull(media.FieldURL)
+	return u
+}
+
+// SetExtras sets the "extras" field.
+func (u *MediaUpsert) SetExtras(v map[string]interface{}) *MediaUpsert {
+	u.Set(media.FieldExtras, v)
+	return u
+}
+
+// UpdateExtras sets the "extras" field to the value that was provided on create.
+func (u *MediaUpsert) UpdateExtras() *MediaUpsert {
+	u.SetExcluded(media.FieldExtras)
+	return u
+}
+
+// ClearExtras clears the value of the "extras" field.
+func (u *MediaUpsert) ClearExtras() *MediaUpsert {
+	u.SetNull(media.FieldExtras)
+	return u
+}
+
+// SetSpaceID sets the "space_id" field.
+func (u *MediaUpsert) SetSpaceID(v string) *MediaUpsert {
+	u.Set(media.FieldSpaceID, v)
+	return u
+}
+
+// UpdateSpaceID sets the "space_id" field to the value that was provided on create.
+func (u *MediaUpsert) UpdateSpaceID() *MediaUpsert {
+	u.SetExcluded(media.FieldSpaceID)
+	return u
+}
+
+// ClearSpaceID clears the value of the "space_id" field.
+func (u *MediaUpsert) ClearSpaceID() *MediaUpsert {
+	u.SetNull(media.FieldSpaceID)
+	return u
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (u *MediaUpsert) SetCreatedBy(v string) *MediaUpsert {
+	u.Set(media.FieldCreatedBy, v)
+	return u
+}
+
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *MediaUpsert) UpdateCreatedBy() *MediaUpsert {
+	u.SetExcluded(media.FieldCreatedBy)
+	return u
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *MediaUpsert) ClearCreatedBy() *MediaUpsert {
+	u.SetNull(media.FieldCreatedBy)
+	return u
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (u *MediaUpsert) SetUpdatedBy(v string) *MediaUpsert {
+	u.Set(media.FieldUpdatedBy, v)
+	return u
+}
+
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *MediaUpsert) UpdateUpdatedBy() *MediaUpsert {
+	u.SetExcluded(media.FieldUpdatedBy)
+	return u
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *MediaUpsert) ClearUpdatedBy() *MediaUpsert {
+	u.SetNull(media.FieldUpdatedBy)
+	return u
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *MediaUpsert) SetUpdatedAt(v int64) *MediaUpsert {
+	u.Set(media.FieldUpdatedAt, v)
+	return u
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *MediaUpsert) UpdateUpdatedAt() *MediaUpsert {
+	u.SetExcluded(media.FieldUpdatedAt)
+	return u
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *MediaUpsert) AddUpdatedAt(v int64) *MediaUpsert {
+	u.Add(media.FieldUpdatedAt, v)
+	return u
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *MediaUpsert) ClearUpdatedAt() *MediaUpsert {
+	u.SetNull(media.FieldUpdatedAt)
+	return u
+}
+
+// SetOwnerID sets the "owner_id" field.
+func (u *MediaUpsert) SetOwnerID(v string) *MediaUpsert {
+	u.Set(media.FieldOwnerID, v)
+	return u
+}
+
+// UpdateOwnerID sets the "owner_id" field to the value that was provided on create.
+func (u *MediaUpsert) UpdateOwnerID() *MediaUpsert {
+	u.SetExcluded(media.FieldOwnerID)
+	return u
+}
+
+// SetResourceID sets the "resource_id" field.
+func (u *MediaUpsert) SetResourceID(v string) *MediaUpsert {
+	u.Set(media.FieldResourceID, v)
+	return u
+}
+
+// UpdateResourceID sets the "resource_id" field to the value that was provided on create.
+func (u *MediaUpsert) UpdateResourceID() *MediaUpsert {
+	u.SetExcluded(media.FieldResourceID)
+	return u
+}
+
+// ClearResourceID clears the value of the "resource_id" field.
+func (u *MediaUpsert) ClearResourceID() *MediaUpsert {
+	u.SetNull(media.FieldResourceID)
+	return u
+}
+
+// SetDescription sets the "description" field.
+func (u *MediaUpsert) SetDescription(v string) *MediaUpsert {
+	u.Set(media.FieldDescription, v)
+	return u
+}
+
+// UpdateDescription sets the "description" field to the value that was provided on create.
+func (u *MediaUpsert) UpdateDescription() *MediaUpsert {
+	u.SetExcluded(media.FieldDescription)
+	return u
+}
+
+// ClearDescription clears the value of the "description" field.
+func (u *MediaUpsert) ClearDescription() *MediaUpsert {
+	u.SetNull(media.FieldDescription)
+	return u
+}
+
+// SetAlt sets the "alt" field.
+func (u *MediaUpsert) SetAlt(v string) *MediaUpsert {
+	u.Set(media.FieldAlt, v)
+	return u
+}
+
+// UpdateAlt sets the "alt" field to the value that was provided on create.
+func (u *MediaUpsert) UpdateAlt() *MediaUpsert {
+	u.SetExcluded(media.FieldAlt)
+	return u
+}
+
+// ClearAlt clears the value of the "alt" field.
+func (u *MediaUpsert) ClearAlt() *MediaUpsert {
+	u.SetNull(media.FieldAlt)
+	return u
+}
+
+// UpdateNewValues updates the mutable fields using the new values that were set on create except the ID field.
+// Using this option is equivalent to using:
+//
+//	client.Media.Create().
+//		OnConflict(
+//			sql.ResolveWithNewValues(),
+//			sql.ResolveWith(func(u *sql.UpdateSet) {
+//				u.SetIgnore(media.FieldID)
+//			}),
+//		).
+//		Exec(ctx)
+func (u *MediaUpsertOne) UpdateNewValues() *MediaUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithNewValues())
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(s *sql.UpdateSet) {
+		if _, exists := u.create.mutation.ID(); exists {
+			s.SetIgnore(media.FieldID)
+		}
+		if _, exists := u.create.mutation.CreatedAt(); exists {
+			s.SetIgnore(media.FieldCreatedAt)
+		}
+	}))
+	return u
+}
+
+// Ignore sets each column to itself in case of conflict.
+// Using this option is equivalent to using:
+//
+//	client.Media.Create().
+//	    OnConflict(sql.ResolveWithIgnore()).
+//	    Exec(ctx)
+func (u *MediaUpsertOne) Ignore() *MediaUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithIgnore())
+	return u
+}
+
+// DoNothing configures the conflict_action to `DO NOTHING`.
+// Supported only by SQLite and PostgreSQL.
+func (u *MediaUpsertOne) DoNothing() *MediaUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.DoNothing())
+	return u
+}
+
+// Update allows overriding fields `UPDATE` values. See the MediaCreate.OnConflict
+// documentation for more info.
+func (u *MediaUpsertOne) Update(set func(*MediaUpsert)) *MediaUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(update *sql.UpdateSet) {
+		set(&MediaUpsert{UpdateSet: update})
+	}))
+	return u
+}
+
+// SetTitle sets the "title" field.
+func (u *MediaUpsertOne) SetTitle(v string) *MediaUpsertOne {
+	return u.Update(func(s *MediaUpsert) {
+		s.SetTitle(v)
+	})
+}
+
+// UpdateTitle sets the "title" field to the value that was provided on create.
+func (u *MediaUpsertOne) UpdateTitle() *MediaUpsertOne {
+	return u.Update(func(s *MediaUpsert) {
+		s.UpdateTitle()
+	})
+}
+
+// ClearTitle clears the value of the "title" field.
+func (u *MediaUpsertOne) ClearTitle() *MediaUpsertOne {
+	return u.Update(func(s *MediaUpsert) {
+		s.ClearTitle()
+	})
+}
+
+// SetType sets the "type" field.
+func (u *MediaUpsertOne) SetType(v string) *MediaUpsertOne {
+	return u.Update(func(s *MediaUpsert) {
+		s.SetType(v)
+	})
+}
+
+// UpdateType sets the "type" field to the value that was provided on create.
+func (u *MediaUpsertOne) UpdateType() *MediaUpsertOne {
+	return u.Update(func(s *MediaUpsert) {
+		s.UpdateType()
+	})
+}
+
+// ClearType clears the value of the "type" field.
+func (u *MediaUpsertOne) ClearType() *MediaUpsertOne {
+	return u.Update(func(s *MediaUpsert) {
+		s.ClearType()
+	})
+}
+
+// SetURL sets the "url" field.
+func (u *MediaUpsertOne) SetURL(v string) *MediaUpsertOne {
+	return u.Update(func(s *MediaUpsert) {
+		s.SetURL(v)
+	})
+}
+
+// UpdateURL sets the "url" field to the value that was provided on create.
+func (u *MediaUpsertOne) UpdateURL() *MediaUpsertOne {
+	return u.Update(func(s *MediaUpsert) {
+		s.UpdateURL()
+	})
+}
+
+// ClearURL clears the value of the "url" field.
+func (u *MediaUpsertOne) ClearURL() *MediaUpsertOne {
+	return u.Update(func(s *MediaUpsert) {
+		s.ClearURL()
+	})
+}
+
+// SetExtras sets the "extras" field.
+func (u *MediaUpsertOne) SetExtras(v map[string]interface{}) *MediaUpsertOne {
+	return u.Update(func(s *MediaUpsert) {
+		s.SetExtras(v)
+	})
+}
+
+// UpdateExtras sets the "extras" field to the value that was provided on create.
+func (u *MediaUpsertOne) UpdateExtras() *MediaUpsertOne {
+	return u.Update(func(s *MediaUpsert) {
+		s.UpdateExtras()
+	})
+}
+
+// ClearExtras clears the value of the "extras" field.
+func (u *MediaUpsertOne) ClearExtras() *MediaUpsertOne {
+	return u.Update(func(s *MediaUpsert) {
+		s.ClearExtras()
+	})
+}
+
+// SetSpaceID sets the "space_id" field.
+func (u *MediaUpsertOne) SetSpaceID(v string) *MediaUpsertOne {
+	return u.Update(func(s *MediaUpsert) {
+		s.SetSpaceID(v)
+	})
+}
+
+// UpdateSpaceID sets the "space_id" field to the value that was provided on create.
+func (u *MediaUpsertOne) UpdateSpaceID() *MediaUpsertOne {
+	return u.Update(func(s *MediaUpsert) {
+		s.UpdateSpaceID()
+	})
+}
+
+// ClearSpaceID clears the value of the "space_id" field.
+func (u *MediaUpsertOne) ClearSpaceID() *MediaUpsertOne {
+	return u.Update(func(s *MediaUpsert) {
+		s.ClearSpaceID()
+	})
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (u *MediaUpsertOne) SetCreatedBy(v string) *MediaUpsertOne {
+	return u.Update(func(s *MediaUpsert) {
+		s.SetCreatedBy(v)
+	})
+}
+
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *MediaUpsertOne) UpdateCreatedBy() *MediaUpsertOne {
+	return u.Update(func(s *MediaUpsert) {
+		s.UpdateCreatedBy()
+	})
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *MediaUpsertOne) ClearCreatedBy() *MediaUpsertOne {
+	return u.Update(func(s *MediaUpsert) {
+		s.ClearCreatedBy()
+	})
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (u *MediaUpsertOne) SetUpdatedBy(v string) *MediaUpsertOne {
+	return u.Update(func(s *MediaUpsert) {
+		s.SetUpdatedBy(v)
+	})
+}
+
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *MediaUpsertOne) UpdateUpdatedBy() *MediaUpsertOne {
+	return u.Update(func(s *MediaUpsert) {
+		s.UpdateUpdatedBy()
+	})
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *MediaUpsertOne) ClearUpdatedBy() *MediaUpsertOne {
+	return u.Update(func(s *MediaUpsert) {
+		s.ClearUpdatedBy()
+	})
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *MediaUpsertOne) SetUpdatedAt(v int64) *MediaUpsertOne {
+	return u.Update(func(s *MediaUpsert) {
+		s.SetUpdatedAt(v)
+	})
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *MediaUpsertOne) AddUpdatedAt(v int64) *MediaUpsertOne {
+	return u.Update(func(s *MediaUpsert) {
+		s.AddUpdatedAt(v)
+	})
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *MediaUpsertOne) UpdateUpdatedAt() *MediaUpsertOne {
+	return u.Update(func(s *MediaUpsert) {
+		s.UpdateUpdatedAt()
+	})
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *MediaUpsertOne) ClearUpdatedAt() *MediaUpsertOne {
+	return u.Update(func(s *MediaUpsert) {
+		s.ClearUpdatedAt()
+	})
+}
+
+// SetOwnerID sets the "owner_id" field.
+func (u *MediaUpsertOne) SetOwnerID(v string) *MediaUpsertOne {
+	return u.Update(func(s *MediaUpsert) {
+		s.SetOwnerID(v)
+	})
+}
+
+// UpdateOwnerID sets the "owner_id" field to the value that was provided on create.
+func (u *MediaUpsertOne) UpdateOwnerID() *MediaUpsertOne {
+	return u.Update(func(s *MediaUpsert) {
+		s.UpdateOwnerID()
+	})
+}
+
+// SetResourceID sets the "resource_id" field.
+func (u *MediaUpsertOne) SetResourceID(v string) *MediaUpsertOne {
+	return u.Update(func(s *MediaUpsert) {
+		s.SetResourceID(v)
+	})
+}
+
+// UpdateResourceID sets the "resource_id" field to the value that was provided on create.
+func (u *MediaUpsertOne) UpdateResourceID() *MediaUpsertOne {
+	return u.Update(func(s *MediaUpsert) {
+		s.UpdateResourceID()
+	})
+}
+
+// ClearResourceID clears the value of the "resource_id" field.
+func (u *MediaUpsertOne) ClearResourceID() *MediaUpsertOne {
+	return u.Update(func(s *MediaUpsert) {
+		s.ClearResourceID()
+	})
+}
+
+// SetDescription sets the "description" field.
+func (u *MediaUpsertOne) SetDescription(v string) *MediaUpsertOne {
+	return u.Update(func(s *MediaUpsert) {
+		s.SetDescription(v)
+	})
+}
+
+// UpdateDescription sets the "description" field to the value that was provided on create.
+func (u *MediaUpsertOne) UpdateDescription() *MediaUpsertOne {
+	return u.Update(func(s *MediaUpsert) {
+		s.UpdateDescription()
+	})
+}
+
+// ClearDescription clears the value of the "description" field.
+func (u *MediaUpsertOne) ClearDescription() *MediaUpsertOne {
+	return u.Update(func(s *MediaUpsert) {
+		s.ClearDescription()
+	})
+}
+
+// SetAlt sets the "alt" field.
+func (u *MediaUpsertOne) SetAlt(v string) *MediaUpsertOne {
+	return u.Update(func(s *MediaUpsert) {
+		s.SetAlt(v)
+	})
+}
+
+// UpdateAlt sets the "alt" field to the value that was provided on create.
+func (u *MediaUpsertOne) UpdateAlt() *MediaUpsertOne {
+	return u.Update(func(s *MediaUpsert) {
+		s.UpdateAlt()
+	})
+}
+
+// ClearAlt clears the value of the "alt" field.
+func (u *MediaUpsertOne) ClearAlt() *MediaUpsertOne {
+	return u.Update(func(s *MediaUpsert) {
+		s.ClearAlt()
+	})
+}
+
+// Exec executes the query.
+func (u *MediaUpsertOne) Exec(ctx context.Context) error {
+	if len(u.create.conflict) == 0 {
+		return errors.New("ent: missing options for MediaCreate.OnConflict")
+	}
+	return u.create.Exec(ctx)
+}
+
+// ExecX is like Exec, but panics if an error occurs.
+func (u *MediaUpsertOne) ExecX(ctx context.Context) {
+	if err := u.create.Exec(ctx); err != nil {
+		panic(err)
+	}
+}
+
+// Exec executes the UPSERT query and returns the inserted/updated ID.
+func (u *MediaUpsertOne) ID(ctx context.Context) (id string, err error) {
+	if u.create.driver.Dialect() == dialect.MySQL {
+		// In case of "ON CONFLICT", there is no way to get back non-numeric ID
+		// fields from the database since MySQL does not support the RETURNING clause.
+		return id, errors.New("ent: MediaUpsertOne.ID is not supported by MySQL driver. Use MediaUpsertOne.Exec instead")
+	}
+	node, err := u.create.Save(ctx)
+	if err != nil {
+		return id, err
+	}
+	return node.ID, nil
+}
+
+// IDX is like ID, but panics if an error occurs.
+func (u *MediaUpsertOne) IDX(ctx context.Context) string {
+	id, err := u.ID(ctx)
+	if err != nil {
+		panic(err)
+	}
+	return id
+}
+
 // MediaCreateBulk is the builder for creating many Media entities in bulk.
 type MediaCreateBulk struct {
 	config
 	err      error
 	builders []*MediaCreate
+	conflict []sql.ConflictOption
 }
 
 // Save creates the Media entities in the database.
@@ -391,6 +1002,7 @@ func (_c *MediaCreateBulk) Save(ctx context.Context) ([]*Media, error) {
 					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
+					spec.OnConflict = _c.conflict
 					// Invoke the actual operation on the latest mutation in the chain.
 					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
@@ -437,6 +1049,375 @@ func (_c *MediaCreateBulk) Exec(ctx context.Context) error {
 // ExecX is like Exec, but panics if an error occurs.
 func (_c *MediaCreateBulk) ExecX(ctx context.Context) {
 	if err := _c.Exec(ctx); err != nil {
+		panic(err)
+	}
+}
+
+// OnConflict allows configuring the `ON CONFLICT` / `ON DUPLICATE KEY` clause
+// of the `INSERT` statement. For example:
+//
+//	client.Media.CreateBulk(builders...).
+//		OnConflict(
+//			// Update the row with the new values
+//			// the was proposed for insertion.
+//			sql.ResolveWithNewValues(),
+//		).
+//		// Override some of the fields with custom
+//		// update values.
+//		Update(func(u *ent.MediaUpsert) {
+//			SetTitle(v+v).
+//		}).
+//		Exec(ctx)
+func (_c *MediaCreateBulk) OnConflict(opts ...sql.ConflictOption) *MediaUpsertBulk {
+	_c.conflict = opts
+	return &MediaUpsertBulk{
+		create: _c,
+	}
+}
+
+// OnConflictColumns calls `OnConflict` and configures the columns
+// as conflict target. Using this option is equivalent to using:
+//
+//	client.Media.Create().
+//		OnConflict(sql.ConflictColumns(columns...)).
+//		Exec(ctx)
+func (_c *MediaCreateBulk) OnConflictColumns(columns ...string) *MediaUpsertBulk {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
+	return &MediaUpsertBulk{
+		create: _c,
+	}
+}
+
+// MediaUpsertBulk is the builder for "upsert"-ing
+// a bulk of Media nodes.
+type MediaUpsertBulk struct {
+	create *MediaCreateBulk
+}
+
+// UpdateNewValues updates the mutable fields using the new values that
+// were set on create. Using this option is equivalent to using:
+//
+//	client.Media.Create().
+//		OnConflict(
+//			sql.ResolveWithNewValues(),
+//			sql.ResolveWith(func(u *sql.UpdateSet) {
+//				u.SetIgnore(media.FieldID)
+//			}),
+//		).
+//		Exec(ctx)
+func (u *MediaUpsertBulk) UpdateNewValues() *MediaUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithNewValues())
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(s *sql.UpdateSet) {
+		for _, b := range u.create.builders {
+			if _, exists := b.mutation.ID(); exists {
+				s.SetIgnore(media.FieldID)
+			}
+			if _, exists := b.mutation.CreatedAt(); exists {
+				s.SetIgnore(media.FieldCreatedAt)
+			}
+		}
+	}))
+	return u
+}
+
+// Ignore sets each column to itself in case of conflict.
+// Using this option is equivalent to using:
+//
+//	client.Media.Create().
+//		OnConflict(sql.ResolveWithIgnore()).
+//		Exec(ctx)
+func (u *MediaUpsertBulk) Ignore() *MediaUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithIgnore())
+	return u
+}
+
+// DoNothing configures the conflict_action to `DO NOTHING`.
+// Supported only by SQLite and PostgreSQL.
+func (u *MediaUpsertBulk) DoNothing() *MediaUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.DoNothing())
+	return u
+}
+
+// Update allows overriding fields `UPDATE` values. See the MediaCreateBulk.OnConflict
+// documentation for more info.
+func (u *MediaUpsertBulk) Update(set func(*MediaUpsert)) *MediaUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(update *sql.UpdateSet) {
+		set(&MediaUpsert{UpdateSet: update})
+	}))
+	return u
+}
+
+// SetTitle sets the "title" field.
+func (u *MediaUpsertBulk) SetTitle(v string) *MediaUpsertBulk {
+	return u.Update(func(s *MediaUpsert) {
+		s.SetTitle(v)
+	})
+}
+
+// UpdateTitle sets the "title" field to the value that was provided on create.
+func (u *MediaUpsertBulk) UpdateTitle() *MediaUpsertBulk {
+	return u.Update(func(s *MediaUpsert) {
+		s.UpdateTitle()
+	})
+}
+
+// ClearTitle clears the value of the "title" field.
+func (u *MediaUpsertBulk) ClearTitle() *MediaUpsertBulk {
+	return u.Update(func(s *MediaUpsert) {
+		s.ClearTitle()
+	})
+}
+
+// SetType sets the "type" field.
+func (u *MediaUpsertBulk) SetType(v string) *MediaUpsertBulk {
+	return u.Update(func(s *MediaUpsert) {
+		s.SetType(v)
+	})
+}
+
+// UpdateType sets the "type" field to the value that was provided on create.
+func (u *MediaUpsertBulk) UpdateType() *MediaUpsertBulk {
+	return u.Update(func(s *MediaUpsert) {
+		s.UpdateType()
+	})
+}
+
+// ClearType clears the value of the "type" field.
+func (u *MediaUpsertBulk) ClearType() *MediaUpsertBulk {
+	return u.Update(func(s *MediaUpsert) {
+		s.ClearType()
+	})
+}
+
+// SetURL sets the "url" field.
+func (u *MediaUpsertBulk) SetURL(v string) *MediaUpsertBulk {
+	return u.Update(func(s *MediaUpsert) {
+		s.SetURL(v)
+	})
+}
+
+// UpdateURL sets the "url" field to the value that was provided on create.
+func (u *MediaUpsertBulk) UpdateURL() *MediaUpsertBulk {
+	return u.Update(func(s *MediaUpsert) {
+		s.UpdateURL()
+	})
+}
+
+// ClearURL clears the value of the "url" field.
+func (u *MediaUpsertBulk) ClearURL() *MediaUpsertBulk {
+	return u.Update(func(s *MediaUpsert) {
+		s.ClearURL()
+	})
+}
+
+// SetExtras sets the "extras" field.
+func (u *MediaUpsertBulk) SetExtras(v map[string]interface{}) *MediaUpsertBulk {
+	return u.Update(func(s *MediaUpsert) {
+		s.SetExtras(v)
+	})
+}
+
+// UpdateExtras sets the "extras" field to the value that was provided on create.
+func (u *MediaUpsertBulk) UpdateExtras() *MediaUpsertBulk {
+	return u.Update(func(s *MediaUpsert) {
+		s.UpdateExtras()
+	})
+}
+
+// ClearExtras clears the value of the "extras" field.
+func (u *MediaUpsertBulk) ClearExtras() *MediaUpsertBulk {
+	return u.Update(func(s *MediaUpsert) {
+		s.ClearExtras()
+	})
+}
+
+// SetSpaceID sets the "space_id" field.
+func (u *MediaUpsertBulk) SetSpaceID(v string) *MediaUpsertBulk {
+	return u.Update(func(s *MediaUpsert) {
+		s.SetSpaceID(v)
+	})
+}
+
+// UpdateSpaceID sets the "space_id" field to the value that was provided on create.
+func (u *MediaUpsertBulk) UpdateSpaceID() *MediaUpsertBulk {
+	return u.Update(func(s *MediaUpsert) {
+		s.UpdateSpaceID()
+	})
+}
+
+// ClearSpaceID clears the value of the "space_id" field.
+func (u *MediaUpsertBulk) ClearSpaceID() *MediaUpsertBulk {
+	return u.Update(func(s *MediaUpsert) {
+		s.ClearSpaceID()
+	})
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (u *MediaUpsertBulk) SetCreatedBy(v string) *MediaUpsertBulk {
+	return u.Update(func(s *MediaUpsert) {
+		s.SetCreatedBy(v)
+	})
+}
+
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *MediaUpsertBulk) UpdateCreatedBy() *MediaUpsertBulk {
+	return u.Update(func(s *MediaUpsert) {
+		s.UpdateCreatedBy()
+	})
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *MediaUpsertBulk) ClearCreatedBy() *MediaUpsertBulk {
+	return u.Update(func(s *MediaUpsert) {
+		s.ClearCreatedBy()
+	})
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (u *MediaUpsertBulk) SetUpdatedBy(v string) *MediaUpsertBulk {
+	return u.Update(func(s *MediaUpsert) {
+		s.SetUpdatedBy(v)
+	})
+}
+
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *MediaUpsertBulk) UpdateUpdatedBy() *MediaUpsertBulk {
+	return u.Update(func(s *MediaUpsert) {
+		s.UpdateUpdatedBy()
+	})
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *MediaUpsertBulk) ClearUpdatedBy() *MediaUpsertBulk {
+	return u.Update(func(s *MediaUpsert) {
+		s.ClearUpdatedBy()
+	})
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *MediaUpsertBulk) SetUpdatedAt(v int64) *MediaUpsertBulk {
+	return u.Update(func(s *MediaUpsert) {
+		s.SetUpdatedAt(v)
+	})
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *MediaUpsertBulk) AddUpdatedAt(v int64) *MediaUpsertBulk {
+	return u.Update(func(s *MediaUpsert) {
+		s.AddUpdatedAt(v)
+	})
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *MediaUpsertBulk) UpdateUpdatedAt() *MediaUpsertBulk {
+	return u.Update(func(s *MediaUpsert) {
+		s.UpdateUpdatedAt()
+	})
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *MediaUpsertBulk) ClearUpdatedAt() *MediaUpsertBulk {
+	return u.Update(func(s *MediaUpsert) {
+		s.ClearUpdatedAt()
+	})
+}
+
+// SetOwnerID sets the "owner_id" field.
+func (u *MediaUpsertBulk) SetOwnerID(v string) *MediaUpsertBulk {
+	return u.Update(func(s *MediaUpsert) {
+		s.SetOwnerID(v)
+	})
+}
+
+// UpdateOwnerID sets the "owner_id" field to the value that was provided on create.
+func (u *MediaUpsertBulk) UpdateOwnerID() *MediaUpsertBulk {
+	return u.Update(func(s *MediaUpsert) {
+		s.UpdateOwnerID()
+	})
+}
+
+// SetResourceID sets the "resource_id" field.
+func (u *MediaUpsertBulk) SetResourceID(v string) *MediaUpsertBulk {
+	return u.Update(func(s *MediaUpsert) {
+		s.SetResourceID(v)
+	})
+}
+
+// UpdateResourceID sets the "resource_id" field to the value that was provided on create.
+func (u *MediaUpsertBulk) UpdateResourceID() *MediaUpsertBulk {
+	return u.Update(func(s *MediaUpsert) {
+		s.UpdateResourceID()
+	})
+}
+
+// ClearResourceID clears the value of the "resource_id" field.
+func (u *MediaUpsertBulk) ClearResourceID() *MediaUpsertBulk {
+	return u.Update(func(s *MediaUpsert) {
+		s.ClearResourceID()
+	})
+}
+
+// SetDescription sets the "description" field.
+func (u *MediaUpsertBulk) SetDescription(v string) *MediaUpsertBulk {
+	return u.Update(func(s *MediaUpsert) {
+		s.SetDescription(v)
+	})
+}
+
+// UpdateDescription sets the "description" field to the value that was provided on create.
+func (u *MediaUpsertBulk) UpdateDescription() *MediaUpsertBulk {
+	return u.Update(func(s *MediaUpsert) {
+		s.UpdateDescription()
+	})
+}
+
+// ClearDescription clears the value of the "description" field.
+func (u *MediaUpsertBulk) ClearDescription() *MediaUpsertBulk {
+	return u.Update(func(s *MediaUpsert) {
+		s.ClearDescription()
+	})
+}
+
+// SetAlt sets the "alt" field.
+func (u *MediaUpsertBulk) SetAlt(v string) *MediaUpsertBulk {
+	return u.Update(func(s *MediaUpsert) {
+		s.SetAlt(v)
+	})
+}
+
+// UpdateAlt sets the "alt" field to the value that was provided on create.
+func (u *MediaUpsertBulk) UpdateAlt() *MediaUpsertBulk {
+	return u.Update(func(s *MediaUpsert) {
+		s.UpdateAlt()
+	})
+}
+
+// ClearAlt clears the value of the "alt" field.
+func (u *MediaUpsertBulk) ClearAlt() *MediaUpsertBulk {
+	return u.Update(func(s *MediaUpsert) {
+		s.ClearAlt()
+	})
+}
+
+// Exec executes the query.
+func (u *MediaUpsertBulk) Exec(ctx context.Context) error {
+	if u.create.err != nil {
+		return u.create.err
+	}
+	for i, b := range u.create.builders {
+		if len(b.conflict) != 0 {
+			return fmt.Errorf("ent: OnConflict was set for builder %d. Set it on the MediaCreateBulk instead", i)
+		}
+	}
+	if len(u.create.conflict) == 0 {
+		return errors.New("ent: missing options for MediaCreateBulk.OnConflict")
+	}
+	return u.create.Exec(ctx)
+}
+
+// ExecX is like Exec, but panics if an error occurs.
+func (u *MediaUpsertBulk) ExecX(ctx context.Context) {
+	if err := u.create.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

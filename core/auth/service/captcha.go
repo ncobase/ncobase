@@ -3,9 +3,9 @@ package service
 import (
 	"context"
 	"errors"
-	"ncobase/auth/data"
-	"ncobase/auth/data/repository"
-	"ncobase/auth/structs"
+	"ncobase/core/auth/data"
+	"ncobase/core/auth/data/repository"
+	"ncobase/core/auth/structs"
 
 	"github.com/ncobase/ncore/ecode"
 	"github.com/ncobase/ncore/types"

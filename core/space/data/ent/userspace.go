@@ -4,7 +4,7 @@ package ent
 
 import (
 	"fmt"
-	"ncobase/space/data/ent/userspace"
+	"ncobase/core/space/data/ent/userspace"
 	"strings"
 
 	"entgo.io/ent"

@@ -4,9 +4,12 @@ package ent
 
 import (
 	"context"
+	"errors"
 	"fmt"
-	"ncobase/access/data/ent/casbinrule"
+	"ncobase/core/access/data/ent/casbinrule"
 
+	"entgo.io/ent/dialect"
+	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
 )
@@ -16,6 +19,7 @@ type CasbinRuleCreate struct {
 	config
 	mutation *CasbinRuleMutation
 	hooks    []Hook
+	conflict []sql.ConflictOption
 }
 
 // SetPType sets the "p_type" field.
@@ -273,6 +277,7 @@ func (_c *CasbinRuleCreate) createSpec() (*CasbinRule, *sqlgraph.CreateSpec) {
 		_node = &CasbinRule{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(casbinrule.Table, sqlgraph.NewFieldSpec(casbinrule.FieldID, field.TypeString))
 	)
+	_spec.OnConflict = _c.conflict
 	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
@@ -324,11 +329,553 @@ func (_c *CasbinRuleCreate) createSpec() (*CasbinRule, *sqlgraph.CreateSpec) {
 	return _node, _spec
 }
 
+// OnConflict allows configuring the `ON CONFLICT` / `ON DUPLICATE KEY` clause
+// of the `INSERT` statement. For example:
+//
+//	client.CasbinRule.Create().
+//		SetPType(v).
+//		OnConflict(
+//			// Update the row with the new values
+//			// the was proposed for insertion.
+//			sql.ResolveWithNewValues(),
+//		).
+//		// Override some of the fields with custom
+//		// update values.
+//		Update(func(u *ent.CasbinRuleUpsert) {
+//			SetPType(v+v).
+//		}).
+//		Exec(ctx)
+func (_c *CasbinRuleCreate) OnConflict(opts ...sql.ConflictOption) *CasbinRuleUpsertOne {
+	_c.conflict = opts
+	return &CasbinRuleUpsertOne{
+		create: _c,
+	}
+}
+
+// OnConflictColumns calls `OnConflict` and configures the columns
+// as conflict target. Using this option is equivalent to using:
+//
+//	client.CasbinRule.Create().
+//		OnConflict(sql.ConflictColumns(columns...)).
+//		Exec(ctx)
+func (_c *CasbinRuleCreate) OnConflictColumns(columns ...string) *CasbinRuleUpsertOne {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
+	return &CasbinRuleUpsertOne{
+		create: _c,
+	}
+}
+
+type (
+	// CasbinRuleUpsertOne is the builder for "upsert"-ing
+	//  one CasbinRule node.
+	CasbinRuleUpsertOne struct {
+		create *CasbinRuleCreate
+	}
+
+	// CasbinRuleUpsert is the "OnConflict" setter.
+	CasbinRuleUpsert struct {
+		*sql.UpdateSet
+	}
+)
+
+// SetPType sets the "p_type" field.
+func (u *CasbinRuleUpsert) SetPType(v string) *CasbinRuleUpsert {
+	u.Set(casbinrule.FieldPType, v)
+	return u
+}
+
+// UpdatePType sets the "p_type" field to the value that was provided on create.
+func (u *CasbinRuleUpsert) UpdatePType() *CasbinRuleUpsert {
+	u.SetExcluded(casbinrule.FieldPType)
+	return u
+}
+
+// ClearPType clears the value of the "p_type" field.
+func (u *CasbinRuleUpsert) ClearPType() *CasbinRuleUpsert {
+	u.SetNull(casbinrule.FieldPType)
+	return u
+}
+
+// SetV0 sets the "v0" field.
+func (u *CasbinRuleUpsert) SetV0(v string) *CasbinRuleUpsert {
+	u.Set(casbinrule.FieldV0, v)
+	return u
+}
+
+// UpdateV0 sets the "v0" field to the value that was provided on create.
+func (u *CasbinRuleUpsert) UpdateV0() *CasbinRuleUpsert {
+	u.SetExcluded(casbinrule.FieldV0)
+	return u
+}
+
+// ClearV0 clears the value of the "v0" field.
+func (u *CasbinRuleUpsert) ClearV0() *CasbinRuleUpsert {
+	u.SetNull(casbinrule.FieldV0)
+	return u
+}
+
+// SetV1 sets the "v1" field.
+func (u *CasbinRuleUpsert) SetV1(v string) *CasbinRuleUpsert {
+	u.Set(casbinrule.FieldV1, v)
+	return u
+}
+
+// UpdateV1 sets the "v1" field to the value that was provided on create.
+func (u *CasbinRuleUpsert) UpdateV1() *CasbinRuleUpsert {
+	u.SetExcluded(casbinrule.FieldV1)
+	return u
+}
+
+// ClearV1 clears the value of the "v1" field.
+func (u *CasbinRuleUpsert) ClearV1() *CasbinRuleUpsert {
+	u.SetNull(casbinrule.FieldV1)
+	return u
+}
+
+// SetV2 sets the "v2" field.
+func (u *CasbinRuleUpsert) SetV2(v string) *CasbinRuleUpsert {
+	u.Set(casbinrule.FieldV2, v)
+	return u
+}
+
+// UpdateV2 sets the "v2" field to the value that was provided on create.
+func (u *CasbinRuleUpsert) UpdateV2() *CasbinRuleUpsert {
+	u.SetExcluded(casbinrule.FieldV2)
+	return u
+}
+
+// ClearV2 clears the value of the "v2" field.
+func (u *CasbinRuleUpsert) ClearV2() *CasbinRuleUpsert {
+	u.SetNull(casbinrule.FieldV2)
+	return u
+}
+
+// SetV3 sets the "v3" field.
+func (u *CasbinRuleUpsert) SetV3(v string) *CasbinRuleUpsert {
+	u.Set(casbinrule.FieldV3, v)
+	return u
+}
+
+// UpdateV3 sets the "v3" field to the value that was provided on create.
+func (u *CasbinRuleUpsert) UpdateV3() *CasbinRuleUpsert {
+	u.SetExcluded(casbinrule.FieldV3)
+	return u
+}
+
+// ClearV3 clears the value of the "v3" field.
+func (u *CasbinRuleUpsert) ClearV3() *CasbinRuleUpsert {
+	u.SetNull(casbinrule.FieldV3)
+	return u
+}
+
+// SetV4 sets the "v4" field.
+func (u *CasbinRuleUpsert) SetV4(v string) *CasbinRuleUpsert {
+	u.Set(casbinrule.FieldV4, v)
+	return u
+}
+
+// UpdateV4 sets the "v4" field to the value that was provided on create.
+func (u *CasbinRuleUpsert) UpdateV4() *CasbinRuleUpsert {
+	u.SetExcluded(casbinrule.FieldV4)
+	return u
+}
+
+// ClearV4 clears the value of the "v4" field.
+func (u *CasbinRuleUpsert) ClearV4() *CasbinRuleUpsert {
+	u.SetNull(casbinrule.FieldV4)
+	return u
+}
+
+// SetV5 sets the "v5" field.
+func (u *CasbinRuleUpsert) SetV5(v string) *CasbinRuleUpsert {
+	u.Set(casbinrule.FieldV5, v)
+	return u
+}
+
+// UpdateV5 sets the "v5" field to the value that was provided on create.
+func (u *CasbinRuleUpsert) UpdateV5() *CasbinRuleUpsert {
+	u.SetExcluded(casbinrule.FieldV5)
+	return u
+}
+
+// ClearV5 clears the value of the "v5" field.
+func (u *CasbinRuleUpsert) ClearV5() *CasbinRuleUpsert {
+	u.SetNull(casbinrule.FieldV5)
+	return u
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (u *CasbinRuleUpsert) SetCreatedBy(v string) *CasbinRuleUpsert {
+	u.Set(casbinrule.FieldCreatedBy, v)
+	return u
+}
+
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *CasbinRuleUpsert) UpdateCreatedBy() *CasbinRuleUpsert {
+	u.SetExcluded(casbinrule.FieldCreatedBy)
+	return u
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *CasbinRuleUpsert) ClearCreatedBy() *CasbinRuleUpsert {
+	u.SetNull(casbinrule.FieldCreatedBy)
+	return u
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (u *CasbinRuleUpsert) SetUpdatedBy(v string) *CasbinRuleUpsert {
+	u.Set(casbinrule.FieldUpdatedBy, v)
+	return u
+}
+
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *CasbinRuleUpsert) UpdateUpdatedBy() *CasbinRuleUpsert {
+	u.SetExcluded(casbinrule.FieldUpdatedBy)
+	return u
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *CasbinRuleUpsert) ClearUpdatedBy() *CasbinRuleUpsert {
+	u.SetNull(casbinrule.FieldUpdatedBy)
+	return u
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *CasbinRuleUpsert) SetUpdatedAt(v int64) *CasbinRuleUpsert {
+	u.Set(casbinrule.FieldUpdatedAt, v)
+	return u
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *CasbinRuleUpsert) UpdateUpdatedAt() *CasbinRuleUpsert {
+	u.SetExcluded(casbinrule.FieldUpdatedAt)
+	return u
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *CasbinRuleUpsert) AddUpdatedAt(v int64) *CasbinRuleUpsert {
+	u.Add(casbinrule.FieldUpdatedAt, v)
+	return u
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *CasbinRuleUpsert) ClearUpdatedAt() *CasbinRuleUpsert {
+	u.SetNull(casbinrule.FieldUpdatedAt)
+	return u
+}
+
+// UpdateNewValues updates the mutable fields using the new values that were set on create except the ID field.
+// Using this option is equivalent to using:
+//
+//	client.CasbinRule.Create().
+//		OnConflict(
+//			sql.ResolveWithNewValues(),
+//			sql.ResolveWith(func(u *sql.UpdateSet) {
+//				u.SetIgnore(casbinrule.FieldID)
+//			}),
+//		).
+//		Exec(ctx)
+func (u *CasbinRuleUpsertOne) UpdateNewValues() *CasbinRuleUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithNewValues())
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(s *sql.UpdateSet) {
+		if _, exists := u.create.mutation.ID(); exists {
+			s.SetIgnore(casbinrule.FieldID)
+		}
+		if _, exists := u.create.mutation.CreatedAt(); exists {
+			s.SetIgnore(casbinrule.FieldCreatedAt)
+		}
+	}))
+	return u
+}
+
+// Ignore sets each column to itself in case of conflict.
+// Using this option is equivalent to using:
+//
+//	client.CasbinRule.Create().
+//	    OnConflict(sql.ResolveWithIgnore()).
+//	    Exec(ctx)
+func (u *CasbinRuleUpsertOne) Ignore() *CasbinRuleUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithIgnore())
+	return u
+}
+
+// DoNothing configures the conflict_action to `DO NOTHING`.
+// Supported only by SQLite and PostgreSQL.
+func (u *CasbinRuleUpsertOne) DoNothing() *CasbinRuleUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.DoNothing())
+	return u
+}
+
+// Update allows overriding fields `UPDATE` values. See the CasbinRuleCreate.OnConflict
+// documentation for more info.
+func (u *CasbinRuleUpsertOne) Update(set func(*CasbinRuleUpsert)) *CasbinRuleUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(update *sql.UpdateSet) {
+		set(&CasbinRuleUpsert{UpdateSet: update})
+	}))
+	return u
+}
+
+// SetPType sets the "p_type" field.
+func (u *CasbinRuleUpsertOne) SetPType(v string) *CasbinRuleUpsertOne {
+	return u.Update(func(s *CasbinRuleUpsert) {
+		s.SetPType(v)
+	})
+}
+
+// UpdatePType sets the "p_type" field to the value that was provided on create.
+func (u *CasbinRuleUpsertOne) UpdatePType() *CasbinRuleUpsertOne {
+	return u.Update(func(s *CasbinRuleUpsert) {
+		s.UpdatePType()
+	})
+}
+
+// ClearPType clears the value of the "p_type" field.
+func (u *CasbinRuleUpsertOne) ClearPType() *CasbinRuleUpsertOne {
+	return u.Update(func(s *CasbinRuleUpsert) {
+		s.ClearPType()
+	})
+}
+
+// SetV0 sets the "v0" field.
+func (u *CasbinRuleUpsertOne) SetV0(v string) *CasbinRuleUpsertOne {
+	return u.Update(func(s *CasbinRuleUpsert) {
+		s.SetV0(v)
+	})
+}
+
+// UpdateV0 sets the "v0" field to the value that was provided on create.
+func (u *CasbinRuleUpsertOne) UpdateV0() *CasbinRuleUpsertOne {
+	return u.Update(func(s *CasbinRuleUpsert) {
+		s.UpdateV0()
+	})
+}
+
+// ClearV0 clears the value of the "v0" field.
+func (u *CasbinRuleUpsertOne) ClearV0() *CasbinRuleUpsertOne {
+	return u.Update(func(s *CasbinRuleUpsert) {
+		s.ClearV0()
+	})
+}
+
+// SetV1 sets the "v1" field.
+func (u *CasbinRuleUpsertOne) SetV1(v string) *CasbinRuleUpsertOne {
+	return u.Update(func(s *CasbinRuleUpsert) {
+		s.SetV1(v)
+	})
+}
+
+// UpdateV1 sets the "v1" field to the value that was provided on create.
+func (u *CasbinRuleUpsertOne) UpdateV1() *CasbinRuleUpsertOne {
+	return u.Update(func(s *CasbinRuleUpsert) {
+		s.UpdateV1()
+	})
+}
+
+// ClearV1 clears the value of the "v1" field.
+func (u *CasbinRuleUpsertOne) ClearV1() *CasbinRuleUpsertOne {
+	return u.Update(func(s *CasbinRuleUpsert) {
+		s.ClearV1()
+	})
+}
+
+// SetV2 sets the "v2" field.
+func (u *CasbinRuleUpsertOne) SetV2(v string) *CasbinRuleUpsertOne {
+	return u.Update(func(s *CasbinRuleUpsert) {
+		s.SetV2(v)
+	})
+}
+
+// UpdateV2 sets the "v2" field to the value that was provided on create.
+func (u *CasbinRuleUpsertOne) UpdateV2() *CasbinRuleUpsertOne {
+	return u.Update(func(s *CasbinRuleUpsert) {
+		s.UpdateV2()
+	})
+}
+
+// ClearV2 clears the value of the "v2" field.
+func (u *CasbinRuleUpsertOne) ClearV2() *CasbinRuleUpsertOne {
+	return u.Update(func(s *CasbinRuleUpsert) {
+		s.ClearV2()
+	})
+}
+
+// SetV3 sets the "v3" field.
+func (u *CasbinRuleUpsertOne) SetV3(v string) *CasbinRuleUpsertOne {
+	return u.Update(func(s *CasbinRuleUpsert) {
+		s.SetV3(v)
+	})
+}
+
+// UpdateV3 sets the "v3" field to the value that was provided on create.
+func (u *CasbinRuleUpsertOne) UpdateV3() *CasbinRuleUpsertOne {
+	return u.Update(func(s *CasbinRuleUpsert) {
+		s.UpdateV3()
+	})
+}
+
+// ClearV3 clears the value of the "v3" field.
+func (u *CasbinRuleUpsertOne) ClearV3() *CasbinRuleUpsertOne {
+	return u.Update(func(s *CasbinRuleUpsert) {
+		s.ClearV3()
+	})
+}
+
+// SetV4 sets the "v4" field.
+func (u *CasbinRuleUpsertOne) SetV4(v string) *CasbinRuleUpsertOne {
+	return u.Update(func(s *CasbinRuleUpsert) {
+		s.SetV4(v)
+	})
+}
+
+// UpdateV4 sets the "v4" field to the value that was provided on create.
+func (u *CasbinRuleUpsertOne) UpdateV4() *CasbinRuleUpsertOne {
+	return u.Update(func(s *CasbinRuleUpsert) {
+		s.UpdateV4()
+	})
+}
+
+// ClearV4 clears the value of the "v4" field.
+func (u *CasbinRuleUpsertOne) ClearV4() *CasbinRuleUpsertOne {
+	return u.Update(func(s *CasbinRuleUpsert) {
+		s.ClearV4()
+	})
+}
+
+// SetV5 sets the "v5" field.
+func (u *CasbinRuleUpsertOne) SetV5(v string) *CasbinRuleUpsertOne {
+	return u.Update(func(s *CasbinRuleUpsert) {
+		s.SetV5(v)
+	})
+}
+
+// UpdateV5 sets the "v5" field to the value that was provided on create.
+func (u *CasbinRuleUpsertOne) UpdateV5() *CasbinRuleUpsertOne {
+	return u.Update(func(s *CasbinRuleUpsert) {
+		s.UpdateV5()
+	})
+}
+
+// ClearV5 clears the value of the "v5" field.
+func (u *CasbinRuleUpsertOne) ClearV5() *CasbinRuleUpsertOne {
+	return u.Update(func(s *CasbinRuleUpsert) {
+		s.ClearV5()
+	})
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (u *CasbinRuleUpsertOne) SetCreatedBy(v string) *CasbinRuleUpsertOne {
+	return u.Update(func(s *CasbinRuleUpsert) {
+		s.SetCreatedBy(v)
+	})
+}
+
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *CasbinRuleUpsertOne) UpdateCreatedBy() *CasbinRuleUpsertOne {
+	return u.Update(func(s *CasbinRuleUpsert) {
+		s.UpdateCreatedBy()
+	})
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *CasbinRuleUpsertOne) ClearCreatedBy() *CasbinRuleUpsertOne {
+	return u.Update(func(s *CasbinRuleUpsert) {
+		s.ClearCreatedBy()
+	})
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (u *CasbinRuleUpsertOne) SetUpdatedBy(v string) *CasbinRuleUpsertOne {
+	return u.Update(func(s *CasbinRuleUpsert) {
+		s.SetUpdatedBy(v)
+	})
+}
+
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *CasbinRuleUpsertOne) UpdateUpdatedBy() *CasbinRuleUpsertOne {
+	return u.Update(func(s *CasbinRuleUpsert) {
+		s.UpdateUpdatedBy()
+	})
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *CasbinRuleUpsertOne) ClearUpdatedBy() *CasbinRuleUpsertOne {
+	return u.Update(func(s *CasbinRuleUpsert) {
+		s.ClearUpdatedBy()
+	})
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *CasbinRuleUpsertOne) SetUpdatedAt(v int64) *CasbinRuleUpsertOne {
+	return u.Update(func(s *CasbinRuleUpsert) {
+		s.SetUpdatedAt(v)
+	})
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *CasbinRuleUpsertOne) AddUpdatedAt(v int64) *CasbinRuleUpsertOne {
+	return u.Update(func(s *CasbinRuleUpsert) {
+		s.AddUpdatedAt(v)
+	})
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *CasbinRuleUpsertOne) UpdateUpdatedAt() *CasbinRuleUpsertOne {
+	return u.Update(func(s *CasbinRuleUpsert) {
+		s.UpdateUpdatedAt()
+	})
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *CasbinRuleUpsertOne) ClearUpdatedAt() *CasbinRuleUpsertOne {
+	return u.Update(func(s *CasbinRuleUpsert) {
+		s.ClearUpdatedAt()
+	})
+}
+
+// Exec executes the query.
+func (u *CasbinRuleUpsertOne) Exec(ctx context.Context) error {
+	if len(u.create.conflict) == 0 {
+		return errors.New("ent: missing options for CasbinRuleCreate.OnConflict")
+	}
+	return u.create.Exec(ctx)
+}
+
+// ExecX is like Exec, but panics if an error occurs.
+func (u *CasbinRuleUpsertOne) ExecX(ctx context.Context) {
+	if err := u.create.Exec(ctx); err != nil {
+		panic(err)
+	}
+}
+
+// Exec executes the UPSERT query and returns the inserted/updated ID.
+func (u *CasbinRuleUpsertOne) ID(ctx context.Context) (id string, err error) {
+	if u.create.driver.Dialect() == dialect.MySQL {
+		// In case of "ON CONFLICT", there is no way to get back non-numeric ID
+		// fields from the database since MySQL does not support the RETURNING clause.
+		return id, errors.New("ent: CasbinRuleUpsertOne.ID is not supported by MySQL driver. Use CasbinRuleUpsertOne.Exec instead")
+	}
+	node, err := u.create.Save(ctx)
+	if err != nil {
+		return id, err
+	}
+	return node.ID, nil
+}
+
+// IDX is like ID, but panics if an error occurs.
+func (u *CasbinRuleUpsertOne) IDX(ctx context.Context) string {
+	id, err := u.ID(ctx)
+	if err != nil {
+		panic(err)
+	}
+	return id
+}
+
 // CasbinRuleCreateBulk is the builder for creating many CasbinRule entities in bulk.
 type CasbinRuleCreateBulk struct {
 	config
 	err      error
 	builders []*CasbinRuleCreate
+	conflict []sql.ConflictOption
 }
 
 // Save creates the CasbinRule entities in the database.
@@ -358,6 +905,7 @@ func (_c *CasbinRuleCreateBulk) Save(ctx context.Context) ([]*CasbinRule, error)
 					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
+					spec.OnConflict = _c.conflict
 					// Invoke the actual operation on the latest mutation in the chain.
 					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
@@ -404,6 +952,340 @@ func (_c *CasbinRuleCreateBulk) Exec(ctx context.Context) error {
 // ExecX is like Exec, but panics if an error occurs.
 func (_c *CasbinRuleCreateBulk) ExecX(ctx context.Context) {
 	if err := _c.Exec(ctx); err != nil {
+		panic(err)
+	}
+}
+
+// OnConflict allows configuring the `ON CONFLICT` / `ON DUPLICATE KEY` clause
+// of the `INSERT` statement. For example:
+//
+//	client.CasbinRule.CreateBulk(builders...).
+//		OnConflict(
+//			// Update the row with the new values
+//			// the was proposed for insertion.
+//			sql.ResolveWithNewValues(),
+//		).
+//		// Override some of the fields with custom
+//		// update values.
+//		Update(func(u *ent.CasbinRuleUpsert) {
+//			SetPType(v+v).
+//		}).
+//		Exec(ctx)
+func (_c *CasbinRuleCreateBulk) OnConflict(opts ...sql.ConflictOption) *CasbinRuleUpsertBulk {
+	_c.conflict = opts
+	return &CasbinRuleUpsertBulk{
+		create: _c,
+	}
+}
+
+// OnConflictColumns calls `OnConflict` and configures the columns
+// as conflict target. Using this option is equivalent to using:
+//
+//	client.CasbinRule.Create().
+//		OnConflict(sql.ConflictColumns(columns...)).
+//		Exec(ctx)
+func (_c *CasbinRuleCreateBulk) OnConflictColumns(columns ...string) *CasbinRuleUpsertBulk {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
+	return &CasbinRuleUpsertBulk{
+		create: _c,
+	}
+}
+
+// CasbinRuleUpsertBulk is the builder for "upsert"-ing
+// a bulk of CasbinRule nodes.
+type CasbinRuleUpsertBulk struct {
+	create *CasbinRuleCreateBulk
+}
+
+// UpdateNewValues updates the mutable fields using the new values that
+// were set on create. Using this option is equivalent to using:
+//
+//	client.CasbinRule.Create().
+//		OnConflict(
+//			sql.ResolveWithNewValues(),
+//			sql.ResolveWith(func(u *sql.UpdateSet) {
+//				u.SetIgnore(casbinrule.FieldID)
+//			}),
+//		).
+//		Exec(ctx)
+func (u *CasbinRuleUpsertBulk) UpdateNewValues() *CasbinRuleUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithNewValues())
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(s *sql.UpdateSet) {
+		for _, b := range u.create.builders {
+			if _, exists := b.mutation.ID(); exists {
+				s.SetIgnore(casbinrule.FieldID)
+			}
+			if _, exists := b.mutation.CreatedAt(); exists {
+				s.SetIgnore(casbinrule.FieldCreatedAt)
+			}
+		}
+	}))
+	return u
+}
+
+// Ignore sets each column to itself in case of conflict.
+// Using this option is equivalent to using:
+//
+//	client.CasbinRule.Create().
+//		OnConflict(sql.ResolveWithIgnore()).
+//		Exec(ctx)
+func (u *CasbinRuleUpsertBulk) Ignore() *CasbinRuleUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithIgnore())
+	return u
+}
+
+// DoNothing configures the conflict_action to `DO NOTHING`.
+// Supported only by SQLite and PostgreSQL.
+func (u *CasbinRuleUpsertBulk) DoNothing() *CasbinRuleUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.DoNothing())
+	return u
+}
+
+// Update allows overriding fields `UPDATE` values. See the CasbinRuleCreateBulk.OnConflict
+// documentation for more info.
+func (u *CasbinRuleUpsertBulk) Update(set func(*CasbinRuleUpsert)) *CasbinRuleUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(update *sql.UpdateSet) {
+		set(&CasbinRuleUpsert{UpdateSet: update})
+	}))
+	return u
+}
+
+// SetPType sets the "p_type" field.
+func (u *CasbinRuleUpsertBulk) SetPType(v string) *CasbinRuleUpsertBulk {
+	return u.Update(func(s *CasbinRuleUpsert) {
+		s.SetPType(v)
+	})
+}
+
+// UpdatePType sets the "p_type" field to the value that was provided on create.
+func (u *CasbinRuleUpsertBulk) UpdatePType() *CasbinRuleUpsertBulk {
+	return u.Update(func(s *CasbinRuleUpsert) {
+		s.UpdatePType()
+	})
+}
+
+// ClearPType clears the value of the "p_type" field.
+func (u *CasbinRuleUpsertBulk) ClearPType() *CasbinRuleUpsertBulk {
+	return u.Update(func(s *CasbinRuleUpsert) {
+		s.ClearPType()
+	})
+}
+
+// SetV0 sets the "v0" field.
+func (u *CasbinRuleUpsertBulk) SetV0(v string) *CasbinRuleUpsertBulk {
+	return u.Update(func(s *CasbinRuleUpsert) {
+		s.SetV0(v)
+	})
+}
+
+// UpdateV0 sets the "v0" field to the value that was provided on create.
+func (u *CasbinRuleUpsertBulk) UpdateV0() *CasbinRuleUpsertBulk {
+	return u.Update(func(s *CasbinRuleUpsert) {
+		s.UpdateV0()
+	})
+}
+
+// ClearV0 clears the value of the "v0" field.
+func (u *CasbinRuleUpsertBulk) ClearV0() *CasbinRuleUpsertBulk {
+	return u.Update(func(s *CasbinRuleUpsert) {
+		s.ClearV0()
+	})
+}
+
+// SetV1 sets the "v1" field.
+func (u *CasbinRuleUpsertBulk) SetV1(v string) *CasbinRuleUpsertBulk {
+	return u.Update(func(s *CasbinRuleUpsert) {
+		s.SetV1(v)
+	})
+}
+
+// UpdateV1 sets the "v1" field to the value that was provided on create.
+func (u *CasbinRuleUpsertBulk) UpdateV1() *CasbinRuleUpsertBulk {
+	return u.Update(func(s *CasbinRuleUpsert) {
+		s.UpdateV1()
+	})
+}
+
+// ClearV1 clears the value of the "v1" field.
+func (u *CasbinRuleUpsertBulk) ClearV1() *CasbinRuleUpsertBulk {
+	return u.Update(func(s *CasbinRuleUpsert) {
+		s.ClearV1()
+	})
+}
+
+// SetV2 sets the "v2" field.
+func (u *CasbinRuleUpsertBulk) SetV2(v string) *CasbinRuleUpsertBulk {
+	return u.Update(func(s *CasbinRuleUpsert) {
+		s.SetV2(v)
+	})
+}
+
+// UpdateV2 sets the "v2" field to the value that was provided on create.
+func (u *CasbinRuleUpsertBulk) UpdateV2() *CasbinRuleUpsertBulk {
+	return u.Update(func(s *CasbinRuleUpsert) {
+		s.UpdateV2()
+	})
+}
+
+// ClearV2 clears the value of the "v2" field.
+func (u *CasbinRuleUpsertBulk) ClearV2() *CasbinRuleUpsertBulk {
+	return u.Update(func(s *CasbinRuleUpsert) {
+		s.ClearV2()
+	})
+}
+
+// SetV3 sets the "v3" field.
+func (u *CasbinRuleUpsertBulk) SetV3(v string) *CasbinRuleUpsertBulk {
+	return u.Update(func(s *CasbinRuleUpsert) {
+		s.SetV3(v)
+	})
+}
+
+// UpdateV3 sets the "v3" field to the value that was provided on create.
+func (u *CasbinRuleUpsertBulk) UpdateV3() *CasbinRuleUpsertBulk {
+	return u.Update(func(s *CasbinRuleUpsert) {
+		s.UpdateV3()
+	})
+}
+
+// ClearV3 clears the value of the "v3" field.
+func (u *CasbinRuleUpsertBulk) ClearV3() *CasbinRuleUpsertBulk {
+	return u.Update(func(s *CasbinRuleUpsert) {
+		s.ClearV3()
+	})
+}
+
+// SetV4 sets the "v4" field.
+func (u *CasbinRuleUpsertBulk) SetV4(v string) *CasbinRuleUpsertBulk {
+	return u.Update(func(s *CasbinRuleUpsert) {
+		s.SetV4(v)
+	})
+}
+
+// UpdateV4 sets the "v4" field to the value that was provided on create.
+func (u *CasbinRuleUpsertBulk) UpdateV4() *CasbinRuleUpsertBulk {
+	return u.Update(func(s *CasbinRuleUpsert) {
+		s.UpdateV4()
+	})
+}
+
+// ClearV4 clears the value of the "v4" field.
+func (u *CasbinRuleUpsertBulk) ClearV4() *CasbinRuleUpsertBulk {
+	return u.Update(func(s *CasbinRuleUpsert) {
+		s.ClearV4()
+	})
+}
+
+// SetV5 sets the "v5" field.
+func (u *CasbinRuleUpsertBulk) SetV5(v string) *CasbinRuleUpsertBulk {
+	return u.Update(func(s *CasbinRuleUpsert) {
+		s.SetV5(v)
+	})
+}
+
+// UpdateV5 sets the "v5" field to the value that was provided on create.
+func (u *CasbinRuleUpsertBulk) UpdateV5() *CasbinRuleUpsertBulk {
+	return u.Update(func(s *CasbinRuleUpsert) {
+		s.UpdateV5()
+	})
+}
+
+// ClearV5 clears the value of the "v5" field.
+func (u *CasbinRuleUpsertBulk) ClearV5() *CasbinRuleUpsertBulk {
+	return u.Update(func(s *CasbinRuleUpsert) {
+		s.ClearV5()
+	})
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (u *CasbinRuleUpsertBulk) SetCreatedBy(v string) *CasbinRuleUpsertBulk {
+	return u.Update(func(s *CasbinRuleUpsert) {
+		s.SetCreatedBy(v)
+	})
+}
+
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *CasbinRuleUpsertBulk) UpdateCreatedBy() *CasbinRuleUpsertBulk {
+	return u.Update(func(s *CasbinRuleUpsert) {
+		s.UpdateCreatedBy()
+	})
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *CasbinRuleUpsertBulk) ClearCreatedBy() *CasbinRuleUpsertBulk {
+	return u.Update(func(s *CasbinRuleUpsert) {
+		s.ClearCreatedBy()
+	})
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (u *CasbinRuleUpsertBulk) SetUpdatedBy(v string) *CasbinRuleUpsertBulk {
+	return u.Update(func(s *CasbinRuleUpsert) {
+		s.SetUpdatedBy(v)
+	})
+}
+
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *CasbinRuleUpsertBulk) UpdateUpdatedBy() *CasbinRuleUpsertBulk {
+	return u.Update(func(s *CasbinRuleUpsert) {
+		s.UpdateUpdatedBy()
+	})
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *CasbinRuleUpsertBulk) ClearUpdatedBy() *CasbinRuleUpsertBulk {
+	return u.Update(func(s *CasbinRuleUpsert) {
+		s.ClearUpdatedBy()
+	})
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *CasbinRuleUpsertBulk) SetUpdatedAt(v int64) *CasbinRuleUpsertBulk {
+	return u.Update(func(s *CasbinRuleUpsert) {
+		s.SetUpdatedAt(v)
+	})
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *CasbinRuleUpsertBulk) AddUpdatedAt(v int64) *CasbinRuleUpsertBulk {
+	return u.Update(func(s *CasbinRuleUpsert) {
+		s.AddUpdatedAt(v)
+	})
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *CasbinRuleUpsertBulk) UpdateUpdatedAt() *CasbinRuleUpsertBulk {
+	return u.Update(func(s *CasbinRuleUpsert) {
+		s.UpdateUpdatedAt()
+	})
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *CasbinRuleUpsertBulk) ClearUpdatedAt() *CasbinRuleUpsertBulk {
+	return u.Update(func(s *CasbinRuleUpsert) {
+		s.ClearUpdatedAt()
+	})
+}
+
+// Exec executes the query.
+func (u *CasbinRuleUpsertBulk) Exec(ctx context.Context) error {
+	if u.create.err != nil {
+		return u.create.err
+	}
+	for i, b := range u.create.builders {
+		if len(b.conflict) != 0 {
+			return fmt.Errorf("ent: OnConflict was set for builder %d. Set it on the CasbinRuleCreateBulk instead", i)
+		}
+	}
+	if len(u.create.conflict) == 0 {
+		return errors.New("ent: missing options for CasbinRuleCreateBulk.OnConflict")
+	}
+	return u.create.Exec(ctx)
+}
+
+// ExecX is like Exec, but panics if an error occurs.
+func (u *CasbinRuleUpsertBulk) ExecX(ctx context.Context) {
+	if err := u.create.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

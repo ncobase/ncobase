@@ -2,16 +2,16 @@ package proxy
 
 import (
 	"fmt"
-	"ncobase/proxy/data"
-	"ncobase/proxy/event"
-	"ncobase/proxy/handler"
-	"ncobase/proxy/service"
+	"ncobase/plugin/proxy/data"
+	"ncobase/plugin/proxy/event"
+	"ncobase/plugin/proxy/handler"
+	"ncobase/plugin/proxy/service"
 	"sync"
 
-	accessService "ncobase/access/service"
-	orgService "ncobase/organization/service"
-	spaceService "ncobase/space/service"
-	userService "ncobase/user/service"
+	accessService "ncobase/core/access/service"
+	orgService "ncobase/core/organization/service"
+	spaceService "ncobase/core/space/service"
+	userService "ncobase/core/user/service"
 
 	"github.com/gin-gonic/gin"
 	"github.com/ncobase/ncore/config"

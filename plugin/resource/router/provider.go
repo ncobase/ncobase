@@ -2,7 +2,7 @@ package router
 
 import (
 	"ncobase/internal/middleware"
-	"ncobase/resource/handler"
+	"ncobase/plugin/resource/handler"
 
 	"github.com/gin-gonic/gin"
 )

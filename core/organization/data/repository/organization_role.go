@@ -3,14 +3,15 @@ package repository
 import (
 	"context"
 	"fmt"
-	"ncobase/organization/data"
-	"ncobase/organization/data/ent"
-	organizationEnt "ncobase/organization/data/ent/organization"
-	organizationRoleEnt "ncobase/organization/data/ent/organizationrole"
-	"ncobase/organization/structs"
+	"ncobase/core/organization/data"
+	ent "ncobase/core/organization/data/ent"
+	organizationEnt "ncobase/core/organization/data/ent/organization"
+	organizationRoleEnt "ncobase/core/organization/data/ent/organizationrole"
+	"ncobase/core/organization/structs"
 	"time"
+	"github.com/redis/go-redis/v9"
 
-	"github.com/ncobase/ncore/data/databases/cache"
+	"github.com/ncobase/ncore/data/cache"
 	"github.com/ncobase/ncore/logging/logger"
 )
 
@@ -41,7 +42,7 @@ type organizationRoleRepository struct {
 
 // NewOrganizationRoleRepository creates a new organization role repository.
 func NewOrganizationRoleRepository(d *data.Data) OrganizationRoleRepositoryInterface {
-	redisClient := d.GetRedis()
+	redisClient := d.GetRedis().(*redis.Client)
 
 	return &organizationRoleRepository{
 		data:                   d,

@@ -3,9 +3,7 @@
 # Configuration
 GO111MODULE := on
 APP_NAME := ncobase
-CMD_PATH := ./cmd/ncobase
-CLI_NAME := ncore
-CLI_PATH := ./ncore/cmd
+CMD_PATH := .
 OUT := ./bin
 PLUGIN_PATH := ./plugin
 BUSINESS_PATH := ./domain
@@ -221,14 +219,6 @@ build: generate
 	@CGO_ENABLED=1 go build $(BUILD_FLAGS) -o $(OUT)/$(APP_NAME) $(CMD_PATH) || \
 		(echo "Error: Build failed" && exit 1)
 	@echo "✓ Build completed"
-
-# Build CLI tool
-build-cli: check-tools
-	@echo "Building CLI Tool"
-	@mkdir -p $(OUT)
-	@CGO_ENABLED=1 go build $(BUILD_FLAGS) -o $(OUT)/$(CLI_NAME) $(CLI_PATH) || \
-		(echo "Error: CLI build failed" && exit 1)
-	@echo "✓ CLI tool built"
 
 # Run application
 run:

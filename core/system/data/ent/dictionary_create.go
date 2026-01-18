@@ -4,9 +4,12 @@ package ent
 
 import (
 	"context"
+	"errors"
 	"fmt"
-	"ncobase/system/data/ent/dictionary"
+	"ncobase/core/system/data/ent/dictionary"
 
+	"entgo.io/ent/dialect"
+	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
 )
@@ -16,6 +19,7 @@ type DictionaryCreate struct {
 	config
 	mutation *DictionaryMutation
 	hooks    []Hook
+	conflict []sql.ConflictOption
 }
 
 // SetName sets the "name" field.
@@ -245,6 +249,7 @@ func (_c *DictionaryCreate) createSpec() (*Dictionary, *sqlgraph.CreateSpec) {
 		_node = &Dictionary{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(dictionary.Table, sqlgraph.NewFieldSpec(dictionary.FieldID, field.TypeString))
 	)
+	_spec.OnConflict = _c.conflict
 	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
@@ -288,11 +293,475 @@ func (_c *DictionaryCreate) createSpec() (*Dictionary, *sqlgraph.CreateSpec) {
 	return _node, _spec
 }
 
+// OnConflict allows configuring the `ON CONFLICT` / `ON DUPLICATE KEY` clause
+// of the `INSERT` statement. For example:
+//
+//	client.Dictionary.Create().
+//		SetName(v).
+//		OnConflict(
+//			// Update the row with the new values
+//			// the was proposed for insertion.
+//			sql.ResolveWithNewValues(),
+//		).
+//		// Override some of the fields with custom
+//		// update values.
+//		Update(func(u *ent.DictionaryUpsert) {
+//			SetName(v+v).
+//		}).
+//		Exec(ctx)
+func (_c *DictionaryCreate) OnConflict(opts ...sql.ConflictOption) *DictionaryUpsertOne {
+	_c.conflict = opts
+	return &DictionaryUpsertOne{
+		create: _c,
+	}
+}
+
+// OnConflictColumns calls `OnConflict` and configures the columns
+// as conflict target. Using this option is equivalent to using:
+//
+//	client.Dictionary.Create().
+//		OnConflict(sql.ConflictColumns(columns...)).
+//		Exec(ctx)
+func (_c *DictionaryCreate) OnConflictColumns(columns ...string) *DictionaryUpsertOne {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
+	return &DictionaryUpsertOne{
+		create: _c,
+	}
+}
+
+type (
+	// DictionaryUpsertOne is the builder for "upsert"-ing
+	//  one Dictionary node.
+	DictionaryUpsertOne struct {
+		create *DictionaryCreate
+	}
+
+	// DictionaryUpsert is the "OnConflict" setter.
+	DictionaryUpsert struct {
+		*sql.UpdateSet
+	}
+)
+
+// SetName sets the "name" field.
+func (u *DictionaryUpsert) SetName(v string) *DictionaryUpsert {
+	u.Set(dictionary.FieldName, v)
+	return u
+}
+
+// UpdateName sets the "name" field to the value that was provided on create.
+func (u *DictionaryUpsert) UpdateName() *DictionaryUpsert {
+	u.SetExcluded(dictionary.FieldName)
+	return u
+}
+
+// ClearName clears the value of the "name" field.
+func (u *DictionaryUpsert) ClearName() *DictionaryUpsert {
+	u.SetNull(dictionary.FieldName)
+	return u
+}
+
+// SetSlug sets the "slug" field.
+func (u *DictionaryUpsert) SetSlug(v string) *DictionaryUpsert {
+	u.Set(dictionary.FieldSlug, v)
+	return u
+}
+
+// UpdateSlug sets the "slug" field to the value that was provided on create.
+func (u *DictionaryUpsert) UpdateSlug() *DictionaryUpsert {
+	u.SetExcluded(dictionary.FieldSlug)
+	return u
+}
+
+// ClearSlug clears the value of the "slug" field.
+func (u *DictionaryUpsert) ClearSlug() *DictionaryUpsert {
+	u.SetNull(dictionary.FieldSlug)
+	return u
+}
+
+// SetType sets the "type" field.
+func (u *DictionaryUpsert) SetType(v string) *DictionaryUpsert {
+	u.Set(dictionary.FieldType, v)
+	return u
+}
+
+// UpdateType sets the "type" field to the value that was provided on create.
+func (u *DictionaryUpsert) UpdateType() *DictionaryUpsert {
+	u.SetExcluded(dictionary.FieldType)
+	return u
+}
+
+// ClearType clears the value of the "type" field.
+func (u *DictionaryUpsert) ClearType() *DictionaryUpsert {
+	u.SetNull(dictionary.FieldType)
+	return u
+}
+
+// SetValue sets the "value" field.
+func (u *DictionaryUpsert) SetValue(v string) *DictionaryUpsert {
+	u.Set(dictionary.FieldValue, v)
+	return u
+}
+
+// UpdateValue sets the "value" field to the value that was provided on create.
+func (u *DictionaryUpsert) UpdateValue() *DictionaryUpsert {
+	u.SetExcluded(dictionary.FieldValue)
+	return u
+}
+
+// ClearValue clears the value of the "value" field.
+func (u *DictionaryUpsert) ClearValue() *DictionaryUpsert {
+	u.SetNull(dictionary.FieldValue)
+	return u
+}
+
+// SetDescription sets the "description" field.
+func (u *DictionaryUpsert) SetDescription(v string) *DictionaryUpsert {
+	u.Set(dictionary.FieldDescription, v)
+	return u
+}
+
+// UpdateDescription sets the "description" field to the value that was provided on create.
+func (u *DictionaryUpsert) UpdateDescription() *DictionaryUpsert {
+	u.SetExcluded(dictionary.FieldDescription)
+	return u
+}
+
+// ClearDescription clears the value of the "description" field.
+func (u *DictionaryUpsert) ClearDescription() *DictionaryUpsert {
+	u.SetNull(dictionary.FieldDescription)
+	return u
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (u *DictionaryUpsert) SetCreatedBy(v string) *DictionaryUpsert {
+	u.Set(dictionary.FieldCreatedBy, v)
+	return u
+}
+
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *DictionaryUpsert) UpdateCreatedBy() *DictionaryUpsert {
+	u.SetExcluded(dictionary.FieldCreatedBy)
+	return u
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *DictionaryUpsert) ClearCreatedBy() *DictionaryUpsert {
+	u.SetNull(dictionary.FieldCreatedBy)
+	return u
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (u *DictionaryUpsert) SetUpdatedBy(v string) *DictionaryUpsert {
+	u.Set(dictionary.FieldUpdatedBy, v)
+	return u
+}
+
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *DictionaryUpsert) UpdateUpdatedBy() *DictionaryUpsert {
+	u.SetExcluded(dictionary.FieldUpdatedBy)
+	return u
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *DictionaryUpsert) ClearUpdatedBy() *DictionaryUpsert {
+	u.SetNull(dictionary.FieldUpdatedBy)
+	return u
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *DictionaryUpsert) SetUpdatedAt(v int64) *DictionaryUpsert {
+	u.Set(dictionary.FieldUpdatedAt, v)
+	return u
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *DictionaryUpsert) UpdateUpdatedAt() *DictionaryUpsert {
+	u.SetExcluded(dictionary.FieldUpdatedAt)
+	return u
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *DictionaryUpsert) AddUpdatedAt(v int64) *DictionaryUpsert {
+	u.Add(dictionary.FieldUpdatedAt, v)
+	return u
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *DictionaryUpsert) ClearUpdatedAt() *DictionaryUpsert {
+	u.SetNull(dictionary.FieldUpdatedAt)
+	return u
+}
+
+// UpdateNewValues updates the mutable fields using the new values that were set on create except the ID field.
+// Using this option is equivalent to using:
+//
+//	client.Dictionary.Create().
+//		OnConflict(
+//			sql.ResolveWithNewValues(),
+//			sql.ResolveWith(func(u *sql.UpdateSet) {
+//				u.SetIgnore(dictionary.FieldID)
+//			}),
+//		).
+//		Exec(ctx)
+func (u *DictionaryUpsertOne) UpdateNewValues() *DictionaryUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithNewValues())
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(s *sql.UpdateSet) {
+		if _, exists := u.create.mutation.ID(); exists {
+			s.SetIgnore(dictionary.FieldID)
+		}
+		if _, exists := u.create.mutation.CreatedAt(); exists {
+			s.SetIgnore(dictionary.FieldCreatedAt)
+		}
+	}))
+	return u
+}
+
+// Ignore sets each column to itself in case of conflict.
+// Using this option is equivalent to using:
+//
+//	client.Dictionary.Create().
+//	    OnConflict(sql.ResolveWithIgnore()).
+//	    Exec(ctx)
+func (u *DictionaryUpsertOne) Ignore() *DictionaryUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithIgnore())
+	return u
+}
+
+// DoNothing configures the conflict_action to `DO NOTHING`.
+// Supported only by SQLite and PostgreSQL.
+func (u *DictionaryUpsertOne) DoNothing() *DictionaryUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.DoNothing())
+	return u
+}
+
+// Update allows overriding fields `UPDATE` values. See the DictionaryCreate.OnConflict
+// documentation for more info.
+func (u *DictionaryUpsertOne) Update(set func(*DictionaryUpsert)) *DictionaryUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(update *sql.UpdateSet) {
+		set(&DictionaryUpsert{UpdateSet: update})
+	}))
+	return u
+}
+
+// SetName sets the "name" field.
+func (u *DictionaryUpsertOne) SetName(v string) *DictionaryUpsertOne {
+	return u.Update(func(s *DictionaryUpsert) {
+		s.SetName(v)
+	})
+}
+
+// UpdateName sets the "name" field to the value that was provided on create.
+func (u *DictionaryUpsertOne) UpdateName() *DictionaryUpsertOne {
+	return u.Update(func(s *DictionaryUpsert) {
+		s.UpdateName()
+	})
+}
+
+// ClearName clears the value of the "name" field.
+func (u *DictionaryUpsertOne) ClearName() *DictionaryUpsertOne {
+	return u.Update(func(s *DictionaryUpsert) {
+		s.ClearName()
+	})
+}
+
+// SetSlug sets the "slug" field.
+func (u *DictionaryUpsertOne) SetSlug(v string) *DictionaryUpsertOne {
+	return u.Update(func(s *DictionaryUpsert) {
+		s.SetSlug(v)
+	})
+}
+
+// UpdateSlug sets the "slug" field to the value that was provided on create.
+func (u *DictionaryUpsertOne) UpdateSlug() *DictionaryUpsertOne {
+	return u.Update(func(s *DictionaryUpsert) {
+		s.UpdateSlug()
+	})
+}
+
+// ClearSlug clears the value of the "slug" field.
+func (u *DictionaryUpsertOne) ClearSlug() *DictionaryUpsertOne {
+	return u.Update(func(s *DictionaryUpsert) {
+		s.ClearSlug()
+	})
+}
+
+// SetType sets the "type" field.
+func (u *DictionaryUpsertOne) SetType(v string) *DictionaryUpsertOne {
+	return u.Update(func(s *DictionaryUpsert) {
+		s.SetType(v)
+	})
+}
+
+// UpdateType sets the "type" field to the value that was provided on create.
+func (u *DictionaryUpsertOne) UpdateType() *DictionaryUpsertOne {
+	return u.Update(func(s *DictionaryUpsert) {
+		s.UpdateType()
+	})
+}
+
+// ClearType clears the value of the "type" field.
+func (u *DictionaryUpsertOne) ClearType() *DictionaryUpsertOne {
+	return u.Update(func(s *DictionaryUpsert) {
+		s.ClearType()
+	})
+}
+
+// SetValue sets the "value" field.
+func (u *DictionaryUpsertOne) SetValue(v string) *DictionaryUpsertOne {
+	return u.Update(func(s *DictionaryUpsert) {
+		s.SetValue(v)
+	})
+}
+
+// UpdateValue sets the "value" field to the value that was provided on create.
+func (u *DictionaryUpsertOne) UpdateValue() *DictionaryUpsertOne {
+	return u.Update(func(s *DictionaryUpsert) {
+		s.UpdateValue()
+	})
+}
+
+// ClearValue clears the value of the "value" field.
+func (u *DictionaryUpsertOne) ClearValue() *DictionaryUpsertOne {
+	return u.Update(func(s *DictionaryUpsert) {
+		s.ClearValue()
+	})
+}
+
+// SetDescription sets the "description" field.
+func (u *DictionaryUpsertOne) SetDescription(v string) *DictionaryUpsertOne {
+	return u.Update(func(s *DictionaryUpsert) {
+		s.SetDescription(v)
+	})
+}
+
+// UpdateDescription sets the "description" field to the value that was provided on create.
+func (u *DictionaryUpsertOne) UpdateDescription() *DictionaryUpsertOne {
+	return u.Update(func(s *DictionaryUpsert) {
+		s.UpdateDescription()
+	})
+}
+
+// ClearDescription clears the value of the "description" field.
+func (u *DictionaryUpsertOne) ClearDescription() *DictionaryUpsertOne {
+	return u.Update(func(s *DictionaryUpsert) {
+		s.ClearDescription()
+	})
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (u *DictionaryUpsertOne) SetCreatedBy(v string) *DictionaryUpsertOne {
+	return u.Update(func(s *DictionaryUpsert) {
+		s.SetCreatedBy(v)
+	})
+}
+
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *DictionaryUpsertOne) UpdateCreatedBy() *DictionaryUpsertOne {
+	return u.Update(func(s *DictionaryUpsert) {
+		s.UpdateCreatedBy()
+	})
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *DictionaryUpsertOne) ClearCreatedBy() *DictionaryUpsertOne {
+	return u.Update(func(s *DictionaryUpsert) {
+		s.ClearCreatedBy()
+	})
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (u *DictionaryUpsertOne) SetUpdatedBy(v string) *DictionaryUpsertOne {
+	return u.Update(func(s *DictionaryUpsert) {
+		s.SetUpdatedBy(v)
+	})
+}
+
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *DictionaryUpsertOne) UpdateUpdatedBy() *DictionaryUpsertOne {
+	return u.Update(func(s *DictionaryUpsert) {
+		s.UpdateUpdatedBy()
+	})
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *DictionaryUpsertOne) ClearUpdatedBy() *DictionaryUpsertOne {
+	return u.Update(func(s *DictionaryUpsert) {
+		s.ClearUpdatedBy()
+	})
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *DictionaryUpsertOne) SetUpdatedAt(v int64) *DictionaryUpsertOne {
+	return u.Update(func(s *DictionaryUpsert) {
+		s.SetUpdatedAt(v)
+	})
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *DictionaryUpsertOne) AddUpdatedAt(v int64) *DictionaryUpsertOne {
+	return u.Update(func(s *DictionaryUpsert) {
+		s.AddUpdatedAt(v)
+	})
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *DictionaryUpsertOne) UpdateUpdatedAt() *DictionaryUpsertOne {
+	return u.Update(func(s *DictionaryUpsert) {
+		s.UpdateUpdatedAt()
+	})
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *DictionaryUpsertOne) ClearUpdatedAt() *DictionaryUpsertOne {
+	return u.Update(func(s *DictionaryUpsert) {
+		s.ClearUpdatedAt()
+	})
+}
+
+// Exec executes the query.
+func (u *DictionaryUpsertOne) Exec(ctx context.Context) error {
+	if len(u.create.conflict) == 0 {
+		return errors.New("ent: missing options for DictionaryCreate.OnConflict")
+	}
+	return u.create.Exec(ctx)
+}
+
+// ExecX is like Exec, but panics if an error occurs.
+func (u *DictionaryUpsertOne) ExecX(ctx context.Context) {
+	if err := u.create.Exec(ctx); err != nil {
+		panic(err)
+	}
+}
+
+// Exec executes the UPSERT query and returns the inserted/updated ID.
+func (u *DictionaryUpsertOne) ID(ctx context.Context) (id string, err error) {
+	if u.create.driver.Dialect() == dialect.MySQL {
+		// In case of "ON CONFLICT", there is no way to get back non-numeric ID
+		// fields from the database since MySQL does not support the RETURNING clause.
+		return id, errors.New("ent: DictionaryUpsertOne.ID is not supported by MySQL driver. Use DictionaryUpsertOne.Exec instead")
+	}
+	node, err := u.create.Save(ctx)
+	if err != nil {
+		return id, err
+	}
+	return node.ID, nil
+}
+
+// IDX is like ID, but panics if an error occurs.
+func (u *DictionaryUpsertOne) IDX(ctx context.Context) string {
+	id, err := u.ID(ctx)
+	if err != nil {
+		panic(err)
+	}
+	return id
+}
+
 // DictionaryCreateBulk is the builder for creating many Dictionary entities in bulk.
 type DictionaryCreateBulk struct {
 	config
 	err      error
 	builders []*DictionaryCreate
+	conflict []sql.ConflictOption
 }
 
 // Save creates the Dictionary entities in the database.
@@ -322,6 +791,7 @@ func (_c *DictionaryCreateBulk) Save(ctx context.Context) ([]*Dictionary, error)
 					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
+					spec.OnConflict = _c.conflict
 					// Invoke the actual operation on the latest mutation in the chain.
 					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
@@ -368,6 +838,298 @@ func (_c *DictionaryCreateBulk) Exec(ctx context.Context) error {
 // ExecX is like Exec, but panics if an error occurs.
 func (_c *DictionaryCreateBulk) ExecX(ctx context.Context) {
 	if err := _c.Exec(ctx); err != nil {
+		panic(err)
+	}
+}
+
+// OnConflict allows configuring the `ON CONFLICT` / `ON DUPLICATE KEY` clause
+// of the `INSERT` statement. For example:
+//
+//	client.Dictionary.CreateBulk(builders...).
+//		OnConflict(
+//			// Update the row with the new values
+//			// the was proposed for insertion.
+//			sql.ResolveWithNewValues(),
+//		).
+//		// Override some of the fields with custom
+//		// update values.
+//		Update(func(u *ent.DictionaryUpsert) {
+//			SetName(v+v).
+//		}).
+//		Exec(ctx)
+func (_c *DictionaryCreateBulk) OnConflict(opts ...sql.ConflictOption) *DictionaryUpsertBulk {
+	_c.conflict = opts
+	return &DictionaryUpsertBulk{
+		create: _c,
+	}
+}
+
+// OnConflictColumns calls `OnConflict` and configures the columns
+// as conflict target. Using this option is equivalent to using:
+//
+//	client.Dictionary.Create().
+//		OnConflict(sql.ConflictColumns(columns...)).
+//		Exec(ctx)
+func (_c *DictionaryCreateBulk) OnConflictColumns(columns ...string) *DictionaryUpsertBulk {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
+	return &DictionaryUpsertBulk{
+		create: _c,
+	}
+}
+
+// DictionaryUpsertBulk is the builder for "upsert"-ing
+// a bulk of Dictionary nodes.
+type DictionaryUpsertBulk struct {
+	create *DictionaryCreateBulk
+}
+
+// UpdateNewValues updates the mutable fields using the new values that
+// were set on create. Using this option is equivalent to using:
+//
+//	client.Dictionary.Create().
+//		OnConflict(
+//			sql.ResolveWithNewValues(),
+//			sql.ResolveWith(func(u *sql.UpdateSet) {
+//				u.SetIgnore(dictionary.FieldID)
+//			}),
+//		).
+//		Exec(ctx)
+func (u *DictionaryUpsertBulk) UpdateNewValues() *DictionaryUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithNewValues())
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(s *sql.UpdateSet) {
+		for _, b := range u.create.builders {
+			if _, exists := b.mutation.ID(); exists {
+				s.SetIgnore(dictionary.FieldID)
+			}
+			if _, exists := b.mutation.CreatedAt(); exists {
+				s.SetIgnore(dictionary.FieldCreatedAt)
+			}
+		}
+	}))
+	return u
+}
+
+// Ignore sets each column to itself in case of conflict.
+// Using this option is equivalent to using:
+//
+//	client.Dictionary.Create().
+//		OnConflict(sql.ResolveWithIgnore()).
+//		Exec(ctx)
+func (u *DictionaryUpsertBulk) Ignore() *DictionaryUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithIgnore())
+	return u
+}
+
+// DoNothing configures the conflict_action to `DO NOTHING`.
+// Supported only by SQLite and PostgreSQL.
+func (u *DictionaryUpsertBulk) DoNothing() *DictionaryUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.DoNothing())
+	return u
+}
+
+// Update allows overriding fields `UPDATE` values. See the DictionaryCreateBulk.OnConflict
+// documentation for more info.
+func (u *DictionaryUpsertBulk) Update(set func(*DictionaryUpsert)) *DictionaryUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(update *sql.UpdateSet) {
+		set(&DictionaryUpsert{UpdateSet: update})
+	}))
+	return u
+}
+
+// SetName sets the "name" field.
+func (u *DictionaryUpsertBulk) SetName(v string) *DictionaryUpsertBulk {
+	return u.Update(func(s *DictionaryUpsert) {
+		s.SetName(v)
+	})
+}
+
+// UpdateName sets the "name" field to the value that was provided on create.
+func (u *DictionaryUpsertBulk) UpdateName() *DictionaryUpsertBulk {
+	return u.Update(func(s *DictionaryUpsert) {
+		s.UpdateName()
+	})
+}
+
+// ClearName clears the value of the "name" field.
+func (u *DictionaryUpsertBulk) ClearName() *DictionaryUpsertBulk {
+	return u.Update(func(s *DictionaryUpsert) {
+		s.ClearName()
+	})
+}
+
+// SetSlug sets the "slug" field.
+func (u *DictionaryUpsertBulk) SetSlug(v string) *DictionaryUpsertBulk {
+	return u.Update(func(s *DictionaryUpsert) {
+		s.SetSlug(v)
+	})
+}
+
+// UpdateSlug sets the "slug" field to the value that was provided on create.
+func (u *DictionaryUpsertBulk) UpdateSlug() *DictionaryUpsertBulk {
+	return u.Update(func(s *DictionaryUpsert) {
+		s.UpdateSlug()
+	})
+}
+
+// ClearSlug clears the value of the "slug" field.
+func (u *DictionaryUpsertBulk) ClearSlug() *DictionaryUpsertBulk {
+	return u.Update(func(s *DictionaryUpsert) {
+		s.ClearSlug()
+	})
+}
+
+// SetType sets the "type" field.
+func (u *DictionaryUpsertBulk) SetType(v string) *DictionaryUpsertBulk {
+	return u.Update(func(s *DictionaryUpsert) {
+		s.SetType(v)
+	})
+}
+
+// UpdateType sets the "type" field to the value that was provided on create.
+func (u *DictionaryUpsertBulk) UpdateType() *DictionaryUpsertBulk {
+	return u.Update(func(s *DictionaryUpsert) {
+		s.UpdateType()
+	})
+}
+
+// ClearType clears the value of the "type" field.
+func (u *DictionaryUpsertBulk) ClearType() *DictionaryUpsertBulk {
+	return u.Update(func(s *DictionaryUpsert) {
+		s.ClearType()
+	})
+}
+
+// SetValue sets the "value" field.
+func (u *DictionaryUpsertBulk) SetValue(v string) *DictionaryUpsertBulk {
+	return u.Update(func(s *DictionaryUpsert) {
+		s.SetValue(v)
+	})
+}
+
+// UpdateValue sets the "value" field to the value that was provided on create.
+func (u *DictionaryUpsertBulk) UpdateValue() *DictionaryUpsertBulk {
+	return u.Update(func(s *DictionaryUpsert) {
+		s.UpdateValue()
+	})
+}
+
+// ClearValue clears the value of the "value" field.
+func (u *DictionaryUpsertBulk) ClearValue() *DictionaryUpsertBulk {
+	return u.Update(func(s *DictionaryUpsert) {
+		s.ClearValue()
+	})
+}
+
+// SetDescription sets the "description" field.
+func (u *DictionaryUpsertBulk) SetDescription(v string) *DictionaryUpsertBulk {
+	return u.Update(func(s *DictionaryUpsert) {
+		s.SetDescription(v)
+	})
+}
+
+// UpdateDescription sets the "description" field to the value that was provided on create.
+func (u *DictionaryUpsertBulk) UpdateDescription() *DictionaryUpsertBulk {
+	return u.Update(func(s *DictionaryUpsert) {
+		s.UpdateDescription()
+	})
+}
+
+// ClearDescription clears the value of the "description" field.
+func (u *DictionaryUpsertBulk) ClearDescription() *DictionaryUpsertBulk {
+	return u.Update(func(s *DictionaryUpsert) {
+		s.ClearDescription()
+	})
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (u *DictionaryUpsertBulk) SetCreatedBy(v string) *DictionaryUpsertBulk {
+	return u.Update(func(s *DictionaryUpsert) {
+		s.SetCreatedBy(v)
+	})
+}
+
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *DictionaryUpsertBulk) UpdateCreatedBy() *DictionaryUpsertBulk {
+	return u.Update(func(s *DictionaryUpsert) {
+		s.UpdateCreatedBy()
+	})
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *DictionaryUpsertBulk) ClearCreatedBy() *DictionaryUpsertBulk {
+	return u.Update(func(s *DictionaryUpsert) {
+		s.ClearCreatedBy()
+	})
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (u *DictionaryUpsertBulk) SetUpdatedBy(v string) *DictionaryUpsertBulk {
+	return u.Update(func(s *DictionaryUpsert) {
+		s.SetUpdatedBy(v)
+	})
+}
+
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *DictionaryUpsertBulk) UpdateUpdatedBy() *DictionaryUpsertBulk {
+	return u.Update(func(s *DictionaryUpsert) {
+		s.UpdateUpdatedBy()
+	})
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *DictionaryUpsertBulk) ClearUpdatedBy() *DictionaryUpsertBulk {
+	return u.Update(func(s *DictionaryUpsert) {
+		s.ClearUpdatedBy()
+	})
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *DictionaryUpsertBulk) SetUpdatedAt(v int64) *DictionaryUpsertBulk {
+	return u.Update(func(s *DictionaryUpsert) {
+		s.SetUpdatedAt(v)
+	})
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *DictionaryUpsertBulk) AddUpdatedAt(v int64) *DictionaryUpsertBulk {
+	return u.Update(func(s *DictionaryUpsert) {
+		s.AddUpdatedAt(v)
+	})
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *DictionaryUpsertBulk) UpdateUpdatedAt() *DictionaryUpsertBulk {
+	return u.Update(func(s *DictionaryUpsert) {
+		s.UpdateUpdatedAt()
+	})
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *DictionaryUpsertBulk) ClearUpdatedAt() *DictionaryUpsertBulk {
+	return u.Update(func(s *DictionaryUpsert) {
+		s.ClearUpdatedAt()
+	})
+}
+
+// Exec executes the query.
+func (u *DictionaryUpsertBulk) Exec(ctx context.Context) error {
+	if u.create.err != nil {
+		return u.create.err
+	}
+	for i, b := range u.create.builders {
+		if len(b.conflict) != 0 {
+			return fmt.Errorf("ent: OnConflict was set for builder %d. Set it on the DictionaryCreateBulk instead", i)
+		}
+	}
+	if len(u.create.conflict) == 0 {
+		return errors.New("ent: missing options for DictionaryCreateBulk.OnConflict")
+	}
+	return u.create.Exec(ctx)
+}
+
+// ExecX is like Exec, but panics if an error occurs.
+func (u *DictionaryUpsertBulk) ExecX(ctx context.Context) {
+	if err := u.create.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

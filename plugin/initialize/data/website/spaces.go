@@ -1,6 +1,6 @@
 package website
 
-import spaceStructs "ncobase/space/structs"
+import spaceStructs "ncobase/core/space/structs"
 
 // SystemDefaultSpaces for regular websites
 var SystemDefaultSpaces = []spaceStructs.CreateSpaceBody{

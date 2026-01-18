@@ -3,13 +3,14 @@ package repository
 import (
 	"context"
 	"fmt"
-	"ncobase/space/data"
-	"ncobase/space/data/ent"
-	spaceOrgEnt "ncobase/space/data/ent/spaceorganization"
-	"ncobase/space/structs"
+	"ncobase/core/space/data"
+	"ncobase/core/space/data/ent"
+	spaceOrgEnt "ncobase/core/space/data/ent/spaceorganization"
+	"ncobase/core/space/structs"
 	"time"
+	"github.com/redis/go-redis/v9"
 
-	"github.com/ncobase/ncore/data/databases/cache"
+	"github.com/ncobase/ncore/data/cache"
 	"github.com/ncobase/ncore/logging/logger"
 )
 
@@ -39,7 +40,7 @@ type spaceGroupRepository struct {
 
 // NewSpaceOrganizationRepository creates a new space group repository.
 func NewSpaceOrganizationRepository(d *data.Data) SpaceOrganizationRepositoryInterface {
-	redisClient := d.GetRedis()
+	redisClient := d.GetRedis().(*redis.Client)
 
 	return &spaceGroupRepository{
 		data:             d,

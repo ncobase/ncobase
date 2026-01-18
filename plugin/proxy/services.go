@@ -2,10 +2,10 @@ package proxy
 
 import (
 	"fmt"
-	accessService "ncobase/access/service"
-	orgService "ncobase/organization/service"
-	spaceService "ncobase/space/service"
-	userService "ncobase/user/service"
+	accessService "ncobase/core/access/service"
+	orgService "ncobase/core/organization/service"
+	spaceService "ncobase/core/space/service"
+	userService "ncobase/core/user/service"
 )
 
 // GetUserService returns the user service

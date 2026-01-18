@@ -4,7 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"ncobase/payment/structs"
+	"ncobase/plugin/payment/structs"
 	"time"
 )
 

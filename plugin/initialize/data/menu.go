@@ -2,7 +2,7 @@ package data
 
 import (
 	"fmt"
-	"ncobase/system/structs"
+	"ncobase/core/system/structs"
 
 	"github.com/ncobase/ncore/utils/convert"
 )

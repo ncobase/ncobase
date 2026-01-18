@@ -2,9 +2,9 @@ package handler
 
 import (
 	"context"
-	"ncobase/access/event"
-	"ncobase/access/service"
-	"ncobase/access/structs"
+	"ncobase/core/access/event"
+	"ncobase/core/access/service"
+	"ncobase/core/access/structs"
 	"strings"
 
 	ext "github.com/ncobase/ncore/extension/types"

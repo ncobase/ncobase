@@ -5,7 +5,7 @@ package hook
 import (
 	"context"
 	"fmt"
-	"ncobase/realtime/data/ent"
+	"ncobase/biz/realtime/data/ent"
 )
 
 // The EventFunc type is an adapter to allow the use of ordinary

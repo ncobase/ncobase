@@ -1,7 +1,7 @@
 package website
 
 import (
-	userStructs "ncobase/user/structs"
+	userStructs "ncobase/core/user/structs"
 )
 
 // SystemDefaultUsers for regular websites

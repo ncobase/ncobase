@@ -4,8 +4,8 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"ncobase/proxy/event"
-	"ncobase/proxy/structs"
+	"ncobase/plugin/proxy/event"
+	"ncobase/plugin/proxy/structs"
 
 	ext "github.com/ncobase/ncore/extension/types"
 )

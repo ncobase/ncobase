@@ -1,15 +1,16 @@
 package repository
 
 import (
+	"github.com/redis/go-redis/v9"
 	"context"
 	"fmt"
-	"ncobase/auth/data"
-	"ncobase/auth/data/ent"
-	sessionEnt "ncobase/auth/data/ent/session"
-	"ncobase/auth/structs"
+	"ncobase/core/auth/data"
+	"ncobase/core/auth/data/ent"
+	sessionEnt "ncobase/core/auth/data/ent/session"
+	"ncobase/core/auth/structs"
 	"time"
 
-	"github.com/ncobase/ncore/data/databases/cache"
+	"github.com/ncobase/ncore/data/cache"
 	"github.com/ncobase/ncore/data/paging"
 	"github.com/ncobase/ncore/logging/logger"
 	"github.com/ncobase/ncore/utils/nanoid"
@@ -41,7 +42,7 @@ type sessionRepository struct {
 
 // NewSessionRepository creates a new session repository
 func NewSessionRepository(d *data.Data) SessionRepositoryInterface {
-	redisClient := d.GetRedis()
+	redisClient := d.GetRedis().(*redis.Client)
 
 	return &sessionRepository{
 		data:              d,

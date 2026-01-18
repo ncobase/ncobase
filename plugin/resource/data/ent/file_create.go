@@ -6,8 +6,10 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"ncobase/resource/data/ent/file"
+	"ncobase/plugin/resource/data/ent/file"
 
+	"entgo.io/ent/dialect"
+	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
 )
@@ -17,6 +19,7 @@ type FileCreate struct {
 	config
 	mutation *FileMutation
 	hooks    []Hook
+	conflict []sql.ConflictOption
 }
 
 // SetName sets the "name" field.
@@ -427,6 +430,7 @@ func (_c *FileCreate) createSpec() (*File, *sqlgraph.CreateSpec) {
 		_node = &File{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(file.Table, sqlgraph.NewFieldSpec(file.FieldID, field.TypeString))
 	)
+	_spec.OnConflict = _c.conflict
 	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
@@ -518,11 +522,917 @@ func (_c *FileCreate) createSpec() (*File, *sqlgraph.CreateSpec) {
 	return _node, _spec
 }
 
+// OnConflict allows configuring the `ON CONFLICT` / `ON DUPLICATE KEY` clause
+// of the `INSERT` statement. For example:
+//
+//	client.File.Create().
+//		SetName(v).
+//		OnConflict(
+//			// Update the row with the new values
+//			// the was proposed for insertion.
+//			sql.ResolveWithNewValues(),
+//		).
+//		// Override some of the fields with custom
+//		// update values.
+//		Update(func(u *ent.FileUpsert) {
+//			SetName(v+v).
+//		}).
+//		Exec(ctx)
+func (_c *FileCreate) OnConflict(opts ...sql.ConflictOption) *FileUpsertOne {
+	_c.conflict = opts
+	return &FileUpsertOne{
+		create: _c,
+	}
+}
+
+// OnConflictColumns calls `OnConflict` and configures the columns
+// as conflict target. Using this option is equivalent to using:
+//
+//	client.File.Create().
+//		OnConflict(sql.ConflictColumns(columns...)).
+//		Exec(ctx)
+func (_c *FileCreate) OnConflictColumns(columns ...string) *FileUpsertOne {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
+	return &FileUpsertOne{
+		create: _c,
+	}
+}
+
+type (
+	// FileUpsertOne is the builder for "upsert"-ing
+	//  one File node.
+	FileUpsertOne struct {
+		create *FileCreate
+	}
+
+	// FileUpsert is the "OnConflict" setter.
+	FileUpsert struct {
+		*sql.UpdateSet
+	}
+)
+
+// SetName sets the "name" field.
+func (u *FileUpsert) SetName(v string) *FileUpsert {
+	u.Set(file.FieldName, v)
+	return u
+}
+
+// UpdateName sets the "name" field to the value that was provided on create.
+func (u *FileUpsert) UpdateName() *FileUpsert {
+	u.SetExcluded(file.FieldName)
+	return u
+}
+
+// ClearName clears the value of the "name" field.
+func (u *FileUpsert) ClearName() *FileUpsert {
+	u.SetNull(file.FieldName)
+	return u
+}
+
+// SetPath sets the "path" field.
+func (u *FileUpsert) SetPath(v string) *FileUpsert {
+	u.Set(file.FieldPath, v)
+	return u
+}
+
+// UpdatePath sets the "path" field to the value that was provided on create.
+func (u *FileUpsert) UpdatePath() *FileUpsert {
+	u.SetExcluded(file.FieldPath)
+	return u
+}
+
+// ClearPath clears the value of the "path" field.
+func (u *FileUpsert) ClearPath() *FileUpsert {
+	u.SetNull(file.FieldPath)
+	return u
+}
+
+// SetType sets the "type" field.
+func (u *FileUpsert) SetType(v string) *FileUpsert {
+	u.Set(file.FieldType, v)
+	return u
+}
+
+// UpdateType sets the "type" field to the value that was provided on create.
+func (u *FileUpsert) UpdateType() *FileUpsert {
+	u.SetExcluded(file.FieldType)
+	return u
+}
+
+// ClearType clears the value of the "type" field.
+func (u *FileUpsert) ClearType() *FileUpsert {
+	u.SetNull(file.FieldType)
+	return u
+}
+
+// SetSize sets the "size" field.
+func (u *FileUpsert) SetSize(v int) *FileUpsert {
+	u.Set(file.FieldSize, v)
+	return u
+}
+
+// UpdateSize sets the "size" field to the value that was provided on create.
+func (u *FileUpsert) UpdateSize() *FileUpsert {
+	u.SetExcluded(file.FieldSize)
+	return u
+}
+
+// AddSize adds v to the "size" field.
+func (u *FileUpsert) AddSize(v int) *FileUpsert {
+	u.Add(file.FieldSize, v)
+	return u
+}
+
+// SetStorage sets the "storage" field.
+func (u *FileUpsert) SetStorage(v string) *FileUpsert {
+	u.Set(file.FieldStorage, v)
+	return u
+}
+
+// UpdateStorage sets the "storage" field to the value that was provided on create.
+func (u *FileUpsert) UpdateStorage() *FileUpsert {
+	u.SetExcluded(file.FieldStorage)
+	return u
+}
+
+// ClearStorage clears the value of the "storage" field.
+func (u *FileUpsert) ClearStorage() *FileUpsert {
+	u.SetNull(file.FieldStorage)
+	return u
+}
+
+// SetBucket sets the "bucket" field.
+func (u *FileUpsert) SetBucket(v string) *FileUpsert {
+	u.Set(file.FieldBucket, v)
+	return u
+}
+
+// UpdateBucket sets the "bucket" field to the value that was provided on create.
+func (u *FileUpsert) UpdateBucket() *FileUpsert {
+	u.SetExcluded(file.FieldBucket)
+	return u
+}
+
+// ClearBucket clears the value of the "bucket" field.
+func (u *FileUpsert) ClearBucket() *FileUpsert {
+	u.SetNull(file.FieldBucket)
+	return u
+}
+
+// SetEndpoint sets the "endpoint" field.
+func (u *FileUpsert) SetEndpoint(v string) *FileUpsert {
+	u.Set(file.FieldEndpoint, v)
+	return u
+}
+
+// UpdateEndpoint sets the "endpoint" field to the value that was provided on create.
+func (u *FileUpsert) UpdateEndpoint() *FileUpsert {
+	u.SetExcluded(file.FieldEndpoint)
+	return u
+}
+
+// ClearEndpoint clears the value of the "endpoint" field.
+func (u *FileUpsert) ClearEndpoint() *FileUpsert {
+	u.SetNull(file.FieldEndpoint)
+	return u
+}
+
+// SetOwnerID sets the "owner_id" field.
+func (u *FileUpsert) SetOwnerID(v string) *FileUpsert {
+	u.Set(file.FieldOwnerID, v)
+	return u
+}
+
+// UpdateOwnerID sets the "owner_id" field to the value that was provided on create.
+func (u *FileUpsert) UpdateOwnerID() *FileUpsert {
+	u.SetExcluded(file.FieldOwnerID)
+	return u
+}
+
+// ClearOwnerID clears the value of the "owner_id" field.
+func (u *FileUpsert) ClearOwnerID() *FileUpsert {
+	u.SetNull(file.FieldOwnerID)
+	return u
+}
+
+// SetExtras sets the "extras" field.
+func (u *FileUpsert) SetExtras(v map[string]interface{}) *FileUpsert {
+	u.Set(file.FieldExtras, v)
+	return u
+}
+
+// UpdateExtras sets the "extras" field to the value that was provided on create.
+func (u *FileUpsert) UpdateExtras() *FileUpsert {
+	u.SetExcluded(file.FieldExtras)
+	return u
+}
+
+// ClearExtras clears the value of the "extras" field.
+func (u *FileUpsert) ClearExtras() *FileUpsert {
+	u.SetNull(file.FieldExtras)
+	return u
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (u *FileUpsert) SetCreatedBy(v string) *FileUpsert {
+	u.Set(file.FieldCreatedBy, v)
+	return u
+}
+
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *FileUpsert) UpdateCreatedBy() *FileUpsert {
+	u.SetExcluded(file.FieldCreatedBy)
+	return u
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *FileUpsert) ClearCreatedBy() *FileUpsert {
+	u.SetNull(file.FieldCreatedBy)
+	return u
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (u *FileUpsert) SetUpdatedBy(v string) *FileUpsert {
+	u.Set(file.FieldUpdatedBy, v)
+	return u
+}
+
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *FileUpsert) UpdateUpdatedBy() *FileUpsert {
+	u.SetExcluded(file.FieldUpdatedBy)
+	return u
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *FileUpsert) ClearUpdatedBy() *FileUpsert {
+	u.SetNull(file.FieldUpdatedBy)
+	return u
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *FileUpsert) SetUpdatedAt(v int64) *FileUpsert {
+	u.Set(file.FieldUpdatedAt, v)
+	return u
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *FileUpsert) UpdateUpdatedAt() *FileUpsert {
+	u.SetExcluded(file.FieldUpdatedAt)
+	return u
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *FileUpsert) AddUpdatedAt(v int64) *FileUpsert {
+	u.Add(file.FieldUpdatedAt, v)
+	return u
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *FileUpsert) ClearUpdatedAt() *FileUpsert {
+	u.SetNull(file.FieldUpdatedAt)
+	return u
+}
+
+// SetOriginalName sets the "original_name" field.
+func (u *FileUpsert) SetOriginalName(v string) *FileUpsert {
+	u.Set(file.FieldOriginalName, v)
+	return u
+}
+
+// UpdateOriginalName sets the "original_name" field to the value that was provided on create.
+func (u *FileUpsert) UpdateOriginalName() *FileUpsert {
+	u.SetExcluded(file.FieldOriginalName)
+	return u
+}
+
+// ClearOriginalName clears the value of the "original_name" field.
+func (u *FileUpsert) ClearOriginalName() *FileUpsert {
+	u.SetNull(file.FieldOriginalName)
+	return u
+}
+
+// SetAccessLevel sets the "access_level" field.
+func (u *FileUpsert) SetAccessLevel(v string) *FileUpsert {
+	u.Set(file.FieldAccessLevel, v)
+	return u
+}
+
+// UpdateAccessLevel sets the "access_level" field to the value that was provided on create.
+func (u *FileUpsert) UpdateAccessLevel() *FileUpsert {
+	u.SetExcluded(file.FieldAccessLevel)
+	return u
+}
+
+// SetExpiresAt sets the "expires_at" field.
+func (u *FileUpsert) SetExpiresAt(v int64) *FileUpsert {
+	u.Set(file.FieldExpiresAt, v)
+	return u
+}
+
+// UpdateExpiresAt sets the "expires_at" field to the value that was provided on create.
+func (u *FileUpsert) UpdateExpiresAt() *FileUpsert {
+	u.SetExcluded(file.FieldExpiresAt)
+	return u
+}
+
+// AddExpiresAt adds v to the "expires_at" field.
+func (u *FileUpsert) AddExpiresAt(v int64) *FileUpsert {
+	u.Add(file.FieldExpiresAt, v)
+	return u
+}
+
+// ClearExpiresAt clears the value of the "expires_at" field.
+func (u *FileUpsert) ClearExpiresAt() *FileUpsert {
+	u.SetNull(file.FieldExpiresAt)
+	return u
+}
+
+// SetTags sets the "tags" field.
+func (u *FileUpsert) SetTags(v []string) *FileUpsert {
+	u.Set(file.FieldTags, v)
+	return u
+}
+
+// UpdateTags sets the "tags" field to the value that was provided on create.
+func (u *FileUpsert) UpdateTags() *FileUpsert {
+	u.SetExcluded(file.FieldTags)
+	return u
+}
+
+// ClearTags clears the value of the "tags" field.
+func (u *FileUpsert) ClearTags() *FileUpsert {
+	u.SetNull(file.FieldTags)
+	return u
+}
+
+// SetIsPublic sets the "is_public" field.
+func (u *FileUpsert) SetIsPublic(v bool) *FileUpsert {
+	u.Set(file.FieldIsPublic, v)
+	return u
+}
+
+// UpdateIsPublic sets the "is_public" field to the value that was provided on create.
+func (u *FileUpsert) UpdateIsPublic() *FileUpsert {
+	u.SetExcluded(file.FieldIsPublic)
+	return u
+}
+
+// SetCategory sets the "category" field.
+func (u *FileUpsert) SetCategory(v string) *FileUpsert {
+	u.Set(file.FieldCategory, v)
+	return u
+}
+
+// UpdateCategory sets the "category" field to the value that was provided on create.
+func (u *FileUpsert) UpdateCategory() *FileUpsert {
+	u.SetExcluded(file.FieldCategory)
+	return u
+}
+
+// SetHash sets the "hash" field.
+func (u *FileUpsert) SetHash(v string) *FileUpsert {
+	u.Set(file.FieldHash, v)
+	return u
+}
+
+// UpdateHash sets the "hash" field to the value that was provided on create.
+func (u *FileUpsert) UpdateHash() *FileUpsert {
+	u.SetExcluded(file.FieldHash)
+	return u
+}
+
+// ClearHash clears the value of the "hash" field.
+func (u *FileUpsert) ClearHash() *FileUpsert {
+	u.SetNull(file.FieldHash)
+	return u
+}
+
+// SetProcessingResult sets the "processing_result" field.
+func (u *FileUpsert) SetProcessingResult(v map[string]interface{}) *FileUpsert {
+	u.Set(file.FieldProcessingResult, v)
+	return u
+}
+
+// UpdateProcessingResult sets the "processing_result" field to the value that was provided on create.
+func (u *FileUpsert) UpdateProcessingResult() *FileUpsert {
+	u.SetExcluded(file.FieldProcessingResult)
+	return u
+}
+
+// ClearProcessingResult clears the value of the "processing_result" field.
+func (u *FileUpsert) ClearProcessingResult() *FileUpsert {
+	u.SetNull(file.FieldProcessingResult)
+	return u
+}
+
+// UpdateNewValues updates the mutable fields using the new values that were set on create except the ID field.
+// Using this option is equivalent to using:
+//
+//	client.File.Create().
+//		OnConflict(
+//			sql.ResolveWithNewValues(),
+//			sql.ResolveWith(func(u *sql.UpdateSet) {
+//				u.SetIgnore(file.FieldID)
+//			}),
+//		).
+//		Exec(ctx)
+func (u *FileUpsertOne) UpdateNewValues() *FileUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithNewValues())
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(s *sql.UpdateSet) {
+		if _, exists := u.create.mutation.ID(); exists {
+			s.SetIgnore(file.FieldID)
+		}
+		if _, exists := u.create.mutation.CreatedAt(); exists {
+			s.SetIgnore(file.FieldCreatedAt)
+		}
+	}))
+	return u
+}
+
+// Ignore sets each column to itself in case of conflict.
+// Using this option is equivalent to using:
+//
+//	client.File.Create().
+//	    OnConflict(sql.ResolveWithIgnore()).
+//	    Exec(ctx)
+func (u *FileUpsertOne) Ignore() *FileUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithIgnore())
+	return u
+}
+
+// DoNothing configures the conflict_action to `DO NOTHING`.
+// Supported only by SQLite and PostgreSQL.
+func (u *FileUpsertOne) DoNothing() *FileUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.DoNothing())
+	return u
+}
+
+// Update allows overriding fields `UPDATE` values. See the FileCreate.OnConflict
+// documentation for more info.
+func (u *FileUpsertOne) Update(set func(*FileUpsert)) *FileUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(update *sql.UpdateSet) {
+		set(&FileUpsert{UpdateSet: update})
+	}))
+	return u
+}
+
+// SetName sets the "name" field.
+func (u *FileUpsertOne) SetName(v string) *FileUpsertOne {
+	return u.Update(func(s *FileUpsert) {
+		s.SetName(v)
+	})
+}
+
+// UpdateName sets the "name" field to the value that was provided on create.
+func (u *FileUpsertOne) UpdateName() *FileUpsertOne {
+	return u.Update(func(s *FileUpsert) {
+		s.UpdateName()
+	})
+}
+
+// ClearName clears the value of the "name" field.
+func (u *FileUpsertOne) ClearName() *FileUpsertOne {
+	return u.Update(func(s *FileUpsert) {
+		s.ClearName()
+	})
+}
+
+// SetPath sets the "path" field.
+func (u *FileUpsertOne) SetPath(v string) *FileUpsertOne {
+	return u.Update(func(s *FileUpsert) {
+		s.SetPath(v)
+	})
+}
+
+// UpdatePath sets the "path" field to the value that was provided on create.
+func (u *FileUpsertOne) UpdatePath() *FileUpsertOne {
+	return u.Update(func(s *FileUpsert) {
+		s.UpdatePath()
+	})
+}
+
+// ClearPath clears the value of the "path" field.
+func (u *FileUpsertOne) ClearPath() *FileUpsertOne {
+	return u.Update(func(s *FileUpsert) {
+		s.ClearPath()
+	})
+}
+
+// SetType sets the "type" field.
+func (u *FileUpsertOne) SetType(v string) *FileUpsertOne {
+	return u.Update(func(s *FileUpsert) {
+		s.SetType(v)
+	})
+}
+
+// UpdateType sets the "type" field to the value that was provided on create.
+func (u *FileUpsertOne) UpdateType() *FileUpsertOne {
+	return u.Update(func(s *FileUpsert) {
+		s.UpdateType()
+	})
+}
+
+// ClearType clears the value of the "type" field.
+func (u *FileUpsertOne) ClearType() *FileUpsertOne {
+	return u.Update(func(s *FileUpsert) {
+		s.ClearType()
+	})
+}
+
+// SetSize sets the "size" field.
+func (u *FileUpsertOne) SetSize(v int) *FileUpsertOne {
+	return u.Update(func(s *FileUpsert) {
+		s.SetSize(v)
+	})
+}
+
+// AddSize adds v to the "size" field.
+func (u *FileUpsertOne) AddSize(v int) *FileUpsertOne {
+	return u.Update(func(s *FileUpsert) {
+		s.AddSize(v)
+	})
+}
+
+// UpdateSize sets the "size" field to the value that was provided on create.
+func (u *FileUpsertOne) UpdateSize() *FileUpsertOne {
+	return u.Update(func(s *FileUpsert) {
+		s.UpdateSize()
+	})
+}
+
+// SetStorage sets the "storage" field.
+func (u *FileUpsertOne) SetStorage(v string) *FileUpsertOne {
+	return u.Update(func(s *FileUpsert) {
+		s.SetStorage(v)
+	})
+}
+
+// UpdateStorage sets the "storage" field to the value that was provided on create.
+func (u *FileUpsertOne) UpdateStorage() *FileUpsertOne {
+	return u.Update(func(s *FileUpsert) {
+		s.UpdateStorage()
+	})
+}
+
+// ClearStorage clears the value of the "storage" field.
+func (u *FileUpsertOne) ClearStorage() *FileUpsertOne {
+	return u.Update(func(s *FileUpsert) {
+		s.ClearStorage()
+	})
+}
+
+// SetBucket sets the "bucket" field.
+func (u *FileUpsertOne) SetBucket(v string) *FileUpsertOne {
+	return u.Update(func(s *FileUpsert) {
+		s.SetBucket(v)
+	})
+}
+
+// UpdateBucket sets the "bucket" field to the value that was provided on create.
+func (u *FileUpsertOne) UpdateBucket() *FileUpsertOne {
+	return u.Update(func(s *FileUpsert) {
+		s.UpdateBucket()
+	})
+}
+
+// ClearBucket clears the value of the "bucket" field.
+func (u *FileUpsertOne) ClearBucket() *FileUpsertOne {
+	return u.Update(func(s *FileUpsert) {
+		s.ClearBucket()
+	})
+}
+
+// SetEndpoint sets the "endpoint" field.
+func (u *FileUpsertOne) SetEndpoint(v string) *FileUpsertOne {
+	return u.Update(func(s *FileUpsert) {
+		s.SetEndpoint(v)
+	})
+}
+
+// UpdateEndpoint sets the "endpoint" field to the value that was provided on create.
+func (u *FileUpsertOne) UpdateEndpoint() *FileUpsertOne {
+	return u.Update(func(s *FileUpsert) {
+		s.UpdateEndpoint()
+	})
+}
+
+// ClearEndpoint clears the value of the "endpoint" field.
+func (u *FileUpsertOne) ClearEndpoint() *FileUpsertOne {
+	return u.Update(func(s *FileUpsert) {
+		s.ClearEndpoint()
+	})
+}
+
+// SetOwnerID sets the "owner_id" field.
+func (u *FileUpsertOne) SetOwnerID(v string) *FileUpsertOne {
+	return u.Update(func(s *FileUpsert) {
+		s.SetOwnerID(v)
+	})
+}
+
+// UpdateOwnerID sets the "owner_id" field to the value that was provided on create.
+func (u *FileUpsertOne) UpdateOwnerID() *FileUpsertOne {
+	return u.Update(func(s *FileUpsert) {
+		s.UpdateOwnerID()
+	})
+}
+
+// ClearOwnerID clears the value of the "owner_id" field.
+func (u *FileUpsertOne) ClearOwnerID() *FileUpsertOne {
+	return u.Update(func(s *FileUpsert) {
+		s.ClearOwnerID()
+	})
+}
+
+// SetExtras sets the "extras" field.
+func (u *FileUpsertOne) SetExtras(v map[string]interface{}) *FileUpsertOne {
+	return u.Update(func(s *FileUpsert) {
+		s.SetExtras(v)
+	})
+}
+
+// UpdateExtras sets the "extras" field to the value that was provided on create.
+func (u *FileUpsertOne) UpdateExtras() *FileUpsertOne {
+	return u.Update(func(s *FileUpsert) {
+		s.UpdateExtras()
+	})
+}
+
+// ClearExtras clears the value of the "extras" field.
+func (u *FileUpsertOne) ClearExtras() *FileUpsertOne {
+	return u.Update(func(s *FileUpsert) {
+		s.ClearExtras()
+	})
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (u *FileUpsertOne) SetCreatedBy(v string) *FileUpsertOne {
+	return u.Update(func(s *FileUpsert) {
+		s.SetCreatedBy(v)
+	})
+}
+
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *FileUpsertOne) UpdateCreatedBy() *FileUpsertOne {
+	return u.Update(func(s *FileUpsert) {
+		s.UpdateCreatedBy()
+	})
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *FileUpsertOne) ClearCreatedBy() *FileUpsertOne {
+	return u.Update(func(s *FileUpsert) {
+		s.ClearCreatedBy()
+	})
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (u *FileUpsertOne) SetUpdatedBy(v string) *FileUpsertOne {
+	return u.Update(func(s *FileUpsert) {
+		s.SetUpdatedBy(v)
+	})
+}
+
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *FileUpsertOne) UpdateUpdatedBy() *FileUpsertOne {
+	return u.Update(func(s *FileUpsert) {
+		s.UpdateUpdatedBy()
+	})
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *FileUpsertOne) ClearUpdatedBy() *FileUpsertOne {
+	return u.Update(func(s *FileUpsert) {
+		s.ClearUpdatedBy()
+	})
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *FileUpsertOne) SetUpdatedAt(v int64) *FileUpsertOne {
+	return u.Update(func(s *FileUpsert) {
+		s.SetUpdatedAt(v)
+	})
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *FileUpsertOne) AddUpdatedAt(v int64) *FileUpsertOne {
+	return u.Update(func(s *FileUpsert) {
+		s.AddUpdatedAt(v)
+	})
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *FileUpsertOne) UpdateUpdatedAt() *FileUpsertOne {
+	return u.Update(func(s *FileUpsert) {
+		s.UpdateUpdatedAt()
+	})
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *FileUpsertOne) ClearUpdatedAt() *FileUpsertOne {
+	return u.Update(func(s *FileUpsert) {
+		s.ClearUpdatedAt()
+	})
+}
+
+// SetOriginalName sets the "original_name" field.
+func (u *FileUpsertOne) SetOriginalName(v string) *FileUpsertOne {
+	return u.Update(func(s *FileUpsert) {
+		s.SetOriginalName(v)
+	})
+}
+
+// UpdateOriginalName sets the "original_name" field to the value that was provided on create.
+func (u *FileUpsertOne) UpdateOriginalName() *FileUpsertOne {
+	return u.Update(func(s *FileUpsert) {
+		s.UpdateOriginalName()
+	})
+}
+
+// ClearOriginalName clears the value of the "original_name" field.
+func (u *FileUpsertOne) ClearOriginalName() *FileUpsertOne {
+	return u.Update(func(s *FileUpsert) {
+		s.ClearOriginalName()
+	})
+}
+
+// SetAccessLevel sets the "access_level" field.
+func (u *FileUpsertOne) SetAccessLevel(v string) *FileUpsertOne {
+	return u.Update(func(s *FileUpsert) {
+		s.SetAccessLevel(v)
+	})
+}
+
+// UpdateAccessLevel sets the "access_level" field to the value that was provided on create.
+func (u *FileUpsertOne) UpdateAccessLevel() *FileUpsertOne {
+	return u.Update(func(s *FileUpsert) {
+		s.UpdateAccessLevel()
+	})
+}
+
+// SetExpiresAt sets the "expires_at" field.
+func (u *FileUpsertOne) SetExpiresAt(v int64) *FileUpsertOne {
+	return u.Update(func(s *FileUpsert) {
+		s.SetExpiresAt(v)
+	})
+}
+
+// AddExpiresAt adds v to the "expires_at" field.
+func (u *FileUpsertOne) AddExpiresAt(v int64) *FileUpsertOne {
+	return u.Update(func(s *FileUpsert) {
+		s.AddExpiresAt(v)
+	})
+}
+
+// UpdateExpiresAt sets the "expires_at" field to the value that was provided on create.
+func (u *FileUpsertOne) UpdateExpiresAt() *FileUpsertOne {
+	return u.Update(func(s *FileUpsert) {
+		s.UpdateExpiresAt()
+	})
+}
+
+// ClearExpiresAt clears the value of the "expires_at" field.
+func (u *FileUpsertOne) ClearExpiresAt() *FileUpsertOne {
+	return u.Update(func(s *FileUpsert) {
+		s.ClearExpiresAt()
+	})
+}
+
+// SetTags sets the "tags" field.
+func (u *FileUpsertOne) SetTags(v []string) *FileUpsertOne {
+	return u.Update(func(s *FileUpsert) {
+		s.SetTags(v)
+	})
+}
+
+// UpdateTags sets the "tags" field to the value that was provided on create.
+func (u *FileUpsertOne) UpdateTags() *FileUpsertOne {
+	return u.Update(func(s *FileUpsert) {
+		s.UpdateTags()
+	})
+}
+
+// ClearTags clears the value of the "tags" field.
+func (u *FileUpsertOne) ClearTags() *FileUpsertOne {
+	return u.Update(func(s *FileUpsert) {
+		s.ClearTags()
+	})
+}
+
+// SetIsPublic sets the "is_public" field.
+func (u *FileUpsertOne) SetIsPublic(v bool) *FileUpsertOne {
+	return u.Update(func(s *FileUpsert) {
+		s.SetIsPublic(v)
+	})
+}
+
+// UpdateIsPublic sets the "is_public" field to the value that was provided on create.
+func (u *FileUpsertOne) UpdateIsPublic() *FileUpsertOne {
+	return u.Update(func(s *FileUpsert) {
+		s.UpdateIsPublic()
+	})
+}
+
+// SetCategory sets the "category" field.
+func (u *FileUpsertOne) SetCategory(v string) *FileUpsertOne {
+	return u.Update(func(s *FileUpsert) {
+		s.SetCategory(v)
+	})
+}
+
+// UpdateCategory sets the "category" field to the value that was provided on create.
+func (u *FileUpsertOne) UpdateCategory() *FileUpsertOne {
+	return u.Update(func(s *FileUpsert) {
+		s.UpdateCategory()
+	})
+}
+
+// SetHash sets the "hash" field.
+func (u *FileUpsertOne) SetHash(v string) *FileUpsertOne {
+	return u.Update(func(s *FileUpsert) {
+		s.SetHash(v)
+	})
+}
+
+// UpdateHash sets the "hash" field to the value that was provided on create.
+func (u *FileUpsertOne) UpdateHash() *FileUpsertOne {
+	return u.Update(func(s *FileUpsert) {
+		s.UpdateHash()
+	})
+}
+
+// ClearHash clears the value of the "hash" field.
+func (u *FileUpsertOne) ClearHash() *FileUpsertOne {
+	return u.Update(func(s *FileUpsert) {
+		s.ClearHash()
+	})
+}
+
+// SetProcessingResult sets the "processing_result" field.
+func (u *FileUpsertOne) SetProcessingResult(v map[string]interface{}) *FileUpsertOne {
+	return u.Update(func(s *FileUpsert) {
+		s.SetProcessingResult(v)
+	})
+}
+
+// UpdateProcessingResult sets the "processing_result" field to the value that was provided on create.
+func (u *FileUpsertOne) UpdateProcessingResult() *FileUpsertOne {
+	return u.Update(func(s *FileUpsert) {
+		s.UpdateProcessingResult()
+	})
+}
+
+// ClearProcessingResult clears the value of the "processing_result" field.
+func (u *FileUpsertOne) ClearProcessingResult() *FileUpsertOne {
+	return u.Update(func(s *FileUpsert) {
+		s.ClearProcessingResult()
+	})
+}
+
+// Exec executes the query.
+func (u *FileUpsertOne) Exec(ctx context.Context) error {
+	if len(u.create.conflict) == 0 {
+		return errors.New("ent: missing options for FileCreate.OnConflict")
+	}
+	return u.create.Exec(ctx)
+}
+
+// ExecX is like Exec, but panics if an error occurs.
+func (u *FileUpsertOne) ExecX(ctx context.Context) {
+	if err := u.create.Exec(ctx); err != nil {
+		panic(err)
+	}
+}
+
+// Exec executes the UPSERT query and returns the inserted/updated ID.
+func (u *FileUpsertOne) ID(ctx context.Context) (id string, err error) {
+	if u.create.driver.Dialect() == dialect.MySQL {
+		// In case of "ON CONFLICT", there is no way to get back non-numeric ID
+		// fields from the database since MySQL does not support the RETURNING clause.
+		return id, errors.New("ent: FileUpsertOne.ID is not supported by MySQL driver. Use FileUpsertOne.Exec instead")
+	}
+	node, err := u.create.Save(ctx)
+	if err != nil {
+		return id, err
+	}
+	return node.ID, nil
+}
+
+// IDX is like ID, but panics if an error occurs.
+func (u *FileUpsertOne) IDX(ctx context.Context) string {
+	id, err := u.ID(ctx)
+	if err != nil {
+		panic(err)
+	}
+	return id
+}
+
 // FileCreateBulk is the builder for creating many File entities in bulk.
 type FileCreateBulk struct {
 	config
 	err      error
 	builders []*FileCreate
+	conflict []sql.ConflictOption
 }
 
 // Save creates the File entities in the database.
@@ -552,6 +1462,7 @@ func (_c *FileCreateBulk) Save(ctx context.Context) ([]*File, error) {
 					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
+					spec.OnConflict = _c.conflict
 					// Invoke the actual operation on the latest mutation in the chain.
 					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
@@ -598,6 +1509,536 @@ func (_c *FileCreateBulk) Exec(ctx context.Context) error {
 // ExecX is like Exec, but panics if an error occurs.
 func (_c *FileCreateBulk) ExecX(ctx context.Context) {
 	if err := _c.Exec(ctx); err != nil {
+		panic(err)
+	}
+}
+
+// OnConflict allows configuring the `ON CONFLICT` / `ON DUPLICATE KEY` clause
+// of the `INSERT` statement. For example:
+//
+//	client.File.CreateBulk(builders...).
+//		OnConflict(
+//			// Update the row with the new values
+//			// the was proposed for insertion.
+//			sql.ResolveWithNewValues(),
+//		).
+//		// Override some of the fields with custom
+//		// update values.
+//		Update(func(u *ent.FileUpsert) {
+//			SetName(v+v).
+//		}).
+//		Exec(ctx)
+func (_c *FileCreateBulk) OnConflict(opts ...sql.ConflictOption) *FileUpsertBulk {
+	_c.conflict = opts
+	return &FileUpsertBulk{
+		create: _c,
+	}
+}
+
+// OnConflictColumns calls `OnConflict` and configures the columns
+// as conflict target. Using this option is equivalent to using:
+//
+//	client.File.Create().
+//		OnConflict(sql.ConflictColumns(columns...)).
+//		Exec(ctx)
+func (_c *FileCreateBulk) OnConflictColumns(columns ...string) *FileUpsertBulk {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
+	return &FileUpsertBulk{
+		create: _c,
+	}
+}
+
+// FileUpsertBulk is the builder for "upsert"-ing
+// a bulk of File nodes.
+type FileUpsertBulk struct {
+	create *FileCreateBulk
+}
+
+// UpdateNewValues updates the mutable fields using the new values that
+// were set on create. Using this option is equivalent to using:
+//
+//	client.File.Create().
+//		OnConflict(
+//			sql.ResolveWithNewValues(),
+//			sql.ResolveWith(func(u *sql.UpdateSet) {
+//				u.SetIgnore(file.FieldID)
+//			}),
+//		).
+//		Exec(ctx)
+func (u *FileUpsertBulk) UpdateNewValues() *FileUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithNewValues())
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(s *sql.UpdateSet) {
+		for _, b := range u.create.builders {
+			if _, exists := b.mutation.ID(); exists {
+				s.SetIgnore(file.FieldID)
+			}
+			if _, exists := b.mutation.CreatedAt(); exists {
+				s.SetIgnore(file.FieldCreatedAt)
+			}
+		}
+	}))
+	return u
+}
+
+// Ignore sets each column to itself in case of conflict.
+// Using this option is equivalent to using:
+//
+//	client.File.Create().
+//		OnConflict(sql.ResolveWithIgnore()).
+//		Exec(ctx)
+func (u *FileUpsertBulk) Ignore() *FileUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithIgnore())
+	return u
+}
+
+// DoNothing configures the conflict_action to `DO NOTHING`.
+// Supported only by SQLite and PostgreSQL.
+func (u *FileUpsertBulk) DoNothing() *FileUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.DoNothing())
+	return u
+}
+
+// Update allows overriding fields `UPDATE` values. See the FileCreateBulk.OnConflict
+// documentation for more info.
+func (u *FileUpsertBulk) Update(set func(*FileUpsert)) *FileUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(update *sql.UpdateSet) {
+		set(&FileUpsert{UpdateSet: update})
+	}))
+	return u
+}
+
+// SetName sets the "name" field.
+func (u *FileUpsertBulk) SetName(v string) *FileUpsertBulk {
+	return u.Update(func(s *FileUpsert) {
+		s.SetName(v)
+	})
+}
+
+// UpdateName sets the "name" field to the value that was provided on create.
+func (u *FileUpsertBulk) UpdateName() *FileUpsertBulk {
+	return u.Update(func(s *FileUpsert) {
+		s.UpdateName()
+	})
+}
+
+// ClearName clears the value of the "name" field.
+func (u *FileUpsertBulk) ClearName() *FileUpsertBulk {
+	return u.Update(func(s *FileUpsert) {
+		s.ClearName()
+	})
+}
+
+// SetPath sets the "path" field.
+func (u *FileUpsertBulk) SetPath(v string) *FileUpsertBulk {
+	return u.Update(func(s *FileUpsert) {
+		s.SetPath(v)
+	})
+}
+
+// UpdatePath sets the "path" field to the value that was provided on create.
+func (u *FileUpsertBulk) UpdatePath() *FileUpsertBulk {
+	return u.Update(func(s *FileUpsert) {
+		s.UpdatePath()
+	})
+}
+
+// ClearPath clears the value of the "path" field.
+func (u *FileUpsertBulk) ClearPath() *FileUpsertBulk {
+	return u.Update(func(s *FileUpsert) {
+		s.ClearPath()
+	})
+}
+
+// SetType sets the "type" field.
+func (u *FileUpsertBulk) SetType(v string) *FileUpsertBulk {
+	return u.Update(func(s *FileUpsert) {
+		s.SetType(v)
+	})
+}
+
+// UpdateType sets the "type" field to the value that was provided on create.
+func (u *FileUpsertBulk) UpdateType() *FileUpsertBulk {
+	return u.Update(func(s *FileUpsert) {
+		s.UpdateType()
+	})
+}
+
+// ClearType clears the value of the "type" field.
+func (u *FileUpsertBulk) ClearType() *FileUpsertBulk {
+	return u.Update(func(s *FileUpsert) {
+		s.ClearType()
+	})
+}
+
+// SetSize sets the "size" field.
+func (u *FileUpsertBulk) SetSize(v int) *FileUpsertBulk {
+	return u.Update(func(s *FileUpsert) {
+		s.SetSize(v)
+	})
+}
+
+// AddSize adds v to the "size" field.
+func (u *FileUpsertBulk) AddSize(v int) *FileUpsertBulk {
+	return u.Update(func(s *FileUpsert) {
+		s.AddSize(v)
+	})
+}
+
+// UpdateSize sets the "size" field to the value that was provided on create.
+func (u *FileUpsertBulk) UpdateSize() *FileUpsertBulk {
+	return u.Update(func(s *FileUpsert) {
+		s.UpdateSize()
+	})
+}
+
+// SetStorage sets the "storage" field.
+func (u *FileUpsertBulk) SetStorage(v string) *FileUpsertBulk {
+	return u.Update(func(s *FileUpsert) {
+		s.SetStorage(v)
+	})
+}
+
+// UpdateStorage sets the "storage" field to the value that was provided on create.
+func (u *FileUpsertBulk) UpdateStorage() *FileUpsertBulk {
+	return u.Update(func(s *FileUpsert) {
+		s.UpdateStorage()
+	})
+}
+
+// ClearStorage clears the value of the "storage" field.
+func (u *FileUpsertBulk) ClearStorage() *FileUpsertBulk {
+	return u.Update(func(s *FileUpsert) {
+		s.ClearStorage()
+	})
+}
+
+// SetBucket sets the "bucket" field.
+func (u *FileUpsertBulk) SetBucket(v string) *FileUpsertBulk {
+	return u.Update(func(s *FileUpsert) {
+		s.SetBucket(v)
+	})
+}
+
+// UpdateBucket sets the "bucket" field to the value that was provided on create.
+func (u *FileUpsertBulk) UpdateBucket() *FileUpsertBulk {
+	return u.Update(func(s *FileUpsert) {
+		s.UpdateBucket()
+	})
+}
+
+// ClearBucket clears the value of the "bucket" field.
+func (u *FileUpsertBulk) ClearBucket() *FileUpsertBulk {
+	return u.Update(func(s *FileUpsert) {
+		s.ClearBucket()
+	})
+}
+
+// SetEndpoint sets the "endpoint" field.
+func (u *FileUpsertBulk) SetEndpoint(v string) *FileUpsertBulk {
+	return u.Update(func(s *FileUpsert) {
+		s.SetEndpoint(v)
+	})
+}
+
+// UpdateEndpoint sets the "endpoint" field to the value that was provided on create.
+func (u *FileUpsertBulk) UpdateEndpoint() *FileUpsertBulk {
+	return u.Update(func(s *FileUpsert) {
+		s.UpdateEndpoint()
+	})
+}
+
+// ClearEndpoint clears the value of the "endpoint" field.
+func (u *FileUpsertBulk) ClearEndpoint() *FileUpsertBulk {
+	return u.Update(func(s *FileUpsert) {
+		s.ClearEndpoint()
+	})
+}
+
+// SetOwnerID sets the "owner_id" field.
+func (u *FileUpsertBulk) SetOwnerID(v string) *FileUpsertBulk {
+	return u.Update(func(s *FileUpsert) {
+		s.SetOwnerID(v)
+	})
+}
+
+// UpdateOwnerID sets the "owner_id" field to the value that was provided on create.
+func (u *FileUpsertBulk) UpdateOwnerID() *FileUpsertBulk {
+	return u.Update(func(s *FileUpsert) {
+		s.UpdateOwnerID()
+	})
+}
+
+// ClearOwnerID clears the value of the "owner_id" field.
+func (u *FileUpsertBulk) ClearOwnerID() *FileUpsertBulk {
+	return u.Update(func(s *FileUpsert) {
+		s.ClearOwnerID()
+	})
+}
+
+// SetExtras sets the "extras" field.
+func (u *FileUpsertBulk) SetExtras(v map[string]interface{}) *FileUpsertBulk {
+	return u.Update(func(s *FileUpsert) {
+		s.SetExtras(v)
+	})
+}
+
+// UpdateExtras sets the "extras" field to the value that was provided on create.
+func (u *FileUpsertBulk) UpdateExtras() *FileUpsertBulk {
+	return u.Update(func(s *FileUpsert) {
+		s.UpdateExtras()
+	})
+}
+
+// ClearExtras clears the value of the "extras" field.
+func (u *FileUpsertBulk) ClearExtras() *FileUpsertBulk {
+	return u.Update(func(s *FileUpsert) {
+		s.ClearExtras()
+	})
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (u *FileUpsertBulk) SetCreatedBy(v string) *FileUpsertBulk {
+	return u.Update(func(s *FileUpsert) {
+		s.SetCreatedBy(v)
+	})
+}
+
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *FileUpsertBulk) UpdateCreatedBy() *FileUpsertBulk {
+	return u.Update(func(s *FileUpsert) {
+		s.UpdateCreatedBy()
+	})
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *FileUpsertBulk) ClearCreatedBy() *FileUpsertBulk {
+	return u.Update(func(s *FileUpsert) {
+		s.ClearCreatedBy()
+	})
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (u *FileUpsertBulk) SetUpdatedBy(v string) *FileUpsertBulk {
+	return u.Update(func(s *FileUpsert) {
+		s.SetUpdatedBy(v)
+	})
+}
+
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *FileUpsertBulk) UpdateUpdatedBy() *FileUpsertBulk {
+	return u.Update(func(s *FileUpsert) {
+		s.UpdateUpdatedBy()
+	})
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *FileUpsertBulk) ClearUpdatedBy() *FileUpsertBulk {
+	return u.Update(func(s *FileUpsert) {
+		s.ClearUpdatedBy()
+	})
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *FileUpsertBulk) SetUpdatedAt(v int64) *FileUpsertBulk {
+	return u.Update(func(s *FileUpsert) {
+		s.SetUpdatedAt(v)
+	})
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *FileUpsertBulk) AddUpdatedAt(v int64) *FileUpsertBulk {
+	return u.Update(func(s *FileUpsert) {
+		s.AddUpdatedAt(v)
+	})
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *FileUpsertBulk) UpdateUpdatedAt() *FileUpsertBulk {
+	return u.Update(func(s *FileUpsert) {
+		s.UpdateUpdatedAt()
+	})
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *FileUpsertBulk) ClearUpdatedAt() *FileUpsertBulk {
+	return u.Update(func(s *FileUpsert) {
+		s.ClearUpdatedAt()
+	})
+}
+
+// SetOriginalName sets the "original_name" field.
+func (u *FileUpsertBulk) SetOriginalName(v string) *FileUpsertBulk {
+	return u.Update(func(s *FileUpsert) {
+		s.SetOriginalName(v)
+	})
+}
+
+// UpdateOriginalName sets the "original_name" field to the value that was provided on create.
+func (u *FileUpsertBulk) UpdateOriginalName() *FileUpsertBulk {
+	return u.Update(func(s *FileUpsert) {
+		s.UpdateOriginalName()
+	})
+}
+
+// ClearOriginalName clears the value of the "original_name" field.
+func (u *FileUpsertBulk) ClearOriginalName() *FileUpsertBulk {
+	return u.Update(func(s *FileUpsert) {
+		s.ClearOriginalName()
+	})
+}
+
+// SetAccessLevel sets the "access_level" field.
+func (u *FileUpsertBulk) SetAccessLevel(v string) *FileUpsertBulk {
+	return u.Update(func(s *FileUpsert) {
+		s.SetAccessLevel(v)
+	})
+}
+
+// UpdateAccessLevel sets the "access_level" field to the value that was provided on create.
+func (u *FileUpsertBulk) UpdateAccessLevel() *FileUpsertBulk {
+	return u.Update(func(s *FileUpsert) {
+		s.UpdateAccessLevel()
+	})
+}
+
+// SetExpiresAt sets the "expires_at" field.
+func (u *FileUpsertBulk) SetExpiresAt(v int64) *FileUpsertBulk {
+	return u.Update(func(s *FileUpsert) {
+		s.SetExpiresAt(v)
+	})
+}
+
+// AddExpiresAt adds v to the "expires_at" field.
+func (u *FileUpsertBulk) AddExpiresAt(v int64) *FileUpsertBulk {
+	return u.Update(func(s *FileUpsert) {
+		s.AddExpiresAt(v)
+	})
+}
+
+// UpdateExpiresAt sets the "expires_at" field to the value that was provided on create.
+func (u *FileUpsertBulk) UpdateExpiresAt() *FileUpsertBulk {
+	return u.Update(func(s *FileUpsert) {
+		s.UpdateExpiresAt()
+	})
+}
+
+// ClearExpiresAt clears the value of the "expires_at" field.
+func (u *FileUpsertBulk) ClearExpiresAt() *FileUpsertBulk {
+	return u.Update(func(s *FileUpsert) {
+		s.ClearExpiresAt()
+	})
+}
+
+// SetTags sets the "tags" field.
+func (u *FileUpsertBulk) SetTags(v []string) *FileUpsertBulk {
+	return u.Update(func(s *FileUpsert) {
+		s.SetTags(v)
+	})
+}
+
+// UpdateTags sets the "tags" field to the value that was provided on create.
+func (u *FileUpsertBulk) UpdateTags() *FileUpsertBulk {
+	return u.Update(func(s *FileUpsert) {
+		s.UpdateTags()
+	})
+}
+
+// ClearTags clears the value of the "tags" field.
+func (u *FileUpsertBulk) ClearTags() *FileUpsertBulk {
+	return u.Update(func(s *FileUpsert) {
+		s.ClearTags()
+	})
+}
+
+// SetIsPublic sets the "is_public" field.
+func (u *FileUpsertBulk) SetIsPublic(v bool) *FileUpsertBulk {
+	return u.Update(func(s *FileUpsert) {
+		s.SetIsPublic(v)
+	})
+}
+
+// UpdateIsPublic sets the "is_public" field to the value that was provided on create.
+func (u *FileUpsertBulk) UpdateIsPublic() *FileUpsertBulk {
+	return u.Update(func(s *FileUpsert) {
+		s.UpdateIsPublic()
+	})
+}
+
+// SetCategory sets the "category" field.
+func (u *FileUpsertBulk) SetCategory(v string) *FileUpsertBulk {
+	return u.Update(func(s *FileUpsert) {
+		s.SetCategory(v)
+	})
+}
+
+// UpdateCategory sets the "category" field to the value that was provided on create.
+func (u *FileUpsertBulk) UpdateCategory() *FileUpsertBulk {
+	return u.Update(func(s *FileUpsert) {
+		s.UpdateCategory()
+	})
+}
+
+// SetHash sets the "hash" field.
+func (u *FileUpsertBulk) SetHash(v string) *FileUpsertBulk {
+	return u.Update(func(s *FileUpsert) {
+		s.SetHash(v)
+	})
+}
+
+// UpdateHash sets the "hash" field to the value that was provided on create.
+func (u *FileUpsertBulk) UpdateHash() *FileUpsertBulk {
+	return u.Update(func(s *FileUpsert) {
+		s.UpdateHash()
+	})
+}
+
+// ClearHash clears the value of the "hash" field.
+func (u *FileUpsertBulk) ClearHash() *FileUpsertBulk {
+	return u.Update(func(s *FileUpsert) {
+		s.ClearHash()
+	})
+}
+
+// SetProcessingResult sets the "processing_result" field.
+func (u *FileUpsertBulk) SetProcessingResult(v map[string]interface{}) *FileUpsertBulk {
+	return u.Update(func(s *FileUpsert) {
+		s.SetProcessingResult(v)
+	})
+}
+
+// UpdateProcessingResult sets the "processing_result" field to the value that was provided on create.
+func (u *FileUpsertBulk) UpdateProcessingResult() *FileUpsertBulk {
+	return u.Update(func(s *FileUpsert) {
+		s.UpdateProcessingResult()
+	})
+}
+
+// ClearProcessingResult clears the value of the "processing_result" field.
+func (u *FileUpsertBulk) ClearProcessingResult() *FileUpsertBulk {
+	return u.Update(func(s *FileUpsert) {
+		s.ClearProcessingResult()
+	})
+}
+
+// Exec executes the query.
+func (u *FileUpsertBulk) Exec(ctx context.Context) error {
+	if u.create.err != nil {
+		return u.create.err
+	}
+	for i, b := range u.create.builders {
+		if len(b.conflict) != 0 {
+			return fmt.Errorf("ent: OnConflict was set for builder %d. Set it on the FileCreateBulk instead", i)
+		}
+	}
+	if len(u.create.conflict) == 0 {
+		return errors.New("ent: missing options for FileCreateBulk.OnConflict")
+	}
+	return u.create.Exec(ctx)
+}
+
+// ExecX is like Exec, but panics if an error occurs.
+func (u *FileUpsertBulk) ExecX(ctx context.Context) {
+	if err := u.create.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

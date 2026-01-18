@@ -1,6 +1,6 @@
 package repository
 
-import "ncobase/auth/data"
+import "ncobase/core/auth/data"
 
 // Repository represents all repositories
 type Repository struct {

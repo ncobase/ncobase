@@ -3,12 +3,12 @@ package repository
 import (
 	"context"
 	"fmt"
-	"ncobase/content/data"
-	"ncobase/content/data/ent"
-	channelEnt "ncobase/content/data/ent/cmschannel"
-	"ncobase/content/structs"
+	"ncobase/biz/content/data"
+	"ncobase/biz/content/data/ent"
+	channelEnt "ncobase/biz/content/data/ent/cmschannel"
+	"ncobase/biz/content/structs"
 
-	"github.com/ncobase/ncore/data/databases/cache"
+	"github.com/ncobase/ncore/data/cache"
 	"github.com/ncobase/ncore/data/paging"
 	"github.com/ncobase/ncore/logging/logger"
 	"github.com/ncobase/ncore/types"
@@ -38,6 +38,7 @@ type ChannelRepositoryInterface interface {
 // channelRepository implements the ChannelRepositoryInterface.
 type channelRepository struct {
 	data *data.Data
+	searchClient *search.Client
 	ec   *ent.Client
 	ecr  *ent.Client
 	rc   *redis.Client
@@ -48,7 +49,7 @@ type channelRepository struct {
 func NewChannelRepository(d *data.Data) ChannelRepositoryInterface {
 	ec := d.GetMasterEntClient()
 	ecr := d.GetSlaveEntClient()
-	rc := d.GetRedis()
+	rc := d.GetRedis().(*redis.Client)
 	return &channelRepository{
 		data: d,
 		ec:   ec,
@@ -101,7 +102,7 @@ func (r *channelRepository) Create(ctx context.Context, body *structs.CreateChan
 	}
 
 	// Index in Meilisearch
-	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "content_channels", Document: row}); err != nil {
+	if err = r.searchClient.Index(ctx, &search.IndexRequest{Index: "content_channels", Document: row}); err != nil {
 		logger.Errorf(ctx, "channelRepo.Create error creating Meilisearch index: %v", err)
 	}
 
@@ -208,7 +209,7 @@ func (r *channelRepository) Update(ctx context.Context, slug string, updates typ
 	}
 
 	// Update Meilisearch index
-	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "content_channels", Document: row, DocumentID: row.ID}); err != nil {
+	if err = r.searchClient.Index(ctx, &search.IndexRequest{Index: "content_channels", Document: row, DocumentID: row.ID}); err != nil {
 		logger.Errorf(ctx, "channelRepo.Update error updating Meilisearch index: %v", err)
 	}
 
@@ -356,7 +357,7 @@ func (r *channelRepository) Delete(ctx context.Context, slug string) error {
 	}
 
 	// Delete from Meilisearch
-	if err = r.data.DeleteDocument(ctx, "content_channels", channel.ID); err != nil {
+	if err = r.searchClient.Delete(ctx, "content_channels", channel.ID); err != nil {
 		logger.Errorf(ctx, "channelRepo.Delete error deleting Meilisearch index: %v", err)
 	}
 

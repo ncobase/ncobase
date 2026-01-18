@@ -3,7 +3,7 @@
 package userorganization
 
 import (
-	"ncobase/organization/data/ent/predicate"
+	"ncobase/core/organization/data/ent/predicate"
 
 	"entgo.io/ent/dialect/sql"
 )

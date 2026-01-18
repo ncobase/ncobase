@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"ncobase/user/service"
+	"ncobase/core/user/service"
 
 	"github.com/gin-gonic/gin"
 	"github.com/ncobase/ncore/net/resp"

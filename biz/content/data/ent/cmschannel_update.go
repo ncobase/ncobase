@@ -6,8 +6,8 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"ncobase/content/data/ent/cmschannel"
-	"ncobase/content/data/ent/predicate"
+	"ncobase/biz/content/data/ent/cmschannel"
+	"ncobase/biz/content/data/ent/predicate"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"

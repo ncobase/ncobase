@@ -9,7 +9,7 @@ import (
 	"entgo.io/ent/schema"
 	"entgo.io/ent/schema/field"
 	"entgo.io/ent/schema/index"
-	"github.com/ncobase/ncore/data/databases/entgo/mixin"
+	"github.com/ncobase/ncore/data/entgo/mixin"
 )
 
 // Transformer holds the schema definition for the Transformer entity.

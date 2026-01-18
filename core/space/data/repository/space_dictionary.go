@@ -3,13 +3,14 @@ package repository
 import (
 	"context"
 	"fmt"
-	"ncobase/space/data"
-	"ncobase/space/data/ent"
-	spaceDictionaryEnt "ncobase/space/data/ent/spacedictionary"
-	"ncobase/space/structs"
+	"ncobase/core/space/data"
+	"ncobase/core/space/data/ent"
+	spaceDictionaryEnt "ncobase/core/space/data/ent/spacedictionary"
+	"ncobase/core/space/structs"
 	"time"
+	"github.com/redis/go-redis/v9"
 
-	"github.com/ncobase/ncore/data/databases/cache"
+	"github.com/ncobase/ncore/data/cache"
 	"github.com/ncobase/ncore/logging/logger"
 )
 
@@ -36,7 +37,7 @@ type spaceDictionaryRepository struct {
 
 // NewSpaceDictionaryRepository creates a new space dictionary repository.
 func NewSpaceDictionaryRepository(d *data.Data) SpaceDictionaryRepositoryInterface {
-	redisClient := d.GetRedis()
+	redisClient := d.GetRedis().(*redis.Client)
 
 	return &spaceDictionaryRepository{
 		data:                   d,

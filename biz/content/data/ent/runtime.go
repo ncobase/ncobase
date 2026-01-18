@@ -3,14 +3,14 @@
 package ent
 
 import (
-	"ncobase/content/data/ent/cmschannel"
-	"ncobase/content/data/ent/distribution"
-	"ncobase/content/data/ent/media"
-	"ncobase/content/data/ent/taxonomy"
-	"ncobase/content/data/ent/taxonomyrelation"
-	"ncobase/content/data/ent/topic"
-	"ncobase/content/data/ent/topicmedia"
-	"ncobase/content/data/schema"
+	"ncobase/biz/content/data/ent/cmschannel"
+	"ncobase/biz/content/data/ent/distribution"
+	"ncobase/biz/content/data/ent/media"
+	"ncobase/biz/content/data/ent/taxonomy"
+	"ncobase/biz/content/data/ent/taxonomyrelation"
+	"ncobase/biz/content/data/ent/topic"
+	"ncobase/biz/content/data/ent/topicmedia"
+	"ncobase/biz/content/data/schema"
 )
 
 // The init function reads all schema descriptors with runtime code

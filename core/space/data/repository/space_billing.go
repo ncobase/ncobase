@@ -3,13 +3,14 @@ package repository
 import (
 	"context"
 	"fmt"
-	"ncobase/space/data"
-	"ncobase/space/data/ent"
-	spaceBillingEnt "ncobase/space/data/ent/spacebilling"
-	"ncobase/space/structs"
+	"ncobase/core/space/data"
+	"ncobase/core/space/data/ent"
+	spaceBillingEnt "ncobase/core/space/data/ent/spacebilling"
+	"ncobase/core/space/structs"
 	"time"
+	"github.com/redis/go-redis/v9"
 
-	"github.com/ncobase/ncore/data/databases/cache"
+	"github.com/ncobase/ncore/data/cache"
 	"github.com/ncobase/ncore/data/paging"
 	"github.com/ncobase/ncore/logging/logger"
 	"github.com/ncobase/ncore/types"
@@ -46,7 +47,7 @@ type spaceBillingRepository struct {
 
 // NewSpaceBillingRepository creates a new space billing repository
 func NewSpaceBillingRepository(d *data.Data) SpaceBillingRepositoryInterface {
-	redisClient := d.GetRedis()
+	redisClient := d.GetRedis().(*redis.Client)
 
 	return &spaceBillingRepository{
 		data:                      d,

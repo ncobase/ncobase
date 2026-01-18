@@ -3,9 +3,9 @@ package service
 import (
 	"context"
 	"fmt"
-	accessStructs "ncobase/access/structs"
-	"ncobase/system/structs"
-	userStructs "ncobase/user/structs"
+	accessStructs "ncobase/core/access/structs"
+	"ncobase/core/system/structs"
+	userStructs "ncobase/core/user/structs"
 )
 
 // HealthcheckItem represents a specific system component check

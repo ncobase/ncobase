@@ -6,8 +6,10 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"ncobase/space/data/ent/spacebilling"
+	"ncobase/core/space/data/ent/spacebilling"
 
+	"entgo.io/ent/dialect"
+	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
 )
@@ -17,6 +19,7 @@ type SpaceBillingCreate struct {
 	config
 	mutation *SpaceBillingMutation
 	hooks    []Hook
+	conflict []sql.ConflictOption
 }
 
 // SetSpaceID sets the "space_id" field.
@@ -381,6 +384,7 @@ func (_c *SpaceBillingCreate) createSpec() (*SpaceBilling, *sqlgraph.CreateSpec)
 		_node = &SpaceBilling{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(spacebilling.Table, sqlgraph.NewFieldSpec(spacebilling.FieldID, field.TypeString))
 	)
+	_spec.OnConflict = _c.conflict
 	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
@@ -460,11 +464,839 @@ func (_c *SpaceBillingCreate) createSpec() (*SpaceBilling, *sqlgraph.CreateSpec)
 	return _node, _spec
 }
 
+// OnConflict allows configuring the `ON CONFLICT` / `ON DUPLICATE KEY` clause
+// of the `INSERT` statement. For example:
+//
+//	client.SpaceBilling.Create().
+//		SetSpaceID(v).
+//		OnConflict(
+//			// Update the row with the new values
+//			// the was proposed for insertion.
+//			sql.ResolveWithNewValues(),
+//		).
+//		// Override some of the fields with custom
+//		// update values.
+//		Update(func(u *ent.SpaceBillingUpsert) {
+//			SetSpaceID(v+v).
+//		}).
+//		Exec(ctx)
+func (_c *SpaceBillingCreate) OnConflict(opts ...sql.ConflictOption) *SpaceBillingUpsertOne {
+	_c.conflict = opts
+	return &SpaceBillingUpsertOne{
+		create: _c,
+	}
+}
+
+// OnConflictColumns calls `OnConflict` and configures the columns
+// as conflict target. Using this option is equivalent to using:
+//
+//	client.SpaceBilling.Create().
+//		OnConflict(sql.ConflictColumns(columns...)).
+//		Exec(ctx)
+func (_c *SpaceBillingCreate) OnConflictColumns(columns ...string) *SpaceBillingUpsertOne {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
+	return &SpaceBillingUpsertOne{
+		create: _c,
+	}
+}
+
+type (
+	// SpaceBillingUpsertOne is the builder for "upsert"-ing
+	//  one SpaceBilling node.
+	SpaceBillingUpsertOne struct {
+		create *SpaceBillingCreate
+	}
+
+	// SpaceBillingUpsert is the "OnConflict" setter.
+	SpaceBillingUpsert struct {
+		*sql.UpdateSet
+	}
+)
+
+// SetSpaceID sets the "space_id" field.
+func (u *SpaceBillingUpsert) SetSpaceID(v string) *SpaceBillingUpsert {
+	u.Set(spacebilling.FieldSpaceID, v)
+	return u
+}
+
+// UpdateSpaceID sets the "space_id" field to the value that was provided on create.
+func (u *SpaceBillingUpsert) UpdateSpaceID() *SpaceBillingUpsert {
+	u.SetExcluded(spacebilling.FieldSpaceID)
+	return u
+}
+
+// ClearSpaceID clears the value of the "space_id" field.
+func (u *SpaceBillingUpsert) ClearSpaceID() *SpaceBillingUpsert {
+	u.SetNull(spacebilling.FieldSpaceID)
+	return u
+}
+
+// SetDescription sets the "description" field.
+func (u *SpaceBillingUpsert) SetDescription(v string) *SpaceBillingUpsert {
+	u.Set(spacebilling.FieldDescription, v)
+	return u
+}
+
+// UpdateDescription sets the "description" field to the value that was provided on create.
+func (u *SpaceBillingUpsert) UpdateDescription() *SpaceBillingUpsert {
+	u.SetExcluded(spacebilling.FieldDescription)
+	return u
+}
+
+// ClearDescription clears the value of the "description" field.
+func (u *SpaceBillingUpsert) ClearDescription() *SpaceBillingUpsert {
+	u.SetNull(spacebilling.FieldDescription)
+	return u
+}
+
+// SetExtras sets the "extras" field.
+func (u *SpaceBillingUpsert) SetExtras(v map[string]interface{}) *SpaceBillingUpsert {
+	u.Set(spacebilling.FieldExtras, v)
+	return u
+}
+
+// UpdateExtras sets the "extras" field to the value that was provided on create.
+func (u *SpaceBillingUpsert) UpdateExtras() *SpaceBillingUpsert {
+	u.SetExcluded(spacebilling.FieldExtras)
+	return u
+}
+
+// ClearExtras clears the value of the "extras" field.
+func (u *SpaceBillingUpsert) ClearExtras() *SpaceBillingUpsert {
+	u.SetNull(spacebilling.FieldExtras)
+	return u
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (u *SpaceBillingUpsert) SetCreatedBy(v string) *SpaceBillingUpsert {
+	u.Set(spacebilling.FieldCreatedBy, v)
+	return u
+}
+
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *SpaceBillingUpsert) UpdateCreatedBy() *SpaceBillingUpsert {
+	u.SetExcluded(spacebilling.FieldCreatedBy)
+	return u
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *SpaceBillingUpsert) ClearCreatedBy() *SpaceBillingUpsert {
+	u.SetNull(spacebilling.FieldCreatedBy)
+	return u
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (u *SpaceBillingUpsert) SetUpdatedBy(v string) *SpaceBillingUpsert {
+	u.Set(spacebilling.FieldUpdatedBy, v)
+	return u
+}
+
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *SpaceBillingUpsert) UpdateUpdatedBy() *SpaceBillingUpsert {
+	u.SetExcluded(spacebilling.FieldUpdatedBy)
+	return u
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *SpaceBillingUpsert) ClearUpdatedBy() *SpaceBillingUpsert {
+	u.SetNull(spacebilling.FieldUpdatedBy)
+	return u
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *SpaceBillingUpsert) SetUpdatedAt(v int64) *SpaceBillingUpsert {
+	u.Set(spacebilling.FieldUpdatedAt, v)
+	return u
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *SpaceBillingUpsert) UpdateUpdatedAt() *SpaceBillingUpsert {
+	u.SetExcluded(spacebilling.FieldUpdatedAt)
+	return u
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *SpaceBillingUpsert) AddUpdatedAt(v int64) *SpaceBillingUpsert {
+	u.Add(spacebilling.FieldUpdatedAt, v)
+	return u
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *SpaceBillingUpsert) ClearUpdatedAt() *SpaceBillingUpsert {
+	u.SetNull(spacebilling.FieldUpdatedAt)
+	return u
+}
+
+// SetBillingPeriod sets the "billing_period" field.
+func (u *SpaceBillingUpsert) SetBillingPeriod(v string) *SpaceBillingUpsert {
+	u.Set(spacebilling.FieldBillingPeriod, v)
+	return u
+}
+
+// UpdateBillingPeriod sets the "billing_period" field to the value that was provided on create.
+func (u *SpaceBillingUpsert) UpdateBillingPeriod() *SpaceBillingUpsert {
+	u.SetExcluded(spacebilling.FieldBillingPeriod)
+	return u
+}
+
+// SetPeriodStart sets the "period_start" field.
+func (u *SpaceBillingUpsert) SetPeriodStart(v int64) *SpaceBillingUpsert {
+	u.Set(spacebilling.FieldPeriodStart, v)
+	return u
+}
+
+// UpdatePeriodStart sets the "period_start" field to the value that was provided on create.
+func (u *SpaceBillingUpsert) UpdatePeriodStart() *SpaceBillingUpsert {
+	u.SetExcluded(spacebilling.FieldPeriodStart)
+	return u
+}
+
+// AddPeriodStart adds v to the "period_start" field.
+func (u *SpaceBillingUpsert) AddPeriodStart(v int64) *SpaceBillingUpsert {
+	u.Add(spacebilling.FieldPeriodStart, v)
+	return u
+}
+
+// ClearPeriodStart clears the value of the "period_start" field.
+func (u *SpaceBillingUpsert) ClearPeriodStart() *SpaceBillingUpsert {
+	u.SetNull(spacebilling.FieldPeriodStart)
+	return u
+}
+
+// SetPeriodEnd sets the "period_end" field.
+func (u *SpaceBillingUpsert) SetPeriodEnd(v int64) *SpaceBillingUpsert {
+	u.Set(spacebilling.FieldPeriodEnd, v)
+	return u
+}
+
+// UpdatePeriodEnd sets the "period_end" field to the value that was provided on create.
+func (u *SpaceBillingUpsert) UpdatePeriodEnd() *SpaceBillingUpsert {
+	u.SetExcluded(spacebilling.FieldPeriodEnd)
+	return u
+}
+
+// AddPeriodEnd adds v to the "period_end" field.
+func (u *SpaceBillingUpsert) AddPeriodEnd(v int64) *SpaceBillingUpsert {
+	u.Add(spacebilling.FieldPeriodEnd, v)
+	return u
+}
+
+// ClearPeriodEnd clears the value of the "period_end" field.
+func (u *SpaceBillingUpsert) ClearPeriodEnd() *SpaceBillingUpsert {
+	u.SetNull(spacebilling.FieldPeriodEnd)
+	return u
+}
+
+// SetAmount sets the "amount" field.
+func (u *SpaceBillingUpsert) SetAmount(v float64) *SpaceBillingUpsert {
+	u.Set(spacebilling.FieldAmount, v)
+	return u
+}
+
+// UpdateAmount sets the "amount" field to the value that was provided on create.
+func (u *SpaceBillingUpsert) UpdateAmount() *SpaceBillingUpsert {
+	u.SetExcluded(spacebilling.FieldAmount)
+	return u
+}
+
+// AddAmount adds v to the "amount" field.
+func (u *SpaceBillingUpsert) AddAmount(v float64) *SpaceBillingUpsert {
+	u.Add(spacebilling.FieldAmount, v)
+	return u
+}
+
+// SetCurrency sets the "currency" field.
+func (u *SpaceBillingUpsert) SetCurrency(v string) *SpaceBillingUpsert {
+	u.Set(spacebilling.FieldCurrency, v)
+	return u
+}
+
+// UpdateCurrency sets the "currency" field to the value that was provided on create.
+func (u *SpaceBillingUpsert) UpdateCurrency() *SpaceBillingUpsert {
+	u.SetExcluded(spacebilling.FieldCurrency)
+	return u
+}
+
+// SetStatus sets the "status" field.
+func (u *SpaceBillingUpsert) SetStatus(v string) *SpaceBillingUpsert {
+	u.Set(spacebilling.FieldStatus, v)
+	return u
+}
+
+// UpdateStatus sets the "status" field to the value that was provided on create.
+func (u *SpaceBillingUpsert) UpdateStatus() *SpaceBillingUpsert {
+	u.SetExcluded(spacebilling.FieldStatus)
+	return u
+}
+
+// SetInvoiceNumber sets the "invoice_number" field.
+func (u *SpaceBillingUpsert) SetInvoiceNumber(v string) *SpaceBillingUpsert {
+	u.Set(spacebilling.FieldInvoiceNumber, v)
+	return u
+}
+
+// UpdateInvoiceNumber sets the "invoice_number" field to the value that was provided on create.
+func (u *SpaceBillingUpsert) UpdateInvoiceNumber() *SpaceBillingUpsert {
+	u.SetExcluded(spacebilling.FieldInvoiceNumber)
+	return u
+}
+
+// ClearInvoiceNumber clears the value of the "invoice_number" field.
+func (u *SpaceBillingUpsert) ClearInvoiceNumber() *SpaceBillingUpsert {
+	u.SetNull(spacebilling.FieldInvoiceNumber)
+	return u
+}
+
+// SetPaymentMethod sets the "payment_method" field.
+func (u *SpaceBillingUpsert) SetPaymentMethod(v string) *SpaceBillingUpsert {
+	u.Set(spacebilling.FieldPaymentMethod, v)
+	return u
+}
+
+// UpdatePaymentMethod sets the "payment_method" field to the value that was provided on create.
+func (u *SpaceBillingUpsert) UpdatePaymentMethod() *SpaceBillingUpsert {
+	u.SetExcluded(spacebilling.FieldPaymentMethod)
+	return u
+}
+
+// ClearPaymentMethod clears the value of the "payment_method" field.
+func (u *SpaceBillingUpsert) ClearPaymentMethod() *SpaceBillingUpsert {
+	u.SetNull(spacebilling.FieldPaymentMethod)
+	return u
+}
+
+// SetPaidAt sets the "paid_at" field.
+func (u *SpaceBillingUpsert) SetPaidAt(v int64) *SpaceBillingUpsert {
+	u.Set(spacebilling.FieldPaidAt, v)
+	return u
+}
+
+// UpdatePaidAt sets the "paid_at" field to the value that was provided on create.
+func (u *SpaceBillingUpsert) UpdatePaidAt() *SpaceBillingUpsert {
+	u.SetExcluded(spacebilling.FieldPaidAt)
+	return u
+}
+
+// AddPaidAt adds v to the "paid_at" field.
+func (u *SpaceBillingUpsert) AddPaidAt(v int64) *SpaceBillingUpsert {
+	u.Add(spacebilling.FieldPaidAt, v)
+	return u
+}
+
+// ClearPaidAt clears the value of the "paid_at" field.
+func (u *SpaceBillingUpsert) ClearPaidAt() *SpaceBillingUpsert {
+	u.SetNull(spacebilling.FieldPaidAt)
+	return u
+}
+
+// SetDueDate sets the "due_date" field.
+func (u *SpaceBillingUpsert) SetDueDate(v int64) *SpaceBillingUpsert {
+	u.Set(spacebilling.FieldDueDate, v)
+	return u
+}
+
+// UpdateDueDate sets the "due_date" field to the value that was provided on create.
+func (u *SpaceBillingUpsert) UpdateDueDate() *SpaceBillingUpsert {
+	u.SetExcluded(spacebilling.FieldDueDate)
+	return u
+}
+
+// AddDueDate adds v to the "due_date" field.
+func (u *SpaceBillingUpsert) AddDueDate(v int64) *SpaceBillingUpsert {
+	u.Add(spacebilling.FieldDueDate, v)
+	return u
+}
+
+// ClearDueDate clears the value of the "due_date" field.
+func (u *SpaceBillingUpsert) ClearDueDate() *SpaceBillingUpsert {
+	u.SetNull(spacebilling.FieldDueDate)
+	return u
+}
+
+// SetUsageDetails sets the "usage_details" field.
+func (u *SpaceBillingUpsert) SetUsageDetails(v map[string]interface{}) *SpaceBillingUpsert {
+	u.Set(spacebilling.FieldUsageDetails, v)
+	return u
+}
+
+// UpdateUsageDetails sets the "usage_details" field to the value that was provided on create.
+func (u *SpaceBillingUpsert) UpdateUsageDetails() *SpaceBillingUpsert {
+	u.SetExcluded(spacebilling.FieldUsageDetails)
+	return u
+}
+
+// ClearUsageDetails clears the value of the "usage_details" field.
+func (u *SpaceBillingUpsert) ClearUsageDetails() *SpaceBillingUpsert {
+	u.SetNull(spacebilling.FieldUsageDetails)
+	return u
+}
+
+// UpdateNewValues updates the mutable fields using the new values that were set on create except the ID field.
+// Using this option is equivalent to using:
+//
+//	client.SpaceBilling.Create().
+//		OnConflict(
+//			sql.ResolveWithNewValues(),
+//			sql.ResolveWith(func(u *sql.UpdateSet) {
+//				u.SetIgnore(spacebilling.FieldID)
+//			}),
+//		).
+//		Exec(ctx)
+func (u *SpaceBillingUpsertOne) UpdateNewValues() *SpaceBillingUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithNewValues())
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(s *sql.UpdateSet) {
+		if _, exists := u.create.mutation.ID(); exists {
+			s.SetIgnore(spacebilling.FieldID)
+		}
+		if _, exists := u.create.mutation.CreatedAt(); exists {
+			s.SetIgnore(spacebilling.FieldCreatedAt)
+		}
+	}))
+	return u
+}
+
+// Ignore sets each column to itself in case of conflict.
+// Using this option is equivalent to using:
+//
+//	client.SpaceBilling.Create().
+//	    OnConflict(sql.ResolveWithIgnore()).
+//	    Exec(ctx)
+func (u *SpaceBillingUpsertOne) Ignore() *SpaceBillingUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithIgnore())
+	return u
+}
+
+// DoNothing configures the conflict_action to `DO NOTHING`.
+// Supported only by SQLite and PostgreSQL.
+func (u *SpaceBillingUpsertOne) DoNothing() *SpaceBillingUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.DoNothing())
+	return u
+}
+
+// Update allows overriding fields `UPDATE` values. See the SpaceBillingCreate.OnConflict
+// documentation for more info.
+func (u *SpaceBillingUpsertOne) Update(set func(*SpaceBillingUpsert)) *SpaceBillingUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(update *sql.UpdateSet) {
+		set(&SpaceBillingUpsert{UpdateSet: update})
+	}))
+	return u
+}
+
+// SetSpaceID sets the "space_id" field.
+func (u *SpaceBillingUpsertOne) SetSpaceID(v string) *SpaceBillingUpsertOne {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.SetSpaceID(v)
+	})
+}
+
+// UpdateSpaceID sets the "space_id" field to the value that was provided on create.
+func (u *SpaceBillingUpsertOne) UpdateSpaceID() *SpaceBillingUpsertOne {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.UpdateSpaceID()
+	})
+}
+
+// ClearSpaceID clears the value of the "space_id" field.
+func (u *SpaceBillingUpsertOne) ClearSpaceID() *SpaceBillingUpsertOne {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.ClearSpaceID()
+	})
+}
+
+// SetDescription sets the "description" field.
+func (u *SpaceBillingUpsertOne) SetDescription(v string) *SpaceBillingUpsertOne {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.SetDescription(v)
+	})
+}
+
+// UpdateDescription sets the "description" field to the value that was provided on create.
+func (u *SpaceBillingUpsertOne) UpdateDescription() *SpaceBillingUpsertOne {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.UpdateDescription()
+	})
+}
+
+// ClearDescription clears the value of the "description" field.
+func (u *SpaceBillingUpsertOne) ClearDescription() *SpaceBillingUpsertOne {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.ClearDescription()
+	})
+}
+
+// SetExtras sets the "extras" field.
+func (u *SpaceBillingUpsertOne) SetExtras(v map[string]interface{}) *SpaceBillingUpsertOne {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.SetExtras(v)
+	})
+}
+
+// UpdateExtras sets the "extras" field to the value that was provided on create.
+func (u *SpaceBillingUpsertOne) UpdateExtras() *SpaceBillingUpsertOne {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.UpdateExtras()
+	})
+}
+
+// ClearExtras clears the value of the "extras" field.
+func (u *SpaceBillingUpsertOne) ClearExtras() *SpaceBillingUpsertOne {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.ClearExtras()
+	})
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (u *SpaceBillingUpsertOne) SetCreatedBy(v string) *SpaceBillingUpsertOne {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.SetCreatedBy(v)
+	})
+}
+
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *SpaceBillingUpsertOne) UpdateCreatedBy() *SpaceBillingUpsertOne {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.UpdateCreatedBy()
+	})
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *SpaceBillingUpsertOne) ClearCreatedBy() *SpaceBillingUpsertOne {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.ClearCreatedBy()
+	})
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (u *SpaceBillingUpsertOne) SetUpdatedBy(v string) *SpaceBillingUpsertOne {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.SetUpdatedBy(v)
+	})
+}
+
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *SpaceBillingUpsertOne) UpdateUpdatedBy() *SpaceBillingUpsertOne {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.UpdateUpdatedBy()
+	})
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *SpaceBillingUpsertOne) ClearUpdatedBy() *SpaceBillingUpsertOne {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.ClearUpdatedBy()
+	})
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *SpaceBillingUpsertOne) SetUpdatedAt(v int64) *SpaceBillingUpsertOne {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.SetUpdatedAt(v)
+	})
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *SpaceBillingUpsertOne) AddUpdatedAt(v int64) *SpaceBillingUpsertOne {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.AddUpdatedAt(v)
+	})
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *SpaceBillingUpsertOne) UpdateUpdatedAt() *SpaceBillingUpsertOne {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.UpdateUpdatedAt()
+	})
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *SpaceBillingUpsertOne) ClearUpdatedAt() *SpaceBillingUpsertOne {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.ClearUpdatedAt()
+	})
+}
+
+// SetBillingPeriod sets the "billing_period" field.
+func (u *SpaceBillingUpsertOne) SetBillingPeriod(v string) *SpaceBillingUpsertOne {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.SetBillingPeriod(v)
+	})
+}
+
+// UpdateBillingPeriod sets the "billing_period" field to the value that was provided on create.
+func (u *SpaceBillingUpsertOne) UpdateBillingPeriod() *SpaceBillingUpsertOne {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.UpdateBillingPeriod()
+	})
+}
+
+// SetPeriodStart sets the "period_start" field.
+func (u *SpaceBillingUpsertOne) SetPeriodStart(v int64) *SpaceBillingUpsertOne {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.SetPeriodStart(v)
+	})
+}
+
+// AddPeriodStart adds v to the "period_start" field.
+func (u *SpaceBillingUpsertOne) AddPeriodStart(v int64) *SpaceBillingUpsertOne {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.AddPeriodStart(v)
+	})
+}
+
+// UpdatePeriodStart sets the "period_start" field to the value that was provided on create.
+func (u *SpaceBillingUpsertOne) UpdatePeriodStart() *SpaceBillingUpsertOne {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.UpdatePeriodStart()
+	})
+}
+
+// ClearPeriodStart clears the value of the "period_start" field.
+func (u *SpaceBillingUpsertOne) ClearPeriodStart() *SpaceBillingUpsertOne {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.ClearPeriodStart()
+	})
+}
+
+// SetPeriodEnd sets the "period_end" field.
+func (u *SpaceBillingUpsertOne) SetPeriodEnd(v int64) *SpaceBillingUpsertOne {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.SetPeriodEnd(v)
+	})
+}
+
+// AddPeriodEnd adds v to the "period_end" field.
+func (u *SpaceBillingUpsertOne) AddPeriodEnd(v int64) *SpaceBillingUpsertOne {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.AddPeriodEnd(v)
+	})
+}
+
+// UpdatePeriodEnd sets the "period_end" field to the value that was provided on create.
+func (u *SpaceBillingUpsertOne) UpdatePeriodEnd() *SpaceBillingUpsertOne {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.UpdatePeriodEnd()
+	})
+}
+
+// ClearPeriodEnd clears the value of the "period_end" field.
+func (u *SpaceBillingUpsertOne) ClearPeriodEnd() *SpaceBillingUpsertOne {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.ClearPeriodEnd()
+	})
+}
+
+// SetAmount sets the "amount" field.
+func (u *SpaceBillingUpsertOne) SetAmount(v float64) *SpaceBillingUpsertOne {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.SetAmount(v)
+	})
+}
+
+// AddAmount adds v to the "amount" field.
+func (u *SpaceBillingUpsertOne) AddAmount(v float64) *SpaceBillingUpsertOne {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.AddAmount(v)
+	})
+}
+
+// UpdateAmount sets the "amount" field to the value that was provided on create.
+func (u *SpaceBillingUpsertOne) UpdateAmount() *SpaceBillingUpsertOne {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.UpdateAmount()
+	})
+}
+
+// SetCurrency sets the "currency" field.
+func (u *SpaceBillingUpsertOne) SetCurrency(v string) *SpaceBillingUpsertOne {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.SetCurrency(v)
+	})
+}
+
+// UpdateCurrency sets the "currency" field to the value that was provided on create.
+func (u *SpaceBillingUpsertOne) UpdateCurrency() *SpaceBillingUpsertOne {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.UpdateCurrency()
+	})
+}
+
+// SetStatus sets the "status" field.
+func (u *SpaceBillingUpsertOne) SetStatus(v string) *SpaceBillingUpsertOne {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.SetStatus(v)
+	})
+}
+
+// UpdateStatus sets the "status" field to the value that was provided on create.
+func (u *SpaceBillingUpsertOne) UpdateStatus() *SpaceBillingUpsertOne {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.UpdateStatus()
+	})
+}
+
+// SetInvoiceNumber sets the "invoice_number" field.
+func (u *SpaceBillingUpsertOne) SetInvoiceNumber(v string) *SpaceBillingUpsertOne {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.SetInvoiceNumber(v)
+	})
+}
+
+// UpdateInvoiceNumber sets the "invoice_number" field to the value that was provided on create.
+func (u *SpaceBillingUpsertOne) UpdateInvoiceNumber() *SpaceBillingUpsertOne {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.UpdateInvoiceNumber()
+	})
+}
+
+// ClearInvoiceNumber clears the value of the "invoice_number" field.
+func (u *SpaceBillingUpsertOne) ClearInvoiceNumber() *SpaceBillingUpsertOne {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.ClearInvoiceNumber()
+	})
+}
+
+// SetPaymentMethod sets the "payment_method" field.
+func (u *SpaceBillingUpsertOne) SetPaymentMethod(v string) *SpaceBillingUpsertOne {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.SetPaymentMethod(v)
+	})
+}
+
+// UpdatePaymentMethod sets the "payment_method" field to the value that was provided on create.
+func (u *SpaceBillingUpsertOne) UpdatePaymentMethod() *SpaceBillingUpsertOne {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.UpdatePaymentMethod()
+	})
+}
+
+// ClearPaymentMethod clears the value of the "payment_method" field.
+func (u *SpaceBillingUpsertOne) ClearPaymentMethod() *SpaceBillingUpsertOne {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.ClearPaymentMethod()
+	})
+}
+
+// SetPaidAt sets the "paid_at" field.
+func (u *SpaceBillingUpsertOne) SetPaidAt(v int64) *SpaceBillingUpsertOne {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.SetPaidAt(v)
+	})
+}
+
+// AddPaidAt adds v to the "paid_at" field.
+func (u *SpaceBillingUpsertOne) AddPaidAt(v int64) *SpaceBillingUpsertOne {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.AddPaidAt(v)
+	})
+}
+
+// UpdatePaidAt sets the "paid_at" field to the value that was provided on create.
+func (u *SpaceBillingUpsertOne) UpdatePaidAt() *SpaceBillingUpsertOne {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.UpdatePaidAt()
+	})
+}
+
+// ClearPaidAt clears the value of the "paid_at" field.
+func (u *SpaceBillingUpsertOne) ClearPaidAt() *SpaceBillingUpsertOne {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.ClearPaidAt()
+	})
+}
+
+// SetDueDate sets the "due_date" field.
+func (u *SpaceBillingUpsertOne) SetDueDate(v int64) *SpaceBillingUpsertOne {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.SetDueDate(v)
+	})
+}
+
+// AddDueDate adds v to the "due_date" field.
+func (u *SpaceBillingUpsertOne) AddDueDate(v int64) *SpaceBillingUpsertOne {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.AddDueDate(v)
+	})
+}
+
+// UpdateDueDate sets the "due_date" field to the value that was provided on create.
+func (u *SpaceBillingUpsertOne) UpdateDueDate() *SpaceBillingUpsertOne {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.UpdateDueDate()
+	})
+}
+
+// ClearDueDate clears the value of the "due_date" field.
+func (u *SpaceBillingUpsertOne) ClearDueDate() *SpaceBillingUpsertOne {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.ClearDueDate()
+	})
+}
+
+// SetUsageDetails sets the "usage_details" field.
+func (u *SpaceBillingUpsertOne) SetUsageDetails(v map[string]interface{}) *SpaceBillingUpsertOne {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.SetUsageDetails(v)
+	})
+}
+
+// UpdateUsageDetails sets the "usage_details" field to the value that was provided on create.
+func (u *SpaceBillingUpsertOne) UpdateUsageDetails() *SpaceBillingUpsertOne {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.UpdateUsageDetails()
+	})
+}
+
+// ClearUsageDetails clears the value of the "usage_details" field.
+func (u *SpaceBillingUpsertOne) ClearUsageDetails() *SpaceBillingUpsertOne {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.ClearUsageDetails()
+	})
+}
+
+// Exec executes the query.
+func (u *SpaceBillingUpsertOne) Exec(ctx context.Context) error {
+	if len(u.create.conflict) == 0 {
+		return errors.New("ent: missing options for SpaceBillingCreate.OnConflict")
+	}
+	return u.create.Exec(ctx)
+}
+
+// ExecX is like Exec, but panics if an error occurs.
+func (u *SpaceBillingUpsertOne) ExecX(ctx context.Context) {
+	if err := u.create.Exec(ctx); err != nil {
+		panic(err)
+	}
+}
+
+// Exec executes the UPSERT query and returns the inserted/updated ID.
+func (u *SpaceBillingUpsertOne) ID(ctx context.Context) (id string, err error) {
+	if u.create.driver.Dialect() == dialect.MySQL {
+		// In case of "ON CONFLICT", there is no way to get back non-numeric ID
+		// fields from the database since MySQL does not support the RETURNING clause.
+		return id, errors.New("ent: SpaceBillingUpsertOne.ID is not supported by MySQL driver. Use SpaceBillingUpsertOne.Exec instead")
+	}
+	node, err := u.create.Save(ctx)
+	if err != nil {
+		return id, err
+	}
+	return node.ID, nil
+}
+
+// IDX is like ID, but panics if an error occurs.
+func (u *SpaceBillingUpsertOne) IDX(ctx context.Context) string {
+	id, err := u.ID(ctx)
+	if err != nil {
+		panic(err)
+	}
+	return id
+}
+
 // SpaceBillingCreateBulk is the builder for creating many SpaceBilling entities in bulk.
 type SpaceBillingCreateBulk struct {
 	config
 	err      error
 	builders []*SpaceBillingCreate
+	conflict []sql.ConflictOption
 }
 
 // Save creates the SpaceBilling entities in the database.
@@ -494,6 +1326,7 @@ func (_c *SpaceBillingCreateBulk) Save(ctx context.Context) ([]*SpaceBilling, er
 					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
+					spec.OnConflict = _c.conflict
 					// Invoke the actual operation on the latest mutation in the chain.
 					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
@@ -540,6 +1373,494 @@ func (_c *SpaceBillingCreateBulk) Exec(ctx context.Context) error {
 // ExecX is like Exec, but panics if an error occurs.
 func (_c *SpaceBillingCreateBulk) ExecX(ctx context.Context) {
 	if err := _c.Exec(ctx); err != nil {
+		panic(err)
+	}
+}
+
+// OnConflict allows configuring the `ON CONFLICT` / `ON DUPLICATE KEY` clause
+// of the `INSERT` statement. For example:
+//
+//	client.SpaceBilling.CreateBulk(builders...).
+//		OnConflict(
+//			// Update the row with the new values
+//			// the was proposed for insertion.
+//			sql.ResolveWithNewValues(),
+//		).
+//		// Override some of the fields with custom
+//		// update values.
+//		Update(func(u *ent.SpaceBillingUpsert) {
+//			SetSpaceID(v+v).
+//		}).
+//		Exec(ctx)
+func (_c *SpaceBillingCreateBulk) OnConflict(opts ...sql.ConflictOption) *SpaceBillingUpsertBulk {
+	_c.conflict = opts
+	return &SpaceBillingUpsertBulk{
+		create: _c,
+	}
+}
+
+// OnConflictColumns calls `OnConflict` and configures the columns
+// as conflict target. Using this option is equivalent to using:
+//
+//	client.SpaceBilling.Create().
+//		OnConflict(sql.ConflictColumns(columns...)).
+//		Exec(ctx)
+func (_c *SpaceBillingCreateBulk) OnConflictColumns(columns ...string) *SpaceBillingUpsertBulk {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
+	return &SpaceBillingUpsertBulk{
+		create: _c,
+	}
+}
+
+// SpaceBillingUpsertBulk is the builder for "upsert"-ing
+// a bulk of SpaceBilling nodes.
+type SpaceBillingUpsertBulk struct {
+	create *SpaceBillingCreateBulk
+}
+
+// UpdateNewValues updates the mutable fields using the new values that
+// were set on create. Using this option is equivalent to using:
+//
+//	client.SpaceBilling.Create().
+//		OnConflict(
+//			sql.ResolveWithNewValues(),
+//			sql.ResolveWith(func(u *sql.UpdateSet) {
+//				u.SetIgnore(spacebilling.FieldID)
+//			}),
+//		).
+//		Exec(ctx)
+func (u *SpaceBillingUpsertBulk) UpdateNewValues() *SpaceBillingUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithNewValues())
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(s *sql.UpdateSet) {
+		for _, b := range u.create.builders {
+			if _, exists := b.mutation.ID(); exists {
+				s.SetIgnore(spacebilling.FieldID)
+			}
+			if _, exists := b.mutation.CreatedAt(); exists {
+				s.SetIgnore(spacebilling.FieldCreatedAt)
+			}
+		}
+	}))
+	return u
+}
+
+// Ignore sets each column to itself in case of conflict.
+// Using this option is equivalent to using:
+//
+//	client.SpaceBilling.Create().
+//		OnConflict(sql.ResolveWithIgnore()).
+//		Exec(ctx)
+func (u *SpaceBillingUpsertBulk) Ignore() *SpaceBillingUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithIgnore())
+	return u
+}
+
+// DoNothing configures the conflict_action to `DO NOTHING`.
+// Supported only by SQLite and PostgreSQL.
+func (u *SpaceBillingUpsertBulk) DoNothing() *SpaceBillingUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.DoNothing())
+	return u
+}
+
+// Update allows overriding fields `UPDATE` values. See the SpaceBillingCreateBulk.OnConflict
+// documentation for more info.
+func (u *SpaceBillingUpsertBulk) Update(set func(*SpaceBillingUpsert)) *SpaceBillingUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(update *sql.UpdateSet) {
+		set(&SpaceBillingUpsert{UpdateSet: update})
+	}))
+	return u
+}
+
+// SetSpaceID sets the "space_id" field.
+func (u *SpaceBillingUpsertBulk) SetSpaceID(v string) *SpaceBillingUpsertBulk {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.SetSpaceID(v)
+	})
+}
+
+// UpdateSpaceID sets the "space_id" field to the value that was provided on create.
+func (u *SpaceBillingUpsertBulk) UpdateSpaceID() *SpaceBillingUpsertBulk {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.UpdateSpaceID()
+	})
+}
+
+// ClearSpaceID clears the value of the "space_id" field.
+func (u *SpaceBillingUpsertBulk) ClearSpaceID() *SpaceBillingUpsertBulk {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.ClearSpaceID()
+	})
+}
+
+// SetDescription sets the "description" field.
+func (u *SpaceBillingUpsertBulk) SetDescription(v string) *SpaceBillingUpsertBulk {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.SetDescription(v)
+	})
+}
+
+// UpdateDescription sets the "description" field to the value that was provided on create.
+func (u *SpaceBillingUpsertBulk) UpdateDescription() *SpaceBillingUpsertBulk {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.UpdateDescription()
+	})
+}
+
+// ClearDescription clears the value of the "description" field.
+func (u *SpaceBillingUpsertBulk) ClearDescription() *SpaceBillingUpsertBulk {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.ClearDescription()
+	})
+}
+
+// SetExtras sets the "extras" field.
+func (u *SpaceBillingUpsertBulk) SetExtras(v map[string]interface{}) *SpaceBillingUpsertBulk {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.SetExtras(v)
+	})
+}
+
+// UpdateExtras sets the "extras" field to the value that was provided on create.
+func (u *SpaceBillingUpsertBulk) UpdateExtras() *SpaceBillingUpsertBulk {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.UpdateExtras()
+	})
+}
+
+// ClearExtras clears the value of the "extras" field.
+func (u *SpaceBillingUpsertBulk) ClearExtras() *SpaceBillingUpsertBulk {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.ClearExtras()
+	})
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (u *SpaceBillingUpsertBulk) SetCreatedBy(v string) *SpaceBillingUpsertBulk {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.SetCreatedBy(v)
+	})
+}
+
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *SpaceBillingUpsertBulk) UpdateCreatedBy() *SpaceBillingUpsertBulk {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.UpdateCreatedBy()
+	})
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *SpaceBillingUpsertBulk) ClearCreatedBy() *SpaceBillingUpsertBulk {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.ClearCreatedBy()
+	})
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (u *SpaceBillingUpsertBulk) SetUpdatedBy(v string) *SpaceBillingUpsertBulk {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.SetUpdatedBy(v)
+	})
+}
+
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *SpaceBillingUpsertBulk) UpdateUpdatedBy() *SpaceBillingUpsertBulk {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.UpdateUpdatedBy()
+	})
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *SpaceBillingUpsertBulk) ClearUpdatedBy() *SpaceBillingUpsertBulk {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.ClearUpdatedBy()
+	})
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *SpaceBillingUpsertBulk) SetUpdatedAt(v int64) *SpaceBillingUpsertBulk {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.SetUpdatedAt(v)
+	})
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *SpaceBillingUpsertBulk) AddUpdatedAt(v int64) *SpaceBillingUpsertBulk {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.AddUpdatedAt(v)
+	})
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *SpaceBillingUpsertBulk) UpdateUpdatedAt() *SpaceBillingUpsertBulk {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.UpdateUpdatedAt()
+	})
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *SpaceBillingUpsertBulk) ClearUpdatedAt() *SpaceBillingUpsertBulk {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.ClearUpdatedAt()
+	})
+}
+
+// SetBillingPeriod sets the "billing_period" field.
+func (u *SpaceBillingUpsertBulk) SetBillingPeriod(v string) *SpaceBillingUpsertBulk {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.SetBillingPeriod(v)
+	})
+}
+
+// UpdateBillingPeriod sets the "billing_period" field to the value that was provided on create.
+func (u *SpaceBillingUpsertBulk) UpdateBillingPeriod() *SpaceBillingUpsertBulk {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.UpdateBillingPeriod()
+	})
+}
+
+// SetPeriodStart sets the "period_start" field.
+func (u *SpaceBillingUpsertBulk) SetPeriodStart(v int64) *SpaceBillingUpsertBulk {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.SetPeriodStart(v)
+	})
+}
+
+// AddPeriodStart adds v to the "period_start" field.
+func (u *SpaceBillingUpsertBulk) AddPeriodStart(v int64) *SpaceBillingUpsertBulk {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.AddPeriodStart(v)
+	})
+}
+
+// UpdatePeriodStart sets the "period_start" field to the value that was provided on create.
+func (u *SpaceBillingUpsertBulk) UpdatePeriodStart() *SpaceBillingUpsertBulk {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.UpdatePeriodStart()
+	})
+}
+
+// ClearPeriodStart clears the value of the "period_start" field.
+func (u *SpaceBillingUpsertBulk) ClearPeriodStart() *SpaceBillingUpsertBulk {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.ClearPeriodStart()
+	})
+}
+
+// SetPeriodEnd sets the "period_end" field.
+func (u *SpaceBillingUpsertBulk) SetPeriodEnd(v int64) *SpaceBillingUpsertBulk {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.SetPeriodEnd(v)
+	})
+}
+
+// AddPeriodEnd adds v to the "period_end" field.
+func (u *SpaceBillingUpsertBulk) AddPeriodEnd(v int64) *SpaceBillingUpsertBulk {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.AddPeriodEnd(v)
+	})
+}
+
+// UpdatePeriodEnd sets the "period_end" field to the value that was provided on create.
+func (u *SpaceBillingUpsertBulk) UpdatePeriodEnd() *SpaceBillingUpsertBulk {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.UpdatePeriodEnd()
+	})
+}
+
+// ClearPeriodEnd clears the value of the "period_end" field.
+func (u *SpaceBillingUpsertBulk) ClearPeriodEnd() *SpaceBillingUpsertBulk {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.ClearPeriodEnd()
+	})
+}
+
+// SetAmount sets the "amount" field.
+func (u *SpaceBillingUpsertBulk) SetAmount(v float64) *SpaceBillingUpsertBulk {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.SetAmount(v)
+	})
+}
+
+// AddAmount adds v to the "amount" field.
+func (u *SpaceBillingUpsertBulk) AddAmount(v float64) *SpaceBillingUpsertBulk {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.AddAmount(v)
+	})
+}
+
+// UpdateAmount sets the "amount" field to the value that was provided on create.
+func (u *SpaceBillingUpsertBulk) UpdateAmount() *SpaceBillingUpsertBulk {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.UpdateAmount()
+	})
+}
+
+// SetCurrency sets the "currency" field.
+func (u *SpaceBillingUpsertBulk) SetCurrency(v string) *SpaceBillingUpsertBulk {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.SetCurrency(v)
+	})
+}
+
+// UpdateCurrency sets the "currency" field to the value that was provided on create.
+func (u *SpaceBillingUpsertBulk) UpdateCurrency() *SpaceBillingUpsertBulk {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.UpdateCurrency()
+	})
+}
+
+// SetStatus sets the "status" field.
+func (u *SpaceBillingUpsertBulk) SetStatus(v string) *SpaceBillingUpsertBulk {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.SetStatus(v)
+	})
+}
+
+// UpdateStatus sets the "status" field to the value that was provided on create.
+func (u *SpaceBillingUpsertBulk) UpdateStatus() *SpaceBillingUpsertBulk {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.UpdateStatus()
+	})
+}
+
+// SetInvoiceNumber sets the "invoice_number" field.
+func (u *SpaceBillingUpsertBulk) SetInvoiceNumber(v string) *SpaceBillingUpsertBulk {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.SetInvoiceNumber(v)
+	})
+}
+
+// UpdateInvoiceNumber sets the "invoice_number" field to the value that was provided on create.
+func (u *SpaceBillingUpsertBulk) UpdateInvoiceNumber() *SpaceBillingUpsertBulk {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.UpdateInvoiceNumber()
+	})
+}
+
+// ClearInvoiceNumber clears the value of the "invoice_number" field.
+func (u *SpaceBillingUpsertBulk) ClearInvoiceNumber() *SpaceBillingUpsertBulk {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.ClearInvoiceNumber()
+	})
+}
+
+// SetPaymentMethod sets the "payment_method" field.
+func (u *SpaceBillingUpsertBulk) SetPaymentMethod(v string) *SpaceBillingUpsertBulk {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.SetPaymentMethod(v)
+	})
+}
+
+// UpdatePaymentMethod sets the "payment_method" field to the value that was provided on create.
+func (u *SpaceBillingUpsertBulk) UpdatePaymentMethod() *SpaceBillingUpsertBulk {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.UpdatePaymentMethod()
+	})
+}
+
+// ClearPaymentMethod clears the value of the "payment_method" field.
+func (u *SpaceBillingUpsertBulk) ClearPaymentMethod() *SpaceBillingUpsertBulk {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.ClearPaymentMethod()
+	})
+}
+
+// SetPaidAt sets the "paid_at" field.
+func (u *SpaceBillingUpsertBulk) SetPaidAt(v int64) *SpaceBillingUpsertBulk {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.SetPaidAt(v)
+	})
+}
+
+// AddPaidAt adds v to the "paid_at" field.
+func (u *SpaceBillingUpsertBulk) AddPaidAt(v int64) *SpaceBillingUpsertBulk {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.AddPaidAt(v)
+	})
+}
+
+// UpdatePaidAt sets the "paid_at" field to the value that was provided on create.
+func (u *SpaceBillingUpsertBulk) UpdatePaidAt() *SpaceBillingUpsertBulk {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.UpdatePaidAt()
+	})
+}
+
+// ClearPaidAt clears the value of the "paid_at" field.
+func (u *SpaceBillingUpsertBulk) ClearPaidAt() *SpaceBillingUpsertBulk {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.ClearPaidAt()
+	})
+}
+
+// SetDueDate sets the "due_date" field.
+func (u *SpaceBillingUpsertBulk) SetDueDate(v int64) *SpaceBillingUpsertBulk {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.SetDueDate(v)
+	})
+}
+
+// AddDueDate adds v to the "due_date" field.
+func (u *SpaceBillingUpsertBulk) AddDueDate(v int64) *SpaceBillingUpsertBulk {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.AddDueDate(v)
+	})
+}
+
+// UpdateDueDate sets the "due_date" field to the value that was provided on create.
+func (u *SpaceBillingUpsertBulk) UpdateDueDate() *SpaceBillingUpsertBulk {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.UpdateDueDate()
+	})
+}
+
+// ClearDueDate clears the value of the "due_date" field.
+func (u *SpaceBillingUpsertBulk) ClearDueDate() *SpaceBillingUpsertBulk {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.ClearDueDate()
+	})
+}
+
+// SetUsageDetails sets the "usage_details" field.
+func (u *SpaceBillingUpsertBulk) SetUsageDetails(v map[string]interface{}) *SpaceBillingUpsertBulk {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.SetUsageDetails(v)
+	})
+}
+
+// UpdateUsageDetails sets the "usage_details" field to the value that was provided on create.
+func (u *SpaceBillingUpsertBulk) UpdateUsageDetails() *SpaceBillingUpsertBulk {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.UpdateUsageDetails()
+	})
+}
+
+// ClearUsageDetails clears the value of the "usage_details" field.
+func (u *SpaceBillingUpsertBulk) ClearUsageDetails() *SpaceBillingUpsertBulk {
+	return u.Update(func(s *SpaceBillingUpsert) {
+		s.ClearUsageDetails()
+	})
+}
+
+// Exec executes the query.
+func (u *SpaceBillingUpsertBulk) Exec(ctx context.Context) error {
+	if u.create.err != nil {
+		return u.create.err
+	}
+	for i, b := range u.create.builders {
+		if len(b.conflict) != 0 {
+			return fmt.Errorf("ent: OnConflict was set for builder %d. Set it on the SpaceBillingCreateBulk instead", i)
+		}
+	}
+	if len(u.create.conflict) == 0 {
+		return errors.New("ent: missing options for SpaceBillingCreateBulk.OnConflict")
+	}
+	return u.create.Exec(ctx)
+}
+
+// ExecX is like Exec, but panics if an error occurs.
+func (u *SpaceBillingUpsertBulk) ExecX(ctx context.Context) {
+	if err := u.create.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

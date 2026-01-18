@@ -4,8 +4,8 @@ package ent
 
 import (
 	"context"
-	"ncobase/access/data/ent/casbinrule"
-	"ncobase/access/data/ent/predicate"
+	"ncobase/core/access/data/ent/casbinrule"
+	"ncobase/core/access/data/ent/predicate"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"

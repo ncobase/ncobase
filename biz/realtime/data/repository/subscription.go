@@ -3,11 +3,12 @@ package repository
 import (
 	"context"
 	"fmt"
-	"ncobase/realtime/data"
-	"ncobase/realtime/data/ent"
-	subscriptionEnt "ncobase/realtime/data/ent/subscription"
+	"ncobase/biz/realtime/data"
+	"ncobase/biz/realtime/data/ent"
+	subscriptionEnt "ncobase/biz/realtime/data/ent/subscription"
 
-	"github.com/ncobase/ncore/data/databases/cache"
+	nd "github.com/ncobase/ncore/data"
+	"github.com/ncobase/ncore/data/cache"
 	"github.com/ncobase/ncore/logging/logger"
 
 	"github.com/redis/go-redis/v9"
@@ -40,18 +41,23 @@ type SubscriptionRepositoryInterface interface {
 }
 
 type subscriptionRepository struct {
-	data *data.Data
-	ec   *ent.Client
-	rc   *redis.Client
-	c    *cache.Cache[ent.Subscription]
+	data         *data.Data
+	searchClient *search.Client
+	ec           *ent.Client
+	rc           *redis.Client
+	c            *cache.Cache[ent.Subscription]
 }
 
 func NewSubscriptionRepository(d *data.Data) SubscriptionRepositoryInterface {
+	redisClient := d.GetRedis().(*redis.Client)
+	searchClient := nd.NewSearchClient(d.Data)
+
 	return &subscriptionRepository{
-		data: d,
-		ec:   d.GetMasterEntClient(),
-		rc:   d.GetRedis(),
-		c:    cache.NewCache[ent.Subscription](d.GetRedis(), "rt_subscription"),
+		data:         d,
+		searchClient: searchClient,
+		ec:           d.GetMasterEntClient(),
+		rc:           redisClient,
+		c:            cache.NewCache[ent.Subscription](redisClient, "rt_subscription"),
 	}
 }
 
@@ -82,7 +88,7 @@ func (r *subscriptionRepository) Create(ctx context.Context, subscription *ent.S
 	}
 
 	// Index in Meilisearch
-	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "realtime_subscriptions", Document: row}); err != nil {
+	if err = r.searchClient.Index(ctx, &search.IndexRequest{Index: "realtime_subscriptions", Document: row}); err != nil {
 		logger.Errorf(ctx, "subscriptionRepo.Create error creating Meilisearch index: %v", err)
 	}
 
@@ -117,7 +123,7 @@ func (r *subscriptionRepository) Update(ctx context.Context, id string, subscrip
 	}
 
 	// Update Meilisearch index
-	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "realtime_subscriptions", Document: row, DocumentID: row.ID}); err != nil {
+	if err = r.searchClient.Index(ctx, &search.IndexRequest{Index: "realtime_subscriptions", Document: row, DocumentID: row.ID}); err != nil {
 		logger.Errorf(ctx, "subscriptionRepo.Update error updating Meilisearch index: %v", err)
 	}
 
@@ -137,7 +143,7 @@ func (r *subscriptionRepository) Delete(ctx context.Context, id string) error {
 	}
 
 	// Delete from Meilisearch
-	if err = r.data.DeleteDocument(ctx, "realtime_subscriptions", id); err != nil {
+	if err = r.searchClient.Delete(ctx, "realtime_subscriptions", id); err != nil {
 		logger.Errorf(ctx, "subscriptionRepo.Delete error deleting Meilisearch index: %v", err)
 	}
 
@@ -214,7 +220,7 @@ func (r *subscriptionRepository) CreateBatch(ctx context.Context, subscriptions 
 	}
 
 	for _, row := range results {
-		if msErr := r.data.IndexDocument(ctx, &search.IndexRequest{Index: "realtime_subscriptions", Document: row}); msErr != nil {
+		if msErr := r.searchClient.Index(ctx, &search.IndexRequest{Index: "realtime_subscriptions", Document: row}); msErr != nil {
 			logger.Errorf(ctx, "subscriptionRepo.CreateBatch error creating Meilisearch index: %v", msErr)
 		}
 	}
@@ -248,7 +254,7 @@ func (r *subscriptionRepository) DeleteBatch(ctx context.Context, ids []string) 
 	}
 
 	for _, id := range ids {
-		if msErr := r.data.DeleteDocument(ctx, "realtime_subscriptions", id); msErr != nil {
+		if msErr := r.searchClient.Delete(ctx, "realtime_subscriptions", id); msErr != nil {
 			logger.Errorf(ctx, "subscriptionRepo.DeleteBatch error deleting Meilisearch index: %v", msErr)
 		}
 	}
@@ -285,7 +291,7 @@ func (r *subscriptionRepository) UpdateStatus(ctx context.Context, id string, st
 		return err
 	}
 
-	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "realtime_subscriptions", Document: row, DocumentID: row.ID}); err != nil {
+	if err = r.searchClient.Index(ctx, &search.IndexRequest{Index: "realtime_subscriptions", Document: row, DocumentID: row.ID}); err != nil {
 		logger.Errorf(ctx, "subscriptionRepo.UpdateStatus error updating Meilisearch index: %v", err)
 	}
 
@@ -324,7 +330,7 @@ func (r *subscriptionRepository) UpdateStatusBatch(ctx context.Context, ids []st
 
 	for _, id := range ids {
 		if row, err := r.ec.Subscription.Get(ctx, id); err == nil && row != nil {
-			if msErr := r.data.IndexDocument(ctx, &search.IndexRequest{Index: "realtime_subscriptions", Document: row, DocumentID: row.ID}); msErr != nil {
+			if msErr := r.searchClient.Index(ctx, &search.IndexRequest{Index: "realtime_subscriptions", Document: row, DocumentID: row.ID}); msErr != nil {
 				logger.Errorf(ctx, "subscriptionRepo.UpdateStatusBatch error updating Meilisearch index: %v", msErr)
 			}
 		}
@@ -355,7 +361,7 @@ func (r *subscriptionRepository) DeleteByUserAndChannel(ctx context.Context, use
 	}
 
 	if targetID != "" {
-		if err = r.data.DeleteDocument(ctx, "realtime_subscriptions", targetID); err != nil {
+		if err = r.searchClient.Delete(ctx, "realtime_subscriptions", targetID); err != nil {
 			logger.Errorf(ctx, "subscriptionRepo.DeleteByUserAndChannel error deleting Meilisearch index: %v", err)
 		}
 	}
@@ -374,7 +380,7 @@ func (r *subscriptionRepository) DeleteByChannel(ctx context.Context, channelID 
 	}
 
 	for _, row := range rows {
-		if msErr := r.data.DeleteDocument(ctx, "realtime_subscriptions", row.ID); msErr != nil {
+		if msErr := r.searchClient.Delete(ctx, "realtime_subscriptions", row.ID); msErr != nil {
 			logger.Errorf(ctx, "subscriptionRepo.DeleteByChannel error deleting Meilisearch index: %v", msErr)
 		}
 	}
@@ -393,7 +399,7 @@ func (r *subscriptionRepository) DeleteByUser(ctx context.Context, userID string
 	}
 
 	for _, row := range rows {
-		if msErr := r.data.DeleteDocument(ctx, "realtime_subscriptions", row.ID); msErr != nil {
+		if msErr := r.searchClient.Delete(ctx, "realtime_subscriptions", row.ID); msErr != nil {
 			logger.Errorf(ctx, "subscriptionRepo.DeleteByUser error deleting Meilisearch index: %v", msErr)
 		}
 	}

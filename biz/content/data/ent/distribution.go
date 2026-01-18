@@ -5,9 +5,9 @@ package ent
 import (
 	"encoding/json"
 	"fmt"
-	"ncobase/content/data/ent/cmschannel"
-	"ncobase/content/data/ent/distribution"
-	"ncobase/content/data/ent/topic"
+	"ncobase/biz/content/data/ent/cmschannel"
+	"ncobase/biz/content/data/ent/distribution"
+	"ncobase/biz/content/data/ent/topic"
 	"strings"
 
 	"entgo.io/ent"

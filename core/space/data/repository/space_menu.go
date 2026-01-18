@@ -3,13 +3,14 @@ package repository
 import (
 	"context"
 	"fmt"
-	"ncobase/space/data"
-	"ncobase/space/data/ent"
-	spaceMenuEnt "ncobase/space/data/ent/spacemenu"
-	"ncobase/space/structs"
+	"ncobase/core/space/data"
+	"ncobase/core/space/data/ent"
+	spaceMenuEnt "ncobase/core/space/data/ent/spacemenu"
+	"ncobase/core/space/structs"
 	"time"
+	"github.com/redis/go-redis/v9"
 
-	"github.com/ncobase/ncore/data/databases/cache"
+	"github.com/ncobase/ncore/data/cache"
 	"github.com/ncobase/ncore/logging/logger"
 )
 
@@ -36,7 +37,7 @@ type spaceMenuRepository struct {
 
 // NewSpaceMenuRepository creates a new space menu repository.
 func NewSpaceMenuRepository(d *data.Data) SpaceMenuRepositoryInterface {
-	redisClient := d.GetRedis()
+	redisClient := d.GetRedis().(*redis.Client)
 
 	return &spaceMenuRepository{
 		data:            d,

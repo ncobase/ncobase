@@ -1,6 +1,6 @@
 package website
 
-import systemStructs "ncobase/system/structs"
+import systemStructs "ncobase/core/system/structs"
 
 // SystemDefaultDictionaries for regular websites
 var SystemDefaultDictionaries = []systemStructs.DictionaryBody{

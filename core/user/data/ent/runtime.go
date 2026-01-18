@@ -3,11 +3,11 @@
 package ent
 
 import (
-	"ncobase/user/data/ent/apikey"
-	"ncobase/user/data/ent/employee"
-	"ncobase/user/data/ent/user"
-	"ncobase/user/data/ent/userprofile"
-	"ncobase/user/data/schema"
+	"ncobase/core/user/data/ent/apikey"
+	"ncobase/core/user/data/ent/employee"
+	"ncobase/core/user/data/ent/user"
+	"ncobase/core/user/data/ent/userprofile"
+	"ncobase/core/user/data/schema"
 )
 
 // The init function reads all schema descriptors with runtime code

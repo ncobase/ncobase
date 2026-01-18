@@ -3,12 +3,14 @@ package repository
 import (
 	"context"
 	"fmt"
-	"ncobase/realtime/data"
-	"ncobase/realtime/data/ent"
-	notificationEnt "ncobase/realtime/data/ent/notification"
-	"ncobase/realtime/structs"
+	"ncobase/biz/realtime/data"
+	"ncobase/biz/realtime/data/ent"
+	notificationEnt "ncobase/biz/realtime/data/ent/notification"
+	"ncobase/biz/realtime/structs"
 
-	"github.com/ncobase/ncore/data/databases/cache"
+	nd "github.com/ncobase/ncore/data"
+
+	"github.com/ncobase/ncore/data/cache"
 	"github.com/ncobase/ncore/data/paging"
 	"github.com/ncobase/ncore/logging/logger"
 	"github.com/ncobase/ncore/utils/nanoid"
@@ -40,16 +42,19 @@ type NotificationRepositoryInterface interface {
 
 type notificationRepository struct {
 	data *data.Data
+	searchClient *search.Client
 	ec   *ent.Client
 	rc   *redis.Client
 	c    *cache.Cache[ent.Notification]
 }
 
 func NewNotificationRepository(d *data.Data) NotificationRepositoryInterface {
+	searchClient := nd.NewSearchClient(d.Data)
 	ec := d.GetMasterEntClient()
-	rc := d.GetRedis()
+	rc := d.GetRedis().(*redis.Client)
 	return &notificationRepository{
 		data: d,
+		searchClient: searchClient,
 		ec:   ec,
 		rc:   rc,
 		c:    cache.NewCache[ent.Notification](rc, "rt_notification"),
@@ -65,7 +70,7 @@ func (r *notificationRepository) Create(ctx context.Context, notification *ent.N
 	}
 
 	// Index in Meilisearch
-	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "realtime_notifications", Document: row}); err != nil {
+	if err = r.searchClient.Index(ctx, &search.IndexRequest{Index: "realtime_notifications", Document: row}); err != nil {
 		logger.Errorf(ctx, "notificationRepo.Create error creating Meilisearch index: %v", err)
 	}
 
@@ -103,7 +108,7 @@ func (r *notificationRepository) Update(ctx context.Context, id string, notifica
 	}
 
 	// Update Meilisearch index
-	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "realtime_notifications", Document: row, DocumentID: row.ID}); err != nil {
+	if err = r.searchClient.Index(ctx, &search.IndexRequest{Index: "realtime_notifications", Document: row, DocumentID: row.ID}); err != nil {
 		logger.Errorf(ctx, "notificationRepo.Update error updating Meilisearch index: %v", err)
 	}
 
@@ -125,7 +130,7 @@ func (r *notificationRepository) Delete(ctx context.Context, id string) error {
 	}
 
 	// Delete from Meilisearch
-	if err = r.data.DeleteDocument(ctx, "realtime_notifications", id); err != nil {
+	if err = r.searchClient.Delete(ctx, "realtime_notifications", id); err != nil {
 		logger.Errorf(ctx, "notificationRepo.Delete error deleting Meilisearch index: %v", err)
 	}
 
@@ -229,7 +234,7 @@ func (r *notificationRepository) UpdateStatus(ctx context.Context, id string, st
 		return err
 	}
 
-	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "realtime_notifications", Document: row, DocumentID: row.ID}); err != nil {
+	if err = r.searchClient.Index(ctx, &search.IndexRequest{Index: "realtime_notifications", Document: row, DocumentID: row.ID}); err != nil {
 		logger.Errorf(ctx, "notificationRepo.UpdateStatus error updating Meilisearch index: %v", err)
 	}
 
@@ -276,7 +281,7 @@ func (r *notificationRepository) CreateBatch(ctx context.Context, notifications 
 	}
 
 	for _, row := range results {
-		if msErr := r.data.IndexDocument(ctx, &search.IndexRequest{Index: "realtime_notifications", Document: row}); msErr != nil {
+		if msErr := r.searchClient.Index(ctx, &search.IndexRequest{Index: "realtime_notifications", Document: row}); msErr != nil {
 			logger.Errorf(ctx, "notificationRepo.CreateBatch error creating Meilisearch index: %v", msErr)
 		}
 	}
@@ -315,7 +320,7 @@ func (r *notificationRepository) DeleteBatch(ctx context.Context, ids []string) 
 	}
 
 	for _, id := range ids {
-		if msErr := r.data.DeleteDocument(ctx, "realtime_notifications", id); msErr != nil {
+		if msErr := r.searchClient.Delete(ctx, "realtime_notifications", id); msErr != nil {
 			logger.Errorf(ctx, "notificationRepo.DeleteBatch error deleting Meilisearch index: %v", msErr)
 		}
 	}

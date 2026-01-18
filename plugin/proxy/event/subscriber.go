@@ -2,10 +2,10 @@ package event
 
 import (
 	"context"
-	orgStructs "ncobase/organization/structs"
-	"ncobase/proxy/wrapper"
-	spaceStructs "ncobase/space/structs"
-	userStructs "ncobase/user/structs"
+	orgStructs "ncobase/core/organization/structs"
+	"ncobase/plugin/proxy/wrapper"
+	spaceStructs "ncobase/core/space/structs"
+	userStructs "ncobase/core/user/structs"
 
 	ext "github.com/ncobase/ncore/extension/types"
 	"github.com/ncobase/ncore/logging/logger"

@@ -5,7 +5,7 @@ package ent
 import (
 	"encoding/json"
 	"fmt"
-	"ncobase/proxy/data/ent/transformer"
+	"ncobase/plugin/proxy/data/ent/transformer"
 	"strings"
 
 	"entgo.io/ent"

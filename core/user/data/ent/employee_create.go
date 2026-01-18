@@ -6,9 +6,11 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"ncobase/user/data/ent/employee"
+	"ncobase/core/user/data/ent/employee"
 	"time"
 
+	"entgo.io/ent/dialect"
+	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
 )
@@ -18,6 +20,7 @@ type EmployeeCreate struct {
 	config
 	mutation *EmployeeMutation
 	hooks    []Hook
+	conflict []sql.ConflictOption
 }
 
 // SetSpaceID sets the "space_id" field.
@@ -346,6 +349,7 @@ func (_c *EmployeeCreate) createSpec() (*Employee, *sqlgraph.CreateSpec) {
 		_node = &Employee{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(employee.Table, sqlgraph.NewFieldSpec(employee.FieldID, field.TypeString))
 	)
+	_spec.OnConflict = _c.conflict
 	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
@@ -421,11 +425,774 @@ func (_c *EmployeeCreate) createSpec() (*Employee, *sqlgraph.CreateSpec) {
 	return _node, _spec
 }
 
+// OnConflict allows configuring the `ON CONFLICT` / `ON DUPLICATE KEY` clause
+// of the `INSERT` statement. For example:
+//
+//	client.Employee.Create().
+//		SetSpaceID(v).
+//		OnConflict(
+//			// Update the row with the new values
+//			// the was proposed for insertion.
+//			sql.ResolveWithNewValues(),
+//		).
+//		// Override some of the fields with custom
+//		// update values.
+//		Update(func(u *ent.EmployeeUpsert) {
+//			SetSpaceID(v+v).
+//		}).
+//		Exec(ctx)
+func (_c *EmployeeCreate) OnConflict(opts ...sql.ConflictOption) *EmployeeUpsertOne {
+	_c.conflict = opts
+	return &EmployeeUpsertOne{
+		create: _c,
+	}
+}
+
+// OnConflictColumns calls `OnConflict` and configures the columns
+// as conflict target. Using this option is equivalent to using:
+//
+//	client.Employee.Create().
+//		OnConflict(sql.ConflictColumns(columns...)).
+//		Exec(ctx)
+func (_c *EmployeeCreate) OnConflictColumns(columns ...string) *EmployeeUpsertOne {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
+	return &EmployeeUpsertOne{
+		create: _c,
+	}
+}
+
+type (
+	// EmployeeUpsertOne is the builder for "upsert"-ing
+	//  one Employee node.
+	EmployeeUpsertOne struct {
+		create *EmployeeCreate
+	}
+
+	// EmployeeUpsert is the "OnConflict" setter.
+	EmployeeUpsert struct {
+		*sql.UpdateSet
+	}
+)
+
+// SetSpaceID sets the "space_id" field.
+func (u *EmployeeUpsert) SetSpaceID(v string) *EmployeeUpsert {
+	u.Set(employee.FieldSpaceID, v)
+	return u
+}
+
+// UpdateSpaceID sets the "space_id" field to the value that was provided on create.
+func (u *EmployeeUpsert) UpdateSpaceID() *EmployeeUpsert {
+	u.SetExcluded(employee.FieldSpaceID)
+	return u
+}
+
+// ClearSpaceID clears the value of the "space_id" field.
+func (u *EmployeeUpsert) ClearSpaceID() *EmployeeUpsert {
+	u.SetNull(employee.FieldSpaceID)
+	return u
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *EmployeeUpsert) SetUpdatedAt(v int64) *EmployeeUpsert {
+	u.Set(employee.FieldUpdatedAt, v)
+	return u
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *EmployeeUpsert) UpdateUpdatedAt() *EmployeeUpsert {
+	u.SetExcluded(employee.FieldUpdatedAt)
+	return u
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *EmployeeUpsert) AddUpdatedAt(v int64) *EmployeeUpsert {
+	u.Add(employee.FieldUpdatedAt, v)
+	return u
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *EmployeeUpsert) ClearUpdatedAt() *EmployeeUpsert {
+	u.SetNull(employee.FieldUpdatedAt)
+	return u
+}
+
+// SetEmployeeID sets the "employee_id" field.
+func (u *EmployeeUpsert) SetEmployeeID(v string) *EmployeeUpsert {
+	u.Set(employee.FieldEmployeeID, v)
+	return u
+}
+
+// UpdateEmployeeID sets the "employee_id" field to the value that was provided on create.
+func (u *EmployeeUpsert) UpdateEmployeeID() *EmployeeUpsert {
+	u.SetExcluded(employee.FieldEmployeeID)
+	return u
+}
+
+// ClearEmployeeID clears the value of the "employee_id" field.
+func (u *EmployeeUpsert) ClearEmployeeID() *EmployeeUpsert {
+	u.SetNull(employee.FieldEmployeeID)
+	return u
+}
+
+// SetDepartment sets the "department" field.
+func (u *EmployeeUpsert) SetDepartment(v string) *EmployeeUpsert {
+	u.Set(employee.FieldDepartment, v)
+	return u
+}
+
+// UpdateDepartment sets the "department" field to the value that was provided on create.
+func (u *EmployeeUpsert) UpdateDepartment() *EmployeeUpsert {
+	u.SetExcluded(employee.FieldDepartment)
+	return u
+}
+
+// ClearDepartment clears the value of the "department" field.
+func (u *EmployeeUpsert) ClearDepartment() *EmployeeUpsert {
+	u.SetNull(employee.FieldDepartment)
+	return u
+}
+
+// SetPosition sets the "position" field.
+func (u *EmployeeUpsert) SetPosition(v string) *EmployeeUpsert {
+	u.Set(employee.FieldPosition, v)
+	return u
+}
+
+// UpdatePosition sets the "position" field to the value that was provided on create.
+func (u *EmployeeUpsert) UpdatePosition() *EmployeeUpsert {
+	u.SetExcluded(employee.FieldPosition)
+	return u
+}
+
+// ClearPosition clears the value of the "position" field.
+func (u *EmployeeUpsert) ClearPosition() *EmployeeUpsert {
+	u.SetNull(employee.FieldPosition)
+	return u
+}
+
+// SetManagerID sets the "manager_id" field.
+func (u *EmployeeUpsert) SetManagerID(v string) *EmployeeUpsert {
+	u.Set(employee.FieldManagerID, v)
+	return u
+}
+
+// UpdateManagerID sets the "manager_id" field to the value that was provided on create.
+func (u *EmployeeUpsert) UpdateManagerID() *EmployeeUpsert {
+	u.SetExcluded(employee.FieldManagerID)
+	return u
+}
+
+// ClearManagerID clears the value of the "manager_id" field.
+func (u *EmployeeUpsert) ClearManagerID() *EmployeeUpsert {
+	u.SetNull(employee.FieldManagerID)
+	return u
+}
+
+// SetHireDate sets the "hire_date" field.
+func (u *EmployeeUpsert) SetHireDate(v time.Time) *EmployeeUpsert {
+	u.Set(employee.FieldHireDate, v)
+	return u
+}
+
+// UpdateHireDate sets the "hire_date" field to the value that was provided on create.
+func (u *EmployeeUpsert) UpdateHireDate() *EmployeeUpsert {
+	u.SetExcluded(employee.FieldHireDate)
+	return u
+}
+
+// ClearHireDate clears the value of the "hire_date" field.
+func (u *EmployeeUpsert) ClearHireDate() *EmployeeUpsert {
+	u.SetNull(employee.FieldHireDate)
+	return u
+}
+
+// SetTerminationDate sets the "termination_date" field.
+func (u *EmployeeUpsert) SetTerminationDate(v time.Time) *EmployeeUpsert {
+	u.Set(employee.FieldTerminationDate, v)
+	return u
+}
+
+// UpdateTerminationDate sets the "termination_date" field to the value that was provided on create.
+func (u *EmployeeUpsert) UpdateTerminationDate() *EmployeeUpsert {
+	u.SetExcluded(employee.FieldTerminationDate)
+	return u
+}
+
+// ClearTerminationDate clears the value of the "termination_date" field.
+func (u *EmployeeUpsert) ClearTerminationDate() *EmployeeUpsert {
+	u.SetNull(employee.FieldTerminationDate)
+	return u
+}
+
+// SetEmploymentType sets the "employment_type" field.
+func (u *EmployeeUpsert) SetEmploymentType(v employee.EmploymentType) *EmployeeUpsert {
+	u.Set(employee.FieldEmploymentType, v)
+	return u
+}
+
+// UpdateEmploymentType sets the "employment_type" field to the value that was provided on create.
+func (u *EmployeeUpsert) UpdateEmploymentType() *EmployeeUpsert {
+	u.SetExcluded(employee.FieldEmploymentType)
+	return u
+}
+
+// SetStatus sets the "status" field.
+func (u *EmployeeUpsert) SetStatus(v employee.Status) *EmployeeUpsert {
+	u.Set(employee.FieldStatus, v)
+	return u
+}
+
+// UpdateStatus sets the "status" field to the value that was provided on create.
+func (u *EmployeeUpsert) UpdateStatus() *EmployeeUpsert {
+	u.SetExcluded(employee.FieldStatus)
+	return u
+}
+
+// SetSalary sets the "salary" field.
+func (u *EmployeeUpsert) SetSalary(v float64) *EmployeeUpsert {
+	u.Set(employee.FieldSalary, v)
+	return u
+}
+
+// UpdateSalary sets the "salary" field to the value that was provided on create.
+func (u *EmployeeUpsert) UpdateSalary() *EmployeeUpsert {
+	u.SetExcluded(employee.FieldSalary)
+	return u
+}
+
+// AddSalary adds v to the "salary" field.
+func (u *EmployeeUpsert) AddSalary(v float64) *EmployeeUpsert {
+	u.Add(employee.FieldSalary, v)
+	return u
+}
+
+// ClearSalary clears the value of the "salary" field.
+func (u *EmployeeUpsert) ClearSalary() *EmployeeUpsert {
+	u.SetNull(employee.FieldSalary)
+	return u
+}
+
+// SetWorkLocation sets the "work_location" field.
+func (u *EmployeeUpsert) SetWorkLocation(v string) *EmployeeUpsert {
+	u.Set(employee.FieldWorkLocation, v)
+	return u
+}
+
+// UpdateWorkLocation sets the "work_location" field to the value that was provided on create.
+func (u *EmployeeUpsert) UpdateWorkLocation() *EmployeeUpsert {
+	u.SetExcluded(employee.FieldWorkLocation)
+	return u
+}
+
+// ClearWorkLocation clears the value of the "work_location" field.
+func (u *EmployeeUpsert) ClearWorkLocation() *EmployeeUpsert {
+	u.SetNull(employee.FieldWorkLocation)
+	return u
+}
+
+// SetContactInfo sets the "contact_info" field.
+func (u *EmployeeUpsert) SetContactInfo(v map[string]interface{}) *EmployeeUpsert {
+	u.Set(employee.FieldContactInfo, v)
+	return u
+}
+
+// UpdateContactInfo sets the "contact_info" field to the value that was provided on create.
+func (u *EmployeeUpsert) UpdateContactInfo() *EmployeeUpsert {
+	u.SetExcluded(employee.FieldContactInfo)
+	return u
+}
+
+// ClearContactInfo clears the value of the "contact_info" field.
+func (u *EmployeeUpsert) ClearContactInfo() *EmployeeUpsert {
+	u.SetNull(employee.FieldContactInfo)
+	return u
+}
+
+// SetSkills sets the "skills" field.
+func (u *EmployeeUpsert) SetSkills(v []string) *EmployeeUpsert {
+	u.Set(employee.FieldSkills, v)
+	return u
+}
+
+// UpdateSkills sets the "skills" field to the value that was provided on create.
+func (u *EmployeeUpsert) UpdateSkills() *EmployeeUpsert {
+	u.SetExcluded(employee.FieldSkills)
+	return u
+}
+
+// ClearSkills clears the value of the "skills" field.
+func (u *EmployeeUpsert) ClearSkills() *EmployeeUpsert {
+	u.SetNull(employee.FieldSkills)
+	return u
+}
+
+// SetCertifications sets the "certifications" field.
+func (u *EmployeeUpsert) SetCertifications(v []string) *EmployeeUpsert {
+	u.Set(employee.FieldCertifications, v)
+	return u
+}
+
+// UpdateCertifications sets the "certifications" field to the value that was provided on create.
+func (u *EmployeeUpsert) UpdateCertifications() *EmployeeUpsert {
+	u.SetExcluded(employee.FieldCertifications)
+	return u
+}
+
+// ClearCertifications clears the value of the "certifications" field.
+func (u *EmployeeUpsert) ClearCertifications() *EmployeeUpsert {
+	u.SetNull(employee.FieldCertifications)
+	return u
+}
+
+// SetExtras sets the "extras" field.
+func (u *EmployeeUpsert) SetExtras(v map[string]interface{}) *EmployeeUpsert {
+	u.Set(employee.FieldExtras, v)
+	return u
+}
+
+// UpdateExtras sets the "extras" field to the value that was provided on create.
+func (u *EmployeeUpsert) UpdateExtras() *EmployeeUpsert {
+	u.SetExcluded(employee.FieldExtras)
+	return u
+}
+
+// ClearExtras clears the value of the "extras" field.
+func (u *EmployeeUpsert) ClearExtras() *EmployeeUpsert {
+	u.SetNull(employee.FieldExtras)
+	return u
+}
+
+// UpdateNewValues updates the mutable fields using the new values that were set on create except the ID field.
+// Using this option is equivalent to using:
+//
+//	client.Employee.Create().
+//		OnConflict(
+//			sql.ResolveWithNewValues(),
+//			sql.ResolveWith(func(u *sql.UpdateSet) {
+//				u.SetIgnore(employee.FieldID)
+//			}),
+//		).
+//		Exec(ctx)
+func (u *EmployeeUpsertOne) UpdateNewValues() *EmployeeUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithNewValues())
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(s *sql.UpdateSet) {
+		if _, exists := u.create.mutation.ID(); exists {
+			s.SetIgnore(employee.FieldID)
+		}
+		if _, exists := u.create.mutation.CreatedAt(); exists {
+			s.SetIgnore(employee.FieldCreatedAt)
+		}
+	}))
+	return u
+}
+
+// Ignore sets each column to itself in case of conflict.
+// Using this option is equivalent to using:
+//
+//	client.Employee.Create().
+//	    OnConflict(sql.ResolveWithIgnore()).
+//	    Exec(ctx)
+func (u *EmployeeUpsertOne) Ignore() *EmployeeUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithIgnore())
+	return u
+}
+
+// DoNothing configures the conflict_action to `DO NOTHING`.
+// Supported only by SQLite and PostgreSQL.
+func (u *EmployeeUpsertOne) DoNothing() *EmployeeUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.DoNothing())
+	return u
+}
+
+// Update allows overriding fields `UPDATE` values. See the EmployeeCreate.OnConflict
+// documentation for more info.
+func (u *EmployeeUpsertOne) Update(set func(*EmployeeUpsert)) *EmployeeUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(update *sql.UpdateSet) {
+		set(&EmployeeUpsert{UpdateSet: update})
+	}))
+	return u
+}
+
+// SetSpaceID sets the "space_id" field.
+func (u *EmployeeUpsertOne) SetSpaceID(v string) *EmployeeUpsertOne {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.SetSpaceID(v)
+	})
+}
+
+// UpdateSpaceID sets the "space_id" field to the value that was provided on create.
+func (u *EmployeeUpsertOne) UpdateSpaceID() *EmployeeUpsertOne {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.UpdateSpaceID()
+	})
+}
+
+// ClearSpaceID clears the value of the "space_id" field.
+func (u *EmployeeUpsertOne) ClearSpaceID() *EmployeeUpsertOne {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.ClearSpaceID()
+	})
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *EmployeeUpsertOne) SetUpdatedAt(v int64) *EmployeeUpsertOne {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.SetUpdatedAt(v)
+	})
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *EmployeeUpsertOne) AddUpdatedAt(v int64) *EmployeeUpsertOne {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.AddUpdatedAt(v)
+	})
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *EmployeeUpsertOne) UpdateUpdatedAt() *EmployeeUpsertOne {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.UpdateUpdatedAt()
+	})
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *EmployeeUpsertOne) ClearUpdatedAt() *EmployeeUpsertOne {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.ClearUpdatedAt()
+	})
+}
+
+// SetEmployeeID sets the "employee_id" field.
+func (u *EmployeeUpsertOne) SetEmployeeID(v string) *EmployeeUpsertOne {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.SetEmployeeID(v)
+	})
+}
+
+// UpdateEmployeeID sets the "employee_id" field to the value that was provided on create.
+func (u *EmployeeUpsertOne) UpdateEmployeeID() *EmployeeUpsertOne {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.UpdateEmployeeID()
+	})
+}
+
+// ClearEmployeeID clears the value of the "employee_id" field.
+func (u *EmployeeUpsertOne) ClearEmployeeID() *EmployeeUpsertOne {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.ClearEmployeeID()
+	})
+}
+
+// SetDepartment sets the "department" field.
+func (u *EmployeeUpsertOne) SetDepartment(v string) *EmployeeUpsertOne {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.SetDepartment(v)
+	})
+}
+
+// UpdateDepartment sets the "department" field to the value that was provided on create.
+func (u *EmployeeUpsertOne) UpdateDepartment() *EmployeeUpsertOne {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.UpdateDepartment()
+	})
+}
+
+// ClearDepartment clears the value of the "department" field.
+func (u *EmployeeUpsertOne) ClearDepartment() *EmployeeUpsertOne {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.ClearDepartment()
+	})
+}
+
+// SetPosition sets the "position" field.
+func (u *EmployeeUpsertOne) SetPosition(v string) *EmployeeUpsertOne {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.SetPosition(v)
+	})
+}
+
+// UpdatePosition sets the "position" field to the value that was provided on create.
+func (u *EmployeeUpsertOne) UpdatePosition() *EmployeeUpsertOne {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.UpdatePosition()
+	})
+}
+
+// ClearPosition clears the value of the "position" field.
+func (u *EmployeeUpsertOne) ClearPosition() *EmployeeUpsertOne {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.ClearPosition()
+	})
+}
+
+// SetManagerID sets the "manager_id" field.
+func (u *EmployeeUpsertOne) SetManagerID(v string) *EmployeeUpsertOne {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.SetManagerID(v)
+	})
+}
+
+// UpdateManagerID sets the "manager_id" field to the value that was provided on create.
+func (u *EmployeeUpsertOne) UpdateManagerID() *EmployeeUpsertOne {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.UpdateManagerID()
+	})
+}
+
+// ClearManagerID clears the value of the "manager_id" field.
+func (u *EmployeeUpsertOne) ClearManagerID() *EmployeeUpsertOne {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.ClearManagerID()
+	})
+}
+
+// SetHireDate sets the "hire_date" field.
+func (u *EmployeeUpsertOne) SetHireDate(v time.Time) *EmployeeUpsertOne {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.SetHireDate(v)
+	})
+}
+
+// UpdateHireDate sets the "hire_date" field to the value that was provided on create.
+func (u *EmployeeUpsertOne) UpdateHireDate() *EmployeeUpsertOne {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.UpdateHireDate()
+	})
+}
+
+// ClearHireDate clears the value of the "hire_date" field.
+func (u *EmployeeUpsertOne) ClearHireDate() *EmployeeUpsertOne {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.ClearHireDate()
+	})
+}
+
+// SetTerminationDate sets the "termination_date" field.
+func (u *EmployeeUpsertOne) SetTerminationDate(v time.Time) *EmployeeUpsertOne {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.SetTerminationDate(v)
+	})
+}
+
+// UpdateTerminationDate sets the "termination_date" field to the value that was provided on create.
+func (u *EmployeeUpsertOne) UpdateTerminationDate() *EmployeeUpsertOne {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.UpdateTerminationDate()
+	})
+}
+
+// ClearTerminationDate clears the value of the "termination_date" field.
+func (u *EmployeeUpsertOne) ClearTerminationDate() *EmployeeUpsertOne {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.ClearTerminationDate()
+	})
+}
+
+// SetEmploymentType sets the "employment_type" field.
+func (u *EmployeeUpsertOne) SetEmploymentType(v employee.EmploymentType) *EmployeeUpsertOne {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.SetEmploymentType(v)
+	})
+}
+
+// UpdateEmploymentType sets the "employment_type" field to the value that was provided on create.
+func (u *EmployeeUpsertOne) UpdateEmploymentType() *EmployeeUpsertOne {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.UpdateEmploymentType()
+	})
+}
+
+// SetStatus sets the "status" field.
+func (u *EmployeeUpsertOne) SetStatus(v employee.Status) *EmployeeUpsertOne {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.SetStatus(v)
+	})
+}
+
+// UpdateStatus sets the "status" field to the value that was provided on create.
+func (u *EmployeeUpsertOne) UpdateStatus() *EmployeeUpsertOne {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.UpdateStatus()
+	})
+}
+
+// SetSalary sets the "salary" field.
+func (u *EmployeeUpsertOne) SetSalary(v float64) *EmployeeUpsertOne {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.SetSalary(v)
+	})
+}
+
+// AddSalary adds v to the "salary" field.
+func (u *EmployeeUpsertOne) AddSalary(v float64) *EmployeeUpsertOne {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.AddSalary(v)
+	})
+}
+
+// UpdateSalary sets the "salary" field to the value that was provided on create.
+func (u *EmployeeUpsertOne) UpdateSalary() *EmployeeUpsertOne {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.UpdateSalary()
+	})
+}
+
+// ClearSalary clears the value of the "salary" field.
+func (u *EmployeeUpsertOne) ClearSalary() *EmployeeUpsertOne {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.ClearSalary()
+	})
+}
+
+// SetWorkLocation sets the "work_location" field.
+func (u *EmployeeUpsertOne) SetWorkLocation(v string) *EmployeeUpsertOne {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.SetWorkLocation(v)
+	})
+}
+
+// UpdateWorkLocation sets the "work_location" field to the value that was provided on create.
+func (u *EmployeeUpsertOne) UpdateWorkLocation() *EmployeeUpsertOne {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.UpdateWorkLocation()
+	})
+}
+
+// ClearWorkLocation clears the value of the "work_location" field.
+func (u *EmployeeUpsertOne) ClearWorkLocation() *EmployeeUpsertOne {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.ClearWorkLocation()
+	})
+}
+
+// SetContactInfo sets the "contact_info" field.
+func (u *EmployeeUpsertOne) SetContactInfo(v map[string]interface{}) *EmployeeUpsertOne {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.SetContactInfo(v)
+	})
+}
+
+// UpdateContactInfo sets the "contact_info" field to the value that was provided on create.
+func (u *EmployeeUpsertOne) UpdateContactInfo() *EmployeeUpsertOne {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.UpdateContactInfo()
+	})
+}
+
+// ClearContactInfo clears the value of the "contact_info" field.
+func (u *EmployeeUpsertOne) ClearContactInfo() *EmployeeUpsertOne {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.ClearContactInfo()
+	})
+}
+
+// SetSkills sets the "skills" field.
+func (u *EmployeeUpsertOne) SetSkills(v []string) *EmployeeUpsertOne {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.SetSkills(v)
+	})
+}
+
+// UpdateSkills sets the "skills" field to the value that was provided on create.
+func (u *EmployeeUpsertOne) UpdateSkills() *EmployeeUpsertOne {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.UpdateSkills()
+	})
+}
+
+// ClearSkills clears the value of the "skills" field.
+func (u *EmployeeUpsertOne) ClearSkills() *EmployeeUpsertOne {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.ClearSkills()
+	})
+}
+
+// SetCertifications sets the "certifications" field.
+func (u *EmployeeUpsertOne) SetCertifications(v []string) *EmployeeUpsertOne {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.SetCertifications(v)
+	})
+}
+
+// UpdateCertifications sets the "certifications" field to the value that was provided on create.
+func (u *EmployeeUpsertOne) UpdateCertifications() *EmployeeUpsertOne {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.UpdateCertifications()
+	})
+}
+
+// ClearCertifications clears the value of the "certifications" field.
+func (u *EmployeeUpsertOne) ClearCertifications() *EmployeeUpsertOne {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.ClearCertifications()
+	})
+}
+
+// SetExtras sets the "extras" field.
+func (u *EmployeeUpsertOne) SetExtras(v map[string]interface{}) *EmployeeUpsertOne {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.SetExtras(v)
+	})
+}
+
+// UpdateExtras sets the "extras" field to the value that was provided on create.
+func (u *EmployeeUpsertOne) UpdateExtras() *EmployeeUpsertOne {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.UpdateExtras()
+	})
+}
+
+// ClearExtras clears the value of the "extras" field.
+func (u *EmployeeUpsertOne) ClearExtras() *EmployeeUpsertOne {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.ClearExtras()
+	})
+}
+
+// Exec executes the query.
+func (u *EmployeeUpsertOne) Exec(ctx context.Context) error {
+	if len(u.create.conflict) == 0 {
+		return errors.New("ent: missing options for EmployeeCreate.OnConflict")
+	}
+	return u.create.Exec(ctx)
+}
+
+// ExecX is like Exec, but panics if an error occurs.
+func (u *EmployeeUpsertOne) ExecX(ctx context.Context) {
+	if err := u.create.Exec(ctx); err != nil {
+		panic(err)
+	}
+}
+
+// Exec executes the UPSERT query and returns the inserted/updated ID.
+func (u *EmployeeUpsertOne) ID(ctx context.Context) (id string, err error) {
+	if u.create.driver.Dialect() == dialect.MySQL {
+		// In case of "ON CONFLICT", there is no way to get back non-numeric ID
+		// fields from the database since MySQL does not support the RETURNING clause.
+		return id, errors.New("ent: EmployeeUpsertOne.ID is not supported by MySQL driver. Use EmployeeUpsertOne.Exec instead")
+	}
+	node, err := u.create.Save(ctx)
+	if err != nil {
+		return id, err
+	}
+	return node.ID, nil
+}
+
+// IDX is like ID, but panics if an error occurs.
+func (u *EmployeeUpsertOne) IDX(ctx context.Context) string {
+	id, err := u.ID(ctx)
+	if err != nil {
+		panic(err)
+	}
+	return id
+}
+
 // EmployeeCreateBulk is the builder for creating many Employee entities in bulk.
 type EmployeeCreateBulk struct {
 	config
 	err      error
 	builders []*EmployeeCreate
+	conflict []sql.ConflictOption
 }
 
 // Save creates the Employee entities in the database.
@@ -455,6 +1222,7 @@ func (_c *EmployeeCreateBulk) Save(ctx context.Context) ([]*Employee, error) {
 					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
+					spec.OnConflict = _c.conflict
 					// Invoke the actual operation on the latest mutation in the chain.
 					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
@@ -501,6 +1269,459 @@ func (_c *EmployeeCreateBulk) Exec(ctx context.Context) error {
 // ExecX is like Exec, but panics if an error occurs.
 func (_c *EmployeeCreateBulk) ExecX(ctx context.Context) {
 	if err := _c.Exec(ctx); err != nil {
+		panic(err)
+	}
+}
+
+// OnConflict allows configuring the `ON CONFLICT` / `ON DUPLICATE KEY` clause
+// of the `INSERT` statement. For example:
+//
+//	client.Employee.CreateBulk(builders...).
+//		OnConflict(
+//			// Update the row with the new values
+//			// the was proposed for insertion.
+//			sql.ResolveWithNewValues(),
+//		).
+//		// Override some of the fields with custom
+//		// update values.
+//		Update(func(u *ent.EmployeeUpsert) {
+//			SetSpaceID(v+v).
+//		}).
+//		Exec(ctx)
+func (_c *EmployeeCreateBulk) OnConflict(opts ...sql.ConflictOption) *EmployeeUpsertBulk {
+	_c.conflict = opts
+	return &EmployeeUpsertBulk{
+		create: _c,
+	}
+}
+
+// OnConflictColumns calls `OnConflict` and configures the columns
+// as conflict target. Using this option is equivalent to using:
+//
+//	client.Employee.Create().
+//		OnConflict(sql.ConflictColumns(columns...)).
+//		Exec(ctx)
+func (_c *EmployeeCreateBulk) OnConflictColumns(columns ...string) *EmployeeUpsertBulk {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
+	return &EmployeeUpsertBulk{
+		create: _c,
+	}
+}
+
+// EmployeeUpsertBulk is the builder for "upsert"-ing
+// a bulk of Employee nodes.
+type EmployeeUpsertBulk struct {
+	create *EmployeeCreateBulk
+}
+
+// UpdateNewValues updates the mutable fields using the new values that
+// were set on create. Using this option is equivalent to using:
+//
+//	client.Employee.Create().
+//		OnConflict(
+//			sql.ResolveWithNewValues(),
+//			sql.ResolveWith(func(u *sql.UpdateSet) {
+//				u.SetIgnore(employee.FieldID)
+//			}),
+//		).
+//		Exec(ctx)
+func (u *EmployeeUpsertBulk) UpdateNewValues() *EmployeeUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithNewValues())
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(s *sql.UpdateSet) {
+		for _, b := range u.create.builders {
+			if _, exists := b.mutation.ID(); exists {
+				s.SetIgnore(employee.FieldID)
+			}
+			if _, exists := b.mutation.CreatedAt(); exists {
+				s.SetIgnore(employee.FieldCreatedAt)
+			}
+		}
+	}))
+	return u
+}
+
+// Ignore sets each column to itself in case of conflict.
+// Using this option is equivalent to using:
+//
+//	client.Employee.Create().
+//		OnConflict(sql.ResolveWithIgnore()).
+//		Exec(ctx)
+func (u *EmployeeUpsertBulk) Ignore() *EmployeeUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithIgnore())
+	return u
+}
+
+// DoNothing configures the conflict_action to `DO NOTHING`.
+// Supported only by SQLite and PostgreSQL.
+func (u *EmployeeUpsertBulk) DoNothing() *EmployeeUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.DoNothing())
+	return u
+}
+
+// Update allows overriding fields `UPDATE` values. See the EmployeeCreateBulk.OnConflict
+// documentation for more info.
+func (u *EmployeeUpsertBulk) Update(set func(*EmployeeUpsert)) *EmployeeUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(update *sql.UpdateSet) {
+		set(&EmployeeUpsert{UpdateSet: update})
+	}))
+	return u
+}
+
+// SetSpaceID sets the "space_id" field.
+func (u *EmployeeUpsertBulk) SetSpaceID(v string) *EmployeeUpsertBulk {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.SetSpaceID(v)
+	})
+}
+
+// UpdateSpaceID sets the "space_id" field to the value that was provided on create.
+func (u *EmployeeUpsertBulk) UpdateSpaceID() *EmployeeUpsertBulk {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.UpdateSpaceID()
+	})
+}
+
+// ClearSpaceID clears the value of the "space_id" field.
+func (u *EmployeeUpsertBulk) ClearSpaceID() *EmployeeUpsertBulk {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.ClearSpaceID()
+	})
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *EmployeeUpsertBulk) SetUpdatedAt(v int64) *EmployeeUpsertBulk {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.SetUpdatedAt(v)
+	})
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *EmployeeUpsertBulk) AddUpdatedAt(v int64) *EmployeeUpsertBulk {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.AddUpdatedAt(v)
+	})
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *EmployeeUpsertBulk) UpdateUpdatedAt() *EmployeeUpsertBulk {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.UpdateUpdatedAt()
+	})
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *EmployeeUpsertBulk) ClearUpdatedAt() *EmployeeUpsertBulk {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.ClearUpdatedAt()
+	})
+}
+
+// SetEmployeeID sets the "employee_id" field.
+func (u *EmployeeUpsertBulk) SetEmployeeID(v string) *EmployeeUpsertBulk {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.SetEmployeeID(v)
+	})
+}
+
+// UpdateEmployeeID sets the "employee_id" field to the value that was provided on create.
+func (u *EmployeeUpsertBulk) UpdateEmployeeID() *EmployeeUpsertBulk {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.UpdateEmployeeID()
+	})
+}
+
+// ClearEmployeeID clears the value of the "employee_id" field.
+func (u *EmployeeUpsertBulk) ClearEmployeeID() *EmployeeUpsertBulk {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.ClearEmployeeID()
+	})
+}
+
+// SetDepartment sets the "department" field.
+func (u *EmployeeUpsertBulk) SetDepartment(v string) *EmployeeUpsertBulk {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.SetDepartment(v)
+	})
+}
+
+// UpdateDepartment sets the "department" field to the value that was provided on create.
+func (u *EmployeeUpsertBulk) UpdateDepartment() *EmployeeUpsertBulk {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.UpdateDepartment()
+	})
+}
+
+// ClearDepartment clears the value of the "department" field.
+func (u *EmployeeUpsertBulk) ClearDepartment() *EmployeeUpsertBulk {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.ClearDepartment()
+	})
+}
+
+// SetPosition sets the "position" field.
+func (u *EmployeeUpsertBulk) SetPosition(v string) *EmployeeUpsertBulk {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.SetPosition(v)
+	})
+}
+
+// UpdatePosition sets the "position" field to the value that was provided on create.
+func (u *EmployeeUpsertBulk) UpdatePosition() *EmployeeUpsertBulk {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.UpdatePosition()
+	})
+}
+
+// ClearPosition clears the value of the "position" field.
+func (u *EmployeeUpsertBulk) ClearPosition() *EmployeeUpsertBulk {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.ClearPosition()
+	})
+}
+
+// SetManagerID sets the "manager_id" field.
+func (u *EmployeeUpsertBulk) SetManagerID(v string) *EmployeeUpsertBulk {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.SetManagerID(v)
+	})
+}
+
+// UpdateManagerID sets the "manager_id" field to the value that was provided on create.
+func (u *EmployeeUpsertBulk) UpdateManagerID() *EmployeeUpsertBulk {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.UpdateManagerID()
+	})
+}
+
+// ClearManagerID clears the value of the "manager_id" field.
+func (u *EmployeeUpsertBulk) ClearManagerID() *EmployeeUpsertBulk {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.ClearManagerID()
+	})
+}
+
+// SetHireDate sets the "hire_date" field.
+func (u *EmployeeUpsertBulk) SetHireDate(v time.Time) *EmployeeUpsertBulk {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.SetHireDate(v)
+	})
+}
+
+// UpdateHireDate sets the "hire_date" field to the value that was provided on create.
+func (u *EmployeeUpsertBulk) UpdateHireDate() *EmployeeUpsertBulk {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.UpdateHireDate()
+	})
+}
+
+// ClearHireDate clears the value of the "hire_date" field.
+func (u *EmployeeUpsertBulk) ClearHireDate() *EmployeeUpsertBulk {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.ClearHireDate()
+	})
+}
+
+// SetTerminationDate sets the "termination_date" field.
+func (u *EmployeeUpsertBulk) SetTerminationDate(v time.Time) *EmployeeUpsertBulk {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.SetTerminationDate(v)
+	})
+}
+
+// UpdateTerminationDate sets the "termination_date" field to the value that was provided on create.
+func (u *EmployeeUpsertBulk) UpdateTerminationDate() *EmployeeUpsertBulk {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.UpdateTerminationDate()
+	})
+}
+
+// ClearTerminationDate clears the value of the "termination_date" field.
+func (u *EmployeeUpsertBulk) ClearTerminationDate() *EmployeeUpsertBulk {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.ClearTerminationDate()
+	})
+}
+
+// SetEmploymentType sets the "employment_type" field.
+func (u *EmployeeUpsertBulk) SetEmploymentType(v employee.EmploymentType) *EmployeeUpsertBulk {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.SetEmploymentType(v)
+	})
+}
+
+// UpdateEmploymentType sets the "employment_type" field to the value that was provided on create.
+func (u *EmployeeUpsertBulk) UpdateEmploymentType() *EmployeeUpsertBulk {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.UpdateEmploymentType()
+	})
+}
+
+// SetStatus sets the "status" field.
+func (u *EmployeeUpsertBulk) SetStatus(v employee.Status) *EmployeeUpsertBulk {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.SetStatus(v)
+	})
+}
+
+// UpdateStatus sets the "status" field to the value that was provided on create.
+func (u *EmployeeUpsertBulk) UpdateStatus() *EmployeeUpsertBulk {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.UpdateStatus()
+	})
+}
+
+// SetSalary sets the "salary" field.
+func (u *EmployeeUpsertBulk) SetSalary(v float64) *EmployeeUpsertBulk {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.SetSalary(v)
+	})
+}
+
+// AddSalary adds v to the "salary" field.
+func (u *EmployeeUpsertBulk) AddSalary(v float64) *EmployeeUpsertBulk {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.AddSalary(v)
+	})
+}
+
+// UpdateSalary sets the "salary" field to the value that was provided on create.
+func (u *EmployeeUpsertBulk) UpdateSalary() *EmployeeUpsertBulk {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.UpdateSalary()
+	})
+}
+
+// ClearSalary clears the value of the "salary" field.
+func (u *EmployeeUpsertBulk) ClearSalary() *EmployeeUpsertBulk {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.ClearSalary()
+	})
+}
+
+// SetWorkLocation sets the "work_location" field.
+func (u *EmployeeUpsertBulk) SetWorkLocation(v string) *EmployeeUpsertBulk {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.SetWorkLocation(v)
+	})
+}
+
+// UpdateWorkLocation sets the "work_location" field to the value that was provided on create.
+func (u *EmployeeUpsertBulk) UpdateWorkLocation() *EmployeeUpsertBulk {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.UpdateWorkLocation()
+	})
+}
+
+// ClearWorkLocation clears the value of the "work_location" field.
+func (u *EmployeeUpsertBulk) ClearWorkLocation() *EmployeeUpsertBulk {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.ClearWorkLocation()
+	})
+}
+
+// SetContactInfo sets the "contact_info" field.
+func (u *EmployeeUpsertBulk) SetContactInfo(v map[string]interface{}) *EmployeeUpsertBulk {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.SetContactInfo(v)
+	})
+}
+
+// UpdateContactInfo sets the "contact_info" field to the value that was provided on create.
+func (u *EmployeeUpsertBulk) UpdateContactInfo() *EmployeeUpsertBulk {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.UpdateContactInfo()
+	})
+}
+
+// ClearContactInfo clears the value of the "contact_info" field.
+func (u *EmployeeUpsertBulk) ClearContactInfo() *EmployeeUpsertBulk {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.ClearContactInfo()
+	})
+}
+
+// SetSkills sets the "skills" field.
+func (u *EmployeeUpsertBulk) SetSkills(v []string) *EmployeeUpsertBulk {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.SetSkills(v)
+	})
+}
+
+// UpdateSkills sets the "skills" field to the value that was provided on create.
+func (u *EmployeeUpsertBulk) UpdateSkills() *EmployeeUpsertBulk {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.UpdateSkills()
+	})
+}
+
+// ClearSkills clears the value of the "skills" field.
+func (u *EmployeeUpsertBulk) ClearSkills() *EmployeeUpsertBulk {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.ClearSkills()
+	})
+}
+
+// SetCertifications sets the "certifications" field.
+func (u *EmployeeUpsertBulk) SetCertifications(v []string) *EmployeeUpsertBulk {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.SetCertifications(v)
+	})
+}
+
+// UpdateCertifications sets the "certifications" field to the value that was provided on create.
+func (u *EmployeeUpsertBulk) UpdateCertifications() *EmployeeUpsertBulk {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.UpdateCertifications()
+	})
+}
+
+// ClearCertifications clears the value of the "certifications" field.
+func (u *EmployeeUpsertBulk) ClearCertifications() *EmployeeUpsertBulk {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.ClearCertifications()
+	})
+}
+
+// SetExtras sets the "extras" field.
+func (u *EmployeeUpsertBulk) SetExtras(v map[string]interface{}) *EmployeeUpsertBulk {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.SetExtras(v)
+	})
+}
+
+// UpdateExtras sets the "extras" field to the value that was provided on create.
+func (u *EmployeeUpsertBulk) UpdateExtras() *EmployeeUpsertBulk {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.UpdateExtras()
+	})
+}
+
+// ClearExtras clears the value of the "extras" field.
+func (u *EmployeeUpsertBulk) ClearExtras() *EmployeeUpsertBulk {
+	return u.Update(func(s *EmployeeUpsert) {
+		s.ClearExtras()
+	})
+}
+
+// Exec executes the query.
+func (u *EmployeeUpsertBulk) Exec(ctx context.Context) error {
+	if u.create.err != nil {
+		return u.create.err
+	}
+	for i, b := range u.create.builders {
+		if len(b.conflict) != 0 {
+			return fmt.Errorf("ent: OnConflict was set for builder %d. Set it on the EmployeeCreateBulk instead", i)
+		}
+	}
+	if len(u.create.conflict) == 0 {
+		return errors.New("ent: missing options for EmployeeCreateBulk.OnConflict")
+	}
+	return u.create.Exec(ctx)
+}
+
+// ExecX is like Exec, but panics if an error occurs.
+func (u *EmployeeUpsertBulk) ExecX(ctx context.Context) {
+	if err := u.create.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

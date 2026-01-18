@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"ncobase/access/service"
+	"ncobase/core/access/service"
 
 	"github.com/ncobase/ncore/ecode"
 	"github.com/ncobase/ncore/net/resp"

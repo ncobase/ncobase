@@ -6,8 +6,10 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"ncobase/space/data/ent/space"
+	"ncobase/core/space/data/ent/space"
 
+	"entgo.io/ent/dialect"
+	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
 )
@@ -17,6 +19,7 @@ type SpaceCreate struct {
 	config
 	mutation *SpaceMutation
 	hooks    []Hook
+	conflict []sql.ConflictOption
 }
 
 // SetName sets the "name" field.
@@ -379,6 +382,7 @@ func (_c *SpaceCreate) createSpec() (*Space, *sqlgraph.CreateSpec) {
 		_node = &Space{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(space.Table, sqlgraph.NewFieldSpec(space.FieldID, field.TypeString))
 	)
+	_spec.OnConflict = _c.conflict
 	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
@@ -458,11 +462,839 @@ func (_c *SpaceCreate) createSpec() (*Space, *sqlgraph.CreateSpec) {
 	return _node, _spec
 }
 
+// OnConflict allows configuring the `ON CONFLICT` / `ON DUPLICATE KEY` clause
+// of the `INSERT` statement. For example:
+//
+//	client.Space.Create().
+//		SetName(v).
+//		OnConflict(
+//			// Update the row with the new values
+//			// the was proposed for insertion.
+//			sql.ResolveWithNewValues(),
+//		).
+//		// Override some of the fields with custom
+//		// update values.
+//		Update(func(u *ent.SpaceUpsert) {
+//			SetName(v+v).
+//		}).
+//		Exec(ctx)
+func (_c *SpaceCreate) OnConflict(opts ...sql.ConflictOption) *SpaceUpsertOne {
+	_c.conflict = opts
+	return &SpaceUpsertOne{
+		create: _c,
+	}
+}
+
+// OnConflictColumns calls `OnConflict` and configures the columns
+// as conflict target. Using this option is equivalent to using:
+//
+//	client.Space.Create().
+//		OnConflict(sql.ConflictColumns(columns...)).
+//		Exec(ctx)
+func (_c *SpaceCreate) OnConflictColumns(columns ...string) *SpaceUpsertOne {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
+	return &SpaceUpsertOne{
+		create: _c,
+	}
+}
+
+type (
+	// SpaceUpsertOne is the builder for "upsert"-ing
+	//  one Space node.
+	SpaceUpsertOne struct {
+		create *SpaceCreate
+	}
+
+	// SpaceUpsert is the "OnConflict" setter.
+	SpaceUpsert struct {
+		*sql.UpdateSet
+	}
+)
+
+// SetName sets the "name" field.
+func (u *SpaceUpsert) SetName(v string) *SpaceUpsert {
+	u.Set(space.FieldName, v)
+	return u
+}
+
+// UpdateName sets the "name" field to the value that was provided on create.
+func (u *SpaceUpsert) UpdateName() *SpaceUpsert {
+	u.SetExcluded(space.FieldName)
+	return u
+}
+
+// ClearName clears the value of the "name" field.
+func (u *SpaceUpsert) ClearName() *SpaceUpsert {
+	u.SetNull(space.FieldName)
+	return u
+}
+
+// SetSlug sets the "slug" field.
+func (u *SpaceUpsert) SetSlug(v string) *SpaceUpsert {
+	u.Set(space.FieldSlug, v)
+	return u
+}
+
+// UpdateSlug sets the "slug" field to the value that was provided on create.
+func (u *SpaceUpsert) UpdateSlug() *SpaceUpsert {
+	u.SetExcluded(space.FieldSlug)
+	return u
+}
+
+// ClearSlug clears the value of the "slug" field.
+func (u *SpaceUpsert) ClearSlug() *SpaceUpsert {
+	u.SetNull(space.FieldSlug)
+	return u
+}
+
+// SetType sets the "type" field.
+func (u *SpaceUpsert) SetType(v string) *SpaceUpsert {
+	u.Set(space.FieldType, v)
+	return u
+}
+
+// UpdateType sets the "type" field to the value that was provided on create.
+func (u *SpaceUpsert) UpdateType() *SpaceUpsert {
+	u.SetExcluded(space.FieldType)
+	return u
+}
+
+// ClearType clears the value of the "type" field.
+func (u *SpaceUpsert) ClearType() *SpaceUpsert {
+	u.SetNull(space.FieldType)
+	return u
+}
+
+// SetTitle sets the "title" field.
+func (u *SpaceUpsert) SetTitle(v string) *SpaceUpsert {
+	u.Set(space.FieldTitle, v)
+	return u
+}
+
+// UpdateTitle sets the "title" field to the value that was provided on create.
+func (u *SpaceUpsert) UpdateTitle() *SpaceUpsert {
+	u.SetExcluded(space.FieldTitle)
+	return u
+}
+
+// ClearTitle clears the value of the "title" field.
+func (u *SpaceUpsert) ClearTitle() *SpaceUpsert {
+	u.SetNull(space.FieldTitle)
+	return u
+}
+
+// SetURL sets the "url" field.
+func (u *SpaceUpsert) SetURL(v string) *SpaceUpsert {
+	u.Set(space.FieldURL, v)
+	return u
+}
+
+// UpdateURL sets the "url" field to the value that was provided on create.
+func (u *SpaceUpsert) UpdateURL() *SpaceUpsert {
+	u.SetExcluded(space.FieldURL)
+	return u
+}
+
+// ClearURL clears the value of the "url" field.
+func (u *SpaceUpsert) ClearURL() *SpaceUpsert {
+	u.SetNull(space.FieldURL)
+	return u
+}
+
+// SetLogo sets the "logo" field.
+func (u *SpaceUpsert) SetLogo(v string) *SpaceUpsert {
+	u.Set(space.FieldLogo, v)
+	return u
+}
+
+// UpdateLogo sets the "logo" field to the value that was provided on create.
+func (u *SpaceUpsert) UpdateLogo() *SpaceUpsert {
+	u.SetExcluded(space.FieldLogo)
+	return u
+}
+
+// ClearLogo clears the value of the "logo" field.
+func (u *SpaceUpsert) ClearLogo() *SpaceUpsert {
+	u.SetNull(space.FieldLogo)
+	return u
+}
+
+// SetLogoAlt sets the "logo_alt" field.
+func (u *SpaceUpsert) SetLogoAlt(v string) *SpaceUpsert {
+	u.Set(space.FieldLogoAlt, v)
+	return u
+}
+
+// UpdateLogoAlt sets the "logo_alt" field to the value that was provided on create.
+func (u *SpaceUpsert) UpdateLogoAlt() *SpaceUpsert {
+	u.SetExcluded(space.FieldLogoAlt)
+	return u
+}
+
+// ClearLogoAlt clears the value of the "logo_alt" field.
+func (u *SpaceUpsert) ClearLogoAlt() *SpaceUpsert {
+	u.SetNull(space.FieldLogoAlt)
+	return u
+}
+
+// SetKeywords sets the "keywords" field.
+func (u *SpaceUpsert) SetKeywords(v string) *SpaceUpsert {
+	u.Set(space.FieldKeywords, v)
+	return u
+}
+
+// UpdateKeywords sets the "keywords" field to the value that was provided on create.
+func (u *SpaceUpsert) UpdateKeywords() *SpaceUpsert {
+	u.SetExcluded(space.FieldKeywords)
+	return u
+}
+
+// ClearKeywords clears the value of the "keywords" field.
+func (u *SpaceUpsert) ClearKeywords() *SpaceUpsert {
+	u.SetNull(space.FieldKeywords)
+	return u
+}
+
+// SetCopyright sets the "copyright" field.
+func (u *SpaceUpsert) SetCopyright(v string) *SpaceUpsert {
+	u.Set(space.FieldCopyright, v)
+	return u
+}
+
+// UpdateCopyright sets the "copyright" field to the value that was provided on create.
+func (u *SpaceUpsert) UpdateCopyright() *SpaceUpsert {
+	u.SetExcluded(space.FieldCopyright)
+	return u
+}
+
+// ClearCopyright clears the value of the "copyright" field.
+func (u *SpaceUpsert) ClearCopyright() *SpaceUpsert {
+	u.SetNull(space.FieldCopyright)
+	return u
+}
+
+// SetDescription sets the "description" field.
+func (u *SpaceUpsert) SetDescription(v string) *SpaceUpsert {
+	u.Set(space.FieldDescription, v)
+	return u
+}
+
+// UpdateDescription sets the "description" field to the value that was provided on create.
+func (u *SpaceUpsert) UpdateDescription() *SpaceUpsert {
+	u.SetExcluded(space.FieldDescription)
+	return u
+}
+
+// ClearDescription clears the value of the "description" field.
+func (u *SpaceUpsert) ClearDescription() *SpaceUpsert {
+	u.SetNull(space.FieldDescription)
+	return u
+}
+
+// SetOrder sets the "order" field.
+func (u *SpaceUpsert) SetOrder(v int) *SpaceUpsert {
+	u.Set(space.FieldOrder, v)
+	return u
+}
+
+// UpdateOrder sets the "order" field to the value that was provided on create.
+func (u *SpaceUpsert) UpdateOrder() *SpaceUpsert {
+	u.SetExcluded(space.FieldOrder)
+	return u
+}
+
+// AddOrder adds v to the "order" field.
+func (u *SpaceUpsert) AddOrder(v int) *SpaceUpsert {
+	u.Add(space.FieldOrder, v)
+	return u
+}
+
+// SetDisabled sets the "disabled" field.
+func (u *SpaceUpsert) SetDisabled(v bool) *SpaceUpsert {
+	u.Set(space.FieldDisabled, v)
+	return u
+}
+
+// UpdateDisabled sets the "disabled" field to the value that was provided on create.
+func (u *SpaceUpsert) UpdateDisabled() *SpaceUpsert {
+	u.SetExcluded(space.FieldDisabled)
+	return u
+}
+
+// ClearDisabled clears the value of the "disabled" field.
+func (u *SpaceUpsert) ClearDisabled() *SpaceUpsert {
+	u.SetNull(space.FieldDisabled)
+	return u
+}
+
+// SetExtras sets the "extras" field.
+func (u *SpaceUpsert) SetExtras(v map[string]interface{}) *SpaceUpsert {
+	u.Set(space.FieldExtras, v)
+	return u
+}
+
+// UpdateExtras sets the "extras" field to the value that was provided on create.
+func (u *SpaceUpsert) UpdateExtras() *SpaceUpsert {
+	u.SetExcluded(space.FieldExtras)
+	return u
+}
+
+// ClearExtras clears the value of the "extras" field.
+func (u *SpaceUpsert) ClearExtras() *SpaceUpsert {
+	u.SetNull(space.FieldExtras)
+	return u
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (u *SpaceUpsert) SetCreatedBy(v string) *SpaceUpsert {
+	u.Set(space.FieldCreatedBy, v)
+	return u
+}
+
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *SpaceUpsert) UpdateCreatedBy() *SpaceUpsert {
+	u.SetExcluded(space.FieldCreatedBy)
+	return u
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *SpaceUpsert) ClearCreatedBy() *SpaceUpsert {
+	u.SetNull(space.FieldCreatedBy)
+	return u
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (u *SpaceUpsert) SetUpdatedBy(v string) *SpaceUpsert {
+	u.Set(space.FieldUpdatedBy, v)
+	return u
+}
+
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *SpaceUpsert) UpdateUpdatedBy() *SpaceUpsert {
+	u.SetExcluded(space.FieldUpdatedBy)
+	return u
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *SpaceUpsert) ClearUpdatedBy() *SpaceUpsert {
+	u.SetNull(space.FieldUpdatedBy)
+	return u
+}
+
+// SetExpiredAt sets the "expired_at" field.
+func (u *SpaceUpsert) SetExpiredAt(v int64) *SpaceUpsert {
+	u.Set(space.FieldExpiredAt, v)
+	return u
+}
+
+// UpdateExpiredAt sets the "expired_at" field to the value that was provided on create.
+func (u *SpaceUpsert) UpdateExpiredAt() *SpaceUpsert {
+	u.SetExcluded(space.FieldExpiredAt)
+	return u
+}
+
+// AddExpiredAt adds v to the "expired_at" field.
+func (u *SpaceUpsert) AddExpiredAt(v int64) *SpaceUpsert {
+	u.Add(space.FieldExpiredAt, v)
+	return u
+}
+
+// ClearExpiredAt clears the value of the "expired_at" field.
+func (u *SpaceUpsert) ClearExpiredAt() *SpaceUpsert {
+	u.SetNull(space.FieldExpiredAt)
+	return u
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *SpaceUpsert) SetUpdatedAt(v int64) *SpaceUpsert {
+	u.Set(space.FieldUpdatedAt, v)
+	return u
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *SpaceUpsert) UpdateUpdatedAt() *SpaceUpsert {
+	u.SetExcluded(space.FieldUpdatedAt)
+	return u
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *SpaceUpsert) AddUpdatedAt(v int64) *SpaceUpsert {
+	u.Add(space.FieldUpdatedAt, v)
+	return u
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *SpaceUpsert) ClearUpdatedAt() *SpaceUpsert {
+	u.SetNull(space.FieldUpdatedAt)
+	return u
+}
+
+// UpdateNewValues updates the mutable fields using the new values that were set on create except the ID field.
+// Using this option is equivalent to using:
+//
+//	client.Space.Create().
+//		OnConflict(
+//			sql.ResolveWithNewValues(),
+//			sql.ResolveWith(func(u *sql.UpdateSet) {
+//				u.SetIgnore(space.FieldID)
+//			}),
+//		).
+//		Exec(ctx)
+func (u *SpaceUpsertOne) UpdateNewValues() *SpaceUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithNewValues())
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(s *sql.UpdateSet) {
+		if _, exists := u.create.mutation.ID(); exists {
+			s.SetIgnore(space.FieldID)
+		}
+		if _, exists := u.create.mutation.CreatedAt(); exists {
+			s.SetIgnore(space.FieldCreatedAt)
+		}
+	}))
+	return u
+}
+
+// Ignore sets each column to itself in case of conflict.
+// Using this option is equivalent to using:
+//
+//	client.Space.Create().
+//	    OnConflict(sql.ResolveWithIgnore()).
+//	    Exec(ctx)
+func (u *SpaceUpsertOne) Ignore() *SpaceUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithIgnore())
+	return u
+}
+
+// DoNothing configures the conflict_action to `DO NOTHING`.
+// Supported only by SQLite and PostgreSQL.
+func (u *SpaceUpsertOne) DoNothing() *SpaceUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.DoNothing())
+	return u
+}
+
+// Update allows overriding fields `UPDATE` values. See the SpaceCreate.OnConflict
+// documentation for more info.
+func (u *SpaceUpsertOne) Update(set func(*SpaceUpsert)) *SpaceUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(update *sql.UpdateSet) {
+		set(&SpaceUpsert{UpdateSet: update})
+	}))
+	return u
+}
+
+// SetName sets the "name" field.
+func (u *SpaceUpsertOne) SetName(v string) *SpaceUpsertOne {
+	return u.Update(func(s *SpaceUpsert) {
+		s.SetName(v)
+	})
+}
+
+// UpdateName sets the "name" field to the value that was provided on create.
+func (u *SpaceUpsertOne) UpdateName() *SpaceUpsertOne {
+	return u.Update(func(s *SpaceUpsert) {
+		s.UpdateName()
+	})
+}
+
+// ClearName clears the value of the "name" field.
+func (u *SpaceUpsertOne) ClearName() *SpaceUpsertOne {
+	return u.Update(func(s *SpaceUpsert) {
+		s.ClearName()
+	})
+}
+
+// SetSlug sets the "slug" field.
+func (u *SpaceUpsertOne) SetSlug(v string) *SpaceUpsertOne {
+	return u.Update(func(s *SpaceUpsert) {
+		s.SetSlug(v)
+	})
+}
+
+// UpdateSlug sets the "slug" field to the value that was provided on create.
+func (u *SpaceUpsertOne) UpdateSlug() *SpaceUpsertOne {
+	return u.Update(func(s *SpaceUpsert) {
+		s.UpdateSlug()
+	})
+}
+
+// ClearSlug clears the value of the "slug" field.
+func (u *SpaceUpsertOne) ClearSlug() *SpaceUpsertOne {
+	return u.Update(func(s *SpaceUpsert) {
+		s.ClearSlug()
+	})
+}
+
+// SetType sets the "type" field.
+func (u *SpaceUpsertOne) SetType(v string) *SpaceUpsertOne {
+	return u.Update(func(s *SpaceUpsert) {
+		s.SetType(v)
+	})
+}
+
+// UpdateType sets the "type" field to the value that was provided on create.
+func (u *SpaceUpsertOne) UpdateType() *SpaceUpsertOne {
+	return u.Update(func(s *SpaceUpsert) {
+		s.UpdateType()
+	})
+}
+
+// ClearType clears the value of the "type" field.
+func (u *SpaceUpsertOne) ClearType() *SpaceUpsertOne {
+	return u.Update(func(s *SpaceUpsert) {
+		s.ClearType()
+	})
+}
+
+// SetTitle sets the "title" field.
+func (u *SpaceUpsertOne) SetTitle(v string) *SpaceUpsertOne {
+	return u.Update(func(s *SpaceUpsert) {
+		s.SetTitle(v)
+	})
+}
+
+// UpdateTitle sets the "title" field to the value that was provided on create.
+func (u *SpaceUpsertOne) UpdateTitle() *SpaceUpsertOne {
+	return u.Update(func(s *SpaceUpsert) {
+		s.UpdateTitle()
+	})
+}
+
+// ClearTitle clears the value of the "title" field.
+func (u *SpaceUpsertOne) ClearTitle() *SpaceUpsertOne {
+	return u.Update(func(s *SpaceUpsert) {
+		s.ClearTitle()
+	})
+}
+
+// SetURL sets the "url" field.
+func (u *SpaceUpsertOne) SetURL(v string) *SpaceUpsertOne {
+	return u.Update(func(s *SpaceUpsert) {
+		s.SetURL(v)
+	})
+}
+
+// UpdateURL sets the "url" field to the value that was provided on create.
+func (u *SpaceUpsertOne) UpdateURL() *SpaceUpsertOne {
+	return u.Update(func(s *SpaceUpsert) {
+		s.UpdateURL()
+	})
+}
+
+// ClearURL clears the value of the "url" field.
+func (u *SpaceUpsertOne) ClearURL() *SpaceUpsertOne {
+	return u.Update(func(s *SpaceUpsert) {
+		s.ClearURL()
+	})
+}
+
+// SetLogo sets the "logo" field.
+func (u *SpaceUpsertOne) SetLogo(v string) *SpaceUpsertOne {
+	return u.Update(func(s *SpaceUpsert) {
+		s.SetLogo(v)
+	})
+}
+
+// UpdateLogo sets the "logo" field to the value that was provided on create.
+func (u *SpaceUpsertOne) UpdateLogo() *SpaceUpsertOne {
+	return u.Update(func(s *SpaceUpsert) {
+		s.UpdateLogo()
+	})
+}
+
+// ClearLogo clears the value of the "logo" field.
+func (u *SpaceUpsertOne) ClearLogo() *SpaceUpsertOne {
+	return u.Update(func(s *SpaceUpsert) {
+		s.ClearLogo()
+	})
+}
+
+// SetLogoAlt sets the "logo_alt" field.
+func (u *SpaceUpsertOne) SetLogoAlt(v string) *SpaceUpsertOne {
+	return u.Update(func(s *SpaceUpsert) {
+		s.SetLogoAlt(v)
+	})
+}
+
+// UpdateLogoAlt sets the "logo_alt" field to the value that was provided on create.
+func (u *SpaceUpsertOne) UpdateLogoAlt() *SpaceUpsertOne {
+	return u.Update(func(s *SpaceUpsert) {
+		s.UpdateLogoAlt()
+	})
+}
+
+// ClearLogoAlt clears the value of the "logo_alt" field.
+func (u *SpaceUpsertOne) ClearLogoAlt() *SpaceUpsertOne {
+	return u.Update(func(s *SpaceUpsert) {
+		s.ClearLogoAlt()
+	})
+}
+
+// SetKeywords sets the "keywords" field.
+func (u *SpaceUpsertOne) SetKeywords(v string) *SpaceUpsertOne {
+	return u.Update(func(s *SpaceUpsert) {
+		s.SetKeywords(v)
+	})
+}
+
+// UpdateKeywords sets the "keywords" field to the value that was provided on create.
+func (u *SpaceUpsertOne) UpdateKeywords() *SpaceUpsertOne {
+	return u.Update(func(s *SpaceUpsert) {
+		s.UpdateKeywords()
+	})
+}
+
+// ClearKeywords clears the value of the "keywords" field.
+func (u *SpaceUpsertOne) ClearKeywords() *SpaceUpsertOne {
+	return u.Update(func(s *SpaceUpsert) {
+		s.ClearKeywords()
+	})
+}
+
+// SetCopyright sets the "copyright" field.
+func (u *SpaceUpsertOne) SetCopyright(v string) *SpaceUpsertOne {
+	return u.Update(func(s *SpaceUpsert) {
+		s.SetCopyright(v)
+	})
+}
+
+// UpdateCopyright sets the "copyright" field to the value that was provided on create.
+func (u *SpaceUpsertOne) UpdateCopyright() *SpaceUpsertOne {
+	return u.Update(func(s *SpaceUpsert) {
+		s.UpdateCopyright()
+	})
+}
+
+// ClearCopyright clears the value of the "copyright" field.
+func (u *SpaceUpsertOne) ClearCopyright() *SpaceUpsertOne {
+	return u.Update(func(s *SpaceUpsert) {
+		s.ClearCopyright()
+	})
+}
+
+// SetDescription sets the "description" field.
+func (u *SpaceUpsertOne) SetDescription(v string) *SpaceUpsertOne {
+	return u.Update(func(s *SpaceUpsert) {
+		s.SetDescription(v)
+	})
+}
+
+// UpdateDescription sets the "description" field to the value that was provided on create.
+func (u *SpaceUpsertOne) UpdateDescription() *SpaceUpsertOne {
+	return u.Update(func(s *SpaceUpsert) {
+		s.UpdateDescription()
+	})
+}
+
+// ClearDescription clears the value of the "description" field.
+func (u *SpaceUpsertOne) ClearDescription() *SpaceUpsertOne {
+	return u.Update(func(s *SpaceUpsert) {
+		s.ClearDescription()
+	})
+}
+
+// SetOrder sets the "order" field.
+func (u *SpaceUpsertOne) SetOrder(v int) *SpaceUpsertOne {
+	return u.Update(func(s *SpaceUpsert) {
+		s.SetOrder(v)
+	})
+}
+
+// AddOrder adds v to the "order" field.
+func (u *SpaceUpsertOne) AddOrder(v int) *SpaceUpsertOne {
+	return u.Update(func(s *SpaceUpsert) {
+		s.AddOrder(v)
+	})
+}
+
+// UpdateOrder sets the "order" field to the value that was provided on create.
+func (u *SpaceUpsertOne) UpdateOrder() *SpaceUpsertOne {
+	return u.Update(func(s *SpaceUpsert) {
+		s.UpdateOrder()
+	})
+}
+
+// SetDisabled sets the "disabled" field.
+func (u *SpaceUpsertOne) SetDisabled(v bool) *SpaceUpsertOne {
+	return u.Update(func(s *SpaceUpsert) {
+		s.SetDisabled(v)
+	})
+}
+
+// UpdateDisabled sets the "disabled" field to the value that was provided on create.
+func (u *SpaceUpsertOne) UpdateDisabled() *SpaceUpsertOne {
+	return u.Update(func(s *SpaceUpsert) {
+		s.UpdateDisabled()
+	})
+}
+
+// ClearDisabled clears the value of the "disabled" field.
+func (u *SpaceUpsertOne) ClearDisabled() *SpaceUpsertOne {
+	return u.Update(func(s *SpaceUpsert) {
+		s.ClearDisabled()
+	})
+}
+
+// SetExtras sets the "extras" field.
+func (u *SpaceUpsertOne) SetExtras(v map[string]interface{}) *SpaceUpsertOne {
+	return u.Update(func(s *SpaceUpsert) {
+		s.SetExtras(v)
+	})
+}
+
+// UpdateExtras sets the "extras" field to the value that was provided on create.
+func (u *SpaceUpsertOne) UpdateExtras() *SpaceUpsertOne {
+	return u.Update(func(s *SpaceUpsert) {
+		s.UpdateExtras()
+	})
+}
+
+// ClearExtras clears the value of the "extras" field.
+func (u *SpaceUpsertOne) ClearExtras() *SpaceUpsertOne {
+	return u.Update(func(s *SpaceUpsert) {
+		s.ClearExtras()
+	})
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (u *SpaceUpsertOne) SetCreatedBy(v string) *SpaceUpsertOne {
+	return u.Update(func(s *SpaceUpsert) {
+		s.SetCreatedBy(v)
+	})
+}
+
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *SpaceUpsertOne) UpdateCreatedBy() *SpaceUpsertOne {
+	return u.Update(func(s *SpaceUpsert) {
+		s.UpdateCreatedBy()
+	})
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *SpaceUpsertOne) ClearCreatedBy() *SpaceUpsertOne {
+	return u.Update(func(s *SpaceUpsert) {
+		s.ClearCreatedBy()
+	})
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (u *SpaceUpsertOne) SetUpdatedBy(v string) *SpaceUpsertOne {
+	return u.Update(func(s *SpaceUpsert) {
+		s.SetUpdatedBy(v)
+	})
+}
+
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *SpaceUpsertOne) UpdateUpdatedBy() *SpaceUpsertOne {
+	return u.Update(func(s *SpaceUpsert) {
+		s.UpdateUpdatedBy()
+	})
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *SpaceUpsertOne) ClearUpdatedBy() *SpaceUpsertOne {
+	return u.Update(func(s *SpaceUpsert) {
+		s.ClearUpdatedBy()
+	})
+}
+
+// SetExpiredAt sets the "expired_at" field.
+func (u *SpaceUpsertOne) SetExpiredAt(v int64) *SpaceUpsertOne {
+	return u.Update(func(s *SpaceUpsert) {
+		s.SetExpiredAt(v)
+	})
+}
+
+// AddExpiredAt adds v to the "expired_at" field.
+func (u *SpaceUpsertOne) AddExpiredAt(v int64) *SpaceUpsertOne {
+	return u.Update(func(s *SpaceUpsert) {
+		s.AddExpiredAt(v)
+	})
+}
+
+// UpdateExpiredAt sets the "expired_at" field to the value that was provided on create.
+func (u *SpaceUpsertOne) UpdateExpiredAt() *SpaceUpsertOne {
+	return u.Update(func(s *SpaceUpsert) {
+		s.UpdateExpiredAt()
+	})
+}
+
+// ClearExpiredAt clears the value of the "expired_at" field.
+func (u *SpaceUpsertOne) ClearExpiredAt() *SpaceUpsertOne {
+	return u.Update(func(s *SpaceUpsert) {
+		s.ClearExpiredAt()
+	})
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *SpaceUpsertOne) SetUpdatedAt(v int64) *SpaceUpsertOne {
+	return u.Update(func(s *SpaceUpsert) {
+		s.SetUpdatedAt(v)
+	})
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *SpaceUpsertOne) AddUpdatedAt(v int64) *SpaceUpsertOne {
+	return u.Update(func(s *SpaceUpsert) {
+		s.AddUpdatedAt(v)
+	})
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *SpaceUpsertOne) UpdateUpdatedAt() *SpaceUpsertOne {
+	return u.Update(func(s *SpaceUpsert) {
+		s.UpdateUpdatedAt()
+	})
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *SpaceUpsertOne) ClearUpdatedAt() *SpaceUpsertOne {
+	return u.Update(func(s *SpaceUpsert) {
+		s.ClearUpdatedAt()
+	})
+}
+
+// Exec executes the query.
+func (u *SpaceUpsertOne) Exec(ctx context.Context) error {
+	if len(u.create.conflict) == 0 {
+		return errors.New("ent: missing options for SpaceCreate.OnConflict")
+	}
+	return u.create.Exec(ctx)
+}
+
+// ExecX is like Exec, but panics if an error occurs.
+func (u *SpaceUpsertOne) ExecX(ctx context.Context) {
+	if err := u.create.Exec(ctx); err != nil {
+		panic(err)
+	}
+}
+
+// Exec executes the UPSERT query and returns the inserted/updated ID.
+func (u *SpaceUpsertOne) ID(ctx context.Context) (id string, err error) {
+	if u.create.driver.Dialect() == dialect.MySQL {
+		// In case of "ON CONFLICT", there is no way to get back non-numeric ID
+		// fields from the database since MySQL does not support the RETURNING clause.
+		return id, errors.New("ent: SpaceUpsertOne.ID is not supported by MySQL driver. Use SpaceUpsertOne.Exec instead")
+	}
+	node, err := u.create.Save(ctx)
+	if err != nil {
+		return id, err
+	}
+	return node.ID, nil
+}
+
+// IDX is like ID, but panics if an error occurs.
+func (u *SpaceUpsertOne) IDX(ctx context.Context) string {
+	id, err := u.ID(ctx)
+	if err != nil {
+		panic(err)
+	}
+	return id
+}
+
 // SpaceCreateBulk is the builder for creating many Space entities in bulk.
 type SpaceCreateBulk struct {
 	config
 	err      error
 	builders []*SpaceCreate
+	conflict []sql.ConflictOption
 }
 
 // Save creates the Space entities in the database.
@@ -492,6 +1324,7 @@ func (_c *SpaceCreateBulk) Save(ctx context.Context) ([]*Space, error) {
 					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
+					spec.OnConflict = _c.conflict
 					// Invoke the actual operation on the latest mutation in the chain.
 					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
@@ -538,6 +1371,494 @@ func (_c *SpaceCreateBulk) Exec(ctx context.Context) error {
 // ExecX is like Exec, but panics if an error occurs.
 func (_c *SpaceCreateBulk) ExecX(ctx context.Context) {
 	if err := _c.Exec(ctx); err != nil {
+		panic(err)
+	}
+}
+
+// OnConflict allows configuring the `ON CONFLICT` / `ON DUPLICATE KEY` clause
+// of the `INSERT` statement. For example:
+//
+//	client.Space.CreateBulk(builders...).
+//		OnConflict(
+//			// Update the row with the new values
+//			// the was proposed for insertion.
+//			sql.ResolveWithNewValues(),
+//		).
+//		// Override some of the fields with custom
+//		// update values.
+//		Update(func(u *ent.SpaceUpsert) {
+//			SetName(v+v).
+//		}).
+//		Exec(ctx)
+func (_c *SpaceCreateBulk) OnConflict(opts ...sql.ConflictOption) *SpaceUpsertBulk {
+	_c.conflict = opts
+	return &SpaceUpsertBulk{
+		create: _c,
+	}
+}
+
+// OnConflictColumns calls `OnConflict` and configures the columns
+// as conflict target. Using this option is equivalent to using:
+//
+//	client.Space.Create().
+//		OnConflict(sql.ConflictColumns(columns...)).
+//		Exec(ctx)
+func (_c *SpaceCreateBulk) OnConflictColumns(columns ...string) *SpaceUpsertBulk {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
+	return &SpaceUpsertBulk{
+		create: _c,
+	}
+}
+
+// SpaceUpsertBulk is the builder for "upsert"-ing
+// a bulk of Space nodes.
+type SpaceUpsertBulk struct {
+	create *SpaceCreateBulk
+}
+
+// UpdateNewValues updates the mutable fields using the new values that
+// were set on create. Using this option is equivalent to using:
+//
+//	client.Space.Create().
+//		OnConflict(
+//			sql.ResolveWithNewValues(),
+//			sql.ResolveWith(func(u *sql.UpdateSet) {
+//				u.SetIgnore(space.FieldID)
+//			}),
+//		).
+//		Exec(ctx)
+func (u *SpaceUpsertBulk) UpdateNewValues() *SpaceUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithNewValues())
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(s *sql.UpdateSet) {
+		for _, b := range u.create.builders {
+			if _, exists := b.mutation.ID(); exists {
+				s.SetIgnore(space.FieldID)
+			}
+			if _, exists := b.mutation.CreatedAt(); exists {
+				s.SetIgnore(space.FieldCreatedAt)
+			}
+		}
+	}))
+	return u
+}
+
+// Ignore sets each column to itself in case of conflict.
+// Using this option is equivalent to using:
+//
+//	client.Space.Create().
+//		OnConflict(sql.ResolveWithIgnore()).
+//		Exec(ctx)
+func (u *SpaceUpsertBulk) Ignore() *SpaceUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithIgnore())
+	return u
+}
+
+// DoNothing configures the conflict_action to `DO NOTHING`.
+// Supported only by SQLite and PostgreSQL.
+func (u *SpaceUpsertBulk) DoNothing() *SpaceUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.DoNothing())
+	return u
+}
+
+// Update allows overriding fields `UPDATE` values. See the SpaceCreateBulk.OnConflict
+// documentation for more info.
+func (u *SpaceUpsertBulk) Update(set func(*SpaceUpsert)) *SpaceUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(update *sql.UpdateSet) {
+		set(&SpaceUpsert{UpdateSet: update})
+	}))
+	return u
+}
+
+// SetName sets the "name" field.
+func (u *SpaceUpsertBulk) SetName(v string) *SpaceUpsertBulk {
+	return u.Update(func(s *SpaceUpsert) {
+		s.SetName(v)
+	})
+}
+
+// UpdateName sets the "name" field to the value that was provided on create.
+func (u *SpaceUpsertBulk) UpdateName() *SpaceUpsertBulk {
+	return u.Update(func(s *SpaceUpsert) {
+		s.UpdateName()
+	})
+}
+
+// ClearName clears the value of the "name" field.
+func (u *SpaceUpsertBulk) ClearName() *SpaceUpsertBulk {
+	return u.Update(func(s *SpaceUpsert) {
+		s.ClearName()
+	})
+}
+
+// SetSlug sets the "slug" field.
+func (u *SpaceUpsertBulk) SetSlug(v string) *SpaceUpsertBulk {
+	return u.Update(func(s *SpaceUpsert) {
+		s.SetSlug(v)
+	})
+}
+
+// UpdateSlug sets the "slug" field to the value that was provided on create.
+func (u *SpaceUpsertBulk) UpdateSlug() *SpaceUpsertBulk {
+	return u.Update(func(s *SpaceUpsert) {
+		s.UpdateSlug()
+	})
+}
+
+// ClearSlug clears the value of the "slug" field.
+func (u *SpaceUpsertBulk) ClearSlug() *SpaceUpsertBulk {
+	return u.Update(func(s *SpaceUpsert) {
+		s.ClearSlug()
+	})
+}
+
+// SetType sets the "type" field.
+func (u *SpaceUpsertBulk) SetType(v string) *SpaceUpsertBulk {
+	return u.Update(func(s *SpaceUpsert) {
+		s.SetType(v)
+	})
+}
+
+// UpdateType sets the "type" field to the value that was provided on create.
+func (u *SpaceUpsertBulk) UpdateType() *SpaceUpsertBulk {
+	return u.Update(func(s *SpaceUpsert) {
+		s.UpdateType()
+	})
+}
+
+// ClearType clears the value of the "type" field.
+func (u *SpaceUpsertBulk) ClearType() *SpaceUpsertBulk {
+	return u.Update(func(s *SpaceUpsert) {
+		s.ClearType()
+	})
+}
+
+// SetTitle sets the "title" field.
+func (u *SpaceUpsertBulk) SetTitle(v string) *SpaceUpsertBulk {
+	return u.Update(func(s *SpaceUpsert) {
+		s.SetTitle(v)
+	})
+}
+
+// UpdateTitle sets the "title" field to the value that was provided on create.
+func (u *SpaceUpsertBulk) UpdateTitle() *SpaceUpsertBulk {
+	return u.Update(func(s *SpaceUpsert) {
+		s.UpdateTitle()
+	})
+}
+
+// ClearTitle clears the value of the "title" field.
+func (u *SpaceUpsertBulk) ClearTitle() *SpaceUpsertBulk {
+	return u.Update(func(s *SpaceUpsert) {
+		s.ClearTitle()
+	})
+}
+
+// SetURL sets the "url" field.
+func (u *SpaceUpsertBulk) SetURL(v string) *SpaceUpsertBulk {
+	return u.Update(func(s *SpaceUpsert) {
+		s.SetURL(v)
+	})
+}
+
+// UpdateURL sets the "url" field to the value that was provided on create.
+func (u *SpaceUpsertBulk) UpdateURL() *SpaceUpsertBulk {
+	return u.Update(func(s *SpaceUpsert) {
+		s.UpdateURL()
+	})
+}
+
+// ClearURL clears the value of the "url" field.
+func (u *SpaceUpsertBulk) ClearURL() *SpaceUpsertBulk {
+	return u.Update(func(s *SpaceUpsert) {
+		s.ClearURL()
+	})
+}
+
+// SetLogo sets the "logo" field.
+func (u *SpaceUpsertBulk) SetLogo(v string) *SpaceUpsertBulk {
+	return u.Update(func(s *SpaceUpsert) {
+		s.SetLogo(v)
+	})
+}
+
+// UpdateLogo sets the "logo" field to the value that was provided on create.
+func (u *SpaceUpsertBulk) UpdateLogo() *SpaceUpsertBulk {
+	return u.Update(func(s *SpaceUpsert) {
+		s.UpdateLogo()
+	})
+}
+
+// ClearLogo clears the value of the "logo" field.
+func (u *SpaceUpsertBulk) ClearLogo() *SpaceUpsertBulk {
+	return u.Update(func(s *SpaceUpsert) {
+		s.ClearLogo()
+	})
+}
+
+// SetLogoAlt sets the "logo_alt" field.
+func (u *SpaceUpsertBulk) SetLogoAlt(v string) *SpaceUpsertBulk {
+	return u.Update(func(s *SpaceUpsert) {
+		s.SetLogoAlt(v)
+	})
+}
+
+// UpdateLogoAlt sets the "logo_alt" field to the value that was provided on create.
+func (u *SpaceUpsertBulk) UpdateLogoAlt() *SpaceUpsertBulk {
+	return u.Update(func(s *SpaceUpsert) {
+		s.UpdateLogoAlt()
+	})
+}
+
+// ClearLogoAlt clears the value of the "logo_alt" field.
+func (u *SpaceUpsertBulk) ClearLogoAlt() *SpaceUpsertBulk {
+	return u.Update(func(s *SpaceUpsert) {
+		s.ClearLogoAlt()
+	})
+}
+
+// SetKeywords sets the "keywords" field.
+func (u *SpaceUpsertBulk) SetKeywords(v string) *SpaceUpsertBulk {
+	return u.Update(func(s *SpaceUpsert) {
+		s.SetKeywords(v)
+	})
+}
+
+// UpdateKeywords sets the "keywords" field to the value that was provided on create.
+func (u *SpaceUpsertBulk) UpdateKeywords() *SpaceUpsertBulk {
+	return u.Update(func(s *SpaceUpsert) {
+		s.UpdateKeywords()
+	})
+}
+
+// ClearKeywords clears the value of the "keywords" field.
+func (u *SpaceUpsertBulk) ClearKeywords() *SpaceUpsertBulk {
+	return u.Update(func(s *SpaceUpsert) {
+		s.ClearKeywords()
+	})
+}
+
+// SetCopyright sets the "copyright" field.
+func (u *SpaceUpsertBulk) SetCopyright(v string) *SpaceUpsertBulk {
+	return u.Update(func(s *SpaceUpsert) {
+		s.SetCopyright(v)
+	})
+}
+
+// UpdateCopyright sets the "copyright" field to the value that was provided on create.
+func (u *SpaceUpsertBulk) UpdateCopyright() *SpaceUpsertBulk {
+	return u.Update(func(s *SpaceUpsert) {
+		s.UpdateCopyright()
+	})
+}
+
+// ClearCopyright clears the value of the "copyright" field.
+func (u *SpaceUpsertBulk) ClearCopyright() *SpaceUpsertBulk {
+	return u.Update(func(s *SpaceUpsert) {
+		s.ClearCopyright()
+	})
+}
+
+// SetDescription sets the "description" field.
+func (u *SpaceUpsertBulk) SetDescription(v string) *SpaceUpsertBulk {
+	return u.Update(func(s *SpaceUpsert) {
+		s.SetDescription(v)
+	})
+}
+
+// UpdateDescription sets the "description" field to the value that was provided on create.
+func (u *SpaceUpsertBulk) UpdateDescription() *SpaceUpsertBulk {
+	return u.Update(func(s *SpaceUpsert) {
+		s.UpdateDescription()
+	})
+}
+
+// ClearDescription clears the value of the "description" field.
+func (u *SpaceUpsertBulk) ClearDescription() *SpaceUpsertBulk {
+	return u.Update(func(s *SpaceUpsert) {
+		s.ClearDescription()
+	})
+}
+
+// SetOrder sets the "order" field.
+func (u *SpaceUpsertBulk) SetOrder(v int) *SpaceUpsertBulk {
+	return u.Update(func(s *SpaceUpsert) {
+		s.SetOrder(v)
+	})
+}
+
+// AddOrder adds v to the "order" field.
+func (u *SpaceUpsertBulk) AddOrder(v int) *SpaceUpsertBulk {
+	return u.Update(func(s *SpaceUpsert) {
+		s.AddOrder(v)
+	})
+}
+
+// UpdateOrder sets the "order" field to the value that was provided on create.
+func (u *SpaceUpsertBulk) UpdateOrder() *SpaceUpsertBulk {
+	return u.Update(func(s *SpaceUpsert) {
+		s.UpdateOrder()
+	})
+}
+
+// SetDisabled sets the "disabled" field.
+func (u *SpaceUpsertBulk) SetDisabled(v bool) *SpaceUpsertBulk {
+	return u.Update(func(s *SpaceUpsert) {
+		s.SetDisabled(v)
+	})
+}
+
+// UpdateDisabled sets the "disabled" field to the value that was provided on create.
+func (u *SpaceUpsertBulk) UpdateDisabled() *SpaceUpsertBulk {
+	return u.Update(func(s *SpaceUpsert) {
+		s.UpdateDisabled()
+	})
+}
+
+// ClearDisabled clears the value of the "disabled" field.
+func (u *SpaceUpsertBulk) ClearDisabled() *SpaceUpsertBulk {
+	return u.Update(func(s *SpaceUpsert) {
+		s.ClearDisabled()
+	})
+}
+
+// SetExtras sets the "extras" field.
+func (u *SpaceUpsertBulk) SetExtras(v map[string]interface{}) *SpaceUpsertBulk {
+	return u.Update(func(s *SpaceUpsert) {
+		s.SetExtras(v)
+	})
+}
+
+// UpdateExtras sets the "extras" field to the value that was provided on create.
+func (u *SpaceUpsertBulk) UpdateExtras() *SpaceUpsertBulk {
+	return u.Update(func(s *SpaceUpsert) {
+		s.UpdateExtras()
+	})
+}
+
+// ClearExtras clears the value of the "extras" field.
+func (u *SpaceUpsertBulk) ClearExtras() *SpaceUpsertBulk {
+	return u.Update(func(s *SpaceUpsert) {
+		s.ClearExtras()
+	})
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (u *SpaceUpsertBulk) SetCreatedBy(v string) *SpaceUpsertBulk {
+	return u.Update(func(s *SpaceUpsert) {
+		s.SetCreatedBy(v)
+	})
+}
+
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *SpaceUpsertBulk) UpdateCreatedBy() *SpaceUpsertBulk {
+	return u.Update(func(s *SpaceUpsert) {
+		s.UpdateCreatedBy()
+	})
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *SpaceUpsertBulk) ClearCreatedBy() *SpaceUpsertBulk {
+	return u.Update(func(s *SpaceUpsert) {
+		s.ClearCreatedBy()
+	})
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (u *SpaceUpsertBulk) SetUpdatedBy(v string) *SpaceUpsertBulk {
+	return u.Update(func(s *SpaceUpsert) {
+		s.SetUpdatedBy(v)
+	})
+}
+
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *SpaceUpsertBulk) UpdateUpdatedBy() *SpaceUpsertBulk {
+	return u.Update(func(s *SpaceUpsert) {
+		s.UpdateUpdatedBy()
+	})
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *SpaceUpsertBulk) ClearUpdatedBy() *SpaceUpsertBulk {
+	return u.Update(func(s *SpaceUpsert) {
+		s.ClearUpdatedBy()
+	})
+}
+
+// SetExpiredAt sets the "expired_at" field.
+func (u *SpaceUpsertBulk) SetExpiredAt(v int64) *SpaceUpsertBulk {
+	return u.Update(func(s *SpaceUpsert) {
+		s.SetExpiredAt(v)
+	})
+}
+
+// AddExpiredAt adds v to the "expired_at" field.
+func (u *SpaceUpsertBulk) AddExpiredAt(v int64) *SpaceUpsertBulk {
+	return u.Update(func(s *SpaceUpsert) {
+		s.AddExpiredAt(v)
+	})
+}
+
+// UpdateExpiredAt sets the "expired_at" field to the value that was provided on create.
+func (u *SpaceUpsertBulk) UpdateExpiredAt() *SpaceUpsertBulk {
+	return u.Update(func(s *SpaceUpsert) {
+		s.UpdateExpiredAt()
+	})
+}
+
+// ClearExpiredAt clears the value of the "expired_at" field.
+func (u *SpaceUpsertBulk) ClearExpiredAt() *SpaceUpsertBulk {
+	return u.Update(func(s *SpaceUpsert) {
+		s.ClearExpiredAt()
+	})
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *SpaceUpsertBulk) SetUpdatedAt(v int64) *SpaceUpsertBulk {
+	return u.Update(func(s *SpaceUpsert) {
+		s.SetUpdatedAt(v)
+	})
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *SpaceUpsertBulk) AddUpdatedAt(v int64) *SpaceUpsertBulk {
+	return u.Update(func(s *SpaceUpsert) {
+		s.AddUpdatedAt(v)
+	})
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *SpaceUpsertBulk) UpdateUpdatedAt() *SpaceUpsertBulk {
+	return u.Update(func(s *SpaceUpsert) {
+		s.UpdateUpdatedAt()
+	})
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *SpaceUpsertBulk) ClearUpdatedAt() *SpaceUpsertBulk {
+	return u.Update(func(s *SpaceUpsert) {
+		s.ClearUpdatedAt()
+	})
+}
+
+// Exec executes the query.
+func (u *SpaceUpsertBulk) Exec(ctx context.Context) error {
+	if u.create.err != nil {
+		return u.create.err
+	}
+	for i, b := range u.create.builders {
+		if len(b.conflict) != 0 {
+			return fmt.Errorf("ent: OnConflict was set for builder %d. Set it on the SpaceCreateBulk instead", i)
+		}
+	}
+	if len(u.create.conflict) == 0 {
+		return errors.New("ent: missing options for SpaceCreateBulk.OnConflict")
+	}
+	return u.create.Exec(ctx)
+}
+
+// ExecX is like Exec, but panics if an error occurs.
+func (u *SpaceUpsertBulk) ExecX(ctx context.Context) {
+	if err := u.create.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

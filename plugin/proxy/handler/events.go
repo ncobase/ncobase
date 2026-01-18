@@ -1,6 +1,6 @@
 package handler
 
-import "ncobase/proxy/event"
+import "ncobase/plugin/proxy/event"
 
 // EventHandlerInterface defines the interface for event handler operations
 type EventHandlerInterface interface {

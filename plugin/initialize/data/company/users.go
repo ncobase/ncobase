@@ -1,7 +1,7 @@
 package company
 
 import (
-	userStructs "ncobase/user/structs"
+	userStructs "ncobase/core/user/structs"
 
 	"github.com/ncobase/ncore/utils/convert"
 )

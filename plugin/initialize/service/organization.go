@@ -3,7 +3,7 @@ package service
 import (
 	"context"
 	"fmt"
-	orgStructs "ncobase/organization/structs"
+	orgStructs "ncobase/core/organization/structs"
 	"time"
 
 	"github.com/ncobase/ncore/logging/logger"

@@ -9,16 +9,18 @@ import (
 	"log"
 	"reflect"
 
-	"ncobase/realtime/data/ent/migrate"
+	"ncobase/biz/realtime/data/ent/migrate"
 
-	"ncobase/realtime/data/ent/event"
-	"ncobase/realtime/data/ent/notification"
-	"ncobase/realtime/data/ent/rtchannel"
-	"ncobase/realtime/data/ent/subscription"
+	"ncobase/biz/realtime/data/ent/event"
+	"ncobase/biz/realtime/data/ent/notification"
+	"ncobase/biz/realtime/data/ent/rtchannel"
+	"ncobase/biz/realtime/data/ent/subscription"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect"
 	"entgo.io/ent/dialect/sql"
+
+	stdsql "database/sql"
 )
 
 // Client is the client that holds all ent builders.
@@ -768,3 +770,27 @@ type (
 		Event, Notification, RTChannel, Subscription []ent.Interceptor
 	}
 )
+
+// ExecContext allows calling the underlying ExecContext method of the driver if it is supported by it.
+// See, database/sql#DB.ExecContext for more information.
+func (c *config) ExecContext(ctx context.Context, query string, args ...any) (stdsql.Result, error) {
+	ex, ok := c.driver.(interface {
+		ExecContext(context.Context, string, ...any) (stdsql.Result, error)
+	})
+	if !ok {
+		return nil, fmt.Errorf("Driver.ExecContext is not supported")
+	}
+	return ex.ExecContext(ctx, query, args...)
+}
+
+// QueryContext allows calling the underlying QueryContext method of the driver if it is supported by it.
+// See, database/sql#DB.QueryContext for more information.
+func (c *config) QueryContext(ctx context.Context, query string, args ...any) (*stdsql.Rows, error) {
+	q, ok := c.driver.(interface {
+		QueryContext(context.Context, string, ...any) (*stdsql.Rows, error)
+	})
+	if !ok {
+		return nil, fmt.Errorf("Driver.QueryContext is not supported")
+	}
+	return q.QueryContext(ctx, query, args...)
+}

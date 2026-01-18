@@ -2,11 +2,11 @@ package service
 
 import (
 	"fmt"
-	"ncobase/payment/data"
-	"ncobase/payment/data/repository"
-	"ncobase/payment/event"
-	"ncobase/payment/provider"
-	"ncobase/payment/structs"
+	"ncobase/plugin/payment/data"
+	"ncobase/plugin/payment/data/repository"
+	"ncobase/plugin/payment/event"
+	"ncobase/plugin/payment/provider"
+	"ncobase/plugin/payment/structs"
 	"sync"
 
 	"github.com/ncobase/ncore/logging/logger"

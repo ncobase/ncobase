@@ -6,8 +6,10 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"ncobase/auth/data/ent/oauthuser"
+	"ncobase/core/auth/data/ent/oauthuser"
 
+	"entgo.io/ent/dialect"
+	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
 )
@@ -17,6 +19,7 @@ type OAuthUserCreate struct {
 	config
 	mutation *OAuthUserMutation
 	hooks    []Hook
+	conflict []sql.ConflictOption
 }
 
 // SetOauthID sets the "oauth_id" field.
@@ -204,6 +207,7 @@ func (_c *OAuthUserCreate) createSpec() (*OAuthUser, *sqlgraph.CreateSpec) {
 		_node = &OAuthUser{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(oauthuser.Table, sqlgraph.NewFieldSpec(oauthuser.FieldID, field.TypeString))
 	)
+	_spec.OnConflict = _c.conflict
 	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
@@ -235,11 +239,345 @@ func (_c *OAuthUserCreate) createSpec() (*OAuthUser, *sqlgraph.CreateSpec) {
 	return _node, _spec
 }
 
+// OnConflict allows configuring the `ON CONFLICT` / `ON DUPLICATE KEY` clause
+// of the `INSERT` statement. For example:
+//
+//	client.OAuthUser.Create().
+//		SetOauthID(v).
+//		OnConflict(
+//			// Update the row with the new values
+//			// the was proposed for insertion.
+//			sql.ResolveWithNewValues(),
+//		).
+//		// Override some of the fields with custom
+//		// update values.
+//		Update(func(u *ent.OAuthUserUpsert) {
+//			SetOauthID(v+v).
+//		}).
+//		Exec(ctx)
+func (_c *OAuthUserCreate) OnConflict(opts ...sql.ConflictOption) *OAuthUserUpsertOne {
+	_c.conflict = opts
+	return &OAuthUserUpsertOne{
+		create: _c,
+	}
+}
+
+// OnConflictColumns calls `OnConflict` and configures the columns
+// as conflict target. Using this option is equivalent to using:
+//
+//	client.OAuthUser.Create().
+//		OnConflict(sql.ConflictColumns(columns...)).
+//		Exec(ctx)
+func (_c *OAuthUserCreate) OnConflictColumns(columns ...string) *OAuthUserUpsertOne {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
+	return &OAuthUserUpsertOne{
+		create: _c,
+	}
+}
+
+type (
+	// OAuthUserUpsertOne is the builder for "upsert"-ing
+	//  one OAuthUser node.
+	OAuthUserUpsertOne struct {
+		create *OAuthUserCreate
+	}
+
+	// OAuthUserUpsert is the "OnConflict" setter.
+	OAuthUserUpsert struct {
+		*sql.UpdateSet
+	}
+)
+
+// SetOauthID sets the "oauth_id" field.
+func (u *OAuthUserUpsert) SetOauthID(v string) *OAuthUserUpsert {
+	u.Set(oauthuser.FieldOauthID, v)
+	return u
+}
+
+// UpdateOauthID sets the "oauth_id" field to the value that was provided on create.
+func (u *OAuthUserUpsert) UpdateOauthID() *OAuthUserUpsert {
+	u.SetExcluded(oauthuser.FieldOauthID)
+	return u
+}
+
+// ClearOauthID clears the value of the "oauth_id" field.
+func (u *OAuthUserUpsert) ClearOauthID() *OAuthUserUpsert {
+	u.SetNull(oauthuser.FieldOauthID)
+	return u
+}
+
+// SetAccessToken sets the "access_token" field.
+func (u *OAuthUserUpsert) SetAccessToken(v string) *OAuthUserUpsert {
+	u.Set(oauthuser.FieldAccessToken, v)
+	return u
+}
+
+// UpdateAccessToken sets the "access_token" field to the value that was provided on create.
+func (u *OAuthUserUpsert) UpdateAccessToken() *OAuthUserUpsert {
+	u.SetExcluded(oauthuser.FieldAccessToken)
+	return u
+}
+
+// SetProvider sets the "provider" field.
+func (u *OAuthUserUpsert) SetProvider(v string) *OAuthUserUpsert {
+	u.Set(oauthuser.FieldProvider, v)
+	return u
+}
+
+// UpdateProvider sets the "provider" field to the value that was provided on create.
+func (u *OAuthUserUpsert) UpdateProvider() *OAuthUserUpsert {
+	u.SetExcluded(oauthuser.FieldProvider)
+	return u
+}
+
+// ClearProvider clears the value of the "provider" field.
+func (u *OAuthUserUpsert) ClearProvider() *OAuthUserUpsert {
+	u.SetNull(oauthuser.FieldProvider)
+	return u
+}
+
+// SetUserID sets the "user_id" field.
+func (u *OAuthUserUpsert) SetUserID(v string) *OAuthUserUpsert {
+	u.Set(oauthuser.FieldUserID, v)
+	return u
+}
+
+// UpdateUserID sets the "user_id" field to the value that was provided on create.
+func (u *OAuthUserUpsert) UpdateUserID() *OAuthUserUpsert {
+	u.SetExcluded(oauthuser.FieldUserID)
+	return u
+}
+
+// ClearUserID clears the value of the "user_id" field.
+func (u *OAuthUserUpsert) ClearUserID() *OAuthUserUpsert {
+	u.SetNull(oauthuser.FieldUserID)
+	return u
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *OAuthUserUpsert) SetUpdatedAt(v int64) *OAuthUserUpsert {
+	u.Set(oauthuser.FieldUpdatedAt, v)
+	return u
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *OAuthUserUpsert) UpdateUpdatedAt() *OAuthUserUpsert {
+	u.SetExcluded(oauthuser.FieldUpdatedAt)
+	return u
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *OAuthUserUpsert) AddUpdatedAt(v int64) *OAuthUserUpsert {
+	u.Add(oauthuser.FieldUpdatedAt, v)
+	return u
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *OAuthUserUpsert) ClearUpdatedAt() *OAuthUserUpsert {
+	u.SetNull(oauthuser.FieldUpdatedAt)
+	return u
+}
+
+// UpdateNewValues updates the mutable fields using the new values that were set on create except the ID field.
+// Using this option is equivalent to using:
+//
+//	client.OAuthUser.Create().
+//		OnConflict(
+//			sql.ResolveWithNewValues(),
+//			sql.ResolveWith(func(u *sql.UpdateSet) {
+//				u.SetIgnore(oauthuser.FieldID)
+//			}),
+//		).
+//		Exec(ctx)
+func (u *OAuthUserUpsertOne) UpdateNewValues() *OAuthUserUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithNewValues())
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(s *sql.UpdateSet) {
+		if _, exists := u.create.mutation.ID(); exists {
+			s.SetIgnore(oauthuser.FieldID)
+		}
+		if _, exists := u.create.mutation.CreatedAt(); exists {
+			s.SetIgnore(oauthuser.FieldCreatedAt)
+		}
+	}))
+	return u
+}
+
+// Ignore sets each column to itself in case of conflict.
+// Using this option is equivalent to using:
+//
+//	client.OAuthUser.Create().
+//	    OnConflict(sql.ResolveWithIgnore()).
+//	    Exec(ctx)
+func (u *OAuthUserUpsertOne) Ignore() *OAuthUserUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithIgnore())
+	return u
+}
+
+// DoNothing configures the conflict_action to `DO NOTHING`.
+// Supported only by SQLite and PostgreSQL.
+func (u *OAuthUserUpsertOne) DoNothing() *OAuthUserUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.DoNothing())
+	return u
+}
+
+// Update allows overriding fields `UPDATE` values. See the OAuthUserCreate.OnConflict
+// documentation for more info.
+func (u *OAuthUserUpsertOne) Update(set func(*OAuthUserUpsert)) *OAuthUserUpsertOne {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(update *sql.UpdateSet) {
+		set(&OAuthUserUpsert{UpdateSet: update})
+	}))
+	return u
+}
+
+// SetOauthID sets the "oauth_id" field.
+func (u *OAuthUserUpsertOne) SetOauthID(v string) *OAuthUserUpsertOne {
+	return u.Update(func(s *OAuthUserUpsert) {
+		s.SetOauthID(v)
+	})
+}
+
+// UpdateOauthID sets the "oauth_id" field to the value that was provided on create.
+func (u *OAuthUserUpsertOne) UpdateOauthID() *OAuthUserUpsertOne {
+	return u.Update(func(s *OAuthUserUpsert) {
+		s.UpdateOauthID()
+	})
+}
+
+// ClearOauthID clears the value of the "oauth_id" field.
+func (u *OAuthUserUpsertOne) ClearOauthID() *OAuthUserUpsertOne {
+	return u.Update(func(s *OAuthUserUpsert) {
+		s.ClearOauthID()
+	})
+}
+
+// SetAccessToken sets the "access_token" field.
+func (u *OAuthUserUpsertOne) SetAccessToken(v string) *OAuthUserUpsertOne {
+	return u.Update(func(s *OAuthUserUpsert) {
+		s.SetAccessToken(v)
+	})
+}
+
+// UpdateAccessToken sets the "access_token" field to the value that was provided on create.
+func (u *OAuthUserUpsertOne) UpdateAccessToken() *OAuthUserUpsertOne {
+	return u.Update(func(s *OAuthUserUpsert) {
+		s.UpdateAccessToken()
+	})
+}
+
+// SetProvider sets the "provider" field.
+func (u *OAuthUserUpsertOne) SetProvider(v string) *OAuthUserUpsertOne {
+	return u.Update(func(s *OAuthUserUpsert) {
+		s.SetProvider(v)
+	})
+}
+
+// UpdateProvider sets the "provider" field to the value that was provided on create.
+func (u *OAuthUserUpsertOne) UpdateProvider() *OAuthUserUpsertOne {
+	return u.Update(func(s *OAuthUserUpsert) {
+		s.UpdateProvider()
+	})
+}
+
+// ClearProvider clears the value of the "provider" field.
+func (u *OAuthUserUpsertOne) ClearProvider() *OAuthUserUpsertOne {
+	return u.Update(func(s *OAuthUserUpsert) {
+		s.ClearProvider()
+	})
+}
+
+// SetUserID sets the "user_id" field.
+func (u *OAuthUserUpsertOne) SetUserID(v string) *OAuthUserUpsertOne {
+	return u.Update(func(s *OAuthUserUpsert) {
+		s.SetUserID(v)
+	})
+}
+
+// UpdateUserID sets the "user_id" field to the value that was provided on create.
+func (u *OAuthUserUpsertOne) UpdateUserID() *OAuthUserUpsertOne {
+	return u.Update(func(s *OAuthUserUpsert) {
+		s.UpdateUserID()
+	})
+}
+
+// ClearUserID clears the value of the "user_id" field.
+func (u *OAuthUserUpsertOne) ClearUserID() *OAuthUserUpsertOne {
+	return u.Update(func(s *OAuthUserUpsert) {
+		s.ClearUserID()
+	})
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *OAuthUserUpsertOne) SetUpdatedAt(v int64) *OAuthUserUpsertOne {
+	return u.Update(func(s *OAuthUserUpsert) {
+		s.SetUpdatedAt(v)
+	})
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *OAuthUserUpsertOne) AddUpdatedAt(v int64) *OAuthUserUpsertOne {
+	return u.Update(func(s *OAuthUserUpsert) {
+		s.AddUpdatedAt(v)
+	})
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *OAuthUserUpsertOne) UpdateUpdatedAt() *OAuthUserUpsertOne {
+	return u.Update(func(s *OAuthUserUpsert) {
+		s.UpdateUpdatedAt()
+	})
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *OAuthUserUpsertOne) ClearUpdatedAt() *OAuthUserUpsertOne {
+	return u.Update(func(s *OAuthUserUpsert) {
+		s.ClearUpdatedAt()
+	})
+}
+
+// Exec executes the query.
+func (u *OAuthUserUpsertOne) Exec(ctx context.Context) error {
+	if len(u.create.conflict) == 0 {
+		return errors.New("ent: missing options for OAuthUserCreate.OnConflict")
+	}
+	return u.create.Exec(ctx)
+}
+
+// ExecX is like Exec, but panics if an error occurs.
+func (u *OAuthUserUpsertOne) ExecX(ctx context.Context) {
+	if err := u.create.Exec(ctx); err != nil {
+		panic(err)
+	}
+}
+
+// Exec executes the UPSERT query and returns the inserted/updated ID.
+func (u *OAuthUserUpsertOne) ID(ctx context.Context) (id string, err error) {
+	if u.create.driver.Dialect() == dialect.MySQL {
+		// In case of "ON CONFLICT", there is no way to get back non-numeric ID
+		// fields from the database since MySQL does not support the RETURNING clause.
+		return id, errors.New("ent: OAuthUserUpsertOne.ID is not supported by MySQL driver. Use OAuthUserUpsertOne.Exec instead")
+	}
+	node, err := u.create.Save(ctx)
+	if err != nil {
+		return id, err
+	}
+	return node.ID, nil
+}
+
+// IDX is like ID, but panics if an error occurs.
+func (u *OAuthUserUpsertOne) IDX(ctx context.Context) string {
+	id, err := u.ID(ctx)
+	if err != nil {
+		panic(err)
+	}
+	return id
+}
+
 // OAuthUserCreateBulk is the builder for creating many OAuthUser entities in bulk.
 type OAuthUserCreateBulk struct {
 	config
 	err      error
 	builders []*OAuthUserCreate
+	conflict []sql.ConflictOption
 }
 
 // Save creates the OAuthUser entities in the database.
@@ -269,6 +607,7 @@ func (_c *OAuthUserCreateBulk) Save(ctx context.Context) ([]*OAuthUser, error) {
 					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
+					spec.OnConflict = _c.conflict
 					// Invoke the actual operation on the latest mutation in the chain.
 					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
@@ -315,6 +654,228 @@ func (_c *OAuthUserCreateBulk) Exec(ctx context.Context) error {
 // ExecX is like Exec, but panics if an error occurs.
 func (_c *OAuthUserCreateBulk) ExecX(ctx context.Context) {
 	if err := _c.Exec(ctx); err != nil {
+		panic(err)
+	}
+}
+
+// OnConflict allows configuring the `ON CONFLICT` / `ON DUPLICATE KEY` clause
+// of the `INSERT` statement. For example:
+//
+//	client.OAuthUser.CreateBulk(builders...).
+//		OnConflict(
+//			// Update the row with the new values
+//			// the was proposed for insertion.
+//			sql.ResolveWithNewValues(),
+//		).
+//		// Override some of the fields with custom
+//		// update values.
+//		Update(func(u *ent.OAuthUserUpsert) {
+//			SetOauthID(v+v).
+//		}).
+//		Exec(ctx)
+func (_c *OAuthUserCreateBulk) OnConflict(opts ...sql.ConflictOption) *OAuthUserUpsertBulk {
+	_c.conflict = opts
+	return &OAuthUserUpsertBulk{
+		create: _c,
+	}
+}
+
+// OnConflictColumns calls `OnConflict` and configures the columns
+// as conflict target. Using this option is equivalent to using:
+//
+//	client.OAuthUser.Create().
+//		OnConflict(sql.ConflictColumns(columns...)).
+//		Exec(ctx)
+func (_c *OAuthUserCreateBulk) OnConflictColumns(columns ...string) *OAuthUserUpsertBulk {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
+	return &OAuthUserUpsertBulk{
+		create: _c,
+	}
+}
+
+// OAuthUserUpsertBulk is the builder for "upsert"-ing
+// a bulk of OAuthUser nodes.
+type OAuthUserUpsertBulk struct {
+	create *OAuthUserCreateBulk
+}
+
+// UpdateNewValues updates the mutable fields using the new values that
+// were set on create. Using this option is equivalent to using:
+//
+//	client.OAuthUser.Create().
+//		OnConflict(
+//			sql.ResolveWithNewValues(),
+//			sql.ResolveWith(func(u *sql.UpdateSet) {
+//				u.SetIgnore(oauthuser.FieldID)
+//			}),
+//		).
+//		Exec(ctx)
+func (u *OAuthUserUpsertBulk) UpdateNewValues() *OAuthUserUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithNewValues())
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(s *sql.UpdateSet) {
+		for _, b := range u.create.builders {
+			if _, exists := b.mutation.ID(); exists {
+				s.SetIgnore(oauthuser.FieldID)
+			}
+			if _, exists := b.mutation.CreatedAt(); exists {
+				s.SetIgnore(oauthuser.FieldCreatedAt)
+			}
+		}
+	}))
+	return u
+}
+
+// Ignore sets each column to itself in case of conflict.
+// Using this option is equivalent to using:
+//
+//	client.OAuthUser.Create().
+//		OnConflict(sql.ResolveWithIgnore()).
+//		Exec(ctx)
+func (u *OAuthUserUpsertBulk) Ignore() *OAuthUserUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWithIgnore())
+	return u
+}
+
+// DoNothing configures the conflict_action to `DO NOTHING`.
+// Supported only by SQLite and PostgreSQL.
+func (u *OAuthUserUpsertBulk) DoNothing() *OAuthUserUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.DoNothing())
+	return u
+}
+
+// Update allows overriding fields `UPDATE` values. See the OAuthUserCreateBulk.OnConflict
+// documentation for more info.
+func (u *OAuthUserUpsertBulk) Update(set func(*OAuthUserUpsert)) *OAuthUserUpsertBulk {
+	u.create.conflict = append(u.create.conflict, sql.ResolveWith(func(update *sql.UpdateSet) {
+		set(&OAuthUserUpsert{UpdateSet: update})
+	}))
+	return u
+}
+
+// SetOauthID sets the "oauth_id" field.
+func (u *OAuthUserUpsertBulk) SetOauthID(v string) *OAuthUserUpsertBulk {
+	return u.Update(func(s *OAuthUserUpsert) {
+		s.SetOauthID(v)
+	})
+}
+
+// UpdateOauthID sets the "oauth_id" field to the value that was provided on create.
+func (u *OAuthUserUpsertBulk) UpdateOauthID() *OAuthUserUpsertBulk {
+	return u.Update(func(s *OAuthUserUpsert) {
+		s.UpdateOauthID()
+	})
+}
+
+// ClearOauthID clears the value of the "oauth_id" field.
+func (u *OAuthUserUpsertBulk) ClearOauthID() *OAuthUserUpsertBulk {
+	return u.Update(func(s *OAuthUserUpsert) {
+		s.ClearOauthID()
+	})
+}
+
+// SetAccessToken sets the "access_token" field.
+func (u *OAuthUserUpsertBulk) SetAccessToken(v string) *OAuthUserUpsertBulk {
+	return u.Update(func(s *OAuthUserUpsert) {
+		s.SetAccessToken(v)
+	})
+}
+
+// UpdateAccessToken sets the "access_token" field to the value that was provided on create.
+func (u *OAuthUserUpsertBulk) UpdateAccessToken() *OAuthUserUpsertBulk {
+	return u.Update(func(s *OAuthUserUpsert) {
+		s.UpdateAccessToken()
+	})
+}
+
+// SetProvider sets the "provider" field.
+func (u *OAuthUserUpsertBulk) SetProvider(v string) *OAuthUserUpsertBulk {
+	return u.Update(func(s *OAuthUserUpsert) {
+		s.SetProvider(v)
+	})
+}
+
+// UpdateProvider sets the "provider" field to the value that was provided on create.
+func (u *OAuthUserUpsertBulk) UpdateProvider() *OAuthUserUpsertBulk {
+	return u.Update(func(s *OAuthUserUpsert) {
+		s.UpdateProvider()
+	})
+}
+
+// ClearProvider clears the value of the "provider" field.
+func (u *OAuthUserUpsertBulk) ClearProvider() *OAuthUserUpsertBulk {
+	return u.Update(func(s *OAuthUserUpsert) {
+		s.ClearProvider()
+	})
+}
+
+// SetUserID sets the "user_id" field.
+func (u *OAuthUserUpsertBulk) SetUserID(v string) *OAuthUserUpsertBulk {
+	return u.Update(func(s *OAuthUserUpsert) {
+		s.SetUserID(v)
+	})
+}
+
+// UpdateUserID sets the "user_id" field to the value that was provided on create.
+func (u *OAuthUserUpsertBulk) UpdateUserID() *OAuthUserUpsertBulk {
+	return u.Update(func(s *OAuthUserUpsert) {
+		s.UpdateUserID()
+	})
+}
+
+// ClearUserID clears the value of the "user_id" field.
+func (u *OAuthUserUpsertBulk) ClearUserID() *OAuthUserUpsertBulk {
+	return u.Update(func(s *OAuthUserUpsert) {
+		s.ClearUserID()
+	})
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (u *OAuthUserUpsertBulk) SetUpdatedAt(v int64) *OAuthUserUpsertBulk {
+	return u.Update(func(s *OAuthUserUpsert) {
+		s.SetUpdatedAt(v)
+	})
+}
+
+// AddUpdatedAt adds v to the "updated_at" field.
+func (u *OAuthUserUpsertBulk) AddUpdatedAt(v int64) *OAuthUserUpsertBulk {
+	return u.Update(func(s *OAuthUserUpsert) {
+		s.AddUpdatedAt(v)
+	})
+}
+
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *OAuthUserUpsertBulk) UpdateUpdatedAt() *OAuthUserUpsertBulk {
+	return u.Update(func(s *OAuthUserUpsert) {
+		s.UpdateUpdatedAt()
+	})
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *OAuthUserUpsertBulk) ClearUpdatedAt() *OAuthUserUpsertBulk {
+	return u.Update(func(s *OAuthUserUpsert) {
+		s.ClearUpdatedAt()
+	})
+}
+
+// Exec executes the query.
+func (u *OAuthUserUpsertBulk) Exec(ctx context.Context) error {
+	if u.create.err != nil {
+		return u.create.err
+	}
+	for i, b := range u.create.builders {
+		if len(b.conflict) != 0 {
+			return fmt.Errorf("ent: OnConflict was set for builder %d. Set it on the OAuthUserCreateBulk instead", i)
+		}
+	}
+	if len(u.create.conflict) == 0 {
+		return errors.New("ent: missing options for OAuthUserCreateBulk.OnConflict")
+	}
+	return u.create.Exec(ctx)
+}
+
+// ExecX is like Exec, but panics if an error occurs.
+func (u *OAuthUserUpsertBulk) ExecX(ctx context.Context) {
+	if err := u.create.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

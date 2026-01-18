@@ -5,7 +5,7 @@ package hook
 import (
 	"context"
 	"fmt"
-	"ncobase/proxy/data/ent"
+	"ncobase/plugin/proxy/data/ent"
 )
 
 // The EndpointFunc type is an adapter to allow the use of ordinary

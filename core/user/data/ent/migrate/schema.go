@@ -9,8 +9,8 @@ import (
 )
 
 var (
-	// NcseSysAPIKeyColumns holds the columns for the "ncse_sys_api_key" table.
-	NcseSysAPIKeyColumns = []*schema.Column{
+	// NcseSysUserAPIKeyColumns holds the columns for the "ncse_sys_user_api_key" table.
+	NcseSysUserAPIKeyColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeString, Unique: true, Size: 16, Comment: "primary key"},
 		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "name"},
 		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
@@ -19,36 +19,36 @@ var (
 		{Name: "key", Type: field.TypeString, Unique: true},
 		{Name: "last_used", Type: field.TypeInt64, Nullable: true},
 	}
-	// NcseSysAPIKeyTable holds the schema information for the "ncse_sys_api_key" table.
-	NcseSysAPIKeyTable = &schema.Table{
-		Name:       "ncse_sys_api_key",
-		Columns:    NcseSysAPIKeyColumns,
-		PrimaryKey: []*schema.Column{NcseSysAPIKeyColumns[0]},
+	// NcseSysUserAPIKeyTable holds the schema information for the "ncse_sys_user_api_key" table.
+	NcseSysUserAPIKeyTable = &schema.Table{
+		Name:       "ncse_sys_user_api_key",
+		Columns:    NcseSysUserAPIKeyColumns,
+		PrimaryKey: []*schema.Column{NcseSysUserAPIKeyColumns[0]},
 		Indexes: []*schema.Index{
 			{
 				Name:    "apikey_id",
 				Unique:  true,
-				Columns: []*schema.Column{NcseSysAPIKeyColumns[0]},
+				Columns: []*schema.Column{NcseSysUserAPIKeyColumns[0]},
 			},
 			{
 				Name:    "apikey_user_id",
 				Unique:  false,
-				Columns: []*schema.Column{NcseSysAPIKeyColumns[4]},
+				Columns: []*schema.Column{NcseSysUserAPIKeyColumns[4]},
 			},
 			{
 				Name:    "apikey_id_created_at",
 				Unique:  true,
-				Columns: []*schema.Column{NcseSysAPIKeyColumns[0], NcseSysAPIKeyColumns[2]},
+				Columns: []*schema.Column{NcseSysUserAPIKeyColumns[0], NcseSysUserAPIKeyColumns[2]},
 			},
 			{
 				Name:    "apikey_user_id_created_at",
 				Unique:  false,
-				Columns: []*schema.Column{NcseSysAPIKeyColumns[4], NcseSysAPIKeyColumns[2]},
+				Columns: []*schema.Column{NcseSysUserAPIKeyColumns[4], NcseSysUserAPIKeyColumns[2]},
 			},
 			{
 				Name:    "apikey_key",
 				Unique:  true,
-				Columns: []*schema.Column{NcseSysAPIKeyColumns[5]},
+				Columns: []*schema.Column{NcseSysUserAPIKeyColumns[5]},
 			},
 		},
 	}
@@ -181,7 +181,7 @@ var (
 	}
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
-		NcseSysAPIKeyTable,
+		NcseSysUserAPIKeyTable,
 		NcseSysEmployeeTable,
 		NcseSysUserTable,
 		NcseSysUserProfileTable,
@@ -189,8 +189,8 @@ var (
 )
 
 func init() {
-	NcseSysAPIKeyTable.Annotation = &entsql.Annotation{
-		Table: "ncse_sys_api_key",
+	NcseSysUserAPIKeyTable.Annotation = &entsql.Annotation{
+		Table: "ncse_sys_user_api_key",
 	}
 	NcseSysEmployeeTable.Annotation = &entsql.Annotation{
 		Table: "ncse_sys_employee",

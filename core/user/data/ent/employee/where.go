@@ -3,7 +3,7 @@
 package employee
 
 import (
-	"ncobase/user/data/ent/predicate"
+	"ncobase/core/user/data/ent/predicate"
 	"time"
 
 	"entgo.io/ent/dialect/sql"

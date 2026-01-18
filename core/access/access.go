@@ -2,10 +2,10 @@ package access
 
 import (
 	"fmt"
-	"ncobase/access/data"
-	"ncobase/access/event"
-	"ncobase/access/handler"
-	"ncobase/access/service"
+	"ncobase/core/access/data"
+	"ncobase/core/access/event"
+	"ncobase/core/access/handler"
+	"ncobase/core/access/service"
 	"ncobase/internal/middleware"
 	"sync"
 

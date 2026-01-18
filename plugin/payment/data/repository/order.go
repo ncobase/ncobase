@@ -3,10 +3,10 @@ package repository
 import (
 	"context"
 	"fmt"
-	"ncobase/payment/data"
-	"ncobase/payment/data/ent"
-	paymentOrderEnt "ncobase/payment/data/ent/paymentorder"
-	"ncobase/payment/structs"
+	"ncobase/plugin/payment/data"
+	"ncobase/plugin/payment/data/ent"
+	paymentOrderEnt "ncobase/plugin/payment/data/ent/paymentorder"
+	"ncobase/plugin/payment/structs"
 	"time"
 
 	"github.com/ncobase/ncore/data/paging"

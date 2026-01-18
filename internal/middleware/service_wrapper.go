@@ -3,10 +3,10 @@ package middleware
 import (
 	"context"
 	"fmt"
-	accessStructs "ncobase/access/structs"
-	authStructs "ncobase/auth/structs"
-	spaceStructs "ncobase/space/structs"
-	userStructs "ncobase/user/structs"
+	accessStructs "ncobase/core/access/structs"
+	authStructs "ncobase/core/auth/structs"
+	spaceStructs "ncobase/core/space/structs"
+	userStructs "ncobase/core/user/structs"
 	"sync"
 
 	"github.com/casbin/casbin/v2"

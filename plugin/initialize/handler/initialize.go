@@ -2,7 +2,7 @@ package handler
 
 import (
 	"fmt"
-	"ncobase/initialize/service"
+	"ncobase/plugin/initialize/service"
 
 	"github.com/ncobase/ncore/net/resp"
 

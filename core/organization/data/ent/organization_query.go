@@ -6,8 +6,8 @@ import (
 	"context"
 	"fmt"
 	"math"
-	"ncobase/organization/data/ent/organization"
-	"ncobase/organization/data/ent/predicate"
+	"ncobase/core/organization/data/ent/organization"
+	"ncobase/core/organization/data/ent/predicate"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"

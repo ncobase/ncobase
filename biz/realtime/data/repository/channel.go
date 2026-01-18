@@ -3,13 +3,15 @@ package repository
 import (
 	"context"
 	"fmt"
-	"ncobase/realtime/data"
-	"ncobase/realtime/data/ent"
-	channelEnt "ncobase/realtime/data/ent/rtchannel"
-	subscriptionEnt "ncobase/realtime/data/ent/subscription"
-	"ncobase/realtime/structs"
+	"ncobase/biz/realtime/data"
+	"ncobase/biz/realtime/data/ent"
+	channelEnt "ncobase/biz/realtime/data/ent/rtchannel"
+	subscriptionEnt "ncobase/biz/realtime/data/ent/subscription"
+	"ncobase/biz/realtime/structs"
 
-	"github.com/ncobase/ncore/data/databases/cache"
+	nd "github.com/ncobase/ncore/data"
+
+	"github.com/ncobase/ncore/data/cache"
 	"github.com/ncobase/ncore/data/paging"
 	"github.com/ncobase/ncore/logging/logger"
 	"github.com/ncobase/ncore/utils/nanoid"
@@ -42,17 +44,20 @@ type ChannelRepositoryInterface interface {
 
 type channelRepository struct {
 	data *data.Data
+	searchClient *search.Client
 	ec   *ent.Client
 	rc   *redis.Client
 	c    *cache.Cache[ent.RTChannel]
 }
 
 func NewChannelRepository(d *data.Data) ChannelRepositoryInterface {
+	searchClient := nd.NewSearchClient(d.Data)
 	return &channelRepository{
 		data: d,
+		searchClient: searchClient,
 		ec:   d.GetMasterEntClient(),
-		rc:   d.GetRedis(),
-		c:    cache.NewCache[ent.RTChannel](d.GetRedis(), "rt_channel"),
+		rc:   d.GetRedis().(*redis.Client),
+		c:    cache.NewCache[ent.RTChannel](d.GetRedis().(*redis.Client), "rt_channel"),
 	}
 }
 
@@ -65,7 +70,7 @@ func (r *channelRepository) Create(ctx context.Context, channel *ent.RTChannelCr
 	}
 
 	// Index in Meilisearch
-	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "realtime_channels", Document: row}); err != nil {
+	if err = r.searchClient.Index(ctx, &search.IndexRequest{Index: "realtime_channels", Document: row}); err != nil {
 		logger.Errorf(ctx, "channelRepo.Create error creating Meilisearch index: %v", err)
 	}
 
@@ -114,7 +119,7 @@ func (r *channelRepository) Update(ctx context.Context, id string, channel *ent.
 	}
 
 	// Update Meilisearch index
-	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "realtime_channels", Document: row, DocumentID: row.ID}); err != nil {
+	if err = r.searchClient.Index(ctx, &search.IndexRequest{Index: "realtime_channels", Document: row, DocumentID: row.ID}); err != nil {
 		logger.Errorf(ctx, "channelRepo.Update error updating Meilisearch index: %v", err)
 	}
 
@@ -162,7 +167,7 @@ func (r *channelRepository) Delete(ctx context.Context, id string) error {
 	}
 
 	// Delete from Meilisearch
-	if err = r.data.DeleteDocument(ctx, "realtime_channels", id); err != nil {
+	if err = r.searchClient.Delete(ctx, "realtime_channels", id); err != nil {
 		logger.Errorf(ctx, "channelRepo.Delete error deleting Meilisearch index: %v", err)
 	}
 
@@ -317,7 +322,7 @@ func (r *channelRepository) DeleteBatch(ctx context.Context, ids []string) error
 
 	// Delete from Meilisearch
 	for _, id := range ids {
-		if msErr := r.data.DeleteDocument(ctx, "realtime_channels", id); msErr != nil {
+		if msErr := r.searchClient.Delete(ctx, "realtime_channels", id); msErr != nil {
 			logger.Errorf(ctx, "channelRepo.DeleteBatch error deleting Meilisearch index: %v", msErr)
 		}
 	}
@@ -334,7 +339,7 @@ func (r *channelRepository) UpdateStatus(ctx context.Context, id string, status 
 		return err
 	}
 
-	if err = r.data.IndexDocument(ctx, &search.IndexRequest{Index: "realtime_channels", Document: row, DocumentID: row.ID}); err != nil {
+	if err = r.searchClient.Index(ctx, &search.IndexRequest{Index: "realtime_channels", Document: row, DocumentID: row.ID}); err != nil {
 		logger.Errorf(ctx, "channelRepo.UpdateStatus error updating Meilisearch index: %v", err)
 	}
 
@@ -374,7 +379,7 @@ func (r *channelRepository) UpdateStatusBatch(ctx context.Context, ids []string,
 
 	for _, id := range ids {
 		if row, err := r.ec.RTChannel.Get(ctx, id); err == nil && row != nil {
-			if msErr := r.data.IndexDocument(ctx, &search.IndexRequest{Index: "realtime_channels", Document: row, DocumentID: row.ID}); msErr != nil {
+			if msErr := r.searchClient.Index(ctx, &search.IndexRequest{Index: "realtime_channels", Document: row, DocumentID: row.ID}); msErr != nil {
 				logger.Errorf(ctx, "channelRepo.UpdateStatusBatch error updating Meilisearch index: %v", msErr)
 			}
 		}

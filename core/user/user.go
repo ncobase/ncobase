@@ -3,9 +3,9 @@ package user
 import (
 	"fmt"
 	"ncobase/internal/middleware"
-	"ncobase/user/data"
-	"ncobase/user/handler"
-	"ncobase/user/service"
+	"ncobase/core/user/data"
+	"ncobase/core/user/handler"
+	"ncobase/core/user/service"
 	"sync"
 
 	"github.com/ncobase/ncore/config"

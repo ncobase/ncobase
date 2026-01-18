@@ -3,7 +3,7 @@
 package endpoint
 
 import (
-	"ncobase/proxy/data/ent/predicate"
+	"ncobase/plugin/proxy/data/ent/predicate"
 
 	"entgo.io/ent/dialect/sql"
 )

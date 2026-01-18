@@ -9,18 +9,20 @@ import (
 	"log"
 	"reflect"
 
-	"ncobase/access/data/ent/migrate"
+	"ncobase/core/access/data/ent/migrate"
 
-	"ncobase/access/data/ent/activity"
-	"ncobase/access/data/ent/casbinrule"
-	"ncobase/access/data/ent/permission"
-	"ncobase/access/data/ent/role"
-	"ncobase/access/data/ent/rolepermission"
-	"ncobase/access/data/ent/userrole"
+	"ncobase/core/access/data/ent/activity"
+	"ncobase/core/access/data/ent/casbinrule"
+	"ncobase/core/access/data/ent/permission"
+	"ncobase/core/access/data/ent/role"
+	"ncobase/core/access/data/ent/rolepermission"
+	"ncobase/core/access/data/ent/userrole"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect"
 	"entgo.io/ent/dialect/sql"
+
+	stdsql "database/sql"
 )
 
 // Client is the client that holds all ent builders.
@@ -1053,3 +1055,27 @@ type (
 		UserRole []ent.Interceptor
 	}
 )
+
+// ExecContext allows calling the underlying ExecContext method of the driver if it is supported by it.
+// See, database/sql#DB.ExecContext for more information.
+func (c *config) ExecContext(ctx context.Context, query string, args ...any) (stdsql.Result, error) {
+	ex, ok := c.driver.(interface {
+		ExecContext(context.Context, string, ...any) (stdsql.Result, error)
+	})
+	if !ok {
+		return nil, fmt.Errorf("Driver.ExecContext is not supported")
+	}
+	return ex.ExecContext(ctx, query, args...)
+}
+
+// QueryContext allows calling the underlying QueryContext method of the driver if it is supported by it.
+// See, database/sql#DB.QueryContext for more information.
+func (c *config) QueryContext(ctx context.Context, query string, args ...any) (*stdsql.Rows, error) {
+	q, ok := c.driver.(interface {
+		QueryContext(context.Context, string, ...any) (*stdsql.Rows, error)
+	})
+	if !ok {
+		return nil, fmt.Errorf("Driver.QueryContext is not supported")
+	}
+	return q.QueryContext(ctx, query, args...)
+}

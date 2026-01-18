@@ -3,13 +3,14 @@ package repository
 import (
 	"context"
 	"fmt"
-	"ncobase/access/data"
-	"ncobase/access/data/ent"
-	roleEnt "ncobase/access/data/ent/role"
-	"ncobase/access/structs"
+	"ncobase/core/access/data"
+	"ncobase/core/access/data/ent"
+	roleEnt "ncobase/core/access/data/ent/role"
+	"ncobase/core/access/structs"
 	"time"
+	"github.com/redis/go-redis/v9"
 
-	"github.com/ncobase/ncore/data/databases/cache"
+	"github.com/ncobase/ncore/data/cache"
 	"github.com/ncobase/ncore/data/paging"
 	"github.com/ncobase/ncore/logging/logger"
 	"github.com/ncobase/ncore/types"
@@ -41,7 +42,7 @@ type roleRepository struct {
 
 // NewRoleRepository creates a new role repository.
 func NewRoleRepository(d *data.Data) RoleRepositoryInterface {
-	redisClient := d.GetRedis()
+	redisClient := d.GetRedis().(*redis.Client)
 
 	return &roleRepository{
 		ec:               d.GetMasterEntClient(),

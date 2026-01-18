@@ -1,7 +1,7 @@
 package structs
 
 import (
-	orgStructs "ncobase/organization/structs"
+	orgStructs "ncobase/core/organization/structs"
 )
 
 // SpaceOrganization represents the space-organization relationship

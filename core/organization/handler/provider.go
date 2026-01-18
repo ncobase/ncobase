@@ -1,6 +1,6 @@
 package handler
 
-import "ncobase/organization/service"
+import "ncobase/core/organization/service"
 
 // Handler represents the organization handler.
 type Handler struct {
