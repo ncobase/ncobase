@@ -8,6 +8,7 @@ import (
 	fileEnt "ncobase/plugin/resource/data/ent/file"
 	"ncobase/plugin/resource/structs"
 	"strings"
+	"time"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqljson"
@@ -37,6 +38,11 @@ type FileRepositoryInterface interface {
 	SearchByTags(ctx context.Context, ownerID string, tags []string, limit int) ([]*ent.File, error)
 	GetTagsByOwner(ctx context.Context, ownerID string) ([]string, error)
 	CheckNameExists(ctx context.Context, ownerID, name string) (bool, error)
+
+	// Cleanup queries
+	FindExpiredFiles(ctx context.Context, filters *structs.CleanupFilters, limit int) ([]*ent.File, error)
+	FindOrphanedFiles(ctx context.Context, filters *structs.CleanupFilters, limit int) ([]*ent.File, error)
+	FindDuplicateFiles(ctx context.Context) (map[string][]*ent.File, error)
 }
 
 type fileRepository struct {
@@ -680,4 +686,77 @@ func (r *fileRepository) GetTagsByOwner(ctx context.Context, ownerID string) ([]
 	}
 
 	return tags, nil
+}
+
+// FindExpiredFiles finds files that have expired based on expires_at field
+func (r *fileRepository) FindExpiredFiles(ctx context.Context, filters *structs.CleanupFilters, limit int) ([]*ent.File, error) {
+	now := time.Now().UnixMilli()
+	query := r.ecr.File.Query().Where(
+		fileEnt.ExpiresAtNotNil(),
+		fileEnt.ExpiresAtLTE(now),
+	)
+
+	if filters != nil {
+		if filters.OlderThan != nil {
+			query = query.Where(fileEnt.CreatedAtLTE(*filters.OlderThan))
+		}
+		if filters.MinSize != nil {
+			query = query.Where(fileEnt.SizeGTE(int(*filters.MinSize)))
+		}
+		if filters.MaxSize != nil {
+			query = query.Where(fileEnt.SizeLTE(int(*filters.MaxSize)))
+		}
+		if len(filters.Categories) > 0 {
+			query = query.Where(fileEnt.CategoryIn(filters.Categories...))
+		}
+	}
+
+	if limit <= 0 {
+		limit = 1000
+	}
+
+	return query.Limit(limit).All(ctx)
+}
+
+// FindOrphanedFiles finds files with empty or invalid paths
+func (r *fileRepository) FindOrphanedFiles(ctx context.Context, filters *structs.CleanupFilters, limit int) ([]*ent.File, error) {
+	query := r.ecr.File.Query().Where(
+		fileEnt.Or(
+			fileEnt.PathEQ(""),
+			fileEnt.StorageEQ(""),
+		),
+	)
+
+	if filters != nil {
+		if filters.OlderThan != nil {
+			query = query.Where(fileEnt.CreatedAtLTE(*filters.OlderThan))
+		}
+		if len(filters.Categories) > 0 {
+			query = query.Where(fileEnt.CategoryIn(filters.Categories...))
+		}
+	}
+
+	if limit <= 0 {
+		limit = 1000
+	}
+
+	return query.Limit(limit).All(ctx)
+}
+
+// FindDuplicateFiles finds files grouped by content hash for deduplication
+func (r *fileRepository) FindDuplicateFiles(ctx context.Context) (map[string][]*ent.File, error) {
+	files, err := r.ecr.File.Query().
+		Where(fileEnt.HashNEQ("")).
+		Order(ent.Asc(fileEnt.FieldHash), ent.Asc(fileEnt.FieldCreatedAt)).
+		All(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	groups := make(map[string][]*ent.File)
+	for _, file := range files {
+		groups[file.Hash] = append(groups[file.Hash], file)
+	}
+
+	return groups, nil
 }

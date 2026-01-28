@@ -20,7 +20,7 @@ type Counter struct {
 
 // Annotations of the Counter.
 func (Counter) Annotations() []schema.Annotation {
-	table := strings.Join([]string{"ncse", "cnt"}, "_")
+	table := strings.Join([]string{"ncse", "counter"}, "_")
 	return []schema.Annotation{
 		entsql.Annotation{Table: table},
 		entgql.Mutations(entgql.MutationCreate(), entgql.MutationUpdate()),

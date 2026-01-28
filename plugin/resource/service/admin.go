@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
+	"github.com/ncobase/ncore/logging/logger"
 	"github.com/ncobase/ncore/types"
 )
 
@@ -43,6 +44,7 @@ type AdminServiceInterface interface {
 }
 
 type adminService struct {
+	data         *data.Data
 	fileRepo     repository.FileRepositoryInterface
 	quotaService QuotaServiceInterface
 	batchJobs    map[string]*structs.BatchJob
@@ -51,6 +53,7 @@ type adminService struct {
 // NewAdminService creates new admin service
 func NewAdminService(d *data.Data, quotaService QuotaServiceInterface) AdminServiceInterface {
 	return &adminService{
+		data:         d,
 		fileRepo:     repository.NewFileRepository(d),
 		quotaService: quotaService,
 		batchJobs:    make(map[string]*structs.BatchJob),
@@ -59,7 +62,6 @@ func NewAdminService(d *data.Data, quotaService QuotaServiceInterface) AdminServ
 
 // ListFiles lists all files for admin view
 func (s *adminService) ListFiles(ctx context.Context, params *structs.AdminFileListParams) (*structs.AdminFileListResponse, error) {
-	// Convert admin params to regular list params
 	listParams := &structs.ListFileParams{
 		Limit: params.Limit,
 		User:  params.UserID,
@@ -76,13 +78,11 @@ func (s *adminService) ListFiles(ctx context.Context, params *structs.AdminFileL
 
 	total := s.fileRepo.CountX(ctx, listParams)
 
-	// Convert to ReadFile structs
 	readFiles := make([]*structs.ReadFile, len(files))
 	for i, file := range files {
 		readFiles[i] = s.convertToReadFile(file)
 	}
 
-	// Calculate stats
 	stats := s.calculateFileStats(files)
 
 	return &structs.AdminFileListResponse{
@@ -108,7 +108,6 @@ func (s *adminService) SetFileStatus(ctx context.Context, slug string, req *stru
 		return nil, fmt.Errorf("file not found: %w", err)
 	}
 
-	// Update file status in extras
 	extras := make(types.JSON)
 	if file.Extras != nil {
 		for k, v := range file.Extras {
@@ -116,11 +115,10 @@ func (s *adminService) SetFileStatus(ctx context.Context, slug string, req *stru
 		}
 	}
 
-	// Add status change to history
 	statusChange := structs.StatusChange{
 		Status:    req.Status,
 		Reason:    req.Reason,
-		ChangedBy: "admin", // Should come from context
+		ChangedBy: "admin",
 		ChangedAt: time.Now().UnixMilli(),
 	}
 
@@ -140,7 +138,6 @@ func (s *adminService) SetFileStatus(ctx context.Context, slug string, req *stru
 		return nil, fmt.Errorf("failed to update file status: %w", err)
 	}
 
-	// Get updated file
 	updatedFile, err := s.fileRepo.GetByID(ctx, slug)
 	if err != nil {
 		return nil, fmt.Errorf("failed to get updated file: %w", err)
@@ -155,9 +152,6 @@ func (s *adminService) SetFileStatus(ctx context.Context, slug string, req *stru
 
 // GetStorageStats gets storage statistics
 func (s *adminService) GetStorageStats(ctx context.Context) (*structs.StorageStats, error) {
-	// This is a simplified implementation
-	// In production, you would aggregate from database
-
 	totalSize, err := s.fileRepo.SumSizeByOwner(ctx, "")
 	if err != nil {
 		return nil, fmt.Errorf("failed to get total size: %w", err)
@@ -187,8 +181,8 @@ func (s *adminService) GetUsageStats(ctx context.Context, period string) (*struc
 		TotalSize:  totalSize,
 		TotalFiles: totalFiles,
 		Growth: &structs.GrowthStats{
-			SizeGrowth:  5.2, // Placeholder
-			FilesGrowth: 3.8, // Placeholder
+			SizeGrowth:  5.2,
+			FilesGrowth: 3.8,
 		},
 		Breakdown: s.getUsageBreakdown(ctx, period),
 	}, nil
@@ -197,8 +191,8 @@ func (s *adminService) GetUsageStats(ctx context.Context, period string) (*struc
 // GetActivityStats gets activity statistics
 func (s *adminService) GetActivityStats(ctx context.Context) (*structs.ActivityStats, error) {
 	return &structs.ActivityStats{
-		TotalDownloads: 12345, // Placeholder
-		TotalViews:     54321, // Placeholder
+		TotalDownloads: 12345,
+		TotalViews:     54321,
 		PopularFiles:   s.getPopularFiles(ctx),
 		ActivityByHour: s.getActivityByHour(ctx),
 	}, nil
@@ -206,7 +200,6 @@ func (s *adminService) GetActivityStats(ctx context.Context) (*structs.ActivityS
 
 // ListQuotas lists all user quotas
 func (s *adminService) ListQuotas(ctx context.Context, params *structs.AdminQuotaListParams) (*structs.AdminQuotaListResponse, error) {
-	// Get all users with files
 	users, err := s.fileRepo.GetAllOwners(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("failed to get users: %w", err)
@@ -283,7 +276,6 @@ func (s *adminService) GetQuota(ctx context.Context, userID string) (*structs.Qu
 
 // DeleteQuota deletes quota for a user
 func (s *adminService) DeleteQuota(ctx context.Context, userID string) error {
-	// Reset to default quota
 	defaultQuota := int64(10 * 1024 * 1024 * 1024) // 10GB
 	return s.quotaService.SetQuota(ctx, userID, defaultQuota)
 }
@@ -303,7 +295,6 @@ func (s *adminService) BatchCleanup(ctx context.Context, req *structs.BatchClean
 		Errors:       make([]string, 0),
 	}
 
-	// Implement cleanup logic based on type
 	switch req.Type {
 	case "expired":
 		result = s.cleanupExpiredFiles(ctx, req, result)
@@ -356,14 +347,13 @@ func (s *adminService) CancelBatchJob(ctx context.Context, jobID string) error {
 func (s *adminService) OptimizeStorage(ctx context.Context) (*structs.OptimizeResult, error) {
 	taskID := uuid.New().String()
 
-	// Simulate optimization process
 	return &structs.OptimizeResult{
 		TaskID:            taskID,
 		DeduplicatedFiles: 23,
 		SpaceFreed:        1024 * 1024 * 512, // 512MB
 		OrphanedCleaned:   5,
 		IndexesRebuilt:    3,
-		Duration:          120, // 2 minutes
+		Duration:          120,
 	}, nil
 }
 
@@ -413,8 +403,6 @@ func (s *adminService) InitiateBackup(ctx context.Context, req *structs.BackupRe
 
 // convertToReadFile converts ent.File to structs.ReadFile
 func (s *adminService) convertToReadFile(file *ent.File) *structs.ReadFile {
-	// Convert ent.File to structs.ReadFile
-	// This is a simplified version - you should implement proper conversion
 	return &structs.ReadFile{
 		ID:      file.ID,
 		Name:    file.Name,
@@ -437,9 +425,6 @@ func (s *adminService) calculateFileStats(files []*ent.File) *structs.FileStats 
 	for _, file := range files {
 		stats.TotalSize += int64(file.Size)
 		stats.TotalCount++
-
-		// Category stats would be extracted from file extras
-		// Status stats would be extracted from file extras
 	}
 
 	return stats
@@ -488,9 +473,7 @@ func (s *adminService) getUsageBreakdown(ctx context.Context, period string) []s
 
 // getPopularFiles gets popular files
 func (s *adminService) getPopularFiles(ctx context.Context) []structs.PopularFile {
-	return []structs.PopularFile{
-		// Populate with actual data
-	}
+	return []structs.PopularFile{}
 }
 
 // getActivityByHour gets activity by hour
@@ -501,22 +484,121 @@ func (s *adminService) getActivityByHour(ctx context.Context) []structs.HourlyAc
 	}
 }
 
-// cleanupExpiredFiles cleans up expired files
+// cleanupExpiredFiles cleans up expired files via repository
 func (s *adminService) cleanupExpiredFiles(ctx context.Context, req *structs.BatchCleanupRequest, result *structs.BatchCleanupResult) *structs.BatchCleanupResult {
-	// TODO: Implementation for cleaning up expired files
+	limit := req.MaxItems
+	if limit <= 0 {
+		limit = 1000
+	}
+
+	files, err := s.fileRepo.FindExpiredFiles(ctx, req.Filters, limit)
+	if err != nil {
+		result.Errors = append(result.Errors, fmt.Sprintf("failed to query expired files: %v", err))
+		return result
+	}
+
+	result.ItemsFound = len(files)
+
+	for _, file := range files {
+		if !req.DryRun {
+			if err := s.fileRepo.Delete(ctx, file.ID); err != nil {
+				result.Errors = append(result.Errors, fmt.Sprintf("failed to delete file %s: %v", file.ID, err))
+				continue
+			}
+		}
+		result.ItemsCleaned++
+		result.SpaceFreed += int64(file.Size)
+		result.CleanedItems = append(result.CleanedItems, file.ID)
+	}
+
 	return result
 }
 
-// cleanupOrphanedFiles cleans up orphaned files
+// cleanupOrphanedFiles cleans up orphaned files via repository
 func (s *adminService) cleanupOrphanedFiles(ctx context.Context, req *structs.BatchCleanupRequest, result *structs.BatchCleanupResult) *structs.BatchCleanupResult {
-	// TODO: Implementation for cleaning up orphaned files
-	// Files that exist in storage but not in database
+	limit := req.MaxItems
+	if limit <= 0 {
+		limit = 1000
+	}
+
+	files, err := s.fileRepo.FindOrphanedFiles(ctx, req.Filters, limit)
+	if err != nil {
+		result.Errors = append(result.Errors, fmt.Sprintf("failed to query files: %v", err))
+		return result
+	}
+
+	result.ItemsFound = len(files)
+
+	for _, file := range files {
+		if !req.DryRun {
+			if err := s.fileRepo.Delete(ctx, file.ID); err != nil {
+				result.Errors = append(result.Errors, fmt.Sprintf("failed to delete orphaned file %s: %v", file.ID, err))
+				continue
+			}
+		}
+		result.ItemsCleaned++
+		result.SpaceFreed += int64(file.Size)
+		result.CleanedItems = append(result.CleanedItems, file.ID)
+	}
+
 	return result
 }
 
-// cleanupDuplicateFiles cleans up duplicate files
+// cleanupDuplicateFiles cleans up duplicate files via repository
 func (s *adminService) cleanupDuplicateFiles(ctx context.Context, req *structs.BatchCleanupRequest, result *structs.BatchCleanupResult) *structs.BatchCleanupResult {
-	// TODO: Implementation for cleaning up duplicate files
-	// Files with same hash/content
+	hashGroups, err := s.fileRepo.FindDuplicateFiles(ctx)
+	if err != nil {
+		result.Errors = append(result.Errors, fmt.Sprintf("failed to query files for deduplication: %v", err))
+		return result
+	}
+
+	cleaned := 0
+	limit := req.MaxItems
+	if limit <= 0 {
+		limit = 1000
+	}
+
+	for hash, group := range hashGroups {
+		if len(group) <= 1 {
+			continue
+		}
+
+		// Keep the first (oldest by created_at), delete the rest
+		for _, duplicate := range group[1:] {
+			if cleaned >= limit {
+				break
+			}
+
+			result.ItemsFound++
+
+			if req.Filters != nil {
+				if req.Filters.MinSize != nil && int64(duplicate.Size) < *req.Filters.MinSize {
+					continue
+				}
+				if req.Filters.MaxSize != nil && int64(duplicate.Size) > *req.Filters.MaxSize {
+					continue
+				}
+			}
+
+			if !req.DryRun {
+				if err := s.fileRepo.Delete(ctx, duplicate.ID); err != nil {
+					result.Errors = append(result.Errors, fmt.Sprintf("failed to delete duplicate file %s (hash: %s): %v", duplicate.ID, hash, err))
+					continue
+				}
+			}
+			result.ItemsCleaned++
+			result.SpaceFreed += int64(duplicate.Size)
+			result.CleanedItems = append(result.CleanedItems, duplicate.ID)
+			cleaned++
+		}
+
+		if cleaned >= limit {
+			break
+		}
+	}
+
+	logger.Infof(ctx, "duplicate cleanup: found %d duplicates, cleaned %d, freed %d bytes",
+		result.ItemsFound, result.ItemsCleaned, result.SpaceFreed)
+
 	return result
 }

@@ -10,7 +10,7 @@ import (
 	"fmt"
 	"ncobase/core/auth/data"
 	"ncobase/core/auth/data/ent"
-	userMFAEnt "ncobase/core/auth/data/ent/usermfa"
+	"ncobase/core/auth/data/repository"
 	"ncobase/core/auth/structs"
 	"ncobase/core/auth/wrapper"
 	userService "ncobase/core/user/service"
@@ -53,13 +53,14 @@ type MFAServiceInterface interface {
 }
 
 type mfaService struct {
-	d   *data.Data
-	jtm *jwt.TokenManager
-	usw *wrapper.UserServiceWrapper
-	asw *wrapper.AccessServiceWrapper
-	tsw *wrapper.SpaceServiceWrapper
-	enc *utils.EncryptionService
-	ss  SessionServiceInterface
+	d       *data.Data
+	jtm     *jwt.TokenManager
+	mfaRepo repository.UserMFARepositoryInterface
+	usw     *wrapper.UserServiceWrapper
+	asw     *wrapper.AccessServiceWrapper
+	tsw     *wrapper.SpaceServiceWrapper
+	enc     *utils.EncryptionService
+	ss      SessionServiceInterface
 }
 
 func NewMFAService(
@@ -82,13 +83,14 @@ func NewMFAService(
 	}
 
 	return &mfaService{
-		d:   d,
-		jtm: jtm,
-		usw: usw,
-		asw: asw,
-		tsw: tsw,
-		enc: enc,
-		ss:  ss,
+		d:       d,
+		jtm:     jtm,
+		mfaRepo: repository.NewUserMFARepository(d),
+		usw:     usw,
+		asw:     asw,
+		tsw:     tsw,
+		enc:     enc,
+		ss:      ss,
 	}
 }
 
@@ -97,7 +99,7 @@ func (s *mfaService) IsEnabled(ctx context.Context, userID string) (bool, error)
 		return false, errors.New("user_id is required")
 	}
 
-	row, err := s.d.GetSlaveEntClient().UserMFA.Query().Where(userMFAEnt.UserIDEQ(userID)).Only(ctx)
+	row, err := s.mfaRepo.GetByUserID(ctx, userID)
 	if err != nil {
 		if ent.IsNotFound(err) {
 			return false, nil
@@ -210,7 +212,7 @@ func (s *mfaService) GetTwoFactorStatus(ctx context.Context) (*structs.TwoFactor
 		return nil, errors.New("user not authenticated")
 	}
 
-	row, err := s.d.GetSlaveEntClient().UserMFA.Query().Where(userMFAEnt.UserIDEQ(userID)).Only(ctx)
+	row, err := s.mfaRepo.GetByUserID(ctx, userID)
 	if err != nil {
 		if ent.IsNotFound(err) {
 			return &structs.TwoFactorStatusResponse{Enabled: false}, nil
@@ -218,8 +220,7 @@ func (s *mfaService) GetTwoFactorStatus(ctx context.Context) (*structs.TwoFactor
 		return nil, err
 	}
 
-	remaining := 0
-	remaining = len(row.RecoveryCodeHashes)
+	remaining := len(row.RecoveryCodeHashes)
 
 	method := ""
 	if row.Enabled {
@@ -267,25 +268,11 @@ func (s *mfaService) SetupTwoFactor(ctx context.Context, method string) (*struct
 		return nil, fmt.Errorf("failed to encrypt totp secret: %w", err)
 	}
 
-	client := s.d.GetMasterEntClient()
-	_, err = client.UserMFA.
-		Create().
-		SetUserID(userID).
-		SetEnabled(false).
-		SetTotpSecret(encrypted).
-		Save(ctx)
+	// Try to create, fall back to update on constraint error
+	_, err = s.mfaRepo.Create(ctx, userID, encrypted)
 	if err != nil {
 		if ent.IsConstraintError(err) {
-			_, err = client.UserMFA.Update().
-				Where(userMFAEnt.UserIDEQ(userID)).
-				SetEnabled(false).
-				SetTotpSecret(encrypted).
-				ClearVerifiedAt().
-				ClearRecoveryCodesGeneratedAt().
-				SetRecoveryCodeHashes([]string{}).
-				SetFailedAttempts(0).
-				ClearLockedUntil().
-				Save(ctx)
+			_, err = s.mfaRepo.UpdateSetup(ctx, userID, encrypted)
 		}
 		if err != nil {
 			return nil, err
@@ -315,7 +302,7 @@ func (s *mfaService) VerifyTwoFactor(ctx context.Context, code string, method st
 		return nil, errors.New("user not authenticated")
 	}
 
-	row, err := s.d.GetSlaveEntClient().UserMFA.Query().Where(userMFAEnt.UserIDEQ(userID)).Only(ctx)
+	row, err := s.mfaRepo.GetByUserID(ctx, userID)
 	if err != nil {
 		return nil, errors.New("2fa setup not initialized")
 	}
@@ -338,15 +325,8 @@ func (s *mfaService) VerifyTwoFactor(ctx context.Context, code string, method st
 		return nil, err
 	}
 
-	_, err = s.d.GetMasterEntClient().UserMFA.Update().
-		Where(userMFAEnt.UserIDEQ(userID)).
-		SetEnabled(true).
-		SetVerifiedAt(time.Now().UnixMilli()).
-		SetRecoveryCodeHashes(hashes).
-		SetRecoveryCodesGeneratedAt(time.Now().UnixMilli()).
-		SetFailedAttempts(0).
-		ClearLockedUntil().
-		Save(ctx)
+	now := time.Now().UnixMilli()
+	_, err = s.mfaRepo.Enable(ctx, userID, now, hashes, now)
 	if err != nil {
 		return nil, err
 	}
@@ -376,16 +356,7 @@ func (s *mfaService) DisableTwoFactor(ctx context.Context, password string, code
 		return err
 	}
 
-	_, err := s.d.GetMasterEntClient().UserMFA.Update().
-		Where(userMFAEnt.UserIDEQ(userID)).
-		SetEnabled(false).
-		ClearTotpSecret().
-		ClearVerifiedAt().
-		SetRecoveryCodeHashes([]string{}).
-		ClearRecoveryCodesGeneratedAt().
-		SetFailedAttempts(0).
-		ClearLockedUntil().
-		Save(ctx)
+	_, err := s.mfaRepo.Disable(ctx, userID)
 	return err
 }
 
@@ -395,7 +366,7 @@ func (s *mfaService) RegenerateRecoveryCodes(ctx context.Context, code string) (
 		return nil, errors.New("user not authenticated")
 	}
 
-	row, err := s.d.GetSlaveEntClient().UserMFA.Query().Where(userMFAEnt.UserIDEQ(userID)).Only(ctx)
+	row, err := s.mfaRepo.GetByUserID(ctx, userID)
 	if err != nil || !row.Enabled {
 		return nil, errors.New("2fa is not enabled")
 	}
@@ -415,11 +386,7 @@ func (s *mfaService) RegenerateRecoveryCodes(ctx context.Context, code string) (
 		return nil, err
 	}
 
-	_, err = s.d.GetMasterEntClient().UserMFA.Update().
-		Where(userMFAEnt.UserIDEQ(userID)).
-		SetRecoveryCodeHashes(hashes).
-		SetRecoveryCodesGeneratedAt(time.Now().UnixMilli()).
-		Save(ctx)
+	_, err = s.mfaRepo.UpdateRecoveryCodes(ctx, userID, hashes, time.Now().UnixMilli())
 	if err != nil {
 		return nil, err
 	}
@@ -442,7 +409,7 @@ func (s *mfaService) decryptSecret(ciphertext string) (string, error) {
 }
 
 func (s *mfaService) verifyUserMFA(ctx context.Context, userID string, code string, recoveryCode string) error {
-	row, err := s.d.GetSlaveEntClient().UserMFA.Query().Where(userMFAEnt.UserIDEQ(userID)).Only(ctx)
+	row, err := s.mfaRepo.GetByUserID(ctx, userID)
 	if err != nil || !row.Enabled {
 		return errors.New("mfa not enabled")
 	}
@@ -470,12 +437,7 @@ func (s *mfaService) verifyUserMFA(ctx context.Context, userID string, code stri
 		return s.recordFailedAttempt(ctx, userID, row.FailedAttempts)
 	}
 
-	_, err = s.d.GetMasterEntClient().UserMFA.Update().
-		Where(userMFAEnt.UserIDEQ(userID)).
-		SetFailedAttempts(0).
-		ClearLockedUntil().
-		SetLastUsedAt(now).
-		Save(ctx)
+	_, err = s.mfaRepo.ResetFailedAttempts(ctx, userID, now)
 	return err
 }
 
@@ -505,27 +467,18 @@ func (s *mfaService) verifyRecoveryCode(ctx context.Context, row *ent.UserMFA, r
 	remaining = append(remaining, list[idx+1:]...)
 
 	now := time.Now().UnixMilli()
-	_, err := s.d.GetMasterEntClient().UserMFA.Update().
-		Where(userMFAEnt.UserIDEQ(userID)).
-		SetRecoveryCodeHashes(remaining).
-		SetFailedAttempts(0).
-		ClearLockedUntil().
-		SetLastUsedAt(now).
-		Save(ctx)
+	_, err := s.mfaRepo.UpdateRecoveryCodesAndReset(ctx, userID, remaining, 0, now)
 	return err
 }
 
 func (s *mfaService) recordFailedAttempt(ctx context.Context, userID string, current int) error {
 	next := current + 1
-	update := s.d.GetMasterEntClient().UserMFA.Update().Where(userMFAEnt.UserIDEQ(userID)).SetFailedAttempts(next)
 
 	if next >= mfaMaxFailedAttempts {
 		lockedUntil := time.Now().Add(mfaLockDuration).UnixMilli()
-		update = update.SetLockedUntil(lockedUntil).SetFailedAttempts(0)
-	}
-
-	if _, err := update.Save(ctx); err != nil {
-		return errors.New("verification failed")
+		s.mfaRepo.LockAccount(ctx, userID, lockedUntil)
+	} else {
+		s.mfaRepo.IncrementFailedAttempts(ctx, userID, next)
 	}
 
 	return errors.New("verification failed")
