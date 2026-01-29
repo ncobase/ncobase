@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"ncobase/plugin/payment/data/repository"
 	"ncobase/plugin/payment/event"
@@ -41,15 +42,15 @@ func NewProductService(repo repository.ProductRepositoryInterface, publisher eve
 func (s *productService) Create(ctx context.Context, input *structs.CreateProductInput) (*structs.Product, error) {
 	// Validate input
 	if input.Name == "" {
-		return nil, fmt.Errorf(ecode.FieldIsRequired("name"))
+		return nil, errors.New(ecode.FieldIsRequired("name"))
 	}
 
 	if input.Description == "" {
-		return nil, fmt.Errorf(ecode.FieldIsRequired("description"))
+		return nil, errors.New(ecode.FieldIsRequired("description"))
 	}
 
 	if input.Price < 0 {
-		return nil, fmt.Errorf(ecode.FieldIsInvalid("price must be non-negative"))
+		return nil, errors.New(ecode.FieldIsInvalid("price must be non-negative"))
 	}
 
 	// Set default currency if not provided

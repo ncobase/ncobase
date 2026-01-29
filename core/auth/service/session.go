@@ -3,7 +3,6 @@ package service
 import (
 	"context"
 	"ncobase/core/auth/data"
-	"ncobase/core/auth/data/ent"
 	"ncobase/core/auth/data/repository"
 	"ncobase/core/auth/structs"
 
@@ -24,8 +23,6 @@ type SessionServiceInterface interface {
 	UpdateLastAccess(ctx context.Context, tokenID string) error
 	CleanupExpiredSessions(ctx context.Context) error
 	GetActiveSessionsCount(ctx context.Context, userID string) int
-	Serialize(session *ent.Session) *structs.ReadSession
-	Serializes(sessions []*ent.Session) []*structs.ReadSession
 }
 
 // sessionService implements the SessionServiceInterface
@@ -46,7 +43,7 @@ func (s *sessionService) Create(ctx context.Context, body *structs.SessionBody, 
 	if err != nil {
 		return nil, err
 	}
-	return s.Serialize(row), nil
+	return repository.SerializeSession(row), nil
 }
 
 // Update updates a session
@@ -55,7 +52,7 @@ func (s *sessionService) Update(ctx context.Context, id string, body *structs.Up
 	if err != nil {
 		return nil, err
 	}
-	return s.Serialize(row), nil
+	return repository.SerializeSession(row), nil
 }
 
 // GetByID retrieves a session by ID
@@ -64,7 +61,7 @@ func (s *sessionService) GetByID(ctx context.Context, id string) (*structs.ReadS
 	if err != nil {
 		return nil, err
 	}
-	return s.Serialize(row), nil
+	return repository.SerializeSession(row), nil
 }
 
 // GetByTokenID retrieves a session by token ID
@@ -73,7 +70,7 @@ func (s *sessionService) GetByTokenID(ctx context.Context, tokenID string) (*str
 	if err != nil {
 		return nil, err
 	}
-	return s.Serialize(row), nil
+	return repository.SerializeSession(row), nil
 }
 
 // List retrieves sessions
@@ -97,7 +94,7 @@ func (s *sessionService) List(ctx context.Context, params *structs.ListSessionPa
 		}
 
 		total := s.r.CountX(ctx, params)
-		return s.Serializes(rows), total, nil
+		return repository.SerializeSessions(rows), total, nil
 	})
 }
 
@@ -134,32 +131,4 @@ func (s *sessionService) GetActiveSessionsCount(ctx context.Context, userID stri
 		IsActive: &isActive,
 	}
 	return s.r.CountX(ctx, params)
-}
-
-// Serialize converts ent.Session to structs.ReadSession
-func (s *sessionService) Serialize(row *ent.Session) *structs.ReadSession {
-	return &structs.ReadSession{
-		ID:           row.ID,
-		UserID:       row.UserID,
-		TokenID:      row.TokenID,
-		DeviceInfo:   &row.DeviceInfo,
-		IPAddress:    row.IPAddress,
-		UserAgent:    row.UserAgent,
-		Location:     row.Location,
-		LoginMethod:  row.LoginMethod,
-		IsActive:     row.IsActive,
-		LastAccessAt: &row.LastAccessAt,
-		ExpiresAt:    &row.ExpiresAt,
-		CreatedAt:    &row.CreatedAt,
-		UpdatedAt:    &row.UpdatedAt,
-	}
-}
-
-// Serializes converts multiple ent.Session to structs.ReadSession
-func (s *sessionService) Serializes(rows []*ent.Session) []*structs.ReadSession {
-	rs := make([]*structs.ReadSession, 0, len(rows))
-	for _, row := range rows {
-		rs = append(rs, s.Serialize(row))
-	}
-	return rs
 }

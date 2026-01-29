@@ -3,7 +3,6 @@ package service
 import (
 	"context"
 	"ncobase/core/space/data"
-	"ncobase/core/space/data/ent"
 	"ncobase/core/space/data/repository"
 	"ncobase/core/space/structs"
 )
@@ -40,7 +39,7 @@ func (s *spaceOptionService) AddOptionsToSpace(ctx context.Context, spaceID, opt
 	if err := handleEntError(ctx, "SpaceOption", err); err != nil {
 		return nil, err
 	}
-	return s.SerializeSpaceOption(row), nil
+	return repository.SerializeSpaceOption(row), nil
 }
 
 // RemoveOptionsFromSpace removes options from a space.
@@ -101,12 +100,4 @@ func (s *spaceOptionService) RemoveOptionsFromAllSpaces(ctx context.Context, opt
 		return err
 	}
 	return nil
-}
-
-// SerializeSpaceOption serializes a space option relationship.
-func (s *spaceOptionService) SerializeSpaceOption(row *ent.SpaceOption) *structs.SpaceOption {
-	return &structs.SpaceOption{
-		SpaceID:  row.SpaceID,
-		OptionID: row.OptionID,
-	}
 }

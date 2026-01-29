@@ -206,7 +206,7 @@ func (r *transformerRepository) Delete(ctx context.Context, id string) error {
 	// Clear cache
 	cacheKey := fmt.Sprintf("%s", id)
 	r.c.Delete(ctx, cacheKey)
-	r.c.Delete(ctx, fmt.Sprintf("name:%s", transformerEnt.Name))
+	r.c.Delete(ctx, fmt.Sprintf("name:%s", transformer.Name))
 
 	return nil
 }

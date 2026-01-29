@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 	"ncobase/plugin/proxy/data"
-	"ncobase/plugin/proxy/data/ent"
 	"ncobase/plugin/proxy/data/repository"
 	"ncobase/plugin/proxy/structs"
 
@@ -23,8 +22,6 @@ type EndpointServiceInterface interface {
 	GetByID(ctx context.Context, id string) (*structs.ReadEndpoint, error)
 	GetByName(ctx context.Context, name string) (*structs.ReadEndpoint, error)
 	List(ctx context.Context, params *structs.ListEndpointParams) (paging.Result[*structs.ReadEndpoint], error)
-	Serialize(row *ent.Endpoint) *structs.ReadEndpoint
-	Serializes(rows []*ent.Endpoint) []*structs.ReadEndpoint
 }
 
 // endpointService is the struct for the endpoint service.
@@ -50,7 +47,7 @@ func (s *endpointService) Create(ctx context.Context, body *structs.CreateEndpoi
 		return nil, err
 	}
 
-	return s.Serialize(row), nil
+	return repository.SerializeEndpoint(row), nil
 }
 
 // Update updates an existing endpoint.
@@ -69,7 +66,7 @@ func (s *endpointService) Update(ctx context.Context, id string, updates types.J
 		return nil, err
 	}
 
-	return s.Serialize(row), nil
+	return repository.SerializeEndpoint(row), nil
 }
 
 // Delete deletes an endpoint by ID.
@@ -89,7 +86,7 @@ func (s *endpointService) GetByID(ctx context.Context, id string) (*structs.Read
 		return nil, err
 	}
 
-	return s.Serialize(row), nil
+	return repository.SerializeEndpoint(row), nil
 }
 
 // GetByName retrieves an endpoint by name.
@@ -99,7 +96,7 @@ func (s *endpointService) GetByName(ctx context.Context, name string) (*structs.
 		return nil, err
 	}
 
-	return s.Serialize(row), nil
+	return repository.SerializeEndpoint(row), nil
 }
 
 // List lists all endpoints.
@@ -117,7 +114,7 @@ func (s *endpointService) List(ctx context.Context, params *structs.ListEndpoint
 		lp.Direction = direction
 
 		rows, err := s.endpoint.List(ctx, &lp)
-		if ent.IsNotFound(err) {
+		if repository.IsNotFound(err) {
 			return nil, 0, errors.New(ecode.FieldIsInvalid("cursor"))
 		}
 		if err != nil {
@@ -127,40 +124,6 @@ func (s *endpointService) List(ctx context.Context, params *structs.ListEndpoint
 
 		total := s.endpoint.CountX(ctx, params)
 
-		return s.Serializes(rows), total, nil
+		return repository.SerializeEndpoints(rows), total, nil
 	})
-}
-
-// Serializes serializes a list of endpoint entities to a response format.
-func (s *endpointService) Serializes(rows []*ent.Endpoint) []*structs.ReadEndpoint {
-	rs := make([]*structs.ReadEndpoint, 0, len(rows))
-	for _, row := range rows {
-		rs = append(rs, s.Serialize(row))
-	}
-	return rs
-}
-
-// Serialize serializes an endpoint entity to a response format.
-func (s *endpointService) Serialize(row *ent.Endpoint) *structs.ReadEndpoint {
-	return &structs.ReadEndpoint{
-		ID:                row.ID,
-		Name:              row.Name,
-		Description:       row.Description,
-		BaseURL:           row.BaseURL,
-		Protocol:          row.Protocol,
-		AuthType:          row.AuthType,
-		AuthConfig:        &row.AuthConfig,
-		Timeout:           row.Timeout,
-		UseCircuitBreaker: row.UseCircuitBreaker,
-		RetryCount:        row.RetryCount,
-		ValidateSSL:       row.ValidateSsl,
-		LogRequests:       row.LogRequests,
-		LogResponses:      row.LogResponses,
-		Disabled:          row.Disabled,
-		Extras:            &row.Extras,
-		CreatedBy:         &row.CreatedBy,
-		CreatedAt:         &row.CreatedAt,
-		UpdatedBy:         &row.UpdatedBy,
-		UpdatedAt:         &row.UpdatedAt,
-	}
 }

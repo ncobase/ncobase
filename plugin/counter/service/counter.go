@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 	"ncobase/plugin/counter/data"
-	"ncobase/plugin/counter/data/ent"
 	"ncobase/plugin/counter/data/repository"
 	"ncobase/plugin/counter/structs"
 
@@ -23,8 +22,6 @@ type CounterServiceInterface interface {
 	Delete(ctx context.Context, counterID string) error
 	List(ctx context.Context, params *structs.ListCounterParams) (paging.Result[*structs.ReadCounter], error)
 	CountX(ctx context.Context, params *structs.ListCounterParams) int
-	Serializes(rows []*ent.Counter) []*structs.ReadCounter
-	Serialize(counter *ent.Counter) *structs.ReadCounter
 }
 
 // counterService is the struct for the service.
@@ -50,7 +47,7 @@ func (s *counterService) Create(ctx context.Context, body *structs.CreateCounter
 		return nil, err
 	}
 
-	return s.Serialize(row), nil
+	return repository.SerializeCounter(row), nil
 }
 
 // Update updates an existing counter.
@@ -60,7 +57,7 @@ func (s *counterService) Update(ctx context.Context, counterID string, updates t
 		return nil, err
 	}
 
-	return s.Serialize(row), nil
+	return repository.SerializeCounter(row), nil
 }
 
 // Get retrieves a counter by its ID.
@@ -70,7 +67,7 @@ func (s *counterService) Get(ctx context.Context, params *structs.FindCounter) (
 		return nil, err
 	}
 
-	return s.Serialize(row), nil
+	return repository.SerializeCounter(row), nil
 }
 
 // GetByIDs retrieves counters by their IDs.
@@ -80,7 +77,7 @@ func (s *counterService) GetByIDs(ctx context.Context, counterIDs []string) ([]*
 		return nil, err
 	}
 
-	return s.Serializes(rows), nil
+	return repository.SerializeCounters(rows), nil
 }
 
 // Delete deletes a counter by its ID.
@@ -109,7 +106,7 @@ func (s *counterService) List(ctx context.Context, params *structs.ListCounterPa
 		lp.Direction = direction
 
 		rows, err := s.counter.List(ctx, &lp)
-		if ent.IsNotFound(err) {
+		if repository.IsNotFound(err) {
 			return nil, 0, errors.New(ecode.FieldIsInvalid("cursor"))
 		}
 		if err != nil {
@@ -119,39 +116,8 @@ func (s *counterService) List(ctx context.Context, params *structs.ListCounterPa
 
 		total := s.counter.CountX(ctx, params)
 
-		return s.Serializes(rows), total, nil
+		return repository.SerializeCounters(rows), total, nil
 	})
-}
-
-// Serializes serializes counters.
-func (s *counterService) Serializes(rows []*ent.Counter) []*structs.ReadCounter {
-	rs := make([]*structs.ReadCounter, 0, len(rows))
-	for _, row := range rows {
-		rs = append(rs, s.Serialize(row))
-	}
-	return rs
-}
-
-// Serialize serializes a counter.
-func (s *counterService) Serialize(row *ent.Counter) *structs.ReadCounter {
-	return &structs.ReadCounter{
-		ID:            row.ID,
-		Identifier:    row.Identifier,
-		Name:          row.Name,
-		Prefix:        row.Prefix,
-		Suffix:        row.Suffix,
-		StartValue:    row.StartValue,
-		IncrementStep: row.IncrementStep,
-		DateFormat:    row.DateFormat,
-		CurrentValue:  row.CurrentValue,
-		Disabled:      row.Disabled,
-		Description:   row.Description,
-		SpaceID:       &row.SpaceID,
-		CreatedBy:     &row.CreatedBy,
-		CreatedAt:     &row.CreatedAt,
-		UpdatedBy:     &row.UpdatedBy,
-		UpdatedAt:     &row.UpdatedAt,
-	}
 }
 
 // CountX gets a count of counters.

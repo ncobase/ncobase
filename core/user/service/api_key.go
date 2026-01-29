@@ -3,7 +3,6 @@ package service
 import (
 	"context"
 	"errors"
-	"ncobase/core/user/data/ent"
 	"ncobase/core/user/data/repository"
 	"ncobase/core/user/event"
 	"ncobase/core/user/structs"
@@ -56,7 +55,7 @@ func (s *apiKeyService) GenerateApiKey(ctx context.Context, userID string, reque
 	}
 
 	// Use apiKeyValue from create operation
-	apiKey := s.Serialize(row)
+	apiKey := repository.SerializeApiKey(row)
 	apiKey.Key = apiKeyValue // Set the clear text key value (only returned once)
 
 	// Publish API key generated event
@@ -84,7 +83,7 @@ func (s *apiKeyService) GetApiKey(ctx context.Context, id string) (*structs.ApiK
 		return nil, errors.New("unauthorized access to API key")
 	}
 
-	return s.Serialize(row), nil
+	return repository.SerializeApiKey(row), nil
 }
 
 // GetUserApiKeys retrieves all API keys for a user
@@ -102,7 +101,7 @@ func (s *apiKeyService) GetUserApiKeys(ctx context.Context, userID string) ([]*s
 		return nil, err
 	}
 
-	return s.Serializes(rows), nil
+	return repository.SerializeApiKeys(rows), nil
 }
 
 // DeleteApiKey removes an API key
@@ -148,26 +147,5 @@ func (s *apiKeyService) ValidateApiKey(ctx context.Context, key string) (*struct
 	now := time.Now().UnixMilli()
 	_ = s.apiKey.UpdateLastUsed(ctx, row.ID, now)
 
-	return s.Serialize(row), nil
-}
-
-// Serializes converts multiple API keys to DTOs
-func (s *apiKeyService) Serializes(rows []*ent.ApiKey) []*structs.ApiKey {
-	rs := make([]*structs.ApiKey, 0, len(rows))
-	for _, row := range rows {
-		rs = append(rs, s.Serialize(row))
-	}
-	return rs
-}
-
-// Serialize converts an API key to DTO
-func (s *apiKeyService) Serialize(apiKey *ent.ApiKey) *structs.ApiKey {
-	return &structs.ApiKey{
-		ID:        apiKey.ID,
-		Name:      apiKey.Name,
-		Key:       "", // Don't return the key hash for security
-		UserID:    apiKey.UserID,
-		CreatedAt: apiKey.CreatedAt,
-		LastUsed:  &apiKey.LastUsed, // This is a pointer field in the model
-	}
+	return repository.SerializeApiKey(row), nil
 }

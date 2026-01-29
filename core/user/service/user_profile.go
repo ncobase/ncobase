@@ -3,7 +3,6 @@ package service
 import (
 	"context"
 	"errors"
-	"ncobase/core/user/data/ent"
 	"ncobase/core/user/data/repository"
 	"ncobase/core/user/event"
 	"ncobase/core/user/structs"
@@ -41,7 +40,7 @@ func (s *userProfileService) Create(ctx context.Context, body *structs.UserProfi
 	if err != nil {
 		return nil, err
 	}
-	return s.Serialize(row), nil
+	return repository.SerializeUserProfile(row), nil
 }
 
 // Update creates a new service.
@@ -59,7 +58,7 @@ func (s *userProfileService) Update(ctx context.Context, id string, updates type
 	if err := handleEntError(ctx, "UserProfile", err); err != nil {
 		return nil, err
 	}
-	return s.Serialize(row), nil
+	return repository.SerializeUserProfile(row), nil
 }
 
 // Get creates a new service.
@@ -68,27 +67,11 @@ func (s *userProfileService) Get(ctx context.Context, id string) (*structs.ReadU
 	if err := handleEntError(ctx, "UserProfile", err); err != nil {
 		return nil, err
 	}
-	return s.Serialize(row), nil
+	return repository.SerializeUserProfile(row), nil
 
 }
 
 // Delete creates a new service.
 func (s *userProfileService) Delete(ctx context.Context, id string) error {
 	return s.userProfile.Delete(ctx, id)
-}
-
-// Serialize serialize user profile
-func (s *userProfileService) Serialize(row *ent.UserProfile) *structs.ReadUserProfile {
-	return &structs.ReadUserProfile{
-		UserID:      row.ID,
-		DisplayName: row.DisplayName,
-		FirstName:   row.FirstName,
-		LastName:    row.LastName,
-		Title:       row.Title,
-		ShortBio:    row.ShortBio,
-		About:       &row.About,
-		Thumbnail:   &row.Thumbnail,
-		Links:       &row.Links,
-		Extras:      &row.Extras,
-	}
 }

@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"ncobase/plugin/payment/data/repository"
 	"ncobase/plugin/payment/event"
@@ -44,19 +45,19 @@ func NewChannelService(repo repository.ChannelRepositoryInterface, publisher eve
 func (s *channelService) Create(ctx context.Context, input *structs.CreateChannelInput) (*structs.Channel, error) {
 	// Validate input
 	if input.Name == "" {
-		return nil, fmt.Errorf(ecode.FieldIsRequired("name"))
+		return nil, errors.New(ecode.FieldIsRequired("name"))
 	}
 
 	if input.Provider == "" {
-		return nil, fmt.Errorf(ecode.FieldIsRequired("provider"))
+		return nil, errors.New(ecode.FieldIsRequired("provider"))
 	}
 
 	if len(input.SupportedType) == 0 {
-		return nil, fmt.Errorf(ecode.FieldIsRequired("supported_types"))
+		return nil, errors.New(ecode.FieldIsRequired("supported_types"))
 	}
 
 	if input.Config == nil {
-		return nil, fmt.Errorf(ecode.FieldIsRequired("config"))
+		return nil, errors.New(ecode.FieldIsRequired("config"))
 	}
 
 	// Create channel entity
@@ -105,7 +106,7 @@ func (s *channelService) Create(ctx context.Context, input *structs.CreateChanne
 // GetByID gets a payment channel by ID
 func (s *channelService) GetByID(ctx context.Context, id string) (*structs.Channel, error) {
 	if id == "" {
-		return nil, fmt.Errorf(ecode.FieldIsRequired("id"))
+		return nil, errors.New(ecode.FieldIsRequired("id"))
 	}
 
 	channel, err := s.repo.GetByID(ctx, id)
@@ -119,7 +120,7 @@ func (s *channelService) GetByID(ctx context.Context, id string) (*structs.Chann
 // Update updates a payment channel
 func (s *channelService) Update(ctx context.Context, id string, updates *structs.UpdateChannelInput) (*structs.Channel, error) {
 	if id == "" {
-		return nil, fmt.Errorf(ecode.FieldIsRequired("id"))
+		return nil, errors.New(ecode.FieldIsRequired("id"))
 	}
 
 	// Get existing channel

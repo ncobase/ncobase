@@ -34,8 +34,8 @@ func New(conf *config.Config, d *data.Data) *Service {
 		Activity:       NewActivityService(d),
 		Role:           rs,
 		Permission:     ps,
-		RolePermission: NewRolePermissionService(d, ps),
-		UserRole:       NewUserRoleService(d, rs),
+		RolePermission: NewRolePermissionService(d),
+		UserRole:       NewUserRoleService(d),
 		Casbin:         NewCasbinService(d),
 		CasbinAdapter:  casbinAdapter,
 	}

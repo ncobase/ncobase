@@ -5,7 +5,6 @@ import (
 	"errors"
 	"fmt"
 	"ncobase/biz/realtime/data"
-	"ncobase/biz/realtime/data/ent"
 	"ncobase/biz/realtime/data/repository"
 	"ncobase/biz/realtime/structs"
 	"time"
@@ -36,14 +35,12 @@ type EventService interface {
 }
 
 type eventService struct {
-	data      *data.Data
 	eventRepo repository.EventRepositoryInterface
 	ws        WebSocketService
 }
 
 func NewEventService(d *data.Data, ws WebSocketService) EventService {
 	return &eventService{
-		data:      d,
 		eventRepo: repository.NewEventRepository(d),
 		ws:        ws,
 	}
@@ -62,20 +59,14 @@ func (s *eventService) Publish(ctx context.Context, body *structs.CreateEvent) (
 	}
 
 	// Create event
-	event, err := s.eventRepo.Create(ctx, s.data.EC.Event.Create().
-		SetType(e.Type).
-		SetSource(e.Source).
-		SetPayload(e.Payload).
-		SetPriority(e.Priority).
-		SetStatus("pending"),
-	)
+	event, err := s.eventRepo.Create(ctx, &e)
 
 	if err != nil {
 		logger.Errorf(ctx, "Failed to publish event: %v", err)
 		return nil, fmt.Errorf("failed to publish event: %w", err)
 	}
 
-	result := s.serializeEvent(event)
+	result := repository.SerializeEvent(event)
 
 	// Broadcast event via WebSocket
 	s.broadcastEvent(result)
@@ -93,7 +84,7 @@ func (s *eventService) Get(ctx context.Context, params *structs.FindEvent) (*str
 		return nil, err
 	}
 
-	return s.serializeEvent(event), nil
+	return repository.SerializeEvent(event), nil
 }
 
 // Delete deletes an event
@@ -116,7 +107,7 @@ func (s *eventService) List(ctx context.Context, params *structs.ListEventParams
 		lp.Direction = direction
 
 		rows, err := s.eventRepo.List(ctx, &lp)
-		if ent.IsNotFound(err) {
+		if repository.IsNotFound(err) {
 			return nil, 0, errors.New(ecode.FieldIsInvalid("cursor"))
 		}
 		if err != nil {
@@ -126,15 +117,15 @@ func (s *eventService) List(ctx context.Context, params *structs.ListEventParams
 
 		total := s.eventRepo.CountX(ctx, params)
 
-		return s.serializeEvents(rows), total, nil
+		return repository.SerializeEvents(rows), total, nil
 	})
 }
 
 // PublishBatch publishes multiple events
-func (s *eventService) PublishBatch(ctx context.Context, bodies []*structs.CreateEvent) ([]*structs.ReadEvent, error) {
-	var creates []*ent.EventCreate
+func (s *eventService) PublishBatch(ctx context.Context, events []*structs.CreateEvent) ([]*structs.ReadEvent, error) {
+	var bodies []*structs.EventBody
 
-	for _, body := range bodies {
+	for _, body := range events {
 		e := body.Event
 		if e.Type == "" {
 			return nil, errors.New("event type is required for all events")
@@ -144,21 +135,16 @@ func (s *eventService) PublishBatch(ctx context.Context, bodies []*structs.Creat
 			e.Priority = "normal"
 		}
 
-		creates = append(creates, s.data.EC.Event.Create().
-			SetType(e.Type).
-			SetSource(e.Source).
-			SetPayload(e.Payload).
-			SetPriority(e.Priority).
-			SetStatus("pending"),
-		)
+		eventBody := e
+		bodies = append(bodies, &eventBody)
 	}
 
-	events, err := s.eventRepo.CreateBatch(ctx, creates)
+	createdEvents, err := s.eventRepo.CreateBatch(ctx, bodies)
 	if err != nil {
 		return nil, err
 	}
 
-	results := s.serializeEvents(events)
+	results := repository.SerializeEvents(createdEvents)
 
 	// Broadcast events
 	for _, result := range results {
@@ -166,7 +152,7 @@ func (s *eventService) PublishBatch(ctx context.Context, bodies []*structs.Creat
 	}
 
 	// Process events asynchronously
-	for _, event := range events {
+	for _, event := range createdEvents {
 		go s.processEventAsync(context.Background(), event.ID)
 	}
 
@@ -200,7 +186,7 @@ func (s *eventService) Search(ctx context.Context, query *structs.SearchQuery) (
 
 	result := &structs.SearchResult{
 		Total:  int64(totalCount),
-		Events: s.serializeEvents(events),
+		Events: repository.SerializeEvents(events),
 	}
 
 	// Handle aggregations if requested
@@ -333,7 +319,7 @@ func (s *eventService) GetFailedEvents(ctx context.Context, limit int) ([]*struc
 		return nil, err
 	}
 
-	return s.serializeEvents(events), nil
+	return repository.SerializeEvents(events), nil
 }
 
 // UpdateEventStatus updates an event's status
@@ -351,7 +337,7 @@ func (s *eventService) ProcessPendingEvents(ctx context.Context, limit int) ([]*
 	var results []*structs.ReadEvent
 	for _, event := range events {
 		// Process event
-		err := s.processEvent(ctx, event)
+		err := s.processEvent(ctx, repository.SerializeEvent(event))
 		if err != nil {
 			logger.Errorf(ctx, "Failed to process event %s: %v", event.ID, err)
 			// Update status to failed
@@ -361,7 +347,7 @@ func (s *eventService) ProcessPendingEvents(ctx context.Context, limit int) ([]*
 			s.eventRepo.UpdateStatus(ctx, event.ID, "processed", "")
 		}
 
-		results = append(results, s.serializeEvent(event))
+		results = append(results, repository.SerializeEvent(event))
 	}
 
 	return results, nil
@@ -370,38 +356,6 @@ func (s *eventService) ProcessPendingEvents(ctx context.Context, limit int) ([]*
 // Helper methods
 
 // serializeEvent converts ent.Event to structs.ReadEvent
-func (s *eventService) serializeEvent(e *ent.Event) *structs.ReadEvent {
-	result := &structs.ReadEvent{
-		ID:         e.ID,
-		Type:       e.Type,
-		Source:     e.Source,
-		Payload:    e.Payload,
-		Status:     e.Status,
-		Priority:   e.Priority,
-		CreatedAt:  e.CreatedAt,
-		RetryCount: e.RetryCount,
-	}
-
-	if e.ProcessedAt != 0 {
-		result.ProcessedAt = &e.ProcessedAt
-	}
-
-	if e.ErrorMessage != "" {
-		result.ErrorMessage = e.ErrorMessage
-	}
-
-	return result
-}
-
-// serializeEvents converts []*ent.Event to []*structs.ReadEvent
-func (s *eventService) serializeEvents(events []*ent.Event) []*structs.ReadEvent {
-	result := make([]*structs.ReadEvent, len(events))
-	for i, e := range events {
-		result[i] = s.serializeEvent(e)
-	}
-	return result
-}
-
 // broadcastEvent broadcasts an event through WebSocket
 func (s *eventService) broadcastEvent(e *structs.ReadEvent) {
 	if s.ws == nil {
@@ -420,7 +374,7 @@ func (s *eventService) broadcastEvent(e *structs.ReadEvent) {
 }
 
 // processEvent processes a single event
-func (s *eventService) processEvent(ctx context.Context, event *ent.Event) error {
+func (s *eventService) processEvent(ctx context.Context, event *structs.ReadEvent) error {
 	if event.Type == "" {
 		return fmt.Errorf("event type is required")
 	}
@@ -440,7 +394,7 @@ func (s *eventService) processEventAsync(ctx context.Context, eventID string) {
 		return
 	}
 
-	err = s.processEvent(ctx, event)
+	err = s.processEvent(ctx, repository.SerializeEvent(event))
 	if err != nil {
 		s.eventRepo.UpdateStatus(ctx, eventID, "failed", err.Error())
 	} else {
@@ -461,7 +415,7 @@ func (s *eventService) scheduleRetry(ctx context.Context, eventID string, schedu
 		return
 	}
 
-	err = s.processEvent(ctx, event)
+	err = s.processEvent(ctx, repository.SerializeEvent(event))
 	if err != nil {
 		s.eventRepo.UpdateStatus(ctx, eventID, "failed", err.Error())
 	} else {

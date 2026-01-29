@@ -5,7 +5,6 @@ import (
 	"errors"
 	"fmt"
 	"ncobase/core/space/data"
-	"ncobase/core/space/data/ent"
 	"ncobase/core/space/data/repository"
 	"ncobase/core/space/structs"
 
@@ -29,8 +28,6 @@ type SpaceQuotaServiceInterface interface {
 	UpdateUsage(ctx context.Context, spaceID string, quotaType string, delta int64) error
 	CheckQuotaLimit(ctx context.Context, spaceID string, quotaType structs.QuotaType, requestedAmount int64) (bool, error)
 	GetSpaceQuotaSummary(ctx context.Context, spaceID string) ([]*structs.ReadSpaceQuota, error)
-	Serialize(row *ent.SpaceQuota) *structs.ReadSpaceQuota
-	Serializes(rows []*ent.SpaceQuota) []*structs.ReadSpaceQuota
 }
 
 // spaceQuotaService implements SpaceQuotaServiceInterface
@@ -59,7 +56,7 @@ func (s *spaceQuotaService) Create(ctx context.Context, body *structs.CreateSpac
 		return nil, err
 	}
 
-	return s.Serialize(row), nil
+	return repository.SerializeSpaceQuota(row), nil
 }
 
 // Update updates an existing space quota
@@ -69,7 +66,7 @@ func (s *spaceQuotaService) Update(ctx context.Context, id string, updates types
 		return nil, err
 	}
 
-	return s.Serialize(row), nil
+	return repository.SerializeSpaceQuota(row), nil
 }
 
 // Get retrieves a space quota by ID
@@ -79,7 +76,7 @@ func (s *spaceQuotaService) Get(ctx context.Context, id string) (*structs.ReadSp
 		return nil, err
 	}
 
-	return s.Serialize(row), nil
+	return repository.SerializeSpaceQuota(row), nil
 }
 
 // GetBySpaceAndType retrieves a space quota by space ID and quota type
@@ -89,7 +86,7 @@ func (s *spaceQuotaService) GetBySpaceAndType(ctx context.Context, spaceID strin
 		return nil, err
 	}
 
-	return s.Serialize(row), nil
+	return repository.SerializeSpaceQuota(row), nil
 }
 
 // Delete deletes a space quota
@@ -121,7 +118,7 @@ func (s *spaceQuotaService) List(ctx context.Context, params *structs.ListSpaceQ
 			return nil, 0, err
 		}
 
-		return s.Serializes(rows), total, nil
+		return repository.SerializeSpaceQuotas(rows), total, nil
 	})
 }
 
@@ -129,7 +126,7 @@ func (s *spaceQuotaService) List(ctx context.Context, params *structs.ListSpaceQ
 func (s *spaceQuotaService) GetUsage(ctx context.Context, spaceID string, quotaType string) (int64, error) {
 	quota, err := s.repo.GetBySpaceAndType(ctx, spaceID, structs.QuotaType(quotaType))
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if repository.IsNotFound(err) {
 			return 0, nil // No quota set, return 0 usage
 		}
 		return 0, err
@@ -142,7 +139,7 @@ func (s *spaceQuotaService) GetUsage(ctx context.Context, spaceID string, quotaT
 func (s *spaceQuotaService) GetQuota(ctx context.Context, spaceID string, quotaType string) (int64, error) {
 	quota, err := s.repo.GetBySpaceAndType(ctx, spaceID, structs.QuotaType(quotaType))
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if repository.IsNotFound(err) {
 			// Return default quota for storage
 			if quotaType == "storage" {
 				return 10 * 1024 * 1024 * 1024, nil // 10GB default
@@ -159,7 +156,7 @@ func (s *spaceQuotaService) GetQuota(ctx context.Context, spaceID string, quotaT
 func (s *spaceQuotaService) IsQuotaExceeded(ctx context.Context, spaceID string, quotaType string) (bool, error) {
 	quota, err := s.repo.GetBySpaceAndType(ctx, spaceID, structs.QuotaType(quotaType))
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if repository.IsNotFound(err) {
 			return false, nil // No quota set, not exceeded
 		}
 		return false, err
@@ -176,7 +173,7 @@ func (s *spaceQuotaService) IsQuotaExceeded(ctx context.Context, spaceID string,
 func (s *spaceQuotaService) UpdateUsage(ctx context.Context, spaceID string, quotaType string, delta int64) error {
 	quota, err := s.repo.GetBySpaceAndType(ctx, spaceID, structs.QuotaType(quotaType))
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if repository.IsNotFound(err) {
 			// Create quota if not exists
 			createBody := &structs.CreateSpaceQuotaBody{
 				SpaceQuotaBody: structs.SpaceQuotaBody{
@@ -214,7 +211,7 @@ func (s *spaceQuotaService) UpdateUsage(ctx context.Context, spaceID string, quo
 func (s *spaceQuotaService) CheckQuotaLimit(ctx context.Context, spaceID string, quotaType structs.QuotaType, requestedAmount int64) (bool, error) {
 	quota, err := s.repo.GetBySpaceAndType(ctx, spaceID, quotaType)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if repository.IsNotFound(err) {
 			return true, nil // No quota set, allow usage
 		}
 		return false, err
@@ -234,37 +231,5 @@ func (s *spaceQuotaService) GetSpaceQuotaSummary(ctx context.Context, spaceID st
 		return nil, handleEntError(ctx, "SpaceQuota", err)
 	}
 
-	return s.Serializes(rows), nil
-}
-
-// Serialize converts entity to struct
-func (s *spaceQuotaService) Serialize(row *ent.SpaceQuota) *structs.ReadSpaceQuota {
-	result := &structs.ReadSpaceQuota{
-		ID:          row.ID,
-		SpaceID:     row.SpaceID,
-		QuotaType:   structs.QuotaType(row.QuotaType),
-		QuotaName:   row.QuotaName,
-		MaxValue:    row.MaxValue,
-		CurrentUsed: row.CurrentUsed,
-		Unit:        structs.QuotaUnit(row.Unit),
-		Description: row.Description,
-		Enabled:     row.Enabled,
-		Extras:      &row.Extras,
-		CreatedBy:   &row.CreatedBy,
-		CreatedAt:   &row.CreatedAt,
-		UpdatedBy:   &row.UpdatedBy,
-		UpdatedAt:   &row.UpdatedAt,
-	}
-
-	result.CalculateUtilization()
-	return result
-}
-
-// Serializes converts multiple entities to structs
-func (s *spaceQuotaService) Serializes(rows []*ent.SpaceQuota) []*structs.ReadSpaceQuota {
-	result := make([]*structs.ReadSpaceQuota, 0, len(rows))
-	for _, row := range rows {
-		result = append(result, s.Serialize(row))
-	}
-	return result
+	return repository.SerializeSpaceQuotas(rows), nil
 }

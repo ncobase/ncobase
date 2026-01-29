@@ -5,7 +5,6 @@ import (
 	"errors"
 	"fmt"
 	"ncobase/core/space/data"
-	"ncobase/core/space/data/ent"
 	"ncobase/core/space/data/repository"
 	"ncobase/core/space/structs"
 	"time"
@@ -28,8 +27,6 @@ type SpaceBillingServiceInterface interface {
 	GetOverdueBilling(ctx context.Context, spaceID string) ([]*structs.ReadSpaceBilling, error)
 	MarkAsOverdue(ctx context.Context) error
 	GenerateInvoice(ctx context.Context, spaceID string, period structs.BillingPeriod) (*structs.ReadSpaceBilling, error)
-	Serialize(row *ent.SpaceBilling) *structs.ReadSpaceBilling
-	Serializes(rows []*ent.SpaceBilling) []*structs.ReadSpaceBilling
 }
 
 // spaceBillingService implements SpaceBillingServiceInterface
@@ -58,7 +55,7 @@ func (s *spaceBillingService) Create(ctx context.Context, body *structs.CreateSp
 		return nil, err
 	}
 
-	return s.Serialize(row), nil
+	return repository.SerializeSpaceBilling(row), nil
 }
 
 // Update updates an existing space billing record
@@ -68,7 +65,7 @@ func (s *spaceBillingService) Update(ctx context.Context, id string, updates typ
 		return nil, err
 	}
 
-	return s.Serialize(row), nil
+	return repository.SerializeSpaceBilling(row), nil
 }
 
 // Get retrieves a space billing record by ID
@@ -78,7 +75,7 @@ func (s *spaceBillingService) Get(ctx context.Context, id string) (*structs.Read
 		return nil, err
 	}
 
-	return s.Serialize(row), nil
+	return repository.SerializeSpaceBilling(row), nil
 }
 
 // Delete deletes a space billing record
@@ -110,7 +107,7 @@ func (s *spaceBillingService) List(ctx context.Context, params *structs.ListSpac
 			return nil, 0, err
 		}
 
-		return s.Serializes(rows), total, nil
+		return repository.SerializeSpaceBillings(rows), total, nil
 	})
 }
 
@@ -179,7 +176,7 @@ func (s *spaceBillingService) GetOverdueBilling(ctx context.Context, spaceID str
 		return nil, handleEntError(ctx, "SpaceBilling", err)
 	}
 
-	return s.Serializes(rows), nil
+	return repository.SerializeSpaceBillings(rows), nil
 }
 
 // MarkAsOverdue marks pending billing records as overdue if past due date
@@ -227,41 +224,4 @@ func (s *spaceBillingService) GenerateInvoice(ctx context.Context, spaceID strin
 // generateInvoiceNumber generates a unique invoice number
 func (s *spaceBillingService) generateInvoiceNumber(spaceID string, timestamp time.Time) string {
 	return fmt.Sprintf("INV-%s-%s", spaceID[:8], timestamp.Format("20060102150405"))
-}
-
-// Serialize converts entity to struct
-func (s *spaceBillingService) Serialize(row *ent.SpaceBilling) *structs.ReadSpaceBilling {
-	result := &structs.ReadSpaceBilling{
-		ID:            row.ID,
-		SpaceID:       row.SpaceID,
-		BillingPeriod: structs.BillingPeriod(row.BillingPeriod),
-		PeriodStart:   &row.PeriodStart,
-		PeriodEnd:     &row.PeriodEnd,
-		Amount:        row.Amount,
-		Currency:      row.Currency,
-		Status:        structs.BillingStatus(row.Status),
-		Description:   row.Description,
-		InvoiceNumber: row.InvoiceNumber,
-		PaymentMethod: row.PaymentMethod,
-		PaidAt:        &row.PaidAt,
-		DueDate:       &row.DueDate,
-		UsageDetails:  &row.UsageDetails,
-		Extras:        &row.Extras,
-		CreatedBy:     &row.CreatedBy,
-		CreatedAt:     &row.CreatedAt,
-		UpdatedBy:     &row.UpdatedBy,
-		UpdatedAt:     &row.UpdatedAt,
-	}
-
-	result.CalculateOverdue()
-	return result
-}
-
-// Serializes converts multiple entities to structs
-func (s *spaceBillingService) Serializes(rows []*ent.SpaceBilling) []*structs.ReadSpaceBilling {
-	result := make([]*structs.ReadSpaceBilling, 0, len(rows))
-	for _, row := range rows {
-		result = append(result, s.Serialize(row))
-	}
-	return result
 }

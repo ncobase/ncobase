@@ -5,7 +5,6 @@ import (
 	"errors"
 	"fmt"
 	"ncobase/core/system/data"
-	"ncobase/core/system/data/ent"
 	"ncobase/core/system/data/repository"
 	"ncobase/core/system/structs"
 
@@ -58,7 +57,7 @@ func (s *dictionaryService) Create(ctx context.Context, body *structs.Dictionary
 		return nil, err
 	}
 
-	return s.Serialize(row), nil
+	return repository.SerializeDictionary(row), nil
 }
 
 // Get retrieves a dictionary by ID.
@@ -68,7 +67,7 @@ func (s *dictionaryService) Get(ctx context.Context, params *structs.FindDiction
 		return nil, err
 	}
 
-	return s.Serialize(row), nil
+	return repository.SerializeDictionary(row), nil
 }
 
 // GetByType retrieves dictionaries by type.
@@ -241,7 +240,7 @@ func (s *dictionaryService) Update(ctx context.Context, updates *structs.UpdateD
 		return nil, err
 	}
 
-	return s.Serialize(row), nil
+	return repository.SerializeDictionary(row), nil
 }
 
 // Delete deletes a dictionary by ID.
@@ -269,7 +268,7 @@ func (s *dictionaryService) List(ctx context.Context, params *structs.ListDictio
 		lp.Direction = direction
 
 		rows, err := s.dictionary.List(ctx, &lp)
-		if ent.IsNotFound(err) {
+		if repository.IsNotFound(err) {
 			return nil, 0, errors.New(ecode.FieldIsInvalid("cursor"))
 		}
 		if err != nil {
@@ -279,35 +278,11 @@ func (s *dictionaryService) List(ctx context.Context, params *structs.ListDictio
 
 		total := s.dictionary.CountX(ctx, params)
 
-		return s.Serializes(rows), total, nil
+		return repository.SerializeDictionaries(rows), total, nil
 	})
 }
 
 // CountX counts dictionarys.
 func (s *dictionaryService) CountX(ctx context.Context, params *structs.ListDictionaryParams) int {
 	return s.dictionary.CountX(ctx, params)
-}
-
-// Serializes dictionarys.
-func (s *dictionaryService) Serializes(rows []*ent.Dictionary) []*structs.ReadDictionary {
-	rs := make([]*structs.ReadDictionary, 0, len(rows))
-	for _, row := range rows {
-		rs = append(rs, s.Serialize(row))
-	}
-	return rs
-}
-
-// Serialize serializes a dictionary.
-func (s *dictionaryService) Serialize(row *ent.Dictionary) *structs.ReadDictionary {
-	return &structs.ReadDictionary{
-		ID:        row.ID,
-		Name:      row.Name,
-		Slug:      row.Slug,
-		Type:      row.Type,
-		Value:     row.Value,
-		CreatedBy: &row.CreatedBy,
-		CreatedAt: &row.CreatedAt,
-		UpdatedBy: &row.UpdatedBy,
-		UpdatedAt: &row.UpdatedAt,
-	}
 }

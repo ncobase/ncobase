@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 	"ncobase/core/space/data"
-	"ncobase/core/space/data/ent"
 	"ncobase/core/space/data/repository"
 	"ncobase/core/space/structs"
 
@@ -26,8 +25,6 @@ type SpaceSettingServiceInterface interface {
 	GetSpaceSettings(ctx context.Context, spaceID string, publicOnly bool) (map[string]any, error)
 	SetSetting(ctx context.Context, spaceID, key, value string) error
 	GetSettingValue(ctx context.Context, spaceID, key string) (any, error)
-	Serialize(row *ent.SpaceSetting) *structs.ReadSpaceSetting
-	Serializes(rows []*ent.SpaceSetting) []*structs.ReadSpaceSetting
 }
 
 // spaceSettingService implements SpaceSettingServiceInterface
@@ -56,7 +53,7 @@ func (s *spaceSettingService) Create(ctx context.Context, body *structs.CreateSp
 		return nil, err
 	}
 
-	return s.Serialize(row), nil
+	return repository.SerializeSpaceSetting(row), nil
 }
 
 // Update updates an existing space setting
@@ -66,7 +63,7 @@ func (s *spaceSettingService) Update(ctx context.Context, id string, updates typ
 		return nil, err
 	}
 
-	return s.Serialize(row), nil
+	return repository.SerializeSpaceSetting(row), nil
 }
 
 // Get retrieves a space setting by ID
@@ -76,7 +73,7 @@ func (s *spaceSettingService) Get(ctx context.Context, id string) (*structs.Read
 		return nil, err
 	}
 
-	return s.Serialize(row), nil
+	return repository.SerializeSpaceSetting(row), nil
 }
 
 // GetByKey retrieves a space setting by space ID and key
@@ -86,7 +83,7 @@ func (s *spaceSettingService) GetByKey(ctx context.Context, spaceID, key string)
 		return nil, err
 	}
 
-	return s.Serialize(row), nil
+	return repository.SerializeSpaceSetting(row), nil
 }
 
 // Delete deletes a space setting
@@ -118,7 +115,7 @@ func (s *spaceSettingService) List(ctx context.Context, params *structs.ListSpac
 			return nil, 0, err
 		}
 
-		return s.Serializes(rows), total, nil
+		return repository.SerializeSpaceSettings(rows), total, nil
 	})
 }
 
@@ -150,7 +147,7 @@ func (s *spaceSettingService) GetSpaceSettings(ctx context.Context, spaceID stri
 
 	result := make(map[string]any)
 	for _, row := range rows {
-		setting := s.Serialize(row)
+		setting := repository.SerializeSpaceSetting(row)
 		result[setting.SettingKey] = setting.GetTypedValue()
 	}
 
@@ -160,7 +157,7 @@ func (s *spaceSettingService) GetSpaceSettings(ctx context.Context, spaceID stri
 // SetSetting creates or updates a setting
 func (s *spaceSettingService) SetSetting(ctx context.Context, spaceID, key, value string) error {
 	existing, err := s.repo.GetByKey(ctx, spaceID, key)
-	if err != nil && !ent.IsNotFound(err) {
+	if err != nil && !repository.IsNotFound(err) {
 		return err
 	}
 
@@ -196,38 +193,4 @@ func (s *spaceSettingService) GetSettingValue(ctx context.Context, spaceID, key 
 	}
 
 	return setting.GetTypedValue(), nil
-}
-
-// Serialize converts entity to struct
-func (s *spaceSettingService) Serialize(row *ent.SpaceSetting) *structs.ReadSpaceSetting {
-	return &structs.ReadSpaceSetting{
-		ID:           row.ID,
-		SpaceID:      row.SpaceID,
-		SettingKey:   row.SettingKey,
-		SettingName:  row.SettingName,
-		SettingValue: row.SettingValue,
-		DefaultValue: row.DefaultValue,
-		SettingType:  structs.SettingType(row.SettingType),
-		Scope:        structs.SettingScope(row.Scope),
-		Category:     row.Category,
-		Description:  row.Description,
-		IsPublic:     row.IsPublic,
-		IsRequired:   row.IsRequired,
-		IsReadonly:   row.IsReadonly,
-		Validation:   &row.Validation,
-		Extras:       &row.Extras,
-		CreatedBy:    &row.CreatedBy,
-		CreatedAt:    &row.CreatedAt,
-		UpdatedBy:    &row.UpdatedBy,
-		UpdatedAt:    &row.UpdatedAt,
-	}
-}
-
-// Serializes converts multiple entities to structs
-func (s *spaceSettingService) Serializes(rows []*ent.SpaceSetting) []*structs.ReadSpaceSetting {
-	result := make([]*structs.ReadSpaceSetting, 0, len(rows))
-	for _, row := range rows {
-		result = append(result, s.Serialize(row))
-	}
-	return result
 }

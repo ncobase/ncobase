@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 	"ncobase/biz/content/data"
-	"ncobase/biz/content/data/ent"
 	"ncobase/biz/content/data/repository"
 	"ncobase/biz/content/structs"
 
@@ -78,7 +77,7 @@ func (s *topicMediaService) Create(ctx context.Context, body *structs.CreateTopi
 		return nil, err
 	}
 
-	return s.loadMediaForTopicMedia(ctx, row)
+	return s.loadMediaForTopicMedia(ctx, repository.SerializeTopicMedia(row))
 }
 
 // Update updates existing topic media relation
@@ -109,7 +108,7 @@ func (s *topicMediaService) Update(ctx context.Context, id string, topicID strin
 		return nil, err
 	}
 
-	return s.loadMediaForTopicMedia(ctx, row)
+	return s.loadMediaForTopicMedia(ctx, repository.SerializeTopicMedia(row))
 }
 
 // Get retrieves topic media relation by ID
@@ -119,7 +118,7 @@ func (s *topicMediaService) Get(ctx context.Context, id string) (*structs.ReadTo
 		return nil, err
 	}
 
-	return s.loadMediaForTopicMedia(ctx, row)
+	return s.loadMediaForTopicMedia(ctx, repository.SerializeTopicMedia(row))
 }
 
 // Delete deletes topic media relation by ID
@@ -147,7 +146,7 @@ func (s *topicMediaService) List(ctx context.Context, params *structs.ListTopicM
 		lp.Direction = direction
 
 		rows, err := s.r.List(ctx, &lp)
-		if ent.IsNotFound(err) {
+		if repository.IsNotFound(err) {
 			return nil, 0, errors.New(ecode.FieldIsInvalid("cursor"))
 		}
 		if err != nil {
@@ -170,14 +169,14 @@ func (s *topicMediaService) List(ctx context.Context, params *structs.ListTopicM
 		}
 
 		// Batch load media
-		mediaMap := make(map[string]*ent.Media)
+		mediaMap := make(map[string]*structs.ReadMedia)
 		if len(mediaIDs) > 0 {
 			mediaList, err := s.m.GetByIDs(ctx, mediaIDs)
 			if err != nil {
 				logger.Warnf(ctx, "Error batch loading media: %v", err)
 			} else {
 				for _, media := range mediaList {
-					mediaMap[media.ID] = media
+					mediaMap[media.ID] = repository.SerializeMedia(media)
 				}
 			}
 		}
@@ -186,9 +185,9 @@ func (s *topicMediaService) List(ctx context.Context, params *structs.ListTopicM
 		result := make([]*structs.ReadTopicMedia, 0, len(rows))
 		mediaService := &mediaService{r: s.m}
 		for _, row := range rows {
-			topicMedia := s.serialize(row)
+			topicMedia := repository.SerializeTopicMedia(row)
 			if media, ok := mediaMap[row.MediaID]; ok {
-				topicMedia.Media = mediaService.serialize(ctx, media)
+				topicMedia.Media = mediaService.enrichMedia(ctx, media)
 			}
 			result = append(result, topicMedia)
 		}
@@ -204,40 +203,26 @@ func (s *topicMediaService) GetByTopicAndMedia(ctx context.Context, topicID stri
 		return nil, err
 	}
 
-	return s.loadMediaForTopicMedia(ctx, row)
+	return s.loadMediaForTopicMedia(ctx, repository.SerializeTopicMedia(row))
 }
 
 // loadMediaForTopicMedia loads related media for topic media relation
-func (s *topicMediaService) loadMediaForTopicMedia(ctx context.Context, row *ent.TopicMedia) (*structs.ReadTopicMedia, error) {
-	result := s.serialize(row)
+func (s *topicMediaService) loadMediaForTopicMedia(ctx context.Context, topicMedia *structs.ReadTopicMedia) (*structs.ReadTopicMedia, error) {
+	if topicMedia == nil {
+		return nil, errors.New("topic media not found")
+	}
 
 	// Load associated media if mediaID exists
-	if row.MediaID != "" {
-		media, err := s.m.GetByID(ctx, row.MediaID)
+	if topicMedia.MediaID != "" {
+		media, err := s.m.GetByID(ctx, topicMedia.MediaID)
 		if err != nil {
 			logger.Warnf(ctx, "Failed to load media for topic media relation: %v", err)
 			// Continue with no media loaded
 		} else {
-			// Create media service to serialize media properly
 			mediaService := &mediaService{r: s.m}
-			result.Media = mediaService.serialize(ctx, media)
+			topicMedia.Media = mediaService.enrichMedia(ctx, repository.SerializeMedia(media))
 		}
 	}
 
-	return result, nil
-}
-
-// serialize converts ent.TopicMedia to structs.ReadTopicMedia
-func (s *topicMediaService) serialize(row *ent.TopicMedia) *structs.ReadTopicMedia {
-	return &structs.ReadTopicMedia{
-		ID:        row.ID,
-		TopicID:   row.TopicID,
-		MediaID:   row.MediaID,
-		Type:      row.Type,
-		Order:     row.Order,
-		CreatedBy: &row.CreatedBy,
-		CreatedAt: &row.CreatedAt,
-		UpdatedBy: &row.UpdatedBy,
-		UpdatedAt: &row.UpdatedAt,
-	}
+	return topicMedia, nil
 }

@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 	"ncobase/core/organization/data"
-	"ncobase/core/organization/data/ent"
 	"ncobase/core/organization/data/repository"
 	"ncobase/core/organization/structs"
 
@@ -24,8 +23,6 @@ type OrganizationServiceInterface interface {
 	List(ctx context.Context, params *structs.ListOrganizationParams) (paging.Result[*structs.ReadOrganization], error)
 	CountX(ctx context.Context, params *structs.ListOrganizationParams) int
 	GetTree(ctx context.Context, params *structs.FindOrganization) (paging.Result[*structs.ReadOrganization], error)
-	Serializes(rows []*ent.Organization) []*structs.ReadOrganization
-	Serialize(organization *ent.Organization) *structs.ReadOrganization
 }
 
 // organizationService is the struct for the service.
@@ -51,7 +48,7 @@ func (s *organizationService) Create(ctx context.Context, body *structs.CreateOr
 		return nil, err
 	}
 
-	return s.Serialize(row), nil
+	return repository.SerializeOrganization(row), nil
 }
 
 // Update updates an existing organization.
@@ -61,7 +58,7 @@ func (s *organizationService) Update(ctx context.Context, organizationID string,
 		return nil, err
 	}
 
-	return s.Serialize(row), nil
+	return repository.SerializeOrganization(row), nil
 }
 
 // Get retrieves an organization by its ID.
@@ -70,7 +67,7 @@ func (s *organizationService) Get(ctx context.Context, params *structs.FindOrgan
 	if err := handleEntError(ctx, "Organization", err); err != nil {
 		return nil, err
 	}
-	return s.Serialize(row), nil
+	return repository.SerializeOrganization(row), nil
 }
 
 // GetByIDs retrieves organizations by their IDs.
@@ -80,7 +77,7 @@ func (s *organizationService) GetByIDs(ctx context.Context, organizationIDs []st
 		return nil, err
 	}
 
-	return s.Serializes(rows), nil
+	return repository.SerializeOrganizations(rows), nil
 }
 
 // Delete deletes an organization by its ID.
@@ -117,43 +114,15 @@ func (s *organizationService) List(ctx context.Context, params *structs.ListOrga
 
 		rows, total, err := s.r.ListWithCount(ctx, &lp)
 		if err != nil {
-			if ent.IsNotFound(err) {
-				return nil, 0, errors.New(ecode.FieldIsInvalid("cursor"))
-			}
+		if repository.IsNotFound(err) {
+			return nil, 0, errors.New(ecode.FieldIsInvalid("cursor"))
+		}
 			logger.Errorf(ctx, "Error listing organizations: %v", err)
 			return nil, 0, err
 		}
 
-		return s.Serializes(rows), total, nil
+		return repository.SerializeOrganizations(rows), total, nil
 	})
-}
-
-// Serializes serializes organizations.
-func (s *organizationService) Serializes(rows []*ent.Organization) []*structs.ReadOrganization {
-	rs := make([]*structs.ReadOrganization, 0, len(rows))
-	for _, row := range rows {
-		rs = append(rs, s.Serialize(row))
-	}
-	return rs
-}
-
-// Serialize serializes an organization.
-func (s *organizationService) Serialize(row *ent.Organization) *structs.ReadOrganization {
-	return &structs.ReadOrganization{
-		ID:          row.ID,
-		Name:        row.Name,
-		Slug:        row.Slug,
-		Type:        row.Type,
-		Disabled:    row.Disabled,
-		Description: row.Description,
-		Leader:      &row.Leader,
-		Extras:      &row.Extras,
-		ParentID:    &row.ParentID,
-		CreatedBy:   &row.CreatedBy,
-		CreatedAt:   &row.CreatedAt,
-		UpdatedBy:   &row.UpdatedBy,
-		UpdatedAt:   &row.UpdatedAt,
-	}
 }
 
 // CountX gets a count of organizations.
@@ -163,28 +132,20 @@ func (s *organizationService) CountX(ctx context.Context, params *structs.ListOr
 
 // GetTree retrieves the organization tree.
 func (s *organizationService) GetTree(ctx context.Context, params *structs.FindOrganization) (paging.Result[*structs.ReadOrganization], error) {
-	var rows []*ent.Organization
-	var err error
-
 	// Get all organizations for tree
-	rows, err = s.r.GetTree(ctx, params)
+	rows, err := s.r.GetTree(ctx, params)
 	if err := handleEntError(ctx, "Organization", err); err != nil {
 		return paging.Result[*structs.ReadOrganization]{}, err
 	}
 
 	return paging.Result[*structs.ReadOrganization]{
-		Items: s.buildOrganizationTree(rows),
+		Items: s.buildOrganizationTree(repository.SerializeOrganizations(rows)),
 		Total: len(rows),
 	}, nil
 }
 
 // buildOrganizationTree builds an organization tree structure.
-func (s *organizationService) buildOrganizationTree(organizations []*ent.Organization) []*structs.ReadOrganization {
-	organizationNodes := make([]*structs.ReadOrganization, len(organizations))
-	for i, m := range organizations {
-		organizationNodes[i] = s.Serialize(m)
-	}
-
-	tree := types.BuildTree(organizationNodes, string(structs.SortByCreatedAt))
+func (s *organizationService) buildOrganizationTree(organizations []*structs.ReadOrganization) []*structs.ReadOrganization {
+	tree := types.BuildTree(organizations, string(structs.SortByCreatedAt))
 	return tree
 }

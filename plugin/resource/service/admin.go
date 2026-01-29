@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"ncobase/plugin/resource/data"
-	"ncobase/plugin/resource/data/ent"
 	"ncobase/plugin/resource/data/repository"
 	"ncobase/plugin/resource/structs"
 	"time"
@@ -80,10 +79,10 @@ func (s *adminService) ListFiles(ctx context.Context, params *structs.AdminFileL
 
 	readFiles := make([]*structs.ReadFile, len(files))
 	for i, file := range files {
-		readFiles[i] = s.convertToReadFile(file)
+		readFiles[i] = repository.SerializeFile(file)
 	}
 
-	stats := s.calculateFileStats(files)
+	stats := s.calculateFileStats(readFiles)
 
 	return &structs.AdminFileListResponse{
 		Files: readFiles,
@@ -108,12 +107,7 @@ func (s *adminService) SetFileStatus(ctx context.Context, slug string, req *stru
 		return nil, fmt.Errorf("file not found: %w", err)
 	}
 
-	extras := make(types.JSON)
-	if file.Extras != nil {
-		for k, v := range file.Extras {
-			extras[k] = v
-		}
-	}
+	extras := repository.CloneExtras(file.Extras)
 
 	statusChange := structs.StatusChange{
 		Status:    req.Status,
@@ -143,7 +137,7 @@ func (s *adminService) SetFileStatus(ctx context.Context, slug string, req *stru
 		return nil, fmt.Errorf("failed to get updated file: %w", err)
 	}
 
-	readFile := s.convertToReadFile(updatedFile)
+	readFile := repository.SerializeFile(updatedFile)
 	return &structs.FileResponse{
 		ReadFile:      readFile,
 		StatusHistory: statusHistory,
@@ -401,29 +395,17 @@ func (s *adminService) InitiateBackup(ctx context.Context, req *structs.BackupRe
 	}, nil
 }
 
-// convertToReadFile converts ent.File to structs.ReadFile
-func (s *adminService) convertToReadFile(file *ent.File) *structs.ReadFile {
-	return &structs.ReadFile{
-		ID:      file.ID,
-		Name:    file.Name,
-		Path:    file.Path,
-		Type:    file.Type,
-		Size:    &file.Size,
-		Storage: file.Storage,
-		Bucket:  file.Bucket,
-		OwnerID: file.OwnerID,
-	}
-}
-
 // calculateFileStats calculates file stats
-func (s *adminService) calculateFileStats(files []*ent.File) *structs.FileStats {
+func (s *adminService) calculateFileStats(files []*structs.ReadFile) *structs.FileStats {
 	stats := &structs.FileStats{
 		ByCategory: make(map[string]int),
 		ByStatus:   make(map[string]int),
 	}
 
 	for _, file := range files {
-		stats.TotalSize += int64(file.Size)
+		if file.Size != nil {
+			stats.TotalSize += int64(*file.Size)
+		}
 		stats.TotalCount++
 	}
 

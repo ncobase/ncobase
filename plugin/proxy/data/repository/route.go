@@ -297,7 +297,7 @@ func (r *routeRepository) Delete(ctx context.Context, id string) error {
 	// Clear cache
 	cacheKey := fmt.Sprintf("%s", id)
 	r.c.Delete(ctx, cacheKey)
-	r.c.Delete(ctx, fmt.Sprintf("name:%s", routeEnt.Name))
+	r.c.Delete(ctx, fmt.Sprintf("name:%s", route.Name))
 
 	return nil
 }

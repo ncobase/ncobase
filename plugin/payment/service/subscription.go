@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"ncobase/plugin/payment/data/repository"
 	"ncobase/plugin/payment/event"
@@ -63,15 +64,15 @@ func NewSubscriptionService(
 func (s *subscriptionService) Create(ctx context.Context, input *structs.CreateSubscriptionInput) (*structs.Subscription, error) {
 	// Validate input
 	if input.UserID == "" {
-		return nil, fmt.Errorf(ecode.FieldIsRequired("user_id"))
+		return nil, errors.New(ecode.FieldIsRequired("user_id"))
 	}
 
 	if input.ProductID == "" {
-		return nil, fmt.Errorf(ecode.FieldIsRequired("product_id"))
+		return nil, errors.New(ecode.FieldIsRequired("product_id"))
 	}
 
 	if input.ChannelID == "" {
-		return nil, fmt.Errorf(ecode.FieldIsRequired("channel_id"))
+		return nil, errors.New(ecode.FieldIsRequired("channel_id"))
 	}
 
 	// Get the product
@@ -336,7 +337,7 @@ func (s *subscriptionService) Update(ctx context.Context, id string, updates map
 // Cancel cancels a subscription
 func (s *subscriptionService) Cancel(ctx context.Context, id string, immediate bool, reason string) (*structs.Subscription, error) {
 	if id == "" {
-		return nil, fmt.Errorf(ecode.FieldIsRequired("id"))
+		return nil, errors.New(ecode.FieldIsRequired("id"))
 	}
 
 	// Get existing subscription
@@ -452,7 +453,7 @@ func (s *subscriptionService) List(ctx context.Context, query *structs.Subscript
 // GetByUser gets subscriptions for a user
 func (s *subscriptionService) GetByUser(ctx context.Context, query *structs.SubscriptionQuery) (paging.Result[*structs.Subscription], error) {
 	if query.UserID == "" {
-		return paging.Result[*structs.Subscription]{}, fmt.Errorf(ecode.FieldIsRequired("user_id"))
+		return paging.Result[*structs.Subscription]{}, errors.New(ecode.FieldIsRequired("user_id"))
 	}
 
 	return s.List(ctx, query)

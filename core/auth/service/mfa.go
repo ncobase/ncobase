@@ -9,7 +9,6 @@ import (
 	"errors"
 	"fmt"
 	"ncobase/core/auth/data"
-	"ncobase/core/auth/data/ent"
 	"ncobase/core/auth/data/repository"
 	"ncobase/core/auth/structs"
 	"ncobase/core/auth/wrapper"
@@ -53,14 +52,15 @@ type MFAServiceInterface interface {
 }
 
 type mfaService struct {
-	d       *data.Data
-	jtm     *jwt.TokenManager
-	mfaRepo repository.UserMFARepositoryInterface
-	usw     *wrapper.UserServiceWrapper
-	asw     *wrapper.AccessServiceWrapper
-	tsw     *wrapper.SpaceServiceWrapper
-	enc     *utils.EncryptionService
-	ss      SessionServiceInterface
+	d             *data.Data
+	jtm           *jwt.TokenManager
+	mfaRepo       repository.UserMFARepositoryInterface
+	authTokenRepo repository.AuthTokenRepositoryInterface
+	usw           *wrapper.UserServiceWrapper
+	asw           *wrapper.AccessServiceWrapper
+	tsw           *wrapper.SpaceServiceWrapper
+	enc           *utils.EncryptionService
+	ss            SessionServiceInterface
 }
 
 func NewMFAService(
@@ -83,14 +83,15 @@ func NewMFAService(
 	}
 
 	return &mfaService{
-		d:       d,
-		jtm:     jtm,
-		mfaRepo: repository.NewUserMFARepository(d),
-		usw:     usw,
-		asw:     asw,
-		tsw:     tsw,
-		enc:     enc,
-		ss:      ss,
+		d:             d,
+		jtm:           jtm,
+		mfaRepo:       repository.NewUserMFARepository(d),
+		authTokenRepo: repository.NewAuthTokenRepository(d),
+		usw:           usw,
+		asw:           asw,
+		tsw:           tsw,
+		enc:           enc,
+		ss:            ss,
 	}
 }
 
@@ -101,7 +102,7 @@ func (s *mfaService) IsEnabled(ctx context.Context, userID string) (bool, error)
 
 	row, err := s.mfaRepo.GetByUserID(ctx, userID)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if repository.IsNotFound(err) {
 			return false, nil
 		}
 		return false, err
@@ -186,7 +187,7 @@ func (s *mfaService) VerifyLoginChallenge(ctx context.Context, mfaToken string, 
 		return nil, err
 	}
 
-	authResp, err := generateAuthResponse(ctx, s.jtm, s.d.GetMasterEntClient(), tokenPayload, s.ss, "password+mfa")
+	authResp, err := generateAuthResponse(ctx, s.jtm, s.authTokenRepo, tokenPayload, s.ss, "password+mfa")
 	if err != nil {
 		return nil, err
 	}
@@ -214,7 +215,7 @@ func (s *mfaService) GetTwoFactorStatus(ctx context.Context) (*structs.TwoFactor
 
 	row, err := s.mfaRepo.GetByUserID(ctx, userID)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if repository.IsNotFound(err) {
 			return &structs.TwoFactorStatusResponse{Enabled: false}, nil
 		}
 		return nil, err
@@ -271,7 +272,7 @@ func (s *mfaService) SetupTwoFactor(ctx context.Context, method string) (*struct
 	// Try to create, fall back to update on constraint error
 	_, err = s.mfaRepo.Create(ctx, userID, encrypted)
 	if err != nil {
-		if ent.IsConstraintError(err) {
+		if repository.IsConstraintError(err) {
 			_, err = s.mfaRepo.UpdateSetup(ctx, userID, encrypted)
 		}
 		if err != nil {
@@ -420,7 +421,7 @@ func (s *mfaService) verifyUserMFA(ctx context.Context, userID string, code stri
 	}
 
 	if recoveryCode != "" {
-		return s.verifyRecoveryCode(ctx, row, recoveryCode)
+		return s.verifyRecoveryCode(ctx, row.UserID, row.RecoveryCodeHashes, row.FailedAttempts, recoveryCode)
 	}
 
 	if code == "" {
@@ -441,9 +442,8 @@ func (s *mfaService) verifyUserMFA(ctx context.Context, userID string, code stri
 	return err
 }
 
-func (s *mfaService) verifyRecoveryCode(ctx context.Context, row *ent.UserMFA, recoveryCode string) error {
-	userID := row.UserID
-	list := row.RecoveryCodeHashes
+func (s *mfaService) verifyRecoveryCode(ctx context.Context, userID string, recoveryCodeHashes []string, failedAttempts int, recoveryCode string) error {
+	list := recoveryCodeHashes
 	if len(list) == 0 {
 		return errors.New("invalid recovery code")
 	}
@@ -460,7 +460,7 @@ func (s *mfaService) verifyRecoveryCode(ctx context.Context, row *ent.UserMFA, r
 		}
 	}
 	if idx == -1 {
-		return s.recordFailedAttempt(ctx, userID, row.FailedAttempts)
+		return s.recordFailedAttempt(ctx, userID, failedAttempts)
 	}
 
 	remaining := append([]string{}, list[:idx]...)

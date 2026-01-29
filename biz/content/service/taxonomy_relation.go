@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 	"ncobase/biz/content/data"
-	"ncobase/biz/content/data/ent"
 	"ncobase/biz/content/data/repository"
 	"ncobase/biz/content/structs"
 
@@ -41,7 +40,7 @@ func (s *taxonomyRelationService) Create(ctx context.Context, body *structs.Crea
 		return nil, err
 	}
 
-	return s.Serialize(row), nil
+	return repository.SerializeTaxonomyRelation(row), nil
 }
 
 // Update updates an existing taxonomy relation.
@@ -51,7 +50,7 @@ func (s *taxonomyRelationService) Update(ctx context.Context, body *structs.Upda
 		return nil, err
 	}
 
-	return s.Serialize(row), nil
+	return repository.SerializeTaxonomyRelation(row), nil
 }
 
 // Get retrieves a taxonomy relation by ID.
@@ -61,7 +60,7 @@ func (s *taxonomyRelationService) Get(ctx context.Context, object string) (*stru
 		return nil, err
 	}
 
-	return s.Serialize(row), nil
+	return repository.SerializeTaxonomyRelation(row), nil
 }
 
 // Delete deletes a taxonomy relation by ID.
@@ -88,7 +87,7 @@ func (s *taxonomyRelationService) List(ctx context.Context, params *structs.List
 		lp.Direction = direction
 
 		rows, err := s.r.List(ctx, &lp)
-		if ent.IsNotFound(err) {
+		if repository.IsNotFound(err) {
 			return nil, 0, errors.New(ecode.FieldIsInvalid("cursor"))
 		}
 		if err != nil {
@@ -98,28 +97,6 @@ func (s *taxonomyRelationService) List(ctx context.Context, params *structs.List
 
 		total := s.r.CountX(ctx, params)
 
-		return s.Serializes(rows), total, nil
+		return repository.SerializeTaxonomyRelations(rows), total, nil
 	})
-}
-
-// Serializes serializes taxonomy relations.
-func (s *taxonomyRelationService) Serializes(rows []*ent.TaxonomyRelation) []*structs.ReadTaxonomyRelation {
-	rs := make([]*structs.ReadTaxonomyRelation, 0, len(rows))
-	for _, row := range rows {
-		rs = append(rs, s.Serialize(row))
-	}
-	return rs
-}
-
-// Serialize serializes a taxonomy relation.
-func (s *taxonomyRelationService) Serialize(row *ent.TaxonomyRelation) *structs.ReadTaxonomyRelation {
-	return &structs.ReadTaxonomyRelation{
-		ID:         row.ID,
-		ObjectID:   row.ObjectID,
-		TaxonomyID: row.TaxonomyID,
-		Type:       row.Type,
-		Order:      &row.Order,
-		CreatedBy:  &row.CreatedBy,
-		CreatedAt:  &row.CreatedAt,
-	}
 }

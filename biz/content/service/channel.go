@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 	"ncobase/biz/content/data"
-	"ncobase/biz/content/data/ent"
 	"ncobase/biz/content/data/repository"
 	"ncobase/biz/content/structs"
 
@@ -55,7 +54,7 @@ func (s *channelService) Create(ctx context.Context, body *structs.CreateChannel
 		return nil, err
 	}
 
-	return s.Serialize(row), nil
+	return repository.SerializeChannel(row), nil
 }
 
 // Update updates an existing channel.
@@ -74,7 +73,7 @@ func (s *channelService) Update(ctx context.Context, slug string, updates types.
 		return nil, err
 	}
 
-	return s.Serialize(row), nil
+	return repository.SerializeChannel(row), nil
 }
 
 // Get retrieves a channel by slug or ID.
@@ -84,7 +83,7 @@ func (s *channelService) Get(ctx context.Context, slug string) (*structs.ReadCha
 		return nil, err
 	}
 
-	return s.Serialize(row), nil
+	return repository.SerializeChannel(row), nil
 }
 
 // Delete deletes a channel by slug or ID.
@@ -112,7 +111,7 @@ func (s *channelService) List(ctx context.Context, params *structs.ListChannelPa
 		lp.Direction = direction
 
 		rows, count, err := s.r.ListWithCount(ctx, &lp)
-		if ent.IsNotFound(err) {
+		if repository.IsNotFound(err) {
 			return nil, 0, errors.New(ecode.FieldIsInvalid("cursor"))
 		}
 		if err != nil {
@@ -120,39 +119,6 @@ func (s *channelService) List(ctx context.Context, params *structs.ListChannelPa
 			return nil, 0, err
 		}
 
-		return s.Serializes(rows), count, nil
+		return repository.SerializeChannels(rows), count, nil
 	})
-}
-
-// Serializes converts multiple ent.CMSChannel to []*structs.ReadChannel.
-func (s *channelService) Serializes(rows []*ent.CMSChannel) []*structs.ReadChannel {
-	rs := make([]*structs.ReadChannel, 0, len(rows))
-	for _, row := range rows {
-		rs = append(rs, s.Serialize(row))
-	}
-	return rs
-}
-
-// Serialize converts an ent.CMSChannel to a structs.ReadChannel.
-func (s *channelService) Serialize(row *ent.CMSChannel) *structs.ReadChannel {
-	return &structs.ReadChannel{
-		ID:            row.ID,
-		Name:          row.Name,
-		Type:          row.Type,
-		Slug:          row.Slug,
-		Icon:          row.Icon,
-		Status:        row.Status,
-		AllowedTypes:  row.AllowedTypes,
-		Config:        &row.Extras,
-		Description:   row.Description,
-		Logo:          row.Logo,
-		WebhookURL:    row.WebhookURL,
-		AutoPublish:   row.AutoPublish,
-		RequireReview: row.RequireReview,
-		SpaceID:       row.SpaceID,
-		CreatedBy:     &row.CreatedBy,
-		CreatedAt:     &row.CreatedAt,
-		UpdatedBy:     &row.UpdatedBy,
-		UpdatedAt:     &row.UpdatedAt,
-	}
 }

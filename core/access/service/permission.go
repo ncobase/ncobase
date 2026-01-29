@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 	"ncobase/core/access/data"
-	"ncobase/core/access/data/ent"
 	"ncobase/core/access/data/repository"
 	"ncobase/core/access/structs"
 
@@ -24,8 +23,6 @@ type PermissionServiceInterface interface {
 	GetPermissionsByRoleID(ctx context.Context, roleID string) ([]*structs.ReadPermission, error)
 	List(ctx context.Context, params *structs.ListPermissionParams) (paging.Result[*structs.ReadPermission], error)
 	CountX(ctx context.Context, params *structs.ListPermissionParams) int
-	Serialize(row *ent.Permission) *structs.ReadPermission
-	Serializes(rows []*ent.Permission) []*structs.ReadPermission
 }
 
 // permissionService is the struct for the service.
@@ -53,7 +50,7 @@ func (s *permissionService) Create(ctx context.Context, body *structs.CreatePerm
 		return nil, err
 	}
 
-	return s.Serialize(row), nil
+	return repository.SerializePermission(row), nil
 }
 
 // Update updates an existing permission.
@@ -63,7 +60,7 @@ func (s *permissionService) Update(ctx context.Context, permissionID string, upd
 		return nil, err
 	}
 
-	return s.Serialize(row), nil
+	return repository.SerializePermission(row), nil
 }
 
 // GetByName retrieves a permission by its name.
@@ -73,7 +70,7 @@ func (s *permissionService) GetByName(ctx context.Context, name string) (*struct
 		return nil, err
 	}
 
-	return s.Serialize(row), nil
+	return repository.SerializePermission(row), nil
 }
 
 // GetByID retrieves a permission by its ID.
@@ -83,7 +80,7 @@ func (s *permissionService) GetByID(ctx context.Context, permissionID string) (*
 		return nil, err
 	}
 
-	return s.Serialize(row), nil
+	return repository.SerializePermission(row), nil
 }
 
 // Delete deletes a permission by its ID.
@@ -102,7 +99,7 @@ func (s *permissionService) GetPermissionsByRoleID(ctx context.Context, roleID s
 		return nil, err
 	}
 
-	return s.Serializes(rows), nil
+	return repository.SerializePermissions(rows), nil
 }
 
 // List lists all permissions.
@@ -120,7 +117,7 @@ func (s *permissionService) List(ctx context.Context, params *structs.ListPermis
 		lp.Direction = direction
 
 		rows, err := s.permission.List(ctx, &lp)
-		if ent.IsNotFound(err) {
+		if repository.IsNotFound(err) {
 			return nil, 0, errors.New(ecode.FieldIsInvalid("cursor"))
 		}
 		if err != nil {
@@ -130,38 +127,11 @@ func (s *permissionService) List(ctx context.Context, params *structs.ListPermis
 
 		total := s.CountX(ctx, params)
 
-		return s.Serializes(rows), total, nil
+		return repository.SerializePermissions(rows), total, nil
 	})
 }
 
 // CountX gets a count of permissions.
 func (s *permissionService) CountX(ctx context.Context, params *structs.ListPermissionParams) int {
 	return s.permission.CountX(ctx, params)
-}
-
-// Serializes serializes a list of permission entities to a response format.
-func (s *permissionService) Serializes(rows []*ent.Permission) []*structs.ReadPermission {
-	rs := make([]*structs.ReadPermission, 0, len(rows))
-	for _, row := range rows {
-		rs = append(rs, s.Serialize(row))
-	}
-	return rs
-}
-
-// Serialize serializes a permission entity to a response format.
-func (s *permissionService) Serialize(row *ent.Permission) *structs.ReadPermission {
-	return &structs.ReadPermission{
-		ID:          row.ID,
-		Name:        row.Name,
-		Action:      row.Action,
-		Subject:     row.Subject,
-		Description: row.Description,
-		Default:     &row.Default,
-		Disabled:    &row.Disabled,
-		Extras:      &row.Extras,
-		CreatedBy:   &row.CreatedBy,
-		CreatedAt:   &row.CreatedAt,
-		UpdatedBy:   &row.UpdatedBy,
-		UpdatedAt:   &row.UpdatedAt,
-	}
 }

@@ -3,7 +3,6 @@ package service
 import (
 	"context"
 	"ncobase/core/space/data"
-	"ncobase/core/space/data/ent"
 	"ncobase/core/space/data/repository"
 	"ncobase/core/space/structs"
 )
@@ -40,7 +39,7 @@ func (s *spaceDictionaryService) AddDictionaryToSpace(ctx context.Context, space
 	if err := handleEntError(ctx, "SpaceDictionary", err); err != nil {
 		return nil, err
 	}
-	return s.SerializeSpaceDictionary(row), nil
+	return repository.SerializeSpaceDictionary(row), nil
 }
 
 // RemoveDictionaryFromSpace removes a dictionary from a space.
@@ -101,12 +100,4 @@ func (s *spaceDictionaryService) RemoveDictionaryFromAllSpaces(ctx context.Conte
 		return err
 	}
 	return nil
-}
-
-// SerializeSpaceDictionary serializes a space dictionary relationship.
-func (s *spaceDictionaryService) SerializeSpaceDictionary(row *ent.SpaceDictionary) *structs.SpaceDictionary {
-	return &structs.SpaceDictionary{
-		SpaceID:      row.SpaceID,
-		DictionaryID: row.DictionaryID,
-	}
 }

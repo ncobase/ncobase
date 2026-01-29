@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 	"ncobase/biz/content/data"
-	"ncobase/biz/content/data/ent"
 	"ncobase/biz/content/data/repository"
 	"ncobase/biz/content/structs"
 	"time"
@@ -86,7 +85,7 @@ func (s *distributionService) Create(ctx context.Context, body *structs.CreateDi
 		return nil, err
 	}
 
-	return s.serialize(ctx, row), nil
+	return s.enrichDistribution(ctx, repository.SerializeDistribution(row)), nil
 }
 
 // Update updates existing distribution
@@ -129,7 +128,7 @@ func (s *distributionService) Update(ctx context.Context, id string, updates typ
 		return nil, err
 	}
 
-	return s.serialize(ctx, row), nil
+	return s.enrichDistribution(ctx, repository.SerializeDistribution(row)), nil
 }
 
 // Get retrieves distribution by ID
@@ -139,7 +138,7 @@ func (s *distributionService) Get(ctx context.Context, id string) (*structs.Read
 		return nil, err
 	}
 
-	return s.serialize(ctx, row), nil
+	return s.enrichDistribution(ctx, repository.SerializeDistribution(row)), nil
 }
 
 // Delete deletes distribution by ID
@@ -167,7 +166,7 @@ func (s *distributionService) List(ctx context.Context, params *structs.ListDist
 		lp.Direction = direction
 
 		rows, count, err := s.r.ListWithCount(ctx, &lp)
-		if ent.IsNotFound(err) {
+		if repository.IsNotFound(err) {
 			return nil, 0, errors.New(ecode.FieldIsInvalid("cursor"))
 		}
 		if err != nil {
@@ -175,7 +174,7 @@ func (s *distributionService) List(ctx context.Context, params *structs.ListDist
 			return nil, 0, err
 		}
 
-		return s.serializes(ctx, rows), count, nil
+		return s.enrichDistributions(ctx, repository.SerializeDistributions(rows)), count, nil
 	})
 }
 
@@ -186,7 +185,7 @@ func (s *distributionService) GetByTopicAndChannel(ctx context.Context, topicID 
 		return nil, err
 	}
 
-	return s.serialize(ctx, row), nil
+	return s.enrichDistribution(ctx, repository.SerializeDistribution(row)), nil
 }
 
 // GetPendingDistributions gets list of pending distributions
@@ -197,7 +196,7 @@ func (s *distributionService) GetPendingDistributions(ctx context.Context, limit
 		return nil, err
 	}
 
-	return s.serializes(ctx, rows), nil
+	return s.enrichDistributions(ctx, repository.SerializeDistributions(rows)), nil
 }
 
 // GetScheduledDistributions gets list of scheduled distributions
@@ -208,7 +207,7 @@ func (s *distributionService) GetScheduledDistributions(ctx context.Context, bef
 		return nil, err
 	}
 
-	return s.serializes(ctx, rows), nil
+	return s.enrichDistributions(ctx, repository.SerializeDistributions(rows)), nil
 }
 
 // Publish publishes distribution
@@ -219,7 +218,7 @@ func (s *distributionService) Publish(ctx context.Context, id string) (*structs.
 	}
 
 	if dist.Status == structs.DistributionStatusPublished {
-		return s.serialize(ctx, dist), nil
+		return s.enrichDistribution(ctx, repository.SerializeDistribution(dist)), nil
 	}
 
 	updates := types.JSON{
@@ -232,7 +231,7 @@ func (s *distributionService) Publish(ctx context.Context, id string) (*structs.
 		return nil, err
 	}
 
-	return s.serialize(ctx, row), nil
+	return s.enrichDistribution(ctx, repository.SerializeDistribution(row)), nil
 }
 
 // Cancel cancels distribution
@@ -243,7 +242,7 @@ func (s *distributionService) Cancel(ctx context.Context, id string, reason stri
 	}
 
 	if dist.Status == structs.DistributionStatusCancelled {
-		return s.serialize(ctx, dist), nil
+		return s.enrichDistribution(ctx, repository.SerializeDistribution(dist)), nil
 	}
 
 	updates := types.JSON{
@@ -256,55 +255,38 @@ func (s *distributionService) Cancel(ctx context.Context, id string, reason stri
 		return nil, err
 	}
 
-	return s.serialize(ctx, row), nil
+	return s.enrichDistribution(ctx, repository.SerializeDistribution(row)), nil
 }
 
-// serializes converts multiple ent.Distribution to []*structs.ReadDistribution
-func (s *distributionService) serializes(ctx context.Context, rows []*ent.Distribution) []*structs.ReadDistribution {
+// enrichDistributions enriches distribution rows with related data.
+func (s *distributionService) enrichDistributions(ctx context.Context, rows []*structs.ReadDistribution) []*structs.ReadDistribution {
 	rs := make([]*structs.ReadDistribution, 0, len(rows))
 	for _, row := range rows {
-		rs = append(rs, s.serialize(ctx, row))
+		rs = append(rs, s.enrichDistribution(ctx, row))
 	}
 	return rs
 }
 
-// serialize converts ent.Distribution to structs.ReadDistribution
-func (s *distributionService) serialize(ctx context.Context, row *ent.Distribution) *structs.ReadDistribution {
-	result := &structs.ReadDistribution{
-		ID:           row.ID,
-		TopicID:      row.TopicID,
-		ChannelID:    row.ChannelID,
-		Status:       row.Status,
-		ScheduledAt:  row.ScheduledAt,
-		PublishedAt:  row.PublishedAt,
-		MetaData:     &row.Extras,
-		ExternalID:   row.ExternalID,
-		ExternalURL:  row.ExternalURL,
-		CustomData:   &row.Extras,
-		ErrorDetails: row.ErrorDetails,
-		SpaceID:      row.SpaceID,
-		CreatedBy:    &row.CreatedBy,
-		CreatedAt:    &row.CreatedAt,
-		UpdatedBy:    &row.UpdatedBy,
-		UpdatedAt:    &row.UpdatedAt,
+// enrichDistribution enriches a distribution with related entities.
+func (s *distributionService) enrichDistribution(ctx context.Context, dist *structs.ReadDistribution) *structs.ReadDistribution {
+	if dist == nil {
+		return nil
 	}
-
-	// Load related entities if services are available and eager loading is not done
-	if validator.IsNotEmpty(row.TopicID) && s.ts != nil {
-		if topic, err := s.ts.GetByID(ctx, row.TopicID); err == nil {
-			result.Topic = topic
+	if validator.IsNotEmpty(dist.TopicID) && s.ts != nil {
+		if topic, err := s.ts.GetByID(ctx, dist.TopicID); err == nil {
+			dist.Topic = topic
 		} else {
-			logger.Warnf(ctx, "Failed to load topic %s: %v", row.TopicID, err)
+			logger.Warnf(ctx, "Failed to load topic %s: %v", dist.TopicID, err)
 		}
 	}
 
-	if validator.IsNotEmpty(row.ChannelID) && s.cs != nil {
-		if channel, err := s.cs.Get(ctx, row.ChannelID); err == nil {
-			result.Channel = channel
+	if validator.IsNotEmpty(dist.ChannelID) && s.cs != nil {
+		if channel, err := s.cs.Get(ctx, dist.ChannelID); err == nil {
+			dist.Channel = channel
 		} else {
-			logger.Warnf(ctx, "Failed to load channel %s: %v", row.ChannelID, err)
+			logger.Warnf(ctx, "Failed to load channel %s: %v", dist.ChannelID, err)
 		}
 	}
 
-	return result
+	return dist
 }

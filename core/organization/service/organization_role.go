@@ -3,7 +3,6 @@ package service
 import (
 	"context"
 	"ncobase/core/organization/data"
-	"ncobase/core/organization/data/ent"
 	"ncobase/core/organization/data/repository"
 	"ncobase/core/organization/structs"
 )
@@ -34,7 +33,7 @@ func (s *organizationRoleService) AddRoleToOrganization(ctx context.Context, org
 		return nil, err
 	}
 
-	return s.Serialize(row), nil
+	return repository.SerializeOrganizationRole(row), nil
 }
 
 // RemoveRoleFromOrganization removes a role from an organization.
@@ -54,21 +53,4 @@ func (s *organizationRoleService) GetOrganizationRolesIds(ctx context.Context, o
 		return nil, err
 	}
 	return roleIDs, nil
-}
-
-// Serializes serializes the organization roles.
-func (s *organizationRoleService) Serializes(rows []*ent.OrganizationRole) []*structs.OrganizationRole {
-	rs := make([]*structs.OrganizationRole, 0, len(rows))
-	for _, row := range rows {
-		rs = append(rs, s.Serialize(row))
-	}
-	return rs
-}
-
-// Serialize serializes the organization role.
-func (s *organizationRoleService) Serialize(row *ent.OrganizationRole) *structs.OrganizationRole {
-	return &structs.OrganizationRole{
-		OrgID:  row.OrgID,
-		RoleID: row.RoleID,
-	}
 }

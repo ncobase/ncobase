@@ -5,7 +5,7 @@ import (
 	"errors"
 	"fmt"
 	accessStructs "ncobase/core/access/structs"
-	"ncobase/core/auth/data/ent"
+	"ncobase/core/auth/data/repository"
 	"ncobase/core/auth/structs"
 	"ncobase/core/auth/wrapper"
 	userStructs "ncobase/core/user/structs"
@@ -201,7 +201,7 @@ func generateUserTokens(jtm *jwt.TokenManager, payload map[string]any, tokenID s
 func generateAuthResponse(
 	ctx context.Context,
 	jtm *jwt.TokenManager,
-	client *ent.Client,
+	authTokenRepo repository.AuthTokenRepositoryInterface,
 	payload map[string]any,
 	sessionSvc SessionServiceInterface,
 	loginMethod string,
@@ -211,20 +211,11 @@ func generateAuthResponse(
 		return nil, errors.New("user_id not found in payload")
 	}
 
-	// Create auth token record in transaction
-	tx, err := client.Tx(ctx)
-	if err != nil {
-		return nil, fmt.Errorf("failed to begin transaction: %w", err)
+	if authTokenRepo == nil {
+		return nil, errors.New("auth token repository not configured")
 	}
-	defer func() {
-		if err != nil {
-			if rbErr := tx.Rollback(); rbErr != nil {
-				logger.Errorf(ctx, "Failed to rollback transaction: %v", rbErr)
-			}
-		}
-	}()
 
-	authToken, err := createAuthToken(ctx, tx, userID)
+	authToken, err := authTokenRepo.Create(ctx, userID)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create auth token: %w", err)
 	}
@@ -233,11 +224,6 @@ func generateAuthResponse(
 	accessToken, refreshToken := generateUserTokens(jtm, payload, authToken.ID)
 	if accessToken == "" || refreshToken == "" {
 		return nil, errors.New("failed to generate tokens")
-	}
-
-	// Commit transaction
-	if err := tx.Commit(); err != nil {
-		return nil, fmt.Errorf("failed to commit transaction: %w", err)
 	}
 
 	// Create session for cookie-based authentication
@@ -294,11 +280,6 @@ func ClearAuthenticationCookies(w http.ResponseWriter) {
 	cookie.ClearAll(w)
 }
 
-// createAuthToken creates a new auth token for a user
-func createAuthToken(ctx context.Context, tx *ent.Tx, userID string) (*ent.AuthToken, error) {
-	return tx.AuthToken.Create().SetUserID(userID).Save(ctx)
-}
-
 // RefreshUserToken refreshes user access and refresh tokens
 func RefreshUserToken(jtm *jwt.TokenManager, userID, tokenID, originalRefreshToken string, refreshTokenExp int64) (string, string) {
 	now := time.Now().Unix()
@@ -323,15 +304,15 @@ func RefreshUserToken(jtm *jwt.TokenManager, userID, tokenID, originalRefreshTok
 
 // handleEntError handles ent errors consistently
 func handleEntError(ctx context.Context, k string, err error) error {
-	if ent.IsNotFound(err) {
+	if repository.IsNotFound(err) {
 		logger.Errorf(ctx, "Error not found in %s: %v", k, err)
 		return errors.New(ecode.NotExist(k))
 	}
-	if ent.IsConstraintError(err) {
+	if repository.IsConstraintError(err) {
 		logger.Errorf(ctx, "Error constraint in %s: %v", k, err)
 		return errors.New(ecode.AlreadyExist(k))
 	}
-	if ent.IsNotSingular(err) {
+	if repository.IsNotSingular(err) {
 		logger.Errorf(ctx, "Error not singular in %s: %v", k, err)
 		return errors.New(ecode.NotSingular(k))
 	}
@@ -361,12 +342,12 @@ func sendAuthEmail(ctx context.Context, e, code string, registered bool) error {
 }
 
 // sendRegisterMail sends email with register token
-func sendRegisterMail(_ context.Context, jtm *jwt.TokenManager, codeAuth *ent.CodeAuth) (*types.JSON, error) {
+func sendRegisterMail(_ context.Context, jtm *jwt.TokenManager, email, id string) (*types.JSON, error) {
 	subject := "email-register"
-	payload := types.JSON{"email": codeAuth.Email, "id": codeAuth.ID}
-	registerToken, err := jtm.GenerateRegisterToken(codeAuth.ID, payload, subject)
+	payload := types.JSON{"email": email, "id": id}
+	registerToken, err := jtm.GenerateRegisterToken(id, payload, subject)
 	if err != nil {
 		return nil, err
 	}
-	return &types.JSON{"email": codeAuth.Email, "register_token": registerToken}, nil
+	return &types.JSON{"email": email, "register_token": registerToken}, nil
 }

@@ -3,7 +3,6 @@ package service
 import (
 	"context"
 	"ncobase/core/organization/data"
-	"ncobase/core/organization/data/ent"
 	"ncobase/core/organization/data/repository"
 	"ncobase/core/organization/structs"
 	"ncobase/core/organization/wrapper"
@@ -199,22 +198,5 @@ func (s *userOrganizationService) enrichMemberInfo(ctx context.Context, member *
 		if profile.Thumbnail != nil && *profile.Thumbnail != "" {
 			member.Avatar = *profile.Thumbnail
 		}
-	}
-}
-
-// Serializes serializes user organizations.
-func (s *userOrganizationService) Serializes(rows []*ent.UserOrganization) []*structs.UserOrganization {
-	rs := make([]*structs.UserOrganization, 0, len(rows))
-	for _, row := range rows {
-		rs = append(rs, s.Serialize(row))
-	}
-	return rs
-}
-
-// Serialize serializes a user organization.
-func (s *userOrganizationService) Serialize(row *ent.UserOrganization) *structs.UserOrganization {
-	return &structs.UserOrganization{
-		UserID: row.UserID,
-		OrgID:  row.OrgID,
 	}
 }

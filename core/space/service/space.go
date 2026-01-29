@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"errors"
 	"ncobase/core/space/data"
-	"ncobase/core/space/data/ent"
 	"ncobase/core/space/data/repository"
 	"ncobase/core/space/structs"
 
@@ -30,8 +29,6 @@ type SpaceServiceInterface interface {
 	Delete(ctx context.Context, id string) error
 	CountX(ctx context.Context, params *structs.ListSpaceParams) int
 	List(ctx context.Context, params *structs.ListSpaceParams) (paging.Result[*structs.ReadSpace], error)
-	Serializes(rows []*ent.Space) []*structs.ReadSpace
-	Serialize(space *ent.Space) *structs.ReadSpace
 }
 
 // spaceService is the struct for the service.
@@ -59,7 +56,7 @@ func (s *spaceService) UserOwn(ctx context.Context, uid string) (*structs.ReadSp
 		return nil, err
 	}
 
-	return s.Serialize(row), nil
+	return repository.SerializeSpace(row), nil
 }
 
 // Create creates a space service.
@@ -74,7 +71,7 @@ func (s *spaceService) Create(ctx context.Context, body *structs.CreateSpaceBody
 		return nil, err
 	}
 
-	return s.Serialize(space), nil
+	return repository.SerializeSpace(space), nil
 }
 
 // Update updates space service (full and partial).
@@ -175,7 +172,7 @@ func (s *spaceService) GetBySlug(ctx context.Context, slug string) (*structs.Rea
 	if err := handleEntError(ctx, "Space", err); err != nil {
 		return nil, err
 	}
-	return s.Serialize(space), nil
+	return repository.SerializeSpace(space), nil
 }
 
 // GetByUser returns the space for the created by user
@@ -187,7 +184,7 @@ func (s *spaceService) GetByUser(ctx context.Context, uid string) (*structs.Read
 	if err := handleEntError(ctx, "Space", err); err != nil {
 		return nil, err
 	}
-	return s.Serialize(space), nil
+	return repository.SerializeSpace(space), nil
 }
 
 // GetByIDs retrieves multiple spaces by their IDs
@@ -202,7 +199,7 @@ func (s *spaceService) GetByIDs(ctx context.Context, ids []string) ([]*structs.R
 		return nil, err
 	}
 
-	return s.Serializes(spaces), nil
+	return repository.SerializeSpaces(spaces), nil
 }
 
 // Find finds space service.
@@ -211,7 +208,7 @@ func (s *spaceService) Find(ctx context.Context, id string) (*structs.ReadSpace,
 	if err != nil {
 		return nil, err
 	}
-	return s.Serialize(space), nil
+	return repository.SerializeSpace(space), nil
 }
 
 // Delete deletes space service.
@@ -241,7 +238,7 @@ func (s *spaceService) List(ctx context.Context, params *structs.ListSpaceParams
 		lp.Direction = direction
 
 		rows, err := s.space.List(ctx, &lp)
-		if ent.IsNotFound(err) {
+		if repository.IsNotFound(err) {
 			return nil, 0, errors.New(ecode.FieldIsInvalid("cursor"))
 		}
 		if err != nil {
@@ -251,45 +248,11 @@ func (s *spaceService) List(ctx context.Context, params *structs.ListSpaceParams
 
 		total := s.CountX(ctx, params)
 
-		return s.Serializes(rows), total, nil
+		return repository.SerializeSpaces(rows), total, nil
 	})
 }
 
 // CountX gets a count of spaces.
 func (s *spaceService) CountX(ctx context.Context, params *structs.ListSpaceParams) int {
 	return s.space.CountX(ctx, params)
-}
-
-// Serializes serialize spaces
-func (s *spaceService) Serializes(rows []*ent.Space) []*structs.ReadSpace {
-	spaces := make([]*structs.ReadSpace, 0, len(rows))
-	for _, row := range rows {
-		spaces = append(spaces, s.Serialize(row))
-	}
-	return spaces
-}
-
-// Serialize serialize a space
-func (s *spaceService) Serialize(row *ent.Space) *structs.ReadSpace {
-	return &structs.ReadSpace{
-		ID:          row.ID,
-		Name:        row.Name,
-		Slug:        row.Slug,
-		Type:        row.Type,
-		Title:       row.Title,
-		URL:         row.URL,
-		Logo:        row.Logo,
-		LogoAlt:     row.LogoAlt,
-		Keywords:    row.Keywords,
-		Copyright:   row.Copyright,
-		Description: row.Description,
-		Order:       &row.Order,
-		Disabled:    row.Disabled,
-		Extras:      &row.Extras,
-		ExpiredAt:   &row.ExpiredAt,
-		CreatedBy:   &row.CreatedBy,
-		CreatedAt:   &row.CreatedAt,
-		UpdatedBy:   &row.UpdatedBy,
-		UpdatedAt:   &row.UpdatedAt,
-	}
 }

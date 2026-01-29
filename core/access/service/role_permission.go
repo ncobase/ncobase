@@ -3,7 +3,6 @@ package service
 import (
 	"context"
 	"ncobase/core/access/data"
-	"ncobase/core/access/data/ent"
 	"ncobase/core/access/data/repository"
 	"ncobase/core/access/structs"
 
@@ -19,14 +18,12 @@ type RolePermissionServiceInterface interface {
 
 // rolePermissionService is the struct for the service.
 type rolePermissionService struct {
-	ps             PermissionServiceInterface
 	rolePermission repository.RolePermissionRepositoryInterface
 }
 
 // NewRolePermissionService creates a new service.
-func NewRolePermissionService(d *data.Data, ps PermissionServiceInterface) RolePermissionServiceInterface {
+func NewRolePermissionService(d *data.Data) RolePermissionServiceInterface {
 	return &rolePermissionService{
-		ps:             ps,
 		rolePermission: repository.NewRolePermissionRepository(d),
 	}
 }
@@ -38,7 +35,7 @@ func (s *rolePermissionService) AddPermissionToRole(ctx context.Context, roleID 
 		return nil, err
 	}
 
-	return s.Serialize(row), nil
+	return repository.SerializeRolePermission(row), nil
 }
 
 // RemovePermissionFromRole removes a permission from a role.
@@ -59,22 +56,5 @@ func (s *rolePermissionService) GetRolePermissions(ctx context.Context, r string
 		return nil, err
 	}
 
-	return s.ps.Serializes(permissions), nil
-}
-
-// Serializes serializes role permissions.
-func (s *rolePermissionService) Serializes(rows []*ent.RolePermission) []*structs.RolePermission {
-	rs := make([]*structs.RolePermission, 0, len(rows))
-	for _, row := range rows {
-		rs = append(rs, s.Serialize(row))
-	}
-	return rs
-}
-
-// Serialize serializes a role permission.
-func (s *rolePermissionService) Serialize(row *ent.RolePermission) *structs.RolePermission {
-	return &structs.RolePermission{
-		RoleID:       row.RoleID,
-		PermissionID: row.PermissionID,
-	}
+	return repository.SerializePermissions(permissions), nil
 }

@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"ncobase/core/space/data"
-	"ncobase/core/space/data/ent"
 	"ncobase/core/space/data/repository"
 	"ncobase/core/space/structs"
 
@@ -41,7 +40,7 @@ func (s *userSpaceRoleService) AddRoleToUserInSpace(ctx context.Context, u, t, r
 	if err := handleEntError(ctx, "UserSpaceRole", err); err != nil {
 		return nil, err
 	}
-	return s.SerializeUserSpaceRole(row), nil
+	return repository.SerializeUserSpaceRole(row), nil
 }
 
 // GetUserRolesInSpace retrieves all roles associated with a user in a space.
@@ -216,13 +215,4 @@ func (s *userSpaceRoleService) BulkUpdateUserSpaceRoles(ctx context.Context, spa
 	}
 
 	return response, nil
-}
-
-// SerializeUserSpaceRole serializes a user space role.
-func (s *userSpaceRoleService) SerializeUserSpaceRole(row *ent.UserSpaceRole) *structs.UserSpaceRole {
-	return &structs.UserSpaceRole{
-		UserID:  row.UserID,
-		SpaceID: row.SpaceID,
-		RoleID:  row.RoleID,
-	}
 }

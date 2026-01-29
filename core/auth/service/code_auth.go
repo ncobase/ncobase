@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 	"ncobase/core/auth/data"
-	"ncobase/core/auth/data/ent"
 	"ncobase/core/auth/data/repository"
 	"ncobase/core/auth/event"
 	"ncobase/core/auth/structs"
@@ -28,10 +27,11 @@ type CodeAuthServiceInterface interface {
 
 // codeAuthService is the struct for the service
 type codeAuthService struct {
-	d            *data.Data
-	jtm          *jwt.TokenManager
-	ep           event.PublisherInterface
-	codeAuthRepo repository.CodeAuthRepositoryInterface
+	d             *data.Data
+	jtm           *jwt.TokenManager
+	ep            event.PublisherInterface
+	codeAuthRepo  repository.CodeAuthRepositoryInterface
+	authTokenRepo repository.AuthTokenRepositoryInterface
 
 	usw *wrapper.UserServiceWrapper
 	tsw *wrapper.SpaceServiceWrapper
@@ -41,13 +41,14 @@ type codeAuthService struct {
 // NewCodeAuthService creates a new service
 func NewCodeAuthService(d *data.Data, jtm *jwt.TokenManager, ep event.PublisherInterface, usw *wrapper.UserServiceWrapper, tsw *wrapper.SpaceServiceWrapper, asw *wrapper.AccessServiceWrapper) CodeAuthServiceInterface {
 	return &codeAuthService{
-		d:            d,
-		jtm:          jtm,
-		ep:           ep,
-		codeAuthRepo: repository.NewCodeAuthRepository(d),
-		usw:          usw,
-		tsw:          tsw,
-		asw:          asw,
+		d:             d,
+		jtm:           jtm,
+		ep:            ep,
+		codeAuthRepo:  repository.NewCodeAuthRepository(d),
+		authTokenRepo: repository.NewAuthTokenRepository(d),
+		usw:           usw,
+		tsw:           tsw,
+		asw:           asw,
 	}
 }
 
@@ -65,9 +66,9 @@ func (s *codeAuthService) CodeAuth(ctx context.Context, code string) (*AuthRespo
 
 	// Check if user exists
 	user, err := s.usw.FindUser(ctx, &userStructs.FindUser{Email: codeAuth.Email})
-	if ent.IsNotFound(err) {
+	if repository.IsNotFound(err) {
 		// User doesn't exist, return register token
-		registerResult, err := sendRegisterMail(ctx, s.jtm, codeAuth)
+		registerResult, err := sendRegisterMail(ctx, s.jtm, codeAuth.Email, codeAuth.ID)
 		if err != nil {
 			return nil, err
 		}
@@ -105,7 +106,7 @@ func (s *codeAuthService) CodeAuth(ctx context.Context, code string) (*AuthRespo
 		return nil, err
 	}
 
-	authResp, err := generateAuthResponse(ctx, s.jtm, s.d.GetMasterEntClient(), payload, nil, "email_code")
+	authResp, err := generateAuthResponse(ctx, s.jtm, s.authTokenRepo, payload, nil, "email_code")
 	if err != nil {
 		return nil, err
 	}

@@ -23,9 +23,9 @@ import (
 
 // NotificationRepositoryInterface represents the notification repository interface
 type NotificationRepositoryInterface interface {
-	Create(ctx context.Context, notification *ent.NotificationCreate) (*ent.Notification, error)
+	Create(ctx context.Context, body *structs.NotificationBody) (*ent.Notification, error)
 	Get(ctx context.Context, id string) (*ent.Notification, error)
-	Update(ctx context.Context, id string, notification *ent.NotificationUpdateOne) (*ent.Notification, error)
+	Update(ctx context.Context, id string, body *structs.NotificationBody) (*ent.Notification, error)
 	Delete(ctx context.Context, id string) error
 
 	FindByID(ctx context.Context, id string) (*ent.Notification, error)
@@ -33,7 +33,7 @@ type NotificationRepositoryInterface interface {
 	Count(ctx context.Context, params *structs.ListNotificationParams) (int, error)
 	CountX(ctx context.Context, params *structs.ListNotificationParams) int
 
-	CreateBatch(ctx context.Context, notifications []*ent.NotificationCreate) ([]*ent.Notification, error)
+	CreateBatch(ctx context.Context, bodies []*structs.NotificationBody) ([]*ent.Notification, error)
 	DeleteBatch(ctx context.Context, ids []string) error
 
 	UpdateStatus(ctx context.Context, id string, status int) error
@@ -62,8 +62,16 @@ func NewNotificationRepository(d *data.Data) NotificationRepositoryInterface {
 }
 
 // Create creates a new notification
-func (r *notificationRepository) Create(ctx context.Context, notification *ent.NotificationCreate) (*ent.Notification, error) {
-	row, err := notification.Save(ctx)
+func (r *notificationRepository) Create(ctx context.Context, body *structs.NotificationBody) (*ent.Notification, error) {
+	row, err := r.ec.Notification.Create().
+		SetTitle(body.Title).
+		SetContent(body.Content).
+		SetType(body.Type).
+		SetUserID(body.UserID).
+		SetStatus(body.Status).
+		SetNillableChannelID(&body.ChannelID).
+		SetLinks(body.Links).
+		Save(ctx)
 	if err != nil {
 		logger.Errorf(ctx, "notificationRepo.Create error: %v", err)
 		return nil, err
@@ -102,8 +110,15 @@ func (r *notificationRepository) Get(ctx context.Context, id string) (*ent.Notif
 }
 
 // Update updates a notification
-func (r *notificationRepository) Update(ctx context.Context, id string, notification *ent.NotificationUpdateOne) (*ent.Notification, error) {
-	row, err := notification.Save(ctx)
+func (r *notificationRepository) Update(ctx context.Context, id string, body *structs.NotificationBody) (*ent.Notification, error) {
+	row, err := r.ec.Notification.UpdateOneID(id).
+		SetTitle(body.Title).
+		SetContent(body.Content).
+		SetType(body.Type).
+		SetStatus(body.Status).
+		SetNillableChannelID(&body.ChannelID).
+		SetLinks(body.Links).
+		Save(ctx)
 	if err != nil {
 		logger.Errorf(ctx, "notificationRepo.Update error: %v", err)
 		return nil, err
@@ -256,7 +271,7 @@ func (r *notificationRepository) UpdateStatus(ctx context.Context, id string, st
 }
 
 // CreateBatch creates multiple notifications in a transaction
-func (r *notificationRepository) CreateBatch(ctx context.Context, notifications []*ent.NotificationCreate) ([]*ent.Notification, error) {
+func (r *notificationRepository) CreateBatch(ctx context.Context, bodies []*structs.NotificationBody) ([]*ent.Notification, error) {
 	var results []*ent.Notification
 
 	// Start transaction
@@ -274,8 +289,16 @@ func (r *notificationRepository) CreateBatch(ctx context.Context, notifications 
 	}()
 
 	// Execute operations
-	for _, n := range notifications {
-		notification, err := n.Save(ctx)
+	for _, body := range bodies {
+		notification, err := tx.Notification.Create().
+			SetTitle(body.Title).
+			SetContent(body.Content).
+			SetType(body.Type).
+			SetUserID(body.UserID).
+			SetStatus(body.Status).
+			SetNillableChannelID(&body.ChannelID).
+			SetLinks(body.Links).
+			Save(ctx)
 		if err != nil {
 			tx.Rollback()
 			return nil, err

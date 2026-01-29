@@ -7,7 +7,6 @@ import (
 	"errors"
 	"fmt"
 	"ncobase/plugin/proxy/data"
-	"ncobase/plugin/proxy/data/ent"
 	"ncobase/plugin/proxy/data/repository"
 	"ncobase/plugin/proxy/structs"
 	"strings"
@@ -33,8 +32,6 @@ type TransformerServiceInterface interface {
 	GetByName(ctx context.Context, name string) (*structs.ReadTransformer, error)
 	List(ctx context.Context, params *structs.ListTransformerParams) (paging.Result[*structs.ReadTransformer], error)
 	CompileTransformer(ctx context.Context, id string) (TransformerFunc, error)
-	Serialize(row *ent.Transformer) *structs.ReadTransformer
-	Serializes(rows []*ent.Transformer) []*structs.ReadTransformer
 }
 
 // transformerService is the struct for the transformer service.
@@ -66,7 +63,7 @@ func (s *transformerService) Create(ctx context.Context, body *structs.CreateTra
 		return nil, err
 	}
 
-	return s.Serialize(row), nil
+	return repository.SerializeTransformer(row), nil
 }
 
 // Update updates an existing transformer.
@@ -119,7 +116,7 @@ func (s *transformerService) Update(ctx context.Context, id string, updates type
 		return nil, err
 	}
 
-	return s.Serialize(row), nil
+	return repository.SerializeTransformer(row), nil
 }
 
 // Delete deletes a transformer by ID.
@@ -139,7 +136,7 @@ func (s *transformerService) GetByID(ctx context.Context, id string) (*structs.R
 		return nil, err
 	}
 
-	return s.Serialize(row), nil
+	return repository.SerializeTransformer(row), nil
 }
 
 // GetByName retrieves a transformer by name.
@@ -149,7 +146,7 @@ func (s *transformerService) GetByName(ctx context.Context, name string) (*struc
 		return nil, err
 	}
 
-	return s.Serialize(row), nil
+	return repository.SerializeTransformer(row), nil
 }
 
 // List lists all transformers.
@@ -167,7 +164,7 @@ func (s *transformerService) List(ctx context.Context, params *structs.ListTrans
 		lp.Direction = direction
 
 		rows, err := s.transformer.List(ctx, &lp)
-		if ent.IsNotFound(err) {
+		if repository.IsNotFound(err) {
 			return nil, 0, errors.New(ecode.FieldIsInvalid("cursor"))
 		}
 		if err != nil {
@@ -177,7 +174,7 @@ func (s *transformerService) List(ctx context.Context, params *structs.ListTrans
 
 		total := s.transformer.CountX(ctx, params)
 
-		return s.Serializes(rows), total, nil
+		return repository.SerializeTransformers(rows), total, nil
 	})
 }
 
@@ -382,31 +379,4 @@ func (s *transformerService) compileMappingTransformer(content string) (Transfor
 
 		return json.Marshal(result)
 	}, nil
-}
-
-// Serializes serializes a list of transformer entities to a response format.
-func (s *transformerService) Serializes(rows []*ent.Transformer) []*structs.ReadTransformer {
-	rs := make([]*structs.ReadTransformer, 0, len(rows))
-	for _, row := range rows {
-		rs = append(rs, s.Serialize(row))
-	}
-	return rs
-}
-
-// Serialize serializes a transformer entity to a response format.
-func (s *transformerService) Serialize(row *ent.Transformer) *structs.ReadTransformer {
-	return &structs.ReadTransformer{
-		ID:          row.ID,
-		Name:        row.Name,
-		Description: row.Description,
-		Type:        row.Type,
-		Content:     row.Content,
-		ContentType: row.ContentType,
-		Disabled:    row.Disabled,
-		Extras:      &row.Extras,
-		CreatedBy:   &row.CreatedBy,
-		CreatedAt:   &row.CreatedAt,
-		UpdatedBy:   &row.UpdatedBy,
-		UpdatedAt:   &row.UpdatedAt,
-	}
 }

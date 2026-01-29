@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 	"ncobase/core/access/data"
-	"ncobase/core/access/data/ent"
 	"ncobase/core/access/data/repository"
 	"ncobase/core/access/structs"
 
@@ -24,14 +23,12 @@ type UserRoleServiceInterface interface {
 
 // userRoleService is the struct for the service.
 type userRoleService struct {
-	rs       RoleServiceInterface
 	userRole repository.UserRoleRepositoryInterface
 }
 
 // NewUserRoleService creates a new service.
-func NewUserRoleService(d *data.Data, rs RoleServiceInterface) UserRoleServiceInterface {
+func NewUserRoleService(d *data.Data) UserRoleServiceInterface {
 	return &userRoleService{
-		rs:       rs,
 		userRole: repository.NewUserRoleRepository(d),
 	}
 }
@@ -56,7 +53,7 @@ func (s *userRoleService) CreateUserRole(ctx context.Context, body *structs.User
 		return nil, err
 	}
 
-	return s.SerializeUserRole(userRole), nil
+	return repository.SerializeUserRole(userRole), nil
 }
 
 // GetUserRoles retrieves all roles associated with a user.
@@ -66,7 +63,7 @@ func (s *userRoleService) GetUserRoles(ctx context.Context, u string) ([]*struct
 		return nil, err
 	}
 
-	return s.rs.Serializes(roles), nil
+	return repository.SerializeRoles(roles), nil
 }
 
 // GetUsersByRoleID retrieves users by role ID.
@@ -115,21 +112,4 @@ func (s *userRoleService) RemoveRoleFromUser(ctx context.Context, u string, r st
 		return err
 	}
 	return nil
-}
-
-// SerializeUserRoles serializes user roles.
-func (s *userRoleService) SerializeUserRoles(rows []*ent.UserRole) []*structs.UserRole {
-	rs := make([]*structs.UserRole, 0, len(rows))
-	for _, row := range rows {
-		rs = append(rs, s.SerializeUserRole(row))
-	}
-	return rs
-}
-
-// SerializeUserRole serializes a user role.
-func (s *userRoleService) SerializeUserRole(row *ent.UserRole) *structs.UserRole {
-	return &structs.UserRole{
-		UserID: row.UserID,
-		RoleID: row.RoleID,
-	}
 }

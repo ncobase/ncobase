@@ -3,7 +3,6 @@ package service
 import (
 	"context"
 	"ncobase/core/space/data"
-	"ncobase/core/space/data/ent"
 	"ncobase/core/space/data/repository"
 	"ncobase/core/space/structs"
 	"ncobase/core/space/wrapper"
@@ -21,8 +20,6 @@ type SpaceOrganizationServiceInterface interface {
 	GetOrganizationSpaces(ctx context.Context, orgID string) ([]string, error)
 	IsGroupInSpace(ctx context.Context, spaceID string, orgID string) (bool, error)
 	GetSpaceOrgIDs(ctx context.Context, spaceID string) ([]string, error)
-	Serialize(row *ent.SpaceOrganization) *structs.SpaceOrganization
-	Serializes(rows []*ent.SpaceOrganization) []*structs.SpaceOrganization
 }
 
 // spaceOrganizationService implements SpaceOrganizationServiceInterface
@@ -154,21 +151,4 @@ func (s *spaceOrganizationService) GetSpaceOrgIDs(ctx context.Context, spaceID s
 	}
 
 	return orgIDs, nil
-}
-
-// Serializes serializes space orgs
-func (s *spaceOrganizationService) Serializes(rows []*ent.SpaceOrganization) []*structs.SpaceOrganization {
-	rs := make([]*structs.SpaceOrganization, 0, len(rows))
-	for _, row := range rows {
-		rs = append(rs, s.Serialize(row))
-	}
-	return rs
-}
-
-// Serialize serializes a space group
-func (s *spaceOrganizationService) Serialize(row *ent.SpaceOrganization) *structs.SpaceOrganization {
-	return &structs.SpaceOrganization{
-		SpaceID: row.SpaceID,
-		OrgID:   row.OrgID,
-	}
 }

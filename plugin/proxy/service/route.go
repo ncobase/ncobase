@@ -5,7 +5,6 @@ import (
 	"errors"
 	"fmt"
 	"ncobase/plugin/proxy/data"
-	"ncobase/plugin/proxy/data/ent"
 	"ncobase/plugin/proxy/data/repository"
 	"ncobase/plugin/proxy/structs"
 	"path"
@@ -28,8 +27,6 @@ type RouteServiceInterface interface {
 	GetByName(ctx context.Context, name string) (*structs.ReadRoute, error)
 	FindByPathAndMethod(ctx context.Context, path, method string) (*structs.ReadRoute, error)
 	List(ctx context.Context, params *structs.ListRouteParams) (paging.Result[*structs.ReadRoute], error)
-	Serialize(row *ent.Route) *structs.ReadRoute
-	Serializes(rows []*ent.Route) []*structs.ReadRoute
 }
 
 // routeService is the struct for the route service.
@@ -81,7 +78,7 @@ func (s *routeService) Create(ctx context.Context, body *structs.CreateRouteBody
 		return nil, err
 	}
 
-	return s.Serialize(row), nil
+	return repository.SerializeRoute(row), nil
 }
 
 // Update updates an existing route.
@@ -112,7 +109,7 @@ func (s *routeService) Update(ctx context.Context, id string, updates types.JSON
 		return nil, err
 	}
 
-	return s.Serialize(row), nil
+	return repository.SerializeRoute(row), nil
 }
 
 // Delete deletes a route by ID.
@@ -132,7 +129,7 @@ func (s *routeService) GetByID(ctx context.Context, id string) (*structs.ReadRou
 		return nil, err
 	}
 
-	return s.Serialize(row), nil
+	return repository.SerializeRoute(row), nil
 }
 
 // GetByName retrieves a route by name.
@@ -142,7 +139,7 @@ func (s *routeService) GetByName(ctx context.Context, name string) (*structs.Rea
 		return nil, err
 	}
 
-	return s.Serialize(row), nil
+	return repository.SerializeRoute(row), nil
 }
 
 // FindByPathAndMethod finds a route by path and method.
@@ -160,7 +157,7 @@ func (s *routeService) FindByPathAndMethod(ctx context.Context, path, method str
 	for _, route := range routes {
 		routeMethod := strings.ToUpper(route.Method)
 		if routeMethod == method || routeMethod == "ANY" || routeMethod == "*" {
-			return s.Serialize(route), nil
+			return repository.SerializeRoute(route), nil
 		}
 	}
 
@@ -183,7 +180,7 @@ func (s *routeService) List(ctx context.Context, params *structs.ListRouteParams
 		lp.Direction = direction
 
 		rows, err := s.route.List(ctx, &lp)
-		if ent.IsNotFound(err) {
+		if repository.IsNotFound(err) {
 			return nil, 0, errors.New(ecode.FieldIsInvalid("cursor"))
 		}
 		if err != nil {
@@ -193,42 +190,8 @@ func (s *routeService) List(ctx context.Context, params *structs.ListRouteParams
 
 		total := s.route.CountX(ctx, params)
 
-		return s.Serializes(rows), total, nil
+		return repository.SerializeRoutes(rows), total, nil
 	})
-}
-
-// Serializes serializes a list of route entities to a response format.
-func (s *routeService) Serializes(rows []*ent.Route) []*structs.ReadRoute {
-	rs := make([]*structs.ReadRoute, 0, len(rows))
-	for _, row := range rows {
-		rs = append(rs, s.Serialize(row))
-	}
-	return rs
-}
-
-// Serialize serializes a route entity to a response format.
-func (s *routeService) Serialize(row *ent.Route) *structs.ReadRoute {
-	return &structs.ReadRoute{
-		ID:                  row.ID,
-		Name:                row.Name,
-		Description:         row.Description,
-		EndpointID:          row.EndpointID,
-		PathPattern:         row.PathPattern,
-		TargetPath:          row.TargetPath,
-		Method:              row.Method,
-		InputTransformerID:  &row.InputTransformerID,
-		OutputTransformerID: &row.OutputTransformerID,
-		CacheEnabled:        row.CacheEnabled,
-		CacheTTL:            row.CacheTTL,
-		RateLimit:           &row.RateLimit,
-		StripAuthHeader:     row.StripAuthHeader,
-		Disabled:            row.Disabled,
-		Extras:              &row.Extras,
-		CreatedBy:           &row.CreatedBy,
-		CreatedAt:           &row.CreatedAt,
-		UpdatedBy:           &row.UpdatedBy,
-		UpdatedAt:           &row.UpdatedAt,
-	}
 }
 
 // validatePathPattern validates the format of the path pattern.

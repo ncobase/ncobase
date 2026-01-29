@@ -3,7 +3,7 @@ package service
 import (
 	"context"
 	"errors"
-	"ncobase/core/user/data/ent"
+	"ncobase/core/user/data/repository"
 
 	"github.com/ncobase/ncore/ecode"
 	"github.com/ncobase/ncore/logging/logger"
@@ -12,15 +12,15 @@ import (
 
 // handleEntError is a helper function to handle errors in a consistent manner.
 func handleEntError(ctx context.Context, k string, err error) error {
-	if ent.IsNotFound(err) {
+	if repository.IsNotFound(err) {
 		logger.Errorf(ctx, "Error not found in %s: %v", k, err)
 		return errors.New(ecode.NotExist(k))
 	}
-	if ent.IsConstraintError(err) {
+	if repository.IsConstraintError(err) {
 		logger.Errorf(ctx, "Error constraint in %s: %v", k, err)
 		return errors.New(ecode.AlreadyExist(k))
 	}
-	if ent.IsNotSingular(err) {
+	if repository.IsNotSingular(err) {
 		logger.Errorf(ctx, "Error not singular in %s: %v", k, err)
 		return errors.New(ecode.NotSingular(k))
 	}

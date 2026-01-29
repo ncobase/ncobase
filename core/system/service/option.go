@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"errors"
 	"ncobase/core/system/data"
-	"ncobase/core/system/data/ent"
 	"ncobase/core/system/data/repository"
 	"ncobase/core/system/structs"
 	"strconv"
@@ -61,7 +60,7 @@ func (s *optionService) Create(ctx context.Context, body *structs.OptionBody) (*
 		return nil, err
 	}
 
-	return s.Serialize(row), nil
+	return repository.SerializeOption(row), nil
 }
 
 // Get retrieves an option by ID or name.
@@ -71,7 +70,7 @@ func (s *optionService) Get(ctx context.Context, params *structs.FindOptions) (*
 		return nil, err
 	}
 
-	return s.Serialize(row), nil
+	return repository.SerializeOption(row), nil
 }
 
 // GetByName retrieves an option by name.
@@ -89,7 +88,7 @@ func (s *optionService) GetByName(ctx context.Context, name string) (*structs.Re
 		return nil, err
 	}
 
-	return s.Serialize(row), nil
+	return repository.SerializeOption(row), nil
 }
 
 // GetByType retrieves options by type.
@@ -249,7 +248,7 @@ func (s *optionService) Update(ctx context.Context, updates *structs.UpdateOptio
 		return nil, err
 	}
 
-	return s.Serialize(row), nil
+	return repository.SerializeOption(row), nil
 }
 
 // Delete deletes an option by ID or name.
@@ -283,42 +282,18 @@ func (s *optionService) List(ctx context.Context, params *structs.ListOptionPara
 
 		rows, total, err := s.option.ListWithCount(ctx, &lp)
 		if err != nil {
-			if ent.IsNotFound(err) {
+			if repository.IsNotFound(err) {
 				return nil, 0, errors.New(ecode.FieldIsInvalid("cursor"))
 			}
 			logger.Errorf(ctx, "Error listing options: %v", err)
 			return nil, 0, err
 		}
 
-		return s.Serializes(rows), total, nil
+		return repository.SerializeOptions(rows), total, nil
 	})
 }
 
 // CountX counts all options.
 func (s *optionService) CountX(ctx context.Context, params *structs.ListOptionParams) int {
 	return s.option.CountX(ctx, params)
-}
-
-// Serializes options.
-func (s *optionService) Serializes(rows []*ent.Options) []*structs.ReadOption {
-	rs := make([]*structs.ReadOption, 0, len(rows))
-	for _, row := range rows {
-		rs = append(rs, s.Serialize(row))
-	}
-	return rs
-}
-
-// Serialize serializes an option.
-func (s *optionService) Serialize(row *ent.Options) *structs.ReadOption {
-	return &structs.ReadOption{
-		ID:        row.ID,
-		Name:      row.Name,
-		Type:      row.Type,
-		Value:     row.Value,
-		Autoload:  row.Autoload,
-		CreatedBy: &row.CreatedBy,
-		CreatedAt: &row.CreatedAt,
-		UpdatedBy: &row.UpdatedBy,
-		UpdatedAt: &row.UpdatedAt,
-	}
 }

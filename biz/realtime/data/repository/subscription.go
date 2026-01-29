@@ -6,6 +6,7 @@ import (
 	"ncobase/biz/realtime/data"
 	"ncobase/biz/realtime/data/ent"
 	subscriptionEnt "ncobase/biz/realtime/data/ent/subscription"
+	"ncobase/biz/realtime/structs"
 
 	nd "github.com/ncobase/ncore/data"
 	"github.com/ncobase/ncore/data/cache"
@@ -18,16 +19,16 @@ import (
 
 // SubscriptionRepositoryInterface defines subscription repository operations
 type SubscriptionRepositoryInterface interface {
-	Create(ctx context.Context, subscription *ent.SubscriptionCreate) (*ent.Subscription, error)
+	Create(ctx context.Context, body *structs.SubscriptionBody) (*ent.Subscription, error)
 	Get(ctx context.Context, id string) (*ent.Subscription, error)
-	Update(ctx context.Context, id string, subscription *ent.SubscriptionUpdateOne) (*ent.Subscription, error)
+	Update(ctx context.Context, id string, body *structs.SubscriptionBody) (*ent.Subscription, error)
 	Delete(ctx context.Context, id string) error
 
 	FindByID(ctx context.Context, id string) (*ent.Subscription, error)
 	List(ctx context.Context, offset, limit int, filters map[string]any) ([]*ent.Subscription, error)
 	Count(ctx context.Context, filters map[string]any) (int, error)
 
-	CreateBatch(ctx context.Context, subscriptions []*ent.SubscriptionCreate) ([]*ent.Subscription, error)
+	CreateBatch(ctx context.Context, bodies []*structs.SubscriptionBody) ([]*ent.Subscription, error)
 	DeleteBatch(ctx context.Context, ids []string) error
 
 	FindByUserAndChannel(ctx context.Context, userID, channelID string) (*ent.Subscription, error)
@@ -62,16 +63,12 @@ func NewSubscriptionRepository(d *data.Data) SubscriptionRepositoryInterface {
 }
 
 // Create creates a new subscription
-func (r *subscriptionRepository) Create(ctx context.Context, subscription *ent.SubscriptionCreate) (*ent.Subscription, error) {
+func (r *subscriptionRepository) Create(ctx context.Context, body *structs.SubscriptionBody) (*ent.Subscription, error) {
 	// Check if subscription already exists
-
-	userID, _ := subscription.Mutation().UserID()
-	channelID, _ := subscription.Mutation().ChannelID()
-
 	exists, err := r.ec.Subscription.Query().
 		Where(
-			subscriptionEnt.UserID(userID),
-			subscriptionEnt.ChannelID(channelID),
+			subscriptionEnt.UserID(body.UserID),
+			subscriptionEnt.ChannelID(body.ChannelID),
 		).
 		Exist(ctx)
 	if err != nil {
@@ -81,7 +78,11 @@ func (r *subscriptionRepository) Create(ctx context.Context, subscription *ent.S
 		return nil, fmt.Errorf("subscription already exists")
 	}
 
-	row, err := subscription.Save(ctx)
+	row, err := r.ec.Subscription.Create().
+		SetUserID(body.UserID).
+		SetChannelID(body.ChannelID).
+		SetStatus(body.Status).
+		Save(ctx)
 	if err != nil {
 		logger.Errorf(ctx, "subscriptionRepo.Create error: %v", err)
 		return nil, err
@@ -117,8 +118,12 @@ func (r *subscriptionRepository) Get(ctx context.Context, id string) (*ent.Subsc
 }
 
 // Update updates a subscription
-func (r *subscriptionRepository) Update(ctx context.Context, id string, subscription *ent.SubscriptionUpdateOne) (*ent.Subscription, error) {
-	row, err := subscription.Save(ctx)
+func (r *subscriptionRepository) Update(ctx context.Context, id string, body *structs.SubscriptionBody) (*ent.Subscription, error) {
+	row, err := r.ec.Subscription.UpdateOneID(id).
+		SetUserID(body.UserID).
+		SetChannelID(body.ChannelID).
+		SetStatus(body.Status).
+		Save(ctx)
 	if err != nil {
 		logger.Errorf(ctx, "subscriptionRepo.Update error: %v", err)
 		return nil, err
@@ -198,7 +203,7 @@ func (r *subscriptionRepository) Count(ctx context.Context, filters map[string]a
 }
 
 // CreateBatch creates multiple subscriptions in a transaction
-func (r *subscriptionRepository) CreateBatch(ctx context.Context, subscriptions []*ent.SubscriptionCreate) ([]*ent.Subscription, error) {
+func (r *subscriptionRepository) CreateBatch(ctx context.Context, bodies []*structs.SubscriptionBody) ([]*ent.Subscription, error) {
 	var results []*ent.Subscription
 
 	tx, err := r.ec.Tx(ctx)
@@ -212,8 +217,12 @@ func (r *subscriptionRepository) CreateBatch(ctx context.Context, subscriptions 
 		}
 	}()
 
-	for _, s := range subscriptions {
-		subscription, err := s.Save(ctx)
+	for _, body := range bodies {
+		subscription, err := tx.Subscription.Create().
+			SetUserID(body.UserID).
+			SetChannelID(body.ChannelID).
+			SetStatus(body.Status).
+			Save(ctx)
 		if err != nil {
 			tx.Rollback()
 			return nil, err

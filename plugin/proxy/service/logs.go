@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 	"ncobase/plugin/proxy/data"
-	"ncobase/plugin/proxy/data/ent"
 	"ncobase/plugin/proxy/data/repository"
 	"ncobase/plugin/proxy/structs"
 
@@ -19,8 +18,6 @@ type LogServiceInterface interface {
 	GetByID(ctx context.Context, id string) (*structs.ReadLog, error)
 	List(ctx context.Context, params *structs.ListLogParams) (paging.Result[*structs.ReadLog], error)
 	DeleteOlderThan(ctx context.Context, days int) (int, error)
-	Serialize(row *ent.Logs) *structs.ReadLog
-	Serializes(rows []*ent.Logs) []*structs.ReadLog
 }
 
 // logService is the struct for the log service.
@@ -69,7 +66,7 @@ func (s *logService) Create(ctx context.Context, body *structs.CreateLogBody) (*
 		return nil, err
 	}
 
-	return s.Serialize(row), nil
+	return repository.SerializeLog(row), nil
 }
 
 // GetByID retrieves a proxy log by ID.
@@ -79,7 +76,7 @@ func (s *logService) GetByID(ctx context.Context, id string) (*structs.ReadLog, 
 		return nil, err
 	}
 
-	return s.Serialize(row), nil
+	return repository.SerializeLog(row), nil
 }
 
 // List lists all proxy logs.
@@ -97,7 +94,7 @@ func (s *logService) List(ctx context.Context, params *structs.ListLogParams) (p
 		lp.Direction = direction
 
 		rows, err := s.log.List(ctx, &lp)
-		if ent.IsNotFound(err) {
+		if repository.IsNotFound(err) {
 			return nil, 0, errors.New(ecode.FieldIsInvalid("cursor"))
 		}
 		if err != nil {
@@ -107,41 +104,11 @@ func (s *logService) List(ctx context.Context, params *structs.ListLogParams) (p
 
 		total := s.log.CountX(ctx, params)
 
-		return s.Serializes(rows), total, nil
+		return repository.SerializeLogs(rows), total, nil
 	})
 }
 
 // DeleteOlderThan deletes logs older than a specified number of days.
 func (s *logService) DeleteOlderThan(ctx context.Context, days int) (int, error) {
 	return s.log.DeleteOlderThan(ctx, days)
-}
-
-// Serializes serializes a list of proxy log entities to a response format.
-func (s *logService) Serializes(rows []*ent.Logs) []*structs.ReadLog {
-	rs := make([]*structs.ReadLog, 0, len(rows))
-	for _, row := range rows {
-		rs = append(rs, s.Serialize(row))
-	}
-	return rs
-}
-
-// Serialize serializes a proxy log entity to a response format.
-func (s *logService) Serialize(row *ent.Logs) *structs.ReadLog {
-	return &structs.ReadLog{
-		ID:              row.ID,
-		EndpointID:      row.EndpointID,
-		RouteID:         row.RouteID,
-		RequestMethod:   row.RequestMethod,
-		RequestPath:     row.RequestPath,
-		RequestHeaders:  nil, // Convert from DB format as needed
-		RequestBody:     row.RequestBody,
-		StatusCode:      row.StatusCode,
-		ResponseHeaders: nil, // Convert from DB format as needed
-		ResponseBody:    row.ResponseBody,
-		Duration:        row.Duration,
-		Error:           row.Error,
-		ClientIP:        row.ClientIP,
-		UserID:          row.UserID,
-		CreatedAt:       &row.CreatedAt,
-	}
 }

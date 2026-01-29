@@ -24,9 +24,9 @@ import (
 
 // ChannelRepositoryInterface defines channel repository operations
 type ChannelRepositoryInterface interface {
-	Create(ctx context.Context, channel *ent.RTChannelCreate) (*ent.RTChannel, error)
+	Create(ctx context.Context, body *structs.ChannelBody) (*ent.RTChannel, error)
 	Get(ctx context.Context, id string) (*ent.RTChannel, error)
-	Update(ctx context.Context, id string, channel *ent.RTChannelUpdateOne) (*ent.RTChannel, error)
+	Update(ctx context.Context, id string, body *structs.ChannelBody) (*ent.RTChannel, error)
 	Delete(ctx context.Context, id string) error
 
 	FindByID(ctx context.Context, id string) (*ent.RTChannel, error)
@@ -35,7 +35,7 @@ type ChannelRepositoryInterface interface {
 	Count(ctx context.Context, params *structs.ListChannelParams) (int, error)
 	CountX(ctx context.Context, params *structs.ListChannelParams) int
 
-	CreateBatch(ctx context.Context, channels []*ent.RTChannelCreate) ([]*ent.RTChannel, error)
+	CreateBatch(ctx context.Context, bodies []*structs.ChannelBody) ([]*ent.RTChannel, error)
 	DeleteBatch(ctx context.Context, ids []string) error
 
 	UpdateStatus(ctx context.Context, id string, status int) error
@@ -62,8 +62,14 @@ func NewChannelRepository(d *data.Data) ChannelRepositoryInterface {
 }
 
 // Create creates a new channel
-func (r *channelRepository) Create(ctx context.Context, channel *ent.RTChannelCreate) (*ent.RTChannel, error) {
-	row, err := channel.Save(ctx)
+func (r *channelRepository) Create(ctx context.Context, body *structs.ChannelBody) (*ent.RTChannel, error) {
+	row, err := r.ec.RTChannel.Create().
+		SetName(body.Name).
+		SetDescription(body.Description).
+		SetType(body.Type).
+		SetStatus(body.Status).
+		SetExtras(body.Extras).
+		Save(ctx)
 	if err != nil {
 		logger.Errorf(ctx, "channelRepo.Create error: %v", err)
 		return nil, err
@@ -113,8 +119,14 @@ func (r *channelRepository) FindByName(ctx context.Context, name string) (*ent.R
 }
 
 // Update updates a channel
-func (r *channelRepository) Update(ctx context.Context, id string, channel *ent.RTChannelUpdateOne) (*ent.RTChannel, error) {
-	row, err := channel.Save(ctx)
+func (r *channelRepository) Update(ctx context.Context, id string, body *structs.ChannelBody) (*ent.RTChannel, error) {
+	row, err := r.ec.RTChannel.UpdateOneID(id).
+		SetName(body.Name).
+		SetDescription(body.Description).
+		SetType(body.Type).
+		SetStatus(body.Status).
+		SetExtras(body.Extras).
+		Save(ctx)
 	if err != nil {
 		logger.Errorf(ctx, "channelRepo.Update error: %v", err)
 		return nil, err
@@ -261,7 +273,7 @@ func (r *channelRepository) CountX(ctx context.Context, params *structs.ListChan
 }
 
 // CreateBatch creates multiple channels in a transaction
-func (r *channelRepository) CreateBatch(ctx context.Context, channels []*ent.RTChannelCreate) ([]*ent.RTChannel, error) {
+func (r *channelRepository) CreateBatch(ctx context.Context, bodies []*structs.ChannelBody) ([]*ent.RTChannel, error) {
 	var results []*ent.RTChannel
 
 	tx, err := r.ec.Tx(ctx)
@@ -275,8 +287,14 @@ func (r *channelRepository) CreateBatch(ctx context.Context, channels []*ent.RTC
 		}
 	}()
 
-	for _, c := range channels {
-		channel, err := c.Save(ctx)
+	for _, body := range bodies {
+		channel, err := tx.RTChannel.Create().
+			SetName(body.Name).
+			SetDescription(body.Description).
+			SetType(body.Type).
+			SetStatus(body.Status).
+			SetExtras(body.Extras).
+			Save(ctx)
 		if err != nil {
 			tx.Rollback()
 			return nil, err

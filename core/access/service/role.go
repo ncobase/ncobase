@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 	"ncobase/core/access/data"
-	"ncobase/core/access/data/ent"
 	"ncobase/core/access/data/repository"
 	"ncobase/core/access/structs"
 
@@ -26,8 +25,6 @@ type RoleServiceInterface interface {
 	CreateSuperAdminRole(ctx context.Context) (*structs.ReadRole, error)
 	List(ctx context.Context, params *structs.ListRoleParams) (paging.Result[*structs.ReadRole], error)
 	CountX(ctx context.Context, params *structs.ListRoleParams) int
-	Serialize(row *ent.Role) *structs.ReadRole
-	Serializes(rows []*ent.Role) []*structs.ReadRole
 }
 
 // roleService is the struct for the service.
@@ -55,7 +52,7 @@ func (s *roleService) Create(ctx context.Context, body *structs.CreateRoleBody) 
 		return nil, err
 	}
 
-	return s.Serialize(role), nil
+	return repository.SerializeRole(role), nil
 }
 
 // Update updates an existing role.
@@ -64,7 +61,7 @@ func (s *roleService) Update(ctx context.Context, roleID string, updates types.J
 	if err := handleEntError(ctx, "Role", err); err != nil {
 		return nil, err
 	}
-	return s.Serialize(role), nil
+	return repository.SerializeRole(role), nil
 }
 
 // GetByID retrieves a role by its ID.
@@ -74,7 +71,7 @@ func (s *roleService) GetByID(ctx context.Context, roleID string) (*structs.Read
 		return nil, err
 	}
 
-	return s.Serialize(row), nil
+	return repository.SerializeRole(row), nil
 }
 
 // GetBySlug retrieves a role by its slug.
@@ -83,7 +80,7 @@ func (s *roleService) GetBySlug(ctx context.Context, roleSlug string) (*structs.
 	if err := handleEntError(ctx, "Role", err); err != nil {
 		return nil, err
 	}
-	return s.Serialize(row), nil
+	return repository.SerializeRole(row), nil
 }
 
 // GetByIDs retrieves roles by their IDs.
@@ -92,7 +89,7 @@ func (s *roleService) GetByIDs(ctx context.Context, roleIDs []string) ([]*struct
 	if err != nil {
 		return nil, err
 	}
-	return s.Serializes(rows), nil
+	return repository.SerializeRoles(rows), nil
 }
 
 // Find finds a role by id or slug.
@@ -101,7 +98,7 @@ func (s *roleService) Find(ctx context.Context, params *structs.FindRole) (*stru
 	if err != nil {
 		return nil, err
 	}
-	return s.Serialize(row), nil
+	return repository.SerializeRole(row), nil
 }
 
 // Delete deletes a role by its ID.
@@ -127,7 +124,7 @@ func (s *roleService) CreateSuperAdminRole(ctx context.Context) (*structs.ReadRo
 	if err != nil {
 		return nil, err
 	}
-	return s.Serialize(row), nil
+	return repository.SerializeRole(row), nil
 }
 
 // List lists all roles.
@@ -145,7 +142,7 @@ func (s *roleService) List(ctx context.Context, params *structs.ListRoleParams) 
 		lp.Direction = direction
 
 		rows, err := s.role.List(ctx, &lp)
-		if ent.IsNotFound(err) {
+		if repository.IsNotFound(err) {
 			return nil, 0, errors.New(ecode.FieldIsInvalid("cursor"))
 		}
 		if err != nil {
@@ -155,36 +152,11 @@ func (s *roleService) List(ctx context.Context, params *structs.ListRoleParams) 
 
 		total := s.role.CountX(ctx, params)
 
-		return s.Serializes(rows), total, nil
+		return repository.SerializeRoles(rows), total, nil
 	})
 }
 
 // CountX gets a count of roles.
 func (s *roleService) CountX(ctx context.Context, params *structs.ListRoleParams) int {
 	return s.role.CountX(ctx, params)
-}
-
-// Serializes serializes a list of role entities to a response format.
-func (s *roleService) Serializes(rows []*ent.Role) []*structs.ReadRole {
-	rs := make([]*structs.ReadRole, 0, len(rows))
-	for _, row := range rows {
-		rs = append(rs, s.Serialize(row))
-	}
-	return rs
-}
-
-// Serialize serializes a role entity to a response format.
-func (s *roleService) Serialize(row *ent.Role) *structs.ReadRole {
-	return &structs.ReadRole{
-		ID:          row.ID,
-		Name:        row.Name,
-		Slug:        row.Slug,
-		Disabled:    row.Disabled,
-		Description: row.Description,
-		Extras:      &row.Extras,
-		CreatedBy:   &row.CreatedBy,
-		CreatedAt:   &row.CreatedAt,
-		UpdatedBy:   &row.UpdatedBy,
-		UpdatedAt:   &row.UpdatedAt,
-	}
 }

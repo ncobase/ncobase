@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"ncobase/plugin/payment/data/repository"
 	"ncobase/plugin/payment/structs"
@@ -36,7 +37,7 @@ func NewLogService(repo repository.LogRepositoryInterface) LogServiceInterface {
 // GetByID gets a payment log by ID
 func (s *logService) GetByID(ctx context.Context, id string) (*structs.Log, error) {
 	if id == "" {
-		return nil, fmt.Errorf(ecode.FieldIsRequired("id"))
+		return nil, errors.New(ecode.FieldIsRequired("id"))
 	}
 
 	log, err := s.repo.GetByID(ctx, id)
@@ -50,7 +51,7 @@ func (s *logService) GetByID(ctx context.Context, id string) (*structs.Log, erro
 // GetByOrderID gets payment logs for an order
 func (s *logService) GetByOrderID(ctx context.Context, orderID string, page, pageSize int) (paging.Result[*structs.Log], error) {
 	if orderID == "" {
-		return paging.Result[*structs.Log]{}, fmt.Errorf(ecode.FieldIsRequired("order_id"))
+		return paging.Result[*structs.Log]{}, errors.New(ecode.FieldIsRequired("order_id"))
 	}
 
 	// Create a log query

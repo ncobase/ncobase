@@ -7,7 +7,6 @@ import (
 	"fmt"
 	"io"
 	"ncobase/plugin/resource/data"
-	"ncobase/plugin/resource/data/ent"
 	"ncobase/plugin/resource/data/repository"
 	"ncobase/plugin/resource/event"
 	"ncobase/plugin/resource/structs"
@@ -65,12 +64,15 @@ func NewFileService(
 	}
 }
 
-func (s *fileService) findFileByHash(ctx context.Context, ownerID, hash string) (*ent.File, error) {
+func (s *fileService) findFileByHash(ctx context.Context, ownerID, hash string) (*structs.ReadFile, error) {
 	file, err := s.fileRepo.GetByHash(ctx, ownerID, hash)
-	if ent.IsNotFound(err) {
+	if repository.IsNotFound(err) {
 		return nil, nil
 	}
-	return file, err
+	if err != nil {
+		return nil, err
+	}
+	return repository.SerializeFile(file), nil
 }
 
 // Create creates a new file
@@ -271,7 +273,7 @@ func (s *fileService) Create(ctx context.Context, body *structs.CreateFileBody) 
 			s.publisher.PublishFileCreated(ctx, eventData)
 		}
 
-		return s.serialize(row), nil
+		return repository.SerializeFile(row), nil
 	}
 
 	return nil, errors.New("failed to create file record after retries")
@@ -319,7 +321,7 @@ func (s *fileService) Update(ctx context.Context, slug string, updates types.JSO
 		}
 
 		ext := filepath.Ext(existing.Path)
-		extras := getExtrasFromFile(existing)
+		extras := repository.CloneExtras(existing.Extras)
 
 		var ownerIDPtr, pathPrefixPtr *string
 		if existing.OwnerID != "" {
@@ -359,7 +361,7 @@ func (s *fileService) Update(ctx context.Context, slug string, updates types.JSO
 
 	// Process extras updates - merge with existing
 	if extrasUpdate, ok := updates["extras"].(types.JSON); ok {
-		existingExtras := getExtrasFromFile(existing)
+		existingExtras := repository.CloneExtras(existing.Extras)
 
 		// Merge extras
 		for k, v := range extrasUpdate {
@@ -398,7 +400,7 @@ func (s *fileService) Update(ctx context.Context, slug string, updates types.JSO
 		s.publisher.PublishFileUpdated(ctx, eventData)
 	}
 
-	return s.serialize(row), nil
+	return repository.SerializeFile(row), nil
 }
 
 // Get retrieves file by ID
@@ -409,13 +411,13 @@ func (s *fileService) Get(ctx context.Context, slug string) (*structs.ReadFile, 
 
 	row, err := s.fileRepo.GetByID(ctx, slug)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if repository.IsNotFound(err) {
 			return nil, errors.New(ecode.NotExist(fmt.Sprintf("File %s", slug)))
 		}
 		return nil, errors.New("error retrieving file")
 	}
 
-	return s.serialize(row), nil
+	return repository.SerializeFile(row), nil
 }
 
 // GetPublic retrieves public file
@@ -475,7 +477,7 @@ func (s *fileService) Delete(ctx context.Context, slug string) error {
 
 	// Get thumbnail path
 	thumbnailPath := ""
-	extras := getExtrasFromFile(row)
+	extras := repository.CloneExtras(row.Extras)
 	if tp, ok := extras["thumbnail_path"].(string); ok {
 		thumbnailPath = tp
 	}
@@ -543,7 +545,7 @@ func (s *fileService) List(ctx context.Context, params *structs.ListFileParams) 
 
 		results := make([]*structs.ReadFile, 0, len(rows))
 		for _, row := range rows {
-			results = append(results, s.serialize(row))
+			results = append(results, repository.SerializeFile(row))
 		}
 
 		return results, total, nil
@@ -563,14 +565,14 @@ func (s *fileService) GetFileStream(ctx context.Context, slug string) (io.ReadCl
 
 	row, err := s.fileRepo.GetByID(ctx, slug)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if repository.IsNotFound(err) {
 			return nil, nil, errors.New(ecode.NotExist(fmt.Sprintf("File %s", slug)))
 		}
 		return nil, nil, errors.New("error retrieving file")
 	}
 
 	// Check expiration
-	extras := getExtrasFromFile(row)
+	extras := repository.CloneExtras(row.Extras)
 	if exp, ok := extras["expires_at"].(int64); ok {
 		if time.Now().UnixMilli() > exp {
 			return nil, nil, errors.New("file access has expired")
@@ -583,7 +585,7 @@ func (s *fileService) GetFileStream(ctx context.Context, slug string) (io.ReadCl
 		return nil, nil, errors.New("error retrieving file stream")
 	}
 
-	return fileStream, s.serialize(row), nil
+	return fileStream, repository.SerializeFile(row), nil
 }
 
 // GetFileStreamByID gets file stream by ID
@@ -613,7 +615,7 @@ func (s *fileService) GetThumbnail(ctx context.Context, slug string) (io.ReadClo
 		return nil, errors.New("error retrieving file")
 	}
 
-	extras := getExtrasFromFile(row)
+	extras := repository.CloneExtras(row.Extras)
 	thumbnailPath, ok := extras["thumbnail_path"].(string)
 	if !ok || thumbnailPath == "" {
 		return nil, errors.New("thumbnail not found")
@@ -635,7 +637,7 @@ func (s *fileService) SearchByTags(ctx context.Context, ownerID string, tags []s
 
 	results := make([]*structs.ReadFile, 0, len(files))
 	for _, row := range files {
-		results = append(results, s.serialize(row))
+		results = append(results, repository.SerializeFile(row))
 	}
 
 	return results, nil
@@ -653,7 +655,7 @@ func (s *fileService) GeneratePublicURL(ctx context.Context, slug string, expira
 	}
 	expiresAt := time.Now().Add(time.Duration(expirationHours) * time.Hour).UnixMilli()
 
-	extras := getExtrasFromFile(row)
+	extras := repository.CloneExtras(row.Extras)
 	extras["is_public"] = true
 	extras["expires_at"] = expiresAt
 
@@ -693,7 +695,7 @@ func (s *fileService) CreateVersion(ctx context.Context, slug string, file io.Re
 
 	// Generate version path using existing path prefix if available
 	ext := filepath.Ext(filename)
-	extras := getExtrasFromFile(existing)
+	extras := repository.CloneExtras(existing.Extras)
 
 	var versionPath string
 	if pathPrefix, hasPrefix := extras["path_prefix"].(string); hasPrefix && pathPrefix != "" {
@@ -747,7 +749,7 @@ func (s *fileService) GetVersions(ctx context.Context, slug string) ([]*structs.
 		return nil, err
 	}
 
-	extras := getExtrasFromFile(&ent.File{Extras: *current.Extras})
+	extras := repository.CloneExtrasPtr(current.Extras)
 	versions, ok := extras["versions"].([]string)
 	if !ok || len(versions) == 0 {
 		return []*structs.ReadFile{current}, nil
@@ -781,7 +783,7 @@ func (s *fileService) SetAccessLevel(ctx context.Context, slug string, accessLev
 		return nil, handleEntError(ctx, "File", err)
 	}
 
-	extras := getExtrasFromFile(row)
+	extras := repository.CloneExtras(row.Extras)
 	extras["access_level"] = string(accessLevel)
 	extras["is_public"] = accessLevel == structs.AccessLevelPublic
 
@@ -792,7 +794,7 @@ func (s *fileService) SetAccessLevel(ctx context.Context, slug string, accessLev
 		return nil, handleEntError(ctx, "File", err)
 	}
 
-	return s.serialize(updated), nil
+	return repository.SerializeFile(updated), nil
 }
 
 // CreateThumbnail creates thumbnail
@@ -847,7 +849,7 @@ func (s *fileService) CreateThumbnail(ctx context.Context, slug string, options 
 		return nil, fmt.Errorf("error storing thumbnail: %w", err)
 	}
 
-	extras := getExtrasFromFile(row)
+	extras := repository.CloneExtras(row.Extras)
 	extras["thumbnail_path"] = thumbnailPath
 
 	updated, err := s.fileRepo.Update(ctx, slug, types.JSON{
@@ -857,7 +859,7 @@ func (s *fileService) CreateThumbnail(ctx context.Context, slug string, options 
 		return nil, handleEntError(ctx, "File", err)
 	}
 
-	return s.serialize(updated), nil
+	return repository.SerializeFile(updated), nil
 }
 
 // GetTagsByOwner gets tags by owner
@@ -959,48 +961,4 @@ func (s *fileService) getExtensionFromMimeType(mimeType string) string {
 		return ext
 	}
 	return ""
-}
-
-// serialize converts ent.File to structs.ReadFile
-func (s *fileService) serialize(row *ent.File) *structs.ReadFile {
-	extras := getExtrasFromFile(row)
-
-	file := &structs.ReadFile{
-		ID:           row.ID,
-		Name:         row.Name,
-		OriginalName: row.OriginalName,
-		Path:         row.Path,
-		Type:         row.Type,
-		Size:         &row.Size,
-		Storage:      row.Storage,
-		Bucket:       row.Bucket,
-		Endpoint:     row.Endpoint,
-		AccessLevel:  structs.AccessLevel(row.AccessLevel),
-		ExpiresAt:    row.ExpiresAt,
-		Tags:         row.Tags,
-		IsPublic:     row.IsPublic,
-		Category:     structs.FileCategory(row.Category),
-		Hash:         row.Hash,
-		OwnerID:      row.OwnerID,
-		Extras:       &row.Extras,
-		CreatedBy:    &row.CreatedBy,
-		CreatedAt:    &row.CreatedAt,
-		UpdatedBy:    &row.UpdatedBy,
-		UpdatedAt:    &row.UpdatedAt,
-	}
-
-	// Check expiration
-	if file.ExpiresAt != nil {
-		file.IsExpired = time.Now().UnixMilli() > *file.ExpiresAt
-	}
-
-	// Set URLs if public
-	if file.IsPublic {
-		file.DownloadURL = fmt.Sprintf("/res/dl/%s", row.ID)
-		if thumbnailPath, ok := extras["thumbnail_path"].(string); ok && thumbnailPath != "" {
-			file.ThumbnailURL = fmt.Sprintf("/res/thumb/%s", row.ID)
-		}
-	}
-
-	return file
 }

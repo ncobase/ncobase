@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 	"ncobase/core/space/data"
-	"ncobase/core/space/data/ent"
 	"ncobase/core/space/data/repository"
 	"ncobase/core/space/structs"
 
@@ -50,7 +49,7 @@ func (s *userSpaceService) UserBelongSpace(ctx context.Context, uid string) (*st
 			return s.ts.GetByUser(ctx, uid)
 		}
 		// Return the first space
-		return s.ts.Serialize(spaces[0]), nil
+		return repository.SerializeSpace(spaces[0]), nil
 	}
 
 	row, err := s.ts.Find(ctx, userSpace.SpaceID)
@@ -99,7 +98,7 @@ func (s *userSpaceService) AddUserToSpace(ctx context.Context, u string, t strin
 	if err := handleEntError(ctx, "UserSpace", err); err != nil {
 		return nil, err
 	}
-	return s.Serialize(row), nil
+	return repository.SerializeUserSpace(row), nil
 }
 
 // RemoveUserFromSpace removes a user from a space.
@@ -119,21 +118,4 @@ func (s *userSpaceService) IsSpaceInUser(ctx context.Context, t, u string) (bool
 
 	}
 	return isValid, nil
-}
-
-// Serializes serializes user spaces.
-func (s *userSpaceService) Serializes(rows []*ent.UserSpace) []*structs.UserSpace {
-	rs := make([]*structs.UserSpace, 0, len(rows))
-	for _, row := range rows {
-		rs = append(rs, s.Serialize(row))
-	}
-	return rs
-}
-
-// Serialize serializes a user space.
-func (s *userSpaceService) Serialize(row *ent.UserSpace) *structs.UserSpace {
-	return &structs.UserSpace{
-		UserID:  row.UserID,
-		SpaceID: row.SpaceID,
-	}
 }

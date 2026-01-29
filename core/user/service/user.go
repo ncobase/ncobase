@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"ncobase/core/user/data/ent"
 	"ncobase/core/user/data/repository"
 	"ncobase/core/user/event"
 	"ncobase/core/user/structs"
@@ -31,8 +30,6 @@ type UserServiceInterface interface {
 	FindByID(ctx context.Context, id string) (*structs.ReadUser, error)
 	FindUser(ctx context.Context, m *structs.FindUser) (*structs.ReadUser, error)
 	VerifyPassword(ctx context.Context, userID string, password string) any
-	Serializes(rows []*ent.User) []*structs.ReadUser
-	Serialize(user *ent.User) *structs.ReadUser
 	CountX(ctx context.Context, params *structs.ListUserParams) int
 	GetFiltered(ctx context.Context, searchQuery, roleFilter, statusFilter, sortBy string) ([]*structs.ReadUser, error)
 	GetActiveUsers(ctx context.Context) ([]*structs.ReadUser, error)
@@ -108,7 +105,7 @@ func (s *userService) CreateUser(ctx context.Context, body *structs.UserBody) (*
 		return nil, err
 	}
 
-	return s.Serialize(row), nil
+	return repository.SerializeUser(row), nil
 }
 
 // UpdateUser updates an existing user.
@@ -117,7 +114,7 @@ func (s *userService) UpdateUser(ctx context.Context, u string, updates types.JS
 	if err != nil {
 		return nil, err
 	}
-	return s.Serialize(user), nil
+	return repository.SerializeUser(user), nil
 }
 
 // GetByID retrieves a user by their ID.
@@ -127,7 +124,7 @@ func (s *userService) GetByID(ctx context.Context, u string) (*structs.ReadUser,
 		return nil, err
 	}
 
-	return s.Serialize(row), nil
+	return repository.SerializeUser(row), nil
 }
 
 // Delete deletes a user by their ID.
@@ -145,7 +142,7 @@ func (s *userService) FindByID(ctx context.Context, id string) (*structs.ReadUse
 	if err != nil {
 		return nil, err
 	}
-	return s.Serialize(row), nil
+	return repository.SerializeUser(row), nil
 }
 
 // FindUser find user by username, email, or phone
@@ -158,7 +155,7 @@ func (s *userService) FindUser(ctx context.Context, m *structs.FindUser) (*struc
 	if err != nil {
 		return nil, err
 	}
-	return s.Serialize(row), nil
+	return repository.SerializeUser(row), nil
 }
 
 // VerifyPasswordResult Verify password result
@@ -171,7 +168,7 @@ type VerifyPasswordResult struct {
 // VerifyPassword verify user password
 func (s *userService) VerifyPassword(ctx context.Context, u string, password string) any {
 	user, err := s.user.FindUser(ctx, &structs.FindUser{Username: u})
-	if ent.IsNotFound(err) {
+	if repository.IsNotFound(err) {
 		return VerifyPasswordResult{Valid: false, NeedsPasswordSet: false, Error: "user not found"}
 	} else if err != nil {
 		return VerifyPasswordResult{Valid: false, NeedsPasswordSet: false, Error: fmt.Sprintf("error getting user by ID: %v", err)}
@@ -212,7 +209,7 @@ func (s *userService) List(ctx context.Context, params *structs.ListUserParams) 
 		lp.Direction = direction
 
 		rows, err := s.user.List(ctx, &lp)
-		if ent.IsNotFound(err) {
+		if repository.IsNotFound(err) {
 			return nil, 0, errors.New(ecode.FieldIsInvalid("cursor"))
 		}
 		if err != nil {
@@ -222,7 +219,7 @@ func (s *userService) List(ctx context.Context, params *structs.ListUserParams) 
 
 		total := s.CountX(ctx, params)
 
-		return s.Serializes(rows), total, nil
+		return repository.SerializeUsers(rows), total, nil
 	})
 }
 
@@ -254,7 +251,7 @@ func (s *userService) GetFiltered(ctx context.Context, searchQuery, roleFilter, 
 		return nil, err
 	}
 
-	return s.Serializes(rows), nil
+	return repository.SerializeUsers(rows), nil
 }
 
 // GetActiveUsers gets active users
@@ -378,31 +375,6 @@ func (s *userService) SendPasswordResetEmail(ctx context.Context, userID string)
 	}
 
 	return err
-}
-
-// Serializes serializes users
-func (s *userService) Serializes(rows []*ent.User) []*structs.ReadUser {
-	rs := make([]*structs.ReadUser, 0, len(rows))
-	for _, row := range rows {
-		rs = append(rs, s.Serialize(row))
-	}
-	return rs
-}
-
-// Serialize serialize a user
-func (s *userService) Serialize(user *ent.User) *structs.ReadUser {
-	return &structs.ReadUser{
-		ID:          user.ID,
-		Username:    user.Username,
-		Email:       user.Email,
-		Phone:       user.Phone,
-		IsCertified: user.IsCertified,
-		IsAdmin:     user.IsAdmin,
-		Status:      user.Status,
-		Extras:      &user.Extras,
-		CreatedAt:   &user.CreatedAt,
-		UpdatedAt:   &user.UpdatedAt,
-	}
 }
 
 // // serializeUserRoles serialize user roles

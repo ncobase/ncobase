@@ -5,7 +5,6 @@ import (
 	"errors"
 	"fmt"
 	"ncobase/biz/realtime/data"
-	"ncobase/biz/realtime/data/ent"
 	"ncobase/biz/realtime/data/repository"
 	"ncobase/biz/realtime/structs"
 
@@ -29,14 +28,12 @@ type NotificationService interface {
 }
 
 type notificationService struct {
-	data *data.Data
 	repo repository.NotificationRepositoryInterface
 	ws   WebSocketService
 }
 
 func NewNotificationService(d *data.Data, ws WebSocketService) NotificationService {
 	return &notificationService{
-		data: d,
 		repo: repository.NewNotificationRepository(d),
 		ws:   ws,
 	}
@@ -50,22 +47,14 @@ func (s *notificationService) Create(ctx context.Context, body *structs.CreateNo
 	}
 
 	// create notification
-	notification, err := s.repo.Create(ctx, s.data.EC.Notification.Create().
-		SetTitle(n.Title).
-		SetContent(n.Content).
-		SetType(n.Type).
-		SetUserID(n.UserID).
-		SetStatus(n.Status).
-		SetNillableChannelID(&n.ChannelID).
-		SetLinks(n.Links),
-	)
+	notification, err := s.repo.Create(ctx, &n)
 
 	if err != nil {
 		logger.Errorf(ctx, "Failed to create notification: %v", err)
 		return nil, fmt.Errorf("failed to create notification: %w", err)
 	}
 
-	result := s.serializeNotification(notification)
+	result := repository.SerializeNotification(notification)
 
 	// send realtime notification
 	s.sendRealtimeNotification(result)
@@ -80,7 +69,7 @@ func (s *notificationService) Get(ctx context.Context, params *structs.FindNotif
 		return nil, err
 	}
 
-	return s.serializeNotification(notification), nil
+	return repository.SerializeNotification(notification), nil
 }
 
 // Update updates a notification
@@ -92,20 +81,12 @@ func (s *notificationService) Update(ctx context.Context, body *structs.UpdateNo
 	}
 
 	n := body.Notification
-	update := s.data.EC.Notification.UpdateOneID(body.ID).
-		SetTitle(n.Title).
-		SetContent(n.Content).
-		SetType(n.Type).
-		SetStatus(n.Status).
-		SetNillableChannelID(&n.ChannelID).
-		SetLinks(n.Links)
-
-	notification, err := s.repo.Update(ctx, body.ID, update)
+	notification, err := s.repo.Update(ctx, body.ID, &n)
 	if err != nil {
 		return nil, err
 	}
 
-	result := s.serializeNotification(notification)
+	result := repository.SerializeNotification(notification)
 
 	// send status change notification
 	if existing.Status != notification.Status {
@@ -135,7 +116,7 @@ func (s *notificationService) List(ctx context.Context, params *structs.ListNoti
 		lp.Direction = direction
 
 		rows, err := s.repo.List(ctx, &lp)
-		if ent.IsNotFound(err) {
+		if repository.IsNotFound(err) {
 			return nil, 0, errors.New(ecode.FieldIsInvalid("cursor"))
 		}
 		if err != nil {
@@ -145,7 +126,7 @@ func (s *notificationService) List(ctx context.Context, params *structs.ListNoti
 
 		total := s.repo.CountX(ctx, params)
 
-		return s.serializeNotifications(rows), total, nil
+		return repository.SerializeNotifications(rows), total, nil
 	})
 }
 
@@ -178,30 +159,6 @@ func (s *notificationService) GetUnreadCount(ctx context.Context, userID string)
 }
 
 // serializeNotification converts ent.Notification to structs.ReadNotification
-func (s *notificationService) serializeNotification(n *ent.Notification) *structs.ReadNotification {
-	return &structs.ReadNotification{
-		ID:        n.ID,
-		Title:     n.Title,
-		Content:   n.Content,
-		Type:      n.Type,
-		UserID:    n.UserID,
-		Status:    n.Status,
-		ChannelID: n.ChannelID,
-		Links:     n.Links,
-		CreatedAt: n.CreatedAt,
-		UpdatedAt: n.UpdatedAt,
-	}
-}
-
-// serializeNotifications converts []*ent.Notification to []*structs.ReadNotification
-func (s *notificationService) serializeNotifications(notifications []*ent.Notification) []*structs.ReadNotification {
-	result := make([]*structs.ReadNotification, len(notifications))
-	for i, n := range notifications {
-		result[i] = s.serializeNotification(n)
-	}
-	return result
-}
-
 // sendRealtimeNotification sends a notification through WebSocket
 func (s *notificationService) sendRealtimeNotification(n *structs.ReadNotification) {
 	message := &WebSocketMessage{

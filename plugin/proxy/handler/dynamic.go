@@ -200,7 +200,7 @@ func (h *dynamicHandler) ProxyRequest(c *gin.Context) {
 				h.s.Processor.PublishEvent(h.manager, event.EventRequestTransformed, eventData)
 			}
 		} else if !exists {
-			logger.Warnf(ctx, "Input transformer %s not found in cache", route.InputTransformerID)
+			logger.Warnf(ctx, "Input transformer %v not found in cache", route.InputTransformerID)
 		}
 	}
 
@@ -358,7 +358,7 @@ func (h *dynamicHandler) ProxyRequest(c *gin.Context) {
 				h.s.Processor.PublishEvent(h.manager, event.EventResponseTransformed, eventData)
 			}
 		} else {
-			logger.Warnf(ctx, "Output transformer %s not found in cache", route.OutputTransformerID)
+			logger.Warnf(ctx, "Output transformer %v not found in cache", route.OutputTransformerID)
 		}
 	}
 

@@ -24,7 +24,7 @@ import (
 
 // EventRepositoryInterface defines event repository operations
 type EventRepositoryInterface interface {
-	Create(ctx context.Context, event *ent.EventCreate) (*ent.Event, error)
+	Create(ctx context.Context, body *structs.EventBody) (*ent.Event, error)
 	Get(ctx context.Context, id string) (*ent.Event, error)
 	Update(ctx context.Context, id string, event *ent.EventUpdateOne) (*ent.Event, error)
 	Delete(ctx context.Context, id string) error
@@ -34,7 +34,7 @@ type EventRepositoryInterface interface {
 	Count(ctx context.Context, params *structs.ListEventParams) (int, error)
 	CountX(ctx context.Context, params *structs.ListEventParams) int
 
-	CreateBatch(ctx context.Context, events []*ent.EventCreate) ([]*ent.Event, error)
+	CreateBatch(ctx context.Context, bodies []*structs.EventBody) ([]*ent.Event, error)
 	DeleteBatch(ctx context.Context, ids []string) error
 
 	UpdateStatus(ctx context.Context, id string, status string, errorMsg string) error
@@ -77,8 +77,19 @@ func NewEventRepository(d *data.Data) EventRepositoryInterface {
 }
 
 // Create creates a new event
-func (r *eventRepository) Create(ctx context.Context, event *ent.EventCreate) (*ent.Event, error) {
-	row, err := event.Save(ctx)
+func (r *eventRepository) Create(ctx context.Context, body *structs.EventBody) (*ent.Event, error) {
+	priority := body.Priority
+	if priority == "" {
+		priority = "normal"
+	}
+
+	row, err := r.ec.Event.Create().
+		SetType(body.Type).
+		SetSource(body.Source).
+		SetPayload(body.Payload).
+		SetPriority(priority).
+		SetStatus("pending").
+		Save(ctx)
 	if err != nil {
 		logger.Errorf(ctx, "eventRepo.Create error: %v", err)
 		return nil, err
@@ -242,7 +253,7 @@ func (r *eventRepository) CountX(ctx context.Context, params *structs.ListEventP
 }
 
 // CreateBatch creates multiple events in a transaction
-func (r *eventRepository) CreateBatch(ctx context.Context, events []*ent.EventCreate) ([]*ent.Event, error) {
+func (r *eventRepository) CreateBatch(ctx context.Context, bodies []*structs.EventBody) ([]*ent.Event, error) {
 	var results []*ent.Event
 
 	tx, err := r.ec.Tx(ctx)
@@ -256,8 +267,19 @@ func (r *eventRepository) CreateBatch(ctx context.Context, events []*ent.EventCr
 		}
 	}()
 
-	for _, e := range events {
-		event, err := e.Save(ctx)
+	for _, body := range bodies {
+		priority := body.Priority
+		if priority == "" {
+			priority = "normal"
+		}
+
+		event, err := tx.Event.Create().
+			SetType(body.Type).
+			SetSource(body.Source).
+			SetPayload(body.Payload).
+			SetPriority(priority).
+			SetStatus("pending").
+			Save(ctx)
 		if err != nil {
 			tx.Rollback()
 			return nil, err

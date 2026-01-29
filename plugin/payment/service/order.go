@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"ncobase/plugin/payment/data/repository"
 	"ncobase/plugin/payment/event"
@@ -58,15 +59,15 @@ func NewOrderService(
 func (s *orderService) Create(ctx context.Context, input *structs.CreateOrderInput) (*structs.Order, error) {
 	// Validate input
 	if input.Amount <= 0 {
-		return nil, fmt.Errorf(ecode.FieldIsInvalid("amount must be greater than zero"))
+		return nil, errors.New(ecode.FieldIsInvalid("amount must be greater than zero"))
 	}
 
 	if input.ChannelID == "" {
-		return nil, fmt.Errorf(ecode.FieldIsRequired("channel_id"))
+		return nil, errors.New(ecode.FieldIsRequired("channel_id"))
 	}
 
 	if input.UserID == "" {
-		return nil, fmt.Errorf(ecode.FieldIsRequired("user_id"))
+		return nil, errors.New(ecode.FieldIsRequired("user_id"))
 	}
 
 	// Validate currency (new validation)
@@ -81,7 +82,7 @@ func (s *orderService) Create(ctx context.Context, input *structs.CreateOrderInp
 	if input.Currency == "" {
 		input.Currency = structs.CurrencyUSD // Set default currency
 	} else if !supportedCurrencies[input.Currency] {
-		return nil, fmt.Errorf(ecode.FieldIsInvalid("unsupported currency"))
+		return nil, errors.New(ecode.FieldIsInvalid("unsupported currency"))
 	}
 
 	// Get the payment channel
@@ -184,7 +185,7 @@ func (s *orderService) Create(ctx context.Context, input *structs.CreateOrderInp
 // GeneratePaymentURL generates a payment URL for a payment order
 func (s *orderService) GeneratePaymentURL(ctx context.Context, orderID string) (string, map[string]any, error) {
 	if orderID == "" {
-		return "", nil, fmt.Errorf(ecode.FieldIsRequired("order_id"))
+		return "", nil, errors.New(ecode.FieldIsRequired("order_id"))
 	}
 
 	// Get the order
@@ -710,7 +711,7 @@ func (s *orderService) RefundPayment(ctx context.Context, orderID string, amount
 // GetByID gets a payment order by ID
 func (s *orderService) GetByID(ctx context.Context, id string) (*structs.Order, error) {
 	if id == "" {
-		return nil, fmt.Errorf(ecode.FieldIsRequired("id"))
+		return nil, errors.New(ecode.FieldIsRequired("id"))
 	}
 
 	order, err := s.repo.GetByID(ctx, id)
@@ -724,7 +725,7 @@ func (s *orderService) GetByID(ctx context.Context, id string) (*structs.Order, 
 // GetByOrderNumber gets a payment order by order number
 func (s *orderService) GetByOrderNumber(ctx context.Context, orderNumber string) (*structs.Order, error) {
 	if orderNumber == "" {
-		return nil, fmt.Errorf(ecode.FieldIsRequired("order_number"))
+		return nil, errors.New(ecode.FieldIsRequired("order_number"))
 	}
 
 	order, err := s.repo.GetByOrderNumber(ctx, orderNumber)

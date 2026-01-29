@@ -5,7 +5,6 @@ import (
 	"errors"
 	"fmt"
 	"ncobase/biz/realtime/data"
-	"ncobase/biz/realtime/data/ent"
 	"ncobase/biz/realtime/data/repository"
 	"ncobase/biz/realtime/structs"
 
@@ -32,7 +31,6 @@ type ChannelService interface {
 }
 
 type channelService struct {
-	data        *data.Data
 	channelRepo repository.ChannelRepositoryInterface
 	subRepo     repository.SubscriptionRepositoryInterface
 	ws          WebSocketService
@@ -43,7 +41,6 @@ func NewChannelService(
 	ws WebSocketService,
 ) ChannelService {
 	return &channelService{
-		data:        d,
 		channelRepo: repository.NewChannelRepository(d),
 		subRepo:     repository.NewSubscriptionRepository(d),
 		ws:          ws,
@@ -63,20 +60,14 @@ func (s *channelService) Create(ctx context.Context, body *structs.CreateChannel
 		return nil, fmt.Errorf("channel with name %s already exists", ch.Name)
 	}
 
-	channel, err := s.channelRepo.Create(ctx, s.data.EC.RTChannel.Create().
-		SetName(ch.Name).
-		SetDescription(ch.Description).
-		SetType(ch.Type).
-		SetStatus(ch.Status).
-		SetExtras(ch.Extras),
-	)
+	channel, err := s.channelRepo.Create(ctx, &ch)
 
 	if err != nil {
 		logger.Errorf(ctx, "Failed to create channel: %v", err)
 		return nil, fmt.Errorf("failed to create channel: %w", err)
 	}
 
-	result := s.serializeChannel(channel)
+	result := repository.SerializeChannel(channel)
 
 	// Send created event
 	s.broadcastChannelEvent("channel.created", result)
@@ -91,7 +82,7 @@ func (s *channelService) Get(ctx context.Context, params *structs.FindChannel) (
 		return nil, err
 	}
 
-	return s.serializeChannel(channel), nil
+	return repository.SerializeChannel(channel), nil
 }
 
 // Update updates a channel
@@ -106,19 +97,12 @@ func (s *channelService) Update(ctx context.Context, body *structs.UpdateChannel
 		}
 	}
 
-	update := s.data.EC.RTChannel.UpdateOneID(body.ID).
-		SetName(ch.Name).
-		SetDescription(ch.Description).
-		SetType(ch.Type).
-		SetStatus(ch.Status).
-		SetExtras(ch.Extras)
-
-	channel, err := s.channelRepo.Update(ctx, body.ID, update)
+	channel, err := s.channelRepo.Update(ctx, body.ID, &ch)
 	if err != nil {
 		return nil, err
 	}
 
-	result := s.serializeChannel(channel)
+	result := repository.SerializeChannel(channel)
 
 	// Send updated event
 	s.broadcastChannelEvent("channel.updated", result)
@@ -155,7 +139,7 @@ func (s *channelService) List(ctx context.Context, params *structs.ListChannelPa
 		lp.Direction = direction
 
 		rows, err := s.channelRepo.List(ctx, &lp)
-		if ent.IsNotFound(err) {
+		if repository.IsNotFound(err) {
 			return nil, 0, errors.New(ecode.FieldIsInvalid("cursor"))
 		}
 		if err != nil {
@@ -165,7 +149,7 @@ func (s *channelService) List(ctx context.Context, params *structs.ListChannelPa
 
 		total := s.channelRepo.CountX(ctx, params)
 
-		return s.serializeChannels(rows), total, nil
+		return repository.SerializeChannels(rows), total, nil
 	})
 }
 
@@ -206,17 +190,13 @@ func (s *channelService) Subscribe(ctx context.Context, body *structs.CreateSubs
 		return nil, errors.New("channel is disabled")
 	}
 
-	subscription, err := s.subRepo.Create(ctx, s.data.EC.Subscription.Create().
-		SetUserID(sub.UserID).
-		SetChannelID(sub.ChannelID).
-		SetStatus(sub.Status),
-	)
+	subscription, err := s.subRepo.Create(ctx, &sub)
 
 	if err != nil {
 		return nil, err
 	}
 
-	result := s.serializeSubscription(subscription)
+	result := repository.SerializeSubscription(subscription)
 
 	// Create WebSocket subscription
 	err = s.ws.SubscribeToChannel(sub.UserID, sub.ChannelID)
@@ -283,7 +263,7 @@ func (s *channelService) GetUserChannels(ctx context.Context, userID string) ([]
 		if err != nil {
 			continue
 		}
-		channels = append(channels, s.serializeChannel(channel))
+		channels = append(channels, repository.SerializeChannel(channel))
 	}
 
 	return channels, nil
@@ -293,45 +273,12 @@ func (s *channelService) GetUserChannels(ctx context.Context, userID string) ([]
 func (s *channelService) IsSubscribed(ctx context.Context, userID string, channelID string) (bool, error) {
 	sub, err := s.subRepo.FindByUserAndChannel(ctx, userID, channelID)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if repository.IsNotFound(err) {
 			return false, nil
 		}
 		return false, err
 	}
 	return sub.Status == 1, nil
-}
-
-// Serialization helpers
-func (s *channelService) serializeChannel(ch *ent.RTChannel) *structs.ReadChannel {
-	return &structs.ReadChannel{
-		ID:          ch.ID,
-		Name:        ch.Name,
-		Description: ch.Description,
-		Type:        ch.Type,
-		Status:      ch.Status,
-		Extras:      ch.Extras,
-		CreatedAt:   ch.CreatedAt,
-		UpdatedAt:   ch.UpdatedAt,
-	}
-}
-
-func (s *channelService) serializeChannels(channels []*ent.RTChannel) []*structs.ReadChannel {
-	result := make([]*structs.ReadChannel, len(channels))
-	for i, ch := range channels {
-		result[i] = s.serializeChannel(ch)
-	}
-	return result
-}
-
-func (s *channelService) serializeSubscription(sub *ent.Subscription) *structs.ReadSubscription {
-	return &structs.ReadSubscription{
-		ID:        sub.ID,
-		UserID:    sub.UserID,
-		ChannelID: sub.ChannelID,
-		Status:    sub.Status,
-		CreatedAt: sub.CreatedAt,
-		UpdatedAt: sub.UpdatedAt,
-	}
 }
 
 // broadcastChannelEvent broadcasts a channel-related event

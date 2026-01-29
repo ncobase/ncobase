@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 	"ncobase/biz/content/data"
-	"ncobase/biz/content/data/ent"
 	"ncobase/biz/content/data/repository"
 	"ncobase/biz/content/structs"
 
@@ -25,8 +24,6 @@ type TaxonomyServiceInterface interface {
 	CountX(ctx context.Context, params *structs.ListTaxonomyParams) int
 	GetTree(ctx context.Context, params *structs.FindTaxonomy) (paging.Result[*structs.ReadTaxonomy], error)
 	Delete(ctx context.Context, slug string) error
-	Serializes(rows []*ent.Taxonomy) []*structs.ReadTaxonomy
-	Serialize(row *ent.Taxonomy) *structs.ReadTaxonomy
 }
 
 // taxonomyService is the struct for the service.
@@ -58,7 +55,7 @@ func (s *taxonomyService) Create(ctx context.Context, body *structs.CreateTaxono
 		return nil, err
 	}
 
-	return s.Serialize(row), nil
+	return repository.SerializeTaxonomy(row), nil
 }
 
 // Update updates an existing taxonomy (full and partial)..
@@ -77,7 +74,7 @@ func (s *taxonomyService) Update(ctx context.Context, slug string, updates types
 		return nil, err
 	}
 
-	return s.Serialize(row), nil
+	return repository.SerializeTaxonomy(row), nil
 }
 
 // Get retrieves a taxonomy by ID.
@@ -87,7 +84,7 @@ func (s *taxonomyService) Get(ctx context.Context, slug string) (*structs.ReadTa
 		return nil, err
 	}
 
-	return s.Serialize(row), nil
+	return repository.SerializeTaxonomy(row), nil
 }
 
 // Delete deletes a taxonomy by ID.
@@ -123,49 +120,15 @@ func (s *taxonomyService) List(ctx context.Context, params *structs.ListTaxonomy
 
 		rows, total, err := s.r.ListWithCount(ctx, &lp)
 		if err != nil {
-			if ent.IsNotFound(err) {
+			if repository.IsNotFound(err) {
 				return nil, 0, errors.New(ecode.FieldIsInvalid("cursor"))
 			}
 			logger.Errorf(ctx, "Error listing taxonomies: %v", err)
 			return nil, 0, err
 		}
 
-		return s.Serializes(rows), total, nil
+		return repository.SerializeTaxonomies(rows), total, nil
 	})
-}
-
-// Serializes serializes taxonomies.
-func (s *taxonomyService) Serializes(rows []*ent.Taxonomy) []*structs.ReadTaxonomy {
-	rs := make([]*structs.ReadTaxonomy, 0, len(rows))
-	for _, row := range rows {
-		rs = append(rs, s.Serialize(row))
-	}
-	return rs
-}
-
-// Serialize serializes a taxonomy.
-func (s *taxonomyService) Serialize(row *ent.Taxonomy) *structs.ReadTaxonomy {
-	return &structs.ReadTaxonomy{
-		ID:          row.ID,
-		Name:        row.Name,
-		Type:        row.Type,
-		Slug:        row.Slug,
-		Cover:       row.Cover,
-		Thumbnail:   row.Thumbnail,
-		Color:       row.Color,
-		Icon:        row.Icon,
-		URL:         row.URL,
-		Keywords:    row.Keywords,
-		Description: row.Description,
-		Status:      row.Status,
-		Extras:      &row.Extras,
-		ParentID:    &row.ParentID,
-		SpaceID:     row.ParentID,
-		CreatedBy:   &row.CreatedBy,
-		CreatedAt:   &row.CreatedAt,
-		UpdatedBy:   &row.UpdatedBy,
-		UpdatedAt:   &row.UpdatedAt,
-	}
 }
 
 // CountX gets a count of taxonomys.
@@ -181,18 +144,13 @@ func (s *taxonomyService) GetTree(ctx context.Context, params *structs.FindTaxon
 	}
 
 	return paging.Result[*structs.ReadTaxonomy]{
-		Items: s.buildTaxonomyTree(rows),
+		Items: s.buildTaxonomyTree(repository.SerializeTaxonomies(rows)),
 		Total: len(rows),
 	}, nil
 }
 
 // buildTaxonomyTree builds a taxonomy tree structure.
-func (s *taxonomyService) buildTaxonomyTree(taxonomies []*ent.Taxonomy) []*structs.ReadTaxonomy {
-	taxonomyNodes := make([]*structs.ReadTaxonomy, len(taxonomies))
-	for i, m := range taxonomies {
-		taxonomyNodes[i] = s.Serialize(m)
-	}
-
-	tree := types.BuildTree(taxonomyNodes, string(structs.SortByCreatedAt))
+func (s *taxonomyService) buildTaxonomyTree(taxonomies []*structs.ReadTaxonomy) []*structs.ReadTaxonomy {
+	tree := types.BuildTree(taxonomies, string(structs.SortByCreatedAt))
 	return tree
 }

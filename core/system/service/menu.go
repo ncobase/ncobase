@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 	"ncobase/core/system/data"
-	"ncobase/core/system/data/ent"
 	"ncobase/core/system/data/repository"
 	"ncobase/core/system/structs"
 	"ncobase/core/system/wrapper"
@@ -69,7 +68,7 @@ func (s *menuService) Create(ctx context.Context, body *structs.MenuBody) (*stru
 		return nil, err
 	}
 
-	return s.Serialize(row), nil
+	return repository.SerializeMenu(row), nil
 }
 
 // Update updates an existing menu.
@@ -83,7 +82,7 @@ func (s *menuService) Update(ctx context.Context, updates *structs.UpdateMenuBod
 		return nil, err
 	}
 
-	return s.Serialize(row), nil
+	return repository.SerializeMenu(row), nil
 }
 
 // Get retrieves a menu by ID with optional tree structure.
@@ -97,7 +96,7 @@ func (s *menuService) Get(ctx context.Context, params *structs.FindMenu) (any, e
 		return nil, err
 	}
 
-	return s.Serialize(row), nil
+	return repository.SerializeMenu(row), nil
 }
 
 // GetBySlug retrieves a menu by slug.
@@ -821,14 +820,14 @@ func (s *menuService) List(ctx context.Context, params *structs.ListMenuParams) 
 
 		rows, total, err := s.menu.ListWithCount(ctx, &lp)
 		if err != nil {
-			if ent.IsNotFound(err) {
+			if repository.IsNotFound(err) {
 				return nil, 0, errors.New(ecode.FieldIsInvalid("cursor"))
 			}
 			logger.Errorf(ctx, "Error listing menus: %v", err)
 			return nil, 0, err
 		}
 
-		return s.Serializes(rows), total, nil
+		return repository.SerializeMenus(rows), total, nil
 	})
 }
 
@@ -844,7 +843,7 @@ func (s *menuService) GetMenuTree(ctx context.Context, params *structs.FindMenu)
 		return paging.Result[*structs.ReadMenu]{}, err
 	}
 
-	serializedMenus := s.Serializes(rows)
+	serializedMenus := repository.SerializeMenus(rows)
 	treeMenus := s.buildMenuTree(serializedMenus)
 
 	sortBy := s.getDefaultSort(params.SortBy)
@@ -1000,35 +999,4 @@ func (s *menuService) filterActiveMenus(menus []*structs.ReadMenu) []*structs.Re
 	}
 
 	return activeMenus
-}
-
-func (s *menuService) Serializes(rows []*ent.Menu) []*structs.ReadMenu {
-	rs := make([]*structs.ReadMenu, 0, len(rows))
-	for _, row := range rows {
-		rs = append(rs, s.Serialize(row))
-	}
-	return rs
-}
-
-func (s *menuService) Serialize(row *ent.Menu) *structs.ReadMenu {
-	return &structs.ReadMenu{
-		ID:        row.ID,
-		Name:      row.Name,
-		Label:     row.Label,
-		Slug:      row.Slug,
-		Type:      row.Type,
-		Path:      row.Path,
-		Target:    row.Target,
-		Icon:      row.Icon,
-		Perms:     row.Perms,
-		Hidden:    row.Hidden,
-		Order:     row.Order,
-		Disabled:  row.Disabled,
-		Extras:    &row.Extras,
-		ParentID:  row.ParentID,
-		CreatedBy: &row.CreatedBy,
-		CreatedAt: &row.CreatedAt,
-		UpdatedBy: &row.UpdatedBy,
-		UpdatedAt: &row.UpdatedAt,
-	}
 }

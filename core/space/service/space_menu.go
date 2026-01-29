@@ -3,7 +3,6 @@ package service
 import (
 	"context"
 	"ncobase/core/space/data"
-	"ncobase/core/space/data/ent"
 	"ncobase/core/space/data/repository"
 	"ncobase/core/space/structs"
 )
@@ -40,7 +39,7 @@ func (s *spaceMenuService) AddMenuToSpace(ctx context.Context, spaceID, menuID s
 	if err := handleEntError(ctx, "SpaceMenu", err); err != nil {
 		return nil, err
 	}
-	return s.SerializeSpaceMenu(row), nil
+	return repository.SerializeSpaceMenu(row), nil
 }
 
 // RemoveMenuFromSpace removes a menu from a space.
@@ -101,12 +100,4 @@ func (s *spaceMenuService) RemoveMenuFromAllSpaces(ctx context.Context, menuID s
 		return err
 	}
 	return nil
-}
-
-// SerializeSpaceMenu serializes a space menu relationship.
-func (s *spaceMenuService) SerializeSpaceMenu(row *ent.SpaceMenu) *structs.SpaceMenu {
-	return &structs.SpaceMenu{
-		SpaceID: row.SpaceID,
-		MenuID:  row.MenuID,
-	}
 }

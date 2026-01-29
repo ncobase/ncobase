@@ -5,8 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"ncobase/core/auth/data"
-	"ncobase/core/auth/data/ent"
-	codeAuthEnt "ncobase/core/auth/data/ent/codeauth"
+	"ncobase/core/auth/data/repository"
 	"ncobase/core/auth/event"
 	"ncobase/core/auth/structs"
 	"ncobase/core/auth/wrapper"
@@ -40,10 +39,12 @@ type accountService struct {
 	jtm *jwt.TokenManager
 	ep  event.PublisherInterface
 
-	cas CodeAuthServiceInterface
-	ats AuthSpaceServiceInterface
-	ss  SessionServiceInterface
-	mfa MFAServiceInterface
+	cas           CodeAuthServiceInterface
+	ats           AuthSpaceServiceInterface
+	ss            SessionServiceInterface
+	mfa           MFAServiceInterface
+	codeAuthRepo  repository.CodeAuthRepositoryInterface
+	authTokenRepo repository.AuthTokenRepositoryInterface
 
 	usw  *wrapper.UserServiceWrapper
 	tsw  *wrapper.SpaceServiceWrapper
@@ -59,24 +60,24 @@ func NewAccountService(d *data.Data, jtm *jwt.TokenManager, ep event.PublisherIn
 	ugsw *wrapper.OrganizationServiceWrapper,
 ) AccountServiceInterface {
 	return &accountService{
-		d:    d,
-		jtm:  jtm,
-		ep:   ep,
-		cas:  cas,
-		ats:  ats,
-		ss:   ss,
-		mfa:  mfa,
-		usw:  usw,
-		tsw:  tsw,
-		asw:  asw,
-		ugsw: ugsw,
+		d:             d,
+		jtm:           jtm,
+		ep:            ep,
+		cas:           cas,
+		ats:           ats,
+		ss:            ss,
+		mfa:           mfa,
+		codeAuthRepo:  repository.NewCodeAuthRepository(d),
+		authTokenRepo: repository.NewAuthTokenRepository(d),
+		usw:           usw,
+		tsw:           tsw,
+		asw:           asw,
+		ugsw:          ugsw,
 	}
 }
 
 // Login handles user login authentication
 func (s *accountService) Login(ctx context.Context, body *structs.LoginBody) (*AuthResponse, error) {
-	client := s.d.GetMasterEntClient()
-
 	// Verify user credentials
 	user, err := s.usw.FindUser(ctx, &userStructs.FindUser{Username: body.Username})
 	if err = handleEntError(ctx, "User", err); err != nil {
@@ -151,7 +152,7 @@ func (s *accountService) Login(ctx context.Context, body *structs.LoginBody) (*A
 	}
 
 	// Generate authentication response
-	authResp, err := generateAuthResponse(ctx, s.jtm, client, payload, s.ss, "password")
+	authResp, err := generateAuthResponse(ctx, s.jtm, s.authTokenRepo, payload, s.ss, "password")
 	if err != nil {
 		return nil, err
 	}
@@ -221,8 +222,6 @@ func (s *accountService) mfaVerify(ctx context.Context, token string, code strin
 
 // RefreshToken refreshes access token using refresh token
 func (s *accountService) RefreshToken(ctx context.Context, refreshToken string) (*AuthResponse, error) {
-	client := s.d.GetMasterEntClient()
-
 	// Verify refresh token
 	payload, err := s.jtm.DecodeToken(refreshToken)
 	if err != nil {
@@ -270,7 +269,7 @@ func (s *accountService) RefreshToken(ctx context.Context, refreshToken string) 
 	}
 
 	// Generate new authentication response
-	authResp, err := generateAuthResponse(ctx, s.jtm, client, tokenPayload, s.ss, "token_refresh")
+	authResp, err := generateAuthResponse(ctx, s.jtm, s.authTokenRepo, tokenPayload, s.ss, "token_refresh")
 	if err != nil {
 		return nil, err
 	}
@@ -303,8 +302,6 @@ func (s *accountService) RefreshToken(ctx context.Context, refreshToken string) 
 
 // Register handles user registration
 func (s *accountService) Register(ctx context.Context, body *structs.RegisterBody) (*AuthResponse, error) {
-	client := s.d.GetMasterEntClient()
-
 	// Decode register token
 	payload, err := decodeRegisterToken(s.jtm, body.RegisterToken)
 	if err != nil {
@@ -338,21 +335,12 @@ func (s *accountService) Register(ctx context.Context, body *structs.RegisterBod
 	}
 
 	// Disable verification code
-	if err = disableCodeAuth(ctx, client, codeAuthID); err != nil {
-		return nil, err
-	}
-
-	// Create user and profile in transaction
-	tx, err := client.Tx(ctx)
-	if err != nil {
+	if err = s.codeAuthRepo.MarkAsUsed(ctx, codeAuthID); err != nil {
 		return nil, err
 	}
 
 	rst, err := createUserAndProfile(ctx, s, body, payload)
 	if err != nil {
-		if err = tx.Rollback(); err != nil {
-			return nil, err
-		}
 		return nil, err
 	}
 
@@ -367,9 +355,6 @@ func (s *accountService) Register(ctx context.Context, body *structs.RegisterBod
 		},
 	})
 	if err != nil {
-		if err = tx.Rollback(); err != nil {
-			return nil, err
-		}
 		return nil, err
 	}
 
@@ -383,22 +368,12 @@ func (s *accountService) Register(ctx context.Context, body *structs.RegisterBod
 	// Create token payload
 	tokenPayload, err := CreateUserTokenPayload(ctx, user, spaceIDs, s.asw, s.tsw)
 	if err != nil {
-		if err = tx.Rollback(); err != nil {
-			return nil, err
-		}
 		return nil, err
 	}
 
 	// Generate authentication response
-	authResp, err := generateAuthResponse(ctx, s.jtm, client, tokenPayload, s.ss, "registration")
+	authResp, err := generateAuthResponse(ctx, s.jtm, s.authTokenRepo, tokenPayload, s.ss, "registration")
 	if err != nil {
-		if err = tx.Rollback(); err != nil {
-			return nil, err
-		}
-		return nil, err
-	}
-
-	if err := tx.Commit(); err != nil {
 		return nil, err
 	}
 
@@ -526,11 +501,6 @@ func getExistMessage(existedUser *userStructs.FindUser, body *structs.RegisterBo
 	default:
 		return "Email already exists"
 	}
-}
-
-func disableCodeAuth(ctx context.Context, client *ent.Client, id string) error {
-	_, err := client.CodeAuth.Update().Where(codeAuthEnt.ID(id)).SetLogged(true).Save(ctx)
-	return err
 }
 
 func createUserAndProfile(ctx context.Context, svc *accountService, body *structs.RegisterBody, payload types.JSON) (types.JSON, error) {

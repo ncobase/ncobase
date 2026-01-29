@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 	"ncobase/biz/content/data"
-	"ncobase/biz/content/data/ent"
 	"ncobase/biz/content/data/repository"
 	"ncobase/biz/content/structs"
 	"ncobase/biz/content/wrapper"
@@ -70,7 +69,7 @@ func (s *mediaService) Create(ctx context.Context, body *structs.CreateMediaBody
 		return nil, err
 	}
 
-	return s.serialize(ctx, row), nil
+	return s.enrichMedia(ctx, repository.SerializeMedia(row)), nil
 }
 
 // Update updates existing media
@@ -98,7 +97,7 @@ func (s *mediaService) Update(ctx context.Context, id string, updates types.JSON
 		return nil, err
 	}
 
-	return s.serialize(ctx, row), nil
+	return s.enrichMedia(ctx, repository.SerializeMedia(row)), nil
 }
 
 // Get retrieves media by ID
@@ -108,7 +107,7 @@ func (s *mediaService) Get(ctx context.Context, id string) (*structs.ReadMedia, 
 		return nil, err
 	}
 
-	return s.serialize(ctx, row), nil
+	return s.enrichMedia(ctx, repository.SerializeMedia(row)), nil
 }
 
 // Delete deletes media by ID
@@ -136,7 +135,7 @@ func (s *mediaService) List(ctx context.Context, params *structs.ListMediaParams
 		lp.Direction = direction
 
 		rows, count, err := s.r.ListWithCount(ctx, &lp)
-		if ent.IsNotFound(err) {
+		if repository.IsNotFound(err) {
 			return nil, 0, errors.New(ecode.FieldIsInvalid("cursor"))
 		}
 		if err != nil {
@@ -144,54 +143,27 @@ func (s *mediaService) List(ctx context.Context, params *structs.ListMediaParams
 			return nil, 0, err
 		}
 
-		return s.serializes(ctx, rows), count, nil
+		return s.enrichMedias(ctx, repository.SerializeMedias(rows)), count, nil
 	})
 }
 
-// serializes converts multiple ent.Media to []*structs.ReadMedia
-func (s *mediaService) serializes(ctx context.Context, rows []*ent.Media) []*structs.ReadMedia {
+// enrichMedias enriches media rows with related data.
+func (s *mediaService) enrichMedias(ctx context.Context, rows []*structs.ReadMedia) []*structs.ReadMedia {
 	rs := make([]*structs.ReadMedia, 0, len(rows))
 	for _, row := range rows {
-		rs = append(rs, s.serialize(ctx, row))
+		rs = append(rs, s.enrichMedia(ctx, row))
 	}
 	return rs
 }
 
-// serialize converts ent.Media to structs.ReadMedia
-func (s *mediaService) serialize(ctx context.Context, row *ent.Media) *structs.ReadMedia {
-	result := &structs.ReadMedia{
-		ID:        row.ID,
-		Title:     row.Title,
-		Type:      row.Type,
-		URL:       row.URL,
-		SpaceID:   row.SpaceID,
-		CreatedBy: &row.CreatedBy,
-		CreatedAt: &row.CreatedAt,
-		UpdatedBy: &row.UpdatedBy,
-		UpdatedAt: &row.UpdatedAt,
+// enrichMedia enriches a media row with related resource data.
+func (s *mediaService) enrichMedia(ctx context.Context, media *structs.ReadMedia) *structs.ReadMedia {
+	if media == nil {
+		return nil
 	}
-
-	// Extract from extras
-	if row.Extras != nil {
-		if resourceID, ok := row.Extras["resource_id"].(string); ok {
-			result.ResourceID = resourceID
-		}
-		if description, ok := row.Extras["description"].(string); ok {
-			result.Description = description
-		}
-		if alt, ok := row.Extras["alt"].(string); ok {
-			result.Alt = alt
-		}
-		if ownerID, ok := row.Extras["owner_id"].(string); ok {
-			result.OwnerID = ownerID
-		}
-		result.Metadata = &row.Extras
-	}
-
-	// Load resource details if resource_id exists
-	if result.ResourceID != "" && s.rsw.HasFileService() {
-		if resource, err := s.rsw.GetFile(ctx, result.ResourceID); err == nil {
-			result.Resource = &structs.ResourceFileReference{
+	if media.ResourceID != "" && s.rsw != nil && s.rsw.HasFileService() {
+		if resource, err := s.rsw.GetFile(ctx, media.ResourceID); err == nil {
+			media.Resource = &structs.ResourceFileReference{
 				ID:           resource.ID,
 				Name:         resource.Name,
 				Path:         resource.Path,
@@ -203,9 +175,8 @@ func (s *mediaService) serialize(ctx context.Context, row *ent.Media) *structs.R
 				IsExpired:    resource.IsExpired,
 			}
 		} else {
-			logger.Warnf(ctx, "Failed to load resource %s: %v", result.ResourceID, err)
+			logger.Warnf(ctx, "Failed to load resource %s: %v", media.ResourceID, err)
 		}
 	}
-
-	return result
+	return media
 }

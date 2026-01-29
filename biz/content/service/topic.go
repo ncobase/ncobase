@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 	"ncobase/biz/content/data"
-	"ncobase/biz/content/data/ent"
 	"ncobase/biz/content/data/repository"
 	"ncobase/biz/content/structs"
 
@@ -59,7 +58,7 @@ func (s *topicService) Create(ctx context.Context, body *structs.CreateTopicBody
 		return nil, err
 	}
 
-	return s.serialize(ctx, row), nil
+	return s.enrichTopic(ctx, repository.SerializeTopic(row)), nil
 }
 
 // Update updates existing topic
@@ -87,7 +86,7 @@ func (s *topicService) Update(ctx context.Context, slug string, updates types.JS
 		return nil, err
 	}
 
-	return s.serialize(ctx, row), nil
+	return s.enrichTopic(ctx, repository.SerializeTopic(row)), nil
 }
 
 // Get retrieves topic by slug
@@ -97,7 +96,7 @@ func (s *topicService) Get(ctx context.Context, slug string) (*structs.ReadTopic
 		return nil, err
 	}
 
-	return s.serialize(ctx, row), nil
+	return s.enrichTopic(ctx, repository.SerializeTopic(row)), nil
 }
 
 // GetByID retrieves topic by ID
@@ -107,7 +106,7 @@ func (s *topicService) GetByID(ctx context.Context, id string) (*structs.ReadTop
 		return nil, err
 	}
 
-	return s.serialize(ctx, row), nil
+	return s.enrichTopic(ctx, repository.SerializeTopic(row)), nil
 }
 
 // Delete deletes topic by slug
@@ -135,7 +134,7 @@ func (s *topicService) List(ctx context.Context, params *structs.ListTopicParams
 		lp.Direction = direction
 
 		rows, err := s.r.List(ctx, &lp)
-		if ent.IsNotFound(err) {
+		if repository.IsNotFound(err) {
 			return nil, 0, errors.New(ecode.FieldIsInvalid("cursor"))
 		}
 		if err != nil {
@@ -145,87 +144,30 @@ func (s *topicService) List(ctx context.Context, params *structs.ListTopicParams
 
 		total := s.r.CountX(ctx, params)
 
-		return s.serializes(ctx, rows), total, nil
+		return s.enrichTopics(ctx, repository.SerializeTopics(rows)), total, nil
 	})
 }
 
-// serializes converts multiple ent.Topic to []*structs.ReadTopic
-func (s *topicService) serializes(ctx context.Context, rows []*ent.Topic) []*structs.ReadTopic {
+// enrichTopics enriches topics with related data.
+func (s *topicService) enrichTopics(ctx context.Context, rows []*structs.ReadTopic) []*structs.ReadTopic {
 	rs := make([]*structs.ReadTopic, 0, len(rows))
 	for _, row := range rows {
-		rs = append(rs, s.serialize(ctx, row))
+		rs = append(rs, s.enrichTopic(ctx, row))
 	}
 	return rs
 }
 
-// serialize converts ent.Topic to structs.ReadTopic
-func (s *topicService) serialize(ctx context.Context, row *ent.Topic) *structs.ReadTopic {
-	result := &structs.ReadTopic{
-		ID:         row.ID,
-		Name:       row.Name,
-		Title:      row.Title,
-		Slug:       row.Slug,
-		Content:    row.Content,
-		Thumbnail:  row.Thumbnail,
-		Temp:       row.Temp,
-		Markdown:   row.Markdown,
-		Private:    row.Private,
-		Status:     row.Status,
-		Released:   row.Released,
-		TaxonomyID: row.TaxonomyID,
-		SpaceID:    row.SpaceID,
-		CreatedBy:  &row.CreatedBy,
-		CreatedAt:  &row.CreatedAt,
-		UpdatedBy:  &row.UpdatedBy,
-		UpdatedAt:  &row.UpdatedAt,
+// enrichTopic enriches a topic with related data.
+func (s *topicService) enrichTopic(ctx context.Context, topic *structs.ReadTopic) *structs.ReadTopic {
+	if topic == nil {
+		return nil
 	}
-
-	// Extract additional fields from extras if they exist
-	if row.Extras != nil {
-		if version, ok := row.Extras["version"].(float64); ok {
-			result.Version = int(version)
-		}
-		if contentType, ok := row.Extras["content_type"].(string); ok {
-			result.ContentType = contentType
-		}
-		if seoTitle, ok := row.Extras["seo_title"].(string); ok {
-			result.SEOTitle = seoTitle
-		}
-		if seoDescription, ok := row.Extras["seo_description"].(string); ok {
-			result.SEODescription = seoDescription
-		}
-		if seoKeywords, ok := row.Extras["seo_keywords"].(string); ok {
-			result.SEOKeywords = seoKeywords
-		}
-		if excerptAuto, ok := row.Extras["excerpt_auto"].(bool); ok {
-			result.ExcerptAuto = excerptAuto
-		}
-		if excerpt, ok := row.Extras["excerpt"].(string); ok {
-			result.Excerpt = excerpt
-		}
-		if featuredMedia, ok := row.Extras["featured_media"].(string); ok {
-			result.FeaturedMedia = featuredMedia
-		}
-		if tags, ok := row.Extras["tags"].([]any); ok {
-			tagStrings := make([]string, 0, len(tags))
-			for _, tag := range tags {
-				if tagStr, ok := tag.(string); ok {
-					tagStrings = append(tagStrings, tagStr)
-				}
-			}
-			result.Tags = tagStrings
-		}
-		result.Metadata = &row.Extras
-	}
-
-	// Load taxonomy if available and service exists
-	if validator.IsNotEmpty(row.TaxonomyID) && s.ts != nil {
-		if taxonomy, err := s.ts.Get(ctx, row.TaxonomyID); err == nil {
-			result.Taxonomy = taxonomy
+	if validator.IsNotEmpty(topic.TaxonomyID) && s.ts != nil {
+		if taxonomy, err := s.ts.Get(ctx, topic.TaxonomyID); err == nil {
+			topic.Taxonomy = taxonomy
 		} else {
-			logger.Warnf(ctx, "Failed to load taxonomy %s: %v", row.TaxonomyID, err)
+			logger.Warnf(ctx, "Failed to load taxonomy %s: %v", topic.TaxonomyID, err)
 		}
 	}
-
-	return result
+	return topic
 }

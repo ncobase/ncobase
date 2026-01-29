@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 	"ncobase/core/access/data"
-	"ncobase/core/access/data/ent"
 	"ncobase/core/access/data/repository"
 	"ncobase/core/access/structs"
 
@@ -44,7 +43,7 @@ func (s *casbinService) Create(ctx context.Context, body *structs.CasbinRuleBody
 		return nil, err
 	}
 
-	return s.Serialize(row), nil
+	return repository.SerializeCasbinRule(row), nil
 }
 
 // Update updates an existing Casbin rule (full and partial).
@@ -63,7 +62,7 @@ func (s *casbinService) Update(ctx context.Context, id string, updates types.JSO
 		return nil, err
 	}
 
-	return s.Serialize(row), nil
+	return repository.SerializeCasbinRule(row), nil
 }
 
 // Get retrieves a Casbin rule by ID.
@@ -73,7 +72,7 @@ func (s *casbinService) Get(ctx context.Context, id string) (*structs.ReadCasbin
 		return nil, err
 	}
 
-	return s.Serialize(row), nil
+	return repository.SerializeCasbinRule(row), nil
 }
 
 // Delete deletes a Casbin rule by ID.
@@ -101,7 +100,7 @@ func (s *casbinService) List(ctx context.Context, params *structs.ListCasbinRule
 		lp.Direction = direction
 
 		rows, err := s.casbin.List(ctx, &lp)
-		if ent.IsNotFound(err) {
+		if repository.IsNotFound(err) {
 			return nil, 0, errors.New(ecode.FieldIsInvalid("cursor"))
 		}
 		if err != nil {
@@ -111,37 +110,11 @@ func (s *casbinService) List(ctx context.Context, params *structs.ListCasbinRule
 
 		total := s.CountX(ctx, params)
 
-		return s.Serializes(rows), total, nil
+		return repository.SerializeCasbinRules(rows), total, nil
 	})
 }
 
 // CountX gets a count of Casbin rules.
 func (s *casbinService) CountX(ctx context.Context, params *structs.ListCasbinRuleParams) int {
 	return s.casbin.CountX(ctx, params)
-}
-
-// Serializes serializes a list of Casbin rule entities to a response format.
-func (s *casbinService) Serializes(rows []*ent.CasbinRule) []*structs.ReadCasbinRule {
-	rs := make([]*structs.ReadCasbinRule, 0, len(rows))
-	for _, row := range rows {
-		rs = append(rs, s.Serialize(row))
-	}
-	return rs
-}
-
-// Serialize serializes a Casbin rule entity to a response format.
-func (s *casbinService) Serialize(row *ent.CasbinRule) *structs.ReadCasbinRule {
-	return &structs.ReadCasbinRule{
-		PType:     row.PType,
-		V0:        row.V0,
-		V1:        row.V1,
-		V2:        row.V2,
-		V3:        &row.V3,
-		V4:        &row.V4,
-		V5:        &row.V5,
-		CreatedBy: &row.CreatedBy,
-		CreatedAt: &row.CreatedAt,
-		UpdatedBy: &row.UpdatedBy,
-		UpdatedAt: &row.UpdatedAt,
-	}
 }
