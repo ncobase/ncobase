@@ -1,16 +1,21 @@
 package handler
 
 import (
+	"context"
 	"encoding/json"
+	"fmt"
 	"ncobase/plugin/resource/service"
 	"ncobase/plugin/resource/structs"
+	"ncobase/plugin/resource/wrapper"
 	"strings"
 
 	"github.com/gin-gonic/gin"
+	"github.com/ncobase/ncore/ctxutil"
 	"github.com/ncobase/ncore/ecode"
 	"github.com/ncobase/ncore/logging/logger"
 	"github.com/ncobase/ncore/net/resp"
 	"github.com/ncobase/ncore/types"
+	"github.com/ncobase/ncore/utils"
 )
 
 // BatchHandlerInterface defines batch handler methods
@@ -24,13 +29,19 @@ type BatchHandlerInterface interface {
 type batchHandler struct {
 	fileService  service.FileServiceInterface
 	batchService service.BatchServiceInterface
+	spaceWrapper *wrapper.SpaceServiceWrapper
 }
 
 // NewBatchHandler creates new batch handler
-func NewBatchHandler(fileService service.FileServiceInterface, batchService service.BatchServiceInterface) BatchHandlerInterface {
+func NewBatchHandler(
+	fileService service.FileServiceInterface,
+	batchService service.BatchServiceInterface,
+	spaceWrapper *wrapper.SpaceServiceWrapper,
+) BatchHandlerInterface {
 	return &batchHandler{
 		fileService:  fileService,
 		batchService: batchService,
+		spaceWrapper: spaceWrapper,
 	}
 }
 
@@ -66,6 +77,10 @@ func (h *batchHandler) BatchUpload(c *gin.Context) {
 	ownerID := c.PostForm("owner_id")
 	if ownerID == "" {
 		resp.Fail(c.Writer, resp.BadRequest(ecode.FieldIsRequired("owner_id")))
+		return
+	}
+	if err := h.authorizeOwnerAccess(c.Request.Context(), ownerID); err != nil {
+		resp.Fail(c.Writer, resp.Forbidden(err.Error()))
 		return
 	}
 
@@ -130,6 +145,10 @@ func (h *batchHandler) BatchProcess(c *gin.Context) {
 		resp.Fail(c.Writer, resp.BadRequest("Invalid request body"))
 		return
 	}
+	if err := h.authorizeOwnerAccess(c.Request.Context(), body.OwnerID); err != nil {
+		resp.Fail(c.Writer, resp.Forbidden(err.Error()))
+		return
+	}
 
 	if len(body.IDs) == 0 {
 		resp.Fail(c.Writer, resp.BadRequest("No file IDs provided"))
@@ -143,6 +162,14 @@ func (h *batchHandler) BatchProcess(c *gin.Context) {
 		if err != nil {
 			logger.Warnf(c.Request.Context(), "Error retrieving file %s: %v", id, err)
 			continue
+		}
+		if !ctxutil.GetUserIsAdmin(c.Request.Context()) && file.OwnerID != body.OwnerID {
+			resp.Fail(c.Writer, resp.Forbidden("owner mismatch for file: "+id))
+			return
+		}
+		if err := h.authorizeOwnerAccess(c.Request.Context(), file.OwnerID); err != nil {
+			resp.Fail(c.Writer, resp.Forbidden(err.Error()))
+			return
 		}
 		files = append(files, file)
 	}
@@ -184,10 +211,30 @@ func (h *batchHandler) BatchDelete(c *gin.Context) {
 		resp.Fail(c.Writer, resp.BadRequest("Invalid request body"))
 		return
 	}
+	if err := h.authorizeOwnerAccess(c.Request.Context(), body.OwnerID); err != nil {
+		resp.Fail(c.Writer, resp.Forbidden(err.Error()))
+		return
+	}
 
 	if len(body.IDs) == 0 {
 		resp.Fail(c.Writer, resp.BadRequest("No file IDs provided"))
 		return
+	}
+
+	for _, id := range body.IDs {
+		file, err := h.fileService.Get(c.Request.Context(), id)
+		if err != nil {
+			resp.Fail(c.Writer, resp.NotFound("File not found: "+id))
+			return
+		}
+		if !ctxutil.GetUserIsAdmin(c.Request.Context()) && file.OwnerID != body.OwnerID {
+			resp.Fail(c.Writer, resp.Forbidden("owner mismatch for file: "+id))
+			return
+		}
+		if err := h.authorizeOwnerAccess(c.Request.Context(), file.OwnerID); err != nil {
+			resp.Fail(c.Writer, resp.Forbidden(err.Error()))
+			return
+		}
 	}
 
 	result, err := h.batchService.BatchDelete(c.Request.Context(), body.IDs, body.OwnerID)
@@ -225,4 +272,43 @@ func (h *batchHandler) GetBatchStatus(c *gin.Context) {
 	}
 
 	resp.Success(c.Writer, status)
+}
+
+func (h *batchHandler) authorizeOwnerAccess(ctx context.Context, ownerID string) error {
+	if ownerID == "" {
+		return nil
+	}
+
+	userID := ctxutil.GetUserID(ctx)
+	if userID == "" {
+		return fmt.Errorf("unauthorized")
+	}
+
+	if ctxutil.GetUserIsAdmin(ctx) || ownerID == userID {
+		return nil
+	}
+
+	if !looksLikeSpaceOwner(ctx, ownerID) {
+		return fmt.Errorf("owner access denied")
+	}
+
+	if userSpaceIDs := ctxutil.GetUserSpaceIDs(ctx); len(userSpaceIDs) > 0 {
+		if utils.Contains(userSpaceIDs, ownerID) {
+			return nil
+		}
+	}
+
+	if h.spaceWrapper == nil || !h.spaceWrapper.HasUserSpaceService() {
+		return fmt.Errorf("space service not available")
+	}
+
+	inSpace, err := h.spaceWrapper.IsUserInSpace(ctx, ownerID, userID)
+	if err != nil {
+		return err
+	}
+	if !inSpace {
+		return fmt.Errorf("owner access denied")
+	}
+
+	return nil
 }

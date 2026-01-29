@@ -10,6 +10,7 @@ import (
 	"ncobase/core/auth/wrapper"
 	userStructs "ncobase/core/user/structs"
 	"net/http"
+	"strings"
 	"time"
 
 	"github.com/ncobase/ncore/ctxutil"
@@ -135,8 +136,7 @@ func getPermissionsForRoles(ctx context.Context, asw *wrapper.AccessServiceWrapp
 				return permissionCodes, nil
 			}
 
-			permCode := fmt.Sprintf("%s:%s", perm.Action, perm.Subject)
-			permissionCodes = append(permissionCodes, permCode)
+			permissionCodes = append(permissionCodes, buildPermissionCodes(perm)...)
 		}
 
 		logger.Debugf(ctx, "Role %s has %d permissions", role.Slug, len(rolePermissions))
@@ -177,6 +177,191 @@ func CreateUserTokenPayload(
 		"user_status":  user.Status,
 		"is_certified": user.IsCertified,
 	}, nil
+}
+
+func buildPermissionCodes(perm *accessStructs.ReadPermission) []string {
+	if perm == nil {
+		return nil
+	}
+
+	codes := make(map[string]struct{})
+	add := func(code string) {
+		if code == "" {
+			return
+		}
+		codes[code] = struct{}{}
+	}
+
+	if perm.Action != "" && perm.Subject != "" {
+		add(fmt.Sprintf("%s:%s", perm.Action, perm.Subject))
+	}
+
+	if perm.Action == "*" && perm.Subject == "*" {
+		add("*:*")
+		return mapKeys(codes)
+	}
+
+	if looksLikeHTTPPermission(perm.Action, perm.Subject) {
+		semanticAction := mapHTTPAction(perm.Action)
+		subject := extractSubjectFromPath(perm.Subject)
+		if semanticAction != "" && subject != "" {
+			addPermissionVariants(codes, semanticAction, subject)
+		}
+	} else if looksLikeSemanticPermission(perm.Action, perm.Subject) {
+		addPermissionVariants(codes, strings.ToLower(perm.Action), strings.ToLower(perm.Subject))
+	}
+
+	return mapKeys(codes)
+}
+
+func addPermissionVariants(codes map[string]struct{}, action, subject string) {
+	if action == "" || subject == "" {
+		return
+	}
+
+	add := func(code string) {
+		if code == "" {
+			return
+		}
+		codes[code] = struct{}{}
+	}
+
+	base := strings.ToLower(subject)
+	act := strings.ToLower(action)
+	add(fmt.Sprintf("%s:%s", act, base))
+
+	if singular := singularize(base); singular != base {
+		add(fmt.Sprintf("%s:%s", act, singular))
+	}
+	if plural := pluralize(base); plural != base {
+		add(fmt.Sprintf("%s:%s", act, plural))
+	}
+}
+
+func looksLikeHTTPPermission(action, subject string) bool {
+	if subject == "" {
+		return false
+	}
+	if strings.HasPrefix(subject, "/") {
+		return true
+	}
+	upper := strings.ToUpper(action)
+	if upper == "*" {
+		return strings.HasPrefix(subject, "/")
+	}
+	return upper == "GET" || upper == "POST" || upper == "PUT" || upper == "PATCH" || upper == "DELETE" || upper == "HEAD" || upper == "OPTIONS"
+}
+
+func looksLikeSemanticPermission(action, subject string) bool {
+	if subject == "" || strings.HasPrefix(subject, "/") {
+		return false
+	}
+	switch strings.ToLower(action) {
+	case "read", "create", "update", "delete", "manage", "*":
+		return true
+	default:
+		return false
+	}
+}
+
+func mapHTTPAction(action string) string {
+	switch strings.ToUpper(action) {
+	case "GET", "HEAD", "OPTIONS":
+		return "read"
+	case "POST":
+		return "create"
+	case "PUT", "PATCH":
+		return "update"
+	case "DELETE":
+		return "delete"
+	case "*":
+		return "*"
+	default:
+		return strings.ToLower(action)
+	}
+}
+
+func extractSubjectFromPath(path string) string {
+	if path == "" {
+		return ""
+	}
+
+	clean := strings.Split(path, "?")[0]
+	clean = strings.TrimSuffix(clean, "*")
+	clean = strings.TrimSuffix(clean, "/")
+	clean = strings.TrimSpace(clean)
+
+	segments := strings.FieldsFunc(clean, func(r rune) bool { return r == '/' })
+	if len(segments) == 0 {
+		return ""
+	}
+
+	idx := 0
+	if segments[0] == "api" {
+		idx = 1
+	}
+	if idx < len(segments) && isVersionSegment(segments[idx]) {
+		idx++
+	}
+	if idx >= len(segments) {
+		return ""
+	}
+
+	segment := strings.Trim(segments[idx], "{}")
+	segment = strings.TrimSuffix(segment, "*")
+	return strings.ToLower(segment)
+}
+
+func isVersionSegment(segment string) bool {
+	if len(segment) < 2 || segment[0] != 'v' {
+		return false
+	}
+	for i := 1; i < len(segment); i++ {
+		if segment[i] < '0' || segment[i] > '9' {
+			return false
+		}
+	}
+	return true
+}
+
+func singularize(word string) string {
+	if strings.HasSuffix(word, "ies") && len(word) > 3 {
+		return word[:len(word)-3] + "y"
+	}
+	if strings.HasSuffix(word, "ches") || strings.HasSuffix(word, "shes") || strings.HasSuffix(word, "xes") || strings.HasSuffix(word, "zes") {
+		return word[:len(word)-2]
+	}
+	if strings.HasSuffix(word, "ses") && len(word) > 3 {
+		return word[:len(word)-2]
+	}
+	if strings.HasSuffix(word, "s") && len(word) > 1 {
+		return word[:len(word)-1]
+	}
+	return word
+}
+
+func pluralize(word string) string {
+	if strings.HasSuffix(word, "y") && len(word) > 1 {
+		prev := word[len(word)-2]
+		if !strings.ContainsRune("aeiou", rune(prev)) {
+			return word[:len(word)-1] + "ies"
+		}
+	}
+	if strings.HasSuffix(word, "s") || strings.HasSuffix(word, "x") || strings.HasSuffix(word, "z") || strings.HasSuffix(word, "ch") || strings.HasSuffix(word, "sh") {
+		return word + "es"
+	}
+	return word + "s"
+}
+
+func mapKeys(codes map[string]struct{}) []string {
+	if len(codes) == 0 {
+		return nil
+	}
+	result := make([]string, 0, len(codes))
+	for code := range codes {
+		result = append(result, code)
+	}
+	return result
 }
 
 // generateUserTokens generates access and refresh tokens for API authentication

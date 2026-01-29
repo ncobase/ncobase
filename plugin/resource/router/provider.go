@@ -34,35 +34,39 @@ func (r *Router) Register(rg *gin.RouterGroup, prefix ...string) {
 	// Protected routes (authentication required)
 	protected := rg.Use(middleware.ValidateContentType(), middleware.RequireAuth())
 
+	// Permissions
+	read := protected.Use(middleware.HasPermission("read:resources"))
+	manage := protected.Use(middleware.HasPermission("manage:resources"))
+
 	// Basic file operations
-	protected.GET("", r.h.File.List)
-	protected.POST("", r.h.File.Create)
-	protected.GET("/:slug", r.h.File.Get)
-	protected.PUT("/:slug", r.h.File.Update)
-	protected.DELETE("/:slug", r.h.File.Delete)
+	read.GET("", r.h.File.List)
+	manage.POST("", r.h.File.Create)
+	read.GET("/:slug", r.h.File.Get)
+	manage.PUT("/:slug", r.h.File.Update)
+	manage.DELETE("/:slug", r.h.File.Delete)
 
 	// File search and discovery
-	protected.GET("/search", r.h.File.Search)
-	protected.GET("/categories", r.h.File.ListCategories)
-	protected.GET("/tags", r.h.File.ListTags)
+	read.GET("/search", r.h.File.Search)
+	read.GET("/categories", r.h.File.ListCategories)
+	read.GET("/tags", r.h.File.ListTags)
 
 	// File operations
-	protected.GET("/:slug/versions", r.h.File.GetVersions)
-	protected.POST("/:slug/versions", r.h.File.CreateVersion)
-	protected.POST("/:slug/thumbnail", r.h.File.CreateThumbnail)
-	protected.PUT("/:slug/access", r.h.File.SetAccessLevel)
-	protected.POST("/:slug/share", r.h.File.GenerateShareURL)
-	protected.GET("/:slug/download", r.h.File.Download)
+	read.GET("/:slug/versions", r.h.File.GetVersions)
+	manage.POST("/:slug/versions", r.h.File.CreateVersion)
+	manage.POST("/:slug/thumbnail", r.h.File.CreateThumbnail)
+	manage.PUT("/:slug/access", r.h.File.SetAccessLevel)
+	manage.POST("/:slug/share", r.h.File.GenerateShareURL)
+	read.GET("/:slug/download", r.h.File.Download)
 
 	// User quota and usage
-	protected.GET("/quota", r.h.Quota.GetMyQuota)
-	protected.GET("/usage", r.h.Quota.GetMyUsage)
+	read.GET("/quota", r.h.Quota.GetMyQuota)
+	read.GET("/usage", r.h.Quota.GetMyUsage)
 
 	// Batch operations
-	protected.POST("/batch/upload", r.h.Batch.BatchUpload)
-	protected.POST("/batch/process", r.h.Batch.BatchProcess)
-	protected.POST("/batch/delete", r.h.Batch.BatchDelete)
-	protected.GET("/status/:job_id", r.h.Batch.GetBatchStatus)
+	manage.POST("/batch/upload", r.h.Batch.BatchUpload)
+	manage.POST("/batch/process", r.h.Batch.BatchProcess)
+	manage.POST("/batch/delete", r.h.Batch.BatchDelete)
+	read.GET("/status/:job_id", r.h.Batch.GetBatchStatus)
 
 	// Admin routes (admin access required)
 	admin := protected.Use(middleware.RequireAdmin())

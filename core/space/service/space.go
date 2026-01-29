@@ -33,15 +33,31 @@ type SpaceServiceInterface interface {
 
 // spaceService is the struct for the service.
 type spaceService struct {
-	space     repository.SpaceRepositoryInterface
-	userSpace repository.UserSpaceRepositoryInterface
+	space             repository.SpaceRepositoryInterface
+	userSpace         repository.UserSpaceRepositoryInterface
+	userSpaceRole     repository.UserSpaceRoleRepositoryInterface
+	spaceOrganization repository.SpaceOrganizationRepositoryInterface
+	spaceMenu         repository.SpaceMenuRepositoryInterface
+	spaceDictionary   repository.SpaceDictionaryRepositoryInterface
+	spaceOption       repository.SpaceOptionRepositoryInterface
+	spaceSetting      repository.SpaceSettingRepositoryInterface
+	spaceQuota        repository.SpaceQuotaRepositoryInterface
+	spaceBilling      repository.SpaceBillingRepositoryInterface
 }
 
 // NewSpaceService creates a new service.
 func NewSpaceService(d *data.Data) SpaceServiceInterface {
 	return &spaceService{
-		space:     repository.NewSpaceRepository(d),
-		userSpace: repository.NewUserSpaceRepository(d),
+		space:             repository.NewSpaceRepository(d),
+		userSpace:         repository.NewUserSpaceRepository(d),
+		userSpaceRole:     repository.NewUserSpaceRoleRepository(d),
+		spaceOrganization: repository.NewSpaceOrganizationRepository(d),
+		spaceMenu:         repository.NewSpaceMenuRepository(d),
+		spaceDictionary:   repository.NewSpaceDictionaryRepository(d),
+		spaceOption:       repository.NewSpaceOptionRepository(d),
+		spaceSetting:      repository.NewSpaceSettingRepository(d),
+		spaceQuota:        repository.NewSpaceQuotaRepository(d),
+		spaceBilling:      repository.NewSpaceBillingRepository(d),
 	}
 }
 
@@ -69,6 +85,15 @@ func (s *spaceService) Create(ctx context.Context, body *structs.CreateSpaceBody
 	space, err := s.space.Create(ctx, body)
 	if err != nil {
 		return nil, err
+	}
+
+	// Ensure creator is added to the space relationship
+	if creatorID := convert.ToValue(body.CreatedBy); creatorID != "" {
+		if exists, err := s.userSpace.IsSpaceInUser(ctx, space.ID, creatorID); err == nil && !exists {
+			if _, createErr := s.userSpace.Create(ctx, &structs.UserSpace{UserID: creatorID, SpaceID: space.ID}); createErr != nil {
+				logger.Warnf(ctx, "Failed to create user space relation for creator %s in space %s: %v", creatorID, space.ID, createErr)
+			}
+		}
 	}
 
 	return repository.SerializeSpace(space), nil
@@ -218,7 +243,61 @@ func (s *spaceService) Delete(ctx context.Context, id string) error {
 		return err
 	}
 
-	// TODO: Freed all roles / orgs / users that are associated with the space
+	// Cleanup associated records
+	if err := s.userSpaceRole.DeleteAllBySpaceID(ctx, id); err != nil {
+		logger.Warnf(ctx, "Failed to delete user space roles for space %s: %v", id, err)
+	}
+	if err := s.userSpace.DeleteAllBySpaceID(ctx, id); err != nil {
+		logger.Warnf(ctx, "Failed to delete user space relations for space %s: %v", id, err)
+	}
+	if err := s.spaceOrganization.DeleteAllBySpaceID(ctx, id); err != nil {
+		logger.Warnf(ctx, "Failed to delete space organizations for space %s: %v", id, err)
+	}
+	if err := s.spaceMenu.DeleteAllBySpaceID(ctx, id); err != nil {
+		logger.Warnf(ctx, "Failed to delete space menus for space %s: %v", id, err)
+	}
+	if err := s.spaceDictionary.DeleteAllBySpaceID(ctx, id); err != nil {
+		logger.Warnf(ctx, "Failed to delete space dictionaries for space %s: %v", id, err)
+	}
+	if err := s.spaceOption.DeleteAllBySpaceID(ctx, id); err != nil {
+		logger.Warnf(ctx, "Failed to delete space options for space %s: %v", id, err)
+	}
+
+	if settings, err := s.spaceSetting.GetBySpaceID(ctx, id); err == nil {
+		for _, setting := range settings {
+			if setting != nil {
+				if delErr := s.spaceSetting.Delete(ctx, setting.ID); delErr != nil {
+					logger.Warnf(ctx, "Failed to delete space setting %s: %v", setting.ID, delErr)
+				}
+			}
+		}
+	} else {
+		logger.Warnf(ctx, "Failed to load space settings for cleanup %s: %v", id, err)
+	}
+
+	if quotas, err := s.spaceQuota.GetBySpaceID(ctx, id); err == nil {
+		for _, quota := range quotas {
+			if quota != nil {
+				if delErr := s.spaceQuota.Delete(ctx, quota.ID); delErr != nil {
+					logger.Warnf(ctx, "Failed to delete space quota %s: %v", quota.ID, delErr)
+				}
+			}
+		}
+	} else {
+		logger.Warnf(ctx, "Failed to load space quotas for cleanup %s: %v", id, err)
+	}
+
+	if billings, err := s.spaceBilling.GetBySpaceID(ctx, id); err == nil {
+		for _, billing := range billings {
+			if billing != nil {
+				if delErr := s.spaceBilling.Delete(ctx, billing.ID); delErr != nil {
+					logger.Warnf(ctx, "Failed to delete space billing %s: %v", billing.ID, delErr)
+				}
+			}
+		}
+	} else {
+		logger.Warnf(ctx, "Failed to load space billing for cleanup %s: %v", id, err)
+	}
 
 	return nil
 }

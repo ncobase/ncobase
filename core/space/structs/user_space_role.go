@@ -1,5 +1,7 @@
 package structs
 
+import "fmt"
+
 // UserSpaceRole represents the user space role.
 type UserSpaceRole struct {
 	UserID  string `json:"user_id,omitempty"`
@@ -58,11 +60,14 @@ type SpaceRoleUsersResponse struct {
 
 // ListSpaceUsersParams represents the parameters for listing space users
 type ListSpaceUsersParams struct {
-	Cursor    string `form:"cursor,omitempty" json:"cursor,omitempty"`
-	Limit     int    `form:"limit,omitempty" json:"limit,omitempty"`
-	Direction string `form:"direction,omitempty" json:"direction,omitempty"`
-	RoleID    string `form:"role_id,omitempty" json:"role_id,omitempty"`
-	SortBy    string `form:"sort_by,omitempty" json:"sort_by,omitempty"`
+	Cursor      string `form:"cursor,omitempty" json:"cursor,omitempty"`
+	Limit       int    `form:"limit,omitempty" json:"limit,omitempty"`
+	Direction   string `form:"direction,omitempty" json:"direction,omitempty"`
+	RoleID      string `form:"role_id,omitempty" json:"role_id,omitempty"`
+	SortBy      string `form:"sort_by,omitempty" json:"sort_by,omitempty"`
+	Search      string `form:"search,omitempty" json:"search,omitempty"`
+	AccessLevel string `form:"access_level,omitempty" json:"access_level,omitempty"`
+	IsActive    string `form:"is_active,omitempty" json:"is_active,omitempty"`
 }
 
 // SpaceUsersListResponse represents the response for listing space users
@@ -74,11 +79,18 @@ type SpaceUsersListResponse struct {
 
 // SpaceUserInfo represents user information with roles in space
 type SpaceUserInfo struct {
-	UserID   string   `json:"user_id"`
-	Username string   `json:"username,omitempty"`
-	Email    string   `json:"email,omitempty"`
-	RoleIDs  []string `json:"role_ids"`
-	JoinedAt int64    `json:"joined_at,omitempty"`
+	UserID      string   `json:"user_id"`
+	Username    string   `json:"username,omitempty"`
+	Email       string   `json:"email,omitempty"`
+	RoleIDs     []string `json:"role_ids"`
+	JoinedAt    int64    `json:"joined_at,omitempty"`
+	AccessLevel string   `json:"access_level,omitempty"`
+	IsActive    bool     `json:"is_active,omitempty"`
+}
+
+// GetCursorValue returns the cursor value.
+func (s SpaceUserInfo) GetCursorValue() string {
+	return fmt.Sprintf("%s:%d", s.UserID, s.JoinedAt)
 }
 
 // BulkUpdateResponse represents the response for bulk operations

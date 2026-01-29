@@ -134,6 +134,10 @@ func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 
 		// Role-based user queries
 		spaces.GET("/:spaceId/roles/:roleId/users", middleware.HasPermission("read:spaces"), m.h.UserSpaceRole.GetSpaceUsersByRole)
+		spaces.GET("/:spaceId/roles", middleware.HasPermission("read:spaces"), m.h.Space.ListRoles)
+
+		// Space attachments
+		spaces.GET("/:spaceId/attachments", middleware.HasPermission("read:spaces"), m.h.Space.ListAttachments)
 
 		// Space-Group management
 		spaces.GET("/:spaceId/orgs", middleware.HasPermission("read:spaces"), m.h.SpaceOrganization.GetSpaceOrganizations)
@@ -208,7 +212,7 @@ func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 	orgs := spaceGroup.Group("/orgs", middleware.AuthenticatedUser)
 	{
 		// organization space relationships (accessible from both space and space modules)
-		orgs.GET("/:orgId/spaces", middleware.HasPermission("read:orgs"), m.h.SpaceOrganization.GetOrganizationSpaces)
+		orgs.GET("/:orgId/spaces", middleware.HasPermission("read:organizations"), m.h.SpaceOrganization.GetOrganizationSpaces)
 	}
 }
 

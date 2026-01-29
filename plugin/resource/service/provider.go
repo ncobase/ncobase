@@ -3,6 +3,7 @@ package service
 import (
 	"ncobase/plugin/resource/data"
 	"ncobase/plugin/resource/event"
+	"ncobase/plugin/resource/wrapper"
 
 	ext "github.com/ncobase/ncore/extension/types"
 )
@@ -13,6 +14,7 @@ type Service struct {
 	Batch BatchServiceInterface
 	Quota QuotaServiceInterface
 	Admin AdminServiceInterface
+	Space *wrapper.SpaceServiceWrapper
 }
 
 // New creates new resource service
@@ -38,11 +40,15 @@ func New(em ext.ManagerInterface, d *data.Data, publisher event.PublisherInterfa
 	// Create admin service
 	adminService := NewAdminService(d, quotaService)
 
+	// Create space service wrapper
+	spaceWrapper := wrapper.NewSpaceServiceWrapper(em)
+
 	return &Service{
 		File:  fileService,
 		Batch: batchService,
 		Quota: quotaService,
 		Admin: adminService,
+		Space: spaceWrapper,
 	}
 }
 
@@ -50,5 +56,8 @@ func New(em ext.ManagerInterface, d *data.Data, publisher event.PublisherInterfa
 func (s *Service) RefreshDependencies() {
 	if s.Quota != nil {
 		s.Quota.RefreshSpaceServices()
+	}
+	if s.Space != nil {
+		s.Space.RefreshServices()
 	}
 }

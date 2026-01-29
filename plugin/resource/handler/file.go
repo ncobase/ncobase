@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -14,10 +15,12 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/ncobase/ncore/ctxutil"
 	"github.com/ncobase/ncore/ecode"
 	"github.com/ncobase/ncore/logging/logger"
 	"github.com/ncobase/ncore/net/resp"
 	"github.com/ncobase/ncore/types"
+	"github.com/ncobase/ncore/utils"
 	"github.com/ncobase/ncore/validation"
 )
 
@@ -115,6 +118,11 @@ func (h *fileHandler) handleFormDataUpload(c *gin.Context) {
 			return
 		}
 
+		if err := h.authorizeOwnerAccess(c.Request.Context(), body.OwnerID); err != nil {
+			resp.Fail(c.Writer, resp.Forbidden(err.Error()))
+			return
+		}
+
 		if err = body.Validate(); err != nil {
 			logger.Errorf(c.Request.Context(), "Validation error for file %s: %v", header.Filename, err)
 			resp.Fail(c.Writer, resp.BadRequest(fmt.Sprintf("Validation error: %v", err)))
@@ -159,6 +167,11 @@ func (h *fileHandler) handleFormDataUpload(c *gin.Context) {
 			body, err := h.processFileWithPathPrefix(c, header, file)
 			if err != nil {
 				errs = append(errs, fmt.Sprintf("File %s: processing error: %v", header.Filename, err))
+				return
+			}
+
+			if err := h.authorizeOwnerAccess(c.Request.Context(), body.OwnerID); err != nil {
+				errs = append(errs, fmt.Sprintf("File %s: access denied: %v", header.Filename, err))
 				return
 			}
 
@@ -351,6 +364,11 @@ func (h *fileHandler) Get(c *gin.Context) {
 		return
 	}
 
+	if err := h.authorizeFileAccess(c.Request.Context(), result); err != nil {
+		resp.Fail(c.Writer, resp.Forbidden(err.Error()))
+		return
+	}
+
 	resp.Success(c.Writer, result.InternalView())
 }
 
@@ -431,6 +449,16 @@ func (h *fileHandler) Update(c *gin.Context) {
 	slug := c.Param("slug")
 	if slug == "" {
 		resp.Fail(c.Writer, resp.BadRequest(ecode.FieldIsRequired("slug")))
+		return
+	}
+
+	existing, err := h.s.File.Get(c.Request.Context(), slug)
+	if err != nil {
+		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
+		return
+	}
+	if err := h.authorizeFileAccess(c.Request.Context(), existing); err != nil {
+		resp.Fail(c.Writer, resp.Forbidden(err.Error()))
 		return
 	}
 
@@ -598,6 +626,16 @@ func (h *fileHandler) Delete(c *gin.Context) {
 		return
 	}
 
+	result, err := h.s.File.Get(c.Request.Context(), slug)
+	if err != nil {
+		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
+		return
+	}
+	if err := h.authorizeFileAccess(c.Request.Context(), result); err != nil {
+		resp.Fail(c.Writer, resp.Forbidden(err.Error()))
+		return
+	}
+
 	if err := h.s.File.Delete(c.Request.Context(), slug); err != nil {
 		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 		return
@@ -642,6 +680,11 @@ func (h *fileHandler) List(c *gin.Context) {
 		return
 	}
 
+	if err := h.authorizeOwnerAccess(c.Request.Context(), params.OwnerID); err != nil {
+		resp.Fail(c.Writer, resp.Forbidden(err.Error()))
+		return
+	}
+
 	files, err := h.s.File.List(c.Request.Context(), params)
 	if err != nil {
 		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
@@ -683,6 +726,10 @@ func (h *fileHandler) Search(c *gin.Context) {
 
 	if params.OwnerID == "" {
 		resp.Fail(c.Writer, resp.BadRequest(ecode.FieldIsRequired("owner_id")))
+		return
+	}
+	if err := h.authorizeOwnerAccess(c.Request.Context(), params.OwnerID); err != nil {
+		resp.Fail(c.Writer, resp.Forbidden(err.Error()))
 		return
 	}
 
@@ -764,6 +811,10 @@ func (h *fileHandler) ListTags(c *gin.Context) {
 		resp.Fail(c.Writer, resp.BadRequest(ecode.FieldIsRequired("owner_id")))
 		return
 	}
+	if err := h.authorizeOwnerAccess(c.Request.Context(), ownerID); err != nil {
+		resp.Fail(c.Writer, resp.Forbidden(err.Error()))
+		return
+	}
 
 	tags, err := h.s.File.GetTagsByOwner(c.Request.Context(), ownerID)
 	if err != nil {
@@ -789,6 +840,16 @@ func (h *fileHandler) GetVersions(c *gin.Context) {
 	slug := c.Param("slug")
 	if slug == "" {
 		resp.Fail(c.Writer, resp.BadRequest(ecode.FieldIsRequired("slug")))
+		return
+	}
+
+	result, err := h.s.File.Get(c.Request.Context(), slug)
+	if err != nil {
+		resp.Fail(c.Writer, resp.InternalServer("Failed to retrieve file"))
+		return
+	}
+	if err := h.authorizeFileAccess(c.Request.Context(), result); err != nil {
+		resp.Fail(c.Writer, resp.Forbidden(err.Error()))
 		return
 	}
 
@@ -824,6 +885,16 @@ func (h *fileHandler) CreateVersion(c *gin.Context) {
 	slug := c.Param("slug")
 	if slug == "" {
 		resp.Fail(c.Writer, resp.BadRequest(ecode.FieldIsRequired("slug")))
+		return
+	}
+
+	result, err := h.s.File.Get(c.Request.Context(), slug)
+	if err != nil {
+		resp.Fail(c.Writer, resp.InternalServer("Failed to retrieve file"))
+		return
+	}
+	if err := h.authorizeFileAccess(c.Request.Context(), result); err != nil {
+		resp.Fail(c.Writer, resp.Forbidden(err.Error()))
 		return
 	}
 
@@ -864,6 +935,16 @@ func (h *fileHandler) CreateThumbnail(c *gin.Context) {
 		return
 	}
 
+	result, err := h.s.File.Get(c.Request.Context(), slug)
+	if err != nil {
+		resp.Fail(c.Writer, resp.InternalServer("Failed to retrieve file"))
+		return
+	}
+	if err := h.authorizeFileAccess(c.Request.Context(), result); err != nil {
+		resp.Fail(c.Writer, resp.Forbidden(err.Error()))
+		return
+	}
+
 	var options structs.ProcessingOptions
 	if err := c.ShouldBindJSON(&options); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest("Invalid processing options"))
@@ -899,6 +980,16 @@ func (h *fileHandler) SetAccessLevel(c *gin.Context) {
 	slug := c.Param("slug")
 	if slug == "" {
 		resp.Fail(c.Writer, resp.BadRequest(ecode.FieldIsRequired("slug")))
+		return
+	}
+
+	result, err := h.s.File.Get(c.Request.Context(), slug)
+	if err != nil {
+		resp.Fail(c.Writer, resp.InternalServer("Failed to retrieve file"))
+		return
+	}
+	if err := h.authorizeFileAccess(c.Request.Context(), result); err != nil {
+		resp.Fail(c.Writer, resp.Forbidden(err.Error()))
 		return
 	}
 
@@ -945,6 +1036,16 @@ func (h *fileHandler) GenerateShareURL(c *gin.Context) {
 	slug := c.Param("slug")
 	if slug == "" {
 		resp.Fail(c.Writer, resp.BadRequest(ecode.FieldIsRequired("slug")))
+		return
+	}
+
+	result, err := h.s.File.Get(c.Request.Context(), slug)
+	if err != nil {
+		resp.Fail(c.Writer, resp.InternalServer("Failed to retrieve file"))
+		return
+	}
+	if err := h.authorizeFileAccess(c.Request.Context(), result); err != nil {
+		resp.Fail(c.Writer, resp.Forbidden(err.Error()))
 		return
 	}
 
@@ -1001,6 +1102,12 @@ func (h *fileHandler) GetThumbnail(c *gin.Context) {
 		return
 	}
 
+	file, err := h.s.File.GetPublic(c.Request.Context(), slug)
+	if err != nil || file == nil {
+		resp.Fail(c.Writer, resp.NotFound("File not found or not public"))
+		return
+	}
+
 	h.serveThumbnail(c, slug)
 }
 
@@ -1043,6 +1150,11 @@ func (h *fileHandler) downloadFile(c *gin.Context, dispositionType string) {
 	fileStream, row, err := h.s.File.GetFileStream(c.Request.Context(), slug)
 	if err != nil {
 		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
+		return
+	}
+	if err := h.authorizeFileAccess(c.Request.Context(), row); err != nil {
+		fileStream.Close()
+		resp.Fail(c.Writer, resp.Forbidden(err.Error()))
 		return
 	}
 
@@ -1097,4 +1209,52 @@ func (h *fileHandler) serveThumbnail(c *gin.Context, slug string) {
 
 	io.Copy(c.Writer, thumbnail)
 	thumbnail.Close()
+}
+
+// authorizeOwnerAccess checks if the user has access to the specified owner ID
+func (h *fileHandler) authorizeOwnerAccess(ctx context.Context, ownerID string) error {
+	if ownerID == "" {
+		return nil
+	}
+
+	userID := ctxutil.GetUserID(ctx)
+	if userID == "" {
+		return fmt.Errorf("unauthorized")
+	}
+
+	if ctxutil.GetUserIsAdmin(ctx) || ownerID == userID {
+		return nil
+	}
+
+	if !looksLikeSpaceOwner(ctx, ownerID) {
+		return fmt.Errorf("owner access denied")
+	}
+
+	if userSpaceIDs := ctxutil.GetUserSpaceIDs(ctx); len(userSpaceIDs) > 0 {
+		if utils.Contains(userSpaceIDs, ownerID) {
+			return nil
+		}
+	}
+
+	if h.s.Space == nil || !h.s.Space.HasUserSpaceService() {
+		return fmt.Errorf("space service not available")
+	}
+
+	inSpace, err := h.s.Space.IsUserInSpace(ctx, ownerID, userID)
+	if err != nil {
+		return err
+	}
+	if !inSpace {
+		return fmt.Errorf("owner access denied")
+	}
+
+	return nil
+}
+
+// authorizeFileAccess checks if the user has access to the specified file
+func (h *fileHandler) authorizeFileAccess(ctx context.Context, file *structs.ReadFile) error {
+	if file == nil {
+		return fmt.Errorf("file not found")
+	}
+	return h.authorizeOwnerAccess(ctx, file.OwnerID)
 }

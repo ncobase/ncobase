@@ -130,7 +130,7 @@ var SystemDefaultMenus = struct {
 			Type:     "sidebar",
 			Path:     "/system/orgs",
 			Icon:     "IconBinaryTree2",
-			Perms:    "read:orgs",
+			Perms:    "read:organizations",
 			Order:    convert.ToPointer(990),
 			Hidden:   convert.ToPointer(false),
 			Disabled: convert.ToPointer(false),
@@ -1165,7 +1165,7 @@ var MenuPermissionMapping = map[string]string{
 
 	// System module sidebars
 	"system-spaces":      "manage:spaces",
-	"system-orgs":        "read:orgs",
+	"system-orgs":        "read:organizations",
 	"system-users":       "read:users",
 	"system-roles":       "manage:roles",
 	"system-permissions": "manage:permissions",

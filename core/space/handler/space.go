@@ -3,6 +3,8 @@ package handler
 import (
 	"ncobase/core/space/service"
 	"ncobase/core/space/structs"
+	resourceStructs "ncobase/plugin/resource/structs"
+	"strings"
 
 	"github.com/ncobase/ncore/ecode"
 	"github.com/ncobase/ncore/net/resp"
@@ -235,7 +237,6 @@ func (h *SpaceHandler) List(c *gin.Context) {
 }
 
 // ListAttachments handles listing space attachments.
-// TODO: implement this
 // @Summary List space attachments
 // @Description Retrieve a list of attachments associated
 // @Tags sys
@@ -246,16 +247,47 @@ func (h *SpaceHandler) List(c *gin.Context) {
 // @Router /sys/spaces/{spaceId}/attachments [get]
 // @Security Bearer
 func (h *SpaceHandler) ListAttachments(c *gin.Context) {
-	// result, err := h.svc.ListAttachmentss(c.Request.Context(),c.Param("spaceId"))
-	// if err != nil {
-	// 	resp.Fail(c.Writer, resp.BadRequest(err.Error()))
-	// 	return
-	// }
-	resp.Success(c.Writer)
+	spaceID := c.Param("spaceId")
+	if spaceID == "" {
+		resp.Fail(c.Writer, resp.BadRequest("Space ID is required"))
+		return
+	}
+
+	// Ensure current user belongs to the space or is the owner
+	if _, err := h.s.Space.Get(c.Request.Context(), spaceID); err != nil {
+		resp.Fail(c.Writer, resp.Forbidden("Space access denied"))
+		return
+	}
+
+	resourceWrapper := h.s.ResourceFileWrapper()
+	if resourceWrapper == nil || !resourceWrapper.HasFileService() {
+		resp.Fail(c.Writer, resp.ServiceUnavailable("Resource service not available"))
+		return
+	}
+
+	params := &resourceStructs.ListFileParams{}
+	if err := c.ShouldBindQuery(params); err != nil {
+		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+		return
+	}
+
+	params.OwnerID = spaceID
+	params.User = strings.TrimSpace(params.User)
+
+	if params.Limit <= 0 {
+		params.Limit = 50
+	}
+
+	result, err := resourceWrapper.ListFiles(c.Request.Context(), params)
+	if err != nil {
+		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+		return
+	}
+
+	resp.Success(c.Writer, result)
 }
 
 // ListRoles handles listing space roles.
-// TODO: implement this
 // @Summary List space roles
 // @Description Retrieve a list of roles associated
 // @Tags sys
@@ -266,16 +298,22 @@ func (h *SpaceHandler) ListAttachments(c *gin.Context) {
 // @Router /sys/spaces/{spaceId}/roles [get]
 // @Security Bearer
 func (h *SpaceHandler) ListRoles(c *gin.Context) {
-	// result, err := h.svc.ListRoless(c.Request.Context(),c.Param("spaceId"))
-	// if err != nil {
-	// 	resp.Fail(c.Writer, resp.BadRequest(err.Error()))
-	// 	return
-	// }
-	resp.Success(c.Writer)
+	spaceID := c.Param("spaceId")
+	if spaceID == "" {
+		resp.Fail(c.Writer, resp.BadRequest("Space ID is required"))
+		return
+	}
+
+	result, err := h.s.UserSpaceRole.ListSpaceRoleIDs(c.Request.Context(), spaceID)
+	if err != nil {
+		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+		return
+	}
+
+	resp.Success(c.Writer, result)
 }
 
 // GetSetting handles listing space settings.
-// TODO: implement this
 // @Summary List space settings
 // @Description Retrieve a list of settings associated
 // @Tags sys
@@ -286,16 +324,22 @@ func (h *SpaceHandler) ListRoles(c *gin.Context) {
 // @Router /sys/spaces/{spaceId}/settings [get]
 // @Security Bearer
 func (h *SpaceHandler) GetSetting(c *gin.Context) {
-	// result, err := h.svc.GetSettings(c.Request.Context(),c.Param("spaceId"))
-	// if err != nil {
-	// 	resp.Fail(c.Writer, resp.BadRequest(err.Error()))
-	// 	return
-	// }
-	resp.Success(c.Writer)
+	spaceID := c.Param("spaceId")
+	if spaceID == "" {
+		resp.Fail(c.Writer, resp.BadRequest("Space ID is required"))
+		return
+	}
+
+	result, err := h.s.SpaceSetting.GetSpaceSettings(c.Request.Context(), spaceID, false)
+	if err != nil {
+		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+		return
+	}
+
+	resp.Success(c.Writer, result)
 }
 
 // ListUsers handles listing space users.
-// TODO: implement this
 // @Summary List space users
 // @Description Retrieve a list of users associated
 // @Tags sys
@@ -306,16 +350,31 @@ func (h *SpaceHandler) GetSetting(c *gin.Context) {
 // @Router /sys/spaces/{spaceId}/users [get]
 // @Security Bearer
 func (h *SpaceHandler) ListUsers(c *gin.Context) {
-	// result, err := h.svc.ListUserss(c.Request.Context(),c.Param("spaceId"))
-	// if err != nil {
-	// 	resp.Fail(c.Writer, resp.BadRequest(err.Error()))
-	// 	return
-	// }
-	resp.Success(c.Writer)
+	spaceID := c.Param("spaceId")
+	if spaceID == "" {
+		resp.Fail(c.Writer, resp.BadRequest("Space ID is required"))
+		return
+	}
+
+	params := &structs.ListSpaceUsersParams{}
+	if validationErrors, err := validation.ShouldBindAndValidateStruct(c, params); err != nil {
+		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+		return
+	} else if len(validationErrors) > 0 {
+		resp.Fail(c.Writer, resp.BadRequest("Invalid parameters", validationErrors))
+		return
+	}
+
+	result, err := h.s.UserSpaceRole.ListSpaceUsers(c.Request.Context(), spaceID, params)
+	if err != nil {
+		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+		return
+	}
+
+	resp.Success(c.Writer, result)
 }
 
 // ListOrganizations handles listing space orgs.
-// TODO: implement this
 // @Summary List space orgs
 // @Description Retrieve a list of orgs associated
 // @Tags sys
@@ -326,10 +385,26 @@ func (h *SpaceHandler) ListUsers(c *gin.Context) {
 // @Router /sys/spaces/{spaceId}/orgs [get]
 // @Security Bearer
 func (h *SpaceHandler) ListOrganizations(c *gin.Context) {
-	// result, err := h.svc.ListOrganizationss(c.Request.Context(),c.Param("spaceId"))
-	// if err != nil {
-	// 	resp.Fail(c.Writer, resp.BadRequest(err.Error()))
-	// 	return
-	// }
-	resp.Success(c.Writer)
+	spaceID := c.Param("spaceId")
+	if spaceID == "" {
+		resp.Fail(c.Writer, resp.BadRequest("Space ID is required"))
+		return
+	}
+
+	params := &structs.ListOrganizationParams{}
+	if validationErrors, err := validation.ShouldBindAndValidateStruct(c, params); err != nil {
+		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+		return
+	} else if len(validationErrors) > 0 {
+		resp.Fail(c.Writer, resp.BadRequest("Invalid parameters", validationErrors))
+		return
+	}
+
+	result, err := h.s.SpaceOrganization.GetSpaceOrganizations(c.Request.Context(), spaceID, params)
+	if err != nil {
+		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+		return
+	}
+
+	resp.Success(c.Writer, result)
 }

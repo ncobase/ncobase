@@ -15,10 +15,16 @@ type SpaceQuotaServiceInterface interface {
 	IsQuotaExceeded(ctx context.Context, spaceID string, quotaType string) (bool, error)
 }
 
+// UserSpaceServiceInterface defines user-space service interface for resource plugin
+type UserSpaceServiceInterface interface {
+	IsSpaceInUser(ctx context.Context, spaceID, userID string) (bool, error)
+}
+
 // SpaceServiceWrapper wraps space service access with fallback behavior
 type SpaceServiceWrapper struct {
 	em                ext.ManagerInterface
 	spaceQuotaService SpaceQuotaServiceInterface
+	userSpaceService  UserSpaceServiceInterface
 }
 
 // NewSpaceServiceWrapper creates a new space service wrapper
@@ -34,6 +40,12 @@ func (w *SpaceServiceWrapper) loadServices() {
 	if quotaService, err := w.em.GetCrossService("space", "SpaceQuota"); err == nil {
 		if service, ok := quotaService.(SpaceQuotaServiceInterface); ok {
 			w.spaceQuotaService = service
+		}
+	}
+
+	if userSpaceSvc, err := w.em.GetCrossService("space", "UserSpace"); err == nil {
+		if service, ok := userSpaceSvc.(UserSpaceServiceInterface); ok {
+			w.userSpaceService = service
 		}
 	}
 }
@@ -96,4 +108,17 @@ func (w *SpaceServiceWrapper) IsQuotaExceeded(ctx context.Context, spaceID strin
 // HasSpaceQuotaService checks if space quota service is available
 func (w *SpaceServiceWrapper) HasSpaceQuotaService() bool {
 	return w.spaceQuotaService != nil
+}
+
+// IsUserInSpace checks if a user belongs to a space
+func (w *SpaceServiceWrapper) IsUserInSpace(ctx context.Context, spaceID, userID string) (bool, error) {
+	if w.userSpaceService != nil {
+		return w.userSpaceService.IsSpaceInUser(ctx, spaceID, userID)
+	}
+	return false, nil
+}
+
+// HasUserSpaceService checks if user-space service is available
+func (w *SpaceServiceWrapper) HasUserSpaceService() bool {
+	return w.userSpaceService != nil
 }
