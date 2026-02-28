@@ -6,6 +6,7 @@ import (
 	"ncobase/plugin/counter/data"
 	"ncobase/plugin/counter/data/repository"
 	"ncobase/plugin/counter/structs"
+	"strings"
 
 	"github.com/ncobase/ncore/data/paging"
 	"github.com/ncobase/ncore/ecode"
@@ -38,6 +39,11 @@ func NewCounterService(d *data.Data) CounterServiceInterface {
 
 // Create creates a new counter.
 func (s *counterService) Create(ctx context.Context, body *structs.CreateCounterBody) (*structs.ReadCounter, error) {
+	if body == nil {
+		return nil, errors.New("counter body is required")
+	}
+
+	body.Name = strings.TrimSpace(body.Name)
 	if body.Name == "" {
 		return nil, errors.New("counter name is required")
 	}
@@ -52,6 +58,11 @@ func (s *counterService) Create(ctx context.Context, body *structs.CreateCounter
 
 // Update updates an existing counter.
 func (s *counterService) Update(ctx context.Context, counterID string, updates types.JSON) (*structs.ReadCounter, error) {
+	counterID = strings.TrimSpace(counterID)
+	if counterID == "" {
+		return nil, errors.New("counter id is required")
+	}
+
 	row, err := s.counter.Update(ctx, counterID, updates)
 	if err := handleEntError(ctx, "Counter", err); err != nil {
 		return nil, err
@@ -62,6 +73,15 @@ func (s *counterService) Update(ctx context.Context, counterID string, updates t
 
 // Get retrieves a counter by its ID.
 func (s *counterService) Get(ctx context.Context, params *structs.FindCounter) (*structs.ReadCounter, error) {
+	if params == nil {
+		return nil, errors.New("counter query is required")
+	}
+
+	params.Counter = strings.TrimSpace(params.Counter)
+	if params.Counter == "" {
+		return nil, errors.New("counter id is required")
+	}
+
 	row, err := s.counter.GetByID(ctx, params.Counter)
 	if err := handleEntError(ctx, "Counter", err); err != nil {
 		return nil, err
@@ -72,6 +92,10 @@ func (s *counterService) Get(ctx context.Context, params *structs.FindCounter) (
 
 // GetByIDs retrieves counters by their IDs.
 func (s *counterService) GetByIDs(ctx context.Context, counterIDs []string) ([]*structs.ReadCounter, error) {
+	if len(counterIDs) == 0 {
+		return []*structs.ReadCounter{}, nil
+	}
+
 	rows, err := s.counter.GetByIDs(ctx, counterIDs)
 	if err := handleEntError(ctx, "Counter", err); err != nil {
 		return nil, err
@@ -82,6 +106,11 @@ func (s *counterService) GetByIDs(ctx context.Context, counterIDs []string) ([]*
 
 // Delete deletes a counter by its ID.
 func (s *counterService) Delete(ctx context.Context, counterID string) error {
+	counterID = strings.TrimSpace(counterID)
+	if counterID == "" {
+		return errors.New("counter id is required")
+	}
+
 	err := s.counter.Delete(ctx, counterID)
 	if err := handleEntError(ctx, "Counter", err); err != nil {
 		return err
@@ -92,6 +121,9 @@ func (s *counterService) Delete(ctx context.Context, counterID string) error {
 
 // List lists all counters.
 func (s *counterService) List(ctx context.Context, params *structs.ListCounterParams) (paging.Result[*structs.ReadCounter], error) {
+	if params == nil {
+		return paging.Result[*structs.ReadCounter]{}, errors.New("counter query is required")
+	}
 
 	pp := paging.Params{
 		Cursor:    params.Cursor,
@@ -122,5 +154,8 @@ func (s *counterService) List(ctx context.Context, params *structs.ListCounterPa
 
 // CountX gets a count of counters.
 func (s *counterService) CountX(ctx context.Context, params *structs.ListCounterParams) int {
+	if params == nil {
+		return 0
+	}
 	return s.counter.CountX(ctx, params)
 }
