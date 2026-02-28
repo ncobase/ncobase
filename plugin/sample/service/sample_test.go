@@ -274,3 +274,43 @@ func TestSampleService_ValidationRules(t *testing.T) {
 		})
 	}
 }
+
+func TestSampleService_NilInputValidation(t *testing.T) {
+	repo := repository.NewSampleRepository()
+	service := NewService(&repository.Repository{Sample: repo})
+	ctx := context.Background()
+
+	if _, err := service.Sample.Create(ctx, nil); err != structs.ErrInvalidInput {
+		t.Fatalf("Create() expected ErrInvalidInput, got %v", err)
+	}
+
+	if _, err := service.Sample.Update(ctx, "some-id", nil); err != structs.ErrInvalidInput {
+		t.Fatalf("Update() expected ErrInvalidInput, got %v", err)
+	}
+}
+
+func TestSampleService_TrimNameOnWrite(t *testing.T) {
+	repo := repository.NewSampleRepository()
+	service := NewService(&repository.Repository{Sample: repo})
+	ctx := context.Background()
+
+	created, err := service.Sample.Create(ctx, &structs.CreateSampleInput{
+		Name:        "  Trimmed Name  ",
+		Description: "desc",
+	})
+	if err != nil {
+		t.Fatalf("Create failed: %v", err)
+	}
+	if created.Name != "Trimmed Name" {
+		t.Fatalf("expected trimmed name, got %q", created.Name)
+	}
+
+	nextName := "  Updated Name  "
+	updated, err := service.Sample.Update(ctx, created.ID, &structs.UpdateSampleInput{Name: &nextName})
+	if err != nil {
+		t.Fatalf("Update failed: %v", err)
+	}
+	if updated.Name != "Updated Name" {
+		t.Fatalf("expected trimmed updated name, got %q", updated.Name)
+	}
+}

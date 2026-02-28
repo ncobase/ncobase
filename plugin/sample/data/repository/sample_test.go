@@ -222,3 +222,42 @@ func TestSampleRepository_UpdatePartial(t *testing.T) {
 		t.Errorf("Expected status to remain %s, got %s", created.Status, updated.Status)
 	}
 }
+
+func TestSampleRepository_ReturnsDefensiveCopies(t *testing.T) {
+	repo := NewSampleRepository()
+	ctx := context.Background()
+
+	created, err := repo.Create(ctx, &structs.CreateSampleInput{
+		Name:        "Original Name",
+		Description: "Original Description",
+	})
+	if err != nil {
+		t.Fatalf("Create failed: %v", err)
+	}
+
+	created.Name = "Mutated Outside"
+	fetched, err := repo.GetByID(ctx, created.ID)
+	if err != nil {
+		t.Fatalf("GetByID failed: %v", err)
+	}
+	if fetched.Name != "Original Name" {
+		t.Fatalf("expected stored name to remain unchanged, got %q", fetched.Name)
+	}
+
+	list, err := repo.List(ctx)
+	if err != nil {
+		t.Fatalf("List failed: %v", err)
+	}
+	if len(list) != 1 {
+		t.Fatalf("expected one sample, got %d", len(list))
+	}
+
+	list[0].Description = "Mutated In List"
+	refetched, err := repo.GetByID(ctx, created.ID)
+	if err != nil {
+		t.Fatalf("GetByID failed: %v", err)
+	}
+	if refetched.Description != "Original Description" {
+		t.Fatalf("expected stored description to remain unchanged, got %q", refetched.Description)
+	}
+}

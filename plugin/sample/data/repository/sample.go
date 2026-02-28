@@ -24,6 +24,14 @@ type sampleRepository struct {
 	data map[string]*structs.Sample
 }
 
+func cloneSample(sample *structs.Sample) *structs.Sample {
+	if sample == nil {
+		return nil
+	}
+	cloned := *sample
+	return &cloned
+}
+
 // NewSampleRepository creates a new sample repository
 func NewSampleRepository() SampleRepositoryInterface {
 	return &sampleRepository{
@@ -35,7 +43,7 @@ func NewSampleRepository() SampleRepositoryInterface {
 func (r *sampleRepository) List(ctx context.Context) ([]*structs.Sample, error) {
 	samples := make([]*structs.Sample, 0, len(r.data))
 	for _, sample := range r.data {
-		samples = append(samples, sample)
+		samples = append(samples, cloneSample(sample))
 	}
 	return samples, nil
 }
@@ -46,7 +54,7 @@ func (r *sampleRepository) GetByID(ctx context.Context, id string) (*structs.Sam
 	if !exists {
 		return nil, structs.ErrNotFound
 	}
-	return sample, nil
+	return cloneSample(sample), nil
 }
 
 // Create creates a new sample
@@ -61,8 +69,8 @@ func (r *sampleRepository) Create(ctx context.Context, input *structs.CreateSamp
 		UpdatedAt:   now,
 	}
 
-	r.data[sample.ID] = sample
-	return sample, nil
+	r.data[sample.ID] = cloneSample(sample)
+	return cloneSample(sample), nil
 }
 
 // Update updates an existing sample
@@ -72,20 +80,26 @@ func (r *sampleRepository) Update(ctx context.Context, id string, input *structs
 		return nil, structs.ErrNotFound
 	}
 
+	updated := *sample
+
 	if input.Name != nil {
-		sample.Name = *input.Name
+		updated.Name = *input.Name
 	}
 	if input.Description != nil {
-		sample.Description = *input.Description
+		updated.Description = *input.Description
 	}
 	if input.Status != nil {
-		sample.Status = *input.Status
+		updated.Status = *input.Status
 	}
 
-	sample.UpdatedAt = time.Now()
-	r.data[id] = sample
+	now := time.Now()
+	if !now.After(updated.UpdatedAt) {
+		now = updated.UpdatedAt.Add(time.Nanosecond)
+	}
+	updated.UpdatedAt = now
+	r.data[id] = &updated
 
-	return sample, nil
+	return cloneSample(&updated), nil
 }
 
 // Delete deletes a sample

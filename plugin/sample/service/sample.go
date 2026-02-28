@@ -4,6 +4,7 @@ import (
 	"context"
 	"ncobase/plugin/sample/data/repository"
 	"ncobase/plugin/sample/structs"
+	"strings"
 
 	"github.com/ncobase/ncore/logging/logger"
 )
@@ -55,14 +56,24 @@ func (s *sampleService) GetByID(ctx context.Context, id string) (*structs.Sample
 
 // Create creates a new sample
 func (s *sampleService) Create(ctx context.Context, input *structs.CreateSampleInput) (*structs.Sample, error) {
-	logger.Infof(ctx, "Creating sample: %s", input.Name)
-
-	// Business logic validation
-	if input.Name == "" {
+	if input == nil {
 		return nil, structs.ErrInvalidInput
 	}
 
-	sample, err := s.repo.Create(ctx, input)
+	logger.Infof(ctx, "Creating sample: %s", input.Name)
+
+	// Business logic validation
+	name := strings.TrimSpace(input.Name)
+	if name == "" {
+		return nil, structs.ErrInvalidInput
+	}
+
+	createInput := &structs.CreateSampleInput{
+		Name:        name,
+		Description: input.Description,
+	}
+
+	sample, err := s.repo.Create(ctx, createInput)
 	if err != nil {
 		return nil, err
 	}
@@ -73,6 +84,10 @@ func (s *sampleService) Create(ctx context.Context, input *structs.CreateSampleI
 
 // Update updates an existing sample
 func (s *sampleService) Update(ctx context.Context, id string, input *structs.UpdateSampleInput) (*structs.Sample, error) {
+	if input == nil {
+		return nil, structs.ErrInvalidInput
+	}
+
 	logger.Infof(ctx, "Updating sample: %s", id)
 
 	// Check if sample exists
@@ -82,11 +97,20 @@ func (s *sampleService) Update(ctx context.Context, id string, input *structs.Up
 	}
 
 	// Business logic validation
-	if input.Name != nil && *input.Name == "" {
-		return nil, structs.ErrInvalidInput
+	updateInput := &structs.UpdateSampleInput{
+		Name:        input.Name,
+		Description: input.Description,
+		Status:      input.Status,
+	}
+	if input.Name != nil {
+		trimmed := strings.TrimSpace(*input.Name)
+		if trimmed == "" {
+			return nil, structs.ErrInvalidInput
+		}
+		updateInput.Name = &trimmed
 	}
 
-	sample, err := s.repo.Update(ctx, id, input)
+	sample, err := s.repo.Update(ctx, id, updateInput)
 	if err != nil {
 		return nil, err
 	}
