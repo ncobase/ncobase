@@ -4,6 +4,10 @@ import (
 	"fmt"
 	"sync"
 
+	"ncobase/plugin/sample/data/repository"
+	"ncobase/plugin/sample/handler"
+	"ncobase/plugin/sample/service"
+
 	"github.com/ncobase/ncore/config"
 	extp "github.com/ncobase/ncore/extension/plugin"
 	ext "github.com/ncobase/ncore/extension/types"
@@ -13,7 +17,7 @@ import (
 
 var (
 	name         = "sample"
-	desc         = "Sample plugin"
+	desc         = "Sample plugin demonstrating complete plugin architecture"
 	version      = "1.0.0"
 	dependencies []string
 	typeStr      = "plugin"
@@ -29,6 +33,11 @@ type Plugin struct {
 	em          ext.ManagerInterface
 	conf        *config.Config
 	cleanup     func(name ...string)
+
+	// Plugin components
+	handler *handler.Handler
+	service *service.Service
+	repo    *repository.Repository
 
 	discovery
 }
@@ -78,6 +87,15 @@ func (p *Plugin) Init(conf *config.Config, em ext.ManagerInterface) (err error) 
 		p.discovery.meta = conf.Consul.Discovery.DefaultMeta
 	}
 
+	// Initialize repository layer
+	p.repo = repository.NewRepository()
+
+	// Initialize service layer
+	p.service = service.NewService(p.repo)
+
+	// Initialize handler layer
+	p.handler = handler.NewHandler(p.service)
+
 	p.em = em
 	p.conf = conf
 	p.initialized = true
@@ -94,25 +112,18 @@ func (p *Plugin) PostInit() error {
 
 // RegisterRoutes registers routes for the plugin
 func (p *Plugin) RegisterRoutes(r *gin.RouterGroup) {
-	// Sample endpoints
-	samples := r.Group("/samples")
-	{
-		samples.GET("", func(c *gin.Context) {
-			c.JSON(200, gin.H{
-				"message": "Sample endpoint",
-			})
-		})
-	}
+	// Register handler routes
+	p.handler.RegisterRoutes(r)
 }
 
 // GetHandlers returns the handlers for the plugin
 func (p *Plugin) GetHandlers() ext.Handler {
-	return nil
+	return p.handler
 }
 
 // GetServices returns the services for the plugin
 func (p *Plugin) GetServices() ext.Service {
-	return nil
+	return p.service
 }
 
 // Cleanup cleans up the plugin
@@ -163,17 +174,10 @@ func (p *Plugin) Group() string {
 // SubscribeEvents subscribes to relevant events
 func (p *Plugin) subscribeEvents(_ ext.ManagerInterface) {
 	// Implement any event subscriptions here
-}
-
-func init() {
-	extp.RegisterPlugin(&Plugin{}, ext.Metadata{
-		Name:         name + "-development",
-		Version:      version,
-		Dependencies: dependencies,
-		Description:  desc,
-		Type:         typeStr,
-		Group:        group,
-	})
+	// Example:
+	// em.Subscribe("sample_event", func(data any) {
+	//     // Handle event
+	// })
 }
 
 // GetServiceInfo returns service registration info if NeedServiceDiscovery returns true
