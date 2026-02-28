@@ -1,168 +1,144 @@
 package handler
 
 import (
+	"net/http"
+
 	"ncobase/plugin/sample/service"
 	"ncobase/plugin/sample/structs"
 
 	"github.com/gin-gonic/gin"
-	"github.com/ncobase/ncore/logging/logger"
-	"github.com/ncobase/ncore/net/response"
+	"github.com/ncobase/ncore/net/resp"
 )
 
-// Handler provides HTTP handlers for the sample plugin
+// Handler provides HTTP handlers for the sample plugin.
 type Handler struct {
 	service *service.Service
 }
 
-// NewHandler creates a new handler instance
+// NewHandler creates a new Handler.
 func NewHandler(service *service.Service) *Handler {
-	return &Handler{
-		service: service,
-	}
+	return &Handler{service: service}
 }
 
-// RegisterRoutes registers all routes for the sample plugin
+// RegisterRoutes registers all routes for the sample plugin.
 func (h *Handler) RegisterRoutes(r *gin.RouterGroup) {
-	samples := r.Group("/samples")
+	g := r.Group("/samples")
 	{
-		samples.GET("", h.List)
-		samples.GET("/:id", h.Get)
-		samples.POST("", h.Create)
-		samples.PUT("/:id", h.Update)
-		samples.DELETE("/:id", h.Delete)
+		g.GET("", h.List)
+		g.GET("/:id", h.Get)
+		g.POST("", h.Create)
+		g.PUT("/:id", h.Update)
+		g.DELETE("/:id", h.Delete)
 	}
 }
 
 // List godoc
-// @Summary List samples
-// @Description Get a list of all samples
-// @Tags samples
-// @Accept json
-// @Produce json
-// @Success 200 {object} response.Response{data=[]structs.Sample}
-// @Failure 500 {object} response.Response
-// @Router /samples [get]
+//
+// @Summary      List samples
+// @Description  Get a list of all samples.
+// @Tags         samples
+// @Produce      json
+// @Success      200  {array}   structs.Sample    "success"
+// @Failure      500  {object}  resp.Exception    "internal server error"
+// @Router       /samples [get]
 func (h *Handler) List(c *gin.Context) {
-	ctx := c.Request.Context()
-
-	samples, err := h.service.Sample.List(ctx)
+	samples, err := h.service.Sample.List(c.Request.Context())
 	if err != nil {
-		logger.Errorf(ctx, "Failed to list samples: %v", err)
-		response.Error(c, err)
+		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 		return
 	}
-
-	response.Success(c, samples)
+	resp.Success(c.Writer, samples)
 }
 
 // Get godoc
-// @Summary Get sample by ID
-// @Description Get a single sample by its ID
-// @Tags samples
-// @Accept json
-// @Produce json
-// @Param id path string true "Sample ID"
-// @Success 200 {object} response.Response{data=structs.Sample}
-// @Failure 404 {object} response.Response
-// @Failure 500 {object} response.Response
-// @Router /samples/{id} [get]
+//
+// @Summary      Get sample
+// @Description  Get a single sample by ID.
+// @Tags         samples
+// @Produce      json
+// @Param        id   path      string          true  "Sample ID"
+// @Success      200  {object}  structs.Sample  "success"
+// @Failure      404  {object}  resp.Exception  "not found"
+// @Failure      500  {object}  resp.Exception  "internal server error"
+// @Router       /samples/{id} [get]
 func (h *Handler) Get(c *gin.Context) {
-	ctx := c.Request.Context()
-	id := c.Param("id")
-
-	sample, err := h.service.Sample.GetByID(ctx, id)
+	sample, err := h.service.Sample.GetByID(c.Request.Context(), c.Param("id"))
 	if err != nil {
-		logger.Errorf(ctx, "Failed to get sample: %v", err)
-		response.Error(c, err)
+		resp.Fail(c.Writer, resp.NotFound(err.Error()))
 		return
 	}
-
-	response.Success(c, sample)
+	resp.Success(c.Writer, sample)
 }
 
 // Create godoc
-// @Summary Create sample
-// @Description Create a new sample
-// @Tags samples
-// @Accept json
-// @Produce json
-// @Param input body structs.CreateSampleInput true "Sample data"
-// @Success 201 {object} response.Response{data=structs.Sample}
-// @Failure 400 {object} response.Response
-// @Failure 500 {object} response.Response
-// @Router /samples [post]
+//
+// @Summary      Create sample
+// @Description  Create a new sample.
+// @Tags         samples
+// @Accept       json
+// @Produce      json
+// @Param        body  body      structs.CreateSampleInput  true  "Sample data"
+// @Success      201   {object}  structs.Sample             "created"
+// @Failure      400   {object}  resp.Exception             "bad request"
+// @Failure      500   {object}  resp.Exception             "internal server error"
+// @Router       /samples [post]
 func (h *Handler) Create(c *gin.Context) {
-	ctx := c.Request.Context()
-
-	var input structs.CreateSampleInput
-	if err := c.ShouldBindJSON(&input); err != nil {
-		response.BadRequest(c, err)
+	var body structs.CreateSampleInput
+	if err := c.ShouldBindJSON(&body); err != nil {
+		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
 	}
-
-	sample, err := h.service.Sample.Create(ctx, &input)
+	sample, err := h.service.Sample.Create(c.Request.Context(), &body)
 	if err != nil {
-		logger.Errorf(ctx, "Failed to create sample: %v", err)
-		response.Error(c, err)
+		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 		return
 	}
-
-	response.Created(c, sample)
+	resp.WithStatusCode(c.Writer, http.StatusCreated, sample)
 }
 
 // Update godoc
-// @Summary Update sample
-// @Description Update an existing sample
-// @Tags samples
-// @Accept json
-// @Produce json
-// @Param id path string true "Sample ID"
-// @Param input body structs.UpdateSampleInput true "Sample data"
-// @Success 200 {object} response.Response{data=structs.Sample}
-// @Failure 400 {object} response.Response
-// @Failure 404 {object} response.Response
-// @Failure 500 {object} response.Response
-// @Router /samples/{id} [put]
+//
+// @Summary      Update sample
+// @Description  Update an existing sample.
+// @Tags         samples
+// @Accept       json
+// @Produce      json
+// @Param        id    path      string                     true  "Sample ID"
+// @Param        body  body      structs.UpdateSampleInput  true  "Sample data"
+// @Success      200   {object}  structs.Sample             "success"
+// @Failure      400   {object}  resp.Exception             "bad request"
+// @Failure      404   {object}  resp.Exception             "not found"
+// @Failure      500   {object}  resp.Exception             "internal server error"
+// @Router       /samples/{id} [put]
 func (h *Handler) Update(c *gin.Context) {
-	ctx := c.Request.Context()
-	id := c.Param("id")
-
-	var input structs.UpdateSampleInput
-	if err := c.ShouldBindJSON(&input); err != nil {
-		response.BadRequest(c, err)
+	var body structs.UpdateSampleInput
+	if err := c.ShouldBindJSON(&body); err != nil {
+		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
 	}
-
-	sample, err := h.service.Sample.Update(ctx, id, &input)
+	sample, err := h.service.Sample.Update(c.Request.Context(), c.Param("id"), &body)
 	if err != nil {
-		logger.Errorf(ctx, "Failed to update sample: %v", err)
-		response.Error(c, err)
+		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 		return
 	}
-
-	response.Success(c, sample)
+	resp.Success(c.Writer, sample)
 }
 
 // Delete godoc
-// @Summary Delete sample
-// @Description Delete a sample by ID
-// @Tags samples
-// @Accept json
-// @Produce json
-// @Param id path string true "Sample ID"
-// @Success 204 {object} response.Response
-// @Failure 404 {object} response.Response
-// @Failure 500 {object} response.Response
-// @Router /samples/{id} [delete]
+//
+// @Summary      Delete sample
+// @Description  Delete a sample by ID.
+// @Tags         samples
+// @Produce      json
+// @Param        id   path      string          true  "Sample ID"
+// @Success      204  "no content"
+// @Failure      404  {object}  resp.Exception  "not found"
+// @Failure      500  {object}  resp.Exception  "internal server error"
+// @Router       /samples/{id} [delete]
 func (h *Handler) Delete(c *gin.Context) {
-	ctx := c.Request.Context()
-	id := c.Param("id")
-
-	if err := h.service.Sample.Delete(ctx, id); err != nil {
-		logger.Errorf(ctx, "Failed to delete sample: %v", err)
-		response.Error(c, err)
+	if err := h.service.Sample.Delete(c.Request.Context(), c.Param("id")); err != nil {
+		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 		return
 	}
-
-	response.NoContent(c)
+	resp.WithStatusCode(c.Writer, http.StatusNoContent)
 }
