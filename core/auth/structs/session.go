@@ -15,6 +15,7 @@ type SessionBody struct {
 	UserAgent   string      `json:"user_agent,omitempty"`
 	Location    string      `json:"location,omitempty"`
 	LoginMethod string      `json:"login_method,omitempty"`
+	ExpiresAt   *int64      `json:"expires_at,omitempty"`
 }
 
 // ReadSession represents session data

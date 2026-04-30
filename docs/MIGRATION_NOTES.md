@@ -2,6 +2,31 @@
 
 API specifications for migrating ncobase from ncore v0.1.x to v0.2.0.
 
+## Runtime Config Migration
+
+`config.yaml` is now reserved for infrastructure, bootstrap, secrets, and security-boundary values.
+Runtime/product policy must be managed through `/sys/options`.
+
+Moved runtime options:
+
+| Old YAML area | System option |
+| --- | --- |
+| `frontend.sign_in_url`, `frontend.sign_up_url` | `system.frontend` |
+| `auth.jwt.expiry` or `auth.jwt.expire` | `auth.token.access_token_expiry` |
+| `auth.max_sessions`, `auth.session_cleanup_interval` | `auth.session` |
+| resource upload/image/quota policy | `resource.upload`, `resource.image`, `resource.quota` |
+| non-secret storage sharing policy | `system.storage_policy` |
+| non-secret email behavior policy | `system.email_policy` |
+
+Values intentionally kept in YAML:
+
+- app name, environment, server/grpc binding, Consul/discovery, observability, logger bootstrap,
+  extension loading, database/cache/search/queue config, object storage credentials, email/OAuth
+  provider secrets, JWT secret, Casbin model, and auth whitelist.
+
+The initializer now ensures missing default options one by one and preserves existing option values.
+Existing databases should run initialization repair or create the missing option rows explicitly.
+
 ## API Changes
 
 v0.2.0 replaces direct internal field access with unified public APIs:

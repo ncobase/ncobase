@@ -16,7 +16,7 @@ type Handler struct {
 func New(svc *service.Service) *Handler {
 	return &Handler{
 		File:  NewFileHandler(svc),
-		Batch: NewBatchHandler(svc.File, svc.Batch, svc.Space),
+		Batch: NewBatchHandler(svc.File, svc.Batch, svc.Config, svc.Space),
 		Quota: NewQuotaHandler(svc.Quota),
 		Admin: NewAdminHandler(svc.Admin),
 	}

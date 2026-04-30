@@ -68,7 +68,11 @@ func (r *sessionRepository) Create(ctx context.Context, body *structs.SessionBod
 	builder.SetCreatedAt(now)
 	builder.SetUpdatedAt(now)
 	builder.SetLastAccessAt(now)
-	builder.SetExpiresAt(now + (7 * 24 * 60 * 60 * 1000)) // 7 days
+	if body.ExpiresAt != nil {
+		builder.SetExpiresAt(*body.ExpiresAt)
+	} else {
+		builder.SetExpiresAt(now + (7 * 24 * 60 * 60 * 1000))
+	}
 
 	if body.DeviceInfo != nil {
 		builder.SetDeviceInfo(*body.DeviceInfo)

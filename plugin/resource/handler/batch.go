@@ -28,21 +28,24 @@ type BatchHandlerInterface interface {
 }
 
 type batchHandler struct {
-	fileService  service.FileServiceInterface
-	batchService service.BatchServiceInterface
-	spaceWrapper *wrapper.SpaceServiceWrapper
+	fileService    service.FileServiceInterface
+	batchService   service.BatchServiceInterface
+	configProvider service.ResourceConfigProvider
+	spaceWrapper   *wrapper.SpaceServiceWrapper
 }
 
 // NewBatchHandler creates new batch handler
 func NewBatchHandler(
 	fileService service.FileServiceInterface,
 	batchService service.BatchServiceInterface,
+	configProvider service.ResourceConfigProvider,
 	spaceWrapper *wrapper.SpaceServiceWrapper,
 ) BatchHandlerInterface {
 	return &batchHandler{
-		fileService:  fileService,
-		batchService: batchService,
-		spaceWrapper: spaceWrapper,
+		fileService:    fileService,
+		batchService:   batchService,
+		configProvider: configProvider,
+		spaceWrapper:   spaceWrapper,
 	}
 }
 
@@ -67,7 +70,7 @@ func NewBatchHandler(
 // @Router /res/batch/upload [post]
 // @Security Bearer
 func (h *batchHandler) BatchUpload(c *gin.Context) {
-	if err := c.Request.ParseMultipartForm(32 << 20); err != nil {
+	if err := c.Request.ParseMultipartForm(h.multipartMemoryLimit(c.Request.Context())); err != nil {
 		resp.Fail(c.Writer, resp.BadRequest("Failed to parse multipart form"))
 		return
 	}
@@ -148,15 +151,14 @@ func (h *batchHandler) BatchUpload(c *gin.Context) {
 			resp.Fail(c.Writer, resp.BadRequest("Invalid processing options format"))
 			return
 		}
-		if options.CompressionQuality <= 0 || options.CompressionQuality > 100 {
-			options.CompressionQuality = 80
+		if h.configProvider != nil {
+			params.ProcessingOptions = h.configProvider.NormalizeProcessingOptions(c.Request.Context(), &options)
+		} else {
+			params.ProcessingOptions = &options
 		}
-		params.ProcessingOptions = &options
 	} else {
-		params.ProcessingOptions = &structs.ProcessingOptions{
-			CreateThumbnail: true,
-			MaxWidth:        300,
-			MaxHeight:       300,
+		if h.configProvider != nil {
+			params.ProcessingOptions = h.configProvider.DefaultProcessingOptions(c.Request.Context())
 		}
 	}
 
@@ -168,6 +170,16 @@ func (h *batchHandler) BatchUpload(c *gin.Context) {
 	}
 
 	resp.Success(c.Writer, result)
+}
+
+func (h *batchHandler) multipartMemoryLimit(ctx context.Context) int64 {
+	limit := int64(32 << 20)
+	if h.configProvider != nil {
+		if cfg := h.configProvider.Get(ctx); cfg != nil && cfg.MaxUploadSize > 0 && cfg.MaxUploadSize < limit {
+			limit = cfg.MaxUploadSize
+		}
+	}
+	return limit
 }
 
 // BatchProcess handles processing multiple files in a batch

@@ -2,6 +2,7 @@ package middleware
 
 import (
 	"context"
+	systemWrapper "ncobase/core/system/wrapper"
 	"strings"
 	"sync"
 	"time"
@@ -98,25 +99,28 @@ func ValidateSessionMiddleware(em ext.ManagerInterface) gin.HandlerFunc {
 	}
 }
 
-// SessionCleanupTask periodically cleans up expired sessions
-func SessionCleanupTask(ctx context.Context, em ext.ManagerInterface, interval time.Duration) {
-	if interval == 0 {
-		interval = 1 * time.Hour
-	}
-
-	ticker := time.NewTicker(interval)
-	defer ticker.Stop()
-
+// SessionCleanupTask periodically cleans up expired sessions.
+func SessionCleanupTask(ctx context.Context, em ext.ManagerInterface, options *systemWrapper.OptionServiceWrapper) {
 	// Get Service wrapper manager
 	sm := GetServiceManager(em)
 	// get access wrapper
 	asw := sm.AuthServiceWrapper()
 
 	for {
+		interval := time.Hour
+		if options != nil {
+			interval = options.AuthSession(ctx).CleanupInterval
+			if interval <= 0 {
+				interval = time.Hour
+			}
+		}
+
+		timer := time.NewTimer(interval)
 		select {
 		case <-ctx.Done():
+			timer.Stop()
 			return
-		case <-ticker.C:
+		case <-timer.C:
 			if err := asw.CleanupExpiredSessions(ctx); err != nil {
 				logger.Errorf(ctx, "Failed to cleanup expired sessions: %v", err)
 			}
@@ -124,9 +128,18 @@ func SessionCleanupTask(ctx context.Context, em ext.ManagerInterface, interval t
 	}
 }
 
-// SessionLimitMiddleware enforces maximum sessions per user
-func SessionLimitMiddleware(em ext.ManagerInterface, maxSessions int) gin.HandlerFunc {
+// SessionLimitMiddleware tracks maximum sessions per user from runtime options.
+func SessionLimitMiddleware(em ext.ManagerInterface, options *systemWrapper.OptionServiceWrapper) gin.HandlerFunc {
 	return func(c *gin.Context) {
+		maxSessions := 0
+		if options != nil {
+			maxSessions = options.AuthSession(c.Request.Context()).MaxSessions
+		}
+		if maxSessions <= 0 {
+			c.Next()
+			return
+		}
+
 		userID := ctxutil.GetUserID(c.Request.Context())
 		if userID == "" {
 			c.Next()

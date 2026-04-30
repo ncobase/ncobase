@@ -1,6 +1,7 @@
 package service
 
 import (
+	systemWrapper "ncobase/core/system/wrapper"
 	"ncobase/core/user/data"
 	"ncobase/core/user/data/repository"
 	"ncobase/core/user/event"
@@ -22,8 +23,9 @@ type Service struct {
 func New(em ext.ManagerInterface, d *data.Data) *Service {
 	ep := event.NewPublisher(em)
 	repo := repository.New(d)
+	options := systemWrapper.NewOptionServiceWrapper(em)
 
-	userService := NewUserService(repo, ep)
+	userService := NewUserService(repo, ep, options)
 	userProfileService := NewUserProfileService(repo, ep)
 	employeeService := NewEmployeeService(repo, ep)
 	apiKeyService := NewApiKeyService(repo, ep)

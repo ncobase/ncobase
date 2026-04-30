@@ -63,9 +63,6 @@ func (p *Plugin) Init(conf *config.Config, em ext.ManagerInterface) (err error) 
 	}
 
 	p.c = initConfig.GetDefaultConfig()
-	if conf.Viper != nil {
-		p.c = initConfig.GetConfigFromFile(p.c, conf.Viper)
-	}
 
 	p.em = em
 	p.initialized = true

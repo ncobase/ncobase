@@ -8,6 +8,7 @@ import (
 	"ncobase/core/auth/data/repository"
 	"ncobase/core/auth/structs"
 	"ncobase/core/auth/wrapper"
+	systemWrapper "ncobase/core/system/wrapper"
 	userStructs "ncobase/core/user/structs"
 	"net/http"
 	"strings"
@@ -365,21 +366,23 @@ func mapKeys(codes map[string]struct{}) []string {
 }
 
 // generateUserTokens generates access and refresh tokens for API authentication
-func generateUserTokens(jtm *jwt.TokenManager, payload map[string]any, tokenID string) (string, string) {
+func generateUserTokens(ctx context.Context, jtm *jwt.TokenManager, payload map[string]any, tokenID string, options *systemWrapper.OptionServiceWrapper) (string, string, time.Duration) {
 	userID, ok := payload["user_id"].(string)
 	if !ok || userID == "" {
-		return "", ""
+		return "", "", 0
 	}
 
+	tokenOptions := authTokenOptions(ctx, options)
+
 	// Generate access token (shorter expiry for security)
-	accessToken, _ := jtm.GenerateAccessToken(tokenID, payload)
+	accessToken, _ := jtm.GenerateAccessToken(tokenID, payload, &jwt.TokenConfig{Expiry: tokenOptions.AccessTokenExpiry})
 
 	// Generate refresh token (longer expiry)
 	refreshToken, _ := jtm.GenerateRefreshToken(tokenID, types.JSON{
 		"user_id": userID,
-	})
+	}, &jwt.TokenConfig{Expiry: tokenOptions.RefreshTokenExpiry})
 
-	return accessToken, refreshToken
+	return accessToken, refreshToken, tokenOptions.AccessTokenExpiry
 }
 
 // generateAuthResponse generates authentication response with tokens and session
@@ -390,6 +393,7 @@ func generateAuthResponse(
 	payload map[string]any,
 	sessionSvc SessionServiceInterface,
 	loginMethod string,
+	options *systemWrapper.OptionServiceWrapper,
 ) (*AuthResponse, error) {
 	userID, ok := payload["user_id"].(string)
 	if !ok || userID == "" {
@@ -400,13 +404,21 @@ func generateAuthResponse(
 		return nil, errors.New("auth token repository not configured")
 	}
 
+	sessionOptions := authSessionOptions(ctx, options)
+	if sessionSvc != nil && loginMethod != "token_refresh" && sessionOptions.MaxSessions > 0 {
+		activeCount := sessionSvc.GetActiveSessionsCount(ctx, userID)
+		if activeCount >= sessionOptions.MaxSessions {
+			return nil, fmt.Errorf("maximum active sessions reached for user %s", userID)
+		}
+	}
+
 	authToken, err := authTokenRepo.Create(ctx, userID)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create auth token: %w", err)
 	}
 
 	// Generate tokens for API authentication
-	accessToken, refreshToken := generateUserTokens(jtm, payload, authToken.ID)
+	accessToken, refreshToken, accessExpiry := generateUserTokens(ctx, jtm, payload, authToken.ID, options)
 	if accessToken == "" || refreshToken == "" {
 		return nil, errors.New("failed to generate tokens")
 	}
@@ -440,7 +452,7 @@ func generateAuthResponse(
 		RefreshToken: refreshToken,
 		SessionID:    sessionID,
 		TokenType:    "Bearer",
-		ExpiresIn:    2 * 60 * 60, // 2 hours in seconds
+		ExpiresIn:    int64(accessExpiry.Seconds()),
 	}, nil
 }
 
@@ -509,30 +521,85 @@ func handleEntError(ctx context.Context, k string, err error) error {
 }
 
 // sendAuthEmail sends email with authentication code
-func sendAuthEmail(ctx context.Context, e, code string, registered bool) error {
-	conf := ctxutil.GetConfig(ctx)
+func sendAuthEmail(ctx context.Context, e, code string, registered bool, options *systemWrapper.OptionServiceWrapper) error {
+	frontend := frontendOptions(ctx, options)
+	emailPolicy := emailPolicy(ctx, options)
+	if !emailPolicy.Enabled || !emailPolicy.AllowAuthEmail {
+		return errors.New("authentication email is disabled")
+	}
+
 	template := email.Template{
 		Subject:  "Email authentication",
 		Template: "auth-email",
 		Keyword:  "Sign in",
+		Data: map[string]any{
+			"sender_name": emailPolicy.SenderName,
+		},
 	}
 	if registered {
-		template.URL = conf.Frontend.SignInURL + "?code=" + code
+		template.URL = frontend.SignInURL + "?code=" + code
 	} else {
 		template.Keyword = "Sign Up"
-		template.URL = conf.Frontend.SignUpURL + "?code=" + code
+		template.URL = frontend.SignUpURL + "?code=" + code
 	}
 	_, err := ctxutil.SendEmailWithTemplate(ctx, e, template)
 	return err
 }
 
 // sendRegisterMail sends email with register token
-func sendRegisterMail(_ context.Context, jtm *jwt.TokenManager, email, id string) (*types.JSON, error) {
+func sendRegisterMail(ctx context.Context, jtm *jwt.TokenManager, email, id string, options *systemWrapper.OptionServiceWrapper) (*types.JSON, error) {
 	subject := "email-register"
 	payload := types.JSON{"email": email, "id": id}
-	registerToken, err := jtm.GenerateRegisterToken(id, payload, subject)
+	tokenOptions := authTokenOptions(ctx, options)
+	registerToken, err := jtm.GenerateRegisterToken(id, payload, subject, &jwt.TokenConfig{Expiry: tokenOptions.RegisterTokenExpiry})
 	if err != nil {
 		return nil, err
 	}
 	return &types.JSON{"email": email, "register_token": registerToken}, nil
+}
+
+func frontendOptions(ctx context.Context, options *systemWrapper.OptionServiceWrapper) systemWrapper.FrontendRuntimeOptions {
+	if options != nil {
+		return options.Frontend(ctx)
+	}
+	return systemWrapper.FrontendRuntimeOptions{
+		SignInURL: "http://localhost:3000/login",
+		SignUpURL: "http://localhost:3000/register",
+	}
+}
+
+func emailPolicy(ctx context.Context, options *systemWrapper.OptionServiceWrapper) systemWrapper.EmailRuntimePolicy {
+	if options != nil {
+		return options.EmailPolicy(ctx)
+	}
+	return systemWrapper.EmailRuntimePolicy{
+		Enabled:            true,
+		SenderName:         "System Admin",
+		AllowAuthEmail:     true,
+		AllowPasswordReset: true,
+		DigestFrequency:    "daily",
+	}
+}
+
+func authTokenOptions(ctx context.Context, options *systemWrapper.OptionServiceWrapper) systemWrapper.AuthTokenRuntimeOptions {
+	if options != nil {
+		return options.AuthToken(ctx)
+	}
+	return systemWrapper.AuthTokenRuntimeOptions{
+		AccessTokenExpiry:   2 * time.Hour,
+		RefreshTokenExpiry:  7 * 24 * time.Hour,
+		RegisterTokenExpiry: 30 * time.Minute,
+		MFATokenExpiry:      5 * time.Minute,
+	}
+}
+
+func authSessionOptions(ctx context.Context, options *systemWrapper.OptionServiceWrapper) systemWrapper.AuthSessionRuntimeOptions {
+	if options != nil {
+		return options.AuthSession(ctx)
+	}
+	return systemWrapper.AuthSessionRuntimeOptions{
+		MaxSessions:     0,
+		SessionExpiry:   7 * 24 * time.Hour,
+		CleanupInterval: time.Hour,
+	}
 }

@@ -28,6 +28,7 @@ type batchService struct {
 	file           FileServiceInterface
 	imageProcessor ImageProcessorInterface
 	publisher      event.PublisherInterface
+	configProvider ResourceConfigProvider
 	jobs           map[string]*structs.BatchStatus
 	jobsMutex      sync.RWMutex
 }
@@ -36,11 +37,16 @@ func NewBatchService(
 	fileService FileServiceInterface,
 	imageProcessor ImageProcessorInterface,
 	publisher event.PublisherInterface,
+	configProvider ResourceConfigProvider,
 ) BatchServiceInterface {
+	if configProvider == nil {
+		configProvider = NewDefaultConfigProvider()
+	}
 	return &batchService{
 		file:           fileService,
 		imageProcessor: imageProcessor,
 		publisher:      publisher,
+		configProvider: configProvider,
 		jobs:           make(map[string]*structs.BatchStatus),
 	}
 }
@@ -120,6 +126,17 @@ func (s *batchService) BatchUpload(
 				return
 			}
 
+			if s.configProvider != nil {
+				if err := s.configProvider.ValidateUpload(ctx, header.Filename, header.Header.Get("Content-Type"), header.Size); err != nil {
+					mu.Lock()
+					batchResult.FailureCount++
+					batchResult.FailedFiles = append(batchResult.FailedFiles, header.Filename)
+					batchResult.Errors = append(batchResult.Errors, fmt.Sprintf("File %s: %v", header.Filename, err))
+					mu.Unlock()
+					return
+				}
+			}
+
 			file, err := header.Open()
 			if err != nil {
 				mu.Lock()
@@ -166,7 +183,11 @@ func (s *batchService) BatchUpload(
 
 			body.Tags = params.Tags
 			body.Extras = params.Extras
-			body.ProcessingOptions = params.ProcessingOptions
+			if s.configProvider != nil {
+				body.ProcessingOptions = s.configProvider.NormalizeProcessingOptions(ctx, params.ProcessingOptions)
+			} else {
+				body.ProcessingOptions = params.ProcessingOptions
+			}
 
 			// Create the file
 			f, err := s.file.Create(ctx, body)
@@ -315,7 +336,15 @@ func (s *batchService) ProcessImages(
 	}
 
 	if options == nil {
-		return nil, fmt.Errorf("processing options are required")
+		if s.configProvider != nil {
+			options = s.configProvider.DefaultProcessingOptions(ctx)
+		}
+		if options == nil {
+			return nil, fmt.Errorf("processing options are required")
+		}
+	}
+	if s.configProvider != nil {
+		options = s.configProvider.NormalizeProcessingOptions(ctx, options)
 	}
 
 	processedFiles := make([]*structs.ReadFile, 0, len(files))

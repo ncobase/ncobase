@@ -53,7 +53,17 @@ func NewFileHandler(s *service.Service) FileHandlerInterface {
 	return &fileHandler{s: s}
 }
 
-var maxFileSize int64 = 2048 << 20 // 2048 MB
+const defaultMultipartMemoryLimit int64 = 32 << 20 // 32 MB
+
+func (h *fileHandler) multipartMemoryLimit(ctx context.Context) int64 {
+	limit := defaultMultipartMemoryLimit
+	if h.s != nil && h.s.Config != nil {
+		if cfg := h.s.Config.Get(ctx); cfg != nil && cfg.MaxUploadSize > 0 && cfg.MaxUploadSize < limit {
+			limit = cfg.MaxUploadSize
+		}
+	}
+	return limit
+}
 
 // Create handles file creation
 //
@@ -94,7 +104,7 @@ func (h *fileHandler) Create(c *gin.Context) {
 
 // handleFormDataUpload handles multipart form data upload
 func (h *fileHandler) handleFormDataUpload(c *gin.Context) {
-	if err := c.Request.ParseMultipartForm(maxFileSize); err != nil {
+	if err := c.Request.ParseMultipartForm(h.multipartMemoryLimit(c.Request.Context())); err != nil {
 		logger.Errorf(c.Request.Context(), "Failed to parse multipart form: %v", err)
 		resp.Fail(c.Writer, resp.BadRequest("Failed to parse multipart form"))
 		return
@@ -231,6 +241,12 @@ func (h *fileHandler) processFileWithPathPrefix(c *gin.Context, header *multipar
 		body.Type = "application/octet-stream"
 	}
 
+	if h.s != nil && h.s.Config != nil {
+		if err := h.s.Config.ValidateUpload(c.Request.Context(), header.Filename, body.Type, header.Size); err != nil {
+			return nil, err
+		}
+	}
+
 	fileSize := int(header.Size)
 	body.Size = &fileSize
 	body.File = file
@@ -284,11 +300,11 @@ func (h *fileHandler) bindFileFields(c *gin.Context, body *structs.CreateFileBod
 				if err := json.Unmarshal([]byte(values[0]), &options); err != nil {
 					return nil, fmt.Errorf("invalid processing options format: %w", err)
 				}
-				// Validate compression quality
-				if options.CompressionQuality <= 0 || options.CompressionQuality > 100 {
-					options.CompressionQuality = 80
+				if h.s != nil && h.s.Config != nil {
+					body.ProcessingOptions = h.s.Config.NormalizeProcessingOptions(c.Request.Context(), &options)
+				} else {
+					body.ProcessingOptions = &options
 				}
-				body.ProcessingOptions = &options
 			}
 		case "expires_at":
 			if values[0] != "" {
@@ -469,7 +485,7 @@ func (h *fileHandler) Update(c *gin.Context) {
 
 	updates := make(types.JSON)
 
-	if err := c.Request.ParseMultipartForm(maxFileSize); err != nil {
+	if err := c.Request.ParseMultipartForm(h.multipartMemoryLimit(c.Request.Context())); err != nil {
 		logger.Errorf(c.Request.Context(), "Failed to parse form for update: %v", err)
 		resp.Fail(c.Writer, resp.BadRequest("Failed to parse form"))
 		return
@@ -563,6 +579,16 @@ func (h *fileHandler) Update(c *gin.Context) {
 			resp.Fail(c.Writer, resp.BadRequest("Filename cannot be empty"))
 			return
 		}
+		contentType := header.Header.Get("Content-Type")
+		if contentType == "" {
+			contentType = "application/octet-stream"
+		}
+		if h.s != nil && h.s.Config != nil {
+			if err := h.s.Config.ValidateUpload(c.Request.Context(), header.Filename, contentType, header.Size); err != nil {
+				resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+				return
+			}
+		}
 
 		file, err := header.Open()
 		if err != nil {
@@ -579,10 +605,7 @@ func (h *fileHandler) Update(c *gin.Context) {
 		updates["name"] = nameWithoutExt
 		updates["original_name"] = header.Filename
 		updates["size"] = int(header.Size)
-		updates["type"] = header.Header.Get("Content-Type")
-		if updates["type"] == "" {
-			updates["type"] = "application/octet-stream"
-		}
+		updates["type"] = contentType
 
 		// Update category based on new file type
 		newCategory := structs.GetFileCategory(ext)
@@ -597,10 +620,11 @@ func (h *fileHandler) Update(c *gin.Context) {
 				resp.Fail(c.Writer, resp.BadRequest("Invalid processing options format"))
 				return
 			}
-			if options.CompressionQuality <= 0 || options.CompressionQuality > 100 {
-				options.CompressionQuality = 80
+			if h.s != nil && h.s.Config != nil {
+				updates["processing_options"] = h.s.Config.NormalizeProcessingOptions(c.Request.Context(), &options)
+			} else {
+				updates["processing_options"] = &options
 			}
-			updates["processing_options"] = &options
 		}
 	}
 
@@ -957,6 +981,14 @@ func (h *fileHandler) CreateThumbnail(c *gin.Context) {
 	}
 
 	options.CreateThumbnail = true
+	if h.s != nil && h.s.Config != nil {
+		normalized := h.s.Config.NormalizeProcessingOptions(c.Request.Context(), &options)
+		if normalized == nil || !normalized.CreateThumbnail {
+			resp.Fail(c.Writer, resp.BadRequest("Thumbnail creation is disabled"))
+			return
+		}
+		options = *normalized
+	}
 
 	file, err := h.s.File.CreateThumbnail(c.Request.Context(), slug, &options)
 	if err != nil {

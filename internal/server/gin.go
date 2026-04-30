@@ -2,9 +2,9 @@ package server
 
 import (
 	"context"
+	systemWrapper "ncobase/core/system/wrapper"
 	"ncobase/internal/middleware"
 	"net/http"
-	"time"
 
 	"github.com/ncobase/ncore/config"
 	"github.com/ncobase/ncore/ecode"
@@ -75,22 +75,17 @@ func ginServer(conf *config.Config, em ext.ManagerInterface) (*gin.Engine, error
 }
 
 // sessionMiddleware sets up session management
-func sessionMiddleware(conf *config.Config, engine *gin.Engine, em ext.ManagerInterface) error {
+func sessionMiddleware(_ *config.Config, engine *gin.Engine, em ext.ManagerInterface) error {
+	options := systemWrapper.NewOptionServiceWrapper(em)
+
 	// Session tracking and validation
 	engine.Use(middleware.SessionMiddleware(em))
 	engine.Use(middleware.ValidateSessionMiddleware(em))
 
-	// Optional session limits
-	if conf.Auth.MaxSessions > 0 {
-		engine.Use(middleware.SessionLimitMiddleware(em, conf.Auth.MaxSessions))
-	}
+	// Optional session limits are resolved from system options at runtime.
+	engine.Use(middleware.SessionLimitMiddleware(em, options))
 
 	// Start background cleanup task
-	cleanupInterval := 1 * time.Hour
-	if conf.Auth.SessionCleanupInterval > 0 {
-		cleanupInterval = time.Duration(conf.Auth.SessionCleanupInterval) * time.Minute
-	}
-
-	go middleware.SessionCleanupTask(context.Background(), em, cleanupInterval)
+	go middleware.SessionCleanupTask(context.Background(), em, options)
 	return nil
 }

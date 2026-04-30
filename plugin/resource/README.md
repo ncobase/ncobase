@@ -19,13 +19,19 @@ A comprehensive file management plugin for the ncore framework.
 ├── service/            # Business logic services
 ├── structs/            # Data structures and models
 ├── event/              # Event publishing and handling
-└── config.go           # Configuration management
+└── config/             # Runtime option defaults
 ```
 
 ## Configuration
 
-The plugin supports various configuration options for storage, image processing, and quota management. See config.go for
-details.
+Runtime policy is loaded from system options, not `config.yaml`.
+
+- `resource.upload`: maximum upload size, allowed file types, default storage label.
+- `resource.image`: thumbnail defaults, resize limits, compression quality.
+- `resource.quota`: quota enablement, enforcement, default quota, warning threshold, check interval.
+
+Object storage provider, endpoint, bucket, and credentials remain infrastructure config in
+`config.yaml` through ncore/oss.
 
 ## API Endpoints
 
@@ -44,6 +50,5 @@ details.
 
 ### Quota Management
 
-- `GET /res/quotas` - Get quota
-- `PUT /res/quotas` - Set quota
-- `GET /res/quotas/usage` - Get usage statistics
+- `GET /res/quota` - Get current quota summary
+- `GET /res/usage` - Get current usage statistics

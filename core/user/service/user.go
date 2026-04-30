@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	systemWrapper "ncobase/core/system/wrapper"
 	"ncobase/core/user/data/repository"
 	"ncobase/core/user/event"
 	"ncobase/core/user/structs"
@@ -41,15 +42,27 @@ type UserServiceInterface interface {
 
 // userService is the struct for the service.
 type userService struct {
-	user repository.UserRepositoryInterface
-	ep   event.PublisherInterface
+	user    repository.UserRepositoryInterface
+	ep      event.PublisherInterface
+	options *systemWrapper.OptionServiceWrapper
 }
 
 // NewUserService creates a new service.
-func NewUserService(repo *repository.Repository, ep event.PublisherInterface) UserServiceInterface {
+func NewUserService(repo *repository.Repository, ep event.PublisherInterface, options *systemWrapper.OptionServiceWrapper) UserServiceInterface {
 	return &userService{
-		user: repo.User,
-		ep:   ep,
+		user:    repo.User,
+		ep:      ep,
+		options: options,
+	}
+}
+
+func (s *userService) frontendOptions(ctx context.Context) systemWrapper.FrontendRuntimeOptions {
+	if s.options != nil {
+		return s.options.Frontend(ctx)
+	}
+	return systemWrapper.FrontendRuntimeOptions{
+		SignInURL: "http://localhost:3000/login",
+		SignUpURL: "http://localhost:3000/register",
 	}
 }
 
@@ -337,6 +350,16 @@ func (s *userService) SendPasswordResetEmail(ctx context.Context, userID string)
 	if user.Email == "" {
 		return errors.New("user does not have an email address")
 	}
+
+	emailSenderName := "System Admin"
+	if s.options != nil {
+		policy := s.options.EmailPolicy(ctx)
+		if !policy.Enabled || !policy.AllowPasswordReset {
+			return errors.New("password reset email is disabled")
+		}
+		emailSenderName = policy.SenderName
+	}
+
 	// Generate a temporary password
 	tempPassword := nanoid.String(12)
 	// Hash the temporary password
@@ -352,15 +375,16 @@ func (s *userService) SendPasswordResetEmail(ctx context.Context, userID string)
 	}
 
 	// Send the password reset email
-	conf := ctxutil.GetConfig(ctx)
+	frontend := s.frontendOptions(ctx)
 	template := email.Template{
 		Subject:  "Password Reset",
 		Template: "password-reset",
 		Keyword:  "Password Reset",
-		URL:      conf.Frontend.SignInURL,
+		URL:      frontend.SignInURL,
 		Data: map[string]any{
 			"username":     user.Username,
 			"tempPassword": tempPassword,
+			"sender_name":  emailSenderName,
 		},
 	}
 

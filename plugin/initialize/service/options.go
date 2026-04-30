@@ -11,16 +11,15 @@ import (
 func (s *Service) checkOptionsInitialized(ctx context.Context) error {
 	count := s.sys.Option.CountX(ctx, &systemStructs.ListOptionParams{})
 	if count > 0 {
-		logger.Infof(ctx, "System options already exist, skipping initialization")
-		return nil
+		logger.Infof(ctx, "System options already exist, ensuring missing default options")
 	}
 
 	return s.initOptions(ctx)
 }
 
-// initOptions initializes the default system options and creates space relationships
+// initOptions initializes missing default system options and creates space relationships.
 func (s *Service) initOptions(ctx context.Context) error {
-	logger.Infof(ctx, "Initializing system options in %s mode...", s.state.DataMode)
+	logger.Infof(ctx, "Ensuring system options in %s mode...", s.state.DataMode)
 
 	space, err := s.getDefaultSpace(ctx)
 	if err != nil {
@@ -38,27 +37,41 @@ func (s *Service) initOptions(ctx context.Context) error {
 	var createdCount, relationshipCount int
 
 	for _, option := range options {
-		option.CreatedBy = &adminUser.ID
+		var optionID string
+		existing, err := s.sys.Option.GetByName(ctx, option.Name)
+		if err == nil && existing != nil {
+			optionID = existing.ID
+			logger.Debugf(ctx, "Option %s already exists, preserving current value", option.Name)
+		} else {
+			option.CreatedBy = &adminUser.ID
+			created, createErr := s.sys.Option.Create(ctx, &option)
+			if createErr != nil {
+				logger.Errorf(ctx, "Error creating option %s: %v", option.Name, createErr)
+				return createErr
+			}
+			optionID = created.ID
+			logger.Debugf(ctx, "Created option: %s", option.Name)
+			createdCount++
+		}
 
-		created, err := s.sys.Option.Create(ctx, &option)
+		linked, err := s.ts.SpaceOption.IsOptionsInSpace(ctx, space.ID, optionID)
 		if err != nil {
-			logger.Errorf(ctx, "Error creating option %s: %v", option.Name, err)
 			return err
 		}
-		logger.Debugf(ctx, "Created option: %s", option.Name)
-		createdCount++
+		if linked {
+			continue
+		}
 
-		// Create space-options relationship
-		_, err = s.ts.SpaceOption.AddOptionsToSpace(ctx, space.ID, created.ID)
+		_, err = s.ts.SpaceOption.AddOptionsToSpace(ctx, space.ID, optionID)
 		if err != nil {
-			logger.Errorf(ctx, "Error linking options %s to space %s: %v", created.ID, space.ID, err)
+			logger.Errorf(ctx, "Error linking options %s to space %s: %v", optionID, space.ID, err)
 			return err
 		}
-		logger.Debugf(ctx, "Linked options %s to space %s", created.ID, space.ID)
+		logger.Debugf(ctx, "Linked options %s to space %s", optionID, space.ID)
 		relationshipCount++
 	}
 
-	logger.Infof(ctx, "System options initialization completed in %s mode, created %d options and %d relationships",
+	logger.Infof(ctx, "System options ensured in %s mode, created %d options and %d relationships",
 		s.state.DataMode, createdCount, relationshipCount)
 	return nil
 }

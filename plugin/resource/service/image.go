@@ -20,7 +20,7 @@ import (
 
 // ImageProcessorInterface defines the interface for image processing operations
 type ImageProcessorInterface interface {
-	CreateThumbnail(ctx context.Context, reader io.Reader, filename string, maxWidth, maxHeight int) ([]byte, error)
+	CreateThumbnail(ctx context.Context, reader io.Reader, filename string, maxWidth, maxHeight, quality int) ([]byte, error)
 	ResizeImage(ctx context.Context, reader io.Reader, filename string, maxWidth, maxHeight int) ([]byte, error)
 	ProcessImage(ctx context.Context, reader io.Reader, filename string, options *structs.ProcessingOptions) ([]byte, types.JSON, error)
 	GetImageDimensions(ctx context.Context, reader io.Reader, filename string) (int, int, error)
@@ -35,7 +35,11 @@ func NewImageProcessor() ImageProcessorInterface {
 }
 
 // CreateThumbnail creates a thumbnail of an image with the specified dimensions
-func (p *imageProcessor) CreateThumbnail(ctx context.Context, reader io.Reader, filename string, maxWidth, maxHeight int) ([]byte, error) {
+func (p *imageProcessor) CreateThumbnail(ctx context.Context, reader io.Reader, filename string, maxWidth, maxHeight, quality int) ([]byte, error) {
+	if quality <= 0 || quality > 100 {
+		quality = 85
+	}
+
 	// Decode the image
 	src, format, err := image.Decode(reader)
 	if err != nil {
@@ -53,12 +57,12 @@ func (p *imageProcessor) CreateThumbnail(ctx context.Context, reader io.Reader, 
 	// Use the same format as the original
 	switch format {
 	case "jpeg":
-		encodeErr = jpeg.Encode(&buf, thumbnail, &jpeg.Options{Quality: 85})
+		encodeErr = jpeg.Encode(&buf, thumbnail, &jpeg.Options{Quality: quality})
 	case "png":
 		encodeErr = png.Encode(&buf, thumbnail)
 	default:
 		// Default to JPEG if format not explicitly supported
-		encodeErr = jpeg.Encode(&buf, thumbnail, &jpeg.Options{Quality: 85})
+		encodeErr = jpeg.Encode(&buf, thumbnail, &jpeg.Options{Quality: quality})
 	}
 
 	if encodeErr != nil {

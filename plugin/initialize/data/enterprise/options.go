@@ -27,6 +27,12 @@ var SystemDefaultOptions = []structs.OptionBody{
 		Value:    version.GetVersionInfo().JSON(),
 		Autoload: true,
 	},
+	{
+		Name:     "system.frontend",
+		Type:     "object",
+		Value:    `{"sign_in_url":"http://localhost:3000/login","sign_up_url":"http://localhost:3000/register"}`,
+		Autoload: true,
+	},
 
 	// UI theme settings
 	{
@@ -35,12 +41,10 @@ var SystemDefaultOptions = []structs.OptionBody{
 		Value:    `{"primaryColor":"#1890ff","layout":"side","contentWidth":"fluid","fixedHeader":true,"fixSiderbar":true,"colorWeak":false,"title":"Enterprise Platform","logo":"/logo.png","darkMode":false,"compactMode":false}`,
 		Autoload: true,
 	},
-
-	// Storage settings
 	{
-		Name:     "system.storage",
+		Name:     "system.storage_policy",
 		Type:     "object",
-		Value:    `{"type":"local","local":{"directory":"uploads"},"oss":{"endpoint":"","accessKeyId":"","accessKeySecret":"","bucket":""},"s3":{"endpoint":"","accessKeyId":"","accessKeySecret":"","bucket":""}}`,
+		Value:    `{"default_provider":"configured","allow_public_links":true,"require_owner_scope":true,"audit_downloads":true}`,
 		Autoload: true,
 	},
 
@@ -51,12 +55,22 @@ var SystemDefaultOptions = []structs.OptionBody{
 		Value:    `{"passwordMinLength":8,"passwordComplexity":true,"loginAttempts":5,"lockoutDuration":30,"sessionTimeout":480,"mfaRequired":false,"ipWhitelist":[],"auditLogging":true}`,
 		Autoload: true,
 	},
-
-	// Email settings
 	{
-		Name:     "system.email",
+		Name:     "auth.token",
 		Type:     "object",
-		Value:    `{"fromName":"System Admin","fromEmail":"admin@example.com","smtp":{"host":"smtp.example.com","port":587,"secure":true,"auth":{"user":"","pass":""}}}`,
+		Value:    `{"access_token_expiry":"2h","refresh_token_expiry":"7d","register_token_expiry":"30m","mfa_token_expiry":"5m"}`,
+		Autoload: true,
+	},
+	{
+		Name:     "auth.session",
+		Type:     "object",
+		Value:    `{"max_sessions":10,"session_expiry":"7d","cleanup_interval":"1h"}`,
+		Autoload: true,
+	},
+	{
+		Name:     "system.email_policy",
+		Type:     "object",
+		Value:    `{"enabled":true,"sender_name":"System Admin","allow_auth_email":true,"allow_password_reset":true,"digest_frequency":"daily"}`,
 		Autoload: true,
 	},
 
@@ -113,6 +127,24 @@ var SystemDefaultOptions = []structs.OptionBody{
 		Name:     "system.multi_space",
 		Type:     "object",
 		Value:    `{"enabled":true,"isolation_level":"strict","shared_resources":["system","menu","dictionary"],"space_creation":"admin_only"}`,
+		Autoload: true,
+	},
+	{
+		Name:     "resource.upload",
+		Type:     "object",
+		Value:    `{"max_upload_size":5368709120,"allowed_types":["*"],"default_storage":"configured"}`,
+		Autoload: true,
+	},
+	{
+		Name:     "resource.image",
+		Type:     "object",
+		Value:    `{"enable_thumbnails":true,"default_thumbnail_width":300,"default_thumbnail_height":300,"enable_resizing":true,"max_image_width":2048,"max_image_height":2048,"compression_quality":85}`,
+		Autoload: true,
+	},
+	{
+		Name:     "resource.quota",
+		Type:     "object",
+		Value:    `{"enable_quotas":true,"enable_enforcement":true,"default_quota":10737418240,"warning_threshold":0.8,"quota_check_interval":"24h"}`,
 		Autoload: true,
 	},
 

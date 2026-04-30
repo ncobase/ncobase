@@ -5,6 +5,8 @@ import (
 	"ncobase/core/auth/data"
 	"ncobase/core/auth/data/repository"
 	"ncobase/core/auth/structs"
+	systemWrapper "ncobase/core/system/wrapper"
+	"time"
 
 	"github.com/ncobase/ncore/data/paging"
 	"github.com/ncobase/ncore/logging/logger"
@@ -27,18 +29,26 @@ type SessionServiceInterface interface {
 
 // sessionService implements the SessionServiceInterface
 type sessionService struct {
-	r repository.SessionRepositoryInterface
+	r       repository.SessionRepositoryInterface
+	options *systemWrapper.OptionServiceWrapper
 }
 
 // NewSessionService creates a new session service
-func NewSessionService(d *data.Data) SessionServiceInterface {
+func NewSessionService(d *data.Data, options *systemWrapper.OptionServiceWrapper) SessionServiceInterface {
 	return &sessionService{
-		r: repository.NewSessionRepository(d),
+		r:       repository.NewSessionRepository(d),
+		options: options,
 	}
 }
 
 // Create creates a new session
 func (s *sessionService) Create(ctx context.Context, body *structs.SessionBody, tokenID string) (*structs.ReadSession, error) {
+	if body.ExpiresAt == nil {
+		sessionOptions := authSessionOptions(ctx, s.options)
+		expiresAt := time.Now().Add(sessionOptions.SessionExpiry).UnixMilli()
+		body.ExpiresAt = &expiresAt
+	}
+
 	row, err := s.r.Create(ctx, body, tokenID)
 	if err != nil {
 		return nil, err

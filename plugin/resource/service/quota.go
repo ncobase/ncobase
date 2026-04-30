@@ -32,42 +32,49 @@ type QuotaConfig struct {
 	DefaultQuota      int64         `json:"default_quota"`
 	WarningThreshold  float64       `json:"warning_threshold"`
 	CheckInterval     time.Duration `json:"check_interval"`
+	EnableQuotas      bool          `json:"enable_quotas"`
 	EnableEnforcement bool          `json:"enable_enforcement"`
 }
 
 type quotaService struct {
-	fileRepo   repository.FileRepositoryInterface
-	redis      *redis.Client
-	config     *QuotaConfig
-	publisher  event.PublisherInterface
-	quotaCache map[string]int64
-	usageCache map[string]int64
-	mu         sync.RWMutex
+	fileRepo       repository.FileRepositoryInterface
+	redis          *redis.Client
+	configProvider ResourceConfigProvider
+	publisher      event.PublisherInterface
+	quotaCache     map[string]int64
+	usageCache     map[string]int64
+	mu             sync.RWMutex
 }
 
 // NewQuotaService creates new quota service
-func NewQuotaService(d *data.Data, publisher event.PublisherInterface, config *QuotaConfig) QuotaServiceInterface {
-	if config == nil {
-		config = &QuotaConfig{
-			DefaultQuota:      10 * 1024 * 1024 * 1024, // 10GB default
-			WarningThreshold:  0.8,                     // 80% warning
-			CheckInterval:     24 * time.Hour,          // Daily check
-			EnableEnforcement: true,                    // Enforce quotas
-		}
+func NewQuotaService(d *data.Data, publisher event.PublisherInterface, configProvider ResourceConfigProvider) QuotaServiceInterface {
+	if configProvider == nil {
+		configProvider = NewDefaultConfigProvider()
 	}
 
 	return &quotaService{
-		fileRepo:   repository.NewFileRepository(d),
-		redis:      d.GetRedis().(*redis.Client),
-		config:     config,
-		publisher:  publisher,
-		quotaCache: make(map[string]int64),
-		usageCache: make(map[string]int64),
+		fileRepo:       repository.NewFileRepository(d),
+		redis:          d.GetRedis().(*redis.Client),
+		configProvider: configProvider,
+		publisher:      publisher,
+		quotaCache:     make(map[string]int64),
+		usageCache:     make(map[string]int64),
 	}
+}
+
+func (s *quotaService) currentConfig(ctx context.Context) *QuotaConfig {
+	if s.configProvider != nil {
+		return s.configProvider.QuotaConfig(ctx)
+	}
+	return NewDefaultConfigProvider().QuotaConfig(ctx)
 }
 
 // CheckAndUpdateQuota checks and updates quota usage
 func (s *quotaService) CheckAndUpdateQuota(ctx context.Context, ownerID string, size int) (bool, error) {
+	cfg := s.currentConfig(ctx)
+	if !cfg.EnableQuotas {
+		return true, nil
+	}
 	if ownerID == "" {
 		return false, fmt.Errorf("owner ID is required")
 	}
@@ -85,7 +92,7 @@ func (s *quotaService) CheckAndUpdateQuota(ctx context.Context, ownerID string, 
 	}
 
 	newUsage := currentUsage + int64(size)
-	if s.config.EnableEnforcement && newUsage > quota {
+	if cfg.EnableEnforcement && newUsage > quota {
 		if s.publisher != nil {
 			eventData := &event.StorageQuotaEventData{
 				SpaceID:      ownerID, // Using ownerID as spaceID for compatibility
@@ -110,7 +117,7 @@ func (s *quotaService) CheckAndUpdateQuota(ctx context.Context, ownerID string, 
 	}
 
 	// Check warning threshold
-	if float64(newUsage)/float64(quota) >= s.config.WarningThreshold && s.publisher != nil {
+	if quota > 0 && float64(newUsage)/float64(quota) >= cfg.WarningThreshold && s.publisher != nil {
 		eventData := &event.StorageQuotaEventData{
 			SpaceID:      ownerID,
 			CurrentUsage: newUsage,
@@ -207,7 +214,6 @@ func (s *quotaService) GetQuota(ctx context.Context, ownerID string) (int64, err
 	s.mu.RUnlock()
 
 	// Check Redis
-	var quota int64
 	if s.redis != nil {
 		key := fmt.Sprintf("resource_storage:quota:%s", ownerID)
 		val, err := s.redis.Get(ctx, key).Int64()
@@ -219,24 +225,14 @@ func (s *quotaService) GetQuota(ctx context.Context, ownerID string) (int64, err
 		}
 	}
 
-	// Use default quota
-	quota = s.config.DefaultQuota
-
-	// Update cache and Redis
-	s.mu.Lock()
-	s.quotaCache[ownerID] = quota
-	s.mu.Unlock()
-
-	if s.redis != nil {
-		key := fmt.Sprintf("resource_storage:quota:%s", ownerID)
-		s.redis.Set(ctx, key, quota, 0)
-	}
-
-	return quota, nil
+	return s.currentConfig(ctx).DefaultQuota, nil
 }
 
 // IsQuotaExceeded checks if quota is exceeded
 func (s *quotaService) IsQuotaExceeded(ctx context.Context, ownerID string) (bool, error) {
+	if !s.currentConfig(ctx).EnableQuotas {
+		return false, nil
+	}
 	if ownerID == "" {
 		return false, fmt.Errorf("owner ID is required")
 	}
@@ -256,6 +252,10 @@ func (s *quotaService) IsQuotaExceeded(ctx context.Context, ownerID string) (boo
 
 // MonitorQuota monitors quotas for all owners
 func (s *quotaService) MonitorQuota(ctx context.Context) error {
+	cfg := s.currentConfig(ctx)
+	if !cfg.EnableQuotas {
+		return nil
+	}
 	owners, err := s.fileRepo.GetAllOwners(ctx)
 	if err != nil {
 		logger.Errorf(ctx, "Error getting owners for quota monitoring: %v", err)
@@ -275,6 +275,9 @@ func (s *quotaService) MonitorQuota(ctx context.Context) error {
 			continue
 		}
 
+		if quota <= 0 {
+			continue
+		}
 		usagePercent := float64(usage) / float64(quota) * 100
 
 		if usage >= quota && s.publisher != nil {
@@ -286,7 +289,7 @@ func (s *quotaService) MonitorQuota(ctx context.Context) error {
 				StorageType:  "file",
 			}
 			s.publisher.PublishStorageQuotaExceeded(ctx, eventData)
-		} else if usagePercent >= s.config.WarningThreshold*100 && s.publisher != nil {
+		} else if usagePercent >= cfg.WarningThreshold*100 && s.publisher != nil {
 			eventData := &event.StorageQuotaEventData{
 				SpaceID:      ownerID,
 				CurrentUsage: usage,

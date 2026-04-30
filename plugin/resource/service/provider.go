@@ -10,32 +10,31 @@ import (
 
 // Service contains all resource services
 type Service struct {
-	File  FileServiceInterface
-	Batch BatchServiceInterface
-	Quota QuotaServiceInterface
-	Admin AdminServiceInterface
-	Space *wrapper.SpaceServiceWrapper
+	File   FileServiceInterface
+	Batch  BatchServiceInterface
+	Quota  QuotaServiceInterface
+	Admin  AdminServiceInterface
+	Space  *wrapper.SpaceServiceWrapper
+	Config ResourceConfigProvider
 }
 
 // New creates new resource service
-func New(em ext.ManagerInterface, d *data.Data, publisher event.PublisherInterface) *Service {
+func New(em ext.ManagerInterface, d *data.Data, publisher event.PublisherInterface, configProvider ResourceConfigProvider) *Service {
+	if configProvider == nil {
+		configProvider = NewDefaultConfigProvider()
+	}
+
 	// Create image processor
 	imageProcessor := NewImageProcessor()
 
 	// Create quota service
-	quotaConfig := &QuotaConfig{
-		DefaultQuota:      10 * 1024 * 1024 * 1024, // 10GB default
-		WarningThreshold:  0.8,                     // 80% warning
-		EnableEnforcement: true,                    // Enforce quotas
-		CheckInterval:     24 * 60 * 60,            // 24 hours in seconds
-	}
-	quotaService := NewQuotaService(d, publisher, quotaConfig)
+	quotaService := NewQuotaService(d, publisher, configProvider)
 
 	// Create file service
-	fileService := NewFileService(d, imageProcessor, quotaService, publisher)
+	fileService := NewFileService(d, imageProcessor, quotaService, publisher, configProvider)
 
 	// Create batch service
-	batchService := NewBatchService(fileService, imageProcessor, publisher)
+	batchService := NewBatchService(fileService, imageProcessor, publisher, configProvider)
 
 	// Create admin service
 	adminService := NewAdminService(d, quotaService)
@@ -44,11 +43,12 @@ func New(em ext.ManagerInterface, d *data.Data, publisher event.PublisherInterfa
 	spaceWrapper := wrapper.NewSpaceServiceWrapper(em)
 
 	return &Service{
-		File:  fileService,
-		Batch: batchService,
-		Quota: quotaService,
-		Admin: adminService,
-		Space: spaceWrapper,
+		File:   fileService,
+		Batch:  batchService,
+		Quota:  quotaService,
+		Admin:  adminService,
+		Space:  spaceWrapper,
+		Config: configProvider,
 	}
 }
 

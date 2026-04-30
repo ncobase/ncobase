@@ -86,22 +86,6 @@ extension:
       type: "auto" # Will use Redis if available
       key_prefix: "ncore_ext"
 
-  # Plugin-specific configuration
-  plugin_config:
-    auth_plugin:
-      oauth_providers: [ "google", "github" ]
-    logger_plugin:
-      log_level: "info"
-    storage_plugin:
-      cache_ttl: "1h"
-    notification_plugin:
-      batch_size: 50
-
-frontend:
-  # Frontend authentication URLs
-  sign_in_url: http://localhost:3000/login # URL for user login page
-  sign_up_url: http://localhost:3000/register # URL for user registration page
-
 data:
   database:
     # global configuration
@@ -228,9 +212,9 @@ data:
     batch_size: 100 # Batch size for metrics operations
 
 auth:
+  # Runtime auth policy is stored in system options: system.frontend, auth.token, auth.session.
   jwt:
     secret: your-jwt-secret-key # openssl passwd -stdin < <(echo) | base64 | shasum / nanoid(35)
-    expiry: 24h # expiration time
   casbin:
     model: |
       [request_definition]
@@ -259,8 +243,6 @@ auth:
     - /sys/initialize/*
     - /static/*
     - "*swagger*"
-  max_sessions: 10 # Maximum concurrent sessions per user
-  session_cleanup_interval: 3600 # Session cleanup interval in seconds
 
 logger:
   # Log level (1:fatal, 2:error, 3:warn, 4:info, 5:debug, 6:trace)

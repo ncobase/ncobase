@@ -3,7 +3,7 @@ package resource
 import (
 	"context"
 	"fmt"
-	rConfig "ncobase/plugin/resource/config"
+	systemWrapper "ncobase/core/system/wrapper"
 	"ncobase/plugin/resource/data"
 	"ncobase/plugin/resource/event"
 	"ncobase/plugin/resource/handler"
@@ -39,11 +39,11 @@ type Plugin struct {
 	cleanup         func(name ...string)
 	eventSubscriber event.SubscriberInterface
 
-	c *rConfig.Config
-	d *data.Data
-	s *service.Service
-	h *handler.Handler
-	r *router.Router
+	configProvider service.ResourceConfigProvider
+	d              *data.Data
+	s              *service.Service
+	h              *handler.Handler
+	r              *router.Router
 
 	discovery
 }
@@ -79,7 +79,6 @@ func (p *Plugin) Name() string {
 
 // PreInit performs setup before initialization
 func (p *Plugin) PreInit() error {
-	p.c = rConfig.New()
 	return nil
 }
 
@@ -104,11 +103,6 @@ func (p *Plugin) Init(conf *config.Config, em ext.ManagerInterface) (err error) 
 		p.discovery.meta = conf.Consul.Discovery.DefaultMeta
 	}
 
-	// Load config from file
-	if conf.Viper != nil {
-		p.c.LoadFromViper(conf.Viper)
-	}
-
 	p.em = em
 	p.initialized = true
 
@@ -120,8 +114,11 @@ func (p *Plugin) PostInit() error {
 	// Create event publisher
 	publisher := event.NewPublisher(p.em)
 
+	optionWrapper := systemWrapper.NewOptionServiceWrapper(p.em)
+	p.configProvider = service.NewSystemOptionConfigProvider(optionWrapper)
+
 	// Create services
-	p.s = service.New(p.em, p.d, publisher)
+	p.s = service.New(p.em, p.d, publisher, p.configProvider)
 
 	// Create handlers
 	p.h = handler.New(p.s)
@@ -132,10 +129,8 @@ func (p *Plugin) PostInit() error {
 	// Set quota updater for event handler
 	p.eventSubscriber.SetQuotaUpdater(p.s.Quota)
 
-	// Start quota monitor if enabled
-	if p.c.QuotaManagement.EnableQuotas {
-		go p.startQuotaMonitor(p.s.Quota, p.c.QuotaManagement.QuotaCheckInterval)
-	}
+	// Start quota monitor; runtime option values are checked on each cycle.
+	p.startQuotaMonitor(p.s.Quota, p.configProvider)
 
 	// Subscribe to events
 	p.subscribeEvents()
@@ -148,26 +143,30 @@ func (p *Plugin) PostInit() error {
 	return nil
 }
 
-// startQuotaMonitor starts background quota monitoring
-func (p *Plugin) startQuotaMonitor(quotaService service.QuotaServiceInterface, intervalStr string) {
+// startQuotaMonitor starts background quota monitoring.
+func (p *Plugin) startQuotaMonitor(quotaService service.QuotaServiceInterface, configProvider service.ResourceConfigProvider) {
 	ctx := context.Background()
 
-	interval, err := time.ParseDuration(intervalStr)
-	if err != nil {
-		logger.Warnf(ctx, "Invalid quota check interval, using default 24h: %v", err)
-		interval = 24 * time.Hour
-	}
-
-	ticker := time.NewTicker(interval)
-
 	go func() {
-		defer ticker.Stop()
 		for {
+			quotaConfig := configProvider.QuotaConfig(ctx)
+			interval := quotaConfig.CheckInterval
+			if interval <= 0 {
+				logger.Warnf(ctx, "Invalid quota check interval, using default 24h")
+				interval = 24 * time.Hour
+			}
+
+			timer := time.NewTimer(interval)
 			select {
-			case <-ticker.C:
-				if err := quotaService.MonitorQuota(ctx); err != nil {
-					logger.Errorf(ctx, "Error in quota monitoring: %v", err)
+			case <-timer.C:
+				if quotaConfig.EnableQuotas {
+					if err := quotaService.MonitorQuota(ctx); err != nil {
+						logger.Errorf(ctx, "Error in quota monitoring: %v", err)
+					}
 				}
+			case <-ctx.Done():
+				timer.Stop()
+				return
 			}
 		}
 	}()

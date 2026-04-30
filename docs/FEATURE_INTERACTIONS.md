@@ -35,6 +35,29 @@ Menu, dictionary, and option changes affect runtime UI:
 - Deletes and prefix deletes need usage queries before execution.
 - Navigation preview should show hidden, disabled, feature-hidden, and permission-hidden states.
 
+## Config Layering and Runtime Policy
+
+`config.yaml` is limited to bootstrap, infrastructure, secrets, and security-boundary configuration:
+
+- app identity, environment, server/grpc binding, discovery, observability, logger bootstrap,
+  extension loading, data stores, queues, search, object storage credentials, email/OAuth secrets,
+  JWT secret, Casbin model, and authentication whitelist.
+
+Runtime/product policy must live in system options:
+
+- `system.frontend` controls public frontend URLs used by auth and password reset emails.
+- `auth.token` controls access, refresh, register, and MFA token expiry.
+- `auth.session` controls maximum sessions, session expiry, and cleanup interval.
+- `resource.upload`, `resource.image`, and `resource.quota` control file validation, image
+  processing, and quota enforcement.
+- `system.storage_policy` controls resource sharing gates and file access audit events; provider
+  credentials remain in YAML or a secret store.
+- `system.email_policy` controls whether auth and password reset emails are sent; provider
+  credentials remain in YAML or a secret store.
+
+Initialization must ensure missing default options individually and must not skip new defaults just
+because older option rows already exist. Existing option values are preserved.
+
 ## Content, Resource, and Distribution
 
 ### Content Production Chain

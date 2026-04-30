@@ -15,6 +15,23 @@ Swagger remains useful, but this file records the implementation reality and kno
 | Upload body | `multipart/form-data`; the browser must set the boundary, so the frontend must not force JSON content type. |
 | Permission style | `action:resource`; backend middleware is authoritative. |
 | List responses | Not fully uniform yet; each module must document whether it returns `items/total/has_next/next` or another shape. |
+| Runtime config | Product/runtime policy lives in `/sys/options`; `config.yaml` is for bootstrap, infrastructure, secrets, and security-boundary config only. |
+
+## Runtime Options
+
+These option names are consumed by backend services at runtime and should be managed through
+`/sys/options`, not `config.yaml`.
+
+| Option | Type | Runtime consumers | Notes |
+| --- | --- | --- | --- |
+| `system.frontend` | object | auth/user email links | `sign_in_url`, `sign_up_url`. |
+| `auth.token` | object | auth token generation | `access_token_expiry`, `refresh_token_expiry`, `register_token_expiry`, `mfa_token_expiry`; duration strings such as `2h`, `7d`, `30m`. |
+| `auth.session` | object | auth session creation and cleanup | `max_sessions`, `session_expiry`, `cleanup_interval`. |
+| `resource.upload` | object | resource upload/batch upload/update/version | `max_upload_size`, `allowed_types`, `default_storage`; storage provider credentials stay in `config.yaml`. |
+| `resource.image` | object | resource thumbnails/image processing | thumbnail defaults, max dimensions, compression quality. |
+| `resource.quota` | object | resource quota service | `enable_quotas`, `enable_enforcement`, `default_quota`, `warning_threshold`, `quota_check_interval`. |
+| `system.storage_policy` | object | resource sharing and access events | `allow_public_links`, `require_owner_scope`, `audit_downloads`; storage provider credentials stay in `config.yaml`. |
+| `system.email_policy` | object | auth and password reset email behavior | `enabled`, `allow_auth_email`, `allow_password_reset`, `sender_name`, `digest_frequency`; provider secrets stay in `config.yaml`. |
 
 ## Status Labels
 

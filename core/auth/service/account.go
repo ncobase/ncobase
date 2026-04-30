@@ -10,6 +10,7 @@ import (
 	"ncobase/core/auth/structs"
 	"ncobase/core/auth/wrapper"
 	spaceStructs "ncobase/core/space/structs"
+	systemWrapper "ncobase/core/system/wrapper"
 	userService "ncobase/core/user/service"
 	userStructs "ncobase/core/user/structs"
 	"time"
@@ -46,10 +47,11 @@ type accountService struct {
 	codeAuthRepo  repository.CodeAuthRepositoryInterface
 	authTokenRepo repository.AuthTokenRepositoryInterface
 
-	usw  *wrapper.UserServiceWrapper
-	tsw  *wrapper.SpaceServiceWrapper
-	asw  *wrapper.AccessServiceWrapper
-	ugsw *wrapper.OrganizationServiceWrapper
+	usw     *wrapper.UserServiceWrapper
+	tsw     *wrapper.SpaceServiceWrapper
+	asw     *wrapper.AccessServiceWrapper
+	ugsw    *wrapper.OrganizationServiceWrapper
+	options *systemWrapper.OptionServiceWrapper
 }
 
 // NewAccountService creates a new service.
@@ -58,6 +60,7 @@ func NewAccountService(d *data.Data, jtm *jwt.TokenManager, ep event.PublisherIn
 	tsw *wrapper.SpaceServiceWrapper,
 	asw *wrapper.AccessServiceWrapper,
 	ugsw *wrapper.OrganizationServiceWrapper,
+	options *systemWrapper.OptionServiceWrapper,
 ) AccountServiceInterface {
 	return &accountService{
 		d:             d,
@@ -73,6 +76,7 @@ func NewAccountService(d *data.Data, jtm *jwt.TokenManager, ep event.PublisherIn
 		tsw:           tsw,
 		asw:           asw,
 		ugsw:          ugsw,
+		options:       options,
 	}
 }
 
@@ -152,7 +156,7 @@ func (s *accountService) Login(ctx context.Context, body *structs.LoginBody) (*A
 	}
 
 	// Generate authentication response
-	authResp, err := generateAuthResponse(ctx, s.jtm, s.authTokenRepo, payload, s.ss, "password")
+	authResp, err := generateAuthResponse(ctx, s.jtm, s.authTokenRepo, payload, s.ss, "password", s.options)
 	if err != nil {
 		return nil, err
 	}
@@ -269,7 +273,7 @@ func (s *accountService) RefreshToken(ctx context.Context, refreshToken string) 
 	}
 
 	// Generate new authentication response
-	authResp, err := generateAuthResponse(ctx, s.jtm, s.authTokenRepo, tokenPayload, s.ss, "token_refresh")
+	authResp, err := generateAuthResponse(ctx, s.jtm, s.authTokenRepo, tokenPayload, s.ss, "token_refresh", s.options)
 	if err != nil {
 		return nil, err
 	}
@@ -372,7 +376,7 @@ func (s *accountService) Register(ctx context.Context, body *structs.RegisterBod
 	}
 
 	// Generate authentication response
-	authResp, err := generateAuthResponse(ctx, s.jtm, s.authTokenRepo, tokenPayload, s.ss, "registration")
+	authResp, err := generateAuthResponse(ctx, s.jtm, s.authTokenRepo, tokenPayload, s.ss, "registration", s.options)
 	if err != nil {
 		return nil, err
 	}

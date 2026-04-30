@@ -4,6 +4,7 @@ import (
 	"ncobase/core/auth/data"
 	"ncobase/core/auth/event"
 	"ncobase/core/auth/wrapper"
+	systemWrapper "ncobase/core/system/wrapper"
 
 	ext "github.com/ncobase/ncore/extension/types"
 	"github.com/ncobase/ncore/security/jwt"
@@ -32,14 +33,15 @@ func New(d *data.Data, jtm *jwt.TokenManager, em ext.ManagerInterface) *Service 
 	tsw := wrapper.NewSpaceServiceWrapper(em)
 	asw := wrapper.NewAccessServiceWrapper(em)
 	ugsw := wrapper.NewOrganizationServiceWrapper(em)
+	options := systemWrapper.NewOptionServiceWrapper(em)
 
-	cas := NewCodeAuthService(d, jtm, ep, usw, tsw, asw)
+	cas := NewCodeAuthService(d, jtm, ep, usw, tsw, asw, options)
 	ats := NewAuthSpaceService(d, usw, tsw, asw)
-	ss := NewSessionService(d)
-	mfa := NewMFAService(d, jtm, usw, asw, tsw, ss)
+	ss := NewSessionService(d, options)
+	mfa := NewMFAService(d, jtm, usw, asw, tsw, ss, options)
 
 	return &Service{
-		Account:   NewAccountService(d, jtm, ep, cas, ats, ss, mfa, usw, tsw, asw, ugsw),
+		Account:   NewAccountService(d, jtm, ep, cas, ats, ss, mfa, usw, tsw, asw, ugsw, options),
 		AuthSpace: ats,
 		CodeAuth:  cas,
 		Captcha:   NewCaptchaService(d),

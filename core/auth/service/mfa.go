@@ -12,6 +12,7 @@ import (
 	"ncobase/core/auth/data/repository"
 	"ncobase/core/auth/structs"
 	"ncobase/core/auth/wrapper"
+	systemWrapper "ncobase/core/system/wrapper"
 	userService "ncobase/core/user/service"
 	"ncobase/internal/utils"
 	"strings"
@@ -61,6 +62,7 @@ type mfaService struct {
 	tsw           *wrapper.SpaceServiceWrapper
 	enc           *utils.EncryptionService
 	ss            SessionServiceInterface
+	options       *systemWrapper.OptionServiceWrapper
 }
 
 func NewMFAService(
@@ -70,6 +72,7 @@ func NewMFAService(
 	asw *wrapper.AccessServiceWrapper,
 	tsw *wrapper.SpaceServiceWrapper,
 	ss SessionServiceInterface,
+	options *systemWrapper.OptionServiceWrapper,
 ) MFAServiceInterface {
 	var enc *utils.EncryptionService
 	encryptionConfig := &utils.EncryptionConfig{
@@ -92,6 +95,7 @@ func NewMFAService(
 		tsw:           tsw,
 		enc:           enc,
 		ss:            ss,
+		options:       options,
 	}
 }
 
@@ -121,7 +125,11 @@ func (s *mfaService) CreateLoginChallenge(ctx context.Context, userID string) (s
 	}
 
 	jti := nanoid.Must(32)
-	token, err := s.jtm.GenerateRegisterToken(jti, payload, mfaTokenSubject, &jwt.TokenConfig{Expiry: mfaTokenExpiry})
+	expiry := mfaTokenExpiry
+	if s.options != nil {
+		expiry = s.options.AuthToken(ctx).MFATokenExpiry
+	}
+	token, err := s.jtm.GenerateRegisterToken(jti, payload, mfaTokenSubject, &jwt.TokenConfig{Expiry: expiry})
 	if err != nil {
 		return "", nil, err
 	}
@@ -187,7 +195,7 @@ func (s *mfaService) VerifyLoginChallenge(ctx context.Context, mfaToken string, 
 		return nil, err
 	}
 
-	authResp, err := generateAuthResponse(ctx, s.jtm, s.authTokenRepo, tokenPayload, s.ss, "password+mfa")
+	authResp, err := generateAuthResponse(ctx, s.jtm, s.authTokenRepo, tokenPayload, s.ss, "password+mfa", s.options)
 	if err != nil {
 		return nil, err
 	}
