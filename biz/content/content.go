@@ -163,11 +163,11 @@ func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 	{
 		topicMedia.GET("", m.h.TopicMedia.List)
 		topicMedia.POST("", m.h.TopicMedia.Create)
+		topicMedia.GET("/by-topic-and-media", m.h.TopicMedia.GetByTopicAndMedia)
+		topicMedia.GET("/by-topic/:topicId", m.h.TopicMedia.ListByTopic)
 		topicMedia.GET("/:id", m.h.TopicMedia.Get)
 		topicMedia.PUT("/:id", m.h.TopicMedia.Update)
 		topicMedia.DELETE("/:id", m.h.TopicMedia.Delete)
-		topicMedia.GET("/by-topic-and-media", m.h.TopicMedia.GetByTopicAndMedia)
-		topicMedia.GET("/by-topic/:topicId", m.h.TopicMedia.ListByTopic)
 	}
 }
 

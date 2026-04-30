@@ -6,7 +6,9 @@ import (
 	"ncobase/biz/content/data"
 	"ncobase/biz/content/data/repository"
 	"ncobase/biz/content/structs"
+	"ncobase/biz/content/wrapper"
 
+	"github.com/ncobase/ncore/ctxutil"
 	"github.com/ncobase/ncore/data/paging"
 	"github.com/ncobase/ncore/ecode"
 	"github.com/ncobase/ncore/logging/logger"
@@ -24,17 +26,19 @@ type TopicMediaServiceInterface interface {
 }
 
 type topicMediaService struct {
-	r  repository.TopicMediaRepositoryInterface
-	m  repository.MediaRepositoryInterface
-	tr repository.TopicRepositoryInterface
+	r   repository.TopicMediaRepositoryInterface
+	m   repository.MediaRepositoryInterface
+	tr  repository.TopicRepositoryInterface
+	rsw *wrapper.ResourceServiceWrapper
 }
 
 // NewTopicMediaService creates new topic media service
-func NewTopicMediaService(d *data.Data) TopicMediaServiceInterface {
+func NewTopicMediaService(d *data.Data, rsw *wrapper.ResourceServiceWrapper) TopicMediaServiceInterface {
 	return &topicMediaService{
-		r:  repository.NewTopicMediaRepository(d),
-		m:  repository.NewMediaRepository(d),
-		tr: repository.NewTopicRepository(d),
+		r:   repository.NewTopicMediaRepository(d),
+		m:   repository.NewMediaRepository(d),
+		tr:  repository.NewTopicRepository(d),
+		rsw: rsw,
 	}
 }
 
@@ -50,6 +54,11 @@ func (s *topicMediaService) Create(ctx context.Context, body *structs.CreateTopi
 
 	if validator.IsEmpty(body.Type) {
 		return nil, errors.New(ecode.FieldIsRequired("type"))
+	}
+	if body.CreatedBy == nil {
+		if userID := ctxutil.GetUserID(ctx); userID != "" {
+			body.CreatedBy = &userID
+		}
 	}
 
 	// Check if topic exists
@@ -183,7 +192,7 @@ func (s *topicMediaService) List(ctx context.Context, params *structs.ListTopicM
 
 		// Build result with loaded media
 		result := make([]*structs.ReadTopicMedia, 0, len(rows))
-		mediaService := &mediaService{r: s.m}
+		mediaService := &mediaService{r: s.m, rsw: s.rsw}
 		for _, row := range rows {
 			topicMedia := repository.SerializeTopicMedia(row)
 			if media, ok := mediaMap[row.MediaID]; ok {
@@ -219,7 +228,7 @@ func (s *topicMediaService) loadMediaForTopicMedia(ctx context.Context, topicMed
 			logger.Warnf(ctx, "Failed to load media for topic media relation: %v", err)
 			// Continue with no media loaded
 		} else {
-			mediaService := &mediaService{r: s.m}
+			mediaService := &mediaService{r: s.m, rsw: s.rsw}
 			topicMedia.Media = mediaService.enrichMedia(ctx, repository.SerializeMedia(media))
 		}
 	}

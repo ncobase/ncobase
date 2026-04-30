@@ -83,6 +83,24 @@ func (r *mediaRepository) Create(ctx context.Context, body *structs.CreateMediaB
 	if body.ResourceID != "" {
 		extras["resource_id"] = body.ResourceID
 	}
+	if body.Path != "" {
+		extras["path"] = body.Path
+	}
+	if body.MimeType != "" {
+		extras["mime_type"] = body.MimeType
+	}
+	if body.Size != nil {
+		extras["size"] = *body.Size
+	}
+	if body.Width != nil {
+		extras["width"] = *body.Width
+	}
+	if body.Height != nil {
+		extras["height"] = *body.Height
+	}
+	if body.Duration != nil {
+		extras["duration"] = *body.Duration
+	}
 	if body.Description != "" {
 		extras["description"] = body.Description
 	}
@@ -251,7 +269,19 @@ func (r *mediaRepository) Update(ctx context.Context, id string, updates types.J
 		extras = make(types.JSON)
 	}
 
-	extrasFields := []string{"resource_id", "description", "alt", "owner_id", "metadata"}
+	extrasFields := []string{
+		"resource_id",
+		"path",
+		"mime_type",
+		"size",
+		"width",
+		"height",
+		"duration",
+		"description",
+		"alt",
+		"owner_id",
+		"metadata",
+	}
 	for _, field := range extrasFields {
 		if value, ok := updates[field]; ok {
 			extras[field] = value

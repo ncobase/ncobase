@@ -21,6 +21,12 @@ type MediaBody struct {
 	Type        string      `json:"type,omitempty"`        // image, video, audio, file
 	ResourceID  string      `json:"resource_id,omitempty"` // Reference to resource plugin file
 	URL         string      `json:"url,omitempty"`         // For external resources
+	Path        string      `json:"path,omitempty"`
+	MimeType    string      `json:"mime_type,omitempty"`
+	Size        *int        `json:"size,omitempty"`
+	Width       *int        `json:"width,omitempty"`
+	Height      *int        `json:"height,omitempty"`
+	Duration    *float64    `json:"duration,omitempty"`
 	Description string      `json:"description,omitempty"`
 	Alt         string      `json:"alt,omitempty"`
 	Metadata    *types.JSON `json:"metadata,omitempty"`
@@ -48,6 +54,12 @@ type ReadMedia struct {
 	Type        string                 `json:"type"`
 	ResourceID  string                 `json:"resource_id,omitempty"`
 	URL         string                 `json:"url"`
+	Path        string                 `json:"path,omitempty"`
+	MimeType    string                 `json:"mime_type,omitempty"`
+	Size        *int                   `json:"size,omitempty"`
+	Width       *int                   `json:"width,omitempty"`
+	Height      *int                   `json:"height,omitempty"`
+	Duration    *float64               `json:"duration,omitempty"`
 	Description string                 `json:"description"`
 	Alt         string                 `json:"alt"`
 	Metadata    *types.JSON            `json:"metadata,omitempty"`

@@ -8,6 +8,7 @@ import (
 	"ncobase/biz/content/structs"
 	"ncobase/biz/content/wrapper"
 
+	"github.com/ncobase/ncore/ctxutil"
 	"github.com/ncobase/ncore/data/paging"
 	"github.com/ncobase/ncore/ecode"
 	"github.com/ncobase/ncore/logging/logger"
@@ -39,6 +40,19 @@ func NewMediaService(d *data.Data, rsw *wrapper.ResourceServiceWrapper) MediaSer
 
 // Create creates new media
 func (s *mediaService) Create(ctx context.Context, body *structs.CreateMediaBody) (*structs.ReadMedia, error) {
+	userID := ctxutil.GetUserID(ctx)
+	spaceID := ctxutil.GetSpaceID(ctx)
+
+	if validator.IsEmpty(body.SpaceID) && validator.IsNotEmpty(spaceID) {
+		body.SpaceID = spaceID
+	}
+	if validator.IsEmpty(body.OwnerID) && validator.IsNotEmpty(userID) {
+		body.OwnerID = userID
+	}
+	if body.CreatedBy == nil && validator.IsNotEmpty(userID) {
+		body.CreatedBy = &userID
+	}
+
 	if validator.IsEmpty(body.Type) {
 		return nil, errors.New(ecode.FieldIsRequired("type"))
 	}
@@ -80,6 +94,9 @@ func (s *mediaService) Update(ctx context.Context, id string, updates types.JSON
 
 	if len(updates) == 0 {
 		return nil, errors.New(ecode.FieldIsEmpty("updates fields"))
+	}
+	if userID := ctxutil.GetUserID(ctx); userID != "" {
+		updates["updated_by"] = userID
 	}
 
 	// Validate resource_id if being updated
@@ -173,6 +190,15 @@ func (s *mediaService) enrichMedia(ctx context.Context, media *structs.ReadMedia
 				DownloadURL:  resource.DownloadURL,
 				ThumbnailURL: resource.ThumbnailURL,
 				IsExpired:    resource.IsExpired,
+			}
+			if media.Path == "" {
+				media.Path = resource.Path
+			}
+			if media.MimeType == "" {
+				media.MimeType = resource.Type
+			}
+			if media.Size == nil {
+				media.Size = resource.Size
 			}
 		} else {
 			logger.Warnf(ctx, "Failed to load resource %s: %v", media.ResourceID, err)

@@ -29,7 +29,7 @@ func New(em ext.ManagerInterface, d *data.Data) *Service {
 	cs := NewChannelService(d)
 	ds := NewDistributionService(d, tops, cs)
 	ms := NewMediaService(d, rsw)
-	tms := NewTopicMediaService(d)
+	tms := NewTopicMediaService(d, rsw)
 
 	return &Service{
 		Taxonomy:     ts,

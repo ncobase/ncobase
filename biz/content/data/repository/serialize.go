@@ -3,7 +3,50 @@ package repository
 import (
 	"ncobase/biz/content/data/ent"
 	"ncobase/biz/content/structs"
+
+	"github.com/ncobase/ncore/types"
 )
+
+func stringExtra(extras types.JSON, key string) string {
+	if value, ok := extras[key]; ok {
+		if v, ok := value.(string); ok {
+			return v
+		}
+	}
+	return ""
+}
+
+func intExtra(extras types.JSON, key string) *int {
+	if value, ok := extras[key]; ok {
+		switch v := value.(type) {
+		case int:
+			return &v
+		case int64:
+			i := int(v)
+			return &i
+		case float64:
+			i := int(v)
+			return &i
+		}
+	}
+	return nil
+}
+
+func floatExtra(extras types.JSON, key string) *float64 {
+	if value, ok := extras[key]; ok {
+		switch v := value.(type) {
+		case float64:
+			return &v
+		case int:
+			f := float64(v)
+			return &f
+		case int64:
+			f := float64(v)
+			return &f
+		}
+	}
+	return nil
+}
 
 // SerializeTaxonomy converts ent.Taxonomy to structs.ReadTaxonomy.
 func SerializeTaxonomy(row *ent.Taxonomy) *structs.ReadTaxonomy {
@@ -158,6 +201,12 @@ func SerializeMedia(row *ent.Media) *structs.ReadMedia {
 				result.OwnerID = ownerID
 			}
 		}
+		result.Path = stringExtra(row.Extras, "path")
+		result.MimeType = stringExtra(row.Extras, "mime_type")
+		result.Size = intExtra(row.Extras, "size")
+		result.Width = intExtra(row.Extras, "width")
+		result.Height = intExtra(row.Extras, "height")
+		result.Duration = floatExtra(row.Extras, "duration")
 		result.Metadata = &row.Extras
 	}
 
