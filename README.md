@@ -40,6 +40,10 @@ make help             # Show make commands help
 
 - [Overview](docs/OVERVIEW.md)
 - [Domain Reference](docs/DOMAIN_REFERENCE.md)
+- [API Contract Baseline](docs/API_CONTRACT.md)
+- [Permission Rules](docs/PERMISSIONS.md)
+- [Feature Interactions](docs/FEATURE_INTERACTIONS.md)
+- [State Machines](docs/STATE_MACHINES.md)
 - [Extension Guide](docs/EXTENSION_GUIDE.md)
 - [Migration Notes](docs/MIGRATION_NOTES.md)
 - [Swagger JSON](docs/swagger/swagger.json)

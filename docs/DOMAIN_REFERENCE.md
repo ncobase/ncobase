@@ -168,7 +168,7 @@ has an empty group.
 /pay/subscriptions          # Subscriptions
 /pay/logs                   # Payment logs
 /pay/providers              # Provider metadata
-/pay/webhook/:provider      # Provider webhook
+/pay/webhooks/:channel      # Channel webhook
 /pay/stats                  # Payment stats
 ```
 
