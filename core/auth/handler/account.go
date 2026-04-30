@@ -172,7 +172,7 @@ func (h *accountHandler) Logout(c *gin.Context) {
 // @Param body body structs.RefreshTokenBody true "Refresh token"
 // @Success 200 {object} map[string]any{id=string,access_token=string,refresh_token=string} "success"
 // @Failure 400 {object} resp.Exception "bad request"
-// @Router /refresh [post]
+// @Router /refresh-token [post]
 func (h *accountHandler) RefreshToken(c *gin.Context) {
 	body := &structs.RefreshTokenBody{}
 	if validationErrors, err := validation.ShouldBindAndValidateStruct(c, body); err != nil {

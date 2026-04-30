@@ -253,7 +253,7 @@ func (s *dictionaryService) Delete(ctx context.Context, params *structs.FindDict
 	return nil, nil
 }
 
-// List lists all dictionarys.
+// List lists all dictionaries.
 func (s *dictionaryService) List(ctx context.Context, params *structs.ListDictionaryParams) (paging.Result[*structs.ReadDictionary], error) {
 	pp := paging.Params{
 		Cursor:    params.Cursor,
@@ -272,7 +272,7 @@ func (s *dictionaryService) List(ctx context.Context, params *structs.ListDictio
 			return nil, 0, errors.New(ecode.FieldIsInvalid("cursor"))
 		}
 		if err != nil {
-			logger.Errorf(ctx, "Error listing dictionarys: %v", err)
+			logger.Errorf(ctx, "Error listing dictionaries: %v", err)
 			return nil, 0, err
 		}
 
@@ -282,7 +282,7 @@ func (s *dictionaryService) List(ctx context.Context, params *structs.ListDictio
 	})
 }
 
-// CountX counts dictionarys.
+// CountX counts dictionaries.
 func (s *dictionaryService) CountX(ctx context.Context, params *structs.ListDictionaryParams) int {
 	return s.dictionary.CountX(ctx, params)
 }

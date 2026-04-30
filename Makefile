@@ -6,7 +6,8 @@ APP_NAME := ncobase
 CMD_PATH := .
 OUT := ./bin
 PLUGIN_PATH := ./plugin
-BUSINESS_PATH := ./domain
+BUSINESS_PATH := ./biz
+CONFIG_SOURCE ?= ./config.yaml
 
 # Version with fallback
 VERSION := $(shell git describe --tags --match "v*" --always 2>/dev/null || echo "unknown")
@@ -16,7 +17,7 @@ BUILT_AT := $(shell date +%FT%T%z)
 GO_VERSION=$(shell go version | awk '{print $$3}')
 
 # Build flags
-BUILD_VARS := ncobase/ncore/version
+BUILD_VARS := ncobase/internal/version
 LDFLAGS := -X $(BUILD_VARS).Version=$(VERSION) \
            -X $(BUILD_VARS).Branch=$(BRANCH) \
            -X $(BUILD_VARS).Revision=$(REVISION) \
@@ -147,13 +148,13 @@ generate:
 copy-config:
 	@mkdir -p $(OUT)
 	@if [ ! -f "$(OUT)/config.yaml" ]; then \
-		if [ -f "./setup/config/config.yaml" ]; then \
+		if [ -f "$(CONFIG_SOURCE)" ]; then \
 			echo "- Copying config file..."; \
-			cp ./setup/config/config.yaml $(OUT)/config.yaml || \
+			cp $(CONFIG_SOURCE) $(OUT)/config.yaml || \
 				(echo "Error: Failed to copy config file" && exit 1); \
 			echo "✓ Config file copied"; \
 		else \
-			echo "Error: Source config file not found"; \
+			echo "Error: Source config file not found: $(CONFIG_SOURCE)"; \
 			exit 1; \
 		fi; \
 	else \

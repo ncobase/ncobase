@@ -276,7 +276,7 @@ func hasSpecificPermission(permissions []string, required string) bool {
 
 // hasAdminRole checks if user has admin role (updated)
 func hasAdminRole(roles []string) bool {
-	adminRoles := []string{"super-admin", "system-admin", "company-admin", "company-admin"}
+	adminRoles := []string{"super-admin", "system-admin", "company-admin", "enterprise-admin", "admin"}
 
 	for _, role := range roles {
 		for _, adminRole := range adminRoles {

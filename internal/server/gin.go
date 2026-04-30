@@ -58,7 +58,11 @@ func ginServer(conf *config.Config, em ext.ManagerInterface) (*gin.Engine, error
 
 	// Extension management routes
 	if conf.Extension.HotReload {
-		em.ManageRoutes(engine.Group("/ncore", middleware.AuthenticatedUser))
+		em.ManageRoutes(engine.Group(
+			"/ncore",
+			middleware.AuthenticatedUser,
+			middleware.HasPermission("manage:ncore"),
+		))
 	}
 
 	// Handle not found routes

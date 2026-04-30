@@ -1,5 +1,10 @@
 # Ncobase
 
+Business backend application for the Ncobase platform.
+
+For the current cross-project plan and rules, see the root
+[`PROJECT_PLAN.md`](../PROJECT_PLAN.md).
+
 ## Quick Start
 
 ```shell
@@ -33,9 +38,12 @@ make help             # Show make commands help
 
 ## Documentation
 
-- [Overview](docs/Overview.md)
-- [Extension Development Guide](docs/Extension_Development_Guide.md)
-- [Business Domain Reference](docs/Business_Domain_Reference.md)
+- [Overview](docs/OVERVIEW.md)
+- [Domain Reference](docs/DOMAIN_REFERENCE.md)
+- [Extension Guide](docs/EXTENSION_GUIDE.md)
+- [Migration Notes](docs/MIGRATION_NOTES.md)
+- [Swagger JSON](docs/swagger/swagger.json)
+- [Archived Backend Documents](docs/archive/README.md)
 
 For full documentation, including API references and deployment guides,
 visit [https://docs.ncobase.com](https://docs.ncobase.com).

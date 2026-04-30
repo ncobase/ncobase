@@ -7,9 +7,9 @@ API routing conventions and module organization for ncobase.
 ### Core Modules (`core/`)
 
 | Module         | Group | Description                                      |
-|----------------|-------|--------------------------------------------------|
+| -------------- | ----- | ------------------------------------------------ |
+| `auth`         | root  | Authentication, sessions, MFA, captcha           |
 | `access`       | sys   | Role-based access control, permissions, policies |
-| `auth`         | sys   | Authentication, sessions, MFA, captcha           |
 | `user`         | sys   | User management, profiles, API keys              |
 | `organization` | sys   | Organization structure, departments, teams       |
 | `space`        | sys   | Multi-tenant spaces, quotas, billing             |
@@ -18,26 +18,29 @@ API routing conventions and module organization for ncobase.
 ### Business Modules (`biz/`)
 
 | Module     | Group | Description                               |
-|------------|-------|-------------------------------------------|
+| ---------- | ----- | ----------------------------------------- |
 | `content`  | cms   | Articles, topics, media, taxonomies       |
-| `realtime` | msg   | Real-time events, notifications, channels |
+| `realtime` | rt    | Real-time events, notifications, channels |
 
 ### Plugins (`plugin/`)
 
 | Plugin     | Group | Description                             |
-|------------|-------|-----------------------------------------|
+| ---------- | ----- | --------------------------------------- |
 | `resource` | res   | File storage, uploads, quota management |
-| `proxy`    | api   | API gateway, routing, transformers      |
+| `proxy`    | tbp   | API gateway, routing, transformers      |
 | `payment`  | pay   | Payment processing, transactions        |
-| `counter`  | util  | Counters, statistics                    |
+| `counter`  | plug  | Counters, statistics                    |
 | `sample`   | plug  | Sample plugin template                  |
 
 ## API Routing Patterns
 
 Routes are organized by domain group:
 
+Most business routes use `/{group}/{resource}`. Auth routes are root-level because the auth module
+has an empty group.
+
 ```text
-/api/{group}/{resource}
+/{group}/{resource}
 ```
 
 ### System Domain (sys)
@@ -70,20 +73,36 @@ Routes are organized by domain group:
 /sys/activities/search
 ```
 
-### Authentication Domain (auth)
+### Authentication Domain (root)
 
 ```text
-/auth/login                 # User login
-/auth/logout                # User logout
-/auth/refresh               # Token refresh
-/auth/register              # User registration
+/login                      # User login
+/login/mfa                  # MFA challenge login
+/logout                     # User logout
+/refresh-token              # Token refresh
+/register                   # User registration
+/token-status               # Token status check
 
-/auth/mfa/setup             # MFA setup
-/auth/mfa/verify            # MFA verification
-/auth/mfa/recovery          # Recovery codes
+/account                    # Current account
+/account/password           # Current account password
+/account/space              # Current default/current space
+/account/spaces             # Current account spaces
+/account/2fa/status         # MFA status
+/account/2fa/setup          # MFA setup
+/account/2fa/verify         # MFA verification
+/account/2fa/disable        # MFA disable
+/account/2fa/backup-codes   # MFA recovery codes
 
-/auth/captcha               # Captcha generation
-/auth/sessions              # Session management
+/captcha/generate           # Captcha generation
+/captcha/:captcha           # Captcha stream
+/captcha/validate           # Captcha validation
+
+/authorize/send             # Send code auth
+/authorize/:code            # Complete code auth
+
+/sessions                   # Session list
+/sessions/:session_id       # Session detail/delete
+/sessions/deactivate-all    # Deactivate other sessions
 ```
 
 ### Content Domain (cms)
@@ -97,31 +116,76 @@ Routes are organized by domain group:
 /cms/distributions          # Content distribution
 ```
 
-### Messaging Domain (msg)
+### Realtime Domain (rt)
 
 ```
-/msg/events                 # Real-time events
-/msg/channels               # Message channels
-/msg/subscriptions          # Event subscriptions
-/msg/notifications          # User notifications
+/rt/ws                      # WebSocket endpoint
+/rt/notifications           # User notifications
+/rt/channels                # Realtime channels
+/rt/events                  # Realtime event history
+/events                     # Core event publish/detail/search
+/stats/realtime             # Realtime stats
 ```
 
 ### Resource Domain (res)
 
 ```text
-/res/files                  # File management
-/res/files/upload
-/res/files/:id/download
-/res/quotas                 # Storage quotas
+/res                        # File list/upload
+/res/:slug                  # File detail/update/delete
+/res/:slug/download         # Authenticated download
+/res/:slug/versions         # File versions
+/res/:slug/share            # Share link generation
+/res/:slug/access           # Access level changes
+/res/view/:slug             # Public view
+/res/share/:token           # Shared file access
+/res/thumb/:slug            # Thumbnail access
+/res/dl/:slug               # Public download
+/res/quota                  # Current user quota
+/res/usage                  # Current user usage
+/res/batch/upload           # Batch upload
+/res/batch/delete           # Batch delete
+/res/admin/files            # Admin file management
+/res/admin/stats            # Admin storage stats
 ```
 
-### API Gateway Domain (api)
+### Proxy Domain (tbp)
 
 ```text
-/api/routes                 # Proxy routes
-/api/endpoints              # API endpoints
-/api/transformers           # Request/response transformers
+/tbp/routes                 # Proxy routes
+/tbp/endpoints              # API endpoints
+/tbp/transformers           # Request/response transformers
 ```
+
+### Payment Domain (pay)
+
+```text
+/pay/channels               # Payment channels
+/pay/orders                 # Payment orders
+/pay/orders/:id/payment-url # Payment URL generation
+/pay/orders/:id/verify      # Payment verification
+/pay/orders/:id/refund      # Refund
+/pay/products               # Payment products
+/pay/subscriptions          # Subscriptions
+/pay/logs                   # Payment logs
+/pay/providers              # Provider metadata
+/pay/webhook/:provider      # Provider webhook
+/pay/stats                  # Payment stats
+```
+
+### NCore Management Domain (ncore)
+
+```text
+/ncore/extensions           # Extension inventory
+/ncore/plugins/load         # Load plugin
+/ncore/plugins/unload       # Unload plugin
+/ncore/plugins/reload       # Reload plugin
+/ncore/metrics/*            # Runtime metrics
+/ncore/health/*             # Runtime health
+/ncore/system/*             # Runtime system metadata
+```
+
+`/ncore` routes are registered only when extension hot reload is enabled and now require
+`manage:ncore` permission in addition to authentication.
 
 ## Permission Patterns
 
@@ -137,12 +201,14 @@ admin:system                # System administration
 
 ## Domain Groups
 
-| Group  | Description         | Examples                  |
-|--------|---------------------|---------------------------|
-| `sys`  | System management   | users, roles, permissions |
-| `auth` | Authentication      | login, mfa, sessions      |
-| `cms`  | Content management  | topics, media, taxonomies |
-| `msg`  | Messaging/realtime  | events, notifications     |
-| `res`  | Resource management | files, storage, quotas    |
-| `api`  | API gateway         | routes, endpoints         |
-| `plug` | Plugin namespace    | custom plugins            |
+| Group   | Description         | Examples                  |
+| ------- | ------------------- | ------------------------- |
+| root    | Authentication      | login, account, sessions  |
+| `sys`   | System management   | users, roles, permissions |
+| `cms`   | Content management  | topics, media, taxonomies |
+| `rt`    | Realtime            | events, notifications     |
+| `res`   | Resource management | files, storage, quotas    |
+| `pay`   | Payment             | orders, products          |
+| `tbp`   | Third-party proxy   | routes, endpoints         |
+| `plug`  | Plugin namespace    | custom plugins            |
+| `ncore` | Runtime operations  | extensions, health        |
