@@ -94,8 +94,8 @@ These option names are consumed by backend services at runtime and should be man
 | `/cms/taxonomies` | CRUD by slug | taxonomy service | authenticated plus Casbin | partial | Taxonomy relation helpers exist in service layer. |
 | `/cms/channels` | CRUD by slug | channel service | authenticated plus Casbin | partial | Channel rules should constrain distribution UI. |
 | `/cms/distributions` | CRUD by id, publish/cancel | distribution service | authenticated plus Casbin | partial | Needs state machine and review/schedule integration. |
-| `/cms/media` | CRUD by id; list by `resource_id` | media service | authenticated plus Casbin | partial | Media records persist `resource_id` on the media table and list filters also match legacy extras metadata so resource delete checks do not miss older references. |
-| `/cms/topic-media` | CRUD and lookup | topic media service | authenticated plus Casbin | backend-only/partial | Frontend topic media logic still contains placeholders. |
+| `/cms/media` | CRUD by id; list by `resource_id` | media service and content upload hooks | authenticated plus Casbin | partial/aligned | Media records persist `resource_id` plus path, mime, size, owner, and space metadata; list filters also match legacy extras metadata so resource delete checks do not miss older references. Resource enrichment returns preview/download data when available. |
+| `/cms/topic-media` | CRUD, list, by-topic, by-topic-and-media | topic media service and `TopicMediaManager` | authenticated plus Casbin | partial/aligned | Frontend now calls `/cms/topic-media/by-topic/:topicId` and reconciles create/update/delete differences. Remaining gaps are first-class topic form integration, reverse topic reference queries, and stronger tests. |
 | comments/tags/SEO/workflow/templates/versions/schedules | none in current backend | content subfeature APIs | n/a | frontend-only | Hide or implement backend-first. |
 
 ## Resource Domain
@@ -147,5 +147,7 @@ These option names are consumed by backend services at runtime and should be man
 2. Payment docs previously used `/pay/webhook/:provider`; current route is `/pay/webhooks/:channel`.
 3. Content advanced frontend routes do not have current backend modules.
 4. Space route groups over-require `manage:spaces` for read operations.
-5. Swagger still needs full pass for `/res`, `/tbp`, root auth/account/session, and duplicate route
+5. CMS media/resource/topic-media are connected, but existing resource selection, reverse topic
+   references, and form-level gallery/attachment UX still need follow-up.
+6. Swagger still needs full pass for `/res`, `/tbp`, root auth/account/session, and duplicate route
    warnings.

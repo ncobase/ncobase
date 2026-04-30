@@ -71,14 +71,21 @@ taxonomy -> topic -> media/resource -> channel -> distribution -> publish/cancel
 - Topics, taxonomies, channels, distributions, media, and topic-media exist in backend.
 - CMS media can reference resource files through `resource_id`.
 - Resource service is available through a content wrapper.
+- Frontend media upload now writes to `/res` first, then creates `/cms/media` with the resource
+  reference and ownership/space metadata.
+- Topic-media synchronization now uses real `/cms/topic-media/by-topic/:topicId` lookup and
+  create/update/delete reconciliation.
 - Advanced production features such as workflow, template, SEO, version, and schedule are mostly
   frontend-first or absent from current backend modules.
 
 ### Required Behavior
 
 - Topic create/edit must validate taxonomy and surface backend errors inline.
-- Topic media picker must connect CMS media to `/res` files.
-- Resource delete/access/share must check references once reference query APIs exist.
+- Topic create/edit must expose the real `TopicMediaManager` flow for featured, gallery, and
+  attachment media instead of only thumbnail upload.
+- Media picker must add existing `/res` selection in addition to upload-created CMS media.
+- Resource delete/access/share must check CMS media references now and topic references when the
+  reverse topic lookup is added.
 - Channel rules should drive distribution creation:
   - `allowed_types` restricts eligible content,
   - `require_review` blocks direct publish,

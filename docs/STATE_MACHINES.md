@@ -37,7 +37,8 @@ Access scope is separate from lifecycle:
 Rules:
 
 - Public/share routes must validate scope or token.
-- Delete should check references once reference APIs exist.
+- Delete should check CMS media references through `resource_id`; topic reverse references must be
+  included after the resource -> topic lookup is added.
 - Batch operations must record per-file status.
 
 ## Topic
