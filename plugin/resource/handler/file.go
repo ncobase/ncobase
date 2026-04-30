@@ -12,7 +12,6 @@ import (
 	"path/filepath"
 	"strconv"
 	"strings"
-	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/ncobase/ncore/ctxutil"
@@ -1033,8 +1032,8 @@ func (h *fileHandler) SetAccessLevel(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param slug path string true "File slug"
-// @Param body body object{expiration_hours=int} true "Expiration settings"
-// @Success 200 {object} object{url=string,expires_in=string,expires_at=string} "success"
+// @Param body body object{access_level=string,expiration_hours=int} true "Share settings"
+// @Success 200 {object} object{url=string,access_level=string,expires_in=string,expires_at=string} "success"
 // @Failure 400 {object} resp.Exception "bad request"
 // @Router /res/{slug}/share [post]
 // @Security Bearer
@@ -1056,23 +1055,39 @@ func (h *fileHandler) GenerateShareURL(c *gin.Context) {
 	}
 
 	var body struct {
-		ExpirationHours int `json:"expiration_hours"`
+		AccessLevel     string `json:"access_level"`
+		ExpirationHours int    `json:"expiration_hours"`
 	}
 	if err := c.ShouldBindJSON(&body); err != nil {
 		body.ExpirationHours = 24 // Default to 24 hours
 	}
 
-	shareURL, err := h.s.File.GeneratePublicURL(c.Request.Context(), slug, body.ExpirationHours)
+	accessLevel := structs.AccessLevel(body.AccessLevel)
+	if accessLevel == "" {
+		accessLevel = structs.AccessLevelShared
+	}
+	if accessLevel != structs.AccessLevelPublic && accessLevel != structs.AccessLevelShared {
+		resp.Fail(c.Writer, resp.BadRequest("Invalid access level"))
+		return
+	}
+
+	expirationHours := body.ExpirationHours
+	if expirationHours <= 0 {
+		expirationHours = 24
+	}
+
+	shareURL, expiresAt, err := h.s.File.GenerateShareURL(c.Request.Context(), slug, accessLevel, expirationHours)
 	if err != nil {
 		logger.Errorf(c.Request.Context(), "Error generating share URL: %v", err)
 		resp.Fail(c.Writer, resp.InternalServer("Failed to generate share URL"))
 		return
 	}
 
-	resp.Success(c.Writer, map[string]string{
-		"url":        shareURL,
-		"expires_in": fmt.Sprintf("%d hours", body.ExpirationHours),
-		"expires_at": time.Now().Add(time.Duration(body.ExpirationHours) * time.Hour).Format(time.RFC3339),
+	resp.Success(c.Writer, types.JSON{
+		"url":          shareURL,
+		"access_level": string(accessLevel),
+		"expires_in":   fmt.Sprintf("%d hours", expirationHours),
+		"expires_at":   expiresAt,
 	})
 }
 

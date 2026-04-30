@@ -3,6 +3,7 @@ package service
 import (
 	"bytes"
 	"context"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"io"
@@ -35,7 +36,7 @@ type FileServiceInterface interface {
 	GetFileStreamByID(ctx context.Context, id string) (io.ReadCloser, error)
 	GetThumbnail(ctx context.Context, slug string) (io.ReadCloser, error)
 	SearchByTags(ctx context.Context, ownerID string, tags []string, limit int) ([]*structs.ReadFile, error)
-	GeneratePublicURL(ctx context.Context, slug string, expirationHours int) (string, error)
+	GenerateShareURL(ctx context.Context, slug string, accessLevel structs.AccessLevel, expirationHours int) (string, int64, error)
 	CreateVersion(ctx context.Context, slug string, file io.Reader, filename string) (*structs.ReadFile, error)
 	GetVersions(ctx context.Context, slug string) ([]*structs.ReadFile, error)
 	SetAccessLevel(ctx context.Context, slug string, accessLevel structs.AccessLevel) (*structs.ReadFile, error)
@@ -435,9 +436,12 @@ func (s *fileService) GetPublic(ctx context.Context, slug string) (*structs.Read
 		return nil, errors.New("file is not public")
 	}
 
-	// Check expiration
 	if file.ExpiresAt != nil && time.Now().UnixMilli() > *file.ExpiresAt {
 		return nil, errors.New("file access has expired")
+	}
+	extras := repository.CloneExtrasPtr(file.Extras)
+	if shareExpiresAt, ok := jsonInt64(extras["share_expires_at"]); ok && time.Now().UnixMilli() > shareExpiresAt {
+		return nil, errors.New("public link has expired")
 	}
 
 	return file, nil
@@ -445,24 +449,46 @@ func (s *fileService) GetPublic(ctx context.Context, slug string) (*structs.Read
 
 // GetByShareToken retrieves file by share token
 func (s *fileService) GetByShareToken(ctx context.Context, token string) (*structs.ReadFile, error) {
-	if len(token) < 10 {
+	parts := strings.SplitN(token, ".", 2)
+	if len(parts) != 2 || parts[0] == "" || parts[1] == "" {
 		return nil, errors.New("invalid share token")
 	}
 
-	// Extract file ID from token (simplified)
-	fileID := token[:len(token)-10] // Remove timestamp suffix
-
-	file, err := s.Get(ctx, fileID)
+	file, err := s.Get(ctx, parts[0])
 	if err != nil {
 		return nil, err
 	}
 
-	// Verify token validity
 	if file.AccessLevel != structs.AccessLevelShared {
 		return nil, errors.New("file is not shared")
 	}
 
+	extras := repository.CloneExtrasPtr(file.Extras)
+	storedToken, _ := extras["share_token"].(string)
+	if storedToken == "" || storedToken != token {
+		return nil, errors.New("invalid share token")
+	}
+	if shareExpiresAt, ok := jsonInt64(extras["share_expires_at"]); ok && time.Now().UnixMilli() > shareExpiresAt {
+		return nil, errors.New("share token has expired")
+	}
+
 	return file, nil
+}
+
+func jsonInt64(value any) (int64, bool) {
+	switch v := value.(type) {
+	case int64:
+		return v, true
+	case int:
+		return int64(v), true
+	case float64:
+		return int64(v), true
+	case json.Number:
+		n, err := v.Int64()
+		return n, err == nil
+	default:
+		return 0, false
+	}
 }
 
 // Delete deletes file
@@ -575,12 +601,8 @@ func (s *fileService) GetFileStream(ctx context.Context, slug string) (io.ReadCl
 		return nil, nil, errors.New("error retrieving file")
 	}
 
-	// Check expiration
-	extras := repository.CloneExtras(row.Extras)
-	if exp, ok := extras["expires_at"].(int64); ok {
-		if time.Now().UnixMilli() > exp {
-			return nil, nil, errors.New("file access has expired")
-		}
+	if row.ExpiresAt != nil && time.Now().UnixMilli() > *row.ExpiresAt {
+		return nil, nil, errors.New("file access has expired")
 	}
 
 	fileStream, err := storageClient.GetStream(row.Path)
@@ -647,11 +669,18 @@ func (s *fileService) SearchByTags(ctx context.Context, ownerID string, tags []s
 	return results, nil
 }
 
-// GeneratePublicURL generates public URL
-func (s *fileService) GeneratePublicURL(ctx context.Context, slug string, expirationHours int) (string, error) {
+// GenerateShareURL configures a file for public or token-based shared access.
+func (s *fileService) GenerateShareURL(ctx context.Context, slug string, accessLevel structs.AccessLevel, expirationHours int) (string, int64, error) {
+	if accessLevel == "" {
+		accessLevel = structs.AccessLevelShared
+	}
+	if accessLevel != structs.AccessLevelPublic && accessLevel != structs.AccessLevelShared {
+		return "", 0, fmt.Errorf("invalid share access level: %s", accessLevel)
+	}
+
 	row, err := s.fileRepo.GetByID(ctx, slug)
 	if err != nil {
-		return "", handleEntError(ctx, "File", err)
+		return "", 0, handleEntError(ctx, "File", err)
 	}
 
 	if expirationHours <= 0 {
@@ -660,20 +689,29 @@ func (s *fileService) GeneratePublicURL(ctx context.Context, slug string, expira
 	expiresAt := time.Now().Add(time.Duration(expirationHours) * time.Hour).UnixMilli()
 
 	extras := repository.CloneExtras(row.Extras)
-	extras["is_public"] = true
-	extras["expires_at"] = expiresAt
+	extras["share_access_level"] = string(accessLevel)
+	extras["share_expires_at"] = expiresAt
 
-	_, err = s.fileRepo.Update(ctx, slug, types.JSON{
-		"extras": extras,
-	})
-	if err != nil {
-		return "", handleEntError(ctx, "File", err)
+	isPublic := accessLevel == structs.AccessLevelPublic
+	shareURL := fmt.Sprintf("/res/dl/%s", row.ID)
+	if !isPublic {
+		token := fmt.Sprintf("%s.%s", row.ID, nanoid.String(32))
+		extras["share_token"] = token
+		shareURL = fmt.Sprintf("/res/share/%s", token)
+	} else {
+		delete(extras, "share_token")
 	}
 
-	// Generate share token (simplified)
-	shareToken := fmt.Sprintf("%s%d", row.ID, expiresAt)
-	downloadURL := fmt.Sprintf("/res/share/%s", shareToken)
-	return downloadURL, nil
+	_, err = s.fileRepo.Update(ctx, slug, types.JSON{
+		"access_level": accessLevel,
+		"is_public":    isPublic,
+		"extras":       extras,
+	})
+	if err != nil {
+		return "", 0, handleEntError(ctx, "File", err)
+	}
+
+	return shareURL, expiresAt, nil
 }
 
 // CreateVersion creates file version
@@ -788,11 +826,14 @@ func (s *fileService) SetAccessLevel(ctx context.Context, slug string, accessLev
 	}
 
 	extras := repository.CloneExtras(row.Extras)
+	isPublic := accessLevel == structs.AccessLevelPublic
 	extras["access_level"] = string(accessLevel)
-	extras["is_public"] = accessLevel == structs.AccessLevelPublic
+	extras["is_public"] = isPublic
 
 	updated, err := s.fileRepo.Update(ctx, slug, types.JSON{
-		"extras": extras,
+		"access_level": accessLevel,
+		"is_public":    isPublic,
+		"extras":       extras,
 	})
 	if err != nil {
 		return nil, handleEntError(ctx, "File", err)

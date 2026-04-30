@@ -77,7 +77,7 @@ Swagger remains useful, but this file records the implementation reality and kno
 | `/cms/taxonomies` | CRUD by slug | taxonomy service | authenticated plus Casbin | partial | Taxonomy relation helpers exist in service layer. |
 | `/cms/channels` | CRUD by slug | channel service | authenticated plus Casbin | partial | Channel rules should constrain distribution UI. |
 | `/cms/distributions` | CRUD by id, publish/cancel | distribution service | authenticated plus Casbin | partial | Needs state machine and review/schedule integration. |
-| `/cms/media` | CRUD by id | media service | authenticated plus Casbin | partial | Should reference `/res` files through `resource_id`. |
+| `/cms/media` | CRUD by id; list by `resource_id` | media service | authenticated plus Casbin | partial | Media records persist `resource_id` on the media table and list filters also match legacy extras metadata so resource delete checks do not miss older references. |
 | `/cms/topic-media` | CRUD and lookup | topic media service | authenticated plus Casbin | backend-only/partial | Frontend topic media logic still contains placeholders. |
 | comments/tags/SEO/workflow/templates/versions/schedules | none in current backend | content subfeature APIs | n/a | frontend-only | Hide or implement backend-first. |
 
@@ -89,8 +89,8 @@ Swagger remains useful, but this file records the implementation reality and kno
 | `/res/:slug` | get/update/delete | resource APIs | `read:resources`, `manage:resources` | partial | Owner/space/admin rules need integration tests. |
 | `/res/:slug/download` | `GET` | resource APIs | `read:resources` | aligned | Blob response. |
 | `/res/:slug/versions` | `GET`, `POST` | version history UI | read/manage resources | partial | Version delete/restore semantics need docs. |
-| `/res/:slug/access` | `PUT` | resource APIs | `manage:resources` | partial | Needs audit and clear UX for public/private/shared. |
-| `/res/:slug/share` | `POST` | share dialog | `manage:resources` | partial | Share token expiry/scope must be shown. |
+| `/res/:slug/access` | `PUT` | resource APIs | `manage:resources` | aligned | Updates `access_level`, `is_public`, and serialized extras together. |
+| `/res/:slug/share` | `POST` | share dialog | `manage:resources` | aligned | Accepts `access_level` public/shared plus `expiration_hours`; public returns `/res/dl/:slug`, shared returns tokenized `/res/share/:token`. |
 | `/res/view/:slug`, `/res/share/:token`, `/res/thumb/:slug`, `/res/dl/:slug` | `GET` | public URLs | public | partial | Add rate limit and cache policy. |
 | `/res/quota`, `/res/usage` | quota and usage summary | resource APIs/admin quota widget | `read:resources` | aligned | Usage returns `usage`, `quota`, `usage_percent`, `quota_exceeded`, `file_count`, and formatted sizes. |
 | `/res/batch/*` | batch upload/process/delete/status | resource APIs | read/manage resources | partial | Batch upload uses repeated multipart `files` and supports access level, public flag, path prefix, tags, expiry, processing options, and partial failure result. Batch process/status UI incomplete. |

@@ -8,6 +8,9 @@ import (
 	mediaEnt "ncobase/biz/content/data/ent/media"
 	"ncobase/biz/content/structs"
 
+	"entgo.io/ent/dialect/sql"
+	"entgo.io/ent/dialect/sql/sqljson"
+
 	"github.com/ncobase/ncore/data/cache"
 	"github.com/ncobase/ncore/data/paging"
 	"github.com/ncobase/ncore/logging/logger"
@@ -66,6 +69,14 @@ func (r *mediaRepository) Create(ctx context.Context, body *structs.CreateMediaB
 	builder.SetNillableURL(&body.URL)
 	builder.SetNillableSpaceID(&body.SpaceID)
 	builder.SetNillableCreatedBy(body.CreatedBy)
+	if body.OwnerID != "" {
+		builder.SetOwnerID(body.OwnerID)
+	}
+	if body.ResourceID != "" {
+		builder.SetResourceID(body.ResourceID)
+	}
+	builder.SetNillableDescription(&body.Description)
+	builder.SetNillableAlt(&body.Alt)
 
 	// Set extras with additional fields
 	extras := make(types.JSON)
@@ -217,6 +228,18 @@ func (r *mediaRepository) Update(ctx context.Context, id string, updates types.J
 			builder.SetNillableURL(convert.ToPointer(value.(string)))
 		case "space_id":
 			builder.SetNillableSpaceID(convert.ToPointer(value.(string)))
+		case "owner_id":
+			builder.SetNillableOwnerID(convert.ToPointer(value.(string)))
+		case "resource_id":
+			if v, ok := value.(string); ok && v != "" {
+				builder.SetResourceID(v)
+			} else {
+				builder.ClearResourceID()
+			}
+		case "description":
+			builder.SetNillableDescription(convert.ToPointer(value.(string)))
+		case "alt":
+			builder.SetNillableAlt(convert.ToPointer(value.(string)))
 		case "updated_by":
 			builder.SetNillableUpdatedBy(convert.ToPointer(value.(string)))
 		}
@@ -277,6 +300,24 @@ func (r *mediaRepository) List(ctx context.Context, params *structs.ListMediaPar
 
 	if validator.IsNotEmpty(params.SpaceID) {
 		builder.Where(mediaEnt.SpaceIDEQ(params.SpaceID))
+	}
+
+	if validator.IsNotEmpty(params.OwnerID) {
+		builder.Where(mediaEnt.Or(
+			mediaEnt.OwnerIDEQ(params.OwnerID),
+			func(s *sql.Selector) {
+				s.Where(sqljson.ValueEQ(mediaEnt.FieldExtras, params.OwnerID, sqljson.Path("owner_id")))
+			},
+		))
+	}
+
+	if validator.IsNotEmpty(params.ResourceID) {
+		builder.Where(mediaEnt.Or(
+			mediaEnt.ResourceIDEQ(params.ResourceID),
+			func(s *sql.Selector) {
+				s.Where(sqljson.ValueEQ(mediaEnt.FieldExtras, params.ResourceID, sqljson.Path("resource_id")))
+			},
+		))
 	}
 
 	// Apply cursor-based pagination
@@ -352,6 +393,24 @@ func (r *mediaRepository) Count(ctx context.Context, params *structs.ListMediaPa
 
 	if validator.IsNotEmpty(params.SpaceID) {
 		builder.Where(mediaEnt.SpaceIDEQ(params.SpaceID))
+	}
+
+	if validator.IsNotEmpty(params.OwnerID) {
+		builder.Where(mediaEnt.Or(
+			mediaEnt.OwnerIDEQ(params.OwnerID),
+			func(s *sql.Selector) {
+				s.Where(sqljson.ValueEQ(mediaEnt.FieldExtras, params.OwnerID, sqljson.Path("owner_id")))
+			},
+		))
+	}
+
+	if validator.IsNotEmpty(params.ResourceID) {
+		builder.Where(mediaEnt.Or(
+			mediaEnt.ResourceIDEQ(params.ResourceID),
+			func(s *sql.Selector) {
+				s.Where(sqljson.ValueEQ(mediaEnt.FieldExtras, params.ResourceID, sqljson.Path("resource_id")))
+			},
+		))
 	}
 
 	return builder.Count(ctx)

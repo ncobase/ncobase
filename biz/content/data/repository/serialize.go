@@ -122,29 +122,41 @@ func SerializeMedia(row *ent.Media) *structs.ReadMedia {
 		return nil
 	}
 	result := &structs.ReadMedia{
-		ID:        row.ID,
-		Title:     row.Title,
-		Type:      row.Type,
-		URL:       row.URL,
-		SpaceID:   row.SpaceID,
-		CreatedBy: &row.CreatedBy,
-		CreatedAt: &row.CreatedAt,
-		UpdatedBy: &row.UpdatedBy,
-		UpdatedAt: &row.UpdatedAt,
+		ID:          row.ID,
+		Title:       row.Title,
+		Type:        row.Type,
+		ResourceID:  row.ResourceID,
+		URL:         row.URL,
+		Description: row.Description,
+		Alt:         row.Alt,
+		SpaceID:     row.SpaceID,
+		OwnerID:     row.OwnerID,
+		CreatedBy:   &row.CreatedBy,
+		CreatedAt:   &row.CreatedAt,
+		UpdatedBy:   &row.UpdatedBy,
+		UpdatedAt:   &row.UpdatedAt,
 	}
 
 	if row.Extras != nil {
-		if resourceID, ok := row.Extras["resource_id"].(string); ok {
-			result.ResourceID = resourceID
+		if result.ResourceID == "" {
+			if resourceID, ok := row.Extras["resource_id"].(string); ok {
+				result.ResourceID = resourceID
+			}
 		}
-		if description, ok := row.Extras["description"].(string); ok {
-			result.Description = description
+		if result.Description == "" {
+			if description, ok := row.Extras["description"].(string); ok {
+				result.Description = description
+			}
 		}
-		if alt, ok := row.Extras["alt"].(string); ok {
-			result.Alt = alt
+		if result.Alt == "" {
+			if alt, ok := row.Extras["alt"].(string); ok {
+				result.Alt = alt
+			}
 		}
-		if ownerID, ok := row.Extras["owner_id"].(string); ok {
-			result.OwnerID = ownerID
+		if result.OwnerID == "" {
+			if ownerID, ok := row.Extras["owner_id"].(string); ok {
+				result.OwnerID = ownerID
+			}
 		}
 		result.Metadata = &row.Extras
 	}

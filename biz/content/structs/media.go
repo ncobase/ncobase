@@ -80,13 +80,14 @@ func (r *ReadMedia) GetCursorValue() string {
 
 // ListMediaParams for listing media
 type ListMediaParams struct {
-	Cursor    string `form:"cursor,omitempty" json:"cursor,omitempty"`
-	Limit     int    `form:"limit,omitempty" json:"limit,omitempty"`
-	Direction string `form:"direction,omitempty" json:"direction,omitempty"`
-	Type      string `form:"type,omitempty" json:"type,omitempty"`
-	Search    string `form:"search,omitempty" json:"search,omitempty"`
-	SpaceID   string `form:"space_id,omitempty" json:"space_id,omitempty"`
-	OwnerID   string `form:"owner_id,omitempty" json:"owner_id,omitempty"`
+	Cursor     string `form:"cursor,omitempty" json:"cursor,omitempty"`
+	Limit      int    `form:"limit,omitempty" json:"limit,omitempty"`
+	Direction  string `form:"direction,omitempty" json:"direction,omitempty"`
+	Type       string `form:"type,omitempty" json:"type,omitempty"`
+	Search     string `form:"search,omitempty" json:"search,omitempty"`
+	SpaceID    string `form:"space_id,omitempty" json:"space_id,omitempty"`
+	OwnerID    string `form:"owner_id,omitempty" json:"owner_id,omitempty"`
+	ResourceID string `form:"resource_id,omitempty" json:"resource_id,omitempty"`
 }
 
 // FindMedia for finding media
