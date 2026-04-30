@@ -7,6 +7,8 @@ type BatchUploadParams struct {
 	OwnerID           string             `json:"owner_id" binding:"required"`
 	PathPrefix        string             `json:"path_prefix,omitempty"`
 	AccessLevel       AccessLevel        `json:"access_level,omitempty"`
+	IsPublic          bool               `json:"is_public,omitempty"`
+	ExpiresAt         *int64             `json:"expires_at,omitempty"`
 	Tags              []string           `json:"tags,omitempty"`
 	ProcessingOptions *ProcessingOptions `json:"processing_options,omitempty"`
 	Extras            *types.JSON        `json:"extras,omitempty"`

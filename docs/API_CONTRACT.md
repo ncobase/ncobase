@@ -85,14 +85,15 @@ Swagger remains useful, but this file records the implementation reality and kno
 
 | Route family | Methods | Frontend caller | Permission | Status | Notes |
 | --- | --- | --- | --- | --- | --- |
-| `/res` | list/upload | resource APIs | `read:resources` for list, `manage:resources` for upload | aligned | Frontend request layer now supports `FormData`. |
+| `/res` | list/upload | resource APIs | `read:resources` for list, `manage:resources` for upload | aligned | Single upload uses multipart `file`; frontend request layer preserves browser multipart boundaries. |
 | `/res/:slug` | get/update/delete | resource APIs | `read:resources`, `manage:resources` | partial | Owner/space/admin rules need integration tests. |
 | `/res/:slug/download` | `GET` | resource APIs | `read:resources` | aligned | Blob response. |
 | `/res/:slug/versions` | `GET`, `POST` | version history UI | read/manage resources | partial | Version delete/restore semantics need docs. |
 | `/res/:slug/access` | `PUT` | resource APIs | `manage:resources` | partial | Needs audit and clear UX for public/private/shared. |
 | `/res/:slug/share` | `POST` | share dialog | `manage:resources` | partial | Share token expiry/scope must be shown. |
 | `/res/view/:slug`, `/res/share/:token`, `/res/thumb/:slug`, `/res/dl/:slug` | `GET` | public URLs | public | partial | Add rate limit and cache policy. |
-| `/res/batch/*` | batch upload/process/delete/status | resource APIs | read/manage resources | partial | Batch process/status UI incomplete. |
+| `/res/quota`, `/res/usage` | quota and usage summary | resource APIs/admin quota widget | `read:resources` | aligned | Usage returns `usage`, `quota`, `usage_percent`, `quota_exceeded`, `file_count`, and formatted sizes. |
+| `/res/batch/*` | batch upload/process/delete/status | resource APIs | read/manage resources | partial | Batch upload uses repeated multipart `files` and supports access level, public flag, path prefix, tags, expiry, processing options, and partial failure result. Batch process/status UI incomplete. |
 | `/res/admin/*` | admin files/stats/quotas/jobs/storage | resource admin page | admin | partial | Frontend admin route is admin guarded. |
 
 ## Payment Domain

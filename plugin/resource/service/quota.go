@@ -6,6 +6,7 @@ import (
 	"ncobase/plugin/resource/data"
 	"ncobase/plugin/resource/data/repository"
 	"ncobase/plugin/resource/event"
+	"ncobase/plugin/resource/structs"
 	"sync"
 	"time"
 
@@ -17,6 +18,7 @@ import (
 type QuotaServiceInterface interface {
 	CheckAndUpdateQuota(ctx context.Context, ownerID string, size int) (bool, error)
 	GetUsage(ctx context.Context, ownerID string) (int64, error)
+	GetFileCount(ctx context.Context, ownerID string) (int, error)
 	SetQuota(ctx context.Context, ownerID string, quota int64) error
 	GetQuota(ctx context.Context, ownerID string) (int64, error)
 	IsQuotaExceeded(ctx context.Context, ownerID string) (bool, error)
@@ -158,6 +160,14 @@ func (s *quotaService) calculateUsage(ctx context.Context, ownerID string) (int6
 		return 0, err
 	}
 	return totalSize, nil
+}
+
+// GetFileCount returns the number of files owned by an owner.
+func (s *quotaService) GetFileCount(ctx context.Context, ownerID string) (int, error) {
+	if ownerID == "" {
+		return 0, fmt.Errorf("owner ID is required")
+	}
+	return s.fileRepo.CountX(ctx, &structs.ListFileParams{OwnerID: ownerID}), nil
 }
 
 // SetQuota sets storage quota for an owner

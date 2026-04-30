@@ -338,6 +338,12 @@ func (h *fileHandler) bindFileFields(c *gin.Context, body *structs.CreateFileBod
 		}
 	}
 
+	if body.AccessLevel == structs.AccessLevelPublic {
+		body.IsPublic = true
+	} else if body.IsPublic && body.AccessLevel == "" {
+		body.AccessLevel = structs.AccessLevelPublic
+	}
+
 	return body, nil
 }
 

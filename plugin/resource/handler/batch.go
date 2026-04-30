@@ -7,6 +7,7 @@ import (
 	"ncobase/plugin/resource/service"
 	"ncobase/plugin/resource/structs"
 	"ncobase/plugin/resource/wrapper"
+	"strconv"
 	"strings"
 
 	"github.com/gin-gonic/gin"
@@ -56,7 +57,10 @@ func NewBatchHandler(
 // @Param owner_id formData string true "Owner ID"
 // @Param path_prefix formData string false "Path prefix"
 // @Param access_level formData string false "Access level"
+// @Param is_public formData boolean false "Public access flag"
 // @Param tags formData string false "Comma-separated tags"
+// @Param processing_options formData string false "Processing options (JSON)"
+// @Param expires_at formData integer false "Expiration timestamp"
 // @Param extras formData string false "Additional metadata (JSON)"
 // @Success 200 {object} structs.BatchUploadResult "success"
 // @Failure 400 {object} resp.Exception "bad request"
@@ -90,11 +94,43 @@ func (h *batchHandler) BatchUpload(c *gin.Context) {
 	}
 
 	if accessLevel := c.PostForm("access_level"); accessLevel != "" {
-		params.AccessLevel = structs.AccessLevel(accessLevel)
+		level := structs.AccessLevel(accessLevel)
+		switch level {
+		case structs.AccessLevelPublic, structs.AccessLevelPrivate, structs.AccessLevelShared:
+			params.AccessLevel = level
+		default:
+			resp.Fail(c.Writer, resp.BadRequest("Invalid access level"))
+			return
+		}
+	}
+
+	if isPublic := c.PostForm("is_public"); isPublic != "" {
+		params.IsPublic = isPublic == "true" || isPublic == "1"
+	}
+	if params.AccessLevel == structs.AccessLevelPublic {
+		params.IsPublic = true
+	} else if params.IsPublic && params.AccessLevel == "" {
+		params.AccessLevel = structs.AccessLevelPublic
+	}
+
+	if expiresAt := c.PostForm("expires_at"); expiresAt != "" {
+		value, err := strconv.ParseInt(expiresAt, 10, 64)
+		if err != nil {
+			resp.Fail(c.Writer, resp.BadRequest("Invalid expires_at format"))
+			return
+		}
+		params.ExpiresAt = &value
 	}
 
 	if tags := c.PostForm("tags"); tags != "" {
-		params.Tags = strings.Split(tags, ",")
+		rawTags := strings.Split(tags, ",")
+		params.Tags = make([]string, 0, len(rawTags))
+		for _, tag := range rawTags {
+			tag = strings.TrimSpace(tag)
+			if tag != "" {
+				params.Tags = append(params.Tags, tag)
+			}
+		}
 	}
 
 	if extrasStr := c.PostForm("extras"); extrasStr != "" {
@@ -106,10 +142,22 @@ func (h *batchHandler) BatchUpload(c *gin.Context) {
 		params.Extras = &extras
 	}
 
-	params.ProcessingOptions = &structs.ProcessingOptions{
-		CreateThumbnail: true,
-		MaxWidth:        300,
-		MaxHeight:       300,
+	if optionsStr := c.PostForm("processing_options"); optionsStr != "" {
+		var options structs.ProcessingOptions
+		if err := json.Unmarshal([]byte(optionsStr), &options); err != nil {
+			resp.Fail(c.Writer, resp.BadRequest("Invalid processing options format"))
+			return
+		}
+		if options.CompressionQuality <= 0 || options.CompressionQuality > 100 {
+			options.CompressionQuality = 80
+		}
+		params.ProcessingOptions = &options
+	} else {
+		params.ProcessingOptions = &structs.ProcessingOptions{
+			CreateThumbnail: true,
+			MaxWidth:        300,
+			MaxHeight:       300,
+		}
 	}
 
 	result, err := h.batchService.BatchUpload(c.Request.Context(), files, params)

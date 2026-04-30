@@ -191,20 +191,24 @@ func (s *fileService) Create(ctx context.Context, body *structs.CreateFileBody) 
 			}
 		}
 
-		thumbnailBytes, err := s.imageProcessor.CreateThumbnail(
-			ctx,
-			bytes.NewReader(fileBytes),
-			body.Name,
-			body.ProcessingOptions.MaxWidth,
-			body.ProcessingOptions.MaxHeight,
-		)
+		if body.ProcessingOptions.CreateThumbnail {
+			thumbnailBytes, err := s.imageProcessor.CreateThumbnail(
+				ctx,
+				bytes.NewReader(fileBytes),
+				body.Name,
+				body.ProcessingOptions.MaxWidth,
+				body.ProcessingOptions.MaxHeight,
+			)
 
-		if err == nil {
-			thumbnailPath = s.generateThumbnailPath(storagePath)
-			_, err = storageClient.Put(thumbnailPath, bytes.NewReader(thumbnailBytes))
 			if err != nil {
-				logger.Warnf(ctx, "Error storing thumbnail: %v", err)
-				thumbnailPath = ""
+				logger.Warnf(ctx, "Error creating thumbnail: %v", err)
+			} else {
+				thumbnailPath = s.generateThumbnailPath(storagePath)
+				_, err = storageClient.Put(thumbnailPath, bytes.NewReader(thumbnailBytes))
+				if err != nil {
+					logger.Warnf(ctx, "Error storing thumbnail: %v", err)
+					thumbnailPath = ""
+				}
 			}
 		}
 	}

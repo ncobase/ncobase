@@ -99,11 +99,17 @@ func (h *quotaHandler) GetMyUsage(c *gin.Context) {
 		logger.Warnf(c.Request.Context(), "Error checking if quota is exceeded: %v", err)
 	}
 
+	fileCount, err := h.service.GetFileCount(c.Request.Context(), userID)
+	if err != nil {
+		logger.Warnf(c.Request.Context(), "Error getting file count: %v", err)
+	}
+
 	resp.Success(c.Writer, types.JSON{
 		"usage":           usage,
 		"quota":           quota,
 		"usage_percent":   usagePercent,
 		"quota_exceeded":  isExceeded,
+		"file_count":      fileCount,
 		"formatted_usage": formatSize(usage),
 		"formatted_quota": formatSize(quota),
 	})

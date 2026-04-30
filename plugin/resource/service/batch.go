@@ -9,6 +9,7 @@ import (
 	"path/filepath"
 	"strings"
 	"sync"
+	"time"
 
 	"github.com/google/uuid"
 	"github.com/ncobase/ncore/ctxutil"
@@ -77,7 +78,7 @@ func (s *batchService) BatchUpload(
 		Status:      "processing",
 		Progress:    0,
 		Message:     fmt.Sprintf("Starting batch upload of %d files", len(files)),
-		StartedAt:   ctx.Value("timestamp").(int64),
+		StartedAt:   timestampFromContext(ctx),
 	}
 	s.jobsMutex.Unlock()
 
@@ -141,6 +142,7 @@ func (s *batchService) BatchUpload(
 			}
 
 			body.Name = nameWithoutExt
+			body.OriginalName = header.Filename
 			body.Path = header.Filename // Will be replaced with storage path
 			body.Type = header.Header.Get("Content-Type")
 			if body.Type == "" {
@@ -150,6 +152,9 @@ func (s *batchService) BatchUpload(
 			fileSize := int(header.Size)
 			body.Size = &fileSize
 			body.OwnerID = params.OwnerID
+			body.PathPrefix = params.PathPrefix
+			body.IsPublic = params.IsPublic
+			body.ExpiresAt = params.ExpiresAt
 			body.File = file
 
 			// Add extended fields
@@ -202,7 +207,7 @@ func (s *batchService) BatchUpload(
 		} else {
 			job.Status = "completed"
 		}
-		completedAt := ctx.Value("timestamp").(int64)
+		completedAt := timestampFromContext(ctx)
 		job.CompletedAt = &completedAt
 	}
 	s.jobsMutex.Unlock()
@@ -233,6 +238,13 @@ func (s *batchService) BatchUpload(
 	}
 
 	return batchResult, nil
+}
+
+func timestampFromContext(ctx context.Context) int64 {
+	if value, ok := ctx.Value("timestamp").(int64); ok && value > 0 {
+		return value
+	}
+	return time.Now().UnixMilli()
 }
 
 // BatchDelete handles deleting multiple files
