@@ -112,10 +112,18 @@ func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 	{
 		roles.GET("", middleware.HasPermission("read:roles"), m.h.Role.List)
 		roles.POST("", middleware.HasPermission("manage:roles"), m.h.Role.Create)
+		roles.PUT("/bulk", middleware.HasPermission("manage:roles"), m.h.Role.BulkUpdate)
+		roles.DELETE("/bulk", middleware.HasPermission("manage:roles"), m.h.Role.BulkDelete)
+		roles.GET("/slug/:slug", middleware.HasPermission("read:roles"), m.h.Role.GetBySlug)
 		roles.GET("/:slug", middleware.HasPermission("read:roles"), m.h.Role.Get)
 		roles.PUT("/:slug", middleware.HasPermission("manage:roles"), m.h.Role.Update)
 		roles.DELETE("/:slug", middleware.HasPermission("manage:roles"), m.h.Role.Delete)
 		roles.GET("/:slug/permissions", middleware.HasPermission("read:roles"), m.h.RolePermission.ListRolePermission)
+		roles.POST("/:slug/permissions", middleware.HasPermission("manage:roles"), m.h.RolePermission.AddPermissionsToRole)
+		roles.DELETE("/:slug/permissions", middleware.HasPermission("manage:roles"), m.h.RolePermission.RemovePermissionsFromRole)
+		roles.GET("/:slug/users", middleware.HasPermission("read:roles"), m.h.Role.ListUsers)
+		roles.POST("/:slug/users", middleware.HasPermission("manage:roles"), m.h.Role.AssignUsers)
+		roles.DELETE("/:slug/users", middleware.HasPermission("manage:roles"), m.h.Role.RemoveUsers)
 	}
 
 	// Permission endpoints - admin only
@@ -123,6 +131,8 @@ func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 	{
 		permissions.GET("", m.h.Permission.List)
 		permissions.POST("", m.h.Permission.Create)
+		permissions.PUT("/bulk", m.h.Permission.BulkUpdate)
+		permissions.DELETE("/bulk", m.h.Permission.BulkDelete)
 		permissions.GET("/:slug", m.h.Permission.Get)
 		permissions.PUT("/:slug", m.h.Permission.Update)
 		permissions.DELETE("/:slug", m.h.Permission.Delete)
@@ -133,6 +143,11 @@ func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 	{
 		policies.GET("", m.h.Casbin.List)
 		policies.POST("", m.h.Casbin.Create)
+		policies.GET("/by-rule", m.h.Casbin.GetByRule)
+		policies.POST("/bulk", m.h.Casbin.BulkCreate)
+		policies.POST("/import", m.h.Casbin.Import)
+		policies.GET("/export", m.h.Casbin.Export)
+		policies.POST("/validate", m.h.Casbin.Validate)
 		policies.GET("/:id", m.h.Casbin.Get)
 		policies.PUT("/:id", m.h.Casbin.Update)
 		policies.DELETE("/:id", m.h.Casbin.Delete)
@@ -144,8 +159,19 @@ func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 		activities.POST("", m.h.Activity.CreateActivity)
 		activities.GET("", m.h.Activity.ListActivities)
 		activities.GET("/search", m.h.Activity.SearchActivities)
-		activities.GET("/:id", m.h.Activity.GetActivity)
 		activities.GET("/users/:username", m.h.Activity.GetUserActivities)
+		activities.GET("/analytics", m.h.Activity.GetAnalytics)
+		activities.GET("/types", m.h.Activity.GetTypes)
+		activities.DELETE("/bulk", m.h.Activity.BulkDelete)
+		activities.GET("/:id", m.h.Activity.GetActivity)
+	}
+
+	// User-role relationship endpoints used by the user management console.
+	users := accessGroup.Group("/users")
+	{
+		users.GET("/:username/roles", middleware.HasPermission("read:users"), m.h.UserRole.GetUserRoles)
+		users.POST("/:username/roles", middleware.HasPermission("manage:roles"), m.h.UserRole.AssignRoles)
+		users.DELETE("/:username/roles", middleware.HasPermission("manage:roles"), m.h.UserRole.RemoveRoles)
 	}
 }
 

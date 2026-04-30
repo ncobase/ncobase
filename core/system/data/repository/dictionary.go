@@ -2,11 +2,16 @@ package repository
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"ncobase/core/system/data"
 	"ncobase/core/system/data/ent"
 	dictionaryEnt "ncobase/core/system/data/ent/dictionary"
+	menuEnt "ncobase/core/system/data/ent/menu"
+	optionsEnt "ncobase/core/system/data/ent/options"
+	"ncobase/core/system/data/ent/predicate"
 	"ncobase/core/system/structs"
+	"strings"
 	"time"
 
 	nd "github.com/ncobase/ncore/data"
@@ -26,6 +31,7 @@ type DictionaryRepositoryInterface interface {
 	Get(context.Context, *structs.FindDictionary) (*ent.Dictionary, error)
 	Update(context.Context, *structs.UpdateDictionaryBody) (*ent.Dictionary, error)
 	Delete(context.Context, *structs.FindDictionary) error
+	GetUsage(context.Context, *structs.FindDictionary) ([]*structs.DictionaryUsage, error)
 	List(context.Context, *structs.ListDictionaryParams) ([]*ent.Dictionary, error)
 	CountX(context.Context, *structs.ListDictionaryParams) int
 }
@@ -214,6 +220,152 @@ func (r *dictionaryRepository) Delete(ctx context.Context, params *structs.FindD
 	return nil
 }
 
+// GetUsage finds system records that reference a dictionary id or slug.
+func (r *dictionaryRepository) GetUsage(ctx context.Context, params *structs.FindDictionary) ([]*structs.DictionaryUsage, error) {
+	dict, err := r.getDictionary(ctx, params)
+	if err != nil {
+		return nil, err
+	}
+
+	terms := dictionaryUsageTerms(dict)
+	if len(terms) == 0 {
+		return []*structs.DictionaryUsage{}, nil
+	}
+
+	usage := make([]*structs.DictionaryUsage, 0)
+
+	optionPredicates := make([]predicate.Options, 0, len(terms)*3)
+	for _, term := range terms {
+		optionPredicates = append(optionPredicates,
+			optionsEnt.NameContainsFold(term),
+			optionsEnt.TypeContainsFold(term),
+			optionsEnt.ValueContainsFold(term),
+		)
+	}
+	optionsRows, err := r.data.GetSlaveEntClient().Options.Query().
+		Where(optionsEnt.Or(optionPredicates...)).
+		All(ctx)
+	if err != nil {
+		return nil, err
+	}
+	for _, option := range optionsRows {
+		count := countDictionaryTermMatches(terms, option.Name, option.Type, option.Value)
+		if count == 0 {
+			continue
+		}
+		usage = append(usage, &structs.DictionaryUsage{
+			Module:      "system.options",
+			Location:    fmt.Sprintf("option:%s", option.Name),
+			Count:       count,
+			ReferenceID: option.ID,
+		})
+	}
+
+	menuPredicates := make([]predicate.Menu, 0, len(terms)*8)
+	for _, term := range terms {
+		menuPredicates = append(menuPredicates,
+			menuEnt.NameContainsFold(term),
+			menuEnt.LabelContainsFold(term),
+			menuEnt.SlugContainsFold(term),
+			menuEnt.TypeContainsFold(term),
+			menuEnt.PathContainsFold(term),
+			menuEnt.TargetContainsFold(term),
+			menuEnt.PermsContainsFold(term),
+			menuEnt.ParentIDContainsFold(term),
+		)
+	}
+	menuRows, err := r.data.GetSlaveEntClient().Menu.Query().
+		Where(menuEnt.Or(menuPredicates...)).
+		All(ctx)
+	if err != nil {
+		return nil, err
+	}
+	for _, menu := range menuRows {
+		count := countDictionaryTermMatches(
+			terms,
+			menu.Name,
+			menu.Label,
+			menu.Slug,
+			menu.Type,
+			menu.Path,
+			menu.Target,
+			menu.Perms,
+			menu.ParentID,
+		)
+		if count == 0 {
+			continue
+		}
+		usage = append(usage, &structs.DictionaryUsage{
+			Module:      "system.menus",
+			Location:    fmt.Sprintf("menu:%s", menu.Slug),
+			Count:       count,
+			ReferenceID: menu.ID,
+		})
+	}
+
+	menuExtrasRows, err := r.data.GetSlaveEntClient().Menu.Query().
+		Where(menuEnt.ExtrasNotNil()).
+		All(ctx)
+	if err != nil {
+		return nil, err
+	}
+	seenMenuExtras := make(map[string]struct{}, len(menuRows))
+	for _, menu := range menuRows {
+		seenMenuExtras[menu.ID] = struct{}{}
+	}
+	for _, menu := range menuExtrasRows {
+		if _, ok := seenMenuExtras[menu.ID]; ok {
+			continue
+		}
+		raw, err := json.Marshal(menu.Extras)
+		if err != nil {
+			continue
+		}
+		count := countDictionaryTermMatches(terms, string(raw))
+		if count == 0 {
+			continue
+		}
+		usage = append(usage, &structs.DictionaryUsage{
+			Module:      "system.menus",
+			Location:    fmt.Sprintf("menu:%s:extras", menu.Slug),
+			Count:       count,
+			ReferenceID: menu.ID,
+		})
+	}
+
+	dictionaryPredicates := make([]predicate.Dictionary, 0, len(terms)*3)
+	for _, term := range terms {
+		dictionaryPredicates = append(dictionaryPredicates,
+			dictionaryEnt.NameContainsFold(term),
+			dictionaryEnt.DescriptionContainsFold(term),
+			dictionaryEnt.ValueContainsFold(term),
+		)
+	}
+	dictionaryRows, err := r.data.GetSlaveEntClient().Dictionary.Query().
+		Where(dictionaryEnt.And(
+			dictionaryEnt.IDNEQ(dict.ID),
+			dictionaryEnt.Or(dictionaryPredicates...),
+		)).
+		All(ctx)
+	if err != nil {
+		return nil, err
+	}
+	for _, dictionary := range dictionaryRows {
+		count := countDictionaryTermMatches(terms, dictionary.Name, dictionary.Description, dictionary.Value)
+		if count == 0 {
+			continue
+		}
+		usage = append(usage, &structs.DictionaryUsage{
+			Module:      "system.dictionaries",
+			Location:    fmt.Sprintf("dictionary:%s", dictionary.Slug),
+			Count:       count,
+			ReferenceID: dictionary.ID,
+		})
+	}
+
+	return usage, nil
+}
+
 // List lists dictionaries based on given parameters.
 func (r *dictionaryRepository) List(ctx context.Context, params *structs.ListDictionaryParams) ([]*ent.Dictionary, error) {
 	builder, err := r.listBuilder(ctx, params)
@@ -321,6 +473,44 @@ func (r *dictionaryRepository) getDictionary(ctx context.Context, params *struct
 	}
 
 	return row, nil
+}
+
+func dictionaryUsageTerms(dict *ent.Dictionary) []string {
+	rawTerms := []string{dict.ID, dict.Slug}
+	if dict.ID == "" && dict.Slug == "" {
+		rawTerms = append(rawTerms, dict.Name)
+	}
+	seen := make(map[string]struct{}, len(rawTerms))
+	terms := make([]string, 0, len(rawTerms))
+	for _, term := range rawTerms {
+		term = strings.TrimSpace(term)
+		if term == "" {
+			continue
+		}
+		key := strings.ToLower(term)
+		if _, ok := seen[key]; ok {
+			continue
+		}
+		seen[key] = struct{}{}
+		terms = append(terms, key)
+	}
+	return terms
+}
+
+func countDictionaryTermMatches(terms []string, values ...string) int {
+	count := 0
+	for _, value := range values {
+		value = strings.ToLower(value)
+		if value == "" {
+			continue
+		}
+		for _, term := range terms {
+			if strings.Contains(value, term) {
+				count++
+			}
+		}
+	}
+	return count
 }
 
 // executeArrayQuery - execute the builder query and return results.

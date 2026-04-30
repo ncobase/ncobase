@@ -12,6 +12,8 @@ import (
 // RolePermissionHandlerInterface is the interface for the handler.
 type RolePermissionHandlerInterface interface {
 	ListRolePermission(c *gin.Context)
+	AddPermissionsToRole(c *gin.Context)
+	RemovePermissionsFromRole(c *gin.Context)
 }
 
 // rolePermissionHandler represents the handler.
@@ -24,6 +26,18 @@ func NewRolePermissionHandler(svc *service.Service) RolePermissionHandlerInterfa
 	return &rolePermissionHandler{
 		s: svc,
 	}
+}
+
+type rolePermissionBatchBody struct {
+	PermissionIDs []string `json:"permission_ids"`
+	PermissionIds []string `json:"permissionIds"`
+}
+
+func (b *rolePermissionBatchBody) IDs() []string {
+	if len(b.PermissionIDs) > 0 {
+		return b.PermissionIDs
+	}
+	return b.PermissionIds
 }
 
 // ListRolePermission handles listing permissions for a role.
@@ -51,4 +65,74 @@ func (h *rolePermissionHandler) ListRolePermission(c *gin.Context) {
 	}
 
 	resp.Success(c.Writer, result)
+}
+
+// AddPermissionsToRole handles assigning permissions to a role.
+func (h *rolePermissionHandler) AddPermissionsToRole(c *gin.Context) {
+	roleID := c.Param("slug")
+	if roleID == "" {
+		resp.Fail(c.Writer, resp.BadRequest(ecode.FieldIsRequired("role")))
+		return
+	}
+
+	body := &rolePermissionBatchBody{}
+	if err := c.ShouldBindJSON(body); err != nil {
+		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+		return
+	}
+
+	permissionIDs := body.IDs()
+	if len(permissionIDs) == 0 {
+		resp.Fail(c.Writer, resp.BadRequest(ecode.FieldIsRequired("permission_ids")))
+		return
+	}
+
+	assigned := make([]string, 0, len(permissionIDs))
+	for _, permissionID := range permissionIDs {
+		if permissionID == "" {
+			continue
+		}
+		if _, err := h.s.RolePermission.AddPermissionToRole(c.Request.Context(), roleID, permissionID); err != nil {
+			resp.Fail(c.Writer, resp.InternalServer(err.Error()))
+			return
+		}
+		assigned = append(assigned, permissionID)
+	}
+
+	resp.Success(c.Writer, gin.H{"role_id": roleID, "permission_ids": assigned})
+}
+
+// RemovePermissionsFromRole handles removing permissions from a role.
+func (h *rolePermissionHandler) RemovePermissionsFromRole(c *gin.Context) {
+	roleID := c.Param("slug")
+	if roleID == "" {
+		resp.Fail(c.Writer, resp.BadRequest(ecode.FieldIsRequired("role")))
+		return
+	}
+
+	body := &rolePermissionBatchBody{}
+	if err := c.ShouldBindJSON(body); err != nil {
+		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+		return
+	}
+
+	permissionIDs := body.IDs()
+	if len(permissionIDs) == 0 {
+		resp.Fail(c.Writer, resp.BadRequest(ecode.FieldIsRequired("permission_ids")))
+		return
+	}
+
+	removed := make([]string, 0, len(permissionIDs))
+	for _, permissionID := range permissionIDs {
+		if permissionID == "" {
+			continue
+		}
+		if err := h.s.RolePermission.RemovePermissionFromRole(c.Request.Context(), roleID, permissionID); err != nil {
+			resp.Fail(c.Writer, resp.InternalServer(err.Error()))
+			return
+		}
+		removed = append(removed, permissionID)
+	}
+
+	resp.Success(c.Writer, gin.H{"role_id": roleID, "permission_ids": removed})
 }

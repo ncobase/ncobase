@@ -35,7 +35,15 @@ func NewUserRoleService(d *data.Data) UserRoleServiceInterface {
 
 // AddRoleToUser adds a role to a user.
 func (s *userRoleService) AddRoleToUser(ctx context.Context, u string, r string) error {
-	_, err := s.userRole.Create(ctx, &structs.UserRole{UserID: u, RoleID: r})
+	exists, err := s.userRole.VerifyUserRole(ctx, u, r)
+	if err := handleEntError(ctx, "UserRole", err); err != nil {
+		return err
+	}
+	if exists {
+		return nil
+	}
+
+	_, err = s.userRole.Create(ctx, &structs.UserRole{UserID: u, RoleID: r})
 	if err := handleEntError(ctx, "UserRole", err); err != nil {
 		return err
 	}

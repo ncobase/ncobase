@@ -30,6 +30,14 @@ func NewRolePermissionService(d *data.Data) RolePermissionServiceInterface {
 
 // AddPermissionToRole adds a permission to a role.
 func (s *rolePermissionService) AddPermissionToRole(ctx context.Context, roleID string, permissionID string) (*structs.RolePermission, error) {
+	exists, err := s.rolePermission.IsPermissionInRole(ctx, roleID, permissionID)
+	if err := handleEntError(ctx, "RolePermission", err); err != nil {
+		return nil, err
+	}
+	if exists {
+		return &structs.RolePermission{RoleID: roleID, PermissionID: permissionID}, nil
+	}
+
 	row, err := s.rolePermission.Create(ctx, &structs.RolePermission{RoleID: roleID, PermissionID: permissionID})
 	if err := handleEntError(ctx, "RolePermission", err); err != nil {
 		return nil, err

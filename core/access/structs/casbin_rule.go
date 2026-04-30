@@ -11,7 +11,7 @@ type CasbinRuleBody struct {
 	PType     string  `json:"p_type" validate:"required"`
 	V0        string  `json:"v0" validate:"required"`
 	V1        string  `json:"v1" validate:"required"`
-	V2        string  `json:"v2" validate:"required"`
+	V2        string  `json:"v2"`
 	V3        *string `json:"v3"`
 	V4        *string `json:"v4"`
 	V5        *string `json:"v5"`

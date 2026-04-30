@@ -4,7 +4,9 @@ import (
 	"ncobase/core/access/service"
 	"ncobase/core/access/structs"
 	"net/http"
+	"sort"
 	"strconv"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/ncobase/ncore/ctxutil"
@@ -19,10 +21,32 @@ type ActivityHandlerInterface interface {
 	ListActivities(c *gin.Context)
 	GetUserActivities(c *gin.Context)
 	SearchActivities(c *gin.Context)
+	GetAnalytics(c *gin.Context)
+	GetTypes(c *gin.Context)
+	BulkDelete(c *gin.Context)
 }
 
 type activityHandler struct {
 	activity service.ActivityServiceInterface
+}
+
+type bulkDeleteActivitiesBody struct {
+	ActivityIDs []string `json:"activity_ids"`
+	IDs         []string `json:"ids"`
+}
+
+type activityCount struct {
+	Type   string `json:"type,omitempty"`
+	UserID string `json:"user_id,omitempty"`
+	Date   string `json:"date,omitempty"`
+	Count  int    `json:"count"`
+}
+
+func (b *bulkDeleteActivitiesBody) IDsList() []string {
+	if len(b.ActivityIDs) > 0 {
+		return b.ActivityIDs
+	}
+	return b.IDs
 }
 
 func NewActivityHandler(activity service.ActivityServiceInterface) ActivityHandlerInterface {
@@ -72,9 +96,7 @@ func (h *activityHandler) CreateActivity(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusCreated, gin.H{
-		"data": activity,
-	})
+	c.JSON(http.StatusCreated, activity)
 }
 
 // GetActivity retrieves an activity by ID
@@ -114,9 +136,7 @@ func (h *activityHandler) GetActivity(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{
-		"data": activity,
-	})
+	c.JSON(http.StatusOK, activity)
 }
 
 // ListActivities lists activities
@@ -205,12 +225,10 @@ func (h *activityHandler) GetUserActivities(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"data": activities,
-		"meta": gin.H{
-			"username": username,
-			"limit":    limit,
-			"count":    len(activities),
-		},
+		"items":    activities,
+		"total":    len(activities),
+		"username": username,
+		"limit":    limit,
 	})
 }
 
@@ -241,15 +259,141 @@ func (h *activityHandler) SearchActivities(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"data": activities,
-		"meta": gin.H{
-			"total":    total,
-			"query":    params.Query,
-			"from":     params.From,
-			"size":     params.Size,
-			"returned": len(activities),
-		},
+		"items":    activities,
+		"total":    total,
+		"query":    params.Query,
+		"from":     params.From,
+		"size":     params.Size,
+		"returned": len(activities),
 	})
+}
+
+// GetAnalytics returns activity totals and dimensions for the console.
+func (h *activityHandler) GetAnalytics(c *gin.Context) {
+	params := h.parseListParams(c)
+	if c.Query("limit") == "" {
+		params.Limit = 500
+	} else if limit, err := strconv.Atoi(c.Query("limit")); err == nil && limit > 0 {
+		if limit > 500 {
+			limit = 500
+		}
+		params.Limit = limit
+	}
+
+	result, err := h.activity.ListActivity(c, params)
+	if err != nil {
+		logger.Errorf(c, "Failed to analyze activities: %v", err)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error":   "Failed to analyze activities",
+			"details": err.Error(),
+		})
+		return
+	}
+
+	byType := make(map[string]int)
+	byUser := make(map[string]int)
+	byDate := make(map[string]int)
+	for _, activity := range result.Items {
+		byType[activity.Type]++
+		byUser[activity.UserID]++
+		day := time.UnixMilli(activity.Timestamp).Format("2006-01-02")
+		byDate[day]++
+	}
+
+	typeCounts := make([]activityCount, 0, len(byType))
+	for activityType, count := range byType {
+		typeCounts = append(typeCounts, activityCount{Type: activityType, Count: count})
+	}
+	sort.Slice(typeCounts, func(i, j int) bool {
+		if typeCounts[i].Count == typeCounts[j].Count {
+			return typeCounts[i].Type < typeCounts[j].Type
+		}
+		return typeCounts[i].Count > typeCounts[j].Count
+	})
+
+	userCounts := make([]activityCount, 0, len(byUser))
+	for userID, count := range byUser {
+		userCounts = append(userCounts, activityCount{UserID: userID, Count: count})
+	}
+	sort.Slice(userCounts, func(i, j int) bool {
+		if userCounts[i].Count == userCounts[j].Count {
+			return userCounts[i].UserID < userCounts[j].UserID
+		}
+		return userCounts[i].Count > userCounts[j].Count
+	})
+
+	trends := make([]activityCount, 0, 30)
+	for i := 29; i >= 0; i-- {
+		day := time.Now().AddDate(0, 0, -i).Format("2006-01-02")
+		trends = append(trends, activityCount{Date: day, Count: byDate[day]})
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"total_activities":   h.activity.CountX(c, params),
+		"sample":             len(result.Items),
+		"activities_by_type": typeCounts,
+		"activities_by_user": userCounts,
+		"recent_trends":      trends,
+	})
+}
+
+// GetTypes returns known activity types from recent activity data.
+func (h *activityHandler) GetTypes(c *gin.Context) {
+	params := &structs.ListActivityParams{Limit: 500, Direction: "forward"}
+	result, err := h.activity.ListActivity(c, params)
+	if err != nil {
+		logger.Errorf(c, "Failed to list activity types: %v", err)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error":   "Failed to list activity types",
+			"details": err.Error(),
+		})
+		return
+	}
+
+	seen := make(map[string]struct{})
+	types := make([]string, 0)
+	for _, activity := range result.Items {
+		if activity.Type == "" {
+			continue
+		}
+		if _, ok := seen[activity.Type]; ok {
+			continue
+		}
+		seen[activity.Type] = struct{}{}
+		types = append(types, activity.Type)
+	}
+
+	c.JSON(http.StatusOK, gin.H{"items": types})
+}
+
+// BulkDelete deletes multiple activities.
+func (h *activityHandler) BulkDelete(c *gin.Context) {
+	body := &bulkDeleteActivitiesBody{}
+	if err := c.ShouldBindJSON(body); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error":   "Invalid request body",
+			"details": err.Error(),
+		})
+		return
+	}
+
+	ids := body.IDsList()
+	if len(ids) == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "activity_ids are required"})
+		return
+	}
+
+	deleted, err := h.activity.DeleteMany(c, ids)
+	if err != nil {
+		logger.Errorf(c, "Failed to delete activities: %v", err)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error":   "Failed to delete activities",
+			"details": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"deleted": deleted, "ids": ids})
 }
 
 // parseListParams parses query parameters for list endpoint
@@ -301,6 +445,9 @@ func (h *activityHandler) parseSearchParams(c *gin.Context) *structs.SearchActiv
 		Query:  c.Query("q"),
 		UserID: c.Query("user_id"),
 		Type:   c.Query("type"),
+	}
+	if params.Query == "" {
+		params.Query = c.Query("search")
 	}
 
 	// Parse from with validation

@@ -19,6 +19,8 @@ type PermissionHandlerInterface interface {
 	Update(c *gin.Context)
 	Delete(c *gin.Context)
 	List(c *gin.Context)
+	BulkUpdate(c *gin.Context)
+	BulkDelete(c *gin.Context)
 }
 
 // permissionHandler represents the handler.
@@ -31,6 +33,14 @@ func NewPermissionHandler(svc *service.Service) PermissionHandlerInterface {
 	return &permissionHandler{
 		s: svc,
 	}
+}
+
+type permissionBulkUpdateBody struct {
+	Updates []types.JSON `json:"updates"`
+}
+
+type permissionBatchIDsBody struct {
+	IDs []string `json:"ids"`
 }
 
 // Create handles the creation of a new permission.
@@ -183,4 +193,60 @@ func (h *permissionHandler) List(c *gin.Context) {
 	}
 
 	resp.Success(c.Writer, permissions)
+}
+
+// BulkUpdate handles updating multiple permissions.
+func (h *permissionHandler) BulkUpdate(c *gin.Context) {
+	body := &permissionBulkUpdateBody{}
+	if err := c.ShouldBindJSON(body); err != nil {
+		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+		return
+	}
+	if len(body.Updates) == 0 {
+		resp.Fail(c.Writer, resp.BadRequest(ecode.FieldIsRequired("updates")))
+		return
+	}
+
+	results := make([]*structs.ReadPermission, 0, len(body.Updates))
+	for _, update := range body.Updates {
+		permissionID, _ := update["id"].(string)
+		if permissionID == "" {
+			resp.Fail(c.Writer, resp.BadRequest(ecode.FieldIsRequired("id")))
+			return
+		}
+
+		result, err := h.s.Permission.Update(c.Request.Context(), permissionID, update)
+		if err != nil {
+			resp.Fail(c.Writer, resp.InternalServer(err.Error()))
+			return
+		}
+		results = append(results, result)
+	}
+
+	resp.Success(c.Writer, results)
+}
+
+// BulkDelete handles deleting multiple permissions.
+func (h *permissionHandler) BulkDelete(c *gin.Context) {
+	body := &permissionBatchIDsBody{}
+	if err := c.ShouldBindJSON(body); err != nil {
+		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+		return
+	}
+	if len(body.IDs) == 0 {
+		resp.Fail(c.Writer, resp.BadRequest(ecode.FieldIsRequired("ids")))
+		return
+	}
+
+	for _, id := range body.IDs {
+		if id == "" {
+			continue
+		}
+		if err := h.s.Permission.Delete(c.Request.Context(), id); err != nil {
+			resp.Fail(c.Writer, resp.InternalServer(err.Error()))
+			return
+		}
+	}
+
+	resp.Success(c.Writer, gin.H{"ids": body.IDs})
 }

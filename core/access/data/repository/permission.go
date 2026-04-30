@@ -234,7 +234,10 @@ func (r *permissionRepository) FindPermission(ctx context.Context, params *struc
 
 // List gets a list of permissions
 func (r *permissionRepository) List(ctx context.Context, params *structs.ListPermissionParams) ([]*ent.Permission, error) {
-	builder := r.ec.Permission.Query()
+	builder, err := r.listBuilder(ctx, params)
+	if validator.IsNotNil(err) {
+		return nil, err
+	}
 
 	if params.Cursor != "" {
 		id, timestamp, err := paging.DecodeCursor(params.Cursor)
@@ -303,7 +306,20 @@ func (r *permissionRepository) CountX(ctx context.Context, params *structs.ListP
 
 // listBuilder creates list builder
 func (r *permissionRepository) listBuilder(ctx context.Context, params *structs.ListPermissionParams) (*ent.PermissionQuery, error) {
-	return r.ec.Permission.Query(), nil
+	builder := r.ec.Permission.Query()
+	if params.Action != "" {
+		builder.Where(permissionEnt.ActionEQ(params.Action))
+	}
+	if params.Subject != "" {
+		builder.Where(permissionEnt.SubjectEQ(params.Subject))
+	}
+	if params.Default != nil {
+		builder.Where(permissionEnt.DefaultEQ(*params.Default))
+	}
+	if params.Disabled != nil {
+		builder.Where(permissionEnt.DisabledEQ(*params.Disabled))
+	}
+	return builder, nil
 }
 
 // cachePermission caches a permission

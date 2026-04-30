@@ -41,9 +41,6 @@ func (r *Router) Register(rg *gin.RouterGroup, prefix ...string) {
 	// Basic file operations
 	read.GET("", r.h.File.List)
 	manage.POST("", r.h.File.Create)
-	read.GET("/:slug", r.h.File.Get)
-	manage.PUT("/:slug", r.h.File.Update)
-	manage.DELETE("/:slug", r.h.File.Delete)
 
 	// File search and discovery
 	read.GET("/search", r.h.File.Search)
@@ -96,4 +93,9 @@ func (r *Router) Register(rg *gin.RouterGroup, prefix ...string) {
 	admin.POST("/admin/storage/optimize", r.h.Admin.OptimizeStorage)
 	admin.GET("/admin/storage/health", r.h.Admin.GetStorageHealth)
 	admin.POST("/admin/storage/backup", r.h.Admin.InitiateBackup)
+
+	// File item operations must be registered after static collection routes.
+	read.GET("/:slug", r.h.File.Get)
+	manage.PUT("/:slug", r.h.File.Update)
+	manage.DELETE("/:slug", r.h.File.Delete)
 }

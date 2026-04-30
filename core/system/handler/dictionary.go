@@ -19,6 +19,7 @@ type DictionaryHandlerInterface interface {
 	GetEnumOptions(c *gin.Context)
 	ValidateEnumValue(c *gin.Context)
 	BatchGetBySlug(c *gin.Context)
+	GetUsage(c *gin.Context)
 	Delete(c *gin.Context)
 	List(c *gin.Context)
 }
@@ -217,6 +218,29 @@ func (h *dictionaryHandler) BatchGetBySlug(c *gin.Context) {
 	}
 
 	result, err := h.s.Dictionary.BatchGetBySlug(c.Request.Context(), slugs)
+	if err != nil {
+		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+		return
+	}
+
+	resp.Success(c.Writer, result)
+}
+
+// GetUsage handles retrieving dictionary usage information.
+//
+// @Summary Get dictionary usage
+// @Description Retrieve system records that reference a dictionary by ID or slug.
+// @Tags sys
+// @Produce json
+// @Param slug path string true "Dictionary ID or slug"
+// @Success 200 {array} structs.DictionaryUsage "success"
+// @Failure 400 {object} resp.Exception "bad request"
+// @Router /sys/dictionaries/{slug}/usage [get]
+// @Security Bearer
+func (h *dictionaryHandler) GetUsage(c *gin.Context) {
+	params := &structs.FindDictionary{Dictionary: c.Param("slug")}
+
+	result, err := h.s.Dictionary.GetUsage(c.Request.Context(), params)
 	if err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return

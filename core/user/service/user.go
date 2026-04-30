@@ -71,11 +71,14 @@ func (s *userService) Get(ctx context.Context, username string) (*structs.ReadUs
 	if username == "" {
 		return nil, errors.New(ecode.FieldIsInvalid("username"))
 	}
-	user, err := s.FindUser(ctx, &structs.FindUser{Username: username})
+	row, err := s.user.Find(ctx, &structs.FindUser{Username: username})
+	if repository.IsNotFound(err) {
+		row, err = s.user.GetByID(ctx, username)
+	}
 	if err := handleEntError(ctx, "User", err); err != nil {
 		return nil, err
 	}
-	return user, nil
+	return repository.SerializeUser(row), nil
 }
 
 // UpdatePassword update user password service

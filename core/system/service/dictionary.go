@@ -29,6 +29,7 @@ type DictionaryServiceInterface interface {
 	ValidateEnumValue(ctx context.Context, slug string, value string) (bool, error)
 	GetEnumValueLabel(ctx context.Context, slug string, value string) (string, error)
 	BatchGetBySlug(ctx context.Context, slugs []string) (map[string]*structs.ReadDictionary, error)
+	GetUsage(ctx context.Context, params *structs.FindDictionary) ([]*structs.DictionaryUsage, error)
 	Delete(ctx context.Context, params *structs.FindDictionary) (*structs.ReadDictionary, error)
 	List(ctx context.Context, params *structs.ListDictionaryParams) (paging.Result[*structs.ReadDictionary], error)
 	CountX(ctx context.Context, params *structs.ListDictionaryParams) int
@@ -227,6 +228,14 @@ func (s *dictionaryService) BatchGetBySlug(ctx context.Context, slugs []string) 
 	}
 
 	return result, nil
+}
+
+// GetUsage returns system references to a dictionary by ID or slug.
+func (s *dictionaryService) GetUsage(ctx context.Context, params *structs.FindDictionary) ([]*structs.DictionaryUsage, error) {
+	if validator.IsEmpty(params.Dictionary) {
+		return nil, errors.New(ecode.FieldIsRequired("dictionary"))
+	}
+	return s.dictionary.GetUsage(ctx, params)
 }
 
 // Update updates an existing dictionary (full and partial).

@@ -109,23 +109,23 @@ func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 		users.POST("", middleware.HasPermission("create:users"), m.h.User.Create)
 		users.GET("/filter", middleware.HasPermission("read:users"), m.h.User.GetFiltered)
 		users.GET("/me", middleware.HasPermission("read:users"), m.h.User.GetCurrentUser)
+		users.GET("/me/api-keys", middleware.HasPermission("read:users"), m.h.ApiKey.GetMyApiKeys)
 		users.GET("/by-email/:email", middleware.HasPermission("read:users"), m.h.User.GetByEmail)
 		users.GET("/by-username/:username", middleware.HasPermission("read:users"), m.h.User.GetByUsername)
-		users.GET("/:username", middleware.HasPermission("read:users"), m.h.User.Get)
-		users.PUT("/:username", middleware.HasPermission("update:users"), m.h.User.Update)
-		users.DELETE("/:username", middleware.HasPermission("delete:users"), m.h.User.Delete)
+		users.GET("/api-keys/:id", middleware.HasPermission("read:users"), m.h.ApiKey.GetApiKey)
+		users.POST("/reset-password", middleware.HasPermission("update:users"), m.h.User.ResetPassword)
+		users.POST("/api-keys", middleware.HasPermission("create:users"), m.h.ApiKey.GenerateApiKey)
+		users.DELETE("/api-keys/:id", middleware.HasPermission("delete:users"), m.h.ApiKey.DeleteApiKey)
 		users.PUT("/:username/password", middleware.HasPermission("update:users"), m.h.User.UpdatePassword)
 		users.PATCH("/:username/status", middleware.HasPermission("update:users"), m.h.User.UpdateStatus)
 		users.GET("/:username/profile", middleware.HasAnyPermission("read:users", "manage:profile"), m.h.UserProfile.Get)
 		users.PUT("/:username/profile", middleware.HasAnyPermission("update:users", "manage:profile"), m.h.UserProfile.Update)
-		users.POST("/reset-password", middleware.HasPermission("update:users"), m.h.User.ResetPassword)
 		users.GET("/:username/api-keys", middleware.HasPermission("read:users"), m.h.ApiKey.GetUserApiKeys)
-		users.GET("/me/api-keys", middleware.HasPermission("read:users"), m.h.ApiKey.GetMyApiKeys)
-		users.POST("/api-keys", middleware.HasPermission("create:users"), m.h.ApiKey.GenerateApiKey)
-		users.GET("/api-keys/:id", middleware.HasPermission("read:users"), m.h.ApiKey.GetApiKey)
-		users.DELETE("/api-keys/:id", middleware.HasPermission("delete:users"), m.h.ApiKey.DeleteApiKey)
 		users.GET("/:username/meshes", middleware.HasAnyPermission("read:users", "manage:profile"), m.h.UserMeshes.GetUserMeshes)
 		users.PUT("/:username/meshes", middleware.HasAnyPermission("update:users", "manage:profile"), m.h.UserMeshes.UpdateUserMeshes)
+		users.GET("/:username", middleware.HasPermission("read:users"), m.h.User.Get)
+		users.PUT("/:username", middleware.HasPermission("update:users"), m.h.User.Update)
+		users.DELETE("/:username", middleware.HasPermission("delete:users"), m.h.User.Delete)
 	}
 
 	// Employee endpoints
@@ -133,11 +133,11 @@ func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 	{
 		employees.GET("", middleware.HasPermission("read:employees"), m.h.Employee.List)
 		employees.POST("", middleware.HasAnyPermission("create:employees", "manage:hr"), m.h.Employee.Create)
+		employees.GET("/department/:department", middleware.HasPermission("read:employees"), m.h.Employee.GetByDepartment)
+		employees.GET("/manager/:manager_id", middleware.HasPermission("read:employees"), m.h.Employee.GetByManager)
 		employees.GET("/:user_id", middleware.HasPermission("read:employees"), m.h.Employee.Get)
 		employees.PUT("/:user_id", middleware.HasAnyPermission("update:employees", "manage:hr"), m.h.Employee.Update)
 		employees.DELETE("/:user_id", middleware.HasPermission("manage:employees"), m.h.Employee.Delete)
-		employees.GET("/department/:department", middleware.HasPermission("read:employees"), m.h.Employee.GetByDepartment)
-		employees.GET("/manager/:manager_id", middleware.HasPermission("read:employees"), m.h.Employee.GetByManager)
 	}
 }
 

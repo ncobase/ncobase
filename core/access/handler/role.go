@@ -16,9 +16,15 @@ import (
 type RoleHandlerInterface interface {
 	Create(c *gin.Context)
 	Get(c *gin.Context)
+	GetBySlug(c *gin.Context)
 	Update(c *gin.Context)
 	Delete(c *gin.Context)
 	List(c *gin.Context)
+	BulkUpdate(c *gin.Context)
+	BulkDelete(c *gin.Context)
+	ListUsers(c *gin.Context)
+	AssignUsers(c *gin.Context)
+	RemoveUsers(c *gin.Context)
 }
 
 // roleHandler represents the handler.
@@ -31,6 +37,23 @@ func NewRoleHandler(svc *service.Service) RoleHandlerInterface {
 	return &roleHandler{
 		s: svc,
 	}
+}
+
+type roleBulkUpdateBody struct {
+	Updates []types.JSON `json:"updates"`
+}
+
+type roleBatchIDsBody struct {
+	IDs     []string `json:"ids"`
+	UserIDs []string `json:"user_ids"`
+	UserIds []string `json:"userIds"`
+}
+
+func (b *roleBatchIDsBody) Users() []string {
+	if len(b.UserIDs) > 0 {
+		return b.UserIDs
+	}
+	return b.UserIds
 }
 
 // Create handles the creation of a new role.
@@ -82,7 +105,24 @@ func (h *roleHandler) Get(c *gin.Context) {
 		return
 	}
 
-	result, err := h.s.Role.GetByID(c.Request.Context(), slug)
+	result, err := h.s.Role.Find(c.Request.Context(), &structs.FindRole{Slug: slug})
+	if err != nil {
+		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
+		return
+	}
+
+	resp.Success(c.Writer, result)
+}
+
+// GetBySlug handles retrieving a role by slug.
+func (h *roleHandler) GetBySlug(c *gin.Context) {
+	slug := c.Param("slug")
+	if slug == "" {
+		resp.Fail(c.Writer, resp.BadRequest(ecode.FieldIsRequired("slug")))
+		return
+	}
+
+	result, err := h.s.Role.GetBySlug(c.Request.Context(), slug)
 	if err != nil {
 		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 		return
@@ -183,6 +223,152 @@ func (h *roleHandler) List(c *gin.Context) {
 	}
 
 	resp.Success(c.Writer, roles)
+}
+
+// BulkUpdate handles updating multiple roles.
+func (h *roleHandler) BulkUpdate(c *gin.Context) {
+	body := &roleBulkUpdateBody{}
+	if err := c.ShouldBindJSON(body); err != nil {
+		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+		return
+	}
+	if len(body.Updates) == 0 {
+		resp.Fail(c.Writer, resp.BadRequest(ecode.FieldIsRequired("updates")))
+		return
+	}
+
+	results := make([]*structs.ReadRole, 0, len(body.Updates))
+	for _, update := range body.Updates {
+		roleID, _ := update["id"].(string)
+		if roleID == "" {
+			roleID, _ = update["slug"].(string)
+		}
+		if roleID == "" {
+			resp.Fail(c.Writer, resp.BadRequest(ecode.FieldIsRequired("id")))
+			return
+		}
+
+		result, err := h.s.Role.Update(c.Request.Context(), roleID, update)
+		if err != nil {
+			resp.Fail(c.Writer, resp.InternalServer(err.Error()))
+			return
+		}
+		results = append(results, result)
+	}
+
+	resp.Success(c.Writer, results)
+}
+
+// BulkDelete handles deleting multiple roles.
+func (h *roleHandler) BulkDelete(c *gin.Context) {
+	body := &roleBatchIDsBody{}
+	if err := c.ShouldBindJSON(body); err != nil {
+		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+		return
+	}
+	if len(body.IDs) == 0 {
+		resp.Fail(c.Writer, resp.BadRequest(ecode.FieldIsRequired("ids")))
+		return
+	}
+
+	for _, id := range body.IDs {
+		if id == "" {
+			continue
+		}
+		if err := h.s.Role.Delete(c.Request.Context(), id); err != nil {
+			resp.Fail(c.Writer, resp.InternalServer(err.Error()))
+			return
+		}
+	}
+
+	resp.Success(c.Writer, gin.H{"ids": body.IDs})
+}
+
+// ListUsers handles listing user IDs assigned to a role.
+func (h *roleHandler) ListUsers(c *gin.Context) {
+	roleID := c.Param("slug")
+	if roleID == "" {
+		resp.Fail(c.Writer, resp.BadRequest(ecode.FieldIsRequired("role")))
+		return
+	}
+
+	result, err := h.s.UserRole.GetUsersByRoleID(c.Request.Context(), roleID)
+	if err != nil {
+		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
+		return
+	}
+
+	resp.Success(c.Writer, result)
+}
+
+// AssignUsers handles assigning users to a role.
+func (h *roleHandler) AssignUsers(c *gin.Context) {
+	roleID := c.Param("slug")
+	if roleID == "" {
+		resp.Fail(c.Writer, resp.BadRequest(ecode.FieldIsRequired("role")))
+		return
+	}
+
+	body := &roleBatchIDsBody{}
+	if err := c.ShouldBindJSON(body); err != nil {
+		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+		return
+	}
+
+	userIDs := body.Users()
+	if len(userIDs) == 0 {
+		resp.Fail(c.Writer, resp.BadRequest(ecode.FieldIsRequired("user_ids")))
+		return
+	}
+
+	assigned := make([]string, 0, len(userIDs))
+	for _, userID := range userIDs {
+		if userID == "" {
+			continue
+		}
+		if err := h.s.UserRole.AddRoleToUser(c.Request.Context(), userID, roleID); err != nil {
+			resp.Fail(c.Writer, resp.InternalServer(err.Error()))
+			return
+		}
+		assigned = append(assigned, userID)
+	}
+
+	resp.Success(c.Writer, gin.H{"role_id": roleID, "user_ids": assigned})
+}
+
+// RemoveUsers handles removing users from a role.
+func (h *roleHandler) RemoveUsers(c *gin.Context) {
+	roleID := c.Param("slug")
+	if roleID == "" {
+		resp.Fail(c.Writer, resp.BadRequest(ecode.FieldIsRequired("role")))
+		return
+	}
+
+	body := &roleBatchIDsBody{}
+	if err := c.ShouldBindJSON(body); err != nil {
+		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+		return
+	}
+
+	userIDs := body.Users()
+	if len(userIDs) == 0 {
+		resp.Fail(c.Writer, resp.BadRequest(ecode.FieldIsRequired("user_ids")))
+		return
+	}
+
+	removed := make([]string, 0, len(userIDs))
+	for _, userID := range userIDs {
+		if userID == "" {
+			continue
+		}
+		if err := h.s.UserRole.RemoveRoleFromUser(c.Request.Context(), userID, roleID); err != nil {
+			resp.Fail(c.Writer, resp.InternalServer(err.Error()))
+			return
+		}
+		removed = append(removed, userID)
+	}
+
+	resp.Success(c.Writer, gin.H{"role_id": roleID, "user_ids": removed})
 }
 
 // // ListUserRoleHandler handles listing users for a role.

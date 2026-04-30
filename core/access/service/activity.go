@@ -20,6 +20,7 @@ type ActivityServiceInterface interface {
 	ListActivity(ctx context.Context, params *structs.ListActivityParams) (paging.Result[*structs.Activity], error)
 	GetUserActivity(ctx context.Context, username string, limit int) ([]*structs.Activity, error)
 	SearchActivity(ctx context.Context, params *structs.SearchActivityParams) ([]*structs.Activity, int, error)
+	DeleteMany(ctx context.Context, ids []string) (int, error)
 	CountX(ctx context.Context, params *structs.ListActivityParams) int
 	DocumentToEntry(doc *structs.ActivityDocument) *structs.Activity
 	DocumentsToEntries(docs []*structs.ActivityDocument) []*structs.Activity
@@ -110,6 +111,10 @@ func (s *activityService) SearchActivity(ctx context.Context, params *structs.Se
 	}
 
 	return s.DocumentsToEntries(docs), total, nil
+}
+
+func (s *activityService) DeleteMany(ctx context.Context, ids []string) (int, error) {
+	return s.activity.DeleteMany(ctx, ids)
 }
 
 func (s *activityService) CountX(ctx context.Context, params *structs.ListActivityParams) int {

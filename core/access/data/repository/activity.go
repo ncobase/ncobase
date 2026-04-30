@@ -28,6 +28,7 @@ type ActivityRepositoryInterface interface {
 	List(ctx context.Context, params *structs.ListActivityParams) (paging.Result[*structs.ActivityDocument], error)
 	GetRecentByUserID(ctx context.Context, userID string, limit int) ([]*structs.ActivityDocument, error)
 	Search(ctx context.Context, params *structs.SearchActivityParams) ([]*structs.ActivityDocument, int, error)
+	DeleteMany(ctx context.Context, ids []string) (int, error)
 	CountX(ctx context.Context, params *structs.ListActivityParams) int
 }
 
@@ -286,6 +287,35 @@ func (r *activityRepository) Search(ctx context.Context, params *structs.SearchA
 	return docs, int(resp.Total), nil
 }
 
+// DeleteMany deletes activities from the search index and database.
+func (r *activityRepository) DeleteMany(ctx context.Context, ids []string) (int, error) {
+	if len(ids) == 0 {
+		return 0, nil
+	}
+
+	if r.sc != nil && len(r.sc.GetAvailableEngines()) > 0 {
+		if err := r.sc.BulkDelete(ctx, "activities", ids); err != nil {
+			logger.Warnf(ctx, "Failed to delete activities from search index: %v", err)
+		}
+	}
+
+	deleted, err := r.data.GetMasterEntClient().Activity.Delete().
+		Where(activityEnt.IDIn(ids...)).
+		Exec(ctx)
+	if err != nil {
+		logger.Errorf(ctx, "activityRepo.DeleteMany error: %v", err)
+		return 0, err
+	}
+
+	go func() {
+		for _, id := range ids {
+			_ = r.activityCache.Delete(context.Background(), fmt.Sprintf("id:%s", id))
+		}
+	}()
+
+	return deleted, nil
+}
+
 // CountX counts the number of activities
 func (r *activityRepository) CountX(ctx context.Context, params *structs.ListActivityParams) int {
 	if r.sc != nil {
@@ -298,6 +328,26 @@ func (r *activityRepository) CountX(ctx context.Context, params *structs.ListAct
 			Index: "activities",
 			Query: "*",
 			Size:  0, // Only get count
+		}
+		if params.UserID != "" || params.Type != "" || params.FromDate > 0 || params.ToDate > 0 {
+			filters := make(map[string]any)
+			if params.UserID != "" {
+				filters["user_id"] = params.UserID
+			}
+			if params.Type != "" {
+				filters["type"] = params.Type
+			}
+			if params.FromDate > 0 || params.ToDate > 0 {
+				dateRange := make(map[string]any)
+				if params.FromDate > 0 {
+					dateRange["gte"] = params.FromDate
+				}
+				if params.ToDate > 0 {
+					dateRange["lte"] = params.ToDate
+				}
+				filters["created_at"] = map[string]any{"range": dateRange}
+			}
+			req.Filter = filters
 		}
 
 		if resp, err := r.sc.Search(ctx, req); err == nil {

@@ -9,6 +9,7 @@ type Handler struct {
 	Role           RoleHandlerInterface
 	Permission     PermissionHandlerInterface
 	RolePermission RolePermissionHandlerInterface
+	UserRole       UserRoleHandlerInterface
 }
 
 // New creates a new handler.
@@ -19,5 +20,6 @@ func New(s *service.Service) *Handler {
 		Role:           NewRoleHandler(s),
 		Permission:     NewPermissionHandler(s),
 		RolePermission: NewRolePermissionHandler(s),
+		UserRole:       NewUserRoleHandler(s),
 	}
 }

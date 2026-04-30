@@ -43,6 +43,14 @@ type ReadDictionary struct {
 	UpdatedAt   *int64  `json:"updated_at,omitempty"`
 }
 
+// DictionaryUsage describes one runtime reference to a dictionary record.
+type DictionaryUsage struct {
+	Module      string `json:"module"`
+	Location    string `json:"location"`
+	Count       int    `json:"count"`
+	ReferenceID string `json:"reference_id,omitempty"`
+}
+
 // GetCursorValue returns the cursor value.
 func (r *ReadDictionary) GetCursorValue() string {
 	return fmt.Sprintf("%s:%d", r.ID, convert.ToValue(r.CreatedAt))

@@ -3,6 +3,7 @@ package handler
 import (
 	"ncobase/core/system/service"
 	"ncobase/core/system/structs"
+	"strings"
 
 	"github.com/ncobase/ncore/net/resp"
 	"github.com/ncobase/ncore/validation"
@@ -324,6 +325,12 @@ func (h *menuHandler) ReorderMenus(c *gin.Context) {
 func (h *menuHandler) ToggleMenuStatus(c *gin.Context) {
 	id := c.Param("id")
 	action := c.Param("action")
+	if action == "" {
+		segments := strings.Split(strings.Trim(c.Request.URL.Path, "/"), "/")
+		if len(segments) > 0 {
+			action = segments[len(segments)-1]
+		}
+	}
 
 	// Validate action
 	validActions := []string{"enable", "disable", "show", "hide"}

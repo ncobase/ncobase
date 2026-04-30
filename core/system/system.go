@@ -111,20 +111,23 @@ func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 		menus.GET("/navigation", m.h.Menu.GetNavigationMenus)
 		menus.GET("/tree", m.h.Menu.GetMenuTree)
 		menus.GET("/authorized/:user_id", m.h.Menu.GetUserAuthorizedMenus)
-		menus.GET("/:slug", m.h.Menu.Get)
 		menus.GET("/slug/:slug", m.h.Menu.GetBySlug)
+		menus.GET("/:slug", m.h.Menu.Get)
 
 		// Menu management - requires specific permission
 		menus.POST("", middleware.HasPermission("manage:menu"), m.h.Menu.Create)
 		menus.PUT("", middleware.HasPermission("manage:menu"), m.h.Menu.Update)
-		menus.DELETE("/:slug", middleware.HasPermission("manage:menu"), m.h.Menu.Delete)
 
 		// Menu operations - requires specific permission
 		menus.PUT("/:id/move", middleware.HasPermission("manage:menu"), m.h.Menu.MoveMenu)
 		menus.POST("/reorder", middleware.HasPermission("manage:menu"), m.h.Menu.ReorderMenus)
 
-		// Status toggle endpoint - requires specific permission
-		menus.PUT("/:id/:action", middleware.HasPermission("manage:menu"), m.h.Menu.ToggleMenuStatus)
+		// Status toggle endpoints - requires specific permission
+		menus.PUT("/:id/enable", middleware.HasPermission("manage:menu"), m.h.Menu.ToggleMenuStatus)
+		menus.PUT("/:id/disable", middleware.HasPermission("manage:menu"), m.h.Menu.ToggleMenuStatus)
+		menus.PUT("/:id/show", middleware.HasPermission("manage:menu"), m.h.Menu.ToggleMenuStatus)
+		menus.PUT("/:id/hide", middleware.HasPermission("manage:menu"), m.h.Menu.ToggleMenuStatus)
+		menus.DELETE("/:slug", middleware.HasPermission("manage:menu"), m.h.Menu.Delete)
 	}
 
 	// Dictionary endpoints
@@ -132,11 +135,12 @@ func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 	{
 		// Basic dictionary access
 		dictionaries.GET("", m.h.Dictionary.List)
-		dictionaries.GET("/:slug", m.h.Dictionary.Get)
 		dictionaries.GET("/slug/:slug", m.h.Dictionary.GetBySlug)
 		dictionaries.GET("/options/:slug", m.h.Dictionary.GetEnumOptions)
 		dictionaries.GET("/validate/:slug", m.h.Dictionary.ValidateEnumValue)
 		dictionaries.POST("/batch", m.h.Dictionary.BatchGetBySlug)
+		dictionaries.GET("/:slug/usage", m.h.Dictionary.GetUsage)
+		dictionaries.GET("/:slug", m.h.Dictionary.Get)
 
 		// Dictionary management
 		dictionaries.POST("", middleware.HasPermission("manage:dictionary"), m.h.Dictionary.Create)
@@ -149,16 +153,16 @@ func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 	{
 		// Basic options access
 		options.GET("", m.h.Option.List)
-		options.GET("/:option", m.h.Option.Get)
 		options.GET("/name/:name", m.h.Option.GetByName)
 		options.GET("/type/:type", m.h.Option.GetByType)
 		options.POST("/batch", m.h.Option.BatchGetByNames)
+		options.GET("/:option", m.h.Option.Get)
 
 		// Options management - requires system management permission
 		options.POST("", middleware.HasPermission("manage:system"), m.h.Option.Create)
 		options.PUT("", middleware.HasPermission("manage:system"), m.h.Option.Update)
-		options.DELETE("/:option", middleware.HasPermission("manage:system"), m.h.Option.Delete)
 		options.DELETE("/prefix", middleware.HasPermission("manage:system"), m.h.Option.DeleteByPrefix)
+		options.DELETE("/:option", middleware.HasPermission("manage:system"), m.h.Option.Delete)
 	}
 
 	// Admin endpoints - requires admin permission

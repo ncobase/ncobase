@@ -148,8 +148,8 @@ func (p *Plugin) RegisterRoutes(r *gin.RouterGroup) {
 	orderGroup := payGroup.Group("/orders")
 	orderGroup.GET("", p.h.Order.List)
 	orderGroup.POST("", p.h.Order.Create)
-	orderGroup.GET("/:id", p.h.Order.Get)
 	orderGroup.GET("/number/:orderNumber", p.h.Order.GetByOrderNumber)
+	orderGroup.GET("/:id", p.h.Order.Get)
 	orderGroup.POST("/:id/payment-url", p.h.Order.GeneratePaymentURL)
 	orderGroup.POST("/:id/verify", p.h.Order.VerifyPayment)
 	orderGroup.POST("/:id/refund", p.h.Order.RefundPayment)
@@ -166,10 +166,10 @@ func (p *Plugin) RegisterRoutes(r *gin.RouterGroup) {
 	subscriptionGroup := payGroup.Group("/subscriptions")
 	subscriptionGroup.GET("", p.h.Subscription.List)
 	subscriptionGroup.POST("", p.h.Subscription.Create)
+	subscriptionGroup.GET("/user/:userId", p.h.Subscription.GetByUser)
 	subscriptionGroup.GET("/:id", p.h.Subscription.Get)
 	subscriptionGroup.PUT("/:id", p.h.Subscription.Update)
 	subscriptionGroup.POST("/:id/cancel", p.h.Subscription.Cancel)
-	subscriptionGroup.GET("/user/:userId", p.h.Subscription.GetByUser)
 
 	// Webhook routes
 	webhookGroup := payGroup.Group("/webhooks")
@@ -178,8 +178,8 @@ func (p *Plugin) RegisterRoutes(r *gin.RouterGroup) {
 	// Log routes
 	logGroup := payGroup.Group("/logs")
 	logGroup.GET("", p.h.Log.List)
-	logGroup.GET("/:id", p.h.Log.Get)
 	logGroup.GET("/order/:orderId", p.h.Log.GetByOrder)
+	logGroup.GET("/:id", p.h.Log.Get)
 
 	// Utility routes
 	payGroup.GET("/providers", p.h.Utility.ListProviders)

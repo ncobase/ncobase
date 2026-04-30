@@ -306,8 +306,12 @@ func (r *roleRepository) FindRole(ctx context.Context, params *structs.FindRole)
 }
 
 // listBuilder creates list builder
-func (r *roleRepository) listBuilder(_ context.Context, _ *structs.ListRoleParams) (*ent.RoleQuery, error) {
-	return r.ec.Role.Query(), nil
+func (r *roleRepository) listBuilder(_ context.Context, params *structs.ListRoleParams) (*ent.RoleQuery, error) {
+	builder := r.ec.Role.Query()
+	if params != nil && params.Disabled != nil {
+		builder.Where(roleEnt.DisabledEQ(*params.Disabled))
+	}
+	return builder, nil
 }
 
 // CountX gets a count of roles

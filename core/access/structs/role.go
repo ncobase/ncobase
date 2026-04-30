@@ -60,4 +60,5 @@ type ListRoleParams struct {
 	Cursor    string `form:"cursor,omitempty" json:"cursor,omitempty"`
 	Limit     int    `form:"limit,omitempty" json:"limit,omitempty"`
 	Direction string `form:"direction,omitempty" json:"direction,omitempty"`
+	Disabled  *bool  `form:"disabled,omitempty" json:"disabled,omitempty"`
 }
