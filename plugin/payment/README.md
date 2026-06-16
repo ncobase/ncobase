@@ -66,7 +66,8 @@ The module follows a clean architecture pattern:
 ### Utility
 
 - `GET /pay/providers` - List available payment providers
-- `GET /pay/stats` - Get payment statistics
+- `GET /pay/stats` - Get payment statistics for a currency and period, including order totals,
+  payment outcomes, refund count, subscription summary, provider list, and revenue by channel
 
 ## Integration
 

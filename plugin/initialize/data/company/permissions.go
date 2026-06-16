@@ -239,6 +239,14 @@ var SystemDefaultPermissions = []accessStructs.CreatePermissionBody{
 	},
 	{
 		PermissionBody: accessStructs.PermissionBody{
+			Name:        "Realtime Management",
+			Action:      "manage",
+			Subject:     "realtime",
+			Description: "Manage realtime channels, events, and system notifications",
+		},
+	},
+	{
+		PermissionBody: accessStructs.PermissionBody{
 			Name:        "Resource Management",
 			Action:      "manage",
 			Subject:     "resource",
@@ -257,8 +265,32 @@ var SystemDefaultPermissions = []accessStructs.CreatePermissionBody{
 		PermissionBody: accessStructs.PermissionBody{
 			Name:        "Payment Read",
 			Action:      "read",
-			Subject:     "payment",
+			Subject:     "payments",
 			Description: "View payment information",
+		},
+	},
+	{
+		PermissionBody: accessStructs.PermissionBody{
+			Name:        "Payment Management",
+			Action:      "manage",
+			Subject:     "payments",
+			Description: "Manage payment products, channels, subscriptions, and order operations",
+		},
+	},
+	{
+		PermissionBody: accessStructs.PermissionBody{
+			Name:        "Payment Refund",
+			Action:      "refund",
+			Subject:     "payments",
+			Description: "Process payment refunds",
+		},
+	},
+	{
+		PermissionBody: accessStructs.PermissionBody{
+			Name:        "Payment Administration",
+			Action:      "admin",
+			Subject:     "payments",
+			Description: "Access payment logs and sensitive payment administration data",
 		},
 	},
 	{
@@ -320,9 +352,13 @@ var RolePermissionMapping = map[string][]string{
 		"Comment Read",
 		"TBP Management",
 		"Realtime Access",
+		"Realtime Management",
 		"Resource Management",
 		"Resource Read",
 		"Payment Read",
+		"Payment Management",
+		"Payment Refund",
+		"Payment Administration",
 		"Workflow Read",
 		"Task Management",
 		"CMS Management",

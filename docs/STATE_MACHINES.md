@@ -70,6 +70,21 @@ implementation before this full machine is enforced.
 Current backend supports create/update/delete plus publish/cancel. Schedule, failure retry, and review
 preconditions are planned.
 
+## Realtime Notification
+
+| State | Meaning | Allowed actions | Next states |
+| --- | --- | --- | --- |
+| `unread` (`0`) | Notification has not been acknowledged by the recipient. | get, list, mark read. | `read` |
+| `read` (`1`) | Recipient has acknowledged the notification. | get, list, mark unread. | `unread` |
+
+Rules:
+
+- Read/list/mark operations are scoped to the authenticated user unless the caller has
+  `manage:realtime`, `admin:realtime`, or a wildcard permission.
+- `/rt/notifications/read-all` and `/rt/notifications/unread-all` always apply to the current user.
+- System notification create/update/delete requires realtime management/admin permission.
+- Header notification polling is the current frontend baseline; WebSocket push is a follow-up.
+
 ## Payment Order
 
 | State | Meaning | Allowed actions | Next states |
@@ -86,6 +101,29 @@ Rules:
 
 - Webhooks and verify calls must be idempotent.
 - Refund requires authorization, current paid state, amount validation, and audit.
+- Route permissions are split from lifecycle state: reads use `read:payments`, operational writes use
+  `manage:payments`, refunds use `refund:payments`, and log/admin visibility uses `admin:payments`.
+- Payment logs must not expose raw provider payloads unless the backend has masked configured secret,
+  token, card, account, and signature fields.
+
+## Payment Webhook Processing
+
+| State | Meaning | Allowed actions | Next states |
+| --- | --- | --- | --- |
+| `received` | Provider callback reached `/pay/webhooks/:channel`. | validate signature, parse event, reject. | `validated`, `rejected` |
+| `validated` | Signature and channel match. | check idempotency, map event. | `duplicate`, `processing`, `rejected` |
+| `processing` | Order/subscription mutation is running. | update domain record, write log, publish event. | `succeeded`, `failed` |
+| `duplicate` | Event id or provider reference was already processed. | write idempotent log. | terminal |
+| `succeeded` | Domain state was updated and events/logs were written. | none except audit/read. | terminal |
+| `failed` | Validation or mutation failed after receipt. | retry if safe, inspect masked log. | `processing`, terminal |
+| `rejected` | Signature, channel, payload, or state precondition failed. | none except masked audit/read. | terminal |
+
+Rules:
+
+- The webhook route is public at the auth layer because providers cannot send user tokens.
+- Signature validation, channel lookup, idempotency, and payload masking are mandatory before the
+  event can mutate orders or subscriptions.
+- Retry must be based on provider event id or a generated idempotency key, not on raw request replay.
 
 ## Subscription
 

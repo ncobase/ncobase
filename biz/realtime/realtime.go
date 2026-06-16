@@ -94,64 +94,78 @@ func (m *Module) PostInit() error {
 
 // RegisterRoutes registers HTTP and WebSocket routes
 func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
-	// Group routes under /realtime
-	rg := r.Group("/"+m.Group(), middleware.AuthenticatedUser)
+	// Group routes under /rt
+	rg := r.Group("/" + m.Group())
+	protected := rg.Group("", middleware.AuthenticatedUser)
+	readRealtime := protected.Group("", middleware.HasAnyPermission("read:realtime", "manage:realtime", "admin:realtime"))
+	manageRealtime := protected.Group("", middleware.HasAnyPermission("manage:realtime", "admin:realtime"))
 
 	// WebSocket endpoint
-	rg.GET("/ws", m.h.WebSocket.HandleConnection)
+	readRealtime.GET("/ws", m.h.WebSocket.HandleConnection)
 
 	// Core event interfaces
 	core := r.Group("", middleware.AuthenticatedUser)
+	readCore := core.Group("", middleware.HasAnyPermission("read:realtime", "manage:realtime", "admin:realtime"))
+	manageCore := core.Group("", middleware.HasAnyPermission("manage:realtime", "admin:realtime"))
 	{
-		core.POST("/events", m.h.Event.Publish)
-		core.GET("/events/:id", m.h.Event.Get)
-		core.POST("/search", m.h.Event.Search)
-		core.GET("/stats/realtime", m.h.Event.RealtimeStats)
-		core.POST("/events/:id/retry", m.h.Event.Retry)
-		core.POST("/events/batch", m.h.Event.PublishBatch)
-		core.GET("/events/failed", m.h.Event.GetFailedEvents)
-		core.POST("/events/process", m.h.Event.ProcessPendingEvents)
-		core.PUT("/events/:id/status", m.h.Event.UpdateEventStatus)
-		core.GET("/events/types", m.h.Event.GetEventTypes)
-		core.GET("/events/sources", m.h.Event.GetEventSources)
+		manageCore.POST("/events", m.h.Event.Publish)
+		readCore.POST("/search", m.h.Event.Search)
+		readCore.GET("/stats/realtime", m.h.Event.RealtimeStats)
+		manageCore.POST("/events/batch", m.h.Event.PublishBatch)
+		readCore.GET("/events/failed", m.h.Event.GetFailedEvents)
+		manageCore.POST("/events/process", m.h.Event.ProcessPendingEvents)
+		readCore.GET("/events/types", m.h.Event.GetEventTypes)
+		readCore.GET("/events/sources", m.h.Event.GetEventSources)
+		readCore.GET("/events/:id", m.h.Event.Get)
+		manageCore.POST("/events/:id/retry", m.h.Event.Retry)
+		manageCore.PUT("/events/:id/status", m.h.Event.UpdateEventStatus)
 	}
 
 	// Notification endpoints
-	notifications := rg.Group("/notifications")
+	notificationsRead := readRealtime.Group("/notifications")
 	{
-		notifications.GET("", m.h.Notification.List)
-		notifications.POST("", m.h.Notification.Create)
-		notifications.GET("/:id", m.h.Notification.Get)
-		notifications.PUT("/:id", m.h.Notification.Update)
-		notifications.DELETE("/:id", m.h.Notification.Delete)
-		notifications.PUT("/:id/read", m.h.Notification.MarkAsRead)
-		notifications.PUT("/:id/unread", m.h.Notification.MarkAsUnread)
-		notifications.PUT("/read-all", m.h.Notification.MarkAllAsRead)
-		notifications.PUT("/unread-all", m.h.Notification.MarkAllAsUnread)
+		notificationsRead.GET("", m.h.Notification.List)
+		notificationsRead.PUT("/read-all", m.h.Notification.MarkAllAsRead)
+		notificationsRead.PUT("/unread-all", m.h.Notification.MarkAllAsUnread)
+		notificationsRead.GET("/:id", m.h.Notification.Get)
+		notificationsRead.PUT("/:id/read", m.h.Notification.MarkAsRead)
+		notificationsRead.PUT("/:id/unread", m.h.Notification.MarkAsUnread)
+	}
+	notificationsManage := manageRealtime.Group("/notifications")
+	{
+		notificationsManage.POST("", m.h.Notification.Create)
+		notificationsManage.PUT("/:id", m.h.Notification.Update)
+		notificationsManage.DELETE("/:id", m.h.Notification.Delete)
 	}
 
 	// Channel endpoints
-	channels := rg.Group("/channels")
+	channelsRead := readRealtime.Group("/channels")
 	{
-		channels.GET("", m.h.Channel.List)
-		channels.POST("", m.h.Channel.Create)
-		channels.GET("/:id", m.h.Channel.Get)
-		channels.PUT("/:id", m.h.Channel.Update)
-		channels.DELETE("/:id", m.h.Channel.Delete)
-		channels.POST("/:id/subscribe", m.h.Channel.Subscribe)
-		channels.POST("/:id/unsubscribe", m.h.Channel.Unsubscribe)
-		channels.GET("/:id/subscribers", m.h.Channel.GetSubscribers)
-		channels.GET("/:id/user", m.h.Channel.GetUserChannels)
+		channelsRead.GET("", m.h.Channel.List)
+		channelsRead.GET("/user", m.h.Channel.GetUserChannels)
+		channelsRead.GET("/:id", m.h.Channel.Get)
+		channelsRead.POST("/:id/subscribe", m.h.Channel.Subscribe)
+		channelsRead.POST("/:id/unsubscribe", m.h.Channel.Unsubscribe)
+	}
+	channelsManage := manageRealtime.Group("/channels")
+	{
+		channelsManage.POST("", m.h.Channel.Create)
+		channelsManage.PUT("/:id", m.h.Channel.Update)
+		channelsManage.DELETE("/:id", m.h.Channel.Delete)
+		channelsManage.GET("/:id/subscribers", m.h.Channel.GetSubscribers)
 	}
 
 	// Event endpoints
-	events := rg.Group("/events")
+	eventsRead := readRealtime.Group("/events")
 	{
-		events.GET("", m.h.Event.List)
-		events.POST("/publish", m.h.Event.PublishExtended)
-		events.GET("/:id", m.h.Event.Get)
-		events.DELETE("/:id", m.h.Event.Delete)
-		events.GET("/history", m.h.Event.GetHistory)
+		eventsRead.GET("", m.h.Event.List)
+		eventsRead.GET("/history", m.h.Event.GetHistory)
+		eventsRead.GET("/:id", m.h.Event.Get)
+	}
+	eventsManage := manageRealtime.Group("/events")
+	{
+		eventsManage.POST("/publish", m.h.Event.PublishExtended)
+		eventsManage.DELETE("/:id", m.h.Event.Delete)
 	}
 }
 

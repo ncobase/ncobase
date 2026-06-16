@@ -163,10 +163,50 @@ var SystemDefaultPermissions = []accessStructs.CreatePermissionBody{
 	},
 	{
 		PermissionBody: accessStructs.PermissionBody{
+			Name:        "Payment Read",
+			Action:      "read",
+			Subject:     "payments",
+			Description: "View payment orders, provider metadata, and statistics",
+		},
+	},
+	{
+		PermissionBody: accessStructs.PermissionBody{
+			Name:        "Payment Management",
+			Action:      "manage",
+			Subject:     "payments",
+			Description: "Manage payment products, channels, subscriptions, and order operations",
+		},
+	},
+	{
+		PermissionBody: accessStructs.PermissionBody{
+			Name:        "Payment Refund",
+			Action:      "refund",
+			Subject:     "payments",
+			Description: "Process payment refunds",
+		},
+	},
+	{
+		PermissionBody: accessStructs.PermissionBody{
+			Name:        "Payment Administration",
+			Action:      "admin",
+			Subject:     "payments",
+			Description: "Access payment logs and sensitive payment administration data",
+		},
+	},
+	{
+		PermissionBody: accessStructs.PermissionBody{
 			Name:        "Realtime Access",
 			Action:      "read",
 			Subject:     "realtime",
 			Description: "Access realtime features",
+		},
+	},
+	{
+		PermissionBody: accessStructs.PermissionBody{
+			Name:        "Realtime Management",
+			Action:      "manage",
+			Subject:     "realtime",
+			Description: "Manage realtime channels, events, and system notifications",
 		},
 	},
 }
@@ -190,7 +230,12 @@ var RolePermissionMapping = map[string][]string{
 		"Comment Read",
 		"Resource Management",
 		"Resource Read",
+		"Payment Read",
+		"Payment Management",
+		"Payment Refund",
+		"Payment Administration",
 		"Realtime Access",
+		"Realtime Management",
 		"Dashboard Access",
 		"Profile Management",
 		"Account Management",
@@ -202,6 +247,7 @@ var RolePermissionMapping = map[string][]string{
 		"Comment Management",
 		"Comment Read",
 		"Resource Read",
+		"Payment Read",
 		"Realtime Access",
 		"Dashboard Access",
 		"Profile Management",

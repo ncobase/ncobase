@@ -32,7 +32,7 @@ func New(em ext.ManagerInterface, s *service.Service) *Handler {
 		Subscription: NewSubscriptionHandler(s.Subscription),
 		Log:          NewLogHandler(s.Log),
 		Webhook:      NewWebhookHandler(s.Order),
-		Utility:      NewUtilityHandler(s.Provider),
+		Utility:      NewUtilityHandler(s),
 		Event:        handlerProvider,
 	}
 }

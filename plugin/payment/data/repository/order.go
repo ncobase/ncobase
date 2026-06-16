@@ -24,6 +24,7 @@ type OrderRepositoryInterface interface {
 	List(ctx context.Context, query *structs.OrderQuery) ([]*structs.Order, error)
 	Count(ctx context.Context, query *structs.OrderQuery) (int64, error)
 	GetOrderSummary(ctx context.Context, startDate, endDate int64, currency string) (*structs.OrderSummary, error)
+	GetRevenueByChannel(ctx context.Context, startDate, endDate int64, currency string) (map[string]float64, error)
 }
 
 // orderRepository handles payment order persistence
@@ -119,16 +120,22 @@ func (r *orderRepository) GetByOrderNumber(ctx context.Context, orderNumber stri
 
 // Update updates a payment order
 func (r *orderRepository) Update(ctx context.Context, order *structs.UpdateOrderInput) (*structs.Order, error) {
+	if order.ID == "" {
+		return nil, fmt.Errorf("order id is required")
+	}
 
-	builder := r.data.EC.PaymentOrder.UpdateOneID(order.ID).
-		SetStatus(string(order.Status))
+	builder := r.data.EC.PaymentOrder.UpdateOneID(order.ID)
 
 	// Update fields that might have changed
+	if order.Status != "" {
+		builder.SetStatus(string(order.Status))
+	}
+
 	if order.ProviderRef != "" {
 		builder.SetProviderRef(order.ProviderRef)
 	}
 
-	if !order.PaidAt.IsZero() {
+	if order.PaidAt != nil && !order.PaidAt.IsZero() {
 		builder.SetPaidAt(convert.ToValue(order.PaidAt))
 	}
 
@@ -157,6 +164,10 @@ func (r *orderRepository) List(ctx context.Context, query *structs.OrderQuery) (
 	q := r.data.EC.PaymentOrder.Query()
 
 	// Apply filters
+	if query.OrderNumber != "" {
+		q = q.Where(paymentOrderEnt.OrderNumberContains(query.OrderNumber))
+	}
+
 	if query.Status != "" {
 		q = q.Where(paymentOrderEnt.Status(string(query.Status)))
 	}
@@ -251,6 +262,10 @@ func (r *orderRepository) Count(ctx context.Context, query *structs.OrderQuery) 
 	q := r.data.EC.PaymentOrder.Query()
 
 	// Apply filters
+	if query.OrderNumber != "" {
+		q = q.Where(paymentOrderEnt.OrderNumberContains(query.OrderNumber))
+	}
+
 	if query.Status != "" {
 		q = q.Where(paymentOrderEnt.Status(string(query.Status)))
 	}
@@ -336,6 +351,19 @@ func (r *orderRepository) GetOrderSummary(ctx context.Context, startDate, endDat
 		return nil, fmt.Errorf("failed to get failed count: %w", err)
 	}
 
+	// Get refunded count
+	refundedCount, err := r.data.EC.PaymentOrder.Query().
+		Where(
+			paymentOrderEnt.Status(string(structs.PaymentStatusRefunded)),
+			paymentOrderEnt.CreatedAtGTE(startDate),
+			paymentOrderEnt.CreatedAtLTE(endDate),
+			paymentOrderEnt.Currency(currency),
+		).
+		Count(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get refunded count: %w", err)
+	}
+
 	// Get total amount
 	var totalAmount float64
 	orders, err := r.data.EC.PaymentOrder.Query().
@@ -373,12 +401,41 @@ func (r *orderRepository) GetOrderSummary(ctx context.Context, startDate, endDat
 		TotalCount:    int64(totalCount),
 		SuccessCount:  int64(successCount),
 		FailedCount:   int64(failedCount),
+		RefundedCount: int64(refundedCount),
 		TotalAmount:   totalAmount,
 		SuccessAmount: successAmount,
 		Currency:      currency,
 		PeriodStart:   *convert.UnixMilliToString(&startDate, time.RFC3339),
 		PeriodEnd:     *convert.UnixMilliToString(&endDate, time.RFC3339),
 	}, nil
+}
+
+// GetRevenueByChannel groups successful order revenue by payment channel.
+func (r *orderRepository) GetRevenueByChannel(ctx context.Context, startDate, endDate int64, currency string) (map[string]float64, error) {
+	var rows []struct {
+		ChannelID string  `json:"channel_id"`
+		Revenue   float64 `json:"revenue"`
+	}
+
+	err := r.data.EC.PaymentOrder.Query().
+		Where(
+			paymentOrderEnt.Status(string(structs.PaymentStatusCompleted)),
+			paymentOrderEnt.CreatedAtGTE(startDate),
+			paymentOrderEnt.CreatedAtLTE(endDate),
+			paymentOrderEnt.Currency(currency),
+		).
+		GroupBy(paymentOrderEnt.FieldChannelID).
+		Aggregate(ent.Sum(paymentOrderEnt.FieldAmount)).
+		Scan(ctx, &rows)
+	if err != nil {
+		return nil, fmt.Errorf("failed to group revenue by channel: %w", err)
+	}
+
+	result := make(map[string]float64, len(rows))
+	for _, row := range rows {
+		result[row.ChannelID] = row.Revenue
+	}
+	return result, nil
 }
 
 // entToStruct converts an Ent PaymentOrder to a structs.Order

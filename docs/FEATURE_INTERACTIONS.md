@@ -121,10 +121,17 @@ Payment and space billing are separate but should converge through events:
 
 Required interactions:
 
+- Payment permissions are now split:
+  - `read:payments` for order overview, provider metadata, and stats.
+  - `manage:payments` for channels, products, subscriptions, payment URL generation, and verify.
+  - `refund:payments` for refunds.
+  - `admin:payments` for logs and sensitive administration.
 - Webhooks need signature verification, idempotency keys, retry behavior, and masked logs.
 - Refund must update order state and emit an event.
 - Subscription cancel/renew/expire should update space billing if linked.
 - Frontend payment detail should show a timeline from order creation through webhook/refund.
+- Existing databases need menu/permission seed repair from `read:payment/manage:payment` to the
+  `payments` permission family.
 
 ## Realtime, Events, Activity, and Notifications
 
@@ -138,10 +145,15 @@ Backend already has event and notification modules. They should become the share
 
 Implementation sequence:
 
-1. Keep list polling for existing pages.
-2. Replace mock notification data with `/rt/notifications`.
+1. Header notifications use `/rt/notifications` polling for the current user, including loading,
+   error, retry, unread count, and mark-all-read behavior.
+2. Backend notification reads and mark-read operations enforce current-user ownership unless the
+   caller has realtime management/admin permission.
 3. Add WebSocket subscription for high-value live updates.
 4. Use event IDs to refresh affected query keys instead of broad polling.
+5. Route permissions are split: `read:realtime` for reads/personal notification actions and
+   `manage:realtime` or `admin:realtime` for channel management, event publishing/retry/status, and
+   system notification writes.
 
 ## NCore Operations and Backend Runtime
 
@@ -175,3 +187,18 @@ Before production positioning, Builder must generate or document:
 - frontend routes/API/service,
 - i18n keys,
 - tests and documentation checklist.
+
+## Proxy, Sample, Counter, CLI, Deebus, and Website
+
+- Proxy is a high-risk runtime gateway. `/tbp` management, `/proxy` dynamic routes, and `/ws`
+  WebSocket proxying must not be exposed in production until permissions, upstream allowlists, SSRF
+  protection, timeout/rate-limit controls, logging redaction, and audit events are in place.
+- Sample and counter plugins are demonstration or internal plugin surfaces unless a product owner
+  explicitly promotes them with permissions, menu seed, tests, and docs.
+- `cli` is an independent scaffolding product. It should only become part of the `ncobase` product
+  workflow when Builder or backend generators share a template and verification contract with it.
+- `deebus` is an independent AI provider library. Backend AI features must define option keys,
+  secret storage, provider failover, request audit, rate limits, cost tracking, and kill switches
+  before depending on it.
+- `website` is an independent public site. Shared UI primitives should flow through `axis`, while
+  website-specific composition should remain in `website`.

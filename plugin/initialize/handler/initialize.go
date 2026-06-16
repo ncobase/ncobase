@@ -1,9 +1,11 @@
 package handler
 
 import (
+	"context"
 	"fmt"
 	"ncobase/plugin/initialize/service"
 
+	"github.com/ncobase/ncore/ctxutil"
 	"github.com/ncobase/ncore/net/resp"
 
 	"github.com/gin-gonic/gin"
@@ -32,9 +34,7 @@ func NewInitializeHandler(svc *service.Service) InitializeHandlerInterface {
 
 // Execute handles system initialization
 func (h *initializeHandler) Execute(c *gin.Context) {
-	initToken := c.GetHeader("X-Init-Token")
-	if h.s.RequiresInitToken() && initToken != h.s.GetInitToken() {
-		resp.Fail(c.Writer, resp.UnAuthorized("Invalid initialization token"))
+	if !h.ensureInitializationAuthority(c) {
 		return
 	}
 
@@ -61,9 +61,7 @@ func (h *initializeHandler) Execute(c *gin.Context) {
 
 // InitializeOrganizations handles organization initialization
 func (h *initializeHandler) InitializeOrganizations(c *gin.Context) {
-	initToken := c.GetHeader("X-Init-Token")
-	if h.s.RequiresInitToken() && initToken != h.s.GetInitToken() {
-		resp.Fail(c.Writer, resp.UnAuthorized("Invalid initialization token"))
+	if !h.ensureInitializationAuthority(c) {
 		return
 	}
 
@@ -85,9 +83,7 @@ func (h *initializeHandler) InitializeOrganizations(c *gin.Context) {
 
 // InitializeUsers handles user initialization
 func (h *initializeHandler) InitializeUsers(c *gin.Context) {
-	initToken := c.GetHeader("X-Init-Token")
-	if h.s.RequiresInitToken() && initToken != h.s.GetInitToken() {
-		resp.Fail(c.Writer, resp.UnAuthorized("Invalid initialization token"))
+	if !h.ensureInitializationAuthority(c) {
 		return
 	}
 
@@ -114,9 +110,7 @@ func (h *initializeHandler) GetStatus(c *gin.Context) {
 
 // ResetInitialization handles reset
 func (h *initializeHandler) ResetInitialization(c *gin.Context) {
-	initToken := c.GetHeader("X-Init-Token")
-	if initToken != h.s.GetInitToken() {
-		resp.Fail(c.Writer, resp.UnAuthorized("Invalid initialization token"))
+	if !h.ensureInitializationAuthority(c) {
 		return
 	}
 
@@ -131,6 +125,41 @@ func (h *initializeHandler) ResetInitialization(c *gin.Context) {
 		return
 	}
 	resp.Success(c.Writer, state)
+}
+
+func (h *initializeHandler) ensureInitializationAuthority(c *gin.Context) bool {
+	initToken := c.GetHeader("X-Init-Token")
+	if h.s.RequiresInitToken() && initToken == h.s.GetInitToken() {
+		return true
+	}
+
+	ctx := c.Request.Context()
+	if ctxutil.GetUserID(ctx) == "" {
+		resp.Fail(c.Writer, resp.UnAuthorized("Valid initialization token or administrator session required"))
+		return false
+	}
+
+	if hasSystemInitializationPermission(ctx) {
+		return true
+	}
+
+	resp.Fail(c.Writer, resp.Forbidden("System management permission required"))
+	return false
+}
+
+func hasSystemInitializationPermission(ctx context.Context) bool {
+	if ctxutil.GetUserIsAdmin(ctx) {
+		return true
+	}
+
+	for _, permission := range ctxutil.GetUserPermissions(ctx) {
+		switch permission {
+		case "*", "*:*", "*:system", "manage:*", "manage:system", "admin:*", "admin:system":
+			return true
+		}
+	}
+
+	return false
 }
 
 // validateAndSetDataMode validates and sets data mode

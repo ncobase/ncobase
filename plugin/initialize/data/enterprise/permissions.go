@@ -155,10 +155,50 @@ var SystemDefaultPermissions = []accessStructs.CreatePermissionBody{
 	},
 	{
 		PermissionBody: accessStructs.PermissionBody{
-			Name:        "Notification Access",
+			Name:        "Payment Read",
 			Action:      "read",
-			Subject:     "notification",
-			Description: "Access to notifications",
+			Subject:     "payments",
+			Description: "View payment orders, provider metadata, and statistics",
+		},
+	},
+	{
+		PermissionBody: accessStructs.PermissionBody{
+			Name:        "Payment Management",
+			Action:      "manage",
+			Subject:     "payments",
+			Description: "Manage payment products, channels, subscriptions, and order operations",
+		},
+	},
+	{
+		PermissionBody: accessStructs.PermissionBody{
+			Name:        "Payment Refund",
+			Action:      "refund",
+			Subject:     "payments",
+			Description: "Process payment refunds",
+		},
+	},
+	{
+		PermissionBody: accessStructs.PermissionBody{
+			Name:        "Payment Administration",
+			Action:      "admin",
+			Subject:     "payments",
+			Description: "Access payment logs and sensitive payment administration data",
+		},
+	},
+	{
+		PermissionBody: accessStructs.PermissionBody{
+			Name:        "Realtime Access",
+			Action:      "read",
+			Subject:     "realtime",
+			Description: "Access realtime events, notifications, and personal channels",
+		},
+	},
+	{
+		PermissionBody: accessStructs.PermissionBody{
+			Name:        "Realtime Management",
+			Action:      "manage",
+			Subject:     "realtime",
+			Description: "Manage realtime channels, events, and system notifications",
 		},
 	},
 }
@@ -181,7 +221,12 @@ var RolePermissionMapping = map[string][]string{
 		"Dictionary Access",
 		"Workflow Access",
 		"Resource Access",
-		"Notification Access",
+		"Payment Read",
+		"Payment Management",
+		"Payment Refund",
+		"Payment Administration",
+		"Realtime Access",
+		"Realtime Management",
 	},
 	"enterprise-admin": {
 		"User Management",
@@ -195,7 +240,9 @@ var RolePermissionMapping = map[string][]string{
 		"Dictionary Access",
 		"Workflow Access",
 		"Resource Access",
-		"Notification Access",
+		"Payment Read",
+		"Realtime Access",
+		"Realtime Management",
 	},
 	"department-manager": {
 		"User Read",
@@ -209,7 +256,7 @@ var RolePermissionMapping = map[string][]string{
 		"Dictionary Access",
 		"Workflow Access",
 		"Resource Access",
-		"Notification Access",
+		"Realtime Access",
 	},
 	"team-leader": {
 		"User Read",
@@ -223,7 +270,7 @@ var RolePermissionMapping = map[string][]string{
 		"Dictionary Access",
 		"Workflow Access",
 		"Resource Access",
-		"Notification Access",
+		"Realtime Access",
 	},
 	"employee": {
 		"User Read",
@@ -237,7 +284,7 @@ var RolePermissionMapping = map[string][]string{
 		"Dictionary Access",
 		"Workflow Access",
 		"Resource Access",
-		"Notification Access",
+		"Realtime Access",
 	},
 	"contractor": {
 		"Dashboard Access",

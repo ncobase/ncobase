@@ -2,6 +2,7 @@ package payment
 
 import (
 	"fmt"
+	"ncobase/internal/middleware"
 	"ncobase/plugin/payment/data"
 	"ncobase/plugin/payment/event"
 	"ncobase/plugin/payment/handler"
@@ -135,55 +136,58 @@ func (p *Plugin) RegisterRoutes(r *gin.RouterGroup) {
 	// Payment domain group
 	payGroup := r.Group("/" + p.Group())
 
-	// Channel routes
-	channelGroup := payGroup.Group("/channels")
-	channelGroup.GET("", p.h.Channel.List)
-	channelGroup.POST("", p.h.Channel.Create)
-	channelGroup.GET("/:id", p.h.Channel.Get)
-	channelGroup.PUT("/:id", p.h.Channel.Update)
-	channelGroup.DELETE("/:id", p.h.Channel.Delete)
-	channelGroup.PUT("/:id/status", p.h.Channel.ChangeStatus)
-
-	// Order routes
-	orderGroup := payGroup.Group("/orders")
-	orderGroup.GET("", p.h.Order.List)
-	orderGroup.POST("", p.h.Order.Create)
-	orderGroup.GET("/number/:orderNumber", p.h.Order.GetByOrderNumber)
-	orderGroup.GET("/:id", p.h.Order.Get)
-	orderGroup.POST("/:id/payment-url", p.h.Order.GeneratePaymentURL)
-	orderGroup.POST("/:id/verify", p.h.Order.VerifyPayment)
-	orderGroup.POST("/:id/refund", p.h.Order.RefundPayment)
-
-	// Product routes
-	productGroup := payGroup.Group("/products")
-	productGroup.GET("", p.h.Product.List)
-	productGroup.POST("", p.h.Product.Create)
-	productGroup.GET("/:id", p.h.Product.Get)
-	productGroup.PUT("/:id", p.h.Product.Update)
-	productGroup.DELETE("/:id", p.h.Product.Delete)
-
-	// Subscription routes
-	subscriptionGroup := payGroup.Group("/subscriptions")
-	subscriptionGroup.GET("", p.h.Subscription.List)
-	subscriptionGroup.POST("", p.h.Subscription.Create)
-	subscriptionGroup.GET("/user/:userId", p.h.Subscription.GetByUser)
-	subscriptionGroup.GET("/:id", p.h.Subscription.Get)
-	subscriptionGroup.PUT("/:id", p.h.Subscription.Update)
-	subscriptionGroup.POST("/:id/cancel", p.h.Subscription.Cancel)
-
-	// Webhook routes
+	// Webhook callbacks must remain unauthenticated at the route layer because
+	// external providers cannot send user tokens. Provider signature and
+	// idempotency validation are enforced in the payment service/provider layer.
 	webhookGroup := payGroup.Group("/webhooks")
 	webhookGroup.POST("/:channel", p.h.Webhook.ProcessWebhook)
 
+	protected := payGroup.Group("", middleware.ValidateContentType(), middleware.RequireAuth())
+	readPayments := protected.Group("", middleware.HasAnyPermission("read:payments", "manage:payments", "refund:payments", "admin:payments"))
+	managePayments := protected.Group("", middleware.HasAnyPermission("manage:payments", "admin:payments"))
+	refundPayments := protected.Group("", middleware.HasAnyPermission("refund:payments", "admin:payments"))
+	adminPayments := protected.Group("", middleware.HasPermission("admin:payments"))
+
+	// Channel routes expose provider configuration and require payment management.
+	managePayments.GET("/channels", p.h.Channel.List)
+	managePayments.POST("/channels", p.h.Channel.Create)
+	managePayments.GET("/channels/:id", p.h.Channel.Get)
+	managePayments.PUT("/channels/:id", p.h.Channel.Update)
+	managePayments.DELETE("/channels/:id", p.h.Channel.Delete)
+	managePayments.PUT("/channels/:id/status", p.h.Channel.ChangeStatus)
+
+	// Order routes
+	readPayments.GET("/orders", p.h.Order.List)
+	managePayments.POST("/orders", p.h.Order.Create)
+	readPayments.GET("/orders/number/:orderNumber", p.h.Order.GetByOrderNumber)
+	readPayments.GET("/orders/:id", p.h.Order.Get)
+	managePayments.POST("/orders/:id/payment-url", p.h.Order.GeneratePaymentURL)
+	managePayments.POST("/orders/:id/verify", p.h.Order.VerifyPayment)
+	refundPayments.POST("/orders/:id/refund", p.h.Order.RefundPayment)
+
+	// Product routes
+	managePayments.GET("/products", p.h.Product.List)
+	managePayments.POST("/products", p.h.Product.Create)
+	managePayments.GET("/products/:id", p.h.Product.Get)
+	managePayments.PUT("/products/:id", p.h.Product.Update)
+	managePayments.DELETE("/products/:id", p.h.Product.Delete)
+
+	// Subscription routes
+	managePayments.GET("/subscriptions", p.h.Subscription.List)
+	managePayments.POST("/subscriptions", p.h.Subscription.Create)
+	managePayments.GET("/subscriptions/user/:userId", p.h.Subscription.GetByUser)
+	managePayments.GET("/subscriptions/:id", p.h.Subscription.Get)
+	managePayments.PUT("/subscriptions/:id", p.h.Subscription.Update)
+	managePayments.POST("/subscriptions/:id/cancel", p.h.Subscription.Cancel)
+
 	// Log routes
-	logGroup := payGroup.Group("/logs")
-	logGroup.GET("", p.h.Log.List)
-	logGroup.GET("/order/:orderId", p.h.Log.GetByOrder)
-	logGroup.GET("/:id", p.h.Log.Get)
+	adminPayments.GET("/logs", p.h.Log.List)
+	adminPayments.GET("/logs/order/:orderId", p.h.Log.GetByOrder)
+	adminPayments.GET("/logs/:id", p.h.Log.Get)
 
 	// Utility routes
-	payGroup.GET("/providers", p.h.Utility.ListProviders)
-	payGroup.GET("/stats", p.h.Utility.GetStats)
+	readPayments.GET("/providers", p.h.Utility.ListProviders)
+	readPayments.GET("/stats", p.h.Utility.GetStats)
 }
 
 // GetHandlers returns the handlers for the plugin

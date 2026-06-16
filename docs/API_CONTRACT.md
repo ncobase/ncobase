@@ -79,12 +79,12 @@ These option names are consumed by backend services at runtime and should be man
 
 | Route family | Methods | Frontend caller | Permission | Status | Notes |
 | --- | --- | --- | --- | --- | --- |
-| `/sys/spaces` | CRUD | space APIs | group currently requires `manage:spaces` | partial | Read/manage split is needed. |
-| `/sys/spaces/:spaceId/users*` | list/add/update/remove/check roles | space user pages | `read:spaces`, `manage:spaces` inside manage group | partial | Top-level group can over-restrict read calls. |
-| `/sys/spaces/:spaceId/settings*` | list/get/set/bulk | space APIs | currently under manage group | partial | Public settings route still protected by group. |
-| `/sys/spaces/:spaceId/quotas*` | summary/check/update usage | space APIs | currently under manage group | partial | Quota definitions and owner semantics need docs. |
-| `/sys/spaces/:spaceId/billing*` | summary/overdue/payment/invoice | space APIs | currently under manage group | partial | Payment plugin relationship not defined. |
-| `/sys/spaces/:spaceId/menus|dictionaries|options` | attach/remove/check | space APIs | currently under manage group | partial | Needed for space-level configuration. |
+| `/sys/spaces` | CRUD | space APIs | reads `read:spaces`, writes `manage:spaces` | aligned/partial | Group-level over-restriction has been removed; CRUD still needs broader route tests and seed repair notes for existing databases. |
+| `/sys/spaces/:spaceId/users*` | list/add/update/remove/check roles | space user pages | reads/checks `read:spaces`, role mutations `manage:spaces` | aligned/partial | Frontend hides add/edit/remove/bulk role actions without `manage:spaces`. |
+| `/sys/spaces/:spaceId/settings*` | list/get/set/bulk | space APIs | reads `read:spaces`, set/bulk/create/update/delete `manage:spaces` | partial | Public settings are still behind authenticated space context because they are under `/sys`. |
+| `/sys/spaces/:spaceId/quotas*` | summary/check/update usage | space APIs | summary/check/list/get `read:spaces`, usage/config writes `manage:spaces` | partial | Quota definitions and owner semantics need docs. |
+| `/sys/spaces/:spaceId/billing*` | summary/overdue/payment/invoice | space APIs | summary/overdue/list/get `read:spaces`, payment/invoice/config writes `manage:spaces` | partial | Payment plugin relationship not defined. |
+| `/sys/spaces/:spaceId/menus|dictionaries|options` | attach/remove/check | space APIs | relation reads/checks `read:spaces`, attach/remove `manage:spaces` | partial | Needed for space-level configuration. |
 
 ## Content Domain
 
@@ -117,22 +117,39 @@ These option names are consumed by backend services at runtime and should be man
 
 | Route family | Methods | Frontend caller | Permission | Status | Notes |
 | --- | --- | --- | --- | --- | --- |
-| `/pay/channels` | CRUD/status | payment APIs | Casbin/global, no explicit route middleware | partial | Add `manage:payments` style middleware. |
-| `/pay/products` | CRUD | payment APIs | Casbin/global | partial | Product status and billing relation need docs. |
-| `/pay/orders` | list/create/get/by-number/payment-url/verify/refund | payment APIs | Casbin/global | partial | Add order state machine and idempotency. |
-| `/pay/subscriptions` | list/create/get/update/cancel/by-user | payment APIs | Casbin/global | partial | Add subscription state machine. |
+| `/pay/channels` | CRUD/status | payment APIs | `manage:payments` or `admin:payments` | partial/aligned | Channel responses include provider config; do not expose to read-only payment users until masking is implemented. |
+| `/pay/products` | CRUD | payment APIs | `manage:payments` or `admin:payments` | partial/aligned | Product status and billing relation need docs. |
+| `/pay/orders` | list/get/by-number | payment APIs | `read:payments`, `manage:payments`, `refund:payments`, or `admin:payments` | partial/aligned | Read operations are permission guarded; state machine and idempotency still need tests. |
+| `/pay/orders` | create/payment-url/verify | payment APIs | `manage:payments` or `admin:payments` | partial/aligned | Payment URL and verify are operational writes. |
+| `/pay/orders/:id/refund` | refund | payment APIs | `refund:payments` or `admin:payments` | partial/aligned | Requires state/amount validation, audit, and provider idempotency tests. |
+| `/pay/subscriptions` | list/create/get/update/cancel/by-user | payment APIs | `manage:payments` or `admin:payments` | partial/aligned | Add subscription state machine tests and space billing linkage. |
 | `/pay/webhooks/:channel` | `POST` | provider callbacks | public/signed | drift/partial | Domain reference corrected; signature/idempotency required. |
-| `/pay/logs` | list/get/by-order | payment APIs | Casbin/global | partial | Must mask sensitive payloads. |
-| `/pay/providers`, `/pay/stats` | `GET` | payment overview | Casbin/global | partial | Provider utility implementation depth needs review. |
+| `/pay/logs` | list/get/by-order | payment APIs | `admin:payments` | partial/aligned | Route is admin-guarded; service must mask sensitive payloads before exposing detail/export. |
+| `/pay/providers`, `/pay/stats` | `GET` | payment overview | `read:payments`, `manage:payments`, `refund:payments`, or `admin:payments` | aligned/partial | Stats aggregate order totals, successful/failed/refunded counts, subscription summary, provider list, selected currency, period bounds, and successful revenue by channel. |
+
+## Proxy, Initialize, Sample, and Counter Plugins
+
+| Route family | Methods | Frontend caller | Permission | Status | Notes |
+| --- | --- | --- | --- | --- | --- |
+| `/tbp/endpoints`, `/tbp/routes`, `/tbp/transformers` | CRUD | proxy/builder surfaces or future admin UI | global Casbin and menu `manage:tbp` | partial/high-risk | Missing explicit route middleware, ownership/space checks, audit, and transformer safety review. |
+| `/proxy/*`, `/ws/*` | dynamic proxy and WebSocket proxy | dynamic clients | configured endpoint/route policy | partial/high-risk | Must validate configured upstream, auth forwarding, rate limit, payload size, timeout, logging redaction, and SSRF protections before production exposure. |
+| `/plug/counters` | CRUD | no first-class console product page | authenticated user | backend-only/sample | Built-in counter plugin; add explicit permission or keep as internal/demo surface. |
+| `/samples` | CRUD/sample operations | no production console route | none/current handler registration | sample | Demonstration plugin only; should be disabled or guarded in production. |
+| `/sys/initialize/status` | initialization status probe | bootstrap/admin operations | status probe | partial/high-risk | Read-only install probe. Do not expose seed execution from this endpoint. |
+| `/sys/initialize`, `/sys/initialize/organizations`, `/sys/initialize/users` | seed loading and reruns | bootstrap/admin operations | valid `X-Init-Token` or `manage:system`/`admin:system`/system wildcard | partial/high-risk | Write endpoints accept install token or authenticated system administrator; reruns still need audit and environment guard. |
 
 ## Realtime and Events
 
 | Route family | Methods | Frontend caller | Permission | Status | Notes |
 | --- | --- | --- | --- | --- | --- |
-| `/rt/ws` | `GET` WebSocket | not first-class | authenticated | backend-only | Frontend notification center is not wired to WS. |
-| `/rt/notifications` | CRUD/read/unread | notification components not fully wired | authenticated | partial | Replace mock notifications. |
-| `/rt/channels`, `/rt/events` | channel/event ops | not first-class | authenticated | backend-only | Needed for task progress and audit refresh. |
-| `/events`, `/search`, `/stats/realtime` | core event APIs | not first-class | authenticated | backend-only | Route names need documentation and permissions. |
+| `/rt/ws` | `GET` WebSocket | not first-class | `read:realtime`, `manage:realtime`, or `admin:realtime` | backend-only/partial | Header uses polling first; WS subscription still needs frontend wiring. |
+| `/rt/notifications` reads and mark read/unread | list/get/read/unread/read-all/unread-all | header notification center | `read:realtime`, `manage:realtime`, or `admin:realtime` | aligned/partial | Read and mark operations are limited to the current user's notifications unless caller has realtime management/admin permission. |
+| `/rt/notifications` writes | create/update/delete | no first-class console management page | `manage:realtime` or `admin:realtime` | backend-only/partial | System notification administration needs detail UI, audit, and tests. |
+| `/rt/channels` reads and personal subscribe/unsubscribe | list/get/current user channels/subscribe/unsubscribe | not first-class | `read:realtime`, `manage:realtime`, or `admin:realtime` | backend-only/partial | Current user channel route is `/rt/channels/user`. |
+| `/rt/channels` management | create/update/delete/subscribers | not first-class | `manage:realtime` or `admin:realtime` | backend-only/partial | Needed for realtime administration and subscriber visibility. |
+| `/rt/events` reads | list/history/get | not first-class | `read:realtime`, `manage:realtime`, or `admin:realtime` | backend-only/partial | Static `/history` is registered before `/:id`. |
+| `/rt/events` writes | publish/delete | not first-class | `manage:realtime` or `admin:realtime` | backend-only/partial | Event publishing/deletion requires audit and task integration. |
+| `/events`, `/search`, `/stats/realtime` | core event APIs | not first-class | read APIs use `read:realtime` or higher; publish/retry/batch/process/status use `manage:realtime` or `admin:realtime` | backend-only/partial | Root event API remains backend-oriented and now has explicit route permissions. |
 
 ## NCore Management
 
@@ -144,10 +161,14 @@ These option names are consumed by backend services at runtime and should be man
 
 1. Resource menu seed has been aligned to `read:resources/manage:resources`; existing databases may
    need a migration or seed repair.
-2. Payment docs previously used `/pay/webhook/:provider`; current route is `/pay/webhooks/:channel`.
-3. Content advanced frontend routes do not have current backend modules.
-4. Space route groups over-require `manage:spaces` for read operations.
+2. Payment menu seed has moved from `read:payment/manage:payment` to
+   `read:payments/manage:payments/refund:payments/admin:payments`; existing databases need a seed
+   repair path.
+3. Payment docs previously used `/pay/webhook/:provider`; current route is `/pay/webhooks/:channel`.
+4. Content advanced frontend routes do not have current backend modules.
 5. CMS media/resource/topic-media are connected, but existing resource selection, reverse topic
    references, and form-level gallery/attachment UX still need follow-up.
-6. Swagger still needs full pass for `/res`, `/tbp`, root auth/account/session, and duplicate route
+6. Realtime Swagger still needs a refresh after permission split and `/rt/channels/user` route
+   correction.
+7. Swagger still needs full pass for `/res`, `/tbp`, root auth/account/session, and duplicate route
    warnings.

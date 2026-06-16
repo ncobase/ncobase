@@ -379,6 +379,17 @@ func (r *notificationRepository) UpdateStatusBatch(ctx context.Context, userID s
 		}
 	}()
 
+	rows, err := tx.Notification.Query().
+		Where(
+			notificationEnt.UserID(userID),
+			notificationEnt.StatusNEQ(status),
+		).
+		All(ctx)
+	if err != nil {
+		tx.Rollback()
+		return err
+	}
+
 	// Execute operation
 	_, err = tx.Notification.Update().
 		Where(
@@ -393,13 +404,46 @@ func (r *notificationRepository) UpdateStatusBatch(ctx context.Context, userID s
 	}
 
 	// Commit transaction
-	return tx.Commit()
+	if err = tx.Commit(); err != nil {
+		return err
+	}
+
+	for _, row := range rows {
+		row.Status = status
+		cacheKey := fmt.Sprintf("notification:%s", row.ID)
+		if err := r.c.Delete(ctx, cacheKey); err != nil {
+			logger.Warnf(ctx, "Failed to delete notification cache: %v", err)
+		}
+		if r.sc != nil {
+			if err = r.sc.Index(ctx, &search.IndexRequest{Index: "realtime_notifications", Document: row, DocumentID: row.ID}); err != nil {
+				logger.Errorf(ctx, "notificationRepo.UpdateStatusBatch error updating Meilisearch index: %v", err)
+			}
+		}
+	}
+
+	return nil
 }
 
 // buildQuery creates list builder.
 func (r *notificationRepository) buildQuery(ctx context.Context, params *structs.ListNotificationParams) (*ent.NotificationQuery, error) {
 	// create builder.
 	builder := r.ec.Notification.Query()
+
+	if params == nil {
+		return builder, nil
+	}
+
+	if params.UserID != "" {
+		builder = builder.Where(notificationEnt.UserID(params.UserID))
+	}
+
+	if params.Status != nil {
+		builder = builder.Where(notificationEnt.Status(*params.Status))
+	}
+
+	if params.ChannelID != "" {
+		builder = builder.Where(notificationEnt.ChannelID(params.ChannelID))
+	}
 
 	return builder, nil
 }

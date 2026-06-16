@@ -1,6 +1,9 @@
 package service
 
 import (
+	"crypto/sha256"
+	"encoding/hex"
+	"encoding/json"
 	"fmt"
 	"ncobase/plugin/payment/data"
 	"ncobase/plugin/payment/data/repository"
@@ -81,33 +84,12 @@ func (s *providerService) GetAllProviders() []structs.PaymentProvider {
 
 // generateCacheKey generates a cache key based on the config
 func (s *providerService) generateCacheKey(config structs.ProviderConfig) string {
-	// A simple implementation - in production, you might want to use a more robust method
-	// like serializing the config to JSON and hashing it
-
-	// For now, just use a combination of keys and values as the cache key
-	key := ""
-
-	// Sort keys for deterministic key generation
-	keys := make([]string, 0, len(config))
-	for k := range config {
-		keys = append(keys, k)
+	payload, err := json.Marshal(config)
+	if err != nil {
+		payload = []byte(fmt.Sprintf("%#v", config))
 	}
-
-	// Simple alphabetical sort - not the most efficient but works for this example
-	for i := 0; i < len(keys); i++ {
-		for j := i + 1; j < len(keys); j++ {
-			if keys[i] > keys[j] {
-				keys[i], keys[j] = keys[j], keys[i]
-			}
-		}
-	}
-
-	// Build the key
-	for _, k := range keys {
-		key += fmt.Sprintf("%s=%v;", k, config[k])
-	}
-
-	return key
+	sum := sha256.Sum256(payload)
+	return hex.EncodeToString(sum[:])
 }
 
 // ClearCache clears the provider cache

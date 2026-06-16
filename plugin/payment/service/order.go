@@ -25,6 +25,8 @@ type OrderServiceInterface interface {
 	RefundPayment(ctx context.Context, orderID string, amount float64, reason string) error
 	List(ctx context.Context, query *structs.OrderQuery) (paging.Result[*structs.Order], error)
 	ProcessWebhook(ctx context.Context, channelID string, payload []byte, headers map[string]string) error
+	GetOrderStats(ctx context.Context, startDate, endDate int64, currency string) (*structs.OrderSummary, error)
+	GetRevenueByChannel(ctx context.Context, startDate, endDate int64, currency string) (map[string]float64, error)
 	Serialize(order *structs.Order) *structs.Order
 	Serializes(orders []*structs.Order) []*structs.Order
 }
@@ -203,6 +205,7 @@ func (s *orderService) GeneratePaymentURL(ctx context.Context, orderID string) (
 	if order.ExpiresAt.Before(time.Now()) {
 		// Update order status to expired
 		_, err = s.repo.Update(ctx, &structs.UpdateOrderInput{
+			ID:     order.ID,
 			Status: structs.PaymentStatusCancelled,
 		})
 		if err != nil {
@@ -247,6 +250,7 @@ func (s *orderService) GeneratePaymentURL(ctx context.Context, orderID string) (
 	}
 
 	_, err = s.repo.Update(ctx, &structs.UpdateOrderInput{
+		ID:          order.ID,
 		ProviderRef: providerRef,
 	})
 	if err != nil {
@@ -352,6 +356,7 @@ func (s *orderService) VerifyPayment(ctx context.Context, orderID string, verifi
 		}
 		// Save updated order
 		_, err = s.repo.Update(ctx, &structs.UpdateOrderInput{
+			ID:          order.ID,
 			Status:      order.Status,
 			PaidAt:      &order.PaidAt,
 			ProviderRef: order.ProviderRef,
@@ -509,6 +514,7 @@ func (s *orderService) ProcessWebhook(ctx context.Context, channelID string, pay
 
 		// Save updated order
 		_, err = s.repo.Update(ctx, &structs.UpdateOrderInput{
+			ID:          order.ID,
 			Status:      order.Status,
 			PaidAt:      &order.PaidAt,
 			ProviderRef: order.ProviderRef,
@@ -659,6 +665,7 @@ func (s *orderService) RefundPayment(ctx context.Context, orderID string, amount
 
 		// Save updated order
 		_, err = s.repo.Update(ctx, &structs.UpdateOrderInput{
+			ID:       order.ID,
 			Status:   order.Status,
 			Metadata: order.Metadata,
 		})
@@ -763,6 +770,28 @@ func (s *orderService) List(ctx context.Context, query *structs.OrderQuery) (pag
 
 		return s.Serializes(orders), int(total), nil
 	})
+}
+
+// GetOrderStats gets order statistics for a period and currency.
+func (s *orderService) GetOrderStats(ctx context.Context, startDate, endDate int64, currency string) (*structs.OrderSummary, error) {
+	if currency == "" {
+		currency = string(structs.CurrencyUSD)
+	}
+	if startDate <= 0 || endDate <= 0 || startDate > endDate {
+		return nil, errors.New(ecode.FieldIsInvalid("date range"))
+	}
+	return s.repo.GetOrderSummary(ctx, startDate, endDate, currency)
+}
+
+// GetRevenueByChannel gets successful payment revenue grouped by channel.
+func (s *orderService) GetRevenueByChannel(ctx context.Context, startDate, endDate int64, currency string) (map[string]float64, error) {
+	if currency == "" {
+		currency = string(structs.CurrencyUSD)
+	}
+	if startDate <= 0 || endDate <= 0 || startDate > endDate {
+		return nil, errors.New(ecode.FieldIsInvalid("date range"))
+	}
+	return s.repo.GetRevenueByChannel(ctx, startDate, endDate, currency)
 }
 
 // Serialize serializes a payment order to response format

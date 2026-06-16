@@ -66,6 +66,15 @@ permissions. The legacy `admin` role is still recognized for compatibility.
 | Resource | `/res` list/get/search/quota/usage | `read:resources` |
 | Resource | `/res` create/update/delete/share/access/version/batch | `manage:resources` |
 | Resource admin | `/res/admin/*` | admin |
+| Payment | `/pay/orders` list/get, `/pay/providers`, `/pay/stats` | `read:payments`, `manage:payments`, `refund:payments`, or `admin:payments` |
+| Payment | `/pay/orders` create/payment-url/verify, `/pay/products`, `/pay/subscriptions`, `/pay/channels` | `manage:payments` or `admin:payments` |
+| Payment | `/pay/orders/:id/refund` | `refund:payments` or `admin:payments` |
+| Payment | `/pay/logs` | `admin:payments` |
+| Payment webhook | `/pay/webhooks/:channel` | public route with provider signature/idempotency requirement |
+| Realtime | `/rt/ws`, `/rt/notifications` reads/mark read, `/rt/channels` reads/personal subscribe, `/rt/events` reads, `/search`, `/stats/realtime` | `read:realtime`, `manage:realtime`, or `admin:realtime` |
+| Realtime management | `/rt/notifications` create/update/delete, `/rt/channels` management/subscribers, `/rt/events` publish/delete, `/events` publish/retry/batch/process/status | `manage:realtime` or `admin:realtime` |
+| Initialize status | `/sys/initialize/status` | bootstrap status probe |
+| Initialize writes | `/sys/initialize*` write endpoints | valid `X-Init-Token` or `manage:system`/`admin:system`/system wildcard |
 | Menu writes | `/sys/menus` writes and operations | `manage:menu` |
 | Dictionary writes | `/sys/dictionaries` writes | `manage:dictionary` |
 | Option writes | `/sys/options` writes | `manage:system` |
@@ -76,13 +85,22 @@ permissions. The legacy `admin` role is still recognized for compatibility.
 | Users | `/sys/users` | `read/create/update/delete:users` and profile fallbacks |
 | Employees | `/sys/employees` | employee permissions and `manage:hr` |
 | Organizations | `/sys/orgs` | `read:organizations`, `manage:organizations` |
-| Spaces | `/sys/spaces` | currently grouped under `manage:spaces`, with nested read/manage checks |
+| Spaces | `/sys/spaces` | read routes use `read:spaces`; create/update/delete, membership mutations, settings writes, quota writes, billing writes, and relation attach/remove use `manage:spaces` |
 
 ## Seed and Menu Rules
 
 - Menu `Perms` must use the same string as route middleware or a documented higher-level permission.
 - Builder menus use `manage:builder`.
 - Resource menus now use `read:resources` and `manage:resources`, matching resource middleware.
+- Payment menus use `read:payments`, `manage:payments`, and `admin:payments`, matching payment route
+  middleware. Refund actions use `refund:payments` and are not exposed as a normal navigation menu.
+  Every initialization mode that creates the shared payment menus must seed the `payments`
+  permission family for the roles that can see those menus.
+- Realtime menus use `read:realtime` for notifications/events and `manage:realtime` for channel and
+  WebSocket administration. Seed data must provide both permissions for every data mode that exposes
+  those menus.
+- The primary space navigation menu uses `read:spaces`; explicit management entries such as
+  `space-manage` still require `manage:spaces`.
 - Example menus are development samples; production exposure should be disabled or hidden.
 - Menu visibility does not authorize API access.
 
@@ -92,22 +110,32 @@ permissions. The legacy `admin` role is still recognized for compatibility.
 | --- | --- |
 | `/system/*` | admin |
 | `/ncore/*` | admin plus `manage:ncore` |
-| `/spaces/*` | super admin UX guard; backend still controls `manage:spaces` |
+| `/spaces/*` | `read:spaces` or `manage:spaces`; create/edit/member mutation subroutes require `manage:spaces` |
 | `/builder/*` | `manage:builder` and feature exposure |
 | `/example/*` | authenticated and feature exposure |
 | `/res/*` | `read:resources`; `/res/admin` also admin |
-| `/pay/*` | admin UX guard; backend payment permissions need explicit middleware |
+| `/pay/*` | `read:payments`, `manage:payments`, `refund:payments`, or `admin:payments`; product/subscription/channel routes require `manage:payments`; logs require `admin:payments` |
+
+## Ownership Rules
+
+- `/rt/notifications` list/get/mark-read/mark-unread defaults to the authenticated user. A request
+  for another `user_id` is rejected unless the caller has `manage:realtime`, `admin:realtime`, or a
+  wildcard permission.
+- `/rt/notifications/read-all` and `/rt/notifications/unread-all` always operate on the authenticated
+  user, not an arbitrary query/body user.
 
 ## Required Permission Work
 
-1. Split space read and manage routes so list/detail/member read operations can use `read:spaces`
-   without inheriting `manage:spaces`.
-2. Add explicit payment permissions such as `read:payments`, `manage:payments`, `refund:payments`,
-   and `admin:payments`.
+1. Provide seed repair for databases that still contain `read:payment` or `manage:payment` menu
+   permissions.
+2. Provide seed repair for existing databases that still contain enterprise `read:notification`
+   instead of `read:realtime`.
 3. Add explicit content permissions or document Casbin-only policy for `/cms`.
-4. Add route-level audit requirements for all high-risk operations:
+4. Add explicit proxy permissions and route middleware for `/tbp`, `/proxy`, and `/ws`.
+5. Add route-level audit requirements for all high-risk operations:
    - resource public/share/delete/batch/admin
    - payment refund/webhook/channel config
+   - realtime notification administration, channel management, event publish/retry/status changes
    - proxy routes and transformers
    - NCore plugin load/unload/reload
    - RBAC/menu/space membership changes

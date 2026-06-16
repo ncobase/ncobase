@@ -79,6 +79,7 @@ type RefundOrderInput struct {
 
 // OrderQuery represents query parameters for listing orders
 type OrderQuery struct {
+	OrderNumber    string        `form:"order_number" json:"order_number,omitempty"`
 	Status         PaymentStatus `form:"status" json:"status,omitempty"`
 	Type           PaymentType   `form:"type" json:"type,omitempty"`
 	ChannelID      string        `form:"channel_id" json:"channel_id,omitempty"`
@@ -96,6 +97,7 @@ type OrderSummary struct {
 	TotalCount    int64   `json:"total_count"`
 	SuccessCount  int64   `json:"success_count"`
 	FailedCount   int64   `json:"failed_count"`
+	RefundedCount int64   `json:"refunded_count"`
 	TotalAmount   float64 `json:"total_amount"`
 	SuccessAmount float64 `json:"success_amount"`
 	Currency      string  `json:"currency"`

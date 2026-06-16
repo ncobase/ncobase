@@ -111,37 +111,38 @@ func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 	// Belong domain group
 	spaceGroup := r.Group("/"+m.Group(), middleware.AuthenticatedSpace)
 
-	// Space endpoints
-	spaces := spaceGroup.Group("/spaces", middleware.HasPermission("manage:spaces"), middleware.AuthenticatedSpace)
+	// Space endpoints. Read and management permissions are applied per route so
+	// read-only space operators are not blocked by the whole group.
+	spaces := spaceGroup.Group("/spaces")
 	{
 		// Basic space collection management
-		spaces.GET("", m.h.Space.List)
-		spaces.POST("", m.h.Space.Create)
+		spaces.GET("", middleware.HasPermission("read:spaces"), m.h.Space.List)
+		spaces.POST("", middleware.HasPermission("manage:spaces"), m.h.Space.Create)
 
 		// Space quota collection management
-		spaces.GET("/quotas", m.h.SpaceQuota.List)
-		spaces.POST("/quotas", m.h.SpaceQuota.Create)
-		spaces.POST("/quotas/usage", m.h.SpaceQuota.UpdateUsage)
-		spaces.GET("/quotas/check", m.h.SpaceQuota.CheckLimit)
-		spaces.GET("/quotas/:id", m.h.SpaceQuota.Get)
-		spaces.PUT("/quotas/:id", m.h.SpaceQuota.Update)
-		spaces.DELETE("/quotas/:id", m.h.SpaceQuota.Delete)
+		spaces.GET("/quotas", middleware.HasPermission("read:spaces"), m.h.SpaceQuota.List)
+		spaces.POST("/quotas", middleware.HasPermission("manage:spaces"), m.h.SpaceQuota.Create)
+		spaces.POST("/quotas/usage", middleware.HasPermission("manage:spaces"), m.h.SpaceQuota.UpdateUsage)
+		spaces.GET("/quotas/check", middleware.HasPermission("read:spaces"), m.h.SpaceQuota.CheckLimit)
+		spaces.GET("/quotas/:id", middleware.HasPermission("read:spaces"), m.h.SpaceQuota.Get)
+		spaces.PUT("/quotas/:id", middleware.HasPermission("manage:spaces"), m.h.SpaceQuota.Update)
+		spaces.DELETE("/quotas/:id", middleware.HasPermission("manage:spaces"), m.h.SpaceQuota.Delete)
 
 		// Space settings collection management
-		spaces.GET("/settings", m.h.SpaceSetting.List)
-		spaces.POST("/settings", m.h.SpaceSetting.Create)
-		spaces.POST("/settings/bulk", m.h.SpaceSetting.BulkUpdate)
-		spaces.GET("/settings/:id", m.h.SpaceSetting.Get)
-		spaces.PUT("/settings/:id", m.h.SpaceSetting.Update)
-		spaces.DELETE("/settings/:id", m.h.SpaceSetting.Delete)
+		spaces.GET("/settings", middleware.HasPermission("read:spaces"), m.h.SpaceSetting.List)
+		spaces.POST("/settings", middleware.HasPermission("manage:spaces"), m.h.SpaceSetting.Create)
+		spaces.POST("/settings/bulk", middleware.HasPermission("manage:spaces"), m.h.SpaceSetting.BulkUpdate)
+		spaces.GET("/settings/:id", middleware.HasPermission("read:spaces"), m.h.SpaceSetting.Get)
+		spaces.PUT("/settings/:id", middleware.HasPermission("manage:spaces"), m.h.SpaceSetting.Update)
+		spaces.DELETE("/settings/:id", middleware.HasPermission("manage:spaces"), m.h.SpaceSetting.Delete)
 
 		// Space billing collection management
-		spaces.GET("/billing", m.h.SpaceBilling.List)
-		spaces.POST("/billing", m.h.SpaceBilling.Create)
-		spaces.POST("/billing/payment", m.h.SpaceBilling.ProcessPayment)
-		spaces.GET("/billing/:id", m.h.SpaceBilling.Get)
-		spaces.PUT("/billing/:id", m.h.SpaceBilling.Update)
-		spaces.DELETE("/billing/:id", m.h.SpaceBilling.Delete)
+		spaces.GET("/billing", middleware.HasPermission("read:spaces"), m.h.SpaceBilling.List)
+		spaces.POST("/billing", middleware.HasPermission("manage:spaces"), m.h.SpaceBilling.Create)
+		spaces.POST("/billing/payment", middleware.HasPermission("manage:spaces"), m.h.SpaceBilling.ProcessPayment)
+		spaces.GET("/billing/:id", middleware.HasPermission("read:spaces"), m.h.SpaceBilling.Get)
+		spaces.PUT("/billing/:id", middleware.HasPermission("manage:spaces"), m.h.SpaceBilling.Update)
+		spaces.DELETE("/billing/:id", middleware.HasPermission("manage:spaces"), m.h.SpaceBilling.Delete)
 
 		// User-Space-Role management
 		spaces.GET("/:spaceId/users", middleware.HasPermission("read:spaces"), m.h.UserSpaceRole.ListSpaceUsers)
@@ -167,41 +168,41 @@ func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 		spaces.DELETE("/:spaceId/orgs/:orgId", middleware.HasPermission("manage:spaces"), m.h.SpaceOrganization.RemoveGroupFromSpace)
 		spaces.GET("/:spaceId/orgs/:orgId/check", middleware.HasPermission("read:spaces"), m.h.SpaceOrganization.IsGroupInSpace)
 
-		spaces.GET("/:spaceId/quotas", m.h.SpaceQuota.GetSummary)
+		spaces.GET("/:spaceId/quotas", middleware.HasPermission("read:spaces"), m.h.SpaceQuota.GetSummary)
 
 		// Space settings management
-		spaces.GET("/:spaceId/settings", m.h.SpaceSetting.GetSpaceSettings)
-		spaces.GET("/:spaceId/settings/public", m.h.SpaceSetting.GetPublicSettings)
-		spaces.PUT("/:spaceId/settings/:key", m.h.SpaceSetting.SetSetting)
-		spaces.GET("/:spaceId/settings/:key", m.h.SpaceSetting.GetSetting)
+		spaces.GET("/:spaceId/settings", middleware.HasPermission("read:spaces"), m.h.SpaceSetting.GetSpaceSettings)
+		spaces.GET("/:spaceId/settings/public", middleware.HasPermission("read:spaces"), m.h.SpaceSetting.GetPublicSettings)
+		spaces.PUT("/:spaceId/settings/:key", middleware.HasPermission("manage:spaces"), m.h.SpaceSetting.SetSetting)
+		spaces.GET("/:spaceId/settings/:key", middleware.HasPermission("read:spaces"), m.h.SpaceSetting.GetSetting)
 
 		// Space billing management
-		spaces.GET("/:spaceId/billing/summary", m.h.SpaceBilling.GetSummary)
-		spaces.GET("/:spaceId/billing/overdue", m.h.SpaceBilling.GetOverdue)
-		spaces.POST("/:spaceId/billing/invoice", m.h.SpaceBilling.GenerateInvoice)
+		spaces.GET("/:spaceId/billing/summary", middleware.HasPermission("read:spaces"), m.h.SpaceBilling.GetSummary)
+		spaces.GET("/:spaceId/billing/overdue", middleware.HasPermission("read:spaces"), m.h.SpaceBilling.GetOverdue)
+		spaces.POST("/:spaceId/billing/invoice", middleware.HasPermission("manage:spaces"), m.h.SpaceBilling.GenerateInvoice)
 
 		// Space Menu relations
-		spaces.GET("/:spaceId/menus", m.h.SpaceMenu.GetSpaceMenus)
-		spaces.POST("/:spaceId/menus", m.h.SpaceMenu.AddMenuToSpace)
-		spaces.DELETE("/:spaceId/menus/:menuId", m.h.SpaceMenu.RemoveMenuFromSpace)
-		spaces.GET("/:spaceId/menus/:menuId/check", m.h.SpaceMenu.CheckMenuInSpace)
+		spaces.GET("/:spaceId/menus", middleware.HasPermission("read:spaces"), m.h.SpaceMenu.GetSpaceMenus)
+		spaces.POST("/:spaceId/menus", middleware.HasPermission("manage:spaces"), m.h.SpaceMenu.AddMenuToSpace)
+		spaces.DELETE("/:spaceId/menus/:menuId", middleware.HasPermission("manage:spaces"), m.h.SpaceMenu.RemoveMenuFromSpace)
+		spaces.GET("/:spaceId/menus/:menuId/check", middleware.HasPermission("read:spaces"), m.h.SpaceMenu.CheckMenuInSpace)
 
 		// Space Dictionary relations
-		spaces.GET("/:spaceId/dictionaries", m.h.SpaceDictionary.GetSpaceDictionaries)
-		spaces.POST("/:spaceId/dictionaries", m.h.SpaceDictionary.AddDictionaryToSpace)
-		spaces.DELETE("/:spaceId/dictionaries/:dictionaryId", m.h.SpaceDictionary.RemoveDictionaryFromSpace)
-		spaces.GET("/:spaceId/dictionaries/:dictionaryId/check", m.h.SpaceDictionary.CheckDictionaryInSpace)
+		spaces.GET("/:spaceId/dictionaries", middleware.HasPermission("read:spaces"), m.h.SpaceDictionary.GetSpaceDictionaries)
+		spaces.POST("/:spaceId/dictionaries", middleware.HasPermission("manage:spaces"), m.h.SpaceDictionary.AddDictionaryToSpace)
+		spaces.DELETE("/:spaceId/dictionaries/:dictionaryId", middleware.HasPermission("manage:spaces"), m.h.SpaceDictionary.RemoveDictionaryFromSpace)
+		spaces.GET("/:spaceId/dictionaries/:dictionaryId/check", middleware.HasPermission("read:spaces"), m.h.SpaceDictionary.CheckDictionaryInSpace)
 
 		// Space Options relations
-		spaces.GET("/:spaceId/options", m.h.SpaceOption.GetSpaceOption)
-		spaces.POST("/:spaceId/options", m.h.SpaceOption.AddOptionsToSpace)
-		spaces.DELETE("/:spaceId/options/:optionsId", m.h.SpaceOption.RemoveOptionsFromSpace)
-		spaces.GET("/:spaceId/options/:optionsId/check", m.h.SpaceOption.CheckOptionsInSpace)
+		spaces.GET("/:spaceId/options", middleware.HasPermission("read:spaces"), m.h.SpaceOption.GetSpaceOption)
+		spaces.POST("/:spaceId/options", middleware.HasPermission("manage:spaces"), m.h.SpaceOption.AddOptionsToSpace)
+		spaces.DELETE("/:spaceId/options/:optionsId", middleware.HasPermission("manage:spaces"), m.h.SpaceOption.RemoveOptionsFromSpace)
+		spaces.GET("/:spaceId/options/:optionsId/check", middleware.HasPermission("read:spaces"), m.h.SpaceOption.CheckOptionsInSpace)
 
 		// Basic space item management must stay after static collection routes.
-		spaces.GET("/:spaceId", m.h.Space.Get)
-		spaces.PUT("/:spaceId", m.h.Space.Update)
-		spaces.DELETE("/:spaceId", m.h.Space.Delete)
+		spaces.GET("/:spaceId", middleware.HasPermission("read:spaces"), m.h.Space.Get)
+		spaces.PUT("/:spaceId", middleware.HasPermission("manage:spaces"), m.h.Space.Update)
+		spaces.DELETE("/:spaceId", middleware.HasPermission("manage:spaces"), m.h.Space.Delete)
 	}
 
 	// User endpoints with space context

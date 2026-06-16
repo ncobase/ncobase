@@ -314,7 +314,47 @@ func (r *subscriptionRepository) Count(ctx context.Context, query *structs.Subsc
 
 // GetSubscriptionSummary calculates subscription statistics
 func (r *subscriptionRepository) GetSubscriptionSummary(ctx context.Context) (*structs.SubscriptionSummary, error) {
-	// Get past due count (continued)
+	totalCount, err := r.data.EC.PaymentSubscription.Query().Count(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get total subscription count: %w", err)
+	}
+
+	activeCount, err := r.data.EC.PaymentSubscription.Query().
+		Where(
+			paymentSubscriptionEnt.Status(string(structs.SubscriptionStatusActive)),
+			paymentSubscriptionEnt.CurrentPeriodEndGT(time.Now()),
+		).
+		Count(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get active subscription count: %w", err)
+	}
+
+	trialingCount, err := r.data.EC.PaymentSubscription.Query().
+		Where(paymentSubscriptionEnt.Status(string(structs.SubscriptionStatusTrialing))).
+		Count(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get trialing subscription count: %w", err)
+	}
+
+	cancelledCount, err := r.data.EC.PaymentSubscription.Query().
+		Where(paymentSubscriptionEnt.Status(string(structs.SubscriptionStatusCancelled))).
+		Count(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get cancelled subscription count: %w", err)
+	}
+
+	expiredCount, err := r.data.EC.PaymentSubscription.Query().
+		Where(
+			paymentSubscriptionEnt.Or(
+				paymentSubscriptionEnt.Status(string(structs.SubscriptionStatusExpired)),
+				paymentSubscriptionEnt.CurrentPeriodEndLTE(time.Now()),
+			),
+		).
+		Count(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get expired subscription count: %w", err)
+	}
+
 	pastDueCount, err := r.data.EC.PaymentSubscription.Query().
 		Where(
 			paymentSubscriptionEnt.Status(string(structs.SubscriptionStatusPastDue)),
@@ -372,14 +412,14 @@ func (r *subscriptionRepository) GetSubscriptionSummary(ctx context.Context) (*s
 
 	// Create summary
 	summary := &structs.SubscriptionSummary{
-		// TotalCount:     int64(totalCount),
-		// ActiveCount:    int64(activeCount),
-		// TrialingCount:  int64(trialingCount),
-		// CancelledCount: int64(cancelledCount),
-		// ExpiredCount:   int64(expiredCount),
-		PastDueCount: int64(pastDueCount),
-		MRR:          mrr,
-		ARR:          arr,
+		TotalCount:     int64(totalCount),
+		ActiveCount:    int64(activeCount),
+		TrialingCount:  int64(trialingCount),
+		CancelledCount: int64(cancelledCount),
+		ExpiredCount:   int64(expiredCount),
+		PastDueCount:   int64(pastDueCount),
+		MRR:            mrr,
+		ARR:            arr,
 	}
 
 	return summary, nil

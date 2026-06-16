@@ -4,6 +4,7 @@ import (
 	"ncobase/biz/realtime/service"
 	"ncobase/biz/realtime/structs"
 
+	"github.com/ncobase/ncore/ctxutil"
 	"github.com/ncobase/ncore/ecode"
 	"github.com/ncobase/ncore/net/resp"
 
@@ -82,6 +83,10 @@ func (h *notificationHandler) Get(c *gin.Context) {
 	result, err := h.notification.Get(c.Request.Context(), &structs.FindNotification{ID: id})
 	if err != nil {
 		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
+		return
+	}
+	if !canAccessNotification(c, result.UserID) {
+		resp.Fail(c.Writer, resp.Forbidden("Access denied to notification"))
 		return
 	}
 
@@ -168,6 +173,24 @@ func (h *notificationHandler) List(c *gin.Context) {
 		return
 	}
 
+	userID := currentRealtimeUserID(c)
+	if userID == "" {
+		resp.Fail(c.Writer, resp.UnAuthorized("user not authenticated"))
+		return
+	}
+	if params.UserID == "" {
+		params.UserID = userID
+	} else if params.UserID != userID && !canManageRealtime(c) {
+		resp.Fail(c.Writer, resp.Forbidden("Access denied to notification list"))
+		return
+	}
+	if params.Limit <= 0 {
+		params.Limit = 20
+	}
+	if params.Limit > 100 {
+		params.Limit = 100
+	}
+
 	result, err := h.notification.List(c.Request.Context(), &params)
 	if err != nil {
 		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
@@ -195,7 +218,17 @@ func (h *notificationHandler) MarkAsRead(c *gin.Context) {
 		return
 	}
 
-	err := h.notification.MarkAsRead(c.Request.Context(), &structs.FindNotification{ID: id})
+	notification, err := h.notification.Get(c.Request.Context(), &structs.FindNotification{ID: id})
+	if err != nil {
+		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
+		return
+	}
+	if !canAccessNotification(c, notification.UserID) {
+		resp.Fail(c.Writer, resp.Forbidden("Access denied to notification"))
+		return
+	}
+
+	err = h.notification.MarkAsRead(c.Request.Context(), &structs.FindNotification{ID: id})
 	if err != nil {
 		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 		return
@@ -215,7 +248,7 @@ func (h *notificationHandler) MarkAsRead(c *gin.Context) {
 // @Router /rt/notifications/read-all [put]
 // @Security Bearer
 func (h *notificationHandler) MarkAllAsRead(c *gin.Context) {
-	userID := c.GetString("user_id") // From auth middleware
+	userID := currentRealtimeUserID(c)
 	if userID == "" {
 		resp.Fail(c.Writer, resp.UnAuthorized("user not authenticated"))
 		return
@@ -248,7 +281,17 @@ func (h *notificationHandler) MarkAsUnread(c *gin.Context) {
 		return
 	}
 
-	err := h.notification.MarkAsUnread(c.Request.Context(), &structs.FindNotification{ID: id})
+	notification, err := h.notification.Get(c.Request.Context(), &structs.FindNotification{ID: id})
+	if err != nil {
+		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
+		return
+	}
+	if !canAccessNotification(c, notification.UserID) {
+		resp.Fail(c.Writer, resp.Forbidden("Access denied to notification"))
+		return
+	}
+
+	err = h.notification.MarkAsUnread(c.Request.Context(), &structs.FindNotification{ID: id})
 	if err != nil {
 		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 		return
@@ -268,7 +311,7 @@ func (h *notificationHandler) MarkAsUnread(c *gin.Context) {
 // @Router /rt/notifications/unread-all [put]
 // @Security Bearer
 func (h *notificationHandler) MarkAllAsUnread(c *gin.Context) {
-	userID := c.GetString("user_id") // From auth middleware
+	userID := currentRealtimeUserID(c)
 	if userID == "" {
 		resp.Fail(c.Writer, resp.UnAuthorized("user not authenticated"))
 		return
@@ -281,4 +324,29 @@ func (h *notificationHandler) MarkAllAsUnread(c *gin.Context) {
 	}
 
 	resp.Success(c.Writer)
+}
+
+func currentRealtimeUserID(c *gin.Context) string {
+	if userID := ctxutil.GetUserID(c.Request.Context()); userID != "" {
+		return userID
+	}
+	return c.GetString("user_id")
+}
+
+func canAccessNotification(c *gin.Context, ownerID string) bool {
+	return ownerID != "" && (ownerID == currentRealtimeUserID(c) || canManageRealtime(c))
+}
+
+func canManageRealtime(c *gin.Context) bool {
+	ctx := c.Request.Context()
+	if ctxutil.GetUserIsAdmin(ctx) {
+		return true
+	}
+	for _, permission := range ctxutil.GetUserPermissions(ctx) {
+		switch permission {
+		case "*", "*:*", "*:realtime", "manage:*", "manage:realtime", "admin:*", "admin:realtime":
+			return true
+		}
+	}
+	return false
 }
