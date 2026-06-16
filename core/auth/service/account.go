@@ -143,10 +143,10 @@ func (s *accountService) Login(ctx context.Context, body *structs.LoginBody) (*A
 		spaceIDs = append(spaceIDs, t.ID)
 	}
 
-	// Set default space context
-	defaultSpace, err := s.tsw.GetUserSpace(ctx, user.ID)
-	if err == nil && defaultSpace != nil {
-		ctx = ctxutil.SetSpaceID(ctx, defaultSpace.ID)
+	// Set active space context. Prefer a valid request space and fall back to the default space.
+	activeSpace := s.resolveActiveSpace(ctx, user.ID, userSpaces)
+	if activeSpace != nil {
+		ctx = ctxutil.SetSpaceID(ctx, activeSpace.ID)
 	}
 
 	// Create token payload
@@ -163,10 +163,10 @@ func (s *accountService) Login(ctx context.Context, body *structs.LoginBody) (*A
 
 	// Set additional response data
 	authResp.SpaceIDs = spaceIDs
-	if defaultSpace != nil {
+	if activeSpace != nil {
 		authResp.DefaultSpace = &types.JSON{
-			"id":   defaultSpace.ID,
-			"name": defaultSpace.Name,
+			"id":   activeSpace.ID,
+			"name": activeSpace.Name,
 		}
 	}
 
@@ -260,10 +260,10 @@ func (s *accountService) RefreshToken(ctx context.Context, refreshToken string) 
 		spaceIDs = append(spaceIDs, t.ID)
 	}
 
-	// Set default space context
-	defaultSpace, err := s.tsw.GetUserSpace(ctx, user.ID)
-	if err == nil && defaultSpace != nil {
-		ctx = ctxutil.SetSpaceID(ctx, defaultSpace.ID)
+	// Keep the requested space domain when it belongs to the user; otherwise use the default space.
+	activeSpace := s.resolveActiveSpace(ctx, user.ID, userSpaces)
+	if activeSpace != nil {
+		ctx = ctxutil.SetSpaceID(ctx, activeSpace.ID)
 	}
 
 	// Create token payload
@@ -280,10 +280,10 @@ func (s *accountService) RefreshToken(ctx context.Context, refreshToken string) 
 
 	// Set additional response data
 	authResp.SpaceIDs = spaceIDs
-	if defaultSpace != nil {
+	if activeSpace != nil {
 		authResp.DefaultSpace = &types.JSON{
-			"id":   defaultSpace.ID,
-			"name": defaultSpace.Name,
+			"id":   activeSpace.ID,
+			"name": activeSpace.Name,
 		}
 	}
 
@@ -302,6 +302,46 @@ func (s *accountService) RefreshToken(ctx context.Context, refreshToken string) 
 	}
 
 	return authResp, nil
+}
+
+func (s *accountService) resolveActiveSpace(ctx context.Context, userID string, userSpaces []*spaceStructs.ReadSpace) *spaceStructs.ReadSpace {
+	return resolveActiveSpace(ctx, userID, userSpaces, s.tsw)
+}
+
+func resolveActiveSpace(ctx context.Context, userID string, userSpaces []*spaceStructs.ReadSpace, tsw authSpaceProvider) *spaceStructs.ReadSpace {
+	requestedSpaceID := ctxutil.GetSpaceID(ctx)
+	if requestedSpaceID != "" {
+		if space := findUserSpace(userSpaces, requestedSpaceID); space != nil {
+			return space
+		}
+	}
+
+	if tsw != nil {
+		if defaultSpace, err := tsw.GetUserSpace(ctx, userID); err == nil && defaultSpace != nil {
+			if space := findUserSpace(userSpaces, defaultSpace.ID); space != nil {
+				return space
+			}
+			return defaultSpace
+		}
+	}
+
+	if len(userSpaces) > 0 {
+		return userSpaces[0]
+	}
+
+	return nil
+}
+
+func findUserSpace(spaces []*spaceStructs.ReadSpace, id string) *spaceStructs.ReadSpace {
+	if id == "" {
+		return nil
+	}
+	for _, space := range spaces {
+		if space != nil && space.ID == id {
+			return space
+		}
+	}
+	return nil
 }
 
 // Register handles user registration

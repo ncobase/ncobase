@@ -8,23 +8,33 @@ feature.
 ### Current Flow
 
 1. User logs in through `/login`.
-2. Backend builds token payload with user id, roles, permissions, admin state, default space, and
-   available spaces.
+2. Backend builds token payload with user id, global roles, active-space roles, permissions, admin
+   state, active space, and available spaces.
 3. Frontend stores tokens and fetches `/account`.
 4. Frontend requests `/sys/menus/navigation`.
 5. Menu tree is filtered by frontend permissions and feature exposure.
 6. Requests include `x-md-sid` when a current space is known.
 
-### Required Behavior
+### Current Implemented Behavior
 
 - Space switch must be treated as an authorization change:
   - update local current space,
-  - refresh or reissue token for that space domain,
+  - refresh or reissue token for that space domain through `/refresh-token`,
+  - preserve only valid user-owned requested spaces and fall back to the default space otherwise,
+  - reset permission and request runtime state,
   - refetch `/account`,
   - refetch navigation menus,
-  - invalidate domain queries that depend on ownership or space.
-- RBAC changes must invalidate menu and account-related caches.
+  - cancel/remove/invalidate domain queries that depend on ownership or space.
+- RBAC changes invalidate menu/account-related caches, reset permission/request runtime state, and
+  emit `rbac-change` in the current browser.
+
+### Remaining Behavior
+
 - Menu permissions must be validated against real backend permissions before production seed.
+- Affected users in other browsers or devices need a live permission refresh event or must refresh
+  their token/re-login.
+- RBAC/menu/space membership mutations still need first-class audit display and affected-user/menu
+  impact views.
 
 ## System Configuration to Runtime Navigation
 

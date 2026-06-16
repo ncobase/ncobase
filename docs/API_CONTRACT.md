@@ -49,9 +49,9 @@ These option names are consumed by backend services at runtime and should be man
 | `/login/mfa` | `POST` | missing full UI | public | partial | Backend capability exists. |
 | `/register` | `POST` | `features/account/apis.ts` | public | aligned | Writes tokens on success. |
 | `/logout` | `POST` | `features/account/apis.ts` | authenticated by token if present | aligned | Frontend performs local cleanup even if backend fails. |
-| `/refresh-token` | `POST` | `features/account/token_service.ts` | refresh token | aligned | Swagger annotation has been corrected from stale `/refresh`. |
+| `/refresh-token` | `POST` | `features/account/token_service.ts` | refresh token | aligned | Honors a valid requested `x-md-sid` during refresh; returned tokens include active space id, global roles, active space roles, and their permission codes. |
 | `/token-status` | `GET` | not first-class | public/current token | backend-only | Useful for diagnostics. |
-| `/account` | `GET` | `accountApi.getCurrentUser` | authenticated | aligned | Must return roles, permissions, spaces/default space reliably. |
+| `/account` | `GET` | `accountApi.getCurrentUser` | authenticated | aligned | Must return roles, permissions, spaces/default space, and active-space permission context reliably. |
 | `/account/password` | `PUT` | profile TODO | authenticated | partial | Needs password UI and current password policy. |
 | `/account/space` | `GET` | account API | authenticated | partial | Space switch write contract still needs confirmation. |
 | `/account/spaces` | `GET` | account API and space dropdown | authenticated | aligned | Drives space switcher. |
@@ -66,7 +66,7 @@ These option names are consumed by backend services at runtime and should be man
 | --- | --- | --- | --- | --- | --- |
 | `/sys/users` | CRUD/filter/subroutes | system user APIs | `read/create/update/delete:users`; profile fallbacks | partial | Username/id semantics vary by subroute; add tests. |
 | `/sys/employees` | CRUD/list helpers | system user APIs | employee permissions, `manage:hr` | partial | UI coverage must be verified. |
-| `/sys/roles` | CRUD, permissions | role/permission APIs | `read:roles`, `manage:roles` | partial | Role changes must trigger permission/token strategy. |
+| `/sys/roles` | CRUD, permissions | role/permission APIs | `read:roles`, `manage:roles` | partial/aligned | Frontend mutations now trigger local RBAC propagation; backend audit and cross-session live refresh remain future work. |
 | `/sys/permissions` | CRUD | permission APIs | `super-admin` or `system-admin` role | partial | Frontend guard should reflect backend role gate. |
 | `/sys/policies` | CRUD | access APIs | `super-admin` role | partial | Advanced RBAC surface only. |
 | `/sys/activities` | create/list/search/get/user | access APIs | authenticated | partial | Audit/activity policy should be tightened. |
@@ -95,7 +95,7 @@ These option names are consumed by backend services at runtime and should be man
 | `/cms/channels` | CRUD by slug | channel service | authenticated plus Casbin | partial | Channel rules should constrain distribution UI. |
 | `/cms/distributions` | CRUD by id, publish/cancel | distribution service | authenticated plus Casbin | partial | Needs state machine and review/schedule integration. |
 | `/cms/media` | CRUD by id; list by `resource_id` | media service and content upload hooks | authenticated plus Casbin | partial/aligned | Media records persist `resource_id` plus path, mime, size, owner, and space metadata; list filters also match legacy extras metadata so resource delete checks do not miss older references. Resource enrichment returns preview/download data when available. |
-| `/cms/topic-media` | CRUD, list, by-topic, by-topic-and-media | topic media service and `TopicMediaManager` | authenticated plus Casbin | partial/aligned | Frontend now calls `/cms/topic-media/by-topic/:topicId` and reconciles create/update/delete differences. Remaining gaps are first-class topic form integration, reverse topic reference queries, and stronger tests. |
+| `/cms/topic-media` | CRUD, list, by-topic, by-topic-and-media | topic media service and `TopicMediaManager` | authenticated plus Casbin | partial/aligned | Frontend calls `/cms/topic-media/by-topic/:topicId`, reconciles create/update/delete differences, and is wired into topic create/edit media fields. Remaining gaps are browser tests and richer reverse reference impact views. |
 | comments/tags/SEO/workflow/templates/versions/schedules | none in current backend | content subfeature APIs | n/a | frontend-only | Hide or implement backend-first. |
 
 ## Resource Domain
@@ -166,8 +166,9 @@ These option names are consumed by backend services at runtime and should be man
    repair path.
 3. Payment docs previously used `/pay/webhook/:provider`; current route is `/pay/webhooks/:channel`.
 4. Content advanced frontend routes do not have current backend modules.
-5. CMS media/resource/topic-media are connected, but existing resource selection, reverse topic
-   references, and form-level gallery/attachment UX still need follow-up.
+5. CMS media/resource/topic-media are connected, including existing resource selection and topic form
+   gallery/attachment UX. Remaining cleanup is browser coverage and richer reverse reference impact
+   views.
 6. Realtime Swagger still needs a refresh after permission split and `/rt/channels/user` route
    correction.
 7. Swagger still needs full pass for `/res`, `/tbp`, root auth/account/session, and duplicate route

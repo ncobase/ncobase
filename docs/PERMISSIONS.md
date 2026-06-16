@@ -30,8 +30,8 @@ Wildcards supported by middleware and frontend checks:
 
 | Input | Source | Purpose |
 | --- | --- | --- |
-| Access token | `Authorization: Bearer ...` | User identity, roles, permissions, admin state. |
-| Space id | `x-md-sid` | Casbin domain and multi-space data boundary. |
+| Access token | `Authorization: Bearer ...` | User identity, global roles, active-space roles, permissions, and admin state. |
+| Space id | `x-md-sid` | Casbin domain, active-space role selection, and multi-space data boundary. |
 | Session | Auth/session middleware | Session validity, device metadata, cleanup. |
 | Account response | `/account` | Frontend fallback for roles, permissions, spaces. |
 
@@ -139,13 +139,19 @@ permissions. The legacy `admin` role is still recognized for compatibility.
    - proxy routes and transformers
    - NCore plugin load/unload/reload
    - RBAC/menu/space membership changes
-5. Provide a seed repair path for existing databases whenever permission strings change.
+6. Provide a seed repair path for existing databases whenever permission strings change.
 
 ## RBAC Change Propagation
 
 After role, permission, policy, menu, or space-role changes:
 
 1. Backend should update persistent RBAC data and optionally write an activity/audit event.
-2. Frontend should invalidate menu/navigation and affected user/role queries.
-3. Affected users must refresh token or re-login until backend supports live permission refresh.
-4. Space switch must refresh token/permissions for the selected space domain.
+2. Frontend mutations reset local permission/request runtime state, invalidate identity and
+   navigation queries, invalidate affected user/space records when ids are known, and emit
+   `rbac-change`.
+3. The current browser receives refreshed account/navigation state after the mutation. Affected users
+   in other browsers or devices must refresh token or re-login until backend supports live permission
+   refresh events.
+4. Space switch must refresh token/permissions for the selected space domain. `/refresh-token`
+   honors a valid requested `x-md-sid`, and token payload permissions include global roles plus
+   active-space roles.

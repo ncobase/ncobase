@@ -8,6 +8,7 @@ import (
 	"ncobase/core/auth/data/repository"
 	"ncobase/core/auth/structs"
 	"ncobase/core/auth/wrapper"
+	spaceStructs "ncobase/core/space/structs"
 	systemWrapper "ncobase/core/system/wrapper"
 	userStructs "ncobase/core/user/structs"
 	"net/http"
@@ -24,6 +25,17 @@ import (
 	"github.com/ncobase/ncore/utils"
 	"github.com/ncobase/ncore/validation/validator"
 )
+
+type authAccessProvider interface {
+	GetUserRoles(ctx context.Context, userID string) ([]*accessStructs.ReadRole, error)
+	GetByIDs(ctx context.Context, roleIDs []string) ([]*accessStructs.ReadRole, error)
+	GetRolePermissions(ctx context.Context, r string) ([]*accessStructs.ReadPermission, error)
+}
+
+type authSpaceProvider interface {
+	GetUserSpace(ctx context.Context, userID string) (*spaceStructs.ReadSpace, error)
+	GetUserRolesInSpace(ctx context.Context, u, t string) ([]string, error)
+}
 
 // AuthResponse represents authentication response
 type AuthResponse struct {
@@ -47,12 +59,21 @@ func GetUserSpacesRolesPermissions(
 	asw *wrapper.AccessServiceWrapper,
 	tsw *wrapper.SpaceServiceWrapper,
 ) (spaceID string, roleSlugs []string, permissionCodes []string, isAdmin bool, err error) {
+	return getUserSpacesRolesPermissions(ctx, userID, asw, tsw)
+}
+
+func getUserSpacesRolesPermissions(
+	ctx context.Context,
+	userID string,
+	asw authAccessProvider,
+	tsw authSpaceProvider,
+) (spaceID string, roleSlugs []string, permissionCodes []string, isAdmin bool, err error) {
 	spaceID = ctxutil.GetSpaceID(ctx)
 	logger.Debugf(ctx, "Getting permissions for user %s, space %s", userID, spaceID)
 
 	// Ensure we have a space context (domain) for space-specific roles and Casbin checks.
 	// Login flow often has no space_id in context yet.
-	if spaceID == "" {
+	if spaceID == "" && tsw != nil {
 		if defaultSpace, spaceErr := tsw.GetUserSpace(ctx, userID); spaceErr == nil && defaultSpace != nil {
 			spaceID = defaultSpace.ID
 			ctx = ctxutil.SetSpaceID(ctx, spaceID)
@@ -60,18 +81,23 @@ func GetUserSpacesRolesPermissions(
 	}
 
 	// Get global roles first
-	globalRoles, err := asw.GetUserRoles(ctx, userID)
-	if err != nil {
-		logger.Warnf(ctx, "Failed to get global roles for user %s: %v", userID, err)
-	} else {
-		for _, role := range globalRoles {
-			roleSlugs = append(roleSlugs, role.Slug)
+	var globalRoles []*accessStructs.ReadRole
+	if asw != nil {
+		globalRoles, err = asw.GetUserRoles(ctx, userID)
+		if err != nil {
+			logger.Warnf(ctx, "Failed to get global roles for user %s: %v", userID, err)
+		} else {
+			for _, role := range globalRoles {
+				roleSlugs = append(roleSlugs, role.Slug)
+			}
+			logger.Debugf(ctx, "Found %d global roles for user", len(globalRoles))
 		}
-		logger.Debugf(ctx, "Found %d global roles for user", len(globalRoles))
 	}
 
+	allRoles := appendUniqueRoles(nil, globalRoles...)
+
 	// Get space-specific roles if space context exists
-	if spaceID != "" {
+	if spaceID != "" && tsw != nil && asw != nil {
 		roleIDs, roleErr := tsw.GetUserRolesInSpace(ctx, userID, spaceID)
 		if roleErr == nil && len(roleIDs) > 0 {
 			spaceRoles, _ := asw.GetByIDs(ctx, roleIDs)
@@ -80,6 +106,7 @@ func GetUserSpacesRolesPermissions(
 					roleSlugs = append(roleSlugs, role.Slug)
 				}
 			}
+			allRoles = appendUniqueRoles(allRoles, spaceRoles...)
 			logger.Debugf(ctx, "Found %d space roles for user", len(spaceRoles))
 		}
 	}
@@ -89,7 +116,7 @@ func GetUserSpacesRolesPermissions(
 		logger.Debugf(ctx, "User has admin privileges")
 	}
 
-	permissionCodes, err = getPermissionsForRoles(ctx, asw, globalRoles, isAdmin)
+	permissionCodes, err = getPermissionsForRoles(ctx, asw, allRoles, isAdmin)
 	if err != nil {
 		logger.Warnf(ctx, "Failed to get permissions: %v", err)
 	}
@@ -100,6 +127,37 @@ func GetUserSpacesRolesPermissions(
 	logger.Infof(ctx, "User %s has %d roles, %d permissions, isAdmin: %v",
 		userID, len(roleSlugs), len(permissionCodes), isAdmin)
 	return
+}
+
+func appendUniqueRoles(existing []*accessStructs.ReadRole, roles ...*accessStructs.ReadRole) []*accessStructs.ReadRole {
+	seen := make(map[string]struct{}, len(existing)+len(roles))
+	for _, role := range existing {
+		if role == nil {
+			continue
+		}
+		seen[roleUniqueKey(role)] = struct{}{}
+	}
+
+	for _, role := range roles {
+		if role == nil {
+			continue
+		}
+		key := roleUniqueKey(role)
+		if _, ok := seen[key]; ok {
+			continue
+		}
+		existing = append(existing, role)
+		seen[key] = struct{}{}
+	}
+
+	return existing
+}
+
+func roleUniqueKey(role *accessStructs.ReadRole) string {
+	if role.ID != "" {
+		return "id:" + role.ID
+	}
+	return "slug:" + role.Slug
 }
 
 // isAdminRole checks if any role has admin privileges
@@ -116,9 +174,12 @@ func isAdminRole(roleSlugs []string) bool {
 }
 
 // getPermissionsForRoles gets all permissions for the given roles
-func getPermissionsForRoles(ctx context.Context, asw *wrapper.AccessServiceWrapper, roles []*accessStructs.ReadRole, isAdmin bool) ([]string, error) {
+func getPermissionsForRoles(ctx context.Context, asw authAccessProvider, roles []*accessStructs.ReadRole, isAdmin bool) ([]string, error) {
 	if len(roles) == 0 {
 		return []string{}, nil
+	}
+	if asw == nil {
+		return []string{}, errors.New("access service is not available")
 	}
 
 	var permissionCodes []string
