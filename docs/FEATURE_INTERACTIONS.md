@@ -126,7 +126,8 @@ Required interactions:
   - `manage:payments` for channels, products, subscriptions, payment URL generation, and verify.
   - `refund:payments` for refunds.
   - `admin:payments` for logs and sensitive administration.
-- Webhooks need signature verification, idempotency keys, retry behavior, and masked logs.
+- Webhooks need signature verification, idempotency keys, and retry behavior. Payment log creation and
+  response serialization already mask sensitive request/response/error/metadata payload fields.
 - Refund must update order state and emit an event.
 - Subscription cancel/renew/expire should update space billing if linked.
 - Frontend payment detail should show a timeline from order creation through webhook/refund.

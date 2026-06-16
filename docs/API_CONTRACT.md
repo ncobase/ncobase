@@ -124,7 +124,7 @@ These option names are consumed by backend services at runtime and should be man
 | `/pay/orders/:id/refund` | refund | payment APIs | `refund:payments` or `admin:payments` | partial/aligned | Requires state/amount validation, audit, and provider idempotency tests. |
 | `/pay/subscriptions` | list/create/get/update/cancel/by-user | payment APIs | `manage:payments` or `admin:payments` | partial/aligned | Add subscription state machine tests and space billing linkage. |
 | `/pay/webhooks/:channel` | `POST` | provider callbacks | public/signed | drift/partial | Domain reference corrected; signature/idempotency required. |
-| `/pay/logs` | list/get/by-order | payment APIs | `admin:payments` | partial/aligned | Route is admin-guarded; service must mask sensitive payloads before exposing detail/export. |
+| `/pay/logs` | list/get/by-order | payment APIs | `admin:payments` | aligned/partial | Route is admin-guarded; service masks sensitive request, response, error, and metadata fields on create and response serialization. Export still needs a policy. |
 | `/pay/providers`, `/pay/stats` | `GET` | payment overview | `read:payments`, `manage:payments`, `refund:payments`, or `admin:payments` | aligned/partial | Stats aggregate order totals, successful/failed/refunded counts, subscription summary, provider list, selected currency, period bounds, and successful revenue by channel. |
 
 ## Proxy, Initialize, Sample, and Counter Plugins

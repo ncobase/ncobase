@@ -103,8 +103,9 @@ Rules:
 - Refund requires authorization, current paid state, amount validation, and audit.
 - Route permissions are split from lifecycle state: reads use `read:payments`, operational writes use
   `manage:payments`, refunds use `refund:payments`, and log/admin visibility uses `admin:payments`.
-- Payment logs must not expose raw provider payloads unless the backend has masked configured secret,
-  token, card, account, and signature fields.
+- Payment logs are masked by the backend before storage and again during response serialization for
+  legacy rows. Secret, token, card, account, signature, authorization, cookie, API key, and credential
+  fields must remain redacted in list/detail/export responses.
 
 ## Payment Webhook Processing
 

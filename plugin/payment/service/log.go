@@ -104,7 +104,18 @@ func (s *logService) Create(ctx context.Context, log *structs.CreateLogInput) (*
 		return nil, fmt.Errorf("log type is required")
 	}
 
-	return s.repo.Create(ctx, log)
+	sanitized := *log
+	sanitized.RequestData = sanitizePaymentLogText(log.RequestData)
+	sanitized.ResponseData = sanitizePaymentLogText(log.ResponseData)
+	sanitized.Error = sanitizePaymentLogText(log.Error)
+	sanitized.Metadata = sanitizePaymentLogMetadata(log.Metadata)
+
+	created, err := s.repo.Create(ctx, &sanitized)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.Serialize(created), nil
 }
 
 // Serialize serializes a log entity to a response format
@@ -120,13 +131,13 @@ func (s *logService) Serialize(log *structs.Log) *structs.Log {
 		Type:         log.Type,
 		StatusBefore: log.StatusBefore,
 		StatusAfter:  log.StatusAfter,
-		RequestData:  log.RequestData,
-		ResponseData: log.ResponseData,
+		RequestData:  sanitizePaymentLogText(log.RequestData),
+		ResponseData: sanitizePaymentLogText(log.ResponseData),
 		IP:           log.IP,
 		UserAgent:    log.UserAgent,
 		UserID:       log.UserID,
-		Error:        log.Error,
-		Metadata:     log.Metadata,
+		Error:        sanitizePaymentLogText(log.Error),
+		Metadata:     sanitizePaymentLogMetadata(log.Metadata),
 		CreatedAt:    log.CreatedAt,
 		UpdatedAt:    log.UpdatedAt,
 	}
