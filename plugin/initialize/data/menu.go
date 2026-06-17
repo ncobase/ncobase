@@ -168,7 +168,7 @@ var SystemDefaultMenus = struct {
 			Type:     "sidebar",
 			Path:     "/system/roles",
 			Icon:     "IconUsersGroup",
-			Perms:    "manage:roles",
+			Perms:    "read:roles",
 			Order:    convert.ToPointer(970),
 			Hidden:   convert.ToPointer(false),
 			Disabled: convert.ToPointer(false),
@@ -181,7 +181,7 @@ var SystemDefaultMenus = struct {
 			Type:     "sidebar",
 			Path:     "/system/permissions",
 			Icon:     "IconLockAccess",
-			Perms:    "manage:permissions",
+			Perms:    "read:permissions",
 			Order:    convert.ToPointer(930),
 			Hidden:   convert.ToPointer(false),
 			Disabled: convert.ToPointer(false),
@@ -1257,14 +1257,14 @@ var MenuPermissionMapping = map[string]string{
 	// example has no permission requirement
 
 	// System module sidebars
-	"system-spaces":      "manage:spaces",
-	"system-orgs":        "read:organizations",
-	"system-users":       "read:users",
-	"system-roles":       "manage:roles",
-	"system-permissions": "manage:permissions",
-	"system-menus":       "manage:menu",
-	"system-dictionary":  "read:dictionaries",
-	"system-basics":      "manage:system",
+	"system-spaces":       "manage:spaces",
+	"system-orgs":         "read:organizations",
+	"system-users":        "read:users",
+	"system-roles":        "read:roles",
+	"system-permissions":  "read:permissions",
+	"system-menus":        "manage:menu",
+	"system-dictionaries": "read:dictionaries",
+	"system-basics":       "manage:system",
 
 	// TBP module sidebars
 	"tbp-endpoints":    "manage:tbp",
@@ -1375,6 +1375,30 @@ func ValidateMenuPermissions(definedPermissions []string) map[string][]string {
 			issues[menuSlug] = append(issues[menuSlug], fmt.Sprintf("Required permission '%s' not found in defined permissions", requiredPerm))
 		}
 	}
+
+	validateMenuBodies := func(menus []structs.MenuBody) {
+		for _, menu := range menus {
+			if menu.Perms == "" {
+				continue
+			}
+			if !permMap[menu.Perms] {
+				slug := menu.Slug
+				if slug == "" {
+					slug = menu.Name
+				}
+				if issues[slug] == nil {
+					issues[slug] = make([]string, 0)
+				}
+				issues[slug] = append(issues[slug], fmt.Sprintf("Menu field permission '%s' is not found in defined permissions", menu.Perms))
+			}
+		}
+	}
+
+	validateMenuBodies(SystemDefaultMenus.Headers)
+	validateMenuBodies(SystemDefaultMenus.Sidebars)
+	validateMenuBodies(SystemDefaultMenus.Submenus)
+	validateMenuBodies(SystemDefaultMenus.Accounts)
+	validateMenuBodies(SystemDefaultMenus.Spaces)
 
 	return issues
 }

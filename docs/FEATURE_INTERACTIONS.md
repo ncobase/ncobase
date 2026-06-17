@@ -47,6 +47,13 @@ Menu, dictionary, and option changes affect runtime UI:
   `manage:system`; writes require `manage:dictionary`.
 - Dictionary/option changes can affect forms across system, content, space, payment, resource, AI,
   and builder.
+- Option metadata (`category`, `description`, `validation`, `is_secret`, and
+  `environment_variable`) is persisted by the backend. The console option category view and list
+  filters must use real option rows, with name-prefix fallback only for legacy rows that do not yet
+  have a category.
+- `is_secret` is a handling flag, not permission to store secret material in `/sys/options`. Secret
+  values should remain in environment variables or a secret store; option rows may reference the
+  server-side environment variable name.
 - Deletes and prefix deletes need usage queries before execution.
 - Navigation preview should show hidden, disabled, feature-hidden, and permission-hidden states.
 
@@ -87,6 +94,13 @@ taxonomy -> topic -> media/resource -> channel -> distribution -> publish/cancel
 ### Current Reality
 
 - Topics, taxonomies, channels, distributions, media, and topic-media exist in backend.
+- Topic create/update persists content metadata directly on `/cms/topics`, including `content_type`,
+  `seo_title`, `seo_description`, `seo_keywords`, `excerpt`, tags, and metadata/extras. The console
+  SEO dashboard reads these fields as a current metadata snapshot until a dedicated `/cms/seo`
+  audit-history module exists.
+- Topic list and count filters must stay aligned for search, title, status, taxonomy, content type,
+  private, markdown, and space filters; otherwise pagination totals and space-scoped views become
+  misleading.
 - CMS media can reference resource files through `resource_id`.
 - Resource service is available through a content wrapper.
 - Frontend media upload now writes to `/res` first, then creates `/cms/media` with the resource
@@ -124,6 +138,13 @@ Required interactions:
 - Upload checks quota before storage write.
 - Batch upload reports partial failures and quota stop conditions.
 - Space switch changes visible resources and quota scope.
+- Resource create/update/delete records or preserves active `space_id` metadata and refreshes both
+  owner quota and active-space storage quota from authoritative resource metadata.
+- Resource admin cleanup must separate dry-run candidates/potential freed space from actual cleaned
+  items/freed space, and must refresh owner/space quota after successful deletes.
+- Resource admin stats should aggregate real resource metadata. Download/view activity must be
+  marked unavailable until telemetry exists; storage backup must return unavailable until a durable
+  backup/export provider is configured.
 - Resource admin operations must bypass ownership only through `manage:resources` or
   `admin:resources` and write audit data.
 
@@ -150,8 +171,9 @@ Required interactions:
 - Refund must update order state and emit an event.
 - Subscription cancel/renew/expire should update space billing if linked.
 - Frontend payment detail should show a timeline from order creation through webhook/refund.
-- Existing databases need menu/permission seed repair from `read:payment/manage:payment` to the
-  `payments` permission family.
+- Initialization reruns synchronize the default payment menu and permission seed from legacy
+  `read:payment/manage:payment` contracts to the `payments` permission family. Custom Casbin
+  policies or manually edited menus still need explicit audit.
 
 ## Realtime, Events, Activity, and Notifications
 
@@ -223,6 +245,9 @@ Required interactions:
 Builder currently generates frontend code and is a developer tool:
 
 - Generated code uses console `createApi` and request behavior.
+- Relationship generation distinguishes single-target relations (`oneToOne`, `manyToOne`) from
+  collection relations (`oneToMany`, `manyToMany`). Generated table relation columns must call a real
+  relation-navigation handler or render inert text, never placeholder console logging.
 - Shared components should come from `axis`.
 - Backend generation is not complete.
 

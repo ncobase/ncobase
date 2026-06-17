@@ -6,13 +6,17 @@ import (
 	accessStructs "ncobase/core/access/structs"
 
 	"github.com/ncobase/ncore/logging/logger"
+	"github.com/ncobase/ncore/types"
 )
 
 // checkPermissionsInitialized checks if permissions are already initialized
 func (s *Service) checkPermissionsInitialized(ctx context.Context) error {
 	count := s.acs.Permission.CountX(ctx, &accessStructs.ListPermissionParams{})
 	if count > 0 {
-		logger.Infof(ctx, "Permissions already exist, verifying role assignments")
+		logger.Infof(ctx, "Permissions already exist, synchronizing default definitions and role assignments")
+		if err := s.syncDefaultPermissionDefinitions(ctx); err != nil {
+			return err
+		}
 		return s.verifyExistingPermissionAssignments(ctx)
 	}
 
@@ -23,8 +27,8 @@ func (s *Service) checkPermissionsInitialized(ctx context.Context) error {
 func (s *Service) initPermissions(ctx context.Context) error {
 	logger.Infof(ctx, "Initializing system permissions in %s mode...", s.state.DataMode)
 
-	if err := s.createPermissions(ctx); err != nil {
-		return fmt.Errorf("failed to create permissions: %w", err)
+	if err := s.syncDefaultPermissionDefinitions(ctx); err != nil {
+		return fmt.Errorf("failed to synchronize permissions: %w", err)
 	}
 
 	if err := s.assignPermissionsToRoles(ctx); err != nil {
@@ -36,9 +40,10 @@ func (s *Service) initPermissions(ctx context.Context) error {
 	return nil
 }
 
-// createPermissions creates all system permissions using data loader
-func (s *Service) createPermissions(ctx context.Context) error {
-	var createdCount int
+// syncDefaultPermissionDefinitions creates missing default permissions and repairs
+// route-critical fields that are owned by the initialization data contract.
+func (s *Service) syncDefaultPermissionDefinitions(ctx context.Context) error {
+	var createdCount, updatedCount int
 
 	dataLoader := s.getDataLoader()
 	permissions := dataLoader.GetPermissions()
@@ -46,7 +51,17 @@ func (s *Service) createPermissions(ctx context.Context) error {
 	for _, permission := range permissions {
 		existing, err := s.acs.Permission.GetByName(ctx, permission.Name)
 		if err == nil && existing != nil {
-			logger.Debugf(ctx, "Permission '%s' already exists, skipping", permission.Name)
+			updates := defaultPermissionUpdates(existing, permission)
+			if len(updates) == 0 {
+				logger.Debugf(ctx, "Permission '%s' already matches default definition", permission.Name)
+				continue
+			}
+			if _, err := s.acs.Permission.Update(ctx, existing.ID, updates); err != nil {
+				logger.Errorf(ctx, "Error updating permission '%s': %v", permission.Name, err)
+				return fmt.Errorf("failed to update permission '%s': %w", permission.Name, err)
+			}
+			logger.Debugf(ctx, "Updated permission definition: %s", permission.Name)
+			updatedCount++
 			continue
 		}
 
@@ -58,15 +73,38 @@ func (s *Service) createPermissions(ctx context.Context) error {
 		createdCount++
 	}
 
-	logger.Infof(ctx, "Created %d new permissions", createdCount)
+	logger.Infof(ctx, "Permission definition synchronization completed, created %d and updated %d permissions", createdCount, updatedCount)
 	return nil
+}
+
+func defaultPermissionUpdates(existing *accessStructs.ReadPermission, expected accessStructs.CreatePermissionBody) types.JSON {
+	updates := types.JSON{}
+	if expected.Name != "" && existing.Name != expected.Name {
+		updates["name"] = expected.Name
+	}
+	if expected.Action != "" && existing.Action != expected.Action {
+		updates["action"] = expected.Action
+	}
+	if expected.Subject != "" && existing.Subject != expected.Subject {
+		updates["subject"] = expected.Subject
+	}
+	if expected.Description != "" && existing.Description != expected.Description {
+		updates["description"] = expected.Description
+	}
+	if expected.Default != nil && (existing.Default == nil || *existing.Default != *expected.Default) {
+		updates["default"] = *expected.Default
+	}
+	if expected.Disabled != nil && (existing.Disabled == nil || *existing.Disabled != *expected.Disabled) {
+		updates["disabled"] = *expected.Disabled
+	}
+	return updates
 }
 
 // assignPermissionsToRoles assigns permissions to roles based on mapping
 func (s *Service) assignPermissionsToRoles(ctx context.Context) error {
 	logger.Infof(ctx, "Assigning permissions to roles...")
 
-	allPermissions, err := s.acs.Permission.List(ctx, &accessStructs.ListPermissionParams{})
+	allPermissions, err := s.acs.Permission.List(ctx, &accessStructs.ListPermissionParams{Limit: 10000})
 	if err != nil {
 		return fmt.Errorf("failed to list permissions: %w", err)
 	}
@@ -76,7 +114,7 @@ func (s *Service) assignPermissionsToRoles(ctx context.Context) error {
 		permissionMap[perm.Name] = perm.ID
 	}
 
-	roles, err := s.acs.Role.List(ctx, &accessStructs.ListRoleParams{})
+	roles, err := s.acs.Role.List(ctx, &accessStructs.ListRoleParams{Limit: 10000})
 	if err != nil {
 		return fmt.Errorf("failed to list roles: %w", err)
 	}
@@ -150,7 +188,7 @@ func (s *Service) assignPermissionsToRole(ctx context.Context, role *accessStruc
 func (s *Service) verifyExistingPermissionAssignments(ctx context.Context) error {
 	logger.Infof(ctx, "Verifying existing permission assignments...")
 
-	roles, err := s.acs.Role.List(ctx, &accessStructs.ListRoleParams{})
+	roles, err := s.acs.Role.List(ctx, &accessStructs.ListRoleParams{Limit: 10000})
 	if err != nil {
 		return fmt.Errorf("failed to list roles: %w", err)
 	}

@@ -2,9 +2,9 @@ package service
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	accessStructs "ncobase/core/access/structs"
+	"strings"
 
 	"github.com/ncobase/ncore/logging/logger"
 )
@@ -14,8 +14,8 @@ func (s *Service) checkRolesInitialized(ctx context.Context) error {
 	params := &accessStructs.ListRoleParams{}
 	count := s.acs.Role.CountX(ctx, params)
 	if count > 0 {
-		logger.Infof(ctx, "Roles already exist, skipping initialization")
-		return nil
+		logger.Infof(ctx, "Roles already exist, synchronizing missing default roles")
+		return s.syncDefaultRoles(ctx)
 	}
 
 	return s.initRoles(ctx)
@@ -25,19 +25,30 @@ func (s *Service) checkRolesInitialized(ctx context.Context) error {
 func (s *Service) initRoles(ctx context.Context) error {
 	logger.Infof(ctx, "Initializing system roles in %s mode...", s.state.DataMode)
 
+	if err := s.syncDefaultRoles(ctx); err != nil {
+		return err
+	}
+
+	logger.Infof(ctx, "All essential roles validated successfully for %s mode", s.state.DataMode)
+	return nil
+}
+
+// syncDefaultRoles creates missing default roles without overwriting operator customizations.
+func (s *Service) syncDefaultRoles(ctx context.Context) error {
 	dataLoader := s.getDataLoader()
 	roles := dataLoader.GetRoles()
 
+	var createdCount int
 	for _, role := range roles {
 		existingRole, err := s.acs.Role.GetBySlug(ctx, role.Slug)
 		if err == nil && existingRole != nil {
-			logger.Infof(ctx, "Role %s already exists, skipping", role.Slug)
+			logger.Debugf(ctx, "Role %s already exists, skipping", role.Slug)
 			continue
 		}
 
 		_, err = s.acs.Role.Create(ctx, &role)
 		if err != nil {
-			if errors.Is(err, errors.New("slug_key")) || errors.Is(err, errors.New("duplicate key")) {
+			if isDuplicateRoleSeedError(err) {
 				logger.Warnf(ctx, "Role %s already exists (caught duplicate key), skipping", role.Name)
 				continue
 			}
@@ -46,18 +57,27 @@ func (s *Service) initRoles(ctx context.Context) error {
 			return fmt.Errorf("failed to create role '%s': %w", role.Name, err)
 		}
 		logger.Debugf(ctx, "Created role: %s", role.Name)
+		createdCount++
 	}
 
 	count := s.acs.Role.CountX(ctx, &accessStructs.ListRoleParams{})
-	logger.Infof(ctx, "Role initialization completed, %d roles now in system", count)
+	logger.Infof(ctx, "Role synchronization completed, created %d missing roles, %d roles now in system", createdCount, count)
 
 	// validate essential roles
 	if err := s.validateEssentialRoles(ctx); err != nil {
 		return err
 	}
-
-	logger.Infof(ctx, "All essential roles validated successfully for %s mode", s.state.DataMode)
 	return nil
+}
+
+func isDuplicateRoleSeedError(err error) bool {
+	if err == nil {
+		return false
+	}
+	message := strings.ToLower(err.Error())
+	return strings.Contains(message, "slug_key") ||
+		strings.Contains(message, "duplicate key") ||
+		strings.Contains(message, "constraint failed")
 }
 
 // getEssentialRoles returns essential roles based on current data mode

@@ -59,6 +59,14 @@ var SystemDefaultPermissions = []accessStructs.CreatePermissionBody{
 	},
 	{
 		PermissionBody: accessStructs.PermissionBody{
+			Name:        "System Administration",
+			Action:      "admin",
+			Subject:     "system",
+			Description: "Access high-risk system administration, health, metrics, and diagnostics endpoints",
+		},
+	},
+	{
+		PermissionBody: accessStructs.PermissionBody{
 			Name:        "System Read",
 			Action:      "read",
 			Subject:     "system",
@@ -149,6 +157,22 @@ var SystemDefaultPermissions = []accessStructs.CreatePermissionBody{
 	},
 	{
 		PermissionBody: accessStructs.PermissionBody{
+			Name:        "User Update",
+			Action:      "update",
+			Subject:     "user",
+			Description: "Update user profiles, status, credentials, and user-scoped settings",
+		},
+	},
+	{
+		PermissionBody: accessStructs.PermissionBody{
+			Name:        "User Delete",
+			Action:      "delete",
+			Subject:     "user",
+			Description: "Delete users and user-owned administrative API keys",
+		},
+	},
+	{
+		PermissionBody: accessStructs.PermissionBody{
 			Name:        "Employee Management",
 			Action:      "manage",
 			Subject:     "employee",
@@ -163,6 +187,30 @@ var SystemDefaultPermissions = []accessStructs.CreatePermissionBody{
 			Description: "View employee information",
 		},
 	},
+	{
+		PermissionBody: accessStructs.PermissionBody{
+			Name:        "Employee Create",
+			Action:      "create",
+			Subject:     "employee",
+			Description: "Create employee records",
+		},
+	},
+	{
+		PermissionBody: accessStructs.PermissionBody{
+			Name:        "Employee Update",
+			Action:      "update",
+			Subject:     "employee",
+			Description: "Update employee information",
+		},
+	},
+	{
+		PermissionBody: accessStructs.PermissionBody{
+			Name:        "HR Management",
+			Action:      "manage",
+			Subject:     "hr",
+			Description: "Manage HR administration surfaces and employee lifecycle operations",
+		},
+	},
 
 	// Role, permission, and space administration
 	{
@@ -171,6 +219,14 @@ var SystemDefaultPermissions = []accessStructs.CreatePermissionBody{
 			Action:      "manage",
 			Subject:     "role",
 			Description: "Role management",
+		},
+	},
+	{
+		PermissionBody: accessStructs.PermissionBody{
+			Name:        "Role Read",
+			Action:      "read",
+			Subject:     "role",
+			Description: "View roles, role permissions, and role user assignments",
 		},
 	},
 	{
@@ -389,6 +445,14 @@ var SystemDefaultPermissions = []accessStructs.CreatePermissionBody{
 	},
 	{
 		PermissionBody: accessStructs.PermissionBody{
+			Name:        "Realtime Administration",
+			Action:      "admin",
+			Subject:     "realtime",
+			Description: "Administer realtime channels, system notifications, and event operations",
+		},
+	},
+	{
+		PermissionBody: accessStructs.PermissionBody{
 			Name:        "AI Read",
 			Action:      "read",
 			Subject:     "ai",
@@ -428,6 +492,7 @@ var RolePermissionMapping = map[string][]string{
 	},
 	"system-admin": {
 		"System Management",
+		"System Administration",
 		"System Read",
 		"NCore Management",
 		"Builder Management",
@@ -435,7 +500,11 @@ var RolePermissionMapping = map[string][]string{
 		"Menu Management",
 		"User Management",
 		"Employee Management",
+		"Employee Create",
+		"Employee Update",
+		"HR Management",
 		"Role Management",
+		"Role Read",
 		"Permission Management",
 		"Permission Read",
 		"Space Read",
@@ -455,6 +524,8 @@ var RolePermissionMapping = map[string][]string{
 		"Dictionary Access",
 		"Dictionary Management",
 		"User Create",
+		"User Update",
+		"User Delete",
 		"Workflow Access",
 		"Workflow Management",
 		"TBP Management",
@@ -470,6 +541,7 @@ var RolePermissionMapping = map[string][]string{
 		"Payment Administration",
 		"Realtime Access",
 		"Realtime Management",
+		"Realtime Administration",
 		"AI Read",
 		"AI Use",
 		"AI Management",
@@ -478,6 +550,8 @@ var RolePermissionMapping = map[string][]string{
 	"enterprise-admin": {
 		"User Management",
 		"User Create",
+		"User Update",
+		"User Delete",
 		"Employee Management",
 		"Space Read",
 		"Organization Management",
@@ -504,6 +578,7 @@ var RolePermissionMapping = map[string][]string{
 		"AI Read",
 		"AI Use",
 		"AI Management",
+		"Role Read",
 	},
 	"department-manager": {
 		"User Read",

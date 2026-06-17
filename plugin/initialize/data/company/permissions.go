@@ -51,6 +51,14 @@ var SystemDefaultPermissions = []accessStructs.CreatePermissionBody{
 	},
 	{
 		PermissionBody: accessStructs.PermissionBody{
+			Name:        "System Administration",
+			Action:      "admin",
+			Subject:     "system",
+			Description: "Access high-risk system administration, health, metrics, and diagnostics endpoints",
+		},
+	},
+	{
+		PermissionBody: accessStructs.PermissionBody{
 			Name:        "System Read",
 			Action:      "read",
 			Subject:     "system",
@@ -133,6 +141,22 @@ var SystemDefaultPermissions = []accessStructs.CreatePermissionBody{
 	},
 	{
 		PermissionBody: accessStructs.PermissionBody{
+			Name:        "User Update",
+			Action:      "update",
+			Subject:     "user",
+			Description: "Update user profiles, status, credentials, and user-scoped settings",
+		},
+	},
+	{
+		PermissionBody: accessStructs.PermissionBody{
+			Name:        "User Delete",
+			Action:      "delete",
+			Subject:     "user",
+			Description: "Delete users and user-owned administrative API keys",
+		},
+	},
+	{
+		PermissionBody: accessStructs.PermissionBody{
 			Name:        "Employee Management",
 			Action:      "manage",
 			Subject:     "employee",
@@ -163,6 +187,14 @@ var SystemDefaultPermissions = []accessStructs.CreatePermissionBody{
 			Description: "Create employee records",
 		},
 	},
+	{
+		PermissionBody: accessStructs.PermissionBody{
+			Name:        "HR Management",
+			Action:      "manage",
+			Subject:     "hr",
+			Description: "Manage HR administration surfaces and employee lifecycle operations",
+		},
+	},
 
 	// Role and permission management
 	{
@@ -171,6 +203,14 @@ var SystemDefaultPermissions = []accessStructs.CreatePermissionBody{
 			Action:      "manage",
 			Subject:     "role",
 			Description: "Role management",
+		},
+	},
+	{
+		PermissionBody: accessStructs.PermissionBody{
+			Name:        "Role Read",
+			Action:      "read",
+			Subject:     "role",
+			Description: "View roles, role permissions, and role user assignments",
 		},
 	},
 	{
@@ -299,6 +339,14 @@ var SystemDefaultPermissions = []accessStructs.CreatePermissionBody{
 			Action:      "manage",
 			Subject:     "realtime",
 			Description: "Manage realtime channels, events, and system notifications",
+		},
+	},
+	{
+		PermissionBody: accessStructs.PermissionBody{
+			Name:        "Realtime Administration",
+			Action:      "admin",
+			Subject:     "realtime",
+			Description: "Administer realtime channels, system notifications, and event operations",
 		},
 	},
 	{
@@ -455,6 +503,7 @@ var RolePermissionMapping = map[string][]string{
 	"system-admin": {
 		// Full system access
 		"System Management",
+		"System Administration",
 		"System Read",
 		"NCore Management",
 		"Builder Management",
@@ -464,8 +513,12 @@ var RolePermissionMapping = map[string][]string{
 		"Dictionary Management",
 		"User Management",
 		"User Create",
+		"User Update",
+		"User Delete",
 		"Employee Management",
+		"HR Management",
 		"Role Management",
+		"Role Read",
 		"Permission Management",
 		"Permission Read",
 		"Space Read",
@@ -481,6 +534,7 @@ var RolePermissionMapping = map[string][]string{
 		"Plugin Management",
 		"Realtime Access",
 		"Realtime Management",
+		"Realtime Administration",
 		"Resource Management",
 		"Resource Administration",
 		"Resource Read",
@@ -507,6 +561,8 @@ var RolePermissionMapping = map[string][]string{
 		// Business management without low-level system config
 		"User Management",
 		"User Create",
+		"User Update",
+		"User Delete",
 		"Employee Management",
 		"Space Read",
 		"Organization Management",
@@ -530,6 +586,7 @@ var RolePermissionMapping = map[string][]string{
 		"Profile Management",
 		"Account Management",
 		"Permission Read",
+		"Role Read",
 		"Dictionary Read",
 		"System Read",
 	},
