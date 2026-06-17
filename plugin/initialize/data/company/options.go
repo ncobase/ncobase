@@ -115,6 +115,42 @@ var SystemDefaultOptions = []systemStructs.OptionBody{
 		Value:    `{"enable_quotas":true,"enable_enforcement":true,"default_quota":10737418240,"warning_threshold":0.8,"quota_check_interval":"24h"}`,
 		Autoload: true,
 	},
+	{
+		Name:     "ai.provider",
+		Type:     "object",
+		Value:    `{"enabled":false,"providers":[{"name":"openai","type":"openai","enabled":true,"base_url":"https://api.openai.com","api_key_env":"OPENAI_API_KEY"},{"name":"anthropic","type":"anthropic","enabled":false,"base_url":"https://api.anthropic.com","api_key_env":"ANTHROPIC_API_KEY"},{"name":"gemini","type":"gemini","enabled":false,"base_url":"https://generativelanguage.googleapis.com","api_key_env":"GEMINI_API_KEY"},{"name":"ollama","type":"ollama","enabled":false,"base_url":"http://localhost:11434"},{"name":"cohere","type":"cohere","enabled":false,"base_url":"https://api.cohere.ai","api_key_env":"COHERE_API_KEY"}]}`,
+		Autoload: true,
+	},
+	{
+		Name:     "ai.model",
+		Type:     "object",
+		Value:    `{"primary":"openai/gpt-4o-mini","fallbacks":[],"default_max_output_tokens":1024,"default_temperature":0.2}`,
+		Autoload: true,
+	},
+	{
+		Name:     "ai.policy",
+		Type:     "object",
+		Value:    `{"enabled":true,"allowed_actions":["builder.api","builder.form","builder.menu","builder.schema","builder.tests","content.review","content.seo","content.summary","content.tags","content.title","content.translation","payment.summary","realtime.summary","resource.description","resource.summary","resource.tags","system.summary"],"allowed_provider_types":["anthropic","cohere","gemini","ollama","openai"],"max_prompt_chars":20000,"max_messages":32,"max_input_items":64,"max_output_tokens":4096,"timeout_seconds":45,"retry":2,"rate_limit_per_second":0,"circuit_breaker":{"max_failures":5,"reset_seconds":60},"store_raw_output":false,"require_configured_model":true}`,
+		Autoload: true,
+	},
+	{
+		Name:     "ai.safety",
+		Type:     "object",
+		Value:    `{"redact_prompts":true,"store_request_hash":true,"max_error_chars":500,"blocked_phrases":[],"allow_system_prompts":true}`,
+		Autoload: true,
+	},
+	{
+		Name:     "ai.cost",
+		Type:     "object",
+		Value:    `{"currency":"USD","models":{}}`,
+		Autoload: true,
+	},
+	{
+		Name:     "ai.embedding",
+		Type:     "object",
+		Value:    `{"enabled":true,"model":"openai/text-embedding-3-small","input_type":"search_document","max_items":64}`,
+		Autoload: true,
+	},
 
 	// Employee settings
 	{

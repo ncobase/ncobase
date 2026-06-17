@@ -295,6 +295,38 @@ var SystemDefaultPermissions = []accessStructs.CreatePermissionBody{
 	},
 	{
 		PermissionBody: accessStructs.PermissionBody{
+			Name:        "AI Read",
+			Action:      "read",
+			Subject:     "ai",
+			Description: "View AI status, actions, usage, and own run history",
+		},
+	},
+	{
+		PermissionBody: accessStructs.PermissionBody{
+			Name:        "AI Use",
+			Action:      "use",
+			Subject:     "ai",
+			Description: "Use AI completion, embedding, streaming, and business action endpoints",
+		},
+	},
+	{
+		PermissionBody: accessStructs.PermissionBody{
+			Name:        "AI Management",
+			Action:      "manage",
+			Subject:     "ai",
+			Description: "Manage AI operational checks and cross-user run visibility",
+		},
+	},
+	{
+		PermissionBody: accessStructs.PermissionBody{
+			Name:        "AI Administration",
+			Action:      "admin",
+			Subject:     "ai",
+			Description: "Administer AI audit, provider, and policy-sensitive operations",
+		},
+	},
+	{
+		PermissionBody: accessStructs.PermissionBody{
 			Name:        "Workflow Read",
 			Action:      "read",
 			Subject:     "workflow",
@@ -359,6 +391,10 @@ var RolePermissionMapping = map[string][]string{
 		"Payment Management",
 		"Payment Refund",
 		"Payment Administration",
+		"AI Read",
+		"AI Use",
+		"AI Management",
+		"AI Administration",
 		"Workflow Read",
 		"Task Management",
 		"CMS Management",
@@ -382,6 +418,8 @@ var RolePermissionMapping = map[string][]string{
 		"Realtime Access",
 		"Resource Read",
 		"Payment Read",
+		"AI Read",
+		"AI Use",
 		"CMS Management",
 		"CMS Read",
 		"Dashboard Access",
@@ -405,6 +443,8 @@ var RolePermissionMapping = map[string][]string{
 		"Task Management",
 		"Realtime Access",
 		"Resource Read",
+		"AI Read",
+		"AI Use",
 		"Dashboard Access",
 		"Profile Management",
 		"Account Management",
@@ -422,6 +462,8 @@ var RolePermissionMapping = map[string][]string{
 		"Workflow Read",
 		"Realtime Access",
 		"Resource Read",
+		"AI Read",
+		"AI Use",
 		"Dashboard Access",
 		"Profile Management",
 		"Account Management",

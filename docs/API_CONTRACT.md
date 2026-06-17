@@ -32,6 +32,12 @@ These option names are consumed by backend services at runtime and should be man
 | `resource.quota` | object | resource quota service | `enable_quotas`, `enable_enforcement`, `default_quota`, `warning_threshold`, `quota_check_interval`. |
 | `system.storage_policy` | object | resource sharing and access events | `allow_public_links`, `require_owner_scope`, `audit_downloads`; storage provider credentials stay in `config.yaml`. |
 | `system.email_policy` | object | auth and password reset email behavior | `enabled`, `allow_auth_email`, `allow_password_reset`, `sender_name`, `digest_frequency`; provider secrets stay in `config.yaml`. |
+| `ai.provider` | object | AI gateway provider manager | `enabled` plus provider definitions. Provider rows store env var names such as `api_key_env`, `bearer_token_env`, and `header_envs`; secret values stay in server environment or secret storage. |
+| `ai.model` | object | AI completion/action service | Primary model, fallback model list, default max output tokens, and default temperature. |
+| `ai.policy` | object | AI request policy | Allowed actions/provider types, prompt/message/item/output limits, timeout, retry, rate limit, circuit breaker, raw output storage, and configured-model requirement. |
+| `ai.safety` | object | AI security policy | Prompt redaction policy, request hash storage, max provider error text length, blocked phrases, and system prompt allowance. |
+| `ai.cost` | object | AI usage and cost estimator | Currency plus optional per-model input/output/cache/reasoning token pricing. |
+| `ai.embedding` | object | AI embedding service | Embedding enablement, model, input type, and max input item count. |
 
 ## Status Labels
 
@@ -126,6 +132,22 @@ These option names are consumed by backend services at runtime and should be man
 | `/pay/webhooks/:channel` | `POST` | provider callbacks | public/signed | drift/partial | Domain reference corrected; signature/idempotency required. |
 | `/pay/logs` | list/get/by-order | payment APIs | `admin:payments` | aligned/partial | Route is admin-guarded; service masks sensitive request, response, error, and metadata fields on create and response serialization. Export still needs a policy. |
 | `/pay/providers`, `/pay/stats` | `GET` | payment overview | `read:payments`, `manage:payments`, `refund:payments`, or `admin:payments` | aligned/partial | Stats aggregate order totals, successful/failed/refunded counts, subscription summary, provider list, selected currency, period bounds, and successful revenue by channel. |
+
+## AI Domain
+
+| Route family | Methods | Frontend caller | Permission | Status | Notes |
+| --- | --- | --- | --- | --- | --- |
+| `/ai/status` | `GET` | AI overview, playground, actions | `read:ai`, `use:ai`, `manage:ai`, or `admin:ai` | aligned | Returns safe readiness, policy, safety, provider summary, allowed actions, and run stats without exposing secret values. |
+| `/ai/providers` | `GET` | AI provider page | `read:ai`, `use:ai`, `manage:ai`, or `admin:ai` | aligned | Provider secrets are reported only as env var name plus present/missing status. |
+| `/ai/models` | `GET` | AI provider page | `read:ai`, `use:ai`, `manage:ai`, or `admin:ai` | aligned/partial | Calls configured `deebus` provider model listing and requires configured providers. Query accepts optional `provider`. |
+| `/ai/actions` | `GET` | AI actions and contextual action runner | `read:ai`, `use:ai`, `manage:ai`, or `admin:ai` | aligned | Returns policy-enabled action descriptors. Initial actions are generation/analysis only and do not mutate domain state. |
+| `/ai/runs`, `/ai/runs/:id` | `GET` | AI runs pages | `read:ai`, `use:ai`, `manage:ai`, or `admin:ai` | aligned | Normal users see their own runs. `manage:ai`/`admin:ai` can inspect runs across users. Raw prompts are not stored by default. |
+| `/ai/usage` | `GET` | AI usage page | `read:ai`, `use:ai`, `manage:ai`, or `admin:ai` | aligned | Aggregates run counts, status counts, tokens, duration, estimated cost, and buckets by provider/action/mode. |
+| `/ai/health` | `GET` | AI provider page | `manage:ai` or `admin:ai` | aligned | Performs provider health checks through `deebus`; provider errors are truncated by safety policy. |
+| `/ai/complete` | `POST` | AI playground | `use:ai`, `manage:ai`, or `admin:ai` | aligned | Creates an AI run, applies policy/safety limits, calls `deebus.Complete`, records success/failure tokens/cost/hash, and returns generated content. |
+| `/ai/stream` | `POST` | AI playground | `use:ai`, `manage:ai`, or `admin:ai` | aligned | POST SSE stream. Emits `start`, `chunk`, `error`, and final `run` events. Finalizes run after stream completion or failure. |
+| `/ai/embed` | `POST` | future embedding callers | `use:ai`, `manage:ai`, or `admin:ai` | backend-only/aligned | Applies embedding policy, records run, and returns vectors from the configured provider. |
+| `/ai/actions/:action` | `POST` | AI actions page and contextual assistants | `use:ai`, `manage:ai`, or `admin:ai` | aligned | Builds a domain-aware completion request, stores the run with `mode=action`, parses JSON output when possible, and returns reviewable output only. |
 
 ## Proxy, Initialize, Sample, and Counter Plugins
 

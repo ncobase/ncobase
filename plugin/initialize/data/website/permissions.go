@@ -209,6 +209,38 @@ var SystemDefaultPermissions = []accessStructs.CreatePermissionBody{
 			Description: "Manage realtime channels, events, and system notifications",
 		},
 	},
+	{
+		PermissionBody: accessStructs.PermissionBody{
+			Name:        "AI Read",
+			Action:      "read",
+			Subject:     "ai",
+			Description: "View AI status, actions, usage, and own run history",
+		},
+	},
+	{
+		PermissionBody: accessStructs.PermissionBody{
+			Name:        "AI Use",
+			Action:      "use",
+			Subject:     "ai",
+			Description: "Use AI completion, embedding, streaming, and business action endpoints",
+		},
+	},
+	{
+		PermissionBody: accessStructs.PermissionBody{
+			Name:        "AI Management",
+			Action:      "manage",
+			Subject:     "ai",
+			Description: "Manage AI operational checks and cross-user run visibility",
+		},
+	},
+	{
+		PermissionBody: accessStructs.PermissionBody{
+			Name:        "AI Administration",
+			Action:      "admin",
+			Subject:     "ai",
+			Description: "Administer AI audit, provider, and policy-sensitive operations",
+		},
+	},
 }
 
 // RolePermissionMapping for websites
@@ -236,6 +268,10 @@ var RolePermissionMapping = map[string][]string{
 		"Payment Administration",
 		"Realtime Access",
 		"Realtime Management",
+		"AI Read",
+		"AI Use",
+		"AI Management",
+		"AI Administration",
 		"Dashboard Access",
 		"Profile Management",
 		"Account Management",
@@ -249,6 +285,8 @@ var RolePermissionMapping = map[string][]string{
 		"Resource Read",
 		"Payment Read",
 		"Realtime Access",
+		"AI Read",
+		"AI Use",
 		"Dashboard Access",
 		"Profile Management",
 		"Account Management",
@@ -260,6 +298,8 @@ var RolePermissionMapping = map[string][]string{
 		"Comment Read",
 		"Resource Read",
 		"Realtime Access",
+		"AI Read",
+		"AI Use",
 		"Dashboard Access",
 		"Profile Management",
 		"Account Management",
@@ -269,6 +309,7 @@ var RolePermissionMapping = map[string][]string{
 	"viewer": {
 		"Content Read",
 		"Dashboard Access",
+		"AI Read",
 		"Profile Management",
 		"Dictionary Read",
 		"System Read",

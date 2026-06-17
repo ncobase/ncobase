@@ -64,6 +64,9 @@ Runtime/product policy must live in system options:
   credentials remain in YAML or a secret store.
 - `system.email_policy` controls whether auth and password reset emails are sent; provider
   credentials remain in YAML or a secret store.
+- `ai.provider`, `ai.model`, `ai.policy`, `ai.safety`, `ai.cost`, and `ai.embedding` control the AI
+  gateway. Provider option values store server-side environment variable names, not secret values.
+  Runtime calls resolve secrets on the backend only.
 
 Initialization must ensure missing default options individually and must not skip new defaults just
 because older option rows already exist. Existing option values are preserved.
@@ -166,6 +169,34 @@ Implementation sequence:
    `manage:realtime` or `admin:realtime` for channel management, event publishing/retry/status, and
    system notification writes.
 
+## AI Gateway and Deebus
+
+`deebus` is the provider abstraction library. `ncobase/plugin/ai` is the product gateway and the
+trusted boundary for AI calls.
+
+Current behavior:
+
+- AI providers, models, safety, policy, cost, and embedding settings are loaded from `/sys/options`.
+- Provider secrets are referenced by environment variable name and resolved only in the backend.
+- `/ai/complete`, `/ai/stream`, `/ai/embed`, and `/ai/actions/:action` all create `ncse_ai_run`
+  records with user, space, status, provider, model, tokens, duration, cost, error, hashes, and
+  sanitized metadata.
+- Contextual console assistants for content, resource/media, and Builder call `/ai/actions/:action`
+  and return reviewable output. They do not mutate business records directly.
+- Normal users can read their own runs and usage. AI managers/admins can inspect cross-user records
+  and run provider health checks.
+
+Required interactions:
+
+- Domain modules should call the AI plugin API/service boundary rather than importing `deebus`
+  directly.
+- Future AI apply flows must define the target domain mutation, permissions, validation, audit, and
+  failure behavior before generated output can update records.
+- Sensitive metadata and provider errors must remain redacted/truncated according to AI safety
+  policy.
+- AI usage/cost data should become an operational signal for billing, quota, or alerts only after a
+  policy contract is added.
+
 ## NCore Operations and Backend Runtime
 
 NCore routes are runtime operations, not normal CRUD:
@@ -208,8 +239,8 @@ Before production positioning, Builder must generate or document:
   explicitly promotes them with permissions, menu seed, tests, and docs.
 - `cli` is an independent scaffolding product. It should only become part of the `ncobase` product
   workflow when Builder or backend generators share a template and verification contract with it.
-- `deebus` is an independent AI provider library. Backend AI features must define option keys,
-  secret storage, provider failover, request audit, rate limits, cost tracking, and kill switches
-  before depending on it.
+- `deebus` is now consumed by the `ncobase` AI plugin. New AI behavior must still go through the
+  plugin gateway so option keys, secret boundaries, request audit, rate limits, cost tracking, and
+  kill switches remain centralized.
 - `website` is an independent public site. Shared UI primitives should flow through `axis`, while
   website-specific composition should remain in `website`.

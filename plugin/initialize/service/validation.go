@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	menuData "ncobase/plugin/initialize/data"
+	"strings"
 
 	"github.com/ncobase/ncore/logging/logger"
 )
@@ -38,14 +39,22 @@ func (s *Service) validateInitializationConsistency(ctx context.Context) error {
 func (s *Service) validatePermissionMenuAlignment(ctx context.Context, dataLoader DataLoader) error {
 	permissions := dataLoader.GetPermissions()
 
-	// Extract permission names
-	permissionNames := make([]string, len(permissions))
-	for i, perm := range permissions {
-		permissionNames[i] = perm.Name
+	// Menus store permission codes while role mappings store permission names.
+	// Include both forms here so validation reflects the actual runtime contract.
+	permissionKeys := make([]string, 0, len(permissions)*3)
+	for _, perm := range permissions {
+		permissionKeys = append(permissionKeys, perm.Name)
+		if perm.Action != "" && perm.Subject != "" {
+			code := fmt.Sprintf("%s:%s", perm.Action, perm.Subject)
+			permissionKeys = append(permissionKeys, code)
+			if plural := pluralizePermissionSubject(perm.Subject); plural != perm.Subject {
+				permissionKeys = append(permissionKeys, fmt.Sprintf("%s:%s", perm.Action, plural))
+			}
+		}
 	}
 
 	// Validate menu permissions
-	issues := menuData.ValidateMenuPermissions(permissionNames)
+	issues := menuData.ValidateMenuPermissions(permissionKeys)
 
 	if len(issues) > 0 {
 		logger.Warnf(ctx, "Found %d menu-permission alignment issues:", len(issues))
@@ -59,6 +68,20 @@ func (s *Service) validatePermissionMenuAlignment(ctx context.Context, dataLoade
 
 	logger.Infof(ctx, "Menu-permission alignment validation passed")
 	return nil
+}
+
+func pluralizePermissionSubject(subject string) string {
+	subject = strings.TrimSpace(subject)
+	if subject == "" || strings.HasSuffix(subject, "s") {
+		return subject
+	}
+	if strings.HasSuffix(subject, "y") && len(subject) > 1 {
+		prev := subject[len(subject)-2]
+		if !strings.ContainsRune("aeiou", rune(prev)) {
+			return subject[:len(subject)-1] + "ies"
+		}
+	}
+	return subject + "s"
 }
 
 // validateRolePermissionMapping validates that all permissions in role mappings exist

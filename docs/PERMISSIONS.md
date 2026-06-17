@@ -71,6 +71,9 @@ permissions. The legacy `admin` role is still recognized for compatibility.
 | Payment | `/pay/orders/:id/refund` | `refund:payments` or `admin:payments` |
 | Payment | `/pay/logs` | `admin:payments` |
 | Payment webhook | `/pay/webhooks/:channel` | public route with provider signature/idempotency requirement |
+| AI reads | `/ai/status`, `/ai/providers`, `/ai/models`, `/ai/actions`, `/ai/runs`, `/ai/usage` | `read:ai`, `use:ai`, `manage:ai`, or `admin:ai` |
+| AI invocation | `/ai/complete`, `/ai/stream`, `/ai/embed`, `/ai/actions/:action` | `use:ai`, `manage:ai`, or `admin:ai` |
+| AI provider health | `/ai/health` | `manage:ai` or `admin:ai` |
 | Realtime | `/rt/ws`, `/rt/notifications` reads/mark read, `/rt/channels` reads/personal subscribe, `/rt/events` reads, `/search`, `/stats/realtime` | `read:realtime`, `manage:realtime`, or `admin:realtime` |
 | Realtime management | `/rt/notifications` create/update/delete, `/rt/channels` management/subscribers, `/rt/events` publish/delete, `/events` publish/retry/batch/process/status | `manage:realtime` or `admin:realtime` |
 | Initialize status | `/sys/initialize/status` | bootstrap status probe |
@@ -115,6 +118,7 @@ permissions. The legacy `admin` role is still recognized for compatibility.
 | `/example/*` | authenticated and feature exposure |
 | `/res/*` | `read:resources`; `/res/admin` also admin |
 | `/pay/*` | `read:payments`, `manage:payments`, `refund:payments`, or `admin:payments`; product/subscription/channel routes require `manage:payments`; logs require `admin:payments` |
+| `/ai/*` | `read:ai`, `use:ai`, `manage:ai`, or `admin:ai`; playground/actions require `use:ai` or higher; provider health requires `manage:ai` or higher |
 
 ## Ownership Rules
 
@@ -123,6 +127,8 @@ permissions. The legacy `admin` role is still recognized for compatibility.
   wildcard permission.
 - `/rt/notifications/read-all` and `/rt/notifications/unread-all` always operate on the authenticated
   user, not an arbitrary query/body user.
+- `/ai/runs` and `/ai/usage` default to the authenticated user unless the caller has `manage:ai` or
+  `admin:ai`. AI run records include `space_id` and `user_id` for audit and tenant scoping.
 
 ## Required Permission Work
 

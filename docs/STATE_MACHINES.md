@@ -126,6 +126,26 @@ Rules:
   event can mutate orders or subscriptions.
 - Retry must be based on provider event id or a generated idempotency key, not on raw request replay.
 
+## AI Run
+
+| State | Meaning | Allowed actions | Next states |
+| --- | --- | --- | --- |
+| `running` | Completion, stream, embedding, or action call has been accepted and is executing. | observe, stream chunks, provider call completion, provider call failure. | `succeeded`, `failed`, `canceled` |
+| `succeeded` | Provider call completed and usage metadata was stored. | read run, aggregate usage, inspect hashes/metadata. | terminal |
+| `failed` | Policy, provider, stream, or persistence failure was recorded. | read sanitized error, retry by creating a new run. | terminal |
+| `canceled` | Caller or backend canceled execution before completion. | read cancellation metadata. | terminal |
+
+Rules:
+
+- Run modes are `complete`, `stream`, `embed`, and `action`.
+- `/ai/actions/:action` stores runs with `mode=action`; `/ai/complete` stores `mode=complete`;
+  `/ai/stream` stores `mode=stream`; `/ai/embed` stores `mode=embed`.
+- Raw prompts are not stored by default. Request and response hashes can be stored for audit and
+  deduplication without retaining sensitive prompt text.
+- Run records include `space_id`, `user_id`, `created_by`, and `updated_by`.
+- Normal users can read their own runs; `manage:ai` and `admin:ai` can inspect cross-user runs.
+- Provider errors must be sanitized and truncated by `ai.safety.max_error_chars`.
+
 ## Subscription
 
 | State | Meaning | Allowed actions | Next states |

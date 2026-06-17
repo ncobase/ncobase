@@ -1,6 +1,7 @@
 package plugin
 
 import (
+	_ "ncobase/plugin/ai"
 	_ "ncobase/plugin/counter"
 	_ "ncobase/plugin/initialize"
 	_ "ncobase/plugin/payment"

@@ -201,6 +201,38 @@ var SystemDefaultPermissions = []accessStructs.CreatePermissionBody{
 			Description: "Manage realtime channels, events, and system notifications",
 		},
 	},
+	{
+		PermissionBody: accessStructs.PermissionBody{
+			Name:        "AI Read",
+			Action:      "read",
+			Subject:     "ai",
+			Description: "View AI status, actions, usage, and own run history",
+		},
+	},
+	{
+		PermissionBody: accessStructs.PermissionBody{
+			Name:        "AI Use",
+			Action:      "use",
+			Subject:     "ai",
+			Description: "Use AI completion, embedding, streaming, and business action endpoints",
+		},
+	},
+	{
+		PermissionBody: accessStructs.PermissionBody{
+			Name:        "AI Management",
+			Action:      "manage",
+			Subject:     "ai",
+			Description: "Manage AI operational checks and cross-user run visibility",
+		},
+	},
+	{
+		PermissionBody: accessStructs.PermissionBody{
+			Name:        "AI Administration",
+			Action:      "admin",
+			Subject:     "ai",
+			Description: "Administer AI audit, provider, and policy-sensitive operations",
+		},
+	},
 }
 
 // RolePermissionMapping defines simplified role-permission relationships
@@ -227,6 +259,10 @@ var RolePermissionMapping = map[string][]string{
 		"Payment Administration",
 		"Realtime Access",
 		"Realtime Management",
+		"AI Read",
+		"AI Use",
+		"AI Management",
+		"AI Administration",
 	},
 	"enterprise-admin": {
 		"User Management",
@@ -243,6 +279,9 @@ var RolePermissionMapping = map[string][]string{
 		"Payment Read",
 		"Realtime Access",
 		"Realtime Management",
+		"AI Read",
+		"AI Use",
+		"AI Management",
 	},
 	"department-manager": {
 		"User Read",
@@ -257,6 +296,8 @@ var RolePermissionMapping = map[string][]string{
 		"Workflow Access",
 		"Resource Access",
 		"Realtime Access",
+		"AI Read",
+		"AI Use",
 	},
 	"team-leader": {
 		"User Read",
@@ -271,6 +312,8 @@ var RolePermissionMapping = map[string][]string{
 		"Workflow Access",
 		"Resource Access",
 		"Realtime Access",
+		"AI Read",
+		"AI Use",
 	},
 	"employee": {
 		"User Read",
@@ -285,6 +328,8 @@ var RolePermissionMapping = map[string][]string{
 		"Workflow Access",
 		"Resource Access",
 		"Realtime Access",
+		"AI Read",
+		"AI Use",
 	},
 	"contractor": {
 		"Dashboard Access",
