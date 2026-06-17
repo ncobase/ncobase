@@ -7,6 +7,8 @@ import (
 	"ncobase/biz/content/data/ent"
 	topicEnt "ncobase/biz/content/data/ent/topic"
 	"ncobase/biz/content/structs"
+	"strconv"
+	"strings"
 
 	"github.com/ncobase/ncore/data/cache"
 	"github.com/ncobase/ncore/data/paging"
@@ -73,6 +75,26 @@ func (r *topicRepository) Create(ctx context.Context, body *structs.CreateTopicB
 	builder.SetMarkdown(body.Markdown)
 	builder.SetPrivate(body.Private)
 	builder.SetStatus(body.Status)
+	if body.Version > 0 {
+		builder.SetVersion(body.Version)
+	}
+	if body.ContentType != "" {
+		builder.SetContentType(body.ContentType)
+	}
+	builder.SetNillableSeoTitle(&body.SEOTitle)
+	builder.SetNillableSeoDescription(&body.SEODescription)
+	builder.SetNillableSeoKeywords(&body.SEOKeywords)
+	if body.ExcerptAuto {
+		builder.SetExcerptAuto(body.ExcerptAuto)
+	}
+	builder.SetNillableExcerpt(&body.Excerpt)
+	builder.SetNillableFeaturedMedia(&body.FeaturedMedia)
+	if len(body.Tags) > 0 {
+		builder.SetTags(body.Tags)
+	}
+	if body.Metadata != nil {
+		builder.SetExtras(*body.Metadata)
+	}
 	builder.SetNillableReleased(&body.Released)
 	builder.SetNillableTaxonomyID(&body.TaxonomyID)
 	builder.SetNillableSpaceID(&body.SpaceID)
@@ -168,31 +190,71 @@ func (r *topicRepository) Update(ctx context.Context, slug string, updates types
 	for field, value := range updates {
 		switch field {
 		case "name":
-			builder.SetNillableName(convert.ToPointer(value.(string)))
+			builder.SetNillableName(convert.ToPointer(convert.ToString(value)))
 		case "title":
-			builder.SetNillableTitle(convert.ToPointer(value.(string)))
+			builder.SetNillableTitle(convert.ToPointer(convert.ToString(value)))
 		case "slug":
-			builder.SetNillableSlug(convert.ToPointer(value.(string)))
+			builder.SetNillableSlug(convert.ToPointer(convert.ToString(value)))
 		case "content":
-			builder.SetNillableContent(convert.ToPointer(value.(string)))
+			builder.SetNillableContent(convert.ToPointer(convert.ToString(value)))
 		case "thumbnail":
-			builder.SetNillableThumbnail(convert.ToPointer(value.(string)))
+			builder.SetNillableThumbnail(convert.ToPointer(convert.ToString(value)))
 		case "temp":
-			builder.SetTemp(value.(bool))
+			if parsed, err := convert.ToBool(value); err == nil {
+				builder.SetTemp(parsed)
+			}
 		case "markdown":
-			builder.SetMarkdown(value.(bool))
+			if parsed, err := convert.ToBool(value); err == nil {
+				builder.SetMarkdown(parsed)
+			}
 		case "private":
-			builder.SetPrivate(value.(bool))
+			if parsed, err := convert.ToBool(value); err == nil {
+				builder.SetPrivate(parsed)
+			}
 		case "status":
-			builder.SetStatus(value.(int))
+			if parsed, err := convert.ToInt(value); err == nil {
+				builder.SetStatus(int(parsed))
+			}
+		case "version":
+			if parsed, err := convert.ToInt(value); err == nil {
+				builder.SetVersion(int(parsed))
+			}
+		case "content_type":
+			builder.SetContentType(convert.ToString(value))
+		case "seo_title":
+			builder.SetNillableSeoTitle(convert.ToPointer(convert.ToString(value)))
+		case "seo_description":
+			builder.SetNillableSeoDescription(convert.ToPointer(convert.ToString(value)))
+		case "seo_keywords":
+			builder.SetNillableSeoKeywords(convert.ToPointer(convert.ToString(value)))
+		case "excerpt_auto":
+			if parsed, err := convert.ToBool(value); err == nil {
+				builder.SetExcerptAuto(parsed)
+			}
+		case "excerpt":
+			builder.SetNillableExcerpt(convert.ToPointer(convert.ToString(value)))
+		case "featured_media":
+			builder.SetNillableFeaturedMedia(convert.ToPointer(convert.ToString(value)))
+		case "tags":
+			builder.SetTags(convert.ToStringArray(value))
+		case "metadata":
+			if metadata, ok := value.(map[string]any); ok {
+				builder.SetExtras(metadata)
+			}
+		case "extras":
+			if extras, ok := value.(map[string]any); ok {
+				builder.SetExtras(extras)
+			}
 		case "released":
-			builder.SetNillableReleased(convert.ToPointer(value.(int64)))
+			if parsed, err := convert.ToInt(value); err == nil {
+				builder.SetNillableReleased(convert.ToPointer(parsed))
+			}
 		case "taxonomy_id":
-			builder.SetNillableTaxonomyID(convert.ToPointer(value.(string)))
+			builder.SetNillableTaxonomyID(convert.ToPointer(convert.ToString(value)))
 		case "space_id":
-			builder.SetNillableSpaceID(convert.ToPointer(value.(string)))
+			builder.SetNillableSpaceID(convert.ToPointer(convert.ToString(value)))
 		case "updated_by":
-			builder.SetNillableUpdatedBy(convert.ToPointer(value.(string)))
+			builder.SetNillableUpdatedBy(convert.ToPointer(convert.ToString(value)))
 		}
 	}
 
@@ -206,7 +268,7 @@ func (r *topicRepository) Update(ctx context.Context, slug string, updates types
 	// remove from cache
 	cacheKey := fmt.Sprintf("%s", topic.ID)
 	err = r.c.Delete(ctx, cacheKey)
-	err = r.c.Delete(ctx, topic.Slug)
+	err = r.c.Delete(ctx, fmt.Sprintf("slug:%s", topic.Slug))
 	if err != nil {
 		logger.Errorf(ctx, "topicRepo.Update cache error: %v", err)
 	}
@@ -234,11 +296,6 @@ func (r *topicRepository) List(ctx context.Context, params *structs.ListTopicPar
 	builder, err := r.ListBuilder(ctx, params)
 	if validator.IsNotNil(err) {
 		return nil, err
-	}
-
-	// belong space / space
-	if params.SpaceID != "" {
-		builder.Where(topicEnt.SpaceIDEQ(params.SpaceID))
 	}
 
 	if params.Cursor != "" {
@@ -352,9 +409,60 @@ func (r *topicRepository) FindTopic(ctx context.Context, params *structs.FindTop
 }
 
 // ListBuilder creates list builder.
-func (r *topicRepository) ListBuilder(_ context.Context, _ *structs.ListTopicParams) (*ent.TopicQuery, error) {
+func (r *topicRepository) ListBuilder(_ context.Context, params *structs.ListTopicParams) (*ent.TopicQuery, error) {
 	// create builder.
 	builder := r.ecr.Topic.Query()
+
+	if params == nil {
+		return builder, nil
+	}
+
+	if params.SpaceID != "" {
+		builder.Where(topicEnt.SpaceIDEQ(params.SpaceID))
+	}
+
+	if params.Taxonomy != "" {
+		builder.Where(topicEnt.TaxonomyIDEQ(params.Taxonomy))
+	}
+
+	if params.ContentType != "" {
+		builder.Where(topicEnt.ContentTypeEQ(params.ContentType))
+	}
+
+	if params.Status != "" {
+		if status, err := strconv.Atoi(params.Status); err == nil {
+			builder.Where(topicEnt.StatusEQ(status))
+		}
+	}
+
+	if params.Private != "" {
+		if private, err := strconv.ParseBool(params.Private); err == nil {
+			builder.Where(topicEnt.PrivateEQ(private))
+		}
+	}
+
+	if params.Markdown != "" {
+		if markdown, err := strconv.ParseBool(params.Markdown); err == nil {
+			builder.Where(topicEnt.MarkdownEQ(markdown))
+		}
+	}
+
+	if title := strings.TrimSpace(params.Title); title != "" {
+		builder.Where(topicEnt.TitleContainsFold(title))
+	}
+
+	if search := strings.TrimSpace(params.Search); search != "" {
+		builder.Where(topicEnt.Or(
+			topicEnt.NameContainsFold(search),
+			topicEnt.TitleContainsFold(search),
+			topicEnt.SlugContainsFold(search),
+			topicEnt.ContentContainsFold(search),
+			topicEnt.SeoTitleContainsFold(search),
+			topicEnt.SeoDescriptionContainsFold(search),
+			topicEnt.SeoKeywordsContainsFold(search),
+			topicEnt.ExcerptContainsFold(search),
+		))
+	}
 
 	return builder, nil
 }

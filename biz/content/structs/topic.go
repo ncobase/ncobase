@@ -93,9 +93,15 @@ func (r *ReadTopic) GetCursorValue() string {
 
 // ListTopicParams for listing topics
 type ListTopicParams struct {
-	Cursor    string `form:"cursor,omitempty" json:"cursor,omitempty"`
-	Limit     int    `form:"limit,omitempty" json:"limit,omitempty"`
-	Direction string `form:"direction,omitempty" json:"direction,omitempty"`
-	Taxonomy  string `form:"taxonomy,omitempty" json:"taxonomy,omitempty"`
-	SpaceID   string `form:"space_id,omitempty" json:"space_id,omitempty"`
+	Cursor      string `form:"cursor,omitempty" json:"cursor,omitempty"`
+	Limit       int    `form:"limit,omitempty" json:"limit,omitempty"`
+	Direction   string `form:"direction,omitempty" json:"direction,omitempty"`
+	Search      string `form:"search,omitempty" json:"search,omitempty"`
+	Title       string `form:"title,omitempty" json:"title,omitempty"`
+	Status      string `form:"status,omitempty" json:"status,omitempty"`
+	Taxonomy    string `form:"taxonomy,omitempty" json:"taxonomy,omitempty"`
+	ContentType string `form:"content_type,omitempty" json:"content_type,omitempty"`
+	Private     string `form:"private,omitempty" json:"private,omitempty"`
+	Markdown    string `form:"markdown,omitempty" json:"markdown,omitempty"`
+	SpaceID     string `form:"space_id,omitempty" json:"space_id,omitempty"`
 }
