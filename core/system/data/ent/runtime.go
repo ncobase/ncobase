@@ -112,6 +112,10 @@ func init() {
 	options.DefaultUpdatedAt = optionsDescUpdatedAt.Default.(func() int64)
 	// options.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
 	options.UpdateDefaultUpdatedAt = optionsDescUpdatedAt.UpdateDefault.(func() int64)
+	// optionsDescIsSecret is the schema descriptor for is_secret field.
+	optionsDescIsSecret := optionsFields[3].Descriptor()
+	// options.DefaultIsSecret holds the default value on creation for the is_secret field.
+	options.DefaultIsSecret = optionsDescIsSecret.Default.(bool)
 	// optionsDescID is the schema descriptor for id field.
 	optionsDescID := optionsMixinFields0[0].Descriptor()
 	// options.DefaultID holds the default value on creation for the id field.

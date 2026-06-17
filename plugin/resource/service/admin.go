@@ -2,16 +2,25 @@ package service
 
 import (
 	"context"
+	"encoding/json"
+	"errors"
 	"fmt"
 	"ncobase/plugin/resource/data"
 	"ncobase/plugin/resource/data/repository"
 	"ncobase/plugin/resource/structs"
+	"sort"
+	"strings"
+	"sync"
 	"time"
 
 	"github.com/google/uuid"
+	"github.com/ncobase/ncore/ctxutil"
 	"github.com/ncobase/ncore/logging/logger"
 	"github.com/ncobase/ncore/types"
 )
+
+// ErrResourceAdminOperationUnavailable marks routes whose durable backend is not configured yet.
+var ErrResourceAdminOperationUnavailable = errors.New("resource admin operation is unavailable")
 
 // AdminServiceInterface defines admin service methods
 type AdminServiceInterface interface {
@@ -47,6 +56,7 @@ type adminService struct {
 	fileRepo     repository.FileRepositoryInterface
 	quotaService QuotaServiceInterface
 	batchJobs    map[string]*structs.BatchJob
+	batchJobsMu  sync.RWMutex
 }
 
 // NewAdminService creates new admin service
@@ -93,10 +103,16 @@ func (s *adminService) ListFiles(ctx context.Context, params *structs.AdminFileL
 
 // DeleteFile deletes a file with admin privileges
 func (s *adminService) DeleteFile(ctx context.Context, slug string) error {
-	err := s.fileRepo.Delete(ctx, slug)
+	file, err := s.fileRepo.GetByID(ctx, slug)
+	if err != nil {
+		return fmt.Errorf("failed to get file before deletion: %w", err)
+	}
+
+	err = s.fileRepo.Delete(ctx, slug)
 	if err != nil {
 		return fmt.Errorf("failed to delete file: %w", err)
 	}
+	s.refreshQuotaAfterFileRemoval(ctx, file.OwnerID, file.Extras)
 	return nil
 }
 
@@ -112,14 +128,11 @@ func (s *adminService) SetFileStatus(ctx context.Context, slug string, req *stru
 	statusChange := structs.StatusChange{
 		Status:    req.Status,
 		Reason:    req.Reason,
-		ChangedBy: "admin",
+		ChangedBy: firstNonEmpty(ctxutil.GetUserID(ctx), "admin"),
 		ChangedAt: time.Now().UnixMilli(),
 	}
 
-	var statusHistory []structs.StatusChange
-	if history, ok := extras["status_history"].([]structs.StatusChange); ok {
-		statusHistory = history
-	}
+	statusHistory := statusHistoryFromExtras(extras["status_history"])
 	statusHistory = append(statusHistory, statusChange)
 
 	extras["status"] = req.Status
@@ -152,43 +165,85 @@ func (s *adminService) GetStorageStats(ctx context.Context) (*structs.StorageSta
 	}
 
 	totalFiles := s.fileRepo.CountX(ctx, &structs.ListFileParams{})
+	owners, err := s.fileRepo.GetAllOwners(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get storage owners: %w", err)
+	}
+	byCategory, err := s.fileRepo.AggregateSizeByCategory(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("failed to aggregate category storage: %w", err)
+	}
+	byStorage, err := s.fileRepo.AggregateSizeByStorage(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("failed to aggregate storage providers: %w", err)
+	}
+	dailyUploads, err := s.getDailyUploads(ctx)
+	if err != nil {
+		return nil, err
+	}
+	topUsers, err := s.getTopUsers(ctx)
+	if err != nil {
+		return nil, err
+	}
+	storageHealth, err := s.resolveStorageHealth(ctx, totalSize, owners)
+	if err != nil {
+		return nil, err
+	}
 
 	return &structs.StorageStats{
 		TotalSize:     totalSize,
 		TotalFiles:    totalFiles,
-		TotalUsers:    100, // Placeholder
-		ByCategory:    s.getStatsByCategory(ctx),
-		ByStorage:     s.getStatsByStorage(ctx),
-		DailyUploads:  s.getDailyUploads(ctx),
-		TopUsers:      s.getTopUsers(ctx),
-		StorageHealth: "healthy",
+		TotalUsers:    len(owners),
+		ByCategory:    byCategory,
+		ByStorage:     byStorage,
+		DailyUploads:  dailyUploads,
+		TopUsers:      topUsers,
+		StorageHealth: storageHealth,
 	}, nil
 }
 
 // GetUsageStats gets usage statistics for a period
 func (s *adminService) GetUsageStats(ctx context.Context, period string) (*structs.UsageStats, error) {
-	totalSize, _ := s.fileRepo.SumSizeByOwner(ctx, "")
+	totalSize, err := s.fileRepo.SumSizeByOwner(ctx, "")
+	if err != nil {
+		return nil, fmt.Errorf("failed to get total size: %w", err)
+	}
 	totalFiles := s.fileRepo.CountX(ctx, &structs.ListFileParams{})
+	from, to, previousFrom, previousTo := usagePeriodBounds(period)
+	currentSize, currentFiles, err := s.fileRepo.AggregateUsageBetween(ctx, from, to)
+	if err != nil {
+		return nil, fmt.Errorf("failed to aggregate current usage: %w", err)
+	}
+	previousSize, previousFiles, err := s.fileRepo.AggregateUsageBetween(ctx, previousFrom, previousTo)
+	if err != nil {
+		return nil, fmt.Errorf("failed to aggregate previous usage: %w", err)
+	}
+	breakdown, err := s.getUsageBreakdown(ctx, from, to)
+	if err != nil {
+		return nil, err
+	}
 
 	return &structs.UsageStats{
 		Period:     period,
 		TotalSize:  totalSize,
 		TotalFiles: totalFiles,
 		Growth: &structs.GrowthStats{
-			SizeGrowth:  5.2,
-			FilesGrowth: 3.8,
+			SizeGrowth:  growthPercent(currentSize, previousSize),
+			FilesGrowth: growthPercent(int64(currentFiles), int64(previousFiles)),
 		},
-		Breakdown: s.getUsageBreakdown(ctx, period),
+		Breakdown: breakdown,
 	}, nil
 }
 
 // GetActivityStats gets activity statistics
 func (s *adminService) GetActivityStats(ctx context.Context) (*structs.ActivityStats, error) {
 	return &structs.ActivityStats{
-		TotalDownloads: 12345,
-		TotalViews:     54321,
-		PopularFiles:   s.getPopularFiles(ctx),
-		ActivityByHour: s.getActivityByHour(ctx),
+		TotalDownloads:     0,
+		TotalViews:         0,
+		PopularFiles:       []structs.PopularFile{},
+		ActivityByHour:     []structs.HourlyActivity{},
+		TelemetryAvailable: false,
+		Message:            "Download and view telemetry is not configured; returned counters are unavailable rather than aggregated activity.",
 	}, nil
 }
 
@@ -276,17 +331,37 @@ func (s *adminService) DeleteQuota(ctx context.Context, userID string) error {
 
 // BatchCleanup performs batch cleanup operations
 func (s *adminService) BatchCleanup(ctx context.Context, req *structs.BatchCleanupRequest) (*structs.BatchCleanupResult, error) {
+	if req == nil {
+		return nil, fmt.Errorf("cleanup request is required")
+	}
+	switch req.Type {
+	case "expired", "orphaned", "duplicates":
+	default:
+		return nil, fmt.Errorf("unknown cleanup type: %s", req.Type)
+	}
+
 	jobID := uuid.New().String()
+	startedAt := time.Now().UnixMilli()
+	job := &structs.BatchJob{
+		ID:        jobID,
+		Type:      req.Type,
+		Status:    "processing",
+		Progress:  0,
+		StartedAt: startedAt,
+		CreatedBy: firstNonEmpty(ctxutil.GetUserID(ctx), "system"),
+	}
+	s.storeBatchJob(job)
 
 	result := &structs.BatchCleanupResult{
-		JobID:        jobID,
-		Type:         req.Type,
-		ItemsFound:   0,
-		ItemsCleaned: 0,
-		SpaceFreed:   0,
-		DryRun:       req.DryRun,
-		CleanedItems: make([]string, 0),
-		Errors:       make([]string, 0),
+		JobID:          jobID,
+		Type:           req.Type,
+		ItemsFound:     0,
+		ItemsCleaned:   0,
+		SpaceFreed:     0,
+		DryRun:         req.DryRun,
+		CandidateItems: make([]string, 0),
+		CleanedItems:   make([]string, 0),
+		Errors:         make([]string, 0),
 	}
 
 	switch req.Type {
@@ -296,21 +371,43 @@ func (s *adminService) BatchCleanup(ctx context.Context, req *structs.BatchClean
 		result = s.cleanupOrphanedFiles(ctx, req, result)
 	case "duplicates":
 		result = s.cleanupDuplicateFiles(ctx, req, result)
-	default:
-		return nil, fmt.Errorf("unknown cleanup type: %s", req.Type)
 	}
+
+	completedAt := time.Now().UnixMilli()
+	status := "completed"
+	if len(result.Errors) > 0 {
+		status = "partial_failure"
+		if result.ItemsCleaned == 0 {
+			status = "failed"
+		}
+	}
+	job.Status = status
+	job.Progress = 100
+	job.ItemCount = result.ItemsFound
+	job.ProcessedCount = result.ItemsCleaned
+	job.ErrorCount = len(result.Errors)
+	job.CompletedAt = &completedAt
+	job.Result = cleanupResultJSON(result)
+	job.Errors = append([]string(nil), result.Errors...)
+	s.storeBatchJob(job)
 
 	return result, nil
 }
 
 // ListBatchJobs lists batch jobs
 func (s *adminService) ListBatchJobs(ctx context.Context, params *structs.AdminBatchJobParams) (*structs.BatchJobListResponse, error) {
-	jobs := make([]*structs.BatchJob, 0)
+	s.batchJobsMu.RLock()
+	jobs := make([]*structs.BatchJob, 0, len(s.batchJobs))
 	for _, job := range s.batchJobs {
 		if params.Status == "" || job.Status == params.Status {
-			jobs = append(jobs, job)
+			jobs = append(jobs, cloneBatchJob(job))
 		}
 	}
+	s.batchJobsMu.RUnlock()
+
+	sort.Slice(jobs, func(i, j int) bool {
+		return jobs[i].StartedAt > jobs[j].StartedAt
+	})
 
 	if params.Limit > 0 && len(jobs) > params.Limit {
 		jobs = jobs[:params.Limit]
@@ -324,75 +421,139 @@ func (s *adminService) ListBatchJobs(ctx context.Context, params *structs.AdminB
 
 // CancelBatchJob cancels a batch job
 func (s *adminService) CancelBatchJob(ctx context.Context, jobID string) error {
+	s.batchJobsMu.RLock()
 	job, exists := s.batchJobs[jobID]
+	s.batchJobsMu.RUnlock()
 	if !exists {
 		return fmt.Errorf("batch job not found")
 	}
 
-	if job.Status == "completed" || job.Status == "cancelled" {
+	if job.Status == "processing" {
+		return fmt.Errorf("%w: admin cleanup jobs run synchronously and cannot be cancelled after the request has started", ErrResourceAdminOperationUnavailable)
+	}
+	if job.Status == "completed" || job.Status == "cancelled" || job.Status == "failed" || job.Status == "partial_failure" {
 		return fmt.Errorf("cannot cancel job in status: %s", job.Status)
 	}
 
+	s.batchJobsMu.Lock()
 	job.Status = "cancelled"
+	s.batchJobsMu.Unlock()
 	return nil
 }
 
 // OptimizeStorage optimizes storage system
 func (s *adminService) OptimizeStorage(ctx context.Context) (*structs.OptimizeResult, error) {
 	taskID := uuid.New().String()
+	startedAt := time.Now()
+
+	duplicates, err := s.fileRepo.FindDuplicateFiles(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("failed to inspect duplicate files: %w", err)
+	}
+	deduplicatedFiles := 0
+	var spaceFreed int64
+	for _, group := range duplicates {
+		if len(group) <= 1 {
+			continue
+		}
+		for _, duplicate := range group[1:] {
+			deduplicatedFiles++
+			spaceFreed += int64(duplicate.Size)
+		}
+	}
+
+	orphanedFiles, err := s.fileRepo.FindOrphanedFiles(ctx, nil, 10000)
+	if err != nil {
+		return nil, fmt.Errorf("failed to inspect orphaned files: %w", err)
+	}
 
 	return &structs.OptimizeResult{
-		TaskID:            taskID,
-		DeduplicatedFiles: 23,
-		SpaceFreed:        1024 * 1024 * 512, // 512MB
-		OrphanedCleaned:   5,
-		IndexesRebuilt:    3,
-		Duration:          120,
+		TaskID:                  taskID,
+		Mode:                    "analysis",
+		DeduplicatedFiles:       0,
+		SpaceFreed:              0,
+		OrphanedCleaned:         0,
+		IndexesRebuilt:          0,
+		PotentialDuplicateFiles: deduplicatedFiles,
+		PotentialSpaceFreed:     spaceFreed,
+		OrphanedFiles:           len(orphanedFiles),
+		PerformedActions:        []string{"metadata_scan", "duplicate_hash_analysis", "orphan_metadata_analysis"},
+		Duration:                int64(time.Since(startedAt).Seconds()),
 	}, nil
 }
 
 // GetStorageHealth gets storage health status
 func (s *adminService) GetStorageHealth(ctx context.Context) (*structs.StorageHealth, error) {
+	totalSize, err := s.fileRepo.SumSizeByOwner(ctx, "")
+	if err != nil {
+		return nil, fmt.Errorf("failed to get total size: %w", err)
+	}
+	owners, err := s.fileRepo.GetAllOwners(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get storage owners: %w", err)
+	}
+	totalQuota, exceededOwners, err := s.aggregateOwnerQuotaHealth(ctx, owners)
+	if err != nil {
+		return nil, err
+	}
+	orphanedFiles, err := s.fileRepo.FindOrphanedFiles(ctx, nil, 10000)
+	if err != nil {
+		return nil, fmt.Errorf("failed to inspect orphaned files: %w", err)
+	}
+
+	status := "healthy"
+	if exceededOwners > 0 {
+		status = "critical"
+	} else if totalQuota > 0 && float64(totalSize)/float64(totalQuota) >= 0.8 {
+		status = "warning"
+	}
+	usagePercent := 0.0
+	freeSpace := int64(0)
+	if totalQuota > 0 {
+		usagePercent = float64(totalSize) / float64(totalQuota) * 100
+		freeSpace = totalQuota - totalSize
+		if freeSpace < 0 {
+			freeSpace = 0
+		}
+	}
+
+	recommendations := []string{}
+	if exceededOwners > 0 {
+		recommendations = append(recommendations, "Review owners that exceed configured storage quota.")
+	}
+	if len(orphanedFiles) > 0 {
+		recommendations = append(recommendations, "Review orphaned resource records before cleanup.")
+	}
+
 	return &structs.StorageHealth{
-		Status:         "healthy",
-		TotalSpace:     1024 * 1024 * 1024 * 1024, // 1TB
-		UsedSpace:      1024 * 1024 * 1024 * 100,  // 100GB
-		FreeSpace:      1024 * 1024 * 1024 * 924,  // 924GB
-		UsagePercent:   9.8,
-		OrphanedFiles:  0,
+		Status:         status,
+		TotalSpace:     totalQuota,
+		UsedSpace:      totalSize,
+		FreeSpace:      freeSpace,
+		UsagePercent:   usagePercent,
+		OrphanedFiles:  len(orphanedFiles),
 		CorruptedFiles: 0,
 		HealthChecks: []structs.HealthCheck{
 			{
-				Name:    "Storage Connectivity",
+				Name:    "Resource Metadata",
 				Status:  "ok",
-				Message: "All storage systems are accessible",
+				Message: "Resource metadata queries completed successfully",
 				LastRun: time.Now().UnixMilli(),
 			},
 			{
-				Name:    "Database Consistency",
-				Status:  "ok",
-				Message: "Database and storage are in sync",
+				Name:    "Quota Utilization",
+				Status:  status,
+				Message: fmt.Sprintf("%d owner quota records inspected", len(owners)),
 				LastRun: time.Now().UnixMilli(),
 			},
 		},
-		Recommendations: []string{},
+		Recommendations: recommendations,
 	}, nil
 }
 
 // InitiateBackup initiates storage backup
 func (s *adminService) InitiateBackup(ctx context.Context, req *structs.BackupRequest) (*structs.BackupResult, error) {
-	backupID := uuid.New().String()
-
-	return &structs.BackupResult{
-		BackupID:    backupID,
-		Type:        req.Type,
-		Status:      "started",
-		Destination: req.Destination,
-		FileCount:   0,
-		TotalSize:   0,
-		Duration:    0,
-		StartedAt:   time.Now().UnixMilli(),
-	}, nil
+	return nil, fmt.Errorf("%w: storage backup requires a configured durable backup provider and object storage export implementation", ErrResourceAdminOperationUnavailable)
 }
 
 // calculateFileStats calculates file stats
@@ -412,58 +573,229 @@ func (s *adminService) calculateFileStats(files []*structs.ReadFile) *structs.Fi
 	return stats
 }
 
-// getStatsByCategory gets stats by category
-func (s *adminService) getStatsByCategory(ctx context.Context) map[string]int64 {
-	return map[string]int64{
-		"image":    1024 * 1024 * 100,
-		"document": 1024 * 1024 * 50,
-		"video":    1024 * 1024 * 200,
-	}
-}
-
-// getStatsByStorage gets stats by storage
-func (s *adminService) getStatsByStorage(ctx context.Context) map[string]int64 {
-	return map[string]int64{
-		"local": 1024 * 1024 * 200,
-		"s3":    1024 * 1024 * 150,
-	}
-}
-
 // getDailyUploads gets daily uploads
-func (s *adminService) getDailyUploads(ctx context.Context) []structs.DailyUpload {
-	return []structs.DailyUpload{
-		{Date: "2025-01-01", Count: 45, Size: 1024 * 1024 * 20},
-		{Date: "2025-01-02", Count: 32, Size: 1024 * 1024 * 15},
+func (s *adminService) getDailyUploads(ctx context.Context) ([]structs.DailyUpload, error) {
+	from, to, _, _ := usagePeriodBounds("30d")
+	daily, err := s.fileRepo.AggregateDailyUsage(ctx, from, to)
+	if err != nil {
+		return nil, fmt.Errorf("failed to aggregate daily uploads: %w", err)
 	}
+
+	result := make([]structs.DailyUpload, 0, len(daily))
+	for _, item := range daily {
+		result = append(result, structs.DailyUpload{
+			Date:  item.Date,
+			Count: item.Files,
+			Size:  item.Size,
+		})
+	}
+	return result, nil
 }
 
 // getTopUsers gets top users
-func (s *adminService) getTopUsers(ctx context.Context) []structs.UserUsage {
-	return []structs.UserUsage{
-		{UserID: "user1", Size: 1024 * 1024 * 50, Files: 100},
-		{UserID: "user2", Size: 1024 * 1024 * 30, Files: 75},
+func (s *adminService) getTopUsers(ctx context.Context) ([]structs.UserUsage, error) {
+	owners, err := s.fileRepo.AggregateOwnerUsage(ctx, 10)
+	if err != nil {
+		return nil, fmt.Errorf("failed to aggregate top storage owners: %w", err)
 	}
+
+	result := make([]structs.UserUsage, 0, len(owners))
+	for _, owner := range owners {
+		result = append(result, structs.UserUsage{
+			UserID: owner.OwnerID,
+			Size:   owner.Size,
+			Files:  owner.Files,
+		})
+	}
+	return result, nil
 }
 
 // getUsageBreakdown gets usage breakdown
-func (s *adminService) getUsageBreakdown(ctx context.Context, period string) []structs.UsageByDate {
-	return []structs.UsageByDate{
-		{Date: "2025-01-01", Size: 1024 * 1024 * 10, Files: 20},
-		{Date: "2025-01-02", Size: 1024 * 1024 * 15, Files: 30},
+func (s *adminService) getUsageBreakdown(ctx context.Context, from, to int64) ([]structs.UsageByDate, error) {
+	daily, err := s.fileRepo.AggregateDailyUsage(ctx, from, to)
+	if err != nil {
+		return nil, fmt.Errorf("failed to aggregate usage breakdown: %w", err)
+	}
+
+	result := make([]structs.UsageByDate, 0, len(daily))
+	for _, item := range daily {
+		result = append(result, structs.UsageByDate{
+			Date:  item.Date,
+			Size:  item.Size,
+			Files: item.Files,
+		})
+	}
+	return result, nil
+}
+
+func usagePeriodBounds(period string) (from, to, previousFrom, previousTo int64) {
+	now := time.Now().UTC()
+	var duration time.Duration
+	switch period {
+	case "24h", "1d":
+		duration = 24 * time.Hour
+	case "7d", "week":
+		duration = 7 * 24 * time.Hour
+	case "90d", "quarter":
+		duration = 90 * 24 * time.Hour
+	case "365d", "year":
+		duration = 365 * 24 * time.Hour
+	default:
+		duration = 30 * 24 * time.Hour
+	}
+	start := now.Add(-duration)
+	previousStart := start.Add(-duration)
+	return start.UnixMilli(), now.UnixMilli(), previousStart.UnixMilli(), start.UnixMilli()
+}
+
+func growthPercent(current, previous int64) float64 {
+	if previous == 0 {
+		if current > 0 {
+			return 100
+		}
+		return 0
+	}
+	return (float64(current-previous) / float64(previous)) * 100
+}
+
+func (s *adminService) resolveStorageHealth(ctx context.Context, totalSize int64, owners []string) (string, error) {
+	totalQuota, exceededOwners, err := s.aggregateOwnerQuotaHealth(ctx, owners)
+	if err != nil {
+		return "", err
+	}
+	if exceededOwners > 0 {
+		return "critical", nil
+	}
+	if totalQuota > 0 && float64(totalSize)/float64(totalQuota) >= 0.8 {
+		return "warning", nil
+	}
+	return "healthy", nil
+}
+
+func (s *adminService) aggregateOwnerQuotaHealth(ctx context.Context, owners []string) (int64, int, error) {
+	var totalQuota int64
+	exceededOwners := 0
+	for _, ownerID := range owners {
+		quota, err := s.quotaService.GetQuota(ctx, ownerID)
+		if err != nil {
+			return 0, 0, fmt.Errorf("failed to get quota for owner %s: %w", ownerID, err)
+		}
+		usage, err := s.quotaService.GetUsage(ctx, ownerID)
+		if err != nil {
+			return 0, 0, fmt.Errorf("failed to get usage for owner %s: %w", ownerID, err)
+		}
+		if quota > 0 {
+			totalQuota += quota
+			if usage > quota {
+				exceededOwners++
+			}
+		}
+	}
+	return totalQuota, exceededOwners, nil
+}
+
+func (s *adminService) refreshQuotaAfterFileRemoval(ctx context.Context, ownerID string, extras types.JSON) {
+	if s.quotaService == nil {
+		return
+	}
+	if ownerID != "" {
+		if _, err := s.quotaService.RefreshUsage(ctx, ownerID); err != nil {
+			logger.Warnf(ctx, "Failed to refresh owner quota after admin file deletion: %v", err)
+		}
+	}
+	if spaceID := spaceIDFromExtras(extras); spaceID != "" {
+		if _, err := s.quotaService.RefreshSpaceUsage(ctx, spaceID); err != nil {
+			logger.Warnf(ctx, "Failed to refresh space quota after admin file deletion: %v", err)
+		}
 	}
 }
 
-// getPopularFiles gets popular files
-func (s *adminService) getPopularFiles(ctx context.Context) []structs.PopularFile {
-	return []structs.PopularFile{}
+func spaceIDFromExtras(extras types.JSON) string {
+	if extras == nil {
+		return ""
+	}
+	if value, ok := extras["space_id"].(string); ok {
+		return strings.TrimSpace(value)
+	}
+	return ""
 }
 
-// getActivityByHour gets activity by hour
-func (s *adminService) getActivityByHour(ctx context.Context) []structs.HourlyActivity {
-	return []structs.HourlyActivity{
-		{Hour: 9, Downloads: 45, Views: 120},
-		{Hour: 10, Downloads: 67, Views: 180},
+func firstNonEmpty(values ...string) string {
+	for _, value := range values {
+		if trimmed := strings.TrimSpace(value); trimmed != "" {
+			return trimmed
+		}
 	}
+	return ""
+}
+
+func statusHistoryFromExtras(value any) []structs.StatusChange {
+	if value == nil {
+		return nil
+	}
+	if history, ok := value.([]structs.StatusChange); ok {
+		return append([]structs.StatusChange(nil), history...)
+	}
+
+	raw, err := json.Marshal(value)
+	if err != nil {
+		return nil
+	}
+	var history []structs.StatusChange
+	if err := json.Unmarshal(raw, &history); err != nil {
+		return nil
+	}
+	return history
+}
+
+func cleanupResultJSON(result *structs.BatchCleanupResult) *types.JSON {
+	if result == nil {
+		return nil
+	}
+	payload := types.JSON{
+		"job_id":                result.JobID,
+		"type":                  result.Type,
+		"items_found":           result.ItemsFound,
+		"items_cleaned":         result.ItemsCleaned,
+		"space_freed":           result.SpaceFreed,
+		"potential_space_freed": result.PotentialSpaceFreed,
+		"dry_run":               result.DryRun,
+		"candidate_items":       result.CandidateItems,
+		"cleaned_items":         result.CleanedItems,
+		"errors":                result.Errors,
+		"completed_at":          time.Now().UnixMilli(),
+		"execution_mode":        "synchronous",
+	}
+	return &payload
+}
+
+func cloneBatchJob(job *structs.BatchJob) *structs.BatchJob {
+	if job == nil {
+		return nil
+	}
+	cloned := *job
+	if job.CompletedAt != nil {
+		completedAt := *job.CompletedAt
+		cloned.CompletedAt = &completedAt
+	}
+	if job.Result != nil {
+		result := make(types.JSON, len(*job.Result))
+		for key, value := range *job.Result {
+			result[key] = value
+		}
+		cloned.Result = &result
+	}
+	cloned.Errors = append([]string(nil), job.Errors...)
+	return &cloned
+}
+
+func (s *adminService) storeBatchJob(job *structs.BatchJob) {
+	if job == nil {
+		return
+	}
+	s.batchJobsMu.Lock()
+	defer s.batchJobsMu.Unlock()
+	s.batchJobs[job.ID] = cloneBatchJob(job)
 }
 
 // cleanupExpiredFiles cleans up expired files via repository
@@ -482,15 +814,18 @@ func (s *adminService) cleanupExpiredFiles(ctx context.Context, req *structs.Bat
 	result.ItemsFound = len(files)
 
 	for _, file := range files {
+		result.CandidateItems = append(result.CandidateItems, file.ID)
+		result.PotentialSpaceFreed += int64(file.Size)
 		if !req.DryRun {
 			if err := s.fileRepo.Delete(ctx, file.ID); err != nil {
 				result.Errors = append(result.Errors, fmt.Sprintf("failed to delete file %s: %v", file.ID, err))
 				continue
 			}
+			s.refreshQuotaAfterFileRemoval(ctx, file.OwnerID, file.Extras)
+			result.ItemsCleaned++
+			result.SpaceFreed += int64(file.Size)
+			result.CleanedItems = append(result.CleanedItems, file.ID)
 		}
-		result.ItemsCleaned++
-		result.SpaceFreed += int64(file.Size)
-		result.CleanedItems = append(result.CleanedItems, file.ID)
 	}
 
 	return result
@@ -512,15 +847,18 @@ func (s *adminService) cleanupOrphanedFiles(ctx context.Context, req *structs.Ba
 	result.ItemsFound = len(files)
 
 	for _, file := range files {
+		result.CandidateItems = append(result.CandidateItems, file.ID)
+		result.PotentialSpaceFreed += int64(file.Size)
 		if !req.DryRun {
 			if err := s.fileRepo.Delete(ctx, file.ID); err != nil {
 				result.Errors = append(result.Errors, fmt.Sprintf("failed to delete orphaned file %s: %v", file.ID, err))
 				continue
 			}
+			s.refreshQuotaAfterFileRemoval(ctx, file.OwnerID, file.Extras)
+			result.ItemsCleaned++
+			result.SpaceFreed += int64(file.Size)
+			result.CleanedItems = append(result.CleanedItems, file.ID)
 		}
-		result.ItemsCleaned++
-		result.SpaceFreed += int64(file.Size)
-		result.CleanedItems = append(result.CleanedItems, file.ID)
 	}
 
 	return result
@@ -551,8 +889,6 @@ func (s *adminService) cleanupDuplicateFiles(ctx context.Context, req *structs.B
 				break
 			}
 
-			result.ItemsFound++
-
 			if req.Filters != nil {
 				if req.Filters.MinSize != nil && int64(duplicate.Size) < *req.Filters.MinSize {
 					continue
@@ -562,15 +898,19 @@ func (s *adminService) cleanupDuplicateFiles(ctx context.Context, req *structs.B
 				}
 			}
 
+			result.ItemsFound++
+			result.CandidateItems = append(result.CandidateItems, duplicate.ID)
+			result.PotentialSpaceFreed += int64(duplicate.Size)
 			if !req.DryRun {
 				if err := s.fileRepo.Delete(ctx, duplicate.ID); err != nil {
 					result.Errors = append(result.Errors, fmt.Sprintf("failed to delete duplicate file %s (hash: %s): %v", duplicate.ID, hash, err))
 					continue
 				}
+				s.refreshQuotaAfterFileRemoval(ctx, duplicate.OwnerID, duplicate.Extras)
+				result.ItemsCleaned++
+				result.SpaceFreed += int64(duplicate.Size)
+				result.CleanedItems = append(result.CleanedItems, duplicate.ID)
 			}
-			result.ItemsCleaned++
-			result.SpaceFreed += int64(duplicate.Size)
-			result.CleanedItems = append(result.CleanedItems, duplicate.ID)
 			cleaned++
 		}
 

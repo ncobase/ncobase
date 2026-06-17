@@ -95,10 +95,12 @@ type UsageByDate struct {
 
 // ActivityStats for activity statistics
 type ActivityStats struct {
-	TotalDownloads int64            `json:"total_downloads"`
-	TotalViews     int64            `json:"total_views"`
-	PopularFiles   []PopularFile    `json:"popular_files"`
-	ActivityByHour []HourlyActivity `json:"activity_by_hour"`
+	TotalDownloads     int64            `json:"total_downloads"`
+	TotalViews         int64            `json:"total_views"`
+	PopularFiles       []PopularFile    `json:"popular_files"`
+	ActivityByHour     []HourlyActivity `json:"activity_by_hour"`
+	TelemetryAvailable bool             `json:"telemetry_available"`
+	Message            string           `json:"message,omitempty"`
 }
 
 // PopularFile for popular file statistics
@@ -160,14 +162,16 @@ type CleanupFilters struct {
 
 // BatchCleanupResult for batch cleanup result
 type BatchCleanupResult struct {
-	JobID        string   `json:"job_id"`
-	Type         string   `json:"type"`
-	ItemsFound   int      `json:"items_found"`
-	ItemsCleaned int      `json:"items_cleaned"`
-	SpaceFreed   int64    `json:"space_freed"`
-	DryRun       bool     `json:"dry_run"`
-	CleanedItems []string `json:"cleaned_items,omitempty"`
-	Errors       []string `json:"errors,omitempty"`
+	JobID               string   `json:"job_id"`
+	Type                string   `json:"type"`
+	ItemsFound          int      `json:"items_found"`
+	ItemsCleaned        int      `json:"items_cleaned"`
+	SpaceFreed          int64    `json:"space_freed"`
+	PotentialSpaceFreed int64    `json:"potential_space_freed,omitempty"`
+	DryRun              bool     `json:"dry_run"`
+	CandidateItems      []string `json:"candidate_items,omitempty"`
+	CleanedItems        []string `json:"cleaned_items,omitempty"`
+	Errors              []string `json:"errors,omitempty"`
 }
 
 // AdminBatchJobParams for admin batch job listing
@@ -200,12 +204,17 @@ type BatchJob struct {
 
 // OptimizeResult for storage optimization result
 type OptimizeResult struct {
-	TaskID            string `json:"task_id"`
-	DeduplicatedFiles int    `json:"deduplicated_files"`
-	SpaceFreed        int64  `json:"space_freed"`
-	OrphanedCleaned   int    `json:"orphaned_cleaned"`
-	IndexesRebuilt    int    `json:"indexes_rebuilt"`
-	Duration          int64  `json:"duration"` // seconds
+	TaskID                  string   `json:"task_id"`
+	Mode                    string   `json:"mode"` // analysis, executed
+	DeduplicatedFiles       int      `json:"deduplicated_files"`
+	SpaceFreed              int64    `json:"space_freed"`
+	OrphanedCleaned         int      `json:"orphaned_cleaned"`
+	IndexesRebuilt          int      `json:"indexes_rebuilt"`
+	PotentialDuplicateFiles int      `json:"potential_duplicate_files,omitempty"`
+	PotentialSpaceFreed     int64    `json:"potential_space_freed,omitempty"`
+	OrphanedFiles           int      `json:"orphaned_files,omitempty"`
+	PerformedActions        []string `json:"performed_actions,omitempty"`
+	Duration                int64    `json:"duration"` // seconds
 }
 
 // StorageHealth for storage health status

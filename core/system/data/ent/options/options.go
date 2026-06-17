@@ -27,6 +27,16 @@ const (
 	FieldCreatedAt = "created_at"
 	// FieldUpdatedAt holds the string denoting the updated_at field in the database.
 	FieldUpdatedAt = "updated_at"
+	// FieldCategory holds the string denoting the category field in the database.
+	FieldCategory = "category"
+	// FieldDescription holds the string denoting the description field in the database.
+	FieldDescription = "description"
+	// FieldValidation holds the string denoting the validation field in the database.
+	FieldValidation = "validation"
+	// FieldIsSecret holds the string denoting the is_secret field in the database.
+	FieldIsSecret = "is_secret"
+	// FieldEnvironmentVariable holds the string denoting the environment_variable field in the database.
+	FieldEnvironmentVariable = "environment_variable"
 	// Table holds the table name of the options in the database.
 	Table = "ncse_sys_option"
 )
@@ -42,6 +52,11 @@ var Columns = []string{
 	FieldUpdatedBy,
 	FieldCreatedAt,
 	FieldUpdatedAt,
+	FieldCategory,
+	FieldDescription,
+	FieldValidation,
+	FieldIsSecret,
+	FieldEnvironmentVariable,
 }
 
 // ValidColumn reports if the column name is valid (part of the table columns).
@@ -65,6 +80,8 @@ var (
 	DefaultUpdatedAt func() int64
 	// UpdateDefaultUpdatedAt holds the default value on update for the "updated_at" field.
 	UpdateDefaultUpdatedAt func() int64
+	// DefaultIsSecret holds the default value on creation for the "is_secret" field.
+	DefaultIsSecret bool
 	// DefaultID holds the default value on creation for the "id" field.
 	DefaultID func() string
 	// IDValidator is a validator for the "id" field. It is called by the builders before save.
@@ -117,4 +134,29 @@ func ByCreatedAt(opts ...sql.OrderTermOption) OrderOption {
 // ByUpdatedAt orders the results by the updated_at field.
 func ByUpdatedAt(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldUpdatedAt, opts...).ToFunc()
+}
+
+// ByCategory orders the results by the category field.
+func ByCategory(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldCategory, opts...).ToFunc()
+}
+
+// ByDescription orders the results by the description field.
+func ByDescription(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldDescription, opts...).ToFunc()
+}
+
+// ByValidation orders the results by the validation field.
+func ByValidation(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldValidation, opts...).ToFunc()
+}
+
+// ByIsSecret orders the results by the is_secret field.
+func ByIsSecret(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldIsSecret, opts...).ToFunc()
+}
+
+// ByEnvironmentVariable orders the results by the environment_variable field.
+func ByEnvironmentVariable(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldEnvironmentVariable, opts...).ToFunc()
 }

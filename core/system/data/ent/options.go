@@ -32,8 +32,18 @@ type Options struct {
 	// created at
 	CreatedAt int64 `json:"created_at,omitempty"`
 	// updated at
-	UpdatedAt    int64 `json:"updated_at,omitempty"`
-	selectValues sql.SelectValues
+	UpdatedAt int64 `json:"updated_at,omitempty"`
+	// runtime option category
+	Category string `json:"category,omitempty"`
+	// human-readable option description
+	Description string `json:"description,omitempty"`
+	// validation expression or schema identifier
+	Validation string `json:"validation,omitempty"`
+	// whether the option value is treated as sensitive
+	IsSecret bool `json:"is_secret,omitempty"`
+	// server-side environment variable name for sensitive values
+	EnvironmentVariable string `json:"environment_variable,omitempty"`
+	selectValues        sql.SelectValues
 }
 
 // scanValues returns the types for scanning values from sql.Rows.
@@ -41,11 +51,11 @@ func (*Options) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case options.FieldAutoload:
+		case options.FieldAutoload, options.FieldIsSecret:
 			values[i] = new(sql.NullBool)
 		case options.FieldCreatedAt, options.FieldUpdatedAt:
 			values[i] = new(sql.NullInt64)
-		case options.FieldID, options.FieldName, options.FieldType, options.FieldValue, options.FieldCreatedBy, options.FieldUpdatedBy:
+		case options.FieldID, options.FieldName, options.FieldType, options.FieldValue, options.FieldCreatedBy, options.FieldUpdatedBy, options.FieldCategory, options.FieldDescription, options.FieldValidation, options.FieldEnvironmentVariable:
 			values[i] = new(sql.NullString)
 		default:
 			values[i] = new(sql.UnknownType)
@@ -116,6 +126,36 @@ func (_m *Options) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				_m.UpdatedAt = value.Int64
 			}
+		case options.FieldCategory:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field category", values[i])
+			} else if value.Valid {
+				_m.Category = value.String
+			}
+		case options.FieldDescription:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field description", values[i])
+			} else if value.Valid {
+				_m.Description = value.String
+			}
+		case options.FieldValidation:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field validation", values[i])
+			} else if value.Valid {
+				_m.Validation = value.String
+			}
+		case options.FieldIsSecret:
+			if value, ok := values[i].(*sql.NullBool); !ok {
+				return fmt.Errorf("unexpected type %T for field is_secret", values[i])
+			} else if value.Valid {
+				_m.IsSecret = value.Bool
+			}
+		case options.FieldEnvironmentVariable:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field environment_variable", values[i])
+			} else if value.Valid {
+				_m.EnvironmentVariable = value.String
+			}
 		default:
 			_m.selectValues.Set(columns[i], values[i])
 		}
@@ -175,6 +215,21 @@ func (_m *Options) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("updated_at=")
 	builder.WriteString(fmt.Sprintf("%v", _m.UpdatedAt))
+	builder.WriteString(", ")
+	builder.WriteString("category=")
+	builder.WriteString(_m.Category)
+	builder.WriteString(", ")
+	builder.WriteString("description=")
+	builder.WriteString(_m.Description)
+	builder.WriteString(", ")
+	builder.WriteString("validation=")
+	builder.WriteString(_m.Validation)
+	builder.WriteString(", ")
+	builder.WriteString("is_secret=")
+	builder.WriteString(fmt.Sprintf("%v", _m.IsSecret))
+	builder.WriteString(", ")
+	builder.WriteString("environment_variable=")
+	builder.WriteString(_m.EnvironmentVariable)
 	builder.WriteByte(')')
 	return builder.String()
 }

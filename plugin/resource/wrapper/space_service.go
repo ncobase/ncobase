@@ -2,13 +2,14 @@ package wrapper
 
 import (
 	"context"
+	spaceStructs "ncobase/core/space/structs"
 
 	ext "github.com/ncobase/ncore/extension/types"
 )
 
 // SpaceQuotaServiceInterface defines space quota service interface for resource plugin
 type SpaceQuotaServiceInterface interface {
-	CheckQuotaLimit(ctx context.Context, spaceID string, quotaType string, requestedAmount int64) (bool, error)
+	CheckQuotaLimit(ctx context.Context, spaceID string, quotaType spaceStructs.QuotaType, requestedAmount int64) (bool, error)
 	UpdateUsage(ctx context.Context, spaceID string, quotaType string, delta int64) error
 	GetUsage(ctx context.Context, spaceID string, quotaType string) (int64, error)
 	GetQuota(ctx context.Context, spaceID string, quotaType string) (int64, error)
@@ -58,7 +59,7 @@ func (w *SpaceServiceWrapper) RefreshServices() {
 // CheckQuotaLimit checks if space can use additional quota
 func (w *SpaceServiceWrapper) CheckQuotaLimit(ctx context.Context, spaceID string, quotaType string, requestedAmount int64) (bool, error) {
 	if w.spaceQuotaService != nil {
-		return w.spaceQuotaService.CheckQuotaLimit(ctx, spaceID, quotaType, requestedAmount)
+		return w.spaceQuotaService.CheckQuotaLimit(ctx, spaceID, spaceStructs.QuotaType(quotaType), requestedAmount)
 	}
 
 	// Fallback: allow usage if service not available

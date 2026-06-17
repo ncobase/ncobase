@@ -103,6 +103,31 @@ func UpdatedAt(v int64) predicate.Options {
 	return predicate.Options(sql.FieldEQ(FieldUpdatedAt, v))
 }
 
+// Category applies equality check predicate on the "category" field. It's identical to CategoryEQ.
+func Category(v string) predicate.Options {
+	return predicate.Options(sql.FieldEQ(FieldCategory, v))
+}
+
+// Description applies equality check predicate on the "description" field. It's identical to DescriptionEQ.
+func Description(v string) predicate.Options {
+	return predicate.Options(sql.FieldEQ(FieldDescription, v))
+}
+
+// Validation applies equality check predicate on the "validation" field. It's identical to ValidationEQ.
+func Validation(v string) predicate.Options {
+	return predicate.Options(sql.FieldEQ(FieldValidation, v))
+}
+
+// IsSecret applies equality check predicate on the "is_secret" field. It's identical to IsSecretEQ.
+func IsSecret(v bool) predicate.Options {
+	return predicate.Options(sql.FieldEQ(FieldIsSecret, v))
+}
+
+// EnvironmentVariable applies equality check predicate on the "environment_variable" field. It's identical to EnvironmentVariableEQ.
+func EnvironmentVariable(v string) predicate.Options {
+	return predicate.Options(sql.FieldEQ(FieldEnvironmentVariable, v))
+}
+
 // NameEQ applies the EQ predicate on the "name" field.
 func NameEQ(v string) predicate.Options {
 	return predicate.Options(sql.FieldEQ(FieldName, v))
@@ -596,6 +621,316 @@ func UpdatedAtIsNil() predicate.Options {
 // UpdatedAtNotNil applies the NotNil predicate on the "updated_at" field.
 func UpdatedAtNotNil() predicate.Options {
 	return predicate.Options(sql.FieldNotNull(FieldUpdatedAt))
+}
+
+// CategoryEQ applies the EQ predicate on the "category" field.
+func CategoryEQ(v string) predicate.Options {
+	return predicate.Options(sql.FieldEQ(FieldCategory, v))
+}
+
+// CategoryNEQ applies the NEQ predicate on the "category" field.
+func CategoryNEQ(v string) predicate.Options {
+	return predicate.Options(sql.FieldNEQ(FieldCategory, v))
+}
+
+// CategoryIn applies the In predicate on the "category" field.
+func CategoryIn(vs ...string) predicate.Options {
+	return predicate.Options(sql.FieldIn(FieldCategory, vs...))
+}
+
+// CategoryNotIn applies the NotIn predicate on the "category" field.
+func CategoryNotIn(vs ...string) predicate.Options {
+	return predicate.Options(sql.FieldNotIn(FieldCategory, vs...))
+}
+
+// CategoryGT applies the GT predicate on the "category" field.
+func CategoryGT(v string) predicate.Options {
+	return predicate.Options(sql.FieldGT(FieldCategory, v))
+}
+
+// CategoryGTE applies the GTE predicate on the "category" field.
+func CategoryGTE(v string) predicate.Options {
+	return predicate.Options(sql.FieldGTE(FieldCategory, v))
+}
+
+// CategoryLT applies the LT predicate on the "category" field.
+func CategoryLT(v string) predicate.Options {
+	return predicate.Options(sql.FieldLT(FieldCategory, v))
+}
+
+// CategoryLTE applies the LTE predicate on the "category" field.
+func CategoryLTE(v string) predicate.Options {
+	return predicate.Options(sql.FieldLTE(FieldCategory, v))
+}
+
+// CategoryContains applies the Contains predicate on the "category" field.
+func CategoryContains(v string) predicate.Options {
+	return predicate.Options(sql.FieldContains(FieldCategory, v))
+}
+
+// CategoryHasPrefix applies the HasPrefix predicate on the "category" field.
+func CategoryHasPrefix(v string) predicate.Options {
+	return predicate.Options(sql.FieldHasPrefix(FieldCategory, v))
+}
+
+// CategoryHasSuffix applies the HasSuffix predicate on the "category" field.
+func CategoryHasSuffix(v string) predicate.Options {
+	return predicate.Options(sql.FieldHasSuffix(FieldCategory, v))
+}
+
+// CategoryIsNil applies the IsNil predicate on the "category" field.
+func CategoryIsNil() predicate.Options {
+	return predicate.Options(sql.FieldIsNull(FieldCategory))
+}
+
+// CategoryNotNil applies the NotNil predicate on the "category" field.
+func CategoryNotNil() predicate.Options {
+	return predicate.Options(sql.FieldNotNull(FieldCategory))
+}
+
+// CategoryEqualFold applies the EqualFold predicate on the "category" field.
+func CategoryEqualFold(v string) predicate.Options {
+	return predicate.Options(sql.FieldEqualFold(FieldCategory, v))
+}
+
+// CategoryContainsFold applies the ContainsFold predicate on the "category" field.
+func CategoryContainsFold(v string) predicate.Options {
+	return predicate.Options(sql.FieldContainsFold(FieldCategory, v))
+}
+
+// DescriptionEQ applies the EQ predicate on the "description" field.
+func DescriptionEQ(v string) predicate.Options {
+	return predicate.Options(sql.FieldEQ(FieldDescription, v))
+}
+
+// DescriptionNEQ applies the NEQ predicate on the "description" field.
+func DescriptionNEQ(v string) predicate.Options {
+	return predicate.Options(sql.FieldNEQ(FieldDescription, v))
+}
+
+// DescriptionIn applies the In predicate on the "description" field.
+func DescriptionIn(vs ...string) predicate.Options {
+	return predicate.Options(sql.FieldIn(FieldDescription, vs...))
+}
+
+// DescriptionNotIn applies the NotIn predicate on the "description" field.
+func DescriptionNotIn(vs ...string) predicate.Options {
+	return predicate.Options(sql.FieldNotIn(FieldDescription, vs...))
+}
+
+// DescriptionGT applies the GT predicate on the "description" field.
+func DescriptionGT(v string) predicate.Options {
+	return predicate.Options(sql.FieldGT(FieldDescription, v))
+}
+
+// DescriptionGTE applies the GTE predicate on the "description" field.
+func DescriptionGTE(v string) predicate.Options {
+	return predicate.Options(sql.FieldGTE(FieldDescription, v))
+}
+
+// DescriptionLT applies the LT predicate on the "description" field.
+func DescriptionLT(v string) predicate.Options {
+	return predicate.Options(sql.FieldLT(FieldDescription, v))
+}
+
+// DescriptionLTE applies the LTE predicate on the "description" field.
+func DescriptionLTE(v string) predicate.Options {
+	return predicate.Options(sql.FieldLTE(FieldDescription, v))
+}
+
+// DescriptionContains applies the Contains predicate on the "description" field.
+func DescriptionContains(v string) predicate.Options {
+	return predicate.Options(sql.FieldContains(FieldDescription, v))
+}
+
+// DescriptionHasPrefix applies the HasPrefix predicate on the "description" field.
+func DescriptionHasPrefix(v string) predicate.Options {
+	return predicate.Options(sql.FieldHasPrefix(FieldDescription, v))
+}
+
+// DescriptionHasSuffix applies the HasSuffix predicate on the "description" field.
+func DescriptionHasSuffix(v string) predicate.Options {
+	return predicate.Options(sql.FieldHasSuffix(FieldDescription, v))
+}
+
+// DescriptionIsNil applies the IsNil predicate on the "description" field.
+func DescriptionIsNil() predicate.Options {
+	return predicate.Options(sql.FieldIsNull(FieldDescription))
+}
+
+// DescriptionNotNil applies the NotNil predicate on the "description" field.
+func DescriptionNotNil() predicate.Options {
+	return predicate.Options(sql.FieldNotNull(FieldDescription))
+}
+
+// DescriptionEqualFold applies the EqualFold predicate on the "description" field.
+func DescriptionEqualFold(v string) predicate.Options {
+	return predicate.Options(sql.FieldEqualFold(FieldDescription, v))
+}
+
+// DescriptionContainsFold applies the ContainsFold predicate on the "description" field.
+func DescriptionContainsFold(v string) predicate.Options {
+	return predicate.Options(sql.FieldContainsFold(FieldDescription, v))
+}
+
+// ValidationEQ applies the EQ predicate on the "validation" field.
+func ValidationEQ(v string) predicate.Options {
+	return predicate.Options(sql.FieldEQ(FieldValidation, v))
+}
+
+// ValidationNEQ applies the NEQ predicate on the "validation" field.
+func ValidationNEQ(v string) predicate.Options {
+	return predicate.Options(sql.FieldNEQ(FieldValidation, v))
+}
+
+// ValidationIn applies the In predicate on the "validation" field.
+func ValidationIn(vs ...string) predicate.Options {
+	return predicate.Options(sql.FieldIn(FieldValidation, vs...))
+}
+
+// ValidationNotIn applies the NotIn predicate on the "validation" field.
+func ValidationNotIn(vs ...string) predicate.Options {
+	return predicate.Options(sql.FieldNotIn(FieldValidation, vs...))
+}
+
+// ValidationGT applies the GT predicate on the "validation" field.
+func ValidationGT(v string) predicate.Options {
+	return predicate.Options(sql.FieldGT(FieldValidation, v))
+}
+
+// ValidationGTE applies the GTE predicate on the "validation" field.
+func ValidationGTE(v string) predicate.Options {
+	return predicate.Options(sql.FieldGTE(FieldValidation, v))
+}
+
+// ValidationLT applies the LT predicate on the "validation" field.
+func ValidationLT(v string) predicate.Options {
+	return predicate.Options(sql.FieldLT(FieldValidation, v))
+}
+
+// ValidationLTE applies the LTE predicate on the "validation" field.
+func ValidationLTE(v string) predicate.Options {
+	return predicate.Options(sql.FieldLTE(FieldValidation, v))
+}
+
+// ValidationContains applies the Contains predicate on the "validation" field.
+func ValidationContains(v string) predicate.Options {
+	return predicate.Options(sql.FieldContains(FieldValidation, v))
+}
+
+// ValidationHasPrefix applies the HasPrefix predicate on the "validation" field.
+func ValidationHasPrefix(v string) predicate.Options {
+	return predicate.Options(sql.FieldHasPrefix(FieldValidation, v))
+}
+
+// ValidationHasSuffix applies the HasSuffix predicate on the "validation" field.
+func ValidationHasSuffix(v string) predicate.Options {
+	return predicate.Options(sql.FieldHasSuffix(FieldValidation, v))
+}
+
+// ValidationIsNil applies the IsNil predicate on the "validation" field.
+func ValidationIsNil() predicate.Options {
+	return predicate.Options(sql.FieldIsNull(FieldValidation))
+}
+
+// ValidationNotNil applies the NotNil predicate on the "validation" field.
+func ValidationNotNil() predicate.Options {
+	return predicate.Options(sql.FieldNotNull(FieldValidation))
+}
+
+// ValidationEqualFold applies the EqualFold predicate on the "validation" field.
+func ValidationEqualFold(v string) predicate.Options {
+	return predicate.Options(sql.FieldEqualFold(FieldValidation, v))
+}
+
+// ValidationContainsFold applies the ContainsFold predicate on the "validation" field.
+func ValidationContainsFold(v string) predicate.Options {
+	return predicate.Options(sql.FieldContainsFold(FieldValidation, v))
+}
+
+// IsSecretEQ applies the EQ predicate on the "is_secret" field.
+func IsSecretEQ(v bool) predicate.Options {
+	return predicate.Options(sql.FieldEQ(FieldIsSecret, v))
+}
+
+// IsSecretNEQ applies the NEQ predicate on the "is_secret" field.
+func IsSecretNEQ(v bool) predicate.Options {
+	return predicate.Options(sql.FieldNEQ(FieldIsSecret, v))
+}
+
+// EnvironmentVariableEQ applies the EQ predicate on the "environment_variable" field.
+func EnvironmentVariableEQ(v string) predicate.Options {
+	return predicate.Options(sql.FieldEQ(FieldEnvironmentVariable, v))
+}
+
+// EnvironmentVariableNEQ applies the NEQ predicate on the "environment_variable" field.
+func EnvironmentVariableNEQ(v string) predicate.Options {
+	return predicate.Options(sql.FieldNEQ(FieldEnvironmentVariable, v))
+}
+
+// EnvironmentVariableIn applies the In predicate on the "environment_variable" field.
+func EnvironmentVariableIn(vs ...string) predicate.Options {
+	return predicate.Options(sql.FieldIn(FieldEnvironmentVariable, vs...))
+}
+
+// EnvironmentVariableNotIn applies the NotIn predicate on the "environment_variable" field.
+func EnvironmentVariableNotIn(vs ...string) predicate.Options {
+	return predicate.Options(sql.FieldNotIn(FieldEnvironmentVariable, vs...))
+}
+
+// EnvironmentVariableGT applies the GT predicate on the "environment_variable" field.
+func EnvironmentVariableGT(v string) predicate.Options {
+	return predicate.Options(sql.FieldGT(FieldEnvironmentVariable, v))
+}
+
+// EnvironmentVariableGTE applies the GTE predicate on the "environment_variable" field.
+func EnvironmentVariableGTE(v string) predicate.Options {
+	return predicate.Options(sql.FieldGTE(FieldEnvironmentVariable, v))
+}
+
+// EnvironmentVariableLT applies the LT predicate on the "environment_variable" field.
+func EnvironmentVariableLT(v string) predicate.Options {
+	return predicate.Options(sql.FieldLT(FieldEnvironmentVariable, v))
+}
+
+// EnvironmentVariableLTE applies the LTE predicate on the "environment_variable" field.
+func EnvironmentVariableLTE(v string) predicate.Options {
+	return predicate.Options(sql.FieldLTE(FieldEnvironmentVariable, v))
+}
+
+// EnvironmentVariableContains applies the Contains predicate on the "environment_variable" field.
+func EnvironmentVariableContains(v string) predicate.Options {
+	return predicate.Options(sql.FieldContains(FieldEnvironmentVariable, v))
+}
+
+// EnvironmentVariableHasPrefix applies the HasPrefix predicate on the "environment_variable" field.
+func EnvironmentVariableHasPrefix(v string) predicate.Options {
+	return predicate.Options(sql.FieldHasPrefix(FieldEnvironmentVariable, v))
+}
+
+// EnvironmentVariableHasSuffix applies the HasSuffix predicate on the "environment_variable" field.
+func EnvironmentVariableHasSuffix(v string) predicate.Options {
+	return predicate.Options(sql.FieldHasSuffix(FieldEnvironmentVariable, v))
+}
+
+// EnvironmentVariableIsNil applies the IsNil predicate on the "environment_variable" field.
+func EnvironmentVariableIsNil() predicate.Options {
+	return predicate.Options(sql.FieldIsNull(FieldEnvironmentVariable))
+}
+
+// EnvironmentVariableNotNil applies the NotNil predicate on the "environment_variable" field.
+func EnvironmentVariableNotNil() predicate.Options {
+	return predicate.Options(sql.FieldNotNull(FieldEnvironmentVariable))
+}
+
+// EnvironmentVariableEqualFold applies the EqualFold predicate on the "environment_variable" field.
+func EnvironmentVariableEqualFold(v string) predicate.Options {
+	return predicate.Options(sql.FieldEqualFold(FieldEnvironmentVariable, v))
+}
+
+// EnvironmentVariableContainsFold applies the ContainsFold predicate on the "environment_variable" field.
+func EnvironmentVariableContainsFold(v string) predicate.Options {
+	return predicate.Options(sql.FieldContainsFold(FieldEnvironmentVariable, v))
 }
 
 // And groups predicates with the AND operator between them.

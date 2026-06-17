@@ -9,6 +9,7 @@ import (
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/entsql"
 	"entgo.io/ent/schema"
+	"entgo.io/ent/schema/field"
 )
 
 // Options holds the schema definition for the Options entity.
@@ -41,7 +42,23 @@ func (Options) Mixin() []ent.Mixin {
 
 // Fields of the Options.
 func (Options) Fields() []ent.Field {
-	return []ent.Field{}
+	return []ent.Field{
+		field.String("category").
+			Optional().
+			Comment("runtime option category"),
+		field.String("description").
+			Optional().
+			Comment("human-readable option description"),
+		field.String("validation").
+			Optional().
+			Comment("validation expression or schema identifier"),
+		field.Bool("is_secret").
+			Default(false).
+			Comment("whether the option value is treated as sensitive"),
+		field.String("environment_variable").
+			Optional().
+			Comment("server-side environment variable name for sensitive values"),
+	}
 }
 
 // Edges of the Options.

@@ -166,6 +166,100 @@ func (_u *OptionsUpdate) ClearUpdatedAt() *OptionsUpdate {
 	return _u
 }
 
+// SetCategory sets the "category" field.
+func (_u *OptionsUpdate) SetCategory(v string) *OptionsUpdate {
+	_u.mutation.SetCategory(v)
+	return _u
+}
+
+// SetNillableCategory sets the "category" field if the given value is not nil.
+func (_u *OptionsUpdate) SetNillableCategory(v *string) *OptionsUpdate {
+	if v != nil {
+		_u.SetCategory(*v)
+	}
+	return _u
+}
+
+// ClearCategory clears the value of the "category" field.
+func (_u *OptionsUpdate) ClearCategory() *OptionsUpdate {
+	_u.mutation.ClearCategory()
+	return _u
+}
+
+// SetDescription sets the "description" field.
+func (_u *OptionsUpdate) SetDescription(v string) *OptionsUpdate {
+	_u.mutation.SetDescription(v)
+	return _u
+}
+
+// SetNillableDescription sets the "description" field if the given value is not nil.
+func (_u *OptionsUpdate) SetNillableDescription(v *string) *OptionsUpdate {
+	if v != nil {
+		_u.SetDescription(*v)
+	}
+	return _u
+}
+
+// ClearDescription clears the value of the "description" field.
+func (_u *OptionsUpdate) ClearDescription() *OptionsUpdate {
+	_u.mutation.ClearDescription()
+	return _u
+}
+
+// SetValidation sets the "validation" field.
+func (_u *OptionsUpdate) SetValidation(v string) *OptionsUpdate {
+	_u.mutation.SetValidation(v)
+	return _u
+}
+
+// SetNillableValidation sets the "validation" field if the given value is not nil.
+func (_u *OptionsUpdate) SetNillableValidation(v *string) *OptionsUpdate {
+	if v != nil {
+		_u.SetValidation(*v)
+	}
+	return _u
+}
+
+// ClearValidation clears the value of the "validation" field.
+func (_u *OptionsUpdate) ClearValidation() *OptionsUpdate {
+	_u.mutation.ClearValidation()
+	return _u
+}
+
+// SetIsSecret sets the "is_secret" field.
+func (_u *OptionsUpdate) SetIsSecret(v bool) *OptionsUpdate {
+	_u.mutation.SetIsSecret(v)
+	return _u
+}
+
+// SetNillableIsSecret sets the "is_secret" field if the given value is not nil.
+func (_u *OptionsUpdate) SetNillableIsSecret(v *bool) *OptionsUpdate {
+	if v != nil {
+		_u.SetIsSecret(*v)
+	}
+	return _u
+}
+
+// SetEnvironmentVariable sets the "environment_variable" field.
+func (_u *OptionsUpdate) SetEnvironmentVariable(v string) *OptionsUpdate {
+	_u.mutation.SetEnvironmentVariable(v)
+	return _u
+}
+
+// SetNillableEnvironmentVariable sets the "environment_variable" field if the given value is not nil.
+func (_u *OptionsUpdate) SetNillableEnvironmentVariable(v *string) *OptionsUpdate {
+	if v != nil {
+		_u.SetEnvironmentVariable(*v)
+	}
+	return _u
+}
+
+// ClearEnvironmentVariable clears the value of the "environment_variable" field.
+func (_u *OptionsUpdate) ClearEnvironmentVariable() *OptionsUpdate {
+	_u.mutation.ClearEnvironmentVariable()
+	return _u
+}
+
 // Mutation returns the OptionsMutation object of the builder.
 func (_u *OptionsUpdate) Mutation() *OptionsMutation {
 	return _u.mutation
@@ -276,6 +370,33 @@ func (_u *OptionsUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	}
 	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(options.FieldUpdatedAt, field.TypeInt64)
+	}
+	if value, ok := _u.mutation.Category(); ok {
+		_spec.SetField(options.FieldCategory, field.TypeString, value)
+	}
+	if _u.mutation.CategoryCleared() {
+		_spec.ClearField(options.FieldCategory, field.TypeString)
+	}
+	if value, ok := _u.mutation.Description(); ok {
+		_spec.SetField(options.FieldDescription, field.TypeString, value)
+	}
+	if _u.mutation.DescriptionCleared() {
+		_spec.ClearField(options.FieldDescription, field.TypeString)
+	}
+	if value, ok := _u.mutation.Validation(); ok {
+		_spec.SetField(options.FieldValidation, field.TypeString, value)
+	}
+	if _u.mutation.ValidationCleared() {
+		_spec.ClearField(options.FieldValidation, field.TypeString)
+	}
+	if value, ok := _u.mutation.IsSecret(); ok {
+		_spec.SetField(options.FieldIsSecret, field.TypeBool, value)
+	}
+	if value, ok := _u.mutation.EnvironmentVariable(); ok {
+		_spec.SetField(options.FieldEnvironmentVariable, field.TypeString, value)
+	}
+	if _u.mutation.EnvironmentVariableCleared() {
+		_spec.ClearField(options.FieldEnvironmentVariable, field.TypeString)
 	}
 	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
@@ -436,6 +557,100 @@ func (_u *OptionsUpdateOne) ClearUpdatedAt() *OptionsUpdateOne {
 	return _u
 }
 
+// SetCategory sets the "category" field.
+func (_u *OptionsUpdateOne) SetCategory(v string) *OptionsUpdateOne {
+	_u.mutation.SetCategory(v)
+	return _u
+}
+
+// SetNillableCategory sets the "category" field if the given value is not nil.
+func (_u *OptionsUpdateOne) SetNillableCategory(v *string) *OptionsUpdateOne {
+	if v != nil {
+		_u.SetCategory(*v)
+	}
+	return _u
+}
+
+// ClearCategory clears the value of the "category" field.
+func (_u *OptionsUpdateOne) ClearCategory() *OptionsUpdateOne {
+	_u.mutation.ClearCategory()
+	return _u
+}
+
+// SetDescription sets the "description" field.
+func (_u *OptionsUpdateOne) SetDescription(v string) *OptionsUpdateOne {
+	_u.mutation.SetDescription(v)
+	return _u
+}
+
+// SetNillableDescription sets the "description" field if the given value is not nil.
+func (_u *OptionsUpdateOne) SetNillableDescription(v *string) *OptionsUpdateOne {
+	if v != nil {
+		_u.SetDescription(*v)
+	}
+	return _u
+}
+
+// ClearDescription clears the value of the "description" field.
+func (_u *OptionsUpdateOne) ClearDescription() *OptionsUpdateOne {
+	_u.mutation.ClearDescription()
+	return _u
+}
+
+// SetValidation sets the "validation" field.
+func (_u *OptionsUpdateOne) SetValidation(v string) *OptionsUpdateOne {
+	_u.mutation.SetValidation(v)
+	return _u
+}
+
+// SetNillableValidation sets the "validation" field if the given value is not nil.
+func (_u *OptionsUpdateOne) SetNillableValidation(v *string) *OptionsUpdateOne {
+	if v != nil {
+		_u.SetValidation(*v)
+	}
+	return _u
+}
+
+// ClearValidation clears the value of the "validation" field.
+func (_u *OptionsUpdateOne) ClearValidation() *OptionsUpdateOne {
+	_u.mutation.ClearValidation()
+	return _u
+}
+
+// SetIsSecret sets the "is_secret" field.
+func (_u *OptionsUpdateOne) SetIsSecret(v bool) *OptionsUpdateOne {
+	_u.mutation.SetIsSecret(v)
+	return _u
+}
+
+// SetNillableIsSecret sets the "is_secret" field if the given value is not nil.
+func (_u *OptionsUpdateOne) SetNillableIsSecret(v *bool) *OptionsUpdateOne {
+	if v != nil {
+		_u.SetIsSecret(*v)
+	}
+	return _u
+}
+
+// SetEnvironmentVariable sets the "environment_variable" field.
+func (_u *OptionsUpdateOne) SetEnvironmentVariable(v string) *OptionsUpdateOne {
+	_u.mutation.SetEnvironmentVariable(v)
+	return _u
+}
+
+// SetNillableEnvironmentVariable sets the "environment_variable" field if the given value is not nil.
+func (_u *OptionsUpdateOne) SetNillableEnvironmentVariable(v *string) *OptionsUpdateOne {
+	if v != nil {
+		_u.SetEnvironmentVariable(*v)
+	}
+	return _u
+}
+
+// ClearEnvironmentVariable clears the value of the "environment_variable" field.
+func (_u *OptionsUpdateOne) ClearEnvironmentVariable() *OptionsUpdateOne {
+	_u.mutation.ClearEnvironmentVariable()
+	return _u
+}
+
 // Mutation returns the OptionsMutation object of the builder.
 func (_u *OptionsUpdateOne) Mutation() *OptionsMutation {
 	return _u.mutation
@@ -576,6 +791,33 @@ func (_u *OptionsUpdateOne) sqlSave(ctx context.Context) (_node *Options, err er
 	}
 	if _u.mutation.UpdatedAtCleared() {
 		_spec.ClearField(options.FieldUpdatedAt, field.TypeInt64)
+	}
+	if value, ok := _u.mutation.Category(); ok {
+		_spec.SetField(options.FieldCategory, field.TypeString, value)
+	}
+	if _u.mutation.CategoryCleared() {
+		_spec.ClearField(options.FieldCategory, field.TypeString)
+	}
+	if value, ok := _u.mutation.Description(); ok {
+		_spec.SetField(options.FieldDescription, field.TypeString, value)
+	}
+	if _u.mutation.DescriptionCleared() {
+		_spec.ClearField(options.FieldDescription, field.TypeString)
+	}
+	if value, ok := _u.mutation.Validation(); ok {
+		_spec.SetField(options.FieldValidation, field.TypeString, value)
+	}
+	if _u.mutation.ValidationCleared() {
+		_spec.ClearField(options.FieldValidation, field.TypeString)
+	}
+	if value, ok := _u.mutation.IsSecret(); ok {
+		_spec.SetField(options.FieldIsSecret, field.TypeBool, value)
+	}
+	if value, ok := _u.mutation.EnvironmentVariable(); ok {
+		_spec.SetField(options.FieldEnvironmentVariable, field.TypeString, value)
+	}
+	if _u.mutation.EnvironmentVariableCleared() {
+		_spec.ClearField(options.FieldEnvironmentVariable, field.TypeString)
 	}
 	_node = &Options{config: _u.config}
 	_spec.Assign = _node.assignValues

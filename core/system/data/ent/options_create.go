@@ -134,6 +134,76 @@ func (_c *OptionsCreate) SetNillableUpdatedAt(v *int64) *OptionsCreate {
 	return _c
 }
 
+// SetCategory sets the "category" field.
+func (_c *OptionsCreate) SetCategory(v string) *OptionsCreate {
+	_c.mutation.SetCategory(v)
+	return _c
+}
+
+// SetNillableCategory sets the "category" field if the given value is not nil.
+func (_c *OptionsCreate) SetNillableCategory(v *string) *OptionsCreate {
+	if v != nil {
+		_c.SetCategory(*v)
+	}
+	return _c
+}
+
+// SetDescription sets the "description" field.
+func (_c *OptionsCreate) SetDescription(v string) *OptionsCreate {
+	_c.mutation.SetDescription(v)
+	return _c
+}
+
+// SetNillableDescription sets the "description" field if the given value is not nil.
+func (_c *OptionsCreate) SetNillableDescription(v *string) *OptionsCreate {
+	if v != nil {
+		_c.SetDescription(*v)
+	}
+	return _c
+}
+
+// SetValidation sets the "validation" field.
+func (_c *OptionsCreate) SetValidation(v string) *OptionsCreate {
+	_c.mutation.SetValidation(v)
+	return _c
+}
+
+// SetNillableValidation sets the "validation" field if the given value is not nil.
+func (_c *OptionsCreate) SetNillableValidation(v *string) *OptionsCreate {
+	if v != nil {
+		_c.SetValidation(*v)
+	}
+	return _c
+}
+
+// SetIsSecret sets the "is_secret" field.
+func (_c *OptionsCreate) SetIsSecret(v bool) *OptionsCreate {
+	_c.mutation.SetIsSecret(v)
+	return _c
+}
+
+// SetNillableIsSecret sets the "is_secret" field if the given value is not nil.
+func (_c *OptionsCreate) SetNillableIsSecret(v *bool) *OptionsCreate {
+	if v != nil {
+		_c.SetIsSecret(*v)
+	}
+	return _c
+}
+
+// SetEnvironmentVariable sets the "environment_variable" field.
+func (_c *OptionsCreate) SetEnvironmentVariable(v string) *OptionsCreate {
+	_c.mutation.SetEnvironmentVariable(v)
+	return _c
+}
+
+// SetNillableEnvironmentVariable sets the "environment_variable" field if the given value is not nil.
+func (_c *OptionsCreate) SetNillableEnvironmentVariable(v *string) *OptionsCreate {
+	if v != nil {
+		_c.SetEnvironmentVariable(*v)
+	}
+	return _c
+}
+
 // SetID sets the "id" field.
 func (_c *OptionsCreate) SetID(v string) *OptionsCreate {
 	_c.mutation.SetID(v)
@@ -195,6 +265,10 @@ func (_c *OptionsCreate) defaults() {
 		v := options.DefaultUpdatedAt()
 		_c.mutation.SetUpdatedAt(v)
 	}
+	if _, ok := _c.mutation.IsSecret(); !ok {
+		v := options.DefaultIsSecret
+		_c.mutation.SetIsSecret(v)
+	}
 	if _, ok := _c.mutation.ID(); !ok {
 		v := options.DefaultID()
 		_c.mutation.SetID(v)
@@ -207,6 +281,9 @@ func (_c *OptionsCreate) check() error {
 		if err := options.NameValidator(v); err != nil {
 			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "Options.name": %w`, err)}
 		}
+	}
+	if _, ok := _c.mutation.IsSecret(); !ok {
+		return &ValidationError{Name: "is_secret", err: errors.New(`ent: missing required field "Options.is_secret"`)}
 	}
 	if v, ok := _c.mutation.ID(); ok {
 		if err := options.IDValidator(v); err != nil {
@@ -280,6 +357,26 @@ func (_c *OptionsCreate) createSpec() (*Options, *sqlgraph.CreateSpec) {
 	if value, ok := _c.mutation.UpdatedAt(); ok {
 		_spec.SetField(options.FieldUpdatedAt, field.TypeInt64, value)
 		_node.UpdatedAt = value
+	}
+	if value, ok := _c.mutation.Category(); ok {
+		_spec.SetField(options.FieldCategory, field.TypeString, value)
+		_node.Category = value
+	}
+	if value, ok := _c.mutation.Description(); ok {
+		_spec.SetField(options.FieldDescription, field.TypeString, value)
+		_node.Description = value
+	}
+	if value, ok := _c.mutation.Validation(); ok {
+		_spec.SetField(options.FieldValidation, field.TypeString, value)
+		_node.Validation = value
+	}
+	if value, ok := _c.mutation.IsSecret(); ok {
+		_spec.SetField(options.FieldIsSecret, field.TypeBool, value)
+		_node.IsSecret = value
+	}
+	if value, ok := _c.mutation.EnvironmentVariable(); ok {
+		_spec.SetField(options.FieldEnvironmentVariable, field.TypeString, value)
+		_node.EnvironmentVariable = value
 	}
 	return _node, _spec
 }
@@ -462,6 +559,90 @@ func (u *OptionsUpsert) AddUpdatedAt(v int64) *OptionsUpsert {
 // ClearUpdatedAt clears the value of the "updated_at" field.
 func (u *OptionsUpsert) ClearUpdatedAt() *OptionsUpsert {
 	u.SetNull(options.FieldUpdatedAt)
+	return u
+}
+
+// SetCategory sets the "category" field.
+func (u *OptionsUpsert) SetCategory(v string) *OptionsUpsert {
+	u.Set(options.FieldCategory, v)
+	return u
+}
+
+// UpdateCategory sets the "category" field to the value that was provided on create.
+func (u *OptionsUpsert) UpdateCategory() *OptionsUpsert {
+	u.SetExcluded(options.FieldCategory)
+	return u
+}
+
+// ClearCategory clears the value of the "category" field.
+func (u *OptionsUpsert) ClearCategory() *OptionsUpsert {
+	u.SetNull(options.FieldCategory)
+	return u
+}
+
+// SetDescription sets the "description" field.
+func (u *OptionsUpsert) SetDescription(v string) *OptionsUpsert {
+	u.Set(options.FieldDescription, v)
+	return u
+}
+
+// UpdateDescription sets the "description" field to the value that was provided on create.
+func (u *OptionsUpsert) UpdateDescription() *OptionsUpsert {
+	u.SetExcluded(options.FieldDescription)
+	return u
+}
+
+// ClearDescription clears the value of the "description" field.
+func (u *OptionsUpsert) ClearDescription() *OptionsUpsert {
+	u.SetNull(options.FieldDescription)
+	return u
+}
+
+// SetValidation sets the "validation" field.
+func (u *OptionsUpsert) SetValidation(v string) *OptionsUpsert {
+	u.Set(options.FieldValidation, v)
+	return u
+}
+
+// UpdateValidation sets the "validation" field to the value that was provided on create.
+func (u *OptionsUpsert) UpdateValidation() *OptionsUpsert {
+	u.SetExcluded(options.FieldValidation)
+	return u
+}
+
+// ClearValidation clears the value of the "validation" field.
+func (u *OptionsUpsert) ClearValidation() *OptionsUpsert {
+	u.SetNull(options.FieldValidation)
+	return u
+}
+
+// SetIsSecret sets the "is_secret" field.
+func (u *OptionsUpsert) SetIsSecret(v bool) *OptionsUpsert {
+	u.Set(options.FieldIsSecret, v)
+	return u
+}
+
+// UpdateIsSecret sets the "is_secret" field to the value that was provided on create.
+func (u *OptionsUpsert) UpdateIsSecret() *OptionsUpsert {
+	u.SetExcluded(options.FieldIsSecret)
+	return u
+}
+
+// SetEnvironmentVariable sets the "environment_variable" field.
+func (u *OptionsUpsert) SetEnvironmentVariable(v string) *OptionsUpsert {
+	u.Set(options.FieldEnvironmentVariable, v)
+	return u
+}
+
+// UpdateEnvironmentVariable sets the "environment_variable" field to the value that was provided on create.
+func (u *OptionsUpsert) UpdateEnvironmentVariable() *OptionsUpsert {
+	u.SetExcluded(options.FieldEnvironmentVariable)
+	return u
+}
+
+// ClearEnvironmentVariable clears the value of the "environment_variable" field.
+func (u *OptionsUpsert) ClearEnvironmentVariable() *OptionsUpsert {
+	u.SetNull(options.FieldEnvironmentVariable)
 	return u
 }
 
@@ -667,6 +848,104 @@ func (u *OptionsUpsertOne) UpdateUpdatedAt() *OptionsUpsertOne {
 func (u *OptionsUpsertOne) ClearUpdatedAt() *OptionsUpsertOne {
 	return u.Update(func(s *OptionsUpsert) {
 		s.ClearUpdatedAt()
+	})
+}
+
+// SetCategory sets the "category" field.
+func (u *OptionsUpsertOne) SetCategory(v string) *OptionsUpsertOne {
+	return u.Update(func(s *OptionsUpsert) {
+		s.SetCategory(v)
+	})
+}
+
+// UpdateCategory sets the "category" field to the value that was provided on create.
+func (u *OptionsUpsertOne) UpdateCategory() *OptionsUpsertOne {
+	return u.Update(func(s *OptionsUpsert) {
+		s.UpdateCategory()
+	})
+}
+
+// ClearCategory clears the value of the "category" field.
+func (u *OptionsUpsertOne) ClearCategory() *OptionsUpsertOne {
+	return u.Update(func(s *OptionsUpsert) {
+		s.ClearCategory()
+	})
+}
+
+// SetDescription sets the "description" field.
+func (u *OptionsUpsertOne) SetDescription(v string) *OptionsUpsertOne {
+	return u.Update(func(s *OptionsUpsert) {
+		s.SetDescription(v)
+	})
+}
+
+// UpdateDescription sets the "description" field to the value that was provided on create.
+func (u *OptionsUpsertOne) UpdateDescription() *OptionsUpsertOne {
+	return u.Update(func(s *OptionsUpsert) {
+		s.UpdateDescription()
+	})
+}
+
+// ClearDescription clears the value of the "description" field.
+func (u *OptionsUpsertOne) ClearDescription() *OptionsUpsertOne {
+	return u.Update(func(s *OptionsUpsert) {
+		s.ClearDescription()
+	})
+}
+
+// SetValidation sets the "validation" field.
+func (u *OptionsUpsertOne) SetValidation(v string) *OptionsUpsertOne {
+	return u.Update(func(s *OptionsUpsert) {
+		s.SetValidation(v)
+	})
+}
+
+// UpdateValidation sets the "validation" field to the value that was provided on create.
+func (u *OptionsUpsertOne) UpdateValidation() *OptionsUpsertOne {
+	return u.Update(func(s *OptionsUpsert) {
+		s.UpdateValidation()
+	})
+}
+
+// ClearValidation clears the value of the "validation" field.
+func (u *OptionsUpsertOne) ClearValidation() *OptionsUpsertOne {
+	return u.Update(func(s *OptionsUpsert) {
+		s.ClearValidation()
+	})
+}
+
+// SetIsSecret sets the "is_secret" field.
+func (u *OptionsUpsertOne) SetIsSecret(v bool) *OptionsUpsertOne {
+	return u.Update(func(s *OptionsUpsert) {
+		s.SetIsSecret(v)
+	})
+}
+
+// UpdateIsSecret sets the "is_secret" field to the value that was provided on create.
+func (u *OptionsUpsertOne) UpdateIsSecret() *OptionsUpsertOne {
+	return u.Update(func(s *OptionsUpsert) {
+		s.UpdateIsSecret()
+	})
+}
+
+// SetEnvironmentVariable sets the "environment_variable" field.
+func (u *OptionsUpsertOne) SetEnvironmentVariable(v string) *OptionsUpsertOne {
+	return u.Update(func(s *OptionsUpsert) {
+		s.SetEnvironmentVariable(v)
+	})
+}
+
+// UpdateEnvironmentVariable sets the "environment_variable" field to the value that was provided on create.
+func (u *OptionsUpsertOne) UpdateEnvironmentVariable() *OptionsUpsertOne {
+	return u.Update(func(s *OptionsUpsert) {
+		s.UpdateEnvironmentVariable()
+	})
+}
+
+// ClearEnvironmentVariable clears the value of the "environment_variable" field.
+func (u *OptionsUpsertOne) ClearEnvironmentVariable() *OptionsUpsertOne {
+	return u.Update(func(s *OptionsUpsert) {
+		s.ClearEnvironmentVariable()
 	})
 }
 
@@ -1039,6 +1318,104 @@ func (u *OptionsUpsertBulk) UpdateUpdatedAt() *OptionsUpsertBulk {
 func (u *OptionsUpsertBulk) ClearUpdatedAt() *OptionsUpsertBulk {
 	return u.Update(func(s *OptionsUpsert) {
 		s.ClearUpdatedAt()
+	})
+}
+
+// SetCategory sets the "category" field.
+func (u *OptionsUpsertBulk) SetCategory(v string) *OptionsUpsertBulk {
+	return u.Update(func(s *OptionsUpsert) {
+		s.SetCategory(v)
+	})
+}
+
+// UpdateCategory sets the "category" field to the value that was provided on create.
+func (u *OptionsUpsertBulk) UpdateCategory() *OptionsUpsertBulk {
+	return u.Update(func(s *OptionsUpsert) {
+		s.UpdateCategory()
+	})
+}
+
+// ClearCategory clears the value of the "category" field.
+func (u *OptionsUpsertBulk) ClearCategory() *OptionsUpsertBulk {
+	return u.Update(func(s *OptionsUpsert) {
+		s.ClearCategory()
+	})
+}
+
+// SetDescription sets the "description" field.
+func (u *OptionsUpsertBulk) SetDescription(v string) *OptionsUpsertBulk {
+	return u.Update(func(s *OptionsUpsert) {
+		s.SetDescription(v)
+	})
+}
+
+// UpdateDescription sets the "description" field to the value that was provided on create.
+func (u *OptionsUpsertBulk) UpdateDescription() *OptionsUpsertBulk {
+	return u.Update(func(s *OptionsUpsert) {
+		s.UpdateDescription()
+	})
+}
+
+// ClearDescription clears the value of the "description" field.
+func (u *OptionsUpsertBulk) ClearDescription() *OptionsUpsertBulk {
+	return u.Update(func(s *OptionsUpsert) {
+		s.ClearDescription()
+	})
+}
+
+// SetValidation sets the "validation" field.
+func (u *OptionsUpsertBulk) SetValidation(v string) *OptionsUpsertBulk {
+	return u.Update(func(s *OptionsUpsert) {
+		s.SetValidation(v)
+	})
+}
+
+// UpdateValidation sets the "validation" field to the value that was provided on create.
+func (u *OptionsUpsertBulk) UpdateValidation() *OptionsUpsertBulk {
+	return u.Update(func(s *OptionsUpsert) {
+		s.UpdateValidation()
+	})
+}
+
+// ClearValidation clears the value of the "validation" field.
+func (u *OptionsUpsertBulk) ClearValidation() *OptionsUpsertBulk {
+	return u.Update(func(s *OptionsUpsert) {
+		s.ClearValidation()
+	})
+}
+
+// SetIsSecret sets the "is_secret" field.
+func (u *OptionsUpsertBulk) SetIsSecret(v bool) *OptionsUpsertBulk {
+	return u.Update(func(s *OptionsUpsert) {
+		s.SetIsSecret(v)
+	})
+}
+
+// UpdateIsSecret sets the "is_secret" field to the value that was provided on create.
+func (u *OptionsUpsertBulk) UpdateIsSecret() *OptionsUpsertBulk {
+	return u.Update(func(s *OptionsUpsert) {
+		s.UpdateIsSecret()
+	})
+}
+
+// SetEnvironmentVariable sets the "environment_variable" field.
+func (u *OptionsUpsertBulk) SetEnvironmentVariable(v string) *OptionsUpsertBulk {
+	return u.Update(func(s *OptionsUpsert) {
+		s.SetEnvironmentVariable(v)
+	})
+}
+
+// UpdateEnvironmentVariable sets the "environment_variable" field to the value that was provided on create.
+func (u *OptionsUpsertBulk) UpdateEnvironmentVariable() *OptionsUpsertBulk {
+	return u.Update(func(s *OptionsUpsert) {
+		s.UpdateEnvironmentVariable()
+	})
+}
+
+// ClearEnvironmentVariable clears the value of the "environment_variable" field.
+func (u *OptionsUpsertBulk) ClearEnvironmentVariable() *OptionsUpsertBulk {
+	return u.Update(func(s *OptionsUpsert) {
+		s.ClearEnvironmentVariable()
 	})
 }
 

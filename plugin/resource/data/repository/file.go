@@ -7,6 +7,7 @@ import (
 	"ncobase/plugin/resource/data/ent"
 	fileEnt "ncobase/plugin/resource/data/ent/file"
 	"ncobase/plugin/resource/structs"
+	"sort"
 	"strings"
 	"time"
 
@@ -34,7 +35,14 @@ type FileRepositoryInterface interface {
 	List(ctx context.Context, params *structs.ListFileParams) ([]*ent.File, error)
 	CountX(ctx context.Context, params *structs.ListFileParams) int
 	SumSizeByOwner(ctx context.Context, ownerID string) (int64, error)
+	SumSizeBySpace(ctx context.Context, spaceID string) (int64, error)
 	GetAllOwners(ctx context.Context) ([]string, error)
+	GetAllSpaces(ctx context.Context) ([]string, error)
+	AggregateSizeByCategory(ctx context.Context) (map[string]int64, error)
+	AggregateSizeByStorage(ctx context.Context) (map[string]int64, error)
+	AggregateDailyUsage(ctx context.Context, from, to int64) ([]DailyUsageAggregate, error)
+	AggregateOwnerUsage(ctx context.Context, limit int) ([]OwnerUsageAggregate, error)
+	AggregateUsageBetween(ctx context.Context, from, to int64) (int64, int, error)
 	SearchByTags(ctx context.Context, ownerID string, tags []string, limit int) ([]*ent.File, error)
 	GetTagsByOwner(ctx context.Context, ownerID string) ([]string, error)
 	CheckNameExists(ctx context.Context, ownerID, name string) (bool, error)
@@ -43,6 +51,20 @@ type FileRepositoryInterface interface {
 	FindExpiredFiles(ctx context.Context, filters *structs.CleanupFilters, limit int) ([]*ent.File, error)
 	FindOrphanedFiles(ctx context.Context, filters *structs.CleanupFilters, limit int) ([]*ent.File, error)
 	FindDuplicateFiles(ctx context.Context) (map[string][]*ent.File, error)
+}
+
+// DailyUsageAggregate represents uploaded file count and size for one day.
+type DailyUsageAggregate struct {
+	Date  string
+	Size  int64
+	Files int
+}
+
+// OwnerUsageAggregate represents file usage grouped by owner.
+type OwnerUsageAggregate struct {
+	OwnerID string
+	Size    int64
+	Files   int
 }
 
 type fileRepository struct {
@@ -620,9 +642,38 @@ func (r *fileRepository) SumSizeByOwner(ctx context.Context, ownerID string) (in
 	return totalSize, nil
 }
 
+// SumSizeBySpace calculates total storage used in a space from file metadata.
+func (r *fileRepository) SumSizeBySpace(ctx context.Context, spaceID string) (int64, error) {
+	if strings.TrimSpace(spaceID) == "" {
+		return 0, nil
+	}
+
+	files, err := r.ecr.File.Query().
+		Where(func(s *sql.Selector) {
+			s.Where(sqljson.ValueEQ(fileEnt.FieldExtras, spaceID, sqljson.Path("space_id")))
+		}).
+		Select(fileEnt.FieldSize).
+		All(ctx)
+	if err != nil {
+		logger.Errorf(ctx, "Error querying files for space size calculation for space %s: %v", spaceID, err)
+		return 0, err
+	}
+
+	var totalSize int64
+	for _, file := range files {
+		totalSize += int64(file.Size)
+	}
+
+	return totalSize, nil
+}
+
 // GetAllOwners gets all unique owners
 func (r *fileRepository) GetAllOwners(ctx context.Context) ([]string, error) {
 	owners, err := r.ecr.File.Query().
+		Where(
+			fileEnt.OwnerIDNotNil(),
+			fileEnt.OwnerIDNEQ(""),
+		).
 		Select(fileEnt.FieldOwnerID).
 		GroupBy(fileEnt.FieldOwnerID).
 		Strings(ctx)
@@ -633,6 +684,182 @@ func (r *fileRepository) GetAllOwners(ctx context.Context) ([]string, error) {
 	}
 
 	return owners, nil
+}
+
+// GetAllSpaces gets all unique active space ids recorded in file metadata.
+func (r *fileRepository) GetAllSpaces(ctx context.Context) ([]string, error) {
+	files, err := r.ecr.File.Query().
+		Where(fileEnt.ExtrasNotNil()).
+		Select(fileEnt.FieldExtras).
+		All(ctx)
+	if err != nil {
+		logger.Errorf(ctx, "Error querying files for space collection: %v", err)
+		return nil, err
+	}
+
+	spaceSet := make(map[string]struct{})
+	for _, file := range files {
+		if file == nil || file.Extras == nil {
+			continue
+		}
+		if spaceID, ok := file.Extras["space_id"].(string); ok && strings.TrimSpace(spaceID) != "" {
+			spaceSet[spaceID] = struct{}{}
+		}
+	}
+
+	spaces := make([]string, 0, len(spaceSet))
+	for spaceID := range spaceSet {
+		spaces = append(spaces, spaceID)
+	}
+	return spaces, nil
+}
+
+// AggregateSizeByCategory returns total stored bytes grouped by file category.
+func (r *fileRepository) AggregateSizeByCategory(ctx context.Context) (map[string]int64, error) {
+	var rows []struct {
+		Category string `json:"category"`
+		Size     int64  `json:"size"`
+	}
+	if err := r.ecr.File.Query().
+		GroupBy(fileEnt.FieldCategory).
+		Aggregate(ent.As(ent.Sum(fileEnt.FieldSize), "size")).
+		Scan(ctx, &rows); err != nil {
+		logger.Errorf(ctx, "Error aggregating file size by category: %v", err)
+		return nil, err
+	}
+
+	result := make(map[string]int64, len(rows))
+	for _, row := range rows {
+		key := strings.TrimSpace(row.Category)
+		if key == "" {
+			key = string(structs.FileCategoryOther)
+		}
+		result[key] = row.Size
+	}
+	return result, nil
+}
+
+// AggregateSizeByStorage returns total stored bytes grouped by storage provider.
+func (r *fileRepository) AggregateSizeByStorage(ctx context.Context) (map[string]int64, error) {
+	var rows []struct {
+		Storage string `json:"storage"`
+		Size    int64  `json:"size"`
+	}
+	if err := r.ecr.File.Query().
+		GroupBy(fileEnt.FieldStorage).
+		Aggregate(ent.As(ent.Sum(fileEnt.FieldSize), "size")).
+		Scan(ctx, &rows); err != nil {
+		logger.Errorf(ctx, "Error aggregating file size by storage: %v", err)
+		return nil, err
+	}
+
+	result := make(map[string]int64, len(rows))
+	for _, row := range rows {
+		key := strings.TrimSpace(row.Storage)
+		if key == "" {
+			key = "unspecified"
+		}
+		result[key] = row.Size
+	}
+	return result, nil
+}
+
+// AggregateDailyUsage returns uploaded file count and size grouped by day.
+func (r *fileRepository) AggregateDailyUsage(ctx context.Context, from, to int64) ([]DailyUsageAggregate, error) {
+	builder := r.ecr.File.Query()
+	if from > 0 {
+		builder = builder.Where(fileEnt.CreatedAtGTE(from))
+	}
+	if to > 0 {
+		builder = builder.Where(fileEnt.CreatedAtLT(to))
+	}
+
+	files, err := builder.Select(fileEnt.FieldCreatedAt, fileEnt.FieldSize).All(ctx)
+	if err != nil {
+		logger.Errorf(ctx, "Error aggregating daily file usage: %v", err)
+		return nil, err
+	}
+
+	byDate := make(map[string]DailyUsageAggregate)
+	for _, file := range files {
+		date := time.UnixMilli(file.CreatedAt).UTC().Format("2006-01-02")
+		current := byDate[date]
+		current.Date = date
+		current.Size += int64(file.Size)
+		current.Files++
+		byDate[date] = current
+	}
+
+	result := make([]DailyUsageAggregate, 0, len(byDate))
+	for _, item := range byDate {
+		result = append(result, item)
+	}
+	sort.Slice(result, func(i, j int) bool {
+		return result[i].Date < result[j].Date
+	})
+	return result, nil
+}
+
+// AggregateOwnerUsage returns stored bytes and file counts grouped by owner.
+func (r *fileRepository) AggregateOwnerUsage(ctx context.Context, limit int) ([]OwnerUsageAggregate, error) {
+	var rows []struct {
+		OwnerID string `json:"owner_id"`
+		Size    int64  `json:"size"`
+		Files   int    `json:"files"`
+	}
+	if err := r.ecr.File.Query().
+		Where(fileEnt.OwnerIDNotNil(), fileEnt.OwnerIDNEQ("")).
+		GroupBy(fileEnt.FieldOwnerID).
+		Aggregate(
+			ent.As(ent.Sum(fileEnt.FieldSize), "size"),
+			ent.As(ent.Count(), "files"),
+		).
+		Scan(ctx, &rows); err != nil {
+		logger.Errorf(ctx, "Error aggregating owner file usage: %v", err)
+		return nil, err
+	}
+
+	result := make([]OwnerUsageAggregate, 0, len(rows))
+	for _, row := range rows {
+		result = append(result, OwnerUsageAggregate{
+			OwnerID: row.OwnerID,
+			Size:    row.Size,
+			Files:   row.Files,
+		})
+	}
+	sort.Slice(result, func(i, j int) bool {
+		if result[i].Size == result[j].Size {
+			return result[i].Files > result[j].Files
+		}
+		return result[i].Size > result[j].Size
+	})
+	if limit > 0 && len(result) > limit {
+		result = result[:limit]
+	}
+	return result, nil
+}
+
+// AggregateUsageBetween returns total stored bytes and file count for files created in a time range.
+func (r *fileRepository) AggregateUsageBetween(ctx context.Context, from, to int64) (int64, int, error) {
+	builder := r.ecr.File.Query()
+	if from > 0 {
+		builder = builder.Where(fileEnt.CreatedAtGTE(from))
+	}
+	if to > 0 {
+		builder = builder.Where(fileEnt.CreatedAtLT(to))
+	}
+
+	files, err := builder.Select(fileEnt.FieldSize).All(ctx)
+	if err != nil {
+		logger.Errorf(ctx, "Error aggregating usage between %d and %d: %v", from, to, err)
+		return 0, 0, err
+	}
+
+	var size int64
+	for _, file := range files {
+		size += int64(file.Size)
+	}
+	return size, len(files), nil
 }
 
 // SearchByTags searches files by tags with improved performance

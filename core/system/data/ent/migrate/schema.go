@@ -100,6 +100,11 @@ var (
 		{Name: "updated_by", Type: field.TypeString, Nullable: true, Comment: "id of the last updater"},
 		{Name: "created_at", Type: field.TypeInt64, Nullable: true, Comment: "created at"},
 		{Name: "updated_at", Type: field.TypeInt64, Nullable: true, Comment: "updated at"},
+		{Name: "category", Type: field.TypeString, Nullable: true, Comment: "runtime option category"},
+		{Name: "description", Type: field.TypeString, Nullable: true, Comment: "human-readable option description"},
+		{Name: "validation", Type: field.TypeString, Nullable: true, Comment: "validation expression or schema identifier"},
+		{Name: "is_secret", Type: field.TypeBool, Comment: "whether the option value is treated as sensitive", Default: false},
+		{Name: "environment_variable", Type: field.TypeString, Nullable: true, Comment: "server-side environment variable name for sensitive values"},
 	}
 	// NcseSysOptionTable holds the schema information for the "ncse_sys_option" table.
 	NcseSysOptionTable = &schema.Table{

@@ -8,12 +8,17 @@ import (
 
 // OptionBody represents an option entity.
 type OptionBody struct {
-	Name      string  `json:"name,omitempty"`
-	Type      string  `json:"type,omitempty"`
-	Value     string  `json:"value,omitempty"`
-	Autoload  bool    `json:"autoload,omitempty"`
-	CreatedBy *string `json:"created_by,omitempty"`
-	UpdatedBy *string `json:"updated_by,omitempty"`
+	Name                string  `json:"name,omitempty"`
+	Type                string  `json:"type,omitempty"`
+	Value               string  `json:"value,omitempty"`
+	Autoload            bool    `json:"autoload,omitempty"`
+	Category            string  `json:"category,omitempty"`
+	Description         string  `json:"description,omitempty"`
+	Validation          string  `json:"validation,omitempty"`
+	IsSecret            bool    `json:"is_secret,omitempty"`
+	EnvironmentVariable string  `json:"environment_variable,omitempty"`
+	CreatedBy           *string `json:"created_by,omitempty"`
+	UpdatedBy           *string `json:"updated_by,omitempty"`
 }
 
 // CreateOptionBody represents the body for creating option.
@@ -29,15 +34,20 @@ type UpdateOptionBody struct {
 
 // ReadOption represents the output schema for retrieving option.
 type ReadOption struct {
-	ID        string  `json:"id"`
-	Name      string  `json:"name"`
-	Type      string  `json:"type"`
-	Value     string  `json:"value"`
-	Autoload  bool    `json:"autoload"`
-	CreatedBy *string `json:"created_by,omitempty"`
-	CreatedAt *int64  `json:"created_at,omitempty"`
-	UpdatedBy *string `json:"updated_by,omitempty"`
-	UpdatedAt *int64  `json:"updated_at,omitempty"`
+	ID                  string  `json:"id"`
+	Name                string  `json:"name"`
+	Type                string  `json:"type"`
+	Value               string  `json:"value"`
+	Autoload            bool    `json:"autoload"`
+	Category            string  `json:"category,omitempty"`
+	Description         string  `json:"description,omitempty"`
+	Validation          string  `json:"validation,omitempty"`
+	IsSecret            bool    `json:"is_secret,omitempty"`
+	EnvironmentVariable string  `json:"environment_variable,omitempty"`
+	CreatedBy           *string `json:"created_by,omitempty"`
+	CreatedAt           *int64  `json:"created_at,omitempty"`
+	UpdatedBy           *string `json:"updated_by,omitempty"`
+	UpdatedAt           *int64  `json:"updated_at,omitempty"`
 }
 
 // GetID returns the ID of the option.
@@ -76,6 +86,8 @@ type ListOptionParams struct {
 	Direction string `form:"direction,omitempty" json:"direction,omitempty"`
 	Type      string `form:"type,omitempty" json:"type,omitempty"`
 	Autoload  *bool  `form:"autoload,omitempty" json:"autoload,omitempty"`
+	Category  string `form:"category,omitempty" json:"category,omitempty"`
+	IsSecret  *bool  `form:"is_secret,omitempty" json:"is_secret,omitempty"`
 	SortBy    string `form:"sort_by,omitempty" json:"sort_by,omitempty"`
 	Prefix    string `form:"prefix,omitempty" json:"prefix,omitempty"`
 }

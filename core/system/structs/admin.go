@@ -147,6 +147,7 @@ type SystemConfigResponse struct {
 	Features     FeatureConfig     `json:"features"`
 	Integrations IntegrationConfig `json:"integrations"`
 	Maintenance  MaintenanceConfig `json:"maintenance"`
+	FeaturesMeta map[string]any    `json:"features_meta,omitempty"`
 }
 
 // SystemConfigUpdate represents configuration updates

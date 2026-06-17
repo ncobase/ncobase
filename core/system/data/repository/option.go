@@ -72,6 +72,19 @@ func (r *optionRepository) Create(ctx context.Context, body *structs.OptionBody)
 	if validator.IsNotNil(body.Autoload) {
 		builder.SetAutoload(body.Autoload)
 	}
+	if validator.IsNotEmpty(body.Category) {
+		builder.SetCategory(body.Category)
+	}
+	if validator.IsNotEmpty(body.Description) {
+		builder.SetDescription(body.Description)
+	}
+	if validator.IsNotEmpty(body.Validation) {
+		builder.SetValidation(body.Validation)
+	}
+	builder.SetIsSecret(body.IsSecret)
+	if validator.IsNotEmpty(body.EnvironmentVariable) {
+		builder.SetEnvironmentVariable(body.EnvironmentVariable)
+	}
 	if validator.IsNotEmpty(body.CreatedBy) {
 		builder.SetNillableCreatedBy(body.CreatedBy)
 	}
@@ -145,6 +158,19 @@ func (r *optionRepository) Update(ctx context.Context, body *structs.UpdateOptio
 	}
 	if validator.IsNotNil(body.Autoload) {
 		builder.SetAutoload(body.Autoload)
+	}
+	if validator.IsNotEmpty(body.Category) {
+		builder.SetCategory(body.Category)
+	}
+	if validator.IsNotEmpty(body.Description) {
+		builder.SetDescription(body.Description)
+	}
+	if validator.IsNotEmpty(body.Validation) {
+		builder.SetValidation(body.Validation)
+	}
+	builder.SetIsSecret(body.IsSecret)
+	if validator.IsNotEmpty(body.EnvironmentVariable) {
+		builder.SetEnvironmentVariable(body.EnvironmentVariable)
 	}
 	if validator.IsNotEmpty(body.UpdatedBy) {
 		builder.SetNillableUpdatedBy(body.UpdatedBy)
@@ -407,6 +433,14 @@ func (r *optionRepository) listBuilder(_ context.Context, params *structs.ListOp
 
 	if params.Autoload != nil {
 		builder.Where(optionsEnt.AutoloadEQ(*params.Autoload))
+	}
+
+	if params.Category != "" {
+		builder.Where(optionsEnt.CategoryEQ(params.Category))
+	}
+
+	if params.IsSecret != nil {
+		builder.Where(optionsEnt.IsSecretEQ(*params.IsSecret))
 	}
 
 	if params.Prefix != "" {

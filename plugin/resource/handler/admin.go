@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"errors"
 	"ncobase/plugin/resource/service"
 	"ncobase/plugin/resource/structs"
 
@@ -36,6 +37,14 @@ type AdminHandlerInterface interface {
 // adminHandler implements AdminHandlerInterface
 type adminHandler struct {
 	adminService service.AdminServiceInterface
+}
+
+func respondResourceAdminError(c *gin.Context, err error) {
+	if errors.Is(err, service.ErrResourceAdminOperationUnavailable) {
+		resp.Fail(c.Writer, resp.ServiceUnavailable(err.Error()))
+		return
+	}
+	resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 }
 
 // NewAdminHandler creates a new admin handler
@@ -314,7 +323,7 @@ func (h *adminHandler) BatchCleanup(c *gin.Context) {
 
 	result, err := h.adminService.BatchCleanup(c.Request.Context(), &body)
 	if err != nil {
-		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+		respondResourceAdminError(c, err)
 		return
 	}
 	resp.Success(c.Writer, result)
@@ -344,7 +353,7 @@ func (h *adminHandler) ListBatchJobs(c *gin.Context) {
 
 	result, err := h.adminService.ListBatchJobs(c.Request.Context(), params)
 	if err != nil {
-		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+		respondResourceAdminError(c, err)
 		return
 	}
 	resp.Success(c.Writer, result)
@@ -366,7 +375,7 @@ func (h *adminHandler) CancelBatchJob(c *gin.Context) {
 
 	err := h.adminService.CancelBatchJob(c.Request.Context(), jobID)
 	if err != nil {
-		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+		respondResourceAdminError(c, err)
 		return
 	}
 	resp.Success(c.Writer, nil)
@@ -385,7 +394,7 @@ func (h *adminHandler) CancelBatchJob(c *gin.Context) {
 func (h *adminHandler) OptimizeStorage(c *gin.Context) {
 	result, err := h.adminService.OptimizeStorage(c.Request.Context())
 	if err != nil {
-		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+		respondResourceAdminError(c, err)
 		return
 	}
 	resp.Success(c.Writer, result)
@@ -431,7 +440,7 @@ func (h *adminHandler) InitiateBackup(c *gin.Context) {
 
 	result, err := h.adminService.InitiateBackup(c.Request.Context(), &body)
 	if err != nil {
-		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+		respondResourceAdminError(c, err)
 		return
 	}
 	resp.Success(c.Writer, result)

@@ -2,15 +2,25 @@ package service
 
 import (
 	"context"
+	"database/sql"
+	"encoding/json"
+	"errors"
 	"fmt"
 	"runtime"
+	runtimemetrics "runtime/metrics"
 	"strconv"
 	"strings"
 	"time"
 
 	"ncobase/core/system/structs"
+	"ncobase/internal/version"
 
 	"github.com/ncobase/ncore/logging/logger"
+)
+
+var (
+	adminServiceStartedAt          = time.Now()
+	ErrAdminAggregationUnavailable = errors.New("admin aggregation is unavailable")
 )
 
 // AdminServiceInterface defines admin operations
@@ -41,61 +51,61 @@ func newAdminService(s *Service) AdminServiceInterface {
 func (svc *adminService) GetSystemHealth(ctx context.Context) (*structs.SystemHealthResponse, error) {
 	logger.Infof(ctx, "Getting system health information")
 
-	// Get system uptime
-	var uptime time.Duration
-	// This is a placeholder - in production, you'd track actual start time
-	uptime = time.Since(time.Now().Add(-24 * time.Hour))
-
-	// Check component health
+	now := time.Now()
+	uptime := now.Sub(adminServiceStartedAt)
 	components := make(map[string]structs.ComponentHealth)
 
-	// Database health
 	dbHealth := structs.ComponentHealth{
 		Status:      "healthy",
 		Message:     "Database connection active",
-		LastChecked: time.Now(),
-		Metrics: map[string]string{
-			"connections":    "5/100",
-			"avg_query_time": "15ms",
-		},
+		LastChecked: now,
+		Metrics:     map[string]string{},
 	}
-
-	// Check database connectivity
 	if err := svc.s.d.Ping(ctx); err != nil {
 		dbHealth.Status = "unhealthy"
 		dbHealth.Message = fmt.Sprintf("Database connection failed: %v", err)
+	} else if db := svc.s.d.GetMasterDB(); db != nil {
+		stats := db.Stats()
+		dbHealth.Metrics = map[string]string{
+			"open_connections": strconv.Itoa(stats.OpenConnections),
+			"in_use":           strconv.Itoa(stats.InUse),
+			"idle":             strconv.Itoa(stats.Idle),
+			"wait_count":       strconv.FormatInt(stats.WaitCount, 10),
+			"max_open":         strconv.Itoa(stats.MaxOpenConnections),
+		}
+	} else {
+		dbHealth.Status = "unhealthy"
+		dbHealth.Message = "Database connection handle is unavailable"
 	}
 	components["database"] = dbHealth
 
-	// Memory health
 	var mem runtime.MemStats
 	runtime.ReadMemStats(&mem)
+	allocMB := bytesToMB(mem.Alloc)
+	sysMB := bytesToMB(mem.Sys)
 	memHealth := structs.ComponentHealth{
 		Status:      "healthy",
-		LastChecked: time.Now(),
+		LastChecked: now,
 		Metrics: map[string]string{
-			"allocated": fmt.Sprintf("%.2f MB", float64(mem.Alloc)/1024/1024),
-			"sys":       fmt.Sprintf("%.2f MB", float64(mem.Sys)/1024/1024),
-			"gc_runs":   strconv.FormatUint(uint64(mem.NumGC), 10),
+			"allocated_mb": fmt.Sprintf("%.2f", allocMB),
+			"sys_mb":       fmt.Sprintf("%.2f", sysMB),
+			"heap_in_use":  fmt.Sprintf("%.2f MB", bytesToMB(mem.HeapInuse)),
+			"gc_runs":      strconv.FormatUint(uint64(mem.NumGC), 10),
 		},
 	}
-
-	// Set status based on memory usage
-	allocMB := float64(mem.Alloc) / 1024 / 1024
-	if allocMB > 1000 {
-		memHealth.Status = "warning"
-		memHealth.Message = "High memory usage detected"
-	} else if allocMB > 2000 {
+	if allocMB > 2048 {
 		memHealth.Status = "critical"
 		memHealth.Message = "Critical memory usage"
+	} else if allocMB > 1024 {
+		memHealth.Status = "warning"
+		memHealth.Message = "High memory usage detected"
 	}
 	components["memory"] = memHealth
 
-	// CPU health (simplified)
 	cpuHealth := structs.ComponentHealth{
 		Status:      "healthy",
-		Message:     "CPU usage within normal range",
-		LastChecked: time.Now(),
+		Message:     "Runtime scheduler information available",
+		LastChecked: now,
 		Metrics: map[string]string{
 			"goroutines": strconv.Itoa(runtime.NumGoroutine()),
 			"cpu_cores":  strconv.Itoa(runtime.NumCPU()),
@@ -114,10 +124,11 @@ func (svc *adminService) GetSystemHealth(ctx context.Context) (*structs.SystemHe
 		}
 	}
 
+	versionInfo := version.GetVersionInfo()
 	return &structs.SystemHealthResponse{
 		Status:     overallStatus,
-		Timestamp:  time.Now(),
-		Version:    "1.0.0", // This should come from build info
+		Timestamp:  now,
+		Version:    versionInfo.Version,
 		Uptime:     uptime.String(),
 		Components: components,
 	}, nil
@@ -127,7 +138,6 @@ func (svc *adminService) GetSystemHealth(ctx context.Context) (*structs.SystemHe
 func (svc *adminService) GetSystemMetrics(ctx context.Context, timeRange string) (*structs.SystemMetricsResponse, error) {
 	logger.Infof(ctx, "Getting system metrics for time range: %s", timeRange)
 
-	// Parse time range
 	var duration time.Duration
 	switch timeRange {
 	case "1h":
@@ -143,129 +153,101 @@ func (svc *adminService) GetSystemMetrics(ctx context.Context, timeRange string)
 		timeRange = "24h"
 	}
 
-	// Generate sample time series data
 	now := time.Now()
-	points := 10 // Number of data points
-	interval := duration / time.Duration(points)
-
+	cpuUsage := processCPUPercentSinceStart(now)
 	var memStats runtime.MemStats
 	runtime.ReadMemStats(&memStats)
 
-	// CPU metrics (simulated)
-	cpuTimeSeries := make([]structs.TimeSeriesPoint, points)
-	for i := 0; i < points; i++ {
-		cpuTimeSeries[i] = structs.TimeSeriesPoint{
-			Timestamp: now.Add(-duration + time.Duration(i)*interval),
-			Value:     float64(30 + (i % 20)), // Simulated CPU usage
-		}
-	}
-
 	cpuMetric := structs.MetricData{
-		Current:    float64(runtime.NumGoroutine()) / float64(runtime.NumCPU()),
-		Average:    35.5,
-		Peak:       48.2,
-		Trend:      "stable",
-		TimeSeries: cpuTimeSeries,
+		Current:    cpuUsage,
+		Average:    cpuUsage,
+		Peak:       cpuUsage,
+		Trend:      "snapshot",
+		TimeSeries: singlePoint(now, cpuUsage),
 		Thresholds: structs.MetricThresholds{
 			Warning:  70.0,
 			Critical: 90.0,
 		},
 	}
 
-	// Memory metrics
-	memoryTimeSeries := make([]structs.TimeSeriesPoint, points)
-	for i := 0; i < points; i++ {
-		memoryTimeSeries[i] = structs.TimeSeriesPoint{
-			Timestamp: now.Add(-duration + time.Duration(i)*interval),
-			Value:     float64(50 + (i % 30)), // Simulated memory usage
-		}
-	}
-
+	currentMemoryMB := bytesToMB(memStats.Alloc)
 	memoryMetric := structs.MetricData{
-		Current:    float64(memStats.Alloc) / 1024 / 1024, // MB
-		Average:    256.7,
-		Peak:       512.1,
-		Trend:      "increasing",
-		TimeSeries: memoryTimeSeries,
+		Current:    currentMemoryMB,
+		Average:    currentMemoryMB,
+		Peak:       currentMemoryMB,
+		Trend:      "snapshot",
+		TimeSeries: singlePoint(now, currentMemoryMB),
 		Thresholds: structs.MetricThresholds{
 			Warning:  1024.0,
 			Critical: 2048.0,
 		},
 	}
 
-	// Database metrics
+	dbStats := sql.DBStats{}
+	if db := svc.s.d.GetMasterDB(); db != nil {
+		dbStats = db.Stats()
+	}
+	openConnections := float64(dbStats.OpenConnections)
 	dbMetrics := structs.DatabaseMetrics{
 		Connections: structs.MetricData{
-			Current: 5,
-			Average: 8.2,
-			Peak:    15,
-			Trend:   "stable",
+			Current:    openConnections,
+			Average:    openConnections,
+			Peak:       openConnections,
+			Trend:      "snapshot",
+			TimeSeries: singlePoint(now, openConnections),
 			Thresholds: structs.MetricThresholds{
 				Warning:  50,
 				Critical: 80,
 			},
 		},
 		QueryTime: structs.MetricData{
-			Current: 15.5,
-			Average: 12.8,
-			Peak:    45.2,
-			Trend:   "stable",
+			Current: 0,
+			Average: 0,
+			Peak:    0,
+			Trend:   "unavailable",
 			Thresholds: structs.MetricThresholds{
 				Warning:  100,
 				Critical: 500,
 			},
 		},
-		SlowQueries: 3,
+		SlowQueries: 0,
 		TransactionRate: structs.MetricData{
-			Current: 150,
-			Average: 120,
-			Peak:    200,
-			Trend:   "increasing",
+			Current: 0,
+			Average: 0,
+			Peak:    0,
+			Trend:   "unavailable",
 		},
 	}
 
-	// API metrics
 	apiMetrics := structs.APIMetrics{
 		RequestRate: structs.MetricData{
-			Current: 45,
-			Average: 38,
-			Peak:    67,
-			Trend:   "stable",
+			Current: 0,
+			Average: 0,
+			Peak:    0,
+			Trend:   "unavailable",
 		},
 		ResponseTime: structs.MetricData{
-			Current: 125,
-			Average: 115,
-			Peak:    250,
-			Trend:   "stable",
+			Current: 0,
+			Average: 0,
+			Peak:    0,
+			Trend:   "unavailable",
 			Thresholds: structs.MetricThresholds{
 				Warning:  500,
 				Critical: 1000,
 			},
 		},
 		ErrorRate: structs.MetricData{
-			Current: 0.5,
-			Average: 0.8,
-			Peak:    2.1,
-			Trend:   "decreasing",
+			Current: 0,
+			Average: 0,
+			Peak:    0,
+			Trend:   "unavailable",
 			Thresholds: structs.MetricThresholds{
 				Warning:  5.0,
 				Critical: 10.0,
 			},
 		},
-		StatusCodes: map[string]int64{
-			"200": 8456,
-			"201": 1234,
-			"400": 45,
-			"401": 23,
-			"403": 12,
-			"404": 67,
-			"500": 8,
-		},
-		TopEndpoints: []structs.EndpointMetric{
-			{Path: "/api/v1/projects", Method: "GET", RequestCount: 2345, AvgTime: 89.5, ErrorRate: 0.2},
-			{Path: "/api/v1/users", Method: "GET", RequestCount: 1876, AvgTime: 56.3, ErrorRate: 0.1},
-			{Path: "/api/v1/spaces", Method: "GET", RequestCount: 1456, AvgTime: 78.9, ErrorRate: 0.3},
-		},
+		StatusCodes:  map[string]int64{},
+		TopEndpoints: []structs.EndpointMetric{},
 	}
 
 	return &structs.SystemMetricsResponse{
@@ -273,23 +255,28 @@ func (svc *adminService) GetSystemMetrics(ctx context.Context, timeRange string)
 		CPU:       cpuMetric,
 		Memory:    memoryMetric,
 		Storage: structs.MetricData{
-			Current: 45.6,
-			Average: 42.1,
-			Peak:    67.8,
-			Trend:   "increasing",
+			Current: 0,
+			Average: 0,
+			Peak:    0,
+			Trend:   "unavailable",
 			Thresholds: structs.MetricThresholds{
 				Warning:  80.0,
 				Critical: 95.0,
 			},
 		},
 		Network: structs.MetricData{
-			Current: 15.8,
-			Average: 12.3,
-			Peak:    28.7,
-			Trend:   "stable",
+			Current: 0,
+			Average: 0,
+			Peak:    0,
+			Trend:   "unavailable",
 		},
 		Database: dbMetrics,
 		API:      apiMetrics,
+		Custom: map[string]any{
+			"window_started_at": now.Add(-duration),
+			"data_stats":        svc.s.d.GetStats(),
+			"note":              "Historical API, storage, and network collectors are not wired.",
+		},
 	}, nil
 }
 
@@ -297,228 +284,107 @@ func (svc *adminService) GetSystemMetrics(ctx context.Context, timeRange string)
 func (svc *adminService) GetUserActivity(ctx context.Context, filters *structs.ActivityFilters) (*structs.UserActivityResponse, error) {
 	logger.Infof(ctx, "Getting user activity with filters: %+v", filters)
 
-	// This is a placeholder implementation
-	// In production, this would query actual activity logs from database
-
-	activities := []structs.ActivityLog{
-		{
-			ID:        "act_1",
-			UserID:    "user_1",
-			Username:  "john.doe",
-			Action:    "login",
-			Resource:  "auth",
-			IPAddress: "192.168.1.100",
-			UserAgent: "Mozilla/5.0...",
-			Timestamp: time.Now().Add(-1 * time.Hour),
-			Success:   true,
-		},
-		{
-			ID:        "act_2",
-			UserID:    "user_2",
-			Username:  "jane.smith",
-			Action:    "create_project",
-			Resource:  "projects/proj_123",
-			Details:   map[string]any{"project_name": "Analytics Dashboard"},
-			IPAddress: "192.168.1.101",
-			UserAgent: "Chrome/96.0...",
-			Timestamp: time.Now().Add(-2 * time.Hour),
-			Success:   true,
-		},
-		{
-			ID:        "act_3",
-			UserID:    "user_3",
-			Username:  "bob.wilson",
-			Action:    "failed_login",
-			Resource:  "auth",
-			IPAddress: "192.168.1.102",
-			UserAgent: "Firefox/95.0...",
-			Timestamp: time.Now().Add(-3 * time.Hour),
-			Success:   false,
-			ErrorMsg:  "Invalid credentials",
-		},
-	}
-
-	// Apply filters (simplified)
-	var filtered []structs.ActivityLog
-	for _, activity := range activities {
-		include := true
-
-		if filters.UserID != "" && activity.UserID != filters.UserID {
-			include = false
-		}
-		if filters.Action != "" && !strings.Contains(activity.Action, filters.Action) {
-			include = false
-		}
-
-		if include {
-			filtered = append(filtered, activity)
-		}
-	}
-
-	// Apply pagination
-	total := int64(len(filtered))
-	start := filters.Offset
-	end := start + filters.Limit
-
-	if start > len(filtered) {
-		filtered = []structs.ActivityLog{}
-	} else if end > len(filtered) {
-		filtered = filtered[start:]
-	} else {
-		filtered = filtered[start:end]
-	}
-
-	return &structs.UserActivityResponse{
-		Activities: filtered,
-		Total:      total,
-		Limit:      filters.Limit,
-		Offset:     filters.Offset,
-	}, nil
+	return nil, fmt.Errorf("%w: use /sys/activities for real activity data until admin aggregation is wired", ErrAdminAggregationUnavailable)
 }
 
 // GetSystemLogs retrieves system logs
 func (svc *adminService) GetSystemLogs(ctx context.Context, filters *structs.LogFilters) (*structs.SystemLogsResponse, error) {
 	logger.Infof(ctx, "Getting system logs with filters: %+v", filters)
 
-	// Placeholder implementation
-	logs := []structs.SystemLogEntry{
-		{
-			ID:        "log_1",
-			Level:     "info",
-			Component: "auth",
-			Message:   "User authentication successful",
-			Context:   map[string]any{"user_id": "user_1", "ip": "192.168.1.100"},
-			Timestamp: time.Now().Add(-10 * time.Minute),
-		},
-		{
-			ID:        "log_2",
-			Level:     "warn",
-			Component: "database",
-			Message:   "Slow query detected",
-			Context:   map[string]any{"query_time": "1.2s", "table": "projects"},
-			Timestamp: time.Now().Add(-15 * time.Minute),
-		},
-		{
-			ID:        "log_3",
-			Level:     "error",
-			Component: "payment",
-			Message:   "Payment processing failed",
-			Context:   map[string]any{"error": "connection timeout", "payment_id": "pay_123"},
-			Timestamp: time.Now().Add(-20 * time.Minute),
-		},
-	}
-
-	// Apply filters
-	var filtered []structs.SystemLogEntry
-	for _, log := range logs {
-		include := true
-
-		if filters.Level != "" && log.Level != filters.Level {
-			include = false
-		}
-		if filters.Component != "" && log.Component != filters.Component {
-			include = false
-		}
-
-		if include {
-			filtered = append(filtered, log)
-		}
-	}
-
-	// Apply pagination
-	total := int64(len(filtered))
-	start := filters.Offset
-	end := start + filters.Limit
-
-	if start > len(filtered) {
-		filtered = []structs.SystemLogEntry{}
-	} else if end > len(filtered) {
-		filtered = filtered[start:]
-	} else {
-		filtered = filtered[start:end]
-	}
-
-	return &structs.SystemLogsResponse{
-		Logs:   filtered,
-		Total:  total,
-		Limit:  filters.Limit,
-		Offset: filters.Offset,
-	}, nil
+	return nil, fmt.Errorf("%w: log storage is not configured for /sys/admin/logs", ErrAdminAggregationUnavailable)
 }
 
 // UpdateSystemConfig updates system configuration
 func (svc *adminService) UpdateSystemConfig(ctx context.Context, configUpdate *structs.SystemConfigUpdate) (*structs.SystemConfigResponse, error) {
 	logger.Infof(ctx, "Updating system configuration: %+v", configUpdate)
 
-	// This is a placeholder - in production, this would update actual configuration
-	// and potentially restart services or reload configuration
-
-	// Return current configuration with updates applied
-	return svc.GetSystemConfig(ctx)
+	return nil, fmt.Errorf("%w: runtime configuration writes must use /sys/options", ErrAdminAggregationUnavailable)
 }
 
 // GetSystemConfig retrieves current system configuration
 func (svc *adminService) GetSystemConfig(ctx context.Context) (*structs.SystemConfigResponse, error) {
 	logger.Infof(ctx, "Getting system configuration")
 
-	// This is a placeholder - in production, this would read from actual configuration
+	securityOption := svc.getObjectOption(ctx, "system.security")
+	authTokenOption := svc.getObjectOption(ctx, "auth.token")
+	authSessionOption := svc.getObjectOption(ctx, "auth.session")
+	performanceOption := svc.getObjectOption(ctx, "system.performance")
+	storagePolicy := svc.getObjectOption(ctx, "system.storage_policy")
+	emailPolicy := svc.getObjectOption(ctx, "system.email_policy")
+	notifications := svc.getObjectOption(ctx, "system.notifications")
+	resourceQuota := svc.getObjectOption(ctx, "resource.quota")
+	resourceUpload := svc.getObjectOption(ctx, "resource.upload")
+	aiProvider := svc.getObjectOption(ctx, "ai.provider")
+	aiPolicy := svc.getObjectOption(ctx, "ai.policy")
+	maintenance := svc.getObjectOption(ctx, "system.maintenance")
+	auditOption := svc.getObjectOption(ctx, "system.audit")
+	paymentPolicy := svc.getObjectOption(ctx, "payment.policy")
+	proxyPolicy := svc.getObjectOption(ctx, "proxy.policy")
+
+	dbConfig := structs.DatabaseConfig{}
+	if db := svc.s.d.GetMasterDB(); db != nil {
+		stats := db.Stats()
+		dbConfig.MaxConnections = stats.MaxOpenConnections
+	}
+
 	return &structs.SystemConfigResponse{
-		Database: structs.DatabaseConfig{
-			MaxConnections: 100,
-			IdleTimeout:    "30m",
-			QueryTimeout:   "10s",
-		},
+		Database: dbConfig,
 		Security: structs.SecurityConfig{
-			SessionTimeout: "24h",
+			SessionTimeout: firstString(
+				stringFromMap(authSessionOption, "session_expiry"),
+				stringFromMap(authTokenOption, "access_token_expiry"),
+				minutesFromMap(securityOption, "sessionTimeout"),
+			),
 			PasswordPolicy: structs.PasswordPolicy{
-				MinLength:        8,
-				RequireUppercase: true,
-				RequireLowercase: true,
-				RequireNumbers:   true,
-				RequireSymbols:   false,
+				MinLength:        intFromMap(securityOption, "passwordMinLength", 0),
+				RequireUppercase: boolFromMap(securityOption, "passwordComplexity", false),
+				RequireLowercase: boolFromMap(securityOption, "passwordComplexity", false),
+				RequireNumbers:   boolFromMap(securityOption, "passwordComplexity", false),
+				RequireSymbols:   boolFromMap(securityOption, "requireSymbols", false),
 			},
-			TwoFactorEnabled:  false,
-			LoginAttemptLimit: 5,
-			CSRFProtection:    true,
+			TwoFactorEnabled:  boolFromMap(securityOption, "mfaRequired", false),
+			LoginAttemptLimit: intFromMap(securityOption, "loginAttempts", 0),
+			CSRFProtection:    boolFromMap(securityOption, "csrfProtection", false),
 		},
 		Performance: structs.PerformanceConfig{
-			CacheEnabled:     true,
-			CacheTTL:         "1h",
-			RateLimitEnabled: true,
-			RateLimitRPS:     100,
+			CacheEnabled:     boolFromMap(performanceOption, "cacheEnabled", false),
+			CacheTTL:         durationFromSeconds(performanceOption, "cacheTTL"),
+			RateLimitEnabled: boolFromNestedMap(performanceOption, "rateLimiting", "enabled", false),
+			RateLimitRPS:     intFromNestedMap(performanceOption, "rateLimiting", "requestsPerMinute", 0),
 		},
 		Features: structs.FeatureConfig{
-			Analytics:         true,
-			RealTimeUpdates:   true,
-			FileSharing:       true,
-			APIProxy:          false,
-			PaymentProcessing: true,
+			Analytics:         boolFromMap(svc.getObjectOption(ctx, "system.audit"), "enabled", false),
+			RealTimeUpdates:   boolFromMap(notifications, "in_app", false),
+			FileSharing:       boolFromMap(storagePolicy, "allow_public_links", false),
+			APIProxy:          boolFromMap(proxyPolicy, "enabled", false),
+			PaymentProcessing: boolFromMap(paymentPolicy, "enabled", false),
 		},
 		Integrations: structs.IntegrationConfig{
-			OAuth: structs.OAuthConfig{
-				GoogleEnabled:    true,
-				GitHubEnabled:    true,
-				MicrosoftEnabled: false,
-			},
+			OAuth: structs.OAuthConfig{},
 			Storage: structs.StorageConfig{
-				Provider: "local",
-				Quota:    "10GB",
+				Provider: firstString(stringFromMap(storagePolicy, "default_provider"), stringFromMap(resourceUpload, "default_storage")),
+				Quota:    bytesStringFromMap(resourceQuota, "default_quota"),
 			},
 			Monitoring: structs.MonitoringConfig{
 				Enabled:       true,
-				MetricsLevel:  "detailed",
-				RetentionDays: 30,
+				MetricsLevel:  "runtime",
+				RetentionDays: intFromMap(auditOption, "retention", 0),
 			},
 			Notifications: structs.NotificationConfig{
-				EmailEnabled:   true,
-				WebhookEnabled: false,
-				InAppEnabled:   true,
+				EmailEnabled:   boolFromMap(emailPolicy, "enabled", boolFromMap(notifications, "email", false)),
+				WebhookEnabled: boolFromMap(notifications, "webhook", false),
+				InAppEnabled:   boolFromMap(notifications, "in_app", false),
 			},
 		},
 		Maintenance: structs.MaintenanceConfig{
-			MaintenanceMode: false,
-			Message:         "",
-			AllowedIPs:      []string{},
+			MaintenanceMode: boolFromMap(maintenance, "maintenance_mode", false),
+			Message:         stringFromMap(maintenance, "message"),
+			AllowedIPs:      stringSliceFromMap(maintenance, "allowed_ips"),
+		},
+		FeaturesMeta: map[string]any{
+			"ai_enabled":              boolFromMap(aiProvider, "enabled", false),
+			"ai_policy_enabled":       boolFromMap(aiPolicy, "enabled", false),
+			"configured_ai_providers": len(sliceFromMap(aiProvider, "providers")),
 		},
 	}, nil
 }
@@ -527,266 +393,311 @@ func (svc *adminService) GetSystemConfig(ctx context.Context) (*structs.SystemCo
 func (svc *adminService) GetDashboardStats(ctx context.Context) (*structs.DashboardStatsResponse, error) {
 	logger.Infof(ctx, "Getting dashboard statistics")
 
-	// This would typically aggregate data from various sources
-	now := time.Now()
-
-	return &structs.DashboardStatsResponse{
-		Overview: structs.OverviewStats{
-			TotalUsers:    1250,
-			ActiveUsers:   890,
-			TotalSpaces:   340,
-			TotalProjects: 1890,
-			StorageUsed:   "156.7 GB",
-			StorageQuota:  "500 GB",
-			SystemUptime:  "15d 8h 32m",
-			HealthScore:   92.5,
-		},
-		Users: structs.UserStats{
-			NewUsersToday:    12,
-			NewUsersThisWeek: 87,
-			ActiveThisMonth:  756,
-			UserGrowthTrend:  "increasing",
-			TopCountries: []structs.CountryUserCount{
-				{Country: "United States", Count: 450},
-				{Country: "United Kingdom", Count: 280},
-				{Country: "Germany", Count: 190},
-				{Country: "Canada", Count: 156},
-				{Country: "Australia", Count: 134},
-			},
-		},
-		System: structs.SystemStats{
-			CPUUsage:     35.2,
-			MemoryUsage:  68.7,
-			StorageUsage: 31.3,
-			NetworkIO:    "125.3 MB/s",
-			DatabaseSize: "8.9 GB",
-			BackupStatus: "completed",
-			LastBackup:   &now,
-		},
-		Activity: structs.ActivityStats{
-			RequestsToday:       45230,
-			ErrorsToday:         89,
-			AverageResponseTime: 125.6,
-			TopEndpoints: []string{
-				"/api/v1/projects",
-				"/api/v1/users",
-				"/api/v1/spaces",
-				"/api/v1/analytics",
-			},
-		},
-		Performance: structs.PerformanceStats{
-			ResponseTime: structs.MetricData{
-				Current: 125.6,
-				Average: 118.3,
-				Peak:    245.1,
-				Trend:   "stable",
-			},
-			Throughput: structs.MetricData{
-				Current: 450,
-				Average: 420,
-				Peak:    680,
-				Trend:   "increasing",
-			},
-			ErrorRate: structs.MetricData{
-				Current: 0.2,
-				Average: 0.5,
-				Peak:    1.8,
-				Trend:   "decreasing",
-			},
-			DatabaseLatency: structs.MetricData{
-				Current: 15.3,
-				Average: 12.8,
-				Peak:    34.5,
-				Trend:   "stable",
-			},
-		},
-		RecentActivity: []structs.ActivityLog{
-			{
-				ID:        "act_recent_1",
-				UserID:    "user_1",
-				Username:  "admin",
-				Action:    "system_config_update",
-				Timestamp: now.Add(-5 * time.Minute),
-				Success:   true,
-			},
-		},
-		Alerts: []structs.SystemAlert{
-			{
-				ID:        "alert_1",
-				Level:     "warning",
-				Title:     "High Memory Usage",
-				Message:   "Memory usage is approaching 70%",
-				Component: "system",
-				Timestamp: now.Add(-15 * time.Minute),
-				Resolved:  false,
-			},
-		},
-	}, nil
+	return nil, fmt.Errorf("%w: dashboard stats require user, space, resource, and activity aggregators", ErrAdminAggregationUnavailable)
 }
 
 // ManageUsers retrieves paginated user list for management
 func (svc *adminService) ManageUsers(ctx context.Context, filters *structs.UserFilters) (*structs.UserManagementResponse, error) {
 	logger.Infof(ctx, "Getting users for management with filters: %+v", filters)
 
-	// Placeholder implementation
-	users := []structs.UserSummary{
-		{
-			ID:           "user_1",
-			Username:     "john.doe",
-			Email:        "john.doe@example.com",
-			DisplayName:  "John Doe",
-			Status:       "active",
-			Role:         "user",
-			CreatedAt:    time.Now().Add(-30 * 24 * time.Hour),
-			LastLoginAt:  &[]time.Time{time.Now().Add(-2 * time.Hour)}[0],
-			SpaceCount:   3,
-			ProjectCount: 8,
-			StorageUsed:  "2.3 GB",
-		},
-		{
-			ID:           "user_2",
-			Username:     "jane.smith",
-			Email:        "jane.smith@example.com",
-			DisplayName:  "Jane Smith",
-			Status:       "active",
-			Role:         "admin",
-			CreatedAt:    time.Now().Add(-45 * 24 * time.Hour),
-			LastLoginAt:  &[]time.Time{time.Now().Add(-1 * time.Hour)}[0],
-			SpaceCount:   5,
-			ProjectCount: 15,
-			StorageUsed:  "5.7 GB",
-		},
-	}
-
-	// Apply filters (simplified)
-	var filtered []structs.UserSummary
-	for _, user := range users {
-		include := true
-
-		if filters.Search != "" {
-			if !strings.Contains(strings.ToLower(user.Username), strings.ToLower(filters.Search)) &&
-				!strings.Contains(strings.ToLower(user.Email), strings.ToLower(filters.Search)) &&
-				!strings.Contains(strings.ToLower(user.DisplayName), strings.ToLower(filters.Search)) {
-				include = false
-			}
-		}
-
-		if filters.Status != "" && user.Status != filters.Status {
-			include = false
-		}
-
-		if filters.Role != "" && user.Role != filters.Role {
-			include = false
-		}
-
-		if include {
-			filtered = append(filtered, user)
-		}
-	}
-
-	// Apply pagination
-	total := int64(len(filtered))
-	start := filters.Offset
-	end := start + filters.Limit
-
-	if start > len(filtered) {
-		filtered = []structs.UserSummary{}
-	} else if end > len(filtered) {
-		filtered = filtered[start:]
-	} else {
-		filtered = filtered[start:end]
-	}
-
-	return &structs.UserManagementResponse{
-		Users:  filtered,
-		Total:  total,
-		Limit:  filters.Limit,
-		Offset: filters.Offset,
-	}, nil
+	return nil, fmt.Errorf("%w: use /sys/users for real user management data until admin aggregation is wired", ErrAdminAggregationUnavailable)
 }
 
 // GetUserDetails retrieves detailed user information
 func (svc *adminService) GetUserDetails(ctx context.Context, userID string) (*structs.UserDetailsResponse, error) {
 	logger.Infof(ctx, "Getting detailed information for user: %s", userID)
 
-	// Placeholder implementation
-	now := time.Now()
-
-	return &structs.UserDetailsResponse{
-		User: structs.UserDetail{
-			ID:               userID,
-			Username:         "john.doe",
-			Email:            "john.doe@example.com",
-			DisplayName:      "John Doe",
-			Status:           "active",
-			Role:             "user",
-			CreatedAt:        now.Add(-30 * 24 * time.Hour),
-			UpdatedAt:        now.Add(-1 * 24 * time.Hour),
-			LastLoginAt:      &[]time.Time{now.Add(-2 * time.Hour)}[0],
-			LoginCount:       145,
-			IPAddress:        "192.168.1.100",
-			UserAgent:        "Mozilla/5.0...",
-			EmailVerified:    true,
-			TwoFactorEnabled: false,
-			StorageUsed:      "2.3 GB",
-			StorageQuota:     "10 GB",
-		},
-		Spaces: []structs.SpaceSummary{
-			{
-				ID:           "space_1",
-				Name:         "Personal Projects",
-				Description:  "My personal workspace",
-				ProjectCount: 5,
-				StorageUsed:  "1.2 GB",
-				CreatedAt:    now.Add(-25 * 24 * time.Hour),
-				LastActivity: now.Add(-3 * time.Hour),
-			},
-		},
-		Projects: []structs.ProjectSummary{
-			{
-				ID:           "proj_1",
-				Name:         "Analytics Dashboard",
-				Description:  "Customer analytics dashboard",
-				SpaceName:    "Personal Projects",
-				Status:       "active",
-				CreatedAt:    now.Add(-20 * 24 * time.Hour),
-				LastActivity: now.Add(-3 * time.Hour),
-			},
-		},
-		Sessions: []structs.SessionInfo{
-			{
-				ID:        "sess_1",
-				IPAddress: "192.168.1.100",
-				UserAgent: "Mozilla/5.0...",
-				CreatedAt: now.Add(-2 * time.Hour),
-				ExpiresAt: now.Add(22 * time.Hour),
-				Active:    true,
-			},
-		},
-		RecentActivity: []structs.ActivityLog{
-			{
-				ID:        "act_1",
-				UserID:    userID,
-				Username:  "john.doe",
-				Action:    "login",
-				Timestamp: now.Add(-2 * time.Hour),
-				Success:   true,
-			},
-		},
-	}, nil
+	return nil, fmt.Errorf("%w: use /sys/users/%s plus dedicated space/session/activity APIs until admin aggregation is wired", ErrAdminAggregationUnavailable, userID)
 }
 
 // UpdateUserStatus updates user status
 func (svc *adminService) UpdateUserStatus(ctx context.Context, userID string, statusUpdate *structs.UserStatusUpdate) (map[string]any, error) {
 	logger.Infof(ctx, "Updating status for user %s: %+v", userID, statusUpdate)
 
-	// This would typically update the user record in database
-	// and possibly trigger notifications, audit logs, etc.
+	return nil, fmt.Errorf("%w: use /sys/users/%s or the dedicated user status API so authorization, audit, and persistence stay in the user module", ErrAdminAggregationUnavailable, userID)
+}
 
-	return map[string]any{
-		"user_id":    userID,
-		"status":     statusUpdate.Status,
-		"updated_at": time.Now(),
-		"updated_by": "admin", // This should come from authenticated user context
-	}, nil
+func bytesToMB(bytes uint64) float64 {
+	return float64(bytes) / 1024 / 1024
+}
+
+func singlePoint(ts time.Time, value float64) []structs.TimeSeriesPoint {
+	return []structs.TimeSeriesPoint{
+		{
+			Timestamp: ts,
+			Value:     value,
+		},
+	}
+}
+
+func processCPUPercentSinceStart(now time.Time) float64 {
+	uptime := now.Sub(adminServiceStartedAt)
+	if uptime <= 0 || runtime.NumCPU() <= 0 {
+		return 0
+	}
+
+	samples := []runtimemetrics.Sample{
+		{Name: "/cpu/classes/total:cpu-seconds"},
+	}
+	runtimemetrics.Read(samples)
+	if samples[0].Value.Kind() != runtimemetrics.KindFloat64 {
+		return 0
+	}
+
+	cpuSeconds := samples[0].Value.Float64()
+	if cpuSeconds <= 0 {
+		return 0
+	}
+
+	usage := (cpuSeconds / uptime.Seconds() / float64(runtime.NumCPU())) * 100
+	if usage < 0 {
+		return 0
+	}
+	if usage > 100 {
+		return 100
+	}
+	return usage
+}
+
+func (svc *adminService) getObjectOption(ctx context.Context, name string) map[string]any {
+	if svc == nil || svc.s == nil || svc.s.Option == nil || strings.TrimSpace(name) == "" {
+		return map[string]any{}
+	}
+
+	value, err := svc.s.Option.GetObjectByName(ctx, name)
+	if err == nil && value != nil {
+		return value
+	}
+
+	option, optionErr := svc.s.Option.GetByName(ctx, name)
+	if optionErr != nil || option == nil || strings.TrimSpace(option.Value) == "" {
+		logger.Debugf(ctx, "System option %s is unavailable for admin config snapshot: %v", name, err)
+		return map[string]any{}
+	}
+
+	var parsed map[string]any
+	if jsonErr := json.Unmarshal([]byte(option.Value), &parsed); jsonErr != nil {
+		logger.Warnf(ctx, "Failed to parse system option %s as object for admin config snapshot: %v", name, jsonErr)
+		return map[string]any{}
+	}
+	return parsed
+}
+
+func firstString(values ...string) string {
+	for _, value := range values {
+		if trimmed := strings.TrimSpace(value); trimmed != "" {
+			return trimmed
+		}
+	}
+	return ""
+}
+
+func stringFromMap(values map[string]any, key string) string {
+	if values == nil {
+		return ""
+	}
+	return stringFromAny(values[key])
+}
+
+func stringFromAny(value any) string {
+	switch v := value.(type) {
+	case string:
+		return strings.TrimSpace(v)
+	case fmt.Stringer:
+		return strings.TrimSpace(v.String())
+	case float64:
+		return strconv.FormatFloat(v, 'f', -1, 64)
+	case float32:
+		return strconv.FormatFloat(float64(v), 'f', -1, 32)
+	case int:
+		return strconv.Itoa(v)
+	case int64:
+		return strconv.FormatInt(v, 10)
+	case int32:
+		return strconv.FormatInt(int64(v), 10)
+	case uint64:
+		return strconv.FormatUint(v, 10)
+	case uint:
+		return strconv.FormatUint(uint64(v), 10)
+	case json.Number:
+		return v.String()
+	default:
+		return ""
+	}
+}
+
+func minutesFromMap(values map[string]any, key string) string {
+	minutes := intFromMap(values, key, 0)
+	if minutes <= 0 {
+		return ""
+	}
+	return fmt.Sprintf("%dm", minutes)
+}
+
+func boolFromMap(values map[string]any, key string, defaultValue bool) bool {
+	if values == nil {
+		return defaultValue
+	}
+	return boolFromAny(values[key], defaultValue)
+}
+
+func boolFromNestedMap(values map[string]any, parent, key string, defaultValue bool) bool {
+	nested := mapFromAny(values[parent])
+	if nested == nil {
+		return defaultValue
+	}
+	return boolFromMap(nested, key, defaultValue)
+}
+
+func boolFromAny(value any, defaultValue bool) bool {
+	switch v := value.(type) {
+	case bool:
+		return v
+	case string:
+		switch strings.ToLower(strings.TrimSpace(v)) {
+		case "true", "1", "yes", "y", "on", "enabled":
+			return true
+		case "false", "0", "no", "n", "off", "disabled":
+			return false
+		default:
+			return defaultValue
+		}
+	case float64:
+		return v != 0
+	case float32:
+		return v != 0
+	case int:
+		return v != 0
+	case int64:
+		return v != 0
+	case json.Number:
+		parsed, err := strconv.ParseFloat(v.String(), 64)
+		if err != nil {
+			return defaultValue
+		}
+		return parsed != 0
+	default:
+		return defaultValue
+	}
+}
+
+func intFromMap(values map[string]any, key string, defaultValue int) int {
+	if values == nil {
+		return defaultValue
+	}
+	return intFromAny(values[key], defaultValue)
+}
+
+func intFromNestedMap(values map[string]any, parent, key string, defaultValue int) int {
+	nested := mapFromAny(values[parent])
+	if nested == nil {
+		return defaultValue
+	}
+	return intFromMap(nested, key, defaultValue)
+}
+
+func intFromAny(value any, defaultValue int) int {
+	switch v := value.(type) {
+	case int:
+		return v
+	case int64:
+		return int(v)
+	case int32:
+		return int(v)
+	case float64:
+		return int(v)
+	case float32:
+		return int(v)
+	case string:
+		parsed, err := strconv.Atoi(strings.TrimSpace(v))
+		if err != nil {
+			return defaultValue
+		}
+		return parsed
+	case json.Number:
+		parsed, err := strconv.ParseInt(v.String(), 10, 64)
+		if err != nil {
+			floatParsed, floatErr := strconv.ParseFloat(v.String(), 64)
+			if floatErr != nil {
+				return defaultValue
+			}
+			return int(floatParsed)
+		}
+		return int(parsed)
+	default:
+		return defaultValue
+	}
+}
+
+func durationFromSeconds(values map[string]any, key string) string {
+	seconds := intFromMap(values, key, 0)
+	if seconds <= 0 {
+		return ""
+	}
+	return (time.Duration(seconds) * time.Second).String()
+}
+
+func bytesStringFromMap(values map[string]any, key string) string {
+	bytes := int64(intFromMap(values, key, 0))
+	if bytes <= 0 {
+		return ""
+	}
+	const unit = 1024
+	if bytes < unit {
+		return fmt.Sprintf("%d B", bytes)
+	}
+	div, exp := int64(unit), 0
+	for n := bytes / unit; n >= unit && exp < 5; n /= unit {
+		div *= unit
+		exp++
+	}
+	return fmt.Sprintf("%.1f %ciB", float64(bytes)/float64(div), "KMGTPE"[exp])
+}
+
+func stringSliceFromMap(values map[string]any, key string) []string {
+	items := sliceFromMap(values, key)
+	if len(items) == 0 {
+		return []string{}
+	}
+
+	result := make([]string, 0, len(items))
+	for _, item := range items {
+		if value := stringFromAny(item); value != "" {
+			result = append(result, value)
+		}
+	}
+	return result
+}
+
+func sliceFromMap(values map[string]any, key string) []any {
+	if values == nil {
+		return nil
+	}
+	switch v := values[key].(type) {
+	case []any:
+		return v
+	case []string:
+		result := make([]any, 0, len(v))
+		for _, item := range v {
+			result = append(result, item)
+		}
+		return result
+	default:
+		return nil
+	}
+}
+
+func mapFromAny(value any) map[string]any {
+	switch v := value.(type) {
+	case map[string]any:
+		return v
+	case map[string]string:
+		result := make(map[string]any, len(v))
+		for key, item := range v {
+			result[key] = item
+		}
+		return result
+	default:
+		return nil
+	}
 }

@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"errors"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
@@ -28,6 +29,14 @@ type AdminHandlerInterface interface {
 
 type adminHandler struct {
 	s *service.Service
+}
+
+func respondAdminError(c *gin.Context, err error, fallbackMessage string) {
+	if errors.Is(err, service.ErrAdminAggregationUnavailable) {
+		resp.Fail(c.Writer, resp.ServiceUnavailable(err.Error()))
+		return
+	}
+	resp.Fail(c.Writer, resp.InternalServer(fallbackMessage))
 }
 
 // NewAdminHandler creates admin handler
@@ -98,6 +107,7 @@ func (h *adminHandler) GetSystemMetrics(c *gin.Context) {
 // @Param to_date query string false "End date (RFC3339)"
 // @Success 200 {object} structs.UserActivityResponse "User activity logs"
 // @Failure 400 {object} resp.Exception "Bad request"
+// @Failure 503 {object} resp.Exception "Admin activity aggregation unavailable"
 // @Failure 500 {object} resp.Exception "Internal server error"
 // @Security Bearer
 // @Router /admin/activity [get]
@@ -120,7 +130,7 @@ func (h *adminHandler) GetUserActivity(c *gin.Context) {
 	activity, err := h.s.Admin.GetUserActivity(ctx, filters)
 	if err != nil {
 		logger.Errorf(ctx, "Failed to get user activity: %v", err)
-		resp.Fail(c.Writer, resp.InternalServer("Failed to retrieve user activity"))
+		respondAdminError(c, err, "Failed to retrieve user activity")
 		return
 	}
 
@@ -140,6 +150,7 @@ func (h *adminHandler) GetUserActivity(c *gin.Context) {
 // @Param from_date query string false "Start date (RFC3339)"
 // @Success 200 {object} structs.SystemLogsResponse "System logs"
 // @Failure 400 {object} resp.Exception "Bad request"
+// @Failure 503 {object} resp.Exception "Admin log aggregation unavailable"
 // @Failure 500 {object} resp.Exception "Internal server error"
 // @Security Bearer
 // @Router /admin/logs [get]
@@ -160,7 +171,7 @@ func (h *adminHandler) GetSystemLogs(c *gin.Context) {
 	logs, err := h.s.Admin.GetSystemLogs(ctx, filters)
 	if err != nil {
 		logger.Errorf(ctx, "Failed to get system logs: %v", err)
-		resp.Fail(c.Writer, resp.InternalServer("Failed to retrieve system logs"))
+		respondAdminError(c, err, "Failed to retrieve system logs")
 		return
 	}
 
@@ -177,6 +188,7 @@ func (h *adminHandler) GetSystemLogs(c *gin.Context) {
 // @Param config body structs.SystemConfigUpdate true "Configuration updates"
 // @Success 200 {object} map[string]interface{} "Updated configuration"
 // @Failure 400 {object} resp.Exception "Bad request"
+// @Failure 503 {object} resp.Exception "Admin config writes are unavailable; use /sys/options"
 // @Failure 500 {object} resp.Exception "Internal server error"
 // @Security Bearer
 // @Router /admin/config [put]
@@ -195,7 +207,7 @@ func (h *adminHandler) UpdateSystemConfig(c *gin.Context) {
 	config, err := h.s.Admin.UpdateSystemConfig(ctx, &configUpdate)
 	if err != nil {
 		logger.Errorf(ctx, "Failed to update system config: %v", err)
-		resp.Fail(c.Writer, resp.InternalServer("Failed to update system configuration"))
+		respondAdminError(c, err, "Failed to update system configuration")
 		return
 	}
 
@@ -232,6 +244,7 @@ func (h *adminHandler) GetSystemConfig(c *gin.Context) {
 // @Tags admin
 // @Produce json
 // @Success 200 {object} structs.DashboardStatsResponse "Dashboard statistics"
+// @Failure 503 {object} resp.Exception "Admin dashboard aggregation unavailable"
 // @Failure 500 {object} resp.Exception "Internal server error"
 // @Security Bearer
 // @Router /admin/dashboard/stats [get]
@@ -241,7 +254,7 @@ func (h *adminHandler) GetDashboardStats(c *gin.Context) {
 	stats, err := h.s.Admin.GetDashboardStats(ctx)
 	if err != nil {
 		logger.Errorf(ctx, "Failed to get dashboard stats: %v", err)
-		resp.Fail(c.Writer, resp.InternalServer("Failed to retrieve dashboard statistics"))
+		respondAdminError(c, err, "Failed to retrieve dashboard statistics")
 		return
 	}
 
@@ -261,6 +274,7 @@ func (h *adminHandler) GetDashboardStats(c *gin.Context) {
 // @Param role query string false "Filter by role"
 // @Success 200 {object} structs.UserManagementResponse "User management data"
 // @Failure 400 {object} resp.Exception "Bad request"
+// @Failure 503 {object} resp.Exception "Admin user aggregation unavailable"
 // @Failure 500 {object} resp.Exception "Internal server error"
 // @Security Bearer
 // @Router /admin/users [get]
@@ -281,7 +295,7 @@ func (h *adminHandler) ManageUsers(c *gin.Context) {
 	users, err := h.s.Admin.ManageUsers(ctx, filters)
 	if err != nil {
 		logger.Errorf(ctx, "Failed to get users for management: %v", err)
-		resp.Fail(c.Writer, resp.InternalServer("Failed to retrieve users"))
+		respondAdminError(c, err, "Failed to retrieve users")
 		return
 	}
 
@@ -298,6 +312,7 @@ func (h *adminHandler) ManageUsers(c *gin.Context) {
 // @Success 200 {object} structs.UserDetailsResponse "User details"
 // @Failure 400 {object} resp.Exception "Bad request"
 // @Failure 404 {object} resp.Exception "User not found"
+// @Failure 503 {object} resp.Exception "Admin user aggregation unavailable"
 // @Failure 500 {object} resp.Exception "Internal server error"
 // @Security Bearer
 // @Router /admin/users/{user_id} [get]
@@ -313,7 +328,7 @@ func (h *adminHandler) GetUserDetails(c *gin.Context) {
 	details, err := h.s.Admin.GetUserDetails(ctx, userID)
 	if err != nil {
 		logger.Errorf(ctx, "Failed to get user details for %s: %v", userID, err)
-		resp.Fail(c.Writer, resp.InternalServer("Failed to retrieve user details"))
+		respondAdminError(c, err, "Failed to retrieve user details")
 		return
 	}
 
@@ -332,6 +347,7 @@ func (h *adminHandler) GetUserDetails(c *gin.Context) {
 // @Success 200 {object} map[string]interface{} "Updated user status"
 // @Failure 400 {object} resp.Exception "Bad request"
 // @Failure 404 {object} resp.Exception "User not found"
+// @Failure 503 {object} resp.Exception "Admin user status mutation unavailable"
 // @Failure 500 {object} resp.Exception "Internal server error"
 // @Security Bearer
 // @Router /admin/users/{user_id}/status [put]
@@ -356,7 +372,7 @@ func (h *adminHandler) UpdateUserStatus(c *gin.Context) {
 	result, err := h.s.Admin.UpdateUserStatus(ctx, userID, &statusUpdate)
 	if err != nil {
 		logger.Errorf(ctx, "Failed to update user status for %s: %v", userID, err)
-		resp.Fail(c.Writer, resp.InternalServer("Failed to update user status"))
+		respondAdminError(c, err, "Failed to update user status")
 		return
 	}
 

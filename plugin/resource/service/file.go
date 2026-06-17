@@ -116,6 +116,15 @@ func (s *fileService) storagePolicy(ctx context.Context) *StoragePolicyConfig {
 	return NewDefaultConfigProvider().StoragePolicy(ctx)
 }
 
+func fileSpaceID(ctx context.Context, extras *types.JSON) string {
+	if extras != nil {
+		if value, ok := (*extras)["space_id"].(string); ok && strings.TrimSpace(value) != "" {
+			return value
+		}
+	}
+	return ctxutil.GetSpaceID(ctx)
+}
+
 func (s *fileService) validateSharePolicy(ctx context.Context, file *structs.ReadFile, accessLevel structs.AccessLevel) error {
 	if accessLevel != structs.AccessLevelPublic && accessLevel != structs.AccessLevelShared {
 		return nil
@@ -162,6 +171,7 @@ func (s *fileService) publishFileAccessed(ctx context.Context, file *structs.Rea
 		Storage: file.Storage,
 		Bucket:  file.Bucket,
 		OwnerID: file.OwnerID,
+		SpaceID: fileSpaceID(ctx, file.Extras),
 		UserID:  ctxutil.GetUserID(ctx),
 		Extras:  &extras,
 	})
@@ -353,6 +363,9 @@ func (s *fileService) Create(ctx context.Context, body *structs.CreateFileBody) 
 	if body.OwnerID == "" {
 		extendedData["anonymous"] = true
 	}
+	if spaceID := ctxutil.GetSpaceID(ctx); spaceID != "" {
+		extendedData["space_id"] = spaceID
+	}
 	if hash != "" {
 		extendedData["hash"] = hash // Also store in extras for backward compatibility
 	}
@@ -393,6 +406,7 @@ func (s *fileService) Create(ctx context.Context, body *structs.CreateFileBody) 
 				Storage: row.Storage,
 				Bucket:  row.Bucket,
 				OwnerID: row.OwnerID,
+				SpaceID: fileSpaceID(ctx, &row.Extras),
 				UserID:  eventUserID,
 				Extras:  &row.Extras,
 			}
@@ -561,8 +575,13 @@ func (s *fileService) Update(ctx context.Context, slug string, updates types.JSO
 			}
 		}
 		if quotaReleaseDelta < 0 && existing.OwnerID != "" && s.quotaService != nil {
-			if quotaErr := s.quotaService.UpdateUsage(ctx, existing.OwnerID, "storage", quotaReleaseDelta); quotaErr != nil {
+			if _, quotaErr := s.quotaService.RefreshUsage(ctx, existing.OwnerID); quotaErr != nil {
 				logger.Warnf(ctx, "Failed to release quota after file update: %v", quotaErr)
+			}
+			if spaceID := fileSpaceID(ctx, &row.Extras); spaceID != "" {
+				if _, quotaErr := s.quotaService.RefreshSpaceUsage(ctx, spaceID); quotaErr != nil {
+					logger.Warnf(ctx, "Failed to refresh space quota after file update: %v", quotaErr)
+				}
 			}
 		}
 	}
@@ -578,6 +597,7 @@ func (s *fileService) Update(ctx context.Context, slug string, updates types.JSO
 			Storage: row.Storage,
 			Bucket:  row.Bucket,
 			OwnerID: row.OwnerID,
+			SpaceID: fileSpaceID(ctx, &row.Extras),
 			UserID:  userID,
 			Extras:  &row.Extras,
 		}
@@ -740,6 +760,20 @@ func (s *fileService) Delete(ctx context.Context, slug string) error {
 		}
 	}
 
+	spaceID := fileSpaceID(ctx, &row.Extras)
+	if s.quotaService != nil {
+		if row.OwnerID != "" {
+			if _, quotaErr := s.quotaService.RefreshUsage(ctx, row.OwnerID); quotaErr != nil {
+				logger.Warnf(ctx, "Failed to refresh owner quota after file deletion: %v", quotaErr)
+			}
+		}
+		if spaceID != "" {
+			if _, quotaErr := s.quotaService.RefreshSpaceUsage(ctx, spaceID); quotaErr != nil {
+				logger.Warnf(ctx, "Failed to refresh space quota after file deletion: %v", quotaErr)
+			}
+		}
+	}
+
 	// Publish event
 	if s.publisher != nil {
 		userID := ctxutil.GetUserID(ctx)
@@ -752,6 +786,7 @@ func (s *fileService) Delete(ctx context.Context, slug string) error {
 			Storage: row.Storage,
 			Bucket:  row.Bucket,
 			OwnerID: row.OwnerID,
+			SpaceID: spaceID,
 			UserID:  userID,
 		}
 		s.publisher.PublishFileDeleted(ctx, eventData)

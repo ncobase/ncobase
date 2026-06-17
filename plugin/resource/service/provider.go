@@ -27,8 +27,11 @@ func New(em ext.ManagerInterface, d *data.Data, publisher event.PublisherInterfa
 	// Create image processor
 	imageProcessor := NewImageProcessor()
 
+	// Create space service wrapper
+	spaceWrapper := wrapper.NewSpaceServiceWrapper(em)
+
 	// Create quota service
-	quotaService := NewQuotaService(d, publisher, configProvider)
+	quotaService := NewQuotaService(d, publisher, configProvider, spaceWrapper)
 
 	// Create file service
 	fileService := NewFileService(d, imageProcessor, quotaService, publisher, configProvider)
@@ -38,9 +41,6 @@ func New(em ext.ManagerInterface, d *data.Data, publisher event.PublisherInterfa
 
 	// Create admin service
 	adminService := NewAdminService(d, quotaService)
-
-	// Create space service wrapper
-	spaceWrapper := wrapper.NewSpaceServiceWrapper(em)
 
 	return &Service{
 		File:   fileService,

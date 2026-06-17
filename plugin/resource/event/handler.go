@@ -77,16 +77,7 @@ func (h *handler) HandleFileDeleted(data any) {
 	logger.Infof(context.Background(), "File deleted: %s, space: %s, owner: %s",
 		eventData.Name, eventData.SpaceID, eventData.OwnerID)
 
-	// Update usage in quota service when file is deleted
-	if h.quotaUpdater != nil && eventData.Size > 0 {
-		ctx := context.Background()
-		err := h.quotaUpdater.UpdateUsage(ctx, eventData.SpaceID, "storage", -int64(eventData.Size))
-		if err != nil {
-			logger.Warnf(ctx, "Failed to update quota usage after file deletion: %v", err)
-		} else {
-			logger.Debugf(ctx, "Updated quota usage after file deletion: -%d bytes", eventData.Size)
-		}
-	}
+	// Quota usage is updated by the file service after persistence succeeds.
 }
 
 // HandleFileUpdated handles file update events

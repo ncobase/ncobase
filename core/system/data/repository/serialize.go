@@ -74,15 +74,20 @@ func SerializeOption(row *ent.Options) *structs.ReadOption {
 		return nil
 	}
 	return &structs.ReadOption{
-		ID:        row.ID,
-		Name:      row.Name,
-		Type:      row.Type,
-		Value:     row.Value,
-		Autoload:  row.Autoload,
-		CreatedBy: &row.CreatedBy,
-		CreatedAt: &row.CreatedAt,
-		UpdatedBy: &row.UpdatedBy,
-		UpdatedAt: &row.UpdatedAt,
+		ID:                  row.ID,
+		Name:                row.Name,
+		Type:                row.Type,
+		Value:               row.Value,
+		Autoload:            row.Autoload,
+		Category:            row.Category,
+		Description:         row.Description,
+		Validation:          row.Validation,
+		IsSecret:            row.IsSecret,
+		EnvironmentVariable: row.EnvironmentVariable,
+		CreatedBy:           &row.CreatedBy,
+		CreatedAt:           &row.CreatedAt,
+		UpdatedBy:           &row.UpdatedBy,
+		UpdatedAt:           &row.UpdatedAt,
 	}
 }
 

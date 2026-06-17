@@ -2649,23 +2649,28 @@ func (m *MenuMutation) ResetEdge(name string) error {
 // OptionsMutation represents an operation that mutates the Options nodes in the graph.
 type OptionsMutation struct {
 	config
-	op            Op
-	typ           string
-	id            *string
-	name          *string
-	_type         *string
-	value         *string
-	autoload      *bool
-	created_by    *string
-	updated_by    *string
-	created_at    *int64
-	addcreated_at *int64
-	updated_at    *int64
-	addupdated_at *int64
-	clearedFields map[string]struct{}
-	done          bool
-	oldValue      func(context.Context) (*Options, error)
-	predicates    []predicate.Options
+	op                   Op
+	typ                  string
+	id                   *string
+	name                 *string
+	_type                *string
+	value                *string
+	autoload             *bool
+	created_by           *string
+	updated_by           *string
+	created_at           *int64
+	addcreated_at        *int64
+	updated_at           *int64
+	addupdated_at        *int64
+	category             *string
+	description          *string
+	validation           *string
+	is_secret            *bool
+	environment_variable *string
+	clearedFields        map[string]struct{}
+	done                 bool
+	oldValue             func(context.Context) (*Options, error)
+	predicates           []predicate.Options
 }
 
 var _ ent.Mutation = (*OptionsMutation)(nil)
@@ -3206,6 +3211,238 @@ func (m *OptionsMutation) ResetUpdatedAt() {
 	delete(m.clearedFields, options.FieldUpdatedAt)
 }
 
+// SetCategory sets the "category" field.
+func (m *OptionsMutation) SetCategory(s string) {
+	m.category = &s
+}
+
+// Category returns the value of the "category" field in the mutation.
+func (m *OptionsMutation) Category() (r string, exists bool) {
+	v := m.category
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCategory returns the old "category" field's value of the Options entity.
+// If the Options object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *OptionsMutation) OldCategory(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCategory is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCategory requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCategory: %w", err)
+	}
+	return oldValue.Category, nil
+}
+
+// ClearCategory clears the value of the "category" field.
+func (m *OptionsMutation) ClearCategory() {
+	m.category = nil
+	m.clearedFields[options.FieldCategory] = struct{}{}
+}
+
+// CategoryCleared returns if the "category" field was cleared in this mutation.
+func (m *OptionsMutation) CategoryCleared() bool {
+	_, ok := m.clearedFields[options.FieldCategory]
+	return ok
+}
+
+// ResetCategory resets all changes to the "category" field.
+func (m *OptionsMutation) ResetCategory() {
+	m.category = nil
+	delete(m.clearedFields, options.FieldCategory)
+}
+
+// SetDescription sets the "description" field.
+func (m *OptionsMutation) SetDescription(s string) {
+	m.description = &s
+}
+
+// Description returns the value of the "description" field in the mutation.
+func (m *OptionsMutation) Description() (r string, exists bool) {
+	v := m.description
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldDescription returns the old "description" field's value of the Options entity.
+// If the Options object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *OptionsMutation) OldDescription(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldDescription is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldDescription requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldDescription: %w", err)
+	}
+	return oldValue.Description, nil
+}
+
+// ClearDescription clears the value of the "description" field.
+func (m *OptionsMutation) ClearDescription() {
+	m.description = nil
+	m.clearedFields[options.FieldDescription] = struct{}{}
+}
+
+// DescriptionCleared returns if the "description" field was cleared in this mutation.
+func (m *OptionsMutation) DescriptionCleared() bool {
+	_, ok := m.clearedFields[options.FieldDescription]
+	return ok
+}
+
+// ResetDescription resets all changes to the "description" field.
+func (m *OptionsMutation) ResetDescription() {
+	m.description = nil
+	delete(m.clearedFields, options.FieldDescription)
+}
+
+// SetValidation sets the "validation" field.
+func (m *OptionsMutation) SetValidation(s string) {
+	m.validation = &s
+}
+
+// Validation returns the value of the "validation" field in the mutation.
+func (m *OptionsMutation) Validation() (r string, exists bool) {
+	v := m.validation
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldValidation returns the old "validation" field's value of the Options entity.
+// If the Options object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *OptionsMutation) OldValidation(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldValidation is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldValidation requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldValidation: %w", err)
+	}
+	return oldValue.Validation, nil
+}
+
+// ClearValidation clears the value of the "validation" field.
+func (m *OptionsMutation) ClearValidation() {
+	m.validation = nil
+	m.clearedFields[options.FieldValidation] = struct{}{}
+}
+
+// ValidationCleared returns if the "validation" field was cleared in this mutation.
+func (m *OptionsMutation) ValidationCleared() bool {
+	_, ok := m.clearedFields[options.FieldValidation]
+	return ok
+}
+
+// ResetValidation resets all changes to the "validation" field.
+func (m *OptionsMutation) ResetValidation() {
+	m.validation = nil
+	delete(m.clearedFields, options.FieldValidation)
+}
+
+// SetIsSecret sets the "is_secret" field.
+func (m *OptionsMutation) SetIsSecret(b bool) {
+	m.is_secret = &b
+}
+
+// IsSecret returns the value of the "is_secret" field in the mutation.
+func (m *OptionsMutation) IsSecret() (r bool, exists bool) {
+	v := m.is_secret
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldIsSecret returns the old "is_secret" field's value of the Options entity.
+// If the Options object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *OptionsMutation) OldIsSecret(ctx context.Context) (v bool, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldIsSecret is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldIsSecret requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldIsSecret: %w", err)
+	}
+	return oldValue.IsSecret, nil
+}
+
+// ResetIsSecret resets all changes to the "is_secret" field.
+func (m *OptionsMutation) ResetIsSecret() {
+	m.is_secret = nil
+}
+
+// SetEnvironmentVariable sets the "environment_variable" field.
+func (m *OptionsMutation) SetEnvironmentVariable(s string) {
+	m.environment_variable = &s
+}
+
+// EnvironmentVariable returns the value of the "environment_variable" field in the mutation.
+func (m *OptionsMutation) EnvironmentVariable() (r string, exists bool) {
+	v := m.environment_variable
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldEnvironmentVariable returns the old "environment_variable" field's value of the Options entity.
+// If the Options object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *OptionsMutation) OldEnvironmentVariable(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldEnvironmentVariable is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldEnvironmentVariable requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldEnvironmentVariable: %w", err)
+	}
+	return oldValue.EnvironmentVariable, nil
+}
+
+// ClearEnvironmentVariable clears the value of the "environment_variable" field.
+func (m *OptionsMutation) ClearEnvironmentVariable() {
+	m.environment_variable = nil
+	m.clearedFields[options.FieldEnvironmentVariable] = struct{}{}
+}
+
+// EnvironmentVariableCleared returns if the "environment_variable" field was cleared in this mutation.
+func (m *OptionsMutation) EnvironmentVariableCleared() bool {
+	_, ok := m.clearedFields[options.FieldEnvironmentVariable]
+	return ok
+}
+
+// ResetEnvironmentVariable resets all changes to the "environment_variable" field.
+func (m *OptionsMutation) ResetEnvironmentVariable() {
+	m.environment_variable = nil
+	delete(m.clearedFields, options.FieldEnvironmentVariable)
+}
+
 // Where appends a list predicates to the OptionsMutation builder.
 func (m *OptionsMutation) Where(ps ...predicate.Options) {
 	m.predicates = append(m.predicates, ps...)
@@ -3240,7 +3477,7 @@ func (m *OptionsMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *OptionsMutation) Fields() []string {
-	fields := make([]string, 0, 8)
+	fields := make([]string, 0, 13)
 	if m.name != nil {
 		fields = append(fields, options.FieldName)
 	}
@@ -3264,6 +3501,21 @@ func (m *OptionsMutation) Fields() []string {
 	}
 	if m.updated_at != nil {
 		fields = append(fields, options.FieldUpdatedAt)
+	}
+	if m.category != nil {
+		fields = append(fields, options.FieldCategory)
+	}
+	if m.description != nil {
+		fields = append(fields, options.FieldDescription)
+	}
+	if m.validation != nil {
+		fields = append(fields, options.FieldValidation)
+	}
+	if m.is_secret != nil {
+		fields = append(fields, options.FieldIsSecret)
+	}
+	if m.environment_variable != nil {
+		fields = append(fields, options.FieldEnvironmentVariable)
 	}
 	return fields
 }
@@ -3289,6 +3541,16 @@ func (m *OptionsMutation) Field(name string) (ent.Value, bool) {
 		return m.CreatedAt()
 	case options.FieldUpdatedAt:
 		return m.UpdatedAt()
+	case options.FieldCategory:
+		return m.Category()
+	case options.FieldDescription:
+		return m.Description()
+	case options.FieldValidation:
+		return m.Validation()
+	case options.FieldIsSecret:
+		return m.IsSecret()
+	case options.FieldEnvironmentVariable:
+		return m.EnvironmentVariable()
 	}
 	return nil, false
 }
@@ -3314,6 +3576,16 @@ func (m *OptionsMutation) OldField(ctx context.Context, name string) (ent.Value,
 		return m.OldCreatedAt(ctx)
 	case options.FieldUpdatedAt:
 		return m.OldUpdatedAt(ctx)
+	case options.FieldCategory:
+		return m.OldCategory(ctx)
+	case options.FieldDescription:
+		return m.OldDescription(ctx)
+	case options.FieldValidation:
+		return m.OldValidation(ctx)
+	case options.FieldIsSecret:
+		return m.OldIsSecret(ctx)
+	case options.FieldEnvironmentVariable:
+		return m.OldEnvironmentVariable(ctx)
 	}
 	return nil, fmt.Errorf("unknown Options field %s", name)
 }
@@ -3378,6 +3650,41 @@ func (m *OptionsMutation) SetField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetUpdatedAt(v)
+		return nil
+	case options.FieldCategory:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCategory(v)
+		return nil
+	case options.FieldDescription:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetDescription(v)
+		return nil
+	case options.FieldValidation:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetValidation(v)
+		return nil
+	case options.FieldIsSecret:
+		v, ok := value.(bool)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetIsSecret(v)
+		return nil
+	case options.FieldEnvironmentVariable:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetEnvironmentVariable(v)
 		return nil
 	}
 	return fmt.Errorf("unknown Options field %s", name)
@@ -3460,6 +3767,18 @@ func (m *OptionsMutation) ClearedFields() []string {
 	if m.FieldCleared(options.FieldUpdatedAt) {
 		fields = append(fields, options.FieldUpdatedAt)
 	}
+	if m.FieldCleared(options.FieldCategory) {
+		fields = append(fields, options.FieldCategory)
+	}
+	if m.FieldCleared(options.FieldDescription) {
+		fields = append(fields, options.FieldDescription)
+	}
+	if m.FieldCleared(options.FieldValidation) {
+		fields = append(fields, options.FieldValidation)
+	}
+	if m.FieldCleared(options.FieldEnvironmentVariable) {
+		fields = append(fields, options.FieldEnvironmentVariable)
+	}
 	return fields
 }
 
@@ -3498,6 +3817,18 @@ func (m *OptionsMutation) ClearField(name string) error {
 	case options.FieldUpdatedAt:
 		m.ClearUpdatedAt()
 		return nil
+	case options.FieldCategory:
+		m.ClearCategory()
+		return nil
+	case options.FieldDescription:
+		m.ClearDescription()
+		return nil
+	case options.FieldValidation:
+		m.ClearValidation()
+		return nil
+	case options.FieldEnvironmentVariable:
+		m.ClearEnvironmentVariable()
+		return nil
 	}
 	return fmt.Errorf("unknown Options nullable field %s", name)
 }
@@ -3529,6 +3860,21 @@ func (m *OptionsMutation) ResetField(name string) error {
 		return nil
 	case options.FieldUpdatedAt:
 		m.ResetUpdatedAt()
+		return nil
+	case options.FieldCategory:
+		m.ResetCategory()
+		return nil
+	case options.FieldDescription:
+		m.ResetDescription()
+		return nil
+	case options.FieldValidation:
+		m.ResetValidation()
+		return nil
+	case options.FieldIsSecret:
+		m.ResetIsSecret()
+		return nil
+	case options.FieldEnvironmentVariable:
+		m.ResetEnvironmentVariable()
 		return nil
 	}
 	return fmt.Errorf("unknown Options field %s", name)
