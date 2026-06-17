@@ -126,16 +126,17 @@ func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 		roles.DELETE("/:slug/users", middleware.HasPermission("manage:roles"), m.h.Role.RemoveUsers)
 	}
 
-	// Permission endpoints - admin only
-	permissions := accessGroup.Group("/permissions", middleware.HasAnyRole("super-admin", "system-admin"))
+	// Permission endpoints - permission-gated so the menu, token payload, and
+	// backend boundary use the same contract.
+	permissions := accessGroup.Group("/permissions")
 	{
-		permissions.GET("", m.h.Permission.List)
-		permissions.POST("", m.h.Permission.Create)
-		permissions.PUT("/bulk", m.h.Permission.BulkUpdate)
-		permissions.DELETE("/bulk", m.h.Permission.BulkDelete)
-		permissions.GET("/:slug", m.h.Permission.Get)
-		permissions.PUT("/:slug", m.h.Permission.Update)
-		permissions.DELETE("/:slug", m.h.Permission.Delete)
+		permissions.GET("", middleware.HasAnyPermission("read:permissions", "manage:permissions"), m.h.Permission.List)
+		permissions.POST("", middleware.HasPermission("manage:permissions"), m.h.Permission.Create)
+		permissions.PUT("/bulk", middleware.HasPermission("manage:permissions"), m.h.Permission.BulkUpdate)
+		permissions.DELETE("/bulk", middleware.HasPermission("manage:permissions"), m.h.Permission.BulkDelete)
+		permissions.GET("/:slug", middleware.HasAnyPermission("read:permissions", "manage:permissions"), m.h.Permission.Get)
+		permissions.PUT("/:slug", middleware.HasPermission("manage:permissions"), m.h.Permission.Update)
+		permissions.DELETE("/:slug", middleware.HasPermission("manage:permissions"), m.h.Permission.Delete)
 	}
 
 	// Policy endpoints - super admin only
@@ -156,14 +157,14 @@ func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 	// Activity
 	activities := accessGroup.Group("/activities")
 	{
-		activities.POST("", m.h.Activity.CreateActivity)
-		activities.GET("", m.h.Activity.ListActivities)
-		activities.GET("/search", m.h.Activity.SearchActivities)
-		activities.GET("/users/:username", m.h.Activity.GetUserActivities)
-		activities.GET("/analytics", m.h.Activity.GetAnalytics)
-		activities.GET("/types", m.h.Activity.GetTypes)
-		activities.DELETE("/bulk", m.h.Activity.BulkDelete)
-		activities.GET("/:id", m.h.Activity.GetActivity)
+		activities.POST("", middleware.HasPermission("manage:system"), m.h.Activity.CreateActivity)
+		activities.GET("", middleware.HasAnyPermission("read:system", "manage:system"), m.h.Activity.ListActivities)
+		activities.GET("/search", middleware.HasAnyPermission("read:system", "manage:system"), m.h.Activity.SearchActivities)
+		activities.GET("/users/:username", middleware.HasAnyPermission("read:system", "manage:system"), m.h.Activity.GetUserActivities)
+		activities.GET("/analytics", middleware.HasAnyPermission("read:system", "manage:system"), m.h.Activity.GetAnalytics)
+		activities.GET("/types", middleware.HasAnyPermission("read:system", "manage:system"), m.h.Activity.GetTypes)
+		activities.DELETE("/bulk", middleware.HasPermission("manage:system"), m.h.Activity.BulkDelete)
+		activities.GET("/:id", middleware.HasAnyPermission("read:system", "manage:system"), m.h.Activity.GetActivity)
 	}
 
 	// User-role relationship endpoints used by the user management console.

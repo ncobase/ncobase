@@ -3,6 +3,7 @@ package handler
 import (
 	"ncobase/core/user/service"
 	"ncobase/core/user/structs"
+	"strings"
 
 	"github.com/ncobase/ncore/ctxutil"
 	"github.com/ncobase/ncore/net/resp"
@@ -155,10 +156,59 @@ func (h *apiKeyHandler) GetMyApiKeys(c *gin.Context) {
 // @Router /sys/users/api-keys/{id} [delete]
 // @Security Bearer
 func (h *apiKeyHandler) DeleteApiKey(c *gin.Context) {
-	err := h.s.ApiKey.DeleteApiKey(c.Request.Context(), c.Param("id"))
+	apiKey, err := h.s.ApiKey.GetApiKey(c.Request.Context(), c.Param("id"))
+	if err != nil {
+		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+		return
+	}
+
+	userID := ctxutil.GetUserID(c.Request.Context())
+	if apiKey.UserID != userID && !canManageUserApiKeys(c) {
+		resp.Fail(c.Writer, resp.Forbidden("API key ownership or user management permission required"))
+		return
+	}
+
+	err = h.s.ApiKey.DeleteApiKey(c.Request.Context(), c.Param("id"))
 	if err != nil {
 		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 		return
 	}
 	resp.Success(c.Writer)
+}
+
+func canManageUserApiKeys(c *gin.Context) bool {
+	ctx := c.Request.Context()
+	if ctxutil.GetUserIsAdmin(ctx) {
+		return true
+	}
+
+	permissions := ctxutil.GetUserPermissions(ctx)
+	return hasContextPermission(permissions, "delete:users") || hasContextPermission(permissions, "manage:users")
+}
+
+func hasContextPermission(permissions []string, required string) bool {
+	requiredParts := strings.SplitN(required, ":", 2)
+	requiredAction := requiredParts[0]
+	requiredResource := ""
+	if len(requiredParts) == 2 {
+		requiredResource = requiredParts[1]
+	}
+
+	for _, permission := range permissions {
+		if permission == required || permission == "*" || permission == "*:*" || permission == "admin:*" || permission == "super:*" {
+			return true
+		}
+
+		parts := strings.SplitN(permission, ":", 2)
+		if len(parts) != 2 {
+			continue
+		}
+
+		action, resource := parts[0], parts[1]
+		if (action == "*" || action == requiredAction) && (resource == "*" || resource == requiredResource) {
+			return true
+		}
+	}
+
+	return false
 }

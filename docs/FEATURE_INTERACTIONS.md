@@ -40,8 +40,13 @@ feature.
 
 Menu, dictionary, and option changes affect runtime UI:
 
+- `/sys/menus/navigation` stays available to authenticated users, but raw menu configuration
+  (`/sys/menus`, tree, authorized-user lookup, raw get) requires `manage:menu`.
 - Menu write operations must invalidate navigation cache.
-- Dictionary/option changes can affect forms across system, content, space, payment, and builder.
+- Dictionary management reads require `read:dictionaries`, `manage:dictionary`, or
+  `manage:system`; writes require `manage:dictionary`.
+- Dictionary/option changes can affect forms across system, content, space, payment, resource, AI,
+  and builder.
 - Deletes and prefix deletes need usage queries before execution.
 - Navigation preview should show hidden, disabled, feature-hidden, and permission-hidden states.
 
@@ -119,7 +124,8 @@ Required interactions:
 - Upload checks quota before storage write.
 - Batch upload reports partial failures and quota stop conditions.
 - Space switch changes visible resources and quota scope.
-- Resource admin operations must bypass ownership only through admin permission and write audit data.
+- Resource admin operations must bypass ownership only through `manage:resources` or
+  `admin:resources` and write audit data.
 
 ## Payment, Subscription, and Space Billing
 
@@ -233,10 +239,12 @@ Before production positioning, Builder must generate or document:
 ## Proxy, Sample, Counter, CLI, Deebus, and Website
 
 - Proxy is a high-risk runtime gateway. `/tbp` management, `/proxy` dynamic routes, and `/ws`
-  WebSocket proxying must not be exposed in production until permissions, upstream allowlists, SSRF
-  protection, timeout/rate-limit controls, logging redaction, and audit events are in place.
-- Sample and counter plugins are demonstration or internal plugin surfaces unless a product owner
-  explicitly promotes them with permissions, menu seed, tests, and docs.
+  WebSocket proxying now require authentication plus `manage:tbp`; they still must not be exposed in
+  production until endpoint-level ownership/space policy, upstream allowlists, SSRF protection,
+  timeout/rate-limit controls, logging redaction, and audit events are in place.
+- Sample and counter plugins now require `manage:plugins`; they remain demonstration or internal
+  plugin surfaces unless a product owner explicitly promotes them with permissions, menu seed,
+  tests, and docs.
 - `cli` is an independent scaffolding product. It should only become part of the `ncobase` product
   workflow when Builder or backend generators share a template and verification contract with it.
 - `deebus` is now consumed by the `ncobase` AI plugin. New AI behavior must still go through the

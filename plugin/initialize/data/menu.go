@@ -695,7 +695,7 @@ var SystemDefaultMenus = struct {
 			Type:     "sidebar",
 			Path:     "/org/orgs",
 			Icon:     "IconBuilding",
-			Perms:    "read:organization",
+			Perms:    "read:organizations",
 			Order:    convert.ToPointer(99),
 			Hidden:   convert.ToPointer(false),
 			Disabled: convert.ToPointer(false),
@@ -1250,7 +1250,7 @@ var MenuPermissionMapping = map[string]string{
 	"ai":           "read:ai",
 	"workflow":     "read:workflow",
 	"iam":          "manage:iam",
-	"organization": "read:organization",
+	"organization": "read:organizations",
 	"cms":          "read:cms",
 	"plugins":      "manage:plugins",
 	"builder":      "manage:builder",
@@ -1314,7 +1314,7 @@ var MenuPermissionMapping = map[string]string{
 	"account-activities":  "read:system",
 
 	// Organization module sidebars
-	"org-orgs": "read:organization",
+	"org-orgs": "read:organizations",
 
 	// CMS module sidebars
 	"cms-topics":        "read:cms",

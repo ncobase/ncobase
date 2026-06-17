@@ -105,69 +105,71 @@ func (m *Module) PostInit() error {
 func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 	// Belong domain group
 	r = r.Group("/"+m.Group(), middleware.AuthenticatedUser)
+	readContent := middleware.HasAnyPermission("read:cms", "manage:cms", "read:content", "manage:content")
+	manageContent := middleware.HasAnyPermission("manage:cms", "manage:content")
 
 	// Taxonomy endpoints
 	taxonomies := r.Group("/taxonomies")
 	{
-		taxonomies.GET("", m.h.Taxonomy.List)
-		taxonomies.POST("", m.h.Taxonomy.Create)
-		taxonomies.GET("/:slug", m.h.Taxonomy.Get)
-		taxonomies.PUT("/:slug", m.h.Taxonomy.Update)
-		taxonomies.DELETE("/:slug", m.h.Taxonomy.Delete)
+		taxonomies.GET("", readContent, m.h.Taxonomy.List)
+		taxonomies.POST("", manageContent, m.h.Taxonomy.Create)
+		taxonomies.GET("/:slug", readContent, m.h.Taxonomy.Get)
+		taxonomies.PUT("/:slug", manageContent, m.h.Taxonomy.Update)
+		taxonomies.DELETE("/:slug", manageContent, m.h.Taxonomy.Delete)
 	}
 
 	// Topic endpoints
 	topics := r.Group("/topics")
 	{
-		topics.GET("", m.h.Topic.List)
-		topics.POST("", m.h.Topic.Create)
-		topics.GET("/:slug", m.h.Topic.Get)
-		topics.PUT("/:slug", m.h.Topic.Update)
-		topics.DELETE("/:slug", m.h.Topic.Delete)
+		topics.GET("", readContent, m.h.Topic.List)
+		topics.POST("", manageContent, m.h.Topic.Create)
+		topics.GET("/:slug", readContent, m.h.Topic.Get)
+		topics.PUT("/:slug", manageContent, m.h.Topic.Update)
+		topics.DELETE("/:slug", manageContent, m.h.Topic.Delete)
 	}
 
 	// Channel endpoints
 	channels := r.Group("/channels")
 	{
-		channels.GET("", m.h.Channel.List)
-		channels.POST("", m.h.Channel.Create)
-		channels.GET("/:slug", m.h.Channel.Get)
-		channels.PUT("/:slug", m.h.Channel.Update)
-		channels.DELETE("/:slug", m.h.Channel.Delete)
+		channels.GET("", readContent, m.h.Channel.List)
+		channels.POST("", manageContent, m.h.Channel.Create)
+		channels.GET("/:slug", readContent, m.h.Channel.Get)
+		channels.PUT("/:slug", manageContent, m.h.Channel.Update)
+		channels.DELETE("/:slug", manageContent, m.h.Channel.Delete)
 	}
 
 	// Distribution endpoints
 	distributions := r.Group("/distributions")
 	{
-		distributions.GET("", m.h.Distribution.List)
-		distributions.POST("", m.h.Distribution.Create)
-		distributions.GET("/:id", m.h.Distribution.Get)
-		distributions.PUT("/:id", m.h.Distribution.Update)
-		distributions.DELETE("/:id", m.h.Distribution.Delete)
-		distributions.POST("/:id/publish", m.h.Distribution.Publish)
-		distributions.POST("/:id/cancel", m.h.Distribution.Cancel)
+		distributions.GET("", readContent, m.h.Distribution.List)
+		distributions.POST("", manageContent, m.h.Distribution.Create)
+		distributions.GET("/:id", readContent, m.h.Distribution.Get)
+		distributions.PUT("/:id", manageContent, m.h.Distribution.Update)
+		distributions.DELETE("/:id", manageContent, m.h.Distribution.Delete)
+		distributions.POST("/:id/publish", manageContent, m.h.Distribution.Publish)
+		distributions.POST("/:id/cancel", manageContent, m.h.Distribution.Cancel)
 	}
 
 	// Media endpoints
 	media := r.Group("/media")
 	{
-		media.GET("", m.h.Media.List)
-		media.POST("", m.h.Media.Create)
-		media.GET("/:id", m.h.Media.Get)
-		media.PUT("/:id", m.h.Media.Update)
-		media.DELETE("/:id", m.h.Media.Delete)
+		media.GET("", readContent, m.h.Media.List)
+		media.POST("", manageContent, m.h.Media.Create)
+		media.GET("/:id", readContent, m.h.Media.Get)
+		media.PUT("/:id", manageContent, m.h.Media.Update)
+		media.DELETE("/:id", manageContent, m.h.Media.Delete)
 	}
 
 	// Topic Media endpoints
 	topicMedia := r.Group("/topic-media")
 	{
-		topicMedia.GET("", m.h.TopicMedia.List)
-		topicMedia.POST("", m.h.TopicMedia.Create)
-		topicMedia.GET("/by-topic-and-media", m.h.TopicMedia.GetByTopicAndMedia)
-		topicMedia.GET("/by-topic/:topicId", m.h.TopicMedia.ListByTopic)
-		topicMedia.GET("/:id", m.h.TopicMedia.Get)
-		topicMedia.PUT("/:id", m.h.TopicMedia.Update)
-		topicMedia.DELETE("/:id", m.h.TopicMedia.Delete)
+		topicMedia.GET("", readContent, m.h.TopicMedia.List)
+		topicMedia.POST("", manageContent, m.h.TopicMedia.Create)
+		topicMedia.GET("/by-topic-and-media", readContent, m.h.TopicMedia.GetByTopicAndMedia)
+		topicMedia.GET("/by-topic/:topicId", readContent, m.h.TopicMedia.ListByTopic)
+		topicMedia.GET("/:id", readContent, m.h.TopicMedia.Get)
+		topicMedia.PUT("/:id", manageContent, m.h.TopicMedia.Update)
+		topicMedia.DELETE("/:id", manageContent, m.h.TopicMedia.Delete)
 	}
 }
 

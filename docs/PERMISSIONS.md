@@ -65,7 +65,7 @@ permissions. The legacy `admin` role is still recognized for compatibility.
 | NCore | `/ncore/*` | `manage:ncore` plus authenticated user |
 | Resource | `/res` list/get/search/quota/usage | `read:resources` |
 | Resource | `/res` create/update/delete/share/access/version/batch | `manage:resources` |
-| Resource admin | `/res/admin/*` | admin |
+| Resource admin | `/res/admin/*` | `manage:resources` or `admin:resources` |
 | Payment | `/pay/orders` list/get, `/pay/providers`, `/pay/stats` | `read:payments`, `manage:payments`, `refund:payments`, or `admin:payments` |
 | Payment | `/pay/orders` create/payment-url/verify, `/pay/products`, `/pay/subscriptions`, `/pay/channels` | `manage:payments` or `admin:payments` |
 | Payment | `/pay/orders/:id/refund` | `refund:payments` or `admin:payments` |
@@ -78,17 +78,23 @@ permissions. The legacy `admin` role is still recognized for compatibility.
 | Realtime management | `/rt/notifications` create/update/delete, `/rt/channels` management/subscribers, `/rt/events` publish/delete, `/events` publish/retry/batch/process/status | `manage:realtime` or `admin:realtime` |
 | Initialize status | `/sys/initialize/status` | bootstrap status probe |
 | Initialize writes | `/sys/initialize*` write endpoints | valid `X-Init-Token` or `manage:system`/`admin:system`/system wildcard |
-| Menu writes | `/sys/menus` writes and operations | `manage:menu` |
-| Dictionary writes | `/sys/dictionaries` writes | `manage:dictionary` |
+| Menu navigation | `/sys/menus/navigation` | authenticated user; returned menus still include permission metadata for frontend UX filtering |
+| Menu management | `/sys/menus` raw list/get/tree/authorized plus writes and operations | `manage:menu` |
+| Dictionary reads | `/sys/dictionaries` list/get/options/validate/batch/usage | `read:dictionaries`, `manage:dictionary`, or `manage:system` |
+| Dictionary writes | `/sys/dictionaries` create/update/delete | `manage:dictionary` |
 | Option writes | `/sys/options` writes | `manage:system` |
 | System admin | `/sys/admin/*` | `admin:system` |
 | Roles | `/sys/roles` | `read:roles`, `manage:roles` |
-| Permissions | `/sys/permissions` | `super-admin` or `system-admin` role |
+| Permissions | `/sys/permissions` | reads use `read:permissions` or `manage:permissions`; writes use `manage:permissions` |
 | Policies | `/sys/policies` | `super-admin` role |
-| Users | `/sys/users` | `read/create/update/delete:users` and profile fallbacks |
+| Activities | `/sys/activities` | reads/search/analytics/types use `read:system` or `manage:system`; create/bulk delete use `manage:system` |
+| Users | `/sys/users` | `read/create/update/delete:users`, `manage:users`, and profile fallbacks for owned profile/API-key actions |
 | Employees | `/sys/employees` | employee permissions and `manage:hr` |
 | Organizations | `/sys/orgs` | `read:organizations`, `manage:organizations` |
 | Spaces | `/sys/spaces` | read routes use `read:spaces`; create/update/delete, membership mutations, settings writes, quota writes, billing writes, and relation attach/remove use `manage:spaces` |
+| CMS/content | `/cms/*` | reads use `read:cms`, `manage:cms`, `read:content`, or `manage:content`; writes use `manage:cms` or `manage:content` |
+| Proxy/TBP | `/tbp`, `/proxy`, `/ws` | `manage:tbp` |
+| Demo plugins | counter and sample plugin routes | `manage:plugins` |
 
 ## Seed and Menu Rules
 
@@ -111,12 +117,12 @@ permissions. The legacy `admin` role is still recognized for compatibility.
 
 | Route | Guard |
 | --- | --- |
-| `/system/*` | admin |
-| `/ncore/*` | admin plus `manage:ncore` |
+| `/system/*` | any matching system submodule permission; subroutes split read and manage actions |
+| `/ncore/*` | `manage:ncore` |
 | `/spaces/*` | `read:spaces` or `manage:spaces`; create/edit/member mutation subroutes require `manage:spaces` |
 | `/builder/*` | `manage:builder` and feature exposure |
 | `/example/*` | authenticated and feature exposure |
-| `/res/*` | `read:resources`; `/res/admin` also admin |
+| `/res/*` | `read:resources`, `manage:resources`, or `admin:resources`; resource admin pages require `manage:resources` or `admin:resources` |
 | `/pay/*` | `read:payments`, `manage:payments`, `refund:payments`, or `admin:payments`; product/subscription/channel routes require `manage:payments`; logs require `admin:payments` |
 | `/ai/*` | `read:ai`, `use:ai`, `manage:ai`, or `admin:ai`; playground/actions require `use:ai` or higher; provider health requires `manage:ai` or higher |
 
@@ -129,6 +135,9 @@ permissions. The legacy `admin` role is still recognized for compatibility.
   user, not an arbitrary query/body user.
 - `/ai/runs` and `/ai/usage` default to the authenticated user unless the caller has `manage:ai` or
   `admin:ai`. AI run records include `space_id` and `user_id` for audit and tenant scoping.
+- `/sys/users/api-keys/:id` delete requires either ownership of the key or elevated user management
+  permission (`delete:users`, `manage:users`, admin, or wildcard). `manage:profile` is only enough
+  for the current user's own API keys.
 
 ## Required Permission Work
 
@@ -136,16 +145,16 @@ permissions. The legacy `admin` role is still recognized for compatibility.
    permissions.
 2. Provide seed repair for existing databases that still contain enterprise `read:notification`
    instead of `read:realtime`.
-3. Add explicit content permissions or document Casbin-only policy for `/cms`.
-4. Add explicit proxy permissions and route middleware for `/tbp`, `/proxy`, and `/ws`.
-5. Add route-level audit requirements for all high-risk operations:
+3. Provide seed repair for databases that still have legacy `read:organization`,
+   `read:user`, `read:permission`, or role-only permission assumptions in menus or custom policies.
+4. Add route-level audit requirements for all high-risk operations:
    - resource public/share/delete/batch/admin
    - payment refund/webhook/channel config
    - realtime notification administration, channel management, event publish/retry/status changes
    - proxy routes and transformers
    - NCore plugin load/unload/reload
    - RBAC/menu/space membership changes
-6. Provide a seed repair path for existing databases whenever permission strings change.
+5. Provide a seed repair path for existing databases whenever permission strings change.
 
 ## RBAC Change Propagation
 

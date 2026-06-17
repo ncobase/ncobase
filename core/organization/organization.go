@@ -110,23 +110,24 @@ func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 	// Organization endpoints
 	spaceGroup := r.Group("/"+m.Group(), middleware.AuthenticatedUser)
 
-	// Organization management endpoints
-	spaceGroup = spaceGroup.Group("/orgs", middleware.HasAnyRole("super-admin", "system-admin"))
+	// Organization management endpoints. Route permissions are the trusted
+	// boundary so non-system organization managers can use delegated access.
+	spaceGroup = spaceGroup.Group("/orgs")
 	{
-		spaceGroup.GET("", middleware.HasPermission("read:organizations"), m.h.Organization.List)
+		spaceGroup.GET("", middleware.HasAnyPermission("read:organizations", "manage:organizations"), m.h.Organization.List)
 		spaceGroup.POST("", middleware.HasPermission("manage:organizations"), m.h.Organization.Create)
-		spaceGroup.GET("/:orgId", middleware.HasPermission("read:organizations"), m.h.Organization.Get)
+		spaceGroup.GET("/:orgId", middleware.HasAnyPermission("read:organizations", "manage:organizations"), m.h.Organization.Get)
 		spaceGroup.PUT("/:orgId", middleware.HasPermission("manage:organizations"), m.h.Organization.Update)
 		spaceGroup.DELETE("/:orgId", middleware.HasPermission("manage:organizations"), m.h.Organization.Delete)
 
 		// Organization member management
-		spaceGroup.GET("/:orgId/members", middleware.HasPermission("read:organizations"), m.h.Organization.GetMembers)
+		spaceGroup.GET("/:orgId/members", middleware.HasAnyPermission("read:organizations", "manage:organizations"), m.h.Organization.GetMembers)
 		spaceGroup.POST("/:orgId/members", middleware.HasPermission("manage:organizations"), m.h.Organization.AddMember)
 		spaceGroup.PUT("/:orgId/members/:userId", middleware.HasPermission("manage:organizations"), m.h.Organization.UpdateMember)
 		spaceGroup.DELETE("/:orgId/members/:userId", middleware.HasPermission("manage:organizations"), m.h.Organization.RemoveMember)
-		spaceGroup.GET("/:orgId/members/:userId/check", middleware.HasPermission("read:organizations"), m.h.Organization.IsUserMember)
-		spaceGroup.GET("/:orgId/members/:userId/is-owner", middleware.HasPermission("read:organizations"), m.h.Organization.IsUserOwner)
-		spaceGroup.GET("/:orgId/members/:userId/role", middleware.HasPermission("read:organizations"), m.h.Organization.GetUserRole)
+		spaceGroup.GET("/:orgId/members/:userId/check", middleware.HasAnyPermission("read:organizations", "manage:organizations"), m.h.Organization.IsUserMember)
+		spaceGroup.GET("/:orgId/members/:userId/is-owner", middleware.HasAnyPermission("read:organizations", "manage:organizations"), m.h.Organization.IsUserOwner)
+		spaceGroup.GET("/:orgId/members/:userId/role", middleware.HasAnyPermission("read:organizations", "manage:organizations"), m.h.Organization.GetUserRole)
 	}
 }
 

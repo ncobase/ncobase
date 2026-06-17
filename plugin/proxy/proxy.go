@@ -2,6 +2,7 @@ package proxy
 
 import (
 	"fmt"
+	"ncobase/internal/middleware"
 	"ncobase/plugin/proxy/data"
 	"ncobase/plugin/proxy/event"
 	"ncobase/plugin/proxy/handler"
@@ -187,7 +188,12 @@ func (p *Plugin) Name() string {
 // RegisterRoutes registers routes for the plugin
 func (p *Plugin) RegisterRoutes(r *gin.RouterGroup) {
 	// Proxy domain group
-	proxyGroup := r.Group("/" + p.Group())
+	proxyGroup := r.Group(
+		"/"+p.Group(),
+		middleware.ValidateContentType(),
+		middleware.RequireAuth(),
+		middleware.HasPermission("manage:tbp"),
+	)
 
 	// Proxy endpoints
 	proxyGroup.GET("/endpoints", p.h.Endpoint.List)
@@ -210,12 +216,18 @@ func (p *Plugin) RegisterRoutes(r *gin.RouterGroup) {
 	proxyGroup.PUT("/transformers/:id", p.h.Transformer.Update)
 	proxyGroup.DELETE("/transformers/:id", p.h.Transformer.Delete)
 
-	// Dynamic proxy routes - these will be registered based on configured endpoints
-	dynGroup := r.Group("/proxy")
+	// Dynamic proxy routes are high-risk runtime gateways. Until endpoint-level
+	// policy is modeled, require TBP management permission for every proxied call.
+	dynGroup := r.Group(
+		"/proxy",
+		middleware.ValidateContentType(),
+		middleware.RequireAuth(),
+		middleware.HasPermission("manage:tbp"),
+	)
 	p.h.Dynamic.RegisterDynamicRoutes(dynGroup)
 
 	// WebSocket proxy endpoints
-	wsGroup := r.Group("/ws")
+	wsGroup := r.Group("/ws", middleware.RequireAuth(), middleware.HasPermission("manage:tbp"))
 	p.h.WebSocket.RegisterWebSocketRoutes(wsGroup)
 }
 

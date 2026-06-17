@@ -3,6 +3,7 @@ package handler
 import (
 	"net/http"
 
+	"ncobase/internal/middleware"
 	"ncobase/plugin/sample/service"
 	"ncobase/plugin/sample/structs"
 
@@ -22,7 +23,7 @@ func NewHandler(service *service.Service) *Handler {
 
 // RegisterRoutes registers all routes for the sample plugin.
 func (h *Handler) RegisterRoutes(r *gin.RouterGroup) {
-	g := r.Group("/samples")
+	g := r.Group("/samples", middleware.AuthenticatedUser, middleware.HasPermission("manage:plugins"))
 	{
 		g.GET("", h.List)
 		g.GET("/:id", h.Get)

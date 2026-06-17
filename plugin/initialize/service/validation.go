@@ -3,6 +3,7 @@ package service
 import (
 	"context"
 	"fmt"
+	accessStructs "ncobase/core/access/structs"
 	menuData "ncobase/plugin/initialize/data"
 	"strings"
 
@@ -41,17 +42,7 @@ func (s *Service) validatePermissionMenuAlignment(ctx context.Context, dataLoade
 
 	// Menus store permission codes while role mappings store permission names.
 	// Include both forms here so validation reflects the actual runtime contract.
-	permissionKeys := make([]string, 0, len(permissions)*3)
-	for _, perm := range permissions {
-		permissionKeys = append(permissionKeys, perm.Name)
-		if perm.Action != "" && perm.Subject != "" {
-			code := fmt.Sprintf("%s:%s", perm.Action, perm.Subject)
-			permissionKeys = append(permissionKeys, code)
-			if plural := pluralizePermissionSubject(perm.Subject); plural != perm.Subject {
-				permissionKeys = append(permissionKeys, fmt.Sprintf("%s:%s", perm.Action, plural))
-			}
-		}
-	}
+	permissionKeys := permissionKeysForDefinitions(permissions)
 
 	// Validate menu permissions
 	issues := menuData.ValidateMenuPermissions(permissionKeys)
@@ -68,6 +59,56 @@ func (s *Service) validatePermissionMenuAlignment(ctx context.Context, dataLoade
 
 	logger.Infof(ctx, "Menu-permission alignment validation passed")
 	return nil
+}
+
+func permissionKeysForDefinitions(permissions []accessStructs.CreatePermissionBody) []string {
+	keys := make([]string, 0, len(permissions)*4)
+	seen := make(map[string]struct{}, len(permissions)*4)
+	add := func(key string) {
+		key = strings.TrimSpace(key)
+		if key == "" {
+			return
+		}
+		if _, exists := seen[key]; exists {
+			return
+		}
+		seen[key] = struct{}{}
+		keys = append(keys, key)
+	}
+
+	for _, perm := range permissions {
+		add(perm.Name)
+		if perm.Action == "" || perm.Subject == "" {
+			continue
+		}
+
+		action := strings.TrimSpace(perm.Action)
+		subject := strings.TrimSpace(perm.Subject)
+		add(fmt.Sprintf("%s:%s", action, subject))
+
+		if singular := singularizePermissionSubject(subject); singular != subject {
+			add(fmt.Sprintf("%s:%s", action, singular))
+		}
+		if plural := pluralizePermissionSubject(subject); plural != subject {
+			add(fmt.Sprintf("%s:%s", action, plural))
+		}
+	}
+
+	return keys
+}
+
+func singularizePermissionSubject(subject string) string {
+	subject = strings.TrimSpace(subject)
+	if subject == "" {
+		return subject
+	}
+	if strings.HasSuffix(subject, "ies") && len(subject) > 3 {
+		return subject[:len(subject)-3] + "y"
+	}
+	if strings.HasSuffix(subject, "s") && len(subject) > 1 {
+		return subject[:len(subject)-1]
+	}
+	return subject
 }
 
 func pluralizePermissionSubject(subject string) string {

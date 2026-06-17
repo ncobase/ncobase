@@ -113,7 +113,7 @@ func (p *Plugin) PostInit() error {
 // RegisterRoutes registers routes for the plugin
 func (p *Plugin) RegisterRoutes(r *gin.RouterGroup) {
 	// Belong domain group
-	r = r.Group("/"+p.Group(), middleware.AuthenticatedUser)
+	r = r.Group("/"+p.Group(), middleware.AuthenticatedUser, middleware.HasPermission("manage:plugins"))
 	// Counter endpoints
 	counters := r.Group("/counters")
 	{

@@ -70,14 +70,14 @@ These option names are consumed by backend services at runtime and should be man
 
 | Route family | Methods | Frontend caller | Permission | Status | Notes |
 | --- | --- | --- | --- | --- | --- |
-| `/sys/users` | CRUD/filter/subroutes | system user APIs | `read/create/update/delete:users`; profile fallbacks | partial | Username/id semantics vary by subroute; add tests. |
+| `/sys/users` | CRUD/filter/subroutes | system user APIs | specific `read/create/update/delete:users`, `manage:users`, and profile ownership fallbacks | partial | Username/id semantics vary by subroute; API key deletion now enforces owner-or-user-management authorization. |
 | `/sys/employees` | CRUD/list helpers | system user APIs | employee permissions, `manage:hr` | partial | UI coverage must be verified. |
 | `/sys/roles` | CRUD, permissions | role/permission APIs | `read:roles`, `manage:roles` | partial/aligned | Frontend mutations now trigger local RBAC propagation; backend audit and cross-session live refresh remain future work. |
-| `/sys/permissions` | CRUD | permission APIs | `super-admin` or `system-admin` role | partial | Frontend guard should reflect backend role gate. |
+| `/sys/permissions` | CRUD | permission APIs | reads `read:permissions` or `manage:permissions`; writes `manage:permissions` | partial/aligned | Frontend list now keeps read-only users in view/export mode and hides write/bulk/assignment actions. |
 | `/sys/policies` | CRUD | access APIs | `super-admin` role | partial | Advanced RBAC surface only. |
-| `/sys/activities` | create/list/search/get/user | access APIs | authenticated | partial | Audit/activity policy should be tightened. |
-| `/sys/menus` | list/get/tree/navigation/authorized + manage ops | menu APIs | reads authenticated, writes `manage:menu` | aligned | Update route is body-style `PUT /sys/menus`. |
-| `/sys/dictionaries` | list/get/options/validate/batch + manage ops | dictionary APIs | reads authenticated, writes `manage:dictionary` | aligned | Swagger annotation corrected from stale `/sys/dictionarys`. |
+| `/sys/activities` | create/list/search/get/user | access APIs | reads/search/analytics/types `read:system` or `manage:system`; create/bulk delete `manage:system` | partial/aligned | Audit/activity display and retention policy still need product decisions. |
+| `/sys/menus` | list/get/tree/navigation/authorized + manage ops | menu APIs | navigation authenticated; raw menu reads and writes `manage:menu` | aligned | Update route is body-style `PUT /sys/menus`; raw menu data exposes route/permission metadata and is not a general authenticated read. |
+| `/sys/dictionaries` | list/get/options/validate/batch + manage ops | dictionary APIs | reads `read:dictionaries`, `manage:dictionary`, or `manage:system`; writes `manage:dictionary` | aligned | Frontend keeps view/export/validate for readers and hides create/edit/import/delete. |
 | `/sys/options` | list/get/name/type/batch + manage ops | option APIs | reads authenticated, writes `manage:system` | aligned | Update route is body-style `PUT /sys/options`. |
 | `/sys/admin/*` | health/metrics/logs/config/dashboard/users | partial UI/admin pages | `admin:system` | partial | Several services still return placeholder data. |
 
@@ -96,12 +96,12 @@ These option names are consumed by backend services at runtime and should be man
 
 | Route family | Methods | Frontend caller | Permission | Status | Notes |
 | --- | --- | --- | --- | --- | --- |
-| `/cms/topics` | CRUD by slug | topic service | authenticated plus Casbin | partial | Frontend routes often use `:id`; settle id/slug. |
-| `/cms/taxonomies` | CRUD by slug | taxonomy service | authenticated plus Casbin | partial | Taxonomy relation helpers exist in service layer. |
-| `/cms/channels` | CRUD by slug | channel service | authenticated plus Casbin | partial | Channel rules should constrain distribution UI. |
-| `/cms/distributions` | CRUD by id, publish/cancel | distribution service | authenticated plus Casbin | partial | Needs state machine and review/schedule integration. |
-| `/cms/media` | CRUD by id; list by `resource_id` | media service and content upload hooks | authenticated plus Casbin | partial/aligned | Media records persist `resource_id` plus path, mime, size, owner, and space metadata; list filters also match legacy extras metadata so resource delete checks do not miss older references. Resource enrichment returns preview/download data when available. |
-| `/cms/topic-media` | CRUD, list, by-topic, by-topic-and-media | topic media service and `TopicMediaManager` | authenticated plus Casbin | partial/aligned | Frontend calls `/cms/topic-media/by-topic/:topicId`, reconciles create/update/delete differences, and is wired into topic create/edit media fields. Remaining gaps are browser tests and richer reverse reference impact views. |
+| `/cms/topics` | CRUD by slug | topic service | reads `read:cms`, `manage:cms`, `read:content`, or `manage:content`; writes `manage:cms` or `manage:content` | partial/aligned | Frontend routes often use `:id`; settle id/slug. |
+| `/cms/taxonomies` | CRUD by slug | taxonomy service | reads `read:cms`, `manage:cms`, `read:content`, or `manage:content`; writes `manage:cms` or `manage:content` | partial/aligned | Taxonomy relation helpers exist in service layer. |
+| `/cms/channels` | CRUD by slug | channel service | reads `read:cms`, `manage:cms`, `read:content`, or `manage:content`; writes `manage:cms` or `manage:content` | partial/aligned | Channel rules should constrain distribution UI. |
+| `/cms/distributions` | CRUD by id, publish/cancel | distribution service | reads `read:cms`, `manage:cms`, `read:content`, or `manage:content`; writes/publish/cancel `manage:cms` or `manage:content` | partial/aligned | Needs state machine and review/schedule integration. |
+| `/cms/media` | CRUD by id; list by `resource_id` | media service and content upload hooks | reads `read:cms`, `manage:cms`, `read:content`, or `manage:content`; writes `manage:cms` or `manage:content` | partial/aligned | Media records persist `resource_id` plus path, mime, size, owner, and space metadata; list filters also match legacy extras metadata so resource delete checks do not miss older references. Resource enrichment returns preview/download data when available. |
+| `/cms/topic-media` | CRUD, list, by-topic, by-topic-and-media | topic media service and `TopicMediaManager` | reads `read:cms`, `manage:cms`, `read:content`, or `manage:content`; writes `manage:cms` or `manage:content` | partial/aligned | Frontend calls `/cms/topic-media/by-topic/:topicId`, reconciles create/update/delete differences, and is wired into topic create/edit media fields. Remaining gaps are browser tests and richer reverse reference impact views. |
 | comments/tags/SEO/workflow/templates/versions/schedules | none in current backend | content subfeature APIs | n/a | frontend-only | Hide or implement backend-first. |
 
 ## Resource Domain
@@ -117,7 +117,7 @@ These option names are consumed by backend services at runtime and should be man
 | `/res/view/:slug`, `/res/share/:token`, `/res/thumb/:slug`, `/res/dl/:slug` | `GET` | public URLs | public | partial | Add rate limit and cache policy. |
 | `/res/quota`, `/res/usage` | quota and usage summary | resource APIs/admin quota widget | `read:resources` | aligned | Usage returns `usage`, `quota`, `usage_percent`, `quota_exceeded`, `file_count`, and formatted sizes. |
 | `/res/batch/*` | batch upload/process/delete/status | resource APIs | read/manage resources | partial | Batch upload uses repeated multipart `files` and supports access level, public flag, path prefix, tags, expiry, processing options, and partial failure result. Batch process/status UI incomplete. |
-| `/res/admin/*` | admin files/stats/quotas/jobs/storage | resource admin page | admin | partial | Frontend admin route is admin guarded. |
+| `/res/admin/*` | admin files/stats/quotas/jobs/storage | resource admin page | `manage:resources` or `admin:resources` | partial/aligned | Frontend admin route now follows resource administration permissions rather than a global admin role. |
 
 ## Payment Domain
 
@@ -153,10 +153,10 @@ These option names are consumed by backend services at runtime and should be man
 
 | Route family | Methods | Frontend caller | Permission | Status | Notes |
 | --- | --- | --- | --- | --- | --- |
-| `/tbp/endpoints`, `/tbp/routes`, `/tbp/transformers` | CRUD | proxy/builder surfaces or future admin UI | global Casbin and menu `manage:tbp` | partial/high-risk | Missing explicit route middleware, ownership/space checks, audit, and transformer safety review. |
-| `/proxy/*`, `/ws/*` | dynamic proxy and WebSocket proxy | dynamic clients | configured endpoint/route policy | partial/high-risk | Must validate configured upstream, auth forwarding, rate limit, payload size, timeout, logging redaction, and SSRF protections before production exposure. |
-| `/plug/counters` | CRUD | no first-class console product page | authenticated user | backend-only/sample | Built-in counter plugin; add explicit permission or keep as internal/demo surface. |
-| `/samples` | CRUD/sample operations | no production console route | none/current handler registration | sample | Demonstration plugin only; should be disabled or guarded in production. |
+| `/tbp/endpoints`, `/tbp/routes`, `/tbp/transformers` | CRUD | proxy/builder surfaces or future admin UI | `manage:tbp` | partial/high-risk | Route middleware is explicit; endpoint ownership/space checks, audit, rate limiting, and transformer safety review remain required. |
+| `/proxy/*`, `/ws/*` | dynamic HTTP and WebSocket proxy | proxy runtime | `manage:tbp` | partial/high-risk | Dynamic runtime gateway is authenticated and permission guarded until endpoint-level ownership, configured route policy, upstream validation, rate limit, payload size, timeout, logging redaction, and SSRF protections are modeled. |
+| `/plug/counters` | CRUD | no first-class console product page | `manage:plugins` | backend-only/sample | Built-in counter plugin remains an internal/demo surface and is no longer exposed to every authenticated user. |
+| `/samples` | CRUD/sample operations | no production console route | `manage:plugins` | sample/internal | Demonstration plugin is authenticated and plugin-management guarded; production exposure should still be disabled unless explicitly required. |
 | `/sys/initialize/status` | initialization status probe | bootstrap/admin operations | status probe | partial/high-risk | Read-only install probe. Do not expose seed execution from this endpoint. |
 | `/sys/initialize`, `/sys/initialize/organizations`, `/sys/initialize/users` | seed loading and reruns | bootstrap/admin operations | valid `X-Init-Token` or `manage:system`/`admin:system`/system wildcard | partial/high-risk | Write endpoints accept install token or authenticated system administrator; reruns still need audit and environment guard. |
 

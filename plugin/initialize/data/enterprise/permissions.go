@@ -39,6 +39,14 @@ var SystemDefaultPermissions = []accessStructs.CreatePermissionBody{
 			Description: "Access to account information",
 		},
 	},
+	{
+		PermissionBody: accessStructs.PermissionBody{
+			Name:        "Account Management",
+			Action:      "manage",
+			Subject:     "account",
+			Description: "Manage account settings",
+		},
+	},
 
 	// System management permissions
 	{
@@ -51,6 +59,38 @@ var SystemDefaultPermissions = []accessStructs.CreatePermissionBody{
 	},
 	{
 		PermissionBody: accessStructs.PermissionBody{
+			Name:        "System Read",
+			Action:      "read",
+			Subject:     "system",
+			Description: "View system information",
+		},
+	},
+	{
+		PermissionBody: accessStructs.PermissionBody{
+			Name:        "NCore Management",
+			Action:      "manage",
+			Subject:     "ncore",
+			Description: "Manage NCore runtime extension surfaces",
+		},
+	},
+	{
+		PermissionBody: accessStructs.PermissionBody{
+			Name:        "Builder Management",
+			Action:      "manage",
+			Subject:     "builder",
+			Description: "Access builder design and generation tools",
+		},
+	},
+	{
+		PermissionBody: accessStructs.PermissionBody{
+			Name:        "IAM Management",
+			Action:      "manage",
+			Subject:     "iam",
+			Description: "Manage identity and access administration surfaces",
+		},
+	},
+	{
+		PermissionBody: accessStructs.PermissionBody{
 			Name:        "Menu Access",
 			Action:      "read",
 			Subject:     "menu",
@@ -59,10 +99,26 @@ var SystemDefaultPermissions = []accessStructs.CreatePermissionBody{
 	},
 	{
 		PermissionBody: accessStructs.PermissionBody{
+			Name:        "Menu Management",
+			Action:      "manage",
+			Subject:     "menu",
+			Description: "Manage system menu structure",
+		},
+	},
+	{
+		PermissionBody: accessStructs.PermissionBody{
 			Name:        "Dictionary Access",
 			Action:      "read",
 			Subject:     "dictionary",
 			Description: "Access to system dictionaries",
+		},
+	},
+	{
+		PermissionBody: accessStructs.PermissionBody{
+			Name:        "Dictionary Management",
+			Action:      "manage",
+			Subject:     "dictionary",
+			Description: "Create, update, and delete dictionary data",
 		},
 	},
 
@@ -85,6 +141,14 @@ var SystemDefaultPermissions = []accessStructs.CreatePermissionBody{
 	},
 	{
 		PermissionBody: accessStructs.PermissionBody{
+			Name:        "User Create",
+			Action:      "create",
+			Subject:     "user",
+			Description: "Create new users",
+		},
+	},
+	{
+		PermissionBody: accessStructs.PermissionBody{
 			Name:        "Employee Management",
 			Action:      "manage",
 			Subject:     "employee",
@@ -97,6 +161,48 @@ var SystemDefaultPermissions = []accessStructs.CreatePermissionBody{
 			Action:      "read",
 			Subject:     "employee",
 			Description: "View employee information",
+		},
+	},
+
+	// Role, permission, and space administration
+	{
+		PermissionBody: accessStructs.PermissionBody{
+			Name:        "Role Management",
+			Action:      "manage",
+			Subject:     "role",
+			Description: "Role management",
+		},
+	},
+	{
+		PermissionBody: accessStructs.PermissionBody{
+			Name:        "Permission Management",
+			Action:      "manage",
+			Subject:     "permission",
+			Description: "Permission management",
+		},
+	},
+	{
+		PermissionBody: accessStructs.PermissionBody{
+			Name:        "Permission Read",
+			Action:      "read",
+			Subject:     "permission",
+			Description: "View permissions",
+		},
+	},
+	{
+		PermissionBody: accessStructs.PermissionBody{
+			Name:        "Space Read",
+			Action:      "read",
+			Subject:     "space",
+			Description: "View spaces and space membership data",
+		},
+	},
+	{
+		PermissionBody: accessStructs.PermissionBody{
+			Name:        "Space Management",
+			Action:      "manage",
+			Subject:     "space",
+			Description: "Manage spaces, memberships, and space configuration",
 		},
 	},
 
@@ -135,6 +241,30 @@ var SystemDefaultPermissions = []accessStructs.CreatePermissionBody{
 			Description: "View content",
 		},
 	},
+	{
+		PermissionBody: accessStructs.PermissionBody{
+			Name:        "Comment Read",
+			Action:      "read",
+			Subject:     "comment",
+			Description: "View comments",
+		},
+	},
+	{
+		PermissionBody: accessStructs.PermissionBody{
+			Name:        "Taxonomy Management",
+			Action:      "manage",
+			Subject:     "taxonomies",
+			Description: "Manage content taxonomy configuration",
+		},
+	},
+	{
+		PermissionBody: accessStructs.PermissionBody{
+			Name:        "Approval Management",
+			Action:      "manage",
+			Subject:     "approvals",
+			Description: "Manage content approval surfaces",
+		},
+	},
 
 	// Module access permissions
 	{
@@ -147,10 +277,66 @@ var SystemDefaultPermissions = []accessStructs.CreatePermissionBody{
 	},
 	{
 		PermissionBody: accessStructs.PermissionBody{
+			Name:        "Workflow Management",
+			Action:      "manage",
+			Subject:     "workflow",
+			Description: "Manage workflow templates, rules, delegations, and operations",
+		},
+	},
+	{
+		PermissionBody: accessStructs.PermissionBody{
+			Name:        "TBP Management",
+			Action:      "manage",
+			Subject:     "tbp",
+			Description: "TBP endpoints and routes management",
+		},
+	},
+	{
+		PermissionBody: accessStructs.PermissionBody{
+			Name:        "Plugin Management",
+			Action:      "manage",
+			Subject:     "plugins",
+			Description: "Manage plugin administration and internal plugin surfaces",
+		},
+	},
+	{
+		PermissionBody: accessStructs.PermissionBody{
 			Name:        "Resource Access",
 			Action:      "read",
 			Subject:     "resource",
 			Description: "Access to resources and files",
+		},
+	},
+	{
+		PermissionBody: accessStructs.PermissionBody{
+			Name:        "Resource Management",
+			Action:      "manage",
+			Subject:     "resource",
+			Description: "Manage resources and file lifecycle operations",
+		},
+	},
+	{
+		PermissionBody: accessStructs.PermissionBody{
+			Name:        "Resource Administration",
+			Action:      "admin",
+			Subject:     "resources",
+			Description: "Access resource administration, quota, cleanup, and storage operations",
+		},
+	},
+	{
+		PermissionBody: accessStructs.PermissionBody{
+			Name:        "CMS Read",
+			Action:      "read",
+			Subject:     "cms",
+			Description: "View CMS content",
+		},
+	},
+	{
+		PermissionBody: accessStructs.PermissionBody{
+			Name:        "CMS Management",
+			Action:      "manage",
+			Subject:     "cms",
+			Description: "CMS management",
 		},
 	},
 	{
@@ -242,17 +428,42 @@ var RolePermissionMapping = map[string][]string{
 	},
 	"system-admin": {
 		"System Management",
+		"System Read",
+		"NCore Management",
+		"Builder Management",
+		"IAM Management",
+		"Menu Management",
 		"User Management",
 		"Employee Management",
+		"Role Management",
+		"Permission Management",
+		"Permission Read",
+		"Space Read",
+		"Space Management",
 		"Organization Management",
+		"Organization Read",
 		"Content Management",
+		"Content Read",
+		"Comment Read",
+		"Taxonomy Management",
+		"Approval Management",
 		"Dashboard Access",
 		"Profile Management",
 		"Account Access",
+		"Account Management",
 		"Menu Access",
 		"Dictionary Access",
+		"Dictionary Management",
+		"User Create",
 		"Workflow Access",
+		"Workflow Management",
+		"TBP Management",
+		"Plugin Management",
 		"Resource Access",
+		"Resource Management",
+		"Resource Administration",
+		"CMS Read",
+		"CMS Management",
 		"Payment Read",
 		"Payment Management",
 		"Payment Refund",
@@ -266,16 +477,27 @@ var RolePermissionMapping = map[string][]string{
 	},
 	"enterprise-admin": {
 		"User Management",
+		"User Create",
 		"Employee Management",
+		"Space Read",
 		"Organization Management",
+		"Organization Read",
 		"Content Management",
+		"Content Read",
+		"Comment Read",
+		"Taxonomy Management",
 		"Dashboard Access",
 		"Profile Management",
 		"Account Access",
+		"Account Management",
 		"Menu Access",
 		"Dictionary Access",
 		"Workflow Access",
+		"Workflow Management",
 		"Resource Access",
+		"Resource Management",
+		"CMS Read",
+		"CMS Management",
 		"Payment Read",
 		"Realtime Access",
 		"Realtime Management",
@@ -288,9 +510,11 @@ var RolePermissionMapping = map[string][]string{
 		"Employee Management",
 		"Organization Read",
 		"Content Read",
+		"Comment Read",
 		"Dashboard Access",
 		"Profile Management",
 		"Account Access",
+		"Account Management",
 		"Menu Access",
 		"Dictionary Access",
 		"Workflow Access",
@@ -304,9 +528,11 @@ var RolePermissionMapping = map[string][]string{
 		"Employee Read",
 		"Organization Read",
 		"Content Read",
+		"Comment Read",
 		"Dashboard Access",
 		"Profile Management",
 		"Account Access",
+		"Account Management",
 		"Menu Access",
 		"Dictionary Access",
 		"Workflow Access",
@@ -320,9 +546,11 @@ var RolePermissionMapping = map[string][]string{
 		"Employee Read",
 		"Organization Read",
 		"Content Read",
+		"Comment Read",
 		"Dashboard Access",
 		"Profile Management",
 		"Account Access",
+		"Account Management",
 		"Menu Access",
 		"Dictionary Access",
 		"Workflow Access",

@@ -59,6 +59,30 @@ var SystemDefaultPermissions = []accessStructs.CreatePermissionBody{
 	},
 	{
 		PermissionBody: accessStructs.PermissionBody{
+			Name:        "NCore Management",
+			Action:      "manage",
+			Subject:     "ncore",
+			Description: "Manage NCore runtime extension surfaces",
+		},
+	},
+	{
+		PermissionBody: accessStructs.PermissionBody{
+			Name:        "Builder Management",
+			Action:      "manage",
+			Subject:     "builder",
+			Description: "Access builder design and generation tools",
+		},
+	},
+	{
+		PermissionBody: accessStructs.PermissionBody{
+			Name:        "IAM Management",
+			Action:      "manage",
+			Subject:     "iam",
+			Description: "Manage identity and access administration surfaces",
+		},
+	},
+	{
+		PermissionBody: accessStructs.PermissionBody{
 			Name:        "Menu Management",
 			Action:      "manage",
 			Subject:     "menu",
@@ -71,6 +95,14 @@ var SystemDefaultPermissions = []accessStructs.CreatePermissionBody{
 			Action:      "read",
 			Subject:     "dictionary",
 			Description: "View dictionary data",
+		},
+	},
+	{
+		PermissionBody: accessStructs.PermissionBody{
+			Name:        "Dictionary Management",
+			Action:      "manage",
+			Subject:     "dictionary",
+			Description: "Create, update, and delete dictionary data",
 		},
 	},
 
@@ -161,6 +193,14 @@ var SystemDefaultPermissions = []accessStructs.CreatePermissionBody{
 	// Space management
 	{
 		PermissionBody: accessStructs.PermissionBody{
+			Name:        "Space Read",
+			Action:      "read",
+			Subject:     "space",
+			Description: "View spaces and space membership data",
+		},
+	},
+	{
+		PermissionBody: accessStructs.PermissionBody{
 			Name:        "Space Management",
 			Action:      "manage",
 			Subject:     "space",
@@ -169,6 +209,14 @@ var SystemDefaultPermissions = []accessStructs.CreatePermissionBody{
 	},
 
 	// Organization management
+	{
+		PermissionBody: accessStructs.PermissionBody{
+			Name:        "Organization Management",
+			Action:      "manage",
+			Subject:     "organization",
+			Description: "Manage organization structure and members",
+		},
+	},
 	{
 		PermissionBody: accessStructs.PermissionBody{
 			Name:        "Organization Read",
@@ -231,6 +279,14 @@ var SystemDefaultPermissions = []accessStructs.CreatePermissionBody{
 	},
 	{
 		PermissionBody: accessStructs.PermissionBody{
+			Name:        "Plugin Management",
+			Action:      "manage",
+			Subject:     "plugins",
+			Description: "Manage plugin administration and internal plugin surfaces",
+		},
+	},
+	{
+		PermissionBody: accessStructs.PermissionBody{
 			Name:        "Realtime Access",
 			Action:      "read",
 			Subject:     "realtime",
@@ -251,6 +307,14 @@ var SystemDefaultPermissions = []accessStructs.CreatePermissionBody{
 			Action:      "manage",
 			Subject:     "resource",
 			Description: "Resource management",
+		},
+	},
+	{
+		PermissionBody: accessStructs.PermissionBody{
+			Name:        "Resource Administration",
+			Action:      "admin",
+			Subject:     "resources",
+			Description: "Access resource administration, quota, cleanup, and storage operations",
 		},
 	},
 	{
@@ -335,6 +399,30 @@ var SystemDefaultPermissions = []accessStructs.CreatePermissionBody{
 	},
 	{
 		PermissionBody: accessStructs.PermissionBody{
+			Name:        "Workflow Management",
+			Action:      "manage",
+			Subject:     "workflow",
+			Description: "Manage workflow templates, rules, delegations, and operations",
+		},
+	},
+	{
+		PermissionBody: accessStructs.PermissionBody{
+			Name:        "Taxonomy Management",
+			Action:      "manage",
+			Subject:     "taxonomies",
+			Description: "Manage content taxonomy configuration",
+		},
+	},
+	{
+		PermissionBody: accessStructs.PermissionBody{
+			Name:        "Approval Management",
+			Action:      "manage",
+			Subject:     "approvals",
+			Description: "Manage content approval surfaces",
+		},
+	},
+	{
+		PermissionBody: accessStructs.PermissionBody{
 			Name:        "Task Management",
 			Action:      "manage",
 			Subject:     "task",
@@ -368,14 +456,21 @@ var RolePermissionMapping = map[string][]string{
 		// Full system access
 		"System Management",
 		"System Read",
+		"NCore Management",
+		"Builder Management",
+		"IAM Management",
 		"Menu Management",
 		"Dictionary Read",
+		"Dictionary Management",
 		"User Management",
+		"User Create",
 		"Employee Management",
 		"Role Management",
 		"Permission Management",
 		"Permission Read",
+		"Space Read",
 		"Space Management",
+		"Organization Management",
 		"Organization Read",
 		"Group Management",
 		"Group Read",
@@ -383,9 +478,11 @@ var RolePermissionMapping = map[string][]string{
 		"Content Read",
 		"Comment Read",
 		"TBP Management",
+		"Plugin Management",
 		"Realtime Access",
 		"Realtime Management",
 		"Resource Management",
+		"Resource Administration",
 		"Resource Read",
 		"Payment Read",
 		"Payment Management",
@@ -396,6 +493,9 @@ var RolePermissionMapping = map[string][]string{
 		"AI Management",
 		"AI Administration",
 		"Workflow Read",
+		"Workflow Management",
+		"Taxonomy Management",
+		"Approval Management",
 		"Task Management",
 		"CMS Management",
 		"CMS Read",
@@ -406,7 +506,10 @@ var RolePermissionMapping = map[string][]string{
 	"company-admin": {
 		// Business management without low-level system config
 		"User Management",
+		"User Create",
 		"Employee Management",
+		"Space Read",
+		"Organization Management",
 		"Organization Read",
 		"Group Management",
 		"Group Read",
@@ -414,6 +517,7 @@ var RolePermissionMapping = map[string][]string{
 		"Content Read",
 		"Comment Read",
 		"Workflow Read",
+		"Workflow Management",
 		"Task Management",
 		"Realtime Access",
 		"Resource Read",

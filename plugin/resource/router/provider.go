@@ -65,8 +65,9 @@ func (r *Router) Register(rg *gin.RouterGroup, prefix ...string) {
 	manage.POST("/batch/delete", r.h.Batch.BatchDelete)
 	read.GET("/status/:job_id", r.h.Batch.GetBatchStatus)
 
-	// Admin routes (admin access required)
-	admin := protected.Use(middleware.RequireAdmin())
+	// Admin routes require explicit resource administration or resource
+	// management permission; super admins continue through wildcard/admin state.
+	admin := protected.Use(middleware.HasAnyPermission("admin:resources", "manage:resources"))
 
 	// Admin file management
 	admin.GET("/admin/files", r.h.Admin.ListFiles)

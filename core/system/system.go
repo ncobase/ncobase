@@ -106,13 +106,15 @@ func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 	// Menu endpoints
 	menus := sysGroup.Group("/menus")
 	{
-		// Basic menu access - all authenticated users
-		menus.GET("", m.h.Menu.List)
+		// Current-user navigation remains available to authenticated users.
 		menus.GET("/navigation", m.h.Menu.GetNavigationMenus)
-		menus.GET("/tree", m.h.Menu.GetMenuTree)
-		menus.GET("/authorized/:user_id", m.h.Menu.GetUserAuthorizedMenus)
-		menus.GET("/slug/:slug", m.h.Menu.GetBySlug)
-		menus.GET("/:slug", m.h.Menu.Get)
+
+		// Raw menu configuration exposes routing and permission metadata.
+		menus.GET("", middleware.HasPermission("manage:menu"), m.h.Menu.List)
+		menus.GET("/tree", middleware.HasPermission("manage:menu"), m.h.Menu.GetMenuTree)
+		menus.GET("/authorized/:user_id", middleware.HasPermission("manage:menu"), m.h.Menu.GetUserAuthorizedMenus)
+		menus.GET("/slug/:slug", middleware.HasPermission("manage:menu"), m.h.Menu.GetBySlug)
+		menus.GET("/:slug", middleware.HasPermission("manage:menu"), m.h.Menu.Get)
 
 		// Menu management - requires specific permission
 		menus.POST("", middleware.HasPermission("manage:menu"), m.h.Menu.Create)
@@ -133,14 +135,16 @@ func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 	// Dictionary endpoints
 	dictionaries := sysGroup.Group("/dictionaries")
 	{
+		readDictionary := middleware.HasAnyPermission("read:dictionaries", "manage:dictionary", "manage:system")
+
 		// Basic dictionary access
-		dictionaries.GET("", m.h.Dictionary.List)
-		dictionaries.GET("/slug/:slug", m.h.Dictionary.GetBySlug)
-		dictionaries.GET("/options/:slug", m.h.Dictionary.GetEnumOptions)
-		dictionaries.GET("/validate/:slug", m.h.Dictionary.ValidateEnumValue)
-		dictionaries.POST("/batch", m.h.Dictionary.BatchGetBySlug)
-		dictionaries.GET("/:slug/usage", m.h.Dictionary.GetUsage)
-		dictionaries.GET("/:slug", m.h.Dictionary.Get)
+		dictionaries.GET("", readDictionary, m.h.Dictionary.List)
+		dictionaries.GET("/slug/:slug", readDictionary, m.h.Dictionary.GetBySlug)
+		dictionaries.GET("/options/:slug", readDictionary, m.h.Dictionary.GetEnumOptions)
+		dictionaries.GET("/validate/:slug", readDictionary, m.h.Dictionary.ValidateEnumValue)
+		dictionaries.POST("/batch", readDictionary, m.h.Dictionary.BatchGetBySlug)
+		dictionaries.GET("/:slug/usage", readDictionary, m.h.Dictionary.GetUsage)
+		dictionaries.GET("/:slug", readDictionary, m.h.Dictionary.Get)
 
 		// Dictionary management
 		dictionaries.POST("", middleware.HasPermission("manage:dictionary"), m.h.Dictionary.Create)
