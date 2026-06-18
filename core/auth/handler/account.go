@@ -20,6 +20,7 @@ type AccountHandlerInterface interface {
 	Logout(c *gin.Context)
 	GetMe(c *gin.Context)
 	UpdatePassword(c *gin.Context)
+	PasswordPolicy(c *gin.Context)
 	Space(c *gin.Context)
 	Spaces(c *gin.Context)
 	RefreshToken(c *gin.Context)
@@ -248,6 +249,20 @@ func (h *accountHandler) UpdatePassword(c *gin.Context) {
 		return
 	}
 	resp.Success(c.Writer, nil)
+}
+
+// PasswordPolicy handles reading public password requirements.
+//
+// @Summary Get password policy
+// @Description Retrieve the public password requirements used by registration and password changes.
+// @Tags auth
+// @Produce json
+// @Success 200 {object} wrapper.PasswordRuntimePolicy "success"
+// @Failure 400 {object} resp.Exception "bad request"
+// @Router /password-policy [get]
+func (h *accountHandler) PasswordPolicy(c *gin.Context) {
+	result := h.s.Account.PasswordPolicy(c.Request.Context())
+	resp.Success(c.Writer, result)
 }
 
 // Space handles reading the current user's space.

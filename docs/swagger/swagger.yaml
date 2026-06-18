@@ -154,7 +154,6 @@ definitions:
     required:
     - confirm
     - new_password
-    - user
     type: object
   ncobase_core_organization_structs.ReadOrganization:
     properties:
@@ -324,7 +323,9 @@ definitions:
     required:
     - confirm
     - new_password
-    - user
+    type: object
+  ncobase_plugin_payment_structs.ProviderConfig:
+    additionalProperties: {}
     type: object
   ncobase_plugin_resource_structs.ActivityStats:
     properties:
@@ -332,13 +333,36 @@ definitions:
         items:
           $ref: '#/definitions/structs.HourlyActivity'
         type: array
+      message:
+        type: string
       popular_files:
         items:
           $ref: '#/definitions/structs.PopularFile'
         type: array
+      telemetry_available:
+        type: boolean
       total_downloads:
         type: integer
       total_views:
+        type: integer
+    type: object
+  ncobase_plugin_resource_structs.Result-structs_ReadFile:
+    properties:
+      cursor:
+        type: string
+      has_next:
+        type: boolean
+      has_prev:
+        type: boolean
+      items:
+        items:
+          $ref: '#/definitions/structs.ReadFile'
+        type: array
+      next_cursor:
+        type: string
+      prev_cursor:
+        type: string
+      total:
         type: integer
     type: object
   resp.Exception:
@@ -653,6 +677,10 @@ definitions:
     type: object
   structs.BatchCleanupResult:
     properties:
+      candidate_items:
+        items:
+          type: string
+        type: array
       cleaned_items:
         items:
           type: string
@@ -669,6 +697,8 @@ definitions:
         type: integer
       job_id:
         type: string
+      potential_space_freed:
+        type: integer
       space_freed:
         type: integer
       type:
@@ -922,12 +952,11 @@ definitions:
     - p_type
     - v0
     - v1
-    - v2
     type: object
   structs.Channel:
     properties:
       config:
-        $ref: '#/definitions/structs.ProviderConfig'
+        $ref: '#/definitions/ncobase_plugin_payment_structs.ProviderConfig'
       created_at:
         type: integer
       id:
@@ -1093,7 +1122,7 @@ definitions:
   structs.CreateChannelInput:
     properties:
       config:
-        $ref: '#/definitions/structs.ProviderConfig'
+        $ref: '#/definitions/ncobase_plugin_payment_structs.ProviderConfig'
       is_default:
         type: boolean
       metadata:
@@ -1258,13 +1287,23 @@ definitions:
         type: string
       description:
         type: string
+      duration:
+        type: number
+      height:
+        type: integer
       metadata:
         $ref: '#/definitions/types.JSON'
+      mime_type:
+        type: string
       owner_id:
+        type: string
+      path:
         type: string
       resource_id:
         description: Reference to resource plugin file
         type: string
+      size:
+        type: integer
       space_id:
         type: string
       title:
@@ -1277,6 +1316,8 @@ definitions:
       url:
         description: For external resources
         type: string
+      width:
+        type: integer
     type: object
   structs.CreateNotification:
     properties:
@@ -1809,6 +1850,17 @@ definitions:
       value:
         type: string
     type: object
+  structs.DictionaryUsage:
+    properties:
+      count:
+        type: integer
+      location:
+        type: string
+      module:
+        type: string
+      reference_id:
+        type: string
+    type: object
   structs.EndpointMetric:
     properties:
       avg_time:
@@ -2232,7 +2284,20 @@ definitions:
         type: integer
       indexes_rebuilt:
         type: integer
+      mode:
+        description: analysis, executed
+        type: string
       orphaned_cleaned:
+        type: integer
+      orphaned_files:
+        type: integer
+      performed_actions:
+        items:
+          type: string
+        type: array
+      potential_duplicate_files:
+        type: integer
+      potential_space_freed:
         type: integer
       space_freed:
         type: integer
@@ -2243,13 +2308,23 @@ definitions:
     properties:
       autoload:
         type: boolean
+      category:
+        type: string
       created_by:
         type: string
+      description:
+        type: string
+      environment_variable:
+        type: string
+      is_secret:
+        type: boolean
       name:
         type: string
       type:
         type: string
       updated_by:
+        type: string
+      validation:
         type: string
       value:
         type: string
@@ -2615,9 +2690,6 @@ definitions:
       status:
         type: string
     type: object
-  structs.ProviderConfig:
-    additionalProperties: {}
-    type: object
   structs.QuotaInfo:
     properties:
       file_count:
@@ -2980,11 +3052,19 @@ definitions:
         type: string
       description:
         type: string
+      duration:
+        type: number
+      height:
+        type: integer
       id:
         type: string
       metadata:
         $ref: '#/definitions/types.JSON'
+      mime_type:
+        type: string
       owner_id:
+        type: string
+      path:
         type: string
       resource:
         allOf:
@@ -2992,6 +3072,8 @@ definitions:
         description: Resource file reference
       resource_id:
         type: string
+      size:
+        type: integer
       space_id:
         type: string
       title:
@@ -3004,6 +3086,8 @@ definitions:
         type: string
       url:
         type: string
+      width:
+        type: integer
     type: object
   structs.ReadMenu:
     properties:
@@ -3076,12 +3160,20 @@ definitions:
     properties:
       autoload:
         type: boolean
+      category:
+        type: string
       created_at:
         type: integer
       created_by:
         type: string
+      description:
+        type: string
+      environment_variable:
+        type: string
       id:
         type: string
+      is_secret:
+        type: boolean
       name:
         type: string
       type:
@@ -3089,6 +3181,8 @@ definitions:
       updated_at:
         type: integer
       updated_by:
+        type: string
+      validation:
         type: string
       value:
         type: string
@@ -3572,7 +3666,11 @@ definitions:
     type: object
   structs.RegisterBody:
     properties:
+      confirm_password:
+        type: string
       display_name:
+        type: string
+      password:
         type: string
       phone:
         type: string
@@ -3585,7 +3683,9 @@ definitions:
       username:
         type: string
     required:
+    - confirm_password
     - display_name
+    - password
     - register_token
     - username
     type: object
@@ -3609,25 +3709,6 @@ definitions:
         type: string
       type:
         type: string
-    type: object
-  structs.Result-structs_ReadFile:
-    properties:
-      cursor:
-        type: string
-      has_next:
-        type: boolean
-      has_prev:
-        type: boolean
-      items:
-        items:
-          $ref: '#/definitions/structs.ReadFile'
-        type: array
-      next_cursor:
-        type: string
-      prev_cursor:
-        type: string
-      total:
-        type: integer
     type: object
   structs.RetryOptions:
     properties:
@@ -4031,6 +4112,9 @@ definitions:
         $ref: '#/definitions/structs.DatabaseConfig'
       features:
         $ref: '#/definitions/structs.FeatureConfig'
+      features_meta:
+        additionalProperties: {}
+        type: object
       integrations:
         $ref: '#/definitions/structs.IntegrationConfig'
       maintenance:
@@ -4256,7 +4340,7 @@ definitions:
   structs.UpdateChannelInput:
     properties:
       config:
-        $ref: '#/definitions/structs.ProviderConfig'
+        $ref: '#/definitions/ncobase_plugin_payment_structs.ProviderConfig'
       id:
         type: string
       is_default:
@@ -4413,15 +4497,25 @@ definitions:
         type: string
       description:
         type: string
+      duration:
+        type: number
+      height:
+        type: integer
       id:
         type: string
       metadata:
         $ref: '#/definitions/types.JSON'
+      mime_type:
+        type: string
       owner_id:
+        type: string
+      path:
         type: string
       resource_id:
         description: Reference to resource plugin file
         type: string
+      size:
+        type: integer
       space_id:
         type: string
       title:
@@ -4434,6 +4528,8 @@ definitions:
       url:
         description: For external resources
         type: string
+      width:
+        type: integer
     type: object
   structs.UpdateMemberRequest:
     properties:
@@ -4488,15 +4584,25 @@ definitions:
     properties:
       autoload:
         type: boolean
+      category:
+        type: string
       created_by:
+        type: string
+      description:
+        type: string
+      environment_variable:
         type: string
       id:
         type: string
+      is_secret:
+        type: boolean
       name:
         type: string
       type:
         type: string
       updated_by:
+        type: string
+      validation:
         type: string
       value:
         type: string
@@ -4974,6 +5080,19 @@ definitions:
   types.JSON:
     additionalProperties: {}
     type: object
+  wrapper.PasswordRuntimePolicy:
+    properties:
+      min_length:
+        type: integer
+      require_lowercase:
+        type: boolean
+      require_numbers:
+        type: boolean
+      require_symbols:
+        type: boolean
+      require_uppercase:
+        type: boolean
+    type: object
 info:
   contact: {}
   description: Base Development Framework
@@ -5267,6 +5386,10 @@ paths:
           description: Internal server error
           schema:
             $ref: '#/definitions/resp.Exception'
+        "503":
+          description: Admin activity aggregation unavailable
+          schema:
+            $ref: '#/definitions/resp.Exception'
       security:
       - Bearer: []
       summary: Get user activity
@@ -5318,6 +5441,10 @@ paths:
           description: Internal server error
           schema:
             $ref: '#/definitions/resp.Exception'
+        "503":
+          description: Admin config writes are unavailable; use /sys/options
+          schema:
+            $ref: '#/definitions/resp.Exception'
       security:
       - Bearer: []
       summary: Update system config
@@ -5335,6 +5462,10 @@ paths:
             $ref: '#/definitions/structs.DashboardStatsResponse'
         "500":
           description: Internal server error
+          schema:
+            $ref: '#/definitions/resp.Exception'
+        "503":
+          description: Admin dashboard aggregation unavailable
           schema:
             $ref: '#/definitions/resp.Exception'
       security:
@@ -5400,6 +5531,10 @@ paths:
             $ref: '#/definitions/resp.Exception'
         "500":
           description: Internal server error
+          schema:
+            $ref: '#/definitions/resp.Exception'
+        "503":
+          description: Admin log aggregation unavailable
           schema:
             $ref: '#/definitions/resp.Exception'
       security:
@@ -5477,6 +5612,10 @@ paths:
           description: Internal server error
           schema:
             $ref: '#/definitions/resp.Exception'
+        "503":
+          description: Admin user aggregation unavailable
+          schema:
+            $ref: '#/definitions/resp.Exception'
       security:
       - Bearer: []
       summary: Manage users
@@ -5508,6 +5647,10 @@ paths:
             $ref: '#/definitions/resp.Exception'
         "500":
           description: Internal server error
+          schema:
+            $ref: '#/definitions/resp.Exception'
+        "503":
+          description: Admin user aggregation unavailable
           schema:
             $ref: '#/definitions/resp.Exception'
       security:
@@ -5550,6 +5693,10 @@ paths:
             $ref: '#/definitions/resp.Exception'
         "500":
           description: Internal server error
+          schema:
+            $ref: '#/definitions/resp.Exception'
+        "503":
+          description: Admin user status mutation unavailable
           schema:
             $ref: '#/definitions/resp.Exception'
       security:
@@ -6090,6 +6237,9 @@ paths:
         name: owner_id
         type: string
       - in: query
+        name: resource_id
+        type: string
+      - in: query
         name: search
         type: string
       - in: query
@@ -6585,6 +6735,9 @@ paths:
       description: Retrieve a list of topics.
       parameters:
       - in: query
+        name: content_type
+        type: string
+      - in: query
         name: cursor
         type: string
       - in: query
@@ -6594,10 +6747,25 @@ paths:
         name: limit
         type: integer
       - in: query
+        name: markdown
+        type: string
+      - in: query
+        name: private
+        type: string
+      - in: query
+        name: search
+        type: string
+      - in: query
         name: space_id
         type: string
       - in: query
+        name: status
+        type: string
+      - in: query
         name: taxonomy
+        type: string
+      - in: query
+        name: title
         type: string
       produces:
       - application/json
@@ -7042,6 +7210,24 @@ paths:
       security:
       - Bearer: []
       summary: Logout
+      tags:
+      - auth
+  /password-policy:
+    get:
+      description: Retrieve the public password requirements used by registration
+        and password changes.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/wrapper.PasswordRuntimePolicy'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      summary: Get password policy
       tags:
       - auth
   /pay/channels:
@@ -8594,7 +8780,7 @@ paths:
         "200":
           description: Paginated file list
           schema:
-            $ref: '#/definitions/structs.Result-structs_ReadFile'
+            $ref: '#/definitions/ncobase_plugin_resource_structs.Result-structs_ReadFile'
         "400":
           description: Bad request
           schema:
@@ -8852,12 +9038,14 @@ paths:
         name: slug
         required: true
         type: string
-      - description: Expiration settings
+      - description: Share settings
         in: body
         name: body
         required: true
         schema:
           properties:
+            access_level:
+              type: string
             expiration_hours:
               type: integer
           type: object
@@ -8868,6 +9056,8 @@ paths:
           description: success
           schema:
             properties:
+              access_level:
+                type: string
               expires_at:
                 type: string
               expires_in:
@@ -9471,10 +9661,22 @@ paths:
         in: formData
         name: access_level
         type: string
+      - description: Public access flag
+        in: formData
+        name: is_public
+        type: boolean
       - description: Comma-separated tags
         in: formData
         name: tags
         type: string
+      - description: Processing options (JSON)
+        in: formData
+        name: processing_options
+        type: string
+      - description: Expiration timestamp
+        in: formData
+        name: expires_at
+        type: integer
       - description: Additional metadata (JSON)
         in: formData
         name: extras
@@ -11055,6 +11257,33 @@ paths:
       summary: Get dictionary
       tags:
       - sys
+  /sys/dictionaries/{slug}/usage:
+    get:
+      description: Retrieve system records that reference a dictionary by ID or slug.
+      parameters:
+      - description: Dictionary ID or slug
+        in: path
+        name: slug
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            items:
+              $ref: '#/definitions/structs.DictionaryUsage'
+            type: array
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      security:
+      - Bearer: []
+      summary: Get dictionary usage
+      tags:
+      - sys
   /sys/dictionaries/batch:
     post:
       consumes:
@@ -11753,11 +11982,17 @@ paths:
         name: autoload
         type: boolean
       - in: query
+        name: category
+        type: string
+      - in: query
         name: cursor
         type: string
       - in: query
         name: direction
         type: string
+      - in: query
+        name: is_secret
+        type: boolean
       - in: query
         name: limit
         type: integer
@@ -12420,14 +12655,26 @@ paths:
       description: Retrieve a list of permissions based on the provided query parameters
       parameters:
       - in: query
+        name: action
+        type: string
+      - in: query
         name: cursor
         type: string
+      - in: query
+        name: default
+        type: boolean
       - in: query
         name: direction
         type: string
       - in: query
+        name: disabled
+        type: boolean
+      - in: query
         name: limit
         type: integer
+      - in: query
+        name: subject
+        type: string
       produces:
       - application/json
       responses:
@@ -12724,6 +12971,9 @@ paths:
       - in: query
         name: direction
         type: string
+      - in: query
+        name: disabled
+        type: boolean
       - in: query
         name: limit
         type: integer

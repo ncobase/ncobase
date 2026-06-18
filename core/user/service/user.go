@@ -23,6 +23,7 @@ import (
 type UserServiceInterface interface {
 	Get(ctx context.Context, username string) (*structs.ReadUser, error)
 	UpdatePassword(ctx context.Context, body *structs.UserPassword) error
+	SetPasswordByID(ctx context.Context, userID, password string) error
 	CreateUser(ctx context.Context, body *structs.UserBody) (*structs.ReadUser, error)
 	UpdateUser(ctx context.Context, user string, updates types.JSON) (*structs.ReadUser, error)
 	GetByID(ctx context.Context, u string) (*structs.ReadUser, error)
@@ -89,6 +90,9 @@ func (s *userService) UpdatePassword(ctx context.Context, body *structs.UserPass
 	if body.Confirm != body.NewPassword {
 		return errors.New(ecode.FieldIsInvalid("confirm password"))
 	}
+	if err := ValidatePasswordPolicy(ctx, s.options, body.NewPassword); err != nil {
+		return err
+	}
 	verifyResult := s.VerifyPassword(ctx, body.User, body.OldPassword)
 	switch v := verifyResult.(type) {
 	case VerifyPasswordResult:
@@ -107,6 +111,31 @@ func (s *userService) UpdatePassword(ctx context.Context, body *structs.UserPass
 		return err
 	}
 
+	return nil
+}
+
+// SetPasswordByID sets a user's password without requiring an existing password check.
+// It is intended for trusted internal flows such as registration after token verification.
+func (s *userService) SetPasswordByID(ctx context.Context, userID, password string) error {
+	if userID == "" {
+		return errors.New(ecode.FieldIsEmpty("user id"))
+	}
+	if password == "" {
+		return errors.New(ecode.FieldIsEmpty("password"))
+	}
+	if err := ValidatePasswordPolicy(ctx, s.options, password); err != nil {
+		return err
+	}
+
+	hashedPassword, err := crypto.HashPassword(ctx, password)
+	if err != nil {
+		return err
+	}
+
+	err = s.user.UpdatePasswordByID(ctx, userID, hashedPassword)
+	if err := handleEntError(ctx, "User", err); err != nil {
+		return err
+	}
 	return nil
 }
 

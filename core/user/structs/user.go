@@ -31,7 +31,7 @@ type UserBody struct {
 
 // UserPassword represents the user password schema.
 type UserPassword struct {
-	User        string `json:"user,omitempty" validate:"required"`
+	User        string `json:"user,omitempty"`
 	OldPassword string `json:"old_password,omitempty"`
 	NewPassword string `json:"new_password,omitempty" validate:"required"`
 	Confirm     string `json:"confirm,omitempty" validate:"required,eqfield=NewPassword"`

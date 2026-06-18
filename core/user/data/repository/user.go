@@ -338,6 +338,9 @@ func (r *userRepository) UpdatePassword(ctx context.Context, body *structs.UserP
 	// Find user by username to get ID
 	user, err := r.Find(ctx, &structs.FindUser{Username: body.User})
 	if err != nil {
+		user, err = r.GetByID(ctx, body.User)
+	}
+	if err != nil {
 		return err
 	}
 

@@ -14,6 +14,7 @@ type UserServiceInterface interface {
 	GetByID(ctx context.Context, id string) (*userStructs.ReadUser, error)
 	FindUser(ctx context.Context, m *userStructs.FindUser) (*userStructs.ReadUser, error)
 	UpdatePassword(ctx context.Context, body *userStructs.UserPassword) error
+	SetPasswordByID(ctx context.Context, userID, password string) error
 	VerifyPassword(ctx context.Context, userID string, password string) any
 	CountX(ctx context.Context, params *userStructs.ListUserParams) int
 }
@@ -86,6 +87,14 @@ func (w *UserServiceWrapper) FindUser(ctx context.Context, m *userStructs.FindUs
 func (w *UserServiceWrapper) UpdatePassword(ctx context.Context, body *userStructs.UserPassword) error {
 	if w.userService != nil {
 		return w.userService.UpdatePassword(ctx, body)
+	}
+	return fmt.Errorf("user service not available")
+}
+
+// SetPasswordByID sets a user password by ID with fallback.
+func (w *UserServiceWrapper) SetPasswordByID(ctx context.Context, userID, password string) error {
+	if w.userService != nil {
+		return w.userService.SetPasswordByID(ctx, userID, password)
 	}
 	return fmt.Errorf("user service not available")
 }

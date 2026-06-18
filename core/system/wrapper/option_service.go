@@ -13,6 +13,7 @@ import (
 const (
 	optionSystemFrontend = "system.frontend"
 	optionSystemEmail    = "system.email_policy"
+	optionSystemSecurity = "system.security"
 	optionAuthToken      = "auth.token"
 	optionAuthSession    = "auth.session"
 )
@@ -50,6 +51,15 @@ type EmailRuntimePolicy struct {
 	AllowAuthEmail     bool
 	AllowPasswordReset bool
 	DigestFrequency    string
+}
+
+// PasswordRuntimePolicy contains non-secret password requirements managed through system options.
+type PasswordRuntimePolicy struct {
+	MinLength        int  `json:"min_length"`
+	RequireUppercase bool `json:"require_uppercase"`
+	RequireLowercase bool `json:"require_lowercase"`
+	RequireNumbers   bool `json:"require_numbers"`
+	RequireSymbols   bool `json:"require_symbols"`
 }
 
 // OptionServiceWrapper wraps system option access for modules that cannot import system services directly.
@@ -197,6 +207,61 @@ func (w *OptionServiceWrapper) EmailPolicy(ctx context.Context) EmailRuntimePoli
 		options.DigestFrequency = value
 	}
 	return options
+}
+
+// PasswordPolicy returns the public, non-secret password complexity policy.
+func (w *OptionServiceWrapper) PasswordPolicy(ctx context.Context) PasswordRuntimePolicy {
+	options := DefaultPasswordPolicy()
+
+	values, err := w.GetObjectByName(ctx, optionSystemSecurity)
+	if err != nil {
+		return options
+	}
+
+	if value, ok := intFromAny(firstPresent(values, "passwordMinLength", "min_length")); ok && value > 0 {
+		options.MinLength = value
+	}
+
+	if complexity, ok := boolFromAny(firstPresent(values, "passwordComplexity", "password_complexity")); ok {
+		options.RequireUppercase = complexity
+		options.RequireLowercase = complexity
+		options.RequireNumbers = complexity
+	}
+
+	if value, ok := boolFromAny(firstPresent(values, "requireUppercase", "require_uppercase")); ok {
+		options.RequireUppercase = value
+	}
+	if value, ok := boolFromAny(firstPresent(values, "requireLowercase", "require_lowercase")); ok {
+		options.RequireLowercase = value
+	}
+	if value, ok := boolFromAny(firstPresent(values, "requireNumbers", "require_numbers", "requireDigits", "require_digits")); ok {
+		options.RequireNumbers = value
+	}
+	if value, ok := boolFromAny(firstPresent(values, "requireSymbols", "require_symbols", "requireSpecial", "require_special")); ok {
+		options.RequireSymbols = value
+	}
+
+	return options
+}
+
+// DefaultPasswordPolicy returns the code-level fallback used when system options are unavailable.
+func DefaultPasswordPolicy() PasswordRuntimePolicy {
+	return PasswordRuntimePolicy{
+		MinLength:        8,
+		RequireUppercase: true,
+		RequireLowercase: true,
+		RequireNumbers:   true,
+		RequireSymbols:   false,
+	}
+}
+
+func firstPresent(values map[string]any, keys ...string) any {
+	for _, key := range keys {
+		if value, ok := values[key]; ok {
+			return value
+		}
+	}
+	return nil
 }
 
 func stringFromAny(value any) (string, bool) {

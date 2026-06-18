@@ -29,6 +29,7 @@ type AccountServiceInterface interface {
 	Register(ctx context.Context, body *structs.RegisterBody) (*AuthResponse, error)
 	GetMe(ctx context.Context) (*structs.AccountMeshes, error)
 	UpdatePassword(ctx context.Context, body *userStructs.UserPassword) error
+	PasswordPolicy(ctx context.Context) systemWrapper.PasswordRuntimePolicy
 	Space(ctx context.Context) (*spaceStructs.ReadSpace, error)
 	Spaces(ctx context.Context) (paging.Result[*spaceStructs.ReadSpace], error)
 	RefreshToken(ctx context.Context, refreshToken string) (*AuthResponse, error)
@@ -378,6 +379,13 @@ func (s *accountService) Register(ctx context.Context, body *structs.RegisterBod
 		}, body))
 	}
 
+	if err := userService.ValidatePasswordPolicy(ctx, s.options, body.Password); err != nil {
+		return nil, err
+	}
+	if body.ConfirmPassword != body.Password {
+		return nil, errors.New("confirm password is invalid")
+	}
+
 	// Disable verification code
 	if err = s.codeAuthRepo.MarkAsUsed(ctx, codeAuthID); err != nil {
 		return nil, err
@@ -493,6 +501,14 @@ func (s *accountService) UpdatePassword(ctx context.Context, body *userStructs.U
 	return err
 }
 
+// PasswordPolicy returns public password requirements.
+func (s *accountService) PasswordPolicy(ctx context.Context) systemWrapper.PasswordRuntimePolicy {
+	if s.options == nil {
+		return systemWrapper.DefaultPasswordPolicy()
+	}
+	return s.options.PasswordPolicy(ctx)
+}
+
 // Space returns user's default space
 func (s *accountService) Space(ctx context.Context) (*spaceStructs.ReadSpace, error) {
 	userID := ctxutil.GetUserID(ctx)
@@ -560,6 +576,10 @@ func createUserAndProfile(ctx context.Context, svc *accountService, body *struct
 		Phone:    body.Phone,
 	})
 	if err != nil {
+		return nil, err
+	}
+
+	if err := svc.usw.SetPasswordByID(ctx, user.ID, body.Password); err != nil {
 		return nil, err
 	}
 

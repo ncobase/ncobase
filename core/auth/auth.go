@@ -127,6 +127,7 @@ func (m *Module) RegisterRoutes(r *gin.RouterGroup) {
 	authGroup.POST("/login/mfa", m.h.MFA.LoginMFA)
 	authGroup.POST("/register", m.h.Account.Register)
 	authGroup.POST("/logout", m.h.Account.Logout)
+	authGroup.GET("/password-policy", m.h.Account.PasswordPolicy)
 
 	// Captcha endpoints
 	captcha := authGroup.Group("/captcha")

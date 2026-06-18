@@ -79,6 +79,7 @@ has an empty group.
 /login                      # User login
 /login/mfa                  # MFA challenge login
 /logout                     # User logout
+/password-policy            # Public non-secret password requirements
 /refresh-token              # Token refresh
 /register                   # User registration
 /token-status               # Token status check

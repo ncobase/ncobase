@@ -68,6 +68,9 @@ Menu, dictionary, and option changes affect runtime UI:
 Runtime/product policy must live in system options:
 
 - `system.frontend` controls public frontend URLs used by auth and password reset emails.
+- `system.security` controls password requirements used by registration and current-account
+  password changes. `/password-policy` exposes only the non-secret requirement fields to public
+  registration UI.
 - `auth.token` controls access, refresh, register, and MFA token expiry.
 - `auth.session` controls maximum sessions, session expiry, and cleanup interval.
 - `resource.upload`, `resource.image`, and `resource.quota` control file validation, image

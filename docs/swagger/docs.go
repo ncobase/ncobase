@@ -481,6 +481,12 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/resp.Exception"
                         }
+                    },
+                    "503": {
+                        "description": "Admin activity aggregation unavailable",
+                        "schema": {
+                            "$ref": "#/definitions/resp.Exception"
+                        }
                     }
                 }
             }
@@ -562,6 +568,12 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/resp.Exception"
                         }
+                    },
+                    "503": {
+                        "description": "Admin config writes are unavailable; use /sys/options",
+                        "schema": {
+                            "$ref": "#/definitions/resp.Exception"
+                        }
                     }
                 }
             }
@@ -590,6 +602,12 @@ const docTemplate = `{
                     },
                     "500": {
                         "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/resp.Exception"
+                        }
+                    },
+                    "503": {
+                        "description": "Admin dashboard aggregation unavailable",
                         "schema": {
                             "$ref": "#/definitions/resp.Exception"
                         }
@@ -692,6 +710,12 @@ const docTemplate = `{
                     },
                     "500": {
                         "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/resp.Exception"
+                        }
+                    },
+                    "503": {
+                        "description": "Admin log aggregation unavailable",
                         "schema": {
                             "$ref": "#/definitions/resp.Exception"
                         }
@@ -812,6 +836,12 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/resp.Exception"
                         }
+                    },
+                    "503": {
+                        "description": "Admin user aggregation unavailable",
+                        "schema": {
+                            "$ref": "#/definitions/resp.Exception"
+                        }
                     }
                 }
             }
@@ -861,6 +891,12 @@ const docTemplate = `{
                     },
                     "500": {
                         "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/resp.Exception"
+                        }
+                    },
+                    "503": {
+                        "description": "Admin user aggregation unavailable",
                         "schema": {
                             "$ref": "#/definitions/resp.Exception"
                         }
@@ -926,6 +962,12 @@ const docTemplate = `{
                     },
                     "500": {
                         "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/resp.Exception"
+                        }
+                    },
+                    "503": {
+                        "description": "Admin user status mutation unavailable",
                         "schema": {
                             "$ref": "#/definitions/resp.Exception"
                         }
@@ -1782,6 +1824,11 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
+                        "name": "resource_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
                         "name": "search",
                         "in": "query"
                     },
@@ -2554,6 +2601,11 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
+                        "name": "content_type",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
                         "name": "cursor",
                         "in": "query"
                     },
@@ -2569,12 +2621,37 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
+                        "name": "markdown",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "private",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "search",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
                         "name": "space_id",
                         "in": "query"
                     },
                     {
                         "type": "string",
+                        "name": "status",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
                         "name": "taxonomy",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "title",
                         "in": "query"
                     }
                 ],
@@ -3274,6 +3351,32 @@ const docTemplate = `{
                 "responses": {
                     "200": {
                         "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/password-policy": {
+            "get": {
+                "description": "Retrieve the public password requirements used by registration and password changes.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Get password policy",
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/wrapper.PasswordRuntimePolicy"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
                         "schema": {
                             "$ref": "#/definitions/resp.Exception"
                         }
@@ -5777,7 +5880,7 @@ const docTemplate = `{
                     "200": {
                         "description": "Paginated file list",
                         "schema": {
-                            "$ref": "#/definitions/structs.Result-structs_ReadFile"
+                            "$ref": "#/definitions/ncobase_plugin_resource_structs.Result-structs_ReadFile"
                         }
                     },
                     "400": {
@@ -6719,9 +6822,27 @@ const docTemplate = `{
                         "in": "formData"
                     },
                     {
+                        "type": "boolean",
+                        "description": "Public access flag",
+                        "name": "is_public",
+                        "in": "formData"
+                    },
+                    {
                         "type": "string",
                         "description": "Comma-separated tags",
                         "name": "tags",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Processing options (JSON)",
+                        "name": "processing_options",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Expiration timestamp",
+                        "name": "expires_at",
                         "in": "formData"
                     },
                     {
@@ -7424,13 +7545,16 @@ const docTemplate = `{
                         "required": true
                     },
                     {
-                        "description": "Expiration settings",
+                        "description": "Share settings",
                         "name": "body",
                         "in": "body",
                         "required": true,
                         "schema": {
                             "type": "object",
                             "properties": {
+                                "access_level": {
+                                    "type": "string"
+                                },
                                 "expiration_hours": {
                                     "type": "integer"
                                 }
@@ -7444,6 +7568,9 @@ const docTemplate = `{
                         "schema": {
                             "type": "object",
                             "properties": {
+                                "access_level": {
+                                    "type": "string"
+                                },
                                 "expires_at": {
                                     "type": "string"
                                 },
@@ -9842,6 +9969,49 @@ const docTemplate = `{
                 }
             }
         },
+        "/sys/dictionaries/{slug}/usage": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Retrieve system records that reference a dictionary by ID or slug.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "Get dictionary usage",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Dictionary ID or slug",
+                        "name": "slug",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/structs.DictionaryUsage"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
         "/sys/employees": {
             "get": {
                 "description": "List employees with filtering and pagination",
@@ -10767,12 +10937,22 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
+                        "name": "category",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
                         "name": "cursor",
                         "in": "query"
                     },
                     {
                         "type": "string",
                         "name": "direction",
+                        "in": "query"
+                    },
+                    {
+                        "type": "boolean",
+                        "name": "is_secret",
                         "in": "query"
                     },
                     {
@@ -11829,7 +12009,17 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
+                        "name": "action",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
                         "name": "cursor",
+                        "in": "query"
+                    },
+                    {
+                        "type": "boolean",
+                        "name": "default",
                         "in": "query"
                     },
                     {
@@ -11838,8 +12028,18 @@ const docTemplate = `{
                         "in": "query"
                     },
                     {
+                        "type": "boolean",
+                        "name": "disabled",
+                        "in": "query"
+                    },
+                    {
                         "type": "integer",
                         "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "subject",
                         "in": "query"
                     }
                 ],
@@ -12314,6 +12514,11 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "name": "direction",
+                        "in": "query"
+                    },
+                    {
+                        "type": "boolean",
+                        "name": "disabled",
                         "in": "query"
                     },
                     {
@@ -17406,8 +17611,7 @@ const docTemplate = `{
             "type": "object",
             "required": [
                 "confirm",
-                "new_password",
-                "user"
+                "new_password"
             ],
             "properties": {
                 "confirm": {
@@ -17658,8 +17862,7 @@ const docTemplate = `{
             "type": "object",
             "required": [
                 "confirm",
-                "new_password",
-                "user"
+                "new_password"
             ],
             "properties": {
                 "confirm": {
@@ -17676,6 +17879,10 @@ const docTemplate = `{
                 }
             }
         },
+        "ncobase_plugin_payment_structs.ProviderConfig": {
+            "type": "object",
+            "additionalProperties": {}
+        },
         "ncobase_plugin_resource_structs.ActivityStats": {
             "type": "object",
             "properties": {
@@ -17685,16 +17892,51 @@ const docTemplate = `{
                         "$ref": "#/definitions/structs.HourlyActivity"
                     }
                 },
+                "message": {
+                    "type": "string"
+                },
                 "popular_files": {
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/structs.PopularFile"
                     }
                 },
+                "telemetry_available": {
+                    "type": "boolean"
+                },
                 "total_downloads": {
                     "type": "integer"
                 },
                 "total_views": {
+                    "type": "integer"
+                }
+            }
+        },
+        "ncobase_plugin_resource_structs.Result-structs_ReadFile": {
+            "type": "object",
+            "properties": {
+                "cursor": {
+                    "type": "string"
+                },
+                "has_next": {
+                    "type": "boolean"
+                },
+                "has_prev": {
+                    "type": "boolean"
+                },
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/structs.ReadFile"
+                    }
+                },
+                "next_cursor": {
+                    "type": "string"
+                },
+                "prev_cursor": {
+                    "type": "string"
+                },
+                "total": {
                     "type": "integer"
                 }
             }
@@ -18169,6 +18411,12 @@ const docTemplate = `{
         "structs.BatchCleanupResult": {
             "type": "object",
             "properties": {
+                "candidate_items": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
                 "cleaned_items": {
                     "type": "array",
                     "items": {
@@ -18192,6 +18440,9 @@ const docTemplate = `{
                 },
                 "job_id": {
                     "type": "string"
+                },
+                "potential_space_freed": {
+                    "type": "integer"
                 },
                 "space_freed": {
                     "type": "integer"
@@ -18536,8 +18787,7 @@ const docTemplate = `{
             "required": [
                 "p_type",
                 "v0",
-                "v1",
-                "v2"
+                "v1"
             ],
             "properties": {
                 "created_by": {
@@ -18573,7 +18823,7 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "config": {
-                    "$ref": "#/definitions/structs.ProviderConfig"
+                    "$ref": "#/definitions/ncobase_plugin_payment_structs.ProviderConfig"
                 },
                 "created_at": {
                     "type": "integer"
@@ -18829,7 +19079,7 @@ const docTemplate = `{
             ],
             "properties": {
                 "config": {
-                    "$ref": "#/definitions/structs.ProviderConfig"
+                    "$ref": "#/definitions/ncobase_plugin_payment_structs.ProviderConfig"
                 },
                 "is_default": {
                     "type": "boolean"
@@ -19067,15 +19317,30 @@ const docTemplate = `{
                 "description": {
                     "type": "string"
                 },
+                "duration": {
+                    "type": "number"
+                },
+                "height": {
+                    "type": "integer"
+                },
                 "metadata": {
                     "$ref": "#/definitions/types.JSON"
                 },
+                "mime_type": {
+                    "type": "string"
+                },
                 "owner_id": {
+                    "type": "string"
+                },
+                "path": {
                     "type": "string"
                 },
                 "resource_id": {
                     "description": "Reference to resource plugin file",
                     "type": "string"
+                },
+                "size": {
+                    "type": "integer"
                 },
                 "space_id": {
                     "type": "string"
@@ -19093,6 +19358,9 @@ const docTemplate = `{
                 "url": {
                     "description": "For external resources",
                     "type": "string"
+                },
+                "width": {
+                    "type": "integer"
                 }
             }
         },
@@ -19889,6 +20157,23 @@ const docTemplate = `{
                 }
             }
         },
+        "structs.DictionaryUsage": {
+            "type": "object",
+            "properties": {
+                "count": {
+                    "type": "integer"
+                },
+                "location": {
+                    "type": "string"
+                },
+                "module": {
+                    "type": "string"
+                },
+                "reference_id": {
+                    "type": "string"
+                }
+            }
+        },
         "structs.EndpointMetric": {
             "type": "object",
             "properties": {
@@ -20520,7 +20805,26 @@ const docTemplate = `{
                 "indexes_rebuilt": {
                     "type": "integer"
                 },
+                "mode": {
+                    "description": "analysis, executed",
+                    "type": "string"
+                },
                 "orphaned_cleaned": {
+                    "type": "integer"
+                },
+                "orphaned_files": {
+                    "type": "integer"
+                },
+                "performed_actions": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "potential_duplicate_files": {
+                    "type": "integer"
+                },
+                "potential_space_freed": {
                     "type": "integer"
                 },
                 "space_freed": {
@@ -20537,8 +20841,20 @@ const docTemplate = `{
                 "autoload": {
                     "type": "boolean"
                 },
+                "category": {
+                    "type": "string"
+                },
                 "created_by": {
                     "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "environment_variable": {
+                    "type": "string"
+                },
+                "is_secret": {
+                    "type": "boolean"
                 },
                 "name": {
                     "type": "string"
@@ -20547,6 +20863,9 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "updated_by": {
+                    "type": "string"
+                },
+                "validation": {
                     "type": "string"
                 },
                 "value": {
@@ -21083,10 +21402,6 @@ const docTemplate = `{
                     "type": "string"
                 }
             }
-        },
-        "structs.ProviderConfig": {
-            "type": "object",
-            "additionalProperties": {}
         },
         "structs.QuotaInfo": {
             "type": "object",
@@ -21626,13 +21941,25 @@ const docTemplate = `{
                 "description": {
                     "type": "string"
                 },
+                "duration": {
+                    "type": "number"
+                },
+                "height": {
+                    "type": "integer"
+                },
                 "id": {
                     "type": "string"
                 },
                 "metadata": {
                     "$ref": "#/definitions/types.JSON"
                 },
+                "mime_type": {
+                    "type": "string"
+                },
                 "owner_id": {
+                    "type": "string"
+                },
+                "path": {
                     "type": "string"
                 },
                 "resource": {
@@ -21645,6 +21972,9 @@ const docTemplate = `{
                 },
                 "resource_id": {
                     "type": "string"
+                },
+                "size": {
+                    "type": "integer"
                 },
                 "space_id": {
                     "type": "string"
@@ -21663,6 +21993,9 @@ const docTemplate = `{
                 },
                 "url": {
                     "type": "string"
+                },
+                "width": {
+                    "type": "integer"
                 }
             }
         },
@@ -21773,14 +22106,26 @@ const docTemplate = `{
                 "autoload": {
                     "type": "boolean"
                 },
+                "category": {
+                    "type": "string"
+                },
                 "created_at": {
                     "type": "integer"
                 },
                 "created_by": {
                     "type": "string"
                 },
+                "description": {
+                    "type": "string"
+                },
+                "environment_variable": {
+                    "type": "string"
+                },
                 "id": {
                     "type": "string"
+                },
+                "is_secret": {
+                    "type": "boolean"
                 },
                 "name": {
                     "type": "string"
@@ -21792,6 +22137,9 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "updated_by": {
+                    "type": "string"
+                },
+                "validation": {
                     "type": "string"
                 },
                 "value": {
@@ -22524,12 +22872,20 @@ const docTemplate = `{
         "structs.RegisterBody": {
             "type": "object",
             "required": [
+                "confirm_password",
                 "display_name",
+                "password",
                 "register_token",
                 "username"
             ],
             "properties": {
+                "confirm_password": {
+                    "type": "string"
+                },
                 "display_name": {
+                    "type": "string"
+                },
+                "password": {
                     "type": "string"
                 },
                 "phone": {
@@ -22578,35 +22934,6 @@ const docTemplate = `{
                 },
                 "type": {
                     "type": "string"
-                }
-            }
-        },
-        "structs.Result-structs_ReadFile": {
-            "type": "object",
-            "properties": {
-                "cursor": {
-                    "type": "string"
-                },
-                "has_next": {
-                    "type": "boolean"
-                },
-                "has_prev": {
-                    "type": "boolean"
-                },
-                "items": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/structs.ReadFile"
-                    }
-                },
-                "next_cursor": {
-                    "type": "string"
-                },
-                "prev_cursor": {
-                    "type": "string"
-                },
-                "total": {
-                    "type": "integer"
                 }
             }
         },
@@ -23209,6 +23536,10 @@ const docTemplate = `{
                 "features": {
                     "$ref": "#/definitions/structs.FeatureConfig"
                 },
+                "features_meta": {
+                    "type": "object",
+                    "additionalProperties": {}
+                },
                 "integrations": {
                     "$ref": "#/definitions/structs.IntegrationConfig"
                 },
@@ -23549,7 +23880,7 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "config": {
-                    "$ref": "#/definitions/structs.ProviderConfig"
+                    "$ref": "#/definitions/ncobase_plugin_payment_structs.ProviderConfig"
                 },
                 "id": {
                     "type": "string"
@@ -23789,18 +24120,33 @@ const docTemplate = `{
                 "description": {
                     "type": "string"
                 },
+                "duration": {
+                    "type": "number"
+                },
+                "height": {
+                    "type": "integer"
+                },
                 "id": {
                     "type": "string"
                 },
                 "metadata": {
                     "$ref": "#/definitions/types.JSON"
                 },
+                "mime_type": {
+                    "type": "string"
+                },
                 "owner_id": {
+                    "type": "string"
+                },
+                "path": {
                     "type": "string"
                 },
                 "resource_id": {
                     "description": "Reference to resource plugin file",
                     "type": "string"
+                },
+                "size": {
+                    "type": "integer"
                 },
                 "space_id": {
                     "type": "string"
@@ -23818,6 +24164,9 @@ const docTemplate = `{
                 "url": {
                     "description": "For external resources",
                     "type": "string"
+                },
+                "width": {
+                    "type": "integer"
                 }
             }
         },
@@ -23902,11 +24251,23 @@ const docTemplate = `{
                 "autoload": {
                     "type": "boolean"
                 },
+                "category": {
+                    "type": "string"
+                },
                 "created_by": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "environment_variable": {
                     "type": "string"
                 },
                 "id": {
                     "type": "string"
+                },
+                "is_secret": {
+                    "type": "boolean"
                 },
                 "name": {
                     "type": "string"
@@ -23915,6 +24276,9 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "updated_by": {
+                    "type": "string"
+                },
+                "validation": {
                     "type": "string"
                 },
                 "value": {
@@ -24637,6 +25001,26 @@ const docTemplate = `{
         "types.JSON": {
             "type": "object",
             "additionalProperties": {}
+        },
+        "wrapper.PasswordRuntimePolicy": {
+            "type": "object",
+            "properties": {
+                "min_length": {
+                    "type": "integer"
+                },
+                "require_lowercase": {
+                    "type": "boolean"
+                },
+                "require_numbers": {
+                    "type": "boolean"
+                },
+                "require_symbols": {
+                    "type": "boolean"
+                },
+                "require_uppercase": {
+                    "type": "boolean"
+                }
+            }
         }
     },
     "securityDefinitions": {

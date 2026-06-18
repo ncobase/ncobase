@@ -1178,14 +1178,24 @@ var SystemDefaultMenus = struct {
 			Disabled: convert.ToPointer(false),
 		},
 		{
-			Name:     "Settings",
-			Label:    "dropdowns.account.settings.label",
+			Name:     "Security",
+			Label:    "dropdowns.account.security.label",
 			Slug:     "account-settings",
 			Type:     "account",
-			Path:     "/account/settings",
-			Icon:     "IconSettings",
-			Perms:    "manage:account",
+			Path:     "/account/security",
+			Icon:     "IconShieldCheck",
 			Order:    convert.ToPointer(90),
+			Hidden:   convert.ToPointer(false),
+			Disabled: convert.ToPointer(false),
+		},
+		{
+			Name:     "Sessions",
+			Label:    "dropdowns.account.sessions.label",
+			Slug:     "account-sessions",
+			Type:     "account",
+			Path:     "/account/sessions",
+			Icon:     "IconDevices",
+			Order:    convert.ToPointer(80),
 			Hidden:   convert.ToPointer(false),
 			Disabled: convert.ToPointer(false),
 		},
@@ -1337,8 +1347,7 @@ var MenuPermissionMapping = map[string]string{
 	"builder-feature": "manage:builder",
 
 	// Account menus
-	"account-settings": "manage:account",
-	// account-profile and account-logout have no permission requirement
+	// account-profile, account-settings, account-sessions, and account-logout have no permission requirement
 
 	// Space menus
 	"space-manage": "manage:spaces",

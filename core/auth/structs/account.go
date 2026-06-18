@@ -31,7 +31,9 @@ type CommonRegisterBody struct {
 // RegisterBody Register body
 type RegisterBody struct {
 	CommonRegisterBody
-	RegisterToken string `json:"register_token" validate:"required"`
+	Password        string `json:"password" validate:"required"`
+	ConfirmPassword string `json:"confirm_password" validate:"required,eqfield=Password"`
+	RegisterToken   string `json:"register_token" validate:"required"`
 }
 
 // OAuthRegisterBody OAuth register body
