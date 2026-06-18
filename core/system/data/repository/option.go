@@ -124,7 +124,11 @@ func (r *optionRepository) Get(ctx context.Context, params *structs.FindOptions)
 	// Fallback to database
 	row, err := r.getOption(ctx, params)
 	if err != nil {
-		logger.Errorf(ctx, "optionsRepo.Get error: %v", err)
+		if IsNotFound(err) {
+			logger.Debugf(ctx, "optionsRepo.Get not found: %v", err)
+		} else {
+			logger.Errorf(ctx, "optionsRepo.Get error: %v", err)
+		}
 		return nil, err
 	}
 
