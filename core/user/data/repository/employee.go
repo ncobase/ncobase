@@ -186,7 +186,11 @@ func (r *employeeRepository) GetByUserID(ctx context.Context, userID string) (*e
 
 	row, err := r.ec.Employee.Query().Where(employeeEnt.IDEQ(userID)).Only(ctx)
 	if err != nil {
-		logger.Errorf(ctx, "employeeRepo.GetByUserID error: %v", err)
+		if IsNotFound(err) {
+			logger.Debugf(ctx, "employeeRepo.GetByUserID not found: %v", err)
+		} else {
+			logger.Errorf(ctx, "employeeRepo.GetByUserID error: %v", err)
+		}
 		return nil, err
 	}
 

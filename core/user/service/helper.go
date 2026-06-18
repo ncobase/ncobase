@@ -13,7 +13,7 @@ import (
 // handleEntError is a helper function to handle errors in a consistent manner.
 func handleEntError(ctx context.Context, k string, err error) error {
 	if repository.IsNotFound(err) {
-		logger.Errorf(ctx, "Error not found in %s: %v", k, err)
+		logger.Debugf(ctx, "Not found in %s: %v", k, err)
 		return errors.New(ecode.NotExist(k))
 	}
 	if repository.IsConstraintError(err) {
