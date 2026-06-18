@@ -11,6 +11,7 @@ import (
 	spaceStructs "ncobase/core/space/structs"
 	systemWrapper "ncobase/core/system/wrapper"
 	userStructs "ncobase/core/user/structs"
+	"net"
 	"net/http"
 	"strings"
 	"time"
@@ -523,14 +524,63 @@ func SetSessionCookie(ctx context.Context, w http.ResponseWriter, r *http.Reques
 		return nil // No session to set
 	}
 
-	domain := r.Host
-	if err := cookie.SetSessionID(w, sessionID, domain); err != nil {
+	domain := sessionCookieDomainFromRequest(r)
+	var err error
+	if domain == "" {
+		err = cookie.SetSessionID(w, sessionID)
+	} else {
+		err = cookie.SetSessionID(w, sessionID, domain)
+	}
+	if err != nil {
 		logger.Errorf(ctx, "Failed to set session cookie: %v", err)
 		return err
 	}
 
 	logger.Debugf(ctx, "Session cookie set: %s", sessionID)
 	return nil
+}
+
+func sessionCookieDomainFromRequest(r *http.Request) string {
+	if r == nil {
+		return ""
+	}
+
+	host := r.Host
+	if host == "" && r.URL != nil {
+		host = r.URL.Host
+	}
+
+	return normalizeSessionCookieDomain(host)
+}
+
+func normalizeSessionCookieDomain(host string) string {
+	host = strings.TrimSpace(host)
+	if host == "" {
+		return ""
+	}
+
+	if parsedHost, _, err := net.SplitHostPort(host); err == nil {
+		host = parsedHost
+	}
+
+	host = strings.Trim(host, "[]")
+	host = strings.TrimSuffix(host, ".")
+	if host == "" {
+		return ""
+	}
+
+	lowerHost := strings.ToLower(host)
+	if lowerHost == "localhost" {
+		return ""
+	}
+	if strings.Contains(lowerHost, ":") {
+		return ""
+	}
+	if ip := net.ParseIP(lowerHost); ip != nil {
+		return ""
+	}
+
+	return lowerHost
 }
 
 // ClearAuthenticationCookies clears all authentication cookies

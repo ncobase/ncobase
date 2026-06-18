@@ -2,7 +2,9 @@ package service
 
 import (
 	"context"
+	"net/http/httptest"
 	"sort"
+	"strings"
 	"testing"
 
 	accessStructs "ncobase/core/access/structs"
@@ -184,6 +186,62 @@ func TestResolveActiveSpaceFallsBackToFirstUserSpaceWithoutDefault(t *testing.T)
 	got := resolveActiveSpace(context.Background(), "user-1", spaces, nil)
 	if got == nil || got.ID != "space-a" {
 		t.Fatalf("expected first user space fallback, got %#v", got)
+	}
+}
+
+func TestNormalizeSessionCookieDomain(t *testing.T) {
+	tests := []struct {
+		name string
+		host string
+		want string
+	}{
+		{name: "localhost without port", host: "localhost", want: ""},
+		{name: "localhost with port", host: "localhost:62869", want: ""},
+		{name: "loopback IPv4 with port", host: "127.0.0.1:62869", want: ""},
+		{name: "loopback IPv6 with port", host: "[::1]:62869", want: ""},
+		{name: "public IPv4", host: "203.0.113.10", want: ""},
+		{name: "domain without port", host: "app.example.com", want: "app.example.com"},
+		{name: "domain with port", host: "APP.Example.COM:443", want: "app.example.com"},
+		{name: "domain with trailing dot", host: "api.example.com.", want: "api.example.com"},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := normalizeSessionCookieDomain(tt.host); got != tt.want {
+				t.Fatalf("expected %q, got %q", tt.want, got)
+			}
+		})
+	}
+}
+
+func TestSetSessionCookieOmitsDomainForLocalHosts(t *testing.T) {
+	recorder := httptest.NewRecorder()
+	request := httptest.NewRequest("GET", "http://127.0.0.1:62869/login", nil)
+
+	if err := SetSessionCookie(context.Background(), recorder, request, "session-1"); err != nil {
+		t.Fatalf("expected no error, got %v", err)
+	}
+
+	header := recorder.Header().Get("Set-Cookie")
+	if header == "" {
+		t.Fatal("expected Set-Cookie header")
+	}
+	if strings.Contains(strings.ToLower(header), "domain=") {
+		t.Fatalf("expected local session cookie to omit Domain, got %q", header)
+	}
+}
+
+func TestSetSessionCookieKeepsDomainForDNSHosts(t *testing.T) {
+	recorder := httptest.NewRecorder()
+	request := httptest.NewRequest("GET", "https://app.example.com/login", nil)
+
+	if err := SetSessionCookie(context.Background(), recorder, request, "session-1"); err != nil {
+		t.Fatalf("expected no error, got %v", err)
+	}
+
+	header := recorder.Header().Get("Set-Cookie")
+	if !strings.Contains(header, "Domain=app.example.com") {
+		t.Fatalf("expected DNS session cookie to include normalized Domain, got %q", header)
 	}
 }
 
