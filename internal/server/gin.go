@@ -15,6 +15,10 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+type guardedExtensionManager interface {
+	ManageRoutesWithGuard(router *gin.RouterGroup, guards ...gin.HandlerFunc)
+}
+
 // ginServer creates and initializes server
 func ginServer(conf *config.Config, em ext.ManagerInterface) (*gin.Engine, error) {
 	// Set gin mode
@@ -58,11 +62,7 @@ func ginServer(conf *config.Config, em ext.ManagerInterface) (*gin.Engine, error
 
 	// Extension management routes
 	if conf.Extension.HotReload {
-		em.ManageRoutes(engine.Group(
-			"/ncore",
-			middleware.AuthenticatedUser,
-			middleware.HasPermission("manage:ncore"),
-		))
+		registerExtensionManagementRoutes(engine, em)
 	}
 
 	// Handle not found routes
@@ -72,6 +72,20 @@ func ginServer(conf *config.Config, em ext.ManagerInterface) (*gin.Engine, error
 	engine.NoMethod()
 
 	return engine, nil
+}
+
+func registerExtensionManagementRoutes(engine *gin.Engine, em ext.ManagerInterface) {
+	guards := []gin.HandlerFunc{
+		middleware.AuthenticatedUser,
+		middleware.HasPermission("manage:ncore"),
+	}
+
+	if guardedManager, ok := em.(guardedExtensionManager); ok {
+		guardedManager.ManageRoutesWithGuard(engine.Group("/ncore"), guards...)
+		return
+	}
+
+	em.ManageRoutes(engine.Group("/ncore", guards...))
 }
 
 // sessionMiddleware sets up session management
