@@ -77,7 +77,7 @@ func (r *spaceGroupRepository) Create(ctx context.Context, body *structs.SpaceOr
 
 // GetBySpaceID finds orgs by space id
 func (r *spaceGroupRepository) GetBySpaceID(ctx context.Context, id string) ([]*ent.SpaceOrganization, error) {
-	builder := r.data.GetSlaveEntClient().SpaceOrganization.Query()
+	builder := r.data.GetReadEntClient().SpaceOrganization.Query()
 	builder.Where(spaceOrgEnt.SpaceIDEQ(id))
 
 	rows, err := builder.All(ctx)
@@ -98,7 +98,7 @@ func (r *spaceGroupRepository) GetBySpaceID(ctx context.Context, id string) ([]*
 
 // GetByOrgID finds spaces by group id
 func (r *spaceGroupRepository) GetByOrgID(ctx context.Context, id string) ([]*ent.SpaceOrganization, error) {
-	builder := r.data.GetSlaveEntClient().SpaceOrganization.Query()
+	builder := r.data.GetReadEntClient().SpaceOrganization.Query()
 	builder.Where(spaceOrgEnt.OrgIDEQ(id))
 
 	rows, err := builder.All(ctx)
@@ -119,7 +119,7 @@ func (r *spaceGroupRepository) GetByOrgID(ctx context.Context, id string) ([]*en
 
 // GetBySpaceIDs finds orgs by space ids
 func (r *spaceGroupRepository) GetBySpaceIDs(ctx context.Context, ids []string) ([]*ent.SpaceOrganization, error) {
-	builder := r.data.GetSlaveEntClient().SpaceOrganization.Query()
+	builder := r.data.GetReadEntClient().SpaceOrganization.Query()
 	builder.Where(spaceOrgEnt.SpaceIDIn(ids...))
 
 	rows, err := builder.All(ctx)
@@ -140,7 +140,7 @@ func (r *spaceGroupRepository) GetBySpaceIDs(ctx context.Context, ids []string) 
 
 // GetByOrgIDs finds spaces by group ids
 func (r *spaceGroupRepository) GetByOrgIDs(ctx context.Context, ids []string) ([]*ent.SpaceOrganization, error) {
-	builder := r.data.GetSlaveEntClient().SpaceOrganization.Query()
+	builder := r.data.GetReadEntClient().SpaceOrganization.Query()
 	builder.Where(spaceOrgEnt.OrgIDIn(ids...))
 
 	rows, err := builder.All(ctx)
@@ -236,7 +236,7 @@ func (r *spaceGroupRepository) GetOrgsBySpaceID(ctx context.Context, spaceID str
 	}
 
 	// Fallback to database
-	spaceGroups, err := r.data.GetSlaveEntClient().SpaceOrganization.Query().
+	spaceGroups, err := r.data.GetReadEntClient().SpaceOrganization.Query().
 		Where(spaceOrgEnt.SpaceIDEQ(spaceID)).All(ctx)
 	if err != nil {
 		logger.Errorf(ctx, "spaceGroupRepo.GetOrgsBySpaceID error: %v", err)
@@ -267,7 +267,7 @@ func (r *spaceGroupRepository) GetSpacesByOrgID(ctx context.Context, orgID strin
 	}
 
 	// Fallback to database
-	spaceGroups, err := r.data.GetSlaveEntClient().SpaceOrganization.Query().
+	spaceGroups, err := r.data.GetReadEntClient().SpaceOrganization.Query().
 		Where(spaceOrgEnt.OrgIDEQ(orgID)).All(ctx)
 	if err != nil {
 		logger.Errorf(ctx, "spaceGroupRepo.GetSpacesByOrgID error: %v", err)
@@ -296,7 +296,7 @@ func (r *spaceGroupRepository) IsGroupInSpace(ctx context.Context, spaceID strin
 		return true, nil
 	}
 
-	count, err := r.data.GetSlaveEntClient().SpaceOrganization.Query().
+	count, err := r.data.GetReadEntClient().SpaceOrganization.Query().
 		Where(spaceOrgEnt.SpaceIDEQ(spaceID), spaceOrgEnt.OrgIDEQ(orgID)).Count(ctx)
 	if err != nil {
 		logger.Errorf(ctx, "spaceGroupRepo.IsGroupInSpace error: %v", err)

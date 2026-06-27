@@ -87,7 +87,7 @@ func (r *userSpaceRepository) GetByUserID(ctx context.Context, id string) (*ent.
 	}
 
 	// Use slave for reads
-	builder := r.data.GetSlaveEntClient().UserSpace.Query()
+	builder := r.data.GetReadEntClient().UserSpace.Query()
 
 	// Set conditions
 	builder.Where(userSpaceEnt.UserIDEQ(id))
@@ -108,7 +108,7 @@ func (r *userSpaceRepository) GetByUserID(ctx context.Context, id string) (*ent.
 // GetByUserIDs find spaces by user ids
 func (r *userSpaceRepository) GetByUserIDs(ctx context.Context, ids []string) ([]*ent.UserSpace, error) {
 	// Use slave for reads
-	builder := r.data.GetSlaveEntClient().UserSpace.Query()
+	builder := r.data.GetReadEntClient().UserSpace.Query()
 
 	// Set conditions
 	builder.Where(userSpaceEnt.UserIDIn(ids...))
@@ -139,7 +139,7 @@ func (r *userSpaceRepository) GetBySpaceID(ctx context.Context, id string) (*ent
 	}
 
 	// Use slave for reads
-	builder := r.data.GetSlaveEntClient().UserSpace.Query()
+	builder := r.data.GetReadEntClient().UserSpace.Query()
 
 	// Set conditions
 	builder.Where(userSpaceEnt.SpaceIDEQ(id))
@@ -160,7 +160,7 @@ func (r *userSpaceRepository) GetBySpaceID(ctx context.Context, id string) (*ent
 // GetBySpaceIDs find spaces by space ids
 func (r *userSpaceRepository) GetBySpaceIDs(ctx context.Context, ids []string) ([]*ent.UserSpace, error) {
 	// Use slave for reads
-	builder := r.data.GetSlaveEntClient().UserSpace.Query()
+	builder := r.data.GetReadEntClient().UserSpace.Query()
 
 	// Set conditions
 	builder.Where(userSpaceEnt.SpaceIDIn(ids...))
@@ -262,11 +262,11 @@ func (r *userSpaceRepository) GetSpacesByUserID(ctx context.Context, userID stri
 	var spaceIDs []string
 	if err := r.userSpacesCache.GetArray(ctx, cacheKey, &spaceIDs); err == nil && len(spaceIDs) > 0 {
 		// Get spaces by IDs from space repository
-		return r.data.GetSlaveEntClient().Space.Query().Where(spaceEnt.IDIn(spaceIDs...)).All(ctx)
+		return r.data.GetReadEntClient().Space.Query().Where(spaceEnt.IDIn(spaceIDs...)).All(ctx)
 	}
 
 	// Fallback to database
-	userSpaces, err := r.data.GetSlaveEntClient().UserSpace.Query().
+	userSpaces, err := r.data.GetReadEntClient().UserSpace.Query().
 		Where(userSpaceEnt.UserIDEQ(userID)).All(ctx)
 	if err != nil {
 		logger.Errorf(ctx, "userSpaceRepo.GetSpacesByUserID error: %v", err)
@@ -280,7 +280,7 @@ func (r *userSpaceRepository) GetSpacesByUserID(ctx context.Context, userID stri
 	}
 
 	// Query spaces based on extracted space IDs
-	spaces, err := r.data.GetSlaveEntClient().Space.Query().Where(spaceEnt.IDIn(spaceIDs...)).All(ctx)
+	spaces, err := r.data.GetReadEntClient().Space.Query().Where(spaceEnt.IDIn(spaceIDs...)).All(ctx)
 	if err != nil {
 		logger.Errorf(ctx, "userSpaceRepo.GetSpacesByUserID error: %v", err)
 		return nil, err
@@ -305,7 +305,7 @@ func (r *userSpaceRepository) IsUserInSpace(ctx context.Context, userID string, 
 	}
 
 	// Use slave for reads
-	count, err := r.data.GetSlaveEntClient().UserSpace.Query().
+	count, err := r.data.GetReadEntClient().UserSpace.Query().
 		Where(userSpaceEnt.UserIDEQ(userID), userSpaceEnt.SpaceIDEQ(spaceID)).Count(ctx)
 	if err != nil {
 		logger.Errorf(ctx, "userSpaceRepo.IsUserInSpace error: %v", err)

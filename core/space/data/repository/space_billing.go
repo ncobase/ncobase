@@ -128,7 +128,7 @@ func (r *spaceBillingRepository) GetByID(ctx context.Context, id string) (*ent.S
 	}
 
 	// Use slave for reads
-	row, err := r.data.GetSlaveEntClient().SpaceBilling.Get(ctx, id)
+	row, err := r.data.GetReadEntClient().SpaceBilling.Get(ctx, id)
 	if err != nil {
 		logger.Errorf(ctx, "spaceBillingRepo.GetByID error: %v", err)
 		return nil, err
@@ -157,7 +157,7 @@ func (r *spaceBillingRepository) GetBySpaceID(ctx context.Context, spaceID strin
 	}
 
 	// Fallback to database
-	rows, err := r.data.GetSlaveEntClient().SpaceBilling.Query().
+	rows, err := r.data.GetReadEntClient().SpaceBilling.Query().
 		Where(spaceBillingEnt.SpaceIDEQ(spaceID)).
 		Order(ent.Desc(spaceBillingEnt.FieldCreatedAt)).
 		All(ctx)
@@ -199,7 +199,7 @@ func (r *spaceBillingRepository) GetOverdueBySpace(ctx context.Context, spaceID 
 	}
 
 	// Fallback to database
-	rows, err := r.data.GetSlaveEntClient().SpaceBilling.Query().
+	rows, err := r.data.GetReadEntClient().SpaceBilling.Query().
 		Where(
 			spaceBillingEnt.SpaceIDEQ(spaceID),
 			spaceBillingEnt.StatusEQ(string(structs.StatusOverdue)),
@@ -244,7 +244,7 @@ func (r *spaceBillingRepository) GetByStatus(ctx context.Context, status structs
 	}
 
 	// Fallback to database
-	rows, err := r.data.GetSlaveEntClient().SpaceBilling.Query().
+	rows, err := r.data.GetReadEntClient().SpaceBilling.Query().
 		Where(spaceBillingEnt.StatusEQ(string(status))).
 		Order(ent.Desc(spaceBillingEnt.FieldCreatedAt)).
 		All(ctx)
@@ -277,7 +277,7 @@ func (r *spaceBillingRepository) GetByInvoiceNumber(ctx context.Context, invoice
 	}
 
 	// Fallback to database
-	row, err := r.data.GetSlaveEntClient().SpaceBilling.Query().
+	row, err := r.data.GetReadEntClient().SpaceBilling.Query().
 		Where(spaceBillingEnt.InvoiceNumberEQ(invoiceNumber)).
 		Only(ctx)
 	if err != nil {
@@ -474,7 +474,7 @@ func (r *spaceBillingRepository) ListWithCount(ctx context.Context, params *stru
 // MarkOverdue marks pending billing records as overdue
 func (r *spaceBillingRepository) MarkOverdue(ctx context.Context, currentTime int64) error {
 	// Get billings that will be marked as overdue for cache invalidation
-	overdueRows, err := r.data.GetSlaveEntClient().SpaceBilling.Query().
+	overdueRows, err := r.data.GetReadEntClient().SpaceBilling.Query().
 		Where(
 			spaceBillingEnt.StatusEQ(string(structs.StatusPending)),
 			spaceBillingEnt.DueDateLT(currentTime),
@@ -526,7 +526,7 @@ func (r *spaceBillingRepository) CountX(ctx context.Context, params *structs.Lis
 // buildListQuery builds the list query based on parameters
 func (r *spaceBillingRepository) buildListQuery(params *structs.ListSpaceBillingParams) *ent.SpaceBillingQuery {
 	// Use slave for reads
-	builder := r.data.GetSlaveEntClient().SpaceBilling.Query()
+	builder := r.data.GetReadEntClient().SpaceBilling.Query()
 
 	if params.SpaceID != "" {
 		builder.Where(spaceBillingEnt.SpaceIDEQ(params.SpaceID))

@@ -74,7 +74,7 @@ func (r *spaceOptionRepository) Create(ctx context.Context, body *structs.SpaceO
 
 // GetBySpaceID retrieves space option by space ID.
 func (r *spaceOptionRepository) GetBySpaceID(ctx context.Context, spaceID string) ([]*ent.SpaceOption, error) {
-	builder := r.data.GetSlaveEntClient().SpaceOption.Query()
+	builder := r.data.GetReadEntClient().SpaceOption.Query()
 	builder.Where(spaceOptionEnt.SpaceIDEQ(spaceID))
 
 	rows, err := builder.All(ctx)
@@ -95,7 +95,7 @@ func (r *spaceOptionRepository) GetBySpaceID(ctx context.Context, spaceID string
 
 // GetByOptionID retrieves space option by options ID.
 func (r *spaceOptionRepository) GetByOptionID(ctx context.Context, optionsID string) ([]*ent.SpaceOption, error) {
-	builder := r.data.GetSlaveEntClient().SpaceOption.Query()
+	builder := r.data.GetReadEntClient().SpaceOption.Query()
 	builder.Where(spaceOptionEnt.OptionIDEQ(optionsID))
 
 	rows, err := builder.All(ctx)
@@ -135,7 +135,7 @@ func (r *spaceOptionRepository) DeleteBySpaceIDAndOptionID(ctx context.Context, 
 // DeleteAllBySpaceID deletes all space option by space ID.
 func (r *spaceOptionRepository) DeleteAllBySpaceID(ctx context.Context, spaceID string) error {
 	// Get existing relationships for cache invalidation
-	relationships, err := r.data.GetSlaveEntClient().SpaceOption.Query().
+	relationships, err := r.data.GetReadEntClient().SpaceOption.Query().
 		Where(spaceOptionEnt.SpaceIDEQ(spaceID)).All(ctx)
 	if err != nil {
 		logger.Debugf(ctx, "Failed to get relationships for cache invalidation: %v", err)
@@ -162,7 +162,7 @@ func (r *spaceOptionRepository) DeleteAllBySpaceID(ctx context.Context, spaceID 
 // DeleteAllByOptionID deletes all space option by options ID.
 func (r *spaceOptionRepository) DeleteAllByOptionID(ctx context.Context, optionsID string) error {
 	// Get existing relationships for cache invalidation
-	relationships, err := r.data.GetSlaveEntClient().SpaceOption.Query().
+	relationships, err := r.data.GetReadEntClient().SpaceOption.Query().
 		Where(spaceOptionEnt.OptionIDEQ(optionsID)).All(ctx)
 	if err != nil {
 		logger.Debugf(ctx, "Failed to get relationships for cache invalidation: %v", err)
@@ -194,7 +194,7 @@ func (r *spaceOptionRepository) IsOptionsInSpace(ctx context.Context, spaceID, o
 		return true, nil
 	}
 
-	count, err := r.data.GetSlaveEntClient().SpaceOption.Query().
+	count, err := r.data.GetReadEntClient().SpaceOption.Query().
 		Where(spaceOptionEnt.SpaceIDEQ(spaceID), spaceOptionEnt.OptionIDEQ(optionsID)).Count(ctx)
 	if err != nil {
 		logger.Errorf(ctx, "spaceOptionRepo.IsOptionsInSpace error: %v", err)
@@ -227,7 +227,7 @@ func (r *spaceOptionRepository) GetSpaceOption(ctx context.Context, spaceID stri
 	}
 
 	// Fallback to database
-	spaceOption, err := r.data.GetSlaveEntClient().SpaceOption.Query().
+	spaceOption, err := r.data.GetReadEntClient().SpaceOption.Query().
 		Where(spaceOptionEnt.SpaceIDEQ(spaceID)).All(ctx)
 	if err != nil {
 		logger.Errorf(ctx, "spaceOptionRepo.GetSpaceOption error: %v", err)

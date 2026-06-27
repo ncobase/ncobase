@@ -49,7 +49,7 @@ type mediaRepository struct {
 // NewMediaRepository creates new media repository
 func NewMediaRepository(d *data.Data) MediaRepositoryInterface {
 	ec := d.GetMasterEntClient()
-	ecr := d.GetSlaveEntClient()
+	ecr := d.GetReadEntClient()
 	rc := d.GetRedis().(*redis.Client)
 	return &mediaRepository{
 		data: d,

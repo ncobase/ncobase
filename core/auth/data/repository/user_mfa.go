@@ -33,7 +33,7 @@ func NewUserMFARepository(d *data.Data) UserMFARepositoryInterface {
 
 // GetByUserID gets a user MFA record by user ID
 func (r *userMFARepository) GetByUserID(ctx context.Context, userID string) (*ent.UserMFA, error) {
-	return r.data.GetSlaveEntClient().UserMFA.Query().
+	return r.data.GetReadEntClient().UserMFA.Query().
 		Where(userMFAEnt.UserIDEQ(userID)).
 		Only(ctx)
 }

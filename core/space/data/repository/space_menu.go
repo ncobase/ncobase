@@ -74,7 +74,7 @@ func (r *spaceMenuRepository) Create(ctx context.Context, body *structs.SpaceMen
 
 // GetBySpaceID retrieves space menus by space ID.
 func (r *spaceMenuRepository) GetBySpaceID(ctx context.Context, spaceID string) ([]*ent.SpaceMenu, error) {
-	builder := r.data.GetSlaveEntClient().SpaceMenu.Query()
+	builder := r.data.GetReadEntClient().SpaceMenu.Query()
 	builder.Where(spaceMenuEnt.SpaceIDEQ(spaceID))
 
 	rows, err := builder.All(ctx)
@@ -95,7 +95,7 @@ func (r *spaceMenuRepository) GetBySpaceID(ctx context.Context, spaceID string) 
 
 // GetByMenuID retrieves space menus by menu ID.
 func (r *spaceMenuRepository) GetByMenuID(ctx context.Context, menuID string) ([]*ent.SpaceMenu, error) {
-	builder := r.data.GetSlaveEntClient().SpaceMenu.Query()
+	builder := r.data.GetReadEntClient().SpaceMenu.Query()
 	builder.Where(spaceMenuEnt.MenuIDEQ(menuID))
 
 	rows, err := builder.All(ctx)
@@ -135,7 +135,7 @@ func (r *spaceMenuRepository) DeleteBySpaceIDAndMenuID(ctx context.Context, spac
 // DeleteAllBySpaceID deletes all space menus by space ID.
 func (r *spaceMenuRepository) DeleteAllBySpaceID(ctx context.Context, spaceID string) error {
 	// Get existing relationships for cache invalidation
-	relationships, err := r.data.GetSlaveEntClient().SpaceMenu.Query().
+	relationships, err := r.data.GetReadEntClient().SpaceMenu.Query().
 		Where(spaceMenuEnt.SpaceIDEQ(spaceID)).All(ctx)
 	if err != nil {
 		logger.Debugf(ctx, "Failed to get relationships for cache invalidation: %v", err)
@@ -162,7 +162,7 @@ func (r *spaceMenuRepository) DeleteAllBySpaceID(ctx context.Context, spaceID st
 // DeleteAllByMenuID deletes all space menus by menu ID.
 func (r *spaceMenuRepository) DeleteAllByMenuID(ctx context.Context, menuID string) error {
 	// Get existing relationships for cache invalidation
-	relationships, err := r.data.GetSlaveEntClient().SpaceMenu.Query().
+	relationships, err := r.data.GetReadEntClient().SpaceMenu.Query().
 		Where(spaceMenuEnt.MenuIDEQ(menuID)).All(ctx)
 	if err != nil {
 		logger.Debugf(ctx, "Failed to get relationships for cache invalidation: %v", err)
@@ -194,7 +194,7 @@ func (r *spaceMenuRepository) IsMenuInSpace(ctx context.Context, spaceID, menuID
 		return true, nil
 	}
 
-	count, err := r.data.GetSlaveEntClient().SpaceMenu.Query().
+	count, err := r.data.GetReadEntClient().SpaceMenu.Query().
 		Where(spaceMenuEnt.SpaceIDEQ(spaceID), spaceMenuEnt.MenuIDEQ(menuID)).Count(ctx)
 	if err != nil {
 		logger.Errorf(ctx, "spaceMenuRepo.IsMenuInSpace error: %v", err)
@@ -227,7 +227,7 @@ func (r *spaceMenuRepository) GetSpaceMenus(ctx context.Context, spaceID string)
 	}
 
 	// Fallback to database
-	spaceMenus, err := r.data.GetSlaveEntClient().SpaceMenu.Query().
+	spaceMenus, err := r.data.GetReadEntClient().SpaceMenu.Query().
 		Where(spaceMenuEnt.SpaceIDEQ(spaceID)).All(ctx)
 	if err != nil {
 		logger.Errorf(ctx, "spaceMenuRepo.GetSpaceMenus error: %v", err)

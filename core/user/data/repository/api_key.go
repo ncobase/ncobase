@@ -94,7 +94,7 @@ func (r *apiKeyRepository) GetByID(ctx context.Context, id string) (*ent.ApiKey,
 	}
 
 	// Fallback to database
-	client := r.data.GetSlaveEntClient()
+	client := r.data.GetReadEntClient()
 	apiKey, err := client.ApiKey.Get(ctx, id)
 	if err != nil {
 		return nil, err
@@ -110,7 +110,7 @@ func (r *apiKeyRepository) GetByID(ctx context.Context, id string) (*ent.ApiKey,
 func (r *apiKeyRepository) GetByKey(ctx context.Context, key string) (*ent.ApiKey, error) {
 	// First, we need to find which API key this belongs to
 	// We'll need to check all API keys (this is expensive, but API key validation should be cached)
-	client := r.data.GetSlaveEntClient()
+	client := r.data.GetReadEntClient()
 	apiKeys, err := client.ApiKey.Query().All(ctx)
 	if err != nil {
 		return nil, err
@@ -130,7 +130,7 @@ func (r *apiKeyRepository) GetByKey(ctx context.Context, key string) (*ent.ApiKe
 
 // GetByUserID retrieves all API keys for a user
 func (r *apiKeyRepository) GetByUserID(ctx context.Context, userID string) ([]*ent.ApiKey, error) {
-	client := r.data.GetSlaveEntClient()
+	client := r.data.GetReadEntClient()
 	apiKeys, err := client.ApiKey.Query().
 		Where(apiKeyEnt.UserIDEQ(userID)).
 		Order(ent.Desc(apiKeyEnt.FieldCreatedAt)).

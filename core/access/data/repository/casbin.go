@@ -192,7 +192,7 @@ func (r *casbinRuleRepository) Delete(ctx context.Context, id string) error {
 // FindByID finds a Casbin rule by ID.
 func (r *casbinRuleRepository) FindByID(ctx context.Context, id string) (*ent.CasbinRule, error) {
 	// Use slave for reads
-	builder := r.data.GetSlaveEntClient().CasbinRule.Query()
+	builder := r.data.GetReadEntClient().CasbinRule.Query()
 
 	// Add conditions to the query
 	builder = builder.Where(casbinRuleEnt.IDEQ(id))
@@ -308,7 +308,7 @@ func (r *casbinRuleRepository) CountX(ctx context.Context, params *structs.ListC
 // listBuilder builds the list query.
 func (r *casbinRuleRepository) listBuilder(_ context.Context, params *structs.ListCasbinRuleParams) (*ent.CasbinRuleQuery, error) {
 	// Use slave for reads
-	builder := r.data.GetSlaveEntClient().CasbinRule.Query()
+	builder := r.data.GetReadEntClient().CasbinRule.Query()
 
 	// Add conditions to the query based on parameters
 	if params.PType != nil && *params.PType != "" {

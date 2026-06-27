@@ -49,7 +49,7 @@ type topicRepository struct {
 // NewTopicRepository creates a new topic repository.
 func NewTopicRepository(d *data.Data) TopicRepositoryInterface {
 	ec := d.GetMasterEntClient()
-	ecr := d.GetSlaveEntClient()
+	ecr := d.GetReadEntClient()
 	rc := d.GetRedis().(*redis.Client)
 	return &topicRepository{
 		data: d,

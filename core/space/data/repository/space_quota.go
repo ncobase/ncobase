@@ -100,7 +100,7 @@ func (r *spaceQuotaRepository) GetByID(ctx context.Context, id string) (*ent.Spa
 	}
 
 	// Use slave for reads
-	row, err := r.data.GetSlaveEntClient().SpaceQuota.Get(ctx, id)
+	row, err := r.data.GetReadEntClient().SpaceQuota.Get(ctx, id)
 	if err != nil {
 		logger.Errorf(ctx, "spaceQuotaRepo.GetByID error: %v", err)
 		return nil, err
@@ -129,7 +129,7 @@ func (r *spaceQuotaRepository) GetBySpaceID(ctx context.Context, spaceID string)
 	}
 
 	// Fallback to database
-	rows, err := r.data.GetSlaveEntClient().SpaceQuota.Query().
+	rows, err := r.data.GetReadEntClient().SpaceQuota.Query().
 		Where(spaceQuotaEnt.SpaceIDEQ(spaceID)).
 		All(ctx)
 	if err != nil {
@@ -161,7 +161,7 @@ func (r *spaceQuotaRepository) GetBySpaceAndType(ctx context.Context, spaceID st
 	}
 
 	// Fallback to database
-	row, err := r.data.GetSlaveEntClient().SpaceQuota.Query().
+	row, err := r.data.GetReadEntClient().SpaceQuota.Query().
 		Where(
 			spaceQuotaEnt.SpaceIDEQ(spaceID),
 			spaceQuotaEnt.QuotaTypeEQ(string(quotaType)),
@@ -348,7 +348,7 @@ func (r *spaceQuotaRepository) CountX(ctx context.Context, params *structs.ListS
 // buildListQuery builds the list query based on parameters
 func (r *spaceQuotaRepository) buildListQuery(params *structs.ListSpaceQuotaParams) *ent.SpaceQuotaQuery {
 	// Use slave for reads
-	builder := r.data.GetSlaveEntClient().SpaceQuota.Query()
+	builder := r.data.GetReadEntClient().SpaceQuota.Query()
 
 	if params.SpaceID != "" {
 		builder.Where(spaceQuotaEnt.SpaceIDEQ(params.SpaceID))

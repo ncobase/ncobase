@@ -232,19 +232,24 @@ func New(conf *config.Data, env ...string) (*Data, func(), error) {
         return nil, cleanup, err
     }
 
-    var entClientRead *ent.Client
-    if readDB, err := d.GetSlaveDB(); err == nil && readDB != masterDB {
-        entClientRead, _ = newEntClient(readDB, conf.Database.Master, false, env...)
+    readDB, err := d.GetSlaveDB()
+    if err != nil {
+        return nil, cleanup, err
     }
-    if entClientRead == nil {
-        entClientRead = entClient
+
+    entClientRead := entClient
+    if readDB != nil && readDB != masterDB {
+        entClientRead, err = newEntClient(readDB, conf.Database.Master, false, env...)
+        if err != nil {
+            return nil, cleanup, err
+        }
     }
 
     return &Data{Data: d, EC: entClient, ECRead: entClientRead}, cleanup, nil
 }
 
 func (d *Data) GetMasterEntClient() *ent.Client { return d.EC }
-func (d *Data) GetSlaveEntClient() *ent.Client  { return d.ECRead }
+func (d *Data) GetReadEntClient() *ent.Client   { return d.ECRead }
 ```
 
 ## Service Discovery

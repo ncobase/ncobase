@@ -94,7 +94,7 @@ func (r *userSpaceRoleRepository) GetByUserID(ctx context.Context, u string) (*e
 	}
 
 	// Use slave for reads
-	builder := r.data.GetSlaveEntClient().UserSpaceRole.Query()
+	builder := r.data.GetReadEntClient().UserSpaceRole.Query()
 
 	// Set conditions
 	builder.Where(userSpaceRoleEnt.UserIDEQ(u))
@@ -115,7 +115,7 @@ func (r *userSpaceRoleRepository) GetByUserID(ctx context.Context, u string) (*e
 // GetBySpaceID retrieves user space roles by space ID.
 func (r *userSpaceRoleRepository) GetBySpaceID(ctx context.Context, t string) ([]*ent.UserSpaceRole, error) {
 	// Use slave for reads
-	builder := r.data.GetSlaveEntClient().UserSpaceRole.Query()
+	builder := r.data.GetReadEntClient().UserSpaceRole.Query()
 
 	// Set conditions
 	builder.Where(userSpaceRoleEnt.SpaceID(t))
@@ -140,7 +140,7 @@ func (r *userSpaceRoleRepository) GetBySpaceID(ctx context.Context, t string) ([
 // GetByRoleID retrieves user space roles by role ID.
 func (r *userSpaceRoleRepository) GetByRoleID(ctx context.Context, rid string) ([]*ent.UserSpaceRole, error) {
 	// Use slave for reads
-	builder := r.data.GetSlaveEntClient().UserSpaceRole.Query()
+	builder := r.data.GetReadEntClient().UserSpaceRole.Query()
 
 	// Set conditions
 	builder.Where(userSpaceRoleEnt.RoleID(rid))
@@ -165,7 +165,7 @@ func (r *userSpaceRoleRepository) GetByRoleID(ctx context.Context, rid string) (
 // DeleteByUserIDAndSpaceID deletes user space role by user ID and space ID.
 func (r *userSpaceRoleRepository) DeleteByUserIDAndSpaceID(ctx context.Context, u, t string) error {
 	// Get existing relationships for cache invalidation
-	relationships, err := r.data.GetSlaveEntClient().UserSpaceRole.Query().
+	relationships, err := r.data.GetReadEntClient().UserSpaceRole.Query().
 		Where(userSpaceRoleEnt.UserIDEQ(u), userSpaceRoleEnt.SpaceID(t)).All(ctx)
 	if err != nil {
 		logger.Debugf(ctx, "Failed to get relationships for cache invalidation: %v", err)
@@ -194,7 +194,7 @@ func (r *userSpaceRoleRepository) DeleteByUserIDAndSpaceID(ctx context.Context, 
 // DeleteByUserIDAndRoleID deletes user space role by user ID and role ID.
 func (r *userSpaceRoleRepository) DeleteByUserIDAndRoleID(ctx context.Context, u, rid string) error {
 	// Get existing relationships for cache invalidation
-	relationships, err := r.data.GetSlaveEntClient().UserSpaceRole.Query().
+	relationships, err := r.data.GetReadEntClient().UserSpaceRole.Query().
 		Where(userSpaceRoleEnt.UserIDEQ(u), userSpaceRoleEnt.RoleID(rid)).All(ctx)
 	if err != nil {
 		logger.Debugf(ctx, "Failed to get relationships for cache invalidation: %v", err)
@@ -223,7 +223,7 @@ func (r *userSpaceRoleRepository) DeleteByUserIDAndRoleID(ctx context.Context, u
 // DeleteBySpaceIDAndRoleID deletes user space role by space ID and role ID.
 func (r *userSpaceRoleRepository) DeleteBySpaceIDAndRoleID(ctx context.Context, t, rid string) error {
 	// Get existing relationships for cache invalidation
-	relationships, err := r.data.GetSlaveEntClient().UserSpaceRole.Query().
+	relationships, err := r.data.GetReadEntClient().UserSpaceRole.Query().
 		Where(userSpaceRoleEnt.SpaceID(t), userSpaceRoleEnt.RoleID(rid)).All(ctx)
 	if err != nil {
 		logger.Debugf(ctx, "Failed to get relationships for cache invalidation: %v", err)
@@ -278,7 +278,7 @@ func (r *userSpaceRoleRepository) DeleteByUserIDAndSpaceIDAndRoleID(ctx context.
 // DeleteAllByUserID deletes all user space roles by user ID.
 func (r *userSpaceRoleRepository) DeleteAllByUserID(ctx context.Context, u string) error {
 	// Get existing relationships for cache invalidation
-	relationships, err := r.data.GetSlaveEntClient().UserSpaceRole.Query().
+	relationships, err := r.data.GetReadEntClient().UserSpaceRole.Query().
 		Where(userSpaceRoleEnt.UserIDEQ(u)).All(ctx)
 	if err != nil {
 		logger.Debugf(ctx, "Failed to get relationships for cache invalidation: %v", err)
@@ -307,7 +307,7 @@ func (r *userSpaceRoleRepository) DeleteAllByUserID(ctx context.Context, u strin
 // DeleteAllBySpaceID deletes all user space roles by space ID.
 func (r *userSpaceRoleRepository) DeleteAllBySpaceID(ctx context.Context, t string) error {
 	// Get existing relationships for cache invalidation
-	relationships, err := r.data.GetSlaveEntClient().UserSpaceRole.Query().
+	relationships, err := r.data.GetReadEntClient().UserSpaceRole.Query().
 		Where(userSpaceRoleEnt.SpaceID(t)).All(ctx)
 	if err != nil {
 		logger.Debugf(ctx, "Failed to get relationships for cache invalidation: %v", err)
@@ -336,7 +336,7 @@ func (r *userSpaceRoleRepository) DeleteAllBySpaceID(ctx context.Context, t stri
 // DeleteAllByRoleID deletes all user space roles by role ID.
 func (r *userSpaceRoleRepository) DeleteAllByRoleID(ctx context.Context, rid string) error {
 	// Get existing relationships for cache invalidation
-	relationships, err := r.data.GetSlaveEntClient().UserSpaceRole.Query().
+	relationships, err := r.data.GetReadEntClient().UserSpaceRole.Query().
 		Where(userSpaceRoleEnt.RoleID(rid)).All(ctx)
 	if err != nil {
 		logger.Debugf(ctx, "Failed to get relationships for cache invalidation: %v", err)
@@ -372,7 +372,7 @@ func (r *userSpaceRoleRepository) GetRolesByUserAndSpace(ctx context.Context, u 
 	}
 
 	// Fallback to database
-	userSpaceRoles, err := r.data.GetSlaveEntClient().UserSpaceRole.Query().
+	userSpaceRoles, err := r.data.GetReadEntClient().UserSpaceRole.Query().
 		Where(userSpaceRoleEnt.UserIDEQ(u), userSpaceRoleEnt.SpaceIDEQ(t)).All(ctx)
 	if err != nil {
 		logger.Errorf(ctx, "userSpaceRoleRepo.GetRolesByUserAndSpace error: %v", err)
@@ -404,7 +404,7 @@ func (r *userSpaceRoleRepository) IsUserInRoleInSpace(ctx context.Context, u, t,
 	}
 
 	// Use slave for reads
-	count, err := r.data.GetSlaveEntClient().UserSpaceRole.Query().
+	count, err := r.data.GetReadEntClient().UserSpaceRole.Query().
 		Where(userSpaceRoleEnt.UserIDEQ(u), userSpaceRoleEnt.SpaceIDEQ(t), userSpaceRoleEnt.RoleIDEQ(rid)).Count(ctx)
 	if err != nil {
 		logger.Errorf(ctx, "userSpaceRoleRepo.IsUserInRoleInSpace error: %v", err)

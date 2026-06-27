@@ -30,7 +30,7 @@ type runRepository struct {
 func NewRunRepository(d *data.Data) RunRepositoryInterface {
 	return &runRepository{
 		ec:  d.GetMasterEntClient(),
-		ecr: d.GetSlaveEntClient(),
+		ecr: d.GetReadEntClient(),
 	}
 }
 

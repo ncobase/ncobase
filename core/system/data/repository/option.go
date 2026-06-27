@@ -242,7 +242,7 @@ func (r *optionRepository) DeleteByPrefix(ctx context.Context, prefix string) er
 	}
 
 	// Get options to be deleted for cache invalidation
-	options, err := r.data.GetSlaveEntClient().Options.Query().Where(optionsEnt.NameHasPrefix(prefix)).All(ctx)
+	options, err := r.data.GetReadEntClient().Options.Query().Where(optionsEnt.NameHasPrefix(prefix)).All(ctx)
 	if err != nil {
 		logger.Debugf(ctx, "Failed to get options for cache invalidation: %v", err)
 	}
@@ -429,7 +429,7 @@ func (r *optionRepository) applyCursorCondition(builder *ent.OptionsQuery, id st
 // listBuilder - create list builder.
 func (r *optionRepository) listBuilder(_ context.Context, params *structs.ListOptionParams) (*ent.OptionsQuery, error) {
 	// Use slave for reads
-	builder := r.data.GetSlaveEntClient().Options.Query()
+	builder := r.data.GetReadEntClient().Options.Query()
 
 	if params.Type != "" {
 		builder.Where(optionsEnt.TypeEQ(params.Type))
@@ -458,7 +458,7 @@ func (r *optionRepository) listBuilder(_ context.Context, params *structs.ListOp
 // internal method.
 func (r *optionRepository) getOption(ctx context.Context, params *structs.FindOptions) (*ent.Options, error) {
 	// Use slave for reads
-	builder := r.data.GetSlaveEntClient().Options.Query()
+	builder := r.data.GetReadEntClient().Options.Query()
 
 	if validator.IsNotEmpty(params.Option) {
 		builder.Where(optionsEnt.Or(

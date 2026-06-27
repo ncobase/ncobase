@@ -90,7 +90,7 @@ func (r *rolePermissionRepository) GetByPermissionID(ctx context.Context, id str
 	}
 
 	// Use slave for reads
-	builder := r.data.GetSlaveEntClient().RolePermission.Query()
+	builder := r.data.GetReadEntClient().RolePermission.Query()
 
 	// Set conditions
 	builder.Where(rolePermissionEnt.PermissionIDEQ(id))
@@ -111,7 +111,7 @@ func (r *rolePermissionRepository) GetByPermissionID(ctx context.Context, id str
 // GetByPermissionIDs Find role permissions by permission ids
 func (r *rolePermissionRepository) GetByPermissionIDs(ctx context.Context, ids []string) ([]*ent.RolePermission, error) {
 	// Use slave for reads
-	builder := r.data.GetSlaveEntClient().RolePermission.Query()
+	builder := r.data.GetReadEntClient().RolePermission.Query()
 
 	// Set conditions
 	builder.Where(rolePermissionEnt.PermissionIDIn(ids...))
@@ -142,7 +142,7 @@ func (r *rolePermissionRepository) GetByRoleID(ctx context.Context, id string) (
 	}
 
 	// Use slave for reads
-	builder := r.data.GetSlaveEntClient().RolePermission.Query()
+	builder := r.data.GetReadEntClient().RolePermission.Query()
 
 	// Set conditions
 	builder.Where(rolePermissionEnt.RoleIDEQ(id))
@@ -163,7 +163,7 @@ func (r *rolePermissionRepository) GetByRoleID(ctx context.Context, id string) (
 // GetByRoleIDs Find role permissions by role ids
 func (r *rolePermissionRepository) GetByRoleIDs(ctx context.Context, ids []string) ([]*ent.RolePermission, error) {
 	// Use slave for reads
-	builder := r.data.GetSlaveEntClient().RolePermission.Query()
+	builder := r.data.GetReadEntClient().RolePermission.Query()
 
 	// Set conditions
 	builder.Where(rolePermissionEnt.RoleIDIn(ids...))
@@ -262,11 +262,11 @@ func (r *rolePermissionRepository) GetPermissionsByRoleID(ctx context.Context, r
 	var permissionIDs []string
 	if err := r.rolePermissionsCache.GetArray(ctx, cacheKey, &permissionIDs); err == nil && len(permissionIDs) > 0 {
 		// Get permissions by IDs from permission repository
-		return r.data.GetSlaveEntClient().Permission.Query().Where(permissionEnt.IDIn(permissionIDs...)).All(ctx)
+		return r.data.GetReadEntClient().Permission.Query().Where(permissionEnt.IDIn(permissionIDs...)).All(ctx)
 	}
 
 	// Fallback to database
-	rolePermissions, err := r.data.GetSlaveEntClient().RolePermission.Query().Where(rolePermissionEnt.RoleIDEQ(rid)).All(ctx)
+	rolePermissions, err := r.data.GetReadEntClient().RolePermission.Query().Where(rolePermissionEnt.RoleIDEQ(rid)).All(ctx)
 	if err != nil {
 		logger.Errorf(ctx, "rolePermissionRepo.GetPermissionsByRoleID error: %v", err)
 		return nil, err
@@ -279,7 +279,7 @@ func (r *rolePermissionRepository) GetPermissionsByRoleID(ctx context.Context, r
 	}
 
 	// Query permissions based on extracted permission ids
-	permissions, err := r.data.GetSlaveEntClient().Permission.Query().Where(permissionEnt.IDIn(permissionIDs...)).All(ctx)
+	permissions, err := r.data.GetReadEntClient().Permission.Query().Where(permissionEnt.IDIn(permissionIDs...)).All(ctx)
 	if err != nil {
 		logger.Errorf(ctx, "rolePermissionRepo.GetPermissionsByRoleID error: %v", err)
 		return nil, err
@@ -302,11 +302,11 @@ func (r *rolePermissionRepository) GetRolesByPermissionID(ctx context.Context, p
 	var roleIDs []string
 	if err := r.permissionRolesCache.GetArray(ctx, cacheKey, &roleIDs); err == nil && len(roleIDs) > 0 {
 		// Get roles by IDs from role repository
-		return r.data.GetSlaveEntClient().Role.Query().Where(roleEnt.IDIn(roleIDs...)).All(ctx)
+		return r.data.GetReadEntClient().Role.Query().Where(roleEnt.IDIn(roleIDs...)).All(ctx)
 	}
 
 	// Fallback to database
-	rolePermissions, err := r.data.GetSlaveEntClient().RolePermission.Query().Where(rolePermissionEnt.PermissionIDEQ(pid)).All(ctx)
+	rolePermissions, err := r.data.GetReadEntClient().RolePermission.Query().Where(rolePermissionEnt.PermissionIDEQ(pid)).All(ctx)
 	if err != nil {
 		logger.Errorf(ctx, "rolePermissionRepo.GetRolesByPermissionID error: %v", err)
 		return nil, err
@@ -319,7 +319,7 @@ func (r *rolePermissionRepository) GetRolesByPermissionID(ctx context.Context, p
 	}
 
 	// Query roles based on extracted role IDs
-	roles, err := r.data.GetSlaveEntClient().Role.Query().Where(roleEnt.IDIn(roleIDs...)).All(ctx)
+	roles, err := r.data.GetReadEntClient().Role.Query().Where(roleEnt.IDIn(roleIDs...)).All(ctx)
 	if err != nil {
 		logger.Errorf(ctx, "rolePermissionRepo.GetRolesByPermissionID error: %v", err)
 		return nil, err
@@ -344,7 +344,7 @@ func (r *rolePermissionRepository) IsPermissionInRole(ctx context.Context, rid, 
 	}
 
 	// Use slave for reads
-	count, err := r.data.GetSlaveEntClient().RolePermission.Query().Where(rolePermissionEnt.RoleIDEQ(rid), rolePermissionEnt.PermissionIDEQ(pid)).Count(ctx)
+	count, err := r.data.GetReadEntClient().RolePermission.Query().Where(rolePermissionEnt.RoleIDEQ(rid), rolePermissionEnt.PermissionIDEQ(pid)).Count(ctx)
 	if err != nil {
 		logger.Errorf(ctx, "rolePermissionRepo.IsPermissionInRole error: %v", err)
 		return false, err

@@ -49,7 +49,7 @@ type distributionRepository struct {
 // NewDistributionRepository creates a new distribution repository.
 func NewDistributionRepository(d *data.Data) DistributionRepositoryInterface {
 	ec := d.GetMasterEntClient()
-	ecr := d.GetSlaveEntClient()
+	ecr := d.GetReadEntClient()
 	rc := d.GetRedis().(*redis.Client)
 	return &distributionRepository{
 		data: d,

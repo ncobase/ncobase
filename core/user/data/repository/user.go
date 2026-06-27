@@ -109,7 +109,7 @@ func (r *userRepository) GetByID(ctx context.Context, id string) (*ent.User, err
 	}
 
 	// Fallback to database
-	client := r.data.GetSlaveEntClient()
+	client := r.data.GetReadEntClient()
 	user, err := client.User.Get(ctx, id)
 	if err != nil {
 		return nil, err
@@ -142,7 +142,7 @@ func (r *userRepository) Find(ctx context.Context, filter *structs.FindUser) (*e
 	}
 
 	// Fallback to database
-	client := r.data.GetSlaveEntClient()
+	client := r.data.GetReadEntClient()
 	builder := client.User.Query()
 
 	if filter.ID != "" {
@@ -255,7 +255,7 @@ func (r *userRepository) Delete(ctx context.Context, id string) error {
 
 // List lists users
 func (r *userRepository) List(ctx context.Context, params *structs.ListUserParams) ([]*ent.User, error) {
-	client := r.data.GetSlaveEntClient()
+	client := r.data.GetReadEntClient()
 	builder := client.User.Query()
 
 	// Apply filters
@@ -372,7 +372,7 @@ func (r *userRepository) UpdatePasswordByID(ctx context.Context, userID, hashedP
 
 // CountX counts users
 func (r *userRepository) CountX(ctx context.Context, params *structs.ListUserParams) int {
-	client := r.data.GetSlaveEntClient()
+	client := r.data.GetReadEntClient()
 	builder := client.User.Query()
 
 	if params.SearchQuery != "" {

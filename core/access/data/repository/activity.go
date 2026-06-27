@@ -357,7 +357,7 @@ func (r *activityRepository) CountX(ctx context.Context, params *structs.ListAct
 
 countDatabaseFallback:
 	// Fallback to database count
-	builder := r.data.GetSlaveEntClient().Activity.Query()
+	builder := r.data.GetReadEntClient().Activity.Query()
 	if params.UserID != "" {
 		builder = builder.Where(activityEnt.UserIDEQ(params.UserID))
 	}
@@ -441,7 +441,7 @@ func (r *activityRepository) getFromSearch(ctx context.Context, id string) (*str
 
 // getFromDatabase retrieves an activity from the database
 func (r *activityRepository) getFromDatabase(ctx context.Context, id string) (*structs.ActivityDocument, error) {
-	ec := r.data.GetSlaveEntClient()
+	ec := r.data.GetReadEntClient()
 
 	row, err := ec.Activity.Get(ctx, id)
 	if err != nil {
@@ -503,7 +503,7 @@ func (r *activityRepository) listFromSearch(ctx context.Context, params *structs
 
 // listFromDatabase retrieves a list of activities from the database
 func (r *activityRepository) listFromDatabase(ctx context.Context, params *structs.ListActivityParams) ([]*structs.ActivityDocument, int, error) {
-	ec := r.data.GetSlaveEntClient()
+	ec := r.data.GetReadEntClient()
 	builder := ec.Activity.Query()
 
 	// Apply filters
@@ -589,7 +589,7 @@ func (r *activityRepository) listFromDatabase(ctx context.Context, params *struc
 
 // searchFallback performs full-text search on activities
 func (r *activityRepository) searchFallback(ctx context.Context, params *structs.SearchActivityParams) ([]*structs.ActivityDocument, int, error) {
-	ec := r.data.GetSlaveEntClient()
+	ec := r.data.GetReadEntClient()
 	builder := ec.Activity.Query()
 
 	if params.Query != "" {

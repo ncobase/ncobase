@@ -95,7 +95,7 @@ func (r *userProfileRepository) Get(ctx context.Context, userID string) (*ent.Us
 	}
 
 	// Fallback to database
-	client := r.data.GetSlaveEntClient()
+	client := r.data.GetReadEntClient()
 	profile, err := client.UserProfile.Get(ctx, userID)
 	if err != nil {
 		return nil, err

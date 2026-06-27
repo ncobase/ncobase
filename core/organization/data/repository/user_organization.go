@@ -96,7 +96,7 @@ func (r *userOrganizationRepository) Create(ctx context.Context, body *structs.U
 // GetByUserID find organizations by user id
 func (r *userOrganizationRepository) GetByUserID(ctx context.Context, id string) ([]*ent.UserOrganization, error) {
 	// Use slave for reads
-	builder := r.data.GetSlaveEntClient().UserOrganization.Query()
+	builder := r.data.GetReadEntClient().UserOrganization.Query()
 
 	// Set conditions
 	builder.Where(userOrganizationEnt.UserIDEQ(id))
@@ -121,7 +121,7 @@ func (r *userOrganizationRepository) GetByUserID(ctx context.Context, id string)
 // GetByUserIDs find organizations by user ids
 func (r *userOrganizationRepository) GetByUserIDs(ctx context.Context, ids []string) ([]*ent.UserOrganization, error) {
 	// Use slave for reads
-	builder := r.data.GetSlaveEntClient().UserOrganization.Query()
+	builder := r.data.GetReadEntClient().UserOrganization.Query()
 
 	// Set conditions
 	builder.Where(userOrganizationEnt.UserIDIn(ids...))
@@ -146,7 +146,7 @@ func (r *userOrganizationRepository) GetByUserIDs(ctx context.Context, ids []str
 // GetByOrgID find users by organization id
 func (r *userOrganizationRepository) GetByOrgID(ctx context.Context, id string) ([]*ent.UserOrganization, error) {
 	// Use slave for reads
-	builder := r.data.GetSlaveEntClient().UserOrganization.Query()
+	builder := r.data.GetReadEntClient().UserOrganization.Query()
 
 	// Set conditions
 	builder.Where(userOrganizationEnt.OrgIDEQ(id))
@@ -171,7 +171,7 @@ func (r *userOrganizationRepository) GetByOrgID(ctx context.Context, id string) 
 // GetByOrgIDs find users by organization ids
 func (r *userOrganizationRepository) GetByOrgIDs(ctx context.Context, ids []string) ([]*ent.UserOrganization, error) {
 	// Use slave for reads
-	builder := r.data.GetSlaveEntClient().UserOrganization.Query()
+	builder := r.data.GetReadEntClient().UserOrganization.Query()
 
 	// Set conditions
 	builder.Where(userOrganizationEnt.OrgIDIn(ids...))
@@ -200,12 +200,12 @@ func (r *userOrganizationRepository) GetByOrgIDAndRole(ctx context.Context, id s
 	var userIDs []string
 	if err := r.organizationRoleUsersCache.GetArray(ctx, cacheKey, &userIDs); err == nil && len(userIDs) > 0 {
 		// Get user organizations by user IDs and organization ID
-		return r.data.GetSlaveEntClient().UserOrganization.Query().
+		return r.data.GetReadEntClient().UserOrganization.Query().
 			Where(userOrganizationEnt.OrgIDEQ(id), userOrganizationEnt.UserIDIn(userIDs...)).All(ctx)
 	}
 
 	// Use slave for reads
-	builder := r.data.GetSlaveEntClient().UserOrganization.Query()
+	builder := r.data.GetReadEntClient().UserOrganization.Query()
 
 	// Set conditions
 	builder.Where(
@@ -244,7 +244,7 @@ func (r *userOrganizationRepository) GetUserOrganization(ctx context.Context, ui
 	}
 
 	// Use slave for reads
-	builder := r.data.GetSlaveEntClient().UserOrganization.Query()
+	builder := r.data.GetReadEntClient().UserOrganization.Query()
 
 	// Set conditions
 	builder.Where(
@@ -359,7 +359,7 @@ func (r *userOrganizationRepository) GetOrganizationsByUserID(ctx context.Contex
 	}
 
 	// Fallback to database
-	userOrganizations, err := r.data.GetSlaveEntClient().UserOrganization.Query().
+	userOrganizations, err := r.data.GetReadEntClient().UserOrganization.Query().
 		Where(userOrganizationEnt.UserIDEQ(userID)).All(ctx)
 	if err != nil {
 		logger.Errorf(ctx, "userOrganizationRepo.GetOrganizationsByUserID error: %v", err)
@@ -392,7 +392,7 @@ func (r *userOrganizationRepository) GetUsersByOrgID(ctx context.Context, organi
 	}
 
 	// Fallback to database
-	userOrganizations, err := r.data.GetSlaveEntClient().UserOrganization.Query().
+	userOrganizations, err := r.data.GetReadEntClient().UserOrganization.Query().
 		Where(userOrganizationEnt.OrgIDEQ(organizationID)).All(ctx)
 	if err != nil {
 		logger.Errorf(ctx, "userOrganizationRepo.GetUsersByOrgID error: %v", err)
@@ -424,7 +424,7 @@ func (r *userOrganizationRepository) IsUserInOrganization(ctx context.Context, u
 	}
 
 	// Use slave for reads
-	count, err := r.data.GetSlaveEntClient().UserOrganization.Query().
+	count, err := r.data.GetReadEntClient().UserOrganization.Query().
 		Where(userOrganizationEnt.UserIDEQ(userID), userOrganizationEnt.OrgIDEQ(organizationID)).Count(ctx)
 	if err != nil {
 		logger.Errorf(ctx, "userOrganizationRepo.IsUserInOrganization error: %v", err)
@@ -455,7 +455,7 @@ func (r *userOrganizationRepository) UserHasRole(ctx context.Context, userID str
 	}
 
 	// Use slave for reads
-	count, err := r.data.GetSlaveEntClient().UserOrganization.Query().Where(
+	count, err := r.data.GetReadEntClient().UserOrganization.Query().Where(
 		userOrganizationEnt.UserIDEQ(userID),
 		userOrganizationEnt.OrgIDEQ(organizationID),
 		userOrganizationEnt.RoleEQ(string(role)),

@@ -74,7 +74,7 @@ func (r *spaceDictionaryRepository) Create(ctx context.Context, body *structs.Sp
 
 // GetBySpaceID retrieves space dictionaries by space ID.
 func (r *spaceDictionaryRepository) GetBySpaceID(ctx context.Context, spaceID string) ([]*ent.SpaceDictionary, error) {
-	builder := r.data.GetSlaveEntClient().SpaceDictionary.Query()
+	builder := r.data.GetReadEntClient().SpaceDictionary.Query()
 	builder.Where(spaceDictionaryEnt.SpaceIDEQ(spaceID))
 
 	rows, err := builder.All(ctx)
@@ -95,7 +95,7 @@ func (r *spaceDictionaryRepository) GetBySpaceID(ctx context.Context, spaceID st
 
 // GetByDictionaryID retrieves space dictionaries by dictionary ID.
 func (r *spaceDictionaryRepository) GetByDictionaryID(ctx context.Context, dictionaryID string) ([]*ent.SpaceDictionary, error) {
-	builder := r.data.GetSlaveEntClient().SpaceDictionary.Query()
+	builder := r.data.GetReadEntClient().SpaceDictionary.Query()
 	builder.Where(spaceDictionaryEnt.DictionaryIDEQ(dictionaryID))
 
 	rows, err := builder.All(ctx)
@@ -135,7 +135,7 @@ func (r *spaceDictionaryRepository) DeleteBySpaceIDAndDictionaryID(ctx context.C
 // DeleteAllBySpaceID deletes all space dictionaries by space ID.
 func (r *spaceDictionaryRepository) DeleteAllBySpaceID(ctx context.Context, spaceID string) error {
 	// Get existing relationships for cache invalidation
-	relationships, err := r.data.GetSlaveEntClient().SpaceDictionary.Query().
+	relationships, err := r.data.GetReadEntClient().SpaceDictionary.Query().
 		Where(spaceDictionaryEnt.SpaceIDEQ(spaceID)).All(ctx)
 	if err != nil {
 		logger.Debugf(ctx, "Failed to get relationships for cache invalidation: %v", err)
@@ -162,7 +162,7 @@ func (r *spaceDictionaryRepository) DeleteAllBySpaceID(ctx context.Context, spac
 // DeleteAllByDictionaryID deletes all space dictionaries by dictionary ID.
 func (r *spaceDictionaryRepository) DeleteAllByDictionaryID(ctx context.Context, dictionaryID string) error {
 	// Get existing relationships for cache invalidation
-	relationships, err := r.data.GetSlaveEntClient().SpaceDictionary.Query().
+	relationships, err := r.data.GetReadEntClient().SpaceDictionary.Query().
 		Where(spaceDictionaryEnt.DictionaryIDEQ(dictionaryID)).All(ctx)
 	if err != nil {
 		logger.Debugf(ctx, "Failed to get relationships for cache invalidation: %v", err)
@@ -194,7 +194,7 @@ func (r *spaceDictionaryRepository) IsDictionaryInSpace(ctx context.Context, spa
 		return true, nil
 	}
 
-	count, err := r.data.GetSlaveEntClient().SpaceDictionary.Query().
+	count, err := r.data.GetReadEntClient().SpaceDictionary.Query().
 		Where(spaceDictionaryEnt.SpaceIDEQ(spaceID), spaceDictionaryEnt.DictionaryIDEQ(dictionaryID)).Count(ctx)
 	if err != nil {
 		logger.Errorf(ctx, "spaceDictionaryRepo.IsDictionaryInSpace error: %v", err)
@@ -227,7 +227,7 @@ func (r *spaceDictionaryRepository) GetSpaceDictionaries(ctx context.Context, sp
 	}
 
 	// Fallback to database
-	spaceDictionaries, err := r.data.GetSlaveEntClient().SpaceDictionary.Query().
+	spaceDictionaries, err := r.data.GetReadEntClient().SpaceDictionary.Query().
 		Where(spaceDictionaryEnt.SpaceIDEQ(spaceID)).All(ctx)
 	if err != nil {
 		logger.Errorf(ctx, "spaceDictionaryRepo.GetSpaceDictionaries error: %v", err)

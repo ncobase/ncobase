@@ -8,10 +8,10 @@ import (
 )
 
 func TestSampleService_Create(t *testing.T) {
-	repo := repository.NewSampleRepository()
-	service := NewService(&repository.Repository{Sample: repo})
 	ctx := context.Background()
 
+	repo := repository.NewSampleRepository()
+	service := NewService(&repository.Repository{Sample: repo})
 	tests := []struct {
 		name    string
 		input   *structs.CreateSampleInput
@@ -63,10 +63,10 @@ func TestSampleService_Create(t *testing.T) {
 }
 
 func TestSampleService_GetByID(t *testing.T) {
-	repo := repository.NewSampleRepository()
-	service := NewService(&repository.Repository{Sample: repo})
 	ctx := context.Background()
 
+	repo := repository.NewSampleRepository()
+	service := NewService(&repository.Repository{Sample: repo})
 	// Create a sample first
 	input := &structs.CreateSampleInput{
 		Name:        "Test Sample",
@@ -100,10 +100,10 @@ func TestSampleService_GetByID(t *testing.T) {
 }
 
 func TestSampleService_List(t *testing.T) {
-	repo := repository.NewSampleRepository()
-	service := NewService(&repository.Repository{Sample: repo})
 	ctx := context.Background()
 
+	repo := repository.NewSampleRepository()
+	service := NewService(&repository.Repository{Sample: repo})
 	// Initially empty
 	samples, err := service.Sample.List(ctx)
 	if err != nil {
@@ -136,10 +136,10 @@ func TestSampleService_List(t *testing.T) {
 }
 
 func TestSampleService_Update(t *testing.T) {
-	repo := repository.NewSampleRepository()
-	service := NewService(&repository.Repository{Sample: repo})
 	ctx := context.Background()
 
+	repo := repository.NewSampleRepository()
+	service := NewService(&repository.Repository{Sample: repo})
 	// Create a sample first
 	input := &structs.CreateSampleInput{
 		Name:        "Original Name",
@@ -187,10 +187,10 @@ func TestSampleService_Update(t *testing.T) {
 }
 
 func TestSampleService_Delete(t *testing.T) {
-	repo := repository.NewSampleRepository()
-	service := NewService(&repository.Repository{Sample: repo})
 	ctx := context.Background()
 
+	repo := repository.NewSampleRepository()
+	service := NewService(&repository.Repository{Sample: repo})
 	// Create a sample first
 	input := &structs.CreateSampleInput{
 		Name:        "Test Sample",
@@ -227,10 +227,10 @@ func TestSampleService_Delete(t *testing.T) {
 }
 
 func TestSampleService_ValidationRules(t *testing.T) {
-	repo := repository.NewSampleRepository()
-	service := NewService(&repository.Repository{Sample: repo})
 	ctx := context.Background()
 
+	repo := repository.NewSampleRepository()
+	service := NewService(&repository.Repository{Sample: repo})
 	tests := []struct {
 		name    string
 		input   *structs.CreateSampleInput
@@ -276,10 +276,10 @@ func TestSampleService_ValidationRules(t *testing.T) {
 }
 
 func TestSampleService_NilInputValidation(t *testing.T) {
-	repo := repository.NewSampleRepository()
-	service := NewService(&repository.Repository{Sample: repo})
 	ctx := context.Background()
 
+	repo := repository.NewSampleRepository()
+	service := NewService(&repository.Repository{Sample: repo})
 	if _, err := service.Sample.Create(ctx, nil); err != structs.ErrInvalidInput {
 		t.Fatalf("Create() expected ErrInvalidInput, got %v", err)
 	}
@@ -290,10 +290,10 @@ func TestSampleService_NilInputValidation(t *testing.T) {
 }
 
 func TestSampleService_TrimNameOnWrite(t *testing.T) {
-	repo := repository.NewSampleRepository()
-	service := NewService(&repository.Repository{Sample: repo})
 	ctx := context.Background()
 
+	repo := repository.NewSampleRepository()
+	service := NewService(&repository.Repository{Sample: repo})
 	created, err := service.Sample.Create(ctx, &structs.CreateSampleInput{
 		Name:        "  Trimmed Name  ",
 		Description: "desc",

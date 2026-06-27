@@ -140,7 +140,7 @@ func (r *menuRepository) GetMenuTree(ctx context.Context, params *structs.FindMe
 	}
 
 	// Fallback to database
-	builder := r.data.GetSlaveEntClient().Menu.Query()
+	builder := r.data.GetReadEntClient().Menu.Query()
 
 	// Apply type filter if specified
 	if validator.IsNotEmpty(params.Type) {
@@ -534,7 +534,7 @@ func (r *menuRepository) applyCursorCondition(builder *ent.MenuQuery, id string,
 // listBuilder - create list builder.
 func (r *menuRepository) listBuilder(_ context.Context, params *structs.ListMenuParams) (*ent.MenuQuery, error) {
 	// Use slave for reads
-	builder := r.data.GetSlaveEntClient().Menu.Query()
+	builder := r.data.GetReadEntClient().Menu.Query()
 
 	// match type.
 	if params.Type != "" {
@@ -571,7 +571,7 @@ func (r *menuRepository) listBuilder(_ context.Context, params *structs.ListMenu
 // internal method.
 func (r *menuRepository) getMenu(ctx context.Context, params *structs.FindMenu) (*ent.Menu, error) {
 	// Use slave for reads
-	builder := r.data.GetSlaveEntClient().Menu.Query()
+	builder := r.data.GetReadEntClient().Menu.Query()
 
 	// set where conditions.
 	if validator.IsNotEmpty(params.Menu) {

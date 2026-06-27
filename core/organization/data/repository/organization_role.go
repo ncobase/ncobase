@@ -89,7 +89,7 @@ func (r *organizationRoleRepository) GetByOrgID(ctx context.Context, id string) 
 	}
 
 	// Use slave for reads
-	builder := r.data.GetSlaveEntClient().OrganizationRole.Query()
+	builder := r.data.GetReadEntClient().OrganizationRole.Query()
 
 	// Set conditions
 	builder.Where(organizationRoleEnt.OrgIDEQ(id))
@@ -110,7 +110,7 @@ func (r *organizationRoleRepository) GetByOrgID(ctx context.Context, id string) 
 // GetByOrgIDs Find roles by organization ids
 func (r *organizationRoleRepository) GetByOrgIDs(ctx context.Context, ids []string) ([]*ent.OrganizationRole, error) {
 	// Use slave for reads
-	builder := r.data.GetSlaveEntClient().OrganizationRole.Query()
+	builder := r.data.GetReadEntClient().OrganizationRole.Query()
 
 	// Set conditions
 	builder.Where(organizationRoleEnt.OrgIDIn(ids...))
@@ -141,7 +141,7 @@ func (r *organizationRoleRepository) GetByRoleID(ctx context.Context, id string)
 	}
 
 	// Use slave for reads
-	builder := r.data.GetSlaveEntClient().OrganizationRole.Query()
+	builder := r.data.GetReadEntClient().OrganizationRole.Query()
 
 	// Set conditions
 	builder.Where(organizationRoleEnt.RoleIDEQ(id))
@@ -162,7 +162,7 @@ func (r *organizationRoleRepository) GetByRoleID(ctx context.Context, id string)
 // GetByRoleIDs Find roles by role ids
 func (r *organizationRoleRepository) GetByRoleIDs(ctx context.Context, ids []string) ([]*ent.OrganizationRole, error) {
 	// Use slave for reads
-	builder := r.data.GetSlaveEntClient().OrganizationRole.Query()
+	builder := r.data.GetReadEntClient().OrganizationRole.Query()
 
 	// Set conditions
 	builder.Where(organizationRoleEnt.RoleIDIn(ids...))
@@ -267,7 +267,7 @@ func (r *organizationRoleRepository) GetRolesByOrgID(ctx context.Context, organi
 	}
 
 	// Fallback to database
-	organizationRoles, err := r.data.GetSlaveEntClient().OrganizationRole.Query().
+	organizationRoles, err := r.data.GetReadEntClient().OrganizationRole.Query().
 		Where(organizationRoleEnt.OrgIDEQ(organizationID)).All(ctx)
 	if err != nil {
 		logger.Errorf(ctx, "organizationRoleRepo.GetRolesByOrgID error: %v", err)
@@ -297,11 +297,11 @@ func (r *organizationRoleRepository) GetOrganizationsByRoleID(ctx context.Contex
 	var organizationIDs []string
 	if err := r.roleOrganizationsCache.GetArray(ctx, cacheKey, &organizationIDs); err == nil && len(organizationIDs) > 0 {
 		// Get organizations by IDs from organization repository
-		return r.data.GetSlaveEntClient().Organization.Query().Where(organizationEnt.IDIn(organizationIDs...)).All(ctx)
+		return r.data.GetReadEntClient().Organization.Query().Where(organizationEnt.IDIn(organizationIDs...)).All(ctx)
 	}
 
 	// Fallback to database
-	organizationRoles, err := r.data.GetSlaveEntClient().OrganizationRole.Query().
+	organizationRoles, err := r.data.GetReadEntClient().OrganizationRole.Query().
 		Where(organizationRoleEnt.RoleIDEQ(roleID)).All(ctx)
 	if err != nil {
 		logger.Errorf(ctx, "organizationRoleRepo.GetOrganizationsByRoleID error: %v", err)
@@ -315,7 +315,7 @@ func (r *organizationRoleRepository) GetOrganizationsByRoleID(ctx context.Contex
 	}
 
 	// Query organizations based on extracted organization IDs
-	organizations, err := r.data.GetSlaveEntClient().Organization.Query().Where(organizationEnt.IDIn(organizationIDs...)).All(ctx)
+	organizations, err := r.data.GetReadEntClient().Organization.Query().Where(organizationEnt.IDIn(organizationIDs...)).All(ctx)
 	if err != nil {
 		logger.Errorf(ctx, "organizationRoleRepo.GetOrganizationsByRoleID error: %v", err)
 		return nil, err
@@ -340,7 +340,7 @@ func (r *organizationRoleRepository) IsRoleInOrganization(ctx context.Context, o
 	}
 
 	// Use slave for reads
-	count, err := r.data.GetSlaveEntClient().OrganizationRole.Query().
+	count, err := r.data.GetReadEntClient().OrganizationRole.Query().
 		Where(organizationRoleEnt.OrgIDEQ(organizationID), organizationRoleEnt.RoleIDEQ(roleID)).Count(ctx)
 	if err != nil {
 		logger.Errorf(ctx, "organizationRoleRepo.IsRoleInOrganization error: %v", err)

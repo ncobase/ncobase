@@ -78,7 +78,7 @@ type fileRepository struct {
 
 func NewFileRepository(d *data.Data) FileRepositoryInterface {
 	ec := d.GetMasterEntClient()
-	ecr := d.GetSlaveEntClient()
+	ecr := d.GetReadEntClient()
 	rc := d.GetRedis().(*redis.Client)
 	sc := nd.NewSearchClient(d.Data)
 	return &fileRepository{

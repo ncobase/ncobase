@@ -62,7 +62,7 @@ func (r *userRoleRepository) VerifyUserRole(ctx context.Context, userID, roleID 
 	}
 
 	// Use slave for reads
-	count, err := r.data.GetSlaveEntClient().UserRole.Query().
+	count, err := r.data.GetReadEntClient().UserRole.Query().
 		Where(
 			userRoleEnt.UserIDEQ(userID),
 			userRoleEnt.RoleIDEQ(roleID),
@@ -134,7 +134,7 @@ func (r *userRoleRepository) GetByIDAndRoleID(ctx context.Context, uid, rid stri
 	}
 
 	// Use slave for reads
-	builder := r.data.GetSlaveEntClient().UserRole.Query()
+	builder := r.data.GetReadEntClient().UserRole.Query()
 
 	// Set conditions
 	builder.Where(userRoleEnt.UserIDEQ(uid), userRoleEnt.RoleIDEQ(rid))
@@ -155,7 +155,7 @@ func (r *userRoleRepository) GetByIDAndRoleID(ctx context.Context, uid, rid stri
 // GetByUserIDs find roles by user ids
 func (r *userRoleRepository) GetByUserIDs(ctx context.Context, ids []string) ([]*ent.UserRole, error) {
 	// Use slave for reads
-	builder := r.data.GetSlaveEntClient().UserRole.Query()
+	builder := r.data.GetReadEntClient().UserRole.Query()
 
 	// Set conditions
 	builder.Where(userRoleEnt.UserIDIn(ids...))
@@ -180,7 +180,7 @@ func (r *userRoleRepository) GetByUserIDs(ctx context.Context, ids []string) ([]
 // GetByRoleID find role by role id (kept for compatibility, returns first match)
 func (r *userRoleRepository) GetByRoleID(ctx context.Context, id string) (*ent.UserRole, error) {
 	// Use slave for reads
-	builder := r.data.GetSlaveEntClient().UserRole.Query()
+	builder := r.data.GetReadEntClient().UserRole.Query()
 
 	// Set condition
 	builder.Where(userRoleEnt.RoleIDEQ(id))
@@ -201,7 +201,7 @@ func (r *userRoleRepository) GetByRoleID(ctx context.Context, id string) (*ent.U
 // GetByRoleIDs find roles by role ids
 func (r *userRoleRepository) GetByRoleIDs(ctx context.Context, ids []string) ([]*ent.UserRole, error) {
 	// Use slave for reads
-	builder := r.data.GetSlaveEntClient().UserRole.Query()
+	builder := r.data.GetReadEntClient().UserRole.Query()
 
 	// Set conditions
 	builder.Where(userRoleEnt.RoleIDIn(ids...))
@@ -300,11 +300,11 @@ func (r *userRoleRepository) GetRolesByUserID(ctx context.Context, userID string
 	var roleIDs []string
 	if err := r.userRolesCache.GetArray(ctx, cacheKey, &roleIDs); err == nil && len(roleIDs) > 0 {
 		// Get roles by IDs from role repository
-		return r.data.GetSlaveEntClient().Role.Query().Where(roleEnt.IDIn(roleIDs...)).All(ctx)
+		return r.data.GetReadEntClient().Role.Query().Where(roleEnt.IDIn(roleIDs...)).All(ctx)
 	}
 
 	// Fallback to database
-	userRoles, err := r.data.GetSlaveEntClient().UserRole.Query().Where(userRoleEnt.UserIDEQ(userID)).All(ctx)
+	userRoles, err := r.data.GetReadEntClient().UserRole.Query().Where(userRoleEnt.UserIDEQ(userID)).All(ctx)
 	if err != nil {
 		logger.Errorf(ctx, "userRoleRepo.GetRolesByUserID error: %v", err)
 		return nil, err
@@ -317,7 +317,7 @@ func (r *userRoleRepository) GetRolesByUserID(ctx context.Context, userID string
 	}
 
 	// Query roles based on extracted role IDs
-	roles, err := r.data.GetSlaveEntClient().Role.Query().Where(roleEnt.IDIn(roleIDs...)).All(ctx)
+	roles, err := r.data.GetReadEntClient().Role.Query().Where(roleEnt.IDIn(roleIDs...)).All(ctx)
 	if err != nil {
 		logger.Errorf(ctx, "userRoleRepo.GetRolesByUserID error: %v", err)
 		return nil, err
@@ -343,7 +343,7 @@ func (r *userRoleRepository) GetUsersByRoleID(ctx context.Context, roleID string
 	}
 
 	// Fallback to database
-	userRoles, err := r.data.GetSlaveEntClient().UserRole.Query().Where(userRoleEnt.RoleIDEQ(roleID)).All(ctx)
+	userRoles, err := r.data.GetReadEntClient().UserRole.Query().Where(userRoleEnt.RoleIDEQ(roleID)).All(ctx)
 	if err != nil {
 		logger.Errorf(ctx, "userRoleRepo.GetUsersByRoleID error: %v", err)
 		return nil, err

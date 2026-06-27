@@ -48,7 +48,7 @@ type channelRepository struct {
 // NewChannelRepository creates a new channel repository.
 func NewChannelRepository(d *data.Data) ChannelRepositoryInterface {
 	ec := d.GetMasterEntClient()
-	ecr := d.GetSlaveEntClient()
+	ecr := d.GetReadEntClient()
 	rc := d.GetRedis().(*redis.Client)
 	return &channelRepository{
 		data: d,

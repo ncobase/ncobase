@@ -7,9 +7,9 @@ import (
 )
 
 func TestSampleRepository_Create(t *testing.T) {
-	repo := NewSampleRepository()
 	ctx := context.Background()
 
+	repo := NewSampleRepository()
 	input := &structs.CreateSampleInput{
 		Name:        "Test Sample",
 		Description: "Test Description",
@@ -41,9 +41,9 @@ func TestSampleRepository_Create(t *testing.T) {
 }
 
 func TestSampleRepository_GetByID(t *testing.T) {
-	repo := NewSampleRepository()
 	ctx := context.Background()
 
+	repo := NewSampleRepository()
 	// Create a sample first
 	input := &structs.CreateSampleInput{
 		Name:        "Test Sample",
@@ -71,9 +71,9 @@ func TestSampleRepository_GetByID(t *testing.T) {
 }
 
 func TestSampleRepository_List(t *testing.T) {
-	repo := NewSampleRepository()
 	ctx := context.Background()
 
+	repo := NewSampleRepository()
 	// Initially empty
 	samples, err := repo.List(ctx)
 	if err != nil {
@@ -106,9 +106,9 @@ func TestSampleRepository_List(t *testing.T) {
 }
 
 func TestSampleRepository_Update(t *testing.T) {
-	repo := NewSampleRepository()
 	ctx := context.Background()
 
+	repo := NewSampleRepository()
 	// Create a sample first
 	input := &structs.CreateSampleInput{
 		Name:        "Original Name",
@@ -155,9 +155,9 @@ func TestSampleRepository_Update(t *testing.T) {
 }
 
 func TestSampleRepository_Delete(t *testing.T) {
-	repo := NewSampleRepository()
 	ctx := context.Background()
 
+	repo := NewSampleRepository()
 	// Create a sample first
 	input := &structs.CreateSampleInput{
 		Name:        "Test Sample",
@@ -188,9 +188,9 @@ func TestSampleRepository_Delete(t *testing.T) {
 }
 
 func TestSampleRepository_UpdatePartial(t *testing.T) {
-	repo := NewSampleRepository()
 	ctx := context.Background()
 
+	repo := NewSampleRepository()
 	// Create a sample
 	input := &structs.CreateSampleInput{
 		Name:        "Original Name",
@@ -224,9 +224,9 @@ func TestSampleRepository_UpdatePartial(t *testing.T) {
 }
 
 func TestSampleRepository_ReturnsDefensiveCopies(t *testing.T) {
-	repo := NewSampleRepository()
 	ctx := context.Background()
 
+	repo := NewSampleRepository()
 	created, err := repo.Create(ctx, &structs.CreateSampleInput{
 		Name:        "Original Name",
 		Description: "Original Description",

@@ -112,7 +112,7 @@ func (r *spaceSettingRepository) GetByID(ctx context.Context, id string) (*ent.S
 	}
 
 	// Use slave for reads
-	row, err := r.data.GetSlaveEntClient().SpaceSetting.Get(ctx, id)
+	row, err := r.data.GetReadEntClient().SpaceSetting.Get(ctx, id)
 	if err != nil {
 		logger.Errorf(ctx, "spaceSettingRepo.GetByID error: %v", err)
 		return nil, err
@@ -132,7 +132,7 @@ func (r *spaceSettingRepository) GetByKey(ctx context.Context, spaceID, key stri
 	}
 
 	// Fallback to database
-	row, err := r.data.GetSlaveEntClient().SpaceSetting.Query().
+	row, err := r.data.GetReadEntClient().SpaceSetting.Query().
 		Where(
 			spaceSettingEnt.SpaceIDEQ(spaceID),
 			spaceSettingEnt.SettingKeyEQ(key),
@@ -166,7 +166,7 @@ func (r *spaceSettingRepository) GetBySpaceID(ctx context.Context, spaceID strin
 	}
 
 	// Fallback to database
-	rows, err := r.data.GetSlaveEntClient().SpaceSetting.Query().
+	rows, err := r.data.GetReadEntClient().SpaceSetting.Query().
 		Where(spaceSettingEnt.SpaceIDEQ(spaceID)).
 		All(ctx)
 	if err != nil {
@@ -207,7 +207,7 @@ func (r *spaceSettingRepository) GetByCategory(ctx context.Context, spaceID, cat
 	}
 
 	// Fallback to database
-	rows, err := r.data.GetSlaveEntClient().SpaceSetting.Query().
+	rows, err := r.data.GetReadEntClient().SpaceSetting.Query().
 		Where(
 			spaceSettingEnt.SpaceIDEQ(spaceID),
 			spaceSettingEnt.CategoryEQ(category),
@@ -419,7 +419,7 @@ func (r *spaceSettingRepository) CountX(ctx context.Context, params *structs.Lis
 // buildListQuery builds the list query based on parameters
 func (r *spaceSettingRepository) buildListQuery(params *structs.ListSpaceSettingParams) *ent.SpaceSettingQuery {
 	// Use slave for reads
-	builder := r.data.GetSlaveEntClient().SpaceSetting.Query()
+	builder := r.data.GetReadEntClient().SpaceSetting.Query()
 
 	if params.SpaceID != "" {
 		builder.Where(spaceSettingEnt.SpaceIDEQ(params.SpaceID))

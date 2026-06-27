@@ -47,7 +47,7 @@ type taxonomyRepository struct {
 // NewTaxonomyRepository creates a new taxonomy repository.
 func NewTaxonomyRepository(d *data.Data) TaxonomyRepositoryInterface {
 	ec := d.GetMasterEntClient()
-	ecr := d.GetSlaveEntClient()
+	ecr := d.GetReadEntClient()
 	rc := d.GetRedis().(*redis.Client)
 	return &taxonomyRepository{
 		data: d,

@@ -113,7 +113,7 @@ func (r *sessionRepository) GetByID(ctx context.Context, id string) (*ent.Sessio
 	}
 
 	// Fallback to database
-	client := r.data.GetSlaveEntClient()
+	client := r.data.GetReadEntClient()
 	session, err := client.Session.Get(ctx, id)
 	if err != nil {
 		return nil, err
@@ -134,7 +134,7 @@ func (r *sessionRepository) GetByTokenID(ctx context.Context, tokenID string) (*
 	}
 
 	// Fallback to database
-	client := r.data.GetSlaveEntClient()
+	client := r.data.GetReadEntClient()
 	session, err := client.Session.Query().Where(sessionEnt.TokenIDEQ(tokenID)).Only(ctx)
 	if err != nil {
 		return nil, err
@@ -148,7 +148,7 @@ func (r *sessionRepository) GetByTokenID(ctx context.Context, tokenID string) (*
 
 // List retrieves sessions for user sessions
 func (r *sessionRepository) List(ctx context.Context, params *structs.ListSessionParams) ([]*ent.Session, error) {
-	client := r.data.GetSlaveEntClient()
+	client := r.data.GetReadEntClient()
 	builder := client.Session.Query()
 
 	// Apply filters
@@ -401,7 +401,7 @@ func (r *sessionRepository) CleanupExpiredSessions(ctx context.Context) error {
 
 // CountX counts sessions
 func (r *sessionRepository) CountX(ctx context.Context, params *structs.ListSessionParams) int {
-	client := r.data.GetSlaveEntClient()
+	client := r.data.GetReadEntClient()
 	builder := client.Session.Query()
 
 	if params.UserID != "" {

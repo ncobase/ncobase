@@ -242,7 +242,7 @@ func (r *dictionaryRepository) GetUsage(ctx context.Context, params *structs.Fin
 			optionsEnt.ValueContainsFold(term),
 		)
 	}
-	optionsRows, err := r.data.GetSlaveEntClient().Options.Query().
+	optionsRows, err := r.data.GetReadEntClient().Options.Query().
 		Where(optionsEnt.Or(optionPredicates...)).
 		All(ctx)
 	if err != nil {
@@ -274,7 +274,7 @@ func (r *dictionaryRepository) GetUsage(ctx context.Context, params *structs.Fin
 			menuEnt.ParentIDContainsFold(term),
 		)
 	}
-	menuRows, err := r.data.GetSlaveEntClient().Menu.Query().
+	menuRows, err := r.data.GetReadEntClient().Menu.Query().
 		Where(menuEnt.Or(menuPredicates...)).
 		All(ctx)
 	if err != nil {
@@ -303,7 +303,7 @@ func (r *dictionaryRepository) GetUsage(ctx context.Context, params *structs.Fin
 		})
 	}
 
-	menuExtrasRows, err := r.data.GetSlaveEntClient().Menu.Query().
+	menuExtrasRows, err := r.data.GetReadEntClient().Menu.Query().
 		Where(menuEnt.ExtrasNotNil()).
 		All(ctx)
 	if err != nil {
@@ -341,7 +341,7 @@ func (r *dictionaryRepository) GetUsage(ctx context.Context, params *structs.Fin
 			dictionaryEnt.ValueContainsFold(term),
 		)
 	}
-	dictionaryRows, err := r.data.GetSlaveEntClient().Dictionary.Query().
+	dictionaryRows, err := r.data.GetReadEntClient().Dictionary.Query().
 		Where(dictionaryEnt.And(
 			dictionaryEnt.IDNEQ(dict.ID),
 			dictionaryEnt.Or(dictionaryPredicates...),
@@ -442,7 +442,7 @@ func (r *dictionaryRepository) CountX(ctx context.Context, params *structs.ListD
 // listBuilder - create list builder.
 func (r *dictionaryRepository) listBuilder(_ context.Context, params *structs.ListDictionaryParams) (*ent.DictionaryQuery, error) {
 	// Use slave for reads
-	builder := r.data.GetSlaveEntClient().Dictionary.Query()
+	builder := r.data.GetReadEntClient().Dictionary.Query()
 
 	// Match type
 	if params.Type != "" {
@@ -456,7 +456,7 @@ func (r *dictionaryRepository) listBuilder(_ context.Context, params *structs.Li
 // internal method.
 func (r *dictionaryRepository) getDictionary(ctx context.Context, params *structs.FindDictionary) (*ent.Dictionary, error) {
 	// Use slave for reads
-	builder := r.data.GetSlaveEntClient().Dictionary.Query()
+	builder := r.data.GetReadEntClient().Dictionary.Query()
 
 	// Set where conditions
 	if validator.IsNotEmpty(params.Dictionary) {

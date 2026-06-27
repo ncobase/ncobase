@@ -38,12 +38,16 @@ func New(conf *config.Data, env ...string) (*Data, func(name ...string), error) 
 		return nil, cleanup, fmt.Errorf("failed to create AI ent client: %v", err)
 	}
 
+	readDB, err := d.GetSlaveDB()
+	if err != nil {
+		return nil, cleanup, fmt.Errorf("failed to resolve AI read database connection: %w", err)
+	}
+
 	entClientRead := entClient
-	if readDB, err := d.GetSlaveDB(); err == nil && readDB != nil && readDB != masterDB {
+	if readDB != nil && readDB != masterDB {
 		entClientRead, err = newEntClient(readDB, conf.Database.Master, false, env...)
 		if err != nil {
-			logger.Warnf(nil, "Failed to create AI read-only ent client, using master: %v", err)
-			entClientRead = entClient
+			return nil, cleanup, fmt.Errorf("failed to create AI read ent client: %w", err)
 		}
 	}
 
@@ -87,7 +91,8 @@ func (d *Data) GetMasterEntClient() *ent.Client {
 	return d.EC
 }
 
-func (d *Data) GetSlaveEntClient() *ent.Client {
+// GetReadEntClient returns the read ent client for read operations.
+func (d *Data) GetReadEntClient() *ent.Client {
 	if d.ECRead != nil {
 		return d.ECRead
 	}

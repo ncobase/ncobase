@@ -27,9 +27,9 @@ import (
 type Data struct {
 	*data.Data
 	EC         *ent.Client   // master ent client
-	ECRead     *ent.Client   // slave ent client for read operations
+	ECRead     *ent.Client   // read ent client for read operations
 	GormClient *gorm.DB      // master gorm client
-	GormRead   *gorm.DB      // slave gorm client for read operations
+	GormRead   *gorm.DB      // read gorm client for read operations
 	MC         *mongo.Client // master mongo client
 	MCRead     *mongo.Client // slave mongo client for read operations
 }
@@ -40,8 +40,6 @@ func New(conf *config.Data, env ...string) (*Data, func(name ...string), error) 
 	if err != nil {
 		return nil, nil, err
 	}
-
-	ctx := context.Background()
 
 	// get master connection
 	masterDB := d.GetMasterDB()
@@ -55,45 +53,31 @@ func New(conf *config.Data, env ...string) (*Data, func(name ...string), error) 
 		return nil, cleanup, fmt.Errorf("failed to create master ent client: %v", err)
 	}
 
-	// get read connection
-	var entClientRead *ent.Client
-	if readDB, err := d.GetSlaveDB(); err == nil && readDB != nil {
-		if readDB != masterDB {
-			entClientRead, err = newEntClient(readDB, conf.Database.Master, false, env...) // slave does not support migration
-			if err != nil {
-				logger.Warnf(ctx, "Failed to create read-only ent client, will use master for reads: %v", err)
-				entClientRead = entClient // fallback to master
-			}
-		} else {
-			// Read DB is the same as master (no slaves available)
-			entClientRead = entClient
+	readDB, err := d.GetSlaveDB()
+	if err != nil {
+		return nil, cleanup, fmt.Errorf("failed to resolve read database connection: %w", err)
+	}
+
+	entClientRead := entClient
+	if readDB != nil && readDB != masterDB {
+		entClientRead, err = newEntClient(readDB, conf.Database.Master, false, env...)
+		if err != nil {
+			return nil, cleanup, fmt.Errorf("failed to create read ent client: %w", err)
 		}
-	} else {
-		// Failed to get read DB, use master
-		entClientRead = entClient
 	}
 
 	// create gorm client
 	gormClient, err := newGormClient(masterDB, conf.Database.Master)
 	if err != nil {
-		return nil, nil, err
+		return nil, cleanup, err
 	}
 
-	var gormRead *gorm.DB
-	if readDB, err := d.GetSlaveDB(); err == nil && readDB != nil {
-		if readDB != masterDB {
-			gormRead, err = newGormClient(readDB, conf.Database.Master)
-			if err != nil {
-				logger.Warnf(ctx, "Failed to create read-only gorm client, will use master for reads: %v", err)
-				gormRead = gormClient // fallback to master
-			}
-		} else {
-			// Read DB is the same as master (no slaves available)
-			gormRead = gormClient
+	gormRead := gormClient
+	if readDB != nil && readDB != masterDB {
+		gormRead, err = newGormClient(readDB, conf.Database.Master)
+		if err != nil {
+			return nil, cleanup, fmt.Errorf("failed to create read gorm client: %w", err)
 		}
-	} else {
-		// Failed to get read DB, use master
-		gormRead = gormClient
 	}
 
 	// MongoDB is optional - check if it's configured
@@ -106,7 +90,7 @@ func New(conf *config.Data, env ...string) (*Data, func(name ...string), error) 
 		if mgmInterface, ok := mongoManager.(interface{ Master() *mongo.Client }); ok {
 			mongoMaster = mgmInterface.Master()
 
-			// Try to get slave client
+			// Try to get read client
 			if slaveInterface, ok := mongoManager.(interface{ Slave() (*mongo.Client, error) }); ok {
 				mongoSlave, _ = slaveInterface.Slave()
 			}
@@ -115,7 +99,6 @@ func New(conf *config.Data, env ...string) (*Data, func(name ...string), error) 
 			mongoMaster = client
 		}
 
-		// Fallback slave to master if not available
 		if mongoSlave == nil {
 			mongoSlave = mongoMaster
 		}
@@ -171,16 +154,16 @@ func (d *Data) GetMasterEntClient() *ent.Client {
 	return d.EC
 }
 
-// GetSlaveEntClient get slave ent client for read operations
-func (d *Data) GetSlaveEntClient() *ent.Client {
+// GetReadEntClient returns the read ent client for read operations.
+func (d *Data) GetReadEntClient() *ent.Client {
 	if d.ECRead != nil {
 		return d.ECRead
 	}
-	return d.EC // Fallback to master
+	return d.EC
 }
 
-// GetEntClientWithFallback returns the appropriate ent client based on operation type
-func (d *Data) GetEntClientWithFallback(ctx context.Context, readOnly ...bool) *ent.Client {
+// GetEntClient returns the appropriate ent client based on operation type
+func (d *Data) GetEntClient(ctx context.Context, readOnly ...bool) *ent.Client {
 	isReadOnly := false
 	if len(readOnly) > 0 {
 		isReadOnly = readOnly[0]
@@ -191,9 +174,8 @@ func (d *Data) GetEntClientWithFallback(ctx context.Context, readOnly ...bool) *
 		return d.GetMasterEntClient()
 	}
 
-	// For read operations, try read client first
+	// For read operations, use the configured read client when available
 	if d.ECRead != nil && d.ECRead != d.EC {
-		// We have a separate read client, use it
 		return d.ECRead
 	}
 
@@ -202,7 +184,7 @@ func (d *Data) GetEntClientWithFallback(ctx context.Context, readOnly ...bool) *
 		logger.Warnf(ctx, "System is in read-only mode, using available read connection")
 	}
 
-	// Fallback to master
+	// Use primary connection
 	return d.EC
 }
 
@@ -217,7 +199,7 @@ func (d *Data) GetEntTx(ctx context.Context) (*ent.Tx, error) {
 
 // WithEntTx wraps a function within an ent transaction for write operations
 func (d *Data) WithEntTx(ctx context.Context, fn func(ctx context.Context, tx *ent.Tx) error) error {
-	client := d.GetEntClientWithFallback(ctx)
+	client := d.GetEntClient(ctx)
 	if client == nil {
 		return fmt.Errorf("ent client is nil")
 	}
@@ -240,7 +222,7 @@ func (d *Data) WithEntTx(ctx context.Context, fn func(ctx context.Context, tx *e
 
 // WithEntTxRead wraps a function within an ent transaction for read-only operations
 func (d *Data) WithEntTxRead(ctx context.Context, fn func(ctx context.Context, tx *ent.Tx) error) error {
-	client := d.GetEntClientWithFallback(ctx, true)
+	client := d.GetEntClient(ctx, true)
 	if client == nil {
 		return fmt.Errorf("ent read client is nil")
 	}
