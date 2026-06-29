@@ -46,6 +46,8 @@ func (r *Router) Register(rg *gin.RouterGroup, prefix ...string) {
 	read.GET("/search", r.h.File.Search)
 	read.GET("/categories", r.h.File.ListCategories)
 	read.GET("/tags", r.h.File.ListTags)
+	read.GET("/:slug/delete-impact", r.h.File.GetDeleteImpact)
+	read.POST("/delete-impact", r.h.File.GetBatchDeleteImpact)
 
 	// File operations
 	read.GET("/:slug/versions", r.h.File.GetVersions)

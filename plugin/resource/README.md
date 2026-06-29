@@ -40,8 +40,10 @@ Object storage provider, endpoint, bucket, and credentials remain infrastructure
 - `GET /res` - List files
 - `POST /res` - Create file
 - `GET /res/:slug` - Get file details
+- `GET /res/:slug/delete-impact` - Check deletion impact for one file
 - `PUT /res/:slug` - Update file
-- `DELETE /res/:slug` - Delete file
+- `POST /res/delete-impact` - Check deletion impact for up to 100 unique files
+- `DELETE /res/:slug` - Delete file after reference checks pass
 
 ### Batch Operations
 

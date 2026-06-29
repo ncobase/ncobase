@@ -10,12 +10,13 @@ import (
 
 // Service contains all resource services
 type Service struct {
-	File   FileServiceInterface
-	Batch  BatchServiceInterface
-	Quota  QuotaServiceInterface
-	Admin  AdminServiceInterface
-	Space  *wrapper.SpaceServiceWrapper
-	Config ResourceConfigProvider
+	File    FileServiceInterface
+	Batch   BatchServiceInterface
+	Quota   QuotaServiceInterface
+	Admin   AdminServiceInterface
+	Space   *wrapper.SpaceServiceWrapper
+	Content *wrapper.ContentServiceWrapper
+	Config  ResourceConfigProvider
 }
 
 // New creates new resource service
@@ -30,25 +31,29 @@ func New(em ext.ManagerInterface, d *data.Data, publisher event.PublisherInterfa
 	// Create space service wrapper
 	spaceWrapper := wrapper.NewSpaceServiceWrapper(em)
 
+	// Create content service wrapper
+	contentWrapper := wrapper.NewContentServiceWrapper(em)
+
 	// Create quota service
 	quotaService := NewQuotaService(d, publisher, configProvider, spaceWrapper)
 
 	// Create file service
-	fileService := NewFileService(d, imageProcessor, quotaService, publisher, configProvider)
+	fileService := NewFileService(d, imageProcessor, quotaService, publisher, configProvider, contentWrapper)
 
 	// Create batch service
 	batchService := NewBatchService(fileService, imageProcessor, publisher, configProvider)
 
 	// Create admin service
-	adminService := NewAdminService(d, quotaService)
+	adminService := NewAdminService(d, quotaService, fileService)
 
 	return &Service{
-		File:   fileService,
-		Batch:  batchService,
-		Quota:  quotaService,
-		Admin:  adminService,
-		Space:  spaceWrapper,
-		Config: configProvider,
+		File:    fileService,
+		Batch:   batchService,
+		Quota:   quotaService,
+		Admin:   adminService,
+		Space:   spaceWrapper,
+		Content: contentWrapper,
+		Config:  configProvider,
 	}
 }
 
@@ -59,5 +64,8 @@ func (s *Service) RefreshDependencies() {
 	}
 	if s.Space != nil {
 		s.Space.RefreshServices()
+	}
+	if s.Content != nil {
+		s.Content.RefreshServices()
 	}
 }

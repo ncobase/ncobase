@@ -1833,6 +1833,64 @@ definitions:
       transaction_rate:
         $ref: '#/definitions/structs.MetricData'
     type: object
+  structs.DeleteImpact:
+    properties:
+      can_delete:
+        type: boolean
+      errors:
+        items:
+          type: string
+        type: array
+      file:
+        $ref: '#/definitions/structs.ReadFile'
+      media_reference_total:
+        type: integer
+      media_references:
+        items:
+          $ref: '#/definitions/structs.MediaReference'
+        type: array
+      media_references_complete:
+        type: boolean
+      topic_reference_total:
+        type: integer
+      topic_references:
+        items:
+          $ref: '#/definitions/structs.TopicReference'
+        type: array
+      topic_references_complete:
+        type: boolean
+    type: object
+  structs.DeleteImpactRequest:
+    properties:
+      ids:
+        items:
+          type: string
+        type: array
+    type: object
+  structs.DeleteImpactResponse:
+    properties:
+      impacts:
+        items:
+          $ref: '#/definitions/structs.DeleteImpact'
+        type: array
+      summary:
+        $ref: '#/definitions/structs.DeleteImpactSummary'
+    type: object
+  structs.DeleteImpactSummary:
+    properties:
+      can_delete:
+        type: boolean
+      error_count:
+        type: integer
+      file_count:
+        type: integer
+      media_reference_count:
+        type: integer
+      referenced_file_count:
+        type: integer
+      topic_reference_count:
+        type: integer
+    type: object
   structs.DictionaryBody:
     properties:
       created_by:
@@ -2151,6 +2209,44 @@ definitions:
       maintenance_mode:
         type: boolean
       message:
+        type: string
+    type: object
+  structs.MediaReference:
+    properties:
+      alt:
+        type: string
+      created_at:
+        type: integer
+      created_by:
+        type: string
+      description:
+        type: string
+      id:
+        type: string
+      metadata:
+        additionalProperties: {}
+        type: object
+      mime_type:
+        type: string
+      owner_id:
+        type: string
+      path:
+        type: string
+      resource_id:
+        type: string
+      size:
+        type: integer
+      space_id:
+        type: string
+      title:
+        type: string
+      type:
+        type: string
+      updated_at:
+        type: integer
+      updated_by:
+        type: string
+      url:
         type: string
     type: object
   structs.MenuBody:
@@ -4233,6 +4329,67 @@ definitions:
         type: string
       value:
         type: number
+    type: object
+  structs.TopicMediaReference:
+    properties:
+      created_at:
+        type: integer
+      created_by:
+        type: string
+      id:
+        type: string
+      media_id:
+        type: string
+      order:
+        type: integer
+      topic_id:
+        type: string
+      type:
+        type: string
+      updated_at:
+        type: integer
+      updated_by:
+        type: string
+    type: object
+  structs.TopicReference:
+    properties:
+      media:
+        $ref: '#/definitions/structs.MediaReference'
+      relation:
+        $ref: '#/definitions/structs.TopicMediaReference'
+      topic:
+        $ref: '#/definitions/structs.TopicSummary'
+    type: object
+  structs.TopicSummary:
+    properties:
+      content_type:
+        type: string
+      created_at:
+        type: integer
+      created_by:
+        type: string
+      featured_media:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      slug:
+        type: string
+      space_id:
+        type: string
+      status:
+        type: integer
+      tags:
+        items:
+          type: string
+        type: array
+      title:
+        type: string
+      updated_at:
+        type: integer
+      updated_by:
+        type: string
     type: object
   structs.TwoFactorDisableBody:
     properties:
@@ -9006,6 +9163,32 @@ paths:
       summary: Set access level
       tags:
       - Resource
+  /res/{slug}/delete-impact:
+    get:
+      description: Return CMS media and topic references that would block deleting
+        a file.
+      parameters:
+      - description: File slug
+        in: path
+        name: slug
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.DeleteImpact'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      security:
+      - Bearer: []
+      summary: Get resource delete impact
+      tags:
+      - Resource
   /res/{slug}/download:
     get:
       description: Download a file
@@ -9712,6 +9895,35 @@ paths:
       security:
       - Bearer: []
       summary: List file categories
+      tags:
+      - Resource
+  /res/delete-impact:
+    post:
+      consumes:
+      - application/json
+      description: Return CMS media and topic references that would block deleting
+        one or more files.
+      parameters:
+      - description: File IDs
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/structs.DeleteImpactRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/structs.DeleteImpactResponse'
+        "400":
+          description: bad request
+          schema:
+            $ref: '#/definitions/resp.Exception'
+      security:
+      - Bearer: []
+      summary: Get batch resource delete impact
       tags:
       - Resource
   /res/dl/{slug}:

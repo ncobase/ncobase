@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"io"
 	"mime"
+	contentStructs "ncobase/biz/content/structs"
 	"ncobase/plugin/resource/data"
 	"ncobase/plugin/resource/data/repository"
 	"ncobase/plugin/resource/event"
@@ -21,6 +22,7 @@ import (
 	"github.com/ncobase/ncore/data/paging"
 	"github.com/ncobase/ncore/ecode"
 	"github.com/ncobase/ncore/logging/logger"
+	"github.com/ncobase/ncore/oss"
 	"github.com/ncobase/ncore/types"
 	"github.com/ncobase/ncore/utils/nanoid"
 	"github.com/ncobase/ncore/validation/validator"
@@ -32,6 +34,7 @@ type FileServiceInterface interface {
 	Get(ctx context.Context, slug string) (*structs.ReadFile, error)
 	GetPublic(ctx context.Context, slug string) (*structs.ReadFile, error)
 	GetByShareToken(ctx context.Context, token string) (*structs.ReadFile, error)
+	DeleteImpact(ctx context.Context, slugs []string) (*structs.DeleteImpactResponse, error)
 	Delete(ctx context.Context, slug string) error
 	List(ctx context.Context, params *structs.ListFileParams) (paging.Result[*structs.ReadFile], error)
 	GetFileStream(ctx context.Context, slug string) (io.ReadCloser, *structs.ReadFile, error)
@@ -46,12 +49,20 @@ type FileServiceInterface interface {
 	GetTagsByOwner(ctx context.Context, ownerID string) ([]string, error)
 }
 
+type contentReferenceResolver interface {
+	HasContentServices() bool
+	ListMedia(ctx context.Context, params *contentStructs.ListMediaParams) (paging.Result[*contentStructs.ReadMedia], error)
+	ListTopicMedia(ctx context.Context, params *contentStructs.ListTopicMediaParams) (paging.Result[*contentStructs.ReadTopicMedia], error)
+	GetTopic(ctx context.Context, id string) (*contentStructs.ReadTopic, error)
+}
+
 type fileService struct {
 	fileRepo       repository.FileRepositoryInterface
 	imageProcessor ImageProcessorInterface
 	quotaService   QuotaServiceInterface
 	publisher      event.PublisherInterface
 	configProvider ResourceConfigProvider
+	content        contentReferenceResolver
 }
 
 type bufferedMultipartFile struct {
@@ -68,6 +79,7 @@ func NewFileService(
 	quotaService QuotaServiceInterface,
 	publisher event.PublisherInterface,
 	configProvider ResourceConfigProvider,
+	contentWrapper contentReferenceResolver,
 ) FileServiceInterface {
 	if configProvider == nil {
 		configProvider = NewDefaultConfigProvider()
@@ -78,7 +90,17 @@ func NewFileService(
 		quotaService:   quotaService,
 		publisher:      publisher,
 		configProvider: configProvider,
+		content:        contentWrapper,
 	}
+}
+
+// ResourceDeleteBlockedError reports dependent references that block deletion.
+type ResourceDeleteBlockedError struct {
+	Impact *structs.DeleteImpactResponse
+}
+
+func (e *ResourceDeleteBlockedError) Error() string {
+	return "resource deletion is blocked by dependent references"
 }
 
 func (s *fileService) findFileByHash(ctx context.Context, ownerID, hash string) (*structs.ReadFile, error) {
@@ -175,6 +197,16 @@ func (s *fileService) publishFileAccessed(ctx context.Context, file *structs.Rea
 		UserID:  ctxutil.GetUserID(ctx),
 		Extras:  &extras,
 	})
+}
+
+func storageFromContext(ctx context.Context) (client oss.Interface, config *oss.Config) {
+	defer func() {
+		if recover() != nil {
+			client = nil
+			config = nil
+		}
+	}()
+	return ctxutil.GetStorage(ctx)
 }
 
 // Create creates a new file
@@ -719,19 +751,320 @@ func appendUniqueString(values []string, value string) []string {
 	return append(values, value)
 }
 
+const (
+	deleteImpactPageSize = 100
+	deleteImpactMaxPages = 20
+)
+
+func cleanDeleteImpactSlugs(slugs []string) []string {
+	seen := make(map[string]struct{}, len(slugs))
+	result := make([]string, 0, len(slugs))
+	for _, slug := range slugs {
+		slug = strings.TrimSpace(slug)
+		if slug == "" {
+			continue
+		}
+		if _, exists := seen[slug]; exists {
+			continue
+		}
+		seen[slug] = struct{}{}
+		result = append(result, slug)
+	}
+	return result
+}
+
+func newDeleteImpact(file *structs.ReadFile) *structs.DeleteImpact {
+	return &structs.DeleteImpact{
+		File:                    file,
+		MediaReferences:         []*structs.MediaReference{},
+		TopicReferences:         []*structs.TopicReference{},
+		MediaReferencesComplete: true,
+		TopicReferencesComplete: true,
+		Errors:                  []string{},
+		CanDelete:               true,
+	}
+}
+
+func toMediaReference(media *contentStructs.ReadMedia) *structs.MediaReference {
+	if media == nil {
+		return nil
+	}
+	var metadata map[string]any
+	if media.Metadata != nil {
+		metadata = map[string]any(*media.Metadata)
+	}
+	return &structs.MediaReference{
+		ID:          media.ID,
+		Title:       media.Title,
+		Type:        media.Type,
+		ResourceID:  media.ResourceID,
+		URL:         media.URL,
+		Path:        media.Path,
+		MimeType:    media.MimeType,
+		Size:        media.Size,
+		Description: media.Description,
+		Alt:         media.Alt,
+		SpaceID:     media.SpaceID,
+		OwnerID:     media.OwnerID,
+		Metadata:    metadata,
+		CreatedBy:   media.CreatedBy,
+		CreatedAt:   media.CreatedAt,
+		UpdatedBy:   media.UpdatedBy,
+		UpdatedAt:   media.UpdatedAt,
+	}
+}
+
+func toTopicMediaReference(relation *contentStructs.ReadTopicMedia) *structs.TopicMediaReference {
+	if relation == nil {
+		return nil
+	}
+	return &structs.TopicMediaReference{
+		ID:        relation.ID,
+		TopicID:   relation.TopicID,
+		MediaID:   relation.MediaID,
+		Type:      relation.Type,
+		Order:     relation.Order,
+		CreatedBy: relation.CreatedBy,
+		CreatedAt: relation.CreatedAt,
+		UpdatedBy: relation.UpdatedBy,
+		UpdatedAt: relation.UpdatedAt,
+	}
+}
+
+func toTopicSummary(topic *contentStructs.ReadTopic) *structs.TopicSummary {
+	if topic == nil {
+		return nil
+	}
+	return &structs.TopicSummary{
+		ID:            topic.ID,
+		Name:          topic.Name,
+		Title:         topic.Title,
+		Slug:          topic.Slug,
+		ContentType:   topic.ContentType,
+		Status:        topic.Status,
+		FeaturedMedia: topic.FeaturedMedia,
+		Tags:          append([]string{}, topic.Tags...),
+		SpaceID:       topic.SpaceID,
+		CreatedBy:     topic.CreatedBy,
+		CreatedAt:     topic.CreatedAt,
+		UpdatedBy:     topic.UpdatedBy,
+		UpdatedAt:     topic.UpdatedAt,
+	}
+}
+
+func summarizeDeleteImpacts(impacts []*structs.DeleteImpact) *structs.DeleteImpactSummary {
+	summary := &structs.DeleteImpactSummary{
+		FileCount: len(impacts),
+		CanDelete: true,
+	}
+	for _, impact := range impacts {
+		if impact == nil {
+			continue
+		}
+		summary.MediaReferenceCount += impact.MediaReferenceTotal
+		summary.TopicReferenceCount += impact.TopicReferenceTotal
+		summary.ErrorCount += len(impact.Errors)
+		if impact.MediaReferenceTotal > 0 || impact.TopicReferenceTotal > 0 {
+			summary.ReferencedFileCount++
+		}
+		if !impact.CanDelete {
+			summary.CanDelete = false
+		}
+	}
+	if summary.ErrorCount > 0 || summary.ReferencedFileCount > 0 {
+		summary.CanDelete = false
+	}
+	return summary
+}
+
+func (s *fileService) listContentMediaReferences(ctx context.Context, fileID string) ([]*contentStructs.ReadMedia, int, bool, []string) {
+	if s.content == nil || !s.content.HasContentServices() {
+		return []*contentStructs.ReadMedia{}, 0, false, []string{"content reference services are unavailable"}
+	}
+
+	spaceID := ctxutil.GetSpaceID(ctx)
+	var cursor string
+	items := make([]*contentStructs.ReadMedia, 0)
+	total := 0
+	errorsList := make([]string, 0)
+
+	for page := 0; page < deleteImpactMaxPages; page++ {
+		result, err := s.content.ListMedia(ctx, &contentStructs.ListMediaParams{
+			Cursor:     cursor,
+			Limit:      deleteImpactPageSize,
+			ResourceID: fileID,
+			SpaceID:    spaceID,
+		})
+		if err != nil {
+			return items, total, false, append(errorsList, fmt.Sprintf("failed to load media references: %v", err))
+		}
+
+		items = append(items, result.Items...)
+		if result.Total > total {
+			total = result.Total
+		}
+		if !result.HasNext {
+			return items, total, true, errorsList
+		}
+		if result.NextCursor == "" {
+			return items, total, false, append(errorsList, "media reference pagination did not return a next cursor")
+		}
+		cursor = result.NextCursor
+	}
+
+	return items, total, false, append(errorsList, "media reference pagination exceeded the page limit")
+}
+
+func (s *fileService) listTopicMediaReferences(ctx context.Context, mediaID string) ([]*contentStructs.ReadTopicMedia, int, bool, []string) {
+	if s.content == nil || !s.content.HasContentServices() {
+		return []*contentStructs.ReadTopicMedia{}, 0, true, nil
+	}
+
+	var cursor string
+	items := make([]*contentStructs.ReadTopicMedia, 0)
+	total := 0
+	errorsList := make([]string, 0)
+
+	for page := 0; page < deleteImpactMaxPages; page++ {
+		result, err := s.content.ListTopicMedia(ctx, &contentStructs.ListTopicMediaParams{
+			Cursor:  cursor,
+			Limit:   deleteImpactPageSize,
+			MediaID: mediaID,
+		})
+		if err != nil {
+			return items, total, false, append(errorsList, fmt.Sprintf("failed to load topic references for media %s: %v", mediaID, err))
+		}
+
+		items = append(items, result.Items...)
+		if result.Total > total {
+			total = result.Total
+		}
+		if !result.HasNext {
+			return items, total, true, errorsList
+		}
+		if result.NextCursor == "" {
+			return items, total, false, append(errorsList, fmt.Sprintf("topic reference pagination for media %s did not return a next cursor", mediaID))
+		}
+		cursor = result.NextCursor
+	}
+
+	return items, total, false, append(errorsList, fmt.Sprintf("topic reference pagination for media %s exceeded the page limit", mediaID))
+}
+
+func (s *fileService) loadTopicSummary(ctx context.Context, topicID string) *structs.TopicSummary {
+	if topicID == "" || s.content == nil || !s.content.HasContentServices() {
+		return nil
+	}
+	topic, err := s.content.GetTopic(ctx, topicID)
+	if err != nil {
+		logger.Warnf(ctx, "Failed to load topic %s for resource delete impact: %v", topicID, err)
+		return nil
+	}
+	return toTopicSummary(topic)
+}
+
+func (s *fileService) buildDeleteImpact(ctx context.Context, file *structs.ReadFile) *structs.DeleteImpact {
+	impact := newDeleteImpact(file)
+	if file == nil {
+		impact.CanDelete = false
+		impact.Errors = append(impact.Errors, "file not found")
+		return impact
+	}
+
+	mediaRows, mediaTotal, mediaComplete, mediaErrors := s.listContentMediaReferences(ctx, file.ID)
+	impact.MediaReferenceTotal = mediaTotal
+	impact.MediaReferencesComplete = mediaComplete
+	impact.Errors = append(impact.Errors, mediaErrors...)
+
+	mediaByID := make(map[string]*structs.MediaReference, len(mediaRows))
+	for _, media := range mediaRows {
+		ref := toMediaReference(media)
+		if ref == nil {
+			continue
+		}
+		impact.MediaReferences = append(impact.MediaReferences, ref)
+		mediaByID[ref.ID] = ref
+	}
+
+	for _, media := range mediaRows {
+		if media == nil || media.ID == "" {
+			continue
+		}
+		relationRows, relationTotal, relationComplete, relationErrors := s.listTopicMediaReferences(ctx, media.ID)
+		impact.TopicReferenceTotal += relationTotal
+		if !relationComplete {
+			impact.TopicReferencesComplete = false
+		}
+		impact.Errors = append(impact.Errors, relationErrors...)
+
+		mediaRef := mediaByID[media.ID]
+		for _, relation := range relationRows {
+			if relation == nil {
+				continue
+			}
+			impact.TopicReferences = append(impact.TopicReferences, &structs.TopicReference{
+				Media:    mediaRef,
+				Relation: toTopicMediaReference(relation),
+				Topic:    s.loadTopicSummary(ctx, relation.TopicID),
+			})
+		}
+	}
+
+	impact.CanDelete = impact.MediaReferenceTotal == 0 && impact.TopicReferenceTotal == 0 && len(impact.Errors) == 0
+	return impact
+}
+
+// DeleteImpact returns dependent references that would be affected by file deletion.
+func (s *fileService) DeleteImpact(ctx context.Context, slugs []string) (*structs.DeleteImpactResponse, error) {
+	slugs = cleanDeleteImpactSlugs(slugs)
+	if len(slugs) == 0 {
+		return nil, errors.New(ecode.FieldIsRequired("ids"))
+	}
+	if len(slugs) > structs.DeleteImpactMaxFiles {
+		return nil, fmt.Errorf("delete impact accepts at most %d files", structs.DeleteImpactMaxFiles)
+	}
+
+	impacts := make([]*structs.DeleteImpact, 0, len(slugs))
+	for _, slug := range slugs {
+		file, err := s.Get(ctx, slug)
+		if err != nil {
+			impact := newDeleteImpact(&structs.ReadFile{ID: slug})
+			impact.Errors = append(impact.Errors, err.Error())
+			impact.CanDelete = false
+			impacts = append(impacts, impact)
+			continue
+		}
+		impacts = append(impacts, s.buildDeleteImpact(ctx, file.InternalView()))
+	}
+
+	return &structs.DeleteImpactResponse{
+		Impacts: impacts,
+		Summary: summarizeDeleteImpacts(impacts),
+	}, nil
+}
+
 // Delete deletes file
 func (s *fileService) Delete(ctx context.Context, slug string) error {
 	if validator.IsEmpty(slug) {
 		return errors.New(ecode.FieldIsRequired("slug"))
 	}
 
-	storageClient, _ := ctxutil.GetStorage(ctx)
-
-	// Get file details
+	// Resolve the file before the impact check so missing files keep their
+	// original not-found semantics instead of being reported as reference blocks.
 	row, err := s.fileRepo.GetByID(ctx, slug)
 	if err != nil {
 		return errors.New("error retrieving file")
 	}
+
+	impact, err := s.DeleteImpact(ctx, []string{slug})
+	if err != nil {
+		return err
+	}
+	if impact.Summary != nil && !impact.Summary.CanDelete {
+		return &ResourceDeleteBlockedError{Impact: impact}
+	}
+
+	storageClient, _ := storageFromContext(ctx)
 
 	// Get thumbnail path
 	thumbnailPath := ""

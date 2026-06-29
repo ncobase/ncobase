@@ -3,6 +3,7 @@ package handler
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"mime/multipart"
@@ -33,6 +34,8 @@ type FileHandlerInterface interface {
 	Search(c *gin.Context)
 	ListCategories(c *gin.Context)
 	ListTags(c *gin.Context)
+	GetDeleteImpact(c *gin.Context)
+	GetBatchDeleteImpact(c *gin.Context)
 	GetVersions(c *gin.Context)
 	CreateVersion(c *gin.Context)
 	CreateThumbnail(c *gin.Context)
@@ -54,6 +57,23 @@ func NewFileHandler(s *service.Service) FileHandlerInterface {
 }
 
 const defaultMultipartMemoryLimit int64 = 32 << 20 // 32 MB
+
+func normalizeDeleteImpactIDs(ids []string) []string {
+	seen := make(map[string]struct{}, len(ids))
+	normalized := make([]string, 0, len(ids))
+	for _, id := range ids {
+		id = strings.TrimSpace(id)
+		if id == "" {
+			continue
+		}
+		if _, exists := seen[id]; exists {
+			continue
+		}
+		seen[id] = struct{}{}
+		normalized = append(normalized, id)
+	}
+	return normalized
+}
 
 func (h *fileHandler) multipartMemoryLimit(ctx context.Context) int64 {
 	limit := defaultMultipartMemoryLimit
@@ -666,11 +686,106 @@ func (h *fileHandler) Delete(c *gin.Context) {
 	}
 
 	if err := h.s.File.Delete(c.Request.Context(), slug); err != nil {
+		var blocked *service.ResourceDeleteBlockedError
+		if errors.As(err, &blocked) {
+			resp.Fail(c.Writer, resp.Conflict(err.Error(), blocked.Impact))
+			return
+		}
 		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
 		return
 	}
 
 	resp.Success(c.Writer)
+}
+
+// GetDeleteImpact handles delete impact checks for a single file.
+//
+// @Summary Get resource delete impact
+// @Description Return CMS media and topic references that would block deleting a file.
+// @Tags Resource
+// @Produce json
+// @Param slug path string true "File slug"
+// @Success 200 {object} structs.DeleteImpact "success"
+// @Failure 400 {object} resp.Exception "bad request"
+// @Router /res/{slug}/delete-impact [get]
+// @Security Bearer
+func (h *fileHandler) GetDeleteImpact(c *gin.Context) {
+	slug := c.Param("slug")
+	if slug == "" {
+		resp.Fail(c.Writer, resp.BadRequest(ecode.FieldIsRequired("slug")))
+		return
+	}
+
+	file, err := h.s.File.Get(c.Request.Context(), slug)
+	if err != nil {
+		resp.Fail(c.Writer, resp.InternalServer(err.Error()))
+		return
+	}
+	if err := h.authorizeFileAccess(c.Request.Context(), file); err != nil {
+		resp.Fail(c.Writer, resp.Forbidden(err.Error()))
+		return
+	}
+
+	result, err := h.s.File.DeleteImpact(c.Request.Context(), []string{slug})
+	if err != nil {
+		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+		return
+	}
+	if len(result.Impacts) == 0 {
+		resp.Fail(c.Writer, resp.NotFound("delete impact not found"))
+		return
+	}
+
+	resp.Success(c.Writer, result.Impacts[0])
+}
+
+// GetBatchDeleteImpact handles delete impact checks for multiple files.
+//
+// @Summary Get batch resource delete impact
+// @Description Return CMS media and topic references that would block deleting one or more files.
+// @Tags Resource
+// @Accept json
+// @Produce json
+// @Param body body structs.DeleteImpactRequest true "File IDs"
+// @Success 200 {object} structs.DeleteImpactResponse "success"
+// @Failure 400 {object} resp.Exception "bad request"
+// @Router /res/delete-impact [post]
+// @Security Bearer
+func (h *fileHandler) GetBatchDeleteImpact(c *gin.Context) {
+	var body structs.DeleteImpactRequest
+	if err := c.ShouldBindJSON(&body); err != nil {
+		resp.Fail(c.Writer, resp.BadRequest("Invalid request body"))
+		return
+	}
+	ids := normalizeDeleteImpactIDs(body.IDs)
+	if len(ids) == 0 {
+		resp.Fail(c.Writer, resp.BadRequest(ecode.FieldIsRequired("ids")))
+		return
+	}
+	if len(ids) > structs.DeleteImpactMaxFiles {
+		resp.Fail(c.Writer, resp.BadRequest(fmt.Sprintf("delete impact accepts at most %d files", structs.DeleteImpactMaxFiles)))
+		return
+	}
+
+	for _, id := range ids {
+		file, err := h.s.File.Get(c.Request.Context(), id)
+		if err != nil {
+			resp.Fail(c.Writer, resp.NotFound("File not found: "+id))
+			return
+		}
+		if err := h.authorizeFileAccess(c.Request.Context(), file); err != nil {
+			resp.Fail(c.Writer, resp.Forbidden(err.Error()))
+			return
+		}
+	}
+
+	result, err := h.s.File.DeleteImpact(c.Request.Context(), ids)
+	if err != nil {
+		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+		return
+	}
+
+	resp.Success(c.Writer, result)
 }
 
 // List handles file listing

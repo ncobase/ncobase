@@ -6896,6 +6896,51 @@ const docTemplate = `{
                 }
             }
         },
+        "/res/delete-impact": {
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Return CMS media and topic references that would block deleting one or more files.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Resource"
+                ],
+                "summary": "Get batch resource delete impact",
+                "parameters": [
+                    {
+                        "description": "File IDs",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/structs.DeleteImpactRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/structs.DeleteImpactResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
         "/res/dl/{slug}": {
             "get": {
                 "description": "Download a public file directly",
@@ -7473,6 +7518,46 @@ const docTemplate = `{
                         "description": "success",
                         "schema": {
                             "$ref": "#/definitions/structs.ReadFile"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "$ref": "#/definitions/resp.Exception"
+                        }
+                    }
+                }
+            }
+        },
+        "/res/{slug}/delete-impact": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Return CMS media and topic references that would block deleting a file.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Resource"
+                ],
+                "summary": "Get resource delete impact",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "File slug",
+                        "name": "slug",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/structs.DeleteImpact"
                         }
                     },
                     "400": {
@@ -20131,6 +20216,95 @@ const docTemplate = `{
                 }
             }
         },
+        "structs.DeleteImpact": {
+            "type": "object",
+            "properties": {
+                "can_delete": {
+                    "type": "boolean"
+                },
+                "errors": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "file": {
+                    "$ref": "#/definitions/structs.ReadFile"
+                },
+                "media_reference_total": {
+                    "type": "integer"
+                },
+                "media_references": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/structs.MediaReference"
+                    }
+                },
+                "media_references_complete": {
+                    "type": "boolean"
+                },
+                "topic_reference_total": {
+                    "type": "integer"
+                },
+                "topic_references": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/structs.TopicReference"
+                    }
+                },
+                "topic_references_complete": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "structs.DeleteImpactRequest": {
+            "type": "object",
+            "properties": {
+                "ids": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "structs.DeleteImpactResponse": {
+            "type": "object",
+            "properties": {
+                "impacts": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/structs.DeleteImpact"
+                    }
+                },
+                "summary": {
+                    "$ref": "#/definitions/structs.DeleteImpactSummary"
+                }
+            }
+        },
+        "structs.DeleteImpactSummary": {
+            "type": "object",
+            "properties": {
+                "can_delete": {
+                    "type": "boolean"
+                },
+                "error_count": {
+                    "type": "integer"
+                },
+                "file_count": {
+                    "type": "integer"
+                },
+                "media_reference_count": {
+                    "type": "integer"
+                },
+                "referenced_file_count": {
+                    "type": "integer"
+                },
+                "topic_reference_count": {
+                    "type": "integer"
+                }
+            }
+        },
         "structs.DictionaryBody": {
             "type": "object",
             "properties": {
@@ -20601,6 +20775,63 @@ const docTemplate = `{
                     "type": "boolean"
                 },
                 "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "structs.MediaReference": {
+            "type": "object",
+            "properties": {
+                "alt": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "integer"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "metadata": {
+                    "type": "object",
+                    "additionalProperties": {}
+                },
+                "mime_type": {
+                    "type": "string"
+                },
+                "owner_id": {
+                    "type": "string"
+                },
+                "path": {
+                    "type": "string"
+                },
+                "resource_id": {
+                    "type": "string"
+                },
+                "size": {
+                    "type": "integer"
+                },
+                "space_id": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "integer"
+                },
+                "updated_by": {
+                    "type": "string"
+                },
+                "url": {
                     "type": "string"
                 }
             }
@@ -23718,6 +23949,99 @@ const docTemplate = `{
                 },
                 "value": {
                     "type": "number"
+                }
+            }
+        },
+        "structs.TopicMediaReference": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "integer"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "media_id": {
+                    "type": "string"
+                },
+                "order": {
+                    "type": "integer"
+                },
+                "topic_id": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "integer"
+                },
+                "updated_by": {
+                    "type": "string"
+                }
+            }
+        },
+        "structs.TopicReference": {
+            "type": "object",
+            "properties": {
+                "media": {
+                    "$ref": "#/definitions/structs.MediaReference"
+                },
+                "relation": {
+                    "$ref": "#/definitions/structs.TopicMediaReference"
+                },
+                "topic": {
+                    "$ref": "#/definitions/structs.TopicSummary"
+                }
+            }
+        },
+        "structs.TopicSummary": {
+            "type": "object",
+            "properties": {
+                "content_type": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "integer"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "featured_media": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "slug": {
+                    "type": "string"
+                },
+                "space_id": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "integer"
+                },
+                "tags": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "title": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "integer"
+                },
+                "updated_by": {
+                    "type": "string"
                 }
             }
         },

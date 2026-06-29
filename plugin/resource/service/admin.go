@@ -55,16 +55,18 @@ type adminService struct {
 	data         *data.Data
 	fileRepo     repository.FileRepositoryInterface
 	quotaService QuotaServiceInterface
+	fileService  FileServiceInterface
 	batchJobs    map[string]*structs.BatchJob
 	batchJobsMu  sync.RWMutex
 }
 
 // NewAdminService creates new admin service
-func NewAdminService(d *data.Data, quotaService QuotaServiceInterface) AdminServiceInterface {
+func NewAdminService(d *data.Data, quotaService QuotaServiceInterface, fileService FileServiceInterface) AdminServiceInterface {
 	return &adminService{
 		data:         d,
 		fileRepo:     repository.NewFileRepository(d),
 		quotaService: quotaService,
+		fileService:  fileService,
 		batchJobs:    make(map[string]*structs.BatchJob),
 	}
 }
@@ -103,13 +105,16 @@ func (s *adminService) ListFiles(ctx context.Context, params *structs.AdminFileL
 
 // DeleteFile deletes a file with admin privileges
 func (s *adminService) DeleteFile(ctx context.Context, slug string) error {
+	if s.fileService != nil {
+		return s.fileService.Delete(ctx, slug)
+	}
+
 	file, err := s.fileRepo.GetByID(ctx, slug)
 	if err != nil {
 		return fmt.Errorf("failed to get file before deletion: %w", err)
 	}
 
-	err = s.fileRepo.Delete(ctx, slug)
-	if err != nil {
+	if err = s.fileRepo.Delete(ctx, slug); err != nil {
 		return fmt.Errorf("failed to delete file: %w", err)
 	}
 	s.refreshQuotaAfterFileRemoval(ctx, file.OwnerID, file.Extras)

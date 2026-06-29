@@ -44,6 +44,11 @@ func respondResourceAdminError(c *gin.Context, err error) {
 		resp.Fail(c.Writer, resp.ServiceUnavailable(err.Error()))
 		return
 	}
+	var blocked *service.ResourceDeleteBlockedError
+	if errors.As(err, &blocked) {
+		resp.Fail(c.Writer, resp.Conflict(err.Error(), blocked.Impact))
+		return
+	}
 	resp.Fail(c.Writer, resp.BadRequest(err.Error()))
 }
 
@@ -102,7 +107,7 @@ func (h *adminHandler) DeleteFile(c *gin.Context) {
 
 	err := h.adminService.DeleteFile(c.Request.Context(), slug)
 	if err != nil {
-		resp.Fail(c.Writer, resp.BadRequest(err.Error()))
+		respondResourceAdminError(c, err)
 		return
 	}
 	resp.Success(c.Writer, nil)
