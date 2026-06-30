@@ -94,8 +94,7 @@ func (p *Plugin) registerCRMSyncHooks(ctx context.Context) error {
 		if contacts, ok := responseData["contacts"].([]any); ok {
 			for _, contact := range contacts {
 				if contactMap, ok := contact.(map[string]any); ok {
-					// Create or update user from contact data
-					// This is simplified, you would need more complex logic in real implementation
+					// Attach the existing user ID when CRM contact email matches an account.
 					if email, ok := contactMap["email"].(string); ok {
 						user, err := p.userService.User.FindUser(ctx, &userStructs.FindUser{Email: email})
 						if err == nil {

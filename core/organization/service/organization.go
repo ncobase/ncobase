@@ -7,9 +7,9 @@ import (
 	"ncobase/core/organization/data/repository"
 	"ncobase/core/organization/structs"
 
-	"github.com/ncobase/ncore/data/paging"
 	"github.com/ncobase/ncore/ecode"
 	"github.com/ncobase/ncore/logging/logger"
+	"github.com/ncobase/ncore/paging"
 	"github.com/ncobase/ncore/types"
 )
 
@@ -114,9 +114,9 @@ func (s *organizationService) List(ctx context.Context, params *structs.ListOrga
 
 		rows, total, err := s.r.ListWithCount(ctx, &lp)
 		if err != nil {
-		if repository.IsNotFound(err) {
-			return nil, 0, errors.New(ecode.FieldIsInvalid("cursor"))
-		}
+			if repository.IsNotFound(err) {
+				return nil, 0, errors.New(ecode.FieldIsInvalid("cursor"))
+			}
 			logger.Errorf(ctx, "Error listing organizations: %v", err)
 			return nil, 0, err
 		}

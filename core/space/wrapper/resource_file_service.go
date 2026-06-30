@@ -5,8 +5,8 @@ import (
 	"fmt"
 	resourceStructs "ncobase/plugin/resource/structs"
 
-	"github.com/ncobase/ncore/data/paging"
 	ext "github.com/ncobase/ncore/extension/types"
+	"github.com/ncobase/ncore/paging"
 )
 
 // ResourceFileServiceInterface defines file service interface for resource module

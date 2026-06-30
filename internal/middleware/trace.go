@@ -7,7 +7,7 @@ import (
 
 	"github.com/ncobase/ncore/consts"
 	"github.com/ncobase/ncore/ctxutil"
-	"github.com/ncobase/ncore/logging/observes"
+	"github.com/ncobase/ncore/logging/tracing"
 
 	"github.com/gin-gonic/gin"
 	"go.opentelemetry.io/otel/attribute"
@@ -44,7 +44,7 @@ func Trace(c *gin.Context) {
 	if path == "" {
 		path = c.FullPath()
 	}
-	tc := observes.NewTracingContext(ctx, path, 100)
+	tc := tracing.NewTracingContext(ctx, path, 100)
 	defer tc.End()
 
 	tc.SetAttributes(
@@ -55,7 +55,7 @@ func Trace(c *gin.Context) {
 		attribute.String("user.agent", c.GetHeader("User-Agent")),
 	)
 
-	ctx = context.WithValue(tc.Context(), "tracing_context", tc)
+	ctx = tracing.ContextWithTracingContext(tc.Context(), tc)
 	c.Request = c.Request.WithContext(ctx)
 
 	c.Next()
@@ -132,7 +132,7 @@ func OtelTrace(c *gin.Context) {
 	}
 
 	traceID := ctxutil.GetTraceID(ctx)
-	tc := observes.NewTracingContext(ctx, path, 100)
+	tc := tracing.NewTracingContext(ctx, path, 100)
 	defer tc.End()
 
 	tc.SetAttributes(
@@ -143,7 +143,7 @@ func OtelTrace(c *gin.Context) {
 		attribute.String("user.agent", ctxutil.GetUserAgent(ctx)),
 	)
 
-	ctx = context.WithValue(tc.Context(), "tracing_context", tc)
+	ctx = tracing.ContextWithTracingContext(tc.Context(), tc)
 	c.Request = c.Request.WithContext(ctx)
 
 	c.Next()

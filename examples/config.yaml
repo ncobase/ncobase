@@ -17,11 +17,10 @@ consul:
     check_interval: "10s"
     timeout: "5s"
 
-observes:
-  tracer:
-    endpoint: http://localhost:4318/v1/traces # OpenTelemetry collector endpoint
-  sentry:
-    endpoint: https://xxxxx@sentry.io/xxxxx # Sentry DSN endpoint
+tracing:
+  endpoint: localhost:4317 # OpenTelemetry OTLP gRPC collector endpoint
+sentry:
+  endpoint: https://xxxxx@sentry.io/xxxxx # Sentry DSN endpoint
 
 server:
   # Protocol type http / https

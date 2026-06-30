@@ -13,9 +13,11 @@ require (
 	github.com/google/uuid v1.6.0
 	github.com/gorilla/websocket v1.5.3
 	github.com/ncobase/deebus v1.7.1
-	github.com/ncobase/ncore/config v0.2.2
+	github.com/ncobase/ncore/config v0.2.5
 	github.com/ncobase/ncore/consts v0.2.2
-	github.com/ncobase/ncore/ctxutil v0.2.2
+	github.com/ncobase/ncore/ctxutil v0.2.5
+	github.com/ncobase/ncore/ctxutil/email v0.2.5
+	github.com/ncobase/ncore/ctxutil/storage v0.2.5
 	github.com/ncobase/ncore/data v0.2.2
 	github.com/ncobase/ncore/data/cache v0.2.2
 	github.com/ncobase/ncore/data/entgo v0.2.2
@@ -24,12 +26,21 @@ require (
 	github.com/ncobase/ncore/data/rabbitmq v0.2.2
 	github.com/ncobase/ncore/data/redis v0.2.2
 	github.com/ncobase/ncore/ecode v0.2.2
-	github.com/ncobase/ncore/extension v0.2.2
-	github.com/ncobase/ncore/logging v0.2.2
+	github.com/ncobase/ncore/extension v0.2.5
+	github.com/ncobase/ncore/logging v0.2.5
 	github.com/ncobase/ncore/logging/hooks/meilisearch v0.2.2
+	github.com/ncobase/ncore/logging/sentry v0.2.5
+	github.com/ncobase/ncore/logging/tracing v0.2.5
 	github.com/ncobase/ncore/messaging v0.2.2
 	github.com/ncobase/ncore/net v0.2.2
-	github.com/ncobase/ncore/security v0.2.2
+	github.com/ncobase/ncore/oss v0.2.5
+	github.com/ncobase/ncore/oss/aliyun v0.2.5
+	github.com/ncobase/ncore/oss/azure v0.2.5
+	github.com/ncobase/ncore/oss/minio v0.2.5
+	github.com/ncobase/ncore/oss/s3 v0.2.5
+	github.com/ncobase/ncore/oss/tencent v0.2.5
+	github.com/ncobase/ncore/paging v0.0.0-20260310104902-b4d921d06a5d
+	github.com/ncobase/ncore/security v0.2.5
 	github.com/ncobase/ncore/types v0.2.2
 	github.com/ncobase/ncore/utils v0.2.2
 	github.com/ncobase/ncore/validation v0.2.2
@@ -200,7 +211,6 @@ require (
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/montanaflynn/stats v0.7.1 // indirect
 	github.com/mozillazg/go-httpheader v0.4.0 // indirect
-	github.com/ncobase/ncore/oss v0.2.3 // indirect
 	github.com/olekukonko/tablewriter v0.0.5 // indirect
 	github.com/pelletier/go-toml/v2 v2.2.4 // indirect
 	github.com/philhofer/fwd v1.2.0 // indirect

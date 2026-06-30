@@ -8,8 +8,8 @@ import (
 	airunEnt "ncobase/plugin/ai/data/ent/airun"
 	"ncobase/plugin/ai/structs"
 
-	"github.com/ncobase/ncore/data/paging"
 	"github.com/ncobase/ncore/logging/logger"
+	"github.com/ncobase/ncore/paging"
 	"github.com/ncobase/ncore/utils/nanoid"
 )
 

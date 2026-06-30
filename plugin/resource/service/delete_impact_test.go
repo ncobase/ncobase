@@ -10,7 +10,7 @@ import (
 	"ncobase/plugin/resource/structs"
 	"testing"
 
-	"github.com/ncobase/ncore/data/paging"
+	"github.com/ncobase/ncore/paging"
 	"github.com/ncobase/ncore/types"
 )
 

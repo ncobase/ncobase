@@ -7,9 +7,9 @@ import (
 	"ncobase/plugin/payment/data/repository"
 	"ncobase/plugin/payment/structs"
 
-	"github.com/ncobase/ncore/data/paging"
 	"github.com/ncobase/ncore/ecode"
 	"github.com/ncobase/ncore/logging/logger"
+	"github.com/ncobase/ncore/paging"
 )
 
 // LogServiceInterface defines the interface for log service operations

@@ -7,11 +7,12 @@ import (
 	"ncobase/plugin/proxy/data/ent"
 	routeEnt "ncobase/plugin/proxy/data/ent/route"
 	"ncobase/plugin/proxy/structs"
+	"sort"
 	"strings"
 
 	"github.com/ncobase/ncore/data/cache"
-	"github.com/ncobase/ncore/data/paging"
 	"github.com/ncobase/ncore/logging/logger"
+	"github.com/ncobase/ncore/paging"
 	"github.com/ncobase/ncore/types"
 	"github.com/ncobase/ncore/utils/convert"
 	"github.com/ncobase/ncore/utils/nanoid"
@@ -157,7 +158,10 @@ func (r *routeRepository) GetByName(ctx context.Context, name string) (*ent.Rout
 func (r *routeRepository) FindByPathPattern(ctx context.Context, path string) ([]*ent.Route, error) {
 	// First try to find routes with exact match
 	exactMatches, err := r.ec.Route.Query().
-		Where(routeEnt.PathPatternEQ(path)).
+		Where(
+			routeEnt.PathPatternEQ(normalizeRoutePath(path)),
+			routeEnt.DisabledEQ(false),
+		).
 		All(ctx)
 
 	if err != nil && !ent.IsNotFound(err) {
@@ -169,11 +173,7 @@ func (r *routeRepository) FindByPathPattern(ctx context.Context, path string) ([
 		return exactMatches, nil
 	}
 
-	// If no exact matches, find routes with parameterized paths that could match
-	// Note: This is a simplified pattern matching logic
-	// In a real implementation, we would need more sophisticated path matching
-
-	// Get all active routes
+	// Find active routes whose parameterized or wildcard pattern matches the request path.
 	routes, err := r.ec.Route.Query().
 		Where(routeEnt.DisabledEQ(false)).
 		All(ctx)
@@ -195,6 +195,10 @@ func (r *routeRepository) FindByPathPattern(ctx context.Context, path string) ([
 	if len(matches) == 0 {
 		return nil, fmt.Errorf("no routes found matching path: %s", path)
 	}
+
+	sort.SliceStable(matches, func(i, j int) bool {
+		return routePatternScore(matches[i].PathPattern) > routePatternScore(matches[j].PathPattern)
+	})
 
 	return matches, nil
 }
@@ -403,41 +407,63 @@ func (r *routeRepository) listBuilder(ctx context.Context, params *structs.ListR
 	return builder, nil
 }
 
-// pathMatches checks if a path matches a pattern.
-// This is a simplified version - in a real implementation you would use a more
-// sophisticated routing library or regular expressions.
+// pathMatches checks if a request path matches a route pattern.
 func pathMatches(path, pattern string) bool {
-	// Split path and pattern into segments
-	pathSegments := strings.Split(strings.Trim(path, "/"), "/")
-	patternSegments := strings.Split(strings.Trim(pattern, "/"), "/")
+	pathSegments := routePathSegments(path)
+	patternSegments := routePathSegments(pattern)
 
-	// If they have different number of segments, they can't match
-	// Unless the pattern ends with a wildcard
 	if len(pathSegments) != len(patternSegments) {
 		if len(patternSegments) > 0 && patternSegments[len(patternSegments)-1] == "*" {
-			// Wildcard at the end - path should have at least pattern-1 segments
 			return len(pathSegments) >= len(patternSegments)-1
 		}
 		return false
 	}
 
-	// Check each segment
 	for i, patternSeg := range patternSegments {
-		// If pattern segment starts with :, it's a parameter and always matches
 		if strings.HasPrefix(patternSeg, ":") {
 			continue
 		}
-
-		// If pattern segment is *, it matches anything
 		if patternSeg == "*" {
 			continue
 		}
-
-		// Otherwise, segments must match exactly
 		if patternSeg != pathSegments[i] {
 			return false
 		}
 	}
 
 	return true
+}
+
+func routePatternScore(pattern string) int {
+	score := 0
+	for _, segment := range routePathSegments(pattern) {
+		switch {
+		case segment == "*":
+			score += 1
+		case strings.HasPrefix(segment, ":"):
+			score += 10
+		default:
+			score += 100
+		}
+	}
+	return score
+}
+
+func routePathSegments(value string) []string {
+	normalized := strings.Trim(normalizeRoutePath(value), "/")
+	if normalized == "" {
+		return nil
+	}
+	return strings.Split(normalized, "/")
+}
+
+func normalizeRoutePath(value string) string {
+	if value == "" {
+		return "/"
+	}
+	value = "/" + strings.Trim(value, "/")
+	if value != "/" {
+		value = strings.TrimRight(value, "/")
+	}
+	return value
 }

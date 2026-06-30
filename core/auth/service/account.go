@@ -16,7 +16,7 @@ import (
 	"time"
 
 	"github.com/ncobase/ncore/ctxutil"
-	"github.com/ncobase/ncore/data/paging"
+	"github.com/ncobase/ncore/paging"
 	"github.com/ncobase/ncore/security/jwt"
 	"github.com/ncobase/ncore/types"
 	"github.com/ncobase/ncore/validation/validator"

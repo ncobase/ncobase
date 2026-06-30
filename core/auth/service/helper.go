@@ -17,6 +17,7 @@ import (
 	"time"
 
 	"github.com/ncobase/ncore/ctxutil"
+	ctxemail "github.com/ncobase/ncore/ctxutil/email"
 	"github.com/ncobase/ncore/ecode"
 	"github.com/ncobase/ncore/logging/logger"
 	"github.com/ncobase/ncore/messaging/email"
@@ -653,7 +654,7 @@ func sendAuthEmail(ctx context.Context, e, code string, registered bool, options
 		template.Keyword = "Sign Up"
 		template.URL = frontend.SignUpURL + "?code=" + code
 	}
-	_, err := ctxutil.SendEmailWithTemplate(ctx, e, template)
+	_, err := ctxemail.SendWithTemplate(ctx, e, template)
 	return err
 }
 

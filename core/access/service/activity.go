@@ -8,9 +8,9 @@ import (
 	"ncobase/core/access/structs"
 
 	"github.com/ncobase/ncore/ctxutil"
-	"github.com/ncobase/ncore/data/paging"
 	"github.com/ncobase/ncore/ecode"
 	"github.com/ncobase/ncore/logging/logger"
+	"github.com/ncobase/ncore/paging"
 )
 
 // ActivityServiceInterface defines service operations for activity

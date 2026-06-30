@@ -7,9 +7,9 @@ import (
 	"ncobase/core/user/event"
 	"ncobase/core/user/structs"
 
-	"github.com/ncobase/ncore/data/paging"
 	"github.com/ncobase/ncore/ecode"
 	"github.com/ncobase/ncore/logging/logger"
+	"github.com/ncobase/ncore/paging"
 )
 
 // EmployeeServiceInterface defines the employee service interface

@@ -165,24 +165,14 @@ func (s *Subscriber) processErrorResponse(ctx context.Context, data *ProxyEventD
 	}
 }
 
-// notifyErrorHandlers sends notifications about proxy errors
+// notifyErrorHandlers records proxy errors for operational review.
 func (s *Subscriber) notifyErrorHandlers(ctx context.Context, data *ProxyEventData) {
-	// In a real implementation, this might:
-	// 1. Send an email/Slack notification
-	// 2. Create an incident in an incident management system
-	// 3. Log to a specialized error tracking service
-
-	logger.Infof(ctx, "Error notification sent for endpoint %s: %s",
+	logger.Infof(ctx, "Proxy error recorded for endpoint %s: %s",
 		data.EndpointURL, data.Error)
 }
 
-// handleServiceDegradation manages service degradation when circuit breakers trip
+// handleServiceDegradation records service degradation when circuit breakers trip.
 func (s *Subscriber) handleServiceDegradation(ctx context.Context, data *ProxyEventData) {
-	// In a real implementation, this might:
-	// 1. Switch to a backup endpoint
-	// 2. Enable fallback mode using cached data
-	// 3. Update a status dashboard
-
 	logger.Infof(ctx, "Service degradation handling for endpoint %s", data.EndpointURL)
 }
 
@@ -212,8 +202,6 @@ func (s *Subscriber) syncContactWithUserService(ctx context.Context, data *Proxy
 		return
 	}
 
-	// Update user data with contact information
-	// This is a simplified example - real implementation would map fields appropriately
 	updates := make(map[string]any)
 
 	if name, ok := contactData["full_name"].(string); ok && name != "" {
@@ -336,8 +324,7 @@ func (s *Subscriber) notifyMessageRecipients(ctx context.Context, data *ProxyEve
 		return
 	}
 
-	// Notify group members about the new message
-	// In a real implementation, this would use a notification service
+	// Record group message activity for downstream notification processing.
 	logger.Infof(ctx, "New message in group %s from user %s: %s",
 		orgID, senderID, content[:min(len(content), 30)])
 }

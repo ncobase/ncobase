@@ -18,11 +18,13 @@ import (
 	"strings"
 	"time"
 
+	ncoreconfig "github.com/ncobase/ncore/config"
 	"github.com/ncobase/ncore/ctxutil"
-	"github.com/ncobase/ncore/data/paging"
+	ctxstorage "github.com/ncobase/ncore/ctxutil/storage"
 	"github.com/ncobase/ncore/ecode"
 	"github.com/ncobase/ncore/logging/logger"
 	"github.com/ncobase/ncore/oss"
+	"github.com/ncobase/ncore/paging"
 	"github.com/ncobase/ncore/types"
 	"github.com/ncobase/ncore/utils/nanoid"
 	"github.com/ncobase/ncore/validation/validator"
@@ -199,14 +201,14 @@ func (s *fileService) publishFileAccessed(ctx context.Context, file *structs.Rea
 	})
 }
 
-func storageFromContext(ctx context.Context) (client oss.Interface, config *oss.Config) {
+func storageFromContext(ctx context.Context) (client oss.Interface, config *ncoreconfig.Storage) {
 	defer func() {
 		if recover() != nil {
 			client = nil
 			config = nil
 		}
 	}()
-	return ctxutil.GetStorage(ctx)
+	return ctxstorage.Get(ctx)
 }
 
 // Create creates a new file
@@ -227,7 +229,7 @@ func (s *fileService) Create(ctx context.Context, body *structs.CreateFileBody) 
 	}
 
 	// Get storage
-	storageClient, storageConfig := ctxutil.GetStorage(ctx)
+	storageClient, storageConfig := ctxstorage.Get(ctx)
 	if storageClient == nil || storageConfig == nil {
 		return nil, errors.New("storage not configured")
 	}
@@ -475,7 +477,7 @@ func (s *fileService) Update(ctx context.Context, slug string, updates types.JSO
 
 	// Handle file update with hash calculation
 	if fileReader, ok := updates["file"].(io.Reader); ok {
-		storageClient, storageConfig := ctxutil.GetStorage(ctx)
+		storageClient, storageConfig := ctxstorage.Get(ctx)
 		if storageClient == nil || storageConfig == nil {
 			return nil, errors.New("storage not configured")
 		}
@@ -588,7 +590,7 @@ func (s *fileService) Update(ctx context.Context, slug string, updates types.JSO
 	row, err := s.fileRepo.Update(ctx, slug, updates)
 	if err != nil {
 		if newStoredPath != "" {
-			if storageClient, _ := ctxutil.GetStorage(ctx); storageClient != nil {
+			if storageClient, _ := ctxstorage.Get(ctx); storageClient != nil {
 				if deleteErr := storageClient.Delete(newStoredPath); deleteErr != nil {
 					logger.Warnf(ctx, "Error deleting new file after update failure: %v", deleteErr)
 				}
@@ -601,7 +603,7 @@ func (s *fileService) Update(ctx context.Context, slug string, updates types.JSO
 	}
 
 	if newStoredPath != "" {
-		if storageClient, _ := ctxutil.GetStorage(ctx); storageClient != nil && oldStoredPath != "" {
+		if storageClient, _ := ctxstorage.Get(ctx); storageClient != nil && oldStoredPath != "" {
 			if err := storageClient.Delete(oldStoredPath); err != nil {
 				logger.Warnf(ctx, "Error deleting old file: %v", err)
 			}
@@ -1164,7 +1166,7 @@ func (s *fileService) GetFileStream(ctx context.Context, slug string) (io.ReadCl
 		return nil, nil, errors.New(ecode.FieldIsRequired("slug"))
 	}
 
-	storageClient, _ := ctxutil.GetStorage(ctx)
+	storageClient, _ := ctxstorage.Get(ctx)
 	if storageClient == nil {
 		return nil, nil, errors.New("storage not configured")
 	}
@@ -1194,7 +1196,7 @@ func (s *fileService) GetFileStream(ctx context.Context, slug string) (io.ReadCl
 
 // GetFileStreamByID gets file stream by ID
 func (s *fileService) GetFileStreamByID(ctx context.Context, id string) (io.ReadCloser, error) {
-	storageClient, _ := ctxutil.GetStorage(ctx)
+	storageClient, _ := ctxstorage.Get(ctx)
 	if storageClient == nil {
 		return nil, errors.New("storage not configured")
 	}
@@ -1214,7 +1216,7 @@ func (s *fileService) GetFileStreamByID(ctx context.Context, id string) (io.Read
 
 // GetThumbnail gets thumbnail stream
 func (s *fileService) GetThumbnail(ctx context.Context, slug string) (io.ReadCloser, error) {
-	storageClient, _ := ctxutil.GetStorage(ctx)
+	storageClient, _ := ctxstorage.Get(ctx)
 	if storageClient == nil {
 		return nil, errors.New("storage not configured")
 	}
@@ -1458,7 +1460,7 @@ func (s *fileService) CreateThumbnail(ctx context.Context, slug string, options 
 		return nil, fmt.Errorf("thumbnail creation is disabled")
 	}
 
-	storageClient, _ := ctxutil.GetStorage(ctx)
+	storageClient, _ := ctxstorage.Get(ctx)
 	if storageClient == nil {
 		return nil, errors.New("storage not configured")
 	}

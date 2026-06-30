@@ -7,9 +7,9 @@ import (
 	"ncobase/plugin/ai/structs"
 
 	"github.com/ncobase/ncore/ctxutil"
-	"github.com/ncobase/ncore/data/paging"
 	"github.com/ncobase/ncore/ecode"
 	"github.com/ncobase/ncore/logging/logger"
+	"github.com/ncobase/ncore/paging"
 )
 
 type RunServiceInterface interface {

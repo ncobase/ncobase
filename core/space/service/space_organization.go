@@ -2,14 +2,14 @@ package service
 
 import (
 	"context"
+	"fmt"
 	"ncobase/core/space/data"
 	"ncobase/core/space/data/repository"
 	"ncobase/core/space/structs"
 	"ncobase/core/space/wrapper"
 	"time"
 
-	"github.com/ncobase/ncore/data/paging"
-	"github.com/ncobase/ncore/logging/logger"
+	"github.com/ncobase/ncore/paging"
 )
 
 // SpaceOrganizationServiceInterface defines the space organization service interface
@@ -80,24 +80,13 @@ func (s *spaceOrganizationService) GetSpaceOrganizations(ctx context.Context, sp
 		}, nil
 	}
 
-	// Try to get full group information from space module
-	var orgs []*structs.ReadOrganization
-	if s.gsw != nil && s.gsw.HasOrganizationService() {
-		orgs, err = s.gsw.GetOrganizationByIDs(ctx, orgIDs)
-		if err != nil {
-			logger.Warnf(ctx, "Failed to get orgs from organization service: %v", err)
-			// Create minimal group info as fallback
-			orgs = make([]*structs.ReadOrganization, len(orgIDs))
-			for i, id := range orgIDs {
-				orgs[i] = &structs.ReadOrganization{ID: id, Name: "Group " + id}
-			}
-		}
-	} else {
-		// Fallback when organization service is not available
-		orgs = make([]*structs.ReadOrganization, len(orgIDs))
-		for i, id := range orgIDs {
-			orgs[i] = &structs.ReadOrganization{ID: id, Name: "Group " + id}
-		}
+	if s.gsw == nil || !s.gsw.HasOrganizationService() {
+		return paging.Result[*structs.ReadOrganization]{}, fmt.Errorf("organization service is not available")
+	}
+
+	orgs, err := s.gsw.GetOrganizationByIDs(ctx, orgIDs)
+	if err != nil {
+		return paging.Result[*structs.ReadOrganization]{}, fmt.Errorf("get organizations for space %s: %w", spaceID, err)
 	}
 
 	// Apply parent filtering if specified

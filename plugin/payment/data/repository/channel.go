@@ -9,8 +9,8 @@ import (
 	paymentOrderEnt "ncobase/plugin/payment/data/ent/paymentorder"
 	"ncobase/plugin/payment/structs"
 
-	"github.com/ncobase/ncore/data/paging"
 	"github.com/ncobase/ncore/logging/logger"
+	"github.com/ncobase/ncore/paging"
 	"github.com/ncobase/ncore/utils/convert"
 	"github.com/ncobase/ncore/utils/nanoid"
 )

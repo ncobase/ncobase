@@ -10,8 +10,8 @@ import (
 	"sync"
 
 	"github.com/casbin/casbin/v2"
-	"github.com/ncobase/ncore/data/paging"
 	ext "github.com/ncobase/ncore/extension/types"
+	"github.com/ncobase/ncore/paging"
 	"github.com/ncobase/ncore/security/jwt"
 )
 

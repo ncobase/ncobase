@@ -7,9 +7,9 @@ import (
 	"ncobase/plugin/proxy/data/repository"
 	"ncobase/plugin/proxy/structs"
 
-	"github.com/ncobase/ncore/data/paging"
 	"github.com/ncobase/ncore/ecode"
 	"github.com/ncobase/ncore/logging/logger"
+	"github.com/ncobase/ncore/paging"
 )
 
 // LogServiceInterface is the interface for the log service.

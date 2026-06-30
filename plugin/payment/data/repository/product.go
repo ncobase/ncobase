@@ -10,7 +10,7 @@ import (
 	paymentSubscriptionEnt "ncobase/plugin/payment/data/ent/paymentsubscription"
 	"ncobase/plugin/payment/structs"
 
-	"github.com/ncobase/ncore/data/paging"
+	"github.com/ncobase/ncore/paging"
 	"github.com/ncobase/ncore/utils/nanoid"
 	"github.com/ncobase/ncore/validation/validator"
 )

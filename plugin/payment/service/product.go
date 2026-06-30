@@ -8,9 +8,9 @@ import (
 	"ncobase/plugin/payment/event"
 	"ncobase/plugin/payment/structs"
 
-	"github.com/ncobase/ncore/data/paging"
 	"github.com/ncobase/ncore/ecode"
 	"github.com/ncobase/ncore/logging/logger"
+	"github.com/ncobase/ncore/paging"
 )
 
 // ProductServiceInterface defines the interface for product service operations

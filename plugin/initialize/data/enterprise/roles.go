@@ -2,7 +2,7 @@ package enterprise
 
 import accessStructs "ncobase/core/access/structs"
 
-// SystemDefaultRoles defines simplified enterprise system roles
+// SystemDefaultRoles defines enterprise system roles.
 var SystemDefaultRoles = []accessStructs.CreateRoleBody{
 	// System level roles
 	{

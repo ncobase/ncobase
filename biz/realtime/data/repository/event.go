@@ -6,14 +6,15 @@ import (
 	"ncobase/biz/realtime/data"
 	"ncobase/biz/realtime/data/ent"
 	eventEnt "ncobase/biz/realtime/data/ent/event"
+	eventPred "ncobase/biz/realtime/data/ent/predicate"
 	"ncobase/biz/realtime/structs"
 	"time"
 
 	nd "github.com/ncobase/ncore/data"
 
 	"github.com/ncobase/ncore/data/cache"
-	"github.com/ncobase/ncore/data/paging"
 	"github.com/ncobase/ncore/logging/logger"
+	"github.com/ncobase/ncore/paging"
 	"github.com/ncobase/ncore/utils/nanoid"
 	"github.com/ncobase/ncore/validation/validator"
 
@@ -409,8 +410,14 @@ func (r *eventRepository) SearchEvents(ctx context.Context, query *structs.Searc
 
 	// Apply time range
 	if query.TimeRange != nil {
-		// Note: This is simplified. In real implementation, you'd parse ISO 8601 timestamps
-		// and convert to Unix timestamps for the database query
+		start, end, err := parseEventTimeRange(query.TimeRange)
+		if err != nil {
+			return nil, err
+		}
+		builder = builder.Where(
+			eventEnt.CreatedAtGTE(start),
+			eventEnt.CreatedAtLTE(end),
+		)
 	}
 
 	// Apply sorting
@@ -534,33 +541,37 @@ func (r *eventRepository) CountBySource(ctx context.Context) (map[string]int, er
 // GetStatsData gets statistics data for real-time stats
 func (r *eventRepository) GetStatsData(ctx context.Context, params *structs.StatsParams) (map[string]any, error) {
 	stats := make(map[string]any)
+	predicates, err := statsPredicates(params)
+	if err != nil {
+		return nil, err
+	}
 
 	// Total events count
-	total, err := r.ec.Event.Query().Count(ctx)
+	total, err := r.ec.Event.Query().Where(predicates...).Count(ctx)
 	if err != nil {
 		return nil, err
 	}
 	stats["total_events"] = total
 
 	// Events by status
-	statusCounts := make(map[string]int)
-	statuses := []string{"pending", "processed", "failed", "retry"}
-	for _, status := range statuses {
-		count, err := r.ec.Event.Query().
-			Where(eventEnt.Status(status)).
-			Count(ctx)
-		if err != nil {
-			return nil, err
-		}
-		statusCounts[status] = count
+	statusCounts, err := r.countByField(ctx, eventEnt.FieldStatus, predicates...)
+	if err != nil {
+		return nil, err
 	}
 	stats["by_status"] = statusCounts
 
 	// Events by type
-	typeCounts := make(map[string]int)
-	// This is a simplified implementation. In practice, you'd want to
-	// use a more efficient aggregation query
+	typeCounts, err := r.countByField(ctx, eventEnt.FieldType, predicates...)
+	if err != nil {
+		return nil, err
+	}
 	stats["by_type"] = typeCounts
+
+	sourceCounts, err := r.countByField(ctx, eventEnt.FieldSource, predicates...)
+	if err != nil {
+		return nil, err
+	}
+	stats["by_source"] = sourceCounts
 
 	return stats, nil
 }
@@ -576,15 +587,33 @@ func toCountMap[T any](rows []T, keyFn func(T) string, countFn func(T) int) map[
 // GetEventCounts gets event counts within time range
 func (r *eventRepository) GetEventCounts(ctx context.Context, timeRange *structs.TimeRange) (map[string]int64, error) {
 	counts := make(map[string]int64)
+	predicates, err := timeRangePredicates(timeRange)
+	if err != nil {
+		return nil, err
+	}
 
-	// This is a simplified implementation
-	// In practice, you'd parse the time range and perform aggregated queries
-	total, err := r.ec.Event.Query().Count(ctx)
+	total, err := r.ec.Event.Query().Where(predicates...).Count(ctx)
 	if err != nil {
 		return nil, err
 	}
 
 	counts["total"] = int64(total)
+	statusCounts, err := r.countByField(ctx, eventEnt.FieldStatus, predicates...)
+	if err != nil {
+		return nil, err
+	}
+	for status, count := range statusCounts {
+		counts["status:"+status] = int64(count)
+	}
+
+	typeCounts, err := r.countByField(ctx, eventEnt.FieldType, predicates...)
+	if err != nil {
+		return nil, err
+	}
+	for eventType, count := range typeCounts {
+		counts["type:"+eventType] = int64(count)
+	}
+
 	return counts, nil
 }
 
@@ -642,4 +671,85 @@ func (r *eventRepository) buildQuery(ctx context.Context, params *structs.ListEv
 	}
 
 	return builder, nil
+}
+
+func (r *eventRepository) countByField(ctx context.Context, field string, predicates ...eventPred.Event) (map[string]int, error) {
+	type row struct {
+		Status string `json:"status"`
+		Type   string `json:"type"`
+		Source string `json:"source"`
+		Count  int    `json:"count"`
+	}
+
+	var rows []row
+	if err := r.ec.Event.Query().
+		Where(predicates...).
+		GroupBy(field).
+		Aggregate(ent.Count()).
+		Scan(ctx, &rows); err != nil {
+		return nil, err
+	}
+
+	result := make(map[string]int, len(rows))
+	for _, item := range rows {
+		switch field {
+		case eventEnt.FieldStatus:
+			result[item.Status] = item.Count
+		case eventEnt.FieldType:
+			result[item.Type] = item.Count
+		case eventEnt.FieldSource:
+			result[item.Source] = item.Count
+		}
+	}
+	return result, nil
+}
+
+func statsPredicates(params *structs.StatsParams) ([]eventPred.Event, error) {
+	if params == nil {
+		return nil, nil
+	}
+
+	predicates, err := timeRangePredicates(params.TimeRange)
+	if err != nil {
+		return nil, err
+	}
+	if params.Type != "" {
+		predicates = append(predicates, eventEnt.Type(params.Type))
+	}
+	return predicates, nil
+}
+
+func timeRangePredicates(timeRange *structs.TimeRange) ([]eventPred.Event, error) {
+	if timeRange == nil {
+		return nil, nil
+	}
+
+	start, end, err := parseEventTimeRange(timeRange)
+	if err != nil {
+		return nil, err
+	}
+	return []eventPred.Event{
+		eventEnt.CreatedAtGTE(start),
+		eventEnt.CreatedAtLTE(end),
+	}, nil
+}
+
+func parseEventTimeRange(timeRange *structs.TimeRange) (int64, int64, error) {
+	if timeRange == nil || timeRange.Start == "" || timeRange.End == "" {
+		return 0, 0, fmt.Errorf("time range start and end are required")
+	}
+
+	start, err := time.Parse(time.RFC3339Nano, timeRange.Start)
+	if err != nil {
+		return 0, 0, fmt.Errorf("invalid time range start: %w", err)
+	}
+	end, err := time.Parse(time.RFC3339Nano, timeRange.End)
+	if err != nil {
+		return 0, 0, fmt.Errorf("invalid time range end: %w", err)
+	}
+	if end.Before(start) {
+		return 0, 0, fmt.Errorf("time range end must be after start")
+	}
+
+	return start.UnixMilli(), end.UnixMilli(), nil
 }

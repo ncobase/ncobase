@@ -13,9 +13,9 @@ import (
 	"text/template"
 
 	"github.com/dop251/goja"
-	"github.com/ncobase/ncore/data/paging"
 	"github.com/ncobase/ncore/ecode"
 	"github.com/ncobase/ncore/logging/logger"
+	"github.com/ncobase/ncore/paging"
 	"github.com/ncobase/ncore/types"
 	"github.com/ncobase/ncore/validation/validator"
 )
@@ -85,8 +85,7 @@ func (s *transformerService) Update(ctx context.Context, id string, updates type
 			return nil, err
 		}
 
-		// Create a mock body for validation
-		mockBody := &structs.CreateTransformerBody{
+		validationBody := &structs.CreateTransformerBody{
 			TransformerBody: structs.TransformerBody{
 				Type:        current.Type,
 				Content:     content,
@@ -96,16 +95,16 @@ func (s *transformerService) Update(ctx context.Context, id string, updates type
 
 		// Override type if it's being updated
 		if transformerType, ok := updates["type"].(string); ok {
-			mockBody.Type = transformerType
+			validationBody.Type = transformerType
 		}
 
 		// Override content_type if it's being updated
 		if contentType, ok := updates["content_type"].(string); ok {
-			mockBody.ContentType = contentType
+			validationBody.ContentType = contentType
 		}
 
 		// Validate by compiling
-		_, err = s.compileTransformerFromBody(ctx, mockBody)
+		_, err = s.compileTransformerFromBody(ctx, validationBody)
 		if err != nil {
 			return nil, fmt.Errorf("invalid transformer: %w", err)
 		}
@@ -190,7 +189,6 @@ func (s *transformerService) CompileTransformer(ctx context.Context, id string) 
 
 // compileTransformerFromBody compiles a transformer from a create/update body.
 func (s *transformerService) compileTransformerFromBody(ctx context.Context, body *structs.CreateTransformerBody) (TransformerFunc, error) {
-	// Create a mock transformer object for compilation testing
 	transformer := &structs.ReadTransformer{
 		Type:        body.Type,
 		Content:     body.Content,

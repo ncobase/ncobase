@@ -5,8 +5,8 @@ import (
 	"fmt"
 	contentStructs "ncobase/biz/content/structs"
 
-	"github.com/ncobase/ncore/data/paging"
 	ext "github.com/ncobase/ncore/extension/types"
+	"github.com/ncobase/ncore/paging"
 )
 
 // ContentMediaServiceInterface defines the content media service methods needed by resources.

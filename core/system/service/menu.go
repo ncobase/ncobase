@@ -11,10 +11,10 @@ import (
 	"strings"
 
 	"github.com/ncobase/ncore/ctxutil"
-	"github.com/ncobase/ncore/data/paging"
 	"github.com/ncobase/ncore/ecode"
 	ext "github.com/ncobase/ncore/extension/types"
 	"github.com/ncobase/ncore/logging/logger"
+	"github.com/ncobase/ncore/paging"
 	"github.com/ncobase/ncore/types"
 	"github.com/ncobase/ncore/validation/validator"
 )

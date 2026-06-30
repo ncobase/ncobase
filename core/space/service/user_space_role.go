@@ -11,8 +11,8 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/ncobase/ncore/data/paging"
 	"github.com/ncobase/ncore/logging/logger"
+	"github.com/ncobase/ncore/paging"
 )
 
 // UserSpaceRoleServiceInterface is the interface for the service.

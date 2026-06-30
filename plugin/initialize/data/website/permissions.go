@@ -314,7 +314,7 @@ var SystemDefaultPermissions = []accessStructs.CreatePermissionBody{
 		},
 	},
 
-	// Module permissions (simplified)
+	// Module permissions
 	{
 		PermissionBody: accessStructs.PermissionBody{
 			Name:        "Workflow Read",

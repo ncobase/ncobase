@@ -9,9 +9,9 @@ import (
 	"ncobase/plugin/payment/structs"
 	"time"
 
-	"github.com/ncobase/ncore/data/paging"
 	"github.com/ncobase/ncore/ecode"
 	"github.com/ncobase/ncore/logging/logger"
+	"github.com/ncobase/ncore/paging"
 )
 
 // ChannelServiceInterface defines the interface for channel service operations

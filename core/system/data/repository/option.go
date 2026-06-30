@@ -10,8 +10,8 @@ import (
 	"time"
 
 	"github.com/ncobase/ncore/data/cache"
-	"github.com/ncobase/ncore/data/paging"
 	"github.com/ncobase/ncore/logging/logger"
+	"github.com/ncobase/ncore/paging"
 	"github.com/ncobase/ncore/utils/nanoid"
 	"github.com/ncobase/ncore/validation/validator"
 

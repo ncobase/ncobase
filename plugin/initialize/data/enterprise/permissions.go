@@ -2,7 +2,7 @@ package enterprise
 
 import accessStructs "ncobase/core/access/structs"
 
-// SystemDefaultPermissions defines simplified enterprise permissions
+// SystemDefaultPermissions defines enterprise permissions.
 var SystemDefaultPermissions = []accessStructs.CreatePermissionBody{
 	// Super admin permission
 	{
@@ -485,7 +485,7 @@ var SystemDefaultPermissions = []accessStructs.CreatePermissionBody{
 	},
 }
 
-// RolePermissionMapping defines simplified role-permission relationships
+// RolePermissionMapping defines enterprise role-permission relationships.
 var RolePermissionMapping = map[string][]string{
 	"super-admin": {
 		"Super Admin Access",

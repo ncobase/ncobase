@@ -7,9 +7,9 @@ import (
 	"ncobase/biz/content/data/repository"
 	"ncobase/biz/content/structs"
 
-	"github.com/ncobase/ncore/data/paging"
 	"github.com/ncobase/ncore/ecode"
 	"github.com/ncobase/ncore/logging/logger"
+	"github.com/ncobase/ncore/paging"
 )
 
 // TaxonomyRelationServiceInterface is the interface for the service.

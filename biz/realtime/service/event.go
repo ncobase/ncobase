@@ -9,9 +9,9 @@ import (
 	"ncobase/biz/realtime/structs"
 	"time"
 
-	"github.com/ncobase/ncore/data/paging"
 	"github.com/ncobase/ncore/ecode"
 	"github.com/ncobase/ncore/logging/logger"
+	"github.com/ncobase/ncore/paging"
 	"github.com/ncobase/ncore/utils/nanoid"
 )
 
@@ -303,7 +303,7 @@ func (s *eventService) RetryEvent(ctx context.Context, eventID string, params *s
 
 	scheduledAt := time.Now().Add(time.Duration(delay) * time.Second)
 
-	// Schedule retry (in production, this would use a job queue)
+	// Schedule a process-local delayed retry for the current runtime.
 	go s.scheduleRetry(context.Background(), eventID, scheduledAt)
 
 	return &structs.RetryResult{
@@ -404,9 +404,8 @@ func (s *eventService) processEventAsync(ctx context.Context, eventID string) {
 	}
 }
 
-// scheduleRetry schedules a retry for later execution
+// scheduleRetry schedules a process-local retry for later execution.
 func (s *eventService) scheduleRetry(ctx context.Context, eventID string, scheduledAt time.Time) {
-	// In production, this would use a proper job queue like RabbitMQ delayed messages
 	time.Sleep(time.Until(scheduledAt))
 
 	event, err := s.eventRepo.Get(ctx, eventID)

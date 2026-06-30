@@ -8,7 +8,7 @@ import (
 	paymentLogEnt "ncobase/plugin/payment/data/ent/paymentlog"
 	"ncobase/plugin/payment/structs"
 
-	"github.com/ncobase/ncore/data/paging"
+	"github.com/ncobase/ncore/paging"
 	"github.com/ncobase/ncore/utils/nanoid"
 	"github.com/ncobase/ncore/validation/validator"
 )

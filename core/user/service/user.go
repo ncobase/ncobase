@@ -9,11 +9,11 @@ import (
 	"ncobase/core/user/event"
 	"ncobase/core/user/structs"
 
-	"github.com/ncobase/ncore/ctxutil"
-	"github.com/ncobase/ncore/data/paging"
+	ctxemail "github.com/ncobase/ncore/ctxutil/email"
 	"github.com/ncobase/ncore/ecode"
 	"github.com/ncobase/ncore/logging/logger"
 	"github.com/ncobase/ncore/messaging/email"
+	"github.com/ncobase/ncore/paging"
 	"github.com/ncobase/ncore/security/crypto"
 	"github.com/ncobase/ncore/types"
 	"github.com/ncobase/ncore/utils/nanoid"
@@ -420,7 +420,7 @@ func (s *userService) SendPasswordResetEmail(ctx context.Context, userID string)
 		},
 	}
 
-	_, err = ctxutil.SendEmailWithTemplate(ctx, user.Email, template)
+	_, err = ctxemail.SendWithTemplate(ctx, user.Email, template)
 
 	// Publish password reset event
 	if s.ep != nil {

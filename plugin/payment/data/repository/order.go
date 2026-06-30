@@ -9,7 +9,7 @@ import (
 	"ncobase/plugin/payment/structs"
 	"time"
 
-	"github.com/ncobase/ncore/data/paging"
+	"github.com/ncobase/ncore/paging"
 	"github.com/ncobase/ncore/utils/convert"
 	"github.com/ncobase/ncore/utils/nanoid"
 	"github.com/ncobase/ncore/validation/validator"

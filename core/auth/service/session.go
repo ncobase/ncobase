@@ -8,8 +8,8 @@ import (
 	systemWrapper "ncobase/core/system/wrapper"
 	"time"
 
-	"github.com/ncobase/ncore/data/paging"
 	"github.com/ncobase/ncore/logging/logger"
+	"github.com/ncobase/ncore/paging"
 )
 
 // SessionServiceInterface defines the session service interface

@@ -6,7 +6,7 @@ import (
 	"github.com/ncobase/ncore/utils/convert"
 )
 
-// SystemDefaultUsers defines simplified enterprise system users
+// SystemDefaultUsers defines enterprise system users.
 var SystemDefaultUsers = []UserCreationInfo{
 	// System Level Users
 	{

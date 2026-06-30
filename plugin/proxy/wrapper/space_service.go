@@ -5,8 +5,8 @@ import (
 	"fmt"
 	spaceStructs "ncobase/core/space/structs"
 
-	"github.com/ncobase/ncore/data/paging"
 	ext "github.com/ncobase/ncore/extension/types"
+	"github.com/ncobase/ncore/paging"
 )
 
 // SpaceServiceInterface defines space service interface for proxy plugin

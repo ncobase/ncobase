@@ -12,8 +12,8 @@ import (
 	"github.com/redis/go-redis/v9"
 
 	"github.com/ncobase/ncore/data/cache"
-	"github.com/ncobase/ncore/data/paging"
 	"github.com/ncobase/ncore/logging/logger"
+	"github.com/ncobase/ncore/paging"
 	"github.com/ncobase/ncore/types"
 	"github.com/ncobase/ncore/utils/nanoid"
 	"github.com/ncobase/ncore/validation/validator"
